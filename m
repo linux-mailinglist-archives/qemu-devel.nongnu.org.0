@@ -2,96 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50665573B90
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:48:19 +0200 (CEST)
-Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D59D3573B9A
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:54:42 +0200 (CEST)
+Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBfX7-0000R8-J8
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:48:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
+	id 1oBfdJ-0002xa-MS
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:54:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oBfVL-0007Mv-2J
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:46:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26843)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oBfVH-0001e0-BC
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:46:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657730781;
+ (Exim 4.90_1) (envelope-from <mauricio@mailbox.org>)
+ id 1oBfbV-0001PB-Ss; Wed, 13 Jul 2022 12:52:49 -0400
+Received: from mout-p-201.mailbox.org ([80.241.56.171]:43652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <mauricio@mailbox.org>)
+ id 1oBfbN-0002db-GP; Wed, 13 Jul 2022 12:52:49 -0400
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+ [IPv6:2001:67c:2050:b231:465::1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4LjkFF5wrjz9sSF;
+ Wed, 13 Jul 2022 18:52:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+ s=mail20150812; t=1657731153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IqoFxzMM03eVaz9oG/0zN0CzoqxBQrBtVnbSaxXcdbk=;
- b=jImdO2UGglX7+OMibUp1Vo1ZblAJlcst1Ml4KAT9iBMbjcCjgsHnuHK4Gtt+mveAOIga8K
- bDugaEjRfbv61NkfxN7PGtNOI78X2SCtXmxr5AbjT/FPDQISkM2YIIs6GRE65GR0pKwMOu
- GH/2yIy5cHD+ZS3QKx6b6/q23RAUBC8=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-553-la-aO7tmMx6MPXiZLB0uxQ-1; Wed, 13 Jul 2022 12:46:20 -0400
-X-MC-Unique: la-aO7tmMx6MPXiZLB0uxQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- c7-20020adfc6c7000000b0021db3d6961bso1348423wrh.23
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:46:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=IqoFxzMM03eVaz9oG/0zN0CzoqxBQrBtVnbSaxXcdbk=;
- b=2OlhmIjlOu92nqeOe7LLW9WPuJlNdJoldT4ZEpmfgBAv+/KQbQU7J/DqD6xAx56MfS
- oj2M8165dg2D2+9KrgdtNcJXc8gxX7uQ7GB2ySNeEt66SrB5l9MQgPrSKh7KNKDPEbI6
- 5QBuir6Arc/eMLiBx9XwfU5VqRc7L8Brt/SU5mxKyPMlOZjtn/sUH+ytTMu+KhZdSYMe
- 8vBxvU6ZUsoJENzUAoCja7iggFvB1fbVakPtGzEXuVdEqXFS++tWNNby+60GP9ZolSDT
- 3sWlWXsVzhJkgGxNIKzM/hfjUfu+gKUkVxc4MSnXIIz9hVekDWcw1yS8FhT7zdA7ngkb
- 6+5A==
-X-Gm-Message-State: AJIora+AG/CUeiSJNjP0VVF0Wbg4OCvB549SDLE5yskNUZFUqyCxI5iS
- XPrnghtPOpNHGqV25j7hCDjCJwE9akPI2QIjwEosrYppO9KQLpExMXefDcKfW0A3EsPm9Fh0ovy
- cW/8RWTvz0AId4NU=
-X-Received: by 2002:a5d:5985:0:b0:21d:b6aa:23f5 with SMTP id
- n5-20020a5d5985000000b0021db6aa23f5mr4293936wri.18.1657730779319; 
- Wed, 13 Jul 2022 09:46:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sG8X16rUKMJOGKMKMLBICt5Bi2LpjbOsmuCyqtxqstfawflybfLxoqC30/XiZzr8Cfe+14PQ==
-X-Received: by 2002:a5d:5985:0:b0:21d:b6aa:23f5 with SMTP id
- n5-20020a5d5985000000b0021db6aa23f5mr4293916wri.18.1657730779037; 
- Wed, 13 Jul 2022 09:46:19 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- t63-20020a1c4642000000b003a2e05a81b3sm2717984wma.8.2022.07.13.09.46.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Jul 2022 09:46:18 -0700 (PDT)
-Message-ID: <cf99a3cf-90a5-6890-a9ec-68506de0ad38@redhat.com>
-Date: Wed, 13 Jul 2022 18:46:17 +0200
+ bh=Ryp/WLSj/KZsvLULTdLPRmI+SreVUAQRzgCPtfLvHFc=;
+ b=X9Hx17igzLkya9CN2nQkjG4B/YJMGhC1bSDRxD9HdpUVUDDZTrFkOqY5t1wmbTqsK1Beb0
+ 5uup5VHNQsuvHqt2DWimmuy3mRT4Ozv+DO0XaZVWXhPO8B1/l7ieckGz/Zn8BQJGXsrKbT
+ 3R+NILUHqcAZ0XpJdEVaIv7RWirmSmP61mX06MDzb0t+RfeZs98db0Uikn6WN3tA4mnBm1
+ f9vpKyNseR2cAkV2eD0Wcxea9RMIwYB/gMhoEitx//66LSsxv0zx2VYu/p+oJMUMAd7rpt
+ rQCcvTPveJEjaDiU3dHFZQE5VKyZsVd/ledy6vpuwrLEgjRfgQgF8cEsP7XiKg==
+Content-Type: multipart/alternative;
+ boundary="------------WEds40ttoR2TtcI6HvNs3eJn"
+Message-ID: <cb4e6574-b2df-5c7c-1842-7f425b6d34da@mailbox.org>
+Date: Wed, 13 Jul 2022 18:52:32 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 12/13] qemu-sockets: update socket_uri() to be
- consistent with socket_parse()
+Subject: Ping: [PATCH] hw/nvme: Add options to override hardcoded values
 Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>
-References: <20220706062847.1396719-1-lvivier@redhat.com>
- <20220706064607.1397659-1-lvivier@redhat.com> <Ys1jck60PfCJPtXQ@work-vm>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <Ys1jck60PfCJPtXQ@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+To: qemu-devel@nongnu.org
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ qemu-block@nongnu.org
+References: <20220611223509.32280-1-mauricio@mailbox.org>
+From: Mauricio Sandt <mauricio@mailbox.org>
+In-Reply-To: <20220611223509.32280-1-mauricio@mailbox.org>
+X-MBO-RS-META: 49bzhyefbf4twz41rpem4was8kdrue7r
+X-MBO-RS-ID: 6ceccda589d0e72f8be
+X-Rspamd-Queue-Id: 4LjkFF5wrjz9sSF
+Received-SPF: pass client-ip=80.241.56.171; envelope-from=mauricio@mailbox.org;
+ helo=mout-p-201.mailbox.org
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,31 +75,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/07/2022 14:05, Dr. David Alan Gilbert wrote:
-> * Laurent Vivier (lvivier@redhat.com) wrote:
->> Remove 'tcp:' prefix for inet type (because inet can be 'tcp' or 'udp'
->> and socket_parse() doesn't recognize it), the format is 'host:port'.
-> 
-> I don't think I understand why tests/qtest/migration-test.c
-> test_precopy_common is happy with this; it does:
-> 
->      if (!args->connect_uri) {
->          g_autofree char *local_connect_uri =
->              migrate_get_socket_address(to, "socket-address");
->          migrate_qmp(from, local_connect_uri, "{}");
-> 
-> which hmm, is the code you're changing what was in SocketAddress_to_str
-> which is what migrate_get_socket_address uses; but then the migrate_qmp
-> I don't think will take a migrate uri without the tcp: on the front.
+This is a multi-part message in MIME format.
+--------------WEds40ttoR2TtcI6HvNs3eJn
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It's a good point.
+https://patchew.org/QEMU/20220611223509.32280-1-mauricio@mailbox.org/
+https://lore.kernel.org/qemu-devel/20220611223509.32280-1-mauricio@mailbox.org/
 
-I think socket_parse() should accept the 'tcp:' prefix, and thus socket_uri() should 
-generate it, so it will be usable with the qmp migrate command.
+On 12/06/2022 00:35, Mauricio Sandt wrote:
+> This small patch is the result of some recent malware research I did
+> in a QEMU VM. The malware used multiple ways of querying info from
+> the VM disk and I needed a clean way to change those values from the
+> hypervisor.
+>
+> I believe this functionality could be useful to more people from multiple
+> fields, sometimes you just want to change some default values and having
+> them hardcoded in the sourcecode makes that much harder.
+>
+> This patch adds three config parameters to the nvme device, all of them
+> are optional to not break anything. If any of them are not specified,
+> the previous (before this patch) default is used.
+>
+> -model - This takes a string and sets it as the devices model name.
+> If you don't specify this parameter, the default is "QEMU NVMe Ctrl".
+>
+> -firmware - The firmware version string, max 8 ascii characters.
+> The default is whatever `QEMU_VERSION` evaluates to.
+>
+> -nqn_override - Allows to set a custom nqn on the nvme device.
+> Only used if there is no subsystem. This string should be in the same
+> format as the default "nqn.2019-08.org.qemu:...", but there is no
+> validation for that. Its up to the user to provide a valid string.
+>
+> Signed-off-by: Mauricio Sandt<mauricio@mailbox.org>
+> ---
+>   hw/nvme/ctrl.c | 16 +++++++++++++---
+>   hw/nvme/nvme.h |  3 +++
+>   2 files changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 1e6e0fcad9..0e67217a63 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -6697,8 +6697,13 @@ static void nvme_init_subnqn(NvmeCtrl *n)
+>       NvmeIdCtrl *id = &n->id_ctrl;
+>   
+>       if (!subsys) {
+> -        snprintf((char *)id->subnqn, sizeof(id->subnqn),
+> +        if (n->params.nqn_override) {
+> +            snprintf((char *)id->subnqn, sizeof(id->subnqn),
+> +                 "%s", n->params.nqn_override);
+> +        } else {
+> +            snprintf((char *)id->subnqn, sizeof(id->subnqn),
+>                    "nqn.2019-08.org.qemu:%s", n->params.serial);
+> +        }
+>       } else {
+>           pstrcpy((char *)id->subnqn, sizeof(id->subnqn), (char*)subsys->subnqn);
+>       }
+> @@ -6712,8 +6717,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+>   
+>       id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+>       id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+> -    strpadcpy((char *)id->mn, sizeof(id->mn), "QEMU NVMe Ctrl", ' ');
+> -    strpadcpy((char *)id->fr, sizeof(id->fr), QEMU_VERSION, ' ');
+> +    strpadcpy((char *)id->mn, sizeof(id->mn),
+> +            n->params.model ? n->params.model : "QEMU NVMe Ctrl", ' ');
+> +    strpadcpy((char *)id->fr, sizeof(id->fr),
+> +            n->params.firmware ? n->params.firmware : QEMU_VERSION, ' ');
+>       strpadcpy((char *)id->sn, sizeof(id->sn), n->params.serial, ' ');
+>   
+>       id->cntlid = cpu_to_le16(n->cntlid);
+> @@ -6913,6 +6920,9 @@ static Property nvme_props[] = {
+>       DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
+>                        NvmeSubsystem *),
+>       DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+> +    DEFINE_PROP_STRING("model", NvmeCtrl, params.model),
+> +    DEFINE_PROP_STRING("nqn_override", NvmeCtrl, params.nqn_override),
+> +    DEFINE_PROP_STRING("firmware", NvmeCtrl, params.firmware),
+>       DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+>       DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
+>       DEFINE_PROP_UINT32("max_ioqpairs", NvmeCtrl, params.max_ioqpairs, 64),
+> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+> index e41771604f..45bcf3e02e 100644
+> --- a/hw/nvme/nvme.h
+> +++ b/hw/nvme/nvme.h
+> @@ -394,6 +394,9 @@ typedef struct NvmeCQueue {
+>   
+>   typedef struct NvmeParams {
+>       char     *serial;
+> +    char     *model;
+> +    char     *firmware;
+> +    char     *nqn_override;
+>       uint32_t num_queues; /* deprecated since 5.1 */
+>       uint32_t max_ioqpairs;
+>       uint16_t msix_qsize;
 
-I'm going to add 'tcp:' case in socket_parse() and make socket_uri() to generate it.
+--------------WEds40ttoR2TtcI6HvNs3eJn
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thanks,
-Laurent
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <font face="Calibri"><a class="moz-txt-link-freetext" href="https://patchew.org/QEMU/20220611223509.32280-1-mauricio@mailbox.org/">https://patchew.org/QEMU/20220611223509.32280-1-mauricio@mailbox.org/</a></font><br>
+<a class="moz-txt-link-freetext" href="https://lore.kernel.org/qemu-devel/20220611223509.32280-1-mauricio@mailbox.org/">https://lore.kernel.org/qemu-devel/20220611223509.32280-1-mauricio@mailbox.org/</a><br>
+    <br>
+    <div class="moz-cite-prefix">On 12/06/2022 00:35, Mauricio Sandt
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20220611223509.32280-1-mauricio@mailbox.org">
+      <pre class="moz-quote-pre" wrap="">This small patch is the result of some recent malware research I did
+in a QEMU VM. The malware used multiple ways of querying info from
+the VM disk and I needed a clean way to change those values from the
+hypervisor.
 
+I believe this functionality could be useful to more people from multiple
+fields, sometimes you just want to change some default values and having
+them hardcoded in the sourcecode makes that much harder.
+
+This patch adds three config parameters to the nvme device, all of them
+are optional to not break anything. If any of them are not specified,
+the previous (before this patch) default is used.
+
+-model - This takes a string and sets it as the devices model name.
+If you don't specify this parameter, the default is "QEMU NVMe Ctrl".
+
+-firmware - The firmware version string, max 8 ascii characters.
+The default is whatever `QEMU_VERSION` evaluates to.
+
+-nqn_override - Allows to set a custom nqn on the nvme device.
+Only used if there is no subsystem. This string should be in the same
+format as the default "nqn.2019-08.org.qemu:...", but there is no
+validation for that. Its up to the user to provide a valid string.
+
+Signed-off-by: Mauricio Sandt <a class="moz-txt-link-rfc2396E" href="mailto:mauricio@mailbox.org">&lt;mauricio@mailbox.org&gt;</a>
+---
+ hw/nvme/ctrl.c | 16 +++++++++++++---
+ hw/nvme/nvme.h |  3 +++
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 1e6e0fcad9..0e67217a63 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -6697,8 +6697,13 @@ static void nvme_init_subnqn(NvmeCtrl *n)
+     NvmeIdCtrl *id = &amp;n-&gt;id_ctrl;
+ 
+     if (!subsys) {
+-        snprintf((char *)id-&gt;subnqn, sizeof(id-&gt;subnqn),
++        if (n-&gt;params.nqn_override) {
++            snprintf((char *)id-&gt;subnqn, sizeof(id-&gt;subnqn),
++                 "%s", n-&gt;params.nqn_override);
++        } else {
++            snprintf((char *)id-&gt;subnqn, sizeof(id-&gt;subnqn),
+                  "nqn.2019-08.org.qemu:%s", n-&gt;params.serial);
++        }
+     } else {
+         pstrcpy((char *)id-&gt;subnqn, sizeof(id-&gt;subnqn), (char*)subsys-&gt;subnqn);
+     }
+@@ -6712,8 +6717,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ 
+     id-&gt;vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id-&gt;ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+-    strpadcpy((char *)id-&gt;mn, sizeof(id-&gt;mn), "QEMU NVMe Ctrl", ' ');
+-    strpadcpy((char *)id-&gt;fr, sizeof(id-&gt;fr), QEMU_VERSION, ' ');
++    strpadcpy((char *)id-&gt;mn, sizeof(id-&gt;mn),
++            n-&gt;params.model ? n-&gt;params.model : "QEMU NVMe Ctrl", ' ');
++    strpadcpy((char *)id-&gt;fr, sizeof(id-&gt;fr),
++            n-&gt;params.firmware ? n-&gt;params.firmware : QEMU_VERSION, ' ');
+     strpadcpy((char *)id-&gt;sn, sizeof(id-&gt;sn), n-&gt;params.serial, ' ');
+ 
+     id-&gt;cntlid = cpu_to_le16(n-&gt;cntlid);
+@@ -6913,6 +6920,9 @@ static Property nvme_props[] = {
+     DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
+                      NvmeSubsystem *),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
++    DEFINE_PROP_STRING("model", NvmeCtrl, params.model),
++    DEFINE_PROP_STRING("nqn_override", NvmeCtrl, params.nqn_override),
++    DEFINE_PROP_STRING("firmware", NvmeCtrl, params.firmware),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
+     DEFINE_PROP_UINT32("max_ioqpairs", NvmeCtrl, params.max_ioqpairs, 64),
+diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+index e41771604f..45bcf3e02e 100644
+--- a/hw/nvme/nvme.h
++++ b/hw/nvme/nvme.h
+@@ -394,6 +394,9 @@ typedef struct NvmeCQueue {
+ 
+ typedef struct NvmeParams {
+     char     *serial;
++    char     *model;
++    char     *firmware;
++    char     *nqn_override;
+     uint32_t num_queues; /* deprecated since 5.1 */
+     uint32_t max_ioqpairs;
+     uint16_t msix_qsize;
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------WEds40ttoR2TtcI6HvNs3eJn--
 
