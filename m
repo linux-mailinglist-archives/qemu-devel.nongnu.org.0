@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0735E573613
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 14:09:36 +0200 (CEST)
-Received: from localhost ([::1]:40138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32E8573693
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 14:49:13 +0200 (CEST)
+Received: from localhost ([::1]:59842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBbBO-0003vC-Us
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 08:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60202)
+	id 1oBbnk-0001KT-F9
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 08:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBb8s-0001PA-GB
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 08:06:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42853)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBbix-00066g-AZ
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 08:44:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oBb8i-0000nV-Ec
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 08:06:57 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBbin-0004qp-Nx
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 08:44:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657714007;
+ s=mimecast20190719; t=1657716241;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=U5LzDuBrQBsSYiehUVGpKzoFmPslVM9Tf8WR3VCp4Mg=;
- b=AbLJGms1Wsxcjx/mNUEKZJ+jn3+9WvqPm2LPrFSE5ejS6huSIWYClZhtekp9dzxds/Pkfx
- EkcmHdIhtEiugfp8XSU0iG7cLBGshg4EonU0iCg9DQZ+EDRKtyWfKOLOr0i0aHX9KQav30
- nwT+SgpPtagUID33Sxgwt8a7z6KBSiY=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DxGCthRluiv+YDaJS5S29J1/Da58hANkB65rXvlXjN4=;
+ b=PvZe+K33EvcmkuxwNndTEcKN7yCiy+h/aBsMX3zyW1LdzDouPqhOg8M+I7Q3yS65mJmMqp
+ J3/m0iSOnSV8wGUewAlTXQytVQqaq0UJ5six5BrS9FxHRmQ/oC+HNse4mefR5/6/XNgwpL
+ vGbwrFPE70dvx5yjLWFP4czL9TTsZG0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-ejf0lnyIOu2je1tqWjzXaQ-1; Wed, 13 Jul 2022 08:06:46 -0400
-X-MC-Unique: ejf0lnyIOu2je1tqWjzXaQ-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-31cbcba2f28so92651387b3.19
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 05:06:46 -0700 (PDT)
+ us-mta-83-duXRFiFBMcijSiKYOQi2-Q-1; Wed, 13 Jul 2022 08:44:00 -0400
+X-MC-Unique: duXRFiFBMcijSiKYOQi2-Q-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ qw8-20020a1709066a0800b0072abb95c0caso3390567ejc.15
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 05:44:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=U5LzDuBrQBsSYiehUVGpKzoFmPslVM9Tf8WR3VCp4Mg=;
- b=XXcbk4oClJeNGBlNGMoRMk+8TA/c7t6a9Kzu88HbK9wq0O6Tfgn8eet55dkxgI9clE
- C1WaEB1R1+g3YJ9BlPeEOmzBuOCPWRS55Cx+NCy03IhKPk8p4RLGfBRDG5MtDDriIY5o
- S1x3cURTCXLHAseLU5dKQvle8Q1q/ApgRHwWztocTdZOJXfCUSwHKLhWCEEycxnpGkx7
- psQgljT4TwLx9HvsdSG37CaivHW6tjUpBon/tP0UK5vAxfG72l0kI+3CvmKGZnwRo+EI
- janwa6NRfwzMxsWOL8cn1t84pmNiW3uFSU0FUn7sEvGRZOf6PGxtgQuCIVecH6DOZev3
- 4SWQ==
-X-Gm-Message-State: AJIora+GEsBeK6vKLLH5CbRg1T5P2GnP2de5CWdEWFgG5Acr2dDUe8dm
- 15ERBec4QootVvZcG8Q+gMRazj8P36rvvLLSeFBRBzUFxgSvH7k3cIAlApF14xw2TgFlhPo6yPb
- YELnK2Di/0b4QIIFEevidLuwhZQ5xaJI=
-X-Received: by 2002:a81:5d05:0:b0:31c:e010:fbc with SMTP id
- r5-20020a815d05000000b0031ce0100fbcmr3732423ywb.381.1657714005727; 
- Wed, 13 Jul 2022 05:06:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ulcQ4WnhMc0v9+hHNKGoGJdjoX6y8TxoIZxdBYGl+ZjWZFZcCllyfZJpKqMEm8HJx9Y6auRyhOMHL1eEX5+l0=
-X-Received: by 2002:a81:5d05:0:b0:31c:e010:fbc with SMTP id
- r5-20020a815d05000000b0031ce0100fbcmr3732399ywb.381.1657714005503; Wed, 13
- Jul 2022 05:06:45 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DxGCthRluiv+YDaJS5S29J1/Da58hANkB65rXvlXjN4=;
+ b=zfemS1f67e1nYPy1byPL0IWxvfodME/vHfPUfyqKg044skKEhdckObPUUZWYyhDtdJ
+ AjS4409pHWTiIesA526XRis4tJwUaNCwiM1sYeQPdWe1nOQvqoWLIVKguK3MeyXvRL1S
+ w3PYahRvpij0LNLCtM1d16WjDk3Y12ZFyhNgDacGMlc51y1A8nIETg8q7R2P76uGFRyU
+ NvPJ27zs6BrnB9zfi+GwHFWTGBs5BT/KDCIhoIU5UR7hWIQgLr6C+fq/6v88cZcHPE9j
+ 4/Kqw//cOvHas4V+SHvLBpJ/bk0ug4F0RLG5O01q+ThSWBgm8vz9SP0IDE1sNZy19PBb
+ c4uA==
+X-Gm-Message-State: AJIora9DFiQaOJ2l96GJzJIdUXqH/4UXnCTXhs8LnmVCX9ZJ487QNKuw
+ R48qGgoiwB8pF7srEHAtZY1I3t4tLGtl5eDRGIR8We665HGl7vf7TC7tluAF107d3kdT1CDuFAr
+ Xbhui6lwXKVIdnX/xomOIFjpZ/6lJXJL/7aryWLLmFRZqlQkhTGEg20wODsF+RFAz/Ak=
+X-Received: by 2002:a17:906:9be4:b0:72b:cf9:99d8 with SMTP id
+ de36-20020a1709069be400b0072b0cf999d8mr3067453ejc.747.1657716239267; 
+ Wed, 13 Jul 2022 05:43:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tNaXvNKybRqAno0ISKD7J+xxGb5c5dJIAoTaN0BrzGC83RWmuHVkU9WkGXQDO5P8d2poZlzA==
+X-Received: by 2002:a17:906:9be4:b0:72b:cf9:99d8 with SMTP id
+ de36-20020a1709069be400b0072b0cf999d8mr3067425ejc.747.1657716238920; 
+ Wed, 13 Jul 2022 05:43:58 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ k5-20020a17090632c500b0072aa014e852sm4942324ejk.87.2022.07.13.05.43.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Jul 2022 05:43:58 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
+Subject: [PATCH] scsi/lsi53c895a: really fix use-after-free in lsi_do_msgout
+ (CVE-2022-0216)
+Date: Wed, 13 Jul 2022 14:43:57 +0200
+Message-Id: <20220713124357.247817-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220713101908.2212307-1-kkostiuk@redhat.com>
- <20220713101908.2212307-2-kkostiuk@redhat.com>
- <Ys6gl74SLea6dsfU@redhat.com>
- <CAPMcbCretrK9i5tA7joRXaKa0f7HruO=SNa18sZqZPmCZK9ypA@mail.gmail.com>
- <Ys6ysTAqLt9zLjkO@redhat.com>
-In-Reply-To: <Ys6ysTAqLt9zLjkO@redhat.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 13 Jul 2022 15:06:33 +0300
-Message-ID: <CAPMcbCqqie_=cg2xdxjMh8vkKmdXr4BOMrpK8KsF9agwEhySTA@mail.gmail.com>
-Subject: Re: [PULL 1/3] MAINTAINERS: Add myself as Guest Agent reviewer
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>, 
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000007005f205e3ae9ed1"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kkostiuk@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,170 +97,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007005f205e3ae9ed1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Mauro Matteo Cascella <mcascell@redhat.com>
 
-On Wed, Jul 13, 2022 at 2:55 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
+Set current_req to NULL, not current_req->req, to prevent reusing a free'd
+buffer in case of repeated SCSI cancel requests.  Also apply the fix to
+CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
+the request.
 
-> On Wed, Jul 13, 2022 at 02:31:08PM +0300, Konstantin Kostiuk wrote:
-> > On Wed, Jul 13, 2022 at 1:38 PM Daniel P. Berrang=C3=A9 <berrange@redha=
-t.com>
-> > wrote:
-> >
-> > > On Wed, Jul 13, 2022 at 01:19:06PM +0300, Konstantin Kostiuk wrote:
-> > > > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-> > > > Message-Id: <20220712092715.2136898-1-kkostiuk@redhat.com>
-> > > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > > > Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-> > > > ---
-> > > >  MAINTAINERS | 1 +
-> > > >  1 file changed, 1 insertion(+)
-> > > >
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index 450abd0252..b1e73d99f3 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -2880,6 +2880,7 @@ T: git https://repo.or.cz/qemu/armbru.git
-> > > qapi-next
-> > > >
-> > > >  QEMU Guest Agent
-> > > >  M: Michael Roth <michael.roth@amd.com>
-> > > > +R: Konstantin Kostiuk <kkostiuk@redhat.com>
-> > >
-> > > This pull request contains functional changes under qga/, which
-> > > suggests you're acting as a (co-)maintainer for QGA, not merely
-> > > a reviewer. I wouldn't normally expect reviewers to send pull
-> > > requests for a subsystem. As such should this be "M:", to
-> > > indicate co-maintainership and have an explicit ACK from
-> > > Michael Roth.
-> > >
-> >
-> > As the maintainer of the Windows part of the Guest Agent, I have added
-> > myself
-> > as a reviewer so I don't miss out on general patches for the Guest Agen=
-t.
-> > Some time ago, I asked Michael Roth if I could submit PRs for all guest
-> > agent components and he allow me to do this.
-> > If need I can add myself as a co-maintainer to Guest Agent not only
-> > Guest Agent Windows.
->
-> It sounds like you're defacto a co-maintainer already then and
-> might as well ackowledge this in MAINTAINERS.
->
+Thanks to Alexander Bulekov for providing a reproducer.
 
-Ok. Will resend patch and pull.
+Fixes: CVE-2022-0216
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
+Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+Tested-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+        Adjust the patch from v1 to v2 since the changes crossed
+        with the pull request.
 
+ hw/scsi/lsi53c895a.c               |  3 +-
+ tests/qtest/fuzz-lsi53c895a-test.c | 71 ++++++++++++++++++++++++++++++
+ 2 files changed, 73 insertions(+), 1 deletion(-)
 
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
->
->
-
---0000000000007005f205e3ae9ed1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 13, 2022 at 2:55 PM Danie=
-l P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redh=
-at.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">On Wed, Jul 13, 2022 at 02:31:08PM +0300, Konstantin Kostiuk wrote:<b=
-r>
-&gt; On Wed, Jul 13, 2022 at 1:38 PM Daniel P. Berrang=C3=A9 &lt;<a href=3D=
-"mailto:berrange@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<=
-br>
-&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Wed, Jul 13, 2022 at 01:19:06PM +0300, Konstantin Kostiuk wrot=
-e:<br>
-&gt; &gt; &gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; &gt; &gt; Message-Id: &lt;<a href=3D"mailto:20220712092715.2136898-1-k=
-kostiuk@redhat.com" target=3D"_blank">20220712092715.2136898-1-kkostiuk@red=
-hat.com</a>&gt;<br>
-&gt; &gt; &gt; Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mail=
-to:f4bug@amsat.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
-&gt; &gt; &gt; Signed-off-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;=C2=A0 MAINTAINERS | 1 +<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/MAINTAINERS b/MAINTAINERS<br>
-&gt; &gt; &gt; index 450abd0252..b1e73d99f3 100644<br>
-&gt; &gt; &gt; --- a/MAINTAINERS<br>
-&gt; &gt; &gt; +++ b/MAINTAINERS<br>
-&gt; &gt; &gt; @@ -2880,6 +2880,7 @@ T: git <a href=3D"https://repo.or.cz/q=
-emu/armbru.git" rel=3D"noreferrer" target=3D"_blank">https://repo.or.cz/qem=
-u/armbru.git</a><br>
-&gt; &gt; qapi-next<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 QEMU Guest Agent<br>
-&gt; &gt; &gt;=C2=A0 M: Michael Roth &lt;<a href=3D"mailto:michael.roth@amd=
-.com" target=3D"_blank">michael.roth@amd.com</a>&gt;<br>
-&gt; &gt; &gt; +R: Konstantin Kostiuk &lt;<a href=3D"mailto:kkostiuk@redhat=
-.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; This pull request contains functional changes under qga/, which<b=
-r>
-&gt; &gt; suggests you&#39;re acting as a (co-)maintainer for QGA, not mere=
-ly<br>
-&gt; &gt; a reviewer. I wouldn&#39;t normally expect reviewers to send pull=
-<br>
-&gt; &gt; requests for a subsystem. As such should this be &quot;M:&quot;, =
-to<br>
-&gt; &gt; indicate co-maintainership and have an explicit ACK from<br>
-&gt; &gt; Michael Roth.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; As the maintainer of the Windows part of the Guest Agent, I have added=
-<br>
-&gt; myself<br>
-&gt; as a reviewer so I don&#39;t miss out on general patches for the Guest=
- Agent.<br>
-&gt; Some time ago, I asked Michael Roth if I could submit PRs for all gues=
-t<br>
-&gt; agent components and he allow me to do this.<br>
-&gt; If need I can add myself as a co-maintainer to Guest Agent not only<br=
->
-&gt; Guest Agent Windows.<br>
-<br>
-It sounds like you&#39;re defacto a co-maintainer already then and<br>
-might as well ackowledge this in MAINTAINERS.<br></blockquote><div><br></di=
-v><div>Ok. Will resend patch and pull. <br></div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
-<br>
-With regards,<br>
-Daniel<br>
--- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
-<br>
-</blockquote></div></div>
-
---0000000000007005f205e3ae9ed1--
+diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
+index 99ea42d49b..ad5f5e5f39 100644
+--- a/hw/scsi/lsi53c895a.c
++++ b/hw/scsi/lsi53c895a.c
+@@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
+             trace_lsi_do_msgout_abort(current_tag);
+             if (current_req && current_req->req) {
+                 scsi_req_cancel(current_req->req);
+-                current_req->req = NULL;
++                current_req = NULL;
+             }
+             lsi_disconnect(s);
+             break;
+@@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
+             /* clear the current I/O process */
+             if (s->current) {
+                 scsi_req_cancel(s->current->req);
++                current_req = NULL;
+             }
+ 
+             /* As the current implemented devices scsi_disk and scsi_generic
+diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
+index 2e8e67859e..6872c70d3a 100644
+--- a/tests/qtest/fuzz-lsi53c895a-test.c
++++ b/tests/qtest/fuzz-lsi53c895a-test.c
+@@ -8,6 +8,74 @@
+ #include "qemu/osdep.h"
+ #include "libqtest.h"
+ 
++/*
++ * This used to trigger a UAF in lsi_do_msgout()
++ * https://gitlab.com/qemu-project/qemu/-/issues/972
++ */
++static void test_lsi_do_msgout_cancel_req(void)
++{
++    QTestState *s;
++
++    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
++                   "-device lsi53c895a,id=scsi "
++                   "-device scsi-hd,drive=disk0 "
++                   "-drive file=null-co://,id=disk0,if=none,format=raw");
++
++    qtest_outl(s, 0xcf8, 0x80000810);
++    qtest_outl(s, 0xcf8, 0xc000);
++    qtest_outl(s, 0xcf8, 0x80000810);
++    qtest_outw(s, 0xcfc, 0x7);
++    qtest_outl(s, 0xcf8, 0x80000810);
++    qtest_outl(s, 0xcfc, 0xc000);
++    qtest_outl(s, 0xcf8, 0x80000804);
++    qtest_outw(s, 0xcfc, 0x05);
++    qtest_writeb(s, 0x69736c10, 0x08);
++    qtest_writeb(s, 0x69736c13, 0x58);
++    qtest_writeb(s, 0x69736c1a, 0x01);
++    qtest_writeb(s, 0x69736c1b, 0x06);
++    qtest_writeb(s, 0x69736c22, 0x01);
++    qtest_writeb(s, 0x69736c23, 0x07);
++    qtest_writeb(s, 0x69736c2b, 0x02);
++    qtest_writeb(s, 0x69736c48, 0x08);
++    qtest_writeb(s, 0x69736c4b, 0x58);
++    qtest_writeb(s, 0x69736c52, 0x04);
++    qtest_writeb(s, 0x69736c53, 0x06);
++    qtest_writeb(s, 0x69736c5b, 0x02);
++    qtest_outl(s, 0xc02d, 0x697300);
++    qtest_writeb(s, 0x5a554662, 0x01);
++    qtest_writeb(s, 0x5a554663, 0x07);
++    qtest_writeb(s, 0x5a55466a, 0x10);
++    qtest_writeb(s, 0x5a55466b, 0x22);
++    qtest_writeb(s, 0x5a55466c, 0x5a);
++    qtest_writeb(s, 0x5a55466d, 0x5a);
++    qtest_writeb(s, 0x5a55466e, 0x34);
++    qtest_writeb(s, 0x5a55466f, 0x5a);
++    qtest_writeb(s, 0x5a345a5a, 0x77);
++    qtest_writeb(s, 0x5a345a5b, 0x55);
++    qtest_writeb(s, 0x5a345a5c, 0x51);
++    qtest_writeb(s, 0x5a345a5d, 0x27);
++    qtest_writeb(s, 0x27515577, 0x41);
++    qtest_outl(s, 0xc02d, 0x5a5500);
++    qtest_writeb(s, 0x364001d0, 0x08);
++    qtest_writeb(s, 0x364001d3, 0x58);
++    qtest_writeb(s, 0x364001da, 0x01);
++    qtest_writeb(s, 0x364001db, 0x26);
++    qtest_writeb(s, 0x364001dc, 0x0d);
++    qtest_writeb(s, 0x364001dd, 0xae);
++    qtest_writeb(s, 0x364001de, 0x41);
++    qtest_writeb(s, 0x364001df, 0x5a);
++    qtest_writeb(s, 0x5a41ae0d, 0xf8);
++    qtest_writeb(s, 0x5a41ae0e, 0x36);
++    qtest_writeb(s, 0x5a41ae0f, 0xd7);
++    qtest_writeb(s, 0x5a41ae10, 0x36);
++    qtest_writeb(s, 0x36d736f8, 0x0c);
++    qtest_writeb(s, 0x36d736f9, 0x80);
++    qtest_writeb(s, 0x36d736fa, 0x0d);
++    qtest_outl(s, 0xc02d, 0x364000);
++
++    qtest_quit(s);
++}
++
+ /*
+  * This used to trigger the assert in lsi_do_dma()
+  * https://bugs.launchpad.net/qemu/+bug/697510
+@@ -44,5 +112,8 @@ int main(int argc, char **argv)
+     qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
+                    test_lsi_do_dma_empty_queue);
+ 
++    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
++                   test_lsi_do_msgout_cancel_req);
++
+     return g_test_run();
+ }
+-- 
+2.36.1
 
 
