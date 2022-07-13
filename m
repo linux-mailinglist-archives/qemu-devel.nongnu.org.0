@@ -2,55 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9FB57312B
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:33:22 +0200 (CEST)
-Received: from localhost ([::1]:47560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B314057316B
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 10:45:48 +0200 (CEST)
+Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBXo9-0004yj-5S
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
+	id 1oBY0B-0003po-Gb
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 04:45:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXCN-0000Td-Bn; Wed, 13 Jul 2022 03:54:21 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:33587
- helo=gandalf.ozlabs.org)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oBXJ7-0000g4-Kc
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:01:21 -0400
+Received: from mga03.intel.com ([134.134.136.65]:41514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=zHgX=XS=kaod.org=clg@ozlabs.org>)
- id 1oBXCK-0002d0-V6; Wed, 13 Jul 2022 03:54:19 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LjVHl6Cdbz4ySl;
- Wed, 13 Jul 2022 17:53:55 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LjVHj5j1jz4ySW;
- Wed, 13 Jul 2022 17:53:53 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Delevoryas <peter@pjd.dev>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 19/19] aspeed: Add fby35-bmc slot GPIO's
-Date: Wed, 13 Jul 2022 09:52:55 +0200
-Message-Id: <20220713075255.2248923-20-clg@kaod.org>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220713075255.2248923-1-clg@kaod.org>
-References: <20220713075255.2248923-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oBXJ1-00056z-GR
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 04:01:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657699271; x=1689235271;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=7ENYqPqKTk0ESIJ/QoNgf3KZMY16w1kA6fyDKtIJ5rs=;
+ b=YUrb6DOXtoDXmgQg7mtkNXQyiBEwAMIES4zCxg7H/SH2V9fn+2W+tIUo
+ 5Fdqd+dj3PDqyjLK6A8CQpchQSBLCEz6AlINB50D4tEfyOwaUUG+YwHJP
+ cBg2SWZUWpvEm3ohH5aYR+7VRHhaXvJf/qoV0PSO9rhSLa8fh/AnMRieS
+ reCrutbLAQWWX23sbXS2NaSOFxWnJzV0OU2P71DXzDd7Y1+AeKxuyCePk
+ Zr1Nxbeab+3Nny5IDrZS3gvQ4tBgV5eIPWHZjGPwxD4Vwt0lzuPhF0gFV
+ E14fsdukq1wQPMe7e2+GzmFpxHK/hQx2gTpchJcuH0EMxJndMpmWFOSqP A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10406"; a="286277207"
+X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="286277207"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2022 01:01:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,267,1650956400"; d="scan'208";a="685071104"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
+ by FMSMGA003.fm.intel.com with ESMTP; 13 Jul 2022 01:00:56 -0700
+Date: Wed, 13 Jul 2022 15:57:38 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Message-ID: <20220713075738.GC2831541@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
- envelope-from=SRS0=zHgX=XS=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+Received-SPF: none client-ip=134.134.136.65;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga03.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,49 +98,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <peter@pjd.dev>
+On Wed, Jul 13, 2022 at 05:58:32AM +0200, Gupta, Pankaj wrote:
+> 
+> > This is the v7 of this series which tries to implement the fd-based KVM
+> > guest private memory. The patches are based on latest kvm/queue branch
+> > commit:
+> > 
+> >    b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+> > split_desc_cache only by default capacity
+> > 
+> > Introduction
+> > ------------
+> > In general this patch series introduce fd-based memslot which provides
+> > guest memory through memory file descriptor fd[offset,size] instead of
+> > hva/size. The fd can be created from a supported memory filesystem
+> > like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+> 
+> Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
+> page cache instead of mapping pages into userspace address space. Can we hit
+> double (un-coordinated) page cache problem with this when guest page cache
+> is also used?
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220712023219.41065-4-peter@pjd.dev>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/aspeed.c | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+This is my understanding: in host it will be indeed in page cache (in
+current shmem implementation) but that's just the way it allocates and
+provides the physical memory for the guest. In guest, guest OS will not
+see this fd (absolutely), it only sees guest memory, on top of which it
+can build its own page cache system for its own file-mapped content but
+that is unrelated to host page cache.
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index b4355ee26a45..83150a19ea6d 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -1358,11 +1358,23 @@ static void fby35_reset(MachineState *state)
- 
-     qemu_devices_reset();
- 
--    /* Board ID */
-+    /* Board ID: 7 (Class-1, 4 slots) */
-     object_property_set_bool(OBJECT(gpio), "gpioV4", true, &error_fatal);
-     object_property_set_bool(OBJECT(gpio), "gpioV5", true, &error_fatal);
-     object_property_set_bool(OBJECT(gpio), "gpioV6", true, &error_fatal);
-     object_property_set_bool(OBJECT(gpio), "gpioV7", false, &error_fatal);
-+
-+    /* Slot presence pins, inverse polarity. (False means present) */
-+    object_property_set_bool(OBJECT(gpio), "gpioH4", false, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioH5", true, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioH6", true, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioH7", true, &error_fatal);
-+
-+    /* Slot 12v power pins, normal polarity. (True means powered-on) */
-+    object_property_set_bool(OBJECT(gpio), "gpioB2", true, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioB3", false, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioB4", false, &error_fatal);
-+    object_property_set_bool(OBJECT(gpio), "gpioB5", false, &error_fatal);
- }
- 
- static void aspeed_machine_fby35_class_init(ObjectClass *oc, void *data)
--- 
-2.35.3
-
+Chao
+> 
+> Thanks,
+> Pankaj
+> 
 
