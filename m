@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 968A5572E20
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 08:27:53 +0200 (CEST)
-Received: from localhost ([::1]:59156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5F19572E9D
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 08:59:01 +0200 (CEST)
+Received: from localhost ([::1]:38288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBVqh-0000cs-Mp
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 02:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
+	id 1oBWKq-0006SM-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 02:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBVm2-0005Fk-4C
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:23:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28483)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oBWIt-00050g-Au
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:56:59 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:42994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oBVly-0000we-9m
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:23:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657693375;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g0i8rgA/ifGHZCRLtdxMgxYNeHrI04HMm6G6hzoUOMQ=;
- b=ghR7yIRtPB/t3W5lIAx+sduxXsxOaGFtndSzzLmcnpvbEYcvJA38G4jqlqKFJaEgngxf0m
- R8QfaZPTkdGmKWsxKPayj8lWZTNCdO810QhhQjAWWF4nKJhHNuwKe1yiSodqqmcQPSPWNc
- 7u7p2bC+vYzjPW5mMmY+y2hIr7qmyhE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-270-mMiVILG0OBO47eyZlxysfw-1; Wed, 13 Jul 2022 02:22:43 -0400
-X-MC-Unique: mMiVILG0OBO47eyZlxysfw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1oBWIq-0005Tb-Qv
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 02:56:58 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1447B801755;
- Wed, 13 Jul 2022 06:22:43 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A127B40E80E0;
- Wed, 13 Jul 2022 06:22:42 +0000 (UTC)
-Date: Wed, 13 Jul 2022 07:22:41 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, dmitry.fomichev@wdc.com,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, hare@suse.de
-Subject: Re: [RFC v4 1/9] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls.
-Message-ID: <Ys5ksZ4eix87DEL8@stefanha-x1.localdomain>
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <20220712021345.8530-2-faithilikerun@gmail.com>
- <Ys2YF9iYeicGf8xr@stefanha-x1.localdomain>
- <0effd311-26e1-3c93-3bae-0de00945a86d@opensource.wdc.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="c1hszbS9/KnAVtK5"
-Content-Disposition: inline
-In-Reply-To: <0effd311-26e1-3c93-3bae-0de00945a86d@opensource.wdc.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3BD8C61152;
+ Wed, 13 Jul 2022 06:56:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0D6AC34114;
+ Wed, 13 Jul 2022 06:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657695414;
+ bh=DKPBIy5G1EM3xhqzMqfJWRNGFPADJwakpp4q2L0oBi4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=r4+vtgJ/BjF/IHHR46dA/3SZPJjB5AcuGaE29qnGPKYUd83wfoHSn5NLmyD6fKD6h
+ wSfTI81txXPJiV22p36SnJ+pKJmu6mpcEeVKpw7sH+ENSnhHY3L16hbOviV3hDbiNh
+ Y5qNjZDqTybvJC9nb3nHFPQZ5GIvlKLOJxGT/Qry3m6FjvIf4BYyYYD9dpCEjUZnvO
+ RuWS9ddu/EBANk5tBwso7AacLcyxfg8TbCcR+WKg1VWoAF9QZaAa5ma+D3dqMx0mOl
+ xqGdPNUIcFHPU9Fobfk8o4mjHZVMLnUS1a7Z95Sh2Yn+qG3QRvHRZxWInlJcdh4SKa
+ KaWyiEBpUf5QA==
+Received: from ip-185-104-136-29.ptr.icomera.net ([185.104.136.29]
+ helo=wait-a-minute.misterjones.org)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <maz@kernel.org>) id 1oBWIm-0078fU-85;
+ Wed, 13 Jul 2022 07:56:52 +0100
+Date: Wed, 13 Jul 2022 07:56:42 +0100
+Message-ID: <87cze9lcut.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: "chenxiang (M)" <chenxiang66@hisilicon.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>, <pbonzini@redhat.com>,
+ <kvm@vger.kernel.org>, chenxiang via <qemu-devel@nongnu.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [QUESTION] Exception print when enabling GICv4
+In-Reply-To: <13e4fde9-05e9-f492-a2b6-20d567eb2920@hisilicon.com>
+References: <6d6d61fb-6241-4e1e-ddff-8ae8be96f9ff@hisilicon.com>
+ <87bktu1hfj.wl-maz@kernel.org>
+ <13e4fde9-05e9-f492-a2b6-20d567eb2920@hisilicon.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.104.136.29
+X-SA-Exim-Rcpt-To: chenxiang66@hisilicon.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com, kvm@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=maz@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,56 +89,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---c1hszbS9/KnAVtK5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 13, 2022 at 07:12:17AM +0900, Damien Le Moal wrote:
-> On 7/13/22 00:49, Stefan Hajnoczi wrote:
-> > On Tue, Jul 12, 2022 at 10:13:37AM +0800, Sam Li wrote:
-> >> @@ -1801,6 +1809,130 @@ static off_t copy_file_range(int in_fd, off_t =
-*in_off, int out_fd,
-> >>  }
-> >>  #endif
-> >> =20
-> >=20
-> > Are the functions below within #ifdef __linux__?
+On Wed, 13 Jul 2022 07:02:10 +0100,
+"chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
 >=20
-> We need more than that: linux AND blkzoned.h header present (meaning a
-> recent kernel). So the ifdef should be "#if defined(CONFIG_BLKZONED)" or
-> something like it, with CONFIG_BLKZONED defined for linux AND
-> /usr/include/linux/blkzoned.h present.
+> Hi Marc,
+>=20
+> Thank you for your reply.
+>=20
+> =E5=9C=A8 2022/7/12 23:25, Marc Zyngier =E5=86=99=E9=81=93:
+> > Hi Xiang,
+> >=20
+> > On Tue, 12 Jul 2022 13:55:16 +0100,
+> > "chenxiang (M)" <chenxiang66@hisilicon.com> wrote:
+> >> Hi,
+> >> I encounter a issue related to GICv4 enable on ARM64 platform (kernel
+> >> 5.19-rc4, qemu 6.2.0):
+> >> We have a accelaration module whose VF has 3 MSI interrupts, and we
+> >> passthrough it to virtual machine with following steps:
+> >>=20
+> >> echo 0000:79:00.1 > /sys/bus/pci/drivers/hisi_hpre/unbind
+> >> echo vfio-pci >
+> >> /sys/devices/pci0000\:78/0000\:78\:00.0/0000\:79\:00.1/driver_override
+> >> echo 0000:79:00.1 > /sys/bus/pci/drivers_probe
+> >>=20
+> >> Then we boot VM with "-device vfio-pci,host=3D79:00.1,id=3Dnet0 \".
+> >> When insmod the driver which registers 3 PCI MSI interrupts in VM,
+> >> some exception print occur as following:
+> >>=20
+> >> vfio-pci 0000:3a:00.1: irq bypass producer (token 000000008f08224d)
+> >> registration fails: 66311
+> >>=20
+> >> I find that bit[6:4] of register PCI_MSI_FLAGS is 2 (4 MSI interrupts)
+> >> though we only register 3 PCI MSI interrupt,
+> >>=20
+> >> and only 3 MSI interrupt is activated at last.
+> >> It allocates 4 vectors in function vfio_msi_enable() (qemu)  as it
+> >> reads the register PCI_MSI_FLAGS.
+> >> Later it will  call system call VFIO_DEVICE_SET_IRQS to set forwarding
+> >> for those interrupts
+> >> using function kvm_vgic_v4_set_forrwarding() as GICv4 is enabled. For
+> >> interrupt 0~2, it success to set forwarding as they are already
+> >> activated,
+> >> but for the 4th interrupt, it is not activated, so ite is not found in
+> >> function vgic_its_resolve_lpi(), so above printk occurs.
+> >>=20
+> >> It seems that we only allocate and activate 3 MSI interrupts in guest
+> >> while it tried to set forwarding for 4 MSI interrupts in host.
+> >> Do you have any idea about this issue?
+> > I have a hunch: QEMU cannot know that the guest is only using 3 MSIs
+> > out of the 4 that the device can use, and PCI/Multi-MSI only has a
+> > single enable bit for all MSIs. So it probably iterates over all
+> > possible MSIs and enable the forwarding. Since the guest has only
+> > created 3 mappings in the virtual ITS, the last call fails. I would
+> > expect the guest to still work properly though.
+>=20
+> Yes, that's the reason of exception print.
+> Is it possible for QEMU to get the exact number of interrupts guest is
+> using? It seems not.
 
-Okay. Try adding the following to meson.build:
+Not really. Or rather, this is a pretty involved process: you'd need
+to stop the guest, perform a save operation on the ITS (as if you were
+doing a migration), and then introspect the ITS tables to find whether
+there is a mapping for each of the possible events generated by the
+device. Clearly, that's overkill.
 
-  config_host_data.set('HAVE_LINUX_BLKZONED_H', cc.has_header('linux/blkzon=
-ed.h'))
+A better approach would be to be able to retrieve an individual
+mapping, using a new API that would be similar to KVM_SIGNAL_MSI. It
+would take the same kvm_msi structure as input, and retrieving the
+{LPI, CPU} pair or an error if there is no mapping.
 
-Then:
+Thanks,
 
-  #ifdef HAVE_LINUX_BLKZONED_H
-  ...
-  #endif /* HAVE_LINUX_BLKZONED_H */
+	M.
 
-Stefan
-
---c1hszbS9/KnAVtK5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmLOZLEACgkQnKSrs4Gr
-c8iMxggAiEzKHTaWZYoLrKBTYWv0az9svMGKKdRb0hGjL4kA5hFNTQCcQ3rIa6Ai
-WbjxOIGbIskJTivs6d1shb3Tfcx8SuPAXpMhr112xPBYc37lVnG/ABLSAPlifM/i
-13JxO3IshlVsiY8SST79BQS7wroRUY+jUe6c8+HWUq/W0hCV4k3oYkMSdDNnCksn
-egJO7bWHHDog8yHhPsVN9ABfBuSeXWIeF+VV8FtupOU7D0tZ8zXQorblYcPmYG9z
-hNA2SjBOP6AgXeP9cPHRVi6vNofDx96apIOerdbzyWIJYpzTQt3rCvAGXJHaV0EK
-3p5pDAqVJfLa38P6LjqeItrVWVpuhw==
-=tltJ
------END PGP SIGNATURE-----
-
---c1hszbS9/KnAVtK5--
-
+--=20
+Without deviation from the norm, progress is not possible.
 
