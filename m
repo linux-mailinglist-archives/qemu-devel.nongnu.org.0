@@ -2,120 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F5A9573A98
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 17:53:00 +0200 (CEST)
-Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EED9B573ACB
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:06:07 +0200 (CEST)
+Received: from localhost ([::1]:41632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBefb-00056M-FP
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 11:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1oBesI-0004h5-9s
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:06:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oBee1-0003h2-EL
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:51:21 -0400
-Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82]:34943)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBelT-0000Ad-47
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:59:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oBedy-0006Hm-Lk
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:51:20 -0400
-X-IronPort-RemoteIP: 209.85.166.70
-X-IronPort-MID: 210948773
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:byAC0aAK7GczNhVW/6Lhw5YqxClBgxIJ4kV8jS/XYbTApDhw0zdRy
- jYdDWCAaPuPMWL9KNsnboSy801Vu5WDmNRqTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH1dOKJQUBUjclkfJKlYAL/En03FFYMpBsJ00o5wbZk2NAw2LBVPivW0
- T/Mi5yHULOa82MsWo4kw/rrRMRH5amaVJsw5zTSVNgS1LPsvyB94KE3fMldG0DFrrx8RYZWc
- QpiIIaRpQs19z91Yj+sfy2SnkciG9Y+NiDX4pZatjTLbrGvaUXe345iXMfwZ3u7hB2Vlf1Q9
- fkQnqCoEzluMauLlNk3fUhhRnQW0a1uoNcrIFC6uM2XikzBKj7inK0oA0YxMokVvO1wBAmi9
- 9RCcGFLPk3F3rzohu3jIgVvrp1LwM3DNYcPvH165TvES/sqXPgvRo2QvIcJgGdv2Zsm8fD2Z
- NUcVAd1QAT8cRhLP0cbUZAjssGxiSyqG9FfgBfPzUYt2EDKwQlslbTgLtfRUtqNQ8pTgwCfv
- G2uwojiKhQTNdjayD3ct3zz3qnAmiT0XI9UH7q9nhJ3vGCuKqUoIEV+fTOGTTOR0CZSh/o3x
- 5QoxxcT
-IronPort-HdrOrdr: A9a23:nF/s6aNBGJh3IsBcThKjsMiBIKoaSvp037BN7TESdfU1SL36qy
- nAppomPCHP+UossR0b8+xp1sG7MAvhHbAc2/hqAV6JZniBhIOQRLsSlrcLKVXbalDDH5dmpN
- 5dmstFaOEYb2IasS+g2njeLz9I+rDum5xA492w855Dd3AUV0gK1WpE42igfnGfhWF9dP8E/B
- X13Lsimwad
-Received: from mail-io1-f70.google.com ([209.85.166.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 13 Jul 2022 11:51:15 -0400
-Received: by mail-io1-f70.google.com with SMTP id
- i16-20020a5d9350000000b0067bce490d06so37566ioo.14
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1GOQ5nyP5HY9Owk1I2rAuOdHMa3NtVmRtFzuDQgfqng=;
- b=PIcjQZWjs69D45HRMvARKMrzNrdumu7WBLqE+KuIsRX16GjNXZvYeFlEagi+re9DBF
- CA8NJjtDVLBJtz9D1YlnbYI7N29gNRgZmZUuAPsWb9ns/uUOCQBPF2OJeAVHkSRZlyPC
- oRzcUpjrSAU3iwG2227AMAdpX+deCYnG1ZCdQAXr3rdRkIUkrO9WWkzJOmWTeRTQ8ABi
- UmQcmKi26h1WFXFKUGXJ8lLbpZzxaAi/OHrMtlZjEtGnyQHpsD/a/VWy6S2sciuNczmN
- Eg7dT/ZUm2k++ouMSSlT4H5wubrb04QUSzzYa+Ucjk9eW7L9lqU2m8zobB/7wq17R+TK
- 8aNw==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oBelQ-0001Js-01
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 11:59:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657727939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cBNDrA0ZX60NKZ4z6R/cRjlYRDriK8tUjn/4yLaMMc8=;
+ b=Qx5lEqJay3r3TIcXY5TdtgwhvEW+VZxiw4ttZ/0N2bwm63nIYh40/jI9k+biVp4S83HVaS
+ bSSZWqLxdljWz6FInk/t+8p6Eo20WG5HaRMPMuYViohwG0kSJq2JLbEH3EKMmVrwmpLEFF
+ AE+nW1bMb7X3hB+/i9BZU9QlafqWGjY=
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
+ [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-112-NJR17D5jOfa-3w3V70RHOA-1; Wed, 13 Jul 2022 11:58:57 -0400
+X-MC-Unique: NJR17D5jOfa-3w3V70RHOA-1
+Received: by mail-oi1-f198.google.com with SMTP id
+ a9-20020a056808098900b00339f990621cso5636386oic.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 08:58:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1GOQ5nyP5HY9Owk1I2rAuOdHMa3NtVmRtFzuDQgfqng=;
- b=a2jdWVzs9ecNXUx+knFyBYWelqKN/e+grMl406h9QmSTnd5TkLYPimI+0aQwqwSnoj
- F036psAUrwP83HuUTXRJ60brldGzZkpacAAXmtLZJ6E+Cxy+gjsMizcsVB5sMrMptSf7
- +rNP42cUKXwPFb9jJYKFIz6OA31VY1qeX9ZnJOAGDn/5yY6NUXzQcCugALs2qin8djdY
- 0u42hCGc3e6KBs1nsZA9YAB8T5NxkX483CfheBJpmaEMM/JmiiOXppp+6dic1lYesYZ/
- 3k2gL2lvkSTemP18zDhfsuJ2j0LKwGXtMqDPxGeISDsy3VfypGMI3TZhIub7RSBPP57r
- AQkQ==
-X-Gm-Message-State: AJIora99yDm9s5zoJmDSxKDDlFhCis5/iK6k6Jo00YaOA9rHofmnio3c
- dLAioskYe3DmpDlXyaVgzuo7vQzjsAEaS9Djp9KmUH65bwVq9S5t4DGaT3kd7A4dSt4LhoYenrt
- xqFqFuVm8duS86yKbPnlveN3Ic9D74A==
-X-Received: by 2002:a05:6602:29a2:b0:67b:99b9:3aa4 with SMTP id
- u2-20020a05660229a200b0067b99b93aa4mr2147422ios.167.1657727474306; 
- Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tuYZA+a737pHuAf3T7Cbkqhcmk3u4O/0+aTLOobHPzUiZOiAOJAGuAaMoGrXRxg+mD05T/nw==
-X-Received: by 2002:a05:6602:29a2:b0:67b:99b9:3aa4 with SMTP id
- u2-20020a05660229a200b0067b99b93aa4mr2147406ios.167.1657727474057; 
- Wed, 13 Jul 2022 08:51:14 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- y5-20020a92c745000000b002dc10fd4b88sm4898518ilp.29.2022.07.13.08.51.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Jul 2022 08:51:13 -0700 (PDT)
-Date: Wed, 13 Jul 2022 11:51:08 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Peter Xu <peterx@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [PATCH v2] memory: prevent dma-reentracy issues
-Message-ID: <20220713155108.5kgycuvnqdnywjyf@mozz.bu.edu>
-References: <20220609135851.42193-1-alxndr@bu.edu>
- <CAFEAcA-QOqGWzeeQLLK2pH0WwABzXP2ZjFKxLY7d62bWhGRWxw@mail.gmail.com>
- <20220621155306.2mvr22dd5xuc6pqm@mozz.bu.edu>
- <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cBNDrA0ZX60NKZ4z6R/cRjlYRDriK8tUjn/4yLaMMc8=;
+ b=ppHk4+EJR0JYoroGbMZfPIOOkbglPlOhjnQCk0h9hCisaLepuFZXOy/4RLqYUAbPup
+ l90+6JQi+BSZCskzxf5DFeTzqEZKiGC/1w4wjpp5qiD+ENj/wouPa8F0mRraFbplB9HS
+ 6MmEB7zlrdIETQatkwGrfsMuOVWux7fK16LHVyNA4js5kbtuiE62I8rdZgolXDg5vM60
+ oBPHuiPImjS9VHxJAy2EFPhh5CchSUfNIsDJQ9Y0ek/NFV2F195N4/1sV+umhlwmfJVv
+ R5nPJpgImTS9WZ+0OT3Sgfb+oaPK3+VY4UXw3ZD/rxHD+P5c42EbeTp7DzCWhy3hotJB
+ 6Bkw==
+X-Gm-Message-State: AJIora8BSuzlgTAFreRRL+ZbE3xmB98aFNKH3Z4YGfO6Zq0TmD6SG7bb
+ vWhJo/H1rnLVDwmFW81o+Rzq++2ojIvqg99++vx3E+3iat9MfjZVYKLJQoEZXTjbyr5cLe6Br4b
+ 58sJixAYgpC+uxi1khKAb2N3wP/To/AQ=
+X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
+ ek39-20020a056870f62700b0010c9be95306mr5028594oab.205.1657727937202; 
+ Wed, 13 Jul 2022 08:58:57 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vg1us4ICKs9B6VsSoEl2HT1FjVtUgA6uSdmkD3j7RSTKAjMFUvVkO744au8f0tmCb0MBONeZmVKrt2vxX+dxY=
+X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
+ ek39-20020a056870f62700b0010c9be95306mr5028571oab.205.1657727936980; Wed, 13
+ Jul 2022 08:58:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ys1AOOWLZRBxYNbC@stefanha-x1.localdomain>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
- helo=esa12.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220713130322.25517-1-frankja@linux.ibm.com>
+ <20220713130322.25517-6-frankja@linux.ibm.com>
+In-Reply-To: <20220713130322.25517-6-frankja@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 13 Jul 2022 19:58:46 +0400
+Message-ID: <CAMxuvawZehnqK=UN03nKEdtwL7yySKgb6GG5GV1S3CT_d0_iyg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] dump/dump: Add section string table support
+To: Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
+ mhartmay@linux.ibm.com, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
+ Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
+ Richard" <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -131,89 +98,221 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 220712 1034, Stefan Hajnoczi wrote:
-> On Tue, Jun 21, 2022 at 11:53:06AM -0400, Alexander Bulekov wrote:
-> > On 220621 1630, Peter Maydell wrote:
-> > > On Thu, 9 Jun 2022 at 14:59, Alexander Bulekov <alxndr@bu.edu> wrote:
-> > > > diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> > > > index 44dacfa224..ab1ad0f7a8 100644
-> > > > --- a/include/hw/pci/pci.h
-> > > > +++ b/include/hw/pci/pci.h
-> > > > @@ -834,8 +834,17 @@ static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-> > > >                                       void *buf, dma_addr_t len,
-> > > >                                       DMADirection dir, MemTxAttrs attrs)
-> > > >  {
-> > > > -    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> > > > -                         dir, attrs);
-> > > > +    bool prior_engaged_state;
-> > > > +    MemTxResult result;
-> > > > +
-> > > > +    prior_engaged_state = dev->qdev.engaged_in_io;
-> > > > +
-> > > > +    dev->qdev.engaged_in_io = true;
-> > > > +    result = dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
-> > > > +                           dir, attrs);
-> > > > +    dev->qdev.engaged_in_io = prior_engaged_state;
-> > > > +
-> > > > +    return result;
-> > > 
-> > > Why do we need to do something in this pci-specific function ?
-> > > I was expecting this to only need changes at the generic-to-all-devices
-> > > level.
-> > 
-> > Both of these handle the BH->DMA->MMIO case. Unlike MMIO, I don't think
-> > there is any neat way to set the engaged_in_io flag as we enter a BH. So
-> > instead, we try to set it when a device initiates DMA.
-> > 
-> > The pci function lets us do that since we get a glimpse of the dev/qdev
-> > (unlike the dma_memory_...  functions).
-> ...
-> > > > @@ -302,6 +310,10 @@ static MemTxResult dma_buf_rw(void *buf, dma_addr_t len, dma_addr_t *residual,
-> > > >          xresidual -= xfer;
-> > > >      }
-> > > >
-> > > > +    if (dev) {
-> > > > +        dev->engaged_in_io = prior_engaged_state;
-> > > > +    }
-> > > 
-> > > Not all DMA goes through dma_buf_rw() -- why does it need changes?
-> > 
-> > This one has the same goal, but accesses the qdev through sg, instead of
-> > PCI.
-> 
-> Should dma_*() APIs take a reentrancy guard argument so that all DMA
-> accesses are systematically covered?
+Hi
 
-That seems like it would be the best option, though it carries the cost
-of needing to tweak a lot of code in hw/. Maybe some refactoring tool
-could help with this.
--Alex
+On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+>
+> Time to add a bit more descriptiveness to the dumps.
 
-> 
->   /* Define this in the memory API */
->   typedef struct {
->       bool engaged_in_io;
->   } MemReentrancyGuard;
-> 
->   /* Embed MemReentrancyGuard in DeviceState */
->   ...
-> 
->   /* Require it in dma_*() APIs */
->   static inline MemTxResult dma_memory_rw(AddressSpace *as, dma_addr_t addr,
->                                           void *buf, dma_addr_t len,
->                                           DMADirection dir, MemTxAttrs attrs,
-> 					  MemReentrancyGuard *guard);
-> 
->   /* Call dma_*() APIs like this... */
->   static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
->                                        void *buf, dma_addr_t len,
->                                        DMADirection dir, MemTxAttrs attrs)
->   {
->       return dma_memory_rw(pci_get_address_space(dev), addr, buf, len,
->                            dir, attrs, &dev->qdev.reentrancy_guard);
->   }
-> 
-> Stefan
+Please add some more description & motivation to the patch (supposedly
+necessary for next patches), and explain that it currently doesn't
+change the dump (afaict).
 
+>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  dump/dump.c           | 106 ++++++++++++++++++++++++++++++++++++------
+>  include/sysemu/dump.h |   1 +
+>  2 files changed, 94 insertions(+), 13 deletions(-)
+>
+> diff --git a/dump/dump.c b/dump/dump.c
+> index 467d934bc1..31e2a85372 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -99,6 +99,7 @@ static int dump_cleanup(DumpState *s)
+>      close(s->fd);
+>      g_free(s->guest_note);
+>      g_free(s->elf_header);
+> +    g_array_unref(s->string_table_buf);
+>      s->guest_note = NULL;
+>      if (s->resume) {
+>          if (s->detached) {
+> @@ -359,14 +360,47 @@ static size_t write_elf_section_hdr_zero(DumpState *s, void *buff)
+>      return dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
+>  }
+>
+> +static void write_elf_section_hdr_string(DumpState *s, void *buff)
+> +{
+> +    Elf32_Shdr shdr32;
+> +    Elf64_Shdr shdr64;
+> +    int shdr_size;
+> +    void *shdr = buff;
+> +
+> +    if (dump_is_64bit(s)) {
+> +        shdr_size = sizeof(Elf64_Shdr);
+> +        memset(&shdr64, 0, shdr_size);
+> +        shdr64.sh_type = SHT_STRTAB;
+> +        shdr64.sh_offset = s->section_offset + s->elf_section_data_size;
+> +        shdr64.sh_name = s->string_table_buf->len;
+> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
+> +        shdr64.sh_size = s->string_table_buf->len;
+> +        shdr = &shdr64;
+> +    } else {
+> +        shdr_size = sizeof(Elf32_Shdr);
+> +        memset(&shdr32, 0, shdr_size);
+> +        shdr32.sh_type = SHT_STRTAB;
+> +        shdr32.sh_offset = s->section_offset + s->elf_section_data_size;
+> +        shdr32.sh_name = s->string_table_buf->len;
+> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
+> +        shdr32.sh_size = s->string_table_buf->len;
+> +        shdr = &shdr32;
+> +    }
+> +
+> +    memcpy(buff, shdr, shdr_size);
+> +}
+> +
+>  static void prepare_elf_section_hdrs(DumpState *s)
+>  {
+>      uint8_t *buff_hdr;
+> -    size_t len, sizeof_shdr;
+> +    size_t len, size = 0, sizeof_shdr;
+> +    Elf64_Ehdr *hdr64 = s->elf_header;
+> +    Elf32_Ehdr *hdr32 = s->elf_header;
+>
+>      /*
+>       * Section ordering:
+>       * - HDR zero (if needed)
+> +     * - String table hdr
+>       */
+>      sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
+>      len = sizeof_shdr * s->shdr_num;
+> @@ -377,6 +411,22 @@ static void prepare_elf_section_hdrs(DumpState *s)
+>      if (s->phdr_num == PN_XNUM) {
+>              write_elf_section_hdr_zero(s, buff_hdr);
+>      }
+> +    buff_hdr += size;
+> +
+> +    if (s->shdr_num < 2) {
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * String table needs to be last section since strings are added
+> +     * via arch_sections_write_hdr().
+> +     */
+> +    write_elf_section_hdr_string(s, buff_hdr);
+> +    if (dump_is_64bit(s)) {
+> +        hdr64->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
+> +    } else {
+> +        hdr32->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
+> +    }
+>  }
+>
+>  static void prepare_elf_sections(DumpState *s, Error **errp)
+> @@ -405,11 +455,18 @@ static void write_elf_sections(DumpState *s, Error **errp)
+>  {
+>      int ret;
+>
+> -    /* Write section zero */
+> +    /* Write section zero and arch sections */
+>      ret = fd_write_vmcore(s->elf_section_data, s->elf_section_data_size, s);
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "dump: failed to write section data");
+>      }
+> +
+> +    /* Write string table data */
+> +    ret = fd_write_vmcore(s->string_table_buf->data,
+> +                          s->string_table_buf->len, s);
+> +    if (ret < 0) {
+> +        error_setg_errno(errp, -ret, "dump: failed to write string table data");
+> +    }
+>  }
+>
+>  static void write_data(DumpState *s, void *buf, int length, Error **errp)
+> @@ -592,6 +649,9 @@ static void dump_begin(DumpState *s, Error **errp)
+>       *   --------------
+>       *   |  memory     |
+>       *   --------------
+> +     *   |  sectn data |
+> +     *   --------------
+> +
+>       *
+>       * we only know where the memory is saved after we write elf note into
+>       * vmcore.
+> @@ -677,6 +737,7 @@ static void create_vmcore(DumpState *s, Error **errp)
+>          return;
+>      }
+>
+> +    /* Iterate over memory and dump it to file */
+>      dump_iterate(s, errp);
+>      if (*errp) {
+>          return;
+> @@ -1659,6 +1720,13 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+>      s->has_filter = has_filter;
+>      s->begin = begin;
+>      s->length = length;
+> +    /* First index is 0, it's the special null name */
+> +    s->string_table_buf = g_array_new(FALSE, TRUE, 1);
+> +    /*
+> +     * Allocate the null name, due to the clearing option set to true
+> +     * it will be 0.
+> +     */
+> +    g_array_set_size(s->string_table_buf, 1);
+>
+>      memory_mapping_list_init(&s->list);
+>
+> @@ -1819,19 +1887,31 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+>          }
+>      }
+>
+> -    if (dump_is_64bit(s)) {
+> -        s->phdr_offset = sizeof(Elf64_Ehdr);
+> -        s->shdr_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
+> -        s->note_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
+> -        s->memory_offset = s->note_offset + s->note_size;
+> -    } else {
+> -
+> -        s->phdr_offset = sizeof(Elf32_Ehdr);
+> -        s->shdr_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
+> -        s->note_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
+> -        s->memory_offset = s->note_offset + s->note_size;
+> +    /*
+> +     * calculate shdr_num and elf_section_data_size so we know the offsets and
+> +     * sizes of all parts.
+> +     *
+> +     * If phdr_num overflowed we have at least one section header
+> +     * More sections/hdrs can be added by the architectures
+> +     */
+> +    if (s->shdr_num > 1) {
+> +        /* Reserve the string table */
+> +        s->shdr_num += 1;
+>      }
+>
+> +    tmp = (s->phdr_num == PN_XNUM) ? s->sh_info : s->phdr_num;
+> +    if (dump_is_64bit(s)) {
+> +        s->shdr_offset = sizeof(Elf64_Ehdr);
+> +        s->phdr_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
+> +        s->note_offset = s->phdr_offset + sizeof(Elf64_Phdr) * tmp;
+> +    } else {
+> +        s->shdr_offset = sizeof(Elf32_Ehdr);
+> +        s->phdr_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
+> +        s->note_offset = s->phdr_offset + sizeof(Elf32_Phdr) * tmp;
+> +    }
+> +    s->memory_offset = s->note_offset + s->note_size;
+
+I suggest to split this in a different patch. It's not obvious that
+you can change phdr_offset / shdr_offset, it deserves a comment.
+
+> +    s->section_offset = s->memory_offset + s->total_size;
+> +
+>      return;
+>
+>  cleanup:
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index 8379e29ef6..2c25c7d309 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -178,6 +178,7 @@ typedef struct DumpState {
+>      void *elf_section_hdrs;
+>      uint64_t elf_section_data_size;
+>      void *elf_section_data;
+> +    GArray *string_table_buf;  /* String table section */
+>
+>      uint8_t *note_buf;          /* buffer for notes */
+>      size_t note_buf_offset;     /* the writing place in note_buf */
+> --
+> 2.34.1
+>
 
 
