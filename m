@@ -2,112 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 216D6573B20
-	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:25:13 +0200 (CEST)
-Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50665573B90
+	for <lists+qemu-devel@lfdr.de>; Wed, 13 Jul 2022 18:48:19 +0200 (CEST)
+Received: from localhost ([::1]:53452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBfAm-0003Ul-8P
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:25:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38932)
+	id 1oBfX7-0000R8-J8
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 12:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBf0u-0007VS-Nj; Wed, 13 Jul 2022 12:15:00 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:30112
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oBfVL-0007Mv-2J
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:46:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oBf0s-0007XS-B0; Wed, 13 Jul 2022 12:15:00 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26DG1HNu027499;
- Wed, 13 Jul 2022 16:14:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- mime-version : content-transfer-encoding; s=pp1;
- bh=AerugIpz4KveWv+mU/0v5h6YxwL8MT5bK9hdEpomPrw=;
- b=lJQOCasrQedsGvBmpHAiPitu4DXocnpPMQ/5QFmGMni1lzx/ojH+ouxCND+/ypiuUYhL
- 48qcaMJjWDSVogfSsCMm4CZC0unUR6qxzg1261eqJ2VOarB6Ojn6nxEEyF0HqrPkPhCw
- PPymk3fLwG/ZTkZdVY+b2Jbnxy8Wmm+H6pFKvBm4Eaub0t/8zMoQEZvGA6lkwtGltPkx
- zxbfnYtcmfEmH5GVWnHtmMjtxyPurzgijQXsadB3NR0obsfTMfkAyFIVCQF/oVkQ+boY
- 0lamxXSvHaspXT/MTmg3jhVwioOX/ZTAPtDHduAlNS1v2vsFfeBKSBoRoyv7h8hrXE5C 5Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha16w8gen-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 16:14:47 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26DG1uAx030098;
- Wed, 13 Jul 2022 16:14:47 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ha16w8gdt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 16:14:46 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26DG7Spc014296;
- Wed, 13 Jul 2022 16:14:45 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3h70xhwwun-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 13 Jul 2022 16:14:44 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26DGEg6R20251120
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 13 Jul 2022 16:14:42 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B4410A4051;
- Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3A157A4040;
- Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
-Received: from [9.171.74.220] (unknown [9.171.74.220])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 13 Jul 2022 16:14:42 +0000 (GMT)
-Message-ID: <9ce0270d042b1d4cc011757dafa6ea6a882c49c7.camel@linux.ibm.com>
-Subject: Re: [PATCH 3/3] tests/tcg/s390x: test signed vfmin/vfmax
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>, Thomas Huth
- <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>, Peter Maydell
- <peter.maydell@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, Christian Borntraeger
- <borntraeger@linux.ibm.com>
-Date: Wed, 13 Jul 2022 18:14:41 +0200
-In-Reply-To: <3c321cef-b574-1396-237a-d1ac1cf19e01@linaro.org>
-References: <20220712015717.3602602-1-iii@linux.ibm.com>
- <20220712015717.3602602-4-iii@linux.ibm.com>
- <c7897b91-dbfd-3a32-68c8-d7afa40495ba@linaro.org>
- <c7a32437850ddc70438173ff7f0f0966e5f48384.camel@linux.ibm.com>
- <3c321cef-b574-1396-237a-d1ac1cf19e01@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1oBfVH-0001e0-BC
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 12:46:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657730781;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IqoFxzMM03eVaz9oG/0zN0CzoqxBQrBtVnbSaxXcdbk=;
+ b=jImdO2UGglX7+OMibUp1Vo1ZblAJlcst1Ml4KAT9iBMbjcCjgsHnuHK4Gtt+mveAOIga8K
+ bDugaEjRfbv61NkfxN7PGtNOI78X2SCtXmxr5AbjT/FPDQISkM2YIIs6GRE65GR0pKwMOu
+ GH/2yIy5cHD+ZS3QKx6b6/q23RAUBC8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-553-la-aO7tmMx6MPXiZLB0uxQ-1; Wed, 13 Jul 2022 12:46:20 -0400
+X-MC-Unique: la-aO7tmMx6MPXiZLB0uxQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ c7-20020adfc6c7000000b0021db3d6961bso1348423wrh.23
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 09:46:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=IqoFxzMM03eVaz9oG/0zN0CzoqxBQrBtVnbSaxXcdbk=;
+ b=2OlhmIjlOu92nqeOe7LLW9WPuJlNdJoldT4ZEpmfgBAv+/KQbQU7J/DqD6xAx56MfS
+ oj2M8165dg2D2+9KrgdtNcJXc8gxX7uQ7GB2ySNeEt66SrB5l9MQgPrSKh7KNKDPEbI6
+ 5QBuir6Arc/eMLiBx9XwfU5VqRc7L8Brt/SU5mxKyPMlOZjtn/sUH+ytTMu+KhZdSYMe
+ 8vBxvU6ZUsoJENzUAoCja7iggFvB1fbVakPtGzEXuVdEqXFS++tWNNby+60GP9ZolSDT
+ 3sWlWXsVzhJkgGxNIKzM/hfjUfu+gKUkVxc4MSnXIIz9hVekDWcw1yS8FhT7zdA7ngkb
+ 6+5A==
+X-Gm-Message-State: AJIora+AG/CUeiSJNjP0VVF0Wbg4OCvB549SDLE5yskNUZFUqyCxI5iS
+ XPrnghtPOpNHGqV25j7hCDjCJwE9akPI2QIjwEosrYppO9KQLpExMXefDcKfW0A3EsPm9Fh0ovy
+ cW/8RWTvz0AId4NU=
+X-Received: by 2002:a5d:5985:0:b0:21d:b6aa:23f5 with SMTP id
+ n5-20020a5d5985000000b0021db6aa23f5mr4293936wri.18.1657730779319; 
+ Wed, 13 Jul 2022 09:46:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sG8X16rUKMJOGKMKMLBICt5Bi2LpjbOsmuCyqtxqstfawflybfLxoqC30/XiZzr8Cfe+14PQ==
+X-Received: by 2002:a5d:5985:0:b0:21d:b6aa:23f5 with SMTP id
+ n5-20020a5d5985000000b0021db6aa23f5mr4293916wri.18.1657730779037; 
+ Wed, 13 Jul 2022 09:46:19 -0700 (PDT)
+Received: from [192.168.100.42] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ t63-20020a1c4642000000b003a2e05a81b3sm2717984wma.8.2022.07.13.09.46.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 09:46:18 -0700 (PDT)
+Message-ID: <cf99a3cf-90a5-6890-a9ec-68506de0ad38@redhat.com>
+Date: Wed, 13 Jul 2022 18:46:17 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NoKwa43IJNXtUvL25jz77O3MZxVgrxAN
-X-Proofpoint-GUID: iJwne6P3zyX075oBh-CjhZxhIsQOOYd6
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-13_05,2022-07-13_03,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- spamscore=0 adultscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- clxscore=1015 impostorscore=0 mlxscore=0 mlxlogscore=817
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207130066
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 12/13] qemu-sockets: update socket_uri() to be
+ consistent with socket_parse()
+Content-Language: en-US
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jason Wang <jasowang@redhat.com>
+References: <20220706062847.1396719-1-lvivier@redhat.com>
+ <20220706064607.1397659-1-lvivier@redhat.com> <Ys1jck60PfCJPtXQ@work-vm>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <Ys1jck60PfCJPtXQ@work-vm>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,42 +107,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2022-07-13 at 21:14 +0530, Richard Henderson wrote:
-> On 7/12/22 18:02, Ilya Leoshkevich wrote:
-> > > This works, of course.  It could be simpler using EXECUTE, to
-> > > store
-> > > just the one
-> > > instruction and not worry about an executable mapped page, but I
-> > > guess it doesn't matter.
-> > 
-> > I thought about this too, but EX/EXRL operate only on the second
-> > byte,
-> > and I need to modify bytes 3-5 here.
+On 12/07/2022 14:05, Dr. David Alan Gilbert wrote:
+> * Laurent Vivier (lvivier@redhat.com) wrote:
+>> Remove 'tcp:' prefix for inet type (because inet can be 'tcp' or 'udp'
+>> and socket_parse() doesn't recognize it), the format is 'host:port'.
 > 
-> I didn't mean modify the instruction via EX, but something like
+> I don't think I understand why tests/qtest/migration-test.c
+> test_precopy_common is happy with this; it does:
 > 
->    static char minmax[6] __attribute__((aligned(2)))
->      = { xx, yy, zz, 0, 0, 0 };
+>      if (!args->connect_uri) {
+>          g_autofree char *local_connect_uri =
+>              migrate_get_socket_address(to, "socket-address");
+>          migrate_qmp(from, local_connect_uri, "{}");
 > 
->    minmax[3] = m6 ...
->    minmax[4] = ...
->    minmax[5] = op;
-> 
->    asm("vl %%v25,0(%1)\n"
->        "vl %%v26,0(%2)\n"
->        "ex 0,0(%3)\n"
->        "vst %%v24,0(%0)"
->        : : "a"(v1), "a"(v2), "a"(v3), "a"(minmax)
->        : "memory", "v24", "v25", "v26);
-> 
-> 
-> r~
+> which hmm, is the code you're changing what was in SocketAddress_to_str
+> which is what migrate_get_socket_address uses; but then the migrate_qmp
+> I don't think will take a migrate uri without the tcp: on the front.
 
-Nice trick!
+It's a good point.
 
-This works in qemu, but not natively: EX target must be executable.
-I'd still like to try to find a way to establish an rwx section, and
-send a v2 with this improvement.
+I think socket_parse() should accept the 'tcp:' prefix, and thus socket_uri() should 
+generate it, so it will be usable with the qmp migrate command.
 
-I guess we'll need to fix the access check discrepancy some day.
+I'm going to add 'tcp:' case in socket_parse() and make socket_uri() to generate it.
+
+Thanks,
+Laurent
+
 
