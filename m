@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6976574E91
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:04:16 +0200 (CEST)
-Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8034574E92
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:04:31 +0200 (CEST)
+Received: from localhost ([::1]:40256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oByVr-0002cK-Fs
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
+	id 1oByW6-0003PS-Sb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:04:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oByRx-0005qs-N1; Thu, 14 Jul 2022 09:00:22 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:33783)
+ id 1oBySi-0006Kx-P7; Thu, 14 Jul 2022 09:01:00 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:34491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oByRr-0003Je-SG; Thu, 14 Jul 2022 09:00:13 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id w81so2311614oiw.0;
- Thu, 14 Jul 2022 06:00:06 -0700 (PDT)
+ id 1oBySb-0003OQ-Pp; Thu, 14 Jul 2022 09:00:59 -0400
+Received: by mail-oi1-x236.google.com with SMTP id x185so2273310oig.1;
+ Thu, 14 Jul 2022 06:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3iKtUTjwkPeXFOZkVxoh7hBpO9kc2fmLkefP6OMZEuw=;
- b=A0D8L8/ahSrjjixPdBAmhxqAzok2TjSNBnQk/6E10rex4zSKCT5FfjUoq55SHr94aL
- tO6kUgW5+gqH7NoDJPNoS98I514VDPtj0mOelUarQOXID3FIn43xpBi4TxpzGyk13JGI
- Iy6FhrBFTY9vUOr3BZM62KcLhYosOfFaJXueejVdcGWvSVBkdjIHUZKOTcAXK2rzwpSa
- AWToFv7D/Euxq+568HAffGJVaW6yMBc3xzxElm+a5KuvkQa/bXsMcUYeS6+8Iwn6Oe60
- UEMhDLl8cLDbA8uoSUPabMo4iv1XyiDdE/z9XTZhnaEyJI+qfASb3zseCpF2+32ZwzrW
- KxnA==
+ bh=1thW3Ww0AYTOYv1gFXBM0tviAlpRbTuaxCDksC2CtZU=;
+ b=kiAWMlrxE3rmTVReq/5+gjlkVyOV+SdKMqntzCYokDs0aGXr6d20dnnIZ1tGIKkMqr
+ RRCkaY9XC02WyrS9g6PWS/Do0a/Csbiyp1RiDakLn6hr+mLvW2KXaYHrLFggdGYL47bL
+ O6EpfsNuW/bDlzs2q2ngranS+v1VCA8QIPHKz1VUiV0zYYbskVTydxykDYfzaSrMWD1G
+ jLa+1bAc5T5070ZRtn2TnZ0hDwHfLBKEUI+14Q6y5+M+Zq0Z1ZKRin3I2T7+PWq0JqUA
+ 8zg6BXVQR9Z/kuR3rG1FK5+ummSoQuCQazWMUA9CJ3Oxm5YlnfU8DZ9ACgMdAvMx9htq
+ 0SOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3iKtUTjwkPeXFOZkVxoh7hBpO9kc2fmLkefP6OMZEuw=;
- b=rn/9m3NFkn9AfxZhBi/XNjZlZE5hz/2bJ/nV/QrPKKX89G6aOTg97HCMXwdt3Y5kNR
- /C18VPHeZaEUV5mYTYtpGvp1s6mDumGLmGNpuOKNvq4f+xKgRK7FN35qxnXR5gBSjxnN
- zRyapR3083J6YS6yBElCGoFUX+O+6t5jR7/vZw1R2NmiPCjPbcDqzpuBd6N4qVN49EtH
- ZbeitZvh8BK7i2sy5BWGoCY/Jy9UfkkI5vPoKM3Jf1Ia369fW5mb9LzBapm4jHcGtM0b
- 9uT98yqQtXaxtabHLwpVrZN44Cqbcvsecuf74AUV57D8swHMP104CXBQn5SdngDtHHWF
- CZoQ==
-X-Gm-Message-State: AJIora+h+RAJRrsF/+RMx6DItotdZAZpIv3E9vUsQ9XlRMOVYrYfMI2P
- D4ZKMs3vAuspw9D2flSe/E4=
-X-Google-Smtp-Source: AGRyM1uUP1nE6rHHbWlJVWIQ2q6EhPR4p3gjdzr3NqRFCh47cVg1YOhtpxPTbqYWEhBFkzZXg3v2nQ==
-X-Received: by 2002:a05:6808:1204:b0:325:73cc:867c with SMTP id
- a4-20020a056808120400b0032573cc867cmr4265027oil.95.1657803606074; 
- Thu, 14 Jul 2022 06:00:06 -0700 (PDT)
+ bh=1thW3Ww0AYTOYv1gFXBM0tviAlpRbTuaxCDksC2CtZU=;
+ b=qTskBQoiDGEwE/AGpejQYRZ72bSEvKvFqNcdFRX8BxwYMNzmIa97ETq/Ubfy6kuFPz
+ tN9EJa4AdAec5VHqk+B2wQFcwhTkR5AAiaysh35t4LRV5UKJfM/ebkQaRJ9pkbjSRSWj
+ YMKoxbaBdmFJ4koc1k8KYNFL9V8tP0R00+GheXz/uBD4cOWupmFLA4RVtYzLbAO5Cf7T
+ YjnpUVDL5lYLM+g/h6w+fhZ4ZRsx5DyvaQgs0RDTOpwPOxE+r/jrhH4ZBkPO+QqdFWMy
+ puqfxM/XWqpKSztH4FuUNo7nN1v+J1Pqy6ZdOT+PLf79xBeyfQPh7vScWbtq5qPcUJLy
+ E94A==
+X-Gm-Message-State: AJIora/2oMql8ImA/jpkgML7mkI+GzeglKxHGUwICphKwV0upoCLcSh3
+ t8+EpV3sE3ngLmUZBez7jpE=
+X-Google-Smtp-Source: AGRyM1tAQofHMrC+wN/XwQ2GwgPV40cOuILyLwNwPngN/lwqioyeoG+JzVERGD8Xjve18ra+stP3cA==
+X-Received: by 2002:a05:6808:14c3:b0:337:a1dc:89d5 with SMTP id
+ f3-20020a05680814c300b00337a1dc89d5mr4232968oiw.201.1657803652182; 
+ Thu, 14 Jul 2022 06:00:52 -0700 (PDT)
 Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- e65-20020aca3744000000b0033a169f9282sm360004oia.52.2022.07.14.06.00.03
+ br10-20020a056830390a00b0061c71777dcfsm607702otb.75.2022.07.14.06.00.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 06:00:05 -0700 (PDT)
-Message-ID: <53ed8d76-ba31-7f01-4f50-be862a2b3e85@gmail.com>
-Date: Thu, 14 Jul 2022 10:00:01 -0300
+ Thu, 14 Jul 2022 06:00:51 -0700 (PDT)
+Message-ID: <725c07ef-a3db-baf8-c086-7a14d876f84f@gmail.com>
+Date: Thu, 14 Jul 2022 10:00:48 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 0/6] Fix gen_*_exception error codes
+Subject: Re: [PATCH v2] target/ppc/kvm: Skip current and parent directories in
+ kvmppc_find_cpu_dt
 Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- farosas@linux.ibm.com, laurent@vivier.eu
-References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, mopsfelder@gmail.com, Fabiano Rosas <farosas@linux.ibm.com>
+References: <20220712210810.35514-1-muriloo@linux.ibm.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220712210810.35514-1-muriloo@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,31 +95,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+
+
+On 7/12/22 18:08, Murilo Opsfelder Araujo wrote:
+> Some systems have /proc/device-tree/cpus/../clock-frequency. However,
+> this is not the expected path for a CPU device tree directory.
+> 
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Signed-off-by: Fabiano Rosas <farosas@linux.ibm.com>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+and queued.
 
 
 Daniel
 
-On 6/27/22 11:10, Matheus Ferst wrote:
-> The first patch of this series is the RFC of [1] (hence the r-b in v1).
-> Patches 2~4 follow the other problems that Laurent pointed out, and
-> patches 5-6 fix similar problems that I found.
+> v2:
+> - Skip current and parent directories.
 > 
-> [1] https://lists.gnu.org/archive/html/qemu-ppc/2022-01/msg00400.html
+> v1: https://lore.kernel.org/qemu-devel/20220711193743.51456-1-muriloo@linux.ibm.com/
 > 
-> Matheus Ferst (6):
->    target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
->    target/ppc: fix exception error value in slbfee
->    target/ppc: remove mfdcrux and mtdcrux
->    target/ppc: fix exception error code in helper_{load,store}_dcr
->    target/ppc: fix PMU Group A register read/write exceptions
->    target/ppc: fix exception error code in spr_write_excp_vector
+>   target/ppc/kvm.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
->   target/ppc/cpu.h                 |  6 ++----
->   target/ppc/helper.h              |  2 +-
->   target/ppc/power8-pmu-regs.c.inc | 10 ++++-----
->   target/ppc/timebase_helper.c     |  6 +++---
->   target/ppc/translate.c           | 36 ++++++++------------------------
->   5 files changed, 20 insertions(+), 40 deletions(-)
-> 
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 6eed466f80..466d0d2f4c 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1877,6 +1877,12 @@ static int kvmppc_find_cpu_dt(char *buf, int buf_len)
+>       buf[0] = '\0';
+>       while ((dirp = readdir(dp)) != NULL) {
+>           FILE *f;
+> +
+> +        /* Don't accidentally read from the current and parent directories */
+> +        if (strcmp(dirp->d_name, ".") == 0 || strcmp(dirp->d_name, "..") == 0) {
+> +            continue;
+> +        }
+> +
+>           snprintf(buf, buf_len, "%s%s/clock-frequency", PROC_DEVTREE_CPU,
+>                    dirp->d_name);
+>           f = fopen(buf, "r");
 
