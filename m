@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49AF6574891
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:22:46 +0200 (CEST)
-Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28531574916
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:32:13 +0200 (CEST)
+Received: from localhost ([::1]:38838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBv3V-000332-2i
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
+	id 1oBvCd-0005FC-AR
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBukG-0005MX-0M
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35418)
+ id 1oBukK-0005Qj-N9
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBukD-000626-EQ
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:51 -0400
+ id 1oBukF-00062N-Dh
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657789368;
+ s=mimecast20190719; t=1657789370;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JedoTWOXY7JNxUVgoEPO4DDMHQfmV7WNJPWNZj4qG/4=;
- b=McDqOU8yNJziwPhxeygHX3r0CE4hG4myZh6fE7Lkp4EeSTYx2+jL8xIVGY+vx9IeJOQfIv
- 582xHGbqQx0tCOWOIyUg/cL+gzgTgHBxAaTRCOgE6KE7R2dL8ha1UvWlikeEdGsUlUlOPB
- 0H842k5hageG1YZEkNKBJzYwFkdi040=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=MtsR/tM7k67a4bE2GsvxVx53jg+bM1PYQJk4fjczQuA=;
+ b=cAyUonPskaXbumjAYhGuML6lqJhgl2SFvqkUg+DmeFQZmz4lWYXqRqDTt0gOvqZ/1rE2Cw
+ xc9JM3WC6nJ7uXg7+95ccODWaNvnO/JBDMmvDHLLNgqeQoIq/UDn0cZfF11I/nWKi4pqcH
+ gQ3rYnLhe8TWN/SZptqMy2dCb0g+Fwg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-307-K-VKX6hjOKymSJdHWe2HCQ-1; Thu, 14 Jul 2022 05:02:47 -0400
-X-MC-Unique: K-VKX6hjOKymSJdHWe2HCQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- s4-20020a170906500400b006feaccb3a0eso508452ejj.11
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:47 -0700 (PDT)
+ us-mta-321-uWStmG0wMD2soZHh-e8ISQ-1; Thu, 14 Jul 2022 05:02:49 -0400
+X-MC-Unique: uWStmG0wMD2soZHh-e8ISQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ v19-20020a056402349300b0043b0f690cbaso1102319edc.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JedoTWOXY7JNxUVgoEPO4DDMHQfmV7WNJPWNZj4qG/4=;
- b=XJ0TeZa5n6uQiaLpwpJ5JYsXJrZ7Em8fYN7qxnjAene7fWDdVpE90TwHnUnnt92T9m
- miVFABpWWPyX/WcMMybXBuAhLueMwFP7mxH9CXjo6FwHz/8CKL8dcBsulR402ykktMw3
- jSzt3w0h7UR9fStLPHGUVgR3oGeF9sX9+m8K+CT1Z3qpSEdHPb988xZlY5Wy1j5+vOBG
- 06pzYJFJfsvVkbnDoJT2fjeF2vwZCNCL/mfz1gIasJRKHF47i/r8kV+huueS4n8od+8M
- Kw+dvazUzcQgPAapUCWruAsZo2hqYug9j+UnfmQV2zgONEuFUApWx3r1FySUrIpwy5/f
- LyOg==
-X-Gm-Message-State: AJIora/frjGLblLZ9zZIBzRdIs84AtOrBxNm2WR7vTCzfDdRlFe1XJXj
- 2fyMCeVyZIe5rxmzcsxdhUnDg7IOD+phA9ikC97HO/uhlvqnVrlXckil/DXC84iZfODxeifDk97
- iJDjv1nvW4QXp/gGoRYII/l2+lD27QIukWvvFOpcY3yKIkiDWtfHsaSBpY1aaoGydly0=
-X-Received: by 2002:a17:906:84f0:b0:72b:5cf4:465d with SMTP id
- zp16-20020a17090684f000b0072b5cf4465dmr7870962ejb.705.1657789366152; 
- Thu, 14 Jul 2022 02:02:46 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sFgqYnGx9Vyb13CZn2t+lOEtgWe4Cp/1aOasgVJKLisvKlbfTLCwOGxvzh/h43Ii4jCWDN3Q==
-X-Received: by 2002:a17:906:84f0:b0:72b:5cf4:465d with SMTP id
- zp16-20020a17090684f000b0072b5cf4465dmr7870945ejb.705.1657789365872; 
- Thu, 14 Jul 2022 02:02:45 -0700 (PDT)
+ bh=MtsR/tM7k67a4bE2GsvxVx53jg+bM1PYQJk4fjczQuA=;
+ b=LG2b732PbxeTIprEDXZpA7EP5YOBh/77JtZHuI6fBMijcz0jT1tlvzGLQ8/dUSE/Lm
+ VPmwIusUuM6cNytZS1G9z4HsdZAN8qxsCNlPhqHQizuv4VzcUFvkcuO4YC6GIQroTMRN
+ TBp7c1IHjFbmXGjyi/EsF9MsE7cTER5yVGmV43U+ppfJ2OY4bI2YmJRlHLF5NdrvfMOL
+ w8rQXh1CFYoU2GmIfZqGP3puZj6bnNfn/Tuh++IGKKK1nfgHZjNhMT8RB2HLfdjPTOVL
+ FXZbdKsYkDIlAzq6aC7J0F/Op7AJyM69ISACXAICdEiD22Ej5rbyeKxBHQPO2sStlU94
+ 5Cww==
+X-Gm-Message-State: AJIora+GQwQaafGttbNta5HW3RYzwxLxdj5Y4hW4iwIE6z9VahMZJiBi
+ WEn6hqvhaPDlLFET2DvhOON5k5UF2e2WjTSr7CKbjkgrucN1U1TnwyneuguwFdqCoo0uIjKZeZx
+ lc9CbvW7yMwg0bnjv/dOX2WcaFHoFTwmSB6MmFY0WVM+wM6FIa/yB32TnHMr6Cx6dJlQ=
+X-Received: by 2002:a17:907:6e13:b0:72b:509e:bd6b with SMTP id
+ sd19-20020a1709076e1300b0072b509ebd6bmr7828987ejc.202.1657789367853; 
+ Thu, 14 Jul 2022 02:02:47 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t1ovsObNJD5PFYsrI5l4Oq0feVgFC7el0HTWE/ZD4KyerGOf5YiwXP5cu5qfhjvxhpCwTu7g==
+X-Received: by 2002:a17:907:6e13:b0:72b:509e:bd6b with SMTP id
+ sd19-20020a1709076e1300b0072b509ebd6bmr7828969ejc.202.1657789367571; 
+ Thu, 14 Jul 2022 02:02:47 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
  by smtp.gmail.com with ESMTPSA id
- kv10-20020a17090778ca00b0072eddc468absm452904ejc.134.2022.07.14.02.02.43
+ i20-20020aa7c9d4000000b004358f6e0570sm685734edt.17.2022.07.14.02.02.46
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:02:45 -0700 (PDT)
+ Thu, 14 Jul 2022 02:02:46 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 19/20] q800: add default vendor and product information for
- scsi-cd devices
-Date: Thu, 14 Jul 2022 11:02:10 +0200
-Message-Id: <20220714090211.304305-20-pbonzini@redhat.com>
+Subject: [PULL 20/20] pc-bios/s390-ccw: add -Wno-array-bounds
+Date: Thu, 14 Jul 2022 11:02:11 +0200
+Message-Id: <20220714090211.304305-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220714090211.304305-1-pbonzini@redhat.com>
 References: <20220714090211.304305-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,40 +100,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+The option generates a lot of warnings for integers casted to pointers,
+for example:
 
-The MacOS CDROM driver uses a SCSI INQUIRY command to check that any SCSI CDROMs
-detected match a whitelist of vendors and products before adding them to the
-list of available devices.
+/home/pbonzini/work/upstream/qemu/pc-bios/s390-ccw/dasd-ipl.c:174:19: warning: array subscript 0 is outside array bounds of ‘CcwSeekData[0]’ [-Warray-bounds]
+  174 |     seekData->cyl = 0x00;
+      |     ~~~~~~~~~~~~~~^~~~~~
 
-Add known-good default vendor and product information using the existing
-compat_prop mechanism so the user doesn't have to use long command lines to set
-the qdev properties manually.
-
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220622105314.802852-15-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/m68k/q800.c | 3 +++
- 1 file changed, 3 insertions(+)
+ pc-bios/s390-ccw/Makefile | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index dccf192e55..101ab0f803 100644
---- a/hw/m68k/q800.c
-+++ b/hw/m68k/q800.c
-@@ -695,6 +695,9 @@ static GlobalProperty hw_compat_q800[] = {
-     { "scsi-cd", "quirk_mode_sense_rom_use_dbd", "on"},
-     { "scsi-cd", "quirk_mode_page_vendor_specific_apple", "on"},
-     { "scsi-cd", "quirk_mode_page_truncated", "on"},
-+    { "scsi-cd", "vendor", "MATSHITA" },
-+    { "scsi-cd", "product", "CD-ROM CR-8005" },
-+    { "scsi-cd", "ver", "1.0k" },
- };
- static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
- 
+diff --git a/pc-bios/s390-ccw/Makefile b/pc-bios/s390-ccw/Makefile
+index 26ad40f94e..c8784c2a08 100644
+--- a/pc-bios/s390-ccw/Makefile
++++ b/pc-bios/s390-ccw/Makefile
+@@ -35,6 +35,7 @@ EXTRA_CFLAGS += $(call cc-option,-Werror $(EXTRA_CFLAGS),-Wno-stringop-overflow)
+ EXTRA_CFLAGS += -ffreestanding -fno-delete-null-pointer-checks -fno-common -fPIE
+ EXTRA_CFLAGS += -fwrapv -fno-strict-aliasing -fno-asynchronous-unwind-tables
+ EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS), -fno-stack-protector)
++EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS), -Wno-array-bounds)
+ EXTRA_CFLAGS += -msoft-float
+ EXTRA_CFLAGS += $(call cc-option, $(EXTRA_CFLAGS),-march=z900,-march=z10)
+ EXTRA_CFLAGS += -std=gnu99
 -- 
 2.36.1
-
 
 
