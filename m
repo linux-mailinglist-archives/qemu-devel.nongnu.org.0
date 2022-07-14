@@ -2,101 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEAC0574944
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:43:03 +0200 (CEST)
-Received: from localhost ([::1]:51754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C5F5749A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:51:03 +0200 (CEST)
+Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBvN8-00062h-E8
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
+	id 1oBvUs-0004U7-CR
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:51:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oBvAm-00049Y-UD
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:30:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26295)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvAp-0004Aq-3b
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:30:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oBvAh-0003ir-FQ
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:30:12 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvAn-0003ju-4t
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:30:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657791008;
+ s=mimecast20190719; t=1657791016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=czhyjg0TKV8RN5oDm2XOMLw88Gv3IsDHBE+jwB3v/0E=;
- b=JWOqRMyi+wyhLLn5//fofe3s9yqUIM56YwA75DMK8mxVHdA9Ewfa9q4I1shlxDhoEXFa5k
- O46IqlCE3WoWjXQB2quagRrYwjRmqm/SD2PocIt92BYH6iKdoaH8bZobLSltoOzyjfsWZ3
- CPSCrcjaiozvJG2BcCmB5ZrbgaptDR4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OhMJUHi0m9TDkGEkhtRBYm08R7FW7mkNwycOf9hCrI0=;
+ b=GpBM8wF+AHYNB5sXuIKOwj8nudVwTf3+vTby8d4gW1oP1/2SVhjZ48VAZ5s0NmUQXbxH8C
+ 1mT9Ib0HKC8w33gX4wDcM+hHhOWEhMFnt+G+bsMEs+0KU05vYhfdv14s3ozfiTf9kRZ2P7
+ nQzYrBLigthfD1NtBAe3FCjJPkuhvWU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-363-vn-LoMCwOp62EKW7hRkIhw-1; Thu, 14 Jul 2022 05:30:06 -0400
-X-MC-Unique: vn-LoMCwOp62EKW7hRkIhw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- z20-20020a05640240d400b0043a82d9d65fso1171539edb.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:30:06 -0700 (PDT)
+ us-mta-539-YymI8C6LNVm6RFR6J-ooGg-1; Thu, 14 Jul 2022 05:30:14 -0400
+X-MC-Unique: YymI8C6LNVm6RFR6J-ooGg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ o13-20020a056402438d00b0043aa846b2d2so1147222edc.8
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:30:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=czhyjg0TKV8RN5oDm2XOMLw88Gv3IsDHBE+jwB3v/0E=;
- b=NgAcnNMs8CZLNdZgs+q4uM3roz4ISIoKHCjn9YQlYi3NwifYeSkr+wleDKcSfSW1uC
- 9+NdRDeMKHimovhYvUTlb1fyYcJZAN2gKytK6mPpcSOJjIcFIUmqhSiWe2fRBSZLfHCl
- PmbEbqAtSdfMO6XXEz+gjqFGoY4rYgrkK9SrZ4l9AQpKTDd3gMFSwD7mfhK1aKlLsOmO
- +oUjqCBpNz5IKgK5pgPPmnGF6929kcb0Q33yVcqTNnGVF9U8rITMxMMRq+mjtQTiaD3S
- ai2nvt58ftjskZc92H5uUg5et8r/CiCKey7SyQ1oQyahHfg5bl5Ltx30E4Ka8OhmPdGm
- CCIg==
-X-Gm-Message-State: AJIora+RluUgiYASn3i8LauuJN54/DVYmtI0sxkJt9v+TNv2rUP/0wpH
- Rm9bxTAAXUolgezpU9/TDieHHoEtpGAxnPSDJSLSL2Wd3TGhrhH+bgyXBodC/2zUne6TDpYMSPN
- QrUtp3oaT0xQpEIk=
-X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
- e8-20020a17090658c800b006fe91d518d2mr7843938ejs.190.1657791005064; 
- Thu, 14 Jul 2022 02:30:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tlxs9ncmS8U7m1nnDdGRRVJor1KiymAdAMzMEFSiWRP91W2goMmY2gumLAyysnm0KJSO3AUQ==
-X-Received: by 2002:a17:906:58c8:b0:6fe:91d5:18d2 with SMTP id
- e8-20020a17090658c800b006fe91d518d2mr7843920ejs.190.1657791004824; 
- Thu, 14 Jul 2022 02:30:04 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OhMJUHi0m9TDkGEkhtRBYm08R7FW7mkNwycOf9hCrI0=;
+ b=pECYy8mgDdvcabIXofhjKSQXPG7BVBDTu8s3O+z4sbN74CKfU3vU4ddb89OCeSp1hr
+ b3fggJymlKV7PBKLTDOdfkMLUdB48+nw34UCfpBoLwMvOSmL4awQIr1Tss2S16cHoaG1
+ LhLTLktcudRyJH/TfjVtKlzZwQDv/80/5qiITWd5Wh5zjMiuZ562Zu1zgHrsSqCw13Kh
+ 8WLZxageC3ZwH4AW+f9+kNaS9L+shCC6eejoV/8MPcF3JxzXaiV6/29F0cthUSpk2iRS
+ B34e6/eqho47iQRHst56vjtxGxy3frrLDWb7t27m9Wh22xLMJExHHa4LgDuMUElGixzp
+ 5+Sg==
+X-Gm-Message-State: AJIora+Owm97MeRAuxCBr8HDWFDRxW7NGY46T2Zf7B6Ik0R0fLX4Xyt/
+ IYWRYJK2yfRQhOR/ag/KgEbUjUokY3io1LKwhHccNJBonxW9Lg1rHqAQ7pGnCoytVSdmjbH0SlZ
+ w5YfAanzgTt1J9IE=
+X-Received: by 2002:a17:907:b08:b0:72b:1bc8:19e4 with SMTP id
+ h8-20020a1709070b0800b0072b1bc819e4mr7878023ejl.106.1657791013644; 
+ Thu, 14 Jul 2022 02:30:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s8ow8u7+0kocTmoCabUnk/kXrmDdvFexCRNRhQbpDiWFLQMJaBgDD8bRBOtMcDDUsPA5lCkg==
+X-Received: by 2002:a17:907:b08:b0:72b:1bc8:19e4 with SMTP id
+ h8-20020a1709070b0800b0072b1bc819e4mr7877998ejl.106.1657791013451; 
+ Thu, 14 Jul 2022 02:30:13 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- b8-20020a17090636c800b0072a815f569bsm460087ejc.185.2022.07.14.02.30.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:30:04 -0700 (PDT)
-Date: Thu, 14 Jul 2022 11:30:03 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v6 09/10] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220714113003.3a4dad47@redhat.com>
-In-Reply-To: <2228436c-2271-ec27-96ee-67825ac1b13f@oracle.com>
-References: <20220701161014.3850-1-joao.m.martins@oracle.com>
- <20220701161014.3850-10-joao.m.martins@oracle.com>
- <20220711145627.2c318ba6@redhat.com>
- <5179013f-a2b6-b5a4-a509-42657dbde25a@oracle.com>
- <65ea8b7f-37cb-55dc-3306-fd32880aa0fb@oracle.com>
- <a731592c-4e42-ea23-6fe3-550b8a07af11@oracle.com>
- <20220712110615.09c3e303@redhat.com>
- <2228436c-2271-ec27-96ee-67825ac1b13f@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ mx10-20020a1709065a0a00b00722e5e54fc2sm497894ejc.12.2022.07.14.02.30.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 02:30:13 -0700 (PDT)
+Message-ID: <9ec50e0f-46b1-8e44-6891-dbfb983cee1f@redhat.com>
+Date: Thu, 14 Jul 2022 11:30:11 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC v3 5/8] block: add BlockRAMRegistrar
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Alberto Faria <afaria@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Yanan Wang <wangyanan55@huawei.com>
+References: <20220708041737.1768521-1-stefanha@redhat.com>
+ <20220708041737.1768521-6-stefanha@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220708041737.1768521-6-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,58 +112,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jul 2022 11:01:18 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+On 08.07.22 06:17, Stefan Hajnoczi wrote:
+> Emulated devices and other BlockBackend users wishing to take advantage
+> of blk_register_buf() all have the same repetitive job: register
+> RAMBlocks with the BlockBackend using RAMBlockNotifier.
+>
+> Add a BlockRAMRegistrar API to do this. A later commit will use this
+> from hw/block/virtio-blk.c.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   MAINTAINERS                          |  1 +
+>   include/sysemu/block-ram-registrar.h | 30 +++++++++++++++++++++
+>   block/block-ram-registrar.c          | 39 ++++++++++++++++++++++++++++
+>   block/meson.build                    |  1 +
+>   4 files changed, 71 insertions(+)
+>   create mode 100644 include/sysemu/block-ram-registrar.h
+>   create mode 100644 block/block-ram-registrar.c
 
-> On 7/12/22 10:06, Igor Mammedov wrote:
-> > On Mon, 11 Jul 2022 21:03:28 +0100
-> > Joao Martins <joao.m.martins@oracle.com> wrote:
-> >   
-> >> On 7/11/22 16:31, Joao Martins wrote:  
-> >>> On 7/11/22 15:52, Joao Martins wrote:    
-> >>>> On 7/11/22 13:56, Igor Mammedov wrote:    
-> >>>>> On Fri,  1 Jul 2022 17:10:13 +0100
-> >>>>> Joao Martins <joao.m.martins@oracle.com> wrote:
-[...]
-> I would really love to have v7.1.0 with this issue fixed but I am not very
-> confident it is going to make it :(
+What memory is handled in ram_list?  Is it everything?  If so, won’t 
+devices have trouble registering all those buffer, especially if they 
+happen to be fragmented in physical memory? (nvme_register_buf() seems 
+to say it can run out of slots quite easily.)
 
-it still can make into current release
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 50f340d9ee..d16189449f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2490,6 +2490,7 @@ F: block*
+>   F: block/
+>   F: hw/block/
+>   F: include/block/
+> +F: include/sysemu/block-*.h
+>   F: qemu-img*
+>   F: docs/tools/qemu-img.rst
+>   F: qemu-io*
 
-> 
-> Meanwhile, let me know if you have thoughts on this one:
-> 
-> https://lore.kernel.org/qemu-devel/1b2fa957-74f6-b5a9-3fc1-65c5d68300ce@oracle.com/
-> 
-> I am going to assume that if no comments on the above that I'll keep things as is.
-> 
-> And also, whether I can retain your ack with Bernhard's suggestion here:
-> 
-> https://lore.kernel.org/qemu-devel/0eefb382-4ac6-4335-ca61-035babb95a88@oracle.com/
-> 
-> >> +        hwaddr maxusedaddr = pc_pci_hole64_start() + pci_hole64_size;
-> >> +
-> >> +        /* Bail out if max possible address does not cross HT range */
-> >> +        if (maxusedaddr >= AMD_HT_START) {
-> >> +            pc_set_amd_above_4g_mem_start(pcms, maxusedaddr);
-> >> +        }
-> >> +
-> >> +        /*
-> >> +         * Advertise the HT region if address space covers the reserved
-> >> +         * region or if we relocate.
-> >> +         */
-> >> +        if (x86ms->above_4g_mem_start == AMD_ABOVE_1TB_START ||
-> >> +            cpu->phys_bits >= 40) {
-> >> +            e820_add_entry(AMD_HT_START, AMD_HT_SIZE, E820_RESERVED);
-> >> +        }
-> >> +    }
-> >> +
-> >> +    /*
-> >>       * Split single memory region and use aliases to address portions of it,
-> >>       * done for backwards compatibility with older qemus.
-> >>       */
-> >>  
-> >   
-> 
+Sneaky. ;)
+
+> diff --git a/include/sysemu/block-ram-registrar.h b/include/sysemu/block-ram-registrar.h
+> new file mode 100644
+> index 0000000000..09d63f64b2
+> --- /dev/null
+> +++ b/include/sysemu/block-ram-registrar.h
+> @@ -0,0 +1,30 @@
+> +/*
+> + * BlockBackend RAM Registrar
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + */
+> +
+> +#ifndef BLOCK_RAM_REGISTRAR_H
+> +#define BLOCK_RAM_REGISTRAR_H
+> +
+> +#include "exec/ramlist.h"
+> +
+> +/**
+> + * struct BlockRAMRegistrar:
+> + *
+> + * Keeps RAMBlock memory registered with a BlockBackend using
+> + * blk_register_buf() including hotplugged memory.
+> + *
+> + * Emulated devices or other BlockBackend users initialize a BlockRAMRegistrar
+> + * with blk_ram_registrar_init() before submitting I/O requests with the
+> + * BLK_REQ_REGISTERED_BUF flag set.
+
+s/BLK/BDRV/, right?
+
+> + */
+> +typedef struct {
+> +    BlockBackend *blk;
+> +    RAMBlockNotifier notifier;
+> +} BlockRAMRegistrar;
+> +
+> +void blk_ram_registrar_init(BlockRAMRegistrar *r, BlockBackend *blk);
+> +void blk_ram_registrar_destroy(BlockRAMRegistrar *r);
+> +
+> +#endif /* BLOCK_RAM_REGISTRAR_H */
 
 
