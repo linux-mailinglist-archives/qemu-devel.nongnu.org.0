@@ -2,93 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2F1574A22
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:07:25 +0200 (CEST)
-Received: from localhost ([::1]:55886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F224574A70
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:19:21 +0200 (CEST)
+Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBvki-00042k-VL
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55874)
+	id 1oBvwG-0006OG-3i
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBvbr-0003eg-Dn
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:58:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39549)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvr8-0001kf-Kg
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:14:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBvbn-0002UV-Nn
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:58:13 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvr5-0005M0-7p
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:14:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657792691;
+ s=mimecast20190719; t=1657793638;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gZKs5TELztHuVx9/RkUzEig6Uocq2RiIKNtfmSeBc78=;
- b=RSV5DDw3k/nbCZuNSP4KgChDf61BkOkzZZ9qyjTinIIPjvv0euy2Nw+J/p/zgs/6t3USHE
- /EzloCul+jaDi2BMd1cageGtX3cWmUsXplBwHlg58iNJrXvaikyHt7iatvwUJd1z8WT6Le
- LDUhxJh4aCgorE60NJAoFbM51ysapDw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4PzwKyx2NGt4DtkqTkl0QFs7SWLlQSkKJy1WTG8Lm1I=;
+ b=C2cl4IcXY0rG1h6hcybFAqz6eO1VKI+eTRELjTA2GGbTtCUPjg63aapAesVFZ/0Nxm6sS+
+ e084iJPySmsMqETZm6/e9mgq2OZ0s0YMmMCa0P5cEsldlFWQJtdBSxW1N+8xlptWDPn+Cc
+ Fvyp9XxKja2DfMTx9PjqYwBcfn/bjCM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-158-iphRgGJgNtqSxwHOVSMhQg-1; Thu, 14 Jul 2022 05:58:09 -0400
-X-MC-Unique: iphRgGJgNtqSxwHOVSMhQg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r10-20020a05600c284a00b003a2ff6c9d6aso1234047wmb.4
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:58:09 -0700 (PDT)
+ us-mta-163-3t_zDLqKNfGVV6lzue8w7A-1; Thu, 14 Jul 2022 06:13:57 -0400
+X-MC-Unique: 3t_zDLqKNfGVV6lzue8w7A-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ o13-20020a056402438d00b0043aa846b2d2so1216763edc.8
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 03:13:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=gZKs5TELztHuVx9/RkUzEig6Uocq2RiIKNtfmSeBc78=;
- b=SpKPOniKoQ6GqJSLtO0zTsPgAuc3dqxMCi1B3mBOS70rMm6QPJc5oUufEt7cqazLbd
- KHw/zunO3joQrrjr6q1EiS8yLreLUV2S3j5xQTYaXAivrBT+KrTuXvW4RXTuMvEAxO/V
- hDm/MxDxw5bWfgnNDVI9ydpmmtnZsHP8rh8p5ACl2S7RD2MtVrgwUuCiyyJNHWI4vuQU
- RFjl2n2/kA7yL4uiMIhGb0cVC77vwcWCMPTAP71zmV8NBOVdKaQJyHHHi6JWaMcaufoS
- v9SRcCnNkQXVhoekbjwI86kVdANdW6FIJyPlPUWjIvEQStnbzh2duwwp93x11Nj8l/8s
- XWcQ==
-X-Gm-Message-State: AJIora+E6SgQNMJHDNLVhlhmEaOEt3JTQ3KtHmFtPO4HFFw5GKZXtV7H
- UP0DLOXLfH3z/miy6J5ckAJ6D1ASHNHHHv1VlmftaZ8PZqSSR+gfID6pjAW/LcsVn7nuQP+PKjG
- fHQxWI4lqnS6M55k=
-X-Received: by 2002:a5d:5087:0:b0:21d:9925:e15a with SMTP id
- a7-20020a5d5087000000b0021d9925e15amr7213028wrt.43.1657792688445; 
- Thu, 14 Jul 2022 02:58:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1seLz3WiEowshMeT7ASxlsgQlPHpef/h3bwUt5Jw/Z2ABJswIXqOJNUe/7AufA9dzen+TFIrg==
-X-Received: by 2002:a5d:5087:0:b0:21d:9925:e15a with SMTP id
- a7-20020a5d5087000000b0021d9925e15amr7213006wrt.43.1657792688143; 
- Thu, 14 Jul 2022 02:58:08 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- o17-20020a05600c4fd100b003a305c0ab06sm276003wmq.31.2022.07.14.02.58.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:58:07 -0700 (PDT)
-Date: Thu, 14 Jul 2022 10:58:05 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 02/13] multifd: Create page_size fields into both
- MultiFD{Recv,Send}Params
-Message-ID: <Ys/orSxmBRVfgRIO@work-vm>
-References: <20220531104318.7494-1-quintela@redhat.com>
- <20220531104318.7494-3-quintela@redhat.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4PzwKyx2NGt4DtkqTkl0QFs7SWLlQSkKJy1WTG8Lm1I=;
+ b=nFsmooT9N9ey2mvSAr7CPRjtxWRYpKTg5TxDw1NbXxP4W8ipd1KfdX6w45ft9Ok6nU
+ rnApoHTrtVY/ZPR1MOaeb0VV3sQsTu20oIh7jTiiNKN3ltIV+tmUEsLOcXStiA25S19g
+ 24v//3LetbXm05BLyjTM8q05WdT0I2qH/fq0MxOm+z+1/KZmmdK/GUMzLlnf56syxrRE
+ q3fxXOrb+KqpsP4eOkr63THQv5mzJloc+eXxLQKUN7mfq2AhEw3h33bFlb9tO9DrCWgu
+ dCnHR7sGANjwU2wiBFK60zuoHJGha6KD+4+xAlazZUmLFAqwFjc7m2+Js6+PHPuqqryK
+ H9Dw==
+X-Gm-Message-State: AJIora/OgsAZLhYiIelBaVoGltHp/9D+CyTffHHOnA/GatlNUu9wCHz7
+ WgcXVWw2GdG9bBinLXthe4KHqPlz0E89JauqPDja4FtceOh9kcu9qUIMjRz5+p8ummcxnUrcw6D
+ TILbIa5yZvKC6sDQ=
+X-Received: by 2002:a05:6402:4488:b0:43a:7b6e:4b04 with SMTP id
+ er8-20020a056402448800b0043a7b6e4b04mr11205478edb.202.1657793635950; 
+ Thu, 14 Jul 2022 03:13:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1shut7eJ6ImC4NKgaOKIyFNwHYRDkv3STuocXUTRk9WKZ1+LXkDwg985S12sSslNrNMuUn+4w==
+X-Received: by 2002:a05:6402:4488:b0:43a:7b6e:4b04 with SMTP id
+ er8-20020a056402448800b0043a7b6e4b04mr11205444edb.202.1657793635724; 
+ Thu, 14 Jul 2022 03:13:55 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ by smtp.gmail.com with ESMTPSA id
+ mx10-20020a1709065a0a00b00722e5e54fc2sm540493ejc.12.2022.07.14.03.13.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 03:13:55 -0700 (PDT)
+Message-ID: <8c8faae1-9215-9b18-0051-028e78f56009@redhat.com>
+Date: Thu, 14 Jul 2022 12:13:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531104318.7494-3-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC v3 7/8] blkio: implement BDRV_REQ_REGISTERED_BUF optimization
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Alberto Faria <afaria@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Yanan Wang <wangyanan55@huawei.com>
+References: <20220708041737.1768521-1-stefanha@redhat.com>
+ <20220708041737.1768521-8-stefanha@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220708041737.1768521-8-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,239 +113,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> We were calling qemu_target_page_size() left and right.
+On 08.07.22 06:17, Stefan Hajnoczi wrote:
+> Avoid bounce buffers when QEMUIOVector elements are within previously
+> registered bdrv_register_buf() buffers.
+>
+> The idea is that emulated storage controllers will register guest RAM
+> using bdrv_register_buf() and set the BDRV_REQ_REGISTERED_BUF on I/O
+> requests. Therefore no blkio_map_mem_region() calls are necessary in the
+> performance-critical I/O code path.
+>
+> This optimization doesn't apply if the I/O buffer is internally
+> allocated by QEMU (e.g. qcow2 metadata). There we still take the slow
+> path because BDRV_REQ_REGISTERED_BUF is not set.
 
-Yeh, I still suspect the right answer is to make qemu_target_page_size()
-trivially fast, but for now;
+Which keeps the question relevant of how slow the slow path is, i.e. 
+whether it wouldn’t make sense to keep some of the mem regions allocated 
+there in a cache instead of allocating/freeing them on every I/O request.
 
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  migration/multifd.h      |  4 ++++
->  migration/multifd-zlib.c | 12 +++++-------
->  migration/multifd-zstd.c | 12 +++++-------
->  migration/multifd.c      | 18 ++++++++----------
->  4 files changed, 22 insertions(+), 24 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 345cfdb50c..9e07dd00f4 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -80,6 +80,8 @@ typedef struct {
->      bool registered_yank;
->      /* packet allocated len */
->      uint32_t packet_len;
-> +    /* guest page size */
-> +    uint32_t page_size;
->      /* multifd flags for sending ram */
->      int write_flags;
->  
-> @@ -143,6 +145,8 @@ typedef struct {
->      QIOChannel *c;
->      /* packet allocated len */
->      uint32_t packet_len;
-> +    /* guest page size */
-> +    uint32_t page_size;
->  
->      /* syncs main thread and channels */
->      QemuSemaphore sem_sync;
-> diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-> index 3a7ae44485..28349ff2e0 100644
-> --- a/migration/multifd-zlib.c
-> +++ b/migration/multifd-zlib.c
-> @@ -100,7 +100,6 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
->  static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
->  {
->      struct zlib_data *z = p->data;
-> -    size_t page_size = qemu_target_page_size();
->      z_stream *zs = &z->zs;
->      uint32_t out_size = 0;
->      int ret;
-> @@ -114,7 +113,7 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
->              flush = Z_SYNC_FLUSH;
->          }
->  
-> -        zs->avail_in = page_size;
-> +        zs->avail_in = p->page_size;
->          zs->next_in = p->pages->block->host + p->normal[i];
->  
->          zs->avail_out = available;
-> @@ -220,12 +219,11 @@ static void zlib_recv_cleanup(MultiFDRecvParams *p)
->  static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      struct zlib_data *z = p->data;
-> -    size_t page_size = qemu_target_page_size();
->      z_stream *zs = &z->zs;
->      uint32_t in_size = p->next_packet_size;
->      /* we measure the change of total_out */
->      uint32_t out_size = zs->total_out;
-> -    uint32_t expected_size = p->normal_num * page_size;
-> +    uint32_t expected_size = p->normal_num * p->page_size;
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      int ret;
->      int i;
-> @@ -252,7 +250,7 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->              flush = Z_SYNC_FLUSH;
->          }
->  
-> -        zs->avail_out = page_size;
-> +        zs->avail_out = p->page_size;
->          zs->next_out = p->host + p->normal[i];
->  
->          /*
-> @@ -266,8 +264,8 @@ static int zlib_recv_pages(MultiFDRecvParams *p, Error **errp)
->          do {
->              ret = inflate(zs, flush);
->          } while (ret == Z_OK && zs->avail_in
-> -                             && (zs->total_out - start) < page_size);
-> -        if (ret == Z_OK && (zs->total_out - start) < page_size) {
-> +                             && (zs->total_out - start) < p->page_size);
-> +        if (ret == Z_OK && (zs->total_out - start) < p->page_size) {
->              error_setg(errp, "multifd %u: inflate generated too few output",
->                         p->id);
->              return -1;
-> diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-> index d788d309f2..f4a8e1ed1f 100644
-> --- a/migration/multifd-zstd.c
-> +++ b/migration/multifd-zstd.c
-> @@ -113,7 +113,6 @@ static void zstd_send_cleanup(MultiFDSendParams *p, Error **errp)
->  static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
->  {
->      struct zstd_data *z = p->data;
-> -    size_t page_size = qemu_target_page_size();
->      int ret;
->      uint32_t i;
->  
-> @@ -128,7 +127,7 @@ static int zstd_send_prepare(MultiFDSendParams *p, Error **errp)
->              flush = ZSTD_e_flush;
->          }
->          z->in.src = p->pages->block->host + p->normal[i];
-> -        z->in.size = page_size;
-> +        z->in.size = p->page_size;
->          z->in.pos = 0;
->  
->          /*
-> @@ -241,8 +240,7 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      uint32_t in_size = p->next_packet_size;
->      uint32_t out_size = 0;
-> -    size_t page_size = qemu_target_page_size();
-> -    uint32_t expected_size = p->normal_num * page_size;
-> +    uint32_t expected_size = p->normal_num * p->page_size;
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
->      struct zstd_data *z = p->data;
->      int ret;
-> @@ -265,7 +263,7 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->  
->      for (i = 0; i < p->normal_num; i++) {
->          z->out.dst = p->host + p->normal[i];
-> -        z->out.size = page_size;
-> +        z->out.size = p->page_size;
->          z->out.pos = 0;
->  
->          /*
-> @@ -279,8 +277,8 @@ static int zstd_recv_pages(MultiFDRecvParams *p, Error **errp)
->          do {
->              ret = ZSTD_decompressStream(z->zds, &z->out, &z->in);
->          } while (ret > 0 && (z->in.size - z->in.pos > 0)
-> -                         && (z->out.pos < page_size));
-> -        if (ret > 0 && (z->out.pos < page_size)) {
-> +                         && (z->out.pos < p->page_size));
-> +        if (ret > 0 && (z->out.pos < p->page_size)) {
->              error_setg(errp, "multifd %u: decompressStream buffer too small",
->                         p->id);
->              return -1;
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 9282ab6aa4..7505aa3412 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -87,15 +87,14 @@ static void nocomp_send_cleanup(MultiFDSendParams *p, Error **errp)
->  static int nocomp_send_prepare(MultiFDSendParams *p, Error **errp)
->  {
->      MultiFDPages_t *pages = p->pages;
-> -    size_t page_size = qemu_target_page_size();
->  
->      for (int i = 0; i < p->normal_num; i++) {
->          p->iov[p->iovs_num].iov_base = pages->block->host + p->normal[i];
-> -        p->iov[p->iovs_num].iov_len = page_size;
-> +        p->iov[p->iovs_num].iov_len = p->page_size;
->          p->iovs_num++;
->      }
->  
-> -    p->next_packet_size = p->normal_num * page_size;
-> +    p->next_packet_size = p->normal_num * p->page_size;
->      p->flags |= MULTIFD_FLAG_NOCOMP;
->      return 0;
->  }
-> @@ -139,7 +138,6 @@ static void nocomp_recv_cleanup(MultiFDRecvParams *p)
->  static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
->  {
->      uint32_t flags = p->flags & MULTIFD_FLAG_COMPRESSION_MASK;
-> -    size_t page_size = qemu_target_page_size();
->  
->      if (flags != MULTIFD_FLAG_NOCOMP) {
->          error_setg(errp, "multifd %u: flags received %x flags expected %x",
-> @@ -148,7 +146,7 @@ static int nocomp_recv_pages(MultiFDRecvParams *p, Error **errp)
->      }
->      for (int i = 0; i < p->normal_num; i++) {
->          p->iov[i].iov_base = p->host + p->normal[i];
-> -        p->iov[i].iov_len = page_size;
-> +        p->iov[i].iov_len = p->page_size;
->      }
->      return qio_channel_readv_all(p->c, p->iov, p->normal_num, errp);
->  }
-> @@ -281,8 +279,7 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->  {
->      MultiFDPacket_t *packet = p->packet;
-> -    size_t page_size = qemu_target_page_size();
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / page_size;
-> +    uint32_t page_count = MULTIFD_PACKET_SIZE / p->page_size;
->      RAMBlock *block;
->      int i;
->  
-> @@ -344,7 +341,7 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->      for (i = 0; i < p->normal_num; i++) {
->          uint64_t offset = be64_to_cpu(packet->offset[i]);
->  
-> -        if (offset > (block->used_length - page_size)) {
-> +        if (offset > (block->used_length - p->page_size)) {
->              error_setg(errp, "multifd: offset too long %" PRIu64
->                         " (max " RAM_ADDR_FMT ")",
->                         offset, block->used_length);
-> @@ -433,8 +430,7 @@ static int multifd_send_pages(QEMUFile *f)
->      p->packet_num = multifd_send_state->packet_num++;
->      multifd_send_state->pages = p->pages;
->      p->pages = pages;
-> -    transferred = ((uint64_t) pages->num) * qemu_target_page_size()
-> -                + p->packet_len;
-> +    transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
->      qemu_file_update_transfer(f, transferred);
->      ram_counters.multifd_bytes += transferred;
->      ram_counters.transferred += transferred;
-> @@ -939,6 +935,7 @@ int multifd_save_setup(Error **errp)
->          /* We need one extra place for the packet header */
->          p->iov = g_new0(struct iovec, page_count + 1);
->          p->normal = g_new0(ram_addr_t, page_count);
-> +        p->page_size = qemu_target_page_size();
->  
->          if (migrate_use_zero_copy_send()) {
->              p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-> @@ -1186,6 +1183,7 @@ int multifd_load_setup(Error **errp)
->          p->name = g_strdup_printf("multifdrecv_%d", i);
->          p->iov = g_new0(struct iovec, page_count);
->          p->normal = g_new0(ram_addr_t, page_count);
-> +        p->page_size = qemu_target_page_size();
->      }
->  
->      for (i = 0; i < thread_count; i++) {
-> -- 
-> 2.35.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+>   block/blkio.c | 104 ++++++++++++++++++++++++++++++++++++++++++++++++--
+>   1 file changed, 101 insertions(+), 3 deletions(-)
+>
+> diff --git a/block/blkio.c b/block/blkio.c
+> index 7fbdbd7fae..37d593a20c 100644
+> --- a/block/blkio.c
+> +++ b/block/blkio.c
+
+[...]
+
+> @@ -198,6 +203,8 @@ static BlockAIOCB *blkio_aio_preadv(BlockDriverState *bs, int64_t offset,
+>           BlockCompletionFunc *cb, void *opaque)
+>   {
+>       BDRVBlkioState *s = bs->opaque;
+> +    bool needs_mem_regions =
+> +        s->needs_mem_regions && !(flags & BDRV_REQ_REGISTERED_BUF);
+
+Is that condition sufficient?  bdrv_register_buf() has no way of 
+returning an error, so it’s possible that buffers are silently not 
+registered.  (And there are conditions in blkio_register_buf() where the 
+buffer will not be registered, e.g. because it isn’t aligned.)
+
+The caller knows nothing of this and will still pass 
+BDRV_REQ_REGISTERED_BUF, and then we’ll assume the region is mapped but 
+it won’t be.
+
+>       struct iovec *iov = qiov->iov;
+>       int iovcnt = qiov->niov;
+>       BlkioAIOCB *acb;
+
+[...]
+
+> @@ -324,6 +333,80 @@ static void blkio_io_unplug(BlockDriverState *bs)
+>       }
+>   }
+>   
+> +static void blkio_register_buf(BlockDriverState *bs, void *host, size_t size)
+> +{
+> +    BDRVBlkioState *s = bs->opaque;
+> +    int ret;
+> +    struct blkio_mem_region region = (struct blkio_mem_region){
+> +        .addr = host,
+> +        .len = size,
+> +        .fd = -1,
+> +    };
+> +
+> +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+> +        error_report_once("%s: skipping unaligned buf %p with size %zu",
+> +                          __func__, host, size);
+> +        return; /* skip unaligned */
+> +    }
+
+How big is mem-region-alignment generally?  Is it like 4k or is it going 
+to be a real issue?
+
+(Also, we could probably register a truncated region.  I know, that’ll 
+break the BDRV_REQ_REGISTERED_BUF idea because the caller won’t know 
+we’ve truncated it, but that’s no different than just not registering 
+the buffer at all.)
+
+> +
+> +    /* Attempt to find the fd for a MemoryRegion */
+> +    if (s->needs_mem_region_fd) {
+> +        int fd = -1;
+> +        ram_addr_t offset;
+> +        MemoryRegion *mr;
+> +
+> +        /*
+> +         * bdrv_register_buf() is called with the BQL held so mr lives at least
+> +         * until this function returns.
+> +         */
+> +        mr = memory_region_from_host(host, &offset);
+> +        if (mr) {
+> +            fd = memory_region_get_fd(mr);
+> +        }
+
+I don’t think it’s specified that buffers registered with 
+bdrv_register_buf() must be within a single memory region, is it? So can 
+we somehow verify that the memory region covers the whole buffer?
+
+> +        if (fd == -1) {
+> +            error_report_once("%s: skipping fd-less buf %p with size %zu",
+> +                              __func__, host, size);
+> +            return; /* skip if there is no fd */
+> +        }
+> +
+> +        region.fd = fd;
+> +        region.fd_offset = offset;
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+> +        ret = blkio_map_mem_region(s->blkio, &region);
+> +    }
+> +
+> +    if (ret < 0) {
+> +        error_report_once("Failed to add blkio mem region %p with size %zu: %s",
+> +                          host, size, blkio_get_error_msg());
+> +    }
+> +}
+> +
+> +static void blkio_unregister_buf(BlockDriverState *bs, void *host, size_t size)
+> +{
+> +    BDRVBlkioState *s = bs->opaque;
+> +    int ret;
+> +    struct blkio_mem_region region = (struct blkio_mem_region){
+> +        .addr = host,
+> +        .len = size,
+> +        .fd = -1,
+> +    };
+> +
+> +    if (((uintptr_t)host | size) % s->mem_region_alignment) {
+> +        return; /* skip unaligned */
+> +    }
+> +
+> +    WITH_QEMU_LOCK_GUARD(&s->lock) {
+> +        ret = blkio_unmap_mem_region(s->blkio, &region);
+> +    }
+
+The documentation of libblkio says that “memory regions must be 
+unmapped/freed with exactly the same `region` field values that they 
+were mapped/allocated with.”  We don’t set .fd here, though.
+
+It’s also unclear whether it’s allowed to unmap a region that wasn’t 
+mapped, but I’ll trust libblkio to detect that.
+
+> +
+> +    if (ret < 0) {
+> +        error_report_once("Failed to delete blkio mem region %p with size %zu: %s",
+> +                          host, size, blkio_get_error_msg());
+> +    }
+> +}
+> +
+>   static void blkio_parse_filename_io_uring(const char *filename, QDict *options,
+>                                             Error **errp)
+>   {
+
+[...]
+
+> @@ -459,7 +553,7 @@ static int blkio_file_open(BlockDriverState *bs, QDict *options, int flags,
+>           return ret;
+>       }
+>   
+> -    bs->supported_write_flags = BDRV_REQ_FUA;
+> +    bs->supported_write_flags = BDRV_REQ_FUA | BDRV_REQ_REGISTERED_BUF;
+
+Shouldn’t we also report it as a supported read flag then?
+
+Hanna
+
+>       bs->supported_zero_flags = BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP |
+>                                  BDRV_REQ_NO_FALLBACK;
 
 
