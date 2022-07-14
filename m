@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE30574CA9
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 13:59:46 +0200 (CEST)
-Received: from localhost ([::1]:36658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59803574E94
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:05:26 +0200 (CEST)
+Received: from localhost ([::1]:43030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBxVS-0003qi-1i
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 07:59:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
+	id 1oByWz-0005LA-G8
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oBxRV-0001iy-MU; Thu, 14 Jul 2022 07:55:41 -0400
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:38487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oBxRT-0008VN-PT; Thu, 14 Jul 2022 07:55:41 -0400
-Received: by mail-lj1-x233.google.com with SMTP id a10so1891170ljj.5;
- Thu, 14 Jul 2022 04:55:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rnpGYZvAtbsv36ycSfURKPnactCGNr6doIddHW83UOo=;
- b=qwG2Oi/VGerx4Ml+spMehaaYUPSNBRtGlWd7KQPH8eIwBwzi58g+uiwYMR/4/A+XTn
- ryaTHPHoDMutwDL5Bc3FPdXkXJsvp11U7xJdYCp3P1tNEdyhCNoIbhc/PNKqssZ8Qzzz
- zl5oeQ0lTytU7YdIFuC8bCuQg1C8dOVaAbQDXWyD4aTcQpT7y0AoPiqM0h1rxs31Tl+G
- L0eH/jD0Mn4wvOSo0tvcjnLNVEozgu/dhiq8gNTXwulaobAy9ByLTLB0OHa31WrbgXCn
- pRgasKaHsyM6a1NVGjV7hL+1EHdszF++ZqRe0+lFuf5Atbqh5geO0a7GdJur+hTBY/0e
- dhXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rnpGYZvAtbsv36ycSfURKPnactCGNr6doIddHW83UOo=;
- b=2hO3ZNQKMOZ0FgUfiJk+ziRivnK31tuBCj0aiG1xoSB5ISjKKnubrR5x/rDqAjGkXk
- LoYwQqCB9Eqp2iA6WcZa+eDdU2M/D5X+1+fzwCiBuC5uBKSPiNkRrblVNo1sZyrtxSUB
- nTxv7wTG0GMbTiTV9S7rfhaOLhJHYn6BEq+tDNWn0suQPq9s8XjRoHT9apy87rPh4G2K
- 03eInydlK8KkSX0aRaWn1zq2dF0TL754zx1qfiB7oN0WeWUULDbXLK7Disexah0XUPod
- qsLAZhh7YEdAXpotu+atSGJKKN0pEscfBhkWrh5+LMV+0iwToGRQZLNY74g5nKyPNn18
- LHOA==
-X-Gm-Message-State: AJIora9uuISUiVOl8lt4G8v03YGobfsorYGEyEM1lu7NDXaZQoYWzuG4
- M9yUAF+MWxtvFOi334+KKkm/0W4t/R3fp+1myf4=
-X-Google-Smtp-Source: AGRyM1uZk7nFXIbb9N9jQ18Fi36Nmci0ct91feNoJ3N+MHyjqA6jTWTWDLPcMWuzuDVM4lUZ6+jhiH3AObD+eqF4DcY=
-X-Received: by 2002:a2e:9787:0:b0:25d:6d00:eef4 with SMTP id
- y7-20020a2e9787000000b0025d6d00eef4mr4171701lji.14.1657799735579; Thu, 14 Jul
- 2022 04:55:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
+ id 1oBo6B-0003Vv-42; Wed, 13 Jul 2022 21:57:03 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:17042)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
+ id 1oBo69-0000VC-1O; Wed, 13 Jul 2022 21:57:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1657763821; x=1689299821;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=WbsjQdZ2otUVc1H26DxFtcZfbTmhK1f0jxj3SMYfM5U=;
+ b=TNGViMXRcI0pwajLHoiLowW9i3x6WTYoXIBCYiRXFKg2OFHI34wJozdl
+ mTc2tSYW26Gv0qLAAd6A+SgUSpIwcOcMw2Yse4RPvtf65iLICxZQh0uYf
+ +ngvGxmxFd7t/Yqzm4vWQDyVSPrEJIbxwQ0SwcMBrai3ddgaGRPYo70NP g=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 13 Jul 2022 18:56:57 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2022 18:56:56 -0700
+Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 13 Jul 2022 18:56:56 -0700
+Received: from perseverance.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Wed, 13 Jul 2022 18:56:55 -0700
+From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>, "Daniel P . Berrange"
+ <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Graeme Gregory
+ <quic_ggregory@quicinc.com>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
+ Maheswara Kurapati <quic_mkurapat@quicinc.com>
+Subject: [PATCH 0/3] Object properties for MAX31785 status, target, and input.
+Date: Wed, 13 Jul 2022 20:56:34 -0500
+Message-ID: <20220714015637.817066-1-quic_mkurapat@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-6-frankja@linux.ibm.com>
- <CAMxuvawZehnqK=UN03nKEdtwL7yySKgb6GG5GV1S3CT_d0_iyg@mail.gmail.com>
- <39c9c903-a2dc-6799-b77c-825f9bde069e@linux.ibm.com>
-In-Reply-To: <39c9c903-a2dc-6799-b77c-825f9bde069e@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 14 Jul 2022 15:55:24 +0400
-Message-ID: <CAJ+F1CK5tuUWbyYe7BUbZQKLYRXGSstr8rtb5w0rbke0SQb-YQ@mail.gmail.com>
-Subject: Re: [PATCH v2 05/11] dump/dump: Add section string table support
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, "Henderson,
- Richard" <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000059189305e3c294d6"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=quic_mkurapat@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 14 Jul 2022 09:02:07 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,250 +82,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000059189305e3c294d6
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Hi
+I'm sending a series to add Object properties for MAX31785 device. These properties are for the fan status, tach target, tach input, and tach margin (+ve or -ve) percent.  To support the signed tach margin input, added infrastructure routines for 8 bit signed integer.
 
-On Thu, Jul 14, 2022 at 3:54 PM Janosch Frank <frankja@linux.ibm.com> wrote=
-:
+Please review.
 
-> On 7/13/22 17:58, Marc-Andr=C3=A9 Lureau wrote:
-> > Hi
-> >
-> > On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank <frankja@linux.ibm.com>
-> wrote:
-> >>
-> >> Time to add a bit more descriptiveness to the dumps.
-> >
-> > Please add some more description & motivation to the patch (supposedly
-> > necessary for next patches), and explain that it currently doesn't
-> > change the dump (afaict).
->
-> How about:
->
-> As sections don't have a type like the notes do we need another way to
-> determine their contents. The string table allows us to assign each
-> section an identification string which architectures can then use to tag
-> their sections with.
->
-> There will be no string table if the architecture doesn't add custom
-> sections which are introduced in a following patch.
->
+Thanks,
 
-lgtm, thanks
+Mahesh
 
+Maheswara Kurapati (3):
+  qom/object : add object_property_add_int8_ptr() property for 8 bit
+    signed integers.
+  hw/sensor: max31785 : add fan status, tach target, and tach input
+    object properties
+  hw/sensor: max31785 : update the tach input based on the tach margin
+    percentage
 
->
->
-> >>
-> >> -    if (dump_is_64bit(s)) {
-> >> -        s->phdr_offset =3D sizeof(Elf64_Ehdr);
-> >> -        s->shdr_offset =3D s->phdr_offset + sizeof(Elf64_Phdr) *
-> s->phdr_num;
-> >> -        s->note_offset =3D s->shdr_offset + sizeof(Elf64_Shdr) *
-> s->shdr_num;
-> >> -        s->memory_offset =3D s->note_offset + s->note_size;
-> >> -    } else {
-> >> -
-> >> -        s->phdr_offset =3D sizeof(Elf32_Ehdr);
-> >> -        s->shdr_offset =3D s->phdr_offset + sizeof(Elf32_Phdr) *
-> s->phdr_num;
-> >> -        s->note_offset =3D s->shdr_offset + sizeof(Elf32_Shdr) *
-> s->shdr_num;
-> >> -        s->memory_offset =3D s->note_offset + s->note_size;
-> >> +    /*
-> >> +     * calculate shdr_num and elf_section_data_size so we know the
-> offsets and
-> >> +     * sizes of all parts.
-> >> +     *
-> >> +     * If phdr_num overflowed we have at least one section header
-> >> +     * More sections/hdrs can be added by the architectures
-> >> +     */
-> >> +    if (s->shdr_num > 1) {
-> >> +        /* Reserve the string table */
-> >> +        s->shdr_num +=3D 1;
-> >>       }
-> >>
-> >> +    tmp =3D (s->phdr_num =3D=3D PN_XNUM) ? s->sh_info : s->phdr_num;
-> >> +    if (dump_is_64bit(s)) {
-> >> +        s->shdr_offset =3D sizeof(Elf64_Ehdr);
-> >> +        s->phdr_offset =3D s->shdr_offset + sizeof(Elf64_Shdr) *
-> s->shdr_num;
-> >> +        s->note_offset =3D s->phdr_offset + sizeof(Elf64_Phdr) * tmp;
-> >> +    } else {
-> >> +        s->shdr_offset =3D sizeof(Elf32_Ehdr);
-> >> +        s->phdr_offset =3D s->shdr_offset + sizeof(Elf32_Shdr) *
-> s->shdr_num;
-> >> +        s->note_offset =3D s->phdr_offset + sizeof(Elf32_Phdr) * tmp;
-> >> +    }
-> >> +    s->memory_offset =3D s->note_offset + s->note_size;
-> >
-> > I suggest to split this in a different patch. It's not obvious that
-> > you can change phdr_offset / shdr_offset, it deserves a comment.
->
-> Right, will do
->
-> >
-> >> +    s->section_offset =3D s->memory_offset + s->total_size;
-> >> +
-> >>       return;
-> >>
-> >>   cleanup:
-> >> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> >> index 8379e29ef6..2c25c7d309 100644
-> >> --- a/include/sysemu/dump.h
-> >> +++ b/include/sysemu/dump.h
-> >> @@ -178,6 +178,7 @@ typedef struct DumpState {
-> >>       void *elf_section_hdrs;
-> >>       uint64_t elf_section_data_size;
-> >>       void *elf_section_data;
-> >> +    GArray *string_table_buf;  /* String table section */
-> >>
-> >>       uint8_t *note_buf;          /* buffer for notes */
-> >>       size_t note_buf_offset;     /* the writing place in note_buf */
-> >> --
-> >> 2.34.1
-> >>
-> >
->
->
+ hw/sensor/max31785.c | 46 ++++++++++++++++++++++++++++++---
+ include/qom/object.h | 21 ++++++++++++++++
+ qom/object.c         | 60 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 123 insertions(+), 4 deletions(-)
 
---=20
-Marc-Andr=C3=A9 Lureau
+-- 
+2.25.1
 
---00000000000059189305e3c294d6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jul 14, 2022 at 3:54 PM Jan=
-osch Frank &lt;<a href=3D"mailto:frankja@linux.ibm.com">frankja@linux.ibm.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">On 7/13/22 17:58, Marc-Andr=C3=A9 Lureau wrote:<br>
-&gt; Hi<br>
-&gt; <br>
-&gt; On Wed, Jul 13, 2022 at 5:07 PM Janosch Frank &lt;<a href=3D"mailto:fr=
-ankja@linux.ibm.com" target=3D"_blank">frankja@linux.ibm.com</a>&gt; wrote:=
-<br>
-&gt;&gt;<br>
-&gt;&gt; Time to add a bit more descriptiveness to the dumps.<br>
-&gt; <br>
-&gt; Please add some more description &amp; motivation to the patch (suppos=
-edly<br>
-&gt; necessary for next patches), and explain that it currently doesn&#39;t=
-<br>
-&gt; change the dump (afaict).<br>
-<br>
-How about:<br>
-<br>
-As sections don&#39;t have a type like the notes do we need another way to =
-<br>
-determine their contents. The string table allows us to assign each <br>
-section an identification string which architectures can then use to tag <b=
-r>
-their sections with.<br>
-<br>
-There will be no string table if the architecture doesn&#39;t add custom <b=
-r>
-sections which are introduced in a following patch.<br></blockquote><div><b=
-r></div><div>lgtm, thanks<br></div><div>=C2=A0<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-<br>
-&gt;&gt;<br>
-&gt;&gt; -=C2=A0 =C2=A0 if (dump_is_64bit(s)) {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;phdr_offset =3D sizeof(Elf64_Eh=
-dr);<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;shdr_offset =3D s-&gt;phdr_offs=
-et + sizeof(Elf64_Phdr) * s-&gt;phdr_num;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;note_offset =3D s-&gt;shdr_offs=
-et + sizeof(Elf64_Shdr) * s-&gt;shdr_num;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;memory_offset =3D s-&gt;note_of=
-fset + s-&gt;note_size;<br>
-&gt;&gt; -=C2=A0 =C2=A0 } else {<br>
-&gt;&gt; -<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;phdr_offset =3D sizeof(Elf32_Eh=
-dr);<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;shdr_offset =3D s-&gt;phdr_offs=
-et + sizeof(Elf32_Phdr) * s-&gt;phdr_num;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;note_offset =3D s-&gt;shdr_offs=
-et + sizeof(Elf32_Shdr) * s-&gt;shdr_num;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;memory_offset =3D s-&gt;note_of=
-fset + s-&gt;note_size;<br>
-&gt;&gt; +=C2=A0 =C2=A0 /*<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* calculate shdr_num and elf_section_data_siz=
-e so we know the offsets and<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* sizes of all parts.<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* If phdr_num overflowed we have at least one=
- section header<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0* More sections/hdrs can be added by the arch=
-itectures<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (s-&gt;shdr_num &gt; 1) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Reserve the string table */<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;shdr_num +=3D 1;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt;&gt;<br>
-&gt;&gt; +=C2=A0 =C2=A0 tmp =3D (s-&gt;phdr_num =3D=3D PN_XNUM) ? s-&gt;sh_=
-info : s-&gt;phdr_num;<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (dump_is_64bit(s)) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;shdr_offset =3D sizeof(Elf64_Eh=
-dr);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;phdr_offset =3D s-&gt;shdr_offs=
-et + sizeof(Elf64_Shdr) * s-&gt;shdr_num;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;note_offset =3D s-&gt;phdr_offs=
-et + sizeof(Elf64_Phdr) * tmp;<br>
-&gt;&gt; +=C2=A0 =C2=A0 } else {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;shdr_offset =3D sizeof(Elf32_Eh=
-dr);<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;phdr_offset =3D s-&gt;shdr_offs=
-et + sizeof(Elf32_Shdr) * s-&gt;shdr_num;<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;note_offset =3D s-&gt;phdr_offs=
-et + sizeof(Elf32_Phdr) * tmp;<br>
-&gt;&gt; +=C2=A0 =C2=A0 }<br>
-&gt;&gt; +=C2=A0 =C2=A0 s-&gt;memory_offset =3D s-&gt;note_offset + s-&gt;n=
-ote_size;<br>
-&gt; <br>
-&gt; I suggest to split this in a different patch. It&#39;s not obvious tha=
-t<br>
-&gt; you can change phdr_offset / shdr_offset, it deserves a comment.<br>
-<br>
-Right, will do<br>
-<br>
-&gt; <br>
-&gt;&gt; +=C2=A0 =C2=A0 s-&gt;section_offset =3D s-&gt;memory_offset + s-&g=
-t;total_size;<br>
-&gt;&gt; +<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0cleanup:<br>
-&gt;&gt; diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h<br>
-&gt;&gt; index 8379e29ef6..2c25c7d309 100644<br>
-&gt;&gt; --- a/include/sysemu/dump.h<br>
-&gt;&gt; +++ b/include/sysemu/dump.h<br>
-&gt;&gt; @@ -178,6 +178,7 @@ typedef struct DumpState {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0void *elf_section_hdrs;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t elf_section_data_size;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0void *elf_section_data;<br>
-&gt;&gt; +=C2=A0 =C2=A0 GArray *string_table_buf;=C2=A0 /* String table sec=
-tion */<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint8_t *note_buf;=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 /* buffer for notes */<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0size_t note_buf_offset;=C2=A0 =C2=A0 =C2=
-=A0/* the writing place in note_buf */<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.34.1<br>
-&gt;&gt;<br>
-&gt; <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000059189305e3c294d6--
 
