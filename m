@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 133B25754A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:09:47 +0200 (CEST)
-Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD90B575463
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:06:00 +0200 (CEST)
+Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC3HV-0003V0-8A
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:09:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
+	id 1oC3Dr-0005Xi-ID
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3v1nQYggKCtAIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com>)
- id 1oC38u-0007Tf-Nm
+ <3wFnQYggKCtEJH4xBGF43BB381.zB9D19H-01I18ABA3AH.BE3@flex--wuhaotsh.bounces.google.com>)
+ id 1oC38u-0007UF-RD
  for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:00:52 -0400
-Received: from mail-pg1-x54a.google.com ([2607:f8b0:4864:20::54a]:55104)
+Received: from mail-pf1-x449.google.com ([2607:f8b0:4864:20::449]:33446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3v1nQYggKCtAIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com>)
- id 1oC38r-0005h4-Fi
+ <3wFnQYggKCtEJH4xBGF43BB381.zB9D19H-01I18ABA3AH.BE3@flex--wuhaotsh.bounces.google.com>)
+ id 1oC38r-0005iz-K3
  for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:00:52 -0400
-Received: by mail-pg1-x54a.google.com with SMTP id
- h13-20020a63e14d000000b0040df75eaa2eso1555151pgk.21
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 11:00:31 -0700 (PDT)
+Received: by mail-pf1-x449.google.com with SMTP id
+ a127-20020a624d85000000b00525950b1feeso1509461pfb.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 11:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
  h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=v6m/uiCVYIYdHovo0UBGiIH0rA+CsNRH+5x6YrDpxrQ=;
- b=RjcVFhyIX4GAEl1mVTudmEFRs/iPMZ4iGAvt+ywGlVMwqNO0+ZlwQxovezRtHh2ib1
- 5ttj200phShCuOehgH/E566COzAFwS62ceEQeA6uonyjF3v+JyPvcSJzM2yVFulKt4cZ
- SvJVzh9ZZ3nhX/v7CjYhaYBVyY9U8mUzCAETQKV1MO9l6aOLyOd3o57G6WtHpBkb3C62
- 3S0uvygwcGNFi2psnPoKIktT9YVb0lJp/fYG4Y5dGrSoUHbV/zLD+vIBrFFBVZ1USmn6
- 1lrmZMQ0DUjn6o5WR4pvbY2KLZ4vlq+da8htFXOV1STrI0ZElksxhQFRRrVZNPcCahTJ
- x8kw==
+ :cc; bh=W5HdIYZvabDXn88OiY+HL0ZIRBJ+FpGhhsFX/xssn/M=;
+ b=G7IYwQ5h1bHSdQ3N/q8pFT24ntNQ5vvXIm8atu3VilaUa26UORR7UxTJOmJEglp7A7
+ 6G1KcQ1bBoEZxO+Qjc8RVxYb1UY1ABt8RnVNbJW8clf/88gUOH1japMiNdsnZsrybX96
+ d4JV4me52Klxm9iz0hKhwosK9xudupOJNE0V89fvvUvRmaszOPUhlG5y16qzhZERXThG
+ DqDzM7gldaDksPHx1GqLhnnb62NTljnlzvIue87+UPARA730QsPmSP8Hdrldp9P8PjmD
+ kUQJI3VYgDlV0rb11APm6Z94qwYbOjMwTAqAzpGpADoQIq44O8JbJklhereGmi3qcdNl
+ WXFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=v6m/uiCVYIYdHovo0UBGiIH0rA+CsNRH+5x6YrDpxrQ=;
- b=eyWx205u7ebjO30VTYHlpjdjQ6118i+IxN7OMIhh+AC/lz63Ac6yV5VolFoZZgRqDe
- n+rOM/mbat7e04MHA6xtYjBMJozYTBfM5NNg5CLRBbQDgPM/v898uGsY0rpsQ2fVn5zE
- 3SqHAV8HmjtQ+H7Eglg02jWId0UsJ3hp7B0cC0LGWKIX42KxsLPSU9+aBdmbTcbI60tm
- gjavyZWe71aSxFZxAA9QnOCFuXCJeAz3Tp6lJUgwA0iSt3RiBcynSFTDybntjyUJS85/
- 39ouMTk4bP/ZOPjEiXQGmPRZjqTFRErfZCTCpJwLeivWsej9o3W8gNL25lec1AtWG7/n
- 3L5A==
-X-Gm-Message-State: AJIora9IkFqNIldxJpWbIpsGh9VGpnovEGDeGQzM9zX1bNHI7iTFmCrY
- WKOHQzadBxCs/gkf8RCusJ40FOHx8AUJYg==
-X-Google-Smtp-Source: AGRyM1tM8S2V+OA/0TtjBoxheDuWl2fd7Ky708C+nZaj1F2hfII0xax7bOw3H9MYeNo/zbPo/VSRImtltPzJfQ==
+ bh=W5HdIYZvabDXn88OiY+HL0ZIRBJ+FpGhhsFX/xssn/M=;
+ b=Gec0WcntFL4UIu8fG5cMxcOkOS0qJ4o5AJ3wXc61bbqdqdYqWBMdiz4E1LIrORxga4
+ ULCv5mV23LfZPKxvgYAFA0SATxR17UfLW8WFXxeO1paYgCLisDHFSQMFGFvC3j/A2/JE
+ OF9VohuhP8IxhDdRfMt8ktDlujUZSm/hk+xcsIBK9+JPZko2KGge9cyYy8vZqVefgYpv
+ LcPx40g/RV4/cd9hOuJeYEIma9GHPSwNyS6HnOTwzGKuTJtDYyhfEZ5xv/DxqXy1EV72
+ MzDvJ0QHWztTShL0IPSU71DF5gvuUPrbCjP3ZdMBSNlSSdEL9kJNmxOaUFfRLHL0Uldf
+ peSA==
+X-Gm-Message-State: AJIora+KqfpOC1pq5SKyGT+MoLx4sNGkbc0qBYh4Ww3CZfpQDCfcjA/6
+ x69EVq+o0MZ/JCYNQ56aJtQgsWfstNNU1A==
+X-Google-Smtp-Source: AGRyM1uTCQuQVoMM2MJa9nkI7Kl1dQkrfzwWJgbfm3ZpXOPKcnYgDI/8BMVPrr6zZZgCBIy/YOcBe3FZlTzy0A==
 X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a62:16cb:0:b0:52a:e731:f2c with SMTP id
- 194-20020a6216cb000000b0052ae7310f2cmr9673018pfw.65.1657821631088; Thu, 14
- Jul 2022 11:00:31 -0700 (PDT)
-Date: Thu, 14 Jul 2022 11:00:02 -0700
+ (user=wuhaotsh job=sendgmr) by 2002:a62:3346:0:b0:52a:c0cb:ae8 with SMTP id
+ z67-20020a623346000000b0052ac0cb0ae8mr9452245pfz.37.1657821632780; Thu, 14
+ Jul 2022 11:00:32 -0700 (PDT)
+Date: Thu, 14 Jul 2022 11:00:03 -0700
 In-Reply-To: <20220714180006.77360-1-wuhaotsh@google.com>
-Message-Id: <20220714180006.77360-5-wuhaotsh@google.com>
+Message-Id: <20220714180006.77360-6-wuhaotsh@google.com>
 Mime-Version: 1.0
 References: <20220714180006.77360-1-wuhaotsh@google.com>
 X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
-Subject: [PATCH 4/8] hw/adc: Make adci[*] R/W in NPCM7XX ADC
+Subject: [PATCH 5/8] blockdev: Add a new IF type IF_OTHER
 From: Hao Wu <wuhaotsh@google.com>
 To: peter.maydell@linaro.org
 Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  wuhaotsh@google.com, venture@google.com, Avi.Fishman@nuvoton.com, 
  kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org, 
  bin.meng@windriver.com, qemu-block@nongnu.org, armbru@redhat.com, 
- thuth@redhat.com, Titus Rwantare <titusr@google.com>
+ thuth@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::54a;
- envelope-from=3v1nQYggKCtAIG3wAFE32AA270.yA8C08G-z0H079A929G.AD2@flex--wuhaotsh.bounces.google.com;
- helo=mail-pg1-x54a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::449;
+ envelope-from=3wFnQYggKCtEJH4xBGF43BB381.zB9D19H-01I18ABA3AH.BE3@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pf1-x449.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -92,30 +92,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our sensor test requires both reading and writing from a sensor's
-QOM property. So we need to make the input of ADC module R/W instead
-of write only for that to work.
+This type is used to represent block devs that are not suitable to
+be represented by other existing types.
+
+A sample use is to represent an at24c eeprom device defined in
+hw/nvram/eeprom_at24c.c. The block device can be used to contain the
+content of the said eeprom device.
 
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Reviewed-by: Titus Rwantare <titusr@google.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/adc/npcm7xx_adc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ blockdev.c                | 4 +++-
+ include/sysemu/blockdev.h | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
-index 47fb9e5f74..bc6f3f55e6 100644
---- a/hw/adc/npcm7xx_adc.c
-+++ b/hw/adc/npcm7xx_adc.c
-@@ -242,7 +242,7 @@ static void npcm7xx_adc_init(Object *obj)
+diff --git a/blockdev.c b/blockdev.c
+index 9230888e34..befd69ac5f 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -82,6 +82,7 @@ static const char *const if_name[IF_COUNT] = {
+     [IF_MTD] = "mtd",
+     [IF_SD] = "sd",
+     [IF_VIRTIO] = "virtio",
++    [IF_OTHER] = "other",
+     [IF_XEN] = "xen",
+ };
  
-     for (i = 0; i < NPCM7XX_ADC_NUM_INPUTS; ++i) {
-         object_property_add_uint32_ptr(obj, "adci[*]",
--                &s->adci[i], OBJ_PROP_FLAG_WRITE);
-+                &s->adci[i], OBJ_PROP_FLAG_READWRITE);
-     }
-     object_property_add_uint32_ptr(obj, "vref",
-             &s->vref, OBJ_PROP_FLAG_WRITE);
+@@ -726,7 +727,8 @@ QemuOptsList qemu_legacy_drive_opts = {
+         },{
+             .name = "if",
+             .type = QEMU_OPT_STRING,
+-            .help = "interface (ide, scsi, sd, mtd, floppy, pflash, virtio)",
++            .help = "interface (ide, scsi, sd, mtd, floppy, pflash, virtio,"
++                    " other)",
+         },{
+             .name = "file",
+             .type = QEMU_OPT_STRING,
+diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+index 3211b16513..d9dd5af291 100644
+--- a/include/sysemu/blockdev.h
++++ b/include/sysemu/blockdev.h
+@@ -21,6 +21,7 @@ typedef enum {
+      */
+     IF_NONE = 0,
+     IF_IDE, IF_SCSI, IF_FLOPPY, IF_PFLASH, IF_MTD, IF_SD, IF_VIRTIO, IF_XEN,
++    IF_OTHER,
+     IF_COUNT
+ } BlockInterfaceType;
+ 
 -- 
 2.37.0.170.g444d1eabd0-goog
 
