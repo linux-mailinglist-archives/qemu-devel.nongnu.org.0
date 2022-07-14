@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A975750E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 16:34:40 +0200 (CEST)
-Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5FF3575106
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 16:43:37 +0200 (CEST)
+Received: from localhost ([::1]:47728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBzvM-0000jX-24
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 10:34:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
+	id 1oC040-0006dS-AL
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 10:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oBzt4-0007a1-3t
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:32:18 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:45936 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oBzt1-0000Jb-Bf
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:32:17 -0400
-Received: from smtpclient.apple (unknown [111.199.64.159])
- by APP-05 (Coremail) with SMTP id zQCowADX3bHaKNBicZWzDQ--.56026S2;
- Thu, 14 Jul 2022 22:31:55 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Ys+ZCHFWbjAH/48O@apples>
-Date: Thu, 14 Jul 2022 22:31:54 +0800
-Cc: qemu-devel@nongnu.org,
- Keith Busch <kbusch@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B3BEF322-9EB2-465D-AA67-5C426BBCBB5F@ict.ac.cn>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <Ys1oY9LmeDCGT9FT@apples> <Ys+ZCHFWbjAH/48O@apples>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: zQCowADX3bHaKNBicZWzDQ--.56026S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw18WF1DXrW8KF1UWFykKrg_yoW8WF18pa
- y7Ga9rGr48ArWrA34Y9anrWa1UtrZ5ur4ruF9Fga9rJr1vyryxXrW8KFy5GF93urZrJw17
- XrWjga47Aas2v3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
- 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
- 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
- Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
- 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
- WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
- wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
- k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
- Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
-X-Originating-IP: [111.199.64.159]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oC019-0002hK-JT
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:40:39 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:37836)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oC017-0001oN-2M
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:40:38 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id 75so3565711ybf.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 07:40:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oIc470HtpfblUvG6GfNwrecnOEh3+GQdhPGTNYKIECY=;
+ b=KoGXyKaDNj67v6ty3zSjCFENdSH4STDab8LbfjSBcQPK8pqQacvO3+eVFLXHEYW6iY
+ hnCzLviqyre/SaV028iQUcNHMoBljZ2kLlbG9ve8THrA6uOEH6zD4TtcneQxx0gpQ9g8
+ F1erTdZIybpM2ZJhVGYaJfLYx53hfRY0t5VKHs929seoJxrduGKcv0U0d2wwy+sMBfUL
+ 3WHo1hMbe6u+PGOIQqGKPMrZrgbwYM+osl6gMsD5aQdV/oDO3zyMUBXTDnjdQ6QvYj2V
+ DaPzPe3RQEv1BeJY0vXx2O2o06vO40VChgfSF+CJyzh3Ym4gqTGrFjExci+0JsFMKVW/
+ 3TuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oIc470HtpfblUvG6GfNwrecnOEh3+GQdhPGTNYKIECY=;
+ b=bIGlGwpmTx2Fj8ZyBe4IMjm4q5RyDr5MpJQJofVKjdGn6R23UXM4vbgTdCXequUzJ3
+ 4Su9WAif+rzXKdL8icggO0azVsGrE2m0O6LQsLexP3J8lrHNdKZ3Brs5fEIdjnPP73UT
+ MBuGnAKlzNb3wIvmJcSw1alPYVJ7zAH+77UG55VZ/7wAakXeFNdtmyU1ozKpsYJfHaeY
+ eMTVw8G8r3aef67I47asypv1cSu62aC6wtXCclUk1/ArGDuDPpL0LvWqnNMFw1XQrbzo
+ V1kJcCpae9ezMrXt16ceHr9WioCfA+iIFjb6geKJtv1lQUt8gyxyC1fn/CN8GgyeLnfx
+ MHVQ==
+X-Gm-Message-State: AJIora+4flN6w+DzfUH1BiUmDfMIMFWsnvoUUYFvznmvQInnC1vcfveL
+ N08MNEFU0oSyqdzOLv2wIGSis6KgiZUqBVfihZHQ0w==
+X-Google-Smtp-Source: AGRyM1tWiN3fW8uduyRJKNQD6BVjFrHWb5xstPD+Tgo5ixv9Rovu0iqIe6zmfOeXhFjDfIb81KlyJ+Rmxfs6ASYO5jY=
+X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
+ j11-20020a25230b000000b0066ee008a76bmr9502762ybj.479.1657809635469; Thu, 14
+ Jul 2022 07:40:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220713045848.217364-1-richard.henderson@linaro.org>
+In-Reply-To: <20220713045848.217364-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 14 Jul 2022 15:39:56 +0100
+Message-ID: <CAFEAcA_f=YOWRk078WWkoCKAt+ccEUc3csDcpwO7FwZMNsu0gA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] target/arm: Two SME fixes
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, broonie@kernel.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,53 +81,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 12:18 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+On Wed, 13 Jul 2022 at 05:59, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Ho hum.  Let a feature loose on users and they find bugs.  Mark noticed
+> that the wrong value was being picked up for VL when SVE is disabled.
+> I had run the same test but failed to notice the vector length wasn't
+> as expected, though the test otherwise produced expected results.
+>
+>
 
-> On Jul 12 14:26, Klaus Jensen wrote:
->> On Jul  9 12:35, Jinhao Fan wrote:
->>> Use irqfd to directly notify KVM to inject interrupts. This is done =
-by
->>> registering a virtual IRQ(virq) in KVM and associate the virq with =
-an
->>> irqfd, so that KVM can directly inject the interrupt when it =
-receives
->>> notification from the irqfd. This approach is supposed to improve=20
->>> performance because it bypasses QEMU's MSI interrupt emulation =
-logic.
->>>=20
->>> However, I did not see an obvious improvement of the emulation =
-KIOPS:
->>>=20
->>> QD      1   4  16  64=20
->>> QEMU   38 123 210 329
->>> irqfd  40 129 219 328
->>>=20
->>> I found this problem quite hard to diagnose since irqfd's workflow
->>> involves both QEMU and the in-kernel KVM.=20
->>>=20
->>> Could you help me figure out the following questions:
->>>=20
->>> 1. How much performance improvement can I expect from using irqfd?
->>=20
->> This is a level of QEMU/KVM that I am by no means an expert on and I
->> would have to let the broader QEMU community comment on this.
->=20
-> In any case, I'm wary about adding this level of kvm-dependence in the
-> device. This wont work on non-kvm platforms any more.
 
-Yes, irqfd seems only useful on KVM-based systems. Maybe it is more =
-suitable
-for vhost or VFIO based solutions which need irqfd to deliver =
-interrupts.
 
-> I think you should put irqfd on hold and focus on iothreads :)
+Applied to target-arm.next, thanks.
 
-I=E2=80=99m working on iothread currently. But I also observed a =
-performance
-regression with iothread enabled. I found ftrace, which is supported by =
-both
-QEMU and KVM, seems good for analyzing performance issues. I=E2=80=99m =
-currently
-exploring with ftrace.
-
+-- PMM
 
