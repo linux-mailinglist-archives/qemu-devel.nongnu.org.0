@@ -2,76 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5506574949
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:44:15 +0200 (CEST)
-Received: from localhost ([::1]:54280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6C45749BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:56:14 +0200 (CEST)
+Received: from localhost ([::1]:38618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBvOI-0007ma-Jv
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:44:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51160)
+	id 1oBvZs-0000CD-DV
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ph.makarov@gmail.com>)
- id 1oBvKe-0003P4-FR
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:40:28 -0400
-Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:44903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ph.makarov@gmail.com>)
- id 1oBvKZ-0005vv-RQ
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:40:28 -0400
-Received: by mail-lf1-x12d.google.com with SMTP id a9so1845322lfk.11
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:40:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r2swSYrZAPDgYucxB36MUFBY0DPxOJwfvSdDpHRBXfc=;
- b=Mupvd7uuCGwh/npHuMlVxXR0VkfstR9yqOGEvZ4riDr9yarLF+t9dUNxNNy3JksYzX
- /k7TvkvJ5rCE0PPqF/VsdzluKZ5bTQxkuUFYaWJX0HKLNrG9Bk+zj45DNXXRluCqY+Pp
- Wg66wfyqgDGzHU6QFYajNoW1rtUsKwy9Lj+DfEWz2NhNFciQPnDULFLz1qvOf0nNqzQT
- 4VG/4jfrw+5LzlFlFDgoYpm5q5/A5K1dCQTm8rdeWYtBDHG7vl+5zZvi/9BCKF2A9Til
- gw4qfBz3uKQxSig2ieThdPTpvTrMlMpZecM/mRJHHwAKB26rNGBghNPq0GEJaDIzCgSY
- CZSg==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvKI-0003KD-Fy
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:40:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36916)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBvKF-0005hn-Pt
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:40:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657791603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W4Y1tnkTtMc0/phWCIquUwDvzi+KWFuDaKziS4LyO8E=;
+ b=TKTgubUEYuT6TvC9awbjtatOL7VQS1/BxVPgKSfla/vdcnxwbp7279mbk/biKRirMSmIQa
+ Y7qQFUi5pFmjY//Wyav9n0qu6XBt41OkPYV1EQPSnq27G/IAbi6gRriMhmmi5DNrkGB2/b
+ Yke0zJ9/cJ4gqwo83W4yElyLloxkY1c=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-510-89DDSR3gMQGGKXVRqzwAvw-1; Thu, 14 Jul 2022 05:40:01 -0400
+X-MC-Unique: 89DDSR3gMQGGKXVRqzwAvw-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hr24-20020a1709073f9800b0072b57c28438so549978ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:40:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=r2swSYrZAPDgYucxB36MUFBY0DPxOJwfvSdDpHRBXfc=;
- b=clvn5QjMMbmC7qMz1Vy0QbD83gl14aX/AdRXQF4PgbeNfWXf/9fukug9riYw1LkB2R
- 8br6+smMBJNI181uNIEY0ZOhAiPNDT0e83nWkCpFujVLA8posQSuwdj4hJbYMBz/Aqkd
- KlPaHR/MOTRYTnGuRxjo5e5eZkjj5a+iFbFW/eEvrGNSTnXzgxhu97WfhRGKNJfWf+xg
- Vwa1y39hwd1Rr7Sfs5Ko1hPAou2Ymm6tc8fecP2tmwx+U79Jc+YO+Gp69C1Xuq4/c5ux
- npE3n6fkRyDLk51JanuFZa7+l+NxqOMGXvMeXfEo5JMJJxUY1yYvFcXIAYMoTRwoogKX
- BdXQ==
-X-Gm-Message-State: AJIora+C8tiAjSOUzoX4nqC4RAxZS20UHbO8pI5HPk79yFIVZaV+KmUi
- p+HSV3P9ZeFMSIbZAeiFvGCXzcYwsUeKfg==
-X-Google-Smtp-Source: AGRyM1u7Pb53/3TY/4reFNNpCIK7CgU+2SgI9X+C3qrmmGq5zmLeiAIAW+HXnwg7T7EYmlISBgV87w==
-X-Received: by 2002:a05:6512:261f:b0:480:fd2b:23c8 with SMTP id
- bt31-20020a056512261f00b00480fd2b23c8mr4829879lfb.434.1657791619036; 
- Thu, 14 Jul 2022 02:40:19 -0700 (PDT)
-Received: from localhost.localdomain ([37.204.56.188])
+ bh=W4Y1tnkTtMc0/phWCIquUwDvzi+KWFuDaKziS4LyO8E=;
+ b=lreWTRQ3PUsqIbJUJZoGbE5BHOJEPglRa05OMc9+CSxhx6uix8+3eTlbc+2ZDjA5bC
+ AB94ThDxqGOkuOL9y9goxQBTlDiO1c+tPu9tS08bGGyKymqUp3yvyQDUx754xSvkruH6
+ SIHGvoLu+vS717i2dElHevCGxHStjJ7nhtaGk8h5b2hjlhMej3CqLwKKD24LnhmSJHOw
+ yQnJlvQ6eS1/xbATFSbia3XNR13cJQUkyywBN18pq+sRaSzTlcg00VoTIVZVN41sJY1F
+ cU9Z+3l/R/VCC2t38AsD8SfXd4jvOSGhTCBTu02Ewb5VQLNNjNqre5gYdR5k+ahJ86fV
+ 11Ag==
+X-Gm-Message-State: AJIora9xa1TCa9kJCUUmDvD3zfxkzFXKVGLm7mkm6usr/9zxREZe5liz
+ yNt6H5rF0qgkrLjtqmdFLIvJHxT9YXVpHhG1l2Df2qUetjYejqATTww8VtxZAwjnOAV+D5T8Lwe
+ BOCXqZHblChdVIWM=
+X-Received: by 2002:a17:907:2722:b0:72b:735a:d3b4 with SMTP id
+ d2-20020a170907272200b0072b735ad3b4mr7972183ejl.363.1657791599925; 
+ Thu, 14 Jul 2022 02:39:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vj8TlgPtllUZb+bZOXEZALuGLqF8FuNWOTkG7XITdgx9b7XKJVFxZ0dbSC6yZuN8RMqK+sWg==
+X-Received: by 2002:a17:907:2722:b0:72b:735a:d3b4 with SMTP id
+ d2-20020a170907272200b0072b735ad3b4mr7972156ejl.363.1657791599757; 
+ Thu, 14 Jul 2022 02:39:59 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- l13-20020a2e700d000000b0025d633213fasm191483ljc.20.2022.07.14.02.40.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:40:18 -0700 (PDT)
-From: Andrey Makarov <ph.makarov@gmail.com>
-X-Google-Original-From: Andrey Makarov <andrey.makarov@auriga.com>
-To: qemu-devel@nongnu.org
-Cc: Andrey Makarov <andrey.makarov@auriga.com>
-Subject: [PATCH v3] Align Raspberry Pi DMA interrupts with Linux DTS
-Date: Thu, 14 Jul 2022 12:39:29 +0300
-Message-Id: <20220714093929.247118-1-andrey.makarov@auriga.com>
-X-Mailer: git-send-email 2.30.2
+ 2-20020a170906218200b0072a815f3344sm480203eju.137.2022.07.14.02.39.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 02:39:59 -0700 (PDT)
+Message-ID: <073257d3-745a-2823-1853-316bdc3f4a73@redhat.com>
+Date: Thu, 14 Jul 2022 11:39:58 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
- envelope-from=ph.makarov@gmail.com; helo=mail-lf1-x12d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC v3 6/8] stubs: add memory_region_from_host() and
+ memory_region_get_fd()
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+Cc: Alberto Faria <afaria@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Yanan Wang <wangyanan55@huawei.com>
+References: <20220708041737.1768521-1-stefanha@redhat.com>
+ <20220708041737.1768521-7-stefanha@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220708041737.1768521-7-stefanha@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,222 +114,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In v3:
+On 08.07.22 06:17, Stefan Hajnoczi wrote:
+> The blkio block driver will need to look up the file descriptor for a
+> given pointer. This is possible in softmmu builds where the memory API
+> is available for querying guest RAM.
+>
+> Add stubs so tools like qemu-img that link the block layer still build
+> successfully. In this case there is no guest RAM but that is fine.
+> Bounce buffers and their file descriptors will be allocated with
+> libblkio's blkio_alloc_mem_region() so we won't rely on QEMU's
+> memory_region_get_fd() in that case.
+>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   stubs/memory.c    | 13 +++++++++++++
+>   stubs/meson.build |  1 +
+>   2 files changed, 14 insertions(+)
+>   create mode 100644 stubs/memory.c
 
-- changed naming of orgate & removed hard-coded constants
-
-
-Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
----
- hw/arm/bcm2835_peripherals.c         |  25 ++++++-
- include/hw/arm/bcm2835_peripherals.h |   2 +
- tests/qtest/bcm2835-dma-test.c       | 106 +++++++++++++++++++++++++++
- tests/qtest/meson.build              |   3 +-
- 4 files changed, 134 insertions(+), 2 deletions(-)
- create mode 100644 tests/qtest/bcm2835-dma-test.c
-
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 48538c9360..d17a8d5fbf 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -23,6 +23,12 @@
- /* Capabilities for SD controller: no DMA, high-speed, default clocks etc. */
- #define BCM2835_SDHC_CAPAREG 0x52134b4
- 
-+/* According to Linux driver & DTS, dma channels 0--10 have separate IRQ,
-+ * while channels 11--14 share one IRQ:
-+ */
-+#define SEPARATE_DMA_IRQ_MAX 10
-+#define ORGATED_DMA_IRQ_COUNT 4
-+
- static void create_unimp(BCM2835PeripheralState *ps,
-                          UnimplementedDeviceState *uds,
-                          const char *name, hwaddr ofs, hwaddr size)
-@@ -101,6 +107,11 @@ static void bcm2835_peripherals_init(Object *obj)
-     /* DMA Channels */
-     object_initialize_child(obj, "dma", &s->dma, TYPE_BCM2835_DMA);
- 
-+    object_initialize_child(obj, "orgated-dma-irq",
-+                            &s->orgated_dma_irq, TYPE_OR_IRQ);
-+    object_property_set_int(OBJECT(&s->orgated_dma_irq), "num-lines",
-+                            ORGATED_DMA_IRQ_COUNT, &error_abort);
-+
-     object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
-                                    OBJECT(&s->gpu_bus_mr));
- 
-@@ -322,12 +333,24 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
- 
--    for (n = 0; n <= 12; n++) {
-+    for (n = 0; n <= SEPARATE_DMA_IRQ_MAX; n++) {
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
-                            qdev_get_gpio_in_named(DEVICE(&s->ic),
-                                                   BCM2835_IC_GPU_IRQ,
-                                                   INTERRUPT_DMA0 + n));
-     }
-+    if (!qdev_realize(DEVICE(&s->orgated_dma_irq), NULL, errp)) {
-+        return;
-+    }
-+    for (n = 0; n < ORGATED_DMA_IRQ_COUNT; n++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma),
-+                           SEPARATE_DMA_IRQ_MAX + 1 + n,
-+                           qdev_get_gpio_in(DEVICE(&s->orgated_dma_irq), n));
-+    }
-+    qdev_connect_gpio_out(DEVICE(&s->orgated_dma_irq), 0,
-+                          qdev_get_gpio_in_named(DEVICE(&s->ic),
-+                              BCM2835_IC_GPU_IRQ,
-+                              INTERRUPT_DMA0 + SEPARATE_DMA_IRQ_MAX + 1));
- 
-     /* THERMAL */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->thermal), errp)) {
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index d864879421..c9d25d493e 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -17,6 +17,7 @@
- #include "hw/char/bcm2835_aux.h"
- #include "hw/display/bcm2835_fb.h"
- #include "hw/dma/bcm2835_dma.h"
-+#include "hw/or-irq.h"
- #include "hw/intc/bcm2835_ic.h"
- #include "hw/misc/bcm2835_property.h"
- #include "hw/misc/bcm2835_rng.h"
-@@ -55,6 +56,7 @@ struct BCM2835PeripheralState {
-     BCM2835AuxState aux;
-     BCM2835FBState fb;
-     BCM2835DMAState dma;
-+    qemu_or_irq orgated_dma_irq;
-     BCM2835ICState ic;
-     BCM2835PropertyState property;
-     BCM2835RngState rng;
-diff --git a/tests/qtest/bcm2835-dma-test.c b/tests/qtest/bcm2835-dma-test.c
-new file mode 100644
-index 0000000000..111adfe7f2
---- /dev/null
-+++ b/tests/qtest/bcm2835-dma-test.c
-@@ -0,0 +1,106 @@
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+
-+/* Offsets in raspi3b platform: */
-+#define RASPI3_DMA_BASE 0x3f007000
-+#define RASPI3_IC_BASE  0x3f00b200
-+
-+/* Used register/fields definitions */
-+
-+/* DMA engine registers: */
-+#define BCM2708_DMA_CS         0
-+#define BCM2708_DMA_ACTIVE     (1 << 0)
-+#define BCM2708_DMA_INT        (1 << 2)
-+
-+#define BCM2708_DMA_ADDR       0x04
-+
-+#define BCM2708_DMA_INT_STATUS 0xfe0
-+
-+/* DMA Trasfer Info fields: */
-+#define BCM2708_DMA_INT_EN     (1 << 0)
-+#define BCM2708_DMA_D_INC      (1 << 4)
-+#define BCM2708_DMA_S_INC      (1 << 8)
-+
-+/* Interrupt controller registers: */
-+#define IRQ_PENDING_BASIC      0x00
-+#define IRQ_GPU_PENDING1_AGGR  (1 << 8)
-+#define IRQ_PENDING_1          0x04
-+#define IRQ_ENABLE_1           0x10
-+
-+/* Data for the test: */
-+#define SCB_ADDR   256
-+#define S_ADDR     32
-+#define D_ADDR     64
-+#define TXFR_LEN   32
-+const uint32_t check_data = 0x12345678;
-+
-+static void bcm2835_dma_test_interrupt(int dma_c, int irq_line) {
-+    uint64_t dma_base = RASPI3_DMA_BASE + dma_c * 0x100;
-+    int gpu_irq_line = 16 + irq_line;
-+
-+    /* Check that interrupts are silent by default: */
-+    writel(RASPI3_IC_BASE + IRQ_ENABLE_1, 1 << gpu_irq_line);
-+    int isr = readl(dma_base + BCM2708_DMA_INT_STATUS);
-+    g_assert_cmpint(isr, ==, 0);
-+    uint32_t reg0 = readl(dma_base + BCM2708_DMA_CS);
-+    g_assert_cmpint(reg0, ==, 0);
-+    uint32_t ic_pending = readl(RASPI3_IC_BASE + IRQ_PENDING_BASIC);
-+    g_assert_cmpint(ic_pending, ==, 0);
-+    uint32_t gpu_pending1 = readl(RASPI3_IC_BASE + IRQ_PENDING_1);
-+    g_assert_cmpint(gpu_pending1, ==, 0);
-+
-+    /* Prepare Control Block: */
-+    writel(SCB_ADDR + 0, BCM2708_DMA_S_INC | BCM2708_DMA_D_INC |
-+                         BCM2708_DMA_INT_EN); /* transfer info */
-+    writel(SCB_ADDR + 4, S_ADDR);             /* source address */
-+    writel(SCB_ADDR + 8, D_ADDR);             /* destination address */
-+    writel(SCB_ADDR + 12, TXFR_LEN);          /* transfer length */
-+    writel(dma_base + BCM2708_DMA_ADDR, SCB_ADDR);
-+
-+    writel(S_ADDR, check_data);
-+    for (int word = S_ADDR + 4; word < S_ADDR + TXFR_LEN; word += 4)
-+        writel(word, ~check_data);
-+    /* Perform the transfer: */
-+    writel(dma_base + BCM2708_DMA_CS, BCM2708_DMA_ACTIVE);
-+
-+    /* Check that destination == source: */
-+    uint32_t data = readl(D_ADDR);
-+    g_assert_cmpint(data, ==, check_data);
-+    for (int word = D_ADDR + 4; word < D_ADDR + TXFR_LEN; word += 4) {
-+        data = readl(word);
-+        g_assert_cmpint(data, ==, ~check_data);
-+    }
-+
-+    /* Check that interrupt status is set both in DMA and IC controllers: */
-+    isr = readl(RASPI3_DMA_BASE + BCM2708_DMA_INT_STATUS);
-+    g_assert_cmpint(isr, ==, 1 << dma_c);
-+
-+    ic_pending = readl(RASPI3_IC_BASE + IRQ_PENDING_BASIC);
-+    g_assert_cmpint(ic_pending, ==, IRQ_GPU_PENDING1_AGGR);
-+
-+    gpu_pending1 = readl(RASPI3_IC_BASE + IRQ_PENDING_1);
-+    g_assert_cmpint(gpu_pending1, ==, 1 << gpu_irq_line);
-+
-+    /* Clean up, clear interrupt: */
-+    writel(dma_base + BCM2708_DMA_CS, BCM2708_DMA_INT);
-+}
-+
-+static void bcm2835_dma_test_interrupts(void) {
-+    /* DMA engines 0--10 have separate IRQ lines, 11--14 - only one: */
-+    bcm2835_dma_test_interrupt(0,  0);
-+    bcm2835_dma_test_interrupt(10, 10);
-+    bcm2835_dma_test_interrupt(11, 11);
-+    bcm2835_dma_test_interrupt(14, 11);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+    g_test_init(&argc, &argv, NULL);
-+    qtest_add_func("/bcm2835/dma/test_interrupts",
-+                   bcm2835_dma_test_interrupts);
-+    qtest_start("-machine raspi3b");
-+    ret = g_test_run();
-+    qtest_end();
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 31287a9173..3a474010e4 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -218,7 +218,8 @@ qtests_aarch64 = \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
--   'migration-test']
-+   'migration-test',
-+   'bcm2835-dma-test']
- 
- qtests_s390x = \
-   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +                 \
--- 
-2.30.2
+Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 
 
