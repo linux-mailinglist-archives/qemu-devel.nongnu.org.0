@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6BBD57569C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 22:52:22 +0200 (CEST)
-Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6532B57569D
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 22:52:35 +0200 (CEST)
+Received: from localhost ([::1]:40422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC5or-0003dq-I2
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 16:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
+	id 1oC5p4-0004As-IF
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 16:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC5lh-0006o0-0u; Thu, 14 Jul 2022 16:49:05 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:42553)
+ id 1oC5m7-0007fP-EA; Thu, 14 Jul 2022 16:49:31 -0400
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f]:43772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC5lf-0004vf-HL; Thu, 14 Jul 2022 16:49:04 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-f2a4c51c45so3913034fac.9; 
- Thu, 14 Jul 2022 13:49:02 -0700 (PDT)
+ id 1oC5m5-0004yF-Nu; Thu, 14 Jul 2022 16:49:31 -0400
+Received: by mail-oi1-x22f.google.com with SMTP id j70so3812730oih.10;
+ Thu, 14 Jul 2022 13:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=k048gjqJbzuH1k7sq+F85qcFbxhmrflH3nno6hME6RE=;
- b=C+FOIzoOzw3AQSYKru0DlNg3niknAacq1MHAvjFPNLMoc31Lm1hatT/wz3SNEp5v78
- Syj43G1oBwQ5c/42qs5FRbW7PV+CydrGvY+9Rf1tFU+/3U63Pm4R4dPDoWVKZCmyXMJk
- uG1K7rJYlMA0J1q5f1W1j5joZ//dI6vL7R8Hj8ptvTCliErfq9hI0QaSVyustW7ivZ3w
- 5GM2Oyo+ya69ztnXZ4TD7GLvyQtmqyOXoNa8ECMM4xJpXb+GBHvjjFeRCtXh/GzfFZwS
- 8TFTh1iZrySA4jgNFBhPF9L1y0V6TCoOvHX94ZZLpDTytmpPFQZmRFic3xDRTTsyZWpe
- 9OLA==
+ bh=FX0H5cn1kzoGHUn0zeGxXb75jaxU3KRWO/i92AoK6Lg=;
+ b=gJPX/PFMknX0t4U2bqphtAoa6Ex/IFq7DPnkB5skb4YiMLr/+MyabsIm2oFwC3G5VB
+ tB4CVay1ynaqw0W6emvlgVlZoIl7Mkxg2AwSamPMbjn+F+EsW+q2jTzP2sZAFyMohgbt
+ Xi+ULGtDZmCuJkPYdye/7HZVD2DlcFdkhzhwXE1wTwB4phFVoeOJNI95ekJd31bRxKt6
+ zyiIo/oAm4gmnZWo9FwQ78yn/VziaINbJeL6vs3kcuE0uVn/G6ioPiRk+NiqeYXHS01u
+ 9yB61hAOH/T1QTP6XKyArAH6fQICJVTjtaaeQfkuUSQUFg+xJD51R/BzFtifo+FZRBKD
+ EdHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=k048gjqJbzuH1k7sq+F85qcFbxhmrflH3nno6hME6RE=;
- b=EHt/POaPxwNpm67v5znsOJnS1OykqTWJZNhkDz7sneL5hdlWjMn67uRYqseoQf2IYR
- 6fR/7krHM2N5TER01uPd/Tl7HU0VlTelyX6s2Qn9p7RceJy0/wHSBWcu1R5HHnQCHBNJ
- RGqGia5rhQwFBoFOj1AC/c5MrruCw9icgoVMDwqtJzWKa69nr0H+aRaa6eQ6mN13bGaA
- ov0gUmY0KJ7URxiwaV4F/2U2mTLfe37CAUhbGSCyYX/m/i/KIJqWm4eqOOmsLZQ3TRrP
- B3Rd53L0XJ7/3QhJpInmf71zGFRGOdE1Dhdbgdzazk/h4/REuA8rolUM7Vu3KIMaeBfA
- l3SQ==
-X-Gm-Message-State: AJIora8tnfhqvz79MItsx9gJidMamwdSGYaBCLp7rAL9qj1SmvUBdoXq
- YT6GyKXfnYfiGvCdCnIwjghyq/PTlt0=
-X-Google-Smtp-Source: AGRyM1sbJRsSsXl+pAjOF/EwOsxlRU21uDeL1t2nd+5OB7VYxFL3bx5s9Q6q78Rg9DW8JcnBxPgYgg==
-X-Received: by 2002:a05:6870:61ca:b0:10c:1358:4eaf with SMTP id
- b10-20020a05687061ca00b0010c13584eafmr8366119oah.111.1657831741666; 
- Thu, 14 Jul 2022 13:49:01 -0700 (PDT)
+ bh=FX0H5cn1kzoGHUn0zeGxXb75jaxU3KRWO/i92AoK6Lg=;
+ b=RaNfaqPMiNUukJOm/CjUkBeqSBM5koTbidv2VICtLgDAhR06Bw48D0be2Hiz+pNMVB
+ CWOHVz63Ivapv2dr8Hw83rxkulBkUUdQT/hlBqSFZWOMO+pLGf2SHhDB9S8p2IbR29B8
+ GQEkrqUV4SH4BNOVX2JkEJPz0Cm/KxR4PMnTP9wMvJX4JbFh940NBmcmsF/qNMImbghZ
+ R3msbN9EXhToc9MhLktyTgCG7aj6sWIAABHokYhIHr6W5lOigj4wNYw7RKFuVhYBnnK5
+ 5LXjw+rMX/+5TpexT9wS40M+8MYpiGU9+uXw5tgr55Qymx72CyX1F20iFDJMNqYvRju6
+ wwPQ==
+X-Gm-Message-State: AJIora/yIiGdffASScpV/SRTkBgaJdw2jJgJ48unhoLhxdqmq2Oxdbid
+ MGE8fmFN45A+XllUEuhztiRq863wCk8=
+X-Google-Smtp-Source: AGRyM1vzEv+K7jX8mUsFnqeyR1jcUCTmHle4diNZ4VgoCs7xSqi8kQ5h97KeXd7YY7TDolhIXySvGA==
+X-Received: by 2002:a05:6808:1995:b0:335:a0f0:4b8 with SMTP id
+ bj21-20020a056808199500b00335a0f004b8mr5346774oib.57.1657831767235; 
+ Thu, 14 Jul 2022 13:49:27 -0700 (PDT)
 Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- x13-20020a056870b40d00b001089aef1815sm1457828oap.20.2022.07.14.13.48.59
+ u21-20020a056870421500b001019fb71e4bsm1427939oac.17.2022.07.14.13.49.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 13:49:01 -0700 (PDT)
-Message-ID: <e342895e-f8ef-a759-a9b5-79aec946ac1d@gmail.com>
-Date: Thu, 14 Jul 2022 17:48:58 -0300
+ Thu, 14 Jul 2022 13:49:26 -0700 (PDT)
+Message-ID: <05e5c32e-e0be-2301-9a4c-dd89f0c44128@gmail.com>
+Date: Thu, 14 Jul 2022 17:49:24 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3 0/2] target/ppc: Implement ISA 3.00 tlbie[l]
+Subject: Re: [PATCH RESEND 00/11] target/ppc: Implement slbiag move slb* to
+ decodetree
 Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+To: Lucas Coutinho <lucas.coutinho@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- npiggin@gmail.com, richard.henderson@linaro.org
-References: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
+ richard.henderson@linaro.org
+References: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
+In-Reply-To: <20220701133507.740619-1-lucas.coutinho@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,22 +99,47 @@ Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 Daniel
 
-On 7/12/22 16:37, Leandro Lupori wrote:
-> Changes from v2:
-> - Moved TLBIE defines from helper.h to mmu-book3s-v3.h
+On 7/1/22 10:34, Lucas Coutinho wrote:
+> Resent after rebasing and fixing conflicts with master.
+> Add Leandro Lupori as reviewer.
 > 
-> Leandro Lupori (2):
->    target/ppc: Move tlbie[l] to decode tree
->    target/ppc: Implement ISA 3.00 tlbie[l]
+> Based-on: <20220624191424.190471-1-leandro.lupori@eldorado.org.br>
 > 
->   target/ppc/cpu_init.c                        |   4 +-
->   target/ppc/helper.h                          |   2 +
->   target/ppc/insn32.decode                     |   8 +
->   target/ppc/mmu-book3s-v3.h                   |  15 ++
->   target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
->   target/ppc/translate.c                       |  64 +-------
->   target/ppc/translate/storage-ctrl-impl.c.inc | 104 +++++++++++++
->   7 files changed, 287 insertions(+), 64 deletions(-)
->   create mode 100644 target/ppc/translate/storage-ctrl-impl.c.inc
+> Implement the following PowerISA v3.0 instuction:
+> slbiag: SLB Invalidate All Global X-form
+> 
+> Move the following PowerISA v3.0 instuction to decodetree:
+> slbie: SLB Invalidate Entry X-form
+> slbieg: SLB Invalidate Entry Global X-form
+> slbia: SLB Invalidate All X-form
+> slbmte: SLB Move To Entry X-form
+> slbmfev: SLB Move From Entry VSID X-form
+> slbmfee: SLB Move From Entry ESID X-form
+> slbfee: SLB Find Entry ESID
+> slbsync: SLB Synchronize
+> 
+> Lucas Coutinho (9):
+>    target/ppc: Move slbie to decodetree
+>    target/ppc: Move slbieg to decodetree
+>    target/ppc: Move slbia to decodetree
+>    target/ppc: Move slbmte to decodetree
+>    target/ppc: Move slbmfev to decodetree
+>    target/ppc: Move slbmfee to decodetree
+>    target/ppc: Move slbfee to decodetree
+>    target/ppc: Move slbsync to decodetree
+>    target/ppc: Implement slbiag
+> 
+> Matheus Ferst (2):
+>    target/ppc: receive DisasContext explicitly in GEN_PRIV
+>    target/ppc: add macros to check privilege level
+> 
+>   target/ppc/helper.h                          |  15 +-
+>   target/ppc/insn32.decode                     |  26 ++
+>   target/ppc/mmu-hash64.c                      |  41 +-
+>   target/ppc/translate.c                       | 417 +++++++------------
+>   target/ppc/translate/fixedpoint-impl.c.inc   |   7 +-
+>   target/ppc/translate/fp-impl.c.inc           |   4 +-
+>   target/ppc/translate/storage-ctrl-impl.c.inc | 146 +++++++
+>   7 files changed, 377 insertions(+), 279 deletions(-)
 > 
 
