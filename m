@@ -2,81 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE7D575536
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:42:56 +0200 (CEST)
-Received: from localhost ([::1]:44842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3926857558C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 21:00:52 +0200 (CEST)
+Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC3nb-0007mX-Jd
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37320)
+	id 1oC44x-0003ae-AX
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 15:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3ZmDQYggKCoU53qjx21qpxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--wuhaotsh.bounces.google.com>)
- id 1oC3a6-00068K-IU
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:28:59 -0400
-Received: from mail-pl1-x649.google.com ([2607:f8b0:4864:20::649]:35714)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3ZmDQYggKCoU53qjx21qpxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--wuhaotsh.bounces.google.com>)
- id 1oC3a3-00083E-TB
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:28:57 -0400
-Received: by mail-pl1-x649.google.com with SMTP id
- l16-20020a170902f69000b0016bf6a77effso577430plg.2
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 11:28:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=YlaS2Gn+M7J56MUm3aAdhmb9BSTR0X4xwnRU+8E1xMI=;
- b=L14cs+Gbb/T/SU3W0zM0Qr5FJmommGyh8je60D0OtDArgi+Ob5ViAnt/LA8nQ+nPYS
- aFnXNwUmsb6HT+iz2TwEg8O3YlMAUhClnaXPiMbNt21OX0p0aWWXus95OgMMffkgq0Fv
- EerZHEcRY/fIcEBNymhspCI2yHK9XCo7CQ9iK60C+gRwHw/akEZOwdSkxMvPeV/gKCpl
- RRiRfRwJGUNK5tSyun03Tk7lqVTTBGxy96VGIINOD3r6m32bWU8+JOs3oofZVp5HWHZ/
- mAynMMEUWNP6JBtUcmO2ae4fewecRN9mNHhGI12nY3Bu6JwojXC31SlQxmMq9GHwQJpa
- b7aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=YlaS2Gn+M7J56MUm3aAdhmb9BSTR0X4xwnRU+8E1xMI=;
- b=Ly8C1aQdNVvRt4Kb1Qd+p7FU1nVprdLi14HGL+ncgjLKswzhqU18KAJIhYrnYMSkVT
- vAJPddMxmw2dnf7H15ZzaZGEwySUsz8UUHPkLV4MDJfTk2t3oo1wiicjb4/4VNeFe95e
- Jzzc+vNX7UMp3DSoUjwG0l9Lrbe6dWSzsRRoO/ekDLULHN6NLuwVs0VvFe2sNwqvOMKh
- rf+u3JdvhUYjoRhiXkokDhwQ8fGd+pildaVaWKhRDUbaVVuOVFyeY2Nz6XUH1evLQ2LF
- Npb4z8DH3ERsaLf9z0yi51RtSaM4JNyVn9KVGatflWM6wH6cp1y3/CxvptnIEfsevOjv
- r10w==
-X-Gm-Message-State: AJIora94KmnYj/lwE2O4gOnw2FBjDEn8EHKfNgJ/p4u0XJuOTWfJvZuT
- tm8Ulz2eSQO6Z6lPq+iCXCEElgPpDAkeNA==
-X-Google-Smtp-Source: AGRyM1t5AWfRElc4yA4AIvFGkD/oRsdjo60Wtx5oy4AvGAPDHMk3gDybPb2qE2yzUVYmuMDc2LUkxRTq1KiCGA==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:902:c14a:b0:16b:d07c:ad60 with SMTP
- id 10-20020a170902c14a00b0016bd07cad60mr9456631plj.141.1657823334813; Thu, 14
- Jul 2022 11:28:54 -0700 (PDT)
-Date: Thu, 14 Jul 2022 11:28:36 -0700
-In-Reply-To: <20220714182836.89602-1-wuhaotsh@google.com>
-Message-Id: <20220714182836.89602-9-wuhaotsh@google.com>
-Mime-Version: 1.0
-References: <20220714182836.89602-1-wuhaotsh@google.com>
-X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
-Subject: [PATCH v5 8/8] hw/arm: quanta-gbs-bmc add i2c devices
-From: Hao Wu <wuhaotsh@google.com>
-To: peter.maydell@linaro.org
-Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- wuhaotsh@google.com, venture@google.com, Avi.Fishman@nuvoton.com, 
- kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org, 
- bin.meng@windriver.com, qemu-block@nongnu.org, armbru@redhat.com, 
- thuth@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::649;
- envelope-from=3ZmDQYggKCoU53qjx21qpxxpun.lxvznv3-mn4nuwxwpw3.x0p@flex--wuhaotsh.bounces.google.com;
- helo=mail-pl1-x649.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oC3ol-0002IJ-4Y; Thu, 14 Jul 2022 14:44:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oC3oi-0005ZS-UQ; Thu, 14 Jul 2022 14:44:06 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EIhO1G017369;
+ Thu, 14 Jul 2022 18:44:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=xm0DeWRkOO2GkO0oJRA8WjZsNDEfzO1nBVjSM/H6CDY=;
+ b=P5Aj+QashD4QdvVt1BlDwQICfyEntiVipee0HwhXY4NkNuk7mU9VU3tazDX0vprK2o33
+ Nck1XNeZPwaNnRLuv6CNY+9HZU6uiaP7bd/SwZCcrsopo47XBCRTbsDxt1Nj98IcX5PL
+ I3yeStBmARQ6YU3aBAJE05KC1Ia1zQB2tHimcFSSbHacGPf55OXizAIn0aWrJQkz7s5Z
+ KaJ53CPeNuDB0YSPKqEcESAVvdKiTGPuQAkeMLXBdttouOyjSsTr6WO1OY8VqPXM5YKG
+ 9EEwIi9K4KSwv2tAE7x103rXdho0/qQEyIV/uiyhQZFKPTaLjIQp8KPSXURcE+eQRfy2 Gw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3harnt00d4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 18:44:02 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26EIi2IB019563;
+ Thu, 14 Jul 2022 18:44:02 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3harnt00ck-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 18:44:02 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26EIcYo1005007;
+ Thu, 14 Jul 2022 18:44:00 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3h70xhyep5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 18:44:00 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26EIhvm914221642
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jul 2022 18:43:57 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0BDCEA4051;
+ Thu, 14 Jul 2022 18:43:57 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3EB33A4040;
+ Thu, 14 Jul 2022 18:43:56 +0000 (GMT)
+Received: from [9.171.84.216] (unknown [9.171.84.216])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Jul 2022 18:43:52 +0000 (GMT)
+Message-ID: <6ad0e006-72ee-3e24-48ed-fc8dd49db130@linux.ibm.com>
+Date: Thu, 14 Jul 2022 20:43:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 00/12] s390x: CPU Topology
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+In-Reply-To: <20220620140352.39398-1-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zFtyRuawnaCgh5BghVOLv6satPSJLf39
+X-Proofpoint-GUID: yAmpgR0xpZcjWC3mmqnzi5TPJlaTEuCD
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-14_15,2022-07-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ mlxlogscore=999 clxscore=1015 adultscore=0 priorityscore=1501 spamscore=0
+ lowpriorityscore=0 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207140081
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,128 +121,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Patrick Venture <venture@google.com>
+On 6/20/22 16:03, Pierre Morel wrote:
+> Hi,
+> 
+> This new spin is essentially for coherence with the last Linux CPU
+> Topology patch, function testing and coding style modifications.
+> 
+> Forword
+> =======
+> 
+> The goal of this series is to implement CPU topology for S390, it
+> improves the preceeding series with the implementation of books and
+> drawers, of non uniform CPU topology and with documentation.
+> 
+> To use these patches, you will need the Linux series version 10.
+> You find it there:
+> https://lkml.org/lkml/2022/6/20/590
+> 
+> Currently this code is for KVM only, I have no idea if it is interesting
+> to provide a TCG patch. If ever it will be done in another series.
+> 
+> To have a better understanding of the S390x CPU Topology and its
+> implementation in QEMU you can have a look at the documentation in the
+> last patch or follow the introduction here under.
+> 
+> A short introduction
+> ====================
+> 
+> CPU Topology is described in the S390 POP with essentially the description
+> of two instructions:
+> 
+> PTF Perform Topology function used to poll for topology change
+>     and used to set the polarization but this part is not part of this item.
+> 
+> STSI Store System Information and the SYSIB 15.1.x providing the Topology
+>     configuration.
+> 
+> S390 Topology is a 6 levels hierarchical topology with up to 5 level
+>     of containers. The last topology level, specifying the CPU cores.
+> 
+>     This patch series only uses the two lower levels sockets and cores.
+>     
+>     To get the information on the topology, S390 provides the STSI
+>     instruction, which stores a structures providing the list of the
+>     containers used in the Machine topology: the SYSIB.
+>     A selector within the STSI instruction allow to chose how many topology
+>     levels will be provide in the SYSIB.
+> 
+>     Using the Topology List Entries (TLE) provided inside the SYSIB we
+>     the Linux kernel is able to compute the information about the cache
+>     distance between two cores and can use this information to take
+>     scheduling decisions.
 
-Adds supported i2c devices to the quanta-gbc-bmc board.
+Do the socket, book, ... metaphors and looking at STSI from the existing
+smp infrastructure even make sense?
 
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
----
- hw/arm/npcm7xx_boards.c | 82 ++++++++++++++++++++++++-----------------
- 1 file changed, 49 insertions(+), 33 deletions(-)
-
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index b8337871ba..4bae5589f0 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -290,10 +290,12 @@ static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
- 
- static void quanta_gbs_i2c_init(NPCM7xxState *soc)
- {
-+    I2CSlave *i2c_mux;
-+
-+    /* i2c-0: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), TYPE_PCA9546, 0x71);
-+
-     /*
--     * i2c-0:
--     *     pca9546@71
--     *
-      * i2c-1:
-      *     pca9535@24
-      *     pca9535@20
-@@ -302,46 +304,60 @@ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
-      *     pca9535@23
-      *     pca9535@25
-      *     pca9535@26
--     *
--     * i2c-2:
--     *     sbtsi@4c
--     *
--     * i2c-5:
--     *     atmel,24c64@50 mb_fru
--     *     pca9546@71
--     *         - channel 0: max31725@54
--     *         - channel 1: max31725@55
--     *         - channel 2: max31725@5d
--     *                      atmel,24c64@51 fan_fru
--     *         - channel 3: atmel,24c64@52 hsbp_fru
--     *
-+     */
-+
-+    /* i2c-2: sbtsi@4c */
-+
-+    /* i2c-5: */
-+    /* mb_fru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 5), 5, 0x50, 8192, 0);
-+    i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 5),
-+                                      TYPE_PCA9546, 0x71);
-+    /* max31725 is tmp105 compatible. */
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 0), "tmp105", 0x54);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 1), "tmp105", 0x55);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 2), "tmp105", 0x5d);
-+    /* fan_fru */
-+    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 5, 0x51, 8192, 1);
-+    /* hsbp_fru */
-+    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 5, 0x52, 8192, 2);
-+
-+    /*
-      * i2c-6:
-      *     pca9545@73
-      *
-      * i2c-7:
-      *     pca9545@72
--     *
--     * i2c-8:
--     *     adi,adm1272@10
--     *
--     * i2c-9:
--     *     pca9546@71
--     *         - channel 0: isil,isl68137@60
--     *         - channel 1: isil,isl68137@61
--     *         - channel 2: isil,isl68137@63
--     *         - channel 3: isil,isl68137@45
--     *
-+     */
-+
-+    /* i2c-8: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 8), "adm1272", 0x10);
-+
-+    /* i2c-9: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 9), TYPE_PCA9546, 0x71);
-+    /*
-+     * - channel 0: isil,isl68137@60
-+     * - channel 1: isil,isl68137@61
-+     * - channel 2: isil,isl68137@63
-+     * - channel 3: isil,isl68137@45
-+     */
-+
-+    /*
-      * i2c-10:
-      *     pca9545@71
-      *
-      * i2c-11:
-      *     pca9545@76
--     *
--     * i2c-12:
--     *     maxim,max34451@4e
--     *     isil,isl68137@5d
--     *     isil,isl68137@5e
--     *
-+     */
-+
-+    /* i2c-12: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 12), "max34451", 0x4e);
-+    /*
-+     * isil,isl68137@5d
-+     * isil,isl68137@5e
-+     */
-+
-+    /*
-      * i2c-14:
-      *     pca9545@70
-      */
--- 
-2.37.0.170.g444d1eabd0-goog
-
+STSI 15.1.x reports the topology to the guest and for a virtual machine,
+this topology can be very dynamic. So a CPU can move from from one topology
+container to another, but the socket of a cpu changing while it's running seems
+a bit strange. And this isn't supported by this patch series as far as I understand,
+the only topology changes are on hotplug.
 
