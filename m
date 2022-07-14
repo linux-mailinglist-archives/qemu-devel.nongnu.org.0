@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F279575399
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:01:09 +0200 (CEST)
-Received: from localhost ([::1]:35458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE71575372
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:53:14 +0200 (CEST)
+Received: from localhost ([::1]:48494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC2D6-0000y6-B9
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 13:01:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39816)
+	id 1oC25Q-0006BF-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oC0EU-0000ok-OF
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:27 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:23126)
+ id 1oC0EQ-0000nF-Hw
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:22 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:45172)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oC0EL-0002nG-8v
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:26 -0400
+ id 1oC0EN-0002nT-A5
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657810457; x=1689346457;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=BoaBosvleHxK9xy4H22GSn5PxcrgH4jri4jtzLeNm6U=;
- b=n63h22dTi2t1qh0Vo51ZXxrVY1zkyIC2dmW7DhjLFKOikd7TfepU8Wro
- Elo7oQelVoif0N9NlXrf+gzx9rBZy/qrjcb9AZdfvU1BSMDMsG9+zqsL3
- TkHBrPJP1OjQghOpYl+aWTieFyOEYMZk8NHNJi35qubKvksTCQK+rW+Ea I=;
-Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jul 2022 07:54:14 -0700
+ t=1657810459; x=1689346459;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=TKl0FgXTUUFV6GiVWXF/n8GG8P5iM8175jJk7ghWRX8=;
+ b=U6xd7zBmNpvu4dNd1E3upaYDU4IpIG7L7nTejq175+cV0uHtjdFZkG1d
+ +opPEyPIvybMphM4Mrqs/Gv9jHBarD1nVblPffAf10vOsqJUovSRLqWdI
+ 3XgIfiYdQrwGgHjGvPFPrNvhF5d6jcFT18oDIeGbpH4RgVZJWFqKoARKs 4=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jul 2022 07:54:16 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 07:54:13 -0700
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 07:54:16 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:54:13 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:54:15 -0700
 Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:54:11 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:54:14 -0700
 From: Tobias Roehmel <quic_trohmel@quicinc.com>
 To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, Tobias Roehmel <quic_trohmel@quicinc.com>
-Subject: [PATCH 00/11] Add Cortex-R52
-Date: Thu, 14 Jul 2022 16:53:44 +0200
-Message-ID: <20220714145355.7225-1-quic_trohmel@quicinc.com>
+CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
+ <quic_trohmel@quicinc.com>
+Subject: [PATCH 02/11] target/arm: Add ARM Cortex-R52 cpu
+Date: Thu, 14 Jul 2022 16:53:46 +0200
+Message-ID: <20220714145355.7225-3-quic_trohmel@quicinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220714145355.7225-1-quic_trohmel@quicinc.com>
+References: <20220714145355.7225-1-quic_trohmel@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.80.80.8]
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01b.na.qualcomm.com (10.47.209.197)
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=quic_trohmel@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=199.106.114.38;
+ envelope-from=quic_trohmel@quicinc.com; helo=alexa-out-sd-01.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 14 Jul 2022 12:46:13 -0400
+X-Mailman-Approved-At: Thu, 14 Jul 2022 12:46:11 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,54 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These patches add the ARM Cortex-R52. The biggest addition is
-an implementation of the armv8-r MPU.
-The last patch adds a machine that combines the new core with
-an UART and a GIC. This machine can run many samples of
-the Zephyr OS.
+From: Tobias Röhmel <quic_trohmel@quicinc.com>
 
-All information is taken from:
-- ARM Cortex-R52 TRM revision r1p3
-- ARM Architecture Reference Manual Supplement
-    -ARMv8 for the ARMv8-R AArch32 architecture profile Version A.c
+All constants are taken from the ARM Cortex-R52 Processor TRM Revision: r1p3
 
-Functionality that is not implemented:
-- Changing between single and double precision floats
-- Some hypervisor related functionality (HCR.T(R)VM,HADFSR,...)
+Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
+---
+ target/arm/cpu_tcg.c | 54 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-Tobias Röhmel (11):
-  target/arm: Add ARM_FEATURE_V8_R
-  target/arm: Add ARM Cortex-R52 cpu
-  target/arm: Add v8R MIDR register
-  target/arm: Make RVBAR available for non AARCH64 CPUs
-  target/arm: Make stage_2_format for cache attributes optional
-  target/arm: Add ARMCacheAttrs to the signature of pmsav8_mpu_lookup
-  target/arm: Enable TTBCR_EAE for ARM_FEATURE_V8_R
-  target/arm Add PMSAv8r registers
-  target/arm: Add PMSAv8r functionality
-  target/arm: Make SPSR_hyp accessible for Cortex-R52
-  hw/arm: Add R52 machine
-
- configs/devices/arm-softmmu/default.mak |   1 +
- hw/arm/Kconfig                          |   5 +
- hw/arm/meson.build                      |   1 +
- hw/arm/r52_machine.c                    | 133 +++++++++++++++
- hw/arm/r52_virt.c                       | 217 ++++++++++++++++++++++++
- include/hw/arm/r52_virt.h               |  61 +++++++
- target/arm/cpu.c                        |  10 +-
- target/arm/cpu.h                        |  11 ++
- target/arm/cpu_tcg.c                    |  54 ++++++
- target/arm/helper.c                     | 184 +++++++++++++++++++-
- target/arm/internals.h                  |  13 +-
- target/arm/m_helper.c                   |   3 +-
- target/arm/op_helper.c                  |   8 +
- target/arm/ptw.c                        | 191 ++++++++++++++++++---
- target/arm/translate.c                  |   5 +-
- 15 files changed, 859 insertions(+), 38 deletions(-)
- create mode 100644 hw/arm/r52_machine.c
- create mode 100644 hw/arm/r52_virt.c
- create mode 100644 include/hw/arm/r52_virt.h
-
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index b751a19c8a..49fb03c09a 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -843,6 +843,59 @@ static void cortex_r5_initfn(Object *obj)
+     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
+ }
+ 
++static const ARMCPRegInfo cortexr52_cp_reginfo[] = {
++    /* Dummy the TCM region regs for the moment */
++    { .name = "ATCM", .cp = 15, .opc1 = 0, .crn = 9, .crm = 1, .opc2 = 0,
++      .access = PL1_RW, .type = ARM_CP_CONST },
++    { .name = "BTCM", .cp = 15, .opc1 = 0, .crn = 9, .crm = 1, .opc2 = 1,
++      .access = PL1_RW, .type = ARM_CP_CONST },
++    { .name = "DCACHE_INVAL", .cp = 15, .opc1 = 0, .crn = 15, .crm = 5,
++      .opc2 = 0, .access = PL1_W, .type = ARM_CP_NOP },
++};
++
++static void cortex_r52_initfn(Object *obj)
++{
++    ARMCPU *cpu = ARM_CPU(obj);
++
++    set_feature(&cpu->env, ARM_FEATURE_V8);
++    set_feature(&cpu->env, ARM_FEATURE_V8_R);
++    set_feature(&cpu->env, ARM_FEATURE_EL2);
++    set_feature(&cpu->env, ARM_FEATURE_PMSA);
++    set_feature(&cpu->env, ARM_FEATURE_NEON);
++    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
++    cpu->midr = 0x411fd133; /* r1p3 */
++    cpu->revidr = 0x00000000;
++    cpu->reset_fpsid = 0x41034023;
++    cpu->isar.mvfr0 = 0x10110222;
++    cpu->isar.mvfr1 = 0x12111111;
++    cpu->isar.mvfr2 = 0x00000043;
++    cpu->ctr = 0x8144c004;
++    cpu->reset_sctlr = 0x30c50838;
++    cpu->isar.id_pfr0 = 0x00000131;
++    cpu->isar.id_pfr1 = 0x10111001;
++    cpu->isar.id_dfr0 = 0x03010006;
++    cpu->id_afr0 = 0x00000000;
++    cpu->isar.id_mmfr0 = 0x00211040;
++    cpu->isar.id_mmfr1 = 0x40000000;
++    cpu->isar.id_mmfr2 = 0x01200000;
++    cpu->isar.id_mmfr3 = 0xf0102211;
++    cpu->isar.id_mmfr4 = 0x00000010;
++    cpu->isar.id_isar0 = 0x02101110;
++    cpu->isar.id_isar1 = 0x13112111;
++    cpu->isar.id_isar2 = 0x21232142;
++    cpu->isar.id_isar3 = 0x01112131;
++    cpu->isar.id_isar4 = 0x00010142;
++    cpu->isar.id_isar5 = 0x00010001;
++    cpu->isar.dbgdidr = 0x77168000;
++    cpu->clidr = (1 << 27) | (1 << 24) | 0x3;
++    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
++    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
++
++    cpu->pmsav7_dregion = 16;
++
++    define_arm_cp_regs(cpu, cortexr52_cp_reginfo);
++}
++
+ static void cortex_r5f_initfn(Object *obj)
+ {
+     ARMCPU *cpu = ARM_CPU(obj);
+@@ -1148,6 +1201,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+     { .name = "cortex-m55",  .initfn = cortex_m55_initfn,
+                              .class_init = arm_v7m_class_init },
+     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
++    { .name = "cortex-r52",   .initfn = cortex_r52_initfn },
+     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
+     { .name = "ti925t",      .initfn = ti925t_initfn },
+     { .name = "sa1100",      .initfn = sa1100_initfn },
 -- 
 2.25.1
 
