@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A86D6574F4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:37:10 +0200 (CEST)
-Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707EA574F5F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:39:55 +0200 (CEST)
+Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBz1h-0002oT-OI
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
+	id 1oBz4M-000836-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oByq0-0004FM-59
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:25:04 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33631)
+ id 1oByr8-0005Rl-Gb
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:26:24 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:44561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oBypv-0000Er-Fe
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:25:03 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id y195so3258554yby.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 06:24:57 -0700 (PDT)
+ id 1oByr5-0000m2-LH
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:26:14 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id h62so3135087ybb.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 06:26:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=9aipFfxuSGHTprqSgKZTFQgdoeu77ZawRtLMvcQQYko=;
- b=ocVvAcZpnQa/LhwqpRc9Kn3oOAYPxiGViB9+bGHYUYyCcYPXLqasyrohqjr2dunYgM
- AvFsJQRPpaPDsfFZVkTlvEWvK76GzaHF4MUSJdaFzRsY7oCxzNmngOTSyhTaWdFRokL/
- cnZs8lYbAg3504HGrxcIc4vYvK78UTigIbmF8PyoCG+6hCWmr+c3Fhh6V8h8vvMptxn1
- sHNO1GvfGk0ZO2/5KD5P5VHzKRRcm5+J8pfh9RDQZ/3odhwXtX70o8ngXwmRedRGfdJa
- PxyD/q4kX902HtHbpfFdk8/WxWwJm5p2TvRDvnZacQkkHQR9Nvo5LK6BbxpyfOLAWqGZ
- CToQ==
+ :cc:content-transfer-encoding;
+ bh=5lbDwxBUXYygIewke9gr8MOQqhUjospuco4s+g/eJzM=;
+ b=nMrR3ARB0+S+dncE1xTlSNO+HZnlZQ305f6sPN2u1CgXiraDu7jmJq4x/iDpSMcLky
+ 8cl1PDdV/TynFkCSSmGAR8Dcz7X1aG1OknEtea5Acf5DrBTRGDbAJetIMU1eiKoQZR3Z
+ A+4uBPjO4/SP1RZaKIXBQLVPcppZtimOyGk44nuaRhTn5wdmwZfhcx6d7RlCms0aNOPM
+ Sex+zfBqlOgYy3rlIbEMVhajNO1liGv/hADtHtmEIr6XOJn6HO9nlKiB3FU7zzmfWC18
+ /Cfp0JhumwfIKgSq4otOVBIRJA/ZtwZg1OkAgqq5jELlEqiSxTxUzPNb79PgKfOQ+jyp
+ thPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9aipFfxuSGHTprqSgKZTFQgdoeu77ZawRtLMvcQQYko=;
- b=FNvQ/fDSItXQqnQBLDRhReVp1n1wYEEFOgq71xi3BhsJc5B7DC5uKHzTConpvSFL3f
- G6c8U2UFsEfahTZjtewpk2EhFV6nUIBJuxKmMN+Q6zqB7ttOs1PN98gaJJ4/B/sLN+dE
- Cj5eQBndNInTA1rfDBfUCXy5Y/DxAZ198s/2FTuNxUV0aOGwC4Vxxfm9np9IKb/JjKLp
- LVtvIU9BRETtrXLJyoj9JI8hPdOqq0EYtFitxENyQRLFPAdxCX6upT37ySK6l9TKA1mt
- q1e3g0mDS9MyKdG9u0e4+LqNLTh6oSq5kFqcCgEx6GsXwBaqCJY5TSGNn0D2cjsclWxc
- 5zZw==
-X-Gm-Message-State: AJIora9Vz94SUMvIbQE+RiXkhsbIrpQ5j+E4VsK56+DNIZDN+9ug7FwC
- zdsukl06EJfXA9ZFLwn60eEufF9PhRX8mw3H7Uaw5Q==
-X-Google-Smtp-Source: AGRyM1vRPAGHV5oI9SIYVzqO8BXvGHbtA8h2DL5LL6MaHISeB4cfrC4j/6gaKEtsuVwg1bTUmj6gW7qyCcgJ5DXNC5A=
-X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
- e123-20020a25d381000000b0066e29431c9dmr8349339ybf.67.1657805096872; Thu, 14
- Jul 2022 06:24:56 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5lbDwxBUXYygIewke9gr8MOQqhUjospuco4s+g/eJzM=;
+ b=o5LEXfYL/ZYhatciL0ylFtiXSsF4AZe6+NmCxVZ7kHO7nfUawD9XPDn0UPG94N5z1w
+ MvKa5psrQ5bwEQqp3o1qCzJeaeqiawG9eTAiYVtW03ROeDwzi7LPM86hieSpyXFLMIBW
+ t/3Aa9BCaM67SlwPWfZaEoSu1rddIG4Lzp5qPDQomuylPnpyTTVJvIpxwlx2ZB7HSh+6
+ z6hhXpEoLo7cFhEQz6Z+KoKdbb5BmS0HwpBKL9FspNJnRLCsht+QPgCLy0obv4bqBjoD
+ NutPhlGaUYq21luRJCu/2+p5sxvaoaXphApwHrgx1bMjCUQYbmCl42BzV1d2AYMoMuq1
+ bQTQ==
+X-Gm-Message-State: AJIora8RbTnC6YFnSjDhm4K3wzcanvKVnHn5wFE5iOuEtbLZcvjtDn8j
+ 8ZrLzI/NiRTTxvz8AlYPTctNLEPILPIPgMxrsxDkdw==
+X-Google-Smtp-Source: AGRyM1vaNOUUU3fruXG6NaRS1SeUBz3AVZDsJkogsxHUVWXB1gNECM+ohb6R5MMXvpsT+etYJNB82zDOBLVOaxGoVmM=
+X-Received: by 2002:a25:d7d6:0:b0:66e:47b3:35be with SMTP id
+ o205-20020a25d7d6000000b0066e47b335bemr8670241ybg.140.1657805169008; Thu, 14
+ Jul 2022 06:26:09 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220710170014.1673480-1-ani@anisinha.ca>
- <20220711044032-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220711044032-mutt-send-email-mst@kernel.org>
+References: <20220712221607.9933-1-f4bug@amsat.org>
+In-Reply-To: <20220712221607.9933-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 14:24:18 +0100
-Message-ID: <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
- biosbits
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org, thuth@redhat.com, 
- berrange@redhat.com, jsnow@redhat.com, pbonzini@redhat.com, 
- imammedo@redhat.com
+Date: Thu, 14 Jul 2022 14:25:29 +0100
+Message-ID: <CAFEAcA_eOVtCgbhbBSqcGe_kaZxk1H3jv4m0y0RxmCkrPvmbPA@mail.gmail.com>
+Subject: Re: [PULL 0/5] Darwin patches for 2022-07-12
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>, 
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Thomas Huth <thuth@redhat.com>, 
+ Cameron Esfahani <dirty@apple.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,39 +85,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote:
+On Tue, 12 Jul 2022 at 23:45, Philippe Mathieu-Daud=C3=A9 via
+<qemu-devel@nongnu.org> wrote:
 >
-> On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
-> > Changelog:
-> > v2:
-> >  - a new class of python based tests introduced that is separate from avocado
-> >    tests or qtests. Can be run by using "make check-pytest".
-> >  - acpi biosbits tests are the first tests to use pytest environment.
-> >  - bios bits tests now download the bits binary archives from a remote
-> >    repository if they are not found locally. The test skips if download
-> >    fails.
-> >  - A new environment variable is introduced that can be passed by the tester
-> >    to specify the location of the bits archives locally. test skips if the
-> >    bits binaries are not found in that location.
-> >  - if pip install of python module fails for whatever reaoson, the test skips.
-> >  - misc code fixes including spell check of the README doc. README has been
-> >    updated as well.
-> >  - addition of SPDX license headers to bits test files.
-> >  - update MAINTAINERS to reflect the new pytest test class.
-> >
-> > For biosbits repo:
-> >  - added Dockerfile and build script. Made bios bits build on gcc 11.
-> >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
-> >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
-> >    The build script generates the zip archive and tarball used by the test.
+> The following changes since commit 8e3d85d36b77f11ad7bded3a2d48c1f0cc334f=
+82:
 >
-> So far so good, I think it's ok for a start. It's probably a good idea
-> to host the source on qemu.org. Peter - any objection to this?
+>   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into stagin=
+g (2022-07-12 14:12:15 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/philmd/qemu.git tags/darwin-20220712
+>
+> for you to fetch changes up to 50b13d31f4cc6c70330cc3a92561a581fc176ec9:
+>
+>   avocado: Fix BUILD_DIR if it's equal to SOURCE_DIR (2022-07-13 00:06:02=
+ +0200)
+>
+> ----------------------------------------------------------------
+> Darwin patches:
+>
+> - Enable RDTSCP support on HVF
+> - ui/cocoa: Take refresh rate into account
+>
+> Few buildsys fixes:
+>
+> - Restrict TCG to emulation
+> - Remove a unused-but-set-variable warning
+> - Allow running Avocado from pseudo-"in source tree" builds
+>
+> ----------------------------------------------------------------
 
-Dan was looking at v1 from the point of view of how we handle the
-guest binary blobs for these tests -- I'd rather defer to him rather
-than taking the time to get up to speed on the issue myself.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
+for any user-visible changes.
+
 -- PMM
 
