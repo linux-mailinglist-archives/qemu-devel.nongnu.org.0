@@ -2,88 +2,118 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B386574231
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 06:21:28 +0200 (CEST)
-Received: from localhost ([::1]:33510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB56457432C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 06:32:11 +0200 (CEST)
+Received: from localhost ([::1]:38096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBqLu-0007K4-07
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 00:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1oBqWI-0002Sr-Ge
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 00:32:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBqJ3-0005DR-3C
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 00:18:29 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:46115)
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oBqTr-00010J-TH
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 00:29:39 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:40032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBqJ0-0007Q2-9z
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 00:18:28 -0400
+ (Exim 4.90_1) (envelope-from <luto@kernel.org>) id 1oBqTq-0001IH-0h
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 00:29:39 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 7617961EDF;
+ Thu, 14 Jul 2022 04:29:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 552F5C34114;
+ Thu, 14 Jul 2022 04:29:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1657772973;
+ bh=fZjf6kM0D523BGGdK0aisyqfUcBCAbftTGPrzQxmYl4=;
+ h=In-Reply-To:References:Date:From:To:Cc:Subject:From;
+ b=V79TD0WneKTSUMaxeccz769Avk5rrUv+BQsMCuv30eZPWMnX6+Rs7QSWI3hvDNAO1
+ KpmstDAbglH2L3xl/Rf6tHONjRq4ZVSraY3CO03oU6frXMHG1i/oGxmKlvpMhMkxbT
+ /ceXbqiDvJbEcLUGzgZjjuLW8etDCobLJQf6P5fYlXJoSz3dHSICDUWEkeuNMHoFtO
+ 7eQSb+hMvAiNXYvGsB/qUKMPtz9IPZs14taX81mdcMi2PTplJt/6oe6E0PwlsWPWb+
+ BxsVcmmZkd37abT/u8jlTeanGzTO0yslVCn/ubUfB6HkVdWhQQ2nwyYOnQzbcWMEb2
+ vlgJPxpBZikeQ==
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 3C2DA320091E;
- Thu, 14 Jul 2022 00:18:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 14 Jul 2022 00:18:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657772300; x=1657858700; bh=fz
- /9qabC1cklPuPuzYeL2wVK2+FJ+wfYd8djEGWEtWI=; b=IHqgN1KmIqvVUFQZs6
- 1GXWaQDFAr8JrIuNluqJT97ch05Ag4QxbOMMfDixQ83cx3+zzcn1ONzE3fkPyXln
- 3Iah+gyqHu7lfqJKragFeW9pRDiL/0qPbfDMXnxDLE/wlxOId4eFL7tQQqSOXGtQ
- K67IgaxGK7iA1TJ2l1EaQsy6fhphK6Px8KPTD6qHWzzKMuXyhGVS0PZBr1TDUbEn
- kbAvjyYL7h2CXhN9ZeE0rlCzGpouhNZQ2xnlat26r/rLNOPA9UIrakBPyhYwGVzD
- LgkcuXbMK/FKstoexTquf6kEx+s+FwNnco+4EKp/XcPzl4LdY1JMBwXC2Bhzz7NB
- XQGw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657772300; x=1657858700; bh=fz/9qabC1cklPuPuzYeL2wVK2+FJ
- +wfYd8djEGWEtWI=; b=0Zvtn9OPtmYBA6It3zU0hIH/I+0yMO7CzzVmbjf4AGYD
- LJN3fiR9liD7aWsO7ppvi85IN9IZ5x5hXtRWOesch3HjYJ4lHAl7V3tde3sCa/X5
- 2vTnBgIEV0VmZhTz8mNK2x2cdezbp1CYIzXIMVChT7KzqSV1Qb5khQbiFVswFXzI
- HWx1iY3LOaPTPjKfOKQzuhrnKH4HbceJR6bVtOTA1srp5451TsnTqZoQC1hnBPuk
- IqqEp7RMGDTDEMXJNNxoQFcxTomiiD4hAAP3bRUHRlc8C8I4IcHm0HdcA6DplymY
- HuBKjth3zut5XI+VI3gatkph+XZH3pHNXuPkLvRTHw==
-X-ME-Sender: <xms:CpnPYqDBTJULh6kfgi4jo0FVF9m_22mXgfBQsSM-zl6cMMUYU5zzBw>
- <xme:CpnPYkhNGg-RlR9LhKkjAw4OJ7uP57Se_aGUroHtvjXMfTNrfJg5R43KOJXhrxU23
- KK6K9_LcNt_KFmBqfI>
-X-ME-Received: <xmr:CpnPYtnvYbUDrnY1z2dxK45JLfzJqnypJf66vim3URENTbTKwDTLDFDsQePQHht6teaRFbQ_Z2TvLBD8Ims>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejkedgkeduucetufdoteggodetrfdotf
+ by mailauth.nyi.internal (Postfix) with ESMTP id 27C2D27C0054;
+ Thu, 14 Jul 2022 00:29:31 -0400 (EDT)
+Received: from imap48 ([10.202.2.98])
+ by compute2.internal (MEProxy); Thu, 14 Jul 2022 00:29:31 -0400
+X-ME-Sender: <xms:qJvPYii29dAPbs_NpMgLHxhVXc4L0Sjcg_lr5sRIkLTcZRf9JDcl5A>
+ <xme:qJvPYjCbHJ_QG4ltuWLgayikUHS2XGZ29WM9MlidRbBTzlJ66vMUr9hVKmHef6O-R
+ 7PC-LsZVz_Mqjyz2fY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejkedgkeegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:CpnPYoyBH8dQAEc6Q392WV5djFiJGbkwaJn4K9A0GiOdgAM1CqExzg>
- <xmx:CpnPYvS0ISgjizu-eV7SI4Ddcqrd0YDD03V-DIMCXLKFooZ1gGyshQ>
- <xmx:CpnPYjbgw0ilJY8pXpo9kAYtHXptZ_rrEnpHuA5AxvByYA9I3Ki9OQ>
- <xmx:DJnPYqfsyospA7B4iBAfehC8VKuNisF5lzI9yy39z5OPjmvbEU0FbA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 00:18:18 -0400 (EDT)
-Date: Thu, 14 Jul 2022 06:18:16 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-Message-ID: <Ys+ZCHFWbjAH/48O@apples>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <Ys1oY9LmeDCGT9FT@apples>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v3jKuSJ8O1QhPWVU"
-Content-Disposition: inline
-In-Reply-To: <Ys1oY9LmeDCGT9FT@apples>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehn
+ ugihucfnuhhtohhmihhrshhkihdfuceolhhuthhosehkvghrnhgvlhdrohhrgheqnecugg
+ ftrfgrthhtvghrnhepvdfhuedvtdfhudffhfekkefftefghfeltdelgeffteehueegjeff
+ udehgfetiefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+ homheprghnugihodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduudeiudek
+ heeifedvqddvieefudeiiedtkedqlhhuthhopeepkhgvrhhnvghlrdhorhhgsehlihhnuh
+ igrdhluhhtohdruhhs
+X-ME-Proxy: <xmx:qJvPYqGLOxrAPwNk-220lDr2W5tpjR4mLXcTgdlR0gEB3i-gOYU2CQ>
+ <xmx:qJvPYrSFHEaKpA3pRKzZg-iOSfXaA839zBgCzKjTiKzrkWYut0kmPg>
+ <xmx:qJvPYvxpeBBe4a3rrdpEwgU1634k-2FWm0ADCA6yDIw3ZEVQtF_IyQ>
+ <xmx:q5vPYkxOdsVoPeCrLR_3at-Za3z_dmEXWySUh5DAoyOM-51svN7zEhnbCfE>
+Feedback-ID: ieff94742:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A4A7431A0062; Thu, 14 Jul 2022 00:29:28 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-755-g3e1da8b93f-fm-20220708.002-g3e1da8b9
+Mime-Version: 1.0
+Message-Id: <b0c726d4-2ad3-47e7-90cf-d67b36e7d59e@www.fastmail.com>
+In-Reply-To: <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
+ <20220713075738.GC2831541@chaop.bj.intel.com>
+ <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+Date: Wed, 13 Jul 2022 21:29:08 -0700
+From: "Andy Lutomirski" <luto@kernel.org>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>,
+ "Chao Peng" <chao.p.peng@linux.intel.com>
+Cc: "kvm list" <kvm@vger.kernel.org>,
+ "Linux Kernel Mailing List" <linux-kernel@vger.kernel.org>,
+ linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+ "Linux API" <linux-api@vger.kernel.org>, linux-doc@vger.kernel.org,
+ qemu-devel@nongnu.org, linux-kselftest@vger.kernel.org,
+ "Paolo Bonzini" <pbonzini@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Sean Christopherson" <seanjc@google.com>,
+ "Vitaly Kuznetsov" <vkuznets@redhat.com>,
+ "Wanpeng Li" <wanpengli@tencent.com>,
+ "Jim Mattson" <jmattson@google.com>, "Joerg Roedel" <joro@8bytes.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "the arch/x86 maintainers" <x86@kernel.org>,
+ "H. Peter Anvin" <hpa@zytor.com>, "Hugh Dickins" <hughd@google.com>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Shuah Khan" <shuah@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Steven Price" <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ "Vlastimil Babka" <vbabka@suse.cz>,
+ "Vishal Annapurve" <vannapurve@google.com>,
+ "Yu Zhang" <yu.c.zhang@linux.intel.com>,
+ "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, "Nakajima,
+ Jun" <jun.nakajima@intel.com>, "Dave Hansen" <dave.hansen@intel.com>,
+ "Andi Kleen" <ak@linux.intel.com>,
+ "David Hildenbrand" <david@redhat.com>, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ "Quentin Perret" <qperret@google.com>,
+ "Michael Roth" <michael.roth@amd.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Muchun Song" <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
+ guest private memory
+Content-Type: text/plain
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=luto@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,55 +131,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---v3jKuSJ8O1QhPWVU
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Jul 12 14:26, Klaus Jensen wrote:
-> On Jul  9 12:35, Jinhao Fan wrote:
-> > Use irqfd to directly notify KVM to inject interrupts. This is done by
-> > registering a virtual IRQ(virq) in KVM and associate the virq with an
-> > irqfd, so that KVM can directly inject the interrupt when it receives
-> > notification from the irqfd. This approach is supposed to improve=20
-> > performance because it bypasses QEMU's MSI interrupt emulation logic.
-> >=20
-> > However, I did not see an obvious improvement of the emulation KIOPS:
-> >=20
-> > QD      1   4  16  64=20
-> > QEMU   38 123 210 329
-> > irqfd  40 129 219 328
-> >=20
-> > I found this problem quite hard to diagnose since irqfd's workflow
-> > involves both QEMU and the in-kernel KVM.=20
-> >=20
-> > Could you help me figure out the following questions:
-> >=20
-> > 1. How much performance improvement can I expect from using irqfd?
->=20
-> This is a level of QEMU/KVM that I am by no means an expert on and I
-> would have to let the broader QEMU community comment on this.
->=20
+On Wed, Jul 13, 2022, at 3:35 AM, Gupta, Pankaj wrote:
+>>>> This is the v7 of this series which tries to implement the fd-based KVM
+>>>> guest private memory. The patches are based on latest kvm/queue branch
+>>>> commit:
+>>>>
+>>>>     b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
+>>>> split_desc_cache only by default capacity
+>>>>
+>>>> Introduction
+>>>> ------------
+>>>> In general this patch series introduce fd-based memslot which provides
+>>>> guest memory through memory file descriptor fd[offset,size] instead of
+>>>> hva/size. The fd can be created from a supported memory filesystem
+>>>> like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
+>>>
+>>> Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
+>>> page cache instead of mapping pages into userspace address space. Can we hit
+>>> double (un-coordinated) page cache problem with this when guest page cache
+>>> is also used?
+>> 
+>> This is my understanding: in host it will be indeed in page cache (in
+>> current shmem implementation) but that's just the way it allocates and
+>> provides the physical memory for the guest. In guest, guest OS will not
+>> see this fd (absolutely), it only sees guest memory, on top of which it
+>> can build its own page cache system for its own file-mapped content but
+>> that is unrelated to host page cache.
+>
+> yes. If guest fills its page cache with file backed memory, this at host 
+> side(on shmem fd backend) will also fill the host page cache fast. This 
+> can have an impact on performance of guest VM's if host goes to memory 
+> pressure situation sooner. Or else we end up utilizing way less System 
+> RAM.
 
-In any case, I'm wary about adding this level of kvm-dependence in the
-device. This wont work on non-kvm platforms any more.
+Is this in any meaningful way different from a regular VM?
 
-I think you should put irqfd on hold and focus on iothreads :)
-
---v3jKuSJ8O1QhPWVU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLPmPkACgkQTeGvMW1P
-Den/oggAlyIwBZi925ZzIey+wbzl1dRc6JqcRyNnJqXrp+zTvwfkoxMRFwtJ6lij
-8PUR5o7DSJ+1d1uHWfN0v6bGgnxA7OtrfClogz1S/zZwGKaA7z9KcxGPX0WndwK2
-psyq/F4bRdhdptbNVOstlgz0dykNZ9hP/QVC7QGyJf/PIXqRwWwUAZ/2ROEwOWUJ
-mPI7GkHkv2QN2XQa4O1/WZR8FGi1Jf9MWVqu2nqxczuHD8k0G+ExeET6CQ1OmTo1
-EHzBgvcNcfQE5tFkTBicTKvbLYFTUCLtWzLP/SI5TZFJDmx73ort0JAt33H0jJQp
-vDwhS1TGJ39uUZwmoxZ5gX9o/vs9wg==
-=BvS1
------END PGP SIGNATURE-----
-
---v3jKuSJ8O1QhPWVU--
+--Andy
 
