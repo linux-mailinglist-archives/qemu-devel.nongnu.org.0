@@ -2,101 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA765747A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 10:58:22 +0200 (CEST)
-Received: from localhost ([::1]:45966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB529574824
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:14:24 +0200 (CEST)
+Received: from localhost ([::1]:35464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBufs-00043J-OZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 04:58:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
+	id 1oBuvP-000886-EK
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:14:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBuc2-0001wX-6Y
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 04:54:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50426)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBujn-0004xY-5v
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36614)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oBuby-0003gB-KG
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 04:54:20 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oBuji-0005sX-GZ
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657788857;
+ s=mimecast20190719; t=1657789336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nb1qCogyOSIjxZDz1Cn/mBvYLKdYmF2uBpe/vzSvKbM=;
- b=jJhDb5G3FOkLUHjgUq4ywviyDeiuCZGARkz/G1GGBtvlCyat/LPY0LelN2G0nlMV0V2A35
- tBzNVkDy7CEkPSVIYQ3BBPVPO6m+CXzDlCPAMfTBkdYygs67bhYrCK6f2k1OLd8he1+6fl
- 8PeNxDCMWu2yA6VvtB79CbfZunEe1FY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5WrNwF6OXCHFo+3l/98jNDwNm+SN0pzckmDsi19/lsc=;
+ b=NPC83HLe/6qvnJ5MGUdmtOjaqiDbiQAw6raqHNfJ5YrUGatlWZ+5t/a9Q/V4TpKnW83Rwe
+ Zf8oRXEoNI/WNhjDH4sM/ZSTr2zzejg7AqijEa7+xWjjQcPXS5HDJc2qPIBbnlAq95OdtW
+ srw8aZDGpzPZnfxndbJFSI27rkFsl6A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-tS6TtSRoPQ-2nVQUYGPW1Q-1; Thu, 14 Jul 2022 04:54:15 -0400
-X-MC-Unique: tS6TtSRoPQ-2nVQUYGPW1Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- m13-20020a056402430d00b0043ac2f27d83so1085506edc.20
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 01:54:15 -0700 (PDT)
+ us-mta-73-BEHGTOJfN4CDnNynmrBEAQ-1; Thu, 14 Jul 2022 05:02:15 -0400
+X-MC-Unique: BEHGTOJfN4CDnNynmrBEAQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ hs16-20020a1709073e9000b0072b73a28465so502201ejc.17
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:from
- :subject:to:cc:references:content-language:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Nb1qCogyOSIjxZDz1Cn/mBvYLKdYmF2uBpe/vzSvKbM=;
- b=bo6STrJoatbunkKUWAnoN822TEGczfbpl8OOtmW/NeObjp4rPRNEpMLf4LiuL1jsOj
- +l2fULYa/vxmb2IGE2s/OLkHIx3XplQaISbE5lJIgGC9hRZjJ39Dq6mCajuQcO5kVJ5n
- mGdqMdo1D2wTpY1IyFZNzspyOF6V01rkHmSrY0kYU7HExCZlh65WPfgnlJhVQaV+BN4Y
- 5cnnwQWKeSqwfBut57pgN23gYvFzLOjfcPH9ErEkZlwHVqDDlYJrvqJA6jA22asUW9CY
- 4Grhy5pc8/0ZypP30KwdNFVw28/b6p0s0hZGA06NJja9iG84FHnGU/olArOt0CHDr0Px
- Cdig==
-X-Gm-Message-State: AJIora8J4YD1Mr00gJ53f+j6zf+9sEGBngBt6wUaY4uO6PzqiJe0GbMQ
- 36aPMLa71Kv1W/XgF2fXWTk+XbOXP06XoV9EdkJsT+VcOUBCcVpxF+K++lV9tD/Tcb2+NKWx6tN
- XAiPzuNqfhuBQBGI=
-X-Received: by 2002:a17:907:9619:b0:72b:4761:be19 with SMTP id
- gb25-20020a170907961900b0072b4761be19mr8098498ejc.20.1657788854631; 
- Thu, 14 Jul 2022 01:54:14 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vOowxTk0dbD7zwcvfFxIU0+UqN9p0hc1bqZH5+fiW0ipAhCV2EPODyQR/+wbt++wqBhEqMKw==
-X-Received: by 2002:a17:907:9619:b0:72b:4761:be19 with SMTP id
- gb25-20020a170907961900b0072b4761be19mr8098450ejc.20.1657788854204; 
- Thu, 14 Jul 2022 01:54:14 -0700 (PDT)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- g17-20020a17090604d100b00722e52d043dsm443347eja.114.2022.07.14.01.54.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 01:54:13 -0700 (PDT)
-Message-ID: <5ef9e60c-bcb2-7172-4664-688a5f3b2844@redhat.com>
-Date: Thu, 14 Jul 2022 10:54:12 +0200
+ bh=5WrNwF6OXCHFo+3l/98jNDwNm+SN0pzckmDsi19/lsc=;
+ b=h8Hrn2sFSC2eaEa0D1Qs5o6k9guOEgJgHFRfosfVVj8O2sV3U1Q7/PASIwgW3KoYoj
+ OLS5To8cccYOa6XS34paFeEIv9iunQu3Q0lmtU0hYtBKSLQS8YeV28PWDkN1KzYusOQY
+ WL2HSbr36bW0c77XbBiXdufLQigaF61teTqlFMArr8yfMQDTOWJNm6wZoLLtrmRDOkFp
+ GCwjxzt3i3Id+7/tAnrkRWuycczYrot1Yy7LGdt8FyF/8mKnIJaXhU+gskEMGvsWB1sE
+ teCem2euXT4/KialdoT+OdBPMQxcOV/yWWPWg6fgODptaNP+DoAp1n7SluanV1KgEZGU
+ wNQQ==
+X-Gm-Message-State: AJIora/msrVuHIiEqF+jyVRxEde/R61Z4/68wrMsPuoSYv3Oh0sDw6XY
+ CR268KfzcjWUR3kVTLEMULReG0iTPxJYHvVOcSzxp4uDKUSbHSDav5pNhgkmkjo80e1Q30fKFxU
+ ycDcg8TrpMWH7E6OUTzVFGI20zrNftqXcO4wgZ7XGYLWuDF87AJqkZE9OJZL33KzQmIY=
+X-Received: by 2002:a05:6402:190b:b0:43a:c95d:ec93 with SMTP id
+ e11-20020a056402190b00b0043ac95dec93mr10786366edz.44.1657789334378; 
+ Thu, 14 Jul 2022 02:02:14 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t1P+LEiRNZ7XanXqgmPeBa+/zUgJQKaPRahFLCUJCcaS993H7+Tus5zJWx595vNDduP0XJHg==
+X-Received: by 2002:a05:6402:190b:b0:43a:c95d:ec93 with SMTP id
+ e11-20020a056402190b00b0043ac95dec93mr10786333edz.44.1657789333998; 
+ Thu, 14 Jul 2022 02:02:13 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ g3-20020a170906538300b0072b14836087sm448289ejo.103.2022.07.14.02.02.12
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 02:02:13 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] SCSI, build system patches for 2022-07-13
+Date: Thu, 14 Jul 2022 11:01:51 +0200
+Message-Id: <20220714090211.304305-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-From: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [RFC v3 4/8] block: add BDRV_REQ_REGISTERED_BUF request flag
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-Cc: Alberto Faria <afaria@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
- sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Fam Zheng <fam@euphon.net>, Yanan Wang <wangyanan55@huawei.com>
-References: <20220708041737.1768521-1-stefanha@redhat.com>
- <20220708041737.1768521-5-stefanha@redhat.com>
-Content-Language: en-US
-In-Reply-To: <20220708041737.1768521-5-stefanha@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,154 +96,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 08.07.22 06:17, Stefan Hajnoczi wrote:
-> Block drivers may optimize I/O requests accessing buffers previously
-> registered with bdrv_register_buf(). Checking whether all elements of a
-> request's QEMUIOVector are within previously registered buffers is
-> expensive, so we need a hint from the user to avoid costly checks.
->
-> Add a BDRV_REQ_REGISTERED_BUF request flag to indicate that all
-> QEMUIOVector elements in an I/O request are known to be within
-> previously registered buffers.
->
-> bdrv_aligned_preadv() is strict in validating supported read flags and
-> its assertions fail when it sees BDRV_REQ_REGISTERED_BUF. There is no
-> harm in passing BDRV_REQ_REGISTERED_BUF to block drivers that do not
-> support it, so update the assertions to ignore BDRV_REQ_REGISTERED_BUF.
->
-> Care must be taken to clear the flag when the block layer or filter
-> drivers replace QEMUIOVector elements with bounce buffers since these
-> have not been registered with bdrv_register_buf(). A lot of the changes
-> in this commit deal with clearing the flag in those cases.
->
-> Ensuring that the flag is cleared properly is somewhat invasive to
-> implement across the block layer and it's hard to spot when future code
-> changes accidentally break it. Another option might be to add a flag to
-> QEMUIOVector itself and clear it in qemu_iovec_*() functions that modify
-> elements. That is more robust but somewhat of a layering violation, so I
-> haven't attempted that.
+The following changes since commit 8e3d85d36b77f11ad7bded3a2d48c1f0cc334f82:
 
-Yeah...  I will say that most read code already looks quite reasonable 
-in that it’ll pass @flags to lower layers basically only if it’s an 
-unmodified request, so it seems like in the past most people have 
-already adhered to “don’t pass on any flags if you’re reading to a local 
-bounce buffer”.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-07-12 14:12:15 +0100)
 
-> Signed-off-by: Stefan Hajnoczi<stefanha@redhat.com>
-> ---
->   include/block/block-common.h |  9 +++++++++
->   block/blkverify.c            |  4 ++--
->   block/crypto.c               |  2 ++
->   block/io.c                   | 30 +++++++++++++++++++++++-------
->   block/mirror.c               |  2 ++
->   block/raw-format.c           |  2 ++
->   6 files changed, 40 insertions(+), 9 deletions(-)
+are available in the Git repository at:
 
-Some things not covered here that look a bit wrong:
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-While bdrv_driver_preadv() asserts that the flags don’t contain anything 
-the driver couldn’t handle (and this new flag is made exempt from that 
-assertion here in this patch), bdrv_driver_pwritev() just hides those 
-flags from drivers silently. I think just like we exempt the new flag 
-from the assertion in bdrv_driver_preadv(), we should have 
-bdrv_driver_pwritev() always pass it to drivers.
+for you to fetch changes up to c0b3607d5938f5ee7fd16ff1e102afe938fd4b39:
 
-The following driver read/write functions assert that @flags is 0, which 
-is probably no longer ideal:
-- bdrv_qed_co_writev()
-- block_crypto_co_preadv()
-- nbd_client_co_preadv()
-- parallels_co_writev()
-- qcow_co_preadv()
-- qcow_co_pwritev()
-- qemu_gluster_co_writev()
-- raw_co_pwritev() (block/file-posix.c)
-- replication_co_writev()
-- ssh_co_writev()
-- vhdx_co_writev()
+  pc-bios/s390-ccw: add -Wno-array-bounds (2022-07-13 16:58:58 +0200)
 
-snapshot_access_co_preadv_part() returns an error when any flags are 
-set, but should probably ignore BDRV_REQ_REGISTERED_BUF for this check.
+----------------------------------------------------------------
+* SCSI fuzzing fix (Mauro)
+* pre-install data files in the build directory (Akihiko)
+* SCSI fixes for Mac OS (Mark)
 
+----------------------------------------------------------------
+Akihiko Odaki (4):
+      cutils: Introduce bundle mechanism
+      datadir: Use bundle mechanism
+      module: Use bundle mechanism
+      meson: Prefix each element of firmware path
 
-While looking around, I spotted a couple of places that look like they 
-could pass the flag on but currently don’t (just FYI, not asking for 
-anything here):
+Mark Cave-Ayland (14):
+      scsi-disk: add new quirks bitmap to SCSIDiskState
+      scsi-disk: add MODE_PAGE_APPLE_VENDOR quirk for Macintosh
+      q800: implement compat_props to enable quirk_mode_page_apple_vendor for scsi-cd devices
+      scsi-disk: add SCSI_DISK_QUIRK_MODE_SENSE_ROM_USE_DBD quirk for Macintosh
+      q800: implement compat_props to enable quirk_mode_sense_rom_use_dbd for scsi-cd devices
+      scsi-disk: add SCSI_DISK_QUIRK_MODE_PAGE_VENDOR_SPECIFIC_APPLE quirk for Macintosh
+      q800: implement compat_props to enable quirk_mode_page_vendor_specific_apple for scsi devices
+      scsi-disk: add FORMAT UNIT command
+      scsi-disk: add SCSI_DISK_QUIRK_MODE_PAGE_TRUNCATED quirk for Macintosh
+      q800: implement compat_props to enable quirk_mode_page_truncated for scsi-cd devices
+      scsi-disk: allow the MODE_PAGE_R_W_ERROR AWRE bit to be changeable for CDROM drives
+      scsi-disk: allow MODE SELECT block descriptor to set the block size
+      q800: add default vendor and product information for scsi-hd devices
+      q800: add default vendor and product information for scsi-cd devices
 
-bdrv_co_do_copy_on_readv() never passes the flags through to its calls, 
-but I think it could pass this flag on in the one bdrv_driver_preadv() 
-call where it doesn’t use a bounce buffer (“Read directly into the 
-destination”).
+Mauro Matteo Cascella (1):
+      scsi/lsi53c895a: really fix use-after-free in lsi_do_msgout (CVE-2022-0216)
 
-qcow2’s qcow2_co_preadv_task() and qcow2_co_pwritev_task() (besides the 
-encryption part) also look like they should pass this flag on, but, 
-well, the functions themselves currently don’t get the flag, so they can’t.
+Paolo Bonzini (1):
+      pc-bios/s390-ccw: add -Wno-array-bounds
 
-qcow1’s qcow_co_preadv() and qcow_co_pwritev() are so-so, sometimes 
-using a bounce buffer, and sometimes not, but those function could use 
-optimization in general if anyone cared.
-
-vpc_co_preadv()’s and vpc_co_pwritev()’s first 
-bdrv_co_preadv()/bdrv_co_pwritev() invocations look straightforward, but 
-as with qcow1, not sure if anyone cares.
-
-I’m too lazy to thoroughly check what’s going on with 
-qed_aio_write_main().  Passing 0 is safe, and it doesn’t get the 
-original request flags, so I guess doing anything about this would be 
-difficult.
-
-quorum’s read_fifo_child() probably could pass acb->flags. Probably.  
-Perhaps not.  Difficult to say it is.
-
-block/replication.c also looks like a candidate for passing flags, but 
-personally, I’d like to refrain from touching it.  (Well, besides the 
-fact that replication_co_writev() asserts that @flags is 0.)
-
-
-(And finally, I found that block/parallels.c invokes bdrv_co_pwritev() 
-with a buffer instead of an I/O vector, which looks really wrong, but 
-has nothing to do with this patch.)
-
-[...]
-
-> diff --git a/block/io.c b/block/io.c
-> index e7f4117fe7..83b8259227 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-
-[...]
-
-> @@ -1902,6 +1910,11 @@ static int coroutine_fn bdrv_co_do_pwrite_zeroes(BlockDriverState *bs,
->           return -ENOTSUP;
->       }
->   
-> +    /* By definition there is no user buffer so this flag doesn't make sense */
-> +    if (flags & BDRV_REQ_REGISTERED_BUF) {
-> +        return -EINVAL;
-> +    }
-> +
-
-Here we return an error when the flag is met...
-
->       /* Invalidate the cached block-status data range if this write overlaps */
->       bdrv_bsc_invalidate_range(bs, offset, bytes);
->   
-> @@ -2187,6 +2200,9 @@ static int coroutine_fn bdrv_co_do_zero_pwritev(BdrvChild *child,
->       bool padding;
->       BdrvRequestPadding pad;
->   
-> +    /* This flag doesn't make sense for padding or zero writes */
-> +    flags &= ~BDRV_REQ_REGISTERED_BUF;
-> +
-
-...and here we just ignore it.  Why don’t we handle this the same in 
-both of these functions?  (And what about bdrv_co_pwrite_zeroes()?)
-
-Besides that, if we do make it an error, I wonder if it shouldn’t be an 
-assertion instead so the duty of clearing the flag falls on the caller.  
-(I personally like just silently clearing it in the zero-write 
-functions, though.)
-
-Hanna
+ .travis.yml                        |  2 +-
+ Makefile                           |  2 +-
+ configure                          | 15 ++++++
+ docs/about/build-platforms.rst     |  2 +-
+ hw/m68k/q800.c                     | 16 +++++++
+ hw/scsi/lsi53c895a.c               |  3 +-
+ hw/scsi/scsi-disk.c                | 96 +++++++++++++++++++++++++++++++++++---
+ hw/scsi/trace-events               |  3 ++
+ include/hw/scsi/scsi.h             |  6 +++
+ include/qemu/cutils.h              | 18 +++++--
+ include/scsi/constants.h           |  2 +
+ meson.build                        | 15 +++++-
+ meson_options.txt                  |  2 +-
+ pc-bios/keymaps/meson.build        | 21 +++------
+ pc-bios/meson.build                | 13 ++----
+ pc-bios/s390-ccw/Makefile          |  1 +
+ scripts/meson-buildoptions.py      |  7 ++-
+ scripts/meson-buildoptions.sh      |  4 +-
+ scripts/oss-fuzz/build.sh          |  8 ++--
+ scripts/symlink-install-tree.py    | 33 +++++++++++++
+ softmmu/datadir.c                  | 30 +++---------
+ tests/qtest/fuzz-lsi53c895a-test.c | 76 ++++++++++++++++++++++++++++++
+ tests/qtest/fuzz/fuzz.c            | 18 -------
+ util/cutils.c                      | 66 ++++++++++++++++++--------
+ util/meson.build                   |  1 +
+ util/module.c                      |  1 -
+ 26 files changed, 348 insertions(+), 113 deletions(-)
+ create mode 100644 scripts/symlink-install-tree.py
+-- 
+2.36.1
 
 
