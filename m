@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20334574493
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 07:37:45 +0200 (CEST)
-Received: from localhost ([::1]:56510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981565744AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 07:43:37 +0200 (CEST)
+Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBrXj-0001Uo-N5
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 01:37:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
+	id 1oBrdQ-00052d-NC
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 01:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oBrV0-0008GQ-BZ; Thu, 14 Jul 2022 01:34:55 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:40687)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBrVR-000092-8l
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:35:21 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oBrUy-0004N6-2J; Thu, 14 Jul 2022 01:34:54 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id DD1ED3200933;
- Thu, 14 Jul 2022 01:34:48 -0400 (EDT)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBrVP-0004b9-MT
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:35:20 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id 14631320093A;
+ Thu, 14 Jul 2022 01:35:17 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Thu, 14 Jul 2022 01:34:49 -0400
+ by compute2.internal (MEProxy); Thu, 14 Jul 2022 01:35:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
- :subject:to:to; s=fm2; t=1657776888; x=1657863288; bh=BbJk4TzUiI
- wgalk12IjsiqtyA2WUKLVgzCtw4uwy0TY=; b=Yk7H9z2cKmbW37XeAeeUqb5J6J
- NmgeSwJZ+48EcglOndiM9N5SeHromVrTZuCTneOoW3KMfOyqsoxTnkzxdzX5NuUv
- fxy4HmuVUtBpTNZ6k6eHb1C1MLoqmvdoIYLcYzf0/SGPq87bSoa7WdXBSNrgGZJ6
- i5eafYJZPpLNnMIplJJJk34U2WKPgQyePNYyg02eiHfiM8VRzGcLhWJaBzpHunLX
- BQt6wuVJyQKUddrtacBmtLR2rK2LtZ3Hq+ZJ2LVJQyF91nFTh9R8iMFiI6qrpcrh
- ueU8EvywUkJaOdncEAyoBrBF64suv9jStDGCZmZ+vfNLjRZHBptTlOOE6cxg==
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1657776917; x=1657863317; bh=l2
+ +B/vYiUGx+u1zr4+T5m31Y7XrfP0Zi3S/cDlhCdrc=; b=1xvlDENX8MD1IYHSas
+ 4GAVXaeDPn3VYHkNmT6iN+agKdCxiIFwKoChcXFXe+AIvRIhQzzpLX6LMdfQw5Fd
+ 2Ny7RaDyP8ytOECuo+KmYeJDXJRDDy4TIc9GMHSI1bjd0672m7NZkWCHUjKlknfq
+ SVzaHr8NqsBFjrgb6vYDjjnredu3NtX3U0hsvcV3f/NrDyXsXS1ma0VoatmraZHu
+ fZvhUjBME2jIzFEcPu8xnXorpYSBdfsVll+dMm74oDW/vMGI8xlnJIfBw80SEU0W
+ lTVtBq7Bu+Ntu+NXCkFoC0zoGDX2lEypnrUwde/yDEfv09V4620rKfOEMgD8evru
+ uDvw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1657776888; x=1657863288; bh=BbJk4TzUiIwgalk12IjsiqtyA2WUKLVgzCt
- w4uwy0TY=; b=ihLalliUoRSWr+4cw+aAHwP6cGC1WJV1dLlnOUJkpr8Bv2+cUad
- J6+kR6pPXZ3QgMjeDdBZKx0XtcP2cTLy7fFHxldjUw6mHpV0SlvR4DB+xgrZDv5u
- 3eUEookLEVf5NPawtDNPFqRciU0nngBJmufxxgqxudiP1rSPQDzNPq8jpKfdu4oi
- zJb7wGJUWticjj+JUaZ7cL/pjBr2cJMahe5D6gFaxG/6G4qy4zW9JwXFYK7+T4Kh
- P7EbqK+iSKp7XB3vOEVtOZnWMv9dSQK5PR8bTUPWdtbkCKbe8gI4tcvTEs9ttz5R
- mo5BdvolbEvrFUXWs6fW628boLz4k0Lvozg==
-X-ME-Sender: <xms:96rPYo05GYKADkTbnF1OnaaQOH2HKqJ4vzezoAH0oXE7afUVbeB4YQ>
- <xme:96rPYjFLZKrryKOy1RiX4Wl2zua5sAEesFdLHbDNtYBJM18RN6KHTMIsKm1Tf-T2A
- ne3Kb62eOn6ZhiSTww>
-X-ME-Received: <xmr:96rPYg5izm4jW5wpjLDHM6twIrTCEEHzaq5QVN4keQitddWip42344bI-EB04AstvD45kDgMM0kGyKeITV0sJQ>
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657776917; x=1657863317; bh=l2+B/vYiUGx+u1zr4+T5m31Y7Xrf
+ P0Zi3S/cDlhCdrc=; b=TwOO+tb5Zue4GJkQU4JwGf/1AtQMp2XGXjWk7G5HN1T2
+ upQY6o0vsrYtBkJpFeM51BQx7uzaT/Q2K46RESyd9M9xERsQVXMDK8JLMBlSzDoK
+ XrANOFPjXUNn0zoZbgJfCCZKHAVF0giTmXe92UZXhgrvqzTRu4tMGFKfkopzHmUo
+ jSAcKkpZsf7xHG6rJenxA4XR+b83yzhQyIMceLT1jhWT6LWuL1JB5XhFsWW0CE/J
+ zzFTJiSI9M4HMq1cTxJ/5q1x5fy2Ipr8VXjYymDPb2Jdy9+O+LdMVk/8b6zcRCoL
+ kqnTsdshj9wjFz4LSyYMcp07OSmBRZpvevATkC5fxw==
+X-ME-Sender: <xms:FavPYuZ7WfC88XN4KsM2Z4e-dH0-tD-5n0VGHlSDFL0El52QJNLVzw>
+ <xme:FavPYhaBaK89HHIQ5ULFm-9pLcnAChcCqJAI99xYPtqATxdH8Z_-g3vejNsSaSEkb
+ UXIYUudW3U9kUnuRQo>
+X-ME-Received: <xmr:FavPYo8SIZ8nXkS_pxyKGHrdMLs1m1EzfbT6nmbFiwOZqL1Dq6_aQaOpDCZxQhVlzDzF-qGHpclHecVkBys>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejkedgleejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnheptdeludfhgeelheelledtjefffeejtdeluedvgfetveffgeetvdevkeehieeikeet
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtsh
- esihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:96rPYh3Aw2eYIeLvfgO3PVEiJSknFRKMSXHxHCNMeFg6VTbU-ZApfg>
- <xmx:96rPYrGe8omO_O8-rruqqWnkvj-YBAJuy7sGOAyH6Mmv6zg8MuP4aA>
- <xmx:96rPYq8z8wDgFpLrpbiCrGB4jTHgirEb6sXb1DEFemu8oK_AL9bX3w>
- <xmx:-KrPYviTPkC0q22eUTP8y9pcsnwyNQSvBDEfIzsjxwM2xSbuFnyY6A>
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
+ jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:FavPYgrNeNqMqf6mFlG7aBBB34lllxXcXjVXL2U-9ETkU40hj6B_-Q>
+ <xmx:FavPYpoNIntTNeLlBuSVYH_a6B8VUujAHUYqS-92z8CFs8aTXHKPGQ>
+ <xmx:FavPYuTClpwjaltQfeoQougKq8_6B0sZvBchhO4B0XKVnnCN7FFO5Q>
+ <xmx:FavPYg1041_J5m_pHRCdOEDgx-k9vaTOp0nkO0bS8XuIUc49y21IDg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 01:34:46 -0400 (EDT)
+ 14 Jul 2022 01:35:16 -0400 (EDT)
+Date: Thu, 14 Jul 2022 07:35:15 +0200
 From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Klaus Jensen <k.jensen@samsung.com>
-Subject: [PATCH] hw/nvme: add trace events for ioeventfd
-Date: Thu, 14 Jul 2022 07:34:44 +0200
-Message-Id: <20220714053444.883737-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.36.1
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+Message-ID: <Ys+rE/S66bwqmXLm@apples>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
+ <Ys1nz68zLPN3Hq8F@apples>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vpuW/JgkHsEwpYKd"
+Content-Disposition: inline
+In-Reply-To: <Ys1nz68zLPN3Hq8F@apples>
 Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
  helo=wout4-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -98,73 +102,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
 
-While testing Jinhaos ioeventfd patch I found it useful with a couple of
-additional trace events since we no longer see the mmio events.
+--vpuW/JgkHsEwpYKd
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c       | 8 ++++++++
- hw/nvme/trace-events | 4 ++++
- 2 files changed, 12 insertions(+)
+On Jul 12 14:23, Klaus Jensen wrote:
+> On Jul  9 11:06, Jinhao Fan wrote:
+> > at 10:24 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+> >=20
+> > > @@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, =
+const NvmeRequest *req)
+> > >     uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
+> > >     uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
+> > >     int i;
+> > > +    int ret;
+> > >=20
+> >=20
+> > I just noticed this ret is unused. Could you help remove this line when
+> > applying the patch?
+>=20
+> Yes, I noticed it and hot-fixed it ;)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 533ad14e7a61..09725ec49c5d 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1346,6 +1346,8 @@ static void nvme_post_cqes(void *opaque)
-     bool pending = cq->head != cq->tail;
-     int ret;
- 
-+    trace_pci_nvme_post_cqes(cq->cqid);
-+
-     QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
-         NvmeSQueue *sq;
-         hwaddr addr;
-@@ -4238,6 +4240,8 @@ static void nvme_cq_notifier(EventNotifier *e)
-     NvmeCQueue *cq = container_of(e, NvmeCQueue, notifier);
-     NvmeCtrl *n = cq->ctrl;
- 
-+    trace_pci_nvme_cq_notify(cq->cqid);
-+
-     event_notifier_test_and_clear(&cq->notifier);
- 
-     nvme_update_cq_head(cq);
-@@ -4275,6 +4279,8 @@ static void nvme_sq_notifier(EventNotifier *e)
- {
-     NvmeSQueue *sq = container_of(e, NvmeSQueue, notifier);
- 
-+    trace_pci_nvme_sq_notify(sq->sqid);
-+
-     event_notifier_test_and_clear(&sq->notifier);
- 
-     nvme_process_sq(sq);
-@@ -6240,6 +6246,8 @@ static void nvme_process_sq(void *opaque)
-     NvmeCtrl *n = sq->ctrl;
-     NvmeCQueue *cq = n->cq[sq->cqid];
- 
-+    trace_pci_nvme_process_sq(sq->sqid);
-+
-     uint16_t status;
-     hwaddr addr;
-     NvmeCmd cmd;
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index fccb79f48973..45dd708bd2fa 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -104,6 +104,10 @@ pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
- pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
- pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
-+pci_nvme_sq_notify(uint16_t sqid) "sqid %"PRIu16""
-+pci_nvme_cq_notify(uint16_t cqid) "cqid %"PRIu16""
-+pci_nvme_process_sq(uint16_t sqid) "sqid %"PRIu16""
-+pci_nvme_post_cqes(uint16_t cqid) "cqid %"PRIu16""
- pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
--- 
-2.36.1
+Jinhao,
 
+Applied to nvme-next!
+
+--vpuW/JgkHsEwpYKd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLPqxEACgkQTeGvMW1P
+DemC0wf+Lh3QUdPtPzrPycg2bjC9cR6AleTd8HiGCjvmBVJO2X4MsUD/dwS4UiQj
+beax6MlWrQndPRPwyfXerXfFUsNa7gSMBjKCH6X0+jQ55aw1c3BpXPU3p8K6m4HQ
+H9D1afWye98ym5AOKpQ46bsKxU4rHocNVZC/0UFZSdtG1tW+dbZc1+nn4T8MT+lN
+vM6JIzXcLgSDCy9Pio9C7ZzcBCPPyzKUy20zFHwA/rmqPwA9+N48EdEv4ANmXOj4
+dPWsyYHbs56jDF8Ch+dUeaCNaZT5XKzQFPS9gTuzSz9hzVhF+I+y+8udLOmBpX1u
+nKI+kNXde6ZyUjHBOdhe7LBUB554wA==
+=fZS8
+-----END PGP SIGNATURE-----
+
+--vpuW/JgkHsEwpYKd--
 
