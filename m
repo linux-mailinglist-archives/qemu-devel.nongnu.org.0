@@ -2,110 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94AAF5757D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 00:55:44 +0200 (CEST)
-Received: from localhost ([::1]:42542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915425757E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 01:14:32 +0200 (CEST)
+Received: from localhost ([::1]:45412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC7kF-0007RU-6a
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 18:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35116)
+	id 1oC82R-00022R-94
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 19:14:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oC7j8-00065r-1j
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 18:54:34 -0400
-Received: from mail-bn7nam10on20612.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::612]:40053
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oC7j5-0002p0-JO
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 18:54:33 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U6rYg4rCCo2Oz+g1alFzk6xkCPzTHsyCBY0E5b155OTFhXkpLdOdGK9rF+JOmxTa7EtAZjyeTOA+q+UGRiz5fWcTj2bnq0yjpJdpXoHAx5lfiBSjxVVGstxVIweW+hjvRueHgj+72uGF2ndlvo07fbktN6FvFR8SjngWbqo/BK7Videf78/gd8YcjgPjtszfQga/EFLaeODG9cVvpHNswbMw0CoE+gs3Yqe1OKHtiAiTZfXfb6N15yGYkz6M8yayCR6E8iT8S4qPGwAn8DP8ZXfcOy1is44uK/TxQowOTGy7l7AYOzBFseH67BwtKKsCNAA3yQVNkEKxh6qTp2ySYg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cwfPls/826M3d88EzvLU3Y2f2/LHEtVZES648/2HrsA=;
- b=XPEY1vY1lekUShbesH2Qzr70Gtk+5yPrYECiAuyH9gbdR6K5yfZHe0vvOV2GbQHHFBxGdnP5ormRLxK8x+0vTaIp7InvKXfAnM9DJ/mDM0jU0Fur7rPjXjbzIXUbXCUzLRUEA5ayWjll83RwWXX56efJgk8zMUnnLnu8j/xoaJjmGbSB+oM1/mfCyuf3y0EEeuSZRNfSaRLnL5ujuDtXn6VD7Z8/I7bMo/KFa7wsL+RywZJjhkzgk+YWCRbZ6gUG9IdJ6C0JWSieNFMrjSYS5IJCRQ7+jA57D1Ar1vGbI+VTH6nnGqMFI8j12nPfn5qE+HYg4bQz3jMoJa2/34uRLg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cwfPls/826M3d88EzvLU3Y2f2/LHEtVZES648/2HrsA=;
- b=amvjv14tfTDFOiwxD4Wq+lzOc8lAtUYFRsAR2Is8THjwzRIz/talTmLAg1ygqWZqRmclSEwRA1VE5VTPTWGDHVOdgQyyzl6MSihKtww1AEJRFafb0IZ3N7J/4BwE427Ka9qaEZjGCs4/UCJBZJRVDu/uLroE0B6orU7y2sDz7GY=
-Received: from MW4PR03CA0133.namprd03.prod.outlook.com (2603:10b6:303:8c::18)
- by CY4PR12MB1367.namprd12.prod.outlook.com (2603:10b6:903:3c::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.23; Thu, 14 Jul
- 2022 22:49:23 +0000
-Received: from CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:8c:cafe::8a) by MW4PR03CA0133.outlook.office365.com
- (2603:10b6:303:8c::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.17 via Frontend
- Transport; Thu, 14 Jul 2022 22:49:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT017.mail.protection.outlook.com (10.13.175.108) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5438.12 via Frontend Transport; Thu, 14 Jul 2022 22:49:22 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 14 Jul
- 2022 17:49:21 -0500
-Date: Thu, 14 Jul 2022 17:49:05 -0500
-From: Michael Roth <michael.roth@amd.com>
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-CC: <qemu-devel@nongnu.org>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH] MAINTAINERS: Add myself as Guest Agent co-maintainer
-Message-ID: <20220714224905.zbjpmfav6yy4thhf@amd.com>
-References: <20220713133249.2229623-1-kkostiuk@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oC812-0000VQ-8T
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:13:04 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:33659)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oC80w-0005h3-I8
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:13:03 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id z132so2718530iof.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 16:12:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=vazCX5gRNxkaKGQ1BugtbIk2BgCrm32nWYMIAJbwuQg=;
+ b=NHOsHknkiNqe4o/IufHCkfg4SVFfKkQgH/dj5TlrYfHtcyJ4NZqWqyDTyPAzAPR5Ud
+ NrCj5Nh3ohhQWmtD9xKzhJTUNy61RJktGtkJSJKPQHwO7kKcMq33p1RWhAOwRDfjNUHc
+ CcQNgU/n6tWn55zhJvMP6VDQ/M4F8dnfFLL9pD9iwl0pXhL/BJGoTt5cCczhlMke3F7E
+ fZ5kTQiVjLdQGSxG/lZJ6IW/2VM57iFpBd2a8jOjCkJ7j0k2G8EPx651Td8v5IXfsY3X
+ vlFFMZGMylk5siGAOP2AHMjJcB/3IVjs1lzPEnAXvHjqkS39qEkAkYm96yub79Mx9PNi
+ 6tLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vazCX5gRNxkaKGQ1BugtbIk2BgCrm32nWYMIAJbwuQg=;
+ b=N1CgR4xl1DpJYkVLLHqv011EClvsa8xPlnhKgfXoaVsuXvUeeJvziVz7QcUUlE0Qu6
+ 20yiEBoKzFOCN2afZyBCxuBILxXIn7LW7NSkiFXIH+ZBCQkIR34qJ48v6zYkCrk49zto
+ OwvKwbQBu6wRttH6dmidRN5LClTWXA69szBAHGNdPqYsn1p2ZUHLvgatpV4LGgqKaF5J
+ LvcVjeJO6ms4i2TllmdNF/qzJjhzx1hUwFwNMS4Fnq0Mot6vAUlAHu5qavFNBxy9JH5G
+ 3GwEmIpsy+7H7a9axXndRdSymSQhEtX4ujChft4bfxMjizE7ALuCCa/0ujnVGfHrS6Jn
+ 4eSw==
+X-Gm-Message-State: AJIora9rjUhW0wd+XIPUk8Z8EKsvkLnHWYyZOcbiYOYECtDx56yZH3pA
+ /gpxWGWHwLH387Mzr/pbkJmZSw==
+X-Google-Smtp-Source: AGRyM1uG/8GEKdkpsV5nbcz/LbNdN935qhe9H0j5OKGhxxNctYqzE5VzOMPru1sKUlkG4f9QqhfLMA==
+X-Received: by 2002:a05:6602:2b10:b0:67b:80f8:6f2b with SMTP id
+ p16-20020a0566022b1000b0067b80f86f2bmr5634886iov.147.1657840376896; 
+ Thu, 14 Jul 2022 16:12:56 -0700 (PDT)
+Received: from [192.168.113.227] ([172.58.139.185])
+ by smtp.gmail.com with ESMTPSA id
+ b9-20020a6be709000000b0067bcbb0d258sm1317313ioh.46.2022.07.14.16.12.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 16:12:56 -0700 (PDT)
+Message-ID: <bcc17531-f644-f6bb-b6c6-a160f39889f1@linaro.org>
+Date: Fri, 15 Jul 2022 04:42:48 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220713133249.2229623-1-kkostiuk@redhat.com>
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f5c8e787-c058-4ef2-e72b-08da65eb1878
-X-MS-TrafficTypeDiagnostic: CY4PR12MB1367:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zOFVVI3ZiB8oLXSQ2dCpY9PQVUnGS1+kw//+o0dUgLb1H8HeYjbgXzgQLl5kHqX6T9C4eZ6MJnWGdP0rMBbO1rkvQOoIKb+r32U48qp7X2ziPgSG2cXsniIpAW0+Op20UtGpe8kXzKGwJTVoDbX4raTwpYQQAKn1FT0raGvecIVwWqAS4ZGgEOqAi3hzqxTADxZkeukguqUEhPjal6KTyGDN036NpjanW1Ai6VSIZIoxgH0PTiRM7Qrkwb6ZABlHAv2wMnnxT3xVwRpDXJGiT08GfYQfC5R96K7SB9P5s0lQVfAGLYLFa+aIjdQO9Zwe/W4xdd7/VcI91ekp4FcCf44QZDR5dq8Nwc+1Kk99NflROJdW+UpVZa7eUssNeUR1oDRDtNjBIiKfUoqZZVZtFYxdTeOEIgDwy4M0vq9HjeJo/LejaW7470mJUjGa2Pwfnkm5zEyhFM4h+VW7ytE9XvmlX21kjOqJS+hVbGq+AtkTHqwEadGVU4GGNMMWd4tgO/raCEZq0kftWAnpHOF+kOz/NB2JDGzGQgycwq8RVZM12IgYnl7v7CoHszpN51PsoOKi67DKUKtc09jKa6hPIjnA8LSSDgJuRl2bPQe2vfPreRUpSmsFf8GLsdO+4xj+ajkKOHef7lpFkYHOumghhCMB4HAR+mf19KlKAljNPUMTU7xwT3rJJ+VgT3zBTzO+H+BPeaqBcp22HKt22VIZIwa29WjH2ErofG9B5OOHY+8YxQfp1UzXMvifxLRq7N8eR97GqtdaA4b3EymSmO9RXmext6Y9vLSBco7+9BGCq0gx93XGVRDm5UCAQL/8vLTUQR44CTqQfJ9JLCaYQzSipaN6NyYf3flO5bcLHEghODW7VLQ2sT+a5WLD+4SbAzwH
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(396003)(346002)(376002)(36840700001)(40470700004)(46966006)(47076005)(6666004)(186003)(4326008)(426003)(40460700003)(16526019)(36860700001)(316002)(36756003)(81166007)(6916009)(336012)(40480700001)(8676002)(44832011)(54906003)(70206006)(966005)(70586007)(41300700001)(86362001)(5660300002)(26005)(2906002)(478600001)(356005)(82740400003)(82310400005)(4744005)(1076003)(8936002)(2616005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2022 22:49:22.6924 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f5c8e787-c058-4ef2-e72b-08da65eb1878
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT017.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1367
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::612;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 1/7] target/arm: Define and use new regime_tcr_value()
+ function
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Idan Horowitz <idan.horowitz@gmail.com>
+References: <20220714132303.1287193-1-peter.maydell@linaro.org>
+ <20220714132303.1287193-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220714132303.1287193-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,28 +95,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 13, 2022 at 04:32:49PM +0300, Konstantin Kostiuk wrote:
-> Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
-
-Acked-by: Michael Roth <michael.roth@amd.com>
-
+On 7/14/22 18:52, Peter Maydell wrote:
+> The regime_tcr() function returns a pointer to a struct TCR
+> corresponding to the TCR controlling a translation regime.  The
+> struct TCR has the raw value of the register, plus two fields mask
+> and base_mask which are used as a small optimization in the case of
+> 32-bit short-descriptor lookups.  Almost all callers of regime_tcr()
+> only want the raw register value.  Define and use a new
+> regime_tcr_value() function which returns only the raw 64-bit
+> register value.
+> 
+> This is a preliminary to removing the 32-bit short descriptor
+> optimization -- it only saves a handful of bit operations, which is
+> tiny compared to the overhead of doing a page table walk at all, and
+> the TCR struct is awkward and makes fixing
+> https://gitlab.com/qemu-project/qemu/-/issues/1103  unnecessarily
+> difficult.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 450abd0252..22a4ffe0a2 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2880,6 +2880,7 @@ T: git https://repo.or.cz/qemu/armbru.git qapi-next
->  
->  QEMU Guest Agent
->  M: Michael Roth <michael.roth@amd.com>
-> +M: Konstantin Kostiuk <kkostiuk@redhat.com>
->  S: Maintained
->  F: qga/
->  F: docs/interop/qemu-ga.rst
-> -- 
-> 2.25.1
-> 
+>   target/arm/internals.h  | 6 ++++++
+>   target/arm/helper.c     | 6 +++---
+>   target/arm/ptw.c        | 8 ++++----
+>   target/arm/tlb_helper.c | 2 +-
+>   4 files changed, 14 insertions(+), 8 deletions(-)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
