@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B359E5757F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 01:19:49 +0200 (CEST)
-Received: from localhost ([::1]:48816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4FB5757F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 01:20:47 +0200 (CEST)
+Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC87Y-0004oI-Ks
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 19:19:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
+	id 1oC88U-0006Bu-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 19:20:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oC861-0002gL-JH
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:18:13 -0400
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:47091)
+ id 1oC86f-0003jb-9S
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:18:53 -0400
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:38762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oC85z-0006SI-70
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:18:12 -0400
-Received: by mail-io1-xd36.google.com with SMTP id l24so2675015ion.13
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 16:18:10 -0700 (PDT)
+ id 1oC86d-0006VR-PA
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 19:18:53 -0400
+Received: by mail-il1-x12c.google.com with SMTP id c17so773774ilq.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 16:18:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=1OUSiWWsXRgDs0vH3JIAKa+MmMDxu2DXxYSPaWhhAR8=;
- b=MND0zs3KiQAX408pS6OBiy3R8JKu95kR+Xr1E9CKQmQxghxao+6tbMXd1GPy4zygbQ
- D+UdLqbSqUCkCSAbxTPEjVeQArj8++H2kbevD19gSRikVbneBwvGyolcQlajNyftZNXm
- ztBosvoGl6Gkuv5lRfcXO+UWbdTOi0TgrCPTysTTsYDoUykx0Bmu5ew/F5GZy1AomArZ
- 6Lt/CG8tXWoDFuPnR7sEDpCm6F1XE+ORPGjqaa8XSjM7d8HTkppQUCLO6LeygTe3JsKz
- XEZ4VjozmsdsGJSpwLgqjrrnlq1AQ15YFdpoVRS/ksqxYAFm4K2r5qD2cYYwnSDkDo5g
- augA==
+ bh=dFTu+jpV/ZI6AaAkZRdU26WbYtFlwNxnd5hTasXB/DQ=;
+ b=Ai/f+9f575bRyo2KRUpnH6BMeCUu2fFZpkCU9dLlvV2KzP0jDd1NsW1PpcYF42CYZ4
+ 7RUlF1hADXTOFDZLXFcheBWtJfe5mbqJJn2yYfbtzrYO3UeGPQdNlQ1FnZyT/ye20A4f
+ z7W8HWcncZhFwQ80aW7z+tLbePv9FiqBk39LPhGOxrupMmdm397kcJCR0oR2FQGEAa7l
+ iaKl7vKedsB8gSdMNGAzNE8eU5jPhXPAMRYZM9mX0WYmMeMRthSVX9yG1hT0HGYTmqIU
+ 4Rd0X9YAanxnzf9rgTpNSNLusMSie3wI6B+fkczv9u6wqRwBmOsBMH4ekAiez5oodag2
+ uPcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=1OUSiWWsXRgDs0vH3JIAKa+MmMDxu2DXxYSPaWhhAR8=;
- b=jHdjU9cCa8IljQVKlw18U46uI3jMj01i7A8BmK4n9cFUeyPWDwOqiY8mXYe3CaKNqq
- lYFFGMJhOqt+xbek3yU/noRofaenY9N/JRaePeR1c/6ibOYtnyU9uQLEQ9HIBWiP8ydM
- 5FJZC1ttdQcdy3y6gCsuwr5tPr+gqXr0wr4bGcQ/ElDUojZdJOQRxXB0ot8LUp3/gL53
- VQD5YBW5tYAbVfxphC7Ll25+AOeAhKATktQWJI8moGI76yB0rZsShLM9WekbLeiTRbYA
- B+vfc1b1EYTbDcf3XFfBS33u+voZq+j+U2bcA4aAErzODBRu/fkSys5L+IFINbebVFqO
- BVDg==
-X-Gm-Message-State: AJIora/zL7/SbhG06692aHNfLenZY5sJq3Ny1DtnzXWwgjQRnUYmqlVq
- 8Q/Eti9VufDLZ/59DVtJydabfQ==
-X-Google-Smtp-Source: AGRyM1uVbUL4m8K0pjkpgsFOvI5u+s6Cx6fN5rCsaVWNl8BaRGSD3mff9kxC+UbSs03Q9J3sCJtHTw==
-X-Received: by 2002:a05:6638:16cb:b0:33f:8871:1b5c with SMTP id
- g11-20020a05663816cb00b0033f88711b5cmr5403629jat.11.1657840689979; 
- Thu, 14 Jul 2022 16:18:09 -0700 (PDT)
+ bh=dFTu+jpV/ZI6AaAkZRdU26WbYtFlwNxnd5hTasXB/DQ=;
+ b=yHBw/fC8QtHFdDiv2c9QwOckXWHXGKN3lvbOQSkt8f5EORnZy3C4RtNy2sFylhlvdJ
+ bYYjV5TDijqfgvuN1kAiiuW3eXUOBM5KZmS12NsRIesdKs0KPcE3LVxXlfUjG7eN6gpb
+ UlG4OzHfqtHEvJCOe1mjYFRsfnbRrMpekI8FEyYUWBiE52Y/N19XTSS2PVOV8FwBPoz3
+ N9JTn6+6reni51/dKVe9M9RDls4F2EqwWpXFKMLv8dtaz5wrvBU4wBsKI+URvNEdxpE/
+ Jnk5vK9NbfLJkBw5W58OWMJOAt3AQ6Vpx2Nxbw6vPh3N+5f7jHI3NEstNG0CARw6pAFW
+ 1yEg==
+X-Gm-Message-State: AJIora8MdddD61lmssc7F3YVj9wK0XKOc3mtKkYpZFe2+Xm0uB2v6gsF
+ yxMvL5JggjOVe7CHVmf/NEgu5w==
+X-Google-Smtp-Source: AGRyM1uP92YLqQU9I2ah5XxTsb63vNJbFCPT6miqpLKjI0B95O28/AyNhgNLVpQ/mWbY8wS4A38Jyw==
+X-Received: by 2002:a05:6e02:1be9:b0:2dc:7fb2:706e with SMTP id
+ y9-20020a056e021be900b002dc7fb2706emr5685751ilv.239.1657840730612; 
+ Thu, 14 Jul 2022 16:18:50 -0700 (PDT)
 Received: from [192.168.113.227] ([172.58.139.185])
  by smtp.gmail.com with ESMTPSA id
- h2-20020a5d80c2000000b0066952cfe3e2sm1334117ior.39.2022.07.14.16.18.07
+ d13-20020a5d964d000000b006788259b526sm1318653ios.41.2022.07.14.16.18.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 16:18:09 -0700 (PDT)
-Message-ID: <c92cc8a2-ea12-3fa6-f086-7aebbb02507e@linaro.org>
-Date: Fri, 15 Jul 2022 04:48:02 +0530
+ Thu, 14 Jul 2022 16:18:50 -0700 (PDT)
+Message-ID: <e9277735-59a4-0106-7ea1-847af14404ea@linaro.org>
+Date: Fri, 15 Jul 2022 04:48:43 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 2/7] target/arm: Calculate mask/base_mask in
- get_level1_table_address()
+Subject: Re: [PATCH 3/7] target/arm: Fold regime_tcr() and regime_tcr_value()
+ together
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Idan Horowitz <idan.horowitz@gmail.com>
 References: <20220714132303.1287193-1-peter.maydell@linaro.org>
- <20220714132303.1287193-3-peter.maydell@linaro.org>
+ <20220714132303.1287193-4-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220714132303.1287193-3-peter.maydell@linaro.org>
+In-Reply-To: <20220714132303.1287193-4-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-il1-x12c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,15 +96,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/14/22 18:52, Peter Maydell wrote:
-> In get_level1_table_address(), instead of using precalculated values
-> of mask and base_mask from the TCR struct, calculate them directly
-> (in the same way we currently do in vmsa_ttbcr_raw_write() to
-> populate the TCR struct fields).
+> The only caller of regime_tcr() is now regime_tcr_value(); fold the
+> two together, and use the shorter and more natural 'regime_tcr'
+> name for the new function.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/internals.h  | 16 +++++-----------
+>   target/arm/helper.c     |  6 +++---
+>   target/arm/ptw.c        |  6 +++---
+>   target/arm/tlb_helper.c |  2 +-
+>   4 files changed, 12 insertions(+), 18 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
