@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CEE5754BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:13:16 +0200 (CEST)
-Received: from localhost ([::1]:56278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576E15754C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:17:56 +0200 (CEST)
+Received: from localhost ([::1]:34182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC3Ko-00009A-FZ
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:13:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58184)
+	id 1oC3PO-0004XM-UG
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:17:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3xVnQYggKCtYOM92GLK98GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--wuhaotsh.bounces.google.com>)
- id 1oC38s-0007Ky-1R
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:00:50 -0400
-Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:51010)
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1oC3EP-0006oB-7c
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:06:33 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:45590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3xVnQYggKCtYOM92GLK98GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--wuhaotsh.bounces.google.com>)
- id 1oC38o-0005aq-No
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:00:49 -0400
-Received: by mail-pl1-x64a.google.com with SMTP id
- q4-20020a170902dac400b0016becde3dfbso555469plx.17
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 11:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:in-reply-to:message-id:mime-version:references:subject:from:to
- :cc; bh=YlaS2Gn+M7J56MUm3aAdhmb9BSTR0X4xwnRU+8E1xMI=;
- b=CNEJcz1nSfXWGXIBA0teTIkG25KA8uB16ZNsqXOoHxrbNJV8jAQOWJzkwoUj/JVa/i
- KQ+RaD5taVhE0NrSD/A0bFCVJxRwYr4Ek6qcjsu3Eht1gdg6mwusYBLedDwgAEUJzVUd
- PcnWnz90xxTyVNJGPmXLqlLiXALYiN+bnzbz1u5x3DCBPb83E0lLoYAhasd6j1VOAZ6/
- hkPstTSJTMtUTSChO/OHpbtmWt4/RXF2jyuPOD/8Cr2qjFZfyF73nN5vIDoXYaNEIv61
- XRkSJ0/3sbDdaRtTMfdvs+KmrLvheOL+OLBSJaWKKPFABLEJoWXhEzGT4DseJDV7e1WB
- LM3w==
+ (Exim 4.90_1) (envelope-from <palmer@rivosinc.com>)
+ id 1oC3EN-0006ef-53
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:06:32 -0400
+Received: by mail-pl1-x630.google.com with SMTP id w7so1114692ply.12
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 11:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=XxNMsDtWa8Au6uFoFr7AEb7CuySVZYQN3sYNJdCL/8k=;
+ b=EIYd0YthS1M3leGOqn4Rai/MosG9BiSuNIfhW+QYEkbzTHs1II2pJXY87+pNu7v6qS
+ bptKpjGBzUhDfWLcfBTAvS24ki4WRah9Lm13mxuYIXNWS48L/TeXb7tP/DAz9BViKgSI
+ I0/cFaXtH72saGjxb6oM6lT/BQHg+Eks8Mo3BNaBvcZ1KKPNMaezjkB/1hS2x8xmDJF5
+ um8kr8nEN719VfFrkF1KrhKml7FDZ6StCR0rjpwWx/TpBpsPaYdYPH1zfUIqHnBbQW6a
+ fLaFW/WDsZXQ0pGDWV/C/27fPdPLMPUQMQ4MV+fNsxUK1QGlFzZS6NtJ2LXRSPZNwI7e
+ i3Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=YlaS2Gn+M7J56MUm3aAdhmb9BSTR0X4xwnRU+8E1xMI=;
- b=PchKwdH0c9JDUJqlC8tHevhGhuOKvFsg2M7pjetlw9Spkmmbm0yXI1RBabv7bn8ngt
- FxYIJHpwqXcv0mgHDh1/VQimMv6DVRA3oQs3xV/AR9sfI8ALZ5w22jL6MZjpdJ5t3RRr
- jKCo17sSsKIYacACwGtKGvcvM5gYeXhZJDKr6zl00U/mMQp5TrWBLbJk48KmGyPf1tHT
- 1v3yWmP1gomCpqAa9IBdoQ3qkLZXAcFB4sK1qPBlb1bJnZgIjXnIxWrLlzMke1k9OjLh
- RKGlIi0HDKpBDyEapo5nLUnewoO73D1T1uAlgpEAAVDP9ciPFbUnGepURX35ns4AxIES
- 3zag==
-X-Gm-Message-State: AJIora+Pdz5T1zwRGoEShJX4YasKVHOeQtk6zY0ph0t8GOg/lPI3eof7
- /nGqBAZc49jFclXj7ZZUIiFmKqcu8iF9tA==
-X-Google-Smtp-Source: AGRyM1takRjtsRj9YELKBt6rmz4CQO7nQ0Nayu7Yh81SXM5TjN+LAL0+4Rk96EhjkfwAqEJ8YgRFdy1x4TpPZA==
-X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:4e])
- (user=wuhaotsh job=sendgmr) by 2002:a17:90b:3b43:b0:1ef:d89b:3454 with SMTP
- id ot3-20020a17090b3b4300b001efd89b3454mr17368056pjb.87.1657821637506; Thu,
- 14 Jul 2022 11:00:37 -0700 (PDT)
-Date: Thu, 14 Jul 2022 11:00:06 -0700
-In-Reply-To: <20220714180006.77360-1-wuhaotsh@google.com>
-Message-Id: <20220714180006.77360-9-wuhaotsh@google.com>
-Mime-Version: 1.0
-References: <20220714180006.77360-1-wuhaotsh@google.com>
-X-Mailer: git-send-email 2.37.0.170.g444d1eabd0-goog
-Subject: [PATCH 8/8] hw/arm: quanta-gbs-bmc add i2c devices
-From: Hao Wu <wuhaotsh@google.com>
-To: peter.maydell@linaro.org
-Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- wuhaotsh@google.com, venture@google.com, Avi.Fishman@nuvoton.com, 
- kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org, 
- bin.meng@windriver.com, qemu-block@nongnu.org, armbru@redhat.com, 
- thuth@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
- envelope-from=3xVnQYggKCtYOM92GLK98GG8D6.4GEI6EM-56N6DFGF8FM.GJ8@flex--wuhaotsh.bounces.google.com;
- helo=mail-pl1-x64a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=XxNMsDtWa8Au6uFoFr7AEb7CuySVZYQN3sYNJdCL/8k=;
+ b=rgLsqj7iAONt6ZpGN5sYGdk3qmA71nLIiAgTXZYDFnsoZQ34/xRnlRLGs2n83cKKlq
+ 3tMy3b8vGqhXHxSr8yeYUDqPh1hwlJqAFaJr9ycoPywk+S2BzIQXcMWpYzBNbYdjx69K
+ v27pHVqjaXhYiYjAx6wo497bpotW1QPcQ6LAd6eUsDVg1pWX5MhHVigFSD5pP/s8NiAl
+ mvmN9YfqnOtbAXpTFInV+QMKuZNbvJPXGrMohTMXie65AgtfKtO6ryMFHd9TMOBONsdO
+ 037mGBrimKAaTx6s/NKlPsDcXIKqtFipBoojIxrX88xZFyxbMSBaNPM0RDrYFz4TElyP
+ 12Qw==
+X-Gm-Message-State: AJIora/egpKPstWVStZVwwnCsQfOL2TLM1W9K17Ud3HIRtYDYVRHNoyw
+ O5xJNA7d+C74FxLn9JLmT+r3PA==
+X-Google-Smtp-Source: AGRyM1smn45O2FxWpfGFiobM99ONVYE9ttAI3qMIQXDFmIbpNi8LAivHhW05qdSHzstKcdSZEFIsOQ==
+X-Received: by 2002:a17:903:234d:b0:16c:5a7e:f534 with SMTP id
+ c13-20020a170903234d00b0016c5a7ef534mr9334283plh.35.1657821989191; 
+ Thu, 14 Jul 2022 11:06:29 -0700 (PDT)
+Received: from localhost ([50.221.140.186]) by smtp.gmail.com with ESMTPSA id
+ y11-20020a17090322cb00b0016c33dc879esm1790939plg.113.2022.07.14.11.06.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 11:06:28 -0700 (PDT)
+Subject: [PATCH] RISC-V: Allow both Zmmul and M
+Date: Thu, 14 Jul 2022 11:00:33 -0700
+Message-Id: <20220714180033.22385-1-palmer@rivosinc.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Cc: Palmer Dabbelt <palmer@rivosinc.com>
+From: Palmer Dabbelt <palmer@rivosinc.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-riscv@nongnu.org, 
+ qemu-devel@nongnu.org
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=palmer@rivosinc.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,128 +85,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Patrick Venture <venture@google.com>
+We got to talking about how Zmmul and M interact with each other
+https://github.com/riscv/riscv-isa-manual/issues/869 , and it turns out
+that QEMU's behavior is slightly wrong: having Zmmul and M is a legal
+combination, it just means that the multiplication instructions are
+supported even when M is disabled at runtime via misa.
 
-Adds supported i2c devices to the quanta-gbc-bmc board.
+This just stops overriding M from Zmmul, with that the other checks for
+the multiplication instructions work as per the ISA.
 
-Signed-off-by: Patrick Venture <venture@google.com>
-Reviewed-by: Hao Wu <wuhaotsh@google.com>
+Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 ---
- hw/arm/npcm7xx_boards.c | 82 ++++++++++++++++++++++++-----------------
- 1 file changed, 49 insertions(+), 33 deletions(-)
+ target/riscv/cpu.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index b8337871ba..4bae5589f0 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -290,10 +290,12 @@ static void quanta_gsj_fan_init(NPCM7xxMachine *machine, NPCM7xxState *soc)
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index db2b8e4d30..cab74faaca 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -709,11 +709,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             cpu->cfg.ext_ifencei = true;
+         }
  
- static void quanta_gbs_i2c_init(NPCM7xxState *soc)
- {
-+    I2CSlave *i2c_mux;
-+
-+    /* i2c-0: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), TYPE_PCA9546, 0x71);
-+
-     /*
--     * i2c-0:
--     *     pca9546@71
--     *
-      * i2c-1:
-      *     pca9535@24
-      *     pca9535@20
-@@ -302,46 +304,60 @@ static void quanta_gbs_i2c_init(NPCM7xxState *soc)
-      *     pca9535@23
-      *     pca9535@25
-      *     pca9535@26
--     *
--     * i2c-2:
--     *     sbtsi@4c
--     *
--     * i2c-5:
--     *     atmel,24c64@50 mb_fru
--     *     pca9546@71
--     *         - channel 0: max31725@54
--     *         - channel 1: max31725@55
--     *         - channel 2: max31725@5d
--     *                      atmel,24c64@51 fan_fru
--     *         - channel 3: atmel,24c64@52 hsbp_fru
--     *
-+     */
-+
-+    /* i2c-2: sbtsi@4c */
-+
-+    /* i2c-5: */
-+    /* mb_fru */
-+    at24c_eeprom_init(npcm7xx_i2c_get_bus(soc, 5), 5, 0x50, 8192, 0);
-+    i2c_mux = i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 5),
-+                                      TYPE_PCA9546, 0x71);
-+    /* max31725 is tmp105 compatible. */
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 0), "tmp105", 0x54);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 1), "tmp105", 0x55);
-+    i2c_slave_create_simple(pca954x_i2c_get_bus(i2c_mux, 2), "tmp105", 0x5d);
-+    /* fan_fru */
-+    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 2), 5, 0x51, 8192, 1);
-+    /* hsbp_fru */
-+    at24c_eeprom_init(pca954x_i2c_get_bus(i2c_mux, 3), 5, 0x52, 8192, 2);
-+
-+    /*
-      * i2c-6:
-      *     pca9545@73
-      *
-      * i2c-7:
-      *     pca9545@72
--     *
--     * i2c-8:
--     *     adi,adm1272@10
--     *
--     * i2c-9:
--     *     pca9546@71
--     *         - channel 0: isil,isl68137@60
--     *         - channel 1: isil,isl68137@61
--     *         - channel 2: isil,isl68137@63
--     *         - channel 3: isil,isl68137@45
--     *
-+     */
-+
-+    /* i2c-8: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 8), "adm1272", 0x10);
-+
-+    /* i2c-9: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 9), TYPE_PCA9546, 0x71);
-+    /*
-+     * - channel 0: isil,isl68137@60
-+     * - channel 1: isil,isl68137@61
-+     * - channel 2: isil,isl68137@63
-+     * - channel 3: isil,isl68137@45
-+     */
-+
-+    /*
-      * i2c-10:
-      *     pca9545@71
-      *
-      * i2c-11:
-      *     pca9545@76
--     *
--     * i2c-12:
--     *     maxim,max34451@4e
--     *     isil,isl68137@5d
--     *     isil,isl68137@5e
--     *
-+     */
-+
-+    /* i2c-12: */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 12), "max34451", 0x4e);
-+    /*
-+     * isil,isl68137@5d
-+     * isil,isl68137@5e
-+     */
-+
-+    /*
-      * i2c-14:
-      *     pca9545@70
-      */
+-        if (cpu->cfg.ext_m && cpu->cfg.ext_zmmul) {
+-            warn_report("Zmmul will override M");
+-            cpu->cfg.ext_m = false;
+-        }
+-
+         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+             error_setg(errp,
+                        "I and E extensions are incompatible");
 -- 
-2.37.0.170.g444d1eabd0-goog
+2.34.1
 
 
