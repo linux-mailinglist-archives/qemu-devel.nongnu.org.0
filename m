@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECC845752DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:33:23 +0200 (CEST)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A143F5752FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:40:00 +0200 (CEST)
+Received: from localhost ([::1]:48724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1mD-0008GY-UT
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:33:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
+	id 1oC1sd-0003KQ-NK
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC1jq-0005bf-DP; Thu, 14 Jul 2022 12:30:54 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:35769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC1jo-0003CI-FR; Thu, 14 Jul 2022 12:30:54 -0400
-Received: by mail-oi1-x232.google.com with SMTP id r82so3017978oig.2;
- Thu, 14 Jul 2022 09:30:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NrTAED/6a/XTrQAmlgTA6OFL3iGwcXC2lo6fwie9b0M=;
- b=DQCP6u3EknckldT3kerB5jR1KPf4odAPG+Y5et95lqY7i9xZgnfx3nHbVV6ME7YrWk
- gf4PYavsjCege7OSwYaVq3xVAV81xPoJzoIylNGwj4dj0RAMOAMHsHT9vF116e6PI5VN
- yr2G6bjAWK96T29cIhpOw7ZBc/Uhgq32pwqykIbUyAxS/gwVpX3ONEmPZYiZg1xlYDaG
- Q443P7c244IMHPamwBg9oKOL7+ARQXPupD6AsL+aezNWNhxxsG90xqKGrCizWh7nmPia
- p7atVBJsaHHmhkAUlyPLCh8l9QMEoBbVeeHkQA92CR/SL/r+iBDXouiXJWgiLoi6FQVx
- sd4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=NrTAED/6a/XTrQAmlgTA6OFL3iGwcXC2lo6fwie9b0M=;
- b=3gh6rLT02fwXEyTQChGfYfgBVTwfYwZGvBgqQ9ckvUs5mps/Vn9TJHlsrh5dPTHeCE
- SSNQdYP0nnb+dGrMPQTNornXyirclGvfdM4eoLgZeUzHnZr0tRW/dMt3ojisaq9aTPYK
- 0SCHmCd7xbiNtTTzRe/6SOFGGqGg5DUykkijgutEXCcKDZrBEat6dqiGWMVxnTbXevjy
- 9Z/1KErJ9WwWJLjh0dau0Q/M/B06Jqpw1D8x+vHed6SsVTpraK5c2Skj1JR4AWmSBmit
- uuRKGEynpYZ1SVIwJjIjmTRttm/KBLt0/nkp+sawdxw8rAK4DFVSwytWJMx70nHLzucz
- aP0w==
-X-Gm-Message-State: AJIora+Y16CutO4yGj2IMuWHxNDhyaPamqQL5qWyfrj4O+rRtqTLUAsK
- +O4MYVTBvul+BPNlNXSpwG4=
-X-Google-Smtp-Source: AGRyM1tTAHi/pDYq0mWKYrDc5ongITqt4V7t3292hS93dvxtdxkuNKlEfda8ik8cjR1Qb250UDs4Pw==
-X-Received: by 2002:aca:5dc6:0:b0:33a:25e:8d51 with SMTP id
- r189-20020aca5dc6000000b0033a025e8d51mr4955185oib.258.1657816250810; 
- Thu, 14 Jul 2022 09:30:50 -0700 (PDT)
-Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- n13-20020a9d6f0d000000b0061c38aacda1sm823174otq.58.2022.07.14.09.30.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 09:30:50 -0700 (PDT)
-Message-ID: <142c452e-6511-47ea-4a93-c925e1f5ceb3@gmail.com>
-Date: Thu, 14 Jul 2022 13:30:47 -0300
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oC1lC-0007Ae-CA
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:32:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21514)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oC1l2-0003JI-Gy
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:32:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657816327;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TXAJuBLNCR/YueTQIzMFDsucH95wdhdXNDKfvpB+NL4=;
+ b=WfarkQfROMXZeXy4kIisyP03fBKrpLhkvxC+60ItC4Z205UEMNjEKNPOENBk0PcM+6ggTP
+ zA3irHB4c58B43EaLCFtFtu3x3ISSvg/Cjb9Zi1Ecw7TZ2xJxqfPdRtpiAmZbQT9VQvQrz
+ dkmLGMd+ygMctRhLoQIQHXNADycTMjA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306-9xgjmtHINNaDBEgOwVTXig-1; Thu, 14 Jul 2022 12:31:56 -0400
+X-MC-Unique: 9xgjmtHINNaDBEgOwVTXig-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4A8485A581;
+ Thu, 14 Jul 2022 16:31:55 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 242CD1121314;
+ Thu, 14 Jul 2022 16:31:51 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, Laurent Vivier <lvivier@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Eli Cohen <eli@mellanox.com>,
+ Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Jason Wang <jasowang@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Subject: [PATCH v2 00/19] vdpa net devices Rx filter change notification with
+ Shadow VQ
+Date: Thu, 14 Jul 2022 18:31:31 +0200
+Message-Id: <20220714163150.2536327-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2] target/ppc: check tb_env != 0 before printing
- TBU/TBL/DECR
-Content-Language: en-US
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
-References: <20220713183847.41797-1-matheus.ferst@eldorado.org.br>
- <07a90f40-6ece-57aa-cbe7-15b9e8c37203@gmail.com>
- <03b9bcde-4bde-a7e0-b86a-e1bdb366db12@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <03b9bcde-4bde-a7e0-b86a-e1bdb366db12@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,123 +87,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Control virtqueue is used by networking device for accepting various=0D
+commands from the driver. It's a must to support advanced configurations.=0D
+=0D
+Rx filtering event is issues by qemu when device's MAC address changed once=
+ and=0D
+the previous one has not been queried by external agents.=0D
+=0D
+Shadow VirtQueue (SVQ) already makes possible tracking the state of virtque=
+ues,=0D
+effectively intercepting them so qemu can track what regions of memory are=
+=0D
+dirty because device action and needs migration. However, this does not sol=
+ve=0D
+networking device state seen by the driver because CVQ messages, like chang=
+es=0D
+on MAC addresses from the driver.=0D
+=0D
+This series uses SVQ infrastructure to intercept networking control message=
+s=0D
+used by the device. This way, qemu is able to update VirtIONet device model=
+ and=0D
+react to them. In particular, this series enables rx filter change=0D
+notification.=0D
+=0D
+This is a prerequisite to achieve net vdpa device with CVQ live migration.=
+=0D
+It's a stripped down version of [1], with error paths checked and no migrat=
+ion=0D
+enabled.=0D
+=0D
+First nine patches reorder and clean code base so its easier to apply later=
+=0D
+ones. No functional change should be noticed from these changes.=0D
+=0D
+Patches from 11 to 14 enable SVQ API to make other parts of qemu to interac=
+t=0D
+with it. In particular, they will be used by vhost-vdpa net to handle CVQ=0D
+messages.=0D
+=0D
+Patches 15 to 17 enable the update of the virtio-net device model for each=
+=0D
+CVQ message acknowledged by the device.=0D
+=0D
+Last patches enable x-svq parameter, forbidding device migration since it i=
+s=0D
+not restored in the destination's vdpa device yet. This will be added in la=
+ter=0D
+series, using this work.=0D
+=0D
+Comments are welcome.=0D
+=0D
+v2:=0D
+- (Comments from series [1]).=0D
+- Active poll for CVQ answer instead of relay on async used callback=0D
+- Do not offer a new buffer to device but reuse qemu's=0D
+- Use vhost_svq_add instead of not needed vhost_svq_inject=0D
+- Delete used and detach callbacks, not needed anymore=0D
+- Embed members of SVQElement in VirtQueueElement=0D
+- Reuse the same buffers for all CVQ commands=0D
+=0D
+[1] https://patchwork.kernel.org/project/qemu-devel/cover/20220706184008.16=
+49478-1-eperezma@redhat.com/=0D
+=0D
+Eugenio P=C3=A9rez (19):=0D
+  vhost: move descriptor translation to vhost_svq_vring_write_descs=0D
+  virtio-net: Expose MAC_TABLE_ENTRIES=0D
+  virtio-net: Expose ctrl virtqueue logic=0D
+  vhost: Reorder vhost_svq_kick=0D
+  vhost: Move vhost_svq_kick call to vhost_svq_add=0D
+  vhost: Check for queue full at vhost_svq_add=0D
+  vhost: Decouple vhost_svq_add from VirtQueueElement=0D
+  vhost: Add SVQElement=0D
+  vhost: Track number of descs in SVQElement=0D
+  vhost: add vhost_svq_push_elem=0D
+  vhost: Expose vhost_svq_add=0D
+  vhost: add vhost_svq_poll=0D
+  vhost: Add svq avail_handler callback=0D
+  vdpa: Export vhost_vdpa_dma_map and unmap calls=0D
+  vdpa: manual forward CVQ buffers=0D
+  vdpa: Buffer CVQ support on shadow virtqueue=0D
+  vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs=0D
+  vdpa: Add device migration blocker=0D
+  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
+=0D
+ qapi/net.json                      |   9 +-=0D
+ hw/virtio/vhost-shadow-virtqueue.h |  52 ++++-=0D
+ include/hw/virtio/vhost-vdpa.h     |   8 +=0D
+ include/hw/virtio/virtio-net.h     |   7 +=0D
+ hw/net/virtio-net.c                |  85 ++++---=0D
+ hw/virtio/vhost-shadow-virtqueue.c | 216 +++++++++++------=0D
+ hw/virtio/vhost-vdpa.c             |  25 +-=0D
+ net/vhost-vdpa.c                   | 357 +++++++++++++++++++++++++++--=0D
+ 8 files changed, 635 insertions(+), 124 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
-
-On 7/14/22 13:17, Matheus K. Ferst wrote:
-> On 14/07/2022 10:35, Daniel Henrique Barboza wrote:
->> On 7/13/22 15:38, Matheus Ferst wrote:
->>> When using "-machine none", env->tb_env is not allocated, causing the
->>> segmentation fault reported in issue #85 (launchpad bug #811683). To
->>> avoid this problem, check if the pointer != NULL before calling the
->>> methods to print TBU/TBL/DECR.
->>>
->>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/85
->>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>> ---
->>> v2:
->>>   - Added checks in monitor_get_decr, monitor_get_tbu, and monitor_get_tbl.
->>>   - Link to v1: https://lists.gnu.org/archive/html/qemu-ppc/2022-07/msg00173.html
->>> ---
->>>   target/ppc/cpu_init.c | 16 ++++++++--------
->>>   target/ppc/monitor.c  |  9 +++++++++
->>>   2 files changed, 17 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->>> index 86ad28466a..7e96baac9f 100644
->>> --- a/target/ppc/cpu_init.c
->>> +++ b/target/ppc/cpu_init.c
->>> @@ -7476,18 +7476,18 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->>>                    "%08x iidx %d didx %d\n",
->>>                    env->msr, env->spr[SPR_HID0], env->hflags,
->>>                    cpu_mmu_index(env, true), cpu_mmu_index(env, false));
->>> -#if !defined(NO_TIMER_DUMP)
->>
->> Why did you remove the NO_TIMER_DUMP check? Is it redundant with the env->tb_env
->> check?
->>
-> 
-> This is the only reference to this macro since it was added in d9bce9d99f46. I suppose it was manually defined, but the only discussion[1] I could find around this patch doesn't mention it. I don't see any other reason to define it other than avoiding segfaults in machines that don't allocate env_tb, but we can keep it if you prefer.
-
-Thanks for the explanation. And nah, no need to keep it around since you're
-already gating the code by checking  env->tb_env.
-
-
-Daniel
-
-
-> 
->>> -    qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->>> +    if (env->tb_env) {
->>> +        qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->>>   #if !defined(CONFIG_USER_ONLY)
->>> -                 " DECR " TARGET_FMT_lu
->>> +                     " DECR " TARGET_FMT_lu
->>>   #endif
->>> -                 "\n",
->>> -                 cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
->>> +                     "\n",
->>> +                     cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
->>>   #if !defined(CONFIG_USER_ONLY)
->>> -                 , cpu_ppc_load_decr(env)
->>> -#endif
->>> -        );
->>> +                     , cpu_ppc_load_decr(env)
->>>   #endif
->>> +            );
->>> +    }
->>
->> Not really a problem with your patch, but since you're changing this code, can
->> you please cleanse it from evil? I mean, look at this:
->>
->>
->>      if (env->tb_env) {
->>          qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->> #if !defined(CONFIG_USER_ONLY)
->>                       " DECR " TARGET_FMT_lu
->> #endif
->>                       "\n",
->>                       cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
->> #if !defined(CONFIG_USER_ONLY)
->>                       , cpu_ppc_load_decr(env)
->> #endif
->>              );
->>      }
->>
->>
->> 2 ifdef macros in the middle of qemu_fprintf() params? With one line starting
->> with a ', '?  Why are we trading sanity for 3 lines of code repetition?
->>
->> We can --at least-- do something like this:
->>
->>      if (env->tb_env) {
->> #if !defined(CONFIG_USER_ONLY)
->>          qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->>                       " DECR " TARGET_FMT_lu
->>                       "\n",
->>                       cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env),
->>                       cpu_ppc_load_decr(env));
->> #else
->>          qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->>                       "\n",
->>                       cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env));
->> #endif
->>      }
->>
->>
->> Thanks,
->>
->>
->> Daniel
->>
->>
-> 
-> Sure, I'll change that in v3.
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2007-03/msg00239.html
-> 
-> Thanks,
-> Matheus K. Ferst
-> Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-> Analista de Software
-> Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
