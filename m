@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F899574EAA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:08:01 +0200 (CEST)
-Received: from localhost ([::1]:47582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BE4D574CB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 14:03:33 +0200 (CEST)
+Received: from localhost ([::1]:39416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oByZU-00007M-A3
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34190)
+	id 1oBxZ6-0005x7-20
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 08:03:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
- id 1oBoCI-0004CU-I1; Wed, 13 Jul 2022 22:03:22 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:7091)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
- id 1oBoCG-0001Zg-QN; Wed, 13 Jul 2022 22:03:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657764201; x=1689300201;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=Mdg9Jruk/D6blRzaGREhg7fOIzA0MUljG20KF/x/WcI=;
- b=BZ2t+ktts0ySXVs8MOJABw+krTPCaQwCeSjZIzl6GOsN//A4zPWRhqU3
- cY2/UK92iCcCOMk751Dj24WTBkQdkdr3JQ9ze/HgVT8AZ9k5ATdx8chOZ
- nzb+c9V8hdCGz4nvwYiClA9TLNfJWd+q0vaBuE1NTpp9o77/gUrjC2NZk I=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 13 Jul 2022 18:57:08 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 18:57:08 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (Exim 4.90_1) (envelope-from <vitalii.ovchinnikov@auriga.com>)
+ id 1oBxVv-00042g-7l
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 08:00:17 -0400
+Received: from hq-ms.auriga.com ([82.97.202.32]:19356 helo=hq-ms.auriga.ru)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vitalii.ovchinnikov@auriga.com>)
+ id 1oBxVr-0006Gc-BK
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 08:00:13 -0400
+Received: from HQ-MS1.office.auriga.msk (82.97.202.32) by
+ hq-ms1.office.auriga.msk (82.97.202.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Jul 2022 18:57:07 -0700
-Received: from perseverance.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Wed, 13 Jul 2022 18:57:06 -0700
-From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
-To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-CC: Paolo Bonzini <pbonzini@redhat.com>, "Daniel P . Berrange"
- <berrange@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, Graeme Gregory
- <quic_ggregory@quicinc.com>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>,
- Maheswara Kurapati <quic_mkurapat@quicinc.com>
-Subject: [PATCH 3/3] hw/sensor: max31785 : update the tach input based on the
- tach margin percentage
-Date: Wed, 13 Jul 2022 20:56:37 -0500
-Message-ID: <20220714015637.817066-4-quic_mkurapat@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220714015637.817066-1-quic_mkurapat@quicinc.com>
-References: <20220714015637.817066-1-quic_mkurapat@quicinc.com>
+ 15.2.1118.7; Thu, 14 Jul 2022 14:53:57 +0300
+Received: from HQ-MS1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e]) by
+ hq-ms1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e%3]) with mapi id
+ 15.02.1118.007; Thu, 14 Jul 2022 14:53:57 +0300
+From: "Ovchinnikov, Vitalii" <vitalii.ovchinnikov@auriga.com>
+To: Jason Wang <jasowang@redhat.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: Internal MAC addresses list (mac_table) usage
+Thread-Topic: Internal MAC addresses list (mac_table) usage
+Thread-Index: AQHYlcZo8cC1dmFBMkyljjkQx472u619PH4AgACDyqo=
+Date: Thu, 14 Jul 2022 11:53:57 +0000
+Message-ID: <ae177ae534fa4045885916299bbb0652@auriga.com>
+References: <cfdc8ffef03c4574a72faea46f2e1ef1@auriga.com>,
+ <CACGkMEvRNMoUSGQZa7wvQu=FKgKw3RJmioHZy1r3f6bYTS-JFQ@mail.gmail.com>
+In-Reply-To: <CACGkMEvRNMoUSGQZa7wvQu=FKgKw3RJmioHZy1r3f6bYTS-JFQ@mail.gmail.com>
+Accept-Language: en-US, ru-RU
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.99.99.40]
+x-tm-as-product-ver: SMEX-14.0.0.1158-9.0.1002-27014.002
+x-tm-as-result: No-10--12.855500-8.000000
+x-tmase-matchedrid: X4bcv0S75KmHYS4ybQtcOgrcxrzwsv5uXPK9y3z82Gu3CLdtdG1oCKAe
+ /Yw0Hv+DiI9g6JBc05Os/wJ9EGB8eexuEpSKm2TE5jpYq8oRllOyTrWV4vwyX/4DDXoaCqk7jFK
+ /NcS7G4ldJRMfBTsO+POUotS/NX+KQ9tg+p38ZomYh7QjWI3JDBmyTBaqiJvcVo0lrxbM8auLt6
+ 3p7uWNMJ4yh6OkScjIF1zC+MEZV0WGFWqjeDE74QPZZctd3P4B0MQw+++ihy/qFRQsrMdGBPzxf
+ g6IZlFlN/cuMNJ8XfbcPfSk4MFdVPSGqCRif9CL9Ib/6w+1lWRaY5+vdounCI5LnhCTh8HJ6bnv
+ e26xmNC/+cseRgjV4zEJvQUOinQkGAdnzrnkM4+DGx/OQ1GV8rHlqZYrZqdI+gtHj7OwNO2FR9H
+ au8GO7m3tuIXQKer83ZLpYzHoKg77NmA/Ia8TS+xXTiWriRqa/He/CAYT0Rg=
+x-tm-as-user-approved-sender: No
+x-tm-as-user-blocked-sender: No
+x-tmase-result: 10--12.855500-8.000000
+x-tmase-version: SMEX-14.0.0.1158-9.0.1002-27014.002
+x-tm-snts-smtp: BD97FDDC7E55BA012B9E1DE9D47C55DA0F1B7A1DA0A18D669E94F642DD7F448A2000:8
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=129.46.98.28;
- envelope-from=quic_mkurapat@quicinc.com; helo=alexa-out.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=82.97.202.32;
+ envelope-from=vitalii.ovchinnikov@auriga.com; helo=hq-ms.auriga.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 14 Jul 2022 09:02:08 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,64 +81,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update the tach input based on the percentage of tach target.  The tach margin
-could be a +ve or -ve margin of the target tach rpm.
+Hi Jason,
 
-Signed-off-by: Maheswara Kurapati <quic_mkurapat@quicinc.com>
----
- hw/sensor/max31785.c | 24 ++++++++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
+Thanks for pointing out that corner case with "52:54:00:12:34:XX".
 
-diff --git a/hw/sensor/max31785.c b/hw/sensor/max31785.c
-index 1cb31c2e82..c37b154130 100644
---- a/hw/sensor/max31785.c
-+++ b/hw/sensor/max31785.c
-@@ -71,7 +71,7 @@
- /* FAN_CONFIG_1_2 */
- #define MAX31785_MFR_FAN_CONFIG                0xF1
- #define MAX31785_FAN_CONFIG_ENABLE             BIT(7)
--#define MAX31785_FAN_CONFIG_RPM_PWM            BIT(6)
-+#define MAX31785_FAN_CONFIG_FAN_MODE_RPM       BIT(6)
- #define MAX31785_FAN_CONFIG_PULSE(pulse)       (pulse << 4)
- #define MAX31785_DEFAULT_FAN_CONFIG_1_2(pulse)                                 \
-     (MAX31785_FAN_CONFIG_ENABLE | MAX31785_FAN_CONFIG_PULSE(pulse))
-@@ -316,6 +316,8 @@ static int max31785_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-                                uint8_t len)
- {
-     MAX31785State *s = MAX31785(pmdev);
-+    int16_t   tach_margin = 0;
-+
-     if (len == 0) {
-         qemu_log_mask(LOG_GUEST_ERROR, "%s: writing empty data\n", __func__);
-         return -1;
-@@ -342,9 +344,23 @@ static int max31785_write_data(PMBusDevice *pmdev, const uint8_t *buf,
-     case PMBUS_FAN_COMMAND_1:
-         if (pmdev->page <= MAX31785_MAX_FAN_PAGE) {
-             pmdev->pages[pmdev->page].fan_command_1 = pmbus_receive16(pmdev);
--            pmdev->pages[pmdev->page].read_fan_speed_1 =
--                ((MAX31785_DEFAULT_FAN_SPEED / MAX31785_DEFAULT_FAN_MAX_PWM) *
--                pmdev->pages[pmdev->page].fan_command_1);
-+            if ((pmdev->pages[pmdev->page].fan_config_1_2 &
-+                 MAX31785_FAN_CONFIG_FAN_MODE_RPM)
-+                  == MAX31785_FAN_CONFIG_FAN_MODE_RPM) {
-+                /* calculate the tach margin (+ve or -ve) */
-+                tach_margin = (int16_t)pmdev->pages[pmdev->page].fan_command_1 *
-+                        ((float)s->tach_margin_percent[pmdev->page] / 100.0);
-+
-+                /* set the tach */
-+                pmdev->pages[pmdev->page].read_fan_speed_1 =
-+                 (uint16_t)(pmdev->pages[pmdev->page].fan_command_1 +
-+                            tach_margin);
-+            } else {
-+                /* pwm mode */
-+                pmdev->pages[pmdev->page].read_fan_speed_1 =
-+                  ((MAX31785_DEFAULT_FAN_SPEED / MAX31785_DEFAULT_FAN_MAX_PWM) *
-+                   pmdev->pages[pmdev->page].fan_command_1);
-+            }
-         }
-         break;
- 
--- 
-2.25.1
+In the NIC model I'm developing qemu_macaddr_default_if_unset is called eve=
+ry time MAC is updated in the NIC registers.
+This way a just assigned "52:54:00:12:34:XX" MAC is at least marked as used=
+ in the mac_table.
 
+However it doesn't cover the case when "52:54:00:12:34:XX" MAC being assign=
+ed through NIC registers has already been assigned to another NIC by QEMU.
+So one more improvement the code might need is a way to check whether MAC i=
+s free or used from within NIC model.
+Returning bool from qemu_macaddr_default_if_unset may well do the trick. Mo=
+reover it might also help to spot an error when -1 is returned from qemu_ma=
+caddr_get_free (for the time being it's silently interpreted as 0xFF MAC LS=
+B).
+
+BR,
+Vitalii
+
+From: Jason Wang <jasowang@redhat.com>
+Sent: Thursday, July 14, 2022 9:44
+To: Ovchinnikov, Vitalii
+Cc: qemu-devel@nongnu.org
+Subject: Re: Internal MAC addresses list (mac_table) usage
+=A0  =20
+On Tue, Jul 12, 2022 at 4:43 PM Ovchinnikov, Vitalii
+<vitalii.ovchinnikov@auriga.com> wrote:
+>
+> Hi folks,
+>
+> While developing an Ethernet NIC model I noticed that QEMU maintains the =
+following internal array which marks used/free MAC addresses in net/net.c:
+>
+> static int mac_table[256] =3D {0};
+>
+> with three private (static) functions accessing it: qemu_macaddr_set_used=
+, qemu_macaddr_set_free, qemu_macaddr_get_free.
+> Public (non-static) interface to this array includes two functions: qemu_=
+macaddr_default_if_unset and qemu_del_nic.
+>
+> The vast majority of existing NIC models calls qemu_macaddr_default_if_un=
+set in their *_realize functions replacing zeroed-out MAC address with the =
+free one returned by QEMU, for instance (lan9118_realize functions from hw/=
+net/lan9118.c):
+>
+>=A0=A0=A0 ...
+>=A0=A0=A0=A0 qemu_macaddr_default_if_unset(&s->conf.macaddr);
+>
+>=A0=A0=A0=A0 s->nic =3D qemu_new_nic(&net_lan9118_info, &s->conf,
+>=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0 object_get_typename(OBJECT(dev)), dev->id, s);
+>=A0=A0=A0=A0 qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.maca=
+ddr.a);
+>=A0=A0=A0 ...
+>
+> qemu_del_nic is being called from net_cleanup function right before QEMU =
+finishes execution.
+>
+> What appears to be a possible SW architecture gap is that NIC models have=
+ no means to inform QEMU about changing their MAC addresses during executio=
+n (again from hw/net/lan9118.c, do_mac_write function):
+>
+>=A0=A0=A0=A0 case MAC_ADDRH:
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[4] =3D val & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[5] =3D (val >> 8) & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 lan9118_mac_changed(s);
+>=A0=A0=A0=A0=A0=A0=A0=A0 break;
+>=A0=A0=A0=A0 case MAC_ADDRL:
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[0] =3D val & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[1] =3D (val >> 8) & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[2] =3D (val >> 16) & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 s->conf.macaddr.a[3] =3D (val >> 24) & 0xff;
+>=A0=A0=A0=A0=A0=A0=A0=A0 lan9118_mac_changed(s);
+>=A0=A0=A0=A0=A0=A0=A0=A0 break;
+>
+> lan9118_mac_changed function here simply changes NIC info string using qe=
+mu_format_nic_info_str, hence stale MAC address stays marked as used in the=
+ mac_table whereas it's not actually in use any more.
+>
+> Am I right in thinking of it as a SW architecture gap/bug that needs to b=
+e addressed?
+
+I think so. Note that the code can not deal with the case when
+"52:54:00:12:34:XX" was passed from cli.
+
+Thanks
+
+>
+> BR,
+> Vitalii
+>
+
+    =
 
