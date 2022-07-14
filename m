@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE7DD574058
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 02:07:47 +0200 (CEST)
-Received: from localhost ([::1]:38980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4B95740EB
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 03:22:32 +0200 (CEST)
+Received: from localhost ([::1]:48476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBmOQ-0000bt-Ba
-	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 20:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43418)
+	id 1oBnYl-0003Ab-6J
+	for lists+qemu-devel@lfdr.de; Wed, 13 Jul 2022 21:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oBmJh-0007S9-Cm
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 20:02:53 -0400
-Received: from mga04.intel.com ([192.55.52.120]:57835)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oBmJf-00060U-K1
- for qemu-devel@nongnu.org; Wed, 13 Jul 2022 20:02:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1657756971; x=1689292971;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=26iuG2PU8gROzu7IcUO0TLcA9lykFGbxNWG8zTRrDpg=;
- b=BuSKUe+OG2RoyIHRfoOZdDvEsnOuuQcp41O9EAgr0lt6qz7E86+F9LNN
- t404lcKBBjXJz9aGf9IJmTnwFdyKeYCZyucmiznRQa7MnF2vAl2X5q/gk
- 3ati8JI2moVIYQGFALrG2S/2k286Wyk9DICm6PKM0J2PC/FPvHBBDkuoe
- iao9fL3Fr762Prw0PL+izSV7ocxjBInBpzPAIZCgVZ4ZNxsj4YaNbvhlc
- rUNbL/4vuV/ymd+YY4OCwh/wY4z+T1JVlyjb+8akU4QLEu0jxncu/rXL+
- eOjyOI5Le42NOBHF5+d5rINnMSDjdTHb6pySH8G+kUCM/u29nSoxE9glb A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="284130338"
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="284130338"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Jul 2022 17:02:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="593178497"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.101])
- by orsmga007.jf.intel.com with ESMTP; 13 Jul 2022 17:02:39 -0700
-Date: Thu, 14 Jul 2022 07:59:22 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 00/14] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Message-ID: <20220713235922.GB2881285@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <b1c12a4b-46f7-081b-242f-005a8824aad1@amd.com>
- <20220713075738.GC2831541@chaop.bj.intel.com>
- <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBnUB-0001N6-Ni
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 21:17:47 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:53110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oBnUA-0005Ae-61
+ for qemu-devel@nongnu.org; Wed, 13 Jul 2022 21:17:47 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id fz10so932003pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 18:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=uTJq7DeubfQMH138S5dsqp7qB/rda5+/6bhkF89hZ08=;
+ b=VZ7sq279gK2ImKBYTa0rUAmB+c3T5U73HZMgu3mgVn3qy51k+Q4cOk2C0IzD6iaZ29
+ 8GF6p6VajlXEKpPgA9pbSK7Gv716asnYcV2GgTsaUYpn4M1h4VsjMxpc+sc6Bx7T8oWW
+ qaWXDD+dh9BmPhuT+TUk0MC9S9TN/RObIdFxtWtxR9koZZnqosSJPKLMq+Pqx1jkahoW
+ OjKqBcpbCEfVvFVaUg7+KGhYDsGXGPEux94PRL/5LMHPUYarHlJTqOcrHFMcAr5w+LXh
+ pQ1EkpI3bjYn7s1E/I/6ArkUbWXSwXjSsNxKk07+BvGUwh/H5kNSh9glRsjKMSQV+GO2
+ Mlyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=uTJq7DeubfQMH138S5dsqp7qB/rda5+/6bhkF89hZ08=;
+ b=Fg6CR8+Az9gmJ8iOaAkLEQ8F31z2pmJ94L929BMG17sGqbzUJL82ObqMfzr098PG+0
+ yATjMA1gUSharV1UK6uDwHfW7m37YQLY5IzDhntPCGWq0WWH/qLDCtm41Qi6dktX9aqZ
+ UbjPPBL1Yeq4dS9t0kJRsQ53Urcc/lnMN3ot0kl+66Hvl/fz7CrIBbj6Qg77MYzse9bt
+ tW1gB7t0JJwkTBfcnDAgUKZ2LgQNOr5CXJyESdQdYz7ejfjHA+QcUK/+afvOehvY7k7J
+ 7nW7mLOSdBgZTSvkKo5WMFNTT2D2Q+9GISqx/WpztDKk7DW/+gkSxlv/8G5xoU4psdPh
+ yWYQ==
+X-Gm-Message-State: AJIora9SbWHL6cAVfgArhRaC59P9pKnpGNOHp7PJ/6haVTOlqr3lqsun
+ 4VFKi+yoQP5f6uw6ECMeJX8FCA==
+X-Google-Smtp-Source: AGRyM1tCBSo6bdsEte6jrJiOmNxKrb7flzy4oTjZ9b1VmsBKcEvMFCsfRipO16tQDBmqwX9M06T7XA==
+X-Received: by 2002:a17:90a:408f:b0:1e3:23a:2370 with SMTP id
+ l15-20020a17090a408f00b001e3023a2370mr6724421pjg.84.1657761464244; 
+ Wed, 13 Jul 2022 18:17:44 -0700 (PDT)
+Received: from [192.168.138.227] ([202.124.167.115])
+ by smtp.gmail.com with ESMTPSA id
+ o5-20020a1709026b0500b0016be5ed14d5sm72282plk.40.2022.07.13.18.17.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Jul 2022 18:17:43 -0700 (PDT)
+Message-ID: <1e7d6f3f-fffd-83da-628f-95e0eaead2eb@linaro.org>
+Date: Thu, 14 Jul 2022 06:47:35 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <13d25d2e-ff79-5762-ddb8-87df56f5cbcf@amd.com>
-Received-SPF: none client-ip=192.55.52.120;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga04.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH v2 3/3] tests/tcg/s390x: test signed vfmin/vfmax
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220713182612.3780050-1-iii@linux.ibm.com>
+ <20220713182612.3780050-4-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220713182612.3780050-4-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,51 +95,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 13, 2022 at 12:35:56PM +0200, Gupta, Pankaj wrote:
+On 7/13/22 23:56, Ilya Leoshkevich wrote:
+> Add a test to prevent regressions. Try all floating point value sizes
+> and all combinations of floating point value classes. Verify the results
+> against PoP tables, which are represented as close to the original as
+> possible - this produces a lot of checkpatch complaints, but it seems
+> to be justified in this case.
 > 
-> > > > This is the v7 of this series which tries to implement the fd-based KVM
-> > > > guest private memory. The patches are based on latest kvm/queue branch
-> > > > commit:
-> > > > 
-> > > >     b9b71f43683a (kvm/queue) KVM: x86/mmu: Buffer nested MMU
-> > > > split_desc_cache only by default capacity
-> > > > 
-> > > > Introduction
-> > > > ------------
-> > > > In general this patch series introduce fd-based memslot which provides
-> > > > guest memory through memory file descriptor fd[offset,size] instead of
-> > > > hva/size. The fd can be created from a supported memory filesystem
-> > > > like tmpfs/hugetlbfs etc. which we refer as memory backing store. KVM
-> > > 
-> > > Thinking a bit, As host side fd on tmpfs or shmem will store memory on host
-> > > page cache instead of mapping pages into userspace address space. Can we hit
-> > > double (un-coordinated) page cache problem with this when guest page cache
-> > > is also used?
-> > 
-> > This is my understanding: in host it will be indeed in page cache (in
-> > current shmem implementation) but that's just the way it allocates and
-> > provides the physical memory for the guest. In guest, guest OS will not
-> > see this fd (absolutely), it only sees guest memory, on top of which it
-> > can build its own page cache system for its own file-mapped content but
-> > that is unrelated to host page cache.
-> 
-> yes. If guest fills its page cache with file backed memory, this at host
-> side(on shmem fd backend) will also fill the host page cache fast. This can
-> have an impact on performance of guest VM's if host goes to memory pressure
-> situation sooner. Or else we end up utilizing way less System RAM.
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   tests/tcg/s390x/Makefile.target |   7 +
+>   tests/tcg/s390x/vfminmax.c      | 411 ++++++++++++++++++++++++++++++++
+>   2 files changed, 418 insertions(+)
+>   create mode 100644 tests/tcg/s390x/vfminmax.c
 
-(Currently), the file backed guest private memory is long-term pinned
-and not reclaimable, it's in page cache anyway once we allocated it for
-guest. This does not depend on how guest use it (e.g. use it for guest
-page cache or not). 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Chao
-> 
-> Thanks,
-> Pankaj
-> 
+r~
 
