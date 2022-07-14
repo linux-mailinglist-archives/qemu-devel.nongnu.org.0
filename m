@@ -2,115 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0819E574E65
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 14:53:09 +0200 (CEST)
-Received: from localhost ([::1]:59284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6976574E91
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:04:16 +0200 (CEST)
+Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oByL6-0004yQ-23
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 08:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38294)
+	id 1oByVr-0002cK-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:04:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oByJE-0003KJ-Rd; Thu, 14 Jul 2022 08:51:13 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oByJC-0004Yw-HV; Thu, 14 Jul 2022 08:51:12 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26ECaqtI020793;
- Thu, 14 Jul 2022 12:51:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=zFb0XXHOFcw8M5lCwp6VFSkyK2WKPJeqwCEhhbtBYU8=;
- b=EVD3sGoH+CIinZ+fcBX6bfF3pyXPNfXzTZfYkSeDjXUm+9oRkkRp7iEEyZFeCSqlL+zD
- NE1zWBshkKsmAghHPHIMwXEZjSqVGVKuMmx1FYoJpEb7K0HGPZluvNfuM8Ggzsr2RiNn
- mVDZ7xf9/HkLwIsi62uNw27NwWcKcBNzvGOyvdGiy/iy/5GTMMNplt6zqTKDC8wxj8ry
- VMjBj9F7UUTbXtuJEPX1uItvDpH2h0HOMF02aWsk/niIKHeclyDYoIpFFNQal5eyQ9b+
- r4JzynPpW3bNEd+XMUDdZt0qQN4NPN3vNDJVsH5EmXt4AAoLn3u3djBOfthmrDC1KRKz Xw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hak018pvk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 12:51:07 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26ECawY0021631;
- Thu, 14 Jul 2022 12:51:06 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hak018puc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 12:51:06 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26ECo4nI010970;
- Thu, 14 Jul 2022 12:51:04 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma04ams.nl.ibm.com with ESMTP id 3h8rrn41a6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 12:51:04 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26ECnRPw24052124
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jul 2022 12:49:27 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DA8D7A4053;
- Thu, 14 Jul 2022 12:51:00 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E4B6A404D;
- Thu, 14 Jul 2022 12:50:57 +0000 (GMT)
-Received: from [9.171.84.216] (unknown [9.171.84.216])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Jul 2022 12:50:57 +0000 (GMT)
-Message-ID: <0a4ab4e8-e628-0865-0198-384b4fcc88de@linux.ibm.com>
-Date: Thu, 14 Jul 2022 14:50:57 +0200
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oByRx-0005qs-N1; Thu, 14 Jul 2022 09:00:22 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:33783)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oByRr-0003Je-SG; Thu, 14 Jul 2022 09:00:13 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id w81so2311614oiw.0;
+ Thu, 14 Jul 2022 06:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=3iKtUTjwkPeXFOZkVxoh7hBpO9kc2fmLkefP6OMZEuw=;
+ b=A0D8L8/ahSrjjixPdBAmhxqAzok2TjSNBnQk/6E10rex4zSKCT5FfjUoq55SHr94aL
+ tO6kUgW5+gqH7NoDJPNoS98I514VDPtj0mOelUarQOXID3FIn43xpBi4TxpzGyk13JGI
+ Iy6FhrBFTY9vUOr3BZM62KcLhYosOfFaJXueejVdcGWvSVBkdjIHUZKOTcAXK2rzwpSa
+ AWToFv7D/Euxq+568HAffGJVaW6yMBc3xzxElm+a5KuvkQa/bXsMcUYeS6+8Iwn6Oe60
+ UEMhDLl8cLDbA8uoSUPabMo4iv1XyiDdE/z9XTZhnaEyJI+qfASb3zseCpF2+32ZwzrW
+ KxnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=3iKtUTjwkPeXFOZkVxoh7hBpO9kc2fmLkefP6OMZEuw=;
+ b=rn/9m3NFkn9AfxZhBi/XNjZlZE5hz/2bJ/nV/QrPKKX89G6aOTg97HCMXwdt3Y5kNR
+ /C18VPHeZaEUV5mYTYtpGvp1s6mDumGLmGNpuOKNvq4f+xKgRK7FN35qxnXR5gBSjxnN
+ zRyapR3083J6YS6yBElCGoFUX+O+6t5jR7/vZw1R2NmiPCjPbcDqzpuBd6N4qVN49EtH
+ ZbeitZvh8BK7i2sy5BWGoCY/Jy9UfkkI5vPoKM3Jf1Ia369fW5mb9LzBapm4jHcGtM0b
+ 9uT98yqQtXaxtabHLwpVrZN44Cqbcvsecuf74AUV57D8swHMP104CXBQn5SdngDtHHWF
+ CZoQ==
+X-Gm-Message-State: AJIora+h+RAJRrsF/+RMx6DItotdZAZpIv3E9vUsQ9XlRMOVYrYfMI2P
+ D4ZKMs3vAuspw9D2flSe/E4=
+X-Google-Smtp-Source: AGRyM1uUP1nE6rHHbWlJVWIQ2q6EhPR4p3gjdzr3NqRFCh47cVg1YOhtpxPTbqYWEhBFkzZXg3v2nQ==
+X-Received: by 2002:a05:6808:1204:b0:325:73cc:867c with SMTP id
+ a4-20020a056808120400b0032573cc867cmr4265027oil.95.1657803606074; 
+ Thu, 14 Jul 2022 06:00:06 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ e65-20020aca3744000000b0033a169f9282sm360004oia.52.2022.07.14.06.00.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 06:00:05 -0700 (PDT)
+Message-ID: <53ed8d76-ba31-7f01-4f50-be862a2b3e85@gmail.com>
+Date: Thu, 14 Jul 2022 10:00:01 -0300
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
- structures
+Subject: Re: [PATCH 0/6] Fix gen_*_exception error codes
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
- <20220620140352.39398-3-pmorel@linux.ibm.com>
- <de92ef17-3a17-df44-97aa-19e67d1d5b3d@linux.ibm.com>
- <5215ca74-e71c-73df-69c9-d2522e082706@linux.ibm.com>
- <53698be8-0eab-8dc2-2d54-df2a89e1092f@linux.ibm.com>
- <4fef46f1-f43f-665f-47dc-89107385572e@linux.ibm.com>
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-In-Reply-To: <4fef46f1-f43f-665f-47dc-89107385572e@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: V464wc8d6gwCNgNup1NijY6QwIItVmTF
-X-Proofpoint-ORIG-GUID: QgGgRl1FANEzzKxW6hEWyW1JFlpbgcKH
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-14_10,2022-07-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 bulkscore=0 adultscore=0
- clxscore=1015 spamscore=0 impostorscore=0 phishscore=0 priorityscore=1501
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207140053
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ farosas@linux.ibm.com, laurent@vivier.eu
+References: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220627141104.669152-1-matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -127,91 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/22 13:25, Pierre Morel wrote:
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
-[...]
 
-> 
-> That is sure.
-> I thought about put a fatal error report during the initialization in the s390_topology_setup()
-> 
->> And you can set thread > 1 today, so we'd need to handle that. (increase the number of cpus instead and print a warning?)
->>
->> [...]
-> 
-> this would introduce arch dependencies in the hw/core/
-> I think that the error report for Z is enough.
-> 
-> So once we support Multithreading in the guest we can adjust it easier without involving the common code.
-> 
-> Or we can introduce a thread_supported in SMPCompatProps, which would be good.
-> I would prefer to propose this outside of the series and suppress the fatal error once it is adopted.
-> 
+Daniel
 
-Yeah, could be a separate series, but then the question remains what you in this one, that is
-if you change the code so it would be correct if multithreading were supported.
->>
->>>>> +
->>>>> +/*
->>>>> + * Setting the first topology: 1 book, 1 socket
->>>>> + * This is enough for 64 cores if the topology is flat (single socket)
->>>>> + */
->>>>> +void s390_topology_setup(MachineState *ms)
->>>>> +{
->>>>> +    DeviceState *dev;
->>>>> +
->>>>> +    /* Create BOOK bridge device */
->>>>> +    dev = qdev_new(TYPE_S390_TOPOLOGY_BOOK);
->>>>> +    object_property_add_child(qdev_get_machine(),
->>>>> +                              TYPE_S390_TOPOLOGY_BOOK, OBJECT(dev));
->>>>
->>>> Why add it to the machine instead of directly using a static?
->>>
->>> For my opinion it is a characteristic of the machine.
->>>
->>>> So it's visible to the user via info qtree or something?
->>>
->>> It is already visible to the user on info qtree.
->>>
->>>> Would that even be the appropriate location to show that?
->>>
->>> That is a very good question and I really appreciate if we discuss on the design before diving into details.
->>>
->>> The idea is to have the architecture details being on qtree as object so we can plug new drawers/books/socket/cores and in the future when the infrastructure allows it unplug them.
->>
->> Would it not be more accurate to say that we plug in new cpus only?
->> Since you need to specify the topology up front with -smp and it cannot change after.
+On 6/27/22 11:10, Matheus Ferst wrote:
+> The first patch of this series is the RFC of [1] (hence the r-b in v1).
+> Patches 2~4 follow the other problems that Laurent pointed out, and
+> patches 5-6 fix similar problems that I found.
 > 
-> smp specify the maximum we can have.
-> I thought we can add dynamically elements inside this maximum set.
+> [1] https://lists.gnu.org/archive/html/qemu-ppc/2022-01/msg00400.html
 > 
->> So that all is static, books/sockets might be completely unpopulated, but they still exist in a way.
->> As far as I understand, STSI only allows for cpus to change, nothing above it.
+> Matheus Ferst (6):
+>    target/ppc: Fix gen_priv_exception error value in mfspr/mtspr
+>    target/ppc: fix exception error value in slbfee
+>    target/ppc: remove mfdcrux and mtdcrux
+>    target/ppc: fix exception error code in helper_{load,store}_dcr
+>    target/ppc: fix PMU Group A register read/write exceptions
+>    target/ppc: fix exception error code in spr_write_excp_vector
 > 
-> I thought we want to plug new books or drawers but I may be wrong.
-
-So you want to be able to plug in, for example, a socket without any cpus in it?
-I'm not seeing anything in the description of STSI that forbids having empty containers
-or containers with a cpu entry without any cpus. But I don't know why that would be useful.
-And if you don't want empty containers, then the container will just show up when plugging in the cpu.
+>   target/ppc/cpu.h                 |  6 ++----
+>   target/ppc/helper.h              |  2 +-
+>   target/ppc/power8-pmu-regs.c.inc | 10 ++++-----
+>   target/ppc/timebase_helper.c     |  6 +++---
+>   target/ppc/translate.c           | 36 ++++++++------------------------
+>   5 files changed, 20 insertions(+), 40 deletions(-)
 > 
->>>
->>> There is a info numa (info cpus does not give a lot info) to give information on nodes but AFAIU, a node is more a theoritical that can be used above the virtual architecture, sockets/cores, to specify characteristics like distance and associated memory.
->>
->> https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2391
->> shows that the relevant information can be queried via qmp.
->> When I tried it on s390x it only showed the core_id, but we should be able to add the rest.
-> 
-> yes, sure.> 
->>
->>
->> Am I correct in my understanding, that there are two reasons to have the hierarchy objects:
->> 1. Caching the topology instead of computing it when STSI is called
->> 2. So they show up in info qtree
->>
->> ?
-> 
-> and have the possibility to add the objects dynamically. yes
-> 
-[...]
 
