@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C612E5752EB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:37:16 +0200 (CEST)
-Received: from localhost ([::1]:40638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1155753BE
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:08:12 +0200 (CEST)
+Received: from localhost ([::1]:50378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1pz-00067e-PT
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:37:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36714)
+	id 1oC2Jv-0002sw-TN
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 13:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oC1lA-0007As-OQ
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:32:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59445)
+ id 1oC1n9-0002ga-SG
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:34:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oC1l4-0003JX-NU
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:32:16 -0400
+ id 1oC1n7-0003c3-5F
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:34:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657816330;
+ s=mimecast20190719; t=1657816456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h3mO/9TxV/PKzNbYdTqanE3vzAOu/fz5OE4rIndnbN0=;
- b=LXfSMDclT2xzYCpUOWkTnT64p2fFeyn1IxW7QxSi4EgMBEoLst2H7ztUJcPNiWpLHdt4UO
- RkI8VKMusc+SGThkxQml7A8gKqortME64JATUMDvZporEploFLk8Nu8n+Nar6n1XB/ktSI
- zA2lR/cr8S/pDPfktjqiOumwA/I6kJo=
+ bh=+VFI7Qq3P0oJUhO9TZwdYJZr2TRLgQmgOa7NOJmaqao=;
+ b=hunusDa6e9hxhTHjrj9UR1DS/zN5TjPgAtoUKeTZyxAm/ClLtLRvUwkF1vGuFy4ty0CrQW
+ u4qFg6/NTncQl3ll438N1ogJtuXyY2aZKL8EFH/+EZ2g/jBOlWXoGk7zMWPT2YWRhw5VH6
+ 032qCGxXncZcgNICMFvswZECP8olQx4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515--1PxEnQ_Odii5c08FFRwLQ-1; Thu, 14 Jul 2022 12:32:05 -0400
-X-MC-Unique: -1PxEnQ_Odii5c08FFRwLQ-1
+ us-mta-511-0_5U7GHeNSyo9m4KRIPQtA-1; Thu, 14 Jul 2022 12:33:02 -0400
+X-MC-Unique: 0_5U7GHeNSyo9m4KRIPQtA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
  [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2CCBC18E5340;
- Thu, 14 Jul 2022 16:32:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 47F838037AF;
+ Thu, 14 Jul 2022 16:32:08 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5271F1121314;
- Thu, 14 Jul 2022 16:32:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6FC671121314;
+ Thu, 14 Jul 2022 16:32:05 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -56,9 +56,9 @@ Cc: Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
  Jason Wang <jasowang@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PATCH v2 03/19] virtio-net: Expose ctrl virtqueue logic
-Date: Thu, 14 Jul 2022 18:31:34 +0200
-Message-Id: <20220714163150.2536327-4-eperezma@redhat.com>
+Subject: [PATCH v2 04/19] vhost: Reorder vhost_svq_kick
+Date: Thu, 14 Jul 2022 18:31:35 +0200
+Message-Id: <20220714163150.2536327-5-eperezma@redhat.com>
 In-Reply-To: <20220714163150.2536327-1-eperezma@redhat.com>
 References: <20220714163150.2536327-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -89,142 +89,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows external vhost-net devices to modify the state of the
-VirtIO device model once the vhost-vdpa device has acknowledged the
-control commands.
+Future code needs to call it from vhost_svq_add.
+
+No functional change intended.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/hw/virtio/virtio-net.h |  4 ++
- hw/net/virtio-net.c            | 84 ++++++++++++++++++++--------------
- 2 files changed, 53 insertions(+), 35 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index cce1c554f7..ef234ffe7e 100644
---- a/include/hw/virtio/virtio-net.h
-+++ b/include/hw/virtio/virtio-net.h
-@@ -221,6 +221,10 @@ struct VirtIONet {
-     struct EBPFRSSContext ebpf_rss;
- };
- 
-+size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
-+                                  const struct iovec *in_sg, unsigned in_num,
-+                                  const struct iovec *out_sg,
-+                                  unsigned out_num);
- void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
-                                    const char *type);
- 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index f83e96e4ce..dd0d056fde 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1433,57 +1433,71 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
-     return VIRTIO_NET_OK;
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index e2184a4481..fd1839cec5 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -215,6 +215,20 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+     return true;
  }
  
--static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-+size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
-+                                  const struct iovec *in_sg, unsigned in_num,
-+                                  const struct iovec *out_sg,
-+                                  unsigned out_num)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
-     struct virtio_net_ctrl_hdr ctrl;
-     virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
--    VirtQueueElement *elem;
-     size_t s;
-     struct iovec *iov, *iov2;
--    unsigned int iov_cnt;
-+
-+    if (iov_size(in_sg, in_num) < sizeof(status) ||
-+        iov_size(out_sg, out_num) < sizeof(ctrl)) {
-+        virtio_error(vdev, "virtio-net ctrl missing headers");
-+        return 0;
++static void vhost_svq_kick(VhostShadowVirtqueue *svq)
++{
++    /*
++     * We need to expose the available array entries before checking the used
++     * flags
++     */
++    smp_mb();
++    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
++        return;
 +    }
 +
-+    iov2 = iov = g_memdup2(out_sg, sizeof(struct iovec) * out_num);
-+    s = iov_to_buf(iov, out_num, 0, &ctrl, sizeof(ctrl));
-+    iov_discard_front(&iov, &out_num, sizeof(ctrl));
-+    if (s != sizeof(ctrl)) {
-+        status = VIRTIO_NET_ERR;
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_RX) {
-+        status = virtio_net_handle_rx_mode(n, ctrl.cmd, iov, out_num);
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_MAC) {
-+        status = virtio_net_handle_mac(n, ctrl.cmd, iov, out_num);
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_VLAN) {
-+        status = virtio_net_handle_vlan_table(n, ctrl.cmd, iov, out_num);
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_ANNOUNCE) {
-+        status = virtio_net_handle_announce(n, ctrl.cmd, iov, out_num);
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_MQ) {
-+        status = virtio_net_handle_mq(n, ctrl.cmd, iov, out_num);
-+    } else if (ctrl.class == VIRTIO_NET_CTRL_GUEST_OFFLOADS) {
-+        status = virtio_net_handle_offloads(n, ctrl.cmd, iov, out_num);
-+    }
-+
-+    s = iov_from_buf(in_sg, in_num, 0, &status, sizeof(status));
-+    assert(s == sizeof(status));
-+
-+    g_free(iov2);
-+    return sizeof(status);
++    event_notifier_set(&svq->hdev_kick);
 +}
 +
-+static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-+{
-+    VirtQueueElement *elem;
- 
-     for (;;) {
-+        size_t written;
-         elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
-         if (!elem) {
-             break;
-         }
--        if (iov_size(elem->in_sg, elem->in_num) < sizeof(status) ||
--            iov_size(elem->out_sg, elem->out_num) < sizeof(ctrl)) {
--            virtio_error(vdev, "virtio-net ctrl missing headers");
-+
-+        written = virtio_net_handle_ctrl_iov(vdev, elem->in_sg, elem->in_num,
-+                                             elem->out_sg, elem->out_num);
-+        if (written > 0) {
-+            virtqueue_push(vq, elem, written);
-+            virtio_notify(vdev, vq);
-+            g_free(elem);
-+        } else {
-             virtqueue_detach_element(vq, elem, 0);
-             g_free(elem);
-             break;
-         }
--
--        iov_cnt = elem->out_num;
--        iov2 = iov = g_memdup2(elem->out_sg,
--                               sizeof(struct iovec) * elem->out_num);
--        s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
--        iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
--        if (s != sizeof(ctrl)) {
--            status = VIRTIO_NET_ERR;
--        } else if (ctrl.class == VIRTIO_NET_CTRL_RX) {
--            status = virtio_net_handle_rx_mode(n, ctrl.cmd, iov, iov_cnt);
--        } else if (ctrl.class == VIRTIO_NET_CTRL_MAC) {
--            status = virtio_net_handle_mac(n, ctrl.cmd, iov, iov_cnt);
--        } else if (ctrl.class == VIRTIO_NET_CTRL_VLAN) {
--            status = virtio_net_handle_vlan_table(n, ctrl.cmd, iov, iov_cnt);
--        } else if (ctrl.class == VIRTIO_NET_CTRL_ANNOUNCE) {
--            status = virtio_net_handle_announce(n, ctrl.cmd, iov, iov_cnt);
--        } else if (ctrl.class == VIRTIO_NET_CTRL_MQ) {
--            status = virtio_net_handle_mq(n, ctrl.cmd, iov, iov_cnt);
--        } else if (ctrl.class == VIRTIO_NET_CTRL_GUEST_OFFLOADS) {
--            status = virtio_net_handle_offloads(n, ctrl.cmd, iov, iov_cnt);
--        }
--
--        s = iov_from_buf(elem->in_sg, elem->in_num, 0, &status, sizeof(status));
--        assert(s == sizeof(status));
--
--        virtqueue_push(vq, elem, sizeof(status));
--        virtio_notify(vdev, vq);
--        g_free(iov2);
--        g_free(elem);
-     }
+ /**
+  * Add an element to a SVQ.
+  *
+@@ -235,20 +249,6 @@ static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
+     return true;
  }
  
+-static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+-{
+-    /*
+-     * We need to expose the available array entries before checking the used
+-     * flags
+-     */
+-    smp_mb();
+-    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
+-        return;
+-    }
+-
+-    event_notifier_set(&svq->hdev_kick);
+-}
+-
+ /**
+  * Forward available buffers.
+  *
 -- 
 2.31.1
 
