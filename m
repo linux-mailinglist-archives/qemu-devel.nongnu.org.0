@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2927057569B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 22:51:15 +0200 (CEST)
-Received: from localhost ([::1]:36372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BBD57569C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 22:52:22 +0200 (CEST)
+Received: from localhost ([::1]:39654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC5nl-0001Ow-Sa
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 16:51:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38756)
+	id 1oC5or-0003dq-I2
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 16:52:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC5lV-0006ar-Cn; Thu, 14 Jul 2022 16:48:53 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:36438)
+ id 1oC5lh-0006o0-0u; Thu, 14 Jul 2022 16:49:05 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:42553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oC5lT-0004tS-Im; Thu, 14 Jul 2022 16:48:53 -0400
-Received: by mail-oi1-x236.google.com with SMTP id u76so3656009oie.3;
- Thu, 14 Jul 2022 13:48:50 -0700 (PDT)
+ id 1oC5lf-0004vf-HL; Thu, 14 Jul 2022 16:49:04 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-f2a4c51c45so3913034fac.9; 
+ Thu, 14 Jul 2022 13:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zhkiDzBB40ehtmPinXiDgApWm0v1AbaHKSKFD+9Vo9g=;
- b=btjLhQk5a3/fuO1qkPdpABL0UcfPkETesCGLVAGCl165iDz1epu5GdAQORP/0ZJngj
- VztAayI+fck46WKsoGLiy7plsKauGMsuyo/UJ+6E69/iAm1S9HaGo35RvjBQDUlKilBi
- pg/nP7prSq1LQE4+87CABR3fw2gLmNGDSLd1Md1Za9H6Jh/efv79gPPTJS0E3fepdBzb
- +oEyQUN4g32Jm/TCIy+KbsqMmpD5HehKfFSRTaKB4EcLS7fkKvvkEk+ZFukPetJ1mfwj
- c2+3kmLIe7mL0tR9Yr+qqyP+GLgAJhnRNDJA7NlifNwGg1YzZ8VFo6cDT55/IDHVzSbz
- G07w==
+ bh=k048gjqJbzuH1k7sq+F85qcFbxhmrflH3nno6hME6RE=;
+ b=C+FOIzoOzw3AQSYKru0DlNg3niknAacq1MHAvjFPNLMoc31Lm1hatT/wz3SNEp5v78
+ Syj43G1oBwQ5c/42qs5FRbW7PV+CydrGvY+9Rf1tFU+/3U63Pm4R4dPDoWVKZCmyXMJk
+ uG1K7rJYlMA0J1q5f1W1j5joZ//dI6vL7R8Hj8ptvTCliErfq9hI0QaSVyustW7ivZ3w
+ 5GM2Oyo+ya69ztnXZ4TD7GLvyQtmqyOXoNa8ECMM4xJpXb+GBHvjjFeRCtXh/GzfFZwS
+ 8TFTh1iZrySA4jgNFBhPF9L1y0V6TCoOvHX94ZZLpDTytmpPFQZmRFic3xDRTTsyZWpe
+ 9OLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zhkiDzBB40ehtmPinXiDgApWm0v1AbaHKSKFD+9Vo9g=;
- b=3JyFIZi9YNY0qcwe4zUNrLMD5L5JtXag94UmNzG9GXk3owfnoLoVS14j/2F0mbujUz
- p9CeLMtSPifKRBzsJAIEu9W+EQeNQitSrfxi8QmOdS9gN1h/xuGTw2fYqLOFC+5rxsTG
- 16gmlz0fAY97gnfr8WhP3cdfzDuaOIhRekAqwikalMev3/aVvX4/SaYSAFkiZ5PYM0UY
- RDrrg0/MntVuqlx7YFOtPLbne4GA4/vl1iUc8AuFP1Pjl+976TeifIIkPuJ5WhXPl/ws
- euimf0AUhSPY7s7SNvBCyU2nUtNtYuyEgYU5vAtAU5l5zlndIE0CVy/VdniLSufW+ApF
- o82A==
-X-Gm-Message-State: AJIora8C90bkGRsKiItmJw5y1Vnc8mQBBzSp+nYA+pODXIgaWUMrw6qi
- cMQepor2GGKjds4Qt68pZyU=
-X-Google-Smtp-Source: AGRyM1vP1uuUlcfQKVCcogXkygk7Baxi6CarT0u5KzSkgy+RhX706y4XU4hCp0A/XoQKsjWjtwF93g==
-X-Received: by 2002:a05:6808:10d4:b0:339:f690:1ac4 with SMTP id
- s20-20020a05680810d400b00339f6901ac4mr5339422ois.210.1657831730012; 
- Thu, 14 Jul 2022 13:48:50 -0700 (PDT)
+ bh=k048gjqJbzuH1k7sq+F85qcFbxhmrflH3nno6hME6RE=;
+ b=EHt/POaPxwNpm67v5znsOJnS1OykqTWJZNhkDz7sneL5hdlWjMn67uRYqseoQf2IYR
+ 6fR/7krHM2N5TER01uPd/Tl7HU0VlTelyX6s2Qn9p7RceJy0/wHSBWcu1R5HHnQCHBNJ
+ RGqGia5rhQwFBoFOj1AC/c5MrruCw9icgoVMDwqtJzWKa69nr0H+aRaa6eQ6mN13bGaA
+ ov0gUmY0KJ7URxiwaV4F/2U2mTLfe37CAUhbGSCyYX/m/i/KIJqWm4eqOOmsLZQ3TRrP
+ B3Rd53L0XJ7/3QhJpInmf71zGFRGOdE1Dhdbgdzazk/h4/REuA8rolUM7Vu3KIMaeBfA
+ l3SQ==
+X-Gm-Message-State: AJIora8tnfhqvz79MItsx9gJidMamwdSGYaBCLp7rAL9qj1SmvUBdoXq
+ YT6GyKXfnYfiGvCdCnIwjghyq/PTlt0=
+X-Google-Smtp-Source: AGRyM1sbJRsSsXl+pAjOF/EwOsxlRU21uDeL1t2nd+5OB7VYxFL3bx5s9Q6q78Rg9DW8JcnBxPgYgg==
+X-Received: by 2002:a05:6870:61ca:b0:10c:1358:4eaf with SMTP id
+ b10-20020a05687061ca00b0010c13584eafmr8366119oah.111.1657831741666; 
+ Thu, 14 Jul 2022 13:49:01 -0700 (PDT)
 Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- e14-20020a056870c34e00b00101bc3380a5sm1357283oak.12.2022.07.14.13.48.48
+ x13-20020a056870b40d00b001089aef1815sm1457828oap.20.2022.07.14.13.48.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 14 Jul 2022 13:48:49 -0700 (PDT)
-Message-ID: <323fa299-dfd0-357d-12e0-61ca31f52d4d@gmail.com>
-Date: Thu, 14 Jul 2022 17:48:46 -0300
+ Thu, 14 Jul 2022 13:49:01 -0700 (PDT)
+Message-ID: <e342895e-f8ef-a759-a9b5-79aec946ac1d@gmail.com>
+Date: Thu, 14 Jul 2022 17:48:58 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v3] target/ppc: check tb_env != 0 before printing
- TBU/TBL/DECR
+Subject: Re: [PATCH v3 0/2] target/ppc: Implement ISA 3.00 tlbie[l]
 Content-Language: en-US
-To: Matheus Ferst <matheus.ferst@eldorado.org.br>, qemu-devel@nongnu.org,
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org
-References: <20220714172343.80539-1-matheus.ferst@eldorado.org.br>
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ npiggin@gmail.com, richard.henderson@linaro.org
+References: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220714172343.80539-1-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,97 +94,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 7/14/22 14:23, Matheus Ferst wrote:
-> When using "-machine none", env->tb_env is not allocated, causing the
-> segmentation fault reported in issue #85 (launchpad bug #811683). To
-> avoid this problem, check if the pointer != NULL before calling the
-> methods to print TBU/TBL/DECR.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/85
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
-> v3:
->    - Only check env->tb_env in softmmu, linux-user get timebase from
->      elsewhere. Also, try to make the qemu_fprintf call more readable.
->    - Link to v2: https://lists.gnu.org/archive/html/qemu-ppc/2022-07/msg00193.html
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
-And queued.
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
 Daniel
 
->   target/ppc/cpu_init.c | 18 ++++++++----------
->   target/ppc/monitor.c  |  9 +++++++++
->   2 files changed, 17 insertions(+), 10 deletions(-)
+On 7/12/22 16:37, Leandro Lupori wrote:
+> Changes from v2:
+> - Moved TLBIE defines from helper.h to mmu-book3s-v3.h
 > 
-> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index 86ad28466a..313c8bb300 100644
-> --- a/target/ppc/cpu_init.c
-> +++ b/target/ppc/cpu_init.c
-> @@ -7476,17 +7476,15 @@ void ppc_cpu_dump_state(CPUState *cs, FILE *f, int flags)
->                    "%08x iidx %d didx %d\n",
->                    env->msr, env->spr[SPR_HID0], env->hflags,
->                    cpu_mmu_index(env, true), cpu_mmu_index(env, false));
-> -#if !defined(NO_TIMER_DUMP)
-> -    qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
->   #if !defined(CONFIG_USER_ONLY)
-> -                 " DECR " TARGET_FMT_lu
-> -#endif
-> -                 "\n",
-> -                 cpu_ppc_load_tbu(env), cpu_ppc_load_tbl(env)
-> -#if !defined(CONFIG_USER_ONLY)
-> -                 , cpu_ppc_load_decr(env)
-> -#endif
-> -        );
-> +    if (env->tb_env) {
-> +        qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64
-> +                     " DECR " TARGET_FMT_lu "\n", cpu_ppc_load_tbu(env),
-> +                     cpu_ppc_load_tbl(env), cpu_ppc_load_decr(env));
-> +    }
-> +#else
-> +    qemu_fprintf(f, "TB %08" PRIu32 " %08" PRIu64 "\n", cpu_ppc_load_tbu(env),
-> +                 cpu_ppc_load_tbl(env));
->   #endif
->       for (i = 0; i < 32; i++) {
->           if ((i & (RGPL - 1)) == 0) {
-> diff --git a/target/ppc/monitor.c b/target/ppc/monitor.c
-> index 0b805ef6e9..8250b1304e 100644
-> --- a/target/ppc/monitor.c
-> +++ b/target/ppc/monitor.c
-> @@ -55,6 +55,9 @@ static target_long monitor_get_decr(Monitor *mon, const struct MonitorDef *md,
->                                       int val)
->   {
->       CPUArchState *env = mon_get_cpu_env(mon);
-> +    if (!env->tb_env) {
-> +        return 0;
-> +    }
->       return cpu_ppc_load_decr(env);
->   }
->   
-> @@ -62,6 +65,9 @@ static target_long monitor_get_tbu(Monitor *mon, const struct MonitorDef *md,
->                                      int val)
->   {
->       CPUArchState *env = mon_get_cpu_env(mon);
-> +    if (!env->tb_env) {
-> +        return 0;
-> +    }
->       return cpu_ppc_load_tbu(env);
->   }
->   
-> @@ -69,6 +75,9 @@ static target_long monitor_get_tbl(Monitor *mon, const struct MonitorDef *md,
->                                      int val)
->   {
->       CPUArchState *env = mon_get_cpu_env(mon);
-> +    if (!env->tb_env) {
-> +        return 0;
-> +    }
->       return cpu_ppc_load_tbl(env);
->   }
->   
+> Leandro Lupori (2):
+>    target/ppc: Move tlbie[l] to decode tree
+>    target/ppc: Implement ISA 3.00 tlbie[l]
+> 
+>   target/ppc/cpu_init.c                        |   4 +-
+>   target/ppc/helper.h                          |   2 +
+>   target/ppc/insn32.decode                     |   8 +
+>   target/ppc/mmu-book3s-v3.h                   |  15 ++
+>   target/ppc/mmu_helper.c                      | 154 +++++++++++++++++++
+>   target/ppc/translate.c                       |  64 +-------
+>   target/ppc/translate/storage-ctrl-impl.c.inc | 104 +++++++++++++
+>   7 files changed, 287 insertions(+), 64 deletions(-)
+>   create mode 100644 target/ppc/translate/storage-ctrl-impl.c.inc
+> 
 
