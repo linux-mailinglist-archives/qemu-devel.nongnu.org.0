@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D535750CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 16:28:32 +0200 (CEST)
-Received: from localhost ([::1]:37430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A975750E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 16:34:40 +0200 (CEST)
+Received: from localhost ([::1]:39730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBzpP-00079k-LW
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 10:28:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34054)
+	id 1oBzvM-0000jX-24
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 10:34:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBzoB-0005T6-Iq
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:27:15 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:46717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oBzo8-0007yJ-64
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:27:14 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.180])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id EBCA511820B57;
- Thu, 14 Jul 2022 16:26:56 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 14 Jul
- 2022 16:26:56 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002cf6a21d6-de9b-49a2-a9c4-fd58bfb471b5,
- 34332D216D760BBBE1E6AE2DE5FCE67E0A5C7624) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-Message-ID: <16349149-8714-505c-c299-ad7e599ec4b5@kaod.org>
-Date: Thu, 14 Jul 2022 16:26:54 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 00/19] aspeed queue
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, Richard Henderson
- <richard.henderson@linaro.org>
-References: <20220713075255.2248923-1-clg@kaod.org>
- <CAFEAcA8xxt3k932pgAj45ivZWq3VQoc2GSEQy1j9PtrP42ig9g@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA8xxt3k932pgAj45ivZWq3VQoc2GSEQy1j9PtrP42ig9g@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 69927096-0d21-4b6a-815b-bef52abd20da
-X-Ovh-Tracer-Id: 2859785766474320864
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrudejledgjeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedttefhfedttdegleefkeefveefkefgvdfhueeikeduhedvveelleefteeiffffveenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtoheprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdfovfetjfhoshhtpehmohehvdel
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oBzt4-0007a1-3t
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:32:18 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:45936 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oBzt1-0000Jb-Bf
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:32:17 -0400
+Received: from smtpclient.apple (unknown [111.199.64.159])
+ by APP-05 (Coremail) with SMTP id zQCowADX3bHaKNBicZWzDQ--.56026S2;
+ Thu, 14 Jul 2022 22:31:55 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Ys+ZCHFWbjAH/48O@apples>
+Date: Thu, 14 Jul 2022 22:31:54 +0800
+Cc: qemu-devel@nongnu.org,
+ Keith Busch <kbusch@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B3BEF322-9EB2-465D-AA67-5C426BBCBB5F@ict.ac.cn>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <Ys1oY9LmeDCGT9FT@apples> <Ys+ZCHFWbjAH/48O@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowADX3bHaKNBicZWzDQ--.56026S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw18WF1DXrW8KF1UWFykKrg_yoW8WF18pa
+ y7Ga9rGr48ArWrA34Y9anrWa1UtrZ5ur4ruF9Fga9rJr1vyryxXrW8KFy5GF93urZrJw17
+ XrWjga47Aas2v3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyab7Iv0xC_tr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+ 64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+ Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
+ 3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
+ WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
+ wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
+ k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+ Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
+X-Originating-IP: [111.199.64.159]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,45 +76,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/22 15:51, Peter Maydell wrote:
-> On Wed, 13 Jul 2022 at 08:53, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> The following changes since commit 8e3d85d36b77f11ad7bded3a2d48c1f0cc334f82:
->>
->>    Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-07-12 14:12:15 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://github.com/legoater/qemu/ tags/pull-aspeed-20220713
->>
->> for you to fetch changes up to 053b2ee5629d1b822127cc454634ec272624bab2:
->>
->>    aspeed: Add fby35-bmc slot GPIO's (2022-07-13 08:16:46 +0200)
->>
->> ----------------------------------------------------------------
->> aspeed queue:
->>
->> * New ISL69259 device model
->> * New fby35 multi-SoC machine (AST1030 BIC + AST2600 BMC)
->> * Aspeed GPIO fixes
->> * Extension of m25p80 with write protect bits
->> * More avocado tests using the Aspeed SDK
->>
->> ----------------------------------------------------------------
-> 
-> Build failures:
-> https://gitlab.com/qemu-project/qemu/-/jobs/2722152320
-> 
-> hw/arm/fby35.c isn't passing enough arguments to blk_pread().
-> 
-> Your pullreq probably collided with the recent merge of the
-> block patches including
-> commits 3b35d4542c853 and a9262f551eba44 which add a new
-> argument and swap two of the existing arguments to this function.
+at 12:18 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 
-Yes. I will resend after a rebase.
+> On Jul 12 14:26, Klaus Jensen wrote:
+>> On Jul  9 12:35, Jinhao Fan wrote:
+>>> Use irqfd to directly notify KVM to inject interrupts. This is done =
+by
+>>> registering a virtual IRQ(virq) in KVM and associate the virq with =
+an
+>>> irqfd, so that KVM can directly inject the interrupt when it =
+receives
+>>> notification from the irqfd. This approach is supposed to improve=20
+>>> performance because it bypasses QEMU's MSI interrupt emulation =
+logic.
+>>>=20
+>>> However, I did not see an obvious improvement of the emulation =
+KIOPS:
+>>>=20
+>>> QD      1   4  16  64=20
+>>> QEMU   38 123 210 329
+>>> irqfd  40 129 219 328
+>>>=20
+>>> I found this problem quite hard to diagnose since irqfd's workflow
+>>> involves both QEMU and the in-kernel KVM.=20
+>>>=20
+>>> Could you help me figure out the following questions:
+>>>=20
+>>> 1. How much performance improvement can I expect from using irqfd?
+>>=20
+>> This is a level of QEMU/KVM that I am by no means an expert on and I
+>> would have to let the broader QEMU community comment on this.
+>=20
+> In any case, I'm wary about adding this level of kvm-dependence in the
+> device. This wont work on non-kvm platforms any more.
 
-Thanks,
+Yes, irqfd seems only useful on KVM-based systems. Maybe it is more =
+suitable
+for vhost or VFIO based solutions which need irqfd to deliver =
+interrupts.
 
-C.
+> I think you should put irqfd on hold and focus on iothreads :)
+
+I=E2=80=99m working on iothread currently. But I also observed a =
+performance
+regression with iothread enabled. I found ftrace, which is supported by =
+both
+QEMU and KVM, seems good for analyzing performance issues. I=E2=80=99m =
+currently
+exploring with ftrace.
+
 
