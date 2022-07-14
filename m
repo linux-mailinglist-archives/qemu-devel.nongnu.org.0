@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD64C574553
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 08:52:28 +0200 (CEST)
-Received: from localhost ([::1]:49478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D9E574556
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 08:53:34 +0200 (CEST)
+Received: from localhost ([::1]:51032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBsi2-0004Al-QM
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 02:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60766)
+	id 1oBsj7-0005Eh-EX
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 02:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBsal-0000CF-Ks
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 02:44:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35223)
+ id 1oBsbx-0000a4-8Z
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 02:46:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52424)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBsad-0001Dc-Fj
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 02:44:52 -0400
+ id 1oBsbr-0001iG-7r
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 02:46:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657781085;
+ s=mimecast20190719; t=1657781161;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yQRdEkcINS+tmdhy4ORoHDkz4Sx54IAALLfC8KV7Yu0=;
- b=DCl2459wvpCr+5yOWZb853uI6AQHyKO0NaysXKy+rXK/qg0nU8craNoEAEwFNCqvZ86hek
- iZFNr2VT1BlaqG8kk5v5cmSWzXFm8eNXkmOQWPyZlxFSkH5VuC0MRkYO8vQ5lZsOuDieQG
- o1KRiyVX/17cp/CNJnNtXo8ZDgbtCek=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=45/uBJ3XkVb+HV7V/4yo5w1BdLx660KgqsVvVl/a6VA=;
+ b=hamShw1fMX/4mHriFogZZ5Blt4Q/Ir6myxZBVnm4fsfR51wHIZzO2P/IFbkAprnEOooATY
+ 2oTn1z3P/EZeNA4rEmTFxQoowTdFVZwh4q1B81gpLmcpZxIg2t13mRtHLsOgc20OcaZoar
+ F/75kl9Nag0tzXHIihSGeBHDhfd0lV4=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-35-yI19kK6oO4KLHNr5ja1nTw-1; Thu, 14 Jul 2022 02:44:43 -0400
-X-MC-Unique: yI19kK6oO4KLHNr5ja1nTw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- f29-20020a19dc5d000000b004811c8d1918so403492lfj.2
- for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 23:44:42 -0700 (PDT)
+ us-mta-567-grDVzFq9OWCZSeZqgsWrVA-1; Thu, 14 Jul 2022 02:46:00 -0400
+X-MC-Unique: grDVzFq9OWCZSeZqgsWrVA-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ f9-20020a2e9189000000b0025d693b780dso156386ljg.0
+ for <qemu-devel@nongnu.org>; Wed, 13 Jul 2022 23:45:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yQRdEkcINS+tmdhy4ORoHDkz4Sx54IAALLfC8KV7Yu0=;
- b=b8xtq6Y7j4+TBdPgbxqTADZfsMOwHfyyCSXBiMJGYTvH5tmrQkdWIqMF0luCaJ5IHy
- j5mfc9VOYmrbE1vdNMeupHbTDpiZX28wIJDc1bzA/wCnLbUMb6Lw17dto3QQd5Dd04eJ
- CzLh2uiFU50YJ7IGiuZNP5W9DwnIQ1Ci/xXMRSvMHanTXpr5vSTMRZkSEKtj6hOL6FU0
- Q6Sch7pZG/hTut1zyhyMBXBWH7j/HDsx53kqgLNQmo3BUZaQtDiAR/TmojmfYBBHj5sg
- ojzOB1/h9rYVqHuIDskU3PXGcO8ZCiaOF2N0/O6msPXqrnZjUu48VueIzhPDnhGw9U9q
- oejA==
-X-Gm-Message-State: AJIora8XGqwQCXm1Lk4dew5TGkFCZUMsA/Oa+EZbLjvJWrnKQ0ebc1Xs
- Lh3v/Ig4lsEOjKwUMQtD0F6T0O8KVcrMEc2VGjxBJm4C8ulfqjAHcDkrpZ0vR8aXiztsHCGitec
- E+Uqmc/qqwqD3gSPM5v7/kb+sp3ZVsV8=
-X-Received: by 2002:a2e:1451:0:b0:25d:7899:eddc with SMTP id
- 17-20020a2e1451000000b0025d7899eddcmr3514414lju.251.1657781081730; 
- Wed, 13 Jul 2022 23:44:41 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uFBwbpwgMFhE/xu2muc1Pxs1hoAIeh9JgsvrojqSCGP0xwSP3e86mZ3+LkRlGZEPb4wSPj31kKYzIJsueZMGM=
-X-Received: by 2002:a2e:1451:0:b0:25d:7899:eddc with SMTP id
- 17-20020a2e1451000000b0025d7899eddcmr3514401lju.251.1657781081473; Wed, 13
- Jul 2022 23:44:41 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=45/uBJ3XkVb+HV7V/4yo5w1BdLx660KgqsVvVl/a6VA=;
+ b=6FDvzKb/CbXm7s1KiKZSe46ruwinTr42gB9ceWBtqw4YCehkkv36lnwwn5cfZA5wsP
+ 6eCdo5qB6DiOJ9Q+h0YiGF4yhq5aJ9BYuhUPBIH2909hnHJp0IKPmY4BVDqjxSBHXKQ/
+ q6rqDNFYhLW0lDfrpRjGeRQj+kny4ZhTZ7Z1cH4mHTa1+YuBd2//gxtTJeRaiInXbZjz
+ 2eksF7HtofnOqNrXZk1MI630jj2l85PHkPG6ACn/Gr3cNudMfzkaMM/lvaNJxsQU28AO
+ wwvQ0fBOg+wImR4tlxHvs4yxGyz3tv0ge805KU94LW+ZPFeRrMhZQF6ed2dvLzhMYX6i
+ w3Ag==
+X-Gm-Message-State: AJIora9oWFLQanuTcY/dLUUlD4m3yKBW5WPJUmtIMcrs0by3aP7klRZb
+ moZ6Pp2ScS9DtHrF8ThUyzJ7LYNeHHr3gNHm+tKTALqAdTJpoDDr+Txk7Wg1Beli/uaHh9VZXbS
+ /DefkEt6FPZ3PMyYtbUqjF0Nz3NU73gU=
+X-Received: by 2002:a05:6512:3d8a:b0:489:c93c:5970 with SMTP id
+ k10-20020a0565123d8a00b00489c93c5970mr4347636lfv.575.1657781158421; 
+ Wed, 13 Jul 2022 23:45:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vTA4Pukgvcn6+wXIkU0I9/Ab2DgYEFbymCUdj2ZosRxNKfaawKC9mIp67vdOeqckmZ8VFaWR1X6j2jUSFM99c=
+X-Received: by 2002:a05:6512:3d8a:b0:489:c93c:5970 with SMTP id
+ k10-20020a0565123d8a00b00489c93c5970mr4347628lfv.575.1657781158214; Wed, 13
+ Jul 2022 23:45:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <cfdc8ffef03c4574a72faea46f2e1ef1@auriga.com>
-In-Reply-To: <cfdc8ffef03c4574a72faea46f2e1ef1@auriga.com>
+References: <20220712071524.2144723-1-eperezma@redhat.com>
+In-Reply-To: <20220712071524.2144723-1-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 14 Jul 2022 14:44:30 +0800
-Message-ID: <CACGkMEvRNMoUSGQZa7wvQu=FKgKw3RJmioHZy1r3f6bYTS-JFQ@mail.gmail.com>
-Subject: Re: Internal MAC addresses list (mac_table) usage
-To: "Ovchinnikov, Vitalii" <vitalii.ovchinnikov@auriga.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Date: Thu, 14 Jul 2022 14:45:47 +0800
+Message-ID: <CACGkMEvYZy=nWC4oNTDGp+WPuK_vG8FADUz9=g4U_5gTdOnLtg@mail.gmail.com>
+Subject: Re: [PATCH] vdpa: Clean vhost_vdpa_dev_start(dev, false)
+To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Trivial <qemu-trivial@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -75,7 +79,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,57 +95,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 4:43 PM Ovchinnikov, Vitalii
-<vitalii.ovchinnikov@auriga.com> wrote:
+On Tue, Jul 12, 2022 at 3:15 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
 >
-> Hi folks,
+> Return value is never checked and is a clean path, so assume success
 >
-> While developing an Ethernet NIC model I noticed that QEMU maintains the following internal array which marks used/free MAC addresses in net/net.c:
->
-> static int mac_table[256] = {0};
->
-> with three private (static) functions accessing it: qemu_macaddr_set_used, qemu_macaddr_set_free, qemu_macaddr_get_free.
-> Public (non-static) interface to this array includes two functions: qemu_macaddr_default_if_unset and qemu_del_nic.
->
-> The vast majority of existing NIC models calls qemu_macaddr_default_if_unset in their *_realize functions replacing zeroed-out MAC address with the free one returned by QEMU, for instance (lan9118_realize functions from hw/net/lan9118.c):
->
->    ...
->     qemu_macaddr_default_if_unset(&s->conf.macaddr);
->
->     s->nic = qemu_new_nic(&net_lan9118_info, &s->conf,
->                           object_get_typename(OBJECT(dev)), dev->id, s);
->     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
->    ...
->
-> qemu_del_nic is being called from net_cleanup function right before QEMU finishes execution.
->
-> What appears to be a possible SW architecture gap is that NIC models have no means to inform QEMU about changing their MAC addresses during execution (again from hw/net/lan9118.c, do_mac_write function):
->
->     case MAC_ADDRH:
->         s->conf.macaddr.a[4] = val & 0xff;
->         s->conf.macaddr.a[5] = (val >> 8) & 0xff;
->         lan9118_mac_changed(s);
->         break;
->     case MAC_ADDRL:
->         s->conf.macaddr.a[0] = val & 0xff;
->         s->conf.macaddr.a[1] = (val >> 8) & 0xff;
->         s->conf.macaddr.a[2] = (val >> 16) & 0xff;
->         s->conf.macaddr.a[3] = (val >> 24) & 0xff;
->         lan9118_mac_changed(s);
->         break;
->
-> lan9118_mac_changed function here simply changes NIC info string using qemu_format_nic_info_str, hence stale MAC address stays marked as used in the mac_table whereas it's not actually in use any more.
->
-> Am I right in thinking of it as a SW architecture gap/bug that needs to be addressed?
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
 
-I think so. Note that the code can not deal with the case when
-"52:54:00:12:34:XX" was passed from cli.
+Acked-by: Jason Wang <jasowang@redhat.com>
 
-Thanks
-
+>  hw/virtio/vhost-vdpa.c | 33 ++++++++++-----------------------
+>  1 file changed, 10 insertions(+), 23 deletions(-)
 >
-> BR,
-> Vitalii
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index 66f054a12c..d6ba4a492a 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -872,41 +872,35 @@ static int vhost_vdpa_svq_set_fds(struct vhost_dev =
+*dev,
+>  /**
+>   * Unmap a SVQ area in the device
+>   */
+> -static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+> +static void vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+>                                        const DMAMap *needle)
+>  {
+>      const DMAMap *result =3D vhost_iova_tree_find_iova(v->iova_tree, nee=
+dle);
+>      hwaddr size;
+> -    int r;
+>
+>      if (unlikely(!result)) {
+>          error_report("Unable to find SVQ address to unmap");
+> -        return false;
+> +        return;
+>      }
+>
+>      size =3D ROUND_UP(result->size, qemu_real_host_page_size());
+> -    r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
+> -    return r =3D=3D 0;
+> +    vhost_vdpa_dma_unmap(v, result->iova, size);
+>  }
+>
+> -static bool vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+> +static void vhost_vdpa_svq_unmap_rings(struct vhost_dev *dev,
+>                                         const VhostShadowVirtqueue *svq)
+>  {
+>      DMAMap needle =3D {};
+>      struct vhost_vdpa *v =3D dev->opaque;
+>      struct vhost_vring_addr svq_addr;
+> -    bool ok;
+>
+>      vhost_svq_get_vring_addr(svq, &svq_addr);
+>
+>      needle.translated_addr =3D svq_addr.desc_user_addr;
+> -    ok =3D vhost_vdpa_svq_unmap_ring(v, &needle);
+> -    if (unlikely(!ok)) {
+> -        return false;
+> -    }
+> +    vhost_vdpa_svq_unmap_ring(v, &needle);
+>
+>      needle.translated_addr =3D svq_addr.used_user_addr;
+> -    return vhost_vdpa_svq_unmap_ring(v, &needle);
+> +    vhost_vdpa_svq_unmap_ring(v, &needle);
+>  }
+>
+>  /**
+> @@ -1066,23 +1060,19 @@ err:
+>      return false;
+>  }
+>
+> -static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+> +static void vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+>
+>      if (!v->shadow_vqs) {
+> -        return true;
+> +        return;
+>      }
+>
+>      for (unsigned i =3D 0; i < v->shadow_vqs->len; ++i) {
+>          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, i=
+);
+> -        bool ok =3D vhost_vdpa_svq_unmap_rings(dev, svq);
+> -        if (unlikely(!ok)) {
+> -            return false;
+> -        }
+> +        vhost_vdpa_svq_unmap_rings(dev, svq);
+>      }
+>
+> -    return true;
+>  }
+>
+>  static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> @@ -1099,10 +1089,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *=
+dev, bool started)
+>          }
+>          vhost_vdpa_set_vring_ready(dev);
+>      } else {
+> -        ok =3D vhost_vdpa_svqs_stop(dev);
+> -        if (unlikely(!ok)) {
+> -            return -1;
+> -        }
+> +        vhost_vdpa_svqs_stop(dev);
+>          vhost_vdpa_host_notifiers_uninit(dev, dev->nvqs);
+>      }
+>
+> --
+> 2.31.1
 >
 
 
