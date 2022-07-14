@@ -2,90 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 981565744AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 07:43:37 +0200 (CEST)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4208D5744B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 07:53:07 +0200 (CEST)
+Received: from localhost ([::1]:39734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBrdQ-00052d-NC
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 01:43:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
+	id 1oBrmb-0001Wn-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 01:53:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBrVR-000092-8l
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:35:21 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60233)
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1oBrdl-0005YK-4Q
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:43:57 -0400
+Received: from mga05.intel.com ([192.55.52.43]:35781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oBrVP-0004b9-MT
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:35:20 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 14631320093A;
- Thu, 14 Jul 2022 01:35:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 14 Jul 2022 01:35:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1657776917; x=1657863317; bh=l2
- +B/vYiUGx+u1zr4+T5m31Y7XrfP0Zi3S/cDlhCdrc=; b=1xvlDENX8MD1IYHSas
- 4GAVXaeDPn3VYHkNmT6iN+agKdCxiIFwKoChcXFXe+AIvRIhQzzpLX6LMdfQw5Fd
- 2Ny7RaDyP8ytOECuo+KmYeJDXJRDDy4TIc9GMHSI1bjd0672m7NZkWCHUjKlknfq
- SVzaHr8NqsBFjrgb6vYDjjnredu3NtX3U0hsvcV3f/NrDyXsXS1ma0VoatmraZHu
- fZvhUjBME2jIzFEcPu8xnXorpYSBdfsVll+dMm74oDW/vMGI8xlnJIfBw80SEU0W
- lTVtBq7Bu+Ntu+NXCkFoC0zoGDX2lEypnrUwde/yDEfv09V4620rKfOEMgD8evru
- uDvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657776917; x=1657863317; bh=l2+B/vYiUGx+u1zr4+T5m31Y7Xrf
- P0Zi3S/cDlhCdrc=; b=TwOO+tb5Zue4GJkQU4JwGf/1AtQMp2XGXjWk7G5HN1T2
- upQY6o0vsrYtBkJpFeM51BQx7uzaT/Q2K46RESyd9M9xERsQVXMDK8JLMBlSzDoK
- XrANOFPjXUNn0zoZbgJfCCZKHAVF0giTmXe92UZXhgrvqzTRu4tMGFKfkopzHmUo
- jSAcKkpZsf7xHG6rJenxA4XR+b83yzhQyIMceLT1jhWT6LWuL1JB5XhFsWW0CE/J
- zzFTJiSI9M4HMq1cTxJ/5q1x5fy2Ipr8VXjYymDPb2Jdy9+O+LdMVk/8b6zcRCoL
- kqnTsdshj9wjFz4LSyYMcp07OSmBRZpvevATkC5fxw==
-X-ME-Sender: <xms:FavPYuZ7WfC88XN4KsM2Z4e-dH0-tD-5n0VGHlSDFL0El52QJNLVzw>
- <xme:FavPYhaBaK89HHIQ5ULFm-9pLcnAChcCqJAI99xYPtqATxdH8Z_-g3vejNsSaSEkb
- UXIYUudW3U9kUnuRQo>
-X-ME-Received: <xmr:FavPYo8SIZ8nXkS_pxyKGHrdMLs1m1EzfbT6nmbFiwOZqL1Dq6_aQaOpDCZxQhVlzDzF-qGHpclHecVkBys>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejkedgleejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:FavPYgrNeNqMqf6mFlG7aBBB34lllxXcXjVXL2U-9ETkU40hj6B_-Q>
- <xmx:FavPYpoNIntTNeLlBuSVYH_a6B8VUujAHUYqS-92z8CFs8aTXHKPGQ>
- <xmx:FavPYuTClpwjaltQfeoQougKq8_6B0sZvBchhO4B0XKVnnCN7FFO5Q>
- <xmx:FavPYg1041_J5m_pHRCdOEDgx-k9vaTOp0nkO0bS8XuIUc49y21IDg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 14 Jul 2022 01:35:16 -0400 (EDT)
-Date: Thu, 14 Jul 2022 07:35:15 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <Ys+rE/S66bwqmXLm@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <D7E0940C-3263-485C-81AC-E102566282EF@ict.ac.cn>
- <Ys1nz68zLPN3Hq8F@apples>
+ (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
+ id 1oBrdh-0005fq-VU
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 01:43:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1657777433; x=1689313433;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=pEu3+61NscOfyqEIRN7TQMficy0ktFFIGRMYkodUwJk=;
+ b=JiHzqc3+1dJCcB0TX5bIviENLjT2nDbmBwGmRIbxwitTaTpSXj/ZnRJa
+ c2Jqgwee/hbXHhcpO0TExvIgbpdL23TjqksZHpu8zuBLB3jtYtXpdb4hy
+ dZv8BeGSaX9oobJXUw0sNXiiMsUhZCgvOWF4YVsd0ZI5X+ZinBSDqwGDC
+ LDOZt4HKH46SOlZ2Zbb5WemENKqXkgP6gsPO02Vh0l7jG5k9fTl6huZUn
+ lYRcu9x0NFLAzHTeYnXmd+k4BSChIPg/kDzpem4Vb+1t+bt6V+GOe9oF4
+ nhh8HcIsGezPXIJI/ZyzLPDyQTW7TTp/f1oNdh+rT1ISkkln1ERI/UHh7 g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10407"; a="371733568"
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="371733568"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2022 22:43:50 -0700
+X-IronPort-AV: E=Sophos;i="5.92,269,1650956400"; d="scan'208";a="653722559"
+Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.123])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Jul 2022 22:43:48 -0700
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
+To: qemu-devel@nongnu.org
+Cc: pbonzini@redhat.com, ehabkost@redhat.com, xiangfeix.ma@intel.com,
+ xiaoyao.li@intel.com, seanjc@google.com
+Subject: [PATCH v2] target/i386: Restore TSX features with taa-no
+Date: Thu, 14 Jul 2022 13:36:31 +0800
+Message-Id: <20220714053631.417152-1-zhenzhong.duan@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vpuW/JgkHsEwpYKd"
-Content-Disposition: inline
-In-Reply-To: <Ys1nz68zLPN3Hq8F@apples>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.43;
+ envelope-from=zhenzhong.duan@intel.com; helo=mga05.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,47 +74,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On ICX-2S2 host, when run L2 guest with both L1/L2 using Icelake-Server-v3
+or above, we got below warning:
 
---vpuW/JgkHsEwpYKd
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+"warning: host doesn't support requested feature: MSR(10AH).taa-no [bit 8]"
 
-On Jul 12 14:23, Klaus Jensen wrote:
-> On Jul  9 11:06, Jinhao Fan wrote:
-> > at 10:24 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
-> >=20
-> > > @@ -5793,6 +5891,7 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, =
-const NvmeRequest *req)
-> > >     uint64_t dbs_addr =3D le64_to_cpu(req->cmd.dptr.prp1);
-> > >     uint64_t eis_addr =3D le64_to_cpu(req->cmd.dptr.prp2);
-> > >     int i;
-> > > +    int ret;
-> > >=20
-> >=20
-> > I just noticed this ret is unused. Could you help remove this line when
-> > applying the patch?
->=20
-> Yes, I noticed it and hot-fixed it ;)
+This is because L1 KVM doesn't expose taa-no to L2 if RTM is disabled,
+then starting L2 qemu triggers the warning.
 
-Jinhao,
+Fix it by restoring TSX features in Icelake-Server-v3, which may also help
+guest performance if host isn't susceptible to TSX Async Abort (TAA)
+vulnerabilities.
 
-Applied to nvme-next!
+Fixes: d965dc35592d ("target/i386: Add ARCH_CAPABILITIES related bits into Icelake-Server CPU model")
+Tested-by: Xiangfei Ma <xiangfeix.ma@intel.com>
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+---
+v2: Rewrite commit message
 
---vpuW/JgkHsEwpYKd
-Content-Type: application/pgp-signature; name="signature.asc"
+ target/i386/cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
------BEGIN PGP SIGNATURE-----
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 14f681e998cc..25ef972a3eed 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3423,6 +3423,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+             {
+                 .version = 3,
+                 .props = (PropValue[]) {
++                    /* Restore TSX features removed by -v2 above */
++                    { "hle", "on" },
++                    { "rtm", "on" },
+                     { "arch-capabilities", "on" },
+                     { "rdctl-no", "on" },
+                     { "ibrs-all", "on" },
+-- 
+2.25.1
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLPqxEACgkQTeGvMW1P
-DemC0wf+Lh3QUdPtPzrPycg2bjC9cR6AleTd8HiGCjvmBVJO2X4MsUD/dwS4UiQj
-beax6MlWrQndPRPwyfXerXfFUsNa7gSMBjKCH6X0+jQ55aw1c3BpXPU3p8K6m4HQ
-H9D1afWye98ym5AOKpQ46bsKxU4rHocNVZC/0UFZSdtG1tW+dbZc1+nn4T8MT+lN
-vM6JIzXcLgSDCy9Pio9C7ZzcBCPPyzKUy20zFHwA/rmqPwA9+N48EdEv4ANmXOj4
-dPWsyYHbs56jDF8Ch+dUeaCNaZT5XKzQFPS9gTuzSz9hzVhF+I+y+8udLOmBpX1u
-nKI+kNXde6ZyUjHBOdhe7LBUB554wA==
-=fZS8
------END PGP SIGNATURE-----
-
---vpuW/JgkHsEwpYKd--
 
