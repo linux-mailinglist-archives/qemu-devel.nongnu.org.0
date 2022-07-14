@@ -2,70 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA33B5753D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:16:30 +0200 (CEST)
-Received: from localhost ([::1]:60928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C7365753E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:20:37 +0200 (CEST)
+Received: from localhost ([::1]:35522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC2Rx-0002Ex-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 13:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47052)
+	id 1oC2Vw-0004pN-Qg
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 13:20:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC2Pg-0000ZB-0D
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 13:14:08 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:34656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC2Pe-0003W5-75
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 13:14:07 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id i14so4355573yba.1
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 10:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aa6c69MgYoaWxoEjvwlGk3yRaXxNKA8bgpKtS5mD+2A=;
- b=waOhw9yQgS9o55EL8PtuwWZT9wtCQvF3eVN4LVS397rSXTYqjeufStl3BfpiHmLFpH
- vsN9scWgwQOCWSEg2aNJoxh3rWKF4ltqeEpb0beSJIuVZua37Wfy3E+YvhD/DluugdlE
- /smQgZNNRkqWhIhqd+Dzv25EtbJCZKysvqimwrynhE4c7rm8FmHzKYyqFM4KkLno33iI
- TbheVaf5KItFRsOgLCIlbGXy/fneST78iHsGJ3u6Dsz4qIkj+54w7pJPLQBQTxFZU3io
- bVt6CdZFy0Rc9Wmu9OCc9XWccfdsBee7hmacdjqcpAGZFV2ZaP7wHrqzjd65i3SqAqlM
- dwEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aa6c69MgYoaWxoEjvwlGk3yRaXxNKA8bgpKtS5mD+2A=;
- b=KvfjF+UO9kF3ZkJ207zQaWKvRCMEQhuHfrooy5yOCcWGk/vQyodf1pKuPZN+0zy2xa
- g9gXWm7dM2gmPcC/781fVal5mXaF97W6jGjhkJQcKJZ2+fJxfTK5pc0FNT14jwQ0Tdzi
- KcLp+BbFacTxiNNqSg41zUkkAsz0dACuDOqyEFEJIIH5VhHKAi5abM+6nQ3VCaxXRLnA
- GiI7IyqIn6Px4UC7xoBHorRejschGvDc7M348moo0JrwqV47hFPV1LlLHxJXirm0sivO
- 3DtDy6Dmjtz7Apt7y8V+ZJjlcafwzbwPVVDlKZG/kuuwNg/PaWnNtH0RsgzM28PzXV6D
- gfuw==
-X-Gm-Message-State: AJIora89mmy6U2zWohlTKdH/1j/E3AjrrAc6cqWuCgsVTdLUhwNRbrCn
- tx25dPka9N1j2KZt0VN1dzbH2Z5XNj9vTlzGO+jd3Q==
-X-Google-Smtp-Source: AGRyM1tgVaUXgJGmVx2Bt9DmnXko6zAovoGMh1wzD2VYvRIIVCeXEMQUcQzcw5QhyMx9RFSbt/13hjSXKLrdCO8sQaA=
-X-Received: by 2002:a25:d7d6:0:b0:66e:47b3:35be with SMTP id
- o205-20020a25d7d6000000b0066e47b335bemr9767341ybg.140.1657818844805; Thu, 14
- Jul 2022 10:14:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oC2T3-0002yz-7c
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 13:17:38 -0400
+Received: from rev.ng ([5.9.113.41]:54269)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1oC2T1-000495-4f
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 13:17:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:Content-Type:Subject:Cc:Reply-To:To:From:
+ MIME-Version:Date:Message-ID:Sender:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=4xwCA7Mfw8ONnI9BmsExYQyRHEcLuHtxU7GVnq6UXCY=; b=rgWR4nUnFh8FWZ2UXElVluCk4c
+ CzjcbCHzi+ekhQqIXdXeeawY/Lo5XeGCrictl8fy+uWao5Q4iG8l12AezXmtGWAzfQAXnpsKPwmOm
+ Xn6jPDB+IUx52irxZaiVt94ZCwLkbIhyuOW480AMLr33dnqRVRQBKDsq3UEmUqImisMU=;
+Message-ID: <1076da40-3076-a161-d6f5-e6a3253dd756@rev.ng>
+Date: Thu, 14 Jul 2022 19:17:06 +0200
 MIME-Version: 1.0
-References: <20220713101908.2212307-1-kkostiuk@redhat.com>
-In-Reply-To: <20220713101908.2212307-1-kkostiuk@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 18:13:25 +0100
-Message-ID: <CAFEAcA8bZhbJ2aZqbheqsrGCH1OAgwkb9R-zPXHP+UWA8BGFsQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] Guest Agent patches 2022-07-13
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Organization: rev.ng
+Cc: alex.bennee@linaro.org,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "ale@rev.ng" <ale@rev.ng>, Taylor Simpson <tsimpson@quicinc.com>,
+ Michael Lambert <mlambert@quicinc.com>, Brian Cain <bcain@quicinc.com>
+Subject: target/hexagon: Fixed container/CI feedback on idef-parser v9 patchset
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,31 +62,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  anjo@rev.ng
+X-ACL-Warn: ,  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 
-On Wed, 13 Jul 2022 at 11:19, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->
-> The following changes since commit 08c8a31214e8ca29e05b9f6c3ee942b28ec58457:
->
->   Merge tag 'pull-tcg-20220712' of https://gitlab.com/rth7680/qemu into staging (2022-07-12 11:52:11 +0530)
->
-> are available in the Git repository at:
->
->   git@github.com:kostyanf14/qemu.git tags/qga-win32-pull-2022-07-13
->
-> for you to fetch changes up to 1db8a0b0ea2fb72ecab36bd3143a9715c083d5d3:
->
->   qga: add command 'guest-get-cpustats' (2022-07-13 12:19:18 +0300)
->
-> ----------------------------------------------------------------
-> qga-win32-pull-2022-07-13
->
-> ----------------------------------------------------------------
+Hi, Alex and Richard,
 
+I implemented the changes you suggested in this conversation:
 
-Applied, thanks.
+https://lists.nongnu.org/archive/html/qemu-devel/2022-05/threads.html#04679
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
+The 9:th patch which updated libvirt-ci and added flex/bison to the
+CI containers, has now been split into 5 separate patches that:
 
--- PMM
+     1. Update libvirt-ci
+
+     2. Fix renamed packages mappings in qemu.yml
+
+     3. add flex/bison/glib2-static to qemu.yml
+
+     4. regenerate CI containers
+
+     5. manually add flex/bison to containers that build qemu-hexagon,
+        but aren't covered by libvirt-ci
+
+The v10 patchset contains these fixes in patches 8-12, and can be found 
+here:
+
+https://lists.nongnu.org/archive/html/qemu-devel/2022-06/threads.html#00122
+
+If someone could take a look whenever you have the time, I would greatly 
+appreciate it!
+
+Thanks,
+
+-- 
+Anton Johansson,
+rev.ng Labs Srl.
+
 
