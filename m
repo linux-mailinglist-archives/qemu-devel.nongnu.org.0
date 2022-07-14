@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1997F574930
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:37:44 +0200 (CEST)
-Received: from localhost ([::1]:45792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49AF6574891
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:22:46 +0200 (CEST)
+Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBvHx-0001no-2F
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:37:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
+	id 1oBv3V-000332-2i
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBukD-0005Iv-9J
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44716)
+ id 1oBukG-0005MX-0M
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBukB-00061p-CX
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:48 -0400
+ id 1oBukD-000626-EQ
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657789366;
+ s=mimecast20190719; t=1657789368;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yPxrUWz/40PCdYS2DePtdFbyH7QmcxCaDkU2H+nwfn0=;
- b=JMmzNJdIhsvRRild0GaIu+ZMnWwwMMmSYSgI7Wu/DjY3iw/31+SGIARDR9HERZIBehLrHa
- YVs6jCI2h7UokXGliLUOOBisd889gWf+xFFbgsNmlvPcDisbhUFEcpbg3j4G2vsMV76yBx
- xcUOLnSGHoftnFeFhCFHNVateAUxSsM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JedoTWOXY7JNxUVgoEPO4DDMHQfmV7WNJPWNZj4qG/4=;
+ b=McDqOU8yNJziwPhxeygHX3r0CE4hG4myZh6fE7Lkp4EeSTYx2+jL8xIVGY+vx9IeJOQfIv
+ 582xHGbqQx0tCOWOIyUg/cL+gzgTgHBxAaTRCOgE6KE7R2dL8ha1UvWlikeEdGsUlUlOPB
+ 0H842k5hageG1YZEkNKBJzYwFkdi040=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-279-gaSuume0Mj-VZDoywCCfrg-1; Thu, 14 Jul 2022 05:02:45 -0400
-X-MC-Unique: gaSuume0Mj-VZDoywCCfrg-1
-Received: by mail-ej1-f72.google.com with SMTP id
- hp13-20020a1709073e0d00b0072b812bc5e9so507389ejc.9
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:45 -0700 (PDT)
+ us-mta-307-K-VKX6hjOKymSJdHWe2HCQ-1; Thu, 14 Jul 2022 05:02:47 -0400
+X-MC-Unique: K-VKX6hjOKymSJdHWe2HCQ-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ s4-20020a170906500400b006feaccb3a0eso508452ejj.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yPxrUWz/40PCdYS2DePtdFbyH7QmcxCaDkU2H+nwfn0=;
- b=MXkekyr61/xhrdsFfcBYFqSfl/+R8S5v/B3RjgiXsKyEPdCIqiMhyTFwXooZJ2f2DC
- potDS/md0F0gk3HbqqWdMo6W77qrh0qGvHVfpGJIcN0NN1zcEnZt3lV2k0JG4fq2tHBg
- W6YqWqwikpLMG3cHQBqDHqUbX6UnA9lfjQS6J0V34P6Dg2O9aIcA2biRCM+x32I2Fm/d
- Tia3vVaoqNbqjlMU0SwQzp1yePki4HSi7X2485A0mLFUooDQr3IEF8hAt0xC8t1jCdqj
- Ch+Sf+Y7ZPS3rd6xm8ZmzPY1LfiadEZs4NnZkxlHoTmJ5rgvyOuNdUl0bR0y5NLkbsZx
- voYg==
-X-Gm-Message-State: AJIora+5s7HCz84HP+kNCZbEi293dhOykONYyXLhPiy5Mdc5zi3cXYkU
- d0Brk9T8CbK7wk9w0YObuufl0ssilwkUhK7sINgut5xuSde1c2aNZ98O7hpyCeuiHwSFUBgLfvM
- 02ag4F7KvkKa/RJ40GegGPQasD36r0gPbSA81icwmYqITHq4By0JeLkoXVEhRzmfQhDA=
-X-Received: by 2002:a50:ce1d:0:b0:43a:742f:9db3 with SMTP id
- y29-20020a50ce1d000000b0043a742f9db3mr10963969edi.308.1657789363826; 
- Thu, 14 Jul 2022 02:02:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ttbUOMxjHz8BTr52dk9afhjEOyNH45/eUU5l2UbP26u5r2HwPai1gW2L7km2bknzNwH6GWCg==
-X-Received: by 2002:a50:ce1d:0:b0:43a:742f:9db3 with SMTP id
- y29-20020a50ce1d000000b0043a742f9db3mr10963949edi.308.1657789363601; 
- Thu, 14 Jul 2022 02:02:43 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- eq22-20020a056402299600b0043a7134b381sm677928edb.11.2022.07.14.02.02.42
+ bh=JedoTWOXY7JNxUVgoEPO4DDMHQfmV7WNJPWNZj4qG/4=;
+ b=XJ0TeZa5n6uQiaLpwpJ5JYsXJrZ7Em8fYN7qxnjAene7fWDdVpE90TwHnUnnt92T9m
+ miVFABpWWPyX/WcMMybXBuAhLueMwFP7mxH9CXjo6FwHz/8CKL8dcBsulR402ykktMw3
+ jSzt3w0h7UR9fStLPHGUVgR3oGeF9sX9+m8K+CT1Z3qpSEdHPb988xZlY5Wy1j5+vOBG
+ 06pzYJFJfsvVkbnDoJT2fjeF2vwZCNCL/mfz1gIasJRKHF47i/r8kV+huueS4n8od+8M
+ Kw+dvazUzcQgPAapUCWruAsZo2hqYug9j+UnfmQV2zgONEuFUApWx3r1FySUrIpwy5/f
+ LyOg==
+X-Gm-Message-State: AJIora/frjGLblLZ9zZIBzRdIs84AtOrBxNm2WR7vTCzfDdRlFe1XJXj
+ 2fyMCeVyZIe5rxmzcsxdhUnDg7IOD+phA9ikC97HO/uhlvqnVrlXckil/DXC84iZfODxeifDk97
+ iJDjv1nvW4QXp/gGoRYII/l2+lD27QIukWvvFOpcY3yKIkiDWtfHsaSBpY1aaoGydly0=
+X-Received: by 2002:a17:906:84f0:b0:72b:5cf4:465d with SMTP id
+ zp16-20020a17090684f000b0072b5cf4465dmr7870962ejb.705.1657789366152; 
+ Thu, 14 Jul 2022 02:02:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sFgqYnGx9Vyb13CZn2t+lOEtgWe4Cp/1aOasgVJKLisvKlbfTLCwOGxvzh/h43Ii4jCWDN3Q==
+X-Received: by 2002:a17:906:84f0:b0:72b:5cf4:465d with SMTP id
+ zp16-20020a17090684f000b0072b5cf4465dmr7870945ejb.705.1657789365872; 
+ Thu, 14 Jul 2022 02:02:45 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ kv10-20020a17090778ca00b0072eddc468absm452904ejc.134.2022.07.14.02.02.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:02:42 -0700 (PDT)
+ Thu, 14 Jul 2022 02:02:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 18/20] q800: add default vendor and product information for
- scsi-hd devices
-Date: Thu, 14 Jul 2022 11:02:09 +0200
-Message-Id: <20220714090211.304305-19-pbonzini@redhat.com>
+Subject: [PULL 19/20] q800: add default vendor and product information for
+ scsi-cd devices
+Date: Thu, 14 Jul 2022 11:02:10 +0200
+Message-Id: <20220714090211.304305-20-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220714090211.304305-1-pbonzini@redhat.com>
 References: <20220714090211.304305-1-pbonzini@redhat.com>
@@ -102,9 +103,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-The Apple HD SC Setup program uses a SCSI INQUIRY command to check that any SCSI
-hard disks detected match a whitelist of vendors and products before allowing
-the "Initialise" button to prepare an empty disk.
+The MacOS CDROM driver uses a SCSI INQUIRY command to check that any SCSI CDROMs
+detected match a whitelist of vendors and products before adding them to the
+list of available devices.
 
 Add known-good default vendor and product information using the existing
 compat_prop mechanism so the user doesn't have to use long command lines to set
@@ -112,26 +113,26 @@ the qdev properties manually.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220622105314.802852-14-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220622105314.802852-15-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
  hw/m68k/q800.c | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-index 3254ffb5c4..dccf192e55 100644
+index dccf192e55..101ab0f803 100644
 --- a/hw/m68k/q800.c
 +++ b/hw/m68k/q800.c
-@@ -688,6 +688,9 @@ static void q800_init(MachineState *machine)
- 
- static GlobalProperty hw_compat_q800[] = {
-     { "scsi-hd", "quirk_mode_page_vendor_specific_apple", "on"},
-+    { "scsi-hd", "vendor", " SEAGATE" },
-+    { "scsi-hd", "product", "          ST225N" },
-+    { "scsi-hd", "ver", "1.0 " },
-     { "scsi-cd", "quirk_mode_page_apple_vendor", "on"},
+@@ -695,6 +695,9 @@ static GlobalProperty hw_compat_q800[] = {
      { "scsi-cd", "quirk_mode_sense_rom_use_dbd", "on"},
      { "scsi-cd", "quirk_mode_page_vendor_specific_apple", "on"},
+     { "scsi-cd", "quirk_mode_page_truncated", "on"},
++    { "scsi-cd", "vendor", "MATSHITA" },
++    { "scsi-cd", "product", "CD-ROM CR-8005" },
++    { "scsi-cd", "ver", "1.0k" },
+ };
+ static const size_t hw_compat_q800_len = G_N_ELEMENTS(hw_compat_q800);
+ 
 -- 
 2.36.1
 
