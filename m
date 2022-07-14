@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0530157522E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:48:56 +0200 (CEST)
-Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F1F575233
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:52:10 +0200 (CEST)
+Received: from localhost ([::1]:46932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC15C-0002i2-Kl
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
+	id 1oC18L-0000N9-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:52:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC11c-0005Ep-3s; Thu, 14 Jul 2022 11:45:13 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:57941)
+ id 1oC11c-0005Eq-Rc; Thu, 14 Jul 2022 11:45:13 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:38425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC11a-0000L3-2H; Thu, 14 Jul 2022 11:45:11 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJht3Vddz4xht;
- Fri, 15 Jul 2022 01:45:02 +1000 (AEST)
+ id 1oC11a-0000VZ-9t; Thu, 14 Jul 2022 11:45:12 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJhx4V5hz4xvN;
+ Fri, 15 Jul 2022 01:45:05 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJhr6sMQz4xhp;
- Fri, 15 Jul 2022 01:45:00 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJhv00Jrz4xhp;
+ Fri, 15 Jul 2022 01:45:02 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>,
+ Peter Delevoryas <pdel@fb.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL v2 00/19] aspeed queue
-Date: Thu, 14 Jul 2022 17:44:37 +0200
-Message-Id: <20220714154456.2565189-1-clg@kaod.org>
+Subject: [PULL 01/19] aspeed: sbc: Allow per-machine settings
+Date: Thu, 14 Jul 2022 17:44:38 +0200
+Message-Id: <20220714154456.2565189-2-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
+In-Reply-To: <20220714154456.2565189-1-clg@kaod.org>
+References: <20220714154456.2565189-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -62,75 +64,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 08c9f7eec7002dac2da52c8265eb319aba381c86:
+From: Joel Stanley <joel@jms.id.au>
 
-  Merge tag 'darwin-20220712' of https://github.com/philmd/qemu into staging (2022-07-14 09:30:55 +0100)
+In order to correctly report secure boot running firmware the values
+of certain registers must be set.
 
-are available in the Git repository at:
+We don't yet have documentation from ASPEED on what they mean. The
+meaning is inferred from u-boot's use of them.
 
-  https://github.com/legoater/qemu/ tags/pull-aspeed-20220714
+Introduce properties so the settings can be configured per-machine.
 
-for you to fetch changes up to f0418558302ef9e140681e04250fc1ca265f3140:
+Reviewed-by: Peter Delevoryas <pdel@fb.com>
+Tested-by: Peter Delevoryas <pdel@fb.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Message-Id: <20220628154740.1117349-4-clg@kaod.org>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ include/hw/misc/aspeed_sbc.h | 13 +++++++++++
+ hw/misc/aspeed_sbc.c         | 42 ++++++++++++++++++++++++++++++++++--
+ 2 files changed, 53 insertions(+), 2 deletions(-)
 
-  aspeed: Add fby35-bmc slot GPIO's (2022-07-14 16:24:38 +0200)
+diff --git a/include/hw/misc/aspeed_sbc.h b/include/hw/misc/aspeed_sbc.h
+index 67e43b53ecc3..405e6782b97a 100644
+--- a/include/hw/misc/aspeed_sbc.h
++++ b/include/hw/misc/aspeed_sbc.h
+@@ -17,9 +17,22 @@ OBJECT_DECLARE_TYPE(AspeedSBCState, AspeedSBCClass, ASPEED_SBC)
+ 
+ #define ASPEED_SBC_NR_REGS (0x93c >> 2)
+ 
++#define QSR_AES                     BIT(27)
++#define QSR_RSA1024                 (0x0 << 12)
++#define QSR_RSA2048                 (0x1 << 12)
++#define QSR_RSA3072                 (0x2 << 12)
++#define QSR_RSA4096                 (0x3 << 12)
++#define QSR_SHA224                  (0x0 << 10)
++#define QSR_SHA256                  (0x1 << 10)
++#define QSR_SHA384                  (0x2 << 10)
++#define QSR_SHA512                  (0x3 << 10)
++
+ struct AspeedSBCState {
+     SysBusDevice parent;
+ 
++    bool emmc_abr;
++    uint32_t signing_settings;
++
+     MemoryRegion iomem;
+ 
+     uint32_t regs[ASPEED_SBC_NR_REGS];
+diff --git a/hw/misc/aspeed_sbc.c b/hw/misc/aspeed_sbc.c
+index bfa8b81d01c7..c6f328e3be23 100644
+--- a/hw/misc/aspeed_sbc.c
++++ b/hw/misc/aspeed_sbc.c
+@@ -11,6 +11,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+ #include "qemu/error-report.h"
++#include "hw/qdev-properties.h"
+ #include "hw/misc/aspeed_sbc.h"
+ #include "qapi/error.h"
+ #include "migration/vmstate.h"
+@@ -19,6 +20,27 @@
+ #define R_STATUS        (0x014 / 4)
+ #define R_QSR           (0x040 / 4)
+ 
++/* R_STATUS */
++#define ABR_EN                  BIT(14) /* Mirrors SCU510[11] */
++#define ABR_IMAGE_SOURCE        BIT(13)
++#define SPI_ABR_IMAGE_SOURCE    BIT(12)
++#define SB_CRYPTO_KEY_EXP_DONE  BIT(11)
++#define SB_CRYPTO_BUSY          BIT(10)
++#define OTP_WP_EN               BIT(9)
++#define OTP_ADDR_WP_EN          BIT(8)
++#define LOW_SEC_KEY_EN          BIT(7)
++#define SECURE_BOOT_EN          BIT(6)
++#define UART_BOOT_EN            BIT(5)
++/* bit 4 reserved*/
++#define OTP_CHARGE_PUMP_READY   BIT(3)
++#define OTP_IDLE                BIT(2)
++#define OTP_MEM_IDLE            BIT(1)
++#define OTP_COMPARE_STATUS      BIT(0)
++
++/* QSR */
++#define QSR_RSA_MASK           (0x3 << 12)
++#define QSR_HASH_MASK          (0x3 << 10)
++
+ static uint64_t aspeed_sbc_read(void *opaque, hwaddr addr, unsigned int size)
+ {
+     AspeedSBCState *s = ASPEED_SBC(opaque);
+@@ -80,8 +102,17 @@ static void aspeed_sbc_reset(DeviceState *dev)
+     memset(s->regs, 0, sizeof(s->regs));
+ 
+     /* Set secure boot enabled with RSA4096_SHA256 and enable eMMC ABR */
+-    s->regs[R_STATUS] = 0x000044C6;
+-    s->regs[R_QSR] = 0x07C07C89;
++    s->regs[R_STATUS] = OTP_IDLE | OTP_MEM_IDLE;
++
++    if (s->emmc_abr) {
++        s->regs[R_STATUS] &= ABR_EN;
++    }
++
++    if (s->signing_settings) {
++        s->regs[R_STATUS] &= SECURE_BOOT_EN;
++    }
++
++    s->regs[R_QSR] = s->signing_settings;
+ }
+ 
+ static void aspeed_sbc_realize(DeviceState *dev, Error **errp)
+@@ -105,6 +136,12 @@ static const VMStateDescription vmstate_aspeed_sbc = {
+     }
+ };
+ 
++static Property aspeed_sbc_properties[] = {
++    DEFINE_PROP_BOOL("emmc-abr", AspeedSBCState, emmc_abr, 0),
++    DEFINE_PROP_UINT32("signing-settings", AspeedSBCState, signing_settings, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -112,6 +149,7 @@ static void aspeed_sbc_class_init(ObjectClass *klass, void *data)
+     dc->realize = aspeed_sbc_realize;
+     dc->reset = aspeed_sbc_reset;
+     dc->vmsd = &vmstate_aspeed_sbc;
++    device_class_set_props(dc, aspeed_sbc_properties);
+ }
+ 
+ static const TypeInfo aspeed_sbc_info = {
+-- 
+2.35.3
 
-----------------------------------------------------------------
-aspeed queue:
-
-* New ISL69259 device model
-* New fby35 multi-SoC machine (AST1030 BIC + AST2600 BMC)
-* Aspeed GPIO fixes
-* Extension of m25p80 with write protect bits
-* More avocado tests using the Aspeed SDK
-
-----------------------------------------------------------------
-Cédric Le Goater (3):
-      aspeed: fby35: Add a bootrom for the BMC
-      docs: aspeed: Minor updates
-      test/avocado/machine_aspeed.py: Add SDK tests
-
-Iris Chen (2):
-      hw: m25p80: Add Block Protect and Top Bottom bits for write protect
-      hw: m25p80: add tests for BP and TB bit write protect
-
-Joel Stanley (1):
-      aspeed: sbc: Allow per-machine settings
-
-Peter Delevoryas (13):
-      hw/i2c/pmbus: Add idle state to return 0xff's
-      hw/sensor: Add IC_DEVICE_ID to ISL voltage regulators
-      hw/sensor: Add Renesas ISL69259 device model
-      aspeed: Create SRAM name from first CPU index
-      aspeed: Refactor UART init for multi-SoC machines
-      aspeed: Make aspeed_board_init_flashes public
-      aspeed: Add fby35 skeleton
-      aspeed: Add AST2600 (BMC) to fby35
-      aspeed: Add AST1030 (BIC) to fby35
-      docs: aspeed: Add fby35 multi-SoC machine section
-      qtest/aspeed_gpio: Add input pin modification test
-      hw/gpio/aspeed: Don't let guests modify input pins
-      aspeed: Add fby35-bmc slot GPIO's
-
- docs/system/arm/aspeed.rst       |  62 ++++++++++++-
- include/hw/arm/aspeed_soc.h      |   9 +-
- include/hw/i2c/pmbus_device.h    |   7 ++
- include/hw/misc/aspeed_sbc.h     |  13 +++
- include/hw/sensor/isl_pmbus_vr.h |   5 ++
- hw/arm/aspeed.c                  |  38 ++++++--
- hw/arm/aspeed_ast10x0.c          |  13 ++-
- hw/arm/aspeed_ast2600.c          |  13 ++-
- hw/arm/aspeed_soc.c              |  55 ++++++++----
- hw/arm/fby35.c                   | 188 +++++++++++++++++++++++++++++++++++++++
- hw/block/m25p80.c                | 102 ++++++++++++++++++---
- hw/gpio/aspeed_gpio.c            |  15 ++--
- hw/i2c/pmbus_device.c            |   9 ++
- hw/misc/aspeed_sbc.c             |  42 ++++++++-
- hw/sensor/isl_pmbus_vr.c         |  40 +++++++++
- tests/qtest/aspeed_gpio-test.c   |  27 ++++++
- tests/qtest/aspeed_smc-test.c    | 111 +++++++++++++++++++++++
- MAINTAINERS                      |   1 +
- hw/arm/meson.build               |   3 +-
- tests/avocado/machine_aspeed.py  |  68 ++++++++++++++
- 20 files changed, 764 insertions(+), 57 deletions(-)
- create mode 100644 hw/arm/fby35.c
 
