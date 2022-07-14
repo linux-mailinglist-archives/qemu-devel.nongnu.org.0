@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98C657458B
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 09:11:25 +0200 (CEST)
-Received: from localhost ([::1]:35582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AB357464B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 10:02:55 +0200 (CEST)
+Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBt0O-0006Aq-AR
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 03:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
+	id 1oBtoE-0006G5-9V
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 04:02:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBstl-0002Ht-LN
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 03:04:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oBsti-0005bf-Kv
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 03:04:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657782269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SyDarh+3Za9QgKmAqn5OvWmLFmMKKt19R+s6u55DlBw=;
- b=HJGiCgXyTTZ3BMIyCP5+NZfNHVazwVba56wsF/i7tsQVFBqKZP+nByAR8SXluAGP0x7U/v
- s0s5+0TNquV8RafRAmVcHZzgo0CEARgndyYs8vVbXxN+iOVc1Q4+WygFZCCW2dSR8XfkWi
- FpzcRUW4PvivlfUQl2DOKtxkd+PMYfM=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-596-cqi8zkFSND--MZI5QnNp1A-1; Thu, 14 Jul 2022 03:04:20 -0400
-X-MC-Unique: cqi8zkFSND--MZI5QnNp1A-1
-Received: by mail-lf1-f72.google.com with SMTP id
- i3-20020a056512318300b0047f86b47910so410017lfe.14
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 00:04:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oBtkn-0004er-F5
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 03:59:21 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:40717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oBtkl-0000tN-Kc
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 03:59:21 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id r6so1356192edd.7
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 00:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tFpLVeynJ9yed3ARjrxkCpgCeowmB6/2TNRegVatC90=;
+ b=Eo+WInK0qkJJ2IWdLXz6JW7wyqKYC9wbe0UaesG9JRAPNaWjdNVbeQIXRQ5VeeOU6x
+ 4CKNlrPvVLrLA1Cm0EulXexyTrg1w+kIX7lw/hnJaLnk60YRx2t0rGg7nmLOMyfKYACb
+ e0y5rHJ11E31umTtK+EGpN3RYZt+nKvUpuraLzCHWGMlOSh6324wkp9UuFzJ2OP7dSSK
+ LKt/JhJFZZQrS2ysfvwn7AO7eYAH6T24Tj2/wiumLMqhJOy9uYPfqEgjf3UhVbq16kZt
+ PB54yRCXCfY37VfUNFcCC1OPGLkik3TmysCAbb/5oCJKv1Y7BK3aBuhkfeBShWJizhXH
+ ABTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SyDarh+3Za9QgKmAqn5OvWmLFmMKKt19R+s6u55DlBw=;
- b=l+BeBfne6BwgIgumqq95eSo137KcxmRua4inlLDDoTFbYSDjhpE3tjKZjHNwLC5KCW
- /cUVUOouB4ObvGGvgIkLvmVpt3nO/wV6G13TmQEy/3j6CJJphsO3f5/KYifJqDMKgX8c
- +mueRQ96+aLtiZ2DAGRzezTszUppSDtrY1itrmn1a9kvTZN1azTyqdO9tWp8e7dy/6fH
- f7ChCLHGfGKl+sNJjlq1pJsAZ9wSTK3ggv+0DkCKOgT07JaylnUd7soJ+tq4qUsJZLni
- HOGlivc+zxi47u+RDLGpEFOeSFQnQ0JC5fxQK/4LEspDw8kd9qsz1qLRKA16PJtDpfOa
- 7R5Q==
-X-Gm-Message-State: AJIora+BUiSZadvUW+MgZto0bZQtl8MccD/Yuqjz3UMeZXNKSygnSq1x
- 7CHS/gruyIQtsOrxzELM5H/DbWuSR/rh9/lrMPmba+jtRlJr9SrhW5gQAmq0eJhxehg3tG+DCvl
- qNhL57A7xm5Wmoi+Xm3z3D2BFjd3ZpJ4=
-X-Received: by 2002:a05:6512:3d8a:b0:489:c93c:5970 with SMTP id
- k10-20020a0565123d8a00b00489c93c5970mr4384720lfv.575.1657782259514; 
- Thu, 14 Jul 2022 00:04:19 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tbkucNGMmhemuJ6i5qZo+KSmYMUKVKqffNnI24QQaPfvfoFpE5uH8m4Lwz5bGXCL1NSqpjAz2XkwtSSNgjwrw=
-X-Received: by 2002:a05:6512:3d8a:b0:489:c93c:5970 with SMTP id
- k10-20020a0565123d8a00b00489c93c5970mr4384698lfv.575.1657782259252; Thu, 14
- Jul 2022 00:04:19 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=tFpLVeynJ9yed3ARjrxkCpgCeowmB6/2TNRegVatC90=;
+ b=F2LRErs8kUsWK9y9pZ7J14SAPwynSWg/PHE0l96mWH3/O92PG6X/wecj3IsgZt/Gu9
+ S2aDMKO/fTxytc9KtTGsmcTZ6FfgmQAeuNYGwZcMf5EFk17Ut8NrC0uouDoXlbAxEAxG
+ ABDRzJoqelQ0sFMXk0198iZMp4UD0uOyAPx3S6tfzi+dKJ3SpOQoP0Txo2cXGOUFNHJb
+ QySoTHFYMKuQpqo4T1uQfVloeaxO44UgQyqmvauB5hWrbe5vNqk9gwhHL8ot4ELcLP5g
+ obvgY0QwsaycUfgiqzLDs7MILbcHFliq+UvSutnVHghV4phc5mrpHt4yXpaZ99FMTnMI
+ smIA==
+X-Gm-Message-State: AJIora9UDt/HmEXx67p0OUlG7vobc/cx6qXIgNeFva6gxn/uL071BSts
+ eeH6T8WbzrvfHUFi/Hii1Cc=
+X-Google-Smtp-Source: AGRyM1vd+Xr9Oe5Zkf0llp4ObfIOYSD0K3KGYvQakyyWzclK9RQ5IqSn6V+JY+NaTP4E/3st27ABSQ==
+X-Received: by 2002:a05:6402:414c:b0:435:1e2a:2c7f with SMTP id
+ x12-20020a056402414c00b004351e2a2c7fmr10739690eda.132.1657785557084; 
+ Thu, 14 Jul 2022 00:59:17 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ ku5-20020a170907788500b007262a5e2204sm386042ejc.153.2022.07.14.00.59.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 00:59:16 -0700 (PDT)
+Message-ID: <e7ec3a99-2c2c-81b7-9f02-80958dce5fbe@redhat.com>
+Date: Thu, 14 Jul 2022 09:59:14 +0200
 MIME-Version: 1.0
-References: <20220706184008.1649478-1-eperezma@redhat.com>
- <20220706184008.1649478-21-eperezma@redhat.com>
- <0f40536a-8c51-e546-17e8-bd752313123c@redhat.com>
- <CAJaqyWcKstiF8AXsUUppPsdfXiiuRhDi2-8ynLVLM8ncv=Pc+Q@mail.gmail.com>
- <CAJaqyWeLXXBceQjSa-efsTazOXpub_Wr8LZ6sVyf8JdAdFzcQw@mail.gmail.com>
-In-Reply-To: <CAJaqyWeLXXBceQjSa-efsTazOXpub_Wr8LZ6sVyf8JdAdFzcQw@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Thu, 14 Jul 2022 15:04:08 +0800
-Message-ID: <CACGkMEtXJfCp+xGDymiqF-ECpiFbikiv4KHb0qjuyr6SUqqz6w@mail.gmail.com>
-Subject: Re: [RFC PATCH v9 20/23] vdpa: Buffer CVQ support on shadow virtqueue
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Markus Armbruster <armbru@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Eric Blake <eblake@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Parav Pandit <parav@mellanox.com>, 
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Gautam Dawar <gdawar@xilinx.com>, Eli Cohen <eli@mellanox.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2] target/i386: Restore TSX features with taa-no
+Content-Language: en-US
+To: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org
+Cc: ehabkost@redhat.com, xiangfeix.ma@intel.com, xiaoyao.li@intel.com,
+ seanjc@google.com
+References: <20220714053631.417152-1-zhenzhong.duan@intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220714053631.417152-1-zhenzhong.duan@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,95 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 14, 2022 at 2:54 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> > > > +static void vhost_vdpa_net_handle_ctrl_used(VhostShadowVirtqueue *svq,
-> > > > +                                            void *vq_elem_opaque,
-> > > > +                                            uint32_t dev_written)
-> > > > +{
-> > > > +    g_autoptr(CVQElement) cvq_elem = vq_elem_opaque;
-> > > > +    virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
-> > > > +    const struct iovec out = {
-> > > > +        .iov_base = cvq_elem->out_data,
-> > > > +        .iov_len = cvq_elem->out_len,
-> > > > +    };
-> > > > +    const DMAMap status_map_needle = {
-> > > > +        .translated_addr = (hwaddr)(uintptr_t)cvq_elem->in_buf,
-> > > > +        .size = sizeof(status),
-> > > > +    };
-> > > > +    const DMAMap *in_map;
-> > > > +    const struct iovec in = {
-> > > > +        .iov_base = &status,
-> > > > +        .iov_len = sizeof(status),
-> > > > +    };
-> > > > +    g_autofree VirtQueueElement *guest_elem = NULL;
-> > > > +
-> > > > +    if (unlikely(dev_written < sizeof(status))) {
-> > > > +        error_report("Insufficient written data (%llu)",
-> > > > +                     (long long unsigned)dev_written);
-> > > > +        goto out;
-> > > > +    }
-> > > > +
-> > > > +    in_map = vhost_iova_tree_find_iova(svq->iova_tree, &status_map_needle);
-> > > > +    if (unlikely(!in_map)) {
-> > > > +        error_report("Cannot locate out mapping");
-> > > > +        goto out;
-> > > > +    }
-> > > > +
-> > > > +    switch (cvq_elem->ctrl.class) {
-> > > > +    case VIRTIO_NET_CTRL_MAC_ADDR_SET:
-> > > > +        break;
-> > > > +    default:
-> > > > +        error_report("Unexpected ctrl class %u", cvq_elem->ctrl.class);
-> > > > +        goto out;
-> > > > +    };
-> > > > +
-> > > > +    memcpy(&status, cvq_elem->in_buf, sizeof(status));
-> > > > +    if (status != VIRTIO_NET_OK) {
-> > > > +        goto out;
-> > > > +    }
-> > > > +
-> > > > +    status = VIRTIO_NET_ERR;
-> > > > +    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, &out, 1);
-> > >
-> > >
-> > > I wonder if this is the best choice. It looks to me it might be better
-> > > to extend the virtio_net_handle_ctrl_iov() logic:
-> > >
-> > > virtio_net_handle_ctrl_iov() {
-> > >      if (svq enabled) {
-> > >           host_elem = iov_copy(guest_elem);
-> > >           vhost_svq_add(host_elem);
-> > >           vhost_svq_poll(host_elem);
-> > >      }
-> > >      // usersapce ctrl vq logic
-> > > }
-> > >
-> > >
-> > > This can help to avoid coupling too much logic in cvq (like the
-> > > avail,used and detach ops).
-> > >
-> >
-> > Let me try that way and I'll come back to you.
-> >
->
-> The problem with that approach is that virtio_net_handle_ctrl_iov is
-> called from the SVQ used handler. How could we call it otherwise? I
-> find it pretty hard to do unless we return SVQ to the model where we
-> used VirtQueue.handle_output, discarded long ago.
+On 7/14/22 07:36, Zhenzhong Duan wrote:
+> On ICX-2S2 host, when run L2 guest with both L1/L2 using Icelake-Server-v3
+> or above, we got below warning:
+> 
+> "warning: host doesn't support requested feature: MSR(10AH).taa-no [bit 8]"
+> 
+> This is because L1 KVM doesn't expose taa-no to L2 if RTM is disabled,
+> then starting L2 qemu triggers the warning.
+> 
+> Fix it by restoring TSX features in Icelake-Server-v3, which may also help
+> guest performance if host isn't susceptible to TSX Async Abort (TAA)
+> vulnerabilities.
+> 
+> Fixes: d965dc35592d ("target/i386: Add ARCH_CAPABILITIES related bits into Icelake-Server CPU model")
+> Tested-by: Xiangfei Ma <xiangfeix.ma@intel.com>
+> Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+> ---
+> v2: Rewrite commit message
 
-I'm not sure I get this. Can we simply let the cvq to be trapped as
-the current userspace datapath did?
+Why wouldn't the fix be (in an Icelake-Server-v4 model) to remove taa-no?
 
-Thanks
+Paolo
 
->
-> I'm about to send a new version, but I still need to call
-> virtio_net_handle_ctrl_iov from the avail handler. The handlers used
-> and discard are removed at least.
->
-> Thanks!
->
+>   target/i386/cpu.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 14f681e998cc..25ef972a3eed 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -3423,6 +3423,9 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+>               {
+>                   .version = 3,
+>                   .props = (PropValue[]) {
+> +                    /* Restore TSX features removed by -v2 above */
+> +                    { "hle", "on" },
+> +                    { "rtm", "on" },
+>                       { "arch-capabilities", "on" },
+>                       { "rdctl-no", "on" },
+>                       { "ibrs-all", "on" },
 
 
