@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73B2575592
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 21:02:10 +0200 (CEST)
-Received: from localhost ([::1]:33324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE1357554F
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:46:58 +0200 (CEST)
+Received: from localhost ([::1]:51418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC46D-0005ev-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 15:02:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
+	id 1oC3rV-00046c-50
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:46:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oC3aQ-0006O7-OY
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:29:18 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39002)
+ id 1oC3aU-0006UJ-1B
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:29:23 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oC3aO-0008AN-VG
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:29:18 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EFtIbW008504;
- Thu, 14 Jul 2022 18:29:10 GMT
+ id 1oC3aS-0008Ah-FB
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 14:29:21 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EG79YR026610;
+ Thu, 14 Jul 2022 18:29:13 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2021-07-09;
- bh=dZJg5Qqp7i7DCTW/Km8ltqv0w9oagbAspbdK2T1L0Hs=;
- b=SCHV40wBfQvkrJt9UmXi8O6AA4FuL2RVPNyZvUtO9jRM+oC3I0iCwGMu++yaY1XcIKyK
- V9+9P3K7Ew63KgCvyfDUSUGIcOEPZbhHp5RUPghNyo5hnhoyTwA9zButXVK185OiK3Y/
- LDPazbBmN9r/YBUvYBJTf7pcHKKF8Zccks/QUD74Wi/S8KE/xG07bBcab0aMjaWJJQEx
- 5CwNlYco3ovg1AGy4s2Wdz3l4zvZHKPVbqwNanmEmVEuBNAyOPOzozNWpgVca09x0dNL
- XvlkgtQaUI9pFPlo7Bw0dlX1fiRwsOOz+6wpDYpPxJhIf49EN3PKczrOmjuxghmt3Qtb XA== 
+ bh=QMNe8ckb12GEwHvHx5t8fcVVzc8ilxAjIE96wJm3nAE=;
+ b=EHUKcQdasr5resjdYI0fU7fTKTMXJbFuc/LKiLrf0vp7WwmtJJWbEVI7UXZXzIfuTonu
+ sKnuHnBpmlJWj20f08g8a4l5hwTSDwLQF0aIvV0mQE/0JcR0gxaq9xUfmYC/h2SiSd0K
+ qcEavpSZHvMbd1/N6m9sFdLaKvW32Q9npT0vq86cIcXibpkoJQMSjje7zuiP4wos5V7G
+ n6jG4w70V4Bt+det0v46ju1AvvGBKgWyQ/K11d4HRomzX99AJqSBTAQN2XnncOT4g3hm
+ URFqMXog2qJrhWHrFAzPgUdDg6Cgk0O7GWA+Tck7OjVqW2zW5Yct/Tan1/8MJpMnTBog Iw== 
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71sce55s-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71r1dhy7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jul 2022 18:29:09 +0000
+ Thu, 14 Jul 2022 18:29:13 +0000
 Received: from pps.filterd
  (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 26EIGs5e022671; Thu, 14 Jul 2022 18:29:09 GMT
+ with SMTP id 26EIGsEZ022699; Thu, 14 Jul 2022 18:29:13 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h70465juq-1
+ 3h70465jxh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jul 2022 18:29:09 +0000
+ Thu, 14 Jul 2022 18:29:13 +0000
 Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26EISiAJ017868;
- Thu, 14 Jul 2022 18:29:08 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26EISiAL017868;
+ Thu, 14 Jul 2022 18:29:12 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-172-165.vpn.oracle.com
  [10.175.172.165])
  by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id
- 3h70465j62-7; Thu, 14 Jul 2022 18:29:08 +0000
+ 3h70465j62-8; Thu, 14 Jul 2022 18:29:12 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -65,14 +65,15 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Joao Martins <joao.m.martins@oracle.com>,
  Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PATCH v7 06/10] i386/pc: factor out cxl range start to helper
-Date: Thu, 14 Jul 2022 19:28:16 +0100
-Message-Id: <20220714182820.30970-7-joao.m.martins@oracle.com>
+Subject: [PATCH v7 07/10] i386/pc: handle unitialized mr in
+ pc_get_cxl_range_end()
+Date: Thu, 14 Jul 2022 19:28:17 +0100
+Message-Id: <20220714182820.30970-8-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220714182820.30970-1-joao.m.martins@oracle.com>
 References: <20220714182820.30970-1-joao.m.martins@oracle.com>
-X-Proofpoint-GUID: obMRcVsA4SHoIgGgjBgGTIfyIRcWv3b9
-X-Proofpoint-ORIG-GUID: obMRcVsA4SHoIgGgjBgGTIfyIRcWv3b9
+X-Proofpoint-ORIG-GUID: m22fcFL5xFBiaX5Nggr0E2tOtdKJYIYm
+X-Proofpoint-GUID: m22fcFL5xFBiaX5Nggr0E2tOtdKJYIYm
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -97,61 +98,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Factor out the calculation of the base address of the memory region.
-It will be used later on for the cxl range end counterpart calculation
-and as well in pc_memory_init() CXL memory region initialization, thus
-avoiding duplication.
+Remove pc_get_cxl_range_end() dependency on the CXL memory region,
+and replace with one that does not require the CXL host_mr to determine
+the start of CXL start.
+
+This in preparation to allow pc_pci_hole64_start() to be called early
+in pc_memory_init(), handle CXL memory region end when its underlying
+memory region isn't yet initialized.
 
 Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 ---
- hw/i386/pc.c | 26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+ hw/i386/pc.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1f42f194d7b7..3fdcab4bb4f3 100644
+index 3fdcab4bb4f3..c654be6cf0bd 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -825,6 +825,22 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
-     return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
- }
+@@ -843,17 +843,15 @@ static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
  
-+static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
-+{
-+    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-+    MachineState *machine = MACHINE(pcms);
-+    hwaddr cxl_base;
-+
-+    if (pcmc->has_reserved_memory && machine->device_memory->base) {
-+        cxl_base = machine->device_memory->base
-+            + memory_region_size(&machine->device_memory->mr);
-+    } else {
-+        cxl_base = pc_above_4g_end(pcms);
-+    }
-+
-+    return cxl_base;
-+}
-+
  static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
  {
-     uint64_t start = 0;
-@@ -946,15 +962,7 @@ void pc_memory_init(PCMachineState *pcms,
-         MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
-         hwaddr cxl_size = MiB;
+-    uint64_t start = 0;
++    uint64_t start = pc_get_cxl_range_start(pcms) + MiB;
  
--        if (pcmc->has_reserved_memory && machine->device_memory->base) {
--            cxl_base = machine->device_memory->base
--                + memory_region_size(&machine->device_memory->mr);
--        } else if (pcms->sgx_epc.size != 0) {
--            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
--        } else {
--            cxl_base = pc_above_4g_end(pcms);
--        }
--
-+        cxl_base = pc_get_cxl_range_start(pcms);
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
-         memory_region_add_subregion(system_memory, cxl_base, mr);
+-    if (pcms->cxl_devices_state.host_mr.addr) {
+-        start = pcms->cxl_devices_state.host_mr.addr +
+-            memory_region_size(&pcms->cxl_devices_state.host_mr);
+-        if (pcms->cxl_devices_state.fixed_windows) {
+-            GList *it;
+-            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
+-                CXLFixedWindow *fw = it->data;
+-                start = fw->mr.addr + memory_region_size(&fw->mr);
+-            }
++    if (pcms->cxl_devices_state.fixed_windows) {
++        GList *it;
++
++        start = ROUND_UP(start, 256 * MiB);
++        for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
++            CXLFixedWindow *fw = it->data;
++            start += fw->size;
+         }
+     }
+ 
 -- 
 2.17.2
 
