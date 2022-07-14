@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FAD5753B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:04:25 +0200 (CEST)
-Received: from localhost ([::1]:42026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DF7575392
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 19:00:01 +0200 (CEST)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC2GH-0005YQ-3l
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 13:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
+	id 1oC2Bz-0008Af-VB
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:59:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oC0ES-0000oT-7o
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:27 -0400
-Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:45172)
+ id 1oC0EW-0000pB-2n
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:28 -0400
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:25103)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oC0EQ-0002nT-HP
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:23 -0400
+ id 1oC0ER-0002ne-CG
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 10:54:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657810462; x=1689346462;
+ t=1657810463; x=1689346463;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=hapmOFEwmUHGSMahVEGMQVUPE796CbuBCALsQKsJHd4=;
- b=SIrQglTgXcarfFJG9MYtNj8LzXWB4v3sVrVmNSblwUx4u4uzWrcu4lsn
- 8r7/BwArc6V89fMj27PPY4EgsjEpNQMt3b5bapnUe6FZ7W6qXTN8UzZCt
- A4gPD/r1qFIIkVREvNfHVPt22V88FKwOzcJ23Yv9bfHYyZN0tqwXOJK2Q 4=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jul 2022 07:54:19 -0700
+ bh=mHA/nDANSKO6f7f7OE+vPT+o8Wzdtzy5h+x99U0qEVs=;
+ b=L/yaAYR1ZDRaM+FMN1M2R3agOZ3zSMAWCrXbVdfiy6c0IxX9ZeNS54+1
+ V/sNZubwUb36b0fIIaMoC17xO7m3YjzpuQL/8Mc2f8qLRot0jlxVOTSs5
+ 80cQhewd4zWrX1KmU2mjofbWDRkScB0xeflzU97FVLue6tnIyD8gFWG1k M=;
+Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
+ by alexa-out-sd-01.qualcomm.com with ESMTP; 14 Jul 2022 07:54:22 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 07:54:19 -0700
+ by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Jul 2022 07:54:22 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:54:19 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:54:22 -0700
 Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 07:54:18 -0700
+ 15.2.986.22; Thu, 14 Jul 2022 07:54:20 -0700
 From: Tobias Roehmel <quic_trohmel@quicinc.com>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <quic_trohmel@quicinc.com>
-Subject: [PATCH 05/11] target/arm: Make stage_2_format for cache attributes
- optional
-Date: Thu, 14 Jul 2022 16:53:49 +0200
-Message-ID: <20220714145355.7225-6-quic_trohmel@quicinc.com>
+Subject: [PATCH 07/11] target/arm: Enable TTBCR_EAE for ARM_FEATURE_V8_R
+Date: Thu, 14 Jul 2022 16:53:51 +0200
+Message-ID: <20220714145355.7225-8-quic_trohmel@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220714145355.7225-1-quic_trohmel@quicinc.com>
 References: <20220714145355.7225-1-quic_trohmel@quicinc.com>
@@ -86,48 +85,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tobias Röhmel <quic_trohmel@quicinc.com>
 
-The Cortex-R52 has a 2 stage MPU translation process but doesn't have the FEAT_S2FWB feature. This makes it neccessary to allow for the old cache attribut combination.
-This is facilitated by changing the control path of combine_cacheattrs instead of failing if the second cache attributes struct is not in that format.
+Enable TTBCR_EAE during reset since it's always set to 1 for Cortex-R52.
+See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
+AArch32 architecture profile Version:A.c section C1.2.
 
 Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
 ---
- target/arm/ptw.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ target/arm/cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 4d97a24808..8b037c1f55 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -2108,7 +2108,11 @@ static uint8_t combined_attrs_nofwb(CPUARMState *env,
- {
-     uint8_t s1lo, s2lo, s1hi, s2hi, s2_mair_attrs, ret_attrs;
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2c26a5387d..121fc2a819 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -261,6 +261,9 @@ static void arm_cpu_reset(DeviceState *dev)
+         if (arm_feature(env, ARM_FEATURE_V8_R)) {
+             env->cp15.rvbar = cpu->rvbar_prop;
+             env->regs[15] = cpu->rvbar_prop;
++            env->cp15.tcr_el[0].raw_tcr = TTBCR_EAE;
++            env->cp15.tcr_el[1].raw_tcr = TTBCR_EAE;
++            env->cp15.tcr_el[2].raw_tcr = TTBCR_EAE;
+         }
+     }
  
--    s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
-+    if (s2.is_s2_format) {
-+        s2_mair_attrs = convert_stage2_attrs(env, s2.attrs);
-+    } else {
-+        s2_mair_attrs = s2.attrs;
-+    }
- 
-     s1lo = extract32(s1.attrs, 0, 4);
-     s2lo = extract32(s2_mair_attrs, 0, 4);
-@@ -2166,6 +2170,8 @@ static uint8_t force_cacheattr_nibble_wb(uint8_t attr)
- static uint8_t combined_attrs_fwb(CPUARMState *env,
-                                   ARMCacheAttrs s1, ARMCacheAttrs s2)
- {
-+    assert(s2.is_s2_format && !s1.is_s2_format);
-+
-     switch (s2.attrs) {
-     case 7:
-         /* Use stage 1 attributes */
-@@ -2215,7 +2221,6 @@ static ARMCacheAttrs combine_cacheattrs(CPUARMState *env,
-     ARMCacheAttrs ret;
-     bool tagged = false;
- 
--    assert(s2.is_s2_format && !s1.is_s2_format);
-     ret.is_s2_format = false;
- 
-     if (s1.attrs == 0xf0) {
 -- 
 2.25.1
 
