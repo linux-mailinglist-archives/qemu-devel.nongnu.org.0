@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72463575181
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:14:32 +0200 (CEST)
-Received: from localhost ([::1]:46624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1373E575182
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:14:41 +0200 (CEST)
+Received: from localhost ([::1]:46808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC0Xv-0002nK-6x
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
+	id 1oC0Y3-0002vi-VY
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oC0RV-0005Jk-AP
+ id 1oC0RV-0005MT-Nw
  for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:07:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49156)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oC0RO-0000RS-C9
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:07:51 -0400
+ id 1oC0RQ-0000Ri-08
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:07:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657811264;
+ s=mimecast20190719; t=1657811267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=w3qFBJ4lZKPtX8B25djV/LPhr1pfsJvM9Pvk5hSVTFs=;
- b=MfnKm7Pb7agpxP14EWtY1iSvnNBMp33Put/Cn9w7lDv0uKi0siWuL4EWQc8p47xuNGRyM2
- ofs804489PFI5Jn6UBd2OjNwqnzuOx/VkCEtSQ6QIYyLze0PJWxc4p3q95dl493HgCgwNC
- Skd594kC/1dnsdhFgPSIam+g7y8Og8g=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xHlnVLDD50+AMq+R96FEN4NDKh0OfZSxWHH0hVRtk0U=;
+ b=FL2Q/ryrJXtASIGoqEgG66N+vntgsWTwIO7UwaokPGtlncGyDxsontzgFlJ8xqCQXqMbnS
+ thXFjnfiHb7s5W1nTSO+duiadOW0IHE/i6+39hJ188lSc0nE0ssZWHu5LQywbwZ2yz0R5A
+ UK2FumnAFesnrOGkUHHfqk1JBe9LdA0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-643-CCwJ4NcYMWSlE0ZXqGRmug-1; Thu, 14 Jul 2022 11:07:40 -0400
-X-MC-Unique: CCwJ4NcYMWSlE0ZXqGRmug-1
+ us-mta-591-4Fy5zrzQNhKQdGr1GFDFhA-1; Thu, 14 Jul 2022 11:07:43 -0400
+X-MC-Unique: 4Fy5zrzQNhKQdGr1GFDFhA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D70E188499F;
- Thu, 14 Jul 2022 15:07:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 35EDC85A588;
+ Thu, 14 Jul 2022 15:07:43 +0000 (UTC)
 Received: from localhost.localdomain.com (unknown [10.33.36.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4D6D12166B2A;
- Thu, 14 Jul 2022 15:07:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D3F82166B26;
+ Thu, 14 Jul 2022 15:07:40 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
@@ -49,11 +50,13 @@ Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
  Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 0/3] target: RFC: display deprecation note for '-cpu help'
-Date: Thu, 14 Jul 2022 16:07:32 +0100
-Message-Id: <20220714150735.1835166-1-berrange@redhat.com>
+Subject: [PATCH 1/3] target/i386: display deprecation note in '-cpu help'
+Date: Thu, 14 Jul 2022 16:07:33 +0100
+Message-Id: <20220714150735.1835166-2-berrange@redhat.com>
+In-Reply-To: <20220714150735.1835166-1-berrange@redhat.com>
+References: <20220714150735.1835166-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
@@ -80,66 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When querying '-cpu help' there is no presentation of fact that a
-CPU may be deprecated. The user just has to try it and see if they
-get a depecation message at runtime.  The QMP command for querying
-CPUs report a deprecation bool flag, but not the explanatory
-reason.
+The deprecation notes are currently only displayed at runtime when the
+user activates a CPU. The QMP query displays a simple flag for
+deprecation, while '-cpu help' displays nothing unless the deprecation
+info is duplicated into the 'notes' field.
 
-The Icelake-Client CPU (removed in 6df39f5e583ca0f67bd934d1327f9ead2e3bd49c)
-handled this by modifying the '.notes' section to add the word
-'deprecated':
+This changes the code so that deprecation notes are explicitly shown
+in '-cpu help', to assist the user in deciding what to use.
 
-            {
-                .version = 2,
-                .note = "no TSX, deprecated",
-                .alias = "Icelake-Client-noTSX",
-                .props = (PropValue[]) {
-                    { "hle", "off" },
-                    { "rtm", "off" },
-                    { /* end of list */ }
-                },
-            },
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ target/i386/cpu.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-This relies on the person deprecating the CPU to remember to do this,
-and is redundant when this info is already expressed in the
-'.deprecation_note' field.
-
-This short series suggests just modifying the '-cpu help'
-formatter so that it displays the full deprecation message
-
-eg
-
-$ qemu-system-x86_64 -cpu help:
-Available CPUs:
-x86 486                   (alias configured by machine type) (deprecated: use at least 'Nehalem' / 'Opteron_G4', or 'host' / 'max')
-
-I wonder if this is too verbose, and we should just do a
-concise flag like approach, similar to QMP:
-
-$ qemu-system-x86_64 -cpu help:
-Available CPUs:
-x86 486                   (alias configured by machine type) (deprecated)
-
-leaving the full message to be displayed at runtime ? I'm slightly
-inclined to the simpler more concise output.
-
-This series touched x86_64, s390x, and aarch64 because that's all I
-personally needed from a downstream POV, but any & all of the targets
-would benefit from this. They have each implemneted the '-cpu help'
-logic independantly though, and unifying that code is not entirely
-straightforward.
-
-Daniel P. Berrangé (3):
-  target/i386: display deprecation note in '-cpu help'
-  target/s390x: display deprecation note in '-cpu help'
-  target/arm: display deprecation note in '-cpu help'
-
- target/arm/helper.c       | 10 +++++++++-
- target/i386/cpu.c         | 13 ++++++++++++-
- target/s390x/cpu_models.c | 28 +++++++++++++++++++++++-----
- 3 files changed, 44 insertions(+), 7 deletions(-)
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 6a57ef13af..a2c5dcfc04 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4833,10 +4833,21 @@ static void x86_cpu_list_entry(gpointer data, gpointer user_data)
+     if (!desc && cc->model && cc->model->note) {
+         desc = g_strdup_printf("%s [%s]", model_id, cc->model->note);
+     }
+-    if (!desc) {
++    if (!desc && *model_id) {
+         desc = g_strdup_printf("%s", model_id);
+     }
+ 
++    if (cc->model && cc->model->cpudef->deprecation_note) {
++        g_autofree char *dep = g_strdup_printf(
++            "(deprecated: %s)", cc->model->cpudef->deprecation_note);
++        if (desc) {
++            g_autofree char *olddesc = desc;
++            desc = g_strdup_printf("%s %s", olddesc, dep);
++        } else {
++            desc = g_steal_pointer(&dep);
++        }
++    }
++
+     qemu_printf("x86 %-20s  %s\n", name, desc);
+ }
+ 
 -- 
 2.36.1
 
