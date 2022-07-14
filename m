@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0188E5751DB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:34:59 +0200 (CEST)
-Received: from localhost ([::1]:45818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6881C575211
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:41:27 +0200 (CEST)
+Received: from localhost ([::1]:53588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC0rg-0005UE-Oe
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49670)
+	id 1oC0xx-0001fN-VB
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC0mZ-0002Cn-LV
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:29:39 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:44638)
+ id 1oC0s3-0005uj-O3
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:35:21 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:42546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC0mY-00061t-4C
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:29:39 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id h62so3755216ybb.11
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:29:37 -0700 (PDT)
+ id 1oC0rz-000751-9N
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:35:16 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id c131so3099788ybf.9
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:35:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=GGMIvLiVOczbGSd7fOeONGP1NijeltCC6lPx8i4VGzU=;
- b=QLg5eAmtNudSMAM5q8RgyHAFhPFMciXz3BWKERRuptTabnxyF44n9+SkHbKSiN9vI6
- z4bFJtkiBiAfsj+aA8n8y8oTU75P9R2CddjgoTPkuHmqskr0Xut9uzLeTkHSgQlmj0lW
- gZ7KbgpNjCj38kZjad4gocsY36V0IGeQVPt837w0B9hBvkv3PXQgaXYWzJka6ajunhnD
- 8ylDa7CfslX1Kj9qcgbJBXK66HCMs8+YFPVYSn7yTsR6c+XwcT4RCuT8V3JhxZ9gt/ZD
- Sy4vpVjCvHqsvUC7bAuVoG/+PCIMxP8BUz/8WByHu0KFNBDlvaXU7kTW1SRkiRD1PbZ3
- 7ukw==
+ bh=LK+VjHNBgywZePrrnkYNPsVIBgFiCvfCzaxqX9pXLeU=;
+ b=t15fV5v6OddkXHLjPofzLNyVvxwN5RwDUCvGcmr0DaBtU59u8LYqH7KKisk/1OIQIr
+ lhUzdamfOK+iPSubg7KAo5NNdZ3J1sgSE2aqRn6S9JGaUiO07/J5iZNuVoi6S0IeGug2
+ 1yN7rRcnwwKh+BvCZXgooSmhbXI1cQK60Cw3VkkmuqLB7ZwX944ReOOPR0kqygYk2sXJ
+ C6YthYYp2BHuzigWQLiA6FK+UagGl+aVU3WQ34LWaSIs1NTnCdW8X7tTdnO99aNm1nHd
+ qEWRw4j1tpHobH2Z4kLTpjXK13kFLH+B3AtqpOJ/+jc7N5w8pF0HLeESvb0ogcO3l+yF
+ hdBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=GGMIvLiVOczbGSd7fOeONGP1NijeltCC6lPx8i4VGzU=;
- b=bjxHBXH1n44nqpLlPogdax3bgIujijX2zE1tj83f7TgXAoNp1761/JHenwsgu9irjY
- zs7x9DEAaTbVoxhCV8l0McxyTK6HmDn4tE9WPXubNEzcXaSiUxk4EtxgNKfzc5jvWV/+
- FFNQ6N18/o78sBQ4h4k2PhuLl/r913dX44PyZPBJ75X39USYhW/loImc1V3egCZd2OFp
- d9P/EI+1I3cIVtcWxF0NJ/dtp/Hhnm2D/HSCNGj6h7yMCMAuy3/qPQUjk4LnToVbaUuA
- AG8v0YDIWyCiZgcylgvPrxxFkaivfn/xSOcSpFUitsD4PFuLkuBiIaQQTbxTJWVM2HJB
- OCdg==
-X-Gm-Message-State: AJIora/gBe8zUTZdLLg+ofS1plTP6Zv98bm5aFWrG6hfnMbpM9CCODrS
- 6GwWwfrTm6JPmW26EC/nHNFVGDwd+1GktuEp0OPE1w==
-X-Google-Smtp-Source: AGRyM1sVgfT/ptOpXt1G5Ge6qIEPn0ESbHqHAMHtb6EmfR6sab9M3LvHN+ZdDxbTS07AmjnhVy+228o3f+REiX8IgGs=
-X-Received: by 2002:a25:bfc7:0:b0:66f:563c:d2e7 with SMTP id
- q7-20020a25bfc7000000b0066f563cd2e7mr9140107ybm.288.1657812575862; Thu, 14
- Jul 2022 08:29:35 -0700 (PDT)
+ bh=LK+VjHNBgywZePrrnkYNPsVIBgFiCvfCzaxqX9pXLeU=;
+ b=TtOYg5nk3Y1F/03THP+fDEQisC+v3lKvTSgLhCR4fdE+YdaFSmu1uCsm//ohmFw11I
+ pj3cntsiS24tkGdzUCKyxMe62OKRA8cOtVLvRGsPKh7VUlziOGFmnkXZLH8nYKF34YDW
+ iwnNJsUVhfWGjvxyhRGzmYdHgphs8VpmuMZjCjyFFQTUTxpbhoVB6E+kLwkKNQQm1Obp
+ hto8aiK83vY5L+YchLqZZf+vE7bPGyhn8FuEku0hDUeQiUBF3QkZLpEG9+tN99mdpoj3
+ hlwZOnIZsgHD0vbaK+eKUcaBmvXsChifTuIBNs2P9UELbo4GlaBcPtd8N2XzvnGwxC22
+ 7TEg==
+X-Gm-Message-State: AJIora989FHHNSDYMyI46f90Pv87FECrM4rGyPvGPofpP1WNHST/wKRF
+ NO+rCJeDz7Zog/ClQiZiGEChW+VvUpQO0FwsOxqtuA==
+X-Google-Smtp-Source: AGRyM1u+tWnqVmWUEMwb4nL7S5puFTrfVgBGBc07M6jcPOORslbv0X0/IikniH+SnSBPKOE2XKA5pZSX0ui1w6HZJxA=
+X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
+ j11-20020a25230b000000b0066ee008a76bmr9785622ybj.479.1657812912097; Thu, 14
+ Jul 2022 08:35:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220714145355.7225-1-quic_trohmel@quicinc.com>
- <20220714145355.7225-5-quic_trohmel@quicinc.com>
-In-Reply-To: <20220714145355.7225-5-quic_trohmel@quicinc.com>
+ <20220714145355.7225-8-quic_trohmel@quicinc.com>
+In-Reply-To: <20220714145355.7225-8-quic_trohmel@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 16:28:57 +0100
-Message-ID: <CAFEAcA9wTophc8NwF2v2Ue+qWkwECKmvp2xJ_d1gjpDDjdTUuA@mail.gmail.com>
-Subject: Re: [PATCH 04/11] target/arm: Make RVBAR available for non AARCH64
- CPUs
+Date: Thu, 14 Jul 2022 16:34:33 +0100
+Message-ID: <CAFEAcA9H5tdkkmS3C7Zb9ufQ=6QP_UZkjn-4nM+A3fzF_Yq0pQ@mail.gmail.com>
+Subject: Re: [PATCH 07/11] target/arm: Enable TTBCR_EAE for ARM_FEATURE_V8_R
 To: Tobias Roehmel <quic_trohmel@quicinc.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,48 +89,33 @@ te:
 >
 > From: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
 >
-> The ARM Cortex-R52 is not AARCH64 but uses RVBAR.
+> Enable TTBCR_EAE during reset since it's always set to 1 for Cortex-R52.
+> See ARM Architecture Reference Manual Supplement - ARMv8, for the ARMv8-R
+> AArch32 architecture profile Version:A.c section C1.2.
 >
 > Signed-off-by: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
 > ---
->  target/arm/cpu.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  target/arm/cpu.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >
 > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 1b5d535788..2c26a5387d 100644
+> index 2c26a5387d..121fc2a819 100644
 > --- a/target/arm/cpu.c
 > +++ b/target/arm/cpu.c
-> @@ -258,6 +258,10 @@ static void arm_cpu_reset(DeviceState *dev)
->          env->cp15.cpacr_el1 =3D FIELD_DP64(env->cp15.cpacr_el1,
->                                           CPACR, CP11, 3);
->  #endif
-> +        if (arm_feature(env, ARM_FEATURE_V8_R)) {
-> +            env->cp15.rvbar =3D cpu->rvbar_prop;
-> +            env->regs[15] =3D cpu->rvbar_prop;
-> +        }
+> @@ -261,6 +261,9 @@ static void arm_cpu_reset(DeviceState *dev)
+>          if (arm_feature(env, ARM_FEATURE_V8_R)) {
+>              env->cp15.rvbar =3D cpu->rvbar_prop;
+>              env->regs[15] =3D cpu->rvbar_prop;
+> +            env->cp15.tcr_el[0].raw_tcr =3D TTBCR_EAE;
+> +            env->cp15.tcr_el[1].raw_tcr =3D TTBCR_EAE;
+> +            env->cp15.tcr_el[2].raw_tcr =3D TTBCR_EAE;
+>          }
 >      }
->
->  #if defined(CONFIG_USER_ONLY)
-> @@ -1273,7 +1277,8 @@ void arm_cpu_post_init(Object *obj)
->          qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_prop=
-erty);
->      }
->
-> -    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-> +    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64) ||
-> +        arm_feature(&cpu->env, ARM_FEATURE_V8_R)) {
 
-Rather than doing this, we should correct the feature bit
-being tested -- the RVBAR register itself is present on all
-v8 CPUs, so we should correspondingly provide the property on
-all v8 CPUs, by checking ARM_FEATURE_V8 (ie the same check we
-use for whether to add the RVBAR register definition).
+R-profile doesn't have a TTBCR, so I'm not sure this is the right way
+to handle this behaviour requirement... Probably extended_addresses_enabled=
+()
+and similar places should just return true for v8 PMSA.
 
->          object_property_add_uint64_ptr(obj, "rvbar",
->                                         &cpu->rvbar_prop,
->                                         OBJ_PROP_FLAG_READWRITE);
-> --
-
-thanks
 -- PMM
 
