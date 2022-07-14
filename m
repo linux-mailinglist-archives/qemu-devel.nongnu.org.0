@@ -2,71 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA81574F4E
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:37:52 +0200 (CEST)
-Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86D6574F4C
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 15:37:10 +0200 (CEST)
+Received: from localhost ([::1]:58050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBz2N-0003RI-Gd
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45934)
+	id 1oBz1h-0002oT-OI
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 09:37:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oByoG-0002P4-Eu
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:23:16 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33716)
+ id 1oByq0-0004FM-59
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:25:04 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:33631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oByoE-0004r7-KQ
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:23:16 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h17so2615480wrx.0
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 06:23:13 -0700 (PDT)
+ id 1oBypv-0000Er-Fe
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 09:25:03 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id y195so3258554yby.0
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 06:24:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zah1h9cYjHaav0SyBc/T7cche/sTMGE+QsjhBy4+l4c=;
- b=QT3Qjpb+nlLUtIoH5rQOnEQAyHNy4wvxkMYAd0nRGkOvdL/dDtVqs6cf7xf+KAw1fI
- zbjp91j+jyI/YGN904df0zfgel7YSPcbud5SsZ1muj2fRrqmzRDD+2Re31KuOuM8E0Bk
- VO95wrw5vLOPZgoAYjDyOcKUfP7xmmTRK+4RyLmkvy81NEfFx1IW+qI8eR38T5y62pZq
- c15EtMMFIA259jTJs7jpV3ftq9eRDFA6Dk+FvGfV93HwUeSrfQcQrGn0QGHY5KT2ehVA
- cHyMcBFxoQ9J6B3+KxhWZiDdsfnIjWZbpf5881kxIPEnFCSkgE+VJOOSerSE85j7+lMw
- j6DA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9aipFfxuSGHTprqSgKZTFQgdoeu77ZawRtLMvcQQYko=;
+ b=ocVvAcZpnQa/LhwqpRc9Kn3oOAYPxiGViB9+bGHYUYyCcYPXLqasyrohqjr2dunYgM
+ AvFsJQRPpaPDsfFZVkTlvEWvK76GzaHF4MUSJdaFzRsY7oCxzNmngOTSyhTaWdFRokL/
+ cnZs8lYbAg3504HGrxcIc4vYvK78UTigIbmF8PyoCG+6hCWmr+c3Fhh6V8h8vvMptxn1
+ sHNO1GvfGk0ZO2/5KD5P5VHzKRRcm5+J8pfh9RDQZ/3odhwXtX70o8ngXwmRedRGfdJa
+ PxyD/q4kX902HtHbpfFdk8/WxWwJm5p2TvRDvnZacQkkHQR9Nvo5LK6BbxpyfOLAWqGZ
+ CToQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zah1h9cYjHaav0SyBc/T7cche/sTMGE+QsjhBy4+l4c=;
- b=PDwYMMVvHFR9byw4/bllNkGHBoXko7UZJp+KEHsc4oW0s9S8g+MLTEOHKK05trLAuk
- fDgM64EoWNkTpSRrUp4jABDUYPdwMTAenFJDeh0TJXPt/K/9Ld4xH/DutKToc0tfHyG3
- H0a3avy3u48wvf0gM9XmRCdrQox0Uyy0BeII/RFGeorU5tYA2QxANRf7oimDbwK6vwUJ
- EndJZi3X0g+En36rq/o89Mra4XvjQ8ckZqmsOC+sLwkAyU3iYr0MbAWfwYVJvv+4V22r
- /E6VweLLjU36yppr2SpYFDYOKnXLUpHsQ4vM/SPxxEMzVz2fAag+iHb3A15Iry/YKrPI
- R6rQ==
-X-Gm-Message-State: AJIora9XsdMB+0V9Z/XADl7ZK9V87PgaKLpdtlmIQW4+KPWlhjhqzGJK
- cCpUQNBmda5ZEGb3AIVjVR+rKA==
-X-Google-Smtp-Source: AGRyM1uKy6I+a6N8DD1CQ1kYIG0RqzhEdWCuBIwWmbXJC3y6qghHiJzgM7S1yn00SMShEp7FIfaiRQ==
-X-Received: by 2002:a5d:5989:0:b0:21d:b2bd:d712 with SMTP id
- n9-20020a5d5989000000b0021db2bdd712mr8557460wri.698.1657804992250; 
- Thu, 14 Jul 2022 06:23:12 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- k11-20020a7bc40b000000b0039c5cecf206sm1925079wmi.4.2022.07.14.06.23.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 06:23:11 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Idan Horowitz <idan.horowitz@gmail.com>
-Subject: [PATCH 7/7] target/arm: Honour VTCR_EL2 bits in Secure EL2
-Date: Thu, 14 Jul 2022 14:23:03 +0100
-Message-Id: <20220714132303.1287193-8-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220714132303.1287193-1-peter.maydell@linaro.org>
-References: <20220714132303.1287193-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9aipFfxuSGHTprqSgKZTFQgdoeu77ZawRtLMvcQQYko=;
+ b=FNvQ/fDSItXQqnQBLDRhReVp1n1wYEEFOgq71xi3BhsJc5B7DC5uKHzTConpvSFL3f
+ G6c8U2UFsEfahTZjtewpk2EhFV6nUIBJuxKmMN+Q6zqB7ttOs1PN98gaJJ4/B/sLN+dE
+ Cj5eQBndNInTA1rfDBfUCXy5Y/DxAZ198s/2FTuNxUV0aOGwC4Vxxfm9np9IKb/JjKLp
+ LVtvIU9BRETtrXLJyoj9JI8hPdOqq0EYtFitxENyQRLFPAdxCX6upT37ySK6l9TKA1mt
+ q1e3g0mDS9MyKdG9u0e4+LqNLTh6oSq5kFqcCgEx6GsXwBaqCJY5TSGNn0D2cjsclWxc
+ 5zZw==
+X-Gm-Message-State: AJIora9Vz94SUMvIbQE+RiXkhsbIrpQ5j+E4VsK56+DNIZDN+9ug7FwC
+ zdsukl06EJfXA9ZFLwn60eEufF9PhRX8mw3H7Uaw5Q==
+X-Google-Smtp-Source: AGRyM1vRPAGHV5oI9SIYVzqO8BXvGHbtA8h2DL5LL6MaHISeB4cfrC4j/6gaKEtsuVwg1bTUmj6gW7qyCcgJ5DXNC5A=
+X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
+ e123-20020a25d381000000b0066e29431c9dmr8349339ybf.67.1657805096872; Thu, 14
+ Jul 2022 06:24:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220711044032-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220711044032-mutt-send-email-mst@kernel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 14 Jul 2022 14:24:18 +0100
+Message-ID: <CAFEAcA_KUh_Hmozw2KthwNoM2L9rnA18ttrk9GHHnJZ-X_M4yQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] Introduce new acpi/smbios python tests using
+ biosbits
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, qemu-devel@nongnu.org, thuth@redhat.com, 
+ berrange@redhat.com, jsnow@redhat.com, pbonzini@redhat.com, 
+ imammedo@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,96 +85,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In regime_tcr() we return the appropriate TCR register for the
-translation regime.  For Secure EL2, we return the VSTCR_EL2 value,
-but in this translation regime some fields that control behaviour are
-in VTCR_EL2.  When this code was originally written (as the comment
-notes), QEMU didn't care about any of those fields, but we have since
-added support for features such as LPA2 which do need the values from
-those fields.
+On Mon, 11 Jul 2022 at 10:34, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Sun, Jul 10, 2022 at 10:30:03PM +0530, Ani Sinha wrote:
+> > Changelog:
+> > v2:
+> >  - a new class of python based tests introduced that is separate from avocado
+> >    tests or qtests. Can be run by using "make check-pytest".
+> >  - acpi biosbits tests are the first tests to use pytest environment.
+> >  - bios bits tests now download the bits binary archives from a remote
+> >    repository if they are not found locally. The test skips if download
+> >    fails.
+> >  - A new environment variable is introduced that can be passed by the tester
+> >    to specify the location of the bits archives locally. test skips if the
+> >    bits binaries are not found in that location.
+> >  - if pip install of python module fails for whatever reaoson, the test skips.
+> >  - misc code fixes including spell check of the README doc. README has been
+> >    updated as well.
+> >  - addition of SPDX license headers to bits test files.
+> >  - update MAINTAINERS to reflect the new pytest test class.
+> >
+> > For biosbits repo:
+> >  - added Dockerfile and build script. Made bios bits build on gcc 11.
+> >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/Dockerfile
+> >    https://github.com/ani-sinha/bits/blob/bits-qemu-logging/build-artifacts.sh
+> >    The build script generates the zip archive and tarball used by the test.
+>
+> So far so good, I think it's ok for a start. It's probably a good idea
+> to host the source on qemu.org. Peter - any objection to this?
 
-Synthesize a TCR value by merging in the relevant VTCR_EL2 fields to
-the VSTCR_EL2 value.
+Dan was looking at v1 from the point of view of how we handle the
+guest binary blobs for these tests -- I'd rather defer to him rather
+than taking the time to get up to speed on the issue myself.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1103
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h       | 19 +++++++++++++++++++
- target/arm/internals.h | 22 +++++++++++++++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index bbd1afa6251..57b5dd1f70b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1412,6 +1412,25 @@ FIELD(CPTR_EL3, TCPAC, 31, 1)
- #define TTBCR_SH1    (1U << 28)
- #define TTBCR_EAE    (1U << 31)
- 
-+FIELD(VTCR, T0SZ, 0, 6)
-+FIELD(VTCR, SL0, 6, 2)
-+FIELD(VTCR, IRGN0, 8, 2)
-+FIELD(VTCR, ORGN0, 10, 2)
-+FIELD(VTCR, SH0, 12, 2)
-+FIELD(VTCR, TG0, 14, 2)
-+FIELD(VTCR, PS, 16, 3)
-+FIELD(VTCR, VS, 19, 1)
-+FIELD(VTCR, HA, 21, 1)
-+FIELD(VTCR, HD, 22, 1)
-+FIELD(VTCR, HWU59, 25, 1)
-+FIELD(VTCR, HWU60, 26, 1)
-+FIELD(VTCR, HWU61, 27, 1)
-+FIELD(VTCR, HWU62, 28, 1)
-+FIELD(VTCR, NSW, 29, 1)
-+FIELD(VTCR, NSA, 30, 1)
-+FIELD(VTCR, DS, 32, 1)
-+FIELD(VTCR, SL2, 33, 1)
-+
- /* Bit definitions for ARMv8 SPSR (PSTATE) format.
-  * Only these are valid when in AArch64 mode; in
-  * AArch32 mode SPSRs are basically CPSR-format.
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 742135ef146..b8fefdff675 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -777,6 +777,16 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return env->cp15.sctlr_el[regime_el(env, mmu_idx)];
- }
- 
-+/*
-+ * These are the fields in VTCR_EL2 which affect both the Secure stage 2
-+ * and the Non-Secure stage 2 translation regimes (and hence which are
-+ * not present in VSTCR_EL2).
-+ */
-+#define VTCR_SHARED_FIELD_MASK \
-+    (R_VTCR_IRGN0_MASK | R_VTCR_ORGN0_MASK | R_VTCR_SH0_MASK | \
-+     R_VTCR_PS_MASK | R_VTCR_VS_MASK | R_VTCR_HA_MASK | R_VTCR_HD_MASK | \
-+     R_VTCR_DS_MASK)
-+
- /* Return the value of the TCR controlling this translation regime */
- static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-@@ -785,10 +795,16 @@ static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
-     if (mmu_idx == ARMMMUIdx_Stage2_S) {
-         /*
--         * Note: Secure stage 2 nominally shares fields from VTCR_EL2, but
--         * those are not currently used by QEMU, so just return VSTCR_EL2.
-+         * Secure stage 2 shares fields from VTCR_EL2. We merge those
-+         * in with the VSTCR_EL2 value to synthesize a single VTCR_EL2 format
-+         * value so the callers don't need to special case this.
-+         *
-+         * If a future architecture change defines bits in VSTCR_EL2 that
-+         * overlap with these VTCR_EL2 fields we may need to revisit this.
-          */
--        return env->cp15.vstcr_el2;
-+        uint64_t v = env->cp15.vstcr_el2 & ~VTCR_SHARED_FIELD_MASK;
-+        v |= env->cp15.vtcr_el2 & VTCR_SHARED_FIELD_MASK;
-+        return v;
-     }
-     return env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
--- 
-2.25.1
-
+thanks
+-- PMM
 
