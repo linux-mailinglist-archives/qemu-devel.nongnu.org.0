@@ -2,88 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B245747D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:09:28 +0200 (CEST)
-Received: from localhost ([::1]:55314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41FA45747F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:12:13 +0200 (CEST)
+Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBuqd-0002N9-CS
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
+	id 1oButI-0005Sq-BC
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:12:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBujn-0004yS-3j
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56803)
+ id 1oBujn-00050s-Vt
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBujj-0005tC-CV
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:21 -0400
+ id 1oBujl-0005uO-LA
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657789338;
+ s=mimecast20190719; t=1657789340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/StMYsUR3T7ZIFnX+3IHWI68Ox7ds1R1I5k3Oio9zwQ=;
- b=cxVfnkisZZGdP+x+k0+NWrLObKjNL1Ec+EGAYSnlgGJYCZBMAE3lI6NCqeTFl0Cz3ELG8W
- ITLzb0v51swMratuFZBgDHKrTYbCSG20wBD8oh4M5I7QNgmqPIYCu8mEuaQYPNjQULrZgt
- EbVkRsZbIjivri2+1hGEp0RxkTtsLPI=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fX03v0kOkH7rjZboIn4udYC6Bm8zLRFu9JPvkv7s92s=;
+ b=dr98QUMLzqy5x/ecMJbL8/DuI7APbcNE5FnYIwtOTV2CZ1lNsD921AjE+rFwln+VoHQ9BZ
+ Naud8clZ+yjBqpXyMW6PRLxKhyhHZHsBTG3kQKzUL4H0T8q81pbb4bzC5OHRjRpcbVSiv0
+ iiZqPBikPgL8lJrLao4jdfzgg9zP0f8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-6C24Zz1INLqFRZx7LYWQYQ-1; Thu, 14 Jul 2022 05:02:17 -0400
-X-MC-Unique: 6C24Zz1INLqFRZx7LYWQYQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z5-20020a05640235c500b0043ae18edeeeso1109052edc.5
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:17 -0700 (PDT)
+ us-mta-77--iWUFzGwOOKGq5lizLeVCA-1; Thu, 14 Jul 2022 05:02:19 -0400
+X-MC-Unique: -iWUFzGwOOKGq5lizLeVCA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ m13-20020a056402430d00b0043ac2f27d83so1098907edc.20
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/StMYsUR3T7ZIFnX+3IHWI68Ox7ds1R1I5k3Oio9zwQ=;
- b=uMhdn8C1EQnq5Z1TAGOEKqwf5qk7YlvOE9+JgjLLYunS116ddNDiWA5kZ0YND02xkn
- mvU4EHlJ8+0tiH3AIOhq0KUb38a6SoMEAIwaKSC7RL7+f9/MnmUwBj2q+WUTB5qEKBjr
- UaHUWjyYl2lfOmRjKuDxH+wO7cSBW5m1i0qBjLBNnUzN7l+u7zyfvrXpy9tE6zgG+L/W
- ZSXjghsZkZCVSRgRIBYrQQPYr3WrIXbnEpDbtDCex70v9iqgTHLIfTtZMB5I6QqcrRpR
- W4JgpAryFoQ58Cb1G0TIiDAZqDBeqYS5qXaw6fnvwjYeRlxxf24DZJu5QPz40/ag7VDj
- ZXhQ==
-X-Gm-Message-State: AJIora8Ufuaf5anpcSyTYUS+Z7uwpE3Yya1JKnEGD1WiH8IF3XTXhHLo
- RGdnN/rryrdT99ljXHrPFq5nGHcmDTc8MID9bzKZw/LdI5eI8WT9LSOs03G+12teFANpVuF3rtb
- iKy0a5AUY7Kn2KMFJPRZ/iRrKKKAwv0NSSG9Ae9oLxXDqYNDPLWdSJddy1/rHzCE74hc=
-X-Received: by 2002:a17:907:2855:b0:72b:700e:21eb with SMTP id
- el21-20020a170907285500b0072b700e21ebmr7730060ejc.270.1657789335971; 
- Thu, 14 Jul 2022 02:02:15 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ukoh8+chckfjRMfXdK0zR1Mxxt7xqvPraXUcDR+hbEP858NgtYwm+NzKKaTddGPmiBngZPcQ==
-X-Received: by 2002:a17:907:2855:b0:72b:700e:21eb with SMTP id
- el21-20020a170907285500b0072b700e21ebmr7730033ejc.270.1657789335672; 
- Thu, 14 Jul 2022 02:02:15 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- m20-20020a170906721400b0071cbc7487e0sm452770ejk.71.2022.07.14.02.02.14
+ bh=fX03v0kOkH7rjZboIn4udYC6Bm8zLRFu9JPvkv7s92s=;
+ b=oJ4eH9ZBNp9dog1SCnul2RF5RTOne0oIiMTWtEHcibrGYPmXhqY4DA7aalWSLP4GYI
+ /9GgCmLtSpuJLnQWWHVb9kXgN9JaTgwmz9yYuPkIgBMPO22K/l28XTOFRzeVfmZE4Pph
+ LS6sjOpnJcKa7pdq67o1p7xrZMER54dOzS6w8LH8UhYt62tk0ZEAoqWyDA5wjlj+QaWK
+ OmNiFuU2t48nix94so2hggkabUvzD4LBGACC6RjsIO21//kvCpzeV/qfYDIkfm51RNOa
+ 8Bu/9rX6Ln3IU+azItEbTTQ46pUY6dkFnfEnASOpL3/3ntHZfqTjWebbWuRjaPLIOeBZ
+ 8Wxw==
+X-Gm-Message-State: AJIora9v081t0+opqcBKVx6TFfdte3PzqzSJWR+fwN8IPNSl+qggQRWJ
+ afb1piuYHBFnhtjB3eQR2ng7DF4u0ePEcQzIstpyndzOX/8nuXIDOAP3NxXuxblc+mpJ54o/lYc
+ q40NIZh6UCd6re9VJO99G1eF/0/cQI4vM0T7/6quOqJ9qTKIK92KtHJg6l8tN71OIDwA=
+X-Received: by 2002:a05:6402:42c8:b0:43a:a1ee:a097 with SMTP id
+ i8-20020a05640242c800b0043aa1eea097mr10826056edc.150.1657789337772; 
+ Thu, 14 Jul 2022 02:02:17 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t8mcBP6RVEwVkjfl0g6SDFObhG/kl39YNBjb5ls03fDdfQrUyNAmpr6ZwH4rV+EX/x90MLyA==
+X-Received: by 2002:a05:6402:42c8:b0:43a:a1ee:a097 with SMTP id
+ i8-20020a05640242c800b0043aa1eea097mr10826026edc.150.1657789337396; 
+ Thu, 14 Jul 2022 02:02:17 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020a170906038600b00711edab7622sm455347eja.40.2022.07.14.02.02.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:02:14 -0700 (PDT)
+ Thu, 14 Jul 2022 02:02:16 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 01/20] scsi/lsi53c895a: really fix use-after-free in
- lsi_do_msgout (CVE-2022-0216)
-Date: Thu, 14 Jul 2022 11:01:52 +0200
-Message-Id: <20220714090211.304305-2-pbonzini@redhat.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PULL 02/20] cutils: Introduce bundle mechanism
+Date: Thu, 14 Jul 2022 11:01:53 +0200
+Message-Id: <20220714090211.304305-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220714090211.304305-1-pbonzini@redhat.com>
 References: <20220714090211.304305-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,140 +99,258 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mauro Matteo Cascella <mcascell@redhat.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Set current_req to NULL, not current_req->req, to prevent reusing a free'd
-buffer in case of repeated SCSI cancel requests.  Also apply the fix to
-CLEAR QUEUE and BUS DEVICE RESET messages as well, since they also cancel
-the request.
+Developers often run QEMU without installing. The bundle mechanism
+allows to look up files which should be present in installation even in
+such a situation.
 
-Thanks to Alexander Bulekov for providing a reproducer.
+It is a general mechanism and can find any files in the installation
+tree. The build tree will have a new directory, qemu-bundle, to
+represent what files the installation tree would have for reference by
+the executables.
 
-Fixes: CVE-2022-0216
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/972
-Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
-Tested-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20220711123316.421279-1-mcascell@redhat.com>
+Note that it abandons compatibility with Windows older than 8. The
+extended support for the prior version, 7 ended more than 2 years ago,
+and it is unlikely that someone would like to run the latest QEMU on
+such an old system.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20220624145039.49929-3-akihiko.odaki@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/lsi53c895a.c               |  3 +-
- tests/qtest/fuzz-lsi53c895a-test.c | 76 ++++++++++++++++++++++++++++++
- 2 files changed, 78 insertions(+), 1 deletion(-)
+ Makefile                        |  2 +-
+ docs/about/build-platforms.rst  |  2 +-
+ include/qemu/cutils.h           | 18 +++++++--
+ meson.build                     |  4 ++
+ scripts/symlink-install-tree.py | 33 +++++++++++++++++
+ util/cutils.c                   | 66 +++++++++++++++++++++++----------
+ util/meson.build                |  1 +
+ 7 files changed, 101 insertions(+), 25 deletions(-)
+ create mode 100644 scripts/symlink-install-tree.py
 
-diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-index 99ea42d49b..ad5f5e5f39 100644
---- a/hw/scsi/lsi53c895a.c
-+++ b/hw/scsi/lsi53c895a.c
-@@ -1030,7 +1030,7 @@ static void lsi_do_msgout(LSIState *s)
-             trace_lsi_do_msgout_abort(current_tag);
-             if (current_req && current_req->req) {
-                 scsi_req_cancel(current_req->req);
--                current_req->req = NULL;
-+                current_req = NULL;
-             }
-             lsi_disconnect(s);
-             break;
-@@ -1056,6 +1056,7 @@ static void lsi_do_msgout(LSIState *s)
-             /* clear the current I/O process */
-             if (s->current) {
-                 scsi_req_cancel(s->current->req);
-+                current_req = NULL;
-             }
+diff --git a/Makefile b/Makefile
+index b4feda93c8..13234f2aa4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -216,7 +216,7 @@ qemu-%.tar.bz2:
  
-             /* As the current implemented devices scsi_disk and scsi_generic
-diff --git a/tests/qtest/fuzz-lsi53c895a-test.c b/tests/qtest/fuzz-lsi53c895a-test.c
-index 2e8e67859e..b23d3ecf45 100644
---- a/tests/qtest/fuzz-lsi53c895a-test.c
-+++ b/tests/qtest/fuzz-lsi53c895a-test.c
-@@ -8,6 +8,79 @@
- #include "qemu/osdep.h"
- #include "libqtest.h"
+ distclean: clean
+ 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
+-	rm -f config-host.mak
++	rm -f config-host.mak qemu-bundle
+ 	rm -f tests/tcg/config-*.mak
+ 	rm -f config.status
+ 	rm -f roms/seabios/config.mak
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index 1958edb430..ebde20f981 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -88,7 +88,7 @@ Windows
  
-+/*
-+ * This used to trigger a UAF in lsi_do_msgout()
-+ * https://gitlab.com/qemu-project/qemu/-/issues/972
-+ */
-+static void test_lsi_do_msgout_cancel_req(void)
-+{
-+    QTestState *s;
-+
-+    if (sizeof(void *) == 4) {
-+        g_test_skip("memory size too big for 32-bit build");
-+        return;
-+    }
-+
-+    s = qtest_init("-M q35 -m 4G -display none -nodefaults "
-+                   "-device lsi53c895a,id=scsi "
-+                   "-device scsi-hd,drive=disk0 "
-+                   "-drive file=null-co://,id=disk0,if=none,format=raw");
-+
-+    qtest_outl(s, 0xcf8, 0x80000810);
-+    qtest_outl(s, 0xcf8, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80000810);
-+    qtest_outw(s, 0xcfc, 0x7);
-+    qtest_outl(s, 0xcf8, 0x80000810);
-+    qtest_outl(s, 0xcfc, 0xc000);
-+    qtest_outl(s, 0xcf8, 0x80000804);
-+    qtest_outw(s, 0xcfc, 0x05);
-+    qtest_writeb(s, 0x69736c10, 0x08);
-+    qtest_writeb(s, 0x69736c13, 0x58);
-+    qtest_writeb(s, 0x69736c1a, 0x01);
-+    qtest_writeb(s, 0x69736c1b, 0x06);
-+    qtest_writeb(s, 0x69736c22, 0x01);
-+    qtest_writeb(s, 0x69736c23, 0x07);
-+    qtest_writeb(s, 0x69736c2b, 0x02);
-+    qtest_writeb(s, 0x69736c48, 0x08);
-+    qtest_writeb(s, 0x69736c4b, 0x58);
-+    qtest_writeb(s, 0x69736c52, 0x04);
-+    qtest_writeb(s, 0x69736c53, 0x06);
-+    qtest_writeb(s, 0x69736c5b, 0x02);
-+    qtest_outl(s, 0xc02d, 0x697300);
-+    qtest_writeb(s, 0x5a554662, 0x01);
-+    qtest_writeb(s, 0x5a554663, 0x07);
-+    qtest_writeb(s, 0x5a55466a, 0x10);
-+    qtest_writeb(s, 0x5a55466b, 0x22);
-+    qtest_writeb(s, 0x5a55466c, 0x5a);
-+    qtest_writeb(s, 0x5a55466d, 0x5a);
-+    qtest_writeb(s, 0x5a55466e, 0x34);
-+    qtest_writeb(s, 0x5a55466f, 0x5a);
-+    qtest_writeb(s, 0x5a345a5a, 0x77);
-+    qtest_writeb(s, 0x5a345a5b, 0x55);
-+    qtest_writeb(s, 0x5a345a5c, 0x51);
-+    qtest_writeb(s, 0x5a345a5d, 0x27);
-+    qtest_writeb(s, 0x27515577, 0x41);
-+    qtest_outl(s, 0xc02d, 0x5a5500);
-+    qtest_writeb(s, 0x364001d0, 0x08);
-+    qtest_writeb(s, 0x364001d3, 0x58);
-+    qtest_writeb(s, 0x364001da, 0x01);
-+    qtest_writeb(s, 0x364001db, 0x26);
-+    qtest_writeb(s, 0x364001dc, 0x0d);
-+    qtest_writeb(s, 0x364001dd, 0xae);
-+    qtest_writeb(s, 0x364001de, 0x41);
-+    qtest_writeb(s, 0x364001df, 0x5a);
-+    qtest_writeb(s, 0x5a41ae0d, 0xf8);
-+    qtest_writeb(s, 0x5a41ae0e, 0x36);
-+    qtest_writeb(s, 0x5a41ae0f, 0xd7);
-+    qtest_writeb(s, 0x5a41ae10, 0x36);
-+    qtest_writeb(s, 0x36d736f8, 0x0c);
-+    qtest_writeb(s, 0x36d736f9, 0x80);
-+    qtest_writeb(s, 0x36d736fa, 0x0d);
-+    qtest_outl(s, 0xc02d, 0x364000);
-+
-+    qtest_quit(s);
-+}
-+
- /*
-  * This used to trigger the assert in lsi_do_dma()
-  * https://bugs.launchpad.net/qemu/+bug/697510
-@@ -44,5 +117,8 @@ int main(int argc, char **argv)
-     qtest_add_func("fuzz/lsi53c895a/lsi_do_dma_empty_queue",
-                    test_lsi_do_dma_empty_queue);
+ The project aims to support the two most recent versions of Windows that are
+ still supported by the vendor. The minimum Windows API that is currently
+-targeted is "Windows 7", so theoretically the QEMU binaries can still be run
++targeted is "Windows 8", so theoretically the QEMU binaries can still be run
+ on older versions of Windows, too. However, such old versions of Windows are
+ not tested anymore, so it is recommended to use one of the latest versions of
+ Windows instead.
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index d3e532b64c..92c436d8c7 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -224,9 +224,21 @@ const char *qemu_get_exec_dir(void);
+  * @dir: the directory (typically a `CONFIG_*DIR` variable) to be relocated.
+  *
+  * Returns a path for @dir that uses the directory of the running executable
+- * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
+- * `/usr/share/qemu`, the function will append `../share/qemu` to the
+- * directory that contains the running executable and return the result.
++ * as the prefix.
++ *
++ * When a directory named `qemu-bundle` exists in the directory of the running
++ * executable, the path to the directory will be prepended to @dir. For
++ * example, if the directory of the running executable is `/qemu/build` @dir
++ * is `/usr/share/qemu`, the result will be
++ * `/qemu/build/qemu-bundle/usr/share/qemu`. The directory is expected to exist
++ * in the build tree.
++ *
++ * Otherwise, the directory of the running executable will be used as the
++ * prefix and it appends the relative path from `bindir` to @dir. For example,
++ * if the directory of the running executable is `/opt/qemu/bin`, `bindir` is
++ * `/usr/bin` and @dir is `/usr/share/qemu`, the result will be
++ * `/opt/qemu/bin/../share/qemu`.
++ *
+  * The returned string should be freed by the caller.
+  */
+ char *get_relocated_path(const char *dir);
+diff --git a/meson.build b/meson.build
+index ad92d288a6..da76edc7c7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -7,6 +7,8 @@ add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
+ add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
+ add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
  
-+    qtest_add_func("fuzz/lsi53c895a/lsi_do_msgout_cancel_req",
-+                   test_lsi_do_msgout_cancel_req);
++meson.add_postconf_script(find_program('scripts/symlink-install-tree.py'))
 +
-     return g_test_run();
+ not_found = dependency('', required: false)
+ keyval = import('keyval')
+ ss = import('sourceset')
+@@ -356,10 +358,12 @@ nvmm =not_found
+ hvf = not_found
+ midl = not_found
+ widl = not_found
++pathcch = not_found
+ host_dsosuf = '.so'
+ if targetos == 'windows'
+   midl = find_program('midl', required: false)
+   widl = find_program('widl', required: false)
++  pathcch = cc.find_library('pathcch')
+   socket = cc.find_library('ws2_32')
+   winmm = cc.find_library('winmm')
+ 
+diff --git a/scripts/symlink-install-tree.py b/scripts/symlink-install-tree.py
+new file mode 100644
+index 0000000000..a5bf0b0d6d
+--- /dev/null
++++ b/scripts/symlink-install-tree.py
+@@ -0,0 +1,33 @@
++#!/usr/bin/env python3
++
++from pathlib import PurePath
++import errno
++import json
++import os
++import subprocess
++import sys
++
++def destdir_join(d1: str, d2: str) -> str:
++    if not d1:
++        return d2
++    # c:\destdir + c:\prefix must produce c:\destdir\prefix
++    return str(PurePath(d1, *PurePath(d2).parts[1:]))
++
++introspect = os.environ.get('MESONINTROSPECT')
++out = subprocess.run([*introspect.split(' '), '--installed'],
++                     stdout=subprocess.PIPE, check=True).stdout
++for source, dest in json.loads(out).items():
++    assert os.path.isabs(source)
++    bundle_dest = destdir_join('qemu-bundle', dest)
++    path = os.path.dirname(bundle_dest)
++    try:
++        os.makedirs(path, exist_ok=True)
++    except BaseException as e:
++        print(f'error making directory {path}', file=sys.stderr)
++        raise e
++    try:
++        os.symlink(source, bundle_dest)
++    except BaseException as e:
++        if not isinstance(e, OSError) or e.errno != errno.EEXIST:
++            print(f'error making symbolic link {dest}', file=sys.stderr)
++            raise e
+diff --git a/util/cutils.c b/util/cutils.c
+index 6d04e52907..8199dac598 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -35,6 +35,11 @@
+ #include <sys/sysctl.h>
+ #endif
+ 
++#ifdef G_OS_WIN32
++#include <pathcch.h>
++#include <wchar.h>
++#endif
++
+ #include "qemu/ctype.h"
+ #include "qemu/cutils.h"
+ #include "qemu/error-report.h"
+@@ -1074,31 +1079,52 @@ char *get_relocated_path(const char *dir)
+ 
+     /* Fail if qemu_init_exec_dir was not called.  */
+     assert(exec_dir[0]);
+-    if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
+-        return g_strdup(dir);
+-    }
+ 
+     result = g_string_new(exec_dir);
++    g_string_append(result, "/qemu-bundle");
++    if (access(result->str, R_OK) == 0) {
++#ifdef G_OS_WIN32
++        size_t size = mbsrtowcs(NULL, &dir, 0, &(mbstate_t){0}) + 1;
++        PWSTR wdir = g_new(WCHAR, size);
++        mbsrtowcs(wdir, &dir, size, &(mbstate_t){0});
+ 
+-    /* Advance over common components.  */
+-    len_dir = len_bindir = prefix_len;
+-    do {
+-        dir += len_dir;
+-        bindir += len_bindir;
+-        dir = next_component(dir, &len_dir);
+-        bindir = next_component(bindir, &len_bindir);
+-    } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
++        PCWSTR wdir_skipped_root;
++        PathCchSkipRoot(wdir, &wdir_skipped_root);
+ 
+-    /* Ascend from bindir to the common prefix with dir.  */
+-    while (len_bindir) {
+-        bindir += len_bindir;
+-        g_string_append(result, "/..");
+-        bindir = next_component(bindir, &len_bindir);
++        size = wcsrtombs(NULL, &wdir_skipped_root, 0, &(mbstate_t){0});
++        char *cursor = result->str + result->len;
++        g_string_set_size(result, result->len + size);
++        wcsrtombs(cursor, &wdir_skipped_root, size + 1, &(mbstate_t){0});
++        g_free(wdir);
++#else
++        g_string_append(result, dir);
++#endif
++    } else if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
++        g_string_assign(result, dir);
++    } else {
++        g_string_assign(result, exec_dir);
++
++        /* Advance over common components.  */
++        len_dir = len_bindir = prefix_len;
++        do {
++            dir += len_dir;
++            bindir += len_bindir;
++            dir = next_component(dir, &len_dir);
++            bindir = next_component(bindir, &len_bindir);
++        } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
++
++        /* Ascend from bindir to the common prefix with dir.  */
++        while (len_bindir) {
++            bindir += len_bindir;
++            g_string_append(result, "/..");
++            bindir = next_component(bindir, &len_bindir);
++        }
++
++        if (*dir) {
++            assert(G_IS_DIR_SEPARATOR(dir[-1]));
++            g_string_append(result, dir - 1);
++        }
+     }
+ 
+-    if (*dir) {
+-        assert(G_IS_DIR_SEPARATOR(dir[-1]));
+-        g_string_append(result, dir - 1);
+-    }
+     return g_string_free(result, false);
  }
+diff --git a/util/meson.build b/util/meson.build
+index 8cce8f8968..5e282130df 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -23,6 +23,7 @@ util_ss.add(when: 'CONFIG_WIN32', if_true: files('event_notifier-win32.c'))
+ util_ss.add(when: 'CONFIG_WIN32', if_true: files('oslib-win32.c'))
+ util_ss.add(when: 'CONFIG_WIN32', if_true: files('qemu-thread-win32.c'))
+ util_ss.add(when: 'CONFIG_WIN32', if_true: winmm)
++util_ss.add(when: 'CONFIG_WIN32', if_true: pathcch)
+ util_ss.add(files('envlist.c', 'path.c', 'module.c'))
+ util_ss.add(files('host-utils.c'))
+ util_ss.add(files('bitmap.c', 'bitops.c'))
 -- 
 2.36.1
 
