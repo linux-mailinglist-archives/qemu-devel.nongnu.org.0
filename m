@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850285756C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 23:15:30 +0200 (CEST)
-Received: from localhost ([::1]:48352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8119575730
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 23:47:46 +0200 (CEST)
+Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC6BF-0002bA-49
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 17:15:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45654)
+	id 1oC6gT-0003Dd-GZ
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 17:47:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
- id 1oC6A9-0000jX-RX; Thu, 14 Jul 2022 17:14:21 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:24915)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_mkurapat@quicinc.com>)
- id 1oC6A7-0001in-HF; Thu, 14 Jul 2022 17:14:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1657833259; x=1689369259;
- h=subject:to:cc:references:from:message-id:date:
- mime-version:in-reply-to:content-transfer-encoding;
- bh=BMAYEKoLOJnNWxOnE8jB32STvxOvxUvHOlez6K/QupU=;
- b=U5ym5iR3WfSfWYLM3mFni+czqtOrJBYxXssWyueN/8O1B66b64pi91PD
- njS47tW/NiDppld247+aO+CwjxTJvmyREC23bPiCRXjzAfKBE7tjW0f18
- QIsf/QtkohoXaueHOWQ1STLwyEldUgsD54ilJ+1NxnyS1oYp6e0ShlwRz k=;
-Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 14 Jul 2022 14:14:17 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg01-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Jul 2022 14:14:16 -0700
-Received: from nalasex01a.na.qualcomm.com (10.47.209.196) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Thu, 14 Jul 2022 14:14:16 -0700
-Received: from [10.110.110.6] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 14 Jul
- 2022 14:14:15 -0700
-Subject: Re: [PATCH 2/3] hw/sensor: max31785 : add fan status, tach target,
- and tach input object properties
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, Paolo Bonzini
- <pbonzini@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>, "Eduardo
- Habkost" <eduardo@habkost.net>, Graeme Gregory <quic_ggregory@quicinc.com>,
- Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
-References: <20220714015637.817066-1-quic_mkurapat@quicinc.com>
- <20220714015637.817066-3-quic_mkurapat@quicinc.com>
- <CAFEAcA9MZ-yNSY0c7MiXex1U-t3XNzQRUwXiMhJg84tYVMeyiA@mail.gmail.com>
-From: Maheswara Kurapati <quic_mkurapat@quicinc.com>
-Message-ID: <a285e9f6-9ae6-7abc-eedd-22ec1919ba99@quicinc.com>
-Date: Thu, 14 Jul 2022 16:14:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oC6f9-0001mv-Rj
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 17:46:23 -0400
+Received: from relay7-d.mail.gandi.net ([2001:4b98:dc4:8::227]:41015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oC6f7-0007Uu-Df
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 17:46:23 -0400
+Received: (Authenticated sender: no-reply@qemu.org)
+ by mail.gandi.net (Postfix) with ESMTPSA id D955620008
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 21:46:15 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9MZ-yNSY0c7MiXex1U-t3XNzQRUwXiMhJg84tYVMeyiA@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-Received-SPF: pass client-ip=199.106.114.39;
- envelope-from=quic_mkurapat@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+From: GitLab Bot <no-reply@qemu.org>
+To: <qemu-devel@nongnu.org>
+Subject: [python-qemu-qmp MR #8] Add git-based package versions, publishing
+ scripts, and dev package builds
+Date: Thu, 14 Jul 2022 21:46:14 -0000
+Message-ID: <165783517413.32561.15766531411067443626.no-reply@qemu.org>
+X-GitLab-MergeRequest-ID: 165964011
+X-GitLab-Project-Id: 35575318
+X-GitLab-Project-Path: qemu-project/python-qemu-qmp
+X-GitLab-Project: python-qemu-qmp
+X-QEMU-GitLab-MR-IID: 8
+X-QEMU-GitLab-MR-URL: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/8
+X-QEMU-GitLab-Username: jsnow
+Received-SPF: pass client-ip=2001:4b98:dc4:8::227;
+ envelope-from=no-reply@qemu.org; helo=relay7-d.mail.gandi.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,43 +59,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter,
+Author: John Snow - https://gitlab.com/jsnow
+Merge Request: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/8
+... from: jsnow/python-qemu-qmp:packaging
+... into: qemu-project/python-qemu-qmp:main
 
-Thank you for the review.  Please see my comments inline.
+This is all about streamlining the process of tagging, building, and publishing. The script authored here, `publish.py`, is designed to make the publishing process fool-resistant by providing a slew of smoke tests designed to prevent erroneous, premature, or inconsistent releases.
 
-Thank you,
+A note:
+- Before this is merged, I will want to tag 765e2e210dcbf975f93d1b142761651e61772da6 as "v0.0.0a1" on origin/main so that the dev package build that will be incurred after the merge is accepted will have an appropriate version (v0.0.0a2.devNN+09abcdef). I didn't do it yet so that there can be feedback on this scheme first, in case. I do not want to ever delete a tag from `origin/main` in keeping with the principle that git commit history should never change.
 
-Mahesh
+The intended release process is expected to be something like this:
 
-On 7/14/22 8:10 AM, Peter Maydell wrote:
-> On Thu, 14 Jul 2022 at 14:04, Maheswara Kurapati
-> <quic_mkurapat@quicinc.com> wrote:
->> This fix adds object properties for the FAN_COMMAND_1 (3Bh), STATUS_FANS_1_2 (81h),
->> READ_FAN_SPEED_1 (90h) registers for the MAX31785 instrumentation. An additional
->> property tach_margin_percent updates the tachs for a configured percent of
->> FAN_COMMAND_1 value.
->>
->> Register                property
->> --------------------------------------
->> FAN_COMMAND_1 (3Bh)     fan_target
->> STATUS_FANS_1_2 (81h)   status_fans_1_2
->> READ_FAN_SPEED_1 (90h)  fan_input
-> This commit message is missing the rationale -- why do we need this?
-The STATUS_FANS_1_2, and READ_FAN_SPEED_1 registers are read-only. I 
-added these properties to simulate the error device faults.
->
-> I am also not sure that we should be defining properties that are
-> just straight 1:1 with the device registers. Compare the way we
-> handle temperature-sensor values, where the property values are
-> defined in a generic manner (same units representation) regardless
-> of the underlying device and the device's property-set-get implementation
-> then handles converting that to and from whatever internal implementation
-> representation the device happens to use.
-I am not sure I understood your comment.  I checked hw/sensors/tmp105.c, 
-in which a "temperature" property is added for the tmp_input field in 
-almost the similar way what I did, except that the registers in the 
-MAX31785 are in direct format.
->
-> thanks
-> -- PMM
+1. An MR is submitted that updates the README with new changelog info, any last touchups, etc. The MR makes it clear to reviewer(s) that a new version will be published contingent on review, successful pipelines, etc.
+2. MR is approved and merged. Pipelines run and pass.
+3. A maintainer (me) runs `python3 publish.py tag` from my local repo and assigns a new version number. The annotated tag is pushed to origin.
+4. Maintainer runs `python3 publish.py build` to create new distribution files on their local machine.
+5. Maintainer runs `python3 publish.py publish --test` as a dry run to push a new package version to `test.pypi.org`. Maintainer inspects that it appears to have worked correctly (readme looks right, metadata appears to render correctly, etc) and all pieces appear to be in place.
+6. Maintainer runs `python3 publish.py publish` to finalize the submission to PyPI.
+
+The authentication for the publish script is provided by the environment variable `TWINE_PASSWORD`, which takes the form of a PyPI authorization token. It would also be possible to utilize keyring support, but I didn't leap that far ahead yet.
+
+Each version tag is designed to be signed and annotated. Each distribution file uploaded to PyPI is also designed to be signed. At present I am just using my own personal key, but I could look into creating a generic "QEMU project python release" key for the purpose, if requested. (Please suggest key creation parameters in this case.)
+
+LASTLY, I intend to - after this series is merged - send a followup MR to indicate the v0.0.1 release, and then test the process by tagging and releasing v0.0.1. See milestone %"v0.0.1 (First release)" 
+
+See the commit messages on each change attached here for additional information, notes, musings, poetry, etc.
+
+Closes #16
+
+---
+
+This is an automated message. This bot will only relay the creation of new merge
+requests and will not relay review comments, new revisions, or concluded merges.
+Please follow the GitLab link to participate in review.
 
