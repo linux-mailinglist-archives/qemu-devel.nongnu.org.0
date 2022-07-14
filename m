@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90636575271
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:07:08 +0200 (CEST)
-Received: from localhost ([::1]:45362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D4575274
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:09:56 +0200 (CEST)
+Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1Mp-0003PD-EH
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53840)
+	id 1oC1PX-0007d6-K1
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:09:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC121-0005Mm-2Y; Thu, 14 Jul 2022 11:45:38 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:37429)
+ id 1oC122-0005NJ-LG; Thu, 14 Jul 2022 11:45:39 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:59425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC11y-0000bx-0g; Thu, 14 Jul 2022 11:45:36 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjM1H9gz4yTJ;
- Fri, 15 Jul 2022 01:45:27 +1000 (AEST)
+ id 1oC11z-0000lR-8H; Thu, 14 Jul 2022 11:45:38 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjR6qgFz4xvN;
+ Fri, 15 Jul 2022 01:45:31 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjK320wz4xdJ;
- Fri, 15 Jul 2022 01:45:25 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjP6kxXz4xdJ;
+ Fri, 15 Jul 2022 01:45:29 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Delevoryas <peter@pjd.dev>
-Subject: [PULL 10/19] aspeed: fby35: Add a bootrom for the BMC
-Date: Thu, 14 Jul 2022 17:44:47 +0200
-Message-Id: <20220714154456.2565189-11-clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 12/19] docs: aspeed: Add fby35 multi-SoC machine section
+Date: Thu, 14 Jul 2022 17:44:49 +0200
+Message-Id: <20220714154456.2565189-13-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220714154456.2565189-1-clg@kaod.org>
 References: <20220714154456.2565189-1-clg@kaod.org>
@@ -64,159 +65,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The BMC boots from the first flash device by fetching instructions
-from the flash contents. Add an alias region on 0x0 for this
-purpose. There are currently performance issues with this method (TBs
-being flushed too often), so as a faster alternative, install the
-flash contents as a ROM in the BMC memory space.
+From: Peter Delevoryas <peter@pjd.dev>
 
-See commit 1a15311a12fa ("hw/arm/aspeed: add a 'execute-in-place'
-property to boot directly from CE0")
-
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-[ clg: blk_pread() fixes ]
-Message-Id: <20220705191400.41632-8-peter@pjd.dev>
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+[ clg: - fixed URL links
+       - Moved Facebook Yosemite section at the end of the file ]
+Message-Id: <20220705191400.41632-10-peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/fby35.c | 83 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 83 insertions(+)
+ docs/system/arm/aspeed.rst | 48 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-index 5c5224d37471..e7405f6570b3 100644
---- a/hw/arm/fby35.c
-+++ b/hw/arm/fby35.c
-@@ -9,6 +9,7 @@
- #include "qemu/units.h"
- #include "qapi/error.h"
- #include "sysemu/sysemu.h"
-+#include "sysemu/block-backend.h"
- #include "hw/boards.h"
- #include "hw/arm/aspeed_soc.h"
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index 5d0a7865d3a6..445095690c04 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -182,3 +182,51 @@ To boot a kernel directly from a Zephyr build tree:
  
-@@ -23,12 +24,49 @@ struct Fby35State {
-     MemoryRegion bmc_boot_rom;
- 
-     AspeedSoCState bmc;
+   $ qemu-system-arm -M ast1030-evb -nographic \
+         -kernel zephyr.elf
 +
-+    bool mmio_exec;
- };
- 
- #define FBY35_BMC_RAM_SIZE (2 * GiB)
-+#define FBY35_BMC_FIRMWARE_ADDR 0x0
++Facebook Yosemite v3.5 Platform and CraterLake Server (``fby35``)
++==================================================================
 +
-+static void fby35_bmc_write_boot_rom(DriveInfo *dinfo, MemoryRegion *mr,
-+                                     hwaddr offset, size_t rom_size,
-+                                     Error **errp)
-+{
-+    BlockBackend *blk = blk_by_legacy_dinfo(dinfo);
-+    g_autofree void *storage = NULL;
-+    int64_t size;
++Facebook has a series of multi-node compute server designs named
++Yosemite. The most recent version released was
++`Yosemite v3 <https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf>`__.
 +
-+    /*
-+     * The block backend size should have already been 'validated' by
-+     * the creation of the m25p80 object.
-+     */
-+    size = blk_getlength(blk);
-+    if (size <= 0) {
-+        error_setg(errp, "failed to get flash size");
-+        return;
-+    }
++Yosemite v3.5 is an iteration on this design, and is very similar: there's a
++baseboard with a BMC, and 4 server slots. The new server board design termed
++"CraterLake" includes a Bridge IC (BIC), with room for expansion boards to
++include various compute accelerators (video, inferencing, etc). At the moment,
++only the first server slot's BIC is included.
 +
-+    if (rom_size > size) {
-+        rom_size = size;
-+    }
++Yosemite v3.5 is itself a sled which fits into a 40U chassis, and 3 sleds
++can be fit into a chassis. See `here <https://www.opencompute.org/products/423/wiwynn-yosemite-v3-server>`__
++for an example.
 +
-+    storage = g_malloc0(rom_size);
-+    if (blk_pread(blk, 0, rom_size, storage, 0) < 0) {
-+        error_setg(errp, "failed to read the initial flash content");
-+        return;
-+    }
++In this generation, the BMC is an AST2600 and each BIC is an AST1030. The BMC
++runs `OpenBMC <https://github.com/facebook/openbmc>`__, and the BIC runs
++`OpenBIC <https://github.com/facebook/openbic>`__.
 +
-+    /* TODO: find a better way to install the ROM */
-+    memcpy(memory_region_get_ram_ptr(mr) + offset, storage, rom_size);
-+}
- 
- static void fby35_bmc_init(Fby35State *s)
- {
-+    DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
++Firmware images can be retrieved from the Github releases or built from the
++source code, see the README's for instructions on that. This image uses the
++"fby35" machine recipe from OpenBMC, and the "yv35-cl" target from OpenBIC.
++Some reference images can also be found here:
 +
-     memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
-     memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
-                            FBY35_BMC_RAM_SIZE, &error_abort);
-@@ -48,6 +86,28 @@ static void fby35_bmc_init(Fby35State *s)
-     qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
- 
-     aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
++.. code-block:: bash
 +
-+    /* Install first FMC flash content as a boot rom. */
-+    if (drive0) {
-+        AspeedSMCFlash *fl = &s->bmc.fmc.flashes[0];
-+        MemoryRegion *boot_rom = g_new(MemoryRegion, 1);
-+        uint64_t size = memory_region_size(&fl->mmio);
++    $ wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
++    $ wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
 +
-+        if (s->mmio_exec) {
-+            memory_region_init_alias(boot_rom, NULL, "aspeed.boot_rom",
-+                                     &fl->mmio, 0, size);
-+            memory_region_add_subregion(&s->bmc_memory, FBY35_BMC_FIRMWARE_ADDR,
-+                                        boot_rom);
-+        } else {
++Since this machine has multiple SoC's, each with their own serial console, the
++recommended way to run it is to allocate a pseudoterminal for each serial
++console and let the monitor use stdio. Also, starting in a paused state is
++useful because it allows you to attach to the pseudoterminals before the boot
++process starts.
 +
-+            memory_region_init_rom(boot_rom, NULL, "aspeed.boot_rom",
-+                                   size, &error_abort);
-+            memory_region_add_subregion(&s->bmc_memory, FBY35_BMC_FIRMWARE_ADDR,
-+                                        boot_rom);
-+            fby35_bmc_write_boot_rom(drive0, boot_rom, FBY35_BMC_FIRMWARE_ADDR,
-+                                     size, &error_abort);
-+        }
-+    }
- }
- 
- static void fby35_init(MachineState *machine)
-@@ -57,6 +117,22 @@ static void fby35_init(MachineState *machine)
-     fby35_bmc_init(s);
- }
- 
++.. code-block:: bash
 +
-+static bool fby35_get_mmio_exec(Object *obj, Error **errp)
-+{
-+    return FBY35(obj)->mmio_exec;
-+}
-+
-+static void fby35_set_mmio_exec(Object *obj, bool value, Error **errp)
-+{
-+    FBY35(obj)->mmio_exec = value;
-+}
-+
-+static void fby35_instance_init(Object *obj)
-+{
-+    FBY35(obj)->mmio_exec = false;
-+}
-+
- static void fby35_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -66,6 +142,12 @@ static void fby35_class_init(ObjectClass *oc, void *data)
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
-+
-+    object_class_property_add_bool(oc, "execute-in-place",
-+                                   fby35_get_mmio_exec,
-+                                   fby35_set_mmio_exec);
-+    object_class_property_set_description(oc, "execute-in-place",
-+                           "boot directly from CE0 flash device");
- }
- 
- static const TypeInfo fby35_types[] = {
-@@ -74,6 +156,7 @@ static const TypeInfo fby35_types[] = {
-         .parent = TYPE_MACHINE,
-         .class_init = fby35_class_init,
-         .instance_size = sizeof(Fby35State),
-+        .instance_init = fby35_instance_init,
-     },
- };
- 
++    $ qemu-system-arm -machine fby35 \
++        -drive file=fby35.mtd,format=raw,if=mtd \
++        -device loader,file=Y35BCL.elf,addr=0,cpu-num=2 \
++        -serial pty -serial pty -serial mon:stdio \
++        -display none -S
++    $ screen /dev/tty0 # In a separate TMUX pane, terminal window, etc.
++    $ screen /dev/tty1
++    $ (qemu) c		   # Start the boot process once screen is setup.
 -- 
 2.35.3
 
