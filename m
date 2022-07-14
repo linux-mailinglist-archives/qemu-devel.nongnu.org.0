@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314AD575160
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:03:50 +0200 (CEST)
-Received: from localhost ([::1]:33092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5EF575161
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 17:04:56 +0200 (CEST)
+Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC0NY-0001QJ-U4
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
+	id 1oC0Oe-0002Z7-1J
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 11:04:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC0KO-0005qT-AK
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:00:35 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:43569)
+ id 1oC0MH-000764-IA
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:02:29 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:38496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC0KI-0007ZU-S1
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:00:31 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id f73so3623714yba.10
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:00:26 -0700 (PDT)
+ id 1oC0MG-0007tY-00
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:02:29 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-31c8a1e9e33so19846957b3.5
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:02:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kMUzLwTFHm/QVns4ICjbx9F9rASaAPYyaAjqdfCibWg=;
- b=bCuO9MstrurrLg9zaKImbcZzHoSW2vomkkz4ofFqap6B5SpSWhAxRv4LZ/uS6qyz34
- AjuJWVMWTQBEEaoT0SG95+oaQjtVfaY+E99QFZ+EKsIkFqMLN95rqnRPgg0g5jkFywqg
- YWzjaL6X/qQZ03Qi9CTpZsUq0osT+G0HYYusGtBkgDpKwbzbvsY6osLZPD8xyuhpYOH1
- Gx74djxUL9BAbDAanQA7Kp7+SlKaJXgCvCNDqhSxyiqPXPi1m7/PSYNmGO6R/pv04lRP
- sulkjL6dsh1FJbtidTjs2o7lBNYS9uAWLrniu3gpSLHTvahjcsVP7cKAhHSRcgNGKTcR
- m1nA==
+ :cc; bh=TOZlZBtKFOOlg01mQGPbGXR4vd3wmbwB1PDObIWoPeA=;
+ b=cDsK2kBC5cMHiEGynYFM5dnmhVSvsn/e9FUAgfzVjkZ6xn2YkZJkvYISsYlm0344s7
+ 7s9/5dChDGxes59kRRUZji8M5y8N9VSvM066N7epnrVjFNK2YswgrmmyWAqVA3m9yGpK
+ 2HdbZYJCoUdAGYAANWOitCnMOQFQRVrlHlVfVP/sjM5VMldqyAnn9P2q1Qs6HGroH/Es
+ 5fBc6moy6AIuvJ4g0dzLHEtRGgd3kwuis/aAiy24yEcd6FMl2dT4zVtfJPI2DwTXj4un
+ OxCC2A4yt8/PBVNIMgF0g5DMl5kaR7Wyd7kRiZFq6jejKLkBme3hJ71o6si7WmTjTFlI
+ 8qkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=kMUzLwTFHm/QVns4ICjbx9F9rASaAPYyaAjqdfCibWg=;
- b=ooIOqcWVUVBAHFRAEl6rpxLVcohh3aOrLldFRU9IcfC7su1Vl5tbPJkcneS7oCfmwb
- xW086HKH0YOV4sl/CbpHbpLD2FMmL0+cx3cHhpoEt5M1ZMmMVGFjxx3hxbQCCSBx0ysi
- +7Yk0c/CGfgj8FSPiLsPRchMGqyRY3+/ZyhxZ4R5gJRX8PleSbQxMyrtn1yKkaFBjUef
- ARJFrZ7HUisi5r70+HwX6WLe9oUbY7joS/pT4dlYwy2l4eebAm2LqBVzgFR7J8KIXdny
- RkFcvmcjnW27doP/uPOD/s/FVKnrkFvv2TiDD10h4951F/ANyEDiX7AozjSjxAS1R7rB
- 4tNQ==
-X-Gm-Message-State: AJIora+IK6QpdrXI6nrn9rTUylRAjvDg1Nq2hObQ1o781LTm+M0aKAF8
- x3/ywyTuw6FVZIKvcHlyPqeRdoc14BGOtUp/KyppEA==
-X-Google-Smtp-Source: AGRyM1v7A+JpK/3hblYNpGWcGi5HXvRf5UYUQQdbUbuolbyRrpBIFo6eQ6OVfn7HaywLBIJoL4Hjey4ZQnMveOSl9mE=
-X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
- v85-20020a252f58000000b0066ecf9a06a2mr9923084ybv.193.1657810825724; Thu, 14
- Jul 2022 08:00:25 -0700 (PDT)
+ bh=TOZlZBtKFOOlg01mQGPbGXR4vd3wmbwB1PDObIWoPeA=;
+ b=qCYOdD6/j0Oz0ntEOlZzkJYkPBlrIzgHhiHSUYz2r0fgwYnJjkt0IGwl2J2Eq+cZQo
+ OguBICfHmYR4yxarPG5ikv+0GUzi0OUfR87Y9GfnjIGUGPQcpbg3fFrgz+5kOjmOUWtB
+ 9d/QVnnN15gpcL7c3oxIWI+Dp0fHdGKb0uDx1VLU+9nFyBuYw8WTpDqeq8eEODjveV+N
+ csP0X5HFSrDU1uGvm1Aq5SRWnVdBbiK4didtjQ2QE5BZabDFs5KNK8tKdR2ehPcFBDyE
+ QP17zbG3zIIqPexlvkdvUvyUaHX0Z8WpIhswMUdPiJLU4336ITnUngJ6zCDc7DyXl2Pv
+ S89A==
+X-Gm-Message-State: AJIora8PFcoZQjnYFax4i0W0h58hhM6KiXah0nTc4mQf++8PIZayzYwG
+ s7EKF9FkfXR97XEZPSIITOARUMYL5c7Gotovd+Y/Yg==
+X-Google-Smtp-Source: AGRyM1vgQFNFxKDS/rbWglYmwQ/NDPvhIGJ8O9mXst07iw8ZKAUiyvhs6UtrZxKozj2pTJebhnbJW7ii4Om1K3NL8tw=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr10253146ywb.257.1657810946547; Thu, 14
+ Jul 2022 08:02:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220713081735.112016-1-shentey@gmail.com>
- <20220713081735.112016-3-shentey@gmail.com>
-In-Reply-To: <20220713081735.112016-3-shentey@gmail.com>
+ <20220713081735.112016-4-shentey@gmail.com>
+In-Reply-To: <20220713081735.112016-4-shentey@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 15:59:46 +0100
-Message-ID: <CAFEAcA88_N9wjA_HgF51UCfeh_DX__8cQ-m5sFiwiNyVJq7zQw@mail.gmail.com>
-Subject: Re: [PATCH 02/11] hw/i386/pc_piix: Allow for setting properties
- before realizing PIIX3 southbridge
+Date: Thu, 14 Jul 2022 16:01:47 +0100
+Message-ID: <CAFEAcA809MiUD1B2k11+k1UTPbz6vR=2+ePSRNJvS10nZou1mA@mail.gmail.com>
+Subject: Re: [PATCH 03/11] hw/isa/piix3: QOM'ify USB controller creation
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
  Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>, 
@@ -65,8 +65,8 @@ Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
  Aurelien Jarno <aurelien@aurel32.net>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,13 +89,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 13 Jul 2022 at 09:36, Bernhard Beschow <shentey@gmail.com> wrote:
+On Wed, 13 Jul 2022 at 09:49, Bernhard Beschow <shentey@gmail.com> wrote:
 >
-> The next patches will need to take advantage of it.
+> The USB controller is an integral part of PIIX3 (function 2). So create
+> it as part of the southbridge.
 >
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> Note that the USB function is optional in QEMU. This is why it gets
+> unparented if it is disabled, otherwiese QEMU will abort with:
+>
+>   src/hw/core/qdev.c:357: qdev_assert_realized_properly_cb: Assertion `dev->realized' failed
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I would suggest doing the object_initialize_child() in realize when
+we know whether usb is enabled or not, rather than always
+initializing it and then unparenting it later. That's the way
+I've handled "some property value determines whether or not the
+device has a child object" in other places.
 
 thanks
 -- PMM
