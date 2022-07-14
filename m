@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF7B5752A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:18:00 +0200 (CEST)
-Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0015752B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:24:38 +0200 (CEST)
+Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1XL-0000wu-4f
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55742)
+	id 1oC1dl-00009C-LX
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:24:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC1Aa-0004hy-1c
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:54:28 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:43806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC1AY-0001l2-Ez
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:54:27 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-3137316bb69so21350287b3.10
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:54:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=KIisrw0Q2DijfpgQJsqGHa+BUkO+E1GkxFp9N//JJIo=;
- b=BSXYsx5Mw/LWb0lNv1vYQ33s7fnSpvAg/zJ2YlvjGnu6HHP/QnHOjSUSXYhO6Jf7ZS
- CMW78og4jsTIeVfn4i7RTi1AmJy4vts8Bwv9Qy4Nw/1melyEyG0E9giztBAcVb7euGkY
- /fDm7QGTYCt2i+wIKnPv2vndO39I9Q8N9XTnHFWXAyiHJoGrj8LacSZztXxoLk66TOFD
- LDiaDjsAoFb6wpyTUDJ2HAxqNRxsWXM7pDyFVJ5hCutM4Ncr/obSJUDdv2oRQ6zZ/Snv
- x6ZyWhpyY5PCfNiVBlDjk9cdxhE/RzY58JTRFelkerNd80fhUYnQtDZGrtOduV9/bRBB
- NmHg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oC1Pi-0008Cu-8m
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:10:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oC1Pe-0006H9-JK
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 12:10:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657815000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=OK0behKCener34sbhKKKAzyixW2wRrVIOmmZ4P7HtaE=;
+ b=TLo9u7tN5zcdBZM+QKwsAKYBt++rmIzKAWyqNHHO9avAIyqDVWAk4b/CRL7PoaRoS7r+j2
+ 5AIdy/JK4h0VAXKT+BsBqXA8wxaei0Dq+GjnROoYO4Mmqd+usDIOJfhdaxldcxFEK1eY1t
+ wo9y9Zw0hCqIdE7NDOOGQzJNTanXmEc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-127-kdLlx-clOU-XYykXZDvEcA-1; Thu, 14 Jul 2022 12:09:58 -0400
+X-MC-Unique: kdLlx-clOU-XYykXZDvEcA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i184-20020a1c3bc1000000b003a026f48333so831200wma.4
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 09:09:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=KIisrw0Q2DijfpgQJsqGHa+BUkO+E1GkxFp9N//JJIo=;
- b=65R5tas/GXJ7FgHk9lo2ZT+Q/ugENu+B0C3kqPg/+XnCehvZaUveKxjdH8mUJDlQOo
- BePne3VTVhow8Zzgqr1tdJZKYPIIdzTQiIOVOn03VOEb/Odf+MMCDuEpUC1naChrgic9
- H/8nFdms/TUm7y2B13nAB1gXY6mY9CskQ6PA35Puw3hpEEj6eX65nMoMU1kqS5wFOoOD
- QqXswIk3hYesYJx2iDQB9nlPvSqDoDWyh/amlBFa6hgaqIgs8ekxrAMx6VRkk7Tx65jb
- rNCg37P1pG8E0Zuh89RPG3jpynP0mg8pq4mojsgEfEAEWx6N40dZiaAEyoQlldGRRIyy
- HXTw==
-X-Gm-Message-State: AJIora8rAPX0n20zeOjwT8nbPxdcDVbfiysHjAPvu1fenIn5LAzhud1P
- fPS+IeePa8MYPN03nceM0wW1ZFhEmetEMPVkOZZ/cGuit9M=
-X-Google-Smtp-Source: AGRyM1u80+HKlid3WrC205iZPFmQp2kptTywfjJ3VuVodXhUWPxZaVYRKBGsulRnBhce76Ltt5FQCZ4M6WVQFTo8h6k=
-X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
- d8-20020a818d08000000b00317a4cdd65dmr10320248ywg.329.1657814065282; Thu, 14
- Jul 2022 08:54:25 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=OK0behKCener34sbhKKKAzyixW2wRrVIOmmZ4P7HtaE=;
+ b=a5LaRn0NWn+LuQ/Y0uV9S9544VQr47U/3nKgz9SSq0ykkxvcBp4NWx5Vw+EvcI7doi
+ oTUSrvmRxrfRLppWj3JKRh1LWEsAfALzxCXR1zshkZfiPgTI09juEnaNJvOGr4RKb0A3
+ semlQJ5wtNS6Gr+dUwULh8iLz+HZ3yFsaohqeqxPe1ZVzARYx0pgTPmc17VD2cxqFYrc
+ aHt46VjaYef1jSFlR+a8lEa4PWb/H1enCaISO3ciSdSV62CDnkVn0tgOj9VvfjZHt+t/
+ cECCEBoN+Ft0e1y59pP4bIMSStNyh2M27Otf/rkrnWF+ZpyAGUXNb353i7j0UdHX4uJR
+ wuhg==
+X-Gm-Message-State: AJIora+vtzsptPxJb7ZZm7o+WxZujyUfPXj+xD4eq7WDgaAP7qO2Vq9/
+ Xh8w01mhTxdASz7yuZsnszyzMbKhwM6cXeAgbvb/152BFl7Ua7nYw6meE7Iw2eKnge5IucPj6Mm
+ SdCho1fayk+72V28=
+X-Received: by 2002:a7b:cb10:0:b0:3a0:312c:fd3c with SMTP id
+ u16-20020a7bcb10000000b003a0312cfd3cmr10164359wmj.52.1657814996787; 
+ Thu, 14 Jul 2022 09:09:56 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uCRM6/AoOYsqYp8RlGAVD7nBIncc9wWiuAIzFcgc+jpgE8YG6SQ/5RvzdoIpnkV3WFA5VcFw==
+X-Received: by 2002:a7b:cb10:0:b0:3a0:312c:fd3c with SMTP id
+ u16-20020a7bcb10000000b003a0312cfd3cmr10164336wmj.52.1657814996567; 
+ Thu, 14 Jul 2022 09:09:56 -0700 (PDT)
+Received: from redhat.com ([2.52.24.42]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a5d4c49000000b002167efdd549sm1773400wrt.38.2022.07.14.09.09.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 14 Jul 2022 09:09:55 -0700 (PDT)
+Date: Thu, 14 Jul 2022 12:09:52 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Alexander Graf <agraf@suse.de>
+Subject: Re: [PULL 00/54] virtio,pc,pci: fixes,cleanups,features
+Message-ID: <20220714120715-mutt-send-email-mst@kernel.org>
+References: <20220610075631.367501-1-mst@redhat.com>
+ <CAFEAcA8u8jm7b+JD_t0qMNMy+WSJPOw=qxqptZpwTp=TkcXrhg@mail.gmail.com>
+ <20220714134146.23617610@redhat.com>
 MIME-Version: 1.0
-References: <20220714145355.7225-1-quic_trohmel@quicinc.com>
- <20220714145355.7225-12-quic_trohmel@quicinc.com>
-In-Reply-To: <20220714145355.7225-12-quic_trohmel@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 16:53:46 +0100
-Message-ID: <CAFEAcA-VBzBusEyM51atHf4kV3pmiNWV6rdUDGbmmyq=w+hA+Q@mail.gmail.com>
-Subject: Re: [PATCH 11/11] hw/arm: Add R52 machine
-To: Tobias Roehmel <quic_trohmel@quicinc.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220714134146.23617610@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,30 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jul 2022 at 15:54, Tobias Roehmel <quic_trohmel@quicinc.com> wro=
-te:
->
-> From: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
->
-> Signed-off-by: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
-> ---
->  configs/devices/arm-softmmu/default.mak |   1 +
->  hw/arm/Kconfig                          |   5 +
->  hw/arm/meson.build                      |   1 +
->  hw/arm/r52_machine.c                    | 133 +++++++++++++++
->  hw/arm/r52_virt.c                       | 217 ++++++++++++++++++++++++
->  include/hw/arm/r52_virt.h               |  61 +++++++
+On Thu, Jul 14, 2022 at 01:41:46PM +0200, Igor Mammedov wrote:
+> On Thu, 14 Jul 2022 10:16:34 +0100
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> 
+> > On Fri, 10 Jun 2022 at 08:57, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > ----------------------------------------------------------------
+> > > virtio,pc,pci: fixes,cleanups,features
+> > >
+> > > more CXL patches
+> > > VIOT
+> > > Igor's huge AML rework
+> > > fixes, cleanups all over the place  
+> > 
+> > Hi. On my macos machine (an x86 one), 'make check' output for
+> > the bios-tables-test for both i386 and x86-64 guests now includes
+> > a warning message:
+> > 
+> > qemu-system-i386: -device isa-applesmc: warning: Using AppleSMC with invalid key
+> > 
+> > I have not bisected but I rather suspect that this is the result of
+> > the applesmc test changes in this pullreq.
+> 
+> Like warning says, test case doesn't have SMC key after which
+> QEMU uses some made up default.
+> 
+> It can't suppressed with 'qtest_enabled()' since QEMU in test
+> doesn't use qtest as accelerator.
+> 
+> I'm more inclined to removing warning.
 
-This needs justification about whether it's the right thing to do.
-What's the purpose of the new machine? Would it be better as
-part of the existing "virt" board? Is there a real physical
-Cortex-R52 based machine that it would make more sense to model?
-If we do need a new virtual R-profile board, should it really
-be R52-specific?
 
-I am generally not a fan of creating new entirely-QEMU-specific
-machines if we can avoid it.
+yes:
 
-thanks
--- PMM
+    if (!s->osk || (strlen(s->osk) != 64)) {
+        warn_report("Using AppleSMC with invalid key");
+        s->osk = default_osk;
+    }
+
+I would say the incorrect length is right in producing the
+warning, but the !s->osk case shouldn't warn.
+
+Alex what do you think?
+
+
+-- 
+MST
+
 
