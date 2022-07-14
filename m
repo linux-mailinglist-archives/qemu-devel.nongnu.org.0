@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1A55752A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:19:32 +0200 (CEST)
-Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FF7B5752A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:18:00 +0200 (CEST)
+Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1Yq-0003zK-0C
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:19:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
+	id 1oC1XL-0000wu-4f
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:17:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC13Z-0006rF-6i
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:47:13 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:35384)
+ id 1oC1Aa-0004hy-1c
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:54:28 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:43806)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oC13X-00013O-Fu
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:47:12 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-31cac89d8d6so21461207b3.2
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:47:10 -0700 (PDT)
+ id 1oC1AY-0001l2-Ez
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 11:54:27 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-3137316bb69so21350287b3.10
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 08:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=IKL97nrbTa6KLd516NtLTIHmq+0jxxvdfOHJLFBc2Og=;
- b=qLFtWapteLLoIHag9DpgkVgwVf9bOAfbV/bYQAJ7IsyEoueNZJNsqLK2BBv47fqOC1
- Runor/5JeuX2APckjCDyZnfCf4MORhSPx8rzE8rdhmwXg51UXvbCcUSf4AyUGC/kj9Pj
- aKHS9GTLkEGl4EWk1qwFUCaFVMd9z6przwOIYI8KeWayddf0NcFF2K2gdLtZYbInt6dU
- t0DGpMqxJtgoDp4vbeJF+5t7Kv2IM+dneglClLTHlsy68Vizg/TVA+MG+gATpaxngT4+
- PgOWIQ8peQwhCC8eR0NYJ/z0GYdp+vwZL6x760bAc4up2H2sbKsROPVwzGoUfyRnXHDw
- qmlg==
+ bh=KIisrw0Q2DijfpgQJsqGHa+BUkO+E1GkxFp9N//JJIo=;
+ b=BSXYsx5Mw/LWb0lNv1vYQ33s7fnSpvAg/zJ2YlvjGnu6HHP/QnHOjSUSXYhO6Jf7ZS
+ CMW78og4jsTIeVfn4i7RTi1AmJy4vts8Bwv9Qy4Nw/1melyEyG0E9giztBAcVb7euGkY
+ /fDm7QGTYCt2i+wIKnPv2vndO39I9Q8N9XTnHFWXAyiHJoGrj8LacSZztXxoLk66TOFD
+ LDiaDjsAoFb6wpyTUDJ2HAxqNRxsWXM7pDyFVJ5hCutM4Ncr/obSJUDdv2oRQ6zZ/Snv
+ x6ZyWhpyY5PCfNiVBlDjk9cdxhE/RzY58JTRFelkerNd80fhUYnQtDZGrtOduV9/bRBB
+ NmHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=IKL97nrbTa6KLd516NtLTIHmq+0jxxvdfOHJLFBc2Og=;
- b=253IL8YRbBn/eAvYRkw3gEkAJ5iYCmEwFjF+FelETDdIZ68ufJrmsJZuzsfZMufTfe
- vLr8ZjY4R8bQf3xINccjkImGA2cB/zWVT12woMrA3a2RATmtDCe8lxLCff/TbesCBde1
- +/tNwUqoHpjLnDo64rhPRs5Wt+TLgjT3pjb3rI8Wm2FEa7FUbTg1boyM4d7YAkz80c7K
- vOqgqo5dtpXrLnYr7HQTvbcRmt/BobNdk8zNiRBqLFKEcWpVS3zhG67WWYjqAvYx8jOq
- /zryKMHOvOZTYMGHxDxOjSJdxC3hxzh/unyvQuZsOJfxxKYxxDZ8ykGkGHNRK2JVOuoR
- w4sA==
-X-Gm-Message-State: AJIora94IU0Ky/1+68Ln1V26YSJ3mBbY/tspoHCTtkcnMAF4cnihLEST
- vK2a3rFiqAdsBbd7T0KcI6Swyfa4kvNgMupMZsoZMw==
-X-Google-Smtp-Source: AGRyM1sFMKi+2B+NPkTdOzBvp5LprOANwnJop+tw1KgOUnqxCXhEX/87IxThev8IN9c1ei2C9wHQEePimHUijvUUuKU=
-X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
- u125-20020a0deb83000000b0031c8741a033mr10861671ywe.455.1657813629035; Thu, 14
- Jul 2022 08:47:09 -0700 (PDT)
+ bh=KIisrw0Q2DijfpgQJsqGHa+BUkO+E1GkxFp9N//JJIo=;
+ b=65R5tas/GXJ7FgHk9lo2ZT+Q/ugENu+B0C3kqPg/+XnCehvZaUveKxjdH8mUJDlQOo
+ BePne3VTVhow8Zzgqr1tdJZKYPIIdzTQiIOVOn03VOEb/Odf+MMCDuEpUC1naChrgic9
+ H/8nFdms/TUm7y2B13nAB1gXY6mY9CskQ6PA35Puw3hpEEj6eX65nMoMU1kqS5wFOoOD
+ QqXswIk3hYesYJx2iDQB9nlPvSqDoDWyh/amlBFa6hgaqIgs8ekxrAMx6VRkk7Tx65jb
+ rNCg37P1pG8E0Zuh89RPG3jpynP0mg8pq4mojsgEfEAEWx6N40dZiaAEyoQlldGRRIyy
+ HXTw==
+X-Gm-Message-State: AJIora8rAPX0n20zeOjwT8nbPxdcDVbfiysHjAPvu1fenIn5LAzhud1P
+ fPS+IeePa8MYPN03nceM0wW1ZFhEmetEMPVkOZZ/cGuit9M=
+X-Google-Smtp-Source: AGRyM1u80+HKlid3WrC205iZPFmQp2kptTywfjJ3VuVodXhUWPxZaVYRKBGsulRnBhce76Ltt5FQCZ4M6WVQFTo8h6k=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr10320248ywg.329.1657814065282; Thu, 14
+ Jul 2022 08:54:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220714145355.7225-1-quic_trohmel@quicinc.com>
- <20220714145355.7225-11-quic_trohmel@quicinc.com>
-In-Reply-To: <20220714145355.7225-11-quic_trohmel@quicinc.com>
+ <20220714145355.7225-12-quic_trohmel@quicinc.com>
+In-Reply-To: <20220714145355.7225-12-quic_trohmel@quicinc.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 14 Jul 2022 16:46:30 +0100
-Message-ID: <CAFEAcA849X-NfvDYPPHD6a0YXwogJY-QXAuBKRPoZEdFa3+3rQ@mail.gmail.com>
-Subject: Re: [PATCH 10/11] target/arm: Make SPSR_hyp accessible for Cortex-R52
+Date: Thu, 14 Jul 2022 16:53:46 +0100
+Message-ID: <CAFEAcA-VBzBusEyM51atHf4kV3pmiNWV6rdUDGbmmyq=w+hA+Q@mail.gmail.com>
+Subject: Re: [PATCH 11/11] hw/arm: Add R52 machine
 To: Tobias Roehmel <quic_trohmel@quicinc.com>
 Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,21 +90,24 @@ te:
 >
 > From: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
 >
-> The Cortex-R52 can access SPSR_hyp from hypervisor mode
-> as discussed here: https://github.com/zephyrproject-rtos/zephyr/issues/47=
-330
+> Signed-off-by: Tobias R=C3=B6hmel <quic_trohmel@quicinc.com>
+> ---
+>  configs/devices/arm-softmmu/default.mak |   1 +
+>  hw/arm/Kconfig                          |   5 +
+>  hw/arm/meson.build                      |   1 +
+>  hw/arm/r52_machine.c                    | 133 +++++++++++++++
+>  hw/arm/r52_virt.c                       | 217 ++++++++++++++++++++++++
+>  include/hw/arm/r52_virt.h               |  61 +++++++
 
-The v8R Supplement pseudocode aarch32/functions/system/SPSRaccessValid
-says this is UNPREDICTABLE:
+This needs justification about whether it's the right thing to do.
+What's the purpose of the new machine? Would it be better as
+part of the existing "virt" board? Is there a real physical
+Cortex-R52 based machine that it would make more sense to model?
+If we do need a new virtual R-profile board, should it really
+be R52-specific?
 
-when '11110' // SPSR_hyp
-    if !HaveEL(EL2) || mode !=3D M32_Monitor then UNPREDICTABLE;
-
-so unless that's incorrect then I think QEMU is within its rights
-to UNDEF this (and real hardware may choose to UNDEF or not).
-
-I will enquire about whether there is a bug in the sample R52
-startup code.
+I am generally not a fan of creating new entirely-QEMU-specific
+machines if we can avoid it.
 
 thanks
 -- PMM
