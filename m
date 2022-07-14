@@ -2,93 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6AA574A92
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:23:49 +0200 (CEST)
-Received: from localhost ([::1]:49874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EFF9574A9A
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:29:41 +0200 (CEST)
+Received: from localhost ([::1]:54300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBw0a-0002DL-Dh
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33982)
+	id 1oBw6G-0005de-6x
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:29:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBvwy-0007r2-F8
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:20:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51664)
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1oBw4G-0003Wo-6R; Thu, 14 Jul 2022 06:27:36 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:42832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oBvwu-0007eL-VC
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:20:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657794000;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M4n+oEyGQJD4z+df4hN7FnMA3uEZSQydaDOfO70BU5M=;
- b=dWMWqmOyvI+Bi0r+2T5Eb5l7hZj23i5zxsRc67S7FfqDgzEq5S49omhoPiLWF4CZUJtmOx
- VcRXKVbl7t1V8nYsIWkGEz+HZt+2DESmMcJAGjX7i5xt6T9bwPkQovd0PF+ZECkKGZP9d3
- 2TkWsZshdp5rSwBawdror9wSYOYR4yY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-389-Lb5znIP9O5uMNGHql0_vng-1; Thu, 14 Jul 2022 06:19:58 -0400
-X-MC-Unique: Lb5znIP9O5uMNGHql0_vng-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h65-20020a1c2144000000b003a2cf5b5aabso2428048wmh.8
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 03:19:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=M4n+oEyGQJD4z+df4hN7FnMA3uEZSQydaDOfO70BU5M=;
- b=Co7ddMgSsSdc/HKFaH7Ly6MqJmy75/E/7vtpX/+LXIL5fPvJYd6Va/JU7TLqSQtFv2
- 8RHF6LdpeKkUtInjZzvk1EiTjf7Ho7nS5BgMJymrrW5P518+nrZYSkJSvcbVHLCrwyw7
- orfWhLtkGp8GeT3CXpo6BGyWQem6+aaWZKfOUX8lU+OCCe+Kv9ZwK/Lvcg77zmVicPKs
- r2RANAIJ7k6VW2XBLok+t3fy5zoQo6WojaT3zzwa8zqhg7iJ5ujRNVFnpuRkKJHaqf0d
- aa/9RwrKNUknicr0F60fGUM8xfbEzugc3H83t4mfnNl6SaoFN+D2cWeF1LWc/Xk0QPGo
- aqFA==
-X-Gm-Message-State: AJIora+GJVlcSrsREdkF3qWAl1SS+gOdUtn6DkcIt/LFogbXm/fospUi
- ap0ejG+7hXwBlYUYG6hXmWOV4updDAE2o4EDtBUxhQTd1MN4jp6DP6JPMqy03ZucyLwfcONekx3
- MgpUX1j5UbTuLQR0=
-X-Received: by 2002:a05:600c:a02:b0:39c:97cc:82e3 with SMTP id
- z2-20020a05600c0a0200b0039c97cc82e3mr14755169wmp.97.1657793997642; 
- Thu, 14 Jul 2022 03:19:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t3ZZReCWqsuHVSocPVraOGTDojpbn8yJTQGseN7mlN1ROoXxb0tXXDa+9zOtZhJfd7fwACvg==
-X-Received: by 2002:a05:600c:a02:b0:39c:97cc:82e3 with SMTP id
- z2-20020a05600c0a0200b0039c97cc82e3mr14755152wmp.97.1657793997453; 
- Thu, 14 Jul 2022 03:19:57 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p129-20020a1c2987000000b003a2d47d3051sm1584933wmp.41.2022.07.14.03.19.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 03:19:56 -0700 (PDT)
-Date: Thu, 14 Jul 2022 11:19:55 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 03/13] multifd: Create page_count fields into both
- MultiFD{Recv,Send}Params
-Message-ID: <Ys/tyzlemTIIr9gY@work-vm>
-References: <20220531104318.7494-1-quintela@redhat.com>
- <20220531104318.7494-4-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <heiko@sntech.de>)
+ id 1oBw4C-0001d0-Ey; Thu, 14 Jul 2022 06:27:35 -0400
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88]
+ helo=diego.localnet) by gloria.sntech.de with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <heiko@sntech.de>)
+ id 1oBw43-00037f-Di; Thu, 14 Jul 2022 12:27:23 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Atish Patra <atishp@rivosinc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org,
+ frank.chang@sifive.com, Atish Patra <atishp@rivosinc.com>
+Subject: Re: [PATCH v10 11/12] hw/riscv: virt: Add PMU DT node to the device
+ tree
+Date: Thu, 14 Jul 2022 12:27:22 +0200
+Message-ID: <4485024.MHq7AAxBmi@diego>
+In-Reply-To: <20220620231603.2547260-12-atishp@rivosinc.com>
+References: <20220620231603.2547260-1-atishp@rivosinc.com>
+ <20220620231603.2547260-12-atishp@rivosinc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531104318.7494-4-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=185.11.138.130; envelope-from=heiko@sntech.de;
+ helo=gloria.sntech.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,86 +61,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> We were recalculating it left and right.  We plan to change that
-> values on next patches.
+Hi Atish,
+
+Am Dienstag, 21. Juni 2022, 01:16:01 CEST schrieb Atish Patra:
+> Qemu virt machine can support few cache events and cycle/instret counters.
+> It also supports counter overflow for these events.
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
+> Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+> capabilities. There are some dummy nodes added for testing as well.
+> 
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
 > ---
->  migration/multifd.h | 4 ++++
->  migration/multifd.c | 7 ++++---
->  2 files changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 9e07dd00f4..71f49b4063 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -82,6 +82,8 @@ typedef struct {
->      uint32_t packet_len;
->      /* guest page size */
->      uint32_t page_size;
-> +    /* number of pages in a full packet */
-> +    uint32_t page_count;
->      /* multifd flags for sending ram */
->      int write_flags;
+
+> +static void create_fdt_socket_pmu(RISCVVirtState *s,
+> +                                  int socket, uint32_t *phandle,
+> +                                  uint32_t *intc_phandles)
+> +{
+> +    int cpu;
+> +    char *pmu_name;
+> +    uint32_t *pmu_cells;
+> +    MachineState *mc = MACHINE(s);
+> +    RISCVCPU hart = s->soc[socket].harts[0];
+> +
+> +    pmu_cells = g_new0(uint32_t, s->soc[socket].num_harts * 2);
+> +
+> +    for (cpu = 0; cpu < s->soc[socket].num_harts; cpu++) {
+> +        pmu_cells[cpu * 2 + 0] = cpu_to_be32(intc_phandles[cpu]);
+> +        pmu_cells[cpu * 2 + 1] = cpu_to_be32(IRQ_PMU_OVF);
+> +    }
+> +
+> +    pmu_name = g_strdup_printf("/soc/pmu");
+> +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
+> +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pmu");
+
+Where is the binding document for this?
+
+As the comment below states the "riscv,event-to-mhpmcounters" property
+is opensbi-specific and gets removed in the opensbi stage, but that still
+leaves the pmu node in it and from the version I found, Rob wasn't overly
+happy with the compatible [0]. Did this get addressed?
+
+
+Thanks
+Heiko
+
+
+[0] https://lore.kernel.org/all/YXhPqfpXh1VZN07T@robh.at.kernel.org/
+
+
+
+> +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
+> +
+> +    g_free(pmu_name);
+> +    g_free(pmu_cells);
+> +}
+> +
+>  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+>                                 bool is_32_bit, uint32_t *phandle,
+>                                 uint32_t *irq_mmio_phandle,
+> @@ -759,6 +786,7 @@ static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *memmap,
+>                      &intc_phandles[phandle_pos]);
+>              }
+>          }
+> +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
+>      }
 >  
-> @@ -147,6 +149,8 @@ typedef struct {
->      uint32_t packet_len;
->      /* guest page size */
->      uint32_t page_size;
-> +    /* number of pages in a full packet */
-> +    uint32_t page_count;
+>      if (s->aia_type == VIRT_AIA_TYPE_APLIC_IMSIC) {
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 7d9e2aca12a9..69bbd9fff4e1 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1110,6 +1110,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
+>          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+>          ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+>          ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> +        ISA_EDATA_ENTRY(sscofpmf, ext_sscofpmf),
+>          ISA_EDATA_ENTRY(svinval, ext_svinval),
+>          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+>          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> index 34096941c0ce..59feb3c243dd 100644
+> --- a/target/riscv/pmu.c
+> +++ b/target/riscv/pmu.c
+> @@ -20,11 +20,68 @@
+>  #include "cpu.h"
+>  #include "pmu.h"
+>  #include "sysemu/cpu-timers.h"
+> +#include "sysemu/device_tree.h"
 >  
->      /* syncs main thread and channels */
->      QemuSemaphore sem_sync;
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 7505aa3412..166246b9b7 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -279,7 +279,6 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
+>  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
+>  #define MAKE_32BIT_MASK(shift, length) \
+>          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
+>  
+> +/**
+> + * To keep it simple, any event can be mapped to any programmable counters in
+> + * QEMU. The generic cycle & instruction count events can also be monitored
+> + * using programmable counters. In that case, mcycle & minstret must continue
+> + * to provide the correct value as well. Heterogeneous PMU per hart is not
+> + * supported yet. Thus, number of counters are same across all harts.
+> + */
+> +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_name)
+> +{
+> +    uint32_t fdt_event_ctr_map[20] = {};
+> +    uint32_t cmask;
+> +
+> +    /* All the programmable counters can map to any event */
+> +    cmask = MAKE_32BIT_MASK(3, num_ctrs);
+> +
+> +   /**
+> +    * The event encoding is specified in the SBI specification
+> +    * Event idx is a 20bits wide number encoded as follows:
+> +    * event_idx[19:16] = type
+> +    * event_idx[15:0] = code
+> +    * The code field in cache events are encoded as follows:
+> +    * event_idx.code[15:3] = cache_id
+> +    * event_idx.code[2:1] = op_id
+> +    * event_idx.code[0:0] = result_id
+> +    */
+> +
+> +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
+> +   fdt_event_ctr_map[0] = cpu_to_be32(0x00000001);
+> +   fdt_event_ctr_map[1] = cpu_to_be32(0x00000001);
+> +   fdt_event_ctr_map[2] = cpu_to_be32(cmask | 1 << 0);
+> +
+> +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
+> +   fdt_event_ctr_map[3] = cpu_to_be32(0x00000002);
+> +   fdt_event_ctr_map[4] = cpu_to_be32(0x00000002);
+> +   fdt_event_ctr_map[5] = cpu_to_be32(cmask | 1 << 2);
+> +
+> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) */
+> +   fdt_event_ctr_map[6] = cpu_to_be32(0x00010019);
+> +   fdt_event_ctr_map[7] = cpu_to_be32(0x00010019);
+> +   fdt_event_ctr_map[8] = cpu_to_be32(cmask);
+> +
+> +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01) */
+> +   fdt_event_ctr_map[9] = cpu_to_be32(0x0001001B);
+> +   fdt_event_ctr_map[10] = cpu_to_be32(0x0001001B);
+> +   fdt_event_ctr_map[11] = cpu_to_be32(cmask);
+> +
+> +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) */
+> +   fdt_event_ctr_map[12] = cpu_to_be32(0x00010021);
+> +   fdt_event_ctr_map[13] = cpu_to_be32(0x00010021);
+> +   fdt_event_ctr_map[14] = cpu_to_be32(cmask);
+> +
+> +   /* This a OpenSBI specific DT property documented in OpenSBI docs */
+> +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+> +}
+> +
+>  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
 >  {
->      MultiFDPacket_t *packet = p->packet;
-> -    uint32_t page_count = MULTIFD_PACKET_SIZE / p->page_size;
->      RAMBlock *block;
->      int i;
->  
-> @@ -306,10 +305,10 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->       * If we received a packet that is 100 times bigger than expected
->       * just stop migration.  It is a magic number.
->       */
-> -    if (packet->pages_alloc > page_count) {
-> +    if (packet->pages_alloc > p->page_count) {
->          error_setg(errp, "multifd: received packet "
->                     "with size %u and expected a size of %u",
-> -                   packet->pages_alloc, page_count) ;
-> +                   packet->pages_alloc, p->page_count) ;
->          return -1;
->      }
->  
-> @@ -936,6 +935,7 @@ int multifd_save_setup(Error **errp)
->          p->iov = g_new0(struct iovec, page_count + 1);
->          p->normal = g_new0(ram_addr_t, page_count);
->          p->page_size = qemu_target_page_size();
-> +        p->page_count = page_count;
->  
->          if (migrate_use_zero_copy_send()) {
->              p->write_flags = QIO_CHANNEL_WRITE_FLAG_ZERO_COPY;
-> @@ -1183,6 +1183,7 @@ int multifd_load_setup(Error **errp)
->          p->name = g_strdup_printf("multifdrecv_%d", i);
->          p->iov = g_new0(struct iovec, page_count);
->          p->normal = g_new0(ram_addr_t, page_count);
-> +        p->page_count = page_count;
->          p->page_size = qemu_target_page_size();
->      }
->  
-> -- 
-> 2.35.3
+>      if (ctr_idx < 3 || ctr_idx >= RV_MAX_MHPMCOUNTERS ||
+> diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+> index 036653627f78..3004ce37b636 100644
+> --- a/target/riscv/pmu.h
+> +++ b/target/riscv/pmu.h
+> @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
+>  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
+>                                 uint32_t ctr_idx);
+>  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_idx);
+> +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pmu_name);
+>  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
+>                            uint32_t ctr_idx);
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+
+
 
 
