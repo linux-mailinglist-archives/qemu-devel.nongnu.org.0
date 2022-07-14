@@ -2,109 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3926857558C
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 21:00:52 +0200 (CEST)
-Received: from localhost ([::1]:58504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AEFF575578
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 20:56:13 +0200 (CEST)
+Received: from localhost ([::1]:48178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC44x-0003ae-AX
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 15:00:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40256)
+	id 1oC40S-00054N-HL
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 14:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oC3ol-0002IJ-4Y; Thu, 14 Jul 2022 14:44:07 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47486)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oC3oi-0005ZS-UQ; Thu, 14 Jul 2022 14:44:06 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EIhO1G017369;
- Thu, 14 Jul 2022 18:44:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=xm0DeWRkOO2GkO0oJRA8WjZsNDEfzO1nBVjSM/H6CDY=;
- b=P5Aj+QashD4QdvVt1BlDwQICfyEntiVipee0HwhXY4NkNuk7mU9VU3tazDX0vprK2o33
- Nck1XNeZPwaNnRLuv6CNY+9HZU6uiaP7bd/SwZCcrsopo47XBCRTbsDxt1Nj98IcX5PL
- I3yeStBmARQ6YU3aBAJE05KC1Ia1zQB2tHimcFSSbHacGPf55OXizAIn0aWrJQkz7s5Z
- KaJ53CPeNuDB0YSPKqEcESAVvdKiTGPuQAkeMLXBdttouOyjSsTr6WO1OY8VqPXM5YKG
- 9EEwIi9K4KSwv2tAE7x103rXdho0/qQEyIV/uiyhQZFKPTaLjIQp8KPSXURcE+eQRfy2 Gw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3harnt00d4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 18:44:02 +0000
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26EIi2IB019563;
- Thu, 14 Jul 2022 18:44:02 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3harnt00ck-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 18:44:02 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26EIcYo1005007;
- Thu, 14 Jul 2022 18:44:00 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3h70xhyep5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 14 Jul 2022 18:44:00 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26EIhvm914221642
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 14 Jul 2022 18:43:57 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0BDCEA4051;
- Thu, 14 Jul 2022 18:43:57 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3EB33A4040;
- Thu, 14 Jul 2022 18:43:56 +0000 (GMT)
-Received: from [9.171.84.216] (unknown [9.171.84.216])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 14 Jul 2022 18:43:52 +0000 (GMT)
-Message-ID: <6ad0e006-72ee-3e24-48ed-fc8dd49db130@linux.ibm.com>
-Date: Thu, 14 Jul 2022 20:43:49 +0200
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oC3q3-0002xU-21; Thu, 14 Jul 2022 14:45:29 -0400
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d]:47052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oC3q1-0005sS-08; Thu, 14 Jul 2022 14:45:26 -0400
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-1013ecaf7e0so3481556fac.13; 
+ Thu, 14 Jul 2022 11:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=swQEHZoJRQkOrbcbv9pVlVka0KryQJV2APDF4/rKhU0=;
+ b=PBbaDCtn2WISfq13ybohkvpV+zvgJHIlomO4GFOhepxqXK/GWToOr72bCH8qcDekwp
+ CU/upuFZqSltf90q3mg3C9coaQft1SAFBa+wVJ5GSoWTY5+rtrat/FzIZ0foS6fqoBKM
+ XIEOUPrg4JOTRLYG4dsKnkL0CgTr7UYxKfbIkXtqojvL/L0OeVGgZOMMIvDtpjw7pcXO
+ 56tfSUFoAf4BjdEAbYCEBEkPMjcOyyeCrF+vHfaMxeR8wRQrq9YtPKaq0BrHZB2m4cJm
+ ZU2tflij5gCfs8cTlnidef+uP+QDhhTRh0nZ4l6b2w6tT4ncgjkWg8AvI2rBkQ/7GE8P
+ +clw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=swQEHZoJRQkOrbcbv9pVlVka0KryQJV2APDF4/rKhU0=;
+ b=15NbJQLjhQ6Z1dpkeG6UlrGLKXjzBoYvztWGHGboahxicjjsYvXdQGc7ct3ZvPkqhF
+ i2OHhp/EPqMhpnQc9ZuaisjGSayI0wUrvJvzbPyErp9ES78MadJIUcRrtae/7pkOvISv
+ veO4TZwpzeap/DWDFYzoEREYINDN8+HMVBZprSfy5Dgo9bcLB8iFiA85y6pSLOCkaRxM
+ /OgsUaPZB5POe3sdbrg0m5oGiTRavmMrCLwquyzTYb2m/vq1fScPdRag4a8fkISd33NV
+ LpMsDfdXhWI0YhpoPp8ypXtN/Uk98okoLMUpyE4dEtyzpa+JB3CABd5bp0anMoiJYL9S
+ Acjg==
+X-Gm-Message-State: AJIora/Y46OOndgEojuGZVBJ8f9alWsJDY5uKONsD0X87Ya7OW0qHkLr
+ LjtDp6OQpXFcGcralsgj3NE=
+X-Google-Smtp-Source: AGRyM1tbiBmqYZ8FdU7uzUsqKybCAooNXqRLEKhAhq2oSdFVEeg2U8LRX3viA+GIhRkW2yWjKXrcGg==
+X-Received: by 2002:a05:6870:88a8:b0:101:6409:ae26 with SMTP id
+ m40-20020a05687088a800b001016409ae26mr5224626oam.160.1657824323198; 
+ Thu, 14 Jul 2022 11:45:23 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ 188-20020aca06c5000000b0032f662af5d5sm944879oig.1.2022.07.14.11.45.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 14 Jul 2022 11:45:22 -0700 (PDT)
+Message-ID: <5bef219f-cfdd-f2bb-d2e9-f2ea6b4df213@gmail.com>
+Date: Thu, 14 Jul 2022 15:45:19 -0300
+MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v8 00/12] s390x: CPU Topology
+Subject: Re: [PATCH v3 1/2] target/ppc: Move tlbie[l] to decode tree
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-In-Reply-To: <20220620140352.39398-1-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zFtyRuawnaCgh5BghVOLv6satPSJLf39
-X-Proofpoint-GUID: yAmpgR0xpZcjWC3mmqnzi5TPJlaTEuCD
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ npiggin@gmail.com, richard.henderson@linaro.org
+References: <20220712193741.59134-1-leandro.lupori@eldorado.org.br>
+ <20220712193741.59134-2-leandro.lupori@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220712193741.59134-2-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-14_15,2022-07-14_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 clxscore=1015 adultscore=0 priorityscore=1501 spamscore=0
- lowpriorityscore=0 phishscore=0 suspectscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207140081
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,64 +95,255 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 6/20/22 16:03, Pierre Morel wrote:
-> Hi,
-> 
-> This new spin is essentially for coherence with the last Linux CPU
-> Topology patch, function testing and coding style modifications.
-> 
-> Forword
-> =======
-> 
-> The goal of this series is to implement CPU topology for S390, it
-> improves the preceeding series with the implementation of books and
-> drawers, of non uniform CPU topology and with documentation.
-> 
-> To use these patches, you will need the Linux series version 10.
-> You find it there:
-> https://lkml.org/lkml/2022/6/20/590
-> 
-> Currently this code is for KVM only, I have no idea if it is interesting
-> to provide a TCG patch. If ever it will be done in another series.
-> 
-> To have a better understanding of the S390x CPU Topology and its
-> implementation in QEMU you can have a look at the documentation in the
-> last patch or follow the introduction here under.
-> 
-> A short introduction
-> ====================
-> 
-> CPU Topology is described in the S390 POP with essentially the description
-> of two instructions:
-> 
-> PTF Perform Topology function used to poll for topology change
->     and used to set the polarization but this part is not part of this item.
-> 
-> STSI Store System Information and the SYSIB 15.1.x providing the Topology
->     configuration.
-> 
-> S390 Topology is a 6 levels hierarchical topology with up to 5 level
->     of containers. The last topology level, specifying the CPU cores.
-> 
->     This patch series only uses the two lower levels sockets and cores.
->     
->     To get the information on the topology, S390 provides the STSI
->     instruction, which stores a structures providing the list of the
->     containers used in the Machine topology: the SYSIB.
->     A selector within the STSI instruction allow to chose how many topology
->     levels will be provide in the SYSIB.
-> 
->     Using the Topology List Entries (TLE) provided inside the SYSIB we
->     the Linux kernel is able to compute the information about the cache
->     distance between two cores and can use this information to take
->     scheduling decisions.
 
-Do the socket, book, ... metaphors and looking at STSI from the existing
-smp infrastructure even make sense?
 
-STSI 15.1.x reports the topology to the guest and for a virtual machine,
-this topology can be very dynamic. So a CPU can move from from one topology
-container to another, but the socket of a cpu changing while it's running seems
-a bit strange. And this isn't supported by this patch series as far as I understand,
-the only topology changes are on hotplug.
+On 7/12/22 16:37, Leandro Lupori wrote:
+> Also decode RIC, PRS and R operands.
+> 
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> ---
+>   target/ppc/cpu_init.c                        |  4 +-
+>   target/ppc/insn32.decode                     |  8 ++
+>   target/ppc/translate.c                       | 64 +-------------
+>   target/ppc/translate/storage-ctrl-impl.c.inc | 87 ++++++++++++++++++++
+>   4 files changed, 99 insertions(+), 64 deletions(-)
+>   create mode 100644 target/ppc/translate/storage-ctrl-impl.c.inc
+> 
+> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> index c16cb8dbe7..8d7e77f778 100644
+> --- a/target/ppc/cpu_init.c
+> +++ b/target/ppc/cpu_init.c
+> @@ -6368,7 +6368,7 @@ POWERPC_FAMILY(POWER9)(ObjectClass *oc, void *data)
+>                          PPC_FLOAT_EXT |
+>                          PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_DCBZ |
+>                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
+> -                       PPC_MEM_TLBSYNC |
+> +                       PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
+>                          PPC_64B | PPC_64H | PPC_64BX | PPC_ALTIVEC |
+>                          PPC_SEGMENT_64B | PPC_SLBI |
+>                          PPC_POPCNTB | PPC_POPCNTWD |
+> @@ -6585,7 +6585,7 @@ POWERPC_FAMILY(POWER10)(ObjectClass *oc, void *data)
+>                          PPC_FLOAT_EXT |
+>                          PPC_CACHE | PPC_CACHE_ICBI | PPC_CACHE_DCBZ |
+>                          PPC_MEM_SYNC | PPC_MEM_EIEIO |
+> -                       PPC_MEM_TLBSYNC |
+> +                       PPC_MEM_TLBIE | PPC_MEM_TLBSYNC |
+>                          PPC_64B | PPC_64H | PPC_64BX | PPC_ALTIVEC |
+>                          PPC_SEGMENT_64B | PPC_SLBI |
+>                          PPC_POPCNTB | PPC_POPCNTWD |
+> diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
+> index 6ea48d5163..2b985249b8 100644
+> --- a/target/ppc/insn32.decode
+> +++ b/target/ppc/insn32.decode
+> @@ -809,3 +809,11 @@ VMODSD          000100 ..... ..... ..... 11111001011    @VX
+>   VMODUD          000100 ..... ..... ..... 11011001011    @VX
+>   VMODSQ          000100 ..... ..... ..... 11100001011    @VX
+>   VMODUQ          000100 ..... ..... ..... 11000001011    @VX
+> +
+> +## TLB Management Instructions
+> +
+> +&X_tlbie        rb rs ric prs:bool r:bool
+> +@X_tlbie        ...... rs:5 - ric:2 prs:1 r:1 rb:5 .......... .     &X_tlbie
+
+You're marking bit 11 as ignored but you're not marking 31 as ignored. The way
+the argument patterns are made in this file seems to be either not mark the
+ignored bits (e.g. most of args from the start of the file) or mark all ignore
+bits (e.g. @XL_S from RFEBB).
+
+I am being petty, yes. This makes no functional change in the instruction, but
+I'd rather mark bit 31 as ignored in @X_tlbie as well.
+
+I did that in my tree and it seems to work fine. If you're ok with this change,
+
+
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+
+> +
+> +TLBIE           011111 ..... - .. . . ..... 0100110010 -            @X_tlbie
+> +TLBIEL          011111 ..... - .. . . ..... 0100010010 -            @X_tlbie
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 1d6daa4608..4fcb311c2d 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -5424,64 +5424,6 @@ static void gen_tlbia(DisasContext *ctx)
+>   #endif  /* defined(CONFIG_USER_ONLY) */
+>   }
+>   
+> -/* tlbiel */
+> -static void gen_tlbiel(DisasContext *ctx)
+> -{
+> -#if defined(CONFIG_USER_ONLY)
+> -    GEN_PRIV;
+> -#else
+> -    bool psr = (ctx->opcode >> 17) & 0x1;
+> -
+> -    if (ctx->pr || (!ctx->hv && !psr && ctx->hr)) {
+> -        /*
+> -         * tlbiel is privileged except when PSR=0 and HR=1, making it
+> -         * hypervisor privileged.
+> -         */
+> -        GEN_PRIV;
+> -    }
+> -
+> -    gen_helper_tlbie(cpu_env, cpu_gpr[rB(ctx->opcode)]);
+> -#endif /* defined(CONFIG_USER_ONLY) */
+> -}
+> -
+> -/* tlbie */
+> -static void gen_tlbie(DisasContext *ctx)
+> -{
+> -#if defined(CONFIG_USER_ONLY)
+> -    GEN_PRIV;
+> -#else
+> -    bool psr = (ctx->opcode >> 17) & 0x1;
+> -    TCGv_i32 t1;
+> -
+> -    if (ctx->pr) {
+> -        /* tlbie is privileged... */
+> -        GEN_PRIV;
+> -    } else if (!ctx->hv) {
+> -        if (!ctx->gtse || (!psr && ctx->hr)) {
+> -            /*
+> -             * ... except when GTSE=0 or when PSR=0 and HR=1, making it
+> -             * hypervisor privileged.
+> -             */
+> -            GEN_PRIV;
+> -        }
+> -    }
+> -
+> -    if (NARROW_MODE(ctx)) {
+> -        TCGv t0 = tcg_temp_new();
+> -        tcg_gen_ext32u_tl(t0, cpu_gpr[rB(ctx->opcode)]);
+> -        gen_helper_tlbie(cpu_env, t0);
+> -        tcg_temp_free(t0);
+> -    } else {
+> -        gen_helper_tlbie(cpu_env, cpu_gpr[rB(ctx->opcode)]);
+> -    }
+> -    t1 = tcg_temp_new_i32();
+> -    tcg_gen_ld_i32(t1, cpu_env, offsetof(CPUPPCState, tlb_need_flush));
+> -    tcg_gen_ori_i32(t1, t1, TLB_NEED_GLOBAL_FLUSH);
+> -    tcg_gen_st_i32(t1, cpu_env, offsetof(CPUPPCState, tlb_need_flush));
+> -    tcg_temp_free_i32(t1);
+> -#endif /* defined(CONFIG_USER_ONLY) */
+> -}
+> -
+>   /* tlbsync */
+>   static void gen_tlbsync(DisasContext *ctx)
+>   {
+> @@ -6699,6 +6641,8 @@ static bool resolve_PLS_D(DisasContext *ctx, arg_D *d, arg_PLS_D *a)
+>   
+>   #include "translate/branch-impl.c.inc"
+>   
+> +#include "translate/storage-ctrl-impl.c.inc"
+> +
+>   /* Handles lfdp */
+>   static void gen_dform39(DisasContext *ctx)
+>   {
+> @@ -6937,10 +6881,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
+>    * XXX Those instructions will need to be handled differently for
+>    * different ISA versions
+>    */
+> -GEN_HANDLER(tlbiel, 0x1F, 0x12, 0x08, 0x001F0001, PPC_MEM_TLBIE),
+> -GEN_HANDLER(tlbie, 0x1F, 0x12, 0x09, 0x001F0001, PPC_MEM_TLBIE),
+> -GEN_HANDLER_E(tlbiel, 0x1F, 0x12, 0x08, 0x00100001, PPC_NONE, PPC2_ISA300),
+> -GEN_HANDLER_E(tlbie, 0x1F, 0x12, 0x09, 0x00100001, PPC_NONE, PPC2_ISA300),
+>   GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
+>   #if defined(TARGET_PPC64)
+>   GEN_HANDLER(slbia, 0x1F, 0x12, 0x0F, 0x031FFC01, PPC_SLBI),
+> diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
+> new file mode 100644
+> index 0000000000..7793297dd4
+> --- /dev/null
+> +++ b/target/ppc/translate/storage-ctrl-impl.c.inc
+> @@ -0,0 +1,87 @@
+> +/*
+> + * Power ISA decode for Storage Control instructions
+> + *
+> + * Copyright (c) 2022 Instituto de Pesquisas Eldorado (eldorado.org.br)
+> + *
+> + * This library is free software; you can redistribute it and/or
+> + * modify it under the terms of the GNU Lesser General Public
+> + * License as published by the Free Software Foundation; either
+> + * version 2.1 of the License, or (at your option) any later version.
+> + *
+> + * This library is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * Lesser General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU Lesser General Public
+> + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +/*
+> + * Store Control Instructions
+> + */
+> +
+> +static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+> +{
+> +#if defined(CONFIG_USER_ONLY)
+> +    gen_priv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+> +    return true;
+> +#else
+> +    TCGv_i32 t1;
+> +    int rb;
+> +
+> +    rb = a->rb;
+> +
+> +    if ((ctx->insns_flags2 & PPC2_ISA300) == 0) {
+> +        /*
+> +         * Before Power ISA 3.0, the corresponding bits of RIC, PRS, and R
+> +         * (and RS for tlbiel) were reserved fields and should be ignored.
+> +         */
+> +        a->ric = 0;
+> +        a->prs = false;
+> +        a->r = false;
+> +        if (local) {
+> +            a->rs = 0;
+> +        }
+> +    }
+> +
+> +    if (ctx->pr) {
+> +        /* tlbie[l] is privileged... */
+> +        gen_priv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+> +        return true;
+> +    } else if (!ctx->hv) {
+> +        if ((!a->prs && ctx->hr) || (!local && !ctx->gtse)) {
+> +            /*
+> +             * ... except when PRS=0 and HR=1, or when GTSE=0 for tlbie,
+> +             * making it hypervisor privileged.
+> +             */
+> +            gen_priv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+> +            return true;
+> +        }
+> +    }
+> +
+> +    if (!local && NARROW_MODE(ctx)) {
+> +        TCGv t0 = tcg_temp_new();
+> +        tcg_gen_ext32u_tl(t0, cpu_gpr[rb]);
+> +        gen_helper_tlbie(cpu_env, t0);
+> +        tcg_temp_free(t0);
+> +    } else {
+> +        gen_helper_tlbie(cpu_env, cpu_gpr[rb]);
+> +    }
+> +
+> +    if (local) {
+> +        return true;
+> +    }
+> +
+> +    t1 = tcg_temp_new_i32();
+> +    tcg_gen_ld_i32(t1, cpu_env, offsetof(CPUPPCState, tlb_need_flush));
+> +    tcg_gen_ori_i32(t1, t1, TLB_NEED_GLOBAL_FLUSH);
+> +    tcg_gen_st_i32(t1, cpu_env, offsetof(CPUPPCState, tlb_need_flush));
+> +    tcg_temp_free_i32(t1);
+> +
+> +    return true;
+> +#endif
+> +}
+> +
+> +TRANS_FLAGS(MEM_TLBIE, TLBIE, do_tlbie, false)
+> +TRANS_FLAGS(MEM_TLBIE, TLBIEL, do_tlbie, true)
 
