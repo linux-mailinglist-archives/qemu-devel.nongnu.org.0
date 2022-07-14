@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11FA574AFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:43:13 +0200 (CEST)
-Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F4D574AEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 12:40:25 +0200 (CEST)
+Received: from localhost ([::1]:59614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oBwJN-0002zo-4O
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38184)
+	id 1oBwGd-0001Qp-OD
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 06:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.makarov@auriga.com>)
- id 1oBwGH-0001LX-02
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:40:01 -0400
-Received: from hq-ms.auriga.com ([82.97.202.32]:42061 helo=hq-ms.auriga.ru)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oBwF0-0008Rd-Uc; Thu, 14 Jul 2022 06:38:42 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.makarov@auriga.com>)
- id 1oBwGC-0003LB-JB
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 06:39:59 -0400
-Received: from HQ-MS1.office.auriga.msk (82.97.202.32) by
- hq-ms1.office.auriga.msk (82.97.202.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.7; Thu, 14 Jul 2022 13:33:24 +0300
-Received: from HQ-MS1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e]) by
- hq-ms1.office.auriga.msk ([fe80::e47e:a86e:e738:f45e%3]) with mapi id
- 15.02.1118.007; Thu, 14 Jul 2022 13:33:23 +0300
-From: "Makarov, Andrey" <andrey.makarov@auriga.com>
-To: =?Windows-1252?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, "Andrey
- Makarov" <ph.makarov@gmail.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v2] Align Raspberry Pi DMA interrupts with Linux DTS
-Thread-Topic: [PATCH v2] Align Raspberry Pi DMA interrupts with Linux DTS
-Thread-Index: AQHYldx5hY7Jitw1OkuzcaxtTI7hIK17JBSAgAJ74JI=
-Date: Thu, 14 Jul 2022 10:33:23 +0000
-Message-ID: <332065c3ddc8430dab010c51d5532b42@auriga.com>
-References: <20220712104500.143538-1-andrey.makarov@auriga.com>,
- <0a39c59d-05a0-e792-3ad8-f3a148df1a6f@amsat.org>
-In-Reply-To: <0a39c59d-05a0-e792-3ad8-f3a148df1a6f@amsat.org>
-Accept-Language: en-US, ru-RU
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oBwEy-0003Ep-7T; Thu, 14 Jul 2022 06:38:42 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26EAHgfR012169;
+ Thu, 14 Jul 2022 10:38:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=c89MAotbpP7mjF1epLU+aLmU1IY6LwLuqqJtSPn1gAE=;
+ b=USGyc9xpdjlQEDodf2dZ3C9KeKhYuoT5fVDQgEkspv+TDcJpXNS02Bm0TzxuZRtLqfeL
+ 1nBfaz3D2E+jJF0GFm4zd1xy+EnZl0nnr9Bv9l+GScwM7UEFmMmnKgabkIbnuBhvb6uP
+ nq7VxU4NyNM25XKtHXjWuwk1juUCYTlEdmMk/ODrVkfQcq7hSHps/2FJVTvrXA+3uCLi
+ bU4u+twv/l4xpkyWMELhI+pTADJarb62ikthmyJfi6h2B9WaDJUmfNy4Vyn0rw7K0DfY
+ UZ7/wCru5QdBB2R/btUbDU1xo8Z5bP2xJcPMD9rwJDQbBZrs6uMo1KVDXvFp0kg4Z3Gg sg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hag372jk2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 10:38:34 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26EAc58Z022646;
+ Thu, 14 Jul 2022 10:38:34 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hag372jj6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 10:38:34 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26EAb16L001650;
+ Thu, 14 Jul 2022 10:38:31 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03fra.de.ibm.com with ESMTP id 3h71a8n83m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 14 Jul 2022 10:38:31 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26EAatRg19071360
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 14 Jul 2022 10:36:55 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 250614C059;
+ Thu, 14 Jul 2022 10:38:28 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 61D1D4C052;
+ Thu, 14 Jul 2022 10:38:27 +0000 (GMT)
+Received: from [9.171.83.159] (unknown [9.171.83.159])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 14 Jul 2022 10:38:25 +0000 (GMT)
+Message-ID: <53698be8-0eab-8dc2-2d54-df2a89e1092f@linux.ibm.com>
+Date: Thu, 14 Jul 2022 12:38:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 02/12] s390x/cpu_topology: CPU topology objects and
+ structures
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [37.204.56.188]
-x-tm-as-product-ver: SMEX-14.0.0.1158-9.0.1002-27014.002
-x-tm-as-result: No-10--28.345300-8.000000
-x-tmase-matchedrid: 0+daXaNUWRWnvGCyBToTI8G0UNgaZpYqGsvgUMYAn4UWzPTbxO7R+tIS
- YzBUt2RaXVsEWVqYqaivJcrLMYkA70UuXkWTSi/R30kDaWZBE1RU4sxFq6igEUqa6TyhyXvP8LT
- LO3Tg0+vAlOfe8T5MfPLlvc8IX9b4Vd0YPTyDIup+njGZQKtC70+crEA4+nhZcJquQxzIpMAMj+
- 7aixseRiavtNrR+/mj+bKorgB1pKIrJ58LuZWFYf8xygBCGWz0bG5kq/x3d5jWeQtrcncLfTw/V
- fkjVS61bqm1oygU5OZAB+NZtz6PsZrFf6cTuZsvSXIxnjwYrBRvQ1w4VLB58iGbzft4i3vND/1+
- fhTAwV5HeQQDmUpegC+8nlUa9l8AW/LVFLmRDI2zRPQ8T4oe5WCHSksKltZjQaizph4jN8MKezg
- PQdcKnod2b/kA4zInI2xNLY3S/HGuQJJrm28HTRFbgtHjUWLytNPXK3NCnaQDBQ+XBh4YJSLm4/
- WzmuzLCz3G0AFPm0ZNQHk6Ahy1lzl8kSL3NFxDPKN38CLPK0Fr2qJoNIuCjToUdFbHYUawjdx5F
- dhImgMi+t+0AiFaYvL3NxFKQpq1HYnnQdbx7N4APmNKDWsW0DexY0PszFIe6Mw4RnkAvRLT0PpH
- DbMis4cKE714ek4cK/VPzqYiD+ZgNUdcYnHhOyyEakGwrofuujjYN2zf/SqbKItl61J/yVF8tpI
- BUO3K05To8mUsSeKD2eCD558MvR86ZLwGwbjWcs7swePL6ovtMQfQSTViU42sQs6mJm/e
-x-tm-as-user-approved-sender: No
-x-tm-as-user-blocked-sender: No
-x-tmase-result: 10--28.345300-8.000000
-x-tmase-version: SMEX-14.0.0.1158-9.0.1002-27014.002
-x-tm-snts-smtp: 45EFD193C238C430E8EFBB60FF11755C22FDFECC37A45F459F71D1F7973D00702000:8
-Content-Type: multipart/alternative;
- boundary="_000_332065c3ddc8430dab010c51d5532b42aurigacom_"
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-3-pmorel@linux.ibm.com>
+ <de92ef17-3a17-df44-97aa-19e67d1d5b3d@linux.ibm.com>
+ <5215ca74-e71c-73df-69c9-d2522e082706@linux.ibm.com>
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+In-Reply-To: <5215ca74-e71c-73df-69c9-d2522e082706@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: LJtljS1SePpbEbLskks8qTd6anDqdpBm
+X-Proofpoint-ORIG-GUID: 5EDr__c9F7_eNmz-BK1V4j_J3Y0nmfSR
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Received-SPF: pass client-ip=82.97.202.32;
- envelope-from=andrey.makarov@auriga.com; helo=hq-ms.auriga.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-14_08,2022-07-14_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 suspectscore=0
+ priorityscore=1501 mlxlogscore=999 phishscore=0 malwarescore=0 bulkscore=0
+ clxscore=1015 impostorscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207140044
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,573 +125,262 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_332065c3ddc8430dab010c51d5532b42aurigacom_
-Content-Type: text/plain; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
+On 7/13/22 16:59, Pierre Morel wrote:
+> 
+> 
+> On 7/12/22 17:40, Janis Schoetterl-Glausch wrote:
+>> On 6/20/22 16:03, Pierre Morel wrote:
+>>> We use new objects to have a dynamic administration of the CPU topology.
+>>> The highest level object in this implementation is the s390 book and
+>>> in this first implementation of CPU topology for S390 we have a single
+>>> book.
+>>> The book is built as a SYSBUS bridge during the CPU initialization.
+>>> Other objects, sockets and core will be built after the parsing
+>>> of the QEMU -smp argument.
+>>>
+>>> Every object under this single book will be build dynamically
+>>> immediately after a CPU has be realized if it is needed.
+>>> The CPU will fill the sockets once after the other, according to the
+>>> number of core per socket defined during the smp parsing.
+>>>
+>>> Each CPU inside a socket will be represented by a bit in a 64bit
+>>> unsigned long. Set on plug and clear on unplug of a CPU.
+>>>
+>>> For the S390 CPU topology, thread and cores are merged into
+>>> topology cores and the number of topology cores is the multiplication
+>>> of cores by the numbers of threads.
+>>>
+>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>>> ---
+>>>   hw/s390x/cpu-topology.c         | 391 ++++++++++++++++++++++++++++++++
+>>>   hw/s390x/meson.build            |   1 +
+>>>   hw/s390x/s390-virtio-ccw.c      |   6 +
+>>>   include/hw/s390x/cpu-topology.h |  74 ++++++
+>>>   target/s390x/cpu.h              |  47 ++++
+>>>   5 files changed, 519 insertions(+)
+>>>   create mode 100644 hw/s390x/cpu-topology.c
+>>>   create mode 100644 include/hw/s390x/cpu-topology.h
+>>>
 
-Hi Phil,
+[...]
+
+>>> +}
+>>> +
+>>> +/*
+>>> + * s390_topology_new_cpu:
+>>> + * @core_id: the core ID is machine wide
+>>> + *
+>>> + * We have a single book returned by s390_get_topology(),
+>>> + * then we build the hierarchy on demand.
+>>> + * Note that we do not destroy the hierarchy on error creating
+>>> + * an entry in the topology, we just keep it empty.
+>>> + * We do not need to worry about not finding a topology level
+>>> + * entry this would have been caught during smp parsing.
+>>> + */
+>>> +bool s390_topology_new_cpu(MachineState *ms, int core_id, Error **errp)
+>>> +{
+>>> +    S390TopologyBook *book;
+>>> +    S390TopologySocket *socket;
+>>> +    S390TopologyCores *cores;
+>>> +    int nb_cores_per_socket;
+>>
+>> num_cores_per_socket instead?
+>>
+>>> +    int origin, bit;
+>>> +
+>>> +    book = s390_get_topology();
+>>> +
+>>> +    nb_cores_per_socket = ms->smp.cores * ms->smp.threads;
+>>
+>> We don't support the multithreading facility, do we?
+>> So, I think we should assert smp.threads == 1 somewhere.
+>> In any case I think the correct expression would round the threads up to the next power of 2,
+>> because the core_id has the thread id in the lower bits, but threads per core doesn't need to be
+>> a power of 2 according to the architecture.
+> 
+> That is right.
+> I will add that.
+
+Add the assert?
+It should probably be somewhere else.
+And you can set thread > 1 today, so we'd need to handle that. (increase the number of cpus instead and print a warning?)
+
+[...]
+
+>>> +
+>>> +/*
+>>> + * Setting the first topology: 1 book, 1 socket
+>>> + * This is enough for 64 cores if the topology is flat (single socket)
+>>> + */
+>>> +void s390_topology_setup(MachineState *ms)
+>>> +{
+>>> +    DeviceState *dev;
+>>> +
+>>> +    /* Create BOOK bridge device */
+>>> +    dev = qdev_new(TYPE_S390_TOPOLOGY_BOOK);
+>>> +    object_property_add_child(qdev_get_machine(),
+>>> +                              TYPE_S390_TOPOLOGY_BOOK, OBJECT(dev));
+>>
+>> Why add it to the machine instead of directly using a static?
+> 
+> For my opinion it is a characteristic of the machine.
+> 
+>> So it's visible to the user via info qtree or something?
+> 
+> It is already visible to the user on info qtree.
+> 
+>> Would that even be the appropriate location to show that?
+> 
+> That is a very good question and I really appreciate if we discuss on the design before diving into details.
+> 
+> The idea is to have the architecture details being on qtree as object so we can plug new drawers/books/socket/cores and in the future when the infrastructure allows it unplug them.
+
+Would it not be more accurate to say that we plug in new cpus only?
+Since you need to specify the topology up front with -smp and it cannot change after.
+So that all is static, books/sockets might be completely unpopulated, but they still exist in a way.
+As far as I understand, STSI only allows for cpus to change, nothing above it.
+> 
+> There is a info numa (info cpus does not give a lot info) to give information on nodes but AFAIU, a node is more a theoritical that can be used above the virtual architecture, sockets/cores, to specify characteristics like distance and associated memory.
+
+https://qemu.readthedocs.io/en/latest/interop/qemu-qmp-ref.html#qapidoc-2391
+shows that the relevant information can be queried via qmp.
+When I tried it on s390x it only showed the core_id, but we should be able to add the rest.
 
 
-Agreed, for v3 I selected naming with "orgated" instead of "shared" because=
- there is already IRQ line #15 that is called shared which seems like a com=
-pletely different thing and it's "not used" according to DTS (arch/arm/boot=
-/dts/bcm2835-common.dtsi):
+Am I correct in my understanding, that there are two reasons to have the hierarchy objects:
+1. Caching the topology instead of computing it when STSI is called
+2. So they show up in info qtree
 
+?
 
-                        interrupts =3D <1 16>,
-                                     <1 17>,
-                                     <1 18>,
-                                     <1 19>,
-                                     <1 20>,
-                                     <1 21>,
-                                     <1 22>,
-                                     <1 23>,
-                                     <1 24>,
-                                     <1 25>,
-                                     <1 26>,
+> 
+> As I understand it can be used above socket and for us above books or drawers too like in:
+> 
+> -numa cpu,node-id=0,socket-id=0
+> 
+> All cores in socket 0 belong to node 0
+> 
+> or
+> -numa cpu,node-id=1,drawer-id=1
+> 
+> all cores from all sockets of drawer 1 belong to node 1
+> 
+> 
+> As there is no info socket, I think that for now we do not need an info book/drawer we have everything in qtree.
+> 
+> 
+>>
 
-                                     /* dma channel 11-14 share one irq */
-                                     <1 27>,
-                                     <1 27>,
-                                     <1 27>,
-                                     <1 27>,
-                                     /* unused shared irq for all channels =
-*/
-                                     <1 28>;
+[...]
 
+> 
+>>> +    /*
+>>> +     * Each CPU inside a socket will be represented by a bit in a 64bit
+>>> +     * unsigned long. Set on plug and clear on unplug of a CPU.
+>>> +     * All CPU inside a mask share the same dedicated, polarity and
+>>> +     * cputype values.
+>>> +     * The origin is the offset of the first CPU in a mask.
+>>> +     */
+>>> +struct S390TopologyCores {
+>>> +    DeviceState parent_obj;
+>>> +    int id;
+>>> +    bool dedicated;
+>>> +    uint8_t polarity;
+>>> +    uint8_t cputype;
+>>
+>> Why not snake_case for cpu type?
+> 
+> I do not understand what you mean.
 
-> So before we could trigger IRQ #12, and now it is unbound?
+I'm suggesting s/cputype/cpu_type/
+> 
+>>
+>>> +    uint16_t origin;
+>>> +    uint64_t mask;
+>>> +    int cnt;
+>>
+>> num_cores instead ?
+> 
+> I suppress this it is unused
+> 
+>>
 
+[...]
 
-Yeah, well, DMA IRQ #12 is bound to the same line as #11, but DMA IRQ #15 a=
-ka IC IRQ # INTERRUPT_DMA0+12=3D16+12=3D28 is not bound anymore indeed (the=
- last one in the list above). Previously channels 0--12 were bound linearly=
- and it was unclear what  this hard-coded "12" is. (This 12 is never mentio=
-ned anywhere besides Qemu.) So actually 3 DMA IRQ #13-15 were unbound befor=
-e.
+>>> @@ -565,6 +565,53 @@ typedef union SysIB {
+>>>   } SysIB;
+>>>   QEMU_BUILD_BUG_ON(sizeof(SysIB) != 4096);
+>>>   +/* CPU type Topology List Entry */
+>>> +typedef struct SysIBTl_cpu {
+>>> +        uint8_t nl;
+>>> +        uint8_t reserved0[3];
+>>> +        uint8_t reserved1:5;
+>>> +        uint8_t dedicated:1;
+>>> +        uint8_t polarity:2;
+>>> +        uint8_t type;
+>>> +        uint16_t origin;
+>>> +        uint64_t mask;
+>>> +} SysIBTl_cpu;
+>>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_cpu) != 16);
+>>> +
+>>> +/* Container type Topology List Entry */
+>>> +typedef struct SysIBTl_container {
+>>> +        uint8_t nl;
+>>> +        uint8_t reserved[6];
+>>> +        uint8_t id;
+>>> +} QEMU_PACKED SysIBTl_container;
+>>> +QEMU_BUILD_BUG_ON(sizeof(SysIBTl_container) != 8);
+>>> +
+>>> +/* Generic Topology List Entry */
+>>> +typedef union SysIBTl_entry {
+>>> +        uint8_t nl;
+>>> +        SysIBTl_container container;
+>>> +        SysIBTl_cpu cpu;
+>>> +} SysIBTl_entry;
+>>
+>> I don't like this union, it's only used in SysIB_151x below and that's misleading,
+>> because the entries are packed without padding, but the union members have different
+>> sizes.
+> 
+> the entries have different sizes 64bits and 128bits.
+> I do not understand why they should be padded.
 
+I way saying that in the SYSIB there is no padding, but the size of the union is 16,
+so two container entries in the array would have padding, which is misleading.
+There is no actual problem, since the array is not actually used as such.
+> 
+> However, the union here is useless. will remove it.
+> 
+>>
+>>> +
+>>> +#define TOPOLOGY_NR_MAG  6
+>>> +#define TOPOLOGY_NR_MAG6 0
+>>> +#define TOPOLOGY_NR_MAG5 1
+>>> +#define TOPOLOGY_NR_MAG4 2
+>>> +#define TOPOLOGY_NR_MAG3 3
+>>> +#define TOPOLOGY_NR_MAG2 4
+>>> +#define TOPOLOGY_NR_MAG1 5
+>>> +/* Configuration topology */
+>>> +typedef struct SysIB_151x {
+>>> +    uint8_t  res0[2];
+>>> +    uint16_t length;
+>>> +    uint8_t  mag[TOPOLOGY_NR_MAG];
+>>> +    uint8_t  res1;
+>>> +    uint8_t  mnest;
+>>> +    uint32_t res2;
+>>> +    SysIBTl_entry tle[0];
+>>
+>> I think this should just be a uint64_t[] or uint64_t[0], whichever is QEMU style.
+> 
+> ok
+> 
+>>> +} SysIB_151x;
+>>> +QEMU_BUILD_BUG_ON(sizeof(SysIB_151x) != 16);
+>>> +
+>>>   /* MMU defines */
+>>>   #define ASCE_ORIGIN           (~0xfffULL) /* segment table origin             */
+>>>   #define ASCE_SUBSPACE         0x200       /* subspace group control           */
+>>
+> 
 
-I omitted this last DMA IRQ #15 (IC IRQ #28) =97 it clearly has some specia=
-l status in the spec, e.g. it has a different block of DMA address, but it'=
-s not described otherwise. I assumed that "unused" means off.
-
-
-Best regards,
-
-Andrey Makarov
-
-Software Team Lead
-
-Auriga LLC
-
-
-________________________________
-From: Philippe Mathieu-Daud=E9 <philippe.mathieu.daude@gmail.com> on behalf=
- of Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
-Sent: Wednesday, July 13, 2022 1:45:13 AM
-To: Andrey Makarov; qemu-devel@nongnu.org
-Cc: Makarov, Andrey
-Subject: Re: [PATCH v2] Align Raspberry Pi DMA interrupts with Linux DTS
-
-Hi Andrey,
-
-On 12/7/22 12:45, Andrey Makarov wrote:
-> There is nothing in the specs on DMA engine interrupt lines: it should ha=
-ve
-> been in the "BCM2835 ARM Peripherals" datasheet but the appropriate
-> "ARM peripherals interrupt table" (p.113) is nearly empty.
->
-> All Raspberry Pi models 1-3 (based on bcm2835) have
-> Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
->
->      /* dma channel 11-14 share one irq */
->
-> This information is repeated in the driver code
-> (drivers/dma/bcm2835-dma.c +1344):
->
->      /*
->       * in case of channel >=3D 11
->       * use the 11th interrupt and that is shared
->       */
->
-> In this patch channels 0--10 and 11--14 are handled separately.
->
-> In version v2:
->
-> 1) an OR-gate is added according to review
-> 2) a simple qtest is added for testing DMA & its interrupts
->
-> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
-> ---
->   hw/arm/bcm2835_peripherals.c         |  21 +++++-
->   include/hw/arm/bcm2835_peripherals.h |   2 +
->   tests/qtest/bcm2835-dma-test.c       | 106 +++++++++++++++++++++++++++
->   tests/qtest/meson.build              |   3 +-
->   4 files changed, 130 insertions(+), 2 deletions(-)
->   create mode 100644 tests/qtest/bcm2835-dma-test.c
->
-> diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-> index 48538c9360..5a9c472b5a 100644
-> --- a/hw/arm/bcm2835_peripherals.c
-> +++ b/hw/arm/bcm2835_peripherals.c
-> @@ -101,6 +101,11 @@ static void bcm2835_peripherals_init(Object *obj)
->       /* DMA Channels */
->       object_initialize_child(obj, "dma", &s->dma, TYPE_BCM2835_DMA);
->
-> +    object_initialize_child(obj, "dma-11-14-irq-orgate",
-
-Maybe name "shared-dma-irq-orgate"?
-
-> +                            &s->dma_11_14_irq_orgate, TYPE_OR_IRQ);
-
-Similarly 'shared_dma' or 'orgated-dma'? But not _11_14_.
-
-> +    object_property_set_int(OBJECT(&s->dma_11_14_irq_orgate), "num-lines=
-", 4,
-
-Instead of using a magic number:
-
-#define BCM2835_SHARED_DMA_COUNT 4
-
-> +                            &error_abort);
-> +
->       object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
->                                      OBJECT(&s->gpu_bus_mr));
->
-> @@ -322,13 +327,27 @@ static void bcm2835_peripherals_realize(DeviceState=
- *dev, Error **errp)
->       memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
->                   sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
->
-> -    for (n =3D 0; n <=3D 12; n++) {
-> +    for (n =3D 0; n <=3D 10; n++) {
-
-So before we could trigger IRQ #12, and now it is unbound?
-
-Also:
-
-#define BCM2835_DMA_CHANNELS 10
-
->           sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
->                              qdev_get_gpio_in_named(DEVICE(&s->ic),
->                                                     BCM2835_IC_GPU_IRQ,
->                                                     INTERRUPT_DMA0 + n));
->       }
->
-> +    /* According to DTS, dma channels 11-14 share one irq */
-> +    if (!qdev_realize(DEVICE(&s->dma_11_14_irq_orgate), NULL, errp)) {
-> +        return;
-> +    }
-> +    for (n =3D 11; n <=3D 14; n++) {
-
-Logic simplified if you use the [0 .. BCM2835_SHARED_DMA_COUNT-1] range:
-
-   for (n =3D 0; n < BCM2835_SHARED_DMA_COUNT; n++) {
-
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
-
-     BCM2835_DMA_CHANNELS + 1 + n,
-
-> +                           qdev_get_gpio_in(DEVICE(&s->dma_11_14_irq_org=
-ate),
-> +                                            n - 11));
-
-     n)
-
-> +    }
-> +    qdev_connect_gpio_out(DEVICE(&s->dma_11_14_irq_orgate), 0,
-> +                          qdev_get_gpio_in_named(DEVICE(&s->ic),
-> +                                                 BCM2835_IC_GPU_IRQ,
-> +                                                 INTERRUPT_DMA0 + 11));
-> +
->       /* THERMAL */
->       if (!sysbus_realize(SYS_BUS_DEVICE(&s->thermal), errp)) {
->           return;
-> diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm283=
-5_peripherals.h
-> index d864879421..79e2f2771a 100644
-> --- a/include/hw/arm/bcm2835_peripherals.h
-> +++ b/include/hw/arm/bcm2835_peripherals.h
-> @@ -17,6 +17,7 @@
->   #include "hw/char/bcm2835_aux.h"
->   #include "hw/display/bcm2835_fb.h"
->   #include "hw/dma/bcm2835_dma.h"
-> +#include "hw/or-irq.h"
->   #include "hw/intc/bcm2835_ic.h"
->   #include "hw/misc/bcm2835_property.h"
->   #include "hw/misc/bcm2835_rng.h"
-> @@ -55,6 +56,7 @@ struct BCM2835PeripheralState {
->       BCM2835AuxState aux;
->       BCM2835FBState fb;
->       BCM2835DMAState dma;
-> +    qemu_or_irq dma_11_14_irq_orgate;
->       BCM2835ICState ic;
->       BCM2835PropertyState property;
->       BCM2835RngState rng;
-
-Regards,
-
-Phil.
-
---_000_332065c3ddc8430dab010c51d5532b42aurigacom_
-Content-Type: text/html; charset="Windows-1252"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DWindows-1=
-252">
-<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
-n-bottom:0;} --></style>
-</head>
-<body dir=3D"ltr">
-<div id=3D"divtagdefaultwrapper" style=3D"font-size:12pt;color:#000000;font=
--family:Calibri,Helvetica,sans-serif;" dir=3D"ltr">
-<meta content=3D"text/html; charset=3DUTF-8">
-<div dir=3D"ltr">Hi Phil,
-<div id=3D"x_divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size: 12pt; co=
-lor: rgb(0, 0, 0); font-family: Calibri, Helvetica, sans-serif, &quot;Emoji=
-Font&quot;, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, Noto=
-ColorEmoji, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSy=
-mbols;">
-<p><br>
-</p>
-<p>Agreed, for v3 I selected naming with &quot;orgated&quot; instead of &qu=
-ot;shared&quot; because there is already IRQ line #15 that is called shared=
- which seems like a completely different thing and it's &quot;not used&quot=
-; according to DTS (<span>arch/arm/boot/dts/bcm2835-common.dtsi</span>):<br=
->
-</p>
-<p><br>
-</p>
-<p></p>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; interr=
-upts =3D &lt;1 16&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 17=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 18=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 19=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 20=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 21=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 22=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 23=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 24=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 25=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 26=
-&gt;,<br>
-</div>
-<p></p>
-<p></p>
-<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* =
-dma channel 11-14 share one irq */<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 27=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 27=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 27=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 27=
-&gt;,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* unuse=
-d shared irq for all channels */<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;1 28=
-&gt;;<br>
-</div>
-<p></p>
-<p><br>
-</p>
-<p>&gt; <font size=3D"2"><span style=3D"font-size:10pt">So before we could =
-trigger IRQ #12, and now it is unbound?</span></font><br>
-</p>
-<p><br>
-</p>
-<p>Yeah, well, DMA IRQ #12 is bound to the same line as #11, but DMA IRQ #1=
-5 aka IC IRQ # INTERRUPT_DMA0&#43;12=3D16&#43;12=3D28 is not bound anymore =
-indeed (the last one in the list above). Previously channels 0--12 were bou=
-nd linearly and it was unclear what&nbsp; this hard-coded
- &quot;12&quot; is. (This 12 is never mentioned anywhere besides Qemu.)&nbs=
-p;<span>So actually 3 DMA IRQ #13-15 were unbound before.
-</span></p>
-<p><br>
-</p>
-<p>I omitted this last DMA IRQ #15 (IC IRQ #28) =97 it clearly has some spe=
-cial status in the spec, e.g. it has a different block of DMA address, but =
-it's not described otherwise. I assumed that &quot;unused&quot; means off.<=
-br>
-</p>
-<p><br>
-</p>
-<p></p>
-<div>
-<p><span>Best regards</span><span>,</span></p>
-<p><strong>Andrey Makarov </strong></p>
-<p>Software Team Lead</p>
-Auriga LLC</div>
-<br>
-<p></p>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
-=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Philippe Mathieu-Da=
-ud=E9 &lt;philippe.mathieu.daude@gmail.com&gt; on behalf of Philippe Mathie=
-u-Daud=E9 &lt;f4bug@amsat.org&gt;<br>
-<b>Sent:</b> Wednesday, July 13, 2022 1:45:13 AM<br>
-<b>To:</b> Andrey Makarov; qemu-devel@nongnu.org<br>
-<b>Cc:</b> Makarov, Andrey<br>
-<b>Subject:</b> Re: [PATCH v2] Align Raspberry Pi DMA interrupts with Linux=
- DTS</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt">
-<div class=3D"PlainText">Hi Andrey,<br>
-<br>
-On 12/7/22 12:45, Andrey Makarov wrote:<br>
-&gt; There is nothing in the specs on DMA engine interrupt lines: it should=
- have<br>
-&gt; been in the &quot;BCM2835 ARM Peripherals&quot; datasheet but the appr=
-opriate<br>
-&gt; &quot;ARM peripherals interrupt table&quot; (p.113) is nearly empty.<b=
-r>
-&gt; <br>
-&gt; All Raspberry Pi models 1-3 (based on bcm2835) have<br>
-&gt; Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi &#43;25):<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* dma channel 11-14 share one irq */<br=
->
-&gt; <br>
-&gt; This information is repeated in the driver code<br>
-&gt; (drivers/dma/bcm2835-dma.c &#43;1344):<br>
-&gt; <br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * in case of channel &gt;=3D 11<br=
->
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * use the 11th interrupt and that =
-is shared<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-&gt; <br>
-&gt; In this patch channels 0--10 and 11--14 are handled separately.<br>
-&gt; <br>
-&gt; In version v2:<br>
-&gt; <br>
-&gt; 1) an OR-gate is added according to review<br>
-&gt; 2) a simple qtest is added for testing DMA &amp; its interrupts<br>
-&gt; <br>
-&gt; Signed-off-by: Andrey Makarov &lt;andrey.makarov@auriga.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp;&nbsp; hw/arm/bcm2835_peripherals.c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; |&nbsp; 21 &#43;&#43;&#43;&#43;&#43;-<br>
-&gt;&nbsp;&nbsp; include/hw/arm/bcm2835_peripherals.h |&nbsp;&nbsp; 2 &#43;=
-<br>
-&gt;&nbsp;&nbsp; tests/qtest/bcm2835-dma-test.c&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; | 106 &#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;=
-&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;&#43;=
-<br>
-&gt;&nbsp;&nbsp; tests/qtest/meson.build&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp;&nbsp; 3 &#43;-<br>
-&gt;&nbsp;&nbsp; 4 files changed, 130 insertions(&#43;), 2 deletions(-)<br>
-&gt;&nbsp;&nbsp; create mode 100644 tests/qtest/bcm2835-dma-test.c<br>
-&gt; <br>
-&gt; diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals=
-.c<br>
-&gt; index 48538c9360..5a9c472b5a 100644<br>
-&gt; --- a/hw/arm/bcm2835_peripherals.c<br>
-&gt; &#43;&#43;&#43; b/hw/arm/bcm2835_peripherals.c<br>
-&gt; @@ -101,6 &#43;101,11 @@ static void bcm2835_peripherals_init(Object *=
-obj)<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* DMA Channels */<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object_initialize_child(obj, &quot=
-;dma&quot;, &amp;s-&gt;dma, TYPE_BCM2835_DMA);<br>
-&gt;&nbsp;&nbsp; <br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; object_initialize_child(obj, &quot;dma-11-14-i=
-rq-orgate&quot;,<br>
-<br>
-Maybe name &quot;shared-dma-irq-orgate&quot;?<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; &amp;s-&gt;dma_11_14_irq_orgate, TYPE_OR_IRQ);<br>
-<br>
-Similarly 'shared_dma' or 'orgated-dma'? But not _11_14_.<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; object_property_set_int(OBJECT(&amp;s-&gt;dma_=
-11_14_irq_orgate), &quot;num-lines&quot;, 4,<br>
-<br>
-Instead of using a magic number:<br>
-<br>
-#define BCM2835_SHARED_DMA_COUNT 4<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; &amp;error_abort);<br>
-&gt; &#43;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; object_property_add_const_link(OBJ=
-ECT(&amp;s-&gt;dma), &quot;dma-mr&quot;,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-; OBJECT(&amp;s-&gt;gpu_bus_mr));<br>
-&gt;&nbsp;&nbsp; <br>
-&gt; @@ -322,13 &#43;327,27 @@ static void bcm2835_peripherals_realize(Devi=
-ceState *dev, Error **errp)<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memory_region_add_subregion(&amp;s=
--&gt;peri_mr, DMA15_OFFSET,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_mmio_get_region(SYS_BUS_DEVICE=
-(&amp;s-&gt;dma), 1));<br>
-&gt;&nbsp;&nbsp; <br>
-&gt; -&nbsp;&nbsp;&nbsp; for (n =3D 0; n &lt;=3D 12; n&#43;&#43;) {<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; for (n =3D 0; n &lt;=3D 10; n&#43;&#43;) {<br>
-<br>
-So before we could trigger IRQ #12, and now it is unbound?<br>
-<br>
-Also:<br>
-<br>
-#define BCM2835_DMA_CHANNELS 10<br>
-<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_con=
-nect_irq(SYS_BUS_DEVICE(&amp;s-&gt;dma), n,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp; qdev_get_gpio_in_named(DEVICE(&amp;s-&gt;ic),<=
-br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; BCM2835_IC_GPU_IRQ,<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; INTERRUPT_DMA0 &#43; n));<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-&gt;&nbsp;&nbsp; <br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; /* According to DTS, dma channels 11-14 share =
-one irq */<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; if (!qdev_realize(DEVICE(&amp;s-&gt;dma_11_14_=
-irq_orgate), NULL, errp)) {<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; for (n =3D 11; n &lt;=3D 14; n&#43;&#43;) {<br=
->
-<br>
-Logic simplified if you use the [0 .. BCM2835_SHARED_DMA_COUNT-1] range:<br=
->
-<br>
-&nbsp;&nbsp; for (n =3D 0; n &lt; BCM2835_SHARED_DMA_COUNT; n&#43;&#43;) {<=
-br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sysbus_connect_irq(SYS=
-_BUS_DEVICE(&amp;s-&gt;dma), n,<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp; BCM2835_DMA_CHANNELS &#43; 1 &#43; n,<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; qdev_get_gpio_in(DEVICE(&amp;s-&gt;dma_11_14_irq_orgate),<=
-br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n - 11));<br>
-<br>
-&nbsp;&nbsp;&nbsp;&nbsp; n)<br>
-<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; }<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; qdev_connect_gpio_out(DEVICE(&amp;s-&gt;dma_11=
-_14_irq_orgate), 0,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; qdev_get_gpio_in_named(DEVICE(&amp;s-&gt;ic),<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; B=
-CM2835_IC_GPU_IRQ,<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I=
-NTERRUPT_DMA0 &#43; 11));<br>
-&gt; &#43;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* THERMAL */<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!sysbus_realize(SYS_BUS_DEVICE=
-(&amp;s-&gt;thermal), errp)) {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br=
->
-&gt; diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm=
-2835_peripherals.h<br>
-&gt; index d864879421..79e2f2771a 100644<br>
-&gt; --- a/include/hw/arm/bcm2835_peripherals.h<br>
-&gt; &#43;&#43;&#43; b/include/hw/arm/bcm2835_peripherals.h<br>
-&gt; @@ -17,6 &#43;17,7 @@<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/char/bcm2835_aux.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/display/bcm2835_fb.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/dma/bcm2835_dma.h&quot;<br>
-&gt; &#43;#include &quot;hw/or-irq.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/intc/bcm2835_ic.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/misc/bcm2835_property.h&quot;<br>
-&gt;&nbsp;&nbsp; #include &quot;hw/misc/bcm2835_rng.h&quot;<br>
-&gt; @@ -55,6 &#43;56,7 @@ struct BCM2835PeripheralState {<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835AuxState aux;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835FBState fb;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835DMAState dma;<br>
-&gt; &#43;&nbsp;&nbsp;&nbsp; qemu_or_irq dma_11_14_irq_orgate;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835ICState ic;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835PropertyState property;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BCM2835RngState rng;<br>
-<br>
-Regards,<br>
-<br>
-Phil.<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_332065c3ddc8430dab010c51d5532b42aurigacom_--
 
