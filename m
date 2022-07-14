@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41FA45747F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:12:13 +0200 (CEST)
-Received: from localhost ([::1]:59780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 597C05747E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 11:11:04 +0200 (CEST)
+Received: from localhost ([::1]:58066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oButI-0005Sq-BC
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:12:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
+	id 1oBusB-0004FF-6b
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 05:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBujn-00050s-Vt
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:53906)
+ id 1oBujt-00056F-Dd
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oBujl-0005uO-LA
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:23 -0400
+ id 1oBujn-0005ub-RG
+ for qemu-devel@nongnu.org; Thu, 14 Jul 2022 05:02:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657789340;
+ s=mimecast20190719; t=1657789343;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fX03v0kOkH7rjZboIn4udYC6Bm8zLRFu9JPvkv7s92s=;
- b=dr98QUMLzqy5x/ecMJbL8/DuI7APbcNE5FnYIwtOTV2CZ1lNsD921AjE+rFwln+VoHQ9BZ
- Naud8clZ+yjBqpXyMW6PRLxKhyhHZHsBTG3kQKzUL4H0T8q81pbb4bzC5OHRjRpcbVSiv0
- iiZqPBikPgL8lJrLao4jdfzgg9zP0f8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=PuZojlBvMJHakpry/pxYzjDQngsN2NNKxuawl1RMhPU=;
+ b=iHYtwsfbdZJc7i2ec8P78jXYDcqKSrQUqmCfyjjhvty89NcrZUOdqxLRpsKRGpp4o1NAXb
+ Ug5ivHRnbiO8CGkJBrsPMXVxwfCVXDw4RpjFInI5dwpM2O6bQ7wl86GvR1DOnGWE1uPcKH
+ uF58QVFxra1neEIO4CXIHUr9TRglodE=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-77--iWUFzGwOOKGq5lizLeVCA-1; Thu, 14 Jul 2022 05:02:19 -0400
-X-MC-Unique: -iWUFzGwOOKGq5lizLeVCA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- m13-20020a056402430d00b0043ac2f27d83so1098907edc.20
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:19 -0700 (PDT)
+ us-mta-632-MqQ9yY68N96reyfVW6TU0g-1; Thu, 14 Jul 2022 05:02:21 -0400
+X-MC-Unique: MqQ9yY68N96reyfVW6TU0g-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ s4-20020a170906500400b006feaccb3a0eso507962ejj.11
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 02:02:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fX03v0kOkH7rjZboIn4udYC6Bm8zLRFu9JPvkv7s92s=;
- b=oJ4eH9ZBNp9dog1SCnul2RF5RTOne0oIiMTWtEHcibrGYPmXhqY4DA7aalWSLP4GYI
- /9GgCmLtSpuJLnQWWHVb9kXgN9JaTgwmz9yYuPkIgBMPO22K/l28XTOFRzeVfmZE4Pph
- LS6sjOpnJcKa7pdq67o1p7xrZMER54dOzS6w8LH8UhYt62tk0ZEAoqWyDA5wjlj+QaWK
- OmNiFuU2t48nix94so2hggkabUvzD4LBGACC6RjsIO21//kvCpzeV/qfYDIkfm51RNOa
- 8Bu/9rX6Ln3IU+azItEbTTQ46pUY6dkFnfEnASOpL3/3ntHZfqTjWebbWuRjaPLIOeBZ
- 8Wxw==
-X-Gm-Message-State: AJIora9v081t0+opqcBKVx6TFfdte3PzqzSJWR+fwN8IPNSl+qggQRWJ
- afb1piuYHBFnhtjB3eQR2ng7DF4u0ePEcQzIstpyndzOX/8nuXIDOAP3NxXuxblc+mpJ54o/lYc
- q40NIZh6UCd6re9VJO99G1eF/0/cQI4vM0T7/6quOqJ9qTKIK92KtHJg6l8tN71OIDwA=
-X-Received: by 2002:a05:6402:42c8:b0:43a:a1ee:a097 with SMTP id
- i8-20020a05640242c800b0043aa1eea097mr10826056edc.150.1657789337772; 
- Thu, 14 Jul 2022 02:02:17 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t8mcBP6RVEwVkjfl0g6SDFObhG/kl39YNBjb5ls03fDdfQrUyNAmpr6ZwH4rV+EX/x90MLyA==
-X-Received: by 2002:a05:6402:42c8:b0:43a:a1ee:a097 with SMTP id
- i8-20020a05640242c800b0043aa1eea097mr10826026edc.150.1657789337396; 
- Thu, 14 Jul 2022 02:02:17 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id
- b6-20020a170906038600b00711edab7622sm455347eja.40.2022.07.14.02.02.16
+ bh=PuZojlBvMJHakpry/pxYzjDQngsN2NNKxuawl1RMhPU=;
+ b=3YBy/JZ0bsfg7+u2LbN0PBQtsyrwqHeZ4Jz1ZvRmhNkl+6iLbor24HRr51+So4ihsu
+ 2ger11Oe3FJoHMq2RLGQLqQtGuROF/50e1wApDRryRmPH1x7oKui4JvHNWMb44DDkYx7
+ vIgvoDTbSUnkJyTQtR7IquekjF7G93Wwk40DHQNbmCgbN8btoSEGEdn/9JSSASLiCLW6
+ RGahnYHqE2kc3b4gymuMKG+Irw55d4jGTtFTgW6zeaXeuYo3Al2HaIIboRwH2fe6AvME
+ ptY6K3n2RGyP/j/48Ckj3cZhK65vCgZYMMnlQvRRAKd2WOhh909LjhmfCrW7ecWaBmYS
+ WkCw==
+X-Gm-Message-State: AJIora/sR4CcNdF7jYSpd/vIoKOUIfq6SODcxshTUhwXafSvUpuaSDQ4
+ jVMA63CXVrISekVbExJqRggTR/dTuONFFOk/LN00VkVmBrtt7yZJpXYSzvOauH8wn92m5Houd0r
+ e9+Yz8WMX8Ebmg3vYBv/yvJ4DBVPJajfx5anBRPvgIZ+fhzq8RiDG2RtsqzqaoxN/o5s=
+X-Received: by 2002:a17:906:4786:b0:722:e5ac:7d96 with SMTP id
+ cw6-20020a170906478600b00722e5ac7d96mr8071565ejc.172.1657789339587; 
+ Thu, 14 Jul 2022 02:02:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1szn6ZZSS89yyjVTCMqwCayjt6Bl/sdpOAXFSd9CezXduDrr0t9lwp//DH9/CE4P2bVlVjq5A==
+X-Received: by 2002:a17:906:4786:b0:722:e5ac:7d96 with SMTP id
+ cw6-20020a170906478600b00722e5ac7d96mr8071538ejc.172.1657789339218; 
+ Thu, 14 Jul 2022 02:02:19 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ l9-20020a1709063d2900b00722f66fb36csm447677ejf.112.2022.07.14.02.02.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 14 Jul 2022 02:02:16 -0700 (PDT)
+ Thu, 14 Jul 2022 02:02:18 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PULL 02/20] cutils: Introduce bundle mechanism
-Date: Thu, 14 Jul 2022 11:01:53 +0200
-Message-Id: <20220714090211.304305-3-pbonzini@redhat.com>
+Subject: [PULL 03/20] datadir: Use bundle mechanism
+Date: Thu, 14 Jul 2022 11:01:54 +0200
+Message-Id: <20220714090211.304305-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220714090211.304305-1-pbonzini@redhat.com>
 References: <20220714090211.304305-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,256 +100,207 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Developers often run QEMU without installing. The bundle mechanism
-allows to look up files which should be present in installation even in
-such a situation.
-
-It is a general mechanism and can find any files in the installation
-tree. The build tree will have a new directory, qemu-bundle, to
-represent what files the installation tree would have for reference by
-the executables.
-
-Note that it abandons compatibility with Windows older than 8. The
-extended support for the prior version, 7 ended more than 2 years ago,
-and it is unlikely that someone would like to run the latest QEMU on
-such an old system.
+softmmu/datadir.c had its own implementation to find files in the
+build tree, but now bundle mechanism provides the unified
+implementation which works for datadir and the other files.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20220624145039.49929-3-akihiko.odaki@gmail.com>
+Message-Id: <20220624145039.49929-4-akihiko.odaki@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile                        |  2 +-
- docs/about/build-platforms.rst  |  2 +-
- include/qemu/cutils.h           | 18 +++++++--
- meson.build                     |  4 ++
- scripts/symlink-install-tree.py | 33 +++++++++++++++++
- util/cutils.c                   | 66 +++++++++++++++++++++++----------
- util/meson.build                |  1 +
- 7 files changed, 101 insertions(+), 25 deletions(-)
- create mode 100644 scripts/symlink-install-tree.py
+ .travis.yml                 |  2 +-
+ pc-bios/keymaps/meson.build | 21 ++++++---------------
+ pc-bios/meson.build         | 13 +++----------
+ scripts/oss-fuzz/build.sh   |  8 ++++----
+ softmmu/datadir.c           | 22 +---------------------
+ tests/qtest/fuzz/fuzz.c     | 18 ------------------
+ 6 files changed, 15 insertions(+), 69 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index b4feda93c8..13234f2aa4 100644
---- a/Makefile
-+++ b/Makefile
-@@ -216,7 +216,7 @@ qemu-%.tar.bz2:
+diff --git a/.travis.yml b/.travis.yml
+index 9afc4a54b8..4fdc9a6785 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -223,7 +223,7 @@ jobs:
+         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+         - |
+           if [ "$BUILD_RC" -eq 0 ] ; then
+-              mv pc-bios/s390-ccw/*.img pc-bios/ ;
++              mv pc-bios/s390-ccw/*.img qemu-bundle/usr/local/share/qemu ;
+               ${TEST_CMD} ;
+           else
+               $(exit $BUILD_RC);
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+index 44247a12b5..2837eb34f4 100644
+--- a/pc-bios/keymaps/meson.build
++++ b/pc-bios/keymaps/meson.build
+@@ -40,9 +40,9 @@ else
+ endif
+ cp = find_program('cp')
  
- distclean: clean
- 	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
--	rm -f config-host.mak
-+	rm -f config-host.mak qemu-bundle
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config.status
- 	rm -f roms/seabios/config.mak
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index 1958edb430..ebde20f981 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -88,7 +88,7 @@ Windows
+-t = []
+-foreach km, args: keymaps
+-  if native_qemu_keymap.found()
++if native_qemu_keymap.found()
++  t = []
++  foreach km, args: keymaps
+     # generate with qemu-kvm
+     t += custom_target(km,
+                        build_by_default: true,
+@@ -50,20 +50,11 @@ foreach km, args: keymaps
+                        command: [native_qemu_keymap, '-f', '@OUTPUT@', args.split()],
+                        install: true,
+                        install_dir: qemu_datadir / 'keymaps')
+-  else
+-    # copy from source tree
+-    t += custom_target(km,
+-                       build_by_default: true,
+-                       input: km,
+-                       output: km,
+-                       command: [cp, '@INPUT@', '@OUTPUT@'],
+-                       install: true,
+-                       install_dir: qemu_datadir / 'keymaps')
+-  endif
+-endforeach
++  endforeach
  
- The project aims to support the two most recent versions of Windows that are
- still supported by the vendor. The minimum Windows API that is currently
--targeted is "Windows 7", so theoretically the QEMU binaries can still be run
-+targeted is "Windows 8", so theoretically the QEMU binaries can still be run
- on older versions of Windows, too. However, such old versions of Windows are
- not tested anymore, so it is recommended to use one of the latest versions of
- Windows instead.
-diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
-index d3e532b64c..92c436d8c7 100644
---- a/include/qemu/cutils.h
-+++ b/include/qemu/cutils.h
-@@ -224,9 +224,21 @@ const char *qemu_get_exec_dir(void);
-  * @dir: the directory (typically a `CONFIG_*DIR` variable) to be relocated.
-  *
-  * Returns a path for @dir that uses the directory of the running executable
-- * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
-- * `/usr/share/qemu`, the function will append `../share/qemu` to the
-- * directory that contains the running executable and return the result.
-+ * as the prefix.
-+ *
-+ * When a directory named `qemu-bundle` exists in the directory of the running
-+ * executable, the path to the directory will be prepended to @dir. For
-+ * example, if the directory of the running executable is `/qemu/build` @dir
-+ * is `/usr/share/qemu`, the result will be
-+ * `/qemu/build/qemu-bundle/usr/share/qemu`. The directory is expected to exist
-+ * in the build tree.
-+ *
-+ * Otherwise, the directory of the running executable will be used as the
-+ * prefix and it appends the relative path from `bindir` to @dir. For example,
-+ * if the directory of the running executable is `/opt/qemu/bin`, `bindir` is
-+ * `/usr/bin` and @dir is `/usr/share/qemu`, the result will be
-+ * `/opt/qemu/bin/../share/qemu`.
-+ *
-  * The returned string should be freed by the caller.
-  */
- char *get_relocated_path(const char *dir);
-diff --git a/meson.build b/meson.build
-index ad92d288a6..da76edc7c7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -7,6 +7,8 @@ add_test_setup('quick', exclude_suites: ['slow', 'thorough'], is_default: true)
- add_test_setup('slow', exclude_suites: ['thorough'], env: ['G_TEST_SLOW=1', 'SPEED=slow'])
- add_test_setup('thorough', env: ['G_TEST_SLOW=1', 'SPEED=thorough'])
+-if native_qemu_keymap.found()
+   alias_target('update-keymaps', t)
++else
++  install_data(keymaps.keys(), install_dir: qemu_datadir / 'keymaps')
+ endif
  
-+meson.add_postconf_script(find_program('scripts/symlink-install-tree.py'))
-+
- not_found = dependency('', required: false)
- keyval = import('keyval')
- ss = import('sourceset')
-@@ -356,10 +358,12 @@ nvmm =not_found
- hvf = not_found
- midl = not_found
- widl = not_found
-+pathcch = not_found
- host_dsosuf = '.so'
- if targetos == 'windows'
-   midl = find_program('midl', required: false)
-   widl = find_program('widl', required: false)
-+  pathcch = cc.find_library('pathcch')
-   socket = cc.find_library('ws2_32')
-   winmm = cc.find_library('winmm')
+ install_data(['sl', 'sv'], install_dir: qemu_datadir / 'keymaps')
+diff --git a/pc-bios/meson.build b/pc-bios/meson.build
+index 41ba1c0ec7..388e0db6e4 100644
+--- a/pc-bios/meson.build
++++ b/pc-bios/meson.build
+@@ -85,16 +85,9 @@ blobs = [
+   'vof-nvram.bin',
+ ]
  
-diff --git a/scripts/symlink-install-tree.py b/scripts/symlink-install-tree.py
-new file mode 100644
-index 0000000000..a5bf0b0d6d
---- /dev/null
-+++ b/scripts/symlink-install-tree.py
-@@ -0,0 +1,33 @@
-+#!/usr/bin/env python3
-+
-+from pathlib import PurePath
-+import errno
-+import json
-+import os
-+import subprocess
-+import sys
-+
-+def destdir_join(d1: str, d2: str) -> str:
-+    if not d1:
-+        return d2
-+    # c:\destdir + c:\prefix must produce c:\destdir\prefix
-+    return str(PurePath(d1, *PurePath(d2).parts[1:]))
-+
-+introspect = os.environ.get('MESONINTROSPECT')
-+out = subprocess.run([*introspect.split(' '), '--installed'],
-+                     stdout=subprocess.PIPE, check=True).stdout
-+for source, dest in json.loads(out).items():
-+    assert os.path.isabs(source)
-+    bundle_dest = destdir_join('qemu-bundle', dest)
-+    path = os.path.dirname(bundle_dest)
-+    try:
-+        os.makedirs(path, exist_ok=True)
-+    except BaseException as e:
-+        print(f'error making directory {path}', file=sys.stderr)
-+        raise e
-+    try:
-+        os.symlink(source, bundle_dest)
-+    except BaseException as e:
-+        if not isinstance(e, OSError) or e.errno != errno.EEXIST:
-+            print(f'error making symbolic link {dest}', file=sys.stderr)
-+            raise e
-diff --git a/util/cutils.c b/util/cutils.c
-index 6d04e52907..8199dac598 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -35,6 +35,11 @@
- #include <sys/sysctl.h>
- #endif
+-ln_s = [find_program('ln', required: true), '-sf']
+-foreach f : blobs
+-  roms += custom_target(f,
+-                build_by_default: have_system,
+-                output: f,
+-                input: files('meson.build'),            # dummy input
+-                install: get_option('install_blobs'),
+-                install_dir: qemu_datadir,
+-                command: [ ln_s, meson.project_source_root() / 'pc-bios' / f, '@OUTPUT@' ])
+-endforeach
++if get_option('install_blobs')
++  install_data(blobs, install_dir: qemu_datadir)
++endif
  
-+#ifdef G_OS_WIN32
-+#include <pathcch.h>
-+#include <wchar.h>
-+#endif
-+
- #include "qemu/ctype.h"
- #include "qemu/cutils.h"
- #include "qemu/error-report.h"
-@@ -1074,31 +1079,52 @@ char *get_relocated_path(const char *dir)
+ subdir('descriptors')
+ subdir('keymaps')
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index aaf485cb55..2656a89aea 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -64,7 +64,7 @@ mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
  
-     /* Fail if qemu_init_exec_dir was not called.  */
-     assert(exec_dir[0]);
--    if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
--        return g_strdup(dir);
--    }
+ # Build once to get the list of dynamic lib paths, and copy them over
+ ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+-    --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
++    --prefix="/opt/qemu-oss-fuzz" \
+     --extra-cflags="$EXTRA_CFLAGS" --target-list="i386-softmmu"
  
-     result = g_string_new(exec_dir);
-+    g_string_append(result, "/qemu-bundle");
-+    if (access(result->str, R_OK) == 0) {
-+#ifdef G_OS_WIN32
-+        size_t size = mbsrtowcs(NULL, &dir, 0, &(mbstate_t){0}) + 1;
-+        PWSTR wdir = g_new(WCHAR, size);
-+        mbsrtowcs(wdir, &dir, size, &(mbstate_t){0});
+ if ! make "-j$(nproc)" qemu-fuzz-i386; then
+@@ -81,14 +81,14 @@ if [ "$GITLAB_CI" != "true" ]; then
  
--    /* Advance over common components.  */
--    len_dir = len_bindir = prefix_len;
--    do {
--        dir += len_dir;
--        bindir += len_bindir;
--        dir = next_component(dir, &len_dir);
--        bindir = next_component(bindir, &len_bindir);
--    } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
-+        PCWSTR wdir_skipped_root;
-+        PathCchSkipRoot(wdir, &wdir_skipped_root);
+     # Build a second time to build the final binary with correct rpath
+     ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+-        --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
++        --prefix="/opt/qemu-oss-fuzz" \
+         --extra-cflags="$EXTRA_CFLAGS" --extra-ldflags="-Wl,-rpath,\$ORIGIN/lib" \
+         --target-list="i386-softmmu"
+     make "-j$(nproc)" qemu-fuzz-i386 V=1
+ fi
  
--    /* Ascend from bindir to the common prefix with dir.  */
--    while (len_bindir) {
--        bindir += len_bindir;
--        g_string_append(result, "/..");
--        bindir = next_component(bindir, &len_bindir);
-+        size = wcsrtombs(NULL, &wdir_skipped_root, 0, &(mbstate_t){0});
-+        char *cursor = result->str + result->len;
-+        g_string_set_size(result, result->len + size);
-+        wcsrtombs(cursor, &wdir_skipped_root, size + 1, &(mbstate_t){0});
-+        g_free(wdir);
-+#else
-+        g_string_append(result, dir);
-+#endif
-+    } else if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
-+        g_string_assign(result, dir);
-+    } else {
-+        g_string_assign(result, exec_dir);
-+
-+        /* Advance over common components.  */
-+        len_dir = len_bindir = prefix_len;
-+        do {
-+            dir += len_dir;
-+            bindir += len_bindir;
-+            dir = next_component(dir, &len_dir);
-+            bindir = next_component(bindir, &len_bindir);
-+        } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
-+
-+        /* Ascend from bindir to the common prefix with dir.  */
-+        while (len_bindir) {
-+            bindir += len_bindir;
-+            g_string_append(result, "/..");
-+            bindir = next_component(bindir, &len_bindir);
-+        }
-+
-+        if (*dir) {
-+            assert(G_IS_DIR_SEPARATOR(dir[-1]));
-+            g_string_append(result, dir - 1);
-+        }
-     }
+-# Copy over the datadir
+-cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
++# Prepare a preinstalled tree
++make install DESTDIR=$DEST_DIR/qemu-bundle
  
--    if (*dir) {
--        assert(G_IS_DIR_SEPARATOR(dir[-1]));
--        g_string_append(result, dir - 1);
--    }
-     return g_string_free(result, false);
+ targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
+ base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
+diff --git a/softmmu/datadir.c b/softmmu/datadir.c
+index 160cac999a..697cffea93 100644
+--- a/softmmu/datadir.c
++++ b/softmmu/datadir.c
+@@ -83,26 +83,6 @@ void qemu_add_data_dir(char *path)
+     data_dir[data_dir_idx++] = path;
  }
-diff --git a/util/meson.build b/util/meson.build
-index 8cce8f8968..5e282130df 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -23,6 +23,7 @@ util_ss.add(when: 'CONFIG_WIN32', if_true: files('event_notifier-win32.c'))
- util_ss.add(when: 'CONFIG_WIN32', if_true: files('oslib-win32.c'))
- util_ss.add(when: 'CONFIG_WIN32', if_true: files('qemu-thread-win32.c'))
- util_ss.add(when: 'CONFIG_WIN32', if_true: winmm)
-+util_ss.add(when: 'CONFIG_WIN32', if_true: pathcch)
- util_ss.add(files('envlist.c', 'path.c', 'module.c'))
- util_ss.add(files('host-utils.c'))
- util_ss.add(files('bitmap.c', 'bitops.c'))
+ 
+-/*
+- * Find a likely location for support files using the location of the binary.
+- * When running from the build tree this will be "$bindir/pc-bios".
+- * Otherwise, this is CONFIG_QEMU_DATADIR (possibly relocated).
+- *
+- * The caller must use g_free() to free the returned data when it is
+- * no longer required.
+- */
+-static char *find_datadir(void)
+-{
+-    g_autofree char *dir = NULL;
+-
+-    dir = g_build_filename(qemu_get_exec_dir(), "pc-bios", NULL);
+-    if (g_file_test(dir, G_FILE_TEST_IS_DIR)) {
+-        return g_steal_pointer(&dir);
+-    }
+-
+-    return get_relocated_path(CONFIG_QEMU_DATADIR);
+-}
+-
+ void qemu_add_default_firmwarepath(void)
+ {
+     char **dirs;
+@@ -116,7 +96,7 @@ void qemu_add_default_firmwarepath(void)
+     g_strfreev(dirs);
+ 
+     /* try to find datadir relative to the executable path */
+-    qemu_add_data_dir(find_datadir());
++    qemu_add_data_dir(get_relocated_path(CONFIG_QEMU_DATADIR));
+ }
+ 
+ void qemu_list_data_dirs(void)
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 0ad4ba9e94..2b3bc1fb9d 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -158,8 +158,6 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+ {
+ 
+     char *target_name;
+-    const char *bindir;
+-    char *datadir;
+     GString *cmd_line;
+     gchar *pretty_cmd_line;
+     bool serialize = false;
+@@ -174,22 +172,6 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     target_name = strstr(**argv, "-target-");
+     if (target_name) {        /* The binary name specifies the target */
+         target_name += strlen("-target-");
+-        /*
+-         * With oss-fuzz, the executable is kept in the root of a directory (we
+-         * cannot assume the path). All data (including bios binaries) must be
+-         * in the same dir, or a subdir. Thus, we cannot place the pc-bios so
+-         * that it would be in exec_dir/../pc-bios.
+-         * As a workaround, oss-fuzz allows us to use argv[0] to get the
+-         * location of the executable. Using this we add exec_dir/pc-bios to
+-         * the datadirs.
+-         */
+-        bindir = qemu_get_exec_dir();
+-        datadir = g_build_filename(bindir, "pc-bios", NULL);
+-        if (g_file_test(datadir, G_FILE_TEST_IS_DIR)) {
+-            qemu_add_data_dir(datadir);
+-        } else {
+-            g_free(datadir);
+-	}
+     } else if (*argc > 1) {  /* The target is specified as an argument */
+         target_name = (*argv)[1];
+         if (!strstr(target_name, "--fuzz-target=")) {
 -- 
 2.36.1
 
