@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3D4575274
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:09:56 +0200 (CEST)
-Received: from localhost ([::1]:51564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51BFC57529B
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:17:20 +0200 (CEST)
+Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1PX-0007d6-K1
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:09:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53870)
+	id 1oC1Wh-00005f-C8
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:17:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC122-0005NJ-LG; Thu, 14 Jul 2022 11:45:39 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:59425)
+ id 1oC12O-0005UF-2Q; Thu, 14 Jul 2022 11:46:01 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:44579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC11z-0000lR-8H; Thu, 14 Jul 2022 11:45:38 -0400
+ id 1oC12L-0000ZB-HK; Thu, 14 Jul 2022 11:45:59 -0400
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjR6qgFz4xvN;
- Fri, 15 Jul 2022 01:45:31 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjV3FSPz4ySg;
+ Fri, 15 Jul 2022 01:45:34 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjP6kxXz4xdJ;
- Fri, 15 Jul 2022 01:45:29 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjS3F4vz4xdJ;
+ Fri, 15 Jul 2022 01:45:32 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
- Joel Stanley <joel@jms.id.au>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 12/19] docs: aspeed: Add fby35 multi-SoC machine section
-Date: Thu, 14 Jul 2022 17:44:49 +0200
-Message-Id: <20220714154456.2565189-13-clg@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Peter Delevoryas <peter@pjd.dev>, Joel Stanley <joel@jms.id.au>
+Subject: [PULL 13/19] docs: aspeed: Minor updates
+Date: Thu, 14 Jul 2022 17:44:50 +0200
+Message-Id: <20220714154456.2565189-14-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220714154456.2565189-1-clg@kaod.org>
 References: <20220714154456.2565189-1-clg@kaod.org>
@@ -65,75 +65,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <peter@pjd.dev>
+Some more controllers have been modeled recently. Reflect that in the
+list of supported devices. New machines were also added.
 
-Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-[ clg: - fixed URL links
-       - Moved Facebook Yosemite section at the end of the file ]
-Message-Id: <20220705191400.41632-10-peter@pjd.dev>
+Message-Id: <20220706172131.809255-1-clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- docs/system/arm/aspeed.rst | 48 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
+ docs/system/arm/aspeed.rst | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-index 5d0a7865d3a6..445095690c04 100644
+index 445095690c04..6c5b05128ea8 100644
 --- a/docs/system/arm/aspeed.rst
 +++ b/docs/system/arm/aspeed.rst
-@@ -182,3 +182,51 @@ To boot a kernel directly from a Zephyr build tree:
+@@ -31,7 +31,10 @@ AST2600 SoC based machines :
+ - ``tacoma-bmc``           OpenPOWER Witherspoon POWER9 AST2600 BMC
+ - ``rainier-bmc``          IBM Rainier POWER10 BMC
+ - ``fuji-bmc``             Facebook Fuji BMC
++- ``bletchley-bmc``        Facebook Bletchley BMC
+ - ``fby35-bmc``            Facebook fby35 BMC
++- ``qcom-dc-scm-v1-bmc``   Qualcomm DC-SCM V1 BMC
++- ``qcom-firework-bmc``    Qualcomm Firework BMC
  
-   $ qemu-system-arm -M ast1030-evb -nographic \
-         -kernel zephyr.elf
-+
-+Facebook Yosemite v3.5 Platform and CraterLake Server (``fby35``)
-+==================================================================
-+
-+Facebook has a series of multi-node compute server designs named
-+Yosemite. The most recent version released was
-+`Yosemite v3 <https://www.opencompute.org/documents/ocp-yosemite-v3-platform-design-specification-1v16-pdf>`__.
-+
-+Yosemite v3.5 is an iteration on this design, and is very similar: there's a
-+baseboard with a BMC, and 4 server slots. The new server board design termed
-+"CraterLake" includes a Bridge IC (BIC), with room for expansion boards to
-+include various compute accelerators (video, inferencing, etc). At the moment,
-+only the first server slot's BIC is included.
-+
-+Yosemite v3.5 is itself a sled which fits into a 40U chassis, and 3 sleds
-+can be fit into a chassis. See `here <https://www.opencompute.org/products/423/wiwynn-yosemite-v3-server>`__
-+for an example.
-+
-+In this generation, the BMC is an AST2600 and each BIC is an AST1030. The BMC
-+runs `OpenBMC <https://github.com/facebook/openbmc>`__, and the BIC runs
-+`OpenBIC <https://github.com/facebook/openbic>`__.
-+
-+Firmware images can be retrieved from the Github releases or built from the
-+source code, see the README's for instructions on that. This image uses the
-+"fby35" machine recipe from OpenBMC, and the "yv35-cl" target from OpenBIC.
-+Some reference images can also be found here:
-+
-+.. code-block:: bash
-+
-+    $ wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
-+    $ wget https://github.com/peterdelevoryas/OpenBIC/releases/download/oby35-cl-2022.13.01/Y35BCL.elf
-+
-+Since this machine has multiple SoC's, each with their own serial console, the
-+recommended way to run it is to allocate a pseudoterminal for each serial
-+console and let the monitor use stdio. Also, starting in a paused state is
-+useful because it allows you to attach to the pseudoterminals before the boot
-+process starts.
-+
-+.. code-block:: bash
-+
-+    $ qemu-system-arm -machine fby35 \
-+        -drive file=fby35.mtd,format=raw,if=mtd \
-+        -device loader,file=Y35BCL.elf,addr=0,cpu-num=2 \
-+        -serial pty -serial pty -serial mon:stdio \
-+        -display none -S
-+    $ screen /dev/tty0 # In a separate TMUX pane, terminal window, etc.
-+    $ screen /dev/tty1
-+    $ (qemu) c		   # Start the boot process once screen is setup.
+ Supported devices
+ -----------------
+@@ -40,7 +43,7 @@ Supported devices
+  * Interrupt Controller (VIC)
+  * Timer Controller
+  * RTC Controller
+- * I2C Controller
++ * I2C Controller, including the new register interface of the AST2600
+  * System Control Unit (SCU)
+  * SRAM mapping
+  * X-DMA Controller (basic interface)
+@@ -57,6 +60,10 @@ Supported devices
+  * LPC Peripheral Controller (a subset of subdevices are supported)
+  * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
+  * ADC
++ * Secure Boot Controller (AST2600)
++ * eMMC Boot Controller (dummy)
++ * PECI Controller (minimal)
++ * I3C Controller
+ 
+ 
+ Missing devices
+@@ -68,12 +75,10 @@ Missing devices
+  * Super I/O Controller
+  * PCI-Express 1 Controller
+  * Graphic Display Controller
+- * PECI Controller
+  * MCTP Controller
+  * Mailbox Controller
+  * Virtual UART
+  * eSPI Controller
+- * I3C Controller
+ 
+ Boot options
+ ------------
+@@ -154,6 +159,8 @@ Supported devices
+  * LPC Peripheral Controller (a subset of subdevices are supported)
+  * Hash/Crypto Engine (HACE) - Hash support only. TODO: HMAC and RSA
+  * ADC
++ * Secure Boot Controller
++ * PECI Controller (minimal)
+ 
+ 
+ Missing devices
+@@ -161,7 +168,6 @@ Missing devices
+ 
+  * PWM and Fan Controller
+  * Slave GPIO Controller
+- * PECI Controller
+  * Mailbox Controller
+  * Virtual UART
+  * eSPI Controller
 -- 
 2.35.3
 
