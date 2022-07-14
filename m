@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 400AF575266
-	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:05:27 +0200 (CEST)
-Received: from localhost ([::1]:43352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2737D575289
+	for <lists+qemu-devel@lfdr.de>; Thu, 14 Jul 2022 18:14:23 +0200 (CEST)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oC1LB-0001wI-J0
-	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53950)
+	id 1oC1Tp-0005Lt-PK
+	for lists+qemu-devel@lfdr.de; Thu, 14 Jul 2022 12:14:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC12D-0005RS-Ec; Thu, 14 Jul 2022 11:45:55 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:57821
+ id 1oC12I-0005Rn-KK; Thu, 14 Jul 2022 11:45:56 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:57841
  helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=QWOl=XT=kaod.org=clg@ozlabs.org>)
- id 1oC129-0000tl-3H; Thu, 14 Jul 2022 11:45:47 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjd1dCKz4xvN;
- Fri, 15 Jul 2022 01:45:41 +1000 (AEST)
+ id 1oC12D-0000uK-BU; Thu, 14 Jul 2022 11:45:53 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LkJjk1VHPz4yTJ;
+ Fri, 15 Jul 2022 01:45:46 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjb3Nhsz4xRC;
- Fri, 15 Jul 2022 01:45:39 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LkJjg74M7z4xRC;
+ Fri, 15 Jul 2022 01:45:43 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Iris Chen <irischenlj@fb.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Peter Delevoryas <peter@pjd.dev>,
+ Andrew Jeffery <andrew@aj.id.au>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 16/19] hw: m25p80: add tests for BP and TB bit write protect
-Date: Thu, 14 Jul 2022 17:44:53 +0200
-Message-Id: <20220714154456.2565189-17-clg@kaod.org>
+Subject: [PULL 18/19] hw/gpio/aspeed: Don't let guests modify input pins
+Date: Thu, 14 Jul 2022 17:44:55 +0200
+Message-Id: <20220714154456.2565189-19-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220714154456.2565189-1-clg@kaod.org>
 References: <20220714154456.2565189-1-clg@kaod.org>
@@ -66,152 +66,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Iris Chen <irischenlj@fb.com>
+From: Peter Delevoryas <peter@pjd.dev>
 
-Signed-off-by: Iris Chen <irischenlj@fb.com>
+Up until now, guests could modify input pins by overwriting the data
+value register. The guest OS should only be allowed to modify output pin
+values, and the QOM property setter should only be permitted to modify
+input pins.
+
+This change also updates the gpio input pin test to match this
+expectation.
+
+Andrew suggested this particularly refactoring here:
+
+    https://lore.kernel.org/qemu-devel/23523aa1-ba81-412b-92cc-8174faba3612@www.fastmail.com/
+
+Suggested-by: Andrew Jeffery <andrew@aj.id.au>
+Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+Fixes: 4b7f956862dc ("hw/gpio: Add basic Aspeed GPIO model for AST2400 and AST2500")
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220627185234.1911337-3-irischenlj@fb.com>
+Message-Id: <20220712023219.41065-3-peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/qtest/aspeed_smc-test.c | 111 ++++++++++++++++++++++++++++++++++
- 1 file changed, 111 insertions(+)
+ hw/gpio/aspeed_gpio.c          | 15 ++++++++-------
+ tests/qtest/aspeed_gpio-test.c |  2 +-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/aspeed_smc-test.c b/tests/qtest/aspeed_smc-test.c
-index 1258687eacd8..05ce941566e6 100644
---- a/tests/qtest/aspeed_smc-test.c
-+++ b/tests/qtest/aspeed_smc-test.c
-@@ -192,6 +192,24 @@ static void read_page_mem(uint32_t addr, uint32_t *page)
-     }
+diff --git a/hw/gpio/aspeed_gpio.c b/hw/gpio/aspeed_gpio.c
+index a62a673857c2..1e267dd48203 100644
+--- a/hw/gpio/aspeed_gpio.c
++++ b/hw/gpio/aspeed_gpio.c
+@@ -268,7 +268,7 @@ static ptrdiff_t aspeed_gpio_set_idx(AspeedGPIOState *s, GPIOSets *regs)
  }
  
-+static void write_page_mem(uint32_t addr, uint32_t write_value)
-+{
-+    spi_ctrl_setmode(CTRL_WRITEMODE, PP);
-+
-+    for (int i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        writel(ASPEED_FLASH_BASE + addr + i * 4, write_value);
-+    }
-+}
-+
-+static void assert_page_mem(uint32_t addr, uint32_t expected_value)
-+{
-+    uint32_t page[FLASH_PAGE_SIZE / 4];
-+    read_page_mem(addr, page);
-+    for (int i = 0; i < FLASH_PAGE_SIZE / 4; i++) {
-+        g_assert_cmphex(page[i], ==, expected_value);
-+    }
-+}
-+
- static void test_erase_sector(void)
+ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+-                               uint32_t value)
++                               uint32_t value, uint32_t mode_mask)
  {
-     uint32_t some_page_addr = 0x600 * FLASH_PAGE_SIZE;
-@@ -501,6 +519,95 @@ static void test_status_reg_write_protection(void)
-     flash_reset();
+     uint32_t input_mask = regs->input_mask;
+     uint32_t direction = regs->direction;
+@@ -277,7 +277,8 @@ static void aspeed_gpio_update(AspeedGPIOState *s, GPIOSets *regs,
+     uint32_t diff;
+     int gpio;
+ 
+-    diff = old ^ new;
++    diff = (old ^ new);
++    diff &= mode_mask;
+     if (diff) {
+         for (gpio = 0; gpio < ASPEED_GPIOS_PER_SET; gpio++) {
+             uint32_t mask = 1 << gpio;
+@@ -339,7 +340,7 @@ static void aspeed_gpio_set_pin_level(AspeedGPIOState *s, uint32_t set_idx,
+         value &= ~pin_mask;
+     }
+ 
+-    aspeed_gpio_update(s, &s->sets[set_idx], value);
++    aspeed_gpio_update(s, &s->sets[set_idx], value, ~s->sets[set_idx].direction);
  }
  
-+static void test_write_block_protect(void)
-+{
-+    uint32_t sector_size = 65536;
-+    uint32_t n_sectors = 512;
-+
-+    spi_ce_ctrl(1 << CRTL_EXTENDED0);
-+    spi_conf(CONF_ENABLE_W0);
-+
-+    uint32_t bp_bits = 0b0;
-+
-+    for (int i = 0; i < 16; i++) {
-+        bp_bits = ((i & 0b1000) << 3) | ((i & 0b0111) << 2);
-+
-+        spi_ctrl_start_user();
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        writeb(ASPEED_FLASH_BASE, WRSR);
-+        writeb(ASPEED_FLASH_BASE, bp_bits);
-+        writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        spi_ctrl_stop_user();
-+
-+        uint32_t num_protected_sectors = i ? MIN(1 << (i - 1), n_sectors) : 0;
-+        uint32_t protection_start = n_sectors - num_protected_sectors;
-+        uint32_t protection_end = n_sectors;
-+
-+        for (int sector = 0; sector < n_sectors; sector++) {
-+            uint32_t addr = sector * sector_size;
-+
-+            assert_page_mem(addr, 0xffffffff);
-+            write_page_mem(addr, make_be32(0xabcdef12));
-+
-+            uint32_t expected_value = protection_start <= sector
-+                                      && sector < protection_end
-+                                      ? 0xffffffff : 0xabcdef12;
-+
-+            assert_page_mem(addr, expected_value);
-+        }
-+    }
-+
-+    flash_reset();
-+}
-+
-+static void test_write_block_protect_bottom_bit(void)
-+{
-+    uint32_t sector_size = 65536;
-+    uint32_t n_sectors = 512;
-+
-+    spi_ce_ctrl(1 << CRTL_EXTENDED0);
-+    spi_conf(CONF_ENABLE_W0);
-+
-+    /* top bottom bit is enabled */
-+    uint32_t bp_bits = 0b00100 << 3;
-+
-+    for (int i = 0; i < 16; i++) {
-+        bp_bits = (((i & 0b1000) | 0b0100) << 3) | ((i & 0b0111) << 2);
-+
-+        spi_ctrl_start_user();
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        writeb(ASPEED_FLASH_BASE, BULK_ERASE);
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        writeb(ASPEED_FLASH_BASE, WRSR);
-+        writeb(ASPEED_FLASH_BASE, bp_bits);
-+        writeb(ASPEED_FLASH_BASE, EN_4BYTE_ADDR);
-+        writeb(ASPEED_FLASH_BASE, WREN);
-+        spi_ctrl_stop_user();
-+
-+        uint32_t num_protected_sectors = i ? MIN(1 << (i - 1), n_sectors) : 0;
-+        uint32_t protection_start = 0;
-+        uint32_t protection_end = num_protected_sectors;
-+
-+        for (int sector = 0; sector < n_sectors; sector++) {
-+            uint32_t addr = sector * sector_size;
-+
-+            assert_page_mem(addr, 0xffffffff);
-+            write_page_mem(addr, make_be32(0xabcdef12));
-+
-+            uint32_t expected_value = protection_start <= sector
-+                                      && sector < protection_end
-+                                      ? 0xffffffff : 0xabcdef12;
-+
-+            assert_page_mem(addr, expected_value);
-+        }
-+    }
-+
-+    flash_reset();
-+}
-+
- static char tmp_path[] = "/tmp/qtest.m25p80.XXXXXX";
+ /*
+@@ -653,7 +654,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+         reg_value = update_value_control_source(set, set->data_value,
+                                                 reg_value);
+         set->data_read = reg_value;
+-        aspeed_gpio_update(s, set, reg_value);
++        aspeed_gpio_update(s, set, reg_value, set->direction);
+         return;
+     case gpio_reg_idx_direction:
+         reg_value = set->direction;
+@@ -753,7 +754,7 @@ static void aspeed_gpio_write_index_mode(void *opaque, hwaddr offset,
+             __func__, offset, data, reg_idx_type);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+@@ -799,7 +800,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+         data &= props->output;
+         data = update_value_control_source(set, set->data_value, data);
+         set->data_read = data;
+-        aspeed_gpio_update(s, set, data);
++        aspeed_gpio_update(s, set, data, set->direction);
+         return;
+     case gpio_reg_direction:
+         /*
+@@ -875,7 +876,7 @@ static void aspeed_gpio_write(void *opaque, hwaddr offset, uint64_t data,
+                       PRIx64"\n", __func__, offset);
+         return;
+     }
+-    aspeed_gpio_update(s, set, set->data_value);
++    aspeed_gpio_update(s, set, set->data_value, UINT32_MAX);
+     return;
+ }
+ 
+diff --git a/tests/qtest/aspeed_gpio-test.c b/tests/qtest/aspeed_gpio-test.c
+index 8f524540998d..d38f51d71908 100644
+--- a/tests/qtest/aspeed_gpio-test.c
++++ b/tests/qtest/aspeed_gpio-test.c
+@@ -69,7 +69,7 @@ static void test_set_input_pins(const void *data)
+ 
+     qtest_writel(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE, 0x00000000);
+     value = qtest_readl(s, AST2600_GPIO_BASE + GPIO_ABCD_DATA_VALUE);
+-    g_assert_cmphex(value, ==, 0x00000000);
++    g_assert_cmphex(value, ==, 0xffffffff);
+ }
  
  int main(int argc, char **argv)
-@@ -529,6 +636,10 @@ int main(int argc, char **argv)
-     qtest_add_func("/ast2400/smc/read_status_reg", test_read_status_reg);
-     qtest_add_func("/ast2400/smc/status_reg_write_protection",
-                    test_status_reg_write_protection);
-+    qtest_add_func("/ast2400/smc/write_block_protect",
-+                   test_write_block_protect);
-+    qtest_add_func("/ast2400/smc/write_block_protect_bottom_bit",
-+                   test_write_block_protect_bottom_bit);
- 
-     flash_reset();
-     ret = g_test_run();
 -- 
 2.35.3
 
