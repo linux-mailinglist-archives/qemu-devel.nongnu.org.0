@@ -2,95 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA3C5765A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:08:09 +0200 (CEST)
-Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EFA45765B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:22:19 +0200 (CEST)
+Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCOnR-0006sO-54
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
+	id 1oCP18-0001Xx-9P
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCOlV-0004wj-Hs
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:06:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58873)
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1oCOw4-0000nX-Oh
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:04 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:2140)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCOlR-00042k-I3
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:06:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657904765;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YlW1lJLkozz65K47TcINKaBcwQdKNuoQ/8idqGZvLA0=;
- b=YQKEQBhIeN/gN5c/Js5TdTTQFKCDT461+1hM8FcHIbQFY6O0DJ/jtF9US8qHcapbpNTlhH
- IeBu7UldtRjL9w1tQCE5UUkKfNw+KC9d21SscKLW+MS3roZHAq9rhPS0jDVxZoOeKpWxBi
- NUg/SlA2Ei9rR9b8gTNHR9+2fSWFwUE=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-655-EceaeGq1MV2WuHP6BfRTHg-1; Fri, 15 Jul 2022 13:06:01 -0400
-X-MC-Unique: EceaeGq1MV2WuHP6BfRTHg-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ld6-20020a056214418600b00472ffe4640eso3361184qvb.13
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 10:06:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YlW1lJLkozz65K47TcINKaBcwQdKNuoQ/8idqGZvLA0=;
- b=HQCgRAByn7dMp8z4tdaxeF4Ym3P5SqjNBuyPQ8muPUDhHf+YtmM3IUZtNfQ/bz0uV6
- hm5gDLMvcDUUmDa7nXwbcHbkE849CPhVjq7lMroB8oJnRqI1z18OuCCVTRm9GXgyeWaM
- 6GJ4yKcoZBP8z7RJeF7RIOAgoUv0cBVmry5CH2+RlEJJ063Jd6hJQEvVkeoNgAfFhLiC
- ahQ0tESr5Wm3XWgd1Kwh0rs4QqFpdv7IYBMYwZWf8uV8zkMZRb6ao8LoauaVAAYy49/o
- why0FsTJKDx8cMM0YjjWhovmRnve76glIY3g29TnbiqAQlQD7R99cFNy6A4mvyuSmfqo
- wZ0A==
-X-Gm-Message-State: AJIora+O0+WTeKHeHlSpy197g5CB0XHrmjHCkkfdluDl5G7+EByrXoli
- K+MPLpofxib26ThrUxSgYTeGzbxUQS2DscO2efC0u7iEV9KF7WfA3LUYyVBMcuKjhmCS5fhQwB1
- WG+nBkozr8H/teG4S/tIjU7/PjQmQEf4=
-X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
- o19-20020a05620a2a1300b006b5c197d565mr6452806qkp.255.1657904760852; 
- Fri, 15 Jul 2022 10:06:00 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s6PMyrNX0ILWCJdr77oHX/PAjlMJ3uhDREPVgbcmOVYH23jIL9YL1vF4fwIhNfFfUwjBURW4Pta++XM4Sfr98=
-X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
- o19-20020a05620a2a1300b006b5c197d565mr6452779qkp.255.1657904760479; Fri, 15
- Jul 2022 10:06:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220714163150.2536327-1-eperezma@redhat.com>
- <20220714163150.2536327-13-eperezma@redhat.com>
- <CACGkMEuHR_R6Jxjvznv1T-d6SGngsYQyfhCNw8-HoTb3FLcX0w@mail.gmail.com>
- <CAJaqyWfwODXUr_z3Qzp7_MSbEamG0W8MxUtxn1kV-NE_qfBi-A@mail.gmail.com>
- <CACGkMEvfPDMK+7jg+r5hunxA+EXuN9V_d_KZfkCfufe-ONbXFQ@mail.gmail.com>
-In-Reply-To: <CACGkMEvfPDMK+7jg+r5hunxA+EXuN9V_d_KZfkCfufe-ONbXFQ@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 15 Jul 2022 19:05:24 +0200
-Message-ID: <CAJaqyWdf-VQxP4rYasSzdq3yaYLPw1_G6J=Kqq5SXXWEDYpKCA@mail.gmail.com>
-Subject: Re: [PATCH v2 12/19] vhost: add vhost_svq_poll
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Parav Pandit <parav@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+ (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
+ id 1oCOw1-0005cF-Il
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:04 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FGJfBk024355;
+ Fri, 15 Jul 2022 17:16:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2022-7-12;
+ bh=G1ajb664xPxEsl2BVeqPBsG4z4jw10xiCue0V81xGVI=;
+ b=L6kI3hLF22qvomOSZzUiCmUrO+gR5RRGBb/BEOWUm4HaSU3ofGkMVYuZZmyxaruEUYz6
+ MkkNAs7+Kz70VMy+sIgYM0R/W+xMvsOBHhBIp+25P5jIW+nK4VwbxS0MGjV+zxGRctMK
+ euipZUDCM6v6o8spAmlRWjKAbEyYTSuY4BZMxKoKM24N7eYIpvAGBPtuzOXDOP17qvWD
+ EppnIl4gvwq5+Z8LYsC3IORnUxAviB2Lh4nnTg7l+uvBot9i0DkIPE+8sjND9xCS1Pwc
+ PSOobeJHhlb7msgAwLwy72XpZOMlmublqxjXbSuVAw6fpysSTZXaskjn1iQLZ5LEd6P1 pg== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h727ss40j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jul 2022 17:16:47 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
+ with SMTP id 26FHBh2J039680; Fri, 15 Jul 2022 17:16:46 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h7047tyqm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jul 2022 17:16:46 +0000
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26FHGjLt013789;
+ Fri, 15 Jul 2022 17:16:45 GMT
+Received: from paddy.uk.oracle.com (dhcp-10-175-181-254.vpn.oracle.com
+ [10.175.181.254])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
+ 3h7047tyn7-1; Fri, 15 Jul 2022 17:16:45 +0000
+From: Joao Martins <joao.m.martins@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [PATCH v8 00/11] i386/pc: Fix creation of >= 1010G guests on AMD
+ systems with IOMMU
+Date: Fri, 15 Jul 2022 18:16:17 +0100
+Message-Id: <20220715171628.21437-1-joao.m.martins@oracle.com>
+X-Mailer: git-send-email 2.11.0
+X-Proofpoint-ORIG-GUID: VcgGv_dzdxN1ulCZm9Eaau621VlaEyrf
+X-Proofpoint-GUID: VcgGv_dzdxN1ulCZm9Eaau621VlaEyrf
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,165 +96,223 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 15, 2022 at 10:48 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Fri, Jul 15, 2022 at 1:39 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > On Fri, Jul 15, 2022 at 5:59 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > > On Fri, Jul 15, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.=
-com> wrote:
-> > > >
-> > > > It allows the Shadow Control VirtQueue to wait for the device to us=
-e the
-> > > > available buffers.
-> > > >
-> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > > > ---
-> > > >  hw/virtio/vhost-shadow-virtqueue.h |  1 +
-> > > >  hw/virtio/vhost-shadow-virtqueue.c | 22 ++++++++++++++++++++++
-> > > >  2 files changed, 23 insertions(+)
-> > > >
-> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
-hadow-virtqueue.h
-> > > > index 1692541cbb..b5c6e3b3b4 100644
-> > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
-> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> > > > @@ -89,6 +89,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *sv=
-q, const SVQElement *elem,
-> > > >  int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *o=
-ut_sg,
-> > > >                    size_t out_num, const struct iovec *in_sg, size_=
-t in_num,
-> > > >                    SVQElement *elem);
-> > > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq);
-> > > >
-> > > >  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
-kick_fd);
-> > > >  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call=
-_fd);
-> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
-hadow-virtqueue.c
-> > > > index 5244896358..31a267f721 100644
-> > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
-> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> > > > @@ -486,6 +486,28 @@ static void vhost_svq_flush(VhostShadowVirtque=
-ue *svq,
-> > > >      } while (!vhost_svq_enable_notification(svq));
-> > > >  }
-> > > >
-> > > > +/**
-> > > > + * Poll the SVQ for one device used buffer.
-> > > > + *
-> > > > + * This function race with main event loop SVQ polling, so extra
-> > > > + * synchronization is needed.
-> > > > + *
-> > > > + * Return the length written by the device.
-> > > > + */
-> > > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-> > > > +{
-> > > > +    do {
-> > > > +        uint32_t len;
-> > > > +        SVQElement *elem =3D vhost_svq_get_buf(svq, &len);
-> > > > +        if (elem) {
-> > > > +            return len;
-> > > > +        }
-> > > > +
-> > > > +        /* Make sure we read new used_idx */
-> > > > +        smp_rmb();
-> > >
-> > > There's already one smp_rmb(0 in vhost_svq_get_buf(). So this seems u=
-seless?
-> > >
-> >
-> > That rmb is after checking for new entries with (vq->last_used_idx !=3D
-> > svq->shadow_used_idx) , to avoid reordering used_idx read with the
-> > actual used entry. So my understanding is
-> > that the compiler is free to skip that check within the while loop.
->
-> What do you mean by "that check" here?
->
+v7[8] -> v8:
 
-The first check of (presumably cached) last_used_idx !=3D
-shadow_used_idx. Right before the SVQ's vring fetch of
-svq->vring.used->idx.
+* Restructure the relocate patch and separate the phys-bits check into being
+a predecessor patch. new patch 9 (Igor Mammedov)
+* Rework comment on phys-bits check to not mention relocation since it's
+now generic. (Igor Mammedov)
 
-> >
-> > Maybe the right solution is to add it in vhost_svq_more_used after the
-> > condition (vq->last_used_idx !=3D svq->shadow_used_idx) is false?
->
-> I'm not sure I get the goal of the smp_rmb() here. What barrier does it p=
-air?
->
+Note: This series builds on top of Jonathan Cameron's CXL cleanups
+(https://lore.kernel.org/qemu-devel/20220701132300.2264-1-Jonathan.Cameron@huawei.com/).
 
-It pairs with the actual device memory write.
+---
 
-Note that I'm worried about compiler optimizations or reordering
-causing an infinite loop, not that the memory is updated properly.
+This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
+particularly when running on AMD systems with an IOMMU.
 
-Let's say we just returned from vhost_svq_add, and avail_idx -
-used_idx > 0. The device still did not update SVQ vring used idx, and
-qemu is very fast so it completes a full call of vhost_svq_get_buf
-before the device is able to increment the used index. We can trace
-the full vhost_svq_get_buf without a memory barrier.
+Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
+will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
+affected by this extra validation. But AMD systems with IOMMU have a hole in
+the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
+here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
+section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
 
-If the compiler inlines enough and we delete the new smp_rmb barrier,
-this is what it sees:
+VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
+ -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
+of the failure:
 
-size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-{
-    do {
-        more_used =3D false
-        // The next conditional returns false
-        if (svq->last_used_idx !=3D svq->shadow_used_idx) {
-            goto useful;
-        }
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
+qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
+	failed to setup container for group 258: memory listener initialization failed:
+		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
 
-        svq->shadow_used_idx =3D cpu_to_le16(svq->vring.used->idx);
+Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
+to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
+spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
+as documented on the links down below.
 
-        // next conditional returns false too
-        if (!(svq->last_used_idx !=3D svq->shadow_used_idx))
-            continue;
+This small series tries to address that by dealing with this AMD-specific 1Tb hole,
+but rather than dealing like the 4G hole, it instead relocates RAM above 4G
+to be above the 1T if the maximum RAM range crosses the HT reserved range.
+It is organized as following:
 
-useful:
-        // actual code to handle new used buffer
-        break;
-        }
-    }
-}
+patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
+         address of the 4G boundary
 
-And qemu does not need to read again none of the variables since
-nothing modifies them within the loop before "useful" tag
-(svq->vring.used->idx, svq->last_used_idx, svq->shadow_used_idx). So
-it could freely rewrite as:
+patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
+	     to get accessing to pci_hole64_size. The actual pci-host
+	     initialization is kept as is, only the qdev_new.
 
-size_t vhost_svq_poll(VhostShadowVirtqueue *svq) {
-    if (svq->last_used_idx =3D=3D svq->shadow_used_idx &&
-        svq->last_used_idx =3D=3D svq->vring.used->idx) {
-            for (;;);
-    }
-}
+patch 4: Small deduplication cleanup that was spread around pc
 
-That's why I think the right place for the mb is right after caller
-code see (potentially cached) last_used_idx =3D=3D shadow_used_idx, and it
-needs to read a value paired with the "device's mb" in the SVQ vring.
+patches 5-8: Make pc_pci_hole64_start() be callable before pc_memory_init()
+             initializes any memory regions. This way, the returned value
+	     is consistent and we don't need to duplicate same said
+	     calculations when detecting the relocation is needed.
 
-We didn't have that problem before, since we clear event_notifier
-right before the do{}while(), and event loop should hit a memory
-barrier in the next select / poll / read / whatever syscall to check
-that event notifier fd is set again.
+patch 9: Errors out if the phys-bits is too low compared to the max GPA
+that gets calculated. This is preparation for the next patch, albeit it
+is made generic given it's applicability to any configuration.
 
-> Since we are in the busy loop, we will read the for new used_idx for
-> sure,
+patch 10: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
+possible address acrosses the HT region. 
 
-I'm not so sure of that, but maybe I've missed something.
+patch 11: Ensure valid IOVAs only on new machine types, but not older
+ones (<= v7.0.0)
 
-I'm sending v3 with this comment pending, so we can iterate faster.
+The 'consequence' of this approach is that we may need more than the default
+phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
+address, consequently needing 41 phys-bits as opposed to the default of 40
+(TCG_PHYS_ADDR_BITS). Today there's already a precedent to depend on the user to
+pick the right value of phys-bits (regardless of this series), so we warn in
+case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
+ram blocks, but it was mentioned over RFC that CMOS is only useful for very
+old seabios. 
 
-Thanks!
+Additionally, the reserved region is added to E820 if the relocation is done
+or if the phys-bits can cover it.
 
-> and we can't forecast when the used_idx is committed to memory.
->
+Alternative options considered (in RFC[0]):
+
+a) Dealing with the 1T hole like the 4G hole -- which also represents what
+hardware closely does.
+
+Thanks,
+	Joao
+
+Older Changelog,
+
+v5[6] -> v6:
+* Rebased to latest staging
+* Consider @cxl_base setting to also use above_4g_mem_start (Igor Mammedov)
+* Use 4 * GiB instead of raw hex (Igor Mammedov)
+* Delete @host_type (Igor Mammedov)
+* Rename to i440fx_dev to i440fx_host (Igor Mammedov)
+* Rebase on top of patch that removes i440fx_state (Mark Cave-Ayland)
+* Add Reviewed-by from Igor in patches 1-3 (Igor Mammedov)
+* Fix commit messages typos (Igor Mammedov)
+* Move IS_AMD_CPU() call into caller i.e. pc_memory_init() (Igor Mammedov)
+* Rename x86_max_phys_addr into pc_max_used_gpa (Igor Mammedov)
+* Rename x86_update_above_4g_mem_start into pc_set_amd_above_4g_mem_start (Igor Mammedov)
+* Rework how we calculate the pc_max_used_gpa() to use pc_pci_hole64_start() instead,
+  This lead to refactor a bunch into separate helpers that handle the case
+  where Memory regions aren't yet initialized while streamlining how calculations
+  are done at pc_memory_init() and pc_pci_hole64_start().
+  This lead to new patches 4-8 in v5 (Igor Mammedov)
+  CC'ing Jonathan Cameron on the CXL-related memory init refactoring patches (5-8).
+* Always add the HyperTransport range into e820 even when the relocation isn't
+  done *and* there's >= 40 phys bit that would put max phyusical boundary to 1T
+  (Alex Williamson)
+  This should allow virtual firmware to avoid the reserved range at the
+  1T boundary on VFs with big bars.
+
+v4[5] -> v5:
+* Fixed the 32-bit build(s) (patch 1, Michael Tsirkin)
+* Fix wrong reference (patch 4) to TCG_PHYS_BITS in code comment and
+commit message;
+
+v3[4] -> v4[5]:
+(changes in patch 4 and 5 only)
+* Rebased to 7.1.0, hence move compat machine attribute to <= 7.0.0 versions
+* Check guest vCPU vendor rather than host CPU vendor (Michael Tsirkin)
+* Squash previous patch 5 into patch 4 to tie in the phys-bits check
+  into the relocate-4g-start logic: We now error out if the phys-bits
+  aren't enough on configurations that require above-4g ram relocation. (Michael Tsirkin)
+* Make the error message more explicit when phys-bits isn't enough to also
+  mention: "cannot avoid AMD HT range"
+* Add comments inside x86_update_above_4g_mem_start() explaining the
+  logic behind it. (Michael Tsirkin)
+* Tested on old guests old guests with Linux 2.6.32/3.10/4.14.35/4.1 based kernels
+  alongside Win2008/2K12/2K16/2K19 on configs spanning 1T and 2T (Michael Tsirkin)
+  Validated -numa topologies too as well as making sure qtests observe no regressions;
+
+ Notes from v4:
+
+* the machine attribute that enables this new logic (see last patch)
+is called ::enforce_valid_iova since the RFC. Let me know if folks think it
+is poorly named, and whether something a bit more obvious is preferred
+(e.g. ::amd_relocate_1t).
+
+* @mst one of the comments you said was to add "host checks" in vdpa/vfio devices.
+In discussion with Alex and you over the last version of the patches it seems
+that we weren't keen on making this device-specific or behind any machine
+property flags (besides machine-compat). Just to reiterate there, making sure we do
+the above-4g relocation requiring properly sized phys-bits and AMD as vCPU
+vendor (as this series) already ensures thtat this is going to be right for
+offending configuration with VDPA/VFIO device that might be
+configured/hotplugged. Unless you were thinking that somehow vfio/vdpa devices
+start poking into machine-specific details when we fail to relocate due to the
+lack of phys-bits? Otherwise Qemu, just doesn't have enough information to tell
+what's a valid IOVA or not, in which case kernel vhost-iotlb/vhost-vdpa is the one
+that needs fixing (as VFIO did in v5.4).
+
+RFCv2[3] -> v3[4]:
+
+* Add missing brackets in single line statement, in patch 5 (David)
+* Change ranges printf to use PRIx64, in patch 5 (David)
+* Move the check to after changing above_4g_mem_start, in patch 5 (David)
+* Make the check generic and move it to pc_memory_init rather being specific
+to AMD, as the check is useful to capture invalid phys-bits
+configs (patch 5, Igor).
+* Fix comment as 'Start address of the initial RAM above 4G' in patch 1 (Igor)
+* Consider pci_hole64_size in patch 4 (Igor)
+* To consider pci_hole64_size in max used addr we need to get it from pci-host,
+so introduce two new patches (2 and 3) which move only the qdev_new("i440fx") or
+qdev_new("q35") to be before pc_memory_init().
+* Consider sgx_epc.size in max used address, in patch 4 (Igor)
+* Rename relocate_4g() to x86_update_above_4g_mem_start() (Igor)
+* Keep warn_report() in patch 5, as erroring out will break a few x86_64 qtests
+due to pci_hole64 accounting surprass phys-bits possible maxphysaddr.
+
+RFC[0] -> RFCv2[3]:
+
+* At Igor's suggestion in one of the patches I reworked the series enterily,
+and more or less as he was thinking it is far simpler to relocate the
+ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
+and less intrusive. (patch 1 & 2)
+* Check phys-bits is big enough prior to relocating (new patch 3)
+* Remove the machine property, and it's only internal and set by new machine
+version (Igor, patch 4).
+* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
+* Add IOMMU SDM in the commit message (Igor, patch 2)
+
+[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
+[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
+[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
+[3] https://lore.kernel.org/qemu-devel/20220207202422.31582-1-joao.m.martins@oracle.com/T/#u
+[4] https://lore.kernel.org/all/20220223184455.9057-1-joao.m.martins@oracle.com/
+[5] https://lore.kernel.org/qemu-devel/20220420201138.23854-1-joao.m.martins@oracle.com/
+[6] https://lore.kernel.org/qemu-devel/20220520104532.9816-1-joao.m.martins@oracle.com/
+[7] https://lore.kernel.org/qemu-devel/20220701161014.3850-1-joao.m.martins@oracle.com/ 
+[8] https://lore.kernel.org/qemu-devel/20220714182820.30970-1-joao.m.martins@oracle.com/
+
+Joao Martins (11):
+  hw/i386: add 4g boundary start to X86MachineState
+  i386/pc: create pci-host qdev prior to pc_memory_init()
+  i386/pc: pass pci_hole64_size to pc_memory_init()
+  i386/pc: factor out above-4g end to an helper
+  i386/pc: factor out cxl range end to helper
+  i386/pc: factor out cxl range start to helper
+  i386/pc: handle unitialized mr in pc_get_cxl_range_end()
+  i386/pc: factor out device_memory base/size to helper
+  i386/pc: bounds check phys-bits against max used GPA
+  i386/pc: relocate 4g start to 1T where applicable
+  i386/pc: restrict AMD only enforcing of 1Tb hole to new machine type
+
+ hw/i386/acpi-build.c         |   2 +-
+ hw/i386/pc.c                 | 208 +++++++++++++++++++++++++++--------
+ hw/i386/pc_piix.c            |  16 ++-
+ hw/i386/pc_q35.c             |  16 ++-
+ hw/i386/sgx.c                |   2 +-
+ hw/i386/x86.c                |   1 +
+ hw/pci-host/i440fx.c         |   5 +-
+ include/hw/i386/pc.h         |   4 +-
+ include/hw/i386/x86.h        |   3 +
+ include/hw/pci-host/i440fx.h |   3 +-
+ 10 files changed, 203 insertions(+), 57 deletions(-)
+
+-- 
+2.17.2
 
 
