@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9832E575A1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 06:00:43 +0200 (CEST)
-Received: from localhost ([::1]:51770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F02575A28
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 06:05:26 +0200 (CEST)
+Received: from localhost ([::1]:53922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCCVO-0003Zp-AH
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 00:00:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54044)
+	id 1oCCZx-0005C3-Pz
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 00:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oCCTv-00027g-1P
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 23:59:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46493)
+ id 1oCCY7-0003mm-5r
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 00:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oCCTr-00083k-3o
- for qemu-devel@nongnu.org; Thu, 14 Jul 2022 23:59:08 -0400
+ id 1oCCY4-0000Os-BM
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 00:03:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657857545;
+ s=mimecast20190719; t=1657857807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ak7HPJPF1bxANWp//PoDFzvMzaLV2jUksznDRsKmOKk=;
- b=LB1Rdu6boa08Kwl6PQwh/zOtFVohEryTx3EIUZnKUmes0tLroKbLPs3nznMW8gThrswBV0
- OI1goauBpBrDS9vyrNZX2qVYcuKaDTO1bcG64CzV5BH4zU62w479g7w8jpXZwmogxnlW+d
- w0X8CVadJPaVZhWaNS5/JnFBnFR7qqs=
-Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
- [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2H2WkTIj4shoePiRMhucSmjpGOu6jmKpDDjOxL/oy0U=;
+ b=ZvbZORBtRo9kR9Ot3pPh2mhHUlRH7MEDgaZLTr2h/cad/uPWaZqKKLdmTaX1EsrEOo4X8V
+ uKF0QkjTJwjF1DoMVFDxLfGi4dXEEe/25peE3SLUzm1/vA29Vk5ebU0LXU0r6D0ejzzweq
+ svHQOI4kgVeRzVbp5InHgnE4dN10ERI=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-TZtll8D1MFa07sYUPyHwGA-1; Thu, 14 Jul 2022 23:59:04 -0400
-X-MC-Unique: TZtll8D1MFa07sYUPyHwGA-1
-Received: by mail-lj1-f198.google.com with SMTP id
- z5-20020a05651c022500b0025d4d99593aso790851ljn.18
- for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 20:59:03 -0700 (PDT)
+ us-mta-176-wB00eK5WMCiSW33No7eZPw-1; Fri, 15 Jul 2022 00:03:20 -0400
+X-MC-Unique: wB00eK5WMCiSW33No7eZPw-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ g25-20020a2e9e59000000b0025baf0470feso782272ljk.8
+ for <qemu-devel@nongnu.org>; Thu, 14 Jul 2022 21:03:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ak7HPJPF1bxANWp//PoDFzvMzaLV2jUksznDRsKmOKk=;
- b=H6nqt+VG9xCd0x/jSAN0ExgITDKWHtr46vt88zs+D7PFFyqicqEU0CGSNoMywt0bb/
- kcwyTHpnmw6VHUjdi5snRnx4i58YBq4JWAGQGr6QCZEEmf/7rNiz5/ogXfYykfi6+PVW
- bQ9+u0vyFQpGIicGajROLgHUzsjCvBei2ddn6Pcgtq4nmAuwNG7YJzaC36aFtIKE1tmP
- Ywpvk7eUsbCgS+E2DlpoZS1O1R82UpJ/g6gRZftaAkBHfjq2iEVFgfTazXSFuuaMC9ch
- izgHzOTrFfd+0Hb1lMQCLEYtIPCcUoWXuJc6leXVSFZO4DbLKUwjLoMdhGlNnMrwDQza
- tz7w==
-X-Gm-Message-State: AJIora/P7uCNjAld7QWkoP/jxvFPciMWvW4fzxwk1Ed+jfH8kcz0wENL
- 0RQInE5B9FYwQmSWEYHmuiP+MjBcZnzXICvOe6Efoxvweo6BG7kguzVmO2JcVf1zcMb+g3QAMNJ
- gA7+ZER/Q3lPC/Ei8JzS3g7ipwawYOYc=
-X-Received: by 2002:a05:6512:313a:b0:489:caea:7e27 with SMTP id
- p26-20020a056512313a00b00489caea7e27mr7107448lfd.397.1657857542442; 
- Thu, 14 Jul 2022 20:59:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t4rl7UsCUmplvkNEoDQdGrJRPG72PZBteVOEWAztGd0LxuSVNoA2Y//azpQL+heshsJl5JjzgAPfiUY7Ykmxw=
-X-Received: by 2002:a05:6512:313a:b0:489:caea:7e27 with SMTP id
- p26-20020a056512313a00b00489caea7e27mr7107422lfd.397.1657857542136; Thu, 14
- Jul 2022 20:59:02 -0700 (PDT)
+ bh=2H2WkTIj4shoePiRMhucSmjpGOu6jmKpDDjOxL/oy0U=;
+ b=CwsyJLimRq1pXjl9CFlfpEF3pB3N7ERywSFmhvtOH96XVAzx/MJuRpmkEpnBycIh0r
+ 2yWxlPdgMzPDLaOZJ60yheBIJdy4OS/f/d2KWyNtBHEIV53W+dw2lbk8d0LdjN9BroE/
+ +tT6wD0KL7takxKdRDih3zzlepcFXMA9RIEtZk0MtgUf6DMtbPcXR+VYMN4fZ2EeQl+Y
+ XvEt1P3cEKiCZjmdvV27VBZcgMAx3eniIir8y+yJ++6/lDhidGMYCw5tKWzyonZt59f4
+ HDE4N870btNuag24NsOzgjoRkWkZKGuvMkmwTLvqRjhJMkcvHhtfNrQyD2pLtinsw2YL
+ viAA==
+X-Gm-Message-State: AJIora+UAk/VsIu4+4GH0h6eUeez9yH/d3i1hi9tNo1Omt+rgYWAhSX5
+ 19aYG1StTgdADjTWU5VqjLnLFXIvazpr5fFlR9LyNrRCgDTnkIWr1dcQmZariOHc7A4MqQj0gxB
+ uONt30a+C7xn4quoBGvAGeSG4cNGNVTA=
+X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
+ e23-20020a2e9e17000000b0025d76544c6bmr6103295ljk.130.1657857798749; 
+ Thu, 14 Jul 2022 21:03:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tJ+g+bULh9erbpFRQRnEwkiSp4yYRKx659aT22dKIEAN1FVGB30wVGQoEnRAPR9DQVpt7PZc1d187KXam89kk=
+X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
+ e23-20020a2e9e17000000b0025d76544c6bmr6103270ljk.130.1657857798471; Thu, 14
+ Jul 2022 21:03:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220714163150.2536327-1-eperezma@redhat.com>
- <20220714163150.2536327-13-eperezma@redhat.com>
-In-Reply-To: <20220714163150.2536327-13-eperezma@redhat.com>
+ <20220714163150.2536327-19-eperezma@redhat.com>
+In-Reply-To: <20220714163150.2536327-19-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Fri, 15 Jul 2022 11:58:51 +0800
-Message-ID: <CACGkMEuHR_R6Jxjvznv1T-d6SGngsYQyfhCNw8-HoTb3FLcX0w@mail.gmail.com>
-Subject: Re: [PATCH v2 12/19] vhost: add vhost_svq_poll
+Date: Fri, 15 Jul 2022 12:03:07 +0800
+Message-ID: <CACGkMEsmSygJVtuXMZ_Fj4xgL-xb65UqGFXFOv1FE+wzbKeVHA@mail.gmail.com>
+Subject: Re: [PATCH v2 18/19] vdpa: Add device migration blocker
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
  Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
@@ -79,14 +79,14 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,72 +106,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, Jul 15, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.com> w=
 rote:
 >
-> It allows the Shadow Control VirtQueue to wait for the device to use the
-> available buffers.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/virtio/vhost-shadow-virtqueue.h |  1 +
->  hw/virtio/vhost-shadow-virtqueue.c | 22 ++++++++++++++++++++++
->  2 files changed, 23 insertions(+)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
-virtqueue.h
-> index 1692541cbb..b5c6e3b3b4 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -89,6 +89,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq, con=
-st SVQElement *elem,
->  int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
->                    size_t out_num, const struct iovec *in_sg, size_t in_n=
-um,
->                    SVQElement *elem);
-> +size_t vhost_svq_poll(VhostShadowVirtqueue *svq);
->
->  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_kick_f=
-d);
->  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_fd);
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-=
-virtqueue.c
-> index 5244896358..31a267f721 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.c
-> +++ b/hw/virtio/vhost-shadow-virtqueue.c
-> @@ -486,6 +486,28 @@ static void vhost_svq_flush(VhostShadowVirtqueue *sv=
-q,
->      } while (!vhost_svq_enable_notification(svq));
->  }
->
-> +/**
-> + * Poll the SVQ for one device used buffer.
-> + *
-> + * This function race with main event loop SVQ polling, so extra
-> + * synchronization is needed.
-> + *
-> + * Return the length written by the device.
-> + */
-> +size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
-> +{
-> +    do {
-> +        uint32_t len;
-> +        SVQElement *elem =3D vhost_svq_get_buf(svq, &len);
-> +        if (elem) {
-> +            return len;
-> +        }
-> +
-> +        /* Make sure we read new used_idx */
-> +        smp_rmb();
+> Since the vhost-vdpa device is exposing _F_LOG,
 
-There's already one smp_rmb(0 in vhost_svq_get_buf(). So this seems useless=
-?
+I may miss something but I think it doesn't?
+
+Note that the features were fetched from the vDPA parent.
 
 Thanks
 
-> +    } while (true);
-> +}
+> adding a migration blocker if
+> it uses CVQ.
+>
+> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> ---
+>  include/hw/virtio/vhost-vdpa.h |  1 +
+>  hw/virtio/vhost-vdpa.c         | 14 ++++++++++++++
+>  2 files changed, 15 insertions(+)
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdp=
+a.h
+> index 1111d85643..d10a89303e 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -35,6 +35,7 @@ typedef struct vhost_vdpa {
+>      bool shadow_vqs_enabled;
+>      /* IOVA mapping used by the Shadow Virtqueue */
+>      VhostIOVATree *iova_tree;
+> +    Error *migration_blocker;
+>      GPtrArray *shadow_vqs;
+>      const VhostShadowVirtqueueOps *shadow_vq_ops;
+>      void *shadow_vq_ops_opaque;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index beaaa7049a..795ed5a049 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -20,6 +20,7 @@
+>  #include "hw/virtio/vhost-shadow-virtqueue.h"
+>  #include "hw/virtio/vhost-vdpa.h"
+>  #include "exec/address-spaces.h"
+> +#include "migration/blocker.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/main-loop.h"
+>  #include "cpu.h"
+> @@ -1022,6 +1023,13 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev=
+ *dev)
+>          return true;
+>      }
+>
+> +    if (v->migration_blocker) {
+> +        int r =3D migrate_add_blocker(v->migration_blocker, &err);
+> +        if (unlikely(r < 0)) {
+> +            goto err_migration_blocker;
+> +        }
+> +    }
 > +
->  /**
->   * Forward used buffers.
->   *
+>      for (i =3D 0; i < v->shadow_vqs->len; ++i) {
+>          VirtQueue *vq =3D virtio_get_queue(dev->vdev, dev->vq_index + i)=
+;
+>          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, i=
+);
+> @@ -1064,6 +1072,9 @@ err:
+>          vhost_svq_stop(svq);
+>      }
+>
+> +err_migration_blocker:
+> +    error_reportf_err(err, "Cannot setup SVQ %u: ", i);
+> +
+>      return false;
+>  }
+>
+> @@ -1083,6 +1094,9 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *=
+dev)
+>          }
+>      }
+>
+> +    if (v->migration_blocker) {
+> +        migrate_del_blocker(v->migration_blocker);
+> +    }
+>      return true;
+>  }
+>
 > --
 > 2.31.1
 >
