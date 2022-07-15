@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4962157648C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 17:39:24 +0200 (CEST)
-Received: from localhost ([::1]:39392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F320D57648E
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 17:40:45 +0200 (CEST)
+Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCNPW-0003QQ-UU
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 11:39:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
+	id 1oCNQn-0005Br-Lf
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 11:40:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oCNNi-0000UW-3D
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:37:30 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:39829)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCNOg-0001vs-W3
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:38:31 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:43977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oCNNg-0002UR-8O
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:37:29 -0400
-Received: by mail-ot1-x332.google.com with SMTP id
- r6-20020a056830134600b0061c862abbdeso908900otq.6
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 08:37:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCNOe-0002d0-59
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:38:30 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-31df2545d87so27752787b3.10
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 08:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :references:from:in-reply-to:content-transfer-encoding;
- bh=qFr6h49n4HTvrei/G3kkjtjB9MT0qj+/xJKpu1oZjz8=;
- b=LyqgGvV4gg9jsbq2fKVRfXP1t1Vm/7koJKEzpn4epoaInkElYTUMnHHx9rt4zE9gjQ
- 75ZEdhZb+f2SYjxvichZhUNSIDZD1zBkrq13N75Todzz/siU8vBU7uGIC9oYTErVWGgM
- 9LUFGqx3fVPg9FVHjmqB4p6+okdVnJh0W4ImtCgoZ3TZPf0R7XPlJ9af6I7axVvnlu2N
- xjpQSfvHOUYoBonyKfZuwJ4w0MQy9uW6Inrnf8yKwJCMpHGxQ1JSK/aRyVE4ew29RfbI
- oEXIANHyx88p0T0RnsULZtgp2xQBcxTtoP5KKTK6sh+B5W3oLEJv6H/Fy5KVfU0itHbu
- Xlyw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bQ28LxSKCjjYmzSLGbZc3jd+smOUB2hYE7Be/XzSJtU=;
+ b=owos9V7E6Xio/bZoTJc5F0nCNV1Akdm6p1kAOHxBCxaMDcJdk8IrVLHh9DU4elj1L3
+ nuJ3HZZt+pNn8rFOyLlUznV8JlMOUIhLm2iuHkeCdnBcI1BDsgpweDRPny5Hr9da+0pf
+ sXMN5hEmxkgeN3X8uk/xnj7pAZNQG0fHxZnLRGRnOaqv1c4hRn+jXvKHime/0OpjZNJx
+ 2a4uotOJWe79OMM1vVTkT1ZNk5WV97JPfV46nv4iZLLncalSreXQ3vhMtVCSOPB5GmpO
+ l9LmBn4cEEQfweVcJ2M2S5IuRkmBQaZ2RG30mAX24sgnFhBFqB78a4ylgeI1OWZBxrnc
+ rN3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qFr6h49n4HTvrei/G3kkjtjB9MT0qj+/xJKpu1oZjz8=;
- b=3Hc2ljnt5ANC+sMjEN2G9S/X0EXY7TZgIcIndpSpe2c3oKOe2UCIQhSNMgwqprQ6Fv
- CLF0YEpXwwTtUPUH8fxwGobBlXCJbRGLH9XnAS7OAz/rxiwxCorSUeHMyW/0Bwqc7oA7
- xReeQ5k3vYvNN4UE6t5HkOlTDqZaZHd3a9GsC4HOfodMgkCjblXsXTySNYAkternMAKs
- 7j4SVYd5aOhPFbUnUxjqQkbDbdrHv81LZMEw6khr4f1ni7GooJgx6tccYxSKw91JfuVw
- c6R/ponuRNkkVAJrjso2R+uQpkzlxvTNXK6rv893AmCMWBfe7tUL/ikmBpeCP4mwj3HL
- 42zw==
-X-Gm-Message-State: AJIora/w/dPsKmsknbCVryxLSyYFqpb06gW+KMkBNLkQMNyeOlDd7VKR
- FdVSKtx7rxooAPOYPRltA13Czg==
-X-Google-Smtp-Source: AGRyM1sCKxX1PDnNVvPLJ8zcGn+McqTtyI9ivxQJ7qsDktsjSpf1V0ZcuXsMN4J2JpTiCBH4Khtc5w==
-X-Received: by 2002:a9d:2663:0:b0:61c:7ef9:c117 with SMTP id
- a90-20020a9d2663000000b0061c7ef9c117mr2789518otb.170.1657899447103; 
- Fri, 15 Jul 2022 08:37:27 -0700 (PDT)
-Received: from [192.168.113.227] ([172.58.176.74])
- by smtp.gmail.com with ESMTPSA id
- 1-20020a4a0301000000b004357c1d1efasm783098ooi.21.2022.07.15.08.37.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jul 2022 08:37:26 -0700 (PDT)
-Message-ID: <d5dd076a-1a93-61cd-2ae8-5204b516d4c7@linaro.org>
-Date: Fri, 15 Jul 2022 21:07:15 +0530
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bQ28LxSKCjjYmzSLGbZc3jd+smOUB2hYE7Be/XzSJtU=;
+ b=J0cJCe9cXJJGAO7r6YAxpQwJAUBTI0cL6cjG1jI1zTSaQ3f07S9JsYNf/Ngqrgb1a0
+ fP2hNLrHdC2LOspkCNOsDNjVHmHrwWwbmas27i1q0a/0/wgMPNWf1jJqAgyQgQMob/Jv
+ UM7CRRJTbcqDU2ssfMqW3V0N4pRAcGksyAwIgJ2u/cDN/3/iL2nO7AJZFzDGKJH4QF2j
+ GcautvgTXHMhsPBUM/OWhqdQzR9yp734KvU6DjQ50/XqY/ow7pifiLOuYEfuciMHEGrl
+ v2hYw2wR/HJ4fqPMwzpnWyQiigS3ttEx+QWojGhehtT0M8/S32rpP7zef2RRLZf0AcYU
+ jXZg==
+X-Gm-Message-State: AJIora+xJbWLq0lE2t0mOPUxBs1C2HvBT+Cn6VKF2fuxVryZalvLY0IA
+ JDyFEpmDIg+WzHODA93i89HaVbPDnHWS4rOyGtmpCA==
+X-Google-Smtp-Source: AGRyM1t88Z32PW1xV1cMk6ElVvYpKrQ9ym2pDKPCzESZfmopiwcTWQ5Rz9Ndf5pTV5DQWNQtSzoUMVSnAFxxyNY2U7M=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr16440026ywb.257.1657899507196; Fri, 15
+ Jul 2022 08:38:27 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH] target/arm: Don't set syndrome ISS for loads and stores
- with writeback
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20220715123323.1550983-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220715123323.1550983-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x332.google.com
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-3-wuhaotsh@google.com>
+In-Reply-To: <20220714182836.89602-3-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 Jul 2022 16:37:48 +0100
+Message-ID: <CAFEAcA8G2HxqNXHg-Yo-nSpVikTOmZFvhD1T12kR8L8PftNw4Q@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] hw/i2c: Read FIFO during RXF_CTL change in NPCM7XX
+ SMBus
+To: Hao Wu <wuhaotsh@google.com>
+Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
+ hskinnemoen@google.com, f4bug@amsat.org, bin.meng@windriver.com, 
+ qemu-block@nongnu.org, armbru@redhat.com, thuth@redhat.com, 
+ Titus Rwantare <titusr@google.com>, Corey Minyard <cminyard@mvista.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -94,48 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/15/22 18:03, Peter Maydell wrote:
-> The architecture requires that for faults on loads and stores which
-> do writeback, the syndrome information does not have the ISS
-> instruction syndrome information (i.e. ISV is 0).  We got this wrong
-> for the load and store instructions covered by disas_ldst_reg_imm9().
-> Calculate iss_valid correctly so that if the insn is a writeback one
-> it is false.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1057
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Thu, 14 Jul 2022 at 19:28, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> Originally we read in from SMBus when RXF_STS is cleared. However,
+> the driver clears RXF_STS before setting RXF_CTL, causing the SM bus
+> module to read incorrect amount of bytes in FIFO mode when the number
+> of bytes read changed. This patch fixes this issue.
+>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Titus Rwantare <titusr@google.com>
+> Acked-by: Corey Minyard <cminyard@mvista.com>
 > ---
-> Tested with RTH's test case attached to the bug report.
-> ---
->   target/arm/translate-a64.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
+>  hw/i2c/npcm7xx_smbus.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
+> index f18e311556..1435daea94 100644
+> --- a/hw/i2c/npcm7xx_smbus.c
+> +++ b/hw/i2c/npcm7xx_smbus.c
+> @@ -637,9 +637,6 @@ static void npcm7xx_smbus_write_rxf_sts(NPCM7xxSMBusState *s, uint8_t value)
+>  {
+>      if (value & NPCM7XX_SMBRXF_STS_RX_THST) {
+>          s->rxf_sts &= ~NPCM7XX_SMBRXF_STS_RX_THST;
+> -        if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
+> -            npcm7xx_smbus_recv_fifo(s);
+> -        }
+>      }
+>  }
+>
+> @@ -651,6 +648,9 @@ static void npcm7xx_smbus_write_rxf_ctl(NPCM7xxSMBusState *s, uint8_t value)
+>          new_ctl = KEEP_OLD_BIT(s->rxf_ctl, new_ctl, NPCM7XX_SMBRXF_CTL_LAST);
+>      }
+>      s->rxf_ctl = new_ctl;
+> +    if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
+> +        npcm7xx_smbus_recv_fifo(s);
+> +    }
+>  }
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I don't know anything about this hardware, but this looks a bit odd.
+Why should we care what order the driver does the register operations
+in? Do we really want to read new fifo data regardless of what value
+the driver writes to RXF_CTL ? Should the logic actually be "if the
+new device register state is <whatever> then read fifo data", and
+checked in both places ?
 
-r~
-
-> 
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index b7b64f73584..163df8c6157 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -3138,7 +3138,7 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
->       bool is_store = false;
->       bool is_extended = false;
->       bool is_unpriv = (idx == 2);
-> -    bool iss_valid = !is_vector;
-> +    bool iss_valid;
->       bool post_index;
->       bool writeback;
->       int memidx;
-> @@ -3191,6 +3191,8 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
->           g_assert_not_reached();
->       }
->   
-> +    iss_valid = !is_vector && !writeback;
-> +
->       if (rn == 31) {
->           gen_check_sp_alignment(s);
->       }
-
+thanks
+-- PMM
 
