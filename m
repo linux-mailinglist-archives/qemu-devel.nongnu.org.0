@@ -2,56 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19AC5762E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:38:37 +0200 (CEST)
-Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CF4576305
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:47:28 +0200 (CEST)
+Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCLWf-0002cP-0L
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:38:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50988)
+	id 1oCLfD-00088H-0L
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oCLUI-0008Mu-GK; Fri, 15 Jul 2022 09:36:10 -0400
-Received: from [200.168.210.66] (port=25321 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oCLUG-0004r8-CJ; Fri, 15 Jul 2022 09:36:10 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 15 Jul 2022 10:36:01 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 59DCF800181;
- Fri, 15 Jul 2022 10:36:01 -0300 (-03)
-Message-ID: <30172818-0da0-ca4e-7920-a498e5ce027b@eldorado.org.br>
-Date: Fri, 15 Jul 2022 10:36:01 -0300
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oCLcW-0005m6-Lg; Fri, 15 Jul 2022 09:44:40 -0400
+Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:36360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oCLcV-00068c-AA; Fri, 15 Jul 2022 09:44:40 -0400
+Received: by mail-oa1-x2b.google.com with SMTP id
+ 586e51a60fabf-10bf634bc50so6268359fac.3; 
+ Fri, 15 Jul 2022 06:44:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=7kLFIrwlXRp9I191nNxbgKsVf0vBhshhqcIWk2p1NpM=;
+ b=PnQTX+DERH3BgSgxkhOhV/0MamIZzLyvK04RZqXzdXXxytKUZgJor9NFiBnlTjBHPn
+ NXDD18bN8hq6b+DXyfq+RwOyAAiL6ABOxOYY4kg8bn/3MFYB7j0SoJamtRuR+TjWcOjr
+ e00oB654SyzZbhCmMSo5ef+GA5m0SVCXM3l7Oa4rfgLJtyconh4+ttwWsHd3ZJHhx1f4
+ UFCQQ/WX158edKAd7xzbBPmCfTVGzkpctAmbJNVInB/uFYP3pJostteWTEZ+1XXiEa6y
+ bsPvEPl30xNHP9ptrM6NtP2NDftuTbyNrOFhG591pwt+lA2UPsV7pB7KNGdrJfeUPNo6
+ qEgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=7kLFIrwlXRp9I191nNxbgKsVf0vBhshhqcIWk2p1NpM=;
+ b=AeVmxwzXx5K5tMLrfFiSyB8pEFSGeLR+3g4zrGPxCGlPw3tal+kE1Xsb5Sbfofvk7c
+ 41gtTmkCnL9WsGK8eOHH70lVrSmCrpZn4fWZLWRP5rHTP6iDaS85B15inqIvNhkjxgoE
+ 2dKen1AoEv+EOk16SykcWm8XLdFPzJQd3A5DGxVMSfHIknJmZ4PUZLrgvYnMp8ViR5Dd
+ 5OnTIrMCAlLCxMywS2+ko/NuD6w5vPn6KZmDiihnQVDa+zJUU7FlQT+NRA5Vzwp0XdsV
+ 5priF0zuJyELgTpamhfuIC9hCvJCtwzjUb4Dop5atzHvIGZ/BrAejewGRBZlbvgHBlPZ
+ BmQA==
+X-Gm-Message-State: AJIora8qc/VJNn3g0Ki6UhF1OXuLnQfeNPeA5vGIAv1UTLu+PQUvx+yc
+ StT31f1fjjhuAMeDbp2PuEk=
+X-Google-Smtp-Source: AGRyM1sW+K01TE8pvybD4l9aILR1Frc3wy6TWGv472A4n66DvwrRhV25/l6x+yUTp/41YtpKz02Hjg==
+X-Received: by 2002:a05:6871:71f:b0:10b:e9bc:db5f with SMTP id
+ f31-20020a056871071f00b0010be9bcdb5fmr7522421oap.100.1657892677688; 
+ Fri, 15 Jul 2022 06:44:37 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ c12-20020a544e8c000000b0033a0ef748a8sm1692346oiy.54.2022.07.15.06.44.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jul 2022 06:44:37 -0700 (PDT)
+Message-ID: <7e54c377-ac10-e9a8-f291-75f4266e733e@gmail.com>
+Date: Fri, 15 Jul 2022 10:44:34 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH v3 0/3] Implement Power ISA 3.1B hash insns
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 0/3] ppc: Check for bad Radix configs
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org, mst@redhat.com, cohuck@redhat.com,
- pbonzini@redhat.com, farosas@linux.ibm.com
-References: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
- <72c6d73b-0869-ab1a-3c2c-1c0fa334f643@gmail.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <72c6d73b-0869-ab1a-3c2c-1c0fa334f643@gmail.com>
+ richard.henderson@linaro.org
+References: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 15 Jul 2022 13:36:01.0816 (UTC)
- FILETIME=[D30DB980:01D8984F]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::2b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,64 +94,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMTUvMDcvMjAyMiAxMDoyMywgRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgd3JvdGU6DQo+
-IE9uIDcvMTMvMjIgMTM6NTQsIFbDrWN0b3IgQ29sb21ibyB3cm90ZToNCj4+IFRoaXMgcGF0
-Y2ggc2VyaWVzIGltcGxlbWVudHMgdGhlIDQgaW5zdHJ1Y3Rpb25zIGFkZGVkIGluIFBvd2Vy
-IElTQQ0KPj4gMy4xQjoNCj4+DQo+PiAtIGhhc2hjaGsNCj4+IC0gaGFzaHN0DQo+PiAtIGhh
-c2hjaGtwDQo+PiAtIGhhc2hzdHANCj4+DQo+PiBUbyBidWlsZCBpdCwgeW91IG5lZWQgdG8g
-YXBwbHkgdGhlIGZvbGxvd2luZyBwYXRjaGVzIG9uIHRvcCBvZiBtYXN0ZXI6DQo+PiA8MjAy
-MjA3MDExMzM1MDcuNzQwNjE5LTItbHVjYXMuY291dGluaG9AZWxkb3JhZG8ub3JnLmJyPg0K
-Pj4gPDIwMjIwNzAxMTMzNTA3Ljc0MDYxOS0zLWx1Y2FzLmNvdXRpbmhvQGVsZG9yYWRvLm9y
-Zy5icj4NCj4+IDwyMDIyMDcxMjE5Mzc0MS41OTEzNC0yLWxlYW5kcm8ubHVwb3JpQGVsZG9y
-YWRvLm9yZy5icj4NCj4+IDwyMDIyMDcxMjE5Mzc0MS41OTEzNC0zLWxlYW5kcm8ubHVwb3Jp
-QGVsZG9yYWRvLm9yZy5icj4NCj4+DQo+PiBXb3JraW5nIGJyYW5jaCBmb3IgZWFzZSBvZiB1
-c2UgY2FuIGJlIGZvdW5kIGhlcmU6DQo+PiBodHRwczovL2dpdGh1Yi5jb20vUFBDNjQvcWVt
-dS90cmVlL3ZjY29sb21iby1oYXNoLXRvLXNlbmQtdjMNCj4+DQo+PiBXaGF0IGRvIHlvdSB0
-aGluayBhYm91dCB0aGUgY2hvaWNlIHRvIGltcGxlbWVudCB0aGUgaGFzaCBhbGdvcml0aG0N
-Cj4+IGZyb20gdGhlIGdyb3VuZCB1cCwgZm9sbG93aW5nIHRoZSBTSU1PTi1saWtlIGFsZ29y
-aXRobSBwcmVzZW50ZWQgaW4NCj4+IFBvd2VyIElTQT8gSUlVQywgdGhpcyBhbGdvcml0aG0g
-aXMgbm90IHRoZSBzYW1lIGFzIHRoZSBvcmlnaW5hbFsxXS4NCj4+IE90aGVyIG9wdGlvbnMg
-d291bGQgYmUgdG8gdXNlIG90aGVyIGFsZ29yaXRobSBhbHJlYWR5IGltcGxlbWVudGVkDQo+
-PiBpbiBRRU1VLCBvciBldmVuIG1ha2UgdGhpcyBpbnN0cnVjdGlvbiBhIG5vcCBmb3IgYWxs
-IFBvd2VyIHZlcnNpb25zLg0KPj4NCj4+IEFsc28sIEkgd2FzIHRoaW5raW5nIGFib3V0IHVz
-aW5nIHRoZSBjYWxsIHRvIHNwcl9yZWdpc3Rlcl9rdm0oKSBpbg0KPj4gaW5pdF9wcm9jX1BP
-V0VSMTAgdG8gaW5pdGlhbGl6ZSB0aGUgcmVnaXN0ZXJzIHdpdGggYSByYW5kb20gdmFsdWUu
-DQo+PiBJJ20gbm90IHN1cmUgd2hhdCBpcyB0aGUgYmVoYXZpb3IgaGVyZSwgSSB3b3VsZCBl
-eHBlY3QgdGhhdCBpcyB0aGUgam9iDQo+PiBvZiB0aGUgT1MgdG8gc2V0IHRoZSByZWdzLCBi
-dXQgbG9va3MgbGlrZSBLVk0gaXMgbm90IGV4cG9ydGluZyB0aGVtLA0KPj4gc28gdGhleSBh
-cmUgYWx3YXlzIDAgKD8pLiBEb2VzIGFueW9uZSBoYXZlIGFueSBpbnNpZ2h0IG9uIHRoaXM/
-DQo+IA0KPiBUaGlzIGhhcHBlbnMgYmVjYXVzZSBLVk0gb24gUE9XRVIxMCBpc24ndCBoYW5k
-bGluZyB0aGVzZSByZWdpc3RlcnMNCj4gYXBwcm9wcmlhdGVseS4gV2UgYXJlIHByb2JhYmx5
-IG1pc3Npbmcga2VybmVsL2t2bSBjb2RlIHRvIGRvIHNvLg0KPiANCj4gU2luY2UgS1ZNIG9u
-IFBPV0VSMTAgaXMgb24gYW4gdW5jZXJ0YWluIHNwb3QgYXQgdGhpcyBtb21lbnQgSSB3b3Vs
-ZG4ndA0KPiB3b3JyeSB0b28gbXVjaCBhYm91dCBpdC4gTWFraW5nIHRoZSByZWdzIHJlYWQv
-d3JpdGUgd29yayBpbiBUQ0cgaXMgZ29vZA0KPiBlbm91Z2ggZm9yIG5vdy4NCj4gDQo+IA0K
-PiBEYW5pZWwNCg0KSGVsbG8gRGFuaWVsLA0KDQpUaGFua3MgZm9yIHRha2luZyBhIGxvb2sg
-YXQgdGhpcy4gSSBhZ3JlZSB0aGF0IGluIHRoaXMgY2FzZSBpdCBpcyBiZXR0ZXINCnRvIG1h
-a2UgaXQgd29yayBpbiBUQ0cgYW5kIGRyb3AgdGhlIEtWTSBwYXJ0IGZyb20gdGhpcyBwYXRj
-aCBzZXQNCkknbGwgd29yayBvbiBpdCBub3cNCg0KVGhhbmtzIQ0KDQo+IA0KPj4NCj4+IHYx
-LT52MjoNCj4+IC0gU3BsaXQgdGhlIHBhdGNoIGluIDINCj4+IC0gUmViYXNlIHRvIG1hc3Rl
-cg0KPj4NCj4+IHYyLT52MzoNCj4+IC0gU3BsaXQgcGF0Y2hlcyBpbiAzDQo+PiDCoMKgwqDC
-oCAtIHRoZSBuZXcgcGF0Y2ggKHBhdGNoIDEpIGlzIHNlcGFyYXRpbmcgdGhlIGt2bSBoZWFk
-ZXINCj4+IMKgwqDCoMKgwqDCoCBjaGFuZ2VzIFtDb3JuZWxpYV0NCj4+DQo+PiBbMV0gaHR0
-cHM6Ly9lcHJpbnQuaWFjci5vcmcvMjAxMy80MDQucGRmDQo+Pg0KPj4gVsOtY3RvciBDb2xv
-bWJvICgzKToNCj4+IMKgwqAgbGludXgtaGVhZGVycy9hc20tcG93ZXJwYy9rdm0uaDogQWRk
-IEhBU0hLRVlSIGFuZCBIQVNIUEtFWVIgaW4gaGVhZGVycw0KPj4gwqDCoCB0YXJnZXQvcHBj
-OiBJbXBsZW1lbnQgaGFzaHN0IGFuZCBoYXNoY2hrDQo+PiDCoMKgIHRhcmdldC9wcGM6IElt
-cGxlbWVudCBoYXNoc3RwIGFuZCBoYXNoY2hrcA0KPj4NCj4+IMKgIGxpbnV4LWhlYWRlcnMv
-YXNtLXBvd2VycGMva3ZtLmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCAzICsNCj4+IMKg
-IHRhcmdldC9wcGMvY3B1LmjCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIHzCoCAyICsNCj4+IMKgIHRhcmdldC9wcGMvY3B1X2luaXQuY8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgNyArKw0KPj4g
-wqAgdGFyZ2V0L3BwYy9leGNwX2hlbHBlci5jwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHwgODIgKysrKysrKysrKysrKysrKysrKysrKw0KPj4gwqAgdGFyZ2V0L3Bw
-Yy9oZWxwZXIuaMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfMKgIDQgKysNCj4+IMKgIHRhcmdldC9wcGMvaW5zbjMyLmRlY29kZcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEwICsrKw0KPj4gwqAgdGFyZ2V0L3BwYy90
-cmFuc2xhdGUuY8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKg
-IDUgKysNCj4+IMKgIHRhcmdldC9wcGMvdHJhbnNsYXRlL2ZpeGVkcG9pbnQtaW1wbC5jLmlu
-YyB8IDM0ICsrKysrKysrKw0KPj4gwqAgOCBmaWxlcyBjaGFuZ2VkLCAxNDcgaW5zZXJ0aW9u
-cygrKQ0KPj4NCg0KDQotLSANClbDrWN0b3IgQ29yYSBDb2xvbWJvDQpJbnN0aXR1dG8gZGUg
-UGVzcXVpc2FzIEVMRE9SQURPDQpBdmlzbyBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBzOi8v
-d3d3LmVsZG9yYWRvLm9yZy5ici9kaXNjbGFpbWVyLmh0bWw+DQo=
+Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+
+
+Daniel
+
+On 6/28/22 10:39, Leandro Lupori wrote:
+> Changes from v2:
+> - Improved comments on patch 2
+> - Improved commit message on patch 3
+> - Now emulating CPU behavior on misaligned page table base addresses
+> 
+> Leandro Lupori (3):
+>    ppc: Check partition and process table alignment
+>    target/ppc: Improve Radix xlate level validation
+>    target/ppc: Check page dir/table base alignment
+> 
+>   hw/ppc/spapr.c             |  5 +++
+>   hw/ppc/spapr_hcall.c       |  9 ++++
+>   target/ppc/mmu-book3s-v3.c |  5 +++
+>   target/ppc/mmu-radix64.c   | 92 ++++++++++++++++++++++++++++++--------
+>   4 files changed, 93 insertions(+), 18 deletions(-)
+> 
 
