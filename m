@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD73D576261
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:03:05 +0200 (CEST)
-Received: from localhost ([::1]:55898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6281E576263
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:03:10 +0200 (CEST)
+Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCKyG-000645-8F
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36854)
+	id 1oCKyL-0006JI-IM
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:03:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKuJ-0002qA-Mr
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:58:59 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:44840)
+ id 1oCKuU-0002wy-O7
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:59:10 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:45925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKuH-0006Fa-Ud
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:58:59 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-31d7db3e6e5so45832587b3.11
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 05:58:49 -0700 (PDT)
+ id 1oCKuS-0006He-Ml
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:59:10 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id 64so8260699ybt.12
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 05:59:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2NwipG8RrB5IrkYY6ixB/i17iPj768k9dChiofVSycw=;
- b=syP7M7xSxILLzLVqHECJXMSOzk7c/yrRn3p0nrOhAng3A/5HgEnR8ZE1vn5fuxBHNR
- reAwMvukzdJ14GLcPLAIfp8dEQdUPq/LSGjkgXFqcO3hjj3x9oDyX7H3M5UNFqEeEdkU
- v//cNEtkcrYAnce1FDWbMQK4katSUVrnnmtFGsUjuioYhzxbWqi0CRQPcQMo4s4F5yCc
- xlwkx1ZtucBNF1l2nwAPrDryT3EX8YiNX5HRFh2AtWfGfkb05joKHhvH0uEYTTUSkVnY
- 7I4p9wqAW0kPdZRIy81MCQfSK2/5fAv2Ufm2GM1orqsF+UZGV/C55fcwHD4dJnP8tTnu
- +Vdw==
+ :cc; bh=hes3BDDBOtqqs6AjZCtmk7w/D95neb0YgME8CFtnk9k=;
+ b=yREGoRFfNwGzNlCuHM3MEaME5lYtTV5oOtRoMYsLoaHuB/5wv+FZTgRyZO4wbs3dBw
+ MOJLhpLMvQ55Lq8MWWGPYeyztW2Mli637xHlDMaHitl/93X6ICXrpv+we17RginKDK1B
+ n7cHHhy+ocmMAL9WvBYDhtUGX2wpPDe2TI4U9cBqMYnxyZfW4G8gWEBw/tN7pR0twv/z
+ tNpJt966WrtJ3+y2I/C73JoVdj/J4zEfUtp+6iIwfzHIUjjLTXYE2jIcYAK2nlFTsMuB
+ aXQesudhQg/AdpbIsfhAdn/ouskNo0NLl4KrmliIbpYqKqv6d3J+wAD0Isd/N7cGhTuc
+ Zy9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2NwipG8RrB5IrkYY6ixB/i17iPj768k9dChiofVSycw=;
- b=PDExYqf2KLa27DQe8SUUjQZZ00+gMvOZWPP06gdEKDTaxSxWsVclxlxuVoK9taLdez
- w+GkRZ1V/Xj99034Tbg6fdbmFdQhz7+wvMLuhSyZYYrXAfedZ9gFuQKD1k36v/JmfnMU
- 9/pSOx59U3IgPSPupshzixMkUD2ovTnV81MQnNca0ZnvKzjG+5gBl9GuNycMG6R/pO0J
- ZqW834tDCDM0lQ9S5qOkLZVIzr/2w1UHfvRzHw9EtW5Ru1XNMpo6pZL99CNYibHoX2oT
- JOhxwc8ZFgg0XLJGCSRfA1gkaWYKRh/253xYBeG7sgq6HGUyg7v5Fdet/oSX3O0CfhrB
- 3ygg==
-X-Gm-Message-State: AJIora9ltvjaVLr2Nb2ug97zqwJwQASTEnFGT0OErknb2IJbOeKr5MFm
- NulLoCnnirzh2InVZJDta+cxtXmBuUw8g3lIbf1E4g==
-X-Google-Smtp-Source: AGRyM1ugxcuNUG2zSEJrfk/LZycBFdulZrA9iMcyNyYzL4/8/6PPMtB+8Gi22sim0MY0ObpX9b6Tj7Rb2TZDxIpSz/g=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr15776634ywc.64.1657889929049; Fri, 15
- Jul 2022 05:58:49 -0700 (PDT)
+ bh=hes3BDDBOtqqs6AjZCtmk7w/D95neb0YgME8CFtnk9k=;
+ b=dVd/t+5sen2i9py2ntQIG4rZmuf3S8CAGY+rTF5oQsmzAJBo2UUAlij/06VmNc16nW
+ Yj3Pp3h8rK9PGUws0uaI6u1Pp7HeMpDUhjAj+asnYcxwyB/ZRz7DAFlbd7I0qVvQ2tN/
+ 5dCutMsRHclTKFAhK94tgL7H1HpF+8Am9pRQ99/BCN2+5JuBUyL2grJRxVIuTDsNiDCU
+ Q4JCCl/Y4tvquhbxvnGXglXjcbCYFFRb58OWVyuNjFgS2ZIt/Imcc5w87bFJcb2lTBB7
+ 7OPjcW44zYd/MUV3UhWrQUyxxuNJayssL23/qI4wjP5/IMVqU02BIYNeaQIwjcpZJ3LC
+ DiHw==
+X-Gm-Message-State: AJIora+Havb1Th6PWXkAaAE/hUI1Az8isM0qp6PapzeY5QPxAilwjfkJ
+ Whum9o9tOQ04Dn4A94X2VQdVnHWUQwjj+Ru7UfY7hg==
+X-Google-Smtp-Source: AGRyM1sbSncbFgT1c++7dKGd1pjHasrJcahe9YdErXtCD02ZDkNsF1FTzS8GQBykaoUFRbvhBuM5ORwyP5oLBJxHtn0=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr14054930ybr.39.1657889946851; Fri, 15
+ Jul 2022 05:59:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
- <20220715114039.59790-3-akihiko.odaki@gmail.com>
-In-Reply-To: <20220715114039.59790-3-akihiko.odaki@gmail.com>
+ <20220715114039.59790-4-akihiko.odaki@gmail.com>
+In-Reply-To: <20220715114039.59790-4-akihiko.odaki@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 13:58:09 +0100
-Message-ID: <CAFEAcA8rJh4Vsv5fVg_2iY6EaCxd3UQLb0cPS70AGJ2SvVCAfw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Revert "main-loop: Disable block backend global
- state assertion on Cocoa"
+Date: Fri, 15 Jul 2022 13:58:26 +0100
+Message-ID: <CAFEAcA9arqdX2SEKz3vVWgvdqXD6TL-o3Z4dFRSTYF+BQq+9KA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] meson: Allow to enable gtk and sdl while cocoa is
+ enabled
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
  Gerd Hoffmann <kraxel@redhat.com>,
@@ -64,8 +63,8 @@ Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,12 +89,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 15 Jul 2022 at 12:40, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
 >
-> This reverts commit 47281859f66bdab1974fb122cab2cbb4a1c9af7f.
+> As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
+> can be enabled even ui/cocoa is enabled.
 >
 > Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 > ---
->  include/qemu/main-loop.h | 13 -------------
->  1 file changed, 13 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
