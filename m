@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 295B85763C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 16:40:03 +0200 (CEST)
-Received: from localhost ([::1]:42534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B852357647C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 17:34:29 +0200 (CEST)
+Received: from localhost ([::1]:59728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCMU5-0000Ta-PH
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 10:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1oCNKm-0006K9-FU
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 11:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCMRm-0006Rg-NT
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 10:37:38 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:46654)
+ id 1oCNIo-0003nR-15
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:32:26 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:38634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCMRk-0003qo-TN
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 10:37:38 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-31c89653790so48470097b3.13
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 07:37:36 -0700 (PDT)
+ id 1oCNIm-0001ZE-Fb
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:32:25 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id i206so9013318ybc.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 08:32:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=1nntSu14kiYA5aRvwAZ6Xu0P2IzNjfktu+XIgD8NX/A=;
- b=EZI7VpNK3bSFuAooICJ3BuRz4KhtOz7WmEJCrnf4vaFUtDtIk6VG2IorTuKGlIPskC
- e1g6K09PMuSNzkCp70D7f27PRCIhIKEjOT7Bqx+QGB53qx0B4ZTv9FwV7SfzKnoTG5D6
- xd3xrmVKGdpv0i7U4GeeaU7L9Jsh0qZUT2hTGNwRVsVP7G4+pBUBvKerMjYyZuGRAiDw
- /mTATNnEiZQrJAWW3869jl+Bj9b1Yxwgmh1g6dor38wAdiUCUSWBzeyGpMk89kGWLO1L
- IRHTKdtFzvz7EnNAoheM0gVQqKRtQ9eNKxcy6iCNGizkrnty2R7KpfHcC2uxAj2AI5K1
- Hoag==
+ :cc; bh=/00aHuHfBHBaPWjhRmDoqkplkcFpIz0h0lvKN0qyg30=;
+ b=bE0oXlNLSU/YOHlL4UV9/v3VepLwjaT7s4QMywKCu9mZk5Fx75Wrt2FzbMV71olqcI
+ 0hOcvWICQrM0+1G0YrkC0SpZXerKoN0eC1z3hZVguGsAPXO4ty31NcnCzlqVFa07DSUo
+ z+b7/eE0lF03hclzf3qUS6ywrL93PawoetG5RdqERScMgDHNKqN/3ct7XtS5awzXKA/v
+ pVBMa1Ba30/Qmf/WPamzV34iUzH0dRGIrvlEZBaU7nrY6KZWxEATyTvw+6w/Q6GlWpiX
+ 0o9nOZtUJcJQ80hNwLb4Mi6nLqsu9lsrbZRJkab4GD+fFAKKAG/ycHMETekIDk73BEsE
+ xB9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1nntSu14kiYA5aRvwAZ6Xu0P2IzNjfktu+XIgD8NX/A=;
- b=q+D8812Ps2RKvwQCm6atMyrQyirc8C+8x/A4yI1JJ2g51hV8zJeZ/SG7NoasBfbhgO
- 9J9Mta6p2CrEknClKyTuWMLd14vYqz8jpADNNMlDte9ReJ+L5x0dzSiXddZQv3CHGlCr
- kXlVElzEwsesI0gg/JRzo16oA6MjGLOA/EN6oVIEPVYAbJ4mcIsTTCZ8OF7Z/M6XYv40
- xXWW0SJiXJEfMTulXnzy3qWtL00BzidULQtTKKDajppxmqB57PyRnVCraq8lsVfCQPDf
- JQHsy7X4iVWBMpht510c1rRN87UgYiHuQLz0tkNHWmGfQ/bInYS9z6ERlO5dC2sPj0ZR
- ioLA==
-X-Gm-Message-State: AJIora+eUrcVTJb8KVYkS5HswwPWW1RmY+SMoZDeTsTUGghJrGsB8+Kg
- 94oB1pxRsdK9JD3fVi845epiN3sAoDKF9lcOfbptwg==
-X-Google-Smtp-Source: AGRyM1t1LLeYBEwyXT+GGJH5U1lo4p/QDfq3Qv5YyN6LXvpM6JpZ432QTpEE4zQWlpTIqJ9AgxJeBOaULKJPYcJlObY=
-X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
- d8-20020a818d08000000b00317a4cdd65dmr15761166ywg.329.1657895855637; Fri, 15
- Jul 2022 07:37:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=/00aHuHfBHBaPWjhRmDoqkplkcFpIz0h0lvKN0qyg30=;
+ b=DiHqINScN1w8FkQfqVMQ1pzUPgWFp4slZqvQcVLXY3R07LpF+zpRbGvONZJkBmnpBR
+ GIcHvJnF51kMmuHtBrSB8RPvfjBREcxQJNIjClaB/pw68F8pDu9vcv/1szCYtIDdaAvP
+ SlBCPNbGhdZ48bFQEb74Ae4U1ComZ9dxtkj2lZoX9mVxlcJPQjuQg8XtaZXo5HdyMSq7
+ Nynb+UmvzFgC+rc/lszszMyBEX+W7pnGzmHGbT1+wOGkcYgwNeUTPd7DIbE3g+YwzOvt
+ hFJNOuOHFLO7rwPlnKPiXokZx93f2BjH74bt83jKgJFhnphekFBdYExf2x80pFwwZpA5
+ jMfw==
+X-Gm-Message-State: AJIora8xnfK7MMZOtqQTPqLWDcP6LnTiG3BOD4lvUcw18WzCD/DHAY3z
+ 5KXY8JVoJ8BllVwWYv1c5K2/q6bJTFC5OHRNtG059w==
+X-Google-Smtp-Source: AGRyM1vvoi4cASsgIMk10VgDr9rHVbv5/7cHLjMRs/Vkn1OIgPYR6V8evnasEW6JdHh6FPpTT0M1+inC5UvbTeBSjHE=
+X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
+ j11-20020a25230b000000b0066ee008a76bmr15507273ybj.479.1657899142865; Fri, 15
+ Jul 2022 08:32:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220714154456.2565189-1-clg@kaod.org>
-In-Reply-To: <20220714154456.2565189-1-clg@kaod.org>
+References: <20220714093929.247118-1-andrey.makarov@auriga.com>
+In-Reply-To: <20220714093929.247118-1-andrey.makarov@auriga.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 15:36:56 +0100
-Message-ID: <CAFEAcA_mKbzYsavPboCKqo1f-PsL_tg1n=9nkjMVFymJhgXUcg@mail.gmail.com>
-Subject: Re: [PULL v2 00/19] aspeed queue
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Date: Fri, 15 Jul 2022 16:31:43 +0100
+Message-ID: <CAFEAcA_JZHExzVASkKxPwhMZ8Zv=r32yqvkUBDY3k7vKurzg2Q@mail.gmail.com>
+Subject: Re: [PATCH v3] Align Raspberry Pi DMA interrupts with Linux DTS
+To: Andrey Makarov <ph.makarov@gmail.com>
+Cc: qemu-devel@nongnu.org, Andrey Makarov <andrey.makarov@auriga.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,36 +81,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jul 2022 at 16:45, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Thu, 14 Jul 2022 at 10:44, Andrey Makarov <ph.makarov@gmail.com> wrote:
 >
-> The following changes since commit 08c9f7eec7002dac2da52c8265eb319aba381c=
-86:
+> In v3:
 >
->   Merge tag 'darwin-20220712' of https://github.com/philmd/qemu into stag=
-ing (2022-07-14 09:30:55 +0100)
+> - changed naming of orgate & removed hard-coded constants
 >
-> are available in the Git repository at:
 >
->   https://github.com/legoater/qemu/ tags/pull-aspeed-20220714
->
-> for you to fetch changes up to f0418558302ef9e140681e04250fc1ca265f3140:
->
->   aspeed: Add fby35-bmc slot GPIO's (2022-07-14 16:24:38 +0200)
->
-> ----------------------------------------------------------------
-> aspeed queue:
->
-> * New ISL69259 device model
-> * New fby35 multi-SoC machine (AST1030 BIC + AST2600 BMC)
-> * Aspeed GPIO fixes
-> * Extension of m25p80 with write protect bits
-> * More avocado tests using the Aspeed SDK
+> Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
 
 
-Applied, thanks.
+> diff --git a/tests/qtest/bcm2835-dma-test.c b/tests/qtest/bcm2835-dma-test.c
+> new file mode 100644
+> index 0000000000..111adfe7f2
+> --- /dev/null
+> +++ b/tests/qtest/bcm2835-dma-test.c
+> @@ -0,0 +1,106 @@
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
+All new files need to start with a comment with the copyright
+and license information, please.
 
+thanks
 -- PMM
 
