@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55CF4576305
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:47:28 +0200 (CEST)
-Received: from localhost ([::1]:35622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD9576311
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:50:37 +0200 (CEST)
+Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCLfD-00088H-0L
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:47:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53006)
+	id 1oCLiG-00041t-Vy
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:50:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oCLcW-0005m6-Lg; Fri, 15 Jul 2022 09:44:40 -0400
-Received: from mail-oa1-x2b.google.com ([2001:4860:4864:20::2b]:36360)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1oCLgK-0000Ml-Fv
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:36 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:38879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oCLcV-00068c-AA; Fri, 15 Jul 2022 09:44:40 -0400
-Received: by mail-oa1-x2b.google.com with SMTP id
- 586e51a60fabf-10bf634bc50so6268359fac.3; 
- Fri, 15 Jul 2022 06:44:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1oCLgI-0006sV-MP
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:36 -0400
+Received: by mail-pl1-x635.google.com with SMTP id k19so3278541pll.5
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=7kLFIrwlXRp9I191nNxbgKsVf0vBhshhqcIWk2p1NpM=;
- b=PnQTX+DERH3BgSgxkhOhV/0MamIZzLyvK04RZqXzdXXxytKUZgJor9NFiBnlTjBHPn
- NXDD18bN8hq6b+DXyfq+RwOyAAiL6ABOxOYY4kg8bn/3MFYB7j0SoJamtRuR+TjWcOjr
- e00oB654SyzZbhCmMSo5ef+GA5m0SVCXM3l7Oa4rfgLJtyconh4+ttwWsHd3ZJHhx1f4
- UFCQQ/WX158edKAd7xzbBPmCfTVGzkpctAmbJNVInB/uFYP3pJostteWTEZ+1XXiEa6y
- bsPvEPl30xNHP9ptrM6NtP2NDftuTbyNrOFhG591pwt+lA2UPsV7pB7KNGdrJfeUPNo6
- qEgw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=81amebdTj/sFHNo/UeydOLOVbjTcmTqGFQIdlNPLf9o=;
+ b=Z/SNrVPqdAe7S/8odfiTJNLC+2najhfd+bfhWZXXFrC3rUzLMX7TL7YH1pjMAlpkRd
+ CsDy+KCxJPqhWxSuac1dqnDQaSx5SfxlhkmQN3gf0DspcoKQVEw8qjNIGBA37Au8X/xw
+ i3kHk5F/1tZTviyHfWUZJ5XcEYT1SU1LiDuQuhu4rFnTYXifD6Q6++UXZtR5dGJSwNOk
+ 1x+e41FZSrZZmk/OstLrn3pk6oPcykSDz3YuQ4F98ZyUeJnQo5FjjBDw81CMOCN0hWqe
+ Q2cs9nsNbJoH7n5fpDJOxWh1HR+2WzDlFzgAVYWmsEoEePQusxjWHBYl7BZwVFsL9i5A
+ A6tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=7kLFIrwlXRp9I191nNxbgKsVf0vBhshhqcIWk2p1NpM=;
- b=AeVmxwzXx5K5tMLrfFiSyB8pEFSGeLR+3g4zrGPxCGlPw3tal+kE1Xsb5Sbfofvk7c
- 41gtTmkCnL9WsGK8eOHH70lVrSmCrpZn4fWZLWRP5rHTP6iDaS85B15inqIvNhkjxgoE
- 2dKen1AoEv+EOk16SykcWm8XLdFPzJQd3A5DGxVMSfHIknJmZ4PUZLrgvYnMp8ViR5Dd
- 5OnTIrMCAlLCxMywS2+ko/NuD6w5vPn6KZmDiihnQVDa+zJUU7FlQT+NRA5Vzwp0XdsV
- 5priF0zuJyELgTpamhfuIC9hCvJCtwzjUb4Dop5atzHvIGZ/BrAejewGRBZlbvgHBlPZ
- BmQA==
-X-Gm-Message-State: AJIora8qc/VJNn3g0Ki6UhF1OXuLnQfeNPeA5vGIAv1UTLu+PQUvx+yc
- StT31f1fjjhuAMeDbp2PuEk=
-X-Google-Smtp-Source: AGRyM1sW+K01TE8pvybD4l9aILR1Frc3wy6TWGv472A4n66DvwrRhV25/l6x+yUTp/41YtpKz02Hjg==
-X-Received: by 2002:a05:6871:71f:b0:10b:e9bc:db5f with SMTP id
- f31-20020a056871071f00b0010be9bcdb5fmr7522421oap.100.1657892677688; 
- Fri, 15 Jul 2022 06:44:37 -0700 (PDT)
-Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- c12-20020a544e8c000000b0033a0ef748a8sm1692346oiy.54.2022.07.15.06.44.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jul 2022 06:44:37 -0700 (PDT)
-Message-ID: <7e54c377-ac10-e9a8-f291-75f4266e733e@gmail.com>
-Date: Fri, 15 Jul 2022 10:44:34 -0300
+ bh=81amebdTj/sFHNo/UeydOLOVbjTcmTqGFQIdlNPLf9o=;
+ b=0BNnCeB27JP0kOTHFGZSmq7LRkullt6FBcPuL07/p9h8Xq53T9QvXVlflJieG0Ksur
+ N44ztr5f0Eqr7GiE1CT5+eeyCNRqqcaQO3PJkhe+z0L4/u0ilpLnz1CnPNwrl10jE39l
+ cbBOe2M3TZp+qXq9+Rs++dt4M0QX0KBkd6uMGJHv45SPjQ+aHb2b2KIjdO09bHwqsn2f
+ i4ZszFQCWbdXyTBom1ujzl+ThmBu7xfs8VCi2woGe/GK5r+mGbJJuugduAP1AvBgPCCP
+ fSs53JyRhP8xatrZoq7QVFEKcHojwNSlpLW4H+BA2CndUwCrVauc8ZcJ1H8Pssc6N/xr
+ sObw==
+X-Gm-Message-State: AJIora83nGGgedi3KPtxIDALPj2vnTWLh8r9enZ5UpDYKxaisFSNOf47
+ MpUVIO/1PRC2jf5TrHBo5h4jtxmL74s=
+X-Google-Smtp-Source: AGRyM1utNkQYjS1J+oUuoyT3sjq09nsma7ySq/eUaWb+pm4S2nhbID99F/tg9NeGfp7EeA59J/4F2g==
+X-Received: by 2002:a17:90b:240b:b0:1ef:8a68:1596 with SMTP id
+ nr11-20020a17090b240b00b001ef8a681596mr15683304pjb.234.1657892912652; 
+ Fri, 15 Jul 2022 06:48:32 -0700 (PDT)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d554:ffbd:f962:2efd])
+ by smtp.gmail.com with ESMTPSA id
+ x22-20020a17090a165600b001f035bfcc53sm5579126pje.18.2022.07.15.06.48.29
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 15 Jul 2022 06:48:32 -0700 (PDT)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: [PATCH v3 0/3] ui/cocoa: Run qemu_init in the main thread
+Date: Fri, 15 Jul 2022 22:47:47 +0900
+Message-Id: <20220715134750.63090-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 0/3] ppc: Check for bad Radix configs
-Content-Language: en-US
-To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org
-References: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,26 +93,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+This work is based on:
+https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
 
+Simplify the initialization dance by running qemu_init() in the main
+thread before the Cocoa event loop starts. The secondary thread only
+runs only qemu_main_loop() and qemu_cleanup().
 
-Daniel
+This fixes a case where addRemovableDevicesMenuItems() calls
+qmp_query_block() while expecting the main thread to still hold
+the BQL.
 
-On 6/28/22 10:39, Leandro Lupori wrote:
-> Changes from v2:
-> - Improved comments on patch 2
-> - Improved commit message on patch 3
-> - Now emulating CPU behavior on misaligned page table base addresses
-> 
-> Leandro Lupori (3):
->    ppc: Check partition and process table alignment
->    target/ppc: Improve Radix xlate level validation
->    target/ppc: Check page dir/table base alignment
-> 
->   hw/ppc/spapr.c             |  5 +++
->   hw/ppc/spapr_hcall.c       |  9 ++++
->   target/ppc/mmu-book3s-v3.c |  5 +++
->   target/ppc/mmu-radix64.c   | 92 ++++++++++++++++++++++++++++++--------
->   4 files changed, 93 insertions(+), 18 deletions(-)
-> 
+Overriding the code after calling qemu_init() is done by dynamically
+replacing a function pointer variable, qemu_main when initializing
+ui/cocoa, which unifies the static implementation of main() for
+builds with ui/cocoa and ones without ui/cocoa.
+
+v3: Document functions involved in startup. (Peter Maydell)
+
+v2: Restore allow_events flag to fix the crash reported by
+    Philippe Mathieu-Daudé.
+
+Akihiko Odaki (3):
+  ui/cocoa: Run qemu_init in the main thread
+  Revert "main-loop: Disable block backend global state assertion on
+    Cocoa"
+  meson: Allow to enable gtk and sdl while cocoa is enabled
+
+ docs/devel/fuzzing.rst   |   4 +-
+ include/qemu-main.h      |   3 +-
+ include/qemu/main-loop.h |  13 ---
+ include/sysemu/sysemu.h  |   2 +-
+ meson.build              |  10 +--
+ softmmu/main.c           |  14 ++--
+ softmmu/vl.c             |   2 +-
+ tests/qtest/fuzz/fuzz.c  |   2 +-
+ ui/cocoa.m               | 172 ++++++++++++++-------------------------
+ 9 files changed, 78 insertions(+), 144 deletions(-)
+
+-- 
+2.32.1 (Apple Git-133)
+
 
