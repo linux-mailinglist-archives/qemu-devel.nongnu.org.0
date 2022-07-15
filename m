@@ -2,77 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 089CD57665D
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:48:36 +0200 (CEST)
-Received: from localhost ([::1]:47854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B246C576661
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:52:00 +0200 (CEST)
+Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCPQZ-0006GO-7a
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46546)
+	id 1oCPTr-00088I-Uk
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:51:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCOyu-0006bD-JF
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:20:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23037)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oCPRZ-0006Rt-O2; Fri, 15 Jul 2022 13:49:37 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:33741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCOys-0006OK-JG
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:20:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657905598;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=06r+/t48jFzylbXxQOLPKRPSU/+Lfz00kuQvdmdjLrM=;
- b=ctiAJRr04P/iUEu1g5AnCWUqI9hK3ab/XO+M0LsIREPYq3fummPryu/+eHOgNDqZmEEAWE
- FTcWoY2CdaxT6PDm2gjgzY74m1rHiR1+FEbzTAEsv57Mt4NnueClI5CnNykPlB60Bn5eN7
- PfeiJUeQCxEY428iMavKxYNbWBTq3GY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-322-qezg8wGFOvqSLeDI5wgZXw-1; Fri, 15 Jul 2022 13:19:42 -0400
-X-MC-Unique: qezg8wGFOvqSLeDI5wgZXw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8023785A581;
- Fri, 15 Jul 2022 17:19:41 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C32140E8B04;
- Fri, 15 Jul 2022 17:19:38 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Cornelia Huck <cohuck@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Parav Pandit <parav@mellanox.com>,
- Markus Armbruster <armbru@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Laurent Vivier <lvivier@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eric Blake <eblake@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 19/19] vdpa: Add x-svq to NetdevVhostVDPAOptions
-Date: Fri, 15 Jul 2022 19:18:34 +0200
-Message-Id: <20220715171834.2666455-20-eperezma@redhat.com>
-In-Reply-To: <20220715171834.2666455-1-eperezma@redhat.com>
-References: <20220715171834.2666455-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1oCPRX-0000Jz-LZ; Fri, 15 Jul 2022 13:49:37 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BEA4E580DF2;
+ Fri, 15 Jul 2022 13:49:34 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 15 Jul 2022 13:49:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1657907374; x=1657910974; bh=03l/wDsd2k
+ iG51AwI6jc3ksKXPi/Qe/4W9rRlobhhs8=; b=cHLd1v7OJBUp5Zi5+5OdtD1PGS
+ +q6Ce1J3xHdmqvvM+xSxz2SUDqb2oR0pshEG1P8nAltdamYS+q0aXtAloagNsDI6
+ KsWjqt/kwrutmXMfBCqnP13Z5YvT+cRfV6rPZE+CcLdtOJXE85OuPrHzr5ORNdoO
+ ROIWYPGI17tMG3UlEbNpuxqe1SaZYy/SGU0w8lyjthZaZU0v9QuJDfUvFeshHqGS
+ l4WLfQk20hNv4BhsWfpXSoHmSkkmWIWp3FL/6H5DJPdzLfssGZs/UXY4TyNvK7xd
+ ks/xoLkmwQ229isgnR/XHkLdEHU2KZ/GR97cS50e5+31rv1FqUBm/6VwABfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1657907374; x=1657910974; bh=03l/wDsd2kiG51AwI6jc3ksKXPi/
+ Qe/4W9rRlobhhs8=; b=S0FyBN2KZihLWOLC6ZtR6xmkszKhj/Ue0131Kpv13p96
+ OL4T2pS/KrxfFMvZT1mfY+30+9D0dFKoq0vvII2mlKZx8o+Ir5UDjBUIu+k9g9EH
+ HibEf6a5+lEyc2VRrfJ8Mx1eNCYlQxbYXnvh9s93t+umEddVEwjIvO3XbJGjQGSp
+ zT34Sq7PJtNXTeM2RTJnxPKcEXPfeIu9qWperf07EYFwXyxMceTVJzoWQEY61l+2
+ lIVqQTJ68fNs+9FiuMRrRVvIc3us7rqts6vrxm655Asp4+XjIRBdqbYtofNnN5GC
+ mcWEi4Z3eKS1Pg0gnff1j+SIZv5wXSxi1i47cqtkQw==
+X-ME-Sender: <xms:rqjRYjPoyzqeKxltro-q_v3OEwf62ecl6JLeeLg3tOk_UYYfeocZfA>
+ <xme:rqjRYt_Lacyc5lX8zggP6w5j3EIaSLejJTu75hQBEi-IYx9KJhUIeZDoJEPhxEw4j
+ TCQcIGR3B62HYzNz3s>
+X-ME-Received: <xmr:rqjRYiSAKmHeqDiguRcBPCHb25k6qLV4BBEXYatayXnT2kk2T54w7Y5SQ2YLALUYkG4k5wEnjcmK0naqkscwtg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekuddguddvtdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
+ feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:rqjRYntTTCwTlzpRYoGeMGLqiCFv2cTMi-ELJiP9tlkgwHsNc4ppVA>
+ <xmx:rqjRYrfRJ0vfti9kM-j3n4zqEt_B_3Md6RnoGrexBiQpwaJSEyJDSA>
+ <xmx:rqjRYj1R-U2fZ0esh1wcspsEStmiOqCAEr6AIupUHoL-hzdmJGWjqw>
+ <xmx:rqjRYn7BEW0cvbRoZE6WeHG8zjQdPLcQnM5_avOnRP_iUzIZCUUSIg>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 Jul 2022 13:49:33 -0400 (EDT)
+Date: Fri, 15 Jul 2022 10:49:31 -0700
+From: Peter Delevoryas <peter@pjd.dev>
+To: Klaus Jensen <k.jensen@samsung.com>
+Cc: clg@kaod.org, cminyard@mvista.com, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: Re: [RFC] aspeed/i2c: multi-master between SoC's
+Message-ID: <YtGoq/u+PhZHCg7n@pdel-mbp.dhcp.thefacebook.com>
+References: <CGME20220715030653eucas1p1424b94eec7ad76c32ab478916e64d337@eucas1p1.samsung.com>
+ <YtDZxbUWbqO9zIKk@pdel-mbp.dhcp.thefacebook.com>
+ <YtEcJlagrpVajaeM@apples>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YtEcJlagrpVajaeM@apples>
+Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
+ helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FROM_FMBLA_NEWDOM28=0.798, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,197 +102,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finally offering the possibility to enable SVQ from the command line.
+On Fri, Jul 15, 2022 at 09:49:58AM +0200, Klaus Jensen wrote:
+> On Jul 14 20:06, Peter Delevoryas wrote:
+> > Hey Cedric, Klaus, and Corey,
+> > 
+> 
+> Hi Peter,
+> 
+> Regardless of the issues you are facing its awesome to see this being
+> put to work like this!
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/net.json    |  9 +++++-
- net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 77 insertions(+), 4 deletions(-)
+Haha yeah, well, _all_ the designs at Meta (fb) rely significantly on
+multi-master i2c. I think I've been trying to get this working for months now,
+but we're really close!
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 9af11e9a3b..75ba2cb989 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -445,12 +445,19 @@
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
- #
-+# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
-+#         (default: false)
-+#
-+# Features:
-+# @unstable: Member @x-svq is experimental.
-+#
- # Since: 5.1
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
-     '*vhostdev':     'str',
--    '*queues':       'int' } }
-+    '*queues':       'int',
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
- 
- ##
- # @NetdevVmnetHostOptions:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 0afa60bb51..986e6414b4 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -75,6 +75,28 @@ const int vdpa_feature_bits[] = {
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-+/** Supported device specific feature bits with SVQ */
-+static const uint64_t vdpa_svq_device_features =
-+    BIT_ULL(VIRTIO_NET_F_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_MTU) |
-+    BIT_ULL(VIRTIO_NET_F_MAC) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
-+    BIT_ULL(VIRTIO_NET_F_STATUS) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
-+    BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
-+    BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-+    BIT_ULL(VIRTIO_NET_F_STANDBY);
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -133,9 +155,13 @@ err_init:
- static void vhost_vdpa_cleanup(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    struct vhost_dev *dev = &s->vhost_net->dev;
- 
-     qemu_vfree(s->cvq_cmd_out_buffer);
-     qemu_vfree(s->cvq_cmd_in_buffer);
-+    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-+    }
-     if (s->vhost_net) {
-         vhost_net_cleanup(s->vhost_net);
-         g_free(s->vhost_net);
-@@ -437,7 +463,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            int vdpa_device_fd,
-                                            int queue_pair_index,
-                                            int nvqs,
--                                           bool is_datapath)
-+                                           bool is_datapath,
-+                                           bool svq,
-+                                           VhostIOVATree *iova_tree)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -455,6 +483,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-+    s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.iova_tree = iova_tree;
-     if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
-                                             vhost_vdpa_net_cvq_cmd_page_len());
-@@ -465,6 +495,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
-+        error_setg(&s->vhost_vdpa.migration_blocker,
-+                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
-@@ -474,6 +506,14 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     return nc;
- }
- 
-+static int vhost_vdpa_get_iova_range(int fd,
-+                                     struct vhost_vdpa_iova_range *iova_range)
-+{
-+    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-+
-+    return ret < 0 ? -errno : 0;
-+}
-+
- static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
- {
-     int ret = ioctl(fd, VHOST_GET_FEATURES, features);
-@@ -524,6 +564,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-+    g_autoptr(VhostIOVATree) iova_tree = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
- 
-@@ -551,22 +592,45 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return queue_pairs;
-     }
- 
-+    if (opts->x_svq) {
-+        struct vhost_vdpa_iova_range iova_range;
-+
-+        uint64_t invalid_dev_features =
-+            features & ~vdpa_svq_device_features &
-+            /* Transport are all accepted at this point */
-+            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
-+                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_START);
-+
-+        if (invalid_dev_features) {
-+            error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
-+                       invalid_dev_features);
-+            goto err_svq;
-+        }
-+
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-+    }
-+
-     ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true);
-+                                     vdpa_device_fd, i, 2, true, opts->x_svq,
-+                                     iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false);
-+                                 vdpa_device_fd, i, 1, false,
-+                                 opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
-     }
- 
-+    /* iova_tree ownership belongs to last NetClientState */
-+    g_steal_pointer(&iova_tree);
-     return 0;
- 
- err:
-@@ -575,6 +639,8 @@ err:
-             qemu_del_net_client(ncs[i]);
-         }
-     }
-+
-+err_svq:
-     qemu_close(vdpa_device_fd);
- 
-     return -1;
--- 
-2.31.1
+If I can just get the i2c layer working, then proper IPMB and MCTP testing
+between BMC and BIC firmware will be much easier.
 
+There's some part defects that have a very low frequency of occurrence, and the
+patches for those defects rely on a BMC <-> BIC <-> <device> chain of IPMB
+messages. With QEMU, we could test those patches much more thoroughly, because
+we can inject the part-defect behavior.
+
+> 
+> > So I realized something about the current state of multi-master i2c:
+> > 
+> > We can't do transfers between two Aspeed I2C controllers, e.g.  AST1030 <->
+> > AST2600. I'm looking into this case in the new fby35 machine (which isn't even
+> > merged yet, just in Cedric's pull request)
+> > 
+> > This is because the AspeedI2CBusSlave is only designed to receive through
+> > i2c_send_async(). But the AspeedI2CBus master-mode transfers use i2c_send().
+> > 
+> > So, the AST2600 can't send data to the AST1030. And the AST1030 can't reply to
+> > the AST2600.
+> > 
+> > (By the way, another small issue: AspeedI2CBusSlave expects the parent of its
+> > parent to be its AspeedI2CBus, but that's not true if multiple SoC's are sharing
+> > an I2CBus. But that's easy to resolve, I'll send a patch for that soon).
+> > 
+> > I'm wondering how best to resolve the multi-SoC send-async issue, while
+> > retaining the ability to send synchronously to non-SoC slave devices.
+> > 
+> > I think there's only one way, as far as I can see:
+> > 
+> > - Force the Aspeed I2C Controller to master the I2C bus before starting a master
+> >   transfer. Even for synchronous transfers.
+> > 
+> > This shouldn't be a big problem, we can still do synchronous transfers, we just
+> > have to wait for the bus to be free before starting the transfer.
+> > 
+> > - If the I2C slave targets for a master2slave transfer support async_send, then
+> >   use async_send. This requires refactoring aspeed_i2c_bus_send into a state
+> >   machine to send data asynchronously.
+> > 
+> > In other words, don't try to do a synchronous transfer to an SoC.
+> > 
+> > But, of course, we can keep doing synchronous transfers from SoC -> sensor or
+> > sensor -> SoC.
+> > 
+> 
+> Yeah, hmm. This is tricky because callers of bus_send expects the
+> transfer to be "resolved" immediately. Per design, the asynchronous send
+> requires the device mastering the bus to itself be asynchronous (like
+> the i2c-echo device I added as an example).
+
+Understood: I was ommitting other necessary changes. Yes, we would need to
+async-ify all the way up the chain to the register read/write.
+
+> 
+> However, looking at aspeed_i2c_bus_handle_cmd (which is the caller of
+> bus_send), it should be possible to accept bus_send to "yield" as you
+> sketch below and not raise any interrupt. And yes, it would be required
+> in bus_send to call i2c_bus_master to register a BH which can then
+> raise the interrupt upon i2c_ack().
+
+Yep, that's what I was thinking of. I think I would actually call i2c_bus_master
+in aspeed_i2c_bus_handle_cmd or higher though, because I would only call
+i2c_bus_master once until the STOP command is issued (or the DMA/pool transfer
+is complete). But yeah, I think we're on the same page.
 
