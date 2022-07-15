@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28E057652A
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 18:16:08 +0200 (CEST)
-Received: from localhost ([::1]:43252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F6D5765A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:05:29 +0200 (CEST)
+Received: from localhost ([::1]:56886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCNz5-0000yG-Ce
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 12:16:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60676)
+	id 1oCOkq-0004i4-Av
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:05:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCNwz-00080L-43
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 12:13:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45120)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oCOiT-0000bO-93
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:03:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oCNwu-0007O2-FC
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 12:13:55 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oCOiQ-0003eT-1b
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:02:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657901631;
+ s=mimecast20190719; t=1657904575;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qDs+DDxt7gEgWMkL7gWVUBYgDbGngrypY9ask/5Zw84=;
- b=awKtEMrgYDpIuBRtvFL8AlM/qBX9GL4MfuP8u2aljkK7dMBmgLStluyW/iWoMCtsNzr1Gi
- nfqXotbYvz3mUAk70mv6pNJ3PKDCEY2YicPsrO5pYMXz4GIzjhNczLeNBKJZEkFKSLqY7W
- OY8k3CHkFadt9PIuF03mQtG+n3z6Mqw=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SqHD2jSkMZHjeytQ/TqEX/D3DTj0xNvKQH7hEQ64a0Q=;
+ b=YmvWxiuBCrLcngqhERTDDrjQBuu3rEoWS5ezyEqLCk2Ozf4vDzhZw4TpR9mcN1kEklHm8p
+ GpLobj26pxHHqD/U0rpHcmG8zruXJsqVOSAOJUL9xaP0HwaAKyqmf/EFMIInQYa5n2NOOK
+ SoPdoAKWUEBYowofYsnIsZZaKaQ1hrQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-2scWXNj3N8WcFyD4IVHJRA-1; Fri, 15 Jul 2022 12:13:50 -0400
-X-MC-Unique: 2scWXNj3N8WcFyD4IVHJRA-1
-Received: by mail-qv1-f69.google.com with SMTP id
- eb3-20020ad44e43000000b00472e7d52ce6so3284245qvb.17
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 09:13:48 -0700 (PDT)
+ us-mta-347-UTZ4HCJtOJa6-GH1YWdEQQ-1; Fri, 15 Jul 2022 13:02:54 -0400
+X-MC-Unique: UTZ4HCJtOJa6-GH1YWdEQQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ f13-20020a0564021e8d00b00437a2acb543so3801093edf.7
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 10:02:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=qDs+DDxt7gEgWMkL7gWVUBYgDbGngrypY9ask/5Zw84=;
- b=HMm/oBD+AV6wCdUkg6S4h/nP/0YoBOC0QvMcWArhtoay+D79K9Zjvviu+ZReh1uDR5
- Yx03aEsGe8Uzs5AzUDf8KLMmU9NlWAt7+YenzWkf7KpGDtyCqwvSALMihLW6RE4H86ft
- MXMvmFMZywg+7GbsMF70ns03tRzBXo8XoMI7xa5dAHStY3ExvJOGBAIV6K9QGdd0nsaY
- uxpJeGnAXwSvwxvMfvN1B/ZSKtxp2o4ClgfILpcq3yAFepkoZD5eA+dYOAozLuV16uiO
- C1TSybarT8o8ZZwi87Sm5XnolK4Re+cti/jz/JrmPwvTRwslofBYEQWMKUvMwAK2r8GP
- w/YQ==
-X-Gm-Message-State: AJIora/NmXS0/L0DvwuVJlh4pqnoJ7e7rS3O0PDsu7CjpeChtKd1IhDt
- IRFVl+n9l4g9MxEIPu1cyanUhpUtEXIM5phg11IK64/313syopEGi7LQO2RHjSJHQD7GhSNVGLm
- acJdYyK1b8YBJ2P0SHhtc0fsShQBj/Ww=
-X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
- kk5-20020a056214508500b00472e878866amr12583184qvb.2.1657901628476; 
- Fri, 15 Jul 2022 09:13:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1saQyyobcYB+KqCnH/2p4p9W/waT7Fj6ulzPGNhQ5cecRejRqhnJwrOMR1mIy4Uo3uUdbevBY7LDkqo8k30n4s=
-X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
- kk5-20020a056214508500b00472e878866amr12583153qvb.2.1657901628123; Fri, 15
- Jul 2022 09:13:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=SqHD2jSkMZHjeytQ/TqEX/D3DTj0xNvKQH7hEQ64a0Q=;
+ b=2+rHWnJ5/5vZwCCosODusac/S1jZahAIrCI0fce0YkfwtPJBk0Bvs496gzf0r/V2C0
+ 0AK2nnpg0J5sH7TUpKh1qZKzDJ6XSwsXHzdWnbe5cjte+bmKXGfy/6hBB/zzb/rBDFpo
+ 2GwEYxm/iApxJIEm9iTk4cI1+OGC7yGXomMiFCfya2Z5IsaEskS5MvMdzkfuwkNmy7/z
+ 2mr+GJzyFgVJAds9Kswu6ybEniRl8MyVV64a2JIWJPq/DVvc23Me3HqFFtlygkGzjeUb
+ nj8AU/AOd2HNyAaH9q8pWF/NX7AqX/hh9nf8hsGITb2fvMl9hDdMIjuepT8qOn30pJnp
+ eO2A==
+X-Gm-Message-State: AJIora+8Iu5TteSrfwcIzYeBTBzj5pH7b4eDmOyQkRUsDeFKjfwB040d
+ WMCiHDVywiQNLfcZBlF7GSdJHDkH164Y6DSM4UolEA1Lop1xBEaMfmN60f7+/GlhOBgYXPGwanA
+ A8FF0+FGLu1NzVtxRTtJW+P8CW7rHryJh7ebbUHljiM1v/ZMBWByn1YHjck9Ny7g2YSg=
+X-Received: by 2002:aa7:df83:0:b0:43a:4b96:f126 with SMTP id
+ b3-20020aa7df83000000b0043a4b96f126mr20582483edy.309.1657904572820; 
+ Fri, 15 Jul 2022 10:02:52 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tkBR304pxl0RHArG8qc9Jc/zNIOQMb5nZFowJ/IM72FqTX9y9oT+UfIAVWrOyWSEAOtkSbEw==
+X-Received: by 2002:aa7:df83:0:b0:43a:4b96:f126 with SMTP id
+ b3-20020aa7df83000000b0043a4b96f126mr20582459edy.309.1657904572595; 
+ Fri, 15 Jul 2022 10:02:52 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ lc10-20020a170906f90a00b0070efa110afcsm2236098ejb.83.2022.07.15.10.02.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jul 2022 10:02:51 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: natto@weirdnatto.in
+Subject: [PATCH 0/2] monitor, kvm: support for boolean statistics
+Date: Fri, 15 Jul 2022 19:02:47 +0200
+Message-Id: <20220715170249.404786-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220714163150.2536327-1-eperezma@redhat.com>
- <20220714163150.2536327-19-eperezma@redhat.com>
- <CACGkMEsmSygJVtuXMZ_Fj4xgL-xb65UqGFXFOv1FE+wzbKeVHA@mail.gmail.com>
- <CAJaqyWcYWF8Q565XyvOSM6WfMK9kgnyqCd32tZpy2Tgx2UwxNQ@mail.gmail.com>
- <CACGkMEvr1eakhMEbTrCtEboThc+vJfuZDADuQnJgaMUWajSdSg@mail.gmail.com>
- <CAJaqyWdbJGBpMofpLXJ-T50wqaPKe1ksx+QwQkSpthiaj+9Tjg@mail.gmail.com>
-In-Reply-To: <CAJaqyWdbJGBpMofpLXJ-T50wqaPKe1ksx+QwQkSpthiaj+9Tjg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 15 Jul 2022 18:13:12 +0200
-Message-ID: <CAJaqyWfAtuG9cPeXuLNef=gAdTNthQAOtrLmYb=_B=CtMQdesA@mail.gmail.com>
-Subject: Re: [PATCH v2 18/19] vdpa: Add device migration blocker
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Parav Pandit <parav@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -107,58 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 15, 2022 at 11:05 AM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Fri, Jul 15, 2022 at 10:51 AM Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > On Fri, Jul 15, 2022 at 1:40 PM Eugenio Perez Martin
-> > <eperezma@redhat.com> wrote:
-> > >
-> > > On Fri, Jul 15, 2022 at 6:03 AM Jason Wang <jasowang@redhat.com> wrot=
-e:
-> > > >
-> > > > On Fri, Jul 15, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redha=
-t.com> wrote:
-> > > > >
-> > > > > Since the vhost-vdpa device is exposing _F_LOG,
-> > > >
-> > > > I may miss something but I think it doesn't?
-> > > >
-> > >
-> > > It's at vhost_vdpa_get_features. As long as SVQ is enabled, it's
-> > > exposing VHOST_F_LOG_ALL.
-> >
-> > Ok, so this needs to be specified in the change log.
->
-> Got it, I'll write some note.
->
-> > But I'm kind of
-> > confused here, we do want to allow migration to work so why we disable
-> > it?
-> >
->
+Some statistics exported by KVM only ever have a 0 or 1 value, and Linux has
+grown the ability to mark them as such.  Bring it over to the new statistics
+subsystem of QEMU: they will be presented to QAPI clients as JSON booleans, and
+in HMP as "yes"/"no".
 
-Adding here:
-Without the x-svq parameter, migration is disabled unless the actual
-vdpa device backend supports _F_LOG_ALL by itself. There is no such
-thing in the Linux kernel at the moment.
+(This was proposed in the context of the Libvirt query-stats GSoC project,
+and support will be in Linux 5.19-rc7).
 
-> With x-svq parameter, migration of simple devices with no cvq "is
-> possible". It has intrinsic problems like can't emit the gratuitous
-> arp but it's possible and traffic can continue.
->
-> But devices with cvq require to restore the state at the destination.
-> That part is not implemented, so it's blocked at the moment.
->
-> In the immediate future not all cases (as "net features") will be
-> available: net/vhost-net.c (or virtio-net.c?) needs to know how to
-> inject the state at the destination to restore the guest visible
-> configuration. It's simple code, but it needs to be developed. So
-> migration blocker is kept for these features. Hopefully, we will reach
-> a point where all features supported by virtio-net.c will be
-> supported, but the right thing to do is to merge basic ones first.
->
-> Thanks!
+Paolo
+
+Paolo Bonzini (2):
+  monitor: add support for boolean statistics
+  kvm: add support for boolean statistics
+
+ accel/kvm/kvm-all.c       | 10 +++++++++-
+ linux-headers/linux/kvm.h |  1 +
+ monitor/hmp-cmds.c        |  2 ++
+ qapi/stats.json           |  4 +++-
+ 4 files changed, 15 insertions(+), 2 deletions(-)
+
+-- 
+2.36.1
 
 
