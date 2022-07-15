@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03A25760F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 13:58:18 +0200 (CEST)
-Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F49576103
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 13:59:37 +0200 (CEST)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCJxZ-0006vH-LZ
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 07:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52050)
+	id 1oCJyq-0008Nh-5I
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 07:59:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oCJvT-00047q-Nv
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:56:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45934)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oCJwr-0005mT-0R
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:57:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oCJvP-0005Lk-1g
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:56:06 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oCJwm-0005d2-QA
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:57:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657886160;
+ s=mimecast20190719; t=1657886247;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6Zf9yZVRe2YmeXvhQU8Y0kVJ3QKDVBUG2rxD2+py63U=;
- b=IUbsCmNjanROjy/wNLO9MFIvAb+xGPemcOGk94DmzGhQIVobtZpOthayZo0YR9KKN+zxdR
- 6AQZQ1FeIXzwuNd+JfUSkujoyAz6pa+R938Zq21QFOKhQHfiLhpD7K2T7n7vluuKMbJPNZ
- 3f7bBe5vUTL4UeKXs7o1MCuu8ThlzEE=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W6R4doAtW69Sgbq+hj6HKp+RBbejN+rZqBF340Nb4b8=;
+ b=JOwuz9MLj01cCqR/bTVsK4d6hbwlveWLTW3LPN9v3mrR+9M9wZDPldsFx2As+PfSJVvKlC
+ LvUd2GEcQuA5tM9V+uPm2SakGlq0yHMWL6HGsT/GH2loVyDPxgszR/FN1fD7ZT5di+4STo
+ FL29ehVpNADlAfVZq8zJbSlOSmZCngk=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-12-33TST-L4MCG2O9CECAM5vw-1; Fri, 15 Jul 2022 07:55:59 -0400
-X-MC-Unique: 33TST-L4MCG2O9CECAM5vw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-10c27e22190so2714324fac.2
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 04:55:59 -0700 (PDT)
+ us-mta-38-AtSyL3FXNX2gTgC7sgvWRQ-1; Fri, 15 Jul 2022 07:57:24 -0400
+X-MC-Unique: AtSyL3FXNX2gTgC7sgvWRQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w15-20020a056402268f00b0043ac600a6bcso3294986edd.6
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 04:57:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6Zf9yZVRe2YmeXvhQU8Y0kVJ3QKDVBUG2rxD2+py63U=;
- b=tP2m+nxCKXl8Wc9qbVuDyUqsHJj8clygqVhUaS5RULvxMTun+z9dtNBFJeZdi5EQSV
- WtAjoZOcgECJWb6prRcfi7XZ//nQhQ7COdelQiQvLlKyeOKF6dcAmhAQbVBQyoAVXcWt
- jxq1C/y2Y988wRqmBm0KtRIzJuYqXY79QLEUg5v3w8+MUUhZCVQy4BSUsdd0BughODaS
- yocZxzY8Zr9JY0JWv691F4UX8Zdl41IKNaPiWtbvM/vVakVSMmk/yE2PJRb0xnZw4v9A
- 6GJhzp4CFoGH9xK/HNi+uO4+s7cw0R0efpq3s16OGHNyDNZqm+R1OyMSYh6kBcYmANzR
- a3vQ==
-X-Gm-Message-State: AJIora/ndNisddZhI0poRB2WIQcl5UaFbsAWwiESr8BQkwqkYdIQgwig
- bGW4/7Z8axqyj5979CaX2TfROhZh40T0fB51br1mO6dJ5YzlJPv75W2hwPerahqdfjTvxm95Fh9
- SIuWEhVmbjFze7NpouIX9LStNhca5shw=
-X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
- i1-20020a056870c1c100b000ee5c837be7mr7275951oad.53.1657886158833; 
- Fri, 15 Jul 2022 04:55:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ul5eHUpAx+KkmGSHyVEtYfbe+VHVxVKAOQtzprxvi+oITPcuNTgVCP7Or/ky+iVsovhH6bVeD/HtPkMn4QiZA=
-X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
- i1-20020a056870c1c100b000ee5c837be7mr7275943oad.53.1657886158564; Fri, 15 Jul
- 2022 04:55:58 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=W6R4doAtW69Sgbq+hj6HKp+RBbejN+rZqBF340Nb4b8=;
+ b=WJ8k6PuF5Ir/UcgGjnzj6lf5SEeot5WW2FC8NHwVtAq8fVvN1yalBW0ludO9YIQg/y
+ 0prfTKXXoiIKBlPCn2jlab0LrG1jz2RrXqS8T/36Oqu9YUhj7AybAkG1ZkKV3YUIS5t4
+ qf+RqOPrtn81Jedlp9OQYihbyoBDfH+Jc7i5ITQ8b9DcSAexgwOezkNWmh+hMk7J0iBO
+ 5fv9/qR7RZj+wacsU9OpLaof6sT6IMyyY9bPL3ArSCuGfwIEh9F2vx7YxVoF24nwpo+K
+ uZVU/jFeafo2ZvmCIiwfOd7j+tGZ1koN/G2b4JQ0CokdJrXvYvwKsBMiiS3+Gc7w3wJ+
+ lXJA==
+X-Gm-Message-State: AJIora/CbDk6Y5vBIRxTgll0ZNSN4c1M3iZEs55y10yGvGQFW8iy9ot0
+ BhrIloFobyAV0mPxTKX0+fCupYgpso1ro4mqVd8CUDdOuY9Kn0XYxsjs/tvD778x57K6AkQQC1r
+ 7Os3QXXNqj3po4kc=
+X-Received: by 2002:a17:906:8478:b0:72b:4f81:29d8 with SMTP id
+ hx24-20020a170906847800b0072b4f8129d8mr13337302ejc.179.1657886243402; 
+ Fri, 15 Jul 2022 04:57:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vCYNRUZgzhWb6ghEjHHs6NFTkrVdN5anuV3bZKvL7Bb1mDjYeEGfx2wgw3pkViU2G+qSBWEA==
+X-Received: by 2002:a17:906:8478:b0:72b:4f81:29d8 with SMTP id
+ hx24-20020a170906847800b0072b4f8129d8mr13337270ejc.179.1657886243051; 
+ Fri, 15 Jul 2022 04:57:23 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a17090631cf00b0072a66960843sm1271783ejf.51.2022.07.15.04.57.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 15 Jul 2022 04:57:22 -0700 (PDT)
+Date: Fri, 15 Jul 2022 13:57:21 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v7 09/10] i386/pc: relocate 4g start to 1T where applicable
+Message-ID: <20220715135721.491f754e@redhat.com>
+In-Reply-To: <20220714182820.30970-10-joao.m.martins@oracle.com>
+References: <20220714182820.30970-1-joao.m.martins@oracle.com>
+ <20220714182820.30970-10-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-11-marcandre.lureau@redhat.com>
- <CANCZdfpuq4YgrmcuyqJCfpXwguGbVJqBOa2vT==Hkr2bLSYRrw@mail.gmail.com>
-In-Reply-To: <CANCZdfpuq4YgrmcuyqJCfpXwguGbVJqBOa2vT==Hkr2bLSYRrw@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Fri, 15 Jul 2022 15:55:47 +0400
-Message-ID: <CAMxuvawC6T-QrsJ911tMwP_y4UrumRoutqyV6j5dec7soYAfDA@mail.gmail.com>
-Subject: Re: [PATCH v2 10/15] qemu-common: introduce a common subproject
-To: Warner Losh <imp@bsdimp.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>, 
- Cleber Rosa <crosa@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>, 
- Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
- Kyle Evans <kevans@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>, 
- John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, 
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <laurent@vivier.eu>, 
- Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -90,7 +90,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,122 +106,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Thu, 14 Jul 2022 19:28:19 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-On Tue, Jul 12, 2022 at 6:58 PM Warner Losh <imp@bsdimp.com> wrote:
->
->
->
-> On Tue, Jul 12, 2022 at 3:36 AM <marcandre.lureau@redhat.com> wrote:
->>
->> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->>
->> Add a new meson subproject to provide common code and scripts for QEMU
->> and tools. Initially, it will offer QAPI/QMP code generation and
->> common utilities.
->>
->> libvhost-user & libvduse will make use of the subproject to avoid having
->> include/ links to common headers.
->>
->> The other targeted user is qemu-ga, which will also be converted to a
->> subproject (so it can be built, moved, released etc independent from QEM=
-U).
->>
->> Other projects such as qemu-storage-daemon could be built standalone
->> eventually in the future.
->>
->> Note that with meson subprojects are "global". Projects will share
->> subprojects (https://mesonbuild.com/Subprojects.html#subprojects-dependi=
-ng-on-other-subprojects).
->> We will add extra subprojects/ links to allow standalone subproject
->> compilation though.
->>
->> This initial commit simply set the stage to build and link against it.
->>
->> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->> ---
->>  meson.build                                              | 9 ++++++++-
->>  .../qemu-common/include}/qemu/help-texts.h               | 0
->>  linux-user/meson.build                                   | 4 ++--
->>  subprojects/libvduse/meson.build                         | 2 ++
->>  subprojects/libvduse/subprojects/qemu-common             | 1 +
->>  subprojects/libvhost-user/meson.build                    | 2 ++
->>  subprojects/libvhost-user/subprojects/qemu-common        | 1 +
->>  subprojects/qemu-common/meson.build                      | 8 ++++++++
->>  8 files changed, 24 insertions(+), 3 deletions(-)
->>  rename {include =3D> subprojects/qemu-common/include}/qemu/help-texts.h=
- (100%)
->>  create mode 120000 subprojects/libvduse/subprojects/qemu-common
->>  create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
->>  create mode 100644 subprojects/qemu-common/meson.build
->>
->> diff --git a/meson.build b/meson.build
->> index bc5569ace159..254eb1263a66 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -167,6 +167,10 @@ if 'dtrace' in get_option('trace_backends')
->>    endif
->>  endif
->>
->> +add_project_arguments('-I' + meson.current_source_dir() / 'subprojects/=
-qemu-common/include',
->> +  language: ['c', 'cpp', 'objc'],
->> +)
->> +
->>  if get_option('iasl') =3D=3D ''
->>    iasl =3D find_program('iasl', required: false)
->>  else
->> @@ -1577,6 +1581,9 @@ if libbpf.found() and not cc.links('''
->>    endif
->>  endif
->>
->> +qemu_common =3D subproject('qemu-common')
->> +qemu_common =3D qemu_common.get_variable('qemu_common_dep')
->> +
->>  #################
->>  # config-host.h #
->>  #################
->> @@ -3052,7 +3059,7 @@ util_ss.add_all(trace_ss)
->>  util_ss =3D util_ss.apply(config_all, strict: false)
->>  libqemuutil =3D static_library('qemuutil',
->>                               sources: util_ss.sources() + stub_ss.sourc=
-es() + genh,
->> -                             dependencies: [util_ss.dependencies(), lib=
-m, threads, glib, socket, malloc, pixman])
->> +                             dependencies: [util_ss.dependencies(), lib=
-m, threads, glib, socket, malloc, pixman, qemu_common])
->>  qemuutil =3D declare_dependency(link_with: libqemuutil,
->>                                sources: genh + version_res,
->>                                dependencies: [event_loop_base])
->> diff --git a/include/qemu/help-texts.h b/subprojects/qemu-common/include=
-/qemu/help-texts.h
->> similarity index 100%
->> rename from include/qemu/help-texts.h
->> rename to subprojects/qemu-common/include/qemu/help-texts.h
->> diff --git a/linux-user/meson.build b/linux-user/meson.build
->> index de4320af053c..fc6cdb55d657 100644
->> --- a/linux-user/meson.build
->> +++ b/linux-user/meson.build
->> @@ -7,7 +7,7 @@ linux_user_ss =3D ss.source_set()
->>  common_user_inc +=3D include_directories('include/host/' / host_arch)
->>  common_user_inc +=3D include_directories('include')
->>
->> -linux_user_ss.add(files(
->> +linux_user_ss.add([files(
->>    'elfload.c',
->>    'exit.c',
->>    'fd-trans.c',
->> @@ -20,7 +20,7 @@ linux_user_ss.add(files(
->>    'thunk.c',
->>    'uaccess.c',
->>    'uname.c',
->> -))
->> +), qemu_common])
->
->
-> Question: Why does linux-user need these, but bsd-user does not?
->
+> It is assumed that the whole GPA space is available to be DMA
+> addressable, within a given address space limit, except for a
+> tiny region before the 4G. Since Linux v5.4, VFIO validates
+> whether the selected GPA is indeed valid i.e. not reserved by
+> IOMMU on behalf of some specific devices or platform-defined
+> restrictions, and thus failing the ioctl(VFIO_DMA_MAP) with
+>  -EINVAL.
+> 
+> AMD systems with an IOMMU are examples of such platforms and
+> particularly may only have these ranges as allowed:
+> 
+> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
+> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
+> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb[*])
+> 
+> We already account for the 4G hole, albeit if the guest is big
+> enough we will fail to allocate a guest with  >1010G due to the
+> ~12G hole at the 1Tb boundary, reserved for HyperTransport (HT).
+> 
+> [*] there is another reserved region unrelated to HT that exists
+> in the 256T boundary in Fam 17h according to Errata #1286,
+> documeted also in "Open-Source Register Reference for AMD Family
+> 17h Processors (PUB)"
+> 
+> When creating the region above 4G, take into account that on AMD
+> platforms the HyperTransport range is reserved and hence it
+> cannot be used either as GPAs. On those cases rather than
+> establishing the start of ram-above-4g to be 4G, relocate instead
+> to 1Tb. See AMD IOMMU spec, section 2.1.2 "IOMMU Logical
+> Topology", for more information on the underlying restriction of
+> IOVAs.
+> 
+> After accounting for the 1Tb hole on AMD hosts, mtree should
+> look like:
+> 
+> 0000000000000000-000000007fffffff (prio 0, i/o):
+> 	 alias ram-below-4g @pc.ram 0000000000000000-000000007fffffff
+> 0000010000000000-000001ff7fffffff (prio 0, i/o):
+> 	alias ram-above-4g @pc.ram 0000000080000000-000000ffffffffff
+> 
+> If the relocation is done or the address space covers it, we
+> also add the the reserved HT e820 range as reserved.
+> 
+> Default phys-bits on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough
+> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
+> ram-above-4g relocation may be desired and the CPU wasn't configured
+> with a big enough phys-bits, print an error message to the user
+> and do not make the relocation of the above-4g-region if phys-bits
+> is too low.
+> 
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> ---
+>  hw/i386/pc.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index cda435e3baeb..17613974163e 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -880,6 +880,52 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+>      return start;
+>  }
+>  
+> +static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
+> +{
+> +    X86CPU *cpu = X86_CPU(first_cpu);
+> +
+> +    /* 32-bit systems don't have hole64 thus return max CPU address */
+> +    if (cpu->phys_bits <= 32) {
+> +        return ((hwaddr)1 << cpu->phys_bits) - 1;
+> +    }
+> +
+> +    return pc_pci_hole64_start() + pci_hole64_size - 1;
+> +}
+> +
+[...]
 
-Indeed, it's not needed anymore, thanks!
+> +
+> +    /*
+> +     * Relocating ram-above-4G requires more than TCG_PHYS_ADDR_BITS (40).
+> +     * So make sure phys-bits is required to be appropriately sized in order
+> +     * to proceed with the above-4g-region relocation and thus boot.
+
+drop mention of relocation here as it's orthogonal to the check.
+Important thing we are checking here is that max used GPA is
+reachable by configured vCPU (physbits).
+
+> +     */
+> +    maxusedaddr = pc_max_used_gpa(pcms, pci_hole64_size);
+> +    maxphysaddr = ((hwaddr)1 << cpu->phys_bits) - 1;
+> +    if (maxphysaddr < maxusedaddr) {
+> +        error_report("Address space limit 0x%"PRIx64" < 0x%"PRIx64
+> +                     " phys-bits too low (%u)",
+> +                     maxphysaddr, maxusedaddr, cpu->phys_bits);
+> +        exit(EXIT_FAILURE);
+> +    }
+
+these hunks should be a separate patch preceding relocation patch
+as it basically does max_gpa vs physbits check regardless
+of relocation (i.e. relocation is only one of the reasons
+max_used_gpa might exceed physbits).
+
+> +
+>      /*
+>       * Split single memory region and use aliases to address portions of it,
+>       * done for backwards compatibility with older qemus.
 
 
