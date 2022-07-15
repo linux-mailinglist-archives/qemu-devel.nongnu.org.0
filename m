@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 969E9576313
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CE0576312
 	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:50:52 +0200 (CEST)
-Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCLiV-0004Yw-Nt
+	id 1oCLiV-0004Xa-5y
 	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53918)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCLgN-0000Pp-Jv
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:39 -0400
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:43835)
+ id 1oCLgP-0000To-OK
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:41 -0400
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:39785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCLgL-0006t6-8g
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:39 -0400
-Received: by mail-pj1-x102b.google.com with SMTP id
- o5-20020a17090a3d4500b001ef76490983so6138778pjf.2
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:48:36 -0700 (PDT)
+ id 1oCLgO-0006u1-2F
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:48:41 -0400
+Received: by mail-pg1-x52a.google.com with SMTP id q16so1352002pgq.6
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ILRCxESwXw2motCxjKzehf6XocAbEsaLvlxWm72l6J8=;
- b=GArfDDb3w/hFoAah4fb4KfymQuqpJTMNNOD/D1VV0A0LPInfVfgwFVueIoU0JRgJic
- Hll3Bi+PALey03Ilp1mMfZGkJQJW8RBIIaUWq74BXLtFtS44jn/BSAb4A98adbBpe5yB
- nXRrIbhWcHPXzpSq39PH+yWP1Mt6m+1/oJ2W9FDyUhWrBvGzn/nZxWXyvSkV1kDgQL6v
- xK50a+TY145DU7H+6nr54ZlBAIIFM7zG4B4s76m/CRwG0LHgZo8bdh/32p2irYALPXs5
- dOehclaVWMJ5N+YaJlJM56+UEKWitf0ZH1C6RC54ttr4S8VuvV7mevCEFaaeDEekRuzM
- lQXw==
+ bh=ylb4woiWl7rRdOJRD6I0pk2qnNC5s/O1KGQ+3BsXcPM=;
+ b=m1m9TqU1bLwixnbSjGQt3k1V6m75kmNDq6ipDEgMZ9mdT4V9kQ1Up3i1n4OdN+IfyR
+ VLUecg0XNshayVLKbtw+rNCxcGKbHKzw1c1tYHDNNfbMK2R+gc3/rhmVaAYxXDku7/d+
+ g+D+Nn5KsBH6WGZawu0+cvHo8YdatkjbOlaxV13D5Bxw+XGxQ2JPHetfs8aro+4lL080
+ BcRN9E+ourA5tTuQvci/Hqf/N3Udr5R7as01vaI/bj8+rk4O1Xdju65qzvKDmlgwrWQN
+ OSLIYjmekFzM2OVvpdoHoo1TRKwoiwTggOdz8e+zXha6faC6nD/uc5vicXIE1c6yjub/
+ jVpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ILRCxESwXw2motCxjKzehf6XocAbEsaLvlxWm72l6J8=;
- b=vvp5bYfb5hmf+xAaw5Ot0gPYAX8m1XdyJ4KU8hul0xaSJAkAu9tic1l56hv0IKw1rc
- VIAgSfjEKlmRA2aAXgVA/UOdJt6u1hboadcx9GvYSFS1mUt3NfGJrkITg7/i4lign5fz
- y5/z60UDAYK1KXGRpGaReHqB2cjGesSJsAgAltV5kJ228hjt9RBkdRJBubYb9PTP+ruO
- kA+iS21Zwdx5jUjlo+8A3Ht/yuHgGGaIPfZR1cnn4XfQSxpqO8oo0a6udL6Rswrlhk2u
- pMEqzGePgh1zjpwi72gqHcV9+RECMCp/UyPCnv98PSKv17IraB1Rc+cZEnuEnbwMaqRN
- Jt5g==
-X-Gm-Message-State: AJIora98C7Y8UON9j+9RzFV5RAZX/ajuNzfT/mvoPYQ2ygPbR+IipM6t
- WPDQWA6tJbXLylW4bx/OQKBXhcgCR84=
-X-Google-Smtp-Source: AGRyM1uWf6+Ifjmf2cABq6G2C7aA68XW76pYidkypU00e/mjrrRQxZZQBmf6lT0ge+wVB75Mk6CU5g==
-X-Received: by 2002:a17:90b:3b43:b0:1ef:d89b:3454 with SMTP id
- ot3-20020a17090b3b4300b001efd89b3454mr22150128pjb.87.1657892915464; 
- Fri, 15 Jul 2022 06:48:35 -0700 (PDT)
+ bh=ylb4woiWl7rRdOJRD6I0pk2qnNC5s/O1KGQ+3BsXcPM=;
+ b=K1j/Us/pqAMcVPmb6SK9OSdFjzGe56XAMgd9GiDvmL7dLB81IcYCpQGoUD2pKyimdq
+ cGv4kyl1NJFI4Zs6fxCF/Lmw9XTlHcxQ2IctUcPWxxtdCMZnRI8C+6CkGRmRI3NBhgeE
+ xQbHRBrftrWtnYXiRVqciT4y72hUNdJyiC242Y2BM6Dg7zGEDF+CQ0YN0DM5j9h2z248
+ Qk94x4VnezTACXP6NbYwR3PzeIoMSQvNtd0S45U2kwnlvTC7uPJM/yU0G+hndzwuuuIL
+ dGPLRM+n5KvvLGLFULPc87+dipuWE0CKxYOJ9zt2ugw9RrnnYnJmoYvA+ERvX1o3QYtY
+ Y7NQ==
+X-Gm-Message-State: AJIora+bXCuSX8ILyjuPBSZ1gRyaPduUF9or7uODy4fncNVGx3vN7K5E
+ 4GarMFs2+ed5BD1V1b1OQv+ob/oppQA=
+X-Google-Smtp-Source: AGRyM1slvqB1ALnPH9qMgCEyt0UQJDmbjyMYZACqOHN5M2H2CSFrxV79u9za+qU+8JQBM2RUK+OwOQ==
+X-Received: by 2002:a62:542:0:b0:525:a313:fe28 with SMTP id
+ 63-20020a620542000000b00525a313fe28mr13910056pff.73.1657892918211; 
+ Fri, 15 Jul 2022 06:48:38 -0700 (PDT)
 Received: from localhost.localdomain
  ([2400:4050:c360:8200:d554:ffbd:f962:2efd])
  by smtp.gmail.com with ESMTPSA id
- x22-20020a17090a165600b001f035bfcc53sm5579126pje.18.2022.07.15.06.48.32
+ x22-20020a17090a165600b001f035bfcc53sm5579126pje.18.2022.07.15.06.48.35
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 15 Jul 2022 06:48:34 -0700 (PDT)
+ Fri, 15 Jul 2022 06:48:37 -0700 (PDT)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
 Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -63,16 +62,17 @@ Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v3 1/3] ui/cocoa: Run qemu_init in the main thread
-Date: Fri, 15 Jul 2022 22:47:48 +0900
-Message-Id: <20220715134750.63090-2-akihiko.odaki@gmail.com>
+Subject: [PATCH v3 2/3] Revert "main-loop: Disable block backend global state
+ assertion on Cocoa"
+Date: Fri, 15 Jul 2022 22:47:49 +0900
+Message-Id: <20220715134750.63090-3-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220715134750.63090-1-akihiko.odaki@gmail.com>
 References: <20220715134750.63090-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,395 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This work is based on:
-https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
-
-Simplify the initialization dance by running qemu_init() in the main
-thread before the Cocoa event loop starts. The secondary thread only
-runs only qemu_main_loop() and qemu_cleanup().
-
-This fixes a case where addRemovableDevicesMenuItems() calls
-qmp_query_block() while expecting the main thread to still hold
-the BQL.
-
-Overriding the code after calling qemu_init() is done by dynamically
-replacing a function pointer variable, qemu_main when initializing
-ui/cocoa, which unifies the static implementation of main() for
-builds with ui/cocoa and ones without ui/cocoa.
+This reverts commit 47281859f66bdab1974fb122cab2cbb4a1c9af7f.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/fuzzing.rst  |   4 +-
- include/qemu-main.h     |   3 +-
- include/sysemu/sysemu.h |   2 +-
- softmmu/main.c          |  14 ++--
- softmmu/vl.c            |   2 +-
- tests/qtest/fuzz/fuzz.c |   2 +-
- ui/cocoa.m              | 172 +++++++++++++++-------------------------
- 7 files changed, 76 insertions(+), 123 deletions(-)
+ include/qemu/main-loop.h | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 784ecb99e66..715330c8561 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -287,8 +287,8 @@ select the fuzz target. Then, the qtest client is initialized. If the target
- requires qos, qgraph is set up and the QOM/LIBQOS modules are initialized.
- Then the QGraph is walked and the QEMU cmd_line is determined and saved.
+diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
+index 5518845299d..0aa36a4f17e 100644
+--- a/include/qemu/main-loop.h
++++ b/include/qemu/main-loop.h
+@@ -280,23 +280,10 @@ bool qemu_mutex_iothread_locked(void);
+ bool qemu_in_main_thread(void);
  
--After this, the ``vl.c:qemu_main`` is called to set up the guest. There are
--target-specific hooks that can be called before and after qemu_main, for
-+After this, the ``vl.c:main`` is called to set up the guest. There are
-+target-specific hooks that can be called before and after main, for
- additional setup(e.g. PCI setup, or VM snapshotting).
+ /* Mark and check that the function is part of the global state API. */
+-#ifdef CONFIG_COCOA
+-/*
+- * When using the Cocoa UI, addRemovableDevicesMenuItems() is called from
+- * a thread different from the QEMU main thread and can not take the BQL,
+- * triggering this assertions in the block layer (commit 0439c5a462).
+- * As the Cocoa fix is not trivial, disable this assertion for the v7.0.0
+- * release (when using Cocoa); we will restore it immediately after the
+- * release.
+- * This issue is tracked as https://gitlab.com/qemu-project/qemu/-/issues/926
+- */
+-#define GLOBAL_STATE_CODE()
+-#else
+ #define GLOBAL_STATE_CODE()                                         \
+     do {                                                            \
+         assert(qemu_in_main_thread());                              \
+     } while (0)
+-#endif /* CONFIG_COCOA */
  
- ``LLVMFuzzerTestOneInput``: Uses qtest/qos functions to act based on the fuzz
-diff --git a/include/qemu-main.h b/include/qemu-main.h
-index 6a3e90d0ad5..6889375e7c2 100644
---- a/include/qemu-main.h
-+++ b/include/qemu-main.h
-@@ -5,6 +5,7 @@
- #ifndef QEMU_MAIN_H
- #define QEMU_MAIN_H
- 
--int qemu_main(int argc, char **argv, char **envp);
-+void qemu_default_main(void);
-+extern void (*qemu_main)(void);
- 
- #endif /* QEMU_MAIN_H */
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 812f66a31a9..254c1eabf57 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -102,7 +102,7 @@ void qemu_boot_set(const char *boot_order, Error **errp);
- 
- bool defaults_enabled(void);
- 
--void qemu_init(int argc, char **argv, char **envp);
-+void qemu_init(int argc, char **argv);
- void qemu_main_loop(void);
- void qemu_cleanup(void);
- 
-diff --git a/softmmu/main.c b/softmmu/main.c
-index c00432ff098..41a091f2c72 100644
---- a/softmmu/main.c
-+++ b/softmmu/main.c
-@@ -30,18 +30,18 @@
- #include <SDL.h>
- #endif
- 
--int qemu_main(int argc, char **argv, char **envp)
-+void qemu_default_main(void)
- {
--    qemu_init(argc, argv, envp);
-     qemu_main_loop();
-     qemu_cleanup();
--
--    return 0;
- }
- 
--#ifndef CONFIG_COCOA
-+void (*qemu_main)(void) = qemu_default_main;
-+
- int main(int argc, char **argv)
- {
--    return qemu_main(argc, argv, NULL);
-+    qemu_init(argc, argv);
-+    qemu_main();
-+
-+    return 0;
- }
--#endif
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 3f264d4b093..e8c73d0bb40 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2589,7 +2589,7 @@ void qmp_x_exit_preconfig(Error **errp)
-     }
- }
- 
--void qemu_init(int argc, char **argv, char **envp)
-+void qemu_init(int argc, char **argv)
- {
-     QemuOpts *opts;
-     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index 0ad4ba9e94d..678c312923a 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -236,7 +236,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
-         g_free(pretty_cmd_line);
-     }
- 
--    qemu_init(result.we_wordc, result.we_wordv, NULL);
-+    qemu_init(result.we_wordc, result.we_wordv);
- 
-     /* re-enable the rcu atfork, which was previously disabled in qemu_init */
-     rcu_enable_atfork();
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 6a4dccff7f0..c181d8d2fb3 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -100,13 +100,11 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- static int left_command_key_enabled = 1;
- static bool swap_opt_cmd;
- 
--static int gArgc;
--static char **gArgv;
-+static QemuThread qemu_main_thread;
-+static bool qemu_main_terminating;
- static bool stretch_video;
- static NSTextField *pauseLabel;
- 
--static QemuSemaphore display_init_sem;
--static QemuSemaphore app_started_sem;
- static bool allow_events;
- 
- static NSInteger cbchangecount = -1;
-@@ -585,7 +583,7 @@ - (void) updateUIInfo
-         /*
-          * Don't try to tell QEMU about UI information in the application
-          * startup phase -- we haven't yet registered dcl with the QEMU UI
--         * layer, and also trying to take the iothread lock would deadlock.
-+         * layer.
-          * When cocoa_display_init() does register the dcl, the UI layer
-          * will call cocoa_switch(), which will call updateUIInfo, so
-          * we don't lose any information here.
-@@ -778,16 +776,6 @@ - (void) handleMonitorInput:(NSEvent *)event
- 
- - (bool) handleEvent:(NSEvent *)event
- {
--    if(!allow_events) {
--        /*
--         * Just let OSX have all events that arrive before
--         * applicationDidFinishLaunching.
--         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
--         * will not drop until after the app_started_sem is posted. (In theory
--         * there should not be any such events, but OSX Catalina now emits some.)
--         */
--        return false;
--    }
-     return bool_with_iothread_lock(^{
-         return [self handleEventLocked:event];
-     });
-@@ -1283,8 +1271,6 @@ - (void)applicationDidFinishLaunching: (NSNotification *) note
- {
-     COCOA_DEBUG("QemuCocoaAppController: applicationDidFinishLaunching\n");
-     allow_events = true;
--    /* Tell cocoa_display_init to proceed */
--    qemu_sem_post(&app_started_sem);
- }
- 
- - (void)applicationWillTerminate:(NSNotification *)aNotification
-@@ -1292,16 +1278,13 @@ - (void)applicationWillTerminate:(NSNotification *)aNotification
-     COCOA_DEBUG("QemuCocoaAppController: applicationWillTerminate\n");
- 
-     with_iothread_lock(^{
--        shutdown_action = SHUTDOWN_ACTION_POWEROFF;
--        qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
-+        if (!qemu_main_terminating) {
-+            shutdown_action = SHUTDOWN_ACTION_POWEROFF;
-+            qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
-+        }
-     });
- 
--    /*
--     * Sleep here, because returning will cause OSX to kill us
--     * immediately; the QEMU main loop will handle the shutdown
--     * request and terminate the process.
--     */
--    [NSThread sleepForTimeInterval:INFINITY];
-+    qemu_thread_join(&qemu_main_thread);
- }
- 
- - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
-@@ -1313,7 +1296,7 @@ - (NSApplicationTerminateReply)applicationShouldTerminate:
-                                                          (NSApplication *)sender
- {
-     COCOA_DEBUG("QemuCocoaAppController: applicationShouldTerminate\n");
--    return [self verifyQuit];
-+    return qatomic_read(&qemu_main_terminating) || [self verifyQuit];
- }
- 
- - (void)windowDidChangeScreen:(NSNotification *)notification
-@@ -1915,92 +1898,42 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
- /*
-  * The startup process for the OSX/Cocoa UI is complicated, because
-  * OSX insists that the UI runs on the initial main thread, and so we
-- * need to start a second thread which runs the vl.c qemu_main():
-- *
-- * Initial thread:                    2nd thread:
-+ * need to start a second thread which runs the qemu_default_main():
-  * in main():
-- *  create qemu-main thread
-- *  wait on display_init semaphore
-- *                                    call qemu_main()
-- *                                    ...
-- *                                    in cocoa_display_init():
-- *                                     post the display_init semaphore
-- *                                     wait on app_started semaphore
-- *  create application, menus, etc
-- *  enter OSX run loop
-- * in applicationDidFinishLaunching:
-- *  post app_started semaphore
-- *                                     tell main thread to fullscreen if needed
-- *                                    [...]
-- *                                    run qemu main-loop
-- *
-- * We do this in two stages so that we don't do the creation of the
-- * GUI application menus and so on for command line options like --help
-- * where we want to just print text to stdout and exit immediately.
-+ *  in cocoa_display_init():
-+ *   assign cocoa_main to qemu_main
-+ *   create application, menus, etc
-+ *  in cocoa_main():
-+ *   create qemu-main thread
-+ *   enter OSX run loop
-  */
- 
- static void *call_qemu_main(void *opaque)
- {
--    int status;
--
--    COCOA_DEBUG("Second thread: calling qemu_main()\n");
--    status = qemu_main(gArgc, gArgv, *_NSGetEnviron());
--    COCOA_DEBUG("Second thread: qemu_main() returned, exiting\n");
-+    COCOA_DEBUG("Second thread: calling qemu_default_main()\n");
-+    qemu_mutex_lock_iothread();
-+    qemu_default_main();
-+    qatomic_set(&qemu_main_terminating, true);
-+    qemu_mutex_unlock_iothread();
-+    COCOA_DEBUG("Second thread: qemu_default_main() returned, exiting\n");
-     [cbowner release];
--    exit(status);
--}
--
--int main (int argc, char **argv) {
--    QemuThread thread;
--
--    COCOA_DEBUG("Entered main()\n");
--    gArgc = argc;
--    gArgv = argv;
--
--    qemu_sem_init(&display_init_sem, 0);
--    qemu_sem_init(&app_started_sem, 0);
--
--    qemu_thread_create(&thread, "qemu_main", call_qemu_main,
--                       NULL, QEMU_THREAD_DETACHED);
-+    [NSApp terminate:nil];
- 
--    COCOA_DEBUG("Main thread: waiting for display_init_sem\n");
--    qemu_sem_wait(&display_init_sem);
--    COCOA_DEBUG("Main thread: initializing app\n");
--
--    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
--
--    // Pull this console process up to being a fully-fledged graphical
--    // app with a menubar and Dock icon
--    ProcessSerialNumber psn = { 0, kCurrentProcess };
--    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
--
--    [QemuApplication sharedApplication];
--
--    create_initial_menus();
-+    return NULL;
-+}
- 
--    /*
--     * Create the menu entries which depend on QEMU state (for consoles
--     * and removeable devices). These make calls back into QEMU functions,
--     * which is OK because at this point we know that the second thread
--     * holds the iothread lock and is synchronously waiting for us to
--     * finish.
--     */
--    add_console_menu_entries();
--    addRemovableDevicesMenuItems();
-+static void cocoa_main()
-+{
-+    COCOA_DEBUG("Entered %s()\n", __func__);
- 
--    // Create an Application controller
--    QemuCocoaAppController *appController = [[QemuCocoaAppController alloc] init];
--    [NSApp setDelegate:appController];
-+    qemu_mutex_unlock_iothread();
-+    qemu_thread_create(&qemu_main_thread, "qemu_main", call_qemu_main,
-+                       NULL, QEMU_THREAD_JOINABLE);
- 
-     // Start the main event loop
-     COCOA_DEBUG("Main thread: entering OSX run loop\n");
-     [NSApp run];
-     COCOA_DEBUG("Main thread: left OSX run loop, exiting\n");
--
--    [appController release];
--    [pool release];
--
--    return 0;
- }
- 
- 
-@@ -2079,25 +2012,42 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
- 
- static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
- {
-+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-+
-     COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
- 
--    /* Tell main thread to go ahead and create the app and enter the run loop */
--    qemu_sem_post(&display_init_sem);
--    qemu_sem_wait(&app_started_sem);
--    COCOA_DEBUG("cocoa_display_init: app start completed\n");
-+    qemu_main = cocoa_main;
-+
-+    // Pull this console process up to being a fully-fledged graphical
-+    // app with a menubar and Dock icon
-+    ProcessSerialNumber psn = { 0, kCurrentProcess };
-+    TransformProcessType(&psn, kProcessTransformToForegroundApplication);
-+
-+    [QemuApplication sharedApplication];
-+
-+    create_initial_menus();
-+
-+    /*
-+     * Create the menu entries which depend on QEMU state (for consoles
-+     * and removeable devices). These make calls back into QEMU functions,
-+     * which is OK because at this point we know that the second thread
-+     * holds the iothread lock and is synchronously waiting for us to
-+     * finish.
-+     */
-+    add_console_menu_entries();
-+    addRemovableDevicesMenuItems();
-+
-+    // Create an Application controller
-+    QemuCocoaAppController *controller = [[QemuCocoaAppController alloc] init];
-+    [NSApp setDelegate:controller];
- 
--    QemuCocoaAppController *controller = (QemuCocoaAppController *)[[NSApplication sharedApplication] delegate];
-     /* if fullscreen mode is to be used */
-     if (opts->has_full_screen && opts->full_screen) {
--        dispatch_async(dispatch_get_main_queue(), ^{
--            [NSApp activateIgnoringOtherApps: YES];
--            [controller toggleFullScreen: nil];
--        });
-+        [NSApp activateIgnoringOtherApps: YES];
-+        [controller toggleFullScreen: nil];
-     }
-     if (opts->u.cocoa.has_full_grab && opts->u.cocoa.full_grab) {
--        dispatch_async(dispatch_get_main_queue(), ^{
--            [controller setFullGrab: nil];
--        });
-+        [controller setFullGrab: nil];
-     }
- 
-     if (opts->has_show_cursor && opts->show_cursor) {
-@@ -2117,6 +2067,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
-     qemu_event_init(&cbevent, false);
-     cbowner = [[QemuCocoaPasteboardTypeOwner alloc] init];
-     qemu_clipboard_peer_register(&cbpeer);
-+
-+    [pool release];
- }
- 
- static QemuDisplay qemu_display_cocoa = {
+ /* Mark and check that the function is part of the I/O API. */
+ #define IO_CODE()                                                   \
 -- 
 2.32.1 (Apple Git-133)
 
