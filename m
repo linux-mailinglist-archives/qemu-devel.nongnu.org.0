@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20BF35760D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 13:47:51 +0200 (CEST)
-Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F03A25760F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 13:58:18 +0200 (CEST)
+Received: from localhost ([::1]:55380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCJnS-0000DY-8Q
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 07:47:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48808)
+	id 1oCJxZ-0006vH-LZ
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 07:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCJgp-000217-G6
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:40:59 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:45797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCJgn-0003kz-TK
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:40:59 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id y9so4426401pff.12
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 04:40:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GMoUZoKqS1w34DUOdXlyslRL0IWOuUR3SUUgT2K9JrM=;
- b=FbXHq5F5z17vD5m7BsztYwsNV8Girn80oIIC60AOGr09Y8qQELZ26KNAwnRcWnNZpV
- ykcZoOo//TY6c+UGxDT1QmII49qZ8N6tvL7Y7ScA/2cSDkPHvUoQkDx6ohcs1fdXK12c
- yzVvCeNwZdITyqeikSV5qdhkUdZpEhmeLkoc9rVbuU0k4aM8BGHRxqABSK0KZda/6Yr/
- 2561D5od3C1ORwKdpFBTOO31Ai+TQOR+ruj7xkm90IZ05K3Zp6DBxglBtt5eqWfEfI13
- 33RfXqI0IM3eahPkONIQF8dEO9yQJ+mlxWuoY2okPm7a/TDwZvJpboJ6JMbaORr81Qzp
- 7ckg==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oCJvT-00047q-Nv
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:56:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oCJvP-0005Lk-1g
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:56:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657886160;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6Zf9yZVRe2YmeXvhQU8Y0kVJ3QKDVBUG2rxD2+py63U=;
+ b=IUbsCmNjanROjy/wNLO9MFIvAb+xGPemcOGk94DmzGhQIVobtZpOthayZo0YR9KKN+zxdR
+ 6AQZQ1FeIXzwuNd+JfUSkujoyAz6pa+R938Zq21QFOKhQHfiLhpD7K2T7n7vluuKMbJPNZ
+ 3f7bBe5vUTL4UeKXs7o1MCuu8ThlzEE=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-12-33TST-L4MCG2O9CECAM5vw-1; Fri, 15 Jul 2022 07:55:59 -0400
+X-MC-Unique: 33TST-L4MCG2O9CECAM5vw-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-10c27e22190so2714324fac.2
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 04:55:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GMoUZoKqS1w34DUOdXlyslRL0IWOuUR3SUUgT2K9JrM=;
- b=8C7UEnOpIeoq4D/RG/ujZenRjUtXI4sBmUvAM1zYT/zrJw+2vDagMJHhecVon/uUeI
- L2FEWp64o+BFR0blpWA1LjeIsZ4nTU3Jan2EXPMX30+FuTUcEk7F/5bY+DN1T1y+sMtH
- txCMZiKr6K09lJA6dwAYmqRuDyBcbQudvyvKCnURDXSKUJbzA0icrE/BhHAXJ0r06iMS
- kYEY0wKaB/mV71xEexfkKPSv45Lsw9ZoNCtkRoQzdYLOlYCn22v5WoCgfMdEHs6aH7iK
- 8j7WTc0skeVAlP574UdFoz5hFZ5Sbsty3DgoChLEOOIUrbKhLkt7JU5uHpZ3EaRnkQAt
- OLrw==
-X-Gm-Message-State: AJIora8+MrhZDYR6tSfkf0u+vaFvtWtHQg/OldY/ZkpH3LGEmKPoEHmf
- Y+pvHNGamna0/HbY2usqgR6uh8Pw/Po=
-X-Google-Smtp-Source: AGRyM1v9y++4YrTZr2FTyfuTXXN0YbuFf9EoMOsAYnxK+M4PxCFWm5fKqu8QLbapKGaMbcZtUEOkbQ==
-X-Received: by 2002:a63:e457:0:b0:419:a843:5b46 with SMTP id
- i23-20020a63e457000000b00419a8435b46mr9104116pgk.287.1657885256264; 
- Fri, 15 Jul 2022 04:40:56 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:d554:ffbd:f962:2efd])
- by smtp.gmail.com with ESMTPSA id
- w4-20020a170902ca0400b0016c67a3b7d0sm3258627pld.61.2022.07.15.04.40.53
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 15 Jul 2022 04:40:55 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v2 3/3] meson: Allow to enable gtk and sdl while cocoa is
- enabled
-Date: Fri, 15 Jul 2022 20:40:39 +0900
-Message-Id: <20220715114039.59790-4-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220715114039.59790-1-akihiko.odaki@gmail.com>
-References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6Zf9yZVRe2YmeXvhQU8Y0kVJ3QKDVBUG2rxD2+py63U=;
+ b=tP2m+nxCKXl8Wc9qbVuDyUqsHJj8clygqVhUaS5RULvxMTun+z9dtNBFJeZdi5EQSV
+ WtAjoZOcgECJWb6prRcfi7XZ//nQhQ7COdelQiQvLlKyeOKF6dcAmhAQbVBQyoAVXcWt
+ jxq1C/y2Y988wRqmBm0KtRIzJuYqXY79QLEUg5v3w8+MUUhZCVQy4BSUsdd0BughODaS
+ yocZxzY8Zr9JY0JWv691F4UX8Zdl41IKNaPiWtbvM/vVakVSMmk/yE2PJRb0xnZw4v9A
+ 6GJhzp4CFoGH9xK/HNi+uO4+s7cw0R0efpq3s16OGHNyDNZqm+R1OyMSYh6kBcYmANzR
+ a3vQ==
+X-Gm-Message-State: AJIora/ndNisddZhI0poRB2WIQcl5UaFbsAWwiESr8BQkwqkYdIQgwig
+ bGW4/7Z8axqyj5979CaX2TfROhZh40T0fB51br1mO6dJ5YzlJPv75W2hwPerahqdfjTvxm95Fh9
+ SIuWEhVmbjFze7NpouIX9LStNhca5shw=
+X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
+ i1-20020a056870c1c100b000ee5c837be7mr7275951oad.53.1657886158833; 
+ Fri, 15 Jul 2022 04:55:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ul5eHUpAx+KkmGSHyVEtYfbe+VHVxVKAOQtzprxvi+oITPcuNTgVCP7Or/ky+iVsovhH6bVeD/HtPkMn4QiZA=
+X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
+ i1-20020a056870c1c100b000ee5c837be7mr7275943oad.53.1657886158564; Fri, 15 Jul
+ 2022 04:55:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-11-marcandre.lureau@redhat.com>
+ <CANCZdfpuq4YgrmcuyqJCfpXwguGbVJqBOa2vT==Hkr2bLSYRrw@mail.gmail.com>
+In-Reply-To: <CANCZdfpuq4YgrmcuyqJCfpXwguGbVJqBOa2vT==Hkr2bLSYRrw@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Fri, 15 Jul 2022 15:55:47 +0400
+Message-ID: <CAMxuvawC6T-QrsJ911tMwP_y4UrumRoutqyV6j5dec7soYAfDA@mail.gmail.com>
+Subject: Re: [PATCH v2 10/15] qemu-common: introduce a common subproject
+To: Warner Losh <imp@bsdimp.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Eric Blake <eblake@redhat.com>, 
+ Cleber Rosa <crosa@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Xie Yongji <xieyongji@bytedance.com>, 
+ Kyle Evans <kevans@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>, 
+ John Snow <jsnow@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <laurent@vivier.eu>, 
+ Fam Zheng <fam@euphon.net>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,50 +106,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
-can be enabled even ui/cocoa is enabled.
+Hi
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- meson.build | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+On Tue, Jul 12, 2022 at 6:58 PM Warner Losh <imp@bsdimp.com> wrote:
+>
+>
+>
+> On Tue, Jul 12, 2022 at 3:36 AM <marcandre.lureau@redhat.com> wrote:
+>>
+>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>
+>> Add a new meson subproject to provide common code and scripts for QEMU
+>> and tools. Initially, it will offer QAPI/QMP code generation and
+>> common utilities.
+>>
+>> libvhost-user & libvduse will make use of the subproject to avoid having
+>> include/ links to common headers.
+>>
+>> The other targeted user is qemu-ga, which will also be converted to a
+>> subproject (so it can be built, moved, released etc independent from QEM=
+U).
+>>
+>> Other projects such as qemu-storage-daemon could be built standalone
+>> eventually in the future.
+>>
+>> Note that with meson subprojects are "global". Projects will share
+>> subprojects (https://mesonbuild.com/Subprojects.html#subprojects-dependi=
+ng-on-other-subprojects).
+>> We will add extra subprojects/ links to allow standalone subproject
+>> compilation though.
+>>
+>> This initial commit simply set the stage to build and link against it.
+>>
+>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>> ---
+>>  meson.build                                              | 9 ++++++++-
+>>  .../qemu-common/include}/qemu/help-texts.h               | 0
+>>  linux-user/meson.build                                   | 4 ++--
+>>  subprojects/libvduse/meson.build                         | 2 ++
+>>  subprojects/libvduse/subprojects/qemu-common             | 1 +
+>>  subprojects/libvhost-user/meson.build                    | 2 ++
+>>  subprojects/libvhost-user/subprojects/qemu-common        | 1 +
+>>  subprojects/qemu-common/meson.build                      | 8 ++++++++
+>>  8 files changed, 24 insertions(+), 3 deletions(-)
+>>  rename {include =3D> subprojects/qemu-common/include}/qemu/help-texts.h=
+ (100%)
+>>  create mode 120000 subprojects/libvduse/subprojects/qemu-common
+>>  create mode 120000 subprojects/libvhost-user/subprojects/qemu-common
+>>  create mode 100644 subprojects/qemu-common/meson.build
+>>
+>> diff --git a/meson.build b/meson.build
+>> index bc5569ace159..254eb1263a66 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -167,6 +167,10 @@ if 'dtrace' in get_option('trace_backends')
+>>    endif
+>>  endif
+>>
+>> +add_project_arguments('-I' + meson.current_source_dir() / 'subprojects/=
+qemu-common/include',
+>> +  language: ['c', 'cpp', 'objc'],
+>> +)
+>> +
+>>  if get_option('iasl') =3D=3D ''
+>>    iasl =3D find_program('iasl', required: false)
+>>  else
+>> @@ -1577,6 +1581,9 @@ if libbpf.found() and not cc.links('''
+>>    endif
+>>  endif
+>>
+>> +qemu_common =3D subproject('qemu-common')
+>> +qemu_common =3D qemu_common.get_variable('qemu_common_dep')
+>> +
+>>  #################
+>>  # config-host.h #
+>>  #################
+>> @@ -3052,7 +3059,7 @@ util_ss.add_all(trace_ss)
+>>  util_ss =3D util_ss.apply(config_all, strict: false)
+>>  libqemuutil =3D static_library('qemuutil',
+>>                               sources: util_ss.sources() + stub_ss.sourc=
+es() + genh,
+>> -                             dependencies: [util_ss.dependencies(), lib=
+m, threads, glib, socket, malloc, pixman])
+>> +                             dependencies: [util_ss.dependencies(), lib=
+m, threads, glib, socket, malloc, pixman, qemu_common])
+>>  qemuutil =3D declare_dependency(link_with: libqemuutil,
+>>                                sources: genh + version_res,
+>>                                dependencies: [event_loop_base])
+>> diff --git a/include/qemu/help-texts.h b/subprojects/qemu-common/include=
+/qemu/help-texts.h
+>> similarity index 100%
+>> rename from include/qemu/help-texts.h
+>> rename to subprojects/qemu-common/include/qemu/help-texts.h
+>> diff --git a/linux-user/meson.build b/linux-user/meson.build
+>> index de4320af053c..fc6cdb55d657 100644
+>> --- a/linux-user/meson.build
+>> +++ b/linux-user/meson.build
+>> @@ -7,7 +7,7 @@ linux_user_ss =3D ss.source_set()
+>>  common_user_inc +=3D include_directories('include/host/' / host_arch)
+>>  common_user_inc +=3D include_directories('include')
+>>
+>> -linux_user_ss.add(files(
+>> +linux_user_ss.add([files(
+>>    'elfload.c',
+>>    'exit.c',
+>>    'fd-trans.c',
+>> @@ -20,7 +20,7 @@ linux_user_ss.add(files(
+>>    'thunk.c',
+>>    'uaccess.c',
+>>    'uname.c',
+>> -))
+>> +), qemu_common])
+>
+>
+> Question: Why does linux-user need these, but bsd-user does not?
+>
 
-diff --git a/meson.build b/meson.build
-index bc5569ace15..7baec7896ef 100644
---- a/meson.build
-+++ b/meson.build
-@@ -583,12 +583,6 @@ if get_option('attr').allowed()
- endif
- 
- cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
--if cocoa.found() and get_option('sdl').enabled()
--  error('Cocoa and SDL cannot be enabled at the same time')
--endif
--if cocoa.found() and get_option('gtk').enabled()
--  error('Cocoa and GTK+ cannot be enabled at the same time')
--endif
- 
- vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
- if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
-@@ -915,7 +909,7 @@ if not get_option('brlapi').auto() or have_system
- endif
- 
- sdl = not_found
--if not get_option('sdl').auto() or (have_system and not cocoa.found())
-+if not get_option('sdl').auto() or have_system
-   sdl = dependency('sdl2', required: get_option('sdl'), kwargs: static_kwargs)
-   sdl_image = not_found
- endif
-@@ -1181,7 +1175,7 @@ endif
- gtk = not_found
- gtkx11 = not_found
- vte = not_found
--if not get_option('gtk').auto() or (have_system and not cocoa.found())
-+if not get_option('gtk').auto() or have_system
-   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
-                    method: 'pkg-config',
-                    required: get_option('gtk'),
--- 
-2.32.1 (Apple Git-133)
+Indeed, it's not needed anymore, thanks!
 
 
