@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F49576103
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 13:59:37 +0200 (CEST)
-Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 514F357611C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 14:05:50 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCJyq-0008Nh-5I
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 07:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1oCK4r-0002km-0S
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 08:05:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oCJwr-0005mT-0R
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oCJwm-0005d2-QA
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 07:57:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657886247;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W6R4doAtW69Sgbq+hj6HKp+RBbejN+rZqBF340Nb4b8=;
- b=JOwuz9MLj01cCqR/bTVsK4d6hbwlveWLTW3LPN9v3mrR+9M9wZDPldsFx2As+PfSJVvKlC
- LvUd2GEcQuA5tM9V+uPm2SakGlq0yHMWL6HGsT/GH2loVyDPxgszR/FN1fD7ZT5di+4STo
- FL29ehVpNADlAfVZq8zJbSlOSmZCngk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-AtSyL3FXNX2gTgC7sgvWRQ-1; Fri, 15 Jul 2022 07:57:24 -0400
-X-MC-Unique: AtSyL3FXNX2gTgC7sgvWRQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- w15-20020a056402268f00b0043ac600a6bcso3294986edd.6
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 04:57:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oCK1Z-00018H-1A
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:02:25 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:44850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oCK1X-0006g0-5t
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:02:24 -0400
+Received: by mail-lf1-x133.google.com with SMTP id a9so7435812lfk.11
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 05:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=YMkyv0d7ujessLOB6YD6ICwqjxLmuRR8ochTsAswm+4=;
+ b=IacoBv07FQzfCu+sn6zt2E9MNEGjil6HnQks+kB+AezDGcUB9S3qFM8m2+H4g14UE/
+ AS6ZyZooKsMW1TiLduyl0F7bB3LMm95PXovr2HulBFigImuFVPLrELTMRka8UoZxQ2fP
+ ycW+EeiVBaVCkT46fPbjvQgr9P+srrg8z8UrBSfVSjIBeBR3kNlKHrCjSH/FIv3VJJlo
+ kf9PddhN7sIR41fwb7S50qtcGEDCk2WgmPAcvq3ZzpTlzVULy3pz0hLJUZWdlUj8c39K
+ RP/nPYk0oQ0y9BFDQkbanygbdF72wNV3VGgI7gIY/eGa2JEFTxo2CR2WRFUhrT8YExhH
+ 8lOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=W6R4doAtW69Sgbq+hj6HKp+RBbejN+rZqBF340Nb4b8=;
- b=WJ8k6PuF5Ir/UcgGjnzj6lf5SEeot5WW2FC8NHwVtAq8fVvN1yalBW0ludO9YIQg/y
- 0prfTKXXoiIKBlPCn2jlab0LrG1jz2RrXqS8T/36Oqu9YUhj7AybAkG1ZkKV3YUIS5t4
- qf+RqOPrtn81Jedlp9OQYihbyoBDfH+Jc7i5ITQ8b9DcSAexgwOezkNWmh+hMk7J0iBO
- 5fv9/qR7RZj+wacsU9OpLaof6sT6IMyyY9bPL3ArSCuGfwIEh9F2vx7YxVoF24nwpo+K
- uZVU/jFeafo2ZvmCIiwfOd7j+tGZ1koN/G2b4JQ0CokdJrXvYvwKsBMiiS3+Gc7w3wJ+
- lXJA==
-X-Gm-Message-State: AJIora/CbDk6Y5vBIRxTgll0ZNSN4c1M3iZEs55y10yGvGQFW8iy9ot0
- BhrIloFobyAV0mPxTKX0+fCupYgpso1ro4mqVd8CUDdOuY9Kn0XYxsjs/tvD778x57K6AkQQC1r
- 7Os3QXXNqj3po4kc=
-X-Received: by 2002:a17:906:8478:b0:72b:4f81:29d8 with SMTP id
- hx24-20020a170906847800b0072b4f8129d8mr13337302ejc.179.1657886243402; 
- Fri, 15 Jul 2022 04:57:23 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vCYNRUZgzhWb6ghEjHHs6NFTkrVdN5anuV3bZKvL7Bb1mDjYeEGfx2wgw3pkViU2G+qSBWEA==
-X-Received: by 2002:a17:906:8478:b0:72b:4f81:29d8 with SMTP id
- hx24-20020a170906847800b0072b4f8129d8mr13337270ejc.179.1657886243051; 
- Fri, 15 Jul 2022 04:57:23 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- f15-20020a17090631cf00b0072a66960843sm1271783ejf.51.2022.07.15.04.57.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jul 2022 04:57:22 -0700 (PDT)
-Date: Fri, 15 Jul 2022 13:57:21 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v7 09/10] i386/pc: relocate 4g start to 1T where applicable
-Message-ID: <20220715135721.491f754e@redhat.com>
-In-Reply-To: <20220714182820.30970-10-joao.m.martins@oracle.com>
-References: <20220714182820.30970-1-joao.m.martins@oracle.com>
- <20220714182820.30970-10-joao.m.martins@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=YMkyv0d7ujessLOB6YD6ICwqjxLmuRR8ochTsAswm+4=;
+ b=6SzSApkJUaj//JhIcIbgZR0MTXhgEpvfTv9qfg1wyGjZUmmb+TE3BLmZvJj9pqZyFM
+ alNzMGutxZJeiJrfBHjjo3IXJQeGkQTGm/0vdxFCB1ETzSpKdyL0rIhc7fOBs8Yp/JSP
+ BIj9/tRJ2cl72GTYqGxjNvQs3ITjtMhF1Ss048SFBYsHcqNeVTukvo0dIN++dH1bkNV+
+ OJithpLKN1vBFdld1XSvwZ4OZXheV16onixFGqQAmD6jzrwAJVMzFNAjHiLFEoe3xQ/a
+ R0TJXNrpKAGRJvQrqoxyhRhJCk9Q8Zy870nMhd5Egyoi/WEvJg2viVA2PeGcMoLvJkzt
+ 4hdA==
+X-Gm-Message-State: AJIora+YGJRMsFH0bMzCZVCjZ1dXTNYOUIlPxIX4nT8076FcpLMYnR/A
+ 1Lev4mjxgwEosVAcTCRlPwnHz9scfl0sd3r3MOI=
+X-Google-Smtp-Source: AGRyM1vlsTwZmoEe0hBP/S2rkiupLJ4R/SXYwxcrkBA8Qg/TbgXZmqSZURzKeEnA0IRrkxACzQA6r09FHvqxy+GYIOw=
+X-Received: by 2002:a05:6512:31d1:b0:489:cfee:3600 with SMTP id
+ j17-20020a05651231d100b00489cfee3600mr7792535lfe.432.1657886540362; Fri, 15
+ Jul 2022 05:02:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220711075643.3744153-1-marcandre.lureau@redhat.com>
+ <ec9ce92e-4e91-6ff6-49d0-bc694eef5fa8@linaro.org>
+ <61f9c4ac-5600-46ef-9c4d-724c1d7bf400@linaro.org>
+ <CAMxuvaxobAZdKZtNY3yc_n00zUWCgiiD5GNdTF=7ZfJM8MODRQ@mail.gmail.com>
+In-Reply-To: <CAMxuvaxobAZdKZtNY3yc_n00zUWCgiiD5GNdTF=7ZfJM8MODRQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 15 Jul 2022 16:02:08 +0400
+Message-ID: <CAJ+F1C+3FYh6GrEC=St38QkmUd=G_TrQPVmQc99bjw1XkSHB1A@mail.gmail.com>
+Subject: Re: [PATCH 0/2] gitlab-ci: msys2 improvements
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: multipart/alternative; boundary="00000000000050f99b05e3d6caf7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x133.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,115 +88,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jul 2022 19:28:19 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+--00000000000050f99b05e3d6caf7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> It is assumed that the whole GPA space is available to be DMA
-> addressable, within a given address space limit, except for a
-> tiny region before the 4G. Since Linux v5.4, VFIO validates
-> whether the selected GPA is indeed valid i.e. not reserved by
-> IOMMU on behalf of some specific devices or platform-defined
-> restrictions, and thus failing the ioctl(VFIO_DMA_MAP) with
->  -EINVAL.
-> 
-> AMD systems with an IOMMU are examples of such platforms and
-> particularly may only have these ranges as allowed:
-> 
-> 	0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-> 	00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-> 	0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb[*])
-> 
-> We already account for the 4G hole, albeit if the guest is big
-> enough we will fail to allocate a guest with  >1010G due to the
-> ~12G hole at the 1Tb boundary, reserved for HyperTransport (HT).
-> 
-> [*] there is another reserved region unrelated to HT that exists
-> in the 256T boundary in Fam 17h according to Errata #1286,
-> documeted also in "Open-Source Register Reference for AMD Family
-> 17h Processors (PUB)"
-> 
-> When creating the region above 4G, take into account that on AMD
-> platforms the HyperTransport range is reserved and hence it
-> cannot be used either as GPAs. On those cases rather than
-> establishing the start of ram-above-4g to be 4G, relocate instead
-> to 1Tb. See AMD IOMMU spec, section 2.1.2 "IOMMU Logical
-> Topology", for more information on the underlying restriction of
-> IOVAs.
-> 
-> After accounting for the 1Tb hole on AMD hosts, mtree should
-> look like:
-> 
-> 0000000000000000-000000007fffffff (prio 0, i/o):
-> 	 alias ram-below-4g @pc.ram 0000000000000000-000000007fffffff
-> 0000010000000000-000001ff7fffffff (prio 0, i/o):
-> 	alias ram-above-4g @pc.ram 0000000080000000-000000ffffffffff
-> 
-> If the relocation is done or the address space covers it, we
-> also add the the reserved HT e820 range as reserved.
-> 
-> Default phys-bits on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough
-> to address 1Tb (0xff ffff ffff). On AMD platforms, if a
-> ram-above-4g relocation may be desired and the CPU wasn't configured
-> with a big enough phys-bits, print an error message to the user
-> and do not make the relocation of the above-4g-region if phys-bits
-> is too low.
-> 
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> ---
->  hw/i386/pc.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 82 insertions(+)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index cda435e3baeb..17613974163e 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -880,6 +880,52 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
->      return start;
->  }
->  
-> +static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
-> +{
-> +    X86CPU *cpu = X86_CPU(first_cpu);
-> +
-> +    /* 32-bit systems don't have hole64 thus return max CPU address */
-> +    if (cpu->phys_bits <= 32) {
-> +        return ((hwaddr)1 << cpu->phys_bits) - 1;
-> +    }
-> +
-> +    return pc_pci_hole64_start() + pci_hole64_size - 1;
-> +}
-> +
-[...]
+Hi Richard
 
-> +
-> +    /*
-> +     * Relocating ram-above-4G requires more than TCG_PHYS_ADDR_BITS (40).
-> +     * So make sure phys-bits is required to be appropriately sized in order
-> +     * to proceed with the above-4g-region relocation and thus boot.
+On Tue, Jul 12, 2022 at 3:38 PM Marc-Andr=C3=A9 Lureau <
+marcandre.lureau@redhat.com> wrote:
 
-drop mention of relocation here as it's orthogonal to the check.
-Important thing we are checking here is that max used GPA is
-reachable by configured vCPU (physbits).
+> Hi
+>
+> On Tue, Jul 12, 2022 at 10:10 AM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > On 7/12/22 09:24, Richard Henderson wrote:
+> > > On 7/11/22 13:26, marcandre.lureau@redhat.com wrote:
+> > >> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > >>
+> > >> Hi
+> > >>
+> > >> This is a small series to attempt to debug "Intermittent meson
+> failures on
+> > >> msys2" and improve a bit msys2/gitlab reports.
+> > >
+> > > Thanks.  I've pushed this to staging for a test run:
+> > >
+> > > https://gitlab.com/qemu-project/qemu/-/pipelines/585473909
+> >
+> > Amusingly, both msys2 jobs passed the first time, but I reran and now
+> have a failure for
+> > your investigation:
+> >
+> > https://gitlab.com/qemu-project/qemu/-/jobs/2707801937
+> >
+>
+> Hmm, there are no artifacts. How come? meson-logs/ should be there..
+> Anyway, I am not sure it would have more details about the failing
+> command.
+>
+> Sadly we don't have any stderr output, and ninja doesn't log the
+> failing command exit code either. I guess I will try with a custom
+> ninja build now.
+>
 
-> +     */
-> +    maxusedaddr = pc_max_used_gpa(pcms, pci_hole64_size);
-> +    maxphysaddr = ((hwaddr)1 << cpu->phys_bits) - 1;
-> +    if (maxphysaddr < maxusedaddr) {
-> +        error_report("Address space limit 0x%"PRIx64" < 0x%"PRIx64
-> +                     " phys-bits too low (%u)",
-> +                     maxphysaddr, maxusedaddr, cpu->phys_bits);
-> +        exit(EXIT_FAILURE);
-> +    }
+I think I have triggered 10x times the build now, but I am not reaching the
+build error, only random build time over 1h10 limit...
 
-these hunks should be a separate patch preceding relocation patch
-as it basically does max_gpa vs physbits check regardless
-of relocation (i.e. relocation is only one of the reasons
-max_used_gpa might exceed physbits).
+No idea.. Maybe you can try it?
+https://gitlab.com/marcandre.lureau/qemu/-/tree/msys2
 
-> +
->      /*
->       * Split single memory region and use aliases to address portions of it,
->       * done for backwards compatibility with older qemus.
+I have simply patched ninja with
+https://github.com/msys2/MINGW-packages/compare/master...elmarco:MINGW-pack=
+ages:master
 
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000050f99b05e3d6caf7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Richard<br></div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 12, 2022 at 3:3=
+8 PM Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.c=
+om">marcandre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Hi<br>
+<br>
+On Tue, Jul 12, 2022 at 10:10 AM Richard Henderson<br>
+&lt;<a href=3D"mailto:richard.henderson@linaro.org" target=3D"_blank">richa=
+rd.henderson@linaro.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On 7/12/22 09:24, Richard Henderson wrote:<br>
+&gt; &gt; On 7/11/22 13:26, <a href=3D"mailto:marcandre.lureau@redhat.com" =
+target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; &gt;&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Hi<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; This is a small series to attempt to debug &quot;Intermittent=
+ meson failures on<br>
+&gt; &gt;&gt; msys2&quot; and improve a bit msys2/gitlab reports.<br>
+&gt; &gt;<br>
+&gt; &gt; Thanks.=C2=A0 I&#39;ve pushed this to staging for a test run:<br>
+&gt; &gt;<br>
+&gt; &gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/pipelines/58547=
+3909" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/=
+qemu/-/pipelines/585473909</a><br>
+&gt;<br>
+&gt; Amusingly, both msys2 jobs passed the first time, but I reran and now =
+have a failure for<br>
+&gt; your investigation:<br>
+&gt;<br>
+&gt; <a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/2707801937" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jo=
+bs/2707801937</a><br>
+&gt;<br>
+<br>
+Hmm, there are no artifacts. How come? meson-logs/ should be there..<br>
+Anyway, I am not sure it would have more details about the failing<br>
+command.<br>
+<br>
+Sadly we don&#39;t have any stderr output, and ninja doesn&#39;t log the<br=
+>
+failing command exit code either. I guess I will try with a custom<br>
+ninja build now.<br></blockquote><div><br></div><div>I think I have trigger=
+ed 10x times the build now, but I am not reaching the build error, only ran=
+dom build time over 1h10 limit...</div><div><br></div><div>No idea.. Maybe =
+you can try it? <a href=3D"https://gitlab.com/marcandre.lureau/qemu/-/tree/=
+msys2">https://gitlab.com/marcandre.lureau/qemu/-/tree/msys2</a></div><div>=
+<br></div><div>I have simply patched ninja with <a href=3D"https://github.c=
+om/msys2/MINGW-packages/compare/master...elmarco:MINGW-packages:master">htt=
+ps://github.com/msys2/MINGW-packages/compare/master...elmarco:MINGW-package=
+s:master</a></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000050f99b05e3d6caf7--
 
