@@ -2,113 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 959CF57626C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:04:59 +0200 (CEST)
-Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88DF57629C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:12:58 +0200 (CEST)
+Received: from localhost ([::1]:37868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCL06-00008o-PB
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:04:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
+	id 1oCL7p-00059y-Ak
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:12:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oCKyc-0006cS-Rj; Fri, 15 Jul 2022 09:03:26 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1oCKya-0007AX-Jl; Fri, 15 Jul 2022 09:03:26 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FCpWTm002622;
- Fri, 15 Jul 2022 13:03:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2H+tHaJRqScRiBH9w0S03Fbfj+PL+zDQ9VjClxb/DgM=;
- b=T/UNcpwNPtXrrEcxgfpyaL4dIfA2tFO1I3+W3HvNFePLGD1ryiR34oq5V/1MwBAa2++1
- EQ8I/FhV0wF3nAzvQ0dcfODMxXhh7qLDzWaHkaiZXQlSIkSx+b4T1ZDxdpCILWzUh/aV
- QRw5F7PLPoWgBO9CjIkbvn72n+9yr42No6HBubWA3wdBWdILkU+Rt+30Dkhd99va5yQd
- DJrHP6JYhS9n7sTK0TtADfkyV4/wPnGKsiJRRETd9lyRoh1uqYblXqrBNrqDGQlZiD55
- u/QX8hG58T8wLspNEoCaMQkubwP6AxzVbNmQbCJWlQ0jNsfcXVUdMFC6ek9DCxIv8p9V IQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hb8m1ga61-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jul 2022 13:03:21 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26FCpm7d003749;
- Fri, 15 Jul 2022 13:03:19 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hb8m1ga2q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jul 2022 13:03:18 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26FCoP2u023314;
- Fri, 15 Jul 2022 13:03:14 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3h71a90e9u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 15 Jul 2022 13:03:14 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26FD3BVj21430720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jul 2022 13:03:11 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C596CAE04D;
- Fri, 15 Jul 2022 13:03:11 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C28B7AE053;
- Fri, 15 Jul 2022 13:03:10 +0000 (GMT)
-Received: from [9.171.83.230] (unknown [9.171.83.230])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 15 Jul 2022 13:03:10 +0000 (GMT)
-Message-ID: <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
-Date: Fri, 15 Jul 2022 15:07:53 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCL69-0003Wq-3D
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:11:14 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:35427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCL65-0000SE-TR
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:11:12 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id e69so8381801ybh.2
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/0l2vfsppxHeE5phI4KUG02NY9Kg2kcm6M5MKnn0m3g=;
+ b=jKCcfyUZuPRNsMNScVyF0ftoZs4pZhiJvyy651Bo2gDC1+/WVYZ9U/XsqRHgSpu7ib
+ V6PV3fXrswA00WaKO2Nz8cezgUnwHEShGgX4z5FlOjJ6d0BDDt05T9kiY3bD6+mNhu6A
+ m8GSWw6vm8l5XIwQllTK4j7wcrqik80MuQPTJwtF471ib5hMKHdL4ZUa2sxZj735nAIV
+ uHQTZm+2Hzko8fpfwQfFrVPNzmYJmMbZgszGRj3LgVZbnaQMEARW99jawYD8PtShwh2V
+ 4V3DW4Tl2suiNO44qYDuBq5n6LZOZpxSO5HTV2u6FRXiS58pnwJd1/ftoPVqRFtFNq4Y
+ uItA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/0l2vfsppxHeE5phI4KUG02NY9Kg2kcm6M5MKnn0m3g=;
+ b=5hI7xGj/uP8Hb2vrzqIkQHy2kp8Gk3x5Xn5pg5dYI7hFxO52g/yAIg4O2xDmEHB2v4
+ 00o8pirwVytb7iz0mW67ClvOeAr4pPG+1BvFhnLOWWmOGabbir0o2PUBboQgtnOfcVYD
+ YhJLUJZ5dKpnGjBy/XzRDY/Q9lyV6Yvi4L8dcoljLqztzkZVsBVdO0JX36A2yDw9R6Wl
+ FjWpkV0IrUFFuvXPYHKJSTa3NlJrPAOKLP26Ce2AeB1RLfhMP4WVW0CaPqCI2MZKmiaz
+ M1aSr92IwUqg+Lgmv5ZPk6n3ZNoWbiAWVfZ/cN3h+GwGOuhxMTZWPcRxvnM9RrYoy8qu
+ kVcg==
+X-Gm-Message-State: AJIora/cJeW3YNqZoSOZswBteN2GQTV2GLCcfVD6lpxC4+Wt9z1204/X
+ iofG2SQB8f+jyakrWcCY767Yg1IjzoRDXlQK5hMVkA==
+X-Google-Smtp-Source: AGRyM1vliDwrt9ZoA7L24eT0pFIUPrgqHt+BswqhmtPSclouQP560577hQNY4AdjiMhEl9DI9cnT4GlYi0x5VxKcnqA=
+X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
+ e123-20020a25d381000000b0066e29431c9dmr13558844ybf.67.1657890668028; Fri, 15
+ Jul 2022 06:11:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.0
-Subject: Re: [PATCH v8 08/12] s390x/cpu_topology: implementing numa for the
- s390x topology
-Content-Language: en-US
-To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
- <20220620140352.39398-9-pmorel@linux.ibm.com>
- <3a821cd1-b8a0-e737-5279-8ef55e58a77f@linux.ibm.com>
- <b1e89718-232c-2b0b-2133-102ab7b4dad4@linux.ibm.com>
- <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: zIQbZmNOFZkl2KrHE8hhJylLNVqSO-hb
-X-Proofpoint-GUID: lmSEBrctIWi6wd8IrcSpquHoJCTjVV2S
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-15_05,2022-07-15_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- phishscore=0 bulkscore=0 mlxscore=0 spamscore=0 suspectscore=0
- malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207150057
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
+ <20220715114039.59790-2-akihiko.odaki@gmail.com>
+In-Reply-To: <20220715114039.59790-2-akihiko.odaki@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 Jul 2022 14:10:29 +0100
+Message-ID: <CAFEAcA96_AX=UDrY=69kaSLvh+8DsEjzpkt=maL5r-O4e1wH5g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ui/cocoa: Run qemu_init in the main thread
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,64 +86,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 15 Jul 2022 at 12:40, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> This work is based on:
+> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
+>
+> Simplify the initialization dance by running qemu_init() in the main
+> thread before the Cocoa event loop starts. The secondary thread only
+> runs only qemu_main_loop() and qemu_cleanup().
+>
+> This fixes a case where addRemovableDevicesMenuItems() calls
+> qmp_query_block() while expecting the main thread to still hold
+> the BQL.
+>
+> Overriding the code after calling qemu_init() is done by dynamically
+> replacing a function pointer variable, qemu_main when initializing
+> ui/cocoa, which unifies the static implementation of main() for
+> builds with ui/cocoa and ones without ui/cocoa.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
+> @@ -585,7 +583,7 @@ - (void) updateUIInfo
+>          /*
+>           * Don't try to tell QEMU about UI information in the application
+>           * startup phase -- we haven't yet registered dcl with the QEMU UI
+> -         * layer, and also trying to take the iothread lock would deadlock.
+> +         * layer.
+>           * When cocoa_display_init() does register the dcl, the UI layer
+>           * will call cocoa_switch(), which will call updateUIInfo, so
+>           * we don't lose any information here.
 
-On 7/15/22 11:11, Janis Schoetterl-Glausch wrote:
-> On 7/14/22 22:17, Pierre Morel wrote:
->>
->>
->> On 7/14/22 16:57, Janis Schoetterl-Glausch wrote:
->>> On 6/20/22 16:03, Pierre Morel wrote:
->>>> S390x CPU Topology allows a non uniform repartition of the CPU
->>>> inside the topology containers, sockets, books and drawers.
->>>>
->>>> We use numa to place the CPU inside the right topology container
->>>> and report the non uniform topology to the guest.
->>>>
->>>> Note that s390x needs CPU0 to belong to the topology and consequently
->>>> all topology must include CPU0.
->>>>
->>>> We accept a partial QEMU numa definition, in that case undefined CPUs
->>>> are added to free slots in the topology starting with slot 0 and going
->>>> up.
->>>
->>> I don't understand why doing it this way, via numa, makes sense for us.
->>> We report the topology to the guest via STSI, which tells the guest
->>> what the topology "tree" looks like. We don't report any numa distances to the guest.
->>> The natural way to specify where a cpu is added to the vm, seems to me to be
->>> by specify the socket, book, ... IDs when doing a device_add or via -device on
->>> the command line.
->>>
->>> [...]
->>>
->>
->> It is a choice to have the core-id to determine were the CPU is situated in the topology.
->>
->> But yes we can chose the use drawer-id,book-id,socket-id and use a core-id starting on 0 on each socket.
->>
->> It is not done in the current implementation because the core-id implies the socket-id, book-id and drawer-id together with the smp parameters.
->>
->>
-> Regardless of whether the core-id or the combination of socket-id, book-id .. is used to specify where a CPU is
-> located, why use the numa framework and not just device_add or -device ?
+This comment says that we can't use the dcl while allow_events is false...
 
-You are right, at least we should be able to use both.
-I will work on this.
+> @@ -778,16 +776,6 @@ - (void) handleMonitorInput:(NSEvent *)event
+>
+>  - (bool) handleEvent:(NSEvent *)event
+>  {
+> -    if(!allow_events) {
+> -        /*
+> -         * Just let OSX have all events that arrive before
+> -         * applicationDidFinishLaunching.
+> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
+> -         * will not drop until after the app_started_sem is posted. (In theory
+> -         * there should not be any such events, but OSX Catalina now emits some.)
+> -         */
+> -        return false;
+> -    }
 
-> 
-> That feels way more natural since it should already just work if you can do hotplug.
-> At least with core-id and I suspect with a subset of your changes also with socket-id, etc.
+...so don't we want to also retain this check of allow_events ?
+Much of the code in handleEventLocked assumes the dcl has been registered.
 
-yes, it already works with core-id
+>      return bool_with_iothread_lock(^{
+>          return [self handleEventLocked:event];
+>      });
 
-> 
-> Whereas numa is an awkward fit since it's for specifying distances between nodes, which we don't do,
-> and you have to use a hack to get it to specify which CPUs to plug (via setting arch_id to -1).
-> 
+> @@ -1915,92 +1898,35 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+>  /*
+>   * The startup process for the OSX/Cocoa UI is complicated, because
+>   * OSX insists that the UI runs on the initial main thread, and so we
+> - * need to start a second thread which runs the vl.c qemu_main():
+> - *
+> - * Initial thread:                    2nd thread:
+> - * in main():
+> - *  create qemu-main thread
+> - *  wait on display_init semaphore
+> - *                                    call qemu_main()
+> - *                                    ...
+> - *                                    in cocoa_display_init():
+> - *                                     post the display_init semaphore
+> - *                                     wait on app_started semaphore
+> - *  create application, menus, etc
+> - *  enter OSX run loop
+> - * in applicationDidFinishLaunching:
+> - *  post app_started semaphore
+> - *                                     tell main thread to fullscreen if needed
+> - *                                    [...]
+> - *                                    run qemu main-loop
+> - *
+> - * We do this in two stages so that we don't do the creation of the
+> - * GUI application menus and so on for command line options like --help
+> - * where we want to just print text to stdout and exit immediately.
 
-Is it only for this?
+Could we have an updated version of this diagram that explains the
+new startup process, please ?
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+> + * need to start a second thread which runs the qemu_default_main().
+>   */
+
+Otherwise this looks good, and it's nice to get rid of that redefine-main
+hack.
+
+thanks
+-- PMM
 
