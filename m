@@ -2,86 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF6D5765A2
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:05:26 +0200 (CEST)
-Received: from localhost ([::1]:56664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA3C5765A7
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:08:09 +0200 (CEST)
+Received: from localhost ([::1]:59894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCOkn-0004ZD-E9
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:05:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
+	id 1oCOnR-0006sO-54
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:08:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oCOiT-0000bR-8o
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:03:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48255)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oCOlV-0004wj-Hs
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:06:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oCOiQ-0003ee-Mc
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:03:00 -0400
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oCOlR-00042k-I3
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:06:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657904578;
+ s=mimecast20190719; t=1657904765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RHdWC55cUPvE5A/T86wNKaY1/bkuZbeyxYtfxnHKD7k=;
- b=f0I5waNkidTr0ygV1kOkBEWuNGIFXj9bgl5XDdt5nEOTpN3vi8odCpndP0Z3krFpHGna3u
- BdrVkVGSkK6jNV5el5PPbj+/q7dae5fLN/6NNhFu839vgFd3yqyiDjNEzKHKvJPxoD/jTl
- zVt6T2visO7qHNztuHN8T2EIiBElx34=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YlW1lJLkozz65K47TcINKaBcwQdKNuoQ/8idqGZvLA0=;
+ b=YQKEQBhIeN/gN5c/Js5TdTTQFKCDT461+1hM8FcHIbQFY6O0DJ/jtF9US8qHcapbpNTlhH
+ IeBu7UldtRjL9w1tQCE5UUkKfNw+KC9d21SscKLW+MS3roZHAq9rhPS0jDVxZoOeKpWxBi
+ NUg/SlA2Ei9rR9b8gTNHR9+2fSWFwUE=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-618-CIt04sX0OzSwQo55f6kBQA-1; Fri, 15 Jul 2022 13:02:57 -0400
-X-MC-Unique: CIt04sX0OzSwQo55f6kBQA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qb28-20020a1709077e9c00b0072af6ccc1aeso1669686ejc.6
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 10:02:56 -0700 (PDT)
+ us-mta-655-EceaeGq1MV2WuHP6BfRTHg-1; Fri, 15 Jul 2022 13:06:01 -0400
+X-MC-Unique: EceaeGq1MV2WuHP6BfRTHg-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ld6-20020a056214418600b00472ffe4640eso3361184qvb.13
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 10:06:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RHdWC55cUPvE5A/T86wNKaY1/bkuZbeyxYtfxnHKD7k=;
- b=NjfdKN20Vv08jLO6i9WTrd+JcUCSzmicyH2m8sDg+L3lwoJ/+DPdqLcS/4AH/Eg6Qu
- +iRPX5Kh2HKExFNk31H1I9SL83rTkaCxjY2JPg3tfV9gI0Ak5wPoy8HkIQN2jVK2z1D4
- BXsTz77mgHusT+qlRIPI6fsnIyg87n8UFbW1aefCj7e0n4M6FavtTquYLjXBgwggCED6
- paNeerLMpOfrT3eUvOsEVwRx9bTLzTPrMmOQFGXGZRvECo00ts8UGxzCpLtei4Gx0psB
- eIBXnMK5Id8Bz8KvMQInzvxgTpopUaeO54kRI1AJziAmRg5beSk1lN716M4Fphm+UKY6
- 57dg==
-X-Gm-Message-State: AJIora9TRnHC5nW+0GY9a7ebFOymzx+EbNpjx/gNtpIfLfQt95iRc0Hk
- XBGf8cKHRTY2VrqAfR0Br7M5ibCd3adsiYOg6z3D3bzidBmo9UGy2HRriaU5mUAl+3v7XNKd52c
- 1OVJriCnkLT+1bjP06FMhu8JtuiTllQrwFz36yGFAwqEmFKsWrjoFz4djan80c+bHMdc=
-X-Received: by 2002:a17:906:cc52:b0:72b:114e:c56c with SMTP id
- mm18-20020a170906cc5200b0072b114ec56cmr14641289ejb.144.1657904575502; 
- Fri, 15 Jul 2022 10:02:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tCFvvkghCvPGHuCsca25QiJVQaIDwvgw9GiNU5K6ItEosvlVxKcZkh+SR0Z6EZxYmEu7hGFw==
-X-Received: by 2002:a17:906:cc52:b0:72b:114e:c56c with SMTP id
- mm18-20020a170906cc5200b0072b114ec56cmr14641260ejb.144.1657904575096; 
- Fri, 15 Jul 2022 10:02:55 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- f21-20020a17090631d500b0072ee7b51d9asm1678653ejf.39.2022.07.15.10.02.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jul 2022 10:02:54 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: natto@weirdnatto.in
-Subject: [PATCH 2/2] kvm: add support for boolean statistics
-Date: Fri, 15 Jul 2022 19:02:49 +0200
-Message-Id: <20220715170249.404786-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220715170249.404786-1-pbonzini@redhat.com>
-References: <20220715170249.404786-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YlW1lJLkozz65K47TcINKaBcwQdKNuoQ/8idqGZvLA0=;
+ b=HQCgRAByn7dMp8z4tdaxeF4Ym3P5SqjNBuyPQ8muPUDhHf+YtmM3IUZtNfQ/bz0uV6
+ hm5gDLMvcDUUmDa7nXwbcHbkE849CPhVjq7lMroB8oJnRqI1z18OuCCVTRm9GXgyeWaM
+ 6GJ4yKcoZBP8z7RJeF7RIOAgoUv0cBVmry5CH2+RlEJJ063Jd6hJQEvVkeoNgAfFhLiC
+ ahQ0tESr5Wm3XWgd1Kwh0rs4QqFpdv7IYBMYwZWf8uV8zkMZRb6ao8LoauaVAAYy49/o
+ why0FsTJKDx8cMM0YjjWhovmRnve76glIY3g29TnbiqAQlQD7R99cFNy6A4mvyuSmfqo
+ wZ0A==
+X-Gm-Message-State: AJIora+O0+WTeKHeHlSpy197g5CB0XHrmjHCkkfdluDl5G7+EByrXoli
+ K+MPLpofxib26ThrUxSgYTeGzbxUQS2DscO2efC0u7iEV9KF7WfA3LUYyVBMcuKjhmCS5fhQwB1
+ WG+nBkozr8H/teG4S/tIjU7/PjQmQEf4=
+X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
+ o19-20020a05620a2a1300b006b5c197d565mr6452806qkp.255.1657904760852; 
+ Fri, 15 Jul 2022 10:06:00 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s6PMyrNX0ILWCJdr77oHX/PAjlMJ3uhDREPVgbcmOVYH23jIL9YL1vF4fwIhNfFfUwjBURW4Pta++XM4Sfr98=
+X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
+ o19-20020a05620a2a1300b006b5c197d565mr6452779qkp.255.1657904760479; Fri, 15
+ Jul 2022 10:06:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+References: <20220714163150.2536327-1-eperezma@redhat.com>
+ <20220714163150.2536327-13-eperezma@redhat.com>
+ <CACGkMEuHR_R6Jxjvznv1T-d6SGngsYQyfhCNw8-HoTb3FLcX0w@mail.gmail.com>
+ <CAJaqyWfwODXUr_z3Qzp7_MSbEamG0W8MxUtxn1kV-NE_qfBi-A@mail.gmail.com>
+ <CACGkMEvfPDMK+7jg+r5hunxA+EXuN9V_d_KZfkCfufe-ONbXFQ@mail.gmail.com>
+In-Reply-To: <CACGkMEvfPDMK+7jg+r5hunxA+EXuN9V_d_KZfkCfufe-ONbXFQ@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Fri, 15 Jul 2022 19:05:24 +0200
+Message-ID: <CAJaqyWdf-VQxP4rYasSzdq3yaYLPw1_G6J=Kqq5SXXWEDYpKCA@mail.gmail.com>
+Subject: Re: [PATCH v2 12/19] vhost: add vhost_svq_poll
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,64 +106,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The next version of Linux will introduce boolean statistics, which
-can only have 0 or 1 values.  Convert them to the new QAPI fields
-added in the previous commit.
+On Fri, Jul 15, 2022 at 10:48 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+> On Fri, Jul 15, 2022 at 1:39 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > On Fri, Jul 15, 2022 at 5:59 AM Jason Wang <jasowang@redhat.com> wrote:
+> > >
+> > > On Fri, Jul 15, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> > > >
+> > > > It allows the Shadow Control VirtQueue to wait for the device to us=
+e the
+> > > > available buffers.
+> > > >
+> > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > > ---
+> > > >  hw/virtio/vhost-shadow-virtqueue.h |  1 +
+> > > >  hw/virtio/vhost-shadow-virtqueue.c | 22 ++++++++++++++++++++++
+> > > >  2 files changed, 23 insertions(+)
+> > > >
+> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-s=
+hadow-virtqueue.h
+> > > > index 1692541cbb..b5c6e3b3b4 100644
+> > > > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > > > @@ -89,6 +89,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *sv=
+q, const SVQElement *elem,
+> > > >  int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *o=
+ut_sg,
+> > > >                    size_t out_num, const struct iovec *in_sg, size_=
+t in_num,
+> > > >                    SVQElement *elem);
+> > > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq);
+> > > >
+> > > >  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_=
+kick_fd);
+> > > >  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call=
+_fd);
+> > > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-s=
+hadow-virtqueue.c
+> > > > index 5244896358..31a267f721 100644
+> > > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > > @@ -486,6 +486,28 @@ static void vhost_svq_flush(VhostShadowVirtque=
+ue *svq,
+> > > >      } while (!vhost_svq_enable_notification(svq));
+> > > >  }
+> > > >
+> > > > +/**
+> > > > + * Poll the SVQ for one device used buffer.
+> > > > + *
+> > > > + * This function race with main event loop SVQ polling, so extra
+> > > > + * synchronization is needed.
+> > > > + *
+> > > > + * Return the length written by the device.
+> > > > + */
+> > > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+> > > > +{
+> > > > +    do {
+> > > > +        uint32_t len;
+> > > > +        SVQElement *elem =3D vhost_svq_get_buf(svq, &len);
+> > > > +        if (elem) {
+> > > > +            return len;
+> > > > +        }
+> > > > +
+> > > > +        /* Make sure we read new used_idx */
+> > > > +        smp_rmb();
+> > >
+> > > There's already one smp_rmb(0 in vhost_svq_get_buf(). So this seems u=
+seless?
+> > >
+> >
+> > That rmb is after checking for new entries with (vq->last_used_idx !=3D
+> > svq->shadow_used_idx) , to avoid reordering used_idx read with the
+> > actual used entry. So my understanding is
+> > that the compiler is free to skip that check within the while loop.
+>
+> What do you mean by "that check" here?
+>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- accel/kvm/kvm-all.c       | 10 +++++++++-
- linux-headers/linux/kvm.h |  1 +
- 2 files changed, 10 insertions(+), 1 deletion(-)
+The first check of (presumably cached) last_used_idx !=3D
+shadow_used_idx. Right before the SVQ's vring fetch of
+svq->vring.used->idx.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index ed8b6b896e..3a2677d065 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3743,6 +3743,7 @@ static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
-     case KVM_STATS_UNIT_BYTES:
-     case KVM_STATS_UNIT_CYCLES:
-     case KVM_STATS_UNIT_SECONDS:
-+    case KVM_STATS_UNIT_BOOLEAN:
-         break;
-     default:
-         return stats_list;
-@@ -3761,7 +3762,10 @@ static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
-     stats->name = g_strdup(pdesc->name);
-     stats->value = g_new0(StatsValue, 1);;
- 
--    if (pdesc->size == 1) {
-+    if ((pdesc->flags & KVM_STATS_UNIT_MASK) == KVM_STATS_UNIT_BOOLEAN) {
-+        stats->value->u.boolean = *stats_data;
-+        stats->value->type = QTYPE_QBOOL;
-+    } else if (pdesc->size == 1) {
-         stats->value->u.scalar = *stats_data;
-         stats->value->type = QTYPE_QNUM;
-     } else {
-@@ -3809,6 +3813,10 @@ static StatsSchemaValueList *add_kvmschema_entry(struct kvm_stats_desc *pdesc,
-     switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
-     case KVM_STATS_UNIT_NONE:
-         break;
-+    case KVM_STATS_UNIT_BOOLEAN:
-+        schema_entry->value->has_unit = true;
-+        schema_entry->value->unit = STATS_UNIT_BOOLEAN;
-+        break;
-     case KVM_STATS_UNIT_BYTES:
-         schema_entry->value->has_unit = true;
-         schema_entry->value->unit = STATS_UNIT_BYTES;
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index 0d05d02ee4..f089349149 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -2031,6 +2031,7 @@ struct kvm_stats_header {
- #define KVM_STATS_UNIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
- #define KVM_STATS_UNIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
- #define KVM_STATS_UNIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
-+#define KVM_STATS_UNIT_BOOLEAN		(0x4 << KVM_STATS_UNIT_SHIFT)
- #define KVM_STATS_UNIT_MAX		KVM_STATS_UNIT_CYCLES
- 
- #define KVM_STATS_BASE_SHIFT		8
--- 
-2.36.1
+> >
+> > Maybe the right solution is to add it in vhost_svq_more_used after the
+> > condition (vq->last_used_idx !=3D svq->shadow_used_idx) is false?
+>
+> I'm not sure I get the goal of the smp_rmb() here. What barrier does it p=
+air?
+>
+
+It pairs with the actual device memory write.
+
+Note that I'm worried about compiler optimizations or reordering
+causing an infinite loop, not that the memory is updated properly.
+
+Let's say we just returned from vhost_svq_add, and avail_idx -
+used_idx > 0. The device still did not update SVQ vring used idx, and
+qemu is very fast so it completes a full call of vhost_svq_get_buf
+before the device is able to increment the used index. We can trace
+the full vhost_svq_get_buf without a memory barrier.
+
+If the compiler inlines enough and we delete the new smp_rmb barrier,
+this is what it sees:
+
+size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+{
+    do {
+        more_used =3D false
+        // The next conditional returns false
+        if (svq->last_used_idx !=3D svq->shadow_used_idx) {
+            goto useful;
+        }
+
+        svq->shadow_used_idx =3D cpu_to_le16(svq->vring.used->idx);
+
+        // next conditional returns false too
+        if (!(svq->last_used_idx !=3D svq->shadow_used_idx))
+            continue;
+
+useful:
+        // actual code to handle new used buffer
+        break;
+        }
+    }
+}
+
+And qemu does not need to read again none of the variables since
+nothing modifies them within the loop before "useful" tag
+(svq->vring.used->idx, svq->last_used_idx, svq->shadow_used_idx). So
+it could freely rewrite as:
+
+size_t vhost_svq_poll(VhostShadowVirtqueue *svq) {
+    if (svq->last_used_idx =3D=3D svq->shadow_used_idx &&
+        svq->last_used_idx =3D=3D svq->vring.used->idx) {
+            for (;;);
+    }
+}
+
+That's why I think the right place for the mb is right after caller
+code see (potentially cached) last_used_idx =3D=3D shadow_used_idx, and it
+needs to read a value paired with the "device's mb" in the SVQ vring.
+
+We didn't have that problem before, since we clear event_notifier
+right before the do{}while(), and event loop should hit a memory
+barrier in the next select / poll / read / whatever syscall to check
+that event notifier fd is set again.
+
+> Since we are in the busy loop, we will read the for new used_idx for
+> sure,
+
+I'm not so sure of that, but maybe I've missed something.
+
+I'm sending v3 with this comment pending, so we can iterate faster.
+
+Thanks!
+
+> and we can't forecast when the used_idx is committed to memory.
+>
 
 
