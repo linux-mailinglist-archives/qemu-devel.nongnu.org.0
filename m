@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0D44575D6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:27:51 +0200 (CEST)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48622575D70
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:29:13 +0200 (CEST)
+Received: from localhost ([::1]:59542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCGfu-0000Sj-Em
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1oCGhE-0001gp-3k
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oCGbg-0006Go-2c; Fri, 15 Jul 2022 04:23:28 -0400
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:42936)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCGeO-0007jc-4A
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:26:17 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:45875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oCGbe-0001Gy-6n; Fri, 15 Jul 2022 04:23:27 -0400
-Received: by mail-lf1-x131.google.com with SMTP id o7so6659856lfq.9;
- Fri, 15 Jul 2022 01:23:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCGeL-0001r2-Tv
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:26:15 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-31bf3656517so40223817b3.12
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 01:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DVd+5iQmuFqYg0dUI4T1ac5rJJlTpHCT+7FCvYTLgfM=;
- b=Tanpk1DRlDZk9Xlf4X1qYnqN5clYeVuf4fPNAYBLa5FzKHyy7e/yDVDKvWc1MMNbij
- bUwhnKrMCWpNsKGXFjrGnSLtiQYCqd1asQ8rq/yhKuk8fzLIgqkNh3bFfbc8K/WRwZGV
- s6WiYBLQlU+fP49r+60H9hI4GTc6dHtA36gsbWm3WSJjcHHlRp1EpQ0/YWeSz0yDxgU0
- MuzyznkHHKiveh/ZmL0fBW0oU0YEk4l/fY3O64mkT06L0qgPEM3KQz97p7JYt+09JU3r
- B+1UR2VN2QB7UxBqRY0kRiMQTwrLoKSNeAXGCvX5shDH0hM3IrsCwe2vIegiyG+Tzko2
- IvMw==
+ :cc; bh=4+e4JROKuz771w3kwRmCoJ57xO3bV3Zq7zUo8kQs2h4=;
+ b=XyvdHgZqLVoATNkid/bYH2QAphwCFxoUsbChypsWkkVirdk0STmidtbG1r+4P9P3g7
+ DXdt8NFOW8FVz1697WpLeFH28rxgs5qzlxRYAPqAyLOnZoF00hCdTeI+MIAnXZUKJeHU
+ +CHHNdRC4gWAZIWpFRaHIT0HJEr0qV3RYHyUgcbresXwK2krwX0JcD7pzSg6G83Yn/8E
+ IdCb0ysFcbckiMs57NMr32BehqWIV526Z7aYOMp0AlQLAHa0EwDnWwsIw+r+5JHFChfs
+ FTyXlUAfK2MQ7lipd1atEYPneiEIINTgJ5jAnKvo8Z05CC9aQW7OrwpnNJTBkeFbQCoF
+ aEYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DVd+5iQmuFqYg0dUI4T1ac5rJJlTpHCT+7FCvYTLgfM=;
- b=RyUkSNET0DqWmDZwx13vtkNBCuxRaqhtmIgM1RDKAUBZvRDaVGM26qQFfuKQTL/Umz
- B1s07io0Tvy5NWHUC2SjzTFTjjb4w4PPTM4/IwXW1iMZ/QXjci2RgRCiiUKmRWxfPaWR
- nAJQlufTO0qy2dG+Cx/6f14kNaZYOtj0BlepY+NLzt2JwxKjks0H06Ge/D2ZMXXa0zME
- 08XNn3mlj0gRxwlm2ay4eGN3ZHDU8nB51O/1SE/ppxK7tOQqtYecc6VIkA0qd09oXp9e
- /sv1HoXeSA2JeSMH1iK1/S8q7YcwArTy1SlRVzg9vgv01JySLEK6wiO2o38GRRl3RA9p
- RG+Q==
-X-Gm-Message-State: AJIora8AQUkpY/nIPyYUuMvYJyXgat5/fggwHcKcb0p60uDZenSoRkL6
- DVD1BfA12JWLG4AEl1zIJi3TpE9LbNXZmmIEtrY=
-X-Google-Smtp-Source: AGRyM1uIC0oh1ucy2SPati0kTs1a0zzeFQKMLAdjo07peR+c/z60ijYagss31c0y2oqdK+ohbRRlwZiL9rZFaOnQTwA=
-X-Received: by 2002:a05:6512:3f27:b0:47f:77d9:f23b with SMTP id
- y39-20020a0565123f2700b0047f77d9f23bmr7216740lfa.94.1657873403149; Fri, 15
- Jul 2022 01:23:23 -0700 (PDT)
+ bh=4+e4JROKuz771w3kwRmCoJ57xO3bV3Zq7zUo8kQs2h4=;
+ b=1dsuR240NMMRl5Z7uFcSnpg5ZQ3qKqTJ8yPIpnQaLEE+eOW6aSDhbKFsOg2at+oiGS
+ nFgwzKuO4I+XxtT1LjcsLkASsG8Tkhb/w5T0Pnqrh+BG5LoCVDBtl+b064H59MxLcMcZ
+ XYsaIprj/iULUvvu/RUQXRihmnZBHAj9D2M9vCg6K7ComceEp6aItRJJmaUOUicpOOPT
+ x0/GD7B0c9jShloqnHIKCCiewUKaVnunRLcVerlzgQvUvruxEHZzHR6Fwx9iY3d6NRXJ
+ GdTE0A2os9RgYjMCURU51sp88tmmhQFkt3io0JKbkMyqBKG/ZZWkkInJE676CjS6scEV
+ HtKQ==
+X-Gm-Message-State: AJIora9Irdx0mKtBwIqWUbvJ8L6USyVOXJYlZ2wfT+6YWaXdGrSuVSyK
+ D/GmcPvlZWwkkNpQVWDwkTdBVGWP9vcUzFvn4Jkt/w==
+X-Google-Smtp-Source: AGRyM1sH9RtfEHpQmisQA9e0ruXPpLmNRw3OqBiSmZorMxHcAbS0o9vRo1dmYVxC5ydDIqB1saP+40dpYWE7nw8iu/Q=
+X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
+ u125-20020a0deb83000000b0031c8741a033mr14859270ywe.455.1657873568146; Fri, 15
+ Jul 2022 01:26:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220713130322.25517-1-frankja@linux.ibm.com>
- <20220713130322.25517-10-frankja@linux.ibm.com>
- <CAJ+F1C+NuKMHYZWC9w0Q5DpvnyYBExqtk2agRx+7o6v_PjOcug@mail.gmail.com>
- <475e9918-aced-1d01-ec67-5615624a9256@linux.ibm.com>
-In-Reply-To: <475e9918-aced-1d01-ec67-5615624a9256@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 15 Jul 2022 12:23:11 +0400
-Message-ID: <CAJ+F1CKcNS7KFKX5OuecadjZL=PJ0auxvAYF7=BMuPWLVokB6Q@mail.gmail.com>
-Subject: Re: [PATCH v2 09/11] s390x: Introduce PV query interface
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Qemu-s390x list <qemu-s390x@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000047032d05e3d3bb50"
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x131.google.com
+References: <20220714015637.817066-1-quic_mkurapat@quicinc.com>
+ <20220714015637.817066-3-quic_mkurapat@quicinc.com>
+ <CAFEAcA9MZ-yNSY0c7MiXex1U-t3XNzQRUwXiMhJg84tYVMeyiA@mail.gmail.com>
+ <a285e9f6-9ae6-7abc-eedd-22ec1919ba99@quicinc.com>
+In-Reply-To: <a285e9f6-9ae6-7abc-eedd-22ec1919ba99@quicinc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 Jul 2022 09:25:28 +0100
+Message-ID: <CAFEAcA9Yt1nEJU+C+H4OajKrSb8rBMLoVmfrUzR-xjc6qx8yfw@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hw/sensor: max31785 : add fan status, tach target,
+ and tach input object properties
+To: Maheswara Kurapati <quic_mkurapat@quicinc.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>,
+ Graeme Gregory <quic_ggregory@quicinc.com>, 
+ Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,199 +92,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000047032d05e3d3bb50
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jul 15, 2022 at 12:18 PM Janosch Frank <frankja@linux.ibm.com>
-wrote:
-
-> On 7/15/22 10:10, Marc-Andr=C3=A9 Lureau wrote:
-> [...]
-> >>       ms->pv =3D true;
+On Thu, 14 Jul 2022 at 22:14, Maheswara Kurapati
+<quic_mkurapat@quicinc.com> wrote:
+> On 7/14/22 8:10 AM, Peter Maydell wrote:
+> > On Thu, 14 Jul 2022 at 14:04, Maheswara Kurapati
+> > <quic_mkurapat@quicinc.com> wrote:
+> >> This fix adds object properties for the FAN_COMMAND_1 (3Bh), STATUS_FANS_1_2 (81h),
+> >> READ_FAN_SPEED_1 (90h) registers for the MAX31785 instrumentation. An additional
+> >> property tach_margin_percent updates the tachs for a configured percent of
+> >> FAN_COMMAND_1 value.
 > >>
-> >> +    rc =3D s390_pv_query_info();
-> >> +    if (rc) {
-> >> +        goto out_err;
-> >>
-> >
-> > Maybe it's not necessary to make it fatal on error?
-> >
-> > lgtm otherwise
->
-> Hmm, yes and no.
-> The info API is fenced by the dump CAP so I don't ever expect an error
-> here but on the other hand an optional info API fail might not warrant
-> an error.
->
->
-I see. You could explain more explicitly in the commit messages and/or
-comments the kernel version/requirements.
+> >> Register                property
+> >> --------------------------------------
+> >> FAN_COMMAND_1 (3Bh)     fan_target
+> >> STATUS_FANS_1_2 (81h)   status_fans_1_2
+> >> READ_FAN_SPEED_1 (90h)  fan_input
+> > This commit message is missing the rationale -- why do we need this?
+> The STATUS_FANS_1_2, and READ_FAN_SPEED_1 registers are read-only. I
+> added these properties to simulate the error device faults.
 
+I'm not entirely sure what you have in mind here, but
+QEMU doesn't generally simulate device error injection.
 
+> > I am also not sure that we should be defining properties that are
+> > just straight 1:1 with the device registers. Compare the way we
+> > handle temperature-sensor values, where the property values are
+> > defined in a generic manner (same units representation) regardless
+> > of the underlying device and the device's property-set-get implementation
+> > then handles converting that to and from whatever internal implementation
+> > representation the device happens to use.
 
-> >
-> >
-> >> +    }
-> >> +
-> >>       /* Set SE header and unpack */
-> >>       rc =3D s390_ipl_prepare_pv_header();
-> >>       if (rc) {
-> >> diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-> >> index 1f1f545bfc..6fa55bf70e 100644
-> >> --- a/include/hw/s390x/pv.h
-> >> +++ b/include/hw/s390x/pv.h
-> >> @@ -38,6 +38,7 @@ static inline bool s390_is_pv(void)
-> >>       return ccw->pv;
-> >>   }
-> >>
-> >> +int s390_pv_query_info(void);
-> >>   int s390_pv_vm_enable(void);
-> >>   void s390_pv_vm_disable(void);
-> >>   int s390_pv_set_sec_parms(uint64_t origin, uint64_t length);
-> >> @@ -46,8 +47,13 @@ void s390_pv_prep_reset(void);
-> >>   int s390_pv_verify(void);
-> >>   void s390_pv_unshare(void);
-> >>   void s390_pv_inject_reset_error(CPUState *cs);
-> >> +uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
-> >> +uint64_t kvm_s390_pv_dmp_get_size_mem(void);
-> >> +uint64_t kvm_s390_pv_dmp_get_size_complete(void);
-> >> +bool kvm_s390_pv_info_basic_valid(void);
-> >>   #else /* CONFIG_KVM */
-> >>   static inline bool s390_is_pv(void) { return false; }
-> >> +static inline int s390_pv_query_info(void) { return 0; }
-> >>   static inline int s390_pv_vm_enable(void) { return 0; }
-> >>   static inline void s390_pv_vm_disable(void) {}
-> >>   static inline int s390_pv_set_sec_parms(uint64_t origin, uint64_t
-> length)
-> >> { return 0; }
-> >> @@ -56,6 +62,10 @@ static inline void s390_pv_prep_reset(void) {}
-> >>   static inline int s390_pv_verify(void) { return 0; }
-> >>   static inline void s390_pv_unshare(void) {}
-> >>   static inline void s390_pv_inject_reset_error(CPUState *cs) {};
-> >> +static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0;=
- }
-> >> +static inline uint64_t kvm_s390_pv_dmp_get_size_mem(void) { return 0;=
- }
-> >> +static inline uint64_t kvm_s390_pv_dmp_get_size_complete(void) { retu=
-rn
-> >> 0; }
-> >> +static inline bool kvm_s390_pv_info_basic_valid(void) { return false;=
- }
-> >>   #endif /* CONFIG_KVM */
-> >>
-> >>   int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-> >> --
-> >> 2.34.1
-> >>
-> >>
-> >>
-> >
->
->
+> I am not sure I understood your comment.  I checked hw/sensors/tmp105.c,
+> in which a "temperature" property is added for the tmp_input field in
+> almost the similar way what I did, except that the registers in the
+> MAX31785 are in direct format.
 
---=20
-Marc-Andr=C3=A9 Lureau
+Yes, that is my point. My impression is that you've provided
+properties that directly match the register format of this
+device because that's easy. I think that instead we should
+consider what the properties are intended to do, and perhaps
+have a standard convention for what format to use for particular
+kinds of data, as we do for temperature already.
 
---00000000000047032d05e3d3bb50
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 15, 2022 at 12:18 PM Jano=
-sch Frank &lt;<a href=3D"mailto:frankja@linux.ibm.com">frankja@linux.ibm.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On 7/15/22 10:10, Marc-Andr=C3=A9 Lureau wrote:<br>
-[...]<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ms-&gt;pv =3D true;<br>
-&gt;&gt;<br>
-&gt;&gt; +=C2=A0 =C2=A0 rc =3D s390_pv_query_info();<br>
-&gt;&gt; +=C2=A0 =C2=A0 if (rc) {<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out_err;<br>
-&gt;&gt;<br>
-&gt; <br>
-&gt; Maybe it&#39;s not necessary to make it fatal on error?<br>
-&gt; <br>
-&gt; lgtm otherwise<br>
-<br>
-Hmm, yes and no.<br>
-The info API is fenced by the dump CAP so I don&#39;t ever expect an error =
-<br>
-here but on the other hand an optional info API fail might not warrant <br>
-an error.<br>
-<br></blockquote><div><br></div><div>I see. You could explain more explicit=
-ly in the commit messages and/or comments the kernel version/requirements.<=
-/div><div><br></div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-&gt; <br>
-&gt; <br>
-&gt;&gt; +=C2=A0 =C2=A0 }<br>
-&gt;&gt; +<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Set SE header and unpack */<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D s390_ipl_prepare_pv_header();<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (rc) {<br>
-&gt;&gt; diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h<br>
-&gt;&gt; index 1f1f545bfc..6fa55bf70e 100644<br>
-&gt;&gt; --- a/include/hw/s390x/pv.h<br>
-&gt;&gt; +++ b/include/hw/s390x/pv.h<br>
-&gt;&gt; @@ -38,6 +38,7 @@ static inline bool s390_is_pv(void)<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return ccw-&gt;pv;<br>
-&gt;&gt;=C2=A0 =C2=A0}<br>
-&gt;&gt;<br>
-&gt;&gt; +int s390_pv_query_info(void);<br>
-&gt;&gt;=C2=A0 =C2=A0int s390_pv_vm_enable(void);<br>
-&gt;&gt;=C2=A0 =C2=A0void s390_pv_vm_disable(void);<br>
-&gt;&gt;=C2=A0 =C2=A0int s390_pv_set_sec_parms(uint64_t origin, uint64_t le=
-ngth);<br>
-&gt;&gt; @@ -46,8 +47,13 @@ void s390_pv_prep_reset(void);<br>
-&gt;&gt;=C2=A0 =C2=A0int s390_pv_verify(void);<br>
-&gt;&gt;=C2=A0 =C2=A0void s390_pv_unshare(void);<br>
-&gt;&gt;=C2=A0 =C2=A0void s390_pv_inject_reset_error(CPUState *cs);<br>
-&gt;&gt; +uint64_t kvm_s390_pv_dmp_get_size_cpu(void);<br>
-&gt;&gt; +uint64_t kvm_s390_pv_dmp_get_size_mem(void);<br>
-&gt;&gt; +uint64_t kvm_s390_pv_dmp_get_size_complete(void);<br>
-&gt;&gt; +bool kvm_s390_pv_info_basic_valid(void);<br>
-&gt;&gt;=C2=A0 =C2=A0#else /* CONFIG_KVM */<br>
-&gt;&gt;=C2=A0 =C2=A0static inline bool s390_is_pv(void) { return false; }<=
-br>
-&gt;&gt; +static inline int s390_pv_query_info(void) { return 0; }<br>
-&gt;&gt;=C2=A0 =C2=A0static inline int s390_pv_vm_enable(void) { return 0; =
-}<br>
-&gt;&gt;=C2=A0 =C2=A0static inline void s390_pv_vm_disable(void) {}<br>
-&gt;&gt;=C2=A0 =C2=A0static inline int s390_pv_set_sec_parms(uint64_t origi=
-n, uint64_t length)<br>
-&gt;&gt; { return 0; }<br>
-&gt;&gt; @@ -56,6 +62,10 @@ static inline void s390_pv_prep_reset(void) {}<=
-br>
-&gt;&gt;=C2=A0 =C2=A0static inline int s390_pv_verify(void) { return 0; }<b=
-r>
-&gt;&gt;=C2=A0 =C2=A0static inline void s390_pv_unshare(void) {}<br>
-&gt;&gt;=C2=A0 =C2=A0static inline void s390_pv_inject_reset_error(CPUState=
- *cs) {};<br>
-&gt;&gt; +static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { retur=
-n 0; }<br>
-&gt;&gt; +static inline uint64_t kvm_s390_pv_dmp_get_size_mem(void) { retur=
-n 0; }<br>
-&gt;&gt; +static inline uint64_t kvm_s390_pv_dmp_get_size_complete(void) { =
-return<br>
-&gt;&gt; 0; }<br>
-&gt;&gt; +static inline bool kvm_s390_pv_info_basic_valid(void) { return fa=
-lse; }<br>
-&gt;&gt;=C2=A0 =C2=A0#endif /* CONFIG_KVM */<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 =C2=A0int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Er=
-ror **errp);<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.34.1<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt; <br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000047032d05e3d3bb50--
+-- PMM
 
