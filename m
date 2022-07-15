@@ -2,78 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F615762CD
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:29:47 +0200 (CEST)
-Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453BC5762DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:35:00 +0200 (CEST)
+Received: from localhost ([::1]:52844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCLO6-0005XE-Ma
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:29:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
+	id 1oCLT8-0008EJ-Vi
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCLM3-0003lh-GC
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:27:41 -0400
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:42777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCLLy-00035T-D4
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:27:36 -0400
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-2ef5380669cso46672787b3.9
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CI5UFv/JONNJcJ5+eMk3JbgdHEfCIFIKDxiDwGVweRE=;
- b=O6+us56d0VCaDxRd50DaU0qKQxZdhM5y4h2r9D3gZ/4nwbm85xeVyFOrjpxw8GC5GS
- 3bXevl8NIpD8aIASF435KDBd3hjq0FVbBGOtcr7SrOdzldGjMdUIuXhpRyfGlg6iHHvB
- Byq1vx+0Ydyy9d6yn/312A+nu0Km28ZmFsQFRRK5RJbfGNHj1dSIjl5VnS86NLjlFcex
- zD/cYb5E/j/VfaJ2wCpb3208XQCzUiT7iLdGNUrm7ZnEo9ipa+sCgPttear6ZOMZw07p
- X12lcZjPjDeCOFV+wr+N/o3r5oz8ai1N4Vc7K/aqV3y8KWhyxdMVg0p24tfGstFKQ3LS
- kcxQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oCLRH-0006GV-CL
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:33:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21051)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oCLRE-0004KT-Jv
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:33:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1657891979;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g+C23Fk42KScF98rGV7MOv6k6GsyiGYfeMsiydwl1SA=;
+ b=CKQdJr1wcXhDuyz8u9dbNW5i3UCwQQvBNl32UEdEm2BCluqNQ7uXrhxJ0HQaNjEIdJ0okL
+ cHeXYmX6Bk808nyYag9axDRI0dKbJamk6u7hZkcpuahqGXPy6MsB2V7r/tOCErcy+ffq/j
+ DPK0tr5bEjcO+ntqPyT8jVKHdRTxcbo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-163-dAoJtievNmaHFEmrBqNoSQ-1; Fri, 15 Jul 2022 09:32:58 -0400
+X-MC-Unique: dAoJtievNmaHFEmrBqNoSQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ c9-20020a05640227c900b0043ad14b1fa0so3494999ede.1
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:32:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CI5UFv/JONNJcJ5+eMk3JbgdHEfCIFIKDxiDwGVweRE=;
- b=q557uKOIQSGn+PzhqM9quMLXv7j51xL8OkVUezwcd9oIWsxTNkUFwW97P8q7FxgqqC
- FmnDCI2EjBVY4ug6JUZ3fqiRMMLjIbm0pKPGP6WW+1ZhPdHgVqmhhNLJG0pBwvl26SUg
- JB8ohBN1tDQ1EIm5O4AaG8eJZEl5Ebkd7A3rCMa6jmU7xLvDbP7QViUoFQI3xlaE4a+B
- 0l3mtL2ijuydAnYnjhDAgxtkNy/xP6y4czhn26SaZWUB0Cad2Ym9SqOnzXyYBaXIlSYM
- KhUSY8KCV7M3AHrN9c1J6oll9GHArCDmfSsN89CRYHmK8BJTUwITy9i6Gc2hxfyfUfCR
- 8N8g==
-X-Gm-Message-State: AJIora/WejKGMJsNbmubYaLR/Pp1YbNHANlLRGq6iRRvhh0tpGO1jF9W
- MEidpFv/sVDt2jRA9cAO8eJhjfj3YMIdQuOm3eaddA==
-X-Google-Smtp-Source: AGRyM1sAyp/kJAo/pC0/PTAf3udiL2JxYWctAbid3SZE2/MnztVizB1O9NAr/5yKuQ9Nkxe6G1cvdzOu/6xOPojixSo=
-X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
- z7-20020a81a247000000b0031d72dae931mr15900518ywg.469.1657891653095; Fri, 15
- Jul 2022 06:27:33 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=g+C23Fk42KScF98rGV7MOv6k6GsyiGYfeMsiydwl1SA=;
+ b=RMRBqcA139uHzIWdDYEZIn4QsSZ5lSTmJSJk3+K4wt1WM1B9M9bmhSicB+xxFtCkMZ
+ jiILswLuM3CJhKqA27D7+PK5Bfyd3jK3tnM3lm+TP+9SBGyNz3BEmKau2+4Uqmqs0Irc
+ qsJY3hgDw/PF2/ncJ7Lkev39UEVVoBl8hvfnVSE5jNnykORM4Eqhtn3Mq9Gq4zvemegI
+ 6F7asS7iA+k3dmG1heK6TPl6NwXJPk84m6vONJ+Sp4ezrCmDzw+NXz0ARlzrBSaduWqE
+ DnqysgYyQLwF32vUPrsduJfY8fMtj0KcU0w1WWdKA9VLSMNmVBKWBhB5UAJ2nNwMYf2j
+ sOhQ==
+X-Gm-Message-State: AJIora8t4i7HRXccsBWWjUWDlgvlseQz9otwK9AbbSjCucscqlhouL3h
+ un0HVPCpQQT1G2p232M6oIr8uKf69YYQ0PNuQKw34WgyWk/Krq6D51WijDSazzrCoFXKpjhu6SX
+ bAZdaUaR8wIULuXI=
+X-Received: by 2002:a05:6402:2786:b0:43a:dc4e:ea63 with SMTP id
+ b6-20020a056402278600b0043adc4eea63mr19441278ede.175.1657891976208; 
+ Fri, 15 Jul 2022 06:32:56 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tLTcrMZzZGAi1JwOcDOIEQOv8q3xv2RWWDx8toE9sg3H1gABuY50kOne9+5sV7eNGBigciMg==
+X-Received: by 2002:a05:6402:2786:b0:43a:dc4e:ea63 with SMTP id
+ b6-20020a056402278600b0043adc4eea63mr19441225ede.175.1657891975775; 
+ Fri, 15 Jul 2022 06:32:55 -0700 (PDT)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
+ by smtp.gmail.com with ESMTPSA id
+ b6-20020aa7cd06000000b004355998ec1asm2782666edw.14.2022.07.15.06.32.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jul 2022 06:32:54 -0700 (PDT)
+Message-ID: <b4146d6b-3879-f6f9-d573-5c5289afb593@redhat.com>
+Date: Fri, 15 Jul 2022 15:32:53 +0200
 MIME-Version: 1.0
-References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
- <20220715114039.59790-2-akihiko.odaki@gmail.com>
- <CAFEAcA96_AX=UDrY=69kaSLvh+8DsEjzpkt=maL5r-O4e1wH5g@mail.gmail.com>
- <d6f14a76-d0c6-f5b9-93bd-2235b3a5383c@gmail.com>
-In-Reply-To: <d6f14a76-d0c6-f5b9-93bd-2235b3a5383c@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 14:26:54 +0100
-Message-ID: <CAFEAcA9xpo7i-Wb-kNJp_GqJ3UWRb3DKXjPfrDLKW-680swQdA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] ui/cocoa: Run qemu_init in the main thread
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
+ _can_set_ and _set_
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
+References: <20220712211911.1302836-1-eesposit@redhat.com>
+ <20220712211911.1302836-8-eesposit@redhat.com>
+From: Hanna Reitz <hreitz@redhat.com>
+In-Reply-To: <20220712211911.1302836-8-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,102 +106,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jul 2022 at 14:19, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+On 12.07.22 23:19, Emanuele Giuseppe Esposito wrote:
+> Replace all direct usage of ->can_set_aio_ctx and ->set_aio_ctx,
+> and call bdrv_child_try_change_aio_context() in
+> bdrv_try_set_aio_context(), the main function called through
+> the whole block layer.
 >
-> On 2022/07/15 22:10, Peter Maydell wrote:
-> > On Fri, 15 Jul 2022 at 12:40, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
-> >>
-> >> This work is based on:
-> >> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
-> >>
-> >> Simplify the initialization dance by running qemu_init() in the main
-> >> thread before the Cocoa event loop starts. The secondary thread only
-> >> runs only qemu_main_loop() and qemu_cleanup().
-> >>
-> >> This fixes a case where addRemovableDevicesMenuItems() calls
-> >> qmp_query_block() while expecting the main thread to still hold
-> >> the BQL.
-> >>
-> >> Overriding the code after calling qemu_init() is done by dynamically
-> >> replacing a function pointer variable, qemu_main when initializing
-> >> ui/cocoa, which unifies the static implementation of main() for
-> >> builds with ui/cocoa and ones without ui/cocoa.
-> >>
-> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> >
-> >> @@ -585,7 +583,7 @@ - (void) updateUIInfo
-> >>           /*
-> >>            * Don't try to tell QEMU about UI information in the application
-> >>            * startup phase -- we haven't yet registered dcl with the QEMU UI
-> >> -         * layer, and also trying to take the iothread lock would deadlock.
-> >> +         * layer.
-> >>            * When cocoa_display_init() does register the dcl, the UI layer
-> >>            * will call cocoa_switch(), which will call updateUIInfo, so
-> >>            * we don't lose any information here.
-> >
-> > This comment says that we can't use the dcl while allow_events is false...
-> >
-> >> @@ -778,16 +776,6 @@ - (void) handleMonitorInput:(NSEvent *)event
-> >>
-> >>   - (bool) handleEvent:(NSEvent *)event
-> >>   {
-> >> -    if(!allow_events) {
-> >> -        /*
-> >> -         * Just let OSX have all events that arrive before
-> >> -         * applicationDidFinishLaunching.
-> >> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
-> >> -         * will not drop until after the app_started_sem is posted. (In theory
-> >> -         * there should not be any such events, but OSX Catalina now emits some.)
-> >> -         */
-> >> -        return false;
-> >> -    }
-> >
-> > ...so don't we want to also retain this check of allow_events ?
-> > Much of the code in handleEventLocked assumes the dcl has been registered.
-> >
-> >>       return bool_with_iothread_lock(^{
-> >>           return [self handleEventLocked:event];
-> >>       });
-> >
-> >> @@ -1915,92 +1898,35 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
-> >>   /*
-> >>    * The startup process for the OSX/Cocoa UI is complicated, because
-> >>    * OSX insists that the UI runs on the initial main thread, and so we
-> >> - * need to start a second thread which runs the vl.c qemu_main():
-> >> - *
-> >> - * Initial thread:                    2nd thread:
-> >> - * in main():
-> >> - *  create qemu-main thread
-> >> - *  wait on display_init semaphore
-> >> - *                                    call qemu_main()
-> >> - *                                    ...
-> >> - *                                    in cocoa_display_init():
-> >> - *                                     post the display_init semaphore
-> >> - *                                     wait on app_started semaphore
-> >> - *  create application, menus, etc
-> >> - *  enter OSX run loop
-> >> - * in applicationDidFinishLaunching:
-> >> - *  post app_started semaphore
-> >> - *                                     tell main thread to fullscreen if needed
-> >> - *                                    [...]
-> >> - *                                    run qemu main-loop
-> >> - *
-> >> - * We do this in two stages so that we don't do the creation of the
-> >> - * GUI application menus and so on for command line options like --help
-> >> - * where we want to just print text to stdout and exit immediately.
-> >
-> > Could we have an updated version of this diagram that explains the
-> > new startup process, please ?
+>  From this point onwards, ->can_set_aio_ctx and ->set_aio_ctx
+> won't be used anymore.
 >
-> I don't think the diagram is appropriate anymore. It was necessary to
-> describe the synchronization between the initial thread and the second
-> thread, but they do no longer synchronize at all.
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>   block.c               | 30 ++++++++++++++++--------------
+>   block/block-backend.c |  8 ++++++--
+>   2 files changed, 22 insertions(+), 16 deletions(-)
+>
+> diff --git a/block.c b/block.c
+> index a7ba590dfa..101188a2d4 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -2966,17 +2966,18 @@ static void bdrv_attach_child_common_abort(void *opaque)
+>       }
+>   
+>       if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
+> +        Transaction *tran;
+>           GSList *ignore;
+> +        bool ret;
+>   
+> -        /* No need to ignore `child`, because it has been detached already */
+> -        ignore = NULL;
+> -        child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
+> -                                      &error_abort);
+> -        g_slist_free(ignore);
+> +        tran = tran_new();
+>   
+> +        /* No need to ignore `child`, because it has been detached already */
+>           ignore = NULL;
+> -        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
+> +        ret = child->klass->change_aio_ctx(child, s->old_parent_ctx, &ignore,
+> +                                           tran, &error_abort);
+>           g_slist_free(ignore);
+> +        tran_finalize(tran, ret ? ret : -1);
 
-But there are still two threads, and the sequence of events is
-not exactly obvious given that things happen in several different
-functions. A summary of the expected sequence of events during
-startup is still useful to have, I think.
+As far as I understand, the transaction is supposed to always succeed; 
+that’s why we pass `&error_abort`, I thought.
 
-thanks
--- PMM
+If so, `ret` should always be true.  More importantly, though, I think 
+the `ret ? ret : -1` is wrong because it’ll always evaluate to either 1 
+or -1, but never to 0, which would indicate success.  I think it should 
+be `ret == true ? 0 : -1`, or even better `assert(ret == true); 
+tran_finalize(tran, 0);`.
+
+>       }
+>   
+>       bdrv_unref(bs);
+> @@ -3037,17 +3038,18 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+>           Error *local_err = NULL;
+>           int ret = bdrv_try_set_aio_context(child_bs, parent_ctx, &local_err);
+>   
+> -        if (ret < 0 && child_class->can_set_aio_ctx) {
+> +        if (ret < 0 && child_class->change_aio_ctx) {
+> +            Transaction *tran = tran_new();
+>               GSList *ignore = g_slist_prepend(NULL, new_child);
+> -            if (child_class->can_set_aio_ctx(new_child, child_ctx, &ignore,
+> -                                             NULL))
+> -            {
+> +            bool ret_child;
+> +
+> +            ret_child = child_class->change_aio_ctx(new_child, child_ctx,
+> +                                                    &ignore, tran, NULL);
+> +            if (ret_child) {
+
+To be honest, due to the mix of return value styles we have, perhaps a 
+`ret_child == true` would help to signal that this is a success path.
+
+>                   error_free(local_err);
+>                   ret = 0;
+> -                g_slist_free(ignore);
+> -                ignore = g_slist_prepend(NULL, new_child);
+> -                child_class->set_aio_ctx(new_child, child_ctx, &ignore);
+>               }
+> +            tran_finalize(tran, ret_child ? ret_child : -1);
+
+This too should probably be `ret_child == true ? 0 : -1`.
+
+>               g_slist_free(ignore);
+>           }
+>   
+> @@ -7708,7 +7710,7 @@ int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>                                Error **errp)
+>   {
+>       GLOBAL_STATE_CODE();
+> -    return bdrv_child_try_set_aio_context(bs, ctx, NULL, errp);
+> +    return bdrv_child_try_change_aio_context(bs, ctx, NULL, errp);
+
+Why not remove this function and adjust all callers?
+
+Hanna
+
+>   }
+>   
+>   void bdrv_add_aio_context_notifier(BlockDriverState *bs,
+
 
