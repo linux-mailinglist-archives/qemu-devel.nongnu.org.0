@@ -2,90 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B246C576661
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:52:00 +0200 (CEST)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE8F5766BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 20:29:46 +0200 (CEST)
+Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCPTr-00088I-Uk
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:51:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51968)
+	id 1oCQ4P-0007rx-Dc
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 14:29:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oCPRZ-0006Rt-O2; Fri, 15 Jul 2022 13:49:37 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:33741)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oCQ3G-0006TR-QE; Fri, 15 Jul 2022 14:28:34 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18404)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oCPRX-0000Jz-LZ; Fri, 15 Jul 2022 13:49:37 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id BEA4E580DF2;
- Fri, 15 Jul 2022 13:49:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 15 Jul 2022 13:49:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1657907374; x=1657910974; bh=03l/wDsd2k
- iG51AwI6jc3ksKXPi/Qe/4W9rRlobhhs8=; b=cHLd1v7OJBUp5Zi5+5OdtD1PGS
- +q6Ce1J3xHdmqvvM+xSxz2SUDqb2oR0pshEG1P8nAltdamYS+q0aXtAloagNsDI6
- KsWjqt/kwrutmXMfBCqnP13Z5YvT+cRfV6rPZE+CcLdtOJXE85OuPrHzr5ORNdoO
- ROIWYPGI17tMG3UlEbNpuxqe1SaZYy/SGU0w8lyjthZaZU0v9QuJDfUvFeshHqGS
- l4WLfQk20hNv4BhsWfpXSoHmSkkmWIWp3FL/6H5DJPdzLfssGZs/UXY4TyNvK7xd
- ks/xoLkmwQ229isgnR/XHkLdEHU2KZ/GR97cS50e5+31rv1FqUBm/6VwABfg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1657907374; x=1657910974; bh=03l/wDsd2kiG51AwI6jc3ksKXPi/
- Qe/4W9rRlobhhs8=; b=S0FyBN2KZihLWOLC6ZtR6xmkszKhj/Ue0131Kpv13p96
- OL4T2pS/KrxfFMvZT1mfY+30+9D0dFKoq0vvII2mlKZx8o+Ir5UDjBUIu+k9g9EH
- HibEf6a5+lEyc2VRrfJ8Mx1eNCYlQxbYXnvh9s93t+umEddVEwjIvO3XbJGjQGSp
- zT34Sq7PJtNXTeM2RTJnxPKcEXPfeIu9qWperf07EYFwXyxMceTVJzoWQEY61l+2
- lIVqQTJ68fNs+9FiuMRrRVvIc3us7rqts6vrxm655Asp4+XjIRBdqbYtofNnN5GC
- mcWEi4Z3eKS1Pg0gnff1j+SIZv5wXSxi1i47cqtkQw==
-X-ME-Sender: <xms:rqjRYjPoyzqeKxltro-q_v3OEwf62ecl6JLeeLg3tOk_UYYfeocZfA>
- <xme:rqjRYt_Lacyc5lX8zggP6w5j3EIaSLejJTu75hQBEi-IYx9KJhUIeZDoJEPhxEw4j
- TCQcIGR3B62HYzNz3s>
-X-ME-Received: <xmr:rqjRYiSAKmHeqDiguRcBPCHb25k6qLV4BBEXYatayXnT2kk2T54w7Y5SQ2YLALUYkG4k5wEnjcmK0naqkscwtg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekuddguddvtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
- feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:rqjRYntTTCwTlzpRYoGeMGLqiCFv2cTMi-ELJiP9tlkgwHsNc4ppVA>
- <xmx:rqjRYrfRJ0vfti9kM-j3n4zqEt_B_3Md6RnoGrexBiQpwaJSEyJDSA>
- <xmx:rqjRYj1R-U2fZ0esh1wcspsEStmiOqCAEr6AIupUHoL-hzdmJGWjqw>
- <xmx:rqjRYn7BEW0cvbRoZE6WeHG8zjQdPLcQnM5_avOnRP_iUzIZCUUSIg>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Jul 2022 13:49:33 -0400 (EDT)
-Date: Fri, 15 Jul 2022 10:49:31 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Klaus Jensen <k.jensen@samsung.com>
-Cc: clg@kaod.org, cminyard@mvista.com, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: Re: [RFC] aspeed/i2c: multi-master between SoC's
-Message-ID: <YtGoq/u+PhZHCg7n@pdel-mbp.dhcp.thefacebook.com>
-References: <CGME20220715030653eucas1p1424b94eec7ad76c32ab478916e64d337@eucas1p1.samsung.com>
- <YtDZxbUWbqO9zIKk@pdel-mbp.dhcp.thefacebook.com>
- <YtEcJlagrpVajaeM@apples>
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oCQ3E-00031s-FC; Fri, 15 Jul 2022 14:28:34 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FGLurW027674;
+ Fri, 15 Jul 2022 18:28:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=d+fP5T+qnGBf/KxL6ZRc2VpsYJUn7bAKRYjMEsFojcU=;
+ b=MVHqBeUWJi6P/2nB9Z9d39cffn14UkILl6XN2Vr9o6gjnr4QqV7WmWE+w4Ia2RHPBkrq
+ 7rTenJks0vvjUfH3eFh7QlzWoqRPukQ3wv0orhLmiACPKOr4cT8MMmPZNJDDUGTVTjlx
+ QrT26D10PUHKlpa06Bix5ow4jMp38Y3C9dLXyj4Vr/LlUDGFFEwlckCCQuYkYm/D+fG3
+ JWQZHddXfADrNkI43wSYPbLKAlZmkUkEvvx6yzMFFtGoOC68uyuIzOM5zAXONvp1uCiJ
+ M1aEOwM2o9TxC/pS9/Xn6AhgtHOTo9Af9erSZxi84PdyA8TMP9Lkk6/2lXMK0bItblWA iQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hbbpr2ed1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 18:28:26 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26FH8B9K004079;
+ Fri, 15 Jul 2022 18:28:26 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hbbpr2ec8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 18:28:25 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26FIKNBL019325;
+ Fri, 15 Jul 2022 18:28:24 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03ams.nl.ibm.com with ESMTP id 3h71a90qn1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 18:28:23 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26FISK6120513158
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jul 2022 18:28:20 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B86E8A4040;
+ Fri, 15 Jul 2022 18:28:20 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0E613A404D;
+ Fri, 15 Jul 2022 18:28:19 +0000 (GMT)
+Received: from [9.171.80.75] (unknown [9.171.80.75])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 15 Jul 2022 18:28:17 +0000 (GMT)
+Message-ID: <a5f10560-7243-358d-dabe-3ad8ac8a9e80@linux.ibm.com>
+Date: Fri, 15 Jul 2022 20:28:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 00/12] s390x: CPU Topology
+Content-Language: en-US
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <6ad0e006-72ee-3e24-48ed-fc8dd49db130@linux.ibm.com>
+ <9c554788-aa51-d0fb-193b-f01ad266b256@linux.ibm.com>
+ <df9e6199-21e5-7044-8793-9b088c5ff29c@linux.ibm.com>
+ <040c0a83-a987-0daa-531d-97e149e6e96a@linux.ibm.com>
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+In-Reply-To: <040c0a83-a987-0daa-531d-97e149e6e96a@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: M212W3k7G6oQ_ONJObsLiwiJZx0jZAk5
+X-Proofpoint-GUID: BYWm0cPBEIUHoxS3dtM907k2a-1y0Mf8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YtEcJlagrpVajaeM@apples>
-Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
- helo=new1-smtp.messagingengine.com
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-15_09,2022-07-15_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 priorityscore=1501 clxscore=1015 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207150081
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM28=0.798, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,83 +125,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 15, 2022 at 09:49:58AM +0200, Klaus Jensen wrote:
-> On Jul 14 20:06, Peter Delevoryas wrote:
-> > Hey Cedric, Klaus, and Corey,
-> > 
+On 7/15/22 15:47, Pierre Morel wrote:
 > 
-> Hi Peter,
 > 
-> Regardless of the issues you are facing its awesome to see this being
-> put to work like this!
+> On 7/15/22 11:31, Janis Schoetterl-Glausch wrote:
+>> On 7/14/22 22:05, Pierre Morel wrote:
+>>>
+>>>
+>>> On 7/14/22 20:43, Janis Schoetterl-Glausch wrote:
+>>>> On 6/20/22 16:03, Pierre Morel wrote:
+>>>>> Hi,
+>>>>>
+>>>>> This new spin is essentially for coherence with the last Linux CPU
+>>>>> Topology patch, function testing and coding style modifications.
+>>>>>
+>>>>> Forword
+>>>>> =======
+>>>>>
+>>>>> The goal of this series is to implement CPU topology for S390, it
+>>>>> improves the preceeding series with the implementation of books and
+>>>>> drawers, of non uniform CPU topology and with documentation.
+>>>>>
+>>>>> To use these patches, you will need the Linux series version 10.
+>>>>> You find it there:
+>>>>> https://lkml.org/lkml/2022/6/20/590
+>>>>>
+>>>>> Currently this code is for KVM only, I have no idea if it is interesting
+>>>>> to provide a TCG patch. If ever it will be done in another series.
+>>>>>
+>>>>> To have a better understanding of the S390x CPU Topology and its
+>>>>> implementation in QEMU you can have a look at the documentation in the
+>>>>> last patch or follow the introduction here under.
+>>>>>
+>>>>> A short introduction
+>>>>> ====================
+>>>>>
+>>>>> CPU Topology is described in the S390 POP with essentially the description
+>>>>> of two instructions:
+>>>>>
+>>>>> PTF Perform Topology function used to poll for topology change
+>>>>>       and used to set the polarization but this part is not part of this item.
+>>>>>
+>>>>> STSI Store System Information and the SYSIB 15.1.x providing the Topology
+>>>>>       configuration.
+>>>>>
+>>>>> S390 Topology is a 6 levels hierarchical topology with up to 5 level
+>>>>>       of containers. The last topology level, specifying the CPU cores.
+>>>>>
+>>>>>       This patch series only uses the two lower levels sockets and cores.
+>>>>>            To get the information on the topology, S390 provides the STSI
+>>>>>       instruction, which stores a structures providing the list of the
+>>>>>       containers used in the Machine topology: the SYSIB.
+>>>>>       A selector within the STSI instruction allow to chose how many topology
+>>>>>       levels will be provide in the SYSIB.
+>>>>>
+>>>>>       Using the Topology List Entries (TLE) provided inside the SYSIB we
+>>>>>       the Linux kernel is able to compute the information about the cache
+>>>>>       distance between two cores and can use this information to take
+>>>>>       scheduling decisions.
+>>>>
+>>>> Do the socket, book, ... metaphors and looking at STSI from the existing
+>>>> smp infrastructure even make sense?
+>>>
+>>> Sorry, I do not understand.
+>>> I admit the cover-letter is old and I did not rewrite it really good since the first patch series.
+>>>
+>>> What we do is:
+>>> Compute the STSI from the SMP + numa + device QEMU parameters .
+>>>
+>>>>
+>>>> STSI 15.1.x reports the topology to the guest and for a virtual machine,
+>>>> this topology can be very dynamic. So a CPU can move from from one topology
+>>>> container to another, but the socket of a cpu changing while it's running seems
+>>>> a bit strange. And this isn't supported by this patch series as far as I understand,
+>>>> the only topology changes are on hotplug.
+>>>
+>>> A CPU changing from a socket to another socket is the only case the PTF instruction reports a change in the topology with the case a new CPU is plug in.
+>>
+>> Can a CPU actually change between sockets right now?
+> 
+> To be exact, what I understand is that a shared CPU can be scheduled to another real CPU exactly as a guest vCPU can be scheduled by the host to another host CPU.
 
-Haha yeah, well, _all_ the designs at Meta (fb) rely significantly on
-multi-master i2c. I think I've been trying to get this working for months now,
-but we're really close!
+Ah, ok, this is what I'm forgetting, and what made communication harder,
+there are two ways by which the topology can change:
+1. the host topology changes
+2. the vCPU threads are scheduled on another host CPU
 
-If I can just get the i2c layer working, then proper IPMB and MCTP testing
-between BMC and BIC firmware will be much easier.
+I've been only thinking about the 2.
+I assumed some outside entity (libvirt?) pins vCPU threads, and so it would
+be the responsibility of that entity to set the topology which then is 
+reported to the guest. So if you pin vCPUs for the whole lifetime of the vm
+then you could do that by specifying the topology up front with -devices.
+If you want to support migration, then the outside entity would need a way
+to tell qemu the updated topology.
+ 
+> 
+>> The socket-id is computed from the core-id, so it's fixed, is it not?
+> 
+> the virtual socket-id is computed from the virtual core-id
 
-There's some part defects that have a very low frequency of occurrence, and the
-patches for those defects rely on a BMC <-> BIC <-> <device> chain of IPMB
-messages. With QEMU, we could test those patches much more thoroughly, because
-we can inject the part-defect behavior.
+Meaning cpu.env.core_id, correct? (which is the same as cpu.cpu_index which is the same as
+ms->possible_cpus->cpus[core_id].props.core_id)
+And a cpu's core id doesn't change during the lifetime of the vm, right?
+And so it's socket id doesn't either.
 
 > 
-> > So I realized something about the current state of multi-master i2c:
-> > 
-> > We can't do transfers between two Aspeed I2C controllers, e.g.  AST1030 <->
-> > AST2600. I'm looking into this case in the new fby35 machine (which isn't even
-> > merged yet, just in Cedric's pull request)
-> > 
-> > This is because the AspeedI2CBusSlave is only designed to receive through
-> > i2c_send_async(). But the AspeedI2CBus master-mode transfers use i2c_send().
-> > 
-> > So, the AST2600 can't send data to the AST1030. And the AST1030 can't reply to
-> > the AST2600.
-> > 
-> > (By the way, another small issue: AspeedI2CBusSlave expects the parent of its
-> > parent to be its AspeedI2CBus, but that's not true if multiple SoC's are sharing
-> > an I2CBus. But that's easy to resolve, I'll send a patch for that soon).
-> > 
-> > I'm wondering how best to resolve the multi-SoC send-async issue, while
-> > retaining the ability to send synchronously to non-SoC slave devices.
-> > 
-> > I think there's only one way, as far as I can see:
-> > 
-> > - Force the Aspeed I2C Controller to master the I2C bus before starting a master
-> >   transfer. Even for synchronous transfers.
-> > 
-> > This shouldn't be a big problem, we can still do synchronous transfers, we just
-> > have to wait for the bus to be free before starting the transfer.
-> > 
-> > - If the I2C slave targets for a master2slave transfer support async_send, then
-> >   use async_send. This requires refactoring aspeed_i2c_bus_send into a state
-> >   machine to send data asynchronously.
-> > 
-> > In other words, don't try to do a synchronous transfer to an SoC.
-> > 
-> > But, of course, we can keep doing synchronous transfers from SoC -> sensor or
-> > sensor -> SoC.
-> > 
+>>
+>>> It is not expected to appear often but it does appear.
+>>> The code has been removed from the kernel in spin 10 for 2 reasons:
+>>> 1) we decided to first support only dedicated and pinned CPU> 2) Christian fears it may happen too often due to Linux host scheduling and could be a performance problem
+>>
+>> This seems sensible, but now it seems too static.
+>> For example after migration, you cannot tell the guest which CPUs are in the same socket, book, ...,
+>> unless I'm misunderstanding something.
 > 
-> Yeah, hmm. This is tricky because callers of bus_send expects the
-> transfer to be "resolved" immediately. Per design, the asynchronous send
-> requires the device mastering the bus to itself be asynchronous (like
-> the i2c-echo device I added as an example).
+> No, to do this we would need to ask the kernel about it.
 
-Understood: I was ommitting other necessary changes. Yes, we would need to
-async-ify all the way up the chain to the register read/write.
-
+You mean polling /sys/devices/system/cpu/cpu*/topology/*_id ?
+That should work if it isn't done to frequently, right?
+And if it's done by the entity doing the pinning it could judge if the host topology change
+is relevant to the guest and if so tell qemu how to update it.
 > 
-> However, looking at aspeed_i2c_bus_handle_cmd (which is the caller of
-> bus_send), it should be possible to accept bus_send to "yield" as you
-> sketch below and not raise any interrupt. And yes, it would be required
-> in bus_send to call i2c_bus_master to register a BH which can then
-> raise the interrupt upon i2c_ack().
+>> And migration is rare, but something you'd want to be able to react to.
+>> And I could imaging that the vCPUs are pinned most of the time, but the pinning changes occasionally.
+> 
+> I think on migration we should just make a kvm_set_mtcr on post_load like Nico suggested everything else seems complicated for a questionable benefit.
 
-Yep, that's what I was thinking of. I think I would actually call i2c_bus_master
-in aspeed_i2c_bus_handle_cmd or higher though, because I would only call
-i2c_bus_master once until the STOP command is issued (or the DMA/pool transfer
-is complete). But yeah, I think we're on the same page.
+But what is the point? The result of STSI reported to the guest doesn't actually change, does it?
+Since the same CPUs with the same calculated socket-ids, ..., exist.
+You cannot migrate to a vm with a different virtual topology, since the CPUs get matched via the cpu_index
+as far as I can tell, which is the same as the core_id, or am I misunderstanding something?
+Migrating the MTCR bit is correct, if it is 1 than there was a cpu hotplug that the guest did not yet observe,
+but setting it to 1 after migration would we wrong if the STSI result would be the same.
+> 
+> 
+
 
