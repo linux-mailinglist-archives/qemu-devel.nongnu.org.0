@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D369576896
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 22:58:30 +0200 (CEST)
-Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B22576897
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 22:58:34 +0200 (CEST)
+Received: from localhost ([::1]:60482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCSOK-0002c7-VT
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 16:58:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
+	id 1oCSOP-0002sn-HW
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 16:58:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oCSKx-0005Xj-QU; Fri, 15 Jul 2022 16:54:59 -0400
+ id 1oCSL1-0005aK-IC; Fri, 15 Jul 2022 16:55:04 -0400
 Received: from [200.168.210.66] (port=55753 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oCSKw-00083Z-4u; Fri, 15 Jul 2022 16:54:59 -0400
+ id 1oCSKy-00083Z-Ta; Fri, 15 Jul 2022 16:55:02 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Fri, 15 Jul 2022 17:54:51 -0300
+ Fri, 15 Jul 2022 17:54:52 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 52101800181;
- Fri, 15 Jul 2022 17:54:51 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 928FC800181;
+ Fri, 15 Jul 2022 17:54:52 -0300 (-03)
 From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
 Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
  groug@kaod.org, richard.henderson@linaro.org,
  victor.colombo@eldorado.org.br, cohuck@redhat.com, farosas@linux.ibm.com
-Subject: [PATCH v4 0/3] Implement Power ISA 3.1B hash insns
-Date: Fri, 15 Jul 2022 17:54:36 -0300
-Message-Id: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
+Subject: [PATCH v4 1/3] target/ppc: Add HASHKEYR and HASHPKEYR SPRs
+Date: Fri, 15 Jul 2022 17:54:37 -0300
+Message-Id: <20220715205439.161110-2-victor.colombo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
+References: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 15 Jul 2022 20:54:51.0820 (UTC)
- FILETIME=[20F57EC0:01D8988D]
+X-OriginalArrivalTime: 15 Jul 2022 20:54:52.0995 (UTC)
+ FILETIME=[21A8C930:01D8988D]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -62,60 +64,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series implements the 4 instructions added in Power ISA
-3.1B:
+Add the Special Purpose Registers HASHKEYR and HASHPKEYR, which were
+introduced by the Power ISA 3.1B. They are used by the new instructions
+hashchk(p) and hashst(p).
 
-- hashchk
-- hashst
-- hashchkp
-- hashstp
+The ISA states that the Operating System should generate the value for
+these registers when creating a process, so it's its responsability to
+do so. We initialize it with 0 for qemu-softmmu, and set a random 64
+bits value for linux-user.
 
-It's built on top of ppc-next. Working branch for ease of use can be
-found here:
-https://github.com/PPC64/qemu/tree/vccolombo-hash-to-send-v4
+Signed-off-by: Víctor Colombo <victor.colombo@eldorado.org.br>
+---
 
-What do you think about the choice to implement the hash algorithm
-from the ground up, following the SIMON-like algorithm presented in
-Power ISA? IIUC, this algorithm is not the same as the original[1].
-Other options would be to use other algorithm already implemented
-in QEMU, or even make this instruction a nop for all Power versions.
+Is the way I did the random number generation ok?
 
-v1->v2:
-- Split the patch in 2
-- Rebase to master
+---
+ target/ppc/cpu.h      |  2 ++
+ target/ppc/cpu_init.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
-v2->v3:
-- Split patches in 3
-    - the new patch (patch 1) is separating the kvm header
-      changes [Cornelia]
-
-v3->v4:
-- Remove Patch 1 (linux-headers/asm-powerpc/kvm.h:
-    Add HASHKEYR and HASHPKEYR in headers)
-    - Daniel recommended drop the kvm part:
-    https://lists.nongnu.org/archive/html/qemu-ppc/2022-07/msg00213.html
-- Substitute Patch 1 with a separated patch setting up the registers
-  for TCG only. Also, now setup it with a random value in linux-user.
-- Change the registers naming:
-    - SPR_POWER_HASHKEYR -> SPR_HASHKEYR
-- Drop RFC tag
-
-[1] https://eprint.iacr.org/2013/404.pdf
-
-Víctor Colombo (3):
-  target/ppc: Add HASHKEYR and HASHPKEYR SPRs
-  target/ppc: Implement hashst and hashchk
-  target/ppc: Implement hashstp and hashchkp
-
- target/ppc/cpu.h                           |  2 +
- target/ppc/cpu_init.c                      | 28 ++++++++
- target/ppc/excp_helper.c                   | 84 ++++++++++++++++++++++
- target/ppc/helper.h                        |  4 ++
- target/ppc/insn32.decode                   | 10 +++
- target/ppc/translate.c                     |  5 ++
- target/ppc/translate/fixedpoint-impl.c.inc | 34 +++++++++
- 7 files changed, 167 insertions(+)
-
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index a4c893cfad..4551d81b5f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1676,6 +1676,8 @@ void ppc_compat_add_property(Object *obj, const char *name,
+ #define SPR_BOOKE_GIVOR14     (0x1BD)
+ #define SPR_TIR               (0x1BE)
+ #define SPR_PTCR              (0x1D0)
++#define SPR_HASHKEYR          (0x1D4)
++#define SPR_HASHPKEYR         (0x1D5)
+ #define SPR_BOOKE_SPEFSCR     (0x200)
+ #define SPR_Exxx_BBEAR        (0x201)
+ #define SPR_Exxx_BBTAR        (0x202)
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index d1493a660c..29c7752483 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5700,6 +5700,33 @@ static void register_power9_mmu_sprs(CPUPPCState *env)
+ #endif
+ }
+ 
++static void register_power10_hash_sprs(CPUPPCState *env)
++{
++    /*
++     * it's the OS responsability to generate a random value for the registers
++     * in each process' context. So, initialize it with 0 here.
++     */
++    uint64_t hashkeyr_initial_value = 0, hashpkeyr_initial_value = 0;
++#if defined(CONFIG_USER_ONLY)
++    /* in linux-user, setup the hash register with a random value */
++    GRand *rand = g_rand_new();
++    hashkeyr_initial_value =
++        ((uint64_t)g_rand_int(rand) << 32) | (uint64_t)g_rand_int(rand);
++    hashpkeyr_initial_value =
++        ((uint64_t)g_rand_int(rand) << 32) | (uint64_t)g_rand_int(rand);
++    g_rand_free(rand);
++#endif
++    spr_register(env, SPR_HASHKEYR, "HASHKEYR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            &spr_read_generic, &spr_write_generic,
++            hashkeyr_initial_value);
++    spr_register_hv(env, SPR_HASHPKEYR, "HASHPKEYR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            SPR_NOACCESS, SPR_NOACCESS,
++            &spr_read_generic, &spr_write_generic,
++            hashpkeyr_initial_value);
++}
++
+ /*
+  * Initialize PMU counter overflow timers for Power8 and
+  * newer Power chips when using TCG.
+@@ -6484,6 +6511,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+     register_power8_book4_sprs(env);
+     register_power8_rpr_sprs(env);
+     register_power9_mmu_sprs(env);
++    register_power10_hash_sprs(env);
+ 
+     /* FIXME: Filter fields properly based on privilege level */
+     spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,
 -- 
 2.25.1
 
