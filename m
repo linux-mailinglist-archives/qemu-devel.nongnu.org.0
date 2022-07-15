@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFA45765B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:22:19 +0200 (CEST)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981405765B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:19:00 +0200 (CEST)
+Received: from localhost ([::1]:39828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCP18-0001Xx-9P
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:22:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45662)
+	id 1oCOxv-0004N6-7F
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oCOw4-0000nX-Oh
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:04 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:2140)
+ id 1oCOw1-0000k1-Q2
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:01 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:57392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oCOw1-0005cF-Il
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:04 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FGJfBk024355;
- Fri, 15 Jul 2022 17:16:47 GMT
+ id 1oCOvy-0005aQ-I0
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:01 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FH4aXW030500;
+ Fri, 15 Jul 2022 17:16:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id; s=corp-2022-7-12;
- bh=G1ajb664xPxEsl2BVeqPBsG4z4jw10xiCue0V81xGVI=;
- b=L6kI3hLF22qvomOSZzUiCmUrO+gR5RRGBb/BEOWUm4HaSU3ofGkMVYuZZmyxaruEUYz6
- MkkNAs7+Kz70VMy+sIgYM0R/W+xMvsOBHhBIp+25P5jIW+nK4VwbxS0MGjV+zxGRctMK
- euipZUDCM6v6o8spAmlRWjKAbEyYTSuY4BZMxKoKM24N7eYIpvAGBPtuzOXDOP17qvWD
- EppnIl4gvwq5+Z8LYsC3IORnUxAviB2Lh4nnTg7l+uvBot9i0DkIPE+8sjND9xCS1Pwc
- PSOobeJHhlb7msgAwLwy72XpZOMlmublqxjXbSuVAw6fpysSTZXaskjn1iQLZ5LEd6P1 pg== 
+ subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
+ bh=sq9FFb5aE+/IiMlVeguENCUMCQ8VCOnFTO/apdVoO2I=;
+ b=xrh+vc7xaYLPO4wzz7LTToefVZHiZRgS6aUY/s68hYFoosx1Kw9LyPa681Vk5f4kFwDU
+ uqNFfpm2aVKZdBg92CBVyI4zCEh0uupqdr8WEhU5QGSqapDoqwPOjggnSz7SFqBQOVFg
+ ypYe01b9PHZCLqOPwTionomNCxaHBIba8Zekn1zoaV6TUs7Zmv7jEVdoHbMYVUy13ad2
+ JqDUUTL4Wyvr+P52KiENmHd99htm31LyeJka0DtRqD9j5Zurcr1YRPoVpjXaCw6A3+M5
+ GDEnyHPtkWSzUoOdB0HyBBPpbcVvh3sHVfX8/+BxiwBd/uyKHTOenvR2X7L0qECYEA7B /Q== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h727ss40j-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71scgq7g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jul 2022 17:16:47 +0000
+ Fri, 15 Jul 2022 17:16:52 +0000
 Received: from pps.filterd
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 26FHBh2J039680; Fri, 15 Jul 2022 17:16:46 GMT
+ with SMTP id 26FHBic0039730; Fri, 15 Jul 2022 17:16:51 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h7047tyqm-1
+ 3h7047tytb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jul 2022 17:16:46 +0000
+ Fri, 15 Jul 2022 17:16:51 +0000
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26FHGjLt013789;
- Fri, 15 Jul 2022 17:16:45 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26FHGjLv013789;
+ Fri, 15 Jul 2022 17:16:50 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-181-254.vpn.oracle.com
  [10.175.181.254])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h7047tyn7-1; Fri, 15 Jul 2022 17:16:45 +0000
+ 3h7047tyn7-2; Fri, 15 Jul 2022 17:16:50 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -63,17 +63,17 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PATCH v8 00/11] i386/pc: Fix creation of >= 1010G guests on AMD
- systems with IOMMU
-Date: Fri, 15 Jul 2022 18:16:17 +0100
-Message-Id: <20220715171628.21437-1-joao.m.martins@oracle.com>
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v8 01/11] hw/i386: add 4g boundary start to X86MachineState
+Date: Fri, 15 Jul 2022 18:16:18 +0100
+Message-Id: <20220715171628.21437-2-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
-X-Proofpoint-ORIG-GUID: VcgGv_dzdxN1ulCZm9Eaau621VlaEyrf
-X-Proofpoint-GUID: VcgGv_dzdxN1ulCZm9Eaau621VlaEyrf
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
+In-Reply-To: <20220715171628.21437-1-joao.m.martins@oracle.com>
+References: <20220715171628.21437-1-joao.m.martins@oracle.com>
+X-Proofpoint-GUID: auJS7FqJ-vBlAQVh2ixDSonXgobaGAxs
+X-Proofpoint-ORIG-GUID: auJS7FqJ-vBlAQVh2ixDSonXgobaGAxs
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -96,222 +96,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v7[8] -> v8:
+Rather than hardcoding the 4G boundary everywhere, introduce a
+X86MachineState field @above_4g_mem_start and use it
+accordingly.
 
-* Restructure the relocate patch and separate the phys-bits check into being
-a predecessor patch. new patch 9 (Igor Mammedov)
-* Rework comment on phys-bits check to not mention relocation since it's
-now generic. (Igor Mammedov)
+This is in preparation for relocating ram-above-4g to be
+dynamically start at 1T on AMD platforms.
 
-Note: This series builds on top of Jonathan Cameron's CXL cleanups
-(https://lore.kernel.org/qemu-devel/20220701132300.2264-1-Jonathan.Cameron@huawei.com/).
-
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
+ hw/i386/acpi-build.c  |  2 +-
+ hw/i386/pc.c          | 11 ++++++-----
+ hw/i386/sgx.c         |  2 +-
+ hw/i386/x86.c         |  1 +
+ include/hw/i386/x86.h |  3 +++
+ 5 files changed, 12 insertions(+), 7 deletions(-)
 
-This series lets Qemu spawn i386 guests with >= 1010G with VFIO,
-particularly when running on AMD systems with an IOMMU.
-
-Since Linux v5.4, VFIO validates whether the IOVA in DMA_MAP ioctl is valid and it
-will return -EINVAL on those cases. On x86, Intel hosts aren't particularly
-affected by this extra validation. But AMD systems with IOMMU have a hole in
-the 1TB boundary which is *reserved* for HyperTransport I/O addresses located
-here: FD_0000_0000h - FF_FFFF_FFFFh. See IOMMU manual [1], specifically
-section '2.1.2 IOMMU Logical Topology', Table 3 on what those addresses mean.
-
-VFIO DMA_MAP calls in this IOVA address range fall through this check and hence return
- -EINVAL, consequently failing the creation the guests bigger than 1010G. Example
-of the failure:
-
-qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: VFIO_MAP_DMA: -22
-qemu-system-x86_64: -device vfio-pci,host=0000:41:10.1,bootindex=-1: vfio 0000:41:10.1: 
-	failed to setup container for group 258: memory listener initialization failed:
-		Region pc.ram: vfio_dma_map(0x55ba53e7a9d0, 0x100000000, 0xff30000000, 0x7ed243e00000) = -22 (Invalid argument)
-
-Prior to v5.4, we could map to these IOVAs *but* that's still not the right thing
-to do and could trigger certain IOMMU events (e.g. INVALID_DEVICE_REQUEST), or
-spurious guest VF failures from the resultant IOMMU target abort (see Errata 1155[2])
-as documented on the links down below.
-
-This small series tries to address that by dealing with this AMD-specific 1Tb hole,
-but rather than dealing like the 4G hole, it instead relocates RAM above 4G
-to be above the 1T if the maximum RAM range crosses the HT reserved range.
-It is organized as following:
-
-patch 1: Introduce a @above_4g_mem_start which defaults to 4 GiB as starting
-         address of the 4G boundary
-
-patches 2-3: Move pci-host qdev creation to be before pc_memory_init(),
-	     to get accessing to pci_hole64_size. The actual pci-host
-	     initialization is kept as is, only the qdev_new.
-
-patch 4: Small deduplication cleanup that was spread around pc
-
-patches 5-8: Make pc_pci_hole64_start() be callable before pc_memory_init()
-             initializes any memory regions. This way, the returned value
-	     is consistent and we don't need to duplicate same said
-	     calculations when detecting the relocation is needed.
-
-patch 9: Errors out if the phys-bits is too low compared to the max GPA
-that gets calculated. This is preparation for the next patch, albeit it
-is made generic given it's applicability to any configuration.
-
-patch 10: Change @above_4g_mem_start to 1TiB /if we are on AMD and the max
-possible address acrosses the HT region. 
-
-patch 11: Ensure valid IOVAs only on new machine types, but not older
-ones (<= v7.0.0)
-
-The 'consequence' of this approach is that we may need more than the default
-phys-bits e.g. a guest with >1010G, will have most of its RAM after the 1TB
-address, consequently needing 41 phys-bits as opposed to the default of 40
-(TCG_PHYS_ADDR_BITS). Today there's already a precedent to depend on the user to
-pick the right value of phys-bits (regardless of this series), so we warn in
-case phys-bits aren't enough. Finally, CMOS loosing its meaning of the above 4G
-ram blocks, but it was mentioned over RFC that CMOS is only useful for very
-old seabios. 
-
-Additionally, the reserved region is added to E820 if the relocation is done
-or if the phys-bits can cover it.
-
-Alternative options considered (in RFC[0]):
-
-a) Dealing with the 1T hole like the 4G hole -- which also represents what
-hardware closely does.
-
-Thanks,
-	Joao
-
-Older Changelog,
-
-v5[6] -> v6:
-* Rebased to latest staging
-* Consider @cxl_base setting to also use above_4g_mem_start (Igor Mammedov)
-* Use 4 * GiB instead of raw hex (Igor Mammedov)
-* Delete @host_type (Igor Mammedov)
-* Rename to i440fx_dev to i440fx_host (Igor Mammedov)
-* Rebase on top of patch that removes i440fx_state (Mark Cave-Ayland)
-* Add Reviewed-by from Igor in patches 1-3 (Igor Mammedov)
-* Fix commit messages typos (Igor Mammedov)
-* Move IS_AMD_CPU() call into caller i.e. pc_memory_init() (Igor Mammedov)
-* Rename x86_max_phys_addr into pc_max_used_gpa (Igor Mammedov)
-* Rename x86_update_above_4g_mem_start into pc_set_amd_above_4g_mem_start (Igor Mammedov)
-* Rework how we calculate the pc_max_used_gpa() to use pc_pci_hole64_start() instead,
-  This lead to refactor a bunch into separate helpers that handle the case
-  where Memory regions aren't yet initialized while streamlining how calculations
-  are done at pc_memory_init() and pc_pci_hole64_start().
-  This lead to new patches 4-8 in v5 (Igor Mammedov)
-  CC'ing Jonathan Cameron on the CXL-related memory init refactoring patches (5-8).
-* Always add the HyperTransport range into e820 even when the relocation isn't
-  done *and* there's >= 40 phys bit that would put max phyusical boundary to 1T
-  (Alex Williamson)
-  This should allow virtual firmware to avoid the reserved range at the
-  1T boundary on VFs with big bars.
-
-v4[5] -> v5:
-* Fixed the 32-bit build(s) (patch 1, Michael Tsirkin)
-* Fix wrong reference (patch 4) to TCG_PHYS_BITS in code comment and
-commit message;
-
-v3[4] -> v4[5]:
-(changes in patch 4 and 5 only)
-* Rebased to 7.1.0, hence move compat machine attribute to <= 7.0.0 versions
-* Check guest vCPU vendor rather than host CPU vendor (Michael Tsirkin)
-* Squash previous patch 5 into patch 4 to tie in the phys-bits check
-  into the relocate-4g-start logic: We now error out if the phys-bits
-  aren't enough on configurations that require above-4g ram relocation. (Michael Tsirkin)
-* Make the error message more explicit when phys-bits isn't enough to also
-  mention: "cannot avoid AMD HT range"
-* Add comments inside x86_update_above_4g_mem_start() explaining the
-  logic behind it. (Michael Tsirkin)
-* Tested on old guests old guests with Linux 2.6.32/3.10/4.14.35/4.1 based kernels
-  alongside Win2008/2K12/2K16/2K19 on configs spanning 1T and 2T (Michael Tsirkin)
-  Validated -numa topologies too as well as making sure qtests observe no regressions;
-
- Notes from v4:
-
-* the machine attribute that enables this new logic (see last patch)
-is called ::enforce_valid_iova since the RFC. Let me know if folks think it
-is poorly named, and whether something a bit more obvious is preferred
-(e.g. ::amd_relocate_1t).
-
-* @mst one of the comments you said was to add "host checks" in vdpa/vfio devices.
-In discussion with Alex and you over the last version of the patches it seems
-that we weren't keen on making this device-specific or behind any machine
-property flags (besides machine-compat). Just to reiterate there, making sure we do
-the above-4g relocation requiring properly sized phys-bits and AMD as vCPU
-vendor (as this series) already ensures thtat this is going to be right for
-offending configuration with VDPA/VFIO device that might be
-configured/hotplugged. Unless you were thinking that somehow vfio/vdpa devices
-start poking into machine-specific details when we fail to relocate due to the
-lack of phys-bits? Otherwise Qemu, just doesn't have enough information to tell
-what's a valid IOVA or not, in which case kernel vhost-iotlb/vhost-vdpa is the one
-that needs fixing (as VFIO did in v5.4).
-
-RFCv2[3] -> v3[4]:
-
-* Add missing brackets in single line statement, in patch 5 (David)
-* Change ranges printf to use PRIx64, in patch 5 (David)
-* Move the check to after changing above_4g_mem_start, in patch 5 (David)
-* Make the check generic and move it to pc_memory_init rather being specific
-to AMD, as the check is useful to capture invalid phys-bits
-configs (patch 5, Igor).
-* Fix comment as 'Start address of the initial RAM above 4G' in patch 1 (Igor)
-* Consider pci_hole64_size in patch 4 (Igor)
-* To consider pci_hole64_size in max used addr we need to get it from pci-host,
-so introduce two new patches (2 and 3) which move only the qdev_new("i440fx") or
-qdev_new("q35") to be before pc_memory_init().
-* Consider sgx_epc.size in max used address, in patch 4 (Igor)
-* Rename relocate_4g() to x86_update_above_4g_mem_start() (Igor)
-* Keep warn_report() in patch 5, as erroring out will break a few x86_64 qtests
-due to pci_hole64 accounting surprass phys-bits possible maxphysaddr.
-
-RFC[0] -> RFCv2[3]:
-
-* At Igor's suggestion in one of the patches I reworked the series enterily,
-and more or less as he was thinking it is far simpler to relocate the
-ram-above-4g to be at 1TiB where applicable. The changeset is 3x simpler,
-and less intrusive. (patch 1 & 2)
-* Check phys-bits is big enough prior to relocating (new patch 3)
-* Remove the machine property, and it's only internal and set by new machine
-version (Igor, patch 4).
-* Clarify whether it's GPA or HPA as a more clear meaning (Igor, patch 2)
-* Add IOMMU SDM in the commit message (Igor, patch 2)
-
-[0] https://lore.kernel.org/qemu-devel/20210622154905.30858-1-joao.m.martins@oracle.com/
-[1] https://www.amd.com/system/files/TechDocs/48882_IOMMU.pdf
-[2] https://developer.amd.com/wp-content/resources/56323-PUB_0.78.pdf
-[3] https://lore.kernel.org/qemu-devel/20220207202422.31582-1-joao.m.martins@oracle.com/T/#u
-[4] https://lore.kernel.org/all/20220223184455.9057-1-joao.m.martins@oracle.com/
-[5] https://lore.kernel.org/qemu-devel/20220420201138.23854-1-joao.m.martins@oracle.com/
-[6] https://lore.kernel.org/qemu-devel/20220520104532.9816-1-joao.m.martins@oracle.com/
-[7] https://lore.kernel.org/qemu-devel/20220701161014.3850-1-joao.m.martins@oracle.com/ 
-[8] https://lore.kernel.org/qemu-devel/20220714182820.30970-1-joao.m.martins@oracle.com/
-
-Joao Martins (11):
-  hw/i386: add 4g boundary start to X86MachineState
-  i386/pc: create pci-host qdev prior to pc_memory_init()
-  i386/pc: pass pci_hole64_size to pc_memory_init()
-  i386/pc: factor out above-4g end to an helper
-  i386/pc: factor out cxl range end to helper
-  i386/pc: factor out cxl range start to helper
-  i386/pc: handle unitialized mr in pc_get_cxl_range_end()
-  i386/pc: factor out device_memory base/size to helper
-  i386/pc: bounds check phys-bits against max used GPA
-  i386/pc: relocate 4g start to 1T where applicable
-  i386/pc: restrict AMD only enforcing of 1Tb hole to new machine type
-
- hw/i386/acpi-build.c         |   2 +-
- hw/i386/pc.c                 | 208 +++++++++++++++++++++++++++--------
- hw/i386/pc_piix.c            |  16 ++-
- hw/i386/pc_q35.c             |  16 ++-
- hw/i386/sgx.c                |   2 +-
- hw/i386/x86.c                |   1 +
- hw/pci-host/i440fx.c         |   5 +-
- include/hw/i386/pc.h         |   4 +-
- include/hw/i386/x86.h        |   3 +
- include/hw/pci-host/i440fx.h |   3 +-
- 10 files changed, 203 insertions(+), 57 deletions(-)
-
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index cad6f5ac41e9..0355bd3ddaad 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2024,7 +2024,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+                 build_srat_memory(table_data, mem_base, mem_len, i - 1,
+                                   MEM_AFFINITY_ENABLED);
+             }
+-            mem_base = 1ULL << 32;
++            mem_base = x86ms->above_4g_mem_start;
+             mem_len = next_base - x86ms->below_4g_mem_size;
+             next_base = mem_base + mem_len;
+         }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8d68295fdaff..1660684d12fd 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -850,9 +850,10 @@ void pc_memory_init(PCMachineState *pcms,
+                                  machine->ram,
+                                  x86ms->below_4g_mem_size,
+                                  x86ms->above_4g_mem_size);
+-        memory_region_add_subregion(system_memory, 0x100000000ULL,
++        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
+                                     ram_above_4g);
+-        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
++        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
++                       E820_RAM);
+     }
+ 
+     if (pcms->sgx_epc.size != 0) {
+@@ -893,7 +894,7 @@ void pc_memory_init(PCMachineState *pcms,
+             machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+         } else {
+             machine->device_memory->base =
+-                0x100000000ULL + x86ms->above_4g_mem_size;
++                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         }
+ 
+         machine->device_memory->base =
+@@ -927,7 +928,7 @@ void pc_memory_init(PCMachineState *pcms,
+         } else if (pcms->sgx_epc.size != 0) {
+             cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+         } else {
+-            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
++            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         }
+ 
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+@@ -1035,7 +1036,7 @@ uint64_t pc_pci_hole64_start(void)
+     } else if (pcms->sgx_epc.size != 0) {
+             hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     } else {
+-        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
++        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+     }
+ 
+     return ROUND_UP(hole64_start, 1 * GiB);
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index a44d66ba2afc..09d9c7c73d9f 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+         return;
+     }
+ 
+-    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
++    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+ 
+     memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
+     memory_region_add_subregion(get_system_memory(), sgx_epc->base,
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 6003b4b2dfea..029264c54fe2 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1373,6 +1373,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+     x86ms->bus_lock_ratelimit = 0;
++    x86ms->above_4g_mem_start = 4 * GiB;
+ }
+ 
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 9089bdd99c3a..df82c5fd4252 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -56,6 +56,9 @@ struct X86MachineState {
+     /* RAM information (sizes, addresses, configuration): */
+     ram_addr_t below_4g_mem_size, above_4g_mem_size;
+ 
++    /* Start address of the initial RAM above 4G */
++    uint64_t above_4g_mem_start;
++
+     /* CPU and apic information: */
+     bool apic_xrupt_override;
+     unsigned pci_irq_mask;
 -- 
 2.17.2
 
