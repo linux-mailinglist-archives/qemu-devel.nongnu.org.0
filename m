@@ -2,75 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6281E576263
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:03:10 +0200 (CEST)
-Received: from localhost ([::1]:56206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959CF57626C
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:04:59 +0200 (CEST)
+Received: from localhost ([::1]:59572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCKyL-0006JI-IM
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:03:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36946)
+	id 1oCL06-00008o-PB
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:04:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKuU-0002wy-O7
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:59:10 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:45925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKuS-0006He-Ml
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:59:10 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id 64so8260699ybt.12
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 05:59:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hes3BDDBOtqqs6AjZCtmk7w/D95neb0YgME8CFtnk9k=;
- b=yREGoRFfNwGzNlCuHM3MEaME5lYtTV5oOtRoMYsLoaHuB/5wv+FZTgRyZO4wbs3dBw
- MOJLhpLMvQ55Lq8MWWGPYeyztW2Mli637xHlDMaHitl/93X6ICXrpv+we17RginKDK1B
- n7cHHhy+ocmMAL9WvBYDhtUGX2wpPDe2TI4U9cBqMYnxyZfW4G8gWEBw/tN7pR0twv/z
- tNpJt966WrtJ3+y2I/C73JoVdj/J4zEfUtp+6iIwfzHIUjjLTXYE2jIcYAK2nlFTsMuB
- aXQesudhQg/AdpbIsfhAdn/ouskNo0NLl4KrmliIbpYqKqv6d3J+wAD0Isd/N7cGhTuc
- Zy9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hes3BDDBOtqqs6AjZCtmk7w/D95neb0YgME8CFtnk9k=;
- b=dVd/t+5sen2i9py2ntQIG4rZmuf3S8CAGY+rTF5oQsmzAJBo2UUAlij/06VmNc16nW
- Yj3Pp3h8rK9PGUws0uaI6u1Pp7HeMpDUhjAj+asnYcxwyB/ZRz7DAFlbd7I0qVvQ2tN/
- 5dCutMsRHclTKFAhK94tgL7H1HpF+8Am9pRQ99/BCN2+5JuBUyL2grJRxVIuTDsNiDCU
- Q4JCCl/Y4tvquhbxvnGXglXjcbCYFFRb58OWVyuNjFgS2ZIt/Imcc5w87bFJcb2lTBB7
- 7OPjcW44zYd/MUV3UhWrQUyxxuNJayssL23/qI4wjP5/IMVqU02BIYNeaQIwjcpZJ3LC
- DiHw==
-X-Gm-Message-State: AJIora+Havb1Th6PWXkAaAE/hUI1Az8isM0qp6PapzeY5QPxAilwjfkJ
- Whum9o9tOQ04Dn4A94X2VQdVnHWUQwjj+Ru7UfY7hg==
-X-Google-Smtp-Source: AGRyM1sbSncbFgT1c++7dKGd1pjHasrJcahe9YdErXtCD02ZDkNsF1FTzS8GQBykaoUFRbvhBuM5ORwyP5oLBJxHtn0=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr14054930ybr.39.1657889946851; Fri, 15
- Jul 2022 05:59:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oCKyc-0006cS-Rj; Fri, 15 Jul 2022 09:03:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:64324)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1oCKya-0007AX-Jl; Fri, 15 Jul 2022 09:03:26 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FCpWTm002622;
+ Fri, 15 Jul 2022 13:03:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=2H+tHaJRqScRiBH9w0S03Fbfj+PL+zDQ9VjClxb/DgM=;
+ b=T/UNcpwNPtXrrEcxgfpyaL4dIfA2tFO1I3+W3HvNFePLGD1ryiR34oq5V/1MwBAa2++1
+ EQ8I/FhV0wF3nAzvQ0dcfODMxXhh7qLDzWaHkaiZXQlSIkSx+b4T1ZDxdpCILWzUh/aV
+ QRw5F7PLPoWgBO9CjIkbvn72n+9yr42No6HBubWA3wdBWdILkU+Rt+30Dkhd99va5yQd
+ DJrHP6JYhS9n7sTK0TtADfkyV4/wPnGKsiJRRETd9lyRoh1uqYblXqrBNrqDGQlZiD55
+ u/QX8hG58T8wLspNEoCaMQkubwP6AxzVbNmQbCJWlQ0jNsfcXVUdMFC6ek9DCxIv8p9V IQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hb8m1ga61-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 13:03:21 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26FCpm7d003749;
+ Fri, 15 Jul 2022 13:03:19 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hb8m1ga2q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 13:03:18 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26FCoP2u023314;
+ Fri, 15 Jul 2022 13:03:14 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma03ams.nl.ibm.com with ESMTP id 3h71a90e9u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 15 Jul 2022 13:03:14 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26FD3BVj21430720
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 15 Jul 2022 13:03:11 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C596CAE04D;
+ Fri, 15 Jul 2022 13:03:11 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C28B7AE053;
+ Fri, 15 Jul 2022 13:03:10 +0000 (GMT)
+Received: from [9.171.83.230] (unknown [9.171.83.230])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 15 Jul 2022 13:03:10 +0000 (GMT)
+Message-ID: <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
+Date: Fri, 15 Jul 2022 15:07:53 +0200
 MIME-Version: 1.0
-References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
- <20220715114039.59790-4-akihiko.odaki@gmail.com>
-In-Reply-To: <20220715114039.59790-4-akihiko.odaki@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 13:58:26 +0100
-Message-ID: <CAFEAcA9arqdX2SEKz3vVWgvdqXD6TL-o3Z4dFRSTYF+BQq+9KA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] meson: Allow to enable gtk and sdl while cocoa is
- enabled
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.3.0
+Subject: Re: [PATCH v8 08/12] s390x/cpu_topology: implementing numa for the
+ s390x topology
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-9-pmorel@linux.ibm.com>
+ <3a821cd1-b8a0-e737-5279-8ef55e58a77f@linux.ibm.com>
+ <b1e89718-232c-2b0b-2133-102ab7b4dad4@linux.ibm.com>
+ <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: zIQbZmNOFZkl2KrHE8hhJylLNVqSO-hb
+X-Proofpoint-GUID: lmSEBrctIWi6wd8IrcSpquHoJCTjVV2S
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-15_05,2022-07-15_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ phishscore=0 bulkscore=0 mlxscore=0 spamscore=0 suspectscore=0
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2206140000 definitions=main-2207150057
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,16 +125,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jul 2022 at 12:40, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
->
-> As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
-> can be enabled even ui/cocoa is enabled.
->
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> ---
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+On 7/15/22 11:11, Janis Schoetterl-Glausch wrote:
+> On 7/14/22 22:17, Pierre Morel wrote:
+>>
+>>
+>> On 7/14/22 16:57, Janis Schoetterl-Glausch wrote:
+>>> On 6/20/22 16:03, Pierre Morel wrote:
+>>>> S390x CPU Topology allows a non uniform repartition of the CPU
+>>>> inside the topology containers, sockets, books and drawers.
+>>>>
+>>>> We use numa to place the CPU inside the right topology container
+>>>> and report the non uniform topology to the guest.
+>>>>
+>>>> Note that s390x needs CPU0 to belong to the topology and consequently
+>>>> all topology must include CPU0.
+>>>>
+>>>> We accept a partial QEMU numa definition, in that case undefined CPUs
+>>>> are added to free slots in the topology starting with slot 0 and going
+>>>> up.
+>>>
+>>> I don't understand why doing it this way, via numa, makes sense for us.
+>>> We report the topology to the guest via STSI, which tells the guest
+>>> what the topology "tree" looks like. We don't report any numa distances to the guest.
+>>> The natural way to specify where a cpu is added to the vm, seems to me to be
+>>> by specify the socket, book, ... IDs when doing a device_add or via -device on
+>>> the command line.
+>>>
+>>> [...]
+>>>
+>>
+>> It is a choice to have the core-id to determine were the CPU is situated in the topology.
+>>
+>> But yes we can chose the use drawer-id,book-id,socket-id and use a core-id starting on 0 on each socket.
+>>
+>> It is not done in the current implementation because the core-id implies the socket-id, book-id and drawer-id together with the smp parameters.
+>>
+>>
+> Regardless of whether the core-id or the combination of socket-id, book-id .. is used to specify where a CPU is
+> located, why use the numa framework and not just device_add or -device ?
+
+You are right, at least we should be able to use both.
+I will work on this.
+
+> 
+> That feels way more natural since it should already just work if you can do hotplug.
+> At least with core-id and I suspect with a subset of your changes also with socket-id, etc.
+
+yes, it already works with core-id
+
+> 
+> Whereas numa is an awkward fit since it's for specifying distances between nodes, which we don't do,
+> and you have to use a hack to get it to specify which CPUs to plug (via setting arch_id to -1).
+> 
+
+Is it only for this?
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
