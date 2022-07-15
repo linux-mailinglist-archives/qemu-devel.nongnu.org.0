@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97C0E5762B4
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:26:26 +0200 (CEST)
-Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5F615762CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 15:29:47 +0200 (CEST)
+Received: from localhost ([::1]:49170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCLKr-0002sR-Oh
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45628)
+	id 1oCLO6-0005XE-Ma
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 09:29:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oCLIX-0000te-V6; Fri, 15 Jul 2022 09:24:02 -0400
-Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:43937)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCLM3-0003lh-GC
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:27:41 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:42777)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oCLIW-0001Z7-8X; Fri, 15 Jul 2022 09:24:01 -0400
-Received: by mail-oi1-x231.google.com with SMTP id j70so6019256oih.10;
- Fri, 15 Jul 2022 06:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=DSM9jQzd694m1MpWmIblxBV/hj4QCp5eDgPT+MG1cOQ=;
- b=Ka6nUChoPMSgBabzQpmK+1yp3eDeXubczK0IaR7UNr5PdXmtKQhG5Y8nrVfWgsWA+L
- rlkgW0UrGSEuHlZ3LQXi/pnn0H85WpR8agN1JyFuxO6E9OgHWQyoR3PElk0eFMnSC00C
- O94DF8DGJvTfYfEmXVKV7S8UntQlcyFghDsvabo3dIKQKeDhlrj4ycTpAdiVhPn831mD
- 6RNi778eMOgCK2CeUBULCNj9QRZ2FmCApcc+EoKK0mrP5irhqoUWrGPkDwCOOGI9QPGY
- PyT+dFZC2xvhXyASZs4pzNfjXmtsTZ4/7Zhl8g/LPMfdSAG9+PwzTUK8PJBh5OtW0J62
- PNEA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oCLLy-00035T-D4
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 09:27:36 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-2ef5380669cso46672787b3.9
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 06:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CI5UFv/JONNJcJ5+eMk3JbgdHEfCIFIKDxiDwGVweRE=;
+ b=O6+us56d0VCaDxRd50DaU0qKQxZdhM5y4h2r9D3gZ/4nwbm85xeVyFOrjpxw8GC5GS
+ 3bXevl8NIpD8aIASF435KDBd3hjq0FVbBGOtcr7SrOdzldGjMdUIuXhpRyfGlg6iHHvB
+ Byq1vx+0Ydyy9d6yn/312A+nu0Km28ZmFsQFRRK5RJbfGNHj1dSIjl5VnS86NLjlFcex
+ zD/cYb5E/j/VfaJ2wCpb3208XQCzUiT7iLdGNUrm7ZnEo9ipa+sCgPttear6ZOMZw07p
+ X12lcZjPjDeCOFV+wr+N/o3r5oz8ai1N4Vc7K/aqV3y8KWhyxdMVg0p24tfGstFKQ3LS
+ kcxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=DSM9jQzd694m1MpWmIblxBV/hj4QCp5eDgPT+MG1cOQ=;
- b=CCHwdx9zLo5tRTm0yr+ocVYI3uHUDKy7N5wVzyvCesTWbjExQNka452SOJNnsypuNT
- lTrSIIf1ek261GuOcWcuond3faHW1iD5G6ZQ9lKszbOmGlabF7S03nUbF17gOzEpWCYA
- V6Zv7tqHPY1jbIiWuluOuZ+jgVsJeYoQwsfJ0tWHDrUPm7Fdn9nZUJT/ElDlpMp9BEb3
- +o2hVuCFmN+ldDADkX6gddsbZbdEQLkQ5Y/RO/I0w4bkDST2XWGhguPJrWKQoyJJM6We
- D8GwiwRd48oiQ20V+dp6aQqXFtqu4Q18AibSJ3t9iigxlPOd+lnqkA3018qtk3gr7IfK
- Y7pQ==
-X-Gm-Message-State: AJIora+Vq9P/yoZtA9QLqeZhKXKhmAzJRDc86J6L0/0tiAm51OK0V/1f
- pK/jNgLQkl/dLYBSGaEavjg=
-X-Google-Smtp-Source: AGRyM1sG+4eiy0tpZ8E11QYdPIJN4nqQpV5KcPab+rgAdhDpasI/sk7drbl842qsyabtR2g1TMrXNQ==
-X-Received: by 2002:a05:6808:120f:b0:325:bc53:2150 with SMTP id
- a15-20020a056808120f00b00325bc532150mr7295515oil.139.1657891437567; 
- Fri, 15 Jul 2022 06:23:57 -0700 (PDT)
-Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
- [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- w70-20020acaad49000000b0033a528fe681sm486812oie.37.2022.07.15.06.23.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 15 Jul 2022 06:23:57 -0700 (PDT)
-Message-ID: <72c6d73b-0869-ab1a-3c2c-1c0fa334f643@gmail.com>
-Date: Fri, 15 Jul 2022 10:23:52 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CI5UFv/JONNJcJ5+eMk3JbgdHEfCIFIKDxiDwGVweRE=;
+ b=q557uKOIQSGn+PzhqM9quMLXv7j51xL8OkVUezwcd9oIWsxTNkUFwW97P8q7FxgqqC
+ FmnDCI2EjBVY4ug6JUZ3fqiRMMLjIbm0pKPGP6WW+1ZhPdHgVqmhhNLJG0pBwvl26SUg
+ JB8ohBN1tDQ1EIm5O4AaG8eJZEl5Ebkd7A3rCMa6jmU7xLvDbP7QViUoFQI3xlaE4a+B
+ 0l3mtL2ijuydAnYnjhDAgxtkNy/xP6y4czhn26SaZWUB0Cad2Ym9SqOnzXyYBaXIlSYM
+ KhUSY8KCV7M3AHrN9c1J6oll9GHArCDmfSsN89CRYHmK8BJTUwITy9i6Gc2hxfyfUfCR
+ 8N8g==
+X-Gm-Message-State: AJIora/WejKGMJsNbmubYaLR/Pp1YbNHANlLRGq6iRRvhh0tpGO1jF9W
+ MEidpFv/sVDt2jRA9cAO8eJhjfj3YMIdQuOm3eaddA==
+X-Google-Smtp-Source: AGRyM1sAyp/kJAo/pC0/PTAf3udiL2JxYWctAbid3SZE2/MnztVizB1O9NAr/5yKuQ9Nkxe6G1cvdzOu/6xOPojixSo=
+X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
+ z7-20020a81a247000000b0031d72dae931mr15900518ywg.469.1657891653095; Fri, 15
+ Jul 2022 06:27:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH v3 0/3] Implement Power ISA 3.1B hash insns
-Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
- richard.henderson@linaro.org, mst@redhat.com, cohuck@redhat.com,
- pbonzini@redhat.com, farosas@linux.ibm.com
-References: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220713165458.58807-1-victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x231.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20220715114039.59790-1-akihiko.odaki@gmail.com>
+ <20220715114039.59790-2-akihiko.odaki@gmail.com>
+ <CAFEAcA96_AX=UDrY=69kaSLvh+8DsEjzpkt=maL5r-O4e1wH5g@mail.gmail.com>
+ <d6f14a76-d0c6-f5b9-93bd-2235b3a5383c@gmail.com>
+In-Reply-To: <d6f14a76-d0c6-f5b9-93bd-2235b3a5383c@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 15 Jul 2022 14:26:54 +0100
+Message-ID: <CAFEAcA9xpo7i-Wb-kNJp_GqJ3UWRb3DKXjPfrDLKW-680swQdA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] ui/cocoa: Run qemu_init in the main thread
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,73 +89,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 15 Jul 2022 at 14:19, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> On 2022/07/15 22:10, Peter Maydell wrote:
+> > On Fri, 15 Jul 2022 at 12:40, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+> >>
+> >> This work is based on:
+> >> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
+> >>
+> >> Simplify the initialization dance by running qemu_init() in the main
+> >> thread before the Cocoa event loop starts. The secondary thread only
+> >> runs only qemu_main_loop() and qemu_cleanup().
+> >>
+> >> This fixes a case where addRemovableDevicesMenuItems() calls
+> >> qmp_query_block() while expecting the main thread to still hold
+> >> the BQL.
+> >>
+> >> Overriding the code after calling qemu_init() is done by dynamically
+> >> replacing a function pointer variable, qemu_main when initializing
+> >> ui/cocoa, which unifies the static implementation of main() for
+> >> builds with ui/cocoa and ones without ui/cocoa.
+> >>
+> >> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+> >
+> >> @@ -585,7 +583,7 @@ - (void) updateUIInfo
+> >>           /*
+> >>            * Don't try to tell QEMU about UI information in the application
+> >>            * startup phase -- we haven't yet registered dcl with the QEMU UI
+> >> -         * layer, and also trying to take the iothread lock would deadlock.
+> >> +         * layer.
+> >>            * When cocoa_display_init() does register the dcl, the UI layer
+> >>            * will call cocoa_switch(), which will call updateUIInfo, so
+> >>            * we don't lose any information here.
+> >
+> > This comment says that we can't use the dcl while allow_events is false...
+> >
+> >> @@ -778,16 +776,6 @@ - (void) handleMonitorInput:(NSEvent *)event
+> >>
+> >>   - (bool) handleEvent:(NSEvent *)event
+> >>   {
+> >> -    if(!allow_events) {
+> >> -        /*
+> >> -         * Just let OSX have all events that arrive before
+> >> -         * applicationDidFinishLaunching.
+> >> -         * This avoids a deadlock on the iothread lock, which cocoa_display_init()
+> >> -         * will not drop until after the app_started_sem is posted. (In theory
+> >> -         * there should not be any such events, but OSX Catalina now emits some.)
+> >> -         */
+> >> -        return false;
+> >> -    }
+> >
+> > ...so don't we want to also retain this check of allow_events ?
+> > Much of the code in handleEventLocked assumes the dcl has been registered.
+> >
+> >>       return bool_with_iothread_lock(^{
+> >>           return [self handleEventLocked:event];
+> >>       });
+> >
+> >> @@ -1915,92 +1898,35 @@ static void cocoa_clipboard_request(QemuClipboardInfo *info,
+> >>   /*
+> >>    * The startup process for the OSX/Cocoa UI is complicated, because
+> >>    * OSX insists that the UI runs on the initial main thread, and so we
+> >> - * need to start a second thread which runs the vl.c qemu_main():
+> >> - *
+> >> - * Initial thread:                    2nd thread:
+> >> - * in main():
+> >> - *  create qemu-main thread
+> >> - *  wait on display_init semaphore
+> >> - *                                    call qemu_main()
+> >> - *                                    ...
+> >> - *                                    in cocoa_display_init():
+> >> - *                                     post the display_init semaphore
+> >> - *                                     wait on app_started semaphore
+> >> - *  create application, menus, etc
+> >> - *  enter OSX run loop
+> >> - * in applicationDidFinishLaunching:
+> >> - *  post app_started semaphore
+> >> - *                                     tell main thread to fullscreen if needed
+> >> - *                                    [...]
+> >> - *                                    run qemu main-loop
+> >> - *
+> >> - * We do this in two stages so that we don't do the creation of the
+> >> - * GUI application menus and so on for command line options like --help
+> >> - * where we want to just print text to stdout and exit immediately.
+> >
+> > Could we have an updated version of this diagram that explains the
+> > new startup process, please ?
+>
+> I don't think the diagram is appropriate anymore. It was necessary to
+> describe the synchronization between the initial thread and the second
+> thread, but they do no longer synchronize at all.
 
+But there are still two threads, and the sequence of events is
+not exactly obvious given that things happen in several different
+functions. A summary of the expected sequence of events during
+startup is still useful to have, I think.
 
-On 7/13/22 13:54, Víctor Colombo wrote:
-> This patch series implements the 4 instructions added in Power ISA
-> 3.1B:
-> 
-> - hashchk
-> - hashst
-> - hashchkp
-> - hashstp
-> 
-> To build it, you need to apply the following patches on top of master:
-> <20220701133507.740619-2-lucas.coutinho@eldorado.org.br>
-> <20220701133507.740619-3-lucas.coutinho@eldorado.org.br>
-> <20220712193741.59134-2-leandro.lupori@eldorado.org.br>
-> <20220712193741.59134-3-leandro.lupori@eldorado.org.br>
-> 
-> Working branch for ease of use can be found here:
-> https://github.com/PPC64/qemu/tree/vccolombo-hash-to-send-v3
-> 
-> What do you think about the choice to implement the hash algorithm
-> from the ground up, following the SIMON-like algorithm presented in
-> Power ISA? IIUC, this algorithm is not the same as the original[1].
-> Other options would be to use other algorithm already implemented
-> in QEMU, or even make this instruction a nop for all Power versions.
-> 
-> Also, I was thinking about using the call to spr_register_kvm() in
-> init_proc_POWER10 to initialize the registers with a random value.
-> I'm not sure what is the behavior here, I would expect that is the job
-> of the OS to set the regs, but looks like KVM is not exporting them,
-> so they are always 0 (?). Does anyone have any insight on this?
-
-This happens because KVM on POWER10 isn't handling these registers
-appropriately. We are probably missing kernel/kvm code to do so.
-
-Since KVM on POWER10 is on an uncertain spot at this moment I wouldn't
-worry too much about it. Making the regs read/write work in TCG is good
-enough for now.
-
-
-Daniel
-
-> 
-> v1->v2:
-> - Split the patch in 2
-> - Rebase to master
-> 
-> v2->v3:
-> - Split patches in 3
->      - the new patch (patch 1) is separating the kvm header
->        changes [Cornelia]
-> 
-> [1] https://eprint.iacr.org/2013/404.pdf
-> 
-> Víctor Colombo (3):
->    linux-headers/asm-powerpc/kvm.h: Add HASHKEYR and HASHPKEYR in headers
->    target/ppc: Implement hashst and hashchk
->    target/ppc: Implement hashstp and hashchkp
-> 
->   linux-headers/asm-powerpc/kvm.h            |  3 +
->   target/ppc/cpu.h                           |  2 +
->   target/ppc/cpu_init.c                      |  7 ++
->   target/ppc/excp_helper.c                   | 82 ++++++++++++++++++++++
->   target/ppc/helper.h                        |  4 ++
->   target/ppc/insn32.decode                   | 10 +++
->   target/ppc/translate.c                     |  5 ++
->   target/ppc/translate/fixedpoint-impl.c.inc | 34 +++++++++
->   8 files changed, 147 insertions(+)
-> 
+thanks
+-- PMM
 
