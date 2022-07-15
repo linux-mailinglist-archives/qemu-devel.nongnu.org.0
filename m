@@ -2,65 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65229575E3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 11:11:34 +0200 (CEST)
-Received: from localhost ([::1]:43442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D338F575E39
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 11:10:04 +0200 (CEST)
+Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCHMD-00027E-B6
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 05:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43136)
+	id 1oCHKl-0000dp-U4
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 05:10:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGxb-0003nP-C8
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:46:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59399)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oCGza-0005qx-Kg
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:48:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGxY-0004vh-Oi
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:46:06 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oCGzW-00054R-Co
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:48:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657874764;
+ s=mimecast20190719; t=1657874885;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eI1fXUzFEQ+XYj91lrwoikq4KMb1NAuge66KD8K3VLQ=;
- b=ISJiyrbV0PWVM+sLfUP9Q16+9ViHk2qvNOkdrTqgHWhXChh5metkf3/uCCZVxRrrHk6tnM
- 0C4/X3UdmxPNRfSQdfSfcpJ0iEl1D/8l/yu0COxoNFGA2nwYopEwrpullwxM7J1ZtNmKit
- 4yrqMoqChe/rtPUB9gmBpwXMNpfFlqg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Kk3JVlcex6DCNhEfc9R2AHfotNU5Glx4eY13MK9u00E=;
+ b=Huyz6DJi5L1GuqLGw325u8V7OlzpYXRPCpqHshgLrmw+rl9bY6tNf9BptkI3DmcfMu/joL
+ ds0gPe9s+EeBFh3HI6lKTVlbQGaRmgtRxSlHjaB2g94/uWtA7IUXjrmYESVVZerPydTWiQ
+ 12DWjGSAl8TGzeCHQwI7F/ep9EpIg8Q=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-VCBVE7-DNkK6W57u_512Gg-1; Fri, 15 Jul 2022 04:46:00 -0400
-X-MC-Unique: VCBVE7-DNkK6W57u_512Gg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 632B3811E80;
- Fri, 15 Jul 2022 08:46:00 +0000 (UTC)
-Received: from localhost (dhcp-192-213.str.redhat.com [10.33.192.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 279DE141511A;
- Fri, 15 Jul 2022 08:46:00 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>,
- qemu-arm@nongnu.org, David Hildenbrand <david@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Peter Maydell
- <peter.maydell@linaro.org>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
- <berrange@redhat.com>
-Subject: Re: [PATCH 0/3] target: RFC: display deprecation note for '-cpu help'
-In-Reply-To: <20220714150735.1835166-1-berrange@redhat.com>
-Organization: Red Hat GmbH
-References: <20220714150735.1835166-1-berrange@redhat.com>
-User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date: Fri, 15 Jul 2022 10:45:59 +0200
-Message-ID: <87pmi63gs8.fsf@redhat.com>
+ us-mta-451-w7UaRoU1NpO-9Miz4bEJVg-1; Fri, 15 Jul 2022 04:48:04 -0400
+X-MC-Unique: w7UaRoU1NpO-9Miz4bEJVg-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ g3-20020a2e9cc3000000b00253cc2b5ab5so1016951ljj.19
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 01:48:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Kk3JVlcex6DCNhEfc9R2AHfotNU5Glx4eY13MK9u00E=;
+ b=Tb+2vBuiEeblk6gS+J6BygjB6SAoBsxT0PJdRL7zbKFoLLVm8LWiPqjV6Nx/3Xn3zG
+ zPWdcgJn+5PsVCPSf8IM7KWeAApmZeI9KOyxDte8TNJeIHrAyORwyx0MsdCVNtWQozBZ
+ FLDCbB6egYHXUj53lPAZwdwZKzOci5dxUMvvNyTxBYK+Vt1zt+tbpoJ5/QOSgGkj03an
+ D3dpmNcTt5m7yJvxKvT+8W5xipv6V57X9jAZYDikyHZsCnVhp+iCHwu0IoYrcg99VXmb
+ jhkk+5/k/rKoe3nWoo4hxfbYgYy0wtA+OOIvaoT8IIOqLqAi//Z8ZJyGUNBpTFz7aL0Y
+ oTRg==
+X-Gm-Message-State: AJIora+ExF4gvZIAtjwXnalmAFaQUwcNJyHiIo3eT/geiYRkPPYtII3u
+ x7mZcGBeDlogzFRxx0uKHRVGRzVR4SiXElEO2jsup9EfuIBHhWmZoRgQLaFXb8lStEjdQ2CjEPG
+ 3u4mst5B7b+J1w62rUQaEdWIhTcUz1bM=
+X-Received: by 2002:a2e:2e0d:0:b0:25d:48a6:827d with SMTP id
+ u13-20020a2e2e0d000000b0025d48a6827dmr6602211lju.323.1657874882483; 
+ Fri, 15 Jul 2022 01:48:02 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v5GAfyWRhd37f+kwMDMCBlSIiDU+sUtwzQazNlfS1ElMnKMfBG6OH+ikrlAjNO1RW+fNkkuEZAUJaHvXsdnX8=
+X-Received: by 2002:a2e:2e0d:0:b0:25d:48a6:827d with SMTP id
+ u13-20020a2e2e0d000000b0025d48a6827dmr6602189lju.323.1657874882207; Fri, 15
+ Jul 2022 01:48:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220714163150.2536327-1-eperezma@redhat.com>
+ <20220714163150.2536327-13-eperezma@redhat.com>
+ <CACGkMEuHR_R6Jxjvznv1T-d6SGngsYQyfhCNw8-HoTb3FLcX0w@mail.gmail.com>
+ <CAJaqyWfwODXUr_z3Qzp7_MSbEamG0W8MxUtxn1kV-NE_qfBi-A@mail.gmail.com>
+In-Reply-To: <CAJaqyWfwODXUr_z3Qzp7_MSbEamG0W8MxUtxn1kV-NE_qfBi-A@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Fri, 15 Jul 2022 16:47:51 +0800
+Message-ID: <CACGkMEvfPDMK+7jg+r5hunxA+EXuN9V_d_KZfkCfufe-ONbXFQ@mail.gmail.com>
+Subject: Re: [PATCH v2 12/19] vhost: add vhost_svq_poll
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Gautam Dawar <gdawar@xilinx.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Parav Pandit <parav@mellanox.com>, 
+ Laurent Vivier <lvivier@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>, 
+ Eli Cohen <eli@mellanox.com>, Cindy Lu <lulu@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -84,68 +105,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 14 2022, Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+On Fri, Jul 15, 2022 at 1:39 PM Eugenio Perez Martin
+<eperezma@redhat.com> wrote:
+>
+> On Fri, Jul 15, 2022 at 5:59 AM Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > On Fri, Jul 15, 2022 at 12:32 AM Eugenio P=C3=A9rez <eperezma@redhat.co=
+m> wrote:
+> > >
+> > > It allows the Shadow Control VirtQueue to wait for the device to use =
+the
+> > > available buffers.
+> > >
+> > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > > ---
+> > >  hw/virtio/vhost-shadow-virtqueue.h |  1 +
+> > >  hw/virtio/vhost-shadow-virtqueue.c | 22 ++++++++++++++++++++++
+> > >  2 files changed, 23 insertions(+)
+> > >
+> > > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-sha=
+dow-virtqueue.h
+> > > index 1692541cbb..b5c6e3b3b4 100644
+> > > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > > @@ -89,6 +89,7 @@ void vhost_svq_push_elem(VhostShadowVirtqueue *svq,=
+ const SVQElement *elem,
+> > >  int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out=
+_sg,
+> > >                    size_t out_num, const struct iovec *in_sg, size_t =
+in_num,
+> > >                    SVQElement *elem);
+> > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq);
+> > >
+> > >  void vhost_svq_set_svq_kick_fd(VhostShadowVirtqueue *svq, int svq_ki=
+ck_fd);
+> > >  void vhost_svq_set_svq_call_fd(VhostShadowVirtqueue *svq, int call_f=
+d);
+> > > diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-sha=
+dow-virtqueue.c
+> > > index 5244896358..31a267f721 100644
+> > > --- a/hw/virtio/vhost-shadow-virtqueue.c
+> > > +++ b/hw/virtio/vhost-shadow-virtqueue.c
+> > > @@ -486,6 +486,28 @@ static void vhost_svq_flush(VhostShadowVirtqueue=
+ *svq,
+> > >      } while (!vhost_svq_enable_notification(svq));
+> > >  }
+> > >
+> > > +/**
+> > > + * Poll the SVQ for one device used buffer.
+> > > + *
+> > > + * This function race with main event loop SVQ polling, so extra
+> > > + * synchronization is needed.
+> > > + *
+> > > + * Return the length written by the device.
+> > > + */
+> > > +size_t vhost_svq_poll(VhostShadowVirtqueue *svq)
+> > > +{
+> > > +    do {
+> > > +        uint32_t len;
+> > > +        SVQElement *elem =3D vhost_svq_get_buf(svq, &len);
+> > > +        if (elem) {
+> > > +            return len;
+> > > +        }
+> > > +
+> > > +        /* Make sure we read new used_idx */
+> > > +        smp_rmb();
+> >
+> > There's already one smp_rmb(0 in vhost_svq_get_buf(). So this seems use=
+less?
+> >
+>
+> That rmb is after checking for new entries with (vq->last_used_idx !=3D
+> svq->shadow_used_idx) , to avoid reordering used_idx read with the
+> actual used entry. So my understanding is
+> that the compiler is free to skip that check within the while loop.
 
-> When querying '-cpu help' there is no presentation of fact that a
-> CPU may be deprecated. The user just has to try it and see if they
-> get a depecation message at runtime.  The QMP command for querying
-> CPUs report a deprecation bool flag, but not the explanatory
-> reason.
->
-> The Icelake-Client CPU (removed in 6df39f5e583ca0f67bd934d1327f9ead2e3bd4=
-9c)
-> handled this by modifying the '.notes' section to add the word
-> 'deprecated':
->
->             {
->                 .version =3D 2,
->                 .note =3D "no TSX, deprecated",
->                 .alias =3D "Icelake-Client-noTSX",
->                 .props =3D (PropValue[]) {
->                     { "hle", "off" },
->                     { "rtm", "off" },
->                     { /* end of list */ }
->                 },
->             },
->
-> This relies on the person deprecating the CPU to remember to do this,
-> and is redundant when this info is already expressed in the
-> '.deprecation_note' field.
->
-> This short series suggests just modifying the '-cpu help'
-> formatter so that it displays the full deprecation message
->
-> eg
->
-> $ qemu-system-x86_64 -cpu help:
-> Available CPUs:
-> x86 486                   (alias configured by machine type) (deprecated:=
- use at least 'Nehalem' / 'Opteron_G4', or 'host' / 'max')
->
-> I wonder if this is too verbose, and we should just do a
-> concise flag like approach, similar to QMP:
->
-> $ qemu-system-x86_64 -cpu help:
-> Available CPUs:
-> x86 486                   (alias configured by machine type) (deprecated)
->
-> leaving the full message to be displayed at runtime ? I'm slightly
-> inclined to the simpler more concise output.
-
-The good thing about the longer output is that the user gets the full
-information right from the start, and does not need to dig around and
-figure out why it is deprecated, and what to use instead. That said, if
-we have very verbose deprecation notes, the output may get a bit
-cluttered. I think I slightly prefer the verbose output.
+What do you mean by "that check" here?
 
 >
-> This series touched x86_64, s390x, and aarch64 because that's all I
-> personally needed from a downstream POV, but any & all of the targets
-> would benefit from this. They have each implemneted the '-cpu help'
-> logic independantly though, and unifying that code is not entirely
-> straightforward.
+> Maybe the right solution is to add it in vhost_svq_more_used after the
+> condition (vq->last_used_idx !=3D svq->shadow_used_idx) is false?
 
-It seems that any arch that does not use a very simple output has chosen
-a different format...
+I'm not sure I get the goal of the smp_rmb() here. What barrier does it pai=
+r?
+
+Since we are in the busy loop, we will read the for new used_idx for
+sure, and we can't forecast when the used_idx is committed to memory.
+
+Thanks
+
+>
+> Thanks!
+>
+>
+> > Thanks
+> >
+> > > +    } while (true);
+> > > +}
+> > > +
+> > >  /**
+> > >   * Forward used buffers.
+> > >   *
+> > > --
+> > > 2.31.1
+> > >
+> >
+>
 
 
