@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6975A576733
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 21:12:06 +0200 (CEST)
-Received: from localhost ([::1]:37646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D369576896
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 22:58:30 +0200 (CEST)
+Received: from localhost ([::1]:60088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCQjN-0006gb-0d
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 15:12:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1oCSOK-0002c7-VT
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 16:58:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCQhk-00052Y-9b
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 15:10:24 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:39474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCQhi-0008Rx-Mz
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 15:10:24 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-31c9b70c382so55900977b3.6
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 12:10:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pw3QuutZyAYa9WdHVUSyauPKkNtYUuPSJ+hG8NYvvto=;
- b=YT7xN6KxG6jw5K2mBekz+b0nfkilNi3QuuRt+AntgHPFHpe1e9QiuxdEQ/05XNdRWE
- b7zHSAinKH42hLA9UgC5qIHqQJlqPTuT2pwwI2dwHvb39D2YDrU3c8S2Txis0RwL12Af
- nvrhrEqK1kYk58dhLNNYUkLWV0ThdmrBEQ8QlYeFKFda3Y3z0OSF/ATu0O1RT7VfUN6B
- KDWE5mM33kAtrX/LsEsqPipklKL+lDqP76bAMCJr4OGfg0OClExg3oDAtmF0f66Qo56p
- wvOk2aa2UjW/0oyX2Fjyv6GLabzK6GdHBugG0ra2MpHFb8zmtkZXeXXIBlTpzrEI12Gi
- OXYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Pw3QuutZyAYa9WdHVUSyauPKkNtYUuPSJ+hG8NYvvto=;
- b=v5rw8NtBAOi12YoKAYNbPthtfJDTZCgePoRl5FbK292bh6Op+avq6NHxMSztjLPM6J
- 9sXycY/N6UCLHZHCkqg9GYZckfCWzkAUKysriRpbHP6VUJCFDxjNHa6cPvS+DF/zgYkq
- KoqG4S+2sF2AbNd6akxVaXz5M7Xejfn83kEkAhmUDFz1x5HVR5HMjJA9fZNk2Eb9LZS/
- arH7dkk8bIt2C/u9Ut4oTwjvm0cogQivDor+xpOO6eS9PAxGSI/f8pDlGTsqCscQIrZc
- PjyhIKw54QIKAXlL56DPxS871T0WHKhQd2zLBk8dJTwIvxV8IL5KA1ja+WPBBfZfvZ0l
- MlNQ==
-X-Gm-Message-State: AJIora8js3bCligkgJBvMrFQoUnXW3uTrp9Tlks7JYmJm+1nzlf52dss
- CD/S+yDsHG/icrlfrpdDtBKBWCD/38CUHaL7N1Uxew==
-X-Google-Smtp-Source: AGRyM1tlNcroI9Oe/ki0l7+NkZ+pngiy2T9XL1Z8ql+Gapb3MWepL43XMNbl5z5bf28RrEDWJszKIUohJei6i9tQYws=
-X-Received: by 2002:a81:f8f:0:b0:31c:bd9f:31ce with SMTP id
- 137-20020a810f8f000000b0031cbd9f31cemr17332852ywp.347.1657912221511; Fri, 15
- Jul 2022 12:10:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oCSKx-0005Xj-QU; Fri, 15 Jul 2022 16:54:59 -0400
+Received: from [200.168.210.66] (port=55753 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oCSKw-00083Z-4u; Fri, 15 Jul 2022 16:54:59 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Fri, 15 Jul 2022 17:54:51 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTP id 52101800181;
+ Fri, 15 Jul 2022 17:54:51 -0300 (-03)
+From: =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org,
+ victor.colombo@eldorado.org.br, cohuck@redhat.com, farosas@linux.ibm.com
+Subject: [PATCH v4 0/3] Implement Power ISA 3.1B hash insns
+Date: Fri, 15 Jul 2022 17:54:36 -0300
+Message-Id: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220715084340.1128455-1-its@irrelevant.dk>
-In-Reply-To: <20220715084340.1128455-1-its@irrelevant.dk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 20:09:41 +0100
-Message-ID: <CAFEAcA8PWcEBEJOSt=NkNXr2L959dY7kB9ZsqBQUShpw3vNA4w@mail.gmail.com>
-Subject: Re: [PULL 0/6] hw/nvme updates
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
- Fam Zheng <fam@euphon.net>, 
- Kevin Wolf <kwolf@redhat.com>, Keith Busch <kbusch@kernel.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>, 
- Klaus Jensen <k.jensen@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 15 Jul 2022 20:54:51.0820 (UTC)
+ FILETIME=[20F57EC0:01D8988D]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,40 +62,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jul 2022 at 09:43, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> From: Klaus Jensen <k.jensen@samsung.com>
->
-> Hi,
->
-> The following changes since commit 8482ab545e52f50facacfe1118b22b97462724ab:
->
->   Merge tag 'qga-win32-pull-2022-07-13' of github.com:kostyanf14/qemu into staging (2022-07-14 14:52:16 +0100)
->
-> are available in the Git repository at:
->
->   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
->
-> for you to fetch changes up to 2e53b0b450246044efd27418c5d05ad6919deb87:
->
->   hw/nvme: Use ioeventfd to handle doorbell updates (2022-07-15 10:40:33 +0200)
->
-> ----------------------------------------------------------------
-> hw/nvme updates
->
-> performance improvements by Jinhao
-> ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> * shadow doorbells
-> * ioeventfd
->
-> plus some misc fixes (Darren, Niklas).
->
+This patch series implements the 4 instructions added in Power ISA
+3.1B:
 
+- hashchk
+- hashst
+- hashchkp
+- hashstp
 
-Applied, thanks.
+It's built on top of ppc-next. Working branch for ease of use can be
+found here:
+https://github.com/PPC64/qemu/tree/vccolombo-hash-to-send-v4
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
+What do you think about the choice to implement the hash algorithm
+from the ground up, following the SIMON-like algorithm presented in
+Power ISA? IIUC, this algorithm is not the same as the original[1].
+Other options would be to use other algorithm already implemented
+in QEMU, or even make this instruction a nop for all Power versions.
 
--- PMM
+v1->v2:
+- Split the patch in 2
+- Rebase to master
+
+v2->v3:
+- Split patches in 3
+    - the new patch (patch 1) is separating the kvm header
+      changes [Cornelia]
+
+v3->v4:
+- Remove Patch 1 (linux-headers/asm-powerpc/kvm.h:
+    Add HASHKEYR and HASHPKEYR in headers)
+    - Daniel recommended drop the kvm part:
+    https://lists.nongnu.org/archive/html/qemu-ppc/2022-07/msg00213.html
+- Substitute Patch 1 with a separated patch setting up the registers
+  for TCG only. Also, now setup it with a random value in linux-user.
+- Change the registers naming:
+    - SPR_POWER_HASHKEYR -> SPR_HASHKEYR
+- Drop RFC tag
+
+[1] https://eprint.iacr.org/2013/404.pdf
+
+Víctor Colombo (3):
+  target/ppc: Add HASHKEYR and HASHPKEYR SPRs
+  target/ppc: Implement hashst and hashchk
+  target/ppc: Implement hashstp and hashchkp
+
+ target/ppc/cpu.h                           |  2 +
+ target/ppc/cpu_init.c                      | 28 ++++++++
+ target/ppc/excp_helper.c                   | 84 ++++++++++++++++++++++
+ target/ppc/helper.h                        |  4 ++
+ target/ppc/insn32.decode                   | 10 +++
+ target/ppc/translate.c                     |  5 ++
+ target/ppc/translate/fixedpoint-impl.c.inc | 34 +++++++++
+ 7 files changed, 167 insertions(+)
+
+-- 
+2.25.1
+
 
