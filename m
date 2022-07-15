@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692A65765BB
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:24:02 +0200 (CEST)
-Received: from localhost ([::1]:55000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E625765B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 19:22:15 +0200 (CEST)
+Received: from localhost ([::1]:47624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCP2n-0006DH-Fg
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
+	id 1oCP14-0001JR-Mx
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 13:22:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oCOw5-0000oG-Tr
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:06 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9938)
+ id 1oCOwB-0000vc-Mx
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:11 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:21546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oCOw4-0005dJ-4r
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:05 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FH48Lu030461;
- Fri, 15 Jul 2022 17:16:59 GMT
+ id 1oCOw9-0005dy-S9
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 13:17:11 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26FGbt5x027473;
+ Fri, 15 Jul 2022 17:17:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=RyPoFbt3mAI749wa3ojwpKVtkxfRL5XMP85RSHN+/wg=;
- b=joipw7HJthWahL9eshYyuso3hZwbcANc3vIpIg4x6cc+srxg6J97DLLdPVH2pYyu0wKx
- zijnTS2DT1E46ikFSJwnrBguws+yCZRJkNm9R5NL4UKBKM7yX3/Be+IFiUA5P71aJh4a
- CR5qyHV4poyImEPkYdIAkpgvoEpLa873TuGSFtn9ofqCe/yF94wBGMNHu0LVbOfapb4a
- /GDZkxdB7fDdGZpE5AB+A3tTiaFN8CamEy2zkfy0oZNFbzPzptZSOkYiW8YHO8JiKg6A
- kumoRZNXbS5II6zpKBMTQVLsM7AIOtljjVca+OvzZmJJoeIpunMEL56+K92TvEWcUQnS qQ== 
+ bh=jJoSn1HmBEMdNOoauqZixXNzsONSuXugygiibVftDf4=;
+ b=vYLJcXgQ9aWcIxVPa+VsdHkwJ9/4DecDD77MhfALnJPrgsPzRVt/ts7XXVNfuxVtbnoK
+ sd23nm7CvD8BvJmcGhcEfVEXYzE2EhbCXbc0oaJOFJyMhpZvSH65jD1gQ5kjUKQ+jzLo
+ AE2EjmpkOMF6mxL2Ov5biZjYTqebtAeUTRjYGbA8W6VyqX7KH9lX9TvnA8324ruJh45r
+ Rxjngb/C26vrs6AOcoMWsOLvmBuzlg8HZbFly2cT0i2M8UyQpkMr865ibLStBFhSJfZU
+ WSczcNnGp9+8JZLD82vWlycMpbDKfk9rZAUXrFJu3346vWvy2BP6X4tFM06D81gJiEmm hw== 
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71scgq7u-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3h71rg8cqd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jul 2022 17:16:59 +0000
+ Fri, 15 Jul 2022 17:17:02 +0000
 Received: from pps.filterd
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2)
- with SMTP id 26FHBisG039706; Fri, 15 Jul 2022 17:16:58 GMT
+ with SMTP id 26FHBh2Q039680; Fri, 15 Jul 2022 17:17:02 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h7047tyxd-1
+ 3h7047u00g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 15 Jul 2022 17:16:58 +0000
+ Fri, 15 Jul 2022 17:17:02 +0000
 Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26FHGjM1013789;
- Fri, 15 Jul 2022 17:16:58 GMT
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 26FHGjM3013789;
+ Fri, 15 Jul 2022 17:17:01 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-181-254.vpn.oracle.com
  [10.175.181.254])
  by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id
- 3h7047tyn7-4; Fri, 15 Jul 2022 17:16:57 +0000
+ 3h7047tyn7-5; Fri, 15 Jul 2022 17:17:01 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -64,16 +64,16 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v8 03/11] i386/pc: pass pci_hole64_size to pc_memory_init()
-Date: Fri, 15 Jul 2022 18:16:20 +0100
-Message-Id: <20220715171628.21437-4-joao.m.martins@oracle.com>
+Subject: [PATCH v8 04/11] i386/pc: factor out above-4g end to an helper
+Date: Fri, 15 Jul 2022 18:16:21 +0100
+Message-Id: <20220715171628.21437-5-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220715171628.21437-1-joao.m.martins@oracle.com>
 References: <20220715171628.21437-1-joao.m.martins@oracle.com>
-X-Proofpoint-GUID: xhCGEWEcXL_RuD8trJ7k6h00W0dYw78E
-X-Proofpoint-ORIG-GUID: xhCGEWEcXL_RuD8trJ7k6h00W0dYw78E
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: yrLbYA_4qkGmWAgXjix2_i1lx8fh0jnR
+X-Proofpoint-ORIG-GUID: yrLbYA_4qkGmWAgXjix2_i1lx8fh0jnR
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -96,117 +96,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the pre-initialized pci-host qdev and fetch the
-pci-hole64-size into pc_memory_init() newly added argument.
-Use PCI_HOST_PROP_PCI_HOLE64_SIZE pci-host property for
-fetching pci-hole64-size.
-
-This is in preparation to determine that host-phys-bits are
-enough and for pci-hole64-size to be considered to relocate
-ram-above-4g to be at 1T (on AMD platforms).
+There's a couple of places that seem to duplicate this calculation
+of RAM size above the 4G boundary. Move all those to a helper function.
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/pc.c         |  3 ++-
- hw/i386/pc_piix.c    |  7 ++++++-
- hw/i386/pc_q35.c     | 10 +++++++++-
- include/hw/i386/pc.h |  3 ++-
- 4 files changed, 19 insertions(+), 4 deletions(-)
+ hw/i386/pc.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1660684d12fd..e952dc62a12e 100644
+index e952dc62a12e..216e38da938e 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -817,7 +817,8 @@ void xen_load_linux(PCMachineState *pcms)
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory)
-+                    MemoryRegion **ram_memory,
-+                    uint64_t pci_hole64_size)
- {
-     int linux_boot, i;
-     MemoryRegion *option_rom_mr;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 6186a1473755..2a483e8666b4 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
-     MemoryRegion *pci_memory;
-     MemoryRegion *rom_memory;
-     ram_addr_t lowmem;
-+    uint64_t hole64_size;
-     DeviceState *i440fx_host;
+@@ -814,6 +814,17 @@ void xen_load_linux(PCMachineState *pcms)
+ #define PC_ROM_ALIGN       0x800
+ #define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
  
-     /*
-@@ -166,10 +167,14 @@ static void pc_init1(MachineState *machine,
-         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
-         rom_memory = pci_memory;
-         i440fx_host = qdev_new(host_type);
-+        hole64_size = object_property_get_uint(OBJECT(i440fx_host),
-+                                               PCI_HOST_PROP_PCI_HOLE64_SIZE,
-+                                               &error_abort);
-     } else {
-         pci_memory = NULL;
-         rom_memory = system_memory;
-         i440fx_host = NULL;
-+        hole64_size = 0;
-     }
- 
-     pc_guest_info_init(pcms);
-@@ -186,7 +191,7 @@ static void pc_init1(MachineState *machine,
-     /* allocate ram and load rom/bios */
-     if (!xen_enabled()) {
-         pc_memory_init(pcms, system_memory,
--                       rom_memory, &ram_memory);
-+                       rom_memory, &ram_memory, hole64_size);
-     } else {
-         pc_system_flash_cleanup_unused(pcms);
-         if (machine->kernel_filename != NULL) {
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 46ea89e564de..99ed75371c67 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -138,6 +138,7 @@ static void pc_q35_init(MachineState *machine)
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     bool acpi_pcihp;
-     bool keep_pci_slot_hpc;
-+    uint64_t pci_hole64_size = 0;
- 
-     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-@@ -206,8 +207,15 @@ static void pc_q35_init(MachineState *machine)
-     /* create pci host bus */
-     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
- 
-+    if (pcmc->pci_enabled) {
-+        pci_hole64_size = object_property_get_uint(OBJECT(q35_host),
-+                                                   PCI_HOST_PROP_PCI_HOLE64_SIZE,
-+                                                   &error_abort);
++static hwaddr pc_above_4g_end(PCMachineState *pcms)
++{
++    X86MachineState *x86ms = X86_MACHINE(pcms);
++
++    if (pcms->sgx_epc.size != 0) {
++        return sgx_epc_above_4g_end(&pcms->sgx_epc);
 +    }
 +
-     /* allocate ram and load rom/bios */
--    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
-+    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
-+                   pci_hole64_size);
- 
-     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b7735dccfc81..568c226d3034 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -159,7 +159,8 @@ void xen_load_linux(PCMachineState *pcms);
++    return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
++}
++
  void pc_memory_init(PCMachineState *pcms,
                      MemoryRegion *system_memory,
                      MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory);
-+                    MemoryRegion **ram_memory,
-+                    uint64_t pci_hole64_size);
- uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
- void pc_basic_device_init(struct PCMachineState *pcms,
+@@ -891,15 +902,8 @@ void pc_memory_init(PCMachineState *pcms,
+             exit(EXIT_FAILURE);
+         }
+ 
+-        if (pcms->sgx_epc.size != 0) {
+-            machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+-        } else {
+-            machine->device_memory->base =
+-                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+-        }
+-
+         machine->device_memory->base =
+-            ROUND_UP(machine->device_memory->base, 1 * GiB);
++            ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
+ 
+         if (pcmc->enforce_aligned_dimm) {
+             /* size device region assuming 1G page max alignment per slot */
+@@ -929,7 +933,7 @@ void pc_memory_init(PCMachineState *pcms,
+         } else if (pcms->sgx_epc.size != 0) {
+             cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+         } else {
+-            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
++            cxl_base = pc_above_4g_end(pcms);
+         }
+ 
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+@@ -1016,7 +1020,6 @@ uint64_t pc_pci_hole64_start(void)
+     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+     MachineState *ms = MACHINE(pcms);
+-    X86MachineState *x86ms = X86_MACHINE(pcms);
+     uint64_t hole64_start = 0;
+ 
+     if (pcms->cxl_devices_state.host_mr.addr) {
+@@ -1034,10 +1037,8 @@ uint64_t pc_pci_hole64_start(void)
+         if (!pcmc->broken_reserved_end) {
+             hole64_start += memory_region_size(&ms->device_memory->mr);
+         }
+-    } else if (pcms->sgx_epc.size != 0) {
+-            hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     } else {
+-        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
++        hole64_start = pc_above_4g_end(pcms);
+     }
+ 
+     return ROUND_UP(hole64_start, 1 * GiB);
 -- 
 2.17.2
 
