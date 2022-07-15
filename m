@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB49B5761CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 14:36:41 +0200 (CEST)
-Received: from localhost ([::1]:46892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7B1576257
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 14:57:09 +0200 (CEST)
+Received: from localhost ([::1]:50908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCKYi-00069C-6O
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 08:36:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60686)
+	id 1oCKsV-0002Nw-C3
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 08:57:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKVv-00044s-Gu
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:33:47 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:37402)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oCKqS-0000m3-6u; Fri, 15 Jul 2022 08:55:00 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:38772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCKVf-0002RA-Eo
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 08:33:47 -0400
-Received: by mail-wr1-x434.google.com with SMTP id j1so2098799wrs.4
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 05:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yuRbk5CWRfM03M5yrd1oq6pfXGgzYo68VWk+Ro2YMl8=;
- b=r1GWN6JetqLl1ugnzacjTi/aXxegnPXgNMKnmTsS6NljZp4rFkpLypWmoyyzk7z2kD
- BQlqNY3t1w5zh/fRRJiAlpbttm65j3isAWj6rrGeObXjoWAWOWaoBwOxyg/jW/PMGhw2
- nAonSCEQR5Jft5Jaq+oRjmZAdqRs3ZMoYRlTpjlWFI+8K9AGyYxGFz2z9nsDQyC4M42l
- IqF9EXc3F6lUjJOoNHY46boAHdmzTYpJOzqXaHYPiWdn4lJKPTBS/EHmW4kUUk6Sgqnx
- oNut83eg+o3Wj1gh2fvyGVop4xJAB9mzkWILHl0l5TBx+2m7IQVQZ+pDwcgEErpBfNPO
- +P+w==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oCKqQ-0005VM-PI; Fri, 15 Jul 2022 08:54:59 -0400
+Received: by mail-oi1-x232.google.com with SMTP id s204so5957909oif.5;
+ Fri, 15 Jul 2022 05:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=FtaYsut0/sFvpfQgrx8dGBHprmV65HoH0zbHeW7PJrM=;
+ b=RDUiLeQoc6mUwFf/UPu9XZZUiCJswY6rRlsGHwm2f8bQwzAHb1Pa5T1OiH2oWYfL3M
+ 1Fn+Zntz4kowd4ZLviuZvFEIwVOMRrN4ljEtdmB/BeELSMxkp0VReLb9lhiicuCHVLbA
+ 4lLWOXIULtBLCwRgg43dVFtVadzBIOODDm65voYqgD2qaRZNUBnA1UjYtRL7l1s3rR6/
+ TpWqB33cljGYeJawDEpP134fK09zW+eXuIiVXpo7JVJFXhKdVM0qrovblAjiSW8UbJjE
+ hH93kJl2a7Tfhu7jGACT4+FHf23Qhv1PxB7K5mswHEZpuC6U58ANNx6ohi7houT9taRj
+ /WKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yuRbk5CWRfM03M5yrd1oq6pfXGgzYo68VWk+Ro2YMl8=;
- b=tCWSPSVCSdQsvkZLH+2Pvq73MEVwhsBOZTpcAicpFsgGS2wWGt/ocuUuMA+32DgYoE
- Z4G9Yj7KEJ5UaXlFqih16DNIQZMUiLX8No2sU3J6Ye7xufCd+ClgN0+LPiFoPtUVzqiM
- fPVNvcOePkDJP5/EPmYqZuNxpa8n4x5hkNFB8vXNAsaXfR3/dXwLmd2oj9OmZ9bkS5X9
- AQYh9o9c9usyETSH0mVMUx4sX+SeY2p1v1/CaXIM62UcBolbm464g9CFntx4pShUvA4z
- E4LPdiaYeAct/wuZOcsO2GjBtab0fdCkJ1/s7N6pa2HC/gI4fEwOUitlkpYmS7UvYgvr
- wzMw==
-X-Gm-Message-State: AJIora/VIeU6q0oPqaCWuqbY3E3w+OcenjZDFlTDwX+pnbpeKM6ppuEK
- Zt7hrLODOZxOGrj/wpVqvpybHwD36Y6BMA==
-X-Google-Smtp-Source: AGRyM1tHkOoaHa2lKpq4UmW4kVtTiJbnOPbUd6J39YTToHDYdP/T3+284MKxT5ZygVDALrulPCfXrQ==
-X-Received: by 2002:a5d:598e:0:b0:21d:86b2:f35 with SMTP id
- n14-20020a5d598e000000b0021d86b20f35mr12877646wri.54.1657888409576; 
- Fri, 15 Jul 2022 05:33:29 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- m185-20020a1c26c2000000b003a302fb9df7sm4832616wmm.21.2022.07.15.05.33.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 15 Jul 2022 05:33:28 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] target/arm: Don't set syndrome ISS for loads and stores with
- writeback
-Date: Fri, 15 Jul 2022 13:33:23 +0100
-Message-Id: <20220715123323.1550983-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ bh=FtaYsut0/sFvpfQgrx8dGBHprmV65HoH0zbHeW7PJrM=;
+ b=bymNcSs/xZp7Fv0bhnE7+3MQqrit4mHi3eMhZ6nuZdUU1MWJihToRNMiFWwpF8JdpQ
+ Ue6hBNxgMZRJhzJi1S7HHt9GiOe3H9fIamdYxiCrcgrFfRGpnAkm1Gyly3Eyb8qn9hrO
+ ooMVSzZ0luMh4FqDVmxEetMrPY2QGhBPif7HDRn0euzbb+ZAjUPSxHypvhD/zRuEVFFo
+ SZp3dGApiQCgYqXi03FJTfXUyl+bIonomk/LaSuY2hFRm6SCYVl//mWq8OZM7MxFq5QM
+ A7j3s32ynifLpQVKJM/V5K5qFY5Net0NNcTgkOS6UIxXqqBuahkxVqCaJgqrZt+omZsg
+ U5rQ==
+X-Gm-Message-State: AJIora9RmGEoEDbAxrOswiM0+cPwxtsKIFnCMtYpNiNylzP9Vxu8ORfb
+ rXcUAe6wHvSL0/Ld/Nu4H80=
+X-Google-Smtp-Source: AGRyM1usoCud9Gzmy/IptP/H/ugGn7tkfok70MwR2yJ0ERA479maETu4o0eJ79Bf5IPKss+06V+GGw==
+X-Received: by 2002:aca:dfd6:0:b0:339:c2ac:5755 with SMTP id
+ w205-20020acadfd6000000b00339c2ac5755mr7025154oig.20.1657889697296; 
+ Fri, 15 Jul 2022 05:54:57 -0700 (PDT)
+Received: from [192.168.10.102] (201-27-97-88.dsl.telesp.net.br.
+ [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
+ 2-20020a9d0002000000b0061c24cd628bsm1838268ota.7.2022.07.15.05.54.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 15 Jul 2022 05:54:56 -0700 (PDT)
+Message-ID: <023abd28-3922-862f-09b4-e60f37a6e6d2@gmail.com>
+Date: Fri, 15 Jul 2022 09:54:53 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 3/3] target/ppc: Check page dir/table base alignment
+Content-Language: en-US
+To: Leandro Lupori <leandro.lupori@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+Cc: clg@kaod.org, david@gibson.dropbear.id.au, groug@kaod.org,
+ richard.henderson@linaro.org
+References: <20220628133959.15131-1-leandro.lupori@eldorado.org.br>
+ <20220628133959.15131-4-leandro.lupori@eldorado.org.br>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220628133959.15131-4-leandro.lupori@eldorado.org.br>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,44 +94,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The architecture requires that for faults on loads and stores which
-do writeback, the syndrome information does not have the ISS
-instruction syndrome information (i.e. ISV is 0).  We got this wrong
-for the load and store instructions covered by disas_ldst_reg_imm9().
-Calculate iss_valid correctly so that if the insn is a writeback one
-it is false.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1057
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Tested with RTH's test case attached to the bug report.
----
- target/arm/translate-a64.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index b7b64f73584..163df8c6157 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -3138,7 +3138,7 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
-     bool is_store = false;
-     bool is_extended = false;
-     bool is_unpriv = (idx == 2);
--    bool iss_valid = !is_vector;
-+    bool iss_valid;
-     bool post_index;
-     bool writeback;
-     int memidx;
-@@ -3191,6 +3191,8 @@ static void disas_ldst_reg_imm9(DisasContext *s, uint32_t insn,
-         g_assert_not_reached();
-     }
- 
-+    iss_valid = !is_vector && !writeback;
-+
-     if (rn == 31) {
-         gen_check_sp_alignment(s);
-     }
--- 
-2.25.1
+On 6/28/22 10:39, Leandro Lupori wrote:
+> According to PowerISA 3.1B, Book III 6.7.6 programming note, the
+> page directory base addresses are expected to be aligned to their
+> size. Real hardware seems to rely on that and will access the
+> wrong address if they are misaligned. This results in a
+> translation failure even if the page tables seem to be properly
+> populated.
+> 
+> Signed-off-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
+> ---
 
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   target/ppc/mmu-radix64.c | 28 ++++++++++++++++++++++++----
+>   1 file changed, 24 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
+> index 705bff76be..00f2e9fa2e 100644
+> --- a/target/ppc/mmu-radix64.c
+> +++ b/target/ppc/mmu-radix64.c
+> @@ -265,7 +265,7 @@ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
+>                                     uint64_t *pte_addr, uint64_t *nls,
+>                                     int *psize, uint64_t *pte, int *fault_cause)
+>   {
+> -    uint64_t index, pde;
+> +    uint64_t index, mask, nlb, pde;
+>   
+>       /* Read page <directory/table> entry from guest address space */
+>       pde = ldq_phys(as, *pte_addr);
+> @@ -280,7 +280,17 @@ static int ppc_radix64_next_level(AddressSpace *as, vaddr eaddr,
+>           *nls = pde & R_PDE_NLS;
+>           index = eaddr >> (*psize - *nls);       /* Shift */
+>           index &= ((1UL << *nls) - 1);           /* Mask */
+> -        *pte_addr = (pde & R_PDE_NLB) + (index * sizeof(pde));
+> +        nlb = pde & R_PDE_NLB;
+> +        mask = MAKE_64BIT_MASK(0, *nls + 3);
+> +
+> +        if (nlb & mask) {
+> +            qemu_log_mask(LOG_GUEST_ERROR,
+> +                "%s: misaligned page dir/table base: 0x"TARGET_FMT_lx
+> +                " page dir size: 0x"TARGET_FMT_lx"\n",
+> +                __func__, nlb, mask + 1);
+> +            nlb &= ~mask;
+> +        }
+> +        *pte_addr = nlb + index * sizeof(pde);
+>       }
+>       return 0;
+>   }
+> @@ -294,8 +304,18 @@ static int ppc_radix64_walk_tree(AddressSpace *as, vaddr eaddr,
+>       int level = 0;
+>   
+>       index = eaddr >> (*psize - nls);    /* Shift */
+> -    index &= ((1UL << nls) - 1);       /* Mask */
+> -    *pte_addr = base_addr + (index * sizeof(pde));
+> +    index &= ((1UL << nls) - 1);        /* Mask */
+> +    mask = MAKE_64BIT_MASK(0, nls + 3);
+> +
+> +    if (base_addr & mask) {
+> +        qemu_log_mask(LOG_GUEST_ERROR,
+> +            "%s: misaligned page dir base: 0x"TARGET_FMT_lx
+> +            " page dir size: 0x"TARGET_FMT_lx"\n",
+> +            __func__, base_addr, mask + 1);
+> +        base_addr &= ~mask;
+> +    }
+> +    *pte_addr = base_addr + index * sizeof(pde);
+> +
+>       do {
+>           int ret;
+>   
 
