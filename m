@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F320D57648E
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 17:40:45 +0200 (CEST)
-Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EAAF5764BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 17:48:22 +0200 (CEST)
+Received: from localhost ([::1]:52394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCNQn-0005Br-Lf
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 11:40:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
+	id 1oCNYD-0003W2-11
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 11:48:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCNOg-0001vs-W3
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:38:31 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:43977)
+ id 1oCNVB-00014W-DI
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:45:17 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:36581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oCNOe-0002d0-59
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:38:30 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-31df2545d87so27752787b3.10
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 08:38:27 -0700 (PDT)
+ id 1oCNV5-0003wM-CR
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 11:45:13 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id n74so9063092yba.3
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 08:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bQ28LxSKCjjYmzSLGbZc3jd+smOUB2hYE7Be/XzSJtU=;
- b=owos9V7E6Xio/bZoTJc5F0nCNV1Akdm6p1kAOHxBCxaMDcJdk8IrVLHh9DU4elj1L3
- nuJ3HZZt+pNn8rFOyLlUznV8JlMOUIhLm2iuHkeCdnBcI1BDsgpweDRPny5Hr9da+0pf
- sXMN5hEmxkgeN3X8uk/xnj7pAZNQG0fHxZnLRGRnOaqv1c4hRn+jXvKHime/0OpjZNJx
- 2a4uotOJWe79OMM1vVTkT1ZNk5WV97JPfV46nv4iZLLncalSreXQ3vhMtVCSOPB5GmpO
- l9LmBn4cEEQfweVcJ2M2S5IuRkmBQaZ2RG30mAX24sgnFhBFqB78a4ylgeI1OWZBxrnc
- rN3Q==
+ :cc; bh=hRI3oAsXndDzLe4xroIUW7CwYsgULF/Lq0h7TgbMZGk=;
+ b=vcoO3mf4qrB9li2JXaz6s1bgGi4Y+X8DI5LXQkgIQutCCcyOe7XjIYGE9OP1cQ1Cnb
+ eb0nsQOa7jULlUCJ6uCZ9RoXxflswO65Pb97x7HDo1JIV5P1Ev8Xx9Az3Cozx0Ghfnpi
+ MnFxq4ARueGcg3bBJhnkkN7kO+4OpkitgFG5hx9+9aK5jxy3nPDOUZoGjqH34j5hE0yg
+ QqHEJSW6t+RednC4cA3VeCbFRA46gGiW/ZLaFNJPlX8IKCWF2FyWIPugKch5eI4Cgq2Q
+ ThtBCkMFOKeJdPztcfMGbEgnkGGLaL0SZn0v3axbKKDpUTe/er82ehxJ/YLGMOG2Vyu+
+ VfPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bQ28LxSKCjjYmzSLGbZc3jd+smOUB2hYE7Be/XzSJtU=;
- b=J0cJCe9cXJJGAO7r6YAxpQwJAUBTI0cL6cjG1jI1zTSaQ3f07S9JsYNf/Ngqrgb1a0
- fP2hNLrHdC2LOspkCNOsDNjVHmHrwWwbmas27i1q0a/0/wgMPNWf1jJqAgyQgQMob/Jv
- UM7CRRJTbcqDU2ssfMqW3V0N4pRAcGksyAwIgJ2u/cDN/3/iL2nO7AJZFzDGKJH4QF2j
- GcautvgTXHMhsPBUM/OWhqdQzR9yp734KvU6DjQ50/XqY/ow7pifiLOuYEfuciMHEGrl
- v2hYw2wR/HJ4fqPMwzpnWyQiigS3ttEx+QWojGhehtT0M8/S32rpP7zef2RRLZf0AcYU
- jXZg==
-X-Gm-Message-State: AJIora+xJbWLq0lE2t0mOPUxBs1C2HvBT+Cn6VKF2fuxVryZalvLY0IA
- JDyFEpmDIg+WzHODA93i89HaVbPDnHWS4rOyGtmpCA==
-X-Google-Smtp-Source: AGRyM1t88Z32PW1xV1cMk6ElVvYpKrQ9ym2pDKPCzESZfmopiwcTWQ5Rz9Ndf5pTV5DQWNQtSzoUMVSnAFxxyNY2U7M=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr16440026ywb.257.1657899507196; Fri, 15
- Jul 2022 08:38:27 -0700 (PDT)
+ bh=hRI3oAsXndDzLe4xroIUW7CwYsgULF/Lq0h7TgbMZGk=;
+ b=bTrI4HmjZFbIpGT0ambRVjWIEydzPHEfyVI7ajDaaTf0Qur+k3oe2k6AwY40l6Lnmk
+ MRioqmv1fHSuIRh+uWs64H04vvJBlTxyK+ySOOBIBSaNLg4Gz1YYhYmHo1PEO3IrRUYd
+ IQlyHmp4tJqlT5Lnk8ZI6y9aCEuDXYzNRfrv53X6p5avV7XACeTx4sxUwr0JRtBBXNud
+ d8DsCOsvi5N8kjKO7Cm+V9rN9lCfrTQZ3UJdSbbDlVwagP5LSdwjkKFbRNzxHgeADfDZ
+ qpjo/oWVD6YiG8em/cuvcAUJz+o6gShGzmuxjWKEx5ddgb15i23Y5wL58oOeh/uFj9eH
+ yvTA==
+X-Gm-Message-State: AJIora8PxvDVW3LUG7VnH50Hg1xCO5ra3TwKBz2fKH7ojngHnRZA6TMX
+ SLa8OK4V0JyGL1H/0ynpsPfrQZ1drm39OcsLSByCjA==
+X-Google-Smtp-Source: AGRyM1u1dK71K8QfAFVBbrTxOfpDFgtjPGJbbUCgsah1KNxEOefHkuhfDU+39h873u0NS4BOauxOSbZTqscBo3i5Nus=
+X-Received: by 2002:a25:230b:0:b0:66e:e008:a76b with SMTP id
+ j11-20020a25230b000000b0066ee008a76bmr15568708ybj.479.1657899906209; Fri, 15
+ Jul 2022 08:45:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220714182836.89602-1-wuhaotsh@google.com>
- <20220714182836.89602-3-wuhaotsh@google.com>
-In-Reply-To: <20220714182836.89602-3-wuhaotsh@google.com>
+In-Reply-To: <20220714182836.89602-1-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 15 Jul 2022 16:37:48 +0100
-Message-ID: <CAFEAcA8G2HxqNXHg-Yo-nSpVikTOmZFvhD1T12kR8L8PftNw4Q@mail.gmail.com>
-Subject: Re: [PATCH v5 2/8] hw/i2c: Read FIFO during RXF_CTL change in NPCM7XX
- SMBus
+Date: Fri, 15 Jul 2022 16:44:27 +0100
+Message-ID: <CAFEAcA-DkDAvwaNOSQ3c7xTEsJcLGcp7xKsg61Jd-jUd8P7H1g@mail.gmail.com>
+Subject: Re: [PATCH v5 0/8] Misc NPCM7XX patches
 To: Hao Wu <wuhaotsh@google.com>
 Cc: richard.henderson@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  venture@google.com, Avi.Fishman@nuvoton.com, kfting@nuvoton.com, 
  hskinnemoen@google.com, f4bug@amsat.org, bin.meng@windriver.com, 
- qemu-block@nongnu.org, armbru@redhat.com, thuth@redhat.com, 
- Titus Rwantare <titusr@google.com>, Corey Minyard <cminyard@mvista.com>
+ qemu-block@nongnu.org, armbru@redhat.com, thuth@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,47 +85,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 14 Jul 2022 at 19:28, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> Originally we read in from SMBus when RXF_STS is cleared. However,
-> the driver clears RXF_STS before setting RXF_CTL, causing the SM bus
-> module to read incorrect amount of bytes in FIFO mode when the number
-> of bytes read changed. This patch fixes this issue.
+> [NOTE: I'm reviving a bunch of patches that was in the process of
+> upstreaming a while ago but paused.]
 >
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
-> Reviewed-by: Titus Rwantare <titusr@google.com>
-> Acked-by: Corey Minyard <cminyard@mvista.com>
-> ---
->  hw/i2c/npcm7xx_smbus.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> This patch set contains a few bug fixes and I2C devices for some
+> NPCM7XX boards.
 >
-> diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
-> index f18e311556..1435daea94 100644
-> --- a/hw/i2c/npcm7xx_smbus.c
-> +++ b/hw/i2c/npcm7xx_smbus.c
-> @@ -637,9 +637,6 @@ static void npcm7xx_smbus_write_rxf_sts(NPCM7xxSMBusState *s, uint8_t value)
->  {
->      if (value & NPCM7XX_SMBRXF_STS_RX_THST) {
->          s->rxf_sts &= ~NPCM7XX_SMBRXF_STS_RX_THST;
-> -        if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
-> -            npcm7xx_smbus_recv_fifo(s);
-> -        }
->      }
->  }
+> Patch 1~2 fix a problem that causes the SMBus module to behave
+> incorrectly when it's in FIFO mode and trying to receive more than
+> 16 bytes at a time.
 >
-> @@ -651,6 +648,9 @@ static void npcm7xx_smbus_write_rxf_ctl(NPCM7xxSMBusState *s, uint8_t value)
->          new_ctl = KEEP_OLD_BIT(s->rxf_ctl, new_ctl, NPCM7XX_SMBRXF_CTL_LAST);
->      }
->      s->rxf_ctl = new_ctl;
-> +    if (s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
-> +        npcm7xx_smbus_recv_fifo(s);
-> +    }
->  }
+> Patch 3 fixes a error in a register for ADC module.
+>
+> Patch 4 makes the ADC input to be R/W instead of write only. It allows
+> a test system to read these via QMP and has no negative effect.
+>
+> Patch 5 adds a new blockdev IF type IF_OTHER.
+>
+> Patch 6 allows at24c_eeprom_init to take a bus as parameter so it can
+> be used by more use cases (e.g. behind an I2C mux.)
+>
+> Patch 7 allows at24c_eeprom_init to take a drive as property, similar
+> to sdhci_attach_device().
+>
+> Patch 8 uses the function defined in patch 5 to add the EEPROM and other
+> I2C devices for Quanta GBS board.
 
-I don't know anything about this hardware, but this looks a bit odd.
-Why should we care what order the driver does the register operations
-in? Do we really want to read new fifo data regardless of what value
-the driver writes to RXF_CTL ? Should the logic actually be "if the
-new device register state is <whatever> then read fifo data", and
-checked in both places ?
+I've taken patches 3 and 4 into target-arm.next as they're
+already reviewed and standalone bugfixes. I had a comment on
+patch 2. I'll leave the IF_OTHER patch (and the patches that
+make use of it) to the blockdev folks to review.
 
 thanks
 -- PMM
