@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9571575DE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:54:14 +0200 (CEST)
-Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60310575DE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:53:40 +0200 (CEST)
+Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCH5Q-0005Le-5F
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42254)
+	id 1oCH4t-0003Vl-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oCGvR-0000Zd-5p; Fri, 15 Jul 2022 04:43:53 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:50943)
+ id 1oCGvR-0000af-Nn; Fri, 15 Jul 2022 04:43:53 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:51185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oCGvP-0004Jm-CB; Fri, 15 Jul 2022 04:43:52 -0400
+ id 1oCGvQ-0004K0-49; Fri, 15 Jul 2022 04:43:53 -0400
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id A3F145C0213;
- Fri, 15 Jul 2022 04:43:49 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 53BE85C013B;
+ Fri, 15 Jul 2022 04:43:51 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 15 Jul 2022 04:43:49 -0400
+ by compute1.internal (MEProxy); Fri, 15 Jul 2022 04:43:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1657874629; x=
- 1657961029; bh=pJsCBghtqEJcMHzFDiEzSrpJTFpyXYPSwCA+ejttbWg=; b=G
- iDYWgjTE+coPbqUiO/lgA3260MUS0aboW066VRUN9DR2GeYqN5golQqn25f3ZqX/
- 5E6HX7Awd8QOm8LxXZetfIKeakL00PrbgfePdigAvu7Zp1qRjZmjI/5lwRbbfdce
- jXrr3Si12yX9h0SFq2lmVfbyRK+LBYrzvZRUEEq/ioy6YiBLE9Od9lEDiS8BbUqu
- 4Gbx1blntg3gXJL552YbVbLdXqS4UxC7NEPNeeJ7KTjKT4v+uKIPaLIbwVVRwVu6
- 8wWd9Q5GtoADrmWxlU5lxVZ8ChDmD+W0VU/VWJtN7gDreyC9llxi4DjkEOoQQgAs
- /QUoCtfSDgCwrC+5ojmkA==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1657874631; x=
+ 1657961031; bh=t+E0rsnhcDd6bELl2gILP+ccA4Wii3o1IieS76A/ELI=; b=p
+ q2zKp7/Ied4rC9bQB/IPxFb2+HapH4UiYgZ7vx/Um8By87xTYgf8ygRfOu2za63o
+ UlpTXy4iG2ydwnGlzc625qiqCbJTH94cwXktAY2PWil2irW6QSemaUp+BIJNxp5y
+ 15UI8aV7VBo2CbCcoWaASdkIbmMzd9vS92IHlWK22ZuPN43akSNF96wEMzKY/t+B
+ dxWfz1bsHB2P4RwTdXR6t/FerFauodmnaiy+6qY9Xm/L1D2NDZT36nN0/CZ57bUs
+ dxFaHODzBmcfDukeecJ8GLpZBHWiAXXwXP4mfSRqb7ylFN9XxEDy9+ZOpAkiPOhz
+ Sdif8vcrG6VDEvG/5B1sw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1657874629; x=1657961029; bh=pJsCBghtqEJcM
- HzFDiEzSrpJTFpyXYPSwCA+ejttbWg=; b=lRMMKyIvzDXHTmtR5pCP8NQDOIZZX
- XVO8ySdNgE4MRWq0Lqm87eRGCCKHlYCUtMd8BCLP5rfNnktdEQV4XLUuSxij7Nel
- aWznR/C0QS+ZbRHiCNCznLTo1cXuHHC92Mt2jVSJ+adAfvNtAkwzn0AErfpkLYDx
- lDDImC9eScS0y1KSXlvfiCEDXPaMRyc+VMDINtypj9+JWiGhEI/Nc0/qtSCQukq/
- OFr59Kzqs2wL83o6rmZvx2Q5klICPfh6uiHoActO1hZn7aNqsAuw65j3B4R6b5J+
- H7FtqyUOkiDkSUurAu5z81fgkbMDSfFqZqAY7/AFVvBSvd09f7tT6IlHQ==
-X-ME-Sender: <xms:xSjRYhDUa--FVOzIFiYX0Cg3b7fK4hWvd4KAYsHGal9bxr7JbUIdVA>
- <xme:xSjRYvjGJXjnbZE6SyfXPuZ7F-DvgwLmU1tfMYuCxK1XbPLwGwouRAPD7t5IYsdVm
- 8Pvg1yXEOgqLh-47vw>
-X-ME-Received: <xmr:xSjRYsnf2Iw2bmzWPsQd5R0jjpOGXiaG9HfCSbmdEkLqX2jdKXCQJgjHqKUUcppgRm-JdmNKtb0>
+ :x-sasl-enc; s=fm3; t=1657874631; x=1657961031; bh=t+E0rsnhcDd6b
+ ELl2gILP+ccA4Wii3o1IieS76A/ELI=; b=JnSjLkj20w/GjPEMo/OvBoQmvzfvM
+ 3fh4qcV7cOF4zrdlTB55qO8v5iKfI0hYm3QTWjQSr2dlIsuxTTTIRDWy8EHDRD4R
+ jcno/nzbvRclz+htnV95TzKwVilwJ/Jqoilk4PaJokArVN/ue81Sr7vH1kPOMxX8
+ HawH8j+CYt3Uj1biLOrkgBEnYEmm8x3MWlA3ThnOvi3B3kFF6H1iTfkcZEqKHwqs
+ BnY5pOuAL0rOva2rqzAG/GjnSuQSGPBBHbJ07DWlhLN1G5iwTKv6r0fNrsE7QA4Z
+ pF9TonoR2xVkDwkIFxOe8W/poSES3efxjwMM4aZKfRlbzb2dkBlE9lKWw==
+X-ME-Sender: <xms:xyjRYg0TBFwn8-A28H7bmfLq2B9EX1vJWB7gf0fJT64yfNfg9PO0FQ>
+ <xme:xyjRYrHmy_R95555xT0KRF6uCHKzeYd7MIGFNLZ8hjw8yOI4sEUUZ-GPGmFhjmcGl
+ RvuyDJi8dRCCcJU470>
+X-ME-Received: <xmr:xyjRYo6XoIyKezfMzYrNNDrnW6GT5MxLMaCkKQWWO9MBauQcwDIJjAXKMoX_2UZOMU8athJJ5G4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekuddgtdejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
  shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ udegnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:xSjRYrxKlbGFTKeDchQl1lPIk4z3r-P0ge3_fg3JlTk_NXJOnvIR0Q>
- <xmx:xSjRYmR-Secf3PiKqg6M2Zz_CVtfV19a68sFzUW8aWPOQ2mJnvbBNQ>
- <xmx:xSjRYuZE7z4HXg6OQdKW3rIJxI187Zp9_QcpqnFohQH4MEqVBAPdcA>
- <xmx:xSjRYrJxXKLR2eb0agspzcjwNyEYCY8s-uhaCckhh3vI1sHjHE1XRA>
+X-ME-Proxy: <xmx:xyjRYp2HVUjNDe8UlNE7U5DzEYw6CR0sZh-pelphZ_UW2LG7HNirCQ>
+ <xmx:xyjRYjGQQQvzVPpNpU2UYoBzD7OyHMNHx7qypdaJsve5dzGntE2vWQ>
+ <xmx:xyjRYi8HiZ7pkVvdpoxK9a7ZbGY5iD4FyGaUNYntHFY2mfpjNE0K8g>
+ <xmx:xyjRYr-QYKXtNi-Hj07oOHg5hcOcP1P1-8hIlFfHcAiuEHEg_5nWMQ>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 15 Jul 2022 04:43:47 -0400 (EDT)
+ 15 Jul 2022 04:43:49 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -72,10 +72,10 @@ Cc: Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
  Keith Busch <kbusch@kernel.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL 2/6] hw/nvme: Add trace events for shadow doorbell buffer
-Date: Fri, 15 Jul 2022 10:43:36 +0200
-Message-Id: <20220715084340.1128455-3-its@irrelevant.dk>
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>
+Subject: [PULL 3/6] hw/nvme: fix example serial in documentation
+Date: Fri, 15 Jul 2022 10:43:37 +0200
+Message-Id: <20220715084340.1128455-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220715084340.1128455-1-its@irrelevant.dk>
 References: <20220715084340.1128455-1-its@irrelevant.dk>
@@ -106,91 +106,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+From: Niklas Cassel <niklas.cassel@wdc.com>
 
-When shadow doorbell buffer is enabled, doorbell registers are lazily
-updated. The actual queue head and tail pointers are stored in Shadow
-Doorbell buffers.
+The serial prop on the controller is actually describing the nvme
+subsystem serial, which has to be identical for all controllers within
+the same nvme subsystem.
 
-Add trace events for updates on the Shadow Doorbell buffers and EventIdx
-buffers. Also add trace event for the Doorbell Buffer Config command.
+This is enforced since commit a859eb9f8f64 ("hw/nvme: enforce common
+serial per subsystem").
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-[k.jensen: rebased]
+Fix the documentation, so that people copying the qemu command line
+example won't get an error on qemu start.
+
+Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c       | 5 +++++
- hw/nvme/trace-events | 5 +++++
- 2 files changed, 10 insertions(+)
+ docs/system/devices/nvme.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 46e8d54ef07a..55cb0ba1d591 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -1335,6 +1335,7 @@ static void nvme_update_cq_head(NvmeCQueue *cq)
- {
-     pci_dma_read(&cq->ctrl->parent_obj, cq->db_addr, &cq->head,
-             sizeof(cq->head));
-+    trace_pci_nvme_shadow_doorbell_cq(cq->cqid, cq->head);
- }
+diff --git a/docs/system/devices/nvme.rst b/docs/system/devices/nvme.rst
+index aba253304e46..30f841ef6222 100644
+--- a/docs/system/devices/nvme.rst
++++ b/docs/system/devices/nvme.rst
+@@ -104,8 +104,8 @@ multipath I/O.
+ .. code-block:: console
  
- static void nvme_post_cqes(void *opaque)
-@@ -6049,6 +6050,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-         }
-     }
+    -device nvme-subsys,id=nvme-subsys-0,nqn=subsys0
+-   -device nvme,serial=a,subsys=nvme-subsys-0
+-   -device nvme,serial=b,subsys=nvme-subsys-0
++   -device nvme,serial=deadbeef,subsys=nvme-subsys-0
++   -device nvme,serial=deadbeef,subsys=nvme-subsys-0
  
-+    trace_pci_nvme_dbbuf_config(dbs_addr, eis_addr);
-+
-     return NVME_SUCCESS;
- }
- 
-@@ -6111,12 +6114,14 @@ static void nvme_update_sq_eventidx(const NvmeSQueue *sq)
- {
-     pci_dma_write(&sq->ctrl->parent_obj, sq->ei_addr, &sq->tail,
-                   sizeof(sq->tail));
-+    trace_pci_nvme_eventidx_sq(sq->sqid, sq->tail);
- }
- 
- static void nvme_update_sq_tail(NvmeSQueue *sq)
- {
-     pci_dma_read(&sq->ctrl->parent_obj, sq->db_addr, &sq->tail,
-                  sizeof(sq->tail));
-+    trace_pci_nvme_shadow_doorbell_sq(sq->sqid, sq->tail);
- }
- 
- static void nvme_process_sq(void *opaque)
-diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
-index 065e1c891df4..fccb79f48973 100644
---- a/hw/nvme/trace-events
-+++ b/hw/nvme/trace-events
-@@ -3,6 +3,7 @@ pci_nvme_irq_msix(uint32_t vector) "raising MSI-X IRQ vector %u"
- pci_nvme_irq_pin(void) "pulsing IRQ pin"
- pci_nvme_irq_masked(void) "IRQ is masked"
- pci_nvme_dma_read(uint64_t prp1, uint64_t prp2) "DMA read, prp1=0x%"PRIx64" prp2=0x%"PRIx64""
-+pci_nvme_dbbuf_config(uint64_t dbs_addr, uint64_t eis_addr) "dbs_addr=0x%"PRIx64" eis_addr=0x%"PRIx64""
- pci_nvme_map_addr(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_addr_cmb(uint64_t addr, uint64_t len) "addr 0x%"PRIx64" len %"PRIu64""
- pci_nvme_map_prp(uint64_t trans_len, uint32_t len, uint64_t prp1, uint64_t prp2, int num_prps) "trans_len %"PRIu64" len %"PRIu32" prp1 0x%"PRIx64" prp2 0x%"PRIx64" num_prps %d"
-@@ -83,6 +84,8 @@ pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
- pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint32_t dw0, uint32_t dw1, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" dw0 0x%"PRIx32" dw1 0x%"PRIx32" status 0x%"PRIx16""
-+pci_nvme_eventidx_cq(uint16_t cqid, uint16_t new_eventidx) "cqid %"PRIu16" new_eventidx %"PRIu16""
-+pci_nvme_eventidx_sq(uint16_t sqid, uint16_t new_eventidx) "sqid %"PRIu16" new_eventidx %"PRIu16""
- pci_nvme_mmio_read(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
- pci_nvme_mmio_write(uint64_t addr, uint64_t data, unsigned size) "addr 0x%"PRIx64" data 0x%"PRIx64" size %d"
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
-@@ -99,6 +102,8 @@ pci_nvme_mmio_start_success(void) "setting controller enable bit succeeded"
- pci_nvme_mmio_stopped(void) "cleared controller enable bit"
- pci_nvme_mmio_shutdown_set(void) "shutdown bit set"
- pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
-+pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
-+pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
- pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
- pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) "finish zone, slba=%"PRIu64", idx=%"PRIu32", all=%"PRIi32""
+ This will create an NVM subsystem with two controllers. Having controllers
+ linked to an ``nvme-subsys`` device allows additional ``nvme-ns`` parameters:
 -- 
 2.36.1
 
