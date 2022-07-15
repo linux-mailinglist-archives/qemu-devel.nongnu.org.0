@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 409FF575D76
-	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:30:45 +0200 (CEST)
-Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D11575D88
+	for <lists+qemu-devel@lfdr.de>; Fri, 15 Jul 2022 10:36:44 +0200 (CEST)
+Received: from localhost ([::1]:36638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCGii-0003Bp-DC
-	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39512)
+	id 1oCGoV-0005Xh-7M
+	for lists+qemu-devel@lfdr.de; Fri, 15 Jul 2022 04:36:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGgy-0001KI-0g
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:28:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37169)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGld-0003Tu-NW
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:33:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGgu-00020d-QR
- for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:28:53 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oCGlZ-0002nM-L6
+ for qemu-devel@nongnu.org; Fri, 15 Jul 2022 04:33:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1657873732;
+ s=mimecast20190719; t=1657874021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Cx0I3ThQ8ipnE8Y+qblNRLmVYbCja5pWR7v8MFyQnis=;
- b=DgzjylZrYB9d5T0LOhz7PHr+MBq+DgcIHfkadNIC2Lqj49YIjfJUs8dH33HcbOQoaqevOv
- ZuxOxXKvG5uAsPyq/QHqV0C7iSrPUdcnEucF2pK3pBVIrcQkTzN86HvkllxFygZPHexP89
- BkeBCvLxbbVm4EGBv6SH7X/2MYuuPNM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=pFE/4FDrMrV/7cJaV1hCuvCDShBasZB6PTY0z3Hadas=;
+ b=A7h9PfZuxx4WwfrLFfmXnpr1WevM4E4iN1hi72qd+t1B0GfQcjMcpRrqmRZ1Tpz9NHRaws
+ Ni/eISB91pyds/sI+uZtROvcTthailuSvYK253eDRhICqG/6tiWnuV2D+SEATaRnTwNaZH
+ yK2QER7TGOoSSBu7CDXGszDpVWr6euM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-nEfZnabUM42Jsh6Sg596Lw-1; Fri, 15 Jul 2022 04:28:37 -0400
-X-MC-Unique: nEfZnabUM42Jsh6Sg596Lw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-180-vbAexJHqNAKJxrUniCLwUA-1; Fri, 15 Jul 2022 04:33:39 -0400
+X-MC-Unique: vbAexJHqNAKJxrUniCLwUA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A571B802D2C;
- Fri, 15 Jul 2022 08:28:36 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 818561C288C0;
+ Fri, 15 Jul 2022 08:33:38 +0000 (UTC)
 Received: from localhost (dhcp-192-213.str.redhat.com [10.33.192.213])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 674F1C1D3AD;
- Fri, 15 Jul 2022 08:28:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2CB731121314;
+ Fri, 15 Jul 2022 08:33:38 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
@@ -49,18 +49,18 @@ Cc: qemu-s390x@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Henderson <richard.henderson@linaro.org>, Peter Maydell
  <peter.maydell@linaro.org>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
  <berrange@redhat.com>
-Subject: Re: [PATCH 1/3] target/i386: display deprecation note in '-cpu help'
-In-Reply-To: <20220714150735.1835166-2-berrange@redhat.com>
+Subject: Re: [PATCH 2/3] target/s390x: display deprecation note in '-cpu help'
+In-Reply-To: <20220714150735.1835166-3-berrange@redhat.com>
 Organization: Red Hat GmbH
 References: <20220714150735.1835166-1-berrange@redhat.com>
- <20220714150735.1835166-2-berrange@redhat.com>
+ <20220714150735.1835166-3-berrange@redhat.com>
 User-Agent: Notmuch/0.36 (https://notmuchmail.org)
-Date: Fri, 15 Jul 2022 10:28:35 +0200
-Message-ID: <87y1wu3hl8.fsf@redhat.com>
+Date: Fri, 15 Jul 2022 10:33:37 +0200
+Message-ID: <87v8ry3hcu.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -97,8 +97,8 @@ On Thu, Jul 14 2022, Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 >
 > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 > ---
->  target/i386/cpu.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  target/s390x/cpu_models.c | 28 +++++++++++++++++++++++-----
+>  1 file changed, 23 insertions(+), 5 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
