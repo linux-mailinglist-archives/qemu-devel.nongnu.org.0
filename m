@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF281576C2F
-	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jul 2022 08:29:37 +0200 (CEST)
-Received: from localhost ([::1]:32888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE946576C40
+	for <lists+qemu-devel@lfdr.de>; Sat, 16 Jul 2022 08:37:56 +0200 (CEST)
+Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCbJ2-0007UW-Al
-	for lists+qemu-devel@lfdr.de; Sat, 16 Jul 2022 02:29:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39622)
+	id 1oCbR5-0001sk-Mx
+	for lists+qemu-devel@lfdr.de; Sat, 16 Jul 2022 02:37:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oCbHm-00065G-Lr
- for qemu-devel@nongnu.org; Sat, 16 Jul 2022 02:28:18 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41651)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oCbPl-000098-1R
+ for qemu-devel@nongnu.org; Sat, 16 Jul 2022 02:36:33 -0400
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oCbHl-0007FC-1m
- for qemu-devel@nongnu.org; Sat, 16 Jul 2022 02:28:18 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- x23-20020a05600c179700b003a30e3e7989so2092979wmo.0
- for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 23:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oCbPi-0008Pq-VS
+ for qemu-devel@nongnu.org; Sat, 16 Jul 2022 02:36:32 -0400
+Received: by mail-ed1-x52a.google.com with SMTP id k30so8742966edk.8
+ for <qemu-devel@nongnu.org>; Fri, 15 Jul 2022 23:36:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bINC3ClDRHKcXADY8NN/HypCp+tRij59/OO6JS3/VGE=;
- b=LcdAVbrUkJUqEMS6bLReKeurJQO1VP5XWqkPNDOHNDOY0u7QkykO3Pdswwj/m/+Rxw
- lSaOUdAOVDjyMHpfebzNSS518bFU7l++3bRDK1LR3cmOST92vlfXMyCA2gocp7y/ov+z
- 4lIHqGzzYfSFH52bIAKCdG7+/W3Vv9FFsazBZC7owL1NSWCg61wipN5tOhn/wjgrd9Rp
- 2sk59I5py6L3L+QPWRwASBgGUkOASx6qcZ2IpLEkd7P3UunX609Ec2AkAhZTZTMHynDD
- pMitxQwP4LYYPYghqAM2OR2l9g89owR4aH6B4whQCZ4r7+ygn0+y45p3TxHlUg5s6Uvb
- /ygQ==
+ :cc; bh=xE7UeZNu5iRDBu9gGriASll/gFK/im7hT1eU4uXn4wY=;
+ b=7ZlqWvdBh5SIev16DcLpv52CSIWeXxMm5RUq5wthG+4osGQwAVQO34ERztagjp5NGg
+ acG58GRS/uZXNSTImRQ7Vg/ahbNb88nehFSaMH+Yn5w+lUin+e3tlndasvOwwCDU4zO8
+ yJFZEgBov5raP1CIUtSlVAfdt85FjfPuMAGKX63wCMNWmoVUgr7tU6dQvo3cGvms6t+j
+ HMrwrP/2ARUGtowM/ZSmBdoBxPCPmE7/D+wan8olQb9Q1wZsNC8ScbK8KNgUqv4jaDGa
+ w6LhOw1aLJpvBenf35zh9FupU/Ny7q8YgX9LY8iqGhpMaxstzkPUppXJuB2KBcwQILWk
+ n9xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bINC3ClDRHKcXADY8NN/HypCp+tRij59/OO6JS3/VGE=;
- b=Pks/necb7p1Apy5Yj6h3Y21D6bzFJEeOirSjUmPqWN7qm27dcTF2SwY2DZm0jQ6EB8
- 23tFkJUHqAp9eFtKEL5XfBxuUGcfFTsAD5XCGdSwwdSFU04ZYOTn8CesWHdG/+tLMVvX
- 5fBjsR2P6TtyqnHVfb6Gz6ozmVG0CZHCF6VhDKzerWb644Pm1cKjP7ujKEnun+Swm1BG
- 9qZsHbJboR77rpp+/AYrlT4KBm7r/lOl3gcG2QMUnLyuAKlxlFzKhVJLnanVsZ5/T8H2
- WzmE5CrvrBsZZgsrDooj37v4z4CqU1+lZ8B0JmkbXXawKwAqUPihfCZh4/ptuRm4li0e
- Z5+A==
-X-Gm-Message-State: AJIora9oLf/S3c4q1SqqeJhi/geBIe6G9kyjfHtTfp+Uel3S4HKcMfO0
- u+sj3EZaJ/GjjXHOcbqbKnvKiNObF+H1OIzlxEKhNg==
-X-Google-Smtp-Source: AGRyM1uXi4hbQ9xwPBlT02RJRTT2DZPA2qAL4d/uGz6YMjxS03KrawMuUy6fPJr/XC1kPaszapHyhZCPebguD/bNBOU=
-X-Received: by 2002:a7b:c2aa:0:b0:39c:9039:e74b with SMTP id
- c10-20020a7bc2aa000000b0039c9039e74bmr23836923wmk.127.1657952894359; Fri, 15
- Jul 2022 23:28:14 -0700 (PDT)
+ bh=xE7UeZNu5iRDBu9gGriASll/gFK/im7hT1eU4uXn4wY=;
+ b=L3DWt7Ea6atwvk7tjmGdvD7w1dqZwjnoNV2TwiJouUVcVBkgnYM0FiwLlYZKVjUQTu
+ ZdfrTrfi4BnxtW55maqywtq+QR1lYQFcJkHjWpey+hANpnP1cCOw+mF2pq+UA8SWnlWZ
+ 8WWZ2r6uQ4H9Zghb8Fj6fJiJ3jj3BEolPu/FBR1qJcaP2OT7UiDitz6gCnWdQfHImcIn
+ WnbAnECI2ljePQGnZnvNHBAX3L9dI7SZd/5mPMW9yxUw1ecLM7O6KxukZxZBXP/S9O8I
+ /IfjnQUduhXGluZiTjfEY02Y2qVi6uctHxSCuygyhJwiuccKBCRfJkdKEAgTMKYXEcyR
+ 3q+Q==
+X-Gm-Message-State: AJIora8ThZrnrIx6gT/ucmPFxB13Zvo+fjuKMjcwrK169V1Fgcj3BS/X
+ MfisF71OheVVhgRyDpT0E7zXNgoBmWEQ7L40l/59Gw==
+X-Google-Smtp-Source: AGRyM1tRk5HuGie4CooYPOL9f4Fjy+RWwju78QQfv1SgouO31yGN/9R535OKbkELDB6N8a+1yWYm0oLBRAVjVujbWxg=
+X-Received: by 2002:a05:6402:3201:b0:43a:b203:219c with SMTP id
+ g1-20020a056402320100b0043ab203219cmr23437269eda.371.1657953388789; Fri, 15
+ Jul 2022 23:36:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220711135750.765803-1-peter.maydell@linaro.org>
- <20220711135750.765803-21-peter.maydell@linaro.org>
- <CAFEAcA9vEk++s0Ly3Y1oyv6oOhDwJwda6j+OBgsWGTwbi=gk2A@mail.gmail.com>
-In-Reply-To: <CAFEAcA9vEk++s0Ly3Y1oyv6oOhDwJwda6j+OBgsWGTwbi=gk2A@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Date: Sat, 16 Jul 2022 11:58:04 +0530
-Message-ID: <CAFXwXr=nW3jZ2C67LSJC-J5suyQk9DCo-1RvC=j_+rYx1CXAjg@mail.gmail.com>
-Subject: Re: [PULL 20/45] target/arm: Implement SME LD1, ST1
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000052b43705e3e63d9a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220710170014.1673480-1-ani@anisinha.ca>
+ <20220710170014.1673480-8-ani@anisinha.ca>
+ <20220714163611-mutt-send-email-mst@kernel.org>
+ <alpine.DEB.2.22.394.2207150929020.2162493@anisinha-lenovo>
+ <20220715015941-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20220715015941-mutt-send-email-mst@kernel.org>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Sat, 16 Jul 2022 12:06:00 +0530
+Message-ID: <CAARzgwwjXMmbRQ-ETPPqHP5eq5jtrGMSh2GeBh5fLS9Pcsut+A@mail.gmail.com>
+Subject: Re: [PATCH v2 07/11] acpi/tests/bits: add python test that exercizes
+ QEMU bios tables using biosbits
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: berrange@redhat.com, imammedo@redhat.com, jsnow@redhat.com, 
+ pbonzini@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org, 
+ thuth@redhat.com
+Content-Type: multipart/alternative; boundary="000000000000cb136005e3e65aa4"
+Received-SPF: none client-ip=2a00:1450:4864:20::52a;
+ envelope-from=ani@anisinha.ca; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,56 +87,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000052b43705e3e63d9a
+--000000000000cb136005e3e65aa4
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 15 July 2022, 21:38 Peter Maydell, <peter.maydell@linaro.org> wrote:
+On Fri, Jul 15, 2022 at 11:20 Michael S. Tsirkin <mst@redhat.com> wrote:
 
-> > +DO_LD(q, _be, MO_128)
+> On Fri, Jul 15, 2022 at 09:47:27AM +0530, Ani Sinha wrote:
+> > > Instead of all this mess, can't we just spawn e.g. "git clone --depth
+> 1"?
+> > > And if the directory exists I would fetch and checkout.
+> >
+> > There are two reasons I can think of why I do not like this idea:
+> >
+> > (a) a git clone of a whole directory would download all versions of the
+> > binary whereas we want only a specific version.
 >
-> +DO_LD(q, _le, MO_128)
+> You mention shallow clone yourself, and I used --depth 1 above.
 >
-> Coverity complains that these uses of MO_128 result in an
-> array overrun for the pred_esz_masks[] array, because e.g.
-> sme_ld1() calls sve_cont_ldst_elements() calls which uses esz
-> as an index into pred_esz_masks[]. (Multiple coverity issues,
-> affects both loads and stores.)
+> > Downloading a single file
+> > by shallow cloning or creating a git archive is overkill IMHO when a wg=
+et
+> > style retrieval works just fine.
 >
-> Do we just need to add an extra entry to the array for
-> MO_128 (presumably 0x0001000100010001ull) ?
+> However, it does not provide for versioning, tagging etc so you have
+> to implement your own schema.
+
+
+Hmm I=E2=80=99m not sure if we need all that. Bits has its own versioning m=
+echanism
+and I think all we need to do is maintain the same versioning logic and
+maintain binaries of different  versions. Do we really need the power of
+git/version control here? Dunno.
+
+
+>
+>
+> > (b) we may later move the binary archives to a ftp server or a google
+> > drive. git/version control mechanisms are not the best place to store
+> > binary blobs IMHO. In this case also, wget also works.
+>
+> surely neither ftp nor google drive are reasonable dependencies
+> for a free software project. But qemu does maintain an http server
+> already so that't a plus.
+>
+>
+>
+> I am not insisting on git, but I do not like it that security,
+> mirroring, caching, versioning all have to be hand rolled and then
+> figured out by users and maintainers. Who frankly have other things to
+> do besides learning yet another boutique configuration language.
+
+
+Yeah we do not want to reinvent the wheel all over again.
+
+
+>
+> And I worry that after a while we come up with a new organization schema
+> for the files, old ones are moved around and nothing relying on the URL
+> works.  git is kind of good in that it enforces the idea that history is
+> immutable.
+
+
+Ah I see your point here.
+
+
+>
+> If not vanilla git can we find another utility we can reuse?
+>
+> git lfs? It seems to be supported by both github and gitlab though
+> bizarrely github has bandwidth limits on git lfs but apparently not on
+> vanilla git. Hosting on qemu.org will require maintaining a server
+> there though.
+>
+>
+>
+> All that said maybe we should just run with it as it is, just so we get
+> *something* in the door, and then worry about getting the storage side
+> straight before making this test a requirement for all acpi developers.
+
+
+
+
 >
 
-Yes.  I thought I had done that, but perhaps merely meant to do so.  Thanks
-in advance.
-
-
-r~
-
---00000000000052b43705e3e63d9a
+--000000000000cb136005e3e65aa4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><div data-smartmail=3D"gmail_signature">On Fri, 15 J=
-uly 2022, 21:38 Peter Maydell, &lt;<a href=3D"mailto:peter.maydell@linaro.o=
-rg" target=3D"_blank" rel=3D"noreferrer">peter.maydell@linaro.org</a>&gt; w=
-rote:</div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">&gt; +=
-DO_LD(q, _be, MO_128)<br></blockquote><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-&gt; +DO_LD(q, _le, MO_128)<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Jul 15, 2022 at 11:20 Michael S. Tsirkin &lt;<a hre=
+f=3D"mailto:mst@redhat.com">mst@redhat.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">On Fri, Jul 15, 2022 at 09:47:27AM +0530, Ani Sinha =
+wrote:<br>
+&gt; &gt; Instead of all this mess, can&#39;t we just spawn e.g. &quot;git =
+clone --depth 1&quot;?<br>
+&gt; &gt; And if the directory exists I would fetch and checkout.<br>
+&gt; <br>
+&gt; There are two reasons I can think of why I do not like this idea:<br>
+&gt; <br>
+&gt; (a) a git clone of a whole directory would download all versions of th=
+e<br>
+&gt; binary whereas we want only a specific version.<br>
 <br>
-Coverity complains that these uses of MO_128 result in an<br>
-array overrun for the pred_esz_masks[] array, because e.g.<br>
-sme_ld1() calls sve_cont_ldst_elements() calls which uses esz<br>
-as an index into pred_esz_masks[]. (Multiple coverity issues,<br>
-affects both loads and stores.)<br>
+You mention shallow clone yourself, and I used --depth 1 above.<br>
 <br>
-Do we just need to add an extra entry to the array for<br>
-MO_128 (presumably 0x0001000100010001ull) ?<br></blockquote></div></div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Yes.=C2=A0 I thought I had done =
-that, but perhaps merely meant to do so.=C2=A0 Thanks in advance.</div><div=
- dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto">r~</d=
-iv></div>
+&gt; Downloading a single file<br>
+&gt; by shallow cloning or creating a git archive is overkill IMHO when a w=
+get<br>
+&gt; style retrieval works just fine.<br>
+<br>
+However, it does not provide for versioning, tagging etc so you have<br>
+to implement your own schema.</blockquote><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Hmm I=E2=80=99m not sure if we need all that. Bits has its own=
+ versioning mechanism and I think all we need to do is maintain the same ve=
+rsioning logic and maintain binaries of different =C2=A0versions. Do we rea=
+lly need the power of git/version control here? Dunno.</div><div dir=3D"aut=
+o"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+<br>
+&gt; (b) we may later move the binary archives to a ftp server or a google<=
+br>
+&gt; drive. git/version control mechanisms are not the best place to store<=
+br>
+&gt; binary blobs IMHO. In this case also, wget also works.<br>
+<br>
+surely neither ftp nor google drive are reasonable dependencies<br>
+for a free software project. But qemu does maintain an http server<br>
+already so that&#39;t a plus.<br>
+<br>
+<br>
+<br>
+I am not insisting on git, but I do not like it that security,<br>
+mirroring, caching, versioning all have to be hand rolled and then<br>
+figured out by users and maintainers. Who frankly have other things to<br>
+do besides learning yet another boutique configuration language.</blockquot=
+e><div dir=3D"auto"><br></div><div dir=3D"auto">Yeah we do not want to rein=
+vent the wheel all over again.=C2=A0</div><div dir=3D"auto"><br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex" dir=3D"auto"><br>
+<br>
+And I worry that after a while we come up with a new organization schema<br=
+>
+for the files, old ones are moved around and nothing relying on the URL<br>
+works.=C2=A0 git is kind of good in that it enforces the idea that history =
+is<br>
+immutable.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ah I s=
+ee your point here.</div><div dir=3D"auto"><br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex" dir=3D"auto"><br>
+<br>
+If not vanilla git can we find another utility we can reuse?<br>
+<br>
+git lfs? It seems to be supported by both github and gitlab though<br>
+bizarrely github has bandwidth limits on git lfs but apparently not on<br>
+vanilla git. Hosting on <a href=3D"http://qemu.org" rel=3D"noreferrer" targ=
+et=3D"_blank">qemu.org</a> will require maintaining a server<br>
+there though.<br>
+<br>
+<br>
+<br>
+All that said maybe we should just run with it as it is, just so we get<br>
+*something* in the door, and then worry about getting the storage side<br>
+straight before making this test a requirement for all acpi developers.</bl=
+ockquote><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex" dir=3D"auto">
+<br>
+</blockquote></div></div>
 
---00000000000052b43705e3e63d9a--
+--000000000000cb136005e3e65aa4--
 
