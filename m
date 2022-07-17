@@ -2,93 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 429925775DE
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 13:04:31 +0200 (CEST)
-Received: from localhost ([::1]:39540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D432577731
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 18:10:17 +0200 (CEST)
+Received: from localhost ([::1]:45884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oD24c-0007VT-9Y
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 07:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
+	id 1oD6qV-0006Xx-SN
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 12:10:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oD22E-000555-F3
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 07:02:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28314)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD6oX-0005Ak-D5
+ for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:08:14 -0400
+Received: from mout.gmx.net ([212.227.17.22]:57345)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oD22C-0003wl-DW
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 07:02:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658055719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=g18qSWSuCOQqNcwuo1+QfgXjKwibSRuoyLF24MP8ujU=;
- b=EIaY9Qkdm+/IGtDuXrp7sbqCMahS+QHJ5Iv3PhNH79VhuWb69lnJm3DG7gx1SZkfJORNRj
- MP6p33qJ0PQN2XVNo9EePwcnXTQWtcXa5WszSD+CYDTXry8/0nu8DYXA4DEeRUBh+GAJFl
- lkPWapnUBz0PMTIoMLd+Rn8PD7j43Hk=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-256-22-g__SaP_SZtp2QC_tq4Q-1; Sun, 17 Jul 2022 07:01:52 -0400
-X-MC-Unique: 22-g__SaP_SZtp2QC_tq4Q-1
-Received: by mail-qt1-f198.google.com with SMTP id
- c22-20020ac81116000000b0031d25923ea8so6610540qtj.17
- for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 04:01:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=g18qSWSuCOQqNcwuo1+QfgXjKwibSRuoyLF24MP8ujU=;
- b=6aKe/2HUH9l5y61kdAV0AgU+w2fdCMNtHTTwnQgu6pDHCXzYhFnZByO8Xp1MjF8xVc
- A/1D5GZYRHoyCOX1clOIk5aiZ+yPm6oGi0XKB3wd6mjVReLSstTLmzfBl+4TuBE0kHrT
- 1fftom3AvaaiIo5BigtE0YHh+wtguVEXUHRtQh0ALGJoe7qJNwdiVWiUGwz80urm+eQK
- LRLx+26wFY6WjTc2Zpi0wtqQOlu799sa3h3huOY/DuThoqOj8BDu1WDsflLYKlHA3mUU
- +wxwPIZPP/q2bkGOQSGqczuuIDSNX9Gg7yeg3UkvwHS502uo5s/ooS+/xWy4ippU9Qo0
- 3jQw==
-X-Gm-Message-State: AJIora9PlG2b/fqbY+X8ad0zeTcuhIDu3NfocTkKVv8JMnajErqW/vA2
- GvoAdq8MrqtWyMR1CpZbEPpprM1a+6Q2X0FQhrVdC72unlLXNLHd7W7TEnZXdMcbY4lgTnsvWbr
- fjRKFM0XWHotq7vLKR0yuUwxJ0shgC54=
-X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
- o19-20020a05620a2a1300b006b5c197d565mr10647625qkp.255.1658055712107; 
- Sun, 17 Jul 2022 04:01:52 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v3qm+Z6qLenpRXoU5N5q5BWabwLgQJ+AMdsvvW8J89T115Ja0oIV5nLvGzOoDYZVack0Uy76iqYGn5zi/jm90=
-X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
- o19-20020a05620a2a1300b006b5c197d565mr10647603qkp.255.1658055711909; Sun, 17
- Jul 2022 04:01:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD6oV-0001eT-Ha
+ for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:08:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1658074088;
+ bh=oDASAazxa/hMyZrtzdn9IQj1R8avtPpMZC2TFGZPpeo=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=YWh3sa7qzbpFAI2cETe6r0STttc62ZKnV0hi7GLbcGsvTRxeSkDHG1+gAUJBDCtHp
+ pk7p/msD1vn0XVSOVps96+QyIbAMBrpdqf5ys/wkutLtJIn27mWxMKXRi3R0Zvrek3
+ /LSHd7tOhDoiiApZRUCAolRcoyXxXlCtQG1Djwcw=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.150.104]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVeI8-1o3FQS0shY-00RcIn; Sun, 17
+ Jul 2022 18:08:08 +0200
+Date: Sun, 17 Jul 2022 18:08:06 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS,
+ SH4 and SPARC
+Message-ID: <YtQzMUuBOfBiMNlY@p100>
 MIME-Version: 1.0
-References: <20220716113407.2730331-1-eperezma@redhat.com>
- <20220716113407.2730331-8-eperezma@redhat.com>
-In-Reply-To: <20220716113407.2730331-8-eperezma@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Sun, 17 Jul 2022 13:01:15 +0200
-Message-ID: <CAJaqyWesT4t=OSAKKnn5UQwJs0pZTYdhYeUhMDqtsWNBWjos7Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 07/12] vhost: Add VhostVDPAStartOp operation
-To: qemu-level <qemu-devel@nongnu.org>
-Cc: Harpreet Singh Anand <hanand@xilinx.com>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Parav Pandit <parav@mellanox.com>, 
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Gautam Dawar <gdawar@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:TTnwX4xUcWPm50uKzrFtu7Pjw3xo/NB5GgbrLEBs/hjUR8KQhYe
+ LMDcuxuXbwZbxxGGkrFMUc7kxcn2rFORsKZRXiKAAAc7IhLpgxv6EPLJCATr0WxRkghWhid
+ 5NSxl9Ac4JZzLR+HciltRgz6kST5kBcTk6lJFi86ISmHhzv3/3IfIwfRq9h/x37JEFoimod
+ vFGPlMGVAIBno0sUPg/5w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:346xW7mhkjE=:WUABVdxEw3qoXXk/zzewYs
+ OjovjdaMNduz/pm/xCMNTqU1g1YHArBJdLdr8ipq/CNr1cDABjVgMH5r72y8ZCvAr2KDXeWq1
+ SadsjlOw9qmA2PXW0H2qDg56qJ21hYIqQyagyTaJE0kI20cekpK9/CbOTxbI3PcmRgvCnF21w
+ rPfIb8jcd1ih8wjqqloyRKAQKAfddAuskMbCkCzGS9dnZkC/heGB2v7IFSoPrS+ZnDCr2D9Db
+ d29DB1mBVibpGQfzHLjyEehGVBg5RDHblYVOCVy6f/pQdvJZc9A/SuFqeAii7W+NQszP6KyoW
+ IOSF7qUJ7tZzZLDSj6tvJxLyUlBbLvDuSoD/o6er69GvLRCVpYA10SotcCIsa3Qmculfp07VV
+ 62E7rqzxK79RmyYvpKuF7NLuM9mmFkI9hoXX+2uz+sgU5aus2ryp7k019hsTr0pxSx5bs/lhO
+ rIEw/67TfolaKW6Vqc0rh7pZTUZTolMlHCY1iihwjs1JAs2UCvd2pR1TjRtlvGPttD04tx3HA
+ n2QlzNhG0zercNLU4WBPKs+7Xvsj7Kk79AWmAjyeT2Za78a/POFxdrjhuPtm00w6IfgWjWZha
+ 4AcLS6UMfm4/qHVxzU64s4u6ZewxH+VzdJ761S1BgM9hVKHG6xjo7wYbUiNz0czRE3mhYoLfr
+ H33lEnQXLbyB2oxERWdO6/kOrLIjStUH8tGu+K+BSqmS1FWDTJaOzzs2mpeoxc2G2ewleBp2d
+ +1PWk5PhlGWQObTqW/jqaE1hyHccvdiTljtfqUhVeEmkWdLKJfz80QVMidlZZWb4gkERvEttV
+ V9dp7idXkJBajpWnaNa3ftwbDRWsSbtMTdr6H3LlJ+MOFgEISqjlPOjZlX1DVhSM1DX1DChnV
+ ngl8AvjyjGnHJimiCPgPcr1tOhegGLO0bCfC+hiOsH+3/kqtBVrC9aYsGl1prPY46WUXKUsLr
+ SShzkjhamNExzphb/Krt7r5lqstdou/1pCIvdEZRiXG/b1HO00srwhcAbPuRNAuj0N0UVa8cy
+ m5+GM3G4ErQMl5ift2CZ6awW6WM04E5L2yW+fgj2Tp84uVwwuKcYCg0LOX8j4EdC4jLW7BKvM
+ a9P93KAHOyre3hvfgwEo+6UBjPU2DdI3btLvL4NnzYmKhyhMMgn4gBO/A==
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,43 +83,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 16, 2022 at 1:44 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
-ote:
->
-> It allows to run commands at start of the device, before it have enabled
-> any queue.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/virtio/vhost-shadow-virtqueue.h | 3 +++
->  include/hw/virtio/vhost-vdpa.h     | 5 +++++
->  hw/virtio/vhost-vdpa.c             | 8 ++++++++
->  3 files changed, 16 insertions(+)
->
-> diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-=
-virtqueue.h
-> index 03eb7ff670..210fe393cd 100644
-> --- a/hw/virtio/vhost-shadow-virtqueue.h
-> +++ b/hw/virtio/vhost-shadow-virtqueue.h
-> @@ -26,6 +26,8 @@ typedef struct SVQDescState {
->  } SVQDescState;
->
->  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
-> +typedef int (*ShadowVirtQueueStart)(VhostShadowVirtqueue *svq,
-> +                                    void *opaque);
->
->  /**
->   * Callback to handle an avail buffer.
-> @@ -43,6 +45,7 @@ typedef int (*VirtQueueAvailCallback)(VhostShadowVirtqu=
-eue *svq,
->                                        void *vq_callback_opaque);
->
->  typedef struct VhostShadowVirtqueueOps {
-> +    ShadowVirtQueueStart start;
->      VirtQueueAvailCallback avail_handler;
->  } VhostShadowVirtqueueOps;
->
+In 2010, the commit b41a66edd0c added a thrird parameter "is_pipe2" to the
+internal do_pipe() function, but missed to actually use this parameter to
+decide if the pipe() or pipe2() syscall should be used.
+Instead it just continued to check the flags parameter and used pipe2()
+unconditionally if flags is non-zero.
 
-Changes above are leftovers, I'll remove them for the next version.
+This change should make a difference for the ALPHA, MIPS, SH4 and SPARC
+targets if the emulated code calls pipe2() with a flags value of 0.
 
+Fixes: fb41a66edd0c ("alpha-linux-user: Fix pipe return mechanism.")
+Cc: Richard Henderson <rth@twiddle.net>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 991b85e6b4..1e6e814871 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -1600,7 +1600,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_u=
+long pipedes,
+ {
+     int host_pipe[2];
+     abi_long ret;
+-    ret =3D flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
++    ret =3D is_pipe2 ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+
+     if (is_error(ret))
+         return get_errno(ret);
 
