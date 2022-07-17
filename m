@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8EC5774FF
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 09:37:41 +0200 (CEST)
-Received: from localhost ([::1]:42954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09BD5775B1
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 12:19:27 +0200 (CEST)
+Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oCyqS-00078r-Ql
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 03:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37816)
+	id 1oD1N0-0004Lm-Et
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 06:19:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCyms-0001hs-M5
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 03:33:58 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:44987)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1oD1Ja-0000Tt-7H; Sun, 17 Jul 2022 06:15:54 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oCymr-00053J-5l
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 03:33:58 -0400
-Received: by mail-pg1-x536.google.com with SMTP id bf13so8032808pgb.11
- for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 00:33:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1oD1JY-00031E-Rz; Sun, 17 Jul 2022 06:15:53 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id y8so11694756eda.3;
+ Sun, 17 Jul 2022 03:15:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zJST1JlzrBFRfYOJJKYdNOjdYpGZW6q5WVfQSu/8SsM=;
- b=jUdgcaZd+LXoh9WZ3xjWgCa5GPlHrP9Hei/sooH6Akxro13DU7fd1E5yJvXjcCFWgO
- pGBnaBUCyWm5iG8HK0o6ZIWO4ueBv4V3ti39MzfhgHJPp3eU8Fdg+Yun57PQxNLvoBEV
- VQYte7Q6oVTMfFgzII8HW2+fdJXuR+5VBg6C39LHS9fnttxPFxALdgy9nMyewp2nfctD
- XOLT8FhXOfiv0vKAvtZZvHyCMM5cmkj64HB4HzLMZwo/AhIe6V8WcIk92qUgF9yDgKg8
- NPiIJkug+HfuJeKtDhR2+jXpSr74JRFgiW95RJtU6xBnjfVqwptlJGoBRkrnaByLqMvW
- CwaA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hw+mvHDpYJcTlOtg6FeFGsqdN8Va6xPaad2AgEpijDY=;
+ b=RxOfIIBcghwUIldZxV2vDClAu6LJLtPBgrK2oukQEdsFiuINMA5bfm0hox92gBeEC7
+ dHINIqPebXWrIRKb0aeFHquqS3ydModTlXbQ385HHSVsjE5PJ2r2kmaUSqoyjlsa3rdG
+ bXBpwZTNL34ThVD2urAb4rbZpw8AsSLuss3Y36wa9/rX9iNgX9UjIZQHXdh7vxFTUzX/
+ yvhnK/AF4Jayaady9i7ElCK7e147mciqG5Cg08UDVW3IBEWUx3m5iNN1yiFYgV4WyCGE
+ WRph6ej2kmKU4A+CgOMAGYFvVbAvTfVu7BWQe1Y8rSBwUwkPYm4v02RDlH21IB3mNQS8
+ QqkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zJST1JlzrBFRfYOJJKYdNOjdYpGZW6q5WVfQSu/8SsM=;
- b=ihrIhjurolVvS+jY84OKUIZ6Zj1rLRqYqRIwqzr4kzeDwsmdUsvhQWp6SNy3WFkuBr
- wNnl7V/9eKUKHlnhgmgDzXOpR9n07w30S0cWEgzKBAwmjZcqoSTknUf/1ibjrkuzHCtj
- hhpTVmoWkU5S5kfxGSbf7UGY4XmbqL++ZvGRJaMMNzYaxukzmYU2ESvek8ttC2CWzWmo
- +XSNDByQfCU46gjh1UcxZU/NT/UmiV3qU2moILAeTE9eZw3GcZcLFmyO6eOKkc0acgRO
- 5bi7eFoBDpynFfNC/INRapJxeq5pyvlJfOC/DDEHma6ncQaMCx+RePoMnioyu2HDuKvQ
- wuAA==
-X-Gm-Message-State: AJIora/Ox/OfS4Nz9EWh3hFlhpiJX904E/U1YdwrhBlRzsoq2bfVxji/
- NDNcLuRvVttDnP3R6zmsC7Sf2P8BXWU=
-X-Google-Smtp-Source: AGRyM1sZNukTvxk/vPgC7K3xFaCrO1xktRsbZtr4srMymdUkGxSp4UtiMafyZJgGUavPm9Hg09p40w==
-X-Received: by 2002:a63:6aca:0:b0:419:cb1b:8b4f with SMTP id
- f193-20020a636aca000000b00419cb1b8b4fmr13109622pgc.92.1658043235467; 
- Sun, 17 Jul 2022 00:33:55 -0700 (PDT)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:ece4:54e6:b565:8dcd])
- by smtp.gmail.com with ESMTPSA id
- j12-20020a170903024c00b0016c4546fbf9sm6793364plh.128.2022.07.17.00.33.52
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Sun, 17 Jul 2022 00:33:54 -0700 (PDT)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hw+mvHDpYJcTlOtg6FeFGsqdN8Va6xPaad2AgEpijDY=;
+ b=FB4arJ5K1v6HQHOSoAdO9uvVcGi98Le5eambcXcNpiwQuw2mtMC8JITbp029cv2cmo
+ EPu+zGyK7NtHVFYJBJ/LZqfYtblQwfnnatqtjc2gmtRkarVbXLqszzhkTsGvRAb65PFy
+ w3OyGr8d9g+7KZa1tnjO7Fihlb7inuPudm6gXSuSjAe/m3hdRVBxYs5AWGetwuhpFiSj
+ ZqvDCQRwsatPu1EQURKAijLao1j8Yt/cV1kQzMQrCwtNKvgy+HYW0GGELt8TCKBuoTsq
+ pDox7o81VylOB6MvqWX15IHnDQKzivl/53bZs+xlxvVLdhsWuBED90zoiWSLgt4odZ5F
+ mpvQ==
+X-Gm-Message-State: AJIora/URXE4FOzZ8VwRLXhTA3+HsluC8fi/hGh32eOIUcjAQU6RMzqn
+ qYLoSiee0Mw+abJE3ckK0y8=
+X-Google-Smtp-Source: AGRyM1sDn/52eyhAH38SHqCDD5o2CM/V48EFis1rR0LjTOzK4zKAalEF/wnKh8FPLS7gx0l9kfMryQ==
+X-Received: by 2002:a05:6402:3705:b0:43a:214b:5f40 with SMTP id
+ ek5-20020a056402370500b0043a214b5f40mr29930616edb.83.1658052949240; 
+ Sun, 17 Jul 2022 03:15:49 -0700 (PDT)
+Received: from neptune.lab ([81.200.11.194])
+ by smtp.googlemail.com with ESMTPSA id
+ g21-20020a1709061e1500b00722f8d02928sm4249421ejj.174.2022.07.17.03.15.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 17 Jul 2022 03:15:47 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
 To: 
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PATCH v4 3/3] meson: Allow to enable gtk and sdl while cocoa is
- enabled
-Date: Sun, 17 Jul 2022 16:33:40 +0900
-Message-Id: <20220717073340.25830-4-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.32.1 (Apple Git-133)
-In-Reply-To: <20220717073340.25830-1-akihiko.odaki@gmail.com>
-References: <20220717073340.25830-1-akihiko.odaki@gmail.com>
+Cc: baturo.alexey@gmail.com, richard.henderson@linaro.org,
+ space.monkey.delivers@gmail.com, kupokupokupopo@gmail.com,
+ palmer@dabbelt.com, Alistair.Francis@wdc.com, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 0/1] Fix pointer masking functionality for RISC-V
+Date: Sun, 17 Jul 2022 13:15:42 +0300
+Message-Id: <20220717101543.478533-1-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,51 +89,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As ui/cocoa does no longer override main(), ui/gtk and ui/sdl
-can be enabled even ui/cocoa is enabled.
+From: Alexey Baturo <baturo.alexey@gmail.com>
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- meson.build | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+Hi,
 
-diff --git a/meson.build b/meson.build
-index bc5569ace15..7baec7896ef 100644
---- a/meson.build
-+++ b/meson.build
-@@ -583,12 +583,6 @@ if get_option('attr').allowed()
- endif
- 
- cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
--if cocoa.found() and get_option('sdl').enabled()
--  error('Cocoa and SDL cannot be enabled at the same time')
--endif
--if cocoa.found() and get_option('gtk').enabled()
--  error('Cocoa and GTK+ cannot be enabled at the same time')
--endif
- 
- vmnet = dependency('appleframeworks', modules: 'vmnet', required: get_option('vmnet'))
- if vmnet.found() and not cc.has_header_symbol('vmnet/vmnet.h',
-@@ -915,7 +909,7 @@ if not get_option('brlapi').auto() or have_system
- endif
- 
- sdl = not_found
--if not get_option('sdl').auto() or (have_system and not cocoa.found())
-+if not get_option('sdl').auto() or have_system
-   sdl = dependency('sdl2', required: get_option('sdl'), kwargs: static_kwargs)
-   sdl_image = not_found
- endif
-@@ -1181,7 +1175,7 @@ endif
- gtk = not_found
- gtkx11 = not_found
- vte = not_found
--if not get_option('gtk').auto() or (have_system and not cocoa.found())
-+if not get_option('gtk').auto() or have_system
-   gtk = dependency('gtk+-3.0', version: '>=3.22.0',
-                    method: 'pkg-config',
-                    required: get_option('gtk'),
+This patch fixes a typo which leads to broken pointer masking functionality for RISC-V.
+Thanks.
+
+Alexey Baturo (1):
+  target/riscv: Fix typo and restore Pointer Masking functionality for
+    RISC-V
+
+ target/riscv/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.32.1 (Apple Git-133)
+2.30.2
 
 
