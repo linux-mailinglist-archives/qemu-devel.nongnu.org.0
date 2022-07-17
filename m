@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D432577731
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 18:10:17 +0200 (CEST)
-Received: from localhost ([::1]:45884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A66BA57774B
+	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 18:24:02 +0200 (CEST)
+Received: from localhost ([::1]:50874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oD6qV-0006Xx-SN
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 12:10:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57934)
+	id 1oD73p-0002NX-8G
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 12:24:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD6oX-0005Ak-D5
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:08:14 -0400
-Received: from mout.gmx.net ([212.227.17.22]:57345)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD71r-0000a0-2D
+ for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:21:59 -0400
+Received: from mout.gmx.net ([212.227.17.21]:46835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD6oV-0001eT-Ha
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:08:13 -0400
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD71p-0003eV-6E
+ for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:21:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658074088;
- bh=oDASAazxa/hMyZrtzdn9IQj1R8avtPpMZC2TFGZPpeo=;
+ s=badeba3b8450; t=1658074915;
+ bh=6YV3vGBvLV3x0bekgojdAWHlkhp1JYAUarp1jAdZ9Uo=;
  h=X-UI-Sender-Class:Date:From:To:Subject;
- b=YWh3sa7qzbpFAI2cETe6r0STttc62ZKnV0hi7GLbcGsvTRxeSkDHG1+gAUJBDCtHp
- pk7p/msD1vn0XVSOVps96+QyIbAMBrpdqf5ys/wkutLtJIn27mWxMKXRi3R0Zvrek3
- /LSHd7tOhDoiiApZRUCAolRcoyXxXlCtQG1Djwcw=
+ b=NaAqU46VvNocMh2ydMuRwXPdCEwB40uyJL0u5u2QY4J1VrrPwaWB06MIcJIAkoIzz
+ NTuRbGwgnaUnttF+nn3r4OPdhvds/YOF9S3lJ8pd9U9LFrd7egr2eEgCW82LLUCTku
+ iGt+auN81jwYdUSmr2yDwSCma0FDhiEqg0po3fVc=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from p100 ([92.116.150.104]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVeI8-1o3FQS0shY-00RcIn; Sun, 17
- Jul 2022 18:08:08 +0200
-Date: Sun, 17 Jul 2022 18:08:06 +0200
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MAONX-1oOuKG158l-00Bs5Y; Sun, 17
+ Jul 2022 18:21:55 +0200
+Date: Sun, 17 Jul 2022 18:21:53 +0200
 From: Helge Deller <deller@gmx.de>
 To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS,
- SH4 and SPARC
-Message-ID: <YtQzMUuBOfBiMNlY@p100>
+Subject: [PATCH] linux-user: Use target abi_int type for pipefd[1] in pipe()
+Message-ID: <YtQ3Id6z8slpVr7r@p100>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Provags-ID: V03:K1:TTnwX4xUcWPm50uKzrFtu7Pjw3xo/NB5GgbrLEBs/hjUR8KQhYe
- LMDcuxuXbwZbxxGGkrFMUc7kxcn2rFORsKZRXiKAAAc7IhLpgxv6EPLJCATr0WxRkghWhid
- 5NSxl9Ac4JZzLR+HciltRgz6kST5kBcTk6lJFi86ISmHhzv3/3IfIwfRq9h/x37JEFoimod
- vFGPlMGVAIBno0sUPg/5w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:346xW7mhkjE=:WUABVdxEw3qoXXk/zzewYs
- OjovjdaMNduz/pm/xCMNTqU1g1YHArBJdLdr8ipq/CNr1cDABjVgMH5r72y8ZCvAr2KDXeWq1
- SadsjlOw9qmA2PXW0H2qDg56qJ21hYIqQyagyTaJE0kI20cekpK9/CbOTxbI3PcmRgvCnF21w
- rPfIb8jcd1ih8wjqqloyRKAQKAfddAuskMbCkCzGS9dnZkC/heGB2v7IFSoPrS+ZnDCr2D9Db
- d29DB1mBVibpGQfzHLjyEehGVBg5RDHblYVOCVy6f/pQdvJZc9A/SuFqeAii7W+NQszP6KyoW
- IOSF7qUJ7tZzZLDSj6tvJxLyUlBbLvDuSoD/o6er69GvLRCVpYA10SotcCIsa3Qmculfp07VV
- 62E7rqzxK79RmyYvpKuF7NLuM9mmFkI9hoXX+2uz+sgU5aus2ryp7k019hsTr0pxSx5bs/lhO
- rIEw/67TfolaKW6Vqc0rh7pZTUZTolMlHCY1iihwjs1JAs2UCvd2pR1TjRtlvGPttD04tx3HA
- n2QlzNhG0zercNLU4WBPKs+7Xvsj7Kk79AWmAjyeT2Za78a/POFxdrjhuPtm00w6IfgWjWZha
- 4AcLS6UMfm4/qHVxzU64s4u6ZewxH+VzdJ761S1BgM9hVKHG6xjo7wYbUiNz0czRE3mhYoLfr
- H33lEnQXLbyB2oxERWdO6/kOrLIjStUH8tGu+K+BSqmS1FWDTJaOzzs2mpeoxc2G2ewleBp2d
- +1PWk5PhlGWQObTqW/jqaE1hyHccvdiTljtfqUhVeEmkWdLKJfz80QVMidlZZWb4gkERvEttV
- V9dp7idXkJBajpWnaNa3ftwbDRWsSbtMTdr6H3LlJ+MOFgEISqjlPOjZlX1DVhSM1DX1DChnV
- ngl8AvjyjGnHJimiCPgPcr1tOhegGLO0bCfC+hiOsH+3/kqtBVrC9aYsGl1prPY46WUXKUsLr
- SShzkjhamNExzphb/Krt7r5lqstdou/1pCIvdEZRiXG/b1HO00srwhcAbPuRNAuj0N0UVa8cy
- m5+GM3G4ErQMl5ift2CZ6awW6WM04E5L2yW+fgj2Tp84uVwwuKcYCg0LOX8j4EdC4jLW7BKvM
- a9P93KAHOyre3hvfgwEo+6UBjPU2DdI3btLvL4NnzYmKhyhMMgn4gBO/A==
+X-Provags-ID: V03:K1:8COsCBVn/rvoJq06Iifow7T3Lk26XJt3d7LNb/7SQ4YknRDiIYK
+ K3pZrVfoKjZfcOwzSqKw9DaOibPei8kN/E5QvgdKq+ANsjcMhumN4TrX1jNf3mSoOFNGLGP
+ 5VTCDrrXE1BBFStSZ0hF+VFjWJAsuWipnP11n/W0wibFOBVeWelDD1NLycQZnBqxklkS3JQ
+ Ce/lhoc20RwEi3k/U64BQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XoudZfwdlFc=:POwaaxJ3J2PIxMgUEdE6TE
+ PE6CGgPDy7echSKqZnlRUVjc98A0EdCxPE4rMeRzQPt6ZVOHfSXyFPrsMGNKYe9i9JB5Q8HHE
+ N9qntl+XiobsZdC7h7C5wH7xVgC7dVZ8NUp0VeN0WflhEdlEukvOUqzy4SPyr3C0RqVOPBiPU
+ lTlTd3A3bG7j72McpOhtODXytGpZfINoKbdwQCxSydQx0WrqxI2UkqT16QtMpn+4TFlGn6rqd
+ 8mmNEqQoratQ64ZCcW2JRsq9L8ZG9nC09XasPG+yVksECVrqyHp+1bG/sKwg7fBLPyiQZFeo2
+ YPQ6eAm1HOQxrt7i5Aby6xPalVzQoOAweqVHciAt0umP78ytpoQeE6netAkOQlXW1V4/ITLC4
+ EGmzwBk9b0fYn7X35+puRefDdZ3JSKKR9TT6aC3el9qRARxvFOH7F5CNMYOUdYJiToSoOxmNn
+ lM7Zxeckq2VZ1UwtP0PRXRAjb3JbwdjgLMRf6YCNZ9A+gw7bp+ZiPPPF0pQwU5UR0/uCX9L6D
+ TDUvP9c3QGA+drWAe9zkVR57ptBkaDPmagcx9hOGOPnST3tqE5XkEoTYggoOtAleR65FWv81I
+ 1RrYM6uJNlLs0H5YbYmCEiUqd5405jr5UfsejQxr9KxQsUgJQV/yVOaJbULA9kQaZmnUQO2gP
+ cQ+jPkWRXZ9DsG/NaX3IcH8GNn7rRAllAH6VexFipLM+xhse5I1mK2T7583PsX7BLTA7eV85J
+ uP0dLxWtQN5IHpDQGZz5EMMTOl5PYnWjXYowglLQxNOgngg3+5pejdb4pNhjwGds1cnqtmKHU
+ XBSiGKv3H/sRn1VA/N1m8NlZLC7JxPXmu/MS6ZR+qm/jPbZ1mx4Ql8zkvcUayp21pOc7ozfUw
+ Xq/H3WRh2TO183dRfegs4PCAcoOcJwDuMMdd+vhr23eTyG0O9RvTcJIM0XcufLsyggBFhWhI4
+ KQFN2pWFrUt16vULHtXd2Lw8VtgZqQULWMeHrBkiwR1NlFLXiq0Rca1MDWRDnGAgJHnk3yE0g
+ OwN68gCEsj19dICo2ecnBto7coA9iovy/dFwbZvmBJEiyf1mBrVpcApt3NILwFyEmjSu6V1dM
+ iEkRC4WYxrGuaGGH40oLaBkDUZDuq/8e1j7ozqmDEJG+4XFQkXnIic7oQ==
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -83,31 +82,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In 2010, the commit b41a66edd0c added a thrird parameter "is_pipe2" to the
-internal do_pipe() function, but missed to actually use this parameter to
-decide if the pipe() or pipe2() syscall should be used.
-Instead it just continued to check the flags parameter and used pipe2()
-unconditionally if flags is non-zero.
+When writing back the fd[1] pipe file handle to emulated userspace
+memory, use sizeof(abi_int) as offset insted of the hosts's int type.
+There is no functional change in this patch.
 
-This change should make a difference for the ALPHA, MIPS, SH4 and SPARC
-targets if the emulated code calls pipe2() with a flags value of 0.
-
-Fixes: fb41a66edd0c ("alpha-linux-user: Fix pipe return mechanism.")
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
+Signed-off-by: Helge Deller <deller@gmx.de>
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
 index 991b85e6b4..1e6e814871 100644
 =2D-- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -1600,7 +1600,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_u=
+@@ -1624,7 +1624,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_u=
 long pipedes,
- {
-     int host_pipe[2];
-     abi_long ret;
--    ret =3D flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
-+    ret =3D is_pipe2 ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+     }
 
-     if (is_error(ret))
-         return get_errno(ret);
+     if (put_user_s32(host_pipe[0], pipedes)
+-        || put_user_s32(host_pipe[1], pipedes + sizeof(host_pipe[0])))
++        || put_user_s32(host_pipe[1], pipedes + sizeof(abi_int)))
+         return -TARGET_EFAULT;
+     return get_errno(ret);
+ }
 
