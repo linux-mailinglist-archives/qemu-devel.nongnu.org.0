@@ -2,130 +2,157 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1726A578620
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 17:19:19 +0200 (CEST)
-Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9475D578621
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 17:19:41 +0200 (CEST)
+Received: from localhost ([::1]:60072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDSWj-0001lX-N1
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 11:19:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
+	id 1oDSX6-0002LM-EZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 11:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1oDSV2-0007cw-Te
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:17:32 -0400
-Received: from mail-dm6nam04on2061a.outbound.protection.outlook.com
- ([2a01:111:f400:7e8b::61a]:20224
- helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1oDSVg-0008Jd-Vj
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:18:13 -0400
+Received: from mx0a-002c1b01.pphosted.com ([148.163.151.68]:45002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1oDSUw-0007lv-RA
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:17:32 -0400
+ (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
+ id 1oDSVb-0007sz-Rl
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:18:11 -0400
+Received: from pps.filterd (m0127837.ppops.net [127.0.0.1])
+ by mx0a-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26IC0fN0017227;
+ Mon, 18 Jul 2022 08:18:05 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ h=message-id : date :
+ subject : to : cc : references : from : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=proofpoint20171006;
+ bh=N0UL4OtA2JzNEUSVwfmnjg+uIJ/k7SaTJ13/d5qx9pQ=;
+ b=wKEU3lwFep4EiVYyeg+9QJbD6164un0lkvzbIxvPOIYVBZEfXXYeXSaCHE8bk17ZGzEs
+ al1WnI0OGmdZFsKi6hpdWNx/BFlYcQuDaXEBk8KBSyShl7tY5zE+6QwVxrZ7pxYHQbFz
+ GBBMYtcIxXApTwOhtwQFYD7xMYfqL0GvVKM35F0XOh/TgVE/UamCLSRAAopAGieQrtqq
+ JPkG5HUGLGUtvV5As947vTgJ7W66e9lPgEY7BL8BhO/DN+GS8KoEHNBygrVllvHW9bh9
+ 5qKFeYVuoLQifx/2+3iYPcrA0XLvc5uD325M1m3z8uRsQ/KpJdF4siFuUHJGutVMMnoX RA== 
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+ by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 3hbs87uxad-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 18 Jul 2022 08:18:05 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ix9vcuGA+hZQyDkKq5lTDTD3G5nGXY6KW8ul31N0ztCzfXVV8xl3LYkaDToHpV+YdoLOuR/ybxZcAQ9KXt7mK/TGt/Su+crSi3oJgC6FSbmygh03XgXkdGCzvOkbtZ3sBsI6/lJCcG7iGSb/byjZJBIKJkj1XWW1P3bCFRkklyq2uaUPGYYws0m9JqUtQzJZ62AMUkPPV90eWZwt0dZ/F/u6X890GKILcPpkxqd4vDrueRvA1NIVmDALVgqF+7GN/3+1eDv/8k6KWG/NqvyYASCjFMYulha+L/RCyqnkmVbFIrQ7QuDe66uDyEpWQnEPc+EyKIOZjMxkulgVWfHLEA==
+ b=DtbHgnIam9ebIQ78jwHAmtCaT7+Ep3eNLAXYpPvXLzeM4H6O5THjlR5RLMCDDaFFecRUEHxrTe9PA0LyxsTjr9ZxK7bKL3Vymf2YlZCDBD1LOnuy/lRi9/0V5eVaodxspv5HdSjdGTk389Qh/uCYptbvASzBM+pLtKvta/26hkSfZoS38+PrEz2JsHVMw4X8uMmjxVHkEMDw5g/uTBQie28VPHeAYYx2+t0zUjuz+7TqK3U4Gu1cguf5KPyfgskiEDevQkHY7dtA1jdGW4F8/Tnbwli8Iv8xe15kMu0Lm4rKsgN+pKwwXrtIZrjGnd8CM4XZErEU2kIUE1pmDT8Vlg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mhQIV5xoMuKvAEnNfHrlAX4QSiBzxGcQuyblHCT4Rrc=;
- b=hnZP+zsOgcXbLvLWBAfD9aWXqFV+ylATUWU8PrRsMG5DTsM/WjlLUXX5JvriDbiQPtWJ/wt+6xuc7i9zUut58h7oOqBuZeS33asxWdzDINp6L69r0EZ/MqnjOJ3j6cQHVWm9xZHFC9AmTdCtM+kxTJjl9p6WKOQXlXlHsgKR8pHpL4/JOssukagICbw9Yf2ODH3vmdmFLnRZAAG6goRp2qMcQT4OmtjGXNpNNv4MbjVsuXV9kRavnfRsQqC6peCjWRDzkbwlcLsrRHBIz4QUwcJ+u0RaAy92Y+3LIeoDZ4U/s2BMK5dE2DWHnS+QX7OlYPIbXWhyr1GNy5B3yrzcWg==
+ bh=N0UL4OtA2JzNEUSVwfmnjg+uIJ/k7SaTJ13/d5qx9pQ=;
+ b=c6qEC/w1H6mnnCy6eAdCHwt+b+9QH0SB17/1IsHq8OM/qv116t9Lphe84gPa2/wMBFlsUez7SFKtYbiKeV8EuFgvWlF56MqFayQ9u4+9SzcA3ACfyo82SJjcgM1frz95lhfmKsFY3CZIQRs21hkC6UqRwY6l6pU+xpT9lbE2CKRw5SRZn8fDShF+ymeRP/Qjmo4+KwYz4yb+nfuIHm83SB44Ak5faCcElYRRqOtnC23rSQiMbf6a4GUTM993hO5huFFaLo9XhbLQE/+NinbirjiBsOz5p5W14UGpcOSqFfi5EHnH7m1EjVzATcsN/BbhDhmnEtq4tFf0qT/gOSxzng==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mhQIV5xoMuKvAEnNfHrlAX4QSiBzxGcQuyblHCT4Rrc=;
- b=sHtvtb2EHBRJOzoeH37I+NhZfhKBITvouKXXCHqWr/5dhtR9QGDicRrSbLKKhvvSbQwel/H74jwpZMPqKD8nx9E8inbRETepCJ1Jk7y2Hu3+QdkDeivIbtmaC15BUEFUV6lrEzfjU7LjUf4262a3n9Z6/ThS91PWXbTo2OJM3WbMVn+YStVXoezP61qb5oHGkHhHARd1weeKvqO08ZdBsHpPSJNlm9JTxVVe23OcibLFfwgqbXPzJnccHGb1NzmBZC8gTuqIuNcFQGV5kqRtFEGatJExTV06yHGKxmtK/WQkbtv/8SD8f0ZTUk7Gd/g91sx6HwIJbu2xvHO5EAGqWQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by MW3PR12MB4585.namprd12.prod.outlook.com (2603:10b6:303:54::12)
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
+ by SN4PR0201MB3455.namprd02.prod.outlook.com (2603:10b6:803:48::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.19; Mon, 18 Jul
- 2022 15:12:21 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
- 15:12:21 +0000
-Date: Mon, 18 Jul 2022 12:12:19 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Avihai Horon <avihaih@nvidia.com>, Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Yishai Hadas <yishaih@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
- Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 07/11] vfio/migration: Implement VFIO migration
- protocol v2
-Message-ID: <20220718151219.GA60193@nvidia.com>
-References: <20220530170739.19072-1-avihaih@nvidia.com>
- <20220530170739.19072-8-avihaih@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220530170739.19072-8-avihaih@nvidia.com>
-X-ClientProxiedBy: BL1PR13CA0375.namprd13.prod.outlook.com
- (2603:10b6:208:2c0::20) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Mon, 18 Jul
+ 2022 15:18:02 +0000
+Received: from BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::1493:404b:3242:8e0f]) by BYAPR02MB4343.namprd02.prod.outlook.com
+ ([fe80::1493:404b:3242:8e0f%5]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 15:18:02 +0000
+Message-ID: <c3792d65-b24c-be02-f988-fa1c0e27d490@nutanix.com>
+Date: Mon, 18 Jul 2022 20:47:53 +0530
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: =?UTF-8?B?UmU6IFtQQVRDSCAxLzRdIE1vZGlmeWluZyDigJhtaWdyYXRl4oCZIHFt?=
+ =?UTF-8?Q?p_command_to_add_multi-FD_socket_on_particular_source_and_destina?=
+ =?UTF-8?Q?tion_pair?=
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com, eblake@redhat.com,
+ Manish Mishra <manish.mishra@nutanix.com>
+References: <20220609073305.142515-1-het.gala@nutanix.com>
+ <20220609073305.142515-2-het.gala@nutanix.com> <87h73ees2r.fsf@pond.sub.org>
+ <06e02954-f94d-0508-90f1-a8610e1a09cf@nutanix.com>
+ <877d4a7ang.fsf@pond.sub.org>
+From: Het Gala <het.gala@nutanix.com>
+In-Reply-To: <877d4a7ang.fsf@pond.sub.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: PN0PR01CA0050.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:49::12) To BYAPR02MB4343.namprd02.prod.outlook.com
+ (2603:10b6:a03:57::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: efdfed60-dd00-4871-704c-08da68cfe959
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4585:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8e93bdaf-6f97-4ace-1b93-08da68d0b4b6
+X-MS-TrafficTypeDiagnostic: SN4PR0201MB3455:EE_
+x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Lle6m00eh2ux0ZLnxHkb7CHnYetaZhNHghKIzUmUnFCpan/3YoB60RCdho0AQZ8UZdra46lOPYzVU45niJZK+OT6AHd+oQXmGpHXMQqod1bt2Za/5fF56o2iJFvYHnq3R49NByT+EHsKk107YtYl68jdPvkRIDRDheu3QS4l9h0USweecIKlLf1napaxcxSZkgGO7LROyzpuxR2Tyg774YNEC3TibkJK94rRMhQOb0s749Tg225rHIAJdut5YtAKuNzMVVu+IUSCFeTVsCkbIZM41hWeLsc8zhx9+kmOoVLL3SCXIYZPT4ucaFpdT47oQLTBtl1/wdcAgPk/8J9GJfcgLLytXp4L3XlUSAjllKcoyR8PMxxtoU6/2Can5WfGibcnX/aVJY06TzKuVbb+ixbMCMAfuH/DzVyY8fF4geouGocfZb8XJLqqYlrDwSVNd3We7C3pk6xNTj4vdiI13nLR96RXiXgoOQaYUsPq9k/r5fSbWlRNQydJo6xASMVLlQ461lc5ew4qDdckuEaiN/AhQh3U+Rs0LmRHt90Wlyty2E2Won9FAxOkf6J6ffQz7oDfR7isOeCaP0JVGwdEGjcpucarA9mLzX+IF8XCfclXGl39J/elVoiqUt/c5cA1QNPxPwMGeJHot3IkYiiKGAFQTt9MhHcbbG8FT/0PTuqr4MaiHKXBV9/xDaRwQL2j4ALjujOfqOXg7iFH+XjKKCUZLLIyoR6HxYi6TMVDkv1flYqrPeCgaUQ8sxn+7d4Z
+X-Microsoft-Antispam-Message-Info: bPg6RaqGdgDhC/xn9MtdsOvj86Qbt/QAYO2x/vHYgRM1Abjs52wHqCUdUxlqatbPu06gSWFUFc4Viz+hDeheV70rywL+tZg+p2PGe6BxdSFvOifzRGZENd5FE7O+kF8IeTMFBhaWeyHmSexm7yzahdmw6q6RNCmcWrCxBpfjwOF5X/Br2EF6k6t8fJ0wzpTWADpGpiXxqJL2J3ZBB1nibh2eh2gdYjSbr1yFekuG9Od/j3gL/tR0YVLaTc3dVGMUgLQecLMFEjP1a5ASd8xQ0eGntPJ7eFEguYpHTvfVWlY/uCXAAPNl2Mn8AokZHnrdROk7m+fcD81ZOFPxQ4tDN3Kdzb8FzZj2xiPIgoSfI6zYEhGAZOR0XMav6sjdN3mbm6oighlM/1AbkOnM3Qrn/5j90d8FQqdJFB64rV6NND/3cj62Cy6WoPX0UpXJgmS+uNksQDT4rym7vrtIYMn+2r75t7/0CYGMDPX/hBN5cVekqw02U1jCehcI1/D0K4f6Bcn+Gbfa1TcVxWHsy5izrDLoG6XOo01fGdteOVb0cyePAeOYh4v7ptShVftunMkCW7iGyKKVN95r8MyUNrtgF9g/GglHv3DGDZaty+Yxiq1le6Q99FAPnFzptD1QYaIwQ1PM7cjlkE0+C/TRdC8t9yFFCRU9lYsUCm1v1W2PRMse9chqEmQwL6dRwt2yeTrhjblBUnwQapFQSVqsPP6/ZgNzTyishOc0PAt47C//pOYJIzeQEMhRbXOwFpLD7kV9nG79FL7vz0Bm3lk3a37et0nEst326FzT4q8mVErlohthVG9dexX+yPT/6Z9xv4s+nv9GqY40ZNkBSoJVSn+cLghvoH7A9u1M7bTfb0e+ceqJ9u2OoDRRkHnZ3dWw7w5tSN+1SVyH+7pEfxViN25kLA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(39860400002)(346002)(376002)(396003)(366004)(54906003)(6512007)(316002)(41300700001)(110136005)(6486002)(6506007)(26005)(36756003)(2906002)(33656002)(66556008)(66946007)(5660300002)(38100700002)(1076003)(8676002)(4326008)(66476007)(83380400001)(8936002)(186003)(478600001)(2616005)(107886003)(86362001);
- DIR:OUT; SFP:1101; 
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(346002)(136003)(39860400002)(396003)(366004)(376002)(5660300002)(8936002)(2906002)(44832011)(86362001)(30864003)(31686004)(6916009)(66946007)(4326008)(36756003)(316002)(66476007)(66556008)(26005)(6506007)(52116002)(38350700002)(478600001)(41300700001)(6486002)(6666004)(31696002)(2616005)(186003)(53546011)(107886003)(83380400001)(38100700002)(6512007)(43740500002)(45980500001)(309714004);
+ DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i28AP8mr61x1PsGMqmR0lNzufBdvag/ouqPcIunvykDW/ANUSU9aCIdAAJ9q?=
- =?us-ascii?Q?XhOOHhg1asNZq0XVaPw7SOErdQwx/L+LSSMqFwt9tSF5BOt1Dbk87Ykmp54E?=
- =?us-ascii?Q?DtPaj5dCfuLrGcWcSn2JUfYGVjyO+68JsfPhIw5oNN4bHnMYye7IUC6GIPSG?=
- =?us-ascii?Q?f3mwlpoMadJTxc9j7w8J0VNLP3dXkugpF0CsaqEu/yWb1ThYq3TK6P3yOU2W?=
- =?us-ascii?Q?zG1lmNZQBDa11DYqVnvhj4mi9RkkLcD+jEG0LUrSPCgarkPODzp7CslpdSd1?=
- =?us-ascii?Q?9K7wHXZdt1Hre2OfdHPmyrWe2p/3OnYQIZqL8ong4j5pOLLOV2OJ0xZ2hxy4?=
- =?us-ascii?Q?J9Ei6mC2AzREDlUEohtiUT9Oo0ZOYEoaa+jelPaZHp3a08ASpFUcb45Q7VKY?=
- =?us-ascii?Q?YIJb0g+4reN0YHJTyWZmcNqJX616tgl30qEm0M6dFH1XLqIIU3LggX1ShbOP?=
- =?us-ascii?Q?6NBk8wa0LYGFaBzrW+HiQeJeQup+ZRE1Eysb5ssjt9UQraiC5a6FuWjSOeS0?=
- =?us-ascii?Q?SVmmV5ZntDar9VBnatIl9bl6ZXM87jUuaoZilyF0TrVrt+W8gFfzJ17mcIg2?=
- =?us-ascii?Q?ujiigyFJFV0/55iu+qO+2ABbxeV88OBgk9eF9x3AeRAHZ5a7hzHhg6JxF2IY?=
- =?us-ascii?Q?yo/kQBWcuNO5lDn81LPXmsgSv7V/0X0LmOXSG4ZJX2UGxndTxhaebRllTlKj?=
- =?us-ascii?Q?3dFtV7e7Qgv+S5lntq/kaJZL9BzPfNKjgd0vgHanZQ69aPPF8jr4cw2AE7er?=
- =?us-ascii?Q?G5WNAnTRzcxcPawVqq+Dz2tQNwk7HUlneOcRlMyRjSA2dhp8Jgx4tC7OMtLH?=
- =?us-ascii?Q?yM8FcpnSpOACfkFCKZy8gABWS54bzwVqJL6G+MKuxyC14j3mGwbf9aUQZOWk?=
- =?us-ascii?Q?SI2kHHhtf2Wv7MdpzzOPMnmlYfcZDTnj3m1CQpiwMcwo2Ac7jnSwOnoiZRkk?=
- =?us-ascii?Q?ge1LLuoF9aEEUC1CZ6sugik7f0iTMb0p3UaXuu2ZuRVM0tvJp+9rjoD5T3oj?=
- =?us-ascii?Q?SkfxO9E9Ju5MzRKgtoC7O1LDSbaSsK6NC6AQV+z38pltYndCvZLpqirno1BA?=
- =?us-ascii?Q?o0xxLCr0hyLSFY05mtV+svADCr8ZnmG3z06UEXBwvADbjw9dqiqDDpQ1q1Xp?=
- =?us-ascii?Q?aNf0FZxR9zG37FiunzqtPtPU3OE2a7Q3VhQGnA+uogz/Xok36W/7EFnAf22q?=
- =?us-ascii?Q?qIJvalEwZqeHbARPWY3vgOXYfoQamD9CR4NjSKtL+WO9FzbqMdiMqwWftore?=
- =?us-ascii?Q?Jw/WjxiY0oGs3cX1HWCNdwPaMGTmp51FFZAndlkq5tWjksryZn5w4l0+PAWQ?=
- =?us-ascii?Q?HRBSNB33NHfLjXNwGutMrmtq6yQXzQxgo6kgH/DN/JsO/+Ljp6f3N9Lg6Tsp?=
- =?us-ascii?Q?wP3jFT0n1uIlhYVsPZjHODOKgVzfQO7fPfBKT7q83wnVWu5I0pDm+b5zc2V/?=
- =?us-ascii?Q?pBOJzbYQyGt02rox2XmIbQ2/8KOUZ6SAGFv/4cdd9LJmFpJWNSbsohNXUL0k?=
- =?us-ascii?Q?WBo/iXZtFm11UHmoHtMjkfBdkJK9vKJqBRsXAHjEr8PvnMYjoi+kST0rZU10?=
- =?us-ascii?Q?qxRp8Q1ip4OTKDHX8HKClIicqsZcjv0/i7NA004d?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efdfed60-dd00-4871-704c-08da68cfe959
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WVV3dHYyMXdNMWFicUZZRk1FdDhZLzYzU2ZDRTF1WTZDZEpYQjR1SFN0YlVG?=
+ =?utf-8?B?SUFWclppdGg1WWxhSVdPdEMxOG9EMXNQMzNuZXVBV1NZc2xiR2N3MFJzcW9j?=
+ =?utf-8?B?UmZ5OGJhVnMya2FIOWxYeFUweVMrZXVFWTFXWnkvNkZHZXdXbllLVzlYZDN6?=
+ =?utf-8?B?dlZNZi91M2ZXNCtsK2ZuWXhYa3o4Rm1OeVo2bEVHb2pTQVVEdnpNdmorM0o4?=
+ =?utf-8?B?SXBxQlFoYnNGYXE3bGdxY1p0ZGs4Ty9qQ2VTQzhpeTJmZmNTcmNkR0FqM3g2?=
+ =?utf-8?B?MTNZVDBRbjV4NWVOTnZoVG42UUtuUVV5S2FGanUxSlI4OWxld3g0eWp2RWxT?=
+ =?utf-8?B?N3IwY0U0c2hkNjRQU29oYlJTYnB3U2hCOU1pQ25QRVNRYysxUjJQOVNhemc3?=
+ =?utf-8?B?S04yY0x2dnc1cmkya1lLNXFKV0dCbEtWSjB4L1RIR2FiRVE1NHFmOXlKUnVK?=
+ =?utf-8?B?S25KWmMyOUU1Q1VwQU5aNllUdWowZnRtamJWaUUrQjdCZEZEbWF2MGdhWUhW?=
+ =?utf-8?B?UmR0WUEzdFVpdkVnMmJvS0dmL05YR2pVdENadkVoM1ZHSlNieXBxWU5rMEdp?=
+ =?utf-8?B?U09nUGtZSUVlSEpiYzl4YTZVYlpndkRDM255ckQ3bXgxWlhvVVBId2lCckJG?=
+ =?utf-8?B?TFVNK3gyV1lsRWtpbFdNSUQ0TGlESDI0Uk1HMVBGOWFhZEMvTUJhWFo3M082?=
+ =?utf-8?B?Tkh0WjRybm9RV1NNRTRwdkhKRnlYbEJuOERVaHU4TGt2QXhhS1R6U0JwM3VG?=
+ =?utf-8?B?Yy9QRFdIKzJtZ2hocVRBdFdYVTFiczlKbXcxLzBCVEIrSERQK3BrQmJ6d1E5?=
+ =?utf-8?B?QTMyR1BPR1FwNWUzdGtZQm9BVG5MRXNybTh4c21ZU2Z0bkd6QlZIWlFiN1Az?=
+ =?utf-8?B?SWpRYi9Qbk5jYUpxdHVTUXRNTjlldUt2dVduOWtGTWJxYlRhVTRtdkp4ZHZP?=
+ =?utf-8?B?dUFkQTJNVlNHZGdtVUNkNTh4N2FJdVREK1FsbWl5WDRqbm9mSnJsd1ZRc1pv?=
+ =?utf-8?B?d2JFaU9hZHpNcnp3d2twc1RZMEZKU2ZpZSs4RExmMVpVYUFNQVdYazEwbGU1?=
+ =?utf-8?B?ZHVKT2xnZ2IwNngzMTZwOHdOUjZUUml5d21LSlNtS0EzL2xVMmg5SmtlRjVM?=
+ =?utf-8?B?WmROc050bWhzcmxVc3MwS1VYb2U3Z0R5dXFYUmpEdUk2T2RkRGNRRVB1OTJh?=
+ =?utf-8?B?UHhsQWpWZW9JQUhwYmRUZzNEQzV5dHhza2xRaE1tTEgxdEVuSld0NnFVcWJX?=
+ =?utf-8?B?VVFYZ0lITFRyZGV5d1hYaS9tNStvUE9paFY0YlhwWXFBWHFwUnc0RWdiS2E4?=
+ =?utf-8?B?Vm9paTBNUThIZWZGWnhwMURiU3ovUXBlMkk5TWxMTmZlSUh2OFZDdEQxczlQ?=
+ =?utf-8?B?ejVmOHcrb2d3akJBakU4ZkJPY1YzcGkreDNtN0FCanNQQVA2enRRaStjdFBj?=
+ =?utf-8?B?TVIxd0pTa3ZmYWdUNG9JVEk4T1RIb1QxemZPOFJYOTJGemN1Ry9GbXJrZ2tu?=
+ =?utf-8?B?N0FiVjJRYVNNVll0bnIwRzQ3L3pRYVphZGhORHB0SXNKWDNxVHdhTStNUDM3?=
+ =?utf-8?B?RFV4MVFoUWF1cSt0bWZCcjNLT0l4UW1JejZxbHh2Um1wWUI3cjFqSHZRelpP?=
+ =?utf-8?B?MUNIOGh5SlBjQzRyb3hhVGdQS3pyNHFxWWkyd2hZaTZuRWxOWHlERkhoT1dn?=
+ =?utf-8?B?L042bnk1QVJBQUxzb3R6TjlENklzTmFVSE1zVTd4R0J5YmRkMWhnMmlNRW9F?=
+ =?utf-8?B?OVZWbEwvVkpWZHBiU2dOVHZpZExwRXZnSTQ5eVlVYVdja2pkcklXWlJiMjR5?=
+ =?utf-8?B?dk1XQUc2NEcwRXFQc09kN0tFNkpFWTJsQS9WdFZIUkZBUjliQ3FtTlFJTnBK?=
+ =?utf-8?B?WlJQcDg5SXNtaldmNllNdnpJMkprV3MwSVJUQlVPRCtyNHc4bkx1ZCtmUGNK?=
+ =?utf-8?B?cFBjdGszOE15ekRMYzB6NXVEK3Z3bzlEd2lUQk5vZGxjTXp4aU84U0Evd3dr?=
+ =?utf-8?B?SzNiT3dER2g2UlYyRHlBK3Y2QmdnL2hOSC9ZOVhrYnJwNFZTMWlxSkJ5Z24z?=
+ =?utf-8?B?WGF4Z0FSM1pidnYzclNBVWZTNXhkRFdDMGlIcGZaaUNqaENrclp0bW1LdXVw?=
+ =?utf-8?Q?ivgDaBTJZqUwI80PGCYf9h5eh?=
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8e93bdaf-6f97-4ace-1b93-08da68d0b4b6
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 15:12:21.0849 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 15:18:02.3947 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: d7HfHLTplSGxQZfDRQqk65m/6ZmOSNntjljPmlt4JNBzmSj+Ywr3Lfg9k1BXxQSN
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4585
-Received-SPF: softfail client-ip=2a01:111:f400:7e8b::61a;
- envelope-from=jgg@nvidia.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: z7ZO6pJOXpPah8sHCxin3S2Dq+cgjjiNYDWL3ZKgMV3FwvPh3yKg/qIvq7vbUS4Anoz/sdT/GtNyua+XV7SEvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR0201MB3455
+X-Proofpoint-ORIG-GUID: lDdgcnsJRaosYADEdmZKa3c8kKw8Or6Q
+X-Proofpoint-GUID: lDdgcnsJRaosYADEdmZKa3c8kKw8Or6Q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-18_14,2022-07-18_01,2022-06-22_01
+X-Proofpoint-Spam-Reason: safe
+Received-SPF: pass client-ip=148.163.151.68; envelope-from=het.gala@nutanix.com;
+ helo=mx0a-002c1b01.pphosted.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -141,100 +168,513 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 30, 2022 at 08:07:35PM +0300, Avihai Horon wrote:
 
-> +/* Returns 1 if end-of-stream is reached, 0 if more data and -1 if error */
-> +static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
-> +{
-> +    ssize_t data_size;
-> +
-> +    data_size = read(migration->data_fd, migration->data_buffer,
-> +                     migration->data_buffer_size);
-> +    if (data_size < 0) {
-> +        return -1;
-> +    }
-> +    if (data_size == 0) {
-> +        return 1;
-> +    }
-> +
-> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
-> +    qemu_put_be64(f, data_size);
-> +    qemu_put_buffer_async(f, migration->data_buffer, data_size, false);
-> +    qemu_fflush(f);
-> +    bytes_transferred += data_size;
-> +
-> +    trace_vfio_save_block(migration->vbasedev->name, data_size);
-> +
-> +    return qemu_file_get_error(f);
-> +}
+On 18/07/22 8:03 pm, Markus Armbruster wrote:
+> Het Gala <het.gala@nutanix.com> writes:
+>
+>> On 18/07/22 2:05 pm, Markus Armbruster wrote:
+>>> Het Gala <het.gala@nutanix.com> writes:
+>>>
+>>>> i) Modified the format of the qemu monitor command : 'migrate' by adding a list,
+>>>>      each element in the list consists of multi-FD connection parameters: source
+>>>>      and destination uris and of the number of multi-fd channels between each pair.
+>>>>
+>>>> ii) Information of all multi-FD connection parameters’ list, length of the list
+>>>>       and total number of multi-fd channels for all the connections together is
+>>>>       stored in ‘OutgoingArgs’ struct.
+>>>>
+>>>> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+>>>> Signed-off-by: Het Gala <het.gala@nutanix.com>
+>>>> ---
+>>>>    include/qapi/util.h   |  9 ++++++++
+>>>>    migration/migration.c | 47 ++++++++++++++++++++++++++++++--------
+>>>>    migration/socket.c    | 53 ++++++++++++++++++++++++++++++++++++++++---
+>>>>    migration/socket.h    | 17 +++++++++++++-
+>>>>    monitor/hmp-cmds.c    | 22 ++++++++++++++++--
+>>>>    qapi/migration.json   | 43 +++++++++++++++++++++++++++++++----
+>>>>    6 files changed, 170 insertions(+), 21 deletions(-)
+>>>>
+>>>> diff --git a/include/qapi/util.h b/include/qapi/util.h
+>>>> index 81a2b13a33..3041feb3d9 100644
+>>>> --- a/include/qapi/util.h
+>>>> +++ b/include/qapi/util.h
+>>>> @@ -56,4 +56,13 @@ int parse_qapi_name(const char *name, bool complete);
+>>>>        (tail) = &(*(tail))->next; \
+>>>>    } while (0)
+>>>>
+>>>> +#define QAPI_LIST_LENGTH(list) ({ \
+>>>> +    int _len = 0; \
+>>>> +    typeof(list) _elem; \
+>>>> +    for (_elem = list; _elem != NULL; _elem = _elem->next) { \
+>>>> +        _len++; \
+>>>> +    } \
+>>>> +    _len; \
+>>>> +})
+>>>> +
+>>> Unless there is a compelling reason for open-coding this, make it a
+>>> (non-inline) function.
+>>>
+>> if kept as a function, the datatype of list is different every time
+>> in the qemu code, and that led to multiple copies of this function. So
+>> we decided, it would be best to keep it as a macro defined function. We
+>> would be happy to hear any suggstions to solve this problem while the
+>> function non-inline.
+> Point taken.
+>
+> You could make it a function taking a GenericList *, but then you'd have
+> to cast actual list pointers to GenericList, which isn't nice.
+>
+>>>>    #endif
+>>>> diff --git a/migration/migration.c b/migration/migration.c
+>>>> index 31739b2af9..c408175aeb 100644
+>>>> --- a/migration/migration.c
+>>>> +++ b/migration/migration.c
+>>>> @@ -2328,13 +2328,14 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+>>>>        return true;
+>>>>    }
+>>>>
+>>>> -void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>>>> +void qmp_migrate(const char *uri, bool has_multi_fd_uri_list,
+>>>> +                 MigrateUriParameterList *cap, bool has_blk, bool blk,
+>>>>                     bool has_inc, bool inc, bool has_detach, bool detach,
+>>>>                     bool has_resume, bool resume, Error **errp)
+>>>>    {
+>>>>        Error *local_err = NULL;
+>>>>        MigrationState *s = migrate_get_current();
+>>>> -    const char *p = NULL;
+>>>> +    const char *dst_ptr = NULL;
+>>>>
+>>>>        if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
+>>>>                             has_resume && resume, errp)) {
+>>>> @@ -2348,20 +2349,46 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+>>>>            }
+>>>>        }
+>>>>
+>>>> +    /*
+>>>> +     * In case of Multi-FD migration parameters, if uri is provided,
+>>>> +     * supports only tcp network protocol.
+>>>> +     */
+>>>> +    if (has_multi_fd_uri_list) {
+>>>> +        int length = QAPI_LIST_LENGTH(cap);
+>>>> +        init_multifd_array(length);
+>>>> +        for (int i = 0; i < length; i++) {
+>>>> +            const char *p1 = NULL, *p2 = NULL;
+>>>> +            const char *multifd_dst_uri = cap->value->destination_uri;
+>>>> +            const char *multifd_src_uri = cap->value->source_uri;
+>>>> +            uint8_t multifd_channels = cap->value->multifd_channels;
+>>>> +            if (!strstart(multifd_dst_uri, "tcp:", &p1) ||
+>>>> +                !strstart(multifd_src_uri, "tcp:", &p2)) {
+>>>> +                error_setg(errp, "multi-fd destination and multi-fd source "
+>>>> +                "uri, both should be present and follows tcp protocol only");
+>>>> +                break;
+>>>> +            } else {
+>>>> +                store_multifd_migration_params(p1 ? p1 : multifd_dst_uri,
+>>>> +                                            p2 ? p2 : multifd_src_uri,
+>>>> +                                            multifd_channels, i, &local_err);
+>>>> +            }
+>>>> +            cap = cap->next;
+>>>> +        }
+>>>> +    }
+>>>> +
+>>>>        migrate_protocol_allow_multi_channels(false);
+>>>> -    if (strstart(uri, "tcp:", &p) ||
+>>>> +    if (strstart(uri, "tcp:", &dst_ptr) ||
+>>>>            strstart(uri, "unix:", NULL) ||
+>>>>            strstart(uri, "vsock:", NULL)) {
+>>>>            migrate_protocol_allow_multi_channels(true);
+>>>> -        socket_start_outgoing_migration(s, p ? p : uri, &local_err);
+>>>> +        socket_start_outgoing_migration(s, dst_ptr ? dst_ptr : uri, &local_err);
+>>>>    #ifdef CONFIG_RDMA
+>>>> -    } else if (strstart(uri, "rdma:", &p)) {
+>>>> -        rdma_start_outgoing_migration(s, p, &local_err);
+>>>> +    } else if (strstart(uri, "rdma:", &dst_ptr)) {
+>>>> +        rdma_start_outgoing_migration(s, dst_ptr, &local_err);
+>>>>    #endif
+>>>> -    } else if (strstart(uri, "exec:", &p)) {
+>>>> -        exec_start_outgoing_migration(s, p, &local_err);
+>>>> -    } else if (strstart(uri, "fd:", &p)) {
+>>>> -        fd_start_outgoing_migration(s, p, &local_err);
+>>>> +    } else if (strstart(uri, "exec:", &dst_ptr)) {
+>>>> +        exec_start_outgoing_migration(s, dst_ptr, &local_err);
+>>>> +    } else if (strstart(uri, "fd:", &dst_ptr)) {
+>>>> +        fd_start_outgoing_migration(s, dst_ptr, &local_err);
+>>>>        } else {
+>>>>            if (!(has_resume && resume)) {
+>>>>                yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+>>>> diff --git a/migration/socket.c b/migration/socket.c
+>>>> index 4fd5e85f50..7ca6af8cca 100644
+>>>> --- a/migration/socket.c
+>>>> +++ b/migration/socket.c
+>>>> @@ -32,6 +32,17 @@ struct SocketOutgoingArgs {
+>>>>        SocketAddress *saddr;
+>>>>    } outgoing_args;
+>>>>
+>>>> +struct SocketArgs {
+>>>> +    struct SrcDestAddr data;
+>>>> +    uint8_t multifd_channels;
+>>>> +};
+>>>> +
+>>>> +struct OutgoingMigrateParams {
+>>>> +    struct SocketArgs *socket_args;
+>>>> +    size_t length;
+>>> Length of what?
+>> length of the socket_args[] array. Thanks for pointing it out. I will
+>> be more specific for this variable in the v2 patchset series.
+>>
+>>>> +    uint64_t total_multifd_channel;
+>>> @total_multifd_channels appears to be the sum of the
+>>> socket_args[*].multifd_channels.  Correct?
+>> Yes Markus, you are correct.
+> Sure you need to keep the sum separately?
 
-We looked at this from an eye to "how much data is transfered" per
-callback.
+ > So earlier, the idea behind this was that, we had this intention to 
+depreciate the migrate_multifd_channels() API from the live migration 
+process. We made total_multifd_channels() function, where it used to 
+calculate total number of multifd channels every time, for whichever 
+function called was computation internsive so we replaced it by 
+returning sum of socket_args[*].multifd_channels i.e. 
+total_multifd_channel in the later patches.
 
-The above function is the basic data mover, and
-'migration->data_buffer_size' is set to 1MB at the moment.
+  But now in the v2 patchset onwards, Thanks to inputs from Dr. David 
+and Daniel, we are not depricating migrate_multifd_channels() API but 
+the value from the API will be cross-referenced with sum of 
+socket_args[*].multifd_channels i.e. total_multifd_channel, and error if 
+they are not equal.
 
-So, we product up to 1MB VFIO_MIG_FLAG_DEV_DATA_STATE sections.
+>
+>>>> +} outgoing_migrate_params;
+>>>> +
+>>>>    void socket_send_channel_create(QIOTaskFunc f, void *data)
+>>>>    {
+>>>>        QIOChannelSocket *sioc = qio_channel_socket_new();
+>>>> @@ -47,6 +58,14 @@ int socket_send_channel_destroy(QIOChannel *send)
+>>>>            qapi_free_SocketAddress(outgoing_args.saddr);
+>>>>            outgoing_args.saddr = NULL;
+>>>>        }
+>>>> +
+>>>> +    if (outgoing_migrate_params.socket_args != NULL) {
+>>>> +        g_free(outgoing_migrate_params.socket_args);
+>>>> +        outgoing_migrate_params.socket_args = NULL;
+>>>> +    }
+>>>> +    if (outgoing_migrate_params.length) {
+>>>> +        outgoing_migrate_params.length = 0;
+>>>> +    }
+>>>>        return 0;
+>>>>    }
+>>>>
+>>>> @@ -117,13 +136,41 @@ socket_start_outgoing_migration_internal(MigrationState *s,
+>>>>    }
+>>>>
+>>>>    void socket_start_outgoing_migration(MigrationState *s,
+>>>> -                                     const char *str,
+>>>> +                                     const char *dst_str,
+>>>>                                         Error **errp)
+>>>>    {
+>>>>        Error *err = NULL;
+>>>> -    SocketAddress *saddr = socket_parse(str, &err);
+>>>> +    SocketAddress *dst_saddr = socket_parse(dst_str, &err);
+>>>> +    if (!err) {
+>>>> +        socket_start_outgoing_migration_internal(s, dst_saddr, &err);
+>>>> +    }
+>>>> +    error_propagate(errp, err);
+>>>> +}
+>>>> +
+>>>> +void init_multifd_array(int length)
+>>>> +{
+>>>> +    outgoing_migrate_params.socket_args = g_new0(struct SocketArgs, length);
+>>>> +    outgoing_migrate_params.length = length;
+>>>> +    outgoing_migrate_params.total_multifd_channel = 0;
+>>>> +}
+>>>> +
+>>>> +void store_multifd_migration_params(const char *dst_uri,
+>>>> +                                    const char *src_uri,
+>>>> +                                    uint8_t multifd_channels,
+>>>> +                                    int idx, Error **errp)
+>>>> +{
+>>>> +    Error *err = NULL;
+>>>> +    SocketAddress *src_addr = NULL;
+>>>> +    SocketAddress *dst_addr = socket_parse(dst_uri, &err);
+>>>> +    if (src_uri) {
+>>>> +        src_addr = socket_parse(src_uri, &err);
+>>>> +    }
+>>> Incorrect use of &err.  error.h's big comment:
+>>>
+>>>    * Receive and accumulate multiple errors (first one wins):
+>>>    *     Error *err = NULL, *local_err = NULL;
+>>>    *     foo(arg, &err);
+>>>    *     bar(arg, &local_err);
+>>>    *     error_propagate(&err, local_err);
+>>>    *     if (err) {
+>>>    *         handle the error...
+>>>    *     }
+>>>    *
+>>>    * Do *not* "optimize" this to
+>>>    *     Error *err = NULL;
+>>>    *     foo(arg, &err);
+>>>    *     bar(arg, &err); // WRONG!
+>>>    *     if (err) {
+>>>    *         handle the error...
+>>>    *     }
+>>>    * because this may pass a non-null err to bar().
+>>>
+>> Thankyou Markus for sharing this knowledge. I was unaware of the
+>> dont's with &err.
+> The big comment should help you along.  If it doesn't, just ask.
+ > I read the comment, and it is pretty well explained out there.
+>
+>>>>        if (!err) {
+>>>> -        socket_start_outgoing_migration_internal(s, saddr, &err);
+>>>> +        outgoing_migrate_params.socket_args[idx].data.dst_addr = dst_addr;
+>>>> +        outgoing_migrate_params.socket_args[idx].data.src_addr = src_addr;
+>>>> +        outgoing_migrate_params.socket_args[idx].multifd_channels
+>>>> +                                                         = multifd_channels;
+>>>> +        outgoing_migrate_params.total_multifd_channel += multifd_channels;
+>>>>        }
+>>>>        error_propagate(errp, err);
+>>> Consider
+>>>
+>>>          struct SocketArgs *sa = &outgoing_migrate_params.socket_args[idx];
+>>>          SocketAddress *src_addr, *dst_addr;
+>>>
+>>>          src_addr = socketaddress(src_uri, errp);
+>>>          if (!src_addr) {
+>>>              return;
+>>>          }
+>>>
+>>>          dst_addr = socketaddress(dst_uri, errp);
+>>>          if (!dst_addr) {
+>>>              return;
+>>>          }
+>>>
+>>>          sa->data.dst_addr = dst_addr;
+>>>          sa->data.src_addr = src_addr;
+>>>          sa->multifd_channels = multifd_channels;
+>>>          outgoing_migrate_params.total_multifd_channel += multifd_channels;
+>> Thanks Markus for this amazing suggestion. Your approach looks
+>> simpler to understand and also resolves the error it had with &err. I
+>> will surely implement this in the upcoming v2 patchset.
+> You're welcome :)
 
-This series does not include the precopy support, but that will
-include a precopy 'save_live_iterate' function like this:
+ > I just wanted to have a double check on the solution you gave above 
+Markus. The suggestion you have given there has been deliberately 
+written in that way right, because
 
-static int vfio_save_iterate(QEMUFile *f, void *opaque)
-{
-    VFIODevice *vbasedev = opaque;
-    VFIOMigration *migration = vbasedev->migration;
-    int ret;
-
-    ret = vfio_save_block(f, migration);
-    if (ret < 0) {
-        return ret;
-    }
-    if (ret == 1) {
-        return 1;
-    }
-    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
-    return 0;
+src_addr = socketaddress(src_uri, errp);
+dst_addr = socketaddress(dst_uri, errp);
+if (!src_addr) {
+     return;
+}
+if (!dst_addr) {
+     return;
 }
 
-Thus, during precopy this will never do more than 1MB per callback.
+would still be an error right according to the &err guidelines from 
+error.h file.
 
-> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    enum vfio_device_mig_state recover_state;
-> +    int ret;
-> +
-> +    /* We reach here with device state STOP or STOP_COPY only */
-> +    recover_state = VFIO_DEVICE_STATE_STOP;
-> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP_COPY,
-> +                                   recover_state);
-> +    if (ret) {
-> +        return ret;
-> +    }
-> +
-> +    do {
-> +        ret = vfio_save_block(f, vbasedev->migration);
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    } while (!ret);
+>
+>>>>    }
+>>>> diff --git a/migration/socket.h b/migration/socket.h
+>>>> index 891dbccceb..bba7f177fe 100644
+>>>> --- a/migration/socket.h
+>>>> +++ b/migration/socket.h
+>>>> @@ -19,12 +19,27 @@
+>>>>
+>>>>    #include "io/channel.h"
+>>>>    #include "io/task.h"
+>>>> +#include "migration.h"
+>>>> +
+>>>> +/* info regarding destination and source uri */
+>>>> +struct SrcDestAddr {
+>>>> +    SocketAddress *dst_addr;
+>>>> +    SocketAddress *src_addr;
+>>>> +};
+>>> QEMU coding style wants a typedef.
+>> Okay, acknowledged.
+>>
+>>>>    void socket_send_channel_create(QIOTaskFunc f, void *data);
+>>>>    int socket_send_channel_destroy(QIOChannel *send);
+>>>>
+>>>>    void socket_start_incoming_migration(const char *str, Error **errp);
+>>>>
+>>>> -void socket_start_outgoing_migration(MigrationState *s, const char *str,
+>>>> +void socket_start_outgoing_migration(MigrationState *s, const char *dst_str,
+>>>>                                         Error **errp);
+>>>> +
+>>>> +int multifd_list_length(MigrateUriParameterList *list);
+>>>> +
+>>>> +void init_multifd_array(int length);
+>>>> +
+>>>> +void store_multifd_migration_params(const char *dst_uri, const char *src_uri,
+>>>> +                                    uint8_t multifd_channels, int idx,
+>>>> +                                    Error **erp);
+>>>>    #endif
+>>>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>>>> index 622c783c32..2db539016a 100644
+>>>> --- a/monitor/hmp-cmds.c
+>>>> +++ b/monitor/hmp-cmds.c
+>>>> @@ -56,6 +56,9 @@
+>>>>    #include "migration/snapshot.h"
+>>>>    #include "migration/misc.h"
+>>>>
+>>>> +/* Default number of multi-fd channels */
+>>>> +#define DEFAULT_MIGRATE_MULTIFD_CHANNELS 2
+>>>> +
+>>>>    #ifdef CONFIG_SPICE
+>>>>    #include <spice/enums.h>
+>>>>    #endif
+>>>> @@ -1574,10 +1577,25 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
+>>>>        bool inc = qdict_get_try_bool(qdict, "inc", false);
+>>>>        bool resume = qdict_get_try_bool(qdict, "resume", false);
+>>>>        const char *uri = qdict_get_str(qdict, "uri");
+>>>> +
+>>>> +    const char *src_uri = qdict_get_str(qdict, "source-uri");
+>>>> +    const char *dst_uri = qdict_get_str(qdict, "destination-uri");
+>>>> +    uint8_t multifd_channels = qdict_get_try_int(qdict, "multifd-channels",
+>>>> +                                        DEFAULT_MIGRATE_MULTIFD_CHANNELS);
+>>>>        Error *err = NULL;
+>>>> +    MigrateUriParameterList *caps = NULL;
+>>>> +    MigrateUriParameter *value;
+>>>> +
+>>>> +    value = g_malloc0(sizeof(*value));
+>>>> +    value->source_uri = (char *)src_uri;
+>>>> +    value->destination_uri = (char *)dst_uri;
+>>>> +    value->multifd_channels = multifd_channels;
+>>>> +    QAPI_LIST_PREPEND(caps, value);
+>>>> +
+>>>> +    qmp_migrate(uri, !!caps, caps, !!blk, blk, !!inc,
+>>>> +                inc, false, false, true, resume, &err);
+>>>> +    qapi_free_MigrateUriParameterList(caps);
+>>>>
+>>>> -    qmp_migrate(uri, !!blk, blk, !!inc, inc,
+>>>> -                false, false, true, resume, &err);
+>>>>        if (hmp_handle_error(mon, err)) {
+>>>>            return;
+>>>>        }
+>>>> diff --git a/qapi/migration.json b/qapi/migration.json
+>>>> index 6130cd9fae..fb259d626b 100644
+>>>> --- a/qapi/migration.json
+>>>> +++ b/qapi/migration.json
+>>>> @@ -1454,12 +1454,38 @@
+>>>>    ##
+>>>>    { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+>>>>
+>>>> +##
+>>>> +# @MigrateUriParameter:
+>>>> +#
+>>>> +# Information regarding which source interface is connected to which
+>>>> +# destination interface and number of multifd channels over each interface.
+>>>> +#
+>>>> +# @source-uri: the Uniform Resource Identifier of the source VM.
+>>>> +#              Default port number is 0.
+>>>> +#
+>>>> +# @destination-uri: the Uniform Resource Identifier of the destination VM
+>>>> +#
+>>>> +# @multifd-channels: number of parallel multifd channels used to migrate data
+>>>> +#                    for specific source-uri and destination-uri. Default value
+>>>> +#                    in this case is 2 (Since 4.0)
+>>> You mean "(Since 7.1)", I guess.
+>> Yes yes. Also David pointed this thing out. I will update the version
+>> in the v2 patchset.
+>>
+>>>> +#
+>>>> +##
+>>>> +{ 'struct' : 'MigrateUriParameter',
+>>>> +  'data' : { 'source-uri' : 'str',
+>>>> +             'destination-uri' : 'str',
+>>>> +             '*multifd-channels' : 'uint8'} }
+>>>> +
+>>>>    ##
+>>>>    # @migrate:
+>>>>    #
+>>>>    # Migrates the current running guest to another Virtual Machine.
+>>>>    #
+>>>>    # @uri: the Uniform Resource Identifier of the destination VM
+>>>> +#       for migration thread
+>>>> +#
+>>>> +# @multi-fd-uri-list: list of pair of source and destination VM Uniform
+>>>> +#                     Resource Identifiers with number of multifd-channels
+>>>> +#                     for each pair
+>>>>    #
+>>>>    # @blk: do block migration (full disk copy)
+>>>>    #
+>>>> @@ -1479,20 +1505,27 @@
+>>>>    # 1. The 'query-migrate' command should be used to check migration's progress
+>>>>    #    and final result (this information is provided by the 'status' member)
+>>>>    #
+>>>> -# 2. All boolean arguments default to false
+>>>> +# 2. The uri argument should have the Uniform Resource Identifier of default
+>>>> +#    destination VM. This connection will be bound to default network
+>>>> +#
+>>>> +# 3. All boolean arguments default to false
+>>>>    #
+>>>> -# 3. The user Monitor's "detach" argument is invalid in QMP and should not
+>>>> +# 4. The user Monitor's "detach" argument is invalid in QMP and should not
+>>>>    #    be used
+>>>>    #
+>>>>    # Example:
+>>>>    #
+>>>> -# -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+>>>> +# -> { "execute": "migrate",
+>>>> +#                 "arguments": { "uri": "tcp:0:4446", "multi-fd-uri-list": [ {
+>>>> +#                                "source-uri": "tcp::6900", "destination-uri": "tcp:0:4480",
+>>>> +#                                "multifd-channels": 4}, { "source-uri": "tcp:10.0.0.0: ",
+>>>> +#                                "destination-uri": "tcp:11.0.0.0:7789", "multifd-channels": 5} ] } }
+>>>>    # <- { "return": {} }
+>>>>    #
+>>>>    ##
+>>>>    { 'command': 'migrate',
+>>>> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
+>>>> -           '*detach': 'bool', '*resume': 'bool' } }
+>>>> +  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateUriParameter'], '*blk': 'bool',
+> ??
 
-This seems to be the main problem where we chain together 1MB blocks
-until the entire completed precopy data is completed. The above is
-hooked to 'save_live_complete_precopy'
+ > Sorry Markus, I think the statement I wrote did not make sense, I 
+apologise for that. I meant to say example in the sense:
 
-So, if we want to break the above up into some 'save_iterate' like
-function, do you have some advice how to do it? The above do/while
-must happen after the VFIO_DEVICE_STATE_STOP_COPY.
+   # Example:
+   #
+# -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+# -> { "execute": "migrate",
+#                 "arguments": { "uri": "tcp:0:4446", "multi-fd-uri-list": [ {
+#                                "source-uri": "tcp::6900", "destination-uri": "tcp:0:4480",
+#                                "multifd-channels": 4}, { "source-uri": "tcp:10.0.0.0: ",
+#                                "destination-uri": "tcp:11.0.0.0:7789", "multifd-channels": 5} ] } }
 
-For mlx5 the above loop will often be ~10MB's for small VMs and
-100MB's for big VMs (big meaning making extensive use of RDMA
-functionality), and this will not change with pre-copy support or not.
+even this we should try to wrap within 80 character column right? or is 
+that okay to go beyond 80.
+>>> Long line.
+>> Okay, acknowledged. Even for example, should it be under 80
+>> characters per line, or that is fine?
+> docs/devel/style.rst:
+>
+>      Line width
+>      ==========
+>
+>      Lines should be 80 characters; try not to make them longer.
+>
+>      Sometimes it is hard to do, especially when dealing with QEMU subsystems
+>      that use long function or symbol names. If wrapping the line at 80 columns
+>      is obviously less readable and more awkward, prefer not to wrap it; better
+>      to have an 85 character line than one which is awkwardly wrapped.
+>
+>      Even in that case, try not to make lines much longer than 80 characters.
+>      (The checkpatch script will warn at 100 characters, but this is intended
+>      as a guard against obviously-overlength lines, not a target.)
+>
+> Personally, I very much prefer to wrap between 70 and 75 except where it
+> impairs legibility.
+ > Okay thanks again Markus for your valuable suggestion. I will try to 
+wrap within 75 in almost all the cases.
+>>>> +           '*inc': 'bool', '*detach': 'bool', '*resume': 'bool' } }
+>>>>   
+>>>>    ##
+>>>>    # @migrate-incoming:
+>> Regards,
+>>
+>> Het Gala
 
-Is it still a problem?
+Regards,
 
-For other devices, like a GPU, I would imagine pre-copy support is
-implemented and this will be a smaller post-precopy residual.
+Het Gala
 
-Jason
 
