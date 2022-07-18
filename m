@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56E6577E03
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 10:54:52 +0200 (CEST)
-Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3FC577E04
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 10:54:57 +0200 (CEST)
+Received: from localhost ([::1]:45408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDMWh-00016g-8g
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 04:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
+	id 1oDMWm-0001LP-Rp
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 04:54:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oDMUX-0005BJ-MF
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:52:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43625)
+ id 1oDMUf-0005O9-PD
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:52:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oDMUU-0002SL-Nr
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:52:36 -0400
+ id 1oDMUe-0002T1-2b
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:52:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658134353;
+ s=mimecast20190719; t=1658134363;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=yIzAzZrLe1nOAtkVDdhqx7+fwNuHSLufBn2+L6rkNhM=;
- b=RarbcRraV/berJirTswQCxfseCB9/HjjI5xoScucUQWuy6D2+Sa4wc47aHMAZFm64LUK4Q
- 9VmMr34mbGQdOOW3QbmVv2MuQSIKsBINpCPX82pWBe+ppaFStoOCqF2+4di5I2chZPNFY+
- BMUO7dLBvjSLt/l5i5fgS0xaGPkmBXw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CINLxd/uJSrjOEX85Az+s1ucO0+ngmoHxbrKzKdjXkw=;
+ b=RHmY9bN95FzGkXcBunJcCCDxBZA0D605p37gYiwVxVo28BzTZKzb8cK7y20sx6JF1l6liB
+ cBs3XuCr4iQgFYP13LhyKsjzRewqJN73RMND5XCzEad6m7nzLciNJ7pmTrHb4DJUNZUw7U
+ N1LhjH83SrQX/2za9F3Frpti87O/tuE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-UoxsBv1xPmyKCqycC0Ac_g-1; Mon, 18 Jul 2022 04:52:31 -0400
-X-MC-Unique: UoxsBv1xPmyKCqycC0Ac_g-1
+ us-mta-608-dfZrjsliP1yhJDEHZVKpNA-1; Mon, 18 Jul 2022 04:52:32 -0400
+X-MC-Unique: dfZrjsliP1yhJDEHZVKpNA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0A8221C0519F
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE988101A58D
  for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 08:52:31 +0000 (UTC)
 Received: from kostyanf14nb.redhat.com (unknown [10.40.194.71])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7DBF22166B29
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 08:52:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F3582166B26
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 08:52:31 +0000 (UTC)
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] MAINTAINERS: Add myself as Guest Agent co-maintainer
-Date: Mon, 18 Jul 2022 11:52:27 +0300
-Message-Id: <20220718085228.2355769-1-kkostiuk@redhat.com>
+Subject: [PATCH v2 1/1] MAINTAINERS: Add myself as Guest Agent co-maintainer
+Date: Mon, 18 Jul 2022 11:52:28 +0300
+Message-Id: <20220718085228.2355769-2-kkostiuk@redhat.com>
+In-Reply-To: <20220718085228.2355769-1-kkostiuk@redhat.com>
+References: <20220718085228.2355769-1-kkostiuk@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
@@ -74,16 +77,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v1 -> v2: Rebase to current master
-v1: https://patchew.org/QEMU/20220713133249.2229623-1-kkostiuk@redhat.com/
-
-Konstantin Kostiuk (1):
-  MAINTAINERS: Add myself as Guest Agent co-maintainer
-
+Signed-off-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Acked-by: Michael Roth <michael.roth@amd.com>
+---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ead2bed652..6af9cd985c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2881,7 +2881,7 @@ T: git https://repo.or.cz/qemu/armbru.git qapi-next
+ 
+ QEMU Guest Agent
+ M: Michael Roth <michael.roth@amd.com>
+-R: Konstantin Kostiuk <kkostiuk@redhat.com>
++M: Konstantin Kostiuk <kkostiuk@redhat.com>
+ S: Maintained
+ F: qga/
+ F: docs/interop/qemu-ga.rst
+-- 
 2.25.1
 
 
