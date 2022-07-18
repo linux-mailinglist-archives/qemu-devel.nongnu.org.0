@@ -2,92 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD88578B18
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:39:27 +0200 (CEST)
-Received: from localhost ([::1]:58972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C7F578B24
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:46:18 +0200 (CEST)
+Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDWaT-0005zP-Of
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:39:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
+	id 1oDWh6-00041v-VE
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:46:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDVgO-0007Jy-GR
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:41:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59312)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDW58-0006Gt-Mj
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:07:02 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:56635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDVgA-0006x8-9j
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:41:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658169673;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TXRen2tAOoch5MduIIDI7Qix/hl7pOSwsoHijkebK7c=;
- b=Q3418eNin38xNtfSN4ooViH9DQKiWjVcqxvtqcwm9n5vsnRalrJU+FiPOgQ0LTa1P8j9ER
- WHUqi4x3QNC3KOrP1xmNnUWjwWBiO6qimw46YVq/t2Tbp9ByrJ7C1cD/xsvWEe7gbR/o6x
- WiH3zbgqBJz4Y3IwwkCS3qxCiTAxACo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-p1XHSgSuPkKVM-39iX7V-A-1; Mon, 18 Jul 2022 14:41:12 -0400
-X-MC-Unique: p1XHSgSuPkKVM-39iX7V-A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a18-20020a05600c225200b003a30355c0feso4267400wmm.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 11:41:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TXRen2tAOoch5MduIIDI7Qix/hl7pOSwsoHijkebK7c=;
- b=tPdRHaSaTIEvUrDGj0uJdvxJI+byfUVlFxns53OZQ/AJHAfa8RLwBF5RsODLG4tVwU
- chnWgsN2SxF0Aw+nnvdy06p3a1z/hrQaoz9UYMS4Fo70DO7AQDSUkhYy5o2J6a9hASB8
- oCLewVd0XO2YubSBe0BAp9op2mv5w9oXSaCLRSiqCYq+ULvuuJuI9qvKFpneXMoRgAUF
- Ga+ZvlBFFngGcsj36rbNi1y87ORihmFvu4wTPe7sG7NhI3S3PBEfYfJf7rr2fjq7vHHA
- om01PW7Iml0o9C5cee5pZqUhE6xWaC3SaB928hYvRnvH+2a57fNd32m7So8cu1aervyk
- 7LiA==
-X-Gm-Message-State: AJIora9qX61zw6s+2SFy88MblsWc6Lc9TsH0M3qty2F9be9tvCroKgNN
- Nzo+Ad0/gX08J8M+xtTWxgEIJ/Xt25UVjbWYLPx8KT/bgerxumW++tniF9pTmp3GqwbA+/wQjql
- uNrnSWZ+UTWpoKVw=
-X-Received: by 2002:a05:600c:4c22:b0:3a3:181e:887 with SMTP id
- d34-20020a05600c4c2200b003a3181e0887mr9037125wmp.85.1658169671178; 
- Mon, 18 Jul 2022 11:41:11 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sRDbSnoUYvlWXbl8jF+uNfswwy1urWYdUffeVHm0mjj1zbyD3lZOQGhpB08zygY/NS+b9ysg==
-X-Received: by 2002:a05:600c:4c22:b0:3a3:181e:887 with SMTP id
- d34-20020a05600c4c2200b003a3181e0887mr9037107wmp.85.1658169670974; 
- Mon, 18 Jul 2022 11:41:10 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
- [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
- q7-20020a05600c2e4700b003a03be171b1sm15118260wmf.43.2022.07.18.11.41.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 11:41:10 -0700 (PDT)
-Message-ID: <c75f1ad5-765d-65fd-0beb-19c31679eda4@redhat.com>
-Date: Mon, 18 Jul 2022 20:41:09 +0200
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDW56-00029s-SF
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:07:02 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MPGBR-1nsPlK1nJ7-00PaKU; Mon, 18 Jul 2022 21:06:47 +0200
+Message-ID: <24c90475-e653-c5d2-0372-a74b2d9f2d21@vivier.eu>
+Date: Mon, 18 Jul 2022 21:06:46 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] python/qemu/qmp/legacy: Replace 'returns-whitelist' with
- the correct type
-Content-Language: en-US
-To: John Snow <jsnow@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster
- <armbru@redhat.com>, qemu-trivial@nongnu.org
-References: <20220711095721.61280-1-thuth@redhat.com>
- <CAFn=p-ZKR-1W-4yuXSEh10mu5M-PEZdf693vpWsEtEAOHL2gaw@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAFn=p-ZKR-1W-4yuXSEh10mu5M-PEZdf693vpWsEtEAOHL2gaw@mail.gmail.com>
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] linux-user/hppa: Fix segfaults on page zero
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <YtWNC56seiV6VenA@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <YtWNC56seiV6VenA@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:jBlN5+lk5IvWC4yrRtNgx5kuY17KW+D3J/D4sblXk1EHqP5V1NF
+ ARaxXcMD43owdg3E/HE25JilbFa5HI7WcfHy9w1zYCyc53vWd/qNEgQaepm6kT77SRtEi0i
+ fAVpK3Rzg4jV7Deu2H2N1czT1qhu3VvqcC+C8Yi6yz3nOtjRAiPbUD1bfhYYNftKtAhRFK+
+ bABUGKX4jdCaoL7kZ23cg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dtcZqOYpDmY=:xTF6Y9nle1cuvCzY8Lc55D
+ EsETArazf2//wjNqXnR30g59/NDHyAEo7WtjVtt/N37oV7q5gpcHDg3mrSZGAEXpQK7ouZSVm
+ KLp+sXoJmBKh1wvIIooD/l/3thLKjXZVBIqycZvp07t9Z/5kUxNhR0kZoXWNCQ3+UyRvXufjc
+ kM3COfLYG07R0Awp76rVAFE9JIxVJUNqHxYK+ehvutpnXgmqlrEqE+aTubAcA3k1OtwhkNTWQ
+ FlRskwXQKH+rpjj9pyB8+63m8AJWKcHzA64pBkiJv1+uNZxAUbYHi/K3LB6skorE6+dwNdbXC
+ Xu8nYaNpDcpCHqyZRRJpfRn878kclADUfAj92xXJe95833DjduP2rDXZh7bK86LcnTcvl9vue
+ BsNsKNPVRrxV2WsXSTl7OzJL6F/5JNYFwPStYdRqPh67ghNElXLaDsqFzuWQX4FfnZqdz4APy
+ 4loCwWmu6wSFiisxkZ52AKXgN4Jrjs6mPOSbcjB2BDw/v3ROxIuJYjPX8U8qS3syQAsyJxmpQ
+ 5UuH36kzdOcjbQHOif5QdO29nq9nz592BMcUWUGdhx2xh2POz7Gt8h/9xE0ORA5LKKkNLLJUS
+ UluYCeKuFtgMWlrIQfBVfctHPa+lqhiCtR5pjfd+ctdXuerFlZXn/uooyTfpV2da1fxrDkzyu
+ OxHZ/LmasteLFnTja9zXvEEerVKtA5T6d32kBZphuX4Tvgbx4dD7Zlg8AfmV3XVFMoO7agttd
+ jWZ+DLgUi4qIHyRkGsg73ANl+flB0ACtSy/Klg==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,41 +74,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/07/2022 22.30, John Snow wrote:
-> On Mon, Jul 11, 2022 at 5:57 AM Thomas Huth <thuth@redhat.com> wrote:
->>
->> 'returns-whitelist' has been renamed to 'command-returns-exceptions' in
->> commit b86df3747848 ("qapi: Rename pragma *-whitelist to *-exceptions").
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   python/qemu/qmp/legacy.py | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
->> index 03b5574618..1951754455 100644
->> --- a/python/qemu/qmp/legacy.py
->> +++ b/python/qemu/qmp/legacy.py
->> @@ -50,7 +50,7 @@
->>
->>   # QMPMessage can be outgoing commands or incoming events/returns.
->>   # QMPReturnValue is usually a dict/json object, but due to QAPI's
->> -# 'returns-whitelist', it can actually be anything.
->> +# 'command-returns-exceptions', it can actually be anything.
->>   #
->>   # {'return': {}} is a QMPMessage,
->>   # {} is the QMPReturnValue.
->> --
->> 2.31.1
->>
+Le 18/07/2022 à 18:40, Helge Deller a écrit :
+> This program:
 > 
-> May I cajole you to send a MR to
-> https://gitlab.com/qemu-project/python-qemu-qmp ?
+>      int main(void) { asm("bv %r0(%r0)"); return 0; }
+> 
+> produces on real hppa hardware the expected segfault:
+> 
+>      SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3} ---
+>      killed by SIGSEGV +++
+>      Segmentation fault
+> 
+> But when run on linux-user you get instead internal qemu errors:
+> 
+> ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+> Bail out! ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+> ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
+> Bail out! ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
+> 
+> Fix it by adding the missing case for the EXCP_IMP trap in
+> cpu_loop() and raise a segfault.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> ---
+> Changes:
+> 
+> v2: Dropped the "+++" in the commit message - it confused b4 and git-am.
+>      no functional changes.
+> 
+> ---
+> diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+> index a576d1a249..8f374aeef6 100644
+> --- a/linux-user/hppa/cpu_loop.c
+> +++ b/linux-user/hppa/cpu_loop.c
+> @@ -143,6 +143,9 @@ void cpu_loop(CPUHPPAState *env)
+>               env->iaoq_f = env->gr[31];
+>               env->iaoq_b = env->gr[31] + 4;
+>               break;
+> +        case EXCP_IMP:
+> +            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
+> +            break;
+>           case EXCP_ILL:
+>               force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
+>               break;
+> 
+> 
+> 
+Applied to my linux-user-for-7.1 branch.
 
-Sure, done now:
-
-https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/9
-
-  Thomas
+Thanks,
+Laurent
 
 
