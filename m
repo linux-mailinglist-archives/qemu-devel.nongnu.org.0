@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3B95787C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:49:54 +0200 (CEST)
-Received: from localhost ([::1]:38796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211EF5787D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:53:15 +0200 (CEST)
+Received: from localhost ([::1]:41738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDTwQ-00079a-0d
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:49:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35976)
+	id 1oDTze-0000sC-3u
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDTud-0005E4-6Z
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:48:03 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:46760)
+ id 1oDTxU-0007Qc-IW
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:51:00 -0400
+Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135]:40554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDTua-0004fX-MU
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:48:02 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id l11so21794320ybu.13
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 09:47:59 -0700 (PDT)
+ id 1oDTxQ-0005DB-AM
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:50:57 -0400
+Received: by mail-yw1-x1135.google.com with SMTP id
+ 00721157ae682-31d85f82f0bso113754737b3.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 09:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=Qy/98bA+oJCkEOo+yVU2o+cL80RhybFEw0Kuvnxh4O4=;
- b=YDomMA9+eOBTLXPvdK8wHJCyz7ET6GHoAljwVUmBiMAUqm0lwc+Kc4OU22LdD6bAzD
- +UhxGUBcYf8DI1GbsVINo2Q6nC7oqsEVxE7lcYS0WoMTgAyC/Lw13S8vyW8XZPuFpUci
- J+gv8FgpIG45V12EKx4MQTMn6zMncXO1Pad4xgyy+1KqK5F+a++mKq22teLPR3/4dhot
- JPynCOuh2s3FUwn2Wcwtq4pzCUxwTGG+o45NkJ54XWAUFsUYWoCPKizXfes4YJqLzpvk
- ckKfXJQJU2fdYqsT3rAkgW2o06imF6R9u4NwJ9vFSyji7BOm6xu3S1mbYbT640kU28s/
- TmRA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ct0Z15FNXLKbsqmmmM9xtlhCN+n4WE8xbJvsRdMRDkU=;
+ b=Zk1SH1064JkQ3FJ11kUxzK0AwERRMJOAmQwPbzl3syHox1R+4WBYdzVNkohaKFNXHJ
+ TYsoueYbScDwu3QpzavZeuFTao41JTUZxixZe/2BLWpXKqo9vKgXFVO3aVyLJs1vztSE
+ rcrP5VSi5g9YWzz6eHFPoevfZJDDef1PMGHWqhqlbw8MguzGmXDpv7tfPgg5ZNxk1ZEu
+ yYS93pxhFwrX/ET2qJFxnhyR5QUO41Xgr5C93f/o1thjITGEbYiNIR1mbqYi/ZekVxUD
+ hAc0wfQErIB+gC0MdC3MlalmyErd58NTOkrxCTiOeXXdLmbqmSmgong3lQmS0D+nvBJc
+ /uNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=Qy/98bA+oJCkEOo+yVU2o+cL80RhybFEw0Kuvnxh4O4=;
- b=MffsgLx3eq+IJLGuq3hHiZDr/10YZeEPQYF5lvx+U9AaUfwDSUyQ9CjpYAp5B8mSOE
- sD7NuMeLm8PFxgdxmY7hT+TgGMgsbMxHWPH5M+BYAjGYwOX9XgVxwrz4+DLU+hR1s8Wd
- r2fOgWc79Bib6SQU0AWJJeP9T0fOOzwIwgoOVmUW5KuqCAHqbYEE+y8p2y54YIDHP3UP
- jjG2ly6klRkAmuAKLdmSkxSlnwBAM21IKB8ITXIRgbfvBHlosE9JZ8DMK4beK3LCsIo0
- YNz0WKmSm9sih7yBcAfTEXSu7UcjDnu54z21sFpkh6BekFgTZZU+78J5o08SefaM0zBx
- RKGg==
-X-Gm-Message-State: AJIora9ceQQw1f5oqGQ7pokO5fIw9rDVrbtlaLAyhbHA3Hzqo/RGueFo
- Q6Cu1NLIkjnu8S0H5z8pRrDk1janWEendNrhCp512Iqvvp0=
-X-Google-Smtp-Source: AGRyM1sH/JhjZe4+ML5bL3i8EzHUCvDx/BsWjYuXIWFoVDC+HCqa6mi4E3PvFJu/WaoSvXeUSFj15cv6ZSnF8N/Iqn8=
-X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
- t6-20020a5b07c6000000b006706ba6d046mr2016395ybq.140.1658162878930; Mon, 18
- Jul 2022 09:47:58 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=Ct0Z15FNXLKbsqmmmM9xtlhCN+n4WE8xbJvsRdMRDkU=;
+ b=wvO+ABqN2L8+isp2HmSBzWJjgqVCyUkSZeucVEiJgm2Zs8lJq/bjrmhNPaHU7UALYC
+ fO7EVFjzj0lqSa5IF/gcLLD+3pnFIwO2PncLhyNzk9VY4PmuBTtV9mHR62nyOqvw76dW
+ lL0/8E2ap5d55S9C6wHzFl0mL0J/4suIjCKjTpVy7u6fMup3QZOfX2iREUXeBOP+CQ1V
+ gWWtM/mannxDBmOrmAX6m4+i3eTMe0LEFVlAJATCjRlt10aN+8/yDCTb9TDwv+03eWwd
+ H0tTp6AVM366hfGaIpqSXqi9QYZTzLScUrANR3Ksbrfo5bzoA1hyaJJbJylDvXH9uesH
+ WLVg==
+X-Gm-Message-State: AJIora+tGpnE6ChUTYRFdtt2SuGCYAcSkFfMk5cz49KfkZSH5+Evp4ct
+ 51I41MiE2TqV4ns10xYFXkayWSdMu1eP0J2NyXoEwA==
+X-Google-Smtp-Source: AGRyM1s7sW8TrJccZpEV4OpUvH/X5CmsSaxG8J9SwWwmF/NDt0qBEnQTVW3/CnJ45/5bTTL1fxgmc6qSQmRAIAC9SFI=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr30218566ywg.329.1658163055132; Mon, 18
+ Jul 2022 09:50:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220718135920.13667-1-peter.maydell@linaro.org>
-In-Reply-To: <20220718135920.13667-1-peter.maydell@linaro.org>
+References: <YtWNC56seiV6VenA@p100>
+In-Reply-To: <YtWNC56seiV6VenA@p100>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 17:47:48 +0100
-Message-ID: <CAFEAcA8ajBC=O=erD-9GBMXO49b6731ApAZKceMV4mUsfq4G3w@mail.gmail.com>
-Subject: Re: [PULL 00/15] target-arm queue
-To: qemu-devel@nongnu.org
+Date: Mon, 18 Jul 2022 17:50:44 +0100
+Message-ID: <CAFEAcA-ySRz=W43v594KShdg+4pPYxKEEAxHqzmz2jEwYHig_g@mail.gmail.com>
+Subject: Re: [PATCH v2] linux-user/hppa: Fix segfaults on page zero
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1135.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,42 +84,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 at 14:59, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Mon, 18 Jul 2022 at 17:44, Helge Deller <deller@gmx.de> wrote:
 >
-> Some arm patches before softfreeze. These are all bug fixes.
+> This program:
 >
-> -- PMM
+>     int main(void) { asm("bv %r0(%r0)"); return 0; }
 >
-> The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
+> produces on real hppa hardware the expected segfault:
 >
->   Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
+>     SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3} ---
+>     killed by SIGSEGV +++
+>     Segmentation fault
 >
-> are available in the Git repository at:
+> But when run on linux-user you get instead internal qemu errors:
 >
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220718
+> ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+> Bail out! ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+> ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
+> Bail out! ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
 >
-> for you to fetch changes up to 004c8a8bc569c8b18fca6fc90ffe3223daaf17b7:
+> Fix it by adding the missing case for the EXCP_IMP trap in
+> cpu_loop() and raise a segfault.
 >
->   Align Raspberry Pi DMA interrupts with Linux DTS (2022-07-18 13:25:13 +0100)
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> ---
+> Changes:
 >
-> ----------------------------------------------------------------
-> target-arm queue:
->  * hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that is being held high
->  * target/arm: Fill in VL for tbflags when SME enabled and SVE disabled
->  * target/arm: Fix aarch64_sve_change_el for SME
->  * linux-user/aarch64: Do not clear PROT_MTE on mprotect
->  * target/arm: Honour VTCR_EL2 bits in Secure EL2
->  * hw/adc: Fix CONV bit in NPCM7XX ADC CON register
->  * hw/adc: Make adci[*] R/W in NPCM7XX ADC
->  * target/arm: Don't set syndrome ISS for loads and stores with writeback
->  * Align Raspberry Pi DMA interrupts with Linux DTS
->
+> v2: Dropped the "+++" in the commit message - it confused b4 and git-am.
+>     no functional changes.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
