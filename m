@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C5B05789AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:43:33 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DE805789B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:43:38 +0200 (CEST)
+Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDViO-0001y0-EU
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60416)
+	id 1oDViT-00027U-Fi
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:43:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZ4-0007bs-SO
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:54 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49026)
+ id 1oDVZ7-0007gn-OA
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZ3-0005Uv-2D
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:54 -0400
+ id 1oDVZ6-0005Vv-94
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Ka/qwllZGByVVdc+G4yfl8TioQJP/dkdgKiwId+8L9E=; b=uDFoaY9EwpDDNAaq5h5So4YfTg
- FQWfP/IafPObdWQNJxaCbgre8qg/lQWguOqwR7gd5rvVMbw05fFd1Kcn8/de08tgbvNxAemOAPK8v
- XX9Ufa3E72LWB535NWZXQyACZCTgBOenXiMwoAldN82RTYzdPdD3o+lcIWjR9RVBRZz/7bhkgGneD
- fqU48MUDzWpRGNhkQqaVflmgdPHT8srK/P716TWP/N4MbKWwlwmm/zmKLzQQsMtExe6/a89qQ+NdP
- IH1mwPOZE3DVfvNv2B10KF+SFA7lOxRw4sZrScwAdzS20vnGPkLVKwNrjA4RtVBldu5h/CtQ4G5ce
- 5GuRQWBozmbIodkAsl7vSnjclifq/4sSiVobX2dE2CIrzDxOJcX6TKpTodQ9+TWZ/xfeCFA5f7f5s
- SPfUS6/yiUUJolbHu/lq3t9UMIzBM8PF3eXXlExNedI/W0lJrR/fNCnga2S24kMIgbdbbDmVpwIPl
- WkXQPxIWQZSCSONsULI+iswapY/LPOCeDjDq/HMX/B1OuJOdWbs/p6vU28cQSzdxJkIxXKB/6qClM
- RBctDRpt0AWBik40MoVClTgo/kFfp2jHBpl9F0Zf3/dP9iC1/PXPMBzuIiklAwjcyPEF6nJwLlOQW
- 41BfepFQENHW5lNJT7YatCUbjhNUZsSqCoXpYj6hI=;
+ bh=uo1qvslZwditqqn3T+vuSzu0nc4f10NOivC1+SyNwaI=; b=AP9sMlYYn6PFzUUgJV2h9wyoal
+ V6q5scKJzscHNz3wztNkgMRLliuxqSfv+wdrJ+b1S+S2lNUjT1XdzrdEprw3MxQ8NJ6BeltGEzZZr
+ 4qgFCf/VMQ2SkM/xim+0Q5p3kbaTQbeZWj2Esj7SvHM6boYeAcq5xaE+ifBC0u7Iq8av5j78IlRYQ
+ T3ja9N/BP2S1VdgI01d9gkU/s4gL62nX6b9M+0j7RttziqbBGzsCJpKpzrunShIVodqOic7K61DL6
+ dBY39huou1qrOllr96thOtUale5yWzL2UJ7pKMMhqkNRaZYzloNUWz1lOtNo6QCJW+RuWF9B8Luh6
+ MTcIrzbyGXIoSPvNnQx9IfihZL4r94kIxG17nWLZbK7vXcwGPYM0F756bTRIWnI1n5sLhGY8AiMlK
+ lZkPm1J0IyBNio/2qwUGMp82rugBx3co7wDQbLp3BhDnjACu0QByfvcCQvl3I1lcUYLTMbtqIjRWE
+ gIGyBEqlXnriCIQ9Aindq1bY3qs9JGzYXjNFlrd2MbzL7x+1TbQWLUtro1yUzJTISwxB4S1kIyWCF
+ 3IcINpJBobR8mDbNmsCKQZxFJkBEc3//Vtd4yG0cEUIfGZZRvE4nBuBUkDWhTEpxQElckZMV8HUgc
+ 4rMSnPtnqwXSra5Hy9NZZVnISrtG+zVfVTUofTuo0=;
 Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVXg-000B51-Ii; Mon, 18 Jul 2022 19:32:32 +0100
+ id 1oDVXk-000B51-Ml; Mon, 18 Jul 2022 19:32:36 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 18 Jul 2022 19:32:59 +0100
-Message-Id: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:33:00 +0100
+Message-Id: <20220718183339.124253-2-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
+References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 00/40] qemu-sparc queue 20220718
+Subject: [PULL 01/40] pl050: move PL050State from pl050.c to new pl050.h
+ header file
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -76,76 +79,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 782378973121addeb11b13fd12a6ac2e69faa33f:
+This allows the QOM types in pl050.c to be used elsewhere by simply including
+pl050.h.
 
-  Merge tag 'pull-target-arm-20220718' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-18 16:29:32 +0100)
-
-are available in the Git repository at:
-
-  https://github.com/mcayland/qemu.git tags/qemu-sparc-20220718
-
-for you to fetch changes up to b704d63d094cc757c20c186ff40d692deb5e30de:
-
-  pckbd: remove legacy i8042_mm_init() function (2022-07-18 19:28:46 +0100)
-
-----------------------------------------------------------------
-qemu-sparc queue
-- This is the second half of the PS2 QOMification patchset
-
-----------------------------------------------------------------
-Mark Cave-Ayland (40):
-      pl050: move PL050State from pl050.c to new pl050.h header file
-      pl050: rename pl050_keyboard_init() to pl050_kbd_init()
-      pl050: change PL050State dev pointer from void to PS2State
-      pl050: introduce new PL050_KBD_DEVICE QOM type
-      pl050: introduce new PL050_MOUSE_DEVICE QOM type
-      pl050: move logic from pl050_realize() to pl050_init()
-      pl050: introduce PL050DeviceClass for the PL050 device
-      pl050: introduce pl050_kbd_class_init() and pl050_kbd_realize()
-      pl050: introduce pl050_mouse_class_init() and pl050_mouse_realize()
-      pl050: don't use legacy ps2_kbd_init() function
-      pl050: don't use legacy ps2_mouse_init() function
-      lasips2: don't use vmstate_register() in lasips2_realize()
-      lasips2: remove the qdev base property and the lasips2_properties array
-      lasips2: remove legacy lasips2_initfn() function
-      lasips2: change LASIPS2State dev pointer from void to PS2State
-      lasips2: QOMify LASIPS2Port
-      lasips2: introduce new LASIPS2_KBD_PORT QOM type
-      lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
-      lasips2: move keyboard port initialisation to new lasips2_kbd_port_init() function
-      lasips2: move mouse port initialisation to new lasips2_mouse_port_init() function
-      lasips2: introduce lasips2_kbd_port_class_init() and lasips2_kbd_port_realize()
-      lasips2: introduce lasips2_mouse_port_class_init() and lasips2_mouse_port_realize()
-      lasips2: rename LASIPS2Port irq field to birq
-      lasips2: introduce port IRQ and new lasips2_port_init() function
-      lasips2: introduce LASIPS2PortDeviceClass for the LASIPS2_PORT device
-      lasips2: add named input gpio to port for downstream PS2 device IRQ
-      lasips2: add named input gpio to handle incoming port IRQs
-      lasips2: switch to using port-based IRQs
-      lasips2: rename LASIPS2Port parent pointer to lasips2
-      lasips2: standardise on lp name for LASIPS2Port variables
-      lasips2: switch register memory region to DEVICE_BIG_ENDIAN
-      lasips2: don't use legacy ps2_kbd_init() function
-      lasips2: don't use legacy ps2_mouse_init() function
-      lasips2: update VMStateDescription for LASIPS2 device
-      pckbd: introduce new vmstate_kbd_mmio VMStateDescription for the I8042_MMIO device
-      pckbd: don't use legacy ps2_kbd_init() function
-      ps2: remove unused legacy ps2_kbd_init() function
-      pckbd: don't use legacy ps2_mouse_init() function
-      ps2: remove unused legacy ps2_mouse_init() function
-      pckbd: remove legacy i8042_mm_init() function
-
- hw/hppa/machine.c          |   7 +-
- hw/input/lasips2.c         | 320 +++++++++++++++++++++++++++++++--------------
- hw/input/pckbd.c           |  82 +++++++-----
- hw/input/pl050.c           | 112 +++++++++++-----
- hw/input/ps2.c             |  26 ----
- hw/input/trace-events      |   2 -
- hw/mips/jazz.c             |  13 +-
- include/hw/input/i8042.h   |   7 +-
- include/hw/input/lasips2.h |  57 +++++---
- include/hw/input/pl050.h   |  59 +++++++++
- include/hw/input/ps2.h     |   2 -
- 11 files changed, 466 insertions(+), 221 deletions(-)
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Tested-by: Helge Deller <deller@gmx.de>
+Acked-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220712215251.7944-2-mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/input/pl050.c         | 16 +---------------
+ include/hw/input/pl050.h | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 15 deletions(-)
  create mode 100644 include/hw/input/pl050.h
+
+diff --git a/hw/input/pl050.c b/hw/input/pl050.c
+index 209cc001cf..c7980b6ed7 100644
+--- a/hw/input/pl050.c
++++ b/hw/input/pl050.c
+@@ -19,26 +19,12 @@
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/ps2.h"
++#include "hw/input/pl050.h"
+ #include "hw/irq.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "qom/object.h"
+ 
+-#define TYPE_PL050 "pl050"
+-OBJECT_DECLARE_SIMPLE_TYPE(PL050State, PL050)
+-
+-struct PL050State {
+-    SysBusDevice parent_obj;
+-
+-    MemoryRegion iomem;
+-    void *dev;
+-    uint32_t cr;
+-    uint32_t clk;
+-    uint32_t last;
+-    int pending;
+-    qemu_irq irq;
+-    bool is_mouse;
+-};
+ 
+ static const VMStateDescription vmstate_pl050 = {
+     .name = "pl050",
+diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
+new file mode 100644
+index 0000000000..2bbf7a9d50
+--- /dev/null
++++ b/include/hw/input/pl050.h
+@@ -0,0 +1,35 @@
++/*
++ * Arm PrimeCell PL050 Keyboard / Mouse Interface
++ *
++ * Copyright (c) 2006-2007 CodeSourcery.
++ * Written by Paul Brook
++ *
++ * This code is licensed under the GPL.
++ */
++
++#ifndef HW_PL050_H
++#define HW_PL050_H
++
++#include "qemu/osdep.h"
++#include "hw/sysbus.h"
++#include "migration/vmstate.h"
++#include "hw/input/ps2.h"
++#include "hw/irq.h"
++
++#define TYPE_PL050 "pl050"
++OBJECT_DECLARE_SIMPLE_TYPE(PL050State, PL050)
++
++struct PL050State {
++    SysBusDevice parent_obj;
++
++    MemoryRegion iomem;
++    void *dev;
++    uint32_t cr;
++    uint32_t clk;
++    uint32_t last;
++    int pending;
++    qemu_irq irq;
++    bool is_mouse;
++};
++
++#endif
+-- 
+2.30.2
+
 
