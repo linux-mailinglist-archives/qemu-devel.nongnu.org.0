@@ -2,96 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FD9578984
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:26:01 +0200 (CEST)
-Received: from localhost ([::1]:58096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AD1257898C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:29:13 +0200 (CEST)
+Received: from localhost ([::1]:34922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDVRP-0000Vx-U6
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58166)
+	id 1oDVUW-0004Hz-4i
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:29:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oDVOP-0006Ut-OX
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:22:53 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:54189)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDVP7-000705-Lu
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:23:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>) id 1oDVON-0003vL-Gf
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:22:53 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id AC50A5819CF;
- Mon, 18 Jul 2022 14:22:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 18 Jul 2022 14:22:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1658168569; x=
- 1658172169; bh=XRWjWOstJuv045KaE8r0GI4CKklVrjVeTYG8bLm9suI=; b=I
- I2eY56Ru531baOTOqbfuRuUSpJ+Rbe++1Xhkj5TXd4kjNSws4qZlWFrGat5S/ZP3
- 0IKvdhNlBcfYorBNNtDP4GEnNnQMarCAB4yjcdsivNY4pP8x1PsxTx/VK3eBnKJY
- t7JrWBDY6vxVdFxKgyPcm5QTVovyP2hhnhqGJ20zEhdu5h/ApVkI8ZdjcVDMS3E0
- z3bwZcyStpHXETpCoLTpG7BoFq2cTFkBTwbgOa3CwyjzsICriq4Q3HpCCO5Rq+3z
- ihNqTA12OLkAZTvlCAxb9+suwbQj6vgKYO/IoGOlUMkZ1tFWjOiFxJYEFpqHiMfi
- S4Zwar7dxWM5ArN/UGKQQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658168569; x=
- 1658172169; bh=XRWjWOstJuv045KaE8r0GI4CKklVrjVeTYG8bLm9suI=; b=E
- w4oS7XLY81T+X81zNDL8bAbMhPQlF9Jfa9K8WFk3uJokrqesOJJEytPbymysmgEu
- uLBf12g+L1mmyB2rO7p0YedtFawh7jjVrJ+feFN3fVhY3PjBxZFeOcaVb4dXY4Zc
- gHsPHBPWE5uj6UlgDoZkxqMHkXI6pD+IRR+sbu3dkd3/6J6Rhggzq/T7TnZKd3q7
- 56QzCGO3UxldW43BrBvDz4yt3eOFXBJzVgNZuIrAEnYu8p8/c8REi49yilb+ruw0
- +c2K8tWHgKp4/udvBx3IiDy6Dk0zWF9CWaqY2E3feXj65PKBvzzRhumhVlk+vT3Q
- kvzTUemHaSkZmNH+poreg==
-X-ME-Sender: <xms:-KTVYshBYPld6bqT-1sjjNMOeuTkZ-cAZxyGTt_lnw1zdaW1EnF1OA>
- <xme:-KTVYlDOawXt0WjOxZdYYNwx4GcfTdcAWKjYRCe6xTJ3LZq80puhImFC5ftSQ8ksm
- 39G0lgK8u6cqDbfHrc>
-X-ME-Received: <xmr:-KTVYkEQY7N7vJvVUUJ8-QLA6pjv2z_GIjqRBFfE9SdweDXM0af6O3wf-wBOb7-eFI5BkNZSbZmaZbquR4h8iNO5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudekkedguddvvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomheprfgv
- thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnheptedvhfdugffhhfdvhfekvedvieegjeegteeftddvhedvveekleehffeh
- hfevhefhnecuffhomhgrihhnpehsthgrtghkvgigtghhrghnghgvrdgtohhmpdgsvghrrh
- grnhhgvgdrtghomhdpfhhlihgtkhhrrdgtohhmpdhlihgsvhhirhhtrdhorhhgpdgvnhht
- rghnghhlvgdqphhhohhtohdrohhrghdpihhnshhtrghgrhgrmhdrtghomhenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgu
- rdguvghv
-X-ME-Proxy: <xmx:-KTVYtS9lwCvhQB5yu1LvvVJDAPEv8uylsnnQfGd0vqxcsSmLLuzow>
- <xmx:-KTVYpwP3KjZ5BlCGuaWo5abUGEGwqQMwqYrZ8LPyLTWZ-HiRUmT_Q>
- <xmx:-KTVYr5pb8iHf57_UcfpbjLI7gyZp6XsvrUdZtAlOjDzwRPFWIOSHw>
- <xmx:-aTVYsoGP0fembzUuMBCFQe-ie8eav6Li8qDSFkTCB2CVOq7HYySVg>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 Jul 2022 14:22:47 -0400 (EDT)
-Date: Mon, 18 Jul 2022 11:22:46 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, f4bug@amsat.org,
- wainersm@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/1] python/machine: Fix AF_UNIX path too long on macOS
-Message-ID: <YtWk9g9ZYaw5KkMg@pdel-mbp.dhcp.thefacebook.com>
-References: <20220716173434.17183-1-peter@pjd.dev>
- <20220716173434.17183-2-peter@pjd.dev>
- <YtUgMTYSQjm9O+u4@redhat.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDVP2-0003zm-HY
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:23:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658168611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kTri+VevjSdwY7eSJiuS80q1k8/EuWIWJVPI9TemQaI=;
+ b=ISiahg+M0PW9EN338llQanxgwTwbj5TT+5F/l51o1HXAw3r5zmewaAlzItgECQvZHPPRG/
+ M5gLlvvYn01ZjfT1g9jTiQxrK0oEXUks4OQb07A5+cjLfDX+QlWbPgdO+bLGOU0M8nEnEj
+ nM66OMXakSB4sGh1AMJIhs5+P+91R1I=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-235-5jcnUwfmMouQXY9gNIxgCA-1; Mon, 18 Jul 2022 14:23:30 -0400
+X-MC-Unique: 5jcnUwfmMouQXY9gNIxgCA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v11-20020a1cf70b000000b003a318238826so1721179wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 11:23:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=kTri+VevjSdwY7eSJiuS80q1k8/EuWIWJVPI9TemQaI=;
+ b=GG8pyYSWJVYTotJ6arSXjZDucz8RiCBi33XK43Nnt1/IByV+xJKMgFHkOGMuKtHZFP
+ pjHjdOmE3/+v5oy1efTAAL31st320WLNPejDSIO9HpuOvr4XMhRwVjOkFSWIcaj36lSb
+ 1HHB/tKCBKD3sHxmN3lAzwngr6OUc+1ztOsHu/buh5MzbYF5V/cgq14yAJpqC2hTgNiq
+ 8qFwP0TmQ6Q0q9v8l0XoF7yVvChoHAREytqYbfai2WkUSTc4OIyrN2fLgdVn6k5Z/E52
+ iiiypLfEzliSNwIaZ0S+m7KYq7qK8u4hU9aE2/Fl1cDrUxunhVzZBKVDrhQ+IZ721lMd
+ hZmw==
+X-Gm-Message-State: AJIora8FC/Wa6kPt9vocX/MaO+sunVA/kKBUHM2kHPZ5vq/hnOUlBpf+
+ w0IS0qvOBEcvMeyk3inR6WniUV/hohxTqnnu0dAOmQYggcd+2Ynw64XmvxMGcRQTnhAcysPvV2v
+ jVk7w+XySkOIczCc=
+X-Received: by 2002:a05:600c:1f08:b0:3a3:1b00:c201 with SMTP id
+ bd8-20020a05600c1f0800b003a31b00c201mr6017195wmb.171.1658168609065; 
+ Mon, 18 Jul 2022 11:23:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v3QmMpHiSlkDqlbYHWiTj5WnFrXpiM8flXXHpb2oJRtNRpKlIPXprPKEFuJ93mPb5i4KGIyA==
+X-Received: by 2002:a05:600c:1f08:b0:3a3:1b00:c201 with SMTP id
+ bd8-20020a05600c1f0800b003a31b00c201mr6017176wmb.171.1658168608802; 
+ Mon, 18 Jul 2022 11:23:28 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
+ [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
+ c12-20020a5d4ccc000000b0021d6e758752sm11530508wrt.24.2022.07.18.11.23.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jul 2022 11:23:28 -0700 (PDT)
+Message-ID: <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
+Date: Mon, 18 Jul 2022 20:23:26 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YtUgMTYSQjm9O+u4@redhat.com>
-Received-SPF: pass client-ip=66.111.4.230; envelope-from=peter@pjd.dev;
- helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FROM_FMBLA_NEWDOM28=0.798, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20220707184600.24164-1-peterx@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220707184600.24164-1-peterx@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,178 +104,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 18, 2022 at 09:56:17AM +0100, Daniel P. Berrangé wrote:
-> On Sat, Jul 16, 2022 at 10:34:34AM -0700, Peter Delevoryas wrote:
-> > On macOS, private $TMPDIR's are the default. These $TMPDIR's are
-> > generated from a user's unix UID and UUID [1], which can create a
-> > relatively long path:
-> > 
-> >     /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> > 
-> > QEMU's avocado tests create a temporary directory prefixed by
-> > "avo_qemu_sock_", and create QMP sockets within _that_ as well.
-> > The QMP socket is unnecessarily long, because a temporary directory
-> > is created for every QEMUMachine object.
-> > 
-> >     /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
+On 07/07/2022 20.46, Peter Xu wrote:
+> We used to stop running all tests if uffd is not detected.  However
+> logically that's only needed for postcopy not the rest of tests.
 > 
+> Keep running the rest when still possible.
 > 
-> Looking at this again, I realize my suggestion for dealing with the
-> second part of the path was mistaken.
-> 
-> The "qemu-37331-10bacf110-monitor.sock" part is combining two
-> pieces.
-> 
-> First the result of
-> 
->   f"qemu-{os.getpid()}-{id(self):02x}"
-> 
-> is
-> 
->   qemu-37331-10bacf110
-> 
-> and the code later than appends '-monitor.sock'
-> 
-> So...
-> 
-> > 
-> > The path limit for unix sockets on macOS is 104: [2]
-> > 
-> >     /*
-> >      * [XSI] Definitions for UNIX IPC domain.
-> >      */
-> >     struct  sockaddr_un {
-> 
-> >         unsigned char   sun_len;        /* sockaddr len including null */
-> >         sa_family_t     sun_family;     /* [XSI] AF_UNIX */
-> >         char            sun_path[104];  /* [XSI] path name (gag) */
-> >     };
-> > 
-> > This results in avocado tests failing on macOS because the QMP unix
-> > socket can't be created, because the path is too long:
-> > 
-> >     ERROR| Failed to establish connection: OSError: AF_UNIX path too long
-> > 
-> > This change reduces the size of both paths, and removes the unique
-> > identification information from the socket name, since it seems to be
-> > unnecessary.
-> > 
-> > This commit produces paths like the following:
-> > 
-> >     pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
-> >     $ tree qemu*
-> >     qemu_oc7h7f3u
-> >     ├── qmp-console.sock
-> >     └── qmp-monitor.sock
-> > 
-> > [1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
-> > [2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/un.h
-> > 
-> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > ---
-> >  python/qemu/machine/machine.py         | 2 +-
-> >  tests/avocado/avocado_qemu/__init__.py | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> > index 37191f433b..b1823966b3 100644
-> > --- a/python/qemu/machine/machine.py
-> > +++ b/python/qemu/machine/machine.py
-> > @@ -157,7 +157,7 @@ def __init__(self,
-> >          self._wrapper = wrapper
-> >          self._qmp_timer = qmp_timer
-> >  
-> > -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> > +        self._name = name or "qmp"
-> 
-> ...my suggestion here was wrong.
-> 
-> We don't need the os.getpid() unoiqueness because the tmpdir already
-> ensures that is safe, but keeping 'id(self)' is a good idea, if the
-> test case creates multiple machines concurrently. Bearing in mind we
-> later append '-monitor.sock' we don't need 'qmp' in the self._name.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>   tests/qtest/migration-test.c | 11 +++++------
+>   1 file changed, 5 insertions(+), 6 deletions(-)
 
-Yeah you're right, it's a good idea to make the QEMUMachine name unique.
+Did you test your patch in the gitlab-CI? I just added it to my testing-next 
+branch and the the test is failing reproducibly on macOS here:
 
-When I made v2, I looked around to see if we were creating 2
-QEMUMachine's concurrently. I didn't see anything, but looking again, I
-see this in tests/migration/guestperf/engine.py:
+  https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
+  https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
 
-    if self._dst_host != "localhost":
-        dstmonaddr = ("localhost", 9001)
-    else:
-        dstmonaddr = "/var/tmp/qemu-dst-%d-monitor.sock" % os.getpid()
-    srcmonaddr = "/var/tmp/qemu-src-%d-monitor.sock" % os.getpid()
+(without your patch the whole test is skipped instead)
 
-    src = QEMUMachine(self._binary,
-                      args=self._get_src_args(hardware),
-                      wrapper=self._get_src_wrapper(hardware),
-                      name="qemu-src-%d" % os.getpid(),
-                      monitor_address=srcmonaddr)
+  Thomas
 
-    dst = QEMUMachine(self._binary,
-                      args=self._get_dst_args(hardware, uri),
-                      wrapper=self._get_dst_wrapper(hardware),
-                      name="qemu-dst-%d" % os.getpid(),
-                      monitor_address=dstmonaddr)
-
-This test case would probably still pass with this change, because the
-monitor_address is specified, but I think you're right, it's a good idea
-to make the default name different for each QEMUMachine instance to
-avoid breaking anything.
-
-> 
-> So on reflection I think I should have suggested using:
-> 
->     self._name = name or f"{id(self):02x}"
-
-+1, yeah I'll change it to that
-
-> 
-> And *in addition*, a few lines later change:
-> 
->             self._monitor_address = os.path.join(
->                 self.sock_dir, f"{self._name}-monitor.sock"
->             )
-> 
-> To
-> 
->             self._monitor_address = os.path.join(
->                 self.sock_dir, f"{self._name}.qmp"
->             )
-
-Oh ok, yeah that looks good too. Thanks for the detailed review and
-suggestions!
-
-Peter
-
-> 
-> 
-> > diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> > index ed4853c805..43b8c8848c 100644
-> > --- a/tests/avocado/avocado_qemu/__init__.py
-> > +++ b/tests/avocado/avocado_qemu/__init__.py
-> > @@ -296,7 +296,7 @@ def require_accelerator(self, accelerator):
-> >                          "available" % accelerator)
-> >  
-> >      def _new_vm(self, name, *args):
-> > -        self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
-> > +        self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
-> 
-> This bit is fine.
-
-+1
-
-> 
-> >          vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
-> >                           sock_dir=self._sd.name, log_dir=self.logdir)
-> >          self.log.debug('QEMUMachine "%s" created', name)
-> 
-> With regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
 
