@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E30577AA6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 07:53:53 +0200 (CEST)
-Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A9D577B24
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 08:37:22 +0200 (CEST)
+Received: from localhost ([::1]:39354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDJhZ-0006lw-6q
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 01:53:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58840)
+	id 1oDKNc-0001LP-9x
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 02:37:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDJeg-0004O9-Nk
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45361)
+ id 1oDKLG-0008Gp-91
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 02:34:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDJee-0001s8-Ks
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:54 -0400
+ id 1oDKLC-0008Bm-Sg
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 02:34:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658123452;
+ s=mimecast20190719; t=1658126089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7x3HHPPKkd8HATayhs7qFLPP87JUKqlz8QJH3WC/1Mc=;
- b=CZCUs4/mf2EjdmHG7gZDUBKHtmO5oZFnOYIPvrnGAvWyDUyN2cF6UoM5QcCu59lqEluGRb
- VlW+4LuFHHISuyork3noXGN2XG/5HFL/bXulUojgUGj16E8EtR25+Ax8WF+WSB1Ik4xhJY
- XTRbKt7OSoAKgffEvmDASxl+Epcb7lc=
+ bh=BmR0VRnRkHVUGhKDkG7LHmrOBRh/rRkGwVTgX/CDfs8=;
+ b=gcWzxDjNS+nfdlNyiVkuYnvOaOvVpIaGPmUlPOXy9Kq87GclHXK5909/r6cO1aFrObTL9k
+ b/89mTGJxNCv278/ViU6Fy8lngW4Y1hkYg6j8S6R6a0RlPnydiVtO16Xjip6GXkKCmookA
+ ieXjvtNMgJeLfnm4rCkh5G7lWhaHStA=
 Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
  [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-VIKa7xUHNfWHMo6uhr1_Lw-1; Mon, 18 Jul 2022 01:50:50 -0400
-X-MC-Unique: VIKa7xUHNfWHMo6uhr1_Lw-1
+ us-mta-657-YjhgipDcNqi_qFiotbUGuw-1; Mon, 18 Jul 2022 02:34:48 -0400
+X-MC-Unique: YjhgipDcNqi_qFiotbUGuw-1
 Received: by mail-lj1-f198.google.com with SMTP id
- q8-20020a2e8748000000b0025da17feb46so1196516ljj.1
- for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 22:50:50 -0700 (PDT)
+ t14-20020a2e780e000000b0025d63d1c965so1741714ljc.13
+ for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 23:34:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7x3HHPPKkd8HATayhs7qFLPP87JUKqlz8QJH3WC/1Mc=;
- b=TUtCbXg1jVGQsEVQydroOVQ60xZXDOF3jL+PPlcYarABXC26faOyZI0gPHd2AXvxRs
- iDcq3PjXHrM9yDC7hxTXFOtWxZ0DTYhVCsmoa7hUlEoEzhz0/qPYBJu9iYmg1x6atEL+
- Mc9BeYcN8JDByDORsEYc85ARg6jcbXi5XjdQkPcQq/b67avn+JyF37cKo3gQ1LZD3QK1
- KfLomb2ZomMAvgN3H+lPQZWdPb/pIlEfvXkuXOEyO/BjBQZ6fcfXorUdGmgDizBg1Lvd
- uMk6RZijfE+KIuaETjMED66gAk/Gik8vSxQmHOpJFh0MeAYNICj7sZpL1rviMlwX5CmM
- Bl1g==
-X-Gm-Message-State: AJIora8OVDbKWR+6UlMigd/0p4Vgaal1E24xP+d1vx8G+WMFL1IrrFtZ
- nmvs+3yLuGp+luDIv62pm75ZTHdzAX857XXqtoKLob/OdwI1HQe8JDCGUshN3A9NshjBjGcQ6sb
- U7tVuRzn4rrqe4h6HOFOz+lZxCie8vW4=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr13558616lfu.442.1658123448994; 
- Sun, 17 Jul 2022 22:50:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tRvdFWg+m27nKMuOSKmKl8b0dd53MrlaI1mt8DonSfl59HWuNpMIEyBPIy2eD4M+dZIP/2nd9SB6BIUxmzrOQ=
-X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
- w13-20020a0565120b0d00b004815cb4cf1emr13558603lfu.442.1658123448826; Sun, 17
- Jul 2022 22:50:48 -0700 (PDT)
+ bh=BmR0VRnRkHVUGhKDkG7LHmrOBRh/rRkGwVTgX/CDfs8=;
+ b=jncWxYFwS2LoYMk7N65y3sVGFeydIOMGHHHZcWmRAx7R++lh9NsPr94CYqgfSbAYKJ
+ IeEVYPhgRF4NBmEPcKloSL0nne2N5Vn4cbCxeTn6WPtzwCCbfG2jBDXsXgiZXrv0UXgV
+ vaR6/y8odtuL+SChm4cRktcLZIt5VtzkMqPqvW7iHujmcyJdVaG/EI5BE6dk1obD9mBY
+ Hr2Rpud/irInolMQy7iEkBAaIbze+orrbvu3M6ixh7gHc37beZgg3vVshd1IIUIszQBX
+ Uh50lUXHKdTLNcgnnQEXKzgaPAeRfOKneLyUuCOQUL33y9V5Rlz4Tk/m0R0iSl/tK8al
+ 7syg==
+X-Gm-Message-State: AJIora9Acw7MQz9X36zCxipvJlu8y2XtNa+UzTo+eywMmytHe+ATZNtK
+ Lxynh+g0mLBXDKWY8GHHTWDa76Twg6tCjzYIwxcikG+bXA/tQXT7qRVse7/C9kv2czU38IB3v65
+ luf/oMZ5ir8w9MEUc5/aUVc+mvqndiCo=
+X-Received: by 2002:a2e:1451:0:b0:25d:7899:eddc with SMTP id
+ 17-20020a2e1451000000b0025d7899eddcmr11398199lju.251.1658126086665; 
+ Sun, 17 Jul 2022 23:34:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uXDKxG0/RK6aD7QOkURjlIw6OSoKGG8ZEc4ysBtK0SGPnvFKgc2RAMGFi6Q0zpmDA2KjVbrXrKqgTVa+NXqv4=
+X-Received: by 2002:a2e:1451:0:b0:25d:7899:eddc with SMTP id
+ 17-20020a2e1451000000b0025d7899eddcmr11398173lju.251.1658126086381; Sun, 17
+ Jul 2022 23:34:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220716113407.2730331-1-eperezma@redhat.com>
- <20220716113407.2730331-4-eperezma@redhat.com>
-In-Reply-To: <20220716113407.2730331-4-eperezma@redhat.com>
+ <20220716113407.2730331-5-eperezma@redhat.com>
+In-Reply-To: <20220716113407.2730331-5-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 18 Jul 2022 13:50:38 +0800
-Message-ID: <CACGkMEskdYYcJMXDgAmmAoO2QnE2DieaRj70_SLAYY0ygZvSgA@mail.gmail.com>
-Subject: Re: [RFC PATCH 03/12] vdpa: Small rename of error labels
+Date: Mon, 18 Jul 2022 14:34:35 +0800
+Message-ID: <CACGkMEtuMB8iB=4JYCWSwgq46enfEWuDxwSoT4J+v4RzNSVY8w@mail.gmail.com>
+Subject: Re: [RFC PATCH 04/12] vdpa: delay set_vring_ready after DRIVER_OK
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>,
  Harpreet Singh Anand <hanand@xilinx.com>, 
@@ -107,43 +107,99 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, Jul 16, 2022 at 7:34 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> So later patches are cleaner
+> To restore the device in the destination of a live migration we send the
+> commands through control virtqueue. For a device to read CVQ it must
+> have received DRIVER_OK status bit.
+>
+> However this open a window where the device could start receiving
+> packets in rx queue 0 before it receive the RSS configuration.
+
+A note here is that, after chatting with Michael, the device should
+not start processing the buffer until a kick. So I wonder if it's more
+than enough to not kick the data vq paris until we've recovered the
+state via cvq?
+
+
+> To avoid
+> that, we will not send vring_enable until all configuration is used by
+> the device.
+>
+> As a first step, reverse the DRIVER_OK and SET_VRING_ENABLE steps.
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/virtio/vhost-vdpa.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  hw/virtio/vhost-vdpa.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
 >
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 4458c8d23e..906c365036 100644
+> index 906c365036..1d8829c619 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1039,7 +1039,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev =
-*dev)
->          int r;
->          bool ok =3D vhost_vdpa_svq_setup(dev, svq, i, &err);
->          if (unlikely(!ok)) {
-> -            goto err;
-> +            goto err_svq_setup;
->          }
+> @@ -730,13 +730,18 @@ static int vhost_vdpa_get_vq_index(struct vhost_dev=
+ *dev, int idx)
+>      return idx;
+>  }
 >
->          vhost_svq_start(svq, dev->vdev, vq);
-> @@ -1064,8 +1064,7 @@ err_set_addr:
->  err_map:
->      vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, i));
->
-> -err:
-> -    error_reportf_err(err, "Cannot setup SVQ %u: ", i);
+> +/**
+> + * Set ready all vring of the device
 
-This does not look like a simple rename.
+It should be better to mention, for device we mean virtio device
+instead of vhost device (which we may have multiple ones if mq is
+enabled).
 
 Thanks
 
-> +err_svq_setup:
->      for (unsigned j =3D 0; j < i; ++j) {
->          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, j=
-);
->          vhost_vdpa_svq_unmap_rings(dev, svq);
+> + *
+> + * @dev: Vhost device
+> + */
+>  static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+>  {
+>      int i;
+>      trace_vhost_vdpa_set_vring_ready(dev);
+> -    for (i =3D 0; i < dev->nvqs; ++i) {
+> +    for (i =3D 0; i < dev->vq_index_end; ++i) {
+>          struct vhost_vring_state state =3D {
+> -            .index =3D dev->vq_index + i,
+> +            .index =3D i,
+>              .num =3D 1,
+>          };
+>          vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state);
+> @@ -1111,7 +1116,6 @@ static int vhost_vdpa_dev_start(struct vhost_dev *d=
+ev, bool started)
+>          if (unlikely(!ok)) {
+>              return -1;
+>          }
+> -        vhost_vdpa_set_vring_ready(dev);
+>      } else {
+>          ok =3D vhost_vdpa_svqs_stop(dev);
+>          if (unlikely(!ok)) {
+> @@ -1125,16 +1129,22 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
+*dev, bool started)
+>      }
+>
+>      if (started) {
+> +        int r;
+> +
+>          memory_listener_register(&v->listener, &address_space_memory);
+> -        return vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        r =3D vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+> +        if (unlikely(r)) {
+> +            return r;
+> +        }
+> +        vhost_vdpa_set_vring_ready(dev);
+>      } else {
+>          vhost_vdpa_reset_device(dev);
+>          vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>                                     VIRTIO_CONFIG_S_DRIVER);
+>          memory_listener_unregister(&v->listener);
+> -
+> -        return 0;
+>      }
+> +
+> +    return 0;
+>  }
+>
+>  static int vhost_vdpa_set_log_base(struct vhost_dev *dev, uint64_t base,
 > --
 > 2.31.1
 >
