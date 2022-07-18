@@ -2,86 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D1F5787A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:43:22 +0200 (CEST)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59D405787AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:44:16 +0200 (CEST)
+Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDTq5-0000ft-Jy
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:43:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34074)
+	id 1oDTqx-0001b6-HX
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTmk-0004o8-IK; Mon, 18 Jul 2022 12:39:54 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTmi-0003Fn-VO; Mon, 18 Jul 2022 12:39:54 -0400
-Received: by mail-ej1-x630.google.com with SMTP id oy13so22268440ejb.1;
- Mon, 18 Jul 2022 09:39:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fUsx3j4xId5yQLWmvFeaX0YZauDarbCpuTrPAXXPdjM=;
- b=XeKFCAVf1SkPJ+3540fEu+ZRtxWlofN+yfOrlRvZDSW0oY43MDlLt7HGg98OiY2/Gv
- VzEcsXN3C9Q/jGmJ4pNwyIi2dwpBanFT7yyXaBSHpFZhu4GFObQef2A7SauNcrGTZnSk
- FuzVZRpYQi9QmVHfvu2r76wEnw2ilhCmrzzouTp4lBoFg2e3Pk5nZeatz6PoqoB4FTx9
- /XMtwv7gfJXEzxtZ9uzHla9SNMC46uyXnqCNpgk4IOfgLTMNgE+X33eNyKXHyY/F74Dj
- TE2VBQG9ewMZL1QGuDcYCAkzcKU/Ylb0tzxOhSsEmjHu3wgNCKywWhl8TgThaEztb9iz
- abpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=fUsx3j4xId5yQLWmvFeaX0YZauDarbCpuTrPAXXPdjM=;
- b=Tk17MfdyjavxtaIVUJfWHvR+Cpv1w9GOxPyNd/RvgmipEBLfx07TF71/luniUSYBZs
- CbuW9rU1juM6fNgrOtilpaINw55wZOFtWbwHBQNO3cd62FDaQMygBYsuXDClyNFxqrPb
- RH1JhvFiqcXk4Ozm5B0mA0LltEWP9zYT5Yrf7C1YPY/i/Po+2OaxbTcztGJuuWtvRSOH
- zZLk/fpsfSyZ2JLZ0yE1NKVy423IIqim3HP3sUFrf/P2y/sYcPGuaW4UoGBsrUhTkhbZ
- gS7u0zsZcLZ3/DzEkgkzBc7JarZt3R2MJz/FbPoDT4JwdNZm9ZDaksyX6LyHD8ynAspn
- jWpg==
-X-Gm-Message-State: AJIora/g6NY9iK74xwLM61HAe+pZcabhu8+4KuPZJhjF58aeIuexm/Xb
- p0bMkvKxa+cnRGEv2Axgwmo=
-X-Google-Smtp-Source: AGRyM1uHaIkfP0O8vTjQOxqtD1XZ09YanwxtJDGbamljS241x5LBtvcA50wQOSOIi17W2UoBqAvGvQ==
-X-Received: by 2002:a17:906:5d16:b0:72f:248d:525a with SMTP id
- g22-20020a1709065d1600b0072f248d525amr7344540ejt.441.1658162389991; 
- Mon, 18 Jul 2022 09:39:49 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- 24-20020a170906329800b006fecf74395bsm5727174ejw.8.2022.07.18.09.39.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 09:39:49 -0700 (PDT)
-Message-ID: <ea2b8793-532d-e7c1-c34f-a9ef89f8586d@redhat.com>
-Date: Mon, 18 Jul 2022 18:39:48 +0200
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oDTnk-00065j-Q8
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:40:59 -0400
+Received: from mout.gmx.net ([212.227.17.22]:44421)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oDTnj-0003bc-2J
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:40:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1658162445;
+ bh=X2f0ttMTvxkzXmjuicHwCe/L8lmDPVrbNcEObqvABTw=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=As3ilEq/l3+nhWv+qwGul5zjwvlpTbOrPTFDkm3r/wJnt3+HE+y+lobNjFXmtjDyl
+ shHZCMvvMqL7hmnOo7kgRcYRyp/WPJiMR/4qttBwgdPz6cv3wwGio31Lg6FkWb6Ik+
+ KxCCzxstlZnTxE1u/E+tQ/4zZGfAy3GkOOkdq3I8=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100 ([92.116.165.57]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MSKu0-1o6yVZ01tI-00ShfA; Mon, 18
+ Jul 2022 18:40:45 +0200
+Date: Mon, 18 Jul 2022 18:40:43 +0200
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Philippe =?iso-8859-15?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: [PATCH v2] linux-user/hppa: Fix segfaults on page zero
+Message-ID: <YtWNC56seiV6VenA@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
- _can_set_ and _set_
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-8-eesposit@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220712211911.1302836-8-eesposit@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:2GCG8lLvZOXVBj/E1xUmVb68ibWJYiwsvmXcvNIFwt+so6izUkR
+ 6YZgkny4rSG2X88B9DgBtXrzNuxAZQQGxWndqlV22Rn/jcwLcDOkKj3oFNEcUZ7gZ1WkH2c
+ f7E94Oy5fkyIyML+cleQrn03UeAjhyw5IXoA2hN2mo31oWQCR1QI1M6s7L6CUeGQfaWaUxO
+ 6voxn8lQFGeB+pmMKROzg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xoz9KOGKtXc=:B1IUPGrw/cg0vPYERv//uV
+ a/E5NMBgH/E7WJCMxiKhKLHJg9K3jtJDdgv2IwN4Mz8gAWjrOM7ruwtyG/jB5ln0ujqpcIBeN
+ MyiEpHD/zPCUGR7lRRCQaaJ11Yx8PjaTXU6x0RX8a3Vk+7oxWrOP31IBi4NXHk6c9ha2Rfz5M
+ 2pR92yoLZinXXXVDY4z9rcRSg/MsU/OjTw0Yf6u3D0wxwDwmD4h/ll7E/Ji3qLkwX+v0z652k
+ aoJeIZAnlk37BfBvDGIF3T2VF97yKw6wx9+v4mPlNcmA+ShwDT3ImyCtRNJ78MM3w1rsHYP32
+ H+8i8kH7QC9zOSsIUWjRg07UsDsK56wEvNHs0E28h55kXts4SbSFKvChuThpOybugS5+iTNFE
+ izAwVFFmlS2sDSBPq+4j9MiaaCZgOUnlGRgpx/SR5BKGlqQ9pGyYWcA18TvZoCPB3ooAxUeXo
+ b5AnvMeXfF7qdj6/14JBpi28b5Qh4WRs73MzVAZ7VMu+KEcN+v128+9jdlip22yFtpQQKoKOu
+ gXJIZGkqsWJDasVwsWjP87IqxjoudwJgzDMNswyz+e6fMgA1wTPAobMW8UhLBBOvTfONv3NpK
+ PBLZ9IRhZmdEP8jmnlNFZUFamo+78SFPoGh21aVLdrvrxIkKuvRzEKElfa3BqFmd2d2lCcfH8
+ kXQxmqloaJ8t2nTeW6XlRx2Quv2+kzcoxG43gpmJn/1FL8i0EWHxas5Vqiy8iNocJOG69GwbL
+ qfhPoqEi/+LGX7tkXJvkKzKXipi97G5/hsFbHYyng2bQqiqw2wkFkhAAzHAZg8NkYFAY52n6Z
+ y1IyMg6thx2YAL/RKCXyWXfZFd2CKI42K5IkBvRrLtrzX93oRlL2fgSjS8PNLA3iRmlenyObs
+ GhFy9f0XsAIOBhm8pkRqU0RsA9Gkde+l/JmIWmak2G5bABByjRWnpVQuw2exNlzlcAAiaJ6m9
+ 4UKMbH+xe9kbirAavaCkm1x741UxS97B/5WnJ6jWpzKQT1HUiGC9PjTKBzn92FH7FXjUXnscb
+ Bkfk4wQdV/lWssjFP+gD3qmCpM+rzBomcRH1Do9J4ZUk/8rA5QOuvOaB7KsbG/zcI8ajQ3TfE
+ tbleTrACZ+PjFz2zgo4yo+WxBiWw7iRPeswyAn2yJhQf8G4o3voxEoHYQ==
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,66 +83,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 23:19, Emanuele Giuseppe Esposito wrote:
-> diff --git a/block/block-backend.c b/block/block-backend.c
-> index 674eaaa2bf..6e90ac3a6a 100644
-> --- a/block/block-backend.c
-> +++ b/block/block-backend.c
-> @@ -2184,8 +2184,12 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
->           bdrv_ref(bs);
->   
->           if (update_root_node) {
-> -            ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
-> -                                                 errp);
-> +            /*
-> +             * update_root_node MUST be false for blk_root_set_aio_ctx_commit(),
-> +             * as we are already in the commit function of a transaction.
-> +             */
-> +            ret = bdrv_child_try_change_aio_context(bs, new_context, blk->root,
-> +                                                    errp);
->               if (ret < 0) {
->                   bdrv_unref(bs);
->                   return ret;
+This program:
+
+    int main(void) { asm("bv %r0(%r0)"); return 0; }
+
+produces on real hppa hardware the expected segfault:
+
+    SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3} ---
+    killed by SIGSEGV +++
+    Segmentation fault
+
+But when run on linux-user you get instead internal qemu errors:
+
+ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+Bail out! ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
+ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
+Bail out! ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
+
+Fix it by adding the missing case for the EXCP_IMP trap in
+cpu_loop() and raise a segfault.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+---
+Changes:
+
+v2: Dropped the "+++" in the commit message - it confused b4 and git-am.
+    no functional changes.
+
+---
+diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
+index a576d1a249..8f374aeef6 100644
+--- a/linux-user/hppa/cpu_loop.c
++++ b/linux-user/hppa/cpu_loop.c
+@@ -143,6 +143,9 @@ void cpu_loop(CPUHPPAState *env)
+             env->iaoq_f = env->gr[31];
+             env->iaoq_b = env->gr[31] + 4;
+             break;
++        case EXCP_IMP:
++            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
++            break;
+         case EXCP_ILL:
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
+             break;
 
 
-Looking further at blk_do_set_aio_context:
-
-         if (tgm->throttle_state) {
-             bdrv_drained_begin(bs);
-             throttle_group_detach_aio_context(tgm);
-             throttle_group_attach_aio_context(tgm, new_context);
-             bdrv_drained_end(bs);
-         }
-
-Perhaps the drained_begin/drained_end pair can be moved to 
-blk_set_aio_context?  It shouldn't be needed from the change_aio_ctx 
-callback, because bs is already drained.  If so, blk_do_set_aio_context 
-would become just:
-
-      if (tgm->throttle_state) {
-          throttle_group_detach_aio_context(tgm);
-          throttle_group_attach_aio_context(tgm, new_context);
-      }
-      blk->ctx = new_context;
-
-and blk_set_aio_context would be something like:
-
-     if (bs) {
-         bdrv_ref(bs);
-         ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
-                                              errp);
-         if (ret < 0) {
-             goto out_no_drain;
-         }
-         bdrv_drained_begin(bs);
-     }
-     ret = blk_do_set_aio_context(blk, new_context, errp);
-     if (bs) {
-         bdrv_drained_end(bs);
-out_no_drain;
-         bdrv_unref(bs);
-     }
-     return ret;
-
-Paolo
 
