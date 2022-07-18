@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A40577E50
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 11:05:45 +0200 (CEST)
-Received: from localhost ([::1]:60396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A8E2577E59
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 11:08:51 +0200 (CEST)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDMhE-0003gp-5n
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 05:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34880)
+	id 1oDMkE-0006IK-Ge
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 05:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDMet-0001tG-Gp
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:03:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26444)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDMiC-0003wY-Lg
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:06:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDMeq-0004Ig-BQ
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:03:18 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDMi7-0004mL-JN
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:06:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658134995;
+ s=mimecast20190719; t=1658135198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=STxJw0edt/V95e0NAfxCtbjXbnURubOGo3bYFYYnAPM=;
- b=OTABDAMg+NsDfXOl5cYts/68tPpdYTPwgo88pz6pd6x0AcEKzA6Hz2+3Z1RiLT3Y6VxiIt
- SjOEv24h7I6GWHTiusOeLeDsb+uGh7v/+uNUBfS7UxjFPVQD/XlAJaJcFsXgt9LwGntbt8
- gQdM+TFRTcrWhOAucnuHpc6bL1UqnpU=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qh62voP3RCnbYQ4zYcy/gINIMBoyK0Uh1OSId3Bq5Lg=;
+ b=LPgxq6UXoxZnevsgpjWZf2kRR1GOEytPqEDtc6TI70G3JlxAL9VPCxdeJ+rfzLooGLLEJ9
+ IK8cSb8PtNKhfssjJjuJ6lFwwqVC2jhfB6vz+pl1e+eFrfuESEb84Ob1RWNilMScJMuno1
+ wOd75FeqpaYyhatGM7ZdudLtsBSoQ+g=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-140-qStOp4GRM7-U76q-R_3nmg-1; Mon, 18 Jul 2022 05:03:05 -0400
-X-MC-Unique: qStOp4GRM7-U76q-R_3nmg-1
-Received: by mail-lf1-f70.google.com with SMTP id
- b7-20020a0565120b8700b004890b28f7c8so4003791lfv.7
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:03:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=STxJw0edt/V95e0NAfxCtbjXbnURubOGo3bYFYYnAPM=;
- b=TsgxDTKIbTbH05NreBGWLVzIrkrjYdu5GWoaj6vNgRRiyJxO0rXYGhw3xNQPLOtFHC
- fJQHDSBJ0AD+jJSO/ahpr+NKqgXp/1SL5/uIe56dZD6CQElaxiacvq9dS5LZfsidmFkx
- zoK6YbkQe77FbW/yellRyjwp6hcn4SC0qK+pTl75tlyaG/x36CbD9wUWTgDm2GWkNbvm
- dr6zo8wS3Twgr//eIaXxlt7ddnyT9KJI+YZ62Oi+rmnTxzl0wTU3Wmlu1DaEC340/lf1
- 6n5Upzp0cTrTXxsM5+Svhk8nsznuTg9OrL0YAHoVllHmeAaNAH0pFjSQKfj05UAO45Ax
- mE9A==
-X-Gm-Message-State: AJIora9vE6fmDNAmX6aOZE4r44vS4pLzivJQQOguKF+Z18eoK/QKk5Bs
- qPWoliRf5pQ56/+RpMV0hiQeyMYrXkV1DS/AS5cJ8prJ/Y+ZqIOh5rj1LLXKhEt41ID8f6nMPKh
- +QAbvcJiQMWEp2eP+esyMFl3Zg33LZYU=
-X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
- a3-20020a05651c210300b0025d64782a57mr12116744ljq.496.1658134984118; 
- Mon, 18 Jul 2022 02:03:04 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sjVY/Qit0LolxdlU3GsEAVXQfeedOgCmAFSBlf7P+hjWTx1rqU1zIQ9DT20It2okP4kcR8iez6FVxiJV6LKL8=
-X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
- a3-20020a05651c210300b0025d64782a57mr12116737ljq.496.1658134983844; Mon, 18
- Jul 2022 02:03:03 -0700 (PDT)
+ us-mta-16-YvEgT3X6OpGU_pEpJ3yFDg-1; Mon, 18 Jul 2022 05:06:37 -0400
+X-MC-Unique: YvEgT3X6OpGU_pEpJ3yFDg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFF91101A586;
+ Mon, 18 Jul 2022 09:06:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 931AE2166B26;
+ Mon, 18 Jul 2022 09:06:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3B86521E690D; Mon, 18 Jul 2022 11:06:35 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: qemu-devel@nongnu.org,  berrange@redhat.com,  kraxel@redhat.com,
+ pbonzini@redhat.com,  f4bug@amsat.org,  vivek.kasireddy@intel.com
+Subject: Re: [PATCH v4 2/2] ui/gtk: a new array param monitor to specify the
+ target displays
+References: <20220711233959.32219-1-dongwon.kim@intel.com>
+ <20220711233959.32219-3-dongwon.kim@intel.com>
+ <87ilo2uagz.fsf@pond.sub.org>
+ <20220713195947.GA53@dongwonk-MOBL.amr.corp.intel.com>
+Date: Mon, 18 Jul 2022 11:06:35 +0200
+In-Reply-To: <20220713195947.GA53@dongwonk-MOBL.amr.corp.intel.com> (Dongwon
+ Kim's message of "Wed, 13 Jul 2022 12:59:47 -0700")
+Message-ID: <87pmi2dc2s.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <cfdc8ffef03c4574a72faea46f2e1ef1@auriga.com>
- <CACGkMEvRNMoUSGQZa7wvQu=FKgKw3RJmioHZy1r3f6bYTS-JFQ@mail.gmail.com>
- <ae177ae534fa4045885916299bbb0652@auriga.com>
-In-Reply-To: <ae177ae534fa4045885916299bbb0652@auriga.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 18 Jul 2022 17:02:52 +0800
-Message-ID: <CACGkMEtKZqtN5FXZFXTTyMmJQ-T7NE=v2nGD7_GWaYdzhCxxtQ@mail.gmail.com>
-Subject: Re: Internal MAC addresses list (mac_table) usage
-To: "Ovchinnikov, Vitalii" <vitalii.ovchinnikov@auriga.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -93,88 +86,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 14, 2022 at 7:54 PM Ovchinnikov, Vitalii
-<vitalii.ovchinnikov@auriga.com> wrote:
->
-> Hi Jason,
->
-> Thanks for pointing out that corner case with "52:54:00:12:34:XX".
->
-> In the NIC model I'm developing qemu_macaddr_default_if_unset is called every time MAC is updated in the NIC registers.
-> This way a just assigned "52:54:00:12:34:XX" MAC is at least marked as used in the mac_table.
->
-> However it doesn't cover the case when "52:54:00:12:34:XX" MAC being assigned through NIC registers has already been assigned to another NIC by QEMU.
+Dongwon Kim <dongwon.kim@intel.com> writes:
 
-This should be fine, and it needs to be addressed in a separate patch.
+> On Tue, Jul 12, 2022 at 08:11:08AM +0200, Markus Armbruster wrote:
+>> Dongwon Kim <dongwon.kim@intel.com> writes:
+>>=20
+>> > New integer array parameter, 'monitor' is for specifying the target
+>> > monitors where individual GTK windows are placed upon launching.
+>> >
+>> > Monitor numbers in the array are associated with virtual consoles
+>> > in the order of [VC0, VC1, VC2 ... VCn].
+>> >
+>> > Every GTK window containing each VC will be placed in the region
+>> > of corresponding monitors.
+>> >
+>> > Usage: -display gtk,monitor.<id of VC>=3D<target monitor>,..
+>> >        ex)-display gtk,monitor.0=3D1,monitor.1=3D0
+>> >
+>> > Cc: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>> > Cc: Markus Armbruster <armbru@redhat.com>
+>> > Cc: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>> > Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+>> > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+>> > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+>> > ---
+>> >  qapi/ui.json    |  9 ++++++++-
+>> >  qemu-options.hx |  3 ++-
+>> >  ui/gtk.c        | 30 ++++++++++++++++++++++++++++--
+>> >  3 files changed, 38 insertions(+), 4 deletions(-)
+>> >
+>> > diff --git a/qapi/ui.json b/qapi/ui.json
+>> > index 413371d5e8..ee0f9244ef 100644
+>> > --- a/qapi/ui.json
+>> > +++ b/qapi/ui.json
+>> > @@ -1195,12 +1195,19 @@
+>> >  #               assuming the guest will resize the display to match
+>> >  #               the window size then.  Otherwise it defaults to "off".
+>> >  #               Since 3.1
+>> > +# @monitor:     Array of numbers, each of which represents physical
+>> > +#               monitor where GTK window containing a given VC will be
+>> > +#               placed. Each monitor number in the array will be
+>> > +#               associated with a virtual console starting from VC0.
+>> > +#
+>> > +#               since 7.1
+>>=20
+>> I dislike repeating the type (here: array of numbers) in the
+>> description.
+>>=20
+>> Suggest something like
+>>=20
+>>    # @monitor:     List of physical monitor numbers where the GTK windows
+>>    #               containing the virtual consoles VC0, VC1, ... are to =
+be
+>>    #               placed.  (Since 7.1)
+>>=20
+>> Missing: what happens when there are more VCs than list elements.  Can
+>> you tell us?
+>
+>     # @monitor:     List of physical monitor numbers where the GTK windows
+>     #               containing the virtual consoles VC0, VC1, ... are to =
+be
+>     #               placed. If a mapping exists for a VC, then it'd be
+>     #               placed on that specific physical monitor; otherwise,
+>     #               it'd default to the monitor from where it was launched
+>     #               since 7.1
+>
+> How does this look?
 
-Thanks
+Pretty good!
 
-> So one more improvement the code might need is a way to check whether MAC is free or used from within NIC model.
-> Returning bool from qemu_macaddr_default_if_unset may well do the trick. Moreover it might also help to spot an error when -1 is returned from qemu_macaddr_get_free (for the time being it's silently interpreted as 0xFF MAC LSB).
->
-> BR,
-> Vitalii
->
-> From: Jason Wang <jasowang@redhat.com>
-> Sent: Thursday, July 14, 2022 9:44
-> To: Ovchinnikov, Vitalii
-> Cc: qemu-devel@nongnu.org
-> Subject: Re: Internal MAC addresses list (mac_table) usage
->
-> On Tue, Jul 12, 2022 at 4:43 PM Ovchinnikov, Vitalii
-> <vitalii.ovchinnikov@auriga.com> wrote:
-> >
-> > Hi folks,
-> >
-> > While developing an Ethernet NIC model I noticed that QEMU maintains the following internal array which marks used/free MAC addresses in net/net.c:
-> >
-> > static int mac_table[256] = {0};
-> >
-> > with three private (static) functions accessing it: qemu_macaddr_set_used, qemu_macaddr_set_free, qemu_macaddr_get_free.
-> > Public (non-static) interface to this array includes two functions: qemu_macaddr_default_if_unset and qemu_del_nic.
-> >
-> > The vast majority of existing NIC models calls qemu_macaddr_default_if_unset in their *_realize functions replacing zeroed-out MAC address with the free one returned by QEMU, for instance (lan9118_realize functions from hw/net/lan9118.c):
-> >
-> >    ...
-> >     qemu_macaddr_default_if_unset(&s->conf.macaddr);
-> >
-> >     s->nic = qemu_new_nic(&net_lan9118_info, &s->conf,
-> >                           object_get_typename(OBJECT(dev)), dev->id, s);
-> >     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
-> >    ...
-> >
-> > qemu_del_nic is being called from net_cleanup function right before QEMU finishes execution.
-> >
-> > What appears to be a possible SW architecture gap is that NIC models have no means to inform QEMU about changing their MAC addresses during execution (again from hw/net/lan9118.c, do_mac_write function):
-> >
-> >     case MAC_ADDRH:
-> >         s->conf.macaddr.a[4] = val & 0xff;
-> >         s->conf.macaddr.a[5] = (val >> 8) & 0xff;
-> >         lan9118_mac_changed(s);
-> >         break;
-> >     case MAC_ADDRL:
-> >         s->conf.macaddr.a[0] = val & 0xff;
-> >         s->conf.macaddr.a[1] = (val >> 8) & 0xff;
-> >         s->conf.macaddr.a[2] = (val >> 16) & 0xff;
-> >         s->conf.macaddr.a[3] = (val >> 24) & 0xff;
-> >         lan9118_mac_changed(s);
-> >         break;
-> >
-> > lan9118_mac_changed function here simply changes NIC info string using qemu_format_nic_info_str, hence stale MAC address stays marked as used in the mac_table whereas it's not actually in use any more.
-> >
-> > Am I right in thinking of it as a SW architecture gap/bug that needs to be addressed?
->
-> I think so. Note that the code can not deal with the case when
-> "52:54:00:12:34:XX" was passed from cli.
->
-> Thanks
->
-> >
-> > BR,
-> > Vitalii
-> >
->
->
->
+Nitpicks: replace "id'd" by "it will" or "it is to be", end your second
+sentence with a period, and format "since" like we do elsewhere.
+Together:
+
+      # @monitor:     List of physical monitor numbers where the GTK windows
+      #               containing the virtual consoles VC0, VC1, ... are to =
+be
+      #               placed. If a mapping exists for a VC, then it is to be
+      #               placed on that specific physical monitor; otherwise,
+      #               it defaults to the monitor from where it was launched.
+      #               (Since 7.1)
+
+>>=20
+>> >  #
+>> >  # Since: 2.12
+>> >  ##
+>> >  { 'struct'  : 'DisplayGTK',
+>> >    'data'    : { '*grab-on-hover' : 'bool',
+>> > -                '*zoom-to-fit'   : 'bool'  } }
+>> > +                '*zoom-to-fit'   : 'bool',
+>> > +                '*monitor'       : ['uint16']  } }
+>> >=20=20
+>> >  ##
+>> >  # @DisplayEGLHeadless:
+>>=20
+>> [...]
+>>=20
 
 
