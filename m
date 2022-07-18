@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66C2057866D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 17:32:43 +0200 (CEST)
-Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF423578684
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 17:40:52 +0200 (CEST)
+Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDSji-0007AY-4m
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 11:32:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46734)
+	id 1oDSrb-0003ti-JR
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 11:40:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDSgd-0003oy-CO
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:29:31 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:42522)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oDSoq-0001AB-Qs
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:38:00 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDSgb-0001Ev-LP
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:29:31 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-2ef5380669cso111085777b3.9
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 08:29:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pWAfW5JlgppFhBIVTsPM1YscJ0USUhYD9Rgu/ge7MCY=;
- b=Y1fc4oWdIjiwO0HXjlrI9mIwEvQJ2O4GRaXovweWWYiEbYN3APirxDINB6rFxZsvic
- h496NkaWtWZckGMZpfC5aKPtVIIN4jgkM1VuRywnJcQD6EC0jxL9Oue5qoAavZYt1kQ1
- 6qAuOvwAEtYW+R8gNPPLuaKDI6e2z7ROy5Q5h2WmaMsfU7FTfGCiw3Xsn52S7Qd6LWIw
- A8NqW4HG+QbJs+ReUFZOeeRLlHvzWQrIuFN4E8rXxWZUNFaSL3wDdpRRR/tHX+GNlRvc
- 2qSj/jNJhpO38p2tKMmmuFBDAxnTlawNoQs+XsDu+eMs3BKfL9bAqs4CwNAucOrg+Ev2
- 2b7Q==
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oDSoo-0002Xp-Bl
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:38:00 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ x18-20020a17090a8a9200b001ef83b332f5so18661541pjn.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 08:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=F+LIy5Ev4/tFEgRZQxVISx8kCEHJOwdEeBCEiem3BuQ=;
+ b=gaEYb+MZ5F2O4ycPxGY6bom2pAagDKz5Mru2QZUljO/t0/sVtlAJ6onpkGKNTG7iuR
+ G5VNsgM7BJEb7F0z6KAS86QW3HMdQ6pO7Jno9FZM7YefgHnn1phEQAqnKOQK0swf+TA7
+ r5b/uREzU9v8sR/A1LzZFxIH0EZbHdwNiz3AbJxSeEfZXjXx9fShScIfjn7PBmajQ/ai
+ rLH95pTkIWJpH9ns8uZXce80zP6yoKc6KK7IWPaSGwIIfBEd1r41a/JdNmRblbT96Hqw
+ tbvtvXZg+6Z1MrhnB9BcSPU5wvWvSrB6O+al4rfIwMpgENqzyhBY6Jf7w5epQqSc78hS
+ 02gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pWAfW5JlgppFhBIVTsPM1YscJ0USUhYD9Rgu/ge7MCY=;
- b=rsILOEaKNd53O8G/azZ7H3tXVSL3ut41ptwVWTuvNxBMoy3qLN+LTcGJcGliKYOOnD
- A7/lVtvyf5+a8qec6Zyt2iIDDQpi4Ei+y6ay7aFZEPBt76RbHrEqXPPbuVQ1nZw3slZO
- XoQ8v57pKycgHloY5o7IuDjf8pIco8uF8sVoCWq4QKIEmxKQQ0fD2K1YFKyJBkDNjvDD
- 0Ii6yTU2AQbArrlAV9tf6PTivx47PPkwRbZFQ5c9uNRUtyjxeS3Izi/r0yHOgDf+eCnz
- gOOkUNUQxRaFg1G03ALIgxQwPmg2vdZjXI6s0k9t8nz3V7KB4Kv043z+ghfvgxK1OLhQ
- ZzAQ==
-X-Gm-Message-State: AJIora+XDTJeZFbVDWENOiAQY2cXhlPRU4uuQaa++ULAtrh1/ZOTGh90
- KPknPM+Xq+Iplie7hMr9xB2y7fLawf7SPptrQ/0Lfg==
-X-Google-Smtp-Source: AGRyM1v7665jTyDlQOyJXOALMPPDFAiMj911wMKBEqoomqr8t2PtLjpyXqy0t0UbeaG433xD81OfJPdOrcQb6Evzzgg=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr30781984ywc.64.1658158168154; Mon, 18
- Jul 2022 08:29:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220718092759.2360747-1-kkostiuk@redhat.com>
-In-Reply-To: <20220718092759.2360747-1-kkostiuk@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 16:29:17 +0100
-Message-ID: <CAFEAcA_PABFOV0vU6YP-asCjtWbibjmvEh2rg3eMej5dmCEg8A@mail.gmail.com>
-Subject: Re: [PULL 0/1] MAINTAINERS: Add myself as Guest Agent co-maintainer
-To: Konstantin Kostiuk <kkostiuk@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=F+LIy5Ev4/tFEgRZQxVISx8kCEHJOwdEeBCEiem3BuQ=;
+ b=mmIyVvbO0B4El+wK+Li6rJ8hS81UUHR+XfwyHtauRRte4TzBqXO9eGGM30dPZhDKsk
+ 3YapeOvQj4BFvZmQWYzpzeCyAhQ5ad9dO+vsjOXEgH0VIbK1OJBlJFdO53Blo9ehWjac
+ 2aGrULNTZpaYdkMWN9+6Zx9gqt7u9H39rrLDSPoH7r4KTlG3fVOTIFHRaGTy+MiJRmsb
+ 4+55dxiBEyY9vUHcHrJnycAXGyFWDaIk7Mtdqrphr2xE59y3nu3BSWjwVLBd6MAUC9GZ
+ itXVFzm+sJCVuHNTd0nSUQDgJ+oTyt8+uD02GQu6dfIQQ7uF+jWPD/7VqsKgGm5kfC7u
+ x1QA==
+X-Gm-Message-State: AJIora9pO+u1AWV04jgrsPCdmm7I77ZYKz9HrZwiB0q0uZOE/v9/IK1E
+ WikjundDk/ZiPZtKYsi9qDThRw==
+X-Google-Smtp-Source: AGRyM1vWwl/J+yy/J65sepbN5gDMDG3n11HpZL4ZNpx00R00TnU5Sz3LbbJMyKebFQslUdpmmvyJnQ==
+X-Received: by 2002:a17:902:e80a:b0:16c:3e68:bbe1 with SMTP id
+ u10-20020a170902e80a00b0016c3e68bbe1mr28429654plg.85.1658158676298; 
+ Mon, 18 Jul 2022 08:37:56 -0700 (PDT)
+Received: from [192.168.1.18] ([122.169.2.249])
+ by smtp.gmail.com with ESMTPSA id
+ d82-20020a621d55000000b0052ab6590290sm9442355pfd.88.2022.07.18.08.37.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 08:37:55 -0700 (PDT)
+Message-ID: <de6ec0491d6b6ef9804718dce86b3d157ff191fd.camel@ventanamicro.com>
+Subject: Re: [RFC PATCH v5 1/4] target/riscv: Add smstateen support
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Date: Mon, 18 Jul 2022 21:07:48 +0530
+In-Reply-To: <fb974b62-030d-5244-f3ce-21c23900a4bf@iscas.ac.cn>
+References: <20220603160425.3667456-1-mchitale@ventanamicro.com>
+ <20220603160425.3667456-2-mchitale@ventanamicro.com>
+ <43569e92.214c.181be6c8e52.Coremail.angell1518@163.com>
+ <746ba0e1f67cafde5fae05725ccef0587de67ad3.camel@ventanamicro.com>
+ <fb974b62-030d-5244-f3ce-21c23900a4bf@iscas.ac.cn>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+User-Agent: Evolution 3.36.5-0ubuntu1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,34 +95,523 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 at 10:28, Konstantin Kostiuk <kkostiuk@redhat.com> wrote:
->
->
-> The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
->
->   Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
->
-> are available in the Git repository at:
->
->   git@github.com:kostyanf14/qemu.git tags/qga-win32-pull-2022-07-18
->
-> for you to fetch changes up to e8cbe5842bad80bc2df692dea70134da0d13c556:
->
->   MAINTAINERS: Add myself as Guest Agent co-maintainer (2022-07-18 11:56:09 +0300)
->
-> ----------------------------------------------------------------
-> qga-win32-pull-2022-07-18
->
-> ----------------------------------------------------------------
-> Konstantin Kostiuk (1):
->       MAINTAINERS: Add myself as Guest Agent co-maintainer
->
+On Fri, 2022-07-08 at 07:44 +0800, Weiwei Li wrote:
+> 在 2022/7/8 上午12:53, Mayuresh Chitale 写道:
+> > On Sat, 2022-07-02 at 18:19 +0800, angell1518 wrote:
+> > > At 2022-06-04 00:04:22, "Mayuresh Chitale" <
+> > > mchitale@ventanamicro.com
+> > > > wrote:
+> > > > Smstateen extension specifies a mechanism to close
+> > > > the potential covert channels that could cause security issues.
+> > > > 
+> > > > This patch adds the CSRs defined in the specification and
+> > > > the corresponding predicates and read/write functions.
+> > > > 
+> > > > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> > > > ---
+> > > > target/riscv/cpu.c      |   2 +
+> > > > target/riscv/cpu.h      |   4 +
+> > > > target/riscv/cpu_bits.h |  36 +++++++
+> > > > target/riscv/csr.c      | 210
+> > > ++++++++++++++++++++++++++++++++++++++++
+> > > > target/riscv/machine.c  |  21 ++++
+> > > > 5 files changed, 273 insertions(+)
+> > > > 
+> > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > > index e6e878ceb3..2d65ccd90f 100644
+> > > > --- a/target/riscv/cpu.c
+> > > > +++ b/target/riscv/cpu.c
+> > > > @@ -913,6 +913,7 @@ static Property riscv_cpu_properties[] = {
+> > > >      DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+> > > >      DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> > > >      DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
+> > > > +    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen,
+> > > false),
+> > > >      DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+> > > >      DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> > > > @@ -1104,6 +1105,7 @@ static void riscv_isa_string_ext(RISCVCPU
+> > > *cpu, char **isa_str, int max_str_len)
+> > > >          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> > > >          ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> > > >          ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> > > > +        ISA_EDATA_ENTRY(smstateen, ext_smstateen),
+> > > >          ISA_EDATA_ENTRY(svinval, ext_svinval),
+> > > >          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> > > >          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> > > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > > > index f08c3e8813..1c269b77bd 100644
+> > > > --- a/target/riscv/cpu.h
+> > > > +++ b/target/riscv/cpu.h
+> > > > @@ -327,6 +327,9 @@ struct CPUArchState {
+> > > > 
+> > > >      /* CSRs for execution enviornment configuration */
+> > > >      uint64_t menvcfg;
+> > > > +    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
+> > > > +    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
+> > > > +    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
+> > > >      target_ulong senvcfg;
+> > > >      uint64_t henvcfg;
+> > > > #endif
+> > > > @@ -411,6 +414,7 @@ struct RISCVCPUConfig {
+> > > >      bool ext_zhinxmin;
+> > > >      bool ext_zve32f;
+> > > >      bool ext_zve64f;
+> > > > +    bool ext_smstateen;
+> > > > 
+> > > >      uint32_t mvendorid;
+> > > >      uint64_t marchid;
+> > > > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > > > index 4a55c6a709..2a3ef26d21 100644
+> > > > --- a/target/riscv/cpu_bits.h
+> > > > +++ b/target/riscv/cpu_bits.h
+> > > > @@ -208,6 +208,12 @@
+> > > > /* Supervisor Configuration CSRs */
+> > > > #define CSR_SENVCFG         0x10A
+> > > > 
+> > > > +/* Supervisor state CSRs */
+> > > > +#define CSR_SSTATEEN0       0x10C
+> > > > +#define CSR_SSTATEEN1       0x10D
+> > > > +#define CSR_SSTATEEN2       0x10E
+> > > > +#define CSR_SSTATEEN3       0x10F
+> > > > +
+> > > > /* Supervisor Trap Handling */
+> > > > #define CSR_SSCRATCH        0x140
+> > > > #define CSR_SEPC            0x141
+> > > > @@ -257,6 +263,16 @@
+> > > > #define CSR_HENVCFG         0x60A
+> > > > #define CSR_HENVCFGH        0x61A
+> > > > 
+> > > > +/* Hypervisor state CSRs */
+> > > > +#define CSR_HSTATEEN0       0x60C
+> > > > +#define CSR_HSTATEEN0H      0x61C
+> > > > +#define CSR_HSTATEEN1       0x60D
+> > > > +#define CSR_HSTATEEN1H      0x61D
+> > > > +#define CSR_HSTATEEN2       0x60E
+> > > > +#define CSR_HSTATEEN2H      0x61E
+> > > > +#define CSR_HSTATEEN3       0x60F
+> > > > +#define CSR_HSTATEEN3H      0x61F
+> > > > +
+> > > > /* Virtual CSRs */
+> > > > #define CSR_VSSTATUS        0x200
+> > > > #define CSR_VSIE            0x204
+> > > > @@ -304,6 +320,26 @@
+> > > > #define CSR_MENVCFG         0x30A
+> > > > #define CSR_MENVCFGH        0x31A
+> > > > 
+> > > > +/* Machine state CSRs */
+> > > > +#define CSR_MSTATEEN0       0x30C
+> > > > +#define CSR_MSTATEEN0H      0x31C
+> > > > +#define CSR_MSTATEEN1       0x30D
+> > > > +#define CSR_MSTATEEN1H      0x31D
+> > > > +#define CSR_MSTATEEN2       0x30E
+> > > > +#define CSR_MSTATEEN2H      0x31E
+> > > > +#define CSR_MSTATEEN3       0x30F
+> > > > +#define CSR_MSTATEEN3H      0x31F
+> > > > +
+> > > > +/* Common defines for all smstateen */
+> > > > +#define SMSTATEEN_MAX_COUNT 4
+> > > > +#define SMSTATEEN0_CS       0
+> > > > +#define SMSTATEEN0_FCSR     0
+> > > > +#define SMSTATEEN0_IMSIC    58
+> > > > +#define SMSTATEEN0_AIA      59
+> > > > +#define SMSTATEEN0_SVSLCT   60
+> > > > +#define SMSTATEEN0_HSENVCFG 62
+> > > > +#define SMSTATEEN_STATEN    63
+> > > > +
+> > > > /* Enhanced Physical Memory Protection (ePMP) */
+> > > > #define CSR_MSECCFG         0x747
+> > > > #define CSR_MSECCFGH        0x757
+> > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > > > index 409a209f14..324fefce59 100644
+> > > > --- a/target/riscv/csr.c
+> > > > +++ b/target/riscv/csr.c
+> > > > @@ -247,6 +247,42 @@ static RISCVException
+> > > > hmode32(CPURISCVState
+> > > *env, int csrno)
+> > > > }
+> > > > 
+> > > > +static RISCVException mstateen(CPURISCVState *env, int csrno)
+> > > > +{
+> > > > +    CPUState *cs = env_cpu(env);
+> > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > > > +
+> > > > +    if (!cpu->cfg.ext_smstateen) {
+> > > > +        return RISCV_EXCP_ILLEGAL_INST;
+> > > > +    }
+> > > > +
+> > > > +    return any(env, csrno);
+> > > > +}
+> > > > +
+> > > > +static RISCVException hstateen(CPURISCVState *env, int csrno)
+> > > > +{
+> > > > +    CPUState *cs = env_cpu(env);
+> > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > > > +
+> > > > +    if (!cpu->cfg.ext_smstateen) {
+> > > > +        return RISCV_EXCP_ILLEGAL_INST;
+> > > > +    }
+> > > > +
+> > > > +    return hmode(env, csrno);
+> > > > +}
+> > > > +
+> > > I think we should take the stateen bit(bit 63) for matching
+> > > mstateen
+> > > into consideration here.
+> > > Similar to following sstateen function.
+> > ok.
+> > 
+> > > > +static RISCVException sstateen(CPURISCVState *env, int csrno)
+> > > > +{
+> > > > +    CPUState *cs = env_cpu(env);
+> > > > +    RISCVCPU *cpu = RISCV_CPU(cs);
+> > > > +
+> > > > +    if (!cpu->cfg.ext_smstateen) {
+> > > > +        return RISCV_EXCP_ILLEGAL_INST;
+> > > > +    }
+> > > > +
+> > > > +    return smode(env, csrno);
+> > > > +}
+> > > > +
+> > > > /* Checks if PointerMasking registers could be accessed */
+> > > > static RISCVException pointer_masking(CPURISCVState *env, int
+> > > csrno)
+> > > > {
+> > > > @@ -1574,6 +1610,129 @@ static RISCVException
+> > > write_henvcfgh(CPURISCVState *env, int csrno,
+> > > >      return RISCV_EXCP_NONE;
+> > > > }
+> > > > 
+> > > > +static inline void write_smstateen(CPURISCVState *env,
+> > > > uint64_t
+> > > *reg,
+> > > > +                                   uint64_t wr_mask, uint64_t
+> > > new_val)
+> > > > +{
+> > > > +    *reg = (*reg & ~wr_mask) | (new_val & wr_mask);
+> > > > +}
+> > > > +
+> > > > +static RISCVException read_mstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                    target_ulong *val)
+> > > > +{
+> > > > +    *val = env->mstateen[csrno - CSR_MSTATEEN0];
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException write_mstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                     target_ulong new_val)
+> > > > +{
+> > > > +    uint64_t *reg;
+> > > > +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> > > > +
+> > > > +    reg = &env->mstateen[csrno - CSR_MSTATEEN0];
+> > > > +    write_smstateen(env, reg, wr_mask, new_val);
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException read_mstateenh(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                     target_ulong *val)
+> > > > +{
+> > > > +    *val = env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException write_mstateenh(CPURISCVState *env, int
+> > > csrno,
+> > > > +                                      target_ulong new_val)
+> > > > +{
+> > > > +    uint64_t *reg;
+> > > > +    uint64_t val;
+> > > > +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> > > > +
+> > > > +    reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
+> > > > +    val = (uint64_t)new_val << 32;
+> > > > +    val |= *reg & 0xFFFFFFFF;
+> > > > +    write_smstateen(env, reg, wr_mask, val);
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException read_hstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                    target_ulong *val)
+> > > > +{
+> > > > +    *val = env->hstateen[csrno - CSR_HSTATEEN0];
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > I think we should also take mstateen into consideration here just
+> > > like the following write function.
+> > > As the spec said, If we set certain bit in the matching mstateen
+> > > csr
+> > > to zero, the same bit in hstateen should be read-only zero.
+> > > However, writes to mstateen will not affect the value in matching
+> > > hstateen directly in current implementation,
+> > > so if we read hstateen just immediately after write zero to
+> > > certain
+> > > bit of mstateen, the same bit  read from hstateen may not be
+> > > zero.
+> > I need to check this but as per my understanding this it is the
+> > responsibility of the software to clear the corresponding
+> > hstateen/stateen bits.
+> 
+> I have sent a issue for how the hstateen/sstateen become read-only
+> zero  
+> for zero bits in mstateen:
+> 
+> https://github.com/riscv/riscv-state-enable/issues/9
 
+Thanks for the information. I think as per the dicussion on the above
+issue it looks like the current implementation is also valid.
+> 
+> Regards,
+> 
+> Weiwei Li
+> 
+> > > similar to read function of sstateen.
+> > > > +static RISCVException write_hstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                     target_ulong new_val)
+> > > > +{
+> > > > +    uint64_t *reg;
+> > > > +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> > > > +    int index = csrno - CSR_HSTATEEN0;
+> > > > +
+> > > > +    reg = &env->hstateen[index];
+> > > > +    wr_mask &= env->mstateen[index];
+> > > > +    write_smstateen(env, reg, wr_mask, new_val);
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException read_hstateenh(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                     target_ulong *val)
+> > > > +{
+> > > > +    *val = env->hstateen[csrno - CSR_HSTATEEN0H] >> 32;
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException write_hstateenh(CPURISCVState *env, int
+> > > csrno,
+> > > > +                                      target_ulong new_val)
+> > > > +{
+> > > > +    uint64_t *reg;
+> > > > +    uint64_t val;
+> > > > +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
+> > > > +    int index = csrno - CSR_HSTATEEN0H;
+> > > > +
+> > > > +    reg = &env->hstateen[index];
+> > > > +    val = (uint64_t)new_val << 32;
+> > > > +    val |= *reg & 0xFFFFFFFF;
+> > > > +    wr_mask &= env->mstateen[index];
+> > > > +
+> > > > +    write_smstateen(env, reg, wr_mask, val);
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException read_sstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                    target_ulong *val)
+> > > > +{
+> > > > +    *val = env->sstateen[csrno - CSR_SSTATEEN0];
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > +static RISCVException write_sstateen(CPURISCVState *env, int
+> > > > csrno,
+> > > > +                                     target_ulong new_val)
+> > > > +{
+> > > > +    uint64_t *reg;
+> > > > +    uint64_t wr_mask = 0;
+> > > > +    int index = csrno - CSR_SSTATEEN0;
+> > > > +    bool virt = riscv_cpu_virt_enabled(env);
+> > > > +
+> > > > +    reg = &env->sstateen[index];
+> > > > +    if (virt) {
+> > > > +        wr_mask &= env->mstateen[index];
+> > > > +    } else {
+> > > > +        wr_mask &= env->hstateen[index];
+> > > > +    }
+> > > Why this? I think hstateen works in virt mode, so this may be:
+> > > if (virt) {
+> > >    wr_mask &= env->mstateen[index] & env->hstateen[index];;
+> > > } else {
+> > >    wr_mask &= env->mstateen[index];
+> > > }
+> > > > +    write_smstateen(env, reg, wr_mask, new_val);
+> > > > +
+> > > > +    return RISCV_EXCP_NONE;
+> > > > +}
+> > > > +
+> > > > static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+> > > >                                  uint64_t *ret_val,
+> > > >                                  uint64_t new_val, uint64_t
+> > > > wr_mask)
+> > > > @@ -3441,6 +3600,57 @@ riscv_csr_operations
+> > > > csr_ops[CSR_TABLE_SIZE]
+> > > = {
+> > > >      [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh,
+> > > write_henvcfgh,
+> > > >                                            .min_priv_ver =
+> > > PRIV_VERSION_1_12_0 },
+> > > > +    /* Smstateen extension CSRs */
+> > > > +    [CSR_MSTATEEN0] = { "mstateen0", mstateen, read_mstateen,
+> > > write_mstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN0H] = { "mstateen0h", mstateen,
+> > > > read_mstateenh,
+> > > > +                          write_mstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN1] = { "mstateen1", mstateen, read_mstateen,
+> > > write_mstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > It seems unreasonable for mstateen1~3 to share the same
+> > > read/write
+> > > function with mstateen0 ,
+> > > since their field mask is different.
+> > > Similar to sstateen1~3 and hstateen1~3
+> > I will fix it in the next version.
+> > > Regards,
+> > > Weiwei Li
+> > > > +    [CSR_MSTATEEN1H] = { "mstateen1h", mstateen,
+> > > > read_mstateenh,
+> > > > +                          write_mstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN2] = { "mstateen2", mstateen, read_mstateen,
+> > > write_mstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN2H] = { "mstateen2h", mstateen,
+> > > > read_mstateenh,
+> > > > +                          write_mstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN3] = { "mstateen3", mstateen, read_mstateen,
+> > > write_mstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_MSTATEEN3H] = { "mstateen3h", mstateen,
+> > > > read_mstateenh,
+> > > > +                          write_mstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +
+> > > > +    [CSR_HSTATEEN0] = { "hstateen0", hstateen, read_hstateen,
+> > > write_hstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN0H] = { "hstateen0h", hstateen,
+> > > > read_hstateenh,
+> > > > +                          write_hstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN1] = { "hstateen1", hstateen, read_hstateen,
+> > > write_hstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN1H] = { "hstateen1h", hstateen,
+> > > > read_hstateenh,
+> > > > +                          write_hstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN2] = { "hstateen2", hstateen, read_hstateen,
+> > > write_hstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN2H] = { "hstateen2h", hstateen,
+> > > > read_hstateenh,
+> > > > +                          write_hstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN3] = { "hstateen3", hstateen, read_hstateen,
+> > > write_hstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_HSTATEEN3H] = { "hstateen3h", hstateen,
+> > > > read_hstateenh,
+> > > > +                          write_hstateenh,
+> > > > +                          .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +
+> > > > +    [CSR_SSTATEEN0] = { "sstateen0", sstateen, read_sstateen,
+> > > write_sstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_SSTATEEN1] = { "sstateen1", sstateen, read_sstateen,
+> > > write_sstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_SSTATEEN2] = { "sstateen2", sstateen, read_sstateen,
+> > > write_sstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > > +    [CSR_SSTATEEN3] = { "sstateen3", sstateen, read_sstateen,
+> > > write_sstateen,
+> > > > +                         .min_priv_ver = PRIV_VERSION_1_12_0
+> > > > },
+> > > >      /* Supervisor Trap Setup */
+> > > >      [CSR_SSTATUS]    = { "sstatus",    smode,
+> > > read_sstatus,    write_sstatus, NULL,
+> > > >                                                read_sstatus_i12
+> > > > 8
+> > >               },
+> > > > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > > > index 2a437b29a1..84a75dbb08 100644
+> > > > --- a/target/riscv/machine.c
+> > > > +++ b/target/riscv/machine.c
+> > > > @@ -262,6 +262,26 @@ static int riscv_cpu_post_load(void
+> > > > *opaque,
+> > > int version_id)
+> > > >      return 0;
+> > > > }
+> > > > 
+> > > > +static bool smstateen_needed(void *opaque)
+> > > > +{
+> > > > +    RISCVCPU *cpu = opaque;
+> > > > +
+> > > > +    return cpu->cfg.ext_smstateen;
+> > > > +}
+> > > > +
+> > > > +static const VMStateDescription vmstate_smstateen = {
+> > > > +    .name = "cpu/smtateen",
+> > > > +    .version_id = 1,
+> > > > +    .minimum_version_id = 1,
+> > > > +    .needed = smstateen_needed,
+> > > > +    .fields = (VMStateField[]) {
+> > > > +        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
+> > > > +        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
+> > > > +        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
+> > > > +        VMSTATE_END_OF_LIST()
+> > > > +    }
+> > > > +};
+> > > > +
+> > > > static bool envcfg_needed(void *opaque)
+> > > > {
+> > > >      RISCVCPU *cpu = opaque;
+> > > > @@ -347,6 +367,7 @@ const VMStateDescription vmstate_riscv_cpu
+> > > > = {
+> > > >          &vmstate_kvmtimer,
+> > > >          &vmstate_envcfg,
+> > > >          &vmstate_debug,
+> > > > +        &vmstate_smstateen,
+> > > >          NULL
+> > > >      }
+> > > > };
+> > > > -- 
+> > > > 2.25.1
+> > > > 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
--- PMM
 
