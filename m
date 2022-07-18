@@ -2,110 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EFB3577D74
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 10:27:30 +0200 (CEST)
-Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3ED6577D5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 10:19:25 +0200 (CEST)
+Received: from localhost ([::1]:51570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDM6C-0003fX-Uk
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 04:27:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56430)
+	id 1oDLyO-00010t-CY
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 04:19:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <NikunjAmritlal.Dadhania@amd.com>)
- id 1oDM2r-00021w-HH
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:24:01 -0400
-Received: from mail-mw2nam12on20620.outbound.protection.outlook.com
- ([2a01:111:f400:fe5a::620]:43113
- helo=NAM12-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDLwl-000817-Kv
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:17:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <NikunjAmritlal.Dadhania@amd.com>)
- id 1oDM2o-0006vd-RO
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:24:01 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=D+K0He9qrVdm/I4thSxw6JrmI7XTLLEBYLBQrymtjuciYE6XJtGxw6qZvElohRA2ASz2QwXDtj5/nUs/4QI3kfddqjnB+74RV+qeH9eFT0ms/krLVbiYtg3NcdoHE4rpth3qGx8v8i0oqYqfxkJxfP0IsC2hr6bigj6PydMuWADiRaJK1Xz5qx4q/c0g+vZJC0ZH4+13ILrKwn5xdYSY08N5vi96zKRmmm3JM5uiEUqCrjbG7WFg3h6uA6siGRBUMJy88PU+KdH4d4hAIhMYHmrJcoiVuFkVBPNc+NlT4TYSsb3o0YWxjjH8uC/amjRPd5TZbiMCIMFS91JNhW9Y/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VLdbsEXDhfr+6EDkkDgz28RPEMmgjvJcGFvScxtLU9Y=;
- b=W8S8DZGR7JpxX3mdbm1Q12JScywJSnrNNG+nfqSHX3jy0ANprYHPCo8ACPFQn9c+Fd2Ic7PcPDlUevp7vn68UQhApN203O1GUNMiuqXbC0mRkF7nfysdEg2MaxATRZnBhP6doFRk4d7RU0pwWgQVCDQmj0xYX78cBkvjBHFKW1zzHiyAcgM61UkSQUdo6ANw3F+izowto5cfdhePFHGmms2EafubpDc2mXaHlXswSEJrR28goupzfQ5scuuiK65FfOfoSR9C6L4r26TQGneSS9KGUUhK04dT/mXS+Kq09p2a5KXWydlfG8/Ny5blbfcdwvAm/b8xY3JgmMLvvmAbvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VLdbsEXDhfr+6EDkkDgz28RPEMmgjvJcGFvScxtLU9Y=;
- b=dNH3bvSXGHWIFjiKd/H3uTn5b4TwzNpwq1rEgEh4guiZ+xwHhl5Ui0P7mp/epGD5lX75E6J7p9+qprcEGDfS3kAncXxJl+vnBOxRBq3mnve/T4lzOv3P4xS/R7y/ukYlclfQpNOE6rs/CocCLvmL6D+/+12GManeaH9T/xhYYmA=
-Received: from DM5PR07CA0107.namprd07.prod.outlook.com (2603:10b6:4:ae::36) by
- DM6PR12MB2842.namprd12.prod.outlook.com (2603:10b6:5:4c::20) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5438.19; Mon, 18 Jul 2022 08:18:52 +0000
-Received: from DM6NAM11FT036.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:ae:cafe::87) by DM5PR07CA0107.outlook.office365.com
- (2603:10b6:4:ae::36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5417.22 via Frontend
- Transport; Mon, 18 Jul 2022 08:18:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT036.mail.protection.outlook.com (10.13.172.64) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5438.12 via Frontend Transport; Mon, 18 Jul 2022 08:18:51 +0000
-Received: from gomati.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 18 Jul
- 2022 03:18:20 -0500
-From: Nikunj A Dadhania <nikunj@amd.com>
-To: <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-CC: Vitaly Kuznetsov <vkuznets@redhat.com>, Sean Christopherson
- <sean.j.christopherson@intel.com>, <f4bug@amsat.org>,
- <Abraham.Shaju@amd.com>, <bharata@amd.com>, <nikunj@amd.com>
-Subject: [PATCH] x86: cpu: Error out if memory exceeds addressable range
-Date: Mon, 18 Jul 2022 13:47:34 +0530
-Message-ID: <20220718081734.135598-1-nikunj@amd.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDLwi-00062u-Cg
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:17:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658132259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lGs+HOtr8h/+b+0cEm+odV65VmWjPV8J+ziFWkCuL1Q=;
+ b=dtpZLcYQDHvZgCBY4Y2aZCLXDj5zol0QUfxGN0AEpx5V9KTywhhDoYfA5kUmwyHWiSkKgc
+ f4YT/EzpWICKmqRn8KPECeCer7PNUkS3ODWLS382eKC0RNMWPFK9xfUAhUWXm5A2c/WJbj
+ laoYTaLREXTtBMLqmYONvv+r6jM3fPg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-298-5u5X3vTQM8yeImnj9owWkw-1; Mon, 18 Jul 2022 04:17:38 -0400
+X-MC-Unique: 5u5X3vTQM8yeImnj9owWkw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ ay19-20020a05600c1e1300b003a315c2c1c0so2925448wmb.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 01:17:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=lGs+HOtr8h/+b+0cEm+odV65VmWjPV8J+ziFWkCuL1Q=;
+ b=Uokik7agQ5ibwxVT5+Lgwvfn51NS5pNNCx9TtMPxTU9hEzqCTWgBF91QWe9YSXyJ64
+ i/DgJYyczVZU0p/xTTJ25S7bF2nvC+PDUZt9h81n5mJ24JOMUKpkfz3fuk6Ks876VXbb
+ gIOaU6NvYHSzpCHriWmRITD2f94yBRM0D6ZAmnoGkWfK/onCSPjc+wJ89AxY4Oppt5PW
+ gssMtL4dSQAh2xhaV9C063TPD1zs2NyTrvATEpE7YBDhNoefF3e+jgzThEf2ZkfcQVAo
+ 03Xi9XBOjLMqY+JyfZT7UshZgL6T/A5J7yjYoFrib87K6mn8adV9z/4tR77MqxoVG0zR
+ a9xw==
+X-Gm-Message-State: AJIora/GYVTKPT89hBra4ipadkMeK5fMYDkoDf1bEt7qc4fDw/9vbAg+
+ qFB3MyG38SaE6Jk1G2dBRc7nBwaMB8JSnLCf6Beb9Ap6Ux3rfVRhf9RuAh5NvbcE8EIsRHQr4Sk
+ jMo8lewY1/ps7+Xc=
+X-Received: by 2002:a05:6000:15ca:b0:21d:a72d:beb8 with SMTP id
+ y10-20020a05600015ca00b0021da72dbeb8mr21696745wry.624.1658132257082; 
+ Mon, 18 Jul 2022 01:17:37 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v1FQcMurFQGo/CcrD/PJaMjPer/RU5Jjtpd1X+gbLqt91rWyiadHXUygRqSGNJV9srB5Nxug==
+X-Received: by 2002:a05:6000:15ca:b0:21d:a72d:beb8 with SMTP id
+ y10-20020a05600015ca00b0021da72dbeb8mr21696719wry.624.1658132256729; 
+ Mon, 18 Jul 2022 01:17:36 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-177-121.web.vodafone.de.
+ [109.43.177.121]) by smtp.gmail.com with ESMTPSA id
+ o20-20020a05600c511400b003a30fbde91dsm9740398wms.20.2022.07.18.01.17.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jul 2022 01:17:36 -0700 (PDT)
+Message-ID: <07a62298-89e9-2d11-3d3b-441c4b7a96bc@redhat.com>
+Date: Mon, 18 Jul 2022 10:17:35 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5be95755-897f-44cd-3240-08da6896261f
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2842:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: eOlP3QHc3q/jbehsu6RkOHsgZGUXqmOTkIHJUsPOirOJFhP3lODfc7bZk3wjdOwc6IHyRuzbv7HRXJwfwSsAtRsPQNA0K2TDHKy33etLUcJZC3WYuggTzPXDXsoeuBj0FCrnrBt5t1njUh+eNEkLcMH3x6Y4WP6MIQ/++Z9Uz1+AfuATBlWkkvyeE/DNYbRdakH2PaP/sK8eiLW3PL39Gt1hAQw7hbBLUd66ttSnME3p7Pto5ujjB5GcdaHQ9tk5GQpy4lCPnjI9i3hg6Sr0H7DU3E0DlcnNdTVa2q/vBUs6seiwi4MNH6KXopGQ38QwpG9fdeajU4dlhRdRWJhciAb50wQWb1pJIMwmAV+LClHS2ITa7kUxUA11jKyfheDWhqTtBKTJSnk1sI5HoGeGY7ubw1KLFAMrN3CeCWSD0Mg753JEqyuf3v26D45Cv/RdU5rsXFWpk3F4C8fsQQpGfzVS03tnBBjbb25b4bxAb547GLEZmDIoZ35atMezmefRXo+6LKKxj7J85TFKontNG0f2Z2dGyGoWHERfDVNhuKmP61XHbHGmZ9X0E1O43D0Mm2l5axrvye55iMYIjiBVhCEs+fS8AoX+YdUYUh6E2ywfkzCUbNi1TWLl3KrE6aIxwYsix4m6Wma7zUy/Y0igQ73N0e8fmlES5ynXhWn1fFEJA/KrVf5UtE50suUKiQY2wBorrONu8av90w3I5Jydx+DXajaOHz+++NLR86JdJfKqncHFLH/J/1Nb5zVC2XhIIpV/wXvtfWcuP5tawH2SFe4kFZqYi/Sm96oV8wB3j5ejOQ4GR1D+nU4g/XFuDTKCnSKllu4MlgZYCfVhzsXZRRyH0gyxRpMKSsZ2xLdeilc=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(346002)(376002)(39860400002)(396003)(40470700004)(36840700001)(46966006)(356005)(40480700001)(82310400005)(36860700001)(82740400003)(36756003)(316002)(83380400001)(16526019)(186003)(426003)(47076005)(336012)(478600001)(5660300002)(6666004)(2616005)(70586007)(2906002)(41300700001)(70206006)(1076003)(8676002)(4326008)(26005)(40460700003)(7696005)(8936002)(81166007)(54906003)(110136005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 08:18:51.9214 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5be95755-897f-44cd-3240-08da6896261f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT036.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2842
-Received-SPF: softfail client-ip=2a01:111:f400:fe5a::620;
- envelope-from=NikunjAmritlal.Dadhania@amd.com;
- helo=NAM12-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v4 00/12] Improve reliability of VM tests
+Content-Language: en-US
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: Hanna Reitz <hreitz@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, Daniel Berrange <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20220708153503.18864-1-jsnow@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220708153503.18864-1-jsnow@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -121,48 +106,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently it is possible to start a guest with memory that is beyond
-the addressable range of CPU and QEMU does not even warn about it.
-The default phys_bits is 40 and can address 1TB. However it allows to
-start a guest with greater than 1TB memory.
+On 08/07/2022 17.34, John Snow wrote:
+> Note: patches 10-12 are included for testing simplicity, they shouldn't
+> be merged. They will be included in a forthcoming block PR.
+> 
+> V4:
+> 
+> - Addressed concern by Marc-Andre in patch 01.
+> - Squashed Ubuntu patches (rth)
+> 
+> This patch series attempts to improve the reliability of several of the
+> VM test targets. In particular, both CentOS 8 tests are non-functional
+> because CentOS 8 was EOL at the beginning of this calendar year, with
+> repositories and mirrors going offline.
+> 
+> I also remove the ubuntu.i386 test because we no longer support Ubuntu
+> 18.04 nor do we have explicit need of an i386 build test.
+> 
+> After this series, I am able to successfully run every VM target on an
+> x86_64 host, except:
+> 
+> - ubuntu.aarch64: Hangs often during testing, see below.
+> - centos.aarch64: Hangs often during testing, see below.
+> - haiku.x86_64: Build failures not addressed by this series, see
+>    https://lists.gnu.org/archive/html/qemu-devel/2022-06/msg02103.html
+> 
+> The unit tests that I see fail most often under aarch64 are:
+> 
+> - virtio-net-failover: Seems to like to hang on openbsd
+> - migration-test: Tends to hang under aarch64 tcg
+> 
+> Future work (next version? next series?);
+> 
+> - Try to get centos.aarch64 working reliably under TCG
+> - Upgrade ubuntu.aarch64 to 20.04 after fixing centos.aarch64
+> - Fix the Haiku build test, if possible.
+> - Ensure I can reliably run and pass "make vm-build-all".
+>    (Remove VMs from this recipe if necessary.)
 
-Prevent this by erroring out in such a scenario.
+Not sure whether it's related to your patches, but when testing these I just 
+got an error while running 'vm-build-openbsd' :
 
-Reported-by: Shaju Abraham <Abraham.Shaju@amd.com>
-Signed-off-by: Nikunj A Dadhania <nikunj@amd.com>
----
- target/i386/cpu.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+     VM-BUILD openbsd
+fatal: not a valid object name:
+failed to archive qemu
+Failed to prepare guest environment
+Traceback (most recent call last):
+   File "/home/thuth/devel/qemu/tests/vm/basevm.py", line 641, in main
+     vm.add_source_dir(args.build_qemu)
+   File "/home/thuth/devel/qemu/tests/vm/basevm.py", line 277, in add_source_dir
+     stdout=self._stdout, stderr=self._stderr)
+   File "/usr/lib64/python3.6/subprocess.py", line 311, in check_call
+     raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['./scripts/archive-source.sh', 
+'/home/thuth/tmp/qemu-build/vm-test-rm_z92hq.tmp/data-44e42.tar']' returned 
+non-zero exit status 1.
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6a57ef13af..1afbdbac7d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6376,6 +6376,7 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
- 
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-+    MachineState *machine = MACHINE(qdev_get_machine());
-     CPUState *cs = CPU(dev);
-     X86CPU *cpu = X86_CPU(dev);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(dev);
-@@ -6541,6 +6542,15 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+    if (BIT_ULL(cpu->phys_bits) < machine->maxram_size) {
-+        error_setg(&local_err, "cannot setup guest memory: "
-+                   "%s memory(%lu MiB) exceeds addressable limit(%llu MiB)",
-+                   machine->maxram_size == machine->ram_size ? "" : "max",
-+                   machine->maxram_size / MiB,
-+                   BIT_ULL(cpu->phys_bits) / MiB);
-+        goto out;
-+    }
-+
-     /* Cache information initialization */
-     if (!cpu->legacy_cache) {
-         if (!xcc->model || !xcc->model->cpudef->cache_info) {
--- 
-2.32.0
+The error did not occur again when running the command again, though.
+
+  Thomas
 
 
