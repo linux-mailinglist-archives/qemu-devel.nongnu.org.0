@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166D0578179
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:02:37 +0200 (CEST)
-Received: from localhost ([::1]:33620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A325781D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:12:57 +0200 (CEST)
+Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPSO-00045X-7U
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45922)
+	id 1oDPcO-0002lX-98
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPL7-0001cp-Io
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:05 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:58953)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPL5-0006AD-PY
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1658145304; x=1689681304;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=62lc4Ir3nkRJibiUY86ZsR1EcD5JRu+YdTFKmQCKGNE=;
- b=o3c9s/SBcwbwO9LiYZSHC538Wl9jcvAsczQTBLRh2i42WdS84YtxhTqm
- 4O5xBLYDGG0bwNSbO0OuRorbsJ8vUMOzOD00A/aW+rAfXlo6a782uRL1x
- 9ws/GFj9kYY13zA+BSBvpGrVtsqKMGEjc2PgeIXEj0W57VoLpA/WzPFZ7 w=;
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
- by alexa-out.qualcomm.com with ESMTP; 18 Jul 2022 04:55:02 -0700
-X-QCInternal: smtphost
-Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 04:55:01 -0700
-Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
- nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:55:01 -0700
-Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
- nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:55:00 -0700
-From: Tobias Roehmel <quic_trohmel@quicinc.com>
-To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
- <quic_trohmel@quicinc.com>
-Subject: [PATCH v2 9/9] target/arm: Add ARM Cortex-R52 cpu
-Date: Mon, 18 Jul 2022 13:54:33 +0200
-Message-ID: <20220718115433.802-10-quic_trohmel@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220718115433.802-1-quic_trohmel@quicinc.com>
-References: <20220718115433.802-1-quic_trohmel@quicinc.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDPLA-0001hF-A8
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:08 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:42992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDPL7-0006CL-Hz
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:06 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id c131so19599306ybf.9
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X+BmcDDXd/8gm8VkYyN+ipQkPc/1T3GGYMz8aERPj5k=;
+ b=Fy3DEOMOubiyjEoIy78gAZMICs8k8nDDA4e3aYMlUycJEjKTrkQzSBsHO7nN93JE4p
+ TbqHWcKqUL5v9wVhHrF1lBdzpKtJNgvtMhF0nE+U7snDAlmtXBharRiEbjzcc9S938kf
+ x04dsGZZz9fkC1rvA3V64ctPFWeFZnmapbpghQFCgeJuCOKO8pgvGMVVIsG/0xr+fbO4
+ Gqgb61uCLGi9f0DzYvPG+BgaMrX3dcQFdLBIXaOiOYITvqKME3Qfi5ewr8rvE1fcrrqS
+ pcb699k6VsVyhGElbxHTNtVFDY66m+ybzlsoK/7mYzRiGjNffbRlvoJk71iCrBQD4qfp
+ 5J4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X+BmcDDXd/8gm8VkYyN+ipQkPc/1T3GGYMz8aERPj5k=;
+ b=WbtL7lpLE+QSmYwFfOZEtOOIJk2lknPom0h1JLl8lpnE0tukYqzZGSwKlaQO947fR6
+ R3jzvD7dfKSJvp43K0He19Rfje5AiVbca7SPlFcui7fw8TXAV1t04z0e0zoz9pMQLxd4
+ Y9s/KVbYNg2VCrxrZU1nwi1bLvu256wk39baj89RC7MgelA990V2/GmUDqbOtSOablUq
+ yqXjvVE5vhtIgVTMdJh3CHQkd6ESYoVVBH9SgleEaV4Cx+MwodbpqnFmRAkMy2Ms9iZH
+ tomJZybReLbfhOJVimarPaaSAazSTOJd10hqvgf+joWj6vXXMLRVi7XyAB/EbuSWSbSo
+ kHDA==
+X-Gm-Message-State: AJIora8vXXVpxgf+UL/we0EsLCP1IeUsYjAQgj3tukgsgVauFGRXg90l
+ 0O/5K13e3z+6xuUQkDs1mtqVlXCAkJU+AdXQ3XWHd/g6gKg=
+X-Google-Smtp-Source: AGRyM1vRm7saeeghTptduLkTT6mD1zZ645OSEUSAn6FZjRnoJlfqa6FVTMDw+rzHdcCZh9imNYxH45RqxoLHs2E/ffI=
+X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
+ v85-20020a252f58000000b0066ecf9a06a2mr28953650ybv.193.1658145304361; Mon, 18
+ Jul 2022 04:55:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20220708154700.18682-1-richard.henderson@linaro.org>
+ <20220708154700.18682-24-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-24-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 12:54:53 +0100
+Message-ID: <CAFEAcA9oPWmq7pAABd_22BRf1E1SkOVGFTjcXVdYw0PiuwMveQ@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 23/29] Standardize reginfo_dump_mismatch printing
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-Received-SPF: pass client-ip=129.46.98.28;
- envelope-from=quic_trohmel@quicinc.com; helo=alexa-out.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,76 +82,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tobias Röhmel <quic_trohmel@quicinc.com>
+On Fri, 8 Jul 2022 at 17:39, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Hoist the "master vs apprentice" label to apprentice(), since
+> we will want different labels for dumping.  Remove all of the
+> "mismatch" text from reginfo_dump_mismatch -- just print "vs".
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-All constants are taken from the ARM Cortex-R52 Processor TRM Revision: r1p3
+> diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
+> index 9899b36..e96dc48 100644
+> --- a/risu_reginfo_ppc64.c
+> +++ b/risu_reginfo_ppc64.c
+> @@ -27,6 +27,15 @@
+>  const struct option * const arch_long_opts;
+>  const char * const arch_extra_help;
+>
+> +static const char * const greg_names[NGREG] = {
+> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
+> +    "r8",  "r9", "r10", "r11", "r12", "r13", "r14", "r15",
+> +   "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
+> +   "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+> +   [XER] = "xer",
+> +   [CCR] = "ccr",
+> +};
+> +
+>  void process_arch_opt(int opt, const char *arg)
+>  {
+>      abort();
+> @@ -147,35 +156,21 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
+>      return !ferror(f);
+>  }
+>
+> -int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
+> +void reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
+>  {
+>      int i;
+> -    for (i = 0; i < 32; i++) {
+> -        if (i == 1 || i == 13) {
+> -            continue;
+> +
+> +    for (i = 0; i < NGREG; i++) {
+> +        if (greg_names[i] != NULL && m->gregs[i] != a->gregs[i]) {
+> +            fprintf(f, "%6s: %016lx vs %016lx\n",
+> +                    greg_names[i], m->gregs[i], a->gregs[i]);
+>          }
 
-Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
----
- target/arm/cpu_tcg.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+This used to skip r1 and r13, and now it does not.
 
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index b751a19c8a..e0f445dc91 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -843,6 +843,47 @@ static void cortex_r5_initfn(Object *obj)
-     define_arm_cp_regs(cpu, cortexr5_cp_reginfo);
- }
- 
-+static void cortex_r52_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    set_feature(&cpu->env, ARM_FEATURE_V8_R);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_PMSA);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    cpu->midr = 0x411fd133; /* r1p3 */
-+    cpu->revidr = 0x00000000;
-+    cpu->reset_fpsid = 0x41034023;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x12111111;
-+    cpu->isar.mvfr2 = 0x00000043;
-+    cpu->ctr = 0x8144c004;
-+    cpu->reset_sctlr = 0x30c50838;
-+    cpu->isar.id_pfr0 = 0x00000131;
-+    cpu->isar.id_pfr1 = 0x10111001;
-+    cpu->isar.id_dfr0 = 0x03010006;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x00211040;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01200000;
-+    cpu->isar.id_mmfr3 = 0xf0102211;
-+    cpu->isar.id_mmfr4 = 0x00000010;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232142;
-+    cpu->isar.id_isar3 = 0x01112131;
-+    cpu->isar.id_isar4 = 0x00010142;
-+    cpu->isar.id_isar5 = 0x00010001;
-+    cpu->isar.dbgdidr = 0x77168000;
-+    cpu->clidr = (1 << 27) | (1 << 24) | 0x3;
-+    cpu->ccsidr[0] = 0x700fe01a; /* 32KB L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32KB L1 icache */
-+
-+    cpu->pmsav7_dregion = 16;
-+}
-+
- static void cortex_r5f_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1149,6 +1190,7 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-r5",   .initfn = cortex_r5_initfn },
-     { .name = "cortex-r5f",  .initfn = cortex_r5f_initfn },
-+    { .name = "cortex-r52",  .initfn = cortex_r52_initfn },
-     { .name = "ti925t",      .initfn = ti925t_initfn },
-     { .name = "sa1100",      .initfn = sa1100_initfn },
-     { .name = "sa1110",      .initfn = sa1110_initfn },
--- 
-2.25.1
+> -
+> -        if (m->gregs[i] != a->gregs[i]) {
+> -            fprintf(f, "Mismatch: Register r%d\n", i);
+> -            fprintf(f, "master: [%lx] - apprentice: [%lx]\n",
+> -                    m->gregs[i], a->gregs[i]);
+> -        }
+> -    }
+> -
+> -    if (m->gregs[XER] != a->gregs[XER]) {
+> -        fprintf(f, "Mismatch: XER\n");
+> -        fprintf(f, "m: [%lx] != a: [%lx]\n", m->gregs[XER], a->gregs[XER]);
+> -    }
+> -
+> -    if (m->gregs[CCR] != a->gregs[CCR]) {
+> -        fprintf(f, "Mismatch: Cond. Register\n");
+> -        fprintf(f, "m: [%lx] != a: [%lx]\n", m->gregs[CCR], a->gregs[CCR]);
+>      }
+>
+>      for (i = 0; i < 32; i++) {
+>          if (m->fpregs[i] != a->fpregs[i]) {
+> -            fprintf(f, "Mismatch: Register f%d\n", i);
+> -            fprintf(f, "m: [%016lx] != a: [%016lx]\n",
+> +            fprintf(f, "%*s%d: %016lx vs %016lx\n",
+> +                    6 - (i < 10 ? 1 : 2), "f", i,
+>                      m->fpregs[i], a->fpregs[i]);
+>          }
+>      }
 
+thanks
+-- PMM
 
