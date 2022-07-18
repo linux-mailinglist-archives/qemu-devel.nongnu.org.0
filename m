@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C035E57851A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:16:04 +0200 (CEST)
-Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 345C0578535
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:20:34 +0200 (CEST)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRXW-0004nm-Rq
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:16:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54336)
+	id 1oDRbt-0002JO-3c
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:20:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRSI-00018v-Nz
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:10:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60511)
+ id 1oDRUf-0006zO-A3
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:13:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40181)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRSE-0004n7-Sq
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:10:36 -0400
+ id 1oDRUc-000587-Hw
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:13:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658153434;
+ s=mimecast20190719; t=1658153581;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B9q1k9Gv9yic6Wp9wCsHzg+dbpjY+8XdBKWECT51bI8=;
- b=a3bEdd8owMQp/M6juJZQ5kcc0NZfYKLkN94Q7lbw4GtbaStptq6hXtJg80OlroTYAQdBSp
- 8YsN17/qnn70ibdL1Yb5kVsdKeLAyrjmBD4wH0tJeqguiIJvVzR7Ru88cvlJlubcRvu5a6
- hmyWSgPtIeTIivThvrWG7+Jh61/cfh4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QG3J6JARrq24FEIRWZXtH9zbwyv/aLPWNaX5d5dsdJY=;
+ b=CWp+Sayn9KJ9bh7yV0LUrFfo4ciemx8a1lCB2xjS62UIzarrKhRaIhMWQ3JooaTOPjoOeK
+ DTgr5+83QgxaFgEvy3HvsM4GFnb5xhFf2v1viAqzfZER4lRae1smqUXHbfrxGx0AVAU0CW
+ m5nRrRZY/tNfZxUVS7w26oJV4y2Ol5w=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-595-_IG4QSf8MniGzM8uuoEZoA-1; Mon, 18 Jul 2022 10:10:27 -0400
-X-MC-Unique: _IG4QSf8MniGzM8uuoEZoA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f9-20020a056402354900b0043a902b7452so7919120edd.13
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:10:27 -0700 (PDT)
+ us-mta-487-xvv83aENM3S3VVhWZ99Cvg-1; Mon, 18 Jul 2022 10:13:00 -0400
+X-MC-Unique: xvv83aENM3S3VVhWZ99Cvg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s17-20020a056402521100b0043ade613038so8026141edd.17
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:13:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B9q1k9Gv9yic6Wp9wCsHzg+dbpjY+8XdBKWECT51bI8=;
- b=ZGI9/Y3sceZgS95lgA05c84Z2CV1xFho5wpeD0NdG3A8qp9q21jEyyZQX2yBUp9vCM
- N8kotKSPT2ovTvMiPJFc5LYCm+uRCQMF/8MloM3pYkf7M7SiCTQ8wy9VNhbEjNEu4S23
- nDfvocaI2Ogp4mtkpnvGuTu0CgbNQVA0WurBPlgWDN3pjTZNP9cxUpexMRXd4jZ/P0Fr
- dW4wIj1VBNp+Jz6/n9dKWSJjvdsvAEQX/OROdWq9gxS+9LylzPdTLgyNUMmt/7ppaf6l
- /oqWKY8Nv4qvC2LrM3pLgxDfDnqddodZwnkzqhG2Ww0Hrvzg7ou453ISj2VDpRCeKKXd
- 8Wlg==
-X-Gm-Message-State: AJIora92TUG3YvrTojRm+vyXRfpmow0ysplAgsn73kuJj6uVqbXXS4+c
- F/rek+Frw9lwwLxx4QnHTHxUHt0WQtUUl0fAouiPUEI+WhdYfFWxp0BPtuclbm5am+2TcdNxU30
- x/bdVR06sjesjuAI=
-X-Received: by 2002:aa7:c0c4:0:b0:43a:20cf:3c68 with SMTP id
- j4-20020aa7c0c4000000b0043a20cf3c68mr37688033edp.172.1658153425911; 
- Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u2BTQr3f93kLudtkvZN6TwikINbPbowVmY+Z+xemvT2MpvqKrA2+Chh2emhNdupLS/jZ8Y9A==
-X-Received: by 2002:aa7:c0c4:0:b0:43a:20cf:3c68 with SMTP id
- j4-20020aa7c0c4000000b0043a20cf3c68mr37688004edp.172.1658153425716; 
- Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
+ bh=QG3J6JARrq24FEIRWZXtH9zbwyv/aLPWNaX5d5dsdJY=;
+ b=tHUK4JZyVIRGL1nbkaNEL5MHDdREL1JyQOTx5MXL/4I8aqiAkb1ZsLEiab6gvDqfkq
+ 8Mq0yaDjaGNRpnTPLxrTizNGs9hDBQYMcnttbwwQEcTQiPpzk6HayWUmqUsj/pdQmzjJ
+ Y2vcOJ3fyaLE3CpWIeFuGgVarGstsb/WP/WaMucP+LiVsHwXGQIqb0MiJO/G+ijTZ9Ww
+ KQEnBG+32kRGXdBeCNF6Sc2Q9W8A0xSBNpkLE99cgY2GZv9p209bZ+pjTWpkyRtab7qX
+ Qmy/BQToSMEnC0NSJfIr5NnYpMhnJez6Xi3B1P0u1YFLAAladtxOBVy7+xFOOvFJmIVZ
+ HewA==
+X-Gm-Message-State: AJIora9TiawPGnnzfhC0nP/3+/eTFGU4FXIIRNZqV8sbDnIUPhqfxQ0Z
+ GNSgkd1a8Ecv6dadCrZo7vf765XAEG3M1L9SOhJ0n7Qsms6pDhiVkS/YJHFfL6y7+y9/C3jddGx
+ 3hAwTKTMu25a6QxE=
+X-Received: by 2002:a17:907:94d1:b0:72f:10c:bb3c with SMTP id
+ dn17-20020a17090794d100b0072f010cbb3cmr14632954ejc.532.1658153579398; 
+ Mon, 18 Jul 2022 07:12:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u/v5K1wH0AJSHNKBoTLLOeEltng4T3QOW/1aQ5/0uCIqjvB/9SKOCbCmtLWkVSVX9ZCyk1+g==
+X-Received: by 2002:a17:907:94d1:b0:72f:10c:bb3c with SMTP id
+ dn17-20020a17090794d100b0072f010cbb3cmr14632930ejc.532.1658153579211; 
+ Mon, 18 Jul 2022 07:12:59 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- r24-20020aa7da18000000b0043ad162b5e3sm8652759eds.18.2022.07.18.07.10.24
+ z13-20020aa7d40d000000b0043adc6552d6sm8594300edq.20.2022.07.18.07.12.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
-Date: Mon, 18 Jul 2022 16:10:24 +0200
+ Mon, 18 Jul 2022 07:12:58 -0700 (PDT)
+Date: Mon, 18 Jul 2022 16:12:57 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Hesham Almatary <hesham.almatary@huawei.com>
 Cc: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
@@ -71,11 +71,11 @@ Cc: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
  <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
  <wangyanan55@huawei.com>, <marcel.apfelbaum@gmail.com>,
  <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, <mst@redhat.com>
-Subject: Re: [PATCH 5/8] tests: Add HMAT AArch64/virt empty table files
-Message-ID: <20220718161024.7e6cf244@redhat.com>
-In-Reply-To: <20220711104436.8363-6-hesham.almatary@huawei.com>
+Subject: Re: [PATCH 6/8] hw/arm/virt: Enable HMAT on arm virt machine
+Message-ID: <20220718161257.7bc16d9c@redhat.com>
+In-Reply-To: <20220711104436.8363-7-hesham.almatary@huawei.com>
 References: <20220711104436.8363-1-hesham.almatary@huawei.com>
- <20220711104436.8363-6-hesham.almatary@huawei.com>
+ <20220711104436.8363-7-hesham.almatary@huawei.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -104,47 +104,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 11:44:33 +0100
+On Mon, 11 Jul 2022 11:44:34 +0100
 Hesham Almatary <hesham.almatary@huawei.com> wrote:
 
-> Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-> ---
->  tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
->  tests/data/acpi/virt/FACP.acpihmatvirt      | 0
->  tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
->  tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
->  tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
->  5 files changed, 4 insertions(+)
->  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/FACP.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+> From: Xiang Chen <chenxiang66@hisilicon.com>
 > 
-> diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
-> new file mode 100644
-> index 0000000000..e69de29bb2
+> Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+> HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+> 
+> Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 
-> diff --git a/tests/data/acpi/virt/FACP.acpihmatvirt b/tests/data/acpi/virt/FACP.acpihmatvirt
-probably the same as 4/8
-include variant table only if it differs from default one
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
-> new file mode 100644
-> index 0000000000..e69de29bb2
-> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-> index dfb8523c8b..44594cae59 100644
-> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> @@ -1 +1,5 @@
->  /* List of comma-separated changed AML files to ignore */
-> +"tests/data/acpi/virt/DSDT.acpihmatvirt",
-> +"tests/data/acpi/virt/FACP.acpihmatvirt",
-> +"tests/data/acpi/virt/HMAT.acpihmatvirt",
-> +"tests/data/acpi/virt/SRAT.acpihmatvirt",
+> ---
+>  hw/arm/Kconfig           | 1 +
+>  hw/arm/virt-acpi-build.c | 7 +++++++
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 15fa79afd3..17fcde8e1c 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -30,6 +30,7 @@ config ARM_VIRT
+>      select ACPI_VIOT
+>      select VIRTIO_MEM_SUPPORTED
+>      select ACPI_CXL
+> +    select ACPI_HMAT
+>  
+>  config CHEETAH
+>      bool
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 449fab0080..f19b55e486 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -42,6 +42,7 @@
+>  #include "hw/acpi/memory_hotplug.h"
+>  #include "hw/acpi/generic_event_device.h"
+>  #include "hw/acpi/tpm.h"
+> +#include "hw/acpi/hmat.h"
+>  #include "hw/pci/pcie_host.h"
+>  #include "hw/pci/pci.h"
+>  #include "hw/pci/pci_bus.h"
+> @@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>              build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+>                         vms->oem_table_id);
+>          }
+> +
+> +        if (ms->numa_state->hmat_enabled) {
+> +            acpi_add_table(table_offsets, tables_blob);
+> +            build_hmat(tables_blob, tables->linker, ms->numa_state,
+> +                       vms->oem_id, vms->oem_table_id);
+> +        }
+>      }
+>  
+>      if (ms->nvdimms_state->is_enabled) {
 
 
