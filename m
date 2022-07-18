@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4360A5785A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:41:32 +0200 (CEST)
-Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C035E57851A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:16:04 +0200 (CEST)
+Received: from localhost ([::1]:41476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRwB-0004Zb-CH
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:41:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
+	id 1oDRXW-0004nm-Rq
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:16:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRQA-0007Fe-Ik
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:08:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24450)
+ id 1oDRSI-00018v-Nz
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:10:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRQ9-0004Sd-8M
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:08:26 -0400
+ id 1oDRSE-0004n7-Sq
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:10:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658153304;
+ s=mimecast20190719; t=1658153434;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fjBX/M3VUQYW/3IstOcq0FchP7CfVgdwV5UVREED5xA=;
- b=CZhoiBwIc2h7jZcvr/GkdLiQmAEMDAYTVersHMPjCwkJkH94we2ofRQa5p92A8M65aJLPs
- aURiX96EflRm+awlXSCkcECtsaszP2yKiJwr9t4OUm2CVvfkXKkt70u9bqUVrGpB6JJQER
- /EupSvR7LaHf6t5kP0QBPIr7oV+SiFU=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=B9q1k9Gv9yic6Wp9wCsHzg+dbpjY+8XdBKWECT51bI8=;
+ b=a3bEdd8owMQp/M6juJZQ5kcc0NZfYKLkN94Q7lbw4GtbaStptq6hXtJg80OlroTYAQdBSp
+ 8YsN17/qnn70ibdL1Yb5kVsdKeLAyrjmBD4wH0tJeqguiIJvVzR7Ru88cvlJlubcRvu5a6
+ hmyWSgPtIeTIivThvrWG7+Jh61/cfh4=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-300-qbWly9n4OLecbBO-3YWKkQ-1; Mon, 18 Jul 2022 10:08:23 -0400
-X-MC-Unique: qbWly9n4OLecbBO-3YWKkQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- w15-20020a056402268f00b0043ac600a6bcso7900344edd.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:08:23 -0700 (PDT)
+ us-mta-595-_IG4QSf8MniGzM8uuoEZoA-1; Mon, 18 Jul 2022 10:10:27 -0400
+X-MC-Unique: _IG4QSf8MniGzM8uuoEZoA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f9-20020a056402354900b0043a902b7452so7919120edd.13
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:10:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fjBX/M3VUQYW/3IstOcq0FchP7CfVgdwV5UVREED5xA=;
- b=W8xjVDWCx7TBpJP0Hb/UspPwWpMY3ilKpOjSBOhJ3rKWS5bJCQemxVSZuo+RU9WSTo
- 8g+0iJjBjFGjReYOqDBoXod0GTsKcxfhIpHJzhhRivfXSrhTnBEt+P+7SN/BDf1/ZCIw
- GTn4+74RzL79FAWFlPOWt5rZOq4VBLr/a0QPcW8wJYhlykwW5kTXb7HCSAakP+EC11xx
- jG+63LFbAS7QqBjz6LjCoQTini6SzTRZirQYwQMrHaf5c+SuqjLRNqfEa9DcZgXBXTZT
- aHEGER6knr69qOlAAopJNZISWGetBGont605Y8lOqNmqxCjBlJWHP2o1Osuz3B9q97w3
- tNag==
-X-Gm-Message-State: AJIora+ogUdUfYm/RF3uwW3HhyfpM/hKGEWeyvmVbytxO8Ma3AxzUYko
- QkR+H1Vz2XlKyh2YGvzJjF7R0gnSuQKTPLg1LYfk0G17oqSrAbiuXtVEPqxvw0igSv7znaW3Y4B
- y7Fx6q+i16sud3lo=
-X-Received: by 2002:a05:6402:51ce:b0:43a:d409:b3e8 with SMTP id
- r14-20020a05640251ce00b0043ad409b3e8mr36889869edd.166.1658153287100; 
- Mon, 18 Jul 2022 07:08:07 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v6rRvT78ot8W7xBOhot9wJxQX6OlxoT+9LhLj0gLqiSrzLlxPObp4GsceKIszB4I0Oe/D0ww==
-X-Received: by 2002:a05:6402:51ce:b0:43a:d409:b3e8 with SMTP id
- r14-20020a05640251ce00b0043ad409b3e8mr36889638edd.166.1658153284788; 
- Mon, 18 Jul 2022 07:08:04 -0700 (PDT)
+ bh=B9q1k9Gv9yic6Wp9wCsHzg+dbpjY+8XdBKWECT51bI8=;
+ b=ZGI9/Y3sceZgS95lgA05c84Z2CV1xFho5wpeD0NdG3A8qp9q21jEyyZQX2yBUp9vCM
+ N8kotKSPT2ovTvMiPJFc5LYCm+uRCQMF/8MloM3pYkf7M7SiCTQ8wy9VNhbEjNEu4S23
+ nDfvocaI2Ogp4mtkpnvGuTu0CgbNQVA0WurBPlgWDN3pjTZNP9cxUpexMRXd4jZ/P0Fr
+ dW4wIj1VBNp+Jz6/n9dKWSJjvdsvAEQX/OROdWq9gxS+9LylzPdTLgyNUMmt/7ppaf6l
+ /oqWKY8Nv4qvC2LrM3pLgxDfDnqddodZwnkzqhG2Ww0Hrvzg7ou453ISj2VDpRCeKKXd
+ 8Wlg==
+X-Gm-Message-State: AJIora92TUG3YvrTojRm+vyXRfpmow0ysplAgsn73kuJj6uVqbXXS4+c
+ F/rek+Frw9lwwLxx4QnHTHxUHt0WQtUUl0fAouiPUEI+WhdYfFWxp0BPtuclbm5am+2TcdNxU30
+ x/bdVR06sjesjuAI=
+X-Received: by 2002:aa7:c0c4:0:b0:43a:20cf:3c68 with SMTP id
+ j4-20020aa7c0c4000000b0043a20cf3c68mr37688033edp.172.1658153425911; 
+ Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u2BTQr3f93kLudtkvZN6TwikINbPbowVmY+Z+xemvT2MpvqKrA2+Chh2emhNdupLS/jZ8Y9A==
+X-Received: by 2002:aa7:c0c4:0:b0:43a:20cf:3c68 with SMTP id
+ j4-20020aa7c0c4000000b0043a20cf3c68mr37688004edp.172.1658153425716; 
+ Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
 Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- b18-20020a170906d11200b0072b4e4cd346sm5486158ejz.188.2022.07.18.07.08.03
+ r24-20020aa7da18000000b0043ad162b5e3sm8652759eds.18.2022.07.18.07.10.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 07:08:04 -0700 (PDT)
-Date: Mon, 18 Jul 2022 16:08:03 +0200
+ Mon, 18 Jul 2022 07:10:25 -0700 (PDT)
+Date: Mon, 18 Jul 2022 16:10:24 +0200
 From: Igor Mammedov <imammedo@redhat.com>
 To: Hesham Almatary <hesham.almatary@huawei.com>
 Cc: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
@@ -71,24 +71,23 @@ Cc: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
  <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
  <wangyanan55@huawei.com>, <marcel.apfelbaum@gmail.com>,
  <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, <mst@redhat.com>
-Subject: Re: [PATCH 4/8] tests: acpi: q35: update expected blobs
- *.hmat-noinitiators
-Message-ID: <20220718160803.06febe5b@redhat.com>
-In-Reply-To: <20220711104436.8363-5-hesham.almatary@huawei.com>
+Subject: Re: [PATCH 5/8] tests: Add HMAT AArch64/virt empty table files
+Message-ID: <20220718161024.7e6cf244@redhat.com>
+In-Reply-To: <20220711104436.8363-6-hesham.almatary@huawei.com>
 References: <20220711104436.8363-1-hesham.almatary@huawei.com>
- <20220711104436.8363-5-hesham.almatary@huawei.com>
+ <20220711104436.8363-6-hesham.almatary@huawei.com>
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,26 +104,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 11:44:32 +0100
+On Mon, 11 Jul 2022 11:44:33 +0100
 Hesham Almatary <hesham.almatary@huawei.com> wrote:
 
-> From: Brice Goglin <Brice.Goglin@inria.fr>
-> 
-[...]
-> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
+> Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
 > ---
+>  tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
+>  tests/data/acpi/virt/FACP.acpihmatvirt      | 0
+>  tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
+>  tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
+>  tests/qtest/bios-tables-test-allowed-diff.h | 4 ++++
+>  5 files changed, 4 insertions(+)
+>  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/FACP.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
+>  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+> 
+> diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
+> new file mode 100644
+> index 0000000000..e69de29bb2
 
->  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
-[...]
->  tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
-drop these 2 tables, they are the same as default ones (i.e.without suffix)
-so test will fallback to default ones when there is no matching file with suffix.
+> diff --git a/tests/data/acpi/virt/FACP.acpihmatvirt b/tests/data/acpi/virt/FACP.acpihmatvirt
+probably the same as 4/8
+include variant table only if it differs from default one
 
-also fixup 2/8 to account for that
-
->  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
->  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
->  tests/qtest/bios-tables-test-allowed-diff.h   |   5 -----
->  6 files changed, 5 deletions(-)
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+> index dfb8523c8b..44594cae59 100644
+> --- a/tests/qtest/bios-tables-test-allowed-diff.h
+> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
+> @@ -1 +1,5 @@
+>  /* List of comma-separated changed AML files to ignore */
+> +"tests/data/acpi/virt/DSDT.acpihmatvirt",
+> +"tests/data/acpi/virt/FACP.acpihmatvirt",
+> +"tests/data/acpi/virt/HMAT.acpihmatvirt",
+> +"tests/data/acpi/virt/SRAT.acpihmatvirt",
 
 
