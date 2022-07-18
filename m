@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0655D5782D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:55:28 +0200 (CEST)
-Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B16115782D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:55:03 +0200 (CEST)
+Received: from localhost ([::1]:53948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQHW-0001Nv-Qm
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:55:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
+	id 1oDQH8-0000bZ-S7
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDQDe-0004NF-R2
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:51:26 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:41549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDQDd-000846-2U
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:51:26 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id 6so20542732ybc.8
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:51:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+ZGsKKKq6eUSmkhrkmcBY4aFhAiBmbAgxhylRDVWUJI=;
- b=AsMjHbtZu1je4dQCUkcD3pmjd9hDwCN6/70wqVSpziHPsI3JbfQjlIXSkQIBcfzKb4
- TfAXfPiNuOVAIi2rsac2DtzPwrKBJF65onkgEgTnIWBd09OFeVTydhafGs04y0oDI1zD
- wUEUVhG9QYokM2zDgKcF0zTiNVTn4qLfDNa1yqSJPkiT8Iryw85G/PGFfPnEYHErZX6F
- rM/VsR45VHGOKjxuT7352ndl8ibmToMQPBh2Pk75ep2wm3e2sVhjmrA3xvmgss8SmDSK
- dILzwrZJugLfg7OqoguHqfy8IPfx3uGOysZXEYFu3/yyqOhPfFceNYQXRl/u8IztCSvs
- srOw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDQEt-0005l1-3e
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:52:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32232)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDQEp-0008EV-Ri
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:52:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658148757;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NeojfgY3eUvuLrY6DM0NakAHmHR0cLJWssoBqjzJn+s=;
+ b=gQvjowLAM4836O75TPGJCTgVuRMZr0iuw2nD9LbBpg8PJ7iM0A76oWMLotW5TsiYGbym1D
+ Xr7cZ35ajwIZ3J3Rx0f6Q9+iIJR8RMrPN1KNrWZ059dRU7cEPSfQCZqy361gfVHRPQevQB
+ OOCBG+Qafr46F3Xn7s+MbfrIEQmj0bo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-47-ZKolTGb3M3mlBVJKbeg8jg-1; Mon, 18 Jul 2022 08:52:36 -0400
+X-MC-Unique: ZKolTGb3M3mlBVJKbeg8jg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ ne36-20020a1709077ba400b0072b64ce28aaso2242465ejc.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:52:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+ZGsKKKq6eUSmkhrkmcBY4aFhAiBmbAgxhylRDVWUJI=;
- b=7LHyfmrCXJIj+yan/2SoKYGIx5sAKK40KsNjzyi6CCOAmFylfveuqe+ZDNenMJvERZ
- N/n34jjhSU/P1uLxSHt/5K/IN4e8ELuY+bmVf7JooKBS0XarM5GtwcPDRftRkvW3tebz
- MnDNMhHcl9Qf7Io3ArbF/0LMXKtaV1EsFWhwp3VwPVjRjarm2qCkS/d4uwS5wcLXlb2y
- ej5u83A5yMfmoMhEz+pjmi/+2OeyZoYyBHJqJWJI30JDZEgay9QbQoZD+eTdnwZurzJm
- bEpXsBCmldkycKMztnl6RhhC97HSzMeelJhKoVr3GMME6LP/Gb3/cnzGsdSOA0sgo0MK
- R4Ug==
-X-Gm-Message-State: AJIora8T46Qs/xlL2wS1WKptRKGJ8eR/iCF70XUouUt9L+Vyi88kwjrX
- LgcELARsygtU1/vvhuH1YcGw1muDokHFfgy8zLBe0A==
-X-Google-Smtp-Source: AGRyM1vayhF/7ORfVihzTrUGwQ54QxZjpXny/tirjxOhSlefpUz+TjYPLPJJpmpEsuPtMhgMXAOVXW7l/Zf00fz8lDM=
-X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
- e123-20020a25d381000000b0066e29431c9dmr26082127ybf.67.1658148683825; Mon, 18
- Jul 2022 05:51:23 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NeojfgY3eUvuLrY6DM0NakAHmHR0cLJWssoBqjzJn+s=;
+ b=GmzyAI18fC3tQxKNJ4ROVtP2VC7P5mioLBtN+GML+SOTKsBsDu/lM6nkCn6qDSIR+9
+ n6hSi+M8aWbggE/lXjtAnDkuOherluuPrYpW/SYtJ1G7rDquabDBCtBzJOVfeyf4F8JH
+ hUnQdhUS+iOUtzdk2SxJfoRCzR9L/9K8lxhf0dY56k6DAl/rmKC+M2hBsy2laRkpHSsf
+ N4YEJau9JSmix1k8LRGmn5nWj1mZ/MNw8LutjAc0sxa8Hvi9Rz12n0vdM4fF25WiQ6C6
+ GrNofNchJQ5XKCHIhE98WTJB7DA/ZgfWrcmXCxzPaA9zBaU4a1Wt0HWjdzWUtEDOsj3U
+ SxXA==
+X-Gm-Message-State: AJIora/KDXiLVVjdiKjpMcAbXIl5FVb+KLpZMRlFf+Bum3z8sbZ44Qw5
+ maYrn65rq7kwEI8Z+kn0qondeWKO+7Bj9ert1hHkr3NQrGFf7hFglKKaklI7dwWwJgin+lftwSh
+ hBYepF1wfz3/OByg=
+X-Received: by 2002:a17:907:a05b:b0:72b:33f9:f927 with SMTP id
+ gz27-20020a170907a05b00b0072b33f9f927mr25703424ejc.707.1658148755355; 
+ Mon, 18 Jul 2022 05:52:35 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tR5ywEvODV9Nr+YOlFYls8YySaxNyY64iPbGiTs05BylPxn7rWFNAQomNUxP7QuxFMmi8smg==
+X-Received: by 2002:a17:907:a05b:b0:72b:33f9:f927 with SMTP id
+ gz27-20020a170907a05b00b0072b33f9f927mr25703402ejc.707.1658148755123; 
+ Mon, 18 Jul 2022 05:52:35 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ i23-20020a1709061e5700b00722e771007fsm5388383ejj.37.2022.07.18.05.52.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 05:52:34 -0700 (PDT)
+Date: Mon, 18 Jul 2022 14:52:33 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>, Jonathan Cameron
+ <jonathan.cameron@huawei.com>
+Subject: Re: [PATCH v8 06/11] i386/pc: factor out cxl range start to helper
+Message-ID: <20220718145233.0b2bdeb8@redhat.com>
+In-Reply-To: <20220715171628.21437-7-joao.m.martins@oracle.com>
+References: <20220715171628.21437-1-joao.m.martins@oracle.com>
+ <20220715171628.21437-7-joao.m.martins@oracle.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <YtQzMUuBOfBiMNlY@p100>
-In-Reply-To: <YtQzMUuBOfBiMNlY@p100>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 13:51:12 +0100
-Message-ID: <CAFEAcA9GzSJw4GpCkdOQPx7j24chp3WDq5tD=8FVkyYYtdrHuQ@mail.gmail.com>
-Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
- SH4 and SPARC
-To: Helge Deller <deller@gmx.de>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,58 +107,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Jul 2022 at 17:10, Helge Deller <deller@gmx.de> wrote:
->
-> In 2010, the commit b41a66edd0c added a thrird parameter "is_pipe2" to the
+On Fri, 15 Jul 2022 18:16:23 +0100
+Joao Martins <joao.m.martins@oracle.com> wrote:
 
-typo in commit hash (lost the first letter). Should be
-fb41a66edd0c7bd6 ("alpha-linux-user: Fix pipe return mechanism."
-I think ?
+> Factor out the calculation of the base address of the memory region.
+> It will be used later on for the cxl range end counterpart calculation
+> and as well in pc_memory_init() CXL memory region initialization, thus
+> avoiding duplication.
+> 
+> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 
-> internal do_pipe() function, but missed to actually use this parameter to
-> decide if the pipe() or pipe2() syscall should be used.
-> Instead it just continued to check the flags parameter and used pipe2()
-> unconditionally if flags is non-zero.
->
-> This change should make a difference for the ALPHA, MIPS, SH4 and SPARC
-> targets if the emulated code calls pipe2() with a flags value of 0.
->
-> Fixes: fb41a66edd0c ("alpha-linux-user: Fix pipe return mechanism.")
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 991b85e6b4..1e6e814871 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -1600,7 +1600,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong pipedes,
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+PS:
+see note below in case series respin
+
+> ---
+>  hw/i386/pc.c | 26 +++++++++++++++++---------
+>  1 file changed, 17 insertions(+), 9 deletions(-)
+> 
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 1f42f194d7b7..3fdcab4bb4f3 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -825,6 +825,22 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
+>      return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+>  }
+>  
+> +static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
+> +{
+> +    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+> +    MachineState *machine = MACHINE(pcms);
+> +    hwaddr cxl_base;
+> +
+> +    if (pcmc->has_reserved_memory && machine->device_memory->base) {
+> +        cxl_base = machine->device_memory->base
+> +            + memory_region_size(&machine->device_memory->mr);
+> +    } else {
+> +        cxl_base = pc_above_4g_end(pcms);
+> +    }
+> +
+> +    return cxl_base;
+> +}
+> +
+>  static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
 >  {
->      int host_pipe[2];
->      abi_long ret;
-> -    ret = flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
-> +    ret = is_pipe2 ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+>      uint64_t start = 0;
+> @@ -946,15 +962,7 @@ void pc_memory_init(PCMachineState *pcms,
+>          MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
+>          hwaddr cxl_size = MiB;
+>  
+> -        if (pcmc->has_reserved_memory && machine->device_memory->base) {
+> -            cxl_base = machine->device_memory->base
+> -                + memory_region_size(&machine->device_memory->mr);
 
-Why do we need to do this? If the flags argument is 0,
-then pipe2() is the same as pipe(), so we can safely
-emulate it with the host pipe() call. It is, or at
-least was, worth doing that, so that guests that use
-pipe2(fds, 0) can still run on hosts that don't implement
-the pipe2 syscall.
+> -        } else if (pcms->sgx_epc.size != 0) {
+> -            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
+> -        } else {
+shouldn't be this hunk be a part of 4/11?
+(otherwise it looks like it's been dropped by mistake)
+end result is fine as pc_above_4g_end() already has this hunk (hence Ack)
 
-There's probably a reasonable argument to be made that we don't
-care any more about hosts so old they don't have pipe2 and that
-we could just dump do_pipe2() and the CONFIG_PIPE2 check, and
-have do_pipe() unconditionally call pipe2(). Would just need
-somebody to check what kernel/glibc versions pipe2() came in.
+> -            cxl_base = pc_above_4g_end(pcms);
+> -        }
+> -
+> +        cxl_base = pc_get_cxl_range_start(pcms);
+>          e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+>          memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+>          memory_region_add_subregion(system_memory, cxl_base, mr);
 
-The architecture specific bit of target behaviour that
-we need the is_pipe2 flag for is purely for handling the
-weird return code that only the pipe syscall has, and
-for that we are correctly looking at the is_pipe2 argument.
-(The bug that fb41a66edd0c7bd6 fixes is that we used to
-incorrectly give the pipe syscall return argument behaviour
-for pipe2-with-flags-zero.)
-
-thanks
--- PMM
 
