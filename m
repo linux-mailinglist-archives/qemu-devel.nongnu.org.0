@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2214757887F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:32:28 +0200 (CEST)
-Received: from localhost ([::1]:48608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34EBF57889A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:39:36 +0200 (CEST)
+Received: from localhost ([::1]:37736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDUbb-0004wp-8u
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:32:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43282)
+	id 1oDUiV-0000s6-BN
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:39:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDUS3-0007ko-VO; Mon, 18 Jul 2022 13:22:36 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:37789)
+ id 1oDUS7-0007pa-Pw; Mon, 18 Jul 2022 13:22:43 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:43789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDUS2-0001iF-48; Mon, 18 Jul 2022 13:22:35 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so9714707otu.4; 
- Mon, 18 Jul 2022 10:22:33 -0700 (PDT)
+ id 1oDUS5-0001nG-3S; Mon, 18 Jul 2022 13:22:38 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-10d4691a687so10211685fac.10; 
+ Mon, 18 Jul 2022 10:22:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fvMJGexYC/ksWQD6tsUlIN56DwNKHAX6EOUQY7Vofe4=;
- b=GQN7mRlnAcUJ1F3G9Tf/tx4rX2dA4PSKWivlH5GbYnX/xqtc1VhlJOLh1zuE36tXwH
- HR7LmcJyL3uUH+hOxufQCuUudU/HHmhkAzriGsc7v8taALzUgkcijURdgQwjvcMxSGz4
- FCOqFkpp9wAV8bsbTBeyTre0si7fpVDeS6Eu1vcR812KvXJeKCFn0lHkUZkBz4tu3K1i
- exau3SPY3UUut4txSVnzL9q7ZIIWW/A8whP1jB1EyxFbVA7PZUAiIGeqHpcmhEm0dE9p
- Y3i2VVHgvOxjly0G4f++TzFqwTmD/Km8tqlsDmLQh7mQT/nbiuQ/oGC1IDHaiM7hGOAG
- DkKg==
+ bh=ThB98apRfBs5yvy4V1cZpA2KNQJrOdvKbcBXWZJUT9U=;
+ b=MGYEA/TXELANhJRzXP3FAolhgD9Z84SX6KO07Kt4bLgYiR6Sp/s/B+g3S2bbCdtv9p
+ nOMSDZ/BQ4XDWJF6v54yYXmpgRK+815Wjx5T3jP0Lgf9hqLEyK8V+kPXfsU+npqvEK/r
+ 5haKAI3hbsBE1gmBHKwLmTEV2Hj2vVWM2y4YGuyqNxsvwkbcuQYXg6kMp9kKnXWyQoxk
+ xSAsr9/8e/dY1CJXV7Jz98GkauLyORoqck5D9vqZ6PONKKc6shzMgvhAWONIYlsbLp3y
+ 4Q+Xd+gx+g5ipSrYNff+9T0M0zo30RmdLG26U61TzT+PHzEzotKw2LE0UPBB+GCUKo7e
+ 3f3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fvMJGexYC/ksWQD6tsUlIN56DwNKHAX6EOUQY7Vofe4=;
- b=M8RenVwZeHrYDY2oM04Y++dQPGoTvC9ZMw0Ru4OQHOSdGTekZCN+h6H83ak02mmqXY
- e286vCYqLPSVqT0o4COjS8xoREUjPLIUMIArVWjyeRNAs90tTNI11rBSgUUfIfJAgyWj
- vKhX0euogw5TCgOGjqGnkXMMWEEYzI5EbGdTvj3okKOAs8cV4qZsn5ELqK1+S52lPg2B
- Eaxu0yjiKcKtmi3c4uMh3IJgqmimoh+lSRtK5AopzDiaiNjXN44hcKW1+tjF37gErkuv
- zb3duoST4hcFnFAiNTjaPIJi5Q2iR3B5kaPVCXC7BBGKjdMJnUpWMG1l5ra470I+lJ4m
- uxAA==
-X-Gm-Message-State: AJIora9aXS2dIqWGpAGYhpNhav/B6jW9AoyMXWmyJgEBD+9BslcUFxFP
- zvTCTXrpRWxmDLNRUiP+WVTbW6A8SSw=
-X-Google-Smtp-Source: AGRyM1tZT0Zv+NIIqqpgjobsr6IQE0e92Pv2y1DCT1SHvwQTfTLr21+GzIuN/svT1/8c2+ftDgArXA==
-X-Received: by 2002:a05:6830:61cd:b0:618:d560:b787 with SMTP id
- cc13-20020a05683061cd00b00618d560b787mr11945137otb.154.1658164952982; 
- Mon, 18 Jul 2022 10:22:32 -0700 (PDT)
+ bh=ThB98apRfBs5yvy4V1cZpA2KNQJrOdvKbcBXWZJUT9U=;
+ b=xUPPlh+VhCNL4kEJVwf5msvZOEhiY7WjAJNY1zoowvsfE0J1XXzhyRSvD/xocOjp9L
+ 8AQr9q4QI4mC+1rfRDDo35XVUQ7vvoJb8MFSA2jOvrA0mFzLwIGjExjlijTBGR/W22wm
+ gvrP5e+VRazorHsabWKiTjUwhKBDqy6x4g3WfW8edghI1IwpwcuE9vEKm7UE79D7L6IO
+ Xk+HabGwd+cp2m/y3//ZQDlxYuTyT+Yk6k28BDFYDZbrQCfDp1NqW9IgKKAbVq/LM4AY
+ 2sbl/BDSTmOc9N5tXDFQslF/OCehncYNUj41la7hLOoyFmtvIVfK3KSFqJvTxANBd7YH
+ Wleg==
+X-Gm-Message-State: AJIora8UL5qmmnMWTH2O2J/zqyhaSug8LK+b67wDSfFcGhQJT18zBsoU
+ juEQfuJVRxbOYqFK1FfNMVv3r3qR4ow=
+X-Google-Smtp-Source: AGRyM1tqHM1blmikJTUp1FGSgA7iHUAJ9Jl6yzPHnapO2jR3L2qjeyeI3TdcaPM+48OnlfFkeNo93w==
+X-Received: by 2002:a05:6870:c210:b0:10b:f1b9:94 with SMTP id
+ z16-20020a056870c21000b0010bf1b90094mr17849853oae.238.1658164955536; 
+ Mon, 18 Jul 2022 10:22:35 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.30
+ j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 10:22:32 -0700 (PDT)
+ Mon, 18 Jul 2022 10:22:35 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  Matheus Ferst <matheus.ferst@eldorado.org.br>,
- Fabiano Rosas <farosas@linux.ibm.com>
-Subject: [PULL 08/30] target/ppc: Fix gen_priv_exception error value in
- mfspr/mtspr
-Date: Mon, 18 Jul 2022 14:21:46 -0300
-Message-Id: <20220718172208.1247624-9-danielhb413@gmail.com>
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PULL 09/30] target/ppc: fix exception error value in slbfee
+Date: Mon, 18 Jul 2022 14:21:47 -0300
+Message-Id: <20220718172208.1247624-10-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718172208.1247624-1-danielhb413@gmail.com>
 References: <20220718172208.1247624-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,56 +93,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-The code in linux-user/ppc/cpu_loop.c expects POWERPC_EXCP_PRIV
-exception with error POWERPC_EXCP_PRIV_OPC or POWERPC_EXCP_PRIV_REG,
-while POWERPC_EXCP_INVAL_SPR is expected in POWERPC_EXCP_INVAL
-exceptions. This mismatch caused an EXCP_DUMP with the message "Unknown
-privilege violation (03)", as seen in [1].
+Testing on a POWER9 DD2.3, we observed that the Linux kernel delivers a
+signal with si_code ILL_PRVOPC (5) when a userspace application tries to
+use slbfee. To obtain this behavior on linux-user, we should use
+POWERPC_EXCP_PRIV with POWERPC_EXCP_PRIV_OPC.
 
-[1] https://gitlab.com/qemu-project/qemu/-/issues/588
+No functional change is intended for softmmu targets as
+gen_hvpriv_exception uses the same 'exception' argument
+(POWERPC_EXCP_HV_EMU) for raise_exception_*, and the powerpc_excp_*
+methods do not use lower bits of the exception error code when handling
+POWERPC_EXCP_{INVAL,PRIV}.
 
-Fixes: 9b2fadda3e01 ("ppc: Rework generation of priv and inval interrupts")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/588
-Reviewed-by: Fabiano Rosas <farosas@linux.ibm.com>
+Reported-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20220627141104.669152-2-matheus.ferst@eldorado.org.br>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220627141104.669152-3-matheus.ferst@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/translate.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ target/ppc/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 1d6daa4608..55f34eb490 100644
+index 55f34eb490..d7e5670c20 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -4789,11 +4789,11 @@ static inline void gen_op_mfspr(DisasContext *ctx)
-          */
-         if (sprn & 0x10) {
-             if (ctx->pr) {
--                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
-+                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
-             }
-         } else {
-             if (ctx->pr || sprn == 0 || sprn == 4 || sprn == 5 || sprn == 6) {
--                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
-+                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
-             }
-         }
+@@ -5386,12 +5386,12 @@ static void gen_slbmfev(DisasContext *ctx)
+ static void gen_slbfee_(DisasContext *ctx)
+ {
+ #if defined(CONFIG_USER_ONLY)
+-    gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
++    gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+ #else
+     TCGLabel *l1, *l2;
+ 
+     if (unlikely(ctx->pr)) {
+-        gen_inval_exception(ctx, POWERPC_EXCP_PRIV_REG);
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_OPC);
+         return;
      }
-@@ -4976,11 +4976,11 @@ static void gen_mtspr(DisasContext *ctx)
-          */
-         if (sprn & 0x10) {
-             if (ctx->pr) {
--                gen_priv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
-+                gen_priv_exception(ctx, POWERPC_EXCP_PRIV_REG);
-             }
-         } else {
-             if (ctx->pr || sprn == 0) {
--                gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
-+                gen_hvpriv_exception(ctx, POWERPC_EXCP_PRIV_REG);
-             }
-         }
-     }
+     gen_helper_find_slb_vsid(cpu_gpr[rS(ctx->opcode)], cpu_env,
 -- 
 2.36.1
 
