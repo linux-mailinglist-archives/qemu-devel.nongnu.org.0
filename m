@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B720E57848A
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:57:54 +0200 (CEST)
-Received: from localhost ([::1]:53042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1CB8578475
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:55:40 +0200 (CEST)
+Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRFx-0007KI-RN
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37430)
+	id 1oDRDn-0002qP-Pp
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpn-0007WW-AL
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:45272)
+ id 1oDOpl-0007NL-Ho
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:48897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOph-0000iM-NT
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R181e4; CH=green; DM=||false|;
+ id 1oDOpf-0000i6-N9
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:38 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
  DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=kangjie.xu@linux.alibaba.com;
- NM=1; PH=DS; RN=5; SR=0; TI=SMTPD_---0VJjIA87_1658143039; 
+ NM=1; PH=DS; RN=5; SR=0; TI=SMTPD_---0VJjOda5_1658143040; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjIA87_1658143039) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:19 +0800
+ fp:SMTPD_---0VJjOda5_1658143040) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:20 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
-Subject: [PATCH 06/16] virtio-pci: support queue reset
-Date: Mon, 18 Jul 2022 19:17:03 +0800
-Message-Id: <e354b6aea06652e934f1dfef5ddc89c64857adb2.1658141552.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH 07/16] virtio-net: support queue reset
+Date: Mon, 18 Jul 2022 19:17:04 +0800
+Message-Id: <c6718441a57198bc22d9861417e5ae69c0a70fdb.1658141552.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
@@ -65,77 +65,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-PCI devices support vq reset.
+virtio-net implements queue reset. Queued packets in the corresponding
+queue pair are flushed or purged.
 
-Based on this function, the driver can adjust the size of the ring, and
-quickly recycle the buffer in the ring.
+Queue reset is currently only implemented for non-vhosts.
 
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/virtio-pci.c         | 16 ++++++++++++++++
- include/hw/virtio/virtio-pci.h |  1 +
- 2 files changed, 17 insertions(+)
+ hw/net/virtio-net.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 45327f0b31..35e8a5101a 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1246,6 +1246,9 @@ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
-     case VIRTIO_PCI_COMMON_Q_USEDHI:
-         val = proxy->vqs[vdev->queue_sel].used[1];
-         break;
-+    case VIRTIO_PCI_COMMON_Q_RESET:
-+        val = proxy->vqs[vdev->queue_sel].reset;
-+        break;
-     default:
-         val = 0;
-     }
-@@ -1333,6 +1336,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].used[0]);
-             proxy->vqs[vdev->queue_sel].enabled = 1;
-+            proxy->vqs[vdev->queue_sel].reset = 0;
-         } else {
-             virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
-         }
-@@ -1355,6 +1359,17 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-     case VIRTIO_PCI_COMMON_Q_USEDHI:
-         proxy->vqs[vdev->queue_sel].used[1] = val;
-         break;
-+    case VIRTIO_PCI_COMMON_Q_RESET:
-+        if (val == 1) {
-+            proxy->vqs[vdev->queue_sel].reset = 1;
-+
-+            virtio_queue_reset(vdev, vdev->queue_sel);
-+
-+            /* mark reset complete */
-+            proxy->vqs[vdev->queue_sel].reset = 0;
-+            proxy->vqs[vdev->queue_sel].enabled = 0;
-+        }
-+        break;
-     default:
-         break;
-     }
-@@ -1950,6 +1965,7 @@ static void virtio_pci_reset(DeviceState *qdev)
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 7ad948ee7c..8396e21a67 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -531,6 +531,19 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+     return info;
+ }
  
-     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-         proxy->vqs[i].enabled = 0;
-+        proxy->vqs[i].reset = 0;
-         proxy->vqs[i].num = 0;
-         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
-         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
-diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-index 2446dcd9ae..e9290e2b94 100644
---- a/include/hw/virtio/virtio-pci.h
-+++ b/include/hw/virtio/virtio-pci.h
-@@ -117,6 +117,7 @@ typedef struct VirtIOPCIRegion {
- typedef struct VirtIOPCIQueue {
-   uint16_t num;
-   bool enabled;
-+  bool reset;
-   uint32_t desc[2];
-   uint32_t avail[2];
-   uint32_t used[2];
++static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
++{
++    VirtIONet *n = VIRTIO_NET(vdev);
++    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
++
++    if (!nc->peer) {
++        return;
++    }
++
++    qemu_flush_or_purge_queued_packets(nc->peer, true);
++    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
++}
++
+ static void virtio_net_reset(VirtIODevice *vdev)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+@@ -741,6 +754,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+     }
+ 
+     if (!get_vhost_net(nc->peer)) {
++        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
+         return features;
+     }
+ 
+@@ -3766,6 +3780,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+     vdc->set_features = virtio_net_set_features;
+     vdc->bad_features = virtio_net_bad_features;
+     vdc->reset = virtio_net_reset;
++    vdc->queue_reset = virtio_net_queue_reset;
+     vdc->set_status = virtio_net_set_status;
+     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
+     vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
 -- 
 2.32.0
 
