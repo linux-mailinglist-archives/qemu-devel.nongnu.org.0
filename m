@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F102578569
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:30:09 +0200 (CEST)
-Received: from localhost ([::1]:47588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D2C857856A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:30:10 +0200 (CEST)
+Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRlA-0003es-4P
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:30:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1oDRlB-0003iX-Hp
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHe-00029Q-43
+ id 1oDRHe-00029O-1f
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52208)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHZ-0003B8-OH
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:36 -0400
-Received: by mail-wm1-x329.google.com with SMTP id id17so97980wmb.1
+ id 1oDRHa-0003BG-4i
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:35 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ h14-20020a1ccc0e000000b0039eff745c53so7383709wmb.5
  for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=eukvC+6HlCYJEnDc50zk+LTUKV0cWVgf+mK6xiITMuE=;
- b=X9f206kEoBpc4fjMTey1P0v2URTVdccCh80ZKxCmHcagJBKz4E9NEHUdKkTi6V2Raa
- 7mMaX8flonuBktLHZMsGuK7c7TRO3xQ9Ns+kpgoO91E0iwDCojQaRlqZSpoWKt43CMBm
- 2xPj1ij9OWilzOPf0re1Ca9ZRiyOl0tQsrFYH8qXzy0Kes17MfH9lId5+VATaeJoa7ZP
- 6m7uA+2kQmULmDic8JnnWv6H8WA/KWWEraHfD7G1ou78rKJlUUeuFXD/sxfZHTx6HXg5
- dJJM8/tAW14DO6sOke1/UQY8Bmnvf3bdJ3BJqT065Jri14u+V7bN29JPzNgcM+LxVhbI
- viMA==
+ bh=bsiTbIieXoyZzsovMov20+PKkWbaKl/whztxxrpGPA0=;
+ b=GCEzTYqeKffBnW/GtsNltJaAMM6uleTxXJs5y6kuPq+VMCQE71MiYLhzowM7/7CLm7
+ FIjSbn3Dni0jIP2lWaIZsYlvTjsblvqV5oCmVw6pBqrNiM1W2sp/eEGPhjgPwyaRyHQG
+ b0VK7NfeOuETFxHxH9CO4FS+L85pgypOgvu/OeBinQEFIEUfis0Ta8kPl2ufna7ZqL0g
+ OTgqLBayHTXgE1dCfbFodrmvSjNlEuWULPV/HMptYp2zRMcnIRkpMxVlhGODyS8UFI82
+ RjxEUGjAeHkZFaQv1lNTygVnTyuxuSW1qE/laj4glAlA00V/ws6oKRZ3RZIL6zaY8zzl
+ b+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eukvC+6HlCYJEnDc50zk+LTUKV0cWVgf+mK6xiITMuE=;
- b=aTRTfgqFwjkycRp0+wlj1Zxm1TJKDo3c1Ej9h1GcmmeV9aNRRGgR55tOk3MOvIdxfq
- 8gTP5jk93Xe0srXq5GMyVmrLG6o4LoWoOGs5lLFBg1bBX4rVeyUTd0zNL8BY0shRK/hb
- qDwK0AmRqaY0Gej4ijRuxF4Bbkm/l+pi66fow5DWVMBHGiGMvAOgZiA6iM+67n/mjaq0
- IWf8e8etfnNSQCo+eo4mXq4b9I93iN3R04oT5Or5RPZTTPJ7DwbLodLnnjVkXoZ7OJZ5
- NVF7sSwKdcCD/yoOZADuNlDfC0g+/z9vTnq6dgmvWtQbYD2dnUsmLliAEg+29VMsbDGc
- X7WQ==
-X-Gm-Message-State: AJIora8uoNAwZICLYO+Y0LNtNYq3ekmLgq0nI+f69gYEB3A+rGFoc7KR
- pw7m1DKn1tCFfjbAxbzPdNz3UIdtouTe3A==
-X-Google-Smtp-Source: AGRyM1srd4gjnAsVblNA4KaVeykh6qBzOriWtI0lcQ6MtwKHl1D/NSKgQqS83vF1T39+REDmwVNpVQ==
-X-Received: by 2002:a05:600c:3ca2:b0:3a0:1825:2e6b with SMTP id
- bg34-20020a05600c3ca200b003a018252e6bmr31858625wmb.132.1658152772151; 
+ bh=bsiTbIieXoyZzsovMov20+PKkWbaKl/whztxxrpGPA0=;
+ b=OU8E9BbFNLzVFU5GOu9QjfBzzAFUA/LI5SawX4uVgQsviAxXWm23F+Uex548DLavYU
+ 0aqRyTiGwt1FBfK9dZqcW8hSegsCirG4WPXhiA5gZPG3Wh9kGn8cTqXGYZp83sxmNM8t
+ tcWlJChX2WtppmMOhtu4M3n6drUdnnp2SK/gvYX3R7Tvf4V6VIJ8oWLfks2t2LCGPZSY
+ CyI2Ok64kg9X/tYaObnY/2Cs5F59yn9Gp5Tq/FBSluIU/kdg+FD3HhECswiVzVLWufR0
+ IDntF5Ql0lL+1lW2gZxFClJ0cyn0r4ckdCVvfGx+Ehv0q9C2Sb4NBl3LS4wdXFuEwY1f
+ 2lQg==
+X-Gm-Message-State: AJIora9UxO7kZxeAt6iPAz09pFegMW2m/BgQFsMzHF1/ByiOURhHSGTT
+ dNtL47exoe/1A6iiNPmMermUKCMh9OlykQ==
+X-Google-Smtp-Source: AGRyM1v5Xzcym4YnAD79hL0bh2oy6ae6OswhI3kx+ciXW89Oq79USuQPw9A2J/Gc13D7W+I6/EmxGg==
+X-Received: by 2002:a05:600c:4f05:b0:3a3:18ed:6cda with SMTP id
+ l5-20020a05600c4f0500b003a318ed6cdamr6609474wmq.34.1658152772811; 
  Mon, 18 Jul 2022 06:59:32 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.31
+ id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:59:31 -0700 (PDT)
+ Mon, 18 Jul 2022 06:59:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] target/arm: Honour VTCR_EL2 bits in Secure EL2
-Date: Mon, 18 Jul 2022 14:59:16 +0100
-Message-Id: <20220718135920.13667-12-peter.maydell@linaro.org>
+Subject: [PULL 12/15] hw/adc: Fix CONV bit in NPCM7XX ADC CON register
+Date: Mon, 18 Jul 2022 14:59:17 +0100
+Message-Id: <20220718135920.13667-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220718135920.13667-1-peter.maydell@linaro.org>
 References: <20220718135920.13667-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,97 +89,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In regime_tcr() we return the appropriate TCR register for the
-translation regime.  For Secure EL2, we return the VSTCR_EL2 value,
-but in this translation regime some fields that control behaviour are
-in VTCR_EL2.  When this code was originally written (as the comment
-notes), QEMU didn't care about any of those fields, but we have since
-added support for features such as LPA2 which do need the values from
-those fields.
+From: Hao Wu <wuhaotsh@google.com>
 
-Synthesize a TCR value by merging in the relevant VTCR_EL2 fields to
-the VSTCR_EL2 value.
+The correct bit for the CONV bit in NPCM7XX ADC is bit 13. This patch
+fixes that in the module, and also lower the IRQ when the guest
+is done handling an interrupt event from the ADC module.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1103
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Patrick Venture<venture@google.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20220714182836.89602-4-wuhaotsh@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220714132303.1287193-8-peter.maydell@linaro.org
 ---
- target/arm/cpu.h       | 19 +++++++++++++++++++
- target/arm/internals.h | 22 +++++++++++++++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
+ hw/adc/npcm7xx_adc.c           | 2 +-
+ tests/qtest/npcm7xx_adc-test.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index b43083c5ef5..e890ee074d3 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1412,6 +1412,25 @@ FIELD(CPTR_EL3, TCPAC, 31, 1)
- #define TTBCR_SH1    (1U << 28)
- #define TTBCR_EAE    (1U << 31)
+diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
+index 0f0a9f63e20..47fb9e5f74c 100644
+--- a/hw/adc/npcm7xx_adc.c
++++ b/hw/adc/npcm7xx_adc.c
+@@ -36,7 +36,7 @@ REG32(NPCM7XX_ADC_DATA, 0x4)
+ #define NPCM7XX_ADC_CON_INT     BIT(18)
+ #define NPCM7XX_ADC_CON_EN      BIT(17)
+ #define NPCM7XX_ADC_CON_RST     BIT(16)
+-#define NPCM7XX_ADC_CON_CONV    BIT(14)
++#define NPCM7XX_ADC_CON_CONV    BIT(13)
+ #define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
  
-+FIELD(VTCR, T0SZ, 0, 6)
-+FIELD(VTCR, SL0, 6, 2)
-+FIELD(VTCR, IRGN0, 8, 2)
-+FIELD(VTCR, ORGN0, 10, 2)
-+FIELD(VTCR, SH0, 12, 2)
-+FIELD(VTCR, TG0, 14, 2)
-+FIELD(VTCR, PS, 16, 3)
-+FIELD(VTCR, VS, 19, 1)
-+FIELD(VTCR, HA, 21, 1)
-+FIELD(VTCR, HD, 22, 1)
-+FIELD(VTCR, HWU59, 25, 1)
-+FIELD(VTCR, HWU60, 26, 1)
-+FIELD(VTCR, HWU61, 27, 1)
-+FIELD(VTCR, HWU62, 28, 1)
-+FIELD(VTCR, NSW, 29, 1)
-+FIELD(VTCR, NSA, 30, 1)
-+FIELD(VTCR, DS, 32, 1)
-+FIELD(VTCR, SL2, 33, 1)
-+
- /* Bit definitions for ARMv8 SPSR (PSTATE) format.
-  * Only these are valid when in AArch64 mode; in
-  * AArch32 mode SPSRs are basically CPSR-format.
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 742135ef146..b8fefdff675 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -777,6 +777,16 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return env->cp15.sctlr_el[regime_el(env, mmu_idx)];
- }
+ #define NPCM7XX_ADC_MAX_RESULT      1023
+diff --git a/tests/qtest/npcm7xx_adc-test.c b/tests/qtest/npcm7xx_adc-test.c
+index 3fa6d9ece0b..8048044d281 100644
+--- a/tests/qtest/npcm7xx_adc-test.c
++++ b/tests/qtest/npcm7xx_adc-test.c
+@@ -50,7 +50,7 @@
+ #define CON_INT     BIT(18)
+ #define CON_EN      BIT(17)
+ #define CON_RST     BIT(16)
+-#define CON_CONV    BIT(14)
++#define CON_CONV    BIT(13)
+ #define CON_DIV(rv) extract32(rv, 1, 8)
  
-+/*
-+ * These are the fields in VTCR_EL2 which affect both the Secure stage 2
-+ * and the Non-Secure stage 2 translation regimes (and hence which are
-+ * not present in VSTCR_EL2).
-+ */
-+#define VTCR_SHARED_FIELD_MASK \
-+    (R_VTCR_IRGN0_MASK | R_VTCR_ORGN0_MASK | R_VTCR_SH0_MASK | \
-+     R_VTCR_PS_MASK | R_VTCR_VS_MASK | R_VTCR_HA_MASK | R_VTCR_HD_MASK | \
-+     R_VTCR_DS_MASK)
-+
- /* Return the value of the TCR controlling this translation regime */
- static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-@@ -785,10 +795,16 @@ static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
-     if (mmu_idx == ARMMMUIdx_Stage2_S) {
-         /*
--         * Note: Secure stage 2 nominally shares fields from VTCR_EL2, but
--         * those are not currently used by QEMU, so just return VSTCR_EL2.
-+         * Secure stage 2 shares fields from VTCR_EL2. We merge those
-+         * in with the VSTCR_EL2 value to synthesize a single VTCR_EL2 format
-+         * value so the callers don't need to special case this.
-+         *
-+         * If a future architecture change defines bits in VSTCR_EL2 that
-+         * overlap with these VTCR_EL2 fields we may need to revisit this.
-          */
--        return env->cp15.vstcr_el2;
-+        uint64_t v = env->cp15.vstcr_el2 & ~VTCR_SHARED_FIELD_MASK;
-+        v |= env->cp15.vtcr_el2 & VTCR_SHARED_FIELD_MASK;
-+        return v;
-     }
-     return env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
+ #define FST_RDST    BIT(1)
 -- 
 2.25.1
 
