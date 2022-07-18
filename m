@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17D43578932
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:06:34 +0200 (CEST)
-Received: from localhost ([::1]:37450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A21A57895E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:13:13 +0200 (CEST)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDV8a-0001CY-Kd
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:06:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51944)
+	id 1oDVF1-0000Gm-UD
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1oDV3q-0001Wi-3X
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:01:38 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:37454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1oDV3o-0007t6-4D
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:01:37 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- s18-20020a17090aa11200b001f1e9e2438cso562742pjp.2
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 11:01:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LWq7AZvjII4MS41D3TE30nRdQGH0barwX4pXUwhDyF4=;
- b=qbjqThGKvDgnWfsM20x9Ekp37ErnwfP4PEIZQ4LP7uL0O9vsTDPgHO5xO79+WtIsFB
- HXVG6p8y9sfIWaScNlef7gHYstRqlBSrlwnIIAchx3JiyfxebWuzeaKPnd+RMcZHOl15
- aX6tjb1pqsuGToMsBqE7m0MDC+llvjGwvshCdAiJhMm9H74lIuob08k0lSy6SyNI3IiU
- O1fLfiu+5M7cOxdk4pWMGO4pabIwb3JlPVw9SGyj8kGqJBoRLmKvISL1CPY9rcobbX6S
- AO25SKLwsa3OQLsgHl+g9ls2qetMfod8/sVLcM5DE3GXbAtMZy1Z7zLdJcCyCaNhImzP
- DZAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LWq7AZvjII4MS41D3TE30nRdQGH0barwX4pXUwhDyF4=;
- b=IVIvveG+sedp5UDIntAnL4iy0+q0h9kavKsg3rUlzb8Kyhvcrur0VZXckuw6/Gp0c5
- kfyFTnLuz1DugzyFTeohZCC2Vww78Gu3vq11H8NFYqs9GBpz1DVp/TSafWRjIxGA62BT
- aMHvp8tZBecOsPgZ+XQEPGqDKTSLeLKQHCgLJiUBeiIAUUBqq8yWoiW9UNCXxSZUbexl
- tMeVihizzMHDOuVuuiy4xUB5OE/Jx9w1mls/NpOBOIwoPsLIGKp/SSRYWIi1VNY0PFg2
- jyimrsUEx47t0UbBsqJ9cj4HzF6q1P5aTeM+N1N28QkdeX+dEZ5o+HHns1ZjpbbmeiF9
- ozTQ==
-X-Gm-Message-State: AJIora+uUsEJYMGaMghPyABIdbt5Y5WOpj0/cmkygC6HzxWNfG8TXw21
- nwSdsxz1mx3xs1tK14LZOkHtyI7Pq3dQ6ex4Kaug66DcJT4=
-X-Google-Smtp-Source: AGRyM1vgZapPNFvkQTg2fgQyeGsjn2SxTUNNV2E8+KfGNufEqbUT4/ToRYAZBgHmGJVzcw7IVz2ckR+XB7mTlhcb4qY=
-X-Received: by 2002:a17:902:6b02:b0:16c:3d67:8a8a with SMTP id
- o2-20020a1709026b0200b0016c3d678a8amr29516409plk.87.1658167293936; Mon, 18
- Jul 2022 11:01:33 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oDVAl-0004Zy-0E; Mon, 18 Jul 2022 14:08:47 -0400
+Received: from [200.168.210.66] (port=14968 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <lucas.araujo@eldorado.org.br>)
+ id 1oDVAi-0000qI-N7; Mon, 18 Jul 2022 14:08:46 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Mon, 18 Jul 2022 15:08:40 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 9B454800134;
+ Mon, 18 Jul 2022 15:08:39 -0300 (-03)
+Content-Type: multipart/alternative;
+ boundary="------------PLYFjQBET4j6SW1u0WLZFqGb"
+Message-ID: <f0215b5b-6cf5-5ecc-7b8b-502fe827d83e@eldorado.org.br>
+Date: Mon, 18 Jul 2022 15:08:39 -0300
 MIME-Version: 1.0
-References: <20220705174933.2898412-1-daolu@rivosinc.com>
- <20220705174933.2898412-2-daolu@rivosinc.com>
-In-Reply-To: <20220705174933.2898412-2-daolu@rivosinc.com>
-From: Dao Lu <daolu@rivosinc.com>
-Date: Mon, 18 Jul 2022 11:01:23 -0700
-Message-ID: <CAKh7v-R_NmGyHXNL3cEvMu8rCHbJ_S9vkLsVRaiMjG6GHxcYbw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] target/riscv: Add Zihintpause support
-To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, 
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Heiko Stuebner <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=daolu@rivosinc.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v4 1/3] target/ppc: Add HASHKEYR and HASHPKEYR SPRs
+Content-Language: en-US
+To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
+ groug@kaod.org, richard.henderson@linaro.org, cohuck@redhat.com,
+ farosas@linux.ibm.com
+References: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
+ <20220715205439.161110-2-victor.colombo@eldorado.org.br>
+From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220715205439.161110-2-victor.colombo@eldorado.org.br>
+X-OriginalArrivalTime: 18 Jul 2022 18:08:40.0081 (UTC)
+ FILETIME=[68942010:01D89AD1]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
+ NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,100 +68,209 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+This is a multi-part message in MIME format.
+--------------PLYFjQBET4j6SW1u0WLZFqGb
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-On Tue, Jul 5, 2022 at 10:49 AM Dao Lu <daolu@rivosinc.com> wrote:
+T24gMTUvMDcvMjAyMiAxNzo1NCwgVsOtY3RvciBDb2xvbWJvIHdyb3RlOg0KPiBBZGQgdGhl
+IFNwZWNpYWwgUHVycG9zZSBSZWdpc3RlcnMgSEFTSEtFWVIgYW5kIEhBU0hQS0VZUiwgd2hp
+Y2ggd2VyZQ0KPiBpbnRyb2R1Y2VkIGJ5IHRoZSBQb3dlciBJU0EgMy4xQi4gVGhleSBhcmUg
+dXNlZCBieSB0aGUgbmV3IGluc3RydWN0aW9ucw0KPiBoYXNoY2hrKHApIGFuZCBoYXNoc3Qo
+cCkuDQo+DQo+IFRoZSBJU0Egc3RhdGVzIHRoYXQgdGhlIE9wZXJhdGluZyBTeXN0ZW0gc2hv
+dWxkIGdlbmVyYXRlIHRoZSB2YWx1ZSBmb3INCj4gdGhlc2UgcmVnaXN0ZXJzIHdoZW4gY3Jl
+YXRpbmcgYSBwcm9jZXNzLCBzbyBpdCdzIGl0cyByZXNwb25zYWJpbGl0eSB0bw0KPiBkbyBz
+by4gV2UgaW5pdGlhbGl6ZSBpdCB3aXRoIDAgZm9yIHFlbXUtc29mdG1tdSwgYW5kIHNldCBh
+IHJhbmRvbSA2NA0KPiBiaXRzIHZhbHVlIGZvciBsaW51eC11c2VyLg0KPg0KPiBTaWduZWQt
+b2ZmLWJ5OiBWw61jdG9yIENvbG9tYm88dmljdG9yLmNvbG9tYm9AZWxkb3JhZG8ub3JnLmJy
+Pg0KPiAtLS0NCg0KUmV2aWV3ZWQtYnk6IEx1Y2FzIE1hdGV1cyBDYXN0cm8gPGx1Y2FzLmFy
+YXVqb0BlbGRvcmFkby5vcmcuYnI+DQoNCj4NCj4gSXMgdGhlIHdheSBJIGRpZCB0aGUgcmFu
+ZG9tIG51bWJlciBnZW5lcmF0aW9uIG9rPw0KPg0KPiAtLS0NCj4gICB0YXJnZXQvcHBjL2Nw
+dS5oICAgICAgfCAgMiArKw0KPiAgIHRhcmdldC9wcGMvY3B1X2luaXQuYyB8IDI4ICsrKysr
+KysrKysrKysrKysrKysrKysrKysrKysNCj4gICAyIGZpbGVzIGNoYW5nZWQsIDMwIGluc2Vy
+dGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdCBhL3RhcmdldC9wcGMvY3B1LmggYi90YXJnZXQv
+cHBjL2NwdS5oDQo+IGluZGV4IGE0Yzg5M2NmYWQuLjQ1NTFkODFiNWYgMTAwNjQ0DQo+IC0t
+LSBhL3RhcmdldC9wcGMvY3B1LmgNCj4gKysrIGIvdGFyZ2V0L3BwYy9jcHUuaA0KPiBAQCAt
+MTY3Niw2ICsxNjc2LDggQEAgdm9pZCBwcGNfY29tcGF0X2FkZF9wcm9wZXJ0eShPYmplY3Qg
+Km9iaiwgY29uc3QgY2hhciAqbmFtZSwNCj4gICAjZGVmaW5lIFNQUl9CT09LRV9HSVZPUjE0
+ICAgICAoMHgxQkQpDQo+ICAgI2RlZmluZSBTUFJfVElSICAgICAgICAgICAgICAgKDB4MUJF
+KQ0KPiAgICNkZWZpbmUgU1BSX1BUQ1IgICAgICAgICAgICAgICgweDFEMCkNCj4gKyNkZWZp
+bmUgU1BSX0hBU0hLRVlSICAgICAgICAgICgweDFENCkNCj4gKyNkZWZpbmUgU1BSX0hBU0hQ
+S0VZUiAgICAgICAgICgweDFENSkNCj4gICAjZGVmaW5lIFNQUl9CT09LRV9TUEVGU0NSICAg
+ICAoMHgyMDApDQo+ICAgI2RlZmluZSBTUFJfRXh4eF9CQkVBUiAgICAgICAgKDB4MjAxKQ0K
+PiAgICNkZWZpbmUgU1BSX0V4eHhfQkJUQVIgICAgICAgICgweDIwMikNCj4gZGlmZiAtLWdp
+dCBhL3RhcmdldC9wcGMvY3B1X2luaXQuYyBiL3RhcmdldC9wcGMvY3B1X2luaXQuYw0KPiBp
+bmRleCBkMTQ5M2E2NjBjLi4yOWM3NzUyNDgzIDEwMDY0NA0KPiAtLS0gYS90YXJnZXQvcHBj
+L2NwdV9pbml0LmMNCj4gKysrIGIvdGFyZ2V0L3BwYy9jcHVfaW5pdC5jDQo+IEBAIC01NzAw
+LDYgKzU3MDAsMzMgQEAgc3RhdGljIHZvaWQgcmVnaXN0ZXJfcG93ZXI5X21tdV9zcHJzKENQ
+VVBQQ1N0YXRlICplbnYpDQo+ICAgI2VuZGlmDQo+ICAgfQ0KPg0KPiArc3RhdGljIHZvaWQg
+cmVnaXN0ZXJfcG93ZXIxMF9oYXNoX3NwcnMoQ1BVUFBDU3RhdGUgKmVudikNCj4gK3sNCj4g
+KyAgICAvKg0KPiArICAgICAqIGl0J3MgdGhlIE9TIHJlc3BvbnNhYmlsaXR5IHRvIGdlbmVy
+YXRlIGEgcmFuZG9tIHZhbHVlIGZvciB0aGUgcmVnaXN0ZXJzDQo+ICsgICAgICogaW4gZWFj
+aCBwcm9jZXNzJyBjb250ZXh0LiBTbywgaW5pdGlhbGl6ZSBpdCB3aXRoIDAgaGVyZS4NCj4g
+KyAgICAgKi8NCj4gKyAgICB1aW50NjRfdCBoYXNoa2V5cl9pbml0aWFsX3ZhbHVlID0gMCwg
+aGFzaHBrZXlyX2luaXRpYWxfdmFsdWUgPSAwOw0KPiArI2lmIGRlZmluZWQoQ09ORklHX1VT
+RVJfT05MWSkNCj4gKyAgICAvKiBpbiBsaW51eC11c2VyLCBzZXR1cCB0aGUgaGFzaCByZWdp
+c3RlciB3aXRoIGEgcmFuZG9tIHZhbHVlICovDQo+ICsgICAgR1JhbmQgKnJhbmQgPSBnX3Jh
+bmRfbmV3KCk7DQo+ICsgICAgaGFzaGtleXJfaW5pdGlhbF92YWx1ZSA9DQo+ICsgICAgICAg
+ICgodWludDY0X3QpZ19yYW5kX2ludChyYW5kKSA8PCAzMikgfCAodWludDY0X3QpZ19yYW5k
+X2ludChyYW5kKTsNCj4gKyAgICBoYXNocGtleXJfaW5pdGlhbF92YWx1ZSA9DQo+ICsgICAg
+ICAgICgodWludDY0X3QpZ19yYW5kX2ludChyYW5kKSA8PCAzMikgfCAodWludDY0X3QpZ19y
+YW5kX2ludChyYW5kKTsNCj4gKyAgICBnX3JhbmRfZnJlZShyYW5kKTsNCj4gKyNlbmRpZg0K
+PiArICAgIHNwcl9yZWdpc3RlcihlbnYsIFNQUl9IQVNIS0VZUiwgIkhBU0hLRVlSIiwNCj4g
+KyAgICAgICAgICAgIFNQUl9OT0FDQ0VTUywgU1BSX05PQUNDRVNTLA0KPiArICAgICAgICAg
+ICAgJnNwcl9yZWFkX2dlbmVyaWMsICZzcHJfd3JpdGVfZ2VuZXJpYywNCj4gKyAgICAgICAg
+ICAgIGhhc2hrZXlyX2luaXRpYWxfdmFsdWUpOw0KPiArICAgIHNwcl9yZWdpc3Rlcl9odihl
+bnYsIFNQUl9IQVNIUEtFWVIsICJIQVNIUEtFWVIiLA0KPiArICAgICAgICAgICAgU1BSX05P
+QUNDRVNTLCBTUFJfTk9BQ0NFU1MsDQo+ICsgICAgICAgICAgICBTUFJfTk9BQ0NFU1MsIFNQ
+Ul9OT0FDQ0VTUywNCj4gKyAgICAgICAgICAgICZzcHJfcmVhZF9nZW5lcmljLCAmc3ByX3dy
+aXRlX2dlbmVyaWMsDQo+ICsgICAgICAgICAgICBoYXNocGtleXJfaW5pdGlhbF92YWx1ZSk7
+DQo+ICt9DQo+ICsNCj4gICAvKg0KPiAgICAqIEluaXRpYWxpemUgUE1VIGNvdW50ZXIgb3Zl
+cmZsb3cgdGltZXJzIGZvciBQb3dlcjggYW5kDQo+ICAgICogbmV3ZXIgUG93ZXIgY2hpcHMg
+d2hlbiB1c2luZyBUQ0cuDQo+IEBAIC02NDg0LDYgKzY1MTEsNyBAQCBzdGF0aWMgdm9pZCBp
+bml0X3Byb2NfUE9XRVIxMChDUFVQUENTdGF0ZSAqZW52KQ0KPiAgICAgICByZWdpc3Rlcl9w
+b3dlcjhfYm9vazRfc3BycyhlbnYpOw0KPiAgICAgICByZWdpc3Rlcl9wb3dlcjhfcnByX3Nw
+cnMoZW52KTsNCj4gICAgICAgcmVnaXN0ZXJfcG93ZXI5X21tdV9zcHJzKGVudik7DQo+ICsg
+ICAgcmVnaXN0ZXJfcG93ZXIxMF9oYXNoX3NwcnMoZW52KTsNCj4NCj4gICAgICAgLyogRklY
+TUU6IEZpbHRlciBmaWVsZHMgcHJvcGVybHkgYmFzZWQgb24gcHJpdmlsZWdlIGxldmVsICov
+DQo+ICAgICAgIHNwcl9yZWdpc3Rlcl9rdm1faHYoZW52LCBTUFJfUFNTQ1IsICJQU1NDUiIs
+IE5VTEwsIE5VTEwsIE5VTEwsIE5VTEwsDQo+IC0tDQo+IDIuMjUuMQ0KPg0KPg0KLS0gDQpM
+dWNhcyBNYXRldXMgTS4gQXJhdWpvIGUgQ2FzdHJvDQpJbnN0aXR1dG8gZGUgUGVzcXVpc2Fz
+IEVMRE9SQURPIA0KPGh0dHBzOi8vd3d3LmVsZG9yYWRvLm9yZy5ici8/dXRtX2NhbXBhaWdu
+PWFzc2luYXR1cmFfZGVfZS1tYWlsJnV0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJjZT1SRCtT
+dGF0aW9uPg0KRGVwYXJ0YW1lbnRvIENvbXB1dGHDp8OjbyBFbWJhcmNhZGENCkFuYWxpc3Rh
+IGRlIFNvZnR3YXJlIFRyYWluZWUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6
+Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
+--------------PLYFjQBET4j6SW1u0WLZFqGb
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    On 15/07/2022 17:54, V=C3=ADctor Colombo wrote:<br>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20220715205439.161110-2-victor.colombo@eldorado.org.br"=
 >
-> Added support for RISC-V PAUSE instruction from Zihintpause extension,
-> enabled by default.
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+Add the Special Purpose Registers HASHKEYR and HASHPKEYR, which were
+introduced by the Power ISA 3.1B. They are used by the new instructions
+hashchk(p) and hashst(p).
+
+The ISA states that the Operating System should generate the value for
+these registers when creating a process, so it's its responsability to
+do so. We initialize it with 0 for qemu-softmmu, and set a random 64
+bits value for linux-user.
+
+Signed-off-by: V=C3=ADctor Colombo <a class=3D"moz-txt-link-rfc2396E" hre=
+f=3D"mailto:victor.colombo@eldorado.org.br">&lt;victor.colombo@eldorado.o=
+rg.br&gt;</a>
+---</pre>
+    </blockquote>
+    <p>Reviewed-by: Lucas Mateus Castro
+      <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:lucas.araujo@eldo=
+rado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a><br>
+    </p>
+    <blockquote type=3D"cite"
+      cite=3D"mid:20220715205439.161110-2-victor.colombo@eldorado.org.br"=
 >
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
-> Signed-off-by: Dao Lu <daolu@rivosinc.com>
-> ---
->  target/riscv/cpu.c                      |  2 ++
->  target/riscv/cpu.h                      |  1 +
->  target/riscv/insn32.decode              |  7 ++++++-
->  target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
->  4 files changed, 25 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index ccacdee215..183fb37fdf 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
->      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
->      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
->      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
->      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
->      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
->      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
->       *    extensions by an underscore.
->       */
->      struct isa_ext_data isa_edata_arr[] = {
-> +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
->          ISA_EDATA_ENTRY(zfh, ext_zfh),
->          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
->          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index fe6c9a2c92..e466a04a59 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
->      bool ext_counters;
->      bool ext_ifencei;
->      bool ext_icsr;
-> +    bool ext_zihintpause;
->      bool ext_svinval;
->      bool ext_svnapot;
->      bool ext_svpbmt;
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 4033565393..595fdcdad8 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
->  sra      0100000 .....    ..... 101 ..... 0110011 @r
->  or       0000000 .....    ..... 110 ..... 0110011 @r
->  and      0000000 .....    ..... 111 ..... 0110011 @r
-> -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-> +
-> +{
-> +  pause  0000 0001   0000   00000 000 00000 0001111
-> +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-> +}
-> +
->  fence_i  ---- ----   ----   ----- 001 ----- 0001111
->  csrrw    ............     ..... 001 ..... 1110011 @csr
->  csrrs    ............     ..... 010 ..... 1110011 @csr
-> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> index f1342f30f8..2fd07bc2e4 100644
-> --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> @@ -796,6 +796,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
->      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
->  }
->
-> +static bool trans_pause(DisasContext *ctx, arg_pause *a)
-> +{
-> +    if (!ctx->cfg_ptr->ext_zihintpause) {
-> +        return false;
-> +    }
-> +
-> +    /*
-> +     * PAUSE is a no-op in QEMU,
-> +     * end the TB and return to main loop
-> +     */
-> +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> +    tcg_gen_exit_tb(NULL, 0);
-> +    ctx->base.is_jmp = DISAS_NORETURN;
-> +
-> +    return true;
-> +}
->
->  static bool trans_fence(DisasContext *ctx, arg_fence *a)
->  {
-> --
-> 2.25.1
->
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+
+Is the way I did the random number generation ok?
+
+---
+ target/ppc/cpu.h      |  2 ++
+ target/ppc/cpu_init.c | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index a4c893cfad..4551d81b5f 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1676,6 +1676,8 @@ void ppc_compat_add_property(Object *obj, const cha=
+r *name,
+ #define SPR_BOOKE_GIVOR14     (0x1BD)
+ #define SPR_TIR               (0x1BE)
+ #define SPR_PTCR              (0x1D0)
++#define SPR_HASHKEYR          (0x1D4)
++#define SPR_HASHPKEYR         (0x1D5)
+ #define SPR_BOOKE_SPEFSCR     (0x200)
+ #define SPR_Exxx_BBEAR        (0x201)
+ #define SPR_Exxx_BBTAR        (0x202)
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index d1493a660c..29c7752483 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -5700,6 +5700,33 @@ static void register_power9_mmu_sprs(CPUPPCState *=
+env)
+ #endif
+ }
+
++static void register_power10_hash_sprs(CPUPPCState *env)
++{
++    /*
++     * it's the OS responsability to generate a random value for the reg=
+isters
++     * in each process' context. So, initialize it with 0 here.
++     */
++    uint64_t hashkeyr_initial_value =3D 0, hashpkeyr_initial_value =3D 0=
+;
++#if defined(CONFIG_USER_ONLY)
++    /* in linux-user, setup the hash register with a random value */
++    GRand *rand =3D g_rand_new();
++    hashkeyr_initial_value =3D
++        ((uint64_t)g_rand_int(rand) &lt;&lt; 32) | (uint64_t)g_rand_int(=
+rand);
++    hashpkeyr_initial_value =3D
++        ((uint64_t)g_rand_int(rand) &lt;&lt; 32) | (uint64_t)g_rand_int(=
+rand);
++    g_rand_free(rand);
++#endif
++    spr_register(env, SPR_HASHKEYR, "HASHKEYR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            &amp;spr_read_generic, &amp;spr_write_generic,
++            hashkeyr_initial_value);
++    spr_register_hv(env, SPR_HASHPKEYR, "HASHPKEYR",
++            SPR_NOACCESS, SPR_NOACCESS,
++            SPR_NOACCESS, SPR_NOACCESS,
++            &amp;spr_read_generic, &amp;spr_write_generic,
++            hashpkeyr_initial_value);
++}
++
+ /*
+  * Initialize PMU counter overflow timers for Power8 and
+  * newer Power chips when using TCG.
+@@ -6484,6 +6511,7 @@ static void init_proc_POWER10(CPUPPCState *env)
+     register_power8_book4_sprs(env);
+     register_power8_rpr_sprs(env);
+     register_power9_mmu_sprs(env);
++    register_power10_hash_sprs(env);
+
+     /* FIXME: Filter fields properly based on privilege level */
+     spr_register_kvm_hv(env, SPR_PSSCR, "PSSCR", NULL, NULL, NULL, NULL,=
+
+--
+2.25.1
+
+
+</pre>
+    </blockquote>
+    <div class=3D"moz-signature">-- <br>
+      Lucas Mateus M. Araujo e Castro<br>
+      <a
+href=3D"https://www.eldorado.org.br/?utm_campaign=3Dassinatura_de_e-mail&=
+amp;utm_medium=3Demail&amp;utm_source=3DRD+Station">Instituto
+        de Pesquisas ELDORADO</a><br>
+      Departamento Computa=C3=A7=C3=A3o Embarcada<br>
+      Analista de Software Trainee<br>
+      <a href=3D"https://www.eldorado.org.br/disclaimer.html">Aviso Legal=
+
+        - Disclaimer</a></div>
+  </body>
+</html>
+
+--------------PLYFjQBET4j6SW1u0WLZFqGb--
 
