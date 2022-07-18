@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F39578124
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:44:16 +0200 (CEST)
-Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCD0578123
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:44:01 +0200 (CEST)
+Received: from localhost ([::1]:38154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPAd-0003dI-VJ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:44:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1oDPAO-0003IX-AF
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:44:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDP4g-000597-TO
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:38:08 -0400
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:36559)
+ id 1oDP5Y-0005ql-85
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:39:00 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:34432)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDP4e-0003JN-Sl
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:38:06 -0400
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-31caffa4a45so103598997b3.3
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:38:03 -0700 (PDT)
+ id 1oDP5W-0003OQ-PH
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:38:59 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-31c86fe1dddso103763047b3.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:38:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TCBtcHtX3oYQipZUSu5koaA9OW473QyAlI5Upd1su+Q=;
- b=bKRx5R5Eza8FjCWPcjrxXCqMBfZ/QUmWmrV/pUtXRA1tAwJKV/7ihiJYAdEA8DrvFu
- TVZYxNqVfVGJSEknbCKK8jzYDKX2HxEkUmAxkskyBvQuc1FM504OfhLkIzngSQKXRj/P
- AQiwSupyoLtt2XAQniGSiBJ94Kqh1DoVSSA5siBO2iiHPrYvILn+Sl9doUZNSYznNt84
- VBU2g6FlLnM5U9dd9MUYd0chGhI54+st3n/HvmWIYujRb3LfZENK1kyvFZwlkDBVbN2L
- UHuyadNpz6npF7ayOAtNX6qtg0T/x1GINqoSGoRY/G4k4M2NT3tA14tbmWBiNge78EV9
- b5wA==
+ :cc; bh=3RB0D8Gy1sjal1YEu+U9y7W1b0qKui6+rYeQwb/RYkI=;
+ b=Mcn3S9XbZAz3v8Dp5WKd2ro4ruQsE8mruihtSjZeNXsPBfF7F9xODKf7j8XmPQTLYt
+ j9HY37vtv57y9m+L9ICQ/5LnhvA6Mjwk7/bHXd8n9cBxi6T/eVNgVf95nl4xqt+B4v1J
+ EWetX39XtL5ijZ5Tma7Zru3BgfiOlFzFwX5NTqEKeTTnVT0K0hXVOZZpfJajYmwn0+Q+
+ kCJJRBcBl6gguFt9mbiWBzoliYFddv/kH3oUpM49FLAHxS81mYtjB03aUDroIroasK8A
+ p/RmKLVurr8kdDODR5JH05+2E8RAlrGFcKsEGAzMDsXqyAuMZsOVBVcY9MYXijSymad1
+ 6zXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TCBtcHtX3oYQipZUSu5koaA9OW473QyAlI5Upd1su+Q=;
- b=CrVD/dOyl2yM+OKfGhkiBKTvBT3xGrX5CLCV1vrTCG/nXVyeisfqvuvVsAO4KocZ6j
- HrUBWciRNeLY7/ukuxhbDrbLVhi/WUavIgkahVoilaSk7+3sYRilSo594lp35rUf2KUF
- 3E1rcR7tDOKIDH8J8kUh3Y5vnsDaS2VbKB0292uKpn/veuQ8E98RSkYJxpDzIlV3FSQo
- GER4WgkPtKARFeWhwEv33P6cQgJwAUmnfYZj1KlALw/tWYN/13JJiDDT7iuilIlh4+EI
- /J0LcBA/PDMeJfk6kV69cPvPndugGzrVN6nnQnkhXc4pFnvuas3hyI11c4VOLo/iMIVO
- fqug==
-X-Gm-Message-State: AJIora8cr7ipSD/N5T4x6cVqhnFxEUk3h4H8sbQuyXVEGwIYWWtFpy1L
- pPSzbwdHNoDiKb7RfpkCo1t+gzTJKW59sO7S/oDumQ==
-X-Google-Smtp-Source: AGRyM1skk1tbTAFyTFEoIHgSMi9aTaxiH/Sx5JQLin6KKU6BNlxTOWrxqwn2Co5NJznRq/5U9xQZ1ZvnxL613QAMsOY=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr29436824ywb.257.1658144282285; Mon, 18
- Jul 2022 04:38:02 -0700 (PDT)
+ bh=3RB0D8Gy1sjal1YEu+U9y7W1b0qKui6+rYeQwb/RYkI=;
+ b=b7zJVslkxTqrO4Pa0RdlM9qiJixgrOm/U1jTYwf/c6Gqe7XxthzPvukuZL2Jf0DN72
+ RbVEw0fBqQsC574dsChOlNjIIziQXwHeilZmxqgHsJsOm7CkI/xWR6NHkcQiIf95FeY7
+ x7EcAAUEcHBznAgVHonKqrlYK2LmKI+eQCVChitD0Rl/BeQ3w6l2czgq6IEZzpO5nEua
+ hPlYFQQjJZOKr574WO/NLGuoNC98qBz35CFyvSV4xK4aicWB36XmYUpI5pCKcBk5T09J
+ 9UYQAz7StaVqcrFvwMp01Hm9dvQPCU9uRgxACE0Xe4ezp1KvChLzX7qQKOh+vUyLr6Ix
+ iQzg==
+X-Gm-Message-State: AJIora889fD+HJ2ft/0QP/66XB3PF31k8Zf+wAsygISQwZwdY9H58DiA
+ 98Zp/MH/8fXMlFJpd4HARQu2ugle/L6Lzyy+vQFE7t85teg=
+X-Google-Smtp-Source: AGRyM1sneBfrkd0YmuSzDTAx0N6wg9nThlBMnMbnRrZsqorbqn/A5Fqdp4RNKEE6JCM4dB1m6JjjIgdC3zEEomwFz2k=
+X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
+ u125-20020a0deb83000000b0031c8741a033mr30101974ywe.455.1658144337905; Mon, 18
+ Jul 2022 04:38:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
- <20220708154700.18682-19-richard.henderson@linaro.org>
-In-Reply-To: <20220708154700.18682-19-richard.henderson@linaro.org>
+ <20220708154700.18682-20-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-20-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 12:37:51 +0100
-Message-ID: <CAFEAcA8zq9muMkU5Ex1256qxZhHHQPGWk6HSQcqde=MiFEsSAw@mail.gmail.com>
-Subject: Re: [RISU PATCH v4 18/29] Compute reginfo_size based on the reginfo
+Date: Mon, 18 Jul 2022 12:38:47 +0100
+Message-ID: <CAFEAcA942DAgdTHd=aa=6EzprqH4tr6unpf_C2fuHe-rtcYCdA@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 19/29] aarch64: Assume system support for SVE
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,14 +83,12 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jul 2022 at 17:35, Richard Henderson
+On Fri, 8 Jul 2022 at 17:09, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> This will allow dumping of SVE frames without having
-> to know the SVE vector length beforehand.
+> SVE support is no longer new, assume it's present.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
