@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437BF5784DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:09:54 +0200 (CEST)
-Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0D95784D0
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:07:51 +0200 (CEST)
+Received: from localhost ([::1]:46776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRRZ-0000Fo-By
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:09:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37462)
+	id 1oDRPa-0005su-4J
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:07:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpo-0007aI-Qy
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:44 -0400
-Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:48076)
+ id 1oDOpn-0007UD-OW
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
+Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:35197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpj-0000ja-AY
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:44 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R501e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ id 1oDOph-0000jH-9w
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R681e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VJjIAAu_1658143048; 
+ TI=SMTPD_---0VJjey8M_1658143049; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjIAAu_1658143048) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:28 +0800
+ fp:SMTPD_---0VJjey8M_1658143049) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:29 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
-Subject: [PATCH 15/16] virtio-net: support queue_reset for vhost-user
-Date: Mon, 18 Jul 2022 19:17:12 +0800
-Message-Id: <4f8aa7a685073d193b9f1d9155f54c5da68fccfd.1658141552.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH 16/16] vhost-net: vq reset feature bit support
+Date: Mon, 18 Jul 2022 19:17:13 +0800
+Message-Id: <229f4bc4d6ba7e85a09d6f35d2d06f3cc6a46a6a.1658141552.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.130;
+Received-SPF: pass client-ip=115.124.30.132;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-130.freemail.mail.aliyun.com
+ helo=out30-132.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,29 +64,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support queue reset in vhost-user scenario.
+Add support for negotation of vq reset feature bit.
 
 Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/net/virtio-net.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/net/vhost_net.c  | 1 +
+ hw/net/virtio-net.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 4f5f034c11..de910f6466 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -73,6 +73,7 @@ static const int user_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_F_RING_RESET,
+     VIRTIO_NET_F_RSS,
+     VIRTIO_NET_F_HASH_REPORT,
+ 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 2c26e2ef73..0747ffe71c 100644
+index 0747ffe71c..a8b299067a 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -540,6 +540,10 @@ static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-         return;
+@@ -757,6 +757,8 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+ 
+     virtio_add_feature(&features, VIRTIO_NET_F_MAC);
+ 
++    virtio_add_feature(&features, VIRTIO_F_RING_RESET);
++
+     if (!peer_has_vnet_hdr(n)) {
+         virtio_clear_feature(&features, VIRTIO_NET_F_CSUM);
+         virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO4);
+@@ -777,7 +779,6 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
      }
  
-+    if (nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_USER) {
-+        vhost_virtqueue_stop(vdev, nc, queue_index);
-+    }
-+
-     qemu_flush_or_purge_queued_packets(nc->peer, true);
-     assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
- }
+     if (!get_vhost_net(nc->peer)) {
+-        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
+         return features;
+     }
+ 
 -- 
 2.32.0
 
