@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D76F577F50
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:06:04 +0200 (CEST)
-Received: from localhost ([::1]:35178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75110577F56
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:06:59 +0200 (CEST)
+Received: from localhost ([::1]:36418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDNdb-0005mH-RX
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:06:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48058)
+	id 1oDNeU-0006dm-1V
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:06:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1oDNbN-0003Mj-Pc
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:03:45 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54241)
+ id 1oDNct-0004Pr-SN
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:05:19 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:36556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1oDNbL-0005Im-T8
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:03:45 -0400
-Received: by mail-wm1-x334.google.com with SMTP id a11so677630wmq.3
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:03:43 -0700 (PDT)
+ id 1oDNcp-0005dJ-6C
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:05:19 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id r2so15262194wrs.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=NO8SnhXBfSPU6jejj9SWuNula3OagSdbuVn2CeVVLDI=;
- b=NvjIdr4lXRAUM4dHm+yOjUEhyJ3VRdJTzd+TvI3U2YhcsmJ98UfgJqPVr+fvlzasEP
- h61pPNDtSNqwIeswK/pahD6R0tEF5dpkU41WL76udrel7XNd5eDxXCUcUnQKESw+ba5l
- 3Z6519tnVDTiK0A9zGPiGq/iFxNXiq1K51N7ltMs9AAAm8LtGsVNE1rt6ui7zkSGjx3A
- IcWgDUqh3nbSh5DvXimn5Ax1dJP/qi0JyetAVCDZhXyPkzYXnXM7s2eI+++bZxhJ8xOB
- WfmjWFoWIRd/quzahL1DcCgXsXVw2NoABpFUQVfGg8ty2fAWxL07NSfDLJL1EcKUdxsP
- 1KZw==
+ bh=68VJoLMRPo3xk7JEV7Sc52MYOD1eudgxRw7myeOMVb4=;
+ b=nuta5DXo2fcLPrpSFSI0lcI7ULn0CauJJQVrxR/zNpHLUe7wDhv1IB9IVRlg/pnMj4
+ bB8mv59hK3+KM2IGBhYZKZNs9GvVdAXPFAAQhO62LqwkRFgqWzsazhTJRGRkaGAO8+v7
+ mBRVbv39b09jMIlzFR/0S9rpBqgSvU144DDHev5C4thDBSjurohXlgtCCSNq9lMNdMzl
+ jCQ7mGX7NncUT/ZXqVYtqh1oqkxtMia/bFq2/OUq/nxU3jrHOSW+6SC0oALcYl3hmesp
+ VD241vPdSS1911Lapzc7M+ibSUUo93I+zrl+iqFpyyibXOnGLgWPhxc80rNGuEYvY9IO
+ 0afA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=NO8SnhXBfSPU6jejj9SWuNula3OagSdbuVn2CeVVLDI=;
- b=qpUl2fWiE/f6D6gSA5YVgg5WTTdKDX3/2VCLB0ToZrhORDX7zjzpgP0Wt4vkQ7VKre
- xeGxlocPuvN0uHlFeRVZDm+WdJ7NEL2ukFn+GLjbjnLZ7AWN593bh7BMsTbbAFov/4fm
- ty+OAG/ylYxcbmpnQ/zRVPPMkyVbHUpjFSaCvZ/5799lUZ0Edk/t9ywisdRq98LdNiai
- 1ztBpDp5bC3Xzk0/yYhCwNPXBv7PNx0vnNJTk71+AyqG9KQPoQ7FuXCrDOjWlEcXDnXA
- MxkuACQAi03Z4vF8jHBbXnU/3uRK9hMVBwNqids8G21IQouEM6rGTQ6PEseB0Yg0xgtM
- ZqjA==
-X-Gm-Message-State: AJIora9zoR1UStHyEXYkgjGsonC4Cga9eFgz133hR5f1HY80UNrA0Xq3
- BKyWQx3XjPNPXrE8hOB0ben6ynC5mcR1KQZh
-X-Google-Smtp-Source: AGRyM1uxejjOAD8wyYUnrBNrwMtIgG5w06BEIL+iB3ETDtZyzR/GSgUUt4Uk++F+JBzSoDmi3hY2Gw==
-X-Received: by 2002:a1c:c912:0:b0:3a3:20d5:8351 with SMTP id
- f18-20020a1cc912000000b003a320d58351mr55577wmb.126.1658138621945; 
- Mon, 18 Jul 2022 03:03:41 -0700 (PDT)
+ bh=68VJoLMRPo3xk7JEV7Sc52MYOD1eudgxRw7myeOMVb4=;
+ b=tEyZF1iN6DZRsSZMvhn+dnB1wPgdOwOjWTlz2gzsXzAmHH4XPW3S+krwSt7LbiyXQQ
+ l5jqcvmWP44hpYldFB+ple0Q75ts9EbY26bZkpWpP1huWta00yYoR+QDdWfDtkQn+P+S
+ P/WmXXc8cnLlXxeyy0aRBrI+8sUIOncMRjm//+zF5C7twF0Fjg+BWsEer0J2/uMeGKkW
+ Y5aImo6caoEsTZWmMcRdUUbRwNsMN8x6obsxcPpSK9QOJNvjlW0i34RaTXZdQCc78yWq
+ aumSiX/tWDnri+pRBuStrQyuqhjgs5R2ISNPjKISI8i4kFqR3GQEV4i0rfoCSVzPIoY0
+ CBnw==
+X-Gm-Message-State: AJIora/X0Hmh0T+92arftxxZUcJs1Ra5NVSbNzvbivi6I0oJaJq8qHrY
+ pFaTM6stQ+IwsX2CSHFFYG7xNE9qv3ubH923
+X-Google-Smtp-Source: AGRyM1uVV7POlckGG8dB5cb+x1oZmThG/S5uzEBpNqWT0IKXAuu+EQm0a1+XtdBiGPQfHkstl3RzBw==
+X-Received: by 2002:a05:6000:1446:b0:21d:c3f1:395f with SMTP id
+ v6-20020a056000144600b0021dc3f1395fmr17307214wrx.333.1658138712280; 
+ Mon, 18 Jul 2022 03:05:12 -0700 (PDT)
 Received: from [10.35.4.171] ([167.98.27.226])
  by smtp.gmail.com with ESMTPSA id
- z11-20020a05600c0a0b00b003a033177655sm20844791wmp.29.2022.07.18.03.03.41
+ z11-20020a05600c0a0b00b003a033177655sm20850844wmp.29.2022.07.18.03.05.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 03:03:41 -0700 (PDT)
-Message-ID: <61b2a3f2-c930-779e-8897-b706fe234108@sifive.com>
-Date: Mon, 18 Jul 2022 11:03:40 +0100
+ Mon, 18 Jul 2022 03:05:12 -0700 (PDT)
+Message-ID: <d2b2a868-4e12-35f4-40e9-5e520e07cb3e@sifive.com>
+Date: Mon, 18 Jul 2022 11:05:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 1/7] pci: designware: add 64-bit viewport limit
+Subject: Re: [PATCH] gpio: designware gpio driver
 Content-Language: en-GB
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
  Sudip Mukherjee <sudip.mukherjee@sifive.com>,
  William Salmon <william.salmon@sifive.com>,
- Adnan Chowdhury <adnan.chowdhury@sifive.com>,
- Ben Dooks <ben.dooks@codethink.co.uk>
-References: <20220713165449.37433-1-ben.dooks@sifive.com>
- <20220713165449.37433-2-ben.dooks@sifive.com>
+ Adnan Chowdhury <adnan.chowdhury@sifive.com>
+References: <20220713172010.39163-1-ben.dooks@sifive.com>
 From: Ben Dooks <ben.dooks@sifive.com>
-In-Reply-To: <20220713165449.37433-2-ben.dooks@sifive.com>
+In-Reply-To: <20220713172010.39163-1-ben.dooks@sifive.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=ben.dooks@sifive.com; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=ben.dooks@sifive.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,114 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/07/2022 17:54, Ben Dooks wrote:
-> Versions 4 and above add support for 64-bit viewport
-> limit. Add support for the DESIGNWARE_PCIE_ATU_UPPER_LIMIT
-> regiser where supported.
-> 
-> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
+On 13/07/2022 18:20, Ben Dooks wrote:
+> A model for the DesignWare GPIO (v1) block.
 
-Whoops, just noticed this was my old ct address.
+Is there anyone else who should be reviewing these that
+was missed off the original list? I'd like to get an idea
+if there is any work to do. I've got a couple more drivers
+to submit and was waiting on feedback from this before
+getting these submitted.
 
-> ---
->   hw/pci-host/designware.c         | 22 +++++++++++++++++-----
->   include/hw/pci-host/designware.h |  2 +-
->   2 files changed, 18 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-> index bde3a343a2..296f1b9760 100644
-> --- a/hw/pci-host/designware.c
-> +++ b/hw/pci-host/designware.c
-> @@ -54,6 +54,7 @@
->   #define DESIGNWARE_PCIE_ATU_BUS(x)                 (((x) >> 24) & 0xff)
->   #define DESIGNWARE_PCIE_ATU_DEVFN(x)               (((x) >> 16) & 0xff)
->   #define DESIGNWARE_PCIE_ATU_UPPER_TARGET           0x91C
-> +#define DESIGNWARE_PCIE_ATU_UPPER_LIMIT            0x924
->   
->   #define DESIGNWARE_PCIE_IRQ_MSI                    3
->   
-> @@ -196,6 +197,10 @@ designware_pcie_root_config_read(PCIDevice *d, uint32_t address, int len)
->           val = viewport->target >> 32;
->           break;
->   
-> +    case DESIGNWARE_PCIE_ATU_UPPER_LIMIT:
-> +        val = viewport->limit >> 32;
-> +        break;
-> +
->       case DESIGNWARE_PCIE_ATU_LIMIT:
->           val = viewport->limit;
->           break;
-> @@ -269,7 +274,7 @@ static void designware_pcie_update_viewport(DesignwarePCIERoot *root,
->   {
->       const uint64_t target = viewport->target;
->       const uint64_t base   = viewport->base;
-> -    const uint64_t size   = (uint64_t)viewport->limit - base + 1;
-> +    const uint64_t size   = viewport->limit - base + 1;
->       const bool enabled    = viewport->cr[1] & DESIGNWARE_PCIE_ATU_ENABLE;
->   
->       MemoryRegion *current, *other;
-> @@ -363,14 +368,21 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
->           viewport->target |= val;
->           break;
->   
-> +    case DESIGNWARE_PCIE_ATU_UPPER_LIMIT:
-> +        viewport->limit &= 0x00000000FFFFFFFFUL;
-> +        viewport->limit |= (uint64_t)val << 32;
-> +        break;
-> +
->       case DESIGNWARE_PCIE_ATU_LIMIT:
-> -        viewport->limit = val;
-> +        viewport->limit = 0xFFFFFFFF00000000ULL;
-> +        viewport->limit |= val;
->           break;
->   
->       case DESIGNWARE_PCIE_ATU_CR1:
->           viewport->cr[0] = val;
->           break;
->       case DESIGNWARE_PCIE_ATU_CR2:
-> +        //printf("CR2: value %08x\n", val);
->           viewport->cr[1] = val;
->           designware_pcie_update_viewport(root, viewport);
->           break;
-> @@ -429,7 +441,7 @@ static void designware_pcie_root_realize(PCIDevice *dev, Error **errp)
->           viewport->inbound = true;
->           viewport->base    = 0x0000000000000000ULL;
->           viewport->target  = 0x0000000000000000ULL;
-> -        viewport->limit   = UINT32_MAX;
-> +        viewport->limit   = UINT64_MAX-1;
->           viewport->cr[0]   = DESIGNWARE_PCIE_ATU_TYPE_MEM;
->   
->           source      = &host->pci.address_space_root;
-> @@ -453,7 +465,7 @@ static void designware_pcie_root_realize(PCIDevice *dev, Error **errp)
->           viewport->inbound = false;
->           viewport->base    = 0x0000000000000000ULL;
->           viewport->target  = 0x0000000000000000ULL;
-> -        viewport->limit   = UINT32_MAX;
-> +        viewport->limit   = UINT64_MAX-1;
->           viewport->cr[0]   = DESIGNWARE_PCIE_ATU_TYPE_MEM;
->   
->           destination = &host->pci.memory;
-> @@ -560,7 +572,7 @@ static const VMStateDescription vmstate_designware_pcie_viewport = {
->       .fields = (VMStateField[]) {
->           VMSTATE_UINT64(base, DesignwarePCIEViewport),
->           VMSTATE_UINT64(target, DesignwarePCIEViewport),
-> -        VMSTATE_UINT32(limit, DesignwarePCIEViewport),
-> +        VMSTATE_UINT64(limit, DesignwarePCIEViewport),
->           VMSTATE_UINT32_ARRAY(cr, DesignwarePCIEViewport, 2),
->           VMSTATE_END_OF_LIST()
->       }
-> diff --git a/include/hw/pci-host/designware.h b/include/hw/pci-host/designware.h
-> index 6d9b51ae67..bd4dd49aec 100644
-> --- a/include/hw/pci-host/designware.h
-> +++ b/include/hw/pci-host/designware.h
-> @@ -44,7 +44,7 @@ typedef struct DesignwarePCIEViewport {
->   
->       uint64_t base;
->       uint64_t target;
-> -    uint32_t limit;
-> +    uint64_t limit;
->       uint32_t cr[2];
->   
->       bool inbound;
+-- 
+Ben
 
 
