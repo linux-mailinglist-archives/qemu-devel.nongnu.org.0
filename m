@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E557F578134
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:48:19 +0200 (CEST)
-Received: from localhost ([::1]:43758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A092F578163
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:57:51 +0200 (CEST)
+Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPEZ-0007BJ-1g
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:48:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43146)
+	id 1oDPNm-0007LF-As
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:57:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPBZ-0004qF-3W
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:45:14 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:39796)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPBS-0004N5-QK
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:45:11 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-31e4c3b1977so1423817b3.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:45:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/HedIyWCAWaVet9/kjbLGjwZonFcp7lcVAE0T3lgkC4=;
- b=H5rU9RBgH2mY6eCgu0WKWXwztGTRNceMO5FommH7jnkIONSwPp/v+Kp3TCeFhC8BQ4
- AvGTjwRwnHX3WXimipPlBS0q0UB/8+2wS5QQO1TiPtU5Qfd6ZJgkz0Xxpe6Z417dyMTj
- 60dAo7/gOOnicYSALMd6s3T6uQoM/yxBuBWXENkhpMIj2lGcriK1fMSmZf4nmqSRbqBA
- bF0A4BuzubyKU+JEKpqAUCrfZRUVmpLgGHf6VjbQny/pYXWrV1l4y6VCj8yUxUsmdTyp
- ienx6Zb0Y+bGi4NV5fCtJLo75Zv2e5smPBRAtOkppq/XoDLjVb7DgA4Aop+5KnRE5CYi
- wgCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/HedIyWCAWaVet9/kjbLGjwZonFcp7lcVAE0T3lgkC4=;
- b=eO/OFYvSL6yQyB4RBFSzpJCaTtD95FQ4Ui1xhl0+mdLVIGUERBGIBCHuIjpvyK025a
- yrSP+Q/5PwBnv9NNpgj7wVGOYoFLK+oWRYKZf2zemjvhLhWy5j8fefbAfiU4d1bF/DzS
- I1PQUZg6itReUssthhyYGFtMUMyk2IOrqgjWzb76o2LYZD6SxN1XzaaIexW1A5wcqGQ8
- W76vEwTXvhKURRtf8r/u/ESwzlKabF1kwjjWr1PAS1E3Rs7Y77B1Q2vXIm3/aOw1Cz/L
- CcABKfMnjytn5EkHDlzNi9tvd74eL4ySvgcP6PvoFz5HmAq5MF3TlLXbBjroxX8XRfai
- aHDw==
-X-Gm-Message-State: AJIora/vLd+sEFPA/TcswzKbkpHdemxFWYBJvCesJa5hg3RgeilqyAec
- 41wf/R15B1+09JqCSFBFbekn9iRKZ89tydP1WAjGZ7gz3SU=
-X-Google-Smtp-Source: AGRyM1vmPxU4P6SJiw8MWqb+MOLBuYoSgNbG+pnmyuIYb+gY5MwH5RxaAqB3DotGFWBn6My5/ByJ1SLkdTkrGMTKBSU=
-X-Received: by 2002:a81:6a85:0:b0:31c:8624:b065 with SMTP id
- f127-20020a816a85000000b0031c8624b065mr29659900ywc.64.1658144704958; Mon, 18
- Jul 2022 04:45:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
+ id 1oDPL1-0001ab-IU
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:00 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:58953)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
+ id 1oDPKw-0006AD-Cp
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:54:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1658145294; x=1689681294;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=b5ykuol9EGNBtS3/ajkgKNXBlmko4i9vcxFpTSOxeeI=;
+ b=FgVBABgIE70ymYMxpeRRRMCnlU5M6xGX+UMrs4sW75m/88zGD1tezEtn
+ lnJKhAA9xcflaf5pHhCLVnnXemF9Az+0UMOqqeVR6fFrncOUYBwLh9JoI
+ 1WfZVbyy+wPe5TxcWqsP2XY87h0p9gVSKZD1/ktVWpS0tmcbVk4ozX1y8 4=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 18 Jul 2022 04:54:50 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:54:50 -0700
+Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:49 -0700
+Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:48 -0700
+From: Tobias Roehmel <quic_trohmel@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>, Tobias Roehmel <quic_trohmel@quicinc.com>
+Subject: [PATCH v2 0/9] Add Cortex-R52
+Date: Mon, 18 Jul 2022 13:54:24 +0200
+Message-ID: <20220718115433.802-1-quic_trohmel@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220708154700.18682-1-richard.henderson@linaro.org>
- <20220708154700.18682-22-richard.henderson@linaro.org>
-In-Reply-To: <20220708154700.18682-22-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 12:44:51 +0100
-Message-ID: <CAFEAcA9AsAJvmD-E4gAFWsoSufN4r3o53hfj_7fLdop-dRGyvw@mail.gmail.com>
-Subject: Re: [RISU PATCH v4 21/29] aarch64: Use arch_init to configure sve
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+Received-SPF: pass client-ip=129.46.98.28;
+ envelope-from=quic_trohmel@quicinc.com; helo=alexa-out.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,20 +79,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jul 2022 at 17:41, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Adjust some of the aarch64 code to look at the reginfo struct
-> instead of looking at test_sve, so that we do not need to pass
-> the --test-sve option in order to dump sve trace files.
->
-> Diagnose EINVAL as either cpu or kernel does not support SVE.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
+v2:
+PATCH 1:
+I have left the flag in for now because there there is a lot of use for it in the MPU translation code.
+The PMSAv8r differs in quite a view ways from the implementation in the Cortex-M. I think using
+!ARM_FEATURE_M in all of those cases might run into problems down the road when new things are added.
+But I'll gladly change that if those concerns are not valid.
+PATCH 2:
+Patch was moved and I removed the ATCM... registers.
+PATCH 3:
+The issue here is that the R52 has the MPUIR register which shares the encoding with one of the
+MIDR alias registers. It's now changed to not add that register for ARM_FEATURE_V8_R.
+PATCH 4:
+Added RVBAR for all v8 CPUs instead of just ARMv8r
+PATCH 7:
+Instead of setting TTBCR_EAE to 1, change all functions that rely on that value and are
+relevant for Cortex-R52
+PATCH 10:
+SPSR_hyp changes removed
+PATCH 11:
+Removed the r52_machine. The issue with adding the Cortex-R52 to the virt board is that target_page.bits
+is expected to be 12 but is set to 10 for ARM_FEATURE_PMSA. Simply changing that or using
+virt2.7(which doesn't have that restriction) leads to problems with memory accesses. It might be
+best to model an existing board.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+These patches add the ARM Cortex-R52. The biggest addition is an implementation of the armv8-r MPU.
 
-thanks
--- PMM
+All information is taken from:
+- ARM Cortex-R52 TRM revision r1p3
+- ARM Architecture Reference Manual Supplement
+    -ARMv8 for the ARMv8-R AArch32 architecture profile Version A.c
+
+Functionality that is not implemented:
+- Changing between single and double precision floats
+- Some hypervisor related functionality (HCR.T(R)VM,HADFSR,...)
+
+Tobias Röhmel (9):
+  target/arm: Add ARM_FEATURE_V8_R
+  target/arm: Don't add all MIDR aliases for Cortex-R
+  target/arm: Make RVBAR available for all ARMv8 CPUs
+  target/arm: Make stage_2_format for cache attributes optional
+  target/arm: Add ARMCacheAttrs to the signature of pmsav8_mpu_lookup
+  target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
+  target/arm: Add PMSAv8r registers
+  target/arm: Add PMSAv8r functionality
+  target/arm: Add ARM Cortex-R52 cpu
+
+ target/arm/cpu.c          |   6 +-
+ target/arm/cpu.h          |  11 +++
+ target/arm/cpu_tcg.c      |  42 +++++++++
+ target/arm/debug_helper.c |   3 +-
+ target/arm/helper.c       | 183 +++++++++++++++++++++++++++++++++++-
+ target/arm/internals.h    |  16 ++--
+ target/arm/m_helper.c     |   3 +-
+ target/arm/ptw.c          | 191 ++++++++++++++++++++++++++++++++------
+ target/arm/tlb_helper.c   |   3 +-
+ 9 files changed, 417 insertions(+), 41 deletions(-)
+
+-- 
+2.25.1
+
 
