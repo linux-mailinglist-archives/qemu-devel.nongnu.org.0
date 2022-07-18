@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E535C577F3B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:03:37 +0200 (CEST)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D76F577F50
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:06:04 +0200 (CEST)
+Received: from localhost ([::1]:35178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDNbE-0003BY-UR
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:03:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47602)
+	id 1oDNdb-0005mH-RX
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDNZW-0001ZA-Di
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:01:50 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40812)
+ (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
+ id 1oDNbN-0003Mj-Pc
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:03:45 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDNZU-00054h-V5
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:01:50 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so7467993wmb.5
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LADKvz6NGwtTpJM5NpBVGy0mPvkc4sq8YRH/zAnJtNo=;
- b=sD30wY8bZN83brGu8oFmRrq+oAKISV2fydR2wdGzyxa1cxOXfvchvA4ZPYnelyjDjm
- GdWhwfQ9aeZHeJN6LMp63KwczQ+VM/3CtTq250ctTlXdyG8QAWK0utmVtPa1kapOseTP
- A29QeF7s7XGsMciBHaD2hd4f+dOANOOOzjvcpj12OfH2pZ4bZT8+ErDnpbV+bk7WQcYQ
- Sb06qv5DZNO+v7A/Ouzf57q5kXMBYI8UlYicPgcgaN10stMyBEr1bnhWmquz5ugVVTIH
- PfqDN8E8getvQjhS42kRszl+HTqf3gL4p5y1jtiP4FDWl6kcvKXCvpTYNj0eNH91Xqky
- tKFw==
+ (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
+ id 1oDNbL-0005Im-T8
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:03:45 -0400
+Received: by mail-wm1-x334.google.com with SMTP id a11so677630wmq.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=NO8SnhXBfSPU6jejj9SWuNula3OagSdbuVn2CeVVLDI=;
+ b=NvjIdr4lXRAUM4dHm+yOjUEhyJ3VRdJTzd+TvI3U2YhcsmJ98UfgJqPVr+fvlzasEP
+ h61pPNDtSNqwIeswK/pahD6R0tEF5dpkU41WL76udrel7XNd5eDxXCUcUnQKESw+ba5l
+ 3Z6519tnVDTiK0A9zGPiGq/iFxNXiq1K51N7ltMs9AAAm8LtGsVNE1rt6ui7zkSGjx3A
+ IcWgDUqh3nbSh5DvXimn5Ax1dJP/qi0JyetAVCDZhXyPkzYXnXM7s2eI+++bZxhJ8xOB
+ WfmjWFoWIRd/quzahL1DcCgXsXVw2NoABpFUQVfGg8ty2fAWxL07NSfDLJL1EcKUdxsP
+ 1KZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=LADKvz6NGwtTpJM5NpBVGy0mPvkc4sq8YRH/zAnJtNo=;
- b=HsfBP5IQPL1UZ2+FM5q8Ssira5dzwb2/kv/lOV+L0fYpXQvzfl7w+04Ndh7waoHU7u
- ZLVsZtGyZxqSNmOB4LhJDl/T7j42ik3M5GrJh6AHxoCej8zmVzMGcFVYt3uQ6VkReHO6
- g7y2kcy6dy95Mj9wMUW0o0RVP0udO+WIvrWs5KnF4Ej6MBONYw30jDM2cT9RXJATO1av
- YV9fAtABWKcF9HlBP/ClfuCzisaKSviGF3WKflohRjfhmquQTu6nzWe0mu6qno+8u0y0
- ayvnLxtqqZAyiNTU6BdMU5dg3RBmpiaSsF8Oh4OwZPk5pAAXpd5kn8/s38QZshZ3uy9A
- xiZg==
-X-Gm-Message-State: AJIora/6qFV5AO0aOZhwGs7QAmJXAr7MrRqlMZmckGz3/zmOLVy7ZLVp
- m/FlbjzxVTASFb4AwuvfUrqsNw==
-X-Google-Smtp-Source: AGRyM1sHB/+U5G7AyGE2ARXDOsjdLNyY21U0yMAiMl4xOeDaS9i4g+eXgeuqFOQIj5H+bQ+KBoq/NA==
-X-Received: by 2002:a05:600c:3b07:b0:3a3:1433:10b5 with SMTP id
- m7-20020a05600c3b0700b003a3143310b5mr8683144wms.129.1658138506135; 
- Mon, 18 Jul 2022 03:01:46 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ bh=NO8SnhXBfSPU6jejj9SWuNula3OagSdbuVn2CeVVLDI=;
+ b=qpUl2fWiE/f6D6gSA5YVgg5WTTdKDX3/2VCLB0ToZrhORDX7zjzpgP0Wt4vkQ7VKre
+ xeGxlocPuvN0uHlFeRVZDm+WdJ7NEL2ukFn+GLjbjnLZ7AWN593bh7BMsTbbAFov/4fm
+ ty+OAG/ylYxcbmpnQ/zRVPPMkyVbHUpjFSaCvZ/5799lUZ0Edk/t9ywisdRq98LdNiai
+ 1ztBpDp5bC3Xzk0/yYhCwNPXBv7PNx0vnNJTk71+AyqG9KQPoQ7FuXCrDOjWlEcXDnXA
+ MxkuACQAi03Z4vF8jHBbXnU/3uRK9hMVBwNqids8G21IQouEM6rGTQ6PEseB0Yg0xgtM
+ ZqjA==
+X-Gm-Message-State: AJIora9zoR1UStHyEXYkgjGsonC4Cga9eFgz133hR5f1HY80UNrA0Xq3
+ BKyWQx3XjPNPXrE8hOB0ben6ynC5mcR1KQZh
+X-Google-Smtp-Source: AGRyM1uxejjOAD8wyYUnrBNrwMtIgG5w06BEIL+iB3ETDtZyzR/GSgUUt4Uk++F+JBzSoDmi3hY2Gw==
+X-Received: by 2002:a1c:c912:0:b0:3a3:20d5:8351 with SMTP id
+ f18-20020a1cc912000000b003a320d58351mr55577wmb.126.1658138621945; 
+ Mon, 18 Jul 2022 03:03:41 -0700 (PDT)
+Received: from [10.35.4.171] ([167.98.27.226])
  by smtp.gmail.com with ESMTPSA id
- c15-20020adfef4f000000b0021d6f03b524sm10251990wrp.48.2022.07.18.03.01.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 03:01:45 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH] target/arm: Add MO_128 entry to pred_esz_masks[]
-Date: Mon, 18 Jul 2022 11:01:44 +0100
-Message-Id: <20220718100144.3248052-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ z11-20020a05600c0a0b00b003a033177655sm20844791wmp.29.2022.07.18.03.03.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jul 2022 03:03:41 -0700 (PDT)
+Message-ID: <61b2a3f2-c930-779e-8897-b706fe234108@sifive.com>
+Date: Mon, 18 Jul 2022 11:03:40 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 1/7] pci: designware: add 64-bit viewport limit
+Content-Language: en-GB
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
+ Sudip Mukherjee <sudip.mukherjee@sifive.com>,
+ William Salmon <william.salmon@sifive.com>,
+ Adnan Chowdhury <adnan.chowdhury@sifive.com>,
+ Ben Dooks <ben.dooks@codethink.co.uk>
+References: <20220713165449.37433-1-ben.dooks@sifive.com>
+ <20220713165449.37433-2-ben.dooks@sifive.com>
+From: Ben Dooks <ben.dooks@sifive.com>
+In-Reply-To: <20220713165449.37433-2-ben.dooks@sifive.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ben.dooks@sifive.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -88,58 +97,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 7390e0e9ab8475, we added support for SME loads and stores.
-Unlike SVE loads and stores, these include handling of 128-bit
-elements.  The SME load/store functions call down into the existing
-sve_cont_ldst_elements() function, which uses the element size MO_*
-value as an index into the pred_esz_masks[] array.  Because this code
-path now has to handle MO_128, we need to add an extra element to the
-array.
+On 13/07/2022 17:54, Ben Dooks wrote:
+> Versions 4 and above add support for 64-bit viewport
+> limit. Add support for the DESIGNWARE_PCIE_ATU_UPPER_LIMIT
+> regiser where supported.
+> 
+> Signed-off-by: Ben Dooks <ben.dooks@codethink.co.uk>
 
-This bug was spotted by Coverity because it meant we were reading off
-the end of the array.
+Whoops, just noticed this was my old ct address.
 
-Resolves: Coverity CID 1490539, 1490541, 1490543, 1490544, 1490545,
- 1490546, 1490548, 1490549, 1490550, 1490551, 1490555, 1490557,
- 1490558, 1490560, 1490561, 1490563
-Fixes: 7390e0e9ab8475 ("target/arm: Implement SME LD1, ST1")
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- target/arm/cpu.h           | 2 +-
- target/arm/translate-sve.c | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 1e36a839ee4..3123488014d 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3374,7 +3374,7 @@ static inline uint64_t *aa64_vfp_qreg(CPUARMState *env, unsigned regno)
- }
- 
- /* Shared between translate-sve.c and sve_helper.c.  */
--extern const uint64_t pred_esz_masks[4];
-+extern const uint64_t pred_esz_masks[5];
- 
- /* Helper for the macros below, validating the argument type. */
- static inline MemTxAttrs *typecheck_memtxattrs(MemTxAttrs *x)
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 41f8b12259e..621a2abb22f 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -529,9 +529,10 @@ static void do_predtest(DisasContext *s, int dofs, int gofs, int words)
- }
- 
- /* For each element size, the bits within a predicate word that are active.  */
--const uint64_t pred_esz_masks[4] = {
-+const uint64_t pred_esz_masks[5] = {
-     0xffffffffffffffffull, 0x5555555555555555ull,
--    0x1111111111111111ull, 0x0101010101010101ull
-+    0x1111111111111111ull, 0x0101010101010101ull,
-+    0x0001000100010001ull,
- };
- 
- static bool trans_INVALID(DisasContext *s, arg_INVALID *a)
--- 
-2.25.1
+> ---
+>   hw/pci-host/designware.c         | 22 +++++++++++++++++-----
+>   include/hw/pci-host/designware.h |  2 +-
+>   2 files changed, 18 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
+> index bde3a343a2..296f1b9760 100644
+> --- a/hw/pci-host/designware.c
+> +++ b/hw/pci-host/designware.c
+> @@ -54,6 +54,7 @@
+>   #define DESIGNWARE_PCIE_ATU_BUS(x)                 (((x) >> 24) & 0xff)
+>   #define DESIGNWARE_PCIE_ATU_DEVFN(x)               (((x) >> 16) & 0xff)
+>   #define DESIGNWARE_PCIE_ATU_UPPER_TARGET           0x91C
+> +#define DESIGNWARE_PCIE_ATU_UPPER_LIMIT            0x924
+>   
+>   #define DESIGNWARE_PCIE_IRQ_MSI                    3
+>   
+> @@ -196,6 +197,10 @@ designware_pcie_root_config_read(PCIDevice *d, uint32_t address, int len)
+>           val = viewport->target >> 32;
+>           break;
+>   
+> +    case DESIGNWARE_PCIE_ATU_UPPER_LIMIT:
+> +        val = viewport->limit >> 32;
+> +        break;
+> +
+>       case DESIGNWARE_PCIE_ATU_LIMIT:
+>           val = viewport->limit;
+>           break;
+> @@ -269,7 +274,7 @@ static void designware_pcie_update_viewport(DesignwarePCIERoot *root,
+>   {
+>       const uint64_t target = viewport->target;
+>       const uint64_t base   = viewport->base;
+> -    const uint64_t size   = (uint64_t)viewport->limit - base + 1;
+> +    const uint64_t size   = viewport->limit - base + 1;
+>       const bool enabled    = viewport->cr[1] & DESIGNWARE_PCIE_ATU_ENABLE;
+>   
+>       MemoryRegion *current, *other;
+> @@ -363,14 +368,21 @@ static void designware_pcie_root_config_write(PCIDevice *d, uint32_t address,
+>           viewport->target |= val;
+>           break;
+>   
+> +    case DESIGNWARE_PCIE_ATU_UPPER_LIMIT:
+> +        viewport->limit &= 0x00000000FFFFFFFFUL;
+> +        viewport->limit |= (uint64_t)val << 32;
+> +        break;
+> +
+>       case DESIGNWARE_PCIE_ATU_LIMIT:
+> -        viewport->limit = val;
+> +        viewport->limit = 0xFFFFFFFF00000000ULL;
+> +        viewport->limit |= val;
+>           break;
+>   
+>       case DESIGNWARE_PCIE_ATU_CR1:
+>           viewport->cr[0] = val;
+>           break;
+>       case DESIGNWARE_PCIE_ATU_CR2:
+> +        //printf("CR2: value %08x\n", val);
+>           viewport->cr[1] = val;
+>           designware_pcie_update_viewport(root, viewport);
+>           break;
+> @@ -429,7 +441,7 @@ static void designware_pcie_root_realize(PCIDevice *dev, Error **errp)
+>           viewport->inbound = true;
+>           viewport->base    = 0x0000000000000000ULL;
+>           viewport->target  = 0x0000000000000000ULL;
+> -        viewport->limit   = UINT32_MAX;
+> +        viewport->limit   = UINT64_MAX-1;
+>           viewport->cr[0]   = DESIGNWARE_PCIE_ATU_TYPE_MEM;
+>   
+>           source      = &host->pci.address_space_root;
+> @@ -453,7 +465,7 @@ static void designware_pcie_root_realize(PCIDevice *dev, Error **errp)
+>           viewport->inbound = false;
+>           viewport->base    = 0x0000000000000000ULL;
+>           viewport->target  = 0x0000000000000000ULL;
+> -        viewport->limit   = UINT32_MAX;
+> +        viewport->limit   = UINT64_MAX-1;
+>           viewport->cr[0]   = DESIGNWARE_PCIE_ATU_TYPE_MEM;
+>   
+>           destination = &host->pci.memory;
+> @@ -560,7 +572,7 @@ static const VMStateDescription vmstate_designware_pcie_viewport = {
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT64(base, DesignwarePCIEViewport),
+>           VMSTATE_UINT64(target, DesignwarePCIEViewport),
+> -        VMSTATE_UINT32(limit, DesignwarePCIEViewport),
+> +        VMSTATE_UINT64(limit, DesignwarePCIEViewport),
+>           VMSTATE_UINT32_ARRAY(cr, DesignwarePCIEViewport, 2),
+>           VMSTATE_END_OF_LIST()
+>       }
+> diff --git a/include/hw/pci-host/designware.h b/include/hw/pci-host/designware.h
+> index 6d9b51ae67..bd4dd49aec 100644
+> --- a/include/hw/pci-host/designware.h
+> +++ b/include/hw/pci-host/designware.h
+> @@ -44,7 +44,7 @@ typedef struct DesignwarePCIEViewport {
+>   
+>       uint64_t base;
+>       uint64_t target;
+> -    uint32_t limit;
+> +    uint64_t limit;
+>       uint32_t cr[2];
+>   
+>       bool inbound;
 
 
