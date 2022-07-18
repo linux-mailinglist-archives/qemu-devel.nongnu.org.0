@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA58B577E24
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 10:58:55 +0200 (CEST)
-Received: from localhost ([::1]:53340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A40577E50
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 11:05:45 +0200 (CEST)
+Received: from localhost ([::1]:60396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDMac-00071q-Vx
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 04:58:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33230)
+	id 1oDMhE-0003gp-5n
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 05:05:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oDMYH-0003jq-6h
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:56:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42581)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oDMet-0001tG-Gp
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:03:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oDMYE-0003I4-0H
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 04:56:27 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oDMeq-0004Ig-BQ
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:03:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658134585;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1658134995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zegPjovlNvloQp3J+bh0BPv6z2JSg6KVXkJLL3lCNDo=;
- b=UDRrukifImEsT/B4B2Jl4fLI8lML3sHcLRmaRh8KR//q/jRL5GTeNeKUJ9ungIPwF5S10A
- FzFoArthzCLm7KJPHxW0E8HbeUJP1wKqo9nq0lkHRIAFGebwrXGkDIFAKxQtTyuUFTQ18l
- LthXlucysSldFJG9qWQJKlZmtrJUkm4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=STxJw0edt/V95e0NAfxCtbjXbnURubOGo3bYFYYnAPM=;
+ b=OTABDAMg+NsDfXOl5cYts/68tPpdYTPwgo88pz6pd6x0AcEKzA6Hz2+3Z1RiLT3Y6VxiIt
+ SjOEv24h7I6GWHTiusOeLeDsb+uGh7v/+uNUBfS7UxjFPVQD/XlAJaJcFsXgt9LwGntbt8
+ gQdM+TFRTcrWhOAucnuHpc6bL1UqnpU=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-248-ROvuTCu9PiugKMUz-cFzmg-1; Mon, 18 Jul 2022 04:56:21 -0400
-X-MC-Unique: ROvuTCu9PiugKMUz-cFzmg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22C8B2999B25;
- Mon, 18 Jul 2022 08:56:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6FE12166B26;
- Mon, 18 Jul 2022 08:56:19 +0000 (UTC)
-Date: Mon, 18 Jul 2022 09:56:17 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, f4bug@amsat.org,
- wainersm@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/1] python/machine: Fix AF_UNIX path too long on macOS
-Message-ID: <YtUgMTYSQjm9O+u4@redhat.com>
-References: <20220716173434.17183-1-peter@pjd.dev>
- <20220716173434.17183-2-peter@pjd.dev>
+ us-mta-140-qStOp4GRM7-U76q-R_3nmg-1; Mon, 18 Jul 2022 05:03:05 -0400
+X-MC-Unique: qStOp4GRM7-U76q-R_3nmg-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ b7-20020a0565120b8700b004890b28f7c8so4003791lfv.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:03:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=STxJw0edt/V95e0NAfxCtbjXbnURubOGo3bYFYYnAPM=;
+ b=TsgxDTKIbTbH05NreBGWLVzIrkrjYdu5GWoaj6vNgRRiyJxO0rXYGhw3xNQPLOtFHC
+ fJQHDSBJ0AD+jJSO/ahpr+NKqgXp/1SL5/uIe56dZD6CQElaxiacvq9dS5LZfsidmFkx
+ zoK6YbkQe77FbW/yellRyjwp6hcn4SC0qK+pTl75tlyaG/x36CbD9wUWTgDm2GWkNbvm
+ dr6zo8wS3Twgr//eIaXxlt7ddnyT9KJI+YZ62Oi+rmnTxzl0wTU3Wmlu1DaEC340/lf1
+ 6n5Upzp0cTrTXxsM5+Svhk8nsznuTg9OrL0YAHoVllHmeAaNAH0pFjSQKfj05UAO45Ax
+ mE9A==
+X-Gm-Message-State: AJIora9vE6fmDNAmX6aOZE4r44vS4pLzivJQQOguKF+Z18eoK/QKk5Bs
+ qPWoliRf5pQ56/+RpMV0hiQeyMYrXkV1DS/AS5cJ8prJ/Y+ZqIOh5rj1LLXKhEt41ID8f6nMPKh
+ +QAbvcJiQMWEp2eP+esyMFl3Zg33LZYU=
+X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
+ a3-20020a05651c210300b0025d64782a57mr12116744ljq.496.1658134984118; 
+ Mon, 18 Jul 2022 02:03:04 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sjVY/Qit0LolxdlU3GsEAVXQfeedOgCmAFSBlf7P+hjWTx1rqU1zIQ9DT20It2okP4kcR8iez6FVxiJV6LKL8=
+X-Received: by 2002:a05:651c:2103:b0:25d:6478:2a57 with SMTP id
+ a3-20020a05651c210300b0025d64782a57mr12116737ljq.496.1658134983844; Mon, 18
+ Jul 2022 02:03:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220716173434.17183-2-peter@pjd.dev>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+References: <cfdc8ffef03c4574a72faea46f2e1ef1@auriga.com>
+ <CACGkMEvRNMoUSGQZa7wvQu=FKgKw3RJmioHZy1r3f6bYTS-JFQ@mail.gmail.com>
+ <ae177ae534fa4045885916299bbb0652@auriga.com>
+In-Reply-To: <ae177ae534fa4045885916299bbb0652@auriga.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Mon, 18 Jul 2022 17:02:52 +0800
+Message-ID: <CACGkMEtKZqtN5FXZFXTTyMmJQ-T7NE=v2nGD7_GWaYdzhCxxtQ@mail.gmail.com>
+Subject: Re: Internal MAC addresses list (mac_table) usage
+To: "Ovchinnikov, Vitalii" <vitalii.ovchinnikov@auriga.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,139 +90,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 16, 2022 at 10:34:34AM -0700, Peter Delevoryas wrote:
-> On macOS, private $TMPDIR's are the default. These $TMPDIR's are
-> generated from a user's unix UID and UUID [1], which can create a
-> relatively long path:
-> 
->     /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> 
-> QEMU's avocado tests create a temporary directory prefixed by
-> "avo_qemu_sock_", and create QMP sockets within _that_ as well.
-> The QMP socket is unnecessarily long, because a temporary directory
-> is created for every QEMUMachine object.
-> 
->     /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
+On Thu, Jul 14, 2022 at 7:54 PM Ovchinnikov, Vitalii
+<vitalii.ovchinnikov@auriga.com> wrote:
+>
+> Hi Jason,
+>
+> Thanks for pointing out that corner case with "52:54:00:12:34:XX".
+>
+> In the NIC model I'm developing qemu_macaddr_default_if_unset is called every time MAC is updated in the NIC registers.
+> This way a just assigned "52:54:00:12:34:XX" MAC is at least marked as used in the mac_table.
+>
+> However it doesn't cover the case when "52:54:00:12:34:XX" MAC being assigned through NIC registers has already been assigned to another NIC by QEMU.
 
+This should be fine, and it needs to be addressed in a separate patch.
 
-Looking at this again, I realize my suggestion for dealing with the
-second part of the path was mistaken.
+Thanks
 
-The "qemu-37331-10bacf110-monitor.sock" part is combining two
-pieces.
-
-First the result of
-
-  f"qemu-{os.getpid()}-{id(self):02x}"
-
-is
-
-  qemu-37331-10bacf110
-
-and the code later than appends '-monitor.sock'
-
-So...
-
-> 
-> The path limit for unix sockets on macOS is 104: [2]
-> 
->     /*
->      * [XSI] Definitions for UNIX IPC domain.
->      */
->     struct  sockaddr_un {
-
->         unsigned char   sun_len;        /* sockaddr len including null */
->         sa_family_t     sun_family;     /* [XSI] AF_UNIX */
->         char            sun_path[104];  /* [XSI] path name (gag) */
->     };
-> 
-> This results in avocado tests failing on macOS because the QMP unix
-> socket can't be created, because the path is too long:
-> 
->     ERROR| Failed to establish connection: OSError: AF_UNIX path too long
-> 
-> This change reduces the size of both paths, and removes the unique
-> identification information from the socket name, since it seems to be
-> unnecessary.
-> 
-> This commit produces paths like the following:
-> 
->     pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
->     $ tree qemu*
->     qemu_oc7h7f3u
->     ├── qmp-console.sock
->     └── qmp-monitor.sock
-> 
-> [1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
-> [2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/un.h
-> 
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> ---
->  python/qemu/machine/machine.py         | 2 +-
->  tests/avocado/avocado_qemu/__init__.py | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index 37191f433b..b1823966b3 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -157,7 +157,7 @@ def __init__(self,
->          self._wrapper = wrapper
->          self._qmp_timer = qmp_timer
->  
-> -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> +        self._name = name or "qmp"
-
-...my suggestion here was wrong.
-
-We don't need the os.getpid() unoiqueness because the tmpdir already
-ensures that is safe, but keeping 'id(self)' is a good idea, if the
-test case creates multiple machines concurrently. Bearing in mind we
-later append '-monitor.sock' we don't need 'qmp' in the self._name.
-
-So on reflection I think I should have suggested using:
-
-    self._name = name or f"{id(self):02x}"
-
-And *in addition*, a few lines later change:
-
-            self._monitor_address = os.path.join(
-                self.sock_dir, f"{self._name}-monitor.sock"
-            )
-
-To
-
-            self._monitor_address = os.path.join(
-                self.sock_dir, f"{self._name}.qmp"
-            )
-
-
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> index ed4853c805..43b8c8848c 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -296,7 +296,7 @@ def require_accelerator(self, accelerator):
->                          "available" % accelerator)
->  
->      def _new_vm(self, name, *args):
-> -        self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
-> +        self._sd = tempfile.TemporaryDirectory(prefix="qemu_")
-
-This bit is fine.
-
->          vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
->                           sock_dir=self._sd.name, log_dir=self.logdir)
->          self.log.debug('QEMUMachine "%s" created', name)
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> So one more improvement the code might need is a way to check whether MAC is free or used from within NIC model.
+> Returning bool from qemu_macaddr_default_if_unset may well do the trick. Moreover it might also help to spot an error when -1 is returned from qemu_macaddr_get_free (for the time being it's silently interpreted as 0xFF MAC LSB).
+>
+> BR,
+> Vitalii
+>
+> From: Jason Wang <jasowang@redhat.com>
+> Sent: Thursday, July 14, 2022 9:44
+> To: Ovchinnikov, Vitalii
+> Cc: qemu-devel@nongnu.org
+> Subject: Re: Internal MAC addresses list (mac_table) usage
+>
+> On Tue, Jul 12, 2022 at 4:43 PM Ovchinnikov, Vitalii
+> <vitalii.ovchinnikov@auriga.com> wrote:
+> >
+> > Hi folks,
+> >
+> > While developing an Ethernet NIC model I noticed that QEMU maintains the following internal array which marks used/free MAC addresses in net/net.c:
+> >
+> > static int mac_table[256] = {0};
+> >
+> > with three private (static) functions accessing it: qemu_macaddr_set_used, qemu_macaddr_set_free, qemu_macaddr_get_free.
+> > Public (non-static) interface to this array includes two functions: qemu_macaddr_default_if_unset and qemu_del_nic.
+> >
+> > The vast majority of existing NIC models calls qemu_macaddr_default_if_unset in their *_realize functions replacing zeroed-out MAC address with the free one returned by QEMU, for instance (lan9118_realize functions from hw/net/lan9118.c):
+> >
+> >    ...
+> >     qemu_macaddr_default_if_unset(&s->conf.macaddr);
+> >
+> >     s->nic = qemu_new_nic(&net_lan9118_info, &s->conf,
+> >                           object_get_typename(OBJECT(dev)), dev->id, s);
+> >     qemu_format_nic_info_str(qemu_get_queue(s->nic), s->conf.macaddr.a);
+> >    ...
+> >
+> > qemu_del_nic is being called from net_cleanup function right before QEMU finishes execution.
+> >
+> > What appears to be a possible SW architecture gap is that NIC models have no means to inform QEMU about changing their MAC addresses during execution (again from hw/net/lan9118.c, do_mac_write function):
+> >
+> >     case MAC_ADDRH:
+> >         s->conf.macaddr.a[4] = val & 0xff;
+> >         s->conf.macaddr.a[5] = (val >> 8) & 0xff;
+> >         lan9118_mac_changed(s);
+> >         break;
+> >     case MAC_ADDRL:
+> >         s->conf.macaddr.a[0] = val & 0xff;
+> >         s->conf.macaddr.a[1] = (val >> 8) & 0xff;
+> >         s->conf.macaddr.a[2] = (val >> 16) & 0xff;
+> >         s->conf.macaddr.a[3] = (val >> 24) & 0xff;
+> >         lan9118_mac_changed(s);
+> >         break;
+> >
+> > lan9118_mac_changed function here simply changes NIC info string using qemu_format_nic_info_str, hence stale MAC address stays marked as used in the mac_table whereas it's not actually in use any more.
+> >
+> > Am I right in thinking of it as a SW architecture gap/bug that needs to be addressed?
+>
+> I think so. Note that the code can not deal with the case when
+> "52:54:00:12:34:XX" was passed from cli.
+>
+> Thanks
+>
+> >
+> > BR,
+> > Vitalii
+> >
+>
+>
+>
 
 
