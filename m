@@ -2,91 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBE385782BF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:51:43 +0200 (CEST)
-Received: from localhost ([::1]:48084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0655D5782D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:55:28 +0200 (CEST)
+Received: from localhost ([::1]:54994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQDs-0004Xp-GA
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:51:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
+	id 1oDQHW-0001Nv-Qm
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:55:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDQAV-0001Eu-Cf
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:48:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDQAT-0007PW-2o
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:48:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658148488;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWsyMS0aQ6/JjWpSafvGME81ymTnNjaPcvwCisdv1yc=;
- b=ZgIKiYx39bRyOz0PXoF/EcnGV6lGp6XCWyHQafTlMLwenViDefR5phWaYXkwYxUk1AYLUS
- knDFbQurhXKIU/FkD30ViDAbKtMaFMmFpX7vlR8rcm3qOL0ZmvQSYYKc0EZ/fjkpKaBiES
- c5re2piD+RMQaYzbTLsOPhILfy99jA0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-25-AU-MuMTZNFGetEjmoRWYgg-1; Mon, 18 Jul 2022 08:48:06 -0400
-X-MC-Unique: AU-MuMTZNFGetEjmoRWYgg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- m2-20020adfc582000000b0021e28acded7so197617wrg.13
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:48:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDQDe-0004NF-R2
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:51:26 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:41549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDQDd-000846-2U
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:51:26 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id 6so20542732ybc.8
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:51:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+ZGsKKKq6eUSmkhrkmcBY4aFhAiBmbAgxhylRDVWUJI=;
+ b=AsMjHbtZu1je4dQCUkcD3pmjd9hDwCN6/70wqVSpziHPsI3JbfQjlIXSkQIBcfzKb4
+ TfAXfPiNuOVAIi2rsac2DtzPwrKBJF65onkgEgTnIWBd09OFeVTydhafGs04y0oDI1zD
+ wUEUVhG9QYokM2zDgKcF0zTiNVTn4qLfDNa1yqSJPkiT8Iryw85G/PGFfPnEYHErZX6F
+ rM/VsR45VHGOKjxuT7352ndl8ibmToMQPBh2Pk75ep2wm3e2sVhjmrA3xvmgss8SmDSK
+ dILzwrZJugLfg7OqoguHqfy8IPfx3uGOysZXEYFu3/yyqOhPfFceNYQXRl/u8IztCSvs
+ srOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jWsyMS0aQ6/JjWpSafvGME81ymTnNjaPcvwCisdv1yc=;
- b=Ije+fIjsrQ17sX1nI/jEW0kd57J3GvUP1qmpH6x0y3dzeXOqH+D5hsqu6Tf1jEHW5b
- N3nuQgggz0EI4XwWh87jMbYLSrbJEgtmXLKZXW2WRTXl/boDCMiW8f35TPJ5el7KZ2Kj
- uHX9sDUre8Tymlbg9wf/bkJ3kv8/IbSITg5Xb0dcTkFm4Jtz567eNNSmJK8Ehsq20QAM
- RndJh/Q0Q+Scz5j/cdX9Y7jPnqC74UJ7QK00v8KjFKEoCuiaufuiszbHIcCZ0ayMbmh1
- j+f1AMpqYn8neoet3MV5jeJJ8s5ADy+yyKSpkgmEb1bDwQHa9xcSXP1ow6K9OwJXorzo
- d61A==
-X-Gm-Message-State: AJIora9GpqcO6AFN/IWtu2eKDQuWyUCrFPOZzvXyBut55BwPH4svwGnI
- Z+s5A1BCaMVrZ3wFruPaG8FOIBFnXgSJ74jVzvL0NU9MtUOfzFDHsl3zg0LljaRlg0K9GsgFxqh
- jx8ZTlYIlsbATwqQ=
-X-Received: by 2002:a05:600c:1f0a:b0:3a3:15a8:a8e1 with SMTP id
- bd10-20020a05600c1f0a00b003a315a8a8e1mr8670322wmb.167.1658148485457; 
- Mon, 18 Jul 2022 05:48:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s81lQAdgp8W6N/5rgT4QwiAn+rpgg+27MGHLOUCsae4JgLJC5VT+aKb3D0wItNnQ6vVkJ6BQ==
-X-Received: by 2002:a05:600c:1f0a:b0:3a3:15a8:a8e1 with SMTP id
- bd10-20020a05600c1f0a00b003a315a8a8e1mr8670300wmb.167.1658148485217; 
- Mon, 18 Jul 2022 05:48:05 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-177-121.web.vodafone.de.
- [109.43.177.121]) by smtp.gmail.com with ESMTPSA id
- n6-20020a1c7206000000b003a31f71c5b8sm1629281wmc.27.2022.07.18.05.48.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 05:48:04 -0700 (PDT)
-Message-ID: <7bebb97b-b22f-6b17-62c7-9082c858ed67@redhat.com>
-Date: Mon, 18 Jul 2022 14:48:04 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+ZGsKKKq6eUSmkhrkmcBY4aFhAiBmbAgxhylRDVWUJI=;
+ b=7LHyfmrCXJIj+yan/2SoKYGIx5sAKK40KsNjzyi6CCOAmFylfveuqe+ZDNenMJvERZ
+ N/n34jjhSU/P1uLxSHt/5K/IN4e8ELuY+bmVf7JooKBS0XarM5GtwcPDRftRkvW3tebz
+ MnDNMhHcl9Qf7Io3ArbF/0LMXKtaV1EsFWhwp3VwPVjRjarm2qCkS/d4uwS5wcLXlb2y
+ ej5u83A5yMfmoMhEz+pjmi/+2OeyZoYyBHJqJWJI30JDZEgay9QbQoZD+eTdnwZurzJm
+ bEpXsBCmldkycKMztnl6RhhC97HSzMeelJhKoVr3GMME6LP/Gb3/cnzGsdSOA0sgo0MK
+ R4Ug==
+X-Gm-Message-State: AJIora8T46Qs/xlL2wS1WKptRKGJ8eR/iCF70XUouUt9L+Vyi88kwjrX
+ LgcELARsygtU1/vvhuH1YcGw1muDokHFfgy8zLBe0A==
+X-Google-Smtp-Source: AGRyM1vayhF/7ORfVihzTrUGwQ54QxZjpXny/tirjxOhSlefpUz+TjYPLPJJpmpEsuPtMhgMXAOVXW7l/Zf00fz8lDM=
+X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
+ e123-20020a25d381000000b0066e29431c9dmr26082127ybf.67.1658148683825; Mon, 18
+ Jul 2022 05:51:23 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PULL 05/20] meson: Prefix each element of firmware path
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: Akihiko Odaki <akihiko.odaki@gmail.com>
-References: <20220714090211.304305-1-pbonzini@redhat.com>
- <20220714090211.304305-6-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220714090211.304305-6-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <YtQzMUuBOfBiMNlY@p100>
+In-Reply-To: <YtQzMUuBOfBiMNlY@p100>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 13:51:12 +0100
+Message-ID: <CAFEAcA9GzSJw4GpCkdOQPx7j24chp3WDq5tD=8FVkyYYtdrHuQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
+ SH4 and SPARC
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,58 +82,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/07/2022 11.01, Paolo Bonzini wrote:
-> From: Akihiko Odaki <akihiko.odaki@gmail.com>
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-> Message-Id: <20220624154042.51512-1-akihiko.odaki@gmail.com>
-> [Rewrite shell function without using Bash extensions. - Paolo]
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->   configure                     | 15 +++++++++++++++
->   meson.build                   | 11 +++++++++--
->   meson_options.txt             |  2 +-
->   scripts/meson-buildoptions.py |  7 +++++--
->   scripts/meson-buildoptions.sh |  4 ++--
->   softmmu/datadir.c             |  8 +++++---
->   6 files changed, 37 insertions(+), 10 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index e8cc850727..f02635b087 100755
-> --- a/configure
-> +++ b/configure
-> @@ -676,6 +676,21 @@ fi
->   
->   werror=""
->   
-> +meson_option_build_array() {
-> +  printf '['
-> +  (if test "$targetos" == windows; then
-> +    IFS=\;
-> +  else
-> +    IFS=:
-> +  fi
-> +  for e in $1; do
-> +    e=${e/'\'/'\\'}
-> +    e=${e/\"/'\"'}
-> +    printf '"""%s""",' "$e"
-> +  done)
-> +  printf ']\n'
-> +}
+On Sun, 17 Jul 2022 at 17:10, Helge Deller <deller@gmx.de> wrote:
+>
+> In 2010, the commit b41a66edd0c added a thrird parameter "is_pipe2" to the
 
-  Hi!
+typo in commit hash (lost the first letter). Should be
+fb41a66edd0c7bd6 ("alpha-linux-user: Fix pipe return mechanism."
+I think ?
 
-This seems to break the NetBSD VM builds:
+> internal do_pipe() function, but missed to actually use this parameter to
+> decide if the pipe() or pipe2() syscall should be used.
+> Instead it just continued to check the flags parameter and used pipe2()
+> unconditionally if flags is non-zero.
+>
+> This change should make a difference for the ALPHA, MIPS, SH4 and SPARC
+> targets if the emulated code calls pipe2() with a flags value of 0.
+>
+> Fixes: fb41a66edd0c ("alpha-linux-user: Fix pipe return mechanism.")
+> Cc: Richard Henderson <rth@twiddle.net>
+> Cc: Aurelien Jarno <aurelien@aurel32.net>
+>
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 991b85e6b4..1e6e814871 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1600,7 +1600,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong pipedes,
+>  {
+>      int host_pipe[2];
+>      abi_long ret;
+> -    ret = flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+> +    ret = is_pipe2 ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
 
-$ make vm-build-netbsd J=4 TARGET_LIST=x86_64-softmmu
-   GIT     ui/keycodemapdb meson tests/fp/berkeley-testfloat-3 
-tests/fp/berkeley-softfloat-3 dtc slirp roms/SLOF
-     VM-BUILD netbsd
-../src/configure: 687: Syntax error: Bad substitution
+Why do we need to do this? If the flags argument is 0,
+then pipe2() is the same as pipe(), so we can safely
+emulate it with the host pipe() call. It is, or at
+least was, worth doing that, so that guests that use
+pipe2(fds, 0) can still run on hosts that don't implement
+the pipe2 syscall.
 
-Could you please have a look?
+There's probably a reasonable argument to be made that we don't
+care any more about hosts so old they don't have pipe2 and that
+we could just dump do_pipe2() and the CONFIG_PIPE2 check, and
+have do_pipe() unconditionally call pipe2(). Would just need
+somebody to check what kernel/glibc versions pipe2() came in.
 
-  Thanks,
-   Thomas
+The architecture specific bit of target behaviour that
+we need the is_pipe2 flag for is purely for handling the
+weird return code that only the pipe syscall has, and
+for that we are correctly looking at the is_pipe2 argument.
+(The bug that fb41a66edd0c7bd6 fixes is that we used to
+incorrectly give the pipe syscall return argument behaviour
+for pipe2-with-flags-zero.)
 
+thanks
+-- PMM
 
