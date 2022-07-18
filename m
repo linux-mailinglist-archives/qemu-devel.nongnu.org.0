@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 487B3578A7B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:16:29 +0200 (CEST)
-Received: from localhost ([::1]:51774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54057578A92
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:20:35 +0200 (CEST)
+Received: from localhost ([::1]:58428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDWEG-00040U-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:16:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33076)
+	id 1oDWIE-00019B-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:20:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVb6-0001T3-K7
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:36:00 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49200)
+ id 1oDVbB-0001WU-9P
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:36:05 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49206)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVb4-0005xS-64
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:36:00 -0400
+ id 1oDVb8-0005yD-9L
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:36:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=b8cBQ0hbxis4dSEdi8mWivZRoMkvBo9m83x7qh5E/9U=; b=OVaKfl/HfnjAUqtYYR5aNkoqEN
- 41rCFnChYKwf7O9xIWJKVQpQPPrk2otloquQFiUOcqkk0dnr3qR32J1PH8j8K5UNSkcAcb/kB5h48
- H35d76ZHyogp3mdP8SsYPr+G3/5rykCy1+AKFPKFUnLoV3+HBF6k0CgmMVomQA7nUdyIXJ3gEWbJI
- ma3ocSjfkNZMAB+O07+NMYtOFP9cQTt/BIAHqbAyLZAcblc6KLKZzrRLXfUI6VDYuT8cr7xmotfF3
- wGAVVLnP7t4v1Eb6At6nq7GgNUkbICzVNE3VkpUuX3h/QP4xgzZDZkrV+AL+Qhpylcelk5A6siH7b
- IIC44xa9inf6Hdc0RVNjJMwV4jXIUAh5ZEfkdnyv8Kl/5C07mUWUUFMKoIUnuJL9TjrlKopg/Oyxe
- tXlFWc8LCd8n4TmuEjCbMVUIY7ME8PU1Bcg8xd/a0oQAtg85i1ZaE4OySpBUdrzMLgO0BYgg78wDr
- I9IQUOYV0hxSHokR44DvY2Zn+gLM5CN+2J5/E2WaAmtlbclTEdPzjvv56gGJzGAaygDzuaF8q26FM
- xsb4vYKsLnbsMc7/Hn4prjS0X4pSTo0NNkYATxpRY0jQznpkSUJUw1oQt+XgqlfqwNS2md8nPxmKJ
- it0zyXrbWBtbY0HKZgJtiP5uatzWnk+LFDcvke77o=;
+ bh=gI7WYMtgMBeE2AGy2fFw/ySzWRXvdrVqmsTeIYJTX0g=; b=0XhymoVUOnnIWy9stQnTEN08M/
+ uZcTyo0clE1iT+kLwbFVd36Djk/ql7WUdYqJJOieqmy0MfKTRWBx5BF5f2FyoPuOl7J0YTSm/MsvK
+ lJrlr8QQAqfg/jjUR5q3FEoQkunLpj9j5O7pjGawhXz5bSQ3eIR5jSDM1pROg7OcpzvxC6IJA/4o/
+ D2CNiEaZT/g73tsJ6JnzD5UmRlsxgWCGl6RDfvTQAxnEKGJtdluGT7OZa6b4FDSug8b5lmoxgYzMd
+ q86BaEUgP6ZX3GlYk983++R8mP1zwFSh9C/OsZkBzLsQrdFQwkSP5EDDXgue30rHqXx93YRgsqBtL
+ 6Dyl3fxlLsCSatK1uS9ItFDkjlcnkxL1aPiFowgPZRwVs4N7TS4aklKml8ifMUwnCiD6gpjPP4nYw
+ P+nKwnI8dOHUtRBerxWti6b3itpubnRv9U+OngoFBMQ+pqbUOK8u3430H07bS/Sf+MmsEvxJp/YyI
+ j2SzJMU87WIAAytQthV1TImxdhKy0pBwbA9PgHrsYfEQLHx4SLOAmRewsCEF8fQl4sRyyGlhjnXEK
+ E8UFnywMHNHmzrfVjPoXa/JWDUJoHxran6o6YNShM28V3ikziWrqhpPSuF6mRW8jceWOi+xLNtpu6
+ dSOAIvc38Hjnqm40XzA0pvjfPNMVAZTrbZZ1Tg5Q0=;
 Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZZ-000B51-7O; Mon, 18 Jul 2022 19:34:28 +0100
+ id 1oDVZc-000B51-SI; Mon, 18 Jul 2022 19:34:33 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 18 Jul 2022 19:33:28 +0100
-Message-Id: <20220718183339.124253-30-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:33:29 +0100
+Message-Id: <20220718183339.124253-31-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
 References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
@@ -52,7 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 29/40] lasips2: rename LASIPS2Port parent pointer to lasips2
+Subject: [PULL 30/40] lasips2: standardise on lp name for LASIPS2Port variables
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -78,64 +78,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes it clearer that the pointer is a reference to the LASIPS2 container
-device rather than an implied part of the QOM hierarchy.
+This is shorter to type and keeps the naming convention consistent within the
+LASIPS2 device.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Helge Deller <deller@gmx.de>
 Acked-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220712215251.7944-30-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220712215251.7944-31-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/input/lasips2.c         | 6 +++---
- include/hw/input/lasips2.h | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/input/lasips2.c | 52 +++++++++++++++++++++++-----------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
 diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index 5ceb38c1af..0f392e2bee 100644
+index 0f392e2bee..09d909c843 100644
 --- a/hw/input/lasips2.c
 +++ b/hw/input/lasips2.c
-@@ -222,7 +222,7 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
+@@ -139,28 +139,28 @@ static void lasips2_set_irq(void *opaque, int n, int level)
+ static void lasips2_reg_write(void *opaque, hwaddr addr, uint64_t val,
+                               unsigned size)
+ {
+-    LASIPS2Port *port = opaque;
++    LASIPS2Port *lp = LASIPS2_PORT(opaque);
+ 
+-    trace_lasips2_reg_write(size, port->id, addr,
++    trace_lasips2_reg_write(size, lp->id, addr,
+                             lasips2_write_reg_name(addr), val);
+ 
+     switch (addr & 0xc) {
+     case REG_PS2_CONTROL:
+-        port->control = val;
++        lp->control = val;
+         break;
+ 
+     case REG_PS2_XMTDATA:
+-        if (port->control & LASIPS2_CONTROL_LOOPBACK) {
+-            port->buf = val;
+-            port->loopback_rbne = true;
+-            qemu_set_irq(port->irq, 1);
++        if (lp->control & LASIPS2_CONTROL_LOOPBACK) {
++            lp->buf = val;
++            lp->loopback_rbne = true;
++            qemu_set_irq(lp->irq, 1);
+             break;
+         }
+ 
+-        if (port->id) {
+-            ps2_write_mouse(PS2_MOUSE_DEVICE(port->ps2dev), val);
++        if (lp->id) {
++            ps2_write_mouse(PS2_MOUSE_DEVICE(lp->ps2dev), val);
+         } else {
+-            ps2_write_keyboard(PS2_KBD_DEVICE(port->ps2dev), val);
++            ps2_write_keyboard(PS2_KBD_DEVICE(lp->ps2dev), val);
+         }
+         break;
+ 
+@@ -176,53 +176,53 @@ static void lasips2_reg_write(void *opaque, hwaddr addr, uint64_t val,
+ 
+ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
+ {
+-    LASIPS2Port *port = opaque;
++    LASIPS2Port *lp = LASIPS2_PORT(opaque);
+     uint64_t ret = 0;
+ 
+     switch (addr & 0xc) {
+     case REG_PS2_ID:
+-        ret = port->id;
++        ret = lp->id;
+         break;
+ 
+     case REG_PS2_RCVDATA:
+-        if (port->control & LASIPS2_CONTROL_LOOPBACK) {
+-            port->loopback_rbne = false;
+-            qemu_set_irq(port->irq, 0);
+-            ret = port->buf;
++        if (lp->control & LASIPS2_CONTROL_LOOPBACK) {
++            lp->loopback_rbne = false;
++            qemu_set_irq(lp->irq, 0);
++            ret = lp->buf;
+             break;
+         }
+ 
+-        ret = ps2_read_data(port->ps2dev);
++        ret = ps2_read_data(lp->ps2dev);
+         break;
+ 
+     case REG_PS2_CONTROL:
+-        ret = port->control;
++        ret = lp->control;
+         break;
+ 
+     case REG_PS2_STATUS:
+         ret = LASIPS2_STATUS_DATSHD | LASIPS2_STATUS_CLKSHD;
+ 
+-        if (port->control & LASIPS2_CONTROL_DIAG) {
+-            if (!(port->control & LASIPS2_CONTROL_DATDIR)) {
++        if (lp->control & LASIPS2_CONTROL_DIAG) {
++            if (!(lp->control & LASIPS2_CONTROL_DATDIR)) {
+                 ret &= ~LASIPS2_STATUS_DATSHD;
+             }
+ 
+-            if (!(port->control & LASIPS2_CONTROL_CLKDIR)) {
++            if (!(lp->control & LASIPS2_CONTROL_CLKDIR)) {
+                 ret &= ~LASIPS2_STATUS_CLKSHD;
              }
          }
  
--        if (port->parent->int_status) {
-+        if (port->lasips2->int_status) {
+-        if (port->control & LASIPS2_CONTROL_LOOPBACK) {
+-            if (port->loopback_rbne) {
++        if (lp->control & LASIPS2_CONTROL_LOOPBACK) {
++            if (lp->loopback_rbne) {
+                 ret |= LASIPS2_STATUS_RBNE;
+             }
+         } else {
+-            if (!ps2_queue_empty(port->ps2dev)) {
++            if (!ps2_queue_empty(lp->ps2dev)) {
+                 ret |= LASIPS2_STATUS_RBNE;
+             }
+         }
+ 
+-        if (port->lasips2->int_status) {
++        if (lp->lasips2->int_status) {
              ret |= LASIPS2_STATUS_CMPINTR;
          }
          break;
-@@ -368,7 +368,7 @@ static void lasips2_kbd_port_init(Object *obj)
-     memory_region_init_io(&lp->reg, obj, &lasips2_reg_ops, lp, "lasips2-kbd",
-                           0x100);
-     lp->id = 0;
--    lp->parent = container_of(s, LASIPS2State, kbd_port);
-+    lp->lasips2 = container_of(s, LASIPS2State, kbd_port);
+@@ -233,7 +233,7 @@ static uint64_t lasips2_reg_read(void *opaque, hwaddr addr, unsigned size)
+         break;
+     }
+ 
+-    trace_lasips2_reg_read(size, port->id, addr,
++    trace_lasips2_reg_read(size, lp->id, addr,
+                            lasips2_read_reg_name(addr), ret);
+     return ret;
  }
- 
- static void lasips2_kbd_port_class_init(ObjectClass *klass, void *data)
-@@ -405,7 +405,7 @@ static void lasips2_mouse_port_init(Object *obj)
-     memory_region_init_io(&lp->reg, obj, &lasips2_reg_ops, lp, "lasips2-mouse",
-                           0x100);
-     lp->id = 1;
--    lp->parent = container_of(s, LASIPS2State, mouse_port);
-+    lp->lasips2 = container_of(s, LASIPS2State, mouse_port);
- }
- 
- static void lasips2_mouse_port_class_init(ObjectClass *klass, void *data)
-diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
-index 7199f16622..9fe9e63a66 100644
---- a/include/hw/input/lasips2.h
-+++ b/include/hw/input/lasips2.h
-@@ -37,7 +37,7 @@ typedef struct LASIPS2State LASIPS2State;
- struct LASIPS2Port {
-     DeviceState parent_obj;
- 
--    LASIPS2State *parent;
-+    LASIPS2State *lasips2;
-     MemoryRegion reg;
-     PS2State *ps2dev;
-     uint8_t id;
 -- 
 2.30.2
 
