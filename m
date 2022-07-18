@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EAE95781D1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:12:44 +0200 (CEST)
-Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A003D578247
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:26:21 +0200 (CEST)
+Received: from localhost ([::1]:54638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPcB-0002J1-L2
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49332)
+	id 1oDPpM-0004RY-Rh
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:26:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPZh-0006Uu-RD
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:10:09 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:33680)
+ id 1oDPas-0000Xc-DS
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:11:22 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:36470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPZg-0000Ac-A1
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:10:09 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id 7so2789926ybw.0
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:10:07 -0700 (PDT)
+ id 1oDPar-0000MU-0d
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:11:22 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id n74so20388741yba.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z81naWAvORfjz1Hb1/LHkdV8Cv8J/4Vsx6Y+8l5Hyfs=;
- b=ePC3vjPT7Ng83L6IEae6XGczf+erH9pyIR8VlHcT1vLqYuj0zS3mXtBH8lsNbGS5jq
- ILOv+VtqLqWHmkg6PfQZjPAdqyCfenCzqz8S/UQCTK3yRUrSpNjwMd55Gh03Rav/g1lp
- tzqNJPzxSq+418n6DsJQL3/Km4rtcq+CfZTGV7jwFAmxpyoerZ5Cuaz2XwrKQNP2DVjl
- udQqphPuC/VyhI8T0EBVsodTnD8CD49tII7Q1Q6/YSaHA6PR5T3qpnmicqB0KCgdcQ9v
- NXMDcXkRsdmJmQPIfAaG8C6NPvypg9AVC4oKefwlM9bwJTF+rncozMnYECqjgarqGqdT
- heQQ==
+ :cc; bh=0bEvq4JZ2l4t0TpcPn060hVTc5d5n0yzJI79z4Fhha8=;
+ b=T4+twIJbuIS9giIRbxP0Y7zXZznjys6mzyJLSEJ7EnmMJx6pLE968YOPzTN3NTkLFL
+ Z8PXBsFZwprQlh/D0xCRwLBa9LepyY1idM3+oEpW09tBMVAmdyxWYBdBp2KEvsIxC2UH
+ bOLE4Gza/F0r3f1EgR+5WsYwe19edZCUAWLnygOs/ehnRDAaha2JxwO0JQkLBZw1x8xa
+ aKqtPaflcUykFYLL1+vXJzRvEkoG3Qj1LKdAFVj4pJxxtb3ViX2ho4+GxpbhYMqP639z
+ 7ElX7y36EjWEwdnu0iqgjlDtonXAfRJZ5emPg0799eS7XYBc2zytsUl5hM/UsmH0eufp
+ 7peA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z81naWAvORfjz1Hb1/LHkdV8Cv8J/4Vsx6Y+8l5Hyfs=;
- b=ynAjh8Errp72QORAVKQRnmHhA+lVdLtxOQ26ZJ5Mttx41LWLMqzw1sowNLBLS74UYK
- Y1h4pIN4xnNL8+yQvKT9uz3oR2C9AJs47awZHWk7SWIW/Um/U1MmFt8b0ioHWxsZyNHt
- r6iqeYYaSjLNbOi7rdjVdJMW1tgZRCyyUd0oNoH2q78xAkgO9MlP+gyO2BFHJX9g3Y1f
- 4kv02jdkwxo7ZffI+SNbTEvS8BaN5qd8+QMsJuN+tEdyHIImUxHOn4FMtcuxQFbRrf3v
- 5lu019DrQCltTThKB3KhVuL2QC/ukrE7xeQAjzUkRkT1j9VZjITfaooOmeYn+H/kRcRi
- fbKg==
-X-Gm-Message-State: AJIora8lXjli3w6jR3YI1Jpa95Yfdg1gucNI/eraGfZaxtOGoM2SY8nm
- Fhcoep018EjNgGls4FkvJp6Y1XowSvDgU7Gj/glOwQ==
-X-Google-Smtp-Source: AGRyM1vtOx8iS6UhYQbC9v01vB7f3+YhGi4GUG77t+gvudij79DNAOTg4mW7y+NvwA3ah98MS+eYG36gQNzGaXjNhCM=
-X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
- t18-20020a5b0dd2000000b00668fc4a9403mr27011307ybr.39.1658146207215; Mon, 18
- Jul 2022 05:10:07 -0700 (PDT)
+ bh=0bEvq4JZ2l4t0TpcPn060hVTc5d5n0yzJI79z4Fhha8=;
+ b=pxIHqvTSnmbpmh9TF/6QSj/Jw5OqVEAAW0dcW7S3R8k1Rsizl3T2LkvHvEFCTlgIFX
+ Xi5zauNeuUj6eQtG120k9/od80w+vnpHaTjgQnCHwF08Jvb00L9W3MZXkjwDCp2zpdIs
+ 2R/0wrDBn1gTLJifD/8URc/WFJwLqkudrUullIvwwc8xT2gTvm+M0hQ0eCnUxHNBSNEh
+ PKXeYNKAqKiiD4R2rWuEULSLL5KPaBU/73S59F0ztr1pQPMm0rb1wCQsuyj89KKXesBZ
+ 5hm1048igGxqeYjTXcLL7M/qFm2uyse1EkpbkdshxkYvBMu5A1S149FCfaOyyzEODOOU
+ 8ksA==
+X-Gm-Message-State: AJIora8r1bzA/NboSWUoFIx+g+sLWYdLjiKxaapoqMVvlccFQCpViblO
+ /j7i0x4q4Gu0dm4duYlewqH/iMtq0CXCFHpXf1SQNVII0Mc=
+X-Google-Smtp-Source: AGRyM1t+87pX6lTDRx+EEGfOBbYVcsI/gvTCdc42undONt10MwS0bijBueofr5TNhu/lZiQEZnrYfjSueayPsGZTsXM=
+X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
+ v85-20020a252f58000000b0066ecf9a06a2mr29033649ybv.193.1658146280004; Mon, 18
+ Jul 2022 05:11:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
- <20220708154700.18682-29-richard.henderson@linaro.org>
-In-Reply-To: <20220708154700.18682-29-richard.henderson@linaro.org>
+ <20220708154700.18682-30-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-30-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 13:09:56 +0100
-Message-ID: <CAFEAcA_K95y1SnX=eymzWBND6175qzA=4iFHimp+x6zTN5UhCg@mail.gmail.com>
-Subject: Re: [RISU PATCH v4 28/29] aarch64: Add support for ZA storage
+Date: Mon, 18 Jul 2022 13:11:09 +0100
+Message-ID: <CAFEAcA9x-2eX3U-xfUyhnFmp-MZAuEtAmjs5NqLi+PkvZGhzTg@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 29/29] aarch64: Trivial SME test
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,20 +82,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jul 2022 at 18:07, Richard Henderson
+On Fri, 8 Jul 2022 at 17:59, Richard Henderson
 <richard.henderson@linaro.org> wrote:
->
-> Require NVL == SVL on startup, to make it easier to manage reginfo.
-> Most of the time PSTATE.SM would be active with PSTATE.ZA anyway,
-> for any non-trivial SME testing.
->
-> Extend saved storage only when PSTATE.ZA is active.
-> Use a carefully reserved uint16_t for saving SVCR.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
+>  test_sme_aarch64.s | 55 ++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 55 insertions(+)
+>  create mode 100644 test_sme_aarch64.s
+>
+> diff --git a/test_sme_aarch64.s b/test_sme_aarch64.s
+> new file mode 100644
+> index 0000000..a5ef909
+> --- /dev/null
+> +++ b/test_sme_aarch64.s
+> @@ -0,0 +1,55 @@
+> +       .arch_extension sme
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Can we have the usual copyright-and-license comment at the
+top of the file, please?
 
 thanks
 -- PMM
