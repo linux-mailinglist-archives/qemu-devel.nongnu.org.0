@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5A10578900
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:57:34 +0200 (CEST)
-Received: from localhost ([::1]:43820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96637578897
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:39:29 +0200 (CEST)
+Received: from localhost ([::1]:37412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDUzt-0001Lu-QF
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43764)
+	id 1oDUiO-0000cR-Ea
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:39:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDUSu-0008Tt-L9; Mon, 18 Jul 2022 13:23:34 -0400
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:42505)
+ id 1oDUSw-0008Tw-0v; Mon, 18 Jul 2022 13:23:34 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:35468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDUSr-0001uH-Jx; Mon, 18 Jul 2022 13:23:28 -0400
-Received: by mail-ot1-x331.google.com with SMTP id
- k25-20020a056830169900b0061c6f68f451so9702467otr.9; 
- Mon, 18 Jul 2022 10:23:16 -0700 (PDT)
+ id 1oDUSt-0001tG-4J; Mon, 18 Jul 2022 13:23:29 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-10cf9f5b500so24366028fac.2; 
+ Mon, 18 Jul 2022 10:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5Sgj+wP7my0Z/goW9hRxD8U0CXqln5HpAVJwAYRmxrE=;
- b=B+3k8y257GnuRszduSCoU7hjoWrHtzVK6Tp/fCzn0pco+D6H4gD1JGlN/goxPM0fAr
- UaSzV+Ywy7o7Jdeuywww4esXfjP4ebhu0bV7phuoKEj38g2+sNpgzMwSZ5qSCjbxFIWM
- jqU7tRvRoqtALp9jVYB7NMFr4yTDJDOQHnKay5+FkgCVhZz2M3CIqw2qz3IS6657YK0y
- tVEH81MMD1Cc3TxB1NvzT+kfvNo2cYc2U1Gr5roN661E7rc3UmMB6Qxk+WWL51yvGxVy
- /ouyDqZobb94FIKCiqvAY0BxTlj4OGtcDCCCWxuYAwH27X6eEedn39MRMb7YEA9keIXg
- 6inw==
+ bh=jAiDHDP0GXofu2nX9iLl0pMKtuYOAvJsdHqETrLkGDs=;
+ b=aq8VfX4a8MGSxKCes2EhYbskYpeMGk9ex91qtBzQgNXb0CZRCg0dRLVovxiDEesomv
+ OdePsJPxb21g677jw2DfYayhnOnFpqcQO8zw85Cplru2iv0eo1zkmLsfX5gmkV8GDj5i
+ nQ953/fDzvnLo6Hd2FP+ym5opG5Pw0Io5OKziW4AcyC7bkrcOuvHPcZuz1+59woaTRLW
+ 99EbXadNAxs4oVRwHrLqNq0GihHlHovArcqlrMp03TjPLCl/3xNYRIoL1LSjdSJ1y55r
+ Xx0A2zxovoG65teO4NqnPqb8OzXla3c3snK+MbnFrU8dcBI9aZZbC3qikIZNiVoE7Rv8
+ afuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5Sgj+wP7my0Z/goW9hRxD8U0CXqln5HpAVJwAYRmxrE=;
- b=M9Y2OtaV1GaOhBj53k8HMAQebWdZ65dAIKduEDt8ZKRZPmesAQ2X3itra1d2Kl1jCK
- n+4nBq8ubwN3ZccOFSEyzKW7jBONI9OvnEZsIF90mfWiAK6vQ91ZMFHJPiLezZ7+BU+J
- mnigX8Cv0dZ4/EGTADaP7m+2FOCKoGQUum6kif7t9rOnDhOiyyUXCJfKzSSa32YJRXiX
- 6fR1uCCHKGdbYxQLEjoUZdsecFXjKhKjKpauESWh0ro2XkuKs8ScaLFJVTjqQ9xC4/yd
- rKNr8mSlGEHX0zcXX8mjC+pXhy6eh6TFrsNFtq2gS+rGl2lygMRh5Sc8sk4+C1KAcDiz
- TqSQ==
-X-Gm-Message-State: AJIora/bePoyiXmKMWiPcGdKYbHmGNSO8WjwuhWlD61prCjjJFQW9z7H
- p9CbyM2JsgxDbbU8/k7KsdIh7UzUOPw=
-X-Google-Smtp-Source: AGRyM1ufaiz/jIg6lxdlJ30NSTbWqa/J4G8Lj7PQZY0bipcdtC2f9ij1vP0ACs1C5WR+L9uy3h5U8A==
-X-Received: by 2002:a05:6830:61cd:b0:618:d560:b787 with SMTP id
- cc13-20020a05683061cd00b00618d560b787mr11946675otb.154.1658164995549; 
- Mon, 18 Jul 2022 10:23:15 -0700 (PDT)
+ bh=jAiDHDP0GXofu2nX9iLl0pMKtuYOAvJsdHqETrLkGDs=;
+ b=IB0cmSdqlJu3XKPinxH6Icn5n8nqy8eV/ZaGMeiQ41iJl943hA6wOOSHiE1Tj834Zs
+ 2aJr1ddCFUn9qCgb0TG+5WtniOvpR311+lIhdFUNpAgncyqF3d32WKbCVbACWBUkUTIM
+ hMQAi96ijFW1yUjUDAuA2+TeV/z7kjCH47lyPm06Z0vlDKEsg3vh7nwZHVsSZ6M0cBIA
+ l1fDQ5SqfSNhVtc1lDH5mT7t2Sqs0ZqToaZlmgX14rhl44ugKzrM5HoZeROlS9ftzB7G
+ oz3t4kUo6QKh2ehC1Vv6ZOnknTAwirMaS9auSz6J8+nljzr5HCmcYte6m0gFeVnMuAWW
+ QpkQ==
+X-Gm-Message-State: AJIora+HrXa8Sxx0iHOnwmJeDYCOTi8Bok+dqEBbth/p6yuRryNlEcOX
+ 30u63S4D7voypfpqV6kj5uFsP9okcek=
+X-Google-Smtp-Source: AGRyM1vYP2iiQ5Yh6gx96RKzaUhTzYICXwChW262XNtF3c8TlWdNAGAbgH79gKEOqUUhEj3TkEGDFg==
+X-Received: by 2002:a05:6808:1b20:b0:33a:6c7a:d729 with SMTP id
+ bx32-20020a0568081b2000b0033a6c7ad729mr4740971oib.299.1658164998026; 
+ Mon, 18 Jul 2022 10:23:18 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.23.13
+ j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.23.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 10:23:15 -0700 (PDT)
+ Mon, 18 Jul 2022 10:23:17 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
  Lucas Coutinho <lucas.coutinho@eldorado.org.br>,
  Leandro Lupori <leandro.lupori@eldorado.org.br>
-Subject: [PULL 25/30] target/ppc: Move slbsync to decodetree
-Date: Mon, 18 Jul 2022 14:22:03 -0300
-Message-Id: <20220718172208.1247624-26-danielhb413@gmail.com>
+Subject: [PULL 26/30] target/ppc: Implement slbiag
+Date: Mon, 18 Jul 2022 14:22:04 -0300
+Message-Id: <20220718172208.1247624-27-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718172208.1247624-1-danielhb413@gmail.com>
 References: <20220718172208.1247624-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x331.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,87 +95,112 @@ From: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
 
 Reviewed-by: Leandro Lupori <leandro.lupori@eldorado.org.br>
 Signed-off-by: Lucas Coutinho <lucas.coutinho@eldorado.org.br>
-Message-Id: <20220701133507.740619-11-lucas.coutinho@eldorado.org.br>
+Message-Id: <20220701133507.740619-12-lucas.coutinho@eldorado.org.br>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/insn32.decode                     |  2 ++
- target/ppc/translate.c                       | 17 -----------------
- target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++++++
- 3 files changed, 16 insertions(+), 17 deletions(-)
+ target/ppc/helper.h                          |  1 +
+ target/ppc/insn32.decode                     |  4 +++
+ target/ppc/mmu-hash64.c                      | 27 ++++++++++++++++++++
+ target/ppc/translate/storage-ctrl-impl.c.inc | 14 ++++++++++
+ 4 files changed, 46 insertions(+)
 
+diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+index ef2dc30194..159b352f6e 100644
+--- a/target/ppc/helper.h
++++ b/target/ppc/helper.h
+@@ -681,6 +681,7 @@ DEF_HELPER_2(SLBMFEE, tl, env, tl)
+ DEF_HELPER_2(SLBMFEV, tl, env, tl)
+ DEF_HELPER_2(SLBFEE, tl, env, tl)
+ DEF_HELPER_FLAGS_2(SLBIA, TCG_CALL_NO_RWG, void, env, i32)
++DEF_HELPER_FLAGS_3(SLBIAG, TCG_CALL_NO_RWG, void, env, tl, i32)
+ DEF_HELPER_FLAGS_2(SLBIE, TCG_CALL_NO_RWG, void, env, tl)
+ DEF_HELPER_FLAGS_2(SLBIEG, TCG_CALL_NO_RWG, void, env, tl)
+ #endif
 diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 5049c98691..781051e993 100644
+index 781051e993..eb41efc100 100644
 --- a/target/ppc/insn32.decode
 +++ b/target/ppc/insn32.decode
-@@ -877,6 +877,8 @@ SLBMFEE         011111 ..... ----- ..... 1110010011 -   @X_tb
+@@ -152,6 +152,9 @@
+ &X_rb           rb
+ @X_rb           ...... ..... ..... rb:5 .......... .            &X_rb
  
- SLBFEE          011111 ..... ----- ..... 1111010011 1   @X_tb
- 
-+SLBSYNC         011111 ----- ----- ----- 0101010010 -
++&X_rs_l         rs l:bool
++@X_rs_l         ...... rs:5 .... l:1 ..... .......... .         &X_rs_l
 +
- ## TLB Management Instructions
+ &X_uim5         xt uim:uint8_t
+ @X_uim5         ...... ..... ..... uim:5 .......... .           &X_uim5 xt=%x_xt
  
- &X_tlbie        rb rs ric prs:bool r:bool
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index d7a785164b..5a18ee577f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -5388,20 +5388,6 @@ static void gen_tlbsync(DisasContext *ctx)
- #endif /* defined(CONFIG_USER_ONLY) */
+@@ -869,6 +872,7 @@ SLBIE           011111 ----- ----- ..... 0110110010 -   @X_rb
+ SLBIEG          011111 ..... ----- ..... 0111010010 -   @X_tb
+ 
+ SLBIA           011111 --... ----- ----- 0111110010 -   @X_ih
++SLBIAG          011111 ..... ----. ----- 1101010010 -   @X_rs_l
+ 
+ SLBMTE          011111 ..... ----- ..... 0110010010 -   @X_tb
+ 
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 7ec7a67a78..b9b31fd276 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -173,6 +173,33 @@ void helper_SLBIA(CPUPPCState *env, uint32_t ih)
+     }
  }
  
--#if defined(TARGET_PPC64)
--/* slbsync */
--static void gen_slbsync(DisasContext *ctx)
--{
--#if defined(CONFIG_USER_ONLY)
--    GEN_PRIV(ctx);
--#else
--    CHK_SV(ctx);
--    gen_check_tlb_flush(ctx, true);
--#endif /* defined(CONFIG_USER_ONLY) */
--}
--
--#endif  /* defined(TARGET_PPC64) */
--
- /***                              External control                         ***/
- /* Optional: */
- 
-@@ -6787,9 +6773,6 @@ GEN_HANDLER(tlbia, 0x1F, 0x12, 0x0B, 0x03FFFC01, PPC_MEM_TLBIA),
-  * different ISA versions
-  */
- GEN_HANDLER(tlbsync, 0x1F, 0x16, 0x11, 0x03FFF801, PPC_MEM_TLBSYNC),
--#if defined(TARGET_PPC64)
--GEN_HANDLER_E(slbsync, 0x1F, 0x12, 0x0A, 0x03FFF801, PPC_NONE, PPC2_ISA300),
--#endif
- GEN_HANDLER(eciwx, 0x1F, 0x16, 0x0D, 0x00000001, PPC_EXTERN),
- GEN_HANDLER(ecowx, 0x1F, 0x16, 0x09, 0x00000001, PPC_EXTERN),
- GEN_HANDLER2(tlbld_6xx, "tlbld", 0x1F, 0x12, 0x1E, 0x03FF0001, PPC_6xx_TLB),
++#if defined(TARGET_PPC64)
++void helper_SLBIAG(CPUPPCState *env, target_ulong rs, uint32_t l)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    int n;
++
++    /*
++     * slbiag must always flush all TLB (which is equivalent to ERAT in ppc
++     * architecture). Matching on SLB_ESID_V is not good enough, because slbmte
++     * can overwrite a valid SLB without flushing its lookaside information.
++     *
++     * It would be possible to keep the TLB in synch with the SLB by flushing
++     * when a valid entry is overwritten by slbmte, and therefore slbiag would
++     * not have to flush unless it evicts a valid SLB entry. However it is
++     * expected that slbmte is more common than slbiag, and slbiag is usually
++     * going to evict valid SLB entries, so that tradeoff is unlikely to be a
++     * good one.
++     */
++    env->tlb_need_flush |= TLB_NEED_LOCAL_FLUSH;
++
++    for (n = 0; n < cpu->hash64_opts->slb_size; n++) {
++        ppc_slb_t *slb = &env->slb[n];
++        slb->esid &= ~SLB_ESID_V;
++    }
++}
++#endif
++
+ static void __helper_slbie(CPUPPCState *env, target_ulong addr,
+                            target_ulong global)
+ {
 diff --git a/target/ppc/translate/storage-ctrl-impl.c.inc b/target/ppc/translate/storage-ctrl-impl.c.inc
-index d7e2bb185f..5c569a3c75 100644
+index 5c569a3c75..6ea1d22ef9 100644
 --- a/target/ppc/translate/storage-ctrl-impl.c.inc
 +++ b/target/ppc/translate/storage-ctrl-impl.c.inc
-@@ -141,6 +141,20 @@ static bool trans_SLBFEE(DisasContext *ctx, arg_SLBFEE *a)
+@@ -65,6 +65,20 @@ static bool trans_SLBIA(DisasContext *ctx, arg_SLBIA *a)
      return true;
  }
  
-+static bool trans_SLBSYNC(DisasContext *ctx, arg_SLBSYNC *a)
++static bool trans_SLBIAG(DisasContext *ctx, arg_SLBIAG *a)
 +{
 +    REQUIRE_64BIT(ctx);
 +    REQUIRE_INSNS_FLAGS2(ctx, ISA300);
 +    REQUIRE_SV(ctx);
 +
 +#if !defined(CONFIG_USER_ONLY) && defined(TARGET_PPC64)
-+    gen_check_tlb_flush(ctx, true);
++    gen_helper_SLBIAG(cpu_env, cpu_gpr[a->rs], tcg_constant_i32(a->l));
 +#else
 +    qemu_build_not_reached();
 +#endif
 +    return true;
 +}
 +
- static bool do_tlbie(DisasContext *ctx, arg_X_tlbie *a, bool local)
+ static bool trans_SLBMTE(DisasContext *ctx, arg_SLBMTE *a)
  {
- #if defined(CONFIG_USER_ONLY)
+     REQUIRE_64BIT(ctx);
 -- 
 2.36.1
 
