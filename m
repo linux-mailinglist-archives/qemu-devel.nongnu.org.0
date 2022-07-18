@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C409E5785AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:42:03 +0200 (CEST)
-Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C251C5785B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:44:14 +0200 (CEST)
+Received: from localhost ([::1]:52646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRwg-0005Kt-TJ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:42:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
+	id 1oDRyn-00016A-R0
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:44:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDReV-0007Zh-La
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:23:15 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:56105)
+ id 1oDReW-0007aQ-6z
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:23:17 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37626)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDReU-00075V-3I
+ id 1oDReU-00075e-Ja
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:23:15 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id b6so6702516wmq.5
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:23:13 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso5812880wma.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4F2yO5frOYAcnHfs5PLoHLHOZn9nM5yRB7Vtwa8islA=;
- b=TwDNq1R576aoYttGBsN+lAGUy8V6+CULMFROsyfHhC9jnjoYuPfBwrZzLmAHkWPUK3
- HqqXQNw0JVNPCWzWBUB/x44WaOGKA8ENOpaHKEQBFoeAwcrCsSjBNTWwvWmYFxdDTTXj
- NVLeHIvtRs7XJxQM74DgmJyfq5ykp5YBQBn2qCwCu+aRn8o/V4n1hmGY56qUqOVgEL9v
- PXZ/eITdcmcuF7GrM2i0WR/F66Kt6fgv8VxkvHP8wzE2u0XS+r4KOn7HPasxz3SXsVMN
- LHF7YyTogHOXYVy41Rs847Vb7s0aB20CRt90oBiRpmJ4eQJQQS+Ag9RA0yJn1yIF16ul
- jWmA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=mMMinSoDTI6N54r+UdMLMHmiLTlhc4umiwWaKStq1u8=;
+ b=aekHxEmhXcPXhXIABCtluGUqEDba0hpqhDCRRERZnOAHucDpa3AcSRgZQBCPJcLFv7
+ AwcFGdoS2gd2KKiqiwkN3F18UpBaJfFVV3YZLpB0cNtHYf+x1svE3Lkf4ndvOsVfIBAF
+ 1iOEm1+zP1NvtcWNrvK78Zzv8xczVqBgY47uagJ/KGR4AaurNw37iPsGNq0i5V5Tr88C
+ eRU2I0pjbvYYzsw0UVYU/AXwaKUXjcrYJqiSnEPLmdUj//cLhiin0gEaqwo61Y8i4at6
+ GxHSEMhrEVhVnf5Q3lew0Y86yAyioV957p4LQ3sWKiUUGwwq7kdAwk2QkAmuYMPDl7WP
+ wpKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=4F2yO5frOYAcnHfs5PLoHLHOZn9nM5yRB7Vtwa8islA=;
- b=wAhCKDdQCdbtm1h0SfL+59r26QVy313Fj/6B+jufQ6KtwLI47bjpUEj4LuNtQApy6j
- QL1Ib0hDvQRPz03CW+XTlPfgRjOui7tGH/XMSuC0QuK5r6/Qe1JziLXl15X7O8D58HcD
- eufg93a5k5+HHzDX7koEaLnR0/d5+tK2Vi0FKJJo1f+7qP+j9YpnoBC//5msWO2xMe4a
- +yeBl2j9FzmR5xPis3yTcgKCiAD90/DMYEaT8qZYZFt62rqQWAmuqeJioCo7+EKUONCx
- w6FeMeZCc6ebcwt+YtIsH7sTr5n6WOIF+QTUivc/wxPRU7lEPny55EFH4Vu4MF/YJzDb
- WneQ==
-X-Gm-Message-State: AJIora+GZ+H09j0ISCkK3v1DhadsOdghcAa/2cOlZNlRcaqgDQ6EFZIK
- 0lZOm+nZHjPlZer1T5CbfOrHAGfr0Wfseg==
-X-Google-Smtp-Source: AGRyM1vjLwEpr0SJ/7YhpGA50tX9xmeFtQb4/o7GQgT9Obwvnth3FLs/RYrKc3Ov1Q1FAzYNpRjTMg==
-X-Received: by 2002:a05:600c:a02:b0:39d:bdf8:a4f4 with SMTP id
- z2-20020a05600c0a0200b0039dbdf8a4f4mr26434837wmp.201.1658154192621; 
- Mon, 18 Jul 2022 07:23:12 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=mMMinSoDTI6N54r+UdMLMHmiLTlhc4umiwWaKStq1u8=;
+ b=VuoM1MiplvwKwg/6nbm6vxwYZrh6ZSRfcUdU1TBwOqLut0fErj3hxLcfqhxK97sfLI
+ JieNs3H4Fj5O2WBjvQx+Dpi4wteSUR3Hp3MXCl1FNDoAgMGRjVnIjc0XIGCGjqZqBS7M
+ NtuFAWmfcXvlYAsXB+enKIYeapcbmc77hkejfXpaYVvNiULMM9HcSLFEsHymLXsnTXaT
+ 2FiK6iVnuRJJCvcKYda5hhmREbvQnOMml99hSpWpBrOyr9894QWivg4n36DEUZaDPpHr
+ vajvdbeteC9C+lnAGg9bhkU4zxK0enkB9vFUs/McvnWM8NhQ1q6H8QR4EtBt7liLxAPy
+ TZ3w==
+X-Gm-Message-State: AJIora/DWR1wVz4RGaZ6l/9aQO/gI7TJD7mIVY5QO/4/cSr/nRGlFrcd
+ SIJX2N9l9ulWPYlvzDF7i9Hu5QYLgf7pNQ==
+X-Google-Smtp-Source: AGRyM1t/wJoQJ6FFjeikbtOgPpBRwlpdQZmu0yLdZjHv/6qrQbD20kN1/+Li8H2lgZ344pqds+pnAA==
+X-Received: by 2002:a05:600c:600b:b0:3a3:1176:222d with SMTP id
+ az11-20020a05600c600b00b003a31176222dmr11867594wmb.42.1658154193366; 
+ Mon, 18 Jul 2022 07:23:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  c12-20020a5d4ccc000000b0021d6e758752sm11079694wrt.24.2022.07.18.07.23.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 07:23:12 -0700 (PDT)
+ Mon, 18 Jul 2022 07:23:13 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 0/2] coverity COMPONENTS.md: Update for loongarch, slirp
-Date: Mon, 18 Jul 2022 15:23:08 +0100
-Message-Id: <20220718142310.16013-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] scripts/coverity-scan/COMPONENTS.md: Add loongarch
+ component
+Date: Mon, 18 Jul 2022 15:23:09 +0100
+Message-Id: <20220718142310.16013-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220718142310.16013-1-peter.maydell@linaro.org>
+References: <20220718142310.16013-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
@@ -86,25 +90,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries updates the Coverity Scan component regexs
-to add a new component for the new loongarch architecture,
-and to tweak the slirp component and mark it as "ignore when
-doing scans" (since it's now a separate upstream project).
+Add the component regex for the new loongarch target.
 
-Unfortunately there's no automated way to upload new component
-definitions to Coverity Scan; when these are reviewed I'll
-update the components with the GUI :-/
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ scripts/coverity-scan/COMPONENTS.md | 3 +++
+ 1 file changed, 3 insertions(+)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  scripts/coverity-scan/COMPONENTS.md: Add loongarch component
-  scripts/coverity-scan/COMPONENTS.md: Update slirp component info
-
- scripts/coverity-scan/COMPONENTS.md | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
+diff --git a/scripts/coverity-scan/COMPONENTS.md b/scripts/coverity-scan/COMPONENTS.md
+index de2eb962416..a61d011d9a4 100644
+--- a/scripts/coverity-scan/COMPONENTS.md
++++ b/scripts/coverity-scan/COMPONENTS.md
+@@ -143,3 +143,6 @@ testlibs
+ 
+ tests
+   ~ (/qemu)?(/tests/.*)
++
++loongarch
++  ~ (/qemu)?((/include)?/hw/(loongarch/.*|.*/loongarch.*)|/target/loongarch/.*)
 -- 
 2.25.1
 
