@@ -2,54 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A555C578452
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:52:11 +0200 (CEST)
-Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6C0578191
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:05:17 +0200 (CEST)
+Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRAQ-0004Ig-H7
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:52:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37252)
+	id 1oDPUy-0007xe-J2
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:05:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpl-0007NM-Hj
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:56319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpf-0000iy-OA
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:38 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R961e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VJjIAAF_1658143046; 
-Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjIAAF_1658143046) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:26 +0800
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-To: qemu-devel@nongnu.org
-Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com
-Subject: [PATCH 13/16] virtio: introduce queue_enable in virtio
-Date: Mon, 18 Jul 2022 19:17:10 +0800
-Message-Id: <a7a06e68bde2cf8c57fbf2c95b095b9f86eb527f.1658141552.git.kangjie.xu@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
+ id 1oDPL1-0001ac-IJ
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:00 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59948)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
+ id 1oDPKw-0006AH-Ll
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:54:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1658145294; x=1689681294;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=j6hZ0WNJZLcfk4eENbwZVIjSq1eQDNaDZEXP7hNxr2c=;
+ b=ACYLpX/iRLLg6irTNrSL8Ou3AMV4jvezZ6GoCBOQEU2DJFqHxvSZJbRE
+ azopEdx7rbyz/EEmfH1sbMMzKo84ddO1Rhd5fX8P66rWv2VeQvz4oecfS
+ N++y0hSLa5ioVkkBLEJeqklt8rhqT3Advgu2MhUScVESjk74BgsFqDdmE 4=;
+Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Jul 2022 04:54:51 -0700
+X-QCInternal: smtphost
+Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
+ by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:54:51 -0700
+Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
+ nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:51 -0700
+Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:49 -0700
+From: Tobias Roehmel <quic_trohmel@quicinc.com>
+To: <qemu-devel@nongnu.org>
+CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
+ <quic_trohmel@quicinc.com>
+Subject: [PATCH v2 1/9] target/arm: Add ARM_FEATURE_V8_R
+Date: Mon, 18 Jul 2022 13:54:25 +0200
+Message-ID: <20220718115433.802-2-quic_trohmel@quicinc.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220718115433.802-1-quic_trohmel@quicinc.com>
+References: <20220718115433.802-1-quic_trohmel@quicinc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.132;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-132.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+Received-SPF: pass client-ip=199.106.114.39;
+ envelope-from=quic_trohmel@quicinc.com; helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 18 Jul 2022 09:49:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,71 +82,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the interface queue_enable() in VirtioDeviceClass and the
-fucntion virtio_queue_enable() in virtio, it can be called when
-VIRTIO_PCI_COMMON_Q_ENABLE is written.
+From: Tobias Röhmel <quic_trohmel@quicinc.com>
 
-Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+This flag is necessary to add features for the Cortex-R52.
+
+Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
 ---
- hw/virtio/virtio-pci.c     | 1 +
- hw/virtio/virtio.c         | 9 +++++++++
- include/hw/virtio/virtio.h | 2 ++
- 3 files changed, 12 insertions(+)
+ target/arm/cpu.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 35e8a5101a..85e1840479 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1335,6 +1335,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
-                        proxy->vqs[vdev->queue_sel].avail[0],
-                        ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
-                        proxy->vqs[vdev->queue_sel].used[0]);
-+            virtio_queue_enable(vdev, vdev->queue_sel);
-             proxy->vqs[vdev->queue_sel].enabled = 1;
-             proxy->vqs[vdev->queue_sel].reset = 0;
-         } else {
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 0e9d41366f..82eb9dd4f2 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2050,6 +2050,15 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-     __virtio_queue_reset(vdev, queue_index);
- }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index df677b2d5d..86e06116a9 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2287,6 +2287,7 @@ enum arm_features {
+     ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
+     ARM_FEATURE_M_MAIN, /* M profile Main Extension */
+     ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
++    ARM_FEATURE_V8_R,
+ };
  
-+void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-+{
-+    VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-+
-+    if (k->queue_enable) {
-+        k->queue_enable(vdev, queue_index);
-+    }
-+}
-+
- void virtio_reset(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 879394299b..085997d8f3 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -131,6 +131,7 @@ struct VirtioDeviceClass {
-     void (*reset)(VirtIODevice *vdev);
-     void (*set_status)(VirtIODevice *vdev, uint8_t val);
-     void (*queue_reset)(VirtIODevice *vdev, uint32_t queue_index);
-+    void (*queue_enable)(VirtIODevice *vdev, uint32_t queue_index);
-     /* For transitional devices, this is a bitmap of features
-      * that are only exposed on the legacy interface but not
-      * the modern one.
-@@ -270,6 +271,7 @@ int virtio_queue_set_host_notifier_mr(VirtIODevice *vdev, int n,
- int virtio_set_status(VirtIODevice *vdev, uint8_t val);
- void virtio_reset(void *opaque);
- void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
-+void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
- void virtio_update_irq(VirtIODevice *vdev);
- int virtio_set_features(VirtIODevice *vdev, uint64_t val);
- 
+ static inline int arm_feature(CPUARMState *env, int feature)
 -- 
-2.32.0
+2.25.1
 
 
