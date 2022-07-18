@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04C6D577E5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 11:10:30 +0200 (CEST)
-Received: from localhost ([::1]:38054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7A9577E65
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 11:13:03 +0200 (CEST)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDMlp-0007jx-75
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 05:10:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
+	id 1oDMoI-0002Mf-Dm
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 05:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDMjm-0005f3-UU
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:08:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25335)
+ id 1oDMk4-00062Z-R1
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:08:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDMjl-00050j-02
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:08:22 -0400
+ id 1oDMk3-00051t-9W
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:08:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658135300;
+ s=mimecast20190719; t=1658135318;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yWtnjAtd8e2Qe1TNIIY+5MXIVI5KzsQ+JvtAbg/iUB4=;
- b=XYDi45OVkCN6Ahj/rk+ZBiZuhf6RuyEc+IasNVkY4dG7rBAwi5JIW50wrWglu+ojuhJ1+a
- toSZdlwpG6B6NQhZVejRWJzDvPuyJXAq5qIsIQY9Tov24vPlXuksvqAOCPSXApLA6qJSx7
- XpP1BknxgkQ1m4OwWKgJMtdj47Du3ug=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bdq6TGJHHrB3cYAnbpXT77oWpDe1IwgzqqKlef8Al00=;
+ b=MJ1eI8piQ+zm82fbm/omQc4JLgR+W40lt01EJoBigZAXa6AWrCuAGeOO/iY1kNmV8rejMo
+ LqtUb9qCXGSTM9LOn/vYYZhO7pK5/S+Ct5ZOCxAtzwJ0YQb/rg1MYa9YXtrixtl2Sabn4U
+ FxWSgp/cRwVDIk0eYWgl8paKhgILODM=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-120-wjvFkzSjO_mVyPyt6nXBxQ-1; Mon, 18 Jul 2022 05:08:12 -0400
-X-MC-Unique: wjvFkzSjO_mVyPyt6nXBxQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- a10-20020ac84d8a000000b0031ee6389b7eso3421746qtw.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:08:12 -0700 (PDT)
+ us-mta-629-h0B6aoWxPfeM518OVlaLRQ-1; Mon, 18 Jul 2022 05:08:37 -0400
+X-MC-Unique: h0B6aoWxPfeM518OVlaLRQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ ld6-20020a056214418600b00472ffe4640eso5146614qvb.13
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:08:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=yWtnjAtd8e2Qe1TNIIY+5MXIVI5KzsQ+JvtAbg/iUB4=;
- b=X3J/Zp3pcElhfVcBNpoz/jHkbAIGe38obpylvm9BoSIducV02a8KTImN/xGPS2Krt4
- 5Z6P+sE6B78cU5n4N85JxAwrkT7EDfQQc6djNay8vngG5QgTX53FaNX9HUPHnTrEaiqf
- mofbyfgExBeysIIEXGXQgPwjhbckDRfcoItZIzr226GSFf00b5VhfGLxFpWi5/UNQfCP
- miTMvvWYEFCdjhARkeT9slCicoOhNDi0ur8+jjF7TsJn3v6Wy++WtsSU50H9tUFpvI5D
- UGxOk/32fwGiKyfavobfBYVxAELEBAUPKiSlTVMirxGVIp1vN3vCsXcYWhUTnWLWDDbu
- rIHg==
-X-Gm-Message-State: AJIora8pGKFjo6Gjgsw4dcG/GrQGRrawgmt3zN2mCT75BU0PJlL7vyjD
- 4OQdYhMy8eR6dg9+agp7golJYmaNq0/OZgviuOSzsKSX222A/pMS+Ab8pcQzzQgGu1slxqsGLfr
- G8pBvITlMtailgFzP9NkA15K5LbmM4CI=
-X-Received: by 2002:a05:6214:238e:b0:470:8ee8:52e6 with SMTP id
- fw14-20020a056214238e00b004708ee852e6mr19569178qvb.45.1658135292398; 
- Mon, 18 Jul 2022 02:08:12 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tHbIISTbbRVwB+s9sWGyBNQWcaDFsULtPwQlVUfKj8Ax6BVSzkyCqnZpXg21J20LE/4XsGSemn/g1iAj5Q64M=
-X-Received: by 2002:a05:6214:238e:b0:470:8ee8:52e6 with SMTP id
- fw14-20020a056214238e00b004708ee852e6mr19569162qvb.45.1658135292168; Mon, 18
- Jul 2022 02:08:12 -0700 (PDT)
+ bh=bdq6TGJHHrB3cYAnbpXT77oWpDe1IwgzqqKlef8Al00=;
+ b=MVOGBeXCHeuLU/pB7o8h2PuLik0Ch65P4XRKJ5z3cp/Q/B8kDpwrrR23o24aO3DfB6
+ CjkVCitr2RqMZaRNObexTdXG4Oj9Tp7poH2ASpP1zgwpUAbhO6TF0mGPJYR7Sg0RoiWZ
+ L8qr2TAstsnvTbCPJrCNSF9A9td8JY55NwaCBXtlhIwdLiNc9CTGXbEXV3tEjf0VJhtz
+ 8MwG3O3m0XHENRgwKF+znpojWoFw0xDLF5zr+GiIngUudgo6bTkUM3nHM7GHS5VMxyIN
+ /dQwJkcRYbzCwQvSn36Fj9UIr2Mf5Pb1930gOzOpF21H01m3J0eOPha1WSUrB1peowAQ
+ Qahw==
+X-Gm-Message-State: AJIora/4e5Ew4r1IxbKNhoTwl4EkiiN4gJ+ZUxnpE9klMuUxoMLgPKsb
+ yjGORqlwjtDXWCbMN0pFPTDt3DlCWfLW+Fdw2khyJ50/FQLz87FpMA6/wdMq5vtJSW2jNGTulkR
+ wwtN/P7JjZv9ThFGAT46CJepM5R9FNPs=
+X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
+ v16-20020a05620a0f1000b006aa318e55a9mr16628263qkl.559.1658135316761; 
+ Mon, 18 Jul 2022 02:08:36 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t4BGWJtwKhBE8xaQ9aHsTrD/zR3ckQT/g2AIwMgKoLyW5AccOwJDTwkFNWxyHnw0q1x1aCmRTzOoN8UDe6W60=
+X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
+ v16-20020a05620a0f1000b006aa318e55a9mr16628251qkl.559.1658135316538; Mon, 18
+ Jul 2022 02:08:36 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220716113407.2730331-1-eperezma@redhat.com>
- <20220716113407.2730331-12-eperezma@redhat.com>
- <70dc9f92-8aea-4698-57d8-1108d1cf7db2@redhat.com>
-In-Reply-To: <70dc9f92-8aea-4698-57d8-1108d1cf7db2@redhat.com>
+ <20220716113407.2730331-8-eperezma@redhat.com>
+ <CACGkMEsUMtY-8suaPVQMm=H3ckWVNFhFFj4=5su_wjHq7mjqPA@mail.gmail.com>
+In-Reply-To: <CACGkMEsUMtY-8suaPVQMm=H3ckWVNFhFFj4=5su_wjHq7mjqPA@mail.gmail.com>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 18 Jul 2022 11:07:35 +0200
-Message-ID: <CAJaqyWfz+M_nuPC0-Y_=Tt9H3OHBquOoe2A0DsSqBZEcpS4qMA@mail.gmail.com>
-Subject: Re: [RFC PATCH 11/12] vdpa: Add virtio-net mac address via CVQ at
- start
+Date: Mon, 18 Jul 2022 11:08:00 +0200
+Message-ID: <CAJaqyWc3NfyEF5sqL6ZbZf6Nutvx9WNASeaX5LyAZ=2i3QWY+Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 07/12] vhost: Add VhostVDPAStartOp operation
 To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>,
+Cc: qemu-devel <qemu-devel@nongnu.org>,
  Harpreet Singh Anand <hanand@xilinx.com>, 
  Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Eli Cohen <eli@mellanox.com>, 
@@ -82,14 +81,14 @@ Cc: qemu-level <qemu-devel@nongnu.org>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gautam Dawar <gdawar@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,110 +105,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 18, 2022 at 10:55 AM Jason Wang <jasowang@redhat.com> wrote:
+On Mon, Jul 18, 2022 at 10:50 AM Jason Wang <jasowang@redhat.com> wrote:
 >
->
-> =E5=9C=A8 2022/7/16 19:34, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > This is needed so the destination vdpa device see the same state a the
-> > guest set in the source.
+> On Sat, Jul 16, 2022 at 7:34 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
+wrote:
+> >
+> > It allows to run commands at start of the device, before it have enable=
+d
+> > any queue.
 > >
 > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > > ---
-> >   net/vhost-vdpa.c | 53 +++++++++++++++++++++++++++++++++++++++++++++++=
--
-> >   1 file changed, 52 insertions(+), 1 deletion(-)
+> >  hw/virtio/vhost-shadow-virtqueue.h | 3 +++
+> >  include/hw/virtio/vhost-vdpa.h     | 5 +++++
+> >  hw/virtio/vhost-vdpa.c             | 8 ++++++++
+> >  3 files changed, 16 insertions(+)
 > >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 0183fce353..2873be2ba4 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -383,7 +383,7 @@ static virtio_net_ctrl_ack vhost_vdpa_net_svq_add(V=
-hostShadowVirtqueue *svq,
-> >       return VIRTIO_NET_OK;
-> >   }
+> > diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shado=
+w-virtqueue.h
+> > index 03eb7ff670..210fe393cd 100644
+> > --- a/hw/virtio/vhost-shadow-virtqueue.h
+> > +++ b/hw/virtio/vhost-shadow-virtqueue.h
+> > @@ -26,6 +26,8 @@ typedef struct SVQDescState {
+> >  } SVQDescState;
 > >
-> > -static int vhost_vdpa_start_control_svq(struct vhost_vdpa *v)
-> > +static int vhost_vdpa_enable_control_svq(struct vhost_vdpa *v)
-> >   {
-> >       struct vhost_vring_state state =3D {
-> >           .index =3D v->dev->vq_index,
-> > @@ -395,6 +395,57 @@ static int vhost_vdpa_start_control_svq(struct vho=
-st_vdpa *v)
-> >       return r < 0 ? -errno : r;
-> >   }
+> >  typedef struct VhostShadowVirtqueue VhostShadowVirtqueue;
+> > +typedef int (*ShadowVirtQueueStart)(VhostShadowVirtqueue *svq,
+> > +                                    void *opaque);
 > >
-> > +static int vhost_vdpa_start_control_svq(struct vhost_vdpa *v)
-> > +{
-> > +
-> > +    VirtIONet *n =3D VIRTIO_NET(v->dev->vdev);
-> > +    uint64_t features =3D v->dev->vdev->host_features;
-> > +    VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, 0);
-> > +    VhostVDPAState *s =3D container_of(v, VhostVDPAState, vhost_vdpa);
-> > +    int r;
-> > +
-> > +    r =3D vhost_vdpa_enable_control_svq(v);
-> > +    if (unlikely(r < 0)) {
-> > +        return r;
-> > +    }
-> > +
-> > +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-> > +        const struct virtio_net_ctrl_hdr ctrl =3D {
-> > +            .class =3D VIRTIO_NET_CTRL_MAC,
-> > +            .cmd =3D VIRTIO_NET_CTRL_MAC_ADDR_SET,
-> > +        };
-> > +        uint8_t mac[6];
-> > +        const struct iovec out[] =3D {
-> > +            {
-> > +                .iov_base =3D (void *)&ctrl,
-> > +                .iov_len =3D sizeof(ctrl),
-> > +            },{
-> > +                .iov_base =3D mac,
-> > +                .iov_len =3D sizeof(mac),
-> > +            },
-> > +        };
-> > +        struct iovec dev_buffers[2] =3D {
-> > +            { .iov_base =3D s->cvq_cmd_out_buffer },
-> > +            { .iov_base =3D s->cvq_cmd_in_buffer },
-> > +        };
-> > +        bool ok;
-> > +        virtio_net_ctrl_ack state;
-> > +
-> > +        ok =3D vhost_vdpa_net_cvq_map_sg(s, out, ARRAY_SIZE(out), dev_=
-buffers);
-> > +        if (unlikely(!ok)) {
-> > +            return -1;
-> > +        }
-> > +
-> > +        memcpy(mac, n->mac, sizeof(mac));
-> > +        state =3D vhost_vdpa_net_svq_add(svq, dev_buffers);
-> > +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[0].iov_base);
-> > +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[1].iov_base);
+> >  /**
+> >   * Callback to handle an avail buffer.
+> > @@ -43,6 +45,7 @@ typedef int (*VirtQueueAvailCallback)(VhostShadowVirt=
+queue *svq,
+> >                                        void *vq_callback_opaque);
+> >
+> >  typedef struct VhostShadowVirtqueueOps {
+> > +    ShadowVirtQueueStart start;
 >
->
-> Any reason we do per buffer unmap instead of the sg unmap here?
+> What's the difference between this and start_op?
 >
 
-I think I don't get this comment.
-
-vhost_vdpa_net_handle_ctrl_avail also unmap each buffer individually,
-and I need a function to unmap one of them at a time. I could create a
-function to unmap a whole sg, but I'm not sure how much value it adds.
+This is a leftover, I'll delete for the next series.
 
 Thanks!
 
 > Thanks
 >
->
-> > +        return state =3D=3D VIRTIO_NET_OK ? 0 : 1;
-> > +    }
+> >      VirtQueueAvailCallback avail_handler;
+> >  } VhostShadowVirtqueueOps;
+> >
+> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
+dpa.h
+> > index d10a89303e..b7d18b4e30 100644
+> > --- a/include/hw/virtio/vhost-vdpa.h
+> > +++ b/include/hw/virtio/vhost-vdpa.h
+> > @@ -24,6 +24,10 @@ typedef struct VhostVDPAHostNotifier {
+> >      void *addr;
+> >  } VhostVDPAHostNotifier;
+> >
+> > +struct vhost_vdpa;
+> > +/* Called after send DRIVER_OK but after enabling vrings */
+> > +typedef int (*VhostVDPAStartOp)(struct vhost_vdpa *v);
 > > +
-> > +    return 0;
-> > +}
+> >  typedef struct vhost_vdpa {
+> >      int device_fd;
+> >      int index;
+> > @@ -39,6 +43,7 @@ typedef struct vhost_vdpa {
+> >      GPtrArray *shadow_vqs;
+> >      const VhostShadowVirtqueueOps *shadow_vq_ops;
+> >      void *shadow_vq_ops_opaque;
+> > +    VhostVDPAStartOp start_op;
+> >      struct vhost_dev *dev;
+> >      VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+> >  } VhostVDPA;
+> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> > index 1d8829c619..48f031b8c0 100644
+> > --- a/hw/virtio/vhost-vdpa.c
+> > +++ b/hw/virtio/vhost-vdpa.c
+> > @@ -1136,6 +1136,14 @@ static int vhost_vdpa_dev_start(struct vhost_dev=
+ *dev, bool started)
+> >          if (unlikely(r)) {
+> >              return r;
+> >          }
 > > +
-> >   /**
-> >    * Do not forward commands not supported by SVQ. Otherwise, the devic=
-e could
-> >    * accept it and qemu would not know how to update the device model.
+> > +        if (v->start_op) {
+> > +            r =3D v->start_op(v);
+> > +            if (unlikely(r)) {
+> > +                return r;
+> > +            }
+> > +        }
+> > +
+> >          vhost_vdpa_set_vring_ready(dev);
+> >      } else {
+> >          vhost_vdpa_reset_device(dev);
+> > --
+> > 2.31.1
+> >
 >
 
 
