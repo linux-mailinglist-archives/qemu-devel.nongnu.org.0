@@ -2,98 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEAF75785D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:51:47 +0200 (CEST)
-Received: from localhost ([::1]:41230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1726A578620
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 17:19:19 +0200 (CEST)
+Received: from localhost ([::1]:59228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDS66-0004L2-UN
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32992)
+	id 1oDSWj-0001lX-N1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 11:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oDRun-0003HO-EE
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:40:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30425)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1oDSV2-0007cw-Te
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:17:32 -0400
+Received: from mail-dm6nam04on2061a.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8b::61a]:20224
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oDRuS-00016l-Kc
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:40:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658155179;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9jnaaxMaODPA8CfD8sN8iNxdg0QPoV6/Q3JmLbhhJKY=;
- b=Mz/RpB4PFFPheZSs5vp0abZPSxllYPYBEOiAhYsfwaK8j+Wv0P2BjSP2Og9qgGDHjDo2bY
- YaV3INrwJDW0BhuvdHi0KqydPXEBsdF2yojLj/yUQnC1SrlH6Dqh5yW6jzCnRc0e4hi35c
- SoXSSwTLQkX0LYlWpQKpMoB9qZ5nS5U=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-628-g4LcYshZN4-TsIP48K8lfg-1; Mon, 18 Jul 2022 10:39:38 -0400
-X-MC-Unique: g4LcYshZN4-TsIP48K8lfg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z11-20020a05600c0a0b00b003a043991610so4307042wmp.8
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:39:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=9jnaaxMaODPA8CfD8sN8iNxdg0QPoV6/Q3JmLbhhJKY=;
- b=1zbmssGxLl3vfN6eACFT4LWZoNU7I6F+hN7X52I++IJnOXiqYjl8jK/7Wr11nZ9rCv
- G34sUO/YV6wF3AK9BT94SS0v+G/lVOSh8atJQgy1yqk+GIHWYBUi+j6umXk/Qbh8ExEO
- wKcKqZa2XE357hBzD/iyOTlu5rUILd9uzjXrF+nk6fJVN2m8Vca6CeFdYfNRkWxLT1KN
- an2k+qz7ZuW0NP+Hexz+S5Fr486w0EALZNeu7Wg0Luyx8VbirQ87cfXQDTMX/dnauwkp
- U7R1iycmOoXWFoGm3vFk6EhmUYVMityuQ8mlx76FXMA94FOpw3RiA/ceZnBZ2ZBoDbTd
- 2zmQ==
-X-Gm-Message-State: AJIora8/RvMSUrFwzEeQ3eZirT11P1qC1JoUNMBUYmis8Zux7jSIKjDN
- m9TTWeQ0tGrFszAAZnuA40WFVJvPiad5fgWgkwkEh2WkXnt5zINnZrhirDIHjZFHp8CqnHs3DMd
- c1zO0Cp8AWdJCOIM=
-X-Received: by 2002:a5d:59a8:0:b0:21d:8a9d:732b with SMTP id
- p8-20020a5d59a8000000b0021d8a9d732bmr22200808wrr.28.1658155177126; 
- Mon, 18 Jul 2022 07:39:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sqMSLAW5KJdltUbNPQXgV32MgtH9/cDvE/6LP314l9KcYzweQ0FjKwY9zV9cfYs2U7PwxA6Q==
-X-Received: by 2002:a5d:59a8:0:b0:21d:8a9d:732b with SMTP id
- p8-20020a5d59a8000000b0021d8a9d732bmr22200781wrr.28.1658155176858; 
- Mon, 18 Jul 2022 07:39:36 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- r124-20020a1c4482000000b003a2e2a2e294sm16125730wma.18.2022.07.18.07.39.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 07:39:36 -0700 (PDT)
-Message-ID: <f6158574-bb2b-9fac-b322-f48597075eb9@redhat.com>
-Date: Mon, 18 Jul 2022 16:39:35 +0200
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1oDSUw-0007lv-RA
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 11:17:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ix9vcuGA+hZQyDkKq5lTDTD3G5nGXY6KW8ul31N0ztCzfXVV8xl3LYkaDToHpV+YdoLOuR/ybxZcAQ9KXt7mK/TGt/Su+crSi3oJgC6FSbmygh03XgXkdGCzvOkbtZ3sBsI6/lJCcG7iGSb/byjZJBIKJkj1XWW1P3bCFRkklyq2uaUPGYYws0m9JqUtQzJZ62AMUkPPV90eWZwt0dZ/F/u6X890GKILcPpkxqd4vDrueRvA1NIVmDALVgqF+7GN/3+1eDv/8k6KWG/NqvyYASCjFMYulha+L/RCyqnkmVbFIrQ7QuDe66uDyEpWQnEPc+EyKIOZjMxkulgVWfHLEA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mhQIV5xoMuKvAEnNfHrlAX4QSiBzxGcQuyblHCT4Rrc=;
+ b=hnZP+zsOgcXbLvLWBAfD9aWXqFV+ylATUWU8PrRsMG5DTsM/WjlLUXX5JvriDbiQPtWJ/wt+6xuc7i9zUut58h7oOqBuZeS33asxWdzDINp6L69r0EZ/MqnjOJ3j6cQHVWm9xZHFC9AmTdCtM+kxTJjl9p6WKOQXlXlHsgKR8pHpL4/JOssukagICbw9Yf2ODH3vmdmFLnRZAAG6goRp2qMcQT4OmtjGXNpNNv4MbjVsuXV9kRavnfRsQqC6peCjWRDzkbwlcLsrRHBIz4QUwcJ+u0RaAy92Y+3LIeoDZ4U/s2BMK5dE2DWHnS+QX7OlYPIbXWhyr1GNy5B3yrzcWg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mhQIV5xoMuKvAEnNfHrlAX4QSiBzxGcQuyblHCT4Rrc=;
+ b=sHtvtb2EHBRJOzoeH37I+NhZfhKBITvouKXXCHqWr/5dhtR9QGDicRrSbLKKhvvSbQwel/H74jwpZMPqKD8nx9E8inbRETepCJ1Jk7y2Hu3+QdkDeivIbtmaC15BUEFUV6lrEzfjU7LjUf4262a3n9Z6/ThS91PWXbTo2OJM3WbMVn+YStVXoezP61qb5oHGkHhHARd1weeKvqO08ZdBsHpPSJNlm9JTxVVe23OcibLFfwgqbXPzJnccHGb1NzmBZC8gTuqIuNcFQGV5kqRtFEGatJExTV06yHGKxmtK/WQkbtv/8SD8f0ZTUk7Gd/g91sx6HwIJbu2xvHO5EAGqWQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
+ by MW3PR12MB4585.namprd12.prod.outlook.com (2603:10b6:303:54::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.19; Mon, 18 Jul
+ 2022 15:12:21 +0000
+Received: from MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb]) by MN2PR12MB4192.namprd12.prod.outlook.com
+ ([fe80::ac35:7c4b:3282:abfb%3]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 15:12:21 +0000
+Date: Mon, 18 Jul 2022 12:12:19 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Avihai Horon <avihaih@nvidia.com>, Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Yishai Hadas <yishaih@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
+ Maor Gottlieb <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH v2 07/11] vfio/migration: Implement VFIO migration
+ protocol v2
+Message-ID: <20220718151219.GA60193@nvidia.com>
+References: <20220530170739.19072-1-avihaih@nvidia.com>
+ <20220530170739.19072-8-avihaih@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220530170739.19072-8-avihaih@nvidia.com>
+X-ClientProxiedBy: BL1PR13CA0375.namprd13.prod.outlook.com
+ (2603:10b6:208:2c0::20) To MN2PR12MB4192.namprd12.prod.outlook.com
+ (2603:10b6:208:1d5::15)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 8/8] block: remove all unused ->can_set_aio_ctx and
- ->set_aio_ctx callbacks
-Content-Language: en-US
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-9-eesposit@redhat.com>
- <61e119d7-9b70-8e72-4ebb-52aed545888a@redhat.com>
- <a08308ac-28a1-969b-c07f-d828d41521a1@redhat.com>
-In-Reply-To: <a08308ac-28a1-969b-c07f-d828d41521a1@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: efdfed60-dd00-4871-704c-08da68cfe959
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4585:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Lle6m00eh2ux0ZLnxHkb7CHnYetaZhNHghKIzUmUnFCpan/3YoB60RCdho0AQZ8UZdra46lOPYzVU45niJZK+OT6AHd+oQXmGpHXMQqod1bt2Za/5fF56o2iJFvYHnq3R49NByT+EHsKk107YtYl68jdPvkRIDRDheu3QS4l9h0USweecIKlLf1napaxcxSZkgGO7LROyzpuxR2Tyg774YNEC3TibkJK94rRMhQOb0s749Tg225rHIAJdut5YtAKuNzMVVu+IUSCFeTVsCkbIZM41hWeLsc8zhx9+kmOoVLL3SCXIYZPT4ucaFpdT47oQLTBtl1/wdcAgPk/8J9GJfcgLLytXp4L3XlUSAjllKcoyR8PMxxtoU6/2Can5WfGibcnX/aVJY06TzKuVbb+ixbMCMAfuH/DzVyY8fF4geouGocfZb8XJLqqYlrDwSVNd3We7C3pk6xNTj4vdiI13nLR96RXiXgoOQaYUsPq9k/r5fSbWlRNQydJo6xASMVLlQ461lc5ew4qDdckuEaiN/AhQh3U+Rs0LmRHt90Wlyty2E2Won9FAxOkf6J6ffQz7oDfR7isOeCaP0JVGwdEGjcpucarA9mLzX+IF8XCfclXGl39J/elVoiqUt/c5cA1QNPxPwMGeJHot3IkYiiKGAFQTt9MhHcbbG8FT/0PTuqr4MaiHKXBV9/xDaRwQL2j4ALjujOfqOXg7iFH+XjKKCUZLLIyoR6HxYi6TMVDkv1flYqrPeCgaUQ8sxn+7d4Z
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB4192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(39860400002)(346002)(376002)(396003)(366004)(54906003)(6512007)(316002)(41300700001)(110136005)(6486002)(6506007)(26005)(36756003)(2906002)(33656002)(66556008)(66946007)(5660300002)(38100700002)(1076003)(8676002)(4326008)(66476007)(83380400001)(8936002)(186003)(478600001)(2616005)(107886003)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i28AP8mr61x1PsGMqmR0lNzufBdvag/ouqPcIunvykDW/ANUSU9aCIdAAJ9q?=
+ =?us-ascii?Q?XhOOHhg1asNZq0XVaPw7SOErdQwx/L+LSSMqFwt9tSF5BOt1Dbk87Ykmp54E?=
+ =?us-ascii?Q?DtPaj5dCfuLrGcWcSn2JUfYGVjyO+68JsfPhIw5oNN4bHnMYye7IUC6GIPSG?=
+ =?us-ascii?Q?f3mwlpoMadJTxc9j7w8J0VNLP3dXkugpF0CsaqEu/yWb1ThYq3TK6P3yOU2W?=
+ =?us-ascii?Q?zG1lmNZQBDa11DYqVnvhj4mi9RkkLcD+jEG0LUrSPCgarkPODzp7CslpdSd1?=
+ =?us-ascii?Q?9K7wHXZdt1Hre2OfdHPmyrWe2p/3OnYQIZqL8ong4j5pOLLOV2OJ0xZ2hxy4?=
+ =?us-ascii?Q?J9Ei6mC2AzREDlUEohtiUT9Oo0ZOYEoaa+jelPaZHp3a08ASpFUcb45Q7VKY?=
+ =?us-ascii?Q?YIJb0g+4reN0YHJTyWZmcNqJX616tgl30qEm0M6dFH1XLqIIU3LggX1ShbOP?=
+ =?us-ascii?Q?6NBk8wa0LYGFaBzrW+HiQeJeQup+ZRE1Eysb5ssjt9UQraiC5a6FuWjSOeS0?=
+ =?us-ascii?Q?SVmmV5ZntDar9VBnatIl9bl6ZXM87jUuaoZilyF0TrVrt+W8gFfzJ17mcIg2?=
+ =?us-ascii?Q?ujiigyFJFV0/55iu+qO+2ABbxeV88OBgk9eF9x3AeRAHZ5a7hzHhg6JxF2IY?=
+ =?us-ascii?Q?yo/kQBWcuNO5lDn81LPXmsgSv7V/0X0LmOXSG4ZJX2UGxndTxhaebRllTlKj?=
+ =?us-ascii?Q?3dFtV7e7Qgv+S5lntq/kaJZL9BzPfNKjgd0vgHanZQ69aPPF8jr4cw2AE7er?=
+ =?us-ascii?Q?G5WNAnTRzcxcPawVqq+Dz2tQNwk7HUlneOcRlMyRjSA2dhp8Jgx4tC7OMtLH?=
+ =?us-ascii?Q?yM8FcpnSpOACfkFCKZy8gABWS54bzwVqJL6G+MKuxyC14j3mGwbf9aUQZOWk?=
+ =?us-ascii?Q?SI2kHHhtf2Wv7MdpzzOPMnmlYfcZDTnj3m1CQpiwMcwo2Ac7jnSwOnoiZRkk?=
+ =?us-ascii?Q?ge1LLuoF9aEEUC1CZ6sugik7f0iTMb0p3UaXuu2ZuRVM0tvJp+9rjoD5T3oj?=
+ =?us-ascii?Q?SkfxO9E9Ju5MzRKgtoC7O1LDSbaSsK6NC6AQV+z38pltYndCvZLpqirno1BA?=
+ =?us-ascii?Q?o0xxLCr0hyLSFY05mtV+svADCr8ZnmG3z06UEXBwvADbjw9dqiqDDpQ1q1Xp?=
+ =?us-ascii?Q?aNf0FZxR9zG37FiunzqtPtPU3OE2a7Q3VhQGnA+uogz/Xok36W/7EFnAf22q?=
+ =?us-ascii?Q?qIJvalEwZqeHbARPWY3vgOXYfoQamD9CR4NjSKtL+WO9FzbqMdiMqwWftore?=
+ =?us-ascii?Q?Jw/WjxiY0oGs3cX1HWCNdwPaMGTmp51FFZAndlkq5tWjksryZn5w4l0+PAWQ?=
+ =?us-ascii?Q?HRBSNB33NHfLjXNwGutMrmtq6yQXzQxgo6kgH/DN/JsO/+Ljp6f3N9Lg6Tsp?=
+ =?us-ascii?Q?wP3jFT0n1uIlhYVsPZjHODOKgVzfQO7fPfBKT7q83wnVWu5I0pDm+b5zc2V/?=
+ =?us-ascii?Q?pBOJzbYQyGt02rox2XmIbQ2/8KOUZ6SAGFv/4cdd9LJmFpJWNSbsohNXUL0k?=
+ =?us-ascii?Q?WBo/iXZtFm11UHmoHtMjkfBdkJK9vKJqBRsXAHjEr8PvnMYjoi+kST0rZU10?=
+ =?us-ascii?Q?qxRp8Q1ip4OTKDHX8HKClIicqsZcjv0/i7NA004d?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efdfed60-dd00-4871-704c-08da68cfe959
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 15:12:21.0849 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: d7HfHLTplSGxQZfDRQqk65m/6ZmOSNntjljPmlt4JNBzmSj+Ywr3Lfg9k1BXxQSN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4585
+Received-SPF: softfail client-ip=2a01:111:f400:7e8b::61a;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,48 +141,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, May 30, 2022 at 08:07:35PM +0300, Avihai Horon wrote:
 
+> +/* Returns 1 if end-of-stream is reached, 0 if more data and -1 if error */
+> +static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
+> +{
+> +    ssize_t data_size;
+> +
+> +    data_size = read(migration->data_fd, migration->data_buffer,
+> +                     migration->data_buffer_size);
+> +    if (data_size < 0) {
+> +        return -1;
+> +    }
+> +    if (data_size == 0) {
+> +        return 1;
+> +    }
+> +
+> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
+> +    qemu_put_be64(f, data_size);
+> +    qemu_put_buffer_async(f, migration->data_buffer, data_size, false);
+> +    qemu_fflush(f);
+> +    bytes_transferred += data_size;
+> +
+> +    trace_vfio_save_block(migration->vbasedev->name, data_size);
+> +
+> +    return qemu_file_get_error(f);
+> +}
 
-Am 18/07/2022 um 10:45 schrieb Emanuele Giuseppe Esposito:
-> 
-> 
-> Am 15/07/2022 um 16:34 schrieb Hanna Reitz:
->> On 12.07.22 23:19, Emanuele Giuseppe Esposito wrote:
->>> Together with all _can_set_ and _set_ APIs, as they are not needed
->>> anymore.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>   block.c                            | 196 -----------------------------
->>>   block/block-backend.c              |  33 -----
->>>   blockjob.c                         |  35 ------
->>>   include/block/block-global-state.h |   9 --
->>>   include/block/block_int-common.h   |   4 -
->>>   5 files changed, 277 deletions(-)
->>
->> Looks good!  I’d just like a follow-up commit that also drops
->> bdrv_try_set_aio_context(), so it’s all gone (I think that’s the final
->> remnant?).
->>
-> 
-> It's the same for me, I thought renaming bdrv_try_set_aio_context was a
-> little bit unnecessary. You want to rename it to something else, or
-> directly call bdrv_child_try_change_aio_context?
+We looked at this from an eye to "how much data is transfered" per
+callback.
 
-Wait we have 2 functions that need to be renamed:
+The above function is the basic data mover, and
+'migration->data_buffer_size' is set to 1MB at the moment.
 
-- bdrv_child_try_change_aio_context, called only once in block-backend
-because we need the ignore_child parameter.
-- bdrv_try_set_aio_context, public, called everywhere, wraps
-bdrv_child_try_change_aio_context setting ignore_child=NULL.
+So, we product up to 1MB VFIO_MIG_FLAG_DEV_DATA_STATE sections.
 
-Name suggestions?
+This series does not include the precopy support, but that will
+include a precopy 'save_live_iterate' function like this:
 
+static int vfio_save_iterate(QEMUFile *f, void *opaque)
+{
+    VFIODevice *vbasedev = opaque;
+    VFIOMigration *migration = vbasedev->migration;
+    int ret;
 
-> 
-> I agree with the rest of comments in this series :)
-> 
-> Emanuele
-> 
+    ret = vfio_save_block(f, migration);
+    if (ret < 0) {
+        return ret;
+    }
+    if (ret == 1) {
+        return 1;
+    }
+    qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+    return 0;
+}
 
+Thus, during precopy this will never do more than 1MB per callback.
+
+> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    enum vfio_device_mig_state recover_state;
+> +    int ret;
+> +
+> +    /* We reach here with device state STOP or STOP_COPY only */
+> +    recover_state = VFIO_DEVICE_STATE_STOP;
+> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP_COPY,
+> +                                   recover_state);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    do {
+> +        ret = vfio_save_block(f, vbasedev->migration);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +    } while (!ret);
+
+This seems to be the main problem where we chain together 1MB blocks
+until the entire completed precopy data is completed. The above is
+hooked to 'save_live_complete_precopy'
+
+So, if we want to break the above up into some 'save_iterate' like
+function, do you have some advice how to do it? The above do/while
+must happen after the VFIO_DEVICE_STATE_STOP_COPY.
+
+For mlx5 the above loop will often be ~10MB's for small VMs and
+100MB's for big VMs (big meaning making extensive use of RDMA
+functionality), and this will not change with pre-copy support or not.
+
+Is it still a problem?
+
+For other devices, like a GPU, I would imagine pre-copy support is
+implemented and this will be a smaller post-precopy residual.
+
+Jason
 
