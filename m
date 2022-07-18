@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64554578102
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:39:18 +0200 (CEST)
-Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0F39578124
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:44:16 +0200 (CEST)
+Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDP5o-00065O-T9
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
+	id 1oDPAd-0003dI-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:44:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDP3R-0004AD-PO; Mon, 18 Jul 2022 07:36:51 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:53308 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDP3N-00036X-Fb; Mon, 18 Jul 2022 07:36:49 -0400
-Received: from [192.168.3.6] (unknown [180.156.173.38])
- by APP-05 (Coremail) with SMTP id zQCowAAXHrK8RdViYQ0_Dw--.58670S2;
- Mon, 18 Jul 2022 19:36:29 +0800 (CST)
-Subject: Re: [PATCH v2 1/6] target/riscv: add check for supported privilege
- modes conbinations
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com
-References: <20220712063236.23834-1-liweiwei@iscas.ac.cn>
- <20220712063236.23834-2-liweiwei@iscas.ac.cn>
- <20220718090221.aqeiudcugpdqaef6@kamzik>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <511e08eb-e1cc-59cb-0beb-498df58e3a69@iscas.ac.cn>
-Date: Mon, 18 Jul 2022 19:36:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDP4g-000597-TO
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:38:08 -0400
+Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c]:36559)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDP4e-0003JN-Sl
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:38:06 -0400
+Received: by mail-yw1-x112c.google.com with SMTP id
+ 00721157ae682-31caffa4a45so103598997b3.3
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:38:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TCBtcHtX3oYQipZUSu5koaA9OW473QyAlI5Upd1su+Q=;
+ b=bKRx5R5Eza8FjCWPcjrxXCqMBfZ/QUmWmrV/pUtXRA1tAwJKV/7ihiJYAdEA8DrvFu
+ TVZYxNqVfVGJSEknbCKK8jzYDKX2HxEkUmAxkskyBvQuc1FM504OfhLkIzngSQKXRj/P
+ AQiwSupyoLtt2XAQniGSiBJ94Kqh1DoVSSA5siBO2iiHPrYvILn+Sl9doUZNSYznNt84
+ VBU2g6FlLnM5U9dd9MUYd0chGhI54+st3n/HvmWIYujRb3LfZENK1kyvFZwlkDBVbN2L
+ UHuyadNpz6npF7ayOAtNX6qtg0T/x1GINqoSGoRY/G4k4M2NT3tA14tbmWBiNge78EV9
+ b5wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TCBtcHtX3oYQipZUSu5koaA9OW473QyAlI5Upd1su+Q=;
+ b=CrVD/dOyl2yM+OKfGhkiBKTvBT3xGrX5CLCV1vrTCG/nXVyeisfqvuvVsAO4KocZ6j
+ HrUBWciRNeLY7/ukuxhbDrbLVhi/WUavIgkahVoilaSk7+3sYRilSo594lp35rUf2KUF
+ 3E1rcR7tDOKIDH8J8kUh3Y5vnsDaS2VbKB0292uKpn/veuQ8E98RSkYJxpDzIlV3FSQo
+ GER4WgkPtKARFeWhwEv33P6cQgJwAUmnfYZj1KlALw/tWYN/13JJiDDT7iuilIlh4+EI
+ /J0LcBA/PDMeJfk6kV69cPvPndugGzrVN6nnQnkhXc4pFnvuas3hyI11c4VOLo/iMIVO
+ fqug==
+X-Gm-Message-State: AJIora8cr7ipSD/N5T4x6cVqhnFxEUk3h4H8sbQuyXVEGwIYWWtFpy1L
+ pPSzbwdHNoDiKb7RfpkCo1t+gzTJKW59sO7S/oDumQ==
+X-Google-Smtp-Source: AGRyM1skk1tbTAFyTFEoIHgSMi9aTaxiH/Sx5JQLin6KKU6BNlxTOWrxqwn2Co5NJznRq/5U9xQZ1ZvnxL613QAMsOY=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr29436824ywb.257.1658144282285; Mon, 18
+ Jul 2022 04:38:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220718090221.aqeiudcugpdqaef6@kamzik>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: zQCowAAXHrK8RdViYQ0_Dw--.58670S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tryxCry7ZF17Xw1fJr43KFg_yoW8Xr1Dpr
- 4rGay7CFWDJry7G3yxAF1jqF1j9r4kKFWUZ39FvwnruwsxtrZY9FnFkw4akw1kAF4kCa1S
- 93yq9F15Zr4Yv3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
- IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
- evJa73UjIFyTuYvjfU8VbyDUUUU
-X-Originating-IP: [180.156.173.38]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: 5
-X-Spam_score: 0.5
-X-Spam_bar: /
-X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220708154700.18682-1-richard.henderson@linaro.org>
+ <20220708154700.18682-19-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-19-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 12:37:51 +0100
+Message-ID: <CAFEAcA8zq9muMkU5Ex1256qxZhHHQPGWk6HSQcqde=MiFEsSAw@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 18/29] Compute reginfo_size based on the reginfo
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,59 +83,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2022/7/18 ÏÂÎç5:02, Andrew Jones Ð´µÀ:
-> On Tue, Jul 12, 2022 at 02:32:31PM +0800, Weiwei Li wrote:
->> - There are 3 suggested privilege modes conbinations listed in the spec:
-> No need for '-' here.
+On Fri, 8 Jul 2022 at 17:35, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> s/modes/mode/
-> s/conbinations/combinations/
+> This will allow dumping of SVE frames without having
+> to know the SVE vector length beforehand.
 >
-> (Same typos in $SUBJECT, also please capitalize 'add' in $SUBJECT.)
->
-> When referencing the spec it's nice to point out the doc/version/section.
->
->> 1) M, 2) M, U 3) M, S, U
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>   target/riscv/cpu.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index db2b8e4d30..36c1b26fb3 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -726,6 +726,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->>               return;
->>           }
->>   
->> +        if (cpu->cfg.ext_s && !cpu->cfg.ext_u) {
->> +            error_setg(errp,
->> +                       "Setting S extension without U extension is illegal");
->> +            return;
->> +        }
->> +
->>           if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
->>               error_setg(errp, "F extension requires Zicsr");
->>               return;
->> -- 
->> 2.17.1
->>
->>
-> Besides the commit message issues
->
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
-Thanks for your comments.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-I'll fix the issues in commit messages in the next version.
-
-Regards,
-
-Weiwei Li
-
+thanks
+-- PMM
 
