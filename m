@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06586578428
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:46:04 +0200 (CEST)
-Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15B857843F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:48:50 +0200 (CEST)
+Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDR4V-0001RC-5A
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
+	id 1oDR7B-0005TO-N4
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDQzv-0004NU-LM
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:41:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDQzt-0000I6-3V
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:41:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658151676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dJiOsiJRtiGjTDF7wfg41DpQFwZ5usznU4BxRv5fxlI=;
- b=A5RYS6NeKceg485RDW6+CTILT0V3Z5aeBsMQYJ2CZOMoJrt7ymmpqa1Nnps6kByNgM4nvu
- hWKRhO+fbfDfa9qX228aiqHGjVWKQmlGVVsBbkMhuzMALjJpbTznvnp887FxzL9DRxRmkI
- +BkytNrG2iFlpZs9ID/CroAd5lNL6iM=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-XYQFEGVZN-OO-jhUkfykmA-1; Mon, 18 Jul 2022 09:41:14 -0400
-X-MC-Unique: XYQFEGVZN-OO-jhUkfykmA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- oz11-20020a1709077d8b00b0072f2f17c267so378160ejc.16
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:41:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1oDR4g-0001gh-Ji
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:46:14 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:34385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1oDR4d-000195-PA
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:46:13 -0400
+Received: by mail-ej1-x630.google.com with SMTP id oy13so21297303ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=51TiKKOJ6gRWqN61IeyHMVFvZl2rbVXo78frrVI/3i4=;
+ b=Kcd937g4ptNIE79EC7pE9TdOn/u+9xx7XBlLIqNxkBIbZrq2/z9eMG1fSGOA1IKhb6
+ SS96IN5hHOsOMZEP1cnmxhguCSt6P4Y8xd4O69d8jTlwtmPseYsuxb9E1qJFl7uFpjQe
+ r752uf6yzWvZcFb8MVEfkhelm2tjli6jjrBFnCBLfLzHJqHckXEgwm7z1RcBwhx8gnMX
+ OeG/QjF1ljj7LjhvdHnWkQWjKGOk+7RkdWpbANnBDnRX3BW8EhSWHUFOF6ipEc3LLFvU
+ 5KX3vP9Ig/SV7eQKcjt47aGDZVDjqODHt6zuoupfDSVwd32PXtJ8hsMPN9gYil+lDNxR
+ 1v9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dJiOsiJRtiGjTDF7wfg41DpQFwZ5usznU4BxRv5fxlI=;
- b=pnQQGW6c4F3yxPzz875mnaYPqxQJJfEhyVhiG1qcJVHYvZ0UasYDGX6fIQVLl0y1nJ
- P2Oavau0e7Rbqiwu03M5J9/wfEUxxHZAGNMs6rImrvsQaEooCRhVxw4jMqJPFec79Xsb
- prPjeWMj/3PXjCgmiaIyJys+9DN/jGkXJp41YsIIzL4w+4i7DZXFhGqxs8tskRDo3zTz
- bnmEddfyuoa9A0BWEWQ2OPbowZi4qeoGj8Bi3gJNYbUV0hdIwqI57F+IXXSlCs2aUScF
- ZKEWnoMgmIdpwyT/fWCoAmSwZu2z/oNiM/sPcGfz00zljLcP7wlIvBNNyHtzqqyyykjl
- Hx8w==
-X-Gm-Message-State: AJIora8Q7eUXtkd0UYc7H3uQiHkZ2DZxuwrhfYai+f9Z5gGEe6I+4m0S
- UANHPIKMj2jrwmvC4Z7Pig893VEkdwm/vzWzL6RnWKzy6ibpCn5IYuXsJ+c8vZ0OVbyoBz+nCb0
- vuTRKB3RgsK24TNA=
-X-Received: by 2002:a17:906:5a61:b0:72b:1468:7fac with SMTP id
- my33-20020a1709065a6100b0072b14687facmr25275890ejc.440.1658151673595; 
- Mon, 18 Jul 2022 06:41:13 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1scblY7l3JKXwgqQUljRDTyDTX17KQShd4e4bT1cBHoQtecUwNUpcRdUukVv7bpH13ZMDv4Vg==
-X-Received: by 2002:a17:906:5a61:b0:72b:1468:7fac with SMTP id
- my33-20020a1709065a6100b0072b14687facmr25275876ejc.440.1658151673398; 
- Mon, 18 Jul 2022 06:41:13 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- h5-20020a1709067cc500b00726e108b566sm5549556ejp.173.2022.07.18.06.41.12
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=51TiKKOJ6gRWqN61IeyHMVFvZl2rbVXo78frrVI/3i4=;
+ b=oGUEp+2/38YG5ze2OcEJoijwRbUGMLyPj5l0dowm+0CkIloZpSncaSZgZLskl9RSKZ
+ 7Lhaurfw6z5vJtXVFvLjZaKBqSmgDcFnkFwp2AHNCDRW5P7m6QiqBZCYME0rka5Lnn4H
+ 4dy15ef5H9MhNB3PMdl9ugkAHr6f/ax+BfThL9pQekv5saY8hITDlaEZplWLIZvh7JpN
+ ucqkN1MOSur3qVFegeiqgImOYue29sF52mxDpOqNAO3TCeWkGlmZ2wWWqw4GkYulkgpH
+ RmcIDqXqyiLgL2f7z6BNj41OdQCu90mv/3Jfo9aZrvA0EIO7K2L7rW700VwQYL5Q1H78
+ bymQ==
+X-Gm-Message-State: AJIora+gfJGOhrRstAd9o+ncZufmdBw7D+v0nWcI5G0fvj4zY8aaL57Z
+ a32Ko8Dg5gsL/+ZK/8Zw+9oMIQ==
+X-Google-Smtp-Source: AGRyM1t7dOK2OoDQW0rW+PJUurqjb2Hk2R7nYrjq6WV10Mzh4AEWErgr1E1xrP8ZtD1+K8eLvgGVAw==
+X-Received: by 2002:a17:907:2888:b0:72b:4a91:b21a with SMTP id
+ em8-20020a170907288800b0072b4a91b21amr26165380ejc.35.1658151970001; 
+ Mon, 18 Jul 2022 06:46:10 -0700 (PDT)
+Received: from myrica (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net.
+ [82.27.106.168]) by smtp.gmail.com with ESMTPSA id
+ x18-20020a170906297200b00728f6d4d0d7sm5511533ejd.67.2022.07.18.06.46.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:41:12 -0700 (PDT)
-Date: Mon, 18 Jul 2022 15:41:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Robert Hoo <robert.hu@linux.intel.com>
-Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, qemu-devel@nongnu.org,
- robert.hu@intel.com, Jingqi Liu <jingqi.liu@intel.com>
-Subject: Re: [PATCH] acpi/nvdimm: Define trace events for NVDIMM and
- substitute nvdimm_debug()
-Message-ID: <20220718154111.175e92b6@redhat.com>
-In-Reply-To: <c1f857fab3b2dd1e58c0fe7ca087f8c742f2aff2.camel@linux.intel.com>
-References: <20220704085852.330005-1-robert.hu@linux.intel.com>
- <20220707112101.259acc3a@redhat.com>
- <c1f857fab3b2dd1e58c0fe7ca087f8c742f2aff2.camel@linux.intel.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Mon, 18 Jul 2022 06:46:09 -0700 (PDT)
+Date: Mon, 18 Jul 2022 14:45:44 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: "Zhang, Tina" <tina.zhang@intel.com>
+Cc: "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] hw/virtio/virtio-iommu: Enforce power-of-two notify for
+ both MAP and UNMAP
+Message-ID: <YtVkCESkWdtlk9Dj@myrica>
+References: <20220714095418.261387-1-jean-philippe@linaro.org>
+ <MW5PR11MB5881B65DFAC3710620AB0C0D898B9@MW5PR11MB5881.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MW5PR11MB5881B65DFAC3710620AB0C0D898B9@MW5PR11MB5881.namprd11.prod.outlook.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,15 +92,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 15:12:03 +0800
-Robert Hoo <robert.hu@linux.intel.com> wrote:
-[...]
-> BTW, during the unit test, I met some bios-table test error, 
-> https://gitlab.com/qemu-project/qemu/-/issues/1098, perhaps related to
-> your patches in June.
-> https://patchwork.kernel.org/project/qemu-devel/cover/20220608135340.3304695-1-imammedo@redhat.com/
+Hi Tina,
 
-current master works for me.
-can you try a clean build?
+On Fri, Jul 15, 2022 at 12:09:23AM +0000, Zhang, Tina wrote:
+> > +static void virtio_iommu_notify_map_unmap(IOMMUMemoryRegion *mr,
+> > +                                          IOMMUTLBEvent *event,
+> > +                                          hwaddr virt_start, hwaddr
+> > +virt_end) {
+> > +    uint64_t delta = virt_end - virt_start;
+> > +
+> > +    event->entry.iova = virt_start;
+> > +    event->entry.addr_mask = delta;
+> > +
+> > +    if (delta == UINT64_MAX) {
+> > +        memory_region_notify_iommu(mr, 0, *event);
+> > +    }
+> > +
+> > +    while (virt_start != virt_end + 1) {
+> > +        uint64_t mask = dma_aligned_pow2_mask(virt_start, virt_end,
+> > + 64);
+> > +
+> > +        event->entry.addr_mask = mask;
+> > +        event->entry.iova = virt_start;
+> > +        memory_region_notify_iommu(mr, 0, *event);
+> > +        virt_start += mask + 1;
+> 
+> Hi Jean, 
+> 
+> We also need to increase the event->translated_addr for the map request here.
 
+Ah right, I'll fix this
+
+Thanks,
+Jean
 
