@@ -2,78 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D0EB5785BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:46:27 +0200 (CEST)
-Received: from localhost ([::1]:59430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F17578537
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:21:17 +0200 (CEST)
+Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDS0w-0005bJ-3p
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58022)
+	id 1oDRca-0003Gv-Fu
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:21:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oDRga-00033N-6f
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:25:26 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1oDRgY-0007WM-BS
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:25:23 -0400
-Received: by mail-wr1-x432.google.com with SMTP id h17so17356542wrx.0
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:25:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BtFZASdng0XjIjFeHK3YeIzIhyjE9eTOh6A5GMRsTdM=;
- b=Kh6zK1iZSA9+6UbojT/lDlPXqLknwjV6rlr/0sUG5RGTrLUn2/F2ds7uQXQoZ153T2
- BYhawOeWdWaFvnMskFrp5tLb1hqrG6OkwHo0B0+Ir2MXlll3gpxg3jNR6L9eQ9YuP2D+
- Zf9ywNSyz76GSS5VghOTAYvotyDNz7Cz6Q6WwRsJpufDk3zKDwiV5wZ+w2VIYl65oSsl
- t2KIBO3XDBQ/5JdPbhfhYfp7rpToQs9bjLgS1AUfAcjw1r6iV0pcMW608KT2mi+nVbFO
- TlkgIoz3281UBGOdfZfDBvRplzE5MG2eKdRNOEGyfBZlmR7Rl5yLhwBlnZN5vDKTnyNe
- EpBA==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDRFB-0006ZH-JS
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:57:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDRF8-00030w-KB
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:57:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658152621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3TcdkAH2y3hXIcyp4Vue32Tw3+lFPZ90W7VEIp5PUIM=;
+ b=G3Rmz1RptlHZGEyRXM1hMqgWk5V1/Ml+LOqwFZWdziW26GT2+GyAIUaP93uPzt5paPy6QW
+ YknhDSDxF/HyMVl3p0svOvsdN8YBOF6sqGm+psfEHgz47gIu9YdOJdTu5BHI+gM1nWE3bE
+ SjaXR5jpkMC2SKvzf8gu1RK4M1OS4/M=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-191-sLD38LJuObiLugTC5-Bh5w-1; Mon, 18 Jul 2022 09:57:00 -0400
+X-MC-Unique: sLD38LJuObiLugTC5-Bh5w-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ s4-20020a170906500400b006feaccb3a0eso2318494ejj.11
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:57:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BtFZASdng0XjIjFeHK3YeIzIhyjE9eTOh6A5GMRsTdM=;
- b=0t0KxOA4xxGw3e1VZUHJGN+Uy4/j2C0+WcFbzJO0nfnPRx42k9s8HqY1XJsAYWAVlA
- GpMftbrsJymiHuj9yOwZxBYhyg74yyUU3pzi5SRlik5xeNodiojLhu6zHsJ2p5UGOfBb
- LssRUU11BPXiISF9T6pdF+Y2pjsr0+2H3HoPhAcbz5HnZYk9AMjqGy5PZwUPZW59p6xo
- 5yZ3M5eNiOqMNZXJxiRB7hUU9d6yZOTuMwaXadcUl+m1t0eucOa6YdeD3tHHUyg9Oall
- 4P4gX7P3eGltjS67K51/qIwvlx/KqHPJAzxeLccIktMSlK8mS+fZgurDfKABiHtpaoQs
- 0BnA==
-X-Gm-Message-State: AJIora+lhNeV5NAxLA+ZKR3w52XR6PGLf0noBfO+U6fqStWnNrd7KHJf
- p3DGLW2PAuaZ7jr6pmrYk4Q3oQ==
-X-Google-Smtp-Source: AGRyM1tevUQczrqyiOMB/EugiLxHYjAl9KanJFPXYU3+t+86L6hVmngllvRBpQNGvjBdpGjovce9Dw==
-X-Received: by 2002:a5d:6483:0:b0:21d:99c5:cb6e with SMTP id
- o3-20020a5d6483000000b0021d99c5cb6emr23355517wri.592.1658154320429; 
- Mon, 18 Jul 2022 07:25:20 -0700 (PDT)
-Received: from localhost.localdomain
- (cpc92880-cmbg19-2-0-cust679.5-4.cable.virginm.net. [82.27.106.168])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3TcdkAH2y3hXIcyp4Vue32Tw3+lFPZ90W7VEIp5PUIM=;
+ b=b/64FCiGt/+TTt67q2iazkmNvv6VjOsaJsWL5oRho5Y8CwvMrtz2/SBJATvPc5l3E0
+ q6IK/j3EAUGUJisGgA3LaMk+oEXd4f6Lraz/It/oKbhLYZIhPGLot2hDXXErqffzveZE
+ gNkg+NGc2RU60Y9484J/EXoeoOTESk5xSAZs8/mKbpz3In1kSpRZJLp2bqoSX3Y/ZsfT
+ EXiNFIHJBcuYmRyeUaLKFCf2syMDEebtGGN2Nq8SwYYI/yd9qEjfFaYFGGF1mv/n4lOv
+ M7Cxxpdi5B5tazCZefOJoyPspbJyVHUXcv9Tvarn6XYYoDcroygf2k/hFtiumLL+SuIA
+ 031Q==
+X-Gm-Message-State: AJIora9o8hLvNQrgLAJGtC7zc8UmVnTKu/S8W4a7+iUx/7QJQ8lJvuWe
+ 3tKwi0I9wuBsmO2QRU11jF3VUvpwfpNPQ4AkfxQyVH9PKlrH8lQHiQVNPD3sysrkiiijOkt66/Z
+ JuWZbhLfDNld/6TA=
+X-Received: by 2002:a05:6402:51ca:b0:43a:df65:d180 with SMTP id
+ r10-20020a05640251ca00b0043adf65d180mr37531889edd.255.1658152619168; 
+ Mon, 18 Jul 2022 06:56:59 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vEd8nRU8dqSVcXOJEC+HQNYtXA0Rov9+AKbfMPUdl6yz7pMkegYS+RPy/goDyMu1h4Fe5dIw==
+X-Received: by 2002:a05:6402:51ca:b0:43a:df65:d180 with SMTP id
+ r10-20020a05640251ca00b0043adf65d180mr37531856edd.255.1658152618937; 
+ Mon, 18 Jul 2022 06:56:58 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- v130-20020a1cac88000000b003a046549a85sm19299705wme.37.2022.07.18.07.25.19
+ g1-20020a17090604c100b0072afb6d4d6fsm5637627eja.171.2022.07.18.06.56.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 07:25:20 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Cc: mst@redhat.com, qemu-devel@nongnu.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Tina Zhang <tina.zhang@intel.com>
-Subject: [PATCH v2] hw/virtio/virtio-iommu: Enforce power-of-two notify for
- both MAP and UNMAP
-Date: Mon, 18 Jul 2022 14:56:37 +0100
-Message-Id: <20220718135636.338264-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.37.1
+ Mon, 18 Jul 2022 06:56:58 -0700 (PDT)
+Date: Mon, 18 Jul 2022 15:56:57 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Joao Martins <joao.m.martins@oracle.com>
+Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex Williamson
+ <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
+ Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
+ <suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v8 09/11] i386/pc: bounds check phys-bits against max
+ used GPA
+Message-ID: <20220718155657.5f975c50@redhat.com>
+In-Reply-To: <20220718151622.3c38f261@redhat.com>
+References: <20220715171628.21437-1-joao.m.martins@oracle.com>
+ <20220715171628.21437-10-joao.m.martins@oracle.com>
+ <20220718151622.3c38f261@redhat.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,106 +108,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we only enforce power-of-two mappings (required by the QEMU
-notifier) for UNMAP requests. A MAP request not aligned on a
-power-of-two may be successfully handled by VFIO, and then the
-corresponding UNMAP notify will fail because it will attempt to split
-that mapping. Ensure MAP and UNMAP notifications are consistent.
+On Mon, 18 Jul 2022 15:16:22 +0200
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-Fixes: dde3f08b5cab ("virtio-iommu: Handle non power of 2 range invalidations")
-Reported-by: Tina Zhang <tina.zhang@intel.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
-v2: correct translated_addr increment
-v1: https://lore.kernel.org/all/20220714095418.261387-1-jean-philippe@linaro.org/
+> On Fri, 15 Jul 2022 18:16:26 +0100
+> Joao Martins <joao.m.martins@oracle.com> wrote:
+> 
+> > Calculate max *used* GPA against the CPU maximum possible address
+> > and error out if the former surprasses the latter. This ensures
+> > max used GPA is reacheable by configured phys-bits. Default phys-bits
+> > on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough for the CPU to
+> > address 1Tb (0xff ffff ffff) or 1010G (0xfc ffff ffff) in AMD hosts
+> > with IOMMU.
+> > 
+> > This is preparation for AMD guests with >1010G, where it will want relocate
+> > ram-above-4g to be after 1Tb instead of 4G.
+> > 
+> > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>  
+> 
+> Acked-by: Igor Mammedov <imammedo@redhat.com>
+[...]
 
----
- hw/virtio/virtio-iommu.c | 47 ++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+> > +    return pc_pci_hole64_start() + pci_hole64_size - 1;
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 281152d338..62e07ec2e4 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -197,6 +197,32 @@ static gint interval_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
-     }
- }
- 
-+static void virtio_iommu_notify_map_unmap(IOMMUMemoryRegion *mr,
-+                                          IOMMUTLBEvent *event,
-+                                          hwaddr virt_start, hwaddr virt_end)
-+{
-+    uint64_t delta = virt_end - virt_start;
-+
-+    event->entry.iova = virt_start;
-+    event->entry.addr_mask = delta;
-+
-+    if (delta == UINT64_MAX) {
-+        memory_region_notify_iommu(mr, 0, *event);
-+    }
-+
-+    while (virt_start != virt_end + 1) {
-+        uint64_t mask = dma_aligned_pow2_mask(virt_start, virt_end, 64);
-+
-+        event->entry.addr_mask = mask;
-+        event->entry.iova = virt_start;
-+        memory_region_notify_iommu(mr, 0, *event);
-+        virt_start += mask + 1;
-+        if (event->entry.perm != IOMMU_NONE) {
-+            event->entry.translated_addr += mask + 1;
-+        }
-+    }
-+}
-+
- static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr virt_start,
-                                     hwaddr virt_end, hwaddr paddr,
-                                     uint32_t flags)
-@@ -215,19 +241,16 @@ static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr virt_start,
- 
-     event.type = IOMMU_NOTIFIER_MAP;
-     event.entry.target_as = &address_space_memory;
--    event.entry.addr_mask = virt_end - virt_start;
--    event.entry.iova = virt_start;
-     event.entry.perm = perm;
-     event.entry.translated_addr = paddr;
- 
--    memory_region_notify_iommu(mr, 0, event);
-+    virtio_iommu_notify_map_unmap(mr, &event, virt_start, virt_end);
- }
- 
- static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
-                                       hwaddr virt_end)
- {
-     IOMMUTLBEvent event;
--    uint64_t delta = virt_end - virt_start;
- 
-     if (!(mr->iommu_notify_flags & IOMMU_NOTIFIER_UNMAP)) {
-         return;
-@@ -239,22 +262,8 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
-     event.entry.target_as = &address_space_memory;
-     event.entry.perm = IOMMU_NONE;
-     event.entry.translated_addr = 0;
--    event.entry.addr_mask = delta;
--    event.entry.iova = virt_start;
--
--    if (delta == UINT64_MAX) {
--        memory_region_notify_iommu(mr, 0, event);
--    }
- 
--
--    while (virt_start != virt_end + 1) {
--        uint64_t mask = dma_aligned_pow2_mask(virt_start, virt_end, 64);
--
--        event.entry.addr_mask = mask;
--        event.entry.iova = virt_start;
--        memory_region_notify_iommu(mr, 0, event);
--        virt_start += mask + 1;
--    }
-+    virtio_iommu_notify_map_unmap(mr, &event, virt_start, virt_end);
- }
- 
- static gboolean virtio_iommu_notify_unmap_cb(gpointer key, gpointer value,
--- 
-2.37.1
+off by 1?
+
+> > +}
+> > +
+[...]
 
 
