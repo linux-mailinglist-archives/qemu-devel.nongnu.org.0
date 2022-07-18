@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6B578539
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:21:26 +0200 (CEST)
-Received: from localhost ([::1]:51566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CCE35784C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:06:05 +0200 (CEST)
+Received: from localhost ([::1]:41554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRcj-0003VR-3E
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:21:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
+	id 1oDRNr-0002Iy-SH
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:06:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHU-00023w-AE
+ id 1oDRHU-00023v-84
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:29 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35510)
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHS-00039s-EK
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:28 -0400
-Received: by mail-wr1-x431.google.com with SMTP id b26so17198781wrc.2
+ id 1oDRHS-00039t-KY
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:27 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n12so4335839wrc.8
  for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=CdwR/q3spG46Oy+vZh7cJasc4ZERmNJMIqQjjt0xlgQ=;
- b=DZE7zkFczjyvafJjsNn19n2MLHRDAmNWXwCmmnRhFhV1m9MkTXHTxmR/To+clFUajm
- O47981gA7Xt+YRLNSbhHrmVV3g4a7F8ZPAxiujagBJlG96rk7lSoZCEYQYdt7j0F5Jhg
- OGFY6Yvxu490ExcS9SdGqIi1cY9sVH6Cb85aUzrQfo6XIg6Fz87d54KiCP9sJ81DNKF2
- V4GMmXyWsVgJTj+Wg1UY2tZSGdHC3V5pPCEdRFqEKTYeKlMTI6bDp6lY3VFl8AFf0igk
- oMZBHMsJfImosqX/xmq3hvc90BnUzzEe4u+fz2FFmjbN9Mzhmc/n8uTn6jyf9P7K7sUt
- 2yIw==
+ bh=4XCUImSLdHKkyI8geHYTH1ofyLU9VSFDcDRAFOqUvzE=;
+ b=Uz0iQXzehnlIPq2NrFZu/wrxZjSvY5RsdfpS8Q1d7P1memboTsMpQgQG5DtlBOX0qa
+ 9gb5kqfRW2mfzxoC/T3tiHmLrYpHqLtLVhcYBBf1jAGTr1gLT6iPOyvqA9L1xHE7cRNT
+ 0VydP1nwY0901ouUYNUXwGsNz4PI0vVrJBSWWxq/28ED1pMC/5Lyvgm7Kkw09fUd0gu2
+ G4bNqgUiKKcyrwizjz/hY769F5CmtQOoURkUaB9A8Q7/3dVgZnuRzhMq9XQsXN+012OI
+ UGZ1D/ecpBeHfgco+renZH2+0YzaGBNEUFiYlZ3Y0Xhf8tmUqdmwA07qiXCPUgY2157C
+ 6+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CdwR/q3spG46Oy+vZh7cJasc4ZERmNJMIqQjjt0xlgQ=;
- b=bjIUBQLx8bdliOiQoeUvi3Uy8e8auaBREpGYqQ2ny0vbGzAKAqP+RHJZZ3cMKqOo5K
- yZ+ogeYRVlePq2lvht+YVKDcHRhMYjzGdgnrmVno+6vrLAODmgMkl4h9M7AqLuKv03uY
- qfRfHHuMvgwVNzcw/Gy/M+zmJlpdppq39B1oADZ7nZhDxdD8z2D/jywiskGgRudxuutV
- RtlWIxWzo7VfDA3xM3EAFnYz9UU8TLlFtJ23jo8TtajuGulcwvxgw+5BG7avaAoZX/s6
- juvy1tqIYn6Ylc2SWcy+Au5Dqyizvk8xxR5m5K4vYvWRT7b5m5IA+3kmHjVfCZbEXu8+
- An3w==
-X-Gm-Message-State: AJIora9o3DwhGNjSZteAHDEnKOE/tT2+QGPytZx0J5YeyQ/qkSR3+Dsp
- 8HUOTWxJngYDhE+HnfHEgHAcJLhogfMmZw==
-X-Google-Smtp-Source: AGRyM1tbH/OYyS8hheXlcqE2uEVEqA3iYbmfixyAz1JOhWktL2+bg4sW1fFBRogIptDsT1jUbQCbnw==
-X-Received: by 2002:a5d:6d0e:0:b0:21d:6d4c:e0e4 with SMTP id
- e14-20020a5d6d0e000000b0021d6d4ce0e4mr23877659wrq.355.1658152764139; 
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4XCUImSLdHKkyI8geHYTH1ofyLU9VSFDcDRAFOqUvzE=;
+ b=IM4OmWpYuZNQ34m/JH2CddKDh+kF39vfsKZQ5v3Zy3IaxgugYLq85ABqTBhdpjsfEH
+ 6tdRKZNMSO5w5QUJIIDLI2hC1Ns0sCDa5HyTig1DNgVujOupyiUAYHy38I8vuPAHzoJv
+ GdLQxkCwQb6eJEYstI8MGusyIuzlPiwUXYSEoiMc6XMLgqgcameM7YE5hqvYSnJRf3uk
+ eatAwcFyV8Bu4GGMfKp/82xgT1B4rxiQ9bUGNPl+QYsxtEjv6A4Nah3CSOeLhaF7wy+G
+ IFAMqUmiV6Lh+0pJPE6evUhrcdbmUFUtNrFrKlk3GkdYThPHFHx9AkxZRVPpnGOgzYXM
+ gAyA==
+X-Gm-Message-State: AJIora9VOJ6CmGRG/46Ve5NVYBhZOv7BtgxgbQ5ZGnQPQARs9VbDNeG0
+ 8gtqwcUYWro1BLqpy0Z6MHEwD1tmZMxIjA==
+X-Google-Smtp-Source: AGRyM1vNtlARFa0LmGUN9Yb5OJxa3G/yGPpeMK9SpyLovU3LioSTojOwhYRiWqstj1AS7zyMI92TkA==
+X-Received: by 2002:a05:6000:1e04:b0:21d:7ec3:fe5a with SMTP id
+ bj4-20020a0560001e0400b0021d7ec3fe5amr23319088wrb.116.1658152764826; 
  Mon, 18 Jul 2022 06:59:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.23
+ id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:59:23 -0700 (PDT)
+ Mon, 18 Jul 2022 06:59:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] target-arm queue
-Date: Mon, 18 Jul 2022 14:59:05 +0100
-Message-Id: <20220718135920.13667-1-peter.maydell@linaro.org>
+Subject: [PULL 01/15] hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that
+ is being held high
+Date: Mon, 18 Jul 2022 14:59:06 +0100
+Message-Id: <20220718135920.13667-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220718135920.13667-1-peter.maydell@linaro.org>
+References: <20220718135920.13667-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,74 +90,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some arm patches before softfreeze. These are all bug fixes.
+In the M-profile Arm ARM, rule R_CVJS defines when an interrupt should
+be set to the Pending state:
+ A) when the input line is high and the interrupt is not Active
+ B) when the input line transitions from low to high and the interrupt
+    is Active
+(Note that the first of these is an ongoing condition, and the
+second is a point-in-time event.)
 
--- PMM
+This can be rephrased as:
+ 1 when the line goes from low to high, set Pending
+ 2 when Active goes from 1 to 0, if line is high then set Pending
+ 3 ignore attempts to clear Pending when the line is high
+   and Active is 0
 
-The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
+where 1 covers both B and one of the "transition into condition A"
+cases, 2 deals with the other "transition into condition A"
+possibility, and 3 is "don't drop Pending if we're already in
+condition A".  Transitions out of condition A don't affect Pending
+state.
 
-  Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
+We handle case 1 in set_irq_level(). For an interrupt (as opposed
+to other kinds of exception) the only place where we clear Active
+is in armv7m_nvic_complete_irq(), where we handle case 2 by
+checking for whether we need to re-pend the exception. For case 3,
+the only places where we clear Pending state on an interrupt are in
+armv7m_nvic_acknowledge_irq() (where we are setting Active so it
+doesn't count) and for writes to NVIC_ICPRn.
 
-are available in the Git repository at:
+It is the "write to NVIC_ICPRn" case that we missed: we must ignore
+this if the input line is high and the interrupt is not Active.
+(This required behaviour is differently and perhaps more clearly
+stated in the v7M Arm ARM, which has pseudocode in section B3.4.1
+that implies it.)
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220718
+Reported-by: Igor Kotrasiński <i.kotrasinsk@samsung.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20220628154724.3297442-1-peter.maydell@linaro.org
+---
+ hw/intc/armv7m_nvic.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-for you to fetch changes up to 004c8a8bc569c8b18fca6fc90ffe3223daaf17b7:
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index 13df002ce4d..1f7763964c3 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -2389,8 +2389,15 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+         startvec = 8 * (offset - 0x280) + NVIC_FIRST_IRQ; /* vector # */
+ 
+         for (i = 0, end = size * 8; i < end && startvec + i < s->num_irq; i++) {
++            /*
++             * Note that if the input line is still held high and the interrupt
++             * is not active then rule R_CVJS requires that the Pending state
++             * remains set; in that case we mustn't let it be cleared.
++             */
+             if (value & (1 << i) &&
+-                (attrs.secure || s->itns[startvec + i])) {
++                (attrs.secure || s->itns[startvec + i]) &&
++                !(setval == 0 && s->vectors[startvec + i].level &&
++                  !s->vectors[startvec + i].active)) {
+                 s->vectors[startvec + i].pending = setval;
+             }
+         }
+-- 
+2.25.1
 
-  Align Raspberry Pi DMA interrupts with Linux DTS (2022-07-18 13:25:13 +0100)
-
-----------------------------------------------------------------
-target-arm queue:
- * hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that is being held high
- * target/arm: Fill in VL for tbflags when SME enabled and SVE disabled
- * target/arm: Fix aarch64_sve_change_el for SME
- * linux-user/aarch64: Do not clear PROT_MTE on mprotect
- * target/arm: Honour VTCR_EL2 bits in Secure EL2
- * hw/adc: Fix CONV bit in NPCM7XX ADC CON register
- * hw/adc: Make adci[*] R/W in NPCM7XX ADC
- * target/arm: Don't set syndrome ISS for loads and stores with writeback
- * Align Raspberry Pi DMA interrupts with Linux DTS
-
-----------------------------------------------------------------
-Andrey Makarov (1):
-      Align Raspberry Pi DMA interrupts with Linux DTS
-
-Hao Wu (2):
-      hw/adc: Fix CONV bit in NPCM7XX ADC CON register
-      hw/adc: Make adci[*] R/W in NPCM7XX ADC
-
-Peter Maydell (9):
-      hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that is being held high
-      target/arm: Define and use new regime_tcr_value() function
-      target/arm: Calculate mask/base_mask in get_level1_table_address()
-      target/arm: Fold regime_tcr() and regime_tcr_value() together
-      target/arm: Fix big-endian host handling of VTCR
-      target/arm: Store VTCR_EL2, VSTCR_EL2 registers as uint64_t
-      target/arm: Store TCR_EL* registers as uint64_t
-      target/arm: Honour VTCR_EL2 bits in Secure EL2
-      target/arm: Don't set syndrome ISS for loads and stores with writeback
-
-Richard Henderson (3):
-      target/arm: Fill in VL for tbflags when SME enabled and SVE disabled
-      target/arm: Fix aarch64_sve_change_el for SME
-      linux-user/aarch64: Do not clear PROT_MTE on mprotect
-
- include/hw/arm/bcm2835_peripherals.h |   2 +
- target/arm/cpu.h                     |  38 ++++++++---
- target/arm/internals.h               |  34 +++++++---
- accel/tcg/translate-all.c            |  13 +++-
- hw/adc/npcm7xx_adc.c                 |   4 +-
- hw/arm/bcm2835_peripherals.c         |  26 ++++++-
- hw/intc/armv7m_nvic.c                |   9 ++-
- target/arm/cpu.c                     |   2 +-
- target/arm/debug_helper.c            |   2 +-
- target/arm/helper.c                  | 128 ++++++++++++++++-------------------
- target/arm/ptw.c                     |  38 ++++++-----
- target/arm/tlb_helper.c              |   2 +-
- target/arm/translate-a64.c           |   4 +-
- tests/qtest/bcm2835-dma-test.c       | 118 ++++++++++++++++++++++++++++++++
- tests/qtest/npcm7xx_adc-test.c       |   2 +-
- tests/qtest/meson.build              |   3 +-
- 16 files changed, 306 insertions(+), 119 deletions(-)
- create mode 100644 tests/qtest/bcm2835-dma-test.c
 
