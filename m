@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B421A5783ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:41:12 +0200 (CEST)
-Received: from localhost ([::1]:42402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06586578428
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:46:04 +0200 (CEST)
+Received: from localhost ([::1]:50986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQzn-0003x7-Qa
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:41:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45974)
+	id 1oDR4V-0001RC-5A
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDQtk-0001HP-5q
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:34:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26853)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDQzv-0004NU-LM
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:41:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDQth-0007UT-Us
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:34:55 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDQzt-0000I6-3V
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:41:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658151293;
+ s=mimecast20190719; t=1658151676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rlBEKdUs2RFgPEUFbIf/cmwxy+Q8obE7Ju/vxncl0XI=;
- b=G9DRS6QKc8s5K2aDs78S3RT9/LNtqOhHJiCR6g0ZzahwxE1YDd6bV+KvcRj72Ul+7vpyea
- w0I4oZADS8FED+Bv7PDeYzRmBzoz14MJB8CRHqogh+b46ZnBgAsabF198kJtCrd8zKiN13
- fapyrsGEAL+T/6RoTPmB8wUDHONXLV4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dJiOsiJRtiGjTDF7wfg41DpQFwZ5usznU4BxRv5fxlI=;
+ b=A5RYS6NeKceg485RDW6+CTILT0V3Z5aeBsMQYJ2CZOMoJrt7ymmpqa1Nnps6kByNgM4nvu
+ hWKRhO+fbfDfa9qX228aiqHGjVWKQmlGVVsBbkMhuzMALjJpbTznvnp887FxzL9DRxRmkI
+ +BkytNrG2iFlpZs9ID/CroAd5lNL6iM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-653-vJTaIG4MNq-CumwHxba-dA-1; Mon, 18 Jul 2022 09:34:52 -0400
-X-MC-Unique: vJTaIG4MNq-CumwHxba-dA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r188-20020a1c44c5000000b003a2fdeea756so3078302wma.2
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:34:52 -0700 (PDT)
+ us-mta-607-XYQFEGVZN-OO-jhUkfykmA-1; Mon, 18 Jul 2022 09:41:14 -0400
+X-MC-Unique: XYQFEGVZN-OO-jhUkfykmA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ oz11-20020a1709077d8b00b0072f2f17c267so378160ejc.16
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:41:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=rlBEKdUs2RFgPEUFbIf/cmwxy+Q8obE7Ju/vxncl0XI=;
- b=PXpGdPgcQwPwFwkYjrtws0nukZqTgybXwwW8CgtwU1yVO19YWLcRMucXo9Vja5Eyf7
- RTRsRUULfNbbQJ3NKS3E2mNXFA/YARkIGeTnGDwJwcbJdRKikUnnSErH/FbU1owTdatz
- XfvYUPXS8i1/JOtUNqOeOGXmvF1dCXAjkm9w1Pld2wEP1smy+0Gbiy2uVFnySmt7xDrk
- pKdTLJx/XFRSp9QQAhObf70I8sjAnvLbvYEaG3xRp8Av26C82Lks41ObHDJPHHdzy38y
- prP4zjuPxOqvdscVDudO4eXc2WI6CsDP03MbpA6p5D+UWjseuYClEtxA/SxNIf4gEqr8
- UkSw==
-X-Gm-Message-State: AJIora8/5jccbA5molywUEudrezQrdK2mh12g0kqGZmbUFDj4fW2bjV3
- fCkZZqzvUIl9Bngmr7c8iO8U9oYb5gASJyC9I7caY2EAFSK3J/k3GOz0izziTSJDK+mYbDOpSV1
- xKqYYat3E6F4HGmk=
-X-Received: by 2002:a5d:59af:0:b0:21d:7f0c:a1ed with SMTP id
- p15-20020a5d59af000000b0021d7f0ca1edmr23646615wrr.211.1658151291052; 
- Mon, 18 Jul 2022 06:34:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tA97r0CEXe5EbnAI9Y7qkccNf66SfHpfevKRoOfX+2yDAH80c+62uY0d5ubMCwzOtErV7wrA==
-X-Received: by 2002:a5d:59af:0:b0:21d:7f0c:a1ed with SMTP id
- p15-20020a5d59af000000b0021d7f0ca1edmr23646581wrr.211.1658151290699; 
- Mon, 18 Jul 2022 06:34:50 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- k13-20020a05600c1c8d00b003a2e5caab12sm15587331wms.47.2022.07.18.06.34.49
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dJiOsiJRtiGjTDF7wfg41DpQFwZ5usznU4BxRv5fxlI=;
+ b=pnQQGW6c4F3yxPzz875mnaYPqxQJJfEhyVhiG1qcJVHYvZ0UasYDGX6fIQVLl0y1nJ
+ P2Oavau0e7Rbqiwu03M5J9/wfEUxxHZAGNMs6rImrvsQaEooCRhVxw4jMqJPFec79Xsb
+ prPjeWMj/3PXjCgmiaIyJys+9DN/jGkXJp41YsIIzL4w+4i7DZXFhGqxs8tskRDo3zTz
+ bnmEddfyuoa9A0BWEWQ2OPbowZi4qeoGj8Bi3gJNYbUV0hdIwqI57F+IXXSlCs2aUScF
+ ZKEWnoMgmIdpwyT/fWCoAmSwZu2z/oNiM/sPcGfz00zljLcP7wlIvBNNyHtzqqyyykjl
+ Hx8w==
+X-Gm-Message-State: AJIora8Q7eUXtkd0UYc7H3uQiHkZ2DZxuwrhfYai+f9Z5gGEe6I+4m0S
+ UANHPIKMj2jrwmvC4Z7Pig893VEkdwm/vzWzL6RnWKzy6ibpCn5IYuXsJ+c8vZ0OVbyoBz+nCb0
+ vuTRKB3RgsK24TNA=
+X-Received: by 2002:a17:906:5a61:b0:72b:1468:7fac with SMTP id
+ my33-20020a1709065a6100b0072b14687facmr25275890ejc.440.1658151673595; 
+ Mon, 18 Jul 2022 06:41:13 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1scblY7l3JKXwgqQUljRDTyDTX17KQShd4e4bT1cBHoQtecUwNUpcRdUukVv7bpH13ZMDv4Vg==
+X-Received: by 2002:a17:906:5a61:b0:72b:1468:7fac with SMTP id
+ my33-20020a1709065a6100b0072b14687facmr25275876ejc.440.1658151673398; 
+ Mon, 18 Jul 2022 06:41:13 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a1709067cc500b00726e108b566sm5549556ejp.173.2022.07.18.06.41.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:34:50 -0700 (PDT)
-Date: Mon, 18 Jul 2022 14:34:48 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 13/13] migration: Use multifd before we check for the
- zero page
-Message-ID: <YtVheJA1ONa6Csp5@work-vm>
-References: <20220531104318.7494-1-quintela@redhat.com>
- <20220531104318.7494-14-quintela@redhat.com>
+ Mon, 18 Jul 2022 06:41:12 -0700 (PDT)
+Date: Mon, 18 Jul 2022 15:41:11 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Robert Hoo <robert.hu@linux.intel.com>
+Cc: mst@redhat.com, xiaoguangrong.eric@gmail.com, qemu-devel@nongnu.org,
+ robert.hu@intel.com, Jingqi Liu <jingqi.liu@intel.com>
+Subject: Re: [PATCH] acpi/nvdimm: Define trace events for NVDIMM and
+ substitute nvdimm_debug()
+Message-ID: <20220718154111.175e92b6@redhat.com>
+In-Reply-To: <c1f857fab3b2dd1e58c0fe7ca087f8c742f2aff2.camel@linux.intel.com>
+References: <20220704085852.330005-1-robert.hu@linux.intel.com>
+ <20220707112101.259acc3a@redhat.com>
+ <c1f857fab3b2dd1e58c0fe7ca087f8c742f2aff2.camel@linux.intel.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531104318.7494-14-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -104,76 +103,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> So we use multifd to transmit zero pages.
-> 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+On Mon, 18 Jul 2022 15:12:03 +0800
+Robert Hoo <robert.hu@linux.intel.com> wrote:
+[...]
+> BTW, during the unit test, I met some bios-table test error, 
+> https://gitlab.com/qemu-project/qemu/-/issues/1098, perhaps related to
+> your patches in June.
+> https://patchwork.kernel.org/project/qemu-devel/cover/20220608135340.3304695-1-imammedo@redhat.com/
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> 
-> ---
-> 
-> - Check zero_page property before using new code (Dave)
-> ---
->  migration/ram.c | 33 ++++++++++++++++++++++++++++++++-
->  1 file changed, 32 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 7ceef7976b..f9959262fa 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -2181,6 +2181,32 @@ static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
->      return ram_save_page(rs, pss);
->  }
->  
-> +/**
-> + * ram_save_target_page_multifd: save one target page
-> + *
-> + * Returns the number of pages written
-> + *
-> + * @rs: current RAM state
-> + * @pss: data about the page we want to send
-> + */
-> +static int ram_save_target_page_multifd(RAMState *rs, PageSearchStatus *pss)
-> +{
-> +    RAMBlock *block = pss->block;
-> +    ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-> +    int res;
-> +
-> +    if (!migration_in_postcopy()) {
-> +        return ram_save_multifd_page(rs, block, offset);
-> +    }
-> +
-> +    res = save_zero_page(rs, block, offset);
-> +    if (res > 0) {
-> +        return res;
-> +    }
-> +
-> +    return ram_save_page(rs, pss);
-> +}
-> +
->  /**
->   * ram_save_host_page: save a whole host page
->   *
-> @@ -2945,7 +2971,12 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
->      ram_control_before_iterate(f, RAM_CONTROL_SETUP);
->      ram_control_after_iterate(f, RAM_CONTROL_SETUP);
->  
-> -    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
-> +    if (migrate_use_multifd() && migrate_use_multifd_zero_page()) {
-> +        (*rsp)->ram_save_target_page = ram_save_target_page_multifd;
-> +    } else {
-> +        (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
-> +    }
-> +
->      ret =  multifd_send_sync_main(f);
->      if (ret < 0) {
->          return ret;
-> -- 
-> 2.35.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+current master works for me.
+can you try a clean build?
 
 
