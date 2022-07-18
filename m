@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E585B57821F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:21:58 +0200 (CEST)
-Received: from localhost ([::1]:44950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D88915781A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:09:12 +0200 (CEST)
+Received: from localhost ([::1]:46856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPl7-000637-2o
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48312)
+	id 1oDPYl-0004pZ-Uy
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDPVi-0008TY-6t
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:06:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29990)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDPVf-0007yl-04
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:06:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658145956;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=FPKF+u6bmU24/j5oOg6MQgmQNT9GBn5jiO6sHlNJEUg=;
- b=hh/0TmO8r6TrzOLwvjGcfDXFtjWBH82NLuRW2tjHOmC7sQZ5buNTYCE1yIZu1uH0jk/NZN
- Lbimr32o7t4oEgxN7Vf3nZ6vONPv+ZMsZefG0dUaOUwY2JhUsMGXNGT8OvhPQ/+NkSq5LJ
- p93BEmWW2NSbWNj+tbYPB7HST8bKtMY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-452-VKHkGgo2P4u0NDPgDJI0qg-1; Mon, 18 Jul 2022 08:05:48 -0400
-X-MC-Unique: VKHkGgo2P4u0NDPgDJI0qg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69E95101A589
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 12:05:48 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AA91E141511F;
- Mon, 18 Jul 2022 12:05:47 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v2] vhost: Get vring base from vq, not svq
-Date: Mon, 18 Jul 2022 14:05:45 +0200
-Message-Id: <20220718120545.2879871-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDPWY-0000qh-FU
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:06:54 -0400
+Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:46592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDPWV-00083z-DY
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:06:54 -0400
+Received: by mail-yw1-x1134.google.com with SMTP id
+ 00721157ae682-31c89653790so104010767b3.13
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 05:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Y0p5dw0Fhmgk5ZebZo2UiZaVDlaAVVAqWk8uDDVIwDc=;
+ b=DMJ/LNhQSMz55hbvXcB/KYNzvUnD50LfkK8cszCuHjYSUa2OBE5cxcEH1F0L21SkGZ
+ 35dfw76u6CenFCTaXUneaFICHCAbEeaIvlN/5Eb5e6ChfEf6T8D8EhkpyqgigKupSwVs
+ lcvapndp4vU1E5DLsIu6RQ+XBqSaidXdApVcaKnYlLwH96XSqmPhiS7Sr+61oeNEyhw/
+ sjgEdiBSoTOvk3nEWLjRqvpYOBd33RGdvTTH2rau9VkuQrJV/UX4sKg8a6rt6IIr65E1
+ LQ5Iit9/BJXPkMwYuPodPcUWlMUgc8o8kVuSSEIIw0px8Os2oRAasWS9hzjguboPEMlD
+ T+RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Y0p5dw0Fhmgk5ZebZo2UiZaVDlaAVVAqWk8uDDVIwDc=;
+ b=EvoyuhF3dV4/gYOyJ9V+b15kJGT28Ezg5XpQ1s9TZkcHtdciP/53yOKoeQ6WsOT5xh
+ hE7j2nZ+CvLMKG00CXbPTqN2paVw27ipclE0l546bfQ8GEMv8dDMyWl7Fb01Kty44M9h
+ 3NxgsjK43EV69ttvxEkA3uuBFD+xqFU/e+OhFautlO0QPe0QoEj2hmVt6z+2YVEimGPF
+ 5CNar7tvfMEAzxQ1qF69FeL3XieE40V4JQOG1RbAsd++Kl6BwMa/+LjB+/1mHtqssQGG
+ W90FePzuK8wu8eAqiMuhXj+KO4rehmcwCjhGW4zltADxPLIAL3A1KOLRwejPRIUf2Gog
+ m76w==
+X-Gm-Message-State: AJIora/3fK2OTCpODsDVdmtdyB1BRsewsXbw4JYmF3BAqkG6MwZs7tXN
+ zY3KVu3dsQKV2TmeMev8Vw7DJcuA1RpzTORJMEa6zLQ9ISQ=
+X-Google-Smtp-Source: AGRyM1sb9v4OnpYwAdujnRgPqcjXNx0nJyszaxkbEGaJ2WvIanz7rGWxK3fMOq12wl6TUobvc45C06kzy7Ieop9vm5k=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr29573350ywb.257.1658146010272; Mon, 18
+ Jul 2022 05:06:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220708154700.18682-1-richard.henderson@linaro.org>
+ <20220708154700.18682-25-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-25-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 13:06:38 +0100
+Message-ID: <CAFEAcA81+ei2kc0t9vviR9f9uA3xmeVaz-oo8PhioA0AUSP2_A@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 24/29] Add --fulldump and --diffdup options
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,75 +83,15 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SVQ vring used idx usually match with the guest visible one, as long
-as all the guest buffers (GPA) maps to exactly one buffer within qemu's
-VA. However, as we can see in virtqueue_map_desc, a single guest buffer
-could map to many buffers in SVQ vring.
+On Fri, 8 Jul 2022 at 17:51, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These allow the inspection of the trace files.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Also, its also a mistake to rewind them at the source of migration.
-Since VirtQueue is able to migrate the inflight descriptors, its
-responsability of the destination to perform the rewind just in case it
-cannot report the inflight descriptors to the device.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-This makes easier to migrate between backends or to recover them in
-vhost devices that support set in flight descriptors.
-
-Fixes: 6d0b22266633 ("vdpa: Adapt vhost_vdpa_get_vring_base to SVQ")
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-
---
-v2: Squash both fixes in one.
----
- hw/virtio/vhost-vdpa.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 795ed5a049..4458c8d23e 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1178,7 +1178,18 @@ static int vhost_vdpa_set_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     struct vhost_vdpa *v = dev->opaque;
-+    VirtQueue *vq = virtio_get_queue(dev->vdev, ring->index);
-
-+    /*
-+     * vhost-vdpa devices does not support in-flight requests. Set all of them
-+     * as available.
-+     *
-+     * TODO: This is ok for networking, but other kinds of devices might
-+     * have problems with these retransmissions.
-+     */
-+    while (virtqueue_rewind(vq, 1)) {
-+        continue;
-+    }
-     if (v->shadow_vqs_enabled) {
-         /*
-          * Device vring base was set at device start. SVQ base is handled by
-@@ -1194,21 +1205,10 @@ static int vhost_vdpa_get_vring_base(struct vhost_dev *dev,
-                                        struct vhost_vring_state *ring)
- {
-     struct vhost_vdpa *v = dev->opaque;
--    int vdpa_idx = ring->index - dev->vq_index;
-     int ret;
-
-     if (v->shadow_vqs_enabled) {
--        VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, vdpa_idx);
--
--        /*
--         * Setting base as last used idx, so destination will see as available
--         * all the entries that the device did not use, including the in-flight
--         * processing ones.
--         *
--         * TODO: This is ok for networking, but other kinds of devices might
--         * have problems with these retransmissions.
--         */
--        ring->num = svq->last_used_idx;
-+        ring->num = virtio_queue_get_last_avail_idx(dev->vdev, ring->index);
-         return 0;
-     }
-
---
-2.31.1
-
+thanks
+-- PMM
 
