@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11D3578472
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:55:34 +0200 (CEST)
-Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D89C57848C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:58:27 +0200 (CEST)
+Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRDh-0002Xj-Iq
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:55:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1oDRGU-0008Dw-93
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:58:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpn-0007TW-OU
+ id 1oDOpn-0007QR-Oh
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:53768)
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:52218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpg-0000i5-0D
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VJjOdWP_1658143034; 
+ id 1oDOpf-0000hy-OM
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:40 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R751e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=kangjie.xu@linux.alibaba.com;
+ NM=1; PH=DS; RN=5; SR=0; TI=SMTPD_---0VJjIA7-_1658143036; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjOdWP_1658143034) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:14 +0800
+ fp:SMTPD_---0VJjIA7-_1658143036) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:16 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
-Subject: [PATCH 01/16] virtio-pci: virtio_pci_common_cfg add queue_notify_data
-Date: Mon, 18 Jul 2022 19:16:58 +0800
-Message-Id: <17224da449cac081550fd44001798a6e95da3a96.1658141552.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH 03/16] virtio: pci: virtio_pci_common_cfg add queue_reset
+Date: Mon, 18 Jul 2022 19:17:00 +0800
+Message-Id: <3d2e65d05a7f7301d7295b83b2ded90f10ee4e5a.1658141552.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=115.124.30.44;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out30-44.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -66,11 +65,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 
-Add queue_notify_data in struct virtio_pci_common_cfg, which comes from
-here https://github.com/oasis-tcs/virtio-spec/issues/89
-
-Since I want to add queue_reset after queue_notify_data, I submitted
-this patch first.
+Add queue_reset in virtio_pci_common_cfg.
 
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
@@ -78,22 +73,22 @@ Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/include/standard-headers/linux/virtio_pci.h b/include/standard-headers/linux/virtio_pci.h
-index db7a8e2fcb..598ebe9825 100644
+index 598ebe9825..9feb865636 100644
 --- a/include/standard-headers/linux/virtio_pci.h
 +++ b/include/standard-headers/linux/virtio_pci.h
-@@ -164,6 +164,7 @@ struct virtio_pci_common_cfg {
- 	uint32_t queue_avail_hi;		/* read-write */
+@@ -165,6 +165,7 @@ struct virtio_pci_common_cfg {
  	uint32_t queue_used_lo;		/* read-write */
  	uint32_t queue_used_hi;		/* read-write */
-+	uint16_t queue_notify_data;	/* read-write */
+ 	uint16_t queue_notify_data;	/* read-write */
++	uint16_t queue_reset;		/* read-write */
  };
  
  /* Fields in VIRTIO_PCI_CAP_PCI_CFG: */
-@@ -202,6 +203,7 @@ struct virtio_pci_cfg_cap {
- #define VIRTIO_PCI_COMMON_Q_AVAILHI	44
+@@ -204,6 +205,7 @@ struct virtio_pci_cfg_cap {
  #define VIRTIO_PCI_COMMON_Q_USEDLO	48
  #define VIRTIO_PCI_COMMON_Q_USEDHI	52
-+#define VIRTIO_PCI_COMMON_Q_NOTIFY_DATA	56
+ #define VIRTIO_PCI_COMMON_Q_NOTIFY_DATA	56
++#define VIRTIO_PCI_COMMON_Q_RESET	58
  
  #endif /* VIRTIO_PCI_NO_MODERN */
  
