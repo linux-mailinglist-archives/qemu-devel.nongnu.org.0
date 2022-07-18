@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AEAD57800D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:46:59 +0200 (CEST)
-Received: from localhost ([::1]:37756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574C0578020
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:49:03 +0200 (CEST)
+Received: from localhost ([::1]:43630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDOHC-0006Ue-Gm
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:46:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56236)
+	id 1oDOJC-0001AP-G0
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:49:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDO92-0007nx-3Q
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:38:32 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:38859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDO90-0002SB-FY
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:38:31 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id i206so20028251ybc.5
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rL4zHHaVlPgCZ4/qggrkbdJg65XrBOsNmaed0DC8l5E=;
- b=SoyURsevO6Mah/hjFYBFhpX5yzTNRv+tynSgQclFldJm5heYoL76IeGHmJqQZkQD/N
- POZbd1QXpxcnujzwYMrUmCxzdrEVf6YduwMqjKEY2JuxKFVarFetD3Lkj9RmxpzHqWJl
- UAiHAJFq7QQojyBN26ZBHpC7wUf2j7NZVR4vAzXadRdiaHZpnNAKQnxC4ctWCwYJLxer
- 3Cah4W7Iocem+BXZ4QUABqs/Dhg+KzayLNTK0jzVbQWlCho/qtCPUXPxWDX8gZg7V+TO
- jkY074H9OOYcNueENSWQ5MUUU5577wTnrfm0hmDGoW6InHGvCkvcWQfngwLBQknV81xl
- BgSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rL4zHHaVlPgCZ4/qggrkbdJg65XrBOsNmaed0DC8l5E=;
- b=bumq4YDHwWM9kfeH2w16RpCrvCYkwWVQQlQewE0NedoQiVT627+bnaOBgTZWAMPch2
- TsdCDOZ8vRgCd51JyICiBjkAjqDa6SyJgl8sXtyoL4rixfcC73GBlT7V+bY92BQFh3tB
- oWx3BeYeGFtijuC51cLJbk5OI7RYmYtmkPviJm+hhw0Ojcpz0rkTGKoD8jfpF5XmqQci
- hclVTu4u1PHebRLPalaUsnXp9ZpSSTi5aj+DqOlAUEJ1bMus9qhBCVPobVdcPX/GWaYN
- cX4i2sLp9xFZn/3bTJr0fhNi8PKhPD5UFiO2wGsuFlw3xotAXYqr8C1PEgq5+V3H1ABq
- oFtg==
-X-Gm-Message-State: AJIora8I7AAVMvdXllphXOQbQyp+DDVGoBtJ5p9k0FhMhyPR4wt0+z/t
- yM1D8UW+gRll+zylnJQkPVkEXCl43rHLF2/45pL0kw==
-X-Google-Smtp-Source: AGRyM1u3apg6NT7oul2SJRWrHjkJ/R4Tx5dE71ufIRF+lJJaNZVB1TvqVNe/1hvX0yLMU3ixhN852uBkvNKhvzIhF1c=
-X-Received: by 2002:a25:cb0e:0:b0:66f:7b31:3563 with SMTP id
- b14-20020a25cb0e000000b0066f7b313563mr26931443ybg.85.1658140709424; Mon, 18
- Jul 2022 03:38:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDOG1-0004fv-Se
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:45:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDOFy-0003WF-8O
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:45:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658141141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tpeN08+ZXHMpRZQHQOwdKku0bDVAaURwJsFEygNUNUM=;
+ b=HNJL3xepD40VCZ8VjDOa2CjUKYIB5bp36q7uxCmdrwA91orEMtvcDhiCB/TWq66P+6kPFV
+ mlP1ug/GnInXrcoYytZb2Rod/Dq1HPSqbptVwbPbi1T0tGBkGQ+koPB5WpDQmGhSzUyKfh
+ EnHh/Zx/FP73lkVPd7Zfw+E5l+YTD7M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-445-Y2RM9KBeN0yrHxBvbrJL7g-1; Mon, 18 Jul 2022 06:45:37 -0400
+X-MC-Unique: Y2RM9KBeN0yrHxBvbrJL7g-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8110B101A588;
+ Mon, 18 Jul 2022 10:45:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B42C492C3B;
+ Mon, 18 Jul 2022 10:45:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 03DEB21E690D; Mon, 18 Jul 2022 12:45:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, kwolf@redhat.com,  hreitz@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@gmail.com>
+Subject: Re: [RFC PATCH] qobject: Rewrite implementation of QDict for
+ in-order traversal
+References: <20220705095421.2455041-1-armbru@redhat.com>
+ <87wncqmq2t.fsf@pond.sub.org> <YsgOhJLpbyODJCGG@redhat.com>
+ <CAFEAcA_pA_K=06chM9xwS8BzK2W6v0g5S5Vr_=YT1A9xqX+tfw@mail.gmail.com>
+ <YswEzUyQJtxAlylE@redhat.com>
+ <CAFEAcA80xNkyoPV78eJS5wdJ2CEtqkGQZMebuBSBgTJLNwpDGw@mail.gmail.com>
+Date: Mon, 18 Jul 2022 12:45:35 +0200
+In-Reply-To: <CAFEAcA80xNkyoPV78eJS5wdJ2CEtqkGQZMebuBSBgTJLNwpDGw@mail.gmail.com>
+ (Peter Maydell's message of "Mon, 11 Jul 2022 12:15:22 +0100")
+Message-ID: <87a696d7hs.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20220713172010.39163-1-ben.dooks@sifive.com>
- <d2b2a868-4e12-35f4-40e9-5e520e07cb3e@sifive.com>
- <CAFEAcA9qngx_1BzF+THHqpp4OyiSa+Do7hPKwqZ1v=0psGXrWw@mail.gmail.com>
- <4e9c6fc7-54c9-9510-654f-4e41d849676e@sifive.com>
-In-Reply-To: <4e9c6fc7-54c9-9510-654f-4e41d849676e@sifive.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 11:38:18 +0100
-Message-ID: <CAFEAcA-2B7F7zzvSVnfvCzR__vUOV--DPJS-42=fmkLpdzy_NQ@mail.gmail.com>
-Subject: Re: [PATCH] gpio: designware gpio driver
-To: Ben Dooks <ben.dooks@sifive.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
- Jude Onyenegecha <jude.onyenegecha@sifive.com>,
- Sudip Mukherjee <sudip.mukherjee@sifive.com>, 
- William Salmon <william.salmon@sifive.com>,
- Adnan Chowdhury <adnan.chowdhury@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,36 +88,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 at 11:25, Ben Dooks <ben.dooks@sifive.com> wrote:
->
-> On 18/07/2022 11:15, Peter Maydell wrote:
-> > On Mon, 18 Jul 2022 at 11:05, Ben Dooks <ben.dooks@sifive.com> wrote:
-> >>
-> >> On 13/07/2022 18:20, Ben Dooks wrote:
-> >>> A model for the DesignWare GPIO (v1) block.
-> >>
-> >> Is there anyone else who should be reviewing these that
-> >> was missed off the original list? I'd like to get an idea
-> >> if there is any work to do. I've got a couple more drivers
-> >> to submit and was waiting on feedback from this before
-> >> getting these submitted.
-> >
-> >
-> > My overall feedback is: this isn't a pluggable device (PCI, etc),
-> > so what's it intended to be used by? Generally we don't take
-> > device models except when there's a board model that's using them.
->
-> I have a board file, but that's currently under NDA, so we're not
-> allowed to release it at the moment. However we've done a few drivers
-> which we'd like to get out of our development tree which other people
-> might find useful (GPIO, SPI, I2C).
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-As I say, we don't really accept those, because we have no way
-of testing them upstream unless they're used in a board file:
-they're dead code from our point of view. When you have a board
-model you're ready to submit you can send them in the same
-patchseries as the board model.
+> On Mon, 11 Jul 2022 at 12:09, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>>
+>> On Mon, Jul 11, 2022 at 11:32:35AM +0100, Peter Maydell wrote:
+>> > I'm pretty sure that nothing needs sparse array elements like
+>> > that. The major reason for the len-PROP field is an implementation
+>> > one: because there is currently no way for a QOM object to
+>> > say "call this method if somebody tries to set a non-existent
+>> > property", the way array properties work is that the 'set'
+>> > method for the len-PROP property is the place where we then
+>> > add the PROP[0], PROP[1], ... properties.
+>>
+>> Ahhh, I see what you mean. I totally missed this subtle detail.
+>>
+>> IIUC, there's essentially no such thing as array properties
+>> in QOM. 'prop[0]', 'prop[1]', 'prop[2]', etc are all simply
+>> scalar properties from QOM's, that just happen to follow a
+>> common naming scheme, but QOM doesn't care about that.
+>
+> Yeah. The exception is the bit Markus pointed out where somebody
+> has later added special case support for setting "prop[*]" to
+> mean "whatever the next index is".
+>
+>> > If we either had a "call this for any property set/get attempt
+>> > where there is no specific method set" or else had array
+>> > properties supported by the core QOM code, we could avoid
+>> > having to set len-PROP first.
+>>
+>> Techically arrays are already supported at the core QOM level, because
+>> you can use any QAPI type as a property.  The authz/list.c object
+>> has a 'rules' property that is an array of QAuthzListRule objects:
+>>
+>>   { 'struct': 'AuthZListProperties',
+>>     'data': { '*policy': 'QAuthZListPolicy',
+>>               '*rules': ['QAuthZListRule'] } }
+>>
+>> At the time I wrote that, we couldn't express it on the CLI though,
+>> without using JSON syntax for -object. I don't think we've ever
+>> made it possible to use the opts_visitor with non-scalar properties
+>> though.
 
-thanks
--- PMM
+The opts visitor is flat by design.  Avoid it in new code, use
+qobject_input_visitor_new_keyval() instead.  Typical use is via a
+wrapper such as qobject_input_visitor_new_str().
+
+> Mmm, if we had started the array-property implementation starting
+> from a QAPI API (or even with the idea of setting properties from
+> command line arguments) and working from there we'd probably have ended
+> up with something different. The primary use case though has
+> never involved QAPI or the command line, it's just C code for setting
+> property values on devices created within QEMU.
+
+Trouble with QOM is that things meant for internal use bleed to the
+external interface so easily.  We've been quite cavalier about that.
+Should we change our attitude?
+
 
