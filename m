@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08B6578880
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:32:55 +0200 (CEST)
-Received: from localhost ([::1]:49290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA93578886
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:35:06 +0200 (CEST)
+Received: from localhost ([::1]:55378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDUc3-0005Pc-32
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:32:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43116)
+	id 1oDUe9-0001F5-JE
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:35:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDURw-0007UK-Iu; Mon, 18 Jul 2022 13:22:28 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:36831)
+ id 1oDURz-0007Xs-4d; Mon, 18 Jul 2022 13:22:31 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:37789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDURq-0001eo-NB; Mon, 18 Jul 2022 13:22:24 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-10bf634bc50so25528572fac.3; 
- Mon, 18 Jul 2022 10:22:21 -0700 (PDT)
+ id 1oDURw-0001iF-I6; Mon, 18 Jul 2022 13:22:30 -0400
+Received: by mail-ot1-x331.google.com with SMTP id
+ l9-20020a056830268900b006054381dd35so9714244otu.4; 
+ Mon, 18 Jul 2022 10:22:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lJ3G/7AALhm/eJFFx1uv9eE9kShhjgEUUPSmrmJnznw=;
- b=fXEs2nd9jAPYZEPnHGJMHV4hd5P98UHMClBqsy28KAlG4zAhIjrrIXte6jz3agBcF7
- LpmVgbkT9OSq6LJHS0ZCMhyPCyILMWfsmR2Qps3UKy14xaCgluFaM2t4NQBaFvAXr3lV
- 1H6jn/swrGPl6OcsodUaAAyI4e3yr+5NUX41wGNpzwt3f/RC//k2XHbTLF6aQ/71QSci
- Alc8jpoEPidJg7ifPHk/A6yYyVqqxszVcUy1+lu9nX87u0D0lFNrPRpQi4WXciqqn/Nx
- HBXH67bQzBoj6ta2/pYjfVW4nfvGC40cdlM7pbDhPAj576UMKv2QTYzohwM0Gb63uUZO
- oVLA==
+ bh=3EAdGvPl897Fy2GKSuCuXls7u3a5WgaSifOKaz/yNew=;
+ b=qT1JUaiVndwPOma+yV5EubNuuzIyR65CsdOrCYe84g+cbkuKWxyLqjbXuqKcfRJtTv
+ C/gDzrZJYHszPqK/Kv6wu0Sc9vTevmQjr1XevrMpWlTO26iws1i72tAeo99IvSx36Y9s
+ hXkXhVm92cVfX0zSQQG9LCi86xOdRPo+DsvBAQFwwJX/WMP8wGQuUrdRCo/QqdDrxA6y
+ jrSQV6vLXUOwdEbk0MH7GSvA89X+BFG5w+kej07jJca1fvELeBeUdlkAY4E0NL1TS371
+ 7xICF/58/1adx2X1PfaLVUmEsmnxdv2JTjynBZCbUFoUzTB0ONcU8Y3Wfh1iAUXjJnns
+ c21Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lJ3G/7AALhm/eJFFx1uv9eE9kShhjgEUUPSmrmJnznw=;
- b=Ldm+rm9o4Mhc51H+17RGvAu9XJtC+DbJr+SnJ11hU5+yjw7BDEr7Ztvi8RWg0v4nE6
- Jg8ytTemGJHCUPp37a93fRz2M1EQTuI2ASBiED8/RIZ+E6hVrO6rrO2z0vZPh6wR4PDK
- tp4UR+uydpiWTuRsAlGJcULXhDNW5TYBycsruaRk+zoJVKBTvv180Bdjkw4cp10SNC2a
- XkHsr8lQt7H/chiixunqRUizyOk3AwNzH12TkXgOnrvCx1oD4g0W9TzJkdhTyRenJ1Cy
- dco1PA7/2Us/XRCT4TA05v+sGVBxfbQQLZ6yYUs0NcN3V9bApVm9To1PNkiYWimhuaPY
- SRUg==
-X-Gm-Message-State: AJIora+UjAgN9yDExD9RNrrO2hiL5XH7hKjCAzyPgfwamdg7NK7yjgpI
- A8hCwE3/iONzFfDRDvooxaWZGTZa440=
-X-Google-Smtp-Source: AGRyM1vSZiH8nMJg4nz1lEGx65prrMS5iWrJsdylsJt+ECugwEZCm0sqX9NtUJCduuP2sxAw46a/Wg==
-X-Received: by 2002:a05:6808:6:b0:33a:7265:bace with SMTP id
- u6-20020a056808000600b0033a7265bacemr3344859oic.270.1658164941515; 
- Mon, 18 Jul 2022 10:22:21 -0700 (PDT)
+ bh=3EAdGvPl897Fy2GKSuCuXls7u3a5WgaSifOKaz/yNew=;
+ b=8CZtTQWf5vkQH8DHVhujncJMjKR3BPesZWOy1nEUkKf06g2m0nmhRhqS35/nKOvA+f
+ 4l2dYoJEPveHTpl5jEPDeLy0wok4vQZEnjTGHxvcRTxfKhwrn9TJtzZanzBk6hY/hQR0
+ 1qB178xci0ADu1DsEEwMfyxVvhvYexrEkUxd3Z5SWxflIS5ED+Ps2n7qkUatH1yai8Zp
+ IptU+ndHRTKM7x+3DHcoGul/0BRzItKKpVB6sgpdOExqPA7klp8zsrgnQyaJR3e9Pk1/
+ 9qpFq2E9miINdkf11lXf6HXzqioB7/zFydhljZaBYV/JeI8KyrbQAy5p2BUtcYNugsxd
+ W+pA==
+X-Gm-Message-State: AJIora8uoj0Pd9WmSIxFayZJjMHyWihv0n5qlHBzz2xLGK1h+KsYEGYE
+ WtzOyZc2sjSoTQqvnmmFqQG6nnTWmic=
+X-Google-Smtp-Source: AGRyM1uNAHbfe0F6Bh/w1HtMxMs/gpZMF5XSWGg3W8GMShmwqx6xUFxYyKJsytf9wZamj1BQlYQIMQ==
+X-Received: by 2002:a05:6830:268c:b0:618:5cc0:417d with SMTP id
+ l12-20020a056830268c00b006185cc0417dmr11482754otu.196.1658164943728; 
+ Mon, 18 Jul 2022 10:22:23 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.19
+ j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 10:22:21 -0700 (PDT)
+ Mon, 18 Jul 2022 10:22:23 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
  richard.henderson@linaro.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PULL 03/30] ppc/6xx: Allocate IRQ lines with qdev_init_gpio_in()
-Date: Mon, 18 Jul 2022 14:21:41 -0300
-Message-Id: <20220718172208.1247624-4-danielhb413@gmail.com>
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PULL 04/30] ppc/e500: Allocate IRQ lines with qdev_init_gpio_in()
+Date: Mon, 18 Jul 2022 14:21:42 -0300
+Message-Id: <20220718172208.1247624-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718172208.1247624-1-danielhb413@gmail.com>
 References: <20220718172208.1247624-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x331.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,112 +94,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Cédric Le Goater <clg@kaod.org>
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220705145814.461723-4-clg@kaod.org>
+Message-Id: <20220705145814.461723-5-clg@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/mac_newworld.c  | 8 ++++----
- hw/ppc/mac_oldworld.c  | 2 +-
- hw/ppc/pegasos2.c      | 2 +-
- hw/ppc/ppc.c           | 5 +----
- hw/ppc/prep.c          | 2 +-
- hw/ppc/prep_systemio.c | 2 +-
- 6 files changed, 9 insertions(+), 12 deletions(-)
+ hw/ppc/e500.c | 8 ++++----
+ hw/ppc/ppc.c  | 5 +----
+ 2 files changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-index 22405dd27a..cf7eb72391 100644
---- a/hw/ppc/mac_newworld.c
-+++ b/hw/ppc/mac_newworld.c
-@@ -262,16 +262,16 @@ static void ppc_core99_init(MachineState *machine)
-         switch (PPC_INPUT(env)) {
-         case PPC_FLAGS_INPUT_6xx:
-             openpic_irqs[i].irq[OPENPIC_OUTPUT_INT] =
--                ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT];
-+                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT);
-             openpic_irqs[i].irq[OPENPIC_OUTPUT_CINT] =
--                ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT];
-+                 qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT);
-             openpic_irqs[i].irq[OPENPIC_OUTPUT_MCK] =
--                ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_MCP];
-+                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_MCP);
-             /* Not connected ? */
-             openpic_irqs[i].irq[OPENPIC_OUTPUT_DEBUG] = NULL;
-             /* Check this */
-             openpic_irqs[i].irq[OPENPIC_OUTPUT_RESET] =
--                ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_HRESET];
-+                qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_HRESET);
-             break;
- #if defined(TARGET_PPC64)
-         case PPC_FLAGS_INPUT_970:
-diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
-index d62fdf0db3..03732ca7ed 100644
---- a/hw/ppc/mac_oldworld.c
-+++ b/hw/ppc/mac_oldworld.c
-@@ -271,7 +271,7 @@ static void ppc_heathrow_init(MachineState *machine)
-         case PPC_FLAGS_INPUT_6xx:
-             /* XXX: we register only 1 output pin for heathrow PIC */
-             qdev_connect_gpio_out(pic_dev, 0,
--                ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT]);
-+                              qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT));
-             break;
-         default:
-             error_report("Bus model not supported on OldWorld Mac machine");
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-index 9411ca6b16..61f4263953 100644
---- a/hw/ppc/pegasos2.c
-+++ b/hw/ppc/pegasos2.c
-@@ -155,7 +155,7 @@ static void pegasos2_init(MachineState *machine)
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 7f7f5b3452..757cfaa62f 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -861,7 +861,6 @@ void ppce500_init(MachineState *machine)
+     for (i = 0; i < smp_cpus; i++) {
+         PowerPCCPU *cpu;
+         CPUState *cs;
+-        qemu_irq *input;
  
-     /* Marvell Discovery II system controller */
-     pm->mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
--                             ((qemu_irq *)env->irq_inputs)[PPC6xx_INPUT_INT]));
-+                          qdev_get_gpio_in(DEVICE(pm->cpu), PPC6xx_INPUT_INT)));
-     pci_bus = mv64361_get_pci_bus(pm->mv, 1);
+         cpu = POWERPC_CPU(object_new(machine->cpu_type));
+         env = &cpu->env;
+@@ -885,9 +884,10 @@ void ppce500_init(MachineState *machine)
+             firstenv = env;
+         }
  
-     /* VIA VT8231 South Bridge (multifunction PCI device) */
+-        input = (qemu_irq *)env->irq_inputs;
+-        irqs[i].irq[OPENPIC_OUTPUT_INT] = input[PPCE500_INPUT_INT];
+-        irqs[i].irq[OPENPIC_OUTPUT_CINT] = input[PPCE500_INPUT_CINT];
++        irqs[i].irq[OPENPIC_OUTPUT_INT] =
++            qdev_get_gpio_in(DEVICE(cpu), PPCE500_INPUT_INT);
++        irqs[i].irq[OPENPIC_OUTPUT_CINT] =
++            qdev_get_gpio_in(DEVICE(cpu), PPCE500_INPUT_CINT);
+         env->spr_cb[SPR_BOOKE_PIR].default_value = cs->cpu_index = i;
+         env->mpic_iack = pmc->ccsrbar_base + MPC8544_MPIC_REGS_OFFSET + 0xa0;
+ 
 diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 8c88d3a480..161e5f9087 100644
+index 161e5f9087..690f448cb9 100644
 --- a/hw/ppc/ppc.c
 +++ b/hw/ppc/ppc.c
-@@ -154,10 +154,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
+@@ -474,10 +474,7 @@ static void ppce500_set_irq(void *opaque, int pin, int level)
  
- void ppc6xx_irq_init(PowerPCCPU *cpu)
+ void ppce500_irq_init(PowerPCCPU *cpu)
  {
 -    CPUPPCState *env = &cpu->env;
 -
--    env->irq_inputs = (void **)qemu_allocate_irqs(&ppc6xx_set_irq, cpu,
--                                                  PPC6xx_INPUT_NB);
-+    qdev_init_gpio_in(DEVICE(cpu), ppc6xx_set_irq, PPC6xx_INPUT_NB);
+-    env->irq_inputs = (void **)qemu_allocate_irqs(&ppce500_set_irq,
+-                                                  cpu, PPCE500_INPUT_NB);
++    qdev_init_gpio_in(DEVICE(cpu), ppce500_set_irq, PPCE500_INPUT_NB);
  }
  
- #if defined(TARGET_PPC64)
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index a1cd4505cc..f08714f2ec 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -275,7 +275,7 @@ static void ibm_40p_init(MachineState *machine)
-     /* PCI -> ISA bridge */
-     i82378_dev = DEVICE(pci_create_simple(pci_bus, PCI_DEVFN(11, 0), "i82378"));
-     qdev_connect_gpio_out(i82378_dev, 0,
--                          cpu->env.irq_inputs[PPC6xx_INPUT_INT]);
-+                          qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_INT));
-     sysbus_connect_irq(pcihost, 0, qdev_get_gpio_in(i82378_dev, 15));
-     isa_bus = ISA_BUS(qdev_get_child_bus(i82378_dev, "isa.0"));
- 
-diff --git a/hw/ppc/prep_systemio.c b/hw/ppc/prep_systemio.c
-index 8c9b8dd67b..5a56f155f5 100644
---- a/hw/ppc/prep_systemio.c
-+++ b/hw/ppc/prep_systemio.c
-@@ -262,7 +262,7 @@ static void prep_systemio_realize(DeviceState *dev, Error **errp)
-     qemu_set_irq(s->non_contiguous_io_map_irq,
-                  s->iomap_type & PORT0850_IOMAP_NONCONTIGUOUS);
-     cpu = POWERPC_CPU(first_cpu);
--    s->softreset_irq = cpu->env.irq_inputs[PPC6xx_INPUT_HRESET];
-+    s->softreset_irq = qdev_get_gpio_in(DEVICE(cpu), PPC6xx_INPUT_HRESET);
- 
-     isa_register_portio_list(isa, &s->portio, 0x0, ppc_io800_port_list, s,
-                              "systemio800");
+ /* Enable or Disable the E500 EPR capability */
 -- 
 2.36.1
 
