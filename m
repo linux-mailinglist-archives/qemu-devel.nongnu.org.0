@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8469B577AA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 07:53:26 +0200 (CEST)
-Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E30577AA6
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 07:53:53 +0200 (CEST)
+Received: from localhost ([::1]:52610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDJh7-0006IZ-Gz
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 01:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58730)
+	id 1oDJhZ-0006lw-6q
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 01:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDJe4-0003sk-36
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60752)
+ id 1oDJeg-0004O9-Nk
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oDJe2-0001m4-By
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:15 -0400
+ id 1oDJee-0001s8-Ks
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 01:50:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658123413;
+ s=mimecast20190719; t=1658123452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hqgL+D7yS7ByLa5SpsdZBWiJe+YhHJTpVrSKApH9qfk=;
- b=FRic63bYIbvkx/Zy1U90a4AkUPnqhHQ29YXXSCFwLr3s11Eqk2O7ghPMq+hRtTJuN3xtBZ
- OkDgY8a6QfIRY1ILYSPqOkbIewTd9ErBvnYPKxpO4Tj2CUDBqecCzx/+3IXPG2VuTvixRy
- tBgbCCCMKzRZ0kZ05iWDvqm7dMPNS04=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=7x3HHPPKkd8HATayhs7qFLPP87JUKqlz8QJH3WC/1Mc=;
+ b=CZCUs4/mf2EjdmHG7gZDUBKHtmO5oZFnOYIPvrnGAvWyDUyN2cF6UoM5QcCu59lqEluGRb
+ VlW+4LuFHHISuyork3noXGN2XG/5HFL/bXulUojgUGj16E8EtR25+Ax8WF+WSB1Ik4xhJY
+ XTRbKt7OSoAKgffEvmDASxl+Epcb7lc=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-73-_v7joNj5PQyXa8s9KC5xYQ-1; Mon, 18 Jul 2022 01:50:12 -0400
-X-MC-Unique: _v7joNj5PQyXa8s9KC5xYQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- g3-20020a2e9cc3000000b00253cc2b5ab5so1734446ljj.19
- for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 22:50:12 -0700 (PDT)
+ us-mta-569-VIKa7xUHNfWHMo6uhr1_Lw-1; Mon, 18 Jul 2022 01:50:50 -0400
+X-MC-Unique: VIKa7xUHNfWHMo6uhr1_Lw-1
+Received: by mail-lj1-f198.google.com with SMTP id
+ q8-20020a2e8748000000b0025da17feb46so1196516ljj.1
+ for <qemu-devel@nongnu.org>; Sun, 17 Jul 2022 22:50:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=hqgL+D7yS7ByLa5SpsdZBWiJe+YhHJTpVrSKApH9qfk=;
- b=S9Z4GUaYooESMutM4Yisdd3SV2/fToHBTpXru2A42hj/xXXv5D7QHilijjexMGhKvR
- iHFcU3hLYeDKubPhVd4YOz9xwjI74KGp3ms+xDoKb/TjUfW2CEuydMj5DYt64Yu/O7+f
- z0gXrh8KIJYV8LlsdNr37gY954NIjn2VkiFvgnBoUxw+kHPjsAyunumkFBvUScB+V9S3
- 41qda4sZHobFL8QCUKeKDYm16YFB6aW/EbgYZxg13iUdEbBWsQ05HlBF5qQc5XXsqhfg
- Pb19+XHRZrzUW9WKDDW4iCkeNJnJQcwUnObSQv3MLhGeRp5MXC6ih3/pS+kxbIWXxZrQ
- BUIg==
-X-Gm-Message-State: AJIora88ythTkVi4XJRIc97P3zXTURzoSw12eTEGpcNRsndy1ZIatEw2
- V0cw1/IRozlgqHmCS+td+Ewd2l5s7u/W+5A5ibPNPTDHG2H6g/Zwx/vjiahUZcInQ02e0XN7TkC
- 74rB7x6TRW9myAU9SrAqkJwg5A846pZE=
-X-Received: by 2002:ac2:50d1:0:b0:489:fb36:cde1 with SMTP id
- h17-20020ac250d1000000b00489fb36cde1mr13216120lfm.411.1658123410814; 
- Sun, 17 Jul 2022 22:50:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1spcIWuYLI+qxVc22+Zh0KCNbhdR8EgTVXIBglJlMKZgajilBDAutXSqUaYvG6ZLtR+3cp55YdIXsgVJfdThUc=
-X-Received: by 2002:ac2:50d1:0:b0:489:fb36:cde1 with SMTP id
- h17-20020ac250d1000000b00489fb36cde1mr13216114lfm.411.1658123410638; Sun, 17
- Jul 2022 22:50:10 -0700 (PDT)
+ bh=7x3HHPPKkd8HATayhs7qFLPP87JUKqlz8QJH3WC/1Mc=;
+ b=TUtCbXg1jVGQsEVQydroOVQ60xZXDOF3jL+PPlcYarABXC26faOyZI0gPHd2AXvxRs
+ iDcq3PjXHrM9yDC7hxTXFOtWxZ0DTYhVCsmoa7hUlEoEzhz0/qPYBJu9iYmg1x6atEL+
+ Mc9BeYcN8JDByDORsEYc85ARg6jcbXi5XjdQkPcQq/b67avn+JyF37cKo3gQ1LZD3QK1
+ KfLomb2ZomMAvgN3H+lPQZWdPb/pIlEfvXkuXOEyO/BjBQZ6fcfXorUdGmgDizBg1Lvd
+ uMk6RZijfE+KIuaETjMED66gAk/Gik8vSxQmHOpJFh0MeAYNICj7sZpL1rviMlwX5CmM
+ Bl1g==
+X-Gm-Message-State: AJIora8OVDbKWR+6UlMigd/0p4Vgaal1E24xP+d1vx8G+WMFL1IrrFtZ
+ nmvs+3yLuGp+luDIv62pm75ZTHdzAX857XXqtoKLob/OdwI1HQe8JDCGUshN3A9NshjBjGcQ6sb
+ U7tVuRzn4rrqe4h6HOFOz+lZxCie8vW4=
+X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
+ w13-20020a0565120b0d00b004815cb4cf1emr13558616lfu.442.1658123448994; 
+ Sun, 17 Jul 2022 22:50:48 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tRvdFWg+m27nKMuOSKmKl8b0dd53MrlaI1mt8DonSfl59HWuNpMIEyBPIy2eD4M+dZIP/2nd9SB6BIUxmzrOQ=
+X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
+ w13-20020a0565120b0d00b004815cb4cf1emr13558603lfu.442.1658123448826; Sun, 17
+ Jul 2022 22:50:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220716113407.2730331-1-eperezma@redhat.com>
- <20220716113407.2730331-3-eperezma@redhat.com>
-In-Reply-To: <20220716113407.2730331-3-eperezma@redhat.com>
+ <20220716113407.2730331-4-eperezma@redhat.com>
+In-Reply-To: <20220716113407.2730331-4-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 18 Jul 2022 13:49:59 +0800
-Message-ID: <CACGkMEvXgWWwrPLTWW7TCRH7z+dg2rn4kK3WbPBCTWHQpcZoTw@mail.gmail.com>
-Subject: Re: [RFC PATCH 02/12] vhost: Move SVQ queue rewind to the destination
+Date: Mon, 18 Jul 2022 13:50:38 +0800
+Message-ID: <CACGkMEskdYYcJMXDgAmmAoO2QnE2DieaRj70_SLAYY0ygZvSgA@mail.gmail.com>
+Subject: Re: [RFC PATCH 03/12] vdpa: Small rename of error labels
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>,
  Harpreet Singh Anand <hanand@xilinx.com>, 
@@ -107,81 +107,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sat, Jul 16, 2022 at 7:34 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> Migration with SVQ already migrate the inflight descriptors,
-
-How is this done?
-
-> so the
-> destination can perform the work.
->
-> This makes easier to migrate between backends or to recover them in
-> vhost devices that support set in flight descriptors.
+> So later patches are cleaner
 >
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 > ---
->  hw/virtio/vhost-vdpa.c | 24 +++++++++++-------------
->  1 file changed, 11 insertions(+), 13 deletions(-)
+>  hw/virtio/vhost-vdpa.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
 >
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 18820498b3..4458c8d23e 100644
+> index 4458c8d23e..906c365036 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -1178,7 +1178,18 @@ static int vhost_vdpa_set_vring_base(struct vhost_=
-dev *dev,
->                                         struct vhost_vring_state *ring)
->  {
->      struct vhost_vdpa *v =3D dev->opaque;
-> +    VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index);
+> @@ -1039,7 +1039,7 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev =
+*dev)
+>          int r;
+>          bool ok =3D vhost_vdpa_svq_setup(dev, svq, i, &err);
+>          if (unlikely(!ok)) {
+> -            goto err;
+> +            goto err_svq_setup;
+>          }
 >
-> +    /*
-> +     * vhost-vdpa devices does not support in-flight requests. Set all o=
-f them
-> +     * as available.
-> +     *
-> +     * TODO: This is ok for networking, but other kinds of devices might
-> +     * have problems with these retransmissions.
-> +     */
-> +    while (virtqueue_rewind(vq, 1)) {
-> +        continue;
-> +    }
->      if (v->shadow_vqs_enabled) {
->          /*
->           * Device vring base was set at device start. SVQ base is handle=
-d by
-> @@ -1197,19 +1208,6 @@ static int vhost_vdpa_get_vring_base(struct vhost_=
-dev *dev,
->      int ret;
+>          vhost_svq_start(svq, dev->vdev, vq);
+> @@ -1064,8 +1064,7 @@ err_set_addr:
+>  err_map:
+>      vhost_svq_stop(g_ptr_array_index(v->shadow_vqs, i));
 >
->      if (v->shadow_vqs_enabled) {
-> -        VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index);
-> -
-> -        /*
-> -         * Setting base as last used idx, so destination will see as ava=
-ilable
-> -         * all the entries that the device did not use, including the in=
--flight
-> -         * processing ones.
-> -         *
-> -         * TODO: This is ok for networking, but other kinds of devices m=
-ight
-> -         * have problems with these retransmissions.
-> -         */
-> -        while (virtqueue_rewind(vq, 1)) {
-> -            continue;
-> -        }
+> -err:
+> -    error_reportf_err(err, "Cannot setup SVQ %u: ", i);
 
-I think it's not a good idea to partially revert the code that was
-just introduced in the previous patch (unless it can be backported to
--stable independently).
-
-We probably need to squash the changes.
+This does not look like a simple rename.
 
 Thanks
 
->          ring->num =3D virtio_queue_get_last_avail_idx(dev->vdev, ring->i=
-ndex);
->          return 0;
->      }
+> +err_svq_setup:
+>      for (unsigned j =3D 0; j < i; ++j) {
+>          VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, j=
+);
+>          vhost_vdpa_svq_unmap_rings(dev, svq);
 > --
 > 2.31.1
 >
