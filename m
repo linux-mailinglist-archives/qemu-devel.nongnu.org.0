@@ -2,82 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 953CF57845D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:53:00 +0200 (CEST)
-Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A455757846F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:55:17 +0200 (CEST)
+Received: from localhost ([::1]:44902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRBD-0005P1-MW
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:52:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
+	id 1oDRDQ-0001by-NI
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:55:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oDNO6-00072A-8l
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:50:02 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oDNO3-0002nZ-Ck
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:50:00 -0400
-Received: by mail-ed1-x535.google.com with SMTP id v12so14473162edc.10
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:49:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=V+ZAs1OBaKbBTFuQsPWg5xCRJ9oaM8UHlttn98+sKoc=;
- b=QsHbnLXd51HnX5Fgls7IaEw6oi8MXN7axXJL/xJ4D78zk3iLEzHc/i6xDUnQ9U/5xT
- WJ0OnKQPxrXWOdduM3+kq3N6lu+rBqHOTsssxHjURGgFeZVVDOqnmOhAGXR8iHFEBR9H
- alkXXv4+4VE+EXFxohMrAPqQWVv+hzfG1xtZ5COe0Ecz3x0A9IPRYR44NuAAub0F3Imu
- oD3g34SS2J28sCtdS1izLuHmSJGr91aVD8TWn442DHiLf/JEja6XGt6bqwejCx25qZRw
- FzjiAkbm5TXnkM3+5zg/Ers+QN+81v9kPl5gbXnvCm/2BexNk8jv8r07r9pcqJ9aaEYs
- oCig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=V+ZAs1OBaKbBTFuQsPWg5xCRJ9oaM8UHlttn98+sKoc=;
- b=lhi8aQ8CP4P7vn12WCsBSiLIrfjRN9IGCIYmrJzWTegNuKcYWAaepW6MDbpIGM8sRj
- E3KhBhc7g4NsuiRRBRuG1rTi8w6RlWdsPYqjfR6WCQ7RZfFp6XtQftCKMxr5EyKNRnnO
- bJHGtop6pWLlWunWy8YiBZA1/XLmo3bTf8YjB6ZwM2D+n73oLVjVFi/jSqDAE0DYX2TY
- UrQDJpUDE4uQQSHSa2JrphKpnItx8ipYZch6lfkLsO/QIZywz9mVl8OgQYC4prCC4GXZ
- vWgrrAaJ+0XeXfzqAx96ipAxAGfmCVEXXuJu6S9x1rjpKqRCCZMd+qLZ9ZlrOjqg0t2F
- GlsQ==
-X-Gm-Message-State: AJIora8clMbGGI9Ffc0N/Jj2DZyksTDiVEWqg52aA3mhanYd8FPjDn5W
- Whw4bO9lgMX12Q95ZZUDdcTABw==
-X-Google-Smtp-Source: AGRyM1uPs+jJ/wXOEA2o5+4YsDmEKcVuSIsETQuXrmTgeqgJc1CLJ8fidl8/rHdQzLjdGh3qlB15KA==
-X-Received: by 2002:a05:6402:3553:b0:43a:dba8:9f65 with SMTP id
- f19-20020a056402355300b0043adba89f65mr35462179edd.323.1658137794982; 
- Mon, 18 Jul 2022 02:49:54 -0700 (PDT)
-Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
- by smtp.gmail.com with ESMTPSA id
- cw11-20020a056402228b00b0043a8f40a038sm8320635edb.93.2022.07.18.02.49.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 02:49:54 -0700 (PDT)
-Date: Mon, 18 Jul 2022 11:49:53 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v2 4/6] target/riscv: add check for csrs existed with U
- extension
-Message-ID: <20220718094953.fg3ah7xdjkrp7hzr@kamzik>
-References: <20220712063236.23834-1-liweiwei@iscas.ac.cn>
- <20220712063236.23834-5-liweiwei@iscas.ac.cn>
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oDOpl-0007Qr-Hl
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
+Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:58513)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oDOpf-0000hz-UH
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:40 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VJjIA67_1658143033; 
+Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VJjIA67_1658143033) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:13 +0800
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+Subject: [PATCH 00/16] Support VIRTIO_F_RING_RESET for virtio-net and
+ vhost-user in virtio pci
+Date: Mon, 18 Jul 2022 19:16:57 +0800
+Message-Id: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220712063236.23834-5-liweiwei@iscas.ac.cn>
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.57;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-57.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 18 Jul 2022 09:49:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,80 +63,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 12, 2022 at 02:32:34PM +0800, Weiwei Li wrote:
-> - add umode/umode32 predicate for mcounteren,menvcfg/menvcfgh
+The virtio queue reset function has already been defined in the virtio spec 1.2.
+The relevant virtio spec information is here:
 
-Same commit message and $SUBJECT comments as the other patches.
+    https://github.com/oasis-tcs/virtio-spec/issues/124
+    https://github.com/oasis-tcs/virtio-spec/issues/139
 
-> 
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  target/riscv/csr.c | 25 ++++++++++++++++++++++---
->  1 file changed, 22 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 7d4b6ceced..1edeb69366 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -339,6 +339,25 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
->  
->  }
->  
-> +static RISCVException umode(CPURISCVState *env, int csrno)
-> +{
-> +    if (riscv_has_ext(env, RVU)) {
-> +        /* User extension is supported */
+This patch set is to support this function in QEMU. It consists of two parts: virtio-net
+and vhost-user. The patches 1-7 are the implementation for virtio-net and the patches
+8-16 are for vhost-user. 
 
-This comment isn't very useful, riscv_has_ext(env, RVU) is
-self-explanatory.
+The process of virt queue reset can be concluded as:
+1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+2. Then the virtqueue is restarted after the information of vrings is passed to QEMU and
+VIRTIO_PCI_COMMON_Q_ENABLE is written.
 
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    return RISCV_EXCP_ILLEGAL_INST;
-> +}
-> +
-> +static RISCVException umode32(CPURISCVState *env, int csrno)
-> +{
-> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    return umode(env, csrno);
-> +}
-> +
->  /* Checks if PointerMasking registers could be accessed */
->  static RISCVException pointer_masking(CPURISCVState *env, int csrno)
->  {
-> @@ -3519,7 +3538,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_MEDELEG]     = { "medeleg",    any,   read_medeleg, write_medeleg },
->      [CSR_MIE]         = { "mie",        any,   NULL, NULL,   rmw_mie       },
->      [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,   write_mtvec   },
-> -    [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,
-> +    [CSR_MCOUNTEREN]  = { "mcounteren", umode, read_mcounteren,
->                            write_mcounteren                                 },
->  
->      [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,
-> @@ -3553,9 +3572,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
->  
->      /* Execution environment configuration */
-> -    [CSR_MENVCFG]  = { "menvcfg",  any,   read_menvcfg,  write_menvcfg,
-> +    [CSR_MENVCFG]  = { "menvcfg",  umode, read_menvcfg,  write_menvcfg,
->                         .min_priv_ver = PRIV_VERSION_1_12_0              },
-> -    [CSR_MENVCFGH] = { "menvcfgh", any32, read_menvcfgh, write_menvcfgh,
-> +    [CSR_MENVCFGH] = { "menvcfgh", umode32, read_menvcfgh, write_menvcfgh,
->                         .min_priv_ver = PRIV_VERSION_1_12_0              },
->      [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
->                         .min_priv_ver = PRIV_VERSION_1_12_0              },
-> -- 
-> 2.17.1
-> 
->
+Test environment:
+    Host: 5.4.189
+    Qemu: QEMU emulator version 7.0.50
+    Guest: 5.19.0-rc3 (With vq reset support)
+    DPDK: 22.07-rc1 (With vq reset support)
+    Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
 
-Otherwise,
+    The frontend can resize the virtio queue, then virtio queue reset function should
+    be triggered.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+    The default is split mode, modify Qemu virtio-net to add PACKED feature to 
+    test packed mode.
+
+Guest Kernel Patch:
+    https://lore.kernel.org/bpf/20220629065656.54420-1-xuanzhuo@linux.alibaba.com/
+
+DPDK Code:
+    https://github.com/middaywords/dpdk/commit/098c8e1dfae10b747da8dd8950a82890efca7bee
+
+Please review. Thanks.
+
+Kangjie Xu (9):
+  vhost: add op to enable or disable a single vring
+  vhost-user: enable/disable a single vring
+  vhost: extract the logic of unmapping the vrings and desc
+  vhost: introduce restart and release for vhost_dev's vqs
+  vhost-net: introduce restart and stop for vhost_net's vqs
+  virtio: introduce queue_enable in virtio
+  virtio-net: support queue_enable for vhost-user
+  virtio-net: support queue_reset for vhost-user
+  vhost-net: vq reset feature bit support
+
+Xuan Zhuo (7):
+  virtio-pci: virtio_pci_common_cfg add queue_notify_data
+  virtio: add VIRTIO_F_RING_RESET
+  virtio: pci: virtio_pci_common_cfg add queue_reset
+  virtio: introduce __virtio_queue_reset()
+  virtio: introduce virtio_queue_reset()
+  virtio-pci: support queue reset
+  virtio-net: support queue reset
+
+ hw/net/vhost_net.c                            | 56 ++++++++++++++++++
+ hw/net/virtio-net.c                           | 40 +++++++++++++
+ hw/virtio/vhost-user.c                        | 55 +++++++++++++++---
+ hw/virtio/vhost.c                             | 49 ++++++++++++++--
+ hw/virtio/virtio-pci.c                        | 17 ++++++
+ hw/virtio/virtio.c                            | 57 +++++++++++++------
+ include/hw/virtio/vhost-backend.h             |  4 ++
+ include/hw/virtio/vhost.h                     |  6 ++
+ include/hw/virtio/virtio-pci.h                |  1 +
+ include/hw/virtio/virtio.h                    |  4 ++
+ include/net/vhost_net.h                       |  5 ++
+ .../standard-headers/linux/virtio_config.h    |  5 ++
+ include/standard-headers/linux/virtio_pci.h   |  4 ++
+ 13 files changed, 274 insertions(+), 29 deletions(-)
+
+-- 
+2.32.0
+
 
