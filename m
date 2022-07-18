@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF56578050
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:57:11 +0200 (CEST)
-Received: from localhost ([::1]:58842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64554578102
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:39:18 +0200 (CEST)
+Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDOR4-0002bU-48
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58922)
+	id 1oDP5o-00065O-T9
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDOO5-0006zX-L3
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:54:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDOO2-0004jv-Il
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:54:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658141641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3T/0Gd6KzqWSk+in+OSqd9+mGbrACq2r6OJxGurZNjk=;
- b=YMGpIpmQrXFars89xbfOul5qEmbKbKhYvdnx0WTPn1cir+QKZmmm66Hq80+S0yVeh8EYcI
- QAKYeDN9/ewOfB5G/drPN2EbOPpG601wu4fx8ivwdgSRtb8zTv89O5yp2NF+hODRG5BuNI
- KIQ7lAOPRvdyD0KG8RFXso2CScQT704=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-lhHKBfxBNhCVAzfa3MAqSA-1; Mon, 18 Jul 2022 06:53:58 -0400
-X-MC-Unique: lhHKBfxBNhCVAzfa3MAqSA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D3C78101A54E;
- Mon, 18 Jul 2022 10:53:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CEC3403D0C1;
- Mon, 18 Jul 2022 10:53:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0EF2F21E690D; Mon, 18 Jul 2022 12:53:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>,  Damien Le Moal
- <damien.lemoal@opensource.wdc.com>,  Dmitry Fomichev
- <dmitry.fomichev@wdc.com>,  Stefan Hajnoczi <stefanha@redhat.com>,  Hanna
- Reitz <hreitz@redhat.com>,  qemu block <qemu-block@nongnu.org>,  Eric
- Blake <eblake@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Fam Zheng
- <fam@euphon.net>,  Hannes Reinecke <hare@suse.de>
-Subject: Re: [RFC v4 0/9] Add support for zoned device
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <87pmiaubjz.fsf@pond.sub.org>
- <CAAAx-8LNouyevjpbkC4yrQ+twfx+7-XvTzJ+3fkZ19xmm8g=8A@mail.gmail.com>
-Date: Mon, 18 Jul 2022 12:53:56 +0200
-In-Reply-To: <CAAAx-8LNouyevjpbkC4yrQ+twfx+7-XvTzJ+3fkZ19xmm8g=8A@mail.gmail.com>
- (Sam Li's message of "Tue, 12 Jul 2022 13:59:32 +0800")
-Message-ID: <871quid73v.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oDP3R-0004AD-PO; Mon, 18 Jul 2022 07:36:51 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:53308 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oDP3N-00036X-Fb; Mon, 18 Jul 2022 07:36:49 -0400
+Received: from [192.168.3.6] (unknown [180.156.173.38])
+ by APP-05 (Coremail) with SMTP id zQCowAAXHrK8RdViYQ0_Dw--.58670S2;
+ Mon, 18 Jul 2022 19:36:29 +0800 (CST)
+Subject: Re: [PATCH v2 1/6] target/riscv: add check for supported privilege
+ modes conbinations
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
+ lazyparser@gmail.com
+References: <20220712063236.23834-1-liweiwei@iscas.ac.cn>
+ <20220712063236.23834-2-liweiwei@iscas.ac.cn>
+ <20220718090221.aqeiudcugpdqaef6@kamzik>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <511e08eb-e1cc-59cb-0beb-498df58e3a69@iscas.ac.cn>
+Date: Mon, 18 Jul 2022 19:36:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220718090221.aqeiudcugpdqaef6@kamzik>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: zQCowAAXHrK8RdViYQ0_Dw--.58670S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tryxCry7ZF17Xw1fJr43KFg_yoW8Xr1Dpr
+ 4rGay7CFWDJry7G3yxAF1jqF1j9r4kKFWUZ39FvwnruwsxtrZY9FnFkw4akw1kAF4kCa1S
+ 93yq9F15Zr4Yv3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1l
+ IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWI
+ evJa73UjIFyTuYvjfU8VbyDUUUU
+X-Originating-IP: [180.156.173.38]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: 5
+X-Spam_score: 0.5
+X-Spam_bar: /
+X-Spam_report: (0.5 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,36 +81,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sam Li <faithilikerun@gmail.com> writes:
 
-> Markus Armbruster <armbru@redhat.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8812=
-=E6=97=A5=E5=91=A8=E4=BA=8C 13:47=E5=86=99=E9=81=93=EF=BC=9A
->>
->> Sam Li <faithilikerun@gmail.com> writes:
->>
->> > This patch series adds support for zoned device to virtio-blk emulatio=
-n. Zoned
->> > Storage can support sequential writes, which reduces write amplificati=
-on in SSD,
->> > leading to higher write throughput and increased capacity.
->>
->> Forgive me if this has already been discussed, or is explained deeper in
->> the patch series...
->>
->> The commit message sounds like you're extending virtio-blk to optionally
->> emulate zoned storage.  Correct?
+ÔÚ 2022/7/18 ÏÂÎç5:02, Andrew Jones Ð´µÀ:
+> On Tue, Jul 12, 2022 at 02:32:31PM +0800, Weiwei Li wrote:
+>> - There are 3 suggested privilege modes conbinations listed in the spec:
+> No need for '-' here.
 >
-> Yes! The main purpose is to emulate zoned storage only for the zoned
-> device files. Right now, QEMU sees those as regular block devices.
+> s/modes/mode/
+> s/conbinations/combinations/
 >
->> PATCH 1 adds a new block block device driver 'zoned_host_device', and
->> PATCH 9 exposes it in QAPI.  This is for passing through a zoned host
->> device, correct?
+> (Same typos in $SUBJECT, also please capitalize 'add' in $SUBJECT.)
 >
-> Yes! It allows the guest os see zoned host device. It is still in
-> development. Maybe the implementations will change later.
+> When referencing the spec it's nice to point out the doc/version/section.
+>
+>> 1) M, 2) M, U 3) M, S, U
+>>
+>> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+>> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>> ---
+>>   target/riscv/cpu.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index db2b8e4d30..36c1b26fb3 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -726,6 +726,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>>               return;
+>>           }
+>>   
+>> +        if (cpu->cfg.ext_s && !cpu->cfg.ext_u) {
+>> +            error_setg(errp,
+>> +                       "Setting S extension without U extension is illegal");
+>> +            return;
+>> +        }
+>> +
+>>           if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
+>>               error_setg(errp, "F extension requires Zicsr");
+>>               return;
+>> -- 
+>> 2.17.1
+>>
+>>
+> Besides the commit message issues
+>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
-Your cover letter only mentions the virtio-blk part, not the
-pass-through part.  Please correct that if you need to respin.
+Thanks for your comments.
+
+I'll fix the issues in commit messages in the next version.
+
+Regards,
+
+Weiwei Li
 
 
