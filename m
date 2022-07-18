@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B31B3578568
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:30:08 +0200 (CEST)
-Received: from localhost ([::1]:47572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C032B578559
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:28:05 +0200 (CEST)
+Received: from localhost ([::1]:39636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRl9-0003eN-Pg
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:30:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
+	id 1oDRjA-0006ho-RF
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHb-00027h-Ta
+ id 1oDRHb-00027e-Sr
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:36 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:55997)
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:45859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHX-0003Ac-EI
+ id 1oDRHX-0003Ar-EQ
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:34 -0400
-Received: by mail-wm1-x335.google.com with SMTP id b6so6659574wmq.5
+Received: by mail-wm1-x331.google.com with SMTP id
+ az2-20020a05600c600200b003a301c985fcso7149135wmb.4
  for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:59:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ocRTy264UImfHohmga9Mhs3jVom81Fw75OT8Y228IS4=;
- b=zYdB1K1D8Mgxy1mZjmn/7C+MGLXOeGr5OxavMRBG7Aikr5TA7nSb7x4J9fV7LxFnmw
- Q5y4DXO+ie0uIZnONtTaMi4o5VXEq96Incb2aHpJe/NJ39voXx1xwfN27ewQF9G3XhXb
- yeI6vb0r0KrOaRFTROt5/J+TP6/rilqjQV0Mg1cYaRm0t35+LyK5G82Ny75cjOuiu0yX
- o4Dl6ZTxvd2dormwaR7r/MzSHNRBthLtxrX1Df3H+6rLvBkDQp25XkJJOlfFVGdO2c9g
- EvOK4YQ9fQzn528GEvlLoUE24g5D4Y3nQiOkFp+c9ZRlXakc2//IqkIt8dIFJQ+qTfoZ
- LuaQ==
+ bh=qz69hyjKtHbhmrlIIKDKTwJRVIu5vyxEpPp07fk0Aeo=;
+ b=r87jyJe4Pwn90SUTszwh466HY4Kw52FlKh/k1MoVBR7TtZQgNMBJ4fhmX9gdEA1aBW
+ cL7I7IS0Lbza3fTsNl72aQX9gk95Y0qV/Ih0nouOAH0sBwVRiwAR4sn/yQpMbH8e5N0c
+ r6E3zMn7f7EehjETS0R8EpuIVKC3n4PHN4vh8/eUVtqdsZBYvbNdO6Y8rGVUbMUKLoPX
+ HOsW+Wuni6W46vXrIvbftDRSn7PR37HXX9I3dZRcdMcJK70ZW1ybZQ2AW8C/tvb87KPN
+ fFJKFy+eXOUsPq4bFhpU7f3cyfWg6wt3r84MtGXfUL9yO4GO0WhwdAIPYT6SERR4Fvzy
+ +uuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ocRTy264UImfHohmga9Mhs3jVom81Fw75OT8Y228IS4=;
- b=lxViFgCF56a9iCLXvinabkaspf9VAbh6eNhAUvRA4AZ7tVWiY0n5HJ7dt6P+T6l/GZ
- 6k7NPFjKqaP+WUInAEOdSc5P4AH4btlFVK64cT2nIrGa0Lz358sll1JGfjvsUWuvcfn4
- GT9n5XiPv4UBifQd23r7/9KdPdcY7mxG4jG/9Ho30bVXL5z7wFjvq3KYCJQupBrx0HK5
- 3DtdyRWoHgLirfyvOyPvwwMUYbaVNzcs+BJbKpKO+mYm15ACSj5PIvSFMMxv+SkZJ50Y
- 7kccoqY5x4hLbjDrbc9dQcjo9IAPoxhgTwXe8pb1YRWrGpWa/ZevvopVyFHhxW7Q7uN9
- lcaQ==
-X-Gm-Message-State: AJIora9ohlXVAAJR0pmSR1V4NfiJ/oHUQ04TP5S0oiLyZkvZFSzbq6ZX
- V57lkaMdCTgcnsKmJHNinxt15+dak4uSJA==
-X-Google-Smtp-Source: AGRyM1vXbiYvOXl2e6bp+Eibh1wldJAef25R2MXyga+FmUv640+4sK4UDImjGBAY0l7yeAVmCs73WQ==
-X-Received: by 2002:a05:600c:5128:b0:3a3:2160:7a7b with SMTP id
- o40-20020a05600c512800b003a321607a7bmr4045wms.204.1658152769127; 
+ bh=qz69hyjKtHbhmrlIIKDKTwJRVIu5vyxEpPp07fk0Aeo=;
+ b=77gxa5FQi8ZiuqEiSAmokGmDd0ySN2w88l4WamNo/bXS7SftXbxvq3KGA13LQ/FEoN
+ rb8m8+w+01tNIWme5RlKVVws/0zTBJDjIsahMLv6HZwQMF+y3bqhN2MtcQNv66pYVWr0
+ 6LlEw2XJagJ/TjiIWu7r74+dAXqDNgc7U0PUKjSTqAk7DjhiiVIWNWeFFoYqbtl5KjQE
+ HKErjeXyrqQPZa2fQcyPHxYstJ7krGRA9LwYYd5xmoImzkzgqsLprNzPYQLN082cEbKX
+ aITaBsprecL8aMyPT01sfWXATuTyE4aoUqcXjqhaJTLw5qH+Oa/PNQthXx00coovbejg
+ AxLg==
+X-Gm-Message-State: AJIora8T4WUR+lks67gjfcbgM80YeQEiqq5R+H0iitSurzfD3+wsitHH
+ IN9cixlYDG18/glvd9J6tiCbtkVjiov/ag==
+X-Google-Smtp-Source: AGRyM1tj6DSp0glLHAU7grVLvU8JqXE8GHJBJWJTOVJw02v+eD10qh/3xN9yJZRPZ9G7sHAvIpWFaQ==
+X-Received: by 2002:a05:600c:1da8:b0:3a3:1969:b0d with SMTP id
+ p40-20020a05600c1da800b003a319690b0dmr6090834wms.172.1658152769790; 
  Mon, 18 Jul 2022 06:59:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.28
+ id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:59:28 -0700 (PDT)
+ Mon, 18 Jul 2022 06:59:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] target/arm: Fold regime_tcr() and regime_tcr_value()
- together
-Date: Mon, 18 Jul 2022 14:59:12 +0100
-Message-Id: <20220718135920.13667-8-peter.maydell@linaro.org>
+Subject: [PULL 08/15] target/arm: Fix big-endian host handling of VTCR
+Date: Mon, 18 Jul 2022 14:59:13 +0100
+Message-Id: <20220718135920.13667-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220718135920.13667-1-peter.maydell@linaro.org>
 References: <20220718135920.13667-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,131 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only caller of regime_tcr() is now regime_tcr_value(); fold the
-two together, and use the shorter and more natural 'regime_tcr'
-name for the new function.
+We have a bug in our handling of accesses to the AArch32 VTCR
+register on big-endian hosts: we were not adjusting the part of the
+uint64_t field within TCR that the generated code would access.  That
+can be done with offsetoflow32(), by using an ARM_CP_STATE_BOTH cpreg
+struct, or by defining a full set of read/write/reset functions --
+the various other TCR cpreg structs used one or another of those
+strategies, but for VTCR we did not, so on a big-endian host VTCR
+accesses would touch the wrong half of the register.
+
+Use offsetoflow32() in the VTCR register struct.  This works even
+though the field in the CPU struct is currently a struct TCR, because
+the first field in that struct is the uint64_t raw_tcr.
+
+None of the other TCR registers have this bug -- either they are
+AArch64 only, or else they define resetfn, writefn, etc, and
+expect to be passed the full struct pointer.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20220714132303.1287193-4-peter.maydell@linaro.org
+Message-id: 20220714132303.1287193-5-peter.maydell@linaro.org
 ---
- target/arm/internals.h  | 16 +++++-----------
- target/arm/helper.c     |  6 +++---
- target/arm/ptw.c        |  6 +++---
- target/arm/tlb_helper.c |  2 +-
- 4 files changed, 12 insertions(+), 18 deletions(-)
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index fa046124fa8..0a1eb20afce 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -777,26 +777,20 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return env->cp15.sctlr_el[regime_el(env, mmu_idx)];
- }
- 
--/* Return the TCR controlling this translation regime */
--static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-+/* Return the value of the TCR controlling this translation regime */
-+static inline uint64_t regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-     if (mmu_idx == ARMMMUIdx_Stage2) {
--        return &env->cp15.vtcr_el2;
-+        return env->cp15.vtcr_el2.raw_tcr;
-     }
-     if (mmu_idx == ARMMMUIdx_Stage2_S) {
-         /*
-          * Note: Secure stage 2 nominally shares fields from VTCR_EL2, but
-          * those are not currently used by QEMU, so just return VSTCR_EL2.
-          */
--        return &env->cp15.vstcr_el2;
-+        return env->cp15.vstcr_el2.raw_tcr;
-     }
--    return &env->cp15.tcr_el[regime_el(env, mmu_idx)];
--}
--
--/* Return the raw value of the TCR controlling this translation regime */
--static inline uint64_t regime_tcr_value(CPUARMState *env, ARMMMUIdx mmu_idx)
--{
--    return regime_tcr(env, mmu_idx)->raw_tcr;
-+    return env->cp15.tcr_el[regime_el(env, mmu_idx)].raw_tcr;
- }
- 
- /**
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c245922bb5d..8847f5b90ad 100644
+index 8847f5b90ad..7461d4091ef 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -4216,7 +4216,7 @@ static int vae1_tlbmask(CPUARMState *env)
- static int tlbbits_for_regime(CPUARMState *env, ARMMMUIdx mmu_idx,
-                               uint64_t addr)
- {
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     int tbi = aa64_va_parameter_tbi(tcr, mmu_idx);
-     int select = extract64(addr, 55, 1);
- 
-@@ -10158,7 +10158,7 @@ static int aa64_va_parameter_tcma(uint64_t tcr, ARMMMUIdx mmu_idx)
- ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-                                    ARMMMUIdx mmu_idx, bool data)
- {
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     bool epd, hpd, using16k, using64k, tsz_oob, ds;
-     int select, tsz, tbi, max_tsz, min_tsz, ps, sh;
-     ARMCPU *cpu = env_archcpu(env);
-@@ -10849,7 +10849,7 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
- {
-     CPUARMTBFlags flags = {};
-     ARMMMUIdx stage1 = stage_1_mmu_idx(mmu_idx);
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     uint64_t sctlr;
-     int tbii, tbid;
- 
-diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 16226d14233..e9959848d88 100644
---- a/target/arm/ptw.c
-+++ b/target/arm/ptw.c
-@@ -315,7 +315,7 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
-                                      uint32_t *table, uint32_t address)
- {
-     /* Note that we can only get here for an AArch32 PL0/PL1 lookup */
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     int maskshift = extract32(tcr, 0, 3);
-     uint32_t mask = ~(((uint32_t)0xffffffffu) >> maskshift);
-     uint32_t base_mask;
-@@ -824,7 +824,7 @@ static int get_S1prot(CPUARMState *env, ARMMMUIdx mmu_idx, bool is_aa64,
- static ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
-                                           ARMMMUIdx mmu_idx)
- {
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     uint32_t el = regime_el(env, mmu_idx);
-     int select, tsz;
-     bool epd, hpd;
-@@ -998,7 +998,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-     uint32_t attrs;
-     int32_t stride;
-     int addrsize, inputsize, outputsize;
--    uint64_t tcr = regime_tcr_value(env, mmu_idx);
-+    uint64_t tcr = regime_tcr(env, mmu_idx);
-     int ap, ns, xn, pxn;
-     uint32_t el = regime_el(env, mmu_idx);
-     uint64_t descaddrmask;
-diff --git a/target/arm/tlb_helper.c b/target/arm/tlb_helper.c
-index a2f87a5042d..5a709eab56f 100644
---- a/target/arm/tlb_helper.c
-+++ b/target/arm/tlb_helper.c
-@@ -20,7 +20,7 @@ bool regime_using_lpae_format(CPUARMState *env, ARMMMUIdx mmu_idx)
-         return true;
-     }
-     if (arm_feature(env, ARM_FEATURE_LPAE)
--        && (regime_tcr_value(env, mmu_idx) & TTBCR_EAE)) {
-+        && (regime_tcr(env, mmu_idx) & TTBCR_EAE)) {
-         return true;
-     }
-     return false;
+@@ -5409,7 +5409,7 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+       .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+       .type = ARM_CP_ALIAS,
+       .access = PL2_RW, .accessfn = access_el3_aa32ns,
+-      .fieldoffset = offsetof(CPUARMState, cp15.vtcr_el2) },
++      .fieldoffset = offsetoflow32(CPUARMState, cp15.vtcr_el2) },
+     { .name = "VTCR_EL2", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
+       .access = PL2_RW,
 -- 
 2.25.1
 
