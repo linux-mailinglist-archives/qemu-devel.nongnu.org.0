@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DE805789B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:43:38 +0200 (CEST)
-Received: from localhost ([::1]:53514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B6E15789AA
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:40:28 +0200 (CEST)
+Received: from localhost ([::1]:47026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDViT-00027U-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:43:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60446)
+	id 1oDVfO-0005rb-P1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:40:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZ7-0007gn-OA
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:57 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49032)
+ id 1oDVZB-0007pa-Pl
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:01 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZ6-0005Vv-94
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:57 -0400
+ id 1oDVZA-0005WG-9r
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=uo1qvslZwditqqn3T+vuSzu0nc4f10NOivC1+SyNwaI=; b=AP9sMlYYn6PFzUUgJV2h9wyoal
- V6q5scKJzscHNz3wztNkgMRLliuxqSfv+wdrJ+b1S+S2lNUjT1XdzrdEprw3MxQ8NJ6BeltGEzZZr
- 4qgFCf/VMQ2SkM/xim+0Q5p3kbaTQbeZWj2Esj7SvHM6boYeAcq5xaE+ifBC0u7Iq8av5j78IlRYQ
- T3ja9N/BP2S1VdgI01d9gkU/s4gL62nX6b9M+0j7RttziqbBGzsCJpKpzrunShIVodqOic7K61DL6
- dBY39huou1qrOllr96thOtUale5yWzL2UJ7pKMMhqkNRaZYzloNUWz1lOtNo6QCJW+RuWF9B8Luh6
- MTcIrzbyGXIoSPvNnQx9IfihZL4r94kIxG17nWLZbK7vXcwGPYM0F756bTRIWnI1n5sLhGY8AiMlK
- lZkPm1J0IyBNio/2qwUGMp82rugBx3co7wDQbLp3BhDnjACu0QByfvcCQvl3I1lcUYLTMbtqIjRWE
- gIGyBEqlXnriCIQ9Aindq1bY3qs9JGzYXjNFlrd2MbzL7x+1TbQWLUtro1yUzJTISwxB4S1kIyWCF
- 3IcINpJBobR8mDbNmsCKQZxFJkBEc3//Vtd4yG0cEUIfGZZRvE4nBuBUkDWhTEpxQElckZMV8HUgc
- 4rMSnPtnqwXSra5Hy9NZZVnISrtG+zVfVTUofTuo0=;
+ bh=dTijwKG5W8z5uCTtDSUU5DZQU2CZ45SFe9y4iXV1cCQ=; b=Ch7L3XRKHzGr2QrwPDlxD/7Drg
+ SqArirdkoFNo+rwMDebNHgB/mCBoVu/5Kcq8smE2y/r1dNBRBoZ59DzjO5iPfXJvtDAuViyOXZcDW
+ kGxwZM1b/1BgkaBoqM/0IPZq0aI6Ei4D87Bwez0X3oLrGCTfNbFzgWxYYMM3FBvN2wZTHetwC7Cnl
+ ebXNq44oEekqAvDxmMUeit6s0hRVAUhP87wrqgR3ZP8rhQygbpVjJBE0RayU2Zia7h7vnmKoCI0xY
+ d/Ge3L2sqn8v9ZPC4WUHF0ry0QgxiqpoPgYsdtQAUaGH3CAGNxgpKm2O3tW3uS3qhHuiF5IS2NJTy
+ bxDFrHJDWJKj6QQKvp+tYqHJ5RmB+aKGWiKNj3mTL7BcvkeM9uYJ0Lqh58DIm/ZIJSBDhniKSbVKK
+ 6blK97PozrU/HVZq18s+QAWUHVfIdyPjfzPm2jgd5ainln8dluKKg512vei8WHro1K6z4jYHbP9E9
+ KKNQXRPXjxAa+vpUva8F7gBC/6XFZqMBGUC5C7+8z1Y3KvHNn6XPE+515bicZc7sDwt9YZQFOousO
+ aBbg6k+QY2jfYH08+/Ra6rmUxtQBBl5S45DdH12A0C/g5Dfiqz79EsCt3LNS3r0RQ+rHLbtS83zGg
+ W+wwLZrNyNvRrqoPBwXXRgN3PHj5aqT8GKRIh4UBg=;
 Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVXk-000B51-Ml; Mon, 18 Jul 2022 19:32:36 +0100
+ id 1oDVXo-000B51-RD; Mon, 18 Jul 2022 19:32:40 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 18 Jul 2022 19:33:00 +0100
-Message-Id: <20220718183339.124253-2-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:33:01 +0100
+Message-Id: <20220718183339.124253-3-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
 References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
@@ -52,8 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 01/40] pl050: move PL050State from pl050.c to new pl050.h
- header file
+Subject: [PULL 02/40] pl050: rename pl050_keyboard_init() to pl050_kbd_init()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -79,94 +78,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows the QOM types in pl050.c to be used elsewhere by simply including
-pl050.h.
+This is for consistency with all of the other devices that use the PS2 keyboard
+device.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Helge Deller <deller@gmx.de>
 Acked-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220712215251.7944-2-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220712215251.7944-3-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/input/pl050.c         | 16 +---------------
- include/hw/input/pl050.h | 35 +++++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+), 15 deletions(-)
- create mode 100644 include/hw/input/pl050.h
+ hw/input/pl050.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/input/pl050.c b/hw/input/pl050.c
-index 209cc001cf..c7980b6ed7 100644
+index c7980b6ed7..8e32b8ed46 100644
 --- a/hw/input/pl050.c
 +++ b/hw/input/pl050.c
-@@ -19,26 +19,12 @@
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- #include "hw/input/ps2.h"
-+#include "hw/input/pl050.h"
- #include "hw/irq.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
- #include "qom/object.h"
+@@ -166,7 +166,7 @@ static void pl050_realize(DeviceState *dev, Error **errp)
+                           qdev_get_gpio_in_named(dev, "ps2-input-irq", 0));
+ }
  
--#define TYPE_PL050 "pl050"
--OBJECT_DECLARE_SIMPLE_TYPE(PL050State, PL050)
--
--struct PL050State {
--    SysBusDevice parent_obj;
--
--    MemoryRegion iomem;
--    void *dev;
--    uint32_t cr;
--    uint32_t clk;
--    uint32_t last;
--    int pending;
--    qemu_irq irq;
--    bool is_mouse;
--};
+-static void pl050_keyboard_init(Object *obj)
++static void pl050_kbd_init(Object *obj)
+ {
+     PL050State *s = PL050(obj);
  
- static const VMStateDescription vmstate_pl050 = {
-     .name = "pl050",
-diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
-new file mode 100644
-index 0000000000..2bbf7a9d50
---- /dev/null
-+++ b/include/hw/input/pl050.h
-@@ -0,0 +1,35 @@
-+/*
-+ * Arm PrimeCell PL050 Keyboard / Mouse Interface
-+ *
-+ * Copyright (c) 2006-2007 CodeSourcery.
-+ * Written by Paul Brook
-+ *
-+ * This code is licensed under the GPL.
-+ */
-+
-+#ifndef HW_PL050_H
-+#define HW_PL050_H
-+
-+#include "qemu/osdep.h"
-+#include "hw/sysbus.h"
-+#include "migration/vmstate.h"
-+#include "hw/input/ps2.h"
-+#include "hw/irq.h"
-+
-+#define TYPE_PL050 "pl050"
-+OBJECT_DECLARE_SIMPLE_TYPE(PL050State, PL050)
-+
-+struct PL050State {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion iomem;
-+    void *dev;
-+    uint32_t cr;
-+    uint32_t clk;
-+    uint32_t last;
-+    int pending;
-+    qemu_irq irq;
-+    bool is_mouse;
-+};
-+
-+#endif
+@@ -183,7 +183,7 @@ static void pl050_mouse_init(Object *obj)
+ static const TypeInfo pl050_kbd_info = {
+     .name          = "pl050_keyboard",
+     .parent        = TYPE_PL050,
+-    .instance_init = pl050_keyboard_init,
++    .instance_init = pl050_kbd_init,
+ };
+ 
+ static const TypeInfo pl050_mouse_info = {
 -- 
 2.30.2
 
