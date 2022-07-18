@@ -2,51 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DA75783CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:35:36 +0200 (CEST)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B819578394
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:21:29 +0200 (CEST)
+Received: from localhost ([::1]:39300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQuM-0002JQ-NQ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
+	id 1oDQgh-0005WJ-7j
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:21:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com>)
- id 1oDQs4-0006rA-Mx
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:33:13 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38413)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oDQdm-0000tN-IH; Mon, 18 Jul 2022 09:18:26 -0400
+Received: from mail-db5eur01on0723.outbound.protection.outlook.com
+ ([2a01:111:f400:fe02::723]:17437
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com>)
- id 1oDQrx-00077c-R8
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:33:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:References:
- In-Reply-To:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=6JGfAhhnNliHRD6XV63rzC0cp9nO7bdUd96+ZMDVPso=; b=o/AG2
- mlZJAk/N2yE+t0WEIXSGYHc/vbCRSsB0C9cG5Cs99qYOIVJEbfyijdvqAbXYZfAa6YyCBwzBPa1oA
- eTevJIVD2YgQPzb08UMGVkxFkiqfz3+om3DTkbuEDVPPHYMzJgnP6xtmjqcS1C4LZ2zs/FtmVJdD+
- u238vRKWdxM2xxF1pyLdAIvu6fpJjRZxu6SHtzCSEg1+ulCo8eIe7vU8lO8bmhhXpKDZ/EkUcCKyG
- 4DanXqgJE4ZaPkdH3kl0LdZ5DwVQJdf2oG+gcbsqYaZz7TYJ61MQWXZ+ylNd8wIjyCWfJjMTZ/Ryv
- E9rf+ctoEolZVzBFRRkbR+UoCX8UQ==;
-In-Reply-To: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
-References: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Mon, 18 Jul 2022 15:10:55 +0200
-Subject: [RFC PATCH v2] tests/9p: introduce declarative function calls
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Message-Id: <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1oDQdh-0004KH-KV; Mon, 18 Jul 2022 09:18:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GL5vCXrXPR7ie+Y+J9a24r+OD5opoYHwBlbv3QtPtKFVfCTceF4FKIB3Fzqa+og70PyUPqZACfdxfiprMqBUemEil92PjzohZcTMDQzH+SlyE5FekKvUQTJ46AifBqXdoml6CEEGJDPAEsy3409rXYYi5JCmkUscxTQSONUbwILJoqEy0syt8jrmmQZFFT9Rql81gY87H/M6AkHBSdqawSO1a5tDD1vU7yfU/ejhfU3DnJWsMupE4eqC33bPvgrWDTWJpGU4yXUKRMPtgqnOZ/F+RrWoZID1amuArJoOi4vSoRrPEvvgiu6ysdmi+ysP2ho8zM0w6lsn8ssJzY3q1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jxWBe1MANgZ+MmYQ4WePuKCOTLbeFs+reRNoUr58PGo=;
+ b=M7oBVjEwW+lg9ZOifiyM2uTVcJ9+XevGHpV57Nc/yCKKBwps+vy6LBuErEkzHtILvgJUbgNdInj3RgC0LzWREaDdfcveJ9VVAzWQg94Q6rZryCYQMdIfr/Qq7zvJDm3lUpN57BHFQ2mwpNkfjALe194k9qQY/E4ifbHwgWzFySGTb7Ix0w9BLLqSkcto5HrZ3waAx7zat661OwV3KbXhketo8+i/ba+OUPDkzQdeJ8xcuBxV02uVfk4owCEZkNfYGrZ8tTP2AMo21VH8omUWGBYgYR94Trf65y50FNIIODlHK9ysQjaDEIvpLh846v3tvHAZJ6VPfzKhtugXMXqN6g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jxWBe1MANgZ+MmYQ4WePuKCOTLbeFs+reRNoUr58PGo=;
+ b=AviRUQlPcQNrLQBEQQ+YwpvUxJLjA/Hp/jCjBzf5/qUWGnF6df4CNQepmX+RpWkwcUg1mHrtXqDr0cS6yi2REaDew6IkGebV9g1n7bVpL54CUUHsIo8OTDPIdQNn8XhmeHkNgJdKNKUqK3BA8R/tPdAsdhGqCHCNTd0uxAwzTI+wkaSvq9R8sZNMDXEb9VtrZ7oJkoDhICWu+XLiPAcseFmskcpfq/LKF6IQ02VHIL4j25EU5SEUxsdVRFUKtY0LVCeeB3KwnB7wzw+FtsLwuGHulIESejgKhkcx4ZFkTRAF5qa7E8caZyR/kBcofjvKB7KgzPR1b2ia2axRsaQneA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by VI1PR08MB2894.eurprd08.prod.outlook.com (2603:10a6:802:1c::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Mon, 18 Jul
+ 2022 13:13:12 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::813d:902d:17e5:499d%3]) with mapi id 15.20.5438.023; Mon, 18 Jul 2022
+ 13:13:12 +0000
+Message-ID: <25d506e7-47d7-d936-1c68-7fdc1eb4aa8a@virtuozzo.com>
+Date: Mon, 18 Jul 2022 15:13:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/1] block: add missed block_acct_setup with new block
+ device init procedure
+Content-Language: en-US
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
+ John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20220711110725.425261-1-den@openvz.org>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20220711110725.425261-1-den@openvz.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR08CA0092.eurprd08.prod.outlook.com
+ (2603:10a6:800:d3::18) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 16c5b763-713c-46e6-fa90-08da68bf44a8
+X-MS-TrafficTypeDiagnostic: VI1PR08MB2894:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ghbYFam1B2hP2pGICOAhTYq9GnrnzkR4ExTUAttgujSID8o+wZAMgEVh7/K6uqx7wWif5bHc5M/et9w/3roRXiH1CG+peP/8FvhUcVTwX0UurLOPhy+wMShRiNbH8uqFwLxb6dKoY6T2fsr8p6fkFVYHlN+PT8j07uYkoyNFjR30to7u6Cgt1RNIHSocp79WYJDSiP4jqBvfDVq0lN2L+lz+y+I5X6+qbeRZ2o61RHqfo/FkJGErVXRgFrjKSYB1eAtarSXd3CqAgxmNPJ8syA6P+3HPzISaGtNJOvJzqm68UsgyTw1Vy9Ww47wQcTyqWknLJRTKPBTtzVmUeKgY/or4YbKAs23KgX2BwcWQccjpkVGO2XuU+Ctmy/mB93O+jxYp0h+DeV/mRhswgcuT9uimKBn7EZHYSGUOaDfcYc+H7yZjcordMtOwAH6DqS/Alx5Eae6IXn6RnNpQYzV3HCQf+HEbOsBZybY260XRGzWH3fhEsDi+q7uJNM8f1kdawTQwQMw0TGO1xhXNLMrKsD1kYIoaydxiAToNedrOcGKlsFpbGHaApaFKL21jgzpE3B/97FVwsSMJM0AfOrJxnRFSjzukqAeoAyro+ID9uGfffUZIKbF7gE18AA6HRKGnxg7xm6db2e2cIHt/lTMKmFFym9ry4W1wj8rfubEtJCG+/TQRWOoK9wo/RLwgO8HeQEqaPT6/HAVLJQxyO3C3+2tMX9Bw5aMLWijgyr2JbQDDAZRwULl7RnWbn2Fdxhle7hBsSOsjFhuqvpOFifOp7Xi5ujAA7dBPUKmAR8I1luLK8HXv790rsjrQPp3lM49839wRlAtfY5BZksDYJLpvAT9sml37e4CRPSAxtUT7oqQUtQ51FsvQzbFaD2Gl9Irb
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(346002)(136003)(39840400004)(366004)(376002)(83380400001)(2616005)(186003)(4326008)(8936002)(36756003)(66476007)(66946007)(31686004)(5660300002)(2906002)(30864003)(54906003)(26005)(86362001)(31696002)(8676002)(6486002)(6512007)(478600001)(6506007)(53546011)(41300700001)(52116002)(38350700002)(38100700002)(316002)(66556008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UUxscUFSL2JWTjhOclcwcENyOVJxajBGR2dIS1g5d3lwM2UwNndCQk9FenhM?=
+ =?utf-8?B?NG5GRHZlWjZTMERaK2UvYkI0Wmt6TDZqaFhyRmMwdUhzRkFBejZGTVRVSGdM?=
+ =?utf-8?B?a0NxUTIycWR2UmxHUHZXYTQzb2JnbmFzWHNXZjhod1kwcWJWOU1QL1EzY3JY?=
+ =?utf-8?B?ZUU4Sk02M3p1d2ZnNTA2R2F6OERwdUpYczVtUE5IUjRrbEJsVXRDaEF3eXhr?=
+ =?utf-8?B?aE5WRUdnZ0xId0syendHbW5ua0hSOHBTamYzSGhFdWViSnVGV2pZOEMrR0Jo?=
+ =?utf-8?B?Tk5FNytGaWxadnZMY1h1bzBnQk9BbWNlM3R0aDQ4WFpydVVNOElwazlqaG1w?=
+ =?utf-8?B?UWs2L1NyejBSejB2d3Y4ZkZxaEhkSXZGR2pjd3JHS2FqdWJ2b2VsTWVPL3h6?=
+ =?utf-8?B?d3RPc1p0RjhBWWRvNHRKeWFYbHY3czRCdVF5b2tQdlBVZWdiUjVjYXFiV2xh?=
+ =?utf-8?B?TnlwdzZSSXB0UWNXeE1HeTRObEJqWENFUDV3WDdnc1V1ZC9qRmVET2s1bldT?=
+ =?utf-8?B?cjlYUFlOQktDbndYcVR6ZkY0VWVtb3FnbllrdmF4aUd4djFwQkoyMlQrTTlP?=
+ =?utf-8?B?MW1ab1BOcGxEYnpKM2xNR1pSVnVmWWVuU0QycVFrUnBQVTNxaWJua1FrVkwr?=
+ =?utf-8?B?MG0zZmhsSS9wdFc2U0JML3JzZDdOOVl6T1JQd2p4eThhMjZqQ2hWV0d6d2dx?=
+ =?utf-8?B?K1FQUDlBTTFkMUk3a0tIZXRpWXdpRUI5NWlBNk41VDdhQWdXSktFUW1PZkdq?=
+ =?utf-8?B?WnBtR2FrbnBHWHhkOGhEcDFnb3ZXRWZLMHZpbmJuNG0zNGJxQ085dE9BcHlS?=
+ =?utf-8?B?QUlKeVZadnAvd3dxWGx0aXM0bWFYNVJJZFBUMWZWSzBrR2xGMzRzWmZwZVVO?=
+ =?utf-8?B?R3VZU3o0VUMya0plbWJjZUVOUzM0QmxPWjBsL2ZiM0JUT3ZtalQ2R2RvOHJn?=
+ =?utf-8?B?cWVLK2NIS3YxVVNhNFNyR3hPaW85WWZNUUtEb1l5cDQzRW80dThxWDhZbUVL?=
+ =?utf-8?B?c3h1bGZFYlpUZVE4eE94U0xrUUhlOFJ0bGthSmJuMCtpWU5EQWUrSXRhbUE2?=
+ =?utf-8?B?cGk4bUFJMThZWlVqandKRCtXZ2NZYnZITUZoSU1sVUJFSGp6VUhFMS9qZnh5?=
+ =?utf-8?B?UktKMXV0OWdxQVl3Y2U0Zy9Zb3lGZ0M5RlFJbWhuZzc3RGQrS0w1R2Ywdk9y?=
+ =?utf-8?B?UjZ0WUhKaGhqSEx4Z0JaZzFKNW5YU2xPZ0dJQm1TbXBPTzEzd2VWVWRHQ3do?=
+ =?utf-8?B?YjFsd2JSc2E1V1h2eFZCa3o5RE5pY2QzcmJ4K1hPdkxTSk9Vai95ckxTc1Ay?=
+ =?utf-8?B?eUdaRldPT2ZyazQzdEZxTjlheTJ4R0RnU0JncXJvaGMxWVZUL3lUbzQ1Sm5x?=
+ =?utf-8?B?cTJtSGRmak9lZTFzYlduaU10eFhwVlVQMjA4STdwMUsrMmlzSTZ6VVFuMW1Y?=
+ =?utf-8?B?ejlpb3dHUi9YQ2R1SHJqdWxYLzkvaFlxcElyeGNDYkVaUlJybGhxQ0JhOEVl?=
+ =?utf-8?B?Sm92N2xIZlBHa0hxYkQrVDVyM3ZPMS91TVpGNWN2ZkJtdyt6c1VpYXI2cS9W?=
+ =?utf-8?B?Y0FpRWw2elBXRDdmdk1lRlRscldzOUl4cUdnQ3cxeE9wcUg4cEN4VG5iRVZ5?=
+ =?utf-8?B?cEI3VlQzNDBYdmZVcjJyamk2bmErQnFsem8wMGNrMDlpYkJNMU4zOTVheEU3?=
+ =?utf-8?B?SXozZGtEaW9tS1lPb0JOV2ZMcWJiL09pTjJWejd6TzZYdER4MmpsV3o3ZStQ?=
+ =?utf-8?B?bTNlSFpqeTdGd3RlTlNsSll0TFg5SXhnbDBiR3BPeUw2bktnRmRYVUd4djQx?=
+ =?utf-8?B?OGJtbTRTelM0OStJbmtJRHgxcnk5M1VxQW9pdDZzNlJ3dmpEdWRLTTc1SnRZ?=
+ =?utf-8?B?Y014WTdTck5yNVljOVNJemYrY09GdlpMVitTVFZiZ3QxMTFhTWJJTFRiM0pt?=
+ =?utf-8?B?TUE2S0MvNHNtb2RLc3E2NzhaTmRJdndRTXVRUVRBUGpXdFY3K2Nkb0tkenJm?=
+ =?utf-8?B?d05FemVNSVRaMVIxMGhsRlN1M2xkakcyenNXaWxHMVFpTFc5SmRXV2pHc2x1?=
+ =?utf-8?B?Qk9pS2lKZ09JYjNHaEZLKzdtb2pUTlBIdHJTbUtCR0Q4NE9ITFNIQWZpbG9G?=
+ =?utf-8?Q?xQ3ujFgLAADUd+WY/02DWaFUb?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16c5b763-713c-46e6-fa90-08da68bf44a8
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 13:13:12.7719 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 47zwHW2wI/ulD1PwRsOPzlCaLIgmSTEiX0+B8vvlacCWCO4/b4XgYU3kTMjrluNi9cW3ORqMKyxshV+Acd8W8A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2894
+Received-SPF: pass client-ip=2a01:111:f400:fe02::723;
+ envelope-from=den@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,480 +148,416 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are currently 4 different functions for sending a 9p 'Twalk'
-request. They are all doing the same thing, just in a slightly different
-way and with slightly different function arguments.
-
-Merge those 4 functions into a single function by using a struct for
-function call arguments and use designated initializers when calling this
-function to turn usage into a declarative apporach, which is better
-readable and easier to maintain.
-
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
-
-v1 -> v2:
-
-  * Also merge low-level function v9fs_twalk().
-
-  * Lower case twalk() function name.
-
-  * Lower case rwalk struct field.
-
-  * Add result struct TWalkRes.
-
-  NOTE: I have not separated rwalk struct, because it would have
-  simplified code at one place, but complicated it at another one.
-
- tests/qtest/virtio-9p-test.c | 251 +++++++++++++++++++++--------------
- 1 file changed, 154 insertions(+), 97 deletions(-)
-
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 25305a4cf7..69b1c27268 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -72,6 +72,7 @@ static int split(const char *in, const char *delim, char ***out)
- static void split_free(char ***out)
- {
-     int i;
-+    if (!*out) return;
-     for (i = 0; (*out)[i]; ++i) {
-         g_free((*out)[i]);
-     }
-@@ -390,31 +391,6 @@ static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
-     v9fs_req_free(req);
- }
- 
--/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
--static P9Req *v9fs_twalk(QVirtio9P *v9p, uint32_t fid, uint32_t newfid,
--                         uint16_t nwname, char *const wnames[], uint16_t tag)
--{
--    P9Req *req;
--    int i;
--    uint32_t body_size = 4 + 4 + 2;
--
--    for (i = 0; i < nwname; i++) {
--        uint16_t wname_size = v9fs_string_size(wnames[i]);
--
--        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
--        body_size += wname_size;
--    }
--    req = v9fs_req_init(v9p,  body_size, P9_TWALK, tag);
--    v9fs_uint32_write(req, fid);
--    v9fs_uint32_write(req, newfid);
--    v9fs_uint16_write(req, nwname);
--    for (i = 0; i < nwname; i++) {
--        v9fs_string_write(req, wnames[i]);
--    }
--    v9fs_req_send(req);
--    return req;
--}
--
- /* size[4] Rwalk tag[2] nwqid[2] nwqid*(wqid[13]) */
- static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
- {
-@@ -432,6 +408,98 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
-     v9fs_req_free(req);
- }
- 
-+/* options for 'Twalk' 9p request */
-+typedef struct TWalkOpt {
-+    /* 9P client being used (mandatory) */
-+    QVirtio9P *client;
-+    /* user supplied tag number being returned with response (optional) */
-+    uint16_t tag;
-+    /* file ID of directory from where walk should start (optional) */
-+    uint32_t fid;
-+    /* file ID for target directory being walked to (optional) */
-+    uint32_t newfid;
-+    /* low level variant of path to walk to (optional) */
-+    uint16_t nwname;
-+    char **wnames;
-+    /* high level variant of path to walk to (optional) */
-+    const char *path;
-+    /* data being received from 9p server as 'Rwalk' response (optional) */
-+    struct {
-+        uint16_t *nwqid;
-+        v9fs_qid **wqid;
-+    } rwalk;
-+    /* only send Twalk request but not wait for a reply? (optional) */
-+    bool requestOnly;
-+    /* do we expect an Rlerror response, if yes which error code? (optional) */
-+    uint32_t expectErr;
-+} TWalkOpt;
-+
-+/* result of 'Twalk' 9p request */
-+typedef struct TWalkRes {
-+    /* file ID of target directory been walked to */
-+    uint32_t newfid;
-+    /* if requestOnly was set: request object for further processing */
-+    P9Req *req;
-+} TWalkRes;
-+
-+/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
-+static TWalkRes twalk(TWalkOpt opt)
-+{
-+    P9Req *req;
-+    int i;
-+    uint32_t body_size = 4 + 4 + 2;
-+    uint32_t err;
-+    char **wnames = NULL;
-+
-+    g_assert(opt.client);
-+    /* expecting either high- or low-level path, both not both */
-+    g_assert(!opt.path || !(opt.nwname || opt.wnames));
-+    /* expecting either Rwalk or Rlerror, but obviously not both */
-+    g_assert(!opt.expectErr || !(opt.rwalk.nwqid || opt.rwalk.wqid));
-+
-+    if (!opt.newfid) {
-+        opt.newfid = genfid();
-+    }
-+
-+    if (opt.path) {
-+        opt.nwname = split(opt.path, "/", &wnames);
-+        opt.wnames = wnames;
-+    }
-+
-+    for (i = 0; i < opt.nwname; i++) {
-+        uint16_t wname_size = v9fs_string_size(opt.wnames[i]);
-+
-+        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
-+        body_size += wname_size;
-+    }
-+    req = v9fs_req_init(opt.client, body_size, P9_TWALK, opt.tag);
-+    v9fs_uint32_write(req, opt.fid);
-+    v9fs_uint32_write(req, opt.newfid);
-+    v9fs_uint16_write(req, opt.nwname);
-+    for (i = 0; i < opt.nwname; i++) {
-+        v9fs_string_write(req, opt.wnames[i]);
-+    }
-+    v9fs_req_send(req);
-+
-+    if (!opt.requestOnly) {
-+        v9fs_req_wait_for_reply(req, NULL);
-+        if (opt.expectErr) {
-+            v9fs_rlerror(req, &err);
-+            g_assert_cmpint(err, ==, opt.expectErr);
-+        } else {
-+            v9fs_rwalk(req, opt.rwalk.nwqid, opt.rwalk.wqid);
-+        }
-+        req = NULL; /* request was freed */
-+    }
-+
-+    split_free(&wnames);
-+
-+    return (TWalkRes) {
-+        .newfid = opt.newfid,
-+        .req = req,
-+    };
-+}
-+
- /* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
- static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
-                             uint16_t tag)
-@@ -669,52 +737,6 @@ static void do_version(QVirtio9P *v9p)
-     g_assert_cmpmem(server_version, server_len, version, strlen(version));
- }
- 
--/*
-- * utility function: walk to requested dir and return fid for that dir and
-- * the QIDs of server response
-- */
--static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
--                              v9fs_qid **wqid)
--{
--    char **wnames;
--    P9Req *req;
--    const uint32_t fid = genfid();
--
--    int nwnames = split(path, "/", &wnames);
--
--    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rwalk(req, nwqid, wqid);
--
--    split_free(&wnames);
--    return fid;
--}
--
--/* utility function: walk to requested dir and return fid for that dir */
--static uint32_t do_walk(QVirtio9P *v9p, const char *path)
--{
--    return do_walk_rqids(v9p, path, NULL, NULL);
--}
--
--/* utility function: walk to requested dir and expect passed error response */
--static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
--{
--    char **wnames;
--    P9Req *req;
--    uint32_t _err;
--    const uint32_t fid = genfid();
--
--    int nwnames = split(path, "/", &wnames);
--
--    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
--    v9fs_req_wait_for_reply(req, NULL);
--    v9fs_rlerror(req, &_err);
--
--    g_assert_cmpint(_err, ==, err);
--
--    split_free(&wnames);
--}
--
- static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     alloc = t_alloc;
-@@ -757,7 +779,10 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
-     }
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = P9_MAXWELEM, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nwqid, &wqid);
- 
-@@ -941,7 +966,7 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-     uint16_t nqid;
-     v9fs_qid qid;
-     uint32_t count, nentries;
-@@ -949,7 +974,10 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     P9Req *req;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nqid, NULL);
-     g_assert_cmpint(nqid, ==, 1);
-@@ -993,7 +1021,7 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
- /* readdir test where overall request is split over several messages */
- static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
- {
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-     uint16_t nqid;
-     v9fs_qid qid;
-     uint32_t nentries, npartialentries;
-@@ -1010,7 +1038,10 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
-     nentries = 0;
-     tail = NULL;
- 
--    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = fid,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nqid, NULL);
-     g_assert_cmpint(nqid, ==, 1);
-@@ -1074,12 +1105,15 @@ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup(" /") };
-+    char *wnames[] = { g_strdup(" /") };
-     P9Req *req;
-     uint32_t err;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rlerror(req, &err);
- 
-@@ -1098,7 +1132,9 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
-      * The 9p2000 protocol spec says: "If the first element cannot be walked
-      * for any reason, Rerror is returned."
-      */
--    do_walk_expect_error(v9p, "non-existent", ENOENT);
-+    twalk((TWalkOpt) {
-+        .client = v9p, .path = "non-existent", .expectErr = ENOENT
-+    });
- }
- 
- static void fs_walk_2nd_nonexistent(void *obj, void *data,
-@@ -1116,7 +1152,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
-     );
- 
-     do_attach_rqid(v9p, &root_qid);
--    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
-+    fid = twalk((TWalkOpt) {
-+        .client = v9p, .path = path,
-+        .rwalk.nwqid = &nwqid, .rwalk.wqid = &wqid
-+    }).newfid;
-     /*
-      * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
-      * index of the first elementwise walk that failed."
-@@ -1148,7 +1187,10 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rattach(req, &root_qid);
- 
--    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 0, .wnames = NULL, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, &wqid);
- 
-@@ -1166,7 +1208,7 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup("..") };
-+    char *wnames[] = { g_strdup("..") };
-     v9fs_qid root_qid;
-     g_autofree v9fs_qid *wqid = NULL;
-     P9Req *req;
-@@ -1176,7 +1218,10 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rattach(req, &root_qid);
- 
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, &wqid); /* We now we'll get one qid */
- 
-@@ -1189,11 +1234,14 @@ static void fs_lopen(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
-     P9Req *req;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
- 
-@@ -1209,13 +1257,16 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
-     static const uint32_t write_count = P9_MAX_SIZE / 2;
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
-     g_autofree char *buf = g_malloc0(write_count);
-     uint32_t count;
-     P9Req *req;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
- 
-@@ -1235,13 +1286,16 @@ static void fs_flush_success(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-     P9Req *req, *flush_req;
-     uint32_t reply_len;
-     uint8_t should_block;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
- 
-@@ -1272,13 +1326,16 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-     alloc = t_alloc;
--    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-+    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-     P9Req *req, *flush_req;
-     uint32_t count;
-     uint8_t should_block;
- 
-     do_attach(v9p);
--    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-+    req = twalk((TWalkOpt) {
-+        .client = v9p, .fid = 0, .newfid = 1,
-+        .nwname = 1, .wnames = wnames, .requestOnly = true
-+    }).req;
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
- 
-@@ -1311,7 +1368,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
-     uint32_t fid;
-     P9Req *req;
- 
--    fid = do_walk(v9p, path);
-+    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
- 
-     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-@@ -1326,7 +1383,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
-     uint32_t fid;
-     P9Req *req;
- 
--    fid = do_walk(v9p, path);
-+    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
- 
-     req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-@@ -1344,7 +1401,7 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
-     uint32_t fid;
-     P9Req *req;
- 
--    fid = do_walk(v9p, path);
-+    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
- 
-     req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-@@ -1358,8 +1415,8 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
-     uint32_t dfid, fid;
-     P9Req *req;
- 
--    dfid = do_walk(v9p, path);
--    fid = do_walk(v9p, to);
-+    dfid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
-+    fid = twalk((TWalkOpt) { .client = v9p, .path = to }).newfid;
- 
-     req = v9fs_tlink(v9p, dfid, fid, clink, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-@@ -1373,7 +1430,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
-     uint32_t fid;
-     P9Req *req;
- 
--    fid = do_walk(v9p, atpath);
-+    fid = twalk((TWalkOpt) { .client = v9p, .path = atpath }).newfid;
- 
-     req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
-     v9fs_req_wait_for_reply(req, NULL);
--- 
-2.30.2
-
+On 11.07.2022 13:07, Denis V. Lunev wrote:
+> Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
+> the first glance, but it has changed things a lot. 'libvirt' uses it to
+> detect that it should follow new initialization way and this changes
+> things considerably. With this procedure followed, blockdev_init() is
+> not called anymore and thus block_acct_setup() helper is not called.
+>
+> This means in particular that defaults for block accounting statistics
+> are changed and account_invalid/account_failed are actually initialized
+> as false instead of true originally.
+>
+> This commit changes things to match original world. It adds
+> account_invalid/account_failed properties to BlockConf and setups them
+> accordingly.
+>
+> Signed-off-by: Denis V. Lunev <den@openvz.org>
+> CC: Peter Krempa <pkrempa@redhat.com>
+> CC: Markus Armbruster <armbru@redhat.com>
+> CC: John Snow <jsnow@redhat.com>
+> CC: Kevin Wolf <kwolf@redhat.com>
+> CC: Hanna Reitz <hreitz@redhat.com>
+> ---
+>   hw/block/block.c           |  2 +
+>   include/hw/block/block.h   |  7 +++-
+>   tests/qemu-iotests/172.out | 76 ++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 84 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/block/block.c b/hw/block/block.c
+> index 25f45df723..53b100cdc3 100644
+> --- a/hw/block/block.c
+> +++ b/hw/block/block.c
+> @@ -205,6 +205,8 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
+>       blk_set_enable_write_cache(blk, wce);
+>       blk_set_on_error(blk, rerror, werror);
+>   
+> +    block_acct_setup(blk_get_stats(blk), conf->account_invalid,
+> +                     conf->account_failed);
+>       return true;
+>   }
+>   
+> diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+> index 5902c0440a..ffd439fc83 100644
+> --- a/include/hw/block/block.h
+> +++ b/include/hw/block/block.h
+> @@ -31,6 +31,7 @@ typedef struct BlockConf {
+>       uint32_t lcyls, lheads, lsecs;
+>       OnOffAuto wce;
+>       bool share_rw;
+> +    bool account_invalid, account_failed;
+>       BlockdevOnError rerror;
+>       BlockdevOnError werror;
+>   } BlockConf;
+> @@ -61,7 +62,11 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
+>                          _conf.discard_granularity, -1),                  \
+>       DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
+>                               ON_OFF_AUTO_AUTO),                          \
+> -    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
+> +    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false),        \
+> +    DEFINE_PROP_BOOL("account-invalid", _state,                         \
+> +                     _conf.account_invalid, true),                      \
+> +    DEFINE_PROP_BOOL("account-failed", _state,                          \
+> +                     _conf.account_failed, true)
+>   
+>   #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
+>       DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
+> diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
+> index 9479b92185..a6c451e098 100644
+> --- a/tests/qemu-iotests/172.out
+> +++ b/tests/qemu-iotests/172.out
+> @@ -28,6 +28,8 @@ Formatting 'TEST_DIR/t.IMGFMT.3', fmt=IMGFMT size=737280
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   
+>   
+> @@ -55,6 +57,8 @@ Testing: -fda TEST_DIR/t.qcow2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -92,6 +96,8 @@ Testing: -fdb TEST_DIR/t.qcow2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -104,6 +110,8 @@ Testing: -fdb TEST_DIR/t.qcow2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -145,6 +153,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -157,6 +167,8 @@ Testing: -fda TEST_DIR/t.qcow2 -fdb TEST_DIR/t.qcow2.2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -199,6 +211,8 @@ Testing: -fdb
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -211,6 +225,8 @@ Testing: -fdb
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   
+>   
+> @@ -238,6 +254,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -275,6 +293,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -287,6 +307,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2,index=1
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -328,6 +350,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -340,6 +364,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=floppy,file=TEST_DIR/t
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -385,6 +411,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -422,6 +450,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,unit=1
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -459,6 +489,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -471,6 +503,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qco
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -522,6 +556,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -534,6 +570,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -576,6 +614,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -588,6 +628,8 @@ Testing: -fda TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -630,6 +672,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 1 (0x1)
+> @@ -642,6 +686,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -684,6 +730,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 1 (0x1)
+> @@ -696,6 +744,8 @@ Testing: -fdb TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.qcow2.2 -device fl
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy1 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -747,6 +797,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -759,6 +811,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -801,6 +855,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>                 dev: floppy, id ""
+>                   unit = 0 (0x0)
+> @@ -813,6 +869,8 @@ Testing: -drive if=floppy,file=TEST_DIR/t.qcow2 -drive if=none,file=TEST_DIR/t.q
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/unattached/device[N]
+> @@ -861,6 +919,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -global floppy.drive=none0 -device
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -928,6 +988,8 @@ Testing: -device floppy
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   
+>   Testing: -device floppy,drive-type=120
+> @@ -952,6 +1014,8 @@ Testing: -device floppy,drive-type=120
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "120"
+>   
+>   Testing: -device floppy,drive-type=144
+> @@ -976,6 +1040,8 @@ Testing: -device floppy,drive-type=144
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   
+>   Testing: -device floppy,drive-type=288
+> @@ -1000,6 +1066,8 @@ Testing: -device floppy,drive-type=288
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   
+>   
+> @@ -1027,6 +1095,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "120"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -1064,6 +1134,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,drive-t
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "288"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -1104,6 +1176,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,logical
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+> @@ -1141,6 +1215,8 @@ Testing: -drive if=none,file=TEST_DIR/t.qcow2 -device floppy,drive=none0,physica
+>                   discard_granularity = 4294967295 (4 GiB)
+>                   write-cache = "auto"
+>                   share-rw = false
+> +                account-invalid = true
+> +                account-failed = true
+>                   drive-type = "144"
+>   none0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
+>       Attached to:      /machine/peripheral-anon/device[N]
+ping
 
