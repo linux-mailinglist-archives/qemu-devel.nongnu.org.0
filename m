@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A325781D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:12:57 +0200 (CEST)
-Received: from localhost ([::1]:56218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73041578200
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:17:05 +0200 (CEST)
+Received: from localhost ([::1]:36340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPcO-0002lX-98
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:12:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45980)
+	id 1oDPgO-0008RL-4P
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:17:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPLA-0001hF-A8
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:08 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:42992)
+ id 1oDPLx-0003rp-Cz
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:57 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:40465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDPL7-0006CL-Hz
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:06 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id c131so19599306ybf.9
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:55:05 -0700 (PDT)
+ id 1oDPLv-0006XU-TY
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:57 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id k85so17642276ybk.7
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X+BmcDDXd/8gm8VkYyN+ipQkPc/1T3GGYMz8aERPj5k=;
- b=Fy3DEOMOubiyjEoIy78gAZMICs8k8nDDA4e3aYMlUycJEjKTrkQzSBsHO7nN93JE4p
- TbqHWcKqUL5v9wVhHrF1lBdzpKtJNgvtMhF0nE+U7snDAlmtXBharRiEbjzcc9S938kf
- x04dsGZZz9fkC1rvA3V64ctPFWeFZnmapbpghQFCgeJuCOKO8pgvGMVVIsG/0xr+fbO4
- Gqgb61uCLGi9f0DzYvPG+BgaMrX3dcQFdLBIXaOiOYITvqKME3Qfi5ewr8rvE1fcrrqS
- pcb699k6VsVyhGElbxHTNtVFDY66m+ybzlsoK/7mYzRiGjNffbRlvoJk71iCrBQD4qfp
- 5J4w==
+ :cc; bh=PwzfG1AA52I9ppFKpnK3o0P8pemTGxBo4+qre3vlq7A=;
+ b=otmyx7NdiwELMpj6cqRwkFIm8VJcZylqZVObK6Wj+MSj+a7KjlfYymJ0EwU5TA3wFE
+ JKrNjd4EiMCr4ECzT0HnDDncxwiEJgnmk+NJunqYSnySmf1j3RsIsrlO5ZdPtay4c10s
+ nXB3Ix1ibHhK/OM1TG/V27/dSCr/N+q10R7ucwDGs2ayMZ/VdXnAmqi5zT8bS00xuZ0Z
+ 52fXQT0q0ERgxgwZdsyjOVjnSrIG4RIeBSQdS+SlTNha7SoOEkGJHVOrYX58XRfpnk0+
+ IUmxMb8cwlEbgkKAmlfRvJ8RU4GJF9ioc/wS0bUYD8POn9CxqqW4KILL+i659pVe4mMd
+ 4cFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X+BmcDDXd/8gm8VkYyN+ipQkPc/1T3GGYMz8aERPj5k=;
- b=WbtL7lpLE+QSmYwFfOZEtOOIJk2lknPom0h1JLl8lpnE0tukYqzZGSwKlaQO947fR6
- R3jzvD7dfKSJvp43K0He19Rfje5AiVbca7SPlFcui7fw8TXAV1t04z0e0zoz9pMQLxd4
- Y9s/KVbYNg2VCrxrZU1nwi1bLvu256wk39baj89RC7MgelA990V2/GmUDqbOtSOablUq
- yqXjvVE5vhtIgVTMdJh3CHQkd6ESYoVVBH9SgleEaV4Cx+MwodbpqnFmRAkMy2Ms9iZH
- tomJZybReLbfhOJVimarPaaSAazSTOJd10hqvgf+joWj6vXXMLRVi7XyAB/EbuSWSbSo
- kHDA==
-X-Gm-Message-State: AJIora8vXXVpxgf+UL/we0EsLCP1IeUsYjAQgj3tukgsgVauFGRXg90l
- 0O/5K13e3z+6xuUQkDs1mtqVlXCAkJU+AdXQ3XWHd/g6gKg=
-X-Google-Smtp-Source: AGRyM1vRm7saeeghTptduLkTT6mD1zZ645OSEUSAn6FZjRnoJlfqa6FVTMDw+rzHdcCZh9imNYxH45RqxoLHs2E/ffI=
-X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
- v85-20020a252f58000000b0066ecf9a06a2mr28953650ybv.193.1658145304361; Mon, 18
- Jul 2022 04:55:04 -0700 (PDT)
+ bh=PwzfG1AA52I9ppFKpnK3o0P8pemTGxBo4+qre3vlq7A=;
+ b=3iGMkNRkTOazQNp0hTke3mjJ0AwHpnUBzKnwd+EiheNMaLrDTFEBt7Lmbn+P+jROeh
+ 2bAp5+F9rVhuhLgvlxUnXVsZNSea08nPZ3HfLxIewQw2gNi3EVL4K5PL5NFVnYKJOtK2
+ 2fY3sQoaSFl0QbzWMKTsbvpm7UVwRuQ/u7f9eHg3smkV+SxZrWcHv5dpBP07iS7eeNOg
+ j96MDo1BPqcYm7/zKUloJYFZapJwqaDYONSMRKlkg/2nP38dxRsFZV+iJdC3RLe9HaUk
+ rI9RViRk2Pv+dZt5IRNsQEge5+jIEKJ1fmY9AgsgbMRHAh7iBvt6lcQGWC1v13Cx0scU
+ vocw==
+X-Gm-Message-State: AJIora8h0KJcZwD+qcoXzCzaRV5L8Wuo3gyafpw5tDUDNOZ91NbYOq6B
+ h0G+mbEKhJEzHkI83EV75AA3zxnnRNPkkCStH9WQow==
+X-Google-Smtp-Source: AGRyM1vdJT86KEaTMd8RhVHMAEXZ0jFmxSPtdOod7hBtBi9NntCo6wSXAAk95GnA2pG95vrSRuyVbj2DFF6uEw8lmt8=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr739371ybq.140.1658145354934; Mon, 18 Jul
+ 2022 04:55:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220708154700.18682-1-richard.henderson@linaro.org>
- <20220708154700.18682-24-richard.henderson@linaro.org>
-In-Reply-To: <20220708154700.18682-24-richard.henderson@linaro.org>
+ <20220708154700.18682-26-richard.henderson@linaro.org>
+In-Reply-To: <20220708154700.18682-26-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jul 2022 12:54:53 +0100
-Message-ID: <CAFEAcA9oPWmq7pAABd_22BRf1E1SkOVGFTjcXVdYw0PiuwMveQ@mail.gmail.com>
-Subject: Re: [RISU PATCH v4 23/29] Standardize reginfo_dump_mismatch printing
+Date: Mon, 18 Jul 2022 12:55:44 +0100
+Message-ID: <CAFEAcA8b4cnUvJFEoAmpBhjeMfoaLxSntMB08Ahvq=bYQ__03w@mail.gmail.com>
+Subject: Re: [RISU PATCH v4 25/29] Remove return value from reginfo_dump
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,82 +82,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 8 Jul 2022 at 17:39, Richard Henderson
+On Fri, 8 Jul 2022 at 18:05, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Hoist the "master vs apprentice" label to apprentice(), since
-> we will want different labels for dumping.  Remove all of the
-> "mismatch" text from reginfo_dump_mismatch -- just print "vs".
+> No uses actually checked the error indication.  Even if we wanted
+> to check ferror on the stream, we should do that generically rather
+> than per arch.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-> diff --git a/risu_reginfo_ppc64.c b/risu_reginfo_ppc64.c
-> index 9899b36..e96dc48 100644
-> --- a/risu_reginfo_ppc64.c
-> +++ b/risu_reginfo_ppc64.c
-> @@ -27,6 +27,15 @@
->  const struct option * const arch_long_opts;
->  const char * const arch_extra_help;
->
-> +static const char * const greg_names[NGREG] = {
-> +    "r0",  "r1",  "r2",  "r3",  "r4",  "r5",  "r6",  "r7",
-> +    "r8",  "r9", "r10", "r11", "r12", "r13", "r14", "r15",
-> +   "r16", "r17", "r18", "r19", "r20", "r21", "r22", "r23",
-> +   "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
-> +   [XER] = "xer",
-> +   [CCR] = "ccr",
-> +};
-> +
->  void process_arch_opt(int opt, const char *arg)
->  {
->      abort();
-> @@ -147,35 +156,21 @@ int reginfo_dump(struct reginfo *ri, FILE * f)
->      return !ferror(f);
->  }
->
-> -int reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
-> +void reginfo_dump_mismatch(struct reginfo *m, struct reginfo *a, FILE *f)
->  {
->      int i;
-> -    for (i = 0; i < 32; i++) {
-> -        if (i == 1 || i == 13) {
-> -            continue;
-> +
-> +    for (i = 0; i < NGREG; i++) {
-> +        if (greg_names[i] != NULL && m->gregs[i] != a->gregs[i]) {
-> +            fprintf(f, "%6s: %016lx vs %016lx\n",
-> +                    greg_names[i], m->gregs[i], a->gregs[i]);
->          }
-
-This used to skip r1 and r13, and now it does not.
-
-> -
-> -        if (m->gregs[i] != a->gregs[i]) {
-> -            fprintf(f, "Mismatch: Register r%d\n", i);
-> -            fprintf(f, "master: [%lx] - apprentice: [%lx]\n",
-> -                    m->gregs[i], a->gregs[i]);
-> -        }
-> -    }
-> -
-> -    if (m->gregs[XER] != a->gregs[XER]) {
-> -        fprintf(f, "Mismatch: XER\n");
-> -        fprintf(f, "m: [%lx] != a: [%lx]\n", m->gregs[XER], a->gregs[XER]);
-> -    }
-> -
-> -    if (m->gregs[CCR] != a->gregs[CCR]) {
-> -        fprintf(f, "Mismatch: Cond. Register\n");
-> -        fprintf(f, "m: [%lx] != a: [%lx]\n", m->gregs[CCR], a->gregs[CCR]);
->      }
->
->      for (i = 0; i < 32; i++) {
->          if (m->fpregs[i] != a->fpregs[i]) {
-> -            fprintf(f, "Mismatch: Register f%d\n", i);
-> -            fprintf(f, "m: [%016lx] != a: [%016lx]\n",
-> +            fprintf(f, "%*s%d: %016lx vs %016lx\n",
-> +                    6 - (i < 10 ? 1 : 2), "f", i,
->                      m->fpregs[i], a->fpregs[i]);
->          }
->      }
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
