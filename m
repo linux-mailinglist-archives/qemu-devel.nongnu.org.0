@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA4AB5785C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:50:30 +0200 (CEST)
-Received: from localhost ([::1]:39294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAA15785C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:50:43 +0200 (CEST)
+Received: from localhost ([::1]:39548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDS4q-00031V-M6
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:50:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59008)
+	id 1oDS54-0003Dv-OL
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:50:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDRmZ-00060O-2q; Mon, 18 Jul 2022 10:31:35 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:33158 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDRmW-0008KY-7F; Mon, 18 Jul 2022 10:31:34 -0400
-Received: from [192.168.3.6] (unknown [180.156.173.38])
- by APP-01 (Coremail) with SMTP id qwCowAD3_w+2btViyx5TEQ--.20908S2;
- Mon, 18 Jul 2022 22:31:20 +0800 (CST)
-Subject: Re: [PATCH V3 6/6] target/riscv: Simplify the check in hmode to resue
- the check in riscv_csrrw_check
-To: Andrew Jones <ajones@ventanamicro.com>, Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, wangjunqiang@iscas.ac.cn,
- lazyparser@gmail.com
-References: <20220718130955.11899-1-liweiwei@iscas.ac.cn>
- <20220718130955.11899-7-liweiwei@iscas.ac.cn>
- <20220718134705.3irtvydqu6nn4uys@kamzik>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <fa430f1c-a341-8c2c-4a9f-e2c92f9d9740@iscas.ac.cn>
-Date: Mon, 18 Jul 2022 22:31:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDRol-0000k5-1f
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:33:51 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:34634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDRoj-0008WD-8p
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:33:50 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-31c86fe1dddso109388967b3.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:33:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=inxXj3u/yU71c01VVdxy+6yJF51PycB1Xy++4rUeqDU=;
+ b=T61SGQlaBo/6tfTvq8WZWsc54huozXmEE5TfC2954VcPExmxyk6GxHYoJ1MomJ5Fhf
+ O1RxRFkxXCO8XfGaJq6J4OYgnoaVF4LWt2c2twGXvgTKit96sqFRdyla416WsFbUkYoX
+ ji2C1fkLPk3OZYP99r/ISOvEaQRVx9WG8gvuljZ0Z1/hUjbsNiKF0eMA71Qf2umz6+2t
+ N8nScrkfz1NxtkLI5Ul4aYKrm0K49/2UsNdmfsSUbNFQRyLOi0IW+TMLff2uqNPdva9E
+ 0gbCkxoUeiA+9ja2PaLEE8b6v6SNjKfjc6rviEiG6UJ6XnCpd4trSbBnK7CI7Wfftk+F
+ sTBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=inxXj3u/yU71c01VVdxy+6yJF51PycB1Xy++4rUeqDU=;
+ b=3tpwCJvuZT3exapADx6oo1Cs18f0qJPYL1QOXcMesfRLolw0Ai2orwIySBOscY06m7
+ 3HggvzjqlbCkfvnKZ1PBnzOc32pv36R7u9TbX3fmkSRGmNqGXZluxMUO45dhdT8oVaeF
+ LFHnYzcIxaVWi3bbG4W7GmM7tnHrh2CJ8VQt2UNdb9v94lMq9Om+SUgwY2/TbG1xFOcU
+ 0kdj1IGOKdjWSu8T9iDxFADGt75MoiQFjyLgMU7XAUJsU4kq0rj+sbfCxcoPfF1f4WBC
+ l8ykezP8hXgL70jj2YQtNtBY8DFV23hV55JiO5TCjOeGqTdW8pCxlit6/8TLzi8xu7I3
+ bp1w==
+X-Gm-Message-State: AJIora9eZM6kj8qOEThGFSXBU+eXiD3uY6qyfk3SZ84YRrKbzvV47ET9
+ qhP82Ap4kf90TNBAX+mgt4n+pGUm38bjiQNtHSNhEQ==
+X-Google-Smtp-Source: AGRyM1s8r4PGlM6XzI+RA1uhRQMF79S2q/NimaT2O//bQoTAo5h8S8d9Gz04s3TG4BDm64NrBiuphHXqP0FEKBfC6xA=
+X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
+ z7-20020a81a247000000b0031d72dae931mr30618822ywg.469.1658154828179; Mon, 18
+ Jul 2022 07:33:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20220718134705.3irtvydqu6nn4uys@kamzik>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowAD3_w+2btViyx5TEQ--.20908S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAw1fGr4DAF1fKw48Zw1fZwb_yoW5Cr43pr
- 4rW3y7Ca4ktr92ka9IqF1UXF45uF43Jw4UJa1vg3y8AFnxZrW0krykXrWF9a4DZF1Duw4S
- vFWjyFn3AF4UAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
- 0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y
- 0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
- WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8
- JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUoOJ5UU
- UUU
-X-Originating-IP: [180.156.173.38]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <YtQzMUuBOfBiMNlY@p100>
+ <CAFEAcA9GzSJw4GpCkdOQPx7j24chp3WDq5tD=8FVkyYYtdrHuQ@mail.gmail.com>
+ <273d6b49-332c-9563-a90f-4d1a889314d3@gmx.de>
+In-Reply-To: <273d6b49-332c-9563-a90f-4d1a889314d3@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 15:33:37 +0100
+Message-ID: <CAFEAcA_68kFSveyvJtwAb8XbsseDhepwXsPC6Bxe=Ha8-Kx3cw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
+ SH4 and SPARC
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,91 +85,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-ÔÚ 2022/7/18 ÏÂÎç9:47, Andrew Jones Ð´µÀ:
-> Hi Weiwei,
+On Mon, 18 Jul 2022 at 15:21, Helge Deller <deller@gmx.de> wrote:
+> On 7/18/22 14:51, Peter Maydell wrote:
+> > Why do we need to do this?
 >
-> We still need the s/resue/reuse/ typo fix in $SUBJECT.
+> Yep, we don't *need* to...
 >
-> (That's maybe something that could be fixed up while applying?)
+> > If the flags argument is 0,
+> > then pipe2() is the same as pipe(), so we can safely
+> > emulate it with the host pipe() call. It is, or at
+> > least was, worth doing that, so that guests that use
+> > pipe2(fds, 0) can still run on hosts that don't implement
+> > the pipe2 syscall.
 >
-> Thanks,
-> drew
+> True, but only for pipe2(fds,0), not e.g. for pipe2(fds,1).
+> On the other side if a guest explicitly calls pipe2()
+> and if it isn't available, then IMHO -ENOSYS should be returned.
+> Let's assume userspace checks in configure/make scripts if pipe2()
+> is available and succeeds due to pipe2(fds,0), it will assume pipe2()
+> is generally available which isn't necessarily true.
 
-Thanks a lot.
+Fair point. Did you run into this in practice, or is it just a
+theoretical concern ?
 
-Sorry for not finding this typo. I'll fix it in next version.
+NB that any probing code that does that will also get the wrong
+answer on musl libc, though, because musl's pipe2() implementation
+always calls pipe() for a zero-flags call:
+https://git.musl-libc.org/cgit/musl/tree/src/unistd/pipe2.c
 
-Regards,
+> > There's probably a reasonable argument to be made that we don't
+> > care any more about hosts so old they don't have pipe2 and that
+> > we could just dump do_pipe2() and the CONFIG_PIPE2 check, and
+> > have do_pipe() unconditionally call pipe2(). Would just need
+> > somebody to check what kernel/glibc versions pipe2() came in.
+>
+> Yes.
 
-Weiwei Li
+I just had a look, and the pipe2 syscall came in in Linux 2.6.27.
+musl has implemented pipe2() since at least 2013, and glibc must
+have had it for at least that long.
 
-> On Mon, Jul 18, 2022 at 09:09:55PM +0800, Weiwei Li wrote:
->> Just add 1 to the effective privledge level when in HS mode, then reuse
->> the check of 'effective_priv < csr_priv' in riscv_csrrw_check to replace
->> the privilege level related check in hmode. Then, hmode will only check
->> whether H extension is supported.
->>
->> When accessing Hypervior CSRs:
->>     1) If accessing from M privilege level, the check of
->> 'effective_priv< csr_priv' passes, returns hmode(...) which will return
->> RISCV_EXCP_ILLEGAL_INST when H extension is not supported and return
->> RISCV_EXCP_NONE otherwise.
->>     2) If accessing from HS privilege level, effective_priv will add 1,
->> the check passes and also returns hmode(...) too.
->>     3) If accessing from VS/VU privilege level, the check fails, and
->> returns RISCV_EXCP_VIRT_INSTRUCTION_FAULT
->>     4) If accessing from U privilege level, the check fails, and returns
->> RISCV_EXCP_ILLEGAL_INST
->>
->> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
->> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> ---
->>   target/riscv/csr.c | 18 +++++-------------
->>   1 file changed, 5 insertions(+), 13 deletions(-)
->>
->> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> index cf15aa67b7..0fb042b2fd 100644
->> --- a/target/riscv/csr.c
->> +++ b/target/riscv/csr.c
->> @@ -312,13 +312,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
->>   static RISCVException hmode(CPURISCVState *env, int csrno)
->>   {
->>       if (riscv_has_ext(env, RVH)) {
->> -        /* Hypervisor extension is supported */
->> -        if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
->> -            env->priv == PRV_M) {
->> -            return RISCV_EXCP_NONE;
->> -        } else {
->> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> -        }
->> +        return RISCV_EXCP_NONE;
->>       }
->>   
->>       return RISCV_EXCP_ILLEGAL_INST;
->> @@ -3279,13 +3273,11 @@ static inline RISCVException riscv_csrrw_check(CPURISCVState *env,
->>   #if !defined(CONFIG_USER_ONLY)
->>       int csr_priv, effective_priv = env->priv;
->>   
->> -    if (riscv_has_ext(env, RVH) && env->priv == PRV_S) {
->> +    if (riscv_has_ext(env, RVH) && env->priv == PRV_S &&
->> +        !riscv_cpu_virt_enabled(env)) {
->>           /*
->> -         * We are in either HS or VS mode.
->> -         * Add 1 to the effective privledge level to allow us to access the
->> -         * Hypervisor CSRs. The `hmode` predicate will determine if access
->> -         * should be allowed(HS) or if a virtual instruction exception should be
->> -         * raised(VS).
->> +         * We are in HS mode. Add 1 to the effective privledge level to
->> +         * allow us to access the Hypervisor CSRs.
->>            */
->>           effective_priv++;
->>       }
->> -- 
->> 2.17.1
->>
->>
+In fact current glibc always implements pipe() in terms of pipe2():
+https://sourceware.org/git/?p=glibc.git;a=commit;h=efc6b2dbc47231dee7a7ac39beec808deb4e4d1f
 
+So my preference would be that we should just say "we can assume
+that pipe2 is always available and implemented on linux hosts" and
+remove the code that handles the possibility that it isn't.
+
+thanks
+-- PMM
 
