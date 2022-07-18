@@ -2,76 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3533B577754
-	for <lists+qemu-devel@lfdr.de>; Sun, 17 Jul 2022 18:38:53 +0200 (CEST)
-Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6110D57791D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 02:46:59 +0200 (CEST)
+Received: from localhost ([::1]:43450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oD7IB-0006GR-Rc
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 12:38:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
+	id 1oDEuY-0007Ap-0o
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jul 2022 20:46:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD7H7-0004v8-6J
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:37:45 -0400
-Received: from mout.gmx.net ([212.227.17.20]:34705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oD7H5-0006TV-CL
- for qemu-devel@nongnu.org; Sun, 17 Jul 2022 12:37:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658075857;
- bh=ptX6pBWACF23fw3MponYxwbz9WY5j77A1DR8vMFVA9g=;
- h=X-UI-Sender-Class:Date:Subject:From:To:References:In-Reply-To;
- b=MMHBaN3zg5EyNeLC6qnqo3+2bqtUlJUC01wsK8yyZSvc/oHlEMi6drF1a07Ie8RYi
- syFHqqp/T2VqOXmAREX0cWfILQZz3WX/FZxlQx63wwnmmwhXHNOGZMK4l2ZiiBcjAw
- isTl9L2Al3h4FMD1wACVws7wYNHgpP7jlB9WRA4o=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.150.104]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MGQnF-1oIpuX3ZW9-00GpSO; Sun, 17
- Jul 2022 18:37:36 +0200
-Message-ID: <ec019fe3-2804-7951-e560-525dc1e3e447@gmx.de>
-Date: Sun, 17 Jul 2022 18:37:30 +0200
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDEsa-0005OS-DF; Sun, 17 Jul 2022 20:44:56 -0400
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDEsY-0007Y2-MG; Sun, 17 Jul 2022 20:44:56 -0400
+Received: by mail-pg1-x52c.google.com with SMTP id f65so9231383pgc.12;
+ Sun, 17 Jul 2022 17:44:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=siiUxJutTDBRVQ7npCgj+XdjljJVq2ZM3zfVroDnvko=;
+ b=lr3KjxDhrCrwXWuz/S+pHDBtBMZkPDplpo4jI0FvU80vLPPzfJanbDyvxUlqSUJqEe
+ /P4OwejBXtPvO/VkDXsNmENJn5yHN5sR6+8enEUnVJAHx9A8bXp32QXaddp22dHQwvLa
+ otCcU7hgonzK5Ex0J85Um1mq1+5aRj2itV/xiLsbnQWEd2LSYnLiCJOrUc/41yrFdtl+
+ K2ghiHRhxYADdnuROTxi3c8JseV1Vy1AM1297/VBqe+BDe/S7GjezDQ+Ms3a56xqxnVO
+ jg6Wk0aI5LFR9D62JDBh6hHAiLoPTNZ9C8ZG0a0N72aSFqjBphVb3mC1hzlLOuxqki1b
+ Xbkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=siiUxJutTDBRVQ7npCgj+XdjljJVq2ZM3zfVroDnvko=;
+ b=b7+5q1in787XdGNFrQrvLoCT9NCYUPueUfb0jHch8KiN1RztZiR20wBO89znxFQU4m
+ yM3IqulSFCgJislrMa9dcd3/qxBg9HKPOtbE5VnAlF4Rcv4U1K34LlhL6ee1gRcGiDcw
+ bsN4OINiMw3akTlC/ZMdspVzgcu1c11ioKXRVFjQl6o6L5SmrHvzyRtARpxUe8F+qYL0
+ B16bWtThNHoYZdCGj8mYZ1LIqn+GzwLPtFab43akinFWT2jUNlrXqudqulcoXUbkV1Q/
+ vhzd1234cgUlGaDoKU8U04WI9Pl4N/RrBg8dVoxNdRRfjn2YD7VlyVeZleiLLg9u+gXP
+ I+OQ==
+X-Gm-Message-State: AJIora92GIT+ar1M7MoUuSwYT0Pf9CXqY9pHDhhSctTWrdFnKn5WyNYM
+ pbZ759GM+v5f6u/vkl8uiY3zwGRXpTN5L51sSbQ=
+X-Google-Smtp-Source: AGRyM1sMhtVAhI2yI8/UU/AeK8r2ee5AM0pWwbpnNucXq+J/vDl/XsNrn5AepU0jlIKCb69OMpXdw8JrLOawxX5/Ngc=
+X-Received: by 2002:a05:6a00:885:b0:510:950f:f787 with SMTP id
+ q5-20020a056a00088500b00510950ff787mr25204373pfj.83.1658105092427; Sun, 17
+ Jul 2022 17:44:52 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
- SH4 and SPARC
-Content-Language: en-US
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <YtQzMUuBOfBiMNlY@p100>
-In-Reply-To: <YtQzMUuBOfBiMNlY@p100>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/1GlBOaas+ZUbJ13JQx3JFzdlVdaWX4jPXw3d9dO5cHfAC65uzy
- V3UZmZDu4ZhbxD/IqTqGLE3hOvXHINO4hLenBkR7QlnTuwUkhK1u0V7uuRcCAXusK+uvOIe
- gRO6Els5glAoPtCJJg/QScmZvgGv0eJc6fx75uFAsmRlkEo3ISxUOjCpnxZ5YIgmvfAXk0N
- K+evAZ1tqGvcj5JqItrNg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:PG760K9bQXo=:51VnrlapiNbOapzNMGH+pQ
- aD93dmil5cExbHpGPPacsuzqljb3VQlhX3b545EKyUronOiWzgS7JHrvUhQPI4rXyjIbQ11Vt
- WzjdaStLtgepe7HZD1VD1URwjM/OpNNESAiAm8TP7ijTUo2Fehbo/ZbxJCYL5L14fYkLYr2UI
- cFiPsU64iBeD93xtrEcDT7JWGtb2LpUWFEdMCAlZcAiE/hMcu950Cyraheib7w+yoNUTO0Qgu
- cETgPxFmbIdasV4CxNoGQPT3ABggY0Vrjlvm+SkBiHsovfG5svqER18XNS/U3SfOPUoky6j26
- 7bKD0246HK+xD/dWkYYFHSZvSYoPDOSRlgnO9blVOV5EBw5p3cdU834OHcp1XmLkUyYj5uTpN
- hVtBLFK9k11aJHmbxr85WBydNkvJYxdwK6IFJTOmoxCyELTDqY3EZkAPaIdFZIpe5L1tt+lSQ
- rvz7nT8PppHh5CBEiRX9PqkL66LT96wQnScsV0/U1oMDwYX0S41eLbHdoSO9WTQxhdD0V/62F
- tnNxXtPlA563dmYmvT9C4URP17IHPzh/XRCmjRrL1R+I+B8/CsjsRpOoroCC+hDP3/wg5ttEv
- C+vrvesfpntOyMaL4ZXkactMaSSgQWV5ouO6Ty+yEu2pEa/KYhXv2b2Og2B4ltvDumB6QYqPs
- /O0RbrTC6R32333frxLgyvQvinqaT2z3B/RC/4qSB560avHYGiiUI24Q3ot9PiGxyoqjxl9LJ
- 4rL4MunDCtemnk8FiDB2OnS+Q7fTTBm1joXqZetjXO87IsRnGiQQK5ulv2fs6QzlGrT/7J2T9
- z9ZhHf8X2rkb6KZ2HBXYwHw8n5+Cd/YAui7iZQ1OV5lBGXwdHA+uQe9Y+ERwpav0EbLoeDtJy
- a/sa8XLemVox1tCQfwQPlYS+Jvc2C87aMbej80EkzvHj2O0v91OQf8nptxbTmGqsXyEDJbCr3
- wr1ZtRujMyd8btOvEXBWRLOt2AsjVYrfNuCmrOLY8yfEr2FKxig5GkN6fj4XXiarxOmS/bhsv
- 4AbIqk8RLVdZjiiTFwqNuTKA1OeU9YzmDWQULnksFyQuwUnqXy7WeYxsW3wU0cd/zRUEyn4Jv
- mVV3Su3sAQ7StRKakWf0qYiVAbWP9oWNp0plneNNiAEe44cGIK8CLCfBQ==
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220714180033.22385-1-palmer@rivosinc.com>
+In-Reply-To: <20220714180033.22385-1-palmer@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 18 Jul 2022 10:44:26 +1000
+Message-ID: <CAKmqyKP=uO6j7EoM5mVDgYAwHxfEjYT9iu5DaSiviMT4ScP1nA@mail.gmail.com>
+Subject: Re: [PATCH] RISC-V: Allow both Zmmul and M
+To: Palmer Dabbelt <palmer@rivosinc.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,38 +82,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/22 18:08, Helge Deller wrote:
-> In 2010, the commit b41a66edd0c added a thrird parameter "is_pipe2" to t=
-he
-> internal do_pipe() function, but missed to actually use this parameter t=
-o
-> decide if the pipe() or pipe2() syscall should be used.
-> Instead it just continued to check the flags parameter and used pipe2()
-> unconditionally if flags is non-zero.
+On Fri, Jul 15, 2022 at 4:13 AM Palmer Dabbelt <palmer@rivosinc.com> wrote:
 >
-> This change should make a difference for the ALPHA, MIPS, SH4 and SPARC
-> targets if the emulated code calls pipe2() with a flags value of 0.
+> We got to talking about how Zmmul and M interact with each other
+> https://github.com/riscv/riscv-isa-manual/issues/869 , and it turns out
+> that QEMU's behavior is slightly wrong: having Zmmul and M is a legal
+> combination, it just means that the multiplication instructions are
+> supported even when M is disabled at runtime via misa.
 >
-> Fixes: fb41a66edd0c ("alpha-linux-user: Fix pipe return mechanism.")
+> This just stops overriding M from Zmmul, with that the other checks for
+> the multiplication instructions work as per the ISA.
+>
+> Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
->
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 991b85e6b4..1e6e814871 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -1600,7 +1600,7 @@ static abi_long do_pipe(CPUArchState *cpu_env, abi=
-_ulong pipedes,
->  {
->      int host_pipe[2];
->      abi_long ret;
-> -    ret =3D flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
-> +    ret =3D is_pipe2 ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
->
->      if (is_error(ret))
->          return get_errno(ret);
+Alistair
 
+> ---
+>  target/riscv/cpu.c | 5 -----
+>  1 file changed, 5 deletions(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index db2b8e4d30..cab74faaca 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -709,11 +709,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>              cpu->cfg.ext_ifencei = true;
+>          }
+>
+> -        if (cpu->cfg.ext_m && cpu->cfg.ext_zmmul) {
+> -            warn_report("Zmmul will override M");
+> -            cpu->cfg.ext_m = false;
+> -        }
+> -
+>          if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
+>              error_setg(errp,
+>                         "I and E extensions are incompatible");
+> --
+> 2.34.1
+>
+>
 
