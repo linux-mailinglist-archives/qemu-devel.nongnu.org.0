@@ -2,57 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDC5578583
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:33:59 +0200 (CEST)
-Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4360A5785A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:41:32 +0200 (CEST)
+Received: from localhost ([::1]:45424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRos-0000xT-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:33:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52854)
+	id 1oDRwB-0004Zb-CH
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:41:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oDRKo-0006Na-Ea
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:02:54 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48755)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDRQA-0007Fe-Ik
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:08:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1oDRKW-0003mE-5o
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:02:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=NAA8iY68RybwAF5Nx5HZ0RYy22uH3FMPopSTDvXa0mw=; b=QiuOfP3e9c6ycaTA/FA3aHWX0K
- 7vm0KHPhv09ONGhZcD0P2Y9eCS45kYBOErxqyY+o1FpQ6C6En0t4dixjypiRbNI4CPl8mHFpxkh4W
- mpiVHsfNnKQpA06z2MPNHqUT6a243WjiUHOcYBsEi6Aok2xbq7fHY+i1Q/bLjhzZFYLNwRT/pLs2n
- MB6GbL7QWlNsLGkrLfzAcWp9TKO6OExqvLwJ/jNyexlJKugv+iEd7j5tWkw0nRE27lGHZoByjfX8n
- WraqPjv27ikLcEGwGiYjNQ/6CVyE60sVh7cF7f0EQpaS9nYpNxP383UXAF+ruhyLoLlEryRGmSPVC
- DzG12zPIMHN9j3sZD6dHAj3OCc59Zk3RqdFhTfcQ1Ees4eEPxPSwR4tOFvhY4wWDs64I1BdbkdMdo
- PiHRB5mCz4TJ6aEUGrbZVmxM74DQILPkjrcYXNfEPCeUfA8cxX7CX0lRihdcnYl0KUB+5a9Vb4nmT
- 8ZTv7JVWXYCrLWZQnWKrvCJSokN5U48QPY7DPr+oNJucb6hk7B6hW5lwG4LVmlLRnl3YlHBgOqSlj
- mR61rSIk7Jf+4XTt3aeiJNysgpIAcxTPdQmSMfi1KcyqfNIOd0tgZn1qBlP0biX/hwg7F7rFzASYh
- 0zGI4m6pxboYv6lKBB4alCtXqa+UtpqPdXoXty5bo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [RFC PATCH v2] tests/9p: introduce declarative function calls
-Date: Mon, 18 Jul 2022 16:02:31 +0200
-Message-ID: <1683188.qTr0RtP6NM@silver>
-In-Reply-To: <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
-References: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
- <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oDRQ9-0004Sd-8M
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:08:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658153304;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fjBX/M3VUQYW/3IstOcq0FchP7CfVgdwV5UVREED5xA=;
+ b=CZhoiBwIc2h7jZcvr/GkdLiQmAEMDAYTVersHMPjCwkJkH94we2ofRQa5p92A8M65aJLPs
+ aURiX96EflRm+awlXSCkcECtsaszP2yKiJwr9t4OUm2CVvfkXKkt70u9bqUVrGpB6JJQER
+ /EupSvR7LaHf6t5kP0QBPIr7oV+SiFU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-300-qbWly9n4OLecbBO-3YWKkQ-1; Mon, 18 Jul 2022 10:08:23 -0400
+X-MC-Unique: qbWly9n4OLecbBO-3YWKkQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ w15-20020a056402268f00b0043ac600a6bcso7900344edd.6
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 07:08:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=fjBX/M3VUQYW/3IstOcq0FchP7CfVgdwV5UVREED5xA=;
+ b=W8xjVDWCx7TBpJP0Hb/UspPwWpMY3ilKpOjSBOhJ3rKWS5bJCQemxVSZuo+RU9WSTo
+ 8g+0iJjBjFGjReYOqDBoXod0GTsKcxfhIpHJzhhRivfXSrhTnBEt+P+7SN/BDf1/ZCIw
+ GTn4+74RzL79FAWFlPOWt5rZOq4VBLr/a0QPcW8wJYhlykwW5kTXb7HCSAakP+EC11xx
+ jG+63LFbAS7QqBjz6LjCoQTini6SzTRZirQYwQMrHaf5c+SuqjLRNqfEa9DcZgXBXTZT
+ aHEGER6knr69qOlAAopJNZISWGetBGont605Y8lOqNmqxCjBlJWHP2o1Osuz3B9q97w3
+ tNag==
+X-Gm-Message-State: AJIora+ogUdUfYm/RF3uwW3HhyfpM/hKGEWeyvmVbytxO8Ma3AxzUYko
+ QkR+H1Vz2XlKyh2YGvzJjF7R0gnSuQKTPLg1LYfk0G17oqSrAbiuXtVEPqxvw0igSv7znaW3Y4B
+ y7Fx6q+i16sud3lo=
+X-Received: by 2002:a05:6402:51ce:b0:43a:d409:b3e8 with SMTP id
+ r14-20020a05640251ce00b0043ad409b3e8mr36889869edd.166.1658153287100; 
+ Mon, 18 Jul 2022 07:08:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v6rRvT78ot8W7xBOhot9wJxQX6OlxoT+9LhLj0gLqiSrzLlxPObp4GsceKIszB4I0Oe/D0ww==
+X-Received: by 2002:a05:6402:51ce:b0:43a:d409:b3e8 with SMTP id
+ r14-20020a05640251ce00b0043ad409b3e8mr36889638edd.166.1658153284788; 
+ Mon, 18 Jul 2022 07:08:04 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ b18-20020a170906d11200b0072b4e4cd346sm5486158ejz.188.2022.07.18.07.08.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 07:08:04 -0700 (PDT)
+Date: Mon, 18 Jul 2022 16:08:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Hesham Almatary <hesham.almatary@huawei.com>
+Cc: <jonathan.cameron@huawei.com>, <qemu-devel@nongnu.org>,
+ <yangyicong@huawei.com>, <chenxiang66@hisilicon.com>,
+ <linuxarm@huawei.com>, <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>,
+ <wangyanan55@huawei.com>, <marcel.apfelbaum@gmail.com>,
+ <eduardo@habkost.net>, <Brice.Goglin@inria.fr>, <mst@redhat.com>
+Subject: Re: [PATCH 4/8] tests: acpi: q35: update expected blobs
+ *.hmat-noinitiators
+Message-ID: <20220718160803.06febe5b@redhat.com>
+In-Reply-To: <20220711104436.8363-5-hesham.almatary@huawei.com>
+References: <20220711104436.8363-1-hesham.almatary@huawei.com>
+ <20220711104436.8363-5-hesham.almatary@huawei.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,489 +105,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 18. Juli 2022 15:10:55 CEST Christian Schoenebeck wrote:
-> There are currently 4 different functions for sending a 9p 'Twalk'
-> request. They are all doing the same thing, just in a slightly different
-> way and with slightly different function arguments.
+On Mon, 11 Jul 2022 11:44:32 +0100
+Hesham Almatary <hesham.almatary@huawei.com> wrote:
+
+> From: Brice Goglin <Brice.Goglin@inria.fr>
 > 
-> Merge those 4 functions into a single function by using a struct for
-> function call arguments and use designated initializers when calling this
-> function to turn usage into a declarative apporach, which is better
-> readable and easier to maintain.
-> 
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+[...]
+> Signed-off-by: Brice Goglin <Brice.Goglin@inria.fr>
 > ---
-> 
-> v1 -> v2:
-> 
->   * Also merge low-level function v9fs_twalk().
-> 
->   * Lower case twalk() function name.
-> 
->   * Lower case rwalk struct field.
-> 
->   * Add result struct TWalkRes.
-> 
->   NOTE: I have not separated rwalk struct, because it would have
->   simplified code at one place, but complicated it at another one.
 
-BTW, I also toyed around with virtio-9p-test.c -> virtio-9p-test.cpp, due to 
-advantages described in v1 discussion, however there are quite a bunch of C 
-header files included which would need refactoring (C++ keywords used like 
-'export', 'class', 'private' and missing type casts from void*).
+>  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
+[...]
+>  tests/data/acpi/q35/FACP.acpihmat-noinitiator | Bin 0 -> 244 bytes
+drop these 2 tables, they are the same as default ones (i.e.without suffix)
+so test will fallback to default ones when there is no matching file with suffix.
 
-I also saw no easy way to separate those as alternative (like C low level 
-unit, C++ unit on top). so I decided that it was not worth it.
+also fixup 2/8 to account for that
 
->  tests/qtest/virtio-9p-test.c | 251 +++++++++++++++++++++--------------
->  1 file changed, 154 insertions(+), 97 deletions(-)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index 25305a4cf7..69b1c27268 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -72,6 +72,7 @@ static int split(const char *in, const char *delim, char
-> ***out) static void split_free(char ***out)
->  {
->      int i;
-> +    if (!*out) return;
->      for (i = 0; (*out)[i]; ++i) {
->          g_free((*out)[i]);
->      }
-> @@ -390,31 +391,6 @@ static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
->      v9fs_req_free(req);
->  }
-> 
-> -/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
-> -static P9Req *v9fs_twalk(QVirtio9P *v9p, uint32_t fid, uint32_t newfid,
-> -                         uint16_t nwname, char *const wnames[], uint16_t
-> tag) -{
-> -    P9Req *req;
-> -    int i;
-> -    uint32_t body_size = 4 + 4 + 2;
-> -
-> -    for (i = 0; i < nwname; i++) {
-> -        uint16_t wname_size = v9fs_string_size(wnames[i]);
-> -
-> -        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
-> -        body_size += wname_size;
-> -    }
-> -    req = v9fs_req_init(v9p,  body_size, P9_TWALK, tag);
-> -    v9fs_uint32_write(req, fid);
-> -    v9fs_uint32_write(req, newfid);
-> -    v9fs_uint16_write(req, nwname);
-> -    for (i = 0; i < nwname; i++) {
-> -        v9fs_string_write(req, wnames[i]);
-> -    }
-> -    v9fs_req_send(req);
-> -    return req;
-> -}
-> -
->  /* size[4] Rwalk tag[2] nwqid[2] nwqid*(wqid[13]) */
->  static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
->  {
-> @@ -432,6 +408,98 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
-> v9fs_qid **wqid) v9fs_req_free(req);
->  }
-> 
-> +/* options for 'Twalk' 9p request */
-> +typedef struct TWalkOpt {
-> +    /* 9P client being used (mandatory) */
-> +    QVirtio9P *client;
-> +    /* user supplied tag number being returned with response (optional) */
-> +    uint16_t tag;
-> +    /* file ID of directory from where walk should start (optional) */
-> +    uint32_t fid;
-> +    /* file ID for target directory being walked to (optional) */
-> +    uint32_t newfid;
-> +    /* low level variant of path to walk to (optional) */
-> +    uint16_t nwname;
-> +    char **wnames;
-> +    /* high level variant of path to walk to (optional) */
-> +    const char *path;
-> +    /* data being received from 9p server as 'Rwalk' response (optional) */
-> +    struct {
-> +        uint16_t *nwqid;
-> +        v9fs_qid **wqid;
-> +    } rwalk;
-> +    /* only send Twalk request but not wait for a reply? (optional) */
-> +    bool requestOnly;
-> +    /* do we expect an Rlerror response, if yes which error code?
-> (optional) */ +    uint32_t expectErr;
-> +} TWalkOpt;
-> +
-> +/* result of 'Twalk' 9p request */
-> +typedef struct TWalkRes {
-> +    /* file ID of target directory been walked to */
-> +    uint32_t newfid;
-> +    /* if requestOnly was set: request object for further processing */
-> +    P9Req *req;
-> +} TWalkRes;
-> +
-> +/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
-> +static TWalkRes twalk(TWalkOpt opt)
-> +{
-> +    P9Req *req;
-> +    int i;
-> +    uint32_t body_size = 4 + 4 + 2;
-> +    uint32_t err;
-> +    char **wnames = NULL;
-> +
-> +    g_assert(opt.client);
-> +    /* expecting either high- or low-level path, both not both */
-> +    g_assert(!opt.path || !(opt.nwname || opt.wnames));
-> +    /* expecting either Rwalk or Rlerror, but obviously not both */
-> +    g_assert(!opt.expectErr || !(opt.rwalk.nwqid || opt.rwalk.wqid));
-> +
-> +    if (!opt.newfid) {
-> +        opt.newfid = genfid();
-> +    }
-> +
-> +    if (opt.path) {
-> +        opt.nwname = split(opt.path, "/", &wnames);
-> +        opt.wnames = wnames;
-> +    }
-> +
-> +    for (i = 0; i < opt.nwname; i++) {
-> +        uint16_t wname_size = v9fs_string_size(opt.wnames[i]);
-> +
-> +        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
-> +        body_size += wname_size;
-> +    }
-> +    req = v9fs_req_init(opt.client, body_size, P9_TWALK, opt.tag);
-> +    v9fs_uint32_write(req, opt.fid);
-> +    v9fs_uint32_write(req, opt.newfid);
-> +    v9fs_uint16_write(req, opt.nwname);
-> +    for (i = 0; i < opt.nwname; i++) {
-> +        v9fs_string_write(req, opt.wnames[i]);
-> +    }
-> +    v9fs_req_send(req);
-> +
-> +    if (!opt.requestOnly) {
-> +        v9fs_req_wait_for_reply(req, NULL);
-> +        if (opt.expectErr) {
-> +            v9fs_rlerror(req, &err);
-> +            g_assert_cmpint(err, ==, opt.expectErr);
-> +        } else {
-> +            v9fs_rwalk(req, opt.rwalk.nwqid, opt.rwalk.wqid);
-> +        }
-> +        req = NULL; /* request was freed */
-> +    }
-> +
-> +    split_free(&wnames);
-> +
-> +    return (TWalkRes) {
-> +        .newfid = opt.newfid,
-> +        .req = req,
-> +    };
-> +}
-> +
->  /* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
->  static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t
-> request_mask, uint16_t tag)
-> @@ -669,52 +737,6 @@ static void do_version(QVirtio9P *v9p)
->      g_assert_cmpmem(server_version, server_len, version, strlen(version));
->  }
-> 
-> -/*
-> - * utility function: walk to requested dir and return fid for that dir and
-> - * the QIDs of server response
-> - */
-> -static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t
-> *nwqid, -                              v9fs_qid **wqid)
-> -{
-> -    char **wnames;
-> -    P9Req *req;
-> -    const uint32_t fid = genfid();
-> -
-> -    int nwnames = split(path, "/", &wnames);
-> -
-> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> -    v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rwalk(req, nwqid, wqid);
-> -
-> -    split_free(&wnames);
-> -    return fid;
-> -}
-> -
-> -/* utility function: walk to requested dir and return fid for that dir */
-> -static uint32_t do_walk(QVirtio9P *v9p, const char *path)
-> -{
-> -    return do_walk_rqids(v9p, path, NULL, NULL);
-> -}
-> -
-> -/* utility function: walk to requested dir and expect passed error response
-> */ -static void do_walk_expect_error(QVirtio9P *v9p, const char *path,
-> uint32_t err) -{
-> -    char **wnames;
-> -    P9Req *req;
-> -    uint32_t _err;
-> -    const uint32_t fid = genfid();
-> -
-> -    int nwnames = split(path, "/", &wnames);
-> -
-> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
-> -    v9fs_req_wait_for_reply(req, NULL);
-> -    v9fs_rlerror(req, &_err);
-> -
-> -    g_assert_cmpint(_err, ==, err);
-> -
-> -    split_free(&wnames);
-> -}
-> -
->  static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
->  {
->      alloc = t_alloc;
-> @@ -757,7 +779,10 @@ static void fs_walk(void *obj, void *data,
-> QGuestAllocator *t_alloc) }
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = P9_MAXWELEM, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, &nwqid, &wqid);
-> 
-> @@ -941,7 +966,7 @@ static void fs_readdir(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
->      uint16_t nqid;
->      v9fs_qid qid;
->      uint32_t count, nentries;
-> @@ -949,7 +974,10 @@ static void fs_readdir(void *obj, void *data,
-> QGuestAllocator *t_alloc) P9Req *req;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, &nqid, NULL);
->      g_assert_cmpint(nqid, ==, 1);
-> @@ -993,7 +1021,7 @@ static void fs_readdir(void *obj, void *data,
-> QGuestAllocator *t_alloc) /* readdir test where overall request is split
-> over several messages */ static void do_readdir_split(QVirtio9P *v9p,
-> uint32_t count)
->  {
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
->      uint16_t nqid;
->      v9fs_qid qid;
->      uint32_t nentries, npartialentries;
-> @@ -1010,7 +1038,10 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t
-> count) nentries = 0;
->      tail = NULL;
-> 
-> -    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = fid,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, &nqid, NULL);
->      g_assert_cmpint(nqid, ==, 1);
-> @@ -1074,12 +1105,15 @@ static void fs_walk_no_slash(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup(" /") };
-> +    char *wnames[] = { g_strdup(" /") };
->      P9Req *req;
->      uint32_t err;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rlerror(req, &err);
-> 
-> @@ -1098,7 +1132,9 @@ static void fs_walk_nonexistent(void *obj, void *data,
-> QGuestAllocator *t_alloc) * The 9p2000 protocol spec says: "If the first
-> element cannot be walked * for any reason, Rerror is returned."
->       */
-> -    do_walk_expect_error(v9p, "non-existent", ENOENT);
-> +    twalk((TWalkOpt) {
-> +        .client = v9p, .path = "non-existent", .expectErr = ENOENT
-> +    });
->  }
-> 
->  static void fs_walk_2nd_nonexistent(void *obj, void *data,
-> @@ -1116,7 +1152,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void
-> *data, );
-> 
->      do_attach_rqid(v9p, &root_qid);
-> -    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
-> +    fid = twalk((TWalkOpt) {
-> +        .client = v9p, .path = path,
-> +        .rwalk.nwqid = &nwqid, .rwalk.wqid = &wqid
-> +    }).newfid;
->      /*
->       * The 9p2000 protocol spec says: "nwqid is therefore either nwname or
-> the * index of the first elementwise walk that failed."
-> @@ -1148,7 +1187,10 @@ static void fs_walk_none(void *obj, void *data,
-> QGuestAllocator *t_alloc) v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rattach(req, &root_qid);
-> 
-> -    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 0, .wnames = NULL, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, &wqid);
-> 
-> @@ -1166,7 +1208,7 @@ static void fs_walk_dotdot(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup("..") };
-> +    char *wnames[] = { g_strdup("..") };
->      v9fs_qid root_qid;
->      g_autofree v9fs_qid *wqid = NULL;
->      P9Req *req;
-> @@ -1176,7 +1218,10 @@ static void fs_walk_dotdot(void *obj, void *data,
-> QGuestAllocator *t_alloc) v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rattach(req, &root_qid);
-> 
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, &wqid); /* We now we'll get one qid */
-> 
-> @@ -1189,11 +1234,14 @@ static void fs_lopen(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
->      P9Req *req;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, NULL);
-> 
-> @@ -1209,13 +1257,16 @@ static void fs_write(void *obj, void *data,
-> QGuestAllocator *t_alloc) QVirtio9P *v9p = obj;
->      alloc = t_alloc;
->      static const uint32_t write_count = P9_MAX_SIZE / 2;
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
->      g_autofree char *buf = g_malloc0(write_count);
->      uint32_t count;
->      P9Req *req;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, NULL);
-> 
-> @@ -1235,13 +1286,16 @@ static void fs_flush_success(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
->      P9Req *req, *flush_req;
->      uint32_t reply_len;
->      uint8_t should_block;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, NULL);
-> 
-> @@ -1272,13 +1326,16 @@ static void fs_flush_ignored(void *obj, void *data,
-> QGuestAllocator *t_alloc) {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
-> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
-> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
->      P9Req *req, *flush_req;
->      uint32_t count;
->      uint8_t should_block;
-> 
->      do_attach(v9p);
-> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-> +    req = twalk((TWalkOpt) {
-> +        .client = v9p, .fid = 0, .newfid = 1,
-> +        .nwname = 1, .wnames = wnames, .requestOnly = true
-> +    }).req;
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rwalk(req, NULL, NULL);
-> 
-> @@ -1311,7 +1368,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path,
-> const char *cname) uint32_t fid;
->      P9Req *req;
-> 
-> -    fid = do_walk(v9p, path);
-> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
-> 
->      req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1326,7 +1383,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char
-> *path, uint32_t fid;
->      P9Req *req;
-> 
-> -    fid = do_walk(v9p, path);
-> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
-> 
->      req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1344,7 +1401,7 @@ static void do_symlink(QVirtio9P *v9p, const char
-> *path, const char *clink, uint32_t fid;
->      P9Req *req;
-> 
-> -    fid = do_walk(v9p, path);
-> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
-> 
->      req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1358,8 +1415,8 @@ static void do_hardlink(QVirtio9P *v9p, const char
-> *path, const char *clink, uint32_t dfid, fid;
->      P9Req *req;
-> 
-> -    dfid = do_walk(v9p, path);
-> -    fid = do_walk(v9p, to);
-> +    dfid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
-> +    fid = twalk((TWalkOpt) { .client = v9p, .path = to }).newfid;
-> 
->      req = v9fs_tlink(v9p, dfid, fid, clink, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-> @@ -1373,7 +1430,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char
-> *atpath, const char *rpath, uint32_t fid;
->      P9Req *req;
-> 
-> -    fid = do_walk(v9p, atpath);
-> +    fid = twalk((TWalkOpt) { .client = v9p, .path = atpath }).newfid;
-> 
->      req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
->      v9fs_req_wait_for_reply(req, NULL);
-
+>  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
+>  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
+>  tests/qtest/bios-tables-test-allowed-diff.h   |   5 -----
+>  6 files changed, 5 deletions(-)
 
 
