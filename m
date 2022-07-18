@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44C7F578B24
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:46:18 +0200 (CEST)
-Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0BDC578B2B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:48:08 +0200 (CEST)
+Received: from localhost ([::1]:42594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDWh6-00041v-VE
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:46:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
+	id 1oDWit-0006KM-35
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:48:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDW58-0006Gt-Mj
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:07:02 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:56635)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDWCh-0001Tc-7x
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:14:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDW56-00029s-SF
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:07:02 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MPGBR-1nsPlK1nJ7-00PaKU; Mon, 18 Jul 2022 21:06:47 +0200
-Message-ID: <24c90475-e653-c5d2-0372-a74b2d9f2d21@vivier.eu>
-Date: Mon, 18 Jul 2022 21:06:46 +0200
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDWCc-0003EZ-Tm
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 15:14:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658171685;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MsP6VVGIeJgRi0CNU78atvESZ/zNJlP1c2EJIJntnE8=;
+ b=hJDEe1ZqvCu+UiqsqMbbiWRaLAMMy2+H+E8dVKg72j6ufmPXYO4eUT6kirAxyLARx4WRXP
+ 9fdGRfHH5blJH/vjvGYguf/f2li3ZC7QDvXZMGOgVoSJqY58/My2zS4YTHX2qZKYFyiLFj
+ F5/tAOPCCSkscX58PL9PmzDm64J3OrM=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-543-9TxybqvtOA-dTpNtcSJp2Q-1; Mon, 18 Jul 2022 15:14:44 -0400
+X-MC-Unique: 9TxybqvtOA-dTpNtcSJp2Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ p6-20020a0c8c86000000b004731e63c75bso6073552qvb.10
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 12:14:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=MsP6VVGIeJgRi0CNU78atvESZ/zNJlP1c2EJIJntnE8=;
+ b=4MtDuAluK4jhaG29+G51DkFDulwqFmKgf+J96jX54mojktY8QwixQ0oD7CFiI5mKcf
+ 0X3EkyuNhpe5dI9UNHFeSeAqMEL3ADJS/69lC+S2sY8E6C4tqohmjJBvH0rD4SZgxRiZ
+ UfC99f2ASdjkYDcbZ6OKWjFFg9Etzz+FfJvHMb2RLFxfTRJGHmvTWUjJDFVqGsNDO1JO
+ QmOcZdt2lL+adg6xOeX4Lxlfepl2GFxdbj4Bl4Co7ENLIsIl+zWqCh0e7FTNT7LSXMv2
+ Qmpp/zO1t3l065/+iCmrWsn+aKJY3469dAHrW736kGcOLntysPflcGghBkLlY5/k5O9A
+ 1N0Q==
+X-Gm-Message-State: AJIora+eDsKPT5VgLXckrew4wG3Vk/f23fR7FBZPi9Dj6U+TZZ0dBnQ6
+ RP/UHz76Ob/QHuSuAcMyIJ0sqg/x/BqxSABYEI2R5Lhsd+yJE0iU1p+lhWIU3OggdUSJgztooYO
+ 5wBByB6koie7Nrrg=
+X-Received: by 2002:a05:6214:246a:b0:473:7eaf:280b with SMTP id
+ im10-20020a056214246a00b004737eaf280bmr22268211qvb.17.1658171683344; 
+ Mon, 18 Jul 2022 12:14:43 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uTZQVQWwPPMZVWjNeORj3DyYm0bqQwOD8yJrGVuJKq/6cQX+6HQxENztTPPxMf6YSBirlBYg==
+X-Received: by 2002:a05:6214:246a:b0:473:7eaf:280b with SMTP id
+ im10-20020a056214246a00b004737eaf280bmr22268197qvb.17.1658171683129; 
+ Mon, 18 Jul 2022 12:14:43 -0700 (PDT)
+Received: from xz-m1.local ([74.12.30.48]) by smtp.gmail.com with ESMTPSA id
+ bm8-20020a05620a198800b006a67d257499sm12381444qkb.56.2022.07.18.12.14.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jul 2022 12:14:42 -0700 (PDT)
+Date: Mon, 18 Jul 2022 15:14:37 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+Message-ID: <YtWxHSjpORK31aLs@xz-m1.local>
+References: <20220707184600.24164-1-peterx@redhat.com>
+ <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] linux-user/hppa: Fix segfaults on page zero
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <YtWNC56seiV6VenA@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <YtWNC56seiV6VenA@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jBlN5+lk5IvWC4yrRtNgx5kuY17KW+D3J/D4sblXk1EHqP5V1NF
- ARaxXcMD43owdg3E/HE25JilbFa5HI7WcfHy9w1zYCyc53vWd/qNEgQaepm6kT77SRtEi0i
- fAVpK3Rzg4jV7Deu2H2N1czT1qhu3VvqcC+C8Yi6yz3nOtjRAiPbUD1bfhYYNftKtAhRFK+
- bABUGKX4jdCaoL7kZ23cg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dtcZqOYpDmY=:xTF6Y9nle1cuvCzY8Lc55D
- EsETArazf2//wjNqXnR30g59/NDHyAEo7WtjVtt/N37oV7q5gpcHDg3mrSZGAEXpQK7ouZSVm
- KLp+sXoJmBKh1wvIIooD/l/3thLKjXZVBIqycZvp07t9Z/5kUxNhR0kZoXWNCQ3+UyRvXufjc
- kM3COfLYG07R0Awp76rVAFE9JIxVJUNqHxYK+ehvutpnXgmqlrEqE+aTubAcA3k1OtwhkNTWQ
- FlRskwXQKH+rpjj9pyB8+63m8AJWKcHzA64pBkiJv1+uNZxAUbYHi/K3LB6skorE6+dwNdbXC
- Xu8nYaNpDcpCHqyZRRJpfRn878kclADUfAj92xXJe95833DjduP2rDXZh7bK86LcnTcvl9vue
- BsNsKNPVRrxV2WsXSTl7OzJL6F/5JNYFwPStYdRqPh67ghNElXLaDsqFzuWQX4FfnZqdz4APy
- 4loCwWmu6wSFiisxkZ52AKXgN4Jrjs6mPOSbcjB2BDw/v3ROxIuJYjPX8U8qS3syQAsyJxmpQ
- 5UuH36kzdOcjbQHOif5QdO29nq9nz592BMcUWUGdhx2xh2POz7Gt8h/9xE0ORA5LKKkNLLJUS
- UluYCeKuFtgMWlrIQfBVfctHPa+lqhiCtR5pjfd+ctdXuerFlZXn/uooyTfpV2da1fxrDkzyu
- OxHZ/LmasteLFnTja9zXvEEerVKtA5T6d32kBZphuX4Tvgbx4dD7Zlg8AfmV3XVFMoO7agttd
- jWZ+DLgUi4qIHyRkGsg73ANl+flB0ACtSy/Klg==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,55 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 18/07/2022 à 18:40, Helge Deller a écrit :
-> This program:
-> 
->      int main(void) { asm("bv %r0(%r0)"); return 0; }
-> 
-> produces on real hppa hardware the expected segfault:
-> 
->      SIGSEGV {si_signo=SIGSEGV, si_code=SEGV_MAPERR, si_addr=0x3} ---
->      killed by SIGSEGV +++
->      Segmentation fault
-> 
-> But when run on linux-user you get instead internal qemu errors:
-> 
-> ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
-> Bail out! ERROR: linux-user/hppa/cpu_loop.c:172:cpu_loop: code should not be reached
-> ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
-> Bail out! ERROR: accel/tcg/cpu-exec.c:933:cpu_exec: assertion failed: (cpu == current_cpu)
-> 
-> Fix it by adding the missing case for the EXCP_IMP trap in
-> cpu_loop() and raise a segfault.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
-> Changes:
-> 
-> v2: Dropped the "+++" in the commit message - it confused b4 and git-am.
->      no functional changes.
-> 
-> ---
-> diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-> index a576d1a249..8f374aeef6 100644
-> --- a/linux-user/hppa/cpu_loop.c
-> +++ b/linux-user/hppa/cpu_loop.c
-> @@ -143,6 +143,9 @@ void cpu_loop(CPUHPPAState *env)
->               env->iaoq_f = env->gr[31];
->               env->iaoq_b = env->gr[31] + 4;
->               break;
-> +        case EXCP_IMP:
-> +            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR, env->iaoq_f);
-> +            break;
->           case EXCP_ILL:
->               force_sig_fault(TARGET_SIGILL, TARGET_ILL_ILLOPN, env->iaoq_f);
->               break;
-> 
-> 
-> 
-Applied to my linux-user-for-7.1 branch.
+Hi, Thomas,
 
-Thanks,
-Laurent
+On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
+> On 07/07/2022 20.46, Peter Xu wrote:
+> > We used to stop running all tests if uffd is not detected.  However
+> > logically that's only needed for postcopy not the rest of tests.
+> > 
+> > Keep running the rest when still possible.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >   tests/qtest/migration-test.c | 11 +++++------
+> >   1 file changed, 5 insertions(+), 6 deletions(-)
+> 
+> Did you test your patch in the gitlab-CI? I just added it to my testing-next
+> branch and the the test is failing reproducibly on macOS here:
+> 
+>  https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
+>  https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
+> 
+> (without your patch the whole test is skipped instead)
+
+Thanks for reporting this.
+
+Is it easy to figure out which test was failing on your side?  I cannot
+easily reproduce this here on a MacOS with M1.
+
+Or any hint on how I could kick the same CI as you do would help too.  I
+remembered I used to kick the test after any push with .gitlab-ci.yml but
+it seems it's not triggering for some reason here.
+
+-- 
+Peter Xu
 
 
