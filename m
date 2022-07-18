@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E370C5784AF
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:04:47 +0200 (CEST)
-Received: from localhost ([::1]:38702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E469457850B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:13:54 +0200 (CEST)
+Received: from localhost ([::1]:34932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRMc-0000LX-Ih
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:04:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
+	id 1oDRVQ-0000Dl-Vp
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:13:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpm-0007Ti-2Y
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:42 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:60657)
+ id 1oDOpn-0007XE-Ta
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:50907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOph-0000iL-9l
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R431e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ id 1oDOph-0000if-Og
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:43 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046060;
  MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VJjIA7M_1658143037; 
+ TI=SMTPD_---0VJjIA9J_1658143042; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjIA7M_1658143037) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:17 +0800
+ fp:SMTPD_---0VJjIA9J_1658143042) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:22 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
-Subject: [PATCH 04/16] virtio: introduce __virtio_queue_reset()
-Date: Mon, 18 Jul 2022 19:17:01 +0800
-Message-Id: <b6b5ceb2a099537731c130a4ed44d7e108e88a1d.1658141552.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH 09/16] vhost-user: enable/disable a single vring
+Date: Mon, 18 Jul 2022 19:17:06 +0800
+Message-Id: <46deff7d44ad806a4bfb9235e57b0d37d8cfa95c.1658141552.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.132;
+Received-SPF: pass client-ip=115.124.30.44;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-132.freemail.mail.aliyun.com
+ helo=out30-44.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -64,71 +64,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Implement the vhost_set_single_vring_enable, which is to enable or
+disable a single vring.
 
-Separate the logic of vq reset. This logic will be called directly
-later.
+The parameter wait_for_reply is added to help for some cases such as
+vq reset.
 
+Meanwhile, vhost_user_set_vring_enable() is refactored.
+
+Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/virtio.c | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ hw/virtio/vhost-user.c | 55 ++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 48 insertions(+), 7 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 5d607aeaa0..67d54832a9 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2019,6 +2019,26 @@ static enum virtio_device_endian virtio_current_cpu_endian(void)
-     }
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 75b8df21a4..5a80a415f0 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -267,6 +267,8 @@ struct scrub_regions {
+     int fd_idx;
+ };
+ 
++static int enforce_reply(struct vhost_dev *dev, const VhostUserMsg *msg);
++
+ static bool ioeventfd_enabled(void)
+ {
+     return !kvm_enabled() || kvm_eventfds_enabled();
+@@ -1198,6 +1200,49 @@ static int vhost_user_set_vring_base(struct vhost_dev *dev,
+     return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
  }
  
-+static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
++
++static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
++                                              int index,
++                                              int enable,
++                                              bool wait_for_reply)
 +{
-+    vdev->vq[i].vring.desc = 0;
-+    vdev->vq[i].vring.avail = 0;
-+    vdev->vq[i].vring.used = 0;
-+    vdev->vq[i].last_avail_idx = 0;
-+    vdev->vq[i].shadow_avail_idx = 0;
-+    vdev->vq[i].used_idx = 0;
-+    vdev->vq[i].last_avail_wrap_counter = true;
-+    vdev->vq[i].shadow_avail_wrap_counter = true;
-+    vdev->vq[i].used_wrap_counter = true;
-+    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
-+    vdev->vq[i].signalled_used = 0;
-+    vdev->vq[i].signalled_used_valid = false;
-+    vdev->vq[i].notification = true;
-+    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
-+    vdev->vq[i].inuse = 0;
-+    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
++    int ret;
++
++    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
++        return -EINVAL;
++    }
++
++    struct vhost_vring_state state = {
++        .index = index,
++        .num   = enable,
++    };
++
++    VhostUserMsg msg = {
++        .hdr.request = VHOST_USER_SET_VRING_ENABLE,
++        .hdr.flags = VHOST_USER_VERSION,
++        .payload.state = state,
++        .hdr.size = sizeof(msg.payload.state),
++    };
++
++    bool reply_supported = virtio_has_feature(dev->protocol_features,
++                                              VHOST_USER_PROTOCOL_F_REPLY_ACK);
++
++    if (reply_supported && wait_for_reply) {
++        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
++    }
++
++    ret = vhost_user_write(dev, &msg, NULL, 0);
++    if (ret < 0) {
++        return ret;
++    }
++
++    if (wait_for_reply) {
++        return enforce_reply(dev, &msg);
++    }
++
++    return ret;
 +}
 +
- void virtio_reset(void *opaque)
+ static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
  {
-     VirtIODevice *vdev = opaque;
-@@ -2050,22 +2070,7 @@ void virtio_reset(void *opaque)
-     virtio_notify_vector(vdev, vdev->config_vector);
- 
-     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
--        vdev->vq[i].vring.desc = 0;
--        vdev->vq[i].vring.avail = 0;
--        vdev->vq[i].vring.used = 0;
--        vdev->vq[i].last_avail_idx = 0;
--        vdev->vq[i].shadow_avail_idx = 0;
--        vdev->vq[i].used_idx = 0;
--        vdev->vq[i].last_avail_wrap_counter = true;
--        vdev->vq[i].shadow_avail_wrap_counter = true;
--        vdev->vq[i].used_wrap_counter = true;
--        virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
--        vdev->vq[i].signalled_used = 0;
--        vdev->vq[i].signalled_used_valid = false;
--        vdev->vq[i].notification = true;
--        vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
--        vdev->vq[i].inuse = 0;
--        virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
-+        __virtio_queue_reset(vdev, i);
+     int i;
+@@ -1207,13 +1252,8 @@ static int vhost_user_set_vring_enable(struct vhost_dev *dev, int enable)
      }
- }
  
+     for (i = 0; i < dev->nvqs; ++i) {
+-        int ret;
+-        struct vhost_vring_state state = {
+-            .index = dev->vq_index + i,
+-            .num   = enable,
+-        };
+-
+-        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, &state);
++        int ret = vhost_user_set_single_vring_enable(dev, dev->vq_index + i,
++                                                     enable, false);
+         if (ret < 0) {
+             /*
+              * Restoring the previous state is likely infeasible, as well as
+@@ -2627,6 +2667,7 @@ const VhostOps user_ops = {
+         .vhost_set_owner = vhost_user_set_owner,
+         .vhost_reset_device = vhost_user_reset_device,
+         .vhost_get_vq_index = vhost_user_get_vq_index,
++        .vhost_set_single_vring_enable = vhost_user_set_single_vring_enable,
+         .vhost_set_vring_enable = vhost_user_set_vring_enable,
+         .vhost_requires_shm_log = vhost_user_requires_shm_log,
+         .vhost_migration_done = vhost_user_migration_done,
 -- 
 2.32.0
 
