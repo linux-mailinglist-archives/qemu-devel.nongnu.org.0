@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437FF578992
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:29:38 +0200 (CEST)
-Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5B05789AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:43:33 +0200 (CEST)
+Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDVUv-0005dZ-1B
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58824)
+	id 1oDViO-0001y0-EU
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVS1-0001TL-LE; Mon, 18 Jul 2022 14:26:37 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49008)
+ id 1oDVZ4-0007bs-SO
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:54 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVRz-0004Tb-Jx; Mon, 18 Jul 2022 14:26:37 -0400
+ id 1oDVZ3-0005Uv-2D
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:33:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ MIME-Version:Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=7PNgNb6zkq209T1kLm1cU9neNgyw5/02C5MNcIRUSGQ=; b=pNPkV+bnEKAejdei+AYDvXXRwp
- N80S2SVozXPCB6a5idJ4aYO4qufAGK0A3+zZb9DcXv+K8Z8YvRNG6ETs7tt8793ef0uPdNkLuoIke
- F7QPMovfkF/GDb/NHnA/qPFXX8IfJYFjbe8xlC23pTHGevoS+h88ezG47L2jLf0k4FgeIB/b7PGfS
- YWn0Fz+OeyELQKDc/nI2l2ELoH75YF3qNh2cU3GSL670uag2iYSVYM6QJV4szs3WAtbobi1C30a1N
- 2PiXnnwniRvIGZC2iLx0ln/1Ac/dr0dqSdh/jrWmGOf3MkwTdYHjwqskzHOSk8tm7G8Gm3PkQ5MmF
- LoVyLmc6z9xEH12jcc9KA2wJT3WM+hYveXjrDdJ/AEuqG/FIssENUOc+DKPuWGknOv8Rpv6OS7GuR
- hmW5CdzcFGJXbYXbHUap0+8IpbPclX3LBSeyOa6hW6mGUE6Sb4/vDQR7R2icVTBqZGA/Hw4d31Bjb
- NEoTkNUjmYoTBSTZbLyAUpY+SbTVQXc0nc8mQyQW9hlO5m+fDi0D+0Et2twKAZFXUqdE9eDB+0luB
- b30aJ87cYjS9/BoXqoTAto3ufsrE9/1PD37xz9MviaWWxFgn/JjNGY20kVxslnogM3Onkks1hcAwP
- jHVcNdk8xl722y5YXQ+xT6Yz9a8Uuirihi//BKOnw=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ bh=Ka/qwllZGByVVdc+G4yfl8TioQJP/dkdgKiwId+8L9E=; b=uDFoaY9EwpDDNAaq5h5So4YfTg
+ FQWfP/IafPObdWQNJxaCbgre8qg/lQWguOqwR7gd5rvVMbw05fFd1Kcn8/de08tgbvNxAemOAPK8v
+ XX9Ufa3E72LWB535NWZXQyACZCTgBOenXiMwoAldN82RTYzdPdD3o+lcIWjR9RVBRZz/7bhkgGneD
+ fqU48MUDzWpRGNhkQqaVflmgdPHT8srK/P716TWP/N4MbKWwlwmm/zmKLzQQsMtExe6/a89qQ+NdP
+ IH1mwPOZE3DVfvNv2B10KF+SFA7lOxRw4sZrScwAdzS20vnGPkLVKwNrjA4RtVBldu5h/CtQ4G5ce
+ 5GuRQWBozmbIodkAsl7vSnjclifq/4sSiVobX2dE2CIrzDxOJcX6TKpTodQ9+TWZ/xfeCFA5f7f5s
+ SPfUS6/yiUUJolbHu/lq3t9UMIzBM8PF3eXXlExNedI/W0lJrR/fNCnga2S24kMIgbdbbDmVpwIPl
+ WkXQPxIWQZSCSONsULI+iswapY/LPOCeDjDq/HMX/B1OuJOdWbs/p6vU28cQSzdxJkIxXKB/6qClM
+ RBctDRpt0AWBik40MoVClTgo/kFfp2jHBpl9F0Zf3/dP9iC1/PXPMBzuIiklAwjcyPEF6nJwLlOQW
+ 41BfepFQENHW5lNJT7YatCUbjhNUZsSqCoXpYj6hI=;
+Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVQT-000B2Q-9v; Mon, 18 Jul 2022 19:25:05 +0100
-Message-ID: <28ed7446-9500-a8c5-f4f2-54ae333f54fd@ilande.co.uk>
-Date: Mon, 18 Jul 2022 19:26:17 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
+ id 1oDVXg-000B51-Ii; Mon, 18 Jul 2022 19:32:32 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org,
- pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
- aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20220712215251.7944-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20220712215251.7944-1-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Date: Mon, 18 Jul 2022 19:32:59 +0100
+Message-Id: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 00/40] PS2 device QOMification - part 2
+Subject: [PULL 00/40] qemu-sparc queue 20220718
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -63,9 +59,8 @@ X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,109 +76,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/07/2022 22:52, Mark Cave-Ayland wrote:
+The following changes since commit 782378973121addeb11b13fd12a6ac2e69faa33f:
 
-> Here is the follow-on series from part 1 which completes the work to remove
-> the legacy global device init functions for PS2 devices. Now that part 1 has
-> been applied, the hard part to remove the PS2 function callback and argument
-> has been completed and all that remains is to improve the PS2 device
-> QOMification to allow the legacy PS2 functions to be removed.
-> 
-> Patches 1-11 update the pl050 device to remove the use of ps2_kbd_init() and
-> ps2_mouse_init(), whilst patches 12-34 make some more involved changes to
-> the lasips2 device (in particular completing the LASIPS2Port abstraction)
-> before doing the same.
-> 
-> Finally patches 35-40 complete the process for the pckbd (I8042 and I8042_MMIO
-> devices) before removing the now unused ps2_kbd_init(), ps2_mouse_init() and
-> i8042_mm_init() functions.
-> 
-> Note that this series is a migration break for the HPPA B160L and MIPS magnum
-> machines: I've had agreement from both Helge and Hervé that this is worth
-> doing to allow the use of the DeviceClass vmsd property to set the
-> VMStateDescription rather than manually calling vmstate_register().
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> 
-> Patches still requiring review for updated commit messages (no code changes
-> from v1): 27, 28 and 34
-> 
-> v2:
-> - Rebase onto master
-> - Add A-B and R-B tags from Helge and Peter
-> - s/jazz/magnum/ for consistency in commit message for patch 35
-> - Update commit messages in patches 27 and 28 to clarify why the int_status
->    bitmap isn't immediately added to the vmstate_lasips2 VMStateDescription
-> - Update commit message in patch 34 to detail the extra changes to the
->    vmstate_lasips2 VMStateDescription
-> 
-> 
-> Mark Cave-Ayland (40):
->    pl050: move PL050State from pl050.c to new pl050.h header file
->    pl050: rename pl050_keyboard_init() to pl050_kbd_init()
->    pl050: change PL050State dev pointer from void to PS2State
->    pl050: introduce new PL050_KBD_DEVICE QOM type
->    pl050: introduce new PL050_MOUSE_DEVICE QOM type
->    pl050: move logic from pl050_realize() to pl050_init()
->    pl050: introduce PL050DeviceClass for the PL050 device
->    pl050: introduce pl050_kbd_class_init() and pl050_kbd_realize()
->    pl050: introduce pl050_mouse_class_init() and pl050_mouse_realize()
->    pl050: don't use legacy ps2_kbd_init() function
->    pl050: don't use legacy ps2_mouse_init() function
->    lasips2: don't use vmstate_register() in lasips2_realize()
->    lasips2: remove the qdev base property and the lasips2_properties
->      array
->    lasips2: remove legacy lasips2_initfn() function
->    lasips2: change LASIPS2State dev pointer from void to PS2State
->    lasips2: QOMify LASIPS2Port
->    lasips2: introduce new LASIPS2_KBD_PORT QOM type
->    lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
->    lasips2: move keyboard port initialisation to new
->      lasips2_kbd_port_init() function
->    lasips2: move mouse port initialisation to new
->      lasips2_mouse_port_init() function
->    lasips2: introduce lasips2_kbd_port_class_init() and
->      lasips2_kbd_port_realize()
->    lasips2: introduce lasips2_mouse_port_class_init() and
->      lasips2_mouse_port_realize()
->    lasips2: rename LASIPS2Port irq field to birq
->    lasips2: introduce port IRQ and new lasips2_port_init() function
->    lasips2: introduce LASIPS2PortDeviceClass for the LASIPS2_PORT device
->    lasips2: add named input gpio to port for downstream PS2 device IRQ
->    lasips2: add named input gpio to handle incoming port IRQs
->    lasips2: switch to using port-based IRQs
->    lasips2: rename LASIPS2Port parent pointer to lasips2
->    lasips2: standardise on lp name for LASIPS2Port variables
->    lasips2: switch register memory region to DEVICE_BIG_ENDIAN
->    lasips2: don't use legacy ps2_kbd_init() function
->    lasips2: don't use legacy ps2_mouse_init() function
->    lasips2: update VMStateDescription for LASIPS2 device
->    pckbd: introduce new vmstate_kbd_mmio VMStateDescription for the
->      I8042_MMIO device
->    pckbd: don't use legacy ps2_kbd_init() function
->    ps2: remove unused legacy ps2_kbd_init() function
->    pckbd: don't use legacy ps2_mouse_init() function
->    ps2: remove unused legacy ps2_mouse_init() function
->    pckbd: remove legacy i8042_mm_init() function
-> 
->   hw/hppa/machine.c          |   7 +-
->   hw/input/lasips2.c         | 320 ++++++++++++++++++++++++++-----------
->   hw/input/pckbd.c           |  82 ++++++----
->   hw/input/pl050.c           | 112 ++++++++-----
->   hw/input/ps2.c             |  26 ---
->   hw/input/trace-events      |   2 -
->   hw/mips/jazz.c             |  13 +-
->   include/hw/input/i8042.h   |   7 +-
->   include/hw/input/lasips2.h |  57 +++++--
->   include/hw/input/pl050.h   |  59 +++++++
->   include/hw/input/ps2.h     |   2 -
->   11 files changed, 466 insertions(+), 221 deletions(-)
->   create mode 100644 include/hw/input/pl050.h
+  Merge tag 'pull-target-arm-20220718' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-18 16:29:32 +0100)
 
-I've queued this via my qemu-sparc branch.
+are available in the Git repository at:
 
+  https://github.com/mcayland/qemu.git tags/qemu-sparc-20220718
 
-ATB,
+for you to fetch changes up to b704d63d094cc757c20c186ff40d692deb5e30de:
 
-Mark.
+  pckbd: remove legacy i8042_mm_init() function (2022-07-18 19:28:46 +0100)
+
+----------------------------------------------------------------
+qemu-sparc queue
+- This is the second half of the PS2 QOMification patchset
+
+----------------------------------------------------------------
+Mark Cave-Ayland (40):
+      pl050: move PL050State from pl050.c to new pl050.h header file
+      pl050: rename pl050_keyboard_init() to pl050_kbd_init()
+      pl050: change PL050State dev pointer from void to PS2State
+      pl050: introduce new PL050_KBD_DEVICE QOM type
+      pl050: introduce new PL050_MOUSE_DEVICE QOM type
+      pl050: move logic from pl050_realize() to pl050_init()
+      pl050: introduce PL050DeviceClass for the PL050 device
+      pl050: introduce pl050_kbd_class_init() and pl050_kbd_realize()
+      pl050: introduce pl050_mouse_class_init() and pl050_mouse_realize()
+      pl050: don't use legacy ps2_kbd_init() function
+      pl050: don't use legacy ps2_mouse_init() function
+      lasips2: don't use vmstate_register() in lasips2_realize()
+      lasips2: remove the qdev base property and the lasips2_properties array
+      lasips2: remove legacy lasips2_initfn() function
+      lasips2: change LASIPS2State dev pointer from void to PS2State
+      lasips2: QOMify LASIPS2Port
+      lasips2: introduce new LASIPS2_KBD_PORT QOM type
+      lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
+      lasips2: move keyboard port initialisation to new lasips2_kbd_port_init() function
+      lasips2: move mouse port initialisation to new lasips2_mouse_port_init() function
+      lasips2: introduce lasips2_kbd_port_class_init() and lasips2_kbd_port_realize()
+      lasips2: introduce lasips2_mouse_port_class_init() and lasips2_mouse_port_realize()
+      lasips2: rename LASIPS2Port irq field to birq
+      lasips2: introduce port IRQ and new lasips2_port_init() function
+      lasips2: introduce LASIPS2PortDeviceClass for the LASIPS2_PORT device
+      lasips2: add named input gpio to port for downstream PS2 device IRQ
+      lasips2: add named input gpio to handle incoming port IRQs
+      lasips2: switch to using port-based IRQs
+      lasips2: rename LASIPS2Port parent pointer to lasips2
+      lasips2: standardise on lp name for LASIPS2Port variables
+      lasips2: switch register memory region to DEVICE_BIG_ENDIAN
+      lasips2: don't use legacy ps2_kbd_init() function
+      lasips2: don't use legacy ps2_mouse_init() function
+      lasips2: update VMStateDescription for LASIPS2 device
+      pckbd: introduce new vmstate_kbd_mmio VMStateDescription for the I8042_MMIO device
+      pckbd: don't use legacy ps2_kbd_init() function
+      ps2: remove unused legacy ps2_kbd_init() function
+      pckbd: don't use legacy ps2_mouse_init() function
+      ps2: remove unused legacy ps2_mouse_init() function
+      pckbd: remove legacy i8042_mm_init() function
+
+ hw/hppa/machine.c          |   7 +-
+ hw/input/lasips2.c         | 320 +++++++++++++++++++++++++++++++--------------
+ hw/input/pckbd.c           |  82 +++++++-----
+ hw/input/pl050.c           | 112 +++++++++++-----
+ hw/input/ps2.c             |  26 ----
+ hw/input/trace-events      |   2 -
+ hw/mips/jazz.c             |  13 +-
+ include/hw/input/i8042.h   |   7 +-
+ include/hw/input/lasips2.h |  57 +++++---
+ include/hw/input/pl050.h   |  59 +++++++++
+ include/hw/input/ps2.h     |   2 -
+ 11 files changed, 466 insertions(+), 221 deletions(-)
+ create mode 100644 include/hw/input/pl050.h
 
