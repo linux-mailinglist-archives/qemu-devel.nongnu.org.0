@@ -2,139 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFED257837D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:17:49 +0200 (CEST)
-Received: from localhost ([::1]:58272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6DA75783CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:35:36 +0200 (CEST)
+Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQdB-0007am-2i
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38442)
+	id 1oDQuM-0002JQ-NQ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:35:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <NikunjAmritlal.Dadhania@amd.com>)
- id 1oDQWJ-0003Sv-82
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:10:43 -0400
-Received: from mail-bn7nam10on2078.outbound.protection.outlook.com
- ([40.107.92.78]:14336 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1)
+ (envelope-from <8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com>)
+ id 1oDQs4-0006rA-Mx
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:33:13 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:38413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <NikunjAmritlal.Dadhania@amd.com>)
- id 1oDQWG-00035h-J6
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:10:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jCBLeaNSBlLcdmPuuMRpvZDYfdfvEkSHcu8lXtl70lgIWdLe8Dp57yj8g1R7apWl0YFYJGR5KaFz0mZyOEXLf9irGM0LCnmZrv79Zeomh4G/sbhdgdG2km/xB+5mulpiwRSV0TQ0Ko62ntN9DFrBULVRI2V7/eLnhw3WE4bSQ3Mez08F6su+oQjJ71FM71Hf+CzGjaHrqXhg2aU67tQzZTVeV/nqDc+2DyIJK2+IIutk2lA+h6GMZlSo7gdZGMemLxxBtwIgP2an5Bs1YrKn9i2FS8jJqw+eIUWZbWqEDlhSNj85GVY3Z5maqip0/zNQF7Q+sdWyrgdETvJPkbrUgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V5byKFZnY12D1pY2cEK+jqpG9Lz+DC4qYtQIFkXZ3fc=;
- b=l5iOGKZKMv8VFHatayf/h508rZnk1ZazOutvVK9sdnMFPCgz1gqzXIBIXBGtomIgU9SC8mfp/4h58c+gPfLee+S5G4zwz7/Fj7cJ1JRdWqui3lI/tfcnVdSOI6t04fJBJ/2euVDDIcb5Rht9WqGHr+l6tfJQM7ZF78ru8WLVfVMTgz9IXKaYTMSlTxOiHFPYcmo5Z1W4/lk3jPhGTvBl+RE74PZueHKhUHxH9T5YgleTR5ldYhsgUaRMZ7VUaVb+fRZEpzqBpw+0IIQFMjHtOD+Rx+/KBKbG5qOkqoDiYx+LMNixSgjMsVq/wNPgcxjQM+uEKw9PNT7EtYw5qNSY4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V5byKFZnY12D1pY2cEK+jqpG9Lz+DC4qYtQIFkXZ3fc=;
- b=ElqLCmQYQ8iHJka1I/wImI8zS3ArpeE9D+wyRs1IPmtoBwjLiYwAfx/+kjjC+KTWHqz9MImtZ8kO+k5rwfvwaTMQvBTPpjK2QZAFLHYaknGl7IXVIEsR5WbOQqE1KUFPlpn8VdyDLRFdfDRD/YrDbzTEOC3yr9Sxuq8ZrDFnzTU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com (2603:10b6:8:96::19) by
- BN7PR12MB2834.namprd12.prod.outlook.com (2603:10b6:408:31::19) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5438.21; Mon, 18 Jul 2022 13:10:35 +0000
-Received: from DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da]) by DS7PR12MB6309.namprd12.prod.outlook.com
- ([fe80::d9f4:5879:843b:55da%9]) with mapi id 15.20.5417.026; Mon, 18 Jul 2022
- 13:10:35 +0000
-Message-ID: <e4cd8e81-a8a0-a898-e61b-3e0250dc4995@amd.com>
-Date: Mon, 18 Jul 2022 18:40:24 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.3.2
-Subject: Re: [PATCH] x86: cpu: Error out if memory exceeds addressable range
-Content-Language: en-US
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, f4bug@amsat.org,
- Abraham.Shaju@amd.com, bharata@amd.com,
- Joao Martins <joao.m.martins@oracle.com>,
- Sean Christopherson <seanjc@google.com>
-References: <20220718081734.135598-1-nikunj@amd.com>
- <20220718144210.4ef95c53@redhat.com>
-From: "Nikunj A. Dadhania" <nikunj@amd.com>
-In-Reply-To: <20220718144210.4ef95c53@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0016.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:25::21) To DS7PR12MB6309.namprd12.prod.outlook.com
- (2603:10b6:8:96::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b83b344-c8aa-4cb1-d3e3-08da68bee6e5
-X-MS-TrafficTypeDiagnostic: BN7PR12MB2834:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Is1Ub5RXpzfW4SZAiM0ZDbQv03ItWKrog1WvjHcGMBWTmNtYLAS7sW6plcz9gWnsWNGnccB0dT3/T0oebUVRv14jpZb5wWlLrbFfUdXKGX5U/JDDnxuHtOMofxRyUbsiHi36VhuS6H4+u33OyqI73SBHyrB34PC1Z7M4M5sC7fHBdR1R4bdjJV5RPGyrT3Em5yj5wsT/vRIz8jnkHjH+4GntSl62UT/TwC5HZ+/3z8DCxKZs9JyuEXTWJqqdGYDFVMTvwJ5gxoDKRsH7BN0Ymk0/3KxC8WrAMNhZBHsPgy6x7ZtEUFPOj99aoECep4pmhmGhZ8UN0AUI6Av9aXtztUEWc1S4SVKORIAdCuYgmRJT9dSRbVfErPwIRj1krLMXhcMdLFZfoYfGV5uJBLuxKIcQov2+b9dwaUsDTB2kyzC3NXdkZqvw2oQp4R7kAS3u1wiZ1vdichOg39sM/2TZcgZzsmuLQZTSfnY66bjS7A/19uPI4nEFaN9/j1B9DRu6O0HIm4i7/OicABxmBk1Itoj7zTHD/5Mk1NCjlbxyfMfDku72Uqw/zwqjqpcD3y4SGJw+WlaZQ2Gc/FD3fYdYQs2qI6VVGZ+FljoxY9AuHREuOivJGo7NBZ9Kwh+7nxFeCIah9BBFW8dL3Ca1cmaKrTd9bcp7nbH8h3brrN1n6u3XEhmIXwIbmCqvxdPhm660tpNI9wd7kzdYLTnYsrzyhXVIeCCTs6z+PwmjPXoPsqBvIWoxei36YC6+8QK8CgVm4Rlgz6RjUqWVPFP+j4bjsFtzRciU7RcSLfbCnHjdCdI+MzhpIQgUh/SK4IpYF0s5F+3Hjoyjp6PFGSH3a0Tsw+IBjZRzfWsx2Sc4FgWCuLXQqlp2gVc4ebqpTHR9lKWd
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DS7PR12MB6309.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(396003)(366004)(346002)(376002)(39860400002)(2906002)(31696002)(5660300002)(8936002)(26005)(6512007)(53546011)(6506007)(38100700002)(478600001)(2616005)(6486002)(966005)(41300700001)(6666004)(66946007)(6916009)(8676002)(4326008)(54906003)(316002)(66476007)(186003)(83380400001)(36756003)(66556008)(31686004)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZGh5UmdDNitPQ0hjb3JTZWVqZFhHUVFvMzd5SzJHMUlIUEJuaDJwY1NtYW1T?=
- =?utf-8?B?OXFVRWxzMDExanJLcHpwcE8rbFltQ1E1dGFVcEoyZkg1SVBYT1lRNUMzeEs4?=
- =?utf-8?B?REFNSHBzRmpGWXI5a1JMNExuS1BtYXpFNnMycHlERC83NUJtVmxyNEZEcTVl?=
- =?utf-8?B?c1N1WXVJZWFSV0ZHZkVvRVdZV0g4VTh4T0Q4cis5M2c0Zmc4STRyQnpJZmNm?=
- =?utf-8?B?RytVcmV1aHc5RllzRXZSSnNqTDFZZ1dpbUZYV05WelBISnBldTRUWjJuOVhF?=
- =?utf-8?B?NkpONVlDR3NxMGdnK0J1R2dNdTdEbTFLVTVRbU00NlZnWWlVUzQzQTg5S3Nh?=
- =?utf-8?B?TzdlR3IySFRTY3l0MFFiemJGRVJXSVNEMWxuSVBSYXQwZHVzTTBmUlNZVTR0?=
- =?utf-8?B?ZWlwUmVFc1VKRXdHYi8yVE9iZmdJV0xsZGFWMVRURlRFOTZXVHcxRXZXTE45?=
- =?utf-8?B?VWd6ZFNDalF1T3gvRHhhSmk1bnRHZEpMRnppNFJCNEdoc0VZdUZkcUM1WXdt?=
- =?utf-8?B?bEoraXFLamw2YmNxcFJtZzdQS3NqSjZJVFdXdmEwVVEydWh6WGV6U3dOVVN5?=
- =?utf-8?B?TVhidjNobVN2TlJVTW1GYmY2L0dsVmVqYzBDcG9jbmQrRi9SNGYrNzdlWTEr?=
- =?utf-8?B?ODUrU2RCazBKWTNIYzM0SjAvSWRLN0Z0cmROZHR4cGJoejlZSXpIMmxteFM4?=
- =?utf-8?B?TitjN0Y2VE9keG9YRzVKdEprUGMwT2NwYWY4ZEYwWG9nbDVkZ1NyblNGMG5E?=
- =?utf-8?B?bGFnaVVsMjlEejZ6RUlGVXM0dEZ6bk8xWFFQMTdvRDAwM2o0ZWtKdVZjWnhQ?=
- =?utf-8?B?VU1uUWluSDg1T081UGRBbnZ1NnhwS1J3RndkTE9SQm5ZdG9PeGgxN2NtMVU0?=
- =?utf-8?B?L2U5Z3hJVk1BSW1IbGpFSW91d2E0RE9mR1FxSW1tQ1VpQVlFdXhEWjkyN0My?=
- =?utf-8?B?T3NUc3luaW8yeUNiMDY3T0lnMXZIT2UycFlTWE9uTnNHa1R5cjg3Z1FFV21t?=
- =?utf-8?B?M1VqYzdQYU9wMHUxdUJJQWliS1hKYWR1T3NUNllheXFKMG11QnJ4ZWJkeGZU?=
- =?utf-8?B?R1FvT1NxekF6TEFRZlg3SDRiTGZWOHBuSW45M2V1d0FMdC95TWZnY1VWWDA4?=
- =?utf-8?B?VTRtNFIrblVlU1NtOHo1TWt2RTBMcjJ5Rk51NWkveVozbUF6QzlYV2lQTTY0?=
- =?utf-8?B?R2U5b0VQSXRJR2JaVEdWS0IwYjR0Q3EwVFNMZThjZDI4bnRMQVg5UnlNV2JT?=
- =?utf-8?B?Z0t1bk9lMVFSNExjR1lWWk4rdXYvaWFremMra2lobFp5RkhMWXhMNWxMQUM1?=
- =?utf-8?B?VUFRYVdhclVPTm0xQngyaTRXYXNib0o3N0dWS0JicWtGN3JzaXpBNWEwSTVO?=
- =?utf-8?B?UEduU2VhQXh6ektGR2xnd0NvOTlXZ3MyS0huME8wbFl1VWltTUREb2Q1R1Yv?=
- =?utf-8?B?NHZVME95YWxlZys1Yjk2bUJ5ME1zVE14S09BOXdCdE4zcTZ3eXBGOHEyUnhp?=
- =?utf-8?B?ZnF0cWtlNnU4WjlsdzlCVFZOa0ZwSTlWbFlTNE1pSnNlM1RNYnZDNVovUkFs?=
- =?utf-8?B?QUJPQ0Q1MHVyY0xHa0xmVXZJZE9aUzdGZ29naGU5UHZ1ZFMxMk1xaExsRTFD?=
- =?utf-8?B?ckNQRVpoSVk2MHJHT3FqR3JHWXB4Tm50WW82MlBvTVNnaWR6L1dRSG1sL3RH?=
- =?utf-8?B?dUg4ME9mRTNTUkxsNmxpcUc1VHJMUXduMmRPcGxEMTRzZjRBcXExSmEzRVpY?=
- =?utf-8?B?MlRldkdsSGZyazdrejF4WjNBSUk2Yk5TemgxM3crNUxxSDdUU3Z2cjFBQkk4?=
- =?utf-8?B?YjJSdkpGaFBmOU1QK21Ld05ieHlWM2RhTXJQNTBkWlZOR0VMQksyV0VDQ2Zx?=
- =?utf-8?B?enR6N2VmckhvaWIxMlh0WUptRVlkSE11c05UcVAvTHQzQjVoTGE0bGR4VVk4?=
- =?utf-8?B?K1JTdk9penNZaHFpazlQMnJpR2pkOXBXSm9Zb3NyRmk4dWZXWTIvZmVzcDAw?=
- =?utf-8?B?aGhvbGZsMVM2YTg4b2tCV3JwQ0VOb016U2hZckppSHJqRFZDNUNWZEFRWG9L?=
- =?utf-8?B?ZW9IdTBwaE1YKytEQ3pjcGl6RmY2ejhHYWlYZ3UxU0ZsL0Z3N1dFbjBzTGJE?=
- =?utf-8?Q?uOLwqM/bhzjzq25hRvBRCTaxG?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b83b344-c8aa-4cb1-d3e3-08da68bee6e5
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6309.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jul 2022 13:10:35.6211 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: TUVGxUQcmbigfO/DKhjNmGiCr4F+1uJe5w2+0z2VA8JUb4neQXV578ULkwhU2DHCjJmUW3MegZs1tQFPdTtX6A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR12MB2834
-Received-SPF: softfail client-ip=40.107.92.78;
- envelope-from=NikunjAmritlal.Dadhania@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+ (Exim 4.90_1)
+ (envelope-from <8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com>)
+ id 1oDQrx-00077c-R8
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:33:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:References:
+ In-Reply-To:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=6JGfAhhnNliHRD6XV63rzC0cp9nO7bdUd96+ZMDVPso=; b=o/AG2
+ mlZJAk/N2yE+t0WEIXSGYHc/vbCRSsB0C9cG5Cs99qYOIVJEbfyijdvqAbXYZfAa6YyCBwzBPa1oA
+ eTevJIVD2YgQPzb08UMGVkxFkiqfz3+om3DTkbuEDVPPHYMzJgnP6xtmjqcS1C4LZ2zs/FtmVJdD+
+ u238vRKWdxM2xxF1pyLdAIvu6fpJjRZxu6SHtzCSEg1+ulCo8eIe7vU8lO8bmhhXpKDZ/EkUcCKyG
+ 4DanXqgJE4ZaPkdH3kl0LdZ5DwVQJdf2oG+gcbsqYaZz7TYJ61MQWXZ+ylNd8wIjyCWfJjMTZ/Ryv
+ E9rf+ctoEolZVzBFRRkbR+UoCX8UQ==;
+In-Reply-To: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
+References: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Mon, 18 Jul 2022 15:10:55 +0200
+Subject: [RFC PATCH v2] tests/9p: introduce declarative function calls
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Message-Id: <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=8d933d09f8abee3f8aec06713b28d03e0af96c1a@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,32 +62,480 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+There are currently 4 different functions for sending a 9p 'Twalk'
+request. They are all doing the same thing, just in a slightly different
+way and with slightly different function arguments.
 
+Merge those 4 functions into a single function by using a struct for
+function call arguments and use designated initializers when calling this
+function to turn usage into a declarative apporach, which is better
+readable and easier to maintain.
 
-On 7/18/2022 6:12 PM, Igor Mammedov wrote:
-> On Mon, 18 Jul 2022 13:47:34 +0530
-> Nikunj A Dadhania <nikunj@amd.com> wrote:
-> 
->> Currently it is possible to start a guest with memory that is beyond
->> the addressable range of CPU and QEMU does not even warn about it.
->> The default phys_bits is 40 and can address 1TB. However it allows to
->> start a guest with greater than 1TB memory.
->>
->> Prevent this by erroring out in such a scenario.
->>
->> Reported-by: Shaju Abraham <Abraham.Shaju@amd.com>
->> Signed-off-by: Nikunj A Dadhania <nikunj@amd.com>
-> 
-> 
-> Following shall care of your issue:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg900136.html
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
 
-Thanks, I tried out the patch series, I could start guest till 978G (not sure 
-why this magic number yet) and after that I start getting errors:
+v1 -> v2:
 
-$ ./build/qemu-system-x86_64 -enable-kvm  -machine q35 -m 979G  -kernel bzImage -initrd initramfs.cpio -vga none -nographic -append "console=ttyS0,115200n8 earlyprintk=serial,ttyS0,115200 debug=1 " -nodefaults -serial stdio
-qemu-system-x86_64: Address space limit 0xffffffffff < 0x1fc3fffffff phys-bits too low (40)
+  * Also merge low-level function v9fs_twalk().
 
-Regards
-Nikunj
+  * Lower case twalk() function name.
+
+  * Lower case rwalk struct field.
+
+  * Add result struct TWalkRes.
+
+  NOTE: I have not separated rwalk struct, because it would have
+  simplified code at one place, but complicated it at another one.
+
+ tests/qtest/virtio-9p-test.c | 251 +++++++++++++++++++++--------------
+ 1 file changed, 154 insertions(+), 97 deletions(-)
+
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index 25305a4cf7..69b1c27268 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -72,6 +72,7 @@ static int split(const char *in, const char *delim, char ***out)
+ static void split_free(char ***out)
+ {
+     int i;
++    if (!*out) return;
+     for (i = 0; (*out)[i]; ++i) {
+         g_free((*out)[i]);
+     }
+@@ -390,31 +391,6 @@ static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
+     v9fs_req_free(req);
+ }
+ 
+-/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
+-static P9Req *v9fs_twalk(QVirtio9P *v9p, uint32_t fid, uint32_t newfid,
+-                         uint16_t nwname, char *const wnames[], uint16_t tag)
+-{
+-    P9Req *req;
+-    int i;
+-    uint32_t body_size = 4 + 4 + 2;
+-
+-    for (i = 0; i < nwname; i++) {
+-        uint16_t wname_size = v9fs_string_size(wnames[i]);
+-
+-        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
+-        body_size += wname_size;
+-    }
+-    req = v9fs_req_init(v9p,  body_size, P9_TWALK, tag);
+-    v9fs_uint32_write(req, fid);
+-    v9fs_uint32_write(req, newfid);
+-    v9fs_uint16_write(req, nwname);
+-    for (i = 0; i < nwname; i++) {
+-        v9fs_string_write(req, wnames[i]);
+-    }
+-    v9fs_req_send(req);
+-    return req;
+-}
+-
+ /* size[4] Rwalk tag[2] nwqid[2] nwqid*(wqid[13]) */
+ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+ {
+@@ -432,6 +408,98 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+     v9fs_req_free(req);
+ }
+ 
++/* options for 'Twalk' 9p request */
++typedef struct TWalkOpt {
++    /* 9P client being used (mandatory) */
++    QVirtio9P *client;
++    /* user supplied tag number being returned with response (optional) */
++    uint16_t tag;
++    /* file ID of directory from where walk should start (optional) */
++    uint32_t fid;
++    /* file ID for target directory being walked to (optional) */
++    uint32_t newfid;
++    /* low level variant of path to walk to (optional) */
++    uint16_t nwname;
++    char **wnames;
++    /* high level variant of path to walk to (optional) */
++    const char *path;
++    /* data being received from 9p server as 'Rwalk' response (optional) */
++    struct {
++        uint16_t *nwqid;
++        v9fs_qid **wqid;
++    } rwalk;
++    /* only send Twalk request but not wait for a reply? (optional) */
++    bool requestOnly;
++    /* do we expect an Rlerror response, if yes which error code? (optional) */
++    uint32_t expectErr;
++} TWalkOpt;
++
++/* result of 'Twalk' 9p request */
++typedef struct TWalkRes {
++    /* file ID of target directory been walked to */
++    uint32_t newfid;
++    /* if requestOnly was set: request object for further processing */
++    P9Req *req;
++} TWalkRes;
++
++/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
++static TWalkRes twalk(TWalkOpt opt)
++{
++    P9Req *req;
++    int i;
++    uint32_t body_size = 4 + 4 + 2;
++    uint32_t err;
++    char **wnames = NULL;
++
++    g_assert(opt.client);
++    /* expecting either high- or low-level path, both not both */
++    g_assert(!opt.path || !(opt.nwname || opt.wnames));
++    /* expecting either Rwalk or Rlerror, but obviously not both */
++    g_assert(!opt.expectErr || !(opt.rwalk.nwqid || opt.rwalk.wqid));
++
++    if (!opt.newfid) {
++        opt.newfid = genfid();
++    }
++
++    if (opt.path) {
++        opt.nwname = split(opt.path, "/", &wnames);
++        opt.wnames = wnames;
++    }
++
++    for (i = 0; i < opt.nwname; i++) {
++        uint16_t wname_size = v9fs_string_size(opt.wnames[i]);
++
++        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
++        body_size += wname_size;
++    }
++    req = v9fs_req_init(opt.client, body_size, P9_TWALK, opt.tag);
++    v9fs_uint32_write(req, opt.fid);
++    v9fs_uint32_write(req, opt.newfid);
++    v9fs_uint16_write(req, opt.nwname);
++    for (i = 0; i < opt.nwname; i++) {
++        v9fs_string_write(req, opt.wnames[i]);
++    }
++    v9fs_req_send(req);
++
++    if (!opt.requestOnly) {
++        v9fs_req_wait_for_reply(req, NULL);
++        if (opt.expectErr) {
++            v9fs_rlerror(req, &err);
++            g_assert_cmpint(err, ==, opt.expectErr);
++        } else {
++            v9fs_rwalk(req, opt.rwalk.nwqid, opt.rwalk.wqid);
++        }
++        req = NULL; /* request was freed */
++    }
++
++    split_free(&wnames);
++
++    return (TWalkRes) {
++        .newfid = opt.newfid,
++        .req = req,
++    };
++}
++
+ /* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
+ static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t request_mask,
+                             uint16_t tag)
+@@ -669,52 +737,6 @@ static void do_version(QVirtio9P *v9p)
+     g_assert_cmpmem(server_version, server_len, version, strlen(version));
+ }
+ 
+-/*
+- * utility function: walk to requested dir and return fid for that dir and
+- * the QIDs of server response
+- */
+-static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t *nwqid,
+-                              v9fs_qid **wqid)
+-{
+-    char **wnames;
+-    P9Req *req;
+-    const uint32_t fid = genfid();
+-
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rwalk(req, nwqid, wqid);
+-
+-    split_free(&wnames);
+-    return fid;
+-}
+-
+-/* utility function: walk to requested dir and return fid for that dir */
+-static uint32_t do_walk(QVirtio9P *v9p, const char *path)
+-{
+-    return do_walk_rqids(v9p, path, NULL, NULL);
+-}
+-
+-/* utility function: walk to requested dir and expect passed error response */
+-static void do_walk_expect_error(QVirtio9P *v9p, const char *path, uint32_t err)
+-{
+-    char **wnames;
+-    P9Req *req;
+-    uint32_t _err;
+-    const uint32_t fid = genfid();
+-
+-    int nwnames = split(path, "/", &wnames);
+-
+-    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+-    v9fs_req_wait_for_reply(req, NULL);
+-    v9fs_rlerror(req, &_err);
+-
+-    g_assert_cmpint(_err, ==, err);
+-
+-    split_free(&wnames);
+-}
+-
+ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     alloc = t_alloc;
+@@ -757,7 +779,10 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
+     }
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = P9_MAXWELEM, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, &nwqid, &wqid);
+ 
+@@ -941,7 +966,7 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+     uint16_t nqid;
+     v9fs_qid qid;
+     uint32_t count, nentries;
+@@ -949,7 +974,10 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+     P9Req *req;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, &nqid, NULL);
+     g_assert_cmpint(nqid, ==, 1);
+@@ -993,7 +1021,7 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
+ /* readdir test where overall request is split over several messages */
+ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
+ {
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+     uint16_t nqid;
+     v9fs_qid qid;
+     uint32_t nentries, npartialentries;
+@@ -1010,7 +1038,10 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t count)
+     nentries = 0;
+     tail = NULL;
+ 
+-    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = fid,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, &nqid, NULL);
+     g_assert_cmpint(nqid, ==, 1);
+@@ -1074,12 +1105,15 @@ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup(" /") };
++    char *wnames[] = { g_strdup(" /") };
+     P9Req *req;
+     uint32_t err;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rlerror(req, &err);
+ 
+@@ -1098,7 +1132,9 @@ static void fs_walk_nonexistent(void *obj, void *data, QGuestAllocator *t_alloc)
+      * The 9p2000 protocol spec says: "If the first element cannot be walked
+      * for any reason, Rerror is returned."
+      */
+-    do_walk_expect_error(v9p, "non-existent", ENOENT);
++    twalk((TWalkOpt) {
++        .client = v9p, .path = "non-existent", .expectErr = ENOENT
++    });
+ }
+ 
+ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+@@ -1116,7 +1152,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void *data,
+     );
+ 
+     do_attach_rqid(v9p, &root_qid);
+-    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
++    fid = twalk((TWalkOpt) {
++        .client = v9p, .path = path,
++        .rwalk.nwqid = &nwqid, .rwalk.wqid = &wqid
++    }).newfid;
+     /*
+      * The 9p2000 protocol spec says: "nwqid is therefore either nwname or the
+      * index of the first elementwise walk that failed."
+@@ -1148,7 +1187,10 @@ static void fs_walk_none(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rattach(req, &root_qid);
+ 
+-    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 0, .wnames = NULL, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, &wqid);
+ 
+@@ -1166,7 +1208,7 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup("..") };
++    char *wnames[] = { g_strdup("..") };
+     v9fs_qid root_qid;
+     g_autofree v9fs_qid *wqid = NULL;
+     P9Req *req;
+@@ -1176,7 +1218,10 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rattach(req, &root_qid);
+ 
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, &wqid); /* We now we'll get one qid */
+ 
+@@ -1189,11 +1234,14 @@ static void fs_lopen(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
+     P9Req *req;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, NULL);
+ 
+@@ -1209,13 +1257,16 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+     static const uint32_t write_count = P9_MAX_SIZE / 2;
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
+     g_autofree char *buf = g_malloc0(write_count);
+     uint32_t count;
+     P9Req *req;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, NULL);
+ 
+@@ -1235,13 +1286,16 @@ static void fs_flush_success(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+     P9Req *req, *flush_req;
+     uint32_t reply_len;
+     uint8_t should_block;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, NULL);
+ 
+@@ -1272,13 +1326,16 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
+ {
+     QVirtio9P *v9p = obj;
+     alloc = t_alloc;
+-    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
++    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+     P9Req *req, *flush_req;
+     uint32_t count;
+     uint8_t should_block;
+ 
+     do_attach(v9p);
+-    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
++    req = twalk((TWalkOpt) {
++        .client = v9p, .fid = 0, .newfid = 1,
++        .nwname = 1, .wnames = wnames, .requestOnly = true
++    }).req;
+     v9fs_req_wait_for_reply(req, NULL);
+     v9fs_rwalk(req, NULL, NULL);
+ 
+@@ -1311,7 +1368,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path, const char *cname)
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+ 
+     req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1326,7 +1383,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char *path,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+ 
+     req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1344,7 +1401,7 @@ static void do_symlink(QVirtio9P *v9p, const char *path, const char *clink,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, path);
++    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+ 
+     req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1358,8 +1415,8 @@ static void do_hardlink(QVirtio9P *v9p, const char *path, const char *clink,
+     uint32_t dfid, fid;
+     P9Req *req;
+ 
+-    dfid = do_walk(v9p, path);
+-    fid = do_walk(v9p, to);
++    dfid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
++    fid = twalk((TWalkOpt) { .client = v9p, .path = to }).newfid;
+ 
+     req = v9fs_tlink(v9p, dfid, fid, clink, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+@@ -1373,7 +1430,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char *atpath, const char *rpath,
+     uint32_t fid;
+     P9Req *req;
+ 
+-    fid = do_walk(v9p, atpath);
++    fid = twalk((TWalkOpt) { .client = v9p, .path = atpath }).newfid;
+ 
+     req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
+     v9fs_req_wait_for_reply(req, NULL);
+-- 
+2.30.2
+
 
