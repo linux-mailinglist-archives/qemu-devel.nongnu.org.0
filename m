@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A623957872E
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:22:43 +0200 (CEST)
-Received: from localhost ([::1]:54790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D233557875A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:28:00 +0200 (CEST)
+Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDTW6-0004WI-PU
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57890)
+	id 1oDTbD-00008k-EP
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:27:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTU4-0000mb-2W; Mon, 18 Jul 2022 12:20:36 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44594)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTU2-0000WW-IC; Mon, 18 Jul 2022 12:20:35 -0400
-Received: by mail-ej1-x634.google.com with SMTP id ss3so22154295ejc.11;
- Mon, 18 Jul 2022 09:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4aylmb9v4U4JMDZfBjN+lLzCPHxy6YG/nEDOs5OyKfY=;
- b=ldpLLPhZCIbiz7fkYl301ZRTeDnwdsn91w/k0fFs7X5c/pVgXihePmjLnAE2ulye4a
- b34p2lXzYDNfJeELqWqO1ksPSXnmG7ANGyCSEUWO9qVMEVY18F3QUvQT3TXWzPiHewVj
- umuI7kOCd8zPco0QpNUNKnXdDgtDcCcVFrtOcbo5JOW5vIRDXiOLgqVeIE4AQNYWVq0C
- zwWtfss+IAwOtNbpSblv/dNOo5uNpEWGz+C74ouqPKoDG0yE4akPcNbtNGzOVV/soAl4
- bNT2VosoXD/tppNaHM4g/fWQ/BuY1+T+DNJfKfGqVzEnfdHPwIh5ak3zjhix8Wrvojcd
- mpsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=4aylmb9v4U4JMDZfBjN+lLzCPHxy6YG/nEDOs5OyKfY=;
- b=QWZ2k+Iob0sAQ5fICx+px/2hKG6igehOsWCzx2Vd9GwhbENwehej49XIWJOHvT0JD6
- ScrYJHEZnPITp8xnOeXXOuz84PwpLETOg/QyhLdOiNR/iRlC3ctkblsV1x3uTT9+prgT
- Vj2leZcgbimo4QRHkPjg+ZP+A8Flhdxl7FS0Gu7DKSw4GLaf76BaRWfe3tkT4F66fmMn
- hk6b53X99r3B1URuGMQAmM1qU4d3SABrQy0BCVK3bvbMhL3g63FUqH3poDR4Vpcnemag
- twMXhfFWsjKbFTILenRNImcvX9LThxhfHRtTZqXxUYGc0J4tfbh05I8GULWp8alD41Et
- oCig==
-X-Gm-Message-State: AJIora9FjKWJq/buZhsqqVcI6oCghSC2eaibIIcbb98PwSHKyvGLejwR
- yGr4snTIHYzjntdamTWZdH23l+KFQTduSQ==
-X-Google-Smtp-Source: AGRyM1umQaPPEsPON0T3hfAIcDgGzfKY+gQqr0K06eRfbCNb30t9axPQuX5hn9I+IyrkfPM0shzsQg==
-X-Received: by 2002:a17:907:2cc8:b0:72b:7c72:e6a4 with SMTP id
- hg8-20020a1709072cc800b0072b7c72e6a4mr27012438ejc.160.1658161231534; 
- Mon, 18 Jul 2022 09:20:31 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- cd2-20020a170906b34200b0072a47b18f7csm5676118ejb.42.2022.07.18.09.20.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 09:20:31 -0700 (PDT)
-Message-ID: <d65a18ba-0ec8-3b59-a203-a4c335bedbc3@redhat.com>
-Date: Mon, 18 Jul 2022 18:20:27 +0200
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oDTZA-0006u5-9q
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:25:53 -0400
+Received: from mout.gmx.net ([212.227.17.21]:55731)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oDTZ7-0001K9-FI
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:25:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1658161544;
+ bh=jKY7nNlOdHvNI2w3Snwe8PX+JVLCE5Buzc3zoOvJ9Kg=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=MwUPj5Qo6ApZNj7Y2d2uiS17NX0bbeimJB9viQz0q4vw/sHw1NReLYztzhqm5Rj1W
+ nYF4UwQcjsrcRsWxtsFlpG+qpr87tIzvdxiYtD5/vBu3tuzF8zRHN+sBLMdUwqlA/w
+ f3RPSU3sytEr5OAyJ1YS2ju0BeaQkd5iV8YHVQl4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.165.57]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MTRQq-1o5sLb3gei-00ThmU; Mon, 18
+ Jul 2022 18:25:43 +0200
+Message-ID: <830ee712-dce7-d054-282e-d6c0c3911ac8@gmx.de>
+Date: Mon, 18 Jul 2022 18:25:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 2/8] transactions: add tran_add_back
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
+ SH4 and SPARC
 Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-3-eesposit@redhat.com>
- <5f17518a-a2ae-8e6e-6864-84b13058d5d8@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <5f17518a-a2ae-8e6e-6864-84b13058d5d8@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <YtQzMUuBOfBiMNlY@p100>
+ <CAFEAcA9GzSJw4GpCkdOQPx7j24chp3WDq5tD=8FVkyYYtdrHuQ@mail.gmail.com>
+ <273d6b49-332c-9563-a90f-4d1a889314d3@gmx.de>
+ <CAFEAcA_68kFSveyvJtwAb8XbsseDhepwXsPC6Bxe=Ha8-Kx3cw@mail.gmail.com>
+ <eefad438-67ad-8313-87dc-c2c476340032@gmx.de>
+ <CAFEAcA_2w+T_cg3ctNnS5i-gZgU3OwGCRX5pvH3AXUsStDOvtw@mail.gmail.com>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <CAFEAcA_2w+T_cg3ctNnS5i-gZgU3OwGCRX5pvH3AXUsStDOvtw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5hlubWayfEBwVOL8UEfnskVmnKF86Nu/HC3g/lov4F5qu51sSpC
+ aeSOmEB9Qv6fs1PfFJJToXI8wqudMf+ibB8t8y63baVgNys0/B6Av2JnbLKEnJzIdy5Oyt/
+ XtmJYQflzn5aHKt+nJei1lc5ZR3PIf+I9lfAMRpyc7SpbClGbKKk//5xk01piA1SXbBEdns
+ qJN9c7R6OI/pJaUiyn2vQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:2s4QNwdbyeM=:6t8vGPWl+aCCmY7ZkRrwkB
+ KSExdj5hfeonlOnwWBQoJ8pD+PMgsLMzK1qSUyTGjInXyB7S2g5nd6kLlX5YQ2eD2e/xX5J6d
+ qgXnayuiPjoWt8hTABiW9ooJ1jXzlF/urYi+qwLECX53AnIQ6i/WbnkbDw2XoCQAME+m/Xb8D
+ tQf/2ssi/PnFg9C6RKcO8cGAXPNdM0e/YDIJmA/48TGhNc7NLYNI9Ef3XIFjz1kl6BeAFG6K0
+ cna6AgiwwlVReD0iOBCwKJs0wvLvcC/gqop3xRCCQxkFhPJHjGcJG0+Wx6t9NxXC0QCiHf3e5
+ Xwg0398MPCkuhDN/1ufZm5SWKpX3YIlzcCWNQXPfVI4PKtSmB9QFW9SkC2OlTvpfR30VETDkL
+ YFw+GRdxbCR70RpIcTwTpRaCm42qQEtr4NtWHFWS0mtjopXVMjs+jfqIMFpF0Ck4KwzGoVeWB
+ 3IoI4I5VRAfAWA52BHcxbV8oXIp+2H2h0KKJTDRnVCAfhs83KJWdG2WjHiLjFtUdkbRl774rT
+ tqvJGjAauAGL0EHdA5ZnWwN50I30IdODrHlM7F2odKflJkjwhecP/V+q227mSem7bWBMzdQUH
+ PlAfyq7RQLiCq4y0B1iniM1moo7NgwcSJXSKf0erDEGYjqWfZa3l6ZqBHI49oHD7dsHRJmHi0
+ ZdiKXIYVXtRgqrWv/Va9dw+PfW3ifaDOs1V4FgO5nntfQTXp9HRBmW/6F5jDP7Z3QKycZjC6j
+ uNLNO0+xpiqwvRNws/xIUfz4OYapSTDP46LvoMxsUyGF4BIZhDTPBu61PaaJI2iMmTPiOUhWs
+ gQizkFCbFWZLbS/9h3ZHKMwa7B3ye9+0tD/RYOEMB1A35yRCbbUI2W18UG1cjk0UmckVcs0OH
+ vHs6zv36V+14P6LwBhLxVK1F5u2oLcFzkAJesIan3j0MPl86SHksc/9DqG1u36XFN4e/crsV5
+ xL2KuextD2xjjAaqkfUJgRc/x9QKhrop1XpAXCWPjbxuMuTXL+0LutJVfR9rOEvCzXxEiGgoX
+ qmhgYSodeqRigg5jpzHkObvi600oJf9bt27TEudGGMh+NiVoWFzXwFGoii2e4iExnqkGn7FBx
+ TsJoxN5onMS8zx1rzdt3e5PA+gzsvVnCpi760wsgWV9MDHlEJIJ260rJw==
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,17 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/22 17:13, Hanna Reitz wrote:
->> that we want to run before the others but still only when invoking
->> finalize/commit/abort.
-> 
-> I don’t understand this yet (but perhaps it’ll become clearer with the 
-> following patches); doesn’t the new function do the opposite? I.e., 
-> basically add some clean-up that’s only used after everything else?
+On 7/18/22 18:17, Peter Maydell wrote:
+> On Mon, 18 Jul 2022 at 16:50, Helge Deller <deller@gmx.de> wrote:
+>> On 7/18/22 16:33, Peter Maydell wrote:
+>>> So my preference would be that we should just say "we can assume
+>>> that pipe2 is always available and implemented on linux hosts" and
+>>> remove the code that handles the possibility that it isn't.
+>>
+>> Ok for me.
+>> Do you want me to send a patch or will you do?
+>
+> If you'd like to write the patch that would be great.
+> You can remove the meson.build line that sets CONFIG_PIPE2
+> as well, since we have no other places that check it.
 
-I agree about the commit message being incorrect, but is there any 
-reason why transactions work LIFO by default?  Is there anything that 
-requires that behavior?
+Ok, I'll do.
 
-Paolo
+Btw, you asked:
+> Did you run into this in practice, or is it just a
+> theoretical concern ?
+
+I didn't faced the problem in practice. I'm trying to solve another
+issue and while debugging I stumbled over that code.
+
+Helge
 
