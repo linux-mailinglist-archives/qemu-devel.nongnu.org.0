@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE65578455
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:52:20 +0200 (CEST)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953CF57845D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:53:00 +0200 (CEST)
+Received: from localhost ([::1]:38414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRAZ-0004fS-Bz
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39250)
+	id 1oDRBD-0005P1-MW
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:52:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oDN1Q-00034w-HP
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:26:36 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39684)
+ id 1oDNO6-00072A-8l
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:50:02 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43832)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1oDN1O-0007wn-QS
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:26:36 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id bp15so20112957ejb.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:26:33 -0700 (PDT)
+ id 1oDNO3-0002nZ-Ck
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 05:50:00 -0400
+Received: by mail-ed1-x535.google.com with SMTP id v12so14473162edc.10
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 02:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=u6TJH/WnifNVRQGE4Ljs8UTAmovN2IAX7KKhnHk93lk=;
- b=Z5PwMH3CSQVYhwrvFhQHlhEbSTmxf2pbJALbzIdKchICs2uRC/PBmTZxJQFG8r8dy5
- SHNJ3AyJttADdSYXViPxn4zQmMbBCccEdy95IolClLLsS3ksyuh/XMgXptXC3u8eaqPt
- UvruMn11VPyU2howRpj3l4sbJzo4QNEPnyJBef6PlSSShn3v9vK29H4mxKqpk/gyFvDY
- PLRRGBIHuAD8CZEG3zL8TuZMNnnrCZYRqC3gYzVU2+rYJ9zGB2Cs/UwCm19mPv0p6gnN
- sGjMebCCllix0tHfudkbAc1GOBeCsfOUJ5EBXuHvKJiNW3XxG4GwH4m1Q0IREvYf0qWj
- VD9Q==
+ bh=V+ZAs1OBaKbBTFuQsPWg5xCRJ9oaM8UHlttn98+sKoc=;
+ b=QsHbnLXd51HnX5Fgls7IaEw6oi8MXN7axXJL/xJ4D78zk3iLEzHc/i6xDUnQ9U/5xT
+ WJ0OnKQPxrXWOdduM3+kq3N6lu+rBqHOTsssxHjURGgFeZVVDOqnmOhAGXR8iHFEBR9H
+ alkXXv4+4VE+EXFxohMrAPqQWVv+hzfG1xtZ5COe0Ecz3x0A9IPRYR44NuAAub0F3Imu
+ oD3g34SS2J28sCtdS1izLuHmSJGr91aVD8TWn442DHiLf/JEja6XGt6bqwejCx25qZRw
+ FzjiAkbm5TXnkM3+5zg/Ers+QN+81v9kPl5gbXnvCm/2BexNk8jv8r07r9pcqJ9aaEYs
+ oCig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=u6TJH/WnifNVRQGE4Ljs8UTAmovN2IAX7KKhnHk93lk=;
- b=5bXv6Xx5l2aUlYzdIP95bs673ZjB1drk/CR7tv01AXCO5NA/M8zZo5EzZNrLRECfzZ
- NKS5Ud1Z1ZzxGFvB4xjAMJ+wiSrbLJyTeuPsTZaRKH2N2CPDS11xW/MCI1Puqqsn+U1z
- FXc66yXag0XPS0XJuAHN4ejo4EbGUz0cBVy/s62QqLSkLfg11enp6yIXE1cFN7fnKPb3
- wUgEb63sTS/L3+QUDHJRXRgk6LqYU3arRG8A8qjAVclYroP4ZhLfjCSvt6trgEmI3NRF
- VyloUL+dPs5VOIi6H8G9NPk2sV3XXbSC3S09N5rbCZiVFlQViNsl+xEtiZRQXJJMwn57
- 1JVw==
-X-Gm-Message-State: AJIora/dpJ0U2Wof6C1IrLjYKNsLLUFJSaFuR+mY/241baoSJYsSr1Pu
- LT9okSlz224L7LhWAYz2R2kzGA==
-X-Google-Smtp-Source: AGRyM1sABLdz/Aa6PR537MWxcAfw0M+KuUOjX3BbRd95XVtc30zEGp2aPcml7ttwmzKHaU0WJqLKMA==
-X-Received: by 2002:a17:907:9710:b0:72b:3271:c9f with SMTP id
- jg16-20020a170907971000b0072b32710c9fmr24211775ejc.91.1658136391458; 
- Mon, 18 Jul 2022 02:26:31 -0700 (PDT)
+ bh=V+ZAs1OBaKbBTFuQsPWg5xCRJ9oaM8UHlttn98+sKoc=;
+ b=lhi8aQ8CP4P7vn12WCsBSiLIrfjRN9IGCIYmrJzWTegNuKcYWAaepW6MDbpIGM8sRj
+ E3KhBhc7g4NsuiRRBRuG1rTi8w6RlWdsPYqjfR6WCQ7RZfFp6XtQftCKMxr5EyKNRnnO
+ bJHGtop6pWLlWunWy8YiBZA1/XLmo3bTf8YjB6ZwM2D+n73oLVjVFi/jSqDAE0DYX2TY
+ UrQDJpUDE4uQQSHSa2JrphKpnItx8ipYZch6lfkLsO/QIZywz9mVl8OgQYC4prCC4GXZ
+ vWgrrAaJ+0XeXfzqAx96ipAxAGfmCVEXXuJu6S9x1rjpKqRCCZMd+qLZ9ZlrOjqg0t2F
+ GlsQ==
+X-Gm-Message-State: AJIora8clMbGGI9Ffc0N/Jj2DZyksTDiVEWqg52aA3mhanYd8FPjDn5W
+ Whw4bO9lgMX12Q95ZZUDdcTABw==
+X-Google-Smtp-Source: AGRyM1uPs+jJ/wXOEA2o5+4YsDmEKcVuSIsETQuXrmTgeqgJc1CLJ8fidl8/rHdQzLjdGh3qlB15KA==
+X-Received: by 2002:a05:6402:3553:b0:43a:dba8:9f65 with SMTP id
+ f19-20020a056402355300b0043adba89f65mr35462179edd.323.1658137794982; 
+ Mon, 18 Jul 2022 02:49:54 -0700 (PDT)
 Received: from localhost (cst2-173-67.cust.vodafone.cz. [31.30.173.67])
  by smtp.gmail.com with ESMTPSA id
- ew11-20020a056402538b00b0043b4d43ebaasm5378234edb.58.2022.07.18.02.26.30
+ cw11-20020a056402228b00b0043a8f40a038sm8320635edb.93.2022.07.18.02.49.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 02:26:31 -0700 (PDT)
-Date: Mon, 18 Jul 2022 11:26:30 +0200
+ Mon, 18 Jul 2022 02:49:54 -0700 (PDT)
+Date: Mon, 18 Jul 2022 11:49:53 +0200
 From: Andrew Jones <ajones@ventanamicro.com>
 To: Weiwei Li <liweiwei@iscas.ac.cn>
 Cc: palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  wangjunqiang@iscas.ac.cn, lazyparser@gmail.com
-Subject: Re: [PATCH v2 5/6] target/riscv: fix checks in hmode/hmode32
-Message-ID: <20220718092630.3gabgfcg74k5yvk7@kamzik>
+Subject: Re: [PATCH v2 4/6] target/riscv: add check for csrs existed with U
+ extension
+Message-ID: <20220718094953.fg3ah7xdjkrp7hzr@kamzik>
 References: <20220712063236.23834-1-liweiwei@iscas.ac.cn>
- <20220712063236.23834-6-liweiwei@iscas.ac.cn>
+ <20220712063236.23834-5-liweiwei@iscas.ac.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220712063236.23834-6-liweiwei@iscas.ac.cn>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62c.google.com
+In-Reply-To: <20220712063236.23834-5-liweiwei@iscas.ac.cn>
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 18 Jul 2022 09:49:04 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,68 +94,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jul 12, 2022 at 02:32:34PM +0800, Weiwei Li wrote:
+> - add umode/umode32 predicate for mcounteren,menvcfg/menvcfgh
 
-Same other $SUBJECT and comment suggestions as the previous patches.
-
-On Tue, Jul 12, 2022 at 02:32:35PM +0800, Weiwei Li wrote:
-> - add check for the implicit dependence between H and S
-> - Csrs only existed in RV32 will not trigger virtual instruction fault
-> when not in RV32
-
-I think I found the justification for this in 8.6.1 of the privileged
-spec, a pointer in the commit message would be good.
+Same commit message and $SUBJECT comments as the other patches.
 
 > 
 > Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
 > Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  target/riscv/cpu.c | 5 +++++
->  target/riscv/csr.c | 9 ++-------
->  2 files changed, 7 insertions(+), 7 deletions(-)
+>  target/riscv/csr.c | 25 ++++++++++++++++++++++---
+>  1 file changed, 22 insertions(+), 3 deletions(-)
 > 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b8ce0959cb..455787a940 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -738,6 +738,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              return;
->          }
->  
-> +        if (cpu->cfg.ext_h && !cpu->cfg.ext_s) {
-> +            error_setg(errp, "H extension implicitly requires S-mode");
-> +            return;
-> +        }
-> +
->          if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
->              error_setg(errp, "F extension requires Zicsr");
->              return;
 > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 1edeb69366..deddeb100e 100644
+> index 7d4b6ceced..1edeb69366 100644
 > --- a/target/riscv/csr.c
 > +++ b/target/riscv/csr.c
-> @@ -311,8 +311,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
+> @@ -339,6 +339,25 @@ static RISCVException hmode32(CPURISCVState *env, int csrno)
 >  
->  static RISCVException hmode(CPURISCVState *env, int csrno)
->  {
-> -    if (riscv_has_ext(env, RVS) &&
-> -        riscv_has_ext(env, RVH)) {
-> +    if (riscv_has_ext(env, RVH)) {
->          /* Hypervisor extension is supported */
->          if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
->              env->priv == PRV_M) {
-> @@ -328,11 +327,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
->  static RISCVException hmode32(CPURISCVState *env, int csrno)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
-> -        if (!riscv_cpu_virt_enabled(env)) {
-> -            return RISCV_EXCP_ILLEGAL_INST;
-> -        } else {
-> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -        }
+>  }
+>  
+> +static RISCVException umode(CPURISCVState *env, int csrno)
+> +{
+> +    if (riscv_has_ext(env, RVU)) {
+> +        /* User extension is supported */
+
+This comment isn't very useful, riscv_has_ext(env, RVU) is
+self-explanatory.
+
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    return RISCV_EXCP_ILLEGAL_INST;
+> +}
+> +
+> +static RISCVException umode32(CPURISCVState *env, int csrno)
+> +{
+> +    if (riscv_cpu_mxl(env) != MXL_RV32) {
 > +        return RISCV_EXCP_ILLEGAL_INST;
->      }
+> +    }
+> +
+> +    return umode(env, csrno);
+> +}
+> +
+>  /* Checks if PointerMasking registers could be accessed */
+>  static RISCVException pointer_masking(CPURISCVState *env, int csrno)
+>  {
+> @@ -3519,7 +3538,7 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_MEDELEG]     = { "medeleg",    any,   read_medeleg, write_medeleg },
+>      [CSR_MIE]         = { "mie",        any,   NULL, NULL,   rmw_mie       },
+>      [CSR_MTVEC]       = { "mtvec",      any,   read_mtvec,   write_mtvec   },
+> -    [CSR_MCOUNTEREN]  = { "mcounteren", any,   read_mcounteren,
+> +    [CSR_MCOUNTEREN]  = { "mcounteren", umode, read_mcounteren,
+>                            write_mcounteren                                 },
 >  
->      return hmode(env, csrno);
+>      [CSR_MSTATUSH]    = { "mstatush",   any32, read_mstatush,
+> @@ -3553,9 +3572,9 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_MIPH]     = { "miph",     aia_any32, NULL, NULL, rmw_miph     },
+>  
+>      /* Execution environment configuration */
+> -    [CSR_MENVCFG]  = { "menvcfg",  any,   read_menvcfg,  write_menvcfg,
+> +    [CSR_MENVCFG]  = { "menvcfg",  umode, read_menvcfg,  write_menvcfg,
+>                         .min_priv_ver = PRIV_VERSION_1_12_0              },
+> -    [CSR_MENVCFGH] = { "menvcfgh", any32, read_menvcfgh, write_menvcfgh,
+> +    [CSR_MENVCFGH] = { "menvcfgh", umode32, read_menvcfgh, write_menvcfgh,
+>                         .min_priv_ver = PRIV_VERSION_1_12_0              },
+>      [CSR_SENVCFG]  = { "senvcfg",  smode, read_senvcfg,  write_senvcfg,
+>                         .min_priv_ver = PRIV_VERSION_1_12_0              },
 > -- 
 > 2.17.1
 > 
