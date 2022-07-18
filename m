@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6C0578191
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:05:17 +0200 (CEST)
-Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39938578178
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:02:28 +0200 (CEST)
+Received: from localhost ([::1]:33344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPUy-0007xe-J2
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:05:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45806)
+	id 1oDPSF-0003ne-CS
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPL1-0001ac-IJ
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:00 -0400
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:59948)
+ id 1oDPL2-0001at-Js
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:01 -0400
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:1903)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPKw-0006AH-Ll
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:54:56 -0400
+ id 1oDPL0-0006AV-Df
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1658145294; x=1689681294;
+ t=1658145298; x=1689681298;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=j6hZ0WNJZLcfk4eENbwZVIjSq1eQDNaDZEXP7hNxr2c=;
- b=ACYLpX/iRLLg6irTNrSL8Ou3AMV4jvezZ6GoCBOQEU2DJFqHxvSZJbRE
- azopEdx7rbyz/EEmfH1sbMMzKo84ddO1Rhd5fX8P66rWv2VeQvz4oecfS
- N++y0hSLa5ioVkkBLEJeqklt8rhqT3Advgu2MhUScVESjk74BgsFqDdmE 4=;
-Received: from unknown (HELO ironmsg05-sd.qualcomm.com) ([10.53.140.145])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Jul 2022 04:54:51 -0700
+ bh=9iMmXkp15BF2ELIjH4bO5J3OaLwLhYbO/G4uvh1e78I=;
+ b=TOfV8IAmHNfvPTHxNJJOBd+gslZs8lqA94qrm05zEJYiSF4bPMVT0WEz
+ Nag41wtYiDpm8CWXtS7j+TJVMq+v8Vc5DUL+2cpVNcYoqBCVYWlBchC7c
+ Z5HFbQh6KDQB+WpfB0+ZSoWrHv9zHP1aDpGZMru8dvkrk9xpTiwWBUEBF o=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 18 Jul 2022 04:54:53 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg05-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 04:54:51 -0700
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:54:52 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:54:51 -0700
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:52 -0700
 Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:54:49 -0700
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:51 -0700
 From: Tobias Roehmel <quic_trohmel@quicinc.com>
 To: <qemu-devel@nongnu.org>
 CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
  <quic_trohmel@quicinc.com>
-Subject: [PATCH v2 1/9] target/arm: Add ARM_FEATURE_V8_R
-Date: Mon, 18 Jul 2022 13:54:25 +0200
-Message-ID: <20220718115433.802-2-quic_trohmel@quicinc.com>
+Subject: [PATCH v2 2/9] target/arm: Don't add all MIDR aliases for Cortex-R
+Date: Mon, 18 Jul 2022 13:54:26 +0200
+Message-ID: <20220718115433.802-3-quic_trohmel@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220718115433.802-1-quic_trohmel@quicinc.com>
 References: <20220718115433.802-1-quic_trohmel@quicinc.com>
@@ -84,25 +84,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tobias Röhmel <quic_trohmel@quicinc.com>
 
-This flag is necessary to add features for the Cortex-R52.
+Cortex-R52 has the MPUIR register which has the same encoding
+has the MIDR alias with opc2=4. So we only add that alias
+when we are not realizing a Cortex-R.
 
 Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
 ---
- target/arm/cpu.h | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/helper.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index df677b2d5d..86e06116a9 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2287,6 +2287,7 @@ enum arm_features {
-     ARM_FEATURE_M_SECURITY, /* M profile Security Extension */
-     ARM_FEATURE_M_MAIN, /* M profile Main Extension */
-     ARM_FEATURE_V8_1M, /* M profile extras only in v8.1M and later */
-+    ARM_FEATURE_V8_R,
- };
- 
- static inline int arm_feature(CPUARMState *env, int feature)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 6457e6301c..03bdc3d149 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8189,9 +8189,6 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .fieldoffset = offsetof(CPUARMState, cp15.c0_cpuid),
+               .readfn = midr_read },
+             /* crn = 0 op1 = 0 crm = 0 op2 = 4,7 : AArch32 aliases of MIDR */
+-            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+-              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
+-              .access = PL1_R, .resetvalue = cpu->midr },
+             { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
+               .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 7,
+               .access = PL1_R, .resetvalue = cpu->midr },
+@@ -8201,6 +8198,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .accessfn = access_aa64_tid1,
+               .type = ARM_CP_CONST, .resetvalue = cpu->revidr },
+         };
++        ARMCPRegInfo id_v8_midr_alias_cp_reginfo[] = {
++            { .name = "MIDR", .type = ARM_CP_ALIAS | ARM_CP_CONST,
++              .cp = 15, .crn = 0, .crm = 0, .opc1 = 0, .opc2 = 4,
++              .access = PL1_R, .resetvalue = cpu->midr },
++        };
+         ARMCPRegInfo id_cp_reginfo[] = {
+             /* These are common to v8 and pre-v8 */
+             { .name = "CTR",
+@@ -8264,8 +8266,12 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             id_mpuir_reginfo.access = PL1_RW;
+             id_tlbtr_reginfo.access = PL1_RW;
+         }
++
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, id_v8_midr_cp_reginfo);
++            if (!arm_feature(env, ARM_FEATURE_V8_R)) {
++                define_arm_cp_regs(cpu, id_v8_midr_alias_cp_reginfo);
++            }
+         } else {
+             define_arm_cp_regs(cpu, id_pre_v8_midr_cp_reginfo);
+         }
 -- 
 2.25.1
 
