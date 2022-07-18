@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3560577F7C
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EF6577F7B
 	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:18:50 +0200 (CEST)
-Received: from localhost ([::1]:43360 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDNpx-0003RO-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51736)
+	id 1oDNpw-0003QM-Rz
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDNn2-0008M4-Gq
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:15:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDNmw-0007G6-41
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:15:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658139341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6MZcgzpmvxvVAbUMnmANu/F1nrrAo7ZIeOVritnnW4E=;
- b=CDUYr6Z2C9yUV5Ib+WoERuZXQnTePA9wfUla9PVvCI9aHOXRQ2Zmd6pZqyWohxQlKt61vG
- gaLwwcx5Qhk1aps91SrByOApu2bJT7w5B7+Cf5AeKjyIR4hSTuJomHoXcMVrX7W4Snk97D
- KVILWhCXHH7Snjjwz1F6x0V92tSVmDU=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-IuB55huePmOFdVWqIAURvQ-1; Mon, 18 Jul 2022 06:15:40 -0400
-X-MC-Unique: IuB55huePmOFdVWqIAURvQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- q21-20020ac84115000000b0031bf60d9b35so8074151qtl.4
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:15:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDNmm-0008Jr-BD
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:15:32 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:41889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDNmg-0007EE-65
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:15:30 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id 6so19922309ybc.8
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:15:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=58W0570Jka+/QTu+LKm1ttkum7tKXr80GanuQK2uK1w=;
+ b=T7UPwhkwl3W5zjli0U2ynv8Eoi5T6UfeJQbj70yfsXTQalce93HIKEg36MAehfb/UY
+ JT7Pisbw/d01mCkXcVSKm0KBZZRIMhOgfvD5pYGMvMKxaPIWJKYXb1Bsae9rLtjB4wkb
+ DSalzARC2af53YA2Gf4wpniJnrSu0ZNx87iULzN6Hzy9wTEpyQnty0ifM3tMJNOON0/+
+ yR8QGMZP4XPfbN4MDwsWM8mSxhHlw72m2n6vua277b3cWOecRDfuI7ZKcBXs/LLuDr2G
+ gEFgHq3iapHN9v5uesfze1Am9lNYHatW4eWDQ507tih+HvYsLeL4qmEcu0qLb2fEPJui
+ FjxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6MZcgzpmvxvVAbUMnmANu/F1nrrAo7ZIeOVritnnW4E=;
- b=bdCw5Nyj+FmuJlTCF+bSsNWVhKyJGyYSXt213eo2ck7HTQv2UuQCdjoFtzTR7H0v2y
- 5ze1mOe2dRkaVsKl9Xjdqaj1EbmzuQ567xyW/b9HA8JyxbcsoYLbQ09WGqPAvoKEnTj3
- 6r3COcUpjXhROQSrMqgCu5i44obZ4BW8ZWfKOH8fupic2JZISf9GXcIIojKC37zaJEhp
- JWZPdp5Y415B9cMgSU7oGZ6k1f4WqUH7Far4yjK4nJLl9y9Hx4I81DUzNh4t0k9e8jnS
- KSLTmJ8I5LA2TJZiNyTeIXFHgTVNnONL+EFgYJCmZ3I6mwvpIqHv8w7QlL1XV6c+lDxu
- kUfg==
-X-Gm-Message-State: AJIora8PGW4wGw2S0qji+054lJo4MvC1XUmGCoKgnlJZcfkWBF0Cj5pN
- NW0ZUkUYnuaVq9nYTp+kotIdtIexE8oFhYU2BVAv5fXIo+gev4E+sKiLEmKGHiXHDO+abaBZy3i
- yiB+5z0EuCB+4vi218OjbUC04jQ7bDkY=
-X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
- v16-20020a05620a0f1000b006aa318e55a9mr16737728qkl.559.1658139339423; 
- Mon, 18 Jul 2022 03:15:39 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u26YdLXlWoug+C2s2HAKfeuSDlET74BBUH2gYwX8W60uPQhJa/++kj7J7NP7mNZsFaG53gzTzj8GUTvd9SI04=
-X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
- v16-20020a05620a0f1000b006aa318e55a9mr16737704qkl.559.1658139339202; Mon, 18
- Jul 2022 03:15:39 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=58W0570Jka+/QTu+LKm1ttkum7tKXr80GanuQK2uK1w=;
+ b=GB7gecUD8Od1oQYmoQkHIqCgaBsXaX8hvZAjZ1DCklZ5GnbZGt5QzzAk8TQyn40I5C
+ d+UHi/ZWA1HK2P9kOmlLWkZmkJhbDzt7Zjeh39EyenCE7kF0d+gf8jHVkX5prTvZOzd2
+ GS4NiOckIe5cc2XImGkNTDPBAOZrDMbeaKmP8/pKIgGRqSM7SZAh0zSsUPfrQSM/S+om
+ Jg536hJ9ETWJIRSSDnYgier03C8++7s9IS0fVNTGfCeVhYFrS4I39awn+3LNIaBIqgwD
+ xjdXMAq9D9mXY6v2JvvJnLbQU+Va04EKfG/oAGrnipkdtnkYzmL+ncyO3fjBZ2yGPiFM
+ T2ww==
+X-Gm-Message-State: AJIora9EWfPILKpLWAC7m0i5cosNsEOZzn+3Ao62290RL+43+eJKQGpu
+ ETvpbrstDiVi057cl4n2tjwPG+uRrwMJXmnCOW9VpA==
+X-Google-Smtp-Source: AGRyM1t8B2h4iSf3FnToRx4GmRZlAX5YHQQTp9GSUSnoNXbET+oKWKdzS2QAqfG4JGEXijeeb1NlANGuGJZk7WvCnP0=
+X-Received: by 2002:a25:d381:0:b0:66e:2943:1c9d with SMTP id
+ e123-20020a25d381000000b0066e29431c9dmr25475138ybf.67.1658139317617; Mon, 18
+ Jul 2022 03:15:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220716113407.2730331-1-eperezma@redhat.com>
- <20220716113407.2730331-10-eperezma@redhat.com>
- <56637ea3-1875-9cd4-d455-9060309b8e3b@redhat.com>
-In-Reply-To: <56637ea3-1875-9cd4-d455-9060309b8e3b@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 18 Jul 2022 12:15:03 +0200
-Message-ID: <CAJaqyWcPLsP2pe9vH-49zaKr1TFs9D7gFiHStSHpjm=WFAHJCw@mail.gmail.com>
-Subject: Re: [RFC PATCH 09/12] vdpa: Extract vhost_vdpa_net_svq_add from
- vhost_vdpa_net_handle_ctrl_avail
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Eli Cohen <eli@mellanox.com>, 
- Parav Pandit <parav@mellanox.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Gautam Dawar <gdawar@xilinx.com>
+References: <20220713172010.39163-1-ben.dooks@sifive.com>
+ <d2b2a868-4e12-35f4-40e9-5e520e07cb3e@sifive.com>
+In-Reply-To: <d2b2a868-4e12-35f4-40e9-5e520e07cb3e@sifive.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 11:15:06 +0100
+Message-ID: <CAFEAcA9qngx_1BzF+THHqpp4OyiSa+Do7hPKwqZ1v=0psGXrWw@mail.gmail.com>
+Subject: Re: [PATCH] gpio: designware gpio driver
+To: Ben Dooks <ben.dooks@sifive.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Jude Onyenegecha <jude.onyenegecha@sifive.com>,
+ Sudip Mukherjee <sudip.mukherjee@sifive.com>, 
+ William Salmon <william.salmon@sifive.com>,
+ Adnan Chowdhury <adnan.chowdhury@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,78 +86,22 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 18, 2022 at 10:53 AM Jason Wang <jasowang@redhat.com> wrote:
+On Mon, 18 Jul 2022 at 11:05, Ben Dooks <ben.dooks@sifive.com> wrote:
 >
+> On 13/07/2022 18:20, Ben Dooks wrote:
+> > A model for the DesignWare GPIO (v1) block.
 >
-> =E5=9C=A8 2022/7/16 19:34, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > So we can reuse to inject state messages.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   net/vhost-vdpa.c | 89 +++++++++++++++++++++++++++--------------------=
--
-> >   1 file changed, 51 insertions(+), 38 deletions(-)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 211bd0468b..aaae51a778 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -334,6 +334,54 @@ static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAS=
-tate *s,
-> >       return true;
-> >   }
-> >
-> > +static virtio_net_ctrl_ack vhost_vdpa_net_svq_add(VhostShadowVirtqueue=
- *svq,
-> > +                                               const struct iovec *dev=
-_buffers)
->
->
-> The name should be tweaked since it is used only for cvq.
->
+> Is there anyone else who should be reviewing these that
+> was missed off the original list? I'd like to get an idea
+> if there is any work to do. I've got a couple more drivers
+> to submit and was waiting on feedback from this before
+> getting these submitted.
 
-Right, I'll change.
 
->
-> > +{
-> > +    /* in buffer used for device model */
-> > +    virtio_net_ctrl_ack status;
-> > +    const struct iovec in =3D {
-> > +        .iov_base =3D &status,
-> > +        .iov_len =3D sizeof(status),
-> > +    };
-> > +    size_t dev_written;
-> > +    int r;
-> > +    void *unused =3D (void *)1;
-> > +
-> > +    r =3D vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, u=
-nused);
-> > +    if (unlikely(r !=3D 0)) {
-> > +        if (unlikely(r =3D=3D -ENOSPC)) {
-> > +            qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device que=
-ue\n",
-> > +                          __func__);
-> > +        }
-> > +        return VIRTIO_NET_ERR;
-> > +    }
-> > +
-> > +    /*
-> > +     * We can poll here since we've had BQL from the time we sent the
-> > +     * descriptor. Also, we need to take the answer before SVQ pulls b=
-y itself,
-> > +     * when BQL is released
-> > +     */
->
->
-> This reminds me that, do we need a upper limit of the time on the
-> polling here. (Avoid taking BQL for too long time).
->
+My overall feedback is: this isn't a pluggable device (PCI, etc),
+so what's it intended to be used by? Generally we don't take
+device models except when there's a board model that's using them.
 
-Sending a new version of rx filters here.
-
-But we have other parts where we can have BQL forever because we trust
-the device, like vring enable syscalls for example.
-
-Thanks!
-
+thanks
+-- PMM
 
