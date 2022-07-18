@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A092F578163
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:57:51 +0200 (CEST)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8FC5578166
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 13:57:53 +0200 (CEST)
+Received: from localhost ([::1]:55284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPNm-0007LF-As
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:57:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45804)
+	id 1oDPNo-0007T8-VV
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 07:57:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPL1-0001ab-IU
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:00 -0400
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:58953)
+ id 1oDPL2-0001ap-9v
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:55:01 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:28953)
  by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <quic_trohmel@quicinc.com>)
- id 1oDPKw-0006AD-Cp
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:54:56 -0400
+ id 1oDPKx-0006AP-Nt
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:54:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1658145294; x=1689681294;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=b5ykuol9EGNBtS3/ajkgKNXBlmko4i9vcxFpTSOxeeI=;
- b=FgVBABgIE70ymYMxpeRRRMCnlU5M6xGX+UMrs4sW75m/88zGD1tezEtn
- lnJKhAA9xcflaf5pHhCLVnnXemF9Az+0UMOqqeVR6fFrncOUYBwLh9JoI
- 1WfZVbyy+wPe5TxcWqsP2XY87h0p9gVSKZD1/ktVWpS0tmcbVk4ozX1y8 4=;
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
- by alexa-out.qualcomm.com with ESMTP; 18 Jul 2022 04:54:50 -0700
+ t=1658145296; x=1689681296;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=e0Qf/RFx6fB96X5uZL2mFmpe8bfqgtNdnr3YEGuoN10=;
+ b=odWvNVxe/+Uldv6UcUhXMMgw2gXkIA7IWhnMf3bXr3lLoI8omMysQOmo
+ 2kVXB5Lv5fxYgp96TizfmlYDQXOxHx4wM/wGD5MABUhzGL4zq/A+2QvQC
+ EzlWPpVmT0LESX444kShWrmlIp61tupMv+jhNuabPCcvunGAOE5u1+IIh I=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 18 Jul 2022 04:54:54 -0700
 X-QCInternal: smtphost
 Received: from nasanex01c.na.qualcomm.com ([10.47.97.222])
- by ironmsg09-lv.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jul 2022 04:54:50 -0700
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 04:54:54 -0700
 Received: from nalasex01b.na.qualcomm.com (10.47.209.197) by
  nasanex01c.na.qualcomm.com (10.47.97.222) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:54:49 -0700
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:53 -0700
 Received: from avd-de-lrx-6.eu.qualcomm.com (10.80.80.8) by
  nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.22; Mon, 18 Jul 2022 04:54:48 -0700
+ 15.2.986.22; Mon, 18 Jul 2022 04:54:52 -0700
 From: Tobias Roehmel <quic_trohmel@quicinc.com>
 To: <qemu-devel@nongnu.org>
-CC: <peter.maydell@linaro.org>, Tobias Roehmel <quic_trohmel@quicinc.com>
-Subject: [PATCH v2 0/9] Add Cortex-R52
-Date: Mon, 18 Jul 2022 13:54:24 +0200
-Message-ID: <20220718115433.802-1-quic_trohmel@quicinc.com>
+CC: <peter.maydell@linaro.org>, =?UTF-8?q?Tobias=20R=C3=B6hmel?=
+ <quic_trohmel@quicinc.com>
+Subject: [PATCH v2 3/9] target/arm: Make RVBAR available for all ARMv8 CPUs
+Date: Mon, 18 Jul 2022 13:54:27 +0200
+Message-ID: <20220718115433.802-4-quic_trohmel@quicinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220718115433.802-1-quic_trohmel@quicinc.com>
+References: <20220718115433.802-1-quic_trohmel@quicinc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -79,63 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v2:
-PATCH 1:
-I have left the flag in for now because there there is a lot of use for it in the MPU translation code.
-The PMSAv8r differs in quite a view ways from the implementation in the Cortex-M. I think using
-!ARM_FEATURE_M in all of those cases might run into problems down the road when new things are added.
-But I'll gladly change that if those concerns are not valid.
-PATCH 2:
-Patch was moved and I removed the ATCM... registers.
-PATCH 3:
-The issue here is that the R52 has the MPUIR register which shares the encoding with one of the
-MIDR alias registers. It's now changed to not add that register for ARM_FEATURE_V8_R.
-PATCH 4:
-Added RVBAR for all v8 CPUs instead of just ARMv8r
-PATCH 7:
-Instead of setting TTBCR_EAE to 1, change all functions that rely on that value and are
-relevant for Cortex-R52
-PATCH 10:
-SPSR_hyp changes removed
-PATCH 11:
-Removed the r52_machine. The issue with adding the Cortex-R52 to the virt board is that target_page.bits
-is expected to be 12 but is set to 10 for ARM_FEATURE_PMSA. Simply changing that or using
-virt2.7(which doesn't have that restriction) leads to problems with memory accesses. It might be
-best to model an existing board.
+From: Tobias Röhmel <quic_trohmel@quicinc.com>
 
-These patches add the ARM Cortex-R52. The biggest addition is an implementation of the armv8-r MPU.
+Signed-off-by: Tobias Röhmel <quic_trohmel@quicinc.com>
+---
+ target/arm/cpu.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-All information is taken from:
-- ARM Cortex-R52 TRM revision r1p3
-- ARM Architecture Reference Manual Supplement
-    -ARMv8 for the ARMv8-R AArch32 architecture profile Version A.c
-
-Functionality that is not implemented:
-- Changing between single and double precision floats
-- Some hypervisor related functionality (HCR.T(R)VM,HADFSR,...)
-
-Tobias Röhmel (9):
-  target/arm: Add ARM_FEATURE_V8_R
-  target/arm: Don't add all MIDR aliases for Cortex-R
-  target/arm: Make RVBAR available for all ARMv8 CPUs
-  target/arm: Make stage_2_format for cache attributes optional
-  target/arm: Add ARMCacheAttrs to the signature of pmsav8_mpu_lookup
-  target/arm: Enable TTBCR_EAE for ARMv8-R AArch32
-  target/arm: Add PMSAv8r registers
-  target/arm: Add PMSAv8r functionality
-  target/arm: Add ARM Cortex-R52 cpu
-
- target/arm/cpu.c          |   6 +-
- target/arm/cpu.h          |  11 +++
- target/arm/cpu_tcg.c      |  42 +++++++++
- target/arm/debug_helper.c |   3 +-
- target/arm/helper.c       | 183 +++++++++++++++++++++++++++++++++++-
- target/arm/internals.h    |  16 ++--
- target/arm/m_helper.c     |   3 +-
- target/arm/ptw.c          | 191 ++++++++++++++++++++++++++++++++------
- target/arm/tlb_helper.c   |   3 +-
- 9 files changed, 417 insertions(+), 41 deletions(-)
-
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 1b5d535788..9007768418 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -258,6 +258,10 @@ static void arm_cpu_reset(DeviceState *dev)
+         env->cp15.cpacr_el1 = FIELD_DP64(env->cp15.cpacr_el1,
+                                          CPACR, CP11, 3);
+ #endif
++        if (arm_feature(env, ARM_FEATURE_V8)) {
++            env->cp15.rvbar = cpu->rvbar_prop;
++            env->regs[15] = cpu->rvbar_prop;
++        }
+     }
+ 
+ #if defined(CONFIG_USER_ONLY)
+@@ -1273,7 +1277,7 @@ void arm_cpu_post_init(Object *obj)
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_reset_hivecs_property);
+     }
+ 
+-    if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
++    if (arm_feature(&cpu->env, ARM_FEATURE_V8)) {
+         object_property_add_uint64_ptr(obj, "rvbar",
+                                        &cpu->rvbar_prop,
+                                        OBJ_PROP_FLAG_READWRITE);
 -- 
 2.25.1
 
