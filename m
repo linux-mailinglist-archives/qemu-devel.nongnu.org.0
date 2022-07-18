@@ -2,96 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64F17578537
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:21:17 +0200 (CEST)
-Received: from localhost ([::1]:51216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6B578539
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:21:26 +0200 (CEST)
+Received: from localhost ([::1]:51566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRca-0003Gv-Fu
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:21:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51148)
+	id 1oDRcj-0003VR-3E
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRFB-0006ZH-JS
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:57:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31035)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oDRF8-00030w-KB
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:57:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658152621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3TcdkAH2y3hXIcyp4Vue32Tw3+lFPZ90W7VEIp5PUIM=;
- b=G3Rmz1RptlHZGEyRXM1hMqgWk5V1/Ml+LOqwFZWdziW26GT2+GyAIUaP93uPzt5paPy6QW
- YknhDSDxF/HyMVl3p0svOvsdN8YBOF6sqGm+psfEHgz47gIu9YdOJdTu5BHI+gM1nWE3bE
- SjaXR5jpkMC2SKvzf8gu1RK4M1OS4/M=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-sLD38LJuObiLugTC5-Bh5w-1; Mon, 18 Jul 2022 09:57:00 -0400
-X-MC-Unique: sLD38LJuObiLugTC5-Bh5w-1
-Received: by mail-ej1-f69.google.com with SMTP id
- s4-20020a170906500400b006feaccb3a0eso2318494ejj.11
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:57:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDRHU-00023w-AE
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:29 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDRHS-00039s-EK
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:28 -0400
+Received: by mail-wr1-x431.google.com with SMTP id b26so17198781wrc.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CdwR/q3spG46Oy+vZh7cJasc4ZERmNJMIqQjjt0xlgQ=;
+ b=DZE7zkFczjyvafJjsNn19n2MLHRDAmNWXwCmmnRhFhV1m9MkTXHTxmR/To+clFUajm
+ O47981gA7Xt+YRLNSbhHrmVV3g4a7F8ZPAxiujagBJlG96rk7lSoZCEYQYdt7j0F5Jhg
+ OGFY6Yvxu490ExcS9SdGqIi1cY9sVH6Cb85aUzrQfo6XIg6Fz87d54KiCP9sJ81DNKF2
+ V4GMmXyWsVgJTj+Wg1UY2tZSGdHC3V5pPCEdRFqEKTYeKlMTI6bDp6lY3VFl8AFf0igk
+ oMZBHMsJfImosqX/xmq3hvc90BnUzzEe4u+fz2FFmjbN9Mzhmc/n8uTn6jyf9P7K7sUt
+ 2yIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=3TcdkAH2y3hXIcyp4Vue32Tw3+lFPZ90W7VEIp5PUIM=;
- b=b/64FCiGt/+TTt67q2iazkmNvv6VjOsaJsWL5oRho5Y8CwvMrtz2/SBJATvPc5l3E0
- q6IK/j3EAUGUJisGgA3LaMk+oEXd4f6Lraz/It/oKbhLYZIhPGLot2hDXXErqffzveZE
- gNkg+NGc2RU60Y9484J/EXoeoOTESk5xSAZs8/mKbpz3In1kSpRZJLp2bqoSX3Y/ZsfT
- EXiNFIHJBcuYmRyeUaLKFCf2syMDEebtGGN2Nq8SwYYI/yd9qEjfFaYFGGF1mv/n4lOv
- M7Cxxpdi5B5tazCZefOJoyPspbJyVHUXcv9Tvarn6XYYoDcroygf2k/hFtiumLL+SuIA
- 031Q==
-X-Gm-Message-State: AJIora9o8hLvNQrgLAJGtC7zc8UmVnTKu/S8W4a7+iUx/7QJQ8lJvuWe
- 3tKwi0I9wuBsmO2QRU11jF3VUvpwfpNPQ4AkfxQyVH9PKlrH8lQHiQVNPD3sysrkiiijOkt66/Z
- JuWZbhLfDNld/6TA=
-X-Received: by 2002:a05:6402:51ca:b0:43a:df65:d180 with SMTP id
- r10-20020a05640251ca00b0043adf65d180mr37531889edd.255.1658152619168; 
- Mon, 18 Jul 2022 06:56:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vEd8nRU8dqSVcXOJEC+HQNYtXA0Rov9+AKbfMPUdl6yz7pMkegYS+RPy/goDyMu1h4Fe5dIw==
-X-Received: by 2002:a05:6402:51ca:b0:43a:df65:d180 with SMTP id
- r10-20020a05640251ca00b0043adf65d180mr37531856edd.255.1658152618937; 
- Mon, 18 Jul 2022 06:56:58 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CdwR/q3spG46Oy+vZh7cJasc4ZERmNJMIqQjjt0xlgQ=;
+ b=bjIUBQLx8bdliOiQoeUvi3Uy8e8auaBREpGYqQ2ny0vbGzAKAqP+RHJZZ3cMKqOo5K
+ yZ+ogeYRVlePq2lvht+YVKDcHRhMYjzGdgnrmVno+6vrLAODmgMkl4h9M7AqLuKv03uY
+ qfRfHHuMvgwVNzcw/Gy/M+zmJlpdppq39B1oADZ7nZhDxdD8z2D/jywiskGgRudxuutV
+ RtlWIxWzo7VfDA3xM3EAFnYz9UU8TLlFtJ23jo8TtajuGulcwvxgw+5BG7avaAoZX/s6
+ juvy1tqIYn6Ylc2SWcy+Au5Dqyizvk8xxR5m5K4vYvWRT7b5m5IA+3kmHjVfCZbEXu8+
+ An3w==
+X-Gm-Message-State: AJIora9o3DwhGNjSZteAHDEnKOE/tT2+QGPytZx0J5YeyQ/qkSR3+Dsp
+ 8HUOTWxJngYDhE+HnfHEgHAcJLhogfMmZw==
+X-Google-Smtp-Source: AGRyM1tbH/OYyS8hheXlcqE2uEVEqA3iYbmfixyAz1JOhWktL2+bg4sW1fFBRogIptDsT1jUbQCbnw==
+X-Received: by 2002:a5d:6d0e:0:b0:21d:6d4c:e0e4 with SMTP id
+ e14-20020a5d6d0e000000b0021d6d4ce0e4mr23877659wrq.355.1658152764139; 
+ Mon, 18 Jul 2022 06:59:24 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- g1-20020a17090604c100b0072afb6d4d6fsm5637627eja.171.2022.07.18.06.56.58
+ id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.23
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:56:58 -0700 (PDT)
-Date: Mon, 18 Jul 2022 15:56:57 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v8 09/11] i386/pc: bounds check phys-bits against max
- used GPA
-Message-ID: <20220718155657.5f975c50@redhat.com>
-In-Reply-To: <20220718151622.3c38f261@redhat.com>
-References: <20220715171628.21437-1-joao.m.martins@oracle.com>
- <20220715171628.21437-10-joao.m.martins@oracle.com>
- <20220718151622.3c38f261@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Mon, 18 Jul 2022 06:59:23 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/15] target-arm queue
+Date: Mon, 18 Jul 2022 14:59:05 +0100
+Message-Id: <20220718135920.13667-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,33 +87,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 15:16:22 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+Some arm patches before softfreeze. These are all bug fixes.
 
-> On Fri, 15 Jul 2022 18:16:26 +0100
-> Joao Martins <joao.m.martins@oracle.com> wrote:
-> 
-> > Calculate max *used* GPA against the CPU maximum possible address
-> > and error out if the former surprasses the latter. This ensures
-> > max used GPA is reacheable by configured phys-bits. Default phys-bits
-> > on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough for the CPU to
-> > address 1Tb (0xff ffff ffff) or 1010G (0xfc ffff ffff) in AMD hosts
-> > with IOMMU.
-> > 
-> > This is preparation for AMD guests with >1010G, where it will want relocate
-> > ram-above-4g to be after 1Tb instead of 4G.
-> > 
-> > Signed-off-by: Joao Martins <joao.m.martins@oracle.com>  
-> 
-> Acked-by: Igor Mammedov <imammedo@redhat.com>
-[...]
+-- PMM
 
-> > +    return pc_pci_hole64_start() + pci_hole64_size - 1;
+The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
 
-off by 1?
+  Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
 
-> > +}
-> > +
-[...]
+are available in the Git repository at:
 
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220718
+
+for you to fetch changes up to 004c8a8bc569c8b18fca6fc90ffe3223daaf17b7:
+
+  Align Raspberry Pi DMA interrupts with Linux DTS (2022-07-18 13:25:13 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that is being held high
+ * target/arm: Fill in VL for tbflags when SME enabled and SVE disabled
+ * target/arm: Fix aarch64_sve_change_el for SME
+ * linux-user/aarch64: Do not clear PROT_MTE on mprotect
+ * target/arm: Honour VTCR_EL2 bits in Secure EL2
+ * hw/adc: Fix CONV bit in NPCM7XX ADC CON register
+ * hw/adc: Make adci[*] R/W in NPCM7XX ADC
+ * target/arm: Don't set syndrome ISS for loads and stores with writeback
+ * Align Raspberry Pi DMA interrupts with Linux DTS
+
+----------------------------------------------------------------
+Andrey Makarov (1):
+      Align Raspberry Pi DMA interrupts with Linux DTS
+
+Hao Wu (2):
+      hw/adc: Fix CONV bit in NPCM7XX ADC CON register
+      hw/adc: Make adci[*] R/W in NPCM7XX ADC
+
+Peter Maydell (9):
+      hw/intc/armv7m_nvic: ICPRn must not unpend an IRQ that is being held high
+      target/arm: Define and use new regime_tcr_value() function
+      target/arm: Calculate mask/base_mask in get_level1_table_address()
+      target/arm: Fold regime_tcr() and regime_tcr_value() together
+      target/arm: Fix big-endian host handling of VTCR
+      target/arm: Store VTCR_EL2, VSTCR_EL2 registers as uint64_t
+      target/arm: Store TCR_EL* registers as uint64_t
+      target/arm: Honour VTCR_EL2 bits in Secure EL2
+      target/arm: Don't set syndrome ISS for loads and stores with writeback
+
+Richard Henderson (3):
+      target/arm: Fill in VL for tbflags when SME enabled and SVE disabled
+      target/arm: Fix aarch64_sve_change_el for SME
+      linux-user/aarch64: Do not clear PROT_MTE on mprotect
+
+ include/hw/arm/bcm2835_peripherals.h |   2 +
+ target/arm/cpu.h                     |  38 ++++++++---
+ target/arm/internals.h               |  34 +++++++---
+ accel/tcg/translate-all.c            |  13 +++-
+ hw/adc/npcm7xx_adc.c                 |   4 +-
+ hw/arm/bcm2835_peripherals.c         |  26 ++++++-
+ hw/intc/armv7m_nvic.c                |   9 ++-
+ target/arm/cpu.c                     |   2 +-
+ target/arm/debug_helper.c            |   2 +-
+ target/arm/helper.c                  | 128 ++++++++++++++++-------------------
+ target/arm/ptw.c                     |  38 ++++++-----
+ target/arm/tlb_helper.c              |   2 +-
+ target/arm/translate-a64.c           |   4 +-
+ tests/qtest/bcm2835-dma-test.c       | 118 ++++++++++++++++++++++++++++++++
+ tests/qtest/npcm7xx_adc-test.c       |   2 +-
+ tests/qtest/meson.build              |   3 +-
+ 16 files changed, 306 insertions(+), 119 deletions(-)
+ create mode 100644 tests/qtest/bcm2835-dma-test.c
 
