@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BF9577FA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:28:20 +0200 (CEST)
-Received: from localhost ([::1]:49872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D97F577FBC
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 12:33:55 +0200 (CEST)
+Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDNz9-0008Lf-GC
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:28:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53718)
+	id 1oDO4Y-0005hT-HK
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 06:33:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1oDNwL-00060M-JQ
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:25:26 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33773)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ben.dooks@sifive.com>)
- id 1oDNwJ-0000ea-CK
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:25:24 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id h17so16403101wrx.0
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 03:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=2tUT+0d1WdjMUQZAJ9HOOTxL9llIhzMEHmbM9BeTpUU=;
- b=SifnCYZiz0SwY43VlzWBGse0Smu+kqc7TyqVS0kVgQK+/lBrGQK1Z47oAjIUa6+PKW
- P5Skx7sn7wnP7UF6Ij7bUZZzlFK9ROanqM+4zJipzCeIy8a7TR4W3uauGSmZwhLOefXO
- TI7uDXS5gmhDwpGlBSZ6AJXVw4jB+bxpEOMNDRTkjhPTJ6NSNwZj4idhpi4o0GCOCekI
- hnmX1UifzmYo2ZQsO28bDuaDtL7L0nyJEvipL9q4huFUmYUHjLOyvVtFXtMSKrm42THK
- m87gLc/G/PWdPsEWw+CMOG4L5TEBn3XK5qtMHUrNsPm5d38qPl0KYkXeQy+8nVcTDtAg
- LzAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=2tUT+0d1WdjMUQZAJ9HOOTxL9llIhzMEHmbM9BeTpUU=;
- b=tXsLLzUcE7cGjUUZVUghLyFo904BuUwMoNeeRFcSiLyIQFIn5CjPwQ2salgGEdpSyB
- Nn6ppVaWJgZyw3BheR7C+3JDauVPiu0OCtqaLpJTYlveX3BCOLtP8LxMp9OnFg2uWdz6
- 42HgOQb/hVPI+1MTBMnr8quSbusQMn+r1I4lCoBSsMBtuy1Sk2D/1vPz/FRY6pvaiRci
- sOOLZpWntbj6Y34TQD6E4/t5TB07FRHBXGcQFrDwQw90jPkYG/RTyStRu0R9LdqOPCe9
- BzfrAvpJNL13IaHQfXdD1cKyQ5aATop85jJZ8PWC9kuPjG9DJbEITgbMEwrRysHxmPd6
- BX3A==
-X-Gm-Message-State: AJIora8+Luxp329MKpqzJ1rBbMaRHjkoV7ni985WQdOU6tD7EYh7ek4q
- RV+gnYZ2NGYw/SpyNJyxwJ8dKg==
-X-Google-Smtp-Source: AGRyM1vqyecXgGn1D9YGhoTUmvq+iE7dBpoiB1JSggQjuQXuC44gOynJYhlzc9pOELbMIK378CatDg==
-X-Received: by 2002:adf:cf0a:0:b0:21e:2970:bade with SMTP id
- o10-20020adfcf0a000000b0021e2970bademr190039wrj.455.1658139921689; 
- Mon, 18 Jul 2022 03:25:21 -0700 (PDT)
-Received: from [10.35.4.171] ([167.98.27.226])
- by smtp.gmail.com with ESMTPSA id
- p129-20020a1c2987000000b003a2d47d3051sm16843208wmp.41.2022.07.18.03.25.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 03:25:21 -0700 (PDT)
-Message-ID: <4e9c6fc7-54c9-9510-654f-4e41d849676e@sifive.com>
-Date: Mon, 18 Jul 2022 11:25:20 +0100
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oDO0q-00009P-EN
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:30:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oDO0n-000188-0W
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 06:30:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658140200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ijYs5UOIb4+ls10VWx/9qgc7gTh2epiyH30/5SMlO0Q=;
+ b=Bd8RZKiGwJXDLMhUlEadpha8yPu7aNYf6NCLYFukM4cBKmbtAx6+jpu0Hl/tCHfrKC77u+
+ NNXOPCxFRcSKQXRwEm+cP0pgtyOOjGPljFO7KWm0xBIbu3TZ1qh+6sFMywgCIZ8LN0dyfq
+ OfHDSJN9ecVqAiJXo+xoEnLcHQXZX1g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-DBFN5u5JNMugOvhLJERHlg-1; Mon, 18 Jul 2022 06:29:57 -0400
+X-MC-Unique: DBFN5u5JNMugOvhLJERHlg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A4DE43804526;
+ Mon, 18 Jul 2022 10:29:56 +0000 (UTC)
+Received: from eperezma.remote.csb (unknown [10.39.192.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9D6232166B26;
+ Mon, 18 Jul 2022 10:29:52 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Cindy Lu <lulu@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Parav Pandit <parav@mellanox.com>
+Subject: [PATCH v4 00/19] vdpa net devices Rx filter change notification with
+ Shadow VQ
+Date: Mon, 18 Jul 2022 12:29:30 +0200
+Message-Id: <20220718102949.2868267-1-eperezma@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] gpio: designware gpio driver
-Content-Language: en-GB
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Jude Onyenegecha <jude.onyenegecha@sifive.com>,
- Sudip Mukherjee <sudip.mukherjee@sifive.com>,
- William Salmon <william.salmon@sifive.com>,
- Adnan Chowdhury <adnan.chowdhury@sifive.com>
-References: <20220713172010.39163-1-ben.dooks@sifive.com>
- <d2b2a868-4e12-35f4-40e9-5e520e07cb3e@sifive.com>
- <CAFEAcA9qngx_1BzF+THHqpp4OyiSa+Do7hPKwqZ1v=0psGXrWw@mail.gmail.com>
-From: Ben Dooks <ben.dooks@sifive.com>
-In-Reply-To: <CAFEAcA9qngx_1BzF+THHqpp4OyiSa+Do7hPKwqZ1v=0psGXrWw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=ben.dooks@sifive.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,28 +87,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/07/2022 11:15, Peter Maydell wrote:
-> On Mon, 18 Jul 2022 at 11:05, Ben Dooks <ben.dooks@sifive.com> wrote:
->>
->> On 13/07/2022 18:20, Ben Dooks wrote:
->>> A model for the DesignWare GPIO (v1) block.
->>
->> Is there anyone else who should be reviewing these that
->> was missed off the original list? I'd like to get an idea
->> if there is any work to do. I've got a couple more drivers
->> to submit and was waiting on feedback from this before
->> getting these submitted.
-> 
-> 
-> My overall feedback is: this isn't a pluggable device (PCI, etc),
-> so what's it intended to be used by? Generally we don't take
-> device models except when there's a board model that's using them.
+Control virtqueue is used by networking device for accepting various=0D
+commands from the driver. It's a must to support advanced configurations.=0D
+=0D
+Rx filtering event is issues by qemu when device's MAC address changed once=
+ and=0D
+the previous one has not been queried by external agents.=0D
+=0D
+Shadow VirtQueue (SVQ) already makes possible tracking the state of virtque=
+ues,=0D
+effectively intercepting them so qemu can track what regions of memory are=
+=0D
+dirty because device action and needs migration. However, this does not sol=
+ve=0D
+networking device state seen by the driver because CVQ messages, like chang=
+es=0D
+on MAC addresses from the driver.=0D
+=0D
+This series uses SVQ infrastructure to intercept networking control message=
+s=0D
+used by the device. This way, qemu is able to update VirtIONet device model=
+ and=0D
+react to them. In particular, this series enables rx filter change=0D
+notification.=0D
+=0D
+This is a prerequisite to achieve net vdpa device with CVQ live migration.=
+=0D
+It's a stripped down version of [1], with error paths checked and no migrat=
+ion=0D
+enabled.=0D
+=0D
+First nine patches reorder and clean code base so its easier to apply later=
+=0D
+ones. No functional change should be noticed from these changes.=0D
+=0D
+Patches from 11 to 14 enable SVQ API to make other parts of qemu to interac=
+t=0D
+with it. In particular, they will be used by vhost-vdpa net to handle CVQ=0D
+messages.=0D
+=0D
+Patches 15 to 17 enable the update of the virtio-net device model for each=
+=0D
+CVQ message acknowledged by the device.=0D
+=0D
+Last patches enable x-svq parameter, forbidding device migration since it i=
+s=0D
+not restored in the destination's vdpa device yet. This will be added in la=
+ter=0D
+series, using this work.=0D
+=0D
+Comments are welcome.=0D
+v4:=0D
+- Add a timeout to vhost_svq_poll to not hold BQL forever=0D
+=0D
+v3:=0D
+- Replace SVQElement with SVQDescState=0D
+=0D
+v2:=0D
+- (Comments from series [1]).=0D
+- Active poll for CVQ answer instead of relay on async used callback=0D
+- Do not offer a new buffer to device but reuse qemu's=0D
+- Use vhost_svq_add instead of not needed vhost_svq_inject=0D
+- Delete used and detach callbacks, not needed anymore=0D
+- Embed members of SVQElement in VirtQueueElement=0D
+- Reuse the same buffers for all CVQ commands=0D
+=0D
+[1] https://patchwork.kernel.org/project/qemu-devel/cover/20220706184008.16=
+49478-1-eperezma@redhat.com/=0D
+=0D
+Eugenio P=C3=A9rez (19):=0D
+  vhost: move descriptor translation to vhost_svq_vring_write_descs=0D
+  virtio-net: Expose MAC_TABLE_ENTRIES=0D
+  virtio-net: Expose ctrl virtqueue logic=0D
+  vhost: Reorder vhost_svq_kick=0D
+  vhost: Move vhost_svq_kick call to vhost_svq_add=0D
+  vhost: Check for queue full at vhost_svq_add=0D
+  vhost: Decouple vhost_svq_add from VirtQueueElement=0D
+  vhost: Add SVQDescState=0D
+  vhost: Track number of descs in SVQDescState=0D
+  vhost: add vhost_svq_push_elem=0D
+  vhost: Expose vhost_svq_add=0D
+  vhost: add vhost_svq_poll=0D
+  vhost: Add svq avail_handler callback=0D
+  vdpa: Export vhost_vdpa_dma_map and unmap calls=0D
+  vdpa: manual forward CVQ buffers=0D
+  vdpa: Buffer CVQ support on shadow virtqueue=0D
+  vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs=0D
+  vdpa: Add device migration blocker=0D
+  vdpa: Add x-svq to NetdevVhostVDPAOptions=0D
+=0D
+ qapi/net.json                      |   9 +-=0D
+ hw/virtio/vhost-shadow-virtqueue.h |  52 ++++-=0D
+ include/hw/virtio/vhost-vdpa.h     |   8 +=0D
+ include/hw/virtio/virtio-net.h     |   7 +=0D
+ hw/net/virtio-net.c                |  85 ++++---=0D
+ hw/virtio/vhost-shadow-virtqueue.c | 207 ++++++++++++-----=0D
+ hw/virtio/vhost-vdpa.c             |  25 +-=0D
+ net/vhost-vdpa.c                   | 357 +++++++++++++++++++++++++++--=0D
+ 8 files changed, 632 insertions(+), 118 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
-I have a board file, but that's currently under NDA, so we're not
-allowed to release it at the moment. However we've done a few drivers
-which we'd like to get out of our development tree which other people
-might find useful (GPIO, SPI, I2C).
-
--- 
-Ben
 
