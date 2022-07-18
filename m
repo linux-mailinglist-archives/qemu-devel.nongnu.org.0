@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1407F5783A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:23:30 +0200 (CEST)
-Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028415783F5
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:41:40 +0200 (CEST)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDQie-0000Xv-US
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:23:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40912)
+	id 1oDR0F-0004q0-3K
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:41:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDQfA-0003zO-Ey
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:19:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29086)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oDQtl-0001IP-62
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:34:57 -0400
+Received: from mga17.intel.com ([192.55.52.151]:13080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDQf5-0004Vi-KG
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:19:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658150386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cck6j31a6GGnAXgUvWla4Fd9yefj64wD7oLzM0kCxNw=;
- b=S5C5p17YgVb+6SmJTyX8YsP3nkHJC/C1mnBM9xEL6h91iAATg69U0yhMo29UiXuc7Hmkh/
- /pngzJqdWdCDsV1jO12ifv0Ohr4b/geCZD7sAMwFOVsewq4AsiyJTfhlsTUK4dU/6b7EtH
- cS8P0EZwYHadJw/WtR5cIznBwm/RYUo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-60-i2Cmf3YNOnyByhHC0VoSvg-1; Mon, 18 Jul 2022 09:19:45 -0400
-X-MC-Unique: i2Cmf3YNOnyByhHC0VoSvg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- v11-20020a1cf70b000000b003a318238826so1421402wmh.2
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:19:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=cck6j31a6GGnAXgUvWla4Fd9yefj64wD7oLzM0kCxNw=;
- b=i3iIXlP0DFnSjsbJKFOZ2N+Cwpu7ZamzT3LYaMaQMUk0ilQfqOYJ3OziqgLLemKuEO
- o9mOxom6j8wG1BE1/xzJLGSGOM3CoeaV3udP2vDU+4u7FwbHLKwoKH7YDgtMO8SY6RNL
- 3uh8mmIPAWQ7vi5xSXl2Cy9OD8r0fzhWgk+hrj9MPj6JYkhWF+DiOR7MRPlyvhpYku4F
- 2fIfvMpm9wQ1Yii4V8F1OwR6PWAIi8ByKPU/XMVyvj3GVHvWAfHs8GjJOrxLwXvLr+b0
- 51Bg6Z7zRZ2WJZL19PyWQwrueHQLwnn0MfaOU3xiJYhLvppU8LRWBLab9F5tPDr5ucVC
- hb+A==
-X-Gm-Message-State: AJIora/8mdIgdEX0E9rNgSKVp9GFeXI7ko6IsLvKYPEh3v9JcZLZwEek
- ffB71M9hhMso5wzFpUEPo4Zmwcbek51N7brPDW4FdNYZ8ZBj6iD9Os0HsbTRz3gtvhKcwkzNsya
- VLdTXpIJi7zQ6PQ8=
-X-Received: by 2002:a05:600c:3ca2:b0:3a0:1825:2e6b with SMTP id
- bg34-20020a05600c3ca200b003a018252e6bmr31699929wmb.132.1658150384160; 
- Mon, 18 Jul 2022 06:19:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vzZKvfQjPgWXvG7dsvBlwRjU9Qsu24T3raSm9TQcwV4H+Xn/j/yLmskK0gH68gKmaFgxG7Fg==
-X-Received: by 2002:a05:600c:3ca2:b0:3a0:1825:2e6b with SMTP id
- bg34-20020a05600c3ca200b003a018252e6bmr31699910wmb.132.1658150383937; 
- Mon, 18 Jul 2022 06:19:43 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m9-20020a056000180900b0021d6a520ce9sm10909790wrh.47.2022.07.18.06.19.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:19:43 -0700 (PDT)
-Date: Mon, 18 Jul 2022 14:19:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 12/13] multifd: Zero pages transmission
-Message-ID: <YtVd7fRQHot3rQwA@work-vm>
-References: <20220531104318.7494-1-quintela@redhat.com>
- <20220531104318.7494-13-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oDQti-0007UK-8m
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:34:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658151294; x=1689687294;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=rHFYZeCUhUEMCyj5v9zq3o/zGTENSXf+B8mm6YmDQ6A=;
+ b=h4js6bEZ5qDzdhLsWx2BxDmz2d/Cuy5yQMXmtheYIyxwXudpsenPH1b2
+ NruhhiHYbYlxnRkh7KIW/F+j1WAHD4gIN7u77c2TNmN+mumu7us6unhKd
+ pg7AqiQnnGc84GwP5L4YKTtXnAoDOF4aJu2fw21zrxgQ1nS/CVDHjqSmF
+ NGDyXHQrPeALtrPF4g1aB7CosaTpm0QIxhA2S/RwWvSN3vKXL7rbTZuIF
+ GRyU7grc5AnoxYnRqZpLwOtdeiKNAfLPKoCu9P3at9TcFkY5s5/nXPLYi
+ Rs34PBQEe7+VJF/FLKlMaEb9io+nBRoLsSItECNRiAw8bfI6Y1BEVZ1YD A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10411"; a="266624660"
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="266624660"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 06:34:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,281,1650956400"; d="scan'208";a="624730241"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by orsmga008.jf.intel.com with ESMTP; 18 Jul 2022 06:34:40 -0700
+Date: Mon, 18 Jul 2022 21:29:50 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220718132950.GA38104@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+ <d480a850-601b-cda2-b671-04d839c98429@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220531104318.7494-13-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <d480a850-601b-cda2-b671-04d839c98429@amd.com>
+Received-SPF: none client-ip=192.55.52.151;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,140 +99,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> This implements the zero page dection and handling.
+On Fri, Jul 15, 2022 at 01:36:15PM +0200, Gupta, Pankaj wrote:
+> > Currently in mmu_notifier validate path, hva range is recorded and then
+> > checked in the mmu_notifier_retry_hva() from page fault path. However
+> > for the to be introduced private memory, a page fault may not have a hva
 > 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
+> As this patch appeared in v7, just wondering did you see an actual bug
+> because of it? And not having corresponding 'hva' occurs only with private
+> memory because its not mapped to host userspace?
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+The addressed problem is not new in this version, previous versions I
+also had code to handle it (just in different way). But the problem is:
+mmu_notifier/memfile_notifier may be in the progress of invalidating a
+pfn that obtained earlier in the page fault handler, when happens, we
+should retry the fault. In v6 I used global mmu_notifier_retry() for
+memfile_notifier but that can block unrelated mmu_notifer invalidation
+which has hva range specified.
 
-> 
-> ---
-> 
-> Add comment for offset (dave)
-> Use local variables for offset/block to have shorter lines
-> ---
->  migration/multifd.h |  5 +++++
->  migration/multifd.c | 41 +++++++++++++++++++++++++++++++++++++++--
->  2 files changed, 44 insertions(+), 2 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index c36d7ff876..209e3a9756 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -52,6 +52,11 @@ typedef struct {
->      uint32_t unused32[1];    /* Reserved for future use */
->      uint64_t unused64[3];    /* Reserved for future use */
->      char ramblock[256];
-> +    /*
-> +     * This array contains the pointers to:
-> +     *  - normal pages (initial normal_pages entries)
-> +     *  - zero pages (following zero_pages entries)
-> +     */
->      uint64_t offset[];
->  } __attribute__((packed)) MultiFDPacket_t;
->  
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 0f7c27c08e..fcdd241c5c 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -11,6 +11,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/cutils.h"
->  #include "qemu/rcu.h"
->  #include "exec/target_page.h"
->  #include "sysemu/sysemu.h"
-> @@ -275,6 +276,12 @@ static void multifd_send_fill_packet(MultiFDSendParams *p)
->  
->          packet->offset[i] = cpu_to_be64(temp);
->      }
-> +    for (i = 0; i < p->zero_num; i++) {
-> +        /* there are architectures where ram_addr_t is 32 bit */
-> +        uint64_t temp = p->zero[i];
-> +
-> +        packet->offset[p->normal_num + i] = cpu_to_be64(temp);
-> +    }
->  }
->  
->  static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
-> @@ -358,6 +365,18 @@ static int multifd_recv_unfill_packet(MultiFDRecvParams *p, Error **errp)
->          p->normal[i] = offset;
->      }
->  
-> +    for (i = 0; i < p->zero_num; i++) {
-> +        uint64_t offset = be64_to_cpu(packet->offset[p->normal_num + i]);
-> +
-> +        if (offset > (block->used_length - p->page_size)) {
-> +            error_setg(errp, "multifd: offset too long %" PRIu64
-> +                       " (max " RAM_ADDR_FMT ")",
-> +                       offset, block->used_length);
-> +            return -1;
-> +        }
-> +        p->zero[i] = offset;
-> +    }
-> +
->      return 0;
->  }
->  
-> @@ -646,6 +665,8 @@ static void *multifd_send_thread(void *opaque)
->  {
->      MultiFDSendParams *p = opaque;
->      Error *local_err = NULL;
-> +    /* qemu older than 7.0 don't understand zero page on multifd channel */
-> +    bool use_zero_page = migrate_use_multifd_zero_page();
->      int ret = 0;
->      bool use_zero_copy_send = migrate_use_zero_copy_send();
->  
-> @@ -668,6 +689,7 @@ static void *multifd_send_thread(void *opaque)
->          qemu_mutex_lock(&p->mutex);
->  
->          if (p->pending_job) {
-> +            RAMBlock *rb = p->pages->block;
->              uint64_t packet_num = p->packet_num;
->              p->flags = 0;
->              if (p->sync_needed) {
-> @@ -686,8 +708,16 @@ static void *multifd_send_thread(void *opaque)
->              }
->  
->              for (int i = 0; i < p->pages->num; i++) {
-> -                p->normal[p->normal_num] = p->pages->offset[i];
-> -                p->normal_num++;
-> +                uint64_t offset = p->pages->offset[i];
-> +                if (use_zero_page &&
-> +                    buffer_is_zero(rb->host + offset, p->page_size)) {
-> +                    p->zero[p->zero_num] = offset;
-> +                    p->zero_num++;
-> +                    ram_release_page(rb->idstr, offset);
-> +                } else {
-> +                    p->normal[p->normal_num] = offset;
-> +                    p->normal_num++;
-> +                }
->              }
->  
->              if (p->normal_num) {
-> @@ -1152,6 +1182,13 @@ static void *multifd_recv_thread(void *opaque)
->              }
->          }
->  
-> +        for (int i = 0; i < p->zero_num; i++) {
-> +            void *page = p->host + p->zero[i];
-> +            if (!buffer_is_zero(page, p->page_size)) {
-> +                memset(page, 0, p->page_size);
-> +            }
-> +        }
-> +
->          if (sync_needed) {
->              qemu_sem_post(&multifd_recv_state->sem_sync);
->              qemu_sem_wait(&p->sem_sync);
-> -- 
-> 2.35.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Sean gave a comment at https://lkml.org/lkml/2022/6/17/1001 to separate
+memfile_notifier from mmu_notifier but during the implementation I
+realized we actually can reuse the same code for shared and private
+memory if both using gpa range and that can simplify the code handling
+in kvm_zap_gfn_range and some other code (e.g. we don't need two
+versions for memfile_notifier/mmu_notifier).
 
+Adding gpa range for private memory invalidation also relieves the
+above blocking issue between private memory page fault and mmu_notifier.
+
+Chao
+> 
+> Thanks,
+> Pankaj
+> 
+> > associated, checking gfn(gpa) makes more sense. For existing non private
+> > memory case, gfn is expected to continue to work.
+> > 
+> > The patch also fixes a potential bug in kvm_zap_gfn_range() which has
+> > already been using gfn when calling kvm_inc/dec_notifier_count() in
+> > current code.
+> > 
+> > Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+> > ---
+> >   arch/x86/kvm/mmu/mmu.c   |  2 +-
+> >   include/linux/kvm_host.h | 18 ++++++++----------
+> >   virt/kvm/kvm_main.c      |  6 +++---
+> >   3 files changed, 12 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+> > index f7fa4c31b7c5..0d882fad4bc1 100644
+> > --- a/arch/x86/kvm/mmu/mmu.c
+> > +++ b/arch/x86/kvm/mmu/mmu.c
+> > @@ -4182,7 +4182,7 @@ static bool is_page_fault_stale(struct kvm_vcpu *vcpu,
+> >   		return true;
+> >   	return fault->slot &&
+> > -	       mmu_notifier_retry_hva(vcpu->kvm, mmu_seq, fault->hva);
+> > +	       mmu_notifier_retry_gfn(vcpu->kvm, mmu_seq, fault->gfn);
+> >   }
+> >   static int direct_page_fault(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault)
+> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
+> > index 0bdb6044e316..e9153b54e2a4 100644
+> > --- a/include/linux/kvm_host.h
+> > +++ b/include/linux/kvm_host.h
+> > @@ -767,8 +767,8 @@ struct kvm {
+> >   	struct mmu_notifier mmu_notifier;
+> >   	unsigned long mmu_notifier_seq;
+> >   	long mmu_notifier_count;
+> > -	unsigned long mmu_notifier_range_start;
+> > -	unsigned long mmu_notifier_range_end;
+> > +	gfn_t mmu_notifier_range_start;
+> > +	gfn_t mmu_notifier_range_end;
+> >   #endif
+> >   	struct list_head devices;
+> >   	u64 manual_dirty_log_protect;
+> > @@ -1362,10 +1362,8 @@ void kvm_mmu_free_memory_cache(struct kvm_mmu_memory_cache *mc);
+> >   void *kvm_mmu_memory_cache_alloc(struct kvm_mmu_memory_cache *mc);
+> >   #endif
+> > -void kvm_inc_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > -void kvm_dec_notifier_count(struct kvm *kvm, unsigned long start,
+> > -				   unsigned long end);
+> > +void kvm_inc_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> > +void kvm_dec_notifier_count(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   long kvm_arch_dev_ioctl(struct file *filp,
+> >   			unsigned int ioctl, unsigned long arg);
+> > @@ -1923,9 +1921,9 @@ static inline int mmu_notifier_retry(struct kvm *kvm, unsigned long mmu_seq)
+> >   	return 0;
+> >   }
+> > -static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> > +static inline int mmu_notifier_retry_gfn(struct kvm *kvm,
+> >   					 unsigned long mmu_seq,
+> > -					 unsigned long hva)
+> > +					 gfn_t gfn)
+> >   {
+> >   	lockdep_assert_held(&kvm->mmu_lock);
+> >   	/*
+> > @@ -1935,8 +1933,8 @@ static inline int mmu_notifier_retry_hva(struct kvm *kvm,
+> >   	 * positives, due to shortcuts when handing concurrent invalidations.
+> >   	 */
+> >   	if (unlikely(kvm->mmu_notifier_count) &&
+> > -	    hva >= kvm->mmu_notifier_range_start &&
+> > -	    hva < kvm->mmu_notifier_range_end)
+> > +	    gfn >= kvm->mmu_notifier_range_start &&
+> > +	    gfn < kvm->mmu_notifier_range_end)
+> >   		return 1;
+> >   	if (kvm->mmu_notifier_seq != mmu_seq)
+> >   		return 1;
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+> > index da263c370d00..4d7f0e72366f 100644
+> > --- a/virt/kvm/kvm_main.c
+> > +++ b/virt/kvm/kvm_main.c
+> > @@ -536,8 +536,7 @@ static void kvm_mmu_notifier_invalidate_range(struct mmu_notifier *mn,
+> >   typedef bool (*hva_handler_t)(struct kvm *kvm, struct kvm_gfn_range *range);
+> > -typedef void (*on_lock_fn_t)(struct kvm *kvm, unsigned long start,
+> > -			     unsigned long end);
+> > +typedef void (*on_lock_fn_t)(struct kvm *kvm, gfn_t start, gfn_t end);
+> >   typedef void (*on_unlock_fn_t)(struct kvm *kvm);
+> > @@ -624,7 +623,8 @@ static __always_inline int __kvm_handle_hva_range(struct kvm *kvm,
+> >   				locked = true;
+> >   				KVM_MMU_LOCK(kvm);
+> >   				if (!IS_KVM_NULL_FN(range->on_lock))
+> > -					range->on_lock(kvm, range->start, range->end);
+> > +					range->on_lock(kvm, gfn_range.start,
+> > +							    gfn_range.end);
+> >   				if (IS_KVM_NULL_FN(range->handler))
+> >   					break;
+> >   			}
 
