@@ -2,77 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855E057858C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:35:43 +0200 (CEST)
-Received: from localhost ([::1]:33570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADDC5578583
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:33:59 +0200 (CEST)
+Received: from localhost ([::1]:55962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRqY-0004qn-KN
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:35:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51872)
+	id 1oDRos-0000xT-Nd
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:33:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHh-0002BX-BB
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:42 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39606)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDRHd-0003Be-RH
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 09:59:41 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v16so1356867wrr.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 06:59:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=O9MWcMSwBbu4CMzo7bCb2HSbS/5shVLaXo9ftmPe+ww=;
- b=HeyTXnKydzyjdu4GVNmzN8UEMoqwJbfD0PphBX71PvydJLoxJBMbjq9IOT6EoSWHd0
- tMtDAopuF6n3UdYtkgf4h1V8iR0wVLAw0ifOCIeBndQY/Zakbjkp7o6pZIyQxo8zUi0K
- /E9hinhd2Lv0XvL+/4gNNUIhNMWThzSbF5Qk9V6NqYeMEUmbeJk0lVSt5OWTLfrHHxsZ
- fh656WOE7EI1NDQ/pqi8CxhDEYbh1QjEVE0wyTSTLf5cUSY3v8L36U/mx+rLWjaO09+k
- 15ucqGVDrJoLZ6iY1GFeoBtstxVruAKwO51w6SkJ4q4ItaJ/S5ICyunUSNuAFhZ6BjGx
- DG7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=O9MWcMSwBbu4CMzo7bCb2HSbS/5shVLaXo9ftmPe+ww=;
- b=1EUAjSnXVBSr3g+jmiZjvvZVo6FLj7x2/EV4IJRmHLrNLUTLvBDW8D/vf0HMTsZpOu
- seD/He0Wf8BtDDH8ZkWKwNC+ts5TL1Dp/ckEepk/GOwE0MAAvR8PUChvET5oa/p9cL4+
- suE7AkAH8DQFMwDbz7q1sHxrezV28DF1WVXDCMPJRgygRUp1j8USuVQx7EqDuz0XU2+2
- EgedeGuDzQd78GFPU424+hMB6Tx+qCzUbnNSvfYPE+Pp0GCF/adMgiBQ0idiOpnEARAg
- dxnrkDhvetdw4m++qJSfAZOzp+xo1Kd27KR2v+kiDwmWaqXjcNQVqOzfaouCT0OfKuyY
- WlLA==
-X-Gm-Message-State: AJIora/RHx/3BcyMMNh8VEV64jVJa2bOAkeCx7yWI9f4UfLOTx3wyaze
- YUpbSmCxjnNeKsq90qNO+oiebtzkzc3AHg==
-X-Google-Smtp-Source: AGRyM1uamPAydzT6x0uy2qyaaKJ6v35TDP1R9mBY/0mdlBW+qNzokFB+FM7vXMfjlCaykf0h9Aa6nQ==
-X-Received: by 2002:a05:6000:1887:b0:21d:97cf:6b80 with SMTP id
- a7-20020a056000188700b0021d97cf6b80mr23413594wri.571.1658152775014; 
- Mon, 18 Jul 2022 06:59:35 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- id15-20020a05600ca18f00b003a31f1edfa7sm1805798wmb.41.2022.07.18.06.59.34
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 06:59:34 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oDRKo-0006Na-Ea
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:02:54 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oDRKW-0003mE-5o
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 10:02:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=NAA8iY68RybwAF5Nx5HZ0RYy22uH3FMPopSTDvXa0mw=; b=QiuOfP3e9c6ycaTA/FA3aHWX0K
+ 7vm0KHPhv09ONGhZcD0P2Y9eCS45kYBOErxqyY+o1FpQ6C6En0t4dixjypiRbNI4CPl8mHFpxkh4W
+ mpiVHsfNnKQpA06z2MPNHqUT6a243WjiUHOcYBsEi6Aok2xbq7fHY+i1Q/bLjhzZFYLNwRT/pLs2n
+ MB6GbL7QWlNsLGkrLfzAcWp9TKO6OExqvLwJ/jNyexlJKugv+iEd7j5tWkw0nRE27lGHZoByjfX8n
+ WraqPjv27ikLcEGwGiYjNQ/6CVyE60sVh7cF7f0EQpaS9nYpNxP383UXAF+ruhyLoLlEryRGmSPVC
+ DzG12zPIMHN9j3sZD6dHAj3OCc59Zk3RqdFhTfcQ1Ees4eEPxPSwR4tOFvhY4wWDs64I1BdbkdMdo
+ PiHRB5mCz4TJ6aEUGrbZVmxM74DQILPkjrcYXNfEPCeUfA8cxX7CX0lRihdcnYl0KUB+5a9Vb4nmT
+ 8ZTv7JVWXYCrLWZQnWKrvCJSokN5U48QPY7DPr+oNJucb6hk7B6hW5lwG4LVmlLRnl3YlHBgOqSlj
+ mR61rSIk7Jf+4XTt3aeiJNysgpIAcxTPdQmSMfi1KcyqfNIOd0tgZn1qBlP0biX/hwg7F7rFzASYh
+ 0zGI4m6pxboYv6lKBB4alCtXqa+UtpqPdXoXty5bo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] Align Raspberry Pi DMA interrupts with Linux DTS
-Date: Mon, 18 Jul 2022 14:59:20 +0100
-Message-Id: <20220718135920.13667-16-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220718135920.13667-1-peter.maydell@linaro.org>
-References: <20220718135920.13667-1-peter.maydell@linaro.org>
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [RFC PATCH v2] tests/9p: introduce declarative function calls
+Date: Mon, 18 Jul 2022 16:02:31 +0200
+Message-ID: <1683188.qTr0RtP6NM@silver>
+In-Reply-To: <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
+References: <E1o4nzC-0005fT-RL@lizzy.crudebyte.com>
+ <E1oDQqv-0003d4-Hm@lizzy.crudebyte.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,255 +68,489 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Makarov <ph.makarov@gmail.com>
+On Montag, 18. Juli 2022 15:10:55 CEST Christian Schoenebeck wrote:
+> There are currently 4 different functions for sending a 9p 'Twalk'
+> request. They are all doing the same thing, just in a slightly different
+> way and with slightly different function arguments.
+> 
+> Merge those 4 functions into a single function by using a struct for
+> function call arguments and use designated initializers when calling this
+> function to turn usage into a declarative apporach, which is better
+> readable and easier to maintain.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+> 
+> v1 -> v2:
+> 
+>   * Also merge low-level function v9fs_twalk().
+> 
+>   * Lower case twalk() function name.
+> 
+>   * Lower case rwalk struct field.
+> 
+>   * Add result struct TWalkRes.
+> 
+>   NOTE: I have not separated rwalk struct, because it would have
+>   simplified code at one place, but complicated it at another one.
 
-There is nothing in the specs on DMA engine interrupt lines: it should have
-been in the "BCM2835 ARM Peripherals" datasheet but the appropriate
-"ARM peripherals interrupt table" (p.113) is nearly empty.
+BTW, I also toyed around with virtio-9p-test.c -> virtio-9p-test.cpp, due to 
+advantages described in v1 discussion, however there are quite a bunch of C 
+header files included which would need refactoring (C++ keywords used like 
+'export', 'class', 'private' and missing type casts from void*).
 
-All Raspberry Pi models 1-3 (based on bcm2835) have
-Linux device tree (arch/arm/boot/dts/bcm2835-common.dtsi +25):
+I also saw no easy way to separate those as alternative (like C low level 
+unit, C++ unit on top). so I decided that it was not worth it.
 
-    /* dma channel 11-14 share one irq */
+>  tests/qtest/virtio-9p-test.c | 251 +++++++++++++++++++++--------------
+>  1 file changed, 154 insertions(+), 97 deletions(-)
+> 
+> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+> index 25305a4cf7..69b1c27268 100644
+> --- a/tests/qtest/virtio-9p-test.c
+> +++ b/tests/qtest/virtio-9p-test.c
+> @@ -72,6 +72,7 @@ static int split(const char *in, const char *delim, char
+> ***out) static void split_free(char ***out)
+>  {
+>      int i;
+> +    if (!*out) return;
+>      for (i = 0; (*out)[i]; ++i) {
+>          g_free((*out)[i]);
+>      }
+> @@ -390,31 +391,6 @@ static void v9fs_rattach(P9Req *req, v9fs_qid *qid)
+>      v9fs_req_free(req);
+>  }
+> 
+> -/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
+> -static P9Req *v9fs_twalk(QVirtio9P *v9p, uint32_t fid, uint32_t newfid,
+> -                         uint16_t nwname, char *const wnames[], uint16_t
+> tag) -{
+> -    P9Req *req;
+> -    int i;
+> -    uint32_t body_size = 4 + 4 + 2;
+> -
+> -    for (i = 0; i < nwname; i++) {
+> -        uint16_t wname_size = v9fs_string_size(wnames[i]);
+> -
+> -        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
+> -        body_size += wname_size;
+> -    }
+> -    req = v9fs_req_init(v9p,  body_size, P9_TWALK, tag);
+> -    v9fs_uint32_write(req, fid);
+> -    v9fs_uint32_write(req, newfid);
+> -    v9fs_uint16_write(req, nwname);
+> -    for (i = 0; i < nwname; i++) {
+> -        v9fs_string_write(req, wnames[i]);
+> -    }
+> -    v9fs_req_send(req);
+> -    return req;
+> -}
+> -
+>  /* size[4] Rwalk tag[2] nwqid[2] nwqid*(wqid[13]) */
+>  static void v9fs_rwalk(P9Req *req, uint16_t *nwqid, v9fs_qid **wqid)
+>  {
+> @@ -432,6 +408,98 @@ static void v9fs_rwalk(P9Req *req, uint16_t *nwqid,
+> v9fs_qid **wqid) v9fs_req_free(req);
+>  }
+> 
+> +/* options for 'Twalk' 9p request */
+> +typedef struct TWalkOpt {
+> +    /* 9P client being used (mandatory) */
+> +    QVirtio9P *client;
+> +    /* user supplied tag number being returned with response (optional) */
+> +    uint16_t tag;
+> +    /* file ID of directory from where walk should start (optional) */
+> +    uint32_t fid;
+> +    /* file ID for target directory being walked to (optional) */
+> +    uint32_t newfid;
+> +    /* low level variant of path to walk to (optional) */
+> +    uint16_t nwname;
+> +    char **wnames;
+> +    /* high level variant of path to walk to (optional) */
+> +    const char *path;
+> +    /* data being received from 9p server as 'Rwalk' response (optional) */
+> +    struct {
+> +        uint16_t *nwqid;
+> +        v9fs_qid **wqid;
+> +    } rwalk;
+> +    /* only send Twalk request but not wait for a reply? (optional) */
+> +    bool requestOnly;
+> +    /* do we expect an Rlerror response, if yes which error code?
+> (optional) */ +    uint32_t expectErr;
+> +} TWalkOpt;
+> +
+> +/* result of 'Twalk' 9p request */
+> +typedef struct TWalkRes {
+> +    /* file ID of target directory been walked to */
+> +    uint32_t newfid;
+> +    /* if requestOnly was set: request object for further processing */
+> +    P9Req *req;
+> +} TWalkRes;
+> +
+> +/* size[4] Twalk tag[2] fid[4] newfid[4] nwname[2] nwname*(wname[s]) */
+> +static TWalkRes twalk(TWalkOpt opt)
+> +{
+> +    P9Req *req;
+> +    int i;
+> +    uint32_t body_size = 4 + 4 + 2;
+> +    uint32_t err;
+> +    char **wnames = NULL;
+> +
+> +    g_assert(opt.client);
+> +    /* expecting either high- or low-level path, both not both */
+> +    g_assert(!opt.path || !(opt.nwname || opt.wnames));
+> +    /* expecting either Rwalk or Rlerror, but obviously not both */
+> +    g_assert(!opt.expectErr || !(opt.rwalk.nwqid || opt.rwalk.wqid));
+> +
+> +    if (!opt.newfid) {
+> +        opt.newfid = genfid();
+> +    }
+> +
+> +    if (opt.path) {
+> +        opt.nwname = split(opt.path, "/", &wnames);
+> +        opt.wnames = wnames;
+> +    }
+> +
+> +    for (i = 0; i < opt.nwname; i++) {
+> +        uint16_t wname_size = v9fs_string_size(opt.wnames[i]);
+> +
+> +        g_assert_cmpint(body_size, <=, UINT32_MAX - wname_size);
+> +        body_size += wname_size;
+> +    }
+> +    req = v9fs_req_init(opt.client, body_size, P9_TWALK, opt.tag);
+> +    v9fs_uint32_write(req, opt.fid);
+> +    v9fs_uint32_write(req, opt.newfid);
+> +    v9fs_uint16_write(req, opt.nwname);
+> +    for (i = 0; i < opt.nwname; i++) {
+> +        v9fs_string_write(req, opt.wnames[i]);
+> +    }
+> +    v9fs_req_send(req);
+> +
+> +    if (!opt.requestOnly) {
+> +        v9fs_req_wait_for_reply(req, NULL);
+> +        if (opt.expectErr) {
+> +            v9fs_rlerror(req, &err);
+> +            g_assert_cmpint(err, ==, opt.expectErr);
+> +        } else {
+> +            v9fs_rwalk(req, opt.rwalk.nwqid, opt.rwalk.wqid);
+> +        }
+> +        req = NULL; /* request was freed */
+> +    }
+> +
+> +    split_free(&wnames);
+> +
+> +    return (TWalkRes) {
+> +        .newfid = opt.newfid,
+> +        .req = req,
+> +    };
+> +}
+> +
+>  /* size[4] Tgetattr tag[2] fid[4] request_mask[8] */
+>  static P9Req *v9fs_tgetattr(QVirtio9P *v9p, uint32_t fid, uint64_t
+> request_mask, uint16_t tag)
+> @@ -669,52 +737,6 @@ static void do_version(QVirtio9P *v9p)
+>      g_assert_cmpmem(server_version, server_len, version, strlen(version));
+>  }
+> 
+> -/*
+> - * utility function: walk to requested dir and return fid for that dir and
+> - * the QIDs of server response
+> - */
+> -static uint32_t do_walk_rqids(QVirtio9P *v9p, const char *path, uint16_t
+> *nwqid, -                              v9fs_qid **wqid)
+> -{
+> -    char **wnames;
+> -    P9Req *req;
+> -    const uint32_t fid = genfid();
+> -
+> -    int nwnames = split(path, "/", &wnames);
+> -
+> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+> -    v9fs_req_wait_for_reply(req, NULL);
+> -    v9fs_rwalk(req, nwqid, wqid);
+> -
+> -    split_free(&wnames);
+> -    return fid;
+> -}
+> -
+> -/* utility function: walk to requested dir and return fid for that dir */
+> -static uint32_t do_walk(QVirtio9P *v9p, const char *path)
+> -{
+> -    return do_walk_rqids(v9p, path, NULL, NULL);
+> -}
+> -
+> -/* utility function: walk to requested dir and expect passed error response
+> */ -static void do_walk_expect_error(QVirtio9P *v9p, const char *path,
+> uint32_t err) -{
+> -    char **wnames;
+> -    P9Req *req;
+> -    uint32_t _err;
+> -    const uint32_t fid = genfid();
+> -
+> -    int nwnames = split(path, "/", &wnames);
+> -
+> -    req = v9fs_twalk(v9p, 0, fid, nwnames, wnames, 0);
+> -    v9fs_req_wait_for_reply(req, NULL);
+> -    v9fs_rlerror(req, &_err);
+> -
+> -    g_assert_cmpint(_err, ==, err);
+> -
+> -    split_free(&wnames);
+> -}
+> -
+>  static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
+>  {
+>      alloc = t_alloc;
+> @@ -757,7 +779,10 @@ static void fs_walk(void *obj, void *data,
+> QGuestAllocator *t_alloc) }
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = P9_MAXWELEM, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, &nwqid, &wqid);
+> 
+> @@ -941,7 +966,7 @@ static void fs_readdir(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+>      uint16_t nqid;
+>      v9fs_qid qid;
+>      uint32_t count, nentries;
+> @@ -949,7 +974,10 @@ static void fs_readdir(void *obj, void *data,
+> QGuestAllocator *t_alloc) P9Req *req;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, &nqid, NULL);
+>      g_assert_cmpint(nqid, ==, 1);
+> @@ -993,7 +1021,7 @@ static void fs_readdir(void *obj, void *data,
+> QGuestAllocator *t_alloc) /* readdir test where overall request is split
+> over several messages */ static void do_readdir_split(QVirtio9P *v9p,
+> uint32_t count)
+>  {
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_READDIR_DIR) };
+>      uint16_t nqid;
+>      v9fs_qid qid;
+>      uint32_t nentries, npartialentries;
+> @@ -1010,7 +1038,10 @@ static void do_readdir_split(QVirtio9P *v9p, uint32_t
+> count) nentries = 0;
+>      tail = NULL;
+> 
+> -    req = v9fs_twalk(v9p, 0, fid, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = fid,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, &nqid, NULL);
+>      g_assert_cmpint(nqid, ==, 1);
+> @@ -1074,12 +1105,15 @@ static void fs_walk_no_slash(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup(" /") };
+> +    char *wnames[] = { g_strdup(" /") };
+>      P9Req *req;
+>      uint32_t err;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rlerror(req, &err);
+> 
+> @@ -1098,7 +1132,9 @@ static void fs_walk_nonexistent(void *obj, void *data,
+> QGuestAllocator *t_alloc) * The 9p2000 protocol spec says: "If the first
+> element cannot be walked * for any reason, Rerror is returned."
+>       */
+> -    do_walk_expect_error(v9p, "non-existent", ENOENT);
+> +    twalk((TWalkOpt) {
+> +        .client = v9p, .path = "non-existent", .expectErr = ENOENT
+> +    });
+>  }
+> 
+>  static void fs_walk_2nd_nonexistent(void *obj, void *data,
+> @@ -1116,7 +1152,10 @@ static void fs_walk_2nd_nonexistent(void *obj, void
+> *data, );
+> 
+>      do_attach_rqid(v9p, &root_qid);
+> -    fid = do_walk_rqids(v9p, path, &nwqid, &wqid);
+> +    fid = twalk((TWalkOpt) {
+> +        .client = v9p, .path = path,
+> +        .rwalk.nwqid = &nwqid, .rwalk.wqid = &wqid
+> +    }).newfid;
+>      /*
+>       * The 9p2000 protocol spec says: "nwqid is therefore either nwname or
+> the * index of the first elementwise walk that failed."
+> @@ -1148,7 +1187,10 @@ static void fs_walk_none(void *obj, void *data,
+> QGuestAllocator *t_alloc) v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rattach(req, &root_qid);
+> 
+> -    req = v9fs_twalk(v9p, 0, 1, 0, NULL, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 0, .wnames = NULL, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, &wqid);
+> 
+> @@ -1166,7 +1208,7 @@ static void fs_walk_dotdot(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup("..") };
+> +    char *wnames[] = { g_strdup("..") };
+>      v9fs_qid root_qid;
+>      g_autofree v9fs_qid *wqid = NULL;
+>      P9Req *req;
+> @@ -1176,7 +1218,10 @@ static void fs_walk_dotdot(void *obj, void *data,
+> QGuestAllocator *t_alloc) v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rattach(req, &root_qid);
+> 
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, &wqid); /* We now we'll get one qid */
+> 
+> @@ -1189,11 +1234,14 @@ static void fs_lopen(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
+>      P9Req *req;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, NULL);
+> 
+> @@ -1209,13 +1257,16 @@ static void fs_write(void *obj, void *data,
+> QGuestAllocator *t_alloc) QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+>      static const uint32_t write_count = P9_MAX_SIZE / 2;
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_WRITE_FILE) };
+>      g_autofree char *buf = g_malloc0(write_count);
+>      uint32_t count;
+>      P9Req *req;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, NULL);
+> 
+> @@ -1235,13 +1286,16 @@ static void fs_flush_success(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+>      P9Req *req, *flush_req;
+>      uint32_t reply_len;
+>      uint8_t should_block;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, NULL);
+> 
+> @@ -1272,13 +1326,16 @@ static void fs_flush_ignored(void *obj, void *data,
+> QGuestAllocator *t_alloc) {
+>      QVirtio9P *v9p = obj;
+>      alloc = t_alloc;
+> -    char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+> +    char *wnames[] = { g_strdup(QTEST_V9FS_SYNTH_FLUSH_FILE) };
+>      P9Req *req, *flush_req;
+>      uint32_t count;
+>      uint8_t should_block;
+> 
+>      do_attach(v9p);
+> -    req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
+> +    req = twalk((TWalkOpt) {
+> +        .client = v9p, .fid = 0, .newfid = 1,
+> +        .nwname = 1, .wnames = wnames, .requestOnly = true
+> +    }).req;
+>      v9fs_req_wait_for_reply(req, NULL);
+>      v9fs_rwalk(req, NULL, NULL);
+> 
+> @@ -1311,7 +1368,7 @@ static void do_mkdir(QVirtio9P *v9p, const char *path,
+> const char *cname) uint32_t fid;
+>      P9Req *req;
+> 
+> -    fid = do_walk(v9p, path);
+> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+> 
+>      req = v9fs_tmkdir(v9p, fid, name, 0750, 0, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+> @@ -1326,7 +1383,7 @@ static uint32_t do_lcreate(QVirtio9P *v9p, const char
+> *path, uint32_t fid;
+>      P9Req *req;
+> 
+> -    fid = do_walk(v9p, path);
+> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+> 
+>      req = v9fs_tlcreate(v9p, fid, name, 0, 0750, 0, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+> @@ -1344,7 +1401,7 @@ static void do_symlink(QVirtio9P *v9p, const char
+> *path, const char *clink, uint32_t fid;
+>      P9Req *req;
+> 
+> -    fid = do_walk(v9p, path);
+> +    fid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+> 
+>      req = v9fs_tsymlink(v9p, fid, name, dst, 0, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+> @@ -1358,8 +1415,8 @@ static void do_hardlink(QVirtio9P *v9p, const char
+> *path, const char *clink, uint32_t dfid, fid;
+>      P9Req *req;
+> 
+> -    dfid = do_walk(v9p, path);
+> -    fid = do_walk(v9p, to);
+> +    dfid = twalk((TWalkOpt) { .client = v9p, .path = path }).newfid;
+> +    fid = twalk((TWalkOpt) { .client = v9p, .path = to }).newfid;
+> 
+>      req = v9fs_tlink(v9p, dfid, fid, clink, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
+> @@ -1373,7 +1430,7 @@ static void do_unlinkat(QVirtio9P *v9p, const char
+> *atpath, const char *rpath, uint32_t fid;
+>      P9Req *req;
+> 
+> -    fid = do_walk(v9p, atpath);
+> +    fid = twalk((TWalkOpt) { .client = v9p, .path = atpath }).newfid;
+> 
+>      req = v9fs_tunlinkat(v9p, fid, name, flags, 0);
+>      v9fs_req_wait_for_reply(req, NULL);
 
-This information is repeated in the driver code
-(drivers/dma/bcm2835-dma.c +1344):
-
-    /*
-     * in case of channel >= 11
-     * use the 11th interrupt and that is shared
-     */
-
-In this patch channels 0--10 and 11--14 are handled separately.
-
-Signed-off-by: Andrey Makarov <andrey.makarov@auriga.com>
-Message-id: 20220716113210.349153-1-andrey.makarov@auriga.com
-[PMM: fixed checkpatch nits]
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/bcm2835_peripherals.h |   2 +
- hw/arm/bcm2835_peripherals.c         |  26 +++++-
- tests/qtest/bcm2835-dma-test.c       | 118 +++++++++++++++++++++++++++
- tests/qtest/meson.build              |   3 +-
- 4 files changed, 147 insertions(+), 2 deletions(-)
- create mode 100644 tests/qtest/bcm2835-dma-test.c
-
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index d864879421a..c9d25d493e0 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -17,6 +17,7 @@
- #include "hw/char/bcm2835_aux.h"
- #include "hw/display/bcm2835_fb.h"
- #include "hw/dma/bcm2835_dma.h"
-+#include "hw/or-irq.h"
- #include "hw/intc/bcm2835_ic.h"
- #include "hw/misc/bcm2835_property.h"
- #include "hw/misc/bcm2835_rng.h"
-@@ -55,6 +56,7 @@ struct BCM2835PeripheralState {
-     BCM2835AuxState aux;
-     BCM2835FBState fb;
-     BCM2835DMAState dma;
-+    qemu_or_irq orgated_dma_irq;
-     BCM2835ICState ic;
-     BCM2835PropertyState property;
-     BCM2835RngState rng;
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 48538c9360c..3c2a4160cd1 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -23,6 +23,13 @@
- /* Capabilities for SD controller: no DMA, high-speed, default clocks etc. */
- #define BCM2835_SDHC_CAPAREG 0x52134b4
- 
-+/*
-+ * According to Linux driver & DTS, dma channels 0--10 have separate IRQ,
-+ * while channels 11--14 share one IRQ:
-+ */
-+#define SEPARATE_DMA_IRQ_MAX 10
-+#define ORGATED_DMA_IRQ_COUNT 4
-+
- static void create_unimp(BCM2835PeripheralState *ps,
-                          UnimplementedDeviceState *uds,
-                          const char *name, hwaddr ofs, hwaddr size)
-@@ -101,6 +108,11 @@ static void bcm2835_peripherals_init(Object *obj)
-     /* DMA Channels */
-     object_initialize_child(obj, "dma", &s->dma, TYPE_BCM2835_DMA);
- 
-+    object_initialize_child(obj, "orgated-dma-irq",
-+                            &s->orgated_dma_irq, TYPE_OR_IRQ);
-+    object_property_set_int(OBJECT(&s->orgated_dma_irq), "num-lines",
-+                            ORGATED_DMA_IRQ_COUNT, &error_abort);
-+
-     object_property_add_const_link(OBJECT(&s->dma), "dma-mr",
-                                    OBJECT(&s->gpu_bus_mr));
- 
-@@ -322,12 +334,24 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
-     memory_region_add_subregion(&s->peri_mr, DMA15_OFFSET,
-                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->dma), 1));
- 
--    for (n = 0; n <= 12; n++) {
-+    for (n = 0; n <= SEPARATE_DMA_IRQ_MAX; n++) {
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), n,
-                            qdev_get_gpio_in_named(DEVICE(&s->ic),
-                                                   BCM2835_IC_GPU_IRQ,
-                                                   INTERRUPT_DMA0 + n));
-     }
-+    if (!qdev_realize(DEVICE(&s->orgated_dma_irq), NULL, errp)) {
-+        return;
-+    }
-+    for (n = 0; n < ORGATED_DMA_IRQ_COUNT; n++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma),
-+                           SEPARATE_DMA_IRQ_MAX + 1 + n,
-+                           qdev_get_gpio_in(DEVICE(&s->orgated_dma_irq), n));
-+    }
-+    qdev_connect_gpio_out(DEVICE(&s->orgated_dma_irq), 0,
-+                          qdev_get_gpio_in_named(DEVICE(&s->ic),
-+                              BCM2835_IC_GPU_IRQ,
-+                              INTERRUPT_DMA0 + SEPARATE_DMA_IRQ_MAX + 1));
- 
-     /* THERMAL */
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->thermal), errp)) {
-diff --git a/tests/qtest/bcm2835-dma-test.c b/tests/qtest/bcm2835-dma-test.c
-new file mode 100644
-index 00000000000..8293d822b94
---- /dev/null
-+++ b/tests/qtest/bcm2835-dma-test.c
-@@ -0,0 +1,118 @@
-+/*
-+ * QTest testcase for BCM283x DMA engine (on Raspberry Pi 3)
-+ * and its interrupts coming to Interrupt Controller.
-+ *
-+ * Copyright (c) 2022 Auriga LLC
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+
-+/* Offsets in raspi3b platform: */
-+#define RASPI3_DMA_BASE 0x3f007000
-+#define RASPI3_IC_BASE  0x3f00b200
-+
-+/* Used register/fields definitions */
-+
-+/* DMA engine registers: */
-+#define BCM2708_DMA_CS         0
-+#define BCM2708_DMA_ACTIVE     (1 << 0)
-+#define BCM2708_DMA_INT        (1 << 2)
-+
-+#define BCM2708_DMA_ADDR       0x04
-+
-+#define BCM2708_DMA_INT_STATUS 0xfe0
-+
-+/* DMA Trasfer Info fields: */
-+#define BCM2708_DMA_INT_EN     (1 << 0)
-+#define BCM2708_DMA_D_INC      (1 << 4)
-+#define BCM2708_DMA_S_INC      (1 << 8)
-+
-+/* Interrupt controller registers: */
-+#define IRQ_PENDING_BASIC      0x00
-+#define IRQ_GPU_PENDING1_AGGR  (1 << 8)
-+#define IRQ_PENDING_1          0x04
-+#define IRQ_ENABLE_1           0x10
-+
-+/* Data for the test: */
-+#define SCB_ADDR   256
-+#define S_ADDR     32
-+#define D_ADDR     64
-+#define TXFR_LEN   32
-+const uint32_t check_data = 0x12345678;
-+
-+static void bcm2835_dma_test_interrupt(int dma_c, int irq_line)
-+{
-+    uint64_t dma_base = RASPI3_DMA_BASE + dma_c * 0x100;
-+    int gpu_irq_line = 16 + irq_line;
-+
-+    /* Check that interrupts are silent by default: */
-+    writel(RASPI3_IC_BASE + IRQ_ENABLE_1, 1 << gpu_irq_line);
-+    int isr = readl(dma_base + BCM2708_DMA_INT_STATUS);
-+    g_assert_cmpint(isr, ==, 0);
-+    uint32_t reg0 = readl(dma_base + BCM2708_DMA_CS);
-+    g_assert_cmpint(reg0, ==, 0);
-+    uint32_t ic_pending = readl(RASPI3_IC_BASE + IRQ_PENDING_BASIC);
-+    g_assert_cmpint(ic_pending, ==, 0);
-+    uint32_t gpu_pending1 = readl(RASPI3_IC_BASE + IRQ_PENDING_1);
-+    g_assert_cmpint(gpu_pending1, ==, 0);
-+
-+    /* Prepare Control Block: */
-+    writel(SCB_ADDR + 0, BCM2708_DMA_S_INC | BCM2708_DMA_D_INC |
-+                         BCM2708_DMA_INT_EN); /* transfer info */
-+    writel(SCB_ADDR + 4, S_ADDR);             /* source address */
-+    writel(SCB_ADDR + 8, D_ADDR);             /* destination address */
-+    writel(SCB_ADDR + 12, TXFR_LEN);          /* transfer length */
-+    writel(dma_base + BCM2708_DMA_ADDR, SCB_ADDR);
-+
-+    writel(S_ADDR, check_data);
-+    for (int word = S_ADDR + 4; word < S_ADDR + TXFR_LEN; word += 4) {
-+        writel(word, ~check_data);
-+    }
-+    /* Perform the transfer: */
-+    writel(dma_base + BCM2708_DMA_CS, BCM2708_DMA_ACTIVE);
-+
-+    /* Check that destination == source: */
-+    uint32_t data = readl(D_ADDR);
-+    g_assert_cmpint(data, ==, check_data);
-+    for (int word = D_ADDR + 4; word < D_ADDR + TXFR_LEN; word += 4) {
-+        data = readl(word);
-+        g_assert_cmpint(data, ==, ~check_data);
-+    }
-+
-+    /* Check that interrupt status is set both in DMA and IC controllers: */
-+    isr = readl(RASPI3_DMA_BASE + BCM2708_DMA_INT_STATUS);
-+    g_assert_cmpint(isr, ==, 1 << dma_c);
-+
-+    ic_pending = readl(RASPI3_IC_BASE + IRQ_PENDING_BASIC);
-+    g_assert_cmpint(ic_pending, ==, IRQ_GPU_PENDING1_AGGR);
-+
-+    gpu_pending1 = readl(RASPI3_IC_BASE + IRQ_PENDING_1);
-+    g_assert_cmpint(gpu_pending1, ==, 1 << gpu_irq_line);
-+
-+    /* Clean up, clear interrupt: */
-+    writel(dma_base + BCM2708_DMA_CS, BCM2708_DMA_INT);
-+}
-+
-+static void bcm2835_dma_test_interrupts(void)
-+{
-+    /* DMA engines 0--10 have separate IRQ lines, 11--14 - only one: */
-+    bcm2835_dma_test_interrupt(0,  0);
-+    bcm2835_dma_test_interrupt(10, 10);
-+    bcm2835_dma_test_interrupt(11, 11);
-+    bcm2835_dma_test_interrupt(14, 11);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+    g_test_init(&argc, &argv, NULL);
-+    qtest_add_func("/bcm2835/dma/test_interrupts",
-+                   bcm2835_dma_test_interrupts);
-+    qtest_start("-machine raspi3b");
-+    ret = g_test_run();
-+    qtest_end();
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 31287a91739..3a474010e49 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -218,7 +218,8 @@ qtests_aarch64 = \
-   ['arm-cpu-features',
-    'numa-test',
-    'boot-serial-test',
--   'migration-test']
-+   'migration-test',
-+   'bcm2835-dma-test']
- 
- qtests_s390x = \
-   (slirp.found() ? ['pxe-test', 'test-netfilter'] : []) +                 \
--- 
-2.25.1
 
 
