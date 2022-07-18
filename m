@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDDD578192
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:06:11 +0200 (CEST)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7431857820D
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 14:19:18 +0200 (CEST)
+Received: from localhost ([::1]:40208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDPVq-0008N3-PD
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:06:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
+	id 1oDPiX-0002lO-Df
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 08:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDPPv-0002Ra-Dm
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:00:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22440)
+ (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
+ id 1oDPRv-0003is-OK; Mon, 18 Jul 2022 08:02:09 -0400
+Received: from mail.hetzner.company ([2a01:4f8:d0a:203a::1]:57636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDPPq-0006rn-7E
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 08:00:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658145593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=L/eP2dFEMhsJ/8XKYv1+c8YSN7UzCOi+3CCr1uqKb00=;
- b=AQfiOaqFdZME77g+jmTLqEQcuOY1RKcWWPdlnJ2B0Vf4DoZvGeL55wbWTuJytd/2Rago+M
- 5tA0sbB7wZAN3IP4kqVjvP4FprmCLpwaWWfRBoSFs1Mkc0rqYB3nZ3zV2zmXUgQIynvoyO
- vvukEM1aHfvrfNH/XMDl2dqlJ7AYbjs=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-86-lEROYeNENZK00skKOy85SQ-1; Mon, 18 Jul 2022 07:59:46 -0400
-X-MC-Unique: lEROYeNENZK00skKOy85SQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- a18-20020a05600c225200b003a30355c0feso3871465wmm.6
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 04:59:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=L/eP2dFEMhsJ/8XKYv1+c8YSN7UzCOi+3CCr1uqKb00=;
- b=lUsq0UtG3ne5E9yol8NXg3rvpVTEILvm4P4fvEZc2uetiIWuBnUW3mLx2XozaT3D5V
- l7px9v15eBJ6DCAcZwQZMQhl/T8VUT6aPTwsF92RbkZz/45QwV8WjUTjrCc3FnAcmhqy
- oIE87xO7Rj6QG0XJSWEuzcmS9BkdNicUAaLGMvs/m7FE9aLrHpg30lFH0tOxf0kUUUef
- 3iLcfIwWr+R+LoSePHVbYHSelyb6noQ/Ef80fwvRzQBh1FpTNTEkR0EQn68LbWOpUwLB
- 0ED29UnmtPAXRcypcyxJKGsR5bJAovIA6dtOMxpmiIS9cChKH3TljWurJUj9ZRtkn2/T
- Oo7g==
-X-Gm-Message-State: AJIora+lmKs4EwmT6GBn9kHnkxC5QIKH7cypHo9mQfIQYf4EBNTJrYrX
- LzQFCoO8vI7cJ0dZUTTrsZLQkw8Vkte33xjh9QOWkMtNO6nJ8uaHygfh4WLkraxDsC/t5hB4UCc
- Ypc2wvNciPVPdBvc=
-X-Received: by 2002:a5d:5888:0:b0:21d:754b:7afb with SMTP id
- n8-20020a5d5888000000b0021d754b7afbmr22275473wrf.117.1658145584893; 
- Mon, 18 Jul 2022 04:59:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1urkW/jxq+xWe7mTfl+iujmTR8TXk5M+MSQpTaOZi5SUPWsYPHJuMBxtfZIEmQSxZFby9maAw==
-X-Received: by 2002:a5d:5888:0:b0:21d:754b:7afb with SMTP id
- n8-20020a5d5888000000b0021d754b7afbmr22275451wrf.117.1658145584591; 
- Mon, 18 Jul 2022 04:59:44 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m17-20020a05600c3b1100b003976fbfbf00sm17752083wms.30.2022.07.18.04.59.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 04:59:44 -0700 (PDT)
-Date: Mon, 18 Jul 2022 12:59:41 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>,
- Eduardo Habkost <eduardo@habkost.net>, Peter Xu <peterx@redhat.com>,
- Leonardo Bras <leobras@redhat.com>
-Subject: Re: [PATCH v7 07/13] multifd: Make flags field thread local
-Message-ID: <YtVLLY1qlIy6UxFg@work-vm>
-References: <20220531104318.7494-1-quintela@redhat.com>
- <20220531104318.7494-8-quintela@redhat.com>
+ (Exim 4.90_1) (envelope-from <raphael.pour@hetzner.com>)
+ id 1oDPRr-0007Nr-9m; Mon, 18 Jul 2022 08:02:06 -0400
+Received: from [2a01:4f8:0:a53b:9775:b751:8e88:cd9d]
+ (helo=[IPV6:2a01:4f8:0:a63b:9775:b751:8e88:cd9d])
+ by mail.hetzner.company with esmtpsa (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256)
+ (Exim 4.92) (envelope-from <raphael.pour@hetzner.com>)
+ id 1oDPRi-0006pZ-2j; Mon, 18 Jul 2022 14:01:54 +0200
+Message-ID: <4fc3aa76-d190-9868-8efe-43dbe62198ed@hetzner.com>
+Date: Mon, 18 Jul 2022 14:01:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220531104318.7494-8-quintela@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:RBD" <qemu-block@nongnu.org>,
+ Peter Lieven <pl@kamp.de>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Ilya Dryomov <idryomov@gmail.com>
+References: <20220413122656.3070251-1-raphael.pour@hetzner.com>
+ <21cbfa05-0e2c-8e69-a5ab-fac31f87531f@redhat.com>
+From: Raphael Pour <raphael.pour@hetzner.com>
+Autocrypt: addr=raphael.pour@hetzner.com; keydata=
+ xjMEXmXjyxYJKwYBBAHaRw8BAQdAtiEYnlLIuIUjvvqOH//nEbhrxSa54ZyAl7Iel403QaXN
+ J1JhcGhhZWwgUG91ciA8cmFwaGFlbC5wb3VyQGhldHpuZXIuY29tPsKWBBMWCAA+FiEEvj4O
+ DnHb6pxm/uWJzbHrt4XF634FAl5l48sCGwMFCQlmAYAFCwkIBwIGFQoJCAsCBBYCAwECHgEC
+ F4AACgkQzbHrt4XF635TcwD+NEMqL1HZPHP/WRsYujCDtqt0p+7uxGcpvzv//AjqMZ0A+wUh
+ 0bOYYNdlXWNMMNLA88SsAT2mxAfD+F/paVmLpdoLzjgEXmXjyxIKKwYBBAGXVQEFAQEHQB0z
+ JYP6jtTj989IJL1vguinsiIxia5fkW83OB1+Bb4QAwEIB8J+BBgWCAAmFiEEvj4ODnHb6pxm
+ /uWJzbHrt4XF634FAl5l48sCGwwFCQlmAYAACgkQzbHrt4XF6372LgEAi3qfceU+R53Ehg/Y
+ SSHV4wg+zfPwrD6ylEg/xKabYDcBALrD0E3YX458RPjLIOC8H0u0rcFIvBqNYx/kGaMEmbEG
+Subject: Re: [PATCH] block/rbd: support driver-specific reopen
+In-Reply-To: <21cbfa05-0e2c-8e69-a5ab-fac31f87531f@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------xtufM2i39ZTRh8m1dgClf8ZD"
+X-Authenticated-Sender: raphael.pour@hetzner.com
+Received-SPF: pass client-ip=2a01:4f8:d0a:203a::1;
+ envelope-from=raphael.pour@hetzner.com; helo=mail.hetzner.company
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,163 +74,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> Use of flags with respect to locking was incensistant.  For the
-> sending side:
-> - it was set to 0 with mutex held on the multifd channel.
-> - MULTIFD_FLAG_SYNC was set with mutex held on the migration thread.
-> - Everything else was done without the mutex held on the multifd channel.
-> 
-> On the reception side, it is not used on the migration thread, only on
-> the multifd channels threads.
-> 
-> So we move it to the multifd channels thread only variables, and we
-> introduce a new bool sync_needed on the send side to pass that information.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------xtufM2i39ZTRh8m1dgClf8ZD
+Content-Type: multipart/mixed; boundary="------------lhAZw3vIYFvwmf6hcQ9I7bEG";
+ protected-headers="v1"
+From: Raphael Pour <raphael.pour@hetzner.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, "open list:RBD" <qemu-block@nongnu.org>,
+ Peter Lieven <pl@kamp.de>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Ilya Dryomov <idryomov@gmail.com>
+Message-ID: <4fc3aa76-d190-9868-8efe-43dbe62198ed@hetzner.com>
+Subject: Re: [PATCH] block/rbd: support driver-specific reopen
+References: <20220413122656.3070251-1-raphael.pour@hetzner.com>
+ <21cbfa05-0e2c-8e69-a5ab-fac31f87531f@redhat.com>
+In-Reply-To: <21cbfa05-0e2c-8e69-a5ab-fac31f87531f@redhat.com>
 
-Does this need rework after Leo's recent changes?
+--------------lhAZw3vIYFvwmf6hcQ9I7bEG
+Content-Type: multipart/mixed; boundary="------------mT9VcNbdAmB0i1bL3ADwIrj2"
 
-Dave
+--------------mT9VcNbdAmB0i1bL3ADwIrj2
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> Signed-off-by: Juan Quintela <quintela@redhat.com>
-> ---
->  migration/multifd.h | 10 ++++++----
->  migration/multifd.c | 23 +++++++++++++----------
->  2 files changed, 19 insertions(+), 14 deletions(-)
-> 
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 8a45dda58c..af8ce8921d 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -98,12 +98,12 @@ typedef struct {
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
->      /* global number of generated multifd packets */
->      uint64_t packet_num;
->      /* How many bytes have we sent on the last packet */
->      uint64_t sent_bytes;
-> +    /* Do we need to do an iteration sync */
-> +    bool sync_needed;
->      /* thread has work to do */
->      int pending_job;
->      /* array of pages to sent.
-> @@ -117,6 +117,8 @@ typedef struct {
->  
->      /* pointer to the packet */
->      MultiFDPacket_t *packet;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
->      /* size of the next packet that contains pages */
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
-> @@ -163,8 +165,6 @@ typedef struct {
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> -    /* multifd flags for each packet */
-> -    uint32_t flags;
->      /* global number of generated multifd packets */
->      uint64_t packet_num;
->  
-> @@ -172,6 +172,8 @@ typedef struct {
->  
->      /* pointer to the packet */
->      MultiFDPacket_t *packet;
-> +    /* multifd flags for each packet */
-> +    uint32_t flags;
->      /* size of the next packet that contains pages */
->      uint32_t next_packet_size;
->      /* packets sent through this channel */
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index eef47c274f..69b9d7cf98 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -602,7 +602,7 @@ int multifd_send_sync_main(QEMUFile *f)
->          }
->  
->          p->packet_num = multifd_send_state->packet_num++;
-> -        p->flags |= MULTIFD_FLAG_SYNC;
-> +        p->sync_needed = true;
->          p->pending_job++;
->          qemu_mutex_unlock(&p->mutex);
->          qemu_sem_post(&p->sem);
-> @@ -656,7 +656,11 @@ static void *multifd_send_thread(void *opaque)
->  
->          if (p->pending_job) {
->              uint64_t packet_num = p->packet_num;
-> -            uint32_t flags = p->flags;
-> +            p->flags = 0;
-> +            if (p->sync_needed) {
-> +                p->flags |= MULTIFD_FLAG_SYNC;
-> +                p->sync_needed = false;
-> +            }
->              p->normal_num = 0;
->  
->              if (use_zero_copy_send) {
-> @@ -678,14 +682,13 @@ static void *multifd_send_thread(void *opaque)
->                  }
->              }
->              multifd_send_fill_packet(p);
-> -            p->flags = 0;
->              p->num_packets++;
->              p->total_normal_pages += p->normal_num;
->              p->pages->num = 0;
->              p->pages->block = NULL;
->              qemu_mutex_unlock(&p->mutex);
->  
-> -            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
-> +            trace_multifd_send(p->id, packet_num, p->normal_num, p->flags,
->                                 p->next_packet_size);
->  
->              if (use_zero_copy_send) {
-> @@ -713,7 +716,7 @@ static void *multifd_send_thread(void *opaque)
->              p->pending_job--;
->              qemu_mutex_unlock(&p->mutex);
->  
-> -            if (flags & MULTIFD_FLAG_SYNC) {
-> +            if (p->flags & MULTIFD_FLAG_SYNC) {
->                  qemu_sem_post(&p->sem_sync);
->              }
->              qemu_sem_post(&multifd_send_state->channels_ready);
-> @@ -1090,7 +1093,7 @@ static void *multifd_recv_thread(void *opaque)
->      rcu_register_thread();
->  
->      while (true) {
-> -        uint32_t flags;
-> +        bool sync_needed = false;
->  
->          if (p->quit) {
->              break;
-> @@ -1112,11 +1115,11 @@ static void *multifd_recv_thread(void *opaque)
->              break;
->          }
->  
-> -        flags = p->flags;
-> +        trace_multifd_recv(p->id, p->packet_num, p->normal_num, p->flags,
-> +                           p->next_packet_size);
-> +        sync_needed = p->flags & MULTIFD_FLAG_SYNC;
->          /* recv methods don't know how to handle the SYNC flag */
->          p->flags &= ~MULTIFD_FLAG_SYNC;
-> -        trace_multifd_recv(p->id, p->packet_num, p->normal_num, flags,
-> -                           p->next_packet_size);
->          p->num_packets++;
->          p->total_normal_pages += p->normal_num;
->          qemu_mutex_unlock(&p->mutex);
-> @@ -1128,7 +1131,7 @@ static void *multifd_recv_thread(void *opaque)
->              }
->          }
->  
-> -        if (flags & MULTIFD_FLAG_SYNC) {
-> +        if (sync_needed) {
->              qemu_sem_post(&multifd_recv_state->sem_sync);
->              qemu_sem_wait(&p->sem_sync);
->          }
-> -- 
-> 2.35.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+T24gNy8xLzIyIDExOjQxLCBIYW5uYSBSZWl0eiB3cm90ZToNCj4gT24gMTMuMDQuMjIgMTQ6
+MjYsIFJhcGhhZWwgUG91ciB3cm90ZToNCj4gID4+IMKgwqDCoMKgwqAgfQ0KPj4gLcKgwqDC
+oCByZXR1cm4gcmV0Ow0KPj4gK8KgwqDCoCAvKg0KPj4gK8KgwqDCoMKgICogUmVtb3ZlIGFs
+bCBrZXlzIGZyb20gdGhlIGdlbmVyaWMgbGF5ZXIgd2hpY2gNCj4+ICvCoMKgwqDCoCAqIGNh
+bid0IGJlIGNvbnZlcnRlZCBieSByYmQNCj4+ICvCoMKgwqDCoCAqID4NCj4gRG9lcyBhbnkg
+b3RoZXIgZHJpdmVyIGRvIHRoaXM/wqAgU2hvdWxkbuKAmXQgd2UgbGVhdmUgdGhlbSB0aGVy
+ZSBzbyB0aGF0IA0KPiB0aGUgZ2VuZXJpYyBsYXllciBjYW4gdmVyaWZ5IHRoYXQgdGhleSBh
+cmVu4oCZdCBjaGFuZ2VkPw0KPiANCj4+ICvCoMKgwqAgcWRpY3RfZGVsKHN0YXRlLT5vcHRp
+b25zLCAiZHJpdmVyIik7DQo+PiArwqDCoMKgIHFkaWN0X2RlbChzdGF0ZS0+b3B0aW9ucywg
+Im5vZGUtbmFtZSIpOw0KPj4gK8KgwqDCoCBxZGljdF9kZWwoc3RhdGUtPm9wdGlvbnMsICJh
+dXRvLXJlYWQtb25seSIpOw0KPj4gK8KgwqDCoCBxZGljdF9kZWwoc3RhdGUtPm9wdGlvbnMs
+ICJkaXNjYXJkIik7DQo+PiArwqDCoMKgIHFkaWN0X2RlbChzdGF0ZS0+b3B0aW9ucywgImNh
+Y2hlIik7DQo+IA0KPiBCZWNhdXNlIEFGQUlVIHRoaXMgd291bGQgbWVhbiB0aGF0IHVzZXJz
+IGNvdWxkIGF0dGVtcHQgdG8gY2hhbmdlIGUuZy4gDQo+IHRoZSBAY2FjaGUgb3B0aW9uLCBh
+bmQgd291bGRu4oCZdCByZWNlaXZlIGFuIGVycm9yIGJhY2ssIGV2ZW4gdGhvdWdoIHRoZXJl
+IA0KPiBpcyBubyBzdXBwb3J0IGZvciBjaGFuZ2luZyBpdC4NCj4gDQo+PiArDQo+PiArwqDC
+oMKgIC8qDQo+PiArwqDCoMKgwqAgKiBUbyBtYWludGFpbiB0aGUgY29tcGF0aWJpbGl0eSBw
+cmlvciB0aGUgcmJkLXJlb3BlbiwNCj4+ICvCoMKgwqDCoCAqIHdoZXJlIHRoZSBnZW5lcmlj
+IGxheWVyIGNhbiBiZSBhbHRlcmVkIHdpdGhvdXQgYW55DQo+PiArwqDCoMKgwqAgKiByYmQg
+YXJndW1lbnQgZ2l2ZW4sDQo+IA0KPiBXaGF0IGRvZXMg4oCcdGhlIGdlbmVyaWMgbGF5ZXIg
+Y2FuIGJlIGFsdGVyZWTigJ0gbWVhbj/CoCBBcyBmYXIgYXMgSSANCj4gdW5kZXJzdGFuZCwg
+aXQgd2FzIG9ubHkgcG9zc2libGUgdG8gY2hhbmdlIGJldHdlZW4gcmVhZC93cml0ZSBhbmQg
+DQo+IHJlYWQtb25seSBhY2Nlc3MuDQo+IA0KPj4gKw0KPj4gK8KgwqDCoCBrZXlwYWlycyA9
+IGdfc3RyZHVwKHFkaWN0X2dldF90cnlfc3RyKHN0YXRlLT5vcHRpb25zLCANCj4+ICI9a2V5
+dmFsdWUtcGFpcnMiKSk7DQo+PiArwqDCoMKgIGlmIChrZXlwYWlycykgew0KPj4gK8KgwqDC
+oMKgwqDCoMKgIHFkaWN0X2RlbChzdGF0ZS0+b3B0aW9ucywgIj1rZXl2YWx1ZS1wYWlycyIp
+Ow0KPj4gK8KgwqDCoCB9DQo+PiArDQo+PiArwqDCoMKgIHNlY3JldGlkID0gZ19zdHJkdXAo
+cWRpY3RfZ2V0X3RyeV9zdHIoc3RhdGUtPm9wdGlvbnMsIA0KPj4gInBhc3N3b3JkLXNlY3Jl
+dCIpKTsNCj4+ICvCoMKgwqAgaWYgKHNlY3JldGlkKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAg
+cWRpY3RfZGVsKHN0YXRlLT5vcHRpb25zLCAicGFzc3dvcmQtc2VjcmV0Iik7DQo+PiArwqDC
+oMKgIH0NCj4+ICsNCj4+ICvCoMKgwqAgciA9IHFlbXVfcmJkX2NvbnZlcnRfb3B0aW9ucyhz
+dGF0ZS0+b3B0aW9ucywgJm9wdHMsICZsb2NhbF9lcnIpOw0KPj4gK8KgwqDCoCBpZiAobG9j
+YWxfZXJyKSB7DQo+PiArwqDCoMKgwqDCoMKgwqAgLyoNCj4+ICvCoMKgwqDCoMKgwqDCoMKg
+ICogSWYga2V5cGFpcnMgYXJlIHByZXNlbnQsIHRoYXQgbWVhbnMgc29tZSBvcHRpb25zIGFy
+ZSANCj4+IHByZXNlbnQgaW4NCj4+ICvCoMKgwqDCoMKgwqDCoMKgICogdGhlIG1vZGVybiBv
+cHRpb24gZm9ybWF0LsKgIERvbid0IGF0dGVtcHQgdG8gcGFyc2UgbGVnYWN5IA0KPj4gb3B0
+aW9uDQo+PiArwqDCoMKgwqDCoMKgwqDCoCAqIGZvcm1hdHMsIGFzIHdlIHdvbid0IHN1cHBv
+cnQgbWl4ZWQgdXNhZ2UuDQo+PiArwqDCoMKgwqDCoMKgwqDCoCAqLw0KPj4gK8KgwqDCoMKg
+wqDCoMKgIGlmIChrZXlwYWlycykgew0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZXJy
+b3JfcHJvcGFnYXRlKGVycnAsIGxvY2FsX2Vycik7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCBnb3RvIG91dDsNCj4+ICvCoMKgwqDCoMKgwqDCoCB9DQo+PiArDQo+PiArwqDCoMKg
+wqDCoMKgwqAgLyoNCj4+ICvCoMKgwqDCoMKgwqDCoMKgICogSWYgdGhlIGluaXRpYWwgYXR0
+ZW1wdCB0byBjb252ZXJ0IGFuZCBwcm9jZXNzIHRoZSBvcHRpb25zIA0KPj4gZmFpbGVkLA0K
+Pj4gK8KgwqDCoMKgwqDCoMKgwqAgKiB3ZSBtYXkgYmUgYXR0ZW1wdGluZyB0byBvcGVuIGFu
+IGltYWdlIGZpbGUgdGhhdCBoYXMgdGhlIA0KPj4gcmJkIG9wdGlvbnMNCj4+ICvCoMKgwqDC
+oMKgwqDCoMKgICogc3BlY2lmaWVkIGluIHRoZSBvbGRlciBmb3JtYXQgY29uc2lzdGluZyBv
+ZiBhbGwga2V5L3ZhbHVlIA0KPj4gcGFpcnMNCj4+ICvCoMKgwqDCoMKgwqDCoMKgICogZW5j
+b2RlZCBpbiB0aGUgZmlsZW5hbWUuwqAgR28gYWhlYWQgYW5kIGF0dGVtcHQgdG8gcGFyc2Ug
+dGhlDQo+PiArwqDCoMKgwqDCoMKgwqDCoCAqIGZpbGVuYW1lLCBhbmQgc2VlIGlmIHdlIGNh
+biBwdWxsIG91dCB0aGUgcmVxdWlyZWQgb3B0aW9ucy4NCj4+ICvCoMKgwqDCoMKgwqDCoMKg
+ICovDQo+PiArwqDCoMKgwqDCoMKgwqAgciA9IHFlbXVfcmJkX2F0dGVtcHRfbGVnYWN5X29w
+dGlvbnMoc3RhdGUtPm9wdGlvbnMsICZvcHRzLCANCj4+ICZrZXlwYWlycyk7DQo+PiArwqDC
+oMKgwqDCoMKgwqAgaWYgKHIgPCAwKSB7DQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAv
+Kg0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIFByb3BhZ2F0ZSB0aGUgb3JpZ2lu
+YWwgZXJyb3IsIG5vdCB0aGUgbGVnYWN5IHBhcnNpbmcgDQo+PiBmYWxsYmFjaw0KPj4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAqIGVycm9yLCBhcyB0aGUgbGF0dGVyIHdhcyBqdXN0
+IGEgYmVzdC1lZmZvcnQgYXR0ZW1wdC4NCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+Ki8NCj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVycm9yX3Byb3BhZ2F0ZShlcnJwLCBs
+b2NhbF9lcnIpOw0KPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ290byBvdXQ7DQo+PiAr
+wqDCoMKgwqDCoMKgwqAgfQ0KPj4gK8KgwqDCoMKgwqDCoMKgIC8qDQo+PiArwqDCoMKgwqDC
+oMKgwqDCoCAqIFRha2UgY2FyZSB3aGVuZXZlciBkZWNpZGluZyB0byBhY3R1YWxseSBkZXBy
+ZWNhdGU7IG9uY2UgDQo+PiB0aGlzIGFiaWxpdHkNCj4+ICvCoMKgwqDCoMKgwqDCoMKgICog
+aXMgcmVtb3ZlZCwgd2Ugd2lsbCBub3QgYmUgYWJsZSB0byBvcGVuIGFueSBpbWFnZXMgd2l0
+aCANCj4+IGxlZ2FjeS1zdHlsZWQNCj4+ICvCoMKgwqDCoMKgwqDCoMKgICogYmFja2luZyBp
+bWFnZSBzdHJpbmdzLg0KPj4gK8KgwqDCoMKgwqDCoMKgwqAgKi8NCj4+ICvCoMKgwqDCoMKg
+wqDCoCB3YXJuX3JlcG9ydCgiUkJEIG9wdGlvbnMgZW5jb2RlZCBpbiB0aGUgZmlsZW5hbWUg
+YXMga2V5dmFsdWUgDQo+PiBwYWlycyAiDQo+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgImlzIGRlcHJlY2F0ZWQiKTsNCj4+ICvCoMKgwqAgfQ0KPj4gKw0K
+Pj4gK8KgwqDCoCAvKg0KPj4gK8KgwqDCoMKgICogUmVtb3ZlIHRoZSBwcm9jZXNzZWQgb3B0
+aW9ucyBmcm9tIHRoZSBRRGljdCAodGhlIHZpc2l0b3IgDQo+PiBwcm9jZXNzZXMNCj4+ICvC
+oMKgwqDCoCAqIF9hbGxfIG9wdGlvbnMgaW4gdGhlIFFEaWN0KQ0KPj4gK8KgwqDCoMKgICov
+DQo+PiArwqDCoMKgIHdoaWxlICgoZSA9IHFkaWN0X2ZpcnN0KHN0YXRlLT5vcHRpb25zKSkp
+IHsNCj4+ICvCoMKgwqDCoMKgwqDCoCBxZGljdF9kZWwoc3RhdGUtPm9wdGlvbnMsIGUtPmtl
+eSk7DQo+PiArwqDCoMKgIH0NCiA+DQogPiBPSywgSSBzZWUgd2h5IHlvdeKAmWQgdGhlbiB3
+YW50IHRvIHJlbW92ZSBhbGwgbm9uLVJCRCBvcHRpb25zIGJlZm9yZSB0aGlzDQogPiBwb2lu
+dC4gIE90aGVyIGJsb2NrIGRyaXZlcnMgc2VlbSB0byBzb2x2ZSB0aGlzIGJ5IGhhdmluZyBh
+bg0KID4gWF9ydW50aW1lX29wdHMgUWVtdU9wdHNMaXN0LCB3aGljaCBjb250YWlucyBhbGwg
+ZHJpdmVyLWhhbmRsZWQgb3B0aW9ucywNCiA+IHNvIHRoZXkgY2FuIHRoZW4gdXNlIHFlbXVf
+b3B0c19hYnNvcmJfcWRpY3QoKSB0byBleHRyYWN0IHRoZSBvcHRpb25zDQogPiB0aGV5IGNh
+biBoYW5kbGUuICAoQ29tcGFyZSBlLmcuIHFjb3cyX3VwZGF0ZV9vcHRpb25zX3ByZXBhcmUo
+KS4pDQogPg0KDQpMb29raW5nIHRocm91Z2ggYWxsIHRoZSBkcml2ZXJzLCByYmQgc2VlbXMg
+dG8gYmUgdGhlIG9ubHkgb25lIG5vdCANCmFic29yYmluZyBpdHMgb3B0aW9ucyB2aWEgcnVu
+dGltZV9vcHRzIGJ1dCBpbnN0ZWFkIHVzaW5nIA0KcWVtdV9yYmRfY29udmVydF9vcHRpb25z
+LiBUaGUgY29udmVydGVyIHZpc2l0cyBhbGwgdGhlIG9wdGlvbnMgZnJvbSANCkJsb2NrZGV2
+T3B0aW9uc1JiZCBkZWZpbmVkIGluIGJsb2NrLWNvcmUuanNvbi4gSWYgdGhlcmUgaXMgYW4g
+dW5rbm93biANCm9wdGlvbiB0aGUgY29udmVyc2lvbiBmYWlscyB3aXRoIEVJTlZBTC4NCg0K
+VGhlIHJ1bnRpbWVfb3B0cyBpbiBjb250cmFzdCB0byB0aGUgYWxyZWFkeSBkZWZpbmVkIGpz
+b24gc2NoZW1hIHdpdGggdGhlIA0KdmlzaXRvci1jb2RlLWdlbmVyYXRpb24gc2VlbSB0byBi
+ZSByZWR1bmRhbnQuIERvIHlvdSBoYXZlIHNvbWUgaW5zaWdodHMgDQp3aHkgYW5kIHdoZW4g
+dGhpcyByZWR1bmRhbmN5IGlzIHJlYXNvbmFibGU/DQoNCkkgY2FtZSB1cCB3aXRoIHNldmVy
+YWwgYWx0ZXJuYXRpdmVzOg0KDQoxLiBhZGQgb3duIHJ1bnRpbWVfb3B0czoNCiAgIC0gcHJv
+OiAidGhlIHFlbXUgd2F5IiwgaXQgYmVoYXZlcyBsaWtlIG1vc3Qgb2YgdGhlIGRyaXZlcnMN
+CiAgIC0gY29uOiByZWR1bmRhbmN5IHRvIHFlbXVfcmJkX2NvbnZlcnRfb3B0aW9ucyB3aGlj
+aCBkb2VzIHRoZSBzYW1lIA0KZXhjZXB0IHNraXBwaW5nIHRoZSBnZW5lcmljIGJsb2NrIGxh
+eWVyIG9wdGlvbnMgYW5kIGFkZHMgKzFrIGxpbmVzDQogICAtIGNvbjogSSBjb3VsZG4ndCBm
+aWd1cmUgb3V0IGhvdyB0byBhZGQgbm9uLXByaW1pdGl2ZSBvcHRpb25zIHRvIHRoZSANCnJ1
+bnRpbWVfb3B0cyBsaWtlIGVuY3J5cHQgb3Igc2VydmVyDQoyLiB0ZWxsIHZpc2l0b3IgdG8g
+aWdub3JlIHVua25vd24ga2V5cyAoPykNCjMuIHBhcnNlIHJiZCBvcHRpb25zIG1hbnVhbGx5
+IChvcHBvc2l0ZSBvZiBkZWxldGluZyB0aGUgZ2VuZXJpYyBibG9jayBrZXlzKQ0KDQpJIGFn
+cmVlIGRlbGV0aW5nIHRoZSBnZW5lcmljIGJsb2NrIG9wdHMgaXNuJ3Qgb3B0aW1hbC4NCg0K
+V2hhdCBkbyB5b3UgdGhpbms/DQoNCllvdXIgcmVtYWluaW5nIHBvaW50cyBhcmUgYWxzbyBy
+ZWFzb25hYmxlIGFuZCBJJ2xsIHN1Ym1pdCB0aGVpciBmaXggDQphbG9uZyB3aXRoIHRoZSBz
+b2x1dGlvbiB0byB0aGUgaXNzdWUgYWJvdmUuDQo=
+--------------mT9VcNbdAmB0i1bL3ADwIrj2
+Content-Type: application/pgp-keys; name="OpenPGP_0xCDB1EBB785C5EB7E.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xCDB1EBB785C5EB7E.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEXmXjyxYJKwYBBAHaRw8BAQdAtiEYnlLIuIUjvvqOH//nEbhrxSa54ZyAl7Ie
+l403QaXNJ1JhcGhhZWwgUG91ciA8cmFwaGFlbC5wb3VyQGhldHpuZXIuY29tPsKW
+BBMWCAA+FiEEvj4ODnHb6pxm/uWJzbHrt4XF634FAl5l48sCGwMFCQlmAYAFCwkI
+BwIGFQoJCAsCBBYCAwECHgECF4AACgkQzbHrt4XF635TcwD+NEMqL1HZPHP/WRsY
+ujCDtqt0p+7uxGcpvzv//AjqMZ0A+wUh0bOYYNdlXWNMMNLA88SsAT2mxAfD+F/p
+aVmLpdoLzjgEXmXjyxIKKwYBBAGXVQEFAQEHQB0zJYP6jtTj989IJL1vguinsiIx
+ia5fkW83OB1+Bb4QAwEIB8J+BBgWCAAmFiEEvj4ODnHb6pxm/uWJzbHrt4XF634F
+Al5l48sCGwwFCQlmAYAACgkQzbHrt4XF6372LgEAi3qfceU+R53Ehg/YSSHV4wg+
+zfPwrD6ylEg/xKabYDcBALrD0E3YX458RPjLIOC8H0u0rcFIvBqNYx/kGaMEmbEG
+=3D3kgq
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------mT9VcNbdAmB0i1bL3ADwIrj2--
+
+--------------lhAZw3vIYFvwmf6hcQ9I7bEG--
+
+--------------xtufM2i39ZTRh8m1dgClf8ZD
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQS+Pg4OcdvqnGb+5YnNseu3hcXrfgUCYtVLrgUDAAAAAAAKCRDNseu3hcXrfluW
+AQCasarBbsfUqiadZJQdMMy0lRQwgOoFFLDixrgrF/UXVQEAhYRiPjweFzYrVSFqTMPKWwtgGlIp
+Lh1EIbAkhZ5NgAc=
+=iWli
+-----END PGP SIGNATURE-----
+
+--------------xtufM2i39ZTRh8m1dgClf8ZD--
 
