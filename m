@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 954F257870B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:11:29 +0200 (CEST)
-Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 062BA57871F
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:21:15 +0200 (CEST)
+Received: from localhost ([::1]:50278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDTLE-0004fm-HM
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:11:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1oDTUf-0001Gi-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:21:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTJP-0002Oo-Ij
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:09:35 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:42629)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDTRT-0006Dx-D3
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:17:57 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:37864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDTJN-00078t-EE
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:09:35 -0400
-Received: by mail-ej1-x632.google.com with SMTP id sz17so22113801ejc.9
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 09:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5cQo3KSs75TrmVPLaDFYxrgxajK45PCpg7/Vc6a584c=;
- b=APn30bbfXsew1bCOGpw+XqbGlbrwlpeF4pTuv58bokdZn0VtFymE017dGiBntBKLAF
- hcJ3+QJ9E0YOiHEHKbh0oa4PopCpOpUtWj3OidIIpL2Vnt42r3vaM2lgHDM3RrhjAphr
- M7QUjpQ7v6mL74tkemElqG3/toLvQJ8yH36lsiuT1rO7FhgZCGBRpQePDL1XZq/m7488
- qyWx5VJtKl36g9l6IOvwr1OagppAqYYDEAs5/a4eqsZTDItdKpItyCvDcQxAL3NgT5FX
- hBH6MXxp6WCFhi9cmmzP+7tjnH7IEXXxMFDR2Qi3I279TvJ+4kgYWRgnOclcl3k4cZXl
- jyqg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDTRL-0008P9-SI
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:17:50 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id 75so21681341ybf.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 09:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=TwQA7tATQrJ3/1h3l8zjQZqPpsjuVMBDd73VbiMNCM4=;
+ b=HQSAn7gnBAz/OGHs4lhuTDQro39wHcTmhF7ZTyGnw5ZlMpeJGPMWpMJQUMtNrHSqVW
+ m0u5/4VS/PeWOXAFtyosxdhEG5zAKnbGX4AYn/f88WD4SyT90+7cuoXkBsmvaenid8DC
+ NC7JdMMK2HAfxz5BQEiwoiiP79KsQ0yIcR8GHCNubQxuZEM5RVti+vdIhmoW9gkiWSXK
+ ggD8UOXwkKv2havirIHVHLdmQ/pJDJUvt4hacCaEqe2VOSYMj2cQz++YjFwL/xPWs81j
+ I/vATXF9TNhRzum3DolYl2f5uN/T1HtSSOD48Dd5bqblhzFDunyhzhEF8/yIePCFrW62
+ D15g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5cQo3KSs75TrmVPLaDFYxrgxajK45PCpg7/Vc6a584c=;
- b=f4XU0dwgDd4JhhywIyca41tx5vOeh3ZscbV/SAQNF9RDcSnG1xpgovfOT3k+y4QpMn
- eTFSatcERbZmbz2aiCLSWtOu/+wpUbdwEh8bI2wze2kPM4Rt1cnhRd1foTsmy/MyzBTU
- S+v0xxqy/KzTuz3+54BtP/5AqCkvq492mE+skqN0p9cX9Cur70m5UGXmWppy5nBe14qB
- 8CwpsQAwEcdUOeApjrv2thPxParmPJBL19Vh1ZgS/sIGHd6s+tz41MGc7xoOI92qFFyp
- EGDrVKrtsYInkfucw2bw91KL2rSxfkmjJyrBMsxcGPWAzKiohRrnkIMkA9mh56fqX0Yz
- fFQQ==
-X-Gm-Message-State: AJIora9RD4x/rzDP+XjHTcMAGtRgJysIU93w7yCU41CvW1WMIuiUhyW5
- tRNwV27nCLd1KNh+W0KruJY=
-X-Google-Smtp-Source: AGRyM1s4TK858WF9S2x5mEpo/gdgx71nIkdjiaWNcC6fdR7RYNbXoHOj1G63O2RHf1cvvt/NG7C/lg==
-X-Received: by 2002:a17:907:7615:b0:72b:35a6:5992 with SMTP id
- jx21-20020a170907761500b0072b35a65992mr26051252ejc.97.1658160571598; 
- Mon, 18 Jul 2022 09:09:31 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- g12-20020a056402114c00b0043a71775903sm8843003edw.39.2022.07.18.09.09.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 09:09:30 -0700 (PDT)
-Message-ID: <2a1c39eb-a9fe-c9c0-3f77-4b490e1197e9@redhat.com>
-Date: Mon, 18 Jul 2022 18:09:30 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=TwQA7tATQrJ3/1h3l8zjQZqPpsjuVMBDd73VbiMNCM4=;
+ b=26L5fcYygIeOR7sIbV/yZnu584gJ7/PpTFnVlbAvN9YxNarO6puoUk98sR1uFV6bQZ
+ X7nhRGQu/IY6oU6ED7taGxq+7ZF7im3b+KfQP2ixhAJ3jFLssy2VmtzTJ+8kq0/8uOM+
+ Q2xg+LeL+jkG1bN433s0CtoF46UhTLwxNPV6fD1FgZmB62492IkYFBYCqeWKzVca9KmU
+ ToHKMYF3W9i1upeEqQalNzwzK3tPvaeI7Inlu22tlVKsSIlCcWup+KzbVzMzajsLKMps
+ 8nBbM2QLoXqc8nHSpiDXnHYb5OyLOi9znv4TE4V7lb8/NAMQQOVfrRb0xpgk8isVFmsa
+ IKIw==
+X-Gm-Message-State: AJIora8FP9HxGbzLCfBuP030x9QOzPipmkL7fWN2tLc3rJW0gDkVRWgs
+ iFy3tLbDMoJSoHEpuXKcRaf7eakO7m4TnxfL2OmKew==
+X-Google-Smtp-Source: AGRyM1uHEjqJ/lURmRQS08S16gCVhCfyC5lL4XXxwau6DRNSEuOWWqxZneCYq8ZmN94W8isS4vo5Bq0WAeEuRrJgxl8=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr1881266ybq.140.1658161065365; Mon, 18
+ Jul 2022 09:17:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 0/3] ui/cocoa: Run qemu_init in the main thread
-Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>
-References: <20220717073340.25830-1-akihiko.odaki@gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220717073340.25830-1-akihiko.odaki@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <YtQzMUuBOfBiMNlY@p100>
+ <CAFEAcA9GzSJw4GpCkdOQPx7j24chp3WDq5tD=8FVkyYYtdrHuQ@mail.gmail.com>
+ <273d6b49-332c-9563-a90f-4d1a889314d3@gmx.de>
+ <CAFEAcA_68kFSveyvJtwAb8XbsseDhepwXsPC6Bxe=Ha8-Kx3cw@mail.gmail.com>
+ <eefad438-67ad-8313-87dc-c2c476340032@gmx.de>
+In-Reply-To: <eefad438-67ad-8313-87dc-c2c476340032@gmx.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jul 2022 17:17:34 +0100
+Message-ID: <CAFEAcA_2w+T_cg3ctNnS5i-gZgU3OwGCRX5pvH3AXUsStDOvtw@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Fix pipe() vs. pipe2() usage for ALPHA, MIPS, 
+ SH4 and SPARC
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,52 +86,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/17/22 09:33, Akihiko Odaki wrote:
-> This work is based on:
-> https://patchew.org/QEMU/20220317125534.38706-1-philippe.mathieu.daude@gmail.com/
-> 
-> Simplify the initialization dance by running qemu_init() in the main
-> thread before the Cocoa event loop starts. The secondary thread only
-> runs only qemu_main_loop() and qemu_cleanup().
-> 
-> This fixes a case where addRemovableDevicesMenuItems() calls
-> qmp_query_block() while expecting the main thread to still hold
-> the BQL.
-> 
-> Overriding the code after calling qemu_init() is done by dynamically
-> replacing a function pointer variable, qemu_main when initializing
-> ui/cocoa, which unifies the static implementation of main() for
-> builds with ui/cocoa and ones without ui/cocoa.
-> 
-> v4: Asynchronously call -[NSApplication terminate:] to avoid potential
->      deadlock with qemu_thread_join(). (Paolo Bonzini)
-> 
-> v3: Document functions involved in startup. (Peter Maydell)
-> 
-> v2: Restore allow_events flag to fix the crash reported by
->      Philippe Mathieu-Daudé.
-> 
-> Akihiko Odaki (3):
->    ui/cocoa: Run qemu_init in the main thread
->    Revert "main-loop: Disable block backend global state assertion on
->      Cocoa"
->    meson: Allow to enable gtk and sdl while cocoa is enabled
-> 
->   docs/devel/fuzzing.rst   |   4 +-
->   include/qemu-main.h      |   3 +-
->   include/qemu/main-loop.h |  13 ---
->   include/sysemu/sysemu.h  |   2 +-
->   meson.build              |  10 +--
->   softmmu/main.c           |  14 ++--
->   softmmu/vl.c             |   2 +-
->   tests/qtest/fuzz/fuzz.c  |   2 +-
->   ui/cocoa.m               | 168 ++++++++++++++-------------------------
->   9 files changed, 76 insertions(+), 142 deletions(-)
-> 
+On Mon, 18 Jul 2022 at 16:50, Helge Deller <deller@gmx.de> wrote:
+> On 7/18/22 16:33, Peter Maydell wrote:
+> > So my preference would be that we should just say "we can assume
+> > that pipe2 is always available and implemented on linux hosts" and
+> > remove the code that handles the possibility that it isn't.
+>
+> Ok for me.
+> Do you want me to send a patch or will you do?
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+If you'd like to write the patch that would be great.
+You can remove the meson.build line that sets CONFIG_PIPE2
+as well, since we have no other places that check it.
 
-Thanks for continuing this work!
-
-Paolo
+-- PMM
 
