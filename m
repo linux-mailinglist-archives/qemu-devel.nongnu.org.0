@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7725457898B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:29:10 +0200 (CEST)
-Received: from localhost ([::1]:34650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 437FF578992
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 20:29:38 +0200 (CEST)
+Received: from localhost ([::1]:36558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDVUT-00042h-9E
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:29:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58464)
+	id 1oDVUv-0005dZ-1B
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 14:29:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oDVQD-0007bs-C1; Mon, 18 Jul 2022 14:24:50 -0400
-Received: from [200.168.210.66] (port=26684 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oDVQA-00043g-K9; Mon, 18 Jul 2022 14:24:44 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Mon, 18 Jul 2022 15:23:50 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 1302C800134;
- Mon, 18 Jul 2022 15:23:49 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------IF9e9MDZi0ZnEjMB3oe47Bmw"
-Message-ID: <5e506e94-53b8-8e70-53d9-8ef4f3119d8f@eldorado.org.br>
-Date: Mon, 18 Jul 2022 15:23:49 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oDVS1-0001TL-LE; Mon, 18 Jul 2022 14:26:37 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49008)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oDVRz-0004Tb-Jx; Mon, 18 Jul 2022 14:26:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:To:From:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=7PNgNb6zkq209T1kLm1cU9neNgyw5/02C5MNcIRUSGQ=; b=pNPkV+bnEKAejdei+AYDvXXRwp
+ N80S2SVozXPCB6a5idJ4aYO4qufAGK0A3+zZb9DcXv+K8Z8YvRNG6ETs7tt8793ef0uPdNkLuoIke
+ F7QPMovfkF/GDb/NHnA/qPFXX8IfJYFjbe8xlC23pTHGevoS+h88ezG47L2jLf0k4FgeIB/b7PGfS
+ YWn0Fz+OeyELQKDc/nI2l2ELoH75YF3qNh2cU3GSL670uag2iYSVYM6QJV4szs3WAtbobi1C30a1N
+ 2PiXnnwniRvIGZC2iLx0ln/1Ac/dr0dqSdh/jrWmGOf3MkwTdYHjwqskzHOSk8tm7G8Gm3PkQ5MmF
+ LoVyLmc6z9xEH12jcc9KA2wJT3WM+hYveXjrDdJ/AEuqG/FIssENUOc+DKPuWGknOv8Rpv6OS7GuR
+ hmW5CdzcFGJXbYXbHUap0+8IpbPclX3LBSeyOa6hW6mGUE6Sb4/vDQR7R2icVTBqZGA/Hw4d31Bjb
+ NEoTkNUjmYoTBSTZbLyAUpY+SbTVQXc0nc8mQyQW9hlO5m+fDi0D+0Et2twKAZFXUqdE9eDB+0luB
+ b30aJ87cYjS9/BoXqoTAto3ufsrE9/1PD37xz9MviaWWxFgn/JjNGY20kVxslnogM3Onkks1hcAwP
+ jHVcNdk8xl722y5YXQ+xT6Yz9a8Uuirihi//BKOnw=;
+Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oDVQT-000B2Q-9v; Mon, 18 Jul 2022 19:25:05 +0100
+Message-ID: <28ed7446-9500-a8c5-f4f2-54ae333f54fd@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:26:17 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v4 3/3] target/ppc: Implement hashstp and hashchkp
+ Thunderbird/91.10.0
 Content-Language: en-US
-To: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Cc: clg@kaod.org, danielhb413@gmail.com, david@gibson.dropbear.id.au,
- groug@kaod.org, richard.henderson@linaro.org, cohuck@redhat.com,
- farosas@linux.ibm.com
-References: <20220715205439.161110-1-victor.colombo@eldorado.org.br>
- <20220715205439.161110-4-victor.colombo@eldorado.org.br>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <20220715205439.161110-4-victor.colombo@eldorado.org.br>
-X-OriginalArrivalTime: 18 Jul 2022 18:23:50.0380 (UTC)
- FILETIME=[8728BAC0:01D89AD3]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: richard.henderson@linaro.org, deller@gmx.de, svens@stackframe.org,
+ pbonzini@redhat.com, peter.maydell@linaro.org, hpoussin@reactos.org,
+ aleksandar.rikalo@syrmia.com, f4bug@amsat.org, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+References: <20220712215251.7944-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220712215251.7944-1-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 00/40] PS2 device QOMification - part 2
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,178 +81,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------IF9e9MDZi0ZnEjMB3oe47Bmw
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On 12/07/2022 22:52, Mark Cave-Ayland wrote:
 
-UmV2aWV3ZWQtYnk6IEx1Y2FzIE1hdGV1cyBDYXN0cm8gPGx1Y2FzLmFyYXVqb0BlbGRvcmFk
-by5vcmcuYnI+DQoNCk9uIDE1LzA3LzIwMjIgMTc6NTQsIFbDrWN0b3IgQ29sb21ibyB3cm90
-ZToNCj4gSW1wbGVtZW50YXRpb24gZm9yIGluc3RydWN0aW9ucyBoYXNoc3RwIGFuZCBoYXNo
-Y2hrcCwgdGhlIHByaXZpbGVnZWQNCj4gdmVyc2lvbnMgb2YgaGFzaHN0IGFuZCBoYXNoY2hr
-LCB3aGljaCB3ZXJlIGFkZGVkIGluIFBvd2VyIElTQSAzLjFCLg0KPg0KPiBTaWduZWQtb2Zm
-LWJ5OiBWw61jdG9yIENvbG9tYm88dmljdG9yLmNvbG9tYm9AZWxkb3JhZG8ub3JnLmJyPg0K
-PiAtLS0NCj4gICB0YXJnZXQvcHBjL2V4Y3BfaGVscGVyLmMgICAgICAgICAgICAgICAgICAg
-fCAyICsrDQo+ICAgdGFyZ2V0L3BwYy9oZWxwZXIuaCAgICAgICAgICAgICAgICAgICAgICAg
-IHwgMiArKw0KPiAgIHRhcmdldC9wcGMvaW5zbjMyLmRlY29kZSAgICAgICAgICAgICAgICAg
-ICB8IDIgKysNCj4gICB0YXJnZXQvcHBjL3RyYW5zbGF0ZS9maXhlZHBvaW50LWltcGwuYy5p
-bmMgfCAyICsrDQo+ICAgNCBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKykNCj4NCj4g
-ZGlmZiAtLWdpdCBhL3RhcmdldC9wcGMvZXhjcF9oZWxwZXIuYyBiL3RhcmdldC9wcGMvZXhj
-cF9oZWxwZXIuYw0KPiBpbmRleCBmYTVhNzM3ZTIyLi44NDdlZmY5MjEzIDEwMDY0NA0KPiAt
-LS0gYS90YXJnZXQvcHBjL2V4Y3BfaGVscGVyLmMNCj4gKysrIGIvdGFyZ2V0L3BwYy9leGNw
-X2hlbHBlci5jDQo+IEBAIC0yMjU1LDYgKzIyNTUsOCBAQCB2b2lkIGhlbHBlcl8jI29wKENQ
-VVBQQ1N0YXRlICplbnYsIHRhcmdldF91bG9uZyBlYSwgdGFyZ2V0X3Vsb25nIHJhLCAgICAg
-ICAgICBcDQo+DQo+ICAgSEVMUEVSX0hBU0goSEFTSFNULCBlbnYtPnNwcltTUFJfSEFTSEtF
-WVJdLCB0cnVlKQ0KPiAgIEhFTFBFUl9IQVNIKEhBU0hDSEssIGVudi0+c3ByW1NQUl9IQVNI
-S0VZUl0sIGZhbHNlKQ0KPiArSEVMUEVSX0hBU0goSEFTSFNUUCwgZW52LT5zcHJbU1BSX0hB
-U0hQS0VZUl0sIHRydWUpDQo+ICtIRUxQRVJfSEFTSChIQVNIQ0hLUCwgZW52LT5zcHJbU1BS
-X0hBU0hQS0VZUl0sIGZhbHNlKQ0KPg0KPiAgICNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9P
-TkxZKQ0KPg0KPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3BwYy9oZWxwZXIuaCBiL3RhcmdldC9w
-cGMvaGVscGVyLmgNCj4gaW5kZXggNTgxN2FmNjMyYi4uMTIyYjJlOTM1OSAxMDA2NDQNCj4g
-LS0tIGEvdGFyZ2V0L3BwYy9oZWxwZXIuaA0KPiArKysgYi90YXJnZXQvcHBjL2hlbHBlci5o
-DQo+IEBAIC02LDYgKzYsOCBAQCBERUZfSEVMUEVSX0ZMQUdTXzQodGQsIFRDR19DQUxMX05P
-X1dHLCB2b2lkLCBlbnYsIHRsLCB0bCwgaTMyKQ0KPiAgICNlbmRpZg0KPiAgIERFRl9IRUxQ
-RVJfNChIQVNIU1QsIHZvaWQsIGVudiwgdGwsIHRsLCB0bCkNCj4gICBERUZfSEVMUEVSXzQo
-SEFTSENISywgdm9pZCwgZW52LCB0bCwgdGwsIHRsKQ0KPiArREVGX0hFTFBFUl80KEhBU0hT
-VFAsIHZvaWQsIGVudiwgdGwsIHRsLCB0bCkNCj4gK0RFRl9IRUxQRVJfNChIQVNIQ0hLUCwg
-dm9pZCwgZW52LCB0bCwgdGwsIHRsKQ0KPiAgICNpZiAhZGVmaW5lZChDT05GSUdfVVNFUl9P
-TkxZKQ0KPiAgIERFRl9IRUxQRVJfMihzdG9yZV9tc3IsIHZvaWQsIGVudiwgdGwpDQo+ICAg
-REVGX0hFTFBFUl8xKHJmaSwgdm9pZCwgZW52KQ0KPiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L3Bw
-Yy9pbnNuMzIuZGVjb2RlIGIvdGFyZ2V0L3BwYy9pbnNuMzIuZGVjb2RlDQo+IGluZGV4IDU0
-NDUxNDU2NWMuLmRhMDg5NjBmY2EgMTAwNjQ0DQo+IC0tLSBhL3RhcmdldC9wcGMvaW5zbjMy
-LmRlY29kZQ0KPiArKysgYi90YXJnZXQvcHBjL2luc24zMi5kZWNvZGUNCj4gQEAgLTMzMCw2
-ICszMzAsOCBAQCBQRVhURCAgICAgICAgICAgMDExMTExIC4uLi4uIC4uLi4uIC4uLi4uIDAw
-MTAxMTExMDAgLSAgIEBYDQo+DQo+ICAgSEFTSFNUICAgICAgICAgIDAxMTExMSAuLi4uLiAu
-Li4uLiAuLi4uLiAxMDExMDEwMDEwIC4gICBAWF9EVw0KPiAgIEhBU0hDSEsgICAgICAgICAw
-MTExMTEgLi4uLi4gLi4uLi4gLi4uLi4gMTAxMTExMDAxMCAuICAgQFhfRFcNCj4gK0hBU0hT
-VFAgICAgICAgICAwMTExMTEgLi4uLi4gLi4uLi4gLi4uLi4gMTAxMDAxMDAxMCAuICAgQFhf
-RFcNCj4gK0hBU0hDSEtQICAgICAgICAwMTExMTEgLi4uLi4gLi4uLi4gLi4uLi4gMTAxMDEx
-MDAxMCAuICAgQFhfRFcNCj4NCj4gICAjIyBCQ0QgQXNzaXN0DQo+DQo+IGRpZmYgLS1naXQg
-YS90YXJnZXQvcHBjL3RyYW5zbGF0ZS9maXhlZHBvaW50LWltcGwuYy5pbmMgYi90YXJnZXQv
-cHBjL3RyYW5zbGF0ZS9maXhlZHBvaW50LWltcGwuYy5pbmMNCj4gaW5kZXggNDFjMDZkZThh
-Mi4uMWJhNTZjYmVkNSAxMDA2NDQNCj4gLS0tIGEvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZml4
-ZWRwb2ludC1pbXBsLmMuaW5jDQo+ICsrKyBiL3RhcmdldC9wcGMvdHJhbnNsYXRlL2ZpeGVk
-cG9pbnQtaW1wbC5jLmluYw0KPiBAQCAtNTcyLDMgKzU3Miw1IEBAIHN0YXRpYyBib29sIGRv
-X2hhc2goRGlzYXNDb250ZXh0ICpjdHgsIGFyZ19YICphLCBib29sIHByaXYsDQo+DQo+ICAg
-VFJBTlMoSEFTSFNULCBkb19oYXNoLCBmYWxzZSwgZ2VuX2hlbHBlcl9IQVNIU1QpDQo+ICAg
-VFJBTlMoSEFTSENISywgZG9faGFzaCwgZmFsc2UsIGdlbl9oZWxwZXJfSEFTSENISykNCj4g
-K1RSQU5TKEhBU0hTVFAsIGRvX2hhc2gsIHRydWUsIGdlbl9oZWxwZXJfSEFTSFNUUCkNCj4g
-K1RSQU5TKEhBU0hDSEtQLCBkb19oYXNoLCB0cnVlLCBnZW5faGVscGVyX0hBU0hDSEtQKQ0K
-PiAtLQ0KPiAyLjI1LjENCj4NCj4NCi0tIA0KTHVjYXMgTWF0ZXVzIE0uIEFyYXVqbyBlIENh
-c3Rybw0KSW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETyANCjxodHRwczovL3d3dy5l
-bGRvcmFkby5vcmcuYnIvP3V0bV9jYW1wYWlnbj1hc3NpbmF0dXJhX2RlX2UtbWFpbCZ1dG1f
-bWVkaXVtPWVtYWlsJnV0bV9zb3VyY2U9UkQrU3RhdGlvbj4NCkRlcGFydGFtZW50byBDb21w
-dXRhw6fDo28gRW1iYXJjYWRhDQpBbmFsaXN0YSBkZSBTb2Z0d2FyZSBUcmFpbmVlDQpBdmlz
-byBMZWdhbCAtIERpc2NsYWltZXIgPGh0dHBzOi8vd3d3LmVsZG9yYWRvLm9yZy5ici9kaXNj
-bGFpbWVyLmh0bWw+DQo=
---------------IF9e9MDZi0ZnEjMB3oe47Bmw
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Here is the follow-on series from part 1 which completes the work to remove
+> the legacy global device init functions for PS2 devices. Now that part 1 has
+> been applied, the hard part to remove the PS2 function callback and argument
+> has been completed and all that remains is to improve the PS2 device
+> QOMification to allow the legacy PS2 functions to be removed.
+> 
+> Patches 1-11 update the pl050 device to remove the use of ps2_kbd_init() and
+> ps2_mouse_init(), whilst patches 12-34 make some more involved changes to
+> the lasips2 device (in particular completing the LASIPS2Port abstraction)
+> before doing the same.
+> 
+> Finally patches 35-40 complete the process for the pckbd (I8042 and I8042_MMIO
+> devices) before removing the now unused ps2_kbd_init(), ps2_mouse_init() and
+> i8042_mm_init() functions.
+> 
+> Note that this series is a migration break for the HPPA B160L and MIPS magnum
+> machines: I've had agreement from both Helge and Hervé that this is worth
+> doing to allow the use of the DeviceClass vmsd property to set the
+> VMStateDescription rather than manually calling vmstate_register().
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> 
+> Patches still requiring review for updated commit messages (no code changes
+> from v1): 27, 28 and 34
+> 
+> v2:
+> - Rebase onto master
+> - Add A-B and R-B tags from Helge and Peter
+> - s/jazz/magnum/ for consistency in commit message for patch 35
+> - Update commit messages in patches 27 and 28 to clarify why the int_status
+>    bitmap isn't immediately added to the vmstate_lasips2 VMStateDescription
+> - Update commit message in patch 34 to detail the extra changes to the
+>    vmstate_lasips2 VMStateDescription
+> 
+> 
+> Mark Cave-Ayland (40):
+>    pl050: move PL050State from pl050.c to new pl050.h header file
+>    pl050: rename pl050_keyboard_init() to pl050_kbd_init()
+>    pl050: change PL050State dev pointer from void to PS2State
+>    pl050: introduce new PL050_KBD_DEVICE QOM type
+>    pl050: introduce new PL050_MOUSE_DEVICE QOM type
+>    pl050: move logic from pl050_realize() to pl050_init()
+>    pl050: introduce PL050DeviceClass for the PL050 device
+>    pl050: introduce pl050_kbd_class_init() and pl050_kbd_realize()
+>    pl050: introduce pl050_mouse_class_init() and pl050_mouse_realize()
+>    pl050: don't use legacy ps2_kbd_init() function
+>    pl050: don't use legacy ps2_mouse_init() function
+>    lasips2: don't use vmstate_register() in lasips2_realize()
+>    lasips2: remove the qdev base property and the lasips2_properties
+>      array
+>    lasips2: remove legacy lasips2_initfn() function
+>    lasips2: change LASIPS2State dev pointer from void to PS2State
+>    lasips2: QOMify LASIPS2Port
+>    lasips2: introduce new LASIPS2_KBD_PORT QOM type
+>    lasips2: introduce new LASIPS2_MOUSE_PORT QOM type
+>    lasips2: move keyboard port initialisation to new
+>      lasips2_kbd_port_init() function
+>    lasips2: move mouse port initialisation to new
+>      lasips2_mouse_port_init() function
+>    lasips2: introduce lasips2_kbd_port_class_init() and
+>      lasips2_kbd_port_realize()
+>    lasips2: introduce lasips2_mouse_port_class_init() and
+>      lasips2_mouse_port_realize()
+>    lasips2: rename LASIPS2Port irq field to birq
+>    lasips2: introduce port IRQ and new lasips2_port_init() function
+>    lasips2: introduce LASIPS2PortDeviceClass for the LASIPS2_PORT device
+>    lasips2: add named input gpio to port for downstream PS2 device IRQ
+>    lasips2: add named input gpio to handle incoming port IRQs
+>    lasips2: switch to using port-based IRQs
+>    lasips2: rename LASIPS2Port parent pointer to lasips2
+>    lasips2: standardise on lp name for LASIPS2Port variables
+>    lasips2: switch register memory region to DEVICE_BIG_ENDIAN
+>    lasips2: don't use legacy ps2_kbd_init() function
+>    lasips2: don't use legacy ps2_mouse_init() function
+>    lasips2: update VMStateDescription for LASIPS2 device
+>    pckbd: introduce new vmstate_kbd_mmio VMStateDescription for the
+>      I8042_MMIO device
+>    pckbd: don't use legacy ps2_kbd_init() function
+>    ps2: remove unused legacy ps2_kbd_init() function
+>    pckbd: don't use legacy ps2_mouse_init() function
+>    ps2: remove unused legacy ps2_mouse_init() function
+>    pckbd: remove legacy i8042_mm_init() function
+> 
+>   hw/hppa/machine.c          |   7 +-
+>   hw/input/lasips2.c         | 320 ++++++++++++++++++++++++++-----------
+>   hw/input/pckbd.c           |  82 ++++++----
+>   hw/input/pl050.c           | 112 ++++++++-----
+>   hw/input/ps2.c             |  26 ---
+>   hw/input/trace-events      |   2 -
+>   hw/mips/jazz.c             |  13 +-
+>   include/hw/input/i8042.h   |   7 +-
+>   include/hw/input/lasips2.h |  57 +++++--
+>   include/hw/input/pl050.h   |  59 +++++++
+>   include/hw/input/ps2.h     |   2 -
+>   11 files changed, 466 insertions(+), 221 deletions(-)
+>   create mode 100644 include/hw/input/pl050.h
 
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Reviewed-by: Lucas Mateus Castro <a
-        class=3D"moz-txt-link-rfc2396E"
-        href=3D"mailto:lucas.araujo@eldorado.org.br">
-        &lt;lucas.araujo@eldorado.org.br&gt;</a></p>
-    <div class=3D"moz-cite-prefix">On 15/07/2022 17:54, V=C3=ADctor Colom=
-bo
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:20220715205439.161110-4-victor.colombo@eldorado.org.br"=
->
-      <pre class=3D"moz-quote-pre" wrap=3D"">
-Implementation for instructions hashstp and hashchkp, the privileged
-versions of hashst and hashchk, which were added in Power ISA 3.1B.
-
-Signed-off-by: V=C3=ADctor Colombo <a class=3D"moz-txt-link-rfc2396E" hre=
-f=3D"mailto:victor.colombo@eldorado.org.br">&lt;victor.colombo@eldorado.o=
-rg.br&gt;</a>
----
- target/ppc/excp_helper.c                   | 2 ++
- target/ppc/helper.h                        | 2 ++
- target/ppc/insn32.decode                   | 2 ++
- target/ppc/translate/fixedpoint-impl.c.inc | 2 ++
- 4 files changed, 8 insertions(+)
-
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index fa5a737e22..847eff9213 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -2255,6 +2255,8 @@ void helper_##op(CPUPPCState *env, target_ulong ea,=
- target_ulong ra,          \
-
- HELPER_HASH(HASHST, env-&gt;spr[SPR_HASHKEYR], true)
- HELPER_HASH(HASHCHK, env-&gt;spr[SPR_HASHKEYR], false)
-+HELPER_HASH(HASHSTP, env-&gt;spr[SPR_HASHPKEYR], true)
-+HELPER_HASH(HASHCHKP, env-&gt;spr[SPR_HASHPKEYR], false)
-
- #if !defined(CONFIG_USER_ONLY)
-
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 5817af632b..122b2e9359 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -6,6 +6,8 @@ DEF_HELPER_FLAGS_4(td, TCG_CALL_NO_WG, void, env, tl, tl,=
- i32)
- #endif
- DEF_HELPER_4(HASHST, void, env, tl, tl, tl)
- DEF_HELPER_4(HASHCHK, void, env, tl, tl, tl)
-+DEF_HELPER_4(HASHSTP, void, env, tl, tl, tl)
-+DEF_HELPER_4(HASHCHKP, void, env, tl, tl, tl)
- #if !defined(CONFIG_USER_ONLY)
- DEF_HELPER_2(store_msr, void, env, tl)
- DEF_HELPER_1(rfi, void, env)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 544514565c..da08960fca 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -330,6 +330,8 @@ PEXTD           011111 ..... ..... ..... 0010111100 -=
-   @X
-
- HASHST          011111 ..... ..... ..... 1011010010 .   @X_DW
- HASHCHK         011111 ..... ..... ..... 1011110010 .   @X_DW
-+HASHSTP         011111 ..... ..... ..... 1010010010 .   @X_DW
-+HASHCHKP        011111 ..... ..... ..... 1010110010 .   @X_DW
-
- ## BCD Assist
-
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/tran=
-slate/fixedpoint-impl.c.inc
-index 41c06de8a2..1ba56cbed5 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -572,3 +572,5 @@ static bool do_hash(DisasContext *ctx, arg_X *a, bool=
- priv,
-
- TRANS(HASHST, do_hash, false, gen_helper_HASHST)
- TRANS(HASHCHK, do_hash, false, gen_helper_HASHCHK)
-+TRANS(HASHSTP, do_hash, true, gen_helper_HASHSTP)
-+TRANS(HASHCHKP, do_hash, true, gen_helper_HASHCHKP)
---
-2.25.1
+I've queued this via my qemu-sparc branch.
 
 
-</pre>
-    </blockquote>
-    <div class=3D"moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href=3D"https://www.eldorado.org.br/?utm_campaign=3Dassinatura_de_e-mail&=
-amp;utm_medium=3Demail&amp;utm_source=3DRD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computa=C3=A7=C3=A3o Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href=3D"https://www.eldorado.org.br/disclaimer.html">Aviso Legal=
+ATB,
 
-        - Disclaimer</a></div>
-  </body>
-</html>
-
---------------IF9e9MDZi0ZnEjMB3oe47Bmw--
+Mark.
 
