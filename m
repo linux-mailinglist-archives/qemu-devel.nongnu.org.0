@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DF5F578E16
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 01:12:03 +0200 (CEST)
-Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC9A578E61
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 01:41:57 +0200 (CEST)
+Received: from localhost ([::1]:57558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDZuE-0002N9-9r
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 19:12:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44280)
+	id 1oDaNA-0001js-Am
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 19:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oDZt0-0000ot-DZ; Mon, 18 Jul 2022 19:10:46 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:41899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oDZsy-0006ni-RX; Mon, 18 Jul 2022 19:10:46 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- g4-20020a17090a290400b001f1f2b7379dso783606pjd.0; 
- Mon, 18 Jul 2022 16:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bZ2R7avgs1JfeV+HXMQdIL7tlDWUcDEEYyfmzT99d38=;
- b=ChPidpo/JYvE52Du3cieulYpv8wqtTvIx3O03C2ESqGFihvjFfo2A2ZkcgAJtwTBh8
- ZsP0YVMjK8f11nrhlvSVofcGQTkXokikua2EBvt1FM/ME5bfhEkt+VjpK18/Ndec3eBN
- YifuyWc2PvCzV4ijeybQtN7LTprtZ8a7X3Hz4HDLsXLtXzyJzWCosYkXsIPXjxchRK0l
- BzQUQZvGqeFkSj3u7dqMt/QUPxBIGdnh2LCyeGEi6HyhQ8Yz84aSEbX5WUe+obpnV2Bu
- VDTg16UtMRRn7xighOJt9nA/RNB7dJ1O1KDv0ZQ+PLCvvayrTSSqHETbtb6BMJ+BeLcS
- YjXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bZ2R7avgs1JfeV+HXMQdIL7tlDWUcDEEYyfmzT99d38=;
- b=HLgbsaK3Fx2MViK2As+jRkRnBLB/+2gdm/F7pYOR5DpVC+wprPo4lrI9emsBK5G8rF
- zS2O0MmpocHEMb0BzjSEaEvcL07fq0UkxsoK4/oYVpvS7Q06DPpXxXE/3TRrLvCNglw2
- 6B69Ii7cXE1fdFV9Wd/6VvC4DY0xcrvVycdgJ2/sLucow+T0Rkaui/jUOilah5HlocTs
- d65v8kks1Ldj6o6g3ImJcfJkXtUq9yi4Qlll6giWZvGhk+1Pv+EE4O97NrYKnwMAtHFi
- W+Ev+WtFEgADg1xrQK0JsFKVf0oXWYwRwAMGmuASxGQQzRUEkopzFbXHGSrDNf4A14Eq
- qa9Q==
-X-Gm-Message-State: AJIora+UthfDSeCYLNTzlU2MLroQeNhbvu555zZ5Fqf85J4scyNw+Oj+
- wk/u+86SlS4thIkMn8TxDVQq7dyAkMyt0wZVqYA=
-X-Google-Smtp-Source: AGRyM1uOFANOPdzRlOXZkfe9NdRKFtC7WbT/1dp/8V/5ZqOWOUZbgC6AhrgO2tYZcL1tzQBf7zJ+3VTBRbRZZWQfnFI=
-X-Received: by 2002:a17:902:690a:b0:16c:f877:d89d with SMTP id
- j10-20020a170902690a00b0016cf877d89dmr4308010plk.25.1658185842031; Mon, 18
- Jul 2022 16:10:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1oDaIk-0006Bb-An
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 19:37:22 -0400
+Received: from mga18.intel.com ([134.134.136.126]:53813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dongwon.kim@intel.com>)
+ id 1oDaIg-0001fw-Qm
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 19:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658187438; x=1689723438;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=hznMPrcY31HBKxmOoPVfhOR/kVUWWHFnrqWN4v5nqYM=;
+ b=EHRJETSaYbs4PNuisebtwLoSBhVWUsHuiMhmxTJp+JF+rNGfmJtlh74X
+ JLCbWtljR34UicEfozv+AS+cATY4bQpDTno0Xa7JLmzCiNDVKH+wpO1Cj
+ r6PX4EXdeaEHEcqiU8uqSPqqpP2QjVRNvef7guw2+lrWOWvdZQ5HW+rjE
+ 5lH6IiLjKJEZljCzBQpMEUfpNW/9PxDCRFcJ9Wtz1BFjimBHrEM2kYgwY
+ uXpFTgobH6iqVS0CKYFBc7Jcq9/23w2eVtjzJr9lCpVw2l3gT+eGjWFSN
+ gWfWt4Mwu2zcME+Xt6S1wHr9OgsOLVQVfWQKf4wOcu2vO2WYYmDFridH5 Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="269369083"
+X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; d="scan'208";a="269369083"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jul 2022 16:37:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,282,1650956400"; d="scan'208";a="739652090"
+Received: from dongwonk-z390-aorus-ultra-intel-gfx.fm.intel.com
+ ([10.105.129.122])
+ by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2022 16:37:10 -0700
+From: Dongwon Kim <dongwon.kim@intel.com>
+To: qemu-devel@nongnu.org
+Cc: armbru@redhat.com, berrange@redhat.com, kraxel@redhat.com,
+ pbonzini@redhat.com, f4bug@amsat.org, vivek.kasireddy@intel.com,
+ Dongwon Kim <dongwon.kim@intel.com>
+Subject: [PATCH v5 0/2] handling guest multiple displays
+Date: Mon, 18 Jul 2022 16:30:07 -0700
+Message-Id: <20220718233009.18780-1-dongwon.kim@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20220718130955.11899-1-liweiwei@iscas.ac.cn>
- <20220718130955.11899-6-liweiwei@iscas.ac.cn>
-In-Reply-To: <20220718130955.11899-6-liweiwei@iscas.ac.cn>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Jul 2022 09:10:15 +1000
-Message-ID: <CAKmqyKPyG=A3+T=wLjEFHaHDu1MuYPxhA3KT-HqPAuKTKXh0jw@mail.gmail.com>
-Subject: Re: [PATCH V3 5/6] target/riscv: Fix checks in hmode/hmode32
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- wangjunqiang <wangjunqiang@iscas.ac.cn>, 
- =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=dongwon.kim@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,72 +77,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 18, 2022 at 11:13 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
->
-> Add check for the implicit dependence between H and S
->
-> Csrs only existed in RV32 will not trigger virtual instruction fault
-> when not in RV32 based on section 8.6.1 of riscv-privileged spec
-> (draft-20220717)
->
-> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
-> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+This patch seires is for adding some useful features for the guest os with
+multi-displays. First patch is to make all of guest displays visible
+when guest os is launched using "detach". Second patch is for providing
+a method to assign each guest display to specific physical monitor,
+which would be useful if someone wants to directly full-screen individual
+guest scanouts to host's physical displays.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Changes in v5:
 
-Alistair
+* ui/gtk: a new array param monitor to specify the target
 
-> ---
->  target/riscv/cpu.c | 5 +++++
->  target/riscv/csr.c | 9 ++-------
->  2 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index b8ce0959cb..455787a940 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -738,6 +738,11 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->              return;
->          }
->
-> +        if (cpu->cfg.ext_h && !cpu->cfg.ext_s) {
-> +            error_setg(errp, "H extension implicitly requires S-mode");
-> +            return;
-> +        }
-> +
->          if (cpu->cfg.ext_f && !cpu->cfg.ext_icsr) {
->              error_setg(errp, "F extension requires Zicsr");
->              return;
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 5c69dc838c..cf15aa67b7 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -311,8 +311,7 @@ static int aia_smode32(CPURISCVState *env, int csrno)
->
->  static RISCVException hmode(CPURISCVState *env, int csrno)
->  {
-> -    if (riscv_has_ext(env, RVS) &&
-> -        riscv_has_ext(env, RVH)) {
-> +    if (riscv_has_ext(env, RVH)) {
->          /* Hypervisor extension is supported */
->          if ((env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
->              env->priv == PRV_M) {
-> @@ -328,11 +327,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
->  static RISCVException hmode32(CPURISCVState *env, int csrno)
->  {
->      if (riscv_cpu_mxl(env) != MXL_RV32) {
-> -        if (!riscv_cpu_virt_enabled(env)) {
-> -            return RISCV_EXCP_ILLEGAL_INST;
-> -        } else {
-> -            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> -        }
-> +        return RISCV_EXCP_ILLEGAL_INST;
->      }
->
->      return hmode(env, csrno);
-> --
-> 2.17.1
->
->
+  - rephrased the description of the new param, 'monitor' for clarification 
+
+Changes in v4:
+
+* ui/gtk: a new array param monitor to specify the target
+
+  - changed "virtual-console" to an official term, "virtual console"
+  - made if condition to check only 'full_screen' since 'has_full_screen' won't
+    affect the result as 'full_screen' is always false if 'has_full_screen' is false.
+
+Changes in v3:
+
+* ui/gtk: a new array param monitor to specify the target
+
+  - Revised commit message
+  - Rewrote desription of the new parameter for clarification
+  - 'for' loop that iterates through virtual consoles is actually executed only once
+    only if the condition is met so replaced it with 'if' statement
+
+Changes in v2:
+
+* ui/gtk: detach VCS for additional guest displays
+
+  - must check if the type of VC is GD_VC_GFX before qemu_console_is_graphic
+  - It is not needed to pre-calculate n_gfx_vcs to determine how many times "detach"
+    should be executed (n_gfx_vcs - 1) because the first virtual console (vc[0])
+    is always in graphic mode so we can simply detach all other graphic mode
+    virtual consoles.
+  - making sure detached window's size same as original surface size
+
+Dongwon Kim (2):
+  ui/gtk: detach VCs for additional guest displays
+  ui/gtk: a new array param monitor to specify the target displays
+
+ qapi/ui.json    |  9 ++++++++-
+ qemu-options.hx |  3 ++-
+ ui/gtk.c        | 41 +++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 49 insertions(+), 4 deletions(-)
+
+-- 
+2.20.1
+
 
