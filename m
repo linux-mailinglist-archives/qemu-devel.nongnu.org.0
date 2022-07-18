@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1CB8578475
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 15:55:40 +0200 (CEST)
-Received: from localhost ([::1]:46700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836BC5784A2
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 16:00:04 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDRDn-0002qP-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 09:55:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37248)
+	id 1oDRI3-00036T-Jf
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 10:00:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpl-0007NL-Ho
+ id 1oDOpl-0007Ph-Ht
  for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:41 -0400
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:48897)
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:59047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oDOpf-0000i6-N9
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:38 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R141e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04400; MF=kangjie.xu@linux.alibaba.com;
- NM=1; PH=DS; RN=5; SR=0; TI=SMTPD_---0VJjOda5_1658143040; 
+ id 1oDOpf-0000iD-V4
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 07:22:40 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R471e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VJjIA8z_1658143041; 
 Received: from localhost(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VJjOda5_1658143040) by smtp.aliyun-inc.com;
- Mon, 18 Jul 2022 19:17:20 +0800
+ fp:SMTPD_---0VJjIA8z_1658143041) by smtp.aliyun-inc.com;
+ Mon, 18 Jul 2022 19:17:21 +0800
 From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com, jasowang@redhat.com, hengqi@linux.alibaba.com,
  xuanzhuo@linux.alibaba.com
-Subject: [PATCH 07/16] virtio-net: support queue reset
-Date: Mon, 18 Jul 2022 19:17:04 +0800
-Message-Id: <c6718441a57198bc22d9861417e5ae69c0a70fdb.1658141552.git.kangjie.xu@linux.alibaba.com>
+Subject: [PATCH 08/16] vhost: add op to enable or disable a single vring
+Date: Mon, 18 Jul 2022 19:17:05 +0800
+Message-Id: <8bf7574d8e133d3fa7e8b09f4deb59369916774a.1658141552.git.kangjie.xu@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.45;
+Received-SPF: pass client-ip=115.124.30.54;
  envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-45.freemail.mail.aliyun.com
+ helo=out30-54.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
@@ -63,58 +64,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+The interface to set enable status for a single vring is lacked in
+VhostOps, since the vhost_set_vring_enable_op will manipulate all
+virtqueues in a device.
 
-virtio-net implements queue reset. Queued packets in the corresponding
-queue pair are flushed or purged.
+Resetting a single vq will rely on this interface. It requires a
+reply to indicate that the reset operation is finished, so the
+parameter, wait_for_reply, is added.
 
-Queue reset is currently only implemented for non-vhosts.
-
+Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/net/virtio-net.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ include/hw/virtio/vhost-backend.h | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 7ad948ee7c..8396e21a67 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -531,6 +531,19 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
-     return info;
- }
- 
-+static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-+{
-+    VirtIONet *n = VIRTIO_NET(vdev);
-+    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
-+
-+    if (!nc->peer) {
-+        return;
-+    }
-+
-+    qemu_flush_or_purge_queued_packets(nc->peer, true);
-+    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
-+}
-+
- static void virtio_net_reset(VirtIODevice *vdev)
- {
-     VirtIONet *n = VIRTIO_NET(vdev);
-@@ -741,6 +754,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-     }
- 
-     if (!get_vhost_net(nc->peer)) {
-+        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
-         return features;
-     }
- 
-@@ -3766,6 +3780,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
-     vdc->set_features = virtio_net_set_features;
-     vdc->bad_features = virtio_net_bad_features;
-     vdc->reset = virtio_net_reset;
-+    vdc->queue_reset = virtio_net_queue_reset;
-     vdc->set_status = virtio_net_set_status;
-     vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
-     vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
+diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+index eab46d7f0b..7bddd1e9a0 100644
+--- a/include/hw/virtio/vhost-backend.h
++++ b/include/hw/virtio/vhost-backend.h
+@@ -81,6 +81,9 @@ typedef int (*vhost_set_backend_cap_op)(struct vhost_dev *dev);
+ typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
+ typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+ typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
++typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev *dev,
++                                                int index, int enable,
++                                                bool wait_for_reply);
+ typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+                                          int enable);
+ typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
+@@ -155,6 +158,7 @@ typedef struct VhostOps {
+     vhost_set_owner_op vhost_set_owner;
+     vhost_reset_device_op vhost_reset_device;
+     vhost_get_vq_index_op vhost_get_vq_index;
++    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
+     vhost_set_vring_enable_op vhost_set_vring_enable;
+     vhost_requires_shm_log_op vhost_requires_shm_log;
+     vhost_migration_done_op vhost_migration_done;
 -- 
 2.32.0
 
