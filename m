@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1E9E578AAC
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:27:44 +0200 (CEST)
-Received: from localhost ([::1]:42558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06D19578A4E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:07:48 +0200 (CEST)
+Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDWP9-0002FL-6o
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:27:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32846)
+	id 1oDW5r-00075Q-1G
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:07:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVac-0000mV-HC
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:35:30 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49150)
+ id 1oDVae-0000p4-FW
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:35:34 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVaY-0005os-Ma
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:35:28 -0400
+ id 1oDVac-0005pE-Ua
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:35:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=wpPCvgkjPUAGBHObYnQ+9G3lW7Yc+gdmJLMMZHBdCBQ=; b=enqVS0KB2Q6VMnyZbPG98Cz4nv
- N8lxZ5a8zfBZt6WW/4TCoNlN6yOXKjeIHDs3nySjjhvk2pNXepvKnoKxTfoKJNFieuFbjgOeX6D1a
- Fo+YjmLRF1HVBI1raJ+730CGMkmImkIj4Belxe6lUKLY30pvMUBsMmhj6ZdQI0IlCTFSTTNXm63ZA
- Co8Q1HQ3dOezXREL+GSms5J5rg1ZCAURyKwaQN9ncsPQ4HAexe57jFxYpRzeDZUoUbZEDtjYjKj7O
- zvUy1WYchETs7YGi3aEPoEEoX+P9gPRNFk2IcIMonakr7iSVd5cHEN+C1RlnCgbqly2hDJz0IGzbc
- 8MW7PZuuP2RQzXIRbRT1EtCkhN1FTIztsLuM2LB0Jxhl/JLgkgZoETW11ChkYem8XnW/bONZAB3nX
- NJ/vXU4/1UktH+zUleTDaQ7Dz0MBFGBcQwcwjY35oyx1t8wIi785fv+OEMwLFHrwLutPZhISyC8Sg
- glT3EqyyCxQ5E/Ta+vR0sHwP5Tbkt3LqavlXyPfJTgqwcwC7rdrb3l/FvTRIxpmoHCi1IO0LZM0mj
- V16/TWhLGosKj8AYwID1F6gomddkvthXdZ10Bd9rCIw0acI97fBWDW+f2IBaDx84tSN/r4KckTB1+
- CcgxZwXBiEfH/5dEZymu0uzATs6wpm6L70JvGqMCw=;
+ bh=JlWvlkX1Ne6yT3ExBKpq3/VcuLkupj1yyMXsauJrXQw=; b=UopQfdqiZJS8hYhL1WSrt8nq42
+ 5wDvTHkCRJXdJpNHSrCe8bJLmp+SbwEGOCF0wnvn23b23tQm3Q1gnuwlTPQ+TIdUcF+AWXkodVHps
+ olVNpE9+MdIFgGKYvpVaFHpZHZf1n7RQLYUntcjA9WQ75QOb+pbMKbKz0IMj9ACMs7L3DalD4lraN
+ 1f17MoLff/h6LWiw7P7LyAfpv3AjkdMdfUYIbM4oWTsxrczBRLTHQ7OiBotdaKa/+IldIUwoGVBdv
+ OJnVpHnIAwZp4hwHENKnERNLgdMzh7BrFMuuvOnc1v3c2P6I/1Vt2K8wHW0W6kPufAEjF2GxJHX4s
+ HOG2nnizcU5v6W8ECpzf15lQvQzIj6tj1E2w/LCDLeuqu3Eg5objHmY3vNC/ZYLpeRO63QtwSUJd+
+ ml018KmUzB+M4A4bOiafSfu55Bx1uWo2ar2CaJpEqwBMWrNzOpG6oihmVzzgbe9dXFgTAc0mm4y+u
+ VoLMR+URh3NI/HGikB1rxqPqGkZCMx+58VFK705ycQvvtSPCdVyF4oCuk5sI73qq1Ui5p+IzKnUdD
+ xE4floXGfQKoGaP1BQDBYkx8U5pxNufSQ7x3KDTRafZ0ftOUHlzv6G82jZmdgbO18AWNDHkwv2hM2
+ Zk5KCgGdyLAjJdgbXZv4scIsUNLFZlWtYa+fLswuQ=;
 Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZ3-000B51-9c; Mon, 18 Jul 2022 19:33:57 +0100
+ id 1oDVZ7-000B51-G4; Mon, 18 Jul 2022 19:34:01 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 18 Jul 2022 19:33:20 +0100
-Message-Id: <20220718183339.124253-22-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:33:21 +0100
+Message-Id: <20220718183339.124253-23-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
 References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
@@ -52,8 +52,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 21/40] lasips2: introduce lasips2_kbd_port_class_init() and
- lasips2_kbd_port_realize()
+Subject: [PULL 22/40] lasips2: introduce lasips2_mouse_port_class_init() and
+ lasips2_mouse_port_realize()
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -79,65 +79,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new lasips2_kbd_port_class_init() function which uses a new
-lasips2_kbd_port_realize() function to initialise the PS2 keyboard device.
+Introduce a new lasips2_mouse_port_class_init() function which uses a new
+lasips2_mouse_port_realize() function to initialise the PS2 mouse device.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Helge Deller <deller@gmx.de>
 Acked-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220712215251.7944-22-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220712215251.7944-23-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  hw/input/lasips2.c | 16 +++++++++++++++-
  1 file changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index 9535cab268..b4fdaed5cb 100644
+index b4fdaed5cb..ce87c66f2a 100644
 --- a/hw/input/lasips2.c
 +++ b/hw/input/lasips2.c
-@@ -268,7 +268,6 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
+@@ -277,7 +277,6 @@ static void lasips2_realize(DeviceState *dev, Error **errp)
          return;
      }
  
--    lp->ps2dev = ps2_kbd_init();
+-    lp->ps2dev = ps2_mouse_init();
      qdev_connect_gpio_out(DEVICE(lp->ps2dev), PS2_DEVICE_IRQ,
-                           qdev_get_gpio_in_named(dev, "ps2-kbd-input-irq",
+                           qdev_get_gpio_in_named(dev, "ps2-mouse-input-irq",
                                                   0));
-@@ -331,6 +330,13 @@ static const TypeInfo lasips2_port_info = {
-     .abstract      = true,
+@@ -363,6 +362,13 @@ static const TypeInfo lasips2_kbd_port_info = {
+     .class_init    = lasips2_kbd_port_class_init,
  };
  
-+static void lasips2_kbd_port_realize(DeviceState *dev, Error **errp)
++static void lasips2_mouse_port_realize(DeviceState *dev, Error **errp)
 +{
 +    LASIPS2Port *lp = LASIPS2_PORT(dev);
 +
-+    lp->ps2dev = ps2_kbd_init();
++    lp->ps2dev = ps2_mouse_init();
 +}
 +
- static void lasips2_kbd_port_init(Object *obj)
+ static void lasips2_mouse_port_init(Object *obj)
  {
-     LASIPS2KbdPort *s = LASIPS2_KBD_PORT(obj);
-@@ -342,11 +348,19 @@ static void lasips2_kbd_port_init(Object *obj)
-     lp->parent = container_of(s, LASIPS2State, kbd_port);
+     LASIPS2MousePort *s = LASIPS2_MOUSE_PORT(obj);
+@@ -374,11 +380,19 @@ static void lasips2_mouse_port_init(Object *obj)
+     lp->parent = container_of(s, LASIPS2State, mouse_port);
  }
  
-+static void lasips2_kbd_port_class_init(ObjectClass *klass, void *data)
++static void lasips2_mouse_port_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
 +
-+    dc->realize = lasips2_kbd_port_realize;
++    dc->realize = lasips2_mouse_port_realize;
 +}
 +
- static const TypeInfo lasips2_kbd_port_info = {
-     .name          = TYPE_LASIPS2_KBD_PORT,
+ static const TypeInfo lasips2_mouse_port_info = {
+     .name          = TYPE_LASIPS2_MOUSE_PORT,
      .parent        = TYPE_LASIPS2_PORT,
-     .instance_size = sizeof(LASIPS2KbdPort),
-     .instance_init = lasips2_kbd_port_init,
-+    .class_init    = lasips2_kbd_port_class_init,
+     .instance_size = sizeof(LASIPS2MousePort),
+     .instance_init = lasips2_mouse_port_init,
++    .class_init    = lasips2_mouse_port_class_init,
  };
  
- static void lasips2_mouse_port_init(Object *obj)
+ static void lasips2_register_types(void)
 -- 
 2.30.2
 
