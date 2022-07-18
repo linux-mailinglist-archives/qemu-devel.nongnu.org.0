@@ -2,77 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA57E57879B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:40:42 +0200 (CEST)
-Received: from localhost ([::1]:52932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 412BA5787AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 18:44:06 +0200 (CEST)
+Received: from localhost ([::1]:58864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDTnV-0005nQ-SC
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:40:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60070)
+	id 1oDTqm-0001Q9-U1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 12:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDTdQ-0001cT-1m
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:30:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDTdL-0001z9-BZ
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 12:30:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658161810;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TSfUSYpQx8mBUnb1kseF1FZBnmV3Kz0Wr49ta7JUeWE=;
- b=cEfiMuMy4wNs697W+rEEI6A52CyI/nky3ck9p4PIfSzERhCPDPBy0nUqYDRZqzFPBI1yn8
- fsxVyTrbwZpt8MK9pN2kt4ED0BZqgr6gFW3yW1TXALiykhEdxo5NmpofvXr+A3FLwt7CIH
- fwgycNMKQn+Wy6uu+sASwWNeGhzFb7M=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-310-0SA9xAdiMe2ZtBoYW90zbA-1; Mon, 18 Jul 2022 12:30:07 -0400
-X-MC-Unique: 0SA9xAdiMe2ZtBoYW90zbA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 310233804523;
- Mon, 18 Jul 2022 16:30:05 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 72EFE403D0CA;
- Mon, 18 Jul 2022 16:30:00 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Cindy Lu <lulu@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Parav Pandit <parav@mellanox.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v2 5/5] vdpa: Delete CVQ migration blocker
-Date: Mon, 18 Jul 2022 18:29:38 +0200
-Message-Id: <20220718162938.2938783-6-eperezma@redhat.com>
-In-Reply-To: <20220718162938.2938783-1-eperezma@redhat.com>
-References: <20220718162938.2938783-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oDTe3-0001ve-Qb; Mon, 18 Jul 2022 12:30:56 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oDTe2-00022c-1i; Mon, 18 Jul 2022 12:30:55 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id r6so16063503edd.7;
+ Mon, 18 Jul 2022 09:30:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YBpSBaZDSeAeomV9S85iA5aHySSTaHu5vM0tSdX3iWY=;
+ b=Nc5YUNOtQm65huqr95El2ENLhLUoS1OpQ0/yTSH5iIgqXzp+9NT/CdkM220D78h1R3
+ 3Tz+DwSexTwpATpg3M+dXVNlZnCZlTxnCSUsttk59++qbur06RqSDDbd+C40U9BSaPJS
+ 3uBMt+/CJVQkq5xydCTyMBL9QvQQ5Ho0DX5nxPleuu+Or/l4mKEMJflvlUqWEI+BqXUj
+ qU6BOhC3jrsPG1he8X7VsKdTR/+g52FFC5xk3sPvhSTlAiJ2zwwvVZgW5L5tYT3lcYTU
+ quVvhKjgy9FpE8wlp8UZG/DyRxV4GgGumoo4gKm6Ez3txJRqRZWAkSsH13La2H5PoBxp
+ 2LWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=YBpSBaZDSeAeomV9S85iA5aHySSTaHu5vM0tSdX3iWY=;
+ b=tCKAU6/t2aR2XU/E50dpEhInyDZ0OYmAd4xEYG6HtLWaIx6yotgitbt7YyrXFT4zmU
+ CmCFNnAaGNi1nwsHRh9WYRN62m8H8v2PcCqgNXGXITJuDP1MNCUh5x/jv2TyIYtQJUU8
+ M7fUiwyKtn4FFE1cIlaGu4B8RTTCw7n4KOfgV0RlEvxARM2/9+Jo13PVu3VVOdIMzefv
+ DRtbDUCMIC8+gEyucbWpvN5g2636f6sAfuoKc63edLCsgr+fK30lljBLD9sch82O0dpH
+ xZyu/bNk7hA3UXl9Ss03NdX2lIrJhTyyzmjLHSpCsvWvaZt2EP6pATSCwgCnBmAqLRkW
+ 5qtQ==
+X-Gm-Message-State: AJIora+6dfJoLT/nZCd+buG6RGLQzHdPCODo3LL1f/ARZ9SuGBuXPpTA
+ I+IBWrcsVXO5hdN7o7R57BQ=
+X-Google-Smtp-Source: AGRyM1sltSmLam7gLeHrXyaWXLlCUZyHxrWkWZAygSJdFnLweHsfZnZ7A+I9X5eaFWzJ7X9si3nRww==
+X-Received: by 2002:a05:6402:11cb:b0:43a:b592:efbb with SMTP id
+ j11-20020a05640211cb00b0043ab592efbbmr37970355edw.157.1658161852228; 
+ Mon, 18 Jul 2022 09:30:52 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ x10-20020a170906148a00b00705cdfec71esm5709864ejc.7.2022.07.18.09.30.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jul 2022 09:30:51 -0700 (PDT)
+Message-ID: <bdb43547-1d9f-a2d8-3dcd-a4326953c541@redhat.com>
+Date: Mon, 18 Jul 2022 18:30:50 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
+ _can_set_ and _set_
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
+References: <20220712211911.1302836-1-eesposit@redhat.com>
+ <20220712211911.1302836-8-eesposit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20220712211911.1302836-8-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,78 +97,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can restore the device state in the destination via CVQ now. Remove
-the migration blocker.
+On 7/12/22 23:19, Emanuele Giuseppe Esposito wrote:
+> +        /* No need to ignore `child`, because it has been detached already */
+>           ignore = NULL;
+> -        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
+> +        ret = child->klass->change_aio_ctx(child, s->old_parent_ctx, &ignore,
+> +                                           tran, &error_abort);
+>           g_slist_free(ignore);
+> +        tran_finalize(tran, ret ? ret : -1);
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- include/hw/virtio/vhost-vdpa.h |  1 -
- hw/virtio/vhost-vdpa.c         | 11 -----------
- net/vhost-vdpa.c               |  2 --
- 3 files changed, 14 deletions(-)
+Should this instead assert that ret is true, and call tran_commit() 
+directly?
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index d10a89303e..1111d85643 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -35,7 +35,6 @@ typedef struct vhost_vdpa {
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
--    Error *migration_blocker;
-     GPtrArray *shadow_vqs;
-     const VhostShadowVirtqueueOps *shadow_vq_ops;
-     void *shadow_vq_ops_opaque;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 4458c8d23e..479151bd77 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1023,13 +1023,6 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-         return true;
-     }
- 
--    if (v->migration_blocker) {
--        int r = migrate_add_blocker(v->migration_blocker, &err);
--        if (unlikely(r < 0)) {
--            goto err_migration_blocker;
--        }
--    }
--
-     for (i = 0; i < v->shadow_vqs->len; ++i) {
-         VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-@@ -1072,7 +1065,6 @@ err:
-         vhost_svq_stop(svq);
-     }
- 
--err_migration_blocker:
-     error_reportf_err(err, "Cannot setup SVQ %u: ", i);
- 
-     return false;
-@@ -1094,9 +1086,6 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-         }
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
-     return true;
- }
- 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 84e90f067a..82c115bee4 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -573,8 +573,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
--        error_setg(&s->vhost_vdpa.migration_blocker,
--                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
--- 
-2.31.1
-
+Paolo
 
