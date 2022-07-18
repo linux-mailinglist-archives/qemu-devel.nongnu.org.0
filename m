@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92CA6578A3C
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:02:09 +0200 (CEST)
-Received: from localhost ([::1]:54766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B4C578A52
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 21:08:25 +0200 (CEST)
+Received: from localhost ([::1]:35418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDW0M-00015C-Lo
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:02:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60802)
+	id 1oDW6S-0007bo-Hk
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 15:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZv-0000Di-A6
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:47 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49102)
+ id 1oDVZy-0000LJ-AX
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:50 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:49108)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVZs-0005bk-Dc
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:46 -0400
+ id 1oDVZw-0005c3-KP
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 14:34:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  MIME-Version:References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:
  Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
  Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=3GR/kcoJUD3F8/4XlPxw70KjCiSOtrXwknwgPYyjTXc=; b=Uajkyf6pRXg8QvoNhxpH66lacu
- +1enzJhzzPVOdcCxlSm2KQ8qJTIuWnjq1wCX2Z0cVRDoUd2EhbA6BTMsVsHi6ihlHGt/56uTkLVmG
- 18P+M7lfgeG94bI3jJ7Da3eBtblt0JcFlGPcYuHqA/xIJNt59GFSvFaFbUvMmtMel7U8V3Samafes
- fte4Cok11nyDB1gn/zWyEOSBO9k6NY/+0KExFfHBSsQqaJqFLFMbHSFL4mcaD5H9JurTeUkeLGl7y
- CB46hgyVe+/TsumaFaf1WWWEMtVZ6GgWTsrTLWst7ItzdUCGjqBYR4GULm2ATB44jVIWnxByCdp/P
- hhOAotfbpfr50zF7zcr09wx2+hrkcqHfkoXTI3rqQ8tkVObPqSg8xL/LDamodzmUbprWBnWg6DgdC
- ZMNTiz3G8alontndpVoSBal42CG9wiZeN8OlvYr5kmH2tU8Y/p5IjOXHPs+c4v9T2BRqc/PLZatWF
- 0lyUleEZSv1FY5cIW3HdacCOYtIWeBdoyAWRSs6fEwc9qgygnsA0OB5FsDXrL4ZY93BI3xJkR6Ni3
- vmiCTeC5EuDGuFDv6mXGUiUWnENQBrQrJdV4yIb9JUHz41Ru4uAwcBsFp/CFUagnSVHHvQX41aIAC
- XGy60LOdx80eKInhZjN4Ha8O0NKb6CGlYxmZujy/0=;
+ bh=qxOcmSANThumGj40TwGSkei51BcO8jmxMxw+/VmWAhY=; b=UG9Wo2o6qTpsqvRI+4+NicOMEF
+ 5Bxhg8lThAd6T1n2thZ3BmFHmTbW20IEySNM9sFDKnoI8lGdGN5gNUo8eXWaV5JuOq2bPa10CQ1Rr
+ 4/+XpJZJtoEAYyyGwR418U3pXEQLEIotmFv6OCgGRJNGPHYMYrV1v9+ZeCjSIbSi94mzTWOl7Tz08
+ NcPhU8kiPoa4vGdoCl+irdq26dWM5xr/zwXwO4etR2GQGZ3sK4lC5I6rtBFyecsz7NJE/o3wLgYen
+ J2IqoN1Qq/rumpu/sSrpWqY0I9c5lHJR+JarxVCu/UqWbT1ufYEADHzKEgUz3XgGXcb5xQAGDzxMR
+ 8cR3NyeOVBncrv/GMS21lG22eHlmIIHzH101XKgqGyw00UGg5BRdaB0HTiXUkBh1fepPsP4aheidN
+ QpYl9XCg5jQRy7Q9mpXzzQ1X7rYrpVxy4KlqjA9wVQHf9JGblCfsK5JibygNKTLHEMyLfVMHTGz8e
+ 94VqtJDYajildD/gTH5ZyfhWGTXGFyIfCa3b5aAyzz7SN3QR6NvRdclVzyowpmgnSV/tU/A+kQeaz
+ ysKXozygfxF36hRpGfZAJh+vGAy6vUr5mqe3yHN1tN/n9FP592IS4w1DOR16qzu0xAyDu90LhoL1i
+ fh2qnWzR4oMzfdlKqJK4NbJJdgsDu6bTnAwRy04ws=;
 Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oDVYX-000B51-9T; Mon, 18 Jul 2022 19:33:25 +0100
+ id 1oDVYb-000B51-7Y; Mon, 18 Jul 2022 19:33:29 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Mon, 18 Jul 2022 19:33:12 +0100
-Message-Id: <20220718183339.124253-14-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 18 Jul 2022 19:33:13 +0100
+Message-Id: <20220718183339.124253-15-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
 References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
@@ -52,8 +52,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 13/40] lasips2: remove the qdev base property and the
- lasips2_properties array
+Subject: [PULL 14/40] lasips2: remove legacy lasips2_initfn() function
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -79,94 +78,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The base property was only needed for use by vmstate_register() in order to
-preserve migration compatibility. Now that the lasips2 migration state is
-registered through the DeviceClass vmsd field, the base property and also
-the lasips2_properties array can be removed completely as they are no longer
-required.
+There is only one user of the legacy lasips2_initfn() function which is in
+machine_hppa_init(), so inline its functionality into machine_hppa_init() and
+then remove it.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Tested-by: Helge Deller <deller@gmx.de>
 Acked-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220712215251.7944-14-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20220712215251.7944-15-mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/hppa/machine.c          | 3 +--
- hw/input/lasips2.c         | 9 +--------
- include/hw/input/lasips2.h | 3 +--
- 3 files changed, 3 insertions(+), 12 deletions(-)
+ hw/hppa/machine.c          |  6 ++++--
+ hw/input/lasips2.c         | 12 ------------
+ include/hw/input/lasips2.h |  2 --
+ 3 files changed, 4 insertions(+), 16 deletions(-)
 
 diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index 44ecd446c3..6080037cf1 100644
+index 6080037cf1..e53d5f0fa7 100644
 --- a/hw/hppa/machine.c
 +++ b/hw/hppa/machine.c
-@@ -280,8 +280,7 @@ static void machine_hppa_init(MachineState *machine)
+@@ -280,8 +280,10 @@ static void machine_hppa_init(MachineState *machine)
      }
  
      /* PS/2 Keyboard/Mouse */
--    dev = DEVICE(lasips2_initfn(LASI_PS2KBD_HPA,
--                                qdev_get_gpio_in(lasi_dev,
-+    dev = DEVICE(lasips2_initfn(qdev_get_gpio_in(lasi_dev,
-                                                  LASI_IRQ_PS2KBD_HPA)));
+-    dev = DEVICE(lasips2_initfn(qdev_get_gpio_in(lasi_dev,
+-                                                 LASI_IRQ_PS2KBD_HPA)));
++    dev = qdev_new(TYPE_LASIPS2);
++    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
++    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0,
++                       qdev_get_gpio_in(lasi_dev, LASI_IRQ_PS2KBD_HPA));
      memory_region_add_subregion(addr_space, LASI_PS2KBD_HPA,
                                  sysbus_mmio_get_region(SYS_BUS_DEVICE(dev),
+                                                        0));
 diff --git a/hw/input/lasips2.c b/hw/input/lasips2.c
-index d4fa248729..40f77baf3e 100644
+index 40f77baf3e..48237816a3 100644
 --- a/hw/input/lasips2.c
 +++ b/hw/input/lasips2.c
-@@ -255,12 +255,11 @@ static void lasips2_set_mouse_irq(void *opaque, int n, int level)
+@@ -255,18 +255,6 @@ static void lasips2_set_mouse_irq(void *opaque, int n, int level)
      lasips2_update_irq(port->parent);
  }
  
--LASIPS2State *lasips2_initfn(hwaddr base, qemu_irq irq)
-+LASIPS2State *lasips2_initfn(qemu_irq irq)
- {
-     DeviceState *dev;
- 
-     dev = qdev_new(TYPE_LASIPS2);
--    qdev_prop_set_uint64(dev, "base", base);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq);
-@@ -307,18 +306,12 @@ static void lasips2_init(Object *obj)
-                             "ps2-mouse-input-irq", 1);
- }
- 
--static Property lasips2_properties[] = {
--    DEFINE_PROP_UINT64("base", LASIPS2State, base, UINT64_MAX),
--    DEFINE_PROP_END_OF_LIST(),
--};
+-LASIPS2State *lasips2_initfn(qemu_irq irq)
+-{
+-    DeviceState *dev;
 -
- static void lasips2_class_init(ObjectClass *klass, void *data)
+-    dev = qdev_new(TYPE_LASIPS2);
+-    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+-
+-    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq);
+-
+-    return LASIPS2(dev);
+-}
+-
+ static void lasips2_realize(DeviceState *dev, Error **errp)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->realize = lasips2_realize;
-     dc->vmsd = &vmstate_lasips2;
--    device_class_set_props(dc, lasips2_properties);
-     set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
- }
- 
+     LASIPS2State *s = LASIPS2(dev);
 diff --git a/include/hw/input/lasips2.h b/include/hw/input/lasips2.h
-index 03f0c9e9f9..f051c970f0 100644
+index f051c970f0..868c5521d7 100644
 --- a/include/hw/input/lasips2.h
 +++ b/include/hw/input/lasips2.h
-@@ -39,7 +39,6 @@ typedef struct LASIPS2Port {
- struct LASIPS2State {
-     SysBusDevice parent_obj;
- 
--    hwaddr base;
-     LASIPS2Port kbd;
-     LASIPS2Port mouse;
-     qemu_irq irq;
-@@ -48,6 +47,6 @@ struct LASIPS2State {
+@@ -47,6 +47,4 @@ struct LASIPS2State {
  #define TYPE_LASIPS2 "lasips2"
  OBJECT_DECLARE_SIMPLE_TYPE(LASIPS2State, LASIPS2)
  
--LASIPS2State *lasips2_initfn(hwaddr base, qemu_irq irq);
-+LASIPS2State *lasips2_initfn(qemu_irq irq);
- 
+-LASIPS2State *lasips2_initfn(qemu_irq irq);
+-
  #endif /* HW_INPUT_LASIPS2_H */
 -- 
 2.30.2
