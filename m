@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4347A578896
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:38:46 +0200 (CEST)
-Received: from localhost ([::1]:35284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2B057885E
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jul 2022 19:28:30 +0200 (CEST)
+Received: from localhost ([::1]:37572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDUhh-0007WL-3w
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:38:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
+	id 1oDUXl-0005rQ-Mf
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 13:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDURz-0007Y8-AG; Mon, 18 Jul 2022 13:22:31 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:40880)
+ id 1oDURz-0007YY-Dw; Mon, 18 Jul 2022 13:22:31 -0400
+Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:40571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oDURw-0001jX-KQ; Mon, 18 Jul 2022 13:22:30 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- z12-20020a056830128c00b0061c8168d3faso7941659otp.7; 
- Mon, 18 Jul 2022 10:22:26 -0700 (PDT)
+ id 1oDURx-0001fK-2U; Mon, 18 Jul 2022 13:22:31 -0400
+Received: by mail-oa1-x2e.google.com with SMTP id
+ 586e51a60fabf-10c0e6dd55eso25479072fac.7; 
+ Mon, 18 Jul 2022 10:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=D+zE054l+MqhuQhW7ZhFxFOtodBT53aNohUvmHGyfeo=;
- b=KoXakQM2AEwpOqk2tDjJ4kqO3X2cNlsWnvsSTOMQWcgNDCtgERzEdW2fnF7GLzVnFr
- I3rwhGQMNUJeL+N3Pr8XwTl0Qvl2sfoi2grnYboM3kufOgG/tbBbP+9/zdnj5Z4+MDPz
- Ktdsmo7m6OtQSPy+gj+QctzEYi4yG8NIbnpWssvbwO67MRdXh2ui7bTarCJSAHECPb/H
- Muqsc1buo9SnWdg3bpkP2CxfYt7nbFb0BEEMeAXSVzsLi9nzRtXhWUt4rUUSZ+jDIKN5
- NeHDGB74abjOu3I+CeZXi7G7UFiuXyZ2mL5kaTTHbv9RQLvOt+7CJqyfYafOxo+1QjyD
- jmJg==
+ bh=os9AduoJ1gIAScXVgZouLa+p4v5DNDafIjCB8RpIDFM=;
+ b=HH8WEbv2/uWvXqPK6+8yZEG6sImpoe3AvQQqA6H5vDvJ3HlNjz72CdHf+9Vi5uv34z
+ 30RKZM2QdM56kVWMrUTqq0mcGdn7U7mhjHyBCEJVKIAG6PCwvsbbpg15VczFCJIFyzd1
+ MhOdX+wzEaSXXDY2g7VF6ZnONr0zL5pHEtNQ5yTVVfzyLwUq1FLrc9s+faCDyfuLes0u
+ YXg8G+kzNjJ+8a/oxo9BV0CQATLFDdTnzLpZoXJsf/zfMWQZUiqTE95j8GRHZ1sFBSCR
+ zbekrfr5sc5qQkr5hY5s2GdZikhlGsEVFakN6nuJ1zzgjcs3jlmGBDIeum85BmODo5+0
+ lCVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=D+zE054l+MqhuQhW7ZhFxFOtodBT53aNohUvmHGyfeo=;
- b=SuyHcAR92+nAFRhKJWBnKjs7kvwzcb2aGiKefvo70ZcYpVZ0Yp4pkZJe0PdWhWXGFf
- aUjyC05hUyrtxTd5w+tlkUt9kU9Aj0s0/HpGvYkdkF3EwB00QjMk+l7//RnVmfj1cFNh
- vgcrwPc4FKPIwHqvmtlZ5X7Xdgn3wp1dAuzWlGMfIcOPT0zyMXKnydBJnFSshUfIt3zt
- KjutqZXhsj3Mb1HPQn4uqb2/0+ZyUuKESemkUyxHPwOYii4cYch6iCnNEadR7Uhd0JOR
- KYKQItdFu5/Iwt8y7mIgWnKOTQev/10dK0kY1jBshj6QIS5/Vb16+PTC/s8hnN02hkaq
- u7YQ==
-X-Gm-Message-State: AJIora/5aV6ItmkOkgW5yrRRO8FW4xaqPiZLf+lku7myLk0leFeVXXS+
- DKX8YcB/hY2BtVFxPs6Rqrvg3+JimuA=
-X-Google-Smtp-Source: AGRyM1u3rQoHC9ZNrQH9OMMQolNWPElpLJgRSBjOBBL8lCR0sl0nnosRoWmlLkegAXuQwbD8CstM3Q==
-X-Received: by 2002:a9d:6d17:0:b0:61c:b016:bd32 with SMTP id
- o23-20020a9d6d17000000b0061cb016bd32mr387600otp.74.1658164945955; 
- Mon, 18 Jul 2022 10:22:25 -0700 (PDT)
+ bh=os9AduoJ1gIAScXVgZouLa+p4v5DNDafIjCB8RpIDFM=;
+ b=Go3C8ckG/YNm0GpEeoJZSwOJ7JZwbibkRMn0fUSYe+i88kbcqBSA4Gb9yIF3Kudv/Q
+ zYVxwCoG5jkTL/D3FAQdvCDv1FASHnXlse+JtqMuWFl2EMn8OPYcdbHqG1yaCM4JBAud
+ DaP92nIKz6YTCQkouBtA0thm2Rm+uSpimW3T+FbeGTEwwMjbYw4Af4m5+2VCkE2pGS06
+ f4w8bOmueoqqfjiZtyZvacnnuJwfVqEdImgG4ao5ahgHmHAlu0mD029onxqRr1pIOW4R
+ TN9E6Cl+yoh9DwD0CtJtn2YPGbU36LzsrWG5WTHzveur6jhOBrvVJk1A34slXN46EXoN
+ PqgA==
+X-Gm-Message-State: AJIora850MLH+iqi/ab05v0zgcmTbCr+I/jQz9+kwXADg7xik+dFWRWr
+ V5HmJGGM3DuWpEu/XkFog2HJR/5ba+M=
+X-Google-Smtp-Source: AGRyM1sbYToM/tMbzwmnE6J37RqhkcqQjItLSLbtktEngkhPbCrAWcL9U+JK3um8TzmjtclACpPFhA==
+X-Received: by 2002:a05:6808:1928:b0:339:f15a:ec8f with SMTP id
+ bf40-20020a056808192800b00339f15aec8fmr16696455oib.35.1658164948001; 
+ Mon, 18 Jul 2022 10:22:28 -0700 (PDT)
 Received: from balboa.ibmmodules.com (201-27-97-88.dsl.telesp.net.br.
  [201.27.97.88]) by smtp.gmail.com with ESMTPSA id
- j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.23
+ j27-20020a056870169b00b0010c33621645sm6523856oae.55.2022.07.18.10.22.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jul 2022 10:22:25 -0700 (PDT)
+ Mon, 18 Jul 2022 10:22:27 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, danielhb413@gmail.com, peter.maydell@linaro.org,
- richard.henderson@linaro.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PULL 05/30] ppc: Remove unused irq_inputs
-Date: Mon, 18 Jul 2022 14:21:43 -0300
-Message-Id: <20220718172208.1247624-6-danielhb413@gmail.com>
+ richard.henderson@linaro.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: [PULL 06/30] hw/ppc: pass random seed to fdt
+Date: Mon, 18 Jul 2022 14:21:44 -0300
+Message-Id: <20220718172208.1247624-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220718172208.1247624-1-danielhb413@gmail.com>
 References: <20220718172208.1247624-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x32e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2e;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,52 +89,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220705145814.461723-6-clg@kaod.org>
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This is confirmed to successfully initialize the
+RNG on Linux 5.19-rc6. The rng-seed node is part of the DT spec. Set
+this on the paravirt platforms, spapr and e500, just as is done on other
+architectures with paravirt hardware.
+
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-Id: <20220712135114.289855-1-Jason@zx2c4.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h      | 1 -
- target/ppc/cpu_init.c | 5 -----
- 2 files changed, 6 deletions(-)
+ hw/ppc/e500.c  | 5 +++++
+ hw/ppc/spapr.c | 5 +++++
+ 2 files changed, 10 insertions(+)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 7aaff9dcc5..9b8d001f1c 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1184,7 +1184,6 @@ struct CPUArchState {
-      * by recent Book3s compatible CPUs (POWER7 and newer).
-      */
-     uint32_t irq_input_state;
--    void **irq_inputs;
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 757cfaa62f..32495d0123 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -17,6 +17,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/datadir.h"
+ #include "qemu/units.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "e500.h"
+ #include "e500-ccsr.h"
+@@ -346,6 +347,7 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+         };
+     const char *dtb_file = machine->dtb;
+     const char *toplevel_compat = machine->dt_compatible;
++    uint8_t rng_seed[32];
  
-     target_ulong excp_vectors[POWERPC_EXCP_NB]; /* Exception vectors */
-     target_ulong excp_prefix;
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index 86ad28466a..769031375d 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -6678,7 +6678,6 @@ static void init_ppc_proc(PowerPCCPU *cpu)
- #if !defined(CONFIG_USER_ONLY)
-     int i;
+     if (dtb_file) {
+         char *filename;
+@@ -403,6 +405,9 @@ static int ppce500_load_device_tree(PPCE500MachineState *pms,
+     if (ret < 0)
+         fprintf(stderr, "couldn't set /chosen/bootargs\n");
  
--    env->irq_inputs = NULL;
-     /* Set all exception vectors to an invalid address */
-     for (i = 0; i < POWERPC_EXCP_NB; i++) {
-         env->excp_vectors[i] = (target_ulong)(-1ULL);
-@@ -6808,10 +6807,6 @@ static void init_ppc_proc(PowerPCCPU *cpu)
-         /* Pre-compute some useful values */
-         env->tlb_per_way = env->nb_tlb / env->nb_ways;
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     if (kvm_enabled()) {
+         /* Read out host's frequencies */
+         clock_freq = kvmppc_get_clockfreq();
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 9a5382d527..3a5112899e 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -27,6 +27,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/datadir.h"
+ #include "qemu/memalign.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-events-machine.h"
+ #include "qapi/qapi-events-qdev.h"
+@@ -1014,6 +1015,7 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+ {
+     MachineState *machine = MACHINE(spapr);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
++    uint8_t rng_seed[32];
+     int chosen;
+ 
+     _FDT(chosen = fdt_add_subnode(fdt, 0, "chosen"));
+@@ -1091,6 +1093,9 @@ static void spapr_dt_chosen(SpaprMachineState *spapr, void *fdt, bool reset)
+         spapr_dt_ov5_platform_support(spapr, fdt, chosen);
      }
--    if (env->irq_inputs == NULL) {
--        warn_report("no internal IRQ controller registered."
--                    " Attempt QEMU to crash very soon !");
--    }
- #endif
-     if (env->check_pow == NULL) {
-         warn_report("no power management check handler registered."
+ 
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    _FDT(fdt_setprop(fdt, chosen, "rng-seed", rng_seed, sizeof(rng_seed)));
++
+     _FDT(spapr_dt_ovec(fdt, chosen, spapr->ov5_cas, "ibm,architecture-vec-5"));
+ }
+ 
 -- 
 2.36.1
 
