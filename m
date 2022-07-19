@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2603257A036
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:58:05 +0200 (CEST)
-Received: from localhost ([::1]:47180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94C3857A03B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:58:51 +0200 (CEST)
+Received: from localhost ([::1]:49888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDnjg-0001GQ-9g
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:58:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
+	id 1oDnkQ-00035V-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:58:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDncD-0001pV-Co
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDncA-0002Og-Cg
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658238615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uLQ5ouzX3BEWfAVdKLeeSVdONaTYFJR9g6190D/ANtc=;
- b=VdzSymTljRTM+S/Imq+aloPmC3qwZts0kXxoKi/jfR3EnFWfW1GFyW3vW7FqZHJZ//Bvtc
- GCncqpDpUEZmPDblQkohnsAAfGN5IxY6HmIwr3VRATq1ntrnPMEvZg7PZuxoEs8l85lazp
- cnWE/0Qid7Dz8s9QdPJ2FtIKPongvhA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-frOcr7IJP7WaczzGAVum6w-1; Tue, 19 Jul 2022 09:50:14 -0400
-X-MC-Unique: frOcr7IJP7WaczzGAVum6w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p2-20020a05600c1d8200b003a3262d9c51so487983wms.6
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:50:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oDncG-0001t2-IQ
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:26 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oDncD-0002Qh-SO
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:24 -0400
+Received: by mail-pl1-x630.google.com with SMTP id g17so12013936plh.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:50:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z69BRE83wivOCalvkXHzgTad0Rtw1/D/zMh+e6gOY64=;
+ b=RLRuOKlO7JPDQBaNGkYSZvfu541qpaxhhhckwz1p5kPQEO4ijGtl+chN+Ps3Xf+g4z
+ sJ4ZPRiEz7/28kw/YRZCnwEV0MkHNP/8i/5z0npeMgPU6Ln3i2w3roHxEYwzLeyyPwxm
+ qJBlJI2tduqlnpB619H3eK1ffscf+lObH1mPhxRMbcdFZycfExfMyfc4mUojW/7wghqm
+ bUwALNVkcNw6t1cfbBzSoEHFspOdIRqdKNIns+mpl/g26r/gB57Ccc+TGpy5qsEwPEZO
+ Yc32mmRjYMu6ZnndGUY6EEwOlW2leT66+E0zG6mh15lfGFR/JNHnsGdF7QzFfweH1Epy
+ nprw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=uLQ5ouzX3BEWfAVdKLeeSVdONaTYFJR9g6190D/ANtc=;
- b=I+dqnphNN7uks4mnpvRWtINMaLFEFCbIY/FzIQKSdksdOrWA8fHZrDKi72SROEUJp0
- tMzEvFszsMZ3K6TSU9C5qf3bnmhuBJFgNVYKLBhr1e+JxYhRusygfk0YTQ3JkrB+H0aC
- f2wHr0Mn8O5qE72PZ2+j4+Y7CL6YkzYGOB1CdhOnyTBym2R+pXbHgO0wOf1ejI1hRXBy
- q/N/NQeXUsKU/FUfeUKsexSQ5MTU+L563OB0lroQyi8SL5PPqrd0mdrxlBSMY7cl6eyH
- Sj/6GbfEC7++6CdYpInZtsFghF0xVhSYDTcpk6vBsS+JMNMCTI3YZ+XHqdBFcKmgiPK/
- fT1g==
-X-Gm-Message-State: AJIora8ir8v2OszWSb2DQNNkoZew6QhivRX22AZV6gyTKBfAoEBaxPZu
- DbVLn1ibIDh/GuZxd83/oTKRCgvG/4bL7o7G8aDf4QA9kaarFViBfQkEd2Kbn/d9h4lAcqpuVJi
- NQKlvwVWt2joRkGQ=
-X-Received: by 2002:a7b:cb82:0:b0:39e:f9cf:12b7 with SMTP id
- m2-20020a7bcb82000000b0039ef9cf12b7mr37396756wmi.135.1658238612840; 
- Tue, 19 Jul 2022 06:50:12 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sXAYAUofFob6Cm1/Ss7VyUIhdfYNL212T2DdvGz60MaELI4LbnE2B2Idd9/IQhB9uQCCGIHg==
-X-Received: by 2002:a7b:cb82:0:b0:39e:f9cf:12b7 with SMTP id
- m2-20020a7bcb82000000b0039ef9cf12b7mr37396737wmi.135.1658238612597; 
- Tue, 19 Jul 2022 06:50:12 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- o20-20020a05600c511400b003a30fbde91dsm14026116wms.20.2022.07.19.06.50.11
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Z69BRE83wivOCalvkXHzgTad0Rtw1/D/zMh+e6gOY64=;
+ b=k3XJKH0naaSjaIvvGySXvKjRdXljZtuGqP7/p7ipnMGZPwn7istaSchvImJZ3W+D7z
+ BR7GOtYZyY8jWZZ5ZZqvS7plSXZQYjSChxBV3o5rW0ZXAFYpcI9kI9LeBcmr0rd0RVNb
+ ObStlNPQl8O9C9M2VA8+02Xrxw1z649Bga469CWruSE2i6rR72E2l/X35OJsXiddOw/N
+ 9m+9Q4g0eYwpAogd1F4Eu8aR3slG6G0qR3ScVgNd3Sv5aJbB/pT4oeRmW58OP68ONKAG
+ i3DIgfH9N+I3j0jVJadSt31fdSzGSZp6/z2mtXqkHQP1rveTWzv49hO/6W2n/qJcVupt
+ ixxA==
+X-Gm-Message-State: AJIora8mJYbEnsOK1XAIJoESK1tP4awqPVB+NKsHEo/izSAyRIxUGoAz
+ yNi8Ln088PtH5cGORhrcCm8=
+X-Google-Smtp-Source: AGRyM1umaBVjhQhRdbqxU52B6fdN9CgMnup7X+i3eNINU35YQd3OXIj+laii0eyNytxuEKwkz2nd+w==
+X-Received: by 2002:a17:90b:378c:b0:1f1:6468:a0b0 with SMTP id
+ mz12-20020a17090b378c00b001f16468a0b0mr23088346pjb.145.1658238619901; 
+ Tue, 19 Jul 2022 06:50:19 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ y11-20020a17090322cb00b0016c33dc879esm11752274plg.113.2022.07.19.06.50.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 06:50:12 -0700 (PDT)
-Date: Tue, 19 Jul 2022 14:50:09 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Manish Mishra <manish.mishra@nutanix.com>,
- Juan Quintela <quintela@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v9 00/14] migration: Postcopy Preemption
-Message-ID: <Yta2kWr1W5ht0qWR@work-vm>
-References: <20220707185342.26794-1-peterx@redhat.com>
+ Tue, 19 Jul 2022 06:50:19 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
+Subject: [PATCH v2] docs: Add caveats for Windows as the build platform
+Date: Tue, 19 Jul 2022 21:50:14 +0800
+Message-Id: <20220719135014.764981-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220707185342.26794-1-peterx@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -101,148 +89,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Based on:
->   [PATCH] tests: migration-test: Allow test to run without uffd
->   https://lore.kernel.org/qemu-devel/20220707184600.24164-1-peterx@redhat.com/
-> 
-> This is v8 of postcopy preempt series.  It can also be found here:
->   https://github.com/xzpeter/qemu/tree/postcopy-preempt
-> 
-> RFC: https://lore.kernel.org/qemu-devel/20220119080929.39485-1-peterx@redhat.com
-> V1:  https://lore.kernel.org/qemu-devel/20220216062809.57179-1-peterx@redhat.com
-> V2:  https://lore.kernel.org/qemu-devel/20220301083925.33483-1-peterx@redhat.com
-> V3:  https://lore.kernel.org/qemu-devel/20220330213908.26608-1-peterx@redhat.com
-> V4:  https://lore.kernel.org/qemu-devel/20220331150857.74406-1-peterx@redhat.com
-> V5:  https://lore.kernel.org/qemu-devel/20220425233847.10393-1-peterx@redhat.com
-> V6:  https://lore.kernel.org/qemu-devel/20220517195730.32312-1-peterx@redhat.com
-> V7:  https://lore.kernel.org/qemu-devel/20220524221151.18225-1-peterx@redhat.com
-> V8:  https://lore.kernel.org/qemu-devel/20220622204920.79061-1-peterx@redhat.com
-> 
-> v9:
-> - Rebase upon latest master (plus the test fix above on "tests:
->   migration-test: Allow test to run without uffd")
-> - Added missing R-bs in v7
+From: Bin Meng <bin.meng@windriver.com>
 
-Queued, took some minor rework in the tests
+Commit cf60ccc3306c ("cutils: Introduce bundle mechanism") introduced
+a Python script to populate a bundle directory using os.symlink() to
+point to the binaries in the pc-bios directory of the source tree.
+Commit 882084a04ae9 ("datadir: Use bundle mechanism") removed previous
+logic in pc-bios/meson.build to create a link/copy of pc-bios binaries
+in the build tree so os.symlink() is the way to go.
 
-> Abstract
-> ========
-> 
-> This series added a new migration capability called "postcopy-preempt".  It can
-> be enabled when postcopy is enabled, and it'll simply (but greatly) speed up
-> postcopy page requests handling process.
-> 
-> Below are some initial postcopy page request latency measurements after the
-> new series applied.
-> 
-> For each page size, I measured page request latency for three cases:
-> 
->   (a) Vanilla:                the old postcopy
->   (b) Preempt no-break-huge:  preempt enabled, x-postcopy-preempt-break-huge=off
->   (c) Preempt full:           preempt enabled, x-postcopy-preempt-break-huge=on
->                               (this is the default option when preempt enabled)
-> 
-> Here x-postcopy-preempt-break-huge parameter is just added in v2 so as to
-> conditionally disable the behavior to break sending a precopy huge page for
-> debugging purpose.  So when it's off, postcopy will not preempt precopy
-> sending a huge page, but still postcopy will use its own channel.
-> 
-> I tested it separately to give a rough idea on which part of the change
-> helped how much of it.  The overall benefit should be the comparison
-> between case (a) and (c).
-> 
->   |-----------+---------+-----------------------+--------------|
->   | Page size | Vanilla | Preempt no-break-huge | Preempt full |
->   |-----------+---------+-----------------------+--------------|
->   | 4K        |   10.68 |               N/A [*] |         0.57 |
->   | 2M        |   10.58 |                  5.49 |         5.02 |
->   | 1G        | 2046.65 |               933.185 |      649.445 |
->   |-----------+---------+-----------------------+--------------|
->   [*]: This case is N/A because 4K page does not contain huge page at all
-> 
-> [1] https://github.com/xzpeter/small-stuffs/blob/master/tools/huge_vm/uffd-latency.bpf
-> 
-> TODO List
-> =========
-> 
-> Avoid precopy write() blocks postcopy
-> -------------------------------------
-> 
-> I didn't prove this, but I always think the write() syscalls being blocked
-> for precopy pages can affect postcopy services.  If we can solve this
-> problem then my wild guess is we can further reduce the average page
-> latency.
-> 
-> Two solutions at least in mind: (1) we could have made the write side of
-> the migration channel NON_BLOCK too, or (2) multi-threads on send side,
-> just like multifd, but we may use lock to protect which page to send too
-> (e.g., the core idea is we should _never_ rely anything on the main thread,
-> multifd has that dependency on queuing pages only on main thread).
-> 
-> That can definitely be done and thought about later.
-> 
-> Multi-channel for preemption threads
-> ------------------------------------
-> 
-> Currently the postcopy preempt feature use only one extra channel and one
-> extra thread on dest (no new thread on src QEMU).  It should be mostly good
-> enough for major use cases, but when the postcopy queue is long enough
-> (e.g. hundreds of vCPUs faulted on different pages) logically we could
-> still observe more delays in average.  Whether growing threads/channels can
-> solve it is debatable, but sounds worthwhile a try.  That's yet another
-> thing we can think about after this patchset lands.
-> 
-> Logically the design provides space for that - the receiving postcopy
-> preempt thread can understand all ram-layer migration protocol, and for
-> multi channel and multi threads we could simply grow that into multile
-> threads handling the same protocol (with multiple PostcopyTmpPage).  The
-> source needs more thoughts on synchronizations, though, but it shouldn't
-> affect the whole protocol layer, so should be easy to keep compatible.
-> 
-> Please review, thanks.
-> 
-> Peter Xu (14):
->   migration: Add postcopy-preempt capability
->   migration: Postcopy preemption preparation on channel creation
->   migration: Postcopy preemption enablement
->   migration: Postcopy recover with preempt enabled
->   migration: Create the postcopy preempt channel asynchronously
->   migration: Add property x-postcopy-preempt-break-huge
->   migration: Add helpers to detect TLS capability
->   migration: Export tls-[creds|hostname|authz] params to cmdline too
->   migration: Enable TLS for preempt channel
->   migration: Respect postcopy request order in preemption mode
->   tests: Move MigrateCommon upper
->   tests: Add postcopy tls migration test
->   tests: Add postcopy tls recovery migration test
->   tests: Add postcopy preempt tests
-> 
->  migration/channel.c          |   9 +-
->  migration/migration.c        | 134 ++++++++++++--
->  migration/migration.h        |  44 ++++-
->  migration/multifd.c          |   4 +-
->  migration/postcopy-ram.c     | 186 +++++++++++++++++++-
->  migration/postcopy-ram.h     |  11 ++
->  migration/qemu-file.c        |  27 +++
->  migration/qemu-file.h        |   1 +
->  migration/ram.c              | 326 +++++++++++++++++++++++++++++++++--
->  migration/ram.h              |   4 +-
->  migration/savevm.c           |  46 +++--
->  migration/socket.c           |  22 ++-
->  migration/socket.h           |   1 +
->  migration/tls.c              |   9 +
->  migration/tls.h              |   4 +
->  migration/trace-events       |  15 +-
->  qapi/migration.json          |   7 +-
->  tests/qtest/migration-test.c | 286 +++++++++++++++++++++---------
->  18 files changed, 990 insertions(+), 146 deletions(-)
-> 
-> -- 
-> 2.32.0
-> 
-> 
+However os.symlink() may fail [1] on Windows if an unprivileged Windows
+user started the QEMU build process, which results in QEMU executables
+generated in the build tree not able to load the default BIOS/firmware
+images due to symbolic links not present in the bundle directory.
+
+This commits updates the documentation by adding such caveats for users
+who want to build QEMU on the Windows platform.
+
+[1] https://docs.python.org/3/library/os.html#os.symlink
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+---
+
+Changes in v2:
+- fix typo of "preferred"
+
+ docs/about/build-platforms.rst | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+index ebde20f981..6b8496c430 100644
+--- a/docs/about/build-platforms.rst
++++ b/docs/about/build-platforms.rst
+@@ -94,8 +94,16 @@ not tested anymore, so it is recommended to use one of the latest versions of
+ Windows instead.
+ 
+ The project supports building QEMU with current versions of the MinGW
+-toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
++toolchain, either hosted on Linux (Debian/Fedora) or via `MSYS2`_ on Windows.
++A more recent Windows version is always preferred as it is less likely to have
++problems with building via MSYS2. The building process of QEMU involves some
++Python scripts that call os.symlink() which needs special attention for the
++build process to successfully complete. On newer versions of Windows 10,
++unprivileged accounts can create symlinks if Developer Mode is enabled.
++When Developer Mode is not available/enabled, the SeCreateSymbolicLinkPrivilege
++privilege is required, or the process must be run as an administrator.
+ 
+ .. _Homebrew: https://brew.sh/
+ .. _MacPorts: https://www.macports.org/
++.. _MSYS2: https://www.msys2.org/
+ .. _Repology: https://repology.org/
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.34.1
 
 
