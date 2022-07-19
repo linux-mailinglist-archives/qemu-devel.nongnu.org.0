@@ -2,46 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF2557A42F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 18:25:24 +0200 (CEST)
-Received: from localhost ([::1]:32880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9FB57A422
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 18:23:17 +0200 (CEST)
+Received: from localhost ([::1]:57500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDq2G-0007Wn-5N
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 12:25:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33642)
+	id 1oDq0C-0004uY-EW
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 12:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oDpyP-0001LI-Ij
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:21:27 -0400
-Received: from relay12.mail.gandi.net ([2001:4b98:dc4:8::232]:36139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oDpyN-0004kG-BE
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:21:25 -0400
-Received: (Authenticated sender: no-reply@qemu.org)
- by mail.gandi.net (Postfix) with ESMTPSA id B8BE1200007
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 16:21:17 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDpym-000227-Bi
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:21:48 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:39847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDpyk-00050H-PR
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:21:48 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id r3so27383930ybr.6
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 09:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=veNRosRm6uWVvK2ouc5namEVkj6+Pr/ugmgpj+iXddk=;
+ b=Kbt8B8BZHAUEeUW3Wa4AjPq454L6hy56R0i5qLRWcQJVTnaBIjxoqD8bzWFtcsQskE
+ 7dXStLIauzmzKu87oJuqWZ2v2RhWe1n5lt3KQOgiPWp6fqMt7A5chLKShMdmEkpKim8F
+ ZR5zHZ2YHhpCeVs5Ags9yHAZShJp3Y3K7tJO4q/n7Fc9LxRKp6joemUKfJl+Ppe3i4qz
+ 5u+WCicZLCsxrv2VrKDvmot/6djBsET9OlWzTrtwf4oFcBZ4uQjRSmifZO3ZGgE1wx9z
+ NLlGQ7kcz48nTEbd0vdRHwKCtWo5ImgsH71jOq8IHu+UxHpemeF3DpxDqAVSTD3aGGvc
+ UNDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=veNRosRm6uWVvK2ouc5namEVkj6+Pr/ugmgpj+iXddk=;
+ b=gL09H00HqEt7Ibcu2AsN26dEonB/KKaKVsUzSmwQ2M2I524WbQ3gOV1oWitDdY7yLM
+ yxxq3ZLXzOCMmYRdvD5WnBGjon0DGcTjMrgkO8daA0Za6cJXoqQrfzK0oyCl3xqLk+Cv
+ To1+vSBXmcu7Q26B7H0poVdfjDmPTfJ0BrY/VHsNpstZQdONUYZCiQXciGWsRALIaVkp
+ RBQgIIDfccSfEeDiOWa22magVYtvm3O1Lsp4Yco3dNMpy8SDbS9yRRqx0EFJFBaQAqxB
+ 2kzySMdl/7IwLfbAuFniqkDRTOwfn7DK2OvWJG/pMLulIogH2/bXVgPl81KyC+kpOakG
+ VUqA==
+X-Gm-Message-State: AJIora9BidKnozyBvlPRt1RFxeDCO1GchdqJwGGOQJqvZZGnhHP4BqH8
+ R6z+tFuffmAketYz5MYTtoGntJJ5Rmu5+1tZKN1VbA==
+X-Google-Smtp-Source: AGRyM1tCA75ebaD1T+ax20+nZAXzP0e6o+cwOQK0VICkMuYLOTDn6kvzfCfVlsU9rk228ZeYC9aIByRiMbnzQnCn1ms=
+X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
+ v85-20020a252f58000000b0066ecf9a06a2mr35860067ybv.193.1658247705614; Tue, 19
+ Jul 2022 09:21:45 -0700 (PDT)
 MIME-Version: 1.0
-From: GitLab Bot <no-reply@qemu.org>
-To: <qemu-devel@nongnu.org>
-Subject: [python-qemu-qmp MR #11] first public release - v0.0.1
-Date: Tue, 19 Jul 2022 16:21:16 -0000
-Message-ID: <165824767606.16404.6058857132450774105.no-reply@qemu.org>
-X-GitLab-MergeRequest-ID: 166643398
-X-GitLab-Project-Id: 35575318
-X-GitLab-Project-Path: qemu-project/python-qemu-qmp
-X-GitLab-Project: python-qemu-qmp
-X-QEMU-GitLab-MR-IID: 11
-X-QEMU-GitLab-MR-URL: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/11
-X-QEMU-GitLab-Username: jsnow
-Received-SPF: pass client-ip=2001:4b98:dc4:8::232;
- envelope-from=no-reply@qemu.org; helo=relay12.mail.gandi.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+References: <20210904213506.486886-1-mst@redhat.com>
+ <20210904213506.486886-7-mst@redhat.com>
+ <CAFEAcA9WBo2Kn9BPz1y2JCxpBGnBWDOtgLFiu31V4PL2m6b7bQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9WBo2Kn9BPz1y2JCxpBGnBWDOtgLFiu31V4PL2m6b7bQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jul 2022 17:21:34 +0100
+Message-ID: <CAFEAcA__CW1dPW=BgpHgopWpyW6z7CqLQi1vsYgJkVsthJHqOQ@mail.gmail.com>
+Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
+ can just use what they need
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,26 +88,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Author: John Snow - https://gitlab.com/jsnow
-Merge Request: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/11
-... from: jsnow/python-qemu-qmp:first_release
-... into: qemu-project/python-qemu-qmp:main
+On Tue, 19 Jul 2022 at 17:12, Peter Maydell <peter.maydell@linaro.org> wrote:
+> Hi; I'm trying to track down the fix for a bug that I think
+> was introduced by this change. Specifically, if you
+> configure with a target list of
+>  '--target-list=mips-linux-user,mips64-linux-user,mipsel-linux-user,mipsn32-linux-user,mipsn32el-linux-user,mips-softmmu,mipsel-softmmu,mips64-softmmu,mips64el-softmmu'
+>
+> (ie "just mips"), then run 'make check', the iotest 267 fails
+> because QEMU segfaults trying to do a VM save/restore on
+> qemu-system-mips. (You can run just that iotest by cd'ing
+> into the build dir's tests/qemu-iotests/ subdir and running
+>   ./check -qcow2 -gdb 267
 
-***If this MR is approved, after merge; I will be tagging this commit as "v0.0.1", building packages, and publishing them to PyPI.***
+I mean just "./check -qcow2 267" here (the -gdb starts a
+gdbserver, which is what I was doing while trying to debug.)
 
-No changelog, it's the "first release" :)
-
-In practice, the commit history range 4e078291.. comprises all of the changes made to the QMP library since it was forked out of the qemu.git tree; most of them relate to packaging, metadata, documentation fixes, GitLab configuration and so on, except a single functional change in 0443582d: `kick event queue on legacy event_pull()`. This change was also mirrored to the in-tree version of this library that still exists in qemu.git.
-
-This release is considered to be an "alpha" release, and the PyPI metadata and README both reflect that. The API is still prone to change in either a v0.0.2 or v0.1.0 release. Feedback from anyone and everyone is especially welcomed at this stage.
-
-Thanks!
-
---js
-
----
-
-This is an automated message. This bot will only relay the creation of new merge
-requests and will not relay review comments, new revisions, or concluded merges.
-Please follow the GitLab link to participate in review.
+-- PMM
 
