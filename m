@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 050B657A430
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 18:25:59 +0200 (CEST)
-Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF7CC57A431
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 18:27:45 +0200 (CEST)
+Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDq2o-0008F5-6l
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 12:25:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33770)
+	id 1oDq4W-0001sS-Kw
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 12:27:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDpz4-0002dq-6m
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:22:06 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:37725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDpz2-000521-Cg
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:22:05 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id f11so12410941plr.4
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 09:22:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=bY3LNftqJSxGGMX6DhNavgPYZZpCHsjC9lEj005oQ38=;
- b=Hg1sOcZtCx0VZA3FXGUQZFBkuQ9ott/Um4+zi8+doWA90dbhcK5qIEGv2NthvKzmEn
- b0JbDUV5yPOA9OjDz1S9DJgPNcJt78pgHgUPqGJYHbEeZA2PFEo2Yzvbc9wVMCigUGzl
- 3mV5zrkq+o5YZOijDABuR9G/dX9uwVBKPnnD6M+dS5o4335Q6R9uZ1ScBZy+0lOiFYui
- Pw8orW29jnxFQaiInTBNe8IWFh+IG7zz7PykIRKA+u/N6l/pKt79W3lhdSrkkDo6X0W/
- YMFmmsePXJRsqE0hmo9gDw+pWlG+E8ufQrryFwUatEu7+FC0nuUpp4i6zo42HdFnXcn1
- fs5w==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDq0Q-0005TF-7c
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:23:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26665)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDq0L-00059I-NV
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 12:23:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658247803;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=qi2FDdLbM9C/DmPUBGhEMRewyfwGrqgR8WMjS7pPEiU=;
+ b=K+7FwV3uprTudA8q4AUT7Lj4tdXhg1veMhE8yUFj+E27+BK7qcPSzktZXvdLgZm2ZZi9z+
+ YK+886/+1XomJSDbHY/dfPDd6KkkEej9Xn+xv65/3Wc36ldDnKfkIgQelLq+oGHoDaRiv9
+ KKhMeeLk5xHVO7OkV/wSrOVpG1uxNDc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-170-d7TjtoaxMES8PEvfil2LsA-1; Tue, 19 Jul 2022 12:23:22 -0400
+X-MC-Unique: d7TjtoaxMES8PEvfil2LsA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so5624248wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 09:23:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=bY3LNftqJSxGGMX6DhNavgPYZZpCHsjC9lEj005oQ38=;
- b=RzqNPjS/DGxIDGD3UNQB46mjYI916oIztBcn7InJLSa60MiP4XpkrK/IpAm3xjjn5p
- okR75MPu3AEfxz+wsVCBGgnzRNCokx3Cg+KFye4vSk9g1l1oZ4uk1CLwPIxIUoCAaA+k
- W+p2/1umCN9jmOA+Qgm3q4H7HQ4PLy8izFoLk9fYU5/MbRlWPSoyCg5BgZe0/Za1tsjR
- 7VYy/8fC6ouSaXwNbeWlVRYSNdKw0Ogn3KQQVOA2hIXFetB7I3KYrURiDY9nFpuVls1g
- usBnPPmTJc9aGvz46wtWLpYlelWBnH/u35+QeyUSmKJAtuvHRw6+DnzIjSxOTmLIMSH1
- Tliw==
-X-Gm-Message-State: AJIora87V9cqhSQzYOU0C2mBlgSSz1rzMnvDc18x5EZlQPs0bhgpvGvg
- Gx9eTmmA5z+85G4SxOSzox0l4Q==
-X-Google-Smtp-Source: AGRyM1uaS96FawjFm/OkhnIXum9jdqOsdp2UQxUHhbveFsQ78YCxzlszgEfTsHj5JjRCTRdtF6Tt0w==
-X-Received: by 2002:a17:90b:4f41:b0:1f0:4785:b9a8 with SMTP id
- pj1-20020a17090b4f4100b001f04785b9a8mr134971pjb.224.1658247722901; 
- Tue, 19 Jul 2022 09:22:02 -0700 (PDT)
-Received: from [192.168.113.227] ([123.231.102.160])
- by smtp.gmail.com with ESMTPSA id
- d1-20020a170902cec100b0016a091eb88esm12043256plg.126.2022.07.19.09.21.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 09:22:02 -0700 (PDT)
-Message-ID: <3be3215a-8edd-709a-81c4-9804d39c2e3f@linaro.org>
-Date: Tue, 19 Jul 2022 21:51:53 +0530
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=qi2FDdLbM9C/DmPUBGhEMRewyfwGrqgR8WMjS7pPEiU=;
+ b=eWf3bgXJYDe5LHBqFHCKKBTB/RPnAF7paLz4zeEj+5E0GhGmgrFlM2Y3fFDFeoa5vT
+ z3ZDuPohlQdlkSIwkrkZHxzG1H8WvF5SCYCE4aZwSd6yLpnrIXQ986romD4tHPiPYg5x
+ 5gNFePinnaCxpszQxjxeOOl+vIVcwDlYpoo6JzqbRCCYox9+3YREI03dQ/p/0D5V2/lU
+ zknPpL9wjEUglvn00Pa0nWHTbQHU813T5b/3PhjGROO+NoFpBIe4I+/wO/fk4w3dsUwy
+ ITFXqNNA+rYBdhD79v2jUnsX5D9mWwucyUII2n9evEmWfToFnIpq39BztP9+noTGYVHL
+ TyNw==
+X-Gm-Message-State: AJIora+Mb4fhpy6YLQa+RYkrabfB+Kft/krgoAK3DfWq1TSjdQhmShIt
+ eal645aX/2cl7C4SrC34OladDgTiLJFZf12QBqBqzctRRmmFXWt7ev/fvxspIk4Ndy8ObSc/X6w
+ A4Nug2dk8hdLCD0k=
+X-Received: by 2002:adf:ee0f:0:b0:21d:6e3b:d262 with SMTP id
+ y15-20020adfee0f000000b0021d6e3bd262mr26515146wrn.687.1658247801085; 
+ Tue, 19 Jul 2022 09:23:21 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vfEQHFKRdxCeLzn7bg3gtHfWzWUS3yi/XkTuHMzf2nwx8mVMgxPNPJu+1vAuerYNkWKranuQ==
+X-Received: by 2002:adf:ee0f:0:b0:21d:6e3b:d262 with SMTP id
+ y15-20020adfee0f000000b0021d6e3bd262mr26515132wrn.687.1658247800868; 
+ Tue, 19 Jul 2022 09:23:20 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ r6-20020a5d6946000000b0021b91d1ddbfsm13860558wrw.21.2022.07.19.09.23.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 09:23:20 -0700 (PDT)
+Date: Tue, 19 Jul 2022 17:23:18 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 1/1] migration: Avoid false-positive on non-supported
+ scenarios for zero-copy-send
+Message-ID: <YtbadoNW+aSyQ84E@work-vm>
+References: <20220719122345.253713-1-leobras@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 0/6] Support booting bios and kernel for LoongArch
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
- <2af20d3e-6f6d-7da9-5b03-76308c2180a3@linaro.org>
-In-Reply-To: <2af20d3e-6f6d-7da9-5b03-76308c2180a3@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220719122345.253713-1-leobras@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -95,38 +100,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 13:40, Richard Henderson wrote:
-> On 7/12/22 14:02, Xiaojuan Yang wrote:
->> This series add some new funcitons for LoongArch virt machine.
->> Support loading uefi bios and linux kernel to boot system, and
->> add fw_cfg table, smbios table, acpi table, fdt table to transmit
->> information for the system.
->>
->> We could get the uefi bios and linux kernel file by this address:
->> The kernel file:
->>     * https://github.com/loongson/linux/tree/loongarch-next
->> The bios file:
->>     * https://github.com/loongson/edk2
->>     * https://github.com/loongson/edk2-platforms
->>
->> Xiaojuan Yang (6):
->>    hw/loongarch: Add fw_cfg table support
->>    hw/loongarch: Add uefi bios loading support
->>    hw/loongarch: Add linux kernel booting support
->>    hw/loongarch: Add smbios support
->>    hw/loongarch: Add acpi ged support
->>    hw/loongarch: Add fdt support
+* Leonardo Bras (leobras@redhat.com) wrote:
+> Migration with zero-copy-send currently has it's limitations, as it can't
+> be used with TLS nor any kind of compression. In such scenarios, it should
+> output errors during parameter / capability setting.
 > 
-> Queued.
+> But currently there are some ways of setting this not-supported scenarios
+> without printing the error message:
 > 
-> If there are bugs in the smbios or acpi patches, they can be fixed before hard freeze, but 
-> we do want the feature committed before soft freeze.
+> !) For 'compression' capability, it works by enabling it together with
+> zero-copy-send. This happens because the validity test for zero-copy uses
+> the helper unction migrate_use_compression(), which check for compression
+> presence in s->enabled_capabilities[MIGRATION_CAPABILITY_COMPRESS].
+> 
+> The point here is: the validity test happens before the capability gets
+> enabled. If all of them get enabled together, this test will not return
+> error.
+> 
+> In order to fix that, replace migrate_use_compression() by directly testing
+> the cap_list parameter migrate_caps_check().
+> 
+> 2) For features enabled by parameters such as TLS & 'multifd_compression',
+> there was also a possibility of setting non-supported scenarios: setting
+> zero-copy-send first, then setting the unsupported parameter.
+> 
+> In order to fix that, also add a check for parameters conflicting with
+> zero-copy-send on migrate_params_check().
+> 
+> 3) XBZRLE is also a compression capability, so it makes sense to also add
+> it to the list of capabilities which are not supported with zero-copy-send.
+> 
+> Fixes: 1abaec9a1b2c ("migration: Change zero_copy_send from migration parameter to migration capability")
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
 
-Patch 3 has a 32-bit error wrt %lx and uint64_t.
+Yeh, it's unusual in that you need to check both the capabilities and
+parameters; where as we have the inidividual 'caps_check' and
+'params_check'.
 
-Patch 5 misses setting TARGET_NEED_FDT in configs/targets/loongarch64-softmmu.mak.
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
+> ---
+>  migration/migration.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 78f5057373..c6260e54bf 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1274,7 +1274,9 @@ static bool migrate_caps_check(bool *cap_list,
+>  #ifdef CONFIG_LINUX
+>      if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
+>          (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
+> -         migrate_use_compression() ||
+> +         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
+> +         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
+> +         migrate_multifd_compression() ||
+>           migrate_use_tls())) {
+>          error_setg(errp,
+>                     "Zero copy only available for non-compressed non-TLS multifd migration");
+> @@ -1511,6 +1513,17 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+>          error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+>          return false;
+>      }
+> +
+> +#ifdef CONFIG_LINUX
+> +    if (migrate_use_zero_copy_send() &&
+> +        ((params->has_multifd_compression && params->multifd_compression) ||
+> +         (params->has_tls_creds && params->tls_creds && *params->tls_creds))) {
+> +        error_setg(errp,
+> +                   "Zero copy only available for non-compressed non-TLS multifd migration");
+> +        return false;
+> +    }
+> +#endif
+> +
+>      return true;
+>  }
+>  
+> -- 
+> 2.37.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-r~
 
