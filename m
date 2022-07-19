@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B11E57A611
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:06:55 +0200 (CEST)
-Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC4F357A635
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:12:04 +0200 (CEST)
+Received: from localhost ([::1]:54776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrcS-0000f9-C2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
+	id 1oDrhT-0003a1-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWO-0006IW-BA
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:36 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37657)
+ id 1oDrWR-0006Pu-8n
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:39 -0400
+Received: from mail-oa1-x31.google.com ([2001:4860:4864:20::31]:38849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWM-0006BV-M1
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:36 -0400
-Received: by mail-ot1-x334.google.com with SMTP id
- l9-20020a056830268900b006054381dd35so12303071otu.4
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:34 -0700 (PDT)
+ id 1oDrWP-00069v-O4
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:38 -0400
+Received: by mail-oa1-x31.google.com with SMTP id
+ 586e51a60fabf-10c8e8d973eso32948654fac.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7kucxed5pd2yWAJLsvl/juNcXUDwpeqo29sK0pxQgQk=;
- b=rQ4vdTcnXPQo8ZPORv47uUEPEeOGEnnFyR2mVSsvIj9WuOyP4PHiQFh/P9Kwq/NvAX
- KjlJuAjLmmPaxDIWG1YJtm9TW+LydZfIELmJ1VhUc2UFlOWOZnWePX7T4GFEkUKAA7Pb
- 4BmYn+uXcRnTySRn+V2LmR3ukXvSOnY6sGGeYtYVg0lzs21u0t2qobKYouBu6yXZSDdY
- VRSW3viENXP/TSFdEF9nYxmVVetrD5zICwMc+NA+dX1mVskFaHAjDiDA6173ivMO5dC3
- JfidYvj7YK6AuHDjZ7gFwyKe0Xmb2XqtMCjb47K/cGKhEREbbprRUWCSSt8Zee3n4zFd
- z8wQ==
+ bh=AViijIJtcLlgLyYNC1Ztvc7ay6udyTNu67ccSkCMIC4=;
+ b=aEWaMinV03apyduK5KR2RmfRVr1Tp330SAIN9/7aycoOhoYgTsOGVTNaxcGv+rGN7e
+ ACkop7nu871zjQXo39QZQ1aSXkq82W+ngFskrRs9OoQ7m7TlZGUVXrLJEFO2vdVhxLKq
+ 4k2QXKDksgt5I3yLsvSbu7GRBDiPlbTDpSaLnJNqaJVs59OkdKiSsmZsYozC2jrS789Z
+ +S2BBuojxuulgiRbZcLVdKF0GP0gxPZz4tG0b7YqawmNhbyHCSHLyz2Chpx+fcp1CBIJ
+ X9zff2/gmvzk4N+s47VwB8WdYjiBD7QirkVz7oDooMOGSbWqkKynluSJa5DOL0FoBTuL
+ DB+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7kucxed5pd2yWAJLsvl/juNcXUDwpeqo29sK0pxQgQk=;
- b=U+VnPeMGegFKqwV8Diq74BG+ydMAcH2hcayeP2wBtesEgQUV8kjz+QF1E7+ilu6dy3
- eZR7Hp7/r4uuvkHKrv0VyDmFvYUOFmdZ5s5t6twVKuJZN3eVZD8m+UU4VvpulS3cieQc
- wPz6W1kroadE16yeTGEGU7LRZcr+smbtGmUmmFvzjGuqJN4F7vK6Gr+3ONmT0JkWKixs
- ua5CJDM1Iry0bOXq/kfE80dUXNd46JKSG5adWh+1xqbE3BYWnsmEwGUiP+o3b16N3oI+
- Tyha4KmyeZu3oAyq1TRA27olkoXDoqCdNKcrP5NjQLRq+QlnSHoECVUC0mu6gV7y6DOf
- f8Ow==
-X-Gm-Message-State: AJIora+QNcy9y3FVmH/jH2ShI2yeUdvatzCENH73sWI4luwHfVW9zLLb
- x5Z1X5BDawZYYIdlYBZ3YEgtM+2+sxXNcaxT
-X-Google-Smtp-Source: AGRyM1vXLm7dSA/6W8WRWIMrytah51/2CiAv5WqK56dnku8GF4qAfqE6O4SDAiDEfbH2n0LEB9aUGA==
-X-Received: by 2002:a9d:5e16:0:b0:61c:82ef:1d96 with SMTP id
- d22-20020a9d5e16000000b0061c82ef1d96mr9310924oti.184.1658253633209; 
- Tue, 19 Jul 2022 11:00:33 -0700 (PDT)
+ bh=AViijIJtcLlgLyYNC1Ztvc7ay6udyTNu67ccSkCMIC4=;
+ b=eKnUqSN6kv4fXzbi09D5h3qC/4qa3K23+8/wuZBFBGJR88soACfZGRglZf6MV4JxNJ
+ FbWAzZiHebqwJHR2I2ioduipAqKMLsAp3R2ou7l03p9mB0HJtr59NzslZ9jlQxwSAH8n
+ X0ARur/LrkyzJHIXZeLc240pqpUmwLqLZWUbNJ7HjUmwiOsjIHQDmSLhT2YjaaJaYBth
+ 7PZrMK1XRHkLo15Z4bXCeDmQ2Ate+dA6Om+mWQbM3+gl3GxlRUxXEcBawHMx8YbW8ozE
+ FxrVvFPeWjx/gKp3zdcoJ377IcqWyWgMA1YgWV06hmDjzmkwjNfjbis2P84HbCCPQCmv
+ A4HA==
+X-Gm-Message-State: AJIora/UMESHYmHai+7V/QrM9qvymzcSSi+3+xvZoh2Xw4kuPsUfCVNm
+ SMtoTAMB93CU6zJO9cV0XdZmUMObMCs+4A+R
+X-Google-Smtp-Source: AGRyM1scC8iSgG5jZdM2BUbLYFzWiDMCvGHCWQ7sM9dcn4U53FNiVEV8lxd5d8rqTlM+XhbcpV+Ajw==
+X-Received: by 2002:a05:6870:2409:b0:10b:c5d0:3edb with SMTP id
+ n9-20020a056870240900b0010bc5d03edbmr344656oap.293.1658253637085; 
+ Tue, 19 Jul 2022 11:00:37 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.29
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:00:32 -0700 (PDT)
+ Tue, 19 Jul 2022 11:00:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 06/21] target/loongarch/op_helper: Fix coverity cond_at_most
- error
-Date: Tue, 19 Jul 2022 23:29:45 +0530
-Message-Id: <20220719180000.378186-7-richard.henderson@linaro.org>
+Subject: [PULL 07/21] target/loongarch/cpu: Fix cpucfg default value
+Date: Tue, 19 Jul 2022 23:29:46 +0530
+Message-Id: <20220719180000.378186-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::31;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,33 +90,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-The boundary size of cpucfg array should be 0 to ARRAY_SIZE(cpucfg)-1.
-So, using index bigger than max boundary to access cpucfg[] must be
-forbidden.
-
-Fix coverity CID: 1489760
+We should config cpucfg[20] to set value for the scache's ways, sets,
+and size arguments when loongarch cpu init. However, the old code
+wirte 'sets argument' twice, so we change one of them to 'size argument'.
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220715060740.1500628-6-yangxiaojuan@loongson.cn>
+Message-Id: <20220715064829.1521482-1-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/op_helper.c | 2 +-
+ target/loongarch/cpu.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
-index 4b429b6699..568c071601 100644
---- a/target/loongarch/op_helper.c
-+++ b/target/loongarch/op_helper.c
-@@ -81,7 +81,7 @@ target_ulong helper_crc32c(target_ulong val, target_ulong m, uint64_t sz)
+diff --git a/target/loongarch/cpu.c b/target/loongarch/cpu.c
+index 0d49ce68e4..1415793d6f 100644
+--- a/target/loongarch/cpu.c
++++ b/target/loongarch/cpu.c
+@@ -406,7 +406,7 @@ static void loongarch_la464_initfn(Object *obj)
+     data = 0;
+     data = FIELD_DP32(data, CPUCFG20, L3IU_WAYS, 15);
+     data = FIELD_DP32(data, CPUCFG20, L3IU_SETS, 14);
+-    data = FIELD_DP32(data, CPUCFG20, L3IU_SETS, 6);
++    data = FIELD_DP32(data, CPUCFG20, L3IU_SIZE, 6);
+     env->cpucfg[20] = data;
  
- target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
- {
--    return rj > 21 ? 0 : env->cpucfg[rj];
-+    return rj >= ARRAY_SIZE(env->cpucfg) ? 0 : env->cpucfg[rj];
- }
- 
- uint64_t helper_rdtime_d(CPULoongArchState *env)
+     env->CSR_ASID = FIELD_DP64(0, CSR_ASID, ASIDBITS, 0xa);
 -- 
 2.34.1
 
