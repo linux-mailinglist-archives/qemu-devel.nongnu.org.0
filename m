@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F77857A664
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:22:14 +0200 (CEST)
-Received: from localhost ([::1]:48204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 871AC57A673
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:24:43 +0200 (CEST)
+Received: from localhost ([::1]:52962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrrI-0002Rp-Pk
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:22:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34614)
+	id 1oDrth-0005nm-Tw
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:24:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWs-00070x-U3
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:07 -0400
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:37550)
+ id 1oDrWw-00077H-SX
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:10 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:40625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWr-0006GE-3p
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:06 -0400
-Received: by mail-oi1-x22c.google.com with SMTP id i126so7814279oih.4
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:04 -0700 (PDT)
+ id 1oDrWv-0006Gk-AK
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:10 -0400
+Received: by mail-oi1-x231.google.com with SMTP id r191so7823862oie.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rJlDNiQu4UmoEjy4nR7l638brDltqE0DUa/l4asKijY=;
- b=HQzlsMLmqxobcGKtlPbLLg/DlixH9rulXmr474EN0xhcdoO9GKOq5z2iPZ5hBcnKa1
- pEePqXyJF5LuIRP4lYr+E6hKBRTmzup0qFx4HdaEjQXd6JTWokDErAVBv8XQ8ArBG7/D
- ewXDpS+30+gwg80V0wRcUySzlA1JiLjBL9WB5uKrMbxHYAHKSnNica6VOS+f3kZEK6WA
- jyVHl+DYMxcieJEOeJXeVJBmnlRKQk1hKwrM/zxRaHUu4JrH4ThGFYi+SlTvE/a3rr3P
- 6o7ttAWvqFVagbi+qTgzn7Tn9NEqzto2TDpvIN4KRw3PkVA6EKPVAbYp83J/ujrHX/yK
- y+Tw==
+ bh=sGdHWNOdW2WrHLjWLIrMnoyjBp9QciCdh5JHta0OwMs=;
+ b=vuTIkwGIKJpRtxVLhFUBaTAOrNbWg3ZkSjAKJ1aFw0NaZTMKQWqXNBt3lkmJfccQpX
+ 5sIenHu4i7ZY6W6fl036smFbnkcsOH07Y3heiFea5NYg7iJQ7TQyVjKw0Q+48PWKw5XT
+ +fYxltmk9ZRNcQDwuVj+g0vApC9jrVMsWBsY5tt451xNTVhKAPvVCsbCETIDkm1v8Nbp
+ MbgSA3lkf9Ly+0PCamc3yN779FJpcJjFojik1TXP/b8V4LZ2u3xU8jBJIzC/rlXUF7M6
+ nC8KpBnlCljtdUzFsuxESx+PryH+s6MogB5VqQeZFKK6qXUdlnAwsVkSjpOMxSF1BkXB
+ XsRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rJlDNiQu4UmoEjy4nR7l638brDltqE0DUa/l4asKijY=;
- b=m5Nl82JhVzJ/mwyNiNHuxGCd7EWwN+kuiV7GYi512is6UXwd1CzPU/mZv9DkH1AW62
- wPXoK21wVqoLHnz6n1rzO1IFS+nemb6EqhOpo8UEd3onepFJDnj5Yq80k4PtRey6DZfi
- cE1e1rT/UalF7Ew8FLu3+Q86ID2nG9a9fKsFpH+GDaEKPCgtaGEYQ7donT+EUWsXjjH7
- +SmGtECwrFhCS3+kwaDRfvt2p6SKL1TMDrm6P+uWRkqji1awoQzTB1gF2dlmjJmsuQfT
- mFWW/RH/E5N+XRlmNhaC8Nd37G6GUOX7MdBIyoC2BgBZokpY0KOIDWfogbi8sud/rm80
- tAoA==
-X-Gm-Message-State: AJIora/c1jd6hzZs3JKFoRCgpvw8kKyYg6TMAuVGheg/D7/lVpT/+O/S
- EE4fifRE8uoe2GD7NbwOxS11GB+fLM1KPvWC
-X-Google-Smtp-Source: AGRyM1tVfmkKaermYD7Qfj/L13a5JSRNgq2t0yekPXOySEFdSdfIOMw/nGoPFGfCaHhQ4wWAGi6S1A==
-X-Received: by 2002:a05:6808:bd1:b0:337:ac77:d398 with SMTP id
- o17-20020a0568080bd100b00337ac77d398mr322109oik.38.1658253663958; 
- Tue, 19 Jul 2022 11:01:03 -0700 (PDT)
+ bh=sGdHWNOdW2WrHLjWLIrMnoyjBp9QciCdh5JHta0OwMs=;
+ b=fgFWh1BsdzdcloIodKZuHKGh4/5zi8e1L03N36JVR2X7iUxn4ZzYjuSoXNGDktTJfI
+ L9UnGfBMlWrq2IZMGu8eH86eQdJ3EbdNvnHJk5mbbySMG64RDjSzyiY7tUj/HOgMJlze
+ VYQFQ2TdNktROdTdgmJYBptYWZYd1ziFeuFPPsdZDABGThYdqHOmAEb3bwICnkSZUAiG
+ j03wTJ8bCsmNV7nOPqjDxRFR7BXgEmcq6whFYhlgne01TwD+KuCFbliKVx3kbN267Q3y
+ uJrfVKhT2uTm3D7xAKV8sK3kB9jaZyR1jbWOQnB+2SfPG+AyWU6aDJoA384/oZubPWz8
+ tFvw==
+X-Gm-Message-State: AJIora+0czrNK3D1PySmvmxSinB7gcEXwLP0Zeo0zHgYpy25YvZE8V3C
+ oGSuI278hdYXvQXK8pm7NZZXE7edy5aXm4ut
+X-Google-Smtp-Source: AGRyM1vnpwg41OMJtPHCLaQP+vnTcu9u9/iWA20d7PUqQc/mOWUrqQcsdUOzD/3zQTy4NCGsyP8M7g==
+X-Received: by 2002:a05:6808:169e:b0:331:522a:4521 with SMTP id
+ bb30-20020a056808169e00b00331522a4521mr306761oib.293.1658253668146; 
+ Tue, 19 Jul 2022 11:01:08 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.00
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:01:02 -0700 (PDT)
+ Tue, 19 Jul 2022 11:01:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Song Gao <gaosong@loongson.cn>
-Subject: [PULL 13/21] tests/tcg/loongarch64: Add fclass test
-Date: Tue, 19 Jul 2022 23:29:52 +0530
-Message-Id: <20220719180000.378186-14-richard.henderson@linaro.org>
+Subject: [PULL 14/21] tests/tcg/loongarch64: Add fp comparison instructions
+ test
+Date: Tue, 19 Jul 2022 23:29:53 +0530
+Message-Id: <20220719180000.378186-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x22c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,163 +90,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Song Gao <gaosong@loongson.cn>
 
-This includes:
-- FCLASS.{S/D}
+Choose some instructions to test:
+- FCMP.cond.S
+- cond: ceq clt cle cne seq slt sle sne
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220716085426.3098060-7-gaosong@loongson.cn>
+Message-Id: <20220716085426.3098060-8-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/loongarch64/test_fclass.c   | 130 ++++++++++++++++++++++++++
- tests/tcg/loongarch64/Makefile.target |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 tests/tcg/loongarch64/test_fclass.c
+ tests/tcg/loongarch64/test_fpcom.c    | 37 +++++++++++++++++++++++++++
+ tests/tcg/loongarch64/Makefile.target |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 tests/tcg/loongarch64/test_fpcom.c
 
-diff --git a/tests/tcg/loongarch64/test_fclass.c b/tests/tcg/loongarch64/test_fclass.c
+diff --git a/tests/tcg/loongarch64/test_fpcom.c b/tests/tcg/loongarch64/test_fpcom.c
 new file mode 100644
-index 0000000000..7ba1d2c151
+index 0000000000..9e81f767f9
 --- /dev/null
-+++ b/tests/tcg/loongarch64/test_fclass.c
-@@ -0,0 +1,130 @@
-+#include <stdio.h>
++++ b/tests/tcg/loongarch64/test_fpcom.c
+@@ -0,0 +1,37 @@
++#include <assert.h>
 +
-+/* float class */
-+#define FLOAT_CLASS_SIGNALING_NAN      0x001
-+#define FLOAT_CLASS_QUIET_NAN          0x002
-+#define FLOAT_CLASS_NEGATIVE_INFINITY  0x004
-+#define FLOAT_CLASS_NEGATIVE_NORMAL    0x008
-+#define FLOAT_CLASS_NEGATIVE_SUBNORMAL 0x010
-+#define FLOAT_CLASS_NEGATIVE_ZERO      0x020
-+#define FLOAT_CLASS_POSITIVE_INFINITY  0x040
-+#define FLOAT_CLASS_POSITIVE_NORMAL    0x080
-+#define FLOAT_CLASS_POSITIVE_SUBNORMAL 0x100
-+#define FLOAT_CLASS_POSITIVE_ZERO      0x200
-+
-+#define TEST_FCLASS(N)                            \
-+void test_fclass_##N(long s)                      \
++#define TEST_COMP(N)                              \
++void test_##N(float fj, float fk)                 \
 +{                                                 \
-+    double fd;                                    \
-+    long rd;                                      \
++    int rd = 0;                                   \
 +                                                  \
-+    asm volatile("fclass."#N" %0, %2\n\t"         \
-+                 "movfr2gr."#N" %1, %2\n\t"       \
-+                    : "=f"(fd), "=r"(rd)          \
-+                    : "f"(s)                      \
-+                    : );                          \
-+    switch (rd) {                                 \
-+    case FLOAT_CLASS_SIGNALING_NAN:               \
-+    case FLOAT_CLASS_QUIET_NAN:                   \
-+    case FLOAT_CLASS_NEGATIVE_INFINITY:           \
-+    case FLOAT_CLASS_NEGATIVE_NORMAL:             \
-+    case FLOAT_CLASS_NEGATIVE_SUBNORMAL:          \
-+    case FLOAT_CLASS_NEGATIVE_ZERO:               \
-+    case FLOAT_CLASS_POSITIVE_INFINITY:           \
-+    case FLOAT_CLASS_POSITIVE_NORMAL:             \
-+    case FLOAT_CLASS_POSITIVE_SUBNORMAL:          \
-+    case FLOAT_CLASS_POSITIVE_ZERO:               \
-+        break;                                    \
-+    default:                                      \
-+        printf("fclass."#N" test failed.\n");     \
-+        break;                                    \
-+    }                                             \
++    asm volatile("fcmp."#N".s $fcc6,%1,%2\n"      \
++                 "movcf2gr %0, $fcc6\n"           \
++                 : "=r"(rd)                       \
++                 : "f"(fj), "f"(fk)               \
++                 : );                             \
++    assert(rd == 1);                              \
 +}
 +
-+/*
-+ *  float format
-+ *  type     |    S  | Exponent  |  Fraction    |  example value
-+ *                31 | 30 --23   | 22  | 21 --0 |
-+ *                               | bit |
-+ *  SNAN         0/1 |   0xFF    | 0   |  !=0   |  0x7FBFFFFF
-+ *  QNAN         0/1 |   0xFF    | 1   |        |  0x7FCFFFFF
-+ *  -infinity     1  |   0xFF    |     0        |  0xFF800000
-+ *  -normal       1  | [1, 0xFE] | [0, 0x7FFFFF]|  0xFF7FFFFF
-+ *  -subnormal    1  |    0      |    !=0       |  0x807FFFFF
-+ *  -0            1  |    0      |     0        |  0x80000000
-+ *  +infinity     0  |   0xFF    |     0        |  0x7F800000
-+ *  +normal       0  | [1, 0xFE] | [0, 0x7FFFFF]|  0x7F7FFFFF
-+ *  +subnormal    0  |    0      |    !=0       |  0x007FFFFF
-+ *  +0            0  |    0      |     0        |  0x00000000
-+ */
-+
-+long float_snan = 0x7FBFFFFF;
-+long float_qnan = 0x7FCFFFFF;
-+long float_neg_infinity = 0xFF800000;
-+long float_neg_normal = 0xFF7FFFFF;
-+long float_neg_subnormal = 0x807FFFFF;
-+long float_neg_zero = 0x80000000;
-+long float_post_infinity = 0x7F800000;
-+long float_post_normal = 0x7F7FFFFF;
-+long float_post_subnormal = 0x007FFFFF;
-+long float_post_zero = 0x00000000;
-+
-+/*
-+ * double format
-+ *  type     |    S  | Exponent  |  Fraction     |  example value
-+ *                63 | 62  -- 52 | 51  | 50 -- 0 |
-+ *                               | bit |
-+ *  SNAN         0/1 |  0x7FF    | 0   |  !=0    | 0x7FF7FFFFFFFFFFFF
-+ *  QNAN         0/1 |  0x7FF    | 1   |         | 0x7FFFFFFFFFFFFFFF
-+ * -infinity      1  |  0x7FF    |    0          | 0xFFF0000000000000
-+ * -normal        1  |[1, 0x7FE] |               | 0xFFEFFFFFFFFFFFFF
-+ * -subnormal     1  |   0       |   !=0         | 0x8007FFFFFFFFFFFF
-+ * -0             1  |   0       |    0          | 0x8000000000000000
-+ * +infinity      0  |  0x7FF    |    0          | 0x7FF0000000000000
-+ * +normal        0  |[1, 0x7FE] |               | 0x7FEFFFFFFFFFFFFF
-+ * +subnormal     0  |  0        |   !=0         | 0x000FFFFFFFFFFFFF
-+ * +0             0  |  0        |   0           | 0x0000000000000000
-+ */
-+
-+long double_snan = 0x7FF7FFFFFFFFFFFF;
-+long double_qnan = 0x7FFFFFFFFFFFFFFF;
-+long double_neg_infinity = 0xFFF0000000000000;
-+long double_neg_normal = 0xFFEFFFFFFFFFFFFF;
-+long double_neg_subnormal = 0x8007FFFFFFFFFFFF;
-+long double_neg_zero = 0x8000000000000000;
-+long double_post_infinity = 0x7FF0000000000000;
-+long double_post_normal = 0x7FEFFFFFFFFFFFFF;
-+long double_post_subnormal = 0x000FFFFFFFFFFFFF;
-+long double_post_zero = 0x0000000000000000;
-+
-+TEST_FCLASS(s)
-+TEST_FCLASS(d)
++TEST_COMP(ceq)
++TEST_COMP(clt)
++TEST_COMP(cle)
++TEST_COMP(cne)
++TEST_COMP(seq)
++TEST_COMP(slt)
++TEST_COMP(sle)
++TEST_COMP(sne)
 +
 +int main()
 +{
-+    /* fclass.s */
-+    test_fclass_s(float_snan);
-+    test_fclass_s(float_qnan);
-+    test_fclass_s(float_neg_infinity);
-+    test_fclass_s(float_neg_normal);
-+    test_fclass_s(float_neg_subnormal);
-+    test_fclass_s(float_neg_zero);
-+    test_fclass_s(float_post_infinity);
-+    test_fclass_s(float_post_normal);
-+    test_fclass_s(float_post_subnormal);
-+    test_fclass_s(float_post_zero);
-+
-+    /* fclass.d */
-+    test_fclass_d(double_snan);
-+    test_fclass_d(double_qnan);
-+    test_fclass_d(double_neg_infinity);
-+    test_fclass_d(double_neg_normal);
-+    test_fclass_d(double_neg_subnormal);
-+    test_fclass_d(double_neg_zero);
-+    test_fclass_d(double_post_infinity);
-+    test_fclass_d(double_post_normal);
-+    test_fclass_d(double_post_subnormal);
-+    test_fclass_d(double_post_zero);
++    test_ceq(0xff700102, 0xff700102);
++    test_clt(0x00730007, 0xff730007);
++    test_cle(0xff70130a, 0xff70130b);
++    test_cne(0x1238acde, 0xff71111f);
++    test_seq(0xff766618, 0xff766619);
++    test_slt(0xff78881c, 0xff78901d);
++    test_sle(0xff780b22, 0xff790b22);
++    test_sne(0xff7bcd25, 0xff7a26cf);
 +
 +    return 0;
 +}
 diff --git a/tests/tcg/loongarch64/Makefile.target b/tests/tcg/loongarch64/Makefile.target
-index 24d6bb11e9..59d564725a 100644
+index 59d564725a..b320d9fd9c 100644
 --- a/tests/tcg/loongarch64/Makefile.target
 +++ b/tests/tcg/loongarch64/Makefile.target
-@@ -12,5 +12,6 @@ LDFLAGS+=-lm
- 
+@@ -13,5 +13,6 @@ LDFLAGS+=-lm
  LOONGARCH64_TESTS  = test_bit
  LOONGARCH64_TESTS  += test_div
-+LOONGARCH64_TESTS  += test_fclass
+ LOONGARCH64_TESTS  += test_fclass
++LOONGARCH64_TESTS  += test_fpcom
  
  TESTS += $(LOONGARCH64_TESTS)
 -- 
