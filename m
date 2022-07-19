@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D1657A65A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:19:55 +0200 (CEST)
-Received: from localhost ([::1]:43874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44F257A692
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:35:30 +0200 (CEST)
+Received: from localhost ([::1]:36942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrp4-0006rW-Fk
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:19:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44758)
+	id 1oDs48-0005tG-SD
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:35:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDrlX-0001mB-SV
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:16:15 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:43708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDrlV-00037W-Vc
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:16:15 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id F0613B81CB5
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 18:16:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492DBC341C6
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 18:16:08 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="FnUhkT4w"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658254566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xJPxEslSIwh6sABS9O8DJvgfd4K7yRrW+gnL2IDNEEk=;
- b=FnUhkT4wjJ9KetChpR0CW9BElLKbOHbdc6QZNoZ7Imuq/IqBAx3ch4Qc5GtV7nqqQ59eYr
- 4T9ufPy0PCJa/i7dBdB0wNlddsHjNTgJku5FrZw4QlywucEPBKUw92RsmGKwRTYS9HbfbP
- GcQGHzdMqZeXO5P7BG4Vv3kA1kXBEF4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f852121c
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 19 Jul 2022 18:16:06 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id w29so10944835qtv.9
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:16:06 -0700 (PDT)
-X-Gm-Message-State: AJIora///WDBDwjLLl+TtFXmq0A6XjwEnlDBG0BoUVeciLy8rLQ47T5h
- NjFbq0ZEfsM/N/AWaLU/aBoEE/4y2ROoz1FKe1g=
-X-Google-Smtp-Source: AGRyM1tisQSVKcUb2NMIegrUdXpuvBkLROZ76yH3M77IYyzxVCnqBUkbcSyIE40T9FrEgbpQ42miSfTKbyRGjOt2tO4=
-X-Received: by 2002:a05:622a:1184:b0:31e:aed5:9859 with SMTP id
- m4-20020a05622a118400b0031eaed59859mr25598154qtk.288.1658254565783; Tue, 19
- Jul 2022 11:16:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oDro4-0005cH-LE
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:18:52 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:45924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oDro3-0003Mk-0x
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:18:52 -0400
+Received: by mail-ej1-x631.google.com with SMTP id fy29so27611155ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:18:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=o8UXEF5028EH4VTVG0uFro08B1gxx4xKQVgJSZy3qyI=;
+ b=ktq+n9PkKkcnlHk242C3xBSePxtcUet5vkjHU76h1vWNShWm3Lf7t0V+EgrwYAO/RN
+ ZGV6RqebSV//WsdVYrUEVwb5vrk9GBryXTfngOrd/S/Oc4w2kkHU2shGCUAUhekNnD8n
+ 4eH+LiRPH2ItgSSLfjGwCpeUB1aMk8/o/kwjZiDIjNy3vas6RWQhib5wIq7ywi7IzzvF
+ EEueQaVOtMFVtr4/eZaQXP+fNOquhkmKO7YROpPm9gziE4/LryNFV00EJfQ0xddhVHec
+ vrf0uuRHxoE3t7HMDWfNnBsqGayMtvDXlYDJQ1G3CIYTq1epa+ijC0GPIQ7cZH1kjv91
+ 6YHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=o8UXEF5028EH4VTVG0uFro08B1gxx4xKQVgJSZy3qyI=;
+ b=f+FUF7ukD29BMETFFaXSCYmZcZrcaB+Pop0mt8/nt1qeNAo1hqCplJR6GXLE26l61g
+ OGH1ofXNTrMJCEZ+NpnCJSQX8tliLqp+Z85zGBjURq3FMtSN8FuFLL3UUS3YZ66JVbJi
+ Km5jTXmxnDWcKPT+e4YKpP1MHWSQ9fUu0zp2QuofIh5FwqgjbIqPFXHThXi3dlWLgw0b
+ ogzr2Kk0AAr8Nb0oZ6oaWp+xDbsCaQNg8CCI2O93yr++W71qyXm2XjaLfh5ZWqx7LVKK
+ mkJiWpPZveAhLSFNZ43El54epWD6zcI2oBb0BShKTfZ0CC8GjDIzbFqCnn60cfxBEKfv
+ x60g==
+X-Gm-Message-State: AJIora/KuCGc4Waha1kr6J/4lvc2df3aJXTp/OOe2BoH/iOBUhxOVcQe
+ Ezc88L9WH6MBZ/QdvRr/CCk=
+X-Google-Smtp-Source: AGRyM1snV6M6l/JMwaQahc9QvqEUHWMSbixJTD+DjpcZJ52hKSXjB08QaSZz86J8Iz8+7gB1vsqq6Q==
+X-Received: by 2002:a17:906:730b:b0:72b:2f3d:299a with SMTP id
+ di11-20020a170906730b00b0072b2f3d299amr31328311ejc.583.1658254729174; 
+ Tue, 19 Jul 2022 11:18:49 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ h9-20020aa7c609000000b0043ab1ad0b6bsm10895734edq.37.2022.07.19.11.18.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jul 2022 11:18:48 -0700 (PDT)
+Message-ID: <9dbe748c-57b4-eab5-3933-0e9891b031c1@redhat.com>
+Date: Tue, 19 Jul 2022 20:18:47 +0200
 MIME-Version: 1.0
-References: <20220719093439.528810-1-pbonzini@redhat.com>
- <YtalBPp+QKS0wKWs@zx2c4.com>
- <b768df3d-4c36-549e-8e33-a3ec50ab95e2@redhat.com>
-In-Reply-To: <b768df3d-4c36-549e-8e33-a3ec50ab95e2@redhat.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 19 Jul 2022 20:15:54 +0200
-X-Gmail-Original-Message-ID: <CAHmME9qvWjdSVCLWyTrXDS34zbJ=NZ6QBsFb-DpNO3deJ6xEYQ@mail.gmail.com>
-Message-ID: <CAHmME9qvWjdSVCLWyTrXDS34zbJ=NZ6QBsFb-DpNO3deJ6xEYQ@mail.gmail.com>
-Subject: Re: [PULL 0/3] Misc patches for QEMU 7.1 freeze
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] i386: Disable BTS and PEBS
+Content-Language: en-US
+To: Sean Christopherson <seanjc@google.com>
+Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org,
+ mtosatti@redhat.com, likexu@tencent.com, xiangfeix.ma@intel.com
+References: <20220718032206.34488-1-zhenzhong.duan@intel.com>
+ <a7bccbc5-fcb7-eaa8-ce95-fa7f380b8af9@redhat.com>
+ <YtW+ymE654W662X4@google.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <YtW+ymE654W662X4@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,21 +98,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+On 7/18/22 22:12, Sean Christopherson wrote:
+> On Mon, Jul 18, 2022, Paolo Bonzini wrote:
+>> This needs to be fixed in the kernel because old QEMU/new KVM is supported.
+> 
+> I can't object to adding a quirk for this since KVM is breaking userspace, but on
+> the KVM side we really need to stop "sanitizing" userspace inputs unless it puts
+> the host at risk, because inevitably it leads to needing a quirk.
 
-On Tue, Jul 19, 2022 at 8:15 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> On 7/19/22 14:35, Jason A. Donenfeld wrote:
-> >>   6 files changed, 19 insertions(+), 6 deletions(-)
-> > Considering the subject line, I'm quite distressed that the i386
-> > setup_data rng seed patch did not make it in. I just resent it to the
-> > mailing list [1] in case you missed it before. Do you think you could
-> > queue this up ASAP?
->
-> Sure, no problem.  Unfortunately I was on vacation around the time you
-> sent it first.
+The problem is not the sanitizing, it's that userspace literally cannot 
+know that this needs to be done because the feature bits are "backwards" 
+(1 = unavailable).
 
-Excellent, thanks so much!
+The right way to fix it is probably to use feature MSRs and, by default, 
+leave the features marked as unavailable.  I'll think it through and 
+post a patch tomorrow for both KVM and QEMU (to enable PEBS).
 
-Jason
+>> But apart from that, where does Linux check MSR_IA32_MISC_ENABLE_BTS_UNAVAIL
+>> and MSR_IA32_MISC_ENABLE_PEBS_UNAVAIL?
+> 
+> The kernel uses synthetic feature flags that are set by:
+> 
+>    static void init_intel(struct cpuinfo_x86 *c)
+> 
+> 	if (boot_cpu_has(X86_FEATURE_DS)) {
+> 		unsigned int l1, l2;
+> 
+> 		rdmsr(MSR_IA32_MISC_ENABLE, l1, l2);
+> 		if (!(l1 & (1<<11)))
+> 			set_cpu_cap(c, X86_FEATURE_BTS);
+> 		if (!(l1 & (1<<12)))
+> 			set_cpu_cap(c, X86_FEATURE_PEBS);
+> 	}
+
+Gah, shift constants are evil.   I sent 
+https://lore.kernel.org/all/20220719174714.2410374-1-pbonzini@redhat.com/ to 
+clean this up.
+
+Paolo
+
+> and consumed by:
+> 
+>    void __init intel_ds_init(void)
+> 
+> 	/*
+> 	 * No support for 32bit formats
+> 	 */
+> 	if (!boot_cpu_has(X86_FEATURE_DTES64))
+> 		return;
+> 
+> 	x86_pmu.bts  = boot_cpu_has(X86_FEATURE_BTS);
+> 	x86_pmu.pebs = boot_cpu_has(X86_FEATURE_PEBS);
+> 	x86_pmu.pebs_buffer_size = PEBS_BUFFER_SIZE;
+> 
+
 
