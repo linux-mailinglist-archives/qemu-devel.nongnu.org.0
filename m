@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D149D5798D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 13:54:41 +0200 (CEST)
-Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAC365798D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 13:55:43 +0200 (CEST)
+Received: from localhost ([::1]:35376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDloG-0002LY-EG
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 07:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47378)
+	id 1oDlpG-0003iA-MW
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 07:55:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDlmy-0000gd-LE
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:53:20 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:55934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDlmv-0007CG-1G
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:53:20 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 8B75D61632;
- Tue, 19 Jul 2022 11:53:13 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59742C341C6;
- Tue, 19 Jul 2022 11:53:12 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="YKXb9BW/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658231590;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=h2GwklyOc9qjpGkitr89pHTy6aoWg2VQ2JJFWxG5JNo=;
- b=YKXb9BW/VcGY3nMlcB8/WurmAy7kQo4MLqQ2J2PNz8zCDDKAmnHHK2XvCs+gEv1a5X9eYS
- 03TPJFCxArIr9Bn1Lg1HFlOUdsOcJd+xQxNrpJONJJgCtfKC8SazoZp1m2K3PsWSnPMgf1
- jTq7F0NDIIqsjfF6FT9RQSxFhaJci1s=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9cacd7bd
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 19 Jul 2022 11:53:10 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH resend v3] hw/i386: pass RNG seed via setup_data entry
-Date: Tue, 19 Jul 2022 13:53:00 +0200
-Message-Id: <20220719115300.104095-1-Jason@zx2c4.com>
-In-Reply-To: <20220711145432.56704-1-Jason@zx2c4.com>
-References: <20220711145432.56704-1-Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDlnv-0001mG-Pe
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:54:19 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:43000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDlns-0007FE-TS
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:54:19 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-2ef5380669cso137720447b3.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 04:54:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Qocfg9qJ04T7xFhqdbAcWdB/gCyqjRDLs9dTn4C8jss=;
+ b=FJwkuGwYckvefgbTNaZOg1tEBOVZT5etircGshLKhbYNeNk/Yq7VrkhnDYOKFJeS3Y
+ /zJRN8kbsNa88y/Lcw65gC9u/sdb8DxdQlSjkegZhP7pNJSThTbrEXJ23xwJqM+uRVQE
+ 1BN3CESlboiQR/WuGK4TRXK8TJV5ulhyd7jtSwf+27Pngsv4uFxlcbUTex5v0L/798wF
+ th88HhNieqGByuqFsrAIghRDmfocJVaela8ttqpXnCE8r2DY0Gzn/trCjP6Z84ss1dFL
+ 5pi4CIBRDQqLSyJCThUBxk/m/1knHnrscyTJMafgUPqP0rzzjCdX29VKewwGanxw0axW
+ FJuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Qocfg9qJ04T7xFhqdbAcWdB/gCyqjRDLs9dTn4C8jss=;
+ b=YZM1AUguO8+4CVW64iBJtzoh7N7vkZP3mVsKKDiCgKzFYxQGQub0nZGQlz5I1U/amF
+ V1BperVaavhg9Yuy89vEckobAWtuokzQYymiSGVIUTU6itmmAc/7He6q+OiDMkqgGutJ
+ 0MGz/TkxokrBnz9tR29gTpEbd7/80/Pqxz470izlBfRWhqJgES+DVKC5YlKTuhwnCMs7
+ Juw9TmJBFTNhrrWMhnOWsLktOe5pZfTXawHEAszGkPjCCjdwacDoxqpgoDtory1PQ1m3
+ 7PEnB+qHxep9cN5EYPcivFYh2hnvQXfYpqiJ+6sPIaTeptHcUTSF/7tFrHUUOzggsqM/
+ gn9g==
+X-Gm-Message-State: AJIora+nWVY/CO+aIJSfyBopSMxs7YAHy0+KJNR5haSMW3gzKF4BPY8Y
+ S10D2V2KYuWM51IiXvYGznQJgAoz4at69A5MjxC3Jg==
+X-Google-Smtp-Source: AGRyM1vpnRMIv06THDw7HiV1gxUjvS1RiSsn4X7bvg9/YKpozCDnid7TCalwMoQBMfQvwVZnsY2cwo+fsvAdYDMRukA=
+X-Received: by 2002:a81:4c8a:0:b0:31d:d6d8:cd72 with SMTP id
+ z132-20020a814c8a000000b0031dd6d8cd72mr27035706ywa.10.1658231654391; Tue, 19
+ Jul 2022 04:54:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20220718183339.124253-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jul 2022 12:54:03 +0100
+Message-ID: <CAFEAcA8cx7m1NAsuVCE9+mY-fSwjSeGMaGwfcYY2_RQk0ZmUbg@mail.gmail.com>
+Subject: Re: [PULL 00/40] qemu-sparc queue 20220718
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,90 +82,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Tiny machines optimized for fast boot time generally don't use EFI,
-which means a random seed has to be supplied some other way. For this
-purpose, Linux (≥5.20) supports passing a seed in the setup_data table
-with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
-specialized bootloaders. The linked commit shows the upstream kernel
-implementation.
+On Mon, 18 Jul 2022 at 19:33, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> The following changes since commit 782378973121addeb11b13fd12a6ac2e69faa33f:
+>
+>   Merge tag 'pull-target-arm-20220718' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-18 16:29:32 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/mcayland/qemu.git tags/qemu-sparc-20220718
+>
+> for you to fetch changes up to b704d63d094cc757c20c186ff40d692deb5e30de:
+>
+>   pckbd: remove legacy i8042_mm_init() function (2022-07-18 19:28:46 +0100)
+>
+> ----------------------------------------------------------------
+> qemu-sparc queue
+> - This is the second half of the PS2 QOMification patchset
+>
 
-Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
-Cc: Michael S. Tsirkin <mst@redhat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
-I'm resending this because apparently I didn't CC the right group of
-recipients before.
 
- hw/i386/x86.c                                | 19 ++++++++++++++-----
- include/standard-headers/asm-x86/bootparam.h |  1 +
- 2 files changed, 15 insertions(+), 5 deletions(-)
+Applied, thanks.
 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..0724759eec 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -26,6 +26,7 @@
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qapi-visit-common.h"
-@@ -1045,6 +1046,16 @@ void x86_load_linux(X86MachineState *x86ms,
-     }
-     fclose(f);
- 
-+    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-+    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
-+    kernel = g_realloc(kernel, kernel_size);
-+    stq_p(header + 0x250, prot_addr + setup_data_offset);
-+    setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+    setup_data->next = 0;
-+    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-+    setup_data->len = cpu_to_le32(32);
-+    qemu_guest_getrandom_nofail(setup_data->data, 32);
-+
-     /* append dtb to kernel */
-     if (dtb_filename) {
-         if (protocol < 0x209) {
-@@ -1059,13 +1070,11 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
-+        kernel_size += sizeof(struct setup_data) + dtb_size;
-         kernel = g_realloc(kernel, kernel_size);
- 
--        stq_p(header + 0x250, prot_addr + setup_data_offset);
--
--        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data->next = prot_addr + setup_data_offset + sizeof(*setup_data) + setup_data->len;
-+        ++setup_data;
-         setup_data->next = 0;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
-diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
-index 072e2ed546..b2aaad10e5 100644
---- a/include/standard-headers/asm-x86/bootparam.h
-+++ b/include/standard-headers/asm-x86/bootparam.h
-@@ -10,6 +10,7 @@
- #define SETUP_EFI			4
- #define SETUP_APPLE_PROPERTIES		5
- #define SETUP_JAILHOUSE			6
-+#define SETUP_RNG_SEED			9
- 
- #define SETUP_INDIRECT			(1<<31)
- 
--- 
-2.35.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
+for any user-visible changes.
 
+-- PMM
 
