@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6352B579523
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:19:48 +0200 (CEST)
-Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA2657954A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:34:30 +0200 (CEST)
+Received: from localhost ([::1]:43712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDiSJ-0008SD-IJ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54728)
+	id 1oDigW-0004lA-Lg
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiJh-0005Ly-8u
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:10:53 -0400
-Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:45649)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiJe-0004i1-Do
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:10:52 -0400
-Received: by mail-qt1-x82d.google.com with SMTP id b21so7358999qte.12
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 01:10:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=HXb9URKfwyAkOJBkLWLEGhxAtwPztS58k5o+N+9wn10=;
- b=qtKQ4zcorTvuNq5BPPxEyw5HgWoatfY/3JJWmZ2ITY4ExwG5qsJxhkF8lRgyKOhK3M
- lkyUlqA87wVLi8IzfIb77Xw7vBRxYahERgSBJBqAHwhRcI7SAvrVFeAiRYsqr1Z3nH5q
- jsKipzowE+DQFg58auatkUHfryoQWOLjKsi7lHJqv4a4HXCXyxI78bCZBSshp2229/a6
- zIKDYdXxDwqOScM9pinvjU4ncIeehBATYnWwIj45HzbcDrAYC9SwFZlHWI8fYA9bMMnn
- /XQNQJ4LF999XmyNjolz2CwA2HYEgDB8YcIDsupTKJQFo4KIEE8aXXsjPJRGp8Gy9sYo
- iNkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=HXb9URKfwyAkOJBkLWLEGhxAtwPztS58k5o+N+9wn10=;
- b=K229gIOIAYuwkpNqdpkudE9yeJ8zc0Y0jouhhXECWHT6MeToMk10aDUkkGSX7lt6LN
- eYIFyod8FDxpWfCIposPf4MldeMStp3ZbHN9kYjQ+ZlaZ/RTkHBozj5gMHrO7RqnxY2Y
- iFlRnu7CO0Ku7n585kg+jNI6WngDETEozCMyV628AYVGOang0S+P5jXyRMgTjVlgIWBN
- GkiNzFr9QVWqDvrFhaptX+AwrPn+oFdvTj0FxXevsYvnkUM9HZC3E7uzmfNofwpbJ/i9
- 1NdjRLNJhH4RtcgENXIvGUA6ubb64KpuLdBgAPbe5zGbu4iNLItwwo2Sbx6Q8hHK4wax
- twxA==
-X-Gm-Message-State: AJIora9Q9sfiDvE+ktBC3M585Xt2XPKKs3S320kzZ9bJrfVssUYdEWyz
- zLsnD1gjcFySb6Cbw9HPWRHBJw==
-X-Google-Smtp-Source: AGRyM1tRGm8upHwKU0wKCvjZ9qsqHFN0/88o5jsFkgNNTAOlbss1f8vJPFJvJ6b6jl8lKqZVmLWXiA==
-X-Received: by 2002:ac8:5787:0:b0:31e:df6b:653 with SMTP id
- v7-20020ac85787000000b0031edf6b0653mr13162577qta.249.1658218248212; 
- Tue, 19 Jul 2022 01:10:48 -0700 (PDT)
-Received: from [192.168.113.227] ([172.58.139.163])
- by smtp.gmail.com with ESMTPSA id
- c26-20020a05620a269a00b006b5ba7b9a6fsm12939353qkp.35.2022.07.19.01.10.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 01:10:47 -0700 (PDT)
-Message-ID: <2af20d3e-6f6d-7da9-5b03-76308c2180a3@linaro.org>
-Date: Tue, 19 Jul 2022 13:40:31 +0530
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oDieZ-0003Hd-Rz
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:32:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46106)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oDieU-00083m-Jn
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:32:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658219541;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=u9lKDxTwon2+XaDnrXgdCuz9Gu1jdGtTlWsMOe/9h9Q=;
+ b=T2r7DWBIr3W/e4iYEsT+39uuehazBIXUWmmjA5iEFvKCf3/YArk+aeU72d/u2aoHcSOp4w
+ T9+tAC6dAYkCgGuOmxt9aY7Npe7QhZD4ZlvBe66dFS6PUfarnxUdI61JFbM/c1LII6qd6e
+ RkQ9Pva0gDRQmqQwvwHM2eOVPloQ2Z8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-592-Q8qra2O6OaiWrY6ztgbYDw-1; Tue, 19 Jul 2022 04:32:08 -0400
+X-MC-Unique: Q8qra2O6OaiWrY6ztgbYDw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3277D85A584
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 08:32:08 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 91937492CA4;
+ Tue, 19 Jul 2022 08:32:06 +0000 (UTC)
+Date: Tue, 19 Jul 2022 09:32:04 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+Message-ID: <YtZsBFT2t1bt0hjR@redhat.com>
+References: <20220707184600.24164-1-peterx@redhat.com>
+ <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
+ <YtWxHSjpORK31aLs@xz-m1.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v1 0/6] Support booting bios and kernel for LoongArch
-Content-Language: en-US
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YtWxHSjpORK31aLs@xz-m1.local>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,35 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/12/22 14:02, Xiaojuan Yang wrote:
-> This series add some new funcitons for LoongArch virt machine.
-> Support loading uefi bios and linux kernel to boot system, and
-> add fw_cfg table, smbios table, acpi table, fdt table to transmit
-> information for the system.
+On Mon, Jul 18, 2022 at 03:14:37PM -0400, Peter Xu wrote:
+> Hi, Thomas,
 > 
-> We could get the uefi bios and linux kernel file by this address:
-> The kernel file:
->     * https://github.com/loongson/linux/tree/loongarch-next
-> The bios file:
->     * https://github.com/loongson/edk2
->     * https://github.com/loongson/edk2-platforms
+> On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
+> > On 07/07/2022 20.46, Peter Xu wrote:
+> > > We used to stop running all tests if uffd is not detected.  However
+> > > logically that's only needed for postcopy not the rest of tests.
+> > > 
+> > > Keep running the rest when still possible.
+> > > 
+> > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > ---
+> > >   tests/qtest/migration-test.c | 11 +++++------
+> > >   1 file changed, 5 insertions(+), 6 deletions(-)
+> > 
+> > Did you test your patch in the gitlab-CI? I just added it to my testing-next
+> > branch and the the test is failing reproducibly on macOS here:
+> > 
+> >  https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
+> >  https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
+> > 
+> > (without your patch the whole test is skipped instead)
 > 
-> Xiaojuan Yang (6):
->    hw/loongarch: Add fw_cfg table support
->    hw/loongarch: Add uefi bios loading support
->    hw/loongarch: Add linux kernel booting support
->    hw/loongarch: Add smbios support
->    hw/loongarch: Add acpi ged support
->    hw/loongarch: Add fdt support
+> Thanks for reporting this.
+> 
+> Is it easy to figure out which test was failing on your side?  I cannot
+> easily reproduce this here on a MacOS with M1.
+> 
+> Or any hint on how I could kick the same CI as you do would help too.  I
+> remembered I used to kick the test after any push with .gitlab-ci.yml but
+> it seems it's not triggering for some reason here.
 
-Queued.
+It is now opt-in with gitlab,  'git push -o ci.variable=QEMU_CI=1' to
+create the pipeline, then in the UI manually start the jobs you wish
+to run. Or QEMU_CI=2 to auto-run everything.
 
-If there are bugs in the smbios or acpi patches, they can be fixed before hard freeze, but 
-we do want the feature committed before soft freeze.
+Note for MacOS you'll need to configure Cirrus CI integration first
+though, per .gitlab-ci.d/cirrus/README
 
 
-r~
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
