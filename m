@@ -2,75 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DF757A303
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 17:29:01 +0200 (CEST)
-Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A70A57A32F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 17:32:56 +0200 (CEST)
+Received: from localhost ([::1]:48996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDp9g-0001E6-BU
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 11:29:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1oDpDS-0005Lq-8L
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 11:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oDp3V-00082m-Ri
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 11:22:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59931)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDp6m-0004yN-PU
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 11:26:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oDp3U-0001ja-Au
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 11:22:37 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDp6g-0002Dy-W9
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 11:26:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658244155;
+ s=mimecast20190719; t=1658244354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W+9Qd3nGSR57IbMLQ7TrVHVX9wcUmAoe43XRQUY5t5w=;
- b=F6ZllXyUuHHd2eGu2c6T0hXqVYfNw1RfR9007bn4eMCyyRMaLiuEUaLyOxWHvCJMXa6YPG
- AEykARrVC67N0YkSz2kL5tU8DLDuat79nFP1k57drnahIOzEnlOOS/LQi5H+XrYz8dwJyr
- bpFrNaF2/wGZvYPWWDNrzl/WI+h3TQI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=SugCmJuji19mp/27fH1rK2DV7FqijizgB4806B/ikvI=;
+ b=MSVvyCIkSu5GvgixalXr+hFw2PCrnwGUIn/s+N2AWm1dvYyFpW51xmNVwKXAnzdAYinFFt
+ nW3u7ff32jqHbfCsJ37LWQgX/qsOupW93W26ia5SwMIM+J0NDNxmTHgJXbC62tIEpTtbeg
+ SiN0nbwpLEvzy7BG9AbIEqIFlZQiOIY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-619-hlMrmvs2NaiTBcgk2Qv7Aw-1; Tue, 19 Jul 2022 11:22:31 -0400
-X-MC-Unique: hlMrmvs2NaiTBcgk2Qv7Aw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7BA2E180F6E2;
- Tue, 19 Jul 2022 15:22:26 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22DA9492C3B;
- Tue, 19 Jul 2022 15:22:26 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0E2D51800629; Tue, 19 Jul 2022 17:22:19 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Felix=20xq=20Quei=C3=9Fner?= <xq@random-projects.net>,
- Thomas Huth <thuth@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-Subject: [PULL 6/6] gtk: Add show_tabs=on|off command line option.
-Date: Tue, 19 Jul 2022 17:22:18 +0200
-Message-Id: <20220719152218.825707-7-kraxel@redhat.com>
-In-Reply-To: <20220719152218.825707-1-kraxel@redhat.com>
-References: <20220719152218.825707-1-kraxel@redhat.com>
+ us-mta-36-2sGJ_Bu6NeC8wZNUmpOcgQ-1; Tue, 19 Jul 2022 11:25:48 -0400
+X-MC-Unique: 2sGJ_Bu6NeC8wZNUmpOcgQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ w22-20020a05620a425600b006b5f48556cbso3600701qko.17
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 08:25:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=SugCmJuji19mp/27fH1rK2DV7FqijizgB4806B/ikvI=;
+ b=4ZYaLWv90non1lMLh3OZUndq8JjK+fQgNkCBsxWL2U9H8b4W1wos3qvJhjWqwTo3rN
+ LA2KxA5DXER6iCfC9p1cWvzI8QLE/AlNK3yI0WA25FhCZwmv1+UAFtbdpfV7pBCIuBMs
+ 61OgvM9NRu7N4FzqlzSpnqFya2a26CIog4QnqZK4oM6hSISgXLmMaNuCQfdrpOvH9h+b
+ 7u516uP9UjBCS3yVQyjQ4190564+k6n4SjFm7CmtWcV+4Utx9HLvs9HckJE+oRTSGAqb
+ nZ4ure7kQLR9ROiAlxoiVq/zIliw5+HCBMGg4R+NRTNxbvklsnr1+A5euXbPVXPHbtM6
+ OR9w==
+X-Gm-Message-State: AJIora8PrIfHJSlqUfmEYR5a0ngGsrxWl1Sd7Pet1nbNTW0cYgzKmikb
+ yToxh5L7/N8pNDwa/dTBrdzP/JCBb+4MerqQwQ7rP+erMkoAZ3uvlt7z0uayzy+AmqG/GxETiQE
+ Im7wdMw43ahBrPR8=
+X-Received: by 2002:a05:620a:4610:b0:6b5:eab2:8342 with SMTP id
+ br16-20020a05620a461000b006b5eab28342mr6605759qkb.261.1658244346874; 
+ Tue, 19 Jul 2022 08:25:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tqLzF282V1pPoEGchqQrBJNfbC4+TR4lSWU3FmdoHqFfqYCdm2CCUs0j608bQ4z3Mu09XC2g==
+X-Received: by 2002:a05:620a:4610:b0:6b5:eab2:8342 with SMTP id
+ br16-20020a05620a461000b006b5eab28342mr6605739qkb.261.1658244346557; 
+ Tue, 19 Jul 2022 08:25:46 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
+ by smtp.gmail.com with ESMTPSA id
+ v21-20020ac873d5000000b0031ee1f0c420sm7385879qtp.10.2022.07.19.08.25.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 08:25:46 -0700 (PDT)
+Date: Tue, 19 Jul 2022 11:25:44 -0400
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Manish Mishra <manish.mishra@nutanix.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v9 02/14] migration: Postcopy preemption preparation on
+ channel creation
+Message-ID: <YtbM+KJRvVebNh/e@xz-m1.local>
+References: <20220707185342.26794-1-peterx@redhat.com>
+ <20220707185502.27149-1-peterx@redhat.com>
+ <YtbKpc1bZu71Cpoa@work-vm>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <YtbKpc1bZu71Cpoa@work-vm>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,86 +105,137 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Felix xq Queißner <xq@random-projects.net>
+On Tue, Jul 19, 2022 at 04:15:49PM +0100, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > Create a new socket for postcopy to be prepared to send postcopy requested
+> > pages via this specific channel, so as to not get blocked by precopy pages.
+> > 
+> > A new thread is also created on dest qemu to receive data from this new channel
+> > based on the ram_load_postcopy() routine.
+> > 
+> > The ram_load_postcopy(POSTCOPY) branch and the thread has not started to
+> > function, and that'll be done in follow up patches.
+> > 
+> > Cleanup the new sockets on both src/dst QEMUs, meanwhile look after the new
+> > thread too to make sure it'll be recycled properly.
+> 
+> I'm hitting a CI failure here:
+> https://gitlab.com/dagrh/qemu/-/jobs/2741659845
+> 
+> c.o -c ../migration/migration.c
+> ../migration/migration.c: In function ‘migration_ioc_process_incoming’:
+> ../migration/migration.c:766:8: error: ‘start_migration’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>   766 |     if (start_migration) {
+>       |        ^
+> 
+> > Reviewed-by: Daniel P. Berrang?? <berrange@redhat.com>
+> > Reviewed-by: Juan Quintela <quintela@redhat.com>
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > ---
+> >  migration/migration.c    | 62 +++++++++++++++++++++++----
+> >  migration/migration.h    |  8 ++++
+> >  migration/postcopy-ram.c | 92 ++++++++++++++++++++++++++++++++++++++--
+> >  migration/postcopy-ram.h | 10 +++++
+> >  migration/ram.c          | 25 ++++++++---
+> >  migration/ram.h          |  4 +-
+> >  migration/savevm.c       | 20 ++++-----
+> >  migration/socket.c       | 22 +++++++++-
+> >  migration/socket.h       |  1 +
+> >  migration/trace-events   |  5 ++-
+> >  10 files changed, 218 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index ce7bb68cdc..9484fec0b2 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -321,6 +321,12 @@ void migration_incoming_state_destroy(void)
+> >          mis->page_requested = NULL;
+> >      }
+> >  
+> > +    if (mis->postcopy_qemufile_dst) {
+> > +        migration_ioc_unregister_yank_from_file(mis->postcopy_qemufile_dst);
+> > +        qemu_fclose(mis->postcopy_qemufile_dst);
+> > +        mis->postcopy_qemufile_dst = NULL;
+> > +    }
+> > +
+> >      yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+> >  }
+> >  
+> > @@ -714,15 +720,21 @@ void migration_fd_process_incoming(QEMUFile *f, Error **errp)
+> >      migration_incoming_process();
+> >  }
+> >  
+> > +static bool migration_needs_multiple_sockets(void)
+> > +{
+> > +    return migrate_use_multifd() || migrate_postcopy_preempt();
+> > +}
+> > +
+> >  void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+> >  {
+> >      MigrationIncomingState *mis = migration_incoming_get_current();
+> >      Error *local_err = NULL;
+> >      bool start_migration;
+> > +    QEMUFile *f;
+> >  
+> >      if (!mis->from_src_file) {
+> >          /* The first connection (multifd may have multiple) */
+> > -        QEMUFile *f = qemu_file_new_input(ioc);
+> > +        f = qemu_file_new_input(ioc);
+> >  
+> >          if (!migration_incoming_setup(f, errp)) {
+> >              return;
+> > @@ -730,13 +742,18 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+> >  
+> >          /*
+> >           * Common migration only needs one channel, so we can start
+> > -         * right now.  Multifd needs more than one channel, we wait.
+> > +         * right now.  Some features need more than one channel, we wait.
+> >           */
+> > -        start_migration = !migrate_use_multifd();
+> > +        start_migration = !migration_needs_multiple_sockets();
+> >      } else {
+> >          /* Multiple connections */
+> > -        assert(migrate_use_multifd());
+> > -        start_migration = multifd_recv_new_channel(ioc, &local_err);
+> > +        assert(migration_needs_multiple_sockets());
+> > +        if (migrate_use_multifd()) {
+> > +            start_migration = multifd_recv_new_channel(ioc, &local_err);
+> > +        } else if (migrate_postcopy_preempt()) {
+> > +            f = qemu_file_new_input(ioc);
+> > +            start_migration = postcopy_preempt_new_channel(mis, f);
+> > +        }
+> 
+> So that doesn't always set start_migration?
 
-The patch adds "show_tabs" command line option for GTK ui similar to
-"grab_on_hover". This option allows tabbed view mode to not have to be
-enabled by hand at each start of the VM.
+Logically it should, because we asserted on
+migration_needs_multiple_sockets(), while multifd and preempt mode are the
+only two that may need multiple sockets.  So it must go into either of
+them.
 
-Signed-off-by: Felix "xq" Queißner <xq@random-projects.net>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220712133753.18937-1-xq@random-projects.net>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/gtk.c        | 4 ++++
- qapi/ui.json    | 7 ++++++-
- qemu-options.hx | 6 +++++-
- 3 files changed, 15 insertions(+), 2 deletions(-)
+A fix could be like this:
 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 2a791dd2aa04..1467b8c7d7f0 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2390,6 +2390,10 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-         opts->u.gtk.grab_on_hover) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-     }
-+    if (opts->u.gtk.has_show_tabs &&
-+        opts->u.gtk.show_tabs) {
-+        gtk_menu_item_activate(GTK_MENU_ITEM(s->show_tabs_item));
-+    }
-     gd_clipboard_init(s);
- }
- 
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 413371d5e8bf..cf58ab4283da 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -1195,12 +1195,17 @@
- #               assuming the guest will resize the display to match
- #               the window size then.  Otherwise it defaults to "off".
- #               Since 3.1
-+# @show-tabs:   Display the tab bar for switching between the various graphical
-+#               interfaces (e.g. VGA and virtual console character devices)
-+#               by default.
-+#               Since 7.1
- #
- # Since: 2.12
- ##
- { 'struct'  : 'DisplayGTK',
-   'data'    : { '*grab-on-hover' : 'bool',
--                '*zoom-to-fit'   : 'bool'  } }
-+                '*zoom-to-fit'   : 'bool',
-+                '*show-tabs'     : 'bool'  } }
- 
- ##
- # @DisplayEGLHeadless:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 377d22fbd82f..79e00916a11f 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1938,7 +1938,7 @@ DEF("display", HAS_ARG, QEMU_OPTION_display,
- #endif
- #if defined(CONFIG_GTK)
-     "-display gtk[,full-screen=on|off][,gl=on|off][,grab-on-hover=on|off]\n"
--    "            [,show-cursor=on|off][,window-close=on|off]\n"
-+    "            [,show-tabs=on|off][,show-cursor=on|off][,window-close=on|off]\n"
- #endif
- #if defined(CONFIG_VNC)
-     "-display vnc=<display>[,<optargs>]\n"
-@@ -2023,6 +2023,10 @@ SRST
- 
-         ``grab-on-hover=on|off`` : Grab keyboard input on mouse hover
- 
-+        ``show-tabs=on|off`` : Display the tab bar for switching between the
-+                               various graphical interfaces (e.g. VGA and
-+                               virtual console character devices) by default.
-+
-         ``show-cursor=on|off`` :  Force showing the mouse cursor
- 
-         ``window-close=on|off`` : Allow to quit qemu with window close button
+diff --git a/migration/migration.c b/migration/migration.c
+index 76cf2a72c0..7c7e529ca7 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -753,7 +753,8 @@ void migration_ioc_process_incoming(QIOChannel *ioc, Error **errp)
+         assert(migration_needs_multiple_sockets());
+         if (migrate_use_multifd()) {
+             start_migration = multifd_recv_new_channel(ioc, &local_err);
+-        } else if (migrate_postcopy_preempt()) {
++        } else {
++            assert(migrate_postcopy_preempt());
+             f = qemu_file_new_input(ioc);
+             start_migration = postcopy_preempt_new_channel(mis, f);
+         }
+
+Or we simply set start_migration=false as initial value.
+
+Should I repost the series?
+
+Thanks,
+
 -- 
-2.36.1
+Peter Xu
 
 
