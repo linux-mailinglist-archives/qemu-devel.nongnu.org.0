@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733FC579393
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 08:55:44 +0200 (CEST)
-Received: from localhost ([::1]:35856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2DE55793A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 08:59:01 +0200 (CEST)
+Received: from localhost ([::1]:41084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDh8x-0001gY-Jc
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 02:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39892)
+	id 1oDhC9-0005Ko-3W
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 02:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDh5q-0007HU-KA
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 02:52:31 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:46865)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDh9c-00027V-AC; Tue, 19 Jul 2022 02:56:24 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:39911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDh5p-0001Oc-7Y
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 02:52:30 -0400
-Received: by mail-io1-xd30.google.com with SMTP id l24so11063315ion.13
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 23:52:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=ccqozl87fjEFpzOndbPtDxkxFnqILwgTIArD9tECylU=;
- b=SpgrgTIeYMueljkxWzfnhzM1+xgNSUSWWqkbcV7Qd4zCXISmElC3raSQctNLZBWa9P
- K6vQBwKWXDd6F6Jp98JPqtGDINW44/Y1srUKa7GSFdT5fbVTGU2avvV0e/qBeu0AwNSq
- KfCZGgek+1FmVRALnj/dsjNachy5nCEOWzi4icy1LTlDJNoGxxqDFmkH7dXhrRSQboBn
- Yn0lMiDeR1kjlBcp0lGEIHDG9Y3mV3WKiFkaHYp4ILMVGnroiMg3gUOh3XYNdtEtUQ8U
- gq7ehZ32YF8oGrsg1mxLaeJyyq7Tidy6rxygnhOvg22tBLI9pkEqH8gK//KjwfvqNzOU
- 5nCw==
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDh9a-00024z-Uh; Tue, 19 Jul 2022 02:56:24 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id q16so9576241pgq.6;
+ Mon, 18 Jul 2022 23:56:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sv4V2ANSQfL6UAYKA+BFNW3ijGtHssIlstd4F8ksYZ8=;
+ b=VboQ7W8ZRlNLX6w4lupCnHnL10Fgr3giNE1l9aLmqg95uN2ZIBOKDe0b4xBcfmo824
+ mNEk1NmEjKpinMGb+WG1NSUL76FMdmq500vvtE9HB5c/XKIN/+e3xi7uka1DYo6cLQCe
+ PfjCR0yYoYnanN7ADF2kxjbWplt04MULB74hG8ooxa535WubVnsxJxJxcKAzimfKRQ27
+ nAlaDs/f3XkdX4rhGv535UqprBLeYx1iKf275c5xTfXRh7uwpbzDERWVsD2da00wUoxX
+ O8WFswT7w1Mskto9hqFPJDoo1Q4B62A+6+49GoJeoX20MDzSHg2i6/RZcEvoVKNPrxU0
+ fcHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=ccqozl87fjEFpzOndbPtDxkxFnqILwgTIArD9tECylU=;
- b=JDRju3Ml+Fuok1wA5wpkz1j1n2fTerXGZqZx7diWa9UmiUvp/FUtyS2v++UQnAA8q0
- nfOLR2F9GTxoTget/AFr3lgRP8X0ez1lY7EM9jM9G4n8Gi2Si2R77ao4hJdAsVJeZfm9
- X3wITsOAaB2DP49XqRM9SkT/CL254RHQOyXuwZOnL4LPuR08GqQ5sdT0a3iP3S54i/0h
- PLOLvTCxOaGn3EbMTHldoKZJKnXiilBlmFNkdHoWknFG72lE6HGp7/WCizq+3WP2kEFk
- BV/Ps/BmiCHeyBDIsQMbylq3wWqeBOhVJ0R5cI/saGdjLNSLUb1rymesTBQm7jufFC5v
- /tmA==
-X-Gm-Message-State: AJIora+BTgBB43nvgeEAEuSTQ/v17FUIm2ZMo9UBFwXA1o9ntNM0oEPB
- Jf+pcIhtvzAOJZpEdfNSLolE0A==
-X-Google-Smtp-Source: AGRyM1tUkx0LuXew+OX2fZtPSWptlDoWRTQPazJcXO93ekgIjsjWr9vlwDJ8pC2bBa2jMA/t5SdR+Q==
-X-Received: by 2002:a02:9044:0:b0:33f:3845:3ea0 with SMTP id
- y4-20020a029044000000b0033f38453ea0mr16326723jaf.176.1658213547859; 
- Mon, 18 Jul 2022 23:52:27 -0700 (PDT)
-Received: from [192.168.113.227] ([172.58.139.163])
- by smtp.gmail.com with ESMTPSA id
- h16-20020a05660208d000b0067be568081fsm5643078ioz.43.2022.07.18.23.52.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jul 2022 23:52:27 -0700 (PDT)
-Message-ID: <04aa029a-0415-e902-cd3d-399b358e0aa5@linaro.org>
-Date: Tue, 19 Jul 2022 12:22:14 +0530
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sv4V2ANSQfL6UAYKA+BFNW3ijGtHssIlstd4F8ksYZ8=;
+ b=IaBeGHYK01GRkuYvxMSlAlbxTeoTwVshICFe77HJRwmNJa3Xigcl8YJuVKF7cl14kn
+ LJJpOfMKSpOsU235uYQObD3XnpozVtewazxR5JgVf+J76gRJugU/4fdWdTgbfblpEE9y
+ TSqEWhmR+GRnOavniDafPWg3BCW3q1uUIkfueSVNCFABmw6nEYSGVJnjZ8pGW6QXwrHQ
+ k1UOdHosxdU0NqigseIbqA1TmGRhGTbmHzMTgx4VZFaszH4zz2ikrbSDCHpRI2QP0YM6
+ 9Zu5XYkfqNJY002xYCtr4NmsqDAsS1xqJb/r7OZBK0+ydfMS0WpYWU8rAY1hhr2cbxJi
+ D30w==
+X-Gm-Message-State: AJIora8WVmwZCfjTdMFUaNAdszJ5c7gMjlUabT8AJG0NTPg20m//0f/f
+ A7FGFgtkK1XsCG9aE2p/t2Zq1UovbmLZ7+pyfhQ=
+X-Google-Smtp-Source: AGRyM1uctDImGBnmFjqRrcdgGR67z5RW/h7mCi/T+1sjNptg3W59TW29kCCkDpLaREY1j0/zQT9RXLyrmiGWuL8YQtU=
+X-Received: by 2002:a05:6a00:885:b0:510:950f:f787 with SMTP id
+ q5-20020a056a00088500b00510950ff787mr31437833pfj.83.1658213780902; Mon, 18
+ Jul 2022 23:56:20 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH v3 1/5] target/loongarch/cpu: Fix cpu_class_by_name
- function
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
-Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
- peter.maydell@linaro.org
-References: <20220715060740.1500628-1-yangxiaojuan@loongson.cn>
- <20220715060740.1500628-2-yangxiaojuan@loongson.cn>
- <a36bbd80-f830-51bd-5aac-b430572259d3@linaro.org>
-In-Reply-To: <a36bbd80-f830-51bd-5aac-b430572259d3@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+References: <20220717101543.478533-1-space.monkey.delivers@gmail.com>
+ <20220717101543.478533-2-space.monkey.delivers@gmail.com>
+In-Reply-To: <20220717101543.478533-2-space.monkey.delivers@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jul 2022 16:55:54 +1000
+Message-ID: <CAKmqyKPDK9XrTxA1yRCLDEC8yOVEsxr4aJxqZKCppad5YrVG_g@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: Fix typo and restore Pointer Masking
+ functionality for RISC-V
+To: Alexey Baturo <baturo.alexey@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ space.monkey.delivers@gmail.com, 
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,33 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 12:16, Richard Henderson wrote:
-> On 7/15/22 11:37, Xiaojuan Yang wrote:
->> In loongarch_cpu_class_by_name(char *cpu_model) function,
->> the argument cpu_model already has the suffix '-loongarch-cpu',
->> so we should remove the LOONGARCH_CPU_TYPE_NAME(cpu_model) macro.
->> And add the assertion that 'cpu_model' resolves to a class of the
->> appropriate type.
->>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> This patch causes tests to fail, e.g.
-> 
->    TEST    float_convd on loongarch64
-> 
-> qemu-loongarch64: unable to find CPU model 'la464'
-> 
-> make[1]: *** [/home/rth/qemu/src/tests/tcg/multiarch/Makefile.target:29: run-float_convd] 
-> Error 1
-> 
-> 
-> What caused you assume that all cpu models are already suffixed?
+On Sun, Jul 17, 2022 at 8:17 PM Alexey Baturo <baturo.alexey@gmail.com> wrote:
+>
+> From: Alexey Baturo <baturo.alexey@gmail.com>
+>
+> Signed-off-by: Alexey Baturo <baturo.alexey@gmail.com>
 
-Mm.  I suppose the use over in hw/loongarch/loongson3.c.
-I will make this function match target/alpha/cpu.c, which checks cpu_model as-is, and then 
-tries again with the suffix.
+Fixes: 4302bef9e178 ("target/riscv: Calculate address according to XLEN")
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-r~
+Alistair
+
+> ---
+>  target/riscv/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 63b04e8a94..86c19ea74e 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -544,7 +544,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+>
+>      tcg_gen_addi_tl(addr, src1, imm);
+>      if (ctx->pm_mask_enabled) {
+> -        tcg_gen_and_tl(addr, addr, pm_mask);
+> +        tcg_gen_andc_tl(addr, addr, pm_mask);
+>      } else if (get_xl(ctx) == MXL_RV32) {
+>          tcg_gen_ext32u_tl(addr, addr);
+>      }
+> --
+> 2.30.2
+>
+>
 
