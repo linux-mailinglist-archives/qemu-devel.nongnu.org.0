@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63A657A61C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:09:38 +0200 (CEST)
-Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B11E57A611
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:06:55 +0200 (CEST)
+Received: from localhost ([::1]:39684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrf7-0006Pm-SX
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:09:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1oDrcS-0000f9-C2
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWL-0006BU-IE
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:33 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:36369)
+ id 1oDrWO-0006IW-BA
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:36 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:37657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWJ-0006B7-Ua
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:33 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-10d7170b2fcso4258156fac.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:31 -0700 (PDT)
+ id 1oDrWM-0006BV-M1
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:36 -0400
+Received: by mail-ot1-x334.google.com with SMTP id
+ l9-20020a056830268900b006054381dd35so12303071otu.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2zzB5VOxoMIq4rlx0ft919864A3qEcunZls1gpJJ+3w=;
- b=LlrG4I5J4vs27gH2iF/5t3mfJRafB3uRcKiumXfBHA3mj4qpVkYFtYzIRyDompge5z
- eiI7+7iXb4qTf8X4GlRf9yY6A7S8RBpvN4ZIU1jtBKuaYaynlxGpqfW/60PlNgmTO1wv
- 9h38yHvHIrt2PdR7dP9UVi55fhmi3OpPB6OGOO/tf1mQ+FtHBeiJ23+jZg/K+3B4e/38
- gnVD8LlBra0vgZ6gXNi3TUAWyPx6rCsjMtU2+OiW+VZZXeHyugzF0L2GG4KN+wwp2sUp
- kImw0UF+OII97opOfVvoVHabNWJdXDT8HwYHO1ESCDnwGBb5lXlF8P0/CkYYmhEo7aot
- aJjg==
+ bh=7kucxed5pd2yWAJLsvl/juNcXUDwpeqo29sK0pxQgQk=;
+ b=rQ4vdTcnXPQo8ZPORv47uUEPEeOGEnnFyR2mVSsvIj9WuOyP4PHiQFh/P9Kwq/NvAX
+ KjlJuAjLmmPaxDIWG1YJtm9TW+LydZfIELmJ1VhUc2UFlOWOZnWePX7T4GFEkUKAA7Pb
+ 4BmYn+uXcRnTySRn+V2LmR3ukXvSOnY6sGGeYtYVg0lzs21u0t2qobKYouBu6yXZSDdY
+ VRSW3viENXP/TSFdEF9nYxmVVetrD5zICwMc+NA+dX1mVskFaHAjDiDA6173ivMO5dC3
+ JfidYvj7YK6AuHDjZ7gFwyKe0Xmb2XqtMCjb47K/cGKhEREbbprRUWCSSt8Zee3n4zFd
+ z8wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2zzB5VOxoMIq4rlx0ft919864A3qEcunZls1gpJJ+3w=;
- b=Nl17WGQ+b3wH0wlwbI54r5RkYMyTNSnUmCThxmyo5El2zrA3FuKgwdp792StwyHue8
- fSuKO7ZbINsnGV5bhuGOzwI/rKX6905cu/Ywg+gFo9NA0k/mobIbucs1Cy0fQmyfybga
- vj+4D+Fhjh0U+Zlbt1HHwf5XckbHmIq7klGb6qeu95N1XiG1BFMIgmSd7hz0e0tNBhXF
- pwKHlrKdg6w2Zr/aZ3ahGhR4J3DENa6bTTGFoLVlUADBv+Pb0ZUs33vVzmMHFeauwgwR
- PO7GyPjD7zgBo6g4y8dDjwkVdhfqHVUw40OMe7rZ8TXRtaetbXo4r29Aq/tcw7zmVzzB
- RgEA==
-X-Gm-Message-State: AJIora+SOPXXWBNBaXh3g0hvvJ1vLgHfG9v4iwPXqpk9X2qXpgaFoANZ
- yD6bvhGOFJBQTUwni1p7MLmwkFIWVJRxHNQ1
-X-Google-Smtp-Source: AGRyM1u8SDIIhFB8l5vSIXGoSWScjErZdllSiJDstonmpd5bz6QfvC/TD8Xt593ftOqjDtstZSDd1Q==
-X-Received: by 2002:a05:6870:4344:b0:10b:8499:395d with SMTP id
- x4-20020a056870434400b0010b8499395dmr353713oah.214.1658253629324; 
- Tue, 19 Jul 2022 11:00:29 -0700 (PDT)
+ bh=7kucxed5pd2yWAJLsvl/juNcXUDwpeqo29sK0pxQgQk=;
+ b=U+VnPeMGegFKqwV8Diq74BG+ydMAcH2hcayeP2wBtesEgQUV8kjz+QF1E7+ilu6dy3
+ eZR7Hp7/r4uuvkHKrv0VyDmFvYUOFmdZ5s5t6twVKuJZN3eVZD8m+UU4VvpulS3cieQc
+ wPz6W1kroadE16yeTGEGU7LRZcr+smbtGmUmmFvzjGuqJN4F7vK6Gr+3ONmT0JkWKixs
+ ua5CJDM1Iry0bOXq/kfE80dUXNd46JKSG5adWh+1xqbE3BYWnsmEwGUiP+o3b16N3oI+
+ Tyha4KmyeZu3oAyq1TRA27olkoXDoqCdNKcrP5NjQLRq+QlnSHoECVUC0mu6gV7y6DOf
+ f8Ow==
+X-Gm-Message-State: AJIora+QNcy9y3FVmH/jH2ShI2yeUdvatzCENH73sWI4luwHfVW9zLLb
+ x5Z1X5BDawZYYIdlYBZ3YEgtM+2+sxXNcaxT
+X-Google-Smtp-Source: AGRyM1vXLm7dSA/6W8WRWIMrytah51/2CiAv5WqK56dnku8GF4qAfqE6O4SDAiDEfbH2n0LEB9aUGA==
+X-Received: by 2002:a9d:5e16:0:b0:61c:82ef:1d96 with SMTP id
+ d22-20020a9d5e16000000b0061c82ef1d96mr9310924oti.184.1658253633209; 
+ Tue, 19 Jul 2022 11:00:33 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.25
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:00:27 -0700 (PDT)
+ Tue, 19 Jul 2022 11:00:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 05/21] target/loongarch/tlb_helper: Fix coverity integer
- overflow error
-Date: Tue, 19 Jul 2022 23:29:44 +0530
-Message-Id: <20220719180000.378186-6-richard.henderson@linaro.org>
+Subject: [PULL 06/21] target/loongarch/op_helper: Fix coverity cond_at_most
+ error
+Date: Tue, 19 Jul 2022 23:29:45 +0530
+Message-Id: <20220719180000.378186-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,41 +91,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Replace '1 << shift' with 'MAKE_64BIT_MASK(shift, 1)' to fix
-unintentional integer overflow errors in tlb_helper file.
+The boundary size of cpucfg array should be 0 to ARRAY_SIZE(cpucfg)-1.
+So, using index bigger than max boundary to access cpucfg[] must be
+forbidden.
 
-Fix coverity CID: 1489759 1489762
+Fix coverity CID: 1489760
 
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220715060740.1500628-5-yangxiaojuan@loongson.cn>
+Message-Id: <20220715060740.1500628-6-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/tlb_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/loongarch/op_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/loongarch/tlb_helper.c b/target/loongarch/tlb_helper.c
-index bab19c7e05..610b6d123c 100644
---- a/target/loongarch/tlb_helper.c
-+++ b/target/loongarch/tlb_helper.c
-@@ -298,7 +298,7 @@ static void invalidate_tlb_entry(CPULoongArchState *env, int index)
-     } else {
-         tlb_ps = FIELD_EX64(env->CSR_STLBPS, CSR_STLBPS, PS);
-     }
--    pagesize = 1 << tlb_ps;
-+    pagesize = MAKE_64BIT_MASK(tlb_ps, 1);
-     mask = MAKE_64BIT_MASK(0, tlb_ps + 1);
+diff --git a/target/loongarch/op_helper.c b/target/loongarch/op_helper.c
+index 4b429b6699..568c071601 100644
+--- a/target/loongarch/op_helper.c
++++ b/target/loongarch/op_helper.c
+@@ -81,7 +81,7 @@ target_ulong helper_crc32c(target_ulong val, target_ulong m, uint64_t sz)
  
-     if (tlb_v0) {
-@@ -736,7 +736,7 @@ void helper_ldpte(CPULoongArchState *env, target_ulong base, target_ulong odd,
-                 (tmp0 & (~(1 << R_TLBENTRY_G_SHIFT)));
-         ps = ptbase + ptwidth - 1;
-         if (odd) {
--            tmp0 += (1 << ps);
-+            tmp0 += MAKE_64BIT_MASK(ps, 1);
-         }
-     } else {
-         /* 0:64bit, 1:128bit, 2:192bit, 3:256bit */
+ target_ulong helper_cpucfg(CPULoongArchState *env, target_ulong rj)
+ {
+-    return rj > 21 ? 0 : env->cpucfg[rj];
++    return rj >= ARRAY_SIZE(env->cpucfg) ? 0 : env->cpucfg[rj];
+ }
+ 
+ uint64_t helper_rdtime_d(CPULoongArchState *env)
 -- 
 2.34.1
 
