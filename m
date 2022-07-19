@@ -2,96 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B845797E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:50:48 +0200 (CEST)
-Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B57579843
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 13:17:24 +0200 (CEST)
+Received: from localhost ([::1]:60334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDkoR-0001kP-KF
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:50:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
+	id 1oDlEA-00044z-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 07:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkma-0008Ss-NQ
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:48:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36981)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oDlCX-0001ll-Qk
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:15:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkmZ-0005K5-1d
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:48:52 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1oDlCS-00015F-Tc
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:15:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658227730;
+ s=mimecast20190719; t=1658229335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qmtBSPMw2hchMhazHBLccN1bzqXwnSBuZ+3GQOYYXn0=;
- b=SmGRMsUNnfZA+hUpRkYWYA22sxYNter5c61oeTkh5NBSoyJfYhgVGyAK2+9Kw3OKQVCscS
- phjdSEjRD510Ugu8St7pWUFIozt134Kcld1UcG/D0fvUtOcuToSzKWpjnkysQ1HL48lOn1
- NfFO7Mmsl1JxsZlnuKWbD9e3VzDOVNA=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=G5JfQ75Qy6j2GMpz5ZoTKJuwjCRJS/M6Y0XIUe69hsQ=;
+ b=DHGOmUdl+saTxS8JuWIh5Jpm0TDFvMuLxKYoKHGOwpdsrZMVlL8lPzRpmXOyVsi+q/hADs
+ Zlxod/0C1l8iqeaeiii+BeET/Vlkpd2ldM6EalNtJbxurs+Ci8RJliym8S8Uzg4Nkb0+F5
+ Y0mPT6OWF8BaqptmGb23tPMn9SQ9cKQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-MZenq6RjNIWwgCGIgONFFQ-1; Tue, 19 Jul 2022 06:48:43 -0400
-X-MC-Unique: MZenq6RjNIWwgCGIgONFFQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v23-20020adfa1d7000000b0021d620f5ef3so2464558wrv.16
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 03:48:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qmtBSPMw2hchMhazHBLccN1bzqXwnSBuZ+3GQOYYXn0=;
- b=gb6H8n4tWXZD0sZDaNXSQ8WbYNwsanHqeBeae+JIkEz3e1qXM+fKkK+vJwRUxueFVT
- naLilB2nmgpKaLqkslUa0j3zwAReet7iY7Sh4sdO5ENfzafCzgxV5ES8eejOLcF8xzVm
- Zu0wkWFYYf81nr57PSUUAungzg0OuU5U0mEUOCP3cncQFAb9MralVLVq8c6YyTgZJKEw
- G3MZ5J17jcR2jmsQYl4toBWG8AfrufSbzEHH6Pkzv4MVzHIiBGUbz6BKny9amwhdGe+T
- BxBN5mQbrFY8tPnpdGTcBcKVrLSc7ay5GFapw7kqLR6cCugIw32P3AmXjd26xh2jsawP
- Q6Ug==
-X-Gm-Message-State: AJIora/IFXSCOuEkCgv/KVTenFZ7XJbRjbM6/fRBjccMGbKyhTWq/NeQ
- THO5ov2pxIxrESnzFbgNBQYQp4BgmZ6qLHtc+KzkG3z9E6Mn6NqBV2kzt5UCcXuLbivtw0Q/+3t
- 2Sd+P28P1jR6TcEQ=
-X-Received: by 2002:a05:6000:251:b0:21e:3acd:bc7f with SMTP id
- m17-20020a056000025100b0021e3acdbc7fmr1996306wrz.579.1658227721659; 
- Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uBzQQLLbhRUiHbo/jupoVkAtFVkGB+1FZ3/M9zxcECP+vABPI4Tft0+mmcJoA6zQ5PxSzv6w==
-X-Received: by 2002:a05:6000:251:b0:21e:3acd:bc7f with SMTP id
- m17-20020a056000025100b0021e3acdbc7fmr1996282wrz.579.1658227721414; 
- Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
-Received: from [10.33.198.128] (nat-pool-str-t.redhat.com. [149.14.88.106])
- by smtp.gmail.com with ESMTPSA id
- h7-20020a5d4fc7000000b0021e434c7867sm537659wrw.36.2022.07.19.03.48.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
-Message-ID: <89e4d09b-16d5-d2a0-14f2-3e4c778d43e4@redhat.com>
-Date: Tue, 19 Jul 2022 12:48:40 +0200
+ us-mta-664-3jOemcfcMZGsKdu0_htSSw-1; Tue, 19 Jul 2022 07:15:28 -0400
+X-MC-Unique: 3jOemcfcMZGsKdu0_htSSw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE53B8037AC;
+ Tue, 19 Jul 2022 11:15:27 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A51E1121314;
+ Tue, 19 Jul 2022 11:15:27 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 23CF918000A3; Tue, 19 Jul 2022 13:15:26 +0200 (CEST)
+Date: Tue, 19 Jul 2022 13:15:26 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Dongwon Kim <dongwon.kim@intel.com>
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>, Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH] virtio-gpu: update done only on the scanout associated
+ with rect
+Message-ID: <20220719111526.d4qnoy5ogyeu3tdw@sirius.home.kraxel.org>
+References: <20220505214030.4261-1-dongwon.kim@intel.com>
+ <CAJ+F1CJ_vLG31zk9y2rphOy3y+NhVkn1VSriSXYv4mXCbFEWJQ@mail.gmail.com>
+ <20220506170930.GB369@dongwonk-MOBL.amr.corp.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v2 0/3] target/s390x: vfmin/vfmax fixes
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220713182612.3780050-1-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220713182612.3780050-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220506170930.GB369@dongwonk-MOBL.amr.corp.intel.com>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,38 +84,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/07/2022 20.26, Ilya Leoshkevich wrote:
-> Hi,
+On Fri, May 06, 2022 at 10:09:30AM -0700, Dongwon Kim wrote:
+> On Fri, May 06, 2022 at 11:53:22AM +0400, Marc-André Lureau wrote:
+> > Hi
+> > 
+> > On Fri, May 6, 2022 at 1:46 AM Dongwon Kim <dongwon.kim@intel.com> wrote:
+> > 
+> > > It only needs to update the scanouts containing the rect area
+> > > coming with the resource-flush request from the guest.
+> > >
+> > >
+> > Cc: Gerd Hoffmann <kraxel@redhat.com>
+> > > Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > > Signed-off-by: Dongwon Kim <dongwon.kim@intel.com>
+> > > ---
+> > >  hw/display/virtio-gpu.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+> > > index 529b5246b2..165ecafd7a 100644
+> > > --- a/hw/display/virtio-gpu.c
+> > > +++ b/hw/display/virtio-gpu.c
+> > > @@ -514,6 +514,9 @@ static void virtio_gpu_resource_flush(VirtIOGPU *g,
+> > >          for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
+> > >              scanout = &g->parent_obj.scanout[i];
+> > >              if (scanout->resource_id == res->resource_id &&
+> > > +                rf.r.x >= scanout->x && rf.r.y >= scanout->y &&
+> > > +                rf.r.x + rf.r.width <= scanout->x + scanout->width &&
+> > > +                rf.r.y + rf.r.height <= scanout->y + scanout->height &&
+> > >
+> > 
+> > 
+> > That doesn't seem to handle intersections/overlapping, I think it should.
 > 
-> Uli has found an issue with finding maximum of different kinds of 0s; I
-> wrote a test and found another one with finding maximum of different
-> kinds of NaNs.
-> 
-> Patches 1 and 2 fix those issues, patch 3 adds a vfmin/vfmax test.
-> 
-> Best regards,
-> Ilya
-> 
-> v1: https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01915.html
-> v1 -> v2: Drop mmap() in the test (Richard).
-> 
-> Ilya Leoshkevich (3):
->    target/s390x: fix handling of zeroes in vfmin/vfmax
->    target/s390x: fix NaN propagation rules
->    tests/tcg/s390x: test signed vfmin/vfmax
-> 
->   fpu/softfloat-specialize.c.inc    |   3 +-
->   target/s390x/tcg/vec_fpu_helper.c |   4 +-
->   tests/tcg/s390x/Makefile.target   |   7 +
->   tests/tcg/s390x/vfminmax.c        | 411 ++++++++++++++++++++++++++++++
->   4 files changed, 422 insertions(+), 3 deletions(-)
->   create mode 100644 tests/tcg/s390x/vfminmax.c
-> 
+> so set-scanouts and resource flushes are issued per scanout(CRTC/plane
+> from guest's point of view). In case of intersections/overlapping, there
+> will be two resource flushes (in case there are two scanouts) and each
+> resource flush will take care of updating the scanout that covers
+> partial damaged area.
 
-Thanks, queued to my s390x-next branch now:
+Even though the linux kernel driver sends two flushes, one for each
+scanout, it is perfectly valid send a single flush for the complete
+resource.
 
-  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
+So checking whenever the rectangle is completely within the scanout is
+not correct.  When the scanout is covered partly you must update too.
+Only when the rectangle is completely outside the scanout it is valid to
+skip it.
 
-  Thomas
+take care,
+  Gerd
 
 
