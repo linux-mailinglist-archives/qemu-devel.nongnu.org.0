@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA9C5794D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:06:09 +0200 (CEST)
-Received: from localhost ([::1]:41108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F376757950D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:13:32 +0200 (CEST)
+Received: from localhost ([::1]:55490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDiF5-0007UP-7X
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:06:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53410)
+	id 1oDiMG-0000gQ-4p
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:13:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiCQ-00047O-Rc
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:03:22 -0400
+ id 1oDiCf-0004X6-L5
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:03:37 -0400
 Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:43984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiCO-0003iM-MT
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:03:22 -0400
-Received: by mail-qk1-x72d.google.com with SMTP id o21so10586417qkm.10
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 01:03:19 -0700 (PDT)
+ id 1oDiCe-0003iM-6E
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:03:37 -0400
+Received: by mail-qk1-x72d.google.com with SMTP id o21so10586721qkm.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 01:03:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=miSqhEpo9W7HwP9OrIvVSxLGcyLLCsDKyRZYuP4RxXM=;
- b=hptFAISc3C8hVgvD+wjBMxSHpv3rhtGuXuTrTjmx9xCZh2jtJYrzPvf3o4BkaoV3Gw
- Fq4lC4A3K20HDMb6TM6Po2Xi2iZSeCo5D/pazIh/chnkxo+xAFKjvkKnZsT9IGNpTsga
- yUaI0fo0JSvPkZu+Qz6iE1APa8XGO7KU2I1lP55PCjxwLIae5R16Bo/dho/PDMyKzSZM
- AJt4VM/DHDqIXkuWHlZIi/ARvFD83CaEj7r1lgc6s1JwgcGgWuD7ug3Wju4KQmO/5r/o
- y6WLn+SLrTyFGkTfNfK2olG4FWsQ/Yb2r2pwxt1JT1wHfXK10iPesSfI9imduf8ciiO/
- Fcrg==
+ bh=LDg3OJ0ojekHcHgyufOeCWDNqKkF0J5+hs0js38p4ac=;
+ b=ltkCo+9bPdXpjm4f9ulTAQZ++oFjN1nL+fWqomrWxGWZ4bH+Z77ElK1qhXSvsVkhIt
+ uidQ4/qOt8q4FC6kbPK4AkoqSe5QDCQWvM8iJpnjv8G2b3QFymtFxXZ1seIKbfQ9VSdB
+ bJYwIJTrU4U10D1XCkS6wajGlKU3oo6z77XDHU7Cd2xV3lobCWYXLij/8jil8PReTOVm
+ eawqzkKTuOdC7fexB5HGbaftq8xGenl3R+TzdD0uIkDdMQfZ5HOX+3mEb6FG1RB2WKlw
+ cUnM+Th6yodBitCvSop4L2794aEecIo1h0wuDtzI3U6yFZ1uPvTsqr3BSg9KgowYNIPj
+ eAfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=miSqhEpo9W7HwP9OrIvVSxLGcyLLCsDKyRZYuP4RxXM=;
- b=M/C8bwhKEqkJjzhq2RxNrP+BUmsJZPWdaqsRvVK67vNEAxGA/AsGB8EG/v9lPeu6/C
- v0TTugo8Bkq6/AQd9TucY9NGXjwpYyOA5bIw9DDiwhQhw5oUi94kkltXvtuIgPvLqYBu
- bIC91aHV5u5+vWYYNDFAcq3sHJNa5Xxt9+xub10hYQemknbvY9mTuj1Ja8SSFt67ortH
- z5vbTptYkPNVKNY6U390hB9t1ko76s1dRqpSgjYNJ6OFsLlvyyXppK1ZcS3yGpOznaxL
- 6jR1BVvk2zXYdtFFAEulfnDNzu+8M3CzCpXMse4kpCePHwglHV8BFST774mnI7I3ML8G
- t82Q==
-X-Gm-Message-State: AJIora8AwJLdPNq1scrVTL5TelA8c9GDTLQQMqtmp4Yh2raEuK13jdqC
- 3T1v18GN/+GAEBmYO7LbcuBSTQ==
-X-Google-Smtp-Source: AGRyM1u3Kn0gy3UpSUK7FxbrkTtCzxjXVwNXN3ZhN52XQXeHQDclC7mElbMLCUj8/FYvg9GK7hpktA==
-X-Received: by 2002:ae9:e704:0:b0:6b5:6bb9:48c3 with SMTP id
- m4-20020ae9e704000000b006b56bb948c3mr20433780qka.618.1658217798878; 
- Tue, 19 Jul 2022 01:03:18 -0700 (PDT)
+ bh=LDg3OJ0ojekHcHgyufOeCWDNqKkF0J5+hs0js38p4ac=;
+ b=0hLzETAEVGNxoCkFPebXbZTZQpwY8J0JQqx5xM6LEahO0HhZvCVMtr/dNSNpsBtLD4
+ oeFFUmgyzc69RSLNA9lCbPU2OjqrWtPlZjOekiNOpZgeT4wK9I5JH8BDyJ8yhzsap68z
+ RNOIxPOKwnGXDL+poWUtsetF4gGbfqY7NwoYvqlqAUFFeERt7/hWzNrLtSh1VrcqJ9/D
+ IDk5VsTxHjUD1oCn2eA51n+pFHk10SEQoRH5yZWXwbt3pMvn4BoJggMDWbaj5iHmdQli
+ avyHMH5UdF40opO0nnLV2j8Y32WnMpA4s4RmmhdZj1ppmZzFTcPIbbxZXy5QZvPGF2cI
+ VLsQ==
+X-Gm-Message-State: AJIora/o0Mw76htgmbnakUPX0PHUoaH+9QgWOSRDdijU6075T5TMP6Xa
+ jOAZ9pc0/uWbqsOsHgdKw/Rk0w==
+X-Google-Smtp-Source: AGRyM1sdE9pzSe0PAdd2g7HdtLwNyY+KBKybhKAfXNCWt5H5xMtan4kZYthtDQs41HKBio3wohd0MQ==
+X-Received: by 2002:a05:620a:27d5:b0:6b5:e7a3:30f5 with SMTP id
+ i21-20020a05620a27d500b006b5e7a330f5mr5825358qkp.595.1658217814240; 
+ Tue, 19 Jul 2022 01:03:34 -0700 (PDT)
 Received: from [192.168.113.227] ([172.58.139.163])
  by smtp.gmail.com with ESMTPSA id
- j15-20020a05620a288f00b006a5d2eb58b2sm14331537qkp.33.2022.07.19.01.03.12
+ q13-20020a05620a2a4d00b006b5763bffebsm12804799qkp.34.2022.07.19.01.03.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 01:03:18 -0700 (PDT)
-Message-ID: <4788e836-b220-155b-c44b-3f4257536e6e@linaro.org>
-Date: Tue, 19 Jul 2022 13:33:05 +0530
+ Tue, 19 Jul 2022 01:03:33 -0700 (PDT)
+Message-ID: <0c3aa229-f6d1-3e6f-a141-c708a7d052cf@linaro.org>
+Date: Tue, 19 Jul 2022 13:33:23 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 2/6] hw/loongarch: Add uefi bios loading support
+Subject: Re: [PATCH 3/6] hw/loongarch: Add linux kernel booting support
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
  mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
  peter.maydell@linaro.org
 References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
- <20220712083206.4187715-3-yangxiaojuan@loongson.cn>
+ <20220712083206.4187715-4-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220712083206.4187715-3-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220712083206.4187715-4-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::72d;
@@ -96,14 +96,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/12/22 14:02, Xiaojuan Yang wrote:
-> Add uefi bios loading support, now only uefi bios is porting to
-> loongarch virt machine.
+> There are two situations to start system by kernel file. If exists bios
+> option, system will boot from loaded bios file, else system will boot
+> from hardcoded auxcode, and jump to kernel elf entry.
 > 
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
 > ---
->   hw/loongarch/loongson3.c    | 34 ++++++++++++++++++++++++++++++++++
->   include/hw/loongarch/virt.h |  4 ++++
->   2 files changed, 38 insertions(+)
+>   hw/loongarch/loongson3.c | 114 +++++++++++++++++++++++++++++++++------
+>   1 file changed, 99 insertions(+), 15 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
