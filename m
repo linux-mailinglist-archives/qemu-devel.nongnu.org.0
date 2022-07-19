@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94C3857A03B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:58:51 +0200 (CEST)
-Received: from localhost ([::1]:49888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2576557A050
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:04:38 +0200 (CEST)
+Received: from localhost ([::1]:60004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDnkQ-00035V-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48182)
+	id 1oDnq0-00021J-MF
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:04:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oDncG-0001t2-IQ
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:26 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35356)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDnIB-00049Y-4t
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:29:39 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:38400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oDncD-0002Qh-SO
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:50:24 -0400
-Received: by mail-pl1-x630.google.com with SMTP id g17so12013936plh.2
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:50:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z69BRE83wivOCalvkXHzgTad0Rtw1/D/zMh+e6gOY64=;
- b=RLRuOKlO7JPDQBaNGkYSZvfu541qpaxhhhckwz1p5kPQEO4ijGtl+chN+Ps3Xf+g4z
- sJ4ZPRiEz7/28kw/YRZCnwEV0MkHNP/8i/5z0npeMgPU6Ln3i2w3roHxEYwzLeyyPwxm
- qJBlJI2tduqlnpB619H3eK1ffscf+lObH1mPhxRMbcdFZycfExfMyfc4mUojW/7wghqm
- bUwALNVkcNw6t1cfbBzSoEHFspOdIRqdKNIns+mpl/g26r/gB57Ccc+TGpy5qsEwPEZO
- Yc32mmRjYMu6ZnndGUY6EEwOlW2leT66+E0zG6mh15lfGFR/JNHnsGdF7QzFfweH1Epy
- nprw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDnI7-0006qk-CG
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:29:36 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id i206so26447176ybc.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:29:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ocb3q1bKaCeLAZlag0PXt4KkZQQtJEalbWitNILfhvs=;
+ b=VsWTySSci3mw6T8L2dE8wJac3fV237FyehUCtdry5R5qlmAkTQxp4GRgh79QbWKDiK
+ czUBF21zIcWZEtv4eoemUo4zDSFe6cUbMYTGPNk/QAG7oIIoYwjyOVBwKu92Ls2w500O
+ o0RVacvWiUF/oaYMfFKHHWJE6HgflYyCA9kf/62ZB6aZw5TSEM0+dz3BmGXCVviBA2dc
+ jeEibZpWUmtwcOot9s6nAwIB8E0Ik4D9rxUfByVWB/ElrOUHJwMXI/gxT51eYvxokhGl
+ 3gFFa//HeI/gV0BBUbyyLOlxrY39uPlpRaWSz0pMdRLnsx9akaN/a3/5dSPZU5ctwulI
+ 4KLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Z69BRE83wivOCalvkXHzgTad0Rtw1/D/zMh+e6gOY64=;
- b=k3XJKH0naaSjaIvvGySXvKjRdXljZtuGqP7/p7ipnMGZPwn7istaSchvImJZ3W+D7z
- BR7GOtYZyY8jWZZ5ZZqvS7plSXZQYjSChxBV3o5rW0ZXAFYpcI9kI9LeBcmr0rd0RVNb
- ObStlNPQl8O9C9M2VA8+02Xrxw1z649Bga469CWruSE2i6rR72E2l/X35OJsXiddOw/N
- 9m+9Q4g0eYwpAogd1F4Eu8aR3slG6G0qR3ScVgNd3Sv5aJbB/pT4oeRmW58OP68ONKAG
- i3DIgfH9N+I3j0jVJadSt31fdSzGSZp6/z2mtXqkHQP1rveTWzv49hO/6W2n/qJcVupt
- ixxA==
-X-Gm-Message-State: AJIora8mJYbEnsOK1XAIJoESK1tP4awqPVB+NKsHEo/izSAyRIxUGoAz
- yNi8Ln088PtH5cGORhrcCm8=
-X-Google-Smtp-Source: AGRyM1umaBVjhQhRdbqxU52B6fdN9CgMnup7X+i3eNINU35YQd3OXIj+laii0eyNytxuEKwkz2nd+w==
-X-Received: by 2002:a17:90b:378c:b0:1f1:6468:a0b0 with SMTP id
- mz12-20020a17090b378c00b001f16468a0b0mr23088346pjb.145.1658238619901; 
- Tue, 19 Jul 2022 06:50:19 -0700 (PDT)
-Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id
- y11-20020a17090322cb00b0016c33dc879esm11752274plg.113.2022.07.19.06.50.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 06:50:19 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>
-Subject: [PATCH v2] docs: Add caveats for Windows as the build platform
-Date: Tue, 19 Jul 2022 21:50:14 +0800
-Message-Id: <20220719135014.764981-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ocb3q1bKaCeLAZlag0PXt4KkZQQtJEalbWitNILfhvs=;
+ b=nK9Hr9OVW643EjgAxgPJwZRWmihKZ09bfroAoKYDj7DIlpIytpvw8LcfjemtJDNPiY
+ th0zJhtWu1NodMQi/w1V4ifTwFiMGDTiUxJWUMQ6zflmvAmJOh/dkZjnFyoBCt5igC6o
+ 140U58WT4jK+kD0PTUQEvDOmbwwsOuhLbz6YwyYWWuG3QGZOxMNrcL3CLJkioxZWGreP
+ KMgRGlOGn3KD+o09fGwQdka46wEdK2LvRKxvSopI3ZKFTDux2IoUq5pYphPAdPQRmyOH
+ 3RUUpedLRdPtpof12vYiAfH75Yb9gDOkt+W9jHxZzY4BeZu5hwAKL8zi5FI05+pFhxkW
+ nssw==
+X-Gm-Message-State: AJIora81qnKgMlQd8Q8FaiRjuvoADynJhE//QtVlsjhwHZr8hntcZ86K
+ XMG9K5VGUw7EpQhLLAT+sP/sjSGQhFNt6/0AaH79lw==
+X-Google-Smtp-Source: AGRyM1v64PTq9V8qI+2Dy2B7rKtkQ90r4AfvUyQOjELW0ec6T5facMLyNfzZjEKhpdPwWrut8k3kIrB0m3qhtIieMAg=
+X-Received: by 2002:a25:bfc7:0:b0:66f:563c:d2e7 with SMTP id
+ q7-20020a25bfc7000000b0066f563cd2e7mr31181050ybm.288.1658237374219; Tue, 19
+ Jul 2022 06:29:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+References: <20220712124956.150451-1-pbonzini@redhat.com>
+ <20220712124956.150451-16-pbonzini@redhat.com>
+In-Reply-To: <20220712124956.150451-16-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jul 2022 14:29:23 +0100
+Message-ID: <CAFEAcA9RBA6NYMCc9hWwnpfpR=iYjJTsv8s1dTWz-LZmtPB+xg@mail.gmail.com>
+Subject: Re: [PULL 15/18] accel: kvm: Fix memory leak in find_stats_descriptors
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Miaoqian Lin <linmq006@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,58 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Tue, 12 Jul 2022 at 13:57, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> From: Miaoqian Lin <linmq006@gmail.com>
+>
+> This function doesn't release descriptors in one error path,
+> result in memory leak. Call g_free() to release it.
+>
+> Fixes: cc01a3f4cadd ("kvm: Support for querying fd-based stats")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+> Message-Id: <20220624063159.57411-1-linmq006@gmail.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  accel/kvm/kvm-all.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index ba3210b1c1..ed8b6b896e 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -3891,6 +3891,7 @@ static StatsDescriptors *find_stats_descriptors(StatsTarget target, int stats_fd
+>          error_setg(errp, "KVM stats: failed to read stats header: "
+>                     "expected %zu actual %zu",
+>                     sizeof(*kvm_stats_header), ret);
+> +        g_free(descriptors);
+>          return NULL;
+>      }
+>      size_desc = sizeof(*kvm_stats_desc) + kvm_stats_header->name_size;
 
-Commit cf60ccc3306c ("cutils: Introduce bundle mechanism") introduced
-a Python script to populate a bundle directory using os.symlink() to
-point to the binaries in the pc-bios directory of the source tree.
-Commit 882084a04ae9 ("datadir: Use bundle mechanism") removed previous
-logic in pc-bios/meson.build to create a link/copy of pc-bios binaries
-in the build tree so os.symlink() is the way to go.
+Hi; this has fixed one memory leak in this error-exit path but
+missed the other: it should also
+   g_free(kvm_stats_header);
 
-However os.symlink() may fail [1] on Windows if an unprivileged Windows
-user started the QEMU build process, which results in QEMU executables
-generated in the build tree not able to load the default BIOS/firmware
-images due to symbolic links not present in the bundle directory.
+Spotted by Coverity, CID 1490142.
 
-This commits updates the documentation by adding such caveats for users
-who want to build QEMU on the Windows platform.
+This g_free() is also missing from the other error-exit codepath
+in the function (the "failed to read stats descriptors" one).
 
-[1] https://docs.python.org/3/library/os.html#os.symlink
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
----
-
-Changes in v2:
-- fix typo of "preferred"
-
- docs/about/build-platforms.rst | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index ebde20f981..6b8496c430 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -94,8 +94,16 @@ not tested anymore, so it is recommended to use one of the latest versions of
- Windows instead.
- 
- The project supports building QEMU with current versions of the MinGW
--toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
-+toolchain, either hosted on Linux (Debian/Fedora) or via `MSYS2`_ on Windows.
-+A more recent Windows version is always preferred as it is less likely to have
-+problems with building via MSYS2. The building process of QEMU involves some
-+Python scripts that call os.symlink() which needs special attention for the
-+build process to successfully complete. On newer versions of Windows 10,
-+unprivileged accounts can create symlinks if Developer Mode is enabled.
-+When Developer Mode is not available/enabled, the SeCreateSymbolicLinkPrivilege
-+privilege is required, or the process must be run as an administrator.
- 
- .. _Homebrew: https://brew.sh/
- .. _MacPorts: https://www.macports.org/
-+.. _MSYS2: https://www.msys2.org/
- .. _Repology: https://repology.org/
--- 
-2.34.1
-
+thanks
+-- PMM
 
