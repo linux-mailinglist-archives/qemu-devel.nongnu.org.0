@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB76957A48D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:05:11 +0200 (CEST)
-Received: from localhost ([::1]:39126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8065157A4A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:09:47 +0200 (CEST)
+Received: from localhost ([::1]:47684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqel-0002YF-04
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:05:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41840)
+	id 1oDqjB-0008TF-US
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:09:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqax-0005Br-Id
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:16 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:6094)
+ id 1oDqb0-0005Cm-43
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:18 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:34810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqan-0002eV-Gj
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:15 -0400
+ id 1oDqax-0002fE-9t
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:17 -0400
 Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JF3rMX030723;
- Tue, 19 Jul 2022 17:01:01 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JF4wj7030726;
+ Tue, 19 Jul 2022 17:01:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=ltMd7FOwKMcvNpz9VRogcz2UsLz2mj/xTu0K8XqQl50=;
- b=ccn1rSd7MCYITF67oN37ulfJ4TF2iMh5eIhCT/2ABhkBnI9bQXfyin3Me3V86ASj4Jxm
- i/QDyIM4blpQSWbqjRbppVYfzncEtj1puM3i0+0q90bstXJvIJMGt9rJcqa+WDMITDqi
- wkm29GLMcJmi69C+XhCY3Zaz+d+0MO3Y/UbsrrYtlm6c9LAa2x6NUIDcKzZNZKRVoqdo
- k+j7rZmr0Zm+ApIFlvKcifXakvGGGr0DGUaQetkIhYQACWJHrUSa1qxWIjJ50oARnIPJ
- aYkDoTvlkFGYPeva5FoDmKWKrqjay4GVKZyOAb7/UX17XrCTzPgBWtSq9aVR3+kumIcA UQ== 
+ bh=ixN0oPpoS+BsioWh9j1I9yIvREwF2/BAEzfPmo0kQ74=;
+ b=2lrBiVG7vr6akADrfRsCzxLkRh6MGO9LlZjqQHnXZpzGkTEe69Awf1jGw1jE+DihFFya
+ hBv5fXaTcTNKMpt1tczDBh6xMOmepTpfY7JXfrd/Tl52Ml63gyMphEsZTzej9HuHKBM1
+ zQQYjCm5E8zXkhJPqLdEoxJdSVu22eQn/5Ls+f4QLADPiUh9JmmUBIG8lhpZHM9kk85V
+ ZGogpL90mNx3CVkaBwbi3sY73Ti49to+RRMssagVd3PBe5masryGjHAWwPcIzx4Nwqph
+ 8CNtEUdVTGiqdB60ZaB0uRe3aRk87SJHj8OOfcHbL77fNzBO1wUUfWxyePS/1tJuNPnL AA== 
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbkrc71rx-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbkrc71s5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:00 +0000
+ Tue, 19 Jul 2022 17:01:03 +0000
 Received: from pps.filterd
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26JGMvT4009811; Tue, 19 Jul 2022 17:00:59 GMT
+ with ESMTP id 26JGMwPY009844; Tue, 19 Jul 2022 17:01:02 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hc1ggpary-1
+ 3hc1ggpau2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:00:58 +0000
+ Tue, 19 Jul 2022 17:01:02 +0000
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i52032177;
- Tue, 19 Jul 2022 17:00:58 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i54032177;
+ Tue, 19 Jul 2022 17:01:01 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-221-30.vpn.oracle.com
  [10.175.221.30])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3hc1ggpaer-5; Tue, 19 Jul 2022 17:00:58 +0000
+ 3hc1ggpaer-6; Tue, 19 Jul 2022 17:01:01 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -63,23 +63,24 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v9 04/11] i386/pc: factor out above-4g end to an helper
-Date: Tue, 19 Jul 2022 18:00:07 +0100
-Message-Id: <20220719170014.27028-5-joao.m.martins@oracle.com>
+ Joao Martins <joao.m.martins@oracle.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>
+Subject: [PATCH v9 05/11] i386/pc: factor out cxl range end to helper
+Date: Tue, 19 Jul 2022 18:00:08 +0100
+Message-Id: <20220719170014.27028-6-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220719170014.27028-1-joao.m.martins@oracle.com>
 References: <20220719170014.27028-1-joao.m.martins@oracle.com>
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-19_05,2022-07-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=971
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=703
  spamscore=0 bulkscore=0
  malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207190072
-X-Proofpoint-GUID: pMI8-R4I1qt3RVyJswCNNC6d4HUzX1W3
-X-Proofpoint-ORIG-GUID: pMI8-R4I1qt3RVyJswCNNC6d4HUzX1W3
+X-Proofpoint-GUID: WZSnWbRTpRxKL2P4L0jo_Npx_AtFKV00
+X-Proofpoint-ORIG-GUID: WZSnWbRTpRxKL2P4L0jo_Npx_AtFKV00
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -88,8 +89,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,86 +105,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's a couple of places that seem to duplicate this calculation
-of RAM size above the 4G boundary. Move all those to a helper function.
+Move calculation of CXL memory region end to separate helper.
 
+This is in preparation to a future change that removes CXL range
+dependency on the CXL memory region, with the goal of allowing
+pc_pci_hole64_start() to be called before any memory region are
+initialized.
+
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/pc.c | 29 ++++++++++++++---------------
- 1 file changed, 14 insertions(+), 15 deletions(-)
+ hw/i386/pc.c | 31 +++++++++++++++++++++----------
+ 1 file changed, 21 insertions(+), 10 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index e952dc62a12e..6c898a86cb89 100644
+index 6c898a86cb89..3fc3e985086a 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -814,6 +814,17 @@ void xen_load_linux(PCMachineState *pcms)
- #define PC_ROM_ALIGN       0x800
- #define PC_ROM_SIZE        (PC_ROM_MAX - PC_ROM_MIN_VGA)
+@@ -825,6 +825,25 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
+     return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+ }
  
-+static hwaddr pc_above_4g_end(PCMachineState *pcms)
++static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
 +{
-+    X86MachineState *x86ms = X86_MACHINE(pcms);
++    uint64_t start = 0;
 +
-+    if (pcms->sgx_epc.size != 0) {
-+        return sgx_epc_above_4g_end(&pcms->sgx_epc);
++    if (pcms->cxl_devices_state.host_mr.addr) {
++        start = pcms->cxl_devices_state.host_mr.addr +
++            memory_region_size(&pcms->cxl_devices_state.host_mr);
++        if (pcms->cxl_devices_state.fixed_windows) {
++            GList *it;
++            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
++                CXLFixedWindow *fw = it->data;
++                start = fw->mr.addr + memory_region_size(&fw->mr);
++            }
++        }
 +    }
 +
-+    return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
++    return start;
 +}
 +
  void pc_memory_init(PCMachineState *pcms,
                      MemoryRegion *system_memory,
                      MemoryRegion *rom_memory,
-@@ -891,15 +902,8 @@ void pc_memory_init(PCMachineState *pcms,
-             exit(EXIT_FAILURE);
-         }
- 
--        if (pcms->sgx_epc.size != 0) {
--            machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
--        } else {
--            machine->device_memory->base =
--                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
--        }
--
-         machine->device_memory->base =
--            ROUND_UP(machine->device_memory->base, 1 * GiB);
-+            ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
- 
-         if (pcmc->enforce_aligned_dimm) {
-             /* size device region assuming 1G page max alignment per slot */
-@@ -926,10 +930,8 @@ void pc_memory_init(PCMachineState *pcms,
-         if (pcmc->has_reserved_memory && machine->device_memory->base) {
-             cxl_base = machine->device_memory->base
-                 + memory_region_size(&machine->device_memory->mr);
--        } else if (pcms->sgx_epc.size != 0) {
--            cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-         } else {
--            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-+            cxl_base = pc_above_4g_end(pcms);
-         }
- 
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-@@ -1016,7 +1018,6 @@ uint64_t pc_pci_hole64_start(void)
-     PCMachineState *pcms = PC_MACHINE(qdev_get_machine());
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
+@@ -1020,16 +1039,8 @@ uint64_t pc_pci_hole64_start(void)
      MachineState *ms = MACHINE(pcms);
--    X86MachineState *x86ms = X86_MACHINE(pcms);
      uint64_t hole64_start = 0;
  
-     if (pcms->cxl_devices_state.host_mr.addr) {
-@@ -1034,10 +1035,8 @@ uint64_t pc_pci_hole64_start(void)
+-    if (pcms->cxl_devices_state.host_mr.addr) {
+-        hole64_start = pcms->cxl_devices_state.host_mr.addr +
+-            memory_region_size(&pcms->cxl_devices_state.host_mr);
+-        if (pcms->cxl_devices_state.fixed_windows) {
+-            GList *it;
+-            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
+-                CXLFixedWindow *fw = it->data;
+-                hole64_start = fw->mr.addr + memory_region_size(&fw->mr);
+-            }
+-        }
++    if (pcms->cxl_devices_state.is_enabled) {
++        hole64_start = pc_get_cxl_range_end(pcms);
+     } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
+         hole64_start = ms->device_memory->base;
          if (!pcmc->broken_reserved_end) {
-             hole64_start += memory_region_size(&ms->device_memory->mr);
-         }
--    } else if (pcms->sgx_epc.size != 0) {
--            hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
-     } else {
--        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-+        hole64_start = pc_above_4g_end(pcms);
-     }
- 
-     return ROUND_UP(hole64_start, 1 * GiB);
 -- 
 2.17.2
 
