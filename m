@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4588C57A57E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:37:41 +0200 (CEST)
-Received: from localhost ([::1]:55036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 823C257A5E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:58:07 +0200 (CEST)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrAC-0003xk-Ez
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43066)
+	id 1oDrTy-0005Nl-5b
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcl-0006tF-0I
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46992)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDrMz-0007Sm-5f
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:50:53 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:49385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcj-0002zG-Ci
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658250183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GX2aH48vw2z6gVz8M8ZthDWrr/cLpdZZMPap+r4UavQ=;
- b=MyNEGSyAH8SNDMQiR1TzGRYdYCjGQw7x3Cyyiu3XGqoV9rYRD7LPeOi4g2EdCAG7YpHXFx
- Qpv6Gg96RxwvBJcFVjW8txw8HabZwlyjoDTcPs90Vm+7kn5IIJEvkFXMYNAu+6QrrF58ZZ
- zUrW6Pk6w8lCrhIPhrzaEx6h+f4K1LQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-ykpUUQcjOx-IBxRiBrHoEQ-1; Tue, 19 Jul 2022 13:03:01 -0400
-X-MC-Unique: ykpUUQcjOx-IBxRiBrHoEQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C1AA101A54E;
- Tue, 19 Jul 2022 17:03:01 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 532A040466B1;
- Tue, 19 Jul 2022 17:03:00 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
- berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
- huangy81@chinatelecom.cn
-Subject: [PULL 29/29] migration: Avoid false-positive on non-supported
- scenarios for zero-copy-send
-Date: Tue, 19 Jul 2022 18:02:21 +0100
-Message-Id: <20220719170221.576190-30-dgilbert@redhat.com>
-In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
-References: <20220719170221.576190-1-dgilbert@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oDrMx-0001Vb-FV
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:50:52 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MEFnP-1oLnRi2jIb-00AEKi; Tue, 19 Jul 2022 19:50:47 +0200
+Message-ID: <a413b64c-ae5d-dc0a-7238-2a385c3b7392@vivier.eu>
+Date: Tue, 19 Jul 2022 19:50:46 +0200
 MIME-Version: 1.0
-Content-type: text/plain
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2] linux-user: Unconditionally use pipe2() syscall
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <YtbZ2ojisTnzxN9Y@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <YtbZ2ojisTnzxN9Y@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Provags-ID: V03:K1:T+dSi8z8A37GK0mr4re+0vX5ZYDk3Te7470xPaVSMCOtNhdV2Aj
+ jBWTlPQBwWNuZSpFk+ectr3mkCAJt5mPeb3RWiHv5xwjpBoU39KDpICheNr73tEAylUw4iw
+ DyBun+bgvNY+as+fjPlzicMrYL2iBbdGbgw5Y2JsXJbVY988nZP5mhWTCYwsplkbDAcuHH6
+ wV+AW9nLQl+y6flpcgWtg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:YsQ5o/Ch9mM=:eAwZWxo2kxgWuT7TGuP7fm
+ J1xNPkeWE1gyCP4rpRLuMkOufNU6HvJo1vxOPLF2dZXNpjxP52ZYRgpxQ2YQ17tOW+60HozW8
+ lVj0JNhtYnqCA+DTZIYnUfMpqJjDVLcHyKPSwdpFXXA4fwZqN1dbTvRrIhvRhL/Rv6CTHNpp8
+ NFEXzNKP0KYb2ZtyDbSrsQ0Afxwe6sBOwCKbK3WXaSyFVIMkB98y6FQ/3kKLf8AixVmRWpqP7
+ Co6WT7kpoiiA9UNjhg8JrPnZitvmZS7CMAKo6mNPSfY+uKmVb94att6MPWbPJOODP/ZH3f4Lo
+ KeQFzq0xV7mTar8KtLja6w7K7QuN1/HjxjawBjHgRYN6FoKy3czVIrhkeJs/P/rkApykJFMEU
+ coHmsKSRmBHTQzfekhYsf6oVxSCvBNbEBnTAbdfYwyBIIauoU9nlwcHuj6a/T2LShrl0DjgBT
+ WisvN3W39efhURuUCmrMeO78+/fCwB8l0FQOkZVHZLQe+TNqo6JJCIwWFnw/fGyYwHm2jRf//
+ YZ2VeCgnmFen7I6SvVr0N9bo5aSK8rJ6/RXIfoKk//BhSy60Zz55UNETxeZ1/eAHURW7FCxW1
+ C8wMhepw/TmThz29ZI3c4EOUIFYElcM6dhMiX0RaT1tXy0TlP1QCN663XGsljGNQJIh89Ezb/
+ iyIU2l+LzDhQVlAhGF0WTlYYro2+jaeohVSdIBYeXX6BOEu4GOtac8Fi1DKOvL+Quf8bsxTne
+ msatevYvynDQ6JjyOALMRDzWQW6ZdbX6d0m3og==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,80 +73,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leobras@redhat.com>
+Le 19/07/2022 à 18:20, Helge Deller a écrit :
+> The pipe2() syscall is available on all Linux platforms since kernel
+> 2.6.27, so use it unconditionally to emulate pipe() and pipe2().
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Changes in v2:
+> - added Reviewed-by: from Peter
+> - new diff against git head
+> - no functional changes
+> 
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 991b85e6b4..4f89184d05 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1586,21 +1586,12 @@ static abi_long do_ppoll(abi_long arg1, abi_long arg2, abi_long arg3,
+>   }
+>   #endif
+> 
+> -static abi_long do_pipe2(int host_pipe[], int flags)
+> -{
+> -#ifdef CONFIG_PIPE2
+> -    return pipe2(host_pipe, flags);
+> -#else
+> -    return -ENOSYS;
+> -#endif
+> -}
+> -
+>   static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong pipedes,
+>                           int flags, int is_pipe2)
+>   {
+>       int host_pipe[2];
+>       abi_long ret;
+> -    ret = flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+> +    ret = pipe2(host_pipe, flags);
+> 
+>       if (is_error(ret))
+>           return get_errno(ret);
+> diff --git a/meson.build b/meson.build
+> index 8a8c415fc1..75aaca8462 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2026,15 +2026,6 @@ config_host_data.set('CONFIG_OPEN_BY_HANDLE', cc.links(gnu_source_prefix + '''
+>     #else
+>     int main(void) { struct file_handle fh; return open_by_handle_at(0, &fh, 0); }
+>     #endif'''))
+> -config_host_data.set('CONFIG_PIPE2', cc.links(gnu_source_prefix + '''
+> -  #include <unistd.h>
+> -  #include <fcntl.h>
+> -
+> -  int main(void)
+> -  {
+> -      int pipefd[2];
+> -      return pipe2(pipefd, O_CLOEXEC);
+> -  }'''))
+>   config_host_data.set('CONFIG_POSIX_MADVISE', cc.links(gnu_source_prefix + '''
+>     #include <sys/mman.h>
+>     #include <stddef.h>
 
-Migration with zero-copy-send currently has it's limitations, as it can't
-be used with TLS nor any kind of compression. In such scenarios, it should
-output errors during parameter / capability setting.
+Applied to my linux-user-for-7.1 branch.
 
-But currently there are some ways of setting this not-supported scenarios
-without printing the error message:
-
-!) For 'compression' capability, it works by enabling it together with
-zero-copy-send. This happens because the validity test for zero-copy uses
-the helper unction migrate_use_compression(), which check for compression
-presence in s->enabled_capabilities[MIGRATION_CAPABILITY_COMPRESS].
-
-The point here is: the validity test happens before the capability gets
-enabled. If all of them get enabled together, this test will not return
-error.
-
-In order to fix that, replace migrate_use_compression() by directly testing
-the cap_list parameter migrate_caps_check().
-
-2) For features enabled by parameters such as TLS & 'multifd_compression',
-there was also a possibility of setting non-supported scenarios: setting
-zero-copy-send first, then setting the unsupported parameter.
-
-In order to fix that, also add a check for parameters conflicting with
-zero-copy-send on migrate_params_check().
-
-3) XBZRLE is also a compression capability, so it makes sense to also add
-it to the list of capabilities which are not supported with zero-copy-send.
-
-Fixes: 1abaec9a1b2c ("migration: Change zero_copy_send from migration parameter to migration capability")
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Message-Id: <20220719122345.253713-1-leobras@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- migration/migration.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 15ae48b209..e03f698a3c 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1306,7 +1306,9 @@ static bool migrate_caps_check(bool *cap_list,
- #ifdef CONFIG_LINUX
-     if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
-         (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
--         migrate_use_compression() ||
-+         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
-+         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
-+         migrate_multifd_compression() ||
-          migrate_use_tls())) {
-         error_setg(errp,
-                    "Zero copy only available for non-compressed non-TLS multifd migration");
-@@ -1550,6 +1552,17 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
-+
-+#ifdef CONFIG_LINUX
-+    if (migrate_use_zero_copy_send() &&
-+        ((params->has_multifd_compression && params->multifd_compression) ||
-+         (params->has_tls_creds && params->tls_creds && *params->tls_creds))) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#endif
-+
-     return true;
- }
- 
--- 
-2.36.1
+Thanks,
+Laurent
 
 
