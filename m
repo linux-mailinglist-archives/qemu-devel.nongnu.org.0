@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E82579A1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:10:58 +0200 (CEST)
-Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 988CB579AC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:18:39 +0200 (CEST)
+Received: from localhost ([::1]:33048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDm41-0004os-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:10:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
+	id 1oDmBS-0005XW-Ms
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:18:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDm26-0003CN-3n
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:08:58 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:42058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDm22-0001Eb-64
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:08:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 138C8B81B37;
- Tue, 19 Jul 2022 12:08:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64746C341CA;
- Tue, 19 Jul 2022 12:08:50 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="imhNcQVh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658232528;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5Lb05Ba/T2F9BL0mRC3QwpHj3oy/QFJoGqEy1OTcJM4=;
- b=imhNcQVhNUPx278PoImlhLO9LXgAeF1VLIk6WP2yEGvEwVNkHUNzac/1CDGfNmYakMMCiS
- oZouDMkE1+qg190rjnM4rd82U71oDHFJzig5NEAhzYgf3AbmMvzjJKnHGjzyi9+LjTBt3R
- 6LHUMNjkaRhWo6GTtX2RAYOIjIjkSO0=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9307ff5c
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 19 Jul 2022 12:08:48 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDm4O-0004wl-AB
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:20 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDm4J-0001lJ-3Y
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:19 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id bk26so21274585wrb.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u68i7l6LoLPzaJZNvDnI+Rk0ofCSnN4zy3MvwflhHVE=;
+ b=AQcs0Im3A+qMjHje+LgeIQD7hcWX1X0VKQs6SBY2RhYGhe3sDZAAYMWU7O7egeuKCf
+ 0ByMddSf231axMUQqSV5y57Lzufh3vqLOzFK5V180sBquPaxurpK5po5tzofgwyNqvHC
+ 2Y26m3Mxqf8A7PmaQHadilkM3F0EkvojY8owccctlgGgs0nn0uidNdNsRHVRfxsyh5aH
+ lkHigagKqLnwvRvx81dexGl1GvFIeqYzOiw1hZ9k4gE6Y4KM7sfz+TFAVtlIAPuOM7B0
+ BXaQYgTfGr0uosYQZTG+P9U4FB6yGxLdCJtvY8gFUmWWf49KCNmeG+T2ovllB93v5ZIB
+ JdAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=u68i7l6LoLPzaJZNvDnI+Rk0ofCSnN4zy3MvwflhHVE=;
+ b=BBiAjiwqhiRnAhYy7YbnECtIgKvb9iE+M2C1z6cFmD1/nPSkq1gCb8FIVKrxFRvOkv
+ en3dbTGci0C4x/exW8UgyGz2J4FB39J8B8iPazRtuP+W7+h/8BnZcibAGYPaTCVkLIY3
+ N4lQ16wLYyf0ey0/qlm+1QZXWl1lA7Ki+Hcyd6gM1CYqEB3OlQSjsluG90RKaNbh6v0y
+ tUbzRlNfN78Yv8KpW44vZUUmO/rRfqxEkzT3d+aut477jcUO68YvqRow5+tB35NT1sZI
+ R1mOziFP9F+F+6PgeUHv5JXKE4YiwyX3V5Nai6GAQ/P9PbeTZuUAiPzX3760lngkj8r4
+ 4Qow==
+X-Gm-Message-State: AJIora+138JnNsFGu7xGjvlLBixwlKl8KX21DGgQN0rrOVBHhfLTnpfi
+ 8Fk0AUMbTUIvRcGTxZkSyxXTb4z5Dlf0GQ==
+X-Google-Smtp-Source: AGRyM1vx0W1wrqpz2s6CxIcLS6AmFyllmEZET9oKEuB6y+PXkoKwM983HjOJRO5z7M/fjp2ybSCBMw==
+X-Received: by 2002:a5d:44d1:0:b0:21d:7471:2094 with SMTP id
+ z17-20020a5d44d1000000b0021d74712094mr26773966wrr.374.1658232673483; 
+ Tue, 19 Jul 2022 05:11:13 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ m21-20020a05600c4f5500b0039c5ab7167dsm22111287wmq.48.2022.07.19.05.11.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 05:11:13 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH] hw/mips: boston: pass random seed to fdt
-Date: Tue, 19 Jul 2022 14:08:43 +0200
-Message-Id: <20220719120843.134392-1-Jason@zx2c4.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 0/4] semihosting: fix various coverity issues
+Date: Tue, 19 Jul 2022 13:11:06 +0100
+Message-Id: <20220719121110.225657-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,52 +86,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-initialize early. Set this using the usual guest random number
-generation function. This FDT node is part of the DT specification.
+This patchset fixes a handful of bugs in the semihosting code
+noticed by Coverity.
 
-I'd do the same for other MIPS platforms but boston is the only one that
-seems to use FDT.
+thanks
+-- PMM
 
-Cc: Paul Burton <paulburton@kernel.org>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- hw/mips/boston.c | 5 +++++
- 1 file changed, 5 insertions(+)
+Peter Maydell (4):
+  semihosting: Don't return negative values on
+    qemu_semihosting_console_write() failure
+  semihosting: Don't copy buffer after console_write()
+  semihosting: Check for errors on SET_ARG()
+  semihosting: Fix handling of buffer in TARGET_SYS_TMPNAM
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 1debca18ec..d2ab9da1a0 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -34,6 +34,7 @@
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-+#include "qemu/guest-random.h"
- #include "qemu/log.h"
- #include "chardev/char.h"
- #include "sysemu/device_tree.h"
-@@ -363,6 +364,7 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-     size_t ram_low_sz, ram_high_sz;
-     size_t fdt_sz = fdt_totalsize(fdt_orig) * 2;
-     g_autofree void *fdt = g_malloc0(fdt_sz);
-+    uint8_t rng_seed[32];
- 
-     err = fdt_open_into(fdt_orig, fdt, fdt_sz);
-     if (err) {
-@@ -370,6 +372,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-         return NULL;
-     }
- 
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
-+
-     cmdline = (machine->kernel_cmdline && machine->kernel_cmdline[0])
-             ? machine->kernel_cmdline : " ";
-     err = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+ semihosting/arm-compat-semi.c | 29 ++++++++++++++++++++++++-----
+ semihosting/console.c         |  3 ++-
+ semihosting/syscalls.c        |  2 +-
+ 3 files changed, 27 insertions(+), 7 deletions(-)
+
 -- 
-2.35.1
+2.25.1
 
 
