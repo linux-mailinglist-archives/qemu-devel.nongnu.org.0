@@ -2,159 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD6AE57A1D3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:38:31 +0200 (CEST)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9987E57A202
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:41:16 +0200 (CEST)
+Received: from localhost ([::1]:45240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDoMo-0001OS-U5
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58094)
+	id 1oDoPT-0003Gj-Qi
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:41:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oDo9A-0002S9-Ug
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:24:24 -0400
-Received: from mail-dm6nam10on2080.outbound.protection.outlook.com
- ([40.107.93.80]:31392 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oDoAP-0004L3-Rc
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:25:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oDo96-00006G-2I
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:24:24 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cBTU1uh8BK6k7Le/YIEDtKouj0FJON4dNZNsCHv78alPsAIol75XExohctHcFqb1YdHbYSQCR0UV/8WU3YnaiNaH+BbEnTj4MFaAYyzTfPNHv7lMtv9exr9E4yqcJ3Qx6CPbAAQg6Im1e8P3DPXcz8lyiQMUAcZAs41514RQXIdsmCJUAZZEWp9v6nPjASZ3OMNTA9+bAh0d1I1jH6sPB2pbjtLJx8bZAAJHlhY37Cb96jYzWsVOX2z7/JQjtJ0IQ5KmyjYBz9YJhVGaTK2IrCztYdsjfop5II4ShfObidQDbSfH/7nI6XlFvjdWJwPQGchepO//8NhcI9hi2jLzTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6gbRxjyTfsNeCyxbMbIfPF0WYPFQW8U1LaRtDaQvFwY=;
- b=F2HfDKxUkxNelE2pSkYZl5qzjgJSMgduKrl+HmJkGYohBmi7sYv1C55tdhFQGvuEJCZy5wgvG6A2d3uRh3CVrpLGd4aaH40jmQwNNS4d44vi8ujPdcrg/S6hexF+6Mw5alyaVnAvBJ/w0opWmTDKbxifBW6IdOc5JMIDjhFuzlkBjgXkw6gvLzxv+9/pJN3CKzQEtPn//wybSrqRVzQnbTRC9lzclxmWgjqFxAArMOTSdGMmcIV+xI6MY9ewZOxEWverAZFrjf2Sq+OV+q1DLAQqoHkWWGc6IARg1Sy0ZbwyNDliTiVmFa1v9Q4zOtRidqd5YH7Y6b1MA9Z1kXGXwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6gbRxjyTfsNeCyxbMbIfPF0WYPFQW8U1LaRtDaQvFwY=;
- b=ysN1i3C9hz/0qPnMI88vP+EoMA8HqKkwvzTs2xbq5WXkJnvYGgAhcrgs7ciLoZTDslDilAse+XwG52vsBUpesxXpi7oZ7m4cxXemPMMIqM1JQMrhz7/ppY7iqKrlxSfPwxT2McQzYF+YG30uLSPEGQ0sAKn4JVCvGWSazYI+JoI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by SJ1PR12MB6241.namprd12.prod.outlook.com
- (2603:10b6:a03:458::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Tue, 19 Jul
- 2022 14:24:10 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Tue, 19 Jul
- 2022 14:24:10 +0000
-Message-ID: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
-Date: Tue, 19 Jul 2022 16:23:52 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Content-Language: en-US
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- david@redhat.com, aarcange@redhat.com, ddutile@redhat.com,
- dhildenb@redhat.com, Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <20220719140843.GA84779@chaop.bj.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0114.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a3::6) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oDoAM-0000WJ-6E
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:25:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658240737;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=OjR9TiNM3/cT18FmkkPSPrdzymuDu5LjVA+QDminekE=;
+ b=iberA96wDPgaM7xYmO+drfvlFR9v2sAbtrshgtCumKD02QeVdKagd2kE7qpNaPjIOZ5eV5
+ pB+qR4aTJRQvYZ2IS3vPOffRmySuE2Ff1NWijED9xqbX9PdS+dd1eR14Qcqh0bIXaCt+vE
+ rV6eeVSPB5bpD3A54hqifDDVWHGkcmo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-610-4H6hVheEMpCptrnypiZ-WQ-1; Tue, 19 Jul 2022 10:25:27 -0400
+X-MC-Unique: 4H6hVheEMpCptrnypiZ-WQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59E93858EEE;
+ Tue, 19 Jul 2022 14:25:27 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7722B2166B26;
+ Tue, 19 Jul 2022 14:25:26 +0000 (UTC)
+Date: Tue, 19 Jul 2022 15:25:23 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Drap Anton <drapas86@gmail.com>
+Cc: qemu-devel@nongnu.org, anton.drap@auriga.com
+Subject: Re: [PATCH v2] Loading new machines and devices from external modules
+Message-ID: <Yta+06u01e16zKTd@redhat.com>
+References: <20220719115922.306265-1-anton.drap@auriga.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 04a97040-e76e-4e96-e5f2-08da69925885
-X-MS-TrafficTypeDiagnostic: SJ1PR12MB6241:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: mAM1X9spBJlKwV2ShK3OwFXQS1y8MnAB0v3g4kFFNZYN5/zVon7TIfy69d42gkz5xxWadsBBV18Bk3jG6EiS0/3Yg5Idya37ACe+ljw020EY4YdJWyIraJ3fkEzALzhJ304wKYC0VIaId1HIiae+w0yQIxkjZUBzh+4ZpwLbl0t2/mpXcfAUtX3brbBJ3ORckVnX5hvbF1aCffSocJFlow66eDySpvYwF0qD0R4cNRxR4/h/42NwvMU0CjRBC1nMwjqLA0o+tf0OmNe1LHE1yRrDJLJmUvaDLczcKqYBN2FPd3fRqAQHOiGImbe5VuV8sQ6vbV46F5LJk2K6nAZIoyiXPHhyKh0mtPBAYodumNEwwmz9REbouYANoedQ/e1vJkheYISXOpqHk2yfrz3ja/4uW3Qpe9kodlK9faabZjJWeNm0g7VXIONnMP8AZP6ztssCH3+I9aOedYIgrzqfQolYgxWdzVE9/+ls6VLdqY26W9n+dWYtaKmdZOLJCwS1jFhDw3kyuk+5JqzTS70f6+eweKZnn7nPl5YJR+3iknhLntVrgXyBRuS7+JkKk+xkl0ttOR5J8qpZenL7sX3s7yH8jl+BSmk/HINgWvBuQMooIB34RFogbPPYoDQyPfxziGh5DCPz3GoX7c0Xr1vyBxHOgqwS0iY1109ziEYiifud3KdKBLq0gGNdKsDnTKUMuUgkS0zzaFOuYDxCI6hTep7Z++JZM/rHqh6OuKitdAoxWo1aakOevlk4aNPg5cUn683wEp1BFdsYk1jHRFr+BDYhyF8wi8gfY9Coxa4go8VHEzoW8SZ+W7k0xcFJDxsp3cToy/U2wo+LXL3HYCoIMA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(376002)(366004)(346002)(396003)(26005)(2906002)(31686004)(6512007)(6666004)(186003)(41300700001)(86362001)(478600001)(6506007)(5660300002)(7416002)(8936002)(7406005)(2616005)(31696002)(6486002)(66946007)(54906003)(6916009)(316002)(38100700002)(4326008)(66476007)(66556008)(36756003)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Tk5kN0ZUTVFxcG5KZUlqcGtRQUJHcmFseGs3Y0hxNml0WlROdHhML2NpalVZ?=
- =?utf-8?B?STYrbUtPUWZSbFpEakFPb3VobWw3WDVMdkdVYjZhc2Y5OUVBZzRsdTVRQzBU?=
- =?utf-8?B?TEFzalBZNU9ZM2JmYTZrRE9pd3o2UStrYk5SRjNHQnpLZXVJaFRQWS9CT3U0?=
- =?utf-8?B?cGlIcjBpYnZudGYwTzJ4U3hEeWt4Q2Q3ei9zVUJtU1dDM3FrQkxGYzRtN05I?=
- =?utf-8?B?QXFjbmQ3a3ArOHlYazN4SFRyQnBjdmU2QWdQYUNsaGlZV1JmT2JHL2FQQXc1?=
- =?utf-8?B?L3JKU2ZUdDBpVDVVY3dGSnRVTWFvSlY0bGVGN2x2TXdqUlBaMTBrQldKODZO?=
- =?utf-8?B?RXdhRXlCOUU5MkhvSjhWbk9QekZhTVYvTnREZUUrNnc0TUMyVTNoOHU3U3ZG?=
- =?utf-8?B?NjNHbE1hQnJRV1BYdis5RTF5U2lwQTg3ZDNDWXl0eUlpRmJnWGwxZWRMU3pi?=
- =?utf-8?B?azhLWXJiUnZIWk9wR2thOXlkMHlWdVI0aWVwUG93YVdoUC9vT1ZCMjQxbVBC?=
- =?utf-8?B?NlBRWXVmR2tDMFJXckhmUXJ6dnJZVXc3dENQVWQyOE9jUUx5MlBadms2ZGFU?=
- =?utf-8?B?NHhoOVBJeHpDencrWFVHLzZNL200VkJ4YlVOM29rc1IrR1dUWGJYSGNhSEV0?=
- =?utf-8?B?YmNKa1FxQU5VRG1ZdnVnUkdoSU5DZGU4aG9FY3BOcEx1ZGdSMDhKRk1RKzIr?=
- =?utf-8?B?a1ZDMTVQT0pJcU9ISGJqOXZXTDZzSTBlUm9KOUV6d2VhQU1MZ3pOeVpaemVJ?=
- =?utf-8?B?cHhDZnM1Z2FoY0ZkUG40NUxUdkNGYU1welBnMHAvMFhHNk9MQmV6a3JveFda?=
- =?utf-8?B?TG96K0cxM3JoSmVUTWJzS2EzU016ZHNFalRwV1pRTVNrRlNTVytGNlVmcTZs?=
- =?utf-8?B?WjRtNm9mSzNsbFA1N1FMK3h3b1lBejM3VUpsMzFnV0svUmZvS2JtR0p0RjFh?=
- =?utf-8?B?dWYvMnhzbVJWc2ZMRDhkNmRZOVlFV2w2Q2Y0WG1pV2k2QnMrMUUvOHYrVzNI?=
- =?utf-8?B?RGtsYlI2SzlQWHRqQ1BzWXBsbFZPNGZ3ejltZkgrNmxJNHcrcUpqSG9yZEov?=
- =?utf-8?B?YkRhMlJFaktsMVFjd0dzZzhQeitGWVR2bU1SUCsvNVVwdFhHckFoaHF6SGxr?=
- =?utf-8?B?Q3laTGFMUng0WWRRN3ZDSVVFbDM4UkF6ODVHVDR1UHFuQVM1T2tFQng5dXp0?=
- =?utf-8?B?L2J1SVpYTmRTRGlabjNkbWtJSWN2TFY0TTY1eURaajVBY2VkQzRPc0I2R3VW?=
- =?utf-8?B?MnZyMkovMUZYak9yRExDL0dFVElDQWE4Z0VhMXBFTmdMZzU1MFphdGp1QkRL?=
- =?utf-8?B?WUpGakhYNURhSWJnL21hbExIalUrRHVndjgzRmRWSk1wQjBqT0U2ZUJJRitP?=
- =?utf-8?B?QmVmV2JQVE1zTWxaUUpiMmFxUVErbkhoTk5pZVN4bVJEK0IySDJYbitMMmpY?=
- =?utf-8?B?WmFrMWZQY1BrNTJsampGZmV5RE9VRVdSbDV0U0t1WitFRHRJa2txUHlhc2pL?=
- =?utf-8?B?cll4NGRDQmdVNHBiTkYzaHp2bjcwcXYrKzVFa0l2b0E4UGxNU0pnSjVoZWpa?=
- =?utf-8?B?d28zUm9UajY0cW5FTExITEJkZUxMSy8vYW9DWFZOMGFyZ1FqdlY0YmtpTkV0?=
- =?utf-8?B?NVNvQXdiWWJzckRTV2ZGbTVPWklvL0h3ZUJVZjJrNnh5eHU1ZnA1NHdlWml3?=
- =?utf-8?B?UzNpZXdabWlpWlI2a0F0TnAvbEVLYm45RmowcjQ5UGhDOFcrMlcwM2k1STVY?=
- =?utf-8?B?TDBvWWJLVW42K0p2Nm9wTms4ZkQ3RTdwelMydEtHVUVKbDBma3ExclNpNStS?=
- =?utf-8?B?RUxZakx4S3F4NU1vc3NxczZxcHBNVjhPMEgwOWxOZVcxczR4ZGQxN3p3Y2ly?=
- =?utf-8?B?MUJZMjBqTjZMVExncldIclJ1V3JVemEyUkpJNzVOMUpiUlpvNXd1OUlPT3Jr?=
- =?utf-8?B?a3A4NGNkUzd6VXlJZjlVM255Yk5qM3JmUUpqU0puVGNvREJnSW1BdHRpRkxv?=
- =?utf-8?B?ZStmZHQrWDRPR1lMRERQU0lTUDg0MmxZYUQ4QW1UK0ZTTk5zcjIvNU85WUww?=
- =?utf-8?B?aUdEaVJ0S0ZZMXJWeHQ2VHRsY3lvU3ZWVTlvSkY3U0d4R0lmYWtDdFhMWjFj?=
- =?utf-8?Q?ZO04vLQ6IOC3nZuURa2s2Npoj?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04a97040-e76e-4e96-e5f2-08da69925885
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jul 2022 14:24:10.0939 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: COYjKWM0CmMZwrGaP/VoN7FkYMKu/zqiLEHbzzhQYkcGfjwvVOJYeB44kjeIFzVbdgzCCqTTNkE4AsW6eNyr1g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6241
-Received-SPF: softfail client-ip=40.107.93.80;
- envelope-from=Pankaj.Gupta@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220719115922.306265-1-anton.drap@auriga.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -167,63 +76,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
->>> +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
->>> +{
->>> +	return false;
->>> +}
->>
->> Does this function has to be overriden by SEV and TDX to support the private
->> regions?
+On Tue, Jul 19, 2022 at 04:59:22PM +0500, Drap Anton wrote:
+> From: "Drap, Anton" <anton.drap@auriga.com>
 > 
-> Yes it should be overridden by architectures which want to support it.
+> There is no mechanism to load external machines and classes from modules
+> at the moment. This patch is to add two parameters `add_machine` and
+> `add_modinfo` for it.
+> `add_machine` is to add machines from external modules.
+> `add_modinfo` is to add devices from external modules, needed for a new
+> machine, for example.
+> Main aim is to have possibility to develop independent models and be able
+> to use it with mainline QEMU. It will help to make develop new models of
+> proprietary boards, simplify to use Qemu by hardware developers and extend
+> number of supporting boards and devices in QEMU. It will be easier for
+> small hardware manufacturers to use QEMU to develop their own board models
+> and use them to shift left of FW/SW development.
 
-o.k
-> 
->>
->>> +
->>>    static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
->>>    {
->>>    	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
->>> @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
->>>    		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
->>>    		break;
->>>    	}
->>> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
->>> +	case KVM_MEMORY_ENCRYPT_REG_REGION:
->>> +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
->>> +		struct kvm_enc_region region;
->>> +
->>> +		if (!kvm_arch_private_mem_supported(kvm))
->>> +			goto arch_vm_ioctl;
->>> +
->>> +		r = -EFAULT;
->>> +		if (copy_from_user(&region, argp, sizeof(region)))
->>> +			goto out;
->>> +
->>> +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
->>
->> this is to store private region metadata not only the encrypted region?
-> 
-> Correct.
-
-Sorry for not being clear, was suggesting name change of this function from:
-"kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
-
-> 
->>
->> Also, seems same ioctl can be used to put other regions (e.g firmware, later
->> maybe DAX backend etc) into private memory?
-> 
-> Possibly. Depends on what exactly the semantics is. If just want to set
-> those regions as private current code already support that.
-
-Agree. Sure!
+IIUC, this is suggesting QEMU load pre-built .so files created from
+non-upstream code, to arbitrarily extend QEMU's functionality. Such
+.so files will inherantly have to be GPLd as they'll derive from
+QEMU's internal APIs which are GPL. Given the proposed use case is
+to emulate non-released proprietary hardware, I struggle to see how
+you'll fullfill the requirements for GPL licensing of the loaded .so,
+without revealing your proprietary hardware design to any who receive
+the .so files.
 
 
-Thanks,
-Pankaj
+More generally, QEMU's existing loadable module usage is explicitly
+designed to try to *prevent* loading of non-upstream code. It aims
+to only load code that was built as part of the integrated QEMU
+build process. ie, QEMU's loadable module system is about making
+it possible to build many QEMU features, but then selectively load
+them at runtime to reduce footprint/attack surface. It is *not*
+intended to allow non-upstream code to be loaded.
+
+
+Aside from our goal to prevent/discourage GPL violation through
+closed source loadable modules, QEMU also has a strong desire to
+not lock ourselves into supporting a public API for loadable
+modules. Maintainers wish to retain flexibility to change the
+internal APIs at any time.
+
+
+Partially related to this topic, there is some work taking place
+with the goal of making it possible to define new machine types
+in QEMU from a QAPI based JSON description.  The actual hardware
+devices and CPUs would still need code to be built into QEMU
+and upstream, but the way the hardware devices & CPUs are wired
+together would be customizable via the JSON config.  That could
+get some, but not all, of the benefits you seek without the
+downsides the QEMU maintainers wish to avoid.  This isn't ready
+to consume yet and we don't have any firm ETA either I'm
+afraid.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
