@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 859405798B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 13:45:09 +0200 (CEST)
-Received: from localhost ([::1]:54122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D149D5798D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 13:54:41 +0200 (CEST)
+Received: from localhost ([::1]:33370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDlf2-0003o8-LI
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 07:45:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
+	id 1oDloG-0002LY-EG
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 07:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDldZ-0002KV-8O; Tue, 19 Jul 2022 07:43:37 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:54680)
+ id 1oDlmy-0000gd-LE
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:53:20 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:55934)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDldW-0005cc-OS; Tue, 19 Jul 2022 07:43:36 -0400
+ id 1oDlmv-0007CG-1G
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:53:20 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 88792B81A8F;
- Tue, 19 Jul 2022 11:43:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 627FFC341C6;
- Tue, 19 Jul 2022 11:43:28 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8B75D61632;
+ Tue, 19 Jul 2022 11:53:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59742C341C6;
+ Tue, 19 Jul 2022 11:53:12 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="p0RqHkWf"
+ header.b="YKXb9BW/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658231006;
+ t=1658231590;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6smcgsHVReXM1V8m9Dx6/9uSDZab7l36/7wz/v36qq8=;
- b=p0RqHkWfrjbA9MoyPOu0pf/IiWMcdC4YHiZ25kPGxIvxw9gdiQ5GsLiOFxDzal6LQfnYx4
- uc/xVPUE08JXZ0dFIxL+zfLq3rtOGRjFmJFN0ZKuje+gRMcwUENHGy58Qxg8TH8eiAyJ7F
- jxTVHVBf+geDlfCWKHwXsc1w9UuxYtM=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a6ee32de
+ bh=h2GwklyOc9qjpGkitr89pHTy6aoWg2VQ2JJFWxG5JNo=;
+ b=YKXb9BW/VcGY3nMlcB8/WurmAy7kQo4MLqQ2J2PNz8zCDDKAmnHHK2XvCs+gEv1a5X9eYS
+ 03TPJFCxArIr9Bn1Lg1HFlOUdsOcJd+xQxNrpJONJJgCtfKC8SazoZp1m2K3PsWSnPMgf1
+ jTq7F0NDIIqsjfF6FT9RQSxFhaJci1s=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9cacd7bd
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 19 Jul 2022 11:43:26 +0000 (UTC)
+ Tue, 19 Jul 2022 11:53:10 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-s390x@nongnu.org, qemu-devel@nongnu.org, thuth@redhat.com,
- david@redhat.com
+To: qemu-devel@nongnu.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Subject: [PATCH v2] target/s390x: support PRNO_TRNG instruction
-Date: Tue, 19 Jul 2022 13:43:07 +0200
-Message-Id: <20220719114307.102643-1-Jason@zx2c4.com>
-In-Reply-To: <YtaUQkVUPVHt+v0Z@zx2c4.com>
-References: <YtaUQkVUPVHt+v0Z@zx2c4.com>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH resend v3] hw/i386: pass RNG seed via setup_data entry
+Date: Tue, 19 Jul 2022 13:53:00 +0200
+Message-Id: <20220719115300.104095-1-Jason@zx2c4.com>
+In-Reply-To: <20220711145432.56704-1-Jason@zx2c4.com>
+References: <20220711145432.56704-1-Jason@zx2c4.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.68.75;
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
+ helo=dfw.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -82,106 +88,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order for hosts running inside of TCG to initialize the kernel's
-random number generator, we should support the PRNO_TRNG instruction,
-backed in the usual way with the qemu_guest_getrandom helper. This is
-confirmed working on Linux 5.19-rc6.
+Tiny machines optimized for fast boot time generally don't use EFI,
+which means a random seed has to be supplied some other way. For this
+purpose, Linux (≥5.20) supports passing a seed in the setup_data table
+with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+specialized bootloaders. The linked commit shows the upstream kernel
+implementation.
 
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
+Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Harald Freudenberger <freude@linux.ibm.com>
-Cc: Holger Dengler <dengler@linux.ibm.com>
+Cc: Eduardo Habkost <eduardo@habkost.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- target/s390x/cpu_models.c        |  2 --
- target/s390x/gen-features.c      |  2 ++
- target/s390x/tcg/crypto_helper.c | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+), 2 deletions(-)
+I'm resending this because apparently I didn't CC the right group of
+recipients before.
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 1a562d2801..90aac3d795 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -421,8 +421,6 @@ static void check_consistency(const S390CPUModel *model)
-         { S390_FEAT_DFP_FAST, S390_FEAT_DFP },
-         { S390_FEAT_TRANSACTIONAL_EXE, S390_FEAT_STFLE_49 },
-         { S390_FEAT_EDAT_2, S390_FEAT_EDAT},
--        { S390_FEAT_MSA_EXT_5, S390_FEAT_KIMD_SHA_512 },
--        { S390_FEAT_MSA_EXT_5, S390_FEAT_KLMD_SHA_512 },
-         { S390_FEAT_MSA_EXT_4, S390_FEAT_MSA_EXT_3 },
-         { S390_FEAT_SIE_CMMA, S390_FEAT_CMM },
-         { S390_FEAT_SIE_CMMA, S390_FEAT_SIE_GSLS },
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index ad140184b9..3d333e2789 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -749,6 +749,8 @@ static uint16_t qemu_V7_0[] = {
-  */
- static uint16_t qemu_MAX[] = {
-     S390_FEAT_VECTOR_ENH2,
-+    S390_FEAT_MSA_EXT_5,
-+    S390_FEAT_PRNO_TRNG,
- };
- 
- /****** END FEATURE DEFS ******/
-diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
-index 138d9e7ad9..dccce7f707 100644
---- a/target/s390x/tcg/crypto_helper.c
-+++ b/target/s390x/tcg/crypto_helper.c
-@@ -12,12 +12,30 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
+ hw/i386/x86.c                                | 19 ++++++++++++++-----
+ include/standard-headers/asm-x86/bootparam.h |  1 +
+ 2 files changed, 15 insertions(+), 5 deletions(-)
+
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 6003b4b2df..0724759eec 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -26,6 +26,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/units.h"
+ #include "qemu/datadir.h"
 +#include "qemu/guest-random.h"
- #include "s390x-internal.h"
- #include "tcg_s390x.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-visit-common.h"
+@@ -1045,6 +1046,16 @@ void x86_load_linux(X86MachineState *x86ms,
+     }
+     fclose(f);
  
-+static void fill_buf_random(CPUS390XState *env, uintptr_t ra,
-+                            uint64_t buf, uint64_t len)
-+{
-+        uint8_t tmp[256];
++    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
++    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
++    kernel = g_realloc(kernel, kernel_size);
++    stq_p(header + 0x250, prot_addr + setup_data_offset);
++    setup_data = (struct setup_data *)(kernel + setup_data_offset);
++    setup_data->next = 0;
++    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
++    setup_data->len = cpu_to_le32(32);
++    qemu_guest_getrandom_nofail(setup_data->data, 32);
 +
-+        if (!(env->psw.mask & PSW_MASK_64))
-+                len = (uint32_t)len;
-+
-+        while (len) {
-+                size_t block = MIN(len, sizeof(tmp));
-+                qemu_guest_getrandom_nofail(tmp, block);
-+                for (size_t i = 0; i < block; ++i)
-+                        cpu_stb_data_ra(env, wrap_address(env, buf++), tmp[i], ra);
-+                len -= block;
-+        }
-+}
-+
- uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-                      uint32_t type)
- {
-@@ -52,6 +70,20 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-             cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
+     /* append dtb to kernel */
+     if (dtb_filename) {
+         if (protocol < 0x209) {
+@@ -1059,13 +1070,11 @@ void x86_load_linux(X86MachineState *x86ms,
+             exit(1);
          }
-         break;
-+    case 114:
-+        if (r1 & 1 || !r1 || r2 & 1 || !r2) {
-+                tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+                break;
-+        }
-+
-+        fill_buf_random(env, ra, env->regs[r1], env->regs[r1 + 1]);
-+        fill_buf_random(env, ra, env->regs[r2], env->regs[r2 + 1]);
-+
-+        env->regs[r1] += env->regs[r1 + 1];
-+        env->regs[r1 + 1] = 0;
-+        env->regs[r2] += env->regs[r2 + 1];
-+        env->regs[r2 + 1] = 0;
-+        break;
-     default:
-         /* we don't implement any other subfunction yet */
-         g_assert_not_reached();
+ 
+-        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+-        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
++        kernel_size += sizeof(struct setup_data) + dtb_size;
+         kernel = g_realloc(kernel, kernel_size);
+ 
+-        stq_p(header + 0x250, prot_addr + setup_data_offset);
+-
+-        setup_data = (struct setup_data *)(kernel + setup_data_offset);
++        setup_data->next = prot_addr + setup_data_offset + sizeof(*setup_data) + setup_data->len;
++        ++setup_data;
+         setup_data->next = 0;
+         setup_data->type = cpu_to_le32(SETUP_DTB);
+         setup_data->len = cpu_to_le32(dtb_size);
+diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+index 072e2ed546..b2aaad10e5 100644
+--- a/include/standard-headers/asm-x86/bootparam.h
++++ b/include/standard-headers/asm-x86/bootparam.h
+@@ -10,6 +10,7 @@
+ #define SETUP_EFI			4
+ #define SETUP_APPLE_PROPERTIES		5
+ #define SETUP_JAILHOUSE			6
++#define SETUP_RNG_SEED			9
+ 
+ #define SETUP_INDIRECT			(1<<31)
+ 
 -- 
 2.35.1
 
