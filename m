@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43FEC57A48B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:05:08 +0200 (CEST)
-Received: from localhost ([::1]:38944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 525A557A48A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:05:07 +0200 (CEST)
+Received: from localhost ([::1]:38848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqeh-0002Qz-6E
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:05:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41796)
+	id 1oDqef-0002NC-RL
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:05:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqar-0005Ba-Rr
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:10 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:33282)
+ id 1oDqap-0005BO-2s
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:08 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:39560)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqak-0002dG-P3
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:09 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGbaK4003860;
- Tue, 19 Jul 2022 17:00:49 GMT
+ id 1oDqam-0002dY-ID
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:06 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGu6Tr030727;
+ Tue, 19 Jul 2022 17:00:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=sq9FFb5aE+/IiMlVeguENCUMCQ8VCOnFTO/apdVoO2I=;
- b=ZLk4+yQpZmv7sguhWHHJegrPAz+bRLDD9k5ICCwBAxWEqVjG3pzhhXSFJOYpUJlCQgIF
- cS4Bn1zB1pSimCg8C9wne90NIT+wp+rzBXSNMjRJGAjXhSpYnk7Cc5xvEfq2iWlE0CNZ
- 56sJuDT2DyDWaSiXJf7eny6bTQqVuTL/LNmd+3fLTwfNYV4YNMo2SzFvICUf3saNAbBn
- 7O2erhJii9BMnFjP9VTpquODS7BD1hlQSfsdCxsnoQZnFjmoUXNPmP8EXkcSsTKzv6RR
- 2lVP7f1T8OfbOSw8D19mjKevQnJ9UeO3/+3wlT5P+huyBrUc7kJSM0tuaJSFpSmXhPkH qQ== 
+ bh=fRUaM6BoTCnpEt8yk7mTglXXc901MlgM1s5jUyNf8tE=;
+ b=Gako0h/nzWa/t59AqzbV4/TtpYPX28ZAoWWmEnBnlbVvnUR47QCSI0XV6T9d9tOSX+aK
+ Kxh1cJfO0gS3cwB/j61Q9yWD31Y22hVN2ewdtOVeF1+s9ksYTErzhjj2i/A2DdiYotqo
+ qGW3fIx05wIo2WDD9zUX7oS3MskmE9G/pioZArVsLKM4a0OCZ5EdlTPRZqZHehvIVrg5
+ 1idugAv3RBwx4/2mwrzW7pJhvq73pjsz68BFTEw+JxGuwK06mpXz8A7WOhdTdjCuOhsY
+ FUP1OHNrD0hV3J5j5a62rBmLjy1cLlm3E7+dhYkqnxcI5VjQHIZ03ld6mfuB6wlLDFTu GA== 
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbmxs74jx-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbkrc71rp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:00:49 +0000
+ Tue, 19 Jul 2022 17:00:52 +0000
 Received: from pps.filterd
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26JGW7Wu009819; Tue, 19 Jul 2022 17:00:48 GMT
+ with ESMTP id 26JG2ZN8009830; Tue, 19 Jul 2022 17:00:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hc1ggpakf-1
+ 3hc1ggpanj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:00:48 +0000
+ Tue, 19 Jul 2022 17:00:51 +0000
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i4u032177;
- Tue, 19 Jul 2022 17:00:47 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i4w032177;
+ Tue, 19 Jul 2022 17:00:51 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-221-30.vpn.oracle.com
  [10.175.221.30])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3hc1ggpaer-2; Tue, 19 Jul 2022 17:00:47 +0000
+ 3hc1ggpaer-3; Tue, 19 Jul 2022 17:00:51 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -64,9 +64,10 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v9 01/11] hw/i386: add 4g boundary start to X86MachineState
-Date: Tue, 19 Jul 2022 18:00:04 +0100
-Message-Id: <20220719170014.27028-2-joao.m.martins@oracle.com>
+Subject: [PATCH v9 02/11] i386/pc: create pci-host qdev prior to
+ pc_memory_init()
+Date: Tue, 19 Jul 2022 18:00:05 +0100
+Message-Id: <20220719170014.27028-3-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220719170014.27028-1-joao.m.martins@oracle.com>
 References: <20220719170014.27028-1-joao.m.martins@oracle.com>
@@ -78,8 +79,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207190072
-X-Proofpoint-GUID: fRrig7-QvCAAi7kd4BUECwibObioIVAw
-X-Proofpoint-ORIG-GUID: fRrig7-QvCAAi7kd4BUECwibObioIVAw
+X-Proofpoint-GUID: cpr9VyRMbDNik18rapg1ITS_0Gv4EiVE
+X-Proofpoint-ORIG-GUID: cpr9VyRMbDNik18rapg1ITS_0Gv4EiVE
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,119 +105,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than hardcoding the 4G boundary everywhere, introduce a
-X86MachineState field @above_4g_mem_start and use it
-accordingly.
+At the start of pc_memory_init() we usually pass a range of
+0..UINT64_MAX as pci_memory, when really its 2G (i440fx) or
+32G (q35). To get the real user value, we need to get pci-host
+passed property for default pci_hole64_size. Thus to get that,
+create the qdev prior to memory init to better make estimations
+on max used/phys addr.
 
-This is in preparation for relocating ram-above-4g to be
-dynamically start at 1T on AMD platforms.
+This is in preparation to determine that host-phys-bits are
+enough and also for pci-hole64-size to be considered to relocate
+ram-above-4g to be at 1T (on AMD platforms).
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c  |  2 +-
- hw/i386/pc.c          | 11 ++++++-----
- hw/i386/sgx.c         |  2 +-
- hw/i386/x86.c         |  1 +
- include/hw/i386/x86.h |  3 +++
- 5 files changed, 12 insertions(+), 7 deletions(-)
+ hw/i386/pc_piix.c            | 7 +++++--
+ hw/i386/pc_q35.c             | 6 +++---
+ hw/pci-host/i440fx.c         | 5 ++---
+ include/hw/pci-host/i440fx.h | 3 ++-
+ 4 files changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index cad6f5ac41e9..0355bd3ddaad 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2024,7 +2024,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-                 build_srat_memory(table_data, mem_base, mem_len, i - 1,
-                                   MEM_AFFINITY_ENABLED);
-             }
--            mem_base = 1ULL << 32;
-+            mem_base = x86ms->above_4g_mem_start;
-             mem_len = next_base - x86ms->below_4g_mem_size;
-             next_base = mem_base + mem_len;
-         }
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8d68295fdaff..1660684d12fd 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -850,9 +850,10 @@ void pc_memory_init(PCMachineState *pcms,
-                                  machine->ram,
-                                  x86ms->below_4g_mem_size,
-                                  x86ms->above_4g_mem_size);
--        memory_region_add_subregion(system_memory, 0x100000000ULL,
-+        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
-                                     ram_above_4g);
--        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
-+        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
-+                       E820_RAM);
-     }
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index a234989ac363..6186a1473755 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
+     MemoryRegion *pci_memory;
+     MemoryRegion *rom_memory;
+     ram_addr_t lowmem;
++    DeviceState *i440fx_host;
  
-     if (pcms->sgx_epc.size != 0) {
-@@ -893,7 +894,7 @@ void pc_memory_init(PCMachineState *pcms,
-             machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-         } else {
-             machine->device_memory->base =
--                0x100000000ULL + x86ms->above_4g_mem_size;
-+                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-         }
- 
-         machine->device_memory->base =
-@@ -927,7 +928,7 @@ void pc_memory_init(PCMachineState *pcms,
-         } else if (pcms->sgx_epc.size != 0) {
-             cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-         } else {
--            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
-+            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-         }
- 
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-@@ -1035,7 +1036,7 @@ uint64_t pc_pci_hole64_start(void)
-     } else if (pcms->sgx_epc.size != 0) {
-             hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     /*
+      * Calculate ram split, for memory below and above 4G.  It's a bit
+@@ -164,9 +165,11 @@ static void pc_init1(MachineState *machine,
+         pci_memory = g_new(MemoryRegion, 1);
+         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+         rom_memory = pci_memory;
++        i440fx_host = qdev_new(host_type);
      } else {
--        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
-+        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         pci_memory = NULL;
+         rom_memory = system_memory;
++        i440fx_host = NULL;
      }
  
-     return ROUND_UP(hole64_start, 1 * GiB);
-diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index a44d66ba2afc..09d9c7c73d9f 100644
---- a/hw/i386/sgx.c
-+++ b/hw/i386/sgx.c
-@@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-         return;
+     pc_guest_info_init(pcms);
+@@ -200,8 +203,8 @@ static void pc_init1(MachineState *machine,
+         const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+                                          : TYPE_PIIX3_DEVICE;
+ 
+-        pci_bus = i440fx_init(host_type,
+-                              pci_type,
++        pci_bus = i440fx_init(pci_type,
++                              i440fx_host,
+                               system_memory, system_io, machine->ram_size,
+                               x86ms->below_4g_mem_size,
+                               x86ms->above_4g_mem_size,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index f96cbd04e284..46ea89e564de 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -203,12 +203,12 @@ static void pc_q35_init(MachineState *machine)
+                             pcms->smbios_entry_point_type);
      }
  
--    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
-+    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+-    /* allocate ram and load rom/bios */
+-    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+-
+     /* create pci host bus */
+     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
  
-     memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
-     memory_region_add_subregion(get_system_memory(), sgx_epc->base,
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2dfea..029264c54fe2 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1373,6 +1373,7 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-+    x86ms->above_4g_mem_start = 4 * GiB;
++    /* allocate ram and load rom/bios */
++    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
++
+     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
+     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+                              OBJECT(ram_memory), NULL);
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 1c5ad5f918a2..d5426ef4a53c 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -237,7 +237,8 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
+     }
  }
  
- static void x86_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 9089bdd99c3a..df82c5fd4252 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -56,6 +56,9 @@ struct X86MachineState {
-     /* RAM information (sizes, addresses, configuration): */
-     ram_addr_t below_4g_mem_size, above_4g_mem_size;
+-PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++PCIBus *i440fx_init(const char *pci_type,
++                    DeviceState *dev,
+                     MemoryRegion *address_space_mem,
+                     MemoryRegion *address_space_io,
+                     ram_addr_t ram_size,
+@@ -246,7 +247,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+                     MemoryRegion *pci_address_space,
+                     MemoryRegion *ram_memory)
+ {
+-    DeviceState *dev;
+     PCIBus *b;
+     PCIDevice *d;
+     PCIHostState *s;
+@@ -254,7 +254,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+     unsigned i;
+     I440FXState *i440fx;
  
-+    /* Start address of the initial RAM above 4G */
-+    uint64_t above_4g_mem_start;
-+
-     /* CPU and apic information: */
-     bool apic_xrupt_override;
-     unsigned pci_irq_mask;
+-    dev = qdev_new(host_type);
+     s = PCI_HOST_BRIDGE(dev);
+     b = pci_root_bus_new(dev, NULL, pci_address_space,
+                          address_space_io, 0, TYPE_PCI_BUS);
+diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+index 52518dbf08e6..d02bf1ed6b93 100644
+--- a/include/hw/pci-host/i440fx.h
++++ b/include/hw/pci-host/i440fx.h
+@@ -35,7 +35,8 @@ struct PCII440FXState {
+ 
+ #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
+ 
+-PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++PCIBus *i440fx_init(const char *pci_type,
++                    DeviceState *dev,
+                     MemoryRegion *address_space_mem,
+                     MemoryRegion *address_space_io,
+                     ram_addr_t ram_size,
 -- 
 2.17.2
 
