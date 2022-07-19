@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 704E5578E82
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 01:57:25 +0200 (CEST)
-Received: from localhost ([::1]:38188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B09578F38
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 02:26:04 +0200 (CEST)
+Received: from localhost ([::1]:42330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDac8-0000aj-2r
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 19:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
+	id 1oDb3l-0006dY-Pt
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 20:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oDaaY-000716-UO
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 19:55:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48215)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oDaaV-00046P-NS
- for qemu-devel@nongnu.org; Mon, 18 Jul 2022 19:55:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658188542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RwGvQOH3aTAoLOpSK89BroYLOeQKz0lB3uRp3TnQLfo=;
- b=N1GX7xRhYGUGRUp5Qp6WpBElPmu0MlmCuJ8FFQpAMpwDnGuXklkr6u+uEyGWRRzbUoNthl
- YcZV3dkSLcdEbhKKRH+5En9wI2595ryhFIWTDTAbHUXaqj6qViA1NiTr3FCkFMAT/5YoOs
- 65Y/tHMSTEEfGZQp9+kYTcXqh4vXlK8=
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
- [209.85.222.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-660-fAfeR0e6Ow-k5WL8OT0-3w-1; Mon, 18 Jul 2022 19:55:28 -0400
-X-MC-Unique: fAfeR0e6Ow-k5WL8OT0-3w-1
-Received: by mail-ua1-f70.google.com with SMTP id
- f12-20020ab014cc000000b0038339d55bd6so6326518uae.10
- for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 16:55:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDb22-0004D6-Py; Mon, 18 Jul 2022 20:24:10 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:43572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDb20-0007So-Mg; Mon, 18 Jul 2022 20:24:10 -0400
+Received: by mail-pf1-x430.google.com with SMTP id b9so12092767pfp.10;
+ Mon, 18 Jul 2022 17:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2RYaVqsWYKi7vZojfcQH1kVo4AmTPs1FpVLB9ZEoC3U=;
+ b=NgA089cmYnOEeJihY92ffxTjqMLQMGE9BZzBE5ejlepNhBSU9gDInEGkido+Jg7ddX
+ cu8DsC0JwYhXSPRNLzpaccWh0ESQEDRij75/K90zEekB9Lw3Cxy8r1qYAqiscLsOUuF4
+ BgH5+L857KIKPjzN6pLiu7owBI36jAyOZNm2CPEriBsCbDWQyliS+OvVECAuurTXTshW
+ zAn+xoCNe8A+rGuLSDToVSdzYPWDaoph+Zv2Ab7yKMMQ6DBzo9v6M0c/DJFprfadMceb
+ QEDd4MbBMWkNdimeDeBgx2BqSSAZie7kHCEwsIH7KXK+sBRY32Ylabek2kd9iYeH8bo5
+ 6dLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=RwGvQOH3aTAoLOpSK89BroYLOeQKz0lB3uRp3TnQLfo=;
- b=vncRV3e2s4SJbvG8i/P7LllGGsQjkYE5QkvmqQ9tRFy9MVBTp1kLv1MoofQKzaiEIh
- tQnfuQ/JmqVNMrLsyjYvuGo7Nssshdgr6+4IhMoWZ8paQyD6tSmmOE12EoQUCAVWWvGH
- LhjbVvlSG3SQ1nG96uTdBh5NkTLFgc0Bb+iQ9DkNXh0uGhRgNFXqUp75WKw3hmDHpblx
- ViiyMpGyvgE28xIR9PPbdQwjm+mH6OUwzx7N3rr32DTACZQ55lp3zi04/I36Ldx8V/ci
- wIgbJZlcfQnuBnJ7ly6Ib63tHb4Bkd/oMizbcnue9LvVQa8BdMDxZzeGDhF4sqriQ8G6
- 1hzQ==
-X-Gm-Message-State: AJIora+UmBiQpR1/1DVW0AcNSxY9q9Ks0VdQ9dUA4HUcTUH98fv/EL+t
- ieTfUDD8Jc27lLDElx+FjIJU2ntaPm2WO0A+Y0suvD1iPjA0+MWHqrbpva1CVxpYA/9MOUtBJhT
- E/akvkWg7PB4M/Rd5f0GJmqhiVwsbxEo=
-X-Received: by 2002:a1f:ac54:0:b0:374:a175:ecf4 with SMTP id
- v81-20020a1fac54000000b00374a175ecf4mr10293171vke.35.1658188527978; 
- Mon, 18 Jul 2022 16:55:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uQRbTwXaiXGjBNZsFnJ2ZDlzCYy2+VWl+GyjH+dfuM9zyZYB3Mne5dxhn4tXirrR97csMI03zD3QMIKm1qKQA=
-X-Received: by 2002:a1f:ac54:0:b0:374:a175:ecf4 with SMTP id
- v81-20020a1fac54000000b00374a175ecf4mr10293167vke.35.1658188527813; Mon, 18
- Jul 2022 16:55:27 -0700 (PDT)
+ bh=2RYaVqsWYKi7vZojfcQH1kVo4AmTPs1FpVLB9ZEoC3U=;
+ b=0buABCOrl0zNV7g8Dwe46F2FsOjKvzYHk8gVkVjNlUZiybGwgPMwe/bJQspGOcVoEc
+ xmY+G+Umluu0OvRTeYFYchj4/CUYDrSx3AIr3rjvsrDdxQnuQco7SkkjAs0r+Os6PTw3
+ R6AYALGVmghfgwTKAgSTURUxvpeDpnAX4GQyg4WgdZ7fPDSd6zFKufV7nZUHQ9Z+nT3H
+ dNYg85F23pSa+FaNH6BWbq5yPDrshkG8muvThWNIWGrNa+5K79hv61Q1zU3R+zz5k7MH
+ lYTD28qhJAysOAVIMgRlzMXI+BjTmRnUk+k6je2drBho7tVDZTUlCcnQ3PyS+bTTxfh+
+ x9+Q==
+X-Gm-Message-State: AJIora8nq277Y7sbPqF/U0cCbmX50fMCwa7vJM9diu29IsCQRYKpr22O
+ 6QYvqfywy5+4jPYAcHH6TRpSjmMT+OwXbi8eq84=
+X-Google-Smtp-Source: AGRyM1vTA+ZSZcCx1jTB2ZCg14UrvnU49RrR2c/rKoYvXiJou/E+Gz7tvsXxwnvu9S13Vk/eL1PKAyx91lQmsbl9Ftc=
+X-Received: by 2002:a65:6b8a:0:b0:3db:7dc5:fec2 with SMTP id
+ d10-20020a656b8a000000b003db7dc5fec2mr26078826pgw.223.1658190246896; Mon, 18
+ Jul 2022 17:24:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220718172026.139004-1-thuth@redhat.com>
-In-Reply-To: <20220718172026.139004-1-thuth@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Date: Mon, 18 Jul 2022 19:55:17 -0400
-Message-ID: <CAFn=p-bjTvzqGcGWxEXYi0fuRVmZn8BMcgX=Q_9RpcpvK3XDvQ@mail.gmail.com>
-Subject: Re: [PATCH] util: Fix broken build on Haiku
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Alexander von Gluck IV <kallisti5@unixzen.com>
+References: <20220718130955.11899-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220718130955.11899-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jul 2022 10:23:40 +1000
+Message-ID: <CAKmqyKNivL5AVHSbL8JuaxOv9fv3y0Mo3TN0TpPB6Rt7+XWbvw@mail.gmail.com>
+Subject: Re: [PATCH V3 0/6] Improve the U/S/H extension related check
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=alistair23@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,18 +85,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 18, 2022 at 1:20 PM Thomas Huth <thuth@redhat.com> wrote:
+On Mon, Jul 18, 2022 at 11:10 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> A recent commit moved some Haiku-specific code parts from oslib-posix.c
-> to cutils.c, but failed to move the corresponding header #include
-> statement, too, so "make vm-build-haiku.x86_64" is currently broken.
-> Fix it by moving the header #include, too.
+> This patchset tries to improve the U/S/H related check:
+> * add check for the supported privilege modes conbinations: only supporting M,
+> S mode is not a suggested combination
+> * add check for "H extension depends on I extension"
+> * add check for "H extension implicitly requires S mode"
+> * add check for csrs only existed when U mode is supported
+> * fix and simplify the checks in hmode/hmode32
 >
-> Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Any suggestions are welcome.
+>
+> v3:
+> * Fix the issues suggested by Andrew Jones in commit messages
+>
+> v2:
+> * update patch 3 to make the newlines start at the same position as above line
+> * update patch 5 to add check for "H extension implicitly requires S mode"
+>
+> Weiwei Li (6):
+>   target/riscv: Add check for supported privilege mode combinations
+>   target/riscv: H extension depends on I extension
+>   target/riscv: Fix checkpatch warning may triggered in csr_ops table
+>   target/riscv: Add check for csrs existed with U extension
+>   target/riscv: Fix checks in hmode/hmode32
+>   target/riscv: Simplify the check in hmode to resue the check in
+>     riscv_csrrw_check
 
-Thanks for this one !!
+Thanks!
 
---js
+Applied to riscv-to-apply.next
 
+Alistair
+
+>
+>  target/riscv/cpu.c |  17 ++
+>  target/riscv/csr.c | 490 ++++++++++++++++++++++++---------------------
+>  2 files changed, 278 insertions(+), 229 deletions(-)
+>
+> --
+> 2.17.1
+>
+>
 
