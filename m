@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B364579B51
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:26:26 +0200 (CEST)
-Received: from localhost ([::1]:41356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BEE5579C3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:37:34 +0200 (CEST)
+Received: from localhost ([::1]:46270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDmIz-0003oE-85
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:26:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54080)
+	id 1oDmTl-00083w-45
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:37:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oDmGr-0000pI-Mb
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:24:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39493)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDmRh-0005za-LQ
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:35:25 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:36192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oDmGn-0003Ux-Hx
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:24:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658233448;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDmRf-0005iW-Ew
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:35:25 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id EB9F1B81A7F;
+ Tue, 19 Jul 2022 12:35:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BD63C341CA;
+ Tue, 19 Jul 2022 12:35:20 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="MLLT0Zum"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658234118;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=aPtsR3S3j5ard9Ji7jOZXxYGmOs/zrd3T188Sx+XMI4=;
- b=Yt70s0sf8jNxIfnnntIP1xAVL00UT8J1kNAGZ8OpUn4aHEXHYg6ezWAIaa6PF0N8z26aAZ
- 6MGmWLPKSkdUkKbd2l9h7w+OsmIpRMgITj1iEyIWBAxTCRJRtcz+3ajsq/p1sCGwmWC3c0
- 1w4NQrwz1HN2VMq3utbKME7EyB4vWzM=
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
- [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-645-rt2EbNWMNUSBzkykFIZajA-1; Tue, 19 Jul 2022 08:24:06 -0400
-X-MC-Unique: rt2EbNWMNUSBzkykFIZajA-1
-Received: by mail-oa1-f72.google.com with SMTP id
- 586e51a60fabf-10d7a610a64so95017fac.7
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:24:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aPtsR3S3j5ard9Ji7jOZXxYGmOs/zrd3T188Sx+XMI4=;
- b=guWQaoJn1cG+v6VJDtBDFJt7RUQ4PwBWrMm+UoulPD2LrCBKtYALRJQfQ6JP0sV1MK
- W2X/2C3GUZQKW6zma8EqBzOL3nW2XVjndh1CByjGYRYpr9I46ITppCWBkAt85LJjO5DT
- INrNvWfgGrSZaeqZYoG3tpjalQ1se+4060vauxF0dRuap2q9lcIgAjtG08VluQR2mxs4
- hnYyyA1U3roFP3Q+ztVKk3ASdnUJVJUtFD98wymwYAnAsiO9NwjhwoaDbtVvhuPBJi5B
- ilJTlI2VGvbV6yxX7dnycRL7FkUBFh8TdTlSI+M9Yxc7uCZRioZRlloricPwVPUWdf2Y
- 1uxg==
-X-Gm-Message-State: AJIora+jcnkzOoN9hNowMCXcR2fitKnMLXx5wqtCnR5fAbnjwh5WCbEk
- 0btNKtzysIcgaoRXPSBkyMCWc5GWCcZbvqedYj5Dle/tJYwlPl/2L19kDssd8ayJRTvepHcIW20
- DFTyrQrmUUVUbT8g=
-X-Received: by 2002:a05:6870:2103:b0:101:4016:b2c6 with SMTP id
- f3-20020a056870210300b001014016b2c6mr17508994oae.32.1658233446088; 
- Tue, 19 Jul 2022 05:24:06 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vTA1s4krlAQ902AibHoNi+hp1k/6esqLlXvU9JM7z7oAPYM6awu81PunVYEfxEdJYTFj8Wdw==
-X-Received: by 2002:a05:6870:2103:b0:101:4016:b2c6 with SMTP id
- f3-20020a056870210300b001014016b2c6mr17508984oae.32.1658233445850; 
- Tue, 19 Jul 2022 05:24:05 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:431:c7f1:970e:3c78:65ba:6740:6ae3])
- by smtp.gmail.com with ESMTPSA id
- p83-20020acad856000000b0033a4a58fa19sm4557261oig.22.2022.07.19.05.24.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 05:24:05 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v1 1/1] migration: Avoid false-positive on non-supported
- scenarios for zero-copy-send
-Date: Tue, 19 Jul 2022 09:23:45 -0300
-Message-Id: <20220719122345.253713-1-leobras@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WvlTsWoMecPUH0tIGy6f9DYCJdZDkuQB79ZQ9M6f+Y8=;
+ b=MLLT0Zum8GLMTU6lfE4TrOkp89N6JfMzwzUS/M7VSOsOrDdkjR+XF0klk4o/z2ng9bLxF4
+ aMzCdGIrzUqPNEAknQY8nqrbhydKQK3Mx4R2Xrjf1wVqA4r42RUGOxIoUk+5NnqsJZAOBC
+ 9uezmGJd3O30moVPA7Ge0dtGxHR9b9Y=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c06e68f4
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 19 Jul 2022 12:35:18 +0000 (UTC)
+Date: Tue, 19 Jul 2022 14:35:16 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 0/3] Misc patches for QEMU 7.1 freeze
+Message-ID: <YtalBPp+QKS0wKWs@zx2c4.com>
+References: <20220719093439.528810-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220719093439.528810-1-pbonzini@redhat.com>
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,75 +79,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Migration with zero-copy-send currently has it's limitations, as it can't
-be used with TLS nor any kind of compression. In such scenarios, it should
-output errors during parameter / capability setting.
+Hi Paolo,
 
-But currently there are some ways of setting this not-supported scenarios
-without printing the error message:
+On Tue, Jul 19, 2022 at 11:34:36AM +0200, Paolo Bonzini wrote:
+> The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
+> 
+>   Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> 
+> for you to fetch changes up to 3746b8ca3e8bc216d03df5813080eeb06bdafabb:
+> 
+>   util: Fix broken build on Haiku (2022-07-19 11:32:21 +0200)
+> 
+> ----------------------------------------------------------------
+> * Boolean statistics for KVM
+> * Fix build on Haiku
+> 
+> ----------------------------------------------------------------
+> Paolo Bonzini (2):
+>       monitor: add support for boolean statistics
+>       kvm: add support for boolean statistics
+> 
+> Thomas Huth (1):
+>       util: Fix broken build on Haiku
+> 
+>  accel/kvm/kvm-all.c       | 10 +++++++++-
+>  linux-headers/linux/kvm.h |  1 +
+>  monitor/hmp-cmds.c        |  2 ++
+>  qapi/stats.json           |  4 +++-
+>  util/cutils.c             |  4 ++++
+>  util/oslib-posix.c        |  4 ----
+>  6 files changed, 19 insertions(+), 6 deletions(-)
 
-!) For 'compression' capability, it works by enabling it together with
-zero-copy-send. This happens because the validity test for zero-copy uses
-the helper unction migrate_use_compression(), which check for compression
-presence in s->enabled_capabilities[MIGRATION_CAPABILITY_COMPRESS].
+Considering the subject line, I'm quite distressed that the i386
+setup_data rng seed patch did not make it in. I just resent it to the
+mailing list [1] in case you missed it before. Do you think you could
+queue this up ASAP?
 
-The point here is: the validity test happens before the capability gets
-enabled. If all of them get enabled together, this test will not return
-error.
+Thanks,
+Jason
 
-In order to fix that, replace migrate_use_compression() by directly testing
-the cap_list parameter migrate_caps_check().
-
-2) For features enabled by parameters such as TLS & 'multifd_compression',
-there was also a possibility of setting non-supported scenarios: setting
-zero-copy-send first, then setting the unsupported parameter.
-
-In order to fix that, also add a check for parameters conflicting with
-zero-copy-send on migrate_params_check().
-
-3) XBZRLE is also a compression capability, so it makes sense to also add
-it to the list of capabilities which are not supported with zero-copy-send.
-
-Fixes: 1abaec9a1b2c ("migration: Change zero_copy_send from migration parameter to migration capability")
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/migration.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index 78f5057373..c6260e54bf 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1274,7 +1274,9 @@ static bool migrate_caps_check(bool *cap_list,
- #ifdef CONFIG_LINUX
-     if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
-         (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
--         migrate_use_compression() ||
-+         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
-+         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
-+         migrate_multifd_compression() ||
-          migrate_use_tls())) {
-         error_setg(errp,
-                    "Zero copy only available for non-compressed non-TLS multifd migration");
-@@ -1511,6 +1513,17 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
-         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
-         return false;
-     }
-+
-+#ifdef CONFIG_LINUX
-+    if (migrate_use_zero_copy_send() &&
-+        ((params->has_multifd_compression && params->multifd_compression) ||
-+         (params->has_tls_creds && params->tls_creds && *params->tls_creds))) {
-+        error_setg(errp,
-+                   "Zero copy only available for non-compressed non-TLS multifd migration");
-+        return false;
-+    }
-+#endif
-+
-     return true;
- }
- 
--- 
-2.37.1
-
+[1] https://lore.kernel.org/all/20220719115300.104095-1-Jason@zx2c4.com/
 
