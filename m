@@ -2,156 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5282857A769
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 21:50:19 +0200 (CEST)
-Received: from localhost ([::1]:60270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC17E57A78B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 21:54:50 +0200 (CEST)
+Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDtEX-0003aC-TW
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 15:50:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37464)
+	id 1oDtIu-00089C-QA
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 15:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1oDtD8-000298-S2
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:48:50 -0400
-Received: from mx0a-0031df01.pphosted.com ([205.220.168.131]:42150)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtHo-0006nu-RD
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
- id 1oDtD6-0001Tp-Ah
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:48:50 -0400
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JDx7LD018128;
- Tue, 19 Jul 2022 19:48:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=qcppdkim1;
- bh=zZnm6Phtbtq+6nEPbRetlfccQoPGP0Xj9nbi/vTr70U=;
- b=RVnKMIsvqYHs20S1uYPQiLJOYnz6HUV0OCzdzoJf9HRzupMuFIoB7WK7iJks67pA1vv0
- QSpVOX+nu0kRSt+cXk+fxIAws1UVGJCdTZj0LfEn4u+8dc5mp8ScBbJ+DDMXAxCFj3JG
- 4kXQacYbOOLNzXpFdeZuLi33oyuKuUwqX2FVjdz5SfQ74tcZDxiHkZYE3rrzS88Cnxk5
- n1dIL7mMEajpv3Pgz1p2cIUw3aAv1kBj50F8v3xUy4FhmAisbJK8z2VeSAAzS1DLUztm
- CfLnUM7WlTe3kydCB7VAb8iJkPXklYOYApLMaqvmaTWiCNiWuAUgFW40TMaBCQkr5r9C JA== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam11lp2169.outbound.protection.outlook.com [104.47.58.169])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hdsma9hdy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Jul 2022 19:48:33 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Spu0Svtfv/XqfyXu5vo9x9PyDNBJb3SK5Do+jAfNYGMGtqItCX0TarzPTAaZPLKkTLT5/V2zMXkX+3oQiiR+JtKX3+HVgbFsL07PTgzeMXYoWcIjaXtsJGv74hkKKv++NM519vyo3cWMoJTAO+uUCQ7ea48iK0Wn3rG2EbCm4YYJnBfSZX3Ia7yaESktr3in/fGpU7gJ8eH0vdKab2ZshUT8NT9k1R/EwJHPO/alPaGHukjGMzhA+TbCImgwsdJyAMGMGoCbTFqZqll36yk3rzwcuf2P0+K6uRjovau2bfHWuAU6fyR6iyEkH1vz2LPhCXgtcVD82gfdjoAujxkY1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zZnm6Phtbtq+6nEPbRetlfccQoPGP0Xj9nbi/vTr70U=;
- b=f/grmtddp3MATefdyCjlp2bKSjZEbtYNqx+40FOIyg0QPhip/91KbP1AUNgQSDDHhQv8OWtxndFDy2nx5cWZkOAhS7Bnxn6DOoChpBxfOnnY+sPK3EYEvdgOQoM7byjIKJFhYjiOSVmKBwKnw3921eJrrTCzxQijSPPnPfwq1lydJVJGxYRWv6LpjWPG1tjj4t0ZhsiTVTTCA8PGJ07MsU+AmDbjBWPMJ433e+oF8KJAYNA36spjqk2KmcC8PhB/hmcBJ9Lpy9Rvcq3mXkRCxgJCxtPCMV02r/zT+xDfx5c6rCVCihhv/L16L6oIwW9dqJPcVJvF6NN3aGSZ3gbWlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- (2603:10b6:806:203::12) by DS0PR02MB8950.namprd02.prod.outlook.com
- (2603:10b6:8:c9::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Tue, 19 Jul
- 2022 19:48:29 +0000
-Received: from SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::7076:51c5:7c74:6171]) by SN4PR0201MB8808.namprd02.prod.outlook.com
- ([fe80::7076:51c5:7c74:6171%9]) with mapi id 15.20.5438.024; Tue, 19 Jul 2022
- 19:48:29 +0000
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "f4bug@amsat.org" <f4bug@amsat.org>
-Subject: RE: [PULL 0/2] Hexagon (target/hexagon) bug fixes for mem_noshuf
-Thread-Topic: [PULL 0/2] Hexagon (target/hexagon) bug fixes for mem_noshuf
-Thread-Index: AQHYmviXjkZvcXj1JkuzWW/7OQZKQa2FmYCAgACBYnA=
-Date: Tue, 19 Jul 2022 19:48:29 +0000
-Message-ID: <SN4PR0201MB88081B9D4354E311CBEC915ADE8F9@SN4PR0201MB8808.namprd02.prod.outlook.com>
-References: <20220718224845.19878-1-tsimpson@quicinc.com>
- <CAFEAcA_cjB6_QjZ6=X=st+h=YHPm1zYovU8C9Stcf2fy_8oDEw@mail.gmail.com>
-In-Reply-To: <CAFEAcA_cjB6_QjZ6=X=st+h=YHPm1zYovU8C9Stcf2fy_8oDEw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: e4ddac42-0ab1-4157-dbeb-08da69bfa743
-x-ms-traffictypediagnostic: DS0PR02MB8950:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: k7CJKcLCD04+UqWbTAgTLKBx6pUmYZ25dtjt6PfIvjbAHz0X2P0dWiPybcGMuMoRQxZew8+y7LVLPBJHzrdfg6a2Ptys9je74BXoZAjWsPpkGPuQ/eSIeg8h397LDYaLtkOeBOss7Ls5pjYdc7pv9ScgFdNPwKdiqkF4dC1d5L5a+24/ZcAwcl+j92eOEuUlqoDf/VGNSvyHUwawO406ZBaLhhRd5gaoQiBnRnV/Sm17RlTgf1/j5+3soD80UdqziKVYn6kAKMNLa9mJu7IBBwGQSH8UUcbYgi6JEoMJii4+gWoNL0uQXlVlusQ1Q9N6BEaJl+Nufk+e6yRdaRJdzmsYqzuv9GY9j3oqmxwrEFOfQ34DF5lM5p9MthLSJqVmzZ5N56QVy6yKqEj3YtJZ4E1xOXbhfEoq0VUkJBd7FSSzzPTjQOvsuyEmsqqD47spLkorRD67hNzFxXu3LwXjwwFUrkVX6zWsNdCSqjnFcW0DOaWCrmzklPUYKYubkWkCracJGKyaJbw841nFCfvqZUQ2pEqZ12jlut6rav6p4EKrdppU9IGfTnMvVjvNO5J3SmQUSLFeULwR1KcUsr5PpeEKzrtlXC15R7EOh/SzM9VNno5Ty5HGt0WMooiKvlKM1OdJW/obm52j6QS8qaPK/bWJ8Mf2N3k5naMaOGJGKhcAXBQl4f8c03qymC+NCyi3k0ojmD61WUHtX63B/ZRdPPjMCORE7gNkAACVyGEKt34fAtnsT7LdJeoX3xo62BPnyFYKk/1TD8Z9LR2CFJW/gWx1DRK3IyRw8bVlg8xoPaVXafpYdxULXrPk0PU1tbQIuI1rZtdreQc+J1jPUmOhd+ln6vJqy+ZImBBpu6bOcW0jeyUoSyHBrBsEwu8F5dWH
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN4PR0201MB8808.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(366004)(136003)(346002)(396003)(376002)(71200400001)(41300700001)(966005)(66476007)(64756008)(478600001)(53546011)(186003)(9686003)(122000001)(26005)(38070700005)(83380400001)(66946007)(38100700002)(6916009)(33656002)(2906002)(66446008)(5660300002)(52536014)(6506007)(55016003)(8936002)(7696005)(76116006)(8676002)(54906003)(66556008)(316002)(86362001)(4326008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QzNzRXQ1L1BZZ2dReXdiMGV2eEM5OFNRM2NZR25jZkc0dE9Mdmo2b3E3OHVO?=
- =?utf-8?B?U21GZnczNnc1aTJFZEdiYlZ3MlQzMjRjNFVsWlFuOFhJZWtueXpwa2R3cm9B?=
- =?utf-8?B?enBIRjVrNnVCYVJrZjB5N3FsZTFDSEhwL2s3TjYwT3lyR3ZOeFYyQWlSUmFu?=
- =?utf-8?B?R2pneFl2RllUc1A5blFJQWhsbDl1VW1RRXRkRG8zUGttMWdIeTExMkN6N1Zj?=
- =?utf-8?B?NnVrNUgvODRmZElHamJwT3BPSWxXUStlVXBXK1Jnc3paOFhRbDlFdXhnd21M?=
- =?utf-8?B?U1d0ejQvYXNndUNUU0w4WjQ3RXhkdFZSWkFrWWszayt0ZDl3Y3NPRlZqb1BX?=
- =?utf-8?B?eXNpNlRKVk5FKzZKRzFxQWN6K1dDdU5vQVhFRTM0dFIxWFN1R0VYckRnMnRk?=
- =?utf-8?B?WmI0UElXN0VTcnBCaW1EVGg2a3VvN29FWXV6TUtOSXhwM0NIWHcvekQ2WTFT?=
- =?utf-8?B?TWpmWmZ4clB2NTFWNEpiditibkZ6RWw1TFl4NHBoUnpqdEJqaEtEMFdCRjV5?=
- =?utf-8?B?MHFhMHk3VHp3MVk0WWJaUjVBVEw2RklIZUthR2dYTWVpUUpORWdQbUNIYlA0?=
- =?utf-8?B?SHV2NDdQMTlHNkplK3VpN1lZSE5jbmtmc3JzcDViMks0dFErSldPcTZZWkty?=
- =?utf-8?B?aHAxTFpCVmdmWE45RUF0bVhvc2QvbDZCY1RONkJXcEx6Q2lCbWlOa05WdlFO?=
- =?utf-8?B?cG1TVWdBdTQ0bnNYOTI5ZFdrbGE2bnJvenlZMkE1ajgvOFhKdjN3OUowUVRC?=
- =?utf-8?B?dkFjY0huNDNZK3ZTQmpZenJWVUd6cmpPQlRZTlRaU1l6OW4zdkZRMG1rVnow?=
- =?utf-8?B?UmQwY2dsaStkWmNZZERlME4wd0ZvdXNwNlZySkhweXV1K0FNUkxVUnhGbW12?=
- =?utf-8?B?bEJyY2tWeHBjTEZHQ3B0cHh2TDNKeDRIUUpaYm0yRTJJQjdGUEVDcWtGL0NG?=
- =?utf-8?B?bXZlcUZ5VDhRa1lOK2dnNHBTREtLNERVRlhRS1ZOR0hQZkl0UlVXNXE0a1dS?=
- =?utf-8?B?MmRRWktsVkl1dys4VVNIWUljNUxuQ3dUS1ZLWEd2U01rLzk4NzRyUHZ3aTZY?=
- =?utf-8?B?cVZpcHdnQ0VTVElSUlI0UWpibldqWmRPcnVxL1hFblZEYVVpa2lGV3d3aTBx?=
- =?utf-8?B?RG5oczl0UHJJRXl2N0lMZ2gvYm9VclYyVGJuNHFhUDJ0NEdRbVlWR1c1K3hY?=
- =?utf-8?B?OXoremtOcFMxNnlucW5DSnZSTTFUcHErRkM0UzVySFB1dTRsdnh2VHQzMVM4?=
- =?utf-8?B?NFVUaSt3aXFqMG8xenRwTXhUTEI0ellhcmhYclN0Z2ZsNm16MDhXd0poeW9w?=
- =?utf-8?B?LzNzQ3F6OXBFSElXb0VkeTlSYXNKZmVPTGtNYmMwZ1g0aHJIOTY2YWpNTUhS?=
- =?utf-8?B?eDdBVnBlNUlVZSt4OVcvOGMwOC9TK2thTFAwbmtML3paWWZENXlOMEUySHVU?=
- =?utf-8?B?QUFLOTFHVGE2cEJHeXdwUkFnQldlTFZCS0RpdDZ5ejdGcTRXQTJFTWcvMkd2?=
- =?utf-8?B?Rk5BZWEyeXNQdGdvMTZuM20zUGZENmloWUJ5ZnhRd1oyZE9JNU1nczFER1Fz?=
- =?utf-8?B?UmRMdTNGYTQ0RkR4V01QNTNSUEtzUTVaaTVQMnVLcmtGRmEyNk9EbGxQUGJG?=
- =?utf-8?B?cHdCTThqUzh1UjlhUzFVUmo0Vytqa0grM3BlWGluNzAvdG4wUnYwMTN2ckFu?=
- =?utf-8?B?T092SUYzVFJQazI0TzJVUjJUSlNVVS9JL085M3o0YU1TbWZsL2dNdXk4M2ZT?=
- =?utf-8?B?VnZEYzV5S3lpY3FxMGMxcFd5enlwcWIyTnFNbzhRWXRlZm1UQTg1ZUdnVXEw?=
- =?utf-8?B?aENDS08rMjRkVVhaNWFNV1kxd1dRM2ZQRDBnVnZwU01vRHk4YUVWS0NKWHJI?=
- =?utf-8?B?WFB6aDY3N1VNbmh0NlAzVjBxUmxwTHZlVWNnRnVITmpQZFE1eGdoYTNTRmM2?=
- =?utf-8?B?QTlLOXRCQS9qK3lqSHR2QVNtSlR4TXVja1diQ1hVZ2hLMFpReml5b2s3Mm9i?=
- =?utf-8?B?cURpRU1VS21kQnc4akJsZWhlS09LS3ZGTnd4ck54SXYxcHlUUDAvZDdmZytp?=
- =?utf-8?B?SUlZcXVxazRDZFZNWVdCM2U4VEhQYmxHeGkrR1FTcEVVRGFhcE0zMlRLWC9F?=
- =?utf-8?Q?/k92INA/PuWgfMsI3KshY3FI6?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtHk-0002Lb-OR
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:53:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658260413;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dCIm//mrVzSgwSVB2lNLBMDixGKXm6mMH5KhomgLZXo=;
+ b=dQTvBBWkwejpL+7vqc1e9RqZVNFLKiVzOobXUnnKsj4L99McRXFDuA5ej4mowhWICCZiOi
+ 5egwh9f1bCVybGV9a4mjs7MiEWCeW7P3nJnSLr+VgUl/zeVApiwsJU+TFDKBczVMcw3+My
+ qNVOFNGwCKtOXx8U09HHZpwNHdN9zTo=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-615-sQBzg0oxOSaE2qubJT8J4Q-1; Tue, 19 Jul 2022 15:53:32 -0400
+X-MC-Unique: sQBzg0oxOSaE2qubJT8J4Q-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ r5-20020ac85c85000000b0031ecf611c64so10969569qta.23
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 12:53:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=dCIm//mrVzSgwSVB2lNLBMDixGKXm6mMH5KhomgLZXo=;
+ b=WeKy3AWI+HbVDbSMeqChcX4hlU9CrhtDt3R7omUsXQk36XQJ6M6/GSl8pwow+MpAfr
+ brS1J9vketJo7eSoFEeMnCmpVVWBTkpFytPdFbpbiXNV70wlIw/hM0asUpoADDBiYMtq
+ cV5QWchrGiBp5zM54pcgA1fMwg9amdm1MEPu/Wwn/znE1+re1Y0eNl8Jm5frC7zrtQ1W
+ Xy6wyihfSknnLnfOpjuAKa67TBYzyn3gYX9Ik6XIpvLXteZUsdy8PZGf2pTt+VBu03uq
+ gDVciK9++ZxEtsPlXOhppy0kYQlqDtOHYX+x7r9meREvTl412KsP2IVhgRpVY0IQnDlS
+ YraQ==
+X-Gm-Message-State: AJIora9C7k2bew4UyG1Ns+1OrGfer7r9Genvl3XTyDaoD7Dt/v9fUddV
+ ykZBBJD8xFkG3GPk2O0QN9LliX88k6AbZlV7OJZy+c5+faW3BJvEGsi0A0+06/xaZ4X5+YcKLuf
+ nQcz1PmvXBZenb6M=
+X-Received: by 2002:a05:6214:c88:b0:473:6384:6504 with SMTP id
+ r8-20020a0562140c8800b0047363846504mr27091470qvr.33.1658260411009; 
+ Tue, 19 Jul 2022 12:53:31 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tJYkVPjd0zE/Ivc/ttkGup9VxrgRO+DPWfOHEya+EGDnC//t1gBf+aQ8t3ncKc8gh2pkL9Sw==
+X-Received: by 2002:a05:6214:c88:b0:473:6384:6504 with SMTP id
+ r8-20020a0562140c8800b0047363846504mr27091458qvr.33.1658260410778; 
+ Tue, 19 Jul 2022 12:53:30 -0700 (PDT)
+Received: from xz-m1.local
+ (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
+ by smtp.gmail.com with ESMTPSA id
+ j18-20020ac86652000000b00304fc3d144esm11071361qtp.1.2022.07.19.12.53.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 12:53:30 -0700 (PDT)
+Date: Tue, 19 Jul 2022 15:53:29 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+Message-ID: <YtcLucZuvELrFC0f@xz-m1.local>
+References: <20220707184600.24164-1-peterx@redhat.com>
+ <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
+ <YtWxHSjpORK31aLs@xz-m1.local>
+ <4ebe2d62-b627-3d2b-3c3e-73701fbf7be5@redhat.com>
+ <YtaJg0zU8Fo3p2NB@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: quicinc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN4PR0201MB8808.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e4ddac42-0ab1-4157-dbeb-08da69bfa743
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jul 2022 19:48:29.1946 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 2PesXfFdqOl1cRjvkN0AH23y9KXchSjD6OCyhxP6+ClrhpZ2vrEx1hesOzymxOEK/U80sMnx+4drH9DFLLe1Mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR02MB8950
-X-Proofpoint-ORIG-GUID: LuWvDz4vDRfkBOkzyOHA1WJ_qbH19QA0
-X-Proofpoint-GUID: LuWvDz4vDRfkBOkzyOHA1WJ_qbH19QA0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-19_08,2022-07-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1011
- mlxlogscore=929 mlxscore=0 priorityscore=1501 impostorscore=0 adultscore=0
- bulkscore=0 spamscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207190083
-Received-SPF: pass client-ip=205.220.168.131;
- envelope-from=tsimpson@quicinc.com; helo=mx0a-0031df01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YtaJg0zU8Fo3p2NB@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -169,30 +106,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCA8
-cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPg0KPiBTZW50OiBUdWVzZGF5LCBKdWx5IDE5LCAyMDIy
-IDY6MDUgQU0NCj4gVG86IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4NCj4g
-Q2M6IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsgcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZzsN
-Cj4gZjRidWdAYW1zYXQub3JnDQo+IFN1YmplY3Q6IFJlOiBbUFVMTCAwLzJdIEhleGFnb24gKHRh
-cmdldC9oZXhhZ29uKSBidWcgZml4ZXMgZm9yIG1lbV9ub3NodWYNCj4gDQo+IE9uIE1vbiwgMTgg
-SnVsIDIwMjIgYXQgMjM6NDksIFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4N
-Cj4gd3JvdGU6DQo+ID4NCj4gPiBUaGUgZm9sbG93aW5nIGNoYW5nZXMgc2luY2UgY29tbWl0DQo+
-IDI0ZjAxZDIyMGY1NmVhYjMyNjg1MzhlZjEwNjU1YjRmYjI0NTNmZGY6DQo+ID4NCj4gPiAgIE1l
-cmdlIGh0dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUgaW50byB0aXAgKDIwMjItMDctMTggMTE6
-MTY6MzkNCj4gPiAtMDcwMCkNCj4gPg0KPiA+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBv
-c2l0b3J5IGF0Og0KPiA+DQo+ID4gICBodHRwczovL2dpdGh1Yi5jb20vcXVpYy9xZW11IHRhZ3Mv
-cHVsbC1oZXgtMjAyMjA3MTgNCj4gPg0KPiA+IGZvciB5b3UgdG8gZmV0Y2ggY2hhbmdlcyB1cCB0
-bw0KPiBlYjkwNzI2MDI2MTdjYjQ5YzQ4OWFhZjA1OGY3MjY5NWMyZWFlZGMyOg0KPiANCj4gVGhp
-cyB0YWcgaXMgYmFkbHkgYnJva2VuIGFzIGEgcHVsbCByZXF1ZXN0LCBiZWNhdXNlIGl0IGluY2x1
-ZGVzIHRoaXMgY29tbWl0Og0KPiANCj4gY29tbWl0IDI0ZjAxZDIyMGY1NmVhYjMyNjg1MzhlZjEw
-NjU1YjRmYjI0NTNmZGYNCj4gTWVyZ2U6IGVhZGFkNTRiZjEwIDc4MjM3ODk3MzEyDQo+IEF1dGhv
-cjogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPg0KPiBEYXRlOiAgIE1vbiBK
-dWwgMTggMTE6MTY6MzkgMjAyMiAtMDcwMA0KPiANCj4gICAgIE1lcmdlIGh0dHBzOi8vZ2l0aHVi
-LmNvbS9xZW11L3FlbXUgaW50byB0aXANCj4gDQo+IA0KPiBOZXZlciBtZXJnZSB1cHN0cmVhbSBx
-ZW11IGJhY2sgaW50byBhIGJyYW5jaCB5b3UncmUgdXNpbmcgYXMgYSBwdWxsDQo+IHJlcXVlc3Qs
-IHBsZWFzZS4gSnVzdCByZWJhc2UgdGhlIHBhdGNoZXMgb24gbGF0ZXN0IG1hc3Rlci4NCj4gDQo+
-IEx1Y2tpbHkgSSBub3RpY2VkIGluIHRoaXMgY2FzZSBiZWNhdXNlIGl0IGludHJvZHVjZXMgYSB3
-aG9sZSBsb2FkIG9mIGdhcmJhZ2UNCj4gY2hhbmdlcyBhbmQgZG9lc24ndCBidWlsZC4NCj4gDQo+
-IHRoYW5rcw0KPiAtLSBQTU0NCg0KTXkgYXBvbG9naWVzLiAgSSdsbCBmaXggdGhpcyBhbmQgcmVz
-dWJtaXQuDQoNClRheWxvcg0KDQo=
+On Tue, Jul 19, 2022 at 11:37:55AM +0100, Daniel P. Berrangé wrote:
+> On Tue, Jul 19, 2022 at 12:28:24PM +0200, Thomas Huth wrote:
+> > On 18/07/2022 21.14, Peter Xu wrote:
+> > > Hi, Thomas,
+> > > 
+> > > On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
+> > > > On 07/07/2022 20.46, Peter Xu wrote:
+> > > > > We used to stop running all tests if uffd is not detected.  However
+> > > > > logically that's only needed for postcopy not the rest of tests.
+> > > > > 
+> > > > > Keep running the rest when still possible.
+> > > > > 
+> > > > > Signed-off-by: Peter Xu <peterx@redhat.com>
+> > > > > ---
+> > > > >    tests/qtest/migration-test.c | 11 +++++------
+> > > > >    1 file changed, 5 insertions(+), 6 deletions(-)
+> > > > 
+> > > > Did you test your patch in the gitlab-CI? I just added it to my testing-next
+> > > > branch and the the test is failing reproducibly on macOS here:
+> > > > 
+> > > >   https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
+> > > >   https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
+> > > > 
+> > > > (without your patch the whole test is skipped instead)
+> > > 
+> > > Thanks for reporting this.
+> > > 
+> > > Is it easy to figure out which test was failing on your side?  I cannot
+> > > easily reproduce this here on a MacOS with M1.
+> > 
+> > I've modified the yml file to only run the migration test in verbose mode
+> > and got this:
+> > 
+> > ...
+> > ok 5 /x86_64/migration/validate_uuid_src_not_set
+> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
+> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
+> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> > source,debug-threads=on -m 150M -serial
+> > file:/tmp/migration-test-ef2fMr/src_serial -drive
+> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw  -uuid
+> > 11111111-1111-1111-1111-111111111111 2>/dev/null -accel qtest
+> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
+> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
+> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> > target,debug-threads=on -m 150M -serial
+> > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
+> > unix:/tmp/migration-test-ef2fMr/migsocket -drive
+> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw   2>/dev/null -accel
+> > qtest
+> > ok 6 /x86_64/migration/validate_uuid_dst_not_set
+> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
+> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
+> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> > source,debug-threads=on -m 150M -serial
+> > file:/tmp/migration-test-ef2fMr/src_serial -drive
+> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
+> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
+> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
+> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
+> > target,debug-threads=on -m 150M -serial
+> > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
+> > unix:/tmp/migration-test-ef2fMr/migsocket -drive
+> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
+> > **
+> > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
+> > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
+> > Bail out!
+> > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
+> > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
+> 
+> This is the safety net we put it to catch case where the test has
+> got stuck. It is set at 2 minutes.
+> 
+> There's a chance that is too short, so one first step might be to
+> increase to 10 minutes and see if the tests pass. If it still fails,
+> then its likely a genuine bug
+
+Agreed, it worths another try.
+
+Thanks both for your answers on CI.  I wanted to go through the setup of
+Cirrus CI and kick it myself, but I got stuck at the step on generating the
+API token for Cirrus.
+
+It seems the button to generate API token just didn't have a respond for me
+until I refresh the page (then I can see some token generated), however I
+still haven't figured out a way to see the initial 6 letters since they'll
+be always masked out..  Changing browser didn't work for me either. :(
+
+-- 
+Peter Xu
+
 
