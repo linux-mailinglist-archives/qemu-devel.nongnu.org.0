@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BDA5796CF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:56:08 +0200 (CEST)
-Received: from localhost ([::1]:42194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB805796CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:56:03 +0200 (CEST)
+Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDjxX-0005o3-Dq
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48320)
+	id 1oDjxS-0005cZ-Gn
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:56:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heshamelmatary@gmail.com>)
- id 1oDjuB-0006UO-E3; Tue, 19 Jul 2022 05:52:39 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38429)
+ id 1oDjuh-0007ol-1J; Tue, 19 Jul 2022 05:53:11 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <heshamelmatary@gmail.com>)
- id 1oDju9-0003yH-S9; Tue, 19 Jul 2022 05:52:39 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- f24-20020a1cc918000000b003a30178c022so9535760wmb.3; 
- Tue, 19 Jul 2022 02:52:36 -0700 (PDT)
+ id 1oDjuf-0004KD-EV; Tue, 19 Jul 2022 05:53:10 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b26so20795993wrc.2;
+ Tue, 19 Jul 2022 02:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S6RZKWZer2m66jkGICoK4W6mH52++axNmDZzeqvlUBA=;
- b=agBKVFq/ygq5+EilZWlCM2E87O9C6j/nKWEen19qkFJi1flJKTeWQ6pRWqbpVd4dOo
- Gas+ogV0zyVUOu4FkNYCqYPQDh7wXqaPcVTtf7jWcU1Vtc3sr6efSPh4W4jV5muhmPru
- CQVizSDzw+OvrzFPWa2oy4p00TztlhYIYzI6PlwDygfSqoq8Jip0eaVwRsUcNI2S5/u2
- 8uJPb91ukTb/3/xhXZjjCzT2wBRh5nxPO3qkQPUSL9o28WxpS6o8Mq4rcIhrjYSpiGpm
- 74WAjLstc/ngtV9J1+ScnTm4ErypeHImY3RHGKtmGc4xgWBBU1zKzhzuIGmR3+tEtXpN
- WXng==
+ bh=Y4/sFP7yGzJ3jqQlSQoseckKqf4KKkCLOr1BJ+fGpHA=;
+ b=NiA5kdJIBrQhhHKP5Pz1SDxTtEuPKHCqFbGwvaGwffto/va4uVR7X1tIyrLGM/rVoG
+ ieDkqH4Y5xtf3yb9Np9KJtPLN5jFMWjWYJIe3+T0KS65pxD2akEDaCL5lhyS3nlWrvPf
+ u0kzSyms340PiwLBFDpMY5uYqu8cwQrIaG303LibGe5/I2Xl9ZBYtWpdfwaLgtgmWaJE
+ jatoOAthnPk9iKAAzbY7yC97+HcNy9h99A3KWXG/ZhJdqxktPfLA1fweYCCUBgpJk3k5
+ cx3FdEkecP8zjbmKPKlhKQDwxjE/Q9ZG/bPXKleWKY17UBohNi7LmTSmMrSsRhRj7l4Z
+ 3IVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=S6RZKWZer2m66jkGICoK4W6mH52++axNmDZzeqvlUBA=;
- b=USHT0/v92tlyVIhcg8KrTfuEsja8Ik4A+BgjiZQKYsWWk0oCnSWdyNPIfSpCeujZ94
- frpfhY4ldzA6e9AhSEsD0QWJSYpuv/VyV0BnM5g25as1FrF1AqefSwJ3xaNw2/ehek+Q
- g9be8O3kg8QoCmqmC8UJemdgWhA+mbr+AilemBtl8mDydq4NxCZ45PuR9jQnng4n5YQk
- 5ea7femUhvTgoYqjJNWutSZsElytTF2eLzpCBUK4Q87k/rc+cnuzzm0G1WqkflFvQ0ol
- NoGMtzrfpAUsN89y0Rr3eIB84LijqDLyRDs/1rcOnlCzkEv6J1Rkv8XWNhwUzqz3zFGe
- +Y+Q==
-X-Gm-Message-State: AJIora8jagx9tRGUnxP7cDTnRmZfkoDWtgM9UI42gBRxQ7RyqAR3nEM7
- KNjpJTXbNRyRI74hHwcevbg=
-X-Google-Smtp-Source: AGRyM1tnRuqK4q+pdi+zfwMrUDurA96N4aWIo9lB4ltOM09KqHf72vbQ9xGaaZi0dxdatJLSizAotw==
-X-Received: by 2002:a05:600c:3d10:b0:3a0:4956:9a84 with SMTP id
- bh16-20020a05600c3d1000b003a049569a84mr30450352wmb.133.1658224355980; 
- Tue, 19 Jul 2022 02:52:35 -0700 (PDT)
+ bh=Y4/sFP7yGzJ3jqQlSQoseckKqf4KKkCLOr1BJ+fGpHA=;
+ b=75uxT3lizgE28PqSFra98yAQ2TO9SEg/Jk6fu23jwG3kgVNPyNs/Tw27MA66bJENqy
+ j3579/Y1WhgLyF7CYajZ9bfGu5qmL45q3PDWcU1d5Hni5DJXFC/zIulthEmelb9qHjrI
+ 1SsD0bPopjaU9+6AA03KKC67GRNA6lsIzpL5kGcCJ8iP6jdlIbjogcsGgJyCv6Vj4e9Q
+ zICS09Tms0hee+/vP7DJBfdHxrKcuYNMuIbVdpxQeSB15fvNqJroxSyalTyuATsvEhA5
+ 8ngrg/rVcR1DvBwpEnRTJWYENi5R68p9gW+STgvoM5gvMKJqLuyFVFEYVeYc1j0Q4AqD
+ 0BbA==
+X-Gm-Message-State: AJIora9KPRVdubrSdWWaZN54AWbKX/dAxIjfrsJxh5a60arsBgsOLArb
+ 2kUd1alLSws9sva/3/HFg3A=
+X-Google-Smtp-Source: AGRyM1vd3tfHoeITVOklcMqWv8wbh7shDZwgn5s0c+9FqAkQaXkRv32EDuj/aMK8JDFAtqCjW5UaUQ==
+X-Received: by 2002:adf:b650:0:b0:21e:24a1:b839 with SMTP id
+ i16-20020adfb650000000b0021e24a1b839mr5621318wre.207.1658224387221; 
+ Tue, 19 Jul 2022 02:53:07 -0700 (PDT)
 Received: from localhost.localdomain ([86.188.218.117])
  by smtp.gmail.com with ESMTPSA id
- o20-20020a05600c511400b003a30fbde91dsm13359458wms.20.2022.07.19.02.52.35
+ z18-20020a5d44d2000000b0021cf31e1f7csm8326667wrr.102.2022.07.19.02.53.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 02:52:35 -0700 (PDT)
+ Tue, 19 Jul 2022 02:53:06 -0700 (PDT)
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 X-Google-Original-From: Hesham Almatary <hesham.almatary@huawei.com>
 To: jonathan.cameron@huawei.com,
@@ -60,16 +59,16 @@ Cc: yangyicong@huawei.com, chenxiang66@hisilicon.com, linuxarm@huawei.com,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, imammedo@redhat.com,
  wangyanan55@huawei.com, marcel.apfelbaum@gmail.com, eduardo@habkost.net,
  Brice.Goglin@inria.fr, mst@redhat.com, jingqi.liu@intel.com
-Subject: [PATCH v2 5/8] tests: Add HMAT AArch64/virt empty table files
-Date: Tue, 19 Jul 2022 10:49:47 +0100
-Message-Id: <20220719094950.1049516-6-hesham.almatary@huawei.com>
+Subject: [PATCH v2 6/8] hw/arm/virt: Enable HMAT on arm virt machine
+Date: Tue, 19 Jul 2022 10:49:48 +0100
+Message-Id: <20220719094950.1049516-7-hesham.almatary@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220719094950.1049516-1-hesham.almatary@huawei.com>
 References: <20220719094950.1049516-1-hesham.almatary@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=heshamelmatary@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=heshamelmatary@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,47 +92,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
----
- tests/data/acpi/virt/APIC.acpihmatvirt      | 0
- tests/data/acpi/virt/DSDT.acpihmatvirt      | 0
- tests/data/acpi/virt/HMAT.acpihmatvirt      | 0
- tests/data/acpi/virt/PPTT.acpihmatvirt      | 0
- tests/data/acpi/virt/SRAT.acpihmatvirt      | 0
- tests/qtest/bios-tables-test-allowed-diff.h | 5 +++++
- 6 files changed, 5 insertions(+)
- create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
- create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
+From: Xiang Chen <chenxiang66@hisilicon.com>
 
-diff --git a/tests/data/acpi/virt/APIC.acpihmatvirt b/tests/data/acpi/virt/APIC.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/DSDT.acpihmatvirt b/tests/data/acpi/virt/DSDT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/HMAT.acpihmatvirt b/tests/data/acpi/virt/HMAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/PPTT.acpihmatvirt b/tests/data/acpi/virt/PPTT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/virt/SRAT.acpihmatvirt b/tests/data/acpi/virt/SRAT.acpihmatvirt
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..4f849715bd 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,6 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/virt/APIC.acpihmatvirt",
-+"tests/data/acpi/virt/DSDT.acpihmatvirt",
-+"tests/data/acpi/virt/HMAT.acpihmatvirt",
-+"tests/data/acpi/virt/PPTT.acpihmatvirt",
-+"tests/data/acpi/virt/SRAT.acpihmatvirt",
+Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
+HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+
+Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
+Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/arm/Kconfig           | 1 +
+ hw/arm/virt-acpi-build.c | 7 +++++++
+ 2 files changed, 8 insertions(+)
+
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 15fa79afd3..17fcde8e1c 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -30,6 +30,7 @@ config ARM_VIRT
+     select ACPI_VIOT
+     select VIRTIO_MEM_SUPPORTED
+     select ACPI_CXL
++    select ACPI_HMAT
+ 
+ config CHEETAH
+     bool
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 449fab0080..f19b55e486 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -42,6 +42,7 @@
+ #include "hw/acpi/memory_hotplug.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/acpi/tpm.h"
++#include "hw/acpi/hmat.h"
+ #include "hw/pci/pcie_host.h"
+ #include "hw/pci/pci.h"
+ #include "hw/pci/pci_bus.h"
+@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
+                        vms->oem_table_id);
+         }
++
++        if (ms->numa_state->hmat_enabled) {
++            acpi_add_table(table_offsets, tables_blob);
++            build_hmat(tables_blob, tables->linker, ms->numa_state,
++                       vms->oem_id, vms->oem_table_id);
++        }
+     }
+ 
+     if (ms->nvdimms_state->is_enabled) {
 -- 
 2.25.1
 
