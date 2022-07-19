@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533D357A677
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:26:32 +0200 (CEST)
-Received: from localhost ([::1]:55220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD7B957A615
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:07:33 +0200 (CEST)
+Received: from localhost ([::1]:41492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrvS-0007Oa-79
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:26:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34714)
+	id 1oDrd7-0001zd-0k
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrX8-0007Qo-0g
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:22 -0400
-Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:47070)
+ id 1oDrXA-0007XQ-Kx
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:24 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:40736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrX4-0006HJ-Oh
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:21 -0400
-Received: by mail-oa1-x2c.google.com with SMTP id
- 586e51a60fabf-1013ecaf7e0so32903000fac.13
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:18 -0700 (PDT)
+ id 1oDrX8-0006Hf-Sp
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:24 -0400
+Received: by mail-ot1-x330.google.com with SMTP id
+ z12-20020a056830128c00b0061c8168d3faso10528468otp.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lcoMAJFCYYhmQFfIeGE7S78JEuxyw6Fp8UVyRfifIjg=;
- b=x+6cGZ29VG5xPD95VwjuCN/i/TMmTzduAigZRL5AQCuIn+2yqZlcqsQ1GKg2sMfdYm
- IhRMBwKr4+WL7+bRRTgo+tCY/PvNFSVPyM5QHJLTzddJyq3uwBOB1Lw8CABQI+8DP10i
- LfvD9OUJqzvCAom+Apjm+HE5mWcRaChb9z9Ab+5G0LcHucGuM4lkmbLOw65vsuz9j5wn
- I3j5ucAcymkLm48gUiNptv6d5UPd7MDQk2asP0/OEYIbIf0/ngTrMoBSQivGozrsvHCs
- fVGT5S8NAYSCZIcqxBJkpl8824lspIzmlbEgTAJ6wwIi0yhSt2mVOlI9C/O50aXYcnyt
- IYbg==
+ bh=NBaJd4q7TryS4+64HwKQjWDsbbhPf203AEbfA4LAr2k=;
+ b=aRFhM6NXRS1BtM7kJQEL3idICJWz9duj1tFd0cWCu7xqwG/sL7VfbqEBtynbML8r8D
+ xXYa+M3H2Ouz4z95HiaaKJwO93Hb+VlYKp4Zf5xlOblaLLqguFtkrXnH4s3zu5PEDRtB
+ kkIWgwKI7ey9F5vbAjn5eLQLUYs/TSv39FrpoLQwiqj7j1c1j5pZtMIZ5wrpxLKPYTT2
+ Bl6NeITG7Xz7kybWmsUdZ45TytpxSvIIcTA+5NgOsIDwPlj0tjrLxQcenK3sH3QMTzu4
+ +4PoIdlZL8yZOPAStiWcd2I/pFSeB0lbCzLIjKq2EXj1orfXhJVefD1WXydJZzD1l7vq
+ oxUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lcoMAJFCYYhmQFfIeGE7S78JEuxyw6Fp8UVyRfifIjg=;
- b=PMNVQtP5JWXx1iKXtlu2ZPEfCXlQZOypl1nc8UWYBc1wlZMILrqtf9jhlYLCkNLSTZ
- EDoO/vrzqx2glEm3Mp3BP/81ahL8kT+pMg8A1wHZ0pSLI+5SAEss+q/ul05bhZeq+UN4
- OkF21TPpS6IYkDWxpe/0es7Ud8VogrSAUxAogEvdOrlLzr8gOpA1xW/mRWd86KA/u2Sw
- 8xGjughUCvgmkx0eOwkrFtNre8ecLPanBfmhUV+hR8Y2tsW7ysekHvKCvi2Dk8z0O7uH
- 0+WWgGefL6VIJq9plEK1meDxo5rjAYfYAr41yfJw/exU3pVZ1os0qpgy+Q4/Zhv5UNf6
- KV8A==
-X-Gm-Message-State: AJIora+cgbGy7lxt3JcKVvahb8rC653EdyNVZbAh4rCTtsqmQRGtX5HM
- VQyIh2cgCJ6XcGVCakMsDZ9sCmy6w9np9uUY
-X-Google-Smtp-Source: AGRyM1tPUK9/LR9ewtPOJljH0NBXPvF8VK1mn7Yseosh4XGFUH/p/AY2T7J19TNLnRbVFOqUBT1g/g==
-X-Received: by 2002:a05:6871:80a:b0:10b:e1fa:17a with SMTP id
- q10-20020a056871080a00b0010be1fa017amr365759oap.262.1658253677511; 
- Tue, 19 Jul 2022 11:01:17 -0700 (PDT)
+ bh=NBaJd4q7TryS4+64HwKQjWDsbbhPf203AEbfA4LAr2k=;
+ b=HBHPn7poU0t9acmQ0qyCEoiOXg7AwzY2p8ceqV6ASoxQkMbQEEObq81A4DWwQC6zVd
+ 5ELo9TuBC83nFwHgs0nBBhUqqW4EAXRmDTPLd5/fE6pyuVdJhHk35WwUPnejFdcyg5VA
+ s2Ex0pL4mWVc7tGi6highM7nybmUAkoSjL22jyxGlH4vXyHjoQ0Nf8Ch9QygR/Of8zPb
+ ybXIdFsm30XghnNAxtbyu3wdUMvOW0H3VS5leg35cpDmzN6LP+rrEMf+a2B4+iSaxp3g
+ Q4ccrTYoYuHCZNAIGptjtVJDEWh2ux4vAZpdC3/8RuLF8yjaLTx7kyFQDPRTlsXIIzNu
+ l3uw==
+X-Gm-Message-State: AJIora/DmIeWxayGN595R6yNrM114B9iWXaBsQUtzXrAxNmvQTO+BrkB
+ r1bPm+KQn4WhqltbNNk8OwTrQ/JSrZPdgrYZ
+X-Google-Smtp-Source: AGRyM1tXwuM6zdLG8wTpMy2Awtd/ZRGcJbdwCTWYe06wo0A+OqyGyqGtLHEC8wr/Ps0rdnHRhql2Mg==
+X-Received: by 2002:a05:6830:4110:b0:61c:9c0f:3cba with SMTP id
+ w16-20020a056830411000b0061c9c0f3cbamr6203923ott.157.1658253681699; 
+ Tue, 19 Jul 2022 11:01:21 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.13
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:01:16 -0700 (PDT)
+ Tue, 19 Jul 2022 11:01:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 16/21] hw/loongarch: Add fw_cfg table support
-Date: Tue, 19 Jul 2022 23:29:55 +0530
-Message-Id: <20220719180000.378186-17-richard.henderson@linaro.org>
+Subject: [PULL 17/21] hw/loongarch: Add uefi bios loading support
+Date: Tue, 19 Jul 2022 23:29:56 +0530
+Message-Id: <20220719180000.378186-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2c;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-ot1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,191 +90,92 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-Add fw_cfg table for loongarch virt machine, including memmap table.
+Add uefi bios loading support, now only uefi bios is porting to
+loongarch virt machine.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Message-Id: <20220712083206.4187715-2-yangxiaojuan@loongson.cn>
-[rth: Replace fprintf with assert; drop unused return value;
-      initialize reserved slot to zero.]
+Message-Id: <20220712083206.4187715-3-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/loongarch/fw_cfg.h       | 15 ++++++++++++++
- include/hw/loongarch/virt.h |  3 +++
- hw/loongarch/fw_cfg.c       | 33 +++++++++++++++++++++++++++++
- hw/loongarch/loongson3.c    | 41 ++++++++++++++++++++++++++++++++++++-
- hw/loongarch/meson.build    |  3 +++
- 5 files changed, 94 insertions(+), 1 deletion(-)
- create mode 100644 hw/loongarch/fw_cfg.h
- create mode 100644 hw/loongarch/fw_cfg.c
+ include/hw/loongarch/virt.h |  4 ++++
+ hw/loongarch/loongson3.c    | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/hw/loongarch/fw_cfg.h b/hw/loongarch/fw_cfg.h
-new file mode 100644
-index 0000000000..7c0de4db4a
---- /dev/null
-+++ b/hw/loongarch/fw_cfg.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU fw_cfg helpers (LoongArch specific)
-+ *
-+ * Copyright (C) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#ifndef HW_LOONGARCH_FW_CFG_H
-+#define HW_LOONGARCH_FW_CFG_H
-+
-+#include "hw/boards.h"
-+#include "hw/nvram/fw_cfg.h"
-+
-+FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms);
-+#endif
 diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
-index 09a816191c..9fec1f8a5c 100644
+index 9fec1f8a5c..ec37d86e44 100644
 --- a/include/hw/loongarch/virt.h
 +++ b/include/hw/loongarch/virt.h
-@@ -17,6 +17,7 @@
- 
+@@ -18,6 +18,8 @@
  #define LOONGARCH_ISA_IO_BASE   0x18000000UL
  #define LOONGARCH_ISA_IO_SIZE   0x0004000
-+#define VIRT_FWCFG_BASE         0x1e020000UL
+ #define VIRT_FWCFG_BASE         0x1e020000UL
++#define VIRT_BIOS_BASE          0x1c000000UL
++#define VIRT_BIOS_SIZE          (4 * MiB)
  
  struct LoongArchMachineState {
      /*< private >*/
-@@ -26,6 +27,8 @@ struct LoongArchMachineState {
+@@ -27,6 +29,8 @@ struct LoongArchMachineState {
      MemoryRegion lowmem;
      MemoryRegion highmem;
      MemoryRegion isa_io;
-+    /* State for other subsystems/APIs: */
-+    FWCfgState  *fw_cfg;
++    MemoryRegion bios;
++    bool         bios_loaded;
+     /* State for other subsystems/APIs: */
+     FWCfgState  *fw_cfg;
  };
- 
- #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
-diff --git a/hw/loongarch/fw_cfg.c b/hw/loongarch/fw_cfg.c
-new file mode 100644
-index 0000000000..f6503d5607
---- /dev/null
-+++ b/hw/loongarch/fw_cfg.c
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0-or-later */
-+/*
-+ * QEMU fw_cfg helpers (LoongArch specific)
-+ *
-+ * Copyright (C) 2021 Loongson Technology Corporation Limited
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/loongarch/fw_cfg.h"
-+#include "hw/loongarch/virt.h"
-+#include "hw/nvram/fw_cfg.h"
-+#include "sysemu/sysemu.h"
-+
-+static void fw_cfg_boot_set(void *opaque, const char *boot_device,
-+                            Error **errp)
-+{
-+    fw_cfg_modify_i16(opaque, FW_CFG_BOOT_DEVICE, boot_device[0]);
-+}
-+
-+FWCfgState *loongarch_fw_cfg_init(ram_addr_t ram_size, MachineState *ms)
-+{
-+    FWCfgState *fw_cfg;
-+    int max_cpus = ms->smp.max_cpus;
-+    int smp_cpus = ms->smp.cpus;
-+
-+    fw_cfg = fw_cfg_init_mem_wide(VIRT_FWCFG_BASE + 8, VIRT_FWCFG_BASE, 8, 0, NULL);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_MAX_CPUS, (uint16_t)max_cpus);
-+    fw_cfg_add_i64(fw_cfg, FW_CFG_RAM_SIZE, (uint64_t)ram_size);
-+    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)smp_cpus);
-+
-+    qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
-+    return fw_cfg;
-+}
 diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 15fddfc4f5..9ee7450252 100644
+index 9ee7450252..3f1849b8b0 100644
 --- a/hw/loongarch/loongson3.c
 +++ b/hw/loongarch/loongson3.c
-@@ -28,13 +28,40 @@
- #include "hw/pci-host/ls7a.h"
- #include "hw/pci-host/gpex.h"
- #include "hw/misc/unimp.h"
--
-+#include "hw/loongarch/fw_cfg.h"
- #include "target/loongarch/cpu.h"
+@@ -310,6 +310,37 @@ static void loongarch_irq_init(LoongArchMachineState *lams)
+     loongarch_devices_init(pch_pic);
+ }
  
- #define PM_BASE 0x10080000
- #define PM_SIZE 0x100
- #define PM_CTRL 0x10
- 
-+struct memmap_entry {
-+    uint64_t address;
-+    uint64_t length;
-+    uint32_t type;
-+    uint32_t reserved;
-+};
-+
-+static struct memmap_entry *memmap_table;
-+static unsigned memmap_entries;
-+
-+static void memmap_add_entry(uint64_t address, uint64_t length, uint32_t type)
++static void loongarch_firmware_init(LoongArchMachineState *lams)
 +{
-+    /* Ensure there are no duplicate entries. */
-+    for (unsigned i = 0; i < memmap_entries; i++) {
-+        assert(memmap_table[i].address != address);
++    char *filename = MACHINE(lams)->firmware;
++    char *bios_name = NULL;
++    int bios_size;
++
++    lams->bios_loaded = false;
++    if (filename) {
++        bios_name = qemu_find_file(QEMU_FILE_TYPE_BIOS, filename);
++        if (!bios_name) {
++            error_report("Could not find ROM image '%s'", filename);
++            exit(1);
++        }
++
++        bios_size = load_image_targphys(bios_name, VIRT_BIOS_BASE, VIRT_BIOS_SIZE);
++        if (bios_size < 0) {
++            error_report("Could not load ROM image '%s'", bios_name);
++            exit(1);
++        }
++
++        g_free(bios_name);
++
++        memory_region_init_ram(&lams->bios, NULL, "loongarch.bios",
++                               VIRT_BIOS_SIZE, &error_fatal);
++        memory_region_set_readonly(&lams->bios, true);
++        memory_region_add_subregion(get_system_memory(), VIRT_BIOS_BASE, &lams->bios);
++        lams->bios_loaded = true;
 +    }
 +
-+    memmap_table = g_renew(struct memmap_entry, memmap_table,
-+                           memmap_entries + 1);
-+    memmap_table[memmap_entries].address = cpu_to_le64(address);
-+    memmap_table[memmap_entries].length = cpu_to_le64(length);
-+    memmap_table[memmap_entries].type = cpu_to_le32(type);
-+    memmap_table[memmap_entries].reserved = 0;
-+    memmap_entries++;
 +}
 +
-+
- /*
-  * This is a placeholder for missing ACPI,
-  * and will eventually be replaced.
-@@ -331,15 +358,27 @@ static void loongarch_init(MachineState *machine)
-                              machine->ram, 0, 256 * MiB);
-     memory_region_add_subregion(address_space_mem, offset, &lams->lowmem);
-     offset += 256 * MiB;
-+    memmap_add_entry(0, 256 * MiB, 1);
-     highram_size = ram_size - 256 * MiB;
-     memory_region_init_alias(&lams->highmem, NULL, "loongarch.highmem",
-                              machine->ram, offset, highram_size);
-     memory_region_add_subregion(address_space_mem, 0x90000000, &lams->highmem);
-+    memmap_add_entry(0x90000000, highram_size, 1);
-     /* Add isa io region */
-     memory_region_init_alias(&lams->isa_io, NULL, "isa-io",
+ static void reset_load_elf(void *opaque)
+ {
+     LoongArchCPU *cpu = opaque;
+@@ -369,6 +400,9 @@ static void loongarch_init(MachineState *machine)
                               get_system_io(), 0, LOONGARCH_ISA_IO_SIZE);
      memory_region_add_subregion(address_space_mem, LOONGARCH_ISA_IO_BASE,
                                  &lams->isa_io);
-+    /* fw_cfg init */
-+    lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
-+    rom_set_fw(lams->fw_cfg);
++    /* load the BIOS image. */
++    loongarch_firmware_init(lams);
 +
-+    if (lams->fw_cfg != NULL) {
-+        fw_cfg_add_file(lams->fw_cfg, "etc/memmap",
-+                        memmap_table,
-+                        sizeof(struct memmap_entry) * (memmap_entries));
-+    }
-+
-     if (kernel_filename) {
-         loaderparams.ram_size = ram_size;
-         loaderparams.kernel_filename = kernel_filename;
-diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
-index cecb1a5d65..81131c9237 100644
---- a/hw/loongarch/meson.build
-+++ b/hw/loongarch/meson.build
-@@ -1,4 +1,7 @@
- loongarch_ss = ss.source_set()
-+loongarch_ss.add(files(
-+    'fw_cfg.c',
-+))
- loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: files('loongson3.c'))
- 
- hw_arch += {'loongarch': loongarch_ss}
+     /* fw_cfg init */
+     lams->fw_cfg = loongarch_fw_cfg_init(ram_size, machine);
+     rom_set_fw(lams->fw_cfg);
 -- 
 2.34.1
 
