@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AC3579AF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:22:06 +0200 (CEST)
-Received: from localhost ([::1]:36084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17298579B3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:25:56 +0200 (CEST)
+Received: from localhost ([::1]:40608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDmEn-0008KM-9q
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:22:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53518)
+	id 1oDmIU-0003Ac-Su
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:25:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDmDU-0006vl-8W
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:20:44 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:52006)
+ id 1oDmGN-0000TZ-AY
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:23:43 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:39126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
- id 1oDmDS-0003CK-Cc
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:20:43 -0400
+ id 1oDmGL-0003Su-I3
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:23:42 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6533A6158C;
- Tue, 19 Jul 2022 12:20:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D46D6C341CA;
- Tue, 19 Jul 2022 12:20:40 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A7259B81B08;
+ Tue, 19 Jul 2022 12:23:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09A79C341C6;
+ Tue, 19 Jul 2022 12:23:37 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="fbW0uINw"
+ header.b="IJDVOWmQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658233239;
+ t=1658233416;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=kUxOG0c6xR3PlPaWiKzu4kgsZ22wZWNFEtZFCWtbGvE=;
- b=fbW0uINw6HLHzKdR3VDlktxp0Gn06LDzCicmiKmsLPVZ6KISRqcK+f7kkJ6JzWO+k9y8Gy
- raIrwjJm/otg3rHCkFOrhXrkQKAQ0bLukM5ZOArPlVGYlizqG+1L6VV5oyLbJ7DaNXYXvj
- UJEVuY83fWMJ/p8cyWJLLByT0lgUsQU=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ead9de90
+ bh=icOQmANJMOOk5qQsrtzMgjZ0MqW0W6Tn2/d4tC4n22M=;
+ b=IJDVOWmQvNw7b3D1qpsm2e5EzTFTi78/N07HilLxZPgE081CwSK+KUacr5ZrFnfSgNmSXR
+ XsJvZhKNvUkZHesmT7NwYzxzP6H4G0NTI0UJxKspfzes61mcWzKfZKT99+tFyaIdlqFem2
+ LkJ5DUtqV+xOAIA/VrJCr4Rvnm6K8/s=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id d5020878
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Tue, 19 Jul 2022 12:20:39 +0000 (UTC)
+ Tue, 19 Jul 2022 12:23:36 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-devel@nongnu.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
-Subject: [PATCH] hw/rx: pass random seed to fdt
-Date: Tue, 19 Jul 2022 14:20:33 +0200
-Message-Id: <20220719122033.135902-1-Jason@zx2c4.com>
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Subject: [PATCH] hw/microblaze: pass random seed to fdt
+Date: Tue, 19 Jul 2022 14:23:34 +0200
+Message-Id: <20220719122334.136290-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
+ helo=ams.source.kernel.org
 X-Spam_score_int: -67
 X-Spam_score: -6.8
 X-Spam_bar: ------
@@ -81,41 +81,42 @@ If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
 initialize early. Set this using the usual guest random number
 generation function. This FDT node is part of the DT specification.
 
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 ---
- hw/rx/rx-gdbsim.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/microblaze/boot.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
-index be147b4bd9..8ffe1b8035 100644
---- a/hw/rx/rx-gdbsim.c
-+++ b/hw/rx/rx-gdbsim.c
-@@ -19,6 +19,7 @@
- #include "qemu/osdep.h"
- #include "qemu/cutils.h"
+diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
+index 8b92a9801a..25ad54754e 100644
+--- a/hw/microblaze/boot.c
++++ b/hw/microblaze/boot.c
+@@ -30,6 +30,7 @@
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
  #include "qemu/error-report.h"
 +#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "hw/loader.h"
- #include "hw/rx/rx62n.h"
-@@ -83,6 +84,7 @@ static void rx_gdbsim_init(MachineState *machine)
-     MemoryRegion *sysmem = get_system_memory();
-     const char *kernel_filename = machine->kernel_filename;
-     const char *dtb_filename = machine->dtb;
+ #include "sysemu/device_tree.h"
+ #include "sysemu/reset.h"
+ #include "hw/boards.h"
+@@ -75,6 +76,7 @@ static int microblaze_load_dtb(hwaddr addr,
+     int fdt_size;
+     void *fdt = NULL;
+     int r;
 +    uint8_t rng_seed[32];
  
-     if (machine->ram_size < mc->default_ram_size) {
-         char *sz = size_to_str(mc->default_ram_size);
-@@ -140,6 +142,8 @@ static void rx_gdbsim_init(MachineState *machine)
-                 error_report("Couldn't set /chosen/bootargs");
-                 exit(1);
-             }
-+            qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+            qemu_fdt_setprop(dtb, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
-             /* DTB is located at the end of SDRAM space. */
-             dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16);
-             rom_add_blob_fixed("dtb", dtb, dtb_size,
+     if (dtb_filename) {
+         fdt = load_device_tree(dtb_filename, &fdt_size);
+@@ -83,6 +85,9 @@ static int microblaze_load_dtb(hwaddr addr,
+         return 0;
+     }
+ 
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     if (kernel_cmdline) {
+         r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+                                     kernel_cmdline);
 -- 
 2.35.1
 
