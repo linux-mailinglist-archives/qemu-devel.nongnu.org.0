@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E61257A72A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 21:22:34 +0200 (CEST)
-Received: from localhost ([::1]:57988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F9457A732
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 21:24:47 +0200 (CEST)
+Received: from localhost ([::1]:60992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDsnf-0000au-Ix
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 15:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59540)
+	id 1oDspq-0003YE-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 15:24:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDsln-0007R7-1C
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:20:35 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:42539)
+ id 1oDsoV-0001Hx-G2
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:23:23 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:44838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDsll-0005Sk-Ct
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:20:34 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-2ef5380669cso151446627b3.9
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 12:20:26 -0700 (PDT)
+ id 1oDsoT-0005wb-Gr
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:23:23 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id h62so28194251ybb.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 12:23:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GgjY1bQHjeFz8wmodk8gxE+6Z4s1zlUQ63SvUM0qPwM=;
- b=J+IirCNS1I56KPGnT81xOkNCE6BUJlrjej4WKdaaUnclmXEL6NnWik4poKcNDxm4Na
- uH4Z5mgORQXN/+RyZaJE2ZOiRrK7ma/mbVXb+Edpxq7OW9FrLRtT2e3Z394MQhJiG/Zi
- tE41T6WnrYN8WJyZFKRecbb5daMLIoUafpgLhFFrPQHmCATmOohBeXxERlxjssiJ56yU
- 8lgwl5t01+/8hLzM33m+5n2L+k8lsnbnV9BcpA9LZxPjV69gG6qy6J0SAZk4FGEPDmum
- hOJgDdAXFIupsYv2AyB2/wBP8oG1uzDGT6yIyh2n8cGaYED/C3DbOsR7XemOBvkM+aNC
- 1F5A==
+ :cc; bh=Zwov2XOVM5mWcTohqWDlLS83HRJvI9q3u3xI9icGvA0=;
+ b=nqzvnGH9OFt2Zy1znZHlUjz0yEVVw5guYaTyHE0mmvCp4AePSTmwrraXQUxYu7PxAT
+ Sfh9qx5cm5wSwPxXqU0yuNF61nxYd9dKrfVMkGfY0a5OUACNNE4yrdrmle9zzKTaDB+m
+ 6zTtosQ788fOhyK90x6kee/GQ0H8+Xz9pCLthFKebyfWkS6vNbufvrKZbdhqK9FNClfo
+ 9EmY/zZaTgPyhGZ2Hz9sB+3h4NdVZ9URSZ4zhzE8Xg2f6m62JCNFRJV6rvzSKbpHiy4l
+ lOl091JGSEuiGs+EKRWMERyeygMqo6ztsDUveBjfBoOHw+vGozcie8k3eDD2axQDJr96
+ 22HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GgjY1bQHjeFz8wmodk8gxE+6Z4s1zlUQ63SvUM0qPwM=;
- b=AS6rkk+/ZZ4ukeoalBOu4qIh/koEpfVSZgnJfDcTGtXZzy0xJ6/4AiCnZeoc9bHJ52
- Ysve8pt/WxOQ+iio7V45323aIf5weTeZTpeSiQDJUIrrb1S2KkK57nTZG9kho9SGWrQ5
- /kN9/M9OqnNmQkraFNsCV0c2Vq6cTlInF9FFacQiPCIXsJ1vZ0yuoufS0/LyXdevcc6R
- 82m00c0BFEFc1u8TKfBTDSxttZnwv9v5X+Q3eqlKChFGrY+6Po0uhqf3Bv2LU9w37szd
- ul74rrh9eWnZ+CI4FkST+92HE4fplUIXcCLeC7yf5lnGOsSNVkHfiC3GP7WT+Ivb/v4S
- 9Qxg==
-X-Gm-Message-State: AJIora9GBMALUkDfIR0R6SCV1CKltvDT0lBJk0q/mP3xuKoYR1eUnsAO
- 09LdjybEVDAY5zNeeq1Rb/MZhotxquaroyAy7nQDiQ==
-X-Google-Smtp-Source: AGRyM1vDzSzw1CT04LjPNojRuFZLd0lCDdo2NPyRnhJuQN1sqdX/UFDTqBvzFCEQVkkBO6cSRYSg9dpmj5YbAfh2p0o=
-X-Received: by 2002:a81:f8f:0:b0:31c:bd9f:31ce with SMTP id
- 137-20020a810f8f000000b0031cbd9f31cemr37421234ywp.347.1658258425691; Tue, 19
- Jul 2022 12:20:25 -0700 (PDT)
+ bh=Zwov2XOVM5mWcTohqWDlLS83HRJvI9q3u3xI9icGvA0=;
+ b=t/3xzgpSmTvaJKjSegzy6NW3LKFSGfWuoPj6E5Ao52djjlEhYbChfqg+1UHhNd0ZQC
+ llO20kFKt4HEcPmN+hh8N0x6TFXJUFmPEIc9s3sDp72chArpS0JaL1303uBu+UTitzKU
+ 9IquLCYePGIFFFduo7xc7S3UNOFZhQkO6m8xomWZ6s6YX5iDhUaC3hPmiPjXsuAZ1H9o
+ SUrSLhMEPb6UYVMIt2SWh9M9PfeAtDoHROGMfVw/vIbLHJ/Y5N9hHRRMD7q3Z1VCW2Oa
+ BLlQ4M6prrxJwSawRHLJ3ByvL6MAcQw3JHiLQoXqKVhQD7x4/qZTXqko56T6VAkj6lKv
+ pVDQ==
+X-Gm-Message-State: AJIora8+nZVvpWS06Jxrihobz8gxmG7UgeDxxsG+lP66kwsg3VCLBIR4
+ FMY1Eq99zt+iSRpUKwgSVP2hLffLKYUPDlJ1+0kqRg==
+X-Google-Smtp-Source: AGRyM1spCRlPk2/l6ONhvG3Xp0AzGDN1ZhFuRsV3BDxKBMKuuemE8ytUpH8iaay641se+T7MvvWyhP0qnmAUSDgfBAM=
+X-Received: by 2002:a25:bfc7:0:b0:66f:563c:d2e7 with SMTP id
+ q7-20020a25bfc7000000b0066f563cd2e7mr32721730ybm.288.1658258599278; Tue, 19
+ Jul 2022 12:23:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719152218.825707-1-kraxel@redhat.com>
-In-Reply-To: <20220719152218.825707-1-kraxel@redhat.com>
+References: <20220719170221.576190-1-dgilbert@redhat.com>
+In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jul 2022 20:20:14 +0100
-Message-ID: <CAFEAcA9nGHbSd4JoPp6=G6JPzBkEWHQQbGEX1XYUwpUtEXxKdQ@mail.gmail.com>
-Subject: Re: [PULL 0/6] Kraxel 20220719 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Sergio Lopez <slp@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 19 Jul 2022 20:23:08 +0100
+Message-ID: <CAFEAcA9p_ngOFU6pvEXkQTNirf8Ub-pQ47+dsah-XQDrrAW6iw@mail.gmail.com>
+Subject: Re: [PULL 00/29] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com, 
+ berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com, 
+ huangy81@chinatelecom.cn
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,31 +83,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jul 2022 at 16:28, Gerd Hoffmann <kraxel@redhat.com> wrote:
+On Tue, 19 Jul 2022 at 18:16, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
 >
-> The following changes since commit 782378973121addeb11b13fd12a6ac2e69faa33f:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >
->   Merge tag 'pull-target-arm-20220718' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-18 16:29:32 +0100)
+> The following changes since commit da7da9d5e608200ecc0749ff37be246e9cd3314f:
+>
+>   Merge tag 'pull-request-2022-07-19' of https://gitlab.com/thuth/qemu into staging (2022-07-19 13:05:06 +0100)
 >
 > are available in the Git repository at:
 >
->   https://gitlab.com/kraxel/qemu.git tags/kraxel-20220719-pull-request
+>   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220719c
 >
-> for you to fetch changes up to c34a933802071aae5288e0aa3792756312e3da34:
+> for you to fetch changes up to ec0345c1000b3a57b557da4c2e3f2114dd23903a:
 >
->   gtk: Add show_tabs=on|off command line option. (2022-07-19 14:36:42 +0200)
+>   migration: Avoid false-positive on non-supported scenarios for zero-copy-send (2022-07-19 17:33:22 +0100)
 >
 > ----------------------------------------------------------------
-> ui: dbus-display fix, new gtk config options.
-> usb: xhci fix, doc updates.
-> microvm: no pcie io reservations.
+> Migration pull 2022-07-19
 >
+>   Hyman's dirty page rate limit set
+>   Ilya's fix for zlib vs migration
 
+I'm processing this pullreq, but while I think about it: once
+we've got this fix in can we revert the workarounds we put in
+our CI configs to set DFLTCC? (ie commit 309df6acb29346f)
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
