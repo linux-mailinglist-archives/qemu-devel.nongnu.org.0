@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7FEC5793D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:08:10 +0200 (CEST)
-Received: from localhost ([::1]:57104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB2B57940A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:21:23 +0200 (CEST)
+Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDhKz-00080e-UY
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:08:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42102)
+	id 1oDhXm-0004Vi-Ih
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHS-0002Jw-HT
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35781)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHW-0002al-Sj
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHQ-0002zQ-Es
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:30 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHV-00030D-AW
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658214268;
+ s=mimecast20190719; t=1658214272;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jZ+J5eTYyql45pUQTI+bb6rTtozajqYSloAA13RFtvA=;
- b=Cxrvdb6e7hshPiqrLCr1phb1pPsYRu1w4y5XRutC6RCli+m43CBzMRtBeN/d3DTxiZFdXY
- 64o6y4SqB/+tZ/QbuWDal3aoRsf8yllyRaxLl3tZ0+UVsnQH/bhFnIje58yhFhl1FAVToW
- bhIH8xc1fAjLUEKzQr7xF80ppMpcszI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=68MvqjwHoJV61jkmbC7tQe72+TNoC4BdPoga7TcMYj4=;
+ b=Ufj20PEZLGHzE/hEoDCQlBDsyPWr/64E26Fj2GGwOCQ5AA7g1YB69P8ho07nIpURgPnP9W
+ m27p0gd++rdfFdA63T7gpNDKMxlxEip4P/LWrwc0Vo6+hcq/eEblnkoWqRk58QeM232ks9
+ fupaP8kaBCvjSFJ1tXctZ6+DQ8cEJ+Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-78-tunZLokVO_y5mEOVbJGpIw-1; Tue, 19 Jul 2022 03:04:24 -0400
-X-MC-Unique: tunZLokVO_y5mEOVbJGpIw-1
+ us-mta-632-mfT56KKcPRe68iWhZypx6w-1; Tue, 19 Jul 2022 03:04:25 -0400
+X-MC-Unique: mfT56KKcPRe68iWhZypx6w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 82FFD280D217;
- Tue, 19 Jul 2022 07:04:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F3738037AC;
+ Tue, 19 Jul 2022 07:04:25 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE254404C6ED;
- Tue, 19 Jul 2022 07:04:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B29BA40CFD0A;
+ Tue, 19 Jul 2022 07:04:24 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PULL 11/14] tests/unit: Replace g_memdup() by g_memdup2()
-Date: Tue, 19 Jul 2022 09:04:09 +0200
-Message-Id: <20220719070412.16757-12-thuth@redhat.com>
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PULL 12/14] Replace 'whitelist' with 'allow'
+Date: Tue, 19 Jul 2022 09:04:10 +0200
+Message-Id: <20220719070412.16757-13-thuth@redhat.com>
 In-Reply-To: <20220719070412.16757-1-thuth@redhat.com>
 References: <20220719070412.16757-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -79,229 +79,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Let's use more inclusive language here and avoid terms
+that are frowned upon nowadays.
 
-Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-
-  The old API took the size of the memory to duplicate as a guint,
-  whereas most memory functions take memory sizes as a gsize. This
-  made it easy to accidentally pass a gsize to g_memdup(). For large
-  values, that would lead to a silent truncation of the size from 64
-  to 32 bits, and result in a heap area being returned which is
-  significantly smaller than what the caller expects. This can likely
-  be exploited in various modules to cause a heap buffer overflow.
-
-Replace g_memdup() by the safer g_memdup2() wrapper.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210903174510.751630-24-philmd@redhat.com>
+Message-Id: <20220711095300.60462-1-thuth@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/ptimer-test.c | 22 +++++++++++-----------
- tests/unit/test-iov.c    | 26 +++++++++++++-------------
- 2 files changed, 24 insertions(+), 24 deletions(-)
+ docs/devel/submitting-a-patch.rst | 2 +-
+ docs/tools/qemu-nbd.rst           | 2 +-
+ scripts/vmstate-static-checker.py | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/unit/ptimer-test.c b/tests/unit/ptimer-test.c
-index a80ef5aff4..04b5f4e3d0 100644
---- a/tests/unit/ptimer-test.c
-+++ b/tests/unit/ptimer-test.c
-@@ -798,64 +798,64 @@ static void add_ptimer_tests(uint8_t policy)
+diff --git a/docs/devel/submitting-a-patch.rst b/docs/devel/submitting-a-patch.rst
+index 09a8d12c2c..fec33ce148 100644
+--- a/docs/devel/submitting-a-patch.rst
++++ b/docs/devel/submitting-a-patch.rst
+@@ -39,7 +39,7 @@ ideas from other posts. If you do subscribe, be prepared for a high
+ volume of email, often over one thousand messages in a week. The list is
+ moderated; first-time posts from an email address (whether or not you
+ subscribed) may be subject to some delay while waiting for a moderator
+-to whitelist your address.
++to allow your address.
  
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/set_count policy=%s", policy_name),
--        g_memdup(&policy, 1), check_set_count, g_free);
-+        g_memdup2(&policy, 1), check_set_count, g_free);
-     g_free(tmp);
+ The larger your contribution is, or if you plan on becoming a long-term
+ contributor, then the more important the rest of this page becomes.
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 8e08a29e89..faf6349ea5 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -225,7 +225,7 @@ disconnects:
+   qemu-nbd -f qcow2 file.qcow2
  
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/set_limit policy=%s", policy_name),
--        g_memdup(&policy, 1), check_set_limit, g_free);
-+        g_memdup2(&policy, 1), check_set_limit, g_free);
-     g_free(tmp);
+ Start a long-running server listening with encryption on port 10810,
+-and whitelist clients with a specific X.509 certificate to connect to
++and allow clients with a specific X.509 certificate to connect to
+ a 1 megabyte subset of a raw file, using the export name 'subset':
  
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/oneshot policy=%s", policy_name),
--        g_memdup(&policy, 1), check_oneshot, g_free);
-+        g_memdup2(&policy, 1), check_oneshot, g_free);
-     g_free(tmp);
+ ::
+diff --git a/scripts/vmstate-static-checker.py b/scripts/vmstate-static-checker.py
+index 539ead62b4..b369388360 100755
+--- a/scripts/vmstate-static-checker.py
++++ b/scripts/vmstate-static-checker.py
+@@ -40,7 +40,7 @@ def check_fields_match(name, s_field, d_field):
+         return True
  
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/periodic policy=%s", policy_name),
--        g_memdup(&policy, 1), check_periodic, g_free);
-+        g_memdup2(&policy, 1), check_periodic, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/on_the_fly_mode_change policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_on_the_fly_mode_change, g_free);
-+        g_memdup2(&policy, 1), check_on_the_fly_mode_change, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/on_the_fly_period_change policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_on_the_fly_period_change, g_free);
-+        g_memdup2(&policy, 1), check_on_the_fly_period_change, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/on_the_fly_freq_change policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_on_the_fly_freq_change, g_free);
-+        g_memdup2(&policy, 1), check_on_the_fly_freq_change, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/run_with_period_0 policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_run_with_period_0, g_free);
-+        g_memdup2(&policy, 1), check_run_with_period_0, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/run_with_delta_0 policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_run_with_delta_0, g_free);
-+        g_memdup2(&policy, 1), check_run_with_delta_0, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/periodic_with_load_0 policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_periodic_with_load_0, g_free);
-+        g_memdup2(&policy, 1), check_periodic_with_load_0, g_free);
-     g_free(tmp);
- 
-     g_test_add_data_func_full(
-         tmp = g_strdup_printf("/ptimer/oneshot_with_load_0 policy=%s",
-                               policy_name),
--        g_memdup(&policy, 1), check_oneshot_with_load_0, g_free);
-+        g_memdup2(&policy, 1), check_oneshot_with_load_0, g_free);
-     g_free(tmp);
- }
- 
-diff --git a/tests/unit/test-iov.c b/tests/unit/test-iov.c
-index 93bda00f0e..6f7623d310 100644
---- a/tests/unit/test-iov.c
-+++ b/tests/unit/test-iov.c
-@@ -172,7 +172,7 @@ static void test_io(void)
-     }
-     iov_from_buf(iov, niov, 0, buf, sz);
- 
--    siov = g_memdup(iov, sizeof(*iov) * niov);
-+    siov = g_memdup2(iov, sizeof(*iov) * niov);
- 
-     if (socketpair(PF_UNIX, SOCK_STREAM, 0, sv) < 0) {
-        perror("socketpair");
-@@ -349,7 +349,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard zero bytes */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     iov_discard_front_undoable(&iov_tmp, &iov_cnt_tmp, 0, &undo);
-@@ -360,7 +360,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard more bytes than vector size */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     size = iov_size(iov, iov_cnt);
-@@ -372,7 +372,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard entire vector */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     size = iov_size(iov, iov_cnt);
-@@ -384,7 +384,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard within first element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     size = g_test_rand_int_range(1, iov->iov_len);
-@@ -396,7 +396,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard entire first element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     iov_discard_front_undoable(&iov_tmp, &iov_cnt_tmp, iov->iov_len, &undo);
-@@ -407,7 +407,7 @@ static void test_discard_front_undo(void)
- 
-     /* Discard within second element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_tmp = iov;
-     iov_cnt_tmp = iov_cnt;
-     size = iov->iov_len + g_test_rand_int_range(1, iov[1].iov_len);
-@@ -498,7 +498,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard zero bytes */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     iov_discard_back_undoable(iov, &iov_cnt_tmp, 0, &undo);
-     iov_discard_undo(&undo);
-@@ -508,7 +508,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard more bytes than vector size */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     size = iov_size(iov, iov_cnt);
-     iov_discard_back_undoable(iov, &iov_cnt_tmp, size + 1, &undo);
-@@ -519,7 +519,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard entire vector */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     size = iov_size(iov, iov_cnt);
-     iov_discard_back_undoable(iov, &iov_cnt_tmp, size, &undo);
-@@ -530,7 +530,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard within last element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     size = g_test_rand_int_range(1, iov[iov_cnt - 1].iov_len);
-     iov_discard_back_undoable(iov, &iov_cnt_tmp, size, &undo);
-@@ -541,7 +541,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard entire last element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     size = iov[iov_cnt - 1].iov_len;
-     iov_discard_back_undoable(iov, &iov_cnt_tmp, size, &undo);
-@@ -552,7 +552,7 @@ static void test_discard_back_undo(void)
- 
-     /* Discard within second-to-last element */
-     iov_random(&iov, &iov_cnt);
--    iov_orig = g_memdup(iov, sizeof(iov[0]) * iov_cnt);
-+    iov_orig = g_memdup2(iov, sizeof(iov[0]) * iov_cnt);
-     iov_cnt_tmp = iov_cnt;
-     size = iov[iov_cnt - 1].iov_len +
-            g_test_rand_int_range(1, iov[iov_cnt - 2].iov_len);
+     # Some fields changed names between qemu versions.  This list
+-    # is used to whitelist such changes in each section / description.
++    # is used to allow such changes in each section / description.
+     changed_names = {
+         'apic': ['timer', 'timer_expiry'],
+         'e1000': ['dev', 'parent_obj'],
 -- 
 2.31.1
 
