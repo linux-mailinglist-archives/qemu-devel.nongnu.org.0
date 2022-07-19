@@ -2,89 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4EA579676
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:38:31 +0200 (CEST)
-Received: from localhost ([::1]:48978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AE735796AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:51:14 +0200 (CEST)
+Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDjgU-0006SF-GZ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:38:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
+	id 1oDjsm-0003tZ-Ab
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oDjcx-0001VV-IA
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50198)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDjqA-0001xy-N6
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:48:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oDjcv-0000Qv-2V
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:50 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDjq8-0002zw-GP
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658223288;
+ s=mimecast20190719; t=1658224107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bPXIpCM8zHIlVcNcC0Ag1GGxuLFE2QgmEO781sVav7g=;
- b=FhqtL4eeqFOngpgPcpwtiW/NsBVgsdVdZa8vVJhO9V46IzDhpf5E2voA3thx1CcXnneoj4
- dFiIOlUERoACpdflUa3qHVQT95Cm9E3HkYNpsislYD3tEnsMMuN8TN3zVjxTCS5oCLpY3J
- qf0hJT2kGjx1hg9NS2cpmiNdbkGfP2I=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=l7WWsyuERWVMcMo5bJGg2qaqV77pj+zdsoj9DSNOB+Q=;
+ b=CNPKsTPH96tzc+QzO/BQ+T/CuJBJCQVH9ibgpAZiYWi/hheLf9qBHyc+7ha1r7oHWGoUiz
+ ckPfSIlhmcc0sDJagDQXluhZ8fYpVwjF73IzVWL771qxawXG0GgCR1XduTqSUcm7YV4vBl
+ ElazvpDJIGBFFxb04nBzjCGJ6CKfAAg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-125-YnGu2iiWN1-HZ5a6qjHIVw-1; Tue, 19 Jul 2022 05:34:46 -0400
-X-MC-Unique: YnGu2iiWN1-HZ5a6qjHIVw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- bs1-20020a056402304100b0043ad1e84611so9704523edb.15
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 02:34:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=bPXIpCM8zHIlVcNcC0Ag1GGxuLFE2QgmEO781sVav7g=;
- b=MyQTZoPJWiixIbPJ8VgMLsXbhQsHr2TF8cxZb1uxGo8x6d8ktKJLCrj9PjbFqgtFgW
- R2oUdJbBGNGAa2Xefb73CkL1YC3wp0Uar8fN1YBcveTjpNZhcOJAK1Dp88t08W4Ex+IY
- 8OZXZtTRstM0cNb73Di/d5H533fdyncmInwvNkw6D8HykZweqtmKGAsShpbg4+t1wYLy
- n/ZrIT1dM5e6+YBtGf8V4BJmQvrLtKa7Bkg/f3d7syRWYm5NJQJKeqbbCAUBHG1f2f+a
- OaBLSeMxLMVAE3bRSPrWwaORKiwJQ2hmYg3ulMLs7TyhNNU7OpqlLE0uYAoguC3Tjdqj
- 5Ecg==
-X-Gm-Message-State: AJIora/FmvGn7ydhX8VcgKzguWzpFzQt+9UfhI0+682IvrIdNZEtHtWB
- ZhgxMoQCnVfYDbDST9ieYYZcApXtZe+3SrH2WRvPMZ5tEL6o1mf7XKR0rTujokL8T6MEWUlNCXc
- UAajwhowWULTIdYPFRVvhL435OgoZvCNZ8U+MJq87A1xrOZ8n4u/XTrC8ww1F6l3p6fY=
-X-Received: by 2002:a17:906:b6c7:b0:726:60aa:1b81 with SMTP id
- ec7-20020a170906b6c700b0072660aa1b81mr29815538ejb.383.1658223285068; 
- Tue, 19 Jul 2022 02:34:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1srG0mkpDCIrGsS3STwph8ueVEuVvTEpt8uqIJzzL98NOxl5kFArkMEHbLuvgxVxtSQ4B8VBw==
-X-Received: by 2002:a17:906:b6c7:b0:726:60aa:1b81 with SMTP id
- ec7-20020a170906b6c700b0072660aa1b81mr29815519ejb.383.1658223284775; 
- Tue, 19 Jul 2022 02:34:44 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- t4-20020a1709067c0400b0072124df085bsm6642118ejo.15.2022.07.19.02.34.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 02:34:44 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PULL 3/3] util: Fix broken build on Haiku
-Date: Tue, 19 Jul 2022 11:34:39 +0200
-Message-Id: <20220719093439.528810-4-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220719093439.528810-1-pbonzini@redhat.com>
-References: <20220719093439.528810-1-pbonzini@redhat.com>
+ us-mta-82-e0qQVLTkNpmDjUVtQdiTfA-1; Tue, 19 Jul 2022 05:48:24 -0400
+X-MC-Unique: e0qQVLTkNpmDjUVtQdiTfA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0292B3C025C1;
+ Tue, 19 Jul 2022 09:48:24 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD7042166B26;
+ Tue, 19 Jul 2022 09:48:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9B28021E690D; Tue, 19 Jul 2022 11:48:22 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org,  quintela@redhat.com,  dgilbert@redhat.com,
+ pbonzini@redhat.com,  berrange@redhat.com,  eblake@redhat.com,  Manish
+ Mishra <manish.mishra@nutanix.com>
+Subject: Re: [PATCH 1/4] Modifying =?utf-8?B?4oCYbWlncmF0ZeKAmQ==?= qmp
+ command to add multi-FD
+ socket on particular source and destination pair
+References: <20220609073305.142515-1-het.gala@nutanix.com>
+ <20220609073305.142515-2-het.gala@nutanix.com>
+ <87h73ees2r.fsf@pond.sub.org>
+ <06e02954-f94d-0508-90f1-a8610e1a09cf@nutanix.com>
+ <877d4a7ang.fsf@pond.sub.org>
+ <c3792d65-b24c-be02-f988-fa1c0e27d490@nutanix.com>
+ <8735ex1t01.fsf@pond.sub.org>
+ <57b8de99-fcf9-e015-eeb5-cdc14544d721@nutanix.com>
+Date: Tue, 19 Jul 2022 11:48:22 +0200
+In-Reply-To: <57b8de99-fcf9-e015-eeb5-cdc14544d721@nutanix.com> (Het Gala's
+ message of "Tue, 19 Jul 2022 13:21:34 +0530")
+Message-ID: <87r12hxwk9.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,54 +92,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Het Gala <het.gala@nutanix.com> writes:
 
-A recent commit moved some Haiku-specific code parts from oslib-posix.c
-to cutils.c, but failed to move the corresponding header #include
-statement, too, so "make vm-build-haiku.x86_64" is currently broken.
-Fix it by moving the header #include, too.
+> On 19/07/22 12:36 pm, Markus Armbruster wrote:
+>> Het Gala <het.gala@nutanix.com> writes:
+>>
+>>> On 18/07/22 8:03 pm, Markus Armbruster wrote:
+>>>> Het Gala <het.gala@nutanix.com> writes:
+>>>>
+>>>>> On 18/07/22 2:05 pm, Markus Armbruster wrote:
+>>>>>> Het Gala <het.gala@nutanix.com> writes:
+>>>>>>
+>>>>>>> i) Modified the format of the qemu monitor command : 'migrate' by a=
+dding a list,
+>>>>>>>       each element in the list consists of multi-FD connection para=
+meters: source
+>>>>>>>       and destination uris and of the number of multi-fd channels b=
+etween each pair.
+>>>>>>>
+>>>>>>> ii) Information of all multi-FD connection parameters=E2=80=99 list=
+, length of the list
+>>>>>>>        and total number of multi-fd channels for all the connection=
+s together is
+>>>>>>>        stored in =E2=80=98OutgoingArgs=E2=80=99 struct.
+>>>>>>>
+>>>>>>> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+>>>>>>> Signed-off-by: Het Gala <het.gala@nutanix.com>
+>>>>>>> ---
+>> [...]
+>>
+>>>>>>> diff --git a/migration/socket.c b/migration/socket.c
+>>>>>>> index 4fd5e85f50..7ca6af8cca 100644
+>>>>>>> --- a/migration/socket.c
+>>>>>>> +++ b/migration/socket.c
+>>>>>>> @@ -32,6 +32,17 @@ struct SocketOutgoingArgs {
+>>>>>>>         SocketAddress *saddr;
+>>>>>>>     } outgoing_args;
+>>>>>>>
+>>>>>>> +struct SocketArgs {
+>>>>>>> +    struct SrcDestAddr data;
+>>>>>>> +    uint8_t multifd_channels;
+>>>>>>> +};
+>>>>>>> +
+>>>>>>> +struct OutgoingMigrateParams {
+>>>>>>> +    struct SocketArgs *socket_args;
+>>>>>>> +    size_t length;
+>>>>>> Length of what?
+>>>>> length of the socket_args[] array. Thanks for pointing it out. I will
+>>>>> be more specific for this variable in the v2 patchset series.
+>>>>>
+>>>>>>> +    uint64_t total_multifd_channel;
+>>>>>> @total_multifd_channels appears to be the sum of the
+>>>>>> socket_args[*].multifd_channels.  Correct?
+>>>>> Yes Markus, you are correct.
+>>>> Sure you need to keep the sum separately?
+>>> So earlier, the idea behind this was that, we had this intention to dep=
+reciate the migrate_multifd_channels() API from the live migration
+>>> process. We made total_multifd_channels() function, where it used to ca=
+lculate total number of multifd channels every time, for whichever
+>>> function called was computation internsive so we replaced it by returni=
+ng sum of socket_args[*].multifd_channels i.e.
+>>> total_multifd_channel in the later patches.
+>>>
+>>>  =C2=A0But now in the v2 patchset onwards, Thanks to inputs from Dr. Da=
+vid and Daniel, we are not depricating migrate_multifd_channels() API but
+>>> the value from the API will be cross-referenced with sum of socket_args=
+[*].multifd_channels i.e. total_multifd_channel, and error if
+>>> they are not equal.
+>> I'm afraid I don't understand.  I'm not sure I have to.  Let me loop
+>> back to my question.
+>>
+>> If @total_multifd_channel is always the sum of the
+>> socket_args[*].multifd_channels, then you can always compute it on the
+>> fly.
+>>
+>> I.e. you can replace @total_multifd_channel by a function that returns
+>> the sum.
+>>
+>> Precomputing it instead is more complex, because then you need to
+>> document that the two are the same.  Also, bug oppertunity: letting them
+>> deviate somehow.  I figure that's worthwhile only if computing on the
+>> fly is too expensive.
+>> Okay, I understand your concern. I am okay with your approach too, but t=
+hese things are not expected to change out of qmp command context.=20
+>
+> So is keeping @total_multifd_channel variable should be fine? or making a=
+ function is better?
 
-Fixes: 06680b15b4 ("include: move qemu_*_exec_dir() to cutils")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20220718172026.139004-1-thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- util/cutils.c      | 4 ++++
- util/oslib-posix.c | 4 ----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+I recommend making it a function unless we need a variable for
+performance.
 
-diff --git a/util/cutils.c b/util/cutils.c
-index 8199dac598..cb43dda213 100644
---- a/util/cutils.c
-+++ b/util/cutils.c
-@@ -35,6 +35,10 @@
- #include <sys/sysctl.h>
- #endif
- 
-+#ifdef __HAIKU__
-+#include <kernel/image.h>
-+#endif
-+
- #ifdef G_OS_WIN32
- #include <pathcch.h>
- #include <wchar.h>
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 7a34c1657c..bffec18869 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -62,10 +62,6 @@
- #include <mach-o/dyld.h>
- #endif
- 
--#ifdef __HAIKU__
--#include <kernel/image.h>
--#endif
--
- #include "qemu/mmap-alloc.h"
- 
- #ifdef CONFIG_DEBUG_STACK_USAGE
--- 
-2.36.1
+[...]
 
 
