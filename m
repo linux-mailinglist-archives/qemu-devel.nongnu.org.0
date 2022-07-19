@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883AF57A51F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:23:28 +0200 (CEST)
-Received: from localhost ([::1]:52744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7592F57A50E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:20:59 +0200 (CEST)
+Received: from localhost ([::1]:44526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqwR-0007Y2-P4
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:23:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
+	id 1oDqu2-00014o-Ma
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbM-0005KE-63
+ id 1oDqbM-0005KA-5Y
  for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7974)
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:41296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbF-0002ik-TN
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:35 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGgXU3017922;
- Tue, 19 Jul 2022 17:01:14 GMT
+ id 1oDqb6-0002hm-UQ
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:27 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGpd54031787;
+ Tue, 19 Jul 2022 17:01:19 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=Q3b47PaSBsri9Vncrn/aVZOhyuduZXp2ozKH7IkufOE=;
- b=Z9XLNZJ6QSz2VuOKqj12Oj3YhJWByEzoV0u0syimIndvpdZJeWL4/gmZ8Lwb53T6hAzI
- cPdkZQad/kD4VWswC5oWV6WGvO3r+esvWyy8v0RSS9irOzXK5l1LbgVytWFidIIkEbXa
- Ro2tr2E/l+Ik2SxURDTsHd4QfGuse+yAvpcXTcGPpMaWAw0U/sPcjE7fIW719xyzxqpI
- a7D87oKju3Bf5Pmz42/PPEViALycaiQTtvSYg2YMW+yS5LVE6/apAPXsf/68MJLBBXwV
- 2g5esujFoRIgga/FMMZVFUw3BempXk6fBHR9PT5+so58je4p0/srYlMi2YRof+fkjgeI kQ== 
+ bh=Hs2b3CMhV9+uRCp6mbAoXfq/inyNOxMjoO4PWPYgQ/Q=;
+ b=wDtRYSLn+DijnZztdfcTElAZyy1ti5IAJ3uOZlgO5lE/4LSiiPaULfvWRTdK9ygNgm02
+ XSNiEnrRn4wNMYQzDlt17sCN6QmwkFRoAybdW8ZukzTTNGYggQO9RPdr2VHnRhkGEXVX
+ Z8f6ltfBOqZWnZHX1Bxjz4Jj45kC4E41sxsWXciCd47SveJrAXpN81A2AZeBGZ/qWuU6
+ MpsO6YOqRnQZYOCw6SSW6N9ZwYIJrf4tbn5wrPSDalPopAgpVM5YM98GRg0Ynj0IuJiU
+ nRO765mCRcWS8ipasVPJCDtp5HuFOX0DuGqyviXGpn7Dh1rQp5pqK+itRQbUiEb21zK8 NA== 
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbkx0y7pu-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbnvtf6a2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:14 +0000
+ Tue, 19 Jul 2022 17:01:19 +0000
 Received: from pps.filterd
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26JGgccE009824; Tue, 19 Jul 2022 17:01:13 GMT
+ with ESMTP id 26JFcvSE009851; Tue, 19 Jul 2022 17:01:18 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hc1ggpb1q-1
+ 3hc1ggpb4n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:13 +0000
+ Tue, 19 Jul 2022 17:01:18 +0000
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i5A032177;
- Tue, 19 Jul 2022 17:01:12 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i5C032177;
+ Tue, 19 Jul 2022 17:01:17 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-221-30.vpn.oracle.com
  [10.175.221.30])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3hc1ggpaer-9; Tue, 19 Jul 2022 17:01:12 +0000
+ 3hc1ggpaer-10; Tue, 19 Jul 2022 17:01:17 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -63,11 +63,10 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Jonathan Cameron <jonathan.cameron@huawei.com>
-Subject: [PATCH v9 08/11] i386/pc: factor out device_memory base/size to helper
-Date: Tue, 19 Jul 2022 18:00:11 +0100
-Message-Id: <20220719170014.27028-9-joao.m.martins@oracle.com>
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: [PATCH v9 09/11] i386/pc: bounds check phys-bits against max used GPA
+Date: Tue, 19 Jul 2022 18:00:12 +0100
+Message-Id: <20220719170014.27028-10-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220719170014.27028-1-joao.m.martins@oracle.com>
 References: <20220719170014.27028-1-joao.m.martins@oracle.com>
@@ -79,8 +78,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207190072
-X-Proofpoint-GUID: UWxq6CUYxLY5bq9Cn20gUJeosF63h8J6
-X-Proofpoint-ORIG-GUID: UWxq6CUYxLY5bq9Cn20gUJeosF63h8J6
+X-Proofpoint-GUID: J9JohLTcKFXAgETk9fnkAJqwT5W93Ggk
+X-Proofpoint-ORIG-GUID: J9JohLTcKFXAgETk9fnkAJqwT5W93Ggk
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -105,109 +104,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move obtaining hole64_start from device_memory memory region base/size
-into an helper alongside correspondent getters in pc_memory_init() when
-the hotplug range is unitialized. While doing that remove the memory
-region based logic from this newly added helper.
+Calculate max *used* GPA against the CPU maximum possible address
+and error out if the former surprasses the latter. This ensures
+max used GPA is reacheable by configured phys-bits. Default phys-bits
+on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough for the CPU to
+address 1Tb (0xff ffff ffff) or 1010G (0xfc ffff ffff) in AMD hosts
+with IOMMU.
 
-This is the final step that allows pc_pci_hole64_start() to be callable
-at the beginning of pc_memory_init() before any memory regions are
-initialized.
+This is preparation for AMD guests with >1010G, where it will want relocate
+ram-above-4g to be after 1Tb instead of 4G.
 
-Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/pc.c | 46 +++++++++++++++++++++++++++++++---------------
- 1 file changed, 31 insertions(+), 15 deletions(-)
+ hw/i386/pc.c | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index c654be6cf0bd..4ebc45773c29 100644
+index 4ebc45773c29..1e7bd549bfe9 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -825,15 +825,36 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
-     return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+@@ -879,6 +879,18 @@ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+     return start;
  }
  
--static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
-+static void pc_get_device_memory_range(PCMachineState *pcms,
-+                                       hwaddr *base,
-+                                       ram_addr_t *device_mem_size)
- {
-     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     MachineState *machine = MACHINE(pcms);
-+    ram_addr_t size;
-+    hwaddr addr;
++static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
++{
++    X86CPU *cpu = X86_CPU(first_cpu);
 +
-+    size = machine->maxram_size - machine->ram_size;
-+    addr = ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
-+
-+    if (pcmc->enforce_aligned_dimm) {
-+        /* size device region assuming 1G page max alignment per slot */
-+        size += (1 * GiB) * machine->ram_slots;
++    /* 32-bit systems don't have hole64 thus return max CPU address */
++    if (cpu->phys_bits <= 32) {
++        return ((hwaddr)1 << cpu->phys_bits) - 1;
 +    }
 +
-+    *base = addr;
-+    *device_mem_size = size;
++    return pc_pci_hole64_start() + pci_hole64_size - 1;
 +}
 +
-+static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
-+{
-+    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     hwaddr cxl_base;
-+    ram_addr_t size;
- 
--    if (pcmc->has_reserved_memory && machine->device_memory->base) {
--        cxl_base = machine->device_memory->base
--            + memory_region_size(&machine->device_memory->mr);
-+    if (pcmc->has_reserved_memory) {
-+        pc_get_device_memory_range(pcms, &cxl_base, &size);
-+        cxl_base += size;
-     } else {
-         cxl_base = pc_above_4g_end(pcms);
-     }
-@@ -920,7 +941,7 @@ void pc_memory_init(PCMachineState *pcms,
-     /* initialize device memory address space */
-     if (pcmc->has_reserved_memory &&
-         (machine->ram_size < machine->maxram_size)) {
--        ram_addr_t device_mem_size = machine->maxram_size - machine->ram_size;
-+        ram_addr_t device_mem_size;
- 
-         if (machine->ram_slots > ACPI_MAX_RAM_SLOTS) {
-             error_report("unsupported amount of memory slots: %"PRIu64,
-@@ -935,13 +956,7 @@ void pc_memory_init(PCMachineState *pcms,
-             exit(EXIT_FAILURE);
-         }
- 
--        machine->device_memory->base =
--            ROUND_UP(pc_above_4g_end(pcms), 1 * GiB);
--
--        if (pcmc->enforce_aligned_dimm) {
--            /* size device region assuming 1G page max alignment per slot */
--            device_mem_size += (1 * GiB) * machine->ram_slots;
--        }
-+        pc_get_device_memory_range(pcms, &machine->device_memory->base, &device_mem_size);
- 
-         if ((machine->device_memory->base + device_mem_size) <
-             device_mem_size) {
-@@ -1046,13 +1061,14 @@ uint64_t pc_pci_hole64_start(void)
+ void pc_memory_init(PCMachineState *pcms,
+                     MemoryRegion *system_memory,
+                     MemoryRegion *rom_memory,
+@@ -893,13 +905,28 @@ void pc_memory_init(PCMachineState *pcms,
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
-     MachineState *ms = MACHINE(pcms);
-     uint64_t hole64_start = 0;
-+    ram_addr_t size = 0;
+     X86MachineState *x86ms = X86_MACHINE(pcms);
++    hwaddr maxphysaddr, maxusedaddr;
+     hwaddr cxl_base, cxl_resv_end = 0;
++    X86CPU *cpu = X86_CPU(first_cpu);
  
-     if (pcms->cxl_devices_state.is_enabled) {
-         hole64_start = pc_get_cxl_range_end(pcms);
--    } else if (pcmc->has_reserved_memory && ms->device_memory->base) {
--        hole64_start = ms->device_memory->base;
-+    } else if (pcmc->has_reserved_memory && (ms->ram_size < ms->maxram_size)) {
-+        pc_get_device_memory_range(pcms, &hole64_start, &size);
-         if (!pcmc->broken_reserved_end) {
--            hole64_start += memory_region_size(&ms->device_memory->mr);
-+            hole64_start += size;
-         }
-     } else {
-         hole64_start = pc_above_4g_end(pcms);
+     assert(machine->ram_size == x86ms->below_4g_mem_size +
+                                 x86ms->above_4g_mem_size);
+ 
+     linux_boot = (machine->kernel_filename != NULL);
+ 
++    /*
++     * phys-bits is required to be appropriately configured
++     * to make sure max used GPA is reachable.
++     */
++    maxusedaddr = pc_max_used_gpa(pcms, pci_hole64_size);
++    maxphysaddr = ((hwaddr)1 << cpu->phys_bits) - 1;
++    if (maxphysaddr < maxusedaddr) {
++        error_report("Address space limit 0x%"PRIx64" < 0x%"PRIx64
++                     " phys-bits too low (%u)",
++                     maxphysaddr, maxusedaddr, cpu->phys_bits);
++        exit(EXIT_FAILURE);
++    }
++
+     /*
+      * Split single memory region and use aliases to address portions of it,
+      * done for backwards compatibility with older qemus.
 -- 
 2.17.2
 
