@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DD97579A5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:13:54 +0200 (CEST)
-Received: from localhost ([::1]:54678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB30579A5C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:13:52 +0200 (CEST)
+Received: from localhost ([::1]:54628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDm6r-0000eO-4m
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:13:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51876)
+	id 1oDm6n-0000cU-Tb
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDm4M-0004vJ-UC
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:18 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:43657)
+ id 1oDm4N-0004vw-P9
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:19 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDm4L-0001lY-9h
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:18 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- j29-20020a05600c1c1d00b003a2fdafdefbso9045104wms.2
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:11:16 -0700 (PDT)
+ id 1oDm4M-0001lg-0N
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:11:19 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bk26so21274754wrb.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:11:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DiqGOB6lF2zKW4pGoquTd/9NIZHL+wdvtiLXsg7395o=;
- b=mijQYTc8UzHhSn7IsCAn9Y8Z8Q3RFZrRUyrsI9DgpW5vSVji+OldmMN552K76n8fAY
- qDGy7/VlZkQkwyO3DdnG7Z2nljfAj9FOiKXqU7tSoFNBYLeOs2wgkUdhJQsQa7uvv9Ml
- m+69wv+UVg/+sIxNhrsm4l4XF11eKsPb+keRQIDgjBzrJdzzY/WxfEj3wi+ANHwTd4+b
- mvVx16tps7VkOZW36xQwFC5JKNSzEgRtrLE/78CoUmCt50P8S+ZiVZmvBFCCHxOaiIeM
- MygEVLeNR+nQCD+k57Flq39r+xCVlN4Ftx0242UUcS+mCUBScKAEa42k2S3A0x2WoYnZ
- XLeg==
+ bh=0ETA/mDbYhq/UKc8mSgAXpRi3qw9ZajpFxGpuDQmECA=;
+ b=pjRScg81sOpxeHDV2gj/WY7amhwmdAz5lOXZIUSO4maz9uNprEfztim7cIpDBO+kBx
+ ndbF3vCip/DqGky9Ls/Vobba8pdIOr9BHpYTun66eDSVmAiVMUmGN+GLSUF1tjntdNfW
+ NcbOYWCbdiZ/Ye9SKHzI4ZuKxbCn3mRBqI3IyqD+JGf2ECA1TpWRdssGh9hcsiwIKPX/
+ R3aAVmeejcuI128+ioJadeWfu3S2i77Dt3wkoA+jy9Dd0eK0Dy+j9CKAW38Jdj795w82
+ 2NER3XIbAFA+2pvHpDH8pLQop7GgnaBObIF4v54HtC24qZLsBuyYG8IrIb61kN0HWti6
+ BqxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DiqGOB6lF2zKW4pGoquTd/9NIZHL+wdvtiLXsg7395o=;
- b=OUkAGnVBtc9eNJG4ERBzCdg/tFVyipKQSoutbAZTLGrjdDgKD6WpUfgJ2/8R45pTNs
- 9Bd6HIrJraM6kneAF5fuqSmQvE0I3rbVLvQWuGUzJblxL801N0aQ1scHUB7dqERCm312
- K1V21FkXOsDBnx4LjG2mWoJHsw+Y/9KxnI6YM1grznfgC2GH/TuziYAPdRCEmRpY9YcU
- zaVqXcaKKdb6YMrqmzwxRsHAYwhEozx46ycQhIzpNjzPCxOH3yxuudIiXMdK+duqL0uQ
- ga+oEdjjHeNMisEzoXuoIb+0SBu8lg5GkuItXUZA/rTYOiHfL2MtwxVbwJpqoN0AuDFK
- gBFg==
-X-Gm-Message-State: AJIora93zIRycX2c2Miw3vxW62zm/P78amMYau3tEAIXyTJYfJuJwfMe
- Mr1MVmcs+1HdJpg0ngJ40slUCQ3N8rT0xQ==
-X-Google-Smtp-Source: AGRyM1s/QaR70aO8sESdkrIHdCwdZWgysJjpb2j8wMHeVFFDEd5xWXPBluemHkcY+ovelBBsT+5n3A==
-X-Received: by 2002:a05:600c:1f0a:b0:3a3:15a8:a8e1 with SMTP id
- bd10-20020a05600c1f0a00b003a315a8a8e1mr13013694wmb.167.1658232675977; 
- Tue, 19 Jul 2022 05:11:15 -0700 (PDT)
+ bh=0ETA/mDbYhq/UKc8mSgAXpRi3qw9ZajpFxGpuDQmECA=;
+ b=Vl3McLHG7sI6C2wg0z24csKPyKocx1u+dPrM6Pbp2glTq1+V+Nrqhv+xzu3jGIMMSo
+ TSSh7gUs/XGvZpbmNwIgaoI2ckU0GAjOOzCpmNq752+vG98TSxcKjx2EW1Rlh5NRQGyN
+ EtgeVdB5ZulWgMp9oSoIHuBUai6e5OqiB001aHW8vLr0UIoGJX1quqPoxhaQNJ7u+4Kr
+ RlLA94xSPeNJtsFZ+2HugjfHhRsZG6PV3G5FuX+0QYZjwj9dqzICb56fyQh8Bzv8Ltq7
+ JjBpayw6t5SyV0mk4mHeFbMdjnURDVBny3jQWl5wSNWEH0r/UCdfMU2Q0FH1m25mPlbs
+ 6Igw==
+X-Gm-Message-State: AJIora+LvVEWwzTveip/khqeaJxSMl2pCqmoLpJeFa3iUWaoB/rc4Wnl
+ M62fgq17aOpJoUYqibDGaxBcXUVHVuFZzg==
+X-Google-Smtp-Source: AGRyM1vHpWIFmryRkJtg67b+268GgOT2DO3XId+d2McqGh6y7gjWBQUiMMgXq+zbbXJ6qpFRiFNXdg==
+X-Received: by 2002:adf:cf0a:0:b0:21e:2970:bade with SMTP id
+ o10-20020adfcf0a000000b0021e2970bademr4583652wrj.455.1658232676729; 
+ Tue, 19 Jul 2022 05:11:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- m21-20020a05600c4f5500b0039c5ab7167dsm22111287wmq.48.2022.07.19.05.11.15
+ m21-20020a05600c4f5500b0039c5ab7167dsm22111287wmq.48.2022.07.19.05.11.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 05:11:15 -0700 (PDT)
+ Tue, 19 Jul 2022 05:11:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH 3/4] semihosting: Check for errors on SET_ARG()
-Date: Tue, 19 Jul 2022 13:11:09 +0100
-Message-Id: <20220719121110.225657-4-peter.maydell@linaro.org>
+Subject: [PATCH 4/4] semihosting: Fix handling of buffer in TARGET_SYS_TMPNAM
+Date: Tue, 19 Jul 2022 13:11:10 +0100
+Message-Id: <20220719121110.225657-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220719121110.225657-1-peter.maydell@linaro.org>
 References: <20220719121110.225657-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,53 +88,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SET_ARG() macro returns an error indication; we check this in the
-TARGET_SYS_GET_CMDLINE case but not when we use it in implementing
-TARGET_SYS_ELAPSED.  Check for and handle the errors via the do_fault
-codepath, and update the comment documenting the SET_ARG() and
-GET_ARG() macros to note how they handle memory access errors.
+The TARGET_SYS_TMPNAM implementation has two bugs spotted by
+Coverity:
+ * confusion about whether 'len' has the length of the string
+   including or excluding the terminating NUL means we
+   lock_user() len bytes of memory but memcpy() len + 1 bytes
+ * In the error-exit cases we forget to free() the buffer
+   that asprintf() returned to us
 
-Resolves: Coverity CID 1490287
+Resolves: Coverity CID 1490285, 1490289
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+ semihosting/arm-compat-semi.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index 1a1e2a69605..d12288fc806 100644
+index d12288fc806..e741674238f 100644
 --- a/semihosting/arm-compat-semi.c
 +++ b/semihosting/arm-compat-semi.c
-@@ -171,6 +171,12 @@ static LayoutInfo common_semi_find_bases(CPUState *cs)
-  * Read the input value from the argument block; fail the semihosting
-  * call if the memory read fails. Eventually we could use a generic
-  * CPUState helper function here.
-+ * Note that GET_ARG() handles memory access errors by jumping to
-+ * do_fault, so must be used as the first thing done in handling a
-+ * semihosting call, to avoid accidentally leaking allocated resources.
-+ * SET_ARG(), since it unavoidably happens late, instead returns an
-+ * error indication (0 on success, non-0 for error) which the caller
-+ * should check.
-  */
- 
- #define GET_ARG(n) do {                                 \
-@@ -739,10 +745,14 @@ void do_common_semihosting(CPUState *cs)
-     case TARGET_SYS_ELAPSED:
-         elapsed = get_clock() - clock_start;
-         if (sizeof(target_ulong) == 8) {
--            SET_ARG(0, elapsed);
-+            if (SET_ARG(0, elapsed)) {
-+                goto do_fault;
-+            }
-         } else {
--            SET_ARG(0, (uint32_t) elapsed);
--            SET_ARG(1, (uint32_t) (elapsed >> 32));
-+            if (SET_ARG(0, (uint32_t) elapsed) ||
-+                SET_ARG(1, (uint32_t) (elapsed >> 32))) {
-+                goto do_fault;
-+            }
+@@ -504,16 +504,25 @@ void do_common_semihosting(CPUState *cs)
+         GET_ARG(1);
+         GET_ARG(2);
+         len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
++        if (len < 0) {
++            common_semi_set_ret(cs, -1);
++            break;
++        }
++
++        /* Allow for trailing NUL */
++        len++;
+         /* Make sure there's enough space in the buffer */
+-        if (len < 0 || len >= arg2) {
++        if (len > arg2) {
++            free(s);
+             common_semi_set_ret(cs, -1);
+             break;
          }
+         p = lock_user(VERIFY_WRITE, arg0, len, 0);
+         if (!p) {
++            free(s);
+             goto do_fault;
+         }
+-        memcpy(p, s, len + 1);
++        memcpy(p, s, len);
+         unlock_user(p, arg0, len);
+         free(s);
          common_semi_set_ret(cs, 0);
-         break;
 -- 
 2.25.1
 
