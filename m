@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E935797D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:44:24 +0200 (CEST)
-Received: from localhost ([::1]:41516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B845797E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:50:48 +0200 (CEST)
+Received: from localhost ([::1]:45804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDkiE-0006lb-Qt
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33302)
+	id 1oDkoR-0001kP-KF
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkgp-0005CG-0i
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:42:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58476)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkma-0008Ss-NQ
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:48:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkgl-0004R7-WD
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:42:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDkmZ-0005K5-1d
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:48:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658227371;
+ s=mimecast20190719; t=1658227730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ky7sETGeYYlApGuyeYaNfIpK2ZyK3yUxOd5kvCb50Ac=;
- b=UjZFU6LCa0ZI0odPPpo0ikwHmeW5j2Bv7/A4QVq3ZvDsETpb2lIyyox+mni0lg6iVmtVV0
- imDr0aSg132pwy30eo6WIQjQBB9MYYXc+BIAWRwEVCKjWDc54SAGMz+0wnpDpru656NwTy
- G3DWLo6Iq80NnfamJHtN+JHKmipRSTE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=qmtBSPMw2hchMhazHBLccN1bzqXwnSBuZ+3GQOYYXn0=;
+ b=SmGRMsUNnfZA+hUpRkYWYA22sxYNter5c61oeTkh5NBSoyJfYhgVGyAK2+9Kw3OKQVCscS
+ phjdSEjRD510Ugu8St7pWUFIozt134Kcld1UcG/D0fvUtOcuToSzKWpjnkysQ1HL48lOn1
+ NfFO7Mmsl1JxsZlnuKWbD9e3VzDOVNA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-662-B3YqpDCRPp6ULgbOiNPFnw-1; Tue, 19 Jul 2022 06:42:49 -0400
-X-MC-Unique: B3YqpDCRPp6ULgbOiNPFnw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r82-20020a1c4455000000b003a300020352so6050670wma.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 03:42:49 -0700 (PDT)
+ us-mta-644-MZenq6RjNIWwgCGIgONFFQ-1; Tue, 19 Jul 2022 06:48:43 -0400
+X-MC-Unique: MZenq6RjNIWwgCGIgONFFQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v23-20020adfa1d7000000b0021d620f5ef3so2464558wrv.16
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 03:48:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ky7sETGeYYlApGuyeYaNfIpK2ZyK3yUxOd5kvCb50Ac=;
- b=Xi4LoRHCCwhJyiaZmXap57Ug3+84ejT6Hmek19pzJhlMrraB8j0Yd1YdLBrMw8COsY
- VUwzuJ11ieHfuS39feG3Ayn2oAyyhJejNT78ZMyKfFIjfoRPN4t1p80qBMIs4cG6u0/C
- 7OVKRFaPSry+LtsmfiOTStOEuAMIvs2dhJkpWBgIgbmZ7ImxYQAB9dvl9mrokrhujG2U
- /QEI3IOTaY0OsfGtbZV17qDVHPc1+fUpjCdVVtS/kwP/k3RQUjk2m6nYSNm2Y3Od5LpW
- L9v529IDz07bmcd9+5tTxecokarIMmq0lp7b8waBdzXu0X6ZNZGx3po6B9AS9ayWl0BR
- 4TDQ==
-X-Gm-Message-State: AJIora+4ii5WZ0cZ+Ji3vRc2QGTzooLKRreRlUHoDn52oeZaaFzlKtaW
- 0SzxZW07B5qKlaFdL2yfwvAGifdzgXZ9oUFhsncUPoJLjVzwZJucMktSDWhaNG4RXXSIAzqf326
- EQcLFoO2e9s6mdm0=
-X-Received: by 2002:a05:600c:64a:b0:3a3:25d5:fa5 with SMTP id
- p10-20020a05600c064a00b003a325d50fa5mr1108958wmm.125.1658227368726; 
- Tue, 19 Jul 2022 03:42:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u0ASZCN7gCwFv4R6hMVRhIfbGMpyxpIs/hQ6kA+N/nBfNY/LeWFDe/33rp0cuEaNEm+T391w==
-X-Received: by 2002:a05:600c:64a:b0:3a3:25d5:fa5 with SMTP id
- p10-20020a05600c064a00b003a325d50fa5mr1108939wmm.125.1658227368460; 
- Tue, 19 Jul 2022 03:42:48 -0700 (PDT)
+ bh=qmtBSPMw2hchMhazHBLccN1bzqXwnSBuZ+3GQOYYXn0=;
+ b=gb6H8n4tWXZD0sZDaNXSQ8WbYNwsanHqeBeae+JIkEz3e1qXM+fKkK+vJwRUxueFVT
+ naLilB2nmgpKaLqkslUa0j3zwAReet7iY7Sh4sdO5ENfzafCzgxV5ES8eejOLcF8xzVm
+ Zu0wkWFYYf81nr57PSUUAungzg0OuU5U0mEUOCP3cncQFAb9MralVLVq8c6YyTgZJKEw
+ G3MZ5J17jcR2jmsQYl4toBWG8AfrufSbzEHH6Pkzv4MVzHIiBGUbz6BKny9amwhdGe+T
+ BxBN5mQbrFY8tPnpdGTcBcKVrLSc7ay5GFapw7kqLR6cCugIw32P3AmXjd26xh2jsawP
+ Q6Ug==
+X-Gm-Message-State: AJIora/IFXSCOuEkCgv/KVTenFZ7XJbRjbM6/fRBjccMGbKyhTWq/NeQ
+ THO5ov2pxIxrESnzFbgNBQYQp4BgmZ6qLHtc+KzkG3z9E6Mn6NqBV2kzt5UCcXuLbivtw0Q/+3t
+ 2Sd+P28P1jR6TcEQ=
+X-Received: by 2002:a05:6000:251:b0:21e:3acd:bc7f with SMTP id
+ m17-20020a056000025100b0021e3acdbc7fmr1996306wrz.579.1658227721659; 
+ Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uBzQQLLbhRUiHbo/jupoVkAtFVkGB+1FZ3/M9zxcECP+vABPI4Tft0+mmcJoA6zQ5PxSzv6w==
+X-Received: by 2002:a05:6000:251:b0:21e:3acd:bc7f with SMTP id
+ m17-20020a056000025100b0021e3acdbc7fmr1996282wrz.579.1658227721414; 
+ Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
 Received: from [10.33.198.128] (nat-pool-str-t.redhat.com. [149.14.88.106])
  by smtp.gmail.com with ESMTPSA id
- n16-20020a05600c465000b003a03ae64f57sm17080900wmo.8.2022.07.19.03.42.47
+ h7-20020a5d4fc7000000b0021e434c7867sm537659wrw.36.2022.07.19.03.48.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 03:42:48 -0700 (PDT)
-Message-ID: <6dc76218-2281-4319-165b-c42086ee7157@redhat.com>
-Date: Tue, 19 Jul 2022 12:42:47 +0200
+ Tue, 19 Jul 2022 03:48:41 -0700 (PDT)
+Message-ID: <89e4d09b-16d5-d2a0-14f2-3e4c778d43e4@redhat.com>
+Date: Tue, 19 Jul 2022 12:48:40 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
+Subject: Re: [PATCH v2 0/3] target/s390x: vfmin/vfmax fixes
 Content-Language: en-US
-To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- yc-core@yandex-team.ru, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
-References: <20220719080123.553981-1-rvkagan@yandex-team.ru>
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220713182612.3780050-1-iii@linux.ibm.com>
 From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-In-Reply-To: <20220719080123.553981-1-rvkagan@yandex-team.ru>
+In-Reply-To: <20220713182612.3780050-1-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
@@ -87,7 +90,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,239 +107,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/07/2022 10.01, Roman Kagan wrote:
-> It's possible to create non-working configurations by attaching a device
-> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
-> specifying a slot number other that zero, e.g.:
+On 13/07/2022 20.26, Ilya Leoshkevich wrote:
+> Hi,
 > 
->      -device pcie-root-port,id=s0,... \
->      -device virtio-blk-pci,bus=s0,addr=4,...
+> Uli has found an issue with finding maximum of different kinds of 0s; I
+> wrote a test and found another one with finding maximum of different
+> kinds of NaNs.
 > 
-> Make QEMU reject such configurations and only allow addr=0 on the
-> secondary bus of a PCIe slot.
+> Patches 1 and 2 fix those issues, patch 3 adds a vfmin/vfmax test.
 > 
-> To verify this new behavior, add two basic qtests for the PCIe bridges
-> that may be affected by change: pcie-root-port and x3130.  For the
-> former, two testcases are included, one positive for slot #0 and one
-> negative for (arbitrary) slot #4; for the latter, only a positive
-> testcase for slot #4 is included.
+> Best regards,
+> Ilya
 > 
-> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-> ---
-> v1 -> v2:
-> - use object_dynamic_cast (without assert) [Vladimir]
-> - add explaining comment [Michael]
-> - add tests
-> (I've only had a chance to run tests against x86; hope I didn't mess
-> them up for other arches)
-
-With my s390x hat on: This should not affect s390x - we're not using PCIe there.
-
->   hw/pci/pci_bridge.c               |  6 +++
->   tests/qtest/pcie-root-port-test.c | 77 +++++++++++++++++++++++++++++++
->   tests/qtest/xio3130-test.c        | 54 ++++++++++++++++++++++
->   tests/qtest/meson.build           |  2 +
->   4 files changed, 139 insertions(+)
->   create mode 100644 tests/qtest/pcie-root-port-test.c
->   create mode 100644 tests/qtest/xio3130-test.c
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01915.html
+> v1 -> v2: Drop mmap() in the test (Richard).
 > 
-> diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-> index da34c8ebcd..23e1701d06 100644
-> --- a/hw/pci/pci_bridge.c
-> +++ b/hw/pci/pci_bridge.c
-> @@ -33,6 +33,7 @@
->   #include "qemu/units.h"
->   #include "hw/pci/pci_bridge.h"
->   #include "hw/pci/pci_bus.h"
-> +#include "hw/pci/pcie_port.h"
->   #include "qemu/module.h"
->   #include "qemu/range.h"
->   #include "qapi/error.h"
-> @@ -386,6 +387,11 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
->       br->windows = pci_bridge_region_init(br);
->       QLIST_INIT(&sec_bus->child);
->       QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
-> +
-> +    /* PCIe slot derivatives are bridges with a single slot; enforce that */
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT)) {
-> +        sec_bus->slot_reserved_mask = ~1u;
-> +    }
->   }
->   
->   /* default qdev clean up function for PCI-to-PCI bridge */
-> diff --git a/tests/qtest/pcie-root-port-test.c b/tests/qtest/pcie-root-port-test.c
-> new file mode 100644
-> index 0000000000..a1f3d84d75
-> --- /dev/null
-> +++ b/tests/qtest/pcie-root-port-test.c
-> @@ -0,0 +1,77 @@
-> +/*
-> + * QTest testcase for generic PCIe root port
-> + *
-> + * Copyright (c) 2022 Yandex N.V.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "libqtest-single.h"
+> Ilya Leoshkevich (3):
+>    target/s390x: fix handling of zeroes in vfmin/vfmax
+>    target/s390x: fix NaN propagation rules
+>    tests/tcg/s390x: test signed vfmin/vfmax
+> 
+>   fpu/softfloat-specialize.c.inc    |   3 +-
+>   target/s390x/tcg/vec_fpu_helper.c |   4 +-
+>   tests/tcg/s390x/Makefile.target   |   7 +
+>   tests/tcg/s390x/vfminmax.c        | 411 ++++++++++++++++++++++++++++++
+>   4 files changed, 422 insertions(+), 3 deletions(-)
+>   create mode 100644 tests/tcg/s390x/vfminmax.c
+> 
 
-Do you really need libqtest-single.h here? libqtest.h should be enough, 
-shouldn't it?
+Thanks, queued to my s390x-next branch now:
 
-> +/*
-> + * Let QEMU choose the bus and slot for the device under test.  It may even be
-> + * a non-PCIe bus but it's ok for the purpose of the test.
-> + */
-> +static const char *common_args = "-device pcie-root-port,id=s0"
-> +                                 ",port=1,chassis=1,multifunction=on";
-> +
-> +static void test_slot0(void)
-> +{
-> +    QTestState *qts;
-> +    QDict *resp;
-> +
-> +    /* attach a PCIe device into slot0 of the root port */
-> +    qts = qtest_init(common_args);
-> +    /* PCIe root port is known to be supported, use it as a leaf device too */
-> +    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-> +                     "'driver': 'pcie-root-port', "
-> +                     "'id': 'port1', "
-> +                     "'bus': 's0', "
-> +                     "'chassis': 5, "
-> +                     "'addr': '0'"
-> +                     "} }");
-> +    g_assert_nonnull(resp);
-> +    g_assert(!qdict_haskey(resp, "event"));
-> +    g_assert(!qdict_haskey(resp, "error"));
-> +    qobject_unref(resp);
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +static void test_slot4(void)
-> +{
-> +    QTestState *qts;
-> +    QDict *resp;
-> +
-> +    /* attach a PCIe device into slot4 of the root port should be rejected */
-> +    qts = qtest_init(common_args);
-> +    /* PCIe root port is known to be supported, use it as a leaf device too */
-> +    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-> +                     "'driver': 'pcie-root-port', "
-> +                     "'id': 'port1', "
-> +                     "'bus': 's0', "
-> +                     "'chassis': 5, "
-> +                     "'addr': '4'"
-> +                     "} }");
-> +    qmp_expect_error_and_unref(resp, "GenericError");
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    int ret;
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    qtest_add_func("/pcie-root-port/slot0", test_slot0);
-> +    qtest_add_func("/pcie-root-port/slot4", test_slot4);
-> +
-> +    ret = g_test_run();
-> +
-> +    qtest_end();
-
-Please drop the qtest_end() - you're already using qtest_quit in the 
-individual tests.
-
-> +    return ret;
-> +}
-> diff --git a/tests/qtest/xio3130-test.c b/tests/qtest/xio3130-test.c
-> new file mode 100644
-> index 0000000000..3a937889b9
-> --- /dev/null
-> +++ b/tests/qtest/xio3130-test.c
-> @@ -0,0 +1,54 @@
-> +/*
-> + * QTest testcase for TI X3130 PCIe switch
-> + *
-> + * Copyright (c) 2022 Yandex N.V.
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "libqtest-single.h"
-
-dito - please switch to libqtest.h
-
-> +/*
-> + * Let QEMU choose the bus and slot for the device under test.  It may even be
-> + * a non-PCIe bus but it's ok for the purpose of the test.
-> + */
-> +static const char *common_args = "-device x3130-upstream,id=s0";
-> +
-> +static void test_slot4(void)
-> +{
-> +    QTestState *qts;
-> +    QDict *resp;
-> +
-> +    /* attach a downstream port into slot4 of the upstream port */
-> +    qts = qtest_init(common_args);
-> +    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-> +                     "'driver': 'xio3130-downstream', "
-> +                     "'id': 'port1', "
-> +                     "'bus': 's0', "
-> +                     "'chassis': 5, "
-> +                     "'addr': '4'"
-> +                     "} }");
-> +    g_assert_nonnull(resp);
-> +    g_assert(!qdict_haskey(resp, "event"));
-> +    g_assert(!qdict_haskey(resp, "error"));
-> +    qobject_unref(resp);
-> +
-> +    qtest_quit(qts);
-> +}
-> +
-> +int main(int argc, char **argv)
-> +{
-> +    int ret;
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    qtest_add_func("/x3130/slot4", test_slot4);
-> +
-> +    ret = g_test_run();
-> +
-> +    qtest_end();
-
-Drop qtest_end() also here.
-
-> +    return ret;
-> +}
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 31287a9173..19cab1bc35 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -54,6 +54,7 @@ qtests_i386 = \
->     (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
->     (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
->     (config_all_devices.has_key('CONFIG_LPC_ICH9') ? ['lpc-ich9-test'] : []) +              \
-> +  (config_all_devices.has_key('CONFIG_PCIE_PORT') ? ['pcie-root-port-test'] : []) +         \
->     (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +            \
->     (config_all_devices.has_key('CONFIG_USB_UHCI') and                                        \
->      config_all_devices.has_key('CONFIG_USB_EHCI') ? ['usb-hcd-ehci-test'] : []) +            \
-> @@ -63,6 +64,7 @@ qtests_i386 = \
->     (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-test'] : []) +              \
->     (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
->     (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-> +  (config_all_devices.has_key('CONFIG_XIO3130') ? ['xio3130-test'] : []) +                  \
->     (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
->     (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) +    \
->     (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) +     \
+  https://gitlab.com/thuth/qemu/-/commits/s390x-next/
 
   Thomas
 
