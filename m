@@ -2,55 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D451A57A144
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:22:33 +0200 (CEST)
-Received: from localhost ([::1]:47362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D8C57A11F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:19:21 +0200 (CEST)
+Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDo7N-00007x-13
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:22:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47254)
+	id 1oDo4G-0002wT-IE
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:19:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDnZl-00066X-9g
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:47:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52564)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDndR-0003gu-92
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:51:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDnZj-0001kw-K5
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:47:48 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDndO-0002tF-ON
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658238467;
+ s=mimecast20190719; t=1658238694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=1dDBzn2aR7gKgVbZ7HASjiRSQXSRy9sXH4e5xeh6G64=;
- b=ENdxbb6kKBBthCkZBJpdqyOipk1YSoy64BIkwD1rfaXa0oWv/WbKipL34mB02AV9A/u/38
- IV3Ldb8I6H5u8c3tMfndIG9MCassu5ZiqcxcZtWpgabBqKw/UJ6OiJSofuEOezH5reQyBX
- OsVDn7pMNq/apXvCEaoNyNItO7FeTVQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OTl9aXcRjhVLwfyFuU7nX+ff9vhIC4Fz3hKZXHDbIMU=;
+ b=Oqg6WWa7h6bUZHKgkKBDcDYeEr9Vg8fq3jclwkvLAccLbv/A59KmXkmwtjgsOfOvFB+Veb
+ r3WGNhy3T9Do+3CwVLLTLDvbUul/Tj3sdVZwVBMFpFtiTNhbyOcbUoX8mn/cRwVfpICQ6r
+ p0ar3cnpS0DdwaJ4wG/mckfRr+lm4yc=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-649-OcjT7j8jMIa2osQf22kNWA-1; Tue, 19 Jul 2022 09:47:44 -0400
-X-MC-Unique: OcjT7j8jMIa2osQf22kNWA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C94571035341;
- Tue, 19 Jul 2022 13:47:43 +0000 (UTC)
-Received: from server.redhat.com (ovpn-13-124.pek2.redhat.com [10.72.13.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 50A3318EA8;
- Tue, 19 Jul 2022 13:47:40 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
- dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
- marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH v12 09/10] virtio-mmio: add support for configure interrupt
-Date: Tue, 19 Jul 2022 21:46:54 +0800
-Message-Id: <20220719134655.522538-10-lulu@redhat.com>
+ us-mta-223-3xNZZoBnNymiVfZQQH61jA-1; Tue, 19 Jul 2022 09:51:32 -0400
+X-MC-Unique: 3xNZZoBnNymiVfZQQH61jA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j16-20020adfa550000000b0021d63d200a8so2591702wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:51:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=OTl9aXcRjhVLwfyFuU7nX+ff9vhIC4Fz3hKZXHDbIMU=;
+ b=xuhPToSzBAZyloc1ZHTnY2yV+QjGePe1qpeghCwYxmYPt7dhidTzHK+hId4JceNDA/
+ M43a+q7TBK/98wE2fRzkJHNHgpM/4J4EUrepoS3HryOvTkI2kWduYqaE5jzbgIbyU2XQ
+ 5irxcj9sX1/numAy3liYXDb2sFD/C5HYc0wFDs/LaIUAhlglPZF6HD/7Hcjr+4Fqo58m
+ Gz5yCrho/qME0FVx/ndVXbTxm/BpBwqTwqPRQTqypFmVk7uSmc+Q1t+0C+EEbge1d8R0
+ sAnogvobyRmlg8gcBO4RqZdC6PIjEYbYgb0sO9lUIcUFCCD9cemxcOS2FWo84ALjJDzm
+ yV5A==
+X-Gm-Message-State: AJIora81dpLz5U+UwssVDkRTI9UJyXHYLEWjheJuVrDb9IaKeEA7XX1f
+ bGFiGYbRcAdVG9zV6tGTtJyc9aHPekxHesWsMmWV7kb5NoRvFxU4VES9OU5eE9CN3qYgOI3g9O5
+ Oi5MHXz5ingFl/WA=
+X-Received: by 2002:a5d:5c05:0:b0:21d:83b4:d339 with SMTP id
+ cc5-20020a5d5c05000000b0021d83b4d339mr26999481wrb.611.1658238691113; 
+ Tue, 19 Jul 2022 06:51:31 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1urX042LggmEnTsMZU+FXoksV12rra+gOJ0NuCAFTm+lEhhMkA/k6Bnu+4EIuhB5HMjmKlgSQ==
+X-Received: by 2002:a5d:5c05:0:b0:21d:83b4:d339 with SMTP id
+ cc5-20020a5d5c05000000b0021d83b4d339mr26999469wrb.611.1658238690899; 
+ Tue, 19 Jul 2022 06:51:30 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ j9-20020a05600c190900b0039db31f6372sm26053230wmq.2.2022.07.19.06.51.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jul 2022 06:51:30 -0700 (PDT)
+Date: Tue, 19 Jul 2022 14:51:28 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH] migration: remove unreachable code after reading data
+Message-ID: <Yta24JtoX8+N1s52@work-vm>
+References: <20220627135318.156121-1-berrange@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+In-Reply-To: <20220627135318.156121-1-berrange@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -74,61 +101,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add configure interrupt support in virtio-mmio bus.
-add function to set configure guest notifier.
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> The code calls qio_channel_read() in a loop when it reports
+> QIO_CHANNEL_ERR_BLOCK. This code is reported when errno==EAGAIN.
+> 
+> As such the later block of code will always hit the 'errno != EAGAIN'
+> condition, making the final 'else' unreachable.
+> 
+> Fixes: Coverity CID 1490203
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-mmio.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+Queued
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 688eccda94..5c613a96d9 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -672,7 +672,30 @@ static int virtio_mmio_set_guest_notifier(DeviceState *d, int n, bool assign,
- 
-     return 0;
- }
-+static int virtio_mmio_set_config_guest_notifier(DeviceState *d, bool assign,
-+                                                 bool with_irqfd)
-+{
-+    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-+    VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-+    VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
-+    EventNotifier *notifier = virtio_config_get_guest_notifier(vdev);
-+    int r = 0;
- 
-+    if (assign) {
-+        r = event_notifier_init(notifier, 0);
-+        if (r < 0) {
-+            return r;
-+        }
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+        event_notifier_cleanup(notifier);
-+    }
-+    if (vdc->guest_notifier_mask && vdev->use_guest_notifier_mask) {
-+        vdc->guest_notifier_mask(vdev, VIRTIO_CONFIG_IRQ_IDX, !assign);
-+    }
-+    return r;
-+}
- static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
-                                            bool assign)
- {
-@@ -694,6 +717,10 @@ static int virtio_mmio_set_guest_notifiers(DeviceState *d, int nvqs,
-             goto assign_error;
-         }
-     }
-+    r = virtio_mmio_set_config_guest_notifier(d, assign, with_irqfd);
-+    if (r < 0) {
-+        goto assign_error;
-+    }
- 
-     return 0;
- 
+> ---
+>  migration/qemu-file.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> index 1e80d496b7..1615c48b7e 100644
+> --- a/migration/qemu-file.c
+> +++ b/migration/qemu-file.c
+> @@ -384,10 +384,8 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
+>          f->total_transferred += len;
+>      } else if (len == 0) {
+>          qemu_file_set_error_obj(f, -EIO, local_error);
+> -    } else if (len != -EAGAIN) {
+> -        qemu_file_set_error_obj(f, len, local_error);
+>      } else {
+> -        error_free(local_error);
+> +        qemu_file_set_error_obj(f, len, local_error);
+>      }
+>  
+>      return len;
+> -- 
+> 2.36.1
+> 
+> 
 -- 
-2.34.3
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
