@@ -2,102 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510B757999A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:05:10 +0200 (CEST)
-Received: from localhost ([::1]:42016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45D8579999
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:05:08 +0200 (CEST)
+Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDlyP-0000EL-C4
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:05:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
+	id 1oDlyI-0000BT-O6
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:05:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oDluA-00052Y-E8
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:00:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48510)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDluy-0005SG-I7
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:01:37 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:34554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oDlu5-0008UI-Fs
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:00:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658232040;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDlup-0000G5-W6
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:01:36 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 968EE616F7;
+ Tue, 19 Jul 2022 12:01:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA7DCC341C6;
+ Tue, 19 Jul 2022 12:01:21 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Ive/nGyh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658232078;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=m/NDLCFDyw5c7q7tl06QjHAe+MhVls/cgTFpTU8+IhY=;
- b=L4SlgrDcynnNTFNZKhtuVnoIZrv5gbM0Wf8b2GPqnq1B0iNxsLirwy9jsLUojEIDACekyI
- VDj6JjdYdEw30AKck8CwtVW0KNk4oo+pgZhB/h3gNSwo/8SBB97cfLIUqWwDtmLm8HLE5g
- vjgBJbUZ/iqNBr1ysiUymEqHwaZC1/I=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-R-4fPMdHM1ingJinN4cGNw-1; Tue, 19 Jul 2022 08:00:38 -0400
-X-MC-Unique: R-4fPMdHM1ingJinN4cGNw-1
-Received: by mail-qt1-f200.google.com with SMTP id
- u2-20020ac80502000000b002f94701339eso10119157qtg.13
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:00:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=m/NDLCFDyw5c7q7tl06QjHAe+MhVls/cgTFpTU8+IhY=;
- b=jB6S9G8KfZfVS6eUO1soKagpjG70D8kDDpOx0gnxt65AoJFbaKR2oHL6M/G1a7hYwC
- kDzC7EwUVBpn9zaJYGrltqXHOIBudPSarfcmvIfarIJcBUBxO2qv7ruSdsf7KddIzT4u
- Dlphq4FvEBQElNMT6DJMOxF1lgVa43JQekQr7aAmpBp5WucFngJsZ+JJHAD7Xt5Q8FGF
- GLQFS0ovJzcky9/MvNJquoOXhMl2LMQi2IRStZQxPSFTRjEHfGIARdhKatDwr0BmwAa8
- oG31m5mpJcdjsAJ4RJcMzjJ85skJe2Bc6mp5xx1yV5z3NGDny7J4dKu8xvbJgKHkKQ5h
- W5lQ==
-X-Gm-Message-State: AJIora/aDftB4/anEOC8bGMsApRCj48kkiGuM1lHIAokn7UuLtia4uZj
- 2JCTWKSYEZf28atPvuEz2Fwy7/fabna21PW2khpZDHPlUjXV6rV+tbeZ15xcU+XWNUM/z8LnGS1
- je6J69728Hy3afU8=
-X-Received: by 2002:a05:622a:14cc:b0:31e:f6ef:a137 with SMTP id
- u12-20020a05622a14cc00b0031ef6efa137mr4138701qtx.606.1658232036242; 
- Tue, 19 Jul 2022 05:00:36 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v0GfSN2pAey/gJ1lKP+z6OzHXAVmFhFKkMzTPyPGMXRRBm7Ttu44g96a9DGOPrfkyT3D9COQ==
-X-Received: by 2002:a05:622a:14cc:b0:31e:f6ef:a137 with SMTP id
- u12-20020a05622a14cc00b0031ef6efa137mr4138672qtx.606.1658232035964; 
- Tue, 19 Jul 2022 05:00:35 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- x20-20020a05620a0b5400b006a6ab259261sm13699159qkg.29.2022.07.19.05.00.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 05:00:35 -0700 (PDT)
-Message-ID: <8726804c-5dbc-bc27-3922-a00ae676941d@redhat.com>
-Date: Tue, 19 Jul 2022 14:00:30 +0200
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jZ5kTD2Mf2bJvwjR0NikatRL1MEqfTCkEepxsPTGPhw=;
+ b=Ive/nGyhXN+PjO7YDTc8XZf2K3kBrngzeYh7F7e6P1FyD4CQYukH7vAD51jvF0JADBzXVv
+ PMUp6l9K+1gKR/V8GnADY+FXlN2YUZWMr46hFWoSpQi9wbySBBLqw92COm9f3BrDwnHQo8
+ UEXjTz7fZQgtJp9jkrIflyy5U6x4/K4=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c6482847
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 19 Jul 2022 12:01:17 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>
+Subject: [PATCH] hw/nios2: virt: pass random seed to fdt
+Date: Tue, 19 Jul 2022 14:01:13 +0200
+Message-Id: <20220719120113.118034-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v9 09/21] jobs: use job locks also in the unit tests
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-10-eesposit@redhat.com>
- <b86ef36a-a82c-591e-54fe-481690a5987f@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <b86ef36a-a82c-591e-54fe-481690a5987f@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,22 +77,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This FDT node is part of the DT specification.
 
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/nios2/boot.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Am 11/07/2022 um 15:08 schrieb Vladimir Sementsov-Ogievskiy:
-> 
-> That made me ask:
-> 
-> 1. Are all tests always run in main loop? If yes, why to protect status
-> reading in test_complete_in_standby() ?
-> 
-> 2. Maybe, we don't need to protect anything here? Why to protect other
-> things if we run everything in main loop?
-
-I think it's still good example and practice to protect a function if it
-needs to be protected and its name ends with _locked. It would just
-confuse the reader if we don't protect it.
-
-Emanuele
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 07b8d87633..21cbffff47 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -34,6 +34,7 @@
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/reset.h"
+ #include "hw/boards.h"
+@@ -83,6 +84,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+     int fdt_size;
+     void *fdt = NULL;
+     int r;
++    uint8_t rng_seed[32];
+ 
+     if (dtb_filename) {
+         fdt = load_device_tree(dtb_filename, &fdt_size);
+@@ -91,6 +93,9 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+         return 0;
+     }
+ 
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     if (kernel_cmdline) {
+         r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+                                     kernel_cmdline);
+-- 
+2.35.1
 
 
