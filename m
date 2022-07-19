@@ -2,77 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8DDF57976A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:16:04 +0200 (CEST)
-Received: from localhost ([::1]:35714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D0557978B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:20:51 +0200 (CEST)
+Received: from localhost ([::1]:44590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDkGp-0006m0-Tx
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:16:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
+	id 1oDkLT-0005RI-11
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDjzK-0000v2-AT
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34546)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oDjyb-0008O6-M4
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDjzI-0005Da-8e
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:57 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oDjyZ-00058T-TP
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658224675;
+ s=mimecast20190719; t=1658224631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qQYyQPUwsAI2XVWVJZJjxrWIG0apisggNil0kr5fFQQ=;
- b=PfIQesPshKDeQt6w5xn7APKQyQwPS5rZARoO3IJ0j4JAU1l8kwuzl1pBNKpjCOxbKzQqOT
- r3BLIUpj1Nf8wXIV8MBpd/+YLhDfR8eaGVkdEdeNh9EvcsnFsmwluoUoYuvJ/ePOH962iJ
- 6IHU4iEEI1GmTHhY2BOW+72fP2lNw1Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=CeUDguV4iYRX931+4M/b8FtxWoGb/6zPswU1MQaW/gA=;
+ b=aBYPI7Eot/LQ3JsI1ACn8BUa0bUNr/rLUvvbBn8xp6ppY+pea2KzBdbSL43XA8kvfwef5J
+ LLpNuc3dSBTrNIljXrsoESgyHrKJyDcvdeHkGQdgrFEq18ijyQMbXKciqACr4DlLpsTplb
+ +MRP61gq5O0QPHeKALs4DPKmIaGEhHE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-TZDB6d6jN4mOyQUTeLRnEg-1; Tue, 19 Jul 2022 05:57:39 -0400
-X-MC-Unique: TZDB6d6jN4mOyQUTeLRnEg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4E43185A794;
- Tue, 19 Jul 2022 09:57:38 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5E0118EA8;
- Tue, 19 Jul 2022 09:57:35 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Parav Pandit <parav@mellanox.com>, Eric Blake <eblake@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, Eli Cohen <eli@mellanox.com>,
- Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH v5 20/20] vdpa: Add x-svq to NetdevVhostVDPAOptions
-Date: Tue, 19 Jul 2022 11:56:29 +0200
-Message-Id: <20220719095629.3031338-21-eperezma@redhat.com>
-In-Reply-To: <20220719095629.3031338-1-eperezma@redhat.com>
-References: <20220719095629.3031338-1-eperezma@redhat.com>
+ us-mta-316-EJxVzIv2OXqPQoDSUw6doQ-1; Tue, 19 Jul 2022 05:57:04 -0400
+X-MC-Unique: EJxVzIv2OXqPQoDSUw6doQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ q19-20020a7bce93000000b003a3264f3de9so136086wmj.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 02:57:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CeUDguV4iYRX931+4M/b8FtxWoGb/6zPswU1MQaW/gA=;
+ b=F8AenbhwBY3EBHDyIWsqDyDmHEE3LslYWvIU12HyRjM4JvPmXSf+cxWKIboaInTG30
+ qMENp8EgRRSQrMiUR290gMFwUXYGjIHkj6puXg9f85XaoqA4yd7N3xJcFvG8IPcPOsny
+ QgDasb5rx2Id3ljfXRdKM6kjpIwpGMIs9khBmf1JF2V7ivw0smr/HpGiOdI+JnSqcAOG
+ 9uqtkPGSrHymM/JE+dWQlIkxC8SNkQ63wzyaYs9XCHAyipCPPAzUPh15nmlhVek2lLWq
+ 5OOCje5OlvgfyZE4eHRfoglftn6m67EwVLduxvNB9YSMHLtBpDN0uYQvInGEWQ37gpWB
+ JJiw==
+X-Gm-Message-State: AJIora9zCHJxJCuNA42BCR4QaG9fRyuRfRjG08sOiOQkLKvh2AaOuDrZ
+ fXffZWmsZnC3uNIrwO2SxR8R+YR2fmvKEOyd0tCioqK8v02qcm2JG2GspGOgdDNZjNxMZ4JtObA
+ hiJI84N5I7m5AXT0=
+X-Received: by 2002:a05:6000:168e:b0:21d:ae03:49d9 with SMTP id
+ y14-20020a056000168e00b0021dae0349d9mr26269426wrd.457.1658224623103; 
+ Tue, 19 Jul 2022 02:57:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tB+GPx2WyHKP0karEyAIi0nSHNgkdLqwOogv6b0TuPyaAWzVv74K7kHvB4iguQVlTdSZTvwQ==
+X-Received: by 2002:a05:6000:168e:b0:21d:ae03:49d9 with SMTP id
+ y14-20020a056000168e00b0021dae0349d9mr26269404wrd.457.1658224622868; 
+ Tue, 19 Jul 2022 02:57:02 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ i3-20020a05600c14c300b003a32251c3f0sm2005418wmh.33.2022.07.19.02.57.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jul 2022 02:57:02 -0700 (PDT)
+Message-ID: <88e07fa2-60c9-0fb6-fc1b-b03a2f7d37f5@redhat.com>
+Date: Tue, 19 Jul 2022 11:57:01 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
+ _can_set_ and _set_
+Content-Language: en-US
+To: Hanna Reitz <hreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
+References: <20220712211911.1302836-1-eesposit@redhat.com>
+ <20220712211911.1302836-8-eesposit@redhat.com>
+ <ea2b8793-532d-e7c1-c34f-a9ef89f8586d@redhat.com>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <ea2b8793-532d-e7c1-c34f-a9ef89f8586d@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,197 +110,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Finally offering the possibility to enable SVQ from the command line.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
----
- qapi/net.json    |  9 +++++-
- net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 77 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 9af11e9a3b..75ba2cb989 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -445,12 +445,19 @@
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
- #
-+# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
-+#         (default: false)
-+#
-+# Features:
-+# @unstable: Member @x-svq is experimental.
-+#
- # Since: 5.1
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
-     '*vhostdev':     'str',
--    '*queues':       'int' } }
-+    '*queues':       'int',
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
- 
- ##
- # @NetdevVmnetHostOptions:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 6e3e9f312a..6abad276a6 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -75,6 +75,28 @@ const int vdpa_feature_bits[] = {
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-+/** Supported device specific feature bits with SVQ */
-+static const uint64_t vdpa_svq_device_features =
-+    BIT_ULL(VIRTIO_NET_F_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_MTU) |
-+    BIT_ULL(VIRTIO_NET_F_MAC) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
-+    BIT_ULL(VIRTIO_NET_F_STATUS) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
-+    BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
-+    BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-+    BIT_ULL(VIRTIO_NET_F_STANDBY);
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -133,9 +155,13 @@ err_init:
- static void vhost_vdpa_cleanup(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    struct vhost_dev *dev = &s->vhost_net->dev;
- 
-     qemu_vfree(s->cvq_cmd_out_buffer);
-     qemu_vfree(s->cvq_cmd_in_buffer);
-+    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-+    }
-     if (s->vhost_net) {
-         vhost_net_cleanup(s->vhost_net);
-         g_free(s->vhost_net);
-@@ -437,7 +463,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            int vdpa_device_fd,
-                                            int queue_pair_index,
-                                            int nvqs,
--                                           bool is_datapath)
-+                                           bool is_datapath,
-+                                           bool svq,
-+                                           VhostIOVATree *iova_tree)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -455,6 +483,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-+    s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.iova_tree = iova_tree;
-     if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
-                                             vhost_vdpa_net_cvq_cmd_page_len());
-@@ -465,6 +495,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
-+        error_setg(&s->vhost_vdpa.migration_blocker,
-+                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
-@@ -474,6 +506,14 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     return nc;
- }
- 
-+static int vhost_vdpa_get_iova_range(int fd,
-+                                     struct vhost_vdpa_iova_range *iova_range)
-+{
-+    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-+
-+    return ret < 0 ? -errno : 0;
-+}
-+
- static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
- {
-     int ret = ioctl(fd, VHOST_GET_FEATURES, features);
-@@ -524,6 +564,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-+    g_autoptr(VhostIOVATree) iova_tree = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
- 
-@@ -551,22 +592,45 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return queue_pairs;
-     }
- 
-+    if (opts->x_svq) {
-+        struct vhost_vdpa_iova_range iova_range;
-+
-+        uint64_t invalid_dev_features =
-+            features & ~vdpa_svq_device_features &
-+            /* Transport are all accepted at this point */
-+            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
-+                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_START);
-+
-+        if (invalid_dev_features) {
-+            error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
-+                       invalid_dev_features);
-+            goto err_svq;
-+        }
-+
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-+    }
-+
-     ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true);
-+                                     vdpa_device_fd, i, 2, true, opts->x_svq,
-+                                     iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false);
-+                                 vdpa_device_fd, i, 1, false,
-+                                 opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
-     }
- 
-+    /* iova_tree ownership belongs to last NetClientState */
-+    g_steal_pointer(&iova_tree);
-     return 0;
- 
- err:
-@@ -575,6 +639,8 @@ err:
-             qemu_del_net_client(ncs[i]);
-         }
-     }
-+
-+err_svq:
-     qemu_close(vdpa_device_fd);
- 
-     return -1;
--- 
-2.31.1
+Am 18/07/2022 um 18:39 schrieb Paolo Bonzini:
+> On 7/12/22 23:19, Emanuele Giuseppe Esposito wrote:
+>> diff --git a/block/block-backend.c b/block/block-backend.c
+>> index 674eaaa2bf..6e90ac3a6a 100644
+>> --- a/block/block-backend.c
+>> +++ b/block/block-backend.c
+>> @@ -2184,8 +2184,12 @@ static int blk_do_set_aio_context(BlockBackend
+>> *blk, AioContext *new_context,
+>>           bdrv_ref(bs);
+>>             if (update_root_node) {
+>> -            ret = bdrv_child_try_set_aio_context(bs, new_context,
+>> blk->root,
+>> -                                                 errp);
+>> +            /*
+>> +             * update_root_node MUST be false for
+>> blk_root_set_aio_ctx_commit(),
+>> +             * as we are already in the commit function of a
+>> transaction.
+>> +             */
+>> +            ret = bdrv_child_try_change_aio_context(bs, new_context,
+>> blk->root,
+>> +                                                    errp);
+>>               if (ret < 0) {
+>>                   bdrv_unref(bs);
+>>                   return ret;
+> 
+> 
+> Looking further at blk_do_set_aio_context:
+> 
+>         if (tgm->throttle_state) {
+>             bdrv_drained_begin(bs);
+>             throttle_group_detach_aio_context(tgm);
+>             throttle_group_attach_aio_context(tgm, new_context);
+>             bdrv_drained_end(bs);
+>         }
+> 
+> Perhaps the drained_begin/drained_end pair can be moved to
+> blk_set_aio_context?  It shouldn't be needed from the change_aio_ctx
+> callback, because bs is already drained.  If so, blk_do_set_aio_context
+> would become just:
+> 
+>      if (tgm->throttle_state) {
+>          throttle_group_detach_aio_context(tgm);
+>          throttle_group_attach_aio_context(tgm, new_context);
+>      }
+>      blk->ctx = new_context;
+> 
+> and blk_set_aio_context would be something like:
+> 
+>     if (bs) {
+>         bdrv_ref(bs);
+>         ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
+>                                              errp);
+>         if (ret < 0) {
+>             goto out_no_drain;
+>         }
+>         bdrv_drained_begin(bs);
+>     }
+>     ret = blk_do_set_aio_context(blk, new_context, errp);
+>     if (bs) {
+>         bdrv_drained_end(bs);
+> out_no_drain;
+>         bdrv_unref(bs);
+>     }
+>     return ret;
+> 
+> Paolo
+> 
+
+This is another example on how things here do not take into account many
+other use cases outside the common ones: if I use the above suggestion,
+test-block-iothread fails.
+
+The reason why it fails is simple: now we drain regardless of
+tgm->throttle_state being true or false. And this requires yet another
+aiocontext lock.
+
+Which means that if we are calling blk_set_aio_context where the bs
+exists and tgm->throttle_state is true, we have a bug.
+
+Test is test_attach_blockjob and function is line 435
+blk_set_aio_context(blk, ctx, &error_abort);
+
+The reason is that bs is first switched to the new aiocontext and then
+we try to drain it without holding the lock.
+
+Wrapping the new drains in aio_context_acquire/release(new_context) is
+not so much helpful either, since apparently the following
+blk_set_aio_context makes aio_poll() hang.
+I am not sure why, any ideas?
+
+
+Code:
+
+static int blk_do_set_aio_context(BlockBackend *blk, AioContext
+*new_context,
+                                  Error **errp)
+{
+    BlockDriverState *bs = blk_bs(blk);
+    ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+
+    if (bs) {
+        bdrv_ref(bs);
+
+        if (tgm->throttle_state) {
+            throttle_group_detach_aio_context(tgm);
+            throttle_group_attach_aio_context(tgm, new_context);
+        }
+
+        bdrv_unref(bs);
+    }
+
+    blk->ctx = new_context;
+    return 0;
+}
+
+
+int blk_set_aio_context(BlockBackend *blk, AioContext *new_context,
+                        Error **errp)
+{
+    BlockDriverState *bs = blk_bs(blk);
+    int ret;
+    GLOBAL_STATE_CODE();
+
+    if (bs) {
+        bdrv_ref(bs);
+        ret = bdrv_child_try_change_aio_context(bs, new_context, blk->root,
+                                                errp);
+        if (ret < 0) {
+            goto out_no_drain;
+        }
+        if (new_context != qemu_get_aio_context()) {
+            aio_context_acquire(new_context);
+        }
+        bdrv_drained_begin(bs); // <-------------------- hangs here!
+    }
+
+    ret = blk_do_set_aio_context(blk, new_context, errp);
+
+    if (bs) {
+        bdrv_drained_end(bs);
+        if (new_context != qemu_get_aio_context()) {
+            aio_context_release(new_context);
+        }
+out_no_drain:
+        bdrv_unref(bs);
+    }
+
+    return ret;
+}
+
+Emanuele
 
 
