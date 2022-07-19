@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ED0E57A578
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:35:56 +0200 (CEST)
-Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C235C57A5B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:48:33 +0200 (CEST)
+Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDr8V-00012a-AL
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:35:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42958)
+	id 1oDrKi-0004bI-V6
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:48:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcg-0006sP-9w
+ id 1oDqck-0006tD-3S
  for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29935)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqce-0002y4-BM
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:02 -0400
+ id 1oDqci-0002z0-4T
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658250179;
+ s=mimecast20190719; t=1658250183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ygJfG344v2gd23UY2aZAuOgm2rvDNGZInXvjcm6cSV8=;
- b=cDh5DhKZK5JRVAuJNtmX28Qie2qFAg6vbpJqDWtROtDxeCaZgW0lW2U8PMnKidB/5rs9vY
- eZ2Z+uTskfmk7CutY0mW1Fdr1dnxQAZ85qYUhBLPXKc5yIS7+D5vQeFJaGey+i7EwGRGoZ
- afYYobfs/cf8P8+RmqfnR8c+ZrTK22s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4zcK+6dry+L1L47kPTO8uIkf+ST9oXTYo4lRfB4nReU=;
+ b=dQ6vgBIbGBJrmAc+wj0asfHLv4E3LvNQO2cJ+SHxMJZL/WDT54Kgc4lDvueVoHyL4YlWsm
+ DzmjSmkBwXKqCkwEy8IfGCcphpdp002i4qrTtscck0GLjP4EIlah0GdA4/TdSsvyVKcEdP
+ tZL632hGhDmIUluXRpd4hnguaJgXoBE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-ykxTJXaUMgatk_v1-o9CbA-1; Tue, 19 Jul 2022 13:02:58 -0400
-X-MC-Unique: ykxTJXaUMgatk_v1-o9CbA-1
+ us-mta-300-wR8MjRR-NnmBuhSmRJCQow-1; Tue, 19 Jul 2022 13:02:59 -0400
+X-MC-Unique: wR8MjRR-NnmBuhSmRJCQow-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C734B8001EA;
- Tue, 19 Jul 2022 17:02:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED29C3C1014A;
+ Tue, 19 Jul 2022 17:02:58 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D51D540CF8E5;
- Tue, 19 Jul 2022 17:02:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04C0840CFD0A;
+ Tue, 19 Jul 2022 17:02:57 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 26/29] Add dirty-sync-missed-zero-copy migration stat
-Date: Tue, 19 Jul 2022 18:02:18 +0100
-Message-Id: <20220719170221.576190-27-dgilbert@redhat.com>
+Subject: [PULL 27/29] migration/multifd: Report to user when zerocopy not
+ working
+Date: Tue, 19 Jul 2022 18:02:19 +0100
+Message-Id: <20220719170221.576190-28-dgilbert@redhat.com>
 In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
 References: <20220719170221.576190-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,72 +83,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Leonardo Bras <leobras@redhat.com>
 
+Some errors, like the lack of Scatter-Gather support by the network
+interface(NETIF_F_SG) may cause sendmsg(...,MSG_ZEROCOPY) to fail on using
+zero-copy, which causes it to fall back to the default copying mechanism.
+
+After each full dirty-bitmap scan there should be a zero-copy flush
+happening, which checks for errors each of the previous calls to
+sendmsg(...,MSG_ZEROCOPY). If all of them failed to use zero-copy, then
+increment dirty_sync_missed_zero_copy migration stat to let the user know
+about it.
+
 Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220711211112.18951-3-leobras@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20220711211112.18951-4-leobras@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 2 ++
- monitor/hmp-cmds.c    | 5 +++++
- qapi/migration.json   | 7 ++++++-
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ migration/multifd.c | 2 ++
+ migration/ram.c     | 5 +++++
+ migration/ram.h     | 2 ++
+ 3 files changed, 9 insertions(+)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 7c7e529ca7..15ae48b209 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1057,6 +1057,8 @@ static void populate_ram_info(MigrationInfo *info, MigrationState *s)
-     info->ram->normal_bytes = ram_counters.normal * page_size;
-     info->ram->mbps = s->mbps;
-     info->ram->dirty_sync_count = ram_counters.dirty_sync_count;
-+    info->ram->dirty_sync_missed_zero_copy =
-+            ram_counters.dirty_sync_missed_zero_copy;
-     info->ram->postcopy_requests = ram_counters.postcopy_requests;
-     info->ram->page_size = page_size;
-     info->ram->multifd_bytes = ram_counters.multifd_bytes;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ca98df0495..a6dc79e0d5 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -307,6 +307,11 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-             monitor_printf(mon, "postcopy ram: %" PRIu64 " kbytes\n",
-                            info->ram->postcopy_bytes >> 10);
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 1e49594b02..586ddc9d65 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -624,6 +624,8 @@ int multifd_send_sync_main(QEMUFile *f)
+             if (ret < 0) {
+                 error_report_err(err);
+                 return -1;
++            } else if (ret == 1) {
++                dirty_sync_missed_zero_copy();
+             }
          }
-+        if (info->ram->dirty_sync_missed_zero_copy) {
-+            monitor_printf(mon,
-+                           "Zero-copy-send fallbacks happened: %" PRIu64 " times\n",
-+                           info->ram->dirty_sync_missed_zero_copy);
-+        }
      }
+diff --git a/migration/ram.c b/migration/ram.c
+index 4fbad74c6c..b94669ba5d 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -434,6 +434,11 @@ static void ram_transferred_add(uint64_t bytes)
+     ram_counters.transferred += bytes;
+ }
  
-     if (info->has_disk) {
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 7586df3dea..81185d4311 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -55,6 +55,10 @@
- # @postcopy-bytes: The number of bytes sent during the post-copy phase
- #                  (since 7.0).
- #
-+# @dirty-sync-missed-zero-copy: Number of times dirty RAM synchronization could
-+#                               not avoid copying dirty pages. This is between
-+#                               0 and @dirty-sync-count * @multifd-channels.
-+#                               (since 7.1)
- # Since: 0.14
- ##
- { 'struct': 'MigrationStats',
-@@ -65,7 +69,8 @@
-            'postcopy-requests' : 'int', 'page-size' : 'int',
-            'multifd-bytes' : 'uint64', 'pages-per-second' : 'uint64',
-            'precopy-bytes' : 'uint64', 'downtime-bytes' : 'uint64',
--           'postcopy-bytes' : 'uint64' } }
-+           'postcopy-bytes' : 'uint64',
-+           'dirty-sync-missed-zero-copy' : 'uint64' } }
++void dirty_sync_missed_zero_copy(void)
++{
++    ram_counters.dirty_sync_missed_zero_copy++;
++}
++
+ /* used by the search for pages to send */
+ struct PageSearchStatus {
+     /* Current block being searched */
+diff --git a/migration/ram.h b/migration/ram.h
+index 5d90945a6e..c7af65ac74 100644
+--- a/migration/ram.h
++++ b/migration/ram.h
+@@ -89,4 +89,6 @@ void ram_write_tracking_prepare(void);
+ int ram_write_tracking_start(void);
+ void ram_write_tracking_stop(void);
  
- ##
- # @XBZRLECacheStats:
++void dirty_sync_missed_zero_copy(void);
++
+ #endif
 -- 
 2.36.1
 
