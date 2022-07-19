@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200D057A607
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:04:26 +0200 (CEST)
-Received: from localhost ([::1]:33216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C5D757A648
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:14:56 +0200 (CEST)
+Received: from localhost ([::1]:34122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDra5-0004Bc-6U
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
+	id 1oDrkE-0000Bk-Qo
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:14:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWU-0006VP-V5
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:43 -0400
-Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:34667)
+ id 1oDrWZ-0006Ys-EA
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:47 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:33502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrWT-00069O-De
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:42 -0400
-Received: by mail-oa1-x34.google.com with SMTP id
- 586e51a60fabf-10d6cdf829aso5309595fac.1
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:41 -0700 (PDT)
+ id 1oDrWX-0006Cj-CJ
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:00:47 -0400
+Received: by mail-oi1-x231.google.com with SMTP id s188so1380436oie.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:00:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=fFKoLgh7kEAYg5YiD043isVRo3PiGpWwp0kGPl/3N6g=;
- b=NbLOLsjYGvjfMgWjLlKqRit1GgjSAUSEXL4A/BLIF7ahdcphx1JsKKbC6SE5OJ8e7R
- +Rc64ITyaiWDRSKJZUjSzRIC2AmqB5ii0oKzHS0Wsdt4fRv1EzypAaW/3BOAQN8xUD06
- Yqm0gVHM7dx6okZJaH9xWxwJxcy0kNo0xAC2KukD3ZPtE5EsMAFT0+QQi4f3wunAjoBf
- 1FtP0C0CCcwc9QqZkST2WiOszGhxBnpr+ymLj9aOlvcfJMypZ2DGClWvNnHvQ4EaEypU
- a7rNC316quPZtuGhcq4UyFGp5z5p5Ns9Uzv5O6i6WFfUUIPHIFhpdQ71CwqdJKZRJyiV
- dh4w==
+ bh=DPFOytTyiOAOmPN0mlAlgcpVRZ9JRTiBfdZ4lDpMRkM=;
+ b=pnjABu4QWaZtkT99PTUpPixlCawEHUXC5ryfCzxmyhpElmFiudM1MiPZLlibPyXWUO
+ 65yGgm8SLq1QhOAbXg1gqVZpF8Kf2hf8zB1sWDLsSYH/6OwZVh6upxDhTczloWeWrfUb
+ zhVbf0opKVr+9bkpkK7KCRpjjGMMp9wIKMM6RWI2yRlE9NVeMFP2BffEvBXQDUvk/O/K
+ SAH7499ZsTm1K4q3EXKuH1zMKvUCDIHjnuisFS0IoYlrhtipGehI/6MVD75D/IhzGTHv
+ oK6KSR4gZgUe/R4xHCjRU/5AgJ87n0/0itqhq6AsiAGQWHYQOh7ADKZkVKokG6Yt8sFI
+ 5Z8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=fFKoLgh7kEAYg5YiD043isVRo3PiGpWwp0kGPl/3N6g=;
- b=ZlvWSph58A1tiHdmmCM3n8v9ED9FCt0Bnm5tc3XY+oEO54GRMaBOqeEquoEWdwWB7C
- /OJ7IWE5plbGsdQR4NGHziQTXQWeoytvx2z2DKqM0I2+alKsbF909iuvKeDkHIb4Ka8Q
- f08gIZmIBO9rfPnzdQgTk7EA9aChKokVH4yJXQJztrqpuaLWevNDxCdI+GbfDWra5VwW
- 4vihTOL9HseMIjzZlvgrduLT72gk3f56jMZowp9KUQfkBHUqF4RKfWJd1RIBgRRJ+/vE
- o2XauwhE5L7J87kP/sYAsr4xbDd0s5h1I+aWKSAGMB79EQy4eZGPZ/W7GIP+LwwcEMfu
- lhnA==
-X-Gm-Message-State: AJIora+43dKoPUAWFqbZaJ0splQfeX0mnVR/tJkyBJ+nGWUJhEmo5u23
- hZDUTQIyJkcFPSJuRg0WaKsrGRJUUo7PDF8S
-X-Google-Smtp-Source: AGRyM1vrBNl4tbtvussFdYoJ57O2gsHfFtJ6BlVHQ3MidFB67Zem770Z5BbMfDdts12ULE6gU+QQEA==
-X-Received: by 2002:a05:6870:70a8:b0:10c:190d:b32f with SMTP id
- v40-20020a05687070a800b0010c190db32fmr388006oae.14.1658253640690; 
- Tue, 19 Jul 2022 11:00:40 -0700 (PDT)
+ bh=DPFOytTyiOAOmPN0mlAlgcpVRZ9JRTiBfdZ4lDpMRkM=;
+ b=LmGCVwKDKivOQNehGAFup+fFvoOa2bPhPCXosA13g2N3tiCq72/YOjAVbmKDviUMUv
+ oxGm+oCmDT94EWi83U4ey5A820DZrlMb0cMEWPOEdIinIXq7R4W0WjTRxHECsMkWJGOn
+ ZnXrl41k9J5l4sDjpBIkNY9PXDmKp6IA4PIfzWB7M6BSMEPMFtNb3GwaPT2JXPBMShsN
+ zWNwysi3IJ6qXBnxCi6ScO7Fmv78QVYBGr5XN6nqL+YHFRf81fTzL6gABRkUdc86mZ8f
+ AF1T60gLOqSDzvuAXo+g8FCtnUO0P5EC8aZM7u3Xm3AkGgg7KiiMednclWQW/tqRMxs0
+ qJvQ==
+X-Gm-Message-State: AJIora96itWbiQZGH5IUm1sT0wpXHXruP0jLAH1OVw36H+sCZsOORXvo
+ j1xuF682chzH30KPy+j8n0zIGzZlA6UamSGd
+X-Google-Smtp-Source: AGRyM1scRnjLEwKoTKQ1CHFdbcv9Rstpu8YNS385iLPIzkZx3oeUC1SrX6g7mhHj6kiecF9xDPZDAw==
+X-Received: by 2002:aca:43d5:0:b0:339:e447:fe2f with SMTP id
+ q204-20020aca43d5000000b00339e447fe2fmr305468oia.113.1658253644157; 
+ Tue, 19 Jul 2022 11:00:44 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.37
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.00.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:00:40 -0700 (PDT)
+ Tue, 19 Jul 2022 11:00:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Song Gao <gaosong@loongson.cn>
-Subject: [PULL 08/21] fpu/softfloat: Add LoongArch specializations for pickNaN*
-Date: Tue, 19 Jul 2022 23:29:47 +0530
-Message-Id: <20220719180000.378186-9-richard.henderson@linaro.org>
+Subject: [PULL 09/21] target/loongarch: Fix float_convd/float_convs test
+ failing
+Date: Tue, 19 Jul 2022 23:29:48 +0530
+Message-Id: <20220719180000.378186-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::34;
- envelope-from=richard.henderson@linaro.org; helo=mail-oa1-x34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=richard.henderson@linaro.org; helo=mail-oi1-x231.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,62 +90,309 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Song Gao <gaosong@loongson.cn>
 
-The muladd (inf,zero,nan) case sets InvalidOp and returns the
-input value 'c', and prefer sNaN over qNaN, in c,a,b order.
-Binary operations prefer sNaN over qNaN and a,b order.
+We should result zero when exception is invalid and operation is nan
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
-Message-Id: <20220716085426.3098060-3-gaosong@loongson.cn>
-[rth: Add specialization for pickNaN]
+Message-Id: <20220716085426.3098060-4-gaosong@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- fpu/softfloat-specialize.c.inc | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ target/loongarch/fpu_helper.c | 143 +++++++++++++++++++---------------
+ 1 file changed, 80 insertions(+), 63 deletions(-)
 
-diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
-index 943e3301d2..9096fb302b 100644
---- a/fpu/softfloat-specialize.c.inc
-+++ b/fpu/softfloat-specialize.c.inc
-@@ -390,7 +390,8 @@ bool float32_is_signaling_nan(float32 a_, float_status *status)
- static int pickNaN(FloatClass a_cls, FloatClass b_cls,
-                    bool aIsLargerSignificand, float_status *status)
+diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+index 3d0cb8dd0d..bd76529219 100644
+--- a/target/loongarch/fpu_helper.c
++++ b/target/loongarch/fpu_helper.c
+@@ -13,9 +13,6 @@
+ #include "fpu/softfloat.h"
+ #include "internals.h"
+ 
+-#define FLOAT_TO_INT32_OVERFLOW 0x7fffffff
+-#define FLOAT_TO_INT64_OVERFLOW 0x7fffffffffffffffULL
+-
+ static inline uint64_t nanbox_s(float32 fp)
  {
--#if defined(TARGET_ARM) || defined(TARGET_MIPS) || defined(TARGET_HPPA)
-+#if defined(TARGET_ARM) || defined(TARGET_MIPS) || defined(TARGET_HPPA) \
-+    || defined(TARGET_LOONGARCH64)
-     /* ARM mandated NaN propagation rules (see FPProcessNaNs()), take
-      * the first of:
-      *  1. A if it is signaling
-@@ -574,6 +575,29 @@ static int pickNaNMulAdd(FloatClass a_cls, FloatClass b_cls, FloatClass c_cls,
-             return 1;
-         }
+     return fp | MAKE_64BIT_MASK(32, 32);
+@@ -544,9 +541,10 @@ uint64_t helper_ftintrm_l_d(CPULoongArchState *env, uint64_t fj)
+     fd = float64_to_int64(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
      }
-+#elif defined(TARGET_LOONGARCH64)
-+    /*
-+     * For LoongArch systems that conform to IEEE754-2008, the (inf,zero,nan)
-+     * case sets InvalidOp and returns the input value 'c'
-+     */
-+    if (infzero) {
-+        float_raise(float_flag_invalid | float_flag_invalid_imz, status);
-+        return 2;
-+    }
-+    /* Prefer sNaN over qNaN, in the c, a, b order. */
-+    if (is_snan(c_cls)) {
-+        return 2;
-+    } else if (is_snan(a_cls)) {
-+        return 0;
-+    } else if (is_snan(b_cls)) {
-+        return 1;
-+    } else if (is_qnan(c_cls)) {
-+        return 2;
-+    } else if (is_qnan(a_cls)) {
-+        return 0;
-+    } else {
-+        return 1;
-+    }
- #elif defined(TARGET_PPC)
-     /* For PPC, the (inf,zero,qnan) case sets InvalidOp, but we prefer
-      * to return an input NaN if we have one (ie c) rather than generating
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -561,9 +559,10 @@ uint64_t helper_ftintrm_l_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int64((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -578,9 +577,10 @@ uint64_t helper_ftintrm_w_d(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -595,9 +595,10 @@ uint64_t helper_ftintrm_w_s(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -612,9 +613,10 @@ uint64_t helper_ftintrp_l_d(CPULoongArchState *env, uint64_t fj)
+     fd = float64_to_int64(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -629,9 +631,10 @@ uint64_t helper_ftintrp_l_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int64((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -646,9 +649,10 @@ uint64_t helper_ftintrp_w_d(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -663,9 +667,10 @@ uint64_t helper_ftintrp_w_s(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -679,9 +684,10 @@ uint64_t helper_ftintrz_l_d(CPULoongArchState *env, uint64_t fj)
+     fd = float64_to_int64_round_to_zero(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -695,9 +701,10 @@ uint64_t helper_ftintrz_l_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int64_round_to_zero((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -711,9 +718,10 @@ uint64_t helper_ftintrz_w_d(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float64_to_int32_round_to_zero(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -727,9 +735,10 @@ uint64_t helper_ftintrz_w_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int32_round_to_zero((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return (uint64_t)fd;
+@@ -744,9 +753,10 @@ uint64_t helper_ftintrne_l_d(CPULoongArchState *env, uint64_t fj)
+     fd = float64_to_int64(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -761,9 +771,10 @@ uint64_t helper_ftintrne_l_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int64((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -778,9 +789,10 @@ uint64_t helper_ftintrne_w_d(CPULoongArchState *env, uint64_t fj)
+     fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -795,9 +807,10 @@ uint64_t helper_ftintrne_w_s(CPULoongArchState *env, uint64_t fj)
+     fd = float32_to_int32((uint32_t)fj, &env->fp_status);
+     set_float_rounding_mode(old_mode, &env->fp_status);
+ 
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return (uint64_t)fd;
+@@ -808,9 +821,10 @@ uint64_t helper_ftint_l_d(CPULoongArchState *env, uint64_t fj)
+     uint64_t fd;
+ 
+     fd = float64_to_int64(fj, &env->fp_status);
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -821,9 +835,10 @@ uint64_t helper_ftint_l_s(CPULoongArchState *env, uint64_t fj)
+     uint64_t fd;
+ 
+     fd = float32_to_int64((uint32_t)fj, &env->fp_status);
+-    if (get_float_exception_flags(&env->fp_status) &
+-        (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT64_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -834,9 +849,10 @@ uint64_t helper_ftint_w_s(CPULoongArchState *env, uint64_t fj)
+     uint64_t fd;
+ 
+     fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
+-    if (get_float_exception_flags(&env->fp_status)
+-        & (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float32_is_any_nan((uint32_t)fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
+@@ -847,9 +863,10 @@ uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
+     uint64_t fd;
+ 
+     fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
+-    if (get_float_exception_flags(&env->fp_status)
+-        & (float_flag_invalid | float_flag_overflow)) {
+-        fd = FLOAT_TO_INT32_OVERFLOW;
++    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
++        if (float64_is_any_nan(fj)) {
++            fd = 0;
++        }
+     }
+     update_fcsr0(env, GETPC());
+     return fd;
 -- 
 2.34.1
 
