@@ -2,94 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BA8B57A4C6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:16:38 +0200 (CEST)
-Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE45A57A4C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:16:37 +0200 (CEST)
+Received: from localhost ([::1]:36218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqpp-00036a-O1
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:16:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
+	id 1oDqpo-00033M-Ts
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:16:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbM-0005KD-6M
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:46 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:1224)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDqcI-0006F5-UF
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbD-0002iV-Sn
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:33 -0400
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGcN3m031774;
- Tue, 19 Jul 2022 17:01:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=mFaPsor5jpNDEWLWLGaKw4mhuulQaO4F1lM98TNqqsk=;
- b=Hb6eSnjelx/gZ7DbftQFsxvQwdnQaRcohxUpdjD07zZNtcIVLFYlnO9NL2zIsvlnegA7
- tgKPMJDo8VFi4lEDUgC6R1hTwI7T6QRYXjZImrGgUxLcEh+e4mkIXZOCPu946gmlq1I3
- h3PAgamjPoDlbjk5/BGbDR71P1mVfGnYdKxRTKIwffJwsnTd6avAyuEyzJTwBHXVd1C1
- Fh8+D5kfI0dW7h07Vd+zF/rXoFKlXsx8/P91ulab6Ew+mwnTis88vso3WWQTR2tdUlyN
- lmW3GpxCNeFQ6XaE9goJKCCyzc81dYSbQLs5R9gXxfTPaTn5iekbakP8E7zEsUlyroA/ 5g== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbnvtf6ah-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:25 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26JG92Hi009873; Tue, 19 Jul 2022 17:01:25 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hc1ggpb91-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:25 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i5G032177;
- Tue, 19 Jul 2022 17:01:24 GMT
-Received: from paddy.uk.oracle.com (dhcp-10-175-221-30.vpn.oracle.com
- [10.175.221.30])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3hc1ggpaer-12; Tue, 19 Jul 2022 17:01:24 +0000
-From: Joao Martins <joao.m.martins@oracle.com>
-To: qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v9 11/11] i386/pc: restrict AMD only enforcing of 1Tb hole to
- new machine type
-Date: Tue, 19 Jul 2022 18:00:14 +0100
-Message-Id: <20220719170014.27028-12-joao.m.martins@oracle.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20220719170014.27028-1-joao.m.martins@oracle.com>
-References: <20220719170014.27028-1-joao.m.martins@oracle.com>
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-19_05,2022-07-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- spamscore=0 bulkscore=0
- malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207190072
-X-Proofpoint-GUID: jcBfrK2mDRog1B9Vd9uEqUMRSqRSC7Mw
-X-Proofpoint-ORIG-GUID: jcBfrK2mDRog1B9Vd9uEqUMRSqRSC7Mw
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oDqcF-0002sf-ID
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658250154;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wUbYyHVcTU7PZJo5QcBI3coiS554FFIY1r/NFjy/xWw=;
+ b=NXEU/41c0VgEXxCKxdjC5dXauNP/BsOrHV7oGnKWRG6VXhk0GkfLq1uSRpqgMHMhWFqGBh
+ AUKOmCezPTctRnCUnnJBH8LdC0L0hK1gdgzXnsYqh1mk7ofQcIhHjTaq/sDdkonP/lVzvW
+ kmFu+bfWDWZU4NahltXNTot0jdSQVDU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-672-G_I3Oni5NqWLZ7SXTpSi4A-1; Tue, 19 Jul 2022 13:02:27 -0400
+X-MC-Unique: G_I3Oni5NqWLZ7SXTpSi4A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 74FF718812C7;
+ Tue, 19 Jul 2022 17:02:27 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B6FD40CF8E5;
+ Tue, 19 Jul 2022 17:02:26 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
+ berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
+ huangy81@chinatelecom.cn
+Subject: [PULL 00/29] migration queue
+Date: Tue, 19 Jul 2022 18:01:52 +0100
+Message-Id: <20220719170221.576190-1-dgilbert@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,98 +77,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The added enforcing is only relevant in the case of AMD where the
-range right before the 1TB is restricted and cannot be DMA mapped
-by the kernel consequently leading to IOMMU INVALID_DEVICE_REQUEST
-or possibly other kinds of IOMMU events in the AMD IOMMU.
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Although, there's a case where it may make sense to disable the
-IOVA relocation/validation when migrating from a
-non-amd-1tb-aware qemu to one that supports it.
+The following changes since commit da7da9d5e608200ecc0749ff37be246e9cd3314f:
 
-Relocating RAM regions to after the 1Tb hole has consequences for
-guest ABI because we are changing the memory mapping, so make
-sure that only new machine enforce but not older ones.
+  Merge tag 'pull-request-2022-07-19' of https://gitlab.com/thuth/qemu into staging (2022-07-19 13:05:06 +0100)
 
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
----
- hw/i386/pc.c         | 6 ++++--
- hw/i386/pc_piix.c    | 2 ++
- hw/i386/pc_q35.c     | 2 ++
- include/hw/i386/pc.h | 1 +
- 4 files changed, 9 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index fc2c7655afa0..4518f3c54680 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -951,9 +951,10 @@ void pc_memory_init(PCMachineState *pcms,
-     /*
-      * The HyperTransport range close to the 1T boundary is unique to AMD
-      * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
--     * to above 1T to AMD vCPUs only.
-+     * to above 1T to AMD vCPUs only. @enforce_amd_1tb_hole is only false in
-+     * older machine types (<= 7.0) for compatibility purposes.
-      */
--    if (IS_AMD_CPU(&cpu->env)) {
-+    if (IS_AMD_CPU(&cpu->env) && pcmc->enforce_amd_1tb_hole) {
-         /* Bail out if max possible address does not cross HT range */
-         if (pc_max_used_gpa(pcms, pci_hole64_size) >= AMD_HT_START) {
-             x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
-@@ -1902,6 +1903,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     pcmc->has_reserved_memory = true;
-     pcmc->kvmclock_enabled = true;
-     pcmc->enforce_aligned_dimm = true;
-+    pcmc->enforce_amd_1tb_hole = true;
-     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
-      * to be used at the moment, 32K should be enough for a while.  */
-     pcmc->acpi_data_size = 0x20000 + 0x8000;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 2a483e8666b4..074571bc03a8 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -446,9 +446,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
- 
- static void pc_i440fx_7_0_machine_options(MachineClass *m)
- {
-+    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_7_1_machine_options(m);
-     m->alias = NULL;
-     m->is_default = false;
-+    pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 99ed75371c67..f3aa4694a299 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -383,8 +383,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
- 
- static void pc_q35_7_0_machine_options(MachineClass *m)
- {
-+    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_7_1_machine_options(m);
-     m->alias = NULL;
-+    pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 568c226d3034..9cc3f5d33805 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -118,6 +118,7 @@ struct PCMachineClass {
-     bool has_reserved_memory;
-     bool enforce_aligned_dimm;
-     bool broken_reserved_end;
-+    bool enforce_amd_1tb_hole;
- 
-     /* generate legacy CPU hotplug AML */
-     bool legacy_cpu_hotplug;
--- 
-2.17.2
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220719c
+
+for you to fetch changes up to ec0345c1000b3a57b557da4c2e3f2114dd23903a:
+
+  migration: Avoid false-positive on non-supported scenarios for zero-copy-send (2022-07-19 17:33:22 +0100)
+
+----------------------------------------------------------------
+Migration pull 2022-07-19
+
+  Hyman's dirty page rate limit set
+  Ilya's fix for zlib vs migration
+  Peter's postcopy-preempt
+  Cleanup from Dan
+  zero-copy tidy ups from Leo
+  multifd doc fix from Juan
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Daniel P. Berrangé (1):
+      migration: remove unreachable code after reading data
+
+Hyman Huang (8):
+      accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
+      cpus: Introduce cpu_list_generation_id
+      migration/dirtyrate: Refactor dirty page rate calculation
+      softmmu/dirtylimit: Implement vCPU dirtyrate calculation periodically
+      accel/kvm/kvm-all: Introduce kvm_dirty_ring_size function
+      softmmu/dirtylimit: Implement virtual CPU throttle
+      softmmu/dirtylimit: Implement dirty page rate limit
+      tests: Add dirty page rate limit test
+
+Ilya Leoshkevich (1):
+      multifd: Copy pages before compressing them with zlib
+
+Juan Quintela (1):
+      multifd: Document the locking of MultiFD{Send/Recv}Params
+
+Leonardo Bras (4):
+      QIOChannelSocket: Fix zero-copy flush returning code 1 when nothing sent
+      Add dirty-sync-missed-zero-copy migration stat
+      migration/multifd: Report to user when zerocopy not working
+      migration: Avoid false-positive on non-supported scenarios for zero-copy-send
+
+Peter Xu (14):
+      migration: Add postcopy-preempt capability
+      migration: Postcopy preemption preparation on channel creation
+      migration: Postcopy preemption enablement
+      migration: Postcopy recover with preempt enabled
+      migration: Create the postcopy preempt channel asynchronously
+      migration: Add property x-postcopy-preempt-break-huge
+      migration: Add helpers to detect TLS capability
+      migration: Export tls-[creds|hostname|authz] params to cmdline too
+      migration: Enable TLS for preempt channel
+      migration: Respect postcopy request order in preemption mode
+      tests: Move MigrateCommon upper
+      tests: Add postcopy tls migration test
+      tests: Add postcopy tls recovery migration test
+      tests: Add postcopy preempt tests
+
+ accel/kvm/kvm-all.c             |  46 ++-
+ accel/stubs/kvm-stub.c          |   5 +
+ cpus-common.c                   |   8 +
+ hmp-commands-info.hx            |  13 +
+ hmp-commands.hx                 |  32 +++
+ include/exec/cpu-common.h       |   1 +
+ include/exec/memory.h           |   5 +-
+ include/hw/core/cpu.h           |   6 +
+ include/monitor/hmp.h           |   3 +
+ include/sysemu/dirtylimit.h     |  37 +++
+ include/sysemu/dirtyrate.h      |  28 ++
+ include/sysemu/kvm.h            |   2 +
+ io/channel-socket.c             |   8 +-
+ migration/channel.c             |   9 +-
+ migration/dirtyrate.c           | 227 +++++++++------
+ migration/dirtyrate.h           |   7 +-
+ migration/migration.c           | 152 ++++++++--
+ migration/migration.h           |  44 ++-
+ migration/multifd-zlib.c        |  38 ++-
+ migration/multifd.c             |   6 +-
+ migration/multifd.h             |  66 +++--
+ migration/postcopy-ram.c        | 186 ++++++++++++-
+ migration/postcopy-ram.h        |  11 +
+ migration/qemu-file.c           |  31 ++-
+ migration/qemu-file.h           |   1 +
+ migration/ram.c                 | 331 ++++++++++++++++++++--
+ migration/ram.h                 |   6 +-
+ migration/savevm.c              |  46 ++-
+ migration/socket.c              |  22 +-
+ migration/socket.h              |   1 +
+ migration/tls.c                 |   9 +
+ migration/tls.h                 |   4 +
+ migration/trace-events          |  15 +-
+ monitor/hmp-cmds.c              |   5 +
+ qapi/migration.json             |  94 ++++++-
+ softmmu/dirtylimit.c            | 601 ++++++++++++++++++++++++++++++++++++++++
+ softmmu/meson.build             |   1 +
+ softmmu/trace-events            |   7 +
+ tests/qtest/migration-helpers.c |  22 ++
+ tests/qtest/migration-helpers.h |   2 +
+ tests/qtest/migration-test.c    | 539 +++++++++++++++++++++++++++++------
+ tests/qtest/qmp-cmd-test.c      |   2 +
+ 42 files changed, 2394 insertions(+), 285 deletions(-)
+ create mode 100644 include/sysemu/dirtylimit.h
+ create mode 100644 include/sysemu/dirtyrate.h
+ create mode 100644 softmmu/dirtylimit.c
 
 
