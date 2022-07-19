@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30BDB5793DE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:10:32 +0200 (CEST)
-Received: from localhost ([::1]:36434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14F65793F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:17:55 +0200 (CEST)
+Received: from localhost ([::1]:52842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDhNH-0004lq-8a
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:10:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1oDhUQ-0007nC-U0
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHY-0002hk-Pm
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56112)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHX-00030N-9k
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658214274;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hM+KUjnNCDrn+8brryG9f3B4r99oqVCjJWAnfAM2dkw=;
- b=K8azdpzdNb7hB8LAJ4HHeF0YjUUCqXgcAkpemrEv0Zv0umM/j+Z2ju82mO5Fz91LqDUsk0
- iXvvDvWXCRuv7+DUjEQ7ar5bCU1VPT8rslbuBS3R1znI0cyeV6H94SoORhE9Kkoh8TMvxw
- jJIY90OfOhj7yGCD5Op1b2jE+LHxHzM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-IZkKFCYrOvCsFaxYH_hZKQ-1; Tue, 19 Jul 2022 03:04:27 -0400
-X-MC-Unique: IZkKFCYrOvCsFaxYH_hZKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 18C8F85A588;
- Tue, 19 Jul 2022 07:04:27 +0000 (UTC)
-Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 755BF404C6ED;
- Tue, 19 Jul 2022 07:04:26 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
-Subject: [PULL 14/14] python/qemu/qmp/legacy: Replace 'returns-whitelist' with
- the correct type
-Date: Tue, 19 Jul 2022 09:04:12 +0200
-Message-Id: <20220719070412.16757-15-thuth@redhat.com>
-In-Reply-To: <20220719070412.16757-1-thuth@redhat.com>
-References: <20220719070412.16757-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDhJg-000694-GL; Tue, 19 Jul 2022 03:06:48 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:46042)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oDhJd-0003ON-Vz; Tue, 19 Jul 2022 03:06:47 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ q43-20020a17090a17ae00b001f1f67e053cso1370485pja.4; 
+ Tue, 19 Jul 2022 00:06:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EdgKVLq+rzuZgmL5mOQJWpwaz1CcdYDDFO+KF9Ww9MU=;
+ b=e9EuLwkeoZqFjNkWT/WTPhzz4Sf6x3hU0CcCgnsjVOfflzNynGVP3N6XeOzbgwyktp
+ rD6JBctI5jfv/ZRrnBQ81ChLD5/pTOdVBoom1iikILqQvQ57Zw4hcs7Xf+09xMWEZSF5
+ l3M/Z/jeNQoV0hEyBdpewAT+J2CjpFEV0xXiQkaBsP6xNVxL+q7+MPQWGyamPtY7A0Dz
+ trTS+xIa8fREdimUOTG3WiXeDhzBBf/cQgwRNhM1b+g1d3Ooo0WoMrZXerENgR7fO4Vm
+ 2+3L8U0L6XsJmLd69d0SlSzZw0w0tGOcUp7EKzrpGNxpUd9I9cqwoI/RaUQ/5qxBh9kY
+ h+JQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EdgKVLq+rzuZgmL5mOQJWpwaz1CcdYDDFO+KF9Ww9MU=;
+ b=PNAvNWoUiK5kFbBbVLHQSjxcsnqo3PNzyXLTDVx6Cro/ZqrZGkYHEAvTCvwvKEh9OV
+ hIvPxRmenuGgfjYPJRAa43vPiod3p4vRXiBD+szzvB3ECD6xiZ+lLcoUigaYldIaJ/uy
+ hcYRpUBa3/6uUK0FL8bt7hC1eqEBwbqaZJC/rvl8F+Gb4/L5F9Z0NO28TB6eCSovuNsy
+ 7oYapbmuqTHue+++cQt24Z0m4vBwzcAevhx62l9Y0LbhixkyY60LOTxQ44cB7kFk3P4l
+ rGKlUXV8/88BrH8l+b1qAGwP1mXYFWsRvEbMUM+zCB9OyYFqKvFgevo0ifSoL5WCAQAh
+ omTA==
+X-Gm-Message-State: AJIora8sSyTXgkS5BA2OfMjdlP0beyAHLfWJqqKVRWsr5p/+CKZB8pq+
+ l5tXspMqT9Cu5hsiFFK/xjoHG9oZ7Ngfg3EenTs=
+X-Google-Smtp-Source: AGRyM1snBxgETJr8XCKc4v57I46yw1HDkHU3m6gEp1pohBSkakVbPe+4cA4ceGIL4y9++1xmRAarar7CDfgfAHtkrzM=
+X-Received: by 2002:a17:902:690a:b0:16c:f877:d89d with SMTP id
+ j10-20020a170902690a00b0016cf877d89dmr5789876plk.25.1658214403830; Tue, 19
+ Jul 2022 00:06:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+References: <20220717101543.478533-1-space.monkey.delivers@gmail.com>
+ <20220717101543.478533-2-space.monkey.delivers@gmail.com>
+In-Reply-To: <20220717101543.478533-2-space.monkey.delivers@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jul 2022 17:06:17 +1000
+Message-ID: <CAKmqyKOKVm9yXrMLicHka1H-p6ZqCAE3+wy5qE=kxHNwDGgT1g@mail.gmail.com>
+Subject: Re: [PATCH 1/1] target/riscv: Fix typo and restore Pointer Masking
+ functionality for RISC-V
+To: Alexey Baturo <baturo.alexey@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ space.monkey.delivers@gmail.com, 
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, 
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,30 +90,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'returns-whitelist' has been renamed to 'command-returns-exceptions' in
-commit b86df3747848 ("qapi: Rename pragma *-whitelist to *-exceptions").
+On Sun, Jul 17, 2022 at 8:17 PM Alexey Baturo <baturo.alexey@gmail.com> wrote:
+>
+> From: Alexey Baturo <baturo.alexey@gmail.com>
+>
+> Signed-off-by: Alexey Baturo <baturo.alexey@gmail.com>
 
-Message-Id: <20220711095721.61280-1-thuth@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- python/qemu/qmp/legacy.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/python/qemu/qmp/legacy.py b/python/qemu/qmp/legacy.py
-index 03b5574618..1951754455 100644
---- a/python/qemu/qmp/legacy.py
-+++ b/python/qemu/qmp/legacy.py
-@@ -50,7 +50,7 @@
- 
- # QMPMessage can be outgoing commands or incoming events/returns.
- # QMPReturnValue is usually a dict/json object, but due to QAPI's
--# 'returns-whitelist', it can actually be anything.
-+# 'command-returns-exceptions', it can actually be anything.
- #
- # {'return': {}} is a QMPMessage,
- # {} is the QMPReturnValue.
--- 
-2.31.1
+Applied to riscv-to-apply.next
 
+Alistair
+
+> ---
+>  target/riscv/translate.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 63b04e8a94..86c19ea74e 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -544,7 +544,7 @@ static TCGv get_address(DisasContext *ctx, int rs1, int imm)
+>
+>      tcg_gen_addi_tl(addr, src1, imm);
+>      if (ctx->pm_mask_enabled) {
+> -        tcg_gen_and_tl(addr, addr, pm_mask);
+> +        tcg_gen_andc_tl(addr, addr, pm_mask);
+>      } else if (get_xl(ctx) == MXL_RV32) {
+>          tcg_gen_ext32u_tl(addr, addr);
+>      }
+> --
+> 2.30.2
+>
+>
 
