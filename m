@@ -2,71 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8654A578F87
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 03:05:49 +0200 (CEST)
-Received: from localhost ([::1]:56144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A703B5790EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 04:38:42 +0200 (CEST)
+Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDbgJ-0001c4-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 21:05:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1oDd8D-0002bM-71
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jul 2022 22:38:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDbeU-0008C4-DU; Mon, 18 Jul 2022 21:03:54 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:52702 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oDbeE-0006mu-Tk; Mon, 18 Jul 2022 21:03:50 -0400
-Received: from [192.168.3.6] (unknown [180.156.173.38])
- by APP-01 (Coremail) with SMTP id qwCowAB3fATdAtZiMgF0EQ--.58790S2;
- Tue, 19 Jul 2022 09:03:26 +0800 (CST)
-Subject: Re: [RFC PATCH v5 1/4] target/riscv: Add smstateen support
-To: Mayuresh Chitale <mchitale@ventanamicro.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20220603160425.3667456-1-mchitale@ventanamicro.com>
- <20220603160425.3667456-2-mchitale@ventanamicro.com>
- <43569e92.214c.181be6c8e52.Coremail.angell1518@163.com>
- <746ba0e1f67cafde5fae05725ccef0587de67ad3.camel@ventanamicro.com>
- <fb974b62-030d-5244-f3ce-21c23900a4bf@iscas.ac.cn>
- <de6ec0491d6b6ef9804718dce86b3d157ff191fd.camel@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <57a6eab3-f166-bb25-6f4a-a62362faab3c@iscas.ac.cn>
-Date: Tue, 19 Jul 2022 09:03:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oDd6n-0001FY-RL
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 22:37:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oDd6k-0006JF-3P
+ for qemu-devel@nongnu.org; Mon, 18 Jul 2022 22:37:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658198229;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vNK+P9XCQYu1e6ptrEbO/fEYTNXKTTGhAccFWrkz0bE=;
+ b=MN1/30VcyeevMsGam+biqNTbN7LJ2MvMHap+gfesd4cHy5t8qh1MgeRIF6TwHPkPrB0whb
+ mdoqcsl+1ygJkP+3RxIMNERjjqwpOEKy6A7VYaufaGS5NS4MnAcpToQ+n0Y2SRLSi1JPg0
+ 88Pgp1LqufeCKBjM3/yB4XjSPWVDO4Y=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-ez_yMiX5MSWczHNuS3bCiQ-1; Mon, 18 Jul 2022 22:37:08 -0400
+X-MC-Unique: ez_yMiX5MSWczHNuS3bCiQ-1
+Received: by mail-pf1-f200.google.com with SMTP id
+ bt6-20020a056a00438600b0052b41c191a4so1826209pfb.19
+ for <qemu-devel@nongnu.org>; Mon, 18 Jul 2022 19:37:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=vNK+P9XCQYu1e6ptrEbO/fEYTNXKTTGhAccFWrkz0bE=;
+ b=3vB7v9/J6DmtwKGUs0C+YMRzliLRljxQBWzMU9G2gbZ1MHQqrap/ivPcZlCoN2xZG8
+ 3szhSrSHcWg9mLeC4ECfm2GDLg26A58xtIeSqYdmPW3UJ/Pbb+Y8dVHSqljWRIn/Dpuj
+ /5mUkFQr5UrF+/VlAt3zODrbyAFA3Nw2021NUVBjYO0A5DtQs3+6XUcV/ABfCzc7F+tu
+ durZOAL76mYdvVB0T12MW4HNWHOk/FOOPU/kf4ySAiUaEx4Bpp0UPDn3UkgbpG/5xxky
+ eaCiXniV4dMPPmgUG4VnwzRlZCLbOC3NQIUFRRLmpph2qdPzPGP4dafvOOpqxiG5Ebk/
+ Qrnw==
+X-Gm-Message-State: AJIora8y6cDipzU57CUT3P9HNBdun7kVmLWJykcOg1f6moRxI80pu83D
+ yQDX4qNiHKkRsnzDAbFIWZ1IjU5MZxMQ5EIYCBPf2RrduQ8rGm/kGD/wBe2TqRQD72U2S9B3+sh
+ jqc7QJJPLi3zOCCE=
+X-Received: by 2002:a63:87c6:0:b0:41a:3cc2:1f29 with SMTP id
+ i189-20020a6387c6000000b0041a3cc21f29mr3950284pge.96.1658198227020; 
+ Mon, 18 Jul 2022 19:37:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u1m9NoiIVbiKyqBh9R1Lip/Tq71YjI/go5cxOqMHhFwO2y2XfkO0ObtgsgKeaBATTSSuSMdA==
+X-Received: by 2002:a63:87c6:0:b0:41a:3cc2:1f29 with SMTP id
+ i189-20020a6387c6000000b0041a3cc21f29mr3950250pge.96.1658198226654; 
+ Mon, 18 Jul 2022 19:37:06 -0700 (PDT)
+Received: from [10.72.13.162] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ o67-20020a62cd46000000b0051c1b445094sm10009936pfg.7.2022.07.18.19.37.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jul 2022 19:37:06 -0700 (PDT)
+Message-ID: <2ea4381c-9868-98ab-c644-a93fefa014de@redhat.com>
+Date: Tue, 19 Jul 2022 10:36:56 +0800
 MIME-Version: 1.0
-In-Reply-To: <de6ec0491d6b6ef9804718dce86b3d157ff191fd.camel@ventanamicro.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v4 18/19] vdpa: Add device migration blocker
 Content-Language: en-US
-X-CM-TRANSID: qwCowAB3fATdAtZiMgF0EQ--.58790S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3KFWDAr1DJF1fJFy8CF17KFg_yoW8AryUKo
- W8tr1fArs5Gr1UAF1DA3yqqr1Fvw4DJr4kZry3Crs7Kr1xtw4jyr4UKry5AF48GrWYgr47
- Aa4xJF15CF48WF15n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
- AaLaJ3UjIYCTnIWjp_UUUYr7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20xva
- j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
- x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
- JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JV
- W8Jr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14
- v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkG
- c2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI
- 0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_
- Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjfU5WlkUU
- UUU
-X-Originating-IP: [180.156.173.38]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Cindy Lu <lulu@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, "Gonglei (Arei)"
+ <arei.gonglei@huawei.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Harpreet Singh Anand <hanand@xilinx.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Parav Pandit <parav@mellanox.com>
+References: <20220718102949.2868267-1-eperezma@redhat.com>
+ <20220718102949.2868267-19-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220718102949.2868267-19-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,531 +113,117 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/18 下午11:37, Mayuresh Chitale 写道:
-> On Fri, 2022-07-08 at 07:44 +0800, Weiwei Li wrote:
->> 在 2022/7/8 上午12:53, Mayuresh Chitale 写道:
->>> On Sat, 2022-07-02 at 18:19 +0800, angell1518 wrote:
->>>> At 2022-06-04 00:04:22, "Mayuresh Chitale" <
->>>> mchitale@ventanamicro.com
->>>>> wrote:
->>>>> Smstateen extension specifies a mechanism to close
->>>>> the potential covert channels that could cause security issues.
->>>>>
->>>>> This patch adds the CSRs defined in the specification and
->>>>> the corresponding predicates and read/write functions.
->>>>>
->>>>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
->>>>> ---
->>>>> target/riscv/cpu.c      |   2 +
->>>>> target/riscv/cpu.h      |   4 +
->>>>> target/riscv/cpu_bits.h |  36 +++++++
->>>>> target/riscv/csr.c      | 210
->>>> ++++++++++++++++++++++++++++++++++++++++
->>>>> target/riscv/machine.c  |  21 ++++
->>>>> 5 files changed, 273 insertions(+)
->>>>>
->>>>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->>>>> index e6e878ceb3..2d65ccd90f 100644
->>>>> --- a/target/riscv/cpu.c
->>>>> +++ b/target/riscv/cpu.c
->>>>> @@ -913,6 +913,7 @@ static Property riscv_cpu_properties[] = {
->>>>>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->>>>>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
->>>>>       DEFINE_PROP_BOOL("debug", RISCVCPU, cfg.debug, true),
->>>>> +    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen,
->>>> false),
->>>>>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->>>>>       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
->>>>> @@ -1104,6 +1105,7 @@ static void riscv_isa_string_ext(RISCVCPU
->>>> *cpu, char **isa_str, int max_str_len)
->>>>>           ISA_EDATA_ENTRY(zve64f, ext_zve64f),
->>>>>           ISA_EDATA_ENTRY(zhinx, ext_zhinx),
->>>>>           ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
->>>>> +        ISA_EDATA_ENTRY(smstateen, ext_smstateen),
->>>>>           ISA_EDATA_ENTRY(svinval, ext_svinval),
->>>>>           ISA_EDATA_ENTRY(svnapot, ext_svnapot),
->>>>>           ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
->>>>> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->>>>> index f08c3e8813..1c269b77bd 100644
->>>>> --- a/target/riscv/cpu.h
->>>>> +++ b/target/riscv/cpu.h
->>>>> @@ -327,6 +327,9 @@ struct CPUArchState {
->>>>>
->>>>>       /* CSRs for execution enviornment configuration */
->>>>>       uint64_t menvcfg;
->>>>> +    uint64_t mstateen[SMSTATEEN_MAX_COUNT];
->>>>> +    uint64_t hstateen[SMSTATEEN_MAX_COUNT];
->>>>> +    uint64_t sstateen[SMSTATEEN_MAX_COUNT];
->>>>>       target_ulong senvcfg;
->>>>>       uint64_t henvcfg;
->>>>> #endif
->>>>> @@ -411,6 +414,7 @@ struct RISCVCPUConfig {
->>>>>       bool ext_zhinxmin;
->>>>>       bool ext_zve32f;
->>>>>       bool ext_zve64f;
->>>>> +    bool ext_smstateen;
->>>>>
->>>>>       uint32_t mvendorid;
->>>>>       uint64_t marchid;
->>>>> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
->>>>> index 4a55c6a709..2a3ef26d21 100644
->>>>> --- a/target/riscv/cpu_bits.h
->>>>> +++ b/target/riscv/cpu_bits.h
->>>>> @@ -208,6 +208,12 @@
->>>>> /* Supervisor Configuration CSRs */
->>>>> #define CSR_SENVCFG         0x10A
->>>>>
->>>>> +/* Supervisor state CSRs */
->>>>> +#define CSR_SSTATEEN0       0x10C
->>>>> +#define CSR_SSTATEEN1       0x10D
->>>>> +#define CSR_SSTATEEN2       0x10E
->>>>> +#define CSR_SSTATEEN3       0x10F
->>>>> +
->>>>> /* Supervisor Trap Handling */
->>>>> #define CSR_SSCRATCH        0x140
->>>>> #define CSR_SEPC            0x141
->>>>> @@ -257,6 +263,16 @@
->>>>> #define CSR_HENVCFG         0x60A
->>>>> #define CSR_HENVCFGH        0x61A
->>>>>
->>>>> +/* Hypervisor state CSRs */
->>>>> +#define CSR_HSTATEEN0       0x60C
->>>>> +#define CSR_HSTATEEN0H      0x61C
->>>>> +#define CSR_HSTATEEN1       0x60D
->>>>> +#define CSR_HSTATEEN1H      0x61D
->>>>> +#define CSR_HSTATEEN2       0x60E
->>>>> +#define CSR_HSTATEEN2H      0x61E
->>>>> +#define CSR_HSTATEEN3       0x60F
->>>>> +#define CSR_HSTATEEN3H      0x61F
->>>>> +
->>>>> /* Virtual CSRs */
->>>>> #define CSR_VSSTATUS        0x200
->>>>> #define CSR_VSIE            0x204
->>>>> @@ -304,6 +320,26 @@
->>>>> #define CSR_MENVCFG         0x30A
->>>>> #define CSR_MENVCFGH        0x31A
->>>>>
->>>>> +/* Machine state CSRs */
->>>>> +#define CSR_MSTATEEN0       0x30C
->>>>> +#define CSR_MSTATEEN0H      0x31C
->>>>> +#define CSR_MSTATEEN1       0x30D
->>>>> +#define CSR_MSTATEEN1H      0x31D
->>>>> +#define CSR_MSTATEEN2       0x30E
->>>>> +#define CSR_MSTATEEN2H      0x31E
->>>>> +#define CSR_MSTATEEN3       0x30F
->>>>> +#define CSR_MSTATEEN3H      0x31F
->>>>> +
->>>>> +/* Common defines for all smstateen */
->>>>> +#define SMSTATEEN_MAX_COUNT 4
->>>>> +#define SMSTATEEN0_CS       0
->>>>> +#define SMSTATEEN0_FCSR     0
->>>>> +#define SMSTATEEN0_IMSIC    58
->>>>> +#define SMSTATEEN0_AIA      59
->>>>> +#define SMSTATEEN0_SVSLCT   60
->>>>> +#define SMSTATEEN0_HSENVCFG 62
->>>>> +#define SMSTATEEN_STATEN    63
->>>>> +
->>>>> /* Enhanced Physical Memory Protection (ePMP) */
->>>>> #define CSR_MSECCFG         0x747
->>>>> #define CSR_MSECCFGH        0x757
->>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>>> index 409a209f14..324fefce59 100644
->>>>> --- a/target/riscv/csr.c
->>>>> +++ b/target/riscv/csr.c
->>>>> @@ -247,6 +247,42 @@ static RISCVException
->>>>> hmode32(CPURISCVState
->>>> *env, int csrno)
->>>>> }
->>>>>
->>>>> +static RISCVException mstateen(CPURISCVState *env, int csrno)
->>>>> +{
->>>>> +    CPUState *cs = env_cpu(env);
->>>>> +    RISCVCPU *cpu = RISCV_CPU(cs);
->>>>> +
->>>>> +    if (!cpu->cfg.ext_smstateen) {
->>>>> +        return RISCV_EXCP_ILLEGAL_INST;
->>>>> +    }
->>>>> +
->>>>> +    return any(env, csrno);
->>>>> +}
->>>>> +
->>>>> +static RISCVException hstateen(CPURISCVState *env, int csrno)
->>>>> +{
->>>>> +    CPUState *cs = env_cpu(env);
->>>>> +    RISCVCPU *cpu = RISCV_CPU(cs);
->>>>> +
->>>>> +    if (!cpu->cfg.ext_smstateen) {
->>>>> +        return RISCV_EXCP_ILLEGAL_INST;
->>>>> +    }
->>>>> +
->>>>> +    return hmode(env, csrno);
->>>>> +}
->>>>> +
->>>> I think we should take the stateen bit(bit 63) for matching
->>>> mstateen
->>>> into consideration here.
->>>> Similar to following sstateen function.
->>> ok.
->>>
->>>>> +static RISCVException sstateen(CPURISCVState *env, int csrno)
->>>>> +{
->>>>> +    CPUState *cs = env_cpu(env);
->>>>> +    RISCVCPU *cpu = RISCV_CPU(cs);
->>>>> +
->>>>> +    if (!cpu->cfg.ext_smstateen) {
->>>>> +        return RISCV_EXCP_ILLEGAL_INST;
->>>>> +    }
->>>>> +
->>>>> +    return smode(env, csrno);
->>>>> +}
->>>>> +
->>>>> /* Checks if PointerMasking registers could be accessed */
->>>>> static RISCVException pointer_masking(CPURISCVState *env, int
->>>> csrno)
->>>>> {
->>>>> @@ -1574,6 +1610,129 @@ static RISCVException
->>>> write_henvcfgh(CPURISCVState *env, int csrno,
->>>>>       return RISCV_EXCP_NONE;
->>>>> }
->>>>>
->>>>> +static inline void write_smstateen(CPURISCVState *env,
->>>>> uint64_t
->>>> *reg,
->>>>> +                                   uint64_t wr_mask, uint64_t
->>>> new_val)
->>>>> +{
->>>>> +    *reg = (*reg & ~wr_mask) | (new_val & wr_mask);
->>>>> +}
->>>>> +
->>>>> +static RISCVException read_mstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                    target_ulong *val)
->>>>> +{
->>>>> +    *val = env->mstateen[csrno - CSR_MSTATEEN0];
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException write_mstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                     target_ulong new_val)
->>>>> +{
->>>>> +    uint64_t *reg;
->>>>> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
->>>>> +
->>>>> +    reg = &env->mstateen[csrno - CSR_MSTATEEN0];
->>>>> +    write_smstateen(env, reg, wr_mask, new_val);
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException read_mstateenh(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                     target_ulong *val)
->>>>> +{
->>>>> +    *val = env->mstateen[csrno - CSR_MSTATEEN0H] >> 32;
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException write_mstateenh(CPURISCVState *env, int
->>>> csrno,
->>>>> +                                      target_ulong new_val)
->>>>> +{
->>>>> +    uint64_t *reg;
->>>>> +    uint64_t val;
->>>>> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
->>>>> +
->>>>> +    reg = &env->mstateen[csrno - CSR_MSTATEEN0H];
->>>>> +    val = (uint64_t)new_val << 32;
->>>>> +    val |= *reg & 0xFFFFFFFF;
->>>>> +    write_smstateen(env, reg, wr_mask, val);
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException read_hstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                    target_ulong *val)
->>>>> +{
->>>>> +    *val = env->hstateen[csrno - CSR_HSTATEEN0];
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>> I think we should also take mstateen into consideration here just
->>>> like the following write function.
->>>> As the spec said, If we set certain bit in the matching mstateen
->>>> csr
->>>> to zero, the same bit in hstateen should be read-only zero.
->>>> However, writes to mstateen will not affect the value in matching
->>>> hstateen directly in current implementation,
->>>> so if we read hstateen just immediately after write zero to
->>>> certain
->>>> bit of mstateen, the same bit  read from hstateen may not be
->>>> zero.
->>> I need to check this but as per my understanding this it is the
->>> responsibility of the software to clear the corresponding
->>> hstateen/stateen bits.
->> I have sent a issue for how the hstateen/sstateen become read-only
->> zero
->> for zero bits in mstateen:
->>
->> https://github.com/riscv/riscv-state-enable/issues/9
-> Thanks for the information. I think as per the dicussion on the above
-> issue it looks like the current implementation is also valid.
+在 2022/7/18 18:29, Eugenio Pérez 写道:
+> Since the vhost-vdpa device is exposing _F_LOG, adding a migration blocker if
+> it uses CVQ.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   include/hw/virtio/vhost-vdpa.h |  1 +
+>   hw/virtio/vhost-vdpa.c         | 14 ++++++++++++++
+>   2 files changed, 15 insertions(+)
+>
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index 1111d85643..d10a89303e 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -35,6 +35,7 @@ typedef struct vhost_vdpa {
+>       bool shadow_vqs_enabled;
+>       /* IOVA mapping used by the Shadow Virtqueue */
+>       VhostIOVATree *iova_tree;
+> +    Error *migration_blocker;
+>       GPtrArray *shadow_vqs;
+>       const VhostShadowVirtqueueOps *shadow_vq_ops;
+>       void *shadow_vq_ops_opaque;
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index beaaa7049a..795ed5a049 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -20,6 +20,7 @@
+>   #include "hw/virtio/vhost-shadow-virtqueue.h"
+>   #include "hw/virtio/vhost-vdpa.h"
+>   #include "exec/address-spaces.h"
+> +#include "migration/blocker.h"
+>   #include "qemu/cutils.h"
+>   #include "qemu/main-loop.h"
+>   #include "cpu.h"
+> @@ -1022,6 +1023,13 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
+>           return true;
+>       }
+>   
+> +    if (v->migration_blocker) {
+> +        int r = migrate_add_blocker(v->migration_blocker, &err);
+> +        if (unlikely(r < 0)) {
+> +            goto err_migration_blocker;
+> +        }
+> +    }
+> +
+>       for (i = 0; i < v->shadow_vqs->len; ++i) {
+>           VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
+>           VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
+> @@ -1064,6 +1072,9 @@ err:
+>           vhost_svq_stop(svq);
+>       }
+>   
+> +err_migration_blocker:
+> +    error_reportf_err(err, "Cannot setup SVQ %u: ", i);
 
-I think the way to implement the read-only zero is unspecified. However, 
-the read out value  for
 
-the read-only zero fields  should be zero.
+So I got this:
 
-Regards,
+FAILED: libqemu-x86_64-softmmu.fa.p/hw_virtio_vhost-vdpa.c.o
+cc -m64 -mcx16 -Ilibqemu-x86_64-softmmu.fa.p -I. -I.. -Itarget/i386 
+-I../target/i386 -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/pixman-1 
+-I/usr/include/capstone -I/usr/include/glib-2.0 
+-I/usr/lib/x86_64-linux-gnu/glib-2.0/include -fdiagnostics-color=auto 
+-Wall -Winvalid-pch -Werror -std=gnu11 -O2 -g -isystem 
+/home/devel/git/qemu/linux-headers -isystem linux-headers -iquote . 
+-iquote /home/devel/git/qemu -iquote /home/devel/git/qemu/include 
+-iquote /home/devel/git/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE 
+-D_FORTIFY_SOURCE=2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 
+-D_LARGEFILE_SOURCE -Wstrict-prototypes -Wredundant-decls -Wundef 
+-Wwrite-strings -Wmissing-prototypes -fno-strict-aliasing -fno-common 
+-fwrapv -Wold-style-declaration -Wold-style-definition -Wtype-limits 
+-Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers 
+-Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined 
+-Wimplicit-fallthrough=2 -Wno-missing-include-dirs 
+-Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIE 
+-isystem../linux-headers -isystemlinux-headers -DNEED_CPU_H 
+'-DCONFIG_TARGET="x86_64-softmmu-config-target.h"' 
+'-DCONFIG_DEVICES="x86_64-softmmu-config-devices.h"' -MD -MQ 
+libqemu-x86_64-softmmu.fa.p/hw_virtio_vhost-vdpa.c.o -MF 
+libqemu-x86_64-softmmu.fa.p/hw_virtio_vhost-vdpa.c.o.d -o 
+libqemu-x86_64-softmmu.fa.p/hw_virtio_vhost-vdpa.c.o -c 
+../hw/virtio/vhost-vdpa.c
+../hw/virtio/vhost-vdpa.c: In function ‘vhost_vdpa_dev_start’:
+../hw/virtio/vhost-vdpa.c:1076:5: error: ‘i’ may be used uninitialized 
+in this function [-Werror=maybe-uninitialized]
+  1076 |     error_reportf_err(err, "Cannot setup SVQ %u: ", i);
+       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../hw/virtio/vhost-vdpa.c:1020:14: note: ‘i’ was declared here
+  1020 |     unsigned i;
+       |              ^
+cc1: all warnings being treated as errors
 
-Weiwei Li
+And this error is kind of duplicated with the one that is reported in 
+label "err" above.
 
->> Regards,
->>
->> Weiwei Li
->>
->>>> similar to read function of sstateen.
->>>>> +static RISCVException write_hstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                     target_ulong new_val)
->>>>> +{
->>>>> +    uint64_t *reg;
->>>>> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
->>>>> +    int index = csrno - CSR_HSTATEEN0;
->>>>> +
->>>>> +    reg = &env->hstateen[index];
->>>>> +    wr_mask &= env->mstateen[index];
->>>>> +    write_smstateen(env, reg, wr_mask, new_val);
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException read_hstateenh(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                     target_ulong *val)
->>>>> +{
->>>>> +    *val = env->hstateen[csrno - CSR_HSTATEEN0H] >> 32;
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException write_hstateenh(CPURISCVState *env, int
->>>> csrno,
->>>>> +                                      target_ulong new_val)
->>>>> +{
->>>>> +    uint64_t *reg;
->>>>> +    uint64_t val;
->>>>> +    uint64_t wr_mask = 1UL << SMSTATEEN_STATEN;
->>>>> +    int index = csrno - CSR_HSTATEEN0H;
->>>>> +
->>>>> +    reg = &env->hstateen[index];
->>>>> +    val = (uint64_t)new_val << 32;
->>>>> +    val |= *reg & 0xFFFFFFFF;
->>>>> +    wr_mask &= env->mstateen[index];
->>>>> +
->>>>> +    write_smstateen(env, reg, wr_mask, val);
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException read_sstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                    target_ulong *val)
->>>>> +{
->>>>> +    *val = env->sstateen[csrno - CSR_SSTATEEN0];
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> +static RISCVException write_sstateen(CPURISCVState *env, int
->>>>> csrno,
->>>>> +                                     target_ulong new_val)
->>>>> +{
->>>>> +    uint64_t *reg;
->>>>> +    uint64_t wr_mask = 0;
->>>>> +    int index = csrno - CSR_SSTATEEN0;
->>>>> +    bool virt = riscv_cpu_virt_enabled(env);
->>>>> +
->>>>> +    reg = &env->sstateen[index];
->>>>> +    if (virt) {
->>>>> +        wr_mask &= env->mstateen[index];
->>>>> +    } else {
->>>>> +        wr_mask &= env->hstateen[index];
->>>>> +    }
->>>> Why this? I think hstateen works in virt mode, so this may be:
->>>> if (virt) {
->>>>     wr_mask &= env->mstateen[index] & env->hstateen[index];;
->>>> } else {
->>>>     wr_mask &= env->mstateen[index];
->>>> }
->>>>> +    write_smstateen(env, reg, wr_mask, new_val);
->>>>> +
->>>>> +    return RISCV_EXCP_NONE;
->>>>> +}
->>>>> +
->>>>> static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
->>>>>                                   uint64_t *ret_val,
->>>>>                                   uint64_t new_val, uint64_t
->>>>> wr_mask)
->>>>> @@ -3441,6 +3600,57 @@ riscv_csr_operations
->>>>> csr_ops[CSR_TABLE_SIZE]
->>>> = {
->>>>>       [CSR_HENVCFGH] = { "henvcfgh", hmode32, read_henvcfgh,
->>>> write_henvcfgh,
->>>>>                                             .min_priv_ver =
->>>> PRIV_VERSION_1_12_0 },
->>>>> +    /* Smstateen extension CSRs */
->>>>> +    [CSR_MSTATEEN0] = { "mstateen0", mstateen, read_mstateen,
->>>> write_mstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN0H] = { "mstateen0h", mstateen,
->>>>> read_mstateenh,
->>>>> +                          write_mstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN1] = { "mstateen1", mstateen, read_mstateen,
->>>> write_mstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>> It seems unreasonable for mstateen1~3 to share the same
->>>> read/write
->>>> function with mstateen0 ,
->>>> since their field mask is different.
->>>> Similar to sstateen1~3 and hstateen1~3
->>> I will fix it in the next version.
->>>> Regards,
->>>> Weiwei Li
->>>>> +    [CSR_MSTATEEN1H] = { "mstateen1h", mstateen,
->>>>> read_mstateenh,
->>>>> +                          write_mstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN2] = { "mstateen2", mstateen, read_mstateen,
->>>> write_mstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN2H] = { "mstateen2h", mstateen,
->>>>> read_mstateenh,
->>>>> +                          write_mstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN3] = { "mstateen3", mstateen, read_mstateen,
->>>> write_mstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_MSTATEEN3H] = { "mstateen3h", mstateen,
->>>>> read_mstateenh,
->>>>> +                          write_mstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +
->>>>> +    [CSR_HSTATEEN0] = { "hstateen0", hstateen, read_hstateen,
->>>> write_hstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN0H] = { "hstateen0h", hstateen,
->>>>> read_hstateenh,
->>>>> +                          write_hstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN1] = { "hstateen1", hstateen, read_hstateen,
->>>> write_hstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN1H] = { "hstateen1h", hstateen,
->>>>> read_hstateenh,
->>>>> +                          write_hstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN2] = { "hstateen2", hstateen, read_hstateen,
->>>> write_hstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN2H] = { "hstateen2h", hstateen,
->>>>> read_hstateenh,
->>>>> +                          write_hstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN3] = { "hstateen3", hstateen, read_hstateen,
->>>> write_hstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_HSTATEEN3H] = { "hstateen3h", hstateen,
->>>>> read_hstateenh,
->>>>> +                          write_hstateenh,
->>>>> +                          .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +
->>>>> +    [CSR_SSTATEEN0] = { "sstateen0", sstateen, read_sstateen,
->>>> write_sstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_SSTATEEN1] = { "sstateen1", sstateen, read_sstateen,
->>>> write_sstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_SSTATEEN2] = { "sstateen2", sstateen, read_sstateen,
->>>> write_sstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>> +    [CSR_SSTATEEN3] = { "sstateen3", sstateen, read_sstateen,
->>>> write_sstateen,
->>>>> +                         .min_priv_ver = PRIV_VERSION_1_12_0
->>>>> },
->>>>>       /* Supervisor Trap Setup */
->>>>>       [CSR_SSTATUS]    = { "sstatus",    smode,
->>>> read_sstatus,    write_sstatus, NULL,
->>>>>                                                 read_sstatus_i12
->>>>> 8
->>>>                },
->>>>> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
->>>>> index 2a437b29a1..84a75dbb08 100644
->>>>> --- a/target/riscv/machine.c
->>>>> +++ b/target/riscv/machine.c
->>>>> @@ -262,6 +262,26 @@ static int riscv_cpu_post_load(void
->>>>> *opaque,
->>>> int version_id)
->>>>>       return 0;
->>>>> }
->>>>>
->>>>> +static bool smstateen_needed(void *opaque)
->>>>> +{
->>>>> +    RISCVCPU *cpu = opaque;
->>>>> +
->>>>> +    return cpu->cfg.ext_smstateen;
->>>>> +}
->>>>> +
->>>>> +static const VMStateDescription vmstate_smstateen = {
->>>>> +    .name = "cpu/smtateen",
->>>>> +    .version_id = 1,
->>>>> +    .minimum_version_id = 1,
->>>>> +    .needed = smstateen_needed,
->>>>> +    .fields = (VMStateField[]) {
->>>>> +        VMSTATE_UINT64_ARRAY(env.mstateen, RISCVCPU, 4),
->>>>> +        VMSTATE_UINT64_ARRAY(env.hstateen, RISCVCPU, 4),
->>>>> +        VMSTATE_UINT64_ARRAY(env.sstateen, RISCVCPU, 4),
->>>>> +        VMSTATE_END_OF_LIST()
->>>>> +    }
->>>>> +};
->>>>> +
->>>>> static bool envcfg_needed(void *opaque)
->>>>> {
->>>>>       RISCVCPU *cpu = opaque;
->>>>> @@ -347,6 +367,7 @@ const VMStateDescription vmstate_riscv_cpu
->>>>> = {
->>>>>           &vmstate_kvmtimer,
->>>>>           &vmstate_envcfg,
->>>>>           &vmstate_debug,
->>>>> +        &vmstate_smstateen,
->>>>>           NULL
->>>>>       }
->>>>> };
->>>>> -- 
->>>>> 2.25.1
->>>>>
+Thanks
+
+
+> +
+>       return false;
+>   }
+>   
+> @@ -1083,6 +1094,9 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
+>           }
+>       }
+>   
+> +    if (v->migration_blocker) {
+> +        migrate_del_blocker(v->migration_blocker);
+> +    }
+>       return true;
+>   }
+>   
 
 
