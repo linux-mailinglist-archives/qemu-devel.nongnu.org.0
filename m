@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F91579674
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:38:00 +0200 (CEST)
-Received: from localhost ([::1]:47820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D2D57967C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:40:50 +0200 (CEST)
+Received: from localhost ([::1]:50972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDjfz-0005eu-Ot
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:37:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
+	id 1oDjij-0007yN-6l
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:40:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oDjct-0001PP-Sx
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58255)
+ id 1oDjcx-0001Vp-MW
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oDjcs-0000Qg-BN
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:47 -0400
+ id 1oDjcw-0000R2-5T
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:34:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658223285;
+ s=mimecast20190719; t=1658223289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vBYfpPuzNQ2Hah53ZeUIE84a2xKUBptEf78oS/hKeg8=;
- b=AltZsF7X3wsX/9jDeZN/+4dlaEWQWq1I0KVbdu5GIoafNMVDKTJYDHMLQwnDki7uxFCicy
- ulgARYYpEgWvLZm2I4iVKE8VBS+VMkN2RECfSyjrovv2yS6tmFXSaxBd8U3KKikoxy5Yq4
- a0ne/PgdvJ3iaNB9e2mSDf5pA3FXR00=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=RHdWC55cUPvE5A/T86wNKaY1/bkuZbeyxYtfxnHKD7k=;
+ b=CNYMqYnRksHLmGygIaaD8hgpr+iNpbvuu23omQh0FN7kQOT3FgOjx9wZUsmVtmhYdnpAaJ
+ 3ePHEMHV1eTPHrellPxnxgHI7dxEvrXRKfzli1IxdPJOPQsQuQFoIIk6ecfslQgIVPuwn1
+ coWBu+3Om+Bd+4lHbjgSO66W6tkfTzU=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-298-3YCK8RUxMcWYAb2dEJgihQ-1; Tue, 19 Jul 2022 05:34:44 -0400
-X-MC-Unique: 3YCK8RUxMcWYAb2dEJgihQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hr24-20020a1709073f9800b0072b57c28438so2847087ejc.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 02:34:44 -0700 (PDT)
+ us-mta-57-iFfcRJBeP7miuUxdqY0inw-1; Tue, 19 Jul 2022 05:34:45 -0400
+X-MC-Unique: iFfcRJBeP7miuUxdqY0inw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ g7-20020a056402424700b0043ac55ccf15so9517714edb.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 02:34:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vBYfpPuzNQ2Hah53ZeUIE84a2xKUBptEf78oS/hKeg8=;
- b=HVgt+VUKtzy3d3obEp+5+SMPDYorQszCQCXfkO1EQ2FIbpjwnBCVKY5TjlZ5c7eDE3
- SQkkJ5NoY05yEzD6MkQgzYUamKqsXoZIOta0XfkFgsvM+frsiQXiAtTfZwnoKn7kDsO0
- ZNizxfsKgKzjjyCfomRprVMxYSgdiNqBFZHuyNIeWl1+us08IsNjJK96uyD1hsA5++KH
- sxDZRVL6A8RTv/YSU3FiAxiLcgWUPx2U+POlz5agW0p4TDbeEGOqKBhdLR/kvxr2220w
- DJ2I5cH35X9LnPdxUF5G8T5qXjM/n7mtJc5y71Nhh94bP5VC9jpKeGnZCeYWGgTJ31ZX
- TQQQ==
-X-Gm-Message-State: AJIora8euw6RD+CPqy3S6FTFdsctIAC9IocOgd60vCdN1RGSatTi6u7M
- t/xtn9APQTVc7BrwVxR4bW1frjtFSCOlLt/McbZr9hpiEyWNAFxBkvnV9bCFnEbI25nUwyFMpeE
- FliU7Kc0+LgXSpbMZS0wXpIACtLlfAZKuptb231yc9WYZj4sOW/MJCHw1+76F/ammCyQ=
-X-Received: by 2002:a17:906:5512:b0:726:be2c:a2e5 with SMTP id
- r18-20020a170906551200b00726be2ca2e5mr29189728ejp.88.1658223282810; 
- Tue, 19 Jul 2022 02:34:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ueljy+y5hwHPQ89X8hZwuY8NCBaeR8wrHkiOC1JjtAN+lb21DRpB7ab46sb/I5/SP20OwIvQ==
-X-Received: by 2002:a17:906:5512:b0:726:be2c:a2e5 with SMTP id
- r18-20020a170906551200b00726be2ca2e5mr29189701ejp.88.1658223282482; 
- Tue, 19 Jul 2022 02:34:42 -0700 (PDT)
+ bh=RHdWC55cUPvE5A/T86wNKaY1/bkuZbeyxYtfxnHKD7k=;
+ b=mKvkPnoeFRneGEEmQ7u302UpDeo4oJeVAgoWOaKQ+k/C3Iv9EzsvbbmPAjLb/4SAiR
+ f6V/KGs+NUlYwb6i+AO7ruQraS6+yUimsrnn5EYxjPjRrOIAFth+/TLOW+UFUqSk6eBu
+ TBgM5xxvG1buJPCgQvYbQjp6wFJovic89QS30lg8v9/FummiFd5NooFvEGJoy3eqFQZb
+ i8X/RGhOZCxQeUDIR0ftM50HtTNaWHQIRMoUAB12f0hG0NRnH7JZ4WO8pZngLOmmJSV1
+ OBh4XxaHL5sjMWcLPEq38WvwolGUkcD835zCY/S9wjnuFvIPPaENb4487tJcy/+reM/R
+ tP7g==
+X-Gm-Message-State: AJIora+0csh2uZcEdCt9c15KeQ9fz9yGa2hBdVp5gtk4gXQNB4mo/zYv
+ Byi4iu/tM5KesfUGsQHqPX4gyJ3JEoLja5aiz1oc4Y9TK2pOpvkDNhp3VG2GMOZOptD3zbRdJ+a
+ 7fYAmxNa2Fruoc21plwwbAlTl1iaqTvMKfbfkfqvr+1g5uJD+OCNg+DFBr66oXWFKzRg=
+X-Received: by 2002:a05:6402:2804:b0:439:83c2:8be2 with SMTP id
+ h4-20020a056402280400b0043983c28be2mr42741066ede.292.1658223284041; 
+ Tue, 19 Jul 2022 02:34:44 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uDC+Q7pX3uqPQNO8HkXbJ0IFYrd+7SrZJIyixbarK6ajGTwvFA4IyTLoKRZuB3IeAtdXuwUg==
+X-Received: by 2002:a05:6402:2804:b0:439:83c2:8be2 with SMTP id
+ h4-20020a056402280400b0043983c28be2mr42741034ede.292.1658223283717; 
+ Tue, 19 Jul 2022 02:34:43 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- d25-20020aa7c1d9000000b0043a75f62155sm10202391edp.86.2022.07.19.02.34.41
+ lb11-20020a170907784b00b007246492658asm6543819ejc.117.2022.07.19.02.34.42
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 02:34:41 -0700 (PDT)
+ Tue, 19 Jul 2022 02:34:43 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Amneesh Singh <natto@weirdnatto.in>
-Subject: [PULL 1/3] monitor: add support for boolean statistics
-Date: Tue, 19 Jul 2022 11:34:37 +0200
-Message-Id: <20220719093439.528810-2-pbonzini@redhat.com>
+Subject: [PULL 2/3] kvm: add support for boolean statistics
+Date: Tue, 19 Jul 2022 11:34:38 +0200
+Message-Id: <20220719093439.528810-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220719093439.528810-1-pbonzini@redhat.com>
 References: <20220719093439.528810-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,55 +100,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The next version of Linux will introduce boolean statistics, which
-can only have 0 or 1 values.  Support them in the schema and in
-the HMP command.
+can only have 0 or 1 values.  Convert them to the new QAPI fields
+added in the previous commit.
 
-Suggested-by: Amneesh Singh <natto@weirdnatto.in>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- monitor/hmp-cmds.c | 2 ++
- qapi/stats.json    | 4 +++-
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c       | 10 +++++++++-
+ linux-headers/linux/kvm.h |  1 +
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ca98df0495..e8d6963722 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -2337,6 +2337,8 @@ static void print_stats_results(Monitor *mon, StatsTarget target,
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index ed8b6b896e..3a2677d065 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3743,6 +3743,7 @@ static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
+     case KVM_STATS_UNIT_BYTES:
+     case KVM_STATS_UNIT_CYCLES:
+     case KVM_STATS_UNIT_SECONDS:
++    case KVM_STATS_UNIT_BOOLEAN:
+         break;
+     default:
+         return stats_list;
+@@ -3761,7 +3762,10 @@ static StatsList *add_kvmstat_entry(struct kvm_stats_desc *pdesc,
+     stats->name = g_strdup(pdesc->name);
+     stats->value = g_new0(StatsValue, 1);;
  
-         if (stats_value->type == QTYPE_QNUM) {
-             monitor_printf(mon, ": %" PRId64 "\n", stats_value->u.scalar);
-+        } else if (stats_value->type == QTYPE_QBOOL) {
-+            monitor_printf(mon, ": %s\n", stats_value->u.boolean ? "yes" : "no");
-         } else if (stats_value->type == QTYPE_QLIST) {
-             uint64List *list;
-             int i;
-diff --git a/qapi/stats.json b/qapi/stats.json
-index 2f8bfe8fdb..57db5b1c74 100644
---- a/qapi/stats.json
-+++ b/qapi/stats.json
-@@ -38,11 +38,12 @@
- # @bytes: stat reported in bytes.
- # @seconds: stat reported in seconds.
- # @cycles: stat reported in clock cycles.
-+# @boolean: stat is a boolean value.
- #
- # Since: 7.1
- ##
- { 'enum' : 'StatsUnit',
--  'data' : [ 'bytes', 'seconds', 'cycles' ] }
-+  'data' : [ 'bytes', 'seconds', 'cycles', 'boolean' ] }
+-    if (pdesc->size == 1) {
++    if ((pdesc->flags & KVM_STATS_UNIT_MASK) == KVM_STATS_UNIT_BOOLEAN) {
++        stats->value->u.boolean = *stats_data;
++        stats->value->type = QTYPE_QBOOL;
++    } else if (pdesc->size == 1) {
+         stats->value->u.scalar = *stats_data;
+         stats->value->type = QTYPE_QNUM;
+     } else {
+@@ -3809,6 +3813,10 @@ static StatsSchemaValueList *add_kvmschema_entry(struct kvm_stats_desc *pdesc,
+     switch (pdesc->flags & KVM_STATS_UNIT_MASK) {
+     case KVM_STATS_UNIT_NONE:
+         break;
++    case KVM_STATS_UNIT_BOOLEAN:
++        schema_entry->value->has_unit = true;
++        schema_entry->value->unit = STATS_UNIT_BOOLEAN;
++        break;
+     case KVM_STATS_UNIT_BYTES:
+         schema_entry->value->has_unit = true;
+         schema_entry->value->unit = STATS_UNIT_BYTES;
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 0d05d02ee4..f089349149 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -2031,6 +2031,7 @@ struct kvm_stats_header {
+ #define KVM_STATS_UNIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
+ #define KVM_STATS_UNIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
+ #define KVM_STATS_UNIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
++#define KVM_STATS_UNIT_BOOLEAN		(0x4 << KVM_STATS_UNIT_SHIFT)
+ #define KVM_STATS_UNIT_MAX		KVM_STATS_UNIT_CYCLES
  
- ##
- # @StatsProvider:
-@@ -123,6 +124,7 @@
- ##
- { 'alternate': 'StatsValue',
-   'data': { 'scalar': 'uint64',
-+            'boolean': 'bool',
-             'list': [ 'uint64' ] } }
- 
- ##
+ #define KVM_STATS_BASE_SHIFT		8
 -- 
 2.36.1
 
