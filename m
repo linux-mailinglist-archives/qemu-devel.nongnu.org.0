@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97BA55793E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:11:58 +0200 (CEST)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8623C5793F3
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:17:52 +0200 (CEST)
+Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDhOf-0007Zr-No
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:11:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
+	id 1oDhUN-0007fl-9H
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:17:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHN-00026d-J1
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26565)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHQ-0002Ci-CN
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHM-0002ye-2p
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:25 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oDhHO-0002zA-SE
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:04:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658214263;
+ s=mimecast20190719; t=1658214266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yCe8RnBaqi/5K/5ixqgamPhWm/Um76icno4qSl9vjE0=;
- b=g0ooQnTKn34S/6NqZcZS5OpH6KuoBI6epr4O4Rez0emhmVJHWZFBaqqwyqozX9ZFrmUyrO
- NP9RxY25GPECYlUMcRXUb3/XOX+9LyoKkUpHmRRyW0FMGMbrZDh0wB5Efdb2Gxqfr1LTTj
- 0kK8L1EJKlo6AW5hK7cCUirW3hdqmUs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6tWijDM9K8IU9bc3MVI7tXseygBp+Hs+39wbY2dCmdc=;
+ b=O6y0tmYQJUqQOY8Lm8JR4zb4TcPF6TGa6ZFD0emOCqpzW7Y8bajkiihM3YqCkei1CckwX/
+ IF4M8+1paKr1ve4eLEqqn4wNakrA0F72s21Hl36xQqvdfNTFeZDTAPkD9jZEuAPETZMAGl
+ Mh57o5nDeODhyYBqmgikldysLmEue3g=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-297-zKriHjtwOJ69YwTQ-zZkKA-1; Tue, 19 Jul 2022 03:04:22 -0400
-X-MC-Unique: zKriHjtwOJ69YwTQ-zZkKA-1
+ us-mta-425-_bVde8hmMgSr6eLwQ9llJQ-1; Tue, 19 Jul 2022 03:04:23 -0400
+X-MC-Unique: _bVde8hmMgSr6eLwQ9llJQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B9ADC811E7A;
- Tue, 19 Jul 2022 07:04:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A64C6380670D;
+ Tue, 19 Jul 2022 07:04:22 +0000 (UTC)
 Received: from thuth.com (dhcp-192-183.str.redhat.com [10.33.192.183])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08F7640CFD0A;
- Tue, 19 Jul 2022 07:04:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E948E40CF8E5;
+ Tue, 19 Jul 2022 07:04:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 08/14] tests/vm: add 1GB extra memory per core
-Date: Tue, 19 Jul 2022 09:04:06 +0200
-Message-Id: <20220719070412.16757-9-thuth@redhat.com>
+Subject: [PULL 09/14] tests/vm: Remove docker cross-compile test from CentOS VM
+Date: Tue, 19 Jul 2022 09:04:07 +0200
+Message-Id: <20220719070412.16757-10-thuth@redhat.com>
 In-Reply-To: <20220719070412.16757-1-thuth@redhat.com>
 References: <20220719070412.16757-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,45 +81,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-If you try to run a 16 or 32 threaded test, you're going to run out of
-memory very quickly with qom-test and a few others. Bump the memory
-limit to try to scale with larger-core machines.
+The fedora container has since been split apart, so there's no suitable
+nearby target that would support "test-mingw" as it requires both x32
+and x64 support -- so either fedora-cross-win32 nor fedora-cross-win64
+would be truly suitable.
 
-Granted, this means that a 16 core processor is going to ask for 16GB,
-but you *probably* meet that requirement if you have such a machine.
-
-512MB per core didn't seem to be enough to avoid ENOMEM and SIGABRTs in
-the test cases in practice on a six core machine; so I bumped it up to
-1GB which seemed to help.
-
-Add this magic in early to the configuration process so that the
-config file, if provided, can still override it.
+Just remove this test as superfluous with our current CI infrastructure.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220708153503.18864-9-jsnow@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20220708153503.18864-10-jsnow@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/vm/basevm.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ tests/vm/centos | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index d7d0413df3..4fd9af10b7 100644
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -99,6 +99,11 @@ def __init__(self, args, config=None):
-         self._source_path = args.source_path
-         # Allow input config to override defaults.
-         self._config = DEFAULT_CONFIG.copy()
-+
-+        # 1GB per core, minimum of 4. This is only a default.
-+        mem = max(4, args.jobs)
-+        self._config['memory'] = f"{mem}G"
-+
-         if config != None:
-             self._config.update(config)
-         self.validate_ssh_keys()
+diff --git a/tests/vm/centos b/tests/vm/centos
+index 3a527c47b3..097a9ca14d 100755
+--- a/tests/vm/centos
++++ b/tests/vm/centos
+@@ -28,7 +28,6 @@ class CentosVM(basevm.BaseVM):
+         tar -xf $SRC_ARCHIVE;
+         make docker-test-block@centos8 {verbose} J={jobs} NETWORK=1;
+         make docker-test-quick@centos8 {verbose} J={jobs} NETWORK=1;
+-        make docker-test-mingw@fedora  {verbose} J={jobs} NETWORK=1;
+     """
+ 
+     def build_image(self, img):
 -- 
 2.31.1
 
