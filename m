@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E249557A004
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:49:08 +0200 (CEST)
-Received: from localhost ([::1]:49986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D057E57A033
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:57:31 +0200 (CEST)
+Received: from localhost ([::1]:46128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDnaw-0008Oz-EC
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:49:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32844)
+	id 1oDnj9-0000Xl-03
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drapas86@gmail.com>)
- id 1oDkeZ-0003i3-Hf
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:40:35 -0400
-Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:41654)
+ id 1oDlt7-0004dT-6t
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:59:41 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:44765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <drapas86@gmail.com>)
- id 1oDkeX-0004Ab-7V
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 06:40:35 -0400
-Received: by mail-lj1-x229.google.com with SMTP id p6so16869893ljc.8
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 03:40:32 -0700 (PDT)
+ id 1oDlt4-00083t-Uk
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 07:59:40 -0400
+Received: by mail-lj1-x229.google.com with SMTP id x10so16633542ljj.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 04:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/7P7YPibCAGRUbqdyGkN8T4pNZnFWBSITgmfXIKCm0I=;
- b=jx1UQZhnTjgn/Dkf6qsAQYaKUz8T1vfcNACn5otsUlXyn3myuoiCklTqglj7FzslR+
- HeUO6JzgvsEiSbkbM8RFWnUX8tetFRpI8KGgEcsnVSZl0n80Ow/RU87pZsAmyIKK7I0b
- Q4GfuLjnEaf+kpzpbArggRtrr1KbcVDf5zRmcH6sl5GatkR8ra6HLQ0T9qsg7KdOBsMt
- z0r2ZqPXI8obwYzBSUZWjjVX2BCTHPaRvbfVs7qAXtOa0GiqO1/p0AqlwQ+NrtuypY+t
- JceB8QWYncYgD+7pQkq9JXhGmtkyfkZHy5T59aLZK1D+Re8KZRAkQ6+4b2Z3T9+rboWI
- GNIw==
+ bh=jC4iPmmF5INsX7V/YDDUnl66lfLFdohDDzzqdflMqfw=;
+ b=f7zDh4gzFS90SDFuA+xQNs6JhxmJzPJ/DV2mLA8bm6W13wJfbI0+SzcU9jIkFTfY6c
+ YY7StWoOsQTdwNd5b4791VjQSYUxihR3eVLNq0/gD4EG1+v9IHGV6y4WhfvIWcGj+GhW
+ LQECVKk37dDNRaYIfEyVO3Rc7mOQufXa0Nw9uJk8+1/Xlv0Pf7SpBIltW1zDFA2OEA4s
+ A1lg0KaKH+9Niy0hmx7HVQBGp4zA17/A6057ifN3GSxoI5GTxwP2k0gH7d4UKCfP3Lp0
+ 3blG9GlvNf8AsJ4ECxLhdylzV8V7PC2vLZ9ctQ7QQ7KQcsDQEpEx0WCPt7jK7KfzoO38
+ SfjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/7P7YPibCAGRUbqdyGkN8T4pNZnFWBSITgmfXIKCm0I=;
- b=JzNiVNM4Anid25W9VAbw1mdRxVYLFzuyuPlVk2dc/RzjvW6ifTYj+VASu+tQ2gnRS0
- 1ouflm4w8Gr+X5i0JJoU8XMQTbtn4f7Y5VwmKrgOYsFyzllJx5L0Jio84chPK0LktIN3
- 0n2AFTkHlABQPFbm8fLK0hA3N/BmFAPH9Z77UIfe+WD9uU/0QrnCHT0QvqJxvVcuzUsB
- c3JEJzC3z3FUnZgkTJeiPutS4ZvoWQzy/MOM8vmXVtjdbY3NRjsfeF70tn9WkgHHJkRG
- lc2NYjJWLaD+45ODZyOn5fN44FWGKaNQTLQ5YgEHozQthWWwvs7FC9XtHx8VjmxRrJFZ
- QvTQ==
-X-Gm-Message-State: AJIora/THTD/QmqDwUXTPOqaKXS6C7sR0fAmCth80sUXLy6M+kP+Qi6X
- K4YiESMcoOGKbPuoqBzMfS/5290rS6v+bA==
-X-Google-Smtp-Source: AGRyM1s4Blokxx2IkT/z5koCKEeVyW+Ti4Uv62sStG38I4rDmIHAsFuU8aFdrEr52HacF5vJyY8c5Q==
-X-Received: by 2002:a05:651c:b1e:b0:25d:9ec9:4f58 with SMTP id
- b30-20020a05651c0b1e00b0025d9ec94f58mr11283528ljr.75.1658227229853; 
- Tue, 19 Jul 2022 03:40:29 -0700 (PDT)
+ bh=jC4iPmmF5INsX7V/YDDUnl66lfLFdohDDzzqdflMqfw=;
+ b=zzMuds120Rl9BdUdrp8vOTXKESinf0OK+sTxBg1fb7WxtgReIcBNpnFjGqFer891RE
+ T0xnT5AFlGVQLr/ujndZ7uoH6fWvQ3dt5XU+RARkygHNHlbnkRAPmwpzfs/YQ0Gwzahh
+ fXm6GFFWfwD6C1wYkyLFszbIe6c7EI2yRjbPagE7N1nFLZ8Gqzpzy54EUhCGRudLcsry
+ YHZaATVWONnteSq7uI2ZSJlLU1RAwdPHtLcL6+mIYFdIV5lAFlOuSDlGMjQVKsyZbXVT
+ EDUiT6KS2wfiG2TfbEF9ny9c9gk+yxtDQt5clhw+DzK/0OKX8Oy4WjxiMZibaXzUKe3a
+ neVQ==
+X-Gm-Message-State: AJIora9Sa+BCpgxHJ8yGWWeG70i02ddVvr10et5/3Ktb5Pvqjx8Jpvpg
+ SE9g8g+REy3xtg2BPfquCpONiVOAz+MTWg==
+X-Google-Smtp-Source: AGRyM1uRPAxKquHME4NS4KnMCcLIcwoD58Go35c6o8pFiTnv5q3n0tKg8BywU6d2FWWvrNk7W3lXAg==
+X-Received: by 2002:a05:651c:1501:b0:25d:a415:8ffd with SMTP id
+ e1-20020a05651c150100b0025da4158ffdmr9480317ljf.310.1658231976483; 
+ Tue, 19 Jul 2022 04:59:36 -0700 (PDT)
 Received: from drapas-VirtualBox.office.auriga.msk ([77.222.111.229])
  by smtp.gmail.com with ESMTPSA id
- o22-20020a05651205d600b0047f8790085csm2928046lfo.71.2022.07.19.03.40.28
+ i8-20020a2ea228000000b0025d4599d738sm2648411ljm.54.2022.07.19.04.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 03:40:29 -0700 (PDT)
+ Tue, 19 Jul 2022 04:59:35 -0700 (PDT)
 From: Drap Anton <drapas86@gmail.com>
 X-Google-Original-From: Drap Anton <anton.drap@auriga.com>
 To: qemu-devel@nongnu.org
 Cc: anton.drap@auriga.com
-Subject: [PATCH] There is no mechanism to load external machines and classes
- from modules at the moment. This patch is to add two parameters `add_machine`
- and `add_modinfo` for it. `add_machine` is to add machine from external
- modules. `add_modinfo` is to load new types from external modules,
- needed for a new machine,
- for example. Main aim is to have possibility to develop independent models and
- be able to use it with mainline QEMU. It will help to make develop new models
- of proprietary boards,
- simplify to use Qemu by hardware developers and extend number of supporting
- boards and devices in QEMU. It will be easier for small hardware
- manufacturers to use QEMU to develop their own board models and use them to
- shift left of FW/SW development.
-Date: Tue, 19 Jul 2022 15:40:18 +0500
-Message-Id: <20220719104018.305201-1-anton.drap@auriga.com>
+Subject: [PATCH v2] Loading new machines and devices from external modules
+Date: Tue, 19 Jul 2022 16:59:22 +0500
+Message-Id: <20220719115922.306265-1-anton.drap@auriga.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -102,7 +91,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Drap, Anton" <anton.drap@auriga.com>
 
+There is no mechanism to load external machines and classes from modules
+at the moment. This patch is to add two parameters `add_machine` and
+`add_modinfo` for it.
+`add_machine` is to add machines from external modules.
+`add_modinfo` is to add devices from external modules, needed for a new
+machine, for example.
+Main aim is to have possibility to develop independent models and be able
+to use it with mainline QEMU. It will help to make develop new models of
+proprietary boards, simplify to use Qemu by hardware developers and extend
+number of supporting boards and devices in QEMU. It will be easier for
+small hardware manufacturers to use QEMU to develop their own board models
+and use them to shift left of FW/SW development.
+
 Signed-off-by: Drap Anton <anton.drap@auriga.com>
+---
+v2:
+  - subject is fixed
 ---
  include/qapi/qmp/qjson.h    |   2 +
  include/qemu/module.h       |   4 +-
