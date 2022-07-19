@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BCA579E38
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:59:05 +0200 (CEST)
-Received: from localhost ([::1]:44122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 854E8579E3E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:59:27 +0200 (CEST)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDmoa-0002mc-6R
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:59:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33300)
+	id 1oDmow-0003YZ-BH
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:59:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDmju-0004qL-6O
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:54:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30458)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDmlw-0007ua-9P
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDmjs-0000aQ-AX
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:54:13 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDmln-00010F-G4
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:56:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658235251;
+ s=mimecast20190719; t=1658235366;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7xHj/iIkA79NMvQUEXiKnm+KeLEbOaYl+CRFmTfWDWM=;
- b=AgcM1udr6rbtDK/NiGjsiaCccB89z0q4OCzZFlYjCzfgJEGqpxz6xrNYgPVdGYytOJ8hiC
- NcKIjQcR4Tgy+1hfkZ8QePa65+zGjmnSnr9PO6lIgHjP39cWyMTExzc50JnmeVUp5gy/hR
- t1mmeA1BY9/AY5DPWBhm2BnuKi2O0J0=
+ bh=yYHsxOgQC64spexgBOTb3l7k23VLyk4h2CpVrqe/R9k=;
+ b=NuInEeLh+uih7dNN2U03T5YHJdvOEKaLa0VNM/tk6B2YVJFX7F143/ZUwsWZ3L2Pm5tIZz
+ hoava4gycTTse5Q6USOUJ5zjQXrLyhq1blJPnHYzwI5N6CFKIcQ8T9qXj5qdQCtQC7wZV4
+ L7TB+6mGLOdrScF25hEXyxjQ13iAhoQ=
 Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
  [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-ZpRpnZYbO7yfSesmmaDFjw-1; Tue, 19 Jul 2022 08:54:10 -0400
-X-MC-Unique: ZpRpnZYbO7yfSesmmaDFjw-1
+ us-mta-489-s9fz5uB4Ph6kbH4FQn7BYA-1; Tue, 19 Jul 2022 08:56:05 -0400
+X-MC-Unique: s9fz5uB4Ph6kbH4FQn7BYA-1
 Received: by mail-ej1-f70.google.com with SMTP id
- hb41-20020a170907162900b0072f044ca263so1873495ejc.15
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:54:10 -0700 (PDT)
+ gb37-20020a170907962500b0072b820af09dso3066804ejc.20
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:56:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=7xHj/iIkA79NMvQUEXiKnm+KeLEbOaYl+CRFmTfWDWM=;
- b=Eme44NC1DE0NXmilOtsogpwMBrHvRzQCwGTY8KXTNsVK8JUwh9WqEoep8afvX6fbdd
- bK/61NcoLe3uKdayhwRpsD0PC5SPccQS/mpImy++X9oYalaj+FFJaaBaw6yBmYg/LbWe
- 502VewKVBzZyp0OfkkjbP74yA3OqwWucaCZ5D7eOjwtE8X5HoqXxW+KpDMgU0zJ/IXHb
- vYON07ZpWZcVQ3IMMKUFXeqpKOMJAb25TRePN+gyM/Ph8FuhAiuQMx3PvSl7GU9YxB9p
- w3eQiZYeZra9h2oaoo5Vjhgl1AGPNV44y6L/6Nfd+T9zxaOfjcTDfdlQ2MkjpefetI0z
- pDZA==
-X-Gm-Message-State: AJIora81RDYIqIoE7YDnrimSeATytOm4gHgYgSoQNQOT1QkJDBytdagB
- joTYSPIi+80Iw98ATF3yOJo8JQSLtIexVsceXyEXF36i91X6zOXdcZ8G9sohMVEuXu96wMzVcqc
- FWcZU8hm1OY4eG6/PKPqMx6DSJ6ok4fM=
-X-Received: by 2002:a05:6402:11cb:b0:43a:b592:efbb with SMTP id
- j11-20020a05640211cb00b0043ab592efbbmr43473231edw.157.1658235248735; 
- Tue, 19 Jul 2022 05:54:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tPIJ9ngp5SLg2tbQB7ngZviq/C2rQ4YYAYj6ShSwU0PrV80QWHzhMi/Vyha5VESh+RhXUCRolNNC7uxAGZy+4=
-X-Received: by 2002:a05:6402:11cb:b0:43a:b592:efbb with SMTP id
- j11-20020a05640211cb00b0043ab592efbbmr43473203edw.157.1658235248473; Tue, 19
- Jul 2022 05:54:08 -0700 (PDT)
+ bh=yYHsxOgQC64spexgBOTb3l7k23VLyk4h2CpVrqe/R9k=;
+ b=UwBc6lZWRvqldK1d+bGRWS8RX7mgUE+meijCrltK0g577w4B2zGR0WwPWRq6FECO7P
+ dwGqCgqJPT7tC9MO4hzrkBZOTvoezbY91roPazasRuXXw/+4kfb51gi2LQSYV0bE9CIY
+ bmxCYgAHZr2jVxBju4yPpl+kkUH2K5pYtl941j5n9OIawyvltmgkp8hPxJHbirjKV05b
+ ZsSmimOhRTO94dC3Ll4pKPzF344r8B7VTRFGZUr4M/T9G+wFtpfEqh2h4t39NzAqYEMw
+ 3+fw7vixYZT8E4yI9JAjrEudSiCnojuxRD+f3FFgjJ7qSUCaJmVEGbtf7oPmrYi4N4AM
+ 7UQQ==
+X-Gm-Message-State: AJIora9HCKaRDj1S5+t/7AwpFMY65AY4+JNqSuC/9L4cX30crTe2/T9c
+ fUZP64i46kbNeC646ddhiZPl95FmpSGDzRDoKQiojmO2CRKaDZinrLGEV4Klhe8LMiCc8wFhi6m
+ lj6zcCIvBDRU4i556ChCx5S2FQByUx2I=
+X-Received: by 2002:a17:906:9b0a:b0:72b:4fc2:4b07 with SMTP id
+ eo10-20020a1709069b0a00b0072b4fc24b07mr31211205ejc.700.1658235363552; 
+ Tue, 19 Jul 2022 05:56:03 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tSG2Gq9m2GD82FKSRo4yfvZ8Nrn48UGFaSY1d/FBgslHL5IWsbKurfAqLgiFsGSx9L3i+GURq7X/rsvmDQiQg=
+X-Received: by 2002:a17:906:9b0a:b0:72b:4fc2:4b07 with SMTP id
+ eo10-20020a1709069b0a00b0072b4fc24b07mr31211172ejc.700.1658235363233; Tue, 19
+ Jul 2022 05:56:03 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220711155243.866530-2-lulu@redhat.com>
  <48006fbf-b848-829c-fe0b-e2bc51f9563c@redhat.com>
-In-Reply-To: <48006fbf-b848-829c-fe0b-e2bc51f9563c@redhat.com>
+ <CACLfguVnvEL3tjmK4-5b+HQjuh_1pv+HQxF9GZJpcS2N1xMcrA@mail.gmail.com>
+In-Reply-To: <CACLfguVnvEL3tjmK4-5b+HQjuh_1pv+HQxF9GZJpcS2N1xMcrA@mail.gmail.com>
 From: Cindy Lu <lulu@redhat.com>
-Date: Tue, 19 Jul 2022 20:53:32 +0800
-Message-ID: <CACLfguVnvEL3tjmK4-5b+HQjuh_1pv+HQxF9GZJpcS2N1xMcrA@mail.gmail.com>
+Date: Tue, 19 Jul 2022 20:55:26 +0800
+Message-ID: <CACLfguXhi7wO7_JfKq-Bb-YTP-+nosBa4CDV=W_=70vjpcApsA@mail.gmail.com>
 Subject: Re: [PATCH v11 01/10] virtio: introduce macro IRTIO_CONFIG_IRQ_IDX
 To: Jason Wang <jasowang@redhat.com>
 Cc: Michael Tsirkin <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
@@ -96,203 +97,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 19, 2022 at 4:58 PM Jason Wang <jasowang@redhat.com> wrote:
+On Tue, Jul 19, 2022 at 8:53 PM Cindy Lu <lulu@redhat.com> wrote:
 >
->
-> =E5=9C=A8 2022/7/11 23:52, Cindy Lu =E5=86=99=E9=81=93:
-> > To support configure interrupt for vhost-vdpa
-> > Introduce VIRTIO_CONFIG_IRQ_IDX -1 as configure interrupt's queue index=
-,
-> > Then we can reuse the functions guest_notifier_mask and guest_notifier_=
-pending.
-> > Add the check of queue index in these drivers, if the driver does not s=
-upport
-> > configure interrupt, the function will just return
+> On Tue, Jul 19, 2022 at 4:58 PM Jason Wang <jasowang@redhat.com> wrote:
 > >
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
->
->
-> A typo in the subject should be "VIRTIO_CONFIG_IRQ_IDX".
->
-sure ,will fix this
->
-> > ---
-> >   hw/display/vhost-user-gpu.c    |  6 ++++++
-> >   hw/net/virtio-net.c            | 10 ++++++++--
-> >   hw/virtio/vhost-user-fs.c      |  6 ++++++
-> >   hw/virtio/vhost-vsock-common.c |  6 ++++++
-> >   hw/virtio/virtio-crypto.c      |  6 ++++++
-> >   include/hw/virtio/virtio.h     |  3 +++
-> >   6 files changed, 35 insertions(+), 2 deletions(-)
 > >
-> > diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-> > index 09818231bd..d4a440e815 100644
-> > --- a/hw/display/vhost-user-gpu.c
-> > +++ b/hw/display/vhost-user-gpu.c
-> > @@ -485,6 +485,9 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevice =
-*vdev, int idx)
-> >   {
-> >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
+> > =E5=9C=A8 2022/7/11 23:52, Cindy Lu =E5=86=99=E9=81=93:
+> > > To support configure interrupt for vhost-vdpa
+> > > Introduce VIRTIO_CONFIG_IRQ_IDX -1 as configure interrupt's queue ind=
+ex,
+> > > Then we can reuse the functions guest_notifier_mask and guest_notifie=
+r_pending.
+> > > Add the check of queue index in these drivers, if the driver does not=
+ support
+> > > configure interrupt, the function will just return
+> > >
+> > > Signed-off-by: Cindy Lu <lulu@redhat.com>
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return false;
-> > +    }
->
->
-> I think we should either
->
-> 1) explain why this check is needed
->
-> or
->
-> 2) defer this change to the patch that can actually hit this check
->
-I will add the explanation for this , there may be cause some
-unexpected behavior
-Thanks
-cindy
-> Thanks
->
->
-> >       return vhost_virtqueue_pending(&g->vhost->dev, idx);
-> >   }
 > >
-> > @@ -493,6 +496,9 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *vd=
-ev, int idx, bool mask)
-> >   {
-> >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
+> > A typo in the subject should be "VIRTIO_CONFIG_IRQ_IDX".
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return;
-> > +    }
-> >       vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
-> >   }
+sure, will fix this
 > >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 1067e72b39..72ea4819f7 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -3172,6 +3172,9 @@ static bool virtio_net_guest_notifier_pending(Vir=
-tIODevice *vdev, int idx)
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> >       assert(n->vhost_started);
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return false;
-> > +    }
-> >       return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx);
-> >   }
+> > > ---
+> > >   hw/display/vhost-user-gpu.c    |  6 ++++++
+> > >   hw/net/virtio-net.c            | 10 ++++++++--
+> > >   hw/virtio/vhost-user-fs.c      |  6 ++++++
+> > >   hw/virtio/vhost-vsock-common.c |  6 ++++++
+> > >   hw/virtio/virtio-crypto.c      |  6 ++++++
+> > >   include/hw/virtio/virtio.h     |  3 +++
+> > >   6 files changed, 35 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.=
+c
+> > > index 09818231bd..d4a440e815 100644
+> > > --- a/hw/display/vhost-user-gpu.c
+> > > +++ b/hw/display/vhost-user-gpu.c
+> > > @@ -485,6 +485,9 @@ vhost_user_gpu_guest_notifier_pending(VirtIODevic=
+e *vdev, int idx)
+> > >   {
+> > >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return false;
+> > > +    }
 > >
-> > @@ -3181,8 +3184,11 @@ static void virtio_net_guest_notifier_mask(VirtI=
-ODevice *vdev, int idx,
-> >       VirtIONet *n =3D VIRTIO_NET(vdev);
-> >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
-> >       assert(n->vhost_started);
-> > -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
-> > -                             vdev, idx, mask);
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return;
-> > +    }
-> > +
-> > +    vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mask)=
-;
-> >   }
 > >
-> >   static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_fe=
-atures)
-> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> > index c595957983..9b0349922e 100644
-> > --- a/hw/virtio/vhost-user-fs.c
-> > +++ b/hw/virtio/vhost-user-fs.c
-> > @@ -161,6 +161,9 @@ static void vuf_guest_notifier_mask(VirtIODevice *v=
-dev, int idx,
-> >   {
-> >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
+> > I think we should either
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return;
-> > +    }
-> >       vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
-> >   }
+> > 1) explain why this check is needed
 > >
-> > @@ -168,6 +171,9 @@ static bool vuf_guest_notifier_pending(VirtIODevice=
- *vdev, int idx)
-> >   {
-> >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
+> > or
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return false;
-> > +    }
-> >       return vhost_virtqueue_pending(&fs->vhost_dev, idx);
-> >   }
+> > 2) defer this change to the patch that can actually hit this check
 > >
-> > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-com=
-mon.c
-> > index ed706681ac..b1f0d46209 100644
-> > --- a/hw/virtio/vhost-vsock-common.c
-> > +++ b/hw/virtio/vhost-vsock-common.c
-> > @@ -125,6 +125,9 @@ static void vhost_vsock_common_guest_notifier_mask(=
-VirtIODevice *vdev, int idx,
-> >   {
-> >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
+ I will add the explanation for this , there may be cause some
+ unexpected behavior if we defer this check while the device itself
+does not support config interrupt
+ Thanks
+ Cindy
+> > Thanks
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return;
-> > +    }
-> >       vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
-> >   }
 > >
-> > @@ -133,6 +136,9 @@ static bool vhost_vsock_common_guest_notifier_pendi=
-ng(VirtIODevice *vdev,
-> >   {
-> >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
+> > >       return vhost_virtqueue_pending(&g->vhost->dev, idx);
+> > >   }
+> > >
+> > > @@ -493,6 +496,9 @@ vhost_user_gpu_guest_notifier_mask(VirtIODevice *=
+vdev, int idx, bool mask)
+> > >   {
+> > >       VhostUserGPU *g =3D VHOST_USER_GPU(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return;
+> > > +    }
+> > >       vhost_virtqueue_mask(&g->vhost->dev, vdev, idx, mask);
+> > >   }
+> > >
+> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > index 1067e72b39..72ea4819f7 100644
+> > > --- a/hw/net/virtio-net.c
+> > > +++ b/hw/net/virtio-net.c
+> > > @@ -3172,6 +3172,9 @@ static bool virtio_net_guest_notifier_pending(V=
+irtIODevice *vdev, int idx)
+> > >       VirtIONet *n =3D VIRTIO_NET(vdev);
+> > >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> > >       assert(n->vhost_started);
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return false;
+> > > +    }
+> > >       return vhost_net_virtqueue_pending(get_vhost_net(nc->peer), idx=
+);
+> > >   }
+> > >
+> > > @@ -3181,8 +3184,11 @@ static void virtio_net_guest_notifier_mask(Vir=
+tIODevice *vdev, int idx,
+> > >       VirtIONet *n =3D VIRTIO_NET(vdev);
+> > >       NetClientState *nc =3D qemu_get_subqueue(n->nic, vq2q(idx));
+> > >       assert(n->vhost_started);
+> > > -    vhost_net_virtqueue_mask(get_vhost_net(nc->peer),
+> > > -                             vdev, idx, mask);
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return;
+> > > +    }
+> > > +
+> > > +    vhost_net_virtqueue_mask(get_vhost_net(nc->peer), vdev, idx, mas=
+k);
+> > >   }
+> > >
+> > >   static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_=
+features)
+> > > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> > > index c595957983..9b0349922e 100644
+> > > --- a/hw/virtio/vhost-user-fs.c
+> > > +++ b/hw/virtio/vhost-user-fs.c
+> > > @@ -161,6 +161,9 @@ static void vuf_guest_notifier_mask(VirtIODevice =
+*vdev, int idx,
+> > >   {
+> > >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return;
+> > > +    }
+> > >       vhost_virtqueue_mask(&fs->vhost_dev, vdev, idx, mask);
+> > >   }
+> > >
+> > > @@ -168,6 +171,9 @@ static bool vuf_guest_notifier_pending(VirtIODevi=
+ce *vdev, int idx)
+> > >   {
+> > >       VHostUserFS *fs =3D VHOST_USER_FS(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return false;
+> > > +    }
+> > >       return vhost_virtqueue_pending(&fs->vhost_dev, idx);
+> > >   }
+> > >
+> > > diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-c=
+ommon.c
+> > > index ed706681ac..b1f0d46209 100644
+> > > --- a/hw/virtio/vhost-vsock-common.c
+> > > +++ b/hw/virtio/vhost-vsock-common.c
+> > > @@ -125,6 +125,9 @@ static void vhost_vsock_common_guest_notifier_mas=
+k(VirtIODevice *vdev, int idx,
+> > >   {
+> > >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return;
+> > > +    }
+> > >       vhost_virtqueue_mask(&vvc->vhost_dev, vdev, idx, mask);
+> > >   }
+> > >
+> > > @@ -133,6 +136,9 @@ static bool vhost_vsock_common_guest_notifier_pen=
+ding(VirtIODevice *vdev,
+> > >   {
+> > >       VHostVSockCommon *vvc =3D VHOST_VSOCK_COMMON(vdev);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return false;
+> > > +    }
+> > >       return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
+> > >   }
+> > >
+> > > diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+> > > index dcd80b904d..7085643d5f 100644
+> > > --- a/hw/virtio/virtio-crypto.c
+> > > +++ b/hw/virtio/virtio-crypto.c
+> > > @@ -948,6 +948,9 @@ static void virtio_crypto_guest_notifier_mask(Vir=
+tIODevice *vdev, int idx,
+> > >
+> > >       assert(vcrypto->vhost_started);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return;
+> > > +    }
+> > >       cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
+> > >   }
+> > >
+> > > @@ -958,6 +961,9 @@ static bool virtio_crypto_guest_notifier_pending(=
+VirtIODevice *vdev, int idx)
+> > >
+> > >       assert(vcrypto->vhost_started);
+> > >
+> > > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
+> > > +        return false;
+> > > +    }
+> > >       return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
+> > >   }
+> > >
+> > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > index b31c4507f5..4512205503 100644
+> > > --- a/include/hw/virtio/virtio.h
+> > > +++ b/include/hw/virtio/virtio.h
+> > > @@ -67,6 +67,9 @@ typedef struct VirtQueueElement
+> > >
+> > >   #define VIRTIO_NO_VECTOR 0xffff
+> > >
+> > > +/* special index value used internally for config irqs */
+> > > +#define VIRTIO_CONFIG_IRQ_IDX -1
+> > > +
+> > >   #define TYPE_VIRTIO_DEVICE "virtio-device"
+> > >   OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
+> > >
 > >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return false;
-> > +    }
-> >       return vhost_virtqueue_pending(&vvc->vhost_dev, idx);
-> >   }
-> >
-> > diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-> > index dcd80b904d..7085643d5f 100644
-> > --- a/hw/virtio/virtio-crypto.c
-> > +++ b/hw/virtio/virtio-crypto.c
-> > @@ -948,6 +948,9 @@ static void virtio_crypto_guest_notifier_mask(VirtI=
-ODevice *vdev, int idx,
-> >
-> >       assert(vcrypto->vhost_started);
-> >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return;
-> > +    }
-> >       cryptodev_vhost_virtqueue_mask(vdev, queue, idx, mask);
-> >   }
-> >
-> > @@ -958,6 +961,9 @@ static bool virtio_crypto_guest_notifier_pending(Vi=
-rtIODevice *vdev, int idx)
-> >
-> >       assert(vcrypto->vhost_started);
-> >
-> > +    if (idx =3D=3D VIRTIO_CONFIG_IRQ_IDX) {
-> > +        return false;
-> > +    }
-> >       return cryptodev_vhost_virtqueue_pending(vdev, queue, idx);
-> >   }
-> >
-> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > index b31c4507f5..4512205503 100644
-> > --- a/include/hw/virtio/virtio.h
-> > +++ b/include/hw/virtio/virtio.h
-> > @@ -67,6 +67,9 @@ typedef struct VirtQueueElement
-> >
-> >   #define VIRTIO_NO_VECTOR 0xffff
-> >
-> > +/* special index value used internally for config irqs */
-> > +#define VIRTIO_CONFIG_IRQ_IDX -1
-> > +
-> >   #define TYPE_VIRTIO_DEVICE "virtio-device"
-> >   OBJECT_DECLARE_TYPE(VirtIODevice, VirtioDeviceClass, VIRTIO_DEVICE)
-> >
->
 
 
