@@ -2,98 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236DE57AA77
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 01:28:50 +0200 (CEST)
-Received: from localhost ([::1]:59788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C48457AA83
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 01:35:15 +0200 (CEST)
+Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDwdy-0000NT-Hy
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 19:28:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48974)
+	id 1oDwkC-0005TW-GW
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 19:35:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1oDwcB-000608-GI
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:26:55 -0400
-Received: from mx0b-0031df01.pphosted.com ([205.220.180.131]:34152)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
- id 1oDwc8-0003Ez-DO
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:26:54 -0400
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
- by mx0a-0031df01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JNPdJq018464;
- Tue, 19 Jul 2022 23:26:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=FRczhvTGf0IwqZe8q1dpAsFSq2qM8+TAlWozg0slPVA=;
- b=OgAosYp5KbB++7tLPog9Vx4KLRwVywgpkukgvVa6wgJQSlvD3yi+6mJS5kHCG8FgRrVu
- iBEJReutzAY/mryFP5DC29jzL9Z79a3wlmIbhlhD/0XnxoL3STlfuSAwb6vSBaTMIgSd
- OT2mz3XLtL249Ilw/LIGoNT4zLV0pldRKbbdoKIQ/dDFll6oiN25YMpjNpGVdpJeR7pT
- 66bDHL/JckkPtyAnynzkzDO6TtdXSOJuPpuEfMBpyOYWauGdp80kqALlniWl9UmfzOj7
- 1FKu66NsDEdFEKMu/h72gfsQYjI/rEZGcvGX60XmIzMPbklDqeXzELr9X4O6th+KXeoB Sw== 
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
- [129.46.96.20])
- by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3hdqqm24tt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Jul 2022 23:26:45 +0000
-Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 26JNQiPi016670; 
- Tue, 19 Jul 2022 23:26:44 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTPS id 3hc6s3haf0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 19 Jul 2022 23:26:44 +0000
-Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
- [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JNQiZg016661;
- Tue, 19 Jul 2022 23:26:44 GMT
-Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
- [10.47.235.220])
- by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 26JNQi73016660;
- Tue, 19 Jul 2022 23:26:44 +0000
-Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
- id 728825005BE; Tue, 19 Jul 2022 16:26:44 -0700 (PDT)
-From: Taylor Simpson <tsimpson@quicinc.com>
-To: qemu-devel@nongnu.org
-Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
- peter.maydell@linaro.org
-Subject: [PULL 2/2] Hexagon (target/hexagon) fix bug in mem_noshuf load
- exception
-Date: Tue, 19 Jul 2022 16:26:31 -0700
-Message-Id: <20220719232631.25316-3-tsimpson@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220719232631.25316-1-tsimpson@quicinc.com>
-References: <20220719232631.25316-1-tsimpson@quicinc.com>
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oDwi6-0003Wp-Dd
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:33:02 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43731)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
+ id 1oDwi4-0004IM-0v
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:33:01 -0400
+Received: by mail-ed1-x535.google.com with SMTP id v12so21669040edc.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 16:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DSECvvyHQq6PN9mbiMTy5I+owvkAQ2bXXkXlGJp9/VQ=;
+ b=R9g5BU+oaRCVO0Hou+Aw6m36IVIKKLjLRGilTnwyNsYNCt+4/G5bqSLiq/nU4fDeDU
+ 1cuKENotatQ9KdRgNcTn+fl0pq8X+Q8H4l31qZwo1Kl6QT/7t+sLLM1b21eYUyafWpuM
+ lv4LQnGI+IW8wF/XRRRjDftZyPfIM4Eb7b9H41PZLFpq3s0u2avqzer5Z8QhQ9rF8jau
+ 3lFQSBoDvDUhC4MKp70gtTsR08rNpU4NDsbO/YxhYr7jJdwG6/OXAFRtTKLpwJSy3xGW
+ IH/U8P/DEsIN+teCTwfH/yMvTOKfMCxwpZwAwRrNNKUApMAWZmLVpktTE0XdznEcnHmw
+ QjSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DSECvvyHQq6PN9mbiMTy5I+owvkAQ2bXXkXlGJp9/VQ=;
+ b=jQwlsz0p197Fu6ZXBlrz3RDSiIUuzL2WurfJvo9dn/nEkuHW+lma+IQI39BznnNBg6
+ eV+16yIGV8pgXdZblLSDYn7fp0kZx+o4kQcZ77UIziWMyXD0b1v7eXeOBmNBUTwBRyeV
+ hXwJCfEAU3u7eXGMcGok2WM4V6a39UKCV0wb4SvB7gz+/38TJgbUNOcIM8FwSQjN4N4r
+ MkZ3nfoJpRBuhvfF8YwLseH/DRdrn4mmro0ivdwV3XCdXTvkJfcjLTB8ohLzelm8LwDs
+ Q55OPha/Vft5WAHDuF2S13pYG5YL7k5oqPE48LxiquuSibiMUiRswJ/0+TbERuM2ikTa
+ 2Y5A==
+X-Gm-Message-State: AJIora9k9IKk3Hlbwn6AMhlYbEyAOMMdWFw/RLLClAydBbTqtij6bCNw
+ oXUgpCWT62bm0VSlucfKs7SDZrRawVKQhbxgR4OerA==
+X-Google-Smtp-Source: AGRyM1sGcQzqvai5yVG0CcuvL9znIFJSoEaLgTlAls595Y0t+btIrLl02p3isV+dpEdItnMVAQr+qpFpzDM0GcX/SZ4=
+X-Received: by 2002:a05:6402:500e:b0:43b:6f0:756b with SMTP id
+ p14-20020a056402500e00b0043b06f0756bmr48100310eda.221.1658273576744; Tue, 19
+ Jul 2022 16:32:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
- signatures=585085
-X-Proofpoint-GUID: JKk_UsgrmfYC9iJNV_pAcf2aBtxUGUpr
-X-Proofpoint-ORIG-GUID: JKk_UsgrmfYC9iJNV_pAcf2aBtxUGUpr
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-19_10,2022-07-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- bulkscore=0 mlxlogscore=999 impostorscore=0 adultscore=0 spamscore=0
- priorityscore=1501 suspectscore=0 mlxscore=0 phishscore=0 malwarescore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207190095
-Received-SPF: pass client-ip=205.220.180.131;
- envelope-from=tsimpson@qualcomm.com; helo=mx0b-0031df01.pphosted.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+References: <20220718035249.17440-1-jim.shu@sifive.com>
+ <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
+In-Reply-To: <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
+From: Jim Shu <jim.shu@sifive.com>
+Date: Wed, 20 Jul 2022 07:32:45 +0800
+Message-ID: <CALw707qqVxROpindXhxPjAvccjTYaYoC_vTjtfkM+Do_pMLQRA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Support SW update of PTE A/D bits and
+ Ssptwad extension
+To: Anup Patel <anup@brainfault.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>, 
+ Palmer Dabbelt <palmer@rivosinc.com>
+Content-Type: multipart/alternative; boundary="0000000000007b926705e430e74b"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=jim.shu@sifive.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,250 +88,276 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIHNlbWFudGljcyBvZiBhIG1lbV9ub3NodWYgcGFja2V0IGFyZSB0aGF0IHRoZSBzdG9yZSBl
-ZmZlY3RpdmVseQpoYXBwZW5zIGJlZm9yZSB0aGUgbG9hZC4gIEhvd2V2ZXIsIGluIGNhc2VzIHdo
-ZXJlIHRoZSBsb2FkIHJhaXNlcyBhbgpleGNlcHRpb24sIHdlIGNhbm5vdCBzaW1wbHkgZXhlY3V0
-ZSB0aGUgc3RvcmUgZmlyc3QuCgpUaGlzIGNoYW5nZSBhZGRzIGEgcHJvYmUgdG8gY2hlY2sgdGhh
-dCB0aGUgbG9hZCB3aWxsIG5vdCByYWlzZSBhbgpleGNlcHRpb24gYmVmb3JlIGV4ZWN1dGluZyB0
-aGUgc3RvcmUuCgpJZiB0aGUgbG9hZCBpcyBwcmVkaWNhdGVkLCB0aGlzIHJlcXVpcmVzIHNwZWNp
-YWwgaGFuZGxpbmcuICBXZSBjaGVjawp0aGUgY29uZGl0aW9uIGJlZm9yZSBwZXJmb3JtaW5nIHRo
-ZSBwcm9iZS4gIFNpbmNlLCB3ZSBuZWVkIHRoZSBFQSB0bwpwZXJmb3JtIHRoZSBjaGVjaywgd2Ug
-bW92ZSB0aGUgR0VUX0VBIHBvcnRpb24gaW5zaWRlIENIRUNLX05PU0hVRl9QUkVELgoKVGVzdCBj
-YXNlIGFkZGVkIGluIHRlc3RzL3RjZy9oZXhhZ29uL21lbV9ub3NodWZfZXhjZXB0aW9uLmMKClN1
-Z2dlc3RlZC1ieTogQWxlc3NhbmRybyBEaSBGZWRlcmljbyA8YWxlQHJldi5uZz4KU3VnZ2VzdGVk
-LWJ5OiBBbnRvbiBKb2hhbnNzb24gPGFuam9AcmV2Lm5nPgpTaWduZWQtb2ZmLWJ5OiBUYXlsb3Ig
-U2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+ClJldmlld2VkLWJ5OiBSaWNoYXJkIEhlbmRl
-cnNvbiA8cmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZz4KTWVzc2FnZS1JZDogPDIwMjIwNzA3
-MjEwNTQ2LjE1OTg1LTMtdHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogdGFyZ2V0L2hleGFnb24v
-Z2VuX3RjZy5oICAgICAgICAgICAgICAgICB8ICAxMiArLQogdGFyZ2V0L2hleGFnb24vaGVscGVy
-LmggICAgICAgICAgICAgICAgICB8ICAgMSArCiB0YXJnZXQvaGV4YWdvbi9tYWNyb3MuaCAgICAg
-ICAgICAgICAgICAgIHwgIDM3ICsrKystLQogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgICAg
-ICAgICAgICAgICB8ICAgNyArKwogdGFyZ2V0L2hleGFnb24vb3BfaGVscGVyLmMgICAgICAgICAg
-ICAgICB8ICAyMyArKystCiB0ZXN0cy90Y2cvaGV4YWdvbi9tZW1fbm9zaHVmX2V4Y2VwdGlvbi5j
-IHwgMTQ2ICsrKysrKysrKysrKysrKysrKysrKysrCiB0ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmls
-ZS50YXJnZXQgICAgICAgIHwgICAxICsKIDcgZmlsZXMgY2hhbmdlZCwgMjA2IGluc2VydGlvbnMo
-KyksIDIxIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNjQ0IHRlc3RzL3RjZy9oZXhhZ29u
-L21lbV9ub3NodWZfZXhjZXB0aW9uLmMKCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9nZW5f
-dGNnLmggYi90YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgKaW5kZXggYjBiNmIzNjQ0ZS4uNTA2MzRh
-YzQ1OSAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZy5oCisrKyBiL3RhcmdldC9o
-ZXhhZ29uL2dlbl90Y2cuaApAQCAtMzM5LDEzICszMzksMTMgQEAKICAgICBkbyB7IFwKICAgICAg
-ICAgVENHdiBMU0IgPSB0Y2dfdGVtcF9sb2NhbF9uZXcoKTsgXAogICAgICAgICBUQ0dMYWJlbCAq
-bGFiZWwgPSBnZW5fbmV3X2xhYmVsKCk7IFwKLSAgICAgICAgR0VUX0VBOyBcCisgICAgICAgIHRj
-Z19nZW5fbW92aV90bChFQSwgMCk7IFwKICAgICAgICAgUFJFRDsgIFwKKyAgICAgICAgQ0hFQ0tf
-Tk9TSFVGX1BSRUQoR0VUX0VBLCBTSVpFLCBMU0IpOyBcCiAgICAgICAgIFBSRURfTE9BRF9DQU5D
-RUwoTFNCLCBFQSk7IFwKICAgICAgICAgdGNnX2dlbl9tb3ZpX3RsKFJkViwgMCk7IFwKLSAgICAg
-ICAgQ0hFQ0tfTk9TSFVGOyBcCiAgICAgICAgIHRjZ19nZW5fYnJjb25kaV90bChUQ0dfQ09ORF9F
-USwgTFNCLCAwLCBsYWJlbCk7IFwKLSAgICAgICAgICAgIGZMT0FEKDEsIFNJWkUsIFNJR04sIEVB
-LCBSZFYpOyBcCisgICAgICAgIGZMT0FEKDEsIFNJWkUsIFNJR04sIEVBLCBSZFYpOyBcCiAgICAg
-ICAgIGdlbl9zZXRfbGFiZWwobGFiZWwpOyBcCiAgICAgICAgIHRjZ190ZW1wX2ZyZWUoTFNCKTsg
-XAogICAgIH0gd2hpbGUgKDApCkBAIC0zOTksMTMgKzM5OSwxMyBAQAogICAgIGRvIHsgXAogICAg
-ICAgICBUQ0d2IExTQiA9IHRjZ190ZW1wX2xvY2FsX25ldygpOyBcCiAgICAgICAgIFRDR0xhYmVs
-ICpsYWJlbCA9IGdlbl9uZXdfbGFiZWwoKTsgXAotICAgICAgICBHRVRfRUE7IFwKKyAgICAgICAg
-dGNnX2dlbl9tb3ZpX3RsKEVBLCAwKTsgXAogICAgICAgICBQUkVEOyAgXAorICAgICAgICBDSEVD
-S19OT1NIVUZfUFJFRChHRVRfRUEsIDgsIExTQik7IFwKICAgICAgICAgUFJFRF9MT0FEX0NBTkNF
-TChMU0IsIEVBKTsgXAogICAgICAgICB0Y2dfZ2VuX21vdmlfaTY0KFJkZFYsIDApOyBcCi0gICAg
-ICAgIENIRUNLX05PU0hVRjsgXAogICAgICAgICB0Y2dfZ2VuX2JyY29uZGlfdGwoVENHX0NPTkRf
-RVEsIExTQiwgMCwgbGFiZWwpOyBcCi0gICAgICAgICAgICBmTE9BRCgxLCA4LCB1LCBFQSwgUmRk
-Vik7IFwKKyAgICAgICAgZkxPQUQoMSwgOCwgdSwgRUEsIFJkZFYpOyBcCiAgICAgICAgIGdlbl9z
-ZXRfbGFiZWwobGFiZWwpOyBcCiAgICAgICAgIHRjZ190ZW1wX2ZyZWUoTFNCKTsgXAogICAgIH0g
-d2hpbGUgKDApCmRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9oZWxwZXIuaCBiL3RhcmdldC9o
-ZXhhZ29uL2hlbHBlci5oCmluZGV4IGM4OWFhNGVkNGQuLjM2OGYwYjU3MDggMTAwNjQ0Ci0tLSBh
-L3RhcmdldC9oZXhhZ29uL2hlbHBlci5oCisrKyBiL3RhcmdldC9oZXhhZ29uL2hlbHBlci5oCkBA
-IC0xMDQsNiArMTA0LDcgQEAgREVGX0hFTFBFUl8xKHZ3aGlzdDEyOHEsIHZvaWQsIGVudikKIERF
-Rl9IRUxQRVJfMih2d2hpc3QxMjhtLCB2b2lkLCBlbnYsIHMzMikKIERFRl9IRUxQRVJfMih2d2hp
-c3QxMjhxbSwgdm9pZCwgZW52LCBzMzIpCiAKK0RFRl9IRUxQRVJfNChwcm9iZV9ub3NodWZfbG9h
-ZCwgdm9pZCwgZW52LCBpMzIsIGludCwgaW50KQogREVGX0hFTFBFUl8yKHByb2JlX3BrdF9zY2Fs
-YXJfc3RvcmVfczAsIHZvaWQsIGVudiwgaW50KQogREVGX0hFTFBFUl8yKHByb2JlX2h2eF9zdG9y
-ZXMsIHZvaWQsIGVudiwgaW50KQogREVGX0hFTFBFUl8zKHByb2JlX3BrdF9zY2FsYXJfaHZ4X3N0
-b3Jlcywgdm9pZCwgZW52LCBpbnQsIGludCkKZGlmZiAtLWdpdCBhL3RhcmdldC9oZXhhZ29uL21h
-Y3Jvcy5oIGIvdGFyZ2V0L2hleGFnb24vbWFjcm9zLmgKaW5kZXggYTc4ZTg0ZmFhNC4uOTJlYjhi
-YmYwNSAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24vbWFjcm9zLmgKKysrIGIvdGFyZ2V0L2hl
-eGFnb24vbWFjcm9zLmgKQEAgLTg3LDExICs4NywyOCBAQAogICoKICAqCiAgKiBGb3IgcWVtdSwg
-d2UgbG9vayBmb3IgYSBsb2FkIGluIHNsb3QgMCB3aGVuIHRoZXJlIGlzICBhIHN0b3JlIGluIHNs
-b3QgMQotICogaW4gdGhlIHNhbWUgcGFja2V0LiAgV2hlbiB3ZSBzZWUgdGhpcywgd2UgY2FsbCBh
-IGhlbHBlciB0aGF0IG1lcmdlcyB0aGUKLSAqIGJ5dGVzIGZyb20gdGhlIHN0b3JlIGJ1ZmZlciB3
-aXRoIHRoZSB2YWx1ZSBsb2FkZWQgZnJvbSBtZW1vcnkuCisgKiBpbiB0aGUgc2FtZSBwYWNrZXQu
-ICBXaGVuIHdlIHNlZSB0aGlzLCB3ZSBjYWxsIGEgaGVscGVyIHRoYXQgcHJvYmVzIHRoZQorICog
-bG9hZCB0byBtYWtlIHN1cmUgaXQgZG9lc24ndCBmYXVsdC4gIFRoZW4sIHdlIHByb2Nlc3MgdGhl
-IHN0b3JlIGFoZWFkIG9mCisgKiB0aGUgYWN0dWFsIGxvYWQuCisKICAqLwotI2RlZmluZSBDSEVD
-S19OT1NIVUYgXAorI2RlZmluZSBDSEVDS19OT1NIVUYoVkEsIFNJWkUpIFwKICAgICBkbyB7IFwK
-KyAgICAgICAgaWYgKGluc24tPnNsb3QgPT0gMCAmJiBwa3QtPnBrdF9oYXNfc3RvcmVfczEpIHsg
-XAorICAgICAgICAgICAgcHJvYmVfbm9zaHVmX2xvYWQoVkEsIFNJWkUsIGN0eC0+bWVtX2lkeCk7
-IFwKKyAgICAgICAgICAgIHByb2Nlc3Nfc3RvcmUoY3R4LCBwa3QsIDEpOyBcCisgICAgICAgIH0g
-XAorICAgIH0gd2hpbGUgKDApCisKKyNkZWZpbmUgQ0hFQ0tfTk9TSFVGX1BSRUQoR0VUX0VBLCBT
-SVpFLCBQUkVEKSBcCisgICAgZG8geyBcCisgICAgICAgIFRDR0xhYmVsICpsYWJlbCA9IGdlbl9u
-ZXdfbGFiZWwoKTsgXAorICAgICAgICB0Y2dfZ2VuX2JyY29uZGlfdGwoVENHX0NPTkRfRVEsIFBS
-RUQsIDAsIGxhYmVsKTsgXAorICAgICAgICBHRVRfRUE7IFwKKyAgICAgICAgaWYgKGluc24tPnNs
-b3QgPT0gMCAmJiBwa3QtPnBrdF9oYXNfc3RvcmVfczEpIHsgXAorICAgICAgICAgICAgcHJvYmVf
-bm9zaHVmX2xvYWQoRUEsIFNJWkUsIGN0eC0+bWVtX2lkeCk7IFwKKyAgICAgICAgfSBcCisgICAg
-ICAgIGdlbl9zZXRfbGFiZWwobGFiZWwpOyBcCiAgICAgICAgIGlmIChpbnNuLT5zbG90ID09IDAg
-JiYgcGt0LT5wa3RfaGFzX3N0b3JlX3MxKSB7IFwKICAgICAgICAgICAgIHByb2Nlc3Nfc3RvcmUo
-Y3R4LCBwa3QsIDEpOyBcCiAgICAgICAgIH0gXApAQCAtOTksMzcgKzExNiwzNyBAQAogCiAjZGVm
-aW5lIE1FTV9MT0FEMXMoRFNULCBWQSkgXAogICAgIGRvIHsgXAotICAgICAgICBDSEVDS19OT1NI
-VUY7IFwKKyAgICAgICAgQ0hFQ0tfTk9TSFVGKFZBLCAxKTsgXAogICAgICAgICB0Y2dfZ2VuX3Fl
-bXVfbGQ4cyhEU1QsIFZBLCBjdHgtPm1lbV9pZHgpOyBcCiAgICAgfSB3aGlsZSAoMCkKICNkZWZp
-bmUgTUVNX0xPQUQxdShEU1QsIFZBKSBcCiAgICAgZG8geyBcCi0gICAgICAgIENIRUNLX05PU0hV
-RjsgXAorICAgICAgICBDSEVDS19OT1NIVUYoVkEsIDEpOyBcCiAgICAgICAgIHRjZ19nZW5fcWVt
-dV9sZDh1KERTVCwgVkEsIGN0eC0+bWVtX2lkeCk7IFwKICAgICB9IHdoaWxlICgwKQogI2RlZmlu
-ZSBNRU1fTE9BRDJzKERTVCwgVkEpIFwKICAgICBkbyB7IFwKLSAgICAgICAgQ0hFQ0tfTk9TSFVG
-OyBcCisgICAgICAgIENIRUNLX05PU0hVRihWQSwgMik7IFwKICAgICAgICAgdGNnX2dlbl9xZW11
-X2xkMTZzKERTVCwgVkEsIGN0eC0+bWVtX2lkeCk7IFwKICAgICB9IHdoaWxlICgwKQogI2RlZmlu
-ZSBNRU1fTE9BRDJ1KERTVCwgVkEpIFwKICAgICBkbyB7IFwKLSAgICAgICAgQ0hFQ0tfTk9TSFVG
-OyBcCisgICAgICAgIENIRUNLX05PU0hVRihWQSwgMik7IFwKICAgICAgICAgdGNnX2dlbl9xZW11
-X2xkMTZ1KERTVCwgVkEsIGN0eC0+bWVtX2lkeCk7IFwKICAgICB9IHdoaWxlICgwKQogI2RlZmlu
-ZSBNRU1fTE9BRDRzKERTVCwgVkEpIFwKICAgICBkbyB7IFwKLSAgICAgICAgQ0hFQ0tfTk9TSFVG
-OyBcCisgICAgICAgIENIRUNLX05PU0hVRihWQSwgNCk7IFwKICAgICAgICAgdGNnX2dlbl9xZW11
-X2xkMzJzKERTVCwgVkEsIGN0eC0+bWVtX2lkeCk7IFwKICAgICB9IHdoaWxlICgwKQogI2RlZmlu
-ZSBNRU1fTE9BRDR1KERTVCwgVkEpIFwKICAgICBkbyB7IFwKLSAgICAgICAgQ0hFQ0tfTk9TSFVG
-OyBcCisgICAgICAgIENIRUNLX05PU0hVRihWQSwgNCk7IFwKICAgICAgICAgdGNnX2dlbl9xZW11
-X2xkMzJzKERTVCwgVkEsIGN0eC0+bWVtX2lkeCk7IFwKICAgICB9IHdoaWxlICgwKQogI2RlZmlu
-ZSBNRU1fTE9BRDh1KERTVCwgVkEpIFwKICAgICBkbyB7IFwKLSAgICAgICAgQ0hFQ0tfTk9TSFVG
-OyBcCisgICAgICAgIENIRUNLX05PU0hVRihWQSwgOCk7IFwKICAgICAgICAgdGNnX2dlbl9xZW11
-X2xkNjQoRFNULCBWQSwgY3R4LT5tZW1faWR4KTsgXAogICAgIH0gd2hpbGUgKDApCiAKZGlmZiAt
-LWdpdCBhL3RhcmdldC9oZXhhZ29uL2dlbnB0ci5jIGIvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMK
-aW5kZXggY2Q2YWY0YmNlYi4uOGEzMzRiYTA3YiAxMDA2NDQKLS0tIGEvdGFyZ2V0L2hleGFnb24v
-Z2VucHRyLmMKKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMKQEAgLTYzOCw1ICs2MzgsMTIg
-QEAgc3RhdGljIHZvaWQgdmVjX3RvX3F2ZWMoc2l6ZV90IHNpemUsIGludHB0cl90IGRzdG9mZiwg
-aW50cHRyX3Qgc3Jjb2ZmKQogICAgIHRjZ190ZW1wX2ZyZWVfaTY0KG1hc2spOwogfQogCitzdGF0
-aWMgdm9pZCBwcm9iZV9ub3NodWZfbG9hZChUQ0d2IHZhLCBpbnQgcywgaW50IG1pKQoreworICAg
-IFRDR3Ygc2l6ZSA9IHRjZ19jb25zdGFudF90bChzKTsKKyAgICBUQ0d2IG1lbV9pZHggPSB0Y2df
-Y29uc3RhbnRfdGwobWkpOworICAgIGdlbl9oZWxwZXJfcHJvYmVfbm9zaHVmX2xvYWQoY3B1X2Vu
-diwgdmEsIHNpemUsIG1lbV9pZHgpOworfQorCiAjaW5jbHVkZSAidGNnX2Z1bmNzX2dlbmVyYXRl
-ZC5jLmluYyIKICNpbmNsdWRlICJ0Y2dfZnVuY190YWJsZV9nZW5lcmF0ZWQuYy5pbmMiCmRpZmYg
-LS1naXQgYS90YXJnZXQvaGV4YWdvbi9vcF9oZWxwZXIuYyBiL3RhcmdldC9oZXhhZ29uL29wX2hl
-bHBlci5jCmluZGV4IGE1ZWQ4MTljMDQuLjA4NWFmYzMyNzQgMTAwNjQ0Ci0tLSBhL3RhcmdldC9o
-ZXhhZ29uL29wX2hlbHBlci5jCisrKyBiL3RhcmdldC9oZXhhZ29uL29wX2hlbHBlci5jCkBAIC00
-NDIsNiArNDQyLDE3IEBAIHN0YXRpYyB2b2lkIHByb2JlX3N0b3JlKENQVUhleGFnb25TdGF0ZSAq
-ZW52LCBpbnQgc2xvdCwgaW50IG1tdV9pZHgpCiAgICAgfQogfQogCisvKgorICogQ2FsbGVkIGZy
-b20gYSBtZW1fbm9zaHVmIHBhY2tldCB0byBtYWtlIHN1cmUgdGhlIGxvYWQgZG9lc24ndAorICog
-cmFpc2UgYW4gZXhjZXB0aW9uCisgKi8KK3ZvaWQgSEVMUEVSKHByb2JlX25vc2h1Zl9sb2FkKShD
-UFVIZXhhZ29uU3RhdGUgKmVudiwgdGFyZ2V0X3Vsb25nIHZhLAorICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIGludCBzaXplLCBpbnQgbW11X2lkeCkKK3sKKyAgICB1aW50cHRyX3QgcmV0
-YWRkciA9IEdFVFBDKCk7CisgICAgcHJvYmVfcmVhZChlbnYsIHZhLCBzaXplLCBtbXVfaWR4LCBy
-ZXRhZGRyKTsKK30KKwogLyogQ2FsbGVkIGR1cmluZyBwYWNrZXQgY29tbWl0IHdoZW4gdGhlcmUg
-YXJlIHR3byBzY2FsYXIgc3RvcmVzICovCiB2b2lkIEhFTFBFUihwcm9iZV9wa3Rfc2NhbGFyX3N0
-b3JlX3MwKShDUFVIZXhhZ29uU3RhdGUgKmVudiwgaW50IG1tdV9pZHgpCiB7CkBAIC01MTQsMTAg
-KzUyNSwxMiBAQCB2b2lkIEhFTFBFUihwcm9iZV9wa3Rfc2NhbGFyX2h2eF9zdG9yZXMpKENQVUhl
-eGFnb25TdGF0ZSAqZW52LCBpbnQgbWFzaywKICAqIElmIHRoZSBsb2FkIGlzIGluIHNsb3QgMCBh
-bmQgdGhlcmUgaXMgYSBzdG9yZSBpbiBzbG90MSAodGhhdAogICogd2Fzbid0IGNhbmNlbGxlZCks
-IHdlIGhhdmUgdG8gZG8gdGhlIHN0b3JlIGZpcnN0LgogICovCi1zdGF0aWMgdm9pZCBjaGVja19u
-b3NodWYoQ1BVSGV4YWdvblN0YXRlICplbnYsIHVpbnQzMl90IHNsb3QpCitzdGF0aWMgdm9pZCBj
-aGVja19ub3NodWYoQ1BVSGV4YWdvblN0YXRlICplbnYsIHVpbnQzMl90IHNsb3QsCisgICAgICAg
-ICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nIHZhZGRyLCBpbnQgc2l6ZSkKIHsKICAgICBp
-ZiAoc2xvdCA9PSAwICYmIGVudi0+cGt0X2hhc19zdG9yZV9zMSAmJgogICAgICAgICAoKGVudi0+
-c2xvdF9jYW5jZWxsZWQgJiAoMSA8PCAxKSkgPT0gMCkpIHsKKyAgICAgICAgSEVMUEVSKHByb2Jl
-X25vc2h1Zl9sb2FkKShlbnYsIHZhZGRyLCBzaXplLCBNTVVfVVNFUl9JRFgpOwogICAgICAgICBI
-RUxQRVIoY29tbWl0X3N0b3JlKShlbnYsIDEpOwogICAgIH0KIH0KQEAgLTUyNiw3ICs1MzksNyBA
-QCBzdGF0aWMgdWludDhfdCBtZW1fbG9hZDEoQ1BVSGV4YWdvblN0YXRlICplbnYsIHVpbnQzMl90
-IHNsb3QsCiAgICAgICAgICAgICAgICAgICAgICAgICAgdGFyZ2V0X3Vsb25nIHZhZGRyKQogewog
-ICAgIHVpbnRwdHJfdCByYSA9IEdFVFBDKCk7Ci0gICAgY2hlY2tfbm9zaHVmKGVudiwgc2xvdCk7
-CisgICAgY2hlY2tfbm9zaHVmKGVudiwgc2xvdCwgdmFkZHIsIDEpOwogICAgIHJldHVybiBjcHVf
-bGR1Yl9kYXRhX3JhKGVudiwgdmFkZHIsIHJhKTsKIH0KIApAQCAtNTM0LDcgKzU0Nyw3IEBAIHN0
-YXRpYyB1aW50MTZfdCBtZW1fbG9hZDIoQ1BVSGV4YWdvblN0YXRlICplbnYsIHVpbnQzMl90IHNs
-b3QsCiAgICAgICAgICAgICAgICAgICAgICAgICAgIHRhcmdldF91bG9uZyB2YWRkcikKIHsKICAg
-ICB1aW50cHRyX3QgcmEgPSBHRVRQQygpOwotICAgIGNoZWNrX25vc2h1ZihlbnYsIHNsb3QpOwor
-ICAgIGNoZWNrX25vc2h1ZihlbnYsIHNsb3QsIHZhZGRyLCAyKTsKICAgICByZXR1cm4gY3B1X2xk
-dXdfZGF0YV9yYShlbnYsIHZhZGRyLCByYSk7CiB9CiAKQEAgLTU0Miw3ICs1NTUsNyBAQCBzdGF0
-aWMgdWludDMyX3QgbWVtX2xvYWQ0KENQVUhleGFnb25TdGF0ZSAqZW52LCB1aW50MzJfdCBzbG90
-LAogICAgICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgdmFkZHIpCiB7CiAgICAg
-dWludHB0cl90IHJhID0gR0VUUEMoKTsKLSAgICBjaGVja19ub3NodWYoZW52LCBzbG90KTsKKyAg
-ICBjaGVja19ub3NodWYoZW52LCBzbG90LCB2YWRkciwgNCk7CiAgICAgcmV0dXJuIGNwdV9sZGxf
-ZGF0YV9yYShlbnYsIHZhZGRyLCByYSk7CiB9CiAKQEAgLTU1MCw3ICs1NjMsNyBAQCBzdGF0aWMg
-dWludDY0X3QgbWVtX2xvYWQ4KENQVUhleGFnb25TdGF0ZSAqZW52LCB1aW50MzJfdCBzbG90LAog
-ICAgICAgICAgICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgdmFkZHIpCiB7CiAgICAgdWlu
-dHB0cl90IHJhID0gR0VUUEMoKTsKLSAgICBjaGVja19ub3NodWYoZW52LCBzbG90KTsKKyAgICBj
-aGVja19ub3NodWYoZW52LCBzbG90LCB2YWRkciwgOCk7CiAgICAgcmV0dXJuIGNwdV9sZHFfZGF0
-YV9yYShlbnYsIHZhZGRyLCByYSk7CiB9CiAKZGlmZiAtLWdpdCBhL3Rlc3RzL3RjZy9oZXhhZ29u
-L21lbV9ub3NodWZfZXhjZXB0aW9uLmMgYi90ZXN0cy90Y2cvaGV4YWdvbi9tZW1fbm9zaHVmX2V4
-Y2VwdGlvbi5jCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLjA4NjYwZWEz
-ZTEKLS0tIC9kZXYvbnVsbAorKysgYi90ZXN0cy90Y2cvaGV4YWdvbi9tZW1fbm9zaHVmX2V4Y2Vw
-dGlvbi5jCkBAIC0wLDAgKzEsMTQ2IEBACisvKgorICogIENvcHlyaWdodChjKSAyMDIyIFF1YWxj
-b21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIEFsbCBSaWdodHMgUmVzZXJ2ZWQuCisgKgorICog
-IFRoaXMgcHJvZ3JhbSBpcyBmcmVlIHNvZnR3YXJlOyB5b3UgY2FuIHJlZGlzdHJpYnV0ZSBpdCBh
-bmQvb3IgbW9kaWZ5CisgKiAgaXQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBHTlUgR2VuZXJhbCBQ
-dWJsaWMgTGljZW5zZSBhcyBwdWJsaXNoZWQgYnkKKyAqICB0aGUgRnJlZSBTb2Z0d2FyZSBGb3Vu
-ZGF0aW9uOyBlaXRoZXIgdmVyc2lvbiAyIG9mIHRoZSBMaWNlbnNlLCBvcgorICogIChhdCB5b3Vy
-IG9wdGlvbikgYW55IGxhdGVyIHZlcnNpb24uCisgKgorICogIFRoaXMgcHJvZ3JhbSBpcyBkaXN0
-cmlidXRlZCBpbiB0aGUgaG9wZSB0aGF0IGl0IHdpbGwgYmUgdXNlZnVsLAorICogIGJ1dCBXSVRI
-T1VUIEFOWSBXQVJSQU5UWTsgd2l0aG91dCBldmVuIHRoZSBpbXBsaWVkIHdhcnJhbnR5IG9mCisg
-KiAgTUVSQ0hBTlRBQklMSVRZIG9yIEZJVE5FU1MgRk9SIEEgUEFSVElDVUxBUiBQVVJQT1NFLiAg
-U2VlIHRoZQorICogIEdOVSBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMu
-CisgKgorICogIFlvdSBzaG91bGQgaGF2ZSByZWNlaXZlZCBhIGNvcHkgb2YgdGhlIEdOVSBHZW5l
-cmFsIFB1YmxpYyBMaWNlbnNlCisgKiAgYWxvbmcgd2l0aCB0aGlzIHByb2dyYW07IGlmIG5vdCwg
-c2VlIDxodHRwOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvPi4KKyAqLworCisvKgorICogVGVzdCB0
-aGUgVkxJVyBzZW1hbnRpY3Mgb2YgZXhjZXB0aW9ucyB3aXRoIG1lbV9ub3NodWYKKyAqCisgKiBX
-aGVuIGEgcGFja2V0IGhhcyB0aGUgOm1lbV9ub3NodWYgYXR0cmlidXRlLCB0aGUgc2VtYW50aWNz
-IGRpY3RhdGUKKyAqIFRoYXQgdGhlIGxvYWQgd2lsbCBnZXQgdGhlIGRhdGEgZnJvbSB0aGUgc3Rv
-cmUgaWYgdGhlIGFkZHJlc3NlcyBvdmVybGFwLgorICogVG8gYWNjb21wbGlzaCB0aGlzLCB3ZSBw
-ZXJmb3JtIHRoZSBzdG9yZSBmaXJzdC4gIEhvd2V2ZXIsIHdlIGhhdmUgdG8KKyAqIGhhbmRsZSB0
-aGUgY2FzZSB3aGVyZSB0aGUgc3RvcmUgcmFpc2VzIGFuIGV4Y2VwdGlvbi4gIEluIHRoYXQgY2Fz
-ZSwgdGhlCisgKiBzdG9yZSBzaG91bGQgbm90IGFsdGVyIHRoZSBtYWNoaW5lIHN0YXRlLgorICoK
-KyAqIFdlIHRlc3QgdGhpcyB3aXRoIGEgbWVtX25vc2h1ZiBwYWNrZXQgd2l0aCBhIHN0b3JlIHRv
-IGEgZ2xvYmFsIHZhcmlhYmxlLAorICogInNob3VsZF9ub3RfY2hhbmdlIiBhbmQgYSBsb2FkIGZy
-b20gTlVMTC4gIEFmdGVyIHRoZSBTSUdTRUdWIGlzIGNhdWdodCwKKyAqIHdlIGNoZWNrICogdGhh
-dCB0aGUgInNob3VsZF9ub3RfY2hhbmdlIiB2YWx1ZSBpcyB0aGUgc2FtZS4KKyAqCisgKiBXZSBh
-bHNvIGNoZWNrIHRoYXQgYSBwcmVkaWNhdGVkIGxvYWQgd2hlcmUgdGhlIHByZWRpY2F0ZSBpcyBm
-YWxzZSBkb2Vzbid0CisgKiByYWlzZSBhbiBleGNlcHRpb24gYW5kIGFsbG93cyB0aGUgc3RvcmUg
-dG8gaGFwcGVuLgorICovCisKKyNpbmNsdWRlIDxzdGRsaWIuaD4KKyNpbmNsdWRlIDxzdGRpby5o
-PgorI2luY2x1ZGUgPHVuaXN0ZC5oPgorI2luY2x1ZGUgPHN5cy90eXBlcy5oPgorI2luY2x1ZGUg
-PGZjbnRsLmg+CisjaW5jbHVkZSA8c2V0am1wLmg+CisjaW5jbHVkZSA8c2lnbmFsLmg+CisKK2lu
-dCBlcnI7CitpbnQgc2Vndl9jYXVnaHQ7CisKKyNkZWZpbmUgU0hPVUxEX05PVF9DSEFOR0VfVkFM
-ICAgICAgICA1CitpbnQgc2hvdWxkX25vdF9jaGFuZ2UgPSBTSE9VTERfTk9UX0NIQU5HRV9WQUw7
-CisKKyNkZWZpbmUgT0tfVE9fQ0hBTkdFX1ZBTCAgICAgICAgMTMKK2ludCBva190b19jaGFuZ2Ug
-PSBPS19UT19DSEFOR0VfVkFMOworCitzdGF0aWMgdm9pZCBfX2NoZWNrKGNvbnN0IGNoYXIgKmZp
-bGVuYW1lLCBpbnQgbGluZSwgaW50IHgsIGludCBleHBlY3QpCit7CisgICAgaWYgKHggIT0gZXhw
-ZWN0KSB7CisgICAgICAgIHByaW50ZigiRVJST1IgJXM6JWQgLSAlZCAhPSAlZFxuIiwKKyAgICAg
-ICAgICAgICAgIGZpbGVuYW1lLCBsaW5lLCB4LCBleHBlY3QpOworICAgICAgICBlcnIrKzsKKyAg
-ICB9Cit9CisKKyNkZWZpbmUgY2hlY2soeCwgZXhwZWN0KSBfX2NoZWNrKF9fRklMRV9fLCBfX0xJ
-TkVfXywgKHgpLCAoZXhwZWN0KSkKKworc3RhdGljIHZvaWQgX19jaGtfZXJyb3IoY29uc3QgY2hh
-ciAqZmlsZW5hbWUsIGludCBsaW5lLCBpbnQgcmV0KQoreworICAgIGlmIChyZXQgPCAwKSB7Cisg
-ICAgICAgIHByaW50ZigiRVJST1IgJXM6JWQgLSAlZFxuIiwgZmlsZW5hbWUsIGxpbmUsIHJldCk7
-CisgICAgICAgIGVycisrOworICAgIH0KK30KKworI2RlZmluZSBjaGtfZXJyb3IocmV0KSBfX2No
-a19lcnJvcihfX0ZJTEVfXywgX19MSU5FX18sIChyZXQpKQorCitqbXBfYnVmIGptcF9lbnY7CisK
-K3N0YXRpYyB2b2lkIHNpZ19zZWd2KGludCBzaWcsIHNpZ2luZm9fdCAqaW5mbywgdm9pZCAqcHVj
-KQoreworICAgIGNoZWNrKHNpZywgU0lHU0VHVik7CisgICAgc2Vndl9jYXVnaHQgPSAxOworICAg
-IGxvbmdqbXAoam1wX2VudiwgMSk7Cit9CisKK2ludCBtYWluKCkKK3sKKyAgICBzdHJ1Y3Qgc2ln
-YWN0aW9uIGFjdDsKKyAgICBpbnQgZHVtbXkzMjsKKyAgICBsb25nIGxvbmcgZHVtbXk2NDsKKyAg
-ICB2b2lkICpwOworCisgICAgLyogU0lHU0VHViB0ZXN0ICovCisgICAgYWN0LnNhX3NpZ2FjdGlv
-biA9IHNpZ19zZWd2OworICAgIHNpZ2VtcHR5c2V0KCZhY3Quc2FfbWFzayk7CisgICAgYWN0LnNh
-X2ZsYWdzID0gU0FfU0lHSU5GTzsKKyAgICBjaGtfZXJyb3Ioc2lnYWN0aW9uKFNJR1NFR1YsICZh
-Y3QsIE5VTEwpKTsKKyAgICBpZiAoc2V0am1wKGptcF9lbnYpID09IDApIHsKKyAgICAgICAgYXNt
-IHZvbGF0aWxlKCJyMTggPSAjI3Nob3VsZF9ub3RfY2hhbmdlXG5cdCIKKyAgICAgICAgICAgICAg
-ICAgICAgICJyMTkgPSAjMFxuXHQiCisgICAgICAgICAgICAgICAgICAgICAie1xuXHQiCisgICAg
-ICAgICAgICAgICAgICAgICAiICAgIG1lbXcocjE4KSA9ICM3XG5cdCIKKyAgICAgICAgICAgICAg
-ICAgICAgICIgICAgJTAgPSBtZW13KHIxOSlcblx0IgorICAgICAgICAgICAgICAgICAgICAgIn06
-bWVtX25vc2h1ZlxuXHQiCisgICAgICAgICAgICAgICAgICAgICAgOiAiPXIiKGR1bW15MzIpIDog
-OiAicjE4IiwgInIxOSIsICJtZW1vcnkiKTsKKyAgICB9CisKKyAgICBhY3Quc2FfaGFuZGxlciA9
-IFNJR19ERkw7CisgICAgc2lnZW1wdHlzZXQoJmFjdC5zYV9tYXNrKTsKKyAgICBhY3Quc2FfZmxh
-Z3MgPSAwOworICAgIGNoa19lcnJvcihzaWdhY3Rpb24oU0lHU0VHViwgJmFjdCwgTlVMTCkpOwor
-CisgICAgY2hlY2soc2Vndl9jYXVnaHQsIDEpOworICAgIGNoZWNrKHNob3VsZF9ub3RfY2hhbmdl
-LCBTSE9VTERfTk9UX0NIQU5HRV9WQUwpOworCisgICAgLyoKKyAgICAgKiBDaGVjayB0aGF0IGEg
-cHJlZGljYXRlZCBsb2FkIHdoZXJlIHRoZSBwcmVkaWNhdGUgaXMgZmFsc2UgZG9lc24ndAorICAg
-ICAqIHJhaXNlIGFuIGV4Y2VwdGlvbiBhbmQgYWxsb3dzIHRoZSBzdG9yZSB0byBoYXBwZW4uCisg
-ICAgICovCisgICAgYXNtIHZvbGF0aWxlKCJyMTggPSAjI29rX3RvX2NoYW5nZVxuXHQiCisgICAg
-ICAgICAgICAgICAgICJyMTkgPSAjMFxuXHQiCisgICAgICAgICAgICAgICAgICJwMCA9IGNtcC5n
-dChyMCwgcjApXG5cdCIKKyAgICAgICAgICAgICAgICAgIntcblx0IgorICAgICAgICAgICAgICAg
-ICAiICAgIG1lbXcocjE4KSA9ICM3XG5cdCIKKyAgICAgICAgICAgICAgICAgIiAgICBpZiAocDAp
-ICUwID0gbWVtdyhyMTkpXG5cdCIKKyAgICAgICAgICAgICAgICAgIn06bWVtX25vc2h1ZlxuXHQi
-CisgICAgICAgICAgICAgICAgICA6ICI9ciIoZHVtbXkzMikgOiA6ICJyMTgiLCAicjE5IiwgInAw
-IiwgIm1lbW9yeSIpOworCisgICAgY2hlY2sob2tfdG9fY2hhbmdlLCA3KTsKKworICAgIC8qCisg
-ICAgICogQWxzbyBjaGVjayB0aGF0IHRoZSBwb3N0LWluY3JlbWVudCBkb2Vzbid0IGhhcHBlbiB3
-aGVuIHRoZQorICAgICAqIHByZWRpY2F0ZSBpcyBmYWxzZS4KKyAgICAgKi8KKyAgICBva190b19j
-aGFuZ2UgPSBPS19UT19DSEFOR0VfVkFMOworICAgIHAgPSBOVUxMOworICAgIGFzbSB2b2xhdGls
-ZSgicjE4ID0gIyNva190b19jaGFuZ2Vcblx0IgorICAgICAgICAgICAgICAgICAicDAgPSBjbXAu
-Z3QocjAsIHIwKVxuXHQiCisgICAgICAgICAgICAgICAgICJ7XG5cdCIKKyAgICAgICAgICAgICAg
-ICAgIiAgICBtZW13KHIxOCkgPSAjOVxuXHQiCisgICAgICAgICAgICAgICAgICIgICAgaWYgKHAw
-KSAlMSA9IG1lbWQoJTAgKysgIzgpXG5cdCIKKyAgICAgICAgICAgICAgICAgIn06bWVtX25vc2h1
-ZlxuXHQiCisgICAgICAgICAgICAgICAgICA6ICIrciIocCksICI9ciIoZHVtbXk2NCkgOiA6ICJy
-MTgiLCAicDAiLCAibWVtb3J5Iik7CisKKyAgICBjaGVjayhva190b19jaGFuZ2UsIDkpOworICAg
-IGNoZWNrKChpbnQpcCwgKGludClOVUxMKTsKKworICAgIHB1dHMoZXJyID8gIkZBSUwiIDogIlBB
-U1MiKTsKKyAgICByZXR1cm4gZXJyID8gRVhJVF9GQUlMVVJFIDogRVhJVF9TVUNDRVNTOworfQpk
-aWZmIC0tZ2l0IGEvdGVzdHMvdGNnL2hleGFnb24vTWFrZWZpbGUudGFyZ2V0IGIvdGVzdHMvdGNn
-L2hleGFnb24vTWFrZWZpbGUudGFyZ2V0CmluZGV4IDIzYjk4NzA1MzQuLjk2YTRkN2E2MTQgMTAw
-NjQ0Ci0tLSBhL3Rlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxlLnRhcmdldAorKysgYi90ZXN0cy90
-Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQKQEAgLTM1LDYgKzM1LDcgQEAgSEVYX1RFU1RTICs9
-IHByZWdfYWxpYXMKIEhFWF9URVNUUyArPSBkdWFsX3N0b3JlcwogSEVYX1RFU1RTICs9IG11bHRp
-X3Jlc3VsdAogSEVYX1RFU1RTICs9IG1lbV9ub3NodWYKK0hFWF9URVNUUyArPSBtZW1fbm9zaHVm
-X2V4Y2VwdGlvbgogSEVYX1RFU1RTICs9IGNpcmMKIEhFWF9URVNUUyArPSBicmV2CiBIRVhfVEVT
-VFMgKz0gbG9hZF91bnBhY2sKLS0gCjIuMTcuMQoK
+--0000000000007b926705e430e74b
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Anup,
+
+Do you think it is OK if we only use ssptwad as a CPU option name
+but not a RISC-V extension? just like MMU and PMP options of RISC-V.
+(And we could change it to RISC-V extension in the future
+if Ssptwad becomes the formal RISC-V extension)
+
+Both HW/SW update schemes are already defined in RISC-V priv spec,
+so I think it's reasonable to implement them in QEMU. The only issue here is
+to choose a proper CPU option name to turn on/off HW update of A/D bits.
+
+Regards,
+Jim Shu
+
+On Mon, Jul 18, 2022 at 12:02 PM Anup Patel <anup@brainfault.org> wrote:
+
+> +Atish
+>
+> On Mon, Jul 18, 2022 at 9:23 AM Jim Shu <jim.shu@sifive.com> wrote:
+> >
+> > RISC-V priv spec v1.12 permits 2 PTE-update schemes of A/D-bit
+> > (Access/Dirty bit): HW update or SW update. RISC-V profile defines the
+> > extension name 'Ssptwad' for HW update to PTE A/D bits.
+> > https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
+>
+> The Ssptwad (even though used by profiles) is not a well defined RISC-V
+> ISA extension. Rather, Ssptwad is just a name used in profiles to represent
+> an optional feature.
+>
+> In fact, since it is not a well-defined ISA extension, QEMU cannot include
+> Ssptwad in the ISA string as well.
+>
+> I think for such optionalities which are not well-defined ISA extensions,
+> QEMU should treat it differently.
+>
+> Regards,
+> Anup
+>
+> >
+> > Current QEMU RISC-V implements HW update scheme, so this commit
+> > introduces SW update scheme to QEMU and uses the 'Ssptwad' extension
+> > as the CPU option to select 2 PTE-update schemes. QEMU RISC-V CPU still
+> > uses HW update scheme (ext_ssptwad=true) by default to keep the backward
+> > compatibility.
+> >
+> > SW update scheme implemention is based on priv spec v1.12:
+> > "When a virtual page is accessed and the A bit is clear, or is written
+> > and the D bit is clear, a page-fault exception (corresponding to the
+> > original access type) is raised."
+> >
+> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
+> > Reviewed-by: Frank Chang <frank.chang@sifive.com>
+> > ---
+> >  target/riscv/cpu.c        | 2 ++
+> >  target/riscv/cpu.h        | 1 +
+> >  target/riscv/cpu_helper.c | 9 +++++++++
+> >  3 files changed, 12 insertions(+)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 1bb3973806..1d38c1c1d2 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -857,6 +857,7 @@ static void riscv_cpu_init(Object *obj)
+> >
+> >      cpu->cfg.ext_ifencei = true;
+> >      cpu->cfg.ext_icsr = true;
+> > +    cpu->cfg.ext_ssptwad = true;
+> >      cpu->cfg.mmu = true;
+> >      cpu->cfg.pmp = true;
+> >
+> > @@ -900,6 +901,7 @@ static Property riscv_cpu_extensions[] = {
+> >      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+> >      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+> >      DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+> > +    DEFINE_PROP_BOOL("ssptwad", RISCVCPU, cfg.ext_ssptwad, true),
+> >
+> >      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+> >      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 5c7acc055a..2eee59af98 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -433,6 +433,7 @@ struct RISCVCPUConfig {
+> >      bool ext_zve32f;
+> >      bool ext_zve64f;
+> >      bool ext_zmmul;
+> > +    bool ext_ssptwad;
+> >      bool rvv_ta_all_1s;
+> >
+> >      uint32_t mvendorid;
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 59b3680b1b..a8607c0d7b 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -981,6 +981,15 @@ restart:
+> >
+> >              /* Page table updates need to be atomic with MTTCG enabled
+> */
+> >              if (updated_pte != pte) {
+> > +                if (!cpu->cfg.ext_ssptwad) {
+> > +                    /*
+> > +                     * If A/D bits are managed by SW, HW just raises the
+> > +                     * page fault exception corresponding to the
+> original
+> > +                     * access type when A/D bits need to be updated.
+> > +                     */
+> > +                    return TRANSLATE_FAIL;
+> > +                }
+> > +
+> >                  /*
+> >                   * - if accessed or dirty bits need updating, and the
+> PTE is
+> >                   *   in RAM, then we do so atomically with a compare
+> and swap.
+> > --
+> > 2.17.1
+> >
+> >
+>
+
+--0000000000007b926705e430e74b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Anup,<br><br>Do you think it is OK if =
+we only use ssptwad as a CPU option name<br>but not a RISC-V extension? jus=
+t like MMU and PMP options of RISC-V.<br>(And we could change it to RISC-V =
+extension in the future<br>if Ssptwad becomes the formal RISC-V extension)<=
+br><br>Both HW/SW update schemes are already defined in RISC-V priv spec,<b=
+r>so I think it&#39;s reasonable to implement them in QEMU. The only issue =
+here is</div><div dir=3D"ltr">to choose a proper CPU option name to turn on=
+/off HW update of A/D bits.<br><br>Regards,<br>Jim Shu</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 18, 2022=
+ at 12:02 PM Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
+=3D"_blank">anup@brainfault.org</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">+Atish<br>
+<br>
+On Mon, Jul 18, 2022 at 9:23 AM Jim Shu &lt;<a href=3D"mailto:jim.shu@sifiv=
+e.com" target=3D"_blank">jim.shu@sifive.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; RISC-V priv spec v1.12 permits 2 PTE-update schemes of A/D-bit<br>
+&gt; (Access/Dirty bit): HW update or SW update. RISC-V profile defines the=
+<br>
+&gt; extension name &#39;Ssptwad&#39; for HW update to PTE A/D bits.<br>
+&gt; <a href=3D"https://github.com/riscv/riscv-profiles/blob/main/profiles.=
+adoc" rel=3D"noreferrer" target=3D"_blank">https://github.com/riscv/riscv-p=
+rofiles/blob/main/profiles.adoc</a><br>
+<br>
+The Ssptwad (even though used by profiles) is not a well defined RISC-V<br>
+ISA extension. Rather, Ssptwad is just a name used in profiles to represent=
+<br>
+an optional feature.<br>
+<br>
+In fact, since it is not a well-defined ISA extension, QEMU cannot include<=
+br>
+Ssptwad in the ISA string as well.<br>
+<br>
+I think for such optionalities which are not well-defined ISA extensions,<b=
+r>
+QEMU should treat it differently.<br>
+<br>
+Regards,<br>
+Anup<br>
+<br>
+&gt;<br>
+&gt; Current QEMU RISC-V implements HW update scheme, so this commit<br>
+&gt; introduces SW update scheme to QEMU and uses the &#39;Ssptwad&#39; ext=
+ension<br>
+&gt; as the CPU option to select 2 PTE-update schemes. QEMU RISC-V CPU stil=
+l<br>
+&gt; uses HW update scheme (ext_ssptwad=3Dtrue) by default to keep the back=
+ward<br>
+&gt; compatibility.<br>
+&gt;<br>
+&gt; SW update scheme implemention is based on priv spec v1.12:<br>
+&gt; &quot;When a virtual page is accessed and the A bit is clear, or is wr=
+itten<br>
+&gt; and the D bit is clear, a page-fault exception (corresponding to the<b=
+r>
+&gt; original access type) is raised.&quot;<br>
+&gt;<br>
+&gt; Signed-off-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.com" targe=
+t=3D"_blank">jim.shu@sifive.com</a>&gt;<br>
+&gt; Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com"=
+ target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
+&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +<br>
+&gt;=C2=A0 target/riscv/cpu_helper.c | 9 +++++++++<br>
+&gt;=C2=A0 3 files changed, 12 insertions(+)<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
+&gt; index 1bb3973806..1d38c1c1d2 100644<br>
+&gt; --- a/target/riscv/cpu.c<br>
+&gt; +++ b/target/riscv/cpu.c<br>
+&gt; @@ -857,6 +857,7 @@ static void riscv_cpu_init(Object *obj)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.ext_ifencei =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.ext_icsr =3D true;<br>
+&gt; +=C2=A0 =C2=A0 cpu-&gt;cfg.ext_ssptwad =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.mmu =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.pmp =3D true;<br>
+&gt;<br>
+&gt; @@ -900,6 +901,7 @@ static Property riscv_cpu_extensions[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svinval&quot;, RISCVCPU, cf=
+g.ext_svinval, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svnapot&quot;, RISCVCPU, cf=
+g.ext_svnapot, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svpbmt&quot;, RISCVCPU, cfg=
+.ext_svpbmt, false),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;ssptwad&quot;, RISCVCPU, cfg.ext=
+_ssptwad, true),<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zba&quot;, RISCVCPU, cfg.ex=
+t_zba, true),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zbb&quot;, RISCVCPU, cfg.ex=
+t_zbb, true),<br>
+&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+&gt; index 5c7acc055a..2eee59af98 100644<br>
+&gt; --- a/target/riscv/cpu.h<br>
+&gt; +++ b/target/riscv/cpu.h<br>
+&gt; @@ -433,6 +433,7 @@ struct RISCVCPUConfig {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zve32f;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zve64f;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zmmul;<br>
+&gt; +=C2=A0 =C2=A0 bool ext_ssptwad;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 bool rvv_ta_all_1s;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t mvendorid;<br>
+&gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c<br>
+&gt; index 59b3680b1b..a8607c0d7b 100644<br>
+&gt; --- a/target/riscv/cpu_helper.c<br>
+&gt; +++ b/target/riscv/cpu_helper.c<br>
+&gt; @@ -981,6 +981,15 @@ restart:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Page table updates =
+need to be atomic with MTTCG enabled */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (updated_pte !=3D p=
+te) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!cpu-&gt;=
+cfg.ext_ssptwad) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0* If A/D bits are managed by SW, HW just raises the<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0* page fault exception corresponding to the original<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0* access type when A/D bits need to be updated.<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0*/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ return TRANSLATE_FAIL;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* =
+- if accessed or dirty bits need updating, and the PTE is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*=
+=C2=A0 =C2=A0in RAM, then we do so atomically with a compare and swap.<br>
+&gt; --<br>
+&gt; 2.17.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div>
+</div>
+
+--0000000000007b926705e430e74b--
 
