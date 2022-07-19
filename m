@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00C3E5794E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:09:04 +0200 (CEST)
-Received: from localhost ([::1]:45290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F566579511
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 10:15:01 +0200 (CEST)
+Received: from localhost ([::1]:58402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDiHv-0001ya-4L
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
+	id 1oDiNg-0002fa-2D
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 04:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiDk-0005ys-QX
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:04:44 -0400
-Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:38550)
+ id 1oDiFa-0007xS-OB
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:06:40 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:44557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDiDj-0003nK-4M
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:04:44 -0400
-Received: by mail-qt1-x833.google.com with SMTP id y9so7104488qtv.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 01:04:41 -0700 (PDT)
+ id 1oDiFX-0004B2-AK
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 04:06:38 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id r21so9775959qtn.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 01:06:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=peQoZPsM8Q7WcCKrmq7WyiG3jAN3P8LYbVxt8oqne4c=;
- b=wWOF14yDQUjtq6YTGHSJVVwNCKy7GfX8ej9po/8IeSg/qcvgg9QBOAiJY3SXxkuS/D
- Myn3UJk8ZJit5aTq9uUTD1SFBZaB8El/NNuL5sWqeKQOQCj2CCypXv3WjM84CGbTswvI
- aBAgh4n3ELLmvsOeu7A5BEqu67VBaBNCNa5x7J4Sh8gWJ2j/YtNIpT3qGGLlm5A4M54J
- GTBuArS9NWBI/xEtzCDItG6BAADOEN90JnPtRPfFbUnJ/6JqGEY5mbt43ooVy8uqe3Y0
- JMd2NenUJqIsnXgcJTiLjDT3V5LU6peg9egW06SBEBQlqyVPxBLAcl9m1zSF21hgnVMy
- iPvg==
+ bh=LrtSMZp+82RfRxux6eS0DLOALhcNMaUrMTtzK+7YHwo=;
+ b=AX5tIdRkIKLQV9UVrAt/Y1upUdpdIhpkY2v69IL4fde1RAJ8wmzunsX8g+DyQkAIFV
+ OPmDuu1O/m2uGHReecDHDX+z02ZXQx8IQ3rOdS2A5xhfE3Qv6wbHJBFbc2AhJ8ZRZ0qv
+ jLKt5TjiW21NiZTod9vIPdPrTKNhZTSueQylaqt8ha/THOBHxjWfYV7wHlx9po7tZXFp
+ 1JdnYWkaJIad+Ov3U40R4Hv7vcUfohNPsAmeG4ilMPz4LI75qM3qmF1FH1QzegyexUzg
+ Wf30pj2XHqKLXRoPywj8AULjasjM2OHY4ffEHSWYn2fi63v90jt7DT4uTXdI/0/jXZNR
+ CxuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=peQoZPsM8Q7WcCKrmq7WyiG3jAN3P8LYbVxt8oqne4c=;
- b=aLC9iPeJlkfYH/6AxESPyXY0oJBozOSNSOchBPiB5dgc1mnOgHFLXQ6StlyG/jo8iY
- owcSCmbrq2tl+mfAhW2U3Ana52eXXCKiu41EDmyxGL44pyNqKwn5+5BiDnCeRiqirMS7
- 2Ae/7Q4bLiPepvAryGVi/9tYQLSt+fowkiZsTcdbfoebCP61Gzqg41dnJdb8Q7a1WccA
- qCk3dMbl5xeQt3UchtKnHtzjOjlQDV4tw6h+6Bbcv/ds4fhI4NJG5TG7rz5se5VTP15L
- Gh5iPToBYGf0ddBMLaFDSt7XoiRWU8a/1uWR2ldnkpCnffkp+U88k3+wRZdqhGy/PVEy
- u/Qw==
-X-Gm-Message-State: AJIora8I13YrWP8RBC+f0rTRp8tLqPViq26dne4rjLx1pFq2NTHOd0zD
- jkEitNPcTpSVfEPrPLSDDtt+HQ==
-X-Google-Smtp-Source: AGRyM1uhai1uRw/l5xqBNV1R/QmiKu7JOdlFh1nBjNgcXfsRxuXj2GksL5zaFKaBPdzFAyN7L42nrw==
-X-Received: by 2002:a05:622a:613:b0:31e:f64a:6d88 with SMTP id
- z19-20020a05622a061300b0031ef64a6d88mr4097271qta.321.1658217881030; 
- Tue, 19 Jul 2022 01:04:41 -0700 (PDT)
+ bh=LrtSMZp+82RfRxux6eS0DLOALhcNMaUrMTtzK+7YHwo=;
+ b=efyRb6MZuSctGNsT4raRp59jxqm1Od0Z+m+FjE1GyMdJCv1ozEowFF7Ug5Igd2KEZk
+ CsQp8h9zC7R1FxXbhHxWKs7JTCTDc29JCf6BLCCVQx+ZbHnLNX2aqtkGfA9lR/SiDxrD
+ tcN4E97L2JWaiL2QJlMvvqJli1vwot8VLJN2lz+a6v0IbaaLSItlX+ebqcWFgnBOOzlR
+ CoGmZ0gjnFux8vOGYEiuFTTwbJjBVBnMJtSnsIB+XRAYXqjB0jB0Zq/sSY1ONp4VeCjq
+ HWN4CPn1Z7Vf9RbM19Ayr6ynIkszJ3ik38UKxmnkPSWMNP4sUFnoTBnE7wDjuSDvpQQk
+ 0Jlg==
+X-Gm-Message-State: AJIora9YEbZDKp2uMpu0cU449gR4iRQp1f50lYXJx3R4XbkdYI/nC2ds
+ flFNjqagxMpVugG4WSlmFIekhFK9sMt829F8
+X-Google-Smtp-Source: AGRyM1t8lvF9ou1NU+OLMCNaInJqknZKXz/Jhh3WwAsjLuY5O35IDVeU6lcwm1wDIALdvVF0waZfNw==
+X-Received: by 2002:a05:622a:4d0:b0:31e:e89f:f4ae with SMTP id
+ q16-20020a05622a04d000b0031ee89ff4aemr9814836qtx.626.1658217994000; 
+ Tue, 19 Jul 2022 01:06:34 -0700 (PDT)
 Received: from [192.168.113.227] ([172.58.139.163])
  by smtp.gmail.com with ESMTPSA id
- z12-20020ac8710c000000b0031d3d0b2a04sm10433687qto.9.2022.07.19.01.04.34
+ l1-20020a05620a28c100b006b5e6dac3b0sm5500148qkp.128.2022.07.19.01.06.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 01:04:40 -0700 (PDT)
-Message-ID: <b910a692-b835-517c-9abd-7905b354b2df@linaro.org>
-Date: Tue, 19 Jul 2022 13:34:29 +0530
+ Tue, 19 Jul 2022 01:06:30 -0700 (PDT)
+Message-ID: <cbb053d5-3c2e-7f0f-1079-e926f4bb09e7@linaro.org>
+Date: Tue, 19 Jul 2022 13:36:18 +0530
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.9.1
-Subject: Re: [PATCH 4/6] hw/loongarch: Add smbios support
+Subject: Re: [PATCH 5/6] hw/loongarch: Add acpi ged support
 Content-Language: en-US
 To: Xiaojuan Yang <yangxiaojuan@loongson.cn>, qemu-devel@nongnu.org
 Cc: gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
  mst@redhat.com, imammedo@redhat.com, ani@anisinha.ca, f4bug@amsat.org,
  peter.maydell@linaro.org
 References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
- <20220712083206.4187715-5-yangxiaojuan@loongson.cn>
+ <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220712083206.4187715-5-yangxiaojuan@loongson.cn>
+In-Reply-To: <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
- envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x833.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,18 +96,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/12/22 14:02, Xiaojuan Yang wrote:
-> Add smbios support for loongarch virt machine, and put them into fw_cfg
-> table so that bios can parse them quickly. The weblink of smbios spec:
-> https://www.dmtf.org/dsp/DSP0134, the version is 3.6.0.
+> Loongarch virt machine uses general hardware reduces acpi method, rather
+> than LS7A acpi device. Now only power management function is used in
+> acpi ged device, memory hotplug will be added later. Also acpi tables
+> such as RSDP/RSDT/FADT etc.
+> 
+> The acpi table has submited to acpi spec, and will release soon.
 > 
 > Signed-off-by: Xiaojuan Yang<yangxiaojuan@loongson.cn>
 > ---
->   hw/loongarch/Kconfig        |  1 +
->   hw/loongarch/loongson3.c    | 36 ++++++++++++++++++++++++++++++++++++
->   include/hw/loongarch/virt.h |  1 +
->   3 files changed, 38 insertions(+)
+>   hw/loongarch/Kconfig        |   2 +
+>   hw/loongarch/acpi-build.c   | 609 ++++++++++++++++++++++++++++++++++++
+>   hw/loongarch/loongson3.c    |  78 ++++-
+>   hw/loongarch/meson.build    |   1 +
+>   include/hw/loongarch/virt.h |  13 +
+>   include/hw/pci-host/ls7a.h  |   4 +
+>   6 files changed, 704 insertions(+), 3 deletions(-)
+>   create mode 100644 hw/loongarch/acpi-build.c
+
+I'm not familiar with this at all, but it looks plausible.
 
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 r~
 
