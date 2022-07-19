@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D8C57A11F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:19:21 +0200 (CEST)
-Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F04757A064
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:05:28 +0200 (CEST)
+Received: from localhost ([::1]:34138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDo4G-0002wT-IE
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:19:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48526)
+	id 1oDnqp-00046H-Ew
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDndR-0003gu-92
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:51:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDndO-0002tF-ON
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:51:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658238694;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OTl9aXcRjhVLwfyFuU7nX+ff9vhIC4Fz3hKZXHDbIMU=;
- b=Oqg6WWa7h6bUZHKgkKBDcDYeEr9Vg8fq3jclwkvLAccLbv/A59KmXkmwtjgsOfOvFB+Veb
- r3WGNhy3T9Do+3CwVLLTLDvbUul/Tj3sdVZwVBMFpFtiTNhbyOcbUoX8mn/cRwVfpICQ6r
- p0ar3cnpS0DdwaJ4wG/mckfRr+lm4yc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-223-3xNZZoBnNymiVfZQQH61jA-1; Tue, 19 Jul 2022 09:51:32 -0400
-X-MC-Unique: 3xNZZoBnNymiVfZQQH61jA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- j16-20020adfa550000000b0021d63d200a8so2591702wrb.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:51:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDnir-0000Y8-Sd
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:57:14 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:46761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oDniq-0003m3-32
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:57:13 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-31c89653790so141304707b3.13
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 06:57:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6jzsQr9UfReMhZqfWjt1CjLy0wWyXKJwG101rCtSyIM=;
+ b=SENIRze02vTGIx8t3fO2ZBMnp0uKX+oE3h0Ufu4MTjTcl+id/edsmzYtcK20pnwv1j
+ sYbJt5NJBe+b5XHV1bbxaqmKcH9xqkkiO8R32+4wJzNNg/Zrw9KZJ3Dr2WAaSE3+9xzd
+ W4atnjOdtkXZGIapJNo0N3hxv8MuUd2mpzGYHfZDUWGdnv07iQECYtHy0CXSqUt4XtWr
+ pd95PnNL3ggkEabKIXq2zjLGHLRL9pChD44KQWPV9mGVK7oiWeooYcBP/4yA+KkyqsSx
+ p36CdSkZYpD7U7h+yn/xrRG4xNOsJ5nIbuh1oF9aZQhDjpyeeJ9ynivGNrN0DzcCmExW
+ 2clw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=OTl9aXcRjhVLwfyFuU7nX+ff9vhIC4Fz3hKZXHDbIMU=;
- b=xuhPToSzBAZyloc1ZHTnY2yV+QjGePe1qpeghCwYxmYPt7dhidTzHK+hId4JceNDA/
- M43a+q7TBK/98wE2fRzkJHNHgpM/4J4EUrepoS3HryOvTkI2kWduYqaE5jzbgIbyU2XQ
- 5irxcj9sX1/numAy3liYXDb2sFD/C5HYc0wFDs/LaIUAhlglPZF6HD/7Hcjr+4Fqo58m
- Gz5yCrho/qME0FVx/ndVXbTxm/BpBwqTwqPRQTqypFmVk7uSmc+Q1t+0C+EEbge1d8R0
- sAnogvobyRmlg8gcBO4RqZdC6PIjEYbYgb0sO9lUIcUFCCD9cemxcOS2FWo84ALjJDzm
- yV5A==
-X-Gm-Message-State: AJIora81dpLz5U+UwssVDkRTI9UJyXHYLEWjheJuVrDb9IaKeEA7XX1f
- bGFiGYbRcAdVG9zV6tGTtJyc9aHPekxHesWsMmWV7kb5NoRvFxU4VES9OU5eE9CN3qYgOI3g9O5
- Oi5MHXz5ingFl/WA=
-X-Received: by 2002:a5d:5c05:0:b0:21d:83b4:d339 with SMTP id
- cc5-20020a5d5c05000000b0021d83b4d339mr26999481wrb.611.1658238691113; 
- Tue, 19 Jul 2022 06:51:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1urX042LggmEnTsMZU+FXoksV12rra+gOJ0NuCAFTm+lEhhMkA/k6Bnu+4EIuhB5HMjmKlgSQ==
-X-Received: by 2002:a5d:5c05:0:b0:21d:83b4:d339 with SMTP id
- cc5-20020a5d5c05000000b0021d83b4d339mr26999469wrb.611.1658238690899; 
- Tue, 19 Jul 2022 06:51:30 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- j9-20020a05600c190900b0039db31f6372sm26053230wmq.2.2022.07.19.06.51.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 06:51:30 -0700 (PDT)
-Date: Tue, 19 Jul 2022 14:51:28 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH] migration: remove unreachable code after reading data
-Message-ID: <Yta24JtoX8+N1s52@work-vm>
-References: <20220627135318.156121-1-berrange@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6jzsQr9UfReMhZqfWjt1CjLy0wWyXKJwG101rCtSyIM=;
+ b=ZsQ/uDzDQZGiJZrjuIkZOb2qIp45xX8swYVsILPfu0gF2xiSa2K6NzSquuifQ9dLyJ
+ 1RmbEqyh8Ct+c8qbLzShwZWlwN964OY5HXvvzYfdXTb16L4KGlYx8HAAaYt/DuwOfPAF
+ Kik2SM6lR97Yiu+bGV034BmzWd7kvFcd83Mfbv/72skjItCukMVY6lziHzW/hjev4ZrB
+ PIEQ8M9GjXF79H2jIntYxflTugeTv8Zo6m/Ge6lIPKjoM8sHHhumBsZHZPo09+0imUBo
+ jWV/YKC/307lCBmWTAhDsL1/7HZrDlKmxidvH+qbJiPf2UItqAir6eO3ZXsoZUl7datj
+ bVQw==
+X-Gm-Message-State: AJIora8NTOkQjPvBDzmB2mQio/s23xtdzz5yX6gShqXouhcgpAJO/M7b
+ gzeOrVFw9d0ThgBgylL2i3nCyle9/lEMa/k6KIbiJg==
+X-Google-Smtp-Source: AGRyM1v5U/4JxWfzoB16dEZaXnnv71xnzrHKF11xQbCLpeL6KYQcpawD03Lu0mRaNU8PzZjc/JGA/XS9K3LfVl8/z6Y=
+X-Received: by 2002:a0d:eb83:0:b0:31c:8741:a033 with SMTP id
+ u125-20020a0deb83000000b0031c8741a033mr36699700ywe.455.1658239031190; Tue, 19
+ Jul 2022 06:57:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220627135318.156121-1-berrange@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-30-mst@redhat.com>
+In-Reply-To: <20220516204913.542894-30-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jul 2022 14:57:00 +0100
+Message-ID: <CAFEAcA9xeL7EReV1HqkwkYVZvtbH-uvx3oFM=G5Ec8wu=g0rsA@mail.gmail.com>
+Subject: Re: [PULL v2 29/86] hw/cxl/host: Add support for CXL Fixed Memory
+ Windows.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Markus Armbruster <armbru@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>, 
+ Eric Blake <eblake@redhat.com>, Eduardo Habkost <eduardo@habkost.net>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,43 +89,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel P. Berrangé (berrange@redhat.com) wrote:
-> The code calls qio_channel_read() in a loop when it reports
-> QIO_CHANNEL_ERR_BLOCK. This code is reported when errno==EAGAIN.
-> 
-> As such the later block of code will always hit the 'errno != EAGAIN'
-> condition, making the final 'else' unreachable.
-> 
-> Fixes: Coverity CID 1490203
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On Mon, 16 May 2022 at 21:52, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
+>
+> The concept of these is introduced in [1] in terms of the
+> description the CEDT ACPI table. The principal is more general.
+> Unlike once traffic hits the CXL root bridges, the host system
+> memory address routing is implementation defined and effectively
+> static once observable by standard / generic system software.
+> Each CXL Fixed Memory Windows (CFMW) is a region of PA space
+> which has fixed system dependent routing configured so that
+> accesses can be routed to the CXL devices below a set of target
+> root bridges. The accesses may be interleaved across multiple
+> root bridges.
 
-Queued
+Hi; Coverity points out a memory leak in this function
+(CID 1488872):
 
-> ---
->  migration/qemu-file.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-> index 1e80d496b7..1615c48b7e 100644
-> --- a/migration/qemu-file.c
-> +++ b/migration/qemu-file.c
-> @@ -384,10 +384,8 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
->          f->total_transferred += len;
->      } else if (len == 0) {
->          qemu_file_set_error_obj(f, -EIO, local_error);
-> -    } else if (len != -EAGAIN) {
-> -        qemu_file_set_error_obj(f, len, local_error);
->      } else {
-> -        error_free(local_error);
-> +        qemu_file_set_error_obj(f, len, local_error);
->      }
->  
->      return len;
-> -- 
-> 2.36.1
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> +void cxl_fixed_memory_window_config(MachineState *ms,
+> +                                    CXLFixedMemoryWindowOptions *object,
+> +                                    Error **errp)
+> +{
+> +    CXLFixedWindow *fw = g_malloc0(sizeof(*fw));
 
+Here we allocate memory...
+
+> +    strList *target;
+> +    int i;
+> +
+> +    for (target = object->targets; target; target = target->next) {
+> +        fw->num_targets++;
+> +    }
+> +
+> +    fw->enc_int_ways = cxl_interleave_ways_enc(fw->num_targets, errp);
+> +    if (*errp) {
+> +        return;
+
+...but in the error returns here..
+
+> +    }
+> +
+> +    fw->targets = g_malloc0_n(fw->num_targets, sizeof(*fw->targets));
+> +    for (i = 0, target = object->targets; target; i++, target = target->next) {
+> +        /* This link cannot be resolved yet, so stash the name for now */
+> +        fw->targets[i] = g_strdup(target->value);
+> +    }
+> +
+> +    if (object->size % (256 * MiB)) {
+> +        error_setg(errp,
+> +                   "Size of a CXL fixed memory window must my a multiple of 256MiB");
+> +        return;
+
+...here..
+
+> +    }
+> +    fw->size = object->size;
+> +
+> +    if (object->has_interleave_granularity) {
+> +        fw->enc_int_gran =
+> +            cxl_interleave_granularity_enc(object->interleave_granularity,
+> +                                           errp);
+> +        if (*errp) {
+> +            return;
+
+...and here we fail to free the memory we allocated.
+
+> +        }
+> +    } else {
+> +        /* Default to 256 byte interleave */
+> +        fw->enc_int_gran = 0;
+> +    }
+> +
+> +    ms->cxl_devices_state->fixed_windows =
+> +        g_list_append(ms->cxl_devices_state->fixed_windows, fw);
+> +
+> +    return;
+> +}
+
+Would you mind sending a patch to fix this bug ?
+The neatest approach probably uses g_autofree and g_steal_pointer().
+
+thanks
+-- PMM
 
