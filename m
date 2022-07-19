@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B431F579423
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:27:59 +0200 (CEST)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976BD57942B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 09:30:00 +0200 (CEST)
+Received: from localhost ([::1]:44446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDheA-0003mK-Le
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45660)
+	id 1oDhg7-0005Iu-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 03:29:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDhbB-0000f3-Bc
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:24:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oDhb8-000686-VQ
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:24:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658215490;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GUwawcrTd1sdAZymiUmnofLbH00i1cUzhvqGJG9TlA=;
- b=Yn5rkWVkBK30YmOX5u6nRtPhqytKZA91drRLMRMsZ2UXUWTR/qId+nj0w21LDMYuDQfwHS
- DcOhFYKQ5Lhc9jtJ5N6K9qE7jC1hvu5vbKVs5oNFo3ev/a02cAg6MaoGT5Ec0/E8oFKfsM
- lLJlv4qiskgD+pst3kU8RT5vO8fc5ho=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-567-xXQVqFNYMdy_TbPSn88UWw-1; Tue, 19 Jul 2022 03:24:46 -0400
-X-MC-Unique: xXQVqFNYMdy_TbPSn88UWw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F213185A7BA;
- Tue, 19 Jul 2022 07:24:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2B2C2166B26;
- Tue, 19 Jul 2022 07:24:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CF46C21E690D; Tue, 19 Jul 2022 09:24:44 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
- <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
- <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
- <kevans@freebsd.org>,  Peter Maydell <peter.maydell@linaro.org>,  John
- Snow <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Warner
- Losh <imp@bsdimp.com>,  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>,  Vladimir Sementsov-Ogievskiy
- <vsementsov@yandex-team.ru>,  Laurent Vivier <laurent@vivier.eu>,  Fam
- Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v2 05/15] stubs: remove needless error_vprintf_unless_qmp()
-References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
- <20220712093528.4144184-6-marcandre.lureau@redhat.com>
-Date: Tue, 19 Jul 2022 09:24:44 +0200
-In-Reply-To: <20220712093528.4144184-6-marcandre.lureau@redhat.com> (marcandre
- lureau's message of "Tue, 12 Jul 2022 13:35:18 +0400")
-Message-ID: <87r12hzhs3.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oDhdf-0003Og-Ug
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:27:31 -0400
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:44802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oDhdP-0006gF-Uy
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 03:27:13 -0400
+Received: by mail-io1-xd2c.google.com with SMTP id v185so11118607ioe.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 00:27:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language
+ :from:to:cc:references:in-reply-to:content-transfer-encoding;
+ bh=vsHmx4kPN+aBNnMYvhie98TTq7HoYEOIM0fFoH5Cyog=;
+ b=Ydg6AbsxtxsLsPSvUMtjGSS0ZOhp5GsTene/Xs+9gGvnQ3NMZr94Kppy3g2vGpOPs4
+ H8sDB4h1V4IcyToXxtOrhdHnk0zh/IIZwSrtdWSlOD9BJZAfPhKckP4g+AVYwWfwcTVl
+ f/lcJ3Ina79glBeWoWO3MhLFHSDwpK0TMgMztWJTTotcbnSoaTFU7SYnTrvup+BTiiSS
+ Z/tbHmI9PnD8zv3pZEOJeBYmA5rmROF7q8pWCW0Ds0yZGi19Glw4ZGxAkwrpv5JTmi9t
+ i8Nfoj9MuWXkGH5TVqd2xcVlo8ymi6Qa1Gj86cYx1xDT+BxBX9YQ97jXi21VHJnoBWvU
+ 16BQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:from:to:cc:references:in-reply-to
+ :content-transfer-encoding;
+ bh=vsHmx4kPN+aBNnMYvhie98TTq7HoYEOIM0fFoH5Cyog=;
+ b=S/T44C5k8WLm4zP+XNH7pNTgg3Sq3Fj6G3G6wJ7qo9zJ/tuxUSzZBoFFLJRUYwbEpo
+ XPG8+mxFglyhX+xZ5iUO+tTCYNCCFR8XviygNP/wP73XwERrRIIvNJCMAke6ZBwIJmlK
+ HhZSlQroYytKWTKcXukCUZXJ2N4RLLWTxIVgd+MGjIpzNvZiC1Pp6CIgdVpkciRw91Wv
+ A+JT6eCAODOBN01BNtcegRO40s400UkTaxohakYzGFFG7hIJyeNMp0eopLZxSszcZE4X
+ vchByEHcZp1wQd5Vlvzj99vmfeAi1gFC45H21Tvu303y4taXWNZVMpjh+usLOWzoUcRs
+ dNLg==
+X-Gm-Message-State: AJIora8TgkywHcDAhklnfPQP/KuXLFkAtONPGUIzXFnxIRE0DIA6h2vO
+ 0mN8jVGsZFASKy5SP7UI9sOtOg==
+X-Google-Smtp-Source: AGRyM1sKwxMKb1gNbo8iHcTSdeJsgWw/hgWT8045JXTtgmV1cRUrLtzccFNqsJDGPCEDA2lbDkNvhQ==
+X-Received: by 2002:a02:c4c3:0:b0:33f:4fb4:834b with SMTP id
+ h3-20020a02c4c3000000b0033f4fb4834bmr16568115jaj.231.1658215630600; 
+ Tue, 19 Jul 2022 00:27:10 -0700 (PDT)
+Received: from [192.168.113.227] ([172.58.139.163])
+ by smtp.gmail.com with ESMTPSA id
+ ch6-20020a0566383e8600b0034173e8f66csm1901298jab.97.2022.07.19.00.27.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jul 2022 00:27:09 -0700 (PDT)
+Message-ID: <446f4c5d-bd25-c742-7064-72579cfe5923@linaro.org>
+Date: Tue, 19 Jul 2022 12:56:59 +0530
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: [PATCH 3/8] target/loongarch: Fix float_convd/float_convs test
+ failing
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, f4bug@amsat.org, peter.maydell@linaro.org,
+ yangxiaojuan@loongson.cn
+References: <20220716085426.3098060-1-gaosong@loongson.cn>
+ <20220716085426.3098060-4-gaosong@loongson.cn>
+ <00a72795-ced5-5e0f-bf0b-5a5056540589@linaro.org>
+In-Reply-To: <00a72795-ced5-5e0f-bf0b-5a5056540589@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,31 +96,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-marcandre.lureau@redhat.com writes:
+On 7/19/22 12:42, Richard Henderson wrote:
+> On 7/16/22 14:24, Song Gao wrote:
+>> We should result zero when exception is invalid and operation is nan
+>>
+>> Signed-off-by: Song Gao <gaosong@loongson.cn>
+>> ---
+>>   target/loongarch/fpu_helper.c | 143 +++++++++++++++++++---------------
+>>   1 file changed, 80 insertions(+), 63 deletions(-)
+>>
+>> diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
+>> index 3d0cb8dd0d..bd76529219 100644
+>> --- a/target/loongarch/fpu_helper.c
+>> +++ b/target/loongarch/fpu_helper.c
+>> @@ -13,9 +13,6 @@
+>>   #include "fpu/softfloat.h"
+>>   #include "internals.h"
+>> -#define FLOAT_TO_INT32_OVERFLOW 0x7fffffff
+>> -#define FLOAT_TO_INT64_OVERFLOW 0x7fffffffffffffffULL
+>> -
+>>   static inline uint64_t nanbox_s(float32 fp)
+>>   {
+>>       return fp | MAKE_64BIT_MASK(32, 32);
+>> @@ -544,9 +541,10 @@ uint64_t helper_ftintrm_l_d(CPULoongArchState *env, uint64_t fj)
+>>       fd = float64_to_int64(fj, &env->fp_status);
+>>       set_float_rounding_mode(old_mode, &env->fp_status);
+>> -    if (get_float_exception_flags(&env->fp_status) &
+>> -        (float_flag_invalid | float_flag_overflow)) {
+>> -        fd = FLOAT_TO_INT64_OVERFLOW;
+>> +    if (get_float_exception_flags(&env->fp_status) & (float_flag_invalid)) {
+>> +        if (float64_is_any_nan(fj)) {
+>> +            fd = 0;
+>> +        }
+> 
+> The check for invalid is sufficient, the check for nan should be redundant with that.
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  stubs/error-printf.c | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/stubs/error-printf.c b/stubs/error-printf.c
-> index 0e326d801059..1afa0f62ca26 100644
-> --- a/stubs/error-printf.c
-> +++ b/stubs/error-printf.c
-> @@ -16,8 +16,3 @@ int error_vprintf(const char *fmt, va_list ap)
->      }
->      return vfprintf(stderr, fmt, ap);
->  }
-> -
-> -int error_vprintf_unless_qmp(const char *fmt, va_list ap)
-> -{
-> -    return error_vprintf(fmt, ap);
-> -}
+Whoops, the other way around -- sometimes we get invalid raised from Inf.
 
-Easy enough to add back should we ever need it.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+r~
 
