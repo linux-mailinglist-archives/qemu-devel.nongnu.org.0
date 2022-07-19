@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB805796CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:56:03 +0200 (CEST)
-Received: from localhost ([::1]:41920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862FF5796ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 11:58:57 +0200 (CEST)
+Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDjxS-0005cZ-Gn
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
+	id 1oDk0G-0002gx-La
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 05:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <heshamelmatary@gmail.com>)
- id 1oDjuh-0007ol-1J; Tue, 19 Jul 2022 05:53:11 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35648)
+ id 1oDjvC-0000xp-5y; Tue, 19 Jul 2022 05:53:42 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <heshamelmatary@gmail.com>)
- id 1oDjuf-0004KD-EV; Tue, 19 Jul 2022 05:53:10 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id b26so20795993wrc.2;
- Tue, 19 Jul 2022 02:53:08 -0700 (PDT)
+ id 1oDjvA-0004NY-CR; Tue, 19 Jul 2022 05:53:41 -0400
+Received: by mail-wr1-x429.google.com with SMTP id bk26so20754694wrb.11;
+ Tue, 19 Jul 2022 02:53:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Y4/sFP7yGzJ3jqQlSQoseckKqf4KKkCLOr1BJ+fGpHA=;
- b=NiA5kdJIBrQhhHKP5Pz1SDxTtEuPKHCqFbGwvaGwffto/va4uVR7X1tIyrLGM/rVoG
- ieDkqH4Y5xtf3yb9Np9KJtPLN5jFMWjWYJIe3+T0KS65pxD2akEDaCL5lhyS3nlWrvPf
- u0kzSyms340PiwLBFDpMY5uYqu8cwQrIaG303LibGe5/I2Xl9ZBYtWpdfwaLgtgmWaJE
- jatoOAthnPk9iKAAzbY7yC97+HcNy9h99A3KWXG/ZhJdqxktPfLA1fweYCCUBgpJk3k5
- cx3FdEkecP8zjbmKPKlhKQDwxjE/Q9ZG/bPXKleWKY17UBohNi7LmTSmMrSsRhRj7l4Z
- 3IVw==
+ bh=zcCUcrXpPNIREcERVZmzf5hNw6d6j67CX8zgP4/F6/Y=;
+ b=ZCYHazw4/i0ueJ+EmcomzF0GWXRy0OBwxeqMYpSXgA6OCDVe/aZ5O9xnKJPQkpiWE9
+ l9F86RXMlX86GkII/UrTOj+t6acGVsNB1oIIODArC+eeJ5aUI4pJAE+PbbNI8QeWpjdg
+ blJK62uTmo09YsaJtPB/YEbdD+B0uf24PBn7085ZCCvUB8obUIg9b7wrLvftGo8/n16g
+ xLnCrCVVUjSiEFEhsD2hZqpA/edLV8xFFMGe5Rn0g+3gE2E2V3GzPpzlydk1sad59ky7
+ cNUehpD0bMFWdZplOEZSgSeqDwjJEzRp9Xv4E8Lvxdj15WV9gVJq6SZoXfZjSBIFo8xa
+ WK4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Y4/sFP7yGzJ3jqQlSQoseckKqf4KKkCLOr1BJ+fGpHA=;
- b=75uxT3lizgE28PqSFra98yAQ2TO9SEg/Jk6fu23jwG3kgVNPyNs/Tw27MA66bJENqy
- j3579/Y1WhgLyF7CYajZ9bfGu5qmL45q3PDWcU1d5Hni5DJXFC/zIulthEmelb9qHjrI
- 1SsD0bPopjaU9+6AA03KKC67GRNA6lsIzpL5kGcCJ8iP6jdlIbjogcsGgJyCv6Vj4e9Q
- zICS09Tms0hee+/vP7DJBfdHxrKcuYNMuIbVdpxQeSB15fvNqJroxSyalTyuATsvEhA5
- 8ngrg/rVcR1DvBwpEnRTJWYENi5R68p9gW+STgvoM5gvMKJqLuyFVFEYVeYc1j0Q4AqD
- 0BbA==
-X-Gm-Message-State: AJIora9KPRVdubrSdWWaZN54AWbKX/dAxIjfrsJxh5a60arsBgsOLArb
- 2kUd1alLSws9sva/3/HFg3A=
-X-Google-Smtp-Source: AGRyM1vd3tfHoeITVOklcMqWv8wbh7shDZwgn5s0c+9FqAkQaXkRv32EDuj/aMK8JDFAtqCjW5UaUQ==
-X-Received: by 2002:adf:b650:0:b0:21e:24a1:b839 with SMTP id
- i16-20020adfb650000000b0021e24a1b839mr5621318wre.207.1658224387221; 
- Tue, 19 Jul 2022 02:53:07 -0700 (PDT)
+ bh=zcCUcrXpPNIREcERVZmzf5hNw6d6j67CX8zgP4/F6/Y=;
+ b=uuRF1LQJTFbBsjSKJKF8Kl/i+p8wevHPeNJe9QE1gsgp47JK5SParEU1p8eFLcwDB3
+ UmUNiRbg5XbXRA/G9/q0Md+VzL8Aw2r2Dfsw91biTzVMarEsV9NMYm5NnpsZtH3b/+uG
+ MzAQBdX5hwKCpZ2U26h6IMFdzhPVILsNAptemycaXkIgKg3dm+9h9XPD2T7DFPra+/nh
+ Gv52X1gQY8fQEtZOF79StpGay2ZN7rvQasp4WSXGKIUMqbQJn3f93v+DSnCOsZS+CC5l
+ B8n+/S81K7Sm+n61kEIgvO+Lc/a8pDo1WlrOmjKh+fXravtlsLRKLCNUA0Xb5v2p8/7t
+ wRAw==
+X-Gm-Message-State: AJIora//W4fqV4MDCHtWgaB5a3QOocALaCt8H6c7C7oEMhGFphtXBKtd
+ gZtn4HhMV6Oh7FzGF+0skPo=
+X-Google-Smtp-Source: AGRyM1u/sndFeGYPZ9aei7OejGlfua+rZ3LTgsGt4xpjfZMEjwkhWakuWldvXwI15g34KEAja/P7og==
+X-Received: by 2002:a5d:588d:0:b0:21d:a5cf:c6f with SMTP id
+ n13-20020a5d588d000000b0021da5cf0c6fmr27042287wrf.716.1658224418619; 
+ Tue, 19 Jul 2022 02:53:38 -0700 (PDT)
 Received: from localhost.localdomain ([86.188.218.117])
  by smtp.gmail.com with ESMTPSA id
- z18-20020a5d44d2000000b0021cf31e1f7csm8326667wrr.102.2022.07.19.02.53.06
+ n3-20020a05600c4f8300b003a32297598csm1973503wmq.43.2022.07.19.02.53.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 02:53:06 -0700 (PDT)
+ Tue, 19 Jul 2022 02:53:38 -0700 (PDT)
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 X-Google-Original-From: Hesham Almatary <hesham.almatary@huawei.com>
 To: jonathan.cameron@huawei.com,
@@ -59,16 +59,17 @@ Cc: yangyicong@huawei.com, chenxiang66@hisilicon.com, linuxarm@huawei.com,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, imammedo@redhat.com,
  wangyanan55@huawei.com, marcel.apfelbaum@gmail.com, eduardo@habkost.net,
  Brice.Goglin@inria.fr, mst@redhat.com, jingqi.liu@intel.com
-Subject: [PATCH v2 6/8] hw/arm/virt: Enable HMAT on arm virt machine
-Date: Tue, 19 Jul 2022 10:49:48 +0100
-Message-Id: <20220719094950.1049516-7-hesham.almatary@huawei.com>
+Subject: [PATCH v2 7/8] tests: acpi: aarch64/virt: add a test for hmat nodes
+ with no initiators
+Date: Tue, 19 Jul 2022 10:49:49 +0100
+Message-Id: <20220719094950.1049516-8-hesham.almatary@huawei.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220719094950.1049516-1-hesham.almatary@huawei.com>
 References: <20220719094950.1049516-1-hesham.almatary@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=heshamelmatary@gmail.com; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=heshamelmatary@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,56 +93,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiang Chen <chenxiang66@hisilicon.com>
+This patch imitates the "tests: acpi: q35: add test for hmat nodes
+without initiators" commit to test numa nodes with different HMAT
+attributes, but on AArch64/virt.
 
-Since the patchset ("Build ACPI Heterogeneous Memory Attribute Table (HMAT)"),
-HMAT is supported, but only x86 is enabled. Enable HMAT on arm virt machine.
+Tested with:
+qemu-system-aarch64 -accel tcg \
+-machine virt,hmat=on,gic-version=3  -cpu cortex-a57 \
+-bios qemu-efi-aarch64/QEMU_EFI.fd \
+-kernel Image -append "root=/dev/vda2 console=ttyAMA0" \
+-drive if=virtio,file=aarch64.qcow2,format=qcow2,id=hd \
+-device virtio-rng-pci \
+-net user,hostfwd=tcp::10022-:22 -net nic \
+-device intel-hda -device hda-duplex -nographic \
+-smp 4 \
+-m 3G \
+-object memory-backend-ram,size=1G,id=ram0 \
+-object memory-backend-ram,size=1G,id=ram1 \
+-object memory-backend-ram,size=1G,id=ram2 \
+-numa node,nodeid=0,memdev=ram0,cpus=0-1 \
+-numa node,nodeid=1,memdev=ram1,cpus=2-3 \
+-numa node,nodeid=2,memdev=ram2 \
+-numa
+hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-latency,latency=10 \
+-numa hmat-lb,initiator=0,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-latency,latency=20 \
+-numa hmat-lb,initiator=0,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+-numa hmat-lb,initiator=0,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576 \
+-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-latency,latency=20 \
+-numa hmat-lb,initiator=1,target=0,hierarchy=memory,data-type=access-bandwidth,bandwidth=5242880 \
+-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-latency,latency=10 \
+-numa hmat-lb,initiator=1,target=1,hierarchy=memory,data-type=access-bandwidth,bandwidth=10485760 \
+-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-latency,latency=30 \
+-numa hmat-lb,initiator=1,target=2,hierarchy=memory,data-type=access-bandwidth,bandwidth=1048576
 
-Signed-off-by: Xiang Chen <chenxiang66@hisilicon.com>
 Signed-off-by: Hesham Almatary <hesham.almatary@huawei.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/arm/Kconfig           | 1 +
- hw/arm/virt-acpi-build.c | 7 +++++++
- 2 files changed, 8 insertions(+)
+ tests/qtest/bios-tables-test.c | 59 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 59 insertions(+)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 15fa79afd3..17fcde8e1c 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -30,6 +30,7 @@ config ARM_VIRT
-     select ACPI_VIOT
-     select VIRTIO_MEM_SUPPORTED
-     select ACPI_CXL
-+    select ACPI_HMAT
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index db14908bb4..ca0a66d5e3 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1461,6 +1461,63 @@ static void test_acpi_piix4_tcg_acpi_hmat(void)
+     test_acpi_tcg_acpi_hmat(MACHINE_PC);
+ }
  
- config CHEETAH
-     bool
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 449fab0080..f19b55e486 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -42,6 +42,7 @@
- #include "hw/acpi/memory_hotplug.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/acpi/tpm.h"
-+#include "hw/acpi/hmat.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
-@@ -990,6 +991,12 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-             build_slit(tables_blob, tables->linker, ms, vms->oem_id,
-                        vms->oem_table_id);
-         }
++static void test_acpi_virt_tcg_acpi_hmat(void)
++{
++    test_data data = {
++        .machine = "virt",
++        .tcg_only = true,
++        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
++        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
++        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
++        .ram_start = 0x40000000ULL,
++        .scan_len = 128ULL * 1024 * 1024,
++    };
 +
-+        if (ms->numa_state->hmat_enabled) {
-+            acpi_add_table(table_offsets, tables_blob);
-+            build_hmat(tables_blob, tables->linker, ms->numa_state,
-+                       vms->oem_id, vms->oem_table_id);
-+        }
-     }
- 
-     if (ms->nvdimms_state->is_enabled) {
++    data.variant = ".acpihmatvirt";
++
++    test_acpi_one(" -machine hmat=on"
++                  " -cpu cortex-a57"
++                  " -smp 4,sockets=2"
++                  " -m 256M"
++                  " -object memory-backend-ram,size=64M,id=ram0"
++                  " -object memory-backend-ram,size=64M,id=ram1"
++                  " -object memory-backend-ram,size=128M,id=ram2"
++                  " -numa node,nodeid=0,memdev=ram0"
++                  " -numa node,nodeid=1,memdev=ram1"
++                  " -numa node,nodeid=2,memdev=ram2"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=0,socket-id=0"
++                  " -numa cpu,node-id=1,socket-id=1"
++                  " -numa cpu,node-id=1,socket-id=1"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=0,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=0,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=0,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-latency,latency=20"
++                  " -numa hmat-lb,initiator=1,target=0,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=5242880"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-latency,latency=10"
++                  " -numa hmat-lb,initiator=1,target=1,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=10485760"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-latency,latency=30"
++                  " -numa hmat-lb,initiator=1,target=2,hierarchy=memory,"
++                  "data-type=access-bandwidth,bandwidth=1048576",
++                  &data);
++
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_acpi_hmat_noinitiator(void)
+ {
+     test_data data;
+@@ -1879,6 +1936,8 @@ int main(int argc, char *argv[])
+     } else if (strcmp(arch, "aarch64") == 0) {
+         if (has_tcg) {
+             qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/acpihmatvirt",
++                            test_acpi_virt_tcg_acpi_hmat);
+             qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+             qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+             qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
 -- 
 2.25.1
 
