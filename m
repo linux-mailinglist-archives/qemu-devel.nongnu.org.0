@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE6357975F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:13:27 +0200 (CEST)
-Received: from localhost ([::1]:57316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0B357975B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 12:11:12 +0200 (CEST)
+Received: from localhost ([::1]:51852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDkEJ-000276-4E
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:13:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50132)
+	id 1oDkC7-0006e5-C1
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 06:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDjyP-00089X-OJ
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51213)
+ id 1oDjyL-000843-UA
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:56:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26500)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oDjyO-00055O-Bt
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:57:01 -0400
+ id 1oDjyJ-00054m-Qd
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 05:56:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658224619;
+ s=mimecast20190719; t=1658224615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pYzwUSJhFbQty0HVMHgdAJGcmPXpX3YLF4SWmZGpIh8=;
- b=hrLygohovA+0vkQuN43p9MhnaHOwwodu1kAX0cf4YvnKl+e+CdsWt/V38/Zz5melGmVSJo
- ZAzJtKZDWsgreph6yBISMSGBfQ7c+H/IRkkdC0VscuUIHnh+hdqkbEcZw76j/94zI8Z1Yj
- 8tQ5ZhG3tn7EEJafE9/5h9CVZZqnB18=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=bd0FyTpvp1SKZBIRLCDykj6DTtOBS9MjvgcsWdsz+gU=;
+ b=HLhoW8H/DP8YzIkvNRKVDMO77VoIK95OlZEXBiub+NYjyoo1wfjxFCLt1bu2bwbyrJTc4U
+ iQ2vSrl+lzkQ/nA7rQjqy3r773JNVHzF4iBXgurZMnak4z45J+4QatY9QXrutqfynMu/6Q
+ Emy/mKpufKGYR9wkq/RZqT8HD7VvggU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-472-zfqMljV_MLeAPEuFmLd9QA-1; Tue, 19 Jul 2022 05:56:50 -0400
-X-MC-Unique: zfqMljV_MLeAPEuFmLd9QA-1
+ us-mta-346-rSVU6_YdPc-x7xojMOz5zg-1; Tue, 19 Jul 2022 05:56:53 -0400
+X-MC-Unique: rSVU6_YdPc-x7xojMOz5zg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57E6385A586;
- Tue, 19 Jul 2022 09:56:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 69A521C006A1;
+ Tue, 19 Jul 2022 09:56:53 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.113])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8117D90A00;
- Tue, 19 Jul 2022 09:56:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 97E1418EB7;
+ Tue, 19 Jul 2022 09:56:50 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
@@ -55,9 +55,9 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
  Cindy Lu <lulu@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Stefano Garzarella <sgarzare@redhat.com>,
  Harpreet Singh Anand <hanand@xilinx.com>
-Subject: [PATCH v5 05/20] vhost: Reorder vhost_svq_kick
-Date: Tue, 19 Jul 2022 11:56:14 +0200
-Message-Id: <20220719095629.3031338-6-eperezma@redhat.com>
+Subject: [PATCH v5 06/20] vhost: Move vhost_svq_kick call to vhost_svq_add
+Date: Tue, 19 Jul 2022 11:56:15 +0200
+Message-Id: <20220719095629.3031338-7-eperezma@redhat.com>
 In-Reply-To: <20220719095629.3031338-1-eperezma@redhat.com>
 References: <20220719095629.3031338-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,61 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Future code needs to call it from vhost_svq_add.
-
-No functional change intended.
+The series needs to expose vhost_svq_add with full functionality,
+including kick
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 28 ++++++++++++++--------------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 560d07ab36..043a185b96 100644
+index 043a185b96..e272c3318a 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -215,6 +215,20 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+@@ -246,6 +246,7 @@ static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
+     }
+ 
+     svq->ring_id_maps[qemu_head] = elem;
++    vhost_svq_kick(svq);
      return true;
  }
  
-+static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-+{
-+    /*
-+     * We need to expose the available array entries before checking the used
-+     * flags
-+     */
-+    smp_mb();
-+    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
-+        return;
-+    }
-+
-+    event_notifier_set(&svq->hdev_kick);
-+}
-+
- /**
-  * Add an element to a SVQ.
-  *
-@@ -235,20 +249,6 @@ static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-     return true;
- }
+@@ -306,7 +307,6 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+                 /* VQ is broken, just return and ignore any other kicks */
+                 return;
+             }
+-            vhost_svq_kick(svq);
+         }
  
--static void vhost_svq_kick(VhostShadowVirtqueue *svq)
--{
--    /*
--     * We need to expose the available array entries before checking the used
--     * flags
--     */
--    smp_mb();
--    if (svq->vring.used->flags & VRING_USED_F_NO_NOTIFY) {
--        return;
--    }
--
--    event_notifier_set(&svq->hdev_kick);
--}
--
- /**
-  * Forward available buffers.
-  *
+         virtio_queue_set_notification(svq->vq, true);
 -- 
 2.31.1
 
