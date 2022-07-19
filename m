@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F7C57A4BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:13:17 +0200 (CEST)
-Received: from localhost ([::1]:56164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA8B57A4C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:16:38 +0200 (CEST)
+Received: from localhost ([::1]:36284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqmb-0005nU-5u
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:13:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42028)
+	id 1oDqpp-00036a-O1
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbM-0005KB-5N
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:50 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:53770)
+ id 1oDqbM-0005KD-6M
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:46 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:1224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joao.m.martins@oracle.com>)
- id 1oDqbB-0002i9-Es
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:31 -0400
+ id 1oDqbD-0002iV-Sn
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:01:33 -0400
 Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGccfP031777;
- Tue, 19 Jul 2022 17:01:22 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26JGcN3m031774;
+ Tue, 19 Jul 2022 17:01:26 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=QuwKd16ERxij+zy9AuoZcrm4Z/kRaEv00BSdTsk93Ek=;
- b=AiBZ6fu81rSvfnxxN0tQnuSqbKLK80AwQsG+WfMFagrslW63FeRHoO9Np/tfZM/ufccQ
- bjMX1+V7njlrerVNUt35MkVvtRc9Wss8gyJlij4kHoZlSCQECtus1NKaIYDvWsUN+Kod
- bA6fV4FB7UlBOE2aM5dRr21848qE/N06ck5fiYxnJjgydMThn0YESFuM0R1Tm1eJ5K3m
- 8+if05t6hVEAU37V0v76WFlE5p9yPmzN7+iavuPO5Cbh2difbRBAtAfIFZE+c0A2iAHn
- D5dhNcN5btKLjbg0Uggu0uTLxAYUmrAVdxYtZbYYtAdznm7ZhGxPe7RaSHxQ2zdXhKHk Hg== 
+ bh=mFaPsor5jpNDEWLWLGaKw4mhuulQaO4F1lM98TNqqsk=;
+ b=Hb6eSnjelx/gZ7DbftQFsxvQwdnQaRcohxUpdjD07zZNtcIVLFYlnO9NL2zIsvlnegA7
+ tgKPMJDo8VFi4lEDUgC6R1hTwI7T6QRYXjZImrGgUxLcEh+e4mkIXZOCPu946gmlq1I3
+ h3PAgamjPoDlbjk5/BGbDR71P1mVfGnYdKxRTKIwffJwsnTd6avAyuEyzJTwBHXVd1C1
+ Fh8+D5kfI0dW7h07Vd+zF/rXoFKlXsx8/P91ulab6Ew+mwnTis88vso3WWQTR2tdUlyN
+ lmW3GpxCNeFQ6XaE9goJKCCyzc81dYSbQLs5R9gXxfTPaTn5iekbakP8E7zEsUlyroA/ 5g== 
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbnvtf6aa-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hbnvtf6ah-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:22 +0000
+ Tue, 19 Jul 2022 17:01:25 +0000
 Received: from pps.filterd
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26JGSGbY009883; Tue, 19 Jul 2022 17:01:21 GMT
+ with ESMTP id 26JG92Hi009873; Tue, 19 Jul 2022 17:01:25 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hc1ggpb6m-1
+ 3hc1ggpb91-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jul 2022 17:01:21 +0000
+ Tue, 19 Jul 2022 17:01:25 +0000
 Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i5E032177;
- Tue, 19 Jul 2022 17:01:21 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26JH0i5G032177;
+ Tue, 19 Jul 2022 17:01:24 GMT
 Received: from paddy.uk.oracle.com (dhcp-10-175-221-30.vpn.oracle.com
  [10.175.221.30])
  by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id
- 3hc1ggpaer-11; Tue, 19 Jul 2022 17:01:20 +0000
+ 3hc1ggpaer-12; Tue, 19 Jul 2022 17:01:24 +0000
 From: Joao Martins <joao.m.martins@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
@@ -64,9 +64,10 @@ Cc: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <eduardo@habkost.net>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
  Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH v9 10/11] i386/pc: relocate 4g start to 1T where applicable
-Date: Tue, 19 Jul 2022 18:00:13 +0100
-Message-Id: <20220719170014.27028-11-joao.m.martins@oracle.com>
+Subject: [PATCH v9 11/11] i386/pc: restrict AMD only enforcing of 1Tb hole to
+ new machine type
+Date: Tue, 19 Jul 2022 18:00:14 +0100
+Message-Id: <20220719170014.27028-12-joao.m.martins@oracle.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20220719170014.27028-1-joao.m.martins@oracle.com>
 References: <20220719170014.27028-1-joao.m.martins@oracle.com>
@@ -78,8 +79,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
  malwarescore=0 adultscore=0 mlxscore=0 phishscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207190072
-X-Proofpoint-GUID: M7eI19SU4K6s31U0dPLeEQcPT9Ia8Ctc
-X-Proofpoint-ORIG-GUID: M7eI19SU4K6s31U0dPLeEQcPT9Ia8Ctc
+X-Proofpoint-GUID: jcBfrK2mDRog1B9Vd9uEqUMRSqRSC7Mw
+X-Proofpoint-ORIG-GUID: jcBfrK2mDRog1B9Vd9uEqUMRSqRSC7Mw
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=joao.m.martins@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -104,134 +105,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is assumed that the whole GPA space is available to be DMA
-addressable, within a given address space limit, except for a
-tiny region before the 4G. Since Linux v5.4, VFIO validates
-whether the selected GPA is indeed valid i.e. not reserved by
-IOMMU on behalf of some specific devices or platform-defined
-restrictions, and thus failing the ioctl(VFIO_DMA_MAP) with
- -EINVAL.
+The added enforcing is only relevant in the case of AMD where the
+range right before the 1TB is restricted and cannot be DMA mapped
+by the kernel consequently leading to IOMMU INVALID_DEVICE_REQUEST
+or possibly other kinds of IOMMU events in the AMD IOMMU.
 
-AMD systems with an IOMMU are examples of such platforms and
-particularly may only have these ranges as allowed:
+Although, there's a case where it may make sense to disable the
+IOVA relocation/validation when migrating from a
+non-amd-1tb-aware qemu to one that supports it.
 
-        0000000000000000 - 00000000fedfffff (0      .. 3.982G)
-        00000000fef00000 - 000000fcffffffff (3.983G .. 1011.9G)
-        0000010000000000 - ffffffffffffffff (1Tb    .. 16Pb[*])
+Relocating RAM regions to after the 1Tb hole has consequences for
+guest ABI because we are changing the memory mapping, so make
+sure that only new machine enforce but not older ones.
 
-We already account for the 4G hole, albeit if the guest is big
-enough we will fail to allocate a guest with  >1010G due to the
-~12G hole at the 1Tb boundary, reserved for HyperTransport (HT).
-
-[*] there is another reserved region unrelated to HT that exists
-in the 256T boundary in Fam 17h according to Errata #1286,
-documeted also in "Open-Source Register Reference for AMD Family
-17h Processors (PUB)"
-
-When creating the region above 4G, take into account that on AMD
-platforms the HyperTransport range is reserved and hence it
-cannot be used either as GPAs. On those cases rather than
-establishing the start of ram-above-4g to be 4G, relocate instead
-to 1Tb. See AMD IOMMU spec, section 2.1.2 "IOMMU Logical
-Topology", for more information on the underlying restriction of
-IOVAs.
-
-After accounting for the 1Tb hole on AMD hosts, mtree should
-look like:
-
-0000000000000000-000000007fffffff (prio 0, i/o):
-         alias ram-below-4g @pc.ram 0000000000000000-000000007fffffff
-0000010000000000-000001ff7fffffff (prio 0, i/o):
-        alias ram-above-4g @pc.ram 0000000080000000-000000ffffffffff
-
-If the relocation is done or the address space covers it, we
-also add the the reserved HT e820 range as reserved.
-
-Default phys-bits on Qemu is TCG_PHYS_ADDR_BITS (40) which is enough
-to address 1Tb (0xff ffff ffff). On AMD platforms, if a
-ram-above-4g relocation is attempted and the CPU wasn't configured
-with a big enough phys-bits, an error message will be printed
-due to the maxphysaddr vs maxusedaddr check previously added.
-
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/pc.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 54 insertions(+)
+ hw/i386/pc.c         | 6 ++++--
+ hw/i386/pc_piix.c    | 2 ++
+ hw/i386/pc_q35.c     | 2 ++
+ include/hw/i386/pc.h | 1 +
+ 4 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1e7bd549bfe9..fc2c7655afa0 100644
+index fc2c7655afa0..4518f3c54680 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -891,6 +891,40 @@ static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
-     return pc_pci_hole64_start() + pci_hole64_size - 1;
- }
- 
-+/*
-+ * AMD systems with an IOMMU have an additional hole close to the
-+ * 1Tb, which are special GPAs that cannot be DMA mapped. Depending
-+ * on kernel version, VFIO may or may not let you DMA map those ranges.
-+ * Starting Linux v5.4 we validate it, and can't create guests on AMD machines
-+ * with certain memory sizes. It's also wrong to use those IOVA ranges
-+ * in detriment of leading to IOMMU INVALID_DEVICE_REQUEST or worse.
-+ * The ranges reserved for Hyper-Transport are:
-+ *
-+ * FD_0000_0000h - FF_FFFF_FFFFh
-+ *
-+ * The ranges represent the following:
-+ *
-+ * Base Address   Top Address  Use
-+ *
-+ * FD_0000_0000h FD_F7FF_FFFFh Reserved interrupt address space
-+ * FD_F800_0000h FD_F8FF_FFFFh Interrupt/EOI IntCtl
-+ * FD_F900_0000h FD_F90F_FFFFh Legacy PIC IACK
-+ * FD_F910_0000h FD_F91F_FFFFh System Management
-+ * FD_F920_0000h FD_FAFF_FFFFh Reserved Page Tables
-+ * FD_FB00_0000h FD_FBFF_FFFFh Address Translation
-+ * FD_FC00_0000h FD_FDFF_FFFFh I/O Space
-+ * FD_FE00_0000h FD_FFFF_FFFFh Configuration
-+ * FE_0000_0000h FE_1FFF_FFFFh Extended Configuration/Device Messages
-+ * FE_2000_0000h FF_FFFF_FFFFh Reserved
-+ *
-+ * See AMD IOMMU spec, section 2.1.2 "IOMMU Logical Topology",
-+ * Table 3: Special Address Controls (GPA) for more information.
-+ */
-+#define AMD_HT_START         0xfd00000000UL
-+#define AMD_HT_END           0xffffffffffUL
-+#define AMD_ABOVE_1TB_START  (AMD_HT_END + 1)
-+#define AMD_HT_SIZE          (AMD_ABOVE_1TB_START - AMD_HT_START)
-+
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
-@@ -914,6 +948,26 @@ void pc_memory_init(PCMachineState *pcms,
- 
-     linux_boot = (machine->kernel_filename != NULL);
- 
-+    /*
-+     * The HyperTransport range close to the 1T boundary is unique to AMD
-+     * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
-+     * to above 1T to AMD vCPUs only.
-+     */
-+    if (IS_AMD_CPU(&cpu->env)) {
-+        /* Bail out if max possible address does not cross HT range */
-+        if (pc_max_used_gpa(pcms, pci_hole64_size) >= AMD_HT_START) {
-+            x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
-+        }
-+
-+        /*
-+         * Advertise the HT region if address space covers the reserved
-+         * region or if we relocate.
-+         */
-+        if (cpu->phys_bits >= 40) {
-+            e820_add_entry(AMD_HT_START, AMD_HT_SIZE, E820_RESERVED);
-+        }
-+    }
-+
+@@ -951,9 +951,10 @@ void pc_memory_init(PCMachineState *pcms,
      /*
-      * phys-bits is required to be appropriately configured
-      * to make sure max used GPA is reachable.
+      * The HyperTransport range close to the 1T boundary is unique to AMD
+      * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
+-     * to above 1T to AMD vCPUs only.
++     * to above 1T to AMD vCPUs only. @enforce_amd_1tb_hole is only false in
++     * older machine types (<= 7.0) for compatibility purposes.
+      */
+-    if (IS_AMD_CPU(&cpu->env)) {
++    if (IS_AMD_CPU(&cpu->env) && pcmc->enforce_amd_1tb_hole) {
+         /* Bail out if max possible address does not cross HT range */
+         if (pc_max_used_gpa(pcms, pci_hole64_size) >= AMD_HT_START) {
+             x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
+@@ -1902,6 +1903,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     pcmc->has_reserved_memory = true;
+     pcmc->kvmclock_enabled = true;
+     pcmc->enforce_aligned_dimm = true;
++    pcmc->enforce_amd_1tb_hole = true;
+     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
+      * to be used at the moment, 32K should be enough for a while.  */
+     pcmc->acpi_data_size = 0x20000 + 0x8000;
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 2a483e8666b4..074571bc03a8 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -446,9 +446,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+ 
+ static void pc_i440fx_7_0_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_i440fx_7_1_machine_options(m);
+     m->alias = NULL;
+     m->is_default = false;
++    pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+ }
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 99ed75371c67..f3aa4694a299 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -383,8 +383,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+ 
+ static void pc_q35_7_0_machine_options(MachineClass *m)
+ {
++    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_1_machine_options(m);
+     m->alias = NULL;
++    pcmc->enforce_amd_1tb_hole = false;
+     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+ }
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 568c226d3034..9cc3f5d33805 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -118,6 +118,7 @@ struct PCMachineClass {
+     bool has_reserved_memory;
+     bool enforce_aligned_dimm;
+     bool broken_reserved_end;
++    bool enforce_amd_1tb_hole;
+ 
+     /* generate legacy CPU hotplug AML */
+     bool legacy_cpu_hotplug;
 -- 
 2.17.2
 
