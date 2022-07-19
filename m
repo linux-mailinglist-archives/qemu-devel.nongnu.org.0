@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C186157A66E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:24:01 +0200 (CEST)
-Received: from localhost ([::1]:51574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E594257A641
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:13:13 +0200 (CEST)
+Received: from localhost ([::1]:59118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrt2-0004tb-JD
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38008)
+	id 1oDria-0006TA-9P
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDrdZ-0003Tt-IE; Tue, 19 Jul 2022 14:08:01 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:39893)
+ id 1oDrgK-0000kC-KA
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:10:52 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oDrdW-0007xV-AL; Tue, 19 Jul 2022 14:08:00 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id z22so7741009edd.6;
- Tue, 19 Jul 2022 11:07:53 -0700 (PDT)
+ id 1oDrgH-0001WK-Lt
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:10:52 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id oy13so28642532ejb.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:10:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IxPmMPiTZBDg0mxTBZfvX2MiuFCJg2yXTVp2DiI2ZHU=;
- b=CcGeIBHGYQ9/qlYGmkjYMcGZPHoysyudeNiqvbQwzeAZ4jptln7R8fOX/sWFhKOZ0R
- OGeAsQMzvRim2s8IR1g0XzQjK/V6cLaR8DuS8nX6PMah91qIEJOjbUGMqmTGEFJGnqpr
- aDb0jKLQCuWkpoD0j3UbIFWOlb28iqD7BRpqgmNs7SC4y3/EDWCKnDGws3OpJJB5PRS2
- ivDf8JwZ0wLGI/Fs9nYsgSrRk0SNMgD+H7XnqWpztns6LBOLbGO8cVvo/IFhDGe8P7F3
- U0ONshj4pA3LZEmBmLJrak3TP83f/+A3+7X7t9K1b7D1DOvOwrJ3j4o8y9CkjqJJyPdV
- HPpg==
+ bh=/seujfPUhZ8egZzwztvHTrDzdfn7U2upuVR0e3Z/v4Y=;
+ b=kPpKzRsAufvMX+cCvPEYWraV8ajL3z8nqRrKziUxXWfv47oJfIKAk3RE5b6nrwkJ2m
+ iQSFSMNHnKa8gI2w6nGI5mHufgMO018j+aiRH9kFRVTI2l13c3jXZrwaEiuaN5r00awq
+ 04QDZQh7zHmketxbA0apIxINP0MdEvqKCmTWfquhmB4shnK532fbK4tD6NSxdCLv8Rqu
+ WL8gIEhlzG8jLQxYPy6sozXYpP9jdTYoDZKQqMsuEfmqjQ4wRM7oHLf4meA8160a9JeT
+ 4OBO0mhWSVL3WYhEFEBsKeSCWwhAStzikwiwQiA/BOKNZr8ooUkWFNMf1+wZGPKfxiFU
+ a6sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=IxPmMPiTZBDg0mxTBZfvX2MiuFCJg2yXTVp2DiI2ZHU=;
- b=Zg4u30f5JuATlgNlNiYlLm30HkiXxHbQkLiN6bRXd9wzw9AiC3XldxqhE1gIMAoDV4
- xeUuFFZK+EtFK3SH4tonbAkiEVoFFHfmtiIuBT46ZcMRZ+g21SiaGPd1NL7jD0X6qVej
- wlp72JPDhgLokR41Wl/OS9xnIHzBzW+PA7bZU6ecNdvE7Uw3nc6OmBiWhR9SbAcL9YJN
- cBhTLBZNAFjGN465xpcFFtm+lmu1kL2HPT7rY0rSeiJ5CL1D0lRKz++2Qe1hftltpmJe
- yhRl33U0uLgaBef3tja6GSvu0hnFCtaDsud3rxnjDieAyHMf5IRqxcuZzO7VWN3wTwiV
- clqw==
-X-Gm-Message-State: AJIora9DGKAAoOjovI0R3q5xSx5FgDZcudPnUMUF6gSe1v7P6FG1Dnk+
- a/68j1IDeMcyXZGYltdYLUY=
-X-Google-Smtp-Source: AGRyM1uVZmk1/ACvw4yV3EpVJGNMpKx+h0eeUL+ErDWOL+uuHDiA8FFRWiPb+WHIjG9oemVPplW5/w==
-X-Received: by 2002:a05:6402:22b5:b0:43a:8e9f:f495 with SMTP id
- cx21-20020a05640222b500b0043a8e9ff495mr44814436edb.324.1658254072086; 
- Tue, 19 Jul 2022 11:07:52 -0700 (PDT)
+ bh=/seujfPUhZ8egZzwztvHTrDzdfn7U2upuVR0e3Z/v4Y=;
+ b=Wq2G1bCl7LTQ2SmHf3IwKxs+B8asaTW1gBhRYeZMxbpoSt7lrJuFeBDpRaCpBLSLIT
+ vhKDCGU1bnMOFvRiLrmropgsqzIuXqytcD8E56yglbj2iUl3GN7+6xjt9UxL1jxlXG2v
+ S/GQEkcU3XffprTrZ/mBkl1GG56Gm0u5PBqIwMzoG1PjC/WfnrdWJsW1Q3wI3u/GF8vw
+ 4FBJuxlsoylmHSLFL01BW4tmevvVVxr+3SMsTrzoAKbfBWLXsrznJMScFCXrCVGMOne1
+ EFHgtbUF1ggD+Go3CXvNpfvdRwlVWgsaM+NpwDbHyVJyN0xQ3AQ0N7Tr5Jz/awx/9+SE
+ v7Nw==
+X-Gm-Message-State: AJIora+llOyfdDs5xXN6XNuGVUo+Ei/k+Hgt0mB/91vrpwSYFyTafrUr
+ ZsT7b9aLDX+qh8fSLqBP9jc=
+X-Google-Smtp-Source: AGRyM1shd2fo1M23vzYgyKNsQQWF83nKt8+rXK96Fn5kU5eegF/Dyj6iUs5fm7rhK2tQQ1lCpZ4pIg==
+X-Received: by 2002:a17:907:d92:b0:72e:e94d:b675 with SMTP id
+ go18-20020a1709070d9200b0072ee94db675mr22520937ejc.742.1658254246887; 
+ Tue, 19 Jul 2022 11:10:46 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- c7-20020aa7df07000000b0043a7c24a669sm10782127edy.91.2022.07.19.11.07.50
+ j12-20020a056402238c00b00437938c731fsm10794890eda.97.2022.07.19.11.10.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 11:07:51 -0700 (PDT)
-Message-ID: <79762fa3-74d5-ed08-8291-5534942c72b1@redhat.com>
-Date: Tue, 19 Jul 2022 20:07:50 +0200
+ Tue, 19 Jul 2022 11:10:46 -0700 (PDT)
+Message-ID: <7a2ed522-c6d2-48b8-5692-4a27b24ef312@redhat.com>
+Date: Tue, 19 Jul 2022 20:10:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
- _can_set_ and _set_
+Subject: Re: [PULL 07/16] configure, meson: move ARCH to meson.build
 Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-8-eesposit@redhat.com>
- <ea2b8793-532d-e7c1-c34f-a9ef89f8586d@redhat.com>
- <88e07fa2-60c9-0fb6-fc1b-b03a2f7d37f5@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20211219141711.248066-1-pbonzini@redhat.com>
+ <20211219141711.248066-8-pbonzini@redhat.com>
+ <CAFEAcA-uAYrZPzGZfSVOQ16cxfYiR8k_J5D0XWNYn49V_hdmCA@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <88e07fa2-60c9-0fb6-fc1b-b03a2f7d37f5@redhat.com>
+In-Reply-To: <CAFEAcA-uAYrZPzGZfSVOQ16cxfYiR8k_J5D0XWNYn49V_hdmCA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,15 +97,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 11:57, Emanuele Giuseppe Esposito wrote:
+On 7/19/22 15:00, Peter Maydell wrote:
+> shellcheck points out that this (old) commit removed the code
+> setting ARCH from configure, but left behind a use of it:
 > 
-> Wrapping the new drains in aio_context_acquire/release(new_context) is
-> not so much helpful either, since apparently the following
-> blk_set_aio_context makes aio_poll() hang.
-> I am not sure why, any ideas?
+> case "$ARCH" in
+> alpha)
+>    # Ensure there's only a single GP
+>    QEMU_CFLAGS="-msmall-data $QEMU_CFLAGS"
+> ;;
+> esac
+> 
+> Presumably meson.build needs to do some equivalent of this ?
 
-I'll take a look, thanks.  In any case this doesn't block this series, 
-it was just a suggestion and blk_do_set_aio_context can be improved on top.
+Yeah, I'll send a patch before 7.1 gets out (Richard, as the resident 
+Alpha guy do you why it is needed?).
 
 Paolo
 
