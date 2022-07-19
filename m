@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A08757A5AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:46:09 +0200 (CEST)
-Received: from localhost ([::1]:34616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD7457A53F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:28:31 +0200 (CEST)
+Received: from localhost ([::1]:37916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrIO-0001Xh-3r
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42946)
+	id 1oDr1K-0000a9-MB
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcf-0006s0-7g
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32180)
+ id 1oDqd1-0007GI-5G
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcd-0002xT-CV
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:00 -0400
+ id 1oDqcy-00031z-H6
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658250177;
+ s=mimecast20190719; t=1658250199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C3RsTzpUpSmcwAiXumCHZkL1L95oYVF7nTyhzOb0/Tk=;
- b=c9NjfkX0GP8V+ZgzBz+gIXnurcP1k+ZYfrkiA2ItAdM5SsWdqm06h5c1aRqYQ8x7Ccz34n
- sPMv4nlefWasCiBJpAllzazEA6pkw43tT2Snc0PJm5gA+bSeP3o2T/ffVXbObvcRMGPT7H
- BX8ZuflxqvkGq4gQ5M/ak0Ag97hGBRQ=
+ bh=jT5SCI9yceEEWoJ6eZlL1Ya13QG2Pfnwc9vFeYp3jBA=;
+ b=SnsiyTGVsL9GPg9aU0Fhds6KLrHKVpgNHbmDHo/bS6Oli697FDA3j5+sZQKTbAbpRttsUF
+ MrujgwsgHxj7O/KyIc43H2A8vxJUlDfx+axGHZdYiOz1auZH3smXJnU2oJ5iK40dxWDoaM
+ DFlHp4oRu6f9PwF01S8Ec22fL/4Vm7A=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-ioFdnXOHNgipgIAidS7b0w-1; Tue, 19 Jul 2022 13:02:55 -0400
-X-MC-Unique: ioFdnXOHNgipgIAidS7b0w-1
+ us-mta-635-yAdT5zA5Nsa6M-gSlxSyJg-1; Tue, 19 Jul 2022 13:03:06 -0400
+X-MC-Unique: yAdT5zA5Nsa6M-gSlxSyJg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B95E380673A;
- Tue, 19 Jul 2022 17:02:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2F3B3C10156;
+ Tue, 19 Jul 2022 17:02:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 85B6840CFD0A;
- Tue, 19 Jul 2022 17:02:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACD4440CF8E5;
+ Tue, 19 Jul 2022 17:02:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 24/29] migration: remove unreachable code after reading data
-Date: Tue, 19 Jul 2022 18:02:16 +0100
-Message-Id: <20220719170221.576190-25-dgilbert@redhat.com>
+Subject: [PULL 25/29] QIOChannelSocket: Fix zero-copy flush returning code 1
+ when nothing sent
+Date: Tue, 19 Jul 2022 18:02:17 +0100
+Message-Id: <20220719170221.576190-26-dgilbert@redhat.com>
 In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
 References: <20220719170221.576190-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -80,39 +81,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Leonardo Bras <leobras@redhat.com>
 
-The code calls qio_channel_read() in a loop when it reports
-QIO_CHANNEL_ERR_BLOCK. This code is reported when errno==EAGAIN.
+If flush is called when no buffer was sent with MSG_ZEROCOPY, it currently
+returns 1. This return code should be used only when Linux fails to use
+MSG_ZEROCOPY on a lot of sendmsg().
 
-As such the later block of code will always hit the 'errno != EAGAIN'
-condition, making the final 'else' unreachable.
+Fix this by returning early from flush if no sendmsg(...,MSG_ZEROCOPY)
+was attempted.
 
-Fixes: Coverity CID 1490203
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220627135318.156121-1-berrange@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Fixes: 2bc58ffc2926 ("QIOChannelSocket: Implement io_writev zero copy flag & io_flush for CONFIG_LINUX")
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20220711211112.18951-2-leobras@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/qemu-file.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ io/channel-socket.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/migration/qemu-file.c b/migration/qemu-file.c
-index 2f266b25cd..4f400c2e52 100644
---- a/migration/qemu-file.c
-+++ b/migration/qemu-file.c
-@@ -411,10 +411,8 @@ static ssize_t qemu_fill_buffer(QEMUFile *f)
-         f->total_transferred += len;
-     } else if (len == 0) {
-         qemu_file_set_error_obj(f, -EIO, local_error);
--    } else if (len != -EAGAIN) {
--        qemu_file_set_error_obj(f, len, local_error);
-     } else {
--        error_free(local_error);
-+        qemu_file_set_error_obj(f, len, local_error);
-     }
+diff --git a/io/channel-socket.c b/io/channel-socket.c
+index 4466bb1cd4..74a936cc1f 100644
+--- a/io/channel-socket.c
++++ b/io/channel-socket.c
+@@ -716,12 +716,18 @@ static int qio_channel_socket_flush(QIOChannel *ioc,
+     struct cmsghdr *cm;
+     char control[CMSG_SPACE(sizeof(*serr))];
+     int received;
+-    int ret = 1;
++    int ret;
++
++    if (sioc->zero_copy_queued == sioc->zero_copy_sent) {
++        return 0;
++    }
  
-     return len;
+     msg.msg_control = control;
+     msg.msg_controllen = sizeof(control);
+     memset(control, 0, sizeof(control));
+ 
++    ret = 1;
++
+     while (sioc->zero_copy_sent < sioc->zero_copy_queued) {
+         received = recvmsg(sioc->fd, &msg, MSG_ERRQUEUE);
+         if (received < 0) {
 -- 
 2.36.1
 
