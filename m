@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC17E57A78B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 21:54:50 +0200 (CEST)
-Received: from localhost ([::1]:35958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C3E57A857
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 22:36:42 +0200 (CEST)
+Received: from localhost ([::1]:56500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDtIu-00089C-QA
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 15:54:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
+	id 1oDtxP-0001t6-CG
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 16:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtHo-0006nu-RD
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54654)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtw1-0000WB-FU
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 16:35:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtHk-0002Lb-OR
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 15:53:38 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oDtvx-0001Bf-Sg
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 16:35:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658260413;
+ s=mimecast20190719; t=1658262908;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dCIm//mrVzSgwSVB2lNLBMDixGKXm6mMH5KhomgLZXo=;
- b=dQTvBBWkwejpL+7vqc1e9RqZVNFLKiVzOobXUnnKsj4L99McRXFDuA5ej4mowhWICCZiOi
- 5egwh9f1bCVybGV9a4mjs7MiEWCeW7P3nJnSLr+VgUl/zeVApiwsJU+TFDKBczVMcw3+My
- qNVOFNGwCKtOXx8U09HHZpwNHdN9zTo=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=IN20gitrg5d2gf1h45S/mkrlzI4xg2pP7Msp5iRUPgw=;
+ b=CAJmfog2uqxCj+NG7g339h5Eygb3f5U4hgRy48iancZzmI1+sCOj6QGnREu2Ci0CzBMdtA
+ 349bcpAvJ+/Y7GzQ0KHwdt0CxtDAtqTD/6x36mpJfYuk+7riwsmD0tX4ysCAvJB7e7u0L8
+ U7a2FLdvhrUzIk7zOQnvVECqw7iLVUw=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-sQBzg0oxOSaE2qubJT8J4Q-1; Tue, 19 Jul 2022 15:53:32 -0400
-X-MC-Unique: sQBzg0oxOSaE2qubJT8J4Q-1
-Received: by mail-qt1-f198.google.com with SMTP id
- r5-20020ac85c85000000b0031ecf611c64so10969569qta.23
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 12:53:32 -0700 (PDT)
+ us-mta-79-HjTzVNqLOzyETAzEghP08Q-1; Tue, 19 Jul 2022 16:35:06 -0400
+X-MC-Unique: HjTzVNqLOzyETAzEghP08Q-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ f1-20020ac84641000000b0031ecb35e4d1so10838623qto.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 13:35:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=dCIm//mrVzSgwSVB2lNLBMDixGKXm6mMH5KhomgLZXo=;
- b=WeKy3AWI+HbVDbSMeqChcX4hlU9CrhtDt3R7omUsXQk36XQJ6M6/GSl8pwow+MpAfr
- brS1J9vketJo7eSoFEeMnCmpVVWBTkpFytPdFbpbiXNV70wlIw/hM0asUpoADDBiYMtq
- cV5QWchrGiBp5zM54pcgA1fMwg9amdm1MEPu/Wwn/znE1+re1Y0eNl8Jm5frC7zrtQ1W
- Xy6wyihfSknnLnfOpjuAKa67TBYzyn3gYX9Ik6XIpvLXteZUsdy8PZGf2pTt+VBu03uq
- gDVciK9++ZxEtsPlXOhppy0kYQlqDtOHYX+x7r9meREvTl412KsP2IVhgRpVY0IQnDlS
- YraQ==
-X-Gm-Message-State: AJIora9C7k2bew4UyG1Ns+1OrGfer7r9Genvl3XTyDaoD7Dt/v9fUddV
- ykZBBJD8xFkG3GPk2O0QN9LliX88k6AbZlV7OJZy+c5+faW3BJvEGsi0A0+06/xaZ4X5+YcKLuf
- nQcz1PmvXBZenb6M=
-X-Received: by 2002:a05:6214:c88:b0:473:6384:6504 with SMTP id
- r8-20020a0562140c8800b0047363846504mr27091470qvr.33.1658260411009; 
- Tue, 19 Jul 2022 12:53:31 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tJYkVPjd0zE/Ivc/ttkGup9VxrgRO+DPWfOHEya+EGDnC//t1gBf+aQ8t3ncKc8gh2pkL9Sw==
-X-Received: by 2002:a05:6214:c88:b0:473:6384:6504 with SMTP id
- r8-20020a0562140c8800b0047363846504mr27091458qvr.33.1658260410778; 
- Tue, 19 Jul 2022 12:53:30 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=IN20gitrg5d2gf1h45S/mkrlzI4xg2pP7Msp5iRUPgw=;
+ b=5Me6U03/qtJmuKAAnc905Zln0dgZ6oIsxwQEC2N8F4oL/heex+d58oOQVqBr93Qa7X
+ 5IqmN1TVrOk/tEA7QTnRpifFwmQ+cxsBEvtMsYQqfv1IlVLyjeIEtHw4ZTXkUrl73CZb
+ ry1DRdMsyMup5Wv6Z8tQJtUD27iTqhSMnUi7ia7jYkWZlV/H1vpJT7fX361QEY2RdRPY
+ rYXtP0QP1pE+RXko7sGDATJiJR53I0K2/J4B5zBnDTAXGvaRHfbMyfyTKN056v/TUWdq
+ A08MNRiqx4CBxtGR2TMXxRGNMc77zzpHlMxnaUumlSryFobx8EBnB7Miwe1EvN874fSP
+ WzlQ==
+X-Gm-Message-State: AJIora+Ik+OlwlXKXFVQU+R0nTo9dUJ8vXsubkvJr9qIi1ihElou/3ym
+ sSQkOBzfRfYG2GIZSzjQOwHm/KVd/rEHvzF6m2Zwg/BoSCAithg3Nl81agwhTusxWbsTG3kZR60
+ IgG5ihS81iCIgn7c=
+X-Received: by 2002:ad4:5be8:0:b0:472:f169:de89 with SMTP id
+ k8-20020ad45be8000000b00472f169de89mr27736821qvc.88.1658262906367; 
+ Tue, 19 Jul 2022 13:35:06 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uAgWo8acc8jxvufP4MZc3nw71WJpIbjnrVx8fdfsbGEt4deyeAklTxmU9IzvQlj3vZ+rADkQ==
+X-Received: by 2002:ad4:5be8:0:b0:472:f169:de89 with SMTP id
+ k8-20020ad45be8000000b00472f169de89mr27736807qvc.88.1658262906099; 
+ Tue, 19 Jul 2022 13:35:06 -0700 (PDT)
 Received: from xz-m1.local
  (bras-base-aurron9127w-grc-37-74-12-30-48.dsl.bell.ca. [74.12.30.48])
  by smtp.gmail.com with ESMTPSA id
- j18-20020ac86652000000b00304fc3d144esm11071361qtp.1.2022.07.19.12.53.29
+ f3-20020a05620a408300b006b60876f014sm805774qko.55.2022.07.19.13.35.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 12:53:30 -0700 (PDT)
-Date: Tue, 19 Jul 2022 15:53:29 -0400
+ Tue, 19 Jul 2022 13:35:05 -0700 (PDT)
+Date: Tue, 19 Jul 2022 16:35:04 -0400
 From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
-Message-ID: <YtcLucZuvELrFC0f@xz-m1.local>
-References: <20220707184600.24164-1-peterx@redhat.com>
- <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
- <YtWxHSjpORK31aLs@xz-m1.local>
- <4ebe2d62-b627-3d2b-3c3e-73701fbf7be5@redhat.com>
- <YtaJg0zU8Fo3p2NB@redhat.com>
+To: Leonardo Bras <leobras@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v1 1/1] migration: Avoid false-positive on non-supported
+ scenarios for zero-copy-send
+Message-ID: <YtcVeCkZeR2a5nGa@xz-m1.local>
+References: <20220719122345.253713-1-leobras@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YtaJg0zU8Fo3p2NB@redhat.com>
+In-Reply-To: <20220719122345.253713-1-leobras@redhat.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -106,94 +98,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 19, 2022 at 11:37:55AM +0100, Daniel P. Berrangé wrote:
-> On Tue, Jul 19, 2022 at 12:28:24PM +0200, Thomas Huth wrote:
-> > On 18/07/2022 21.14, Peter Xu wrote:
-> > > Hi, Thomas,
-> > > 
-> > > On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
-> > > > On 07/07/2022 20.46, Peter Xu wrote:
-> > > > > We used to stop running all tests if uffd is not detected.  However
-> > > > > logically that's only needed for postcopy not the rest of tests.
-> > > > > 
-> > > > > Keep running the rest when still possible.
-> > > > > 
-> > > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > > > ---
-> > > > >    tests/qtest/migration-test.c | 11 +++++------
-> > > > >    1 file changed, 5 insertions(+), 6 deletions(-)
-> > > > 
-> > > > Did you test your patch in the gitlab-CI? I just added it to my testing-next
-> > > > branch and the the test is failing reproducibly on macOS here:
-> > > > 
-> > > >   https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
-> > > >   https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
-> > > > 
-> > > > (without your patch the whole test is skipped instead)
-> > > 
-> > > Thanks for reporting this.
-> > > 
-> > > Is it easy to figure out which test was failing on your side?  I cannot
-> > > easily reproduce this here on a MacOS with M1.
-> > 
-> > I've modified the yml file to only run the migration test in verbose mode
-> > and got this:
-> > 
-> > ...
-> > ok 5 /x86_64/migration/validate_uuid_src_not_set
-> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > source,debug-threads=on -m 150M -serial
-> > file:/tmp/migration-test-ef2fMr/src_serial -drive
-> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw  -uuid
-> > 11111111-1111-1111-1111-111111111111 2>/dev/null -accel qtest
-> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > target,debug-threads=on -m 150M -serial
-> > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
-> > unix:/tmp/migration-test-ef2fMr/migsocket -drive
-> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw   2>/dev/null -accel
-> > qtest
-> > ok 6 /x86_64/migration/validate_uuid_dst_not_set
-> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > source,debug-threads=on -m 150M -serial
-> > file:/tmp/migration-test-ef2fMr/src_serial -drive
-> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
-> > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > target,debug-threads=on -m 150M -serial
-> > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
-> > unix:/tmp/migration-test-ef2fMr/migsocket -drive
-> > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
-> > **
-> > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
-> > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
-> > Bail out!
-> > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
-> > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
+On Tue, Jul 19, 2022 at 09:23:45AM -0300, Leonardo Bras wrote:
+> Migration with zero-copy-send currently has it's limitations, as it can't
+> be used with TLS nor any kind of compression. In such scenarios, it should
+> output errors during parameter / capability setting.
 > 
-> This is the safety net we put it to catch case where the test has
-> got stuck. It is set at 2 minutes.
+> But currently there are some ways of setting this not-supported scenarios
+> without printing the error message:
 > 
-> There's a chance that is too short, so one first step might be to
-> increase to 10 minutes and see if the tests pass. If it still fails,
-> then its likely a genuine bug
+> !) For 'compression' capability, it works by enabling it together with
+> zero-copy-send. This happens because the validity test for zero-copy uses
+> the helper unction migrate_use_compression(), which check for compression
+> presence in s->enabled_capabilities[MIGRATION_CAPABILITY_COMPRESS].
+> 
+> The point here is: the validity test happens before the capability gets
+> enabled. If all of them get enabled together, this test will not return
+> error.
+> 
+> In order to fix that, replace migrate_use_compression() by directly testing
+> the cap_list parameter migrate_caps_check().
+> 
+> 2) For features enabled by parameters such as TLS & 'multifd_compression',
+> there was also a possibility of setting non-supported scenarios: setting
+> zero-copy-send first, then setting the unsupported parameter.
+> 
+> In order to fix that, also add a check for parameters conflicting with
+> zero-copy-send on migrate_params_check().
+> 
+> 3) XBZRLE is also a compression capability, so it makes sense to also add
+> it to the list of capabilities which are not supported with zero-copy-send.
+> 
+> Fixes: 1abaec9a1b2c ("migration: Change zero_copy_send from migration parameter to migration capability")
+> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> ---
+>  migration/migration.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 78f5057373..c6260e54bf 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1274,7 +1274,9 @@ static bool migrate_caps_check(bool *cap_list,
+>  #ifdef CONFIG_LINUX
+>      if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
+>          (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
+> -         migrate_use_compression() ||
+> +         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
+> +         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
+> +         migrate_multifd_compression() ||
+>           migrate_use_tls())) {
+>          error_setg(errp,
+>                     "Zero copy only available for non-compressed non-TLS multifd migration");
+> @@ -1511,6 +1513,17 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+>          error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+>          return false;
+>      }
+> +
+> +#ifdef CONFIG_LINUX
 
-Agreed, it worths another try.
+A trivial nit: we don't need this since migrate_use_zero_copy_send() will
+be defined unconditionally, and it's returning false with !CONFIG_LINUX.
+So feel free to drop this if there's a new version.
 
-Thanks both for your answers on CI.  I wanted to go through the setup of
-Cirrus CI and kick it myself, but I got stuck at the step on generating the
-API token for Cirrus.
+> +    if (migrate_use_zero_copy_send() &&
+> +        ((params->has_multifd_compression && params->multifd_compression) ||
+> +         (params->has_tls_creds && params->tls_creds && *params->tls_creds))) {
+> +        error_setg(errp,
+> +                   "Zero copy only available for non-compressed non-TLS multifd migration");
+> +        return false;
+> +    }
+> +#endif
 
-It seems the button to generate API token just didn't have a respond for me
-until I refresh the page (then I can see some token generated), however I
-still haven't figured out a way to see the initial 6 letters since they'll
-be always masked out..  Changing browser didn't work for me either. :(
+Reviewed-by: Peter Xu <peterx@redhat.com>
+
+Thanks,
 
 -- 
 Peter Xu
