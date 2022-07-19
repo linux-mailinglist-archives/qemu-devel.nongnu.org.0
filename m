@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 687ED5799D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:07:27 +0200 (CEST)
-Received: from localhost ([::1]:45302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E82579A1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 14:10:58 +0200 (CEST)
+Received: from localhost ([::1]:48480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDm0c-0002Vr-87
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:07:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50082)
+	id 1oDm41-0004os-Hs
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 08:10:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDly9-0008SR-Ha
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:04:53 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:40636)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oDly7-0000Wf-QB
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:04:53 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-31d85f82f0bso138011677b3.7
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 05:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wwewn+ZRRd24EVztWUNch3fQi9cHX52fEm/bvleMzMo=;
- b=la7gGhD5+bEpIIW4Go9whji7ca3gZrw1WirDzH52TwZ3vosmquTFqd3X61AT15hzr0
- 8HkSK77Gy6MM/Hu4pMxjMkYUgOAsTAcp2OicK24w5sX445wPnERaBgq2fYy78sHwxLsl
- 4SmhLToTJXS/pknnuIixloy3cr9qcYm6YeyvAsSDTGLT7VTAlYerreUABnvWE3lQv+Ra
- BqPoH4F+PiZWoC4Oo02tyjI8T2hQBcKTHPkThjdqSDWzhovCj4EcAHT7qBuICaPQJ9BZ
- iiM/c8/pE3JoCGb140YZGwS5lPY0XVM012qv0Te7jox935zW7PV2SJ1eR/zxS0Qmn8Iv
- JvYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wwewn+ZRRd24EVztWUNch3fQi9cHX52fEm/bvleMzMo=;
- b=Fof5vof3JlkYUedjsPu8emaikwbqB52TVW8Ep1ztJDPkR4Rkt/+InJoxMazx21oTMG
- HLMXkmUyrmfzdZpePMbckgjspJDXWIuCagM906tMwBbVFl/6M93DfKNUxx8Qs4SfQiwV
- XUXaT5TRKqs9wBFcqCfKZl1rvh5IfvWOwxyvYC+3PYCNF3wIOdoYP6Y5CRfaClC4CA88
- IGfKfdVqBKGAwNclvZSQZyYv6rVvCt7qgIWK9ebSUOHq0xbogYCyZvz5JRh9opwZsmTx
- YKeO3NLJe+f9nZPSngTpE4+Y97EMUueD5PuaHcQ9lRCHZ2db+/xN4yZtPtGOI75yEQSa
- WjZw==
-X-Gm-Message-State: AJIora/eqOjOJQxf0rhc/CYBwHg5vpxSwHmG8DTjdraYLNR/PO5nuVzv
- 3oU1vMZ10CKmV3Yi5AxTpDbuqThgF7xskq3bTB0DHA==
-X-Google-Smtp-Source: AGRyM1uCbDG7VPY7hWRh1vcmNoTmuKsYL4G4Ew4BHF3NVRx8aoTta7jEUrKd+6ShgLVmdKkqV2/Ywa+NtfCEG3abR0w=
-X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
- z7-20020a81a247000000b0031d72dae931mr35710889ywg.469.1658232290565; Tue, 19
- Jul 2022 05:04:50 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDm26-0003CN-3n
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:08:58 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:42058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org>)
+ id 1oDm22-0001Eb-64
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 08:08:57 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 138C8B81B37;
+ Tue, 19 Jul 2022 12:08:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64746C341CA;
+ Tue, 19 Jul 2022 12:08:50 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="imhNcQVh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658232528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5Lb05Ba/T2F9BL0mRC3QwpHj3oy/QFJoGqEy1OTcJM4=;
+ b=imhNcQVhNUPx278PoImlhLO9LXgAeF1VLIk6WP2yEGvEwVNkHUNzac/1CDGfNmYakMMCiS
+ oZouDMkE1+qg190rjnM4rd82U71oDHFJzig5NEAhzYgf3AbmMvzjJKnHGjzyi9+LjTBt3R
+ 6LHUMNjkaRhWo6GTtX2RAYOIjIjkSO0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9307ff5c
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Tue, 19 Jul 2022 12:08:48 +0000 (UTC)
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: [PATCH] hw/mips: boston: pass random seed to fdt
+Date: Tue, 19 Jul 2022 14:08:43 +0200
+Message-Id: <20220719120843.134392-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-References: <20220718224845.19878-1-tsimpson@quicinc.com>
-In-Reply-To: <20220718224845.19878-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jul 2022 13:04:39 +0100
-Message-ID: <CAFEAcA_cjB6_QjZ6=X=st+h=YHPm1zYovU8C9Stcf2fy_8oDEw@mail.gmail.com>
-Subject: Re: [PULL 0/2] Hexagon (target/hexagon) bug fixes for mem_noshuf
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, f4bug@amsat.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=TnJG=XY=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +80,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jul 2022 at 23:49, Taylor Simpson <tsimpson@quicinc.com> wrote:
->
-> The following changes since commit 24f01d220f56eab3268538ef10655b4fb2453fdf:
->
->   Merge https://github.com/qemu/qemu into tip (2022-07-18 11:16:39 -0700)
->
-> are available in the Git repository at:
->
->   https://github.com/quic/qemu tags/pull-hex-20220718
->
-> for you to fetch changes up to eb9072602617cb49c489aaf058f72695c2eaedc2:
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This FDT node is part of the DT specification.
 
-This tag is badly broken as a pull request, because it includes
-this commit:
+I'd do the same for other MIPS platforms but boston is the only one that
+seems to use FDT.
 
-commit 24f01d220f56eab3268538ef10655b4fb2453fdf
-Merge: eadad54bf10 78237897312
-Author: Taylor Simpson <tsimpson@quicinc.com>
-Date:   Mon Jul 18 11:16:39 2022 -0700
+Cc: Paul Burton <paulburton@kernel.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ hw/mips/boston.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-    Merge https://github.com/qemu/qemu into tip
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index 1debca18ec..d2ab9da1a0 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -34,6 +34,7 @@
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "qemu/log.h"
+ #include "chardev/char.h"
+ #include "sysemu/device_tree.h"
+@@ -363,6 +364,7 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
+     size_t ram_low_sz, ram_high_sz;
+     size_t fdt_sz = fdt_totalsize(fdt_orig) * 2;
+     g_autofree void *fdt = g_malloc0(fdt_sz);
++    uint8_t rng_seed[32];
+ 
+     err = fdt_open_into(fdt_orig, fdt, fdt_sz);
+     if (err) {
+@@ -370,6 +372,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
+         return NULL;
+     }
+ 
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     cmdline = (machine->kernel_cmdline && machine->kernel_cmdline[0])
+             ? machine->kernel_cmdline : " ";
+     err = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+-- 
+2.35.1
 
-
-Never merge upstream qemu back into a branch you're using
-as a pull request, please. Just rebase the patches on
-latest master.
-
-Luckily I noticed in this case because it introduces
-a whole load of garbage changes and doesn't build.
-
-thanks
--- PMM
 
