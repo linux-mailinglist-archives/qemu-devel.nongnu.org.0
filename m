@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB4E357A4C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:16:38 +0200 (CEST)
-Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F6F57A50C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:20:54 +0200 (CEST)
+Received: from localhost ([::1]:44316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDqpp-000387-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:16:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
+	id 1oDqtx-0000uN-T6
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcG-0006B9-2L
+ id 1oDqcI-0006F3-Sl
  for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20071)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcB-0002sF-MM
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:33 -0400
+ id 1oDqcF-0002sS-7y
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658250150;
+ s=mimecast20190719; t=1658250153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qY7O4pGgNjSeXJjJZlzCy8Si5MFdnbfXJ2kaWwM7tW0=;
- b=FGRuKjvNLiJvTy97UOysQZKWVEFUcUkAvysXuqpmZN/EBi5mbs+OIovx4GbLyw6EKzbCLp
- ksl91RuMV0VnPhclFR2avMVZzt46ySy0EQSU9h7laWVkl+NOA5Wk9cM7ygt0MH52E6XCUZ
- ElivF6Y5r/3aWuZr5OxEK+nC/2Gm0X0=
+ bh=WKxOT9QkutZ1Un3AMJ7AFXf8KUpR9tvj3XlvFmqNzN4=;
+ b=Y3eE0/rinh6mU+d5hufy3y0930ok0AbvjTBYt6CiKHkpNNH7yuh9gO9R8CuwZz7h8UVSnM
+ NxYmiM6NZrpv/VkfbWQyAwy71hN3gerciViC3HPhnh71cfoMHyUzZWGoEF6103KYUxfaoK
+ T2BiW0Ig7EI2HsrWIK/XhHZRHlZCfPI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-2w-ZjDlwPkm8abTJ_B-HDw-1; Tue, 19 Jul 2022 13:02:29 -0400
-X-MC-Unique: 2w-ZjDlwPkm8abTJ_B-HDw-1
+ us-mta-97-RRwv4bBoNTiTABIoGKI3Gg-1; Tue, 19 Jul 2022 13:02:30 -0400
+X-MC-Unique: RRwv4bBoNTiTABIoGKI3Gg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B2A485A587;
- Tue, 19 Jul 2022 17:02:28 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C109D811E80;
+ Tue, 19 Jul 2022 17:02:29 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A68F240CFD0A;
- Tue, 19 Jul 2022 17:02:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBE6640CFD0A;
+ Tue, 19 Jul 2022 17:02:28 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 01/29] accel/kvm/kvm-all: Refactor per-vcpu dirty ring reaping
-Date: Tue, 19 Jul 2022 18:01:53 +0100
-Message-Id: <20220719170221.576190-2-dgilbert@redhat.com>
+Subject: [PULL 02/29] cpus: Introduce cpu_list_generation_id
+Date: Tue, 19 Jul 2022 18:01:54 +0100
+Message-Id: <20220719170221.576190-3-dgilbert@redhat.com>
 In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
 References: <20220719170221.576190-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,100 +82,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Add a non-required argument 'CPUState' to kvm_dirty_ring_reap so
-that it can cover single vcpu dirty-ring-reaping scenario.
+Introduce cpu_list_generation_id to track cpu list generation so
+that cpu hotplug/unplug can be detected during measurement of
+dirty page rate.
+
+cpu_list_generation_id could be used to detect changes of cpu
+list, which is prepared for dirty page rate measurement.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 Reviewed-by: Peter Xu <peterx@redhat.com>
-Message-Id: <c32001242875e83b0d9f78f396fe2dcd380ba9e8.1656177590.git.huangy81@chinatelecom.cn>
+Message-Id: <06e1f1362b2501a471dce796abb065b04f320fa5.1656177590.git.huangy81@chinatelecom.cn>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- accel/kvm/kvm-all.c | 23 +++++++++++++----------
- 1 file changed, 13 insertions(+), 10 deletions(-)
+ cpus-common.c             | 8 ++++++++
+ include/exec/cpu-common.h | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index ed8b6b896e..ce989a68ff 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -757,17 +757,20 @@ static uint32_t kvm_dirty_ring_reap_one(KVMState *s, CPUState *cpu)
+diff --git a/cpus-common.c b/cpus-common.c
+index db459b41ce..793364dc0e 100644
+--- a/cpus-common.c
++++ b/cpus-common.c
+@@ -73,6 +73,12 @@ static int cpu_get_free_index(void)
  }
  
- /* Must be with slots_lock held */
--static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
-+static uint64_t kvm_dirty_ring_reap_locked(KVMState *s, CPUState* cpu)
+ CPUTailQ cpus = QTAILQ_HEAD_INITIALIZER(cpus);
++static unsigned int cpu_list_generation_id;
++
++unsigned int cpu_list_generation_id_get(void)
++{
++    return cpu_list_generation_id;
++}
+ 
+ void cpu_list_add(CPUState *cpu)
  {
-     int ret;
--    CPUState *cpu;
-     uint64_t total = 0;
-     int64_t stamp;
- 
-     stamp = get_clock();
- 
--    CPU_FOREACH(cpu) {
--        total += kvm_dirty_ring_reap_one(s, cpu);
-+    if (cpu) {
-+        total = kvm_dirty_ring_reap_one(s, cpu);
-+    } else {
-+        CPU_FOREACH(cpu) {
-+            total += kvm_dirty_ring_reap_one(s, cpu);
-+        }
+@@ -84,6 +90,7 @@ void cpu_list_add(CPUState *cpu)
+         assert(!cpu_index_auto_assigned);
      }
- 
-     if (total) {
-@@ -788,7 +791,7 @@ static uint64_t kvm_dirty_ring_reap_locked(KVMState *s)
-  * Currently for simplicity, we must hold BQL before calling this.  We can
-  * consider to drop the BQL if we're clear with all the race conditions.
-  */
--static uint64_t kvm_dirty_ring_reap(KVMState *s)
-+static uint64_t kvm_dirty_ring_reap(KVMState *s, CPUState *cpu)
- {
-     uint64_t total;
- 
-@@ -808,7 +811,7 @@ static uint64_t kvm_dirty_ring_reap(KVMState *s)
-      *     reset below.
-      */
-     kvm_slots_lock();
--    total = kvm_dirty_ring_reap_locked(s);
-+    total = kvm_dirty_ring_reap_locked(s, cpu);
-     kvm_slots_unlock();
- 
-     return total;
-@@ -855,7 +858,7 @@ static void kvm_dirty_ring_flush(void)
-      * vcpus out in a synchronous way.
-      */
-     kvm_cpu_synchronize_kick_all();
--    kvm_dirty_ring_reap(kvm_state);
-+    kvm_dirty_ring_reap(kvm_state, NULL);
-     trace_kvm_dirty_ring_flush(1);
+     QTAILQ_INSERT_TAIL_RCU(&cpus, cpu, node);
++    cpu_list_generation_id++;
  }
  
-@@ -1399,7 +1402,7 @@ static void kvm_set_phys_mem(KVMMemoryListener *kml,
-                  * Not easy.  Let's cross the fingers until it's fixed.
-                  */
-                 if (kvm_state->kvm_dirty_ring_size) {
--                    kvm_dirty_ring_reap_locked(kvm_state);
-+                    kvm_dirty_ring_reap_locked(kvm_state, NULL);
-                 } else {
-                     kvm_slot_get_dirty_log(kvm_state, mem);
-                 }
-@@ -1471,7 +1474,7 @@ static void *kvm_dirty_ring_reaper_thread(void *data)
-         r->reaper_state = KVM_DIRTY_RING_REAPER_REAPING;
+ void cpu_list_remove(CPUState *cpu)
+@@ -96,6 +103,7 @@ void cpu_list_remove(CPUState *cpu)
  
-         qemu_mutex_lock_iothread();
--        kvm_dirty_ring_reap(s);
-+        kvm_dirty_ring_reap(s, NULL);
-         qemu_mutex_unlock_iothread();
+     QTAILQ_REMOVE_RCU(&cpus, cpu, node);
+     cpu->cpu_index = UNASSIGNED_CPU_INDEX;
++    cpu_list_generation_id++;
+ }
  
-         r->reaper_iteration++;
-@@ -2967,7 +2970,7 @@ int kvm_cpu_exec(CPUState *cpu)
-              */
-             trace_kvm_dirty_ring_full(cpu->cpu_index);
-             qemu_mutex_lock_iothread();
--            kvm_dirty_ring_reap(kvm_state);
-+            kvm_dirty_ring_reap(kvm_state, NULL);
-             qemu_mutex_unlock_iothread();
-             ret = 0;
-             break;
+ CPUState *qemu_get_cpu(int index)
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 5968551a05..2281be4e10 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -35,6 +35,7 @@ extern intptr_t qemu_host_page_mask;
+ void qemu_init_cpu_list(void);
+ void cpu_list_lock(void);
+ void cpu_list_unlock(void);
++unsigned int cpu_list_generation_id_get(void);
+ 
+ void tcg_flush_softmmu_tlb(CPUState *cs);
+ 
 -- 
 2.36.1
 
