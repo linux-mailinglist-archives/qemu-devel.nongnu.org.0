@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B65A57A67D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:28:01 +0200 (CEST)
-Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A07A57A63B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 20:12:31 +0200 (CEST)
+Received: from localhost ([::1]:55738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDrwu-0000VP-OV
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34802)
+	id 1oDrht-0004Dl-F4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 14:12:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrXG-0007nd-2A
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:30 -0400
+ id 1oDrXK-0007y3-Sp
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:34 -0400
 Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:36711)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oDrXE-0006IE-9b
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:29 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id u76so7654651oie.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:27 -0700 (PDT)
+ id 1oDrXJ-0006IE-1c
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 14:01:34 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id u76so7655002oie.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 11:01:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CZtJq2cOHsEhwE1myZsQ1EykEr8ENQn5x2LnILPdsmQ=;
- b=TgxillV0s7QskDTd++oBwv88y7pLmiwyKGrAPGMy7UIHdwNnH4saHUqc1bTnqLnJSB
- 6qrw7YtFNC1IvPg1cOoxLs5XLHP8RRleVNooXmeHjqjHCPST6ENd5l8NgbUwNszngF9Y
- YY+HvkJIChRmWYp0vVn+GHC+Rz+BHHFwzqc0Eeh89Rvky0AS82YKnrSbjQQD+oRKnNr6
- i06/Jd2zxl+3sN9yVSiJ9Y+QgXFe6MYNE6V8ClT1NXugxvNAqpFQ1AVmSrCmDi2Xn+Kp
- K9b/W/4OUX0I0bcNFmuWCPRNCyrNTXY34ltx7Z7OYqsJg1l7TnmbZm3fG5JfJkvYMnVl
- Eewg==
+ bh=MwT6lAxq0oWE+Pulu76+OAU+DA1mJYbR9ucIFpn3LTM=;
+ b=jexCdY1UR8DhJVwTht2ePzGHiM/dzn5Rb0b1K7BCIksEg68qAguWLHPDEfVCY6v2n2
+ uxm/Ik+0j6YF4yiqkn5rhVZJ+AAYvXuu9NNphfidNfj/YcA5el3Dml/TyL0EJ5iHLfb2
+ GrAjNU0joA0Ejbh9jshvdofJE7lTs21I0aDxMYb37URlvaAXUMm47MoFrcdKSkcwuFxi
+ m5MX87uKVpPZ4yrD5lhacXHgTzAmYdcmBTCiwByX4fwwrgWkkATWGhGGULzMQ6eNwCmk
+ 8UHwNaaEHSyermECFAhqFiPoAh12dMByNweryKge7M0bCrwyI/wkE/yKxAquZegFiNUZ
+ WP6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CZtJq2cOHsEhwE1myZsQ1EykEr8ENQn5x2LnILPdsmQ=;
- b=EMV4Nj4mrADYY39shUjvNEOAs//hkF5YONpX3JBz77lgnLqo/YrH/95DXzsOhFPT5z
- 082Sn2iAT7sLFSxNS6ShhQQKgA3mDZYu8aMVS3j425sj7Ixj7vmy7+ynf6YllWPZpIPH
- TV57BBHidu8NtpQfYXIj+yAjAINXT4qtfn2j9rM6hELo3VgF+no1ED13LGEBJiE5bHdZ
- AAWU69shrOJwvM4hnzZ5zotfxWn0GfTYzVcPSp4wvXoCleu/KF9Z7Tkta9gknt/NFDai
- NCEdvV3UuRf4/awXMjzbnqZghTUwfiIsdC5pgzVQMYB1aEJZwyBXW4CeYRkax9Ialp2C
- 6IyA==
-X-Gm-Message-State: AJIora87iEMIrFMOp/WQfEBR5lTrZrJuonYle3/fMthEJgvzEEsEAXEY
- pQSkYlg/a0RuAnOHx3UGVy7f1G9M3/eB+I/w
-X-Google-Smtp-Source: AGRyM1t+nKi8FF9Xy6CZnIKoGXf4zzaZw7Ea5Kdu3pEcqNLz2YQNyn1B1BdIhPZ+ZK1oaKcw68VslA==
-X-Received: by 2002:a05:6808:1709:b0:335:19b5:dfda with SMTP id
- bc9-20020a056808170900b0033519b5dfdamr316044oib.59.1658253686996; 
- Tue, 19 Jul 2022 11:01:26 -0700 (PDT)
+ bh=MwT6lAxq0oWE+Pulu76+OAU+DA1mJYbR9ucIFpn3LTM=;
+ b=4Dj0O+yQfJapJqLlOJCuCDPPa5plpgY4ECproengCgNv8krKC6kyTeiaP7uk34VLQb
+ cataSW04Rl1W2b24hTKsaSxKO2yzmqRQD3h9Vw+mSch1KCyOlL4MT0DIFqh6XjR9+ikm
+ l8vaeHq4d8PGh64r+MYyUadUuaQQgQ2pOMvLAk7tUX+bv6x5FDQ7IxIikQ1/xWjUHE8Q
+ BBG/79HtTG8rvbxvG8liXmBW3Ccbo9WGV/KNJUHNQli++J/MzLzbeRD+VsCDWaohZ26n
+ 1Bjr4ND5ckk9RVjniKrgbdZpptBedE7R8AYj42Ey9j4yov6XM8/JLqow5Rtxmv8s1JAL
+ WbHg==
+X-Gm-Message-State: AJIora+GOsB7VFTxD25kzLloPHF5QCyUKNkvV2SRbuVFZsPW9RtizZlj
+ ke4einvWtqOOXd3nfvgTxp6rH5gE2wuDZi+5
+X-Google-Smtp-Source: AGRyM1sNf6xLlCevLPvzUJzHpW6IGrPxXGuIvMqin4YfCgGadn5WZPGMemmabXx4MyjQoRuoSiMaQA==
+X-Received: by 2002:a05:6808:169e:b0:331:522a:4521 with SMTP id
+ bb30-20020a056808169e00b00331522a4521mr307938oib.293.1658253692353; 
+ Tue, 19 Jul 2022 11:01:32 -0700 (PDT)
 Received: from stoup.. ([172.58.110.182]) by smtp.gmail.com with ESMTPSA id
- c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.22
+ c25-20020a4ae259000000b0035eb4e5a6cesm6286747oot.36.2022.07.19.11.01.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jul 2022 11:01:25 -0700 (PDT)
+ Tue, 19 Jul 2022 11:01:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Subject: [PULL 18/21] hw/loongarch: Add linux kernel booting support
-Date: Tue, 19 Jul 2022 23:29:57 +0530
-Message-Id: <20220719180000.378186-19-richard.henderson@linaro.org>
+Subject: [PULL 19/21] hw/loongarch: Add smbios support
+Date: Tue, 19 Jul 2022 23:29:58 +0530
+Message-Id: <20220719180000.378186-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
 References: <20220719180000.378186-1-richard.henderson@linaro.org>
@@ -89,168 +89,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 
-There are two situations to start system by kernel file. If exists bios
-option, system will boot from loaded bios file, else system will boot
-from hardcoded auxcode, and jump to kernel elf entry.
+Add smbios support for loongarch virt machine, and put them into fw_cfg
+table so that bios can parse them quickly. The weblink of smbios spec:
+https://www.dmtf.org/dsp/DSP0134, the version is 3.6.0.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Message-Id: <20220712083206.4187715-4-yangxiaojuan@loongson.cn>
+Message-Id: <20220712083206.4187715-5-yangxiaojuan@loongson.cn>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/loongarch/loongson3.c | 114 +++++++++++++++++++++++++++++++++------
- 1 file changed, 99 insertions(+), 15 deletions(-)
+ include/hw/loongarch/virt.h |  1 +
+ hw/loongarch/loongson3.c    | 36 ++++++++++++++++++++++++++++++++++++
+ hw/loongarch/Kconfig        |  1 +
+ 3 files changed, 38 insertions(+)
 
+diff --git a/include/hw/loongarch/virt.h b/include/hw/loongarch/virt.h
+index ec37d86e44..9b7cdfae78 100644
+--- a/include/hw/loongarch/virt.h
++++ b/include/hw/loongarch/virt.h
+@@ -33,6 +33,7 @@ struct LoongArchMachineState {
+     bool         bios_loaded;
+     /* State for other subsystems/APIs: */
+     FWCfgState  *fw_cfg;
++    Notifier     machine_done;
+ };
+ 
+ #define TYPE_LOONGARCH_MACHINE  MACHINE_TYPE_NAME("virt")
 diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/loongson3.c
-index 3f1849b8b0..88e38ce17e 100644
+index 88e38ce17e..205894d343 100644
 --- a/hw/loongarch/loongson3.c
 +++ b/hw/loongarch/loongson3.c
-@@ -103,6 +103,8 @@ static const MemoryRegionOps loongarch_virt_pm_ops = {
- static struct _loaderparams {
-     uint64_t ram_size;
-     const char *kernel_filename;
-+    const char *kernel_cmdline;
-+    const char *initrd_filename;
- } loaderparams;
+@@ -30,11 +30,45 @@
+ #include "hw/misc/unimp.h"
+ #include "hw/loongarch/fw_cfg.h"
+ #include "target/loongarch/cpu.h"
++#include "hw/firmware/smbios.h"
  
- static uint64_t cpu_loongarch_virt_to_phys(void *opaque, uint64_t addr)
-@@ -352,18 +354,97 @@ static void reset_load_elf(void *opaque)
-     }
- }
+ #define PM_BASE 0x10080000
+ #define PM_SIZE 0x100
+ #define PM_CTRL 0x10
  
-+/* Load an image file into an fw_cfg entry identified by key. */
-+static void load_image_to_fw_cfg(FWCfgState *fw_cfg, uint16_t size_key,
-+                                 uint16_t data_key, const char *image_name,
-+                                 bool try_decompress)
++static void virt_build_smbios(LoongArchMachineState *lams)
 +{
-+    size_t size = -1;
-+    uint8_t *data;
++    MachineState *ms = MACHINE(lams);
++    MachineClass *mc = MACHINE_GET_CLASS(lams);
++    uint8_t *smbios_tables, *smbios_anchor;
++    size_t smbios_tables_len, smbios_anchor_len;
++    const char *product = "QEMU Virtual Machine";
 +
-+    if (image_name == NULL) {
++    if (!lams->fw_cfg) {
 +        return;
 +    }
 +
-+    if (try_decompress) {
-+        size = load_image_gzipped_buffer(image_name,
-+                                         LOAD_IMAGE_MAX_GUNZIP_BYTES, &data);
++    smbios_set_defaults("QEMU", product, mc->name, false,
++                        true, SMBIOS_ENTRY_POINT_TYPE_64);
++
++    smbios_get_tables(ms, NULL, 0, &smbios_tables, &smbios_tables_len,
++                      &smbios_anchor, &smbios_anchor_len, &error_fatal);
++
++    if (smbios_anchor) {
++        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-tables",
++                        smbios_tables, smbios_tables_len);
++        fw_cfg_add_file(lams->fw_cfg, "etc/smbios/smbios-anchor",
++                        smbios_anchor, smbios_anchor_len);
 +    }
-+
-+    if (size == (size_t)-1) {
-+        gchar *contents;
-+        gsize length;
-+
-+        if (!g_file_get_contents(image_name, &contents, &length, NULL)) {
-+            error_report("failed to load \"%s\"", image_name);
-+            exit(1);
-+        }
-+        size = length;
-+        data = (uint8_t *)contents;
-+    }
-+
-+    fw_cfg_add_i32(fw_cfg, size_key, size);
-+    fw_cfg_add_bytes(fw_cfg, data_key, data, size);
 +}
 +
-+static void fw_cfg_add_kernel_info(FWCfgState *fw_cfg)
++static void virt_machine_done(Notifier *notifier, void *data)
 +{
-+    /*
-+     * Expose the kernel, the command line, and the initrd in fw_cfg.
-+     * We don't process them here at all, it's all left to the
-+     * firmware.
-+     */
-+    load_image_to_fw_cfg(fw_cfg,
-+                         FW_CFG_KERNEL_SIZE, FW_CFG_KERNEL_DATA,
-+                         loaderparams.kernel_filename,
-+                         false);
-+
-+    if (loaderparams.initrd_filename) {
-+        load_image_to_fw_cfg(fw_cfg,
-+                             FW_CFG_INITRD_SIZE, FW_CFG_INITRD_DATA,
-+                             loaderparams.initrd_filename, false);
-+    }
-+
-+    if (loaderparams.kernel_cmdline) {
-+        fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
-+                       strlen(loaderparams.kernel_cmdline) + 1);
-+        fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA,
-+                          loaderparams.kernel_cmdline);
-+    }
++    LoongArchMachineState *lams = container_of(notifier,
++                                        LoongArchMachineState, machine_done);
++    virt_build_smbios(lams);
 +}
 +
-+static void loongarch_firmware_boot(LoongArchMachineState *lams)
-+{
-+    fw_cfg_add_kernel_info(lams->fw_cfg);
-+}
-+
-+static void loongarch_direct_kernel_boot(LoongArchMachineState *lams)
-+{
-+    MachineState *machine = MACHINE(lams);
-+    int64_t kernel_addr = 0;
-+    LoongArchCPU *lacpu;
-+    int i;
-+
-+    kernel_addr = load_kernel_info();
-+    if (!machine->firmware) {
-+        for (i = 0; i < machine->smp.cpus; i++) {
-+            lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
-+            lacpu->env.load_elf = true;
-+            lacpu->env.elf_address = kernel_addr;
-+        }
-+    }
-+}
-+
- static void loongarch_init(MachineState *machine)
- {
-+    LoongArchCPU *lacpu;
-     const char *cpu_model = machine->cpu_type;
--    const char *kernel_filename = machine->kernel_filename;
-     ram_addr_t offset = 0;
-     ram_addr_t ram_size = machine->ram_size;
-     uint64_t highram_size = 0;
-     MemoryRegion *address_space_mem = get_system_memory();
-     LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
--    LoongArchCPU *lacpu;
-     int i;
--    int64_t kernel_addr = 0;
- 
-     if (!cpu_model) {
-         cpu_model = LOONGARCH_CPU_TYPE_NAME("la464");
-@@ -412,20 +493,23 @@ static void loongarch_init(MachineState *machine)
-                         memmap_table,
-                         sizeof(struct memmap_entry) * (memmap_entries));
+ struct memmap_entry {
+     uint64_t address;
+     uint64_t length;
+@@ -512,6 +546,8 @@ static void loongarch_init(MachineState *machine)
      }
--
--    if (kernel_filename) {
--        loaderparams.ram_size = ram_size;
--        loaderparams.kernel_filename = kernel_filename;
--        kernel_addr = load_kernel_info();
--        if (!machine->firmware) {
--            for (i = 0; i < machine->smp.cpus; i++) {
--                lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
--                lacpu->env.load_elf = true;
--                lacpu->env.elf_address = kernel_addr;
--                qemu_register_reset(reset_load_elf, lacpu);
--            }
-+    loaderparams.ram_size = ram_size;
-+    loaderparams.kernel_filename = machine->kernel_filename;
-+    loaderparams.kernel_cmdline = machine->kernel_cmdline;
-+    loaderparams.initrd_filename = machine->initrd_filename;
-+    /* load the kernel. */
-+    if (loaderparams.kernel_filename) {
-+        if (lams->bios_loaded) {
-+            loongarch_firmware_boot(lams);
-+        } else {
-+            loongarch_direct_kernel_boot(lams);
-         }
-     }
-+    /* register reset function */
-+    for (i = 0; i < machine->smp.cpus; i++) {
-+        lacpu = LOONGARCH_CPU(qemu_get_cpu(i));
-+        qemu_register_reset(reset_load_elf, lacpu);
-+    }
      /* Initialize the IO interrupt subsystem */
      loongarch_irq_init(lams);
++    lams->machine_done.notify = virt_machine_done;
++    qemu_add_machine_init_done_notifier(&lams->machine_done);
  }
+ 
+ static void loongarch_class_init(ObjectClass *oc, void *data)
+diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
+index 35b6680772..610552e522 100644
+--- a/hw/loongarch/Kconfig
++++ b/hw/loongarch/Kconfig
+@@ -14,3 +14,4 @@ config LOONGARCH_VIRT
+     select LOONGARCH_PCH_MSI
+     select LOONGARCH_EXTIOI
+     select LS7A_RTC
++    select SMBIOS
 -- 
 2.34.1
 
