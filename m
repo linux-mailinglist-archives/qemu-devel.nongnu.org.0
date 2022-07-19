@@ -2,83 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E42257A171
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:27:51 +0200 (CEST)
-Received: from localhost ([::1]:56432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243B857A181
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:29:35 +0200 (CEST)
+Received: from localhost ([::1]:58674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDoCT-00076J-Tg
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
+	id 1oDoEA-0000Zk-BE
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:29:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oDnmX-0006H5-6a
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:01:01 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:36801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1oDnmV-0004Tu-6i
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:01:00 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id r24so922439plg.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 07:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Vj6tc7D49uxbhDtdddtvfcySPy89ynlQwOirpXagsNo=;
- b=jUpGPUXQP9NvfDXeouNpp/EKLphVXXS8WKABlOvT39KxVG5SfomKQgJhWAE2lCDeLY
- RSq9tyN/+5tct0hOXM2xeoVJmMSshWpGAA9ZvGInD4vuay/ioadtWJeaHqBJBCPz5w6D
- qLYTBjZ0cOJ2fkzmTQLVE+3eKuzjzdNnhRUiTcYtfMaDPyIPmsRpPEPO9osRZV3UHlOq
- o1R1FmZ8NrbE9mpO2MfVH6LRSm3TONMmQNqDqB2i9McA+IFm1O67NFNMOYGlym+L5yHO
- 1ugofK6h8x+Tx68YqxSJt1YUwA1BrWwL1OJhTYo6n2xvMEZ79aXt5U00/eeM0y1+gQ0H
- MqEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Vj6tc7D49uxbhDtdddtvfcySPy89ynlQwOirpXagsNo=;
- b=2kQRCqEOzZWc7vgnaII7BwT3nP0R16odi366kR5ZSf2l3dgdGrouyaje5uiX+75iqz
- 0z0FFGbpCebcy2wanKziRgTjbdX4KX/RQSyk3dfcMZ5Yzz4re6i9fnpuFICZ3pog8YJf
- 8isPbVnYAjGZrJqBPheUFItgmchrF455E/1NxK1i6Kl83vZfyplJQyGPGUZObPGmcbIl
- GavUXbu5fy4iUQhhwGPI/7n3Mt9iSBrCjfzI+PMe54dvGOgyTgTsXrHe+wAQCNqWgPwp
- AbSQyDP8F3yshxvSDYWIq01ngCBgarwQu0jxiTuTHIcJpkxA+6Sf7aRdjp0xeZrUtuhR
- pKUQ==
-X-Gm-Message-State: AJIora9s3qjpRD2DKuDWqcTd+9X/gjhyVcDU6K0Ln/T7xgGqJ8EVVIuG
- fngTyhoKN32zmtlE79IDkQ4=
-X-Google-Smtp-Source: AGRyM1vp8CzeEDcGsmhWU4pigvEXObP10CnteJZZH3l6dW67XJBTIFVJ281EqlQJfqLSc2upWwNZXg==
-X-Received: by 2002:a17:903:11d0:b0:16b:80cf:5d9 with SMTP id
- q16-20020a17090311d000b0016b80cf05d9mr33897780plh.91.1658239257207; 
- Tue, 19 Jul 2022 07:00:57 -0700 (PDT)
-Received: from [192.168.66.3] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id
- n10-20020a170902d2ca00b0016a11b7472csm11788884plc.166.2022.07.19.07.00.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jul 2022 07:00:56 -0700 (PDT)
-Message-ID: <aaca288b-30f9-2db5-9280-0e29e35d07c0@gmail.com>
-Date: Tue, 19 Jul 2022 23:00:53 +0900
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oDnuY-00054H-PB
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:09:18 -0400
+Received: from mga14.intel.com ([192.55.52.115]:32711)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oDnuW-0005bM-Fq
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 10:09:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658239756; x=1689775756;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=s/ctDqIUvL1W3W833+ijczZqODZpeij+xtTHe7CbsGA=;
+ b=dJ2vZyCOlcLa7JcPyZpsD+mHXkWF/QCTmZfeV+tefNaNJwyPVPToN45/
+ YowkxibkhBxV4FtLP1GcaP0wlgHzyOFm6lsoLf6/cu8IrWkPT6IM5qa/h
+ CXAWzzfYY024wrhnltHa5d2eanUQ1toiFWxmKHOFUk9UzEQg9EumUJ7na
+ i/7zr/xP/xQ5e0cuXVM0DEqs5WqxINVFcyhQiYe+0rJInrxpxI/PcAgaH
+ ncqYp0Z4uxkXfM14M3SjDJ02UGsr67K/2G7wLIGzXMa6j7nAE3REoNENB
+ xUK05w3RVOE2FBzbCCWkfxcUZZv7mIV4Y++v8kp5sDlaB9k3rH8dFi0SO w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="286512959"
+X-IronPort-AV: E=Sophos;i="5.92,284,1650956400"; d="scan'208";a="286512959"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 19 Jul 2022 07:07:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,284,1650956400"; d="scan'208";a="655774698"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga008.fm.intel.com with ESMTP; 19 Jul 2022 07:07:38 -0700
+Date: Tue, 19 Jul 2022 22:02:48 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 07/14] KVM: Use gfn instead of hva for
+ mmu_notifier_retry
+Message-ID: <20220719140248.GA84005@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-8-chao.p.peng@linux.intel.com>
+ <d480a850-601b-cda2-b671-04d839c98429@amd.com>
+ <20220718132950.GA38104@chaop.bj.intel.com>
+ <YtV7qpYZoT6jIKHQ@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2] docs: Add caveats for Windows as the build platform
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>
-References: <20220719135014.764981-1-bmeng.cn@gmail.com>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <20220719135014.764981-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YtV7qpYZoT6jIKHQ@google.com>
+Received-SPF: none client-ip=192.55.52.115;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga14.intel.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,62 +102,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+On Mon, Jul 18, 2022 at 03:26:34PM +0000, Sean Christopherson wrote:
+> On Mon, Jul 18, 2022, Chao Peng wrote:
+> > On Fri, Jul 15, 2022 at 01:36:15PM +0200, Gupta, Pankaj wrote:
+> > > > Currently in mmu_notifier validate path, hva range is recorded and then
+> > > > checked in the mmu_notifier_retry_hva() from page fault path. However
+> > > > for the to be introduced private memory, a page fault may not have a hva
+> > > 
+> > > As this patch appeared in v7, just wondering did you see an actual bug
+> > > because of it? And not having corresponding 'hva' occurs only with private
+> > > memory because its not mapped to host userspace?
+> > 
+> > The addressed problem is not new in this version, previous versions I
+> > also had code to handle it (just in different way). But the problem is:
+> > mmu_notifier/memfile_notifier may be in the progress of invalidating a
+> > pfn that obtained earlier in the page fault handler, when happens, we
+> > should retry the fault. In v6 I used global mmu_notifier_retry() for
+> > memfile_notifier but that can block unrelated mmu_notifer invalidation
+> > which has hva range specified.
+> > 
+> > Sean gave a comment at https://lkml.org/lkml/2022/6/17/1001 to separate
+> > memfile_notifier from mmu_notifier but during the implementation I
+> > realized we actually can reuse the same code for shared and private
+> > memory if both using gpa range and that can simplify the code handling
+> > in kvm_zap_gfn_range and some other code (e.g. we don't need two
+> > versions for memfile_notifier/mmu_notifier).
+> 
+> This should work, though I'm undecided as to whether or not it's a good idea.  KVM
+> allows aliasing multiple gfns to a single hva, and so using the gfn could result
+> in a much larger range being rejected given the simplistic algorithm for handling
+> multiple ranges in kvm_inc_notifier_count().  But I assume such aliasing is uncommon,
+> so I'm not sure it's worth optimizing for.
 
-On 2022/07/19 22:50, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> Commit cf60ccc3306c ("cutils: Introduce bundle mechanism") introduced
-> a Python script to populate a bundle directory using os.symlink() to
-> point to the binaries in the pc-bios directory of the source tree.
-> Commit 882084a04ae9 ("datadir: Use bundle mechanism") removed previous
-> logic in pc-bios/meson.build to create a link/copy of pc-bios binaries
-> in the build tree so os.symlink() is the way to go.
-> 
-> However os.symlink() may fail [1] on Windows if an unprivileged Windows
-> user started the QEMU build process, which results in QEMU executables
-> generated in the build tree not able to load the default BIOS/firmware
-> images due to symbolic links not present in the bundle directory.
-> 
-> This commits updates the documentation by adding such caveats for users
-> who want to build QEMU on the Windows platform.
-> 
-> [1] https://docs.python.org/3/library/os.html#os.symlink
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> ---
-> 
-> Changes in v2:
-> - fix typo of "preferred"
-> 
->   docs/about/build-platforms.rst | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-> index ebde20f981..6b8496c430 100644
-> --- a/docs/about/build-platforms.rst
-> +++ b/docs/about/build-platforms.rst
-> @@ -94,8 +94,16 @@ not tested anymore, so it is recommended to use one of the latest versions of
->   Windows instead.
->   
->   The project supports building QEMU with current versions of the MinGW
-> -toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
-> +toolchain, either hosted on Linux (Debian/Fedora) or via `MSYS2`_ on Windows.
-> +A more recent Windows version is always preferred as it is less likely to have
-> +problems with building via MSYS2. The building process of QEMU involves some
-> +Python scripts that call os.symlink() which needs special attention for the
-> +build process to successfully complete. On newer versions of Windows 10,
-> +unprivileged accounts can create symlinks if Developer Mode is enabled.
-> +When Developer Mode is not available/enabled, the SeCreateSymbolicLinkPrivilege
-> +privilege is required, or the process must be run as an administrator.
->   
->   .. _Homebrew: https://brew.sh/
->   .. _MacPorts: https://www.macports.org/
-> +.. _MSYS2: https://www.msys2.org/
->   .. _Repology: https://repology.org/
+That can be a real problem for current v7 code, __kvm_handle_hva_range()
+loops all possible gfn_range for a given hva_range but the
+on_lock/on_unlock is invoked only once, this should work for hva_range,
+but not gfn_range since we can have multiple of them.
 
+> 
+> > Adding gpa range for private memory invalidation also relieves the
+> > above blocking issue between private memory page fault and mmu_notifier.
 
