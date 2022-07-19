@@ -2,48 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CBD157A028
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 15:54:43 +0200 (CEST)
-Received: from localhost ([::1]:36366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAE057A047
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 16:02:49 +0200 (CEST)
+Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDngP-0002Gy-Hh
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 09:54:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42944)
+	id 1oDnoF-0007f5-Nz
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 10:02:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1oDnIX-00052G-37
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:30:01 -0400
-Received: from mail.weilnetz.de ([37.120.169.71]:46182
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDnZE-0005nT-Vh
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:47:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1oDnIT-0006rL-Cx
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:30:00 -0400
-Received: from [192.168.178.59] (p57b42628.dip0.t-ipconnect.de [87.180.38.40])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oDnZ9-0001dD-QX
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 09:47:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658238430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CqnLdItT44WSz/ajbTMwM5yhsDNRIySUrV0Enj6SXy4=;
+ b=TTsjTmHN2V9bl/H76GYq5wgUvgkQ/zs6JrTJRF1Lk69wWHhjEA/vRFTFA0tLwiaVxSAnTU
+ /wLurk2rjQ5MvawddEjHQqvR8/RSALb74qOTPkc1N/BUPtoTV2QU0DTNMjTLVTeV5kFHqX
+ nu2m8VCqeJc24YSuaaZo2z/xoMs6Bkg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-647-hnWL4WjVPjqnQ_Ow_yqW4w-1; Tue, 19 Jul 2022 09:47:06 -0400
+X-MC-Unique: hnWL4WjVPjqnQ_Ow_yqW4w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id B118DDA0BBE;
- Tue, 19 Jul 2022 15:29:53 +0200 (CEST)
-Message-ID: <a5bddc12-b800-66a9-ceeb-443e25fa3d15@weilnetz.de>
-Date: Tue, 19 Jul 2022 15:29:53 +0200
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CF463816840;
+ Tue, 19 Jul 2022 13:47:06 +0000 (UTC)
+Received: from server.redhat.com (ovpn-13-124.pek2.redhat.com [10.72.13.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D8E618EB7;
+ Tue, 19 Jul 2022 13:47:01 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com, mst@redhat.com, jasowang@redhat.com, kraxel@redhat.com,
+ dgilbert@redhat.com, stefanha@redhat.com, arei.gonglei@huawei.com,
+ marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH v12 00/10] vhost-vdpa: add support for configure interrupt
+Date: Tue, 19 Jul 2022 21:46:45 +0800
+Message-Id: <20220719134655.522538-1-lulu@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH] docs: Add caveats for Windows as the build platform
-To: Bin Meng <bmeng.cn@gmail.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Peter Maydell
- <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20220719131521.764317-1-bin.meng@windriver.com>
-In-Reply-To: <20220719131521.764317-1-bin.meng@windriver.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,68 +74,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 
-Am 19.07.22 um 15:15 schrieb Bin Meng:
+These patches introduced the support for configure interrupt 
 
-> Commit cf60ccc3306c ("cutils: Introduce bundle mechanism") introduced
-> a Python script to populate a bundle directory using os.symlink() to
-> point to the binaries in the pc-bios directory of the source tree.
-> Commit 882084a04ae9 ("datadir: Use bundle mechanism") removed previous
-> logic in pc-bios/meson.build to create a link/copy of pc-bios binaries
-> in the build tree so os.symlink() is the way to go.
->
-> However os.symlink() may fail [1] on Windows if an unprivileged Windows
-> user started the QEMU build process, which results in QEMU executables
-> generated in the build tree not able to load the default BIOS/firmware
-> images due to symbolic links not present in the bundle directory.
->
-> This commits updates the documentation by adding such caveats for users
-> who want to build QEMU on the Windows platform.
->
-> [1] https://docs.python.org/3/library/os.html#os.symlink
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->   docs/about/build-platforms.rst | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->
-> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-> index ebde20f981..1b297e87ee 100644
-> --- a/docs/about/build-platforms.rst
-> +++ b/docs/about/build-platforms.rst
-> @@ -94,8 +94,16 @@ not tested anymore, so it is recommended to use one of the latest versions of
->   Windows instead.
->   
->   The project supports building QEMU with current versions of the MinGW
-> -toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
-> +toolchain, either hosted on Linux (Debian/Fedora) or via `MSYS2`_ on Windows.
-> +A more recent Windows version is always prefered as it is less likely to have
+These codes are tested on x86_64 and aarch64 platforms.  
+the test scenario is based on vp-vdpa/vdpa_sim /virtio net device, with
+the irqfd and without irqfd.
+
+Tested in virtio-pci bus and virtio-mmio bus
 
 
-s/prefered/preferred/
+Change in v2:
+Add support for virtio-mmio bus
+active the notifier while the backend support configure interrupt
+misc fixes from v1
 
+Change in v3
+fix the coding style problems
 
-> +problems with building via MSYS2. The building process of QEMU involves some
-> +Python scripts that call os.symlink() which needs special attention for the
-> +build process to successfully complete. On newer versions of Windows 10,
-> +unprivileged accounts can create symlinks if Developer Mode is enabled.
-> +When Developer Mode is not available/enabled, the SeCreateSymbolicLinkPrivilege
-> +privilege is required, or the process must be run as an administrator.
->   
->   .. _Homebrew: https://brew.sh/
->   .. _MacPorts: https://www.macports.org/
-> +.. _MSYS2: https://www.msys2.org/
->   .. _Repology: https://repology.org/
+Change in v4
+misc fixes from v3
+merge the set_config_notifier to set_guest_notifier
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS
 
+Change in v5
+misc fixes from v4
+split the code to introduce configure interrupt type and the callback function
+will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+only active while using vhost-vdpa driver
 
-With the fix above:
+Change in v6
+misc fixes from v5
+decouple vq from interrupt setting and misc process
+fix the bug in virtio_net_handle_rx
 
-Reviewed-by: Stefan Weil <sw@weilnetz.de
+Change in v7
+misc fixes from v6
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move config_notifier and masked_config_notifier to VirtIODevice
+fix the bug in virtio_net_handle_rx, add more information
+add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt 
 
-Thanks!
+Change in v8
+misc fixes from v7
+decouple vq from interrupt setting and misc process
+decouple vq from vector use/release process
+decouple vq from set notifier fd handler process
+move the vhost configure interrupt to vhost_net
 
+Change in v9
+misc fixes from v8
+address the comments from v8
+
+Change in v10
+fix the hang issue in qtest
+address the comments from v9
+
+Change in v11
+fix the crash in aarch64 plateform.
+fix the crash upstream reported
+
+Change in v12
+fix the typo and add the comments
+
+Cindy Lu (10):
+  virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
+  virtio-pci: decouple notifier from interrupt process
+  virtio-pci: decouple the single vector from the interrupt process
+  vhost: introduce new VhostOps vhost_set_config_call
+  vhost-vdpa: add support for config interrupt
+  virtio: add support for configure interrupt
+  vhost: add support for configure interrupt
+  virtio-net: add support for configure interrupt
+  virtio-mmio: add support for configure interrupt
+  virtio-pci: add support for configure interrupt
+
+ hw/display/vhost-user-gpu.c       |  13 ++
+ hw/net/vhost_net.c                |   9 +
+ hw/net/virtio-net.c               |  20 ++-
+ hw/virtio/trace-events            |   1 +
+ hw/virtio/vhost-user-fs.c         |  14 ++
+ hw/virtio/vhost-vdpa.c            |   8 +
+ hw/virtio/vhost-vsock-common.c    |  14 ++
+ hw/virtio/vhost.c                 |  78 +++++++-
+ hw/virtio/virtio-crypto.c         |  14 ++
+ hw/virtio/virtio-mmio.c           |  27 +++
+ hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------
+ hw/virtio/virtio-pci.h            |   4 +-
+ hw/virtio/virtio.c                |  29 +++
+ include/hw/virtio/vhost-backend.h |   3 +
+ include/hw/virtio/vhost.h         |   4 +
+ include/hw/virtio/virtio.h        |   7 +
+ include/net/vhost_net.h           |   2 +
+ 17 files changed, 443 insertions(+), 87 deletions(-)
+
+-- 
+2.34.3
 
 
