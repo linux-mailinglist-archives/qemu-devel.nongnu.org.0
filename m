@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B5257A570
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:33:34 +0200 (CEST)
-Received: from localhost ([::1]:46670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D34857A595
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jul 2022 19:43:12 +0200 (CEST)
+Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDr6D-0006bn-OF
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:33:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1oDrFX-000857-Ly
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 13:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqce-0006ry-Tp
+ id 1oDqce-0006rP-2p
  for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55972)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oDqcd-0002xW-CG
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:03:00 -0400
+ id 1oDqcb-0002xB-AL
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 13:02:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658250177;
+ s=mimecast20190719; t=1658250176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/YGjtVmacVqJNcP+bptc/jZx8APX15b7UgqdT7tHCaA=;
- b=jFXxjeI4NyxpHVGjBsMh2Utfg0tKth+B5WhaeEftDMSEN+xRZB1LwU5HeSlskNi9PTLlnv
- wu0jzHjrlcWH/WkNAjztSXnwQy4t+HtEdZDbYkxTb4frOsPLDyClaRPkgiuWpd6gRsqBvT
- PsgpYMYGNZexkRlqxc++Bwm9i0QDDKg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HvWHYcne9tO1NS5J2QNhcR4xi2pNzO2vWlRHWLOLvl4=;
+ b=RYyNnZd9qFL0n23JUCIteFtWVGGWNGHJLigHVORE4Xd19u4PHSIri8U4kGjxYxgpIAU+s/
+ 137mdUBcxZoim1xaDJIOsHew4NwGIOj+1c7zHV2AyNDSstDNzGaoEy+MShQG78Bi6XeDWc
+ Y27xqIMN8VMdwphJr/lc1kVYOBjblzw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-vgoKc93NOEKFdgNdMd9GvA-1; Tue, 19 Jul 2022 13:02:53 -0400
-X-MC-Unique: vgoKc93NOEKFdgNdMd9GvA-1
+ us-mta-523-kdnPPhVVO26TDpiifr52OA-1; Tue, 19 Jul 2022 13:02:54 -0400
+X-MC-Unique: kdnPPhVVO26TDpiifr52OA-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F6842999B2A;
- Tue, 19 Jul 2022 17:02:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52D188039AD;
+ Tue, 19 Jul 2022 17:02:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.162])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B75540466A6;
- Tue, 19 Jul 2022 17:02:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5FE5640CF8E5;
+ Tue, 19 Jul 2022 17:02:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 22/29] tests: Add postcopy tls recovery migration test
-Date: Tue, 19 Jul 2022 18:02:14 +0100
-Message-Id: <20220719170221.576190-23-dgilbert@redhat.com>
+Subject: [PULL 23/29] tests: Add postcopy preempt tests
+Date: Tue, 19 Jul 2022 18:02:15 +0100
+Message-Id: <20220719170221.576190-24-dgilbert@redhat.com>
 In-Reply-To: <20220719170221.576190-1-dgilbert@redhat.com>
 References: <20220719170221.576190-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -82,88 +82,124 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-It's easy to build this upon the postcopy tls test.  Rename the old
-postcopy recovery test to postcopy/recovery/plain.
+Four tests are added for preempt mode:
+
+  - Postcopy plain
+  - Postcopy recovery
+  - Postcopy tls
+  - Postcopy tls+recovery
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220707185527.27747-1-peterx@redhat.com>
+Message-Id: <20220707185530.27801-1-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
   dgilbert: Manual merge
 ---
- tests/qtest/migration-test.c | 37 +++++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
+ tests/qtest/migration-test.c | 57 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 55 insertions(+), 2 deletions(-)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index b2020ef6c5..e9350ea8c6 100644
+index e9350ea8c6..02f2ef9f49 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -1146,17 +1146,15 @@ static void test_postcopy_tls_psk(void)
+@@ -576,6 +576,7 @@ typedef struct {
+ 
+     /* Postcopy specific fields */
+     void *postcopy_data;
++    bool postcopy_preempt;
+ } MigrateCommon;
+ 
+ static int test_migrate_start(QTestState **from, QTestState **to,
+@@ -1081,6 +1082,11 @@ static int migrate_postcopy_prepare(QTestState **from_ptr,
+     migrate_set_capability(to, "postcopy-ram", true);
+     migrate_set_capability(to, "postcopy-blocktime", true);
+ 
++    if (args->postcopy_preempt) {
++        migrate_set_capability(from, "postcopy-preempt", true);
++        migrate_set_capability(to, "postcopy-preempt", true);
++    }
++
+     migrate_ensure_non_converge(from);
+ 
+     /* Wait for the first serial output from the source */
+@@ -1146,6 +1152,26 @@ static void test_postcopy_tls_psk(void)
  }
  #endif
  
--static void test_postcopy_recovery(void)
-+static void test_postcopy_recovery_common(MigrateCommon *args)
- {
--    MigrateCommon args = {
--        .start = {
--            .hide_stderr = true,
--        },
--    };
-     QTestState *from, *to;
-     g_autofree char *uri = NULL;
- 
--    if (migrate_postcopy_prepare(&from, &to, &args)) {
-+    /* Always hide errors for postcopy recover tests since they're expected */
-+    args->start.hide_stderr = true;
++static void test_postcopy_preempt(void)
++{
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++    };
 +
-+    if (migrate_postcopy_prepare(&from, &to, args)) {
-         return;
-     }
- 
-@@ -1207,7 +1205,24 @@ static void test_postcopy_recovery(void)
-     /* Restore the postcopy bandwidth to unlimited */
-     migrate_set_parameter_int(from, "max-postcopy-bandwidth", 0);
- 
--    migrate_postcopy_complete(from, to, &args);
-+    migrate_postcopy_complete(from, to, args);
++    test_postcopy_common(&args);
 +}
 +
-+static void test_postcopy_recovery(void)
++static void test_postcopy_preempt_tls_psk(void)
 +{
-+    MigrateCommon args = { };
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++        .start_hook = test_migrate_tls_psk_start_match,
++        .finish_hook = test_migrate_tls_psk_finish,
++    };
++
++    test_postcopy_common(&args);
++}
++
+ static void test_postcopy_recovery_common(MigrateCommon *args)
+ {
+     QTestState *from, *to;
+@@ -1225,6 +1251,27 @@ static void test_postcopy_recovery_tls_psk(void)
+     test_postcopy_recovery_common(&args);
+ }
+ 
++static void test_postcopy_preempt_recovery(void)
++{
++    MigrateCommon args = {
++        .postcopy_preempt = true,
++    };
 +
 +    test_postcopy_recovery_common(&args);
 +}
 +
-+static void test_postcopy_recovery_tls_psk(void)
++/* This contains preempt+recovery+tls test altogether */
++static void test_postcopy_preempt_all(void)
 +{
 +    MigrateCommon args = {
++        .postcopy_preempt = true,
 +        .start_hook = test_migrate_tls_psk_start_match,
 +        .finish_hook = test_migrate_tls_psk_finish,
 +    };
 +
 +    test_postcopy_recovery_common(&args);
- }
- 
++}
++
  static void test_baddest(void)
-@@ -2410,7 +2425,9 @@ int main(int argc, char **argv)
+ {
+     MigrateStart args = {
+@@ -2425,10 +2472,12 @@ int main(int argc, char **argv)
      module_call_init(MODULE_INIT_QOM);
  
      qtest_add_func("/migration/postcopy/unix", test_postcopy);
--    qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
-+    qtest_add_func("/migration/postcopy/recovery/plain",
-+                   test_postcopy_recovery);
-+
-     qtest_add_func("/migration/postcopy/plain", test_postcopy);
++    qtest_add_func("/migration/postcopy/plain", test_postcopy);
+     qtest_add_func("/migration/postcopy/recovery/plain",
+                    test_postcopy_recovery);
+-
+-    qtest_add_func("/migration/postcopy/plain", test_postcopy);
++    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
++    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
++                    test_postcopy_preempt_recovery);
  
      qtest_add_func("/migration/bad_dest", test_baddest);
-@@ -2425,6 +2442,8 @@ int main(int argc, char **argv)
-      * general postcopy path that has TLS channel enabled.
-      */
+     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
+@@ -2444,6 +2493,10 @@ int main(int argc, char **argv)
      qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
-+    qtest_add_func("/migration/postcopy/recovery/tls/psk",
-+                   test_postcopy_recovery_tls_psk);
+     qtest_add_func("/migration/postcopy/recovery/tls/psk",
+                    test_postcopy_recovery_tls_psk);
++    qtest_add_func("/migration/postcopy/preempt/tls/psk",
++                   test_postcopy_preempt_tls_psk);
++    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
++                   test_postcopy_preempt_all);
  #ifdef CONFIG_TASN1
      qtest_add_func("/migration/precopy/unix/tls/x509/default-host",
                     test_precopy_unix_tls_x509_default_host);
