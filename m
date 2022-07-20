@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F53257BFAA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 23:35:20 +0200 (CEST)
-Received: from localhost ([::1]:39114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E5C57BFAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 23:36:56 +0200 (CEST)
+Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEHLi-000814-VM
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 17:35:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33508)
+	id 1oEHNH-000148-JV
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 17:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEHK6-0006dn-9s
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 17:33:38 -0400
-Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:37819)
+ id 1oEHLd-0007zr-Lj
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 17:35:13 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:40652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEHK4-0000rH-7A
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 17:33:37 -0400
-Received: by mail-yw1-x112e.google.com with SMTP id
- 00721157ae682-31e623a4ff4so55083177b3.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 14:33:35 -0700 (PDT)
+ id 1oEHLc-00018u-4z
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 17:35:13 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id k85so31573902ybk.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 14:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sLeTKjz7JP9algvK/gdu8b/A/JuuOUmh08gOi74ZvPc=;
- b=CXT+XK1j36GeA2m09yMdRVx2GIyQ7YOAASMnZc+B3VgkDav2mjc5oQlwuV+3giHBFN
- e0VzAmPtRVQtnaqqAfydpcbFAY9jImoRSiKXR2DQ1cesTssGwzG7p6hixQbJvffAVKyE
- faihe7LHStuMkb6VFrPFjcDXChaWym1g38+wBWNz5Q4jJcXgkbZmigjDpkbDwxQKdfRd
- 8jKg7yTXEO+6rUlZsMHZjMP6iHvWiTYSGQKGIs439U85v5Q5L3xMHlzhzNsP3H8HAuGw
- xJx9jJvJ0zd7Q/NUGlZb1+QutpZVdSffcbhYbJMpvptX0+/uYwsDbDcJDQObfO3mMWDY
- YNHQ==
+ :cc; bh=HQ5D+IWOv+r+d06iV5GHOsGEgRJXV1137xt6FE4e0vk=;
+ b=ZE2lUZ/bNY6c2mx+ap0Joe3Wmobc1iqgfnV9aufy8gPV1v9Q4AvKGFfJTnRGtCXBUN
+ H2noo1HqdR7sba7JIR7gOAvSAFhcERqGYAceNvTZYPG78MTWpI3VwHTkX/8+Qlpnb9IS
+ B5KPxdLB2DSRnze11bH9Ort17JkYfcTRr3KTZRU/5QcFOZ+c9wWfQS+4Y3LKALn/MWsX
+ NrZd7MqnGIOphuSP0EtOldJPDurJK60b+RNlojeCQ3OAHLbCXzdkTbhDqg+uX/PXMaz6
+ Oz6eHL0gpYgOCFVNblLGu5IVMsAJkjc4MQ+j0kKlZWCPa7TMSKw4E+0lTgyAKdc/0G6C
+ 92mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=sLeTKjz7JP9algvK/gdu8b/A/JuuOUmh08gOi74ZvPc=;
- b=SClEk4fWhdz+BnLI4cDgV1MvUf/5mJqNuAQVw4Bua9Hhh7H121stS6/Ob9i7oC8VBP
- zdcjRAjxkMh1Hl+mJC/LILSKjidF2xYZIY/PfXbjgHzwp2AmJOV94ZoeDHBJX3ZBveLr
- BeJJugqwvREXXxjVaCRConKjxkx1/Va4cmq8RY6IAVK18hXDghfwMDCgRQ0TxWMEkA1H
- bZmxyuf+tEa9bQex/QZPATrUuXa/LQx4wJ9pUylVtGrRkOGdo1/WixFHTJBkPz3/0mD5
- n4DfCsfEZJa2kyN22trBzL8CDR2j37Ie/yCOXMQwgVSBScA5CwDOvlh4qruHE3wXzkhr
- c4fQ==
-X-Gm-Message-State: AJIora+NZ/O8VY+T3znLrxUtfRiQm1EdNT4Yl24WKg6UplEoy+BydQ1V
- h49S6y811kq7y+WlLEEj+wuu568svSMj5gvhnJLDmQ==
-X-Google-Smtp-Source: AGRyM1u3NVYiqAj/hGC32Fls1SLHY3b3g5QF5amAViFkFnv7Rfs3ZZBZwEiSUIBd/ZZqCbbyHbh12jYnqbz01z0u9Og=
-X-Received: by 2002:a81:1116:0:b0:31e:7a03:5ea with SMTP id
- 22-20020a811116000000b0031e7a0305eamr1330098ywr.455.1658352814943; Wed, 20
- Jul 2022 14:33:34 -0700 (PDT)
+ bh=HQ5D+IWOv+r+d06iV5GHOsGEgRJXV1137xt6FE4e0vk=;
+ b=ZT0iUN+UHWkZb6LQfweAwXfyTGphBaxo9vELegkeiBEOmpANiG5rLbqOXNkOFl1hXa
+ n2lUL+05vAIyJdhObQAvdYHQaFwOylNdQAO8lrWxvwM1Ud5cnJDIrODkpfTEJ5R2V8L/
+ sSpS0VJepfY2fQXfclyXnvT2UeLvRTp4OVw3kRo78FkRscplxjKEFxuD7mT47mh80eIE
+ Bb7KSXbC4Wh4bv7HN2StAgwzxRMH+dr682bF1V5yO9Cri4IBykZ9dN32P2kVOYAN6zZC
+ BSvFiO1Mg6N9MLOwgDHHhRJVIjIMK3W+iqQngevp40yeqiSkgfuYkvwRDVW3UmiGrTWW
+ d56g==
+X-Gm-Message-State: AJIora+XmwV4hPptqdnSHvi3dc0hjER2L5T9vc+rJo0ZImZBYiV7slhG
+ I0DQgCSnrqpumvLf8XtaBvjwieB0jkZWYOGmDzgfow==
+X-Google-Smtp-Source: AGRyM1t2d2qwgHd3fFBUoDUi+86gn0FZ9EJ/IIaz9S601oSkqIaPHfzLat4CGEku5E28HuX5jCOQjHMKqyrVnYq7FHo=
+X-Received: by 2002:a5b:dd2:0:b0:668:fc4a:9403 with SMTP id
+ t18-20020a5b0dd2000000b00668fc4a9403mr39227362ybr.39.1658352910815; Wed, 20
+ Jul 2022 14:35:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220720090313.55169-1-jasowang@redhat.com>
-In-Reply-To: <20220720090313.55169-1-jasowang@redhat.com>
+References: <20210904213506.486886-1-mst@redhat.com>
+ <20210904213506.486886-7-mst@redhat.com>
+ <CAFEAcA9WBo2Kn9BPz1y2JCxpBGnBWDOtgLFiu31V4PL2m6b7bQ@mail.gmail.com>
+ <alpine.DEB.2.22.394.2207201132430.9370@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2207201132430.9370@anisinha-lenovo>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jul 2022 22:32:55 +0100
-Message-ID: <CAFEAcA-yOsE=AZGOTi8ZCs1bUtRV=qj_=_Q6vyLiYnmxJF+=DA@mail.gmail.com>
-Subject: Re: [PULL V2 00/25] Net patches
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org
+Date: Wed, 20 Jul 2022 22:34:31 +0100
+Message-ID: <CAFEAcA8-ufAM2sg8-WkCPV3ksBZ=RU_1M2aq-wUBij82ot7iUw@mail.gmail.com>
+Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
+ can just use what they need
+To: Ani Sinha <ani@anisinha.ca>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,32 +89,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 10:03, Jason Wang <jasowang@redhat.com> wrote:
+On Wed, 20 Jul 2022 at 19:37, Ani Sinha <ani@anisinha.ca> wrote:
 >
-> The following changes since commit d48125de38f48a61d6423ef6a01156d6dff9ee2c:
 >
->   Merge tag 'kraxel-20220719-pull-request' of https://gitlab.com/kraxel/qemu into staging (2022-07-19 17:40:36 +0100)
 >
-> are available in the git repository at:
+> On Tue, 19 Jul 2022, Peter Maydell wrote:
 >
->   https://github.com/jasowang/qemu.git tags/net-pull-request
+> > On Sat, 4 Sept 2021 at 22:36, Michael S. Tsirkin <mst@redhat.com> wrote:
+> > How is this intended to work? The obvious fix from my point
+> > of view would just be to say "piix4.c requires pcihp.c"
+> > and cause CONFIG_ACPI_PIIX4 to pull in CONFIG_ACPI_PCIHP,
+> > but that seems like it would be rather undoing the point
+> > of this change.
 >
-> for you to fetch changes up to 8bdab83b34efb0b598be4e5b98e4f466ca5f2f80:
+> Yes. From the commit log and the vague recollection I have about this
+> change :
 >
->   net/colo.c: fix segmentation fault when packet is not parsed correctly (2022-07-20 16:58:08 +0800)
+> > For example, mips only needs support for PIIX4 and does not
+> > need acpi pci hotplug support or cpu hotplug support or memory hotplug
+> support
+> > etc
 >
-> ----------------------------------------------------------------
->
-> Changes since V1:
-> - Fix build erros of vhost-vdpa when virtio-net is not set
->
-> ----------------------------------------------------------------
+> So does malta really need acpi hotplug? If not, then the stubbing out of
+> the vmstate struct is correct.
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
+It's not, because the vmstate struct is actually used when you
+savevm/loadvm a malta machine. If the malta shouldn't have
+acpi hotplug then we need to arrange for the hotplug code
+to be avoided at an earlier point, not just stub in the
+vmstate struct field.
 
 -- PMM
 
