@@ -2,162 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEDD257AE11
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 04:37:04 +0200 (CEST)
-Received: from localhost ([::1]:33642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5057057AE25
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 04:50:29 +0200 (CEST)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDzaA-0000Vb-RS
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 22:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50236)
+	id 1oDzn9-0003a7-PQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 22:50:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oDzZ6-0007at-JQ
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 22:35:56 -0400
-Received: from mga14.intel.com ([192.55.52.115]:29640)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oDzZ3-0008S2-Vl
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 22:35:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658284553; x=1689820553;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=7ArnIP0boiW5ZqaPph+KDpHH8aPOSCGibBqQkhmi6+0=;
- b=cCkasiWK6gyNK7prh655yg8UOeTlNbitCbo4pC+QQ2vqavDaoUStB+2L
- GE72L9T/3tQ6Qpk5ECXEogg8JDDOlAcRw743OW9cIIOephIAn81oB0oB9
- wc7V8641EhU2dGqRPlbPRchsSUndSvB94e35y/Xr6s0JApUaon2Ty+QH4
- RsSinuK5t/vCHQTlG99Cm4qTY5rppaGNS7cIH8fez3gLGYHwTE+SC78ZD
- mnS9QJxzLWa039jyOPWHInoD+sKmzIUkBd0UPPoZWcjwHGLR1BbWeWODj
- yNNbRsQP62vKvORpuGu8bpXrTWg8Mjzrcqp5qCXzhDS9oy8+c2c2EmPDc w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10413"; a="286671289"
-X-IronPort-AV: E=Sophos;i="5.92,285,1650956400"; d="scan'208";a="286671289"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jul 2022 19:35:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,285,1650956400"; d="scan'208";a="573113414"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga006.jf.intel.com with ESMTP; 19 Jul 2022 19:35:48 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Tue, 19 Jul 2022 19:35:48 -0700
-Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.27 via Frontend Transport; Tue, 19 Jul 2022 19:35:48 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.173)
- by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Tue, 19 Jul 2022 19:35:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=NFpBjgXKYmGu5Vtmrr2JTcuPdMZgyisMNUkGF5ayFNuTNog/FgNIvM/OP+FMw1CqB8EsfhteuVoKtSDpvOPabvqyXQxDwHRJSDD7b2ibnAuaZl3YMvZ6pBw2WwxR9uyeodM6hMACz6Lx3z2VBq9Oqzi9DZ++fofB5SfWjagaboBF61UTvf95OL9xVyIVLgejto4OkDr9mFXf5mU2RTQpoZQobWN5zKCSOaLwzF9RakkloBZe9u6tQIHsW0QCrUYcb9/bSUI1mk63GmS7aItwP+6FaEJaOPMb6t9v08D3fkYuoQRi689TG5zCw85HLwCZfNYTmAW1wDjram34dYiang==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rGygJ+j96VO8XSOG6rKSs9SsntHG7schsqlu9XgF3dY=;
- b=QVEWHa5P40+w1jk8S8IQrUdIlXDMfvSzzjHXo1GkmQcJdUM7KUKTk0KvRX08oHYE/ExoejK7F7BcVh/3DmsNSEkajVbi6WMpuc1M+eTlUWUQUTpyr2Pqwv9WiWWH6ugQjc056ENK5QlM5g88B6jo7m+M2wnF3JBYodtvuMNnmSsMhjY6pQyJTNKgDHmKpDT/AElaPdReIXkE7d4YZFPQcs9BCXTkBCqGtmRRfsOia3A75XFYiah7t6/nVWY+Y3EGW0igzM4BIE29p65T15r6TwRsBeYMczwzb8C8nyLt3fHPTTVBIRFL0Xm5UAkIgva2DXUDfnAj0XIcMxjGEYZRGw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- (2603:10b6:301:4f::15) by SJ0PR11MB6767.namprd11.prod.outlook.com
- (2603:10b6:a03:47e::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.21; Wed, 20 Jul
- 2022 02:35:46 +0000
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::d73:edaf:8500:a40d]) by MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::d73:edaf:8500:a40d%5]) with mapi id 15.20.5438.024; Wed, 20 Jul 2022
- 02:35:46 +0000
-From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
-To: "Christopherson,, Sean" <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "mtosatti@redhat.com"
- <mtosatti@redhat.com>, "likexu@tencent.com" <likexu@tencent.com>, "Ma,
- XiangfeiX" <xiangfeix.ma@intel.com>
-Subject: RE: [PATCH] i386: Disable BTS and PEBS
-Thread-Topic: [PATCH] i386: Disable BTS and PEBS
-Thread-Index: AQHYmlazwj8/cO8xi0SzVzXLZpnnXa2ETJ2AgABEQQCAAXJugIAACZWAgAB6iHA=
-Date: Wed, 20 Jul 2022 02:35:46 +0000
-Message-ID: <MWHPR1101MB21109B9363739A573F6391DD928E9@MWHPR1101MB2110.namprd11.prod.outlook.com>
-References: <20220718032206.34488-1-zhenzhong.duan@intel.com>
- <a7bccbc5-fcb7-eaa8-ce95-fa7f380b8af9@redhat.com>
- <YtW+ymE654W662X4@google.com>
- <9dbe748c-57b4-eab5-3933-0e9891b031c1@redhat.com>
- <Ytb9kTFtnltT3fdf@google.com>
-In-Reply-To: <Ytb9kTFtnltT3fdf@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 87cc844a-dadc-4bf0-e61c-08da69f88cc4
-x-ms-traffictypediagnostic: SJ0PR11MB6767:EE_
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: J4zk6IWU3aDlDUCwT1IScFcauZfOCUgyHEDDvNgH27Bkjzx+f4JUagcW5Q56W4uhwk0Ukxp65hwNtPHn7sc84Ca1vtebDkSRbisrnTfpiR9APye0GmgiYmveWe5K9oJzKhojkoDYFsWWiEJHRnZ5fW2d8I6AaQzpkgIt7TJfLNdEiL4yxRRxJRlfqk/ToVmlNVmEXKBvNksgpLzhhaCyeAZ4ZaLeGOQeUL6vbT/wmKYg10fFZEfuHRkzRxv3ST+/Dy6a8xAvCp/Q+/IcV5HjRzcjH6VN029aTrzteqSHo22/R+iP/w0zMo4Wu0XeWQX88ssr68GfmKt6FPNkWQmrcIA5CCgZBMa0vu41TMgJpBGUZNbZ9Ux2Icp8Mn97upgU68lZsGsmpE2c6RalLra3l+A1r8mOlxVoz3lgeZo1bmc7jIQbFtA5BYbeXxO0WoL+rGT87gZfQfeVgG3M2YdJYOFnyHJqVfNK7BHN4WrioifLPkirJD0ZiXNg1hiCJUnw+gm9XyXQc0dSlc8PLoAMoBLo67dJwRPuu1Xx/FM47qXqlOq8ds3MNe1A4WQ9uDvHvosy5IRWU79ridHeS3dMNuhUFG9gh20QqCvpTxmQ6kRlGZwJFAglwpIqe2eI8p52nAcE3q3yISbx1tAnwyCeVtQIlh2geBQsBYtO7A3nA6ry4rjOaanadMPeBbF1JSS4ZKzf+ZRvCvt8FacjNiM698Rdz+90WOuaezme9lkQKD3eSQV/AWrD6fziGFnCU0X1I8moN73m/RTGAwz3g09XIG7Qo4fCMpRcdmU3rMJ7C6aZ7U5vmIdtzyJaQgO3Pm7e0n2xu1RuSxvUC8+r03zMrw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1101MB2110.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(376002)(39860400002)(346002)(366004)(396003)(83380400001)(2906002)(9686003)(8676002)(4326008)(186003)(33656002)(41300700001)(478600001)(7696005)(6506007)(53546011)(26005)(52536014)(86362001)(5660300002)(8936002)(107886003)(122000001)(54906003)(55016003)(38100700002)(66556008)(82960400001)(71200400001)(64756008)(66476007)(66946007)(110136005)(38070700005)(66446008)(76116006)(316002)(13296009);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?QyE29GT2/xNhs3CuaCDcb9OQfdH78ftKHQqDxcJKKq2jJUrG2EONIHr6ZyhP?=
- =?us-ascii?Q?FSD5LHXHIG0+NP11Kf0XxXZzoLhJR9nFVC+RJw5U1iJz3gkWZLh2BbBkzaUc?=
- =?us-ascii?Q?EBOVx1jx09MncAUUVIosbXJSAtUnF0Ah8WSajkQqZq37EBJV4zBMuYkBmpX4?=
- =?us-ascii?Q?F4S+GX1ss97KImzBryEMZUVphzqzru49cnCx/3uV5xe4RH0oi0nbURgSQVog?=
- =?us-ascii?Q?DVzLmJVBfvd8wRG8x5/ZrOda2oHl7hUCNfAv5Qjzbz6T3OYdd/ZOjw1iBUJg?=
- =?us-ascii?Q?n0SuykwjHONexaiqjJh6KQCMj5Inaeyspd+tjy/6DyYzvt0um+VMXTBX1ibj?=
- =?us-ascii?Q?82SEpPxszPSUvGuA1NAT7vqtdBpNHhcKUlxPP4tEgeHnVpRDO1isl7cg7xiF?=
- =?us-ascii?Q?KDcZl1jiTcbFN/lz3kkpEgpA19H8vq3Mg56opt8e51KIjhNiGSsH8CfeyOXw?=
- =?us-ascii?Q?lY+xlUTzUqTvXaUJvvF8bhaCpeheRK1Wq9fpeiO6xaE79qZVWoih3RjqraP3?=
- =?us-ascii?Q?RObCvHveCKWf94qLrHGRg+GKZgkWzIKKlOAoTmVUTyGrC0MxIMzSBguh75Wp?=
- =?us-ascii?Q?nXSYfo9+NN+Em0PsraEIWJq1jDukdeBwHORIc6MZwGVP/TsRuBsMfObbbdTp?=
- =?us-ascii?Q?PnGYCEnZRMagutxP8wByA+27gf1FppF2A15iZ3woW7X0jb8jvzbuJEe6siwn?=
- =?us-ascii?Q?1wHrlchF1DMmUGO/IcobpvZJyDf1jUKxmgszYFQeBU1XjhknG8AJjphJKX4a?=
- =?us-ascii?Q?4NzIP8bf5DRODTg709eGE/wSZD4qXmDBlazOEw5LqdRP8+bEE2bCx3hMZlLo?=
- =?us-ascii?Q?/1wxaqWfNDDt0Xwcx2GkglexSrtDh1pJEa+GgTSNlhEwZPDfGPOUVxuK1SCI?=
- =?us-ascii?Q?3eHcysQlSB5dfH+uCnyXqWo403TrEBo2LDuTCzGwnpcLQx8GNNoTloUChuO2?=
- =?us-ascii?Q?o0IsiFCroYUDOyh1QNZAEUe/+Uei095NTIOL6jSmFQkduWiPeNmZg1T2SgXl?=
- =?us-ascii?Q?QrBN8ugtoPHRWinxkZBf7zJaJP17t0UEAsgc7xGHYxgDiPe+Q7BS2QWJ340q?=
- =?us-ascii?Q?618X6lWYFSqWiQb1z7lL99+fcYNEgTFXOD2Po1D2fN0xZ4nxwfxbFCJJfi9I?=
- =?us-ascii?Q?2n/v704A3ZZT1sTM7ouivCbUY/Q82CWJJi4FHd8QnleI3dDp8cPmU71bONn5?=
- =?us-ascii?Q?IpB9Hy0fxsF5MPk32uXa3q9FXbCmZUS5VZumvJTwdWWh4msMOHwG4w4mr5gd?=
- =?us-ascii?Q?82p1d5yZlUFznUpNMfnvzfhKTibzy6mQVw0PYVV9z8m2PM/i4t5zB8kcgnN1?=
- =?us-ascii?Q?musQdMGnFNPBetJZCND5+QU+v3cilCO7B+L18uLIIWamDqia4YL5T+x/bum2?=
- =?us-ascii?Q?Nx6B/9N/vbmUBdg/dUE+ymkuR7JTXlWTirxfFRJttqe9Jy1GHvv+VYNMSKK8?=
- =?us-ascii?Q?0weQMXw6rEtcu/c1g/aYkhJD6EtDVxWOVCZlpVXYsDn3FAwZocxUfowrh8Py?=
- =?us-ascii?Q?hX2ZuJLBoZpa19nHwcEEfBzvb/JJLoMpM9PJgOVB9mrJxNZOm5R+d0mWq/+F?=
- =?us-ascii?Q?Ef3/NzZvrFW7rhN7fevZTr5gcsXwSDv0A3CciyIm?=
-Content-Type: text/plain; charset="us-ascii"
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oDzkp-00021Z-6y; Tue, 19 Jul 2022 22:48:04 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:52076 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oDzkm-0001Ul-Ec; Tue, 19 Jul 2022 22:48:02 -0400
+Received: from smtpclient.apple (unknown [159.226.43.13])
+ by APP-01 (Coremail) with SMTP id qwCowACnrQXRbNdiJEzZEQ--.4044S2;
+ Wed, 20 Jul 2022 10:47:45 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] hw/nvme: add trace events for ioeventfd
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <2CA55856-E1CE-40C1-98E3-C68E11A8D149@ict.ac.cn>
+Date: Wed, 20 Jul 2022 10:47:45 +0800
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2110.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87cc844a-dadc-4bf0-e61c-08da69f88cc4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jul 2022 02:35:46.0554 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: kvDwaGvqpULG8T6UsXmtgfW14iHwDoFenLDfaeqVHxHJw3YAIIf5PvuY7CXg9dkssnZZXh59Ro7TiyFrtEWu0SGdUUd+v8eytP4S0akQ7EI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6767
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.115;
- envelope-from=zhenzhong.duan@intel.com; helo=mga14.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Message-Id: <62B418AB-DCB3-4219-BA63-4E7207C252F7@ict.ac.cn>
+References: <20220714053444.883737-1-its@irrelevant.dk>
+ <2CA55856-E1CE-40C1-98E3-C68E11A8D149@ict.ac.cn>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowACnrQXRbNdiJEzZEQ--.4044S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJFy5Gr1xCr43JrW3GF15Jwb_yoW5uw15pa
+ ykuFnIkas7A39Fgw1Yqr43Jrn7Xw4DXryIkw47t347Aayvkry2vFW7J34Uurn5GrsrWrWY
+ 934Dtr47X343XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkSb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
+ vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+ FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr
+ 0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8JwCF
+ 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+ 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
+ r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+ 1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
+ cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
+X-Originating-IP: [159.226.43.13]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -174,54 +76,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+at 10:41 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
+> at 1:34 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+>=20
+>> From: Klaus Jensen <k.jensen@samsung.com>
+>>=20
+>> While testing Jinhaos ioeventfd patch I found it useful with a couple =
+of
+>> additional trace events since we no longer see the mmio events.
+>>=20
+>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>> ---
+>> hw/nvme/ctrl.c       | 8 ++++++++
+>> hw/nvme/trace-events | 4 ++++
+>> 2 files changed, 12 insertions(+)
+>>=20
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 533ad14e7a61..09725ec49c5d 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -1346,6 +1346,8 @@ static void nvme_post_cqes(void *opaque)
+>>    bool pending =3D cq->head !=3D cq->tail;
+>>    int ret;
+>>=20
+>> +    trace_pci_nvme_post_cqes(cq->cqid);
+>> +
+>>    QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
+>>        NvmeSQueue *sq;
+>>        hwaddr addr;
+>> @@ -4238,6 +4240,8 @@ static void nvme_cq_notifier(EventNotifier *e)
+>>    NvmeCQueue *cq =3D container_of(e, NvmeCQueue, notifier);
+>>    NvmeCtrl *n =3D cq->ctrl;
+>>=20
+>> +    trace_pci_nvme_cq_notify(cq->cqid);
+>> +
+>>    event_notifier_test_and_clear(&cq->notifier);
+>>=20
+>>    nvme_update_cq_head(cq);
+>> @@ -4275,6 +4279,8 @@ static void nvme_sq_notifier(EventNotifier *e)
+>> {
+>>    NvmeSQueue *sq =3D container_of(e, NvmeSQueue, notifier);
+>>=20
+>> +    trace_pci_nvme_sq_notify(sq->sqid);
+>> +
+>>    event_notifier_test_and_clear(&sq->notifier);
+>>=20
+>>    nvme_process_sq(sq);
+>> @@ -6240,6 +6246,8 @@ static void nvme_process_sq(void *opaque)
+>>    NvmeCtrl *n =3D sq->ctrl;
+>>    NvmeCQueue *cq =3D n->cq[sq->cqid];
+>>=20
+>> +    trace_pci_nvme_process_sq(sq->sqid);
+>> +
+>>    uint16_t status;
+>>    hwaddr addr;
+>>    NvmeCmd cmd;
+>> diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
+>> index fccb79f48973..45dd708bd2fa 100644
+>> --- a/hw/nvme/trace-events
+>> +++ b/hw/nvme/trace-events
+>> @@ -104,6 +104,10 @@ pci_nvme_mmio_shutdown_set(void) "shutdown bit =
+set"
+>> pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+>> pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t =
+new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
+>> pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t =
+new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
+>> +pci_nvme_sq_notify(uint16_t sqid) "sqid %"PRIu16""
+>> +pci_nvme_cq_notify(uint16_t cqid) "cqid %"PRIu16""
+>> +pci_nvme_process_sq(uint16_t sqid) "sqid %"PRIu16""
+>> +pci_nvme_post_cqes(uint16_t cqid) "cqid %"PRIu16""
+>> pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open =
+zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
+>> pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close =
+zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
+>> pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) =
+"finish zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
+>> --=20
+>> 2.36.1
+>=20
+> I agree on the addition of SQ and CQ notify trace events. But what is =
+the
+> purpose for adding tracepoints for nvme_process_sq and nvme_post_cqes?
 
->-----Original Message-----
->From: Sean Christopherson <seanjc@google.com>
->Sent: Wednesday, July 20, 2022 2:53 AM
->To: Paolo Bonzini <pbonzini@redhat.com>
->Cc: Duan, Zhenzhong <zhenzhong.duan@intel.com>; qemu-
->devel@nongnu.org; mtosatti@redhat.com; likexu@tencent.com; Ma,
->XiangfeiX <xiangfeix.ma@intel.com>
->Subject: Re: [PATCH] i386: Disable BTS and PEBS
->
->On Tue, Jul 19, 2022, Paolo Bonzini wrote:
->> On 7/18/22 22:12, Sean Christopherson wrote:
->> > On Mon, Jul 18, 2022, Paolo Bonzini wrote:
->> > > This needs to be fixed in the kernel because old QEMU/new KVM is
->supported.
->> >
->> > I can't object to adding a quirk for this since KVM is breaking
->> > userspace, but on the KVM side we really need to stop "sanitizing"
->> > userspace inputs unless it puts the host at risk, because inevitably i=
-t
->leads to needing a quirk.
->>
->> The problem is not the sanitizing, it's that userspace literally
->> cannot know that this needs to be done because the feature bits are
->> "backwards" (1 =3D unavailable).
->
->Yes, the bits being inverted contributed to KVM not providing a way for
->userspace to enumerate PEBS and BTS support, but lack of enumeration is a
->seperate issue.
->
->If KVM had simply ignored invalid guest state from the get go, then
->userspace would never have gained a dependency on KVM sanitizing guest
->state.  The fact that KVM didn't enumerate support in any way is an
->orthogonal problem.  To play nice with older userspace, KVM will need to
->add a quirk to restore the sanizting code, but that doesn't solve the
->enumeration issue.  And vice versa, solving the enuemaration problem
->doesn't magically fix old userspace.
-Hi,
+I realized these two events are useful when debugging iothread support. =
+We
+are processing sqe and cqe=E2=80=99s in a batch in nvme_process_sq and
+nvme_post_cqes. It is important to mark the beginning of the batch.=
 
-I didn't clearly understand the boundary of when to use quirk and when to f=
-ix it directly, appreciate your guide.
-My previous understanding for quirk is about backward compatibility, old be=
-havior vs. new behavior.
-But this issue is more like a regression or bug, and the sanitizing code is=
- only in kvm/next branch,
-not in kernel upstream yet, why bother to use a quirk?
-
-Thanks
-Zhenzhong
 
