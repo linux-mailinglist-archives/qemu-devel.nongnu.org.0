@@ -2,85 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63E857BAC9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:49:57 +0200 (CEST)
-Received: from localhost ([::1]:37166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AAE57BAF9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:58:51 +0200 (CEST)
+Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEBxU-0002Rr-OU
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42976)
+	id 1oEC66-0007DH-2L
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:58:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oEBwH-0000tL-Fe
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:48:41 -0400
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:45883)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oEBwF-0000qp-KS
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:48:41 -0400
-Received: by mail-pg1-x52b.google.com with SMTP id f65so16717110pgc.12
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NL4vrzmz25r5/O1khrHmPy+CDoKS9o/yYAlQAZb2cRY=;
- b=cYT7VeYCwjb3ZGGsH3m2WxAZ006ufYRDtk9KpQanhdK9W1f4pz0SU296NsISSAeRaO
- ml1lUgfz6Fc6eDb7p99HGKcCIyER0okPf9GDCmd3hcR4xwZRYGodLEZ+oU9zeENLZ9XU
- PwGH3rntq6YqcUOCjI4cbXXzmoPpfVH3YmGAs7PZq6n6PWmlfykHhPdXhWyW7nnQmo4s
- NDc5eMXZpLuerNDBSsZIJOKpmlEAGTK2REKInN2qagEg3HGaDev0U7fIdwoVR8y1CSK8
- gtKrS9drpjy/t3Niws1f/o/dMcxZhpAblmTGjb5pCudVpn8lFXcXfh4Dp6aQUcVvxp3z
- hYaA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEC4k-0005pc-EJ
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:57:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51647)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEC4h-0002nI-0m
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:57:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658332641;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qITKOQm5E2KhzTf7JhIxkz4CH6e8Ws8N67riv+5muDs=;
+ b=WL53fuY/q+5GiyA0cfDzZdUciiIszgaDcw/47wQ8vPT97oDCgy03ihOO0bzADK+VWoS/MM
+ wgGnGpNpUfgdglxcsIPe4MTJZnpAB/HRJbdrk9m8JlYuP7BCbaZJB5TouOwOvtNhOZBXi7
+ OSvlaEtTxYkzNYGVzsSZoiqAlf/0qlU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-517-JQMj8K9VPKKNuB64ElYKjw-1; Wed, 20 Jul 2022 11:57:18 -0400
+X-MC-Unique: JQMj8K9VPKKNuB64ElYKjw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ k16-20020a7bc310000000b0038e6cf00439so969368wmj.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:57:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NL4vrzmz25r5/O1khrHmPy+CDoKS9o/yYAlQAZb2cRY=;
- b=A8PxNJ6s6OQMmSP1va2qOkKXKpMk5wkrI0JHv/nR+pqYcOHihUh3TAqzdXpyfxgCVA
- n5qDCJKlZvTKZvoqovNMbebbeBw51JwUnp/RFFs6DlE3zhMr3m3WYOmj1t6jdCFol+Bm
- y+f6ixFrDZxqUycxHfxzYXpwB0Ap+7PZ87Fg2pEVTAtrcngwQCbP/0coWK0KHHGRN+2d
- XPdcKyqujFhkKn1LXpoqUZKdsnCCqVy1a09VM7NEdbVLQq3/QWzLAZ6g98mTZ2MeRY6k
- qthXHEziakuEzQHPm6VEHukwO3ONAXiTBt2sCyRd4zLc0/kDHHVFzv2JYwCf67phc54b
- vZnQ==
-X-Gm-Message-State: AJIora8sEfSQji/IhIj1N3CcBPSZ5pf3Z+GmN+uvU6ZjGeG292ZRKPnu
- A7jFBi61ai2nMcVcQkvmM7Ry1g==
-X-Google-Smtp-Source: AGRyM1taBpBJ9D09MbEsrnhkB15f+hCk9TAmRzmnJ0C1yhcBvsSNHpW7EBYaMjUB9NPmCsIHeIAQOg==
-X-Received: by 2002:a05:6a00:3392:b0:52b:4896:b317 with SMTP id
- cm18-20020a056a00339200b0052b4896b317mr26049692pfb.17.1658332117881; 
- Wed, 20 Jul 2022 08:48:37 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com.
- [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
- o6-20020a17090a9f8600b001f21a8f7f14sm1829265pjp.9.2022.07.20.08.48.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:48:33 -0700 (PDT)
-Date: Wed, 20 Jul 2022 15:48:29 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mtosatti@redhat.com" <mtosatti@redhat.com>,
- "likexu@tencent.com" <likexu@tencent.com>,
- "Ma, XiangfeiX" <xiangfeix.ma@intel.com>
-Subject: Re: [PATCH] i386: Disable BTS and PEBS
-Message-ID: <Ytgjzfl4kq4G/4B7@google.com>
-References: <20220718032206.34488-1-zhenzhong.duan@intel.com>
- <a7bccbc5-fcb7-eaa8-ce95-fa7f380b8af9@redhat.com>
- <YtW+ymE654W662X4@google.com>
- <9dbe748c-57b4-eab5-3933-0e9891b031c1@redhat.com>
- <Ytb9kTFtnltT3fdf@google.com>
- <MWHPR1101MB21109B9363739A573F6391DD928E9@MWHPR1101MB2110.namprd11.prod.outlook.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=qITKOQm5E2KhzTf7JhIxkz4CH6e8Ws8N67riv+5muDs=;
+ b=DNsDAgxbeUUdHKfvVLs8smMhSfAN5ZXU7RuHwwlfSUtGu34c6nMV2QYYIoJnqKQVhX
+ zMsFKjbA3nkFBiCGjobGiQ5Ygbe3DksCWofz/DSVLZOofPD2n3DA7z4HBGz9ru1lLj3Y
+ /FafGDyk9Fx175w9IrTiSFX5EGhLibBNhnCB1jH1AihjDXEpXSt2MLi0Qzqz5WNaGY2i
+ U4w/5C7rjUqrjDZfznn11Y8er40Cm7zY/zbkdTu5gowpgTiaKY8iZ/IHWtlG4IoJmZ0f
+ CAA+Ehdq1aUjMqFE3DI2eURwGvPfEveHO/YKsDVBI8EfAAuTs9PMvnj+fWz2kttt+UEv
+ GZYA==
+X-Gm-Message-State: AJIora+Sjhb+ZTG4EG/vsHa3q8Z3WYH7HuNTueTIS41hhWq+sml90Rax
+ nqxjSTg2wkTiuyITRZkDC0ePja4Oh5aplDcblLkVmIWOZiDSkH1m9v+Xo7ZEpDXWNYgBLcid9v4
+ 0gPAbdB/VhaV40vU=
+X-Received: by 2002:a05:600c:1c0f:b0:3a3:188b:cb47 with SMTP id
+ j15-20020a05600c1c0f00b003a3188bcb47mr4474834wms.45.1658332637483; 
+ Wed, 20 Jul 2022 08:57:17 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sfGInLWeKxwatT2Y4SjgDXjOEMEQoT0W4eil+xCwo1T7Sq7PgYVzQqQc4LwIg3TESNr0g05Q==
+X-Received: by 2002:a05:600c:1c0f:b0:3a3:188b:cb47 with SMTP id
+ j15-20020a05600c1c0f00b003a3188bcb47mr4474814wms.45.1658332637246; 
+ Wed, 20 Jul 2022 08:57:17 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
+ [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
+ n21-20020a05600c4f9500b003a2f2bb72d5sm4321808wmq.45.2022.07.20.08.57.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 08:57:16 -0700 (PDT)
+Message-ID: <6a172a8a-af34-8af7-f516-d79b09db3ac0@redhat.com>
+Date: Wed, 20 Jul 2022 17:57:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <MWHPR1101MB21109B9363739A573F6391DD928E9@MWHPR1101MB2110.namprd11.prod.outlook.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=seanjc@google.com; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 3/5] configure: Don't use bash-specific string-replacement
+ syntax
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eric Blake <eblake@redhat.com>
+References: <20220720152631.450903-1-peter.maydell@linaro.org>
+ <20220720152631.450903-4-peter.maydell@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220720152631.450903-4-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,46 +106,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 20, 2022, Duan, Zhenzhong wrote:
-> >On Tue, Jul 19, 2022, Paolo Bonzini wrote:
-> >> On 7/18/22 22:12, Sean Christopherson wrote:
-> >> > On Mon, Jul 18, 2022, Paolo Bonzini wrote:
-> >> > > This needs to be fixed in the kernel because old QEMU/new KVM is supported.
-> >> >
-> >> > I can't object to adding a quirk for this since KVM is breaking userspace,
-> >> > but on the KVM side we really need to stop "sanitizing" userspace inputs
-> >> > unless it puts the host at risk, because inevitably it leads to needing
-> >> > a quirk.
-> >>
-> >> The problem is not the sanitizing, it's that userspace literally
-> >> cannot know that this needs to be done because the feature bits are
-> >> "backwards" (1 = unavailable).
-> >
-> >Yes, the bits being inverted contributed to KVM not providing a way for
-> >userspace to enumerate PEBS and BTS support, but lack of enumeration is a
-> >seperate issue.
-> >
-> >If KVM had simply ignored invalid guest state from the get go, then
-> >userspace would never have gained a dependency on KVM sanitizing guest
-> >state.  The fact that KVM didn't enumerate support in any way is an
-> >orthogonal problem.  To play nice with older userspace, KVM will need to
-> >add a quirk to restore the sanizting code, but that doesn't solve the
-> >enumeration issue.  And vice versa, solving the enuemaration problem
-> >doesn't magically fix old userspace.
-> Hi,
+On 20/07/2022 17.26, Peter Maydell wrote:
+> The variable string-replacement syntax ${var/old/new} is a bashism
+> (though it is also supported by some other shells), and for instance
+> does not work with the NetBSD /bin/sh, which complains:
+>   ../src/configure: 687: Syntax error: Bad substitution
 > 
-> I didn't clearly understand the boundary of when to use quirk and when to fix
-> it directly, appreciate your guide.  My previous understanding for quirk is
-> about backward compatibility, old behavior vs. new behavior.  But this issue
-> is more like a regression or bug, and the sanitizing code is only in kvm/next
-> branch, not in kernel upstream yet, why bother to use a quirk?
+> Replace it with a more portable sed-based approach, similar to
+> what we already do in quote_sh().
+> 
+> Note that shellcheck also diagnoses this:
+> 
+> In ./configure line 687:
+>      e=${e/'\'/'\\'}
+>        ^-----------^ SC2039: In POSIX sh, string replacement is undefined.
+>             ^-- SC1003: Want to escape a single quote? echo 'This is how it'\''s done'.
+>                  ^-- SC1003: Want to escape a single quote? echo 'This is how it'\''s done'.
+> 
+> 
+> In ./configure line 688:
+>      e=${e/\"/'\"'}
+>        ^----------^ SC2039: In POSIX sh, string replacement is undefined.
+> 
+> Fixes: 8154f5e64b0cf ("meson: Prefix each element of firmware path")
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   configure | 7 ++++---
+>   1 file changed, 4 insertions(+), 3 deletions(-)
 
-Oh!  Yay!  You're absolutely right.  And now I understand why Paolo is saying the
-problem has nothing to do with sanitizing...
+Thanks, this fixes "make vm-build-netbsd" for me!
 
-I was thinking that KVM had been doing the sanitizing before the PEBS enabling,
-but that bad behavior was introduced by bef6ecca46ac ("KVM: x86/pmu: Set
-MSR_IA32_MISC_ENABLE_EMON bit when vPMU is enabled").
+Tested-by: Thomas Huth <thuth@redhat.com>
 
-Sorry for the noise.
 
