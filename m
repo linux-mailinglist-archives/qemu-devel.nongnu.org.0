@@ -2,80 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC5E57B228
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:54:57 +0200 (CEST)
-Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93BCD57B234
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 10:00:50 +0200 (CEST)
+Received: from localhost ([::1]:55112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE4Xn-0007Za-Rn
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:54:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1oE4dV-0003iw-6Q
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 04:00:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oE4WY-00069E-7s
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:53:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58253)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oE4b1-00086a-83
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:58:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oE4WV-0007E3-HE
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:53:36 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oE4ay-0007oZ-Bp
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:58:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658303614;
+ s=mimecast20190719; t=1658303883;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=N0In/PRqpaWTcJpwVtLUiaSFRmIP+VfUlL0PoKbfsp5847vN18rAGS7doISS7AWv+K6Xv2
- /k8ZjsQMRXLD/FrDseqoK1gjvx2sHZbZstBZNEndoua+hGvSvPEKJiHBkb9MBGQkuHG1Bw
- 123ahXLBb4jxDFY/hXo4eZ8iU2c53BQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NLtDi5LbH8uVLwPF71I7WOTjUouKv8eDL9GyNjQsn0s=;
+ b=gPzXrCu7XiUbx/vkfINLXV9EIIB5o06elQSVxCfiNnoMw60q91QYEr1mWMUgQpt0kiuNZG
+ 3UrI1O3GB8C832dRC+w4Fc0fRKvxBXx17u/WIwqNqzpotMe+51jlcFbDAMBrC56XuHtr6I
+ fJUgC+AibTp+ulzgXnMPra5CaKnTf/0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-oYbFChutMYidTpTmiNlycQ-1; Wed, 20 Jul 2022 03:53:30 -0400
-X-MC-Unique: oYbFChutMYidTpTmiNlycQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- f9-20020a056402354900b0043a902b7452so11464329edd.13
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 00:53:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
- b=a3BqDEB1F42/ac/ju84bX8Wfv1y3okoFC3hwxj8EC7Fy0tqon173x0z9ZLcF+ZX4jG
- Xz54FrV35dh1LqdN2tnG4GXojZ7Y2EaS42Du7qD+4o75+SRntMaAUWydL0C50SD2BUfs
- klVSqo06TaDNR2tNyes45ZDXxDuE35hR7KrbrCqAq4bKnVyma+ZipwyFrIzbDFPcbGKK
- svhic7RBuViiB8MFIW+CFTamlpxU+4SprJCBYtd2AJUDuTBtwMbn7OtgU0xoAEAREGj7
- Aj84B2Ytu3jU3xoUcRPwwLaf5ecbMwSlME3b9RuWnp5kR8M4Cx8v1VTyTZNo9IkOnpdM
- fj2Q==
-X-Gm-Message-State: AJIora+o6vVf1WQceqQIER1PfoAwhcKQ6ml+hxhi2H9MzVvnhobyotU8
- nlUwGLt0uZsK/pgcWbuRCArAwWPerPglWKHGbnA9u1otYmLcVnwk/1CmE/Tql7vrfv+dnebhIHK
- JJ1wB0TuI13exIMw=
-X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
- hv12-20020a17090760cc00b0072b40a80a5bmr33634667ejc.379.1658303609811; 
- Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ta8K8/ulfRIu9Beh3uqHJ75ZOo+5BsITfrigxvx1wbYkjErgrtGmo41nb5X68Jd2pjh/oRdg==
-X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
- hv12-20020a17090760cc00b0072b40a80a5bmr33634650ejc.379.1658303609613; 
- Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- h20-20020a1709062dd400b0072b40cb28a8sm7557893eji.29.2022.07.20.00.53.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,
-	Mark Kanda <mark.kanda@oracle.com>
-Subject: Re: [PATCH] accel/kvm: Avoid Coverity warning in query_stats()
-Date: Wed, 20 Jul 2022 09:53:28 +0200
-Message-Id: <20220720075328.599550-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220719134853.327059-1-peter.maydell@linaro.org>
-References: 
+ us-mta-655-oa_ok-KwMB-NVP4UaLyPsg-1; Wed, 20 Jul 2022 03:58:00 -0400
+X-MC-Unique: oa_ok-KwMB-NVP4UaLyPsg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8AD7805AF5;
+ Wed, 20 Jul 2022 07:57:59 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.154])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 450CC492CA5;
+ Wed, 20 Jul 2022 07:57:59 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/3] s390x fixes
+Date: Wed, 20 Jul 2022 09:57:53 +0200
+Message-Id: <20220720075756.760404-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,9 +73,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Queued, thanks.
+ Hi!
 
-Paolo
+The following changes since commit b8bb9bbf4695b89bbdca702a054db0a7a2c8ff2b:
 
+  Merge tag 'pull-ppc-20220718' of https://gitlab.com/danielhb/qemu into staging (2022-07-18 19:27:25 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-07-20
+
+for you to fetch changes up to 23f13e1986e2ed3a02b65c0bf376c8c61d04ae7a:
+
+  tests/tcg/s390x: test signed vfmin/vfmax (2022-07-19 12:49:56 +0200)
+
+----------------------------------------------------------------
+* Fixes for s390x floating point vector instructions
+
+----------------------------------------------------------------
+Ilya Leoshkevich (3):
+      target/s390x: fix handling of zeroes in vfmin/vfmax
+      target/s390x: fix NaN propagation rules
+      tests/tcg/s390x: test signed vfmin/vfmax
+
+ target/s390x/tcg/vec_fpu_helper.c |   4 +-
+ tests/tcg/s390x/vfminmax.c        | 411 ++++++++++++++++++++++++++++++++++++++
+ fpu/softfloat-specialize.c.inc    |   3 +-
+ tests/tcg/s390x/Makefile.target   |   7 +
+ 4 files changed, 422 insertions(+), 3 deletions(-)
+ create mode 100644 tests/tcg/s390x/vfminmax.c
 
 
