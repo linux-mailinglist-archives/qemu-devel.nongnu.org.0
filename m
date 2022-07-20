@@ -2,76 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F70857B191
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:18:29 +0200 (CEST)
-Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 926AA57B17A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:14:42 +0200 (CEST)
+Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE3yW-0007h6-Bd
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33854)
+	id 1oE3ur-0001k2-Bo
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:14:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oE3hw-0001NX-Ix
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:01:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55421)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oE3s1-0004yE-IX
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:11:46 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oE3hr-0006ia-1H
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:01:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658300474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qQYyQPUwsAI2XVWVJZJjxrWIG0apisggNil0kr5fFQQ=;
- b=A68Zc4/AaVUCDGfDUXfu7hLxn3bcYC09pA1PfXmzrCS567fLf2rOi4WJlOimwLSW48a0Ty
- fM2NDG/QLq4Daw1ywk/QuoCYOU5FbB6gQJi2Jp4MSz9OTEGDqbPFJo9u3xiGk1X+hjNYBi
- EVtc08oDLuM+Umb+RI7bm07EMmgLFtg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-106-psu-1rqNNe6CDl9ZCaLuSQ-1; Wed, 20 Jul 2022 03:01:03 -0400
-X-MC-Unique: psu-1rqNNe6CDl9ZCaLuSQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 398A32803027;
- Wed, 20 Jul 2022 07:01:03 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44A8818EA8;
- Wed, 20 Jul 2022 07:01:00 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Stefano Garzarella <sgarzare@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>, Cornelia Huck <cohuck@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>,
- Eric Blake <eblake@redhat.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Jason Wang <jasowang@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
- Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PATCH v6 21/21] vdpa: Add x-svq to NetdevVhostVDPAOptions
-Date: Wed, 20 Jul 2022 08:59:46 +0200
-Message-Id: <20220720065946.3122611-22-eperezma@redhat.com>
-In-Reply-To: <20220720065946.3122611-1-eperezma@redhat.com>
-References: <20220720065946.3122611-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oE3ry-00083n-HW
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:11:45 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LnmyJ6MY6zjXLk;
+ Wed, 20 Jul 2022 15:08:40 +0800 (CST)
+Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Wed, 20 Jul 2022 15:11:02 +0800
+Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
+ (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Wed, 20 Jul
+ 2022 15:11:02 +0800
+To: <marcandre.lureau@redhat.com>, <berrange@redhat.com>,
+ <qemu-devel@nongnu.org>
+CC: <pbonzini@redhat.com>, <armbru@redhat.com>, <wangxinxin.wang@huawei.com>, 
+ <hogan.wang@huawei.com>
+Subject: [PATCH v2] chardev: avoid use-after-free when client disconnect
+Date: Wed, 20 Jul 2022 15:10:57 +0800
+Message-ID: <20220720071057.1745-1-hogan.wang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.149.172]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ kwepemm600015.china.huawei.com (7.193.23.52)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,198 +67,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hogan Wang <hogan.wang@huawei.com>
+From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-Finally offering the possibility to enable SVQ from the command line.
+IOWatchPoll object did not hold the @ioc and @src objects reference,
+then io_watch_poll_prepare execute in IO thread, if IOWatchPoll
+removed by mian thread, then io_watch_poll_prepare access @ioc or
+@src concurrently lead to coredump.
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
+In IO thread monitor scene, the IO thread used to accept client,
+receive qmp request and handle hung-up event. Main thread used to
+handle qmp request and send response, it will remove IOWatchPoll
+and free @ioc when send response fail, then cause use-after-free
+like this:
+
+(gdb) bt
+0  0x00007f4d121c8edf in g_source_remove_child_source (source=0x7f4c58003560, child_source=0x7f4c58009b10)
+1  0x00007f4d11e0705c in io_watch_poll_prepare (source=0x7f4c58003560, timeout=timeout@entry=0x7f4c7fffed94
+2  0x00007f4d121ca419 in g_main_context_prepare (context=context@entry=0x55a1463f8260, priority=priority@entry=0x7f4c7fffee20)
+3  0x00007f4d121cadeb in g_main_context_iterate (context=0x55a1463f8260, block=block@entry=1, dispatch=dispatch@entry=1, self=self@entry=0x7f4c94002260)
+4  0x00007f4d121cb21d in g_main_loop_run (loop=0x55a146c90920)
+5  0x00007f4d11de3ea1 in iothread_run (opaque=0x55a146411820)
+6  0x00007f4d11d77470 in qemu_thread_start (args=0x55a146b1f3c0)
+7  0x00007f4d11f2ef3b in ?? () from /usr/lib64/libpthread.so.0
+8  0x00007f4d120ba550 in clone () from /usr/lib64/libc.so.6
+(gdb) p	iwp
+$1 = (IOWatchPoll *) 0x7f4c58003560
+(gdb) p	*iwp
+$2 = {parent = {callback_data = 0x0,
+                callback_funcs = 0x0,
+                source_funcs = 0x7f4d11f10760 <io_watch_poll_funcs>,
+                ref_count = 1,
+                context = 0x55a1463f8260,
+                priority = 0,
+                flags = 0,
+                source_id = 544,
+                poll_fds = 0x0,
+                prev = 0x55a147a47a30,
+                next = 0x55a14712fb80,
+                name = 0x7f4c580036d0 "chardev-iowatch-charmonitor",
+                priv = 0x7f4c58003060},
+       ioc = 0x7f4c580033f0,
+       src = 0x7f4c58009b10,
+       fd_can_read = 0x7f4d11e0a5d0 <tcp_chr_read_poll>,
+       fd_read = 0x7f4d11e0a380 <tcp_chr_read>,
+       opaque = 0x55a1463aeea0 }
+(gdb) p	iwp->ioc
+$3 = (QIOChannel *) 0x7f4c580033f0
+(gdb) p	*iwp->ioc
+$4 = {parent = {class = 0x55a14707f400,
+                free = 0x55a146313010,
+                properties = 0x55a147b37b60,
+                ref = 0,
+                parent = 0x0},
+      features = 3,
+      name = 0x7f4c580085f0 "\240F",
+      ctx = 0x0,
+      read_coroutine = 0x0,
+      write_coroutine = 0x0}
+
+Solution: IOWatchPoll object hold the @ioc and @src objects reference
+and release the reference in GSource finalize callback function.
+
+Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
 ---
- qapi/net.json    |  9 +++++-
- net/vhost-vdpa.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 77 insertions(+), 4 deletions(-)
+ chardev/char-io.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/qapi/net.json b/qapi/net.json
-index 9af11e9a3b..75ba2cb989 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -445,12 +445,19 @@
- # @queues: number of queues to be created for multiqueue vhost-vdpa
- #          (default: 1)
- #
-+# @x-svq: Start device with (experimental) shadow virtqueue. (Since 7.1)
-+#         (default: false)
-+#
-+# Features:
-+# @unstable: Member @x-svq is experimental.
-+#
- # Since: 5.1
- ##
- { 'struct': 'NetdevVhostVDPAOptions',
-   'data': {
-     '*vhostdev':     'str',
--    '*queues':       'int' } }
-+    '*queues':       'int',
-+    '*x-svq':        {'type': 'bool', 'features' : [ 'unstable'] } } }
- 
- ##
- # @NetdevVmnetHostOptions:
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 6e3e9f312a..6abad276a6 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -75,6 +75,28 @@ const int vdpa_feature_bits[] = {
-     VHOST_INVALID_FEATURE_BIT
- };
- 
-+/** Supported device specific feature bits with SVQ */
-+static const uint64_t vdpa_svq_device_features =
-+    BIT_ULL(VIRTIO_NET_F_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_CSUM) |
-+    BIT_ULL(VIRTIO_NET_F_MTU) |
-+    BIT_ULL(VIRTIO_NET_F_MAC) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_GUEST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO4) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_TSO6) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_ECN) |
-+    BIT_ULL(VIRTIO_NET_F_HOST_UFO) |
-+    BIT_ULL(VIRTIO_NET_F_MRG_RXBUF) |
-+    BIT_ULL(VIRTIO_NET_F_STATUS) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_VQ) |
-+    BIT_ULL(VIRTIO_F_ANY_LAYOUT) |
-+    BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR) |
-+    BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-+    BIT_ULL(VIRTIO_NET_F_STANDBY);
-+
- VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-@@ -133,9 +155,13 @@ err_init:
- static void vhost_vdpa_cleanup(NetClientState *nc)
- {
-     VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-+    struct vhost_dev *dev = &s->vhost_net->dev;
- 
-     qemu_vfree(s->cvq_cmd_out_buffer);
-     qemu_vfree(s->cvq_cmd_in_buffer);
-+    if (dev->vq_index + dev->nvqs == dev->vq_index_end) {
-+        g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_delete);
-+    }
-     if (s->vhost_net) {
-         vhost_net_cleanup(s->vhost_net);
-         g_free(s->vhost_net);
-@@ -437,7 +463,9 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-                                            int vdpa_device_fd,
-                                            int queue_pair_index,
-                                            int nvqs,
--                                           bool is_datapath)
-+                                           bool is_datapath,
-+                                           bool svq,
-+                                           VhostIOVATree *iova_tree)
- {
-     NetClientState *nc = NULL;
-     VhostVDPAState *s;
-@@ -455,6 +483,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     s->vhost_vdpa.index = queue_pair_index;
-+    s->vhost_vdpa.shadow_vqs_enabled = svq;
-+    s->vhost_vdpa.iova_tree = iova_tree;
-     if (!is_datapath) {
-         s->cvq_cmd_out_buffer = qemu_memalign(qemu_real_host_page_size(),
-                                             vhost_vdpa_net_cvq_cmd_page_len());
-@@ -465,6 +495,8 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
-+        error_setg(&s->vhost_vdpa.migration_blocker,
-+                   "Migration disabled: vhost-vdpa uses CVQ.");
+diff --git a/chardev/char-io.c b/chardev/char-io.c
+index 4451128cba..6b10217a70 100644
+--- a/chardev/char-io.c
++++ b/chardev/char-io.c
+@@ -55,9 +55,9 @@ static gboolean io_watch_poll_prepare(GSource *source,
+             iwp->ioc, G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL);
+         g_source_set_callback(iwp->src, iwp->fd_read, iwp->opaque, NULL);
+         g_source_add_child_source(source, iwp->src);
+-        g_source_unref(iwp->src);
+     } else {
+         g_source_remove_child_source(source, iwp->src);
++        g_source_unref(iwp->src);
+         iwp->src = NULL;
      }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
-@@ -474,6 +506,14 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-     return nc;
+     return FALSE;
+@@ -69,9 +69,17 @@ static gboolean io_watch_poll_dispatch(GSource *source, GSourceFunc callback,
+     return G_SOURCE_CONTINUE;
  }
  
-+static int vhost_vdpa_get_iova_range(int fd,
-+                                     struct vhost_vdpa_iova_range *iova_range)
++static void io_watch_poll_finalize(GSource *source)
 +{
-+    int ret = ioctl(fd, VHOST_VDPA_GET_IOVA_RANGE, iova_range);
-+
-+    return ret < 0 ? -errno : 0;
++    IOWatchPoll *iwp = io_watch_poll_from_source(source);
++    g_clear_pointer(&iwp->src, g_source_unref);
++    g_clear_pointer(&iwp->ioc, object_unref);
 +}
 +
- static int vhost_vdpa_get_features(int fd, uint64_t *features, Error **errp)
- {
-     int ret = ioctl(fd, VHOST_GET_FEATURES, features);
-@@ -524,6 +564,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     uint64_t features;
-     int vdpa_device_fd;
-     g_autofree NetClientState **ncs = NULL;
-+    g_autoptr(VhostIOVATree) iova_tree = NULL;
-     NetClientState *nc;
-     int queue_pairs, r, i, has_cvq = 0;
+ static GSourceFuncs io_watch_poll_funcs = {
+     .prepare = io_watch_poll_prepare,
+     .dispatch = io_watch_poll_dispatch,
++    .finalize = io_watch_poll_finalize,
+ };
  
-@@ -551,22 +592,45 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         return queue_pairs;
-     }
+ GSource *io_add_watch_poll(Chardev *chr,
+@@ -88,7 +96,7 @@ GSource *io_add_watch_poll(Chardev *chr,
+                                        sizeof(IOWatchPoll));
+     iwp->fd_can_read = fd_can_read;
+     iwp->opaque = user_data;
+-    iwp->ioc = ioc;
++    iwp->ioc = object_ref(ioc);
+     iwp->fd_read = (GSourceFunc) fd_read;
+     iwp->src = NULL;
  
-+    if (opts->x_svq) {
-+        struct vhost_vdpa_iova_range iova_range;
-+
-+        uint64_t invalid_dev_features =
-+            features & ~vdpa_svq_device_features &
-+            /* Transport are all accepted at this point */
-+            ~MAKE_64BIT_MASK(VIRTIO_TRANSPORT_F_START,
-+                             VIRTIO_TRANSPORT_F_END - VIRTIO_TRANSPORT_F_START);
-+
-+        if (invalid_dev_features) {
-+            error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
-+                       invalid_dev_features);
-+            goto err_svq;
-+        }
-+
-+        vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-+        iova_tree = vhost_iova_tree_new(iova_range.first, iova_range.last);
-+    }
-+
-     ncs = g_malloc0(sizeof(*ncs) * queue_pairs);
- 
-     for (i = 0; i < queue_pairs; i++) {
-         ncs[i] = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                     vdpa_device_fd, i, 2, true);
-+                                     vdpa_device_fd, i, 2, true, opts->x_svq,
-+                                     iova_tree);
-         if (!ncs[i])
-             goto err;
-     }
- 
-     if (has_cvq) {
-         nc = net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
--                                 vdpa_device_fd, i, 1, false);
-+                                 vdpa_device_fd, i, 1, false,
-+                                 opts->x_svq, iova_tree);
-         if (!nc)
-             goto err;
-     }
- 
-+    /* iova_tree ownership belongs to last NetClientState */
-+    g_steal_pointer(&iova_tree);
-     return 0;
- 
- err:
-@@ -575,6 +639,8 @@ err:
-             qemu_del_net_client(ncs[i]);
-         }
-     }
-+
-+err_svq:
-     qemu_close(vdpa_device_fd);
- 
-     return -1;
 -- 
-2.31.1
+2.33.0
 
 
