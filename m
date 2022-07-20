@@ -2,54 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2EE657B37D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:09:23 +0200 (CEST)
-Received: from localhost ([::1]:50382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA19557B382
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:10:07 +0200 (CEST)
+Received: from localhost ([::1]:52444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE5hq-0000ah-Gc
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58182)
+	id 1oE5iY-0001wN-GM
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5c2-0007vz-VT
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32007)
+ id 1oE5c7-00080t-T1
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5c0-0001Fh-32
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:21 -0400
+ id 1oE5c4-0001Jy-Kf
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658307799;
+ s=mimecast20190719; t=1658307803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=UqwFcMHYmGoHWM5dRV1Ls6RivYviUp4WDp79dEri0zA=;
- b=DMo/a+rY/oCp1map+befnIf0ZEfMJu7mmgfC08zAEyFQmPX4jaEO2IWkreTrN+IrnNkCwr
- XS3kL66Yp1MtYTunweX77Kj1TNWfgCpa40nyIWXiniDlQFasa9c8RGbCC1/g2dFHqlu7If
- qgbdb+gnqX/F90GtjdTmeYYV3i7SFrE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LTPD93mdkwqFWoWbm4Wn8FWGSk8O98DYcyDcvL0UTvg=;
+ b=X4ZxwTD1OoelPnLJyXWjo1xdoRcBxY/HQsv12BxmyewXU1wsJjcadCZkdm/9WU2A7+TNMa
+ cJXWWJvkcdAw8OQuHem9+4faUYfmNOsPOUo3peML5uYSQbWaHW+gSvJTr1TyHsZ/iE7BQ+
+ JoQkgWVhSJLVo2xur7STzPtm2Aj8ayY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-135-coikhpcrP6y45_9qfWMqeg-1; Wed, 20 Jul 2022 05:03:18 -0400
-X-MC-Unique: coikhpcrP6y45_9qfWMqeg-1
+ us-mta-253-g-KHxbbTPjS89QStOU9JZQ-1; Wed, 20 Jul 2022 05:03:21 -0400
+X-MC-Unique: g-KHxbbTPjS89QStOU9JZQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9A1E1C16B40;
- Wed, 20 Jul 2022 09:03:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE93E80029D;
+ Wed, 20 Jul 2022 09:03:20 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-110.pek2.redhat.com
  [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E3F49492C3B;
- Wed, 20 Jul 2022 09:03:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FD2B492C3B;
+ Wed, 20 Jul 2022 09:03:18 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 00/25] Net patches
-Date: Wed, 20 Jul 2022 17:02:48 +0800
-Message-Id: <20220720090313.55169-1-jasowang@redhat.com>
+Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PULL V2 01/25] vhost: move descriptor translation to
+ vhost_svq_vring_write_descs
+Date: Wed, 20 Jul 2022 17:02:49 +0800
+Message-Id: <20220720090313.55169-2-jasowang@redhat.com>
+In-Reply-To: <20220720090313.55169-1-jasowang@redhat.com>
+References: <20220720090313.55169-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -78,70 +83,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d48125de38f48a61d6423ef6a01156d6dff9ee2c:
+From: Eugenio Pérez <eperezma@redhat.com>
 
-  Merge tag 'kraxel-20220719-pull-request' of https://gitlab.com/kraxel/qemu into staging (2022-07-19 17:40:36 +0100)
+It's done for both in and out descriptors so it's better placed here.
 
-are available in the git repository at:
+Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/virtio/vhost-shadow-virtqueue.c | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to 8bdab83b34efb0b598be4e5b98e4f466ca5f2f80:
-
-  net/colo.c: fix segmentation fault when packet is not parsed correctly (2022-07-20 16:58:08 +0800)
-
-----------------------------------------------------------------
-
-Changes since V1:
-- Fix build erros of vhost-vdpa when virtio-net is not set
-
-----------------------------------------------------------------
-Eugenio Pérez (21):
-      vhost: move descriptor translation to vhost_svq_vring_write_descs
-      virtio-net: Expose MAC_TABLE_ENTRIES
-      virtio-net: Expose ctrl virtqueue logic
-      vdpa: Avoid compiler to squash reads to used idx
-      vhost: Reorder vhost_svq_kick
-      vhost: Move vhost_svq_kick call to vhost_svq_add
-      vhost: Check for queue full at vhost_svq_add
-      vhost: Decouple vhost_svq_add from VirtQueueElement
-      vhost: Add SVQDescState
-      vhost: Track number of descs in SVQDescState
-      vhost: add vhost_svq_push_elem
-      vhost: Expose vhost_svq_add
-      vhost: add vhost_svq_poll
-      vhost: Add svq avail_handler callback
-      vdpa: Export vhost_vdpa_dma_map and unmap calls
-      vhost-net-vdpa: add stubs for when no virtio-net device is present
-      vdpa: manual forward CVQ buffers
-      vdpa: Buffer CVQ support on shadow virtqueue
-      vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs
-      vdpa: Add device migration blocker
-      vdpa: Add x-svq to NetdevVhostVDPAOptions
-
-Zhang Chen (4):
-      softmmu/runstate.c: add RunStateTransition support form COLO to PRELAUNCH
-      net/colo: Fix a "double free" crash to clear the conn_list
-      net/colo.c: No need to track conn_list for filter-rewriter
-      net/colo.c: fix segmentation fault when packet is not parsed correctly
-
- hw/net/virtio-net.c                |  85 +++++----
- hw/virtio/vhost-shadow-virtqueue.c | 210 +++++++++++++++-------
- hw/virtio/vhost-shadow-virtqueue.h |  52 +++++-
- hw/virtio/vhost-vdpa.c             |  26 ++-
- include/hw/virtio/vhost-vdpa.h     |   8 +
- include/hw/virtio/virtio-net.h     |   7 +
- net/colo-compare.c                 |   2 +-
- net/colo.c                         |  11 +-
- net/filter-rewriter.c              |   2 +-
- net/meson.build                    |   3 +-
- net/trace-events                   |   1 +
- net/vhost-vdpa-stub.c              |  21 +++
- net/vhost-vdpa.c                   | 357 +++++++++++++++++++++++++++++++++++--
- qapi/net.json                      |   9 +-
- softmmu/runstate.c                 |   1 +
- 15 files changed, 671 insertions(+), 124 deletions(-)
- create mode 100644 net/vhost-vdpa-stub.c
-
+diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
+index 56c96eb..e2184a4 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.c
++++ b/hw/virtio/vhost-shadow-virtqueue.c
+@@ -122,17 +122,35 @@ static bool vhost_svq_translate_addr(const VhostShadowVirtqueue *svq,
+     return true;
+ }
+ 
+-static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
+-                                    const struct iovec *iovec, size_t num,
+-                                    bool more_descs, bool write)
++/**
++ * Write descriptors to SVQ vring
++ *
++ * @svq: The shadow virtqueue
++ * @sg: Cache for hwaddr
++ * @iovec: The iovec from the guest
++ * @num: iovec length
++ * @more_descs: True if more descriptors come in the chain
++ * @write: True if they are writeable descriptors
++ *
++ * Return true if success, false otherwise and print error.
++ */
++static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
++                                        const struct iovec *iovec, size_t num,
++                                        bool more_descs, bool write)
+ {
+     uint16_t i = svq->free_head, last = svq->free_head;
+     unsigned n;
+     uint16_t flags = write ? cpu_to_le16(VRING_DESC_F_WRITE) : 0;
+     vring_desc_t *descs = svq->vring.desc;
++    bool ok;
+ 
+     if (num == 0) {
+-        return;
++        return true;
++    }
++
++    ok = vhost_svq_translate_addr(svq, sg, iovec, num);
++    if (unlikely(!ok)) {
++        return false;
+     }
+ 
+     for (n = 0; n < num; n++) {
+@@ -150,6 +168,7 @@ static void vhost_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
+     }
+ 
+     svq->free_head = le16_to_cpu(svq->desc_next[last]);
++    return true;
+ }
+ 
+ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+@@ -169,21 +188,18 @@ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+         return false;
+     }
+ 
+-    ok = vhost_svq_translate_addr(svq, sgs, elem->out_sg, elem->out_num);
++    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
++                                     elem->in_num > 0, false);
+     if (unlikely(!ok)) {
+         return false;
+     }
+-    vhost_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
+-                            elem->in_num > 0, false);
+-
+ 
+-    ok = vhost_svq_translate_addr(svq, sgs, elem->in_sg, elem->in_num);
++    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
++                                     true);
+     if (unlikely(!ok)) {
+         return false;
+     }
+ 
+-    vhost_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false, true);
+-
+     /*
+      * Put the entry in the available array (but don't update avail->idx until
+      * they do sync).
+-- 
+2.7.4
 
 
