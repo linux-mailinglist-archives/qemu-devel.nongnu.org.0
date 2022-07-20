@@ -2,88 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9272F57B30E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 10:36:40 +0200 (CEST)
-Received: from localhost ([::1]:52362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7E3557B32A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 10:41:49 +0200 (CEST)
+Received: from localhost ([::1]:55488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE5CB-00066u-MS
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 04:36:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53138)
+	id 1oE5HA-0008Sw-QC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 04:41:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE5A5-0004EM-1W
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:34:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26491)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oE5Fj-00071b-U7
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:40:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE5A1-00058V-Qc
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:34:27 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oE5Fe-00068Y-BS
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:40:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658306065;
+ s=mimecast20190719; t=1658306413;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=AukOT/YjVtvVFPFb47eP2TSvZLE5rN0rBKJ3EOZovZk=;
- b=eE8rg00rxWjcjH8apesmwkMtmhSP46hJc3t3unPMISgFLh74eYzjexaVrdjB69v9ZxU4Lv
- JyK2aNO/WzXB0XJ75AQWmPClGBvv0Q3MC38av0u1QmheWdraxSXcnz+lqbSCWQykjMilnz
- JOF66p1ge8dhKYTNYWVRTsLyQ4M3oo8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QIe3GqZfn4ySK6BpRC1oz1OEETJCzYLqg2tOgkwe3oM=;
+ b=OPGHrHVTJTXWLvBheFjfUa9DmlSDlKrbuximJs+GJ3MrRhekPce6gLCrKsXotqbfraR5f4
+ XeWz98ohx8p54nh0tcdLhkuRCJ2UrySXxL2jJd3bq+1kPA+dIu8UK4th0fvzK3oEuqmM8i
+ zBdRkuT07Urc6iCuu9dPkSvCKOZuUXQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-673-g98-Ga3zMraJN4KWCPOAUQ-1; Wed, 20 Jul 2022 04:34:23 -0400
-X-MC-Unique: g98-Ga3zMraJN4KWCPOAUQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c126-20020a1c3584000000b003a02fa133ceso8061933wma.2
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 01:34:23 -0700 (PDT)
+ us-mta-650-k5nsNEShNqiZ-PgFgfMekw-1; Wed, 20 Jul 2022 04:40:12 -0400
+X-MC-Unique: k5nsNEShNqiZ-PgFgfMekw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ x21-20020a05640226d500b0043abb7ac086so11619800edd.14
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 01:40:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AukOT/YjVtvVFPFb47eP2TSvZLE5rN0rBKJ3EOZovZk=;
- b=QAS3FfFWL93aCb4tIooetV9tNXB50CbwODyRUZVIRYfqByGaMJ0sv33Ckej4jfjZAt
- zthLusPgBDosCsmF7pQA5oRoy9NC3iontA3u7MOIQVp5r6Qmv8iyb4e0tfQ9WudjDeUs
- L+32jhfz57HT+Vyh6wDBhQWGyP4S0XeBKfeZJjk1nmzlaZ7RKbK0wr/aUECfBevHvAvY
- smrJKJTYeW5vWFOrHRNs3RR+7SOWn6bNxqd8JLjqUPFTrzdAXP7oNKn3sJYMRr1Dntu9
- 4+yknRtjWg/TtBX8+QufXn1zxetfQcJPSffvY7eH/uKofWLr6KNFsavvbCDuwuuwfpud
- qiRw==
-X-Gm-Message-State: AJIora8VdOkKDixJzeP3t0EAOiuMUd1+6e1Gr3L3F/1SKlr2g0licwhk
- /F4R6kSfcUrCnGhhUN+geHSBSkc6zrnPesf53U2jGDJOjsXbiUUkwQcoOnCDhUWeFLDRQJ9+1oS
- Zqu0njomtHG/obHI=
-X-Received: by 2002:a7b:ce0a:0:b0:3a3:1adf:af34 with SMTP id
- m10-20020a7bce0a000000b003a31adfaf34mr2652377wmc.127.1658306062605; 
- Wed, 20 Jul 2022 01:34:22 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tiMc8TwgZXj2zj+acskfZFX/WC5T60/FwWRleyxWAzBelzYtUbe+cF7qQT9a9SOts7wqTWZw==
-X-Received: by 2002:a7b:ce0a:0:b0:3a3:1adf:af34 with SMTP id
- m10-20020a7bce0a000000b003a31adfaf34mr2652350wmc.127.1658306062316; 
- Wed, 20 Jul 2022 01:34:22 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p6-20020adfe606000000b0021d73772c87sm3503935wrm.91.2022.07.20.01.34.21
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QIe3GqZfn4ySK6BpRC1oz1OEETJCzYLqg2tOgkwe3oM=;
+ b=1nXF7N2SidzLfhijULR/3Y1sjW3SpbEqPFHeZjyog0xDmpQZqK856AuMbo4OWNpqkd
+ 03Y+eR18KMhw2gYkxP0vDCBBMXDMTICSXt4I86DHuMBv5WTJ+8Ps2XOW2/OepRbIbhzr
+ 5UnpuyFPMst/nUKkzWtzP/jH93DTui7cdVBo3NPHa2bGQQb4UD/05P82K4XRMWZhghb9
+ BtGbpo2ElmXVi3TirbYIqBa5ZdglGzkOREsmJKy1lEMrOgzqSZkxV+R0rkUcjGVmjOTS
+ DfcBtFgQs2xJRaJl1Sq6E1TV8F79NiCsdZ1QVSquvn+8knAhN/7sAXVPoSX9eypLtsIt
+ 7N1A==
+X-Gm-Message-State: AJIora9ldMC2nLo7XXWQODRKwgEpvLgJ/nGajOQNfLtjF7bRqSqMw5MK
+ FG6vvkK0e0m+nxfZSTmzOuAqa5dbIAKKsV0Mxwa+oeDz/5ozcsXEpSZ6i3LGkKjrZrRCPZjRWMx
+ 2Vna9mDWqWq3BqWub+Cq54Xt3ZmX8u4+XNV9b2Nl8zn1Wg6ICId1arR41GbuOoN8Ekc8=
+X-Received: by 2002:a05:6402:15a:b0:431:71b9:86f3 with SMTP id
+ s26-20020a056402015a00b0043171b986f3mr48570543edu.249.1658306411007; 
+ Wed, 20 Jul 2022 01:40:11 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tR8vi8sL6/63CVGgulhsAuWmIbQcgjvk2uDtnIkYxUQzazAes6XBQEXLHZCCeAqKlpURYr9Q==
+X-Received: by 2002:a05:6402:15a:b0:431:71b9:86f3 with SMTP id
+ s26-20020a056402015a00b0043171b986f3mr48570530edu.249.1658306410750; 
+ Wed, 20 Jul 2022 01:40:10 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ r17-20020a056402035100b0043a6a7048absm11949407edw.95.2022.07.20.01.40.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 01:34:21 -0700 (PDT)
-Date: Wed, 20 Jul 2022 09:34:20 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, alex.bennee@linaro.org, f4bug@amsat.org,
- iii@linux.ibm.com, peter.maydell@linaro.org
-Subject: Re: [PATCH] Revert "gitlab: disable accelerated zlib for s390x"
-Message-ID: <Yte+DF6Y5BTu5ZRS@work-vm>
-References: <20220720082844.6700-1-dgilbert@redhat.com>
- <090d09d2-bca0-5354-e552-66459121ac13@redhat.com>
+ Wed, 20 Jul 2022 01:40:10 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>
+Subject: [PATCH] oss-fuzz: remove binaries from qemu-bundle tree
+Date: Wed, 20 Jul 2022 10:40:09 +0200
+Message-Id: <20220720084009.603423-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <090d09d2-bca0-5354-e552-66459121ac13@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,122 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Thomas Huth (thuth@redhat.com) wrote:
-> On 20/07/2022 10.28, Dr. David Alan Gilbert (git) wrote:
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > This reverts commit 309df6acb29346f89e1ee542b1986f60cab12b87.
-> > With Ilya's 'multifd: Copy pages before compressing them with zlib'
-> > in the latest migration series, this shouldn't be a problem any more.
-> > 
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >   .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ------------
-> >   .travis.yml                                        |  6 ++----
-> >   2 files changed, 2 insertions(+), 16 deletions(-)
-> > 
-> > diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> > index 9f1fe9e7dc..03e74c97db 100644
-> > --- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> > +++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-> > @@ -8,8 +8,6 @@ ubuntu-20.04-s390x-all-linux-static:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> >    - if: "$S390X_RUNNER_AVAILABLE"
-> > @@ -29,8 +27,6 @@ ubuntu-20.04-s390x-all:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    timeout: 75m
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> > @@ -48,8 +44,6 @@ ubuntu-20.04-s390x-alldbg:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> >      when: manual
-> > @@ -71,8 +65,6 @@ ubuntu-20.04-s390x-clang:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> >      when: manual
-> > @@ -93,8 +85,6 @@ ubuntu-20.04-s390x-tci:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> >      when: manual
-> > @@ -114,8 +104,6 @@ ubuntu-20.04-s390x-notcg:
-> >    tags:
-> >    - ubuntu_20.04
-> >    - s390x
-> > - variables:
-> > -    DFLTCC: 0
-> >    rules:
-> >    - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-> >      when: manual
-> > diff --git a/.travis.yml b/.travis.yml
-> > index 4fdc9a6785..fb3baabca9 100644
-> > --- a/.travis.yml
-> > +++ b/.travis.yml
-> > @@ -218,7 +218,6 @@ jobs:
-> >           - TEST_CMD="make check check-tcg V=1"
-> >           - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
-> >           - UNRELIABLE=true
-> > -        - DFLTCC=0
-> >         script:
-> >           - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-> >           - |
-> > @@ -258,7 +257,7 @@ jobs:
-> >         env:
-> >           - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
-> >                     --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
-> > -        - DFLTCC=0
-> > +
-> >       - name: "[s390x] GCC (user)"
-> >         arch: s390x
-> >         dist: focal
-> > @@ -270,7 +269,7 @@ jobs:
-> >             - ninja-build
-> >         env:
-> >           - CONFIG="--disable-containers --disable-system"
-> > -        - DFLTCC=0
-> > +
-> >       - name: "[s390x] Clang (disable-tcg)"
-> >         arch: s390x
-> >         dist: focal
-> > @@ -304,4 +303,3 @@ jobs:
-> >           - CONFIG="--disable-containers --disable-tcg --enable-kvm
-> >                     --disable-tools --host-cc=clang --cxx=clang++"
-> >           - UNRELIABLE=true
-> > -        - DFLTCC=0
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+oss-fuzz is finding possible fuzzing targets even under qemu-bundle/.../bin, but they
+cannot be used because the required shared libraries are missing.  Since the
+fuzzing targets are already placed manually in $OUT, the bindir and libexecdir
+subtrees are not needed; remove them.
 
-Thanks, I'll include it in my reworked migration pull.
+Cc: Alexander Bulekov <alxndr@bu.edu>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/oss-fuzz/build.sh | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Dave
-
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index 2656a89aea..5ee9141e3e 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -87,8 +87,10 @@ if [ "$GITLAB_CI" != "true" ]; then
+     make "-j$(nproc)" qemu-fuzz-i386 V=1
+ fi
+ 
+-# Prepare a preinstalled tree
++# Place data files in the preinstall tree
+ make install DESTDIR=$DEST_DIR/qemu-bundle
++rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/bin
++rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/libexec
+ 
+ targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
+ base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.36.1
 
 
