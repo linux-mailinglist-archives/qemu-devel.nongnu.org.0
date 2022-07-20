@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C48457AA83
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 01:35:15 +0200 (CEST)
-Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AF2257AB34
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 02:53:51 +0200 (CEST)
+Received: from localhost ([::1]:49116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDwkC-0005TW-GW
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 19:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50418)
+	id 1oDxyG-0001M8-Vd
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 20:53:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oDwi6-0003Wp-Dd
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:33:02 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:43731)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oDxwd-0008Ln-6b
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 20:52:07 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:45642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jim.shu@sifive.com>)
- id 1oDwi4-0004IM-0v
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 19:33:01 -0400
-Received: by mail-ed1-x535.google.com with SMTP id v12so21669040edc.10
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 16:32:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DSECvvyHQq6PN9mbiMTy5I+owvkAQ2bXXkXlGJp9/VQ=;
- b=R9g5BU+oaRCVO0Hou+Aw6m36IVIKKLjLRGilTnwyNsYNCt+4/G5bqSLiq/nU4fDeDU
- 1cuKENotatQ9KdRgNcTn+fl0pq8X+Q8H4l31qZwo1Kl6QT/7t+sLLM1b21eYUyafWpuM
- lv4LQnGI+IW8wF/XRRRjDftZyPfIM4Eb7b9H41PZLFpq3s0u2avqzer5Z8QhQ9rF8jau
- 3lFQSBoDvDUhC4MKp70gtTsR08rNpU4NDsbO/YxhYr7jJdwG6/OXAFRtTKLpwJSy3xGW
- IH/U8P/DEsIN+teCTwfH/yMvTOKfMCxwpZwAwRrNNKUApMAWZmLVpktTE0XdznEcnHmw
- QjSg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oDxwb-0000H6-9g
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 20:52:06 -0400
+Received: by mail-pf1-x436.google.com with SMTP id y9so15135808pff.12
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 17:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ej0U8p1ONmLbS9LtgmzF4ix8l/h0h8hd1IFfP9941+g=;
+ b=x8TvsQ4S6pNSl6fJO2Xkx4u86uk/s9pMDWOXyPgXpzPS+XkK4WTxY5eIutRohpKYSu
+ 5irgMNHO8fAYRZEEwHy4DkegH5vhblo2znYlXI6oqN90JWbEi3540QFfeNTkYQSqhWTN
+ XCuFdAqFeJUkmWIjjmHA95+/yIb/+0C45B8uwulG7jrhB/mKrkbf45IvMGQ+alMLUcST
+ nnrg6up5j9dKX8zZHjSpwByfL7rrW4A51gVS48OT8CdOV2KrlFGk5vtOx2DvLB6e6Ooh
+ CF8NY+Gk118EmlSd/7+mYnvmCk7uZ+kujqswIHkwkG3I1ABxs5uCtYUnKQXktCaj9yKh
+ BkJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DSECvvyHQq6PN9mbiMTy5I+owvkAQ2bXXkXlGJp9/VQ=;
- b=jQwlsz0p197Fu6ZXBlrz3RDSiIUuzL2WurfJvo9dn/nEkuHW+lma+IQI39BznnNBg6
- eV+16yIGV8pgXdZblLSDYn7fp0kZx+o4kQcZ77UIziWMyXD0b1v7eXeOBmNBUTwBRyeV
- hXwJCfEAU3u7eXGMcGok2WM4V6a39UKCV0wb4SvB7gz+/38TJgbUNOcIM8FwSQjN4N4r
- MkZ3nfoJpRBuhvfF8YwLseH/DRdrn4mmro0ivdwV3XCdXTvkJfcjLTB8ohLzelm8LwDs
- Q55OPha/Vft5WAHDuF2S13pYG5YL7k5oqPE48LxiquuSibiMUiRswJ/0+TbERuM2ikTa
- 2Y5A==
-X-Gm-Message-State: AJIora9k9IKk3Hlbwn6AMhlYbEyAOMMdWFw/RLLClAydBbTqtij6bCNw
- oXUgpCWT62bm0VSlucfKs7SDZrRawVKQhbxgR4OerA==
-X-Google-Smtp-Source: AGRyM1sGcQzqvai5yVG0CcuvL9znIFJSoEaLgTlAls595Y0t+btIrLl02p3isV+dpEdItnMVAQr+qpFpzDM0GcX/SZ4=
-X-Received: by 2002:a05:6402:500e:b0:43b:6f0:756b with SMTP id
- p14-20020a056402500e00b0043b06f0756bmr48100310eda.221.1658273576744; Tue, 19
- Jul 2022 16:32:56 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ej0U8p1ONmLbS9LtgmzF4ix8l/h0h8hd1IFfP9941+g=;
+ b=MbTwLmeo//DCBNMqy7jtKZfMZyGtBZKpwF1KZRbcS7O1lah2mhqoE8xUsI5r+z1RgA
+ Ot2hc5W2MBetDri+37ClyRepxlqU/+GtcZzaPByj7LygCusgZf0OoegCBPxl4yZyIqRi
+ tFN/Ga4S/fkcFp4YzWL79tvmtygDeDLfJ7d4KfIkc7xL7qtwWUj5NbOhJqHM7O/w+NYj
+ uetx9UglIOvN1pIMusIIDjq0kC1JW/FY0IvenHidqlJRC9HP+uCy6SJLk0lg3gExNrJ9
+ DGHVtRgEEtFrXPkiIgMi+P1Mup41kDtWw28AY1EaP1K7Gjs+ZLpzCpMZ6/Ai1S3y4fRe
+ mSGw==
+X-Gm-Message-State: AJIora9hsTOOGDFHMGKSt6C1hwSJUbCOVQX18/u/4J7fYfs932L/w/0n
+ Oej7FTUvfNJeYe439uYEhbSEgw==
+X-Google-Smtp-Source: AGRyM1voG7PWiCB+gM3Ot8PkVgnp/tIWCZfSp5m+RT8PP8ycutQioJVMK6pQ88OoLQ2+9JBiuIkjnA==
+X-Received: by 2002:a63:6ac8:0:b0:419:d861:3f2f with SMTP id
+ f191-20020a636ac8000000b00419d8613f2fmr23436067pgc.294.1658278323314; 
+ Tue, 19 Jul 2022 17:52:03 -0700 (PDT)
+Received: from [192.168.168.227] ([123.231.102.160])
+ by smtp.gmail.com with ESMTPSA id
+ p13-20020a170902a40d00b0016c3affe60esm12318163plq.46.2022.07.19.17.51.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jul 2022 17:52:02 -0700 (PDT)
+Message-ID: <550b7d51-f46f-b951-47e2-9cc11f1b7196@linaro.org>
+Date: Wed, 20 Jul 2022 06:21:54 +0530
 MIME-Version: 1.0
-References: <20220718035249.17440-1-jim.shu@sifive.com>
- <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
-In-Reply-To: <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
-From: Jim Shu <jim.shu@sifive.com>
-Date: Wed, 20 Jul 2022 07:32:45 +0800
-Message-ID: <CALw707qqVxROpindXhxPjAvccjTYaYoC_vTjtfkM+Do_pMLQRA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Support SW update of PTE A/D bits and
- Ssptwad extension
-To: Anup Patel <anup@brainfault.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Atish Patra <atishp@rivosinc.com>, 
- Palmer Dabbelt <palmer@rivosinc.com>
-Content-Type: multipart/alternative; boundary="0000000000007b926705e430e74b"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=jim.shu@sifive.com; helo=mail-ed1-x535.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 07/16] configure, meson: move ARCH to meson.build
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+References: <20211219141711.248066-1-pbonzini@redhat.com>
+ <20211219141711.248066-8-pbonzini@redhat.com>
+ <CAFEAcA-uAYrZPzGZfSVOQ16cxfYiR8k_J5D0XWNYn49V_hdmCA@mail.gmail.com>
+ <7a2ed522-c6d2-48b8-5692-4a27b24ef312@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <7a2ed522-c6d2-48b8-5692-4a27b24ef312@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,276 +96,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007b926705e430e74b
-Content-Type: text/plain; charset="UTF-8"
+On 7/19/22 23:40, Paolo Bonzini wrote:
+> On 7/19/22 15:00, Peter Maydell wrote:
+>> shellcheck points out that this (old) commit removed the code
+>> setting ARCH from configure, but left behind a use of it:
+>>
+>> case "$ARCH" in
+>> alpha)
+>>    # Ensure there's only a single GP
+>>    QEMU_CFLAGS="-msmall-data $QEMU_CFLAGS"
+>> ;;
+>> esac
+>>
+>> Presumably meson.build needs to do some equivalent of this ?
+> 
+> Yeah, I'll send a patch before 7.1 gets out (Richard, as the resident Alpha guy do you why 
+> it is needed?).
 
-Hi Anup,
+It was to allow simplifying assumptions in the jit for tcg/alpha, the patches for which 
+were on list but never committed.
 
-Do you think it is OK if we only use ssptwad as a CPU option name
-but not a RISC-V extension? just like MMU and PMP options of RISC-V.
-(And we could change it to RISC-V extension in the future
-if Ssptwad becomes the formal RISC-V extension)
+This can be dropped.
 
-Both HW/SW update schemes are already defined in RISC-V priv spec,
-so I think it's reasonable to implement them in QEMU. The only issue here is
-to choose a proper CPU option name to turn on/off HW update of A/D bits.
 
-Regards,
-Jim Shu
-
-On Mon, Jul 18, 2022 at 12:02 PM Anup Patel <anup@brainfault.org> wrote:
-
-> +Atish
->
-> On Mon, Jul 18, 2022 at 9:23 AM Jim Shu <jim.shu@sifive.com> wrote:
-> >
-> > RISC-V priv spec v1.12 permits 2 PTE-update schemes of A/D-bit
-> > (Access/Dirty bit): HW update or SW update. RISC-V profile defines the
-> > extension name 'Ssptwad' for HW update to PTE A/D bits.
-> > https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
->
-> The Ssptwad (even though used by profiles) is not a well defined RISC-V
-> ISA extension. Rather, Ssptwad is just a name used in profiles to represent
-> an optional feature.
->
-> In fact, since it is not a well-defined ISA extension, QEMU cannot include
-> Ssptwad in the ISA string as well.
->
-> I think for such optionalities which are not well-defined ISA extensions,
-> QEMU should treat it differently.
->
-> Regards,
-> Anup
->
-> >
-> > Current QEMU RISC-V implements HW update scheme, so this commit
-> > introduces SW update scheme to QEMU and uses the 'Ssptwad' extension
-> > as the CPU option to select 2 PTE-update schemes. QEMU RISC-V CPU still
-> > uses HW update scheme (ext_ssptwad=true) by default to keep the backward
-> > compatibility.
-> >
-> > SW update scheme implemention is based on priv spec v1.12:
-> > "When a virtual page is accessed and the A bit is clear, or is written
-> > and the D bit is clear, a page-fault exception (corresponding to the
-> > original access type) is raised."
-> >
-> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
-> > Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> > ---
-> >  target/riscv/cpu.c        | 2 ++
-> >  target/riscv/cpu.h        | 1 +
-> >  target/riscv/cpu_helper.c | 9 +++++++++
-> >  3 files changed, 12 insertions(+)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 1bb3973806..1d38c1c1d2 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -857,6 +857,7 @@ static void riscv_cpu_init(Object *obj)
-> >
-> >      cpu->cfg.ext_ifencei = true;
-> >      cpu->cfg.ext_icsr = true;
-> > +    cpu->cfg.ext_ssptwad = true;
-> >      cpu->cfg.mmu = true;
-> >      cpu->cfg.pmp = true;
-> >
-> > @@ -900,6 +901,7 @@ static Property riscv_cpu_extensions[] = {
-> >      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-> >      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-> >      DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
-> > +    DEFINE_PROP_BOOL("ssptwad", RISCVCPU, cfg.ext_ssptwad, true),
-> >
-> >      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
-> >      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 5c7acc055a..2eee59af98 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -433,6 +433,7 @@ struct RISCVCPUConfig {
-> >      bool ext_zve32f;
-> >      bool ext_zve64f;
-> >      bool ext_zmmul;
-> > +    bool ext_ssptwad;
-> >      bool rvv_ta_all_1s;
-> >
-> >      uint32_t mvendorid;
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 59b3680b1b..a8607c0d7b 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -981,6 +981,15 @@ restart:
-> >
-> >              /* Page table updates need to be atomic with MTTCG enabled
-> */
-> >              if (updated_pte != pte) {
-> > +                if (!cpu->cfg.ext_ssptwad) {
-> > +                    /*
-> > +                     * If A/D bits are managed by SW, HW just raises the
-> > +                     * page fault exception corresponding to the
-> original
-> > +                     * access type when A/D bits need to be updated.
-> > +                     */
-> > +                    return TRANSLATE_FAIL;
-> > +                }
-> > +
-> >                  /*
-> >                   * - if accessed or dirty bits need updating, and the
-> PTE is
-> >                   *   in RAM, then we do so atomically with a compare
-> and swap.
-> > --
-> > 2.17.1
-> >
-> >
->
-
---0000000000007b926705e430e74b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Anup,<br><br>Do you think it is OK if =
-we only use ssptwad as a CPU option name<br>but not a RISC-V extension? jus=
-t like MMU and PMP options of RISC-V.<br>(And we could change it to RISC-V =
-extension in the future<br>if Ssptwad becomes the formal RISC-V extension)<=
-br><br>Both HW/SW update schemes are already defined in RISC-V priv spec,<b=
-r>so I think it&#39;s reasonable to implement them in QEMU. The only issue =
-here is</div><div dir=3D"ltr">to choose a proper CPU option name to turn on=
-/off HW update of A/D bits.<br><br>Regards,<br>Jim Shu</div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Jul 18, 2022=
- at 12:02 PM Anup Patel &lt;<a href=3D"mailto:anup@brainfault.org" target=
-=3D"_blank">anup@brainfault.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">+Atish<br>
-<br>
-On Mon, Jul 18, 2022 at 9:23 AM Jim Shu &lt;<a href=3D"mailto:jim.shu@sifiv=
-e.com" target=3D"_blank">jim.shu@sifive.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; RISC-V priv spec v1.12 permits 2 PTE-update schemes of A/D-bit<br>
-&gt; (Access/Dirty bit): HW update or SW update. RISC-V profile defines the=
-<br>
-&gt; extension name &#39;Ssptwad&#39; for HW update to PTE A/D bits.<br>
-&gt; <a href=3D"https://github.com/riscv/riscv-profiles/blob/main/profiles.=
-adoc" rel=3D"noreferrer" target=3D"_blank">https://github.com/riscv/riscv-p=
-rofiles/blob/main/profiles.adoc</a><br>
-<br>
-The Ssptwad (even though used by profiles) is not a well defined RISC-V<br>
-ISA extension. Rather, Ssptwad is just a name used in profiles to represent=
-<br>
-an optional feature.<br>
-<br>
-In fact, since it is not a well-defined ISA extension, QEMU cannot include<=
-br>
-Ssptwad in the ISA string as well.<br>
-<br>
-I think for such optionalities which are not well-defined ISA extensions,<b=
-r>
-QEMU should treat it differently.<br>
-<br>
-Regards,<br>
-Anup<br>
-<br>
-&gt;<br>
-&gt; Current QEMU RISC-V implements HW update scheme, so this commit<br>
-&gt; introduces SW update scheme to QEMU and uses the &#39;Ssptwad&#39; ext=
-ension<br>
-&gt; as the CPU option to select 2 PTE-update schemes. QEMU RISC-V CPU stil=
-l<br>
-&gt; uses HW update scheme (ext_ssptwad=3Dtrue) by default to keep the back=
-ward<br>
-&gt; compatibility.<br>
-&gt;<br>
-&gt; SW update scheme implemention is based on priv spec v1.12:<br>
-&gt; &quot;When a virtual page is accessed and the A bit is clear, or is wr=
-itten<br>
-&gt; and the D bit is clear, a page-fault exception (corresponding to the<b=
-r>
-&gt; original access type) is raised.&quot;<br>
-&gt;<br>
-&gt; Signed-off-by: Jim Shu &lt;<a href=3D"mailto:jim.shu@sifive.com" targe=
-t=3D"_blank">jim.shu@sifive.com</a>&gt;<br>
-&gt; Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang@sifive.com"=
- target=3D"_blank">frank.chang@sifive.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
-&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +<br>
-&gt;=C2=A0 target/riscv/cpu_helper.c | 9 +++++++++<br>
-&gt;=C2=A0 3 files changed, 12 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; index 1bb3973806..1d38c1c1d2 100644<br>
-&gt; --- a/target/riscv/cpu.c<br>
-&gt; +++ b/target/riscv/cpu.c<br>
-&gt; @@ -857,6 +857,7 @@ static void riscv_cpu_init(Object *obj)<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.ext_ifencei =3D true;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.ext_icsr =3D true;<br>
-&gt; +=C2=A0 =C2=A0 cpu-&gt;cfg.ext_ssptwad =3D true;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.mmu =3D true;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.pmp =3D true;<br>
-&gt;<br>
-&gt; @@ -900,6 +901,7 @@ static Property riscv_cpu_extensions[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svinval&quot;, RISCVCPU, cf=
-g.ext_svinval, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svnapot&quot;, RISCVCPU, cf=
-g.ext_svnapot, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;svpbmt&quot;, RISCVCPU, cfg=
-.ext_svpbmt, false),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;ssptwad&quot;, RISCVCPU, cfg.ext=
-_ssptwad, true),<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zba&quot;, RISCVCPU, cfg.ex=
-t_zba, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;zbb&quot;, RISCVCPU, cfg.ex=
-t_zbb, true),<br>
-&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-&gt; index 5c7acc055a..2eee59af98 100644<br>
-&gt; --- a/target/riscv/cpu.h<br>
-&gt; +++ b/target/riscv/cpu.h<br>
-&gt; @@ -433,6 +433,7 @@ struct RISCVCPUConfig {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zve32f;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zve64f;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_zmmul;<br>
-&gt; +=C2=A0 =C2=A0 bool ext_ssptwad;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool rvv_ta_all_1s;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint32_t mvendorid;<br>
-&gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c<br>
-&gt; index 59b3680b1b..a8607c0d7b 100644<br>
-&gt; --- a/target/riscv/cpu_helper.c<br>
-&gt; +++ b/target/riscv/cpu_helper.c<br>
-&gt; @@ -981,6 +981,15 @@ restart:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Page table updates =
-need to be atomic with MTTCG enabled */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (updated_pte !=3D p=
-te) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!cpu-&gt;=
-cfg.ext_ssptwad) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0* If A/D bits are managed by SW, HW just raises the<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0* page fault exception corresponding to the original<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0* access type when A/D bits need to be updated.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- return TRANSLATE_FAIL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* =
-- if accessed or dirty bits need updating, and the PTE is<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*=
-=C2=A0 =C2=A0in RAM, then we do so atomically with a compare and swap.<br>
-&gt; --<br>
-&gt; 2.17.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div>
-</div>
-
---0000000000007b926705e430e74b--
+r~
 
