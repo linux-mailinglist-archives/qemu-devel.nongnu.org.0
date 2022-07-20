@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5057057AE25
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 04:50:29 +0200 (CEST)
-Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B728457AF90
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 05:42:36 +0200 (CEST)
+Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oDzn9-0003a7-PQ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 22:50:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51974)
+	id 1oE0bb-0005zr-Ap
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 23:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oDzkp-00021Z-6y; Tue, 19 Jul 2022 22:48:04 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:52076 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oDzkm-0001Ul-Ec; Tue, 19 Jul 2022 22:48:02 -0400
-Received: from smtpclient.apple (unknown [159.226.43.13])
- by APP-01 (Coremail) with SMTP id qwCowACnrQXRbNdiJEzZEQ--.4044S2;
- Wed, 20 Jul 2022 10:47:45 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] hw/nvme: add trace events for ioeventfd
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <2CA55856-E1CE-40C1-98E3-C68E11A8D149@ict.ac.cn>
-Date: Wed, 20 Jul 2022 10:47:45 +0800
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <62B418AB-DCB3-4219-BA63-4E7207C252F7@ict.ac.cn>
-References: <20220714053444.883737-1-its@irrelevant.dk>
- <2CA55856-E1CE-40C1-98E3-C68E11A8D149@ict.ac.cn>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowACnrQXRbNdiJEzZEQ--.4044S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxJFy5Gr1xCr43JrW3GF15Jwb_yoW5uw15pa
- ykuFnIkas7A39Fgw1Yqr43Jrn7Xw4DXryIkw47t347Aayvkry2vFW7J34Uurn5GrsrWrWY
- 934Dtr47X343XaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUkSb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4
- vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
- FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr
- 0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxEwVAFwVW8JwCF
- 04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
- 18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
- r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
- 1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
- cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxU4AhLUUUUU
-X-Originating-IP: [159.226.43.13]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oE0Zt-0004cv-Hu
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:40:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oE0Zp-0001QN-Gp
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:40:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658288443;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GV83zRtfV/ZnC+ZdITl5mzJCfuVegLmHgNrfbDRzAhY=;
+ b=E9Z/g07Kgy9nZ2bbRWgfnGDvtryJHyuPbeC1156RREjAzkWPfK/ezA1YOZIJB8vykEKFhU
+ 8wO14W6/aP7F1PbU+viko97jr2DoF4r8erUFiFiIlYYfEeBJ+QDmpaep1EaRDvVHKbs8B5
+ Tw4f5zhJLBIju1394VCsGEZn32s7zvw=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-121-P9WxeH8kPN2zGyXoI_zMGw-1; Tue, 19 Jul 2022 23:40:42 -0400
+X-MC-Unique: P9WxeH8kPN2zGyXoI_zMGw-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ l14-20020a2e99ce000000b0025dd695437fso72571ljj.21
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 20:40:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GV83zRtfV/ZnC+ZdITl5mzJCfuVegLmHgNrfbDRzAhY=;
+ b=Xr8fgr19fby6q5Xwjf5s6H58QChw6M9t5m+kTQhtbVIVArfJrFVCJZculq6ygOeRDV
+ ER6FJFBBQnZeYlahuUxwjkT0VQ1teLcajGaUCZ9z+6mynmFHd1v70Dv9fIKdvICEa94B
+ 9aEF1TjAhkORWUdXVTrvhxRFyjPc1IT2JV8voGZdHNrJcakk1NWdHlpac+bQEo9ehAuc
+ LCIxuui28obq7PoQqUay0YyxSbdUwp3VvKO/9BgADkgfpzyzgWXBqhOeh5cTsAs/ggkh
+ fXlqa8SKfBHSHvhn5317DcmpsvQYvYgojZQUvVr6jwfbSY5Y1jBjnW39f3fMi3LAaZWy
+ LNbw==
+X-Gm-Message-State: AJIora+0KPKM+djJ1VZPCV7ToDsD9B12k538XnzZcFRktZZV8eGpbih3
+ D6AqrHnekEwFZRG/8IW+EbZbAmi1219S2yO4iN4HyGAp339zL381zdASzxsjM0XfXDhHKk54YqV
+ XMOX8mmTeM/N30nySJuPn5TafyHcxtUc=
+X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
+ e23-20020a2e9e17000000b0025d76544c6bmr16462660ljk.130.1658288440435; 
+ Tue, 19 Jul 2022 20:40:40 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s4+TY6DxIpzdZ+eFOvhIBcRTWMuDbl3F77x3+B/VkB99PlVaUuoocG4kAoV2m5VOpaISlMdbYMRTEHfYyMkbc=
+X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
+ e23-20020a2e9e17000000b0025d76544c6bmr16462655ljk.130.1658288440144; Tue, 19
+ Jul 2022 20:40:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220719131637.46131-1-jasowang@redhat.com>
+ <CAFEAcA8Kce5SJeR0_+Mj6a48V6ju+nyT=CWGwrgi4cjPxuby2g@mail.gmail.com>
+In-Reply-To: <CAFEAcA8Kce5SJeR0_+Mj6a48V6ju+nyT=CWGwrgi4cjPxuby2g@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 20 Jul 2022 11:40:28 +0800
+Message-ID: <CACGkMEspsAKtkh2AOsWkNU8Rn1qG2-j8RVmLHK04Rm4XBMvw_g@mail.gmail.com>
+Subject: Re: [PULL 00/24] Net Patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Eugenio Perez Martin <eperezma@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,93 +93,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 10:41 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+On Wed, Jul 20, 2022 at 12:40 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 19 Jul 2022 at 14:17, Jason Wang <jasowang@redhat.com> wrote:
+> >
+> > The following changes since commit f9d9fff72eed03acde97ea2d66104748dc474b2e:
+> >
+> >   Merge tag 'qemu-sparc-20220718' of https://github.com/mcayland/qemu into staging (2022-07-19 09:57:13 +0100)
+> >
+> > are available in the git repository at:
+> >
+> >   https://github.com/jasowang/qemu.git tags/net-pull-request
+> >
+> > for you to fetch changes up to f8a9fd7b7ab6601b76e253bbcbfe952f8c1887ec:
+> >
+> >   net/colo.c: fix segmentation fault when packet is not parsed correctly (2022-07-19 21:05:20 +0800)
+> >
+> > ----------------------------------------------------------------
+> >
+> > ----------------------------------------------------------------
+>
+> Fails to build, many platforms:
+>
+> eg
+> https://gitlab.com/qemu-project/qemu/-/jobs/2742242194
+>
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cvq_unmap_buf':
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:234: undefined
+> reference to `vhost_iova_tree_find_iova'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:242: undefined
+> reference to `vhost_vdpa_dma_unmap'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:247: undefined
+> reference to `vhost_iova_tree_remove'
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cleanup':
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:163: undefined
+> reference to `vhost_iova_tree_delete'
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cvq_map_buf':
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:285: undefined
+> reference to `vhost_iova_tree_map_alloc'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:291: undefined
+> reference to `vhost_vdpa_dma_map'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:300: undefined
+> reference to `vhost_iova_tree_remove'
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function
+> `vhost_vdpa_net_handle_ctrl_avail':
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:445: undefined
+> reference to `vhost_svq_push_elem'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:408: undefined
+> reference to `vhost_svq_add'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:422: undefined
+> reference to `vhost_svq_poll'
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:434: undefined
+> reference to `virtio_net_handle_ctrl_iov'
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function `net_init_vhost_vdpa':
+> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:611: undefined
+> reference to `vhost_iova_tree_new'
+> libcommon.fa.p/net_vhost-vdpa.c.o: In function
+> `glib_autoptr_cleanup_VhostIOVATree':
+> /builds/qemu-project/qemu/hw/virtio/vhost-iova-tree.h:20: undefined
+> reference to `vhost_iova_tree_delete'
+> collect2: error: ld returned 1 exit status
+> [2436/4108] Compiling C object
+> libqemu-s390x-softmmu.fa.p/meson-generated_.._qapi_qapi-introspect.c.o
+>
+>
+>
+> Presumably the conditions in the various meson.build files are
+> out of sync about when to build the net/vhost-vdpa.c code vs
+> the code that's implementing the functions it's trying to call.
+>
+> Specifically, the functions being called will only be present
+> if the target architecture has CONFIG_VIRTIO, which isn't
+> guaranteed, but we try to link the vhost-vdpa code in anyway.
 
-> at 1:34 PM, Klaus Jensen <its@irrelevant.dk> wrote:
->=20
->> From: Klaus Jensen <k.jensen@samsung.com>
->>=20
->> While testing Jinhaos ioeventfd patch I found it useful with a couple =
-of
->> additional trace events since we no longer see the mmio events.
->>=20
->> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
->> ---
->> hw/nvme/ctrl.c       | 8 ++++++++
->> hw/nvme/trace-events | 4 ++++
->> 2 files changed, 12 insertions(+)
->>=20
->> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> index 533ad14e7a61..09725ec49c5d 100644
->> --- a/hw/nvme/ctrl.c
->> +++ b/hw/nvme/ctrl.c
->> @@ -1346,6 +1346,8 @@ static void nvme_post_cqes(void *opaque)
->>    bool pending =3D cq->head !=3D cq->tail;
->>    int ret;
->>=20
->> +    trace_pci_nvme_post_cqes(cq->cqid);
->> +
->>    QTAILQ_FOREACH_SAFE(req, &cq->req_list, entry, next) {
->>        NvmeSQueue *sq;
->>        hwaddr addr;
->> @@ -4238,6 +4240,8 @@ static void nvme_cq_notifier(EventNotifier *e)
->>    NvmeCQueue *cq =3D container_of(e, NvmeCQueue, notifier);
->>    NvmeCtrl *n =3D cq->ctrl;
->>=20
->> +    trace_pci_nvme_cq_notify(cq->cqid);
->> +
->>    event_notifier_test_and_clear(&cq->notifier);
->>=20
->>    nvme_update_cq_head(cq);
->> @@ -4275,6 +4279,8 @@ static void nvme_sq_notifier(EventNotifier *e)
->> {
->>    NvmeSQueue *sq =3D container_of(e, NvmeSQueue, notifier);
->>=20
->> +    trace_pci_nvme_sq_notify(sq->sqid);
->> +
->>    event_notifier_test_and_clear(&sq->notifier);
->>=20
->>    nvme_process_sq(sq);
->> @@ -6240,6 +6246,8 @@ static void nvme_process_sq(void *opaque)
->>    NvmeCtrl *n =3D sq->ctrl;
->>    NvmeCQueue *cq =3D n->cq[sq->cqid];
->>=20
->> +    trace_pci_nvme_process_sq(sq->sqid);
->> +
->>    uint16_t status;
->>    hwaddr addr;
->>    NvmeCmd cmd;
->> diff --git a/hw/nvme/trace-events b/hw/nvme/trace-events
->> index fccb79f48973..45dd708bd2fa 100644
->> --- a/hw/nvme/trace-events
->> +++ b/hw/nvme/trace-events
->> @@ -104,6 +104,10 @@ pci_nvme_mmio_shutdown_set(void) "shutdown bit =
-set"
->> pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
->> pci_nvme_shadow_doorbell_cq(uint16_t cqid, uint16_t =
-new_shadow_doorbell) "cqid %"PRIu16" new_shadow_doorbell %"PRIu16""
->> pci_nvme_shadow_doorbell_sq(uint16_t sqid, uint16_t =
-new_shadow_doorbell) "sqid %"PRIu16" new_shadow_doorbell %"PRIu16""
->> +pci_nvme_sq_notify(uint16_t sqid) "sqid %"PRIu16""
->> +pci_nvme_cq_notify(uint16_t cqid) "cqid %"PRIu16""
->> +pci_nvme_process_sq(uint16_t sqid) "sqid %"PRIu16""
->> +pci_nvme_post_cqes(uint16_t cqid) "cqid %"PRIu16""
->> pci_nvme_open_zone(uint64_t slba, uint32_t zone_idx, int all) "open =
-zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
->> pci_nvme_close_zone(uint64_t slba, uint32_t zone_idx, int all) "close =
-zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
->> pci_nvme_finish_zone(uint64_t slba, uint32_t zone_idx, int all) =
-"finish zone, slba=3D%"PRIu64", idx=3D%"PRIu32", all=3D%"PRIi32""
->> --=20
->> 2.36.1
->=20
-> I agree on the addition of SQ and CQ notify trace events. But what is =
-the
-> purpose for adding tracepoints for nvme_process_sq and nvme_post_cqes?
+Right, this is probably because vhost-vdpa start to use virtio loigc (cvq).
 
-I realized these two events are useful when debugging iothread support. =
-We
-are processing sqe and cqe=E2=80=99s in a batch in nvme_process_sq and
-nvme_post_cqes. It is important to mark the beginning of the batch.=
+Eugenio, please fix this and I will send a new version of the pull request.
+
+Thanks
+
+>
+> thanks
+> -- PMM
+>
 
 
