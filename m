@@ -2,75 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 727DE57B769
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:27:43 +0200 (CEST)
-Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E1B57B776
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:29:08 +0200 (CEST)
+Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9jq-0003qZ-Fs
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
+	id 1oE9lD-00066K-AI
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:29:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oE9YQ-0001PS-E2; Wed, 20 Jul 2022 09:15:56 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:46178)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oE9Zh-0002TU-AX
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:17:13 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:33914)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oE9YN-0007XN-Bf; Wed, 20 Jul 2022 09:15:53 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B535C2E12F2;
- Wed, 20 Jul 2022 16:15:37 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b715::1:28] (unknown
- [2a02:6b8:b081:b715::1:28])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- pLhsXj2aV3-FaOuLfY6; Wed, 20 Jul 2022 13:15:37 +0000
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658322937; bh=rX5krcTzZ0ddJPNiGuq1dVobX7+knJKHNTAzeqS9etQ=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=at8OQRUso9+IxDN1rQcj7b4J6qP70Nw1+rwJKVU437vATj0FUBpwdrt5s6+XpHP6e
- Kjkog4MY859IwdlJbe578VQm/yLEmoYb1s5my/AqcrVB5AN+p8GIgzCx+507nUuYNN
- K6gpUDiGuw4diSWMVkuR9Z/kXWWxzlXGs1RQNyvg=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <5f671004-acd0-f799-5483-97fb23be4edb@yandex-team.ru>
-Date: Wed, 20 Jul 2022 16:15:36 +0300
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oE9Zf-0007hE-OB
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:17:13 -0400
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-98hfxF-UNRyDeHpvOMaPNA-1; Wed, 20 Jul 2022 09:16:52 -0400
+X-MC-Unique: 98hfxF-UNRyDeHpvOMaPNA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9882811E87;
+ Wed, 20 Jul 2022 13:16:51 +0000 (UTC)
+Received: from bahia (unknown [10.39.195.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 942BE18EA8;
+ Wed, 20 Jul 2022 13:16:50 +0000 (UTC)
+Date: Wed, 20 Jul 2022 15:16:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
+Subject: Re: [PATCH v2 1/1] hw/ppc: check if spapr_drc_index() returns NULL
+ in spapr_nvdimm.c
+Message-ID: <20220720151649.203abd3d@bahia>
+In-Reply-To: <20220409200856.283076-2-danielhb413@gmail.com>
+References: <20220409200856.283076-1-danielhb413@gmail.com>
+ <20220409200856.283076-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v9 19/21] blockjob: protect iostatus field in BlockJob
- struct
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-20-eesposit@redhat.com>
- <00b8b101-b36f-2204-0e49-1c605268b793@yandex-team.ru>
- <a45a572b-031e-6a88-439f-ca276202a357@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <a45a572b-031e-6a88-439f-ca276202a357@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,67 +69,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 16:07, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 11/07/2022 um 16:51 schrieb Vladimir Sementsov-Ogievskiy:
->> On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
->>> iostatus is the only field (together with .job) that needs
->>> protection using the job mutex.
->>>
->>> It is set in the main loop (GLOBAL_STATE functions) but read
->>> in I/O code (block_job_error_action).
->>>
->>> In order to protect it, change block_job_iostatus_set_err
->>> to block_job_iostatus_set_err_locked(), always called under
->>> job lock.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>
->> Seems, that (and previous) patch should go before 15.
-> 
-> Why?
+On Sat,  9 Apr 2022 17:08:56 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-As I understand, before patch 15 everything was protected by aio-context lock. After patch 15, this becomes a bug, which we fix now. If we do it before patch 15, we never introduce the bug.. Or what I miss?
-
+> spapr_nvdimm_flush_completion_cb() and flush_worker_cb() are using the
+> DRC object returned by spapr_drc_index() without checking it for NULL.
+> In this case we would be dereferencing a NULL pointer when doing
+> SPAPR_NVDIMM(drc->dev) and PC_DIMM(drc->dev).
 > 
->>
->>> ---
->>>    blockjob.c | 5 +++--
->>>    1 file changed, 3 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/blockjob.c b/blockjob.c
->>> index a2559b97a7..893c8ff08e 100644
->>> --- a/blockjob.c
->>> +++ b/blockjob.c
->>> @@ -367,7 +367,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
->>> **errp)
->>>        return block_job_query_locked(job, errp);
->>>    }
->>>    -static void block_job_iostatus_set_err(BlockJob *job, int error)
->>> +/* Called with job lock held */
->>> +static void block_job_iostatus_set_err_locked(BlockJob *job, int error)
->>>    {
->>>        if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
->>>            job->iostatus = error == ENOSPC ?
->>> BLOCK_DEVICE_IO_STATUS_NOSPACE :
->>> @@ -586,8 +587,8 @@ BlockErrorAction block_job_error_action(BlockJob
->>> *job, BlockdevOnError on_err,
->>>                     */
->>>                    job->job.user_paused = true;
->>>                }
->>> +            block_job_iostatus_set_err_locked(job, error);
->>>            }
->>> -        block_job_iostatus_set_err(job, error);
->>>        }
->>>        return action;
->>>    }
->>
->>
+> This can happen if, during a scm_flush(), the DRC object is wrongly
+> freed/released (e.g. a bug in another part of the code).
+> spapr_drc_index() would then return NULL in the callbacks.
+> 
+> Fixes: Coverity CID 1487108, 1487178
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
 > 
 
+LGTM
 
--- 
-Best regards,
-Vladimir
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+> index c4c97da5de..04a64cada3 100644
+> --- a/hw/ppc/spapr_nvdimm.c
+> +++ b/hw/ppc/spapr_nvdimm.c
+> @@ -447,9 +447,15 @@ static int flush_worker_cb(void *opaque)
+>  {
+>      SpaprNVDIMMDeviceFlushState *state = opaque;
+>      SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
+> -    PCDIMMDevice *dimm = PC_DIMM(drc->dev);
+> -    HostMemoryBackend *backend = MEMORY_BACKEND(dimm->hostmem);
+> -    int backend_fd = memory_region_get_fd(&backend->mr);
+> +    PCDIMMDevice *dimm;
+> +    HostMemoryBackend *backend;
+> +    int backend_fd;
+> +
+> +    g_assert(drc != NULL);
+> +
+> +    dimm = PC_DIMM(drc->dev);
+> +    backend = MEMORY_BACKEND(dimm->hostmem);
+> +    backend_fd = memory_region_get_fd(&backend->mr);
+>  
+>      if (object_property_get_bool(OBJECT(backend), "pmem", NULL)) {
+>          MemoryRegion *mr = host_memory_backend_get_memory(dimm->hostmem);
+> @@ -475,7 +481,11 @@ static void spapr_nvdimm_flush_completion_cb(void *opaque, int hcall_ret)
+>  {
+>      SpaprNVDIMMDeviceFlushState *state = opaque;
+>      SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
+> -    SpaprNVDIMMDevice *s_nvdimm = SPAPR_NVDIMM(drc->dev);
+> +    SpaprNVDIMMDevice *s_nvdimm;
+> +
+> +    g_assert(drc != NULL);
+> +
+> +    s_nvdimm = SPAPR_NVDIMM(drc->dev);
+>  
+>      state->hcall_ret = hcall_ret;
+>      QLIST_REMOVE(state, node);
+
 
