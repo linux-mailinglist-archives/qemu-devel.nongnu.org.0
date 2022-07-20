@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799F957B38C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:13:12 +0200 (CEST)
-Received: from localhost ([::1]:60870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC7257B37F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:09:27 +0200 (CEST)
+Received: from localhost ([::1]:50672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE5lX-0007dA-Gt
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
+	id 1oE5hu-0000mT-Ms
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:09:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5c9-000813-L9
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33450)
+ id 1oE5cD-000837-C6
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5c8-0001LY-0q
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:29 -0400
+ id 1oE5cB-0001Lu-GQ
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658307807;
+ s=mimecast20190719; t=1658307810;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rMx4PxSCnLAC1FnWLntqrHVUXCJmVahYyt3ivJyFxO0=;
- b=KClCzWW4fC/+9tB3Qgncdl7O7r3+Rlvco33JqkCBAVNkipiJrqnAQJhCjT2tLQmLjpQoHe
- OTYcNz10NeDRucd8HwYN7sqYw9BgFl3fj/NfLObIzQt9gbnemfhdxq+rb6upfRGwD3ZyXi
- JbxhXAZL/lCtFBLMNZrWWkd2lp2oUAQ=
+ bh=qx4O63vQebB/eHlIzps2qcOgx5CD1xyJef2NC1lNKug=;
+ b=bMwhhImbDN6XIH/NDtxNJuFnt9KvZkBI1ji09B2Y4MLsId3pNPtgR2N4gNvzugeuChoxXK
+ ayuu+Hkbdo75GmX/xl0f/V26UjRy1Vs12Fe7CwqLHIQ/3F9BDn0ODkoHVpX3cfNyy532wt
+ w6qAWNQTafSDe+NXaB7FfjkfAsjGSt8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-55-u1A1ma3-N9SylKeXnkoZcw-1; Wed, 20 Jul 2022 05:03:24 -0400
-X-MC-Unique: u1A1ma3-N9SylKeXnkoZcw-1
+ us-mta-103-PdOvzi_jMwqM0LkG_M78Qg-1; Wed, 20 Jul 2022 05:03:27 -0400
+X-MC-Unique: PdOvzi_jMwqM0LkG_M78Qg-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F20091019CBB;
- Wed, 20 Jul 2022 09:03:23 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F030811E84;
+ Wed, 20 Jul 2022 09:03:27 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-110.pek2.redhat.com
  [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74A5F401E54;
- Wed, 20 Jul 2022 09:03:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 98ECE492C3B;
+ Wed, 20 Jul 2022 09:03:24 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 02/25] virtio-net: Expose MAC_TABLE_ENTRIES
-Date: Wed, 20 Jul 2022 17:02:50 +0800
-Message-Id: <20220720090313.55169-3-jasowang@redhat.com>
+Subject: [PULL V2 03/25] virtio-net: Expose ctrl virtqueue logic
+Date: Wed, 20 Jul 2022 17:02:51 +0800
+Message-Id: <20220720090313.55169-4-jasowang@redhat.com>
 In-Reply-To: <20220720090313.55169-1-jasowang@redhat.com>
 References: <20220720090313.55169-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -84,44 +84,144 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-vhost-vdpa control virtqueue needs to know the maximum entries supported
-by the virtio-net device, so we know if it is possible to apply the
-filter.
+This allows external vhost-net devices to modify the state of the
+VirtIO device model once the vhost-vdpa device has acknowledged the
+control commands.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/virtio-net.c            | 1 -
- include/hw/virtio/virtio-net.h | 3 +++
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ hw/net/virtio-net.c            | 84 ++++++++++++++++++++++++------------------
+ include/hw/virtio/virtio-net.h |  4 ++
+ 2 files changed, 53 insertions(+), 35 deletions(-)
 
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 7ad948e..f83e96e 100644
+index f83e96e..dd0d056 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -49,7 +49,6 @@
+@@ -1433,57 +1433,71 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
+     return VIRTIO_NET_OK;
+ }
  
- #define VIRTIO_NET_VM_VERSION    11
+-static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
++size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
++                                  const struct iovec *in_sg, unsigned in_num,
++                                  const struct iovec *out_sg,
++                                  unsigned out_num)
+ {
+     VirtIONet *n = VIRTIO_NET(vdev);
+     struct virtio_net_ctrl_hdr ctrl;
+     virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
+-    VirtQueueElement *elem;
+     size_t s;
+     struct iovec *iov, *iov2;
+-    unsigned int iov_cnt;
++
++    if (iov_size(in_sg, in_num) < sizeof(status) ||
++        iov_size(out_sg, out_num) < sizeof(ctrl)) {
++        virtio_error(vdev, "virtio-net ctrl missing headers");
++        return 0;
++    }
++
++    iov2 = iov = g_memdup2(out_sg, sizeof(struct iovec) * out_num);
++    s = iov_to_buf(iov, out_num, 0, &ctrl, sizeof(ctrl));
++    iov_discard_front(&iov, &out_num, sizeof(ctrl));
++    if (s != sizeof(ctrl)) {
++        status = VIRTIO_NET_ERR;
++    } else if (ctrl.class == VIRTIO_NET_CTRL_RX) {
++        status = virtio_net_handle_rx_mode(n, ctrl.cmd, iov, out_num);
++    } else if (ctrl.class == VIRTIO_NET_CTRL_MAC) {
++        status = virtio_net_handle_mac(n, ctrl.cmd, iov, out_num);
++    } else if (ctrl.class == VIRTIO_NET_CTRL_VLAN) {
++        status = virtio_net_handle_vlan_table(n, ctrl.cmd, iov, out_num);
++    } else if (ctrl.class == VIRTIO_NET_CTRL_ANNOUNCE) {
++        status = virtio_net_handle_announce(n, ctrl.cmd, iov, out_num);
++    } else if (ctrl.class == VIRTIO_NET_CTRL_MQ) {
++        status = virtio_net_handle_mq(n, ctrl.cmd, iov, out_num);
++    } else if (ctrl.class == VIRTIO_NET_CTRL_GUEST_OFFLOADS) {
++        status = virtio_net_handle_offloads(n, ctrl.cmd, iov, out_num);
++    }
++
++    s = iov_from_buf(in_sg, in_num, 0, &status, sizeof(status));
++    assert(s == sizeof(status));
++
++    g_free(iov2);
++    return sizeof(status);
++}
++
++static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
++{
++    VirtQueueElement *elem;
  
--#define MAC_TABLE_ENTRIES    64
- #define MAX_VLAN    (1 << 12)   /* Per 802.1Q definition */
+     for (;;) {
++        size_t written;
+         elem = virtqueue_pop(vq, sizeof(VirtQueueElement));
+         if (!elem) {
+             break;
+         }
+-        if (iov_size(elem->in_sg, elem->in_num) < sizeof(status) ||
+-            iov_size(elem->out_sg, elem->out_num) < sizeof(ctrl)) {
+-            virtio_error(vdev, "virtio-net ctrl missing headers");
++
++        written = virtio_net_handle_ctrl_iov(vdev, elem->in_sg, elem->in_num,
++                                             elem->out_sg, elem->out_num);
++        if (written > 0) {
++            virtqueue_push(vq, elem, written);
++            virtio_notify(vdev, vq);
++            g_free(elem);
++        } else {
+             virtqueue_detach_element(vq, elem, 0);
+             g_free(elem);
+             break;
+         }
+-
+-        iov_cnt = elem->out_num;
+-        iov2 = iov = g_memdup2(elem->out_sg,
+-                               sizeof(struct iovec) * elem->out_num);
+-        s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
+-        iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
+-        if (s != sizeof(ctrl)) {
+-            status = VIRTIO_NET_ERR;
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_RX) {
+-            status = virtio_net_handle_rx_mode(n, ctrl.cmd, iov, iov_cnt);
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_MAC) {
+-            status = virtio_net_handle_mac(n, ctrl.cmd, iov, iov_cnt);
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_VLAN) {
+-            status = virtio_net_handle_vlan_table(n, ctrl.cmd, iov, iov_cnt);
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_ANNOUNCE) {
+-            status = virtio_net_handle_announce(n, ctrl.cmd, iov, iov_cnt);
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_MQ) {
+-            status = virtio_net_handle_mq(n, ctrl.cmd, iov, iov_cnt);
+-        } else if (ctrl.class == VIRTIO_NET_CTRL_GUEST_OFFLOADS) {
+-            status = virtio_net_handle_offloads(n, ctrl.cmd, iov, iov_cnt);
+-        }
+-
+-        s = iov_from_buf(elem->in_sg, elem->in_num, 0, &status, sizeof(status));
+-        assert(s == sizeof(status));
+-
+-        virtqueue_push(vq, elem, sizeof(status));
+-        virtio_notify(vdev, vq);
+-        g_free(iov2);
+-        g_free(elem);
+     }
+ }
  
- /* previously fixed value */
 diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-index eb87032..cce1c55 100644
+index cce1c55..ef234ff 100644
 --- a/include/hw/virtio/virtio-net.h
 +++ b/include/hw/virtio/virtio-net.h
-@@ -35,6 +35,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(VirtIONet, VIRTIO_NET)
-  * and latency. */
- #define TX_BURST 256
+@@ -221,6 +221,10 @@ struct VirtIONet {
+     struct EBPFRSSContext ebpf_rss;
+ };
  
-+/* Maximum VIRTIO_NET_CTRL_MAC_TABLE_SET unicast + multicast entries. */
-+#define MAC_TABLE_ENTRIES    64
-+
- typedef struct virtio_net_conf
- {
-     uint32_t txtimer;
++size_t virtio_net_handle_ctrl_iov(VirtIODevice *vdev,
++                                  const struct iovec *in_sg, unsigned in_num,
++                                  const struct iovec *out_sg,
++                                  unsigned out_num);
+ void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+                                    const char *type);
+ 
 -- 
 2.7.4
 
