@@ -2,81 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D535757BB20
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:11:32 +0200 (CEST)
-Received: from localhost ([::1]:34494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6516D57BB59
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:22:57 +0200 (CEST)
+Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oECIN-0004Cz-Di
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
+	id 1oECTP-0001Or-VY
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:22:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oECFt-0007yl-7s; Wed, 20 Jul 2022 12:08:57 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:37689)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oECSH-0008EW-CZ
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:21:45 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oECFr-0004My-I1; Wed, 20 Jul 2022 12:08:56 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id i126so11396874oih.4;
- Wed, 20 Jul 2022 09:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5G1fw/lJCYafD38C+Ncbp2sZEJpxDTJIOLOCOeRx2vY=;
- b=cj36IzU9954TAmTHlY0UEBfnJdnmUa01lLM2rT2KjoEPeaPzAvH9hT3nPRjYHYAYHJ
- csAqmw+GEezDWKsGmRbm43sX0eaWInHAL954I9lO2KGKMy7yfR033OR8AMw2hPhhGZne
- 1jLVP9jcJ5MS61geSc/wz+JvTrtkqf8Cx8Whm49zAck5UiWU5tSlHjoBGgKleM42raGH
- PyIbZheEMb0YTAIZM8nL/UdTHvLVpnAYxRoYwQpsexYRsqFi1Q18R0EjzXcm1lrSGYIF
- DWFDeNdvMyHEWkDEOeppTCoDBR4CMFezcxOTApDtSbjufvfYupqlRI5qU1egYDOQHuj3
- fkEA==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oECSF-0006RQ-ML
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:21:45 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id c3so16001471pfb.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 09:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+ b=spGLDNQ08YQPqH7UmhIpiHe2RaM2zw7ODEii6vmP7whH0yk8NhoS7QYoLrpacwnfbW
+ S3VkQABUgvOUZAhV+aAm4mnqaDYIZ6zOWmQpK2Ozj1qZ4yEP8IO8Ogxh+e38++9rhFjG
+ Gncn3BStXeB7j7O3s/y/CX20mihB4UWNCG15aOuY2njFY086JqM16L+H4BlY/AN8pWe8
+ s9ex7tY8xz16AMATUg5JkSGjI8FqtQ1JH/Ckd2eXT2/cGJ188i8q7NwsSTtTXSvKMUHc
+ Y4He+Vu/AgyMtaInE+pTo4N4Wc2xqCJOuE/medBD2cHSdxBx52LLtQTesVoUiLmIcCvV
+ AYCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5G1fw/lJCYafD38C+Ncbp2sZEJpxDTJIOLOCOeRx2vY=;
- b=wTfijRxbWw1zAs/9Ht8XpYt7hTPnNZeQWxs57BH99y765H5GzmnoO+kxJHavzfeFm4
- fKsHJh9Fff+ENT/1hDkBJgaV5ypxJH77D6+LFH8bFR21Kt3DEFN2Wm+0MsZGuY4Urj09
- lUGWvXUyzpCT+XHqR+cMPrMSKrrcsnyijAanZOo9iwg1FViHp7jyUAbuU4kNZmg8UdEK
- cnk6+70V2/CYX2Jsxc+LNxxb8TtJ17DxV5oVsTV32zWUOpxCJcr2+d6sG75O54/pKphS
- CJyM3f448qPG3MedvdjQcp7XrsQBJBGtqyjkyeakgd0iBhXYKBt+37V0EK+DH9WzWEYt
- ZGPA==
-X-Gm-Message-State: AJIora94VtjUjf5DOOR4w+EIECP3hpeUyG8yuNIuhnCuTum3HmBQHDG/
- gh4or+Zz7v/4HOhzg1JdZZw=
-X-Google-Smtp-Source: AGRyM1ucOFJmnUAQF9x8i79W3RGopwApopRZhL9K1uI7BY5dfN1ttsILKX6ypoBnp/F9rCm2bka3AA==
-X-Received: by 2002:a05:6808:f8a:b0:339:d862:bcbd with SMTP id
- o10-20020a0568080f8a00b00339d862bcbdmr2658319oiw.188.1658333332500; 
- Wed, 20 Jul 2022 09:08:52 -0700 (PDT)
-Received: from [192.168.10.102] (200-232-202-163.dsl.telesp.net.br.
- [200.232.202.163]) by smtp.gmail.com with ESMTPSA id
- 34-20020a9d06a5000000b0061cc146c947sm406504otx.76.2022.07.20.09.08.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 09:08:52 -0700 (PDT)
-Message-ID: <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
-Date: Wed, 20 Jul 2022 13:08:49 -0300
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=f0adogo0zxbyENycGDyitWJjrMgz2USumvEVtMapSaM=;
+ b=GNGJIurDCi9jyV0kU8FHCvoNQ5xVPyml/PYueokAfhNaCID1iAzqVxnnyuvkFodp5e
+ rhwSXCW0GqnF66uDuaI9mnQql2WZgaKKpWHoAwLpf2WNvsVcy6HDuZiyCmHvbF2wiPpX
+ dUozgtOarS0u8KJonTxVNrJZ3I/VJxUkehTvZhrDDDTsTPkyT/GPXak4V9C9j3rBWRjB
+ /zMJi+Mazy09VqmtUoddfIfbVkyxwVFOaC84bamYeGWH+pUDThKXouS3NDSZnyLz2Y+y
+ cdnYGvqMmwbsc9ylUK3+wNL5svftmYPDAyynwqmYHEsPaOS6DzHbxDgTguUhWyBMZpqa
+ 7/nQ==
+X-Gm-Message-State: AJIora/KrvdXB/+TFAt6xiw7pE8/YqEbQlYO71Dv3VRAR2dI7xz90c85
+ gP42B9eoWgTHyFZkqCEvAbsLCg==
+X-Google-Smtp-Source: AGRyM1vSVUjKLbGc4Kd7xVml29j/pMq086Pfs5AgzFCjeBxpV+cVQy9BGtwT6tQB+IRvWirFlwJ5Og==
+X-Received: by 2002:a65:6bcc:0:b0:3f6:1815:f541 with SMTP id
+ e12-20020a656bcc000000b003f61815f541mr33324434pgw.183.1658334101831; 
+ Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com.
+ [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
+ g5-20020a63dd45000000b0041a4d5e7e5fsm3266314pgj.47.2022.07.20.09.21.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 09:21:41 -0700 (PDT)
+Date: Wed, 20 Jul 2022 16:21:37 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YtgrkXqP/GIi9ujZ@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
+ <20220719140843.GA84779@chaop.bj.intel.com>
+ <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-Content-Language: en-US
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220719075930.315237-1-aik@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220719075930.315237-1-aik@ozlabs.ru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=seanjc@google.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,56 +119,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey,
+On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
+> 
+> > > > > > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
 
-On 7/19/22 04:59, Alexey Kardashevskiy wrote:
-> The following changes since commit d2066bc50d690a6605307eaf0e72a9cf51e6fc25:
-> 
->    target/ppc: Check page dir/table base alignment (2022-07-18 13:59:43 -0300)
-> 
-> are available in the Git repository at:
-> 
->    git@github.com:aik/qemu.git tags/qemu-slof-20220719
-> 
-> for you to fetch changes up to 17c1ad657904787b1d986fb4c85431fee006a6ea:
-> 
->    pseries: Update SLOF firmware image (2022-07-19 17:50:46 +1000)
-> 
-> ----------------------------------------------------------------
-> Alexey Kardashevskiy (1):
->        pseries: Update SLOF firmware image
-> 
->   docs/system/ppc/pseries.rst |   2 +-
->   pc-bios/README              |   2 +-
->   pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
->   roms/SLOF                   |   2 +-
->   4 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> 
-> *** Note: this is not for master, this is for pseries
-> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
-> too soon so I am posting it anyway.
+Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
+a flag of sorts, and to align with other helpers of this nature (and with
+CONFIG_HAVE_KVM_PRIVATE_MEM).
 
-I forgot to send a reply yesterday, sorry.
+  $ git grep kvm_arch | grep supported | wc -l
+  0
+  $ git grep kvm_arch | grep has | wc -l
+  26
 
-Don't worry about rushing this SLOF pull. Given that this build doesn't
-have bug fixes we can wait to pull it in 7.2. You'll have the time to
-sync it up with git.qemu.org and so on.
+> > > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > > > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > > > > > +		struct kvm_enc_region region;
+> > > > > > +
+> > > > > > +		if (!kvm_arch_private_mem_supported(kvm))
+> > > > > > +			goto arch_vm_ioctl;
+> > > > > > +
+> > > > > > +		r = -EFAULT;
+> > > > > > +		if (copy_from_user(&region, argp, sizeof(region)))
+> > > > > > +			goto out;
+> > > > > > +
+> > > > > > +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
+> > > > > 
+> > > > > this is to store private region metadata not only the encrypted region?
+> > > > 
+> > > > Correct.
+> > > 
+> > > Sorry for not being clear, was suggesting name change of this function from:
+> > > "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+> > 
+> > Though I don't have strong reason to change it, I'm fine with this and
+> 
+> Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
+> depict the actual functionality :)
+> 
+> > this name matches the above kvm_arch_private_mem_supported perfectly.
+> BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
+> matches "kvm_arch_private_mem_supported"?
 
+Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
+kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
 
-Thanks,
+I also like using "private" instead of "encrypted", though we should probably
+find a different verb than "set", because calling "set_private" when making the
+region shared is confusing.  I'm struggling to come up with a good alternative
+though.
 
+kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
+and that also means that anything with "memory_region" in the name is bound to be
+confusing.
 
-Daniel
+Hmm, and if we move away from "encrypted", it probably makes sense to pass in
+addr+size instead of a kvm_enc_region.
 
-> 
-> 
-> The image grew in size because of change of the toolchain from
-> native PPC to cross on x86.
-> 
-> 
-> The only change is that now SLOF can also boot big endian zImage
-> but kernel-addr=0 is still required.
-> 
-> 
+Maybe this?
+
+static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
+					         gpa_t size, bool set_private)
+
+and then:
+
+#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+	case KVM_MEMORY_ENCRYPT_REG_REGION:
+	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+		struct kvm_enc_region region;
+
+		if (!kvm_arch_private_mem_supported(kvm))
+			goto arch_vm_ioctl;
+
+		r = -EFAULT;
+		if (copy_from_user(&region, argp, sizeof(region)))
+			goto out;
+
+		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
+							  region.size, set);
+		break;
+	}
+#endif
+
+I don't love it, so if someone has a better idea...
 
