@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D12F057B1F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:42:01 +0200 (CEST)
-Received: from localhost ([::1]:42100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC5E57B228
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:54:57 +0200 (CEST)
+Received: from localhost ([::1]:48738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE4LI-0002T9-Tn
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:42:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42900)
+	id 1oE4Xn-0007Za-Rn
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oE4JV-0000wl-NI
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:40:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23755)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oE4WY-00069E-7s
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:53:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oE4JQ-0004hc-Tv
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:40:06 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oE4WV-0007E3-HE
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:53:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658302802;
+ s=mimecast20190719; t=1658303614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vmdsvrein+a/zHUj5qF5NAW5L24ZAblN/tvoCAuEuFQ=;
- b=KRIblr3dzuQEePXh7jhydfaLSGcqr60jl48Jz/tpnClFVwCfRg+XVg06k++73fIcKW3wYl
- 8I02f1fMqqEwjsno9luCtbGCVAsM7PPE4r5mNjjrEk+90/Ut4PgvKOwB08AZdhruYPI0US
- UU7hYwyVylbDAkR0wPC9PiCFdxY2P28=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=N0In/PRqpaWTcJpwVtLUiaSFRmIP+VfUlL0PoKbfsp5847vN18rAGS7doISS7AWv+K6Xv2
+ /k8ZjsQMRXLD/FrDseqoK1gjvx2sHZbZstBZNEndoua+hGvSvPEKJiHBkb9MBGQkuHG1Bw
+ 123ahXLBb4jxDFY/hXo4eZ8iU2c53BQ=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-463-8FxW3No5P9yQN7ct_O9aFA-1; Wed, 20 Jul 2022 03:40:00 -0400
-X-MC-Unique: 8FxW3No5P9yQN7ct_O9aFA-1
-Received: by mail-ej1-f69.google.com with SMTP id
- qk18-20020a1709077f9200b0072b95d9eea3so3690645ejc.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 00:39:59 -0700 (PDT)
+ us-mta-447-oYbFChutMYidTpTmiNlycQ-1; Wed, 20 Jul 2022 03:53:30 -0400
+X-MC-Unique: oYbFChutMYidTpTmiNlycQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ f9-20020a056402354900b0043a902b7452so11464329edd.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 00:53:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vmdsvrein+a/zHUj5qF5NAW5L24ZAblN/tvoCAuEuFQ=;
- b=dU9rFEPDLjyPFtGMVlGcSaCuPULoCDsBom/y5mpyTgMoZDNR0RKvgvDbyL/iYCNZjN
- 36ejTIJltr5TZeGUXwTJjtr/YtfzbZcLu5Ud/M1RyagMxuKDhFbbLZqh5lJxL4atsKP9
- Dr0xkxDXa9YyospCbApa7SylBdGOVCWtLHSBt3yKJlJq+wqxTO8s7Y6PMvro7OWl0xwL
- UJDqjMAVzKcp4yor3pYzWCR3pFj7P43x5aES2gmQ+W2AxkwtMmXx1IGlkQVbzbhJ8X44
- YW5xQVQNMfj4/qDHHbVtwR5f1eN7f21uMvVyW7/G3kRHD+JEcG17CN5mgORTHK9IwpHa
- eFAw==
-X-Gm-Message-State: AJIora9HDgcAMknPa5mKNL+JmzbvvMU2ghGqh7r3cyJIJUVOmiezPIQL
- N0/1jvtx+8wVdf7O1AXLLD/amiAzilaRKUxxvcqM4ANyYCS6fBmm+QsohKmAX4QfEYfoSl6NON1
- NUs6gFiOWl8HoU14=
-X-Received: by 2002:a17:906:8a63:b0:72b:3796:9d0b with SMTP id
- hy3-20020a1709068a6300b0072b37969d0bmr33493951ejc.573.1658302799060; 
- Wed, 20 Jul 2022 00:39:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZJoOGGVjPP1y9IkjOsHz6R3YDWedDL91ki/dNyD/z5/0MPXq25jIocWuh0WWQH4x/2/fVgA==
-X-Received: by 2002:a17:906:8a63:b0:72b:3796:9d0b with SMTP id
- hy3-20020a1709068a6300b0072b37969d0bmr33493929ejc.573.1658302798827; 
- Wed, 20 Jul 2022 00:39:58 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=a3BqDEB1F42/ac/ju84bX8Wfv1y3okoFC3hwxj8EC7Fy0tqon173x0z9ZLcF+ZX4jG
+ Xz54FrV35dh1LqdN2tnG4GXojZ7Y2EaS42Du7qD+4o75+SRntMaAUWydL0C50SD2BUfs
+ klVSqo06TaDNR2tNyes45ZDXxDuE35hR7KrbrCqAq4bKnVyma+ZipwyFrIzbDFPcbGKK
+ svhic7RBuViiB8MFIW+CFTamlpxU+4SprJCBYtd2AJUDuTBtwMbn7OtgU0xoAEAREGj7
+ Aj84B2Ytu3jU3xoUcRPwwLaf5ecbMwSlME3b9RuWnp5kR8M4Cx8v1VTyTZNo9IkOnpdM
+ fj2Q==
+X-Gm-Message-State: AJIora+o6vVf1WQceqQIER1PfoAwhcKQ6ml+hxhi2H9MzVvnhobyotU8
+ nlUwGLt0uZsK/pgcWbuRCArAwWPerPglWKHGbnA9u1otYmLcVnwk/1CmE/Tql7vrfv+dnebhIHK
+ JJ1wB0TuI13exIMw=
+X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
+ hv12-20020a17090760cc00b0072b40a80a5bmr33634667ejc.379.1658303609811; 
+ Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ta8K8/ulfRIu9Beh3uqHJ75ZOo+5BsITfrigxvx1wbYkjErgrtGmo41nb5X68Jd2pjh/oRdg==
+X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
+ hv12-20020a17090760cc00b0072b40a80a5bmr33634650ejc.379.1658303609613; 
+ Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- zk8-20020a17090733c800b00705cd37fd5asm7561405ejb.72.2022.07.20.00.39.58
+ h20-20020a1709062dd400b0072b40cb28a8sm7557893eji.29.2022.07.20.00.53.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 00:39:58 -0700 (PDT)
-Date: Wed, 20 Jul 2022 09:39:57 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Joao Martins <joao.m.martins@oracle.com>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex Williamson
- <alex.williamson@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Ani
- Sinha <ani@anisinha.ca>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Suravee Suthikulpanit
- <suravee.suthikulpanit@amd.com>, Jonathan Cameron
- <jonathan.cameron@huawei.com>
-Subject: Re: [PATCH v9 07/11] i386/pc: handle unitialized mr in
- pc_get_cxl_range_end()
-Message-ID: <20220720093957.34d9c701@redhat.com>
-In-Reply-To: <20220719170014.27028-8-joao.m.martins@oracle.com>
-References: <20220719170014.27028-1-joao.m.martins@oracle.com>
- <20220719170014.27028-8-joao.m.martins@oracle.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ Wed, 20 Jul 2022 00:53:29 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org,
+	Mark Kanda <mark.kanda@oracle.com>
+Subject: Re: [PATCH] accel/kvm: Avoid Coverity warning in query_stats()
+Date: Wed, 20 Jul 2022 09:53:28 +0200
+Message-Id: <20220720075328.599550-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220719134853.327059-1-peter.maydell@linaro.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -108,55 +99,9 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jul 2022 18:00:10 +0100
-Joao Martins <joao.m.martins@oracle.com> wrote:
+Queued, thanks.
 
-> Remove pc_get_cxl_range_end() dependency on the CXL memory region,
-> and replace with one that does not require the CXL host_mr to determine
-> the start of CXL start.
-> 
-> This in preparation to allow pc_pci_hole64_start() to be called early
-> in pc_memory_init(), handle CXL memory region end when its underlying
-> memory region isn't yet initialized.
-> 
-> Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+Paolo
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
->  hw/i386/pc.c | 18 ++++++++----------
->  1 file changed, 8 insertions(+), 10 deletions(-)
-> 
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 3fdcab4bb4f3..c654be6cf0bd 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -843,17 +843,15 @@ static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
->  
->  static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
->  {
-> -    uint64_t start = 0;
-> +    uint64_t start = pc_get_cxl_range_start(pcms) + MiB;
->  
-> -    if (pcms->cxl_devices_state.host_mr.addr) {
-> -        start = pcms->cxl_devices_state.host_mr.addr +
-> -            memory_region_size(&pcms->cxl_devices_state.host_mr);
-> -        if (pcms->cxl_devices_state.fixed_windows) {
-> -            GList *it;
-> -            for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
-> -                CXLFixedWindow *fw = it->data;
-> -                start = fw->mr.addr + memory_region_size(&fw->mr);
-> -            }
-> +    if (pcms->cxl_devices_state.fixed_windows) {
-> +        GList *it;
-> +
-> +        start = ROUND_UP(start, 256 * MiB);
-> +        for (it = pcms->cxl_devices_state.fixed_windows; it; it = it->next) {
-> +            CXLFixedWindow *fw = it->data;
-> +            start += fw->size;
->          }
->      }
->  
 
 
