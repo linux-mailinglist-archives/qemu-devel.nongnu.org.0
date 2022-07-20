@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E5E057B593
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:33:08 +0200 (CEST)
-Received: from localhost ([::1]:59222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB6657B5B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:40:46 +0200 (CEST)
+Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE7wx-0003Hf-M0
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:33:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58782)
+	id 1oE84L-0004km-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:40:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kF-0004l2-Un
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46421)
+ id 1oE7kE-0004bN-KI
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kA-0000Au-MS
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:59 -0400
+ id 1oE7kB-0000BO-T2
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658315994;
+ s=mimecast20190719; t=1658315995;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ybensyyq3g6dtRkciiiYV2D/JYffiJMDJzISqSyrbq0=;
- b=SgTFR51kEjoTfWQt/rwy5OKAvloGsXsHr0hXefWqC71ja6q0FyquO4t7BzEds8F74xGAUF
- NJYszhRntqPAG9r33XClipPuWvAK855fe9ESDJTIwRxb3ZouvogybXyspokA1NDlZLjZr6
- ApKI9TD8U/7Bv0ZVbGs9tGPktbDyQq8=
+ bh=fETS35dlykFZMiHBXWl0FQ64NCM6fQprBKJi3bIY6Ig=;
+ b=WojEB44JalsTcy5lmtvCdjmmhMjqvwC7d8ewfXfjgq0gtEE0rSrlYUaQKCGi/bhhU3BtJN
+ +YCY8Lb+J1XeU0W9l/P7EF4y9VadWRsMqIhyOYbFVum8YNcim97zwKBCVeRqjnWuZ6C58x
+ jvdnG3p+LnZZRHuKyYdKvx5T9uKC6Ek=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-48-8pA9CoI1MlCPy_sLMab7qA-1; Wed, 20 Jul 2022 07:19:50 -0400
-X-MC-Unique: 8pA9CoI1MlCPy_sLMab7qA-1
+ us-mta-217-raqwdVcYNaSUyJe0KOz1Rw-1; Wed, 20 Jul 2022 07:19:52 -0400
+X-MC-Unique: raqwdVcYNaSUyJe0KOz1Rw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A3151C288C0;
- Wed, 20 Jul 2022 11:19:50 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9E6A1C288C0;
+ Wed, 20 Jul 2022 11:19:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DBDE2166B26;
- Wed, 20 Jul 2022 11:19:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD4C22166B26;
+ Wed, 20 Jul 2022 11:19:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 15/30] migration: Add property x-postcopy-preempt-break-huge
-Date: Wed, 20 Jul 2022 12:19:11 +0100
-Message-Id: <20220720111926.107055-16-dgilbert@redhat.com>
+Subject: [PULL 16/30] migration: Add helpers to detect TLS capability
+Date: Wed, 20 Jul 2022 12:19:12 +0100
+Message-Id: <20220720111926.107055-17-dgilbert@redhat.com>
 In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
 References: <20220720111926.107055-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,77 +82,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Add a property field that can conditionally disable the "break sending huge
-page" behavior in postcopy preemption.  By default it's enabled.
-
-It should only be used for debugging purposes, and we should never remove
-the "x-" prefix.
+Add migrate_channel_requires_tls() to detect whether the specific channel
+requires TLS, leveraging the recently introduced migrate_use_tls().  No
+functional change intended.
 
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Manish Mishra <manish.mishra@nutanix.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220707185511.27366-1-peterx@redhat.com>
+Message-Id: <20220707185513.27421-1-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 2 ++
- migration/migration.h | 7 +++++++
- migration/ram.c       | 7 +++++++
- 3 files changed, 16 insertions(+)
+ migration/channel.c   | 9 ++-------
+ migration/migration.c | 1 +
+ migration/multifd.c   | 4 +---
+ migration/tls.c       | 9 +++++++++
+ migration/tls.h       | 4 ++++
+ 5 files changed, 17 insertions(+), 10 deletions(-)
 
+diff --git a/migration/channel.c b/migration/channel.c
+index 90087d8986..1b0815039f 100644
+--- a/migration/channel.c
++++ b/migration/channel.c
+@@ -38,9 +38,7 @@ void migration_channel_process_incoming(QIOChannel *ioc)
+     trace_migration_set_incoming_channel(
+         ioc, object_get_typename(OBJECT(ioc)));
+ 
+-    if (migrate_use_tls() &&
+-        !object_dynamic_cast(OBJECT(ioc),
+-                             TYPE_QIO_CHANNEL_TLS)) {
++    if (migrate_channel_requires_tls_upgrade(ioc)) {
+         migration_tls_channel_process_incoming(s, ioc, &local_err);
+     } else {
+         migration_ioc_register_yank(ioc);
+@@ -70,10 +68,7 @@ void migration_channel_connect(MigrationState *s,
+         ioc, object_get_typename(OBJECT(ioc)), hostname, error);
+ 
+     if (!error) {
+-        if (s->parameters.tls_creds &&
+-            *s->parameters.tls_creds &&
+-            !object_dynamic_cast(OBJECT(ioc),
+-                                 TYPE_QIO_CHANNEL_TLS)) {
++        if (migrate_channel_requires_tls_upgrade(ioc)) {
+             migration_tls_channel_connect(s, ioc, hostname, &error);
+ 
+             if (!error) {
 diff --git a/migration/migration.c b/migration/migration.c
-index 427d4de185..864164ad96 100644
+index 864164ad96..cc41787079 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -4363,6 +4363,8 @@ static Property migration_properties[] = {
-     DEFINE_PROP_SIZE("announce-step", MigrationState,
-                       parameters.announce_step,
-                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
-+    DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
-+                      postcopy_preempt_break_huge, true),
+@@ -48,6 +48,7 @@
+ #include "trace.h"
+ #include "exec/target_page.h"
+ #include "io/channel-buffer.h"
++#include "io/channel-tls.h"
+ #include "migration/colo.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 684c014c86..1e49594b02 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -831,9 +831,7 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+         migrate_get_current()->hostname, error);
  
-     /* Migration capabilities */
-     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-diff --git a/migration/migration.h b/migration/migration.h
-index ae4ffd3454..cdad8aceaa 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -340,6 +340,13 @@ struct MigrationState {
-     bool send_configuration;
-     /* Whether we send section footer during migration */
-     bool send_section_footer;
-+    /*
-+     * Whether we allow break sending huge pages when postcopy preempt is
-+     * enabled.  When disabled, we won't interrupt precopy within sending a
-+     * host huge page, which is the old behavior of vanilla postcopy.
-+     * NOTE: this parameter is ignored if postcopy preempt is not enabled.
-+     */
-+    bool postcopy_preempt_break_huge;
- 
-     /* Needed by postcopy-pause state */
-     QemuSemaphore postcopy_pause_sem;
-diff --git a/migration/ram.c b/migration/ram.c
-index 65b08c4edb..7cbe9c310d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -2266,11 +2266,18 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
- 
- static bool postcopy_needs_preempt(RAMState *rs, PageSearchStatus *pss)
- {
-+    MigrationState *ms = migrate_get_current();
+     if (!error) {
+-        if (migrate_use_tls() &&
+-            !object_dynamic_cast(OBJECT(ioc),
+-                                 TYPE_QIO_CHANNEL_TLS)) {
++        if (migrate_channel_requires_tls_upgrade(ioc)) {
+             multifd_tls_channel_connect(p, ioc, &error);
+             if (!error) {
+                 /*
+diff --git a/migration/tls.c b/migration/tls.c
+index 32c384a8b6..73e8c9d3c2 100644
+--- a/migration/tls.c
++++ b/migration/tls.c
+@@ -166,3 +166,12 @@ void migration_tls_channel_connect(MigrationState *s,
+                               NULL,
+                               NULL);
+ }
 +
-     /* Not enabled eager preempt?  Then never do that. */
-     if (!migrate_postcopy_preempt()) {
-         return false;
-     }
- 
-+    /* If the user explicitly disabled breaking of huge page, skip */
-+    if (!ms->postcopy_preempt_break_huge) {
++bool migrate_channel_requires_tls_upgrade(QIOChannel *ioc)
++{
++    if (!migrate_use_tls()) {
 +        return false;
 +    }
 +
-     /* If the ramblock we're sending is a small page?  Never bother. */
-     if (qemu_ram_pagesize(pss->block) == TARGET_PAGE_SIZE) {
-         return false;
++    return !object_dynamic_cast(OBJECT(ioc), TYPE_QIO_CHANNEL_TLS);
++}
+diff --git a/migration/tls.h b/migration/tls.h
+index de4fe2cafd..98e23c9b0e 100644
+--- a/migration/tls.h
++++ b/migration/tls.h
+@@ -37,4 +37,8 @@ void migration_tls_channel_connect(MigrationState *s,
+                                    QIOChannel *ioc,
+                                    const char *hostname,
+                                    Error **errp);
++
++/* Whether the QIO channel requires further TLS handshake? */
++bool migrate_channel_requires_tls_upgrade(QIOChannel *ioc);
++
+ #endif
 -- 
 2.36.1
 
