@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37C957B72A
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E0A857B729
 	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:17:16 +0200 (CEST)
-Received: from localhost ([::1]:39002 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9Zj-0002Kq-Ny
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:17:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60372)
+	id 1oE9Zi-0002J9-SB
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:17:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oE9TR-0003zP-W4; Wed, 20 Jul 2022 09:10:46 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:37050)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9Uw-0005Nl-93
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oE9TM-0006cl-Fh; Wed, 20 Jul 2022 09:10:43 -0400
-Received: from sas1-7470331623bb.qloud-c.yandex.net
- (sas1-7470331623bb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 860E12E1FB9;
- Wed, 20 Jul 2022 16:10:29 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b715::1:28] (unknown
- [2a02:6b8:b081:b715::1:28])
- by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- gTrl4zexdG-AROuGNEm; Wed, 20 Jul 2022 13:10:28 +0000
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658322628; bh=+AIJ9YhVlYBDsVApU3lV5TRVIA1Ld4vNPFy5RWBsB1M=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=bl2tnU/UndYQ+KSUaql53KW/OETl4efrafjgW487aC6ck+1BNa4PUwjUxY6Lzcjxi
- 5F29a2fddagCiAbrNlfsOVJoMpuIQEWFEIzqMpunLYpJKmN9iJAMz3lmlL0YBGZVje
- iQzeQiMP0FQ38IjdTQv5cqPOn0AIL48M9j/59w/c=
-Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <dfd48f7c-c7a2-882c-6af8-c630c140d74a@yandex-team.ru>
-Date: Wed, 20 Jul 2022 16:10:27 +0300
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9Us-0006pL-1H
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658322733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QbEHtm+GZDemO49+T4wl6lr9geS8pxT/nP719sOPou8=;
+ b=ib4IWVlIb/Py+R4gSOicnNEARUPHP+Elmp5iBJMgHqvdITn8zu+uPp5MEFxIu5fIScReFh
+ r6WTTI6sbnvWvxHw3DSDnTzQlkMR5WE3CE66YNzFkPKqCIpiSdzOrmkvvz3FXHrNK5+Eo6
+ I7rghDz3UowcLkKGDBuWSnimiQvJYAs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-49-s2yDO3N_Mfa1bd6ejWxhQw-1; Wed, 20 Jul 2022 09:12:12 -0400
+X-MC-Unique: s2yDO3N_Mfa1bd6ejWxhQw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E73061C16B47;
+ Wed, 20 Jul 2022 13:12:11 +0000 (UTC)
+Received: from server.redhat.com (ovpn-13-124.pek2.redhat.com [10.72.13.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F681C28100;
+ Wed, 20 Jul 2022 13:12:07 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: lulu@redhat.com,
+	qemu-devel@nongnu.org
+Cc: Jason Wang <jasowang@redhat.com>, virtio-fs@redhat.com,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH v13 00/10] vhost-vdpa: add support for configure interrupt
+Date: Wed, 20 Jul 2022 21:11:54 +0800
+Message-Id: <20220720131204.591104-1-lulu@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v9 11/21] jobs: group together API calls under the same
- job lock
-Content-Language: en-US
-To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-12-eesposit@redhat.com>
- <1925769b-7fc1-a5f3-b9bf-9799a0656b69@yandex-team.ru>
- <5e29e502-95a9-3776-b12e-6e70ced6c83f@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <5e29e502-95a9-3776-b12e-6e70ced6c83f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,63 +81,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 15:40, Emanuele Giuseppe Esposito wrote:
-> 
-> 
-> Am 11/07/2022 um 15:26 schrieb Vladimir Sementsov-Ogievskiy:
->>>    }
->>>      static bool child_job_drained_poll(BdrvChild *c)
->>> @@ -111,8 +113,10 @@ static bool child_job_drained_poll(BdrvChild *c)
->>>        /* An inactive or completed job doesn't have any pending
->>> requests. Jobs
->>>         * with !job->busy are either already paused or have a pause
->>> point after
->>>         * being reentered, so no job driver code will run before they
->>> pause. */
->>> -    if (!job->busy || job_is_completed(job)) {
->>> -        return false;
->>> +    WITH_JOB_LOCK_GUARD() {
->>> +        if (!job->busy || job_is_completed_locked(job)) {
->>> +            return false;
->>> +        }
->>>        }
->>
->> This doesn't correspond to commit subject. I'd put such things to
->> separate commit "correct use of job_mutex in blockjob.c".
->>
->>>          /* Otherwise, assume that it isn't fully stopped yet, but
->>> allow the job to
->>> @@ -127,7 +131,9 @@ static bool child_job_drained_poll(BdrvChild *c)
->>>    static void child_job_drained_end(BdrvChild *c, int
->>> *drained_end_counter)
->>>    {
->>>        BlockJob *job = c->opaque;
->>> -    job_resume(&job->job);
->>> +    WITH_JOB_LOCK_GUARD() {
->>> +        job_resume_locked(&job->job);
->>> +    }
->>>    }
->>
->> Again, don't see a reason for such change.
->>
->>
->> [my comments relate to more similar cases in the patch]
-> 
-> I think you misunderstood: I aim to group API calls under the same lock.
-> One application of such grouping involves loops, but not only them.
+Add support for virtio-mmio bus=0D
+active the notifier while the backend support configure interrupt=0D
+misc fixes from v1=0D
+=0D
+Change in v3=0D
+fix the coding style problems=0D
+=0D
+Change in v4=0D
+misc fixes from v3=0D
+merge the set_config_notifier to set_guest_notifier=0D
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS=0D
+=0D
+Change in v5=0D
+misc fixes from v4=0D
+split the code to introduce configure interrupt type and the callback funct=
+ion=0D
+will init the configure interrupt in all virtio-pci and virtio-mmio bus, bu=
+t will=0D
+only active while using vhost-vdpa driver=0D
+=0D
+Change in v6=0D
+misc fixes from v5=0D
+decouple vq from interrupt setting and misc process=0D
+fix the bug in virtio_net_handle_rx=0D
+=0D
+Change in v7=0D
+misc fixes from v6=0D
+decouple vq from interrupt setting and misc process=0D
+decouple vq from vector use/release process=0D
+decouple vq from set notifier fd handler process=0D
+move config_notifier and masked_config_notifier to VirtIODevice=0D
+fix the bug in virtio_net_handle_rx, add more information=0D
+add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt=C2=A0=
+=0D
+=0D
+Change in v8=0D
+misc fixes from v7=0D
+decouple vq from interrupt setting and misc process=0D
+decouple vq from vector use/release process=0D
+decouple vq from set notifier fd handler process=0D
+move the vhost configure interrupt to vhost_net=0D
+=0D
+Change in v9=0D
+misc fixes from v8=0D
+address the comments from v8=0D
+=0D
+Change in v10=0D
+fix the hang issue in qtest=0D
+address the comments from v9=0D
+=0D
+Change in v11=0D
+fix the crash in aarch64 plateform.=0D
+fix the crash upstream reported=0D
+=0D
+Changes in v12=0D
+fix the typo and the comments=0D
+=0D
+changes in v13=0D
+re-send the patches by git-publish=0D
+=0D
+Cindy Lu (10):=0D
+  virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX=0D
+  virtio-pci: decouple notifier from interrupt process=0D
+  virtio-pci: decouple the single vector from the interrupt process=0D
+  vhost: introduce new VhostOps vhost_set_config_call=0D
+  vhost-vdpa: add support for config interrupt=0D
+  virtio: add support for configure interrupt=0D
+  vhost: add support for configure interrupt=0D
+  virtio-net: add support for configure interrupt=0D
+  virtio-mmio: add support for configure interrupt=0D
+  virtio-pci: add support for configure interrupt=0D
+=0D
+ hw/display/vhost-user-gpu.c       |  13 ++=0D
+ hw/net/vhost_net.c                |   9 +=0D
+ hw/net/virtio-net.c               |  20 ++-=0D
+ hw/virtio/trace-events            |   1 +=0D
+ hw/virtio/vhost-user-fs.c         |  14 ++=0D
+ hw/virtio/vhost-vdpa.c            |   8 +=0D
+ hw/virtio/vhost-vsock-common.c    |  14 ++=0D
+ hw/virtio/vhost.c                 |  78 +++++++-=0D
+ hw/virtio/virtio-crypto.c         |  14 ++=0D
+ hw/virtio/virtio-mmio.c           |  27 +++=0D
+ hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------=0D
+ hw/virtio/virtio-pci.h            |   4 +-=0D
+ hw/virtio/virtio.c                |  29 +++=0D
+ include/hw/virtio/vhost-backend.h |   3 +=0D
+ include/hw/virtio/vhost.h         |   4 +=0D
+ include/hw/virtio/virtio.h        |   7 +=0D
+ include/net/vhost_net.h           |   2 +=0D
+ 17 files changed, 443 insertions(+), 87 deletions(-)=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
-I mean that pre-patch job->busy is accessed without any lock at all. So we not just group correctly locked calls into one critical section, we also fix direct field accesses to be under lock.
-
-
-> 
-> Regarding the single-line WITH_JOB_LOCK_GUARD (job_next, job_pause,
-> job_resume and similar), I guess I will keep the not-locked function.
-> 
-> Emanuele
-> 
-
-
--- 
-Best regards,
-Vladimir
 
