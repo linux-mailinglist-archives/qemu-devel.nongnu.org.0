@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25E1B57B776
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:29:08 +0200 (CEST)
-Received: from localhost ([::1]:38376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD5157B787
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:30:58 +0200 (CEST)
+Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9lD-00066K-AI
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:29:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
+	id 1oE9my-0001bR-TA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:30:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oE9Zh-0002TU-AX
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:17:13 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:33914)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oE9e6-00025B-IL
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:21:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51962)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1oE9Zf-0007hE-OB
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:17:13 -0400
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-597-98hfxF-UNRyDeHpvOMaPNA-1; Wed, 20 Jul 2022 09:16:52 -0400
-X-MC-Unique: 98hfxF-UNRyDeHpvOMaPNA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9882811E87;
- Wed, 20 Jul 2022 13:16:51 +0000 (UTC)
-Received: from bahia (unknown [10.39.195.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 942BE18EA8;
- Wed, 20 Jul 2022 13:16:50 +0000 (UTC)
-Date: Wed, 20 Jul 2022 15:16:49 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
- david@gibson.dropbear.id.au
-Subject: Re: [PATCH v2 1/1] hw/ppc: check if spapr_drc_index() returns NULL
- in spapr_nvdimm.c
-Message-ID: <20220720151649.203abd3d@bahia>
-In-Reply-To: <20220409200856.283076-2-danielhb413@gmail.com>
-References: <20220409200856.283076-1-danielhb413@gmail.com>
- <20220409200856.283076-2-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oE9e3-0000Ch-Vv
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:21:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=F+OglXyQJRva7sHVZKIOykeWFiM+G3l1CkRHV0Dlggg=; b=RgPzxbN1P3VJcVjyTJ1prKm9uY
+ Y8jMhhDHaLaIZFA2TEnCjgvvrvo2j5MD6CWP/XpAxIsejlNmJWzypIQnokgwZyemvdrLMEJQ7TTmv
+ O+XEmeVZHB5Y7A+QLE6APGyqMsWAOGRss5T4AY1bHYalD+l7F1thIl03OenpgNlEY0HOGJpOJECpg
+ 4/bBLFlT33GOpm8VrERJO0wb8ffo6GWLfhPra6T5OHThzc1sZXdGjhRgx7I8N4YP4XeKjSwVllI7x
+ G7SqY7KkAYnPcKvvg0p7ufPg4J/+SgKLN8mfxvf8nG9jmRHbnEoNfKIoO6HxDsyguVTi2GBYvSGML
+ 4mb9ih880SuKW54/1NwGOSpluQUI3xfMEB78OWyqhO6xBIKQS8J9BmYcM0gbh7GkLOHhLv7y1Vv7S
+ PsoC5Jd0GWhHF6G+5ztw22K+i2rBnDHgVsUNk7bpQehiZnLXk3txea5QxWHV7LSppeIjtnzdvzXcu
+ 5KPsLG5zaT387QLlUCsOfeFI6i/x3pS42WH7sfXr0ryzMVkYcDnPP3Y5Y7Us7jJEmgg8NfIl1EhFK
+ qJPIZEFsWSWZhhgZ0COdNKrLGQw0J4h8sm4WpPuvUejxFVop2YVH8K7swRYBe+gGbQHk9YxzdO55t
+ 5ow+Fi7N0Gy4kbFmAnv2Edc2C3T7zQ+LYM5s4gMAQ=;
+Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oE9ci-000APr-EQ; Wed, 20 Jul 2022 14:20:20 +0100
+Message-ID: <5bc2fcee-2c5d-c400-5992-e2b4ce828477@ilande.co.uk>
+Date: Wed, 20 Jul 2022 14:21:38 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Roman Kagan <rvkagan@yandex-team.ru>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
+ <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <YtfgQN+BQ8Egn0ha@rvkaganb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,64 +87,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat,  9 Apr 2022 17:08:56 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On 20/07/2022 12:00, Roman Kagan wrote:
 
-> spapr_nvdimm_flush_completion_cb() and flush_worker_cb() are using the
-> DRC object returned by spapr_drc_index() without checking it for NULL.
-> In this case we would be dereferencing a NULL pointer when doing
-> SPAPR_NVDIMM(drc->dev) and PC_DIMM(drc->dev).
+> On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrangé wrote:
+>> On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote:
+>>> It's possible to create non-working configurations by attaching a device
+>>> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
+>>> specifying a slot number other that zero, e.g.:
+>>>
+>>>      -device pcie-root-port,id=s0,... \
+>>>      -device virtio-blk-pci,bus=s0,addr=4,...
+>>>
+>>> Make QEMU reject such configurations and only allow addr=0 on the
+>>> secondary bus of a PCIe slot.
+>>
+>> What do you mean by 'non-working' in this case.  The guest OS boots
+>> OK, but I indeed don't see the device in the guest, but IIUC it was
+>> said that was just because Linux doesn't scan for a non-zero slot.
 > 
-> This can happen if, during a scm_flush(), the DRC object is wrongly
-> freed/released (e.g. a bug in another part of the code).
-> spapr_drc_index() would then return NULL in the callbacks.
+> Right.  I don't remember if it was Linux or firmware or both but indeed
+> at least Linux guests don't see devices if attached to a PCIe slot at
+> addr != 0.  (Which is kinda natural for a thing called "slot", isn't it?)
 > 
-> Fixes: Coverity CID 1487108, 1487178
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+>> That wouldn't be a broken config from QEMU's POV though, merely a
+>> guest OS limitation ?
 > 
+> Strictly speaking it wouldn't, indeed.  But we've had created such a
+> configuration (due to a bug in our management layer) and spent
+> non-negligible time trying to figure out why the attached device didn't
+> appear in the guest.  So I thought it made sense to reject a
+> configuration which is known to confuse guests.  Doesn't it?
 
-LGTM
+This does seem a bit odd. What does the output of "info qtree" look like for your 
+non-working configuration?
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
-> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
-> index c4c97da5de..04a64cada3 100644
-> --- a/hw/ppc/spapr_nvdimm.c
-> +++ b/hw/ppc/spapr_nvdimm.c
-> @@ -447,9 +447,15 @@ static int flush_worker_cb(void *opaque)
->  {
->      SpaprNVDIMMDeviceFlushState *state = opaque;
->      SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
-> -    PCDIMMDevice *dimm = PC_DIMM(drc->dev);
-> -    HostMemoryBackend *backend = MEMORY_BACKEND(dimm->hostmem);
-> -    int backend_fd = memory_region_get_fd(&backend->mr);
-> +    PCDIMMDevice *dimm;
-> +    HostMemoryBackend *backend;
-> +    int backend_fd;
-> +
-> +    g_assert(drc != NULL);
-> +
-> +    dimm = PC_DIMM(drc->dev);
-> +    backend = MEMORY_BACKEND(dimm->hostmem);
-> +    backend_fd = memory_region_get_fd(&backend->mr);
->  
->      if (object_property_get_bool(OBJECT(backend), "pmem", NULL)) {
->          MemoryRegion *mr = host_memory_backend_get_memory(dimm->hostmem);
-> @@ -475,7 +481,11 @@ static void spapr_nvdimm_flush_completion_cb(void *opaque, int hcall_ret)
->  {
->      SpaprNVDIMMDeviceFlushState *state = opaque;
->      SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
-> -    SpaprNVDIMMDevice *s_nvdimm = SPAPR_NVDIMM(drc->dev);
-> +    SpaprNVDIMMDevice *s_nvdimm;
-> +
-> +    g_assert(drc != NULL);
-> +
-> +    s_nvdimm = SPAPR_NVDIMM(drc->dev);
->  
->      state->hcall_ret = hcall_ret;
->      QLIST_REMOVE(state, node);
+ATB,
 
+Mark.
 
