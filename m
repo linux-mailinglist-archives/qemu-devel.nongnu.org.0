@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2663157B75C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:24:06 +0200 (CEST)
-Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A0557B75B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:23:51 +0200 (CEST)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9gL-000682-5z
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:24:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
+	id 1oE9g7-0005ha-3h
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9VB-0005lq-SN
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23395)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9VG-00060F-Bj
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9VA-0006rZ-FW
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:33 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9VE-0006sQ-Rz
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:12:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658322751;
+ s=mimecast20190719; t=1658322756;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding;
- bh=5nmOVXL/SR5yCeobh2NA4CICnqWXk6eVdaDNm/tGkHA=;
- b=QGm4a0aDqnZ10tum7vK/n9SQDfgeIqvQGrMU7sZCMqkoxNCQTfeTExrv2FzpHZa/8Jsfiy
- aQrGRCTvHkRvzN7tNzv0zO/fZ8xbKNJ/GqWtH/qa0tupG6vwOcEyFp8WXPyMJap10pEKcn
- 23frOpjh/BwM4YqjQz25geezFOtpBi0=
+ bh=tkeGEwBtBxew1C/y6hu94o2+rWfF0TEqg2aKIrUIdKU=;
+ b=ib3CM1WghtoISzIV8Ak4HctgMRdGigv75+/D/nEeuHotwtsNoe1B9EWOWvp2KtjaloTUdj
+ +Tk9X7K/G5Qv/YlGR8TNi18PW5xV1VigJFusUgfWa7fnhDxi9WqHVW3+j4gwk0grCPjWxg
+ LFjsvDocHpWqJAhlw1RBeBYcjXkmOvI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-x1dnIVTXMN66nR1LvKADqg-1; Wed, 20 Jul 2022 09:12:30 -0400
-X-MC-Unique: x1dnIVTXMN66nR1LvKADqg-1
+ us-mta-646-LzwUlzVjOdy93PssmwQfdw-1; Wed, 20 Jul 2022 09:12:35 -0400
+X-MC-Unique: LzwUlzVjOdy93PssmwQfdw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6265E3C0CD3F;
- Wed, 20 Jul 2022 13:12:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE5363C0CD4A;
+ Wed, 20 Jul 2022 13:12:34 +0000 (UTC)
 Received: from server.redhat.com (ovpn-13-124.pek2.redhat.com [10.72.13.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 78858C28129;
- Wed, 20 Jul 2022 13:12:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0845FC28100;
+ Wed, 20 Jul 2022 13:12:30 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com,
 	qemu-devel@nongnu.org
@@ -50,20 +50,20 @@ Cc: Jason Wang <jasowang@redhat.com>, virtio-fs@redhat.com,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v13 04/10] vhost: introduce new VhostOps vhost_set_config_call
-Date: Wed, 20 Jul 2022 21:11:58 +0800
-Message-Id: <20220720131204.591104-5-lulu@redhat.com>
+Subject: [PATCH v13 05/10] vhost-vdpa: add support for config interrupt
+Date: Wed, 20 Jul 2022 21:11:59 +0800
+Message-Id: <20220720131204.591104-6-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,36 +80,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch introduces new VhostOps vhost_set_config_call.
-This function allows the qemu to set the config
-event fd to kernel driver.
+Add new call back function in vhost-vdpa, The function
+vhost_set_config_call can set the event fd to kernel.
+This function will be called in the vhost_dev_start
+and vhost_dev_stop
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- include/hw/virtio/vhost-backend.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/trace-events | 1 +
+ hw/virtio/vhost-vdpa.c | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 81bf3109f8..ff34eb7c8a 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -126,6 +126,8 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index a5102eac9e..b968ba9e4e 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -53,6 +53,7 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
+ vhost_vdpa_set_owner(void *dev) "dev: %p"
+ vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+ vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
++vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
  
- typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+ # virtio.c
+ virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+index 8adf7c0b92..02bafb61b9 100644
+--- a/hw/virtio/vhost-vdpa.c
++++ b/hw/virtio/vhost-vdpa.c
+@@ -733,6 +733,13 @@ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
+     return 0;
+ }
  
-+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-+                                       int fd);
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -171,6 +173,7 @@ typedef struct VhostOps {
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_force_iommu_op vhost_force_iommu;
-+    vhost_set_config_call_op vhost_set_config_call;
- } VhostOps;
- 
- int vhost_backend_update_device_iotlb(struct vhost_dev *dev,
++static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
++                                       int fd)
++{
++    trace_vhost_vdpa_set_config_call(dev, fd);
++    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
++}
++
+ static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t *config,
+                                    uint32_t config_len)
+ {
+@@ -1297,4 +1304,5 @@ const VhostOps vdpa_ops = {
+         .vhost_get_device_id = vhost_vdpa_get_device_id,
+         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+         .vhost_force_iommu = vhost_vdpa_force_iommu,
++        .vhost_set_config_call = vhost_vdpa_set_config_call,
+ };
 -- 
 2.34.3
 
