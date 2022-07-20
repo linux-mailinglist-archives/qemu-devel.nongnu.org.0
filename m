@@ -2,105 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C5EC57B607
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:57:48 +0200 (CEST)
-Received: from localhost ([::1]:48218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DF657B60E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:02:26 +0200 (CEST)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8Kp-00029N-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36734)
+	id 1oE8PI-0007we-JJ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:02:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oE8B5-0002SY-Gl
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:47:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55756)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1oE8Bg-0003oU-F8
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:48:20 -0400
+Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:45160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oE8B3-0004y6-BA
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:47:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658317660;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nqQpNpnyvirWjZGWCrCQf7p8OQQk7YyagsbGAfZY3qs=;
- b=XIaOmHoNF5uiL0mfXMRg8NlaL3w2+X7t/OmRYl8a8gcykF0kKPNXBmBp5zj/RQVjchO4AS
- 58K/kuWpDsj/aDWeT8n+c5gtrG6G7YEY2yRVicKNKfLv0vzAQHnBaIIUhuOIKg1y1xkin2
- CoZZeDNgexQildodjVd3ZWyiIGPMiC4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-232-QTMNQoQ5PBCpDRjwfCv2pg-1; Wed, 20 Jul 2022 07:47:37 -0400
-X-MC-Unique: QTMNQoQ5PBCpDRjwfCv2pg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- p2-20020a05600c1d8200b003a3262d9c51so1130564wms.6
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 04:47:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=nqQpNpnyvirWjZGWCrCQf7p8OQQk7YyagsbGAfZY3qs=;
- b=drj1xlEF1weGckh2LpjZ7yXhdUqR44DYrGsNPU0TVR2JAz2NjYcUoPoMhSWxVq5aoR
- bgrARADXXEULfkDj5JEpaIC7XJ1U/ZPGtaQvaoOPK75GJfQwqbR/Z+EMCBjjXsS+tSEr
- zGLy6oK1uKac/jKCRXdsLkNWjaS6vapy3WDJisTIEk8YwjvnDJf7lV9dwTVygo/4Zo2S
- y3OrqRkZwoDELZcM5bJW8KWDQ1eN48eGXF3adsp2t3VwgsBUbklZjyo6LtIpbCwCr6Z3
- 5Gqwof9qLzTv5a6i95jHkwC3nSIe7MtB1//yp3/7QyOAmYhG8WNajRVHepRA+tr1gdIx
- TQNA==
-X-Gm-Message-State: AJIora/BiVNDcKKxlSMdBAvyy+r4DD1yQTv1UdLtGDPcnqohx7rci89X
- 74nuwlD3XhqnAmy7eFjIVX53NOJGVvWOyFZfotv/UR2MGT0canHfDHJxmVgWUl3gzALRN2VibTY
- nVE2nwf7N9YyS7cY=
-X-Received: by 2002:a05:600c:3845:b0:3a3:19e8:829e with SMTP id
- s5-20020a05600c384500b003a319e8829emr3335760wmr.11.1658317655789; 
- Wed, 20 Jul 2022 04:47:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tecEKuVd0dXgxydHp+PkM3Iy4XxygFdxR9zZaakaZvtIq6kCraHwWmRILIvHd/74IIzYmfVw==
-X-Received: by 2002:a05:600c:3845:b0:3a3:19e8:829e with SMTP id
- s5-20020a05600c384500b003a319e8829emr3335745wmr.11.1658317655597; 
- Wed, 20 Jul 2022 04:47:35 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- bg13-20020a05600c3c8d00b003a3080eacb9sm1998471wmb.24.2022.07.20.04.47.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 04:47:35 -0700 (PDT)
-Message-ID: <7c7ec5e1-38ba-dd14-1cfc-2262ba02fe08@redhat.com>
-Date: Wed, 20 Jul 2022 13:47:34 +0200
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1oE8Bc-000515-Uq
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:48:18 -0400
+Received: from vla5-d6d5ce7a4718.qloud-c.yandex.net
+ (vla5-d6d5ce7a4718.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:341e:0:640:d6d5:ce7a])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 17BEC2E1FED;
+ Wed, 20 Jul 2022 14:48:10 +0300 (MSK)
+Received: from rvkaganb (unknown [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by vla5-d6d5ce7a4718.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 3OSjKNlrjS-m8PGSLwx; Wed, 20 Jul 2022 11:48:09 +0000
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1658317689; bh=VOQhr/gGInTB1/MFRDqWAt7h1XCD2zQGlVRQU+AIcVw=;
+ h=In-Reply-To:Cc:Message-ID:Subject:Date:References:To:From;
+ b=NgnG9kSrfo+Y3fwsr+QdB2R3Q2naW2zKgqKFfDnESdWY9PY5aYndVcZ1nKg2D2Rag
+ Tsg0cbhGQ0Bzp9xFnYf5xBX7y2526SLXtPhEP2OSTzK6QOzhgVadhLYcYbiwoIQ+yM
+ oR4lx5hyiLMtgyr/maTkcBuP0o+FFnVcGu92YXNU=
+Authentication-Results: vla5-d6d5ce7a4718.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Date: Wed, 20 Jul 2022 14:48:07 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
+Message-ID: <Ytfrd9L88d16Fynr@rvkaganb>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
+ <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
+ <YtfhWgayuGKNVjGq@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 7/8] block: use the new _change_ API instead of
- _can_set_ and _set_
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-8-eesposit@redhat.com>
- <ea2b8793-532d-e7c1-c34f-a9ef89f8586d@redhat.com>
- <88e07fa2-60c9-0fb6-fc1b-b03a2f7d37f5@redhat.com>
- <79762fa3-74d5-ed08-8291-5534942c72b1@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <79762fa3-74d5-ed08-8291-5534942c72b1@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <YtfhWgayuGKNVjGq@redhat.com>
+Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
+ helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -112,23 +90,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-Am 19/07/2022 um 20:07 schrieb Paolo Bonzini:
-> On 7/19/22 11:57, Emanuele Giuseppe Esposito wrote:
->>
->> Wrapping the new drains in aio_context_acquire/release(new_context) is
->> not so much helpful either, since apparently the following
->> blk_set_aio_context makes aio_poll() hang.
->> I am not sure why, any ideas?
+On Wed, Jul 20, 2022 at 12:04:58PM +0100, Daniel P. Berrangé wrote:
+> On Wed, Jul 20, 2022 at 02:00:16PM +0300, Roman Kagan wrote:
+> > On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrangé wrote:
+> > > On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote:
+> > > > It's possible to create non-working configurations by attaching a device
+> > > > to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
+> > > > specifying a slot number other that zero, e.g.:
+> > > 
+> > > What do you mean by 'non-working' in this case.  The guest OS boots
+> > > OK, but I indeed don't see the device in the guest, but IIUC it was
+> > > said that was just because Linux doesn't scan for a non-zero slot.
+> > 
+> > Right.  I don't remember if it was Linux or firmware or both but indeed
+> > at least Linux guests don't see devices if attached to a PCIe slot at
+> > addr != 0.  (Which is kinda natural for a thing called "slot", isn't it?)
 > 
-> I'll take a look, thanks.Â  In any case this doesn't block this series,
-> it was just a suggestion and blk_do_set_aio_context can be improved on top.
-> 
+> If a configuration is a permissible per the hardware design / spec, then
+> QEMU should generally allow it.  We don't want to constrain host side
+> configs based on the current limitations of guest OS whose behaviour can
+> change over time, or where a different guest OS may have a different POV.
 
-Neither is the "using drain_begin/end_unlocked" part. That won't be
-straightforward either. That will go in a future serie.
+OK I'll try to find out if PCIe slot devices may allow addresses
+different from zero.  If anybody can advise on this that would be much
+appreciated.
 
-Emanuele
-
+Thanks,
+Roman.
 
