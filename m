@@ -2,71 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACACE57B691
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:37:04 +0200 (CEST)
-Received: from localhost ([::1]:44792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A2C57B6C7
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:50:35 +0200 (CEST)
+Received: from localhost ([::1]:55028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8wp-0006k3-AR
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:37:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51104)
+	id 1oE99t-0006xf-K3
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:50:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE8uV-000410-9s
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:34:39 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:39538)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oE97N-0004Sn-SN
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:47:58 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:46808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE8uP-00077s-Fz
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:34:38 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id r3so31844965ybr.6
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 05:34:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HBrsSHHE4t68MLnkB5uwgPUiT6vn2LCD2ipFoNjvH9Y=;
- b=PoPM8rv1vgZJd2HrjC6WAik7wXtQi7rZWCWTMgQWUP4Yt6gR3cYiNoSw3JqiNyoE5Z
- RQvadlFcR7LAv8vmi4EhMdIVeHPa8DtGFbllEcjL53m4bKDnKvkvB+8Ia+e+r/RVZfmX
- swqYCcf8Uk3cKqOnOKbel/WWbfzhgbqXUSyBhOjWcfa3R/ShkQ5Zr8h+uYYpMO33drvH
- NLU1T9kU3niOCrfpdMPO7J+PzseYznQaojMXAyCl4eUOoP3dFWtEjZr099mVhGMVAqSF
- +aEDJ5BX3cp8ZX1KyBtZT8fTIWRRLdL+dIuyo9SjJVw3fIPnZg0NvWvKdfrfCou3tGna
- BXNQ==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oE97I-0001Ww-Sf
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:47:57 -0400
+Received: by mail-ej1-x630.google.com with SMTP id ez10so32815170ejc.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 05:47:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0mw50aSgNsRMgJJrzdCMDpcU5VMXEZFtMU83TwzMMTE=;
+ b=NcPEdhNInh2j5ue5GwFwMY/CetG/oZykwt6DF/j1pvZ/KiN+ZhKDy+vo61MOcXI56V
+ 50PgxcUa0P2vr453VGd/7IRFNhVJesnPzBeEajGVnPp77Nmzh7++PDE51Z4acI7cqv8W
+ gPYOvcZZykozbv1Emt0StMulu6LxRyJX3db/WsoLCGK1OVXxqeMP6OmSvQXt9cdkDr+X
+ D6mJ41amamVaK+VVC/zrHTBPo/lTfLaUvM2j9qNEOSYjiql155mEZifhAugcNTOl/uco
+ weyK4gcps8pR0UA64Tkqn10NbIWTj0dEwKmLoZyXU4QZ0u2LJih0o/GAJVHFH5mvlWxR
+ dDNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HBrsSHHE4t68MLnkB5uwgPUiT6vn2LCD2ipFoNjvH9Y=;
- b=rTVzpwZLuE25vottglWtaRUeuWm3PLkBS7RiULeEUXi49ivflctqJ1tqIJkOaB1BAs
- YJxfAW3glBWqJc/XsrreBsLYwutBNqY7iClp727gyb8/2ynEXTQ2ZGllQqwmBRr0eDu1
- 8ksLwO4X+atmNEqAL3Nc/WguAvnY0agDkyje6WIyHYjGYmKVqQQeeg8+Yy0/h8iI0vKP
- CEl138UEJcoaSXmhpw0l3dAPioGIuumUbWHoUFg6eqBu2+lksRLcaOefhEDbZOsAG6A7
- VGsV7UN4gaUBIyYWnD66MpO3LfonV4uuHpwhqhwpgJLjj+Zr6yeFncV9J5+vHwsIZRjh
- DsKQ==
-X-Gm-Message-State: AJIora/8kNYrSEnI1A35XFJDJWB6UmPBcQ55jryWM636P+FRwoXskujr
- TVaMYdfWr6oAGixZ31X29IW4zb86NQPdFzGNOjXcqQ==
-X-Google-Smtp-Source: AGRyM1s3IaoUaz7Vx9XXnRSFdfTI33s9SWm7hyJU//HQ37NnIS8K7PInl9C0lyWQ2yZIpd3C4TzFsJfi63iV6BCbSZU=
-X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
- v85-20020a252f58000000b0066ecf9a06a2mr39826723ybv.193.1658320471559; Wed, 20
- Jul 2022 05:34:31 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=0mw50aSgNsRMgJJrzdCMDpcU5VMXEZFtMU83TwzMMTE=;
+ b=bQmXtSxhSDvivrEp/XutfAL5CfLF/tiW5ujLbYzWGuIB47XU8ee8tHJ5UFvCa18qxB
+ aV6pIKIo7HrdvmijFdyNWcG7Sn2C9gVoeBMTQ74F86oXXKc/1OL4N42qkx/URc15F47b
+ f6qCaT9wZ9DyUWZ+KoWIvtI8QJNThFdZcqASZ3yeR0qTdbkzzo9Q43Lh7A+4F2SRnCT5
+ 2EBX46jYGoPoKh2oJLyaNU95eVwGJhTyNDyD6HsNLfLg6G2HlDhHab4juWKvN0+0R2Uo
+ Ae64/EHJOFeuGqkhAUDFX5IpVOcsFRTISnQ7z1Qvm02936adVG1djoTwHGOcYRERgu8r
+ /IzA==
+X-Gm-Message-State: AJIora98PLITCEHkEc24flKZ1IgYF5TVGBuvN6IT3pz3yptuxTKAGhMY
+ fMY+W3zWfMVHjW3/MCFJtUI=
+X-Google-Smtp-Source: AGRyM1s+to7GzxxqU1xP/jPBR3m7n0KypqlYVqVUNmueRfddRxITbqglenFyGO8j3YklNnlKuZX/Fw==
+X-Received: by 2002:a17:907:2889:b0:72b:50c8:c703 with SMTP id
+ em9-20020a170907288900b0072b50c8c703mr34839693ejc.694.1658321269952; 
+ Wed, 20 Jul 2022 05:47:49 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ ec21-20020a0564020d5500b0043ba24a26casm2216609edb.23.2022.07.20.05.47.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 05:47:49 -0700 (PDT)
+Message-ID: <3b0175f0-50ab-48b9-e05b-d9ef81433532@redhat.com>
+Date: Wed, 20 Jul 2022 14:47:48 +0200
 MIME-Version: 1.0
-References: <20220409200856.283076-1-danielhb413@gmail.com>
-In-Reply-To: <20220409200856.283076-1-danielhb413@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jul 2022 13:34:20 +0100
-Message-ID: <CAFEAcA942QJL6KzYMKS=Kwk95xU6qboaEQn4K5Yiu9qgTgxv9w@mail.gmail.com>
-Subject: Re: [PATCH v2 0/1] Coverity fixes in hw/ppc/spapr_nvdimm.c
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org, 
- david@gibson.dropbear.id.au, Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PULL 0/3] Misc patches for QEMU 7.1 freeze
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+References: <20220719093439.528810-1-pbonzini@redhat.com>
+ <YtalBPp+QKS0wKWs@zx2c4.com>
+ <b768df3d-4c36-549e-8e33-a3ec50ab95e2@redhat.com>
+ <CAHmME9qvWjdSVCLWyTrXDS34zbJ=NZ6QBsFb-DpNO3deJ6xEYQ@mail.gmail.com>
+ <Ytfk+jNgPtTH3vl4@zx2c4.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ytfk+jNgPtTH3vl4@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,24 +99,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 9 Apr 2022 at 21:11, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
-> Changes from v1:
-> - clarified in the commit message which kind of errors we aim to prevent
-> - changed the H_HARDWARE return to g_assert() exit
-> - v1 link: https://lists.gnu.org/archive/html/qemu-devel/2022-04/msg00569.html
->
-> Daniel Henrique Barboza (1):
->   hw/ppc: check if spapr_drc_index() returns NULL in spapr_nvdimm.c
->
->  hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+On 7/20/22 13:20, Jason A. Donenfeld wrote:
+>>> Sure, no problem.  Unfortunately I was on vacation around the time you
+>>> sent it first.
+>> Excellent, thanks so much!
+> Just wondering one thing: which tree did you put the patch in? I didn't
+> see it on your gitlab, but it seems like QEMU development happens in
+> many different places at once.
 
-Hi -- I was just going through old-but-unclosed Coverity issues, and
-it looks like this patch fixing one got lost somewhere along the line.
-Could somebody pick it up for the ppc tree, please?
+Well, I still had to review it (unless I screw up, you get a reply from 
+me once a patch is queued).  I think there are some issues with 
+migration compatibility of setup_data and they snowball a bit, so I'll 
+reply there.
 
-thanks
--- PMM
+Paolo
 
