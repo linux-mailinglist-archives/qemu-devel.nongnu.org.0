@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0D8957B5F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:53:42 +0200 (CEST)
-Received: from localhost ([::1]:38614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8AD57B600
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:56:57 +0200 (CEST)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8Gs-0003QB-1R
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59170)
+	id 1oE8K0-00085v-EC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:56:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7ka-0005Aa-4M
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45932)
+ id 1oE7kd-0005GB-V9
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kW-0000Tl-0s
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:17 -0400
+ id 1oE7kZ-0000UZ-Qw
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658316013;
+ s=mimecast20190719; t=1658316017;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q6Ltalk0EK7prV05BwJqnejrt3XTBqQjUBfKph9FJ+M=;
- b=JXvBbFMxBlcy9vpgG5Ij9jCfykNL6jYOjZio7Xps9Knp20z9jwkAPGwJiXH/l1WzUCYrKk
- 1MVv0TH6Zkw0vIOTjp1pe7NbCM8sI8h4JzqAaRDsbd6EYatkn4on41kMeQDRrCKwf16x+5
- 64/LLf6Cg7ziyRmzLjt/yuTGNF8GwbM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GX2aH48vw2z6gVz8M8ZthDWrr/cLpdZZMPap+r4UavQ=;
+ b=Q7yr+aT0HT9XWTi2TC7hBerWZ0oEDCR2bIeHietR43guNV/EhjPkSE+zHmywHrit8/ZWiq
+ baCv6d7EgTzpW7wbGewJvAPKbTzY0i4YyBQEFChYsKaY56jTeXez6VDFyYEMQBHh3d3iJm
+ FdKmApPlbkrET6E54iMZxCRVoGTTKAo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-574-5BxEx_D2NPi-Pltao066iQ-1; Wed, 20 Jul 2022 07:20:06 -0400
-X-MC-Unique: 5BxEx_D2NPi-Pltao066iQ-1
+ us-mta-324-qI4imAdVPO657KkG_MQZAg-1; Wed, 20 Jul 2022 07:20:07 -0400
+X-MC-Unique: qI4imAdVPO657KkG_MQZAg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F305A101A589;
- Wed, 20 Jul 2022 11:20:05 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2890538164C1;
+ Wed, 20 Jul 2022 11:20:07 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 070D92166B26;
- Wed, 20 Jul 2022 11:20:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 311792166B26;
+ Wed, 20 Jul 2022 11:20:06 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 28/30] multifd: Document the locking of MultiFD{Send/Recv}Params
-Date: Wed, 20 Jul 2022 12:19:24 +0100
-Message-Id: <20220720111926.107055-29-dgilbert@redhat.com>
+Subject: [PULL 29/30] migration: Avoid false-positive on non-supported
+ scenarios for zero-copy-send
+Date: Wed, 20 Jul 2022 12:19:25 +0100
+Message-Id: <20220720111926.107055-30-dgilbert@redhat.com>
 In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
 References: <20220720111926.107055-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -80,156 +81,79 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Juan Quintela <quintela@redhat.com>
+From: Leonardo Bras <leobras@redhat.com>
 
-Reorder the structures so we can know if the fields are:
-- Read only
-- Their own locking (i.e. sems)
-- Protected by 'mutex'
-- Only for the multifd channel
+Migration with zero-copy-send currently has it's limitations, as it can't
+be used with TLS nor any kind of compression. In such scenarios, it should
+output errors during parameter / capability setting.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Message-Id: <20220531104318.7494-2-quintela@redhat.com>
+But currently there are some ways of setting this not-supported scenarios
+without printing the error message:
+
+!) For 'compression' capability, it works by enabling it together with
+zero-copy-send. This happens because the validity test for zero-copy uses
+the helper unction migrate_use_compression(), which check for compression
+presence in s->enabled_capabilities[MIGRATION_CAPABILITY_COMPRESS].
+
+The point here is: the validity test happens before the capability gets
+enabled. If all of them get enabled together, this test will not return
+error.
+
+In order to fix that, replace migrate_use_compression() by directly testing
+the cap_list parameter migrate_caps_check().
+
+2) For features enabled by parameters such as TLS & 'multifd_compression',
+there was also a possibility of setting non-supported scenarios: setting
+zero-copy-send first, then setting the unsupported parameter.
+
+In order to fix that, also add a check for parameters conflicting with
+zero-copy-send on migrate_params_check().
+
+3) XBZRLE is also a compression capability, so it makes sense to also add
+it to the list of capabilities which are not supported with zero-copy-send.
+
+Fixes: 1abaec9a1b2c ("migration: Change zero_copy_send from migration parameter to migration capability")
+Signed-off-by: Leonardo Bras <leobras@redhat.com>
+Message-Id: <20220719122345.253713-1-leobras@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  dgilbert: Typo fixes from Chen Zhang
 ---
- migration/multifd.h | 66 ++++++++++++++++++++++++++++-----------------
- 1 file changed, 41 insertions(+), 25 deletions(-)
+ migration/migration.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 4d8d89e5e5..519f498643 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -65,7 +65,9 @@ typedef struct {
- } MultiFDPages_t;
+diff --git a/migration/migration.c b/migration/migration.c
+index 15ae48b209..e03f698a3c 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1306,7 +1306,9 @@ static bool migrate_caps_check(bool *cap_list,
+ #ifdef CONFIG_LINUX
+     if (cap_list[MIGRATION_CAPABILITY_ZERO_COPY_SEND] &&
+         (!cap_list[MIGRATION_CAPABILITY_MULTIFD] ||
+-         migrate_use_compression() ||
++         cap_list[MIGRATION_CAPABILITY_COMPRESS] ||
++         cap_list[MIGRATION_CAPABILITY_XBZRLE] ||
++         migrate_multifd_compression() ||
+          migrate_use_tls())) {
+         error_setg(errp,
+                    "Zero copy only available for non-compressed non-TLS multifd migration");
+@@ -1550,6 +1552,17 @@ static bool migrate_params_check(MigrationParameters *params, Error **errp)
+         error_prepend(errp, "Invalid mapping given for block-bitmap-mapping: ");
+         return false;
+     }
++
++#ifdef CONFIG_LINUX
++    if (migrate_use_zero_copy_send() &&
++        ((params->has_multifd_compression && params->multifd_compression) ||
++         (params->has_tls_creds && params->tls_creds && *params->tls_creds))) {
++        error_setg(errp,
++                   "Zero copy only available for non-compressed non-TLS multifd migration");
++        return false;
++    }
++#endif
++
+     return true;
+ }
  
- typedef struct {
--    /* this fields are not changed once the thread is created */
-+    /* Fields are only written at creating/deletion time */
-+    /* No lock required for them, they are read only */
-+
-     /* channel number */
-     uint8_t id;
-     /* channel thread name */
-@@ -74,39 +76,47 @@ typedef struct {
-     QemuThread thread;
-     /* communication channel */
-     QIOChannel *c;
-+    /* is the yank function registered */
-+    bool registered_yank;
-+    /* packet allocated len */
-+    uint32_t packet_len;
-+    /* multifd flags for sending ram */
-+    int write_flags;
-+
-     /* sem where to wait for more work */
-     QemuSemaphore sem;
-+    /* syncs main thread and channels */
-+    QemuSemaphore sem_sync;
-+
-     /* this mutex protects the following parameters */
-     QemuMutex mutex;
-     /* is this channel thread running */
-     bool running;
-     /* should this thread finish */
-     bool quit;
--    /* is the yank function registered */
--    bool registered_yank;
-+    /* multifd flags for each packet */
-+    uint32_t flags;
-+    /* global number of generated multifd packets */
-+    uint64_t packet_num;
-     /* thread has work to do */
-     int pending_job;
--    /* array of pages to sent */
-+    /* array of pages to sent.
-+     * The owner of 'pages' depends of 'pending_job' value:
-+     * pending_job == 0 -> migration_thread can use it.
-+     * pending_job != 0 -> multifd_channel can use it.
-+     */
-     MultiFDPages_t *pages;
--    /* packet allocated len */
--    uint32_t packet_len;
-+
-+    /* thread local variables. No locking required */
-+
-     /* pointer to the packet */
-     MultiFDPacket_t *packet;
--    /* multifd flags for sending ram */
--    int write_flags;
--    /* multifd flags for each packet */
--    uint32_t flags;
-     /* size of the next packet that contains pages */
-     uint32_t next_packet_size;
--    /* global number of generated multifd packets */
--    uint64_t packet_num;
--    /* thread local variables */
-     /* packets sent through this channel */
-     uint64_t num_packets;
-     /* non zero pages sent through this channel */
-     uint64_t total_normal_pages;
--    /* syncs main thread and channels */
--    QemuSemaphore sem_sync;
-     /* buffers to send */
-     struct iovec *iov;
-     /* number of iovs used */
-@@ -120,7 +130,9 @@ typedef struct {
- }  MultiFDSendParams;
- 
- typedef struct {
--    /* this fields are not changed once the thread is created */
-+    /* Fields are only written at creating/deletion time */
-+    /* No lock required for them, they are read only */
-+
-     /* channel number */
-     uint8_t id;
-     /* channel thread name */
-@@ -129,31 +141,35 @@ typedef struct {
-     QemuThread thread;
-     /* communication channel */
-     QIOChannel *c;
-+    /* packet allocated len */
-+    uint32_t packet_len;
-+
-+    /* syncs main thread and channels */
-+    QemuSemaphore sem_sync;
-+
-     /* this mutex protects the following parameters */
-     QemuMutex mutex;
-     /* is this channel thread running */
-     bool running;
-     /* should this thread finish */
-     bool quit;
--    /* ramblock host address */
--    uint8_t *host;
--    /* packet allocated len */
--    uint32_t packet_len;
--    /* pointer to the packet */
--    MultiFDPacket_t *packet;
-     /* multifd flags for each packet */
-     uint32_t flags;
-     /* global number of generated multifd packets */
-     uint64_t packet_num;
--    /* thread local variables */
-+
-+    /* thread local variables. No locking required */
-+
-+    /* pointer to the packet */
-+    MultiFDPacket_t *packet;
-     /* size of the next packet that contains pages */
-     uint32_t next_packet_size;
-     /* packets sent through this channel */
-     uint64_t num_packets;
-+    /* ramblock host address */
-+    uint8_t *host;
-     /* non zero pages recv through this channel */
-     uint64_t total_normal_pages;
--    /* syncs main thread and channels */
--    QemuSemaphore sem_sync;
-     /* buffers to recv */
-     struct iovec *iov;
-     /* Pages that are not zero */
 -- 
 2.36.1
 
