@@ -2,116 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86AF157BC9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 19:27:17 +0200 (CEST)
-Received: from localhost ([::1]:36978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E8057BCB9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 19:33:47 +0200 (CEST)
+Received: from localhost ([::1]:39232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEDTg-0001dr-ND
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 13:27:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34168)
+	id 1oEDZz-0004tb-15
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 13:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oEDRI-0008Qu-QU; Wed, 20 Jul 2022 13:24:48 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63910
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oEDRG-00081S-3Q; Wed, 20 Jul 2022 13:24:48 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26KHDgu4022475;
- Wed, 20 Jul 2022 17:24:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=GFPuIJ6wjwzVjF+xgJnE1mUjlOx7qoUJqh0Ipd6wiKI=;
- b=qhKuaHMBEvnvqyFVxOSEShZCcpi8RIWTLnObjfGDWikG3NxgFGbNHFB6+IYqezOSMx5r
- NvmVOCEHgBJryn/Hycan85cw1wUQXuq0LcEQUww8mg4CG3jwHSiqNk/xTZhbHHE5txUn
- 1DzF2nNqArG5N6gPkuwufdYeqEEq7pYNBYBKJtpThzpqUBb+9Bee4eu0sqdncwv88UMM
- uyVykpx58IFSsOJQvZ4qc9ksBKcPYlynQHoz+gIPWMUma77qIKtLBYX5XTEikDSTGaCe
- DykPunsEC4/vbR8Cu1nbq9pBjXNVralX1cfG/jtkn5i5YHGQDm7+nF0gYyeR+XDnfIRS dQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3henwxr9pf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jul 2022 17:24:43 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26KHE1Gw023680;
- Wed, 20 Jul 2022 17:24:43 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3henwxr9ny-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jul 2022 17:24:42 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26KHNovd028246;
- Wed, 20 Jul 2022 17:24:41 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3hbmkj5w62-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jul 2022 17:24:41 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26KHObFc19726694
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jul 2022 17:24:37 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AF6A111C050;
- Wed, 20 Jul 2022 17:24:37 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 095A611C04A;
- Wed, 20 Jul 2022 17:24:36 +0000 (GMT)
-Received: from [9.171.85.19] (unknown [9.171.85.19])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Jul 2022 17:24:34 +0000 (GMT)
-Message-ID: <e497396a-eadf-15ae-e11c-d6a2bbbff7c7@linux.ibm.com>
-Date: Wed, 20 Jul 2022 19:24:34 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEDYq-0003Ez-Fd
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 13:32:36 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:42569)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEDYp-0000w5-0I
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 13:32:36 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id c131so32603070ybf.9
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 10:32:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QCbiXiQ500EfAifuLdSRYnVFlerxTezn2AFtdHI2kKA=;
+ b=zao/UO7Uv7r/OleKxvPuf+eiLRvyPgOWeyqmOYXH02RmHEu3bMkTVm4QbOgGKI/Jb7
+ uXcBTnobTrsOvxOq9UgOB2aynPGaOtc/2Ty/VMoOmUYPZ8pokhPu1p6a8H9eZWNvRSOa
+ mOeaZk4l4Wp8evVun77W6sq1mtlRdIwedgqwQ3xf90dLdgylSTlZsIX0dIA6pByeXCWv
+ 170Djzv04wqHrJH9NKW2mhVdMaMcjlNG8ofTw0NrCKVNgCFCeNZGQ60l8ht1ZcETzjqu
+ EgmB21puwNIQ7Vx1QmAI/krkEN7j0ESSUHJjOnRNnYrS6ub2dZCZfY3yEJpJv1j12YqL
+ hoJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QCbiXiQ500EfAifuLdSRYnVFlerxTezn2AFtdHI2kKA=;
+ b=q98NpdfldnO92wwOa+vKREmwSZHzTYGOtUupqWSXxnxCmewRg6oR8HmJIAqKTJQkb5
+ BeZrJvN0q6qIrx6Ob2Tg+LeaaEZrYboHhwtMhx/Zp7G2FIQ4tDaUuzx93+mb1H3SXTuh
+ WTOo8oII3LP0R7gaPgt6bmiVEQ5XqbDG27YXP3Fj3QyycTJhuiNjz3Oqx8wGMTACKoD6
+ mrDn8UM4tjlOvj6qhws9myw1TJfW6mjFbOrckFR7ZTRWcQ7uRmZk6mcI39x3w0tguFGq
+ jJRSF1FGRQ8yERcG2NdDX17tBtGd0oGYzTD2RlYit0yYRCUas/lADWKFc5F/osPBNnH3
+ KZ2A==
+X-Gm-Message-State: AJIora+McCouU6HTJv53/4FjesJAEBuY0zQc30rh06Ok+NNDWJGj0/6L
+ m3IGjDOboUu8d1uqD5Z7/sYEkLUmbMx5YLLelKFPQA==
+X-Google-Smtp-Source: AGRyM1s8F/yOgdbCWBp2cnMXBYfUSHjzcJfOlFkKaTRNVNRNhFEYWIT/QgUl4Uxc2EHJW/rTKV7T90PEFSpEUdDG5ec=
+X-Received: by 2002:a25:2f58:0:b0:66e:cf9a:6a2 with SMTP id
+ v85-20020a252f58000000b0066ecf9a06a2mr41181890ybv.193.1658338353700; Wed, 20
+ Jul 2022 10:32:33 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v8 08/12] s390x/cpu_topology: implementing numa for the
- s390x topology
-Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com
-References: <20220620140352.39398-1-pmorel@linux.ibm.com>
- <20220620140352.39398-9-pmorel@linux.ibm.com>
- <3a821cd1-b8a0-e737-5279-8ef55e58a77f@linux.ibm.com>
- <b1e89718-232c-2b0b-2133-102ab7b4dad4@linux.ibm.com>
- <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
- <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-In-Reply-To: <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: lzwOWa2DdlMOoeQzAGc6_LBLZRXBtN6a
-X-Proofpoint-ORIG-GUID: pAISXU3MGE_M-19vlYi_5k2Wz583TRLS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-20_10,2022-07-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 impostorscore=0 mlxlogscore=999 phishscore=0 mlxscore=0
- malwarescore=0 adultscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2206140000 definitions=main-2207200070
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220720152631.450903-1-peter.maydell@linaro.org>
+ <20220720152631.450903-4-peter.maydell@linaro.org>
+ <20220720162954.hzrv4ypgobcgwmeu@redhat.com>
+In-Reply-To: <20220720162954.hzrv4ypgobcgwmeu@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 20 Jul 2022 18:32:22 +0100
+Message-ID: <CAFEAcA_COkEZSoy6jRYBmyfwFc787vFs+Nn3s5RWB5AKX62LxQ@mail.gmail.com>
+Subject: Re: [PATCH 3/5] configure: Don't use bash-specific string-replacement
+ syntax
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -127,69 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/15/22 15:07, Pierre Morel wrote:
-> 
-> 
-> On 7/15/22 11:11, Janis Schoetterl-Glausch wrote:
->> On 7/14/22 22:17, Pierre Morel wrote:
->>>
->>>
->>> On 7/14/22 16:57, Janis Schoetterl-Glausch wrote:
->>>> On 6/20/22 16:03, Pierre Morel wrote:
->>>>> S390x CPU Topology allows a non uniform repartition of the CPU
->>>>> inside the topology containers, sockets, books and drawers.
->>>>>
->>>>> We use numa to place the CPU inside the right topology container
->>>>> and report the non uniform topology to the guest.
->>>>>
->>>>> Note that s390x needs CPU0 to belong to the topology and consequently
->>>>> all topology must include CPU0.
->>>>>
->>>>> We accept a partial QEMU numa definition, in that case undefined CPUs
->>>>> are added to free slots in the topology starting with slot 0 and going
->>>>> up.
->>>>
->>>> I don't understand why doing it this way, via numa, makes sense for us.
->>>> We report the topology to the guest via STSI, which tells the guest
->>>> what the topology "tree" looks like. We don't report any numa distances to the guest.
->>>> The natural way to specify where a cpu is added to the vm, seems to me to be
->>>> by specify the socket, book, ... IDs when doing a device_add or via -device on
->>>> the command line.
->>>>
->>>> [...]
->>>>
->>>
->>> It is a choice to have the core-id to determine were the CPU is situated in the topology.
->>>
->>> But yes we can chose the use drawer-id,book-id,socket-id and use a core-id starting on 0 on each socket.
->>>
->>> It is not done in the current implementation because the core-id implies the socket-id, book-id and drawer-id together with the smp parameters.
->>>
->>>
->> Regardless of whether the core-id or the combination of socket-id, book-id .. is used to specify where a CPU is
->> located, why use the numa framework and not just device_add or -device ?
-> 
-> You are right, at least we should be able to use both.
-> I will work on this.
-> 
->>
->> That feels way more natural since it should already just work if you can do hotplug.
->> At least with core-id and I suspect with a subset of your changes also with socket-id, etc.
-> 
-> yes, it already works with core-id
-> 
->>
->> Whereas numa is an awkward fit since it's for specifying distances between nodes, which we don't do,
->> and you have to use a hack to get it to specify which CPUs to plug (via setting arch_id to -1).
->>
-> 
-> Is it only for this?
-> 
-That's what it looks like to me, but I'm not an expert by any means.
-x86 reports distances and more via ACPI, riscv via device tree and power appears to
-calculate hierarchy values which the linux kernel will turn into distances again.
-That's maybe closest to s390x. However, as far as I can tell all of that is static
-and cannot be reconfigured. If we want to have STSI dynamically reflect the topology
-at some point in the future, we should have a roadmap for how to achieve that.
+On Wed, 20 Jul 2022 at 17:30, Eric Blake <eblake@redhat.com> wrote:
+>
+> On Wed, Jul 20, 2022 at 04:26:29PM +0100, Peter Maydell wrote:
+> > The variable string-replacement syntax ${var/old/new} is a bashism
+> > (though it is also supported by some other shells), and for instance
+> > does not work with the NetBSD /bin/sh, which complains:
+> >  ../src/configure: 687: Syntax error: Bad substitution
+> >
+> > Replace it with a more portable sed-based approach, similar to
+> > what we already do in quote_sh().
+> >
+>
+> >    for e in $1; do
+> > -    e=${e/'\'/'\\'}
+> > -    e=${e/\"/'\"'}
+> > -    printf '"""%s""",' "$e"
+> > +    printf '"""'
+> > +    # backslash escape any '\' and '"' characters
+> > +    printf "%s" "$e" | sed -e 's/\([\"]\)/\\\1/g'
+>
+> You've fixed the bashism, but at the expense of a non-POSIX use of
+> sed.  POSIX says the input to sed must be a text file (ending in a
+> newline; but $e does not), and as a result it always outputs a newline
+> (but you don't want a newline before the closing """).  GNU sed
+> happens to do what you want for input not ending in a newline, but I
+> don't remember off-hand whether BSD sed does, and I know that Solaris
+> sed does not.
 
+I just copied the approach we already take in quote_sh:
+
+quote_sh() {
+    printf "%s" "$1" | sed "s,','\\\\'',g; s,.*,'&',"
+}
+
+Is that also relying on this non-portable sed use?
+
+> If this passes on BSD, then I'm okay with it; but if we want to avoid
+> non-POSIX altogether, this should work (using the shell's $() to strip
+> the trailing newline we added to keep sed happy):
+>
+> # backslash escape any '\' and '"' characters
+> printf '"""%s""",' "$(printf "%s\n" "$e" | sed -e '/s/\([\"]\)/\\\1/g')"
+
+Mmm.
+
+-- PMM
 
