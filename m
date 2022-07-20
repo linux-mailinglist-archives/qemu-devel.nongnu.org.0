@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6837057B627
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:11:57 +0200 (CEST)
-Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3989D57B628
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:13:17 +0200 (CEST)
+Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8YW-0001Qs-3N
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:11:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43904)
+	id 1oE8Zo-0003aA-87
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:13:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org>)
- id 1oE8Vy-0007Qf-FO; Wed, 20 Jul 2022 08:09:19 -0400
-Received: from sin.source.kernel.org ([145.40.73.55]:48800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org>)
- id 1oE8Vv-0001qm-Ks; Wed, 20 Jul 2022 08:09:18 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by sin.source.kernel.org (Postfix) with ESMTPS id 48168CE1EC5;
- Wed, 20 Jul 2022 12:09:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B2EC3411E;
- Wed, 20 Jul 2022 12:09:07 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="lknQ6mza"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658318945;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OadkDGb6jJ8NYn0bAy+e0CnP5mIlwTI/CuMAN1Qq/jo=;
- b=lknQ6mzafejgSR/iW9RBwEQGG1AyBdJop3XsCueesFjODaZgj/JKwSJSOBYVFzqW1tMk5t
- cTNm7P/utYrrsCv8QlrKkqrNJzE+eZ5LX+Iz6krrpxuIKwTyIRYwJd1zAfvo+lyPIRsbWW
- Nsc1uy2PbkN+8GQhH0Odv0EY/sgbxg4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id aa49ecb3
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Wed, 20 Jul 2022 12:09:05 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: david@redhat.com,
-	qemu-s390x@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Subject: [PATCH v3] target/s390x: support PRNO_TRNG instruction
-Date: Wed, 20 Jul 2022 14:08:59 +0200
-Message-Id: <20220720120859.339788-1-Jason@zx2c4.com>
-In-Reply-To: <Ytft08S2eGaYVwC3@zx2c4.com>
-References: <Ytft08S2eGaYVwC3@zx2c4.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oE8Wy-0000TD-GK
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:10:22 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:42500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oE8Ws-000289-Sv
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:10:17 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-2ef5380669cso171263277b3.9
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 05:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=X6Q5ooBaErYmH3Oa6IKafZzOXMKwJ2bqsNuizoTxp/I=;
+ b=QoxBcAVi25+rS/PtEH5SwK1jfyntR2wXrA3ir7J4TPNoMKWxZRhJiZlVqlGepwjErE
+ 65ykgu9/ExLMoPwe3rYYYRPrQKdEHHO4Upm91dS6k7DXUrqmSvAGyhrBMAUh1z3plv7k
+ xlbBVQCWo9TmMmBsHWuNeDEahX+4nIvreOG/oPEmeEMo40gZzq/pjgXXgn/F/DufFrch
+ CI1VsSawLhWOR1nK7ifQ2hPPE2/s4pHhcMQn2r5tMmNhYobFSZJOODG3z+F67PeubwIY
+ GhUQ6FqzUo3p7JlyWGtWwYzWzmQG+BPll8gV2q0Q7SGghKiGV2pUOcz8WhSdj25QRzY/
+ gT/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=X6Q5ooBaErYmH3Oa6IKafZzOXMKwJ2bqsNuizoTxp/I=;
+ b=d9xp2OHoTO1sOsfkNDLlUgQQy9wPpqgAMNKxZkLR+8xIv3KMBX7x0kXjvMNt3no3Mt
+ VkjD4mpTGO5dHV3MN7JsbizaKmucib1VultXBvRYrpehXq0NdUureEQyStXD3InRM0Fb
+ L8utOEMYGIvPfq07jSJ8dqDyUyj4/uZUZqmQZ52AuaxDykP09Wlgy8m9TF/k9RVby+T9
+ 76gguJUxN5a239nxxOi9E0Ay7KClThxfOzGmr4BflhwhTAzcrfGguaUqbPc8uScrQC9B
+ rpSmIx/b7o2t8aT7bnLtpPcXuE61y4T1e7SIzmh0j38MNuXJCYNzrTVjyn3BcrDkQ4id
+ KMpg==
+X-Gm-Message-State: AJIora+4hv/mNxs+reEAqaGPn7AkPSFQQs6C9J86xXH2Ajbqf9IJeG8A
+ pjx3138zguqnz79n6A0u7VZ7QCSyNb2UssQ/CV7rdw==
+X-Google-Smtp-Source: AGRyM1vGUxbG6wPABKHJVzNkLYxmoBKdAm53pyspkQdtig3yPxqhNDO+ZYSisaXl4p608FuiPJiCQyb8KPd2n9RBwBI=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr40711682ywb.257.1658319013249; Wed, 20
+ Jul 2022 05:10:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=145.40.73.55;
- envelope-from=SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org;
- helo=sin.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220719180000.378186-1-richard.henderson@linaro.org>
+ <20220719180000.378186-21-richard.henderson@linaro.org>
+In-Reply-To: <20220719180000.378186-21-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 20 Jul 2022 13:10:01 +0100
+Message-ID: <CAFEAcA82Q60bvOxQ7HNzpiu-Uxgaq2zV8CMW3H9x+YntdG_Weg@mail.gmail.com>
+Subject: Re: [PULL 20/21] hw/loongarch: Add acpi ged support
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,107 +83,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order for hosts running inside of TCG to initialize the kernel's
-random number generator, we should support the PRNO_TRNG instruction,
-backed in the usual way with the qemu_guest_getrandom helper. This is
-confirmed working on Linux 5.19-rc6.
+On Tue, 19 Jul 2022 at 19:16, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+>
+> Loongarch virt machine uses general hardware reduces acpi method, rather
+> than LS7A acpi device. Now only power management function is used in
+> acpi ged device, memory hotplug will be added later. Also acpi tables
+> such as RSDP/RSDT/FADT etc.
+>
+> The acpi table has submited to acpi spec, and will release soon.
+>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> Message-Id: <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Harald Freudenberger <freude@linux.ibm.com>
-Cc: Holger Dengler <dengler@linux.ibm.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- target/s390x/cpu_models.c        |  2 --
- target/s390x/gen-features.c      |  2 ++
- target/s390x/tcg/crypto_helper.c | 32 ++++++++++++++++++++++++++++++++
- 3 files changed, 34 insertions(+), 2 deletions(-)
+Didn't notice this in the original CI, but this generates a compiler
+warning on openbsd:
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 1a562d2801..90aac3d795 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -421,8 +421,6 @@ static void check_consistency(const S390CPUModel *model)
-         { S390_FEAT_DFP_FAST, S390_FEAT_DFP },
-         { S390_FEAT_TRANSACTIONAL_EXE, S390_FEAT_STFLE_49 },
-         { S390_FEAT_EDAT_2, S390_FEAT_EDAT},
--        { S390_FEAT_MSA_EXT_5, S390_FEAT_KIMD_SHA_512 },
--        { S390_FEAT_MSA_EXT_5, S390_FEAT_KLMD_SHA_512 },
-         { S390_FEAT_MSA_EXT_4, S390_FEAT_MSA_EXT_3 },
-         { S390_FEAT_SIE_CMMA, S390_FEAT_CMM },
-         { S390_FEAT_SIE_CMMA, S390_FEAT_SIE_GSLS },
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index ad140184b9..3d333e2789 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -749,6 +749,8 @@ static uint16_t qemu_V7_0[] = {
-  */
- static uint16_t qemu_MAX[] = {
-     S390_FEAT_VECTOR_ENH2,
-+    S390_FEAT_MSA_EXT_5,
-+    S390_FEAT_PRNO_TRNG,
- };
- 
- /****** END FEATURE DEFS ******/
-diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
-index 138d9e7ad9..afd29f9cf0 100644
---- a/target/s390x/tcg/crypto_helper.c
-+++ b/target/s390x/tcg/crypto_helper.c
-@@ -12,12 +12,38 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/main-loop.h"
-+#include "qemu/guest-random.h"
- #include "s390x-internal.h"
- #include "tcg_s390x.h"
- #include "exec/helper-proto.h"
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- 
-+static void fill_buf_random(CPUS390XState *env, uintptr_t ra,
-+                            uint64_t *buf_reg, uint64_t *len_reg)
-+{
-+        uint8_t tmp[256];
-+        uint64_t len = *len_reg;
-+        int reg_len = 64;
-+
-+        if (!(env->psw.mask & PSW_MASK_64)) {
-+                len = (uint32_t)len;
-+                reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
-+        }
-+
-+        while (len) {
-+                size_t block = MIN(len, sizeof(tmp));
-+
-+                qemu_guest_getrandom_nofail(tmp, block);
-+                for (size_t i = 0; i < block; ++i) {
-+                        cpu_stb_data_ra(env, wrap_address(env, *buf_reg), tmp[i], ra);
-+                        *buf_reg = deposit64(*buf_reg, 0, reg_len, *buf_reg + 1);
-+                        --*len_reg;
-+                }
-+                len -= block;
-+        }
-+}
-+
- uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-                      uint32_t type)
- {
-@@ -52,6 +78,12 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-             cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
-         }
-         break;
-+    case 114:
-+        if (r1 & 1 || !r1 || r2 & 1 || !r2)
-+                tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
-+        fill_buf_random(env, ra, &env->regs[r1], &env->regs[r1 + 1]);
-+        fill_buf_random(env, ra, &env->regs[r2], &env->regs[r2 + 1]);
-+        break;
-     default:
-         /* we don't implement any other subfunction yet */
-         g_assert_not_reached();
--- 
-2.35.1
+../src/hw/loongarch/acpi-build.c:416:12: warning: variable 'aml_len'
+set but not used [-Wunused-but-set-variable]
+    size_t aml_len = 0;
+           ^
 
+and we do indeed only ever seem to set and update that variable;
+we never use it.
+
+> +static void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+> +{
+> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
+> +    GArray *table_offsets;
+> +    AcpiFadtData fadt_data;
+> +    unsigned facs, rsdt, fadt, dsdt;
+> +    uint8_t *u;
+> +    size_t aml_len = 0;
+> +    GArray *tables_blob = tables->table_data;
+> +
+> +    init_common_fadt_data(&fadt_data);
+> +
+> +    table_offsets = g_array_new(false, true, sizeof(uint32_t));
+> +    ACPI_BUILD_DPRINTF("init ACPI tables\n");
+> +
+> +    bios_linker_loader_alloc(tables->linker,
+> +                             ACPI_BUILD_TABLE_FILE, tables_blob,
+> +                             64, false);
+> +
+> +    /*
+> +     * FACS is pointed to by FADT.
+> +     * We place it first since it's the only table that has alignment
+> +     * requirements.
+> +     */
+> +    facs = tables_blob->len;
+> +    build_facs(tables_blob);
+> +
+> +    /* DSDT is pointed to by FADT */
+> +    dsdt = tables_blob->len;
+> +    build_dsdt(tables_blob, tables->linker, machine);
+> +
+> +    /*
+> +     * Count the size of the DSDT, we will need it for
+> +     * legacy sizing of ACPI tables.
+> +     */
+> +    aml_len += tables_blob->len - dsdt;
+
+This comment claims we're going to use this value -- is it wrong ?
+
+thanks
+-- PMM
 
