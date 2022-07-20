@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2023557B38A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:12:34 +0200 (CEST)
-Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34AF57B397
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:16:04 +0200 (CEST)
+Received: from localhost ([::1]:39252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE5kv-0006Tm-6o
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58352)
+	id 1oE5oI-0003dB-Qs
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5cN-00089L-D7
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56570)
+ id 1oE5cS-0008KS-GK
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5cL-0001Ov-PI
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:43 -0400
+ id 1oE5cQ-0001R0-R7
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:03:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658307821;
+ s=mimecast20190719; t=1658307826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9NSQaMxFBqsbZB36hr3id0dMLvZuFrBmbbdTHzoh6go=;
- b=P4rBhRPVN2pWhp7WPwbBHu8YagQ1vTuxPE9kVSd1bKouGF5S+hkGz6Qk7R3amtczv4ZF6I
- 1kTJssIERTM6YDn6p4OZnT/iLIjMawZXY7zhy2CB/vHt0osL1WzPG7TDroRLA4G5zx+mvJ
- GThw58aV/h6J1vZkRzX4eQV9WvXYtPQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=56Ayv//+8j9CiDqsn4qkQ9kqfCVczNDbd8/+QS1C7lE=;
+ b=Mhw+OliDcn41Lg7q8I4QB88Oo8s/M3E4jef77ZT4s2FRD4L8wEXwJg3T/LzRwYbxIhtTNH
+ wIsoRw2HMaE3u71Dcu2g/5KyGoQlLyOBWXYJ9ppW3BcV7YOUTeoU2+oPlUWHRLqbwiVk+K
+ 7/Ewufl8PxubKQi/1oI42G8/l2RfQQ4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-41-eqhNYJykOyCtyfUJVI0Ymw-1; Wed, 20 Jul 2022 05:03:40 -0400
-X-MC-Unique: eqhNYJykOyCtyfUJVI0Ymw-1
+ us-mta-373-CHr1GnN1OU-Sj44UiIg-Uw-1; Wed, 20 Jul 2022 05:03:43 -0400
+X-MC-Unique: CHr1GnN1OU-Sj44UiIg-Uw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3DDB1C16B41;
- Wed, 20 Jul 2022 09:03:39 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1DB3858EFE;
+ Wed, 20 Jul 2022 09:03:42 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-110.pek2.redhat.com
  [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 358AE403358;
- Wed, 20 Jul 2022 09:03:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 66B56492C3B;
+ Wed, 20 Jul 2022 09:03:40 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 07/25] vhost: Check for queue full at vhost_svq_add
-Date: Wed, 20 Jul 2022 17:02:55 +0800
-Message-Id: <20220720090313.55169-8-jasowang@redhat.com>
+ Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: [PULL V2 08/25] vhost: Decouple vhost_svq_add from VirtQueueElement
+Date: Wed, 20 Jul 2022 17:02:56 +0800
+Message-Id: <20220720090313.55169-9-jasowang@redhat.com>
 In-Reply-To: <20220720090313.55169-1-jasowang@redhat.com>
 References: <20220720090313.55169-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -84,109 +84,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eugenio Pérez <eperezma@redhat.com>
 
-The series need to expose vhost_svq_add with full functionality,
-including checking for full queue.
+VirtQueueElement comes from the guest, but we're heading SVQ to be able
+to modify the element presented to the device without the guest's
+knowledge.
+
+To do so, make SVQ accept sg buffers directly, instead of using
+VirtQueueElement.
+
+Add vhost_svq_add_element to maintain element convenience.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 59 +++++++++++++++++++++-----------------
- 1 file changed, 33 insertions(+), 26 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.c | 33 ++++++++++++++++++++++-----------
+ 1 file changed, 22 insertions(+), 11 deletions(-)
 
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index e272c33..11302ea 100644
+index 11302ea..e3afa2b 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -233,21 +233,29 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-  * Add an element to a SVQ.
-  *
-  * The caller must check that there is enough slots for the new element. It
-- * takes ownership of the element: In case of failure, it is free and the SVQ
-- * is considered broken.
-+ * takes ownership of the element: In case of failure not ENOSPC, it is free.
-+ *
-+ * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
-  */
--static bool vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-+static int vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
- {
-     unsigned qemu_head;
--    bool ok = vhost_svq_add_split(svq, elem, &qemu_head);
-+    unsigned ndescs = elem->in_num + elem->out_num;
-+    bool ok;
-+
-+    if (unlikely(ndescs > vhost_svq_available_slots(svq))) {
-+        return -ENOSPC;
-+    }
-+
-+    ok = vhost_svq_add_split(svq, elem, &qemu_head);
-     if (unlikely(!ok)) {
-         g_free(elem);
--        return false;
-+        return -EINVAL;
-     }
- 
-     svq->ring_id_maps[qemu_head] = elem;
-     vhost_svq_kick(svq);
--    return true;
-+    return 0;
+@@ -172,30 +172,31 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
  }
  
+ static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
+-                                VirtQueueElement *elem, unsigned *head)
++                                const struct iovec *out_sg, size_t out_num,
++                                const struct iovec *in_sg, size_t in_num,
++                                unsigned *head)
+ {
+     unsigned avail_idx;
+     vring_avail_t *avail = svq->vring.avail;
+     bool ok;
+-    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
++    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(out_num, in_num));
+ 
+     *head = svq->free_head;
+ 
+     /* We need some descriptors here */
+-    if (unlikely(!elem->out_num && !elem->in_num)) {
++    if (unlikely(!out_num && !in_num)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+                       "Guest provided element with no descriptors");
+         return false;
+     }
+ 
+-    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
+-                                     elem->in_num > 0, false);
++    ok = vhost_svq_vring_write_descs(svq, sgs, out_sg, out_num, in_num > 0,
++                                     false);
+     if (unlikely(!ok)) {
+         return false;
+     }
+ 
+-    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
+-                                     true);
++    ok = vhost_svq_vring_write_descs(svq, sgs, in_sg, in_num, false, true);
+     if (unlikely(!ok)) {
+         return false;
+     }
+@@ -237,17 +238,19 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
+  *
+  * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
+  */
+-static int vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
++static int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
++                          size_t out_num, const struct iovec *in_sg,
++                          size_t in_num, VirtQueueElement *elem)
+ {
+     unsigned qemu_head;
+-    unsigned ndescs = elem->in_num + elem->out_num;
++    unsigned ndescs = in_num + out_num;
+     bool ok;
+ 
+     if (unlikely(ndescs > vhost_svq_available_slots(svq))) {
+         return -ENOSPC;
+     }
+ 
+-    ok = vhost_svq_add_split(svq, elem, &qemu_head);
++    ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num, &qemu_head);
+     if (unlikely(!ok)) {
+         g_free(elem);
+         return -EINVAL;
+@@ -258,6 +261,14 @@ static int vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
+     return 0;
+ }
+ 
++/* Convenience wrapper to add a guest's element to SVQ */
++static int vhost_svq_add_element(VhostShadowVirtqueue *svq,
++                                 VirtQueueElement *elem)
++{
++    return vhost_svq_add(svq, elem->out_sg, elem->out_num, elem->in_sg,
++                         elem->in_num, elem);
++}
++
  /**
-@@ -274,7 +282,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
- 
-         while (true) {
-             VirtQueueElement *elem;
--            bool ok;
-+            int r;
- 
-             if (svq->next_guest_avail_elem) {
-                 elem = g_steal_pointer(&svq->next_guest_avail_elem);
-@@ -286,25 +294,24 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
+  * Forward available buffers.
+  *
+@@ -294,7 +305,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
                  break;
              }
  
--            if (elem->out_num + elem->in_num > vhost_svq_available_slots(svq)) {
--                /*
--                 * This condition is possible since a contiguous buffer in GPA
--                 * does not imply a contiguous buffer in qemu's VA
--                 * scatter-gather segments. If that happens, the buffer exposed
--                 * to the device needs to be a chain of descriptors at this
--                 * moment.
--                 *
--                 * SVQ cannot hold more available buffers if we are here:
--                 * queue the current guest descriptor and ignore further kicks
--                 * until some elements are used.
--                 */
--                svq->next_guest_avail_elem = elem;
--                return;
--            }
--
--            ok = vhost_svq_add(svq, elem);
--            if (unlikely(!ok)) {
--                /* VQ is broken, just return and ignore any other kicks */
-+            r = vhost_svq_add(svq, elem);
-+            if (unlikely(r != 0)) {
-+                if (r == -ENOSPC) {
-+                    /*
-+                     * This condition is possible since a contiguous buffer in
-+                     * GPA does not imply a contiguous buffer in qemu's VA
-+                     * scatter-gather segments. If that happens, the buffer
-+                     * exposed to the device needs to be a chain of descriptors
-+                     * at this moment.
-+                     *
-+                     * SVQ cannot hold more available buffers if we are here:
-+                     * queue the current guest descriptor and ignore kicks
-+                     * until some elements are used.
-+                     */
-+                    svq->next_guest_avail_elem = elem;
-+                }
-+
-+                /* VQ is full or broken, just return and ignore kicks */
-                 return;
-             }
-         }
+-            r = vhost_svq_add(svq, elem);
++            r = vhost_svq_add_element(svq, elem);
+             if (unlikely(r != 0)) {
+                 if (r == -ENOSPC) {
+                     /*
 -- 
 2.7.4
 
