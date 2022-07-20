@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C33B357BA38
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:35:04 +0200 (CEST)
-Received: from localhost ([::1]:45888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F59F57B9AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:32:19 +0200 (CEST)
+Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEBj5-0005Mb-SA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:35:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36850)
+	id 1oEBgQ-0001jj-DS
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:32:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEBay-0002RU-UQ
+ id 1oEBay-0002RV-Ub
  for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:41 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33766)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEBaw-0005CM-MK
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:39 -0400
-Received: by mail-wr1-x435.google.com with SMTP id h9so1545702wrm.0
+ id 1oEBaw-0005Bm-U9
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:40 -0400
+Received: by mail-wr1-x434.google.com with SMTP id a5so26589235wrx.12
  for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:26:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=241Cj3nRc+TfIsWqH9QSLVkPEH6LQqDnk//kT3z1Vb4=;
- b=j11TT9/OHYcYAu68D4+6RWK/QS08SMs1gkkboplA4Suw/1+hVNqxeaklBQ2sAXh/Yd
- X98iGuCpZtdONu6ql9BZcyj+iBjQ909zSiiVq3x5Hyzrytcu+2niKe5ssn3/4cmW1bkO
- ZUrINSHoYp4DNBe830QvRJMwwmZSiPFkxOutwWH5efjPyR/pBxi0D0tD81zC85KYS/cH
- PVZrzwczhHo3FMy4O37NgdCDtEn5fe8lJmICwh3wzuKJ8RfMAT7PptGDjj1a2q9ayn9j
- fAnozdbKltm4aV/rIvZqK0Hilfh7Zdq7Q2sKWayJnvUDsY4rohF6RTvbyxLiBhsNfBJX
- JMrQ==
+ bh=j7LZZeIQ/sz4HsnzuYWBDPxebi7JrS8w/X6Vb6vFc3U=;
+ b=ErKAfFUWDaFCW5fEZnWlNYDlVBJeFN6C9yxL139Usz3TFEmR79m/iTMU/Ew93YKLU0
+ fg+7TDSGSfEd5jdUKiP5UQKPrrwMtvBJiOYA0yutTZWzYpRqIjvrJSJ9en9guJgwdR/J
+ CZHj48xwmWuKtXYSbnKCc/L8zfjpUu3K/Xla4FLTl/qm9fkPEEnmLSeC9Q1IqWpIoi8E
+ 0kMS/jpHIhXIdjIQEC2qTOtvu8+ROVMYk7XkU2bJxuiodTn92CE1RSn2Zxge+i4knHn4
+ +PxaYYciY5Wk8dlfJPeUbQGuGXjKMjVJ4PbIWfbg48sQka9WkWxNGVOBXOap6PT9otJs
+ hnpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=241Cj3nRc+TfIsWqH9QSLVkPEH6LQqDnk//kT3z1Vb4=;
- b=69UKGmMZ+Qfo+wQfZ7p7fJTosxNF2CziXY/X6w2knWIBmkou0sV9SiykqgfxmtUnnn
- N8s8uAvwVOZmfVAcsoszKWIn1eE5+RvfN1AZFkSBDMhgrIMqme5/2ajK9qzAmVzZVbUN
- pwrnqEIREvZpuLgYVX4qT4ogDP6KqHC8uqYQHevc/uiX90Ps6L9wakkBTXGeQowDp64W
- CL2XwPOMoLx6q/TYbKlusnjmrXr5/BvYi7e3hPpk5gzh8IgNJDZkL/U5Iw5d1oR4ul55
- A5asqWG1rgteFxz8mFldQFKwJugEfaH518LcqEaiyPbC/nVY1hNMJwlbZAI+97leUIRd
- 7z3w==
-X-Gm-Message-State: AJIora+O5Calu+29KAv4o2QKr607AB9n9xpygVD3xf02jMz6HLpKdjFH
- PTMmwume1ZXcTK/z0p+fIAqWnYOb2W6L5w==
-X-Google-Smtp-Source: AGRyM1sc/SvbPrJu5oARw+1J13cKD3GLs2sHAxJwYov2KgXqnVXTodAnLBH8ViW7ehYukuCJKkHyww==
-X-Received: by 2002:adf:e505:0:b0:21e:5134:c7b6 with SMTP id
- j5-20020adfe505000000b0021e5134c7b6mr211923wrm.159.1658330797373; 
- Wed, 20 Jul 2022 08:26:37 -0700 (PDT)
+ bh=j7LZZeIQ/sz4HsnzuYWBDPxebi7JrS8w/X6Vb6vFc3U=;
+ b=378sgKU2w+AFh7kORiWV+ZsE4pnUVFDSZFaBABqc6r/Wf0cVpXWIiQT1OjucwBtJSV
+ x+CpSGB+/ocoyS/A+B/PybWZOFgix0YKPpTnTRhPjEMcC+KIc+4LUJ0TkHEIDcRYo5BJ
+ W7nqId+bxzOsdTgiwTpewYrrmPZ7TKkSBS00wvRseN+wg+Xk49PfFTBZXZgyJoVcoWrI
+ HMLrQdBsXSYNXYUEtdIRbbv03V1MIxYKAXVn/cOP9xC0vv3SgWJQvLE/EMxsngdpMC+5
+ sIwP2biQkC5Ms43qRcPC6AWbXXv5b7OYw1R23lWJzR262uXCLlKifJj0XQZRWKLPlNFC
+ JDBA==
+X-Gm-Message-State: AJIora+oJF5UWPG0NwrB0gQcPqbJgu4gK+4HRqXEIeJ7WrtYCxYi8tJs
+ rAmE8izKX9XmyZ/jXXQhWDFHuYQVD0e1Cg==
+X-Google-Smtp-Source: AGRyM1tv4fF3W2anDhsF0esR84q7frAqHZFVWPHchclEj97pIi4zEMo9ew1Yroi1M037+lcjqenJ3w==
+X-Received: by 2002:a5d:64c2:0:b0:21e:2e1b:d031 with SMTP id
+ f2-20020a5d64c2000000b0021e2e1bd031mr7421595wri.8.1658330798265; 
+ Wed, 20 Jul 2022 08:26:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- r10-20020a056000014a00b0021d68a504cbsm16395987wrx.94.2022.07.20.08.26.36
+ r10-20020a056000014a00b0021d68a504cbsm16395987wrx.94.2022.07.20.08.26.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 20 Jul 2022 08:26:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
@@ -59,17 +59,16 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 4/5] configure: Drop dead code attempting to use -msmall-data
- on alpha hosts
-Date: Wed, 20 Jul 2022 16:26:30 +0100
-Message-Id: <20220720152631.450903-5-peter.maydell@linaro.org>
+Subject: [PATCH 5/5] configure: Avoid '==' bashism
+Date: Wed, 20 Jul 2022 16:26:31 +0100
+Message-Id: <20220720152631.450903-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220720152631.450903-1-peter.maydell@linaro.org>
 References: <20220720152631.450903-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,48 +91,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In commit 823eb013452e93d we moved the setting of ARCH from configure
-to meson.build, but we accidentally left behind one attempt to use
-$ARCH in configure, which was trying to add -msmall-data to the
-compiler flags on Alpha hosts.  Since ARCH is now never set, the test
-always fails and we never add the flag.
+The '==' operator to test is a bashism; the standard way to copmare
+strings is '='. This causes dash to complain:
 
-There isn't actually any need to use this compiler flag on Alpha:
-the original intent was that it would allow us to simplify our TCG
-codegen on that platform, but we never actually made the TCG changes
-that would rely on -msmall-data.
-
-Drop the effectively-dead code from configure, as we don't need it.
-
-This was spotted by shellcheck:
-
-In ./configure line 2254:
-case "$ARCH" in
-      ^---^ SC2153: Possible misspelling: ARCH may not be assigned, but arch is.
+../../configure: 681: test: linux: unexpected operator
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- configure | 7 -------
- 1 file changed, 7 deletions(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/configure b/configure
-index c05205b6085..d0e9a51462e 100755
+index d0e9a51462e..2c19329d58c 100755
 --- a/configure
 +++ b/configure
-@@ -2251,13 +2251,6 @@ if test "$fortify_source" = "yes" ; then
-   QEMU_CFLAGS="-U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=2 $QEMU_CFLAGS"
- fi
+@@ -678,7 +678,7 @@ werror=""
  
--case "$ARCH" in
--alpha)
--  # Ensure there's only a single GP
--  QEMU_CFLAGS="-msmall-data $QEMU_CFLAGS"
--;;
--esac
--
- if test "$have_asan" = "yes"; then
-   QEMU_CFLAGS="-fsanitize=address $QEMU_CFLAGS"
-   QEMU_LDFLAGS="-fsanitize=address $QEMU_LDFLAGS"
+ meson_option_build_array() {
+   printf '['
+-  (if test "$targetos" == windows; then
++  (if test "$targetos" = windows; then
+     IFS=\;
+   else
+     IFS=:
 -- 
 2.25.1
 
