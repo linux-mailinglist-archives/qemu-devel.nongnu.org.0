@@ -2,95 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AAE57BAF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:58:51 +0200 (CEST)
-Received: from localhost ([::1]:42770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA6A57BB19
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:08:39 +0200 (CEST)
+Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEC66-0007DH-2L
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:58:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1oECFa-0007Ra-1K
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEC4k-0005pc-EJ
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:57:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51647)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEC4h-0002nI-0m
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:57:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658332641;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qITKOQm5E2KhzTf7JhIxkz4CH6e8Ws8N67riv+5muDs=;
- b=WL53fuY/q+5GiyA0cfDzZdUciiIszgaDcw/47wQ8vPT97oDCgy03ihOO0bzADK+VWoS/MM
- wgGnGpNpUfgdglxcsIPe4MTJZnpAB/HRJbdrk9m8JlYuP7BCbaZJB5TouOwOvtNhOZBXi7
- OSvlaEtTxYkzNYGVzsSZoiqAlf/0qlU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-517-JQMj8K9VPKKNuB64ElYKjw-1; Wed, 20 Jul 2022 11:57:18 -0400
-X-MC-Unique: JQMj8K9VPKKNuB64ElYKjw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k16-20020a7bc310000000b0038e6cf00439so969368wmj.0
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:57:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=qITKOQm5E2KhzTf7JhIxkz4CH6e8Ws8N67riv+5muDs=;
- b=DNsDAgxbeUUdHKfvVLs8smMhSfAN5ZXU7RuHwwlfSUtGu34c6nMV2QYYIoJnqKQVhX
- zMsFKjbA3nkFBiCGjobGiQ5Ygbe3DksCWofz/DSVLZOofPD2n3DA7z4HBGz9ru1lLj3Y
- /FafGDyk9Fx175w9IrTiSFX5EGhLibBNhnCB1jH1AihjDXEpXSt2MLi0Qzqz5WNaGY2i
- U4w/5C7rjUqrjDZfznn11Y8er40Cm7zY/zbkdTu5gowpgTiaKY8iZ/IHWtlG4IoJmZ0f
- CAA+Ehdq1aUjMqFE3DI2eURwGvPfEveHO/YKsDVBI8EfAAuTs9PMvnj+fWz2kttt+UEv
- GZYA==
-X-Gm-Message-State: AJIora+Sjhb+ZTG4EG/vsHa3q8Z3WYH7HuNTueTIS41hhWq+sml90Rax
- nqxjSTg2wkTiuyITRZkDC0ePja4Oh5aplDcblLkVmIWOZiDSkH1m9v+Xo7ZEpDXWNYgBLcid9v4
- 0gPAbdB/VhaV40vU=
-X-Received: by 2002:a05:600c:1c0f:b0:3a3:188b:cb47 with SMTP id
- j15-20020a05600c1c0f00b003a3188bcb47mr4474834wms.45.1658332637483; 
- Wed, 20 Jul 2022 08:57:17 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sfGInLWeKxwatT2Y4SjgDXjOEMEQoT0W4eil+xCwo1T7Sq7PgYVzQqQc4LwIg3TESNr0g05Q==
-X-Received: by 2002:a05:600c:1c0f:b0:3a3:188b:cb47 with SMTP id
- j15-20020a05600c1c0f00b003a3188bcb47mr4474814wms.45.1658332637246; 
- Wed, 20 Jul 2022 08:57:17 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
- [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
- n21-20020a05600c4f9500b003a2f2bb72d5sm4321808wmq.45.2022.07.20.08.57.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 08:57:16 -0700 (PDT)
-Message-ID: <6a172a8a-af34-8af7-f516-d79b09db3ac0@redhat.com>
-Date: Wed, 20 Jul 2022 17:57:15 +0200
+ (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oEC7v-0007pC-8r; Wed, 20 Jul 2022 12:00:43 -0400
+Received: from [200.168.210.66] (port=53431 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <victor.colombo@eldorado.org.br>)
+ id 1oEC7t-0003Mm-92; Wed, 20 Jul 2022 12:00:43 -0400
+Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
+ secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
+ Wed, 20 Jul 2022 12:59:30 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by p9ibm (Postfix) with ESMTPS id 2977780012C;
+ Wed, 20 Jul 2022 12:59:30 -0300 (-03)
+Message-ID: <97df331d-7209-4c39-d554-ab332e1cc460@eldorado.org.br>
+Date: Wed, 20 Jul 2022 12:59:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 3/5] configure: Don't use bash-specific string-replacement
- syntax
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] target/ppc: fix unreachable code in do_ldst_quad()
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eric Blake <eblake@redhat.com>
-References: <20220720152631.450903-1-peter.maydell@linaro.org>
- <20220720152631.450903-4-peter.maydell@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220720152631.450903-4-peter.maydell@linaro.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
+References: <20220720135723.1391598-1-danielhb413@gmail.com>
+From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
+In-Reply-To: <20220720135723.1391598-1-danielhb413@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: base64
+X-OriginalArrivalTime: 20 Jul 2022 15:59:30.0737 (UTC)
+ FILETIME=[B26F9210:01D89C51]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
+Received-SPF: pass client-ip=200.168.210.66;
+ envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -4
+X-Spam_score: -0.5
+X-Spam_bar: /
+X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,36 +64,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/07/2022 17.26, Peter Maydell wrote:
-> The variable string-replacement syntax ${var/old/new} is a bashism
-> (though it is also supported by some other shells), and for instance
-> does not work with the NetBSD /bin/sh, which complains:
->   ../src/configure: 687: Syntax error: Bad substitution
-> 
-> Replace it with a more portable sed-based approach, similar to
-> what we already do in quote_sh().
-> 
-> Note that shellcheck also diagnoses this:
-> 
-> In ./configure line 687:
->      e=${e/'\'/'\\'}
->        ^-----------^ SC2039: In POSIX sh, string replacement is undefined.
->             ^-- SC1003: Want to escape a single quote? echo 'This is how it'\''s done'.
->                  ^-- SC1003: Want to escape a single quote? echo 'This is how it'\''s done'.
-> 
-> 
-> In ./configure line 688:
->      e=${e/\"/'\"'}
->        ^----------^ SC2039: In POSIX sh, string replacement is undefined.
-> 
-> Fixes: 8154f5e64b0cf ("meson: Prefix each element of firmware path")
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   configure | 7 ++++---
->   1 file changed, 4 insertions(+), 3 deletions(-)
-
-Thanks, this fixes "make vm-build-netbsd" for me!
-
-Tested-by: Thomas Huth <thuth@redhat.com>
-
+T24gMjAvMDcvMjAyMiAxMDo1NywgRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgd3JvdGU6DQo+
+IENvdmVyaXR5IHJlcG9ydHMgdGhhdCBjb21taXQgZmMzNGU4MWFjZDUxICgidGFyZ2V0L3Bw
+YzogYWRkIG1hY3JvcyB0bw0KPiBjaGVjayBwcml2aWxlZ2UgbGV2ZWwiKSB0dXJuZWQgdGhl
+IGZvbGxvd2luZyBjb2RlIHVucmVhY2hhYmxlOg0KPiANCj4gaWYgKCFwcmVmaXhlZCAmJiAh
+KGN0eC0+aW5zbnNfZmxhZ3MyICYgUFBDMl9MU1FfSVNBMjA3KSkgew0KPiAgICAgIC8qIGxx
+IGFuZCBzdHEgd2VyZSBwcml2aWxlZ2VkIHByaW9yIHRvIFYuIDIuMDcgKi8NCj4gICAgICBS
+RVFVSVJFX1NWKGN0eCk7DQo+IA0KPj4+PiAgICAgIENJRCAxNDkwNzU3OiAgQ29udHJvbCBm
+bG93IGlzc3VlcyAgKFVOUkVBQ0hBQkxFKQ0KPj4+PiAgICAgIFRoaXMgY29kZSBjYW5ub3Qg
+YmUgcmVhY2hlZDogImlmIChjdHgtPmxlX21vZGUpIHsNCj4gICAgICBpZiAoY3R4LT5sZV9t
+b2RlKSB7DQo+ICAgICAgICAgIGdlbl9hbGlnbl9ub19sZShjdHgpOw0KPiAgICAgICAgICBy
+ZXR1cm4gdHJ1ZTsNCj4gICAgICB9DQo+IH0NCj4gDQo+IFRoaXMgaGFwcGVucyBiZWNhdXNl
+IHRoZSBtYWNybyBSRVFVSVJFX1NWKCksIGluIENPTkZJR19VU0VSX01PREUsIHdpbGwNCj4g
+YWx3YXlzIHJlc3VsdCBpbiBhICdyZXR1cm4gdHJ1ZScgc3RhdGVtZW50Lg0KPiANCj4gRml4
+IGl0IGJ5IHVzaW5nICIjaWYgIWRlZmluZWQoQ09ORklHX1VTRVJfT05MWSkiIHRvIGZvbGQg
+dGhlIGNvZGUgdGhhdA0KPiBzaG91bGRuJ3QgYmUgdGhlcmUgaWYgd2UncmUgcnVubmluZyBp
+biBhIG5vbi1wcml2aWxlZ2VkIHN0YXRlLiBUaGlzIGlzDQo+IGFsc28gaG93IHRoZSBSRVFV
+SVJFX1NWKCkgbWFjcm8gaXMgYmVpbmcgdXNlZCBpbg0KPiBzdG9yYWdlLWN0cmwtaW1wbC5j
+LmluYy4NCj4gDQo+IEZpeGVzOiBDb3Zlcml0eSBDSUQgMTQ5MDc1Nw0KPiBGaXhlczogZmMz
+NGU4MWFjZDUxICgidGFyZ2V0L3BwYzogYWRkIG1hY3JvcyB0byBjaGVjayBwcml2aWxlZ2Ug
+bGV2ZWwiKQ0KPiBDYzogTWF0aGV1cyBGZXJzdCA8bWF0aGV1cy5mZXJzdEBlbGRvcmFkby5v
+cmcuYnI+DQo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBIZW5yaXF1ZSBCYXJib3phIDxkYW5p
+ZWxoYjQxM0BnbWFpbC5jb20+DQo+IC0tLQ0KPiAgIHRhcmdldC9wcGMvdHJhbnNsYXRlL2Zp
+eGVkcG9pbnQtaW1wbC5jLmluYyB8IDQgKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
+c2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL3RyYW5zbGF0ZS9m
+aXhlZHBvaW50LWltcGwuYy5pbmMgYi90YXJnZXQvcHBjL3RyYW5zbGF0ZS9maXhlZHBvaW50
+LWltcGwuYy5pbmMNCj4gaW5kZXggZGIxNGQzYmViYy4uNGEzMmZhYzRmMyAxMDA2NDQNCj4g
+LS0tIGEvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZml4ZWRwb2ludC1pbXBsLmMuaW5jDQo+ICsr
+KyBiL3RhcmdldC9wcGMvdHJhbnNsYXRlL2ZpeGVkcG9pbnQtaW1wbC5jLmluYw0KPiBAQCAt
+ODIsMTAgKzgyLDE0IEBAIHN0YXRpYyBib29sIGRvX2xkc3RfcXVhZChEaXNhc0NvbnRleHQg
+KmN0eCwgYXJnX0QgKmEsIGJvb2wgc3RvcmUsIGJvb2wgcHJlZml4ZWQpDQo+ICAgICAgICAg
+ICAvKiBscSBhbmQgc3RxIHdlcmUgcHJpdmlsZWdlZCBwcmlvciB0byBWLiAyLjA3ICovDQo+
+ICAgICAgICAgICBSRVFVSVJFX1NWKGN0eCk7DQo+IA0KPiArI2lmICFkZWZpbmVkKENPTkZJ
+R19VU0VSX09OTFkpDQo+ICAgICAgICAgICBpZiAoY3R4LT5sZV9tb2RlKSB7DQo+ICAgICAg
+ICAgICAgICAgZ2VuX2FsaWduX25vX2xlKGN0eCk7DQo+ICAgICAgICAgICAgICAgcmV0dXJu
+IHRydWU7DQo+ICAgICAgICAgICB9DQo+ICsjZWxzZQ0KPiArICAgIHFlbXVfYnVpbGRfbm90
+X3JlYWNoZWQoKTsNCg0Kbml0OiBJIHRoaW5rIHRoZSBpbmRlbnRhdGlvbiBoZXJlIGlzIG9m
+ZiBieSAxIGxldmVsIChtaXNzaW5nIDQgc3BhY2VzKT8NCg0KPiArI2VuZGlmDQo+ICAgICAg
+IH0NCj4gDQo+ICAgICAgIGlmICghc3RvcmUgJiYgdW5saWtlbHkoYS0+cmEgPT0gYS0+cnQp
+KSB7DQo+IC0tDQo+IDIuMzYuMQ0KPiANCj4gDQpSZXZpZXdlZC1ieTogVsOtY3RvciBDb2xv
+bWJvIDx2aWN0b3IuY29sb21ib0BlbGRvcmFkby5vcmcuYnI+DQoNCi0tIA0KVsOtY3RvciBD
+b3JhIENvbG9tYm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMgRUxET1JBRE8NCkF2aXNvIExl
+Z2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWlt
+ZXIuaHRtbD4NCg==
 
