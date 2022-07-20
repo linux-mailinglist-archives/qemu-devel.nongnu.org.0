@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3917457B551
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:23:44 +0200 (CEST)
-Received: from localhost ([::1]:36840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A2457B5AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:37:25 +0200 (CEST)
+Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE7nr-0003Ok-Bk
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:23:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58560)
+	id 1oE815-0001bc-V6
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:37:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7k2-0004BH-2D
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42488)
+ id 1oE7kK-0004o0-Kn
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7k0-00008E-4U
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:45 -0400
+ id 1oE7kG-0000Cn-2R
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658315983;
+ s=mimecast20190719; t=1658315999;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6JSm6iPU4BWC9XfYMizhbu0JItXu66AtE2Eg/Y7YpyE=;
- b=hVCS+oVZn5TKH3eVZhbu9cw8UK1+ACF5S+mWCsfdk9RexC0b/OMCKatB6QRZeUjjE1Fdkx
- M/lEoqOtKzUHK7/1dNaSShwL5JJ+GycH4OeNnkT4br/oAkQZwRNAjveYjwGYjyA+h3sIBj
- 4v1d4/+FIKIumpTWv9ZG1DPgdQwFjyE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=m/f8QL4E3dsHsVYwKyYpzIbZN83Oa7b/hCiQbtuC7g4=;
+ b=PK8D2KS/opTEhH48cJVFy97Bd+ENHQMvdUwV6KRSxWnIKsC5iVhreTvjuync3OBuWExdPh
+ w1e7mMzyrId1umuKzmG0C/2Eva/Tx7aWWyolFrdB+y3xxK01KWN6DNpRdsc2Jrp0f2r7M/
+ xiQ9P7OPWFsDKEYiWk/du1bhu7ZNTfE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-616-QAfwse_RPqqdZ8weBfKz2w-1; Wed, 20 Jul 2022 07:19:42 -0400
-X-MC-Unique: QAfwse_RPqqdZ8weBfKz2w-1
+ us-mta-658-2HqzFyZhOkWTfC41BTzlRQ-1; Wed, 20 Jul 2022 07:19:43 -0400
+X-MC-Unique: 2HqzFyZhOkWTfC41BTzlRQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3DAC43C11724;
- Wed, 20 Jul 2022 11:19:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D67B801231;
+ Wed, 20 Jul 2022 11:19:43 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45B6B2166B26;
- Wed, 20 Jul 2022 11:19:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 708962166B26;
+ Wed, 20 Jul 2022 11:19:42 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 08/30] tests: Add dirty page rate limit test
-Date: Wed, 20 Jul 2022 12:19:04 +0100
-Message-Id: <20220720111926.107055-9-dgilbert@redhat.com>
+Subject: [PULL 09/30] multifd: Copy pages before compressing them with zlib
+Date: Wed, 20 Jul 2022 12:19:05 +0100
+Message-Id: <20220720111926.107055-10-dgilbert@redhat.com>
 In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
 References: <20220720111926.107055-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
@@ -80,358 +80,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-Add dirty page rate limit test if kernel support dirty ring,
+zlib_send_prepare() compresses pages of a running VM. zlib does not
+make any thread-safety guarantees with respect to changing deflate()
+input concurrently with deflate() [1].
 
-The following qmp commands are covered by this test case:
-"calc-dirty-rate", "query-dirty-rate", "set-vcpu-dirty-limit",
-"cancel-vcpu-dirty-limit" and "query-vcpu-dirty-limit".
+One can observe problems due to this with the IBM zEnterprise Data
+Compression accelerator capable zlib [2]. When the hardware
+acceleration is enabled, migration/multifd/tcp/plain/zlib test fails
+intermittently [3] due to sliding window corruption. The accelerator's
+architecture explicitly discourages concurrent accesses [4]:
 
-Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
-Acked-by: Peter Xu <peterx@redhat.com>
-Message-Id: <eed5b847a6ef0a9c02a36383dbdd7db367dd1e7e.1656177590.git.huangy81@chinatelecom.cn>
+    Page 26-57, "Other Conditions":
+
+    As observed by this CPU, other CPUs, and channel
+    programs, references to the parameter block, first,
+    second, and third operands may be multiple-access
+    references, accesses to these storage locations are
+    not necessarily block-concurrent, and the sequence
+    of these accesses or references is undefined.
+
+Mark Adler pointed out that vanilla zlib performs double fetches under
+certain circumstances as well [5], therefore we need to copy data
+before passing it to deflate().
+
+[1] https://zlib.net/manual.html
+[2] https://github.com/madler/zlib/pull/410
+[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
+[4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
+[5] https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00889.html
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Message-Id: <20220705203559.2960949-1-iii@linux.ibm.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tests/qtest/migration-helpers.c |  22 +++
- tests/qtest/migration-helpers.h |   2 +
- tests/qtest/migration-test.c    | 256 ++++++++++++++++++++++++++++++++
- 3 files changed, 280 insertions(+)
+ migration/multifd-zlib.c | 38 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 8 deletions(-)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index e81e831c85..c6fbeb3974 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -83,6 +83,28 @@ QDict *wait_command(QTestState *who, const char *command, ...)
-     return ret;
- }
+diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
+index 3a7ae44485..18213a9513 100644
+--- a/migration/multifd-zlib.c
++++ b/migration/multifd-zlib.c
+@@ -27,6 +27,8 @@ struct zlib_data {
+     uint8_t *zbuff;
+     /* size of compressed buffer */
+     uint32_t zbuff_len;
++    /* uncompressed buffer of size qemu_target_page_size() */
++    uint8_t *buf;
+ };
  
-+/*
-+ * Execute the qmp command only
-+ */
-+QDict *qmp_command(QTestState *who, const char *command, ...)
-+{
-+    va_list ap;
-+    QDict *resp, *ret;
-+
-+    va_start(ap, command);
-+    resp = qtest_vqmp(who, command, ap);
-+    va_end(ap);
-+
-+    g_assert(!qdict_haskey(resp, "error"));
-+    g_assert(qdict_haskey(resp, "return"));
-+
-+    ret = qdict_get_qdict(resp, "return");
-+    qobject_ref(ret);
-+    qobject_unref(resp);
-+
-+    return ret;
-+}
-+
- /*
-  * Send QMP command "migrate".
-  * Arguments are built from @fmt... (formatted like
-diff --git a/tests/qtest/migration-helpers.h b/tests/qtest/migration-helpers.h
-index 78587c2b82..59561898d0 100644
---- a/tests/qtest/migration-helpers.h
-+++ b/tests/qtest/migration-helpers.h
-@@ -23,6 +23,8 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...);
- G_GNUC_PRINTF(2, 3)
- QDict *wait_command(QTestState *who, const char *command, ...);
- 
-+QDict *qmp_command(QTestState *who, const char *command, ...);
-+
- G_GNUC_PRINTF(3, 4)
- void migrate_qmp(QTestState *who, const char *uri, const char *fmt, ...);
- 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 9e64125f02..db4dcc5b31 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -24,6 +24,7 @@
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/qobject-output-visitor.h"
- #include "crypto/tlscredspsk.h"
-+#include "qapi/qmp/qlist.h"
- 
- #include "migration-helpers.h"
- #include "tests/migration/migration-test.h"
-@@ -46,6 +47,12 @@ unsigned start_address;
- unsigned end_address;
- static bool uffd_feature_thread_id;
- 
-+/*
-+ * Dirtylimit stop working if dirty page rate error
-+ * value less than DIRTYLIMIT_TOLERANCE_RANGE
-+ */
-+#define DIRTYLIMIT_TOLERANCE_RANGE  25  /* MB/s */
-+
- #if defined(__linux__)
- #include <sys/syscall.h>
- #include <sys/vfs.h>
-@@ -2059,6 +2066,253 @@ static void test_multifd_tcp_cancel(void)
-     test_migrate_end(from, to2, true);
- }
- 
-+static void calc_dirty_rate(QTestState *who, uint64_t calc_time)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'calc-dirty-rate',"
-+                  "'arguments': { "
-+                  "'calc-time': %ld,"
-+                  "'mode': 'dirty-ring' }}",
-+                  calc_time));
-+}
-+
-+static QDict *query_dirty_rate(QTestState *who)
-+{
-+    return qmp_command(who, "{ 'execute': 'query-dirty-rate' }");
-+}
-+
-+static void dirtylimit_set_all(QTestState *who, uint64_t dirtyrate)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'set-vcpu-dirty-limit',"
-+                  "'arguments': { "
-+                  "'dirty-rate': %ld } }",
-+                  dirtyrate));
-+}
-+
-+static void cancel_vcpu_dirty_limit(QTestState *who)
-+{
-+    qobject_unref(qmp_command(who,
-+                  "{ 'execute': 'cancel-vcpu-dirty-limit' }"));
-+}
-+
-+static QDict *query_vcpu_dirty_limit(QTestState *who)
-+{
-+    QDict *rsp;
-+
-+    rsp = qtest_qmp(who, "{ 'execute': 'query-vcpu-dirty-limit' }");
-+    g_assert(!qdict_haskey(rsp, "error"));
-+    g_assert(qdict_haskey(rsp, "return"));
-+
-+    return rsp;
-+}
-+
-+static bool calc_dirtyrate_ready(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    gchar *status;
-+
-+    rsp_return = query_dirty_rate(who);
-+    g_assert(rsp_return);
-+
-+    status = g_strdup(qdict_get_str(rsp_return, "status"));
-+    g_assert(status);
-+
-+    return g_strcmp0(status, "measuring");
-+}
-+
-+static void wait_for_calc_dirtyrate_complete(QTestState *who,
-+                                             int64_t time_s)
-+{
-+    int max_try_count = 10000;
-+    usleep(time_s * 1000000);
-+
-+    while (!calc_dirtyrate_ready(who) && max_try_count--) {
-+        usleep(1000);
-+    }
-+
-+    /*
-+     * Set the timeout with 10 s(max_try_count * 1000us),
-+     * if dirtyrate measurement not complete, fail test.
-+     */
-+    g_assert_cmpint(max_try_count, !=, 0);
-+}
-+
-+static int64_t get_dirty_rate(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    gchar *status;
-+    QList *rates;
-+    const QListEntry *entry;
-+    QDict *rate;
-+    int64_t dirtyrate;
-+
-+    rsp_return = query_dirty_rate(who);
-+    g_assert(rsp_return);
-+
-+    status = g_strdup(qdict_get_str(rsp_return, "status"));
-+    g_assert(status);
-+    g_assert_cmpstr(status, ==, "measured");
-+
-+    rates = qdict_get_qlist(rsp_return, "vcpu-dirty-rate");
-+    g_assert(rates && !qlist_empty(rates));
-+
-+    entry = qlist_first(rates);
-+    g_assert(entry);
-+
-+    rate = qobject_to(QDict, qlist_entry_obj(entry));
-+    g_assert(rate);
-+
-+    dirtyrate = qdict_get_try_int(rate, "dirty-rate", -1);
-+
-+    qobject_unref(rsp_return);
-+    return dirtyrate;
-+}
-+
-+static int64_t get_limit_rate(QTestState *who)
-+{
-+    QDict *rsp_return;
-+    QList *rates;
-+    const QListEntry *entry;
-+    QDict *rate;
-+    int64_t dirtyrate;
-+
-+    rsp_return = query_vcpu_dirty_limit(who);
-+    g_assert(rsp_return);
-+
-+    rates = qdict_get_qlist(rsp_return, "return");
-+    g_assert(rates && !qlist_empty(rates));
-+
-+    entry = qlist_first(rates);
-+    g_assert(entry);
-+
-+    rate = qobject_to(QDict, qlist_entry_obj(entry));
-+    g_assert(rate);
-+
-+    dirtyrate = qdict_get_try_int(rate, "limit-rate", -1);
-+
-+    qobject_unref(rsp_return);
-+    return dirtyrate;
-+}
-+
-+static QTestState *dirtylimit_start_vm(void)
-+{
-+    QTestState *vm = NULL;
-+    g_autofree gchar *cmd = NULL;
-+    const char *arch = qtest_get_arch();
-+    g_autofree char *bootpath = NULL;
-+
-+    assert((strcmp(arch, "x86_64") == 0));
-+    bootpath = g_strdup_printf("%s/bootsect", tmpfs);
-+    assert(sizeof(x86_bootsect) == 512);
-+    init_bootfile(bootpath, x86_bootsect, sizeof(x86_bootsect));
-+
-+    cmd = g_strdup_printf("-accel kvm,dirty-ring-size=4096 "
-+                          "-name dirtylimit-test,debug-threads=on "
-+                          "-m 150M -smp 1 "
-+                          "-serial file:%s/vm_serial "
-+                          "-drive file=%s,format=raw ",
-+                          tmpfs, bootpath);
-+
-+    vm = qtest_init(cmd);
-+    return vm;
-+}
-+
-+static void dirtylimit_stop_vm(QTestState *vm)
-+{
-+    qtest_quit(vm);
-+    cleanup("bootsect");
-+    cleanup("vm_serial");
-+}
-+
-+static void test_vcpu_dirty_limit(void)
-+{
-+    QTestState *vm;
-+    int64_t origin_rate;
-+    int64_t quota_rate;
-+    int64_t rate ;
-+    int max_try_count = 20;
-+    int hit = 0;
-+
-+    /* Start vm for vcpu dirtylimit test */
-+    vm = dirtylimit_start_vm();
-+
-+    /* Wait for the first serial output from the vm*/
-+    wait_for_serial("vm_serial");
-+
-+    /* Do dirtyrate measurement with calc time equals 1s */
-+    calc_dirty_rate(vm, 1);
-+
-+    /* Sleep calc time and wait for calc dirtyrate complete */
-+    wait_for_calc_dirtyrate_complete(vm, 1);
-+
-+    /* Query original dirty page rate */
-+    origin_rate = get_dirty_rate(vm);
-+
-+    /* VM booted from bootsect should dirty memory steadily */
-+    assert(origin_rate != 0);
-+
-+    /* Setup quota dirty page rate at half of origin */
-+    quota_rate = origin_rate / 2;
-+
-+    /* Set dirtylimit */
-+    dirtylimit_set_all(vm, quota_rate);
-+
-+    /*
-+     * Check if set-vcpu-dirty-limit and query-vcpu-dirty-limit
-+     * works literally
-+     */
-+    g_assert_cmpint(quota_rate, ==, get_limit_rate(vm));
-+
-+    /* Sleep a bit to check if it take effect */
-+    usleep(2000000);
-+
-+    /*
-+     * Check if dirtylimit take effect realistically, set the
-+     * timeout with 20 s(max_try_count * 1s), if dirtylimit
-+     * doesn't take effect, fail test.
-+     */
-+    while (--max_try_count) {
-+        calc_dirty_rate(vm, 1);
-+        wait_for_calc_dirtyrate_complete(vm, 1);
-+        rate = get_dirty_rate(vm);
-+
-+        /*
-+         * Assume hitting if current rate is less
-+         * than quota rate (within accepting error)
-+         */
-+        if (rate < (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
-+            hit = 1;
-+            break;
-+        }
-+    }
-+
-+    g_assert_cmpint(hit, ==, 1);
-+
-+    hit = 0;
-+    max_try_count = 20;
-+
-+    /* Check if dirtylimit cancellation take effect */
-+    cancel_vcpu_dirty_limit(vm);
-+    while (--max_try_count) {
-+        calc_dirty_rate(vm, 1);
-+        wait_for_calc_dirtyrate_complete(vm, 1);
-+        rate = get_dirty_rate(vm);
-+
-+        /*
-+         * Assume dirtylimit be canceled if current rate is
-+         * greater than quota rate (within accepting error)
-+         */
-+        if (rate > (quota_rate + DIRTYLIMIT_TOLERANCE_RANGE)) {
-+            hit = 1;
-+            break;
-+        }
-+    }
-+
-+    g_assert_cmpint(hit, ==, 1);
-+    dirtylimit_stop_vm(vm);
-+}
-+
- static bool kvm_dirty_ring_supported(void)
+ /* Multifd zlib compression */
+@@ -45,26 +47,38 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
  {
- #if defined(__linux__) && defined(HOST_X86_64)
-@@ -2204,6 +2458,8 @@ int main(int argc, char **argv)
-     if (kvm_dirty_ring_supported()) {
-         qtest_add_func("/migration/dirty_ring",
-                        test_precopy_unix_dirty_ring);
-+        qtest_add_func("/migration/vcpu_dirty_limit",
-+                       test_vcpu_dirty_limit);
-     }
+     struct zlib_data *z = g_new0(struct zlib_data, 1);
+     z_stream *zs = &z->zs;
++    const char *err_msg;
  
-     ret = g_test_run();
+     zs->zalloc = Z_NULL;
+     zs->zfree = Z_NULL;
+     zs->opaque = Z_NULL;
+     if (deflateInit(zs, migrate_multifd_zlib_level()) != Z_OK) {
+-        g_free(z);
+-        error_setg(errp, "multifd %u: deflate init failed", p->id);
+-        return -1;
++        err_msg = "deflate init failed";
++        goto err_free_z;
+     }
+     /* This is the maxium size of the compressed buffer */
+     z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
+     z->zbuff = g_try_malloc(z->zbuff_len);
+     if (!z->zbuff) {
+-        deflateEnd(&z->zs);
+-        g_free(z);
+-        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
+-        return -1;
++        err_msg = "out of memory for zbuff";
++        goto err_deflate_end;
++    }
++    z->buf = g_try_malloc(qemu_target_page_size());
++    if (!z->buf) {
++        err_msg = "out of memory for buf";
++        goto err_free_zbuff;
+     }
+     p->data = z;
+     return 0;
++
++err_free_zbuff:
++    g_free(z->zbuff);
++err_deflate_end:
++    deflateEnd(&z->zs);
++err_free_z:
++    g_free(z);
++    error_setg(errp, "multifd %u: %s", p->id, err_msg);
++    return -1;
+ }
+ 
+ /**
+@@ -82,6 +96,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
+     deflateEnd(&z->zs);
+     g_free(z->zbuff);
+     z->zbuff = NULL;
++    g_free(z->buf);
++    z->buf = NULL;
+     g_free(p->data);
+     p->data = NULL;
+ }
+@@ -114,8 +130,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
+             flush = Z_SYNC_FLUSH;
+         }
+ 
++        /*
++         * Since the VM might be running, the page may be changing concurrently
++         * with compression. zlib does not guarantee that this is safe,
++         * therefore copy the page before calling deflate().
++         */
++        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
+         zs->avail_in = page_size;
+-        zs->next_in = p->pages->block->host + p->normal[i];
++        zs->next_in = z->buf;
+ 
+         zs->avail_out = available;
+         zs->next_out = z->zbuff + out_size;
 -- 
 2.36.1
 
