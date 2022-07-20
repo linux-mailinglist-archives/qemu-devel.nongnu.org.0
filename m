@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B728457AF90
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 05:42:36 +0200 (CEST)
-Received: from localhost ([::1]:49098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E10B057AFAA
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 05:53:40 +0200 (CEST)
+Received: from localhost ([::1]:51610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE0bb-0005zr-Ap
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 23:42:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
+	id 1oE0mJ-000076-I7
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jul 2022 23:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE0Zt-0004cv-Hu
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:40:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20339)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE0Zp-0001QN-Gp
- for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:40:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658288443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GV83zRtfV/ZnC+ZdITl5mzJCfuVegLmHgNrfbDRzAhY=;
- b=E9Z/g07Kgy9nZ2bbRWgfnGDvtryJHyuPbeC1156RREjAzkWPfK/ezA1YOZIJB8vykEKFhU
- 8wO14W6/aP7F1PbU+viko97jr2DoF4r8erUFiFiIlYYfEeBJ+QDmpaep1EaRDvVHKbs8B5
- Tw4f5zhJLBIju1394VCsGEZn32s7zvw=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-121-P9WxeH8kPN2zGyXoI_zMGw-1; Tue, 19 Jul 2022 23:40:42 -0400
-X-MC-Unique: P9WxeH8kPN2zGyXoI_zMGw-1
-Received: by mail-lj1-f199.google.com with SMTP id
- l14-20020a2e99ce000000b0025dd695437fso72571ljj.21
- for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 20:40:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1oE0lF-00075x-Cm
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:52:33 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:41809)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1oE0lD-0003S5-6M
+ for qemu-devel@nongnu.org; Tue, 19 Jul 2022 23:52:33 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ x23-20020a05600c179700b003a30e3e7989so492836wmo.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 20:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WgM1J7pE9ac9NuSRBe024EFBZvZM2e7cPzlPoas81IU=;
+ b=FbjNJdsT+bncF0wDpze/Nbtt1DhRZL+VMRUkyX9/TEjAIi5xmEMOHe1gg7/gbD4BuO
+ cxrjb30ew7N7RP1ijQhJvoA7jTyAT8qv0u0Ewbm9inCBROxUG37nIRlnp4FsQ8ffv13U
+ 2qyefwj505Cc15wPxgqaVKdXOQr/eAFHsdnnktBuLxU6MeKixIeF+AiEi2d/0BujLr5y
+ 4Pkw1qoQ0kGggxAAL0IAPsIFRz3q9UgZH2CJDWBxyH94BRirixX9dBby+o7wDhaYXbEo
+ wdvt8pvSmTAA0zNFEKLB3NQRyKKNRoJJFTMk5ZwnuBUOy5tEBiXienxuNwWQuQiWFFNs
+ +pqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GV83zRtfV/ZnC+ZdITl5mzJCfuVegLmHgNrfbDRzAhY=;
- b=Xr8fgr19fby6q5Xwjf5s6H58QChw6M9t5m+kTQhtbVIVArfJrFVCJZculq6ygOeRDV
- ER6FJFBBQnZeYlahuUxwjkT0VQ1teLcajGaUCZ9z+6mynmFHd1v70Dv9fIKdvICEa94B
- 9aEF1TjAhkORWUdXVTrvhxRFyjPc1IT2JV8voGZdHNrJcakk1NWdHlpac+bQEo9ehAuc
- LCIxuui28obq7PoQqUay0YyxSbdUwp3VvKO/9BgADkgfpzyzgWXBqhOeh5cTsAs/ggkh
- fXlqa8SKfBHSHvhn5317DcmpsvQYvYgojZQUvVr6jwfbSY5Y1jBjnW39f3fMi3LAaZWy
- LNbw==
-X-Gm-Message-State: AJIora+0KPKM+djJ1VZPCV7ToDsD9B12k538XnzZcFRktZZV8eGpbih3
- D6AqrHnekEwFZRG/8IW+EbZbAmi1219S2yO4iN4HyGAp339zL381zdASzxsjM0XfXDhHKk54YqV
- XMOX8mmTeM/N30nySJuPn5TafyHcxtUc=
-X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
- e23-20020a2e9e17000000b0025d76544c6bmr16462660ljk.130.1658288440435; 
- Tue, 19 Jul 2022 20:40:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s4+TY6DxIpzdZ+eFOvhIBcRTWMuDbl3F77x3+B/VkB99PlVaUuoocG4kAoV2m5VOpaISlMdbYMRTEHfYyMkbc=
-X-Received: by 2002:a2e:9e17:0:b0:25d:7654:4c6b with SMTP id
- e23-20020a2e9e17000000b0025d76544c6bmr16462655ljk.130.1658288440144; Tue, 19
- Jul 2022 20:40:40 -0700 (PDT)
+ bh=WgM1J7pE9ac9NuSRBe024EFBZvZM2e7cPzlPoas81IU=;
+ b=nxqdj2KVTcabnpPvqFrdNTzUNu72X83iMaV7y3FY0fnn0N/1HJS1ZCbUJ19GNNMvV3
+ h3ysA7j/OG8s+FpQN/dPFOKeUAsBXCjkMN0dExNtSaBvJd2sz6OzrcwP1j41IMaQX+BM
+ 15lt4JZ9jcgrV6h3NK9aaCCRMVKPxWn78fjJJ6Y0xclOTHLS4MlDF2KTxhbAiHLYBDs6
+ 0c36MxgsTfxhRBOeXIVlATi62WhrMZKeFWLXsPGjG1c1hv+kO3d8SgOmqUI5/A5ZMHs/
+ 7I70dko/jzitfO0vPWWZ/RhVJOyjtHD3v06UbHNyB8vX4daXyUb4NpORiNn2lnokK3AM
+ us1A==
+X-Gm-Message-State: AJIora9YkT9DJdVX8x57V/G7NHbq2OupChyStwsKGsz/F2b004ztf9NT
+ WSkZdRhxfTnfFTBFGls+CmNFDTqE79BnYedUiEuA+g==
+X-Google-Smtp-Source: AGRyM1uZm+Bu2A6bwqdItcqwLCbTq902pW3pdzMcovudRL7V/TIB2pU/16LFFq0Obhf8WB1CxZ+gX0HU2nI4vQLwGtk=
+X-Received: by 2002:a05:600c:3caa:b0:394:8fb8:716 with SMTP id
+ bg42-20020a05600c3caa00b003948fb80716mr1833392wmb.105.1658289148866; Tue, 19
+ Jul 2022 20:52:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719131637.46131-1-jasowang@redhat.com>
- <CAFEAcA8Kce5SJeR0_+Mj6a48V6ju+nyT=CWGwrgi4cjPxuby2g@mail.gmail.com>
-In-Reply-To: <CAFEAcA8Kce5SJeR0_+Mj6a48V6ju+nyT=CWGwrgi4cjPxuby2g@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 20 Jul 2022 11:40:28 +0800
-Message-ID: <CACGkMEspsAKtkh2AOsWkNU8Rn1qG2-j8RVmLHK04Rm4XBMvw_g@mail.gmail.com>
-Subject: Re: [PULL 00/24] Net Patches
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eugenio Perez Martin <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+References: <20220718035249.17440-1-jim.shu@sifive.com>
+ <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
+ <CALw707qqVxROpindXhxPjAvccjTYaYoC_vTjtfkM+Do_pMLQRA@mail.gmail.com>
+In-Reply-To: <CALw707qqVxROpindXhxPjAvccjTYaYoC_vTjtfkM+Do_pMLQRA@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Wed, 20 Jul 2022 09:22:16 +0530
+Message-ID: <CAAhSdy2dm5p8wb4YSppS=yT8L4ctZc9J9mT=-jPdLe5p=VR6=A@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Support SW update of PTE A/D bits and
+ Ssptwad extension
+To: Jim Shu <jim.shu@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>, 
+ Atish Patra <atishp@rivosinc.com>, Palmer Dabbelt <palmer@rivosinc.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::32d;
+ envelope-from=anup@brainfault.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,88 +89,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 20, 2022 at 12:40 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, Jul 20, 2022 at 5:02 AM Jim Shu <jim.shu@sifive.com> wrote:
 >
-> On Tue, 19 Jul 2022 at 14:17, Jason Wang <jasowang@redhat.com> wrote:
-> >
-> > The following changes since commit f9d9fff72eed03acde97ea2d66104748dc474b2e:
-> >
-> >   Merge tag 'qemu-sparc-20220718' of https://github.com/mcayland/qemu into staging (2022-07-19 09:57:13 +0100)
-> >
-> > are available in the git repository at:
-> >
-> >   https://github.com/jasowang/qemu.git tags/net-pull-request
-> >
-> > for you to fetch changes up to f8a9fd7b7ab6601b76e253bbcbfe952f8c1887ec:
-> >
-> >   net/colo.c: fix segmentation fault when packet is not parsed correctly (2022-07-19 21:05:20 +0800)
-> >
-> > ----------------------------------------------------------------
-> >
-> > ----------------------------------------------------------------
+> Hi Anup,
 >
-> Fails to build, many platforms:
+> Do you think it is OK if we only use ssptwad as a CPU option name
+> but not a RISC-V extension? just like MMU and PMP options of RISC-V.
+> (And we could change it to RISC-V extension in the future
+> if Ssptwad becomes the formal RISC-V extension)
 >
-> eg
-> https://gitlab.com/qemu-project/qemu/-/jobs/2742242194
->
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cvq_unmap_buf':
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:234: undefined
-> reference to `vhost_iova_tree_find_iova'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:242: undefined
-> reference to `vhost_vdpa_dma_unmap'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:247: undefined
-> reference to `vhost_iova_tree_remove'
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cleanup':
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:163: undefined
-> reference to `vhost_iova_tree_delete'
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function `vhost_vdpa_cvq_map_buf':
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:285: undefined
-> reference to `vhost_iova_tree_map_alloc'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:291: undefined
-> reference to `vhost_vdpa_dma_map'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:300: undefined
-> reference to `vhost_iova_tree_remove'
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function
-> `vhost_vdpa_net_handle_ctrl_avail':
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:445: undefined
-> reference to `vhost_svq_push_elem'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:408: undefined
-> reference to `vhost_svq_add'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:422: undefined
-> reference to `vhost_svq_poll'
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:434: undefined
-> reference to `virtio_net_handle_ctrl_iov'
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function `net_init_vhost_vdpa':
-> /builds/qemu-project/qemu/build/../net/vhost-vdpa.c:611: undefined
-> reference to `vhost_iova_tree_new'
-> libcommon.fa.p/net_vhost-vdpa.c.o: In function
-> `glib_autoptr_cleanup_VhostIOVATree':
-> /builds/qemu-project/qemu/hw/virtio/vhost-iova-tree.h:20: undefined
-> reference to `vhost_iova_tree_delete'
-> collect2: error: ld returned 1 exit status
-> [2436/4108] Compiling C object
-> libqemu-s390x-softmmu.fa.p/meson-generated_.._qapi_qapi-introspect.c.o
->
->
->
-> Presumably the conditions in the various meson.build files are
-> out of sync about when to build the net/vhost-vdpa.c code vs
-> the code that's implementing the functions it's trying to call.
->
-> Specifically, the functions being called will only be present
-> if the target architecture has CONFIG_VIRTIO, which isn't
-> guaranteed, but we try to link the vhost-vdpa code in anyway.
+> Both HW/SW update schemes are already defined in RISC-V priv spec,
+> so I think it's reasonable to implement them in QEMU. The only issue here is
+> to choose a proper CPU option name to turn on/off HW update of A/D bits.
 
-Right, this is probably because vhost-vdpa start to use virtio loigc (cvq).
+I am not saying that we should avoid implementing it in QEMU.
 
-Eugenio, please fix this and I will send a new version of the pull request.
+My suggestion is to differentiate HW optionalities from ISA extensions
+in QEMU. For example, instead of referring to this as Ssptwad, we should
+call it "hw_ptwad" or "opt_ptwad" and don't use the "ext_" prefix.
 
-Thanks
+@Alistair Francis might have better suggestions on this ?
+
+Regards,
+Anup
 
 >
-> thanks
-> -- PMM
+> Regards,
+> Jim Shu
 >
-
+> On Mon, Jul 18, 2022 at 12:02 PM Anup Patel <anup@brainfault.org> wrote:
+>>
+>> +Atish
+>>
+>> On Mon, Jul 18, 2022 at 9:23 AM Jim Shu <jim.shu@sifive.com> wrote:
+>> >
+>> > RISC-V priv spec v1.12 permits 2 PTE-update schemes of A/D-bit
+>> > (Access/Dirty bit): HW update or SW update. RISC-V profile defines the
+>> > extension name 'Ssptwad' for HW update to PTE A/D bits.
+>> > https://github.com/riscv/riscv-profiles/blob/main/profiles.adoc
+>>
+>> The Ssptwad (even though used by profiles) is not a well defined RISC-V
+>> ISA extension. Rather, Ssptwad is just a name used in profiles to represent
+>> an optional feature.
+>>
+>> In fact, since it is not a well-defined ISA extension, QEMU cannot include
+>> Ssptwad in the ISA string as well.
+>>
+>> I think for such optionalities which are not well-defined ISA extensions,
+>> QEMU should treat it differently.
+>>
+>> Regards,
+>> Anup
+>>
+>> >
+>> > Current QEMU RISC-V implements HW update scheme, so this commit
+>> > introduces SW update scheme to QEMU and uses the 'Ssptwad' extension
+>> > as the CPU option to select 2 PTE-update schemes. QEMU RISC-V CPU still
+>> > uses HW update scheme (ext_ssptwad=true) by default to keep the backward
+>> > compatibility.
+>> >
+>> > SW update scheme implemention is based on priv spec v1.12:
+>> > "When a virtual page is accessed and the A bit is clear, or is written
+>> > and the D bit is clear, a page-fault exception (corresponding to the
+>> > original access type) is raised."
+>> >
+>> > Signed-off-by: Jim Shu <jim.shu@sifive.com>
+>> > Reviewed-by: Frank Chang <frank.chang@sifive.com>
+>> > ---
+>> >  target/riscv/cpu.c        | 2 ++
+>> >  target/riscv/cpu.h        | 1 +
+>> >  target/riscv/cpu_helper.c | 9 +++++++++
+>> >  3 files changed, 12 insertions(+)
+>> >
+>> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> > index 1bb3973806..1d38c1c1d2 100644
+>> > --- a/target/riscv/cpu.c
+>> > +++ b/target/riscv/cpu.c
+>> > @@ -857,6 +857,7 @@ static void riscv_cpu_init(Object *obj)
+>> >
+>> >      cpu->cfg.ext_ifencei = true;
+>> >      cpu->cfg.ext_icsr = true;
+>> > +    cpu->cfg.ext_ssptwad = true;
+>> >      cpu->cfg.mmu = true;
+>> >      cpu->cfg.pmp = true;
+>> >
+>> > @@ -900,6 +901,7 @@ static Property riscv_cpu_extensions[] = {
+>> >      DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
+>> >      DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
+>> >      DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
+>> > +    DEFINE_PROP_BOOL("ssptwad", RISCVCPU, cfg.ext_ssptwad, true),
+>> >
+>> >      DEFINE_PROP_BOOL("zba", RISCVCPU, cfg.ext_zba, true),
+>> >      DEFINE_PROP_BOOL("zbb", RISCVCPU, cfg.ext_zbb, true),
+>> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+>> > index 5c7acc055a..2eee59af98 100644
+>> > --- a/target/riscv/cpu.h
+>> > +++ b/target/riscv/cpu.h
+>> > @@ -433,6 +433,7 @@ struct RISCVCPUConfig {
+>> >      bool ext_zve32f;
+>> >      bool ext_zve64f;
+>> >      bool ext_zmmul;
+>> > +    bool ext_ssptwad;
+>> >      bool rvv_ta_all_1s;
+>> >
+>> >      uint32_t mvendorid;
+>> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> > index 59b3680b1b..a8607c0d7b 100644
+>> > --- a/target/riscv/cpu_helper.c
+>> > +++ b/target/riscv/cpu_helper.c
+>> > @@ -981,6 +981,15 @@ restart:
+>> >
+>> >              /* Page table updates need to be atomic with MTTCG enabled */
+>> >              if (updated_pte != pte) {
+>> > +                if (!cpu->cfg.ext_ssptwad) {
+>> > +                    /*
+>> > +                     * If A/D bits are managed by SW, HW just raises the
+>> > +                     * page fault exception corresponding to the original
+>> > +                     * access type when A/D bits need to be updated.
+>> > +                     */
+>> > +                    return TRANSLATE_FAIL;
+>> > +                }
+>> > +
+>> >                  /*
+>> >                   * - if accessed or dirty bits need updating, and the PTE is
+>> >                   *   in RAM, then we do so atomically with a compare and swap.
+>> > --
+>> > 2.17.1
+>> >
+>> >
 
