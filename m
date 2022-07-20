@@ -2,71 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B1557B4D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:52:38 +0200 (CEST)
-Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1628957B4E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:54:34 +0200 (CEST)
+Received: from localhost ([::1]:43534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE7Jl-0000Ke-3n
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:52:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52944)
+	id 1oE7Ld-00021K-7F
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE7IE-00076F-Aj
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:51:02 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:47025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE7IC-0003T0-Jb
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:51:02 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31c89653790so169090357b3.13
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 03:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5qOMn9Fl86+3bmAYJUqFjvaLkDQSJOdpIAVUuJFVu38=;
- b=cLeIy1cNXnXewYl2jDWKipltuLjwgmVxp1jE9KhUdOMcxlT9UhdUN968YhVtZenSwW
- hrGWq8hQny0FTXlz0TW1jWeSz778x7loLNdJxbR9iiRI3OXA3TqxiQ05ATUT8dGWbrr4
- NAa3tacskkAQb5oZK20Wu155pMFMh0+W46RTiBqK/ZXm0lHgUJ1P/07vyeMZj5q9FE+v
- vKeWjbfmLuhN4pKFSonzW4hOuNnyuBYbIzPFmtgFsWjPLs5qAf36kF2nBx5LtZQsb+gp
- GJBGKw5h9NsCpwFQ5R5PuELzfdYMpf28tWC65igkBeV7iP4EKdfWLm1/m1Vgitc0+/sR
- NsdA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oE7JJ-0008AM-Jz
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:52:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oE7JH-0003fP-7f
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:52:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658314326;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CLELaWxkpjE2iJPz622B0Im/bRLdFKaZ57bzWrzOdKE=;
+ b=NlRoum8nx5OCL9a9m4Df2gfSq1xFlS3j65kb46QD+OBRNV+gsV9LM93qYwsDwqPGVtrqQx
+ n44U6RWmn9WtnC/tTAPPvHg/FP/lvfVJNBvLjb/kJcR3swdE8vEmKxbVasxtGwR6/HlE82
+ KYgNNNhy2b9jrznhrszSJ9QMN5cygfs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-628-9pxp5SahNN-z3FzSw4wAlA-1; Wed, 20 Jul 2022 06:52:05 -0400
+X-MC-Unique: 9pxp5SahNN-z3FzSw4wAlA-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ i184-20020a1c3bc1000000b003a026f48333so8210647wma.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 03:52:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5qOMn9Fl86+3bmAYJUqFjvaLkDQSJOdpIAVUuJFVu38=;
- b=Hpd/ix1lfgMAS+cPnjmxcvfBIxbg+Hu5nKpXl1JgaOlRCOZEcHLy+Rs1ZWOTbq8R87
- KT9CHCd5gsjVJiED0v9Mqn0mz3OjAKZl1kfU0vtPlv3c6cu+WW7Osxf4y4R1aC7ypJ3d
- +Mv7e/HxNpiie2qSYXaWsFzmswH/beCV/5HUTPFgxh1MhlwGRMXvRC8NTGP91vNAzdg8
- oD0ETiHeTDG87xfBLTFS2YIc8rEnjepgdtwl3RIyljgPCh8/BpBvlhcm5ES2+LFHEQRm
- O442D7ejCfLdSfsOqOwdmbZnZ8JRwQz/mYI8CSu0rT1Aj8LkkpDBWxBsJgKbpf3shUsQ
- 1fIQ==
-X-Gm-Message-State: AJIora8QELMEA6whtHz4A81X5oZceXgjSsM3d7FJkxv2IvG8o5GM+6tP
- 8LIAzEkHFOK0xbB706wcg4ivUk6xx897MBXjBnULgA==
-X-Google-Smtp-Source: AGRyM1uU4ijg5VBS1vbvoM2UVHsJAl4JrZ0tbPHAWRkXdyqYkpUteTk91wYjBTaSzJ6F/0aCgrjoEF9Oa4CF8z3I5/c=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr40364498ywb.257.1658314259484; Wed, 20
- Jul 2022 03:50:59 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=CLELaWxkpjE2iJPz622B0Im/bRLdFKaZ57bzWrzOdKE=;
+ b=XBCNuia4TCGsbaPa4y1tQ2GrJuT9QSZ2MkS5xefxjkiVf3xJp4rvObsQNPRUaHfWCI
+ Y/ncNoy5qE5HYYCR5UX5kB80CRl4jZBwnnAJ7p0o3tU7f9udpF/07DDklJobam2fYkld
+ YWXT/mBGs8Mz+tDI/WzCafRVAcTzhWthkrr+VdaEHGO50ddz8FtAJ5hwmpuJN20YkR5W
+ voDrNXNdq+CNatm1vAHz++IapR31aaRAvbF05zGtBw1nP5nFzA9nIdjyf7Pgx/2RL+PD
+ f/6b+06H+6AYqpaWeHBY9Tm9LNM1V7VyV1JHDCI/KGpOHi2v0FP3af2L0PBfkmD+dWe7
+ ln0Q==
+X-Gm-Message-State: AJIora+RI/nwi+kg2bFzNV1rtFF6pFwdcYJiZhy9ZxYDhAirq0K3cUD1
+ D38dyfmx4qMYuYhYXCP7wUgto3zE+nZeoE/7Pf/xxiZIgO5KUOMZcQ0qqm3Il00UJQ5y4cVF8VJ
+ 641X+XPibaKjHOf0=
+X-Received: by 2002:a05:600c:3592:b0:3a0:4c17:5ec1 with SMTP id
+ p18-20020a05600c359200b003a04c175ec1mr3406847wmq.4.1658314324201; 
+ Wed, 20 Jul 2022 03:52:04 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tfotd0GQbmQBcHWQ3pKxLTjsIDMacQWpzkbSuQHtBsESE82gT3cbiO+1WQPV3GdLZ/iHyVLg==
+X-Received: by 2002:a05:600c:3592:b0:3a0:4c17:5ec1 with SMTP id
+ p18-20020a05600c359200b003a04c175ec1mr3406832wmq.4.1658314324012; 
+ Wed, 20 Jul 2022 03:52:04 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
+ [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
+ h9-20020a05600c350900b003a2fde6ef62sm1555143wmq.7.2022.07.20.03.52.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 03:52:03 -0700 (PDT)
+Message-ID: <718b0346-dd8c-ef5a-4089-b4e2ac7b1302@redhat.com>
+Date: Wed, 20 Jul 2022 12:52:02 +0200
 MIME-Version: 1.0
-References: <20220719180000.378186-1-richard.henderson@linaro.org>
-In-Reply-To: <20220719180000.378186-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jul 2022 11:50:47 +0100
-Message-ID: <CAFEAcA9w-q3PC0sLQh3LEjZNufhNTzh5kxqo96+uRxs0USfw9Q@mail.gmail.com>
-Subject: Re: [PULL 00/21] loongarch patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>, 
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20220707184600.24164-1-peterx@redhat.com>
+ <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
+ <YtWxHSjpORK31aLs@xz-m1.local>
+ <4ebe2d62-b627-3d2b-3c3e-73701fbf7be5@redhat.com>
+ <YtaJg0zU8Fo3p2NB@redhat.com> <YtcLucZuvELrFC0f@xz-m1.local>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <YtcLucZuvELrFC0f@xz-m1.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +108,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jul 2022 at 19:03, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit da7da9d5e608200ecc0749ff37be246e9cd3314f:
->
->   Merge tag 'pull-request-2022-07-19' of https://gitlab.com/thuth/qemu into staging (2022-07-19 13:05:06 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/rth7680/qemu.git tags/pull-la-20220719
->
-> for you to fetch changes up to fda3f15b0079d4bba76791502a7e00b8b747f509:
->
->   hw/loongarch: Add fdt support (2022-07-19 22:55:10 +0530)
->
-> ----------------------------------------------------------------
-> LoongArch64 patch queue:
->
-> Add dockerfile for loongarch cross compile
-> Add reference files for float tests.
-> Add simple tests for div, mod, clo, fclass, fcmp, pcadd
-> Add bios and kernel boot support.
-> Add smbios, acpi, and fdt support.
-> Fix pch-pic update-irq.
-> Fix some errors identified by coverity.
->
+On 19/07/2022 21.53, Peter Xu wrote:
+...
+> It seems the button to generate API token just didn't have a respond for me
+> until I refresh the page (then I can see some token generated), however I
+> still haven't figured out a way to see the initial 6 letters since they'll
+> be always masked out..  Changing browser didn't work for me either. :(
+
+I haven't tried in a while, but IIRC the token is indeed only shown at the 
+first access - and if that's not happening for you, then there is likely 
+something broken. Are you using some plug in like uMatrix or the like? Maybe 
+it helps to switch that off?
+
+  Thomas
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
--- PMM
 
