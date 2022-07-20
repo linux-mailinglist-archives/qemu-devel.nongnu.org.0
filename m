@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B042057B15F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:07:23 +0200 (CEST)
-Received: from localhost ([::1]:40824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4974457B168
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:09:33 +0200 (CEST)
+Received: from localhost ([::1]:49224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE3nm-0003DO-Qy
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:07:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33582)
+	id 1oE3ps-0000TD-B6
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oE3hB-0000Q0-Qz
+ id 1oE3hB-0000Q1-Re
  for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:00:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25626)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oE3hA-0006eB-66
+ id 1oE3hA-0006e8-5c
  for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:00:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1658300431;
@@ -25,24 +25,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QyDgzBBzUMVTImCSovDtIbD11VPoGBtCRv2u+LZj1HQ=;
- b=AuuBh9PV8GflxVMkyaQok84KwFYPyMkfXm/Y0LWpnkhiyhvTepxhCGWHSAZgXq8+vis7vl
- mKLsj4iC1FZAtz5/9WjEaiT1zIkCek5xqsTJcO8N8zvaKsTY43QBUmwzqketzreYruzlHw
- MProHI8QkgnD5ToMEQfbMzepm7NZxVM=
+ bh=1wXEliRheFbwwpW57Zxnc1m9rQ6WpdNv1VTkdwG9E2w=;
+ b=iwwPExZgYFqj9YLMWsjNQGk4zzvkTRkoi6Y4YAAl0yr97TJb6DYOztkCBmsMOCTWax6ab9
+ ERHilyGoG9J0fHVccZM1iO8/UqHGmS+dOF9Pb7Q/3clvD7SNGgX4fj+yIpVdvkFuEZThMi
+ /px9sOcqdZb4VcluBr/yrFwPR+XUvmw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-bnq6bZAZPVmWqafdmv_Xow-1; Wed, 20 Jul 2022 03:00:21 -0400
-X-MC-Unique: bnq6bZAZPVmWqafdmv_Xow-1
+ us-mta-3-5dk59E5HP7Ol4sBckHdrOQ-1; Wed, 20 Jul 2022 03:00:24 -0400
+X-MC-Unique: 5dk59E5HP7Ol4sBckHdrOQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7B97D185A794;
- Wed, 20 Jul 2022 07:00:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A72D685A581;
+ Wed, 20 Jul 2022 07:00:23 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8A0C718EA8;
- Wed, 20 Jul 2022 07:00:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C39EA90A11;
+ Wed, 20 Jul 2022 07:00:20 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,9 +55,9 @@ Cc: Stefano Garzarella <sgarzare@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>
-Subject: [PATCH v6 08/21] vhost: Decouple vhost_svq_add from VirtQueueElement
-Date: Wed, 20 Jul 2022 08:59:33 +0200
-Message-Id: <20220720065946.3122611-9-eperezma@redhat.com>
+Subject: [PATCH v6 09/21] vhost: Add SVQDescState
+Date: Wed, 20 Jul 2022 08:59:34 +0200
+Message-Id: <20220720065946.3122611-10-eperezma@redhat.com>
 In-Reply-To: <20220720065946.3122611-1-eperezma@redhat.com>
 References: <20220720065946.3122611-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,111 +88,108 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VirtQueueElement comes from the guest, but we're heading SVQ to be able
-to modify the element presented to the device without the guest's
-knowledge.
+This will allow SVQ to add context to the different queue elements.
 
-To do so, make SVQ accept sg buffers directly, instead of using
-VirtQueueElement.
-
-Add vhost_svq_add_element to maintain element convenience.
+This patch only store the actual element, no functional change intended.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/virtio/vhost-shadow-virtqueue.c | 33 ++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 11 deletions(-)
+ hw/virtio/vhost-shadow-virtqueue.h |  8 ++++++--
+ hw/virtio/vhost-shadow-virtqueue.c | 16 ++++++++--------
+ 2 files changed, 14 insertions(+), 10 deletions(-)
 
+diff --git a/hw/virtio/vhost-shadow-virtqueue.h b/hw/virtio/vhost-shadow-virtqueue.h
+index c132c994e9..d646c35054 100644
+--- a/hw/virtio/vhost-shadow-virtqueue.h
++++ b/hw/virtio/vhost-shadow-virtqueue.h
+@@ -15,6 +15,10 @@
+ #include "standard-headers/linux/vhost_types.h"
+ #include "hw/virtio/vhost-iova-tree.h"
+ 
++typedef struct SVQDescState {
++    VirtQueueElement *elem;
++} SVQDescState;
++
+ /* Shadow virtqueue to relay notifications */
+ typedef struct VhostShadowVirtqueue {
+     /* Shadow vring */
+@@ -47,8 +51,8 @@ typedef struct VhostShadowVirtqueue {
+     /* IOVA mapping */
+     VhostIOVATree *iova_tree;
+ 
+-    /* Map for use the guest's descriptors */
+-    VirtQueueElement **ring_id_maps;
++    /* SVQ vring descriptors state */
++    SVQDescState *desc_state;
+ 
+     /* Next VirtQueue element that guest made available */
+     VirtQueueElement *next_guest_avail_elem;
 diff --git a/hw/virtio/vhost-shadow-virtqueue.c b/hw/virtio/vhost-shadow-virtqueue.c
-index 11302ea1f2..e3afa2ba44 100644
+index e3afa2ba44..e4c09e2d88 100644
 --- a/hw/virtio/vhost-shadow-virtqueue.c
 +++ b/hw/virtio/vhost-shadow-virtqueue.c
-@@ -172,30 +172,31 @@ static bool vhost_svq_vring_write_descs(VhostShadowVirtqueue *svq, hwaddr *sg,
- }
- 
- static bool vhost_svq_add_split(VhostShadowVirtqueue *svq,
--                                VirtQueueElement *elem, unsigned *head)
-+                                const struct iovec *out_sg, size_t out_num,
-+                                const struct iovec *in_sg, size_t in_num,
-+                                unsigned *head)
- {
-     unsigned avail_idx;
-     vring_avail_t *avail = svq->vring.avail;
-     bool ok;
--    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(elem->out_num, elem->in_num));
-+    g_autofree hwaddr *sgs = g_new(hwaddr, MAX(out_num, in_num));
- 
-     *head = svq->free_head;
- 
-     /* We need some descriptors here */
--    if (unlikely(!elem->out_num && !elem->in_num)) {
-+    if (unlikely(!out_num && !in_num)) {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "Guest provided element with no descriptors");
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->out_sg, elem->out_num,
--                                     elem->in_num > 0, false);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, out_sg, out_num, in_num > 0,
-+                                     false);
-     if (unlikely(!ok)) {
-         return false;
-     }
- 
--    ok = vhost_svq_vring_write_descs(svq, sgs, elem->in_sg, elem->in_num, false,
--                                     true);
-+    ok = vhost_svq_vring_write_descs(svq, sgs, in_sg, in_num, false, true);
-     if (unlikely(!ok)) {
-         return false;
-     }
-@@ -237,17 +238,19 @@ static void vhost_svq_kick(VhostShadowVirtqueue *svq)
-  *
-  * Return -EINVAL if element is invalid, -ENOSPC if dev queue is full
-  */
--static int vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
-+static int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
-+                          size_t out_num, const struct iovec *in_sg,
-+                          size_t in_num, VirtQueueElement *elem)
- {
-     unsigned qemu_head;
--    unsigned ndescs = elem->in_num + elem->out_num;
-+    unsigned ndescs = in_num + out_num;
-     bool ok;
- 
-     if (unlikely(ndescs > vhost_svq_available_slots(svq))) {
-         return -ENOSPC;
-     }
- 
--    ok = vhost_svq_add_split(svq, elem, &qemu_head);
-+    ok = vhost_svq_add_split(svq, out_sg, out_num, in_sg, in_num, &qemu_head);
-     if (unlikely(!ok)) {
-         g_free(elem);
+@@ -256,7 +256,7 @@ static int vhost_svq_add(VhostShadowVirtqueue *svq, const struct iovec *out_sg,
          return -EINVAL;
-@@ -258,6 +261,14 @@ static int vhost_svq_add(VhostShadowVirtqueue *svq, VirtQueueElement *elem)
+     }
+ 
+-    svq->ring_id_maps[qemu_head] = elem;
++    svq->desc_state[qemu_head].elem = elem;
+     vhost_svq_kick(svq);
      return 0;
  }
+@@ -411,21 +411,21 @@ static VirtQueueElement *vhost_svq_get_buf(VhostShadowVirtqueue *svq,
+         return NULL;
+     }
  
-+/* Convenience wrapper to add a guest's element to SVQ */
-+static int vhost_svq_add_element(VhostShadowVirtqueue *svq,
-+                                 VirtQueueElement *elem)
-+{
-+    return vhost_svq_add(svq, elem->out_sg, elem->out_num, elem->in_sg,
-+                         elem->in_num, elem);
-+}
-+
- /**
-  * Forward available buffers.
-  *
-@@ -294,7 +305,7 @@ static void vhost_handle_guest_kick(VhostShadowVirtqueue *svq)
-                 break;
-             }
+-    if (unlikely(!svq->ring_id_maps[used_elem.id])) {
++    if (unlikely(!svq->desc_state[used_elem.id].elem)) {
+         qemu_log_mask(LOG_GUEST_ERROR,
+             "Device %s says index %u is used, but it was not available",
+             svq->vdev->name, used_elem.id);
+         return NULL;
+     }
  
--            r = vhost_svq_add(svq, elem);
-+            r = vhost_svq_add_element(svq, elem);
-             if (unlikely(r != 0)) {
-                 if (r == -ENOSPC) {
-                     /*
+-    num = svq->ring_id_maps[used_elem.id]->in_num +
+-          svq->ring_id_maps[used_elem.id]->out_num;
++    num = svq->desc_state[used_elem.id].elem->in_num +
++          svq->desc_state[used_elem.id].elem->out_num;
+     last_used_chain = vhost_svq_last_desc_of_chain(svq, num, used_elem.id);
+     svq->desc_next[last_used_chain] = svq->free_head;
+     svq->free_head = used_elem.id;
+ 
+     *len = used_elem.len;
+-    return g_steal_pointer(&svq->ring_id_maps[used_elem.id]);
++    return g_steal_pointer(&svq->desc_state[used_elem.id].elem);
+ }
+ 
+ static void vhost_svq_flush(VhostShadowVirtqueue *svq,
+@@ -595,7 +595,7 @@ void vhost_svq_start(VhostShadowVirtqueue *svq, VirtIODevice *vdev,
+     memset(svq->vring.desc, 0, driver_size);
+     svq->vring.used = qemu_memalign(qemu_real_host_page_size(), device_size);
+     memset(svq->vring.used, 0, device_size);
+-    svq->ring_id_maps = g_new0(VirtQueueElement *, svq->vring.num);
++    svq->desc_state = g_new0(SVQDescState, svq->vring.num);
+     svq->desc_next = g_new0(uint16_t, svq->vring.num);
+     for (unsigned i = 0; i < svq->vring.num - 1; i++) {
+         svq->desc_next[i] = cpu_to_le16(i + 1);
+@@ -620,7 +620,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+ 
+     for (unsigned i = 0; i < svq->vring.num; ++i) {
+         g_autofree VirtQueueElement *elem = NULL;
+-        elem = g_steal_pointer(&svq->ring_id_maps[i]);
++        elem = g_steal_pointer(&svq->desc_state[i].elem);
+         if (elem) {
+             virtqueue_detach_element(svq->vq, elem, 0);
+         }
+@@ -632,7 +632,7 @@ void vhost_svq_stop(VhostShadowVirtqueue *svq)
+     }
+     svq->vq = NULL;
+     g_free(svq->desc_next);
+-    g_free(svq->ring_id_maps);
++    g_free(svq->desc_state);
+     qemu_vfree(svq->vring.desc);
+     qemu_vfree(svq->vring.used);
+ }
 -- 
 2.31.1
 
