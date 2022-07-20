@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971F557B801
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:59:36 +0200 (CEST)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B31957B803
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 16:01:36 +0200 (CEST)
+Received: from localhost ([::1]:36022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEAEh-0000hD-Aw
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43028)
+	id 1oEAGc-0001xC-Sf
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 10:01:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oEACm-0006p0-S7; Wed, 20 Jul 2022 09:57:36 -0400
-Received: from mail-oo1-xc2b.google.com ([2607:f8b0:4864:20::c2b]:40943)
+ id 1oEADo-00088I-GA; Wed, 20 Jul 2022 09:58:40 -0400
+Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:39465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oEACl-0007GR-Ev; Wed, 20 Jul 2022 09:57:36 -0400
-Received: by mail-oo1-xc2b.google.com with SMTP id
- t11-20020a4ad0ab000000b004356ab59d3bso3491021oor.7; 
- Wed, 20 Jul 2022 06:57:34 -0700 (PDT)
+ id 1oEADm-0007LR-Lk; Wed, 20 Jul 2022 09:58:40 -0400
+Received: by mail-ot1-x332.google.com with SMTP id
+ br15-20020a056830390f00b0061c9d73b8bdso8062302otb.6; 
+ Wed, 20 Jul 2022 06:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/p2k6r1VXhMALlnOhZRObhIjNw1QHNMYkzSVAkcLXy4=;
- b=ZfZNZ+C4iXea4fFmejZq47y+iwkQpZHddQZBprDdYyjHoC1Gg3v4vBPDfT3rcZqNJL
- CsJrEGQUdJaLnRsNIHGA+hhOB+71Oes1fTIfoy0Y1JUh/Gg0ActgWgy0aA2IXvg40oIn
- 2mLpqNlC6Zo8L+bvbijM43fZ2/+nA1H1mgYw2cFYk/kNmGedQW16ibYLS/KdBX9Ei2ef
- v+qsRw5DXTWMIA/XBPMzWIqQ/e77bFOGmTyXMEiNpT0P1BYNPDQjzgXz3n7aRbT5VNEk
- 8aQAiy7PzPiT5oXLbrq1Zh1mJd6fvjek9KU5smKChD1L0jv7Pzwvm5o92/JaJzGUxtcK
- 3aPw==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4BcrDtNLoViTcF17AFem+OBUgyMvZ6bINf5NqHwxdig=;
+ b=B7mhrK9rmoN/UuzW/48SqSfa51LWCy3luEQqneXIiVRKhSEHoPSxHDf/H+mxaeC9Jl
+ wrrVgGXST8X09cySaxjx0EXkaWLWMzbe2W3VOWNypHHqVahsK9U0rbc8NfN9I+o3GJFt
+ wZIsVKgceuSN8Esu/zA30ReLFO3ml2tMq7/jOtJE9zOR2F07HqKzLy0sqEBmQEr+ufTZ
+ eWBIiTvsvV/l81Ysk/dlcjc07R08kbcBM/e5KxBUUbMIe4oSqUS2DC2e4s4ubEBp3y9o
+ EoY8CfpaG7O6pj6s2ZnTR11dSbQHS8YQrm8uVmXNgDVo6CFQF8MTTTJFw9PP99wE8xue
+ 6Y9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/p2k6r1VXhMALlnOhZRObhIjNw1QHNMYkzSVAkcLXy4=;
- b=kZE2hsNCqeUysKr6xs6YHxsOF6d3W6NX74fJmweE2YlcET0dqP7fU8xWVe8HsbKx2w
- aml4dNTLoRlu2JWJczp4sBwpNv1b0raImrRuk9coLsrLxIie4tEaFolE3ne2GB5bRIpA
- QmaIdoY8YMDMQKQaxfTD/wB1cWAq78SvzHfN69p2XCy6RG4TWnhzDolXbVAi4gqPqHVI
- zhx9nrfGCYR6oDxpv10ju+i5oltzfF5/gjEYoBDIes1YcAcRNK8pX6yzMvjjmKs0RAKK
- iBlYHGjce33s9XDrEaMxM3fzRH94O+Ia3OBqHdeX4RI45i/Q4kkFk9I6Ezc7ffunG4vL
- r7kg==
-X-Gm-Message-State: AJIora9bLcZqAREbs7QG0GA3GQlgQs1kfg04RcwJwqdryyKlE5PltlZ3
- e8Teu/kwdarEvQWbYAHADD2tfXaARCs=
-X-Google-Smtp-Source: AGRyM1tpVRPaL6di4gtlaAZ/tH1HwwlM9hv4EsoDovTrYL69FLfG9K8JHdhj8Nm2xPckhx2kZMdQtQ==
-X-Received: by 2002:a05:6820:514:b0:435:9b97:b818 with SMTP id
- m20-20020a056820051400b004359b97b818mr5785790ooj.32.1658325453263; 
- Wed, 20 Jul 2022 06:57:33 -0700 (PDT)
-Received: from balboa.ibmuc.com (200-232-202-163.dsl.telesp.net.br.
+ bh=4BcrDtNLoViTcF17AFem+OBUgyMvZ6bINf5NqHwxdig=;
+ b=syBhwtIn9zwmSndYr6Ng8BrXEvKfhQBxJ5/vTA9Z4VD6oV9tleH6O5bZaYiTNIllTx
+ KIc7UUHNhK9CTxDa9i8cMzCxZ5Rl28MF3BhAyCeXrbcGOt7nKGvLgWF6rAFW3i5bDAxy
+ nFmAoXOwf5bSr088VGpTY8lng+T19Yiup/hLNG+rfp8nA+I+Ei6Gi2Ifq6oYwnxYJ1Wu
+ gtmQXtfMrx9FmO9Ajxuk6LCg6O2tGHOR0MRXCimJ4eCvTheDMRY2jbD0qcHFScB1MWWF
+ V0CHtnFSdYScdYeIWcUehc2CCJ134RM1IudszcEuGjtSBNSZktkqnKyLbtzWXfU8iVsz
+ sVcg==
+X-Gm-Message-State: AJIora/mVwBdvfhJsWHoXEMW3VOWu4AdzRcx5mZHs0TAUl5xTmgY0Etx
+ WiJhkE/XKTlXl1Ay8YynqYc=
+X-Google-Smtp-Source: AGRyM1sIIitp00je6+T1nW7qa0iVXkCNxj52H7DHt4+2vQLVC0NaiVnBgZJVhMUsx6ZK9M+7zfZ9MQ==
+X-Received: by 2002:a9d:1711:0:b0:61c:ad2b:ddb0 with SMTP id
+ i17-20020a9d1711000000b0061cad2bddb0mr5188488ota.87.1658325516618; 
+ Wed, 20 Jul 2022 06:58:36 -0700 (PDT)
+Received: from [192.168.10.102] (200-232-202-163.dsl.telesp.net.br.
  [200.232.202.163]) by smtp.gmail.com with ESMTPSA id
- c21-20020a056808105500b003263cf0f282sm6504885oih.26.2022.07.20.06.57.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 06:57:32 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-Subject: [PATCH] target/ppc: fix unreachable code in do_ldst_quad()
-Date: Wed, 20 Jul 2022 10:57:23 -0300
-Message-Id: <20220720135723.1391598-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
+ g15-20020a056870340f00b000fb2aa6eef2sm8938083oah.32.2022.07.20.06.58.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 06:58:36 -0700 (PDT)
+Message-ID: <e3c7cc0f-fc7e-95bf-59b4-2d40f35b6f0c@gmail.com>
+Date: Wed, 20 Jul 2022 10:58:33 -0300
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c2b;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc2b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 1/1] hw/ppc: check if spapr_drc_index() returns NULL in
+ spapr_nvdimm.c
+Content-Language: en-US
+To: Greg Kurz <groug@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+ david@gibson.dropbear.id.au
+References: <20220409200856.283076-1-danielhb413@gmail.com>
+ <20220409200856.283076-2-danielhb413@gmail.com>
+ <20220720151649.203abd3d@bahia>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220720151649.203abd3d@bahia>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::332;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x332.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,57 +96,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity reports that commit fc34e81acd51 ("target/ppc: add macros to
-check privilege level") turned the following code unreachable:
 
-if (!prefixed && !(ctx->insns_flags2 & PPC2_LSQ_ISA207)) {
-    /* lq and stq were privileged prior to V. 2.07 */
-    REQUIRE_SV(ctx);
 
->>>     CID 1490757:  Control flow issues  (UNREACHABLE)
->>>     This code cannot be reached: "if (ctx->le_mode) {
-    if (ctx->le_mode) {
-        gen_align_no_le(ctx);
-        return true;
-    }
-}
+On 7/20/22 10:16, Greg Kurz wrote:
+> On Sat,  9 Apr 2022 17:08:56 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> spapr_nvdimm_flush_completion_cb() and flush_worker_cb() are using the
+>> DRC object returned by spapr_drc_index() without checking it for NULL.
+>> In this case we would be dereferencing a NULL pointer when doing
+>> SPAPR_NVDIMM(drc->dev) and PC_DIMM(drc->dev).
+>>
+>> This can happen if, during a scm_flush(), the DRC object is wrongly
+>> freed/released (e.g. a bug in another part of the code).
+>> spapr_drc_index() would then return NULL in the callbacks.
+>>
+>> Fixes: Coverity CID 1487108, 1487178
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/ppc/spapr_nvdimm.c | 18 ++++++++++++++----
+>>   1 file changed, 14 insertions(+), 4 deletions(-)
+>>
+> 
+> LGTM
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-This happens because the macro REQUIRE_SV(), in CONFIG_USER_MODE, will
-always result in a 'return true' statement.
 
-Fix it by using "#if !defined(CONFIG_USER_ONLY)" to fold the code that
-shouldn't be there if we're running in a non-privileged state. This is
-also how the REQUIRE_SV() macro is being used in
-storage-ctrl-impl.c.inc.
+Thanks Greg! I'll queue this up as an eligible fix for the soft freeze.
 
-Fixes: Coverity CID 1490757
-Fixes: fc34e81acd51 ("target/ppc: add macros to check privilege level")
-Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/translate/fixedpoint-impl.c.inc | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/target/ppc/translate/fixedpoint-impl.c.inc b/target/ppc/translate/fixedpoint-impl.c.inc
-index db14d3bebc..4a32fac4f3 100644
---- a/target/ppc/translate/fixedpoint-impl.c.inc
-+++ b/target/ppc/translate/fixedpoint-impl.c.inc
-@@ -82,10 +82,14 @@ static bool do_ldst_quad(DisasContext *ctx, arg_D *a, bool store, bool prefixed)
-         /* lq and stq were privileged prior to V. 2.07 */
-         REQUIRE_SV(ctx);
- 
-+#if !defined(CONFIG_USER_ONLY)
-         if (ctx->le_mode) {
-             gen_align_no_le(ctx);
-             return true;
-         }
-+#else
-+    qemu_build_not_reached();
-+#endif
-     }
- 
-     if (!store && unlikely(a->ra == a->rt)) {
--- 
-2.36.1
+Daniel
 
+
+> 
+>> diff --git a/hw/ppc/spapr_nvdimm.c b/hw/ppc/spapr_nvdimm.c
+>> index c4c97da5de..04a64cada3 100644
+>> --- a/hw/ppc/spapr_nvdimm.c
+>> +++ b/hw/ppc/spapr_nvdimm.c
+>> @@ -447,9 +447,15 @@ static int flush_worker_cb(void *opaque)
+>>   {
+>>       SpaprNVDIMMDeviceFlushState *state = opaque;
+>>       SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
+>> -    PCDIMMDevice *dimm = PC_DIMM(drc->dev);
+>> -    HostMemoryBackend *backend = MEMORY_BACKEND(dimm->hostmem);
+>> -    int backend_fd = memory_region_get_fd(&backend->mr);
+>> +    PCDIMMDevice *dimm;
+>> +    HostMemoryBackend *backend;
+>> +    int backend_fd;
+>> +
+>> +    g_assert(drc != NULL);
+>> +
+>> +    dimm = PC_DIMM(drc->dev);
+>> +    backend = MEMORY_BACKEND(dimm->hostmem);
+>> +    backend_fd = memory_region_get_fd(&backend->mr);
+>>   
+>>       if (object_property_get_bool(OBJECT(backend), "pmem", NULL)) {
+>>           MemoryRegion *mr = host_memory_backend_get_memory(dimm->hostmem);
+>> @@ -475,7 +481,11 @@ static void spapr_nvdimm_flush_completion_cb(void *opaque, int hcall_ret)
+>>   {
+>>       SpaprNVDIMMDeviceFlushState *state = opaque;
+>>       SpaprDrc *drc = spapr_drc_by_index(state->drcidx);
+>> -    SpaprNVDIMMDevice *s_nvdimm = SPAPR_NVDIMM(drc->dev);
+>> +    SpaprNVDIMMDevice *s_nvdimm;
+>> +
+>> +    g_assert(drc != NULL);
+>> +
+>> +    s_nvdimm = SPAPR_NVDIMM(drc->dev);
+>>   
+>>       state->hcall_ret = hcall_ret;
+>>       QLIST_REMOVE(state, node);
+> 
 
