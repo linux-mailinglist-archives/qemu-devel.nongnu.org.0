@@ -2,104 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4928F57B85F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 16:25:39 +0200 (CEST)
-Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689BB57B895
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 16:33:37 +0200 (CEST)
+Received: from localhost ([::1]:55058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEAdt-0005s4-Vt
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 10:25:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
+	id 1oEAlc-0001np-4b
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 10:33:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oEAbV-0003YC-HA
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:23:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28330)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oEAbS-0003KJ-B4
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:23:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658326985;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ew5C/qdxDwneMOtVPsp3yTt+/55R1G9YgreilQyKmdM=;
- b=OuY9c6CJq3QK7mJmglGbF2ojMjr6ZeP9kb/FL7bT1+Gd1jfvNIRfH9sAqaKY0h/CvJZl9z
- 3D2YjFYTw/iUhMv8T3kpBFG1MDaiLzro4l+GqmjdAoelYcduVjePpu7ejzno60QE8VbJk2
- hxrQbqVceLcpbJJ8c9T9Rs4TkjgJBTY=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-642-CyWtlsHAPuykbG_1Z2Um-A-1; Wed, 20 Jul 2022 10:22:57 -0400
-X-MC-Unique: CyWtlsHAPuykbG_1Z2Um-A-1
-Received: by mail-qt1-f197.google.com with SMTP id
- bq10-20020a05622a1c0a00b0031ef98498a4so3800005qtb.19
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 07:22:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1oEAiH-00082t-56
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:30:09 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:37531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chouteau@adacore.com>)
+ id 1oEAiF-0004Ok-EG
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:30:08 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ s18-20020a17090aa11200b001f1e9e2438cso2246169pjp.2
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 07:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=adacore.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xZWV197jMnQ1Njg9vh0NXLPaiqyf9ApHh0N5cyXMlDk=;
+ b=je9NA+SlRORZtLz5ceEU/s78XFPvnPK7ARZzPKVXWjo+azm7O6geqgVAHR2PjuJtxK
+ Y2nTy+5QQ7YrtoWXuW8o7myWaaFXsSxFZGBVbd2UELwMaZhA0p8pUCxPLBKJfTV4AxjI
+ vhOIVJSHtf1cwMiAzPRQziT+BcX2iFBrmtXPxJwPZyzOof9HL+fCglWUQWDKdHMiIePa
+ yEWQG/sA5q/HZt8oXaHZTe4RD6BifIAM1p2jYM5zp/06AGYv/gyg1YrUYMRyexHJp7q6
+ +3gAgaxe26sVqWkG1He6B57fug/UYpogLAQxi/ahX4PNYUdh7DR8XH02PG5s6H2r2/ii
+ t6gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Ew5C/qdxDwneMOtVPsp3yTt+/55R1G9YgreilQyKmdM=;
- b=lVX4C5nhuBaUgM1S1SITX3KJSbb3QmRyGvXmBDJj10X8u6RVBhuJYjx6zzqfg9jPWM
- 82LiyXH2OeXJQBvjNUSB794fb8ym3Goa7HOpzIHT1RA5K/9hD65lAgIXicNDwpPJp5Go
- uEZwtK4lsLBI9d9tLa9EhEoZTFI66tYkm/oi/6C3dPV0OqydkAJq0wLFcy/2tQJFKL8D
- vw4ytwmsr2lRGMRHeZNxNHBDGHnaQ72dtpbJf9kMbfnMlfcEbXkdzOOnlZ7in7h+NQq9
- EncmyxRY2NEXaxssWbR1SmctfACHfB8xyP5OJSnX3umvcqgw6d3eqvbcuL4wrvmlDYt7
- vXTQ==
-X-Gm-Message-State: AJIora+qj6eK19E9wUe9ECK9ac6xi7FWUZKuCa9tqWo7YppQAG3Ve5EY
- 3OdB87ZBVHMjIYS9j2evBjOA17dqe95NfWbkY65VLnsPwSxk3PwRFk9iD0ysqnRoAVnSGaabKIJ
- k1jL2ea6cmzRcUI8=
-X-Received: by 2002:ad4:5aa4:0:b0:473:d8ac:7c7 with SMTP id
- u4-20020ad45aa4000000b00473d8ac07c7mr12267203qvg.117.1658326976916; 
- Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sQ6+aY93X+yvs2HDRKRE4DFBv+Kw91AaW8RkcxD9pqRmrJQNCdM/EBvrH+fFHti/xUbhFCfQ==
-X-Received: by 2002:ad4:5aa4:0:b0:473:d8ac:7c7 with SMTP id
- u4-20020ad45aa4000000b00473d8ac07c7mr12267181qvg.117.1658326976666; 
- Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
- by smtp.gmail.com with ESMTPSA id
- s9-20020a05620a29c900b006b5e3ca6400sm9937386qkp.103.2022.07.20.07.22.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
-Message-ID: <be1b6c1a-4a39-77cc-19fb-9def24387a88@redhat.com>
-Date: Wed, 20 Jul 2022 16:22:52 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xZWV197jMnQ1Njg9vh0NXLPaiqyf9ApHh0N5cyXMlDk=;
+ b=nLwmCH4TskLRDaPHYnOJuT/UBhgTLEK6msJEexhVzu/tR19L9foHWIhzjwVJtl8rXc
+ KYxFncmdbN6l7dyZaRrn+jHo8pVT4nzhtQoavYLqAZKwbklFMp/wAOo5rhZVknMv+A0a
+ G47NYONuceDKjUoSMfzChgZXNQ7m/t6bVFWaGAS+Upa5eDspDhzXupS4TVPL4XMNA/Ql
+ YPBmmuZZDqfhb/vPXezqCoBt7BCZ3u/M4CQmK6GIkCBc0rCs0zu1n1FMmRjxO7F4kPQ2
+ U7dFMx7Z55xfwoWBbWqdJd2tTKdy5T4ZiQaUmblkM8V1gPbz8jYrFP3YzchDS+O8vmVM
+ G0WQ==
+X-Gm-Message-State: AJIora9sX4yoKJadz5xvyBqJTjXeGci/MDcOeUy5OoX+8E/YRy2Qsi39
+ xrweFlEQkI0+Zk5cwgt85YEMQMaUSCLPh+z0kr8eYA==
+X-Google-Smtp-Source: AGRyM1uzNsUOiZZeYetfUP3ASh4bvTSDLhSQY8NJ3Z8RJwZgKdMCIgljxnpsUtx8TvKJNXWkN++fYAFqADb7MNh8LV4=
+X-Received: by 2002:a17:903:1207:b0:16a:7e87:dad3 with SMTP id
+ l7-20020a170903120700b0016a7e87dad3mr39380585plh.99.1658327404809; Wed, 20
+ Jul 2022 07:30:04 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [PATCH v9 09/21] jobs: use job locks also in the unit tests
-Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Wen Congyang <wencongyang2@huawei.com>,
- Xie Changlong <xiechanglong.d@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
-References: <20220706201533.289775-1-eesposit@redhat.com>
- <20220706201533.289775-10-eesposit@redhat.com>
- <b86ef36a-a82c-591e-54fe-481690a5987f@yandex-team.ru>
- <8726804c-5dbc-bc27-3922-a00ae676941d@redhat.com>
- <1a2e7a92-9943-01a0-168c-73928d7833e8@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <1a2e7a92-9943-01a0-168c-73928d7833e8@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <CY1PR03MB213764AFCA6F51DC5558C1AEB3839@CY1PR03MB2137.namprd03.prod.outlook.com>
+ <CAFEAcA8s1MTvtSuX-xjqoxbz_c7_f-V97Ra6Qzy1QdMpfXTLAA@mail.gmail.com>
+ <1000569943.5927253.1657274788950@mail.yahoo.com>
+In-Reply-To: <1000569943.5927253.1657274788950@mail.yahoo.com>
+From: Fabien Chouteau <chouteau@adacore.com>
+Date: Wed, 20 Jul 2022 16:29:48 +0200
+Message-ID: <CALQG_Whc5dNp1yVM5H+8grKawsPfbdzU33ExnjddSEa6n=XpYQ@mail.gmail.com>
+Subject: Re: Support for Gaisler multicore LEONx SoCs
+To: Frederic Konrad <konrad.frederic@yahoo.fr>
+Cc: Gregg Allison <gregg.allison@lasp.colorado.edu>, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ "qemu-discuss@nongnu.org" <qemu-discuss@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000e2a34205e43d6f8a"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=chouteau@adacore.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,35 +87,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000e2a34205e43d6f8a
+Content-Type: text/plain; charset="UTF-8"
 
+Hello everyone,
 
-Am 20/07/2022 um 15:06 schrieb Vladimir Sementsov-Ogievskiy:
-> On 7/19/22 15:00, Emanuele Giuseppe Esposito wrote:
->>
->>
->> Am 11/07/2022 um 15:08 schrieb Vladimir Sementsov-Ogievskiy:
->>>
->>> That made me ask:
->>>
->>> 1. Are all tests always run in main loop? If yes, why to protect status
->>> reading in test_complete_in_standby() ?
->>>
->>> 2. Maybe, we don't need to protect anything here? Why to protect other
->>> things if we run everything in main loop?
->>
->> I think it's still good example and practice to protect a function if it
->> needs to be protected and its name ends with _locked. It would just
->> confuse the reader if we don't protect it.
->>
-> 
-> Agree. But still, I think we should be consistent in such decisions. If
-> you don't want to protect job->status in tests, then you shouldn't
-> protect it in test_complete_in_standby() as well, just to not confuse
-> someone who read the code.
-> 
-> 
-Ok, I will protect job->status in those tests too.
+On Fri, Jul 8, 2022 at 12:16 PM Frederic Konrad <konrad.frederic@yahoo.fr>
+wrote:
 
-Emanuele
+> About the SMP support AdaCore had a few patches for it, I'll let Fabien
+> answer.
+>
 
+The patches for SMP support actually come from Gaisler originally (if I
+remember correctly).
+
+For sure we at AdaCore support SMP Leon3/Leon4 in our fork of QEMU, and I
+think all the required patches are contributed upstream.
+
+-- 
+Fabien Chouteau
+
+--000000000000e2a34205e43d6f8a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hello everyone,<br></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 8, 2022 at 12:16 PM Fr=
+ederic Konrad &lt;<a href=3D"mailto:konrad.frederic@yahoo.fr">konrad.freder=
+ic@yahoo.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div><div style=3D"font-family:Helvetica Neue,Helvetica,Arial,sa=
+ns-serif;font-size:13px"><div id=3D"gmail-m_2815899744894986057ydp6e9c7218y=
+ahoo_quoted_7277343291">
+            <div style=3D"font-family:&quot;Helvetica Neue&quot;,Helvetica,=
+Arial,sans-serif;font-size:13px;color:rgb(38,40,42)"><div dir=3D"ltr">About=
+ the SMP support AdaCore had a few patches for it, I&#39;ll let Fabien answ=
+er.<br></div></div></div></div></div></blockquote><div><br></div><div>The p=
+atches for SMP support actually come from Gaisler originally (if I remember=
+ correctly).</div><div><br></div><div>For sure we at AdaCore support SMP Le=
+on3/Leon4 in our fork of QEMU, and I think all the required patches are con=
+tributed upstream.<br></div></div><br>-- <br><div dir=3D"ltr" class=3D"gmai=
+l_signature"><div dir=3D"ltr">Fabien Chouteau<br></div></div></div>
+
+--000000000000e2a34205e43d6f8a--
 
