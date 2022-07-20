@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5953557B1A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:22:03 +0200 (CEST)
-Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC1757B1DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 09:38:29 +0200 (CEST)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE41y-00051s-5j
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
+	id 1oE4Hs-0000jz-4c
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 03:38:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1oE3tY-0006zM-63
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:13:20 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39679)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oE4GE-0007aa-IH
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:36:46 -0400
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:37735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1oE3tU-0008NH-Kf
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:13:19 -0400
-Received: by mail-ej1-x632.google.com with SMTP id bp15so31454863ejb.6
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 00:13:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oE4Fz-0004Md-4B
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 03:36:46 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id e28so28781358lfj.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 00:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1FPWQmUk4Ed9gQ0Jb0N5c/DY0C5lQLYEUAkpuF0cy28=;
- b=RYa4kkA3lKsjOoODl304uMqr9CnKAdIFvAOlREQiavUf36bMGTnSq7YfENd93hRH2F
- DNRRendHp8zgxHvVwv/CwqP/e10NafenAn7Ar/iB6vGs8F7gfwBCnFbhImcQJ9q9kCgM
- WPmwjoMZFInFzudtMmOlt7PR6e1EbJUQ/LRRMTqz3TXM30+FsAcpmde7odMQASNQQ8Hz
- CZ/kJ8BfJdNHZsfGMLlQaONLBK7NsAM5j+F3w1BUZe39qxOoPIVazLM5Ew4KWIbbZnUo
- vcBSSkZgPq+m2yTLztyFZoU/8T1GCgrMWQTd10g3CqB9WLnrKz7EWVxeb9PAHIgkfVDe
- cCkg==
+ :cc; bh=8hoEbBI3G4zCxFIWR9PXDRYeY61hp+CWFuLQz/BkHwY=;
+ b=E9aoargMWfkO6uz7N1VT42DdODUxHfVe2vp+VfchHNc0n2rJ6Hg4iLy+OGgrlWMEiD
+ MmxRSZ8rPINrLDAPOBrwqrwAHJzUrJNUBKYJ0k/rLsPqeSEe+NVNGmJbLpxZ5w9xnG1f
+ ZXn8ppV7x/4y13NZP1oU8Kd55uVYT+qhLSIxvmBSgn+n+Qs/Tg4JowKSHiNYQu4MJtW1
+ /qtvJQGu3NE7xcAQWaO0a/Z0qkOXJhLutCFbCh2+SiiSww3RUXw7LBHT5LipxX2uH0A5
+ NSSfMayXRMVaYlRTp0ksUbTvw+wemN9KqiPWXyPIVM6+gHXwpS5Hmkv1/9+24VvR99QG
+ GoDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1FPWQmUk4Ed9gQ0Jb0N5c/DY0C5lQLYEUAkpuF0cy28=;
- b=FJkqwhIKeIFczQSOUX/a9cpe4qblwUkeZuhlZDoyp8kV8woT5S2GAV3+zSF57CSCCb
- H/SboqJ/Aoom+TOMqOZAt44426SJChpBhkHL8HAdfXwr1rUnvdkuCMTU+C8AwZQZM4zW
- K6MDPonfP8O3eretx+L84lTSUcdqjOEGHXWnCFeeEGWZL728vFeKB3j1i0ac/Qp1yRcE
- S/SEObOgHquJjHtl2rrdH1Buy0o1eF5jAdmjAK91bMe3C4ovDFBa+KqNYduRbwxrz+Bu
- O8467rtvLNCgyfDCX/fzJt8pzRcUVC0RoHyQAc/PE0+zfGwCVD6RVItA7rcsIkiCHoc4
- fV8w==
-X-Gm-Message-State: AJIora8zGWXfzB2eTex0o77U0IMKPY2kHrO9hr3TDk+20n8iSMyVd1sr
- 5V+/o9vhJLQ2SxLBJjaD4Qf/N0IONgVy79Mb2tI=
-X-Google-Smtp-Source: AGRyM1u75etqyvK7T/UR3yF+/0SiOo9QC1y55ZQkmTrlDTJZce/Qn/5Su6RlMc8TOPACMKKjbpcDPqkRqObWn2HRf98=
-X-Received: by 2002:a17:907:7396:b0:72d:a080:86a9 with SMTP id
- er22-20020a170907739600b0072da08086a9mr31798382ejc.49.1658301194355; Wed, 20
- Jul 2022 00:13:14 -0700 (PDT)
+ bh=8hoEbBI3G4zCxFIWR9PXDRYeY61hp+CWFuLQz/BkHwY=;
+ b=rgdav61vlM5XwD0jWUmakddo7Oua6AU3SwZrmKwNpT0NeP+FhikrZ8iyHf+E1cIXaa
+ hXuQJCNiMxllg8RpQEvno17uuhn2ak8evT66jG1TVMH2a70wnL4ME5VEkVEjeIsXjlRa
+ orwkmjkVxx+DsZA4l+SNBLAylM/ZJ/2+mVOcj2YOok5HR2WlKq8UwjvT9grjOeXhlFDM
+ ypIRMHAj2te5hgCnQ2e2ibrzkPsm9uQkrzAwxrGH2rg5X9NyGSu9OSZjA4At4FpYa74Q
+ MrL8T6aGLxAkM7P8imLsh89ncjwApPemwzVpfg6d4NPxq8oRLNpfBlS5V/UW7PDrlFhl
+ rjRw==
+X-Gm-Message-State: AJIora+O5JyZRJAbfi0BgBAXywoiZfPBWWweV/AaxMiV0oYbqUyPksaA
+ ApcEV9qedAKhaCH/8sWggXA+WuJEk5Q/usy/77s=
+X-Google-Smtp-Source: AGRyM1sOi9F6btHLO3D7Lv5GXl9fUd7HT+cbgX6LzdecTZGG60YsCZTfdB6UX8ToA0Mk8CLs6pujtvyqE7+8awntOdg=
+X-Received: by 2002:a05:6512:31d1:b0:489:cfee:3600 with SMTP id
+ j17-20020a05651231d100b00489cfee3600mr19473041lfe.432.1658302579076; Wed, 20
+ Jul 2022 00:36:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719122334.136290-1-Jason@zx2c4.com>
-In-Reply-To: <20220719122334.136290-1-Jason@zx2c4.com>
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Date: Wed, 20 Jul 2022 09:13:03 +0200
-Message-ID: <CAJy5ezq7_F6uDrY6RuXe5ru0mAbmx-pBTQoFCtZj4DhEM7EZpw@mail.gmail.com>
-Subject: Re: [PATCH] hw/microblaze: pass random seed to fdt
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000009ec75905e437552e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-ej1-x632.google.com
+References: <20220720071057.1745-1-hogan.wang@huawei.com>
+In-Reply-To: <20220720071057.1745-1-hogan.wang@huawei.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 20 Jul 2022 11:36:07 +0400
+Message-ID: <CAJ+F1CL6ppZ_J_HK4-hHQG21=cerzBmArL7tkUcy1eYpMLcYUA@mail.gmail.com>
+Subject: Re: [PATCH v2] chardev: avoid use-after-free when client disconnect
+To: Hogan Wang <hogan.wang@huawei.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>, 
+ wangxinxin.wang@huawei.com
+Content-Type: multipart/alternative; boundary="00000000000027f5a905e437a803"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ HTML_MESSAGE=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,128 +84,323 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009ec75905e437552e
+--00000000000027f5a905e437a803
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 19, 2022 at 2:23 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+Hi
 
-> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-> initialize early. Set this using the usual guest random number
-> generation function. This FDT node is part of the DT specification.
+On Wed, Jul 20, 2022 at 11:13 AM Hogan Wang via <qemu-devel@nongnu.org>
+wrote:
+
+> IOWatchPoll object did not hold the @ioc and @src objects reference,
+> then io_watch_poll_prepare execute in IO thread, if IOWatchPoll
+> removed by mian thread, then io_watch_poll_prepare access @ioc or
 >
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+mian->main
 
+
+> @src concurrently lead to coredump.
+>
+> In IO thread monitor scene, the IO thread used to accept client,
+> receive qmp request and handle hung-up event. Main thread used to
+> handle qmp request and send response, it will remove IOWatchPoll
+> and free @ioc when send response fail, then cause use-after-free
+>
+
+I wonder if we are misusing GSources in that case, by removing sources from
+different threads.. Could you be more specific about the code path that
+leads to that?
+
+
+> like this:
+>
+> (gdb) bt
+> 0  0x00007f4d121c8edf in g_source_remove_child_source
+> (source=3D0x7f4c58003560, child_source=3D0x7f4c58009b10)
+> 1  0x00007f4d11e0705c in io_watch_poll_prepare (source=3D0x7f4c58003560,
+> timeout=3Dtimeout@entry=3D0x7f4c7fffed94
+> 2  0x00007f4d121ca419 in g_main_context_prepare (context=3Dcontext@entry=
+=3D0x55a1463f8260,
+> priority=3Dpriority@entry=3D0x7f4c7fffee20)
+> 3  0x00007f4d121cadeb in g_main_context_iterate (context=3D0x55a1463f8260=
+,
+> block=3Dblock@entry=3D1, dispatch=3Ddispatch@entry=3D1, self=3Dself@entry
+> =3D0x7f4c94002260)
+> 4  0x00007f4d121cb21d in g_main_loop_run (loop=3D0x55a146c90920)
+> 5  0x00007f4d11de3ea1 in iothread_run (opaque=3D0x55a146411820)
+> 6  0x00007f4d11d77470 in qemu_thread_start (args=3D0x55a146b1f3c0)
+> 7  0x00007f4d11f2ef3b in ?? () from /usr/lib64/libpthread.so.0
+> 8  0x00007f4d120ba550 in clone () from /usr/lib64/libc.so.6
+> (gdb) p iwp
+> $1 =3D (IOWatchPoll *) 0x7f4c58003560
+> (gdb) p *iwp
+> $2 =3D {parent =3D {callback_data =3D 0x0,
+>                 callback_funcs =3D 0x0,
+>                 source_funcs =3D 0x7f4d11f10760 <io_watch_poll_funcs>,
+>                 ref_count =3D 1,
+>                 context =3D 0x55a1463f8260,
+>                 priority =3D 0,
+>                 flags =3D 0,
+>                 source_id =3D 544,
+>                 poll_fds =3D 0x0,
+>                 prev =3D 0x55a147a47a30,
+>                 next =3D 0x55a14712fb80,
+>                 name =3D 0x7f4c580036d0 "chardev-iowatch-charmonitor",
+>                 priv =3D 0x7f4c58003060},
+>        ioc =3D 0x7f4c580033f0,
+>        src =3D 0x7f4c58009b10,
+>        fd_can_read =3D 0x7f4d11e0a5d0 <tcp_chr_read_poll>,
+>        fd_read =3D 0x7f4d11e0a380 <tcp_chr_read>,
+>        opaque =3D 0x55a1463aeea0 }
+> (gdb) p iwp->ioc
+> $3 =3D (QIOChannel *) 0x7f4c580033f0
+> (gdb) p *iwp->ioc
+> $4 =3D {parent =3D {class =3D 0x55a14707f400,
+>                 free =3D 0x55a146313010,
+>                 properties =3D 0x55a147b37b60,
+>                 ref =3D 0,
+>                 parent =3D 0x0},
+>       features =3D 3,
+>       name =3D 0x7f4c580085f0 "\240F",
+>       ctx =3D 0x0,
+>       read_coroutine =3D 0x0,
+>       write_coroutine =3D 0x0}
+>
+
+That backtrace isn't so useful. If you can produce an ASAN error though,
+that would be more explicit. Not a blocker.
+
+>
+> Solution: IOWatchPoll object hold the @ioc and @src objects reference
+> and release the reference in GSource finalize callback function.
+>
+
+ok, if we are not misusing GSource, otherwise seems needless or misleading
 
 
 >
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
 > ---
->  hw/microblaze/boot.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  chardev/char-io.c | 12 ++++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c
-> index 8b92a9801a..25ad54754e 100644
-> --- a/hw/microblaze/boot.c
-> +++ b/hw/microblaze/boot.c
-> @@ -30,6 +30,7 @@
->  #include "qemu/option.h"
->  #include "qemu/config-file.h"
->  #include "qemu/error-report.h"
-> +#include "qemu/guest-random.h"
->  #include "sysemu/device_tree.h"
->  #include "sysemu/reset.h"
->  #include "hw/boards.h"
-> @@ -75,6 +76,7 @@ static int microblaze_load_dtb(hwaddr addr,
->      int fdt_size;
->      void *fdt = NULL;
->      int r;
-> +    uint8_t rng_seed[32];
->
->      if (dtb_filename) {
->          fdt = load_device_tree(dtb_filename, &fdt_size);
-> @@ -83,6 +85,9 @@ static int microblaze_load_dtb(hwaddr addr,
->          return 0;
+> diff --git a/chardev/char-io.c b/chardev/char-io.c
+> index 4451128cba..6b10217a70 100644
+> --- a/chardev/char-io.c
+> +++ b/chardev/char-io.c
+> @@ -55,9 +55,9 @@ static gboolean io_watch_poll_prepare(GSource *source,
+>              iwp->ioc, G_IO_IN | G_IO_ERR | G_IO_HUP | G_IO_NVAL);
+>          g_source_set_callback(iwp->src, iwp->fd_read, iwp->opaque, NULL)=
+;
+>          g_source_add_child_source(source, iwp->src);
+> -        g_source_unref(iwp->src);
+>      } else {
+>          g_source_remove_child_source(source, iwp->src);
+> +        g_source_unref(iwp->src);
+>          iwp->src =3D NULL;
 >      }
+>      return FALSE;
+> @@ -69,9 +69,17 @@ static gboolean io_watch_poll_dispatch(GSource *source=
+,
+> GSourceFunc callback,
+>      return G_SOURCE_CONTINUE;
+>  }
 >
-> +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-> +    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed,
-> sizeof(rng_seed));
+> +static void io_watch_poll_finalize(GSource *source)
+> +{
+> +    IOWatchPoll *iwp =3D io_watch_poll_from_source(source);
+> +    g_clear_pointer(&iwp->src, g_source_unref);
+> +    g_clear_pointer(&iwp->ioc, object_unref);
+> +}
 > +
->      if (kernel_cmdline) {
->          r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
->                                      kernel_cmdline);
-> --
-> 2.35.1
+>  static GSourceFuncs io_watch_poll_funcs =3D {
+>      .prepare =3D io_watch_poll_prepare,
+>      .dispatch =3D io_watch_poll_dispatch,
+> +    .finalize =3D io_watch_poll_finalize,
+>  };
 >
+>  GSource *io_add_watch_poll(Chardev *chr,
+> @@ -88,7 +96,7 @@ GSource *io_add_watch_poll(Chardev *chr,
+>                                         sizeof(IOWatchPoll));
+>      iwp->fd_can_read =3D fd_can_read;
+>      iwp->opaque =3D user_data;
+> -    iwp->ioc =3D ioc;
+> +    iwp->ioc =3D object_ref(ioc);
+>      iwp->fd_read =3D (GSourceFunc) fd_read;
+>      iwp->src =3D NULL;
 >
 
---0000000000009ec75905e437552e
+Daniel, Markus, please take a look
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000027f5a905e437a803
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 19, 2022 at 2:23 PM Jason A. =
-Donenfeld &lt;<a href=3D"mailto:Jason@zx2c4.com">Jason@zx2c4.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">If the FDT =
-contains /chosen/rng-seed, then the Linux RNG will use it to<br>
-initialize early. Set this using the usual guest random number<br>
-generation function. This FDT node is part of the DT specification.<br></bl=
-ockquote><div><br></div><div>Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"=
-mailto:edgar.iglesias@amd.com">edgar.iglesias@amd.com</a>&gt;<br></div><div=
-><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 20, 2022 at 11:13 AM Ho=
+gan Wang via &lt;<a href=3D"mailto:qemu-devel@nongnu.org">qemu-devel@nongnu=
+.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
+ex">IOWatchPoll object did not hold the @ioc and @src objects reference,<br=
+>
+then io_watch_poll_prepare execute in IO thread, if IOWatchPoll<br>
+removed by mian thread, then io_watch_poll_prepare access @ioc or<br></bloc=
+kquote><div><br></div><div>mian-&gt;main</div><div>=C2=A0<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">
+@src concurrently lead to coredump.<br>
 <br>
-Cc: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@gmail.com" targe=
-t=3D"_blank">edgar.iglesias@gmail.com</a>&gt;<br>
-Signed-off-by: Jason A. Donenfeld &lt;<a href=3D"mailto:Jason@zx2c4.com" ta=
-rget=3D"_blank">Jason@zx2c4.com</a>&gt;<br>
+In IO thread monitor scene, the IO thread used to accept client,<br>
+receive qmp request and handle hung-up event. Main thread used to<br>
+handle qmp request and send response, it will remove IOWatchPoll<br>
+and free @ioc when send response fail, then cause use-after-free<br></block=
+quote><div><br></div><div>I wonder if we are misusing GSources in that case=
+, by removing sources from different threads.. Could you be more specific a=
+bout the code path that leads to that?<br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+like this:<br>
+<br>
+(gdb) bt<br>
+0=C2=A0 0x00007f4d121c8edf in g_source_remove_child_source (source=3D0x7f4c=
+58003560, child_source=3D0x7f4c58009b10)<br>
+1=C2=A0 0x00007f4d11e0705c in io_watch_poll_prepare (source=3D0x7f4c5800356=
+0, timeout=3Dtimeout@entry=3D0x7f4c7fffed94<br>
+2=C2=A0 0x00007f4d121ca419 in g_main_context_prepare (context=3Dcontext@ent=
+ry=3D0x55a1463f8260, priority=3Dpriority@entry=3D0x7f4c7fffee20)<br>
+3=C2=A0 0x00007f4d121cadeb in g_main_context_iterate (context=3D0x55a1463f8=
+260, block=3Dblock@entry=3D1, dispatch=3Ddispatch@entry=3D1, self=3Dself@en=
+try=3D0x7f4c94002260)<br>
+4=C2=A0 0x00007f4d121cb21d in g_main_loop_run (loop=3D0x55a146c90920)<br>
+5=C2=A0 0x00007f4d11de3ea1 in iothread_run (opaque=3D0x55a146411820)<br>
+6=C2=A0 0x00007f4d11d77470 in qemu_thread_start (args=3D0x55a146b1f3c0)<br>
+7=C2=A0 0x00007f4d11f2ef3b in ?? () from /usr/lib64/libpthread.so.0<br>
+8=C2=A0 0x00007f4d120ba550 in clone () from /usr/lib64/libc.so.6<br>
+(gdb) p iwp<br>
+$1 =3D (IOWatchPoll *) 0x7f4c58003560<br>
+(gdb) p *iwp<br>
+$2 =3D {parent =3D {callback_data =3D 0x0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 callback_funcs =3D =
+0x0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source_funcs =3D 0x=
+7f4d11f10760 &lt;io_watch_poll_funcs&gt;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ref_count =3D 1,<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 context =3D 0x55a14=
+63f8260,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 priority =3D 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flags =3D 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 source_id =3D 544,<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 poll_fds =3D 0x0,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prev =3D 0x55a147a4=
+7a30,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 next =3D 0x55a14712=
+fb80,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 name =3D 0x7f4c5800=
+36d0 &quot;chardev-iowatch-charmonitor&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 priv =3D 0x7f4c5800=
+3060},<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0ioc =3D 0x7f4c580033f0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0src =3D 0x7f4c58009b10,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0fd_can_read =3D 0x7f4d11e0a5d0 &lt;tcp_chr_read_=
+poll&gt;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0fd_read =3D 0x7f4d11e0a380 &lt;tcp_chr_read&gt;,=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0opaque =3D 0x55a1463aeea0 }<br>
+(gdb) p iwp-&gt;ioc<br>
+$3 =3D (QIOChannel *) 0x7f4c580033f0<br>
+(gdb) p *iwp-&gt;ioc<br>
+$4 =3D {parent =3D {class =3D 0x55a14707f400,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 free =3D 0x55a14631=
+3010,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 properties =3D 0x55=
+a147b37b60,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ref =3D 0,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 parent =3D 0x0},<br=
+>
+=C2=A0 =C2=A0 =C2=A0 features =3D 3,<br>
+=C2=A0 =C2=A0 =C2=A0 name =3D 0x7f4c580085f0 &quot;\240F&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 ctx =3D 0x0,<br>
+=C2=A0 =C2=A0 =C2=A0 read_coroutine =3D 0x0,<br>
+=C2=A0 =C2=A0 =C2=A0 write_coroutine =3D 0x0}<br></blockquote><div><br></di=
+v><div>That backtrace isn&#39;t so useful. If you can produce an ASAN error=
+ though, that would be more explicit. Not a blocker.<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">
+<br>
+Solution: IOWatchPoll object hold the @ioc and @src objects reference<br>
+and release the reference in GSource finalize callback function.<br></block=
+quote><div><br></div><div>ok, if we are not misusing GSource, otherwise see=
+ms needless or misleading<br></div><div>=C2=A0<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Hogan Wang &lt;<a href=3D"mailto:hogan.wang@huawei.com" targ=
+et=3D"_blank">hogan.wang@huawei.com</a>&gt;<br>
 ---<br>
-=C2=A0hw/microblaze/boot.c | 5 +++++<br>
-=C2=A01 file changed, 5 insertions(+)<br>
+=C2=A0chardev/char-io.c | 12 ++++++++++--<br>
+=C2=A01 file changed, 10 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/hw/microblaze/boot.c b/hw/microblaze/boot.c<br>
-index 8b92a9801a..25ad54754e 100644<br>
---- a/hw/microblaze/boot.c<br>
-+++ b/hw/microblaze/boot.c<br>
-@@ -30,6 +30,7 @@<br>
-=C2=A0#include &quot;qemu/option.h&quot;<br>
-=C2=A0#include &quot;qemu/config-file.h&quot;<br>
-=C2=A0#include &quot;qemu/error-report.h&quot;<br>
-+#include &quot;qemu/guest-random.h&quot;<br>
-=C2=A0#include &quot;sysemu/device_tree.h&quot;<br>
-=C2=A0#include &quot;sysemu/reset.h&quot;<br>
-=C2=A0#include &quot;hw/boards.h&quot;<br>
-@@ -75,6 +76,7 @@ static int microblaze_load_dtb(hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0int fdt_size;<br>
-=C2=A0 =C2=A0 =C2=A0void *fdt =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0int r;<br>
-+=C2=A0 =C2=A0 uint8_t rng_seed[32];<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (dtb_filename) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fdt =3D load_device_tree(dtb_filename, &a=
-mp;fdt_size);<br>
-@@ -83,6 +85,9 @@ static int microblaze_load_dtb(hwaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+diff --git a/chardev/char-io.c b/chardev/char-io.c<br>
+index 4451128cba..6b10217a70 100644<br>
+--- a/chardev/char-io.c<br>
++++ b/chardev/char-io.c<br>
+@@ -55,9 +55,9 @@ static gboolean io_watch_poll_prepare(GSource *source,<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iwp-&gt;ioc, G_IO_IN | G_IO=
+_ERR | G_IO_HUP | G_IO_NVAL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_source_set_callback(iwp-&gt;src, iwp-&g=
+t;fd_read, iwp-&gt;opaque, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_source_add_child_source(source, iwp-&gt=
+;src);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_source_unref(iwp-&gt;src);<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_source_remove_child_source(source, iwp-=
+&gt;src);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_source_unref(iwp-&gt;src);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0iwp-&gt;src =3D NULL;<br>
 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0return FALSE;<br>
+@@ -69,9 +69,17 @@ static gboolean io_watch_poll_dispatch(GSource *source, =
+GSourceFunc callback,<br>
+=C2=A0 =C2=A0 =C2=A0return G_SOURCE_CONTINUE;<br>
+=C2=A0}<br>
 <br>
-+=C2=A0 =C2=A0 qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));<br>
-+=C2=A0 =C2=A0 qemu_fdt_setprop(fdt, &quot;/chosen&quot;, &quot;rng-seed&qu=
-ot;, rng_seed, sizeof(rng_seed));<br>
++static void io_watch_poll_finalize(GSource *source)<br>
++{<br>
++=C2=A0 =C2=A0 IOWatchPoll *iwp =3D io_watch_poll_from_source(source);<br>
++=C2=A0 =C2=A0 g_clear_pointer(&amp;iwp-&gt;src, g_source_unref);<br>
++=C2=A0 =C2=A0 g_clear_pointer(&amp;iwp-&gt;ioc, object_unref);<br>
++}<br>
 +<br>
-=C2=A0 =C2=A0 =C2=A0if (kernel_cmdline) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0r =3D qemu_fdt_setprop_string(fdt, &quot;=
-/chosen&quot;, &quot;bootargs&quot;,<br>
+=C2=A0static GSourceFuncs io_watch_poll_funcs =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.prepare =3D io_watch_poll_prepare,<br>
+=C2=A0 =C2=A0 =C2=A0.dispatch =3D io_watch_poll_dispatch,<br>
++=C2=A0 =C2=A0 .finalize =3D io_watch_poll_finalize,<br>
+=C2=A0};<br>
+<br>
+=C2=A0GSource *io_add_watch_poll(Chardev *chr,<br>
+@@ -88,7 +96,7 @@ GSource *io_add_watch_poll(Chardev *chr,<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kernel_cmdline);=
-<br>
--- <br>
-2.35.1<br>
-<br>
-</blockquote></div></div>
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(I=
+OWatchPoll));<br>
+=C2=A0 =C2=A0 =C2=A0iwp-&gt;fd_can_read =3D fd_can_read;<br>
+=C2=A0 =C2=A0 =C2=A0iwp-&gt;opaque =3D user_data;<br>
+-=C2=A0 =C2=A0 iwp-&gt;ioc =3D ioc;<br>
++=C2=A0 =C2=A0 iwp-&gt;ioc =3D object_ref(ioc);<br>
+=C2=A0 =C2=A0 =C2=A0iwp-&gt;fd_read =3D (GSourceFunc) fd_read;<br>
+=C2=A0 =C2=A0 =C2=A0iwp-&gt;src =3D NULL;<br></blockquote><div><br></div><d=
+iv>Daniel, Markus, please take a look<br></div></div><br clear=3D"all"><br>=
+-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br=
+></div></div>
 
---0000000000009ec75905e437552e--
+--00000000000027f5a905e437a803--
 
