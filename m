@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 529D557B3B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:23:18 +0200 (CEST)
-Received: from localhost ([::1]:58318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFFBB57B409
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 11:41:29 +0200 (CEST)
+Received: from localhost ([::1]:53400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE5vJ-0000ox-EH
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:23:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58846)
+	id 1oE6Cu-0000f9-L1
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 05:41:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5dO-0000xW-IL
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:04:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33155)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oE5dK-0001YH-PE
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:04:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658307882;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Z8850xtzTkB/9nDlh2gEaq+QsEQKJh2EDDPTSePnvFM=;
- b=IjwWaSViE6bEtgq8WUNclBEvTwInABwIGEjJx796vD5EU1x7mnDqBcVFyQBOWSoU77JyhI
- IEyxZ2L9mCink1hnfv0OXa8Ey/dPBHxKFSfEMwDmz9RtiKHqwO8K/1+8TKZ+0/pQaCUAEB
- n6pbXo3du1PBJj6iBAhViwnSoUpQhvA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-362-vqpv4DBIPISNTnatWq81JQ-1; Wed, 20 Jul 2022 05:04:37 -0400
-X-MC-Unique: vqpv4DBIPISNTnatWq81JQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F3E9B3C1C0C7;
- Wed, 20 Jul 2022 09:04:36 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-13-110.pek2.redhat.com
- [10.72.13.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37A55492C3B;
- Wed, 20 Jul 2022 09:04:33 +0000 (UTC)
-From: Jason Wang <jasowang@redhat.com>
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oE5rb-0001Kb-9A
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:19:27 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:37318 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oE5rY-0003dN-C8
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 05:19:27 -0400
+Received: from smtpclient.apple (unknown [159.226.43.13])
+ by APP-05 (Coremail) with SMTP id zQCowABXUO6RyNdiOOTsDw--.54861S2;
+ Wed, 20 Jul 2022 17:19:14 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+Date: Wed, 20 Jul 2022 17:19:13 +0800
+Cc: Klaus Jensen <its@irrelevant.dk>,
+ Keith Busch <kbusch@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <89A32E7F-1384-47FA-B476-81D719023241@ict.ac.cn>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
 To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Cc: Zhang Chen <chen.zhang@intel.com>, Tao Xu <tao3.xu@intel.com>,
- Li Zhijian <lizhijian@fujitsu.com>, Jason Wang <jasowang@redhat.com>
-Subject: [PULL V2 25/25] net/colo.c: fix segmentation fault when packet is not
- parsed correctly
-Date: Wed, 20 Jul 2022 17:03:13 +0800
-Message-Id: <20220720090313.55169-26-jasowang@redhat.com>
-In-Reply-To: <20220720090313.55169-1-jasowang@redhat.com>
-References: <20220720090313.55169-1-jasowang@redhat.com>
-MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ stefanha@redhat.com
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowABXUO6RyNdiOOTsDw--.54861S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuF1xGF15KrW7Zr1ftw15XFb_yoWrAw4kpa
+ yUGa93CrZ7J34xWr4aqwnrCwn8u3y0qr1UA3WfXry3Xr1kCr9xArWkKF4UJFyrGrZ8XFW5
+ uw4Fqr1Uuw4Ut3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUkSb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwV
+ C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Cr0_Gr
+ 1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_GFWl42xK
+ 82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGw
+ C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+ MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+ IF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY
+ 6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU2l1vUUUUU
+X-Originating-IP: [159.226.43.13]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,69 +76,159 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+at 12:35 PM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-When COLO use only one vnet_hdr_support parameter between
-filter-redirector and filter-mirror(or colo-compare), COLO will crash
-with segmentation fault. Back track as follow:
+> Use irqfd to directly notify KVM to inject interrupts. This is done by
+> registering a virtual IRQ(virq) in KVM and associate the virq with an
+> irqfd, so that KVM can directly inject the interrupt when it receives
+> notification from the irqfd. This approach is supposed to improve=20
+> performance because it bypasses QEMU's MSI interrupt emulation logic.
+>=20
+> However, I did not see an obvious improvement of the emulation KIOPS:
+>=20
+> QD      1   4  16  64=20
+> QEMU   38 123 210 329
+> irqfd  40 129 219 328
+>=20
+> I found this problem quite hard to diagnose since irqfd's workflow
+> involves both QEMU and the in-kernel KVM.=20
+>=20
+> Could you help me figure out the following questions:
+>=20
+> 1. How much performance improvement can I expect from using irqfd?
+> 2. How can I debug this kind of cross QEMU-KVM problems?
+>=20
+> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+> ---
+> hw/nvme/ctrl.c | 67 ++++++++++++++++++++++++++++++++++++++++++++++++-
+> hw/nvme/nvme.h |  3 +++
+> 2 files changed, 68 insertions(+), 1 deletions(-)
+>=20
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 4b75c5f549..59768c4586 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -159,6 +159,7 @@
+> #include "sysemu/sysemu.h"
+> #include "sysemu/block-backend.h"
+> #include "sysemu/hostmem.h"
+> +#include "sysemu/kvm.h"
+> #include "hw/pci/msix.h"
+> #include "migration/vmstate.h"
+>=20
+> @@ -484,12 +485,70 @@ static void nvme_irq_check(NvmeCtrl *n)
+>     }
+> }
+>=20
+> +static int nvme_kvm_msix_vector_use(NvmeCtrl *n,
+> +                                    NvmeCQueue *cq,
+> +                                    int vector)
+> +{
+> +    int ret;
+> +
+> +    KVMRouteChange c =3D kvm_irqchip_begin_route_changes(kvm_state);
+> +    ret =3D kvm_irqchip_add_msi_route(&c, vector, &n->parent_obj);
+> +    if (ret < 0) {
+> +        return ret;
+> +    }
+> +    kvm_irqchip_commit_route_changes(&c);
+> +    cq->virq =3D ret;
+> +    return 0;
+> +}
+> +
+> +static int nvme_init_cq_irqfd(NvmeCQueue *cq)
+> +{
+> +    int ret;
+> +   =20
+> +    ret =3D nvme_kvm_msix_vector_use(cq->ctrl, cq, (int)cq->vector);
+> +    if (ret < 0) {
+> +        goto fail;
+> +    }
+> +
+> +    ret =3D event_notifier_init(&cq->irq_notifier, 0);
+> +    if (ret < 0) {
+> +        goto fail_notifier;
+> +    }
+> +
+> +    ret =3D kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, =
+&cq->irq_notifier,
+> +                                              NULL, cq->virq);
+> +    if (ret < 0) {
+> +        goto fail_kvm;
+> +    }
+> +
+> +    return 0;
+> +                       =20
+> +fail_kvm:
+> +    event_notifier_cleanup(&cq->irq_notifier);
+> +fail_notifier:
+> +    kvm_irqchip_release_virq(kvm_state, cq->virq);
+> +fail:
+> +    return ret;
+> +}
+> +
+> static void nvme_irq_assert(NvmeCtrl *n, NvmeCQueue *cq)
+> {
+>     if (cq->irq_enabled) {
+>         if (msix_enabled(&(n->parent_obj))) {
+> +            /* Initialize CQ irqfd */
+> +            if (!cq->irqfd_enabled && n->params.ioeventfd && cq->cqid =
+!=3D 0) {
+> +                int ret =3D nvme_init_cq_irqfd(cq);
+> +                if (ret =3D=3D 0) {
+> +                    cq->irqfd_enabled =3D true;
+> +                }
+> +            }
+> +
+>             trace_pci_nvme_irq_msix(cq->vector);
+> -            msix_notify(&(n->parent_obj), cq->vector);
+> +            if (cq->irqfd_enabled) {
+> +                event_notifier_set(&cq->irq_notifier);
+> +            } else {
+> +                msix_notify(&(n->parent_obj), cq->vector);
+> +            }
+>         } else {
+>             trace_pci_nvme_irq_pin();
+>             assert(cq->vector < 32);
+> @@ -4670,6 +4729,12 @@ static void nvme_free_cq(NvmeCQueue *cq, =
+NvmeCtrl *n)
+>         event_notifier_cleanup(&cq->notifier);
+>     }
+>     if (msix_enabled(&n->parent_obj)) {
+> +        if (cq->irqfd_enabled) {
+> +            kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, =
+&cq->irq_notifier,
+> +                                                  cq->virq);
+> +            kvm_irqchip_release_virq(kvm_state, cq->virq);
+> +            event_notifier_cleanup(&cq->irq_notifier);
+> +        }
+>         msix_vector_unuse(&n->parent_obj, cq->vector);
+>     }
+>     if (cq->cqid) {
+> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+> index 2a9beea0c8..84e5b00fe3 100644
+> --- a/hw/nvme/nvme.h
+> +++ b/hw/nvme/nvme.h
+> @@ -391,7 +391,10 @@ typedef struct NvmeCQueue {
+>     uint64_t    ei_addr;
+>     QEMUTimer   *timer;
+>     EventNotifier notifier;
+> +    EventNotifier irq_notifier;
+> +    int         virq;
+>     bool        ioeventfd_enabled;
+> +    bool        irqfd_enabled;
+>     QTAILQ_HEAD(, NvmeSQueue) sq_list;
+>     QTAILQ_HEAD(, NvmeRequest) req_list;
+> } NvmeCQueue;
+> --=20
+> 2.25.1
 
-Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
-    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-296         uint16_t proto = be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto);
-(gdb) bt
-0  0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
-    at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-1  0x0000555555cb22b4 in parse_packet_early (pkt=0x555556a44840) at
-net/colo.c:49
-2  0x0000555555cb2b91 in is_tcp_packet (pkt=0x555556a44840) at
-net/filter-rewriter.c:63
+Hi Stefan,
 
-So wrong vnet_hdr_len will cause pkt->data become NULL. Add check to
-raise error and add trace-events to track vnet_hdr_len.
+It seems you originally introduced irqfd to virtio-blk to solve thread
+safety problems [1]. Could you help explain the benefits of irqfd?
 
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
-Signed-off-by: Jason Wang <jasowang@redhat.com>
----
- net/colo.c       | 9 ++++++++-
- net/trace-events | 1 +
- 2 files changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/net/colo.c b/net/colo.c
-index 694f3c9..6b0ff56 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -46,7 +46,14 @@ int parse_packet_early(Packet *pkt)
-     static const uint8_t vlan[] = {0x81, 0x00};
-     uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-     uint16_t l3_proto;
--    ssize_t l2hdr_len = eth_get_l2_hdr_length(data);
-+    ssize_t l2hdr_len;
-+
-+    if (data == NULL) {
-+        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-+                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-+        return 1;
-+    }
-+    l2hdr_len = eth_get_l2_hdr_length(data);
- 
-     if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
-         trace_colo_proxy_main("pkt->size < ETH_HLEN");
-diff --git a/net/trace-events b/net/trace-events
-index d7a1725..6af927b 100644
---- a/net/trace-events
-+++ b/net/trace-events
-@@ -9,6 +9,7 @@ vhost_user_event(const char *chr, int event) "chr: %s got event: %d"
- 
- # colo.c
- colo_proxy_main(const char *chr) ": %s"
-+colo_proxy_main_vnet_info(const char *sta, int size) ": %s = %d"
- 
- # colo-compare.c
- colo_compare_main(const char *chr) ": %s"
--- 
-2.7.4
+Thanks!
+Jinhao Fan=
 
 
