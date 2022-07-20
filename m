@@ -2,104 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9315E57BD78
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 20:12:08 +0200 (CEST)
-Received: from localhost ([::1]:60408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7B057BDF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 20:41:35 +0200 (CEST)
+Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEEB5-0004R8-3t
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 14:12:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45664)
+	id 1oEEdZ-0000sH-U7
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 14:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oEE92-0001xq-Da
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 14:10:00 -0400
-Received: from esa11.hc2706-39.iphmx.com ([216.71.137.81]:19615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1oEE90-0007Xe-Fc
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 14:09:59 -0400
-X-IronPort-RemoteIP: 209.85.219.71
-X-IronPort-MID: 213339585
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:VyodeqNqfBopNGzvrR0VlcFynXyQoLVcMsEvi/4bfWQNrUol1DQFz
- GUXWWnSP/3cZmejKNl1YImy/RwA7Mfdyd9lGQZtpSBmQkwRlceUXt7xwmUcns+xwm8vaGo9s
- q3yv/GZdJhcokf0/0vraP65xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOd8iYNz6TSDK1rlV
- eja/ouOYjdJ5xYuajhOs/3Z8Es21BjPkGhwUmIWNKgjUGD2yiF94KI3fcmZM3b+S49IKe+2L
- 86rIGaRpz6xE78FU7tJo56iGqE4aue60Tum0xK6b5Ofbi1q/UTe5Eqa2M00Mi+7gx3R9zx4J
- U4kWZaYEG/FNYWV8AgRvoUx/4iT8sSq9ZeeSUVTv/B/wGXhT1/j8q5SA3gWHpdD1cRdOW1P8
- cEHfWVlghCr34pawZq+Q+how909dYzlY9pZtXZnwjXUS/0hRPgvQY2QvY4ejGp23JkfW6mHD
- yYaQWMHgBDoahlfPFsNIJgj2uqkmxETdhUC8QnO/vtqszW7IApZjpK3Ap3NVt22YdxLtWS9o
- mLU02qgHURPXDCY4X/fmp62vcfWkCbmHY4fCrC83vhthlKV2yoUEhJ+aLegifywi0r7QswGb
- kJLo2whqq898EHtRd74N/GlnEO5Utcnc4I4O4UHBMulk/G8D9qxboTccgN8VQ==
-IronPort-HdrOrdr: A9a23:grWkqK2rHo/BH3ynohndjAqjBGgkLtp133Aq2lEZdPWaSL39qy
- nIpoVg6faQslwssR4b6La90cW7MBHhHP1OkPIs1MmZLXDbUQKTRekInOjfKlXbexEWndQtsp
- uIHZIObeHYPBxRofy/zjOFM+sN9vG6zYHAv5ai856vd21XgmNbgjuRxjz0LqQPfng/OXPxLv
- X82vZ6
-Received: from mail-qv1-f71.google.com ([209.85.219.71])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 20 Jul 2022 14:09:52 -0400
-Received: by mail-qv1-f71.google.com with SMTP id
- lb15-20020a056214318f00b00473726845c8so9830391qvb.8
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 11:09:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vtCy0lThYObskLC+s7bi13/Lo/Xta+fSec1igr1zbj0=;
- b=ZuZCk/O74/w3aaZwaCJMcHZdBHv2DQh2M4snZGfPVakPXmNeL2QTEDNwvGNXb/gMaU
- 4U1OG9vh9c6i3jyfnSMWpCVu8Tk2BXluh4i6tyxXW0EojDoNCYcYOyDA0h/aO3ny15ph
- JcC2cFxu3pIVeJ91UxpE38lMKYmhUDRMIhFuMZRk9aFvxKHFvGydl5xy6L6jHuVQ+Dhm
- 20cB8qPrttPf+n0ml3y46pYcsJopv5wp0gKypmmtTz+hTJEWjlRv3CbGrGptDwqzQ8kZ
- CLGypMXop++MNMmQGhfjbDD9pJey5ozTmxbMbGefsYpQJaMgCXdODVgyNp3XssT3G+SP
- zwNg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oEEZa-0005Wo-0o
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 14:37:26 -0400
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:33709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1oEEZX-0004A1-Qi
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 14:37:25 -0400
+Received: by mail-qt1-x834.google.com with SMTP id u12so1776972qtk.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 11:37:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20210112.gappssmtp.com; s=20210112;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=HpGbQenVF85YLrUt934ZKRCS+O8BI83qBygfa5/Jdtw=;
+ b=jJebrS2msqLvgJZCW2LrfJ6RK/szCR4is/GVf5oazJnU479F0rta09awECcJm2xMbz
+ A+VoRAmG0CO9yn02lwCNCqDQnyXwYdJajM3+7hpUr9zwZDhs1RQGSxDwhJsN5EFmKaoW
+ GJsF5KAamWudFusENveI5B/2lWMarh05zf8NUEJB7XxeUN6s19m77cZGPDUtyx5jDaxp
+ NCC/HKuI+9CfWuJBOpd0IPYUvipSe1L458NsZr3VJUvZJfjE4wSfPsrGui0VauB8yKBr
+ Yod97x0aRlgErFYv7b8IL0SaoxFZDz31b5CBUwfhEAcP7G2dvA0T1ax7+/bCZu8FNFK9
+ 9XFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vtCy0lThYObskLC+s7bi13/Lo/Xta+fSec1igr1zbj0=;
- b=U3kQKc2utHBIxXGEWk2b7Ok/KgxzjYkFh1xncKqHpBCXJ9XoaxX/tbConCyGIT+mZk
- obSGkI5kcUXAMuzbiRETNZ6lUb5SWEwK8bigUeJBOsxu9bF9x4ilTVeZRcPsg6jQjyAd
- MXgOZy9bz9RX6TCgfBXKn5RBFmEP65mipNOtFJF93Jl1Mg8SO/eR5FjvBBhBtUS/sGN2
- ZYdb/bg60nij6jsGSiXeiygsNEQAy7DGppjbzpaabFcL6uLnAjNDdM3przQQsB98afm4
- oNmzMYMyurPsSUYQfvTT1+tQEhpsn2z7Sybl2vudPaPf8vwOB3RO4QnLaq8vfl8Rj1cw
- iwYQ==
-X-Gm-Message-State: AJIora8IdN3RP4+iPbRJVRYCgkZkgkNr2h/a0Z+g3Cg3l7PtDVGTAdT0
- t+F5kz8gywGyW+UFAgshHkjnE0SlDCyFohIuafLNBzSCrj5OdCvf7DYnUeIvfBnYtZ1tksdysF1
- gIqCnTHt+7j2Ucx76ziGa0WzSD5UlfQ==
-X-Received: by 2002:a05:622a:654:b0:31e:e8aa:aef0 with SMTP id
- a20-20020a05622a065400b0031ee8aaaef0mr15452429qtb.328.1658340591814; 
- Wed, 20 Jul 2022 11:09:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uk8nS1b67GzrllMxvoej4BNSDPYqWGRLSpXHHt17Q/SEWq+gz5afcWgGo8TUK+RfMrrvFfaA==
-X-Received: by 2002:a05:622a:654:b0:31e:e8aa:aef0 with SMTP id
- a20-20020a05622a065400b0031ee8aaaef0mr15452409qtb.328.1658340591573; 
- Wed, 20 Jul 2022 11:09:51 -0700 (PDT)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- f12-20020a05620a280c00b006b5e3bf0eb8sm11282543qkp.19.2022.07.20.11.09.50
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=HpGbQenVF85YLrUt934ZKRCS+O8BI83qBygfa5/Jdtw=;
+ b=B7jK7J6Zek+goUa6bJ0UyrdUnuGkQm86NOmYqgzHWF8qBsjn8gaiM0kDKtW/xYYqry
+ nloKS7HmyY7ucOgZHEEVEd7pM9TJMfpAUlPk1JLn7lTNv2ef2Wt4MnhdZSie7lrjca3i
+ k8LxMJd3/DytIcedn9RzvaFGThs2VS49DmKrKriaGD2zfYbJ7h6urXYBBNpw8qYF0xy7
+ 7I9CndjMDueWmYibf8WNCiTQRm0lY8MIHaB3+hhzh4oVBaKO60H0XWzAsVkplryGrT33
+ xjGQihEBnP9Yudb74ALZJM2tWpVybFQtY5pBK1j5V1gRgwUcSrgi2GVDdZpn0fA/pdL9
+ ILVw==
+X-Gm-Message-State: AJIora8HcPD1ZrEgHkFPYRcAnVWBVeDbA1TAQi9Lua+kaTvhSYF575oH
+ ODg1iM9aIFHFrmNVdqg9NfC/0w==
+X-Google-Smtp-Source: AGRyM1tYLTSiZBrbMMrmmpgixau5fqVhBaHtYAO7n5dJSnz60o4jCAZqMzycC3arnhUQO2xrfGE0sw==
+X-Received: by 2002:a05:622a:1013:b0:31f:7b0:885d with SMTP id
+ d19-20020a05622a101300b0031f07b0885dmr3377748qte.178.1658342242256; 
+ Wed, 20 Jul 2022 11:37:22 -0700 (PDT)
+Received: from snn377.eng.timetra.com ([208.184.70.254])
+ by smtp.googlemail.com with ESMTPSA id
+ g18-20020ac87752000000b0031ee01443b4sm9764406qtu.74.2022.07.20.11.37.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 11:09:51 -0700 (PDT)
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH] oss-fuzz: ensure base_copy is a generic-fuzzer
-Date: Wed, 20 Jul 2022 14:09:46 -0400
-Message-Id: <20220720180946.2264253-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.27.0
+ Wed, 20 Jul 2022 11:37:21 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Wed, 20 Jul 2022 11:37:19 -0700 (PDT)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, 
+ Ani Sinha <ani@anisinha.ca>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>, 
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, 
+ Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
+ can just use what they need
+In-Reply-To: <CAFEAcA9WBo2Kn9BPz1y2JCxpBGnBWDOtgLFiu31V4PL2m6b7bQ@mail.gmail.com>
+Message-ID: <alpine.DEB.2.22.394.2207201132430.9370@anisinha-lenovo>
+References: <20210904213506.486886-1-mst@redhat.com>
+ <20210904213506.486886-7-mst@redhat.com>
+ <CAFEAcA9WBo2Kn9BPz1y2JCxpBGnBWDOtgLFiu31V4PL2m6b7bQ@mail.gmail.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.81; envelope-from=alxndr@bu.edu;
- helo=esa11.hc2706-39.iphmx.com
-X-Spam_score_int: 0
-X-Spam_score: -0.1
-X-Spam_bar: /
-X-Spam_report: (-0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::834;
+ envelope-from=ani@anisinha.ca; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,31 +97,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Depending on how the target list is sorted in by qemu, the first target
-(used as the base copy of the fuzzer, to which all others are linked)
-might not be a generic-fuzzer. Since we are trying to only use
-generic-fuzz, on oss-fuzz, fix that, to ensure the base copy is a
-generic-fuzzer.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 2656a89aea..dade5abe2d 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -90,7 +90,7 @@ fi
- # Prepare a preinstalled tree
- make install DESTDIR=$DEST_DIR/qemu-bundle
- 
--targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
-+targets=$(./qemu-fuzz-i386 | grep generic-fuzz | awk '$1 ~ /\*/  {print $2}')
- base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
- 
- cp "./qemu-fuzz-i386" "$base_copy"
--- 
-2.27.0
+On Tue, 19 Jul 2022, Peter Maydell wrote:
 
+> On Sat, 4 Sept 2021 at 22:36, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > From: Ani Sinha <ani@anisinha.ca>
+> >
+> > Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
+> > hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
+> > This brings in support for whole lot of subsystems that some targets like
+> > mips does not need. They are added just to satisfy symbol dependencies. This
+> > is ugly and should be avoided. Targets should be able to pull in just what they
+> > need and no more. For example, mips only needs support for PIIX4 and does not
+> > need acpi pci hotplug support or cpu hotplug support or memory hotplug support
+> > etc. This change is an effort to clean this up.
+> > In this change, new config variables are added for various acpi hotplug
+> > subsystems. Targets like mips can only enable PIIX4 support and not the rest
+> > of all the other modules which were being previously pulled in as a part of
+> > CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
+> > are not required by mips (for example, symbols specific to pci hotplug etc)
+> > are available to satisfy the dependencies.
+> >
+> > Currently, this change only addresses issues with mips malta targets. In future
+> > we might be able to clean up other targets which are similarly pulling in lot
+> > of unnecessary hotplug modules by enabling ACPI_X86.
+> >
+> > This change should also address issues such as the following:
+> > https://gitlab.com/qemu-project/qemu/-/issues/221
+> > https://gitlab.com/qemu-project/qemu/-/issues/193
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > Message-Id: <20210812071409.492299-1-ani@anisinha.ca>
+> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> Hi; I'm trying to track down the fix for a bug that I think
+> was introduced by this change. Specifically, if you
+> configure with a target list of
+>  '--target-list=mips-linux-user,mips64-linux-user,mipsel-linux-user,mipsn32-linux-user,mipsn32el-linux-user,mips-softmmu,mipsel-softmmu,mips64-softmmu,mips64el-softmmu'
+>
+> (ie "just mips"), then run 'make check', the iotest 267 fails
+> because QEMU segfaults trying to do a VM save/restore on
+> qemu-system-mips. (You can run just that iotest by cd'ing
+> into the build dir's tests/qemu-iotests/ subdir and running
+>   ./check -qcow2 -gdb 267
+> if you like).
+>
+> This is because hw/acpi/piix4.c (used by the MIPS malta board)
+> has a vmstate that includes use of the VMSTATE_PCI_HOTPLUG()
+> macro. This macro uses the vmstate_acpi_pcihp_pci_status
+> vmstate struct. If the MIPS target is built along with some
+> other targets which require CONFIG_ACPI_PCIHP then we correctly
+> get the real definition of that vmstate struct from pcihp.c.
+> However, if we are only building the MIPS targets then
+> CONFIG_ACPI_PCIHP is false, and we get the dummy definition
+> of the struct from acpi-pci-hotplug-stub.c. The dummy definition
+> obviously doesn't actually work for migrating anything, and
+> in fact the migration code ends up segfaulting because
+> the 'name' field in the struct is NULL. (MIPS builds and
+> uses hw/acpi/piix4.c because
+> configs/devices/mips-softmmu/common.mak sets CONFIG_ACPI_PIIX4=y,
+> and it needs this because piix4_init() unconditionally
+> creates a TYPE_PIIX4_PM device. It's possible this is a bug
+> revealed/introduced by the recent piix4 refactoring, but I
+> had a look at the code at the time this change was committed
+> and afaict back then it also created the PIIX4_PM device,
+> just in a different place. Indeed it is this commit which adds
+> the CONFIG_ACPI_PIIX4=y to the config!)
+>
+> How is this intended to work? The obvious fix from my point
+> of view would just be to say "piix4.c requires pcihp.c"
+> and cause CONFIG_ACPI_PIIX4 to pull in CONFIG_ACPI_PCIHP,
+> but that seems like it would be rather undoing the point
+> of this change.
+
+Yes. From the commit log and the vague recollection I have about this
+change :
+
+> For example, mips only needs support for PIIX4 and does not
+> need acpi pci hotplug support or cpu hotplug support or memory hotplug
+support
+> etc
+
+So does malta really need acpi hotplug? If not, then the stubbing out of
+the vmstate struct is correct.
+
+But if Malta requires ACPI_PIIX4 and it
+> creates the PIIX4_PM device, it needs the real pcihp.c and
+> not the stubs, doesn't it ?
+>
+> thanks
+> -- PMM
+>
 
