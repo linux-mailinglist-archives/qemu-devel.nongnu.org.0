@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CF757B447
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:09:13 +0200 (CEST)
-Received: from localhost ([::1]:59530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B3F57B44D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:11:48 +0200 (CEST)
+Received: from localhost ([::1]:34692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE6dk-000755-4U
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:09:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
+	id 1oE6gF-00014x-Qq
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oE6bq-0005M7-8l
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:07:14 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:5161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oE6bm-0004DU-JK
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:07:13 -0400
-Received: from canpemm100007.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Lnrtv0QsYzFq4r;
- Wed, 20 Jul 2022 18:05:59 +0800 (CST)
-Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- canpemm100007.china.huawei.com (7.192.105.181) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Wed, 20 Jul 2022 18:07:01 +0800
-Received: from kwepemm600015.china.huawei.com ([7.193.23.52]) by
- kwepemm600015.china.huawei.com ([7.193.23.52]) with mapi id 15.01.2375.024;
- Wed, 20 Jul 2022 18:07:01 +0800
-To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>
-CC: =?utf-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>, "Markus
- Armbruster" <armbru@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Paolo Bonzini
- <pbonzini@redhat.com>, "Wangxin (Alexander)" <wangxinxin.wang@huawei.com>
-Subject: Re: [PATCH v2] chardev: avoid use-after-free when client disconnect
-Thread-Topic: [PATCH v2] chardev: avoid use-after-free when client disconnect
-Thread-Index: AdicIHJk60oS5GW3CEqZQiETUJXEiQ==
-Date: Wed, 20 Jul 2022 10:07:01 +0000
-Message-ID: <a8a5a7f0e5d748caa6649258cecc6491@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.149.172]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1oE6cv-0006Ql-Gr; Wed, 20 Jul 2022 06:08:21 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:33563)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1oE6ct-0004Mx-AC; Wed, 20 Jul 2022 06:08:21 -0400
+Received: by mail-pl1-x632.google.com with SMTP id v21so14527122plo.0;
+ Wed, 20 Jul 2022 03:08:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:subject:to:cc:references:in-reply-to:mime-version
+ :message-id:content-transfer-encoding;
+ bh=uljuGDAhVM4aBMo+BCg/PZn6SnAxw/ofibypaU2ChE4=;
+ b=b5eVNCK151/mfYOHOxh8uezG4vH/k/JpQWD0/Ac2Zi+bjscwSxh4HEzxlONWQkWFzZ
+ 644MPkFn58MgsoZk9OYpRqSvO906RwJHNWvuXIkCJqVEXoO0O4PkhfS6RnIXJElKcyjB
+ Gxexsl+OBWauRuuL+Gdv3aXpA3f3l6jAVWypkNhjqqleIwb2M0lm2BG9Xjlbvaa3oMKP
+ T6U+c+4nXMoycb/kBih1bpKDgTaZaoLhG4oUPU3P3e73LNnT4b7somJnlRZbyGreOHWB
+ kjCEwNS/VKPloNfGXYLdSJ7F5KbQH0Yh0Y5QW1CP07VuCuhAwgB1mxo9nmiQ0/VIW99h
+ QNng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:subject:to:cc:references:in-reply-to
+ :mime-version:message-id:content-transfer-encoding;
+ bh=uljuGDAhVM4aBMo+BCg/PZn6SnAxw/ofibypaU2ChE4=;
+ b=GrgvMX03VsKs3HqLDqf60A4ESgNrGa2pfMGf9sFS8MdrihZ+OD9Azyq7TXysCt5tmf
+ 2O2UwR6I6pX1XuUD/6Q1aKqckytQ5DhGI5gz0K4DRxVkH9x/9Km8Uc08fWHkyDlZ/KuI
+ gBcjDQqQZWEN+B9aLQM/f5dTv2MLZL1IUMzgMLntPWI+Gbzc4gdMVv1L43LIIH505xA6
+ XaXxfaOy/2+MeyuoDzSHp4RZ6KDH7vD5LphrgttDngbmXxDJOhlpCZr3+Exf0Q/iZqHI
+ rjKzvyzXP8Uz5jFqiV3b7S2sx7Lk16hL7sT7TzEuLoFpQ7be7RakF5u4TVL0G303AQXR
+ hrNg==
+X-Gm-Message-State: AJIora/1wxIxrdONP6jatCMI9yq4IQ+zbVKVS1rsImHp2x7ASEMlhedj
+ Ty4eI35BdL/4GEnuGH8XosSRWhJOLbs=
+X-Google-Smtp-Source: AGRyM1uFqN82aba16pX7YpaGfaqrODdo2Kc70g/sGqUz6/KkYC9cLkxFT0tzl+JzgR/9TsLkqtWnQw==
+X-Received: by 2002:a17:902:ccc7:b0:16c:484f:4c69 with SMTP id
+ z7-20020a170902ccc700b0016c484f4c69mr39580999ple.118.1658311696759; 
+ Wed, 20 Jul 2022 03:08:16 -0700 (PDT)
+Received: from localhost (27-33-251-27.static.tpgi.com.au. [27.33.251.27])
+ by smtp.gmail.com with ESMTPSA id
+ h2-20020a17090a054200b001f0ade18babsm1189551pjf.55.2022.07.20.03.08.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 03:08:16 -0700 (PDT)
+Date: Wed, 20 Jul 2022 20:08:10 +1000
+From: Nicholas Piggin <npiggin@gmail.com>
+Subject: Re: [PATCH] target/ppc: Implement new wait variants
+To: qemu-ppc@nongnu.org, =?iso-8859-1?q?V=EDctor?= Colombo
+ <victor.colombo@eldorado.org.br>
+Cc: qemu-devel@nongnu.org
+References: <20220719113843.429600-1-npiggin@gmail.com>
+ <d3957528-313e-42c9-8f46-32e68267f0b6@eldorado.org.br>
+In-Reply-To: <d3957528-313e-42c9-8f46-32e68267f0b6@eldorado.org.br>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=hogan.wang@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Message-Id: <1658310914.f6mslzstqz.astroid@bobo.none>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,61 +87,182 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Wangjing(Hogan)" <hogan.wang@huawei.com>
-From:  "Wangjing(Hogan)" via <qemu-devel@nongnu.org>
 
-PiBPbiBXZWQsIEp1bCAyMCwgMjAyMiBhdCAwODo1NTo0NkFNICswMDAwLCBXYW5namluZyhIb2dh
-bikgd3JvdGU6DQo+ID4gDQo+ID4gPiBPbiBXZWQsIEp1bCAyMCwgMjAyMiBhdCAxMTozNjowN0FN
-ICswNDAwLCBNYXJjLUFuZHLDqSBMdXJlYXUgd3JvdGU6DQo+ID4gPiA+IEhpDQo+ID4gPiA+IA0K
-PiA+ID4gPiBPbiBXZWQsIEp1bCAyMCwgMjAyMiBhdCAxMToxMyBBTSBIb2dhbiBXYW5nIHZpYSAN
-Cj4gPiA+ID4gPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4NCj4gPiA+ID4gd3JvdGU6DQo+ID4gPiA+
-IA0KPiA+ID4gPiA+IElPV2F0Y2hQb2xsIG9iamVjdCBkaWQgbm90IGhvbGQgdGhlIEBpb2MgYW5k
-IEBzcmMgb2JqZWN0cyANCj4gPiA+ID4gPiByZWZlcmVuY2UsIHRoZW4gaW9fd2F0Y2hfcG9sbF9w
-cmVwYXJlIGV4ZWN1dGUgaW4gSU8gdGhyZWFkLCBpZiANCj4gPiA+ID4gPiBJT1dhdGNoUG9sbCBy
-ZW1vdmVkIGJ5IG1haW4gdGhyZWFkLCB0aGVuIGlvX3dhdGNoX3BvbGxfcHJlcGFyZSANCj4gPiA+
-ID4gPiBhY2Nlc3MgQGlvYyBvciBAc3JjIGNvbmN1cnJlbnRseSBsZWFkIHRvIGNvcmVkdW1wLg0K
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gSW4gSU8gdGhyZWFkIG1vbml0b3Igc2NlbmUsIHRoZSBJTyB0
-aHJlYWQgdXNlZCB0byBhY2NlcHQgY2xpZW50LCANCj4gPiA+ID4gPiByZWNlaXZlIHFtcCByZXF1
-ZXN0IGFuZCBoYW5kbGUgaHVuZy11cCBldmVudC4gTWFpbiB0aHJlYWQgdXNlZCANCj4gPiA+ID4g
-PiB0byBoYW5kbGUgcW1wIHJlcXVlc3QgYW5kIHNlbmQgcmVzcG9uc2UsIGl0IHdpbGwgcmVtb3Zl
-IA0KPiA+ID4gPiA+IElPV2F0Y2hQb2xsIGFuZCBmcmVlIEBpb2Mgd2hlbiBzZW5kIHJlc3BvbnNl
-IGZhaWwsIHRoZW4gY2F1c2UgDQo+ID4gPiA+ID4gdXNlLWFmdGVyLWZyZWUNCj4gPiA+ID4gPg0K
-PiA+ID4gPiANCj4gPiA+ID4gSSB3b25kZXIgaWYgd2UgYXJlIG1pc3VzaW5nIEdTb3VyY2VzIGlu
-IHRoYXQgY2FzZSwgYnkgcmVtb3ZpbmcgDQo+ID4gPiA+IHNvdXJjZXMgZnJvbSBkaWZmZXJlbnQg
-dGhyZWFkcy4uIENvdWxkIHlvdSBiZSBtb3JlIHNwZWNpZmljIGFib3V0IA0KPiA+ID4gPiB0aGUg
-Y29kZSBwYXRoIHRoYXQgbGVhZHMgdG8gdGhhdD8NCj4gPiA+IA0KPiA+ID4gSXQgaXMgcGVybWl0
-dGVkLCBidXQgdW5mb3J0dW5hdGVseSBldmVyeSB2ZXJzaW9uIG9mIGdsaWIgcHJpb3IgdG8gMi42
-NCBoYXMgYSByYWNlIGNvbmRpdGlvbiB0aGF0IG1lYW5zIHlvdSdsbCBwZXJpb2RpY2FsbHkgZ2V0
-IGEgdXNlLWFmdGVyLWZyZWUgYW5kIGEgY3Jhc2g6DQo+ID4gPiANCj4gPiA+ICAgaHR0cHM6Ly9n
-aXRsYWIuZ25vbWUub3JnL0dOT01FL2dsaWIvLS9tZXJnZV9yZXF1ZXN0cy8xMzU4DQo+ID4gPiAN
-Cj4gPiA+IExpYnZpcnQgd29ya2VkIGFyb3VuZCB0aGlzIHByb2JsZW0gYnkgbm90IGNhbGxpbmcg
-J2dfc291cmNlX3VucmVmJw0KPiA+ID4gZGlyZWN0bHksIGJ1dCBpbnN0ZWFkIGhhdmUgYSBoZWxw
-ZXIgdGhhdCB1c2VzIGdfaWRsZV9hZGQgdG8gZGVsYXkgdGhlIHVucmVmIHN1Y2ggdGhhdCBpdHMg
-Z3VhcmFudGVlZCB0byBoYXBwZW4gaW5zaWRlIHRoZSBtYWluIGV2ZW50IGxvb3AgdGhyZWFkLg0K
-PiA+ID4gDQo+ID4gPiBTbyBJJ2QgbGlrZSB0byBrbm93IHdoYXQgdmVyc2lvbiBvZiBnbGliIEhv
-Z2FuIGlzIHVzaW5nDQo+ID4gDQo+ID4gSSBhbSB1c2luZyBnbGliMi0yLjYyLjUgaW4gdGVzdCBl
-bnZpcm9ubWVudCwgc28gaXQncyBsb29rcyBsaWtlIGEgZ2xpYjIga25vd24gaXNzdWUuDQo+IA0K
-PiBIbW0sIGFjdHVhbGx5IHRoZSBmaXggc2hvdWxkIGhhdmUgYmVlbiBiYWNrcG9ydGVkIGludG8g
-dGhlIDIuNjIuNSByZWxlYXNlIGFjY29yZGluZyB0byB0aGlzDQo+IA0KPiAgIGh0dHBzOi8vZ2l0
-bGFiLmdub21lLm9yZy9HTk9NRS9nbGliLy0vbWVyZ2VfcmVxdWVzdHMvMTM2MQ0KDQpBY2NvcmRp
-bmcgdG8gdGhlIGN1cnJlbnQgc291cmNlIGNvZGU6DQpDbGllbnQgY29ubmVjdCB0byB0aGUgbW9u
-aXRvciBzZXJ2ZXIsIGNoci0+Z3NvdXJjZShJT1dhdGNoUG9sbCkgd2lsbCBiZSBpbml0aWFsaXpl
-ZCBieSBpb19hZGRfd2F0Y2hfcG9sbC4NCg0KQWNjb3JkaW5nIHRvIGlvX3dhdGNoX3BvbGxfcHJl
-cGFyZShFeGVjdXRlIGluIElPIFRocmVhZCkgZnVuY3Rpb246DQpJT1dhdGNoUG9sbC0+c3JjIHdp
-bGwgYmUgYWRkZWQgdG8gY2hyLT5nc291cmNlIGFzIGEgY2hpbGQgc291cmNlIHdoaWxlIHRoZSBj
-aGFubmVsIHJlYWRhYmxlLCBidXQgSU9XYXRjaFBvbGwgbm90IGhvbGQgdGhlIGNoaWxkIHNvdXJj
-ZSdzIHJlZmVyZW5jZSBiZWNhdXNlIG9mIGdfc291cmNlX3VucmVmKGl3cC0+c3JjKSwgc28gbGVm
-dCB0aGUgb25seSBvbmUgcmVmZXJlbmNlIGhvbGQgYnkgdGhlIGNoaWxkIHNvdXJjZSBsaXN0Lg0K
-DQpJZiBjbGllbnQgZGlzY29ubmVjdCx0aGVuIG1haW4gdGhyZWFkIHdpbGwgZGVzdHJveSB0aGUg
-SU9XYXRjaFBvbGwgYW5kIHVucmVmIGFsbCB0aGUgY2hpbGQgc291cmNlIGJ5IGdfc291cmNlX2Rl
-c3Ryb3kuDQpDYWxsIHRyYWNlOg0KdGNwX2Nocl9yZWFkDQogICAgdGNwX2Nocl9kaXNjb25uZWN0
-DQogICAgICAgIHRjcF9jaHJfZGlzY29ubmVjdF9sb2NrZWQNCiAgICAgICAgICAgIHRjcF9jaHJf
-ZnJlZV9jb25uZWN0aW9uDQogICAgICAgICAgICAgICAgcmVtb3ZlX2ZkX2luX3dhdGNoDQogICAg
-ICAgICAgICAgICAgICAgIGdfc291cmNlX2Rlc3Ryb3koY2hyLT5nc291cmNlKSAvKiB1bnJlZiBh
-bGwgdGhlIGNoaWxkIHNvdXJjZSAqLw0KICAgICAgICAgICAgICAgIG9iamVjdF91bnJlZihPQkpF
-Q1Qocy0+aW9jKSk7ICAgICAgLyogUUlPQ2hhbm5lbCBmcmVlZCBhbmQgSU9XYXRjaFBvbGwtPmlv
-YyBpcyBhIHdpbGQgcG9pbnRlciAqLw0KICAgICAgICAgICAgICAgIHMtPmlvYyA9IE5VTEw7DQoN
-CkF0IHRoaXMgdGltZSwgSU9XYXRjaFBvbGwtPnNyYyBhbmQgSU9XYXRjaFBvbGwtPmlvYyBmcmVl
-ZCwgaW9fd2F0Y2hfcG9sbF9wcmVwYXJlIGNhbGxlZCBmcmVxdWVudGx5IGFuZCBsb3ctcHJvYmFi
-aWxpdHkgdXNlLWFmdGVyLWZyZWUuDQo=
+Excerpts from V=C3=ADctor Colombo's message of July 20, 2022 12:20 am:
+> Hello Nicholas,
+>=20
+> On 19/07/2022 08:38, Nicholas Piggin wrote:
+>> ISA v2.06 adds new variations of wait, specified by the WC field. These
+>> are not compatible with the wait 0 implementation, because they add
+>> additional conditions that cause the processor to resume, which can
+>> cause software to hang or run very slowly.
+>>=20
+>> ISA v3.0 changed the wait opcode.
+>>=20
+>> ISA v3.1 added new WC values to the new wait opcode, and added a PL
+>> field.
+>>=20
+>> This implements the new wait encoding and supports WC variants with
+>> no-op implementations, which is provides basic correctness as explained.
+>>=20
+>> Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+>> ---
+>>   target/ppc/translate.c | 84 ++++++++++++++++++++++++++++++++++++++----
+>>   1 file changed, 76 insertions(+), 8 deletions(-)
+>>=20
+>> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+>> index 1d6daa4608..ce4aa84f1d 100644
+>> --- a/target/ppc/translate.c
+>> +++ b/target/ppc/translate.c
+>> @@ -4066,12 +4066,79 @@ static void gen_sync(DisasContext *ctx)
+>>   /* wait */
+>>   static void gen_wait(DisasContext *ctx)
+>>   {
+>> -    TCGv_i32 t0 =3D tcg_const_i32(1);
+>> -    tcg_gen_st_i32(t0, cpu_env,
+>> -                   -offsetof(PowerPCCPU, env) + offsetof(CPUState, halt=
+ed));
+>> -    tcg_temp_free_i32(t0);
+>> -    /* Stop translation, as the CPU is supposed to sleep from now */
+>> -    gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
+>> +    uint32_t wc =3D (ctx->opcode >> 21) & 3;
+>> +    uint32_t pl =3D (ctx->opcode >> 16) & 3;
+>=20
+> I think the best here would be to move this instruction to decodetree.
+> However, this can be a bit of extra work and out of the scope you though
+> for this patch.
+
+Yeah you're probably right. I haven't looked into decodetree yet sorry,
+if we could get this in first would be convenient.
+
+> What do you think about adding a EXTRACT_HELPER to
+> target/ppc/internal.h?
+
+Just to avoid open coded extraction here? Probably a good idea, I'll try
+it.
+
+>> +
+>> +    /* v3.0 and later use the ISA flag for wait rather than a PM flag *=
+/
+>> +    if (!(ctx->insns_flags2 & PPC2_PM_ISA206) &&
+>> +        !(ctx->insns_flags2 & PPC2_ISA300)) {
+>> +        /* wc field was introduced in ISA v2.06 */
+>> +        if (wc) {
+>> +            gen_invalid(ctx);
+>> +            return;
+>> +        }
+>> +    }
+>> +
+>> +    if (!(ctx->insns_flags2 & PPC2_ISA310)) {
+>> +        /* pl field was introduced in ISA v3.1 */
+>> +        if (pl) {
+>> +            gen_invalid(ctx);
+>> +            return;
+>> +        }
+>=20
+> IIUC the ISA says that "Reserved fields in instructions are ignored by
+> the processor". So this check is incorrect, I guess, as we should allow
+> the instruction to continue.
+
+Hmm, I think you're right.
+
+>> +
+>> +        if (ctx->insns_flags2 & PPC2_ISA300) {
+>> +            /* wc > 0 is reserved in v3.0 */
+>> +            if (wc > 0) {
+>=20
+> This however is correct
+>=20
+>> +                gen_invalid(ctx);
+>> +                return;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    /* wc=3D3 is reserved and pl=3D1-3 are reserved in v3.1. */
+>> +    if (wc =3D=3D 3 || pl > 0) {
+>=20
+> This can cause a situation where the field is reserve in a previous ISA
+> and should be ignored. I think the best option is to put these checks
+> inside a conditional for each different ISA. Otherwise it's getting a
+> bit hard to follow what should happen in each situation.
+
+Good idea.
+
+>=20
+>> +        gen_invalid(ctx);
+>> +        return;
+>> +    }
+>> +
+>> +    /* wait 0 waits for an exception to occur. */
+>> +    if (wc =3D=3D 0) {
+>> +        TCGv_i32 t0 =3D tcg_const_i32(1);
+>> +        tcg_gen_st_i32(t0, cpu_env,
+>> +                       -offsetof(PowerPCCPU, env) + offsetof(CPUState, =
+halted));
+>> +        tcg_temp_free_i32(t0);
+>> +        /* Stop translation, as the CPU is supposed to sleep from now *=
+/
+>> +        gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
+>> +    }
+>> +
+>> +    /*
+>> +     * Other wait types must not just wait until an exception occurs be=
+cause
+>> +     * ignoring their other wake-up conditions could cause a hang.
+>> +     *
+>> +     * For v2.06 and 2.07, wc=3D1,2 are architected but may be implemen=
+ted as
+>> +     * no-ops.
+>> +     *
+>> +     * wc=3D1 (waitrsv) waits for an exception or a reservation to be l=
+ost.
+>> +     * Reservation-loss may have implementation-specific conditions, so=
+ it
+>> +     * can be implemented as a no-op.
+>> +     *
+>> +     * wc=3D2 waits for an implementation-specific condition which coul=
+d be
+>> +     * always true, so it can be implemented as a no-op.
+>> +     *
+>> +     * For v3.1, wc=3D1,2 are architected but may be implemented as no-=
+ops.
+>> +     *
+>> +     * wc=3D1 similarly to v2.06 and v2.07.
+>> +     *
+>> +     * wc=3D2 waits for an exception or an amount of time to pass. This
+>> +     * amount is implementation-specific so it can be implemented as a
+>> +     * no-op.
+>> +     *
+>> +     * ISA v3.1 does allow for execution to resume "in the rare case of
+>> +     * an implementation-dependent event", so in any case software must
+>> +     * not depend on the architected resumption condition to become
+>> +     * true, so no-op implementations should be architecturally correct
+>> +     * (if suboptimal).
+>> +     */
+>>   }
+>>=20
+>>   #if defined(TARGET_PPC64)
+>> @@ -6852,8 +6919,9 @@ GEN_HANDLER2(stdcx_, "stdcx.", 0x1F, 0x16, 0x06, 0=
+x00000000, PPC_64B),
+>>   GEN_HANDLER_E(stqcx_, 0x1F, 0x16, 0x05, 0, PPC_NONE, PPC2_LSQ_ISA207),
+>>   #endif
+>>   GEN_HANDLER(sync, 0x1F, 0x16, 0x12, 0x039FF801, PPC_MEM_SYNC),
+>> -GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x03FFF801, PPC_WAIT),
+>> -GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300=
+),
+>> +/* ISA v3.0 changed the extended opcode from 62 to 30 */
+>> +GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x039FF801, PPC_WAIT),
+>> +GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039CF801, PPC_NONE, PPC2_ISA300=
+),
+>=20
+> Does this continue to work for the previous ISAs? I'm having a hard time
+> testing this instruction for previous cpus, even without this patch
+
+I don't think I tested that actually. I will.
+
+Thanks for the review, I'll make updates and post a new vesion.
+
+Thanks,
+Nick
 
