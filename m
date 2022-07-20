@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3989D57B628
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:13:17 +0200 (CEST)
-Received: from localhost ([::1]:47502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A75F57B64E
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 14:27:29 +0200 (CEST)
+Received: from localhost ([::1]:37816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8Zo-0003aA-87
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:13:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44196)
+	id 1oE8nX-0000a3-Nd
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 08:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE8Wy-0000TD-GK
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:10:22 -0400
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:42500)
+ id 1oE8jc-0005iN-An
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:23:24 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:46640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE8Ws-000289-Sv
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:10:17 -0400
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-2ef5380669cso171263277b3.9
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 05:10:14 -0700 (PDT)
+ id 1oE8ja-0004hu-JF
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 08:23:23 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id l11so31747235ybu.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 05:23:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=X6Q5ooBaErYmH3Oa6IKafZzOXMKwJ2bqsNuizoTxp/I=;
- b=QoxBcAVi25+rS/PtEH5SwK1jfyntR2wXrA3ir7J4TPNoMKWxZRhJiZlVqlGepwjErE
- 65ykgu9/ExLMoPwe3rYYYRPrQKdEHHO4Upm91dS6k7DXUrqmSvAGyhrBMAUh1z3plv7k
- xlbBVQCWo9TmMmBsHWuNeDEahX+4nIvreOG/oPEmeEMo40gZzq/pjgXXgn/F/DufFrch
- CI1VsSawLhWOR1nK7ifQ2hPPE2/s4pHhcMQn2r5tMmNhYobFSZJOODG3z+F67PeubwIY
- GhUQ6FqzUo3p7JlyWGtWwYzWzmQG+BPll8gV2q0Q7SGghKiGV2pUOcz8WhSdj25QRzY/
- gT/A==
+ :cc; bh=nUVR7heSHzcc2fb/Q5iggIRdcnGtKKw2ICoHki75YYE=;
+ b=UaTX9YBrMLePOJs0NQFPlJufJXlmQmcQ/MyYqRlBx9uwOAwFc2JrWE9JXRFjnc2qgl
+ Xeiz3xiERLsJwceSN9jCoH05RPx8lu/peHBEYYb7BuiOS/TzCpl72bjmV/Mu0CHjSfMC
+ Tidh0yw9n6lWUN9R/nXLTblUf/WpvOjnAxpQbNjR7GDkv+cXPiKjpRlwR8EC60SjAxk2
+ g6qA+WIEld6QIG14IYmFh1d8nNIVka6lc53FZL6P6MQ/muS6wNsA6hcaqN5f7c75P1Mr
+ FDlQ8epUa/i4AwydrHdB7YAVa34zzXeA0pnVF2+vkVem9bsJwMlK10ta5/Sljcv0dwwA
+ 5ljw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=X6Q5ooBaErYmH3Oa6IKafZzOXMKwJ2bqsNuizoTxp/I=;
- b=d9xp2OHoTO1sOsfkNDLlUgQQy9wPpqgAMNKxZkLR+8xIv3KMBX7x0kXjvMNt3no3Mt
- VkjD4mpTGO5dHV3MN7JsbizaKmucib1VultXBvRYrpehXq0NdUureEQyStXD3InRM0Fb
- L8utOEMYGIvPfq07jSJ8dqDyUyj4/uZUZqmQZ52AuaxDykP09Wlgy8m9TF/k9RVby+T9
- 76gguJUxN5a239nxxOi9E0Ay7KClThxfOzGmr4BflhwhTAzcrfGguaUqbPc8uScrQC9B
- rpSmIx/b7o2t8aT7bnLtpPcXuE61y4T1e7SIzmh0j38MNuXJCYNzrTVjyn3BcrDkQ4id
- KMpg==
-X-Gm-Message-State: AJIora+4hv/mNxs+reEAqaGPn7AkPSFQQs6C9J86xXH2Ajbqf9IJeG8A
- pjx3138zguqnz79n6A0u7VZ7QCSyNb2UssQ/CV7rdw==
-X-Google-Smtp-Source: AGRyM1vGUxbG6wPABKHJVzNkLYxmoBKdAm53pyspkQdtig3yPxqhNDO+ZYSisaXl4p608FuiPJiCQyb8KPd2n9RBwBI=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr40711682ywb.257.1658319013249; Wed, 20
- Jul 2022 05:10:13 -0700 (PDT)
+ bh=nUVR7heSHzcc2fb/Q5iggIRdcnGtKKw2ICoHki75YYE=;
+ b=WvSiLyDbOXlZkiA9CuywjFb+Od5CfTchhCPFzR7eBpiY7s/oSUEDyo1httx9iGA4bt
+ CZPWxO1VHNnwtbDUH3XJZFd6po2DErzx1ZY002b69Q6DOaCg4y2UVye8I8kGAEKl3fvI
+ wueTm3kbd/2xGk0fthyRW23zs2totpaq1In7clbNrNsmspCTp7djzoptI/ghUJS76UEx
+ W1LWFhfxS0WVM0Vq1iRSIiNgXH+2a0XAMOOqSP0G89uIgfYIgmYsgZNut9J5TL4E+XAi
+ tXiwo1fTFeHOa6g90FVNUxA0xgqWRBUtssOBdtauNiaOAJ2+zavgH67yDVEMOrzWWD6B
+ oSSQ==
+X-Gm-Message-State: AJIora/o6rZWQZEoJcSgAL05HrZifEU1P2FpNqcUcNozGCYaWi9KcFHa
+ inaEGpr0wS1UEjuVADnLIKBREHUSw9QwEBnh6yMmtw==
+X-Google-Smtp-Source: AGRyM1sKuucL8OfYjBUZe7ngua9Ujzd7iXH24Cb9/sDATi240C7yHH3R5l854LXYENBp6/opXHVauZHbDY/ZU2zaacQ=
+X-Received: by 2002:a25:d307:0:b0:670:80fd:85c4 with SMTP id
+ e7-20020a25d307000000b0067080fd85c4mr7125916ybf.67.1658319801475; Wed, 20 Jul
+ 2022 05:23:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719180000.378186-1-richard.henderson@linaro.org>
- <20220719180000.378186-21-richard.henderson@linaro.org>
-In-Reply-To: <20220719180000.378186-21-richard.henderson@linaro.org>
+References: <20220516204913.542894-1-mst@redhat.com>
+ <20220516204913.542894-36-mst@redhat.com>
+In-Reply-To: <20220516204913.542894-36-mst@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jul 2022 13:10:01 +0100
-Message-ID: <CAFEAcA82Q60bvOxQ7HNzpiu-Uxgaq2zV8CMW3H9x+YntdG_Weg@mail.gmail.com>
-Subject: Re: [PULL 20/21] hw/loongarch: Add acpi ged support
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Xiaojuan Yang <yangxiaojuan@loongson.cn>
+Date: Wed, 20 Jul 2022 13:23:10 +0100
+Message-ID: <CAFEAcA-KLShEbe8mYa+WGBgSNpZMbGv=syHqbSwyTtfoTEXAyQ@mail.gmail.com>
+Subject: Re: [PULL v2 35/86] cxl/cxl-host: Add memops for CFMWS region.
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+ Ben Widawsky <ben.widawsky@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,72 +83,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jul 2022 at 19:16, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Mon, 16 May 2022 at 21:52, Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+> From: Jonathan Cameron <jonathan.cameron@huawei.com>
 >
-> Loongarch virt machine uses general hardware reduces acpi method, rather
-> than LS7A acpi device. Now only power management function is used in
-> acpi ged device, memory hotplug will be added later. Also acpi tables
-> such as RSDP/RSDT/FADT etc.
+> These memops perform interleave decoding, walking down the
+> CXL topology from CFMWS described host interleave
+> decoder via CXL host bridge HDM decoders, through the CXL
+> root ports and finally call CXL type 3 specific read and write
+> functions.
 >
-> The acpi table has submited to acpi spec, and will release soon.
->
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> Message-Id: <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Note that, whilst functional the current implementation does
+> not support:
+> * switches
+> * multiple HDM decoders at a given level.
+> * unaligned accesses across the interleave boundaries
 
-Didn't notice this in the original CI, but this generates a compiler
-warning on openbsd:
+Hi; Coverity reports a bug in this code (CID 1488873):
 
-../src/hw/loongarch/acpi-build.c:416:12: warning: variable 'aml_len'
-set but not used [-Wunused-but-set-variable]
-    size_t aml_len = 0;
-           ^
-
-and we do indeed only ever seem to set and update that variable;
-we never use it.
-
-> +static void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+> +/* TODO: support, multiple hdm decoders */
+> +static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
+> +                                uint8_t *target)
 > +{
-> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-> +    GArray *table_offsets;
-> +    AcpiFadtData fadt_data;
-> +    unsigned facs, rsdt, fadt, dsdt;
-> +    uint8_t *u;
-> +    size_t aml_len = 0;
-> +    GArray *tables_blob = tables->table_data;
-> +
-> +    init_common_fadt_data(&fadt_data);
-> +
-> +    table_offsets = g_array_new(false, true, sizeof(uint32_t));
-> +    ACPI_BUILD_DPRINTF("init ACPI tables\n");
-> +
-> +    bios_linker_loader_alloc(tables->linker,
-> +                             ACPI_BUILD_TABLE_FILE, tables_blob,
-> +                             64, false);
-> +
-> +    /*
-> +     * FACS is pointed to by FADT.
-> +     * We place it first since it's the only table that has alignment
-> +     * requirements.
-> +     */
-> +    facs = tables_blob->len;
-> +    build_facs(tables_blob);
-> +
-> +    /* DSDT is pointed to by FADT */
-> +    dsdt = tables_blob->len;
-> +    build_dsdt(tables_blob, tables->linker, machine);
-> +
-> +    /*
-> +     * Count the size of the DSDT, we will need it for
-> +     * legacy sizing of ACPI tables.
-> +     */
-> +    aml_len += tables_blob->len - dsdt;
+> +    uint32_t ctrl;
+> +    uint32_t ig_enc;
+> +    uint32_t iw_enc;
+> +    uint32_t target_reg;
 
-This comment claims we're going to use this value -- is it wrong ?
+target_reg is 32 bits...
+
+> +    uint32_t target_idx;
+> +
+> +    ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
+> +    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
+> +        return false;
+> +    }
+> +
+> +    ig_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);
+> +    iw_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IW);
+> +    target_idx = (addr / cxl_decode_ig(ig_enc)) % (1 << iw_enc);
+> +
+> +    if (target_idx > 4) {
+
+...in this half of the if() target_idx is at least 5...
+
+> +        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
+> +        target_reg >>= target_idx * 8;
+
+...but 5 * 8 is 40, so this shift will always be undefined
+behaviour. Was the if() condition intended to be "< 4" ?
+
+> +    } else {
+> +        target_reg = cache_mem[R_CXL_HDM_DECODER0_TARGET_LIST_LO];
+
+Was this (or the other one) intended to be ...LIST_HI ?
+
+> +        target_reg >>= (target_idx - 4) * 8;
+
+Not noticed by Coverity, but in this half of the if(),
+target_idx is 4 or less, so (target_idx - 4) is in most
+cases going to be negative, which isn't a valid shift amount.
+This also suggests the if() condition is wrong.
+
+> +    }
+> +    *target = target_reg & 0xff;
+> +
+> +    return true;
+> +}
+
+What's the intended behaviour here ?
+
+The code appears to be attempting to extract a particular
+subfield from one or other of the cache_mem[] values. I would
+recommend using extract32() for this rather than raw shift
+and mask operations -- it's generally easier to write and
+to review.
 
 thanks
 -- PMM
