@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935F757B061
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 07:35:55 +0200 (CEST)
-Received: from localhost ([::1]:45626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3F657B066
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 07:37:55 +0200 (CEST)
+Received: from localhost ([::1]:48266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE2NG-0004gv-19
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 01:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46400)
+	id 1oE2PC-0006ZE-Js
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 01:37:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oE2Ht-0001t3-Ko; Wed, 20 Jul 2022 01:30:21 -0400
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:36743)
+ id 1oE2Jf-0002kn-Cl
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 01:32:11 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:41703)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oE2Hs-0000gM-3A; Wed, 20 Jul 2022 01:30:21 -0400
-Received: by mail-pg1-x535.google.com with SMTP id s206so15445673pgs.3;
- Tue, 19 Jul 2022 22:30:19 -0700 (PDT)
+ id 1oE2Jd-0000zH-0i
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 01:32:11 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id j12so13982739plj.8
+ for <qemu-devel@nongnu.org>; Tue, 19 Jul 2022 22:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=eypITnaFFvCA82xDJLc77wL7Nk89KerGmG4aC3K+0iY=;
- b=QRbIIahIbiyqsTp+EEPtyZMgyfy1ImCsObQHHBd2jgvjFvJu7CzL9Q5ZA5jsQONFMB
- J2iG3aqMbNAwS3ksqo0gkO+uIrBDXWmEu80bBeyMAL/yVJ95gAAfcd1MDQjC13tAE2UC
- gIz3/A/lhSbB9GeRq17YPYdORhV/1zp1EKGbfTIWsnfB8DOPzChfqxn1ShvLQYrDGTb0
- gvJN9OvuiNFDzcaR1BVBUq3D16WVvH5iOcmMcdyPhxuIyKYpOYcpa/AwJ6zmiLsclmPQ
- mFBRDDoke3PWC8hN22OsqYuYDbOHfPl6AeRmmG4fmdFeUTSL405z1uO+ywHrK7zCQFIG
- Yxmw==
+ :cc; bh=Qlx/gB0iqUvigRY5hI9alL+gwSonbrXy/GJu4i3JLKc=;
+ b=IhnuEgyFXG8s9YXMF9XZPxkvYOTo0fCP+Z5m8Nph4iqsWqhKSphfJUPQy1E+ba7hZw
+ Wvq5clfaU1dDErn7exQjfT4FKGlxqqmE/K15ZFX0rBkRaGCywxoUzIyO4CZGWsW25Pqe
+ 1V4zmYJBdQcoC1m+gxWwsilv+XcZ/tJikpOM+4SOHu6DhsmCrIe+74wvaljKpU+Wj+8Q
+ qlX+PjFd8kKSNvFgX/XfQ0HOKjrkGayO8ndACzTWrXGMozkkRCFWBRhAaKUuJfV7b7wV
+ hzZb774YQkyWWcrAMOSAB4mfgOMuuXEixBia6fpv938ZCNPH/a2jBu4O1CEbaeOTusZq
+ QVng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=eypITnaFFvCA82xDJLc77wL7Nk89KerGmG4aC3K+0iY=;
- b=1qvKWp6nYPivaPwQlAyjPN+0J5J6uMbKmBr2GUv8qjy7xkEcOqpeehH84OpiIQY10d
- +V4/mmYM89Ne/VwyDWlK28pAFQa98Rn43+yj6x9THv+dcewrDFAb2UVE2Cas13EHr9pw
- F25cwggT333Jovphb2UZGLZiW2KR+iPEb9D90Wx52cqbFNUgLk9gLDCGkltJFHmLETp8
- /0puCVsrypLhFkXGeDz3C6rLOGpMBsbKlqwLt9w50FpBT3OJHha4hUA/p6ayk6Go9zgg
- sSmeNe37Ima64obvn2XH5zzkZtTNr43UAfJRqET4UB21rduM0e+0tdKQO2nxlBKgh3oj
- ZJ2g==
-X-Gm-Message-State: AJIora9SVsIlUs/IlYFN2sdzq4RK4u7PtFRXBUtgME/gOs9xIZTvvaki
- gBwPR2IKFxqXyS5l9dPuORefgQTQNEh27nnaOzA=
-X-Google-Smtp-Source: AGRyM1vzZoYIk34QRV9jZuh/HQa4H6j465/f1pJAoji+4V7rjbKb5J+Hm6Tvmk6qIcQu0fxVgMXSl1J+O1GJB9fz/P4=
-X-Received: by 2002:a05:6a00:885:b0:510:950f:f787 with SMTP id
- q5-20020a056a00088500b00510950ff787mr36596866pfj.83.1658295017846; Tue, 19
- Jul 2022 22:30:17 -0700 (PDT)
+ bh=Qlx/gB0iqUvigRY5hI9alL+gwSonbrXy/GJu4i3JLKc=;
+ b=YcE0YTTafL9HFG8Be+OklaLSNyffcky8RsJxzRzHfLcrutLB6wxXRhxne/Z2HDk2LE
+ Pl3mNLfb2SMKFATl1kYk87WkVa8yQmlvX0blm3vCdmdABrZQrxDj0CVQaGC4t83+iV4W
+ Y48NQhmXTm8Ii8QjTOLK6eM/Z9kGsOHr+68l2wFTXosD/HfXhdP04+iZcwENeHXePQFe
+ nZd+lbnMXkrCY+SDdYMJJr+3NS8e5HbL9Gyn48xXAqZ2kATZ6Ze6J9TMdgFbf7H2CPWH
+ Vkhfm54R6C6jz65YW7EFAM8dKZCSc2NMqGZDW7YKqmLW4fbuFf1D/Otjva6wKbS8QEpH
+ ZRkg==
+X-Gm-Message-State: AJIora8MALWSw7jtCHaIqB1jzCGu+NSoxVrO4pqFRdnDjrNPT/sfwsRx
+ RRmijoBH5hyrf86lVyUdiRINGv9wE2AVC1WS+j0=
+X-Google-Smtp-Source: AGRyM1seotLg3aiYivprlA58J/3mXh8a2AEWsie9sarJAAICdINjn2IWk4/97UIJsPFDkaDRIU+Gx0ajw+/N84Pjdrk=
+X-Received: by 2002:a17:903:2290:b0:16c:33f5:a978 with SMTP id
+ b16-20020a170903229000b0016c33f5a978mr37428640plh.121.1658295127501; Tue, 19
+ Jul 2022 22:32:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220718035249.17440-1-jim.shu@sifive.com>
- <CAAhSdy0XUp1KGvmiPhG0eaTk1bnzwVGrW83jDXSLsrzK_NtXDw@mail.gmail.com>
- <CALw707qqVxROpindXhxPjAvccjTYaYoC_vTjtfkM+Do_pMLQRA@mail.gmail.com>
- <CAAhSdy2dm5p8wb4YSppS=yT8L4ctZc9J9mT=-jPdLe5p=VR6=A@mail.gmail.com>
-In-Reply-To: <CAAhSdy2dm5p8wb4YSppS=yT8L4ctZc9J9mT=-jPdLe5p=VR6=A@mail.gmail.com>
+References: <20220719082635.3741878-1-bin.meng@windriver.com>
+In-Reply-To: <20220719082635.3741878-1-bin.meng@windriver.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 20 Jul 2022 15:29:51 +1000
-Message-ID: <CAKmqyKNxOpyHxcf3JJdX+XJPYfwCVjKc87xTZ+w1qzJFr5OfKA@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Support SW update of PTE A/D bits and
- Ssptwad extension
-To: Anup Patel <anup@brainfault.org>
-Cc: Jim Shu <jim.shu@sifive.com>, Alistair Francis <Alistair.Francis@wdc.com>, 
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>, 
- Atish Patra <atishp@rivosinc.com>, Palmer Dabbelt <palmer@rivosinc.com>
+Date: Wed, 20 Jul 2022 15:31:41 +1000
+Message-ID: <CAKmqyKNBq+fFy3znyAKjE=Um_S3RODWyWMJpetKdX2ORVzNFiA@mail.gmail.com>
+Subject: Re: [PATCH] docs: List kvm as a supported accelerator on RISC-V
+To: Bin Meng <bin.meng@windriver.com>
+Cc: Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,46 +85,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 20, 2022 at 1:52 PM Anup Patel <anup@brainfault.org> wrote:
+On Tue, Jul 19, 2022 at 11:37 PM Bin Meng <bin.meng@windriver.com> wrote:
 >
-> On Wed, Jul 20, 2022 at 5:02 AM Jim Shu <jim.shu@sifive.com> wrote:
-> >
-> > Hi Anup,
-> >
-> > Do you think it is OK if we only use ssptwad as a CPU option name
-> > but not a RISC-V extension? just like MMU and PMP options of RISC-V.
-> > (And we could change it to RISC-V extension in the future
-> > if Ssptwad becomes the formal RISC-V extension)
-> >
-> > Both HW/SW update schemes are already defined in RISC-V priv spec,
-> > so I think it's reasonable to implement them in QEMU. The only issue here is
-> > to choose a proper CPU option name to turn on/off HW update of A/D bits.
+> Since commit fbf43c7dbf18 ("target/riscv: enable riscv kvm accel"),
+> KVM accelerator is supported on RISC-V. Let's document it.
 >
-> I am not saying that we should avoid implementing it in QEMU.
->
-> My suggestion is to differentiate HW optionalities from ISA extensions
-> in QEMU. For example, instead of referring to this as Ssptwad, we should
-> call it "hw_ptwad" or "opt_ptwad" and don't use the "ext_" prefix.
->
-> @Alistair Francis might have better suggestions on this ?
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-I'm just trying to wrap my head around this.
+Thanks!
 
-So the priv spec has this line:
-
-"Two schemes to manage the A and D bits are permitted"
-
-The first scheme just raises a page-fault exception, the second scheme
-updates the A/D bits as you would expect.
-
-The profiles spec then states that you must do the second scheme, as
-that is what all software expects.
-
-This patch is adding optional support for the first scheme.
-
-Why do we want to support that? We can do either and we are
-implementing the much more usual scheme. I don't see a reason to
-bother implementing the other one. Is anyone ever going to use it?
+Applied to riscv-to-apply.next
 
 Alistair
+
+> ---
+>
+>  docs/about/build-platforms.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
+> index ebde20f981..118a4c64dc 100644
+> --- a/docs/about/build-platforms.rst
+> +++ b/docs/about/build-platforms.rst
+> @@ -46,7 +46,7 @@ Those hosts are officially supported, with various accelerators:
+>     * - PPC
+>       - kvm, tcg
+>     * - RISC-V
+> -     - tcg
+> +     - kvm, tcg
+>     * - s390x
+>       - kvm, tcg
+>     * - SPARC
+> --
+> 2.25.1
+>
+>
 
