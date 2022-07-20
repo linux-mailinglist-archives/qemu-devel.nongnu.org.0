@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21DA57B5FA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:54:08 +0200 (CEST)
-Received: from localhost ([::1]:40430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A62A757B5FF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:56:52 +0200 (CEST)
+Received: from localhost ([::1]:44818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8HH-0004fC-Mj
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59108)
+	id 1oE8Js-0007w2-8g
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:56:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kW-00059U-AH
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55432)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org>)
+ id 1oE7ks-0005mV-W5
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:39 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:46584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kQ-0000St-Ms
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658316009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hf/BWtsERsXTpylljBLI5rB7D+ju/8A7VaTrjVLDTPY=;
- b=FrNvDT1uLTf9CT2SfyO5A5PFAGvSIIE0l95PYZ1TbXlkBxqELFVSWbwOAgtkCiJCp+w6UY
- 5X4XLv+iSrLNzIj71qJR6HAoW1y+AqRsHf4tdpt5TBucvszggPV2A3VN5LQS+qlXU3M6qI
- /CsLcJjlbWh2zFjDbJQ1sPrMSgtqcgw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-501-oi1CSKvkPnm-TAcydHtJtQ-1; Wed, 20 Jul 2022 07:20:08 -0400
-X-MC-Unique: oi1CSKvkPnm-TAcydHtJtQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org>)
+ id 1oE7kq-0000Xg-RX
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:38 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 52BBC38164D4;
- Wed, 20 Jul 2022 11:20:08 +0000 (UTC)
-Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A2172166B26;
- Wed, 20 Jul 2022 11:20:07 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
- berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
- huangy81@chinatelecom.cn
-Subject: [PULL 30/30] Revert "gitlab: disable accelerated zlib for s390x"
-Date: Wed, 20 Jul 2022 12:19:26 +0100
-Message-Id: <20220720111926.107055-31-dgilbert@redhat.com>
-In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
-References: <20220720111926.107055-1-dgilbert@redhat.com>
+ by dfw.source.kernel.org (Postfix) with ESMTPS id D742161CBC;
+ Wed, 20 Jul 2022 11:20:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4C4C3411E;
+ Wed, 20 Jul 2022 11:20:31 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="HITuw2co"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658316029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bY2sbXqkTAxGmtP+VKRMovotdPf2gdUOili5QCQ54QE=;
+ b=HITuw2coiiEYxOeUSFKXXFMSHkVHDQUZCzNQ58fxF50VcD9YgIFTHZUzcuaJlkyTBT4eQB
+ 70lPOfD5VhHQFjQCNNHz6H2n7p3ot63tRQt4fG+wS6BL3W/zsgC78O/tsoVnSiVOaxw6gY
+ wQn6MB3LQDjRB4HkOQSYy4nKjI+xn9c=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 2f4462a8
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Wed, 20 Jul 2022 11:20:29 +0000 (UTC)
+Date: Wed, 20 Jul 2022 13:20:26 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Subject: Re: [PULL 0/3] Misc patches for QEMU 7.1 freeze
+Message-ID: <Ytfk+jNgPtTH3vl4@zx2c4.com>
+References: <20220719093439.528810-1-pbonzini@redhat.com>
+ <YtalBPp+QKS0wKWs@zx2c4.com>
+ <b768df3d-4c36-549e-8e33-a3ec50ab95e2@redhat.com>
+ <CAHmME9qvWjdSVCLWyTrXDS34zbJ=NZ6QBsFb-DpNO3deJ6xEYQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAHmME9qvWjdSVCLWyTrXDS34zbJ=NZ6QBsFb-DpNO3deJ6xEYQ@mail.gmail.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=WeL6=XZ=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,114 +82,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Hey again,
 
-This reverts commit 309df6acb29346f89e1ee542b1986f60cab12b87.
-With Ilya's 'multifd: Copy pages before compressing them with zlib'
-in the latest migration series, this shouldn't be a problem any more.
+On Tue, Jul 19, 2022 at 08:15:54PM +0200, Jason A. Donenfeld wrote:
+> Hi Paolo,
+> 
+> On Tue, Jul 19, 2022 at 8:15 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > On 7/19/22 14:35, Jason A. Donenfeld wrote:
+> > >>   6 files changed, 19 insertions(+), 6 deletions(-)
+> > > Considering the subject line, I'm quite distressed that the i386
+> > > setup_data rng seed patch did not make it in. I just resent it to the
+> > > mailing list [1] in case you missed it before. Do you think you could
+> > > queue this up ASAP?
+> >
+> > Sure, no problem.  Unfortunately I was on vacation around the time you
+> > sent it first.
+> 
+> Excellent, thanks so much!
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
----
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ------------
- .travis.yml                                        |  6 ++----
- 2 files changed, 2 insertions(+), 16 deletions(-)
+Just wondering one thing: which tree did you put the patch in? I didn't
+see it on your gitlab, but it seems like QEMU development happens in
+many different places at once.
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 9f1fe9e7dc..03e74c97db 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -8,8 +8,6 @@ ubuntu-20.04-s390x-all-linux-static:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-  - if: "$S390X_RUNNER_AVAILABLE"
-@@ -29,8 +27,6 @@ ubuntu-20.04-s390x-all:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  timeout: 75m
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-@@ -48,8 +44,6 @@ ubuntu-20.04-s390x-alldbg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -71,8 +65,6 @@ ubuntu-20.04-s390x-clang:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -93,8 +85,6 @@ ubuntu-20.04-s390x-tci:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-@@ -114,8 +104,6 @@ ubuntu-20.04-s390x-notcg:
-  tags:
-  - ubuntu_20.04
-  - s390x
-- variables:
--    DFLTCC: 0
-  rules:
-  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
-    when: manual
-diff --git a/.travis.yml b/.travis.yml
-index 4fdc9a6785..fb3baabca9 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -218,7 +218,6 @@ jobs:
-         - TEST_CMD="make check check-tcg V=1"
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
-         - UNRELIABLE=true
--        - DFLTCC=0
-       script:
-         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
-         - |
-@@ -258,7 +257,7 @@ jobs:
-       env:
-         - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
-                   --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
--        - DFLTCC=0
-+
-     - name: "[s390x] GCC (user)"
-       arch: s390x
-       dist: focal
-@@ -270,7 +269,7 @@ jobs:
-           - ninja-build
-       env:
-         - CONFIG="--disable-containers --disable-system"
--        - DFLTCC=0
-+
-     - name: "[s390x] Clang (disable-tcg)"
-       arch: s390x
-       dist: focal
-@@ -304,4 +303,3 @@ jobs:
-         - CONFIG="--disable-containers --disable-tcg --enable-kvm
-                   --disable-tools --host-cc=clang --cxx=clang++"
-         - UNRELIABLE=true
--        - DFLTCC=0
--- 
-2.36.1
-
+Jason
 
