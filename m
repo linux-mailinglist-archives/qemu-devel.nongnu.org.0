@@ -2,97 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 494E157B845
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 16:15:09 +0200 (CEST)
-Received: from localhost ([::1]:47486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4928F57B85F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 16:25:39 +0200 (CEST)
+Received: from localhost ([::1]:51476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEATj-00025B-UI
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 10:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47144)
+	id 1oEAdt-0005s4-Vt
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 10:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEAQi-0007Vz-5n
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:12:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21316)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oEAbV-0003YC-HA
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:23:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEAQb-000144-ON
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:11:57 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oEAbS-0003KJ-B4
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 10:23:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658326309;
+ s=mimecast20190719; t=1658326985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R+MFLd5htELC8zBob/uFIRIcNnY8g0l/LCWY2gHWDQ4=;
- b=QvsL+1rdClt+sYt/1EgEVzFziERhTvZdKUJybQxlw6UYgxaz+0Z278NfEERdOEoyRkCc9/
- 4a4P8ZeDm62MnY3e4KzV1p/o8i4ziTkDkKr0BVGrvU3S+rX6BouopvBjjTkty/jZT5oAa4
- my+czhNe9qr2A5iGa31GSsF1Wp/f30U=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ew5C/qdxDwneMOtVPsp3yTt+/55R1G9YgreilQyKmdM=;
+ b=OuY9c6CJq3QK7mJmglGbF2ojMjr6ZeP9kb/FL7bT1+Gd1jfvNIRfH9sAqaKY0h/CvJZl9z
+ 3D2YjFYTw/iUhMv8T3kpBFG1MDaiLzro4l+GqmjdAoelYcduVjePpu7ejzno60QE8VbJk2
+ hxrQbqVceLcpbJJ8c9T9Rs4TkjgJBTY=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-607-kP94J4OEN3Kc46GFJc3xqg-1; Wed, 20 Jul 2022 10:11:46 -0400
-X-MC-Unique: kP94J4OEN3Kc46GFJc3xqg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d13-20020adfa34d000000b0021e3c8834a3so978520wrb.10
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 07:11:46 -0700 (PDT)
+ us-mta-642-CyWtlsHAPuykbG_1Z2Um-A-1; Wed, 20 Jul 2022 10:22:57 -0400
+X-MC-Unique: CyWtlsHAPuykbG_1Z2Um-A-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ bq10-20020a05622a1c0a00b0031ef98498a4so3800005qtb.19
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 07:22:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=R+MFLd5htELC8zBob/uFIRIcNnY8g0l/LCWY2gHWDQ4=;
- b=Fpsvx0hfhjJlQ6ugMB6gdcumRWZ+ICVj/rCg2MNoVV5vD6zq0xJpXBtGEkPtgJhRxR
- XLBPgZ1M4yqAO6he6UtAaIcCG6PlsPhVuTT/CHMk4zIqps4As4Pw/u9DjknZInI3flFC
- VGNfO3il7dWexff52HizaoMN5MY/DCKyHh/aC23zOHV/5tyXhu0uAup6ailC+PR/KzRS
- e324SfIWkjio94+EPO+LSm2N7iy5zulrXlYdeyTYskWKbhDYxHGjtcOgTrsPmoZ32c0r
- xntBZNtJv4YW58XJP2XuqcuWwbEIiR+O0q+klS24ZCLuX5DaTaQBtDXcVBOcXTO8p31N
- zifw==
-X-Gm-Message-State: AJIora9Cq1TZCFjOBVS5VF3ussu0as5A+R8AyoX86hCWsLb2Vpmtvk2x
- /MeCLsYLPDKoTAJawUNv62eY7pa4K3fTfZ+Qmi/WNjoD6HH+ouSXbjo4voK2two/qOcWStHLoTv
- pmsPvPxq48iNEeYI=
-X-Received: by 2002:adf:db51:0:b0:21e:41c2:c2e8 with SMTP id
- f17-20020adfdb51000000b0021e41c2c2e8mr5519726wrj.452.1658326305630; 
- Wed, 20 Jul 2022 07:11:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t3ygXa0NsOvTFpHKpUa3FxHzpGRZWUiEBokLC791yezF8a2OW06EwzxGJ3J327y85IB/eIEQ==
-X-Received: by 2002:adf:db51:0:b0:21e:41c2:c2e8 with SMTP id
- f17-20020adfdb51000000b0021e41c2c2e8mr5519703wrj.452.1658326305399; 
- Wed, 20 Jul 2022 07:11:45 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
- [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
- n21-20020a05600c4f9500b003a2f2bb72d5sm3793529wmq.45.2022.07.20.07.11.44
+ bh=Ew5C/qdxDwneMOtVPsp3yTt+/55R1G9YgreilQyKmdM=;
+ b=lVX4C5nhuBaUgM1S1SITX3KJSbb3QmRyGvXmBDJj10X8u6RVBhuJYjx6zzqfg9jPWM
+ 82LiyXH2OeXJQBvjNUSB794fb8ym3Goa7HOpzIHT1RA5K/9hD65lAgIXicNDwpPJp5Go
+ uEZwtK4lsLBI9d9tLa9EhEoZTFI66tYkm/oi/6C3dPV0OqydkAJq0wLFcy/2tQJFKL8D
+ vw4ytwmsr2lRGMRHeZNxNHBDGHnaQ72dtpbJf9kMbfnMlfcEbXkdzOOnlZ7in7h+NQq9
+ EncmyxRY2NEXaxssWbR1SmctfACHfB8xyP5OJSnX3umvcqgw6d3eqvbcuL4wrvmlDYt7
+ vXTQ==
+X-Gm-Message-State: AJIora+qj6eK19E9wUe9ECK9ac6xi7FWUZKuCa9tqWo7YppQAG3Ve5EY
+ 3OdB87ZBVHMjIYS9j2evBjOA17dqe95NfWbkY65VLnsPwSxk3PwRFk9iD0ysqnRoAVnSGaabKIJ
+ k1jL2ea6cmzRcUI8=
+X-Received: by 2002:ad4:5aa4:0:b0:473:d8ac:7c7 with SMTP id
+ u4-20020ad45aa4000000b00473d8ac07c7mr12267203qvg.117.1658326976916; 
+ Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sQ6+aY93X+yvs2HDRKRE4DFBv+Kw91AaW8RkcxD9pqRmrJQNCdM/EBvrH+fFHti/xUbhFCfQ==
+X-Received: by 2002:ad4:5aa4:0:b0:473:d8ac:7c7 with SMTP id
+ u4-20020ad45aa4000000b00473d8ac07c7mr12267181qvg.117.1658326976666; 
+ Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
+Received: from [192.168.149.123]
+ (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ by smtp.gmail.com with ESMTPSA id
+ s9-20020a05620a29c900b006b5e3ca6400sm9937386qkp.103.2022.07.20.07.22.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 07:11:44 -0700 (PDT)
-Message-ID: <9240083d-ef58-466a-14c1-1c858f67e1d4@redhat.com>
-Date: Wed, 20 Jul 2022 16:11:43 +0200
+ Wed, 20 Jul 2022 07:22:56 -0700 (PDT)
+Message-ID: <be1b6c1a-4a39-77cc-19fb-9def24387a88@redhat.com>
+Date: Wed, 20 Jul 2022 16:22:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
+ Thunderbird/91.2.0
+Subject: Re: [PATCH v9 09/21] jobs: use job locks also in the unit tests
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20220707184600.24164-1-peterx@redhat.com>
- <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
- <YtWxHSjpORK31aLs@xz-m1.local>
- <4ebe2d62-b627-3d2b-3c3e-73701fbf7be5@redhat.com>
- <YtaJg0zU8Fo3p2NB@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YtaJg0zU8Fo3p2NB@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+ <20220706201533.289775-10-eesposit@redhat.com>
+ <b86ef36a-a82c-591e-54fe-481690a5987f@yandex-team.ru>
+ <8726804c-5dbc-bc27-3922-a00ae676941d@redhat.com>
+ <1a2e7a92-9943-01a0-168c-73928d7833e8@yandex-team.ru>
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+In-Reply-To: <1a2e7a92-9943-01a0-168c-73928d7833e8@yandex-team.ru>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,91 +115,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/07/2022 12.37, Daniel P. Berrangé wrote:
-> On Tue, Jul 19, 2022 at 12:28:24PM +0200, Thomas Huth wrote:
->> On 18/07/2022 21.14, Peter Xu wrote:
->>> Hi, Thomas,
->>>
->>> On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
->>>> On 07/07/2022 20.46, Peter Xu wrote:
->>>>> We used to stop running all tests if uffd is not detected.  However
->>>>> logically that's only needed for postcopy not the rest of tests.
->>>>>
->>>>> Keep running the rest when still possible.
->>>>>
->>>>> Signed-off-by: Peter Xu <peterx@redhat.com>
->>>>> ---
->>>>>     tests/qtest/migration-test.c | 11 +++++------
->>>>>     1 file changed, 5 insertions(+), 6 deletions(-)
->>>>
->>>> Did you test your patch in the gitlab-CI? I just added it to my testing-next
->>>> branch and the the test is failing reproducibly on macOS here:
->>>>
->>>>    https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
->>>>    https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
->>>>
->>>> (without your patch the whole test is skipped instead)
->>>
->>> Thanks for reporting this.
->>>
->>> Is it easy to figure out which test was failing on your side?  I cannot
->>> easily reproduce this here on a MacOS with M1.
+
+
+Am 20/07/2022 um 15:06 schrieb Vladimir Sementsov-Ogievskiy:
+> On 7/19/22 15:00, Emanuele Giuseppe Esposito wrote:
 >>
->> I've modified the yml file to only run the migration test in verbose mode
->> and got this:
 >>
->> ...
->> ok 5 /x86_64/migration/validate_uuid_src_not_set
->> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
->> -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
->> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
->> source,debug-threads=on -m 150M -serial
->> file:/tmp/migration-test-ef2fMr/src_serial -drive
->> file=/tmp/migration-test-ef2fMr/bootsect,format=raw  -uuid
->> 11111111-1111-1111-1111-111111111111 2>/dev/null -accel qtest
->> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
->> -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
->> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
->> target,debug-threads=on -m 150M -serial
->> file:/tmp/migration-test-ef2fMr/dest_serial -incoming
->> unix:/tmp/migration-test-ef2fMr/migsocket -drive
->> file=/tmp/migration-test-ef2fMr/bootsect,format=raw   2>/dev/null -accel
->> qtest
->> ok 6 /x86_64/migration/validate_uuid_dst_not_set
->> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
->> -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
->> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
->> source,debug-threads=on -m 150M -serial
->> file:/tmp/migration-test-ef2fMr/src_serial -drive
->> file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
->> # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
->> -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
->> chardev=char0,mode=control -display none -accel kvm -accel tcg -name
->> target,debug-threads=on -m 150M -serial
->> file:/tmp/migration-test-ef2fMr/dest_serial -incoming
->> unix:/tmp/migration-test-ef2fMr/migsocket -drive
->> file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
->> **
->> ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
->> assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
->> Bail out!
->> ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
->> assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
+>> Am 11/07/2022 um 15:08 schrieb Vladimir Sementsov-Ogievskiy:
+>>>
+>>> That made me ask:
+>>>
+>>> 1. Are all tests always run in main loop? If yes, why to protect status
+>>> reading in test_complete_in_standby() ?
+>>>
+>>> 2. Maybe, we don't need to protect anything here? Why to protect other
+>>> things if we run everything in main loop?
+>>
+>> I think it's still good example and practice to protect a function if it
+>> needs to be protected and its name ends with _locked. It would just
+>> confuse the reader if we don't protect it.
+>>
 > 
-> This is the safety net we put it to catch case where the test has
-> got stuck. It is set at 2 minutes.
+> Agree. But still, I think we should be consistent in such decisions. If
+> you don't want to protect job->status in tests, then you shouldn't
+> protect it in test_complete_in_standby() as well, just to not confuse
+> someone who read the code.
 > 
-> There's a chance that is too short, so one first step might be to
-> increase to 10 minutes and see if the tests pass. If it still fails,
-> then its likely a genuine bug
+> 
+Ok, I will protect job->status in those tests too.
 
-I tried to increase it to 5 minutes first, but that did not help. In a 
-second try, I increased it to 10 minutes, and then the test was passing, indeed:
-
-https://cirrus-ci.com/task/5819072351830016?logs=build#L7208
-
-Could it maybe be accelerated, e.g. by tweaking the downtime limit again?
-
-  Thomas
+Emanuele
 
 
