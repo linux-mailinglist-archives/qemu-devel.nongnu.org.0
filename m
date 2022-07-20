@@ -2,92 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ACD357B94D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:13:49 +0200 (CEST)
-Received: from localhost ([::1]:52586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3AB657B999
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:29:58 +0200 (CEST)
+Received: from localhost ([::1]:36786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEBOV-000535-Uv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:13:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1oEBe9-0006xM-BH
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:29:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oEBNB-0003AK-Fz
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:12:25 -0400
-Received: from mga18.intel.com ([134.134.136.126]:29501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oEBN2-0002zA-9R
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:12:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658329936; x=1689865936;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=q2IlxigBdcwC0dpWUgLpaaCiXj48I0dLaoXRVby3NyA=;
- b=abc4mWZegkTfLLhK7LRRl6ApBlhbgSq9wS0+bhKVI4S2R8hl0J/83a26
- MugVh28tGJEiw3+5MroyN4sGv1kaxEdbe/VmpRtBSwFIlOEosmE2829yL
- MpTxK+pd8jwnktKBv9eZKl7HQs6oQuXk4skMthvFBL7S1WDwQR3mKUEWu
- MFSuMCIOOjHsq96FPBokXFdQ4DZrOCdUgybqRESL5cNUO11XWRkkzVvTk
- ixbs9Dkzt7bUs6HZdS0pNFPOKgPPWfbN7zT8R6RNWWtw2gjkZOA4eJICH
- CRlDTKL4K56hDRixF24uN1FSh5DvJRqllT6OKqMO3he/oqOhWqZkLsrPd A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="269831999"
-X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; d="scan'208";a="269831999"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Jul 2022 08:12:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.92,286,1650956400"; d="scan'208";a="595275695"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga007.jf.intel.com with ESMTP; 20 Jul 2022 08:11:56 -0700
-Date: Wed, 20 Jul 2022 23:07:06 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <20220720150706.GB124133@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
- <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEBav-0002MK-CV
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:37 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:40489)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEBat-0005Bk-Oe
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:37 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id z12so26635565wrq.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:26:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bpL4MGSXevB5Nl7ONE085OfoIly8kw0x9cfWXuwiwqg=;
+ b=XhMoEZwZ0f6XJN9NzvXrWBCmDEbc16F8UYj2Fz1MmwU0gOjf5DAvz8AjvpTx60qA3g
+ vWiZTYaKpHDDHkwwgnlo7f/E1uP9tk3AGQdKa7RHNR4Z4ngwee2DKQS2ijXmERAYI8bK
+ cTVGquYB36jL2cGZMx8CTIdey4FEg1D33oWx4mrrbC4An9CyVXz+Z+bNWz3lGfCkty0W
+ 3yv5CJWSdmIhFJczFybuM/Jx+E4mOR5eFcevt1VaBL4noVdCkSAs/UV48SzzwICZ72ni
+ NILoUNJKUKpGHZBxFB5LkISyPRaeKV7SzlUBanxLjicM8trCzeygS4Zu0D1LFEAb0HHE
+ pZvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bpL4MGSXevB5Nl7ONE085OfoIly8kw0x9cfWXuwiwqg=;
+ b=3+qKApXjzIQmrfwYfH4cjNVTCIz9cbhvtFyuL6cW4A6CzwsIc0waEzVypT1xlm3lXt
+ JwsS6Pnbh3DO2XdmjaZBEzcQEmYfSFCgY0j4+YTq+FjlgvMfb7pk9KKDHYdOkgG3m3iz
+ dINimsRTnW9WnJZggKS8KMdG72F2GpZLYEu4vhVc2PnYi6ey66Av1F2PkluoV+Lnpxj7
+ OHRcONUQTd/XbeE0YbsGbNSp4q3+pKzNHFQRDRF95d+ssV/zUTesoJdAulU7wWR80YAa
+ tzIrXxZS7a0J0zwWPOznerlkh4QBXLcRk73LrF5PWzaQ0cxOQ10nVLfSfPL57ZefL/SC
+ X2DA==
+X-Gm-Message-State: AJIora/IRudtpBEm1BbdUxhh+nDl2kGkqPx/U2Zzq6rCNX49I+522wlK
+ BuKb9VcFvAjrQ20s476TNeNDgdExLNEyfA==
+X-Google-Smtp-Source: AGRyM1sCsHosgCqk+DWNzuOp8wyZ4nzety2XoXspRn1EaAD0mdkTiGKgyTZAPgXAI2nDRtEbo8mziA==
+X-Received: by 2002:a5d:584c:0:b0:21d:a4b1:6f77 with SMTP id
+ i12-20020a5d584c000000b0021da4b16f77mr30264690wrf.662.1658330793986; 
+ Wed, 20 Jul 2022 08:26:33 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ r10-20020a056000014a00b0021d68a504cbsm16395987wrx.94.2022.07.20.08.26.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 08:26:33 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 0/5] configure: fix some non-portabilities
+Date: Wed, 20 Jul 2022 16:26:26 +0100
+Message-Id: <20220720152631.450903-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
-Received-SPF: none client-ip=134.134.136.126;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga18.intel.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,71 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 19, 2022 at 04:23:52PM +0200, Gupta, Pankaj wrote:
-> 
-> > > > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
-> > > > +{
-> > > > +	return false;
-> > > > +}
-> > > 
-> > > Does this function has to be overriden by SEV and TDX to support the private
-> > > regions?
-> > 
-> > Yes it should be overridden by architectures which want to support it.
-> 
-> o.k
-> > 
-> > > 
-> > > > +
-> > > >    static int check_memory_region_flags(const struct kvm_user_mem_region *mem)
-> > > >    {
-> > > >    	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> > > > @@ -4689,6 +4729,22 @@ static long kvm_vm_ioctl(struct file *filp,
-> > > >    		r = kvm_vm_ioctl_set_memory_region(kvm, &mem);
-> > > >    		break;
-> > > >    	}
-> > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
-> > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
-> > > > +		struct kvm_enc_region region;
-> > > > +
-> > > > +		if (!kvm_arch_private_mem_supported(kvm))
-> > > > +			goto arch_vm_ioctl;
-> > > > +
-> > > > +		r = -EFAULT;
-> > > > +		if (copy_from_user(&region, argp, sizeof(region)))
-> > > > +			goto out;
-> > > > +
-> > > > +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
-> > > 
-> > > this is to store private region metadata not only the encrypted region?
-> > 
-> > Correct.
-> 
-> Sorry for not being clear, was suggesting name change of this function from:
-> "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+This patchset fixes some non-portable code that has crept in recently:
+notably, it fixes problems that are reported to cause configure
+not to work correctly on OpenBSD and NetBSD, and a warning message
+when using dash as /bin/sh on Linux. I threw in a less important
+"drop some dead code" fix too, and a fix for the only other 'error'
+category problem reported by shellcheck. (There are way too many
+'warning' category reports to deal with all at once.)
 
-Though I don't have strong reason to change it, I'm fine with this and
-this name matches the above kvm_arch_private_mem_supported perfectly.
+If people who reported problems on NetBSD/OpenBSD could check that
+this fixes them, that would be great.
 
-Thanks,
-Chao
-> 
-> > 
-> > > 
-> > > Also, seems same ioctl can be used to put other regions (e.g firmware, later
-> > > maybe DAX backend etc) into private memory?
-> > 
-> > Possibly. Depends on what exactly the semantics is. If just want to set
-> > those regions as private current code already support that.
-> 
-> Agree. Sure!
-> 
-> 
-> Thanks,
-> Pankaj
+thanks
+-- PMM
+
+
+Peter Maydell (5):
+  configure: Add missing POSIX-required space
+  configure: Add braces to clarify intent of $emu[[:space:]]
+  configure: Don't use bash-specific string-replacement syntax
+  configure: Drop dead code attempting to use -msmall-data on alpha
+    hosts
+  configure: Avoid '==' bashism
+
+ configure | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
+
+-- 
+2.25.1
+
 
