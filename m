@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7B257B5DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:47:48 +0200 (CEST)
-Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AFF157B5DE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:50:04 +0200 (CEST)
+Received: from localhost ([::1]:59250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE8B8-0002ES-SL
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:47:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
+	id 1oE8DL-0006TX-AX
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:50:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kO-0004xJ-4X
+ id 1oE7kO-0004wu-2o
  for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55018)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kK-0000Dy-Bo
+ id 1oE7kK-0000DZ-GH
  for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658316002;
+ s=mimecast20190719; t=1658316001;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1PcrafTSnZrzwPZSs/kzQtnBsnv4nxReabDtV5NRPDk=;
- b=LrTLDfXYalkNGgBWfcT0+KYaFNey4VBWW30AIPLHDJZQErJxwj510QHORRrCE0D282Gm23
- UpG57LPaAU/x+u3vBPNE9wMW+97vtKw0wzldTzqwG8SQQcGLQP4B/yENivSQjeixCYXR0m
- kYsZF8qXCdZSfoYEYWon43V/qaDnwGE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JiJPdbOLhWRgRXzR2LT4cAU88vYrjnPqzBvAXEyAUhk=;
+ b=A52JbApRWAiuRMlffTOcP8HE7Hhkx4UvOM8rvRuFrm3zGzl6xn3sp/yz8I89JkhfwPHnGX
+ MjJCuKXDb8N+msId88ZwOrBatBIi6BrCj+iL5vA/WfV4I/t2ZcvVrdw4pJqJQ1ekLboWwv
+ cdLF35dyizn4YtIMhVBBd18FJ6+tUcg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-486-6xOiKVqMMkuv85Yr7mV1EQ-1; Wed, 20 Jul 2022 07:19:53 -0400
-X-MC-Unique: 6xOiKVqMMkuv85Yr7mV1EQ-1
+ us-mta-460-J-QDcANcNeK-SDZMq7VZBQ-1; Wed, 20 Jul 2022 07:19:54 -0400
+X-MC-Unique: J-QDcANcNeK-SDZMq7VZBQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02A681035340;
- Wed, 20 Jul 2022 11:19:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E1A938164C9;
+ Wed, 20 Jul 2022 11:19:54 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09A412166B26;
- Wed, 20 Jul 2022 11:19:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 359F62166B26;
+ Wed, 20 Jul 2022 11:19:53 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 17/30] migration: Export tls-[creds|hostname|authz] params to
- cmdline too
-Date: Wed, 20 Jul 2022 12:19:13 +0100
-Message-Id: <20220720111926.107055-18-dgilbert@redhat.com>
+Subject: [PULL 18/30] migration: Enable TLS for preempt channel
+Date: Wed, 20 Jul 2022 12:19:14 +0100
+Message-Id: <20220720111926.107055-19-dgilbert@redhat.com>
 In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
 References: <20220720111926.107055-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -83,62 +82,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-It's useful for specifying tls credentials all in the cmdline (along with
-the -object tls-creds-*), especially for debugging purpose.
+This patch is based on the async preempt channel creation.  It continues
+wiring up the new channel with TLS handshake to destionation when enabled.
 
-The trick here is we must remember to not free these fields again in the
-finalize() function of migration object, otherwise it'll cause double-free.
-
-The thing is when destroying an object, we'll first destroy the properties
-that bound to the object, then the object itself.  To be explicit, when
-destroy the object in object_finalize() we have such sequence of
-operations:
-
-    object_property_del_all(obj);
-    object_deinit(obj, ti);
-
-So after this change the two fields are properly released already even
-before reaching the finalize() function but in object_property_del_all(),
-hence we don't need to free them anymore in finalize() or it's double-free.
-
-This also fixes a trivial memory leak for tls-authz as we forgot to free it
-before this patch.
+Note that only the src QEMU needs such operation; the dest QEMU does not
+need any change for TLS support due to the fact that all channels are
+established synchronously there, so all the TLS magic is already properly
+handled by migration_tls_channel_process_incoming().
 
 Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20220707185515.27475-1-peterx@redhat.com>
+Message-Id: <20220707185518.27529-1-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ migration/postcopy-ram.c | 57 ++++++++++++++++++++++++++++++++++------
+ migration/trace-events   |  1 +
+ 2 files changed, 50 insertions(+), 8 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index cc41787079..7c7e529ca7 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4366,6 +4366,9 @@ static Property migration_properties[] = {
-                       DEFAULT_MIGRATE_ANNOUNCE_STEP),
-     DEFINE_PROP_BOOL("x-postcopy-preempt-break-huge", MigrationState,
-                       postcopy_preempt_break_huge, true),
-+    DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
-+    DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
-+    DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+index 70b21e9d51..b9a37ef255 100644
+--- a/migration/postcopy-ram.c
++++ b/migration/postcopy-ram.c
+@@ -36,6 +36,7 @@
+ #include "socket.h"
+ #include "qemu-file.h"
+ #include "yank_functions.h"
++#include "tls.h"
  
-     /* Migration capabilities */
-     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-@@ -4403,12 +4406,9 @@ static void migration_class_init(ObjectClass *klass, void *data)
- static void migration_instance_finalize(Object *obj)
+ /* Arbitrary limit on size of each discard command,
+  * keeps them around ~200 bytes
+@@ -1552,15 +1553,15 @@ bool postcopy_preempt_new_channel(MigrationIncomingState *mis, QEMUFile *file)
+     return true;
+ }
+ 
++/*
++ * Setup the postcopy preempt channel with the IOC.  If ERROR is specified,
++ * setup the error instead.  This helper will free the ERROR if specified.
++ */
+ static void
+-postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
++postcopy_preempt_send_channel_done(MigrationState *s,
++                                   QIOChannel *ioc, Error *local_err)
  {
-     MigrationState *ms = MIGRATION_OBJ(obj);
--    MigrationParameters *params = &ms->parameters;
+-    MigrationState *s = opaque;
+-    QIOChannel *ioc = QIO_CHANNEL(qio_task_get_source(task));
+-    Error *local_err = NULL;
+-
+-    if (qio_task_propagate_error(task, &local_err)) {
+-        /* Something wrong happened.. */
++    if (local_err) {
+         migrate_set_error(s, local_err);
+         error_free(local_err);
+     } else {
+@@ -1574,7 +1575,47 @@ postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
+      * postcopy_qemufile_src to know whether it failed or not.
+      */
+     qemu_sem_post(&s->postcopy_qemufile_src_sem);
+-    object_unref(OBJECT(ioc));
++}
++
++static void
++postcopy_preempt_tls_handshake(QIOTask *task, gpointer opaque)
++{
++    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
++    MigrationState *s = opaque;
++    Error *local_err = NULL;
++
++    qio_task_propagate_error(task, &local_err);
++    postcopy_preempt_send_channel_done(s, ioc, local_err);
++}
++
++static void
++postcopy_preempt_send_channel_new(QIOTask *task, gpointer opaque)
++{
++    g_autoptr(QIOChannel) ioc = QIO_CHANNEL(qio_task_get_source(task));
++    MigrationState *s = opaque;
++    QIOChannelTLS *tioc;
++    Error *local_err = NULL;
++
++    if (qio_task_propagate_error(task, &local_err)) {
++        goto out;
++    }
++
++    if (migrate_channel_requires_tls_upgrade(ioc)) {
++        tioc = migration_tls_client_create(s, ioc, s->hostname, &local_err);
++        if (!tioc) {
++            goto out;
++        }
++        trace_postcopy_preempt_tls_handshake();
++        qio_channel_set_name(QIO_CHANNEL(tioc), "migration-tls-preempt");
++        qio_channel_tls_handshake(tioc, postcopy_preempt_tls_handshake,
++                                  s, NULL, NULL);
++        /* Setup the channel until TLS handshake finished */
++        return;
++    }
++
++out:
++    /* This handles both good and error cases */
++    postcopy_preempt_send_channel_done(s, ioc, local_err);
+ }
  
-     qemu_mutex_destroy(&ms->error_mutex);
-     qemu_mutex_destroy(&ms->qemu_file_lock);
--    g_free(params->tls_hostname);
--    g_free(params->tls_creds);
-     qemu_sem_destroy(&ms->wait_unplug_sem);
-     qemu_sem_destroy(&ms->rate_limit_sem);
-     qemu_sem_destroy(&ms->pause_sem);
+ /* Returns 0 if channel established, -1 for error. */
+diff --git a/migration/trace-events b/migration/trace-events
+index 0e385c3a07..a34afe7b85 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -287,6 +287,7 @@ postcopy_request_shared_page(const char *sharer, const char *rb, uint64_t rb_off
+ postcopy_request_shared_page_present(const char *sharer, const char *rb, uint64_t rb_offset) "%s already %s offset 0x%"PRIx64
+ postcopy_wake_shared(uint64_t client_addr, const char *rb) "at 0x%"PRIx64" in %s"
+ postcopy_page_req_del(void *addr, int count) "resolved page req %p total %d"
++postcopy_preempt_tls_handshake(void) ""
+ postcopy_preempt_new_channel(void) ""
+ postcopy_preempt_thread_entry(void) ""
+ postcopy_preempt_thread_exit(void) ""
 -- 
 2.36.1
 
