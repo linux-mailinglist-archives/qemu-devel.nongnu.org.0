@@ -2,68 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 786E957B488
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:28:51 +0200 (CEST)
-Received: from localhost ([::1]:47472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41D457B48D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 12:29:36 +0200 (CEST)
+Received: from localhost ([::1]:48428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE6wi-00035o-Ro
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47890)
+	id 1oE6xU-0003pg-37
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 06:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1oE6uG-0007wO-RT
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:26:17 -0400
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:55628)
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1oE6v0-0000gh-Io
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:27:02 -0400
+Received: from smtp-relay-internal-1.canonical.com ([185.125.188.123]:50112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1oE6uB-0007YX-Lu
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:26:14 -0400
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 752A02E0A45;
- Wed, 20 Jul 2022 13:25:57 +0300 (MSK)
-Received: from rvkaganb.yandex.net (unknown
- [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- SPmgQ0mpgF-PtOmtwQi; Wed, 20 Jul 2022 10:25:56 +0000
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658312756; bh=0xwIij2C4K+R6ZF9JM/0wD9HM+ziiiBPNtw1z2U7fKc=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=SHapc4xgClKFwxb3JExtT9oyYh76MWeLHg7CT2fZj/4OV/6o4AuKvyzi4MeBP2vpx
- Hb6Nt+IP/Fs7Kla+/d0/YgoX9Q8+egvfJCbIAbBOM5SyWn0mXUFr3pTdxu98U0Dqud
- 8iTkf38WoPWPboUH8WVZphIkolW0v27fUgJf0Itc=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-Date: Wed, 20 Jul 2022 13:25:55 +0300
-Message-Id: <20220720102555.874394-1-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.36.1
+ (Exim 4.90_1) (envelope-from <heinrich.schuchardt@canonical.com>)
+ id 1oE6uy-0007v5-8n
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 06:27:02 -0400
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id B28273F128
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 10:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1658312817;
+ bh=yjWyxNfqibwNLTrVVFeM0tUV2yo0VS7Z9NRhZI9/+T8=;
+ h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+ In-Reply-To:Content-Type;
+ b=Hnv5OCUc6Z1KCNuJrjs6GJkK7xUVVE7BZ+uuLJwWM9bJSq+9ZdthqUHsFJKQiSITg
+ h8m4i1bBtHuGo9ZruvwlYmC9/ALUxbbsvj22PsxtQN/Nda0tu/s7VhqBZgyO4uICG6
+ FmC4wU6M8aD6Q2B4lYo+bcor9jaDj+cL5vLzEVfafqI/HsmbrPE/4KY/y/LGY3OFCQ
+ d2BNShwxJOOXjOyXUnCqBE+XajY5VnMPyoncPP8ilnwosN2QsJgGEwgsinE8Xn141W
+ sNKAn2xSICP+9fa6aw9HI8/rjzdaSx99aXm9Wx9+DHivqHxc9jVuXg1H3IHYP/lKQU
+ EOwsnwBpnS76g==
+Received: by mail-wm1-f69.google.com with SMTP id
+ h65-20020a1c2144000000b003a30cae106cso1021425wmh.8
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 03:26:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :to:cc:references:content-language:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yjWyxNfqibwNLTrVVFeM0tUV2yo0VS7Z9NRhZI9/+T8=;
+ b=P+cyAkGOuodLDiOGM1AQBuIzVPZmmKETlALzAJ7aQTWdsBgW3ekyFNA4eE5ZE9dumH
+ XvYsiDKuc54mLSVsLvp4HOmrCYWK1MwolLQQxUKwGGhg19fWJpI9d0PC4cH3hpWvrpEF
+ D0o0o4E5ZR4NPcndY9btZN5oGuWEvzWyKNuS5VSpQeh3rqP0SYshMkxp+dJDBKoO5C7h
+ rBCY7JAkCVZoEw/hZl0HdUmjnvqc22SgOJPhKf/K3BLd5IESEN31UpcRmB9FeUwgdXiu
+ wQZc0Zqi08yPCfVtkTS1ssUUstF7dc2cwzgNaf3aglJLurMP8f+w4oTdxwpW7DWqFvi4
+ V6nQ==
+X-Gm-Message-State: AJIora+zDeSgiEaRodvJHnuBUzgHgNciuEZFsv4gh0lL+qQVbFDF5ef+
+ i38PBqnZv//n+cimicHpaJYpig/O/bYvWCamjSRYJDYpSALzWc6C6TTKD12Uh2C7tIFJxD9l0QO
+ 4WGeWvc/VwoG0lPPRYmpVJsbdzAK+Gq/O
+X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
+ v16-20020a1cf710000000b003941960e8a1mr3174244wmh.154.1658312816292; 
+ Wed, 20 Jul 2022 03:26:56 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sXK4mLVoL9FsZoFourAPK2r1M7Q6N4HRcxKf9QQf/ShvQpBJhT0M82APkFlxlwy7lmodxK9A==
+X-Received: by 2002:a1c:f710:0:b0:394:1960:e8a1 with SMTP id
+ v16-20020a1cf710000000b003941960e8a1mr3174218wmh.154.1658312815952; 
+ Wed, 20 Jul 2022 03:26:55 -0700 (PDT)
+Received: from [192.168.123.67] (ip-062-143-094-109.um16.pools.vodafone-ip.de.
+ [62.143.94.109]) by smtp.gmail.com with ESMTPSA id
+ o20-20020a05600c4fd400b003a305c0ab06sm2228648wmq.31.2022.07.20.03.26.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 03:26:55 -0700 (PDT)
+Message-ID: <4bf188ea-885d-f8c7-d166-4fb72df44fa7@canonical.com>
+Date: Wed, 20 Jul 2022 12:26:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.0.1
+Subject: Re: [PATCH 1/1] docs: pcie: describe PCIe option ROMs
+To: "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: qemu-devel@nongnu.org
+References: <20220720064234.93576-1-heinrich.schuchardt@canonical.com>
+Content-Language: en-US
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+In-Reply-To: <20220720064234.93576-1-heinrich.schuchardt@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=185.125.188.123;
+ envelope-from=heinrich.schuchardt@canonical.com;
+ helo=smtp-relay-internal-1.canonical.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,224 +107,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's possible to create non-working configurations by attaching a device
-to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
-specifying a slot number other that zero, e.g.:
+On 7/20/22 08:42, Heinrich Schuchardt wrote:
+> Provide a descriptions of the options that control the emulation of option
+> ROMS for PCIe devices.
+> 
+> Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+> ---
+>   docs/pcie.txt | 25 +++++++++++++++++++++++++
+>   1 file changed, 25 insertions(+)
+> 
+> diff --git a/docs/pcie.txt b/docs/pcie.txt
+> index 89e3502075..a22c1f69f7 100644
+> --- a/docs/pcie.txt
+> +++ b/docs/pcie.txt
+> @@ -292,6 +292,31 @@ PCI-PCI Bridge slots can be used for legacy PCI host devices.
+>   If you can see the "Express Endpoint" capability in the
+>   output, then the device is indeed PCI Express.
+>   
+> +8. Option ROM
+> +=============
+> +PCIe devices may provide an option ROM. The following properties control the
+> +emulation of the option ROM:
+> +
+> +``rombar`` (default: ``1``)
+> +  Specifies that an option ROM is available. If set to ``0``, no option ROM
+> +  is present.
+> +
+> +``romsize`` (default: ``-1``)
+> +  Specifies the size of the option ROM in bytes. The value must be either
+> +  ``-1`` or a power of two. ``-1`` signifies unlimited size.
+> +
+> +``romfile``
+> +  Defines the name of the file to be loaded as option ROM.
+> +  Some devices like virtio-net-pci define a default file name.
+> +  The file size may neither exceed 2 GiB nor ``romsize``.
+> +
+> +Some QEMU PCIe devices like virtio-net-pci use an option ROM by default. In the
+> +following example the option ROM of a virtio-net-pci device is disabled. This
+> +is useful for architectures where QEMU does not supply an option ROM file.
+> +
+> +.. code-block:: console
+> +
+> +    -device virtio-net-pci,netdev=eth1,mq=on,rombar=0
 
-    -device pcie-root-port,id=s0,... \
-    -device virtio-blk-pci,bus=s0,addr=4,...
+If no ROM file exists, this is good enough.
 
-Make QEMU reject such configurations and only allow addr=0 on the
-secondary bus of a PCIe slot.
+If it does exist and I create multiple virtio-net-pci devices with 
+rombar=0, I get an error indicating that the same ROM is used twice:
 
-To verify this new behavior, add two basic qtests for the PCIe bridges
-that may be affected by change: pcie-root-port and x3130.  For the
-former, two testcases are included, one positive for slot #0 and one
-negative for (arbitrary) slot #4; for the latter, only a positive
-testcase for slot #4 is included.
+qemu-system-riscv64: -device virtio-net-pci,netdev=eth1,mq=on,rombar=0: 
+duplicate fw_cfg file name: genroms/efi-virtio.rom
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
-v2 -> v3:
-- do not use qtest-single stuff [Thomas]
+I ended up using to solve the problem:
 
-v1 -> v2:
-- use object_dynamic_cast (without assert) [Vladimir]
-- add explaining comment [Michael]
-- add tests
+-device virtio-net-pci,netdev=eth1,mq=on,rombar=0,romfile=
 
- hw/pci/pci_bridge.c               |  6 +++
- tests/qtest/pcie-root-port-test.c | 75 +++++++++++++++++++++++++++++++
- tests/qtest/xio3130-test.c        | 52 +++++++++++++++++++++
- tests/qtest/meson.build           |  2 +
- 4 files changed, 135 insertions(+)
- create mode 100644 tests/qtest/pcie-root-port-test.c
- create mode 100644 tests/qtest/xio3130-test.c
+I guess some input from the maintainers would be helpful here:
 
-diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
-index da34c8ebcd..23e1701d06 100644
---- a/hw/pci/pci_bridge.c
-+++ b/hw/pci/pci_bridge.c
-@@ -33,6 +33,7 @@
- #include "qemu/units.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci/pci_bus.h"
-+#include "hw/pci/pcie_port.h"
- #include "qemu/module.h"
- #include "qemu/range.h"
- #include "qapi/error.h"
-@@ -386,6 +387,11 @@ void pci_bridge_initfn(PCIDevice *dev, const char *typename)
-     br->windows = pci_bridge_region_init(br);
-     QLIST_INIT(&sec_bus->child);
-     QLIST_INSERT_HEAD(&parent->child, sec_bus, sibling);
-+
-+    /* PCIe slot derivatives are bridges with a single slot; enforce that */
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_PCIE_SLOT)) {
-+        sec_bus->slot_reserved_mask = ~1u;
-+    }
- }
- 
- /* default qdev clean up function for PCI-to-PCI bridge */
-diff --git a/tests/qtest/pcie-root-port-test.c b/tests/qtest/pcie-root-port-test.c
-new file mode 100644
-index 0000000000..c462f03fda
---- /dev/null
-+++ b/tests/qtest/pcie-root-port-test.c
-@@ -0,0 +1,75 @@
-+/*
-+ * QTest testcase for generic PCIe root port
-+ *
-+ * Copyright (c) 2022 Yandex N.V.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+/*
-+ * Let QEMU choose the bus and slot for the device under test.  It may even be
-+ * a non-PCIe bus but it's ok for the purpose of the test.
-+ */
-+static const char *common_args = "-device pcie-root-port,id=s0"
-+                                 ",port=1,chassis=1,multifunction=on";
-+
-+static void test_slot0(void)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+
-+    /* attach a PCIe device into slot0 of the root port */
-+    qts = qtest_init(common_args);
-+    /* PCIe root port is known to be supported, use it as a leaf device too */
-+    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-+                     "'driver': 'pcie-root-port', "
-+                     "'id': 'port1', "
-+                     "'bus': 's0', "
-+                     "'chassis': 5, "
-+                     "'addr': '0'"
-+                     "} }");
-+    g_assert_nonnull(resp);
-+    g_assert(!qdict_haskey(resp, "event"));
-+    g_assert(!qdict_haskey(resp, "error"));
-+    qobject_unref(resp);
-+
-+    qtest_quit(qts);
-+}
-+
-+static void test_slot4(void)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+
-+    /* attach a PCIe device into slot4 of the root port should be rejected */
-+    qts = qtest_init(common_args);
-+    /* PCIe root port is known to be supported, use it as a leaf device too */
-+    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-+                     "'driver': 'pcie-root-port', "
-+                     "'id': 'port1', "
-+                     "'bus': 's0', "
-+                     "'chassis': 5, "
-+                     "'addr': '4'"
-+                     "} }");
-+    qmp_expect_error_and_unref(resp, "GenericError");
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/pcie-root-port/slot0", test_slot0);
-+    qtest_add_func("/pcie-root-port/slot4", test_slot4);
-+
-+    ret = g_test_run();
-+
-+    return ret;
-+}
-diff --git a/tests/qtest/xio3130-test.c b/tests/qtest/xio3130-test.c
-new file mode 100644
-index 0000000000..8306da4aea
---- /dev/null
-+++ b/tests/qtest/xio3130-test.c
-@@ -0,0 +1,52 @@
-+/*
-+ * QTest testcase for TI X3130 PCIe switch
-+ *
-+ * Copyright (c) 2022 Yandex N.V.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest.h"
-+
-+/*
-+ * Let QEMU choose the bus and slot for the device under test.  It may even be
-+ * a non-PCIe bus but it's ok for the purpose of the test.
-+ */
-+static const char *common_args = "-device x3130-upstream,id=s0";
-+
-+static void test_slot4(void)
-+{
-+    QTestState *qts;
-+    QDict *resp;
-+
-+    /* attach a downstream port into slot4 of the upstream port */
-+    qts = qtest_init(common_args);
-+    resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': {"
-+                     "'driver': 'xio3130-downstream', "
-+                     "'id': 'port1', "
-+                     "'bus': 's0', "
-+                     "'chassis': 5, "
-+                     "'addr': '4'"
-+                     "} }");
-+    g_assert_nonnull(resp);
-+    g_assert(!qdict_haskey(resp, "event"));
-+    g_assert(!qdict_haskey(resp, "error"));
-+    qobject_unref(resp);
-+
-+    qtest_quit(qts);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int ret;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_add_func("/pcie-root-port/slot4", test_slot4);
-+
-+    ret = g_test_run();
-+
-+    return ret;
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 31287a9173..19cab1bc35 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -54,6 +54,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
-   (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
-   (config_all_devices.has_key('CONFIG_LPC_ICH9') ? ['lpc-ich9-test'] : []) +              \
-+  (config_all_devices.has_key('CONFIG_PCIE_PORT') ? ['pcie-root-port-test'] : []) +         \
-   (config_all_devices.has_key('CONFIG_USB_UHCI') ? ['usb-hcd-uhci-test'] : []) +            \
-   (config_all_devices.has_key('CONFIG_USB_UHCI') and                                        \
-    config_all_devices.has_key('CONFIG_USB_EHCI') ? ['usb-hcd-ehci-test'] : []) +            \
-@@ -63,6 +64,7 @@ qtests_i386 = \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_TPM_TIS_ISA') ? ['tpm-tis-swtpm-test'] : []) +        \
-   (config_all_devices.has_key('CONFIG_RTL8139_PCI') ? ['rtl8139-test'] : []) +              \
-+  (config_all_devices.has_key('CONFIG_XIO3130') ? ['xio3130-test'] : []) +                  \
-   (config_all_devices.has_key('CONFIG_E1000E_PCI_EXPRESS') ? ['fuzz-e1000e-test'] : []) +   \
-   (config_all_devices.has_key('CONFIG_MEGASAS_SCSI_PCI') ? ['fuzz-megasas-test'] : []) +    \
-   (config_all_devices.has_key('CONFIG_LSI_SCSI_PCI') ? ['fuzz-lsi53c895a-test'] : []) +     \
--- 
-2.36.1
+- Why is the file read if rombar=0? Is this a bug?
+- Why can't the same option ROM file be used twice? It is read-only.
+
+Best regards
+
+Heinrich
+
+>   
+>   7. Virtio devices
+>   =================
 
 
