@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F59F57B9AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:32:19 +0200 (CEST)
-Received: from localhost ([::1]:41214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3182757BA33
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 17:34:59 +0200 (CEST)
+Received: from localhost ([::1]:45620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEBgQ-0001jj-DS
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36852)
+	id 1oEBj0-0005C7-C8
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 11:34:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEBay-0002RV-Ub
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:41 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45829)
+ id 1oEBc5-0003xc-UC
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:27:49 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:40816)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEBaw-0005Bm-U9
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:26:40 -0400
-Received: by mail-wr1-x434.google.com with SMTP id a5so26589235wrx.12
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:26:38 -0700 (PDT)
+ id 1oEBc3-0005Sa-LS
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 11:27:48 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id k85so29916371ybk.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 08:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=j7LZZeIQ/sz4HsnzuYWBDPxebi7JrS8w/X6Vb6vFc3U=;
- b=ErKAfFUWDaFCW5fEZnWlNYDlVBJeFN6C9yxL139Usz3TFEmR79m/iTMU/Ew93YKLU0
- fg+7TDSGSfEd5jdUKiP5UQKPrrwMtvBJiOYA0yutTZWzYpRqIjvrJSJ9en9guJgwdR/J
- CZHj48xwmWuKtXYSbnKCc/L8zfjpUu3K/Xla4FLTl/qm9fkPEEnmLSeC9Q1IqWpIoi8E
- 0kMS/jpHIhXIdjIQEC2qTOtvu8+ROVMYk7XkU2bJxuiodTn92CE1RSn2Zxge+i4knHn4
- +PxaYYciY5Wk8dlfJPeUbQGuGXjKMjVJ4PbIWfbg48sQka9WkWxNGVOBXOap6PT9otJs
- hnpw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1WXv8g8eEfSLxZI/hCNWlttyLSBiEuRLnfI0F5DWdUA=;
+ b=zBC4M1H43gjM4JcDVqbMgWjuJY4u9un753OGRtBKLdHx+Q9mJuFAPhNiPAVCD4p2vl
+ MNZaFAL2+xFVJ825nmo4LT/kshfzK907jronXC3yHhXtJRNjQIyhSC7X4bROoSiTr11o
+ 56bU1n8b2UGKcw6wScNut4jemxMLha+/D2gg6bsrb0mtpmxMZX8dmmkLHvThTyg2Odzj
+ veNfHnFY2Dfm0/QEee9GLM+bGubcaIjLnuBoGmVtExzrQjVTVgHcZE8GBTSp6WonEx/7
+ O3JjCJas980Wkq1jBvvdHhDMsREl9/wzE4yJ4ZiODaRFFs6aO5Y8GfhhLIDwvF3w4iTF
+ a8Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=j7LZZeIQ/sz4HsnzuYWBDPxebi7JrS8w/X6Vb6vFc3U=;
- b=378sgKU2w+AFh7kORiWV+ZsE4pnUVFDSZFaBABqc6r/Wf0cVpXWIiQT1OjucwBtJSV
- x+CpSGB+/ocoyS/A+B/PybWZOFgix0YKPpTnTRhPjEMcC+KIc+4LUJ0TkHEIDcRYo5BJ
- W7nqId+bxzOsdTgiwTpewYrrmPZ7TKkSBS00wvRseN+wg+Xk49PfFTBZXZgyJoVcoWrI
- HMLrQdBsXSYNXYUEtdIRbbv03V1MIxYKAXVn/cOP9xC0vv3SgWJQvLE/EMxsngdpMC+5
- sIwP2biQkC5Ms43qRcPC6AWbXXv5b7OYw1R23lWJzR262uXCLlKifJj0XQZRWKLPlNFC
- JDBA==
-X-Gm-Message-State: AJIora+oJF5UWPG0NwrB0gQcPqbJgu4gK+4HRqXEIeJ7WrtYCxYi8tJs
- rAmE8izKX9XmyZ/jXXQhWDFHuYQVD0e1Cg==
-X-Google-Smtp-Source: AGRyM1tv4fF3W2anDhsF0esR84q7frAqHZFVWPHchclEj97pIi4zEMo9ew1Yroi1M037+lcjqenJ3w==
-X-Received: by 2002:a5d:64c2:0:b0:21e:2e1b:d031 with SMTP id
- f2-20020a5d64c2000000b0021e2e1bd031mr7421595wri.8.1658330798265; 
- Wed, 20 Jul 2022 08:26:38 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- r10-20020a056000014a00b0021d68a504cbsm16395987wrx.94.2022.07.20.08.26.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 08:26:37 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 5/5] configure: Avoid '==' bashism
-Date: Wed, 20 Jul 2022 16:26:31 +0100
-Message-Id: <20220720152631.450903-6-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220720152631.450903-1-peter.maydell@linaro.org>
-References: <20220720152631.450903-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1WXv8g8eEfSLxZI/hCNWlttyLSBiEuRLnfI0F5DWdUA=;
+ b=YVf7MfvPfFJfC9rqQBfAWQQeR+lWdAB8aJmOr6ayofQlK+QRIP22tRa8zIwJAeInTp
+ q7cA2GXuBtYG6socse3/aAv4Z3BCw6o0yvyGJbW112DanjJu20R0R63vSSkxqexAhWJ0
+ 5KS4sR6Hq0LD789EA7rvAzCpOsTbl/26OjNHE7bF0Fev/PzEOCd2oSKxNiUDtT0iDzfT
+ 3l92c4wqZ0J2goO66AKIIDT/COlOV98uOxSH4hLZdw+ughqVum9wyBM2SDmVF3RQP8JM
+ tPhrHLjSJhe/z/olXjfTTiRwIFZtcITfd7IesjvZyOxP+Phe+DdYHwpT2x4RXaqmCUyT
+ xtLg==
+X-Gm-Message-State: AJIora8ijVGuad3J+qJGdkbxzSN4Do+2U9y5R5z+7dVSz0qazTpZNM+E
+ l3g3BC2rSJ/XCETFQi4AkgxLhFx8SFwlheMXBogpLQ==
+X-Google-Smtp-Source: AGRyM1u21EW/hcCraAWfxDY/BtG43+CBLN0PZQAJ76tDMT4zg9KAzT818FeVKONTH1HZmZI5rLHz5gNKhHbPwaRiBCY=
+X-Received: by 2002:a25:d307:0:b0:670:80fd:85c4 with SMTP id
+ e7-20020a25d307000000b0067080fd85c4mr7883696ybf.67.1658330866582; Wed, 20 Jul
+ 2022 08:27:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+References: <20220720075756.760404-1-thuth@redhat.com>
+In-Reply-To: <20220720075756.760404-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 20 Jul 2022 16:27:35 +0100
+Message-ID: <CAFEAcA8TcEV3PUxxybO3Wjj3hKvC41QKgF9gnoc-Ot4QphV49g@mail.gmail.com>
+Subject: Re: [PULL 0/3] s390x fixes
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,30 +81,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The '==' operator to test is a bashism; the standard way to copmare
-strings is '='. This causes dash to complain:
+On Wed, 20 Jul 2022 at 08:58, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi!
+>
+> The following changes since commit b8bb9bbf4695b89bbdca702a054db0a7a2c8ff2b:
+>
+>   Merge tag 'pull-ppc-20220718' of https://gitlab.com/danielhb/qemu into staging (2022-07-18 19:27:25 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/thuth/qemu.git tags/pull-request-2022-07-20
+>
+> for you to fetch changes up to 23f13e1986e2ed3a02b65c0bf376c8c61d04ae7a:
+>
+>   tests/tcg/s390x: test signed vfmin/vfmax (2022-07-19 12:49:56 +0200)
+>
+> ----------------------------------------------------------------
+> * Fixes for s390x floating point vector instructions
+>
 
-../../configure: 681: test: linux: unexpected operator
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks.
 
-diff --git a/configure b/configure
-index d0e9a51462e..2c19329d58c 100755
---- a/configure
-+++ b/configure
-@@ -678,7 +678,7 @@ werror=""
- 
- meson_option_build_array() {
-   printf '['
--  (if test "$targetos" == windows; then
-+  (if test "$targetos" = windows; then
-     IFS=\;
-   else
-     IFS=:
--- 
-2.25.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
+for any user-visible changes.
 
+-- PMM
 
