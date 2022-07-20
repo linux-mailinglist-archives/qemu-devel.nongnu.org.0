@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20DF257B705
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:10:22 +0200 (CEST)
-Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B8E57B70D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:12:08 +0200 (CEST)
+Received: from localhost ([::1]:59598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9T2-0003FU-Rr
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59776)
+	id 1oE9Ul-0005Fl-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:12:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE9R5-0000TS-Me
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:08:19 -0400
-Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:42862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oE9R3-00068U-Sq
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:08:19 -0400
-Received: by mail-yw1-x1132.google.com with SMTP id
- 00721157ae682-2ef5380669cso172891997b3.9
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 06:08:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z49c9rGk0UrCBJCIiuMr5B+IetBjymPYphvd2x2jpcI=;
- b=mm/6lllg9VO2cONLn3EXG3Fs29o+7GK5tCVxxN39RK49dkCRCAmCPMph9r/yIEniij
- ozhfak3UqyjSkpxeB6AE8GMr+nJeueANRnzcxqO/8OQdEDwJ/Jy9RTNwn7FOs+HEUKaB
- XFWZnU+0P1vT+P/qXdP6z3WEA6mxNPKlHDtQvZJ10uuZCJk8p+ZMwNKoDGBG6YoBKQVP
- yKgB72GgTzSkedBORo4dqC+eXrk93kud+aHI6UJHM4/8N2wkq/kZg28Y+dTRNFIcrlAc
- lMZ+2a1b3/xYretFXqaf7zhjINe8d6JR9shtAcKKnNNCKerCce92kFI5vLoDIofwDT5Z
- kr5g==
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9Sy-0003Ng-7e
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:10:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23895)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9St-0006aI-EU
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:10:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658322610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DAMiZrfX4awrPUKBJjjrU5KRQUDz0xkJ8+2PjMuGrbA=;
+ b=gNZSjOU3kfz+6yHu6DPkgy6V3V68NkXwYPkf1HRa/HW+hAhC9yZPd+NnWxaQMQkbANv1Kr
+ 8gfFK1tVij4Fz/i7Tg2mhNR8GjviFA8ZIfsNrHf4N+vVYf7li4oVng4A6AbH+PY6PNGthB
+ ++7iS4kTbsUI2fZW1Iu2gOyOlPyl9nA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-9-QzWBZPhsPguXdIXXFIMyXQ-1; Wed, 20 Jul 2022 09:10:08 -0400
+X-MC-Unique: QzWBZPhsPguXdIXXFIMyXQ-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ z5-20020a05640235c500b0043ae18edeeeso12053664edc.5
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 06:10:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z49c9rGk0UrCBJCIiuMr5B+IetBjymPYphvd2x2jpcI=;
- b=da4P8GAGIHa4MtFoKooZrnyrAk+3payysJ7A2TRLVr5rfrdCDvsStklHireQ3GMwUh
- mgEoW8tny/uubrzYpq6Smkv0fp2z4rcwSK0v1W6i0KG8aaSm591oDUuWcuyQ5ADdPOgF
- udr+Ugoq2Oq/8j+vvBNYty+nBL6JFlZCdGTKOLHeqdxIurl0tBZSIwOiipF0aavhXTr6
- FE3P0w0M0wLhTnzYV+U9qnc8Snqilg7twy6GtFsQW91DKZbioGoYOl30fSew+oN5pCjC
- FdeTpfPh8nCuB5ufe6QA6fbfSJSJcDrb13aVMbou3q9V87Q1xN23etNefq8SCjP1OoVk
- cguw==
-X-Gm-Message-State: AJIora+a6vthDK2NiEiXx0mC28sQRGumgjlBEBfRdxKcdZ4V5mOr/spV
- LtD1diMdXIvNpFNRwEF3IHumpGpNw22DfE8QeytgtQ==
-X-Google-Smtp-Source: AGRyM1uQpncUSjIKpAWv39VGPueGDwNCcUN5etPZj8Ozvb4HvQNFuQQ9PEaDpbSe2KSm/O3uG7YYLbwnt+NqdlRn0rE=
-X-Received: by 2002:a81:f8f:0:b0:31c:bd9f:31ce with SMTP id
- 137-20020a810f8f000000b0031cbd9f31cemr40945290ywp.347.1658322496769; Wed, 20
- Jul 2022 06:08:16 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DAMiZrfX4awrPUKBJjjrU5KRQUDz0xkJ8+2PjMuGrbA=;
+ b=DmOSd/FABaQDk38C+h/cJk+wO1Zc7YUWMlGIVaUN8cYHUPZMx/QZ03aehgTsa9vNV4
+ TNppX2IkU3fCx+sDgUJ5Vfp8alIltCepIruIGfq725d04wVXvYV6RLOwsf7rJMx+Qi2j
+ tig1jRHoLZ6oM6/en/iHm1snDn1v+icI6O6tMArqcscBA2JZSg7iRdILlD5+UuJuOKRL
+ IPgQ8yn6IjBqEgG0ttv1lZzwgvYpTfnYpGRYL5z3Qh3laxa0+gayu/I9cYKUJVy54Q6H
+ r9eWaTWQ/vgtaYw/gObD9cojCyLkJ19EJJ11XPzLot1cOFZkLJRB3TZp4EeVRHFAMjV6
+ rUcw==
+X-Gm-Message-State: AJIora8nBmmWPlKBAY1PNc8BHYpNDmKAn+1f6k0dq5Roy7UpQv67CEBp
+ Xa7AyWHtda1oLW30k/oGfUd5okBg1ncrLWpMlRWMGfX6homVZjo3oO9Z3HUQCDPwFSeP+HUcfyU
+ 3yb3H9tvYULmecI2hk1hsf6GFMPXylYM=
+X-Received: by 2002:a05:6402:194d:b0:43a:82da:b0f3 with SMTP id
+ f13-20020a056402194d00b0043a82dab0f3mr50451461edz.104.1658322607479; 
+ Wed, 20 Jul 2022 06:10:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vECwA6FLB46sQFGS69s8Llw0e0ccheFku58t8Uu32N2kKjkxiJMRh6h7u3KzHCIYBnMO7mZvm0Cd/bKGsFYlk=
+X-Received: by 2002:a05:6402:194d:b0:43a:82da:b0f3 with SMTP id
+ f13-20020a056402194d00b0043a82dab0f3mr50451430edz.104.1658322607288; Wed, 20
+ Jul 2022 06:10:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719232631.25316-1-tsimpson@quicinc.com>
-In-Reply-To: <20220719232631.25316-1-tsimpson@quicinc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jul 2022 14:08:05 +0100
-Message-ID: <CAFEAcA9pgy_=0TwLb3CBnnF-MXsVXvz5youAts36d4sKYXdU4g@mail.gmail.com>
-Subject: Re: [PULL 0/2] Hexagon (target/hexagon) bug fixes for mem_noshuf
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org, f4bug@amsat.org
+References: <20220719134655.522538-1-lulu@redhat.com>
+ <Yta/jwfhnUJzXoof@redhat.com>
+In-Reply-To: <Yta/jwfhnUJzXoof@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Wed, 20 Jul 2022 21:09:31 +0800
+Message-ID: <CACLfguV-dOGVn5NzcVdSog7e1S5nu66NOLwnK3-6aXxwdZFsUg@mail.gmail.com>
+Subject: Re: [PATCH v12 00/10] vhost-vdpa: add support for configure interrupt
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Michael Tsirkin <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, David Gilbert <dgilbert@redhat.com>, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,31 +97,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 00:27, Taylor Simpson <tsimpson@quicinc.com> wrote:
+On Tue, Jul 19, 2022 at 10:28 PM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
+om> wrote:
 >
-> The following changes since commit d48125de38f48a61d6423ef6a01156d6dff9ee2c:
+> On Tue, Jul 19, 2022 at 09:46:45PM +0800, Cindy Lu wrote:
+> > These patches introduced the support for configure interrupt
 >
->   Merge tag 'kraxel-20220719-pull-request' of https://gitlab.com/kraxel/qemu into staging (2022-07-19 17:40:36 +0100)
+> The email threading of this series isn't setup right. Each
+> patch is appearing as a new top level mail, rather than as
+> a reply to the cover letter.
 >
-> are available in the Git repository at:
+> I can encourage using 'git-publish' to send patch series to
+> qemu-devel to avoid this kind of mistake, as well as giving
+> tracking of each version you send through local git tags,
+> and being able to auto-remember the cover letter contents.
 >
->   https://github.com/quic/qemu tags/pull-hex-20220719-1
 >
-> for you to fetch changes up to 15fc6badbd28a126346f84c1acae48e273b66b67:
+> With regards,
+> Daniel
+sure, Thanks Daniel, I will send these patches by git-pbulish
+
+Thanks
+Cindy
 >
->   Hexagon (target/hexagon) fix bug in mem_noshuf load exception (2022-07-19 14:20:08 -0700)
->
-> ----------------------------------------------------------------
-> Recall that the semantics of a Hexagon mem_noshuf packet are that the
-> store effectively happens before the load.  There are two bug fixes
-> in this series.
+> [1] https://github.com/stefanha/git-publish
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 >
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
-
--- PMM
 
