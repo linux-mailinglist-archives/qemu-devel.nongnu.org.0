@@ -2,81 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5984057B2F5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 10:30:31 +0200 (CEST)
-Received: from localhost ([::1]:45036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CE557B306
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 10:33:52 +0200 (CEST)
+Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE56D-0000vD-5v
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 04:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51770)
+	id 1oE59T-0003dJ-13
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 04:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE53k-0006z4-Ua
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:27:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21181)
+ id 1oE54l-0008Mr-T5
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:28:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE53h-0004HT-9E
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:27:54 -0400
+ id 1oE54k-0004LO-2T
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 04:28:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658305671;
+ s=mimecast20190719; t=1658305737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iiNecrtSRB45o9Esd6UzO2jA8aCspC4VO0e41JLgN64=;
- b=J1dg7cnFzqT16NmZE8R13Kh0MpLUzgGg2bM0vNsKXZnrSZPGispd01SgqbiBGP6gwgqjuj
- dCZ5VJdjN1UpJehtJxZRJt4EVEu12RO0nWhAdfA8kf4GJoxw/k5lkWX+4fHgb+TgfET6sh
- 2MDN5SC+rRE09Mli295RyrhJtsyiN90=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IQAgNIBG+VV6cYy/COnZZFABIFZxiB6FiYMgngP8dPE=;
+ b=L+rhCevFy+JkZoaObTcZrbDkf1SUdwPqhfCqlntTfwXTfU0YwkB/42jAs+IKSE1utQDPTP
+ mH0frLWKb3zdbf2E807/Mf3aQguWvJrgUNQPb86kr/txwhX0tjB7WEs3NpcB7Fy1Lb3sAh
+ GxeMLMgniS2Lx//EIT8d7+6v4WgIrBg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-XF9fTY1ZOs6dMZLPwdtO3Q-1; Wed, 20 Jul 2022 04:27:50 -0400
-X-MC-Unique: XF9fTY1ZOs6dMZLPwdtO3Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- i133-20020a1c3b8b000000b003a2fe4c345cso914338wma.0
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 01:27:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=iiNecrtSRB45o9Esd6UzO2jA8aCspC4VO0e41JLgN64=;
- b=1U7hJfKRxw/tYAbRxc2AJLI5HjhPJciboh4eT1+Rf9cqUvR2FpBzcQ5VjrowpPNO0B
- tP8tqOGH539TsbPx2aRPzn27bTdJ9uNQoCTf5dzFW+ZCxXzNAFtuKZN3KjIDa6A7KkYq
- dZ8aXXtrXTR+xVeQ+0clUKAueEiAhNVoZZGHJdKQNmdMdrysYo1IkcJm5Of1ZbuyjGfO
- LZIz/t1LKNZxGcnGjE9TwZdIxu8VbxnexZL5IYoa1ylSTGar1qvOVsHk8sFqh2B3oAWl
- YhFIqUGZEBPzXT6Ug+juJI//fyy9nPIFPgypag9CoTN2C08gOZOIMxtfy0OI3gZriFRP
- BrFw==
-X-Gm-Message-State: AJIora8cn2kzI/i/t6rYYXrV6D3w6vFqYzQyxwO0YA7q11lprr2N/uQe
- mMLILf74v7DUByWD/+UM7HNpTcIct7HOOAPZawo/kBrXkAx68StGlQjf3GFJyHzMO08hEyYco8M
- rN3/P4QSDevINA6I=
-X-Received: by 2002:a05:600c:a4c:b0:39c:34d0:fd25 with SMTP id
- c12-20020a05600c0a4c00b0039c34d0fd25mr2822454wmq.172.1658305669564; 
- Wed, 20 Jul 2022 01:27:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s2O5EHekVh5Yapay8tBUczdNaW7BKe1JY9KRBRglbkyvC5eW05ka0o/sCw7ubaATmxQmiSxQ==
-X-Received: by 2002:a05:600c:a4c:b0:39c:34d0:fd25 with SMTP id
- c12-20020a05600c0a4c00b0039c34d0fd25mr2822436wmq.172.1658305669315; 
- Wed, 20 Jul 2022 01:27:49 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- n9-20020a05600c3b8900b003a2d47d3051sm1899146wms.41.2022.07.20.01.27.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 01:27:48 -0700 (PDT)
-Date: Wed, 20 Jul 2022 09:27:46 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
- berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
- huangy81@chinatelecom.cn
-Subject: Re: [PULL 00/29] migration queue
-Message-ID: <Yte8gul3iMEjG6e+@work-vm>
-References: <20220719170221.576190-1-dgilbert@redhat.com>
- <CAFEAcA9p_ngOFU6pvEXkQTNirf8Ub-pQ47+dsah-XQDrrAW6iw@mail.gmail.com>
+ us-mta-460-n11bUWfJNpKLcrFXaZK0OA-1; Wed, 20 Jul 2022 04:28:50 -0400
+X-MC-Unique: n11bUWfJNpKLcrFXaZK0OA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CEDD4811E84;
+ Wed, 20 Jul 2022 08:28:49 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EFFFEC2812B;
+ Wed, 20 Jul 2022 08:28:48 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, alex.bennee@linaro.org, f4bug@amsat.org,
+ thuth@redhat.com, iii@linux.ibm.com, peter.maydell@linaro.org
+Subject: [PATCH] Revert "gitlab: disable accelerated zlib for s390x"
+Date: Wed, 20 Jul 2022 09:28:44 +0100
+Message-Id: <20220720082844.6700-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9p_ngOFU6pvEXkQTNirf8Ub-pQ47+dsah-XQDrrAW6iw@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -101,43 +76,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Tue, 19 Jul 2022 at 18:16, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> >
-> > The following changes since commit da7da9d5e608200ecc0749ff37be246e9cd3314f:
-> >
-> >   Merge tag 'pull-request-2022-07-19' of https://gitlab.com/thuth/qemu into staging (2022-07-19 13:05:06 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220719c
-> >
-> > for you to fetch changes up to ec0345c1000b3a57b557da4c2e3f2114dd23903a:
-> >
-> >   migration: Avoid false-positive on non-supported scenarios for zero-copy-send (2022-07-19 17:33:22 +0100)
-> >
-> > ----------------------------------------------------------------
-> > Migration pull 2022-07-19
-> >
-> >   Hyman's dirty page rate limit set
-> >   Ilya's fix for zlib vs migration
-> 
-> I'm processing this pullreq, but while I think about it: once
-> we've got this fix in can we revert the workarounds we put in
-> our CI configs to set DFLTCC? (ie commit 309df6acb29346f)
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Good idea, patch coming up, if someone can ack it quickly I'll get it in
-with the fix for those build problems.
+This reverts commit 309df6acb29346f89e1ee542b1986f60cab12b87.
+With Ilya's 'multifd: Copy pages before compressing them with zlib'
+in the latest migration series, this shouldn't be a problem any more.
 
-Dave
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml | 12 ------------
+ .travis.yml                                        |  6 ++----
+ 2 files changed, 2 insertions(+), 16 deletions(-)
 
-> thanks
-> -- PMM
-> 
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index 9f1fe9e7dc..03e74c97db 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -8,8 +8,6 @@ ubuntu-20.04-s390x-all-linux-static:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+  - if: "$S390X_RUNNER_AVAILABLE"
+@@ -29,8 +27,6 @@ ubuntu-20.04-s390x-all:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  timeout: 75m
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+@@ -48,8 +44,6 @@ ubuntu-20.04-s390x-alldbg:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -71,8 +65,6 @@ ubuntu-20.04-s390x-clang:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -93,8 +85,6 @@ ubuntu-20.04-s390x-tci:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+@@ -114,8 +104,6 @@ ubuntu-20.04-s390x-notcg:
+  tags:
+  - ubuntu_20.04
+  - s390x
+- variables:
+-    DFLTCC: 0
+  rules:
+  - if: '$CI_PROJECT_NAMESPACE == "qemu-project" && $CI_COMMIT_BRANCH =~ /^staging/'
+    when: manual
+diff --git a/.travis.yml b/.travis.yml
+index 4fdc9a6785..fb3baabca9 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -218,7 +218,6 @@ jobs:
+         - TEST_CMD="make check check-tcg V=1"
+         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS},s390x-linux-user"
+         - UNRELIABLE=true
+-        - DFLTCC=0
+       script:
+         - BUILD_RC=0 && make -j${JOBS} || BUILD_RC=$?
+         - |
+@@ -258,7 +257,7 @@ jobs:
+       env:
+         - CONFIG="--disable-containers --audio-drv-list=sdl --disable-user
+                   --target-list-exclude=${MAIN_SOFTMMU_TARGETS}"
+-        - DFLTCC=0
++
+     - name: "[s390x] GCC (user)"
+       arch: s390x
+       dist: focal
+@@ -270,7 +269,7 @@ jobs:
+           - ninja-build
+       env:
+         - CONFIG="--disable-containers --disable-system"
+-        - DFLTCC=0
++
+     - name: "[s390x] Clang (disable-tcg)"
+       arch: s390x
+       dist: focal
+@@ -304,4 +303,3 @@ jobs:
+         - CONFIG="--disable-containers --disable-tcg --enable-kvm
+                   --disable-tools --host-cc=clang --cxx=clang++"
+         - UNRELIABLE=true
+-        - DFLTCC=0
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.36.1
 
 
