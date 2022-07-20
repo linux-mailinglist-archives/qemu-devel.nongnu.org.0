@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A2457B5AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:37:25 +0200 (CEST)
-Received: from localhost ([::1]:40762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF46E57B55C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 13:27:14 +0200 (CEST)
+Received: from localhost ([::1]:45140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE815-0001bc-V6
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58848)
+	id 1oE7rF-00017y-OM
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 07:27:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kK-0004o0-Kn
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49426)
+ id 1oE7k9-0004MK-6e
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oE7kG-0000Cn-2R
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:20:01 -0400
+ id 1oE7k7-00009j-He
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 07:19:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658315999;
+ s=mimecast20190719; t=1658315987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m/f8QL4E3dsHsVYwKyYpzIbZN83Oa7b/hCiQbtuC7g4=;
- b=PK8D2KS/opTEhH48cJVFy97Bd+ENHQMvdUwV6KRSxWnIKsC5iVhreTvjuync3OBuWExdPh
- w1e7mMzyrId1umuKzmG0C/2Eva/Tx7aWWyolFrdB+y3xxK01KWN6DNpRdsc2Jrp0f2r7M/
- xiQ9P7OPWFsDKEYiWk/du1bhu7ZNTfE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gCoEFvI8VXrjwt5jm54d/+3Z5wNJMdOk7FXMX9VyBWY=;
+ b=U50fPXO/AtmFkwCBn2K49r+XiSOXFa8Ru8nKUjWm7YlANkVaxU8X4Ym4ZvQwWXjbhQ+GSn
+ ZA45NyJ1RdurJ+cU1N1/3yHcHA8MS+PzTG7RSQ8plG1V6eiG3+UN5OQyaWbeV8nWyeoMC+
+ 3ofBxCPVWQCWOERwhplz45421RB7608=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-658-2HqzFyZhOkWTfC41BTzlRQ-1; Wed, 20 Jul 2022 07:19:43 -0400
-X-MC-Unique: 2HqzFyZhOkWTfC41BTzlRQ-1
+ us-mta-392-yCGIPQv7O-GhA0ZKtHHvvA-1; Wed, 20 Jul 2022 07:19:44 -0400
+X-MC-Unique: yCGIPQv7O-GhA0ZKtHHvvA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6D67B801231;
- Wed, 20 Jul 2022 11:19:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9A92638164CC;
+ Wed, 20 Jul 2022 11:19:44 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.158])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 708962166B26;
- Wed, 20 Jul 2022 11:19:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FB4C2166B26;
+ Wed, 20 Jul 2022 11:19:43 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
  berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
  huangy81@chinatelecom.cn
-Subject: [PULL 09/30] multifd: Copy pages before compressing them with zlib
-Date: Wed, 20 Jul 2022 12:19:05 +0100
-Message-Id: <20220720111926.107055-10-dgilbert@redhat.com>
+Subject: [PULL 10/30] migration: Add postcopy-preempt capability
+Date: Wed, 20 Jul 2022 12:19:06 +0100
+Message-Id: <20220720111926.107055-11-dgilbert@redhat.com>
 In-Reply-To: <20220720111926.107055-1-dgilbert@redhat.com>
 References: <20220720111926.107055-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -80,129 +80,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Peter Xu <peterx@redhat.com>
 
-zlib_send_prepare() compresses pages of a running VM. zlib does not
-make any thread-safety guarantees with respect to changing deflate()
-input concurrently with deflate() [1].
+Firstly, postcopy already preempts precopy due to the fact that we do
+unqueue_page() first before looking into dirty bits.
 
-One can observe problems due to this with the IBM zEnterprise Data
-Compression accelerator capable zlib [2]. When the hardware
-acceleration is enabled, migration/multifd/tcp/plain/zlib test fails
-intermittently [3] due to sliding window corruption. The accelerator's
-architecture explicitly discourages concurrent accesses [4]:
+However that's not enough, e.g., when there're host huge page enabled, when
+sending a precopy huge page, a postcopy request needs to wait until the whole
+huge page that is sending to finish.  That could introduce quite some delay,
+the bigger the huge page is the larger delay it'll bring.
 
-    Page 26-57, "Other Conditions":
+This patch adds a new capability to allow postcopy requests to preempt existing
+precopy page during sending a huge page, so that postcopy requests can be
+serviced even faster.
 
-    As observed by this CPU, other CPUs, and channel
-    programs, references to the parameter block, first,
-    second, and third operands may be multiple-access
-    references, accesses to these storage locations are
-    not necessarily block-concurrent, and the sequence
-    of these accesses or references is undefined.
+Meanwhile to send it even faster, bypass the precopy stream by providing a
+standalone postcopy socket for sending requested pages.
 
-Mark Adler pointed out that vanilla zlib performs double fetches under
-certain circumstances as well [5], therefore we need to copy data
-before passing it to deflate().
+Since the new behavior will not be compatible with the old behavior, this will
+not be the default, it's enabled only when the new capability is set on both
+src/dst QEMUs.
 
-[1] https://zlib.net/manual.html
-[2] https://github.com/madler/zlib/pull/410
-[3] https://lists.nongnu.org/archive/html/qemu-devel/2022-03/msg03988.html
-[4] http://publibfp.dhe.ibm.com/epubs/pdf/a227832c.pdf
-[5] https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00889.html
+This patch only adds the capability itself, the logic will be added in follow
+up patches.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20220705203559.2960949-1-iii@linux.ibm.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20220707185342.26794-2-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/multifd-zlib.c | 38 ++++++++++++++++++++++++++++++--------
- 1 file changed, 30 insertions(+), 8 deletions(-)
+ migration/migration.c | 18 ++++++++++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  7 ++++++-
+ 3 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index 3a7ae44485..18213a9513 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -27,6 +27,8 @@ struct zlib_data {
-     uint8_t *zbuff;
-     /* size of compressed buffer */
-     uint32_t zbuff_len;
-+    /* uncompressed buffer of size qemu_target_page_size() */
-+    uint8_t *buf;
- };
- 
- /* Multifd zlib compression */
-@@ -45,26 +47,38 @@ static int zlib_send_setup(MultiFDSendParams *p, Error **errp)
- {
-     struct zlib_data *z = g_new0(struct zlib_data, 1);
-     z_stream *zs = &z->zs;
-+    const char *err_msg;
- 
-     zs->zalloc = Z_NULL;
-     zs->zfree = Z_NULL;
-     zs->opaque = Z_NULL;
-     if (deflateInit(zs, migrate_multifd_zlib_level()) != Z_OK) {
--        g_free(z);
--        error_setg(errp, "multifd %u: deflate init failed", p->id);
--        return -1;
-+        err_msg = "deflate init failed";
-+        goto err_free_z;
+diff --git a/migration/migration.c b/migration/migration.c
+index 78f5057373..ce7bb68cdc 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1297,6 +1297,13 @@ static bool migrate_caps_check(bool *cap_list,
+         return false;
      }
-     /* This is the maxium size of the compressed buffer */
-     z->zbuff_len = compressBound(MULTIFD_PACKET_SIZE);
-     z->zbuff = g_try_malloc(z->zbuff_len);
-     if (!z->zbuff) {
--        deflateEnd(&z->zs);
--        g_free(z);
--        error_setg(errp, "multifd %u: out of memory for zbuff", p->id);
--        return -1;
-+        err_msg = "out of memory for zbuff";
-+        goto err_deflate_end;
+ 
++    if (cap_list[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT]) {
++        if (!cap_list[MIGRATION_CAPABILITY_POSTCOPY_RAM]) {
++            error_setg(errp, "Postcopy preempt requires postcopy-ram");
++            return false;
++        }
 +    }
-+    z->buf = g_try_malloc(qemu_target_page_size());
-+    if (!z->buf) {
-+        err_msg = "out of memory for buf";
-+        goto err_free_zbuff;
-     }
-     p->data = z;
-     return 0;
 +
-+err_free_zbuff:
-+    g_free(z->zbuff);
-+err_deflate_end:
-+    deflateEnd(&z->zs);
-+err_free_z:
-+    g_free(z);
-+    error_setg(errp, "multifd %u: %s", p->id, err_msg);
-+    return -1;
+     return true;
  }
  
- /**
-@@ -82,6 +96,8 @@ static void zlib_send_cleanup(MultiFDSendParams *p, Error **errp)
-     deflateEnd(&z->zs);
-     g_free(z->zbuff);
-     z->zbuff = NULL;
-+    g_free(z->buf);
-+    z->buf = NULL;
-     g_free(p->data);
-     p->data = NULL;
+@@ -2663,6 +2670,15 @@ bool migrate_background_snapshot(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_BACKGROUND_SNAPSHOT];
  }
-@@ -114,8 +130,14 @@ static int zlib_send_prepare(MultiFDSendParams *p, Error **errp)
-             flush = Z_SYNC_FLUSH;
-         }
  
-+        /*
-+         * Since the VM might be running, the page may be changing concurrently
-+         * with compression. zlib does not guarantee that this is safe,
-+         * therefore copy the page before calling deflate().
-+         */
-+        memcpy(z->buf, p->pages->block->host + p->normal[i], page_size);
-         zs->avail_in = page_size;
--        zs->next_in = p->pages->block->host + p->normal[i];
-+        zs->next_in = z->buf;
++bool migrate_postcopy_preempt(void)
++{
++    MigrationState *s;
++
++    s = migrate_get_current();
++
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_POSTCOPY_PREEMPT];
++}
++
+ /* migration thread support */
+ /*
+  * Something bad happened to the RP stream, mark an error
+@@ -4274,6 +4290,8 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-compress", MIGRATION_CAPABILITY_COMPRESS),
+     DEFINE_PROP_MIG_CAP("x-events", MIGRATION_CAPABILITY_EVENTS),
+     DEFINE_PROP_MIG_CAP("x-postcopy-ram", MIGRATION_CAPABILITY_POSTCOPY_RAM),
++    DEFINE_PROP_MIG_CAP("x-postcopy-preempt",
++                        MIGRATION_CAPABILITY_POSTCOPY_PREEMPT),
+     DEFINE_PROP_MIG_CAP("x-colo", MIGRATION_CAPABILITY_X_COLO),
+     DEFINE_PROP_MIG_CAP("x-release-ram", MIGRATION_CAPABILITY_RELEASE_RAM),
+     DEFINE_PROP_MIG_CAP("x-block", MIGRATION_CAPABILITY_BLOCK),
+diff --git a/migration/migration.h b/migration/migration.h
+index 485d58b95f..d2269c826c 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -400,6 +400,7 @@ int migrate_decompress_threads(void);
+ bool migrate_use_events(void);
+ bool migrate_postcopy_blocktime(void);
+ bool migrate_background_snapshot(void);
++bool migrate_postcopy_preempt(void);
  
-         zs->avail_out = available;
-         zs->next_out = z->zbuff + out_size;
+ /* Sending on the return path - generic and then for each message type */
+ void migrate_send_rp_shut(MigrationIncomingState *mis,
+diff --git a/qapi/migration.json b/qapi/migration.json
+index e552ee4f43..7586df3dea 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -467,6 +467,11 @@
+ #                  Requires that QEMU be permitted to use locked memory
+ #                  for guest RAM pages.
+ #                  (since 7.1)
++# @postcopy-preempt: If enabled, the migration process will allow postcopy
++#                    requests to preempt precopy stream, so postcopy requests
++#                    will be handled faster.  This is a performance feature and
++#                    should not affect the correctness of postcopy migration.
++#                    (since 7.1)
+ #
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+@@ -482,7 +487,7 @@
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+            'validate-uuid', 'background-snapshot',
+-           'zero-copy-send'] }
++           'zero-copy-send', 'postcopy-preempt'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
 -- 
 2.36.1
 
