@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC21757B764
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:26:00 +0200 (CEST)
-Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 727DE57B769
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:27:43 +0200 (CEST)
+Received: from localhost ([::1]:35072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9iB-0000Sm-U2
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:25:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32848)
+	id 1oE9jq-0003qZ-Fs
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:27:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9Vg-0006uT-16
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:13:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30599)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oE9YQ-0001PS-E2; Wed, 20 Jul 2022 09:15:56 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:46178)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oE9Ve-0006zv-5B
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:13:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658322781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=LkEgoD+mBSBOvtj6jnttaFZ79gpqANU+ANVFHYO95Ec=;
- b=WnNTXlTRzzY8iFhkbB8OV+knHaQ0DHyZXvqFoVG/veoqjGMtoOLF70siIoaE4RgC2r8mlb
- PtApmbIeb6mgZYJ4RgmXI1lG7hEgHaciR91grrQRcyTCnBr5ZF1AYje0HsASJDXb+ykaoN
- 9LWr2hSkjZ9hfE7EEh+jZp1QKxU2SO0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-4AsJvjO_MLmjHzKXfBe0Sg-1; Wed, 20 Jul 2022 09:12:58 -0400
-X-MC-Unique: 4AsJvjO_MLmjHzKXfBe0Sg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CD203C0CD55;
- Wed, 20 Jul 2022 13:12:58 +0000 (UTC)
-Received: from server.redhat.com (ovpn-13-124.pek2.redhat.com [10.72.13.124])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5B106C28100;
- Wed, 20 Jul 2022 13:12:54 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com,
-	qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, virtio-fs@redhat.com,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v13 10/10] virtio-pci: add support for configure interrupt
-Date: Wed, 20 Jul 2022 21:12:04 +0800
-Message-Id: <20220720131204.591104-11-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oE9YN-0007XN-Bf; Wed, 20 Jul 2022 09:15:53 -0400
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B535C2E12F2;
+ Wed, 20 Jul 2022 16:15:37 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b715::1:28] (unknown
+ [2a02:6b8:b081:b715::1:28])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ pLhsXj2aV3-FaOuLfY6; Wed, 20 Jul 2022 13:15:37 +0000
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1658322937; bh=rX5krcTzZ0ddJPNiGuq1dVobX7+knJKHNTAzeqS9etQ=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=at8OQRUso9+IxDN1rQcj7b4J6qP70Nw1+rwJKVU437vATj0FUBpwdrt5s6+XpHP6e
+ Kjkog4MY859IwdlJbe578VQm/yLEmoYb1s5my/AqcrVB5AN+p8GIgzCx+507nUuYNN
+ K6gpUDiGuw4diSWMVkuR9Z/kXWWxzlXGs1RQNyvg=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <5f671004-acd0-f799-5483-97fb23be4edb@yandex-team.ru>
+Date: Wed, 20 Jul 2022 16:15:36 +0300
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v9 19/21] blockjob: protect iostatus field in BlockJob
+ struct
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220706201533.289775-1-eesposit@redhat.com>
+ <20220706201533.289775-20-eesposit@redhat.com>
+ <00b8b101-b36f-2204-0e49-1c605268b793@yandex-team.ru>
+ <a45a572b-031e-6a88-439f-ca276202a357@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <a45a572b-031e-6a88-439f-ca276202a357@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,246 +86,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add process to handle the configure interrupt, The function's
-logic is the same with vq interrupt.Add extra process to check
-the configure interrupt
+On 7/19/22 16:07, Emanuele Giuseppe Esposito wrote:
+> 
+> 
+> Am 11/07/2022 um 16:51 schrieb Vladimir Sementsov-Ogievskiy:
+>> On 7/6/22 23:15, Emanuele Giuseppe Esposito wrote:
+>>> iostatus is the only field (together with .job) that needs
+>>> protection using the job mutex.
+>>>
+>>> It is set in the main loop (GLOBAL_STATE functions) but read
+>>> in I/O code (block_job_error_action).
+>>>
+>>> In order to protect it, change block_job_iostatus_set_err
+>>> to block_job_iostatus_set_err_locked(), always called under
+>>> job lock.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>
+>> Seems, that (and previous) patch should go before 15.
+> 
+> Why?
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-pci.c | 110 ++++++++++++++++++++++++++++++++++-------
- hw/virtio/virtio-pci.h |   4 +-
- 2 files changed, 96 insertions(+), 18 deletions(-)
+As I understand, before patch 15 everything was protected by aio-context lock. After patch 15, this becomes a bug, which we fix now. If we do it before patch 15, we never introduce the bug.. Or what I miss?
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4b86008bcf..16be30945a 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -728,7 +728,8 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
-     VirtQueue *vq;
- 
-     if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
--        return -1;
-+        *n = virtio_config_get_guest_notifier(vdev);
-+        *vector = vdev->config_vector;
-     } else {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             return -1;
-@@ -788,7 +789,7 @@ undo:
-     }
-     return ret;
- }
--static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-+static int kvm_virtio_pci_vector_vq_use(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     int ret = 0;
-@@ -803,6 +804,10 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-     return ret;
- }
- 
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    return kvm_virtio_pci_vector_use_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
- 
- static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-                                               int queue_no)
-@@ -827,7 +832,7 @@ static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-     kvm_virtio_pci_vq_vector_release(proxy, vector);
- }
- 
--static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-+static void kvm_virtio_pci_vector_vq_release(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-@@ -840,6 +845,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     }
- }
- 
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
-+
- static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
-@@ -921,9 +931,19 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
--
-+    /* unmask config intr */
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        ret = virtio_pci_one_vector_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector,
-+                                           msg, n);
-+        if (ret < 0) {
-+            goto undo_config;
-+        }
-+    }
-     return 0;
--
-+undo_config:
-+    n = virtio_config_get_guest_notifier(vdev);
-+    virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- undo:
-     vq = virtio_vector_first_queue(vdev, vector);
-     while (vq && unmasked >= 0) {
-@@ -957,6 +977,11 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
-+    }
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -988,6 +1013,34 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+    /* poll the config intr */
-+    ret = virtio_pci_get_notifier(proxy, VIRTIO_CONFIG_IRQ_IDX, &notifier,
-+                                  &vector);
-+    if (ret < 0) {
-+        return;
-+    }
-+    if (vector < vector_start || vector >= vector_end ||
-+        !msix_is_masked(dev, vector)) {
-+        return;
-+    }
-+    if (k->guest_notifier_pending) {
-+        if (k->guest_notifier_pending(vdev, VIRTIO_CONFIG_IRQ_IDX)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    } else if (event_notifier_test_and_clear(notifier)) {
-+        msix_set_pending(dev, vector);
-+    }
-+}
-+
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd)
-+{
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_queue_set_guest_notifier_fd_handler(vq, assign, with_irqfd);
-+    }
- }
- 
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -996,17 +1049,25 @@ static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-     VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--    VirtQueue *vq = virtio_get_queue(vdev, n);
--    EventNotifier *notifier = virtio_queue_get_guest_notifier(vq);
-+    VirtQueue *vq = NULL;
-+    EventNotifier *notifier = NULL;
-+
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        notifier = virtio_config_get_guest_notifier(vdev);
-+    } else {
-+        vq = virtio_get_queue(vdev, n);
-+        notifier = virtio_queue_get_guest_notifier(vq);
-+    }
- 
-     if (assign) {
-         int r = event_notifier_init(notifier, 0);
-         if (r < 0) {
-             return r;
-         }
--        virtio_queue_set_guest_notifier_fd_handler(vq, true, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, true, with_irqfd);
-     } else {
--        virtio_queue_set_guest_notifier_fd_handler(vq, false, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, false,
-+                                                 with_irqfd);
-         event_notifier_cleanup(notifier);
-     }
- 
-@@ -1047,7 +1108,8 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-     if ((proxy->vector_irqfd || k->guest_notifier_mask) && !assign) {
-         msix_unset_vector_notifiers(&proxy->pci_dev);
-         if (proxy->vector_irqfd) {
--            kvm_virtio_pci_vector_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_config_release(proxy);
-             g_free(proxy->vector_irqfd);
-             proxy->vector_irqfd = NULL;
-         }
-@@ -1063,20 +1125,28 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto assign_error;
-         }
-     }
--
-+    r = virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, assign,
-+                                      with_irqfd);
-+    if (r < 0) {
-+        goto config_assign_error;
-+    }
-     /* Must set vector notifier after guest notifier has been assigned */
-     if ((with_irqfd || k->guest_notifier_mask) && assign) {
-         if (with_irqfd) {
-             proxy->vector_irqfd =
-                 g_malloc0(sizeof(*proxy->vector_irqfd) *
-                           msix_nr_vectors_allocated(&proxy->pci_dev));
--            r = kvm_virtio_pci_vector_use(proxy, nvqs);
-+            r = kvm_virtio_pci_vector_vq_use(proxy, nvqs);
-+            if (r < 0) {
-+                goto config_assign_error;
-+            }
-+            r = kvm_virtio_pci_vector_config_use(proxy);
-             if (r < 0) {
--                goto assign_error;
-+                goto config_error;
-             }
-         }
--        r = msix_set_vector_notifiers(&proxy->pci_dev,
--                                      virtio_pci_vector_unmask,
-+
-+        r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-                                       virtio_pci_vector_poll);
-         if (r < 0) {
-@@ -1089,9 +1159,15 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
- notifiers_error:
-     if (with_irqfd) {
-         assert(assign);
--        kvm_virtio_pci_vector_release(proxy, nvqs);
-+        kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-     }
--
-+config_error:
-+    if (with_irqfd) {
-+        kvm_virtio_pci_vector_config_release(proxy);
-+    }
-+config_assign_error:
-+    virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
-+                                  with_irqfd);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 2446dcd9ae..b704acc5a8 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -251,5 +251,7 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
-  * @fixed_queues.
-  */
- unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
--
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd);
- #endif
+> 
+>>
+>>> ---
+>>>    blockjob.c | 5 +++--
+>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/blockjob.c b/blockjob.c
+>>> index a2559b97a7..893c8ff08e 100644
+>>> --- a/blockjob.c
+>>> +++ b/blockjob.c
+>>> @@ -367,7 +367,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error
+>>> **errp)
+>>>        return block_job_query_locked(job, errp);
+>>>    }
+>>>    -static void block_job_iostatus_set_err(BlockJob *job, int error)
+>>> +/* Called with job lock held */
+>>> +static void block_job_iostatus_set_err_locked(BlockJob *job, int error)
+>>>    {
+>>>        if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+>>>            job->iostatus = error == ENOSPC ?
+>>> BLOCK_DEVICE_IO_STATUS_NOSPACE :
+>>> @@ -586,8 +587,8 @@ BlockErrorAction block_job_error_action(BlockJob
+>>> *job, BlockdevOnError on_err,
+>>>                     */
+>>>                    job->job.user_paused = true;
+>>>                }
+>>> +            block_job_iostatus_set_err_locked(job, error);
+>>>            }
+>>> -        block_job_iostatus_set_err(job, error);
+>>>        }
+>>>        return action;
+>>>    }
+>>
+>>
+> 
+
+
 -- 
-2.34.3
-
+Best regards,
+Vladimir
 
