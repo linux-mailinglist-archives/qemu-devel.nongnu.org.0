@@ -2,102 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E9E57BBBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:46:54 +0200 (CEST)
-Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9850A57BC13
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:55:29 +0200 (CEST)
+Received: from localhost ([::1]:37098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oECqa-000843-Kq
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:46:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54144)
+	id 1oECyt-0004Yx-Q2
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:55:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oECoS-0006dg-1P
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:44:40 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:45639)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oECoQ-0001Y7-HF
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:44:39 -0400
-Received: by mail-pl1-x634.google.com with SMTP id w7so15474509ply.12
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 09:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=NKI6wQLzSjuIgXqGP/STBDd/io3ztt1cS6FImLHwFp4=;
- b=aYf105zHRqcKnwIvd6ekmpqruUyQToVuka3h99YqNWRmFXkZ7ZVHV8oWNskzAvMx2F
- hflOC9nxBStxjqtxvcltphe6Q5E58yJ1G2iJfhXNEqLsdIUxBz1Jghs5U/OLu3mGUc1a
- JRrnyPRUFOER4kSZYOrYSqnkSlzR3XQAIIqK13/lyE2A23HrMPyXlZiOV822mKgY0tgd
- nTwYcdRpttHY+A4wo2bLHxYVFSJL0sIrCNfPF0RyUS+KwJ64AABEJ8yX01Hb9NjXpaI/
- s6Pf48SWnWTxK6vMsYlo9rnJGzIsPUCTu5j+IdeVl1yrYnYpbPzLMaw748Y0j9AcRKUU
- ZGfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=NKI6wQLzSjuIgXqGP/STBDd/io3ztt1cS6FImLHwFp4=;
- b=yAT1jY2rbIsXSdGN4bjK6aXT88wMhl/pd8A0Ob6TCoBBT868aKEHCaYdWNmsy8Fd+l
- o9j6It2yEv3XXfY7qwUoHxztRVHJawqO2oDXh8DXlrW69+vayha/lt5Zb6LrIlzAh9iV
- XVepEvpuQZY0snvwb0iHH+H/j2gyi1Z/opDNPzjRFFhDRVKy0HAMcoo2EHeh/gLtggCg
- mr1ZkBpePKqOKU2W7y/dTZitLDjl60tqswAcg2rs3IEP1SS7C1dxK4jtua8Cu7xX3aTi
- vDmUFjEHbfhtuoTpZFpiEJeVFdZz1ou/KzT9rFOczJ/gwjQZpa2x7dM4u9BAxWqQbxWT
- 7DeQ==
-X-Gm-Message-State: AJIora83qltm7APSqzwiaKdHBRIzJzv9nZRwU/pQLr6QtE8c9zQGRPCr
- uRNKmDSMFDkXNQ4yxwSklv6Arw==
-X-Google-Smtp-Source: AGRyM1utYrsQFWglg8OIUvJRKtR6LVkU7MbzTy7HM7RFQtBExxPfhBWR/u5swtl61L63cUwi4vupQg==
-X-Received: by 2002:a17:90b:3ec1:b0:1f1:edcf:dd2b with SMTP id
- rm1-20020a17090b3ec100b001f1edcfdd2bmr6535996pjb.156.1658335476747; 
- Wed, 20 Jul 2022 09:44:36 -0700 (PDT)
-Received: from google.com (123.65.230.35.bc.googleusercontent.com.
- [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
- k6-20020aa79986000000b00528c22038f5sm14345128pfh.14.2022.07.20.09.44.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 09:44:36 -0700 (PDT)
-Date: Wed, 20 Jul 2022 16:44:32 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <Ytgw8HAsKTmZaubv@google.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oECvo-0000g0-T0
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:52:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59884)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oECvl-0002y6-ON
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:52:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658335932;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EBkT+VW1oVMzsijQgFdvZVfjJn8RDP/RbNCBDBlF2iU=;
+ b=OAt9fAFiChcC7Zj0iZC1Ix4PxyIgbWwVNpU2A2Dy87QhyEPUeybFKnoV/doOA6F9Y4mIN+
+ ov2DK4M55+uEX1VFPDQRcc9XCkJMlN1eHsnzbbVvaDICb6+WshrhhYaE10Il8Mj2NqSk3C
+ q9YgY8QZXfyg8gKgGWBaBcPvgJlv0O8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-250-E2so-V3wMJOpWlDM39Q4HQ-1; Wed, 20 Jul 2022 12:52:08 -0400
+X-MC-Unique: E2so-V3wMJOpWlDM39Q4HQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0950080029D;
+ Wed, 20 Jul 2022 16:52:08 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7C1961121314;
+ Wed, 20 Jul 2022 16:52:06 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 0/3] ci: refresh packages/containers and misc changes
+Date: Wed, 20 Jul 2022 17:51:56 +0100
+Message-Id: <20220720165159.2036205-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=seanjc@google.com; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -113,52 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 06, 2022, Chao Peng wrote:
-> diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> index 230c8ff9659c..bb714c2a4b06 100644
-> --- a/virt/kvm/kvm_main.c
-> +++ b/virt/kvm/kvm_main.c
-> @@ -914,6 +914,35 @@ static int kvm_init_mmu_notifier(struct kvm *kvm)
->  
->  #endif /* CONFIG_MMU_NOTIFIER && KVM_ARCH_WANT_MMU_NOTIFIER */
->  
-> +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
-> +#define KVM_MEM_ATTR_PRIVATE	0x0001
-> +static int kvm_vm_ioctl_set_encrypted_region(struct kvm *kvm, unsigned int ioctl,
-> +					     struct kvm_enc_region *region)
-> +{
-> +	unsigned long start, end;
+Mostly this is to get the latest libvirt-ci content pulled in,
+but I throw two small fixes on top.
 
-As alluded to in a different reply, because this will track GPAs instead of HVAs,
-the type needs to be "gpa_t", not "unsigned long".  Oh, actually, they need to
-be gfn_t, since those are what gets shoved into the xarray.
+Daniel P. Berrangé (3):
+  tests: refresh to latest libvirt-ci module
+  gitlab: show testlog.txt contents when cirrus/custom-runner jobs fail
+  gitlab: drop 'containers-layer2' stage
 
-> +	void *entry;
-> +	int r;
-> +
-> +	if (region->size == 0 || region->addr + region->size < region->addr)
-> +		return -EINVAL;
-> +	if (region->addr & (PAGE_SIZE - 1) || region->size & (PAGE_SIZE - 1))
-> +		return -EINVAL;
-> +
-> +	start = region->addr >> PAGE_SHIFT;
-> +	end = (region->addr + region->size - 1) >> PAGE_SHIFT;
-> +
-> +	entry = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION ?
-> +				xa_mk_value(KVM_MEM_ATTR_PRIVATE) : NULL;
-> +
-> +	r = xa_err(xa_store_range(&kvm->mem_attr_array, start, end,
-> +					entry, GFP_KERNEL_ACCOUNT));
+ .gitlab-ci.d/cirrus/build.yml                 |  3 ++-
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  3 +--
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  3 +--
+ .gitlab-ci.d/cirrus/macos-11.vars             |  4 ++--
+ .gitlab-ci.d/container-cross.yml              | 24 +++++++++----------
+ .../custom-runners/centos-stream-8-x86_64.yml |  2 ++
+ .../custom-runners/ubuntu-20.04-aarch32.yml   |  2 ++
+ .../custom-runners/ubuntu-20.04-aarch64.yml   | 12 ++++++++++
+ .../custom-runners/ubuntu-20.04-s390x.yml     | 12 ++++++++++
+ .gitlab-ci.d/stages.yml                       |  1 -
+ tests/docker/dockerfiles/alpine.docker        |  4 +++-
+ tests/docker/dockerfiles/centos8.docker       |  6 ++---
+ tests/docker/dockerfiles/debian-amd64.docker  |  2 ++
+ .../dockerfiles/debian-arm64-cross.docker     |  2 ++
+ .../dockerfiles/debian-armel-cross.docker     |  2 ++
+ .../dockerfiles/debian-armhf-cross.docker     |  2 ++
+ .../dockerfiles/debian-mips64el-cross.docker  |  2 ++
+ .../dockerfiles/debian-mipsel-cross.docker    |  2 ++
+ .../dockerfiles/debian-ppc64el-cross.docker   |  2 ++
+ .../dockerfiles/debian-s390x-cross.docker     |  2 ++
+ tests/docker/dockerfiles/fedora.docker        |  3 ++-
+ tests/docker/dockerfiles/opensuse-leap.docker |  7 +++---
+ tests/docker/dockerfiles/ubuntu2004.docker    |  2 ++
+ tests/lcitool/libvirt-ci                      |  2 +-
+ tests/lcitool/projects/qemu.yml               |  6 +++--
+ tests/lcitool/refresh                         |  4 ++--
+ 26 files changed, 83 insertions(+), 33 deletions(-)
 
-IIUC, this series treats memory as shared by default.  I think we should invert
-that and have KVM's ABI be that all guest memory as private by default, i.e.
-require the guest to opt into sharing memory instead of opt out of sharing memory.
+-- 
+2.36.1
 
-And then the xarray would track which regions are shared.
-
-Regarding mem_attr_array, it probably makes sense to explicitly include what it's
-tracking in the name, i.e. name it {private,shared}_mem_array depending on whether
-it's used to track private vs. shared memory.  If we ever need to track metadata
-beyond shared/private then we can tweak the name as needed, e.g. if hardware ever
-supports secondary non-ephemeral encryption keys.
 
