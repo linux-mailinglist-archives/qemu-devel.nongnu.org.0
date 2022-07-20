@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD5157B787
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:30:58 +0200 (CEST)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A67157B796
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 15:36:31 +0200 (CEST)
+Received: from localhost ([::1]:53320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oE9my-0001bR-TA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
+	id 1oE9sM-0000aH-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 09:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oE9e6-00025B-IL
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:21:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51962)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oE9e3-0000Ch-Vv
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 09:21:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=F+OglXyQJRva7sHVZKIOykeWFiM+G3l1CkRHV0Dlggg=; b=RgPzxbN1P3VJcVjyTJ1prKm9uY
- Y8jMhhDHaLaIZFA2TEnCjgvvrvo2j5MD6CWP/XpAxIsejlNmJWzypIQnokgwZyemvdrLMEJQ7TTmv
- O+XEmeVZHB5Y7A+QLE6APGyqMsWAOGRss5T4AY1bHYalD+l7F1thIl03OenpgNlEY0HOGJpOJECpg
- 4/bBLFlT33GOpm8VrERJO0wb8ffo6GWLfhPra6T5OHThzc1sZXdGjhRgx7I8N4YP4XeKjSwVllI7x
- G7SqY7KkAYnPcKvvg0p7ufPg4J/+SgKLN8mfxvf8nG9jmRHbnEoNfKIoO6HxDsyguVTi2GBYvSGML
- 4mb9ih880SuKW54/1NwGOSpluQUI3xfMEB78OWyqhO6xBIKQS8J9BmYcM0gbh7GkLOHhLv7y1Vv7S
- PsoC5Jd0GWhHF6G+5ztw22K+i2rBnDHgVsUNk7bpQehiZnLXk3txea5QxWHV7LSppeIjtnzdvzXcu
- 5KPsLG5zaT387QLlUCsOfeFI6i/x3pS42WH7sfXr0ryzMVkYcDnPP3Y5Y7Us7jJEmgg8NfIl1EhFK
- qJPIZEFsWSWZhhgZ0COdNKrLGQw0J4h8sm4WpPuvUejxFVop2YVH8K7swRYBe+gGbQHk9YxzdO55t
- 5ow+Fi7N0Gy4kbFmAnv2Edc2C3T7zQ+LYM5s4gMAQ=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oE9ci-000APr-EQ; Wed, 20 Jul 2022 14:20:20 +0100
-Message-ID: <5bc2fcee-2c5d-c400-5992-e2b4ce828477@ilande.co.uk>
-Date: Wed, 20 Jul 2022 14:21:38 +0100
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1oE9q3-0006Fy-42; Wed, 20 Jul 2022 09:34:07 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42677)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <npiggin@gmail.com>)
+ id 1oE9q1-0002qP-7w; Wed, 20 Jul 2022 09:34:06 -0400
+Received: by mail-pl1-x630.google.com with SMTP id d7so3136515plr.9;
+ Wed, 20 Jul 2022 06:34:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7MTDbvEAPIpkUTFgAF1r39bru/i9rypwO8zET509Jqg=;
+ b=mqL/mSOUH1SPT6m/OypXQC2/oN4J1oi2Ci9k9EOEF/QiCICwBi0bYqh4q1sEnPO3wR
+ Fa1WAEA6dgfC53IPNQqTZgWMi89YtW6OgtR8bzYQwPUsmuQ8EbPH+1wO9C4D/MWHU3jm
+ U00m7VdY42c1TvlCVCxmN/1ixRKDkfwNl2g4Sx8W1mwPe3/1yI3cF81NqXmKDotSHwp5
+ IhoQnDA/xegjalnT8wJ7b35zJeDiXhWHC2yZE2dX5eCZFRd04nNHIliWoRFaCFunt7M9
+ nBWavlr7coOV2Nob7PxuiQ/VZZsiVqxoZcw2tdPVUe4XibEN5qHRIajRlnf6wMjHin5c
+ Zklg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7MTDbvEAPIpkUTFgAF1r39bru/i9rypwO8zET509Jqg=;
+ b=sDEG9bvaIDsJk0N/J+K1eEeaq5o4PZdDoaEKmMDTjyLs9BC+iTRj1CiEua/UzHG3gw
+ 0mF9xX8GprA3U/dn+RWVv0YITt9/4mlpd2xPLaGAtnO57THOW83kfhfPh+bXRXUh8P3j
+ OlsOpDwzPpgVbbfG5xYutZ90QgNGJNGV+Z4fU+fXyX0FL1T7zcik6pAwcoyxEXX+ZvsC
+ U9oHF0wIF/8HAPPGEyTG5GlMLHWyfhrCTL2nozrT7w0PsEJHof0S4mwqlNaUcXcjOCSL
+ /hGcT9KbuGZBhh4VlXIPR/yK4glJAsEVBhav4WwKAty9/6n+1lQrOk/RtJLmMUhohwBv
+ PoGg==
+X-Gm-Message-State: AJIora8rZ3GmIEPudIF9V+rAlMGaD5gu7H86sR/TsG5N+QSktWQ9L1Qy
+ UxyhCAOr0EzEKwLqrGYQJ1J4IJmbIHE=
+X-Google-Smtp-Source: AGRyM1uE9LKE84iRInTZhJSOZi4Y8Y1ZT0MjCBVuaFh5pbrwGdZLQCHyh2R0GjA4kHXDFUKLmbL4nQ==
+X-Received: by 2002:a17:90b:681:b0:1f2:147a:5e55 with SMTP id
+ m1-20020a17090b068100b001f2147a5e55mr5434190pjz.159.1658324042581; 
+ Wed, 20 Jul 2022 06:34:02 -0700 (PDT)
+Received: from bobo.ozlabs.ibm.com (27-33-251-27.static.tpgi.com.au.
+ [27.33.251.27]) by smtp.gmail.com with ESMTPSA id
+ w200-20020a627bd1000000b00518e1251197sm14007936pfc.148.2022.07.20.06.34.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 06:34:02 -0700 (PDT)
+From: Nicholas Piggin <npiggin@gmail.com>
+To: qemu-ppc@nongnu.org
+Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?V=C3=ADctor=20Colombo?= <victor.colombo@eldorado.org.br>
+Subject: [PATCH v3] target/ppc: Implement new wait variants
+Date: Wed, 20 Jul 2022 23:33:52 +1000
+Message-Id: <20220720133352.904263-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Roman Kagan <rvkagan@yandex-team.ru>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
- <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <YtfgQN+BQ8Egn0ha@rvkaganb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=npiggin@gmail.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,42 +85,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/07/2022 12:00, Roman Kagan wrote:
+ISA v2.06 adds new variations of wait, specified by the WC field. These
+are not all compatible with the prior wait implementation, because they
+add additional conditions that cause the processor to resume, which can
+cause software to hang or run very slowly.
 
-> On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrangé wrote:
->> On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote:
->>> It's possible to create non-working configurations by attaching a device
->>> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
->>> specifying a slot number other that zero, e.g.:
->>>
->>>      -device pcie-root-port,id=s0,... \
->>>      -device virtio-blk-pci,bus=s0,addr=4,...
->>>
->>> Make QEMU reject such configurations and only allow addr=0 on the
->>> secondary bus of a PCIe slot.
->>
->> What do you mean by 'non-working' in this case.  The guest OS boots
->> OK, but I indeed don't see the device in the guest, but IIUC it was
->> said that was just because Linux doesn't scan for a non-zero slot.
-> 
-> Right.  I don't remember if it was Linux or firmware or both but indeed
-> at least Linux guests don't see devices if attached to a PCIe slot at
-> addr != 0.  (Which is kinda natural for a thing called "slot", isn't it?)
-> 
->> That wouldn't be a broken config from QEMU's POV though, merely a
->> guest OS limitation ?
-> 
-> Strictly speaking it wouldn't, indeed.  But we've had created such a
-> configuration (due to a bug in our management layer) and spent
-> non-negligible time trying to figure out why the attached device didn't
-> appear in the guest.  So I thought it made sense to reject a
-> configuration which is known to confuse guests.  Doesn't it?
+ISA v3.0 changed the wait opcode and removed the new variants (retaining
+the WC field but making non-zero values reserved).
 
-This does seem a bit odd. What does the output of "info qtree" look like for your 
-non-working configuration?
+ISA v3.1 added new WC values to the new wait opcode, and added a PL
+field.
 
+This implements the new wait encoding and supports WC variants with
+no-op implementations, which provides basic correctness as explained in
+comments.
 
-ATB,
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+v3:
+- Add EXTRACT_HELPERs
+- Reserved fields should be ignored, not trap.
+- v3.1 defines special case of reserved PL values being treated as
+  a no-op when WC=2.
+- Change code organization to (hopefully) be easier to follow each
+  ISA / variation.
+- Tested old wait variant with Linux e6500 boot and verify that
+  gen_wait is called and takes the expected path.
 
-Mark.
+Thanks,
+Nick
+
+ target/ppc/internal.h  |  3 ++
+ target/ppc/translate.c | 96 ++++++++++++++++++++++++++++++++++++++----
+ 2 files changed, 91 insertions(+), 8 deletions(-)
+
+diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+index 2add128cd1..57c0a42a6b 100644
+--- a/target/ppc/internal.h
++++ b/target/ppc/internal.h
+@@ -168,6 +168,9 @@ EXTRACT_HELPER_SPLIT_3(DX, 10, 6, 6, 5, 16, 1, 1, 0, 0)
+ /* darn */
+ EXTRACT_HELPER(L, 16, 2);
+ #endif
++/* wait */
++EXTRACT_HELPER(WC, 21, 2);
++EXTRACT_HELPER(PL, 16, 2);
+ 
+ /***                            Jump target decoding                       ***/
+ /* Immediate address */
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 1d6daa4608..e0a835ac90 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4066,12 +4066,91 @@ static void gen_sync(DisasContext *ctx)
+ /* wait */
+ static void gen_wait(DisasContext *ctx)
+ {
+-    TCGv_i32 t0 = tcg_const_i32(1);
+-    tcg_gen_st_i32(t0, cpu_env,
+-                   -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
+-    tcg_temp_free_i32(t0);
+-    /* Stop translation, as the CPU is supposed to sleep from now */
+-    gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
++    uint32_t wc;
++
++    if (ctx->insns_flags & PPC_WAIT) {
++        /* v2.03-v2.07 define an older incompatible 'wait' encoding. */
++
++        if (ctx->insns_flags2 & PPC2_PM_ISA206) {
++            /* v2.06 introduced the WC field. WC > 0 may be treated as no-op. */
++            wc = WC(ctx->opcode);
++        } else {
++            wc = 0;
++        }
++
++    } else if (ctx->insns_flags2 & PPC2_ISA300) {
++        /* v3.0 defines a new 'wait' encoding. */
++        wc = WC(ctx->opcode);
++        if (ctx->insns_flags2 & PPC2_ISA310) {
++            uint32_t pl = PL(ctx->opcode);
++
++            /* WC 1,2 may be treated as no-op. WC 3 is reserved. */
++            if (wc == 3) {
++                gen_invalid(ctx);
++                return;
++            }
++
++            /* PL 1-3 are reserved. If WC=2 then the insn is treated as noop. */
++            if (pl > 0 && wc != 2) {
++                gen_invalid(ctx);
++                return;
++            }
++
++        } else { /* ISA300 */
++            /* WC 1-3 are reserved */
++            if (wc > 0) {
++                gen_invalid(ctx);
++                return;
++            }
++        }
++
++    } else {
++        warn_report("wait instruction decoded with wrong ISA flags.");
++        gen_invalid(ctx);
++        return;
++    }
++
++    /*
++     * wait without WC field or with WC=0 waits for an exception / interrupt
++     * to occur.
++     */
++    if (wc == 0) {
++        TCGv_i32 t0 = tcg_const_i32(1);
++        tcg_gen_st_i32(t0, cpu_env,
++                       -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
++        tcg_temp_free_i32(t0);
++        /* Stop translation, as the CPU is supposed to sleep from now */
++        gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
++    }
++
++    /*
++     * Other wait types must not just wait until an exception occurs because
++     * ignoring their other wake-up conditions could cause a hang.
++     *
++     * For v2.06 and 2.07, wc=1,2,3 are architected but may be implemented as
++     * no-ops.
++     *
++     * wc=1 and wc=3 explicitly allow the instruction to be treated as a no-op.
++     *
++     * wc=2 waits for an implementation-specific condition, such could be
++     * always true, so it can be implemented as a no-op.
++     *
++     * For v3.1, wc=1,2 are architected but may be implemented as no-ops.
++     *
++     * wc=1 (waitrsv) waits for an exception or a reservation to be lost.
++     * Reservation-loss may have implementation-specific conditions, so it
++     * can be implemented as a no-op.
++     *
++     * wc=2 waits for an exception or an amount of time to pass. This
++     * amount is implementation-specific so it can be implemented as a
++     * no-op.
++     *
++     * ISA v3.1 allows for execution to resume "in the rare case of
++     * an implementation-dependent event", so in any case software must
++     * not depend on the architected resumption condition to become
++     * true, so no-op implementations should be architecturally correct
++     * (if suboptimal).
++     */
+ }
+ 
+ #if defined(TARGET_PPC64)
+@@ -6852,8 +6931,9 @@ GEN_HANDLER2(stdcx_, "stdcx.", 0x1F, 0x16, 0x06, 0x00000000, PPC_64B),
+ GEN_HANDLER_E(stqcx_, 0x1F, 0x16, 0x05, 0, PPC_NONE, PPC2_LSQ_ISA207),
+ #endif
+ GEN_HANDLER(sync, 0x1F, 0x16, 0x12, 0x039FF801, PPC_MEM_SYNC),
+-GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x03FFF801, PPC_WAIT),
+-GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300),
++/* ISA v3.0 changed the extended opcode from 62 to 30 */
++GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x039FF801, PPC_WAIT),
++GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039CF801, PPC_NONE, PPC2_ISA300),
+ GEN_HANDLER(b, 0x12, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
+ GEN_HANDLER(bc, 0x10, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
+ GEN_HANDLER(bcctr, 0x13, 0x10, 0x10, 0x00000000, PPC_FLOW),
+-- 
+2.35.1
+
 
