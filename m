@@ -2,89 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8FF557BB1B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:09:32 +0200 (CEST)
-Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D535757BB20
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:11:32 +0200 (CEST)
+Received: from localhost ([::1]:34494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oECGR-0000Yl-IG
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:09:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45642)
+	id 1oECIN-0004Cz-Di
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oEC8l-000059-Kn
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:01:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oEC8b-0003WW-7h
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:01:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658332883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5bYHKdVkG120cwPCEyD/Io80FAjPhcTmSlC09JYBusM=;
- b=C8gROerTxfSz8K0UCyRd7SRNY/XAORapbI4J/6gzZcvrcocge9KNhAhzdEupTKbIzuVJSR
- aPB6QMoI+4S1Q5Sx+r1auomCE/nDDxmtJp8yR2FBgKj0Y+RhQ/BG197N36nzrWbGTFjwN3
- eDBe5O/EiVUlkcxkRQUifpE8nrcv7B0=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-iEqcjcSMPMyyRrOwPRKpgQ-1; Wed, 20 Jul 2022 12:01:22 -0400
-X-MC-Unique: iEqcjcSMPMyyRrOwPRKpgQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r10-20020a05600c284a00b003a2ff6c9d6aso1441268wmb.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 09:01:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oECFt-0007yl-7s; Wed, 20 Jul 2022 12:08:57 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:37689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oECFr-0004My-I1; Wed, 20 Jul 2022 12:08:56 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id i126so11396874oih.4;
+ Wed, 20 Jul 2022 09:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=5G1fw/lJCYafD38C+Ncbp2sZEJpxDTJIOLOCOeRx2vY=;
+ b=cj36IzU9954TAmTHlY0UEBfnJdnmUa01lLM2rT2KjoEPeaPzAvH9hT3nPRjYHYAYHJ
+ csAqmw+GEezDWKsGmRbm43sX0eaWInHAL954I9lO2KGKMy7yfR033OR8AMw2hPhhGZne
+ 1jLVP9jcJ5MS61geSc/wz+JvTrtkqf8Cx8Whm49zAck5UiWU5tSlHjoBGgKleM42raGH
+ PyIbZheEMb0YTAIZM8nL/UdTHvLVpnAYxRoYwQpsexYRsqFi1Q18R0EjzXcm1lrSGYIF
+ DWFDeNdvMyHEWkDEOeppTCoDBR4CMFezcxOTApDtSbjufvfYupqlRI5qU1egYDOQHuj3
+ fkEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=5bYHKdVkG120cwPCEyD/Io80FAjPhcTmSlC09JYBusM=;
- b=lOyN6kDjMvCkGfA9ux+Ud1BVuFLjFQADVS1u8PdbUCuxPd7FYJ0fJkWuRMV9jyWEXY
- /LJjgNmEQADEbP+X/4anYGZ2/PvkMIqgEZmvpMUxcfKc64Ffun/fCojl2V5YLqZ9f/Od
- EwRDH77qzC6t4jWp+vMXHRYrYmN6TzrxApsP8QyLvPkXcrGrvCU95mWseHGJ+GxnbBrG
- P5snLMVXAL4/9Btf6WTiy51MoGF2ao+30coUGLschwh6bW5K5GhydNovc9oWP9SYrDE0
- klGOzvxWRjVDVSEvirWMyFot4e4llhKpl/LqEwAShYieMqIOUwH1e3A28REgAiZQu7qX
- i91g==
-X-Gm-Message-State: AJIora/ORU9kMm/+kQ5Nn8KGcrgAg0m+5rR55EwWv24Gop/PtUIYxBPA
- f4t+5k9P1aoriFAIHHYVvsfw1JDg78lSGsWJmhoOdvuDv+0fyhwW1D30QQ0fiIUA0jmHS+L1Fe/
- Ux7rF9JrhB3JhSMg=
-X-Received: by 2002:a5d:47ab:0:b0:21d:b2b1:59b1 with SMTP id
- 11-20020a5d47ab000000b0021db2b159b1mr30548349wrb.99.1658332880946; 
- Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v9wZ36tlTfOXPK2OFaMeOzsEUd0jHGdCE7NYq1kFHh0v0KEGpeWQ+xjY3n/8tpsdbEdhq2eg==
-X-Received: by 2002:a5d:47ab:0:b0:21d:b2b1:59b1 with SMTP id
- 11-20020a5d47ab000000b0021db2b159b1mr30548335wrb.99.1658332880714; 
- Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- n5-20020a1c2705000000b003a1980d55c4sm2816595wmn.47.2022.07.20.09.01.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
-Date: Wed, 20 Jul 2022 17:01:18 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 1/5] configure: Add missing POSIX-required space
-Message-ID: <YtgmzvxiKJyVfhOh@work-vm>
-References: <20220720152631.450903-1-peter.maydell@linaro.org>
- <20220720152631.450903-2-peter.maydell@linaro.org>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=5G1fw/lJCYafD38C+Ncbp2sZEJpxDTJIOLOCOeRx2vY=;
+ b=wTfijRxbWw1zAs/9Ht8XpYt7hTPnNZeQWxs57BH99y765H5GzmnoO+kxJHavzfeFm4
+ fKsHJh9Fff+ENT/1hDkBJgaV5ypxJH77D6+LFH8bFR21Kt3DEFN2Wm+0MsZGuY4Urj09
+ lUGWvXUyzpCT+XHqR+cMPrMSKrrcsnyijAanZOo9iwg1FViHp7jyUAbuU4kNZmg8UdEK
+ cnk6+70V2/CYX2Jsxc+LNxxb8TtJ17DxV5oVsTV32zWUOpxCJcr2+d6sG75O54/pKphS
+ CJyM3f448qPG3MedvdjQcp7XrsQBJBGtqyjkyeakgd0iBhXYKBt+37V0EK+DH9WzWEYt
+ ZGPA==
+X-Gm-Message-State: AJIora94VtjUjf5DOOR4w+EIECP3hpeUyG8yuNIuhnCuTum3HmBQHDG/
+ gh4or+Zz7v/4HOhzg1JdZZw=
+X-Google-Smtp-Source: AGRyM1ucOFJmnUAQF9x8i79W3RGopwApopRZhL9K1uI7BY5dfN1ttsILKX6ypoBnp/F9rCm2bka3AA==
+X-Received: by 2002:a05:6808:f8a:b0:339:d862:bcbd with SMTP id
+ o10-20020a0568080f8a00b00339d862bcbdmr2658319oiw.188.1658333332500; 
+ Wed, 20 Jul 2022 09:08:52 -0700 (PDT)
+Received: from [192.168.10.102] (200-232-202-163.dsl.telesp.net.br.
+ [200.232.202.163]) by smtp.gmail.com with ESMTPSA id
+ 34-20020a9d06a5000000b0061cc146c947sm406504otx.76.2022.07.20.09.08.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jul 2022 09:08:52 -0700 (PDT)
+Message-ID: <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+Date: Wed, 20 Jul 2022 13:08:49 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220720152631.450903-2-peter.maydell@linaro.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+Content-Language: en-US
+To: Alexey Kardashevskiy <aik@ozlabs.ru>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220719075930.315237-1-aik@ozlabs.ru>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=danielhb413@gmail.com; helo=mail-oi1-x22b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,47 +92,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> In commit 7d7dbf9dc15be6e1 we added a line to the configure script
-> which is not valid POSIX shell syntax, because it is missing a space
-> after a '!' character. shellcheck diagnoses this:
-> 
-> if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
->     ^-- SC1035: You are missing a required space after the !.
-> 
-> and the OpenBSD shell will not correctly handle this without the space.
-> 
-> Fixes: 7d7dbf9dc15be6e1 ("configure: replace --enable/disable-git-update with --with-git-submodules")
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> David Gilbert noted the OpenBSD issue on IRC -- I have not tested
-> this fix there myself.
+Hey,
 
-Fixed it for me, so
-
-Tested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On 7/19/22 04:59, Alexey Kardashevskiy wrote:
+> The following changes since commit d2066bc50d690a6605307eaf0e72a9cf51e6fc25:
 > 
-> diff --git a/configure b/configure
-> index 35e0b281985..dec6f030346 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2425,7 +2425,7 @@ else
->      cxx=
->  fi
->  
-> -if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
-> +if ! (GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
->      exit 1
->  fi
->  
-> -- 
-> 2.25.1
+>    target/ppc: Check page dir/table base alignment (2022-07-18 13:59:43 -0300)
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> are available in the Git repository at:
+> 
+>    git@github.com:aik/qemu.git tags/qemu-slof-20220719
+> 
+> for you to fetch changes up to 17c1ad657904787b1d986fb4c85431fee006a6ea:
+> 
+>    pseries: Update SLOF firmware image (2022-07-19 17:50:46 +1000)
+> 
+> ----------------------------------------------------------------
+> Alexey Kardashevskiy (1):
+>        pseries: Update SLOF firmware image
+> 
+>   docs/system/ppc/pseries.rst |   2 +-
+>   pc-bios/README              |   2 +-
+>   pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
+>   roms/SLOF                   |   2 +-
+>   4 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> 
+> *** Note: this is not for master, this is for pseries
+> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
+> too soon so I am posting it anyway.
 
+I forgot to send a reply yesterday, sorry.
+
+Don't worry about rushing this SLOF pull. Given that this build doesn't
+have bug fixes we can wait to pull it in 7.2. You'll have the time to
+sync it up with git.qemu.org and so on.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> 
+> The image grew in size because of change of the toolchain from
+> native PPC to cross on x86.
+> 
+> 
+> The only change is that now SLOF can also boot big endian zImage
+> but kernel-addr=0 is still required.
+> 
+> 
 
