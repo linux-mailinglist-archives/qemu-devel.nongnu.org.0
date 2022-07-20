@@ -2,53 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA6A57BB19
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:08:39 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8FF557BB1B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jul 2022 18:09:32 +0200 (CEST)
+Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oECFa-0007Ra-1K
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:08:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
+	id 1oECGR-0000Yl-IG
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 12:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oEC7v-0007pC-8r; Wed, 20 Jul 2022 12:00:43 -0400
-Received: from [200.168.210.66] (port=53431 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <victor.colombo@eldorado.org.br>)
- id 1oEC7t-0003Mm-92; Wed, 20 Jul 2022 12:00:43 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 20 Jul 2022 12:59:30 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id 2977780012C;
- Wed, 20 Jul 2022 12:59:30 -0300 (-03)
-Message-ID: <97df331d-7209-4c39-d554-ab332e1cc460@eldorado.org.br>
-Date: Wed, 20 Jul 2022 12:59:29 -0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oEC8l-000059-Kn
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:01:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oEC8b-0003WW-7h
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 12:01:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658332883;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5bYHKdVkG120cwPCEyD/Io80FAjPhcTmSlC09JYBusM=;
+ b=C8gROerTxfSz8K0UCyRd7SRNY/XAORapbI4J/6gzZcvrcocge9KNhAhzdEupTKbIzuVJSR
+ aPB6QMoI+4S1Q5Sx+r1auomCE/nDDxmtJp8yR2FBgKj0Y+RhQ/BG197N36nzrWbGTFjwN3
+ eDBe5O/EiVUlkcxkRQUifpE8nrcv7B0=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-533-iEqcjcSMPMyyRrOwPRKpgQ-1; Wed, 20 Jul 2022 12:01:22 -0400
+X-MC-Unique: iEqcjcSMPMyyRrOwPRKpgQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r10-20020a05600c284a00b003a2ff6c9d6aso1441268wmb.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 09:01:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=5bYHKdVkG120cwPCEyD/Io80FAjPhcTmSlC09JYBusM=;
+ b=lOyN6kDjMvCkGfA9ux+Ud1BVuFLjFQADVS1u8PdbUCuxPd7FYJ0fJkWuRMV9jyWEXY
+ /LJjgNmEQADEbP+X/4anYGZ2/PvkMIqgEZmvpMUxcfKc64Ffun/fCojl2V5YLqZ9f/Od
+ EwRDH77qzC6t4jWp+vMXHRYrYmN6TzrxApsP8QyLvPkXcrGrvCU95mWseHGJ+GxnbBrG
+ P5snLMVXAL4/9Btf6WTiy51MoGF2ao+30coUGLschwh6bW5K5GhydNovc9oWP9SYrDE0
+ klGOzvxWRjVDVSEvirWMyFot4e4llhKpl/LqEwAShYieMqIOUwH1e3A28REgAiZQu7qX
+ i91g==
+X-Gm-Message-State: AJIora/ORU9kMm/+kQ5Nn8KGcrgAg0m+5rR55EwWv24Gop/PtUIYxBPA
+ f4t+5k9P1aoriFAIHHYVvsfw1JDg78lSGsWJmhoOdvuDv+0fyhwW1D30QQ0fiIUA0jmHS+L1Fe/
+ Ux7rF9JrhB3JhSMg=
+X-Received: by 2002:a5d:47ab:0:b0:21d:b2b1:59b1 with SMTP id
+ 11-20020a5d47ab000000b0021db2b159b1mr30548349wrb.99.1658332880946; 
+ Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v9wZ36tlTfOXPK2OFaMeOzsEUd0jHGdCE7NYq1kFHh0v0KEGpeWQ+xjY3n/8tpsdbEdhq2eg==
+X-Received: by 2002:a5d:47ab:0:b0:21d:b2b1:59b1 with SMTP id
+ 11-20020a5d47ab000000b0021db2b159b1mr30548335wrb.99.1658332880714; 
+ Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ n5-20020a1c2705000000b003a1980d55c4sm2816595wmn.47.2022.07.20.09.01.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jul 2022 09:01:20 -0700 (PDT)
+Date: Wed, 20 Jul 2022 17:01:18 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/5] configure: Add missing POSIX-required space
+Message-ID: <YtgmzvxiKJyVfhOh@work-vm>
+References: <20220720152631.450903-1-peter.maydell@linaro.org>
+ <20220720152631.450903-2-peter.maydell@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] target/ppc: fix unreachable code in do_ldst_quad()
-Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-References: <20220720135723.1391598-1-danielhb413@gmail.com>
-From: =?UTF-8?Q?V=c3=adctor_Colombo?= <victor.colombo@eldorado.org.br>
-In-Reply-To: <20220720135723.1391598-1-danielhb413@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-OriginalArrivalTime: 20 Jul 2022 15:59:30.0737 (UTC)
- FILETIME=[B26F9210:01D89C51]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=victor.colombo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220720152631.450903-2-peter.maydell@linaro.org>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,47 +101,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gMjAvMDcvMjAyMiAxMDo1NywgRGFuaWVsIEhlbnJpcXVlIEJhcmJvemEgd3JvdGU6DQo+
-IENvdmVyaXR5IHJlcG9ydHMgdGhhdCBjb21taXQgZmMzNGU4MWFjZDUxICgidGFyZ2V0L3Bw
-YzogYWRkIG1hY3JvcyB0bw0KPiBjaGVjayBwcml2aWxlZ2UgbGV2ZWwiKSB0dXJuZWQgdGhl
-IGZvbGxvd2luZyBjb2RlIHVucmVhY2hhYmxlOg0KPiANCj4gaWYgKCFwcmVmaXhlZCAmJiAh
-KGN0eC0+aW5zbnNfZmxhZ3MyICYgUFBDMl9MU1FfSVNBMjA3KSkgew0KPiAgICAgIC8qIGxx
-IGFuZCBzdHEgd2VyZSBwcml2aWxlZ2VkIHByaW9yIHRvIFYuIDIuMDcgKi8NCj4gICAgICBS
-RVFVSVJFX1NWKGN0eCk7DQo+IA0KPj4+PiAgICAgIENJRCAxNDkwNzU3OiAgQ29udHJvbCBm
-bG93IGlzc3VlcyAgKFVOUkVBQ0hBQkxFKQ0KPj4+PiAgICAgIFRoaXMgY29kZSBjYW5ub3Qg
-YmUgcmVhY2hlZDogImlmIChjdHgtPmxlX21vZGUpIHsNCj4gICAgICBpZiAoY3R4LT5sZV9t
-b2RlKSB7DQo+ICAgICAgICAgIGdlbl9hbGlnbl9ub19sZShjdHgpOw0KPiAgICAgICAgICBy
-ZXR1cm4gdHJ1ZTsNCj4gICAgICB9DQo+IH0NCj4gDQo+IFRoaXMgaGFwcGVucyBiZWNhdXNl
-IHRoZSBtYWNybyBSRVFVSVJFX1NWKCksIGluIENPTkZJR19VU0VSX01PREUsIHdpbGwNCj4g
-YWx3YXlzIHJlc3VsdCBpbiBhICdyZXR1cm4gdHJ1ZScgc3RhdGVtZW50Lg0KPiANCj4gRml4
-IGl0IGJ5IHVzaW5nICIjaWYgIWRlZmluZWQoQ09ORklHX1VTRVJfT05MWSkiIHRvIGZvbGQg
-dGhlIGNvZGUgdGhhdA0KPiBzaG91bGRuJ3QgYmUgdGhlcmUgaWYgd2UncmUgcnVubmluZyBp
-biBhIG5vbi1wcml2aWxlZ2VkIHN0YXRlLiBUaGlzIGlzDQo+IGFsc28gaG93IHRoZSBSRVFV
-SVJFX1NWKCkgbWFjcm8gaXMgYmVpbmcgdXNlZCBpbg0KPiBzdG9yYWdlLWN0cmwtaW1wbC5j
-LmluYy4NCj4gDQo+IEZpeGVzOiBDb3Zlcml0eSBDSUQgMTQ5MDc1Nw0KPiBGaXhlczogZmMz
-NGU4MWFjZDUxICgidGFyZ2V0L3BwYzogYWRkIG1hY3JvcyB0byBjaGVjayBwcml2aWxlZ2Ug
-bGV2ZWwiKQ0KPiBDYzogTWF0aGV1cyBGZXJzdCA8bWF0aGV1cy5mZXJzdEBlbGRvcmFkby5v
-cmcuYnI+DQo+IFNpZ25lZC1vZmYtYnk6IERhbmllbCBIZW5yaXF1ZSBCYXJib3phIDxkYW5p
-ZWxoYjQxM0BnbWFpbC5jb20+DQo+IC0tLQ0KPiAgIHRhcmdldC9wcGMvdHJhbnNsYXRlL2Zp
-eGVkcG9pbnQtaW1wbC5jLmluYyB8IDQgKysrKw0KPiAgIDEgZmlsZSBjaGFuZ2VkLCA0IGlu
-c2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL3RyYW5zbGF0ZS9m
-aXhlZHBvaW50LWltcGwuYy5pbmMgYi90YXJnZXQvcHBjL3RyYW5zbGF0ZS9maXhlZHBvaW50
-LWltcGwuYy5pbmMNCj4gaW5kZXggZGIxNGQzYmViYy4uNGEzMmZhYzRmMyAxMDA2NDQNCj4g
-LS0tIGEvdGFyZ2V0L3BwYy90cmFuc2xhdGUvZml4ZWRwb2ludC1pbXBsLmMuaW5jDQo+ICsr
-KyBiL3RhcmdldC9wcGMvdHJhbnNsYXRlL2ZpeGVkcG9pbnQtaW1wbC5jLmluYw0KPiBAQCAt
-ODIsMTAgKzgyLDE0IEBAIHN0YXRpYyBib29sIGRvX2xkc3RfcXVhZChEaXNhc0NvbnRleHQg
-KmN0eCwgYXJnX0QgKmEsIGJvb2wgc3RvcmUsIGJvb2wgcHJlZml4ZWQpDQo+ICAgICAgICAg
-ICAvKiBscSBhbmQgc3RxIHdlcmUgcHJpdmlsZWdlZCBwcmlvciB0byBWLiAyLjA3ICovDQo+
-ICAgICAgICAgICBSRVFVSVJFX1NWKGN0eCk7DQo+IA0KPiArI2lmICFkZWZpbmVkKENPTkZJ
-R19VU0VSX09OTFkpDQo+ICAgICAgICAgICBpZiAoY3R4LT5sZV9tb2RlKSB7DQo+ICAgICAg
-ICAgICAgICAgZ2VuX2FsaWduX25vX2xlKGN0eCk7DQo+ICAgICAgICAgICAgICAgcmV0dXJu
-IHRydWU7DQo+ICAgICAgICAgICB9DQo+ICsjZWxzZQ0KPiArICAgIHFlbXVfYnVpbGRfbm90
-X3JlYWNoZWQoKTsNCg0Kbml0OiBJIHRoaW5rIHRoZSBpbmRlbnRhdGlvbiBoZXJlIGlzIG9m
-ZiBieSAxIGxldmVsIChtaXNzaW5nIDQgc3BhY2VzKT8NCg0KPiArI2VuZGlmDQo+ICAgICAg
-IH0NCj4gDQo+ICAgICAgIGlmICghc3RvcmUgJiYgdW5saWtlbHkoYS0+cmEgPT0gYS0+cnQp
-KSB7DQo+IC0tDQo+IDIuMzYuMQ0KPiANCj4gDQpSZXZpZXdlZC1ieTogVsOtY3RvciBDb2xv
-bWJvIDx2aWN0b3IuY29sb21ib0BlbGRvcmFkby5vcmcuYnI+DQoNCi0tIA0KVsOtY3RvciBD
-b3JhIENvbG9tYm8NCkluc3RpdHV0byBkZSBQZXNxdWlzYXMgRUxET1JBRE8NCkF2aXNvIExl
-Z2FsIC0gRGlzY2xhaW1lciA8aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWlt
-ZXIuaHRtbD4NCg==
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> In commit 7d7dbf9dc15be6e1 we added a line to the configure script
+> which is not valid POSIX shell syntax, because it is missing a space
+> after a '!' character. shellcheck diagnoses this:
+> 
+> if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+>     ^-- SC1035: You are missing a required space after the !.
+> 
+> and the OpenBSD shell will not correctly handle this without the space.
+> 
+> Fixes: 7d7dbf9dc15be6e1 ("configure: replace --enable/disable-git-update with --with-git-submodules")
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> David Gilbert noted the OpenBSD issue on IRC -- I have not tested
+> this fix there myself.
+
+Fixed it for me, so
+
+Tested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  configure | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 35e0b281985..dec6f030346 100755
+> --- a/configure
+> +++ b/configure
+> @@ -2425,7 +2425,7 @@ else
+>      cxx=
+>  fi
+>  
+> -if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+> +if ! (GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
+>      exit 1
+>  fi
+>  
+> -- 
+> 2.25.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
