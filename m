@@ -2,84 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD7457C77C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:23:32 +0200 (CEST)
-Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5ADA57C7CA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:37:41 +0200 (CEST)
+Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oESP4-0004hD-VA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
+	id 1oEScm-00085T-Hc
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oESLV-0002ou-1c
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:19:50 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40612)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oESLQ-0005lH-B5
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:19:45 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id tk8so2090471ejc.7
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 02:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eQ9lI4so5xsuzIA84iYen7qlMEeThAAchgC+Mtb8Bp4=;
- b=cjeTye4jbzD5o8eSMyaVtNO4BCSqYcuc9WaEXG9Qx6l3kFoYTwSDK0Q93MfdL1loLH
- f6dZeUh0uihMhuqjNMxLSg1r2R2SLJpR7JfvLZNs2OmI/XjcpRKLrzoESkF1m+I7MWwL
- g8I7JfGjUBFKnwV/juheCdi7Pz5EiFkXsCIXS01tBktsuXRjdZNyypx7qO3sRe60OGl0
- abku2EXdYC3j3DOXZdt4Zd+1RJCp2QjD4RAsv8z/a/qwpIJ7BvGS7+WTcxXisJIZmK0F
- UweURehnC9rsdzSDZv6HXCokGfMh2KnMiF3+0bM/YFq2ApABdoiYlQKcEY4pJ/DCqVUs
- XDDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:references:from:in-reply-to
- :content-transfer-encoding;
- bh=eQ9lI4so5xsuzIA84iYen7qlMEeThAAchgC+Mtb8Bp4=;
- b=WJuPNXCPwOKQrIml5OqrIiDDj/X9e3sWTeqUpx52rntaQT/efPYLsfBrageS1JFUIy
- euv0notprlXCJM1A53FzyZA8k5Izyx0hsjlIHGLC5ecyOeJFV9EuvJkx7o/m5YUdtfGd
- VqK/5oRaRyIY30zUt5dGCjtLmFkz6Fus7XQpW3R7i6HJ9j8hPXeqAcaXSB6+pYyZc3c/
- elGLR1wIpy9NwnzQih+JehRd7kfGdQVEPdzutUl1FV+7OUIbbd0iXrZLdbMVpRVr+mFi
- S1eB/SkL26yAFCxxSLEo9WmmYGXboX9IWzKddH9lEEalOlLvkE+IKn8U14+AkNWvnq8K
- XGlg==
-X-Gm-Message-State: AJIora9gqzxdbhHnKwNEeuVa9l7bjyzK9/j1yzGZYlFFVX0y4z8rZLVC
- q6IdyNktuXjTzISYrYRFl1o=
-X-Google-Smtp-Source: AGRyM1uTGEmD7xrb+ShOvgYSXip68XlrJvVU57494E6VrdO9U8PjufD7aWF37j3IFp81VaEmanwQNA==
-X-Received: by 2002:a17:907:1c0c:b0:72e:dd1f:a230 with SMTP id
- nc12-20020a1709071c0c00b0072edd1fa230mr35510471ejc.8.1658395181943; 
- Thu, 21 Jul 2022 02:19:41 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- hw17-20020a170907a0d100b0072f1d8e7301sm618986ejc.66.2022.07.21.02.19.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 02:19:41 -0700 (PDT)
-Message-ID: <06e60181-2f77-6f02-5015-fd14153efff3@redhat.com>
-Date: Thu, 21 Jul 2022 11:19:40 +0200
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oESZT-0006Ov-9u
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:34:15 -0400
+Received: from mga09.intel.com ([134.134.136.24]:57450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
+ id 1oESZQ-0008Fs-U1
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:34:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1658396052; x=1689932052;
+ h=date:from:to:cc:subject:message-id:reply-to:references:
+ mime-version:in-reply-to;
+ bh=wCb9PX4Sp0/BeSAl8rvIo3FQtV/S7LHLo0bGkTMYvrA=;
+ b=TzkAWP+Pv3CskzZy/vJG0CkVSACKYXsYWaYW5QhOO4phG5R0jz+f2REW
+ kuIn8dfuq4/BO3CuY7k17L3EpU/vMk8DYI0GzZTWjWPKHxPxceHZCamX8
+ Bfe0UigxHwe5HV7P1w4dLNd4bRzngonFJNentFTg/wx9EwDHgSbdQKVCC
+ qupXC4wWR/LYBSc0e6tvRgo3T0bqv8qgFQPNPgC24JEVXcUmTmdL82gbV
+ kzhNX0UfAwHtVD1lPyIWTVWB33KxSFzO+sKQX3bLX1JDvDKLq3ImS+MH4
+ nl7UMDNfWG6wwTgKBfTb0V19R1lK0tdvugQc0GdJ76aLbSbYCvVWQJ/Im Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10414"; a="287749098"
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="287749098"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Jul 2022 02:34:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,289,1650956400"; d="scan'208";a="656666919"
+Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
+ by fmsmga008.fm.intel.com with ESMTP; 21 Jul 2022 02:33:56 -0700
+Date: Thu, 21 Jul 2022 17:29:06 +0800
+From: Chao Peng <chao.p.peng@linux.intel.com>
+To: Wei Wang <wei.w.wang@linux.intel.com>
+Cc: Sean Christopherson <seanjc@google.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <20220721092906.GA153288@chaop.bj.intel.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
+ <20220719140843.GA84779@chaop.bj.intel.com>
+ <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+ <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH resend v3] hw/i386: pass RNG seed via setup_data entry
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org
-References: <20220711145432.56704-1-Jason@zx2c4.com>
- <20220719115300.104095-1-Jason@zx2c4.com> <Ytf9KVQNOZBI5u8f@zx2c4.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Ytf9KVQNOZBI5u8f@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+Received-SPF: none client-ip=134.134.136.24;
+ envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,69 +107,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/22 15:03, Jason A. Donenfeld wrote:
-> Hi Paolo,
+On Thu, Jul 21, 2022 at 03:34:59PM +0800, Wei Wang wrote:
 > 
-> On Tue, Jul 19, 2022 at 01:53:00PM +0200, Jason A. Donenfeld wrote:
->> Tiny machines optimized for fast boot time generally don't use EFI,
->> which means a random seed has to be supplied some other way. For this
->> purpose, Linux (≥5.20) supports passing a seed in the setup_data table
->> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
->> specialized bootloaders. The linked commit shows the upstream kernel
->> implementation.
 > 
-> Having received your message in the other thread hinting, "I think
-> there are some issues with migration compatibility of setup_data and
-> they snowball a bit, so I'll reply there," and being a bit eager to get
-> this moving, I thought I'd preempt that discussion by trying to guess
-> what you have in mind and replying to it. Speculative email execution...
+> On 7/21/22 00:21, Sean Christopherson wrote:
+> > On Wed, Jul 20, 2022, Gupta, Pankaj wrote:
+> > > > > > > > +bool __weak kvm_arch_private_mem_supported(struct kvm *kvm)
+> > Use kvm_arch_has_private_mem(), both because "has" makes it obvious this is checking
+> > a flag of sorts, and to align with other helpers of this nature (and with
+> > CONFIG_HAVE_KVM_PRIVATE_MEM).
+> > 
+> >    $ git grep kvm_arch | grep supported | wc -l
+> >    0
+> >    $ git grep kvm_arch | grep has | wc -l
+> >    26
+
+Make sense. kvm_arch_has_private_mem it actually better.
+
+> > 
+> > > > > > > > +#ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > > > > > > > +	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > > > > > > > +	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > > > > > > > +		struct kvm_enc_region region;
+> > > > > > > > +
+> > > > > > > > +		if (!kvm_arch_private_mem_supported(kvm))
+> > > > > > > > +			goto arch_vm_ioctl;
+> > > > > > > > +
+> > > > > > > > +		r = -EFAULT;
+> > > > > > > > +		if (copy_from_user(&region, argp, sizeof(region)))
+> > > > > > > > +			goto out;
+> > > > > > > > +
+> > > > > > > > +		r = kvm_vm_ioctl_set_encrypted_region(kvm, ioctl, &region);
+> > > > > > > this is to store private region metadata not only the encrypted region?
+> > > > > > Correct.
+> > > > > Sorry for not being clear, was suggesting name change of this function from:
+> > > > > "kvm_vm_ioctl_set_encrypted_region" to "kvm_vm_ioctl_set_private_region"
+> > > > Though I don't have strong reason to change it, I'm fine with this and
+> > > Yes, no strong reason, just thought "kvm_vm_ioctl_set_private_region" would
+> > > depict the actual functionality :)
+> > > 
+> > > > this name matches the above kvm_arch_private_mem_supported perfectly.
+> > > BTW could not understand this, how "kvm_vm_ioctl_set_encrypted_region"
+> > > matches "kvm_arch_private_mem_supported"?
+> > Chao is saying that kvm_vm_ioctl_set_private_region() pairs nicely with
+> > kvm_arch_private_mem_supported(), not that the "encrypted" variant pairs nicely.
+> > 
+> > I also like using "private" instead of "encrypted", though we should probably
+> > find a different verb than "set", because calling "set_private" when making the
+> > region shared is confusing.  I'm struggling to come up with a good alternative
+> > though.
+> > 
+> > kvm_vm_ioctl_set_memory_region() is already taken by KVM_SET_USER_MEMORY_REGION,
+> > and that also means that anything with "memory_region" in the name is bound to be
+> > confusing.
+> > 
+> > Hmm, and if we move away from "encrypted", it probably makes sense to pass in
+> > addr+size instead of a kvm_enc_region.
+
+This makes sense.
+
+> > 
+> > Maybe this?
+> > 
+> > static int kvm_vm_ioctl_set_or_clear_mem_private(struct kvm *kvm, gpa_t gpa,
+> > 					         gpa_t size, bool set_private)
+
+Currently this should work.
+
+> > 
+> > and then:
+> > 
+> > #ifdef CONFIG_HAVE_KVM_PRIVATE_MEM
+> > 	case KVM_MEMORY_ENCRYPT_REG_REGION:
+> > 	case KVM_MEMORY_ENCRYPT_UNREG_REGION: {
+> > 		bool set = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+> > 		struct kvm_enc_region region;
+> > 
+> > 		if (!kvm_arch_private_mem_supported(kvm))
+> > 			goto arch_vm_ioctl;
+> > 
+> > 		r = -EFAULT;
+> > 		if (copy_from_user(&region, argp, sizeof(region)))
+> > 			goto out;
+> > 
+> > 		r = kvm_vm_ioctl_set_or_clear_mem_private(kvm, region.addr,
+> > 							  region.size, set);
+> > 		break;
+> > 	}
+> > #endif
+> > 
+> > I don't love it, so if someone has a better idea...
+> > 
+> Maybe you could tag it with cgs for all the confidential guest support
+> related stuff:
+> e.g. kvm_vm_ioctl_set_cgs_mem()
 > 
-> The SETUP_RNG_SEED parameter is used only during boot, and Linux takes
-> pains to zero out its content after using. If a VM is migrated or
-> copied, the RNG state is also migrated, just as is the case before
-> SETUP_RNG_SEED. For that reason, Linux also has a "vmgenid" driver,
-> which QEMU supports via `-device vmgenid,guid=auto`, which is an ACPI
-> mechanism for telling the RNG to reseed under various migration
-> circumstances. But this is merely complementary to SETUP_RNG_SEED, which
-> is intended as a very simple mechanism for passing a seed at the
-> earliest moment in boot, akin to DT's "rng-seed" node.
-> 
-> Hopefully this answers what I think you were going to ask, and sorry if
-> it's a total non-sequitur.
+> bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+> ...
+> kvm_vm_ioctl_set_cgs_mem(, is_private)
 
-It's not entirely what I was thinking about but it is interesting anyway 
-so thanks for writing that.  Sorry it took some time to reply but these 
-live migration issues are subtle and I wanted to be sure of what is and 
-isn't a problem.
+If we plan to widely use such abbr. through KVM (e.g. it's well known),
+I'm fine.
 
-The issue with live migration is that the setup data changes from before 
-to after the patches.  This means that a live migration exactly _in the 
-middle_ of reading the Linux boot data could fail badly.  For example, 
-you could migrate in the middle of reading the DTB, and it would be 
-shifted by the ~50 bytes of the setup_data and seed.  The size would 
-also not match so, even though probably things would mostly work if you 
-place the seed last, that's not really optimal either.
+I actually use mem_attr in patch: https://lkml.org/lkml/2022/7/20/610
+But I also don't quite like it, it's so generic and sounds say nothing.
 
-Now I understand that this would be exceedingly unlikely or downright 
-impossible, but the main issue is that, roughly speaking, we try to 
-guarantee unchanged guest ABI on every execution with the appropriate 
-command line options.  So the solution is to add a machine property 
-(e.g. "-M linuxboot-seed=...") that allows enabling/disabling it, and 
-then making it default to off with machine types like pc-i440fx-7.0 that 
-never had the seed.
+But I do want a name can cover future usages other than just 
+private/shared (pKVM for example may have a third state).
 
-In turn this means that the "shape" of the linked list changes a bit and 
-it's better to abstract the creation of the setup_data struct in a 
-separate function.  And then you've got to move the various local 
-variables of x86_load_linux into a struct for sharing.  As I said, it 
-snowballs a bit, but I should be sending out patches later today.
-
-As an aside, QEMU tends to only include code after Linux supports it, 
-but it's in your rng tree so the timing is right; I'll queue the FDT 
-ones for 7.1 since it's nice to have feature parity across all FDT boards.
-
-Paolo
+Thanks,
+Chao
 
