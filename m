@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C31257CD99
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 16:28:00 +0200 (CEST)
-Received: from localhost ([::1]:51520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE7357CD9E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 16:28:34 +0200 (CEST)
+Received: from localhost ([::1]:52662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEX9j-0000WK-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 10:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33428)
+	id 1oEXAG-0001IJ-VS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 10:28:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oEX6I-000657-AH
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 10:24:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20732)
+ id 1oEX8S-0007SS-OJ
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 10:26:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oEX6E-0008Pw-K7
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 10:24:26 -0400
+ id 1oEX8P-0000NS-W8
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 10:26:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658413461;
+ s=mimecast20190719; t=1658413597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+3EP+yob99qzXuJIiGh+LzqQrHvZGCf0X0ZzEM8qcY4=;
- b=L0uSVqWeXQT2MrexRQRhRWU7OmY5ad8Z00PLMZMlRzPVB1mlTgTi6bpCWWH+6zn9+NWmQM
- f+/JeNc8OZqmqcZdDNG2/gS+U7oZnvhBbXUrDPLKZg6X2MMZbViy2iztdZC5CaIiZxeN5N
- kt/Ai+55iM13EI7RZMGvYHssTbY7ipw=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=akWlm6VyQckl8jGdzyRZWm4tL20ynHltVQaKvg/N8b0=;
+ b=BEG/GmLoVE3do8jMhbQl91fX6R+MtYukFHXgyil22CcAslInr8IVFvLJt6OJhm2ko3Cp9U
+ u4pWCp7T3c55FofN8jKR9qw1x0hOhVBYiLuzfFB5Gmr0BVGmnSc2roTOl7V7asPXY/1VOE
+ +olX7+VcaHcbL7C3+gegW5c/CP0y4GI=
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
+ [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-3EkmddxQNByy82yXjmiZsQ-1; Thu, 21 Jul 2022 10:24:14 -0400
-X-MC-Unique: 3EkmddxQNByy82yXjmiZsQ-1
-Received: by mail-oi1-f199.google.com with SMTP id
- i5-20020aca2b05000000b0033a509b7255so867757oik.21
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 07:24:14 -0700 (PDT)
+ us-mta-529-91xxyGrvPR22ao0zsAq3sA-1; Thu, 21 Jul 2022 10:26:36 -0400
+X-MC-Unique: 91xxyGrvPR22ao0zsAq3sA-1
+Received: by mail-oa1-f71.google.com with SMTP id
+ 586e51a60fabf-fdc4b531bfso963710fac.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 07:26:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+3EP+yob99qzXuJIiGh+LzqQrHvZGCf0X0ZzEM8qcY4=;
- b=QT1jHvWyEaPFjxSDZcdsEYPBZ19W805r2ORcTlTFQGvHRA2Cq6JDB/PjPKczmkocg5
- RMmsqUwqLqkvMhZy+DeTefDugD+bBaUnWDjlqhrpCgXuI0sma+ZR+ylVBPGckVje+c2X
- uM0/szaHrcy12tXmwlqgvk7H9HKaCA48WLEdB5nXliHqeCw0mrE9n1pMgmiS93kjlUbT
- 9Lb+9ddIUFPf4QQrVqJi6YlDbw7/2JF7lQXPH5C9L/ViSu+RUDQvKmgIx75odetKQZbb
- nmwGMzNBc1tyU5zjF2RtNGfknOBLnihi4QIUIrtsWa8ReqnEAvS9KKcBG7jG2T84ROB3
- HYDw==
-X-Gm-Message-State: AJIora8FIswcDF+GeGJzGv7jpWWJ3JIlaWard+9w8P77bt465Ruh+cre
- V3GLrSOlFZEjHyQSAs5N1S1Xa+D2vjz1xLKWMfNVVKVG9Hnf0bal63PNVmvvv75drKT/VajYADx
- TfgSd+bpF7jC7qijKSaW+MuzKS4KLNuc=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=akWlm6VyQckl8jGdzyRZWm4tL20ynHltVQaKvg/N8b0=;
+ b=jqxWs2OMQVXZS5kIvetJtzsg2E7Wh6mflQXD4Fh1uN1N21h475trApB628t2BS3RnO
+ DZFDgyyTcju4cI+u1g3+HHITbly9O9ad7ECu5pD63A89gOQEzYtBxZtv7NjuGOPZDKQm
+ fWzdvJoeLqq0A2dsmEHdBG1EROEgxH/IlA0E04EgAWZbyqRAzSFZspz6nkd71CtQAbqt
+ NGPjOX/Sk9fMkaOCeurpByUisnL4SypN3ICVGZ+EnHM6OjGIkx/FNBdwa4iY2R9jiBSX
+ 31gScAV3Rfimii/kD+YQAo9S/llTcHtFV9ihTslKUgfHmk7fR1qzrBAvAqrKqWuN6yvb
+ 5ogw==
+X-Gm-Message-State: AJIora+iRNpIswSNHO7t5OsGXRTiQ3BVD4CNUdd4LRInDIVpkHUC8g1z
+ crN4XdhQbLlf0fnMb9kZxDndRYZzbmRwLnOOMKybHqA33d7ZXmZ33T/yQPdZtmyqpgK0xiWvyQW
+ KOwLSZpFIZ0f3CNb1NOshw9v+H1gem8E=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5391637oab.205.1658413453409; 
- Thu, 21 Jul 2022 07:24:13 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t1u57nuQJIUKjbuDfNpS6jqomQ3aZm95OcQSgVTspE8jYUparwNiFdbunEc/cET4txXpxycrQnI+kvodHjd5k=
+ ek39-20020a056870f62700b0010c9be95306mr5398345oab.205.1658413595491; 
+ Thu, 21 Jul 2022 07:26:35 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sVpr6NcRadoE8V3gBknPcSNsAmC+byMDyra04fWySpnXcNEfKTrAe+FmDHM7DnL0afFFKye2KyFIL8C5xwacs=
 X-Received: by 2002:a05:6870:f627:b0:10c:9be9:5306 with SMTP id
- ek39-20020a056870f62700b0010c9be95306mr5391621oab.205.1658413453174; Thu, 21
- Jul 2022 07:24:13 -0700 (PDT)
+ ek39-20020a056870f62700b0010c9be95306mr5398307oab.205.1658413594966; Thu, 21
+ Jul 2022 07:26:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220721132256.2171-1-frankja@linux.ibm.com>
- <20220721132256.2171-2-frankja@linux.ibm.com>
-In-Reply-To: <20220721132256.2171-2-frankja@linux.ibm.com>
+ <20220721132256.2171-3-frankja@linux.ibm.com>
+In-Reply-To: <20220721132256.2171-3-frankja@linux.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 21 Jul 2022 18:24:02 +0400
-Message-ID: <CAMxuvawXSMHbo3KbaBPqhqd5NLi4_+Ezt+vY=B4c+q8w2yi0zA@mail.gmail.com>
-Subject: Re: [PATCH v3 01/14] dump: Introduce GuestPhysBlock offset and length
- filter functions
+Date: Thu, 21 Jul 2022 18:26:24 +0400
+Message-ID: <CAMxuvaz+eDTnhhTSj7wLyctrysRr0zhcUn_C-eDi4p655fPR5A@mail.gmail.com>
+Subject: Re: [PATCH v3 02/14] dump: Rename write_elf_loads to
+ write_elf_phdr_loads
 To: Janosch Frank <frankja@linux.ibm.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  mhartmay@linux.ibm.com, 
@@ -74,14 +75,15 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  Thomas Huth <thuth@redhat.com>, 
  "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, seiden@linux.ibm.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,69 +100,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Thu, Jul 21, 2022 at 5:23 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+On Thu, Jul 21, 2022 at 5:24 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+:
 >
-> As the code is used in multiple places in dump/dump.c we should
-> introduce functions that calculate the filtered length and offset of a
-> GuestPhysBlock so we can use them in the next patch.
+> Let's make it a bit clearer that we write the program headers of the
+> PT_LOAD type.
 >
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->  include/sysemu/dump.h | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
+>  dump/dump.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index ffc2ea1072..2b39abeeae 100644
-> --- a/include/sysemu/dump.h
-> +++ b/include/sysemu/dump.h
-> @@ -203,4 +203,41 @@ typedef struct DumpState {
->  uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
->  uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
->  uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-> +
-> +static inline int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                             int64_t filter_area_length)
-> +{
-> +    int64_t size, left, right;
-> +
-> +    /* No filter, return full size */
-> +    if (!filter_area_length) {
-> +        return block->target_end - block->target_start;
-> +    }
-> +
-> +    /* calculate the overlapped region. */
-> +    left = MAX(filter_area_start, block->target_start);
-> +    right = MIN(filter_area_start + filter_area_length, block->target_end);
-> +    size = right - left;
-> +    size = size > 0 ? size : 0;
-> +
-> +    return size;
-> +}
-> +
-> +static inline int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-> +                                  int64_t filter_area_length)
-> +{
-> +    if (filter_area_length) {
-> +        /* return -1 if the block is not within filter area */
-> +        if (block->target_start >= filter_area_start + filter_area_length ||
-> +            block->target_end <= filter_area_start) {
-> +            return -1;
-> +        }
-> +
-> +        if (filter_area_start > block->target_start) {
-> +            return filter_area_start - block->target_start;
-> +        }
-> +    }
-> +
-> +    return 0;
-> +}
-
-Why inline the function and have it in the header? (similar for other
-inline functions in the series - except obvious empty/stubs functions)
-
->  #endif
+> diff --git a/dump/dump.c b/dump/dump.c
+> index 4d9658ffa2..0ed7cf9c7b 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -490,7 +490,7 @@ static void get_offset_range(hwaddr phys_addr,
+>      }
+>  }
+>
+> -static void write_elf_loads(DumpState *s, Error **errp)
+> +static void write_elf_phdr_loads(DumpState *s, Error **errp)
+>  {
+>      ERRP_GUARD();
+>      hwaddr offset, filesz;
+> @@ -573,8 +573,8 @@ static void dump_begin(DumpState *s, Error **errp)
+>          return;
+>      }
+>
+> -    /* write all PT_LOAD to vmcore */
+> -    write_elf_loads(s, errp);
+> +    /* write all PT_LOADs to vmcore */
+> +    write_elf_phdr_loads(s, errp);
+>      if (*errp) {
+>          return;
+>      }
 > --
 > 2.34.1
 >
