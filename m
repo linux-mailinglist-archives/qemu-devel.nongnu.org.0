@@ -2,112 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F069857D17A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:28:41 +0200 (CEST)
-Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE07257D180
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:30:31 +0200 (CEST)
+Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEZ2W-0000V9-I5
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
+	id 1oEZ4I-0002CS-Oc
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEZ0N-0006Cb-G5; Thu, 21 Jul 2022 12:26:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16798)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oEZ2b-0000bL-UY
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:28:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEZ0K-0005ra-Om; Thu, 21 Jul 2022 12:26:27 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LFrxcg006098;
- Thu, 21 Jul 2022 16:26:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=dmq2j0007E0AJ6zsZ3bXtdPVxe8A0fv7RMw8gWX4p5g=;
- b=K8QFw/N4FhObAl8MSKy0KpCzil3EU0MjQPYPeDbroKghhp6esWMUUmt7VCUP/XHLSyXK
- knUtXg6TbjGKfWSPFIiwXVCutyojrubLhCNUPct3DAy8BPONTFsLm0vNgvHJZR6BCGJX
- LwskRHLfVblviccFlrEK2aKv6BhJp9yxMcZzhwuyumzY/nX6b5ZT0XK40Hdqzjdz87Wv
- OIKythLWiIihTe5tYjuyXT8NiZoghsWLDmf+4t8WEFcwUbITNj33DTMHOrfCrLiOe36/
- /FfAdGMciejCDfhwF/rdefQOiS8d2LamVMZYoH7rUICCsJ37ENibZpai7xc5fx6P3/4B Cg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9um8u39-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:26:21 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LGAZEP030128;
- Thu, 21 Jul 2022 16:26:20 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9um8u2b-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:26:20 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LGLKl3007482;
- Thu, 21 Jul 2022 16:26:18 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma02fra.de.ibm.com with ESMTP id 3hbmy8yb36-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 16:26:18 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26LGORSZ18481526
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 16:24:27 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8ADFCA405F;
- Thu, 21 Jul 2022 16:26:15 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1F7A7A4054;
- Thu, 21 Jul 2022 16:26:15 +0000 (GMT)
-Received: from [9.145.177.237] (unknown [9.145.177.237])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 16:26:14 +0000 (GMT)
-Message-ID: <9a382a24-a921-1544-46e6-92c919f634fa@linux.ibm.com>
-Date: Thu, 21 Jul 2022 18:26:14 +0200
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oEZ2V-00066I-VD
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:28:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658420918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=466lMBQHrR9R90V+5w2Z2LmKnSJjXN/EpL0Pu6BGhpQ=;
+ b=Y6DTDIIHnF5iYTt9u5aCjDz6lyDz0yd1Hr/jeC1mjzo6mTCZP2RFyn2lKCQqgSmAhO6Pqe
+ CzlQbPq6KYw1TN2KLOJ1S7l1weEgQ29JNSDO8kzYouTMFGDgYTvBXIxQYZxdYpJWFpjqOl
+ 6kPPsS+bjwkodHljR2kL4sBbFH6qIxU=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-529-gMgfdDxcN16zkg0SP1HEEg-1; Thu, 21 Jul 2022 12:28:37 -0400
+X-MC-Unique: gMgfdDxcN16zkg0SP1HEEg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r10-20020a05600c284a00b003a2ff6c9d6aso3006314wmb.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 09:28:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=466lMBQHrR9R90V+5w2Z2LmKnSJjXN/EpL0Pu6BGhpQ=;
+ b=jsTmzZuzYpgJN4seFDLQ580deUeBAkzA7ftKADyJG4dBfm7mc6X340TbXVa+CHn/IQ
+ QnTVUQ/SAhIbjmbm4U2Wowl9cup4Cvbr7ifUuSLUeW3gz4JMVeUMkwwSRh8O38SvBusf
+ 18ySOy53tkLseAZKPPpBBs0JY/PQd4AgE5ymv/GpaPuaSu3haWZRM2WhypcYLN+yv4j9
+ c16JIEylEkXxGX95kMwxnws8RXezEeZD9l0rAwT5TR127cm6i6pwSnc81OTLSHgWLbjd
+ 2gO/DGtxX8xKUa1OI3+EbzbxkjwIvmVKQzrwpELqYgbWPtKEJS99itWKKIIvPd191NwS
+ MEoQ==
+X-Gm-Message-State: AJIora+Fc8eDeLA7Or7vZiFECH/xnxF5qX4fFn3Y53mxf02ZGR3vZaL/
+ B4oEDG6PaEt+H7+FQHnkMd5A1295HzcXNJrJsBw3+Z7k/hSTOMm3rxWAXYS9aC7W/gvKna2Tilb
+ aOxD5edotrTkNPy4=
+X-Received: by 2002:a05:600c:3ac3:b0:3a0:45b6:7efb with SMTP id
+ d3-20020a05600c3ac300b003a045b67efbmr8859543wms.183.1658420916260; 
+ Thu, 21 Jul 2022 09:28:36 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1twBZLm2PMuWnEW0q1Ne5esBo3eaLeC1KgkPcdyJwoHTIbvUF9DCqTVe/DNtzpONmj7Ogza5Q==
+X-Received: by 2002:a05:600c:3ac3:b0:3a0:45b6:7efb with SMTP id
+ d3-20020a05600c3ac300b003a045b67efbmr8859523wms.183.1658420915983; 
+ Thu, 21 Jul 2022 09:28:35 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ s2-20020a7bc382000000b003a3253b705dsm2307707wmj.35.2022.07.21.09.28.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 09:28:35 -0700 (PDT)
+Date: Thu, 21 Jul 2022 17:28:33 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Zhao, Zhou" <zhou.zhao@intel.com>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ "Xu, Ling1" <ling1.xu@intel.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "quintela@redhat.com" <quintela@redhat.com>,
+ "Jin, Jun I" <jun.i.jin@intel.com>
+Subject: Re: [PATCH 1/1] Add AVX512 support for xbzrle_encode_buffer function
+Message-ID: <Ytl+sTUEGqt1axfW@work-vm>
+References: <20220721103147.96608-1-ling1.xu@intel.com>
+ <20220721103147.96608-2-ling1.xu@intel.com>
+ <YtlshIteVijWePbd@redhat.com>
+ <DM6PR11MB28126DAC62A921E5551C1400F5919@DM6PR11MB2812.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo"
- <pbonzini@redhat.com>, mhartmay@linux.ibm.com,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- imbrenda@linux.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- seiden@linux.ibm.com
-References: <20220721132256.2171-1-frankja@linux.ibm.com>
- <20220721132256.2171-4-frankja@linux.ibm.com>
- <CAMxuvaya0AiW1yvSab_jynHNn+=w2LZhGdgnm6OY6UwSf24YZA@mail.gmail.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 03/14] dump: Convert GuestPhysBlock iterators and use
- the filter functions
-In-Reply-To: <CAMxuvaya0AiW1yvSab_jynHNn+=w2LZhGdgnm6OY6UwSf24YZA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: dYYUfESzuymPp6y-i11TCIZWXxNOw566
-X-Proofpoint-GUID: 1gv7HTmMpw6fGVbKJJLl2SsglbIVocvu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_22,2022-07-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 mlxscore=0 bulkscore=0
- lowpriorityscore=0 adultscore=0 phishscore=0 mlxlogscore=999 clxscore=1015
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207210061
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <DM6PR11MB28126DAC62A921E5551C1400F5919@DM6PR11MB2812.namprd11.prod.outlook.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -124,35 +108,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNy8yMS8yMiAxNjozNiwgTWFyYy1BbmRyw6kgTHVyZWF1IHdyb3RlOg0KWy4uXQ0KPj4g
-ZGlmZiAtLWdpdCBhL2luY2x1ZGUvc3lzZW11L2R1bXAuaCBiL2luY2x1ZGUvc3lzZW11L2R1
-bXAuaA0KPj4gaW5kZXggMmIzOWFiZWVhZS4uNzAyNWU1MDY4MiAxMDA2NDQNCj4+IC0tLSBh
-L2luY2x1ZGUvc3lzZW11L2R1bXAuaA0KPj4gKysrIGIvaW5jbHVkZS9zeXNlbXUvZHVtcC5o
-DQo+PiBAQCAtMTY2LDExICsxNjYsMTAgQEAgdHlwZWRlZiBzdHJ1Y3QgRHVtcFN0YXRlIHsN
-Cj4+ICAgICAgIGh3YWRkciBtZW1vcnlfb2Zmc2V0Ow0KPj4gICAgICAgaW50IGZkOw0KPj4N
-Cj4+IC0gICAgR3Vlc3RQaHlzQmxvY2sgKm5leHRfYmxvY2s7DQo+PiAtICAgIHJhbV9hZGRy
-X3Qgc3RhcnQ7DQo+PiAtICAgIGJvb2wgaGFzX2ZpbHRlcjsNCj4+IC0gICAgaW50NjRfdCBi
-ZWdpbjsNCj4+IC0gICAgaW50NjRfdCBsZW5ndGg7DQo+PiArICAgIC8qIEd1ZXN0IG1lbW9y
-eSByZWxhdGVkIGRhdGEgKi8NCj4+ICsgICAgYm9vbCBoYXNfZmlsdGVyOyAgICAgICAgICAg
-LyogQXJlIHdlIGR1bXBpbmcgcGFydHMgb2YgdGhlIG1lbW9yeT8gKi8NCj4+ICsgICAgaW50
-NjRfdCBiZWdpbjsgICAgICAgICAgICAgLyogU3RhcnQgYWRkcmVzcyBvZiB0aGUgY2h1bmsg
-d2Ugd2FudCB0byBkdW1wICovDQo+PiArICAgIGludDY0X3QgbGVuZ3RoOyAgICAgICAgICAg
-IC8qIExlbmd0aCBvZiB0aGUgZHVtcCB3ZSB3YW50IHRvIGR1bXAgKi8NCj4+DQo+PiAgICAg
-ICB1aW50OF90ICpub3RlX2J1ZjsgICAgICAgICAgLyogYnVmZmVyIGZvciBub3RlcyAqLw0K
-Pj4gICAgICAgc2l6ZV90IG5vdGVfYnVmX29mZnNldDsgICAgIC8qIHRoZSB3cml0aW5nIHBs
-YWNlIGluIG5vdGVfYnVmICovDQo+PiAtLQ0KPj4gMi4zNC4xDQo+Pg0KPiANCj4gTXkgc3Vn
-Z2VzdGlvbiBpbiB2MiByZXZpZXcgd2FzIHRvIGludHJvZHVjZSBlYWNoIGZ1bmN0aW9uICYN
-Cj4gcmVmYWN0b3JpbmcgaW5kZXBlbmRlbnRseSwgaWYgcG9zc2libGUuIEFuZCBpdCBsb29r
-cyBsaWtlIHRoZQ0KPiB2YWxpZGF0ZV9zdGFydF9ibG9jaygpIGNoYW5nZSBjb3VsZCBiZSBh
-IDNyZCBwYXRjaCB0b28uDQo+IA0KPiANCg0KQWxyaWdodCwgSSBqdXN0IHNxdWFzaGVkIGFu
-ZCBzcGxpdCB0aGlzIGludG8gNSBwYXRjaGVzOg0KICAqIEludHJvZHVjaW5nIHRoZSAyIG5l
-dyBmdW5jdGlvbnMNCiAgKiBDb252ZXJ0aW5nIGR1bXBfaXRlcmF0ZSBhbmQgcmVtb3Zpbmcg
-Z2V0X25leHRfYmxvY2sNCiAgKiBnZXRfc3RhcnRfYmxvY2sgLT4gdmFsaWRhdGVfc3RhcnRf
-YmxvY2sNCiAgKiBSZW1vdmFsIG9mIG5leHRfYmxvY2sgYW5kIHN0YXJ0IGZyb20gRHVtcFN0
-YXRlLCBsYXN0IHVzZXIgd2FzIA0KZ2V0X3N0YXJ0X2Jsb2NrDQogICogUmUtd29yayBvZiBk
-dW1wX2NhbGN1bGF0ZV9zaXplDQoNCg0KSSBkb24ndCB0aGluayB3ZSBjYW4gZWFzaWx5IGFk
-YXB0IHRvIGR1bXBfZ2V0X21lbWJsb2NrX3NpemUoKSBhbmQgDQpkdW1wX2dldF9tZW1ibG9j
-a19zdGFydCgpIGluZGVwZW5kZW50bHkuDQoNCkknbGwgYWxzbyBtb3ZlIHRoZSBEdW1wU3Rh
-dGUgY29tbWVudCBodW5rIHRvIHRoZSByZW1vdmFsIG9mIHN0YXJ0IGFuZCANCm5leHRfYmxv
-Y2sgdG9tb3Jyb3cuDQo=
+* Zhao, Zhou (zhou.zhao@intel.com) wrote:
+> Hi dainel:
+>   Cause our code depend on intel intrinsics lib implement. And this lib depend on macro like  " AVX512BW ". This macro need compile time check to enable some machine options . if you only use that utility to do runtime check ,you will met compile issue. And also if we want to save cpu time , we'd better check it in compile time.
+
+You need to do *both*:
+
+  a) You need to check at compile time to see if you have the
+intrinsics.
+  b) You need to check at runtime to see if you're running on a suitable
+CPU.
+
+Other things to note (I've not checked the algorithm yet):
+  c) The patch needs splitting up into compile checks, the algorithm,
+the tests as at least 3 patches.
+  d) The test includes a benchmark, we don't need to include a benchmark
+program in the code, just something to check it works.
+  e) The benchmark is a microbenchmark on the routine; what's it's
+effect on the whole migration - is it significant?
+  f) xbzrle isn't actually used that much these days, so I'm not sure
+generally it's worth it.
+
+Dave
+
+> -----Original Message-----
+> From: Daniel P. Berrangé <berrange@redhat.com> 
+> Sent: Thursday, July 21, 2022 11:11 PM
+> To: Xu, Ling1 <ling1.xu@intel.com>
+> Cc: qemu-devel@nongnu.org; quintela@redhat.com; dgilbert@redhat.com; Zhao, Zhou <zhou.zhao@intel.com>; Jin, Jun I <jun.i.jin@intel.com>
+> Subject: Re: [PATCH 1/1] Add AVX512 support for xbzrle_encode_buffer function
+> 
+> On Thu, Jul 21, 2022 at 06:31:47PM +0800, ling xu wrote:
+> > This commit adds AVX512 implementation of xbzrle_encode_buffer 
+> > function to accelerate xbzrle encoding speed. Compared with C version 
+> > of xbzrle_encode_buffer function,
+> > AVX512 version can achieve almost 60%-70% performance improvement on unit test provided by qemu.
+> > In addition, we provide one more unit test called 
+> > "test_encode_decode_random", in which dirty data are randomly located in 4K page, and this case can achieve almost 140% performance gain.
+> > 
+> > Signed-off-by: ling xu <ling1.xu@intel.com>
+> > Co-authored-by: Zhou Zhao <zhou.zhao@intel.com>
+> > Co-authored-by: Jun Jin <jun.i.jin@intel.com>
+> > ---
+> >  configure                | 434 ++++++++++++++++++++++++++++++++++++++-
+> >  migration/ram.c          |   6 +
+> >  migration/xbzrle.c       | 177 ++++++++++++++++
+> >  migration/xbzrle.h       |   4 +
+> >  tests/unit/test-xbzrle.c | 307 +++++++++++++++++++++++++--
+> >  5 files changed, 908 insertions(+), 20 deletions(-)
+> 
+> > diff --git a/migration/ram.c b/migration/ram.c index 
+> > 01f9cc1d72..3b931c325f 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -747,9 +747,15 @@ static int save_xbzrle_page(RAMState *rs, uint8_t **current_data,
+> >      memcpy(XBZRLE.current_buf, *current_data, TARGET_PAGE_SIZE);
+> >  
+> >      /* XBZRLE encoding (if there is no overflow) */
+> > +    #if defined(__x86_64__) && defined(__AVX512BW__)
+> > +    encoded_len = xbzrle_encode_buffer_512(prev_cached_page, XBZRLE.current_buf,
+> > +                                       TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
+> > +                                       TARGET_PAGE_SIZE);
+> > +    #else
+> >      encoded_len = xbzrle_encode_buffer(prev_cached_page, XBZRLE.current_buf,
+> >                                         TARGET_PAGE_SIZE, XBZRLE.encoded_buf,
+> >                                         TARGET_PAGE_SIZE);
+> > +    #endif
+> 
+> Shouldn't we be deciding which impl using a runtime check of the current CPUID, rather than a compile time check ? I'm thinking along the lines of what util/bufferiszero.c does to select different optimized versions based on CPUID. The build host CPU features can't be expected to match the runtime host CPU features.
+> 
+> 
+> With regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
