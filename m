@@ -2,81 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 846BC57D163
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:21:51 +0200 (CEST)
-Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F069857D17A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:28:41 +0200 (CEST)
+Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEYvu-0003Gw-3q
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39256)
+	id 1oEZ2W-0000V9-I5
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:28:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEYmf-0008H6-3j
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:12:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:42664)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oEZ0N-0006Cb-G5; Thu, 21 Jul 2022 12:26:27 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEYmY-0002T4-U1
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:12:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658419929;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sMss3eXyf/u8yhq4Lv5ncQwVaareB7wwCo/6e9I5p4E=;
- b=Fn/HmokaJ4lr/PwTGkYI/dUNFMZ7TYfpukyXAQPec6oOS7GxN3EtGikEVvwRlQGvf/0zPO
- BM+OAlaE9+MDqiXbqWn9OLTsh3pdSDsI72TlC3532Rec1qpFEXByvX/bkHQA0Yq080B5MW
- px3UbXier3s03Emwkf6MlACq+IzsafM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-FomhUODUMumVXOqTBfPZCw-1; Thu, 21 Jul 2022 12:12:06 -0400
-X-MC-Unique: FomhUODUMumVXOqTBfPZCw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B7CC1C05EAA;
- Thu, 21 Jul 2022 16:12:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D30682026D64;
- Thu, 21 Jul 2022 16:12:04 +0000 (UTC)
-Date: Thu, 21 Jul 2022 17:12:02 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- yc-core@yandex-team.ru, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-Message-ID: <Ytl60qIaIIW5ngh8@redhat.com>
-References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
- <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
- <5bc2fcee-2c5d-c400-5992-e2b4ce828477@ilande.co.uk>
- <Ytlii7t0rERVJBXo@rvkaganb>
- <f85ae904-4a31-141d-17dd-43c5a27d9b07@ilande.co.uk>
- <Ytl3SKpbnp8Twtkq@redhat.com>
- <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oEZ0K-0005ra-Om; Thu, 21 Jul 2022 12:26:27 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LFrxcg006098;
+ Thu, 21 Jul 2022 16:26:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : to : cc : references : from : subject : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=dmq2j0007E0AJ6zsZ3bXtdPVxe8A0fv7RMw8gWX4p5g=;
+ b=K8QFw/N4FhObAl8MSKy0KpCzil3EU0MjQPYPeDbroKghhp6esWMUUmt7VCUP/XHLSyXK
+ knUtXg6TbjGKfWSPFIiwXVCutyojrubLhCNUPct3DAy8BPONTFsLm0vNgvHJZR6BCGJX
+ LwskRHLfVblviccFlrEK2aKv6BhJp9yxMcZzhwuyumzY/nX6b5ZT0XK40Hdqzjdz87Wv
+ OIKythLWiIihTe5tYjuyXT8NiZoghsWLDmf+4t8WEFcwUbITNj33DTMHOrfCrLiOe36/
+ /FfAdGMciejCDfhwF/rdefQOiS8d2LamVMZYoH7rUICCsJ37ENibZpai7xc5fx6P3/4B Cg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9um8u39-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jul 2022 16:26:21 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LGAZEP030128;
+ Thu, 21 Jul 2022 16:26:20 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9um8u2b-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jul 2022 16:26:20 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LGLKl3007482;
+ Thu, 21 Jul 2022 16:26:18 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma02fra.de.ibm.com with ESMTP id 3hbmy8yb36-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jul 2022 16:26:18 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26LGORSZ18481526
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Jul 2022 16:24:27 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8ADFCA405F;
+ Thu, 21 Jul 2022 16:26:15 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F7A7A4054;
+ Thu, 21 Jul 2022 16:26:15 +0000 (GMT)
+Received: from [9.145.177.237] (unknown [9.145.177.237])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Jul 2022 16:26:14 +0000 (GMT)
+Message-ID: <9a382a24-a921-1544-46e6-92c919f634fa@linux.ibm.com>
+Date: Thu, 21 Jul 2022 18:26:14 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo"
+ <pbonzini@redhat.com>, mhartmay@linux.ibm.com,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ imbrenda@linux.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ seiden@linux.ibm.com
+References: <20220721132256.2171-1-frankja@linux.ibm.com>
+ <20220721132256.2171-4-frankja@linux.ibm.com>
+ <CAMxuvaya0AiW1yvSab_jynHNn+=w2LZhGdgnm6OY6UwSf24YZA@mail.gmail.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+Subject: Re: [PATCH v3 03/14] dump: Convert GuestPhysBlock iterators and use
+ the filter functions
+In-Reply-To: <CAMxuvaya0AiW1yvSab_jynHNn+=w2LZhGdgnm6OY6UwSf24YZA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: dYYUfESzuymPp6y-i11TCIZWXxNOw566
+X-Proofpoint-GUID: 1gv7HTmMpw6fGVbKJJLl2SsglbIVocvu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-21_22,2022-07-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 mlxscore=0 bulkscore=0
+ lowpriorityscore=0 adultscore=0 phishscore=0 mlxlogscore=999 clxscore=1015
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207210061
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,68 +121,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 05:05:38PM +0100, Mark Cave-Ayland wrote:
-> On 21/07/2022 16:56, Daniel P. Berrangé wrote:
-> 
-> > On Thu, Jul 21, 2022 at 04:51:51PM +0100, Mark Cave-Ayland wrote:
-> > > On 21/07/2022 15:28, Roman Kagan wrote:
-> > > 
-> > > (lots cut)
-> > > 
-> > > > In the guest (Fedora 34):
-> > > > 
-> > > > [root@test ~]# lspci -tv
-> > > > -[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
-> > > >              +-01.0  Device 1234:1111
-> > > >              +-02.0  Red Hat, Inc. QEMU XHCI Host Controller
-> > > >              +-05.0-[01]----00.0  Red Hat, Inc. Virtio block device
-> > > >              +-05.1-[02]----00.0  Red Hat, Inc. Virtio network device
-> > > >              +-05.2-[03]--
-> > > >              +-05.3-[04]--
-> > > >              +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface Controller
-> > > >              \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus Controller
-> > > > 
-> > > > Changing addr of the second disk from 4 to 0 makes it appear in the
-> > > > guest.
-> > > > 
-> > > > What exactly do you find odd?
-> > > 
-> > > Thanks for this, the part I wasn't sure about was whether the device ids in
-> > > the command line matched the primary PCI bus or the secondary PCI bus.
-> > > 
-> > > In that case I suspect that the enumeration of non-zero PCIe devices fails
-> > > in Linux because of the logic here:
-> > > https://github.com/torvalds/linux/blob/master/drivers/pci/probe.c#L2622.
-> > 
-> > Just above that though is logic that handles 'pci=pcie_scan_all'
-> > kernel parameter, to make it look for non-zero devices.
-> > 
-> > > I don't have a copy of the PCIe specification, but assuming the comment is
-> > > true then your patch looks correct to me. I think it would be worth adding a
-> > > similar comment and reference to your patch to explain why the logic is
-> > > required, which should also help the PCI maintainers during review.
-> > 
-> > The docs above with the pci=pcie_scan_all suggest it is unusual but not
-> > forbidden.
-> 
-> That's interesting as I read it completely the other way around, i.e. PCIe
-> downstream ports should only have device 0 and the PCI_SCAN_ALL_PCIE_DEVS
-> flag is there for broken/exotic hardware :)
-
-If someone wants to test their guest OS on exotic hardware configs,
-shouldn't QEMU let them make such a configuration ? Reproducing
-unsual hardware configs when you don't have physical access to real
-hardware is one of the benefits of having QEMU available.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+T24gNy8yMS8yMiAxNjozNiwgTWFyYy1BbmRyw6kgTHVyZWF1IHdyb3RlOg0KWy4uXQ0KPj4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvc3lzZW11L2R1bXAuaCBiL2luY2x1ZGUvc3lzZW11L2R1
+bXAuaA0KPj4gaW5kZXggMmIzOWFiZWVhZS4uNzAyNWU1MDY4MiAxMDA2NDQNCj4+IC0tLSBh
+L2luY2x1ZGUvc3lzZW11L2R1bXAuaA0KPj4gKysrIGIvaW5jbHVkZS9zeXNlbXUvZHVtcC5o
+DQo+PiBAQCAtMTY2LDExICsxNjYsMTAgQEAgdHlwZWRlZiBzdHJ1Y3QgRHVtcFN0YXRlIHsN
+Cj4+ICAgICAgIGh3YWRkciBtZW1vcnlfb2Zmc2V0Ow0KPj4gICAgICAgaW50IGZkOw0KPj4N
+Cj4+IC0gICAgR3Vlc3RQaHlzQmxvY2sgKm5leHRfYmxvY2s7DQo+PiAtICAgIHJhbV9hZGRy
+X3Qgc3RhcnQ7DQo+PiAtICAgIGJvb2wgaGFzX2ZpbHRlcjsNCj4+IC0gICAgaW50NjRfdCBi
+ZWdpbjsNCj4+IC0gICAgaW50NjRfdCBsZW5ndGg7DQo+PiArICAgIC8qIEd1ZXN0IG1lbW9y
+eSByZWxhdGVkIGRhdGEgKi8NCj4+ICsgICAgYm9vbCBoYXNfZmlsdGVyOyAgICAgICAgICAg
+LyogQXJlIHdlIGR1bXBpbmcgcGFydHMgb2YgdGhlIG1lbW9yeT8gKi8NCj4+ICsgICAgaW50
+NjRfdCBiZWdpbjsgICAgICAgICAgICAgLyogU3RhcnQgYWRkcmVzcyBvZiB0aGUgY2h1bmsg
+d2Ugd2FudCB0byBkdW1wICovDQo+PiArICAgIGludDY0X3QgbGVuZ3RoOyAgICAgICAgICAg
+IC8qIExlbmd0aCBvZiB0aGUgZHVtcCB3ZSB3YW50IHRvIGR1bXAgKi8NCj4+DQo+PiAgICAg
+ICB1aW50OF90ICpub3RlX2J1ZjsgICAgICAgICAgLyogYnVmZmVyIGZvciBub3RlcyAqLw0K
+Pj4gICAgICAgc2l6ZV90IG5vdGVfYnVmX29mZnNldDsgICAgIC8qIHRoZSB3cml0aW5nIHBs
+YWNlIGluIG5vdGVfYnVmICovDQo+PiAtLQ0KPj4gMi4zNC4xDQo+Pg0KPiANCj4gTXkgc3Vn
+Z2VzdGlvbiBpbiB2MiByZXZpZXcgd2FzIHRvIGludHJvZHVjZSBlYWNoIGZ1bmN0aW9uICYN
+Cj4gcmVmYWN0b3JpbmcgaW5kZXBlbmRlbnRseSwgaWYgcG9zc2libGUuIEFuZCBpdCBsb29r
+cyBsaWtlIHRoZQ0KPiB2YWxpZGF0ZV9zdGFydF9ibG9jaygpIGNoYW5nZSBjb3VsZCBiZSBh
+IDNyZCBwYXRjaCB0b28uDQo+IA0KPiANCg0KQWxyaWdodCwgSSBqdXN0IHNxdWFzaGVkIGFu
+ZCBzcGxpdCB0aGlzIGludG8gNSBwYXRjaGVzOg0KICAqIEludHJvZHVjaW5nIHRoZSAyIG5l
+dyBmdW5jdGlvbnMNCiAgKiBDb252ZXJ0aW5nIGR1bXBfaXRlcmF0ZSBhbmQgcmVtb3Zpbmcg
+Z2V0X25leHRfYmxvY2sNCiAgKiBnZXRfc3RhcnRfYmxvY2sgLT4gdmFsaWRhdGVfc3RhcnRf
+YmxvY2sNCiAgKiBSZW1vdmFsIG9mIG5leHRfYmxvY2sgYW5kIHN0YXJ0IGZyb20gRHVtcFN0
+YXRlLCBsYXN0IHVzZXIgd2FzIA0KZ2V0X3N0YXJ0X2Jsb2NrDQogICogUmUtd29yayBvZiBk
+dW1wX2NhbGN1bGF0ZV9zaXplDQoNCg0KSSBkb24ndCB0aGluayB3ZSBjYW4gZWFzaWx5IGFk
+YXB0IHRvIGR1bXBfZ2V0X21lbWJsb2NrX3NpemUoKSBhbmQgDQpkdW1wX2dldF9tZW1ibG9j
+a19zdGFydCgpIGluZGVwZW5kZW50bHkuDQoNCkknbGwgYWxzbyBtb3ZlIHRoZSBEdW1wU3Rh
+dGUgY29tbWVudCBodW5rIHRvIHRoZSByZW1vdmFsIG9mIHN0YXJ0IGFuZCANCm5leHRfYmxv
+Y2sgdG9tb3Jyb3cuDQo=
 
