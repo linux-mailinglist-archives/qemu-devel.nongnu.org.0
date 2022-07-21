@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39BDE57CA84
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:16:43 +0200 (CEST)
-Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0846657CA93
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:22:28 +0200 (CEST)
+Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEV6f-00075Z-8i
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:16:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59438)
+	id 1oEVCE-0005lL-QP
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:22:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyN-0002cF-Sc
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27894)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
+ id 1oEV75-0007uR-Pn
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:17:10 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:51146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyJ-0000zz-AU
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658405282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d7w36JqEwtEyECpPl6nXdvmSWboGE6jsZbpoi6KrEN0=;
- b=CzBHqhTQ8qqofCa6dhFaNP1OIFdqxOxg53Gp3ZxTfHVhKRrcG4+cAb6P32CjYl07vow1pF
- PsJQuQR2Rr0MXaSkAS/VLkefPNs9vX11KhYDZvkWR1A73/m0AiRWgi7LL/HYm5nKNuPFga
- z7uBRprn5ZNdvW1QVn8UHSbZQy2vxxI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-3_ooOJgiMdOQghXspDUV_g-1; Thu, 21 Jul 2022 08:07:59 -0400
-X-MC-Unique: 3_ooOJgiMdOQghXspDUV_g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
+ id 1oEV73-0002i6-Lm
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:17:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F03853C138A9;
- Thu, 21 Jul 2022 12:07:58 +0000 (UTC)
-Received: from t480s.fritz.box (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 445722026D64;
- Thu, 21 Jul 2022 12:07:55 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: David Hildenbrand <david@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ by ams.source.kernel.org (Postfix) with ESMTPS id B4B2EB82296;
+ Thu, 21 Jul 2022 12:17:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EFDCC3411E;
+ Thu, 21 Jul 2022 12:16:59 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="KYB+yh0V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658405817;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MOmr6KWSnCZySIuDvw3CF//8OIX8CYKJBKT8/oE9wCU=;
+ b=KYB+yh0VOWv+rHbnWWtdr1521EWXgQXmKmC8V+Gxpn4zqiUoe7dHwZbpE7yKTP6ig9CKLt
+ 3hh0C+OFWQcq+meWx2VRF3b3OhEh3hLqmXQCE6JU7lEMuIAKUpQ1VO89w6Kt7agy/wmp5G
+ 53sbErfRs+P7uKpJP1tGYy+ZqXGBF1Y=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9344b3a3
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Thu, 21 Jul 2022 12:16:57 +0000 (UTC)
+Date: Thu, 21 Jul 2022 14:16:53 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH RFC 7/7] vl: Allow ThreadContext objects to be created before
- the sandbox option
-Date: Thu, 21 Jul 2022 14:07:32 +0200
-Message-Id: <20220721120732.118133-8-david@redhat.com>
-In-Reply-To: <20220721120732.118133-1-david@redhat.com>
-References: <20220721120732.118133-1-david@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v6] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <YtlDtSlRel1UUd71@zx2c4.com>
+References: <20220721104730.434017-1-Jason@zx2c4.com>
+ <20220721104950.434544-1-Jason@zx2c4.com>
+ <20220721065744-mutt-send-email-mst@kernel.org>
+ <1ee57e75-94a1-cf75-7d49-0d399607fee9@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1ee57e75-94a1-cf75-7d49-0d399607fee9@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,128 +88,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, there is no way to configure a CPU affinity inside QEMU when
-the sandbox option disables it for QEMU as a whole, for example, via:
-    -sandbox enable=on,resourcecontrol=deny
+Hi Paolo,
 
-While ThreadContext objects can be created on the QEMU commandline and
-the CPU affinity can be configured externally via the thread-id, this is
-insufficient if a ThreadContext with a certain CPU affinity is already
-required during QEMU startup, before we can intercept QEMU and
-configure the CPU affinity.
+On Thu, Jul 21, 2022 at 01:47:02PM +0200, Paolo Bonzini wrote:
+> On 7/21/22 13:00, Michael S. Tsirkin wrote:
+> > Well why not.
+> > 
+> > Reviewed-by: Michael S. Tsirkin<mst@redhat.com>
+> > 
+> > who's merging this? Paolo me or you?
+> 
+> I don't think this should be merged as is.
+> 
+> The linuxboot ROM takes the data from fw_cfg, and (with the exception of 
+> ACPI tables) that data is not migrated.  Because reading it into the 
+> guest is not atomic, both sides must match.  This version of the patches 
+> at least doesn't move the preexisting DTB entry of the setup_data, but 
+> it still has a mismatching size and that can be a problem when migrating 
+> backwards.
 
-Blocking sched_setaffinity() was introduced in 24f8cdc57224 ("seccomp:
-add resourcecontrol argument to command line"), "to avoid any bigger of the
-process". However, we only care about once QEMU is running, not when
-the instance starting QEMU explicitly requests a certain CPU affinity
-on the QEMU comandline.
+As discussed online, this seems absolutely preposterous and will never
+happen anywhere real ever at all. Trying to account for it is adding
+needless complexity for no real world benefit; it's the type of thinking
+that results in a mess. Further, conditionalizing the RNG seed on
+something else means fewer users receive the increased security of
+having an early boottime seed. This seems like a silly direction go go
+in.
 
-Right now, for NUMA-aware preallocation of memory backends used for initial
-machine RAM, one has to:
+But to assess things in the open here:
+- On upgrades, there's no problem because the old bytes don't move.
+- On downgrades, there's mostly no problem because next will point to 0.
+- On downgrade there could be some ridiculous theoretical problem if the
+  reader has already read a non-zero next. But this will never actually
+  happen in practice.
 
-1) Start QEMU with the memory-backend with "prealloc=off"
-2) Pause QEMU before it starts the guest (-S)
-3) Create ThreadContext, configure the CPU affinity using the thread-id
-4) Configure the ThreadContext as "prealloc-context" of the memory
-   backend
-5) Trigger preallocation by setting "prealloc=on"
+So we really should just stick with the simple and straight forward path
+that this v6 accomplishes, and not muck things up with stupidity.
 
-To simplify this handling especially for initial machine RAM,
-allow creation of ThreadContext objects before parsing sandbox options,
-such that the CPU affinity requested on the QEMU commandline alongside the
-sandbox option can be set. As ThreadContext objects essentially only create
-a persistant context thread and set the CPU affinity, this is easily
-possible.
-
-With this change, we can create a ThreadContext with a CPU affinity on
-the QEMU commandline and use it for preallocation of memory backends
-glued to the machine (simplified example):
-
-qemu-system-x86_64 -m 1G \
- -object thread-context,id=tc1,cpu-affinity=3-4 \
- -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1 \
- -machine memory-backend=pc.ram \
- -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
-
-And while we can query the current CPU affinity:
-  (qemu) qom-get tc1 cpu-affinity
-  [
-      3,
-      4
-  ]
-
-We can no longer change it from QEMU directly:
-  (qemu) qom-set tc1 cpu-affinity 1-2
-  Error: Setting CPU affinity failed: Operation not permitted
-
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- softmmu/vl.c | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
-
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index aabd82e09a..252732cf5d 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -1761,6 +1761,27 @@ static void object_option_parse(const char *optarg)
-     visit_free(v);
- }
- 
-+/*
-+ * Very early object creation, before the sandbox options have been activated.
-+ */
-+static bool object_create_pre_sandbox(const char *type)
-+{
-+    /*
-+     * Objects should in general not get initialized "too early" without
-+     * a reason. If you add one, state the reason in a comment!
-+     */
-+
-+    /*
-+     * Reason: -sandbox on,resourcecontrol=deny disallows setting CPU
-+     * affinity of threads.
-+     */
-+    if (g_str_equal(type, "thread-context")) {
-+        return true;
-+    }
-+
-+    return false;
-+}
-+
- /*
-  * Initial object creation happens before all other
-  * QEMU data types are created. The majority of objects
-@@ -1775,6 +1796,11 @@ static bool object_create_early(const char *type)
-      * add one, state the reason in a comment!
-      */
- 
-+    /* Reason: already created. */
-+    if (object_create_pre_sandbox(type)) {
-+        return false;
-+    }
-+
-     /* Reason: property "chardev" */
-     if (g_str_equal(type, "rng-egd") ||
-         g_str_equal(type, "qtest")) {
-@@ -1895,7 +1921,7 @@ static void qemu_create_early_backends(void)
-  */
- static bool object_create_late(const char *type)
- {
--    return !object_create_early(type);
-+    return !object_create_early(type) && !object_create_pre_sandbox(type);
- }
- 
- static void qemu_create_late_backends(void)
-@@ -2365,6 +2391,8 @@ static int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
- 
- static void qemu_process_early_options(void)
- {
-+    object_option_foreach_add(object_create_pre_sandbox);
-+
- #ifdef CONFIG_SECCOMP
-     QemuOptsList *olist = qemu_find_opts_err("sandbox", NULL);
-     if (olist) {
--- 
-2.35.3
-
+Jason
 
