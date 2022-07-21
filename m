@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C7F57D22A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 19:03:05 +0200 (CEST)
-Received: from localhost ([::1]:53764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8F957D22F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 19:05:12 +0200 (CEST)
+Received: from localhost ([::1]:57132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEZZo-0003Zu-GQ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 13:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51018)
+	id 1oEZbr-0005wW-7W
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 13:05:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oEZHb-0002sW-GS
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:44:15 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:47260)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oEZXN-0001HA-TV
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:00:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oEZHY-0000b2-V5
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:44:14 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id D418661E12
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 16:44:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1CCCC341C6
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 16:44:08 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="cBPSUioJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658421847;
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oEZXJ-0003qP-3G
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:00:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658422827;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y4Mn2T+kz2DR3aFbdB7ruRYQGIVbKFxd8UWsxO4EdOs=;
- b=cBPSUioJAcURpA8v3CG+8jz5Zlmzr/by+N6dTUnrgpL73bFXg2IDU1QgXuEkUPCsAZpsiE
- RmqIx8rgDDNzqZjDJlcqq3+RDqs9IO9JhumKhYxb43uV3vub9bMewU22kpgVzF9HCtSE46
- AgFYS8KhpT3/Kc56pb8fFQkB179/YoA=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4cf2f64e
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Thu, 21 Jul 2022 16:44:06 +0000 (UTC)
-Received: by mail-qt1-f182.google.com with SMTP id u12so1708840qtk.0
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 09:44:06 -0700 (PDT)
-X-Gm-Message-State: AJIora8xA2Hs+xc5JIqbnUgJzhp6U7kq1kDQQgV0RwX3jBXHqYvKOKW+
- x8h6dtUYTmP5RKNOD8STWoq682uwaiJKY6P7Evc=
-X-Google-Smtp-Source: AGRyM1uaVBYbqcaaIYV7PCIeMg8CHSMqkg1i+BPaRuZYET9Yx1nTj7ICPMx17HOK7eXSdb3mRJeYXtwmynHE6vnAEGg=
-X-Received: by 2002:a05:622a:86:b0:31e:9b00:68ba with SMTP id
- o6-20020a05622a008600b0031e9b0068bamr35262297qtw.390.1658421845648; Thu, 21
- Jul 2022 09:44:05 -0700 (PDT)
+ bh=Ryy2otNmGAL7oztYCI6XS9dEvSYiqgls3vd3aQK5IIQ=;
+ b=iXH5iJ9ik71qJBxRSo88OghKUn7+Q6HF+IZq0dny6YoFhstz4q92PajBWPMywcH+SyqMPx
+ nOUItqvtfbok+7mtdMaUpynz/eL6CFeMNz6zcj2k4hIXKUm/fXCP1ZUzkLG1JPI+k18HEX
+ /IdOAhK2OpFqaJKm891171KKymuseyg=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-274-AtapV9H2M6iwsOx09itB-A-1; Thu, 21 Jul 2022 13:00:26 -0400
+X-MC-Unique: AtapV9H2M6iwsOx09itB-A-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ ay25-20020a05622a229900b0031ef5fdf8f8so1385139qtb.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 10:00:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Ryy2otNmGAL7oztYCI6XS9dEvSYiqgls3vd3aQK5IIQ=;
+ b=FjkohbtJNPf9kNjBcEu9Ng8+UtpDRamE9EFHE8UfhkkdwtdkNxuAhjA8glOP7XBIRy
+ 8uiiNyL9SRM0o05ieX7koFLJ+nWTVv4LrkX/fWaTwVsBM3cjwHvaIRRBu5YzuOfGkKjB
+ zaPSZr47Qhu8IXVgSZCGa5L0o+2pqaWe2Bg6nBNVyCYDLy4Txab2gn5kMy7mcMdpBU5/
+ a/BbMAw3Efs1Sq/GVIpXFUW9SpRH+Er4NdTID0Tmnc3EIkgsm9MW4nepRVjmE2G+X0ld
+ SlVNAGkghCNYeSn1PasKehFkFBREjVsIBm4usqXGBFfyXfLLPByRgiaPppMwu6uI0dT7
+ U2gw==
+X-Gm-Message-State: AJIora97EcFdK3CkqTKVh31C5OmRhnc8yD8jICqhxIDILuZeo2MTY7GW
+ 1iOWp6kNA+KX/4VnVGp5OoO6lenPUlT77Wisj41H3yWnzlETm0jUBkh63kdstsOAPtIODMv79mi
+ a8icaiNZJY2Q5t3v0As6LdIGXYCDFZrQ=
+X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
+ o19-20020a05620a2a1300b006b5c197d565mr24894349qkp.255.1658422825240; 
+ Thu, 21 Jul 2022 10:00:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tnrd05rwPVPhN+Od/WeOCtvhGEQH6mJaZnXFBzlWUmL+yy9wU8bpA4P5IEQT019hk8vORMmF3QHyFxcCOXaSA=
+X-Received: by 2002:a05:620a:2a13:b0:6b5:c197:d565 with SMTP id
+ o19-20020a05620a2a1300b006b5c197d565mr24894314qkp.255.1658422824948; Thu, 21
+ Jul 2022 10:00:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719122334.136290-1-Jason@zx2c4.com>
- <CAJy5ezq7_F6uDrY6RuXe5ru0mAbmx-pBTQoFCtZj4DhEM7EZpw@mail.gmail.com>
-In-Reply-To: <CAJy5ezq7_F6uDrY6RuXe5ru0mAbmx-pBTQoFCtZj4DhEM7EZpw@mail.gmail.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Thu, 21 Jul 2022 18:43:54 +0200
-X-Gmail-Original-Message-ID: <CAHmME9opYzwtK4oJo1bZo+9FDbXt6TfgybtFTfQpxqx6pOoGWA@mail.gmail.com>
-Message-ID: <CAHmME9opYzwtK4oJo1bZo+9FDbXt6TfgybtFTfQpxqx6pOoGWA@mail.gmail.com>
-Subject: Re: [PATCH] hw/microblaze: pass random seed to fdt
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220721164331.3328625-1-eperezma@redhat.com>
+In-Reply-To: <20220721164331.3328625-1-eperezma@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 21 Jul 2022 18:59:49 +0200
+Message-ID: <CAJaqyWdtEVYOYunaYSGGJChvt6H9orKLRd7ghn05V7vhwv7Jxg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] Control VQ is the way net devices use to send changes
+ to the device state, like
+To: qemu-level <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Cornelia Huck <cohuck@redhat.com>, 
+ Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Liuxiangdong <liuxiangdong5@huawei.com>, Parav Pandit <parav@mellanox.com>, 
+ Eli Cohen <eli@mellanox.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,25 +101,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hey Edgar,
+On Thu, Jul 21, 2022 at 6:53 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+ote:
+>
+>
+> QEMU needs to intercept this queue so it can track these changes and is a=
+ble to
+> migrate the device. It can do it from 1576dbb5bbc4 ("vdpa: Add x-svq to
+> NetdevVhostVDPAOptions"). However, to enable x-svq implies to shadow all =
+VirtIO
+> device's virtqueues, which will damage performance.
+>
+> This series adds address space isolation, so the device and the guest
+> communicate directly with them (passthrough) and CVQ communication is spl=
+it in
+> two: The guest communicates with QEMU and QEMU forwards the commands to t=
+he
+> device.
+>
+> This series is based on [1], although each one of them adds a feature on
+> isolation and could be merged individually once conflicts are solved.
+>
+> Comments are welcome. Thanks!
+>
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2022-07/msg03101.htm=
+l
+>
 
-On Wed, Jul 20, 2022 at 9:13 AM Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
->
-> On Tue, Jul 19, 2022 at 2:23 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->>
->> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
->> initialize early. Set this using the usual guest random number
->> generation function. This FDT node is part of the DT specification.
->
->
-> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
+The title of this series should be "vDPA net ASID support" or
+something like that, I forgot that first line by mistake.
 
-Thanks for looking at this. Paolo (CC'd) just sent a few similar
-changes for different archs in a pull, but not this one, on the
-supposition that you'd roll this into your next pull. If this isn't
-the case, please pipe up so Paolo can take it instead later.
+Should I resend it or can it stay like that?
 
-Jason
+Thanks!
+
 
