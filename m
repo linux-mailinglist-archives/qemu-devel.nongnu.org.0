@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD20557D1D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:44:35 +0200 (CEST)
-Received: from localhost ([::1]:46772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE2657D1AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 18:40:01 +0200 (CEST)
+Received: from localhost ([::1]:34356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEZHu-0003SX-S6
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:44:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48192)
+	id 1oEZDU-0003Bh-HS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 12:40:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEZAE-00072r-SQ
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:36:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53578)
+ id 1oEZA9-0006xE-MU
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:36:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEZAA-0007g0-Kg
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:36:38 -0400
+ id 1oEZA6-0007fa-Qv
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 12:36:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658421393;
+ s=mimecast20190719; t=1658421390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ke5vqcgkudsqCwZBZaVUTP9XipH1T55BwyTUX5P4f4=;
- b=GnbM2NY7Gc3N/S5sTiaWj9LqwCxdDSMPSr5vp85njUUnuSejGvIXg2Pcy15UV2K7CdnxRn
- l3MxROSsunVvqK0MmqKoxmEZM9DQjCuhFK/DVmOy3j7TuoVXSCBLP0xzSfuA2J9cwY9G7l
- gYMkVdQISjfmRs8Vt1w+ddSMYfbRZp0=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=xBu5tHYZdH4qg2e4NKv+20LCbKvedmiAv3FHARj7E+c=;
+ b=cp/OQhhCG3h9xuSCwnmZN/N6ecyFC9dQlgHc2/GzUG5O4C/C7+P7q7BUNUc4dZYLjjDVvI
+ mey0et+EeCB4LCvjEhO2ziNDaRkbJ9DCW4nC/z53YMFQtdrzurrO+wIPrNRF/yRcGWFsRT
+ L/uSD9rgbVhbbnLO0mCC0KXeSTTFrMo=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-Jk_H96WhPjS-A5GaUGClFw-1; Thu, 21 Jul 2022 12:36:26 -0400
-X-MC-Unique: Jk_H96WhPjS-A5GaUGClFw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- w13-20020a05640234cd00b0043a991fb3f3so1440533edc.3
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 09:36:26 -0700 (PDT)
+ us-mta-290-8_NBZV2VMli4BFlsKootrw-1; Thu, 21 Jul 2022 12:36:28 -0400
+X-MC-Unique: 8_NBZV2VMli4BFlsKootrw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ hb41-20020a170907162900b0072f044ca263so980152ejc.15
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 09:36:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9ke5vqcgkudsqCwZBZaVUTP9XipH1T55BwyTUX5P4f4=;
- b=xSml7wcySEMSMsMfjdAr1YgJW48ec1gQDjZLut5dcHle+g8ENRodqiOtzaR3AJ6G5i
- L+2SJyliBSnb8V9B7GI5NFY+BmmT3cUxrFikB3ctfpwSXiNPUDy3qiX+vhSVhQKTNs+h
- TPusQ3SND/d0RsQEDakkmBYbia3PwKVoJl9nV4thcVfhP3tBicJqGuTEdLObqPP4rhxV
- Y/Ii7+OGjLcC3yLOiJbkmWYWG9i5wGkp3a0xVUpqaCIiaKiLJOvERM97c6rjAxrgfEnw
- hIq211FGwRAE/jIblVpjllEzdtvhluB9SvsU9Ft4ben1U0PYNVGBCMjZUxo/3mF2Bio5
- yHrQ==
-X-Gm-Message-State: AJIora/U12pmoVeqo+YpD/BjPDoI1YJ2OPb91n8K4vqMtQOQgitaPWYL
- DW0CjLLr1+0fJFtWDMkuFqxvho6zrs8U/H/KTb6bTIyvUMUtEFaDYocZpblx4pL7ay6i4Z7iJnF
- 9TnRT0Bj8L/+IXo7hNChHq8NZxwHILaVb3ev+EUt+FZiwM6EDmHZGIbGqr4rnGSS1Jns=
-X-Received: by 2002:a05:6402:3681:b0:43a:7c29:466a with SMTP id
- ej1-20020a056402368100b0043a7c29466amr57623796edb.367.1658421385042; 
- Thu, 21 Jul 2022 09:36:25 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vrR67aaERgCV8K/IGg/kMVVYfDc281Z+cW6giJ0r3R76zzpBw9oVw4vRKK4CbabOVwm5Li7A==
-X-Received: by 2002:a05:6402:3681:b0:43a:7c29:466a with SMTP id
- ej1-20020a056402368100b0043a7c29466amr57623758edb.367.1658421384739; 
- Thu, 21 Jul 2022 09:36:24 -0700 (PDT)
+ bh=xBu5tHYZdH4qg2e4NKv+20LCbKvedmiAv3FHARj7E+c=;
+ b=CygRwmNIpQbkVqWv08x2lyemo32qdzSnDGpzZ0iL63rwmsBcFewgnSA2+4FJ/fqz++
+ 80UznA8pMMcOYz8nbf15ZvUlmOQymAy56ppi6MTK0VVBPdu4fLcCldAHMx+Ep8OgNjsn
+ 8FQMwSfj8oSXzLxx8JA2H1ipoD3PcPGhz+Ny8sY7M/fgEYzrBu1WmlOAn3bXKREpwdUM
+ //qlJjlqUTU/j45Sy3WLNDkop6o10PMDJ0VkDhRAItqiO2n+iSzGtGovAL8SgrNXA1rN
+ ix9bEDEhKmHzG3EVYkqYGzWvVEGRhuc5lodAEBOyUcsdUhq7YYCPQg8LWuWwJc4Mzsiz
+ NtIw==
+X-Gm-Message-State: AJIora/nx//8Cv9WwYCZuFy0Q1+ws2eovKMdh8Zez2hPrTHFTKBJDAK1
+ eeYBuJAMJhYSyy1btjqR0ksjJ3HCjj5veVBC6NE/LvK2OxfyqtiZIqF0YqGDSC7fp2Hj+5TDwex
+ y1ZGt4Zjrh1zx4U6Q40T7V/2ZCdF0/kjRbfC1kbhkN/i/D+dmqv+q8iZp4MdyukY2xQo=
+X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id
+ nb10-20020a1709071c8a00b006e92a0dd7b7mr40351288ejc.572.1658421387280; 
+ Thu, 21 Jul 2022 09:36:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uKrjJ30MY4FB1Z1QbwohiKQ/rnVwG4gEnDRY9w9E+SuQGrjBJHSAYGmwP4mDGFXu3AcV4R3Q==
+X-Received: by 2002:a17:907:1c8a:b0:6e9:2a0d:d7b7 with SMTP id
+ nb10-20020a1709071c8a00b006e92a0dd7b7mr40351274ejc.572.1658421387030; 
+ Thu, 21 Jul 2022 09:36:27 -0700 (PDT)
 Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- u1-20020a1709061da100b00722e50dab2csm1017972ejh.109.2022.07.21.09.36.24
+ a18-20020a170906191200b0072ee9790894sm985334eje.197.2022.07.21.09.36.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 09:36:24 -0700 (PDT)
+ Thu, 21 Jul 2022 09:36:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: [PULL 1/9] docs: Add caveats for Windows as the build platform
-Date: Thu, 21 Jul 2022 18:36:13 +0200
-Message-Id: <20220721163621.761513-2-pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 2/9] accel/kvm: Avoid Coverity warning in query_stats()
+Date: Thu, 21 Jul 2022 18:36:14 +0200
+Message-Id: <20220721163621.761513-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220721163621.761513-1-pbonzini@redhat.com>
 References: <20220721163621.761513-1-pbonzini@redhat.com>
@@ -99,56 +98,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Commit cf60ccc3306c ("cutils: Introduce bundle mechanism") introduced
-a Python script to populate a bundle directory using os.symlink() to
-point to the binaries in the pc-bios directory of the source tree.
-Commit 882084a04ae9 ("datadir: Use bundle mechanism") removed previous
-logic in pc-bios/meson.build to create a link/copy of pc-bios binaries
-in the build tree so os.symlink() is the way to go.
+Coverity complains that there is a codepath in the query_stats()
+function where it can leak the memory pointed to by stats_list.  This
+can only happen if the caller passes something other than
+STATS_TARGET_VM or STATS_TARGET_VCPU as the 'target', which no
+callsite does.  Enforce this assumption using g_assert_not_reached(),
+so that if we have a future bug we hit the assert rather than
+silently leaking memory.
 
-However os.symlink() may fail [1] on Windows if an unprivileged Windows
-user started the QEMU build process, which results in QEMU executables
-generated in the build tree not able to load the default BIOS/firmware
-images due to symbolic links not present in the bundle directory.
-
-This commits updates the documentation by adding such caveats for users
-who want to build QEMU on the Windows platform.
-
-[1] https://docs.python.org/3/library/os.html#os.symlink
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20220719135014.764981-1-bmeng.cn@gmail.com>
+Resolves: Coverity CID 1490140
+Fixes: cc01a3f4cadd91e6 ("kvm: Support for querying fd-based stats")
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20220719134853.327059-1-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/about/build-platforms.rst | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ accel/kvm/kvm-all.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/about/build-platforms.rst b/docs/about/build-platforms.rst
-index ebde20f981..6b8496c430 100644
---- a/docs/about/build-platforms.rst
-+++ b/docs/about/build-platforms.rst
-@@ -94,8 +94,16 @@ not tested anymore, so it is recommended to use one of the latest versions of
- Windows instead.
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index ed8b6b896e..eb7fceb336 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -3980,7 +3980,7 @@ static void query_stats(StatsResultList **result, StatsTarget target,
+                         stats_list);
+         break;
+     default:
+-        break;
++        g_assert_not_reached();
+     }
+ }
  
- The project supports building QEMU with current versions of the MinGW
--toolchain, either hosted on Linux (Debian/Fedora) or via MSYS2 on Windows.
-+toolchain, either hosted on Linux (Debian/Fedora) or via `MSYS2`_ on Windows.
-+A more recent Windows version is always preferred as it is less likely to have
-+problems with building via MSYS2. The building process of QEMU involves some
-+Python scripts that call os.symlink() which needs special attention for the
-+build process to successfully complete. On newer versions of Windows 10,
-+unprivileged accounts can create symlinks if Developer Mode is enabled.
-+When Developer Mode is not available/enabled, the SeCreateSymbolicLinkPrivilege
-+privilege is required, or the process must be run as an administrator.
- 
- .. _Homebrew: https://brew.sh/
- .. _MacPorts: https://www.macports.org/
-+.. _MSYS2: https://www.msys2.org/
- .. _Repology: https://repology.org/
 -- 
 2.36.1
 
