@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8034B57C5FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 10:16:13 +0200 (CEST)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AD957C611
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 10:19:19 +0200 (CEST)
+Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oERLw-00057k-3W
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 04:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
+	id 1oEROx-0008J9-2O
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 04:19:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oERJt-0003ci-4Z
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:14:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oERJp-0003ge-QB
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:14:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658391240;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=01PG6uTOrUqDPjmhSNWLQBpfEjD6TJEt4jJ32eDgZbs=;
- b=b10fvpfP8gMCYp8VjbRg5bxS9dtyCOYNCn7zUab1h1AmgA78LofUc8WDqlcWcOmR09tV0V
- 770TdEnhr74CgmPExCXyYe0Hp9OWytcdx3BfgRBpLy7l5in8Tw5zP+iHXtJvC0mu94pM/x
- wFizMT2cfFRUp8vWplI9jDbIy08qdEc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-45-WJXPPAToMD6dseukuZgtfg-1; Thu, 21 Jul 2022 04:13:57 -0400
-X-MC-Unique: WJXPPAToMD6dseukuZgtfg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C444D8037AC;
- Thu, 21 Jul 2022 08:13:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D822F18ECB;
- Thu, 21 Jul 2022 08:13:55 +0000 (UTC)
-Date: Thu, 21 Jul 2022 09:13:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Hogan Wang <hogan.wang@huawei.com>
-Cc: qemu-devel@nongnu.org, marcandre.lureau@redhat.com,
- wangxinxin.wang@huawei.com
-Subject: Re: [PATCH] dump: introduce dump-cancel QMP command
-Message-ID: <YtkKwf7K6oev/3CP@redhat.com>
-References: <20220721062118.2015-1-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oERK5-0003tJ-36
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:14:17 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:47078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oERK2-0003hd-K2
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:14:16 -0400
+Received: by mail-pf1-x432.google.com with SMTP id c3so1061003pfb.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 01:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=1SPlaA76YyEiFEdCpUk5K59tRpTpW7KvS42T1puVIrY=;
+ b=z8sE5frVsjY5UYNvsAgxp8+onBUxlvKc/lT04Nf2vUM1nBf+3V/7RBgNGKXQ98dW8v
+ gGvTjhUlJQe1dXzPIWQvSPZjsnobajKofNODhsnU/bKJlHLrqlijdD4JjNTpdsloNIUQ
+ B2XHVY3bNGc1/oeDmAbaRf4//MLXtedIvPjbDVbRKnyt4fF95jhg3jFM9PPFWJi306P1
+ B1QEAKzJ9qEGiMPCA9jTvWEX7LGT1sPyMoT6R8+ipVQAbtrT/8eBw2ILVDnW7lE0PRF+
+ HSvk+JaIeog4gjmZXqj2r/jWfREoArBSGgaPaEawAEo57RjwkZUigIJoIZrRnkRJ2rVK
+ Ri8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=1SPlaA76YyEiFEdCpUk5K59tRpTpW7KvS42T1puVIrY=;
+ b=r8j66z9l9io4ZZoShac24NT+xOgAuYN9J0qsSCP3bDIHcMCfXX0g08GnFz3g+OaxS7
+ jnqikA8wQulm1Ygruw+RqU5gSskQE9fHAWoF5eZoje2BE6BXHKIUPhaAUniedCTw/lhb
+ /4b7jQPzPmNGV3bwI3UC9AyawSThjCrG4lLy9jM+sBQKxNz+mDlfPg3MzDsHHCLj3wAA
+ PjmGYuEfzt5ML1lSn6wHkNuVCNxm4nEu5UycwJTNFhj4vybd3hYuzbyPKq0Mt+U+g3Y8
+ UI3GSspsvHfbLaSGf0kcc6DE+xMiUbcM98nsomCv/2I5AZnGHDeGg3SAO5FVRSdiBJEd
+ 39Ew==
+X-Gm-Message-State: AJIora+YIjmupJIEaJEya2vq6fIAQK1/yesZfAIomMVcetKBaiQb/N/g
+ y6f5g3IW0BFMdqpqmax5atz7sw==
+X-Google-Smtp-Source: AGRyM1vnpDkZpPLdpedfExgP0sE2Wdqt/IdYWkd7Q1JBqTASWw0MyU44OoHz493WnPPgcV/JoMTMmg==
+X-Received: by 2002:a05:6a00:330c:b0:52b:6ff7:5f03 with SMTP id
+ cq12-20020a056a00330c00b0052b6ff75f03mr19532309pfb.49.1658391251407; 
+ Thu, 21 Jul 2022 01:14:11 -0700 (PDT)
+Received: from [192.168.10.153] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
+ by smtp.gmail.com with ESMTPSA id
+ b12-20020a170902d50c00b0016c78aaae7fsm1012291plg.23.2022.07.21.01.14.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jul 2022 01:14:10 -0700 (PDT)
+Message-ID: <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+Date: Thu, 21 Jul 2022 18:14:05 +1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220721062118.2015-1-hogan.wang@huawei.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101
+ Thunderbird/103.0
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=aik@ozlabs.ru; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,175 +90,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 02:21:18PM +0800, Hogan Wang via wrote:
-> There's no way to cancel the current executing dump process, lead to the
-> virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
-> job after daemon restart.
-> 
-> Add the 'cancelling' and 'cancelled' dump states.
-> 
-> Use 'dump-cancel' qmp command Set the dump state as 'cancelling'.
-> The dump process check the 'cancelling' state and break loops. 
-> The 'cancelled' state mark the dump process cancelled success.
 
-On the one hand this patch is fairly simple which is obviously
-desirable.
 
-On the other hand though, this feels like it is further re-inventing
-the jobs concept.
+On 21/07/2022 02:08, Daniel Henrique Barboza wrote:
+> Hey,
+> 
+> On 7/19/22 04:59, Alexey Kardashevskiy wrote:
+>> The following changes since commit 
+>> d2066bc50d690a6605307eaf0e72a9cf51e6fc25:
+>>
+>>    target/ppc: Check page dir/table base alignment (2022-07-18 
+>> 13:59:43 -0300)
+>>
+>> are available in the Git repository at:
+>>
+>>    git@github.com:aik/qemu.git tags/qemu-slof-20220719
+>>
+>> for you to fetch changes up to 17c1ad657904787b1d986fb4c85431fee006a6ea:
+>>
+>>    pseries: Update SLOF firmware image (2022-07-19 17:50:46 +1000)
+>>
+>> ----------------------------------------------------------------
+>> Alexey Kardashevskiy (1):
+>>        pseries: Update SLOF firmware image
+>>
+>>   docs/system/ppc/pseries.rst |   2 +-
+>>   pc-bios/README              |   2 +-
+>>   pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
+>>   roms/SLOF                   |   2 +-
+>>   4 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>>
+>> *** Note: this is not for master, this is for pseries
+>> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
+>> too soon so I am posting it anyway.
+> 
+> I forgot to send a reply yesterday, sorry.
+> 
+> Don't worry about rushing this SLOF pull. Given that this build doesn't
+> have bug fixes we can wait to pull it in 7.2. You'll have the time to
+> sync it up with git.qemu.org and so on.
 
-IMHO ideally the 'dump' command probably ought to get a 'job-id'
-parameter, and integrate with the generic background jobs  framework.
-This would unlock the ability to use existing commands like
-'job-cancel', 'job-pause', 'job-resume', 'queyr-jobs' to interact
-with it.
+
+Well, the git.qemu.org is still not updated, and I have no control over 
+this process anyway, who manages it?
+
 
 > 
-> ---
->  dump/dump.c               | 38 ++++++++++++++++++++++++++++++++++++--
->  include/sysemu/runstate.h |  1 +
->  qapi/dump.json            | 21 ++++++++++++++++++++-
->  3 files changed, 57 insertions(+), 3 deletions(-)
-> 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 4d9658ffa2..a0ac85aa02 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -118,6 +118,10 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
->      DumpState *s = opaque;
->      size_t written_size;
->  
-> +    if (qemu_system_dump_cancelling()) {
-> +        return -ECANCELED;
-> +    }
-> +
->      written_size = qemu_write_full(s->fd, buf, size);
->      if (written_size != size) {
->          return -errno;
-> @@ -627,6 +631,10 @@ static void dump_iterate(DumpState *s, Error **errp)
->  
->      do {
->          block = s->next_block;
-> +        if (qemu_system_dump_cancelling()) {
-> +            error_setg(errp, "dump: job cancelled");
-> +            return;
-> +        }
->  
->          size = block->target_end - block->target_start;
->          if (s->has_filter) {
-> @@ -1321,6 +1329,11 @@ static void write_dump_pages(DumpState *s, Error **errp)
->       * first page of page section
->       */
->      while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
-> +        if (qemu_system_dump_cancelling()) {
-> +            error_setg(errp, "dump: job cancelled");
-> +            goto out;
-> +        }
-> +
->          /* check zero page */
->          if (buffer_is_zero(buf, s->dump_info.page_size)) {
->              ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
-> @@ -1540,6 +1553,22 @@ bool qemu_system_dump_in_progress(void)
->      return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
->  }
->  
-> +bool qemu_system_dump_cancelling(void)
-> +{
-> +    DumpState *state = &dump_state_global;
-> +    return (qatomic_read(&state->status) == DUMP_STATUS_CANCELLING);
-> +}
-> +
-> +void qmp_dump_cancel(Error **errp)
-> +{
-> +    DumpState *state = &dump_state_global;
-> +    if (!qemu_system_dump_in_progress()) {
-> +        return;
-> +    }
-> +    qatomic_set(&state->status, DUMP_STATUS_CANCELLING);
-> +}
-> +
-> +
->  /* calculate total size of memory to be dumped (taking filter into
->   * acoount.) */
->  static int64_t dump_calculate_size(DumpState *s)
-> @@ -1838,8 +1867,13 @@ static void dump_process(DumpState *s, Error **errp)
->  
->      /* make sure status is written after written_size updates */
->      smp_wmb();
-> -    qatomic_set(&s->status,
-> -               (*errp ? DUMP_STATUS_FAILED : DUMP_STATUS_COMPLETED));
-> +    if (qemu_system_dump_cancelling()) {
-> +        qatomic_set(&s->status, DUMP_STATUS_CANCELLED);
-> +    } else if (*errp) {
-> +        qatomic_set(&s->status, DUMP_STATUS_FAILED);
-> +    } else {
-> +        qatomic_set(&s->status, DUMP_STATUS_COMPLETED);
-> +    }
->  
->      /* send DUMP_COMPLETED message (unconditionally) */
->      result = qmp_query_dump(NULL);
-> diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-> index f3ed52548e..a36c1d43f6 100644
-> --- a/include/sysemu/runstate.h
-> +++ b/include/sysemu/runstate.h
-> @@ -76,6 +76,7 @@ void qemu_system_reset(ShutdownCause reason);
->  void qemu_system_guest_panicked(GuestPanicInformation *info);
->  void qemu_system_guest_crashloaded(GuestPanicInformation *info);
->  bool qemu_system_dump_in_progress(void);
-> +bool qemu_system_dump_cancelling(void);
->  
->  #endif
->  
-> diff --git a/qapi/dump.json b/qapi/dump.json
-> index 90859c5483..6dfbb6b7de 100644
-> --- a/qapi/dump.json
-> +++ b/qapi/dump.json
-> @@ -108,7 +108,7 @@
->  # Since: 2.6
->  ##
->  { 'enum': 'DumpStatus',
-> -  'data': [ 'none', 'active', 'completed', 'failed' ] }
-> +  'data': [ 'none', 'active', 'completed', 'failed', 'cancelling', 'cancelled' ] }
->  
->  ##
->  # @DumpQueryResult:
-> @@ -200,3 +200,22 @@
->  ##
->  { 'command': 'query-dump-guest-memory-capability',
->    'returns': 'DumpGuestMemoryCapability' }
-> +
-> +##
-> +# @dump-cancel:
-> +#
-> +# Cancel the current executing dump process.
-> +#
-> +# Returns: nothing on success
-> +#
-> +# Notes: This command succeeds even if there is no dump process running.
-> +#
-> +# Since: 7.2
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "dump-cancel" }
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'dump-cancel' }
-> -- 
-> 2.33.0
+> Thanks,
 > 
 > 
+> Daniel
+> 
+>>
+>>
+>> The image grew in size because of change of the toolchain from
+>> native PPC to cross on x86.
+>>
+>>
+>> The only change is that now SLOF can also boot big endian zImage
+>> but kernel-addr=0 is still required.
+>>
+>>
 
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Alexey
 
