@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075E957C336
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 06:06:37 +0200 (CEST)
-Received: from localhost ([::1]:36268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF0C57C382
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 06:34:09 +0200 (CEST)
+Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oENSO-0005Ep-4o
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 00:06:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59150)
+	id 1oENt2-00029W-5n
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 00:34:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1oENQ5-0003cF-5Z
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 00:04:13 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:54826 helo=loongson.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1oENQ2-00005B-Lf
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 00:04:12 -0400
-Received: from [10.20.42.112] (unknown [10.20.42.112])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxCeEg0NhiYtwrAA--.15545S3; 
- Thu, 21 Jul 2022 12:04:07 +0800 (CST)
-Subject: Re: [PULL 20/21] hw/loongarch: Add acpi ged support
-To: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Xiaojuan Yang <yangxiaojuan@loongson.cn>
-References: <20220719180000.378186-1-richard.henderson@linaro.org>
- <20220719180000.378186-21-richard.henderson@linaro.org>
- <CAFEAcA82Q60bvOxQ7HNzpiu-Uxgaq2zV8CMW3H9x+YntdG_Weg@mail.gmail.com>
-From: gaosong <gaosong@loongson.cn>
-Message-ID: <42522ffc-699b-7e24-f692-6e23dc5398e2@loongson.cn>
-Date: Thu, 21 Jul 2022 12:03:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oENrO-0000as-25; Thu, 21 Jul 2022 00:32:26 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:35704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oENrM-0004Hw-8u; Thu, 21 Jul 2022 00:32:25 -0400
+Received: by mail-pg1-x534.google.com with SMTP id r186so586855pgr.2;
+ Wed, 20 Jul 2022 21:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Mce4u4KH4w2co1sCQyVfouU18ixZ8+mugryseGudSBs=;
+ b=NyCnLywz7tY7c+f2va3JYP+ml8PBKm28wgBp0mZibr1AGWkQ3OqquljjfxgIdNj6Ex
+ buT54GV7S0dVrWzCbZmiUS8hOn5XyWRJOyOM5UWa+LRb3XfoUYKvprdK0U7LgUNSiOgd
+ rfe/sVMgLo63M0Xd0AGGpsELv6Hqu9e/Ovzr5Uuqt+XMu0kbvK7bxVSvQTb80+7Hu2si
+ Butja2qPsOJP2NLrAHA1A+wdkFK3WtyClNDESG6nonOQPfFYhPRw4djYzy6NX3jNgSqR
+ DxFmIXC4rT23UZqfU8+2PCV5gEyQ5G7MY7Vithopjw3iUX03G6ZeXEe7apHVE+iJDh02
+ qdew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Mce4u4KH4w2co1sCQyVfouU18ixZ8+mugryseGudSBs=;
+ b=0X4WTFb8M0Tbit8lSq9IegGfqzTUrPi3tICUBhO4T2pxFL4vH5+m7EEy8D0+c4wB3v
+ lUcs9tXPAtLX8neYDGcghs1HodFzkR3hoM6VK5xhULgvYUk8hPRmrqRash3uKpWdOj5n
+ uztfIBJ6Ko+o3JSu6kWSl7NdRJKtQ3vjaZgK9CjJxRvf0FTb7HPAuObtmaZd4Jhmqfwt
+ EqfKuvnIVI3/OpLQTYPhUSIObGB4mKPjlKsY622JDVsrm8pbACi+mJ6DoiqkbIuhOH9S
+ XuC9qRys4yLXo/9pl/ZGwPCAZF+2AwI4s/6J+1dH1en6dlqOKqoNvw4Eh2xfQzbvIISb
+ UTjw==
+X-Gm-Message-State: AJIora+o2Ic0o2p0LWh0EI9CR3G5LRoYN2y65z9+IwNLS2DcJHbGJPOf
+ rh0TTgdbw/pa7YOZybacAMNr/TeUMBp+Q2LeVLs=
+X-Google-Smtp-Source: AGRyM1td8HC1/8XrFm1G2QZvwrcAeCkUXwteEe+X2JngiUwKTrOnWRs7vaeVqS20G5eY1BZORzQFK2dohg++p4GotSk=
+X-Received: by 2002:a05:6a02:313:b0:416:73c:507c with SMTP id
+ bn19-20020a056a02031300b00416073c507cmr36246517pgb.366.1658377942530; Wed, 20
+ Jul 2022 21:32:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA82Q60bvOxQ7HNzpiu-Uxgaq2zV8CMW3H9x+YntdG_Weg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: AQAAf9AxCeEg0NhiYtwrAA--.15545S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7AF4fCFyxAr1Utw48Jw17trb_yoW8KFWrpa
- yUJFWkKF4Yqw1UCwsFgr40yFn3tw4kCasrJas7twsY93s0kF95ur48W3y2kFyxAr1UJF1D
- ZFWq9r9rZa1rtrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU901xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
- w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
- IY67AKxVWUCVW8JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2
- jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
- Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
- 6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr4
- 1lF7I21c0EjII2zVCS5cI20VAGYxC7Mxk0xIA0c2IEe2xFo4CEbIxvr21lc2xSY4AK6svP
- MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_XrWUJr1UMxC20s026xCaFVCjc4
- AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE
- 17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMI
- IF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_WFyUJVCq
- 3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIda
- VFxhVjvjDU0xZFpf9x0JUdHUDUUUUU=
-X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
-Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
- helo=loongson.cn
+References: <20220702134149.14384-1-liweiwei@iscas.ac.cn>
+In-Reply-To: <20220702134149.14384-1-liweiwei@iscas.ac.cn>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 21 Jul 2022 14:31:56 +1000
+Message-ID: <CAKmqyKNoijHZENxw4dtAK9BfA_-kT8vShrKaC6oero8K4BUCjQ@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix csr check for cycle{h}, instret{h},
+ time{h}, hpmcounter3~31{h}
+To: Weiwei Li <liweiwei@iscas.ac.cn>, Atish Patra <atishp@rivosinc.com>, 
+ Atish Patra <atishp@atishpatra.org>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=alistair23@gmail.com; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,76 +87,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2022/7/20 下午8:10, Peter Maydell wrote:
-> On Tue, 19 Jul 2022 at 19:16, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->> From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->>
->> Loongarch virt machine uses general hardware reduces acpi method, rather
->> than LS7A acpi device. Now only power management function is used in
->> acpi ged device, memory hotplug will be added later. Also acpi tables
->> such as RSDP/RSDT/FADT etc.
->>
->> The acpi table has submited to acpi spec, and will release soon.
->>
->> Acked-by: Richard Henderson <richard.henderson@linaro.org>
->> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
->> Message-Id: <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Didn't notice this in the original CI, but this generates a compiler
-> warning on openbsd:
+On Sat, Jul 2, 2022 at 11:42 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
-> ../src/hw/loongarch/acpi-build.c:416:12: warning: variable 'aml_len'
-> set but not used [-Wunused-but-set-variable]
->      size_t aml_len = 0;
->             ^
+> - improve the field extract progress
+> - add stand-alone check for mcuonteren when in less-privileged mode
+> - add check for scounteren when 'S' is enabled and current priv is PRV_U
 >
-> and we do indeed only ever seem to set and update that variable;
-> we never use it.
+> Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+
++ Atish
+
+Alistair
+
+> ---
+>  target/riscv/csr.c | 76 ++++++++++++++--------------------------------
+>  1 file changed, 22 insertions(+), 54 deletions(-)
 >
->> +static void acpi_build(AcpiBuildTables *tables, MachineState *machine)
->> +{
->> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
->> +    GArray *table_offsets;
->> +    AcpiFadtData fadt_data;
->> +    unsigned facs, rsdt, fadt, dsdt;
->> +    uint8_t *u;
->> +    size_t aml_len = 0;
->> +    GArray *tables_blob = tables->table_data;
->> +
->> +    init_common_fadt_data(&fadt_data);
->> +
->> +    table_offsets = g_array_new(false, true, sizeof(uint32_t));
->> +    ACPI_BUILD_DPRINTF("init ACPI tables\n");
->> +
->> +    bios_linker_loader_alloc(tables->linker,
->> +                             ACPI_BUILD_TABLE_FILE, tables_blob,
->> +                             64, false);
->> +
->> +    /*
->> +     * FACS is pointed to by FADT.
->> +     * We place it first since it's the only table that has alignment
->> +     * requirements.
->> +     */
->> +    facs = tables_blob->len;
->> +    build_facs(tables_blob);
->> +
->> +    /* DSDT is pointed to by FADT */
->> +    dsdt = tables_blob->len;
->> +    build_dsdt(tables_blob, tables->linker, machine);
->> +
->> +    /*
->> +     * Count the size of the DSDT, we will need it for
->> +     * legacy sizing of ACPI tables.
->> +     */
->> +    aml_len += tables_blob->len - dsdt;
-> This comment claims we're going to use this value -- is it wrong ?
-This value is unused,  I had send a patch to drop it .
-
-Thanks.
-Song Gao
-> thanks
-> -- PMM
-
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 6dbe9b541f..a4719cbf35 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -72,66 +72,34 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>  #if !defined(CONFIG_USER_ONLY)
+>      CPUState *cs = env_cpu(env);
+>      RISCVCPU *cpu = RISCV_CPU(cs);
+> +    uint32_t field = 0;
+>
+>      if (!cpu->cfg.ext_counters) {
+>          /* The Counters extensions is not enabled */
+>          return RISCV_EXCP_ILLEGAL_INST;
+>      }
+>
+> -    if (riscv_cpu_virt_enabled(env)) {
+> -        switch (csrno) {
+> -        case CSR_CYCLE:
+> -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> -                get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_TIME:
+> -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> -                get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_INSTRET:
+> -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> -                get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3)) &&
+> -                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3))) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        }
+> -        if (riscv_cpu_mxl(env) == MXL_RV32) {
+> -            switch (csrno) {
+> -            case CSR_CYCLEH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> -                    get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_TIMEH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> -                    get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_INSTRETH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> -                    get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3H)) &&
+> -                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3H))) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            }
+> +    if (csrno <= CSR_HPMCOUNTER31 && csrno >= CSR_CYCLE) {
+> +        field = 1 << (csrno - CSR_CYCLE);
+> +    } else if (riscv_cpu_mxl(env) == MXL_RV32 && csrno <= CSR_HPMCOUNTER31H &&
+> +               csrno >= CSR_CYCLEH) {
+> +        field = 1 << (csrno - CSR_CYCLEH);
+> +    }
+> +
+> +    if (env->priv < PRV_M && !get_field(env->mcounteren, field)) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (riscv_cpu_virt_enabled(env) && !get_field(env->hcounteren, field)) {
+> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +    }
+> +
+> +    if (riscv_has_ext(env, RVS) && env->priv == PRV_U &&
+> +        !get_field(env->scounteren, field)) {
+> +        if (riscv_cpu_virt_enabled(env)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        } else {
+> +            return RISCV_EXCP_ILLEGAL_INST;
+>          }
+>      }
+>  #endif
+> --
+> 2.17.1
+>
+>
 
