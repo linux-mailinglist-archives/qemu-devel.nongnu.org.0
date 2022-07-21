@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD61057C71C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:09:24 +0200 (CEST)
-Received: from localhost ([::1]:54684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D4157C71D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:09:42 +0200 (CEST)
+Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oESBO-0007Rz-HL
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:09:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
+	id 1oESBh-0007zS-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:09:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oES3q-0003VJ-4G
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:01:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oES3m-00037q-Nu
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:01:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658394090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N5OW+3vAp/+8JjLwpf3YhzDeh4dc7p2wAwBSU3S2jqc=;
- b=Vr2dG36Cb7mwzfXRu4SQn4E9nQwW9TcEsa+q539eqvBwFnRwqdZd+yInAgw84VhWZuj+Dw
- E5P8yoPq5MvXRJz7bI23K0ASZHbpMdJRxj/071GTM53vVxO3sJJX7Fw49VDhHi/1RJwEsk
- QNaDTWoeIL3u/xbGheOgJCxWdMj/Uxk=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448--b1A42hZPQOB0y_nILdicw-1; Thu, 21 Jul 2022 05:01:28 -0400
-X-MC-Unique: -b1A42hZPQOB0y_nILdicw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v67-20020a1cac46000000b003a2be9fa09cso731441wme.3
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 02:01:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oES5x-0004LU-5H
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:03:45 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oES5t-0003MG-DI
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:03:43 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id y141so1176604pfb.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 02:03:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=RWmrzemr7N8yt/+XQWXjdA62ClNalOW0O9cqGXUXTv0=;
+ b=UVtAMMMCvZaAvHHzzs5eD3jr8hKdBXeUVlYATKpm3jC2XYv62Mn5g/Z+xekaBqZRUi
+ 90cXPGMqZJvSHcBeX/Z2iJKllpADFmUpZTaDLK58lWCaJ+DN7+ItWROlg0dGpv2g4PSA
+ hgTz24JvqX1+oy3vK5TxZH8JLOcSn4l2ADKRkvb2Q+flpbV6u6hNM934jy1sIwzpS0CI
+ UPHAuntRgOWmrK8We7u52MaW70nuzPPoyER1Ird5Hi4d4tj12B0vMMp7Y8it1okX/2+X
+ m/TvcudltGywClTeZ8G1duMxTrSY2hx/674sCF3qDZVJ4Uk3to3ZNTx9SE2L+O9hdFdD
+ U2rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=N5OW+3vAp/+8JjLwpf3YhzDeh4dc7p2wAwBSU3S2jqc=;
- b=QdUYEMcEt8W+NBpHoSsirvTZ6wH6imHpLPzR7okhIdUk+PJLyLJ9HWBD+5hO7zWptf
- EBx6BlfPtXCXgqnhhWZNc4WhUn99H0Yo3MOExmBHN9Kb7Gxvf6T43dDbAXxxvj1dWKym
- ukQdf9TyVAjs6gtE1nU+8yhKCcJr1tv+maaVGxLbpbK7/04lOpI97tvbnDlp6OEv1asJ
- +m3psFNtdtO9xPE9a3CVABn/7gaXa20y+BO07RFM07IsB4k4Xo0NtVDFLm9obd0hB0mh
- aBOh+a5sPwgKZUZ/FH64eUj5StUnMX2D/5tCJ5hRj9HiGoVCXqsfUqUpWwfNjiw/UIPu
- zeLA==
-X-Gm-Message-State: AJIora/1E8IFk8wwZO9SORTBdnL718gNEb2N/8WFRM1ofJ1W3S1XmVZH
- GW9NaKY8NU/I4lG6B3ZmkrYxe4M25Odn8SSIRbyGULF8tP8AooYAiU7o04b/SSDZj4mmHycIq9z
- gnxw0iiG43HUJwCg=
-X-Received: by 2002:a5d:6dab:0:b0:21d:9fc8:3029 with SMTP id
- u11-20020a5d6dab000000b0021d9fc83029mr33823508wrs.172.1658394087683; 
- Thu, 21 Jul 2022 02:01:27 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tCydCtL/OtkpeuekmsJh+NhHypUEDRK4XWlh0TbauEREITpTWub0CQVfou8nboltjAinGepA==
-X-Received: by 2002:a5d:6dab:0:b0:21d:9fc8:3029 with SMTP id
- u11-20020a5d6dab000000b0021d9fc83029mr33823464wrs.172.1658394087195; 
- Thu, 21 Jul 2022 02:01:27 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-179-217.web.vodafone.de.
- [109.43.179.217]) by smtp.gmail.com with ESMTPSA id
- o8-20020a05600c378800b003a2e7c13a3asm1090958wmr.42.2022.07.21.02.01.26
+ bh=RWmrzemr7N8yt/+XQWXjdA62ClNalOW0O9cqGXUXTv0=;
+ b=RYj8wdJX1Xxy0wEE29t0g8slVZnkJeW9RI0XegBpMdKHPSi67P2QkRv33A91nycJvG
+ AwtGUInXLKazeRQVqmvnIaqWKJsxgTCtvrhhMlX79S2zn8qkKmra+sfdU0vR6OSOmCKS
+ EOV5WMdROnChU3f7pW57ky/w2Xk5b2pfMwoo9KxH3PSuJwRZW48KTXRO01GRkU9lqMRQ
+ OdJPqShrQvMPLhw0EzC5nHtL+cr0pNwBKIXqIQYTMhSYCt3eeroloRjCv6C25pnRxL9j
+ VkyIdW5EZJrcp8a02u0n/tRWAEG1ynoAtyUcIf8omlC6YsiyqjKvae2OGBbAq3soTVOz
+ bPnQ==
+X-Gm-Message-State: AJIora9dBtrKvEjko2K+7GTdu/8BzGXV2jjFdOL+lb/DR/Fu3HDgNoSs
+ +osHDWeUAE3eO40xBaLbYjN9QQ==
+X-Google-Smtp-Source: AGRyM1v/OzgUfU6EsUm7gyhaPCjB7kgwLtk65aBh9uiL9lEm7r+wSa0ly6nzYEOtMHjqz8EQA/XYYg==
+X-Received: by 2002:a05:6a00:1628:b0:52a:bd79:c175 with SMTP id
+ e8-20020a056a00162800b0052abd79c175mr42759538pfc.14.1658394218474; 
+ Thu, 21 Jul 2022 02:03:38 -0700 (PDT)
+Received: from [192.168.10.153] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
+ by smtp.gmail.com with ESMTPSA id
+ p2-20020a170902780200b0016a091eb88esm1084407pll.126.2022.07.21.02.03.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 02:01:26 -0700 (PDT)
-Message-ID: <5d7dbb8c-e7c0-3d7c-a721-eb625fe11c93@redhat.com>
-Date: Thu, 21 Jul 2022 11:01:26 +0200
+ Thu, 21 Jul 2022 02:03:37 -0700 (PDT)
+Message-ID: <a6831bc7-c796-e11e-9a3d-e1e46caf1fa4@ozlabs.ru>
+Date: Thu, 21 Jul 2022 19:03:32 +1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: Failure in iotest 183
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101
+ Thunderbird/103.0
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Kevin Wolf <kwolf@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-References: <f629134d-0ce2-46df-13b5-30b735f6bd3d@redhat.com>
- <308c543a-5f72-b0f4-15d4-b98d4db6f4f2@redhat.com>
- <3efdf6ae-1ace-6db6-e947-e6288c41acd7@redhat.com>
-In-Reply-To: <3efdf6ae-1ace-6db6-e947-e6288c41acd7@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+ <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+ <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+From: Alexey Kardashevskiy <aik@ozlabs.ru>
+In-Reply-To: <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=aik@ozlabs.ru; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,135 +96,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/07/2022 12.20, Thomas Huth wrote:
-> On 05/07/2022 11.58, Hanna Reitz wrote:
->> On 05.07.22 11:35, Thomas Huth wrote:
+
+
+On 21/07/2022 18:48, Peter Maydell wrote:
+> On Thu, 21 Jul 2022 at 09:19, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+>> On 21/07/2022 02:08, Daniel Henrique Barboza wrote:
+>>> Hey,
 >>>
->>>  Hi!
+>>> On 7/19/22 04:59, Alexey Kardashevskiy wrote:
+>>>> Alexey Kardashevskiy (1):
+>>>>         pseries: Update SLOF firmware image
+>>>>
+>>>>    docs/system/ppc/pseries.rst |   2 +-
+>>>>    pc-bios/README              |   2 +-
+>>>>    pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
+>>>>    roms/SLOF                   |   2 +-
+>>>>    4 files changed, 3 insertions(+), 3 deletions(-)
+>>>>
+>>>>
+>>>> *** Note: this is not for master, this is for pseries
+>>>> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
+>>>> too soon so I am posting it anyway.
 >>>
->>> I've just hit a failure in iotest 183:
+>>> I forgot to send a reply yesterday, sorry.
 >>>
->>> --- /home/thuth/devel/qemu/tests/qemu-iotests/183.out
->>> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratch/183/183.out.bad
->>> @@ -30,7 +30,7 @@
->>>         'arguments': { 'uri': 'unix:SOCK_DIR/migrate', 'blk': true } }
->>>  {"return": {}}
->>>  { 'execute': 'query-status' }
->>> -{"return": {"status": "postmigrate", "singlestep": false, "running": 
->>> false}}
->>> +{"return": {"status": "completed", "setup-time": 0, "downtime": 2448, 
->>> "total-time": 2872, "ram": {"total": 134750208, "postcopy-requests": 0, 
->>> "dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 0, 
->>> "downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 
->>> 0, "mbps": 188.63209192200557, "transferred": 496829, "precopy-bytes": 
->>> 496829, "duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, 
->>> "normal-bytes": 200704, "normal": 49}}}
+>>> Don't worry about rushing this SLOF pull. Given that this build doesn't
+>>> have bug fixes we can wait to pull it in 7.2. You'll have the time to
+>>> sync it up with git.qemu.org and so on.
 >>
->> Weird because query-status cannot return something with '"status": 
->> "completed"' in it.  We can see the '"status": "postmigrate"' object 
->> somewhere below, so it seems to me like the silent=yes part for the 
->> query-migrate execution didn’t work as intended.
 >>
->> (And it does seem to work below, when waiting for a “100 %” to appear on 
->> $dest.)
->>
->> It’s been a while since we’ve touched common.qemu, so nothing comes to my 
->> mind immediately that might have broken this.
-> ...
->> I’ve never hit this so far.
->>
->> The only things to try I can come up with would be to bisect, or to try 
->> adding `silent=$silent` to the `_timed_wait_for` calls in `send_qemu_cmd`...
+>> Well, the git.qemu.org is still not updated, and I have no control over
+>> this process anyway, who manages it?
 > 
-> Seems also like it does not reproduce that easily, though - I've just seen 
-> it once so far while running "make -j6 check SPEED=slow", so lots of other 
-> stuff was happening at the same time. I'll keep an eye on it to see whether 
-> I can reproduce it more easily somehow.
+> Syncing of those git repos is supposed to be automatic, but
+> occasionally something falls over. Stefan, who looks after
+> the sync process ?
+> 
+> Alexey, which specific repo is not syncing ?
 
-I just reproduced it by running "./check -raw -j8" directly:
 
---- /home/thuth/devel/qemu/tests/qemu-iotests/183.out
-+++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratch/183/183.out.bad
-@@ -30,7 +30,7 @@
-         'arguments': { 'uri': 'unix:SOCK_DIR/migrate', 'blk': true } }
-  {"return": {}}
-  { 'execute': 'query-status' }
--{"return": {"status": "postmigrate", "singlestep": false, "running": false}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
+https://git.qemu.org/git/SLOF.git from git@github.com:aik/SLOF.git
 
-  === Do some I/O on the destination ===
+For example, the latest is:
+https://github.com/aik/SLOF/releases/tag/qemu-slof-20220719
 
-@@ -53,8 +53,16 @@
-  === Shut down and check image ===
+But it has not made it to where git.qemu.org redirects to:
+https://gitlab.com/qemu-project/SLOF
 
-  {"execute":"quit"}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"execute":"quit"}
-  {"return": {}}
--{"execute":"quit"}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "completed", "setup-time": 0, "downtime": 1003, 
-"total-time": 1537, "ram": {"total": 134750208, "postcopy-requests": 0, 
-"dirty-sync-count": 3, "multifd-bytes": 0, "pages-per-second": 288578, 
-"downtime-bytes": 0, "page-size": 4096, "remaining": 0, "postcopy-bytes": 0, 
-"mbps": 352.48204554326611, "transferred": 497205, "precopy-bytes": 497205, 
-"duplicate": 32849, "dirty-pages-rate": 0, "skipped": 0, "normal-bytes": 
-200704, "normal": 49}}}
-+{"return": {"status": "postmigrate", "singlestep": false, "running": false}}
-  {"return": {}}
-  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, 
-"event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
-  {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, 
-"event": "SHUTDOWN", "data": {"guest": false, "reason": "host-qmp-quit"}}
 
-It does not seem to happen if I run with "-j1" instead.
-
-  Thomas
-
+-- 
+Alexey
 
