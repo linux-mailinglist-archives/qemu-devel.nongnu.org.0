@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BA1057C650
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 10:34:27 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA81057C6D2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 10:51:20 +0200 (CEST)
+Received: from localhost ([::1]:36972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oERdZ-0006EJ-6L
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 04:34:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44630)
+	id 1oERtt-00035H-SD
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 04:51:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oERYu-0004Gd-RA
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:29:36 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:46634)
+ id 1oERrc-0008HK-F0
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:48:59 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:46032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oERYt-0006Oh-89
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:29:36 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31e7c4b593fso9296747b3.13
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 01:29:34 -0700 (PDT)
+ id 1oERra-0000vE-4G
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 04:48:56 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id 64so1637116ybt.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 01:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0FwG8Nh4GpOzX2it1MWzawcigh+6khIDL+WLyvUfk1Q=;
- b=aXSe+vDSFp53PZSZ51Y8jSr54DvpOwpEE4RLK2G3u07UBPd30QPNqabk3/dvNC43Bv
- eF426zUU9Kl1nXUovWZo3Y4MAUJISplOoqK3GREdlGJ3H5GshwqctAfRtFn0Zt4TMg53
- kOIRoklAA9VCExD59QLQ3L379BAfK8MPks67nEmJrpICDg3jm6+xLQna3OX6n1uvDHBw
- MUAhubLiYKNUt/VZ+s6EdFmXX56zvYqo1osWcDPOXZcjK85stjwt5PUPIcUhLbs4Ycxc
- WuLoaQSycYcFqp5frx5vtF2aQNQfI3umKySe+96a0ioMn01QFQPqTTkMW8WyAUFTpzrs
- 61Jw==
+ :cc; bh=R4U8X3cilbmqAmDFs7m5Qxff4A1s1Z4ao1nkKeBqNqY=;
+ b=PKRnXppMhkd4Ws97MqEN72AsUFdabV5NF/hsrnbonO69m184elo1rW+O779T652Gb6
+ zZVdXNwNgAZwhxyIjpJftxRqWfHFzWaMG3CfY+/iVRvzSEbHwgiD7XjCguRyPkfRyoTz
+ 9bCwvCZRktERVcxujhn/zgk6YRc4ydFAyFKFMaxgsdo7gOvHy18Hs8hn7JMXemM7GL9v
+ RDry1Uo9pYS98OBJxORnlcTojS3VxBrcW4OyzkvpRyMfB3oelWj42QKMvBNHbk+9ymLs
+ pAowPLMiHFtWyaBHwSdA4XWORxb4CudzuaiUHMQuYbRnNzUTf2sQASSaYPP4WKRGAvY7
+ DLKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=0FwG8Nh4GpOzX2it1MWzawcigh+6khIDL+WLyvUfk1Q=;
- b=Ee+6GB9JCxpdygk5zBz44ynM5nsr8nYvVpMREjJbuLOzVJSPPLUlmfHgij+PE5DsxB
- jpS/1jNlsgG0khAYRyjBKwXlSchoWuz4zjU/zI3SS0FiFShrGlG0YE4cT4Vz1FZqgJ81
- 7WjRGDjlhsh/Ii+IiS0vt1fwaAVoZlQ5l5ezalMxbivKyPsQwSi48XNXvKs1YyITPkqb
- ziRMCAE406jV62ofTlS7Bgo3p7EVx1bXuv+INBP87pJgJl5iibrFsGquT1PDAYLNgkuM
- RHxx5uspPTSBRp4J0rhSw7ulCaAN45eeJhc6xXZUxpkXx1f4z0HHJcg6Ew/QhMPeR33e
- Q8OA==
-X-Gm-Message-State: AJIora/iOpYs2pVnSqCbBpsR4x1maxF1j/XHnJvuwZeN5H3yrWSvoNHO
- A8cWALOqCBlr4s7YvLYYIbK1XoS5yCA898EaI/CFdg==
-X-Google-Smtp-Source: AGRyM1vYnHVtLgCdid3Tai86b7fLOsYepZxXYiBIPyIE8EPZuQ7SPuzBmvVhjcBcdAi8Shlp0EVdIdshGQw0Am4n9uI=
-X-Received: by 2002:a81:770a:0:b0:31e:7cd3:f2d0 with SMTP id
- s10-20020a81770a000000b0031e7cd3f2d0mr1565311ywc.347.1658392173537; Thu, 21
- Jul 2022 01:29:33 -0700 (PDT)
+ bh=R4U8X3cilbmqAmDFs7m5Qxff4A1s1Z4ao1nkKeBqNqY=;
+ b=p/yAOwQ1ReSNcc72GQq/XuQ4nbmH2BnNw8yl5524FZEt5BG+VYNI6Ooxs0EBZWzqzs
+ uz3KC2Mv9uOimEv9n6q7IRJWvmFpxTXROE162laMXtB+W0kEOHePmTO18WYTHVOockZN
+ blJmgt4/NymRKnfrZY+RZPM9lOoXb0V7P6v5g92Bmx6hcSwS8/3oAN3dQD/PWtHmXiMH
+ StdVSuVey+Lwp3KT1Qv4svj2As+Yy0MBNcvI43mXGiwFE//OSUlgfRURyYOuub2PjCeB
+ 4Y/3zc0XR2F7pIVT9M3U9zXNoR+6MZMmYBoUz0h5kRBcRbu1VHcifevq3gJ5g9hT/mBy
+ mq9A==
+X-Gm-Message-State: AJIora/3Kv1aqpO+NwxEMjXRYZJ/Bs8HVeQwXuM6B//FFMQw3Zc0mwPF
+ a1OWP+LjnPJ0tBfMuuH/cgFpZr89+lN/xaiotWjNtA==
+X-Google-Smtp-Source: AGRyM1vq5ep3PfIpz4rlhbQqs2tot0MjPFAAwKpBAbSPVijYooFmkS9TLVqc3E7SOFC8HJLwSDeAmK5k+F0iXf80olk=
+X-Received: by 2002:a25:d307:0:b0:670:80fd:85c4 with SMTP id
+ e7-20020a25d307000000b0067080fd85c4mr10719795ybf.67.1658393332971; Thu, 21
+ Jul 2022 01:48:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220720152631.450903-1-peter.maydell@linaro.org>
- <20220720152631.450903-3-peter.maydell@linaro.org>
- <87a693kmok.fsf@pond.sub.org>
-In-Reply-To: <87a693kmok.fsf@pond.sub.org>
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+ <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+In-Reply-To: <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Jul 2022 09:28:54 +0100
-Message-ID: <CAFEAcA-2WVJ02f0OtQsUVAz8NFsb6Pg7LbpEp5LzY+For1Zp_w@mail.gmail.com>
-Subject: Re: [PATCH 2/5] configure: Add braces to clarify intent of
- $emu[[:space:]]
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 21 Jul 2022 09:48:13 +0100
+Message-ID: <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,18 +85,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Jul 2022 at 07:24, Markus Armbruster <armbru@redhat.com> wrote:
+On Thu, 21 Jul 2022 at 09:19, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+> On 21/07/2022 02:08, Daniel Henrique Barboza wrote:
+> > Hey,
+> >
+> > On 7/19/22 04:59, Alexey Kardashevskiy wrote:
+> >> Alexey Kardashevskiy (1):
+> >>        pseries: Update SLOF firmware image
+> >>
+> >>   docs/system/ppc/pseries.rst |   2 +-
+> >>   pc-bios/README              |   2 +-
+> >>   pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
+> >>   roms/SLOF                   |   2 +-
+> >>   4 files changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >>
+> >> *** Note: this is not for master, this is for pseries
+> >> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
+> >> too soon so I am posting it anyway.
+> >
+> > I forgot to send a reply yesterday, sorry.
+> >
+> > Don't worry about rushing this SLOF pull. Given that this build doesn't
+> > have bug fixes we can wait to pull it in 7.2. You'll have the time to
+> > sync it up with git.qemu.org and so on.
 >
-> Peter Maydell <peter.maydell@linaro.org> writes:
 >
-> > In shell script syntax, $var[something] is not special for variable
-> > expansion: $emu is expanded.  However, as it can look as if it were
->
-> Do you mean "$var is expanded"?
+> Well, the git.qemu.org is still not updated, and I have no control over
+> this process anyway, who manages it?
 
-Yes. I changed my mind half way through writing the commit message
-about whether to use as my example the specific variable name we
-have in configure or a generic $var...
+Syncing of those git repos is supposed to be automatic, but
+occasionally something falls over. Stefan, who looks after
+the sync process ?
 
+Alexey, which specific repo is not syncing ?
+
+thanks
 -- PMM
 
