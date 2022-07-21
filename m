@@ -2,158 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB14A57C8F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:29:31 +0200 (CEST)
-Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2000357C927
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:38:10 +0200 (CEST)
+Received: from localhost ([::1]:41436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oETQw-000518-T1
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:29:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40608)
+	id 1oETZJ-0007gk-8e
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oETOx-0002ld-Mu
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:27:27 -0400
-Received: from mail-bn7nam10on2050.outbound.protection.outlook.com
- ([40.107.92.50]:40545 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oETXI-0005mS-4j
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:36:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oETOu-0000Hm-Fw
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:27:27 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Vmp6C+akleKjO/jKIf9JNjRss3znWcw06A5fhBoVsiwTeYF2Lz8oeT3DIYntgPy2xSmjTMJCJwuFU9FLoSe53EDXaimSjxyE74IWbFJuTT7OW6G24lx7Twierm9ahzUisRsJUF6rcQeyhdxV87TG5Cg2P9f1uymDwTRKgGF2iyaXckTfbc7v4H3EgTNtz16s3b2dcl6ldecmDI4fub6gkrTTW2oddrV+xM6owuFe+uAb32Hg980xt/ivX0v+dKmycNwoF555ibgr8tx8eIoAGIOafDDS4/S3/eCuVes8qdn9zwhs+ohdIANfRtQpAioqCWT9VlbkFNjUhZRsXUAIQA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Pg0/2EbRBjSfICjHk4BOyAszvl0FzffETSdPTSpDvXw=;
- b=N6NcZQG/vq8yw17Wvyacc4hDjFcYCxG32r4hB6F8kP2NAqhNHgb6UlqGeAcPsO5gimuhQRO+pZWF2UfFzfNfBjgmMkWD+BxSUi6CorCWr+2V2zzCDU7BVOYOZlamX009j4zfPk3hhDUXjksWPYnhFLTf+AkC0mwyA4j2TYav0aBlZ2vsLnEMMZpCeV+yHwxu1oZfWZOa6h/6Y5OwRVbF0ND0oE3I6PjH3Q4+iiEg+jVN2PT7T2Js3ZEl8j/zPvYLm6ZQMt5F10nfnJ6+FIiUWIKDpPggwWnAQ4azDRwdPyGH4Axfb0rXKqmiXkP5UyzRrVnf//N2h6K1Ox8TsOEkqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Pg0/2EbRBjSfICjHk4BOyAszvl0FzffETSdPTSpDvXw=;
- b=dFRJ4rSsiFiUlw9ASjvgTfd6Navm3HEmcVUXiObfTOLfrK24UA1aTGnYaHGSbEQbyuMNDUtcSJZ6tQ6+2cqT79bDHZ7RTYGR9AIvWRJQnXj5k2Kau4A+y+5NQ02GgmvfLDMDpdIaeOyL9mmejsunNI/00P0Mw4jEnQ3JZyKE3ao=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by PH7PR12MB5997.namprd12.prod.outlook.com
- (2603:10b6:510:1d9::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Thu, 21 Jul
- 2022 10:27:20 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Thu, 21 Jul
- 2022 10:27:17 +0000
-Message-ID: <c59fca89-cd0c-1724-210e-d9b01b375103@amd.com>
-Date: Thu, 21 Jul 2022 12:27:03 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>,
- Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Sean Christopherson <seanjc@google.com>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
- jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
- aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
- <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0019.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::6) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oETXE-0001Yx-AH
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:36:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658399754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bmbap+2fUtdJ1vSOcxqXiatCQzKeYfHqvUWTEBLmFAM=;
+ b=OPZtt/0a+Ndyjl1fq7pNibPJHEbqoUj8TYGxXxleMHPc9bmkzL4ux5gmj/6IWZkGEGkb4X
+ PXa5u2yzhSeaM0yZEUToxmxVSbKiRetbXDsw1bHPGf96YZzRzhJtNVaAVVaxckJA9KUXrj
+ 1x7ZJdW71cucREI+Zv88/OC2YXvhMwU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-362-fvV2zhhnPjW6vuPlaGxxGQ-1; Thu, 21 Jul 2022 06:35:47 -0400
+X-MC-Unique: fvV2zhhnPjW6vuPlaGxxGQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ t13-20020adfe10d000000b0021bae3def1eso229198wrz.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 03:35:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=bmbap+2fUtdJ1vSOcxqXiatCQzKeYfHqvUWTEBLmFAM=;
+ b=45SM6obrY5KcL6ZvRzABIS61vz41SqQmUHUooh6gFMBjfmtCTbKoM1nHtNiaZTTP1/
+ v2JsPz1AdYhrlJsfWmFbgcU3KSWkdPAUIi8U+jh+AnbMJIcoVSkJdKL2zqlGfjZyJANE
+ sVxZn8ZyrKZPMGJZYAaElhHt8lDtEQohujlHx8sdMTfGJD9MeweYwDnL8b0NDisBCocP
+ VXfXnXLaYrqJFGdg1F36z1Tv7DkOaHAc9oo0U0oTOL5JEYvqGufDCDVC6bQMzxuS2QKk
+ LSPlGwQlXr+MSgTH36nSmr6ZqXzPEVEcoaaI22OuXHQ76/idoblv0AJ+LvBAJpNuavm0
+ aegg==
+X-Gm-Message-State: AJIora96AOvko5oSELLO9fwy43i4eTvjT1DjX2kvCvA21jaVHSVwdXAI
+ pwQ9gHma8TjK+JSvvYDZr1n6j70znVz4Sn8DsG0lB2FQaYKAEkzfVF/vBEA/gyPjVjD1Mygqu5a
+ Hiisz+IkSA+9KWk8=
+X-Received: by 2002:a05:600c:3553:b0:3a3:2b65:299e with SMTP id
+ i19-20020a05600c355300b003a32b65299emr5728627wmq.145.1658399746466; 
+ Thu, 21 Jul 2022 03:35:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1v3CaeABDqRwsOMpKyvaBEPyooiqSsO/hoQ6f5eu0ltAKbcB5qjOPce9WNgcb/M5SrJwX0sYQ==
+X-Received: by 2002:a05:600c:3553:b0:3a3:2b65:299e with SMTP id
+ i19-20020a05600c355300b003a32b65299emr5728601wmq.145.1658399746047; 
+ Thu, 21 Jul 2022 03:35:46 -0700 (PDT)
+Received: from redhat.com ([2.55.25.63]) by smtp.gmail.com with ESMTPSA id
+ ay35-20020a05600c1e2300b003a2e42ae9a4sm1894718wmb.14.2022.07.21.03.35.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 03:35:45 -0700 (PDT)
+Date: Thu, 21 Jul 2022 06:35:41 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v4] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <20220721062910-mutt-send-email-mst@kernel.org>
+References: <YtkitoK3PVjbgXBH@zx2c4.com>
+ <20220721100959.427518-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 53eaaeae-6f70-4cdb-2ad8-08da6b0395fc
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5997:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: o3rkqDu/MtUGfyd22dBbc6buHqVUAwskQuYrY8FQ/jqYy4AXtuONs3eOfcOI6y0yMLZMFyoNZQr+OgbE9P0fk9c8kGLw6dL+5a5sDQ/1VIL4G37lan767xHVH+7JvNMPxw9RrqDOnc31y8HlNnpJiAm2LtHZDlts3o0Ot5sH2Jo2GNZQjA1Ag4iQ+j/ZHXK/LzqYbRrvrwagiGq9gyiGSF8NjffP9P/T2dV8HT8CNe+5FpWERS5U3ziaE5FCdrcyH2EPXiNWO6nChzigLX/qid6im3OhYTqYhZg0NRQn+JlLr2NAuVHhLsff++S2reglOI+N+LS/naPXXuXhhDQR9AR9uO3rqg8/ulMb/EDtit3ueoMbJ2dudoMUnnfgv91BUa3PmPa012nIkRLgZxKF/8dZ+bgoFvN9mgE8SAF/n1FNQ8LkL3Qf+H8k/GwB3070VsETOvpBNr3dZxCh20/5mS3TuHwQizEV019UVd4V8ZRRS5EWFjb1Th2VmZje5ONPs9ACfhVlDcyPzsa9gVvtzRJ3aweVSDAmgVFInH/qCRl7Vl38UJVTwc0fCOHZ3baNG8iQOF7mIG5Gc4LV4fK8qTaVGu+EiM1+ELoIrKeyWgCd4aTz8q0+GyaJFPMUTTEmdq4AuDnHnydXga5xHrdDTjVjkhfisCMWhCetZNWaLNgTn579rMtmwi3wedaCGbSlZsEdPCVwRgfPs8taB9+As3fWzRySjv6iW3fZ55SlVytCyHGQyrfP6RD3jsIDU8SCGbk4LTJPiYMOgiis07DQYkSosH4DsXESr8vg36Xr4utexmBPGO4FoDjHNulhT49cBAl6rrV/9rYsY5dQklMkNg82J8j/ijz2cSr+sJHvTqu/+ZLurSqaVHQPNqGLq8V3
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(7406005)(31686004)(5660300002)(8936002)(2906002)(54906003)(7416002)(110136005)(66476007)(86362001)(36756003)(4326008)(316002)(66556008)(83380400001)(6666004)(6506007)(966005)(66946007)(478600001)(41300700001)(8676002)(6486002)(38100700002)(26005)(2616005)(31696002)(186003)(6512007)(921005)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXFUL25NMG5BamhqUUZUMWxpcEhPM0phMnFpM1F1dExSdFBHekc1bTZHcGhr?=
- =?utf-8?B?SlJCRVFwVG81bWFpVk9BL09xYjRnR2NiQWVkTTlsMUpLMzBCM3JEL1RwTG9T?=
- =?utf-8?B?RGZDMGwwamlvcEZWczh3WS83WXNkdE5GdGZ2WFpETUtQUDV3VzZwQ29Zekwv?=
- =?utf-8?B?RTBCQllobEszV1FjZTQxU1lwM0lEWXExWC9xeDFsWFMrRVVuRDBCKytoYlRF?=
- =?utf-8?B?Z2dnNm1HNnpQQ25OTHVpRm91ZG5uWmZPRGVBdGZ1UHl2VkFOR3BPZGtDRmp5?=
- =?utf-8?B?QWZTeVFOV3I1d3RXcGdOcWFkUkZVWUx3UjNZejdRN21wdFVQcmJVMUV2Q1g3?=
- =?utf-8?B?RTlYZk1sM004MnpmTWY1Q0phZzhOMDJzdzFzWTZWa2x6Ulk4TXR5TnRtM1lI?=
- =?utf-8?B?TGtPQXhSQTRTMHN1Q3l1VU0xRUJtNGtFZDFGWUxMclJ1TUVZUzQ2WHBuM0Y4?=
- =?utf-8?B?cFFUdjZjdUg4YTB4bGE3dlJJdWN1TWptc2ZIazRsQ2FNM2poTzZDSklqbE1E?=
- =?utf-8?B?VEdVNkNudjFPU3FqdGdUMGZDMlNrMUpyaGxNNEtMYmZOR0lCQTQzQXAyVUdW?=
- =?utf-8?B?dndnd29kMStvOWlFMHNiUklvRzhndHo3ckJ3UmpRdjRJS0RrbmptaitJZkpI?=
- =?utf-8?B?cW5WOENpcjFvVGdtbXRIdC9jU09nUHNyb0U0emZkM0Nvc3llNnF6K3JsZldF?=
- =?utf-8?B?ZE9Ga2VFSDBmTlZrMjBYRUtRSzM5dTN1MElWdGYvQVJzTGxjZ2NWb2NQVHNx?=
- =?utf-8?B?NUJqa2JDQ3BqL2pqc3BaZlg0ZExZNUhYVHVRanBGbUY0NWhZeHhkbm9aOElw?=
- =?utf-8?B?UUcvZ2lSbGYrek9nU1JYQXJBSC9LdldrMHFLV3dkSFZPSktSSkh2amxHTDhs?=
- =?utf-8?B?TGxlQ3NFNHJGTmZGWHJXZ2svSnhXN28vaS8zanVaU0EyWWNhbjRKSFJVT0pT?=
- =?utf-8?B?VXd4cTBvWFIydjdDdXlTWTNDTTlwNngrc2V5dHFTdGgyM0hldFdWY3Rpc0Nm?=
- =?utf-8?B?ZkoweGFxazEvdEx5N3JsblpWWVZiQUNQdmt3YnFKcVp4aUJKT3ZYVW8wQjVD?=
- =?utf-8?B?ODFsdzE3L3h0SGs5WkVDNUZSdTN4WDEzWEIvZE5kMmljYnFpSFR6Y0pRYlVK?=
- =?utf-8?B?QnhJRGVnQlRWaFdmS0xpNHBOczNTUHJjQ3lHbTRNcHFUbGJBOWFRTndWNXdM?=
- =?utf-8?B?ZExmQzIwMDVJUjQveE1CeG1CZzVnSmNONE1kdVB0SEowa3hxa0FyT0VOSE5P?=
- =?utf-8?B?cmFaS2c0R0xybjc2K1BMblJ3L3JzQlVad2M0NHA2akUvbGtxNS9TZXEvVTBT?=
- =?utf-8?B?NlZqNlJtNkpTUWtSU0FqNXhFaTQxSm9oY09WMDdJendGV3pqNm43K202c0s5?=
- =?utf-8?B?MEUrRVJwenF0aUszZitsWVVReG50cHYvdmpkOVdRTFpmbDdnYzl0OGF0QWhI?=
- =?utf-8?B?UlFoZjVrb0d5R0pWQjRjSW5SdkZaUzlBU0xjeU1QTkhKMmwyY0hQWUpQNlg1?=
- =?utf-8?B?U0VmYURJM2xYQVFGcjJOQThxNndNcFhuQTFHRExYZlhaRGNnK3VQYUwwUFNW?=
- =?utf-8?B?ZnlVVFptLzQ5NmJJVmhPL3ZqdzhWUFRLbFM5YmR2b3JUdkMvbi9maHRxWXc0?=
- =?utf-8?B?OE1mclArTjR0YVBnemxobGFvWnBBcXM3a1RuK05SZEhNZGVRQ3N1K011dnJw?=
- =?utf-8?B?TEtLK2xjWWc1blZMTzZnd3hJZ044bllhemZBamEvRmQ2cGlQaHhlVTlSa1N2?=
- =?utf-8?B?RGlQMERzUjdVQ3IzVWhFTUNtUTVNQlVZWHJuM09oQ0hwNC9TR2MrVzNVbjhC?=
- =?utf-8?B?Sk5vb1NvNm54cDA5VjdPdGJ5d0VUdHNzTVlGYldCMkljbEw4TnpNVEtPQ05J?=
- =?utf-8?B?TkpHWi9CRW9KS3l0OUp1QWJZNTVKb3VzZUpCaFlPS20xZEhqeE9MYVpxaGdN?=
- =?utf-8?B?UzU5SG5RRjFmbi93UUREbzg2Q0tPL0NacnQwUnBzSmNMczBtVkQyZFU4QVY0?=
- =?utf-8?B?MFNBNWg0R0ZhSWhhV01EdTQ1cU1qM3BKbWpkVDFEL2w0UUVvTjdKRVpXS2RJ?=
- =?utf-8?B?TXZRZlNwem1FbjFmMzhFb216RnYwbUNoWEl0dkFBLzZ0NUJjanNvb2VucVhy?=
- =?utf-8?Q?JsGJWlysto510nMhC5R5acQJ5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 53eaaeae-6f70-4cdb-2ad8-08da6b0395fc
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 10:27:17.5345 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9ns8BJ2910Nru/VVWMevQ1YUBMuOXwux3PJqjATN8kEFATZe6Vku1yYVToWVgOMore/LEkylzIDRU9hHQjG/XA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5997
-Received-SPF: softfail client-ip=40.107.92.50;
- envelope-from=Pankaj.Gupta@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220721100959.427518-1-Jason@zx2c4.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,61 +104,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
->> Normally, a write to unallocated space of a file or the hole of a sparse
->> file automatically causes space allocation, for memfd, this equals to
->> memory allocation. This new seal prevents such automatically allocating,
->> either this is from a direct write() or a write on the previously
->> mmap-ed area. The seal does not prevent fallocate() so an explicit
->> fallocate() can still cause allocating and can be used to reserve
->> memory.
->>
->> This is used to prevent unintentional allocation from userspace on a
->> stray or careless write and any intentional allocation should use an
->> explicit fallocate(). One of the main usecases is to avoid memory double
->> allocation for confidential computing usage where we use two memfds to
->> back guest memory and at a single point only one memfd is alive and we
->> want to prevent memory allocation for the other memfd which may have
->> been mmap-ed previously. More discussion can be found at:
->>
->>    https://lkml.org/lkml/2022/6/14/1255
->>
->> Suggested-by: Sean Christopherson <seanjc@google.com>
->> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
->> ---
->>   include/uapi/linux/fcntl.h |  1 +
->>   mm/memfd.c                 |  3 ++-
->>   mm/shmem.c                 | 16 ++++++++++++++--
->>   3 files changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
->> index 2f86b2ad6d7e..98bdabc8e309 100644
->> --- a/include/uapi/linux/fcntl.h
->> +++ b/include/uapi/linux/fcntl.h
->> @@ -43,6 +43,7 @@
->>   #define F_SEAL_GROW	0x0004	/* prevent file from growing */
->>   #define F_SEAL_WRITE	0x0008	/* prevent writes */
->>   #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
->> +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
+On Thu, Jul 21, 2022 at 12:09:59PM +0200, Jason A. Donenfeld wrote:
+> Tiny machines optimized for fast boot time generally don't use EFI,
+> which means a random seed has to be supplied some other way. For this
+> purpose, Linux (≥5.20) supports passing a seed in the setup_data table
+> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+> specialized bootloaders. The linked commit shows the upstream kernel
+> implementation.
 > 
-> Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
-> shared zeropage, so you'll simply allocate a new page via read() or on
-> read faults.
+> Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Eduardo Habkost <eduardo@habkost.net>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  hw/i386/x86.c                                | 21 +++++++++++++++++---
+>  include/standard-headers/asm-x86/bootparam.h |  1 +
+>  2 files changed, 19 insertions(+), 3 deletions(-)
 > 
-> 
-> Also, I *think* you can place pages via userfaultfd into shmem. Not sure
-> if that would count "auto alloc", but it would certainly bypass fallocate().
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 6003b4b2df..284c97f158 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu/cutils.h"
+>  #include "qemu/units.h"
+>  #include "qemu/datadir.h"
+> +#include "qemu/guest-random.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "qapi/qapi-visit-common.h"
+> @@ -771,7 +772,7 @@ void x86_load_linux(X86MachineState *x86ms,
+>      bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+>      uint16_t protocol;
+>      int setup_size, kernel_size, cmdline_size;
+> -    int dtb_size, setup_data_offset;
+> +    int dtb_size, setup_data_offset, last_setup_data_offset = 0;
+>      uint32_t initrd_max;
+>      uint8_t header[8192], *setup, *kernel;
+>      hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0;
+> @@ -1063,16 +1064,30 @@ void x86_load_linux(X86MachineState *x86ms,
+>          kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
+>          kernel = g_realloc(kernel, kernel_size);
+>  
+> -        stq_p(header + 0x250, prot_addr + setup_data_offset);
+>          setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> -        setup_data->next = 0;
+> +        setup_data->next = last_setup_data_offset;
 
-I was also thinking this at the same time, but for different reason:
+does this make any difference? if the idea is that we'll add more stuff
+down the road, then see below ...
 
-"Want to populate private preboot memory with firmware payload", so was 
-thinking userfaulftd could be an option as direct writes are restricted?
+>          setup_data->type = cpu_to_le32(SETUP_DTB);
+>          setup_data->len = cpu_to_le32(dtb_size);
+>  
+>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+> +
+> +        last_setup_data_offset = prot_addr + setup_data_offset;
 
-Thanks,
-Pankaj
+
+if the idea is that we'll add more stuff down the road, then
+it should be += here.
+
+>      }
+>  
+> +    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> +    kernel_size = setup_data_offset + sizeof(struct setup_data) + 32;
+> +    kernel = g_realloc(kernel, kernel_size);
+> +    setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> +    setup_data->next = last_setup_data_offset;
+
+Likely broken on LE.
+
+> +    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
+> +    setup_data->len = cpu_to_le32(32);
+> +    qemu_guest_getrandom_nofail(setup_data->data, 32);
+> +
+> +    last_setup_data_offset = prot_addr + setup_data_offset;
 
 
+where does this 32 come from? maybe make it a macro.
 
+> +
+> +    stq_p(header + 0x250, last_setup_data_offset);
 
+add a comment while we are at it?
+
+> +
+>      /*
+>       * If we're starting an encrypted VM, it will be OVMF based, which uses the
+>       * efi stub for booting and doesn't require any values to be placed in the
+> diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+> index 072e2ed546..b2aaad10e5 100644
+> --- a/include/standard-headers/asm-x86/bootparam.h
+> +++ b/include/standard-headers/asm-x86/bootparam.h
+> @@ -10,6 +10,7 @@
+>  #define SETUP_EFI			4
+>  #define SETUP_APPLE_PROPERTIES		5
+>  #define SETUP_JAILHOUSE			6
+> +#define SETUP_RNG_SEED			9
+>  
+>  #define SETUP_INDIRECT			(1<<31)
+>  
+> -- 
+> 2.35.1
 
 
