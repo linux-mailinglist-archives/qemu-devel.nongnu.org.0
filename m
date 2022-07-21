@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A8457D47B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 22:02:56 +0200 (CEST)
-Received: from localhost ([::1]:39778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D0F57D480
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 22:04:01 +0200 (CEST)
+Received: from localhost ([::1]:40678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEcNr-0005uT-Sx
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 16:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1oEcOu-0006Xf-Bp
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 16:04:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oEcHv-00050E-8l
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:47 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:40440)
+ id 1oEcHu-0004xm-U7
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:46 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:18156)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oEcHo-0006aX-R0
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:46 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LIKtfk027882;
- Thu, 21 Jul 2022 12:56:38 -0700
+ id 1oEcHr-0006ak-NV
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:45 -0400
+Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LIKx6n025446;
+ Thu, 21 Jul 2022 12:56:42 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=proofpoint20171006; bh=MTCDmLTNV67iF/RKDptn6o8I0Uk1BpY+Tae2pJSdK0E=;
- b=zQd7hkHy64Z6NUzNOXHfxMS38XZ/3K+Eogtab4krRJENI3+Z4i4o2AAqDM2cm/VMO9y9
- fXpqEJovupUWpr+xgg7sEB5rr7eu5MgnVeho8LM4IOXkIgPdFPWMZrRFZ2yRnU+d8EBT
- PDDQ8VdckBDyVvrw/4yAYAH0OJgsxErrI4JhhiynjntkvwkdrDItf5olp7Is5bKir6TC
- xkIVoNoIasA9s1bCIPg0VfI2+kBcz9jlAM2H+sJSNDydstEvQ3GC71pUH7oQA3jS1sHk
- pv6sRBilZ4FDbdeJ6/xxgW67rt9dM/eFzKgaUzHcMWX7rvV4yvLSB9NpEDIPCm/4xi4y yQ== 
+ s=proofpoint20171006; bh=q8tnXKFAvEcaHbJYVt/Ib60A8gi2RFP2dCWAR7BpDV8=;
+ b=mR+AHLfOF3y4mzgd6ivqRXwZ6faJ4C04Jd6uWJ+fpCZPJV+yfWjOy/O5uRdssLJS46Ij
+ NLdD1y0od7z4SLuxnmJ3Ow6SBXBoXDxAs3cUX8vacYoijSQTppe/fKbob6dKoCK9v950
+ hlmjveWPZl5++KNhcdjeXCW3+GVbaz/jn3zlHdnYsCC2+LnRM8zjO8+g4AnyFIDUdzbs
+ rDrxuTWHDlYEPRpEwLiVyGwEfGHnb+cTqQ0Hw5p399rKye8V3VlAHmug410tkl7L8x7+
+ BDV6iVAI73qz/ygnzHVnB5qteYE+rD0U1hcQz33i8XXf0B+5RzMfV29gzORUOGO5BoEE TQ== 
 Received: from nam11-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3hbvv244d6-1
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3hbvngm5f6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 12:56:38 -0700
+ Thu, 21 Jul 2022 12:56:42 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MXaOc5AZ5Y1psS8lgJxpBo09jzGgb+CWZXNBRsUVmtYsh0CTnxzAEKs0+cpMijsTqY5HSRUhyjwXuHqxl5JDbD3Yb4AmPgJN86sCGMncBFe7dlFQymrvmGweJWSewP31A9n7sBpyJja8+0mynLN1gPChc+AmqYSZTyTg3PFMQU65785ebawlr4yiwyydEL+gMFda5RjYGV1zWyiM2Llwsu3UTn3jK3KHX7pLCfPsbnMxfMnCsgK8zimT6eltv/Q125y4lGspTtrajX52kxVsniuqJJZ39tcY/XCZvOJUsyowWmjsjav6P24XPu1Cxa6hAYQJfUL8GDQ0PNpuKP+iQg==
+ b=ZKMSiI6lQGnQQb9RUJwuxvO9zQsQxXj4XVsF4Hx45w8zT5qLug8BQeBM/DQb7KnhU2C8v8TL93vXTBwtY2RO4T4SCs6WCaWZSrAmtQtcwnu5iV0WEC33tVmfdrlg+RcPFDdJbawOpygLHLHv27T8uK+b3Y2qRn/BSLkZKTMchEihvGH9kYGEXaS6QR5mjWQWIfjBMOZ1x3nVtvwRlbNc3zEUiV8tEeB7skF0HA/MuavdMq4pMnQkdJErq8z/1Pbr+Zq5oEgkjwCQTJ40gxI/COKagqVcst6PovpsexDQ5XgjMoVjoKbuWNSCjfSZcs6g8EOikiQjRgd7lil36IqPQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MTCDmLTNV67iF/RKDptn6o8I0Uk1BpY+Tae2pJSdK0E=;
- b=YNBua7shTvsmjACiy9QuSY6crf1zynSoB2OuD4HS6udGaUmzNVaJDQE2nUxt7pjT0qZY+PreK5stJF6UEonoY3SD8h8YGWUBWEsQ2wX6nsUnpTWkoGSM8VMmtJ/lsqKy2Wq98npKe/Ltifdcbh8o8Yz7214bapC0LHZRJKor+T4jByYZMgrrGXbGdLcq+2SDZGNszuG7anUtio1IHXvIdGVWpgcyZpgzYEoM44+hWa/i07c99Tb5Lv6LEl239Jpw/ss+QYIg7JNV2VtdXkciM343d4Jwf6KO4NUuYMRux8UKosO/w9Y2KJK24K8jSvIbVUi/ZXtLz9e9Ik9qgOWDFA==
+ bh=q8tnXKFAvEcaHbJYVt/Ib60A8gi2RFP2dCWAR7BpDV8=;
+ b=aWpc79BrXtSu7GvX82f4mWEOXiTfQN6ObBOOe1XJTK6BkAe51E+A9R+2hOf/zrPnJjnd2sB/hzhAiZFal1unvg1QBOjrQdeIv5+iEVfEMqP3LVnn+xNUuVH7ceclv401zvJze6BKLoCVBcKT0DXx1OTjtJOcmH1PXjIhsijpVowRI/4utYzuJaILqCafevu64clvt8bAXLe9zDnOi7ns5MO7xCWYkQAniI6zC8L38jeIaIHvPZU2YB/Zn9QxvhlbcWBLSKF6wTMKA0yhrwkcjf5TiwpI+CnVEW/wAXtzQQiQjg8/opcJ5DlX1Q0HhTMvGO2X9gAvzXKurpCFqqNASA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
@@ -51,21 +51,21 @@ Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
  by DM5PR02MB2825.namprd02.prod.outlook.com (2603:10b6:3:108::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Thu, 21 Jul
- 2022 19:56:35 +0000
+ 2022 19:56:41 +0000
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::1493:404b:3242:8e0f]) by BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::1493:404b:3242:8e0f%5]) with mapi id 15.20.5438.023; Thu, 21 Jul 2022
- 19:56:35 +0000
+ 19:56:41 +0000
 From: Het Gala <het.gala@nutanix.com>
 To: qemu-devel@nongnu.org
 Cc: quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  berrange@redhat.com, armbru@redhat.com, eblake@redhat.com,
  prerna.saxena@nutanix.com, Het Gala <het.gala@nutanix.com>,
  Manish Mishra <manish.mishra@nutanix.com>
-Subject: [PATCH v2 1/7] multifd: adding more helper functions in util files
- for live migration
-Date: Thu, 21 Jul 2022 19:56:14 +0000
-Message-Id: <20220721195620.123837-2-het.gala@nutanix.com>
+Subject: [PATCH v2 4/7] multifd: HMP changes for multifd source and
+ destination side
+Date: Thu, 21 Jul 2022 19:56:17 +0000
+Message-Id: <20220721195620.123837-5-het.gala@nutanix.com>
 X-Mailer: git-send-email 2.22.3
 In-Reply-To: <20220721195620.123837-1-het.gala@nutanix.com>
 References: <20220721195620.123837-1-het.gala@nutanix.com>
@@ -76,57 +76,57 @@ X-ClientProxiedBy: BY5PR16CA0035.namprd16.prod.outlook.com
  (2603:10b6:a03:57::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0c0ef3f7-dd4b-4766-ed82-08da6b531def
+X-MS-Office365-Filtering-Correlation-Id: c137869a-b09d-4772-2e15-08da6b53212b
 X-MS-TrafficTypeDiagnostic: DM5PR02MB2825:EE_
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M2cYFFPn4/4Pv248Eh22yTnHJPv6gp1TQKKnxTat+lwICj6ZWzUsYM3Nl37ZeSMgAFr1pA9Mhy7d69LxHzxKM5J9KvutIFx2bvzivC9SkJ4uYMPlkRNixX7OCDyMisU5r2P2xiWu2P8tCfARfGb82nJKZYol397hsZGccl7LD2Qkpl9+Q9r9a4kvoHD74S8CheuwphxqbvfMog074kdzBM8NUvCa1ew8LZVl4t72YtN0yWdQBKnga4mlDsfDECFkeRfCBPSM+vQklrPGMvAKx/affYSuhTtWyLgFzG3+vzj/URkHplfZivsXN+2atm8aK6xvphNVo5bUdxJvrq246uRkHWQu82+wP0MkNvV/tn5e9QODBtEPBy5JudoJVB2881U1wy3pcbDxl8ScxZ2e+g2EUbRS70NtnHsYXDGdgHG8W5dQWNvBtFcjzSXyNmjUG16utdXB1jRBtv0x9IYen1jVbiVjGYXZYMCjwyl/VBE592gDW4HSFtKaJLqxE00H5+0/I3jsKhliyJLhEecPcm+vLydEfrr3nxh3Qt3XdSNPAL1MFpVmiP6I1wX46tJLmAsQTfnv43zOb9jSvNnEhAr5DC/mInExDf79/o54nHVem7sDJnL+GHVM/RkZ1TTscUoepWNT9WmCD5vByAVpIVVIjP4I1YT/TirHcB0Kr4ufRhaoa/GpX9ZZbcukW5uN+9zaQ3PUbkxPETjvVH9Jt8QxGcN8OxqLXl/WchHg4g5fe+b3gkOUGizoNnnr1nhLuZaOBbafWzETvHOET6m11bb+72ntuJVGjY1+G3OqSNbJSyy03HREji6CJ6IrvXy/zVSMEdzau2JlqPn900RnQA==
+X-Microsoft-Antispam-Message-Info: 7Kz63LEbWDrEYCFlOOsxn1jMquzu2ET4hilDrEtWnzpvVMRAdyot5tngvX2Ozw+tPpfiUhdZZ2IaaVU2LMcv55BZuHzQL4TqMeI7OhtQdFayGz4q89mmMnCPvD9AcJ3AeK/CPxCRm9J54lLo6yTh8wpmOz/EImbL8AiB+ULNh9ekmO7ppLjqLBWKf4YvLJfv20CV6n4nCkR0D/yNmUqK/pkXpGG67PffZztIRSfbBYq/u+u5SEbOQgch0r4Vq3HNdqaKTExHKX6mvvPApCXFO95Zz0WludvnodRL+Fx4yDWj9lPrlQDbFLs9+EqoWUeo03DLhLRKoJ7Oa8iZYg4TqnTzdOgNPfwovSY2freQBT0yuMwfu/4boe7HO1CR+Uqs2c5W8ClJy7IWnGKsc8vG+Ot8jgbYX4bR8PT4eK2k+ZrhSRy7oOh9tcz14RgDka4lGRL8JJbHR2UA5NZsT4iKp5UpxfOC+FZS2PjxibRCyM5F6SBxf40bkKbe6Fykm51QK5Tv772j2sKIgvN8M3rdf3ANR4wkzB5aqcuMLhuKEKaH9efGgim3delROdmwlCDO90JTGkXRt1tfRq/1/MFnY+GcmyJPNq9q5FOVavNI+1/n7rn27i/lYGIKo4D/K4s33JCQvCakgNcrksfHUwH4K2wm7jZCyL/eVKiy0y7pXGaPyP113gJU09/nOztL8U9Fxp3l48aHRV59tMIucvaMnzNwP0rrcFdIATlS6cnEN/MZgoHkk7txDJdC9ry/CgdWgU0t79vIu05bnlFqU7gZZ9lvSScHrAZyxQE+LOf7SoSEM7/QYL+eWfOSHFl2xbRdTI5l2UytF4Lj0fiwGl3X4Q==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(39860400002)(136003)(346002)(376002)(396003)(366004)(38350700002)(38100700002)(1076003)(83380400001)(36756003)(186003)(2616005)(26005)(86362001)(107886003)(6512007)(316002)(54906003)(478600001)(66946007)(6916009)(66556008)(52116002)(6506007)(41300700001)(5660300002)(4326008)(8676002)(8936002)(44832011)(6486002)(6666004)(66476007)(2906002)(309714004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EIKJLjFHWuFd0EXNq1ia67GxyFCXHGpM2eMDxlJSEgD0sCYcuKfmzrsFpyJx?=
- =?us-ascii?Q?tUyOxmARbbWfvbuKrSkTVCinb+qpwRBzewJpX1RsKCUTwOmZrE2Fb8cw/nwC?=
- =?us-ascii?Q?LhQd9mYSuraHBY2yEWVu2RU2IY68WD1KBtjBRoFj1dj1EKwima0FlhwDgOF4?=
- =?us-ascii?Q?jnKCS3sViSb1CEFrB2nyqTQOaPcYWE0p1k7Y7OtrnVAbNM89C5X61Jbds2/j?=
- =?us-ascii?Q?gw/vTpEsJIH/UX0zxPYzQPqb1beNVLjR+PvsAvhkmpgZr4IJvv669NdTKsUe?=
- =?us-ascii?Q?HcPumgpHnWzNJixtPD4Jex/Pi7/PPMFvodRRA8tKVWNbai+lB6RqNQ669P16?=
- =?us-ascii?Q?kWlhbeZwtY4tOr7GnOjw/jOWLo9NXob+0TQA97fygevTkXaQyO+ueComeWBi?=
- =?us-ascii?Q?E7La9b03v83dNVyBgTjBG3jopRWvCZpc5ffd2h6uJvE8D6POUQQV3yb1uX5T?=
- =?us-ascii?Q?hj817Oh3VKipBNmCRufv1b4vUY7aEISWCLWBkiVOkOZpPIH12vAn6nSgyrzf?=
- =?us-ascii?Q?svXtDWl06oK3wfQ18XAitwOfdj9KeyPiTEP2/2z+RENvVP4syaRcRSxATQDy?=
- =?us-ascii?Q?vWVcG4ahi39JgKxIthIpnVaRvC+G83MncGJBrVvdJazjJQw4xvKOntX85XTK?=
- =?us-ascii?Q?ZWTCfvkkSLdd1RW7MU+dleAGB1C5JG58mX0t2yQZxmGhe9LbwXOIfOmExOyA?=
- =?us-ascii?Q?FMAvqFGx6dtDomk1Fzffxk5PQyqmi2E7Ms747grEu3r5WSkGaGeFDr/Y+iu8?=
- =?us-ascii?Q?+ZPKu/3J0WYCnCCWss2DpDDgcUdZL7wv7m3yMVgL1VsQhaGJYEez1l3qxJ1j?=
- =?us-ascii?Q?fPl/eLFpJ+akQOIj0QHbQMiBrj8E5hpc9I2icdc2TMa4WjzUQfpOsWwzjhVU?=
- =?us-ascii?Q?Hh2/llkrzT/6tkvsPxVpYjMTgUBGHykknGlbfB2nUwMX0vuo4DnGKPjvkFHT?=
- =?us-ascii?Q?OG58UehVtEs0L9cs36Xq8zzVk2CqwQnYrQsW/g+c31ISHCh0/4AOmrq5XvgQ?=
- =?us-ascii?Q?qz9FfdzgH2ZmGK0TWkV9Gk1Ebk8vJYmgAmMN82Weo99WnY6V/864SxpWRpS/?=
- =?us-ascii?Q?cbPSOUqjVEOKrtS6NBxxeJ6rPnxuccvaZh93xhZhYxCcubSLs46FnTU16zOE?=
- =?us-ascii?Q?9VAI82w0KaKgsVWFdYvcbXKwlXh+MK7wrxKEzGaW4PNvcC/wsRKqmRpWJGss?=
- =?us-ascii?Q?JR/y38TtylulZ36LA5//FBMK96RDMPciOLEjbIyWB6REFmDg015597MEqNvf?=
- =?us-ascii?Q?/0VxVhCgP7ts6qnS9/AkSqEqVHud4G+5MMUCJff8JbUIyfOIOnm5p3vRl9Vu?=
- =?us-ascii?Q?mOnlGLE1M3Zu+Npo5cmUUIPqr4IVFu+55TnSy6BMgYAhD+jr3UbOCQsqBu+L?=
- =?us-ascii?Q?TX8SFdo+8SzGG53hlFZLeFwbBdSYcTlYpli6pCyPbc4/QDHaCwmEn5frjQIr?=
- =?us-ascii?Q?Xmy4cGms2L9MHzPVb1zaZiQ0g1FqLoCNWiXwerfavRmE8efrZajXyqpdK65t?=
- =?us-ascii?Q?xgFYG/bKlU6kSsTjpjFa7PlECbvHo+nehUJuPBCQP75BZVQ6R8d3cOZz9LKQ?=
- =?us-ascii?Q?U+g+HTdniLcpYMA4PLQiauem6SZrBy5DJ+lF4qSI?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qtJGyxRilBMw/D1rnoznyfPw/gkOotSry4r+emWT+zHNBEg0+96XuV6LxXsN?=
+ =?us-ascii?Q?W+0naWX9drdNl5V0vKDZUcFIfhZVnEewizVi+kJVUiU9C64Gnihzdd0wEuo5?=
+ =?us-ascii?Q?gktpkJbHOJ0XeGHsj8wDCWJBcsEg7e8ZyTPg9MAiOxvqP4WJJWFvOpn1Sxee?=
+ =?us-ascii?Q?0v7fgkUK7Dfvw2PPBSP9ScFEvRZobvhYtCzxOy7n59MWdYnmtI3B2WN07V5Y?=
+ =?us-ascii?Q?Twhv82moivE6TE6lt7+O5kNpvMoUSMixVimuLbyQt4mOoXl6r5u9B6PD3CAX?=
+ =?us-ascii?Q?OyvXYd81lhjv9FeiiqiN1hnKORWO1Kp0/mvTSF6L2EQmxQemFGLrgtQB9krd?=
+ =?us-ascii?Q?e+cb2z07zPU8ZeqXwjZ34eXjAV14PA7EO83FKvGWYhjEY1+CYl9lqSsdCbMY?=
+ =?us-ascii?Q?dP1ZQhhKSH1euzFr38LV/TpQvrBA5ofppnDg/6TLsjWO8dGpOyL+NxHOKLIw?=
+ =?us-ascii?Q?fpTI+C/DlqFGCS8vOH6pm3J9drlg23EDgCbmZK1h/9k6f0czftJ8WVmQ1wWU?=
+ =?us-ascii?Q?xkAwcvvLYC33pExrQxVtPjLDdlo4Catqxb7QD7Wgj7ug3h2FhQGU6hEa90VT?=
+ =?us-ascii?Q?IxJqDYS8i/tUGxPthzDjNEUT4sb3euSSDwW1XeIOZ8n2SB9M0DpWvfimWa4X?=
+ =?us-ascii?Q?aIQlMXS9vFuAbeQjTwss9+YM/Qztx8M4eA6GXQjo5etKTqfOcDf6YXGrraiz?=
+ =?us-ascii?Q?wM7rBHQax0C5Xzw0d+yrLB6LEIJTT4yJQVu4kZH95zPBJ8FkyweCbjgPEGMn?=
+ =?us-ascii?Q?ze7injx11ytciVOWz3+crLNz4I7VQvX1XyHZTK/MXf34WQnMGSNK757Qzzz0?=
+ =?us-ascii?Q?srAZDWzqq1V0rUAFGK+LTL23xtPv/liW5CkH+o0MDzuoGHwVXilCskRY3Erk?=
+ =?us-ascii?Q?EVCIjnP7QpUBd2YQexgoowmNoI2Y8NxmqwiKj4KoZsrR3mTuW4OF7VfZ8jaE?=
+ =?us-ascii?Q?d+bV+zTOGWYJe9yTzBXgjpHb8z1Tqp5VEgHD/XCSZcAPghITzHZjev3YofPI?=
+ =?us-ascii?Q?1WZbfbn+U/gUdLlFk+Ysd7A26m0GYZuMHmY22ZALYGpelsiqKIXr6mazHjnX?=
+ =?us-ascii?Q?Hwl6j5+bGu2YRnYfxLuodXzGFZlngeRTsP+TrTczrSIw1MWbxRJkZVj1MhAi?=
+ =?us-ascii?Q?AzPgQWa3ngL9oqiwewh9DoUdZDWN4WlWlF5uP4Ww5T/DBzRaUweoJ5FSLh8l?=
+ =?us-ascii?Q?7YMSBcdhtzhsB3Mq45XfFYD1lY8/WWjFsqL5dhReOeFMyZClv3gcgN6nG3Cs?=
+ =?us-ascii?Q?QtyXh1dVZgw4s5fI649Efb0dkezbm5wQUzXX8ivep7sbHGhqqI/vAv7Fg8jG?=
+ =?us-ascii?Q?ozoFWsN5dRIzXstadCAyN9ZyLEK9GM3qZ5A8d6ELOSl6kDa8DeGtWlYNwJo2?=
+ =?us-ascii?Q?jhUtgZDb0XyBNHApL0L1h7FTRl+36s/KOJqA3sMqbq3ORsuT3yB2IMMBmkZP?=
+ =?us-ascii?Q?W12HKBTdAhOfRpc6R9/fGQqBZ11u6L3IM44hAUYGXbivI336h58xB3EYmZmX?=
+ =?us-ascii?Q?rWfcTaUIjdKsruFrRl7gjlp6qyG67JbPHOveS/4tP34zQTsB1XkIyr/12QWk?=
+ =?us-ascii?Q?5wj5cYZrziQV8vlB/4RFn4xxpUU5BVHeQp1LEv45?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c0ef3f7-dd4b-4766-ed82-08da6b531def
+X-MS-Exchange-CrossTenant-Network-Message-Id: c137869a-b09d-4772-2e15-08da6b53212b
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 19:56:35.6629 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 19:56:41.0844 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +LbuxuBilR3bfSpR8Rg4L01iEb9vkjTSQ6BoxpFLyTbFUlvKTQhHgJDYPkvgmyThxJ9QNaNf8C9THWHTruA1CA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: v+CrINmLTTDy60pngi8Cl4UNY8Rgl09yNDGaT1z0KDsDxxhBgtIjadIpmBJ3reaMR1ZKla8nGtvD4uDWoXnp0A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2825
-X-Proofpoint-ORIG-GUID: x7tIdFbDgcw6AqwhryEItGPreBUdRvA3
-X-Proofpoint-GUID: x7tIdFbDgcw6AqwhryEItGPreBUdRvA3
+X-Proofpoint-GUID: kLBMetCWQJHiiXKQpSFxFRjiPSwL4bfq
+X-Proofpoint-ORIG-GUID: kLBMetCWQJHiiXKQpSFxFRjiPSwL4bfq
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-21_27,2022-07-21_02,2022-06-22_01
@@ -155,153 +155,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i) strList_from_string() shifted from hm-cmds.c -> qapi-util.c
-
-ii) Adding qemu_string_count_delim() helper func. in qapi-util.c and
-    QAPI_LIST_LENGTH() macro defined func. in util.h
+i) hmp_migrate and hmp_migrate_incoming functions are modified
+   according to the modified qmp monitor commands.
 
 Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
 Signed-off-by: Het Gala <het.gala@nutanix.com>
 ---
- include/qapi/util.h | 12 ++++++++++++
- monitor/hmp-cmds.c  | 31 +++----------------------------
- qapi/qapi-util.c    | 35 +++++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+), 28 deletions(-)
+ monitor/hmp-cmds.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index 81a2b13a33..36164ca7ba 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -29,6 +29,8 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
-                      Error **errp);
- 
- int parse_qapi_name(const char *name, bool complete);
-+struct strList *strList_from_string(const char *in, char c);
-+int qemu_string_count_delim(const char *str, char delim);
- 
- /*
-  * For any GenericList @list, insert @element at the front.
-@@ -56,4 +58,14 @@ int parse_qapi_name(const char *name, bool complete);
-     (tail) = &(*(tail))->next; \
- } while (0)
- 
-+/* provides the length of any type of list */
-+#define QAPI_LIST_LENGTH(list) ({ \
-+    size_t _len = 0; \
-+    typeof(list) _elem; \
-+    for (_elem = list; _elem != NULL; _elem = _elem->next) { \
-+        _len++; \
-+    } \
-+    _len; \
-+})
-+
- #endif
 diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index a6dc79e0d5..6bb6424215 100644
+index 8d25fee4be..ec12b950db 100644
 --- a/monitor/hmp-cmds.c
 +++ b/monitor/hmp-cmds.c
-@@ -43,6 +43,7 @@
- #include "qapi/qapi-commands-stats.h"
- #include "qapi/qapi-commands-tpm.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qapi/util.h"
- #include "qapi/qapi-visit-net.h"
- #include "qapi/qapi-visit-migration.h"
- #include "qapi/qmp/qdict.h"
-@@ -71,32 +72,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
-     return false;
- }
+@@ -60,6 +60,9 @@
+ #include "migration/misc.h"
  
--/*
-- * Produce a strList from a comma separated list.
-- * A NULL or empty input string return NULL.
-- */
--static strList *strList_from_comma_list(const char *in)
--{
--    strList *res = NULL;
--    strList **tail = &res;
--
--    while (in && in[0]) {
--        char *comma = strchr(in, ',');
--        char *value;
--
--        if (comma) {
--            value = g_strndup(in, comma - in);
--            in = comma + 1; /* skip the , */
--        } else {
--            value = g_strdup(in);
--            in = NULL;
--        }
--        QAPI_LIST_APPEND(tail, value);
--    }
--
--    return res;
--}
--
- void hmp_info_name(Monitor *mon, const QDict *qdict)
+ 
++/* Default number of multi-fd channels */
++#define DEFAULT_MIGRATE_MULTIFD_CHANNELS 2
++
+ #ifdef CONFIG_SPICE
+ #include <spice/enums.h>
+ #endif
+@@ -1127,8 +1130,19 @@ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict)
  {
-     NameInfo *info;
-@@ -1121,7 +1096,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
-                                             migrate_announce_params());
+     Error *err = NULL;
+     const char *uri = qdict_get_str(qdict, "uri");
++    const char *dst_uri = qdict_get_str(qdict, "destination-uri");
++    uint8_t multifd_channels = qdict_get_try_int(qdict, "multifd-channels",
++                                        DEFAULT_MIGRATE_MULTIFD_CHANNELS);
++    MigrateIncomingUriList *caps = NULL;
++    MigrateIncomingUri *value;
++
++    value = g_malloc0(sizeof(*value));
++    value->destination_uri = (char *)dst_uri;
++    value->multifd_channels = multifd_channels;
++    QAPI_LIST_PREPEND(caps, value);
  
-     qapi_free_strList(params->interfaces);
--    params->interfaces = strList_from_comma_list(interfaces_str);
-+    params->interfaces = strList_from_string(interfaces_str, ',');
-     params->has_interfaces = params->interfaces != NULL;
-     params->id = g_strdup(id);
-     params->has_id = !!params->id;
-@@ -2399,7 +2374,7 @@ static StatsFilter *stats_filter(StatsTarget target, const char *names,
-             request->provider = provider_idx;
-             if (names && !g_str_equal(names, "*")) {
-                 request->has_names = true;
--                request->names = strList_from_comma_list(names);
-+                request->names = strList_from_string(names, ',');
-             }
-             QAPI_LIST_PREPEND(request_list, request);
-         }
-diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-index 63596e11c5..9672ac6018 100644
---- a/qapi/qapi-util.c
-+++ b/qapi/qapi-util.c
-@@ -152,3 +152,38 @@ int parse_qapi_name(const char *str, bool complete)
-     }
-     return p - str;
+-    qmp_migrate_incoming(uri, &err);
++    qmp_migrate_incoming(uri, !!caps, caps, &err);
++    qapi_free_MigrateIncomingUriList(caps);
+ 
+     hmp_handle_error(mon, err);
  }
+@@ -1551,10 +1565,24 @@ void hmp_migrate(Monitor *mon, const QDict *qdict)
+     bool inc = qdict_get_try_bool(qdict, "inc", false);
+     bool resume = qdict_get_try_bool(qdict, "resume", false);
+     const char *uri = qdict_get_str(qdict, "uri");
 +
-+/*
-+ * Produce a strList from a delimiter separated list.
-+ * A NULL or empty input string return NULL.
-+ */
-+strList *strList_from_string(const char *in, char c)
-+{
-+    strList *res = NULL;
-+    strList **tail = &res;
++    const char *src_uri = qdict_get_str(qdict, "source-uri");
++    const char *dst_uri = qdict_get_str(qdict, "destination-uri");
++    uint8_t multifd_channels = qdict_get_try_int(qdict, "multifd-channels",
++                                        DEFAULT_MIGRATE_MULTIFD_CHANNELS);
+     Error *err = NULL;
++    MigrateUriParameterList *caps = NULL;
++    MigrateUriParameter *value;
 +
-+    while (in && in[0]) {
-+        char *ch = strchr(in, c);
-+        char *value;
-+
-+        if (ch) {
-+            value = g_strndup(in, ch - in);
-+            in = ch + 1; /* skip the , */
-+        } else {
-+            value = g_strdup(in);
-+            in = NULL;
-+        }
-+        QAPI_LIST_APPEND(tail, value);
-+    }
-+
-+    return res;
-+}
-+
-+int qemu_string_count_delim(const char *str, char delim)
-+{
-+    int count = 0;
-+    for (int i = 0; i < strlen(str); i++) {
-+        count += (str[i] == delim);
-+    }
-+    return count;
-+}
++    value = g_malloc0(sizeof(*value));
++    value->source_uri = (char *)src_uri;
++    value->destination_uri = (char *)dst_uri;
++    value->multifd_channels = multifd_channels;
++    QAPI_LIST_PREPEND(caps, value);
+ 
+-    qmp_migrate(uri, !!blk, blk, !!inc, inc,
+-                false, false, true, resume, &err);
++    qmp_migrate(uri, !!caps, caps, !!blk, blk, !!inc,
++                inc, false, false, true, resume, &err);
++    qapi_free_MigrateUriParameterList(caps);
+     if (hmp_handle_error(mon, err)) {
+         return;
+     }
 -- 
 2.22.3
 
