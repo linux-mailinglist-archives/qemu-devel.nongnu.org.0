@@ -2,78 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87C7B57D265
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 19:22:53 +0200 (CEST)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DAC57D2DD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:01:04 +0200 (CEST)
+Received: from localhost ([::1]:60516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEZsw-0005k9-EJ
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 13:22:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33008)
+	id 1oEaTu-0005Qv-Gx
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:01:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1oEZq5-0003uy-M1
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:19:53 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:52842)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oEaRw-0003cq-2k
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:59:00 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:43791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <daolu@rivosinc.com>)
- id 1oEZq2-0006bu-68
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:19:53 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id ku18so2197357pjb.2
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 10:19:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sZVWLF7Sk76WOsTnp8Z6JRoOj4Ti9cXFLWofE/XvfgU=;
- b=zAAaYL7akD/j6Qgi6kPX31DC7A4+QxrEx9PIxEwSWTFEpUMXitluCXdnwoSxj4ceQP
- F8IsRQuET70ex9hMR4xIHogvL03jPESGcgOVRxL/aTcPOJLkBNJvs8Am9b35b9Q5g4KF
- vvyNWws/NIsJZidLdSOlKT2ROKfvpeNjec9yrYPm0M6FNHHdj8G2wElUww3Ug6bLME3o
- xZrSzGTVytC6saiOHNxpHB57Uvv12HaKIWtAZ8uB63xMLO0hCoUOqTl4Jg0/vPooqOzj
- HdmBJgfzrnVrALaapOuD7vexD7VUhNXiLUfU5dVaZ2WbP8ig0Ler/WNzV5q2fUzUqfAH
- UV1w==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oEaRu-0004om-2m
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 13:58:59 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ o5-20020a17090a3d4500b001ef76490983so2114914pjf.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 10:58:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=wvI0q5HAql8tMPxcnKbiOi/9NxgmmSwnzAAkVZd1GZE=;
+ b=QeJXriKT9c5kzVC7WwOIhi80ckWM6ug8VcaWprkpELe4t4pSILpTjfg8m+cMtOrWBe
+ jmelByXoDseFjzPN05HlM35WJraOgVD8XBmkQsrB5vGpNrj70IhxBhsBNPglHsEpzekf
+ 1kG3W212r4FUnxp6h1itgEO/FJ4Uuo3CeYYXkoiOWqCRXrzKR28+BcJbG5kguyytRjkg
+ rjsFU2rMHcaFZYM7jRBwDx3y4TNjRz8cS5RWMgjh+1ofnV6wnx05hcN9heFlTTNfsAVq
+ qUjZMJxGLa9mHYyEFjkrcwiRRdLtgvROz3H/Z1mIRgvYivxLAzSanUXyi85+4NTaGuJS
+ Ssew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sZVWLF7Sk76WOsTnp8Z6JRoOj4Ti9cXFLWofE/XvfgU=;
- b=PVMdAv4jtt2lKZ/YTcwpo6ferhUd8Gg4tsLBjhmJD7DmiMV8bQWRiCHpdS2RQMHbG6
- v7j/8dkjC8o/6vZgVXI1u/5lm02FXccuxGCO2jST7O2T3P9piFxO8aSaCnGCXauquNw9
- 7+7QwGb/T0080MJ0zdcG+mVduRbor96QcXawwIt8VosD6A8vN0ggg/jLyCBeemdpaG25
- 2p4CZyBJMCsjupLPrmlvSWguJOZmI4JaWMSaVRAlNB8fjMvNLuvAxV3BGFi4HB8A8TQf
- xIdCkl+UxI0LAT4HeQNBims4fsBP6q8DrfQmVPfRSNw8eCFsrYcxnQgYNURfRplpLRtt
- 456w==
-X-Gm-Message-State: AJIora/UW1cIEAJy9+gcJu7bgrdkV/H2iz9lZ8eUykb+tj95g5+zrALu
- 9QTRqXUdjV7ioKhjmxAl5bx3hROl02tjjdCuNvt/kA==
-X-Google-Smtp-Source: AGRyM1vPRpOIs5IPcMqfa6lM+eJN/Q0W9oVdPYOeUgIV93ei0zsu42oth9/645ozVKCYThGUnuWFBnEu5cc1CCpw1XI=
-X-Received: by 2002:a17:902:6b02:b0:16c:3d67:8a8a with SMTP id
- o2-20020a1709026b0200b0016c3d678a8amr45277345plk.87.1658423987657; Thu, 21
- Jul 2022 10:19:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wvI0q5HAql8tMPxcnKbiOi/9NxgmmSwnzAAkVZd1GZE=;
+ b=AD6uAbmzN1vK99j96kcN0dPmQ6hT8vxz14DydWMMLs9sfEGzHvLZ6em79c5S2WhUVn
+ snZj5FIY6yZWEERf4aBO58XSVfkBMD/b5ZG57TbP4N04JZ9YIynRC6aOd4Xh6fP0xNpY
+ 1xRAjrtAu+ll4Aofu6y6kX1uzShJG7/+xwNxlF3mfrI1SbfL29tSKcwi1OVA6g2a5VZe
+ N4x36Vw6HegnXnmL1RVcUbn3gYNccXp1mSHtHMp8EtbPzWgf4MY3SbxNzsla80I0MnAC
+ ZcK5Cdgc7O4Ra9zfMt1+ePWfgUPOjbR0zRFqoDNKss6zdBCwRfdf0y9JddHJMjQKAEf0
+ Bw3g==
+X-Gm-Message-State: AJIora83tatf5OBeLRmk7tWNJBnSMiOw8MdWK9eaQ5pyB4sTJruYClVb
+ 0+O6PJ85He2C7dUOZQVFbVPVkQ==
+X-Google-Smtp-Source: AGRyM1sy1sNPIZTfbcs9D/R5onBZFJSx4EAG07fQgd3u5pHjtvT3tSBi6UiM7uRquYtBlR+3qYzZvg==
+X-Received: by 2002:a17:90b:3d84:b0:1ef:9049:9f43 with SMTP id
+ pq4-20020a17090b3d8400b001ef90499f43mr12682443pjb.45.1658426335405; 
+ Thu, 21 Jul 2022 10:58:55 -0700 (PDT)
+Received: from google.com (123.65.230.35.bc.googleusercontent.com.
+ [35.230.65.123]) by smtp.gmail.com with ESMTPSA id
+ f4-20020a170902684400b0016c1cdd2de3sm1956763pln.281.2022.07.21.10.58.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 10:58:54 -0700 (PDT)
+Date: Thu, 21 Jul 2022 17:58:50 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wei Wang <wei.w.wang@linux.intel.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YtmT2irvgInX1kPp@google.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-12-chao.p.peng@linux.intel.com>
+ <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
+ <20220719140843.GA84779@chaop.bj.intel.com>
+ <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+ <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+ <20220721092906.GA153288@chaop.bj.intel.com>
 MIME-Version: 1.0
-References: <20220705174933.2898412-1-daolu@rivosinc.com>
- <20220705174933.2898412-2-daolu@rivosinc.com>
- <CAKh7v-R_NmGyHXNL3cEvMu8rCHbJ_S9vkLsVRaiMjG6GHxcYbw@mail.gmail.com>
- <CAKmqyKN22PMjDCfOCiYffUXm+7hKn=D=RBm+TUGNNtdWa8pi-w@mail.gmail.com>
-In-Reply-To: <CAKmqyKN22PMjDCfOCiYffUXm+7hKn=D=RBm+TUGNNtdWa8pi-w@mail.gmail.com>
-From: Dao Lu <daolu@rivosinc.com>
-Date: Thu, 21 Jul 2022 10:19:36 -0700
-Message-ID: <CAKh7v-QzzEFJ0E5iYd6oxmUkwt56CipTjOEnY8uER2CkcyAqJQ@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] target/riscv: Add Zihintpause support
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Heiko Stuebner <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=daolu@rivosinc.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220721092906.GA153288@chaop.bj.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,118 +124,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Will do, thanks!
+On Thu, Jul 21, 2022, Chao Peng wrote:
+> On Thu, Jul 21, 2022 at 03:34:59PM +0800, Wei Wang wrote:
+> > 
+> > 
+> > On 7/21/22 00:21, Sean Christopherson wrote:
+> > Maybe you could tag it with cgs for all the confidential guest support
+> > related stuff: e.g. kvm_vm_ioctl_set_cgs_mem()
+> > 
+> > bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
+> > ...
+> > kvm_vm_ioctl_set_cgs_mem(, is_private)
+> 
+> If we plan to widely use such abbr. through KVM (e.g. it's well known),
+> I'm fine.
 
-Dao
+I'd prefer to stay away from "confidential guest", and away from any VM-scoped
+name for that matter.  User-unmappable memmory has use cases beyond hiding guest
+state from the host, e.g. userspace could use inaccessible/unmappable memory to
+harden itself against unintentional access to guest memory.
 
-On Wed, Jul 20, 2022 at 10:31 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Jul 19, 2022 at 4:02 AM Dao Lu <daolu@rivosinc.com> wrote:
-> >
-> > ping
->
-> Sorry for the delay.
->
-> Do you mind rebasing this on
-> https://github.com/alistair23/qemu/tree/riscv-to-apply.next and
-> sending a v5
->
-> Alistair
->
-> >
-> > On Tue, Jul 5, 2022 at 10:49 AM Dao Lu <daolu@rivosinc.com> wrote:
-> > >
-> > > Added support for RISC-V PAUSE instruction from Zihintpause extension,
-> > > enabled by default.
-> > >
-> > > Tested-by: Heiko Stuebner <heiko@sntech.de>
-> > > Signed-off-by: Dao Lu <daolu@rivosinc.com>
-> > > ---
-> > >  target/riscv/cpu.c                      |  2 ++
-> > >  target/riscv/cpu.h                      |  1 +
-> > >  target/riscv/insn32.decode              |  7 ++++++-
-> > >  target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
-> > >  4 files changed, 25 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > > index ccacdee215..183fb37fdf 100644
-> > > --- a/target/riscv/cpu.c
-> > > +++ b/target/riscv/cpu.c
-> > > @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
-> > >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-> > >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> > >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > > +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
-> > >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> > >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-> > >      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> > > @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> > >       *    extensions by an underscore.
-> > >       */
-> > >      struct isa_ext_data isa_edata_arr[] = {
-> > > +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
-> > >          ISA_EDATA_ENTRY(zfh, ext_zfh),
-> > >          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-> > >          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> > > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > > index fe6c9a2c92..e466a04a59 100644
-> > > --- a/target/riscv/cpu.h
-> > > +++ b/target/riscv/cpu.h
-> > > @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
-> > >      bool ext_counters;
-> > >      bool ext_ifencei;
-> > >      bool ext_icsr;
-> > > +    bool ext_zihintpause;
-> > >      bool ext_svinval;
-> > >      bool ext_svnapot;
-> > >      bool ext_svpbmt;
-> > > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> > > index 4033565393..595fdcdad8 100644
-> > > --- a/target/riscv/insn32.decode
-> > > +++ b/target/riscv/insn32.decode
-> > > @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
-> > >  sra      0100000 .....    ..... 101 ..... 0110011 @r
-> > >  or       0000000 .....    ..... 110 ..... 0110011 @r
-> > >  and      0000000 .....    ..... 111 ..... 0110011 @r
-> > > -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-> > > +
-> > > +{
-> > > +  pause  0000 0001   0000   00000 000 00000 0001111
-> > > +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-> > > +}
-> > > +
-> > >  fence_i  ---- ----   ----   ----- 001 ----- 0001111
-> > >  csrrw    ............     ..... 001 ..... 1110011 @csr
-> > >  csrrs    ............     ..... 010 ..... 1110011 @csr
-> > > diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> > > index f1342f30f8..2fd07bc2e4 100644
-> > > --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> > > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> > > @@ -796,6 +796,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
-> > >      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
-> > >  }
-> > >
-> > > +static bool trans_pause(DisasContext *ctx, arg_pause *a)
-> > > +{
-> > > +    if (!ctx->cfg_ptr->ext_zihintpause) {
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    /*
-> > > +     * PAUSE is a no-op in QEMU,
-> > > +     * end the TB and return to main loop
-> > > +     */
-> > > +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> > > +    tcg_gen_exit_tb(NULL, 0);
-> > > +    ctx->base.is_jmp = DISAS_NORETURN;
-> > > +
-> > > +    return true;
-> > > +}
-> > >
-> > >  static bool trans_fence(DisasContext *ctx, arg_fence *a)
-> > >  {
-> > > --
-> > > 2.25.1
-> > >
-> >
+> I actually use mem_attr in patch: https://lkml.org/lkml/2022/7/20/610
+> But I also don't quite like it, it's so generic and sounds say nothing.
+> 
+> But I do want a name can cover future usages other than just 
+> private/shared (pKVM for example may have a third state).
+
+I don't think there can be a third top-level state.  Memory is either private to
+the guest or it's not.  There can be sub-states, e.g. memory could be selectively
+shared or encrypted with a different key, in which case we'd need metadata to
+track that state.
+
+Though that begs the question of whether or not private_fd is the correct
+terminology.  E.g. if guest memory is backed by a memfd that can't be mapped by
+userspace (currently F_SEAL_INACCESSIBLE), but something else in the kernel plugs
+that memory into a device or another VM, then arguably that memory is shared,
+especially the multi-VM scenario.
+
+For TDX and SNP "private vs. shared" is likely the correct terminology given the
+current specs, but for generic KVM it's probably better to align with whatever
+terminology is used for memfd.  "inaccessible_fd" and "user_inaccessible_fd" are
+a bit odd since the fd itself is accesible.
+
+What about "user_unmappable"?  E.g.
+
+  F_SEAL_USER_UNMAPPABLE, MFD_USER_UNMAPPABLE, KVM_HAS_USER_UNMAPPABLE_MEMORY,
+  MEMFILE_F_USER_INACCESSIBLE, user_unmappable_fd, etc...
+
+that gives us flexibility to map the memory from within the kernel, e.g. into
+other VMs or devices.
+
+Hmm, and then keep your original "mem_attr_array" name?  And probably 
+
+ int kvm_vm_ioctl_set_mem_attr(struct kvm *kvm, gpa_t gpa, gpa_t size,
+ 			       bool is_user_mappable)
+
+Then the x86/mmu code for TDX/SNP private faults could be:
+
+	is_private = !kvm_is_gpa_user_mappable();
+
+	if (fault->is_private != is_private) {
+
+or if we want to avoid mixing up "user_mappable" and "user_unmappable":
+
+	is_private = kvm_is_gpa_user_unmappable();
+
+	if (fault->is_private != is_private) {
+
+though a helper that returns a negative (not mappable) feels kludgy.  And I like
+kvm_is_gpa_user_mappable() because then when there's not "special" memory, it
+defaults to true, which is more intuitive IMO.
+
+And then if the future needs more precision, e.g. user-unmappable memory isn't
+necessarily guest-exclusive, the uAPI names still work even though KVM internals
+will need to be reworked, but that's unavoidable.  E.g. piggybacking
+KVM_MEMORY_ENCRYPT_(UN)REG_REGION doesn't allow for further differentiation,
+so we'd need to _extend_ the uAPI, but the _existing_ uAPI would still be sane.
 
