@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B4157CABC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:38:45 +0200 (CEST)
-Received: from localhost ([::1]:46896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C76957CAD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:43:27 +0200 (CEST)
+Received: from localhost ([::1]:55558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVRz-0004Q4-Ui
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:38:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35802)
+	id 1oEVWY-0002Ey-3e
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:43:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEVJL-0004Jm-Oh
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54636)
+ id 1oEVJN-0004Mb-FP
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56065)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEVJJ-0004pF-Oe
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:47 -0400
+ id 1oEVJK-0004pd-7h
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658406583;
+ s=mimecast20190719; t=1658406585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ewsIbER1SRBWS1JrbrcFLWG+2/3TGq+isiGbthcclPE=;
- b=Hen0wk3Hr8GWBGi1ZMjAg5UcpvnZGnpHJvZZPA/FsWu4sMlkFi+QhZFPHejU8M0sPwQc2c
- x4PpDnGIUgaBvaBfwachMjTL+DLi9WJYZtZYMO6ZTNsHs8hBc8Mi2wXDYpJYL4AdduoZuN
- Ju37Foweapj1GNypdwTPagrulWmH9UI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=nug0Z3uObNETTTT5YBKRKiT3PKhNyxP+xiqNdaE6mko=;
+ b=MMnJ8NaefWECB6MCDubTnFuZy3l87ueOMmIyfsGoAAaSV1s5nxMe+YIj+PN/VsOf4RqcsS
+ gY+Yp8y07hhMSJkD+hpnQhB3f+r1xbGG4rtjSsLiPi2i3Oa1jU9weG7MEkc78gkeG4SHnA
+ 0x8g7+JQ5yIhjaAI9IEI+ChGRKUFXnc=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-467-2WFpAiUHMgiyE9HFIIbW-g-1; Thu, 21 Jul 2022 08:29:42 -0400
-X-MC-Unique: 2WFpAiUHMgiyE9HFIIbW-g-1
-Received: by mail-ed1-f70.google.com with SMTP id
- o13-20020a056402438d00b0043aa846b2d2so1027978edc.8
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:29:42 -0700 (PDT)
+ us-mta-53-Y9y2kbzJPfiakWLozGO6QA-1; Thu, 21 Jul 2022 08:29:44 -0400
+X-MC-Unique: Y9y2kbzJPfiakWLozGO6QA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ x21-20020a05640226d500b0043abb7ac086so1019034edd.14
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:29:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ewsIbER1SRBWS1JrbrcFLWG+2/3TGq+isiGbthcclPE=;
- b=nyyxMo7UwzdMnt1KSK5ikax2Jmj6gSNRLVRHdeZy9oKBKAuk/lrG3+j4ya60d/wOmj
- ZmxH08QjZihIRYYJG57kexLC/dfwBchmuaXneLSc0t2AoqNUQYTDyTJU6JFsLTxmZqVY
- NW1fSwXtf+ZCzdT2nX6arQ000FZbPj9vk20g+444ot1wiF0ijG+ypg+VjjVfZvTSeI06
- Q7odEDEI6NFUbIBSmJMYJEK2qGPTdVvaXfaq04K38mS55f29uy7rwJ6NQcESQXNbqUkB
- okwrx7JRgpV1AzXYNDhUdnczH3ccDR1dFZJHbojaxUILLxoAvWLsRB6+12xAVDGIUbpR
- 3Qrw==
-X-Gm-Message-State: AJIora8wRe+j3MOjWw9K07hqmzfF+WAdw88XzYMAcHUkuXRQ1vX3hGAq
- EwYm0TnThlbjQROBxSPYcmUjH6KvAZ3OSkWMKJl/o7iGs3Kv0CnXF1irHc34M5knBMR97XwItFO
- p6l2yKkIEpeHGlPI9ZrnEoAVSbIq/ZPCTPDMEmiBGwIRH43DPYcKEUqMQN2alFSDunn8=
-X-Received: by 2002:a05:6402:298a:b0:43a:76f8:a75c with SMTP id
- eq10-20020a056402298a00b0043a76f8a75cmr57480478edb.216.1658406581117; 
- Thu, 21 Jul 2022 05:29:41 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1soFEMbCX6i0FOnn8pjPd/ilMPIAt4W46t9+tl1AEDfquYVYy06fqhtcU3mYGxGyOsAxzuIEQ==
-X-Received: by 2002:a05:6402:298a:b0:43a:76f8:a75c with SMTP id
- eq10-20020a056402298a00b0043a76f8a75cmr57480443edb.216.1658406580815; 
- Thu, 21 Jul 2022 05:29:40 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- l10-20020a170906938a00b006f3ef214daesm829380ejx.20.2022.07.21.05.29.39
+ bh=nug0Z3uObNETTTT5YBKRKiT3PKhNyxP+xiqNdaE6mko=;
+ b=fCf5IWsSRALPRXgHmYwegEuqwnTUuZZi2uE64/rgXR5jbx0Fo794PJah6+I6ShXWMP
+ ioKCWMa16yRLJDyL/LopzrSEJqGag3lDfyvlNXT399BVh5oc/ZYY+Fpj6R+Cx0vuyXV0
+ ApoJgU+sIB1KkJ8HXajTiMZ9wP/qaHxhrTb7cxyJSsWjMm6eK2JgKjcJv0Hh62Dn3nmX
+ evaTdTdNCBdirrKpJKwZ/GiqFFIgG4WfSaUa9O2BHLj5Xn3pmL+qq0uBMYozcvm++AdT
+ fNTdHbrzN5t9li9Im821CW9r+XYi1KXXtZpzF6qDbE+5sLls/8tVipZUQz4zf6iNRCnu
+ Wfrw==
+X-Gm-Message-State: AJIora/u7h+MhIFps3UzBKIfHbwFNHoNbm305bMzFN3oxIAps7aFXr9d
+ ycQm6ZAD6mQ7hvCRwS6m0jkGu7IvA8+wq8VgHYbrcxRw+yIzQLa8bRnWFkAwaq131AS+CA+kOX3
+ HzftbNwzZj+2u0Ax8JMdZwsyUcoVAOgwgkB+Ja1zPR900MzsXU5CNDO7oayhRABX2Ulk=
+X-Received: by 2002:a17:907:7394:b0:72b:44ff:5cec with SMTP id
+ er20-20020a170907739400b0072b44ff5cecmr42185982ejc.670.1658406582649; 
+ Thu, 21 Jul 2022 05:29:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u7Sw7+S+1g33emtvfwu3W9S3QjvZAW5yq02oFVXSBZsrEdU/uJkpepb4z2yzwJk8JrETrtjA==
+X-Received: by 2002:a17:907:7394:b0:72b:44ff:5cec with SMTP id
+ er20-20020a170907739400b0072b44ff5cecmr42185942ejc.670.1658406582301; 
+ Thu, 21 Jul 2022 05:29:42 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ w4-20020a50fa84000000b0043586bee560sm919681edr.68.2022.07.21.05.29.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 05:29:40 -0700 (PDT)
+ Thu, 21 Jul 2022 05:29:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>,
@@ -69,9 +70,9 @@ Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 1/4] hw/i386: extract PVH load to a separate function
-Date: Thu, 21 Jul 2022 14:29:34 +0200
-Message-Id: <20220721122937.729959-2-pbonzini@redhat.com>
+Subject: [PATCH 2/4] hw/i386: define a struct for Linux boot protocol data
+Date: Thu, 21 Jul 2022 14:29:35 +0200
+Message-Id: <20220721122937.729959-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220721122937.729959-1-pbonzini@redhat.com>
 References: <20220721122937.729959-1-pbonzini@redhat.com>
@@ -102,204 +103,284 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Only keep the code x86_load_linux the code that is relevant to the Linux
-boot protocol.
+In preparation for moving parts of x86_load_linux to separate function,
+define a struct with the data that needs to be passed back and forth.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/x86.c | 131 ++++++++++++++++++++++++++------------------------
- 1 file changed, 69 insertions(+), 62 deletions(-)
+ hw/i386/x86.c | 116 +++++++++++++++++++++++++++-----------------------
+ 1 file changed, 62 insertions(+), 54 deletions(-)
 
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..449edb076e 100644
+index 449edb076e..253a6ff536 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -763,6 +763,62 @@ static bool load_elfboot(const char *kernel_filename,
+@@ -819,22 +819,30 @@ static bool load_pvh(X86MachineState *x86ms, FWCfgState *fw_cfg, const char *ker
      return true;
  }
  
-+static bool load_pvh(X86MachineState *x86ms, FWCfgState *fw_cfg, const char *kernel_filename,
-+                     const char *initrd_filename, uint32_t initrd_max, const char *kernel_cmdline,
-+                     size_t kernel_size, uint8_t *header)
-+{
-+    if (!load_elfboot(kernel_filename, kernel_size,
-+                      header, pvh_start_addr, fw_cfg)) {
-+        return false;
-+    }
-+
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
-+        strlen(kernel_cmdline) + 1);
-+    fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
-+
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, sizeof(header));
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA,
-+                     header, sizeof(header));
-+
-+    /* load initrd */
-+    if (initrd_filename) {
-+        GMappedFile *mapped_file;
-+        gsize initrd_size;
-+        gchar *initrd_data;
-+        GError *gerr = NULL;
-+
-+        mapped_file = g_mapped_file_new(initrd_filename, false, &gerr);
-+        if (!mapped_file) {
-+            fprintf(stderr, "qemu: error reading initrd %s: %s\n",
-+                    initrd_filename, gerr->message);
-+            exit(1);
-+        }
-+        x86ms->initrd_mapped_file = mapped_file;
-+
-+        initrd_data = g_mapped_file_get_contents(mapped_file);
-+        initrd_size = g_mapped_file_get_length(mapped_file);
-+        if (initrd_size >= initrd_max) {
-+            fprintf(stderr, "qemu: initrd is too large, cannot support."
-+                    "(max: %"PRIu32", need %"PRId64")\n",
-+                    initrd_max, (uint64_t)initrd_size);
-+            exit(1);
-+        }
-+
-+        hwaddr initrd_addr = (initrd_max - initrd_size) & ~4095;
-+
-+        fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
-+        fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
-+        fw_cfg_add_bytes(fw_cfg, FW_CFG_INITRD_DATA, initrd_data,
-+                         initrd_size);
-+    }
-+
-+    option_rom[nb_option_roms].bootindex = 0;
-+    option_rom[nb_option_roms].name = "pvh.bin";
-+    nb_option_roms++;
-+
-+    return true;
-+}
++typedef struct LinuxBootData {
++    uint16_t protocol;
++    uint8_t header[8192];
++    hwaddr prot_addr;
++    size_t kernel_size;
++    uint8_t *kernel;
++    size_t setup_data_offset;
++} LinuxBootData;
 +
  void x86_load_linux(X86MachineState *x86ms,
                      FWCfgState *fw_cfg,
                      int acpi_data_size,
-@@ -774,7 +830,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     int dtb_size, setup_data_offset;
+                     bool pvh_enabled)
+ {
+     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+-    uint16_t protocol;
+-    int setup_size, kernel_size, cmdline_size;
+-    int dtb_size, setup_data_offset;
++    int setup_size, cmdline_size;
++    int dtb_size;
      uint32_t initrd_max;
-     uint8_t header[8192], *setup, *kernel;
--    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0;
-+    hwaddr real_addr, prot_addr, cmdline_addr;
+-    uint8_t header[8192], *setup, *kernel;
+-    hwaddr real_addr, prot_addr, cmdline_addr;
++    uint8_t *setup;
++    hwaddr real_addr, cmdline_addr;
      FILE *f;
      char *vmode;
      MachineState *machine = MACHINE(x86ms);
-@@ -785,6 +841,8 @@ void x86_load_linux(X86MachineState *x86ms,
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     SevKernelLoaderContext sev_load_ctx = {};
+-    struct setup_data *setup_data;
++    LinuxBootData data = { 0 };
+     const char *kernel_filename = machine->kernel_filename;
+     const char *initrd_filename = machine->initrd_filename;
+     const char *dtb_filename = machine->dtb;
+@@ -854,17 +862,17 @@ void x86_load_linux(X86MachineState *x86ms,
+         exit(1);
+     }
  
-+    initrd_max = x86ms->below_4g_mem_size - acpi_data_size - 1;
-+
-     /* Align to 16 bytes as a paranoia measure */
-     cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
- 
-@@ -806,9 +864,7 @@ void x86_load_linux(X86MachineState *x86ms,
+-    kernel_size = get_file_size(f);
+-    if (!kernel_size ||
+-        fread(header, 1, MIN(ARRAY_SIZE(header), kernel_size), f) !=
+-        MIN(ARRAY_SIZE(header), kernel_size)) {
++    data.kernel_size = get_file_size(f);
++    if (!data.kernel_size ||
++        fread(data.header, 1, MIN(ARRAY_SIZE(data.header), data.kernel_size), f) !=
++        MIN(ARRAY_SIZE(data.header), data.kernel_size)) {
+         fprintf(stderr, "qemu: could not load kernel '%s': %s\n",
+                 kernel_filename, strerror(errno));
+         exit(1);
      }
  
      /* kernel protocol version */
--    if (ldl_p(header + 0x202) == 0x53726448) {
--        protocol = lduw_p(header + 0x206);
--    } else {
-+    if (ldl_p(header + 0x202) != 0x53726448) {
+-    if (ldl_p(header + 0x202) != 0x53726448) {
++    if (ldl_p(data.header + 0x202) != 0x53726448) {
          /*
           * This could be a multiboot kernel. If it is, let's stop treating it
           * like a Linux kernel.
-@@ -826,58 +882,14 @@ void x86_load_linux(X86MachineState *x86ms,
-          * If load_elfboot() is successful, populate the fw_cfg info.
+@@ -873,7 +881,7 @@ void x86_load_linux(X86MachineState *x86ms,
+          * header before to load it.
+          */
+         if (load_multiboot(x86ms, fw_cfg, f, kernel_filename, initrd_filename,
+-                           kernel_cmdline, kernel_size, header)) {
++                           kernel_cmdline, data.kernel_size, data.header)) {
+             return;
+         }
+         /*
+@@ -883,35 +891,35 @@ void x86_load_linux(X86MachineState *x86ms,
           */
          if (pvh_enabled &&
--            load_elfboot(kernel_filename, kernel_size,
--                         header, pvh_start_addr, fw_cfg)) {
-+            load_pvh(x86ms, fw_cfg, kernel_filename, initrd_filename,
-+                     initrd_max, kernel_cmdline, kernel_size, header)) {
+             load_pvh(x86ms, fw_cfg, kernel_filename, initrd_filename,
+-                     initrd_max, kernel_cmdline, kernel_size, header)) {
++                     initrd_max, kernel_cmdline, data.kernel_size, data.header)) {
              fclose(f);
--
--            fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE,
--                strlen(kernel_cmdline) + 1);
--            fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
--
--            fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, sizeof(header));
--            fw_cfg_add_bytes(fw_cfg, FW_CFG_SETUP_DATA,
--                             header, sizeof(header));
--
--            /* load initrd */
--            if (initrd_filename) {
--                GMappedFile *mapped_file;
--                gsize initrd_size;
--                gchar *initrd_data;
--                GError *gerr = NULL;
--
--                mapped_file = g_mapped_file_new(initrd_filename, false, &gerr);
--                if (!mapped_file) {
--                    fprintf(stderr, "qemu: error reading initrd %s: %s\n",
--                            initrd_filename, gerr->message);
--                    exit(1);
--                }
--                x86ms->initrd_mapped_file = mapped_file;
--
--                initrd_data = g_mapped_file_get_contents(mapped_file);
--                initrd_size = g_mapped_file_get_length(mapped_file);
--                initrd_max = x86ms->below_4g_mem_size - acpi_data_size - 1;
--                if (initrd_size >= initrd_max) {
--                    fprintf(stderr, "qemu: initrd is too large, cannot support."
--                            "(max: %"PRIu32", need %"PRId64")\n",
--                            initrd_max, (uint64_t)initrd_size);
--                    exit(1);
--                }
--
--                initrd_addr = (initrd_max - initrd_size) & ~4095;
--
--                fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
--                fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
--                fw_cfg_add_bytes(fw_cfg, FW_CFG_INITRD_DATA, initrd_data,
--                                 initrd_size);
--            }
--
--            option_rom[nb_option_roms].bootindex = 0;
--            option_rom[nb_option_roms].name = "pvh.bin";
--            nb_option_roms++;
--
              return;
--        }
-+            }
-         protocol = 0;
-+    } else  {
-+        protocol = lduw_p(header + 0x206);
+             }
+-        protocol = 0;
++        data.protocol = 0;
+     } else  {
+-        protocol = lduw_p(header + 0x206);
++        data.protocol = lduw_p(data.header + 0x206);
      }
  
-     if (protocol < 0x200 || !(header[0x211] & 0x01)) {
-@@ -914,17 +926,12 @@ void x86_load_linux(X86MachineState *x86ms,
-          * support the 64-bit boot protocol (specifically the ext_ramdisk_image
-          * field).
-          *
--         * Therefore here just limit initrd_max to UINT32_MAX simply as well.
-+         * Therefore here just limit initrd_max to the available memory below 4G.
-          */
--        initrd_max = UINT32_MAX;
-     } else if (protocol >= 0x203) {
--        initrd_max = ldl_p(header + 0x22c);
-+        initrd_max = MIN(initrd_max, ldl_p(header + 0x22c));
+-    if (protocol < 0x200 || !(header[0x211] & 0x01)) {
++    if (data.protocol < 0x200 || !(data.header[0x211] & 0x01)) {
+         /* Low kernel */
+         real_addr    = 0x90000;
+         cmdline_addr = 0x9a000 - cmdline_size;
+-        prot_addr    = 0x10000;
+-    } else if (protocol < 0x202) {
++        data.prot_addr = 0x10000;
++    } else if (data.protocol < 0x202) {
+         /* High but ancient kernel */
+         real_addr    = 0x90000;
+         cmdline_addr = 0x9a000 - cmdline_size;
+-        prot_addr    = 0x100000;
++        data.prot_addr = 0x100000;
      } else {
--        initrd_max = 0x37ffffff;
--    }
--
--    if (initrd_max >= x86ms->below_4g_mem_size - acpi_data_size) {
--        initrd_max = x86ms->below_4g_mem_size - acpi_data_size - 1;
-+        initrd_max = MIN(initrd_max, 0x37ffffff);
+         /* High and recent kernel */
+         real_addr    = 0x10000;
+         cmdline_addr = 0x20000;
+-        prot_addr    = 0x100000;
++        data.prot_addr = 0x100000;
      }
  
-     fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
-@@ -1008,7 +1015,7 @@ void x86_load_linux(X86MachineState *x86ms,
+     /* highest address for loading the initrd */
+-    if (protocol >= 0x20c &&
+-        lduw_p(header + 0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
++    if (data.protocol >= 0x20c &&
++        lduw_p(data.header + 0x236) & XLF_CAN_BE_LOADED_ABOVE_4G) {
+         /*
+          * Linux has supported initrd up to 4 GB for a very long time (2007,
+          * long before XLF_CAN_BE_LOADED_ABOVE_4G which was added in 2013),
+@@ -928,8 +936,8 @@ void x86_load_linux(X86MachineState *x86ms,
+          *
+          * Therefore here just limit initrd_max to the available memory below 4G.
+          */
+-    } else if (protocol >= 0x203) {
+-        initrd_max = MIN(initrd_max, ldl_p(header + 0x22c));
++    } else if (data.protocol >= 0x203) {
++        initrd_max = MIN(initrd_max, ldl_p(data.header + 0x22c));
+     } else {
+         initrd_max = MIN(initrd_max, 0x37ffffff);
+     }
+@@ -940,11 +948,11 @@ void x86_load_linux(X86MachineState *x86ms,
+     sev_load_ctx.cmdline_data = (char *)kernel_cmdline;
+     sev_load_ctx.cmdline_size = strlen(kernel_cmdline) + 1;
+ 
+-    if (protocol >= 0x202) {
+-        stl_p(header + 0x228, cmdline_addr);
++    if (data.protocol >= 0x202) {
++        stl_p(data.header + 0x228, cmdline_addr);
+     } else {
+-        stw_p(header + 0x20, 0xA33F);
+-        stw_p(header + 0x22, cmdline_addr - real_addr);
++        stw_p(data.header + 0x20, 0xA33F);
++        stw_p(data.header + 0x22, cmdline_addr - real_addr);
+     }
+ 
+     /* handle vga= parameter */
+@@ -968,7 +976,7 @@ void x86_load_linux(X86MachineState *x86ms,
+                 exit(1);
+             }
+         }
+-        stw_p(header + 0x1fa, video_mode);
++        stw_p(data.header + 0x1fa, video_mode);
+     }
+ 
+     /* loader type */
+@@ -977,13 +985,13 @@ void x86_load_linux(X86MachineState *x86ms,
+      * If this code is substantially changed, you may want to consider
+      * incrementing the revision.
+      */
+-    if (protocol >= 0x200) {
+-        header[0x210] = 0xB0;
++    if (data.protocol >= 0x200) {
++        data.header[0x210] = 0xB0;
+     }
+     /* heap */
+-    if (protocol >= 0x201) {
+-        header[0x211] |= 0x80; /* CAN_USE_HEAP */
+-        stw_p(header + 0x224, cmdline_addr - real_addr - 0x200);
++    if (data.protocol >= 0x201) {
++        data.header[0x211] |= 0x80; /* CAN_USE_HEAP */
++        stw_p(data.header + 0x224, cmdline_addr - real_addr - 0x200);
+     }
+ 
+     /* load initrd */
+@@ -993,7 +1001,7 @@ void x86_load_linux(X86MachineState *x86ms,
+         gchar *initrd_data;
+         GError *gerr = NULL;
+ 
+-        if (protocol < 0x200) {
++        if (data.protocol < 0x200) {
+             fprintf(stderr, "qemu: linux kernel too old to load a ram disk\n");
+             exit(1);
+         }
+@@ -1023,30 +1031,30 @@ void x86_load_linux(X86MachineState *x86ms,
+         sev_load_ctx.initrd_data = initrd_data;
+         sev_load_ctx.initrd_size = initrd_size;
+ 
+-        stl_p(header + 0x218, initrd_addr);
+-        stl_p(header + 0x21c, initrd_size);
++        stl_p(data.header + 0x218, initrd_addr);
++        stl_p(data.header + 0x21c, initrd_size);
+     }
+ 
+     /* load kernel and setup */
+-    setup_size = header[0x1f1];
++    setup_size = data.header[0x1f1];
+     if (setup_size == 0) {
+         setup_size = 4;
+     }
+     setup_size = (setup_size + 1) * 512;
+-    if (setup_size > kernel_size) {
++    if (setup_size > data.kernel_size) {
+         fprintf(stderr, "qemu: invalid kernel header\n");
+         exit(1);
+     }
+-    kernel_size -= setup_size;
++    data.kernel_size -= setup_size;
+ 
+     setup  = g_malloc(setup_size);
+-    kernel = g_malloc(kernel_size);
++    data.kernel = g_malloc(data.kernel_size);
+     fseek(f, 0, SEEK_SET);
+     if (fread(setup, 1, setup_size, f) != setup_size) {
+         fprintf(stderr, "fread() failed\n");
+         exit(1);
+     }
+-    if (fread(kernel, 1, kernel_size, f) != kernel_size) {
++    if (fread(data.kernel, 1, data.kernel_size, f) != data.kernel_size) {
+         fprintf(stderr, "fread() failed\n");
+         exit(1);
+     }
+@@ -1054,7 +1062,7 @@ void x86_load_linux(X86MachineState *x86ms,
+ 
+     /* append dtb to kernel */
+     if (dtb_filename) {
+-        if (protocol < 0x209) {
++        if (data.protocol < 0x209) {
+             fprintf(stderr, "qemu: Linux kernel too old to load a dtb\n");
+             exit(1);
+         }
+@@ -1066,13 +1074,13 @@ void x86_load_linux(X86MachineState *x86ms,
              exit(1);
          }
  
--        initrd_addr = (initrd_max - initrd_size) & ~4095;
-+        hwaddr initrd_addr = (initrd_max - initrd_size) & ~4095;
+-        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+-        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
+-        kernel = g_realloc(kernel, kernel_size);
++        data.setup_data_offset = QEMU_ALIGN_UP(data.kernel_size, 16);
++        data.kernel_size = data.setup_data_offset + sizeof(struct setup_data) + dtb_size;
++        data.kernel = g_realloc(data.kernel, data.kernel_size);
  
-         fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_ADDR, initrd_addr);
-         fw_cfg_add_i32(fw_cfg, FW_CFG_INITRD_SIZE, initrd_size);
+-        stq_p(header + 0x250, prot_addr + setup_data_offset);
++        stq_p(data.header + 0x250, data.prot_addr + data.setup_data_offset);
+ 
+-        setup_data = (struct setup_data *)(kernel + setup_data_offset);
++        struct setup_data *setup_data = (struct setup_data *)(data.kernel + data.setup_data_offset);
+         setup_data->next = 0;
+         setup_data->type = cpu_to_le32(SETUP_DTB);
+         setup_data->len = cpu_to_le32(dtb_size);
+@@ -1088,14 +1096,14 @@ void x86_load_linux(X86MachineState *x86ms,
+      * file the user passed in.
+      */
+     if (!sev_enabled()) {
+-        memcpy(setup, header, MIN(sizeof(header), setup_size));
++        memcpy(setup, data.header, MIN(sizeof(data.header), setup_size));
+     }
+ 
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
+-    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
+-    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
+-    sev_load_ctx.kernel_data = (char *)kernel;
+-    sev_load_ctx.kernel_size = kernel_size;
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, data.prot_addr);
++    fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, data.kernel_size);
++    fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, data.kernel, data.kernel_size);
++    sev_load_ctx.kernel_data = (char *)data.kernel;
++    sev_load_ctx.kernel_size = data.kernel_size;
+ 
+     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_ADDR, real_addr);
+     fw_cfg_add_i32(fw_cfg, FW_CFG_SETUP_SIZE, setup_size);
 -- 
 2.36.1
 
