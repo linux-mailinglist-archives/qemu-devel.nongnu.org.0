@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74EA257CB44
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:04:05 +0200 (CEST)
-Received: from localhost ([::1]:59068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC6957CB63
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:07:35 +0200 (CEST)
+Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVqV-0000Il-K2
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:04:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42032)
+	id 1oEVtu-0003el-Lt
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oEVnS-0005fp-JD
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:58 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:44554)
+ id 1oEVnU-0005fs-KP
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:59 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oEVnK-0002oB-4P
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:51 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id m16so2026462edb.11
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 06:00:45 -0700 (PDT)
+ id 1oEVnO-0002oK-GP
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:56 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id oy13so3064787ejb.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 06:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
  bh=GktTuaL+5l+pkhSlt+t6BusBHwUozEKjvQjMZt+El74=;
- b=Hm8lU1NHvlEc/Xm4T1uGybCj0EA0/65U1ES822dyDSE83NgCKvBzICh7tOvGf2jWDu
- Ukb/4b8/eMrl0O6Bk18uRsfm78gxqL4e9NWmIJbe0nnw0FJ7iDAFr5/6K9FcX6kKyYYs
- 7U4aFw1fKzjVH0jHEjd9Y2Ajnrm820RKv0xshCEu3Oc+pVxxQggWXjPRNZiP2FC12aXD
- UhEnbW1F14dvYc5IpMtp30So+Et7XejHK+Cc83lTlaG/rram/glO5VjZs0pnBj5j1lwG
- tyGC+EKpB6COMM7itPOj3Xgt3W4qDcOO+UhuA0dgZZSq8zvLyBuxqcdKGsNbZptJw7F7
- evvw==
+ b=LcayB/kJnAonWLOVDDVAbHZ76P3tOdJEgDxXgsGhzgTP3d9x0pratRMmW9JjGyrjvq
+ hVD9CwtaVPNL+OsVHrEdZe91xArl23aLbdI4QqPB3WqZlJnLw86lh9boumvVNdYqEyFa
+ Ou/X5BjM4Uax/MesF7FLxcAODXeEHQiwRQbCSL2KNXYyiyuKGXVerixUAMY+EYI2wWjs
+ PU9681ZJOMP/WjL41uL/1DqGqLnsafV1PRVaaSnmDwtrzleEu+8y/ssAB3TRMVdE/LjM
+ 0r8jYDVvk3rgYlJqUwitPLYaVVKEP5BJT0rVsNJdgQUeyl0X4VUGhWGTIATh1fpm+JLo
+ +G4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
  bh=GktTuaL+5l+pkhSlt+t6BusBHwUozEKjvQjMZt+El74=;
- b=umL6ccbf7IENLaAixVWRIZOP4jXlRj23vHFLFEGb1gC1iA0mlSWUglsl1g8nbaPgqH
- IHr1aPxUihYg9dmoLTZewAeDv0xsAn1b/n/NuONZSuJVa6FlQIThNftTNm9keX3RC65q
- k1Uwyt0Nbi51Rv04lP7PUqpb5iP3mMXNIH2OJtVsy+6nkNpdWt+QALw1zscJcrq3Drd1
- JV0dYYX8fWPF+pKuHNYvcG3LgAhzVLnTj1n1M28bxxJg9P/ibBJNIaorDSqXyDZji66y
- xfk3Sgj3Pp8GTFeGzGPWfNqlvAoEwEsDME/cVfYxYz1V5pLD4r5iWj3XNLN1RsQ4HAql
- Sh8w==
-X-Gm-Message-State: AJIora9gIuIhGUVo37ux4wMPpoCP+p9Vcq3DjomuuWlEHEw5mKuf3aGO
- Q8NjehMwI5Eg0Qzm+oqzNgs=
-X-Google-Smtp-Source: AGRyM1ue9fx3RqmR7FOIrfh9eNaEispudoRCnOnccw3TxWzS1OLKOL12mZY8hjWxdZDto0Ar0DOzqA==
-X-Received: by 2002:aa7:d9d3:0:b0:43b:c457:fb06 with SMTP id
- v19-20020aa7d9d3000000b0043bc457fb06mr4245654eds.5.1658408444527; 
- Thu, 21 Jul 2022 06:00:44 -0700 (PDT)
+ b=f84ziDmFVuwwtGKLhTXpLfkBuVh+yspSNx+Qh2mCkLqD6whdgSN1pqfxxo68fDZMWj
+ 9Ggt6i/Q29WoKxeTvX/EkGuxdBlANOeouzqBmBYsbO56vCzGeEBJCEy7N854yz+SIkTM
+ D+xh+2JHccZ9ED0FVzog5dTpk0aOGmi2v7MZpZdbjgvSj/5BAvWyRTfln3m8uo+vUI3M
+ ebh3VETZkzYTVE097yjSNNogNFlS8RWXoKg/Y1BCn1bBB0y7FQTT2QRf+Nl2lgZPubyk
+ WYTbWG1CUSbgEhH1xs4d359X8qoA8b3E+QrmJcypAunAaaGc1eRvnGPo4jivPvRBBRhn
+ hFVQ==
+X-Gm-Message-State: AJIora9zrAWT7FiAGlnK6cFi9Yb919lQcla5vOpYMN157CWeCkI8gBZz
+ BCjzE7o4/y54vzlutecZ7CU=
+X-Google-Smtp-Source: AGRyM1vf0T3mNhJ3GjEYFAERKpbXMvbyM/SDHZ0aCATMHMBxsge1Glw+entalxOR7CKiQYiHyNrSdw==
+X-Received: by 2002:a17:907:2dab:b0:72f:f7:bdd6 with SMTP id
+ gt43-20020a1709072dab00b0072f00f7bdd6mr29671343ejc.330.1658408447092; 
+ Thu, 21 Jul 2022 06:00:47 -0700 (PDT)
 Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
  ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.googlemail.com with ESMTPSA id
- c14-20020aa7d60e000000b0043b240ce57bsm964014edr.82.2022.07.21.06.00.43
+ jz15-20020a170906bb0f00b0072637b9c8c0sm817622ejb.219.2022.07.21.06.00.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 06:00:43 -0700 (PDT)
-Message-ID: <4ef7500c-cce7-e7eb-9c4f-aedf2ee000bd@redhat.com>
-Date: Thu, 21 Jul 2022 15:00:42 +0200
+ Thu, 21 Jul 2022 06:00:46 -0700 (PDT)
+Message-ID: <50f168a6-1351-dd5d-67f0-e222f9547071@redhat.com>
+Date: Thu, 21 Jul 2022 15:00:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
@@ -78,8 +78,8 @@ From: Paolo Bonzini <pbonzini@redhat.com>
 In-Reply-To: <20220721125636.446842-1-Jason@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
