@@ -2,97 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750A457CBD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:26:18 +0200 (CEST)
-Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE8157CBDE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:27:26 +0200 (CEST)
+Received: from localhost ([::1]:35436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEWC1-00065W-G6
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47594)
+	id 1oEWD7-0006hb-69
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:27:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9R-0000CA-Uy; Thu, 21 Jul 2022 09:23:38 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11832)
+ id 1oEW9T-0000DW-19; Thu, 21 Jul 2022 09:23:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60360
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9Q-0006Vn-50; Thu, 21 Jul 2022 09:23:37 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDK4ix022779;
- Thu, 21 Jul 2022 13:23:34 GMT
+ id 1oEW9R-0006Vv-Aq; Thu, 21 Jul 2022 09:23:38 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDCYNu021639;
+ Thu, 21 Jul 2022 13:23:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=EtxTSD7JRJXl9J6Jc0fiPUug2v2YgbC0UOTmTPH6Xjc=;
- b=hgB+3ERmZEiikiYF0wc8efL+cOOJcypB026MTL180PNDoeALXIvP2WGmOC5H5ZEY1nRT
- SALZ64xc8YBYd1JvRqDJCDX5FylRHQzz4VK1Hho0qhyEekjDJYdPaIRIyvrsVbMUdzXu
- nwwhYAK4rvORQ3R08W31ORDsPS4dpI8kImHqO+c9GZtoTmM4V93AqwGFiBs7PPA1SCMC
- mwr2VfB1tssfHX4Tfk2CfyU0t7yI8mpspju9BAJH9yU2a2r4yFcqc2VpZQ5mO9Tg/KSW
- x6lCQoSeu2lppzjmeMzMsXu2qTJx8JFuZ7k2WeA6UFTNQ7PPg7UxNUVClf5MYSBvvzyk Tw== 
+ bh=sCu5thipWnTycQJzPxwmHSgo5jMRZGk3uVPWoqZ9itQ=;
+ b=cxWOVtZdwgo/t9dddcD8d3cDpmRnZUKiXIWV2XyVoiPVtUVcYLfGEab3WLIn0yzhe2Nr
+ /1Zof5Zp9J3o/lLKTjG+sbY8JWVJBzKCaKrbgaAcK0O4zyVbo9tGR9bWLxl9ZW7lsAgr
+ pfGmdbfg7TqO8OJWYwK7SBhrm/Fmmf1k1bwcR9EJG07TbNGCxsaeHjrUq9eygdYEjf0o
+ S6fBQgGP5niI6IK/J3IIgA+NWSu/TeRSq/WjmmbHiQaGk2ezVamf5aLGnUNsYe7SwaTQ
+ EkxoFzQ+a05f/dOqsCz6cNtY0T4vy7VlhqmyeeuxqRz4giPxPC5RsFHEKqj78JzPleDI fQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6tfsecb-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6t4su6e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jul 2022 13:23:35 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDCx4x023961;
+ Thu, 21 Jul 2022 13:23:34 GMT
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6t4su5s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 21 Jul 2022 13:23:34 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDKHIe024367;
- Thu, 21 Jul 2022 13:23:33 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6tfsebg-1
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDMxp6011623;
+ Thu, 21 Jul 2022 13:23:32 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06fra.de.ibm.com with ESMTP id 3hbmkhsxy1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:33 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDNVLJ017798;
- Thu, 21 Jul 2022 13:23:31 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma03ams.nl.ibm.com with ESMTP id 3hbmy8xyfg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:31 +0000
+ Thu, 21 Jul 2022 13:23:32 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26LDNSU622151630
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26LDNT7h24773082
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 13:23:28 GMT
+ Thu, 21 Jul 2022 13:23:29 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46CD44C044;
+ by IMSVA (Postfix) with ESMTP id 858394C044;
+ Thu, 21 Jul 2022 13:23:29 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6D0454C040;
  Thu, 21 Jul 2022 13:23:28 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3732C4C040;
- Thu, 21 Jul 2022 13:23:27 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 13:23:27 +0000 (GMT)
+ Thu, 21 Jul 2022 13:23:28 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com
-Subject: [PATCH v3 01/14] dump: Introduce GuestPhysBlock offset and length
- filter functions
-Date: Thu, 21 Jul 2022 13:22:43 +0000
-Message-Id: <20220721132256.2171-2-frankja@linux.ibm.com>
+Subject: [PATCH v3 02/14] dump: Rename write_elf_loads to write_elf_phdr_loads
+Date: Thu, 21 Jul 2022 13:22:44 +0000
+Message-Id: <20220721132256.2171-3-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220721132256.2171-1-frankja@linux.ibm.com>
 References: <20220721132256.2171-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: BSOaMnDc7bkkH0ZdZyE1QucwQOR0k9Vm
-X-Proofpoint-GUID: O93Gp2aj9fEs7skJjkKkeQa5MngapNyb
+X-Proofpoint-ORIG-GUID: boVquP9QRa95tIOEwnCG7eJKG8J8c5rC
+X-Proofpoint-GUID: 7XU_Ih86QwM0ZzUtIzMlaS7798brpMB9
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-21_17,2022-07-20_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 mlxscore=0
- clxscore=1015 mlxlogscore=768 spamscore=0 impostorscore=0 malwarescore=0
- bulkscore=0 adultscore=0 suspectscore=0 phishscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207210053
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ priorityscore=1501
+ impostorscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=900 malwarescore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207210053
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -116,61 +116,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the code is used in multiple places in dump/dump.c we should
-introduce functions that calculate the filtered length and offset of a
-GuestPhysBlock so we can use them in the next patch.
+Let's make it a bit clearer that we write the program headers of the
+PT_LOAD type.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- include/sysemu/dump.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ dump/dump.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index ffc2ea1072..2b39abeeae 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -203,4 +203,41 @@ typedef struct DumpState {
- uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
- uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
- uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
-+
-+static inline int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
-+                                             int64_t filter_area_length)
-+{
-+    int64_t size, left, right;
-+
-+    /* No filter, return full size */
-+    if (!filter_area_length) {
-+        return block->target_end - block->target_start;
-+    }
-+
-+    /* calculate the overlapped region. */
-+    left = MAX(filter_area_start, block->target_start);
-+    right = MIN(filter_area_start + filter_area_length, block->target_end);
-+    size = right - left;
-+    size = size > 0 ? size : 0;
-+
-+    return size;
-+}
-+
-+static inline int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
-+                                  int64_t filter_area_length)
-+{
-+    if (filter_area_length) {
-+        /* return -1 if the block is not within filter area */
-+        if (block->target_start >= filter_area_start + filter_area_length ||
-+            block->target_end <= filter_area_start) {
-+            return -1;
-+        }
-+
-+        if (filter_area_start > block->target_start) {
-+            return filter_area_start - block->target_start;
-+        }
-+    }
-+
-+    return 0;
-+}
- #endif
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..0ed7cf9c7b 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -490,7 +490,7 @@ static void get_offset_range(hwaddr phys_addr,
+     }
+ }
+ 
+-static void write_elf_loads(DumpState *s, Error **errp)
++static void write_elf_phdr_loads(DumpState *s, Error **errp)
+ {
+     ERRP_GUARD();
+     hwaddr offset, filesz;
+@@ -573,8 +573,8 @@ static void dump_begin(DumpState *s, Error **errp)
+         return;
+     }
+ 
+-    /* write all PT_LOAD to vmcore */
+-    write_elf_loads(s, errp);
++    /* write all PT_LOADs to vmcore */
++    write_elf_phdr_loads(s, errp);
+     if (*errp) {
+         return;
+     }
 -- 
 2.34.1
 
