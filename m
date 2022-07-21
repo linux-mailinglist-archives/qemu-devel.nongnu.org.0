@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F20C357CACF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:43:08 +0200 (CEST)
-Received: from localhost ([::1]:54544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA0F57CAE4
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:46:39 +0200 (CEST)
+Received: from localhost ([::1]:33968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVWE-0001Xc-V9
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
+	id 1oEVZe-0007Jj-DR
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEVJN-0004Mt-H0
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55777)
+ id 1oEVJP-0004Qu-5K
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEVJL-0004qT-NY
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:49 -0400
+ id 1oEVJM-0004qs-So
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658406587;
+ s=mimecast20190719; t=1658406588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RXiXFEEBa1mv6ZvamF/0ld902yL9HoMwAaQ7edK3ppo=;
- b=RBqbhBeqXS49OZeu/FZ+PnOW3nL3+N18JRKYHkOXNf4/5iXIdCgzn3Qt7+BTVecTbCtbom
- /3KmLtM0aTfRZJ/GSUdRbaRhmn1WLlBXURPpBv5vFmWLoAHaYOlrXIMlThr1LWYwV+vzYZ
- DA0IaQ+QxlnW2bj/1DMOD8wYAaq68FI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Sceov1CLy0D+Gutd0UzwXapyWU3DMBeCOe8zNIq1+H8=;
+ b=IBtmwWQpzGPPUnMRHH81JJdnKlMJ54oCq56U08eTzXAAbFBUSSqxmL4sVN8a5AQS5qlIZQ
+ y0UKq+8eefCA6n7ztn/cznR2ro/+iyXNpsJM+ZpFQC3b/ToXTLgIZ4Jq1vs0aWtKrcY08W
+ utdZO7+Kl6yL2SXWY/4JzFCa436dog0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-167-ehGtWeJKMA6XgmvXaW9biQ-1; Thu, 21 Jul 2022 08:29:45 -0400
-X-MC-Unique: ehGtWeJKMA6XgmvXaW9biQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qw22-20020a1709066a1600b0072f43c1f59bso724446ejc.6
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:29:45 -0700 (PDT)
+ us-mta-208-gn8BlLTgN3CF2Q_TH69psQ-1; Thu, 21 Jul 2022 08:29:47 -0400
+X-MC-Unique: gn8BlLTgN3CF2Q_TH69psQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ z20-20020a05640240d400b0043a82d9d65fso1046176edb.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:29:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RXiXFEEBa1mv6ZvamF/0ld902yL9HoMwAaQ7edK3ppo=;
- b=U0lUFXhd4Vy65tOF7oCsPb9AmPnka2qAN2ZUZ1RgEwTbT1Amua5Kyg7Qp0Cch2U87W
- fu/QUuHwZLJPxN5Y2fM8/CJep0Te73pEcvFvZncvYZ4M/LPiJ3+e42YzTBCP3XC5YVhu
- uOcgq+bHeWoARq7Ds/OFf3Pc90HemEhgWO19W0O+aC+NwRKCirDJfehUhOmBrLbehHTT
- 5TQ3V3I4RYTGrBzfG1qesG+Sqsf6+iDz7xpQmD/bvMNBCXVJa/nvCuAxWuDbmAj5s0Rn
- RpUWekHdp5ETLKfcgF+I9ke6U9GXd29w4nwdGHTPG2BPMrC8j0XXNTFxpL7Bzu2dpJk5
- wCgA==
-X-Gm-Message-State: AJIora8NOsdx8VjaNS2rP15yyPUSDEWbyGZOlLKgOgBrXN4CWdygQINU
- cyFlCwS3aHo1k9h1GUdv/kuZ22pdqpgIxsN4kn41cNvE4L1RTmxQzJyvS7lm3w4pkG1AXAhZgkz
- AGyk9kUkr6qzJS8wPHQzn8WDKpwmEKoI7KDqLGxR2sfTlYAiBGywRbYEpc20mNoapDAM=
-X-Received: by 2002:aa7:da91:0:b0:43b:a4c1:6ec8 with SMTP id
- q17-20020aa7da91000000b0043ba4c16ec8mr13963551eds.425.1658406584207; 
- Thu, 21 Jul 2022 05:29:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uPRdiafp7fY6sNBrw+TA5r0cCn2itCIj+5He8c88PSut644noYjvmjrF56E0MeOKnm89Vtjg==
-X-Received: by 2002:aa7:da91:0:b0:43b:a4c1:6ec8 with SMTP id
- q17-20020aa7da91000000b0043ba4c16ec8mr13963496eds.425.1658406583695; 
- Thu, 21 Jul 2022 05:29:43 -0700 (PDT)
+ bh=Sceov1CLy0D+Gutd0UzwXapyWU3DMBeCOe8zNIq1+H8=;
+ b=jnnFL1aO2LzLVoFLOtknUhrvc8czqomBaY+vaVDL3EpG9xJ9W1VLjfYWqRF3G3i2Iq
+ rOEd9bNeTgKTIr7kuX1I3sRD38JBXSNAJpOq5boEq0+8Zj3A0o2SxZhov1l8TaJdlvJc
+ deQLkSD9S9ds56PJzvg3E/f25wxOMnnnbS3+CecC63oE4oSQZvn+9ULsxqsbuqIyUXeh
+ 0Cr4zLRRywkC8pjuWr03ntX0adZ/EQpDp8AZnykMjch98BD8JzUm5BXxWGpgZZ7IfBpp
+ MxDYbbVxRshtbEeYwMHLmDA0T67L5pDDqaYVFtMQrpfRSylAa6ikaaJBbdmyLFq43zxY
+ YPUQ==
+X-Gm-Message-State: AJIora/Qv4/A6ybeyG62JQqJcnda1hArh4Fx0NRwhzRQax7btnpXIhV1
+ 53cmahVj5c7Az935zRxx3mCqTZD2fTJi5CqshomvYDBTnKCrlr6poMzGhysuoBxgKlVFKGuKhG5
+ HzY+lg67m5vdHi5N0I+fOjjf3GrcXT8yObVcKFyc/0inYbU04uOHwY5P67128FJvZLMA=
+X-Received: by 2002:a17:907:2722:b0:72b:6d79:1a46 with SMTP id
+ d2-20020a170907272200b0072b6d791a46mr40559978ejl.713.1658406585777; 
+ Thu, 21 Jul 2022 05:29:45 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ukYdiFbsjdhJzyosrMfJokyXZhLE7oFKaS5eYoTuDbZXqmjlZJqtcbvNdjWUdLv5MQ1H/sdA==
+X-Received: by 2002:a17:907:2722:b0:72b:6d79:1a46 with SMTP id
+ d2-20020a170907272200b0072b6d791a46mr40559932ejl.713.1658406585380; 
+ Thu, 21 Jul 2022 05:29:45 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- d2-20020a170906304200b0072f42ca292bsm796426ejd.129.2022.07.21.05.29.42
+ we10-20020a170907234a00b006fec4ee28d0sm801504ejb.189.2022.07.21.05.29.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 05:29:42 -0700 (PDT)
+ Thu, 21 Jul 2022 05:29:44 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>,
@@ -70,24 +70,25 @@ Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>,
  Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 3/4] hw/i386: extract handling of setup data linked list
-Date: Thu, 21 Jul 2022 14:29:36 +0200
-Message-Id: <20220721122937.729959-4-pbonzini@redhat.com>
+Subject: [PATCH 4/4] hw/i386: pass RNG seed via setup_data entry
+Date: Thu, 21 Jul 2022 14:29:37 +0200
+Message-Id: <20220721122937.729959-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220721122937.729959-1-pbonzini@redhat.com>
 References: <20220721122937.729959-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,90 +104,143 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation for the introduction of a second setup data block,
-manage the linked list and the reallocation of data.kernel in
-a separate function.  Unlike the code that's being moved, the
-function can be called more than once.
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
+Tiny machines optimized for fast boot time generally don't use EFI,
+which means a random seed has to be supplied some other way. For this
+purpose, Linux (≥5.20) supports passing a seed in the setup_data table
+with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+specialized bootloaders. The linked commit shows the upstream kernel
+implementation.
+
+Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Message-Id: <20220719115300.104095-1-Jason@zx2c4.com>
+[Mostly rewritten to preserve guest ABI, but still starting from Jason's
+ code. - Paolo]
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/i386/x86.c | 47 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 30 insertions(+), 17 deletions(-)
+ hw/i386/pc.c                                 |  1 +
+ hw/i386/x86.c                                | 31 ++++++++++++++++++++
+ include/hw/i386/x86.h                        |  2 ++
+ include/standard-headers/asm-x86/bootparam.h |  1 +
+ 4 files changed, 35 insertions(+)
 
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 774cb2bf07..d456fbb166 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -112,6 +112,7 @@ const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
+ 
+ GlobalProperty pc_compat_6_2[] = {
+     { "virtio-mem", "unplugged-inaccessible", "off" },
++    { TYPE_X86_MACHINE, "linuxboot-seed", "off" },
+ };
+ const size_t pc_compat_6_2_len = G_N_ELEMENTS(pc_compat_6_2);
+ 
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 253a6ff536..564bf3834b 100644
+index 564bf3834b..c5d01e084a 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
-@@ -828,6 +828,34 @@ typedef struct LinuxBootData {
-     size_t setup_data_offset;
- } LinuxBootData;
+@@ -26,6 +26,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/units.h"
+ #include "qemu/datadir.h"
++#include "qemu/guest-random.h"
+ #include "qapi/error.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qapi-visit-common.h"
+@@ -1088,6 +1089,12 @@ void x86_load_linux(X86MachineState *x86ms,
+     }
+     fclose(f);
  
-+static void *add_setup_data(LinuxBootData *data, uint32_t size, uint32_t type)
-+{
-+    struct setup_data *setup_data;
-+    size_t prev_setup_data_offset = data->setup_data_offset;
-+
-+    if (data->protocol < 0x209) {
-+        fprintf(stderr, "qemu: Linux kernel too old to add setup data\n");
-+        exit(1);
++    if (x86ms->linuxboot_seed != ON_OFF_AUTO_OFF &&
++        (data.protocol >= 0x209 || x86ms->linuxboot_seed == ON_OFF_AUTO_ON)) {
++        void *seed = add_setup_data(&data, 32, SETUP_RNG_SEED);
++        qemu_guest_getrandom_nofail(seed, 32);
 +    }
 +
-+    data->setup_data_offset = QEMU_ALIGN_UP(data->kernel_size, 16);
-+    data->kernel_size = data->setup_data_offset + sizeof(struct setup_data) + size;
-+    data->kernel = g_realloc(data->kernel, data->kernel_size);
-+
-+    if (prev_setup_data_offset) {
-+        setup_data = (struct setup_data *)(data->kernel + prev_setup_data_offset);
-+        setup_data->next = cpu_to_le64(data->prot_addr + data->setup_data_offset);
-+    } else {
-+        stq_p(data->header + 0x250, data->prot_addr + data->setup_data_offset);
-+    }
-+
-+    setup_data = (struct setup_data *)(data->kernel + data->setup_data_offset);
-+    setup_data->next = 0;
-+    setup_data->type = cpu_to_le32(type);
-+    setup_data->len = cpu_to_le32(size);
-+    return setup_data->data;
-+}
-+
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
-@@ -1062,11 +1090,6 @@ void x86_load_linux(X86MachineState *x86ms,
- 
      /* append dtb to kernel */
      if (dtb_filename) {
--        if (data.protocol < 0x209) {
--            fprintf(stderr, "qemu: Linux kernel too old to load a dtb\n");
--            exit(1);
--        }
--
          dtb_size = get_image_size(dtb_filename);
-         if (dtb_size <= 0) {
-             fprintf(stderr, "qemu: error reading dtb %s: %s\n",
-@@ -1074,18 +1097,8 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
+@@ -1247,6 +1254,23 @@ static void x86_machine_set_smm(Object *obj, Visitor *v, const char *name,
+     visit_type_OnOffAuto(v, name, &x86ms->smm, errp);
+ }
  
--        data.setup_data_offset = QEMU_ALIGN_UP(data.kernel_size, 16);
--        data.kernel_size = data.setup_data_offset + sizeof(struct setup_data) + dtb_size;
--        data.kernel = g_realloc(data.kernel, data.kernel_size);
--
--        stq_p(data.header + 0x250, data.prot_addr + data.setup_data_offset);
--
--        struct setup_data *setup_data = (struct setup_data *)(data.kernel + data.setup_data_offset);
--        setup_data->next = 0;
--        setup_data->type = cpu_to_le32(SETUP_DTB);
--        setup_data->len = cpu_to_le32(dtb_size);
--
--        load_image_size(dtb_filename, setup_data->data, dtb_size);
-+        void *dtb = add_setup_data(&data, dtb_size, SETUP_DTB);
-+        load_image_size(dtb_filename, dtb, dtb_size);
-     }
++static void x86_machine_get_linuxboot_seed(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++    OnOffAuto linuxboot_seed = x86ms->linuxboot_seed;
++
++    visit_type_OnOffAuto(v, name, &linuxboot_seed, errp);
++}
++
++static void x86_machine_set_linuxboot_seed(Object *obj, Visitor *v, const char *name,
++                                           void *opaque, Error **errp)
++{
++    X86MachineState *x86ms = X86_MACHINE(obj);
++
++    visit_type_OnOffAuto(v, name, &x86ms->linuxboot_seed, errp);
++}
++
+ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms)
+ {
+     if (x86ms->acpi == ON_OFF_AUTO_OFF) {
+@@ -1397,6 +1421,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->acpi = ON_OFF_AUTO_AUTO;
+     x86ms->pit = ON_OFF_AUTO_AUTO;
+     x86ms->pic = ON_OFF_AUTO_AUTO;
++    x86ms->linuxboot_seed = ON_OFF_AUTO_AUTO;
+     x86ms->pci_irq_mask = ACPI_BUILD_PCI_IRQS;
+     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+@@ -1435,6 +1460,12 @@ static void x86_machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, X86_MACHINE_PIT,
+         "Enable i8254 PIT");
  
-     /*
++    object_class_property_add(oc, X86_MACHINE_LINUXBOOT_SEED, "OnOffAuto",
++        x86_machine_get_linuxboot_seed, x86_machine_set_linuxboot_seed,
++        NULL, NULL);
++    object_class_property_set_description(oc, X86_MACHINE_LINUXBOOT_SEED,
++        "Pass random number seed to -kernel Linux image");
++
+     object_class_property_add(oc, X86_MACHINE_PIC, "OnOffAuto",
+                               x86_machine_get_pic,
+                               x86_machine_set_pic,
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 9089bdd99c..edf0f6799e 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -67,6 +67,7 @@ struct X86MachineState {
+     OnOffAuto acpi;
+     OnOffAuto pit;
+     OnOffAuto pic;
++    OnOffAuto linuxboot_seed;
+ 
+     char *oem_id;
+     char *oem_table_id;
+@@ -91,6 +92,7 @@ struct X86MachineState {
+ #define X86_MACHINE_OEM_ID           "x-oem-id"
+ #define X86_MACHINE_OEM_TABLE_ID     "x-oem-table-id"
+ #define X86_MACHINE_BUS_LOCK_RATELIMIT  "bus-lock-ratelimit"
++#define X86_MACHINE_LINUXBOOT_SEED      "linuxboot-seed"
+ 
+ #define TYPE_X86_MACHINE   MACHINE_TYPE_NAME("x86")
+ OBJECT_DECLARE_TYPE(X86MachineState, X86MachineClass, X86_MACHINE)
+diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+index 072e2ed546..b2aaad10e5 100644
+--- a/include/standard-headers/asm-x86/bootparam.h
++++ b/include/standard-headers/asm-x86/bootparam.h
+@@ -10,6 +10,7 @@
+ #define SETUP_EFI			4
+ #define SETUP_APPLE_PROPERTIES		5
+ #define SETUP_JAILHOUSE			6
++#define SETUP_RNG_SEED			9
+ 
+ #define SETUP_INDIRECT			(1<<31)
+ 
 -- 
 2.36.1
-
 
 
