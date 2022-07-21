@@ -2,72 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 548DF57C462
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 08:27:53 +0200 (CEST)
-Received: from localhost ([::1]:50262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C92557C4E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 09:03:37 +0200 (CEST)
+Received: from localhost ([::1]:60248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEPf6-0006p0-9L
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 02:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50794)
+	id 1oEQDf-0006tB-KJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 03:03:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oEPcD-0004sU-DA
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 02:24:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27488)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oEPc9-0004Pw-TL
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 02:24:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658384688;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TMcCOMRIVUP+sp8EqEfUilefZzKeSO24oR05e5f7WQM=;
- b=GFyT+PqHzfXEjefeHNlcHJC+o8ooADStntew54yqW5bMFdTHBr+AKmjZciWIwFotXnixQs
- N4kOiFVCDqkPYi0jfclTTop58mitnV9C8WP7e1ROeskJMTRowwOahq5mbTAxEboaLn6fX2
- qnt9TPP235zKRM25/rTU/Yh/HHBhARs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-526-6Y5IR36YMd-9SL8JrsI2Ow-1; Thu, 21 Jul 2022 02:24:44 -0400
-X-MC-Unique: 6Y5IR36YMd-9SL8JrsI2Ow-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 949AE185A7BA;
- Thu, 21 Jul 2022 06:24:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 71EB2C28129;
- Thu, 21 Jul 2022 06:24:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4CBA921E690D; Thu, 21 Jul 2022 08:24:43 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  "Dr. David
- Alan Gilbert" <dgilbert@redhat.com>,  Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 2/5] configure: Add braces to clarify intent of
- $emu[[:space:]]
-References: <20220720152631.450903-1-peter.maydell@linaro.org>
- <20220720152631.450903-3-peter.maydell@linaro.org>
-Date: Thu, 21 Jul 2022 08:24:43 +0200
-In-Reply-To: <20220720152631.450903-3-peter.maydell@linaro.org> (Peter
- Maydell's message of "Wed, 20 Jul 2022 16:26:28 +0100")
-Message-ID: <87a693kmok.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oEQ7P-0003gx-3C; Thu, 21 Jul 2022 02:57:07 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:45194 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oEQ7L-0000ec-Ka; Thu, 21 Jul 2022 02:57:06 -0400
+Received: from localhost.localdomain (unknown [159.226.43.62])
+ by APP-05 (Coremail) with SMTP id zQCowADX3rKu+Nhi6HBcEA--.21067S2;
+ Thu, 21 Jul 2022 14:56:51 +0800 (CST)
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+To: qemu-devel@nongnu.org
+Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org (open list:Linux io_uring)
+Subject: [PATCH] block/io_uring: add missing include file
+Date: Thu, 21 Jul 2022 14:56:45 +0800
+Message-Id: <20220721065645.577404-1-fanjinhao21s@ict.ac.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: zQCowADX3rKu+Nhi6HBcEA--.21067S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Gw45Gw17AFW8CryUZw4ruFg_yoW3Grg_A3
+ 47Jw1kW34kJr1a93W7WFn5Zr1Skw1UJF1Ygr4SqanxX3W7Jas7Ww4DJw48urs8GasrKw1r
+ XFn8W3srA34fCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbfAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+ Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+ Y2ka0xkIwI1lc7CjxVAKzI0EY4vE52x082I5MxkIecxEwVAFwVW8AwCF04k20xvY0x0EwI
+ xGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480
+ Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7
+ IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k2
+ 6cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x
+ 0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRitxhJUUUUU==
+X-Originating-IP: [159.226.43.62]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,43 +76,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+The commit "Use io_uring_register_ring_fd() to skip fd operations" uses
+warn_report but did not include the header file "qemu/error-report.h".
+This causes "error: implicit declaration of function ‘warn_report’".
+Include this header file.
 
-> In shell script syntax, $var[something] is not special for variable
-> expansion: $emu is expanded.  However, as it can look as if it were
+Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+---
+ block/io_uring.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Do you mean "$var is expanded"?
-
-> intended to be an array element access (the correct syntax for which
-> is ${var[something]}), shellcheck recommends using explicit braces
-> around ${var} to clarify the intended expansion.
->
-> This fixes the warning:
->
-> In ./configure line 2346:
->         if "$target_ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
->                                                               ^-- SC1087: Use braces when expanding arrays, e.g. ${array[idx]} (or ${var}[.. to quiet).
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> This is our only 'error' level shellcheck warning, so it seems
-> worth suppressing even though it's not wrong as written.
-> ---
->  configure | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/configure b/configure
-> index dec6f030346..a56c3d921be 100755
-> --- a/configure
-> +++ b/configure
-> @@ -2343,7 +2343,7 @@ if test -n "$target_cc" &&
->      # emulation. Linux and OpenBSD/amd64 use 'elf_i386'; FreeBSD uses the _fbsd
->      # variant; OpenBSD/i386 uses the _obsd variant; and Windows uses i386pe.
->      for emu in elf_i386 elf_i386_fbsd elf_i386_obsd i386pe; do
-> -        if "$target_ld" -verbose 2>&1 | grep -q "^[[:space:]]*$emu[[:space:]]*$"; then
-> +        if "$target_ld" -verbose 2>&1 | grep -q "^[[:space:]]*${emu}[[:space:]]*$"; then
->              ld_i386_emulation="$emu"
->              break
->          fi
+diff --git a/block/io_uring.c b/block/io_uring.c
+index f8a19fd97f..a1760152e0 100644
+--- a/block/io_uring.c
++++ b/block/io_uring.c
+@@ -11,6 +11,7 @@
+ #include "qemu/osdep.h"
+ #include <liburing.h>
+ #include "block/aio.h"
++#include "qemu/error-report.h"
+ #include "qemu/queue.h"
+ #include "block/block.h"
+ #include "block/raw-aio.h"
+-- 
+2.25.1
 
 
