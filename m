@@ -2,65 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22DB57C96D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:59:06 +0200 (CEST)
-Received: from localhost ([::1]:54720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0A457C987
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 13:06:34 +0200 (CEST)
+Received: from localhost ([::1]:58754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oETtZ-0000vv-Vn
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:59:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45100)
+	id 1oEU0k-0004J2-N1
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 07:06:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oETsA-0007zk-Fm
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:57:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41137)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oETuv-00019L-DI
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:00:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oETs7-0004YM-Ba
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:57:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oETut-0005DS-2I
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:00:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658401054;
+ s=mimecast20190719; t=1658401226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sRaxa/LQqKPJdL/ewH1chTS5hjgggIRju+d+Tqv9zXw=;
- b=Es9ae5clia+z2l58FqSwfLa2QXojkT694JdoeU7/8ipFedt0vMiTbwGTgszVnkDiza2DGY
- MkruixlMlamKlEbTTa1AwypK22Krx60WNPTHNtjX+0O67hiFvGYyY6NHcBFF7deBb9o04V
- T87wO/mdOTX0RRzn7ohc2+vPmvDhbA4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3COIscdvLsIYKk+bah8UB5GUuzOh7aMOH1So4xvoybE=;
+ b=Mq2kCqMghz63S7BxY0cQ4KinBr6x5yA4gH3I1dcA2WfrvjW2bgj8c2jI5sv3EsOWeijy35
+ ZR9oRDkwUx+eO2T2q8cJHMiMDrJkR7SXgJBm/oBg5DvldB8oZzOJFCRbk7KwJ8Za7bnANp
+ 4De1qjup1FdWWrTehZnI8QYbbBy5pto=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-o--eJciKNaGkQKNg82fKZg-1; Thu, 21 Jul 2022 06:57:25 -0400
-X-MC-Unique: o--eJciKNaGkQKNg82fKZg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E95EA85A585;
- Thu, 21 Jul 2022 10:57:24 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C0A972026D64;
- Thu, 21 Jul 2022 10:57:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6897221E690D; Thu, 21 Jul 2022 12:57:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Cc: Hogan Wang <hogan.wang@huawei.com>,  qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com,  wangxinxin.wang@huawei.com
-Subject: Re: [PATCH] dump: introduce dump-cancel QMP command
-References: <20220721062118.2015-1-hogan.wang@huawei.com>
- <YtkKwf7K6oev/3CP@redhat.com>
-Date: Thu, 21 Jul 2022 12:57:23 +0200
-In-Reply-To: <YtkKwf7K6oev/3CP@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
- =?utf-8?Q?=C3=A9=22's?= message of
- "Thu, 21 Jul 2022 09:13:53 +0100")
-Message-ID: <87v8rqensc.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-218-mzO5VM2zMM6Bbz07d3eL1g-1; Thu, 21 Jul 2022 07:00:19 -0400
+X-MC-Unique: mzO5VM2zMM6Bbz07d3eL1g-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ n10-20020a5d6b8a000000b0021da91e4a64so238897wrx.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 04:00:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=3COIscdvLsIYKk+bah8UB5GUuzOh7aMOH1So4xvoybE=;
+ b=L7s/ibmQPeBU1YURjniRfEh4HL/Qe55LZbKpJY1Sn3Ixc891HWmQ3IWJB5RDlJNBrK
+ ErDPME0Xmw7MeTL5VxiRY5e6zKJ7Ojif7z/LdDkCmH2lWJr3wPguY7IIVEmBWq/9Whx+
+ DIsysD4Pw1bjqTT8pDOgAcr0PvCS9X0GzyhUA/wQGH8r8WOe2KQKzZkJIJ31/H/6ofkY
+ KEYSGURE/x/K/KAihqxk70xzpm77qDX7GbKgQ4X4ZbseMnO8PnYf/BweMJAROJDb8sfn
+ bICEi5ML55i8Iq84CoL/BpqxGOZILadV3NwKcG9GUCLV6Mff8f8jUMaPehv5+/VMB6fv
+ NDDA==
+X-Gm-Message-State: AJIora/5xkPKrX0hNIWyLyjVnCAyMdyMka57vsSckWeFv3oOP/WuZQat
+ byY6rbk7NuKRxBr9LFm5VvdxJMEg0dui0z3/w0EAnJFIi55K8mqZKsOQRfBypL03pQTb1BqLNjq
+ 8Tx4j5BFHkmNxdR4=
+X-Received: by 2002:a05:600c:4110:b0:3a3:33cd:3984 with SMTP id
+ j16-20020a05600c411000b003a333cd3984mr1232910wmi.128.1658401218318; 
+ Thu, 21 Jul 2022 04:00:18 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vFbI6v+Gfzf9pYU/IWVqLuIMBUctvyNaZpTTODAPgD5BbO7AnfbAp93QregDQKgr6FrCNW2A==
+X-Received: by 2002:a05:600c:4110:b0:3a3:33cd:3984 with SMTP id
+ j16-20020a05600c411000b003a333cd3984mr1232877wmi.128.1658401217909; 
+ Thu, 21 Jul 2022 04:00:17 -0700 (PDT)
+Received: from redhat.com ([2.55.25.63]) by smtp.gmail.com with ESMTPSA id
+ i4-20020a05600c354400b003a326b84340sm5677193wmq.44.2022.07.21.04.00.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 04:00:17 -0700 (PDT)
+Date: Thu, 21 Jul 2022 07:00:12 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PATCH v6] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <20220721065744-mutt-send-email-mst@kernel.org>
+References: <20220721104730.434017-1-Jason@zx2c4.com>
+ <20220721104950.434544-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220721104950.434544-1-Jason@zx2c4.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -84,34 +104,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+On Thu, Jul 21, 2022 at 12:49:50PM +0200, Jason A. Donenfeld wrote:
+> Tiny machines optimized for fast boot time generally don't use EFI,
+> which means a random seed has to be supplied some other way. For this
+> purpose, Linux (≥5.20) supports passing a seed in the setup_data table
+> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+> specialized bootloaders. The linked commit shows the upstream kernel
+> implementation.
+> 
+> Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Eduardo Habkost <eduardo@habkost.net>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 
-> On Thu, Jul 21, 2022 at 02:21:18PM +0800, Hogan Wang via wrote:
->> There's no way to cancel the current executing dump process, lead to the
->> virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
->> job after daemon restart.
->>=20
->> Add the 'cancelling' and 'cancelled' dump states.
->>=20
->> Use 'dump-cancel' qmp command Set the dump state as 'cancelling'.
->> The dump process check the 'cancelling' state and break loops.=20
->> The 'cancelled' state mark the dump process cancelled success.
->
-> On the one hand this patch is fairly simple which is obviously
-> desirable.
->
-> On the other hand though, this feels like it is further re-inventing
-> the jobs concept.
->
-> IMHO ideally the 'dump' command probably ought to get a 'job-id'
-> parameter, and integrate with the generic background jobs  framework.
-> This would unlock the ability to use existing commands like
-> 'job-cancel', 'job-pause', 'job-resume', 'queyr-jobs' to interact
-> with it.
+Well why not.
 
-Seconded.
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Hogan Wang, would you be interested in rebasing the dump feature onto
-the jobs infrastructure?
+who's merging this? Paolo me or you?
+
+
+> ---
+>  hw/i386/x86.c                                | 21 +++++++++++++++++---
+>  include/standard-headers/asm-x86/bootparam.h |  1 +
+>  2 files changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 6003b4b2df..56896cb4b2 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -26,6 +26,7 @@
+>  #include "qemu/cutils.h"
+>  #include "qemu/units.h"
+>  #include "qemu/datadir.h"
+> +#include "qemu/guest-random.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "qapi/qapi-visit-common.h"
+> @@ -774,7 +775,7 @@ void x86_load_linux(X86MachineState *x86ms,
+>      int dtb_size, setup_data_offset;
+>      uint32_t initrd_max;
+>      uint8_t header[8192], *setup, *kernel;
+> -    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0;
+> +    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
+>      FILE *f;
+>      char *vmode;
+>      MachineState *machine = MACHINE(x86ms);
+> @@ -784,6 +785,7 @@ void x86_load_linux(X86MachineState *x86ms,
+>      const char *dtb_filename = machine->dtb;
+>      const char *kernel_cmdline = machine->kernel_cmdline;
+>      SevKernelLoaderContext sev_load_ctx = {};
+> +    enum { RNG_SEED_LENGTH = 32 };
+>  
+>      /* Align to 16 bytes as a paranoia measure */
+>      cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
+> @@ -1063,16 +1065,29 @@ void x86_load_linux(X86MachineState *x86ms,
+>          kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
+>          kernel = g_realloc(kernel, kernel_size);
+>  
+> -        stq_p(header + 0x250, prot_addr + setup_data_offset);
+>  
+>          setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> -        setup_data->next = 0;
+> +        setup_data->next = cpu_to_le64(first_setup_data);
+> +        first_setup_data = prot_addr + setup_data_offset;
+>          setup_data->type = cpu_to_le32(SETUP_DTB);
+>          setup_data->len = cpu_to_le32(dtb_size);
+>  
+>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+>      }
+>  
+> +    setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> +    kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+> +    kernel = g_realloc(kernel, kernel_size);
+> +    setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> +    setup_data->next = cpu_to_le64(first_setup_data);
+> +    first_setup_data = prot_addr + setup_data_offset;
+> +    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
+> +    setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
+> +    qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+> +
+> +    /* Offset 0x250 is a pointer to the first setup_data link. */
+> +    stq_p(header + 0x250, first_setup_data);
+> +
+>      /*
+>       * If we're starting an encrypted VM, it will be OVMF based, which uses the
+>       * efi stub for booting and doesn't require any values to be placed in the
+> diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
+> index 072e2ed546..b2aaad10e5 100644
+> --- a/include/standard-headers/asm-x86/bootparam.h
+> +++ b/include/standard-headers/asm-x86/bootparam.h
+> @@ -10,6 +10,7 @@
+>  #define SETUP_EFI			4
+>  #define SETUP_APPLE_PROPERTIES		5
+>  #define SETUP_JAILHOUSE			6
+> +#define SETUP_RNG_SEED			9
+>  
+>  #define SETUP_INDIRECT			(1<<31)
+>  
+> -- 
+> 2.35.1
 
 
