@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E082357CC11
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:37:13 +0200 (CEST)
-Received: from localhost ([::1]:52592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F6E457CC19
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:39:07 +0200 (CEST)
+Received: from localhost ([::1]:56934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEWMa-00027T-SX
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47734)
+	id 1oEWOQ-0005B9-Cu
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:39:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9c-0000c4-Lo; Thu, 21 Jul 2022 09:23:48 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14110)
+ id 1oEW9g-0000mf-GW; Thu, 21 Jul 2022 09:23:52 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9Z-0006Xn-Sk; Thu, 21 Jul 2022 09:23:47 -0400
+ id 1oEW9e-0006Ya-OS; Thu, 21 Jul 2022 09:23:52 -0400
 Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDDE8Z029345;
- Thu, 21 Jul 2022 13:23:44 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDDGMq029424;
+ Thu, 21 Jul 2022 13:23:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=RTcW0/uUOyEZLH/JAzC+wjq/cPAA/BRuf2Pp2iDgBrY=;
- b=iqpYu4UFKF3mOcwRE62lGORcEIKGssZQsPTwXVcFOh1AAp/o6Pr4m4OpjkN55y/+hLZY
- 1chPW69IiDGf7jstnCwPjxTKFr195n6OG8MQR9qPR8dqtUFqVUVExjK3La+dueLq+XOF
- giawRzak+1hd3ORNZjrKoqa19+CYv3qmi3GMIp03m8OaDsJGppGGnl+0HKMCrUngH27L
- jvuf77MZAxnf8W+lKzI70BOdovc8VxX8DvDAus/2+2Rzb/GFmhLU2rYOqGTQhjdcPUuL
- QTkXtH/24gSNpRgJSlhf7gJRgFdsgzyeLngqP1N4xJ0zdiMkVeh9w1392RU2NJTe+UAp NA== 
+ bh=glW/AkfBI2h5gp3AE+Xo3NZ88jOo52GtTllMrY5dEME=;
+ b=E9ZSblNtlCtzn8pCF1Nuc53x01m2Ixuz9mLlcWLMyIK85h6kEynF0BC/3S5TujF+Y4Wu
+ G5Iy0HTUrq0HK04WhD0D/adjFPf963SND6HSkTFVMMLyOdzk37Hv0YdPxpnDXN9uR35i
+ dWtcOiE7bxWCTHHhTmC/BIeEWulPzaHXOwLy3AxtyeAUMJ1QRdGpJFxWTso7GivQ9Cpj
+ CH3gCkJVFI8/ummCsJsvQUaSlN9PqdIVTrMLJdkeF3O0b8kt+L2BypBPo1JMzOa6ODmA
+ 4ezQbcTS8m3hsHED831WCJSIEalIV4O9GgnBR7i/ehR/p1Y4M8qZDBk9RG5qhyXsZs5j eg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6mwj17d-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6mwj1a2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:44 +0000
+ Thu, 21 Jul 2022 13:23:47 +0000
 Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDDHYj029489;
- Thu, 21 Jul 2022 13:23:43 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6mwj165-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDDR0e030903;
+ Thu, 21 Jul 2022 13:23:46 GMT
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6mwj16s-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:43 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDNfgF028956;
- Thu, 21 Jul 2022 13:23:41 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma02fra.de.ibm.com with ESMTP id 3hbmy8y4xr-1
+ Thu, 21 Jul 2022 13:23:46 +0000
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDNgql012242;
+ Thu, 21 Jul 2022 13:23:42 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma01fra.de.ibm.com with ESMTP id 3hbmy8y3kv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:41 +0000
+ Thu, 21 Jul 2022 13:23:42 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26LDNo2w28574116
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26LDLpwv22741380
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 13:23:50 GMT
+ Thu, 21 Jul 2022 13:21:51 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 19D714C046;
+ by IMSVA (Postfix) with ESMTP id 4EE434C040;
+ Thu, 21 Jul 2022 13:23:39 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4013B4C044;
  Thu, 21 Jul 2022 13:23:38 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0B99F4C044;
- Thu, 21 Jul 2022 13:23:37 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 13:23:36 +0000 (GMT)
+ Thu, 21 Jul 2022 13:23:38 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com
-Subject: [PATCH v3 09/14] dump/dump: Add arch section support
-Date: Thu, 21 Jul 2022 13:22:51 +0000
-Message-Id: <20220721132256.2171-10-frankja@linux.ibm.com>
+Subject: [PATCH v3 10/14] linux header sync
+Date: Thu, 21 Jul 2022 13:22:52 +0000
+Message-Id: <20220721132256.2171-11-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220721132256.2171-1-frankja@linux.ibm.com>
 References: <20220721132256.2171-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: SDn30iY2LWWT8Q5DexfjRITemX4Gi_C3
-X-Proofpoint-ORIG-GUID: mDVZuYRwwGQi6DXPEy_Yehx2KDABOHqI
+X-Proofpoint-GUID: d8pzST5h7xyBRD1T5ja2-HDtqPXUyBAv
+X-Proofpoint-ORIG-GUID: RUn4VJl8Rj0TkJSXD4-kZr5G5x5EEoe1
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-21_17,2022-07-20_01,2022-06-22_01
@@ -115,96 +115,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add hooks which architectures can use to add arbitrary data to custom
-sections.
+Add the uapi data for KVM_CAP_S390_PROTECTED_DUMP which I expect to be
+added with 5.20.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- dump/dump.c                |  6 ++++++
- include/sysemu/dump-arch.h | 27 +++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+ linux-headers/linux/kvm.h | 54 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 944217349a..60a164afd5 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -398,6 +398,7 @@ static void prepare_elf_section_hdrs(DumpState *s)
-     /*
-      * Section ordering:
-      * - HDR zero (if needed)
-+     * - Arch section hdrs
-      * - String table hdr
-      */
-     sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-@@ -415,6 +416,9 @@ static void prepare_elf_section_hdrs(DumpState *s)
-         return;
-     }
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 0d05d02ee4..213216c27c 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1150,6 +1150,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_DISABLE_QUIRKS2 213
+ /* #define KVM_CAP_VM_TSC_CONTROL 214 */
+ #define KVM_CAP_SYSTEM_EVENT_DATA 215
++#define KVM_CAP_S390_PROTECTED_DUMP 217
  
-+    size = dump_arch_sections_write_hdr(&s->dump_info, s, buff_hdr);
-+    buff_hdr += size;
-+
-     /*
-      * String table needs to be last section since strings are added
-      * via arch_sections_write_hdr().
-@@ -721,6 +725,7 @@ static void dump_end(DumpState *s, Error **errp)
-         return;
-     }
-     s->elf_section_data = g_malloc0(s->elf_section_data_size);
-+    dump_arch_sections_write(&s->dump_info, s, s->elf_section_data);
+ #ifdef KVM_CAP_IRQ_ROUTING
  
-     /* write sections to vmcore */
-     write_elf_sections(s, errp);
-@@ -1892,6 +1897,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
-      * If phdr_num overflowed we have at least one section header
-      * More sections/hdrs can be added by the architectures
-      */
-+    dump_arch_sections_add(&s->dump_info, (void *)s);
-     if (s->shdr_num > 1) {
-         /* Reserve the string table */
-         s->shdr_num += 1;
-diff --git a/include/sysemu/dump-arch.h b/include/sysemu/dump-arch.h
-index e25b02e990..de77908424 100644
---- a/include/sysemu/dump-arch.h
-+++ b/include/sysemu/dump-arch.h
-@@ -21,6 +21,9 @@ typedef struct ArchDumpInfo {
-     uint32_t page_size;      /* The target's page size. If it's variable and
-                               * unknown, then this should be the maximum. */
-     uint64_t phys_base;      /* The target's physmem base. */
-+    void (*arch_sections_add_fn)(void *opaque);
-+    uint64_t (*arch_sections_write_hdr_fn)(void *opaque, uint8_t *buff);
-+    void (*arch_sections_write_fn)(void *opaque, uint8_t *buff);
- } ArchDumpInfo;
+@@ -1651,6 +1652,55 @@ struct kvm_s390_pv_unp {
+ 	__u64 tweak;
+ };
  
- struct GuestPhysBlockList; /* memory_mapping.h */
-@@ -28,4 +31,28 @@ int cpu_get_dump_info(ArchDumpInfo *info,
-                       const struct GuestPhysBlockList *guest_phys_blocks);
- ssize_t cpu_get_note_size(int class, int machine, int nr_cpus);
++enum pv_cmd_info_id {
++	KVM_PV_INFO_VM,
++	KVM_PV_INFO_DUMP,
++};
++
++struct kvm_s390_pv_info_dump {
++	__u64 dump_cpu_buffer_len;
++	__u64 dump_config_mem_buffer_per_1m;
++	__u64 dump_config_finalize_len;
++};
++
++struct kvm_s390_pv_info_vm {
++	__u64 inst_calls_list[4];
++	__u64 max_cpus;
++	__u64 max_guests;
++	__u64 max_guest_addr;
++	__u64 feature_indication;
++};
++
++struct kvm_s390_pv_info_header {
++	__u32 id;
++	__u32 len_max;
++	__u32 len_written;
++	__u32 reserved;
++};
++
++struct kvm_s390_pv_info {
++	struct kvm_s390_pv_info_header header;
++	union {
++		struct kvm_s390_pv_info_dump dump;
++		struct kvm_s390_pv_info_vm vm;
++	};
++};
++
++enum pv_cmd_dmp_id {
++        KVM_PV_DUMP_INIT,
++        KVM_PV_DUMP_CONFIG_STATE,
++        KVM_PV_DUMP_COMPLETE,
++        KVM_PV_DUMP_CPU,
++};
++
++struct kvm_s390_pv_dmp {
++        __u64 subcmd;
++        __u64 buff_addr;
++        __u64 buff_len;
++        __u64 gaddr;
++        __u64 reserved[4];
++};
++
+ enum pv_cmd_id {
+ 	KVM_PV_ENABLE,
+ 	KVM_PV_DISABLE,
+@@ -1659,6 +1709,8 @@ enum pv_cmd_id {
+ 	KVM_PV_VERIFY,
+ 	KVM_PV_PREP_RESET,
+ 	KVM_PV_UNSHARE_ALL,
++        KVM_PV_INFO,
++        KVM_PV_DUMP,
+ };
  
-+static inline void dump_arch_sections_add(ArchDumpInfo *info, void *opaque)
-+{
-+    if (info->arch_sections_add_fn) {
-+        info->arch_sections_add_fn(opaque);
-+    }
-+}
+ struct kvm_pv_cmd {
+@@ -2066,4 +2118,6 @@ struct kvm_stats_desc {
+ /* Available with KVM_CAP_XSAVE2 */
+ #define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
+ 
++#define KVM_S390_PV_CPU_COMMAND _IOWR(KVMIO, 0xd0, struct kvm_pv_cmd)
 +
-+static inline uint64_t dump_arch_sections_write_hdr(ArchDumpInfo *info,
-+                                                void *opaque, uint8_t *buff)
-+{
-+    if (info->arch_sections_write_hdr_fn) {
-+        return info->arch_sections_write_hdr_fn(opaque, buff);
-+    }
-+    return 0;
-+}
-+
-+static inline void dump_arch_sections_write(ArchDumpInfo *info, void *opaque,
-+                                            uint8_t *buff)
-+{
-+    if (info->arch_sections_write_fn) {
-+        info->arch_sections_write_fn(opaque, buff);
-+    }
-+}
-+
- #endif
+ #endif /* __LINUX_KVM_H */
 -- 
 2.34.1
 
