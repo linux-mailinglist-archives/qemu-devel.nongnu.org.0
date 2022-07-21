@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065DA57CA79
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:13:44 +0200 (CEST)
-Received: from localhost ([::1]:40578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39BDE57CA84
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:16:43 +0200 (CEST)
+Received: from localhost ([::1]:44992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEV3n-0003zG-4f
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:13:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59324)
+	id 1oEV6f-00075Z-8i
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:16:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyH-0002Ij-SD
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28180)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyN-0002cF-Sc
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyF-0000z6-Un
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:01 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyJ-0000zz-AU
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658405279;
+ s=mimecast20190719; t=1658405282;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+lneRHxRi/Lz3xV45Z4541IynitUy6cuEjWm1APfFzU=;
- b=AYU+cejfoPmFMU+rPLRPRzhQnVK4rvJmYfwnkObmAJW/AqP5/+QmwBUm27JcnYnjSjgR1X
- shEo7oHPCQhqTroi6O2xr54hTV37JqOxlJTcVzWFeEbsjcftkvHGj0YZTo/MKXUvJCE9G5
- rVJa2s0JFKWBlpIZKoaprXE/ysnyJU8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d7w36JqEwtEyECpPl6nXdvmSWboGE6jsZbpoi6KrEN0=;
+ b=CzBHqhTQ8qqofCa6dhFaNP1OIFdqxOxg53Gp3ZxTfHVhKRrcG4+cAb6P32CjYl07vow1pF
+ PsJQuQR2Rr0MXaSkAS/VLkefPNs9vX11KhYDZvkWR1A73/m0AiRWgi7LL/HYm5nKNuPFga
+ z7uBRprn5ZNdvW1QVn8UHSbZQy2vxxI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-340-nK--oYp5NoSRG0Z-Mei3hA-1; Thu, 21 Jul 2022 08:07:55 -0400
-X-MC-Unique: nK--oYp5NoSRG0Z-Mei3hA-1
+ us-mta-546-3_ooOJgiMdOQghXspDUV_g-1; Thu, 21 Jul 2022 08:07:59 -0400
+X-MC-Unique: 3_ooOJgiMdOQghXspDUV_g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ED7B385A589;
- Thu, 21 Jul 2022 12:07:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F03853C138A9;
+ Thu, 21 Jul 2022 12:07:58 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 19D862026D64;
- Thu, 21 Jul 2022 12:07:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 445722026D64;
+ Thu, 21 Jul 2022 12:07:55 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -53,10 +53,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH RFC 6/7] hostmem: Allow for specifying a ThreadContext for
- preallocation
-Date: Thu, 21 Jul 2022 14:07:31 +0200
-Message-Id: <20220721120732.118133-7-david@redhat.com>
+Subject: [PATCH RFC 7/7] vl: Allow ThreadContext objects to be created before
+ the sandbox option
+Date: Thu, 21 Jul 2022 14:07:32 +0200
+Message-Id: <20220721120732.118133-8-david@redhat.com>
 In-Reply-To: <20220721120732.118133-1-david@redhat.com>
 References: <20220721120732.118133-1-david@redhat.com>
 MIME-Version: 1.0
@@ -86,104 +86,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's allow for specifying a thread context via the "prealloc-context"
-property. When set, preallcoation threads will be crated via the
-thread context -- inheriting the same CPU affinity as the thread
-context.
+Currently, there is no way to configure a CPU affinity inside QEMU when
+the sandbox option disables it for QEMU as a whole, for example, via:
+    -sandbox enable=on,resourcecontrol=deny
 
-Pinning preallcoation threads to CPUs can heavily increase performance
-in NUMA setups, because, preallocation from a CPU close to the target
-NUMA node(s) is faster then preallocation from a CPU further remote,
-simply because of memory bandwidth for initializing memory with zeroes.
-This is especially relevant for very large VMs backed by huge/gigantic
-pages, whereby preallocation is mandatory.
+While ThreadContext objects can be created on the QEMU commandline and
+the CPU affinity can be configured externally via the thread-id, this is
+insufficient if a ThreadContext with a certain CPU affinity is already
+required during QEMU startup, before we can intercept QEMU and
+configure the CPU affinity.
+
+Blocking sched_setaffinity() was introduced in 24f8cdc57224 ("seccomp:
+add resourcecontrol argument to command line"), "to avoid any bigger of the
+process". However, we only care about once QEMU is running, not when
+the instance starting QEMU explicitly requests a certain CPU affinity
+on the QEMU comandline.
+
+Right now, for NUMA-aware preallocation of memory backends used for initial
+machine RAM, one has to:
+
+1) Start QEMU with the memory-backend with "prealloc=off"
+2) Pause QEMU before it starts the guest (-S)
+3) Create ThreadContext, configure the CPU affinity using the thread-id
+4) Configure the ThreadContext as "prealloc-context" of the memory
+   backend
+5) Trigger preallocation by setting "prealloc=on"
+
+To simplify this handling especially for initial machine RAM,
+allow creation of ThreadContext objects before parsing sandbox options,
+such that the CPU affinity requested on the QEMU commandline alongside the
+sandbox option can be set. As ThreadContext objects essentially only create
+a persistant context thread and set the CPU affinity, this is easily
+possible.
+
+With this change, we can create a ThreadContext with a CPU affinity on
+the QEMU commandline and use it for preallocation of memory backends
+glued to the machine (simplified example):
+
+qemu-system-x86_64 -m 1G \
+ -object thread-context,id=tc1,cpu-affinity=3-4 \
+ -object memory-backend-ram,id=pc.ram,size=1G,prealloc=on,prealloc-threads=2,prealloc-context=tc1 \
+ -machine memory-backend=pc.ram \
+ -S -monitor stdio -sandbox enable=on,resourcecontrol=deny
+
+And while we can query the current CPU affinity:
+  (qemu) qom-get tc1 cpu-affinity
+  [
+      3,
+      4
+  ]
+
+We can no longer change it from QEMU directly:
+  (qemu) qom-set tc1 cpu-affinity 1-2
+  Error: Setting CPU affinity failed: Operation not permitted
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- backends/hostmem.c       | 12 +++++++++---
- include/sysemu/hostmem.h |  2 ++
- qapi/qom.json            |  4 ++++
- 3 files changed, 15 insertions(+), 3 deletions(-)
+ softmmu/vl.c | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index 46bd4cc494..5e730fd7c0 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -232,8 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
-         void *ptr = memory_region_get_ram_ptr(&backend->mr);
-         uint64_t sz = memory_region_size(&backend->mr);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index aabd82e09a..252732cf5d 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1761,6 +1761,27 @@ static void object_option_parse(const char *optarg)
+     visit_free(v);
+ }
  
--        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, NULL,
--                          &local_err);
-+        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads,
-+                          backend->prealloc_context, &local_err);
-         if (local_err) {
-             error_propagate(errp, local_err);
-             return;
-@@ -395,7 +395,8 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
-          */
-         if (backend->prealloc) {
-             qemu_prealloc_mem(memory_region_get_fd(&backend->mr), ptr, sz,
--                              backend->prealloc_threads, NULL, &local_err);
-+                              backend->prealloc_threads,
-+                              backend->prealloc_context, &local_err);
-             if (local_err) {
-                 goto out;
-             }
-@@ -503,6 +504,11 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "prealloc-threads",
-         "Number of CPU threads to use for prealloc");
-+    object_class_property_add_link(oc, "prealloc-context",
-+        TYPE_THREAD_CONTEXT, offsetof(HostMemoryBackend, prealloc_context),
-+        object_property_allow_set_link, OBJ_PROP_LINK_STRONG);
-+    object_class_property_set_description(oc, "prealloc-context",
-+        "Context to use for creating CPU threads for preallocation");
-     object_class_property_add(oc, "size", "int",
-         host_memory_backend_get_size,
-         host_memory_backend_set_size,
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index 9ff5c16963..39326f1d4f 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -18,6 +18,7 @@
- #include "qom/object.h"
- #include "exec/memory.h"
- #include "qemu/bitmap.h"
-+#include "qemu/thread-context.h"
++/*
++ * Very early object creation, before the sandbox options have been activated.
++ */
++static bool object_create_pre_sandbox(const char *type)
++{
++    /*
++     * Objects should in general not get initialized "too early" without
++     * a reason. If you add one, state the reason in a comment!
++     */
++
++    /*
++     * Reason: -sandbox on,resourcecontrol=deny disallows setting CPU
++     * affinity of threads.
++     */
++    if (g_str_equal(type, "thread-context")) {
++        return true;
++    }
++
++    return false;
++}
++
+ /*
+  * Initial object creation happens before all other
+  * QEMU data types are created. The majority of objects
+@@ -1775,6 +1796,11 @@ static bool object_create_early(const char *type)
+      * add one, state the reason in a comment!
+      */
  
- #define TYPE_MEMORY_BACKEND "memory-backend"
- OBJECT_DECLARE_TYPE(HostMemoryBackend, HostMemoryBackendClass,
-@@ -66,6 +67,7 @@ struct HostMemoryBackend {
-     bool merge, dump, use_canonical_path;
-     bool prealloc, is_mapped, share, reserve;
-     uint32_t prealloc_threads;
-+    ThreadContext *prealloc_context;
-     DECLARE_BITMAP(host_nodes, MAX_NODES + 1);
-     HostMemPolicy policy;
++    /* Reason: already created. */
++    if (object_create_pre_sandbox(type)) {
++        return false;
++    }
++
+     /* Reason: property "chardev" */
+     if (g_str_equal(type, "rng-egd") ||
+         g_str_equal(type, "qtest")) {
+@@ -1895,7 +1921,7 @@ static void qemu_create_early_backends(void)
+  */
+ static bool object_create_late(const char *type)
+ {
+-    return !object_create_early(type);
++    return !object_create_early(type) && !object_create_pre_sandbox(type);
+ }
  
-diff --git a/qapi/qom.json b/qapi/qom.json
-index d36bf3355f..9caa1a60e3 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -578,6 +578,9 @@
- #
- # @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
- #
-+# @prealloc-context: context to use for creation of preallocation threads
-+#                    (default: none) (since 7.2)
-+#
- # @share: if false, the memory is private to QEMU; if true, it is shared
- #         (default: false)
- #
-@@ -608,6 +611,7 @@
-             '*policy': 'HostMemPolicy',
-             '*prealloc': 'bool',
-             '*prealloc-threads': 'uint32',
-+            '*prealloc-context': 'str',
-             '*share': 'bool',
-             '*reserve': 'bool',
-             'size': 'size',
+ static void qemu_create_late_backends(void)
+@@ -2365,6 +2391,8 @@ static int process_runstate_actions(void *opaque, QemuOpts *opts, Error **errp)
+ 
+ static void qemu_process_early_options(void)
+ {
++    object_option_foreach_add(object_create_pre_sandbox);
++
+ #ifdef CONFIG_SECCOMP
+     QemuOptsList *olist = qemu_find_opts_err("sandbox", NULL);
+     if (olist) {
 -- 
 2.35.3
 
