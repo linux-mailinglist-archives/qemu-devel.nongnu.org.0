@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44D5B57D39E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:54:26 +0200 (CEST)
-Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECD8257D3E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:14:58 +0200 (CEST)
+Received: from localhost ([::1]:42254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEbJY-00043j-SV
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:54:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
+	id 1oEbdR-0002hL-I2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:14:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEbHd-0001T6-4n
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:52:25 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:36797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEbHb-0004nA-8p
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:52:24 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-31e7ca45091so27065007b3.3
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 11:52:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yLku71WMXtxB/jHp3z7LvApSOOgtePL0FItv/pE8oSQ=;
- b=ReuaPFAmbVbsXWi8uvmQwOX10jhPN3anf1uPmJw0FmqBp+fS4M22cpk1Ff5JXKWuqH
- APVHTD5cC5tQvooDOj+l8ul9SIy3d2Sq/9Vt3fMtVdMbdRk0x0rZ5bU5vBKkqUaYdQKL
- SuqiY39LsEoivzvjSTaWh/98yaORvJ5CYFWR079p1UjFSajOK6Bgc27CiMXO5O5Pm256
- G6thNJlKt3dxs2RcP4PAcWbiyVklsVI2JoWQj5DEg+00FgAOVLf6spvRSB6o94eWPPVE
- oq+KUh5NRXI10aIBZTJWAcJEygRbYhO80i4/Ea8se0Pi7/AW6gTkVTI4ITEoun5Bag9i
- ehcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yLku71WMXtxB/jHp3z7LvApSOOgtePL0FItv/pE8oSQ=;
- b=d1zhY2sp2eHc9WxVnlNWLvnhuqK1pDWdLXHc0tjugNmTOh5nQCnehd5wPg2Krp+p2k
- y84Zq8sQ1/Fdm71ACHuET039l94THVW18MLNTSnetFELeijSXoODcOhWvoN7Ap84/8QD
- eRV+VEfwLQ608sxabnmc5bdW1856DNG9o8Bfykb7AnQWdSAk3wWU7aEYDWvT0cu+jy7Y
- D2QePn7n63XlaOATV4pM9iKtFwDti3DM1XQ5BJg9aIpyTpqjOVW9j0LiRZx0VPOiNiTn
- xtVspRoAWavZVTVqwXb25x7nHU68hN+JR5g1t83biJgGKJ/76gvL1lbp9CAojv+Kj4OR
- bX+A==
-X-Gm-Message-State: AJIora+Pblxykr/vz0lVfAwwJSDsaCbF7MQ9R99e3DsVQHFLwRgDnqnm
- CEfiu/Le6lfDVGask2NrY7yrOit1QVAQKbo/nNX78Q==
-X-Google-Smtp-Source: AGRyM1vxdrrm18cwNeRCWYdQeJXRHq5KY/YPsuYiYUD8N4zBaGvWFae0N3xmisJhV4HmFvbHdOnJ/gjurALs/XH2MvA=
-X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
- d8-20020a818d08000000b00317a4cdd65dmr46534406ywg.329.1658429541930; Thu, 21
- Jul 2022 11:52:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oEbcC-0001Lb-Dp
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:13:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oEbc8-0008Ix-0J
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:13:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658430814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H9sI8+aZpj+2Y+QSyc9WUYX67kkoOGRHXfVs4EhzZ6Y=;
+ b=SVlsT8HLUuU0iP/yBhrvKUGLDWO0SRk2NjH3UP1S5XBgq9JshvtruucOQKssSS4DHx46kk
+ DfExezRDv+Ts2iVGarASRKAlQzR2gR/1V8Jk9dB7MlEGTIBThPNWxvHD+E5/KA+emjmIg9
+ LzlXDvk8/IYelvIT8BCNvRw6cWN7ZfU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-35-nkmRUI1MMBaWfm2n69FQwQ-1; Thu, 21 Jul 2022 15:13:31 -0400
+X-MC-Unique: nkmRUI1MMBaWfm2n69FQwQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A840885A585;
+ Thu, 21 Jul 2022 19:13:30 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B7BFE40C1288;
+ Thu, 21 Jul 2022 19:13:29 +0000 (UTC)
+Date: Thu, 21 Jul 2022 14:13:28 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v3 7/9] tests/style: check qemu/osdep.h is included in
+ all .c files
+Message-ID: <20220721191305.thbv4bqi6jbene25@redhat.com>
+References: <20220707163720.1421716-1-berrange@redhat.com>
+ <20220707163720.1421716-8-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20220719075930.315237-1-aik@ozlabs.ru>
- <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
- <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
- <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
- <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
-In-Reply-To: <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Jul 2022 19:51:42 +0100
-Message-ID: <CAFEAcA88P5JyqTneiVi6c+ya1Q0A+NkuMjsVx=kj0k_BKa=19w@mail.gmail.com>
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel <qemu-devel@nongnu.org>, 
- "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220707163720.1421716-8-berrange@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,16 +85,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Jul 2022 at 19:41, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> The SLOF repo was last synced automatically 6 days ago. I'm unable to
-> start a new sync operation and maybe the current one is stuck (the web
-> interface claims the sync is currently updating...).
->
-> Peter: are you able to fetch https://github.com/aik/SLOF and push to
-> https://gitlab.com/qemu-project/SLOF to manually sync the repo?
+On Thu, Jul 07, 2022 at 05:37:18PM +0100, Daniel P. Berrangé wrote:
+> The qemu/osdep.h file must be included as the very first header in
+> all C source files, to ensure its definitions take effect over all
+> other header files, including system headers.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/style.yml | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/style.yml b/tests/style.yml
+> index d06c55bb29..6d91ac6115 100644
+> --- a/tests/style.yml
+> +++ b/tests/style.yml
+> @@ -120,4 +120,26 @@ double_words:
+>      - pc-bios/
+>      - qemu-options\.hx
+>      - scripts/checkpatch\.pl
+> -    - tests/qtest/arm-cpu-features\.c
+> \ No newline at end of file
+> +    - tests/qtest/arm-cpu-features\.c
 
-End-of-week for me, but I can look at it on Monday...
+Unrelated to the patch at hand, but a good example of the issue...
 
-thanks
--- PMM
+Can we add a style checker to ensure that text files (including
+style.yml) end in a trailing newline?
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
+
 
