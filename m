@@ -2,107 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BB057CF2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 17:33:48 +0200 (CEST)
-Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B95A57D068
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 17:56:44 +0200 (CEST)
+Received: from localhost ([::1]:58194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEYBP-0001ud-9P
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 11:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49110)
+	id 1oEYXb-00015z-A4
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 11:56:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEY9Y-0006hL-3D; Thu, 21 Jul 2022 11:31:52 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40356)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1oEYUE-00050J-5v
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:53:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEY9V-0002bI-SK; Thu, 21 Jul 2022 11:31:51 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LFFwZc015528;
- Thu, 21 Jul 2022 15:31:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : from : to : cc : references : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=N0GqPSP0wOXKh2uZA6P1583+y4QZFKCA3H6aEUBspkE=;
- b=sJqWZM2C9x6qr18DNu729Uavxeh9whtnFqyVbKjMmZ4655gkiRpkYOBZ+49zojePZet6
- dSKuQ233Sg4PXIDhL++ZKy0MGc63hyKXfdfCg9ejNBSKLU0kOShK1iwNuJYDFsdXdKnh
- HzlM/BpbUumCUqJ8dGpUOskjjCGKOxCmY7zR2nBJqvdeMFzSFDxTf7BRpYV0mcykT6PH
- 10H5EzFgPQLdSj38NyjEv5ibs4YhJu48o9VD0Sk2lBkwg75YQY6ZrXHWwp3rVRhpVLZw
- rzpXyvM8P1RD7HcbdzhCGALeA9eUFCOR9KuDeniVDpVlkSarkKu2GuUlyRnp35UbJLFr Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9908ky4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 15:31:48 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LFHwZ5024809;
- Thu, 21 Jul 2022 15:31:47 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf9908kxc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 15:31:47 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LFL7WX025347;
- Thu, 21 Jul 2022 15:31:45 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma02fra.de.ibm.com with ESMTP id 3hbmy8y9mp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 15:31:45 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26LFVgX023593428
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 15:31:42 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A99C9A4054;
- Thu, 21 Jul 2022 15:31:42 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3FB3EA405F;
- Thu, 21 Jul 2022 15:31:42 +0000 (GMT)
-Received: from [9.145.177.237] (unknown [9.145.177.237])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 15:31:42 +0000 (GMT)
-Message-ID: <8b9b547a-aba3-b5d0-2593-a7f4a9f8c942@linux.ibm.com>
-Date: Thu, 21 Jul 2022 17:31:41 +0200
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1oEYU6-0005zc-Hf
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:53:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658418781;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=g9Gr/xLPA3UpCIhasuYlmf5Lpml6E3tDbA9cQ5VBFXI=;
+ b=NVub+OFeI2eg/b5Y8DovJg0b4+BXWhdqhW0jAxn7nxlwTelgmbml1Qpp9A2GdR1IcOP8nV
+ 2RVcuSiDqRGHJniE6G2H8T+KotnU+7ms4PIaKx7MLVxBsl14/Umjd2yVNlkoXnMcstIghT
+ 1ot1kJ/J1k05yFAWlhWFadol2pAtvWk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-178-euG-bPILNcWIUfTzfaw7CA-1; Thu, 21 Jul 2022 11:51:15 -0400
+X-MC-Unique: euG-bPILNcWIUfTzfaw7CA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A235E811E7A;
+ Thu, 21 Jul 2022 15:51:13 +0000 (UTC)
+Received: from starship (unknown [10.40.192.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2D4612166B29;
+ Thu, 21 Jul 2022 15:51:11 +0000 (UTC)
+Message-ID: <8ac992205e740722160f770821a49278bfa12b0a.camel@redhat.com>
+Subject: Re: Guest reboot issues since QEMU 6.0 and Linux 5.11
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Fabian Ebner <f.ebner@proxmox.com>, kvm@vger.kernel.org, 
+ qemu-devel@nongnu.org
+Cc: Thomas Lamprecht <t.lamprecht@proxmox.com>, Mira Limbeck
+ <m.limbeck@proxmox.com>
+Date: Thu, 21 Jul 2022 18:51:10 +0300
+In-Reply-To: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
+References: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Content-Language: en-US
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- seiden@linux.ibm.com
-References: <20220721132256.2171-1-frankja@linux.ibm.com>
- <20220721132256.2171-9-frankja@linux.ibm.com>
-Subject: Re: [PATCH v3 08/14] dump/dump: Add section string table support
-In-Reply-To: <20220721132256.2171-9-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 2vYNl9DuYTnyEk9Dg9G0h8cNu7G1cg-c
-X-Proofpoint-ORIG-GUID: HPWi9tch3Pk46KPr3T4AFaSyv_Us9m9I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_18,2022-07-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 spamscore=0
- mlxscore=0 impostorscore=0 clxscore=1015 mlxlogscore=783
- priorityscore=1501 suspectscore=0 lowpriorityscore=0 malwarescore=0
- adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207210060
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -119,116 +82,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 15:22, Janosch Frank wrote:
-> As sections don't have a type like the notes do we need another way to
-> determine their contents. The string table allows us to assign each
-> section an identification string which architectures can then use to
-> tag their sections with.
+On Thu, 2022-07-21 at 14:49 +0200, Fabian Ebner wrote:
+> Hi,
+> since about half a year ago, we're getting user reports about guest
+> reboot issues with KVM/QEMU[0].
 > 
-> There will be no string table if the architecture doesn't add custom
-> sections which are introduced in a following patch.
+> The most common scenario is a Windows Server VM (2012R2/2016/2019,
+> UEFI/OVMF and SeaBIOS) getting stuck during the screen with the Windows
+> logo and the spinning circles after a reboot was triggered from within
+> the guest. Quitting the kvm process and booting with a fresh instance
+> works. The issue seems to become more likely, the longer the kvm
+> instance runs.
 > 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-> ---
->   dump/dump.c           | 81 +++++++++++++++++++++++++++++++++++++++++--
->   include/sysemu/dump.h |  1 +
->   2 files changed, 80 insertions(+), 2 deletions(-)
+> We did not get such reports while we were providing Linux 5.4 and QEMU
+> 5.2.0, but we do with Linux 5.11/5.13/5.15 and QEMU 6.x.
 > 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 6f3274c5af..944217349a 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -99,6 +99,7 @@ static int dump_cleanup(DumpState *s)
->       close(s->fd);
->       g_free(s->guest_note);
->       g_free(s->elf_header);
-> +    g_array_unref(s->string_table_buf);
->       s->guest_note = NULL;
->       if (s->resume) {
->           if (s->detached) {
-> @@ -357,14 +358,47 @@ static size_t prepare_elf_section_hdr_zero(DumpState *s, void *buff)
->       return dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
->   }
->   
-> +static void write_elf_section_hdr_string(DumpState *s, void *buff)
-> +{
-> +    Elf32_Shdr shdr32;
-> +    Elf64_Shdr shdr64;
-> +    int shdr_size;
-> +    void *shdr = buff;
-> +
-> +    if (dump_is_64bit(s)) {
-> +        shdr_size = sizeof(Elf64_Shdr);
-> +        memset(&shdr64, 0, shdr_size);
-> +        shdr64.sh_type = SHT_STRTAB;
-> +        shdr64.sh_offset = s->section_offset + s->elf_section_data_size;
-> +        shdr64.sh_name = s->string_table_buf->len;
-> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-> +        shdr64.sh_size = s->string_table_buf->len;
-> +        shdr = &shdr64;
-> +    } else {
-> +        shdr_size = sizeof(Elf32_Shdr);
-> +        memset(&shdr32, 0, shdr_size);
-> +        shdr32.sh_type = SHT_STRTAB;
-> +        shdr32.sh_offset = s->section_offset + s->elf_section_data_size;
-> +        shdr32.sh_name = s->string_table_buf->len;
-> +        g_array_append_vals(s->string_table_buf, ".strtab", sizeof(".strtab"));
-> +        shdr32.sh_size = s->string_table_buf->len;
-> +        shdr = &shdr32;
-> +    }
-> +
-> +    memcpy(buff, shdr, shdr_size);
-> +}
-> +
->   static void prepare_elf_section_hdrs(DumpState *s)
->   {
->       uint8_t *buff_hdr;
-> -    size_t len, sizeof_shdr;
-> +    size_t len, size = 0, sizeof_shdr;
-> +    Elf64_Ehdr *hdr64 = s->elf_header;
-> +    Elf32_Ehdr *hdr32 = s->elf_header;
->   
->       /*
->        * Section ordering:
->        * - HDR zero (if needed)
-> +     * - String table hdr
->        */
->       sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
->       len = sizeof_shdr * s->shdr_num;
-> @@ -375,6 +409,22 @@ static void prepare_elf_section_hdrs(DumpState *s)
->       if (s->phdr_num == PN_XNUM) {
->               prepare_elf_section_hdr_zero(s, buff_hdr);
->       }
-> +    buff_hdr += size;
-
-If I'm not mistaken this line doesn't make sense at all.
-It needs to be in the if and add sizeof_shdr so we can account for the 
-zero header.
-
-I.e.:
-if (s->phdr_num == PN_XNUM) {
-	prepare_elf_section_hdr_zero(s, buff_hdr);
-	buff_hdr += sizeof_shdr;
-}
+> I'm just wondering if anybody has seen this issue before or might have a
+> hunch what it's about? Any tips on what to look out for when debugging
+> are also greatly appreciated!
+> 
+> We do have debug access to a user's test VM and the VM state was saved
+> before a problematic reboot, but I can't modify the host system there.
+> AFAICT QEMU just executes guest code as usual, but I'm really not sure
+> what to look out for.
+> 
+> That VM has CPU type host, and a colleague did have a similar enough CPU
+> to load the VM state, but for him, the reboot went through normally. On
+> the user's system, it triggers consistently after loading the VM state
+> and rebooting.
+> 
+> So unfortunately, we didn't manage to reproduce the issue locally yet.
+> With two other images provided by users, we ran into a boot loop, where
+> QEMU resets the CPUs and does a few KVM_RUNs before the exit reason is
+> KVM_EXIT_SHUTDOWN (which to my understanding indicates a triple fa
+> ult)
+> and then it repeats. It's not clear if the issues are related.
 
 
-Also size isn't really needed, we can directly add 
-dump_arch_sections_write_hdr()'s return to buff_hdr in the next patch.
+Does the guest have HyperV enabled in it (that is nested virtualization?)
 
-> +
-> +    if (s->shdr_num < 2) {
-> +        return;
-> +    }
-> +
-> +    /*
-> +     * String table needs to be last section since strings are added
-> +     * via arch_sections_write_hdr().
-> +     */
-> +    write_elf_section_hdr_string(s, buff_hdr);
-> +    if (dump_is_64bit(s)) {
-> +        hdr64->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-> +    } else {
-> +        hdr32->e_shstrndx = cpu_to_dump16(s, s->shdr_num - 1);
-> +    }
->   }
+Intel or AMD?
+
+Does the VM uses secure boot / SMM?
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> There are also a few reports about non-Windows VMs, mostly Ubuntu 20.04
+> with UEFI/OVMF, but again, it's not clear if the issues are related.
+> 
+> [0]: https://forum.proxmox.com/threads/100744/
+> (the forum thread is a bit chaotic unfortunately).
+> 
+> Best Regards,
+> Fabi
+> 
+> 
+
+
 
