@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDF2A57D4BD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 22:22:38 +0200 (CEST)
-Received: from localhost ([::1]:40148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2208A57D4E9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 22:41:12 +0200 (CEST)
+Received: from localhost ([::1]:48812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEcgv-0001JC-Fb
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 16:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43952)
+	id 1oEcys-0008U4-75
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 16:41:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oEcfV-0007S5-UV
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 16:21:11 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:33914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oEcfT-000255-Gg
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 16:21:09 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id A8307B82675;
- Thu, 21 Jul 2022 20:21:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF38C3411E;
- Thu, 21 Jul 2022 20:21:02 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="cXnJYQv/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658434860;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1TIwW/FrqJ8Wc/sBRAAD+7S6FdY7aKopV8nsJos82+M=;
- b=cXnJYQv/R20uYUxLuxxPlIYf/9BLGgO0KlQ8rGhwb4JQWspEjIqAl+W4dZcO8jwW6++eJH
- N6aD6Gh+H2E3f+tMj2vTp0yGS1FneeNYAg0OYd5yqc/CPHrDTf6ZywrEN8gpGSWM3mRvgE
- Sm1COeGKrk4ZrOLN5ePGoLktCRknRkE=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0b6a46ae
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 21 Jul 2022 20:21:00 +0000 (UTC)
-Date: Thu, 21 Jul 2022 22:20:58 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
-Message-ID: <Ytm1KiyFGNqAo/Af@zx2c4.com>
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-8-pbonzini@redhat.com>
- <87tu7az28k.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEcwo-0006X5-7W
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 16:39:02 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:45587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEcwk-0004i5-Bv
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 16:39:01 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-31bf3656517so29407397b3.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 13:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XylQsDyMHmyQCgWH7DZylQIVWpapuIEXTEdtD/GiUqQ=;
+ b=JSstY9yJFrzhBc58oq8Bw/m2vln0itUYoecyTmGTlzzx6f2rMnJT6aeLeEhH7vUTD7
+ VJ0gzQQQiaH/1XAS3oPe6nae93MI4Cblvgb7SERQUtzeXW9laTjM07k/91PxAStf0vYz
+ xV9hxzgSBvKpGUDg6eh2k7l49VgVMCpgdn+H/0dvEOAezj25yUqAkKs5VtGcFUM3kORT
+ ciHPm7sceJFHwjh9AeQ6tmu9hr8AVQPJzByDz3a7awk/l7hfLd51sR282i3v0KOxtbO0
+ Pc962l2a0CL2PH/1pSvDJyDXMTzq0lXOQfMYBLuIjSWpJBPiD+vmFgylhWy59jpK0SM1
+ NLbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XylQsDyMHmyQCgWH7DZylQIVWpapuIEXTEdtD/GiUqQ=;
+ b=3dMU1aTPxx1ukVsBHO/cHOtf+kASgZoFYTXtE9Wr0o64ZiXjQJPn6FiSqJaKWlOsSl
+ 5hjcV0Yy6dj+gWsHviZLfNKuX0m5rkfwrkvHScHPgr2pVJZmPC59/mFyDlWNYLYjV5Yj
+ wDOjwbdw+NsYZ5NHPAehe71BcsSiHI7P3o+gaDbdQ1ja2lgoO6BBP2S7BkW2JrKgmbxo
+ jIwaYavlDh+AieNnWocJ9NV8TintSJH3s8C6reLh+KEmnEFyJLUGXxL3RReC7aVm9EWs
+ ++vL49Sxd6i/gjJKmlercNj3fyAwovCallHWh/bILA9BS9MhqkKCWnsMpVKos3uPiDO3
+ YYxQ==
+X-Gm-Message-State: AJIora+Ic6KkQph+7jKbR5ToWj+Z9mlLZfDtchS6qBLqRVhNRFqd0px2
+ 8y3WfqM/1LAiz+7ynKQiJhTiLM4Rnf4HGYCIMx1lIg==
+X-Google-Smtp-Source: AGRyM1vtXl6e3Z6CBtcEGV5rGtXeheMwL9H/hiIpV+E5Yc7EYn7d3eOoRQ+0oRxnbSDnA08hbxzKGzYSX58fPa+OhQ8=
+X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
+ z7-20020a81a247000000b0031d72dae931mr307977ywg.469.1658435935999; Thu, 21 Jul
+ 2022 13:38:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87tu7az28k.fsf@linaro.org>
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220719093439.528810-1-pbonzini@redhat.com>
+In-Reply-To: <20220719093439.528810-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 Jul 2022 21:38:16 +0100
+Message-ID: <CAFEAcA8LxSQ_ntFrihtO262Od1SWzCgM1p9M1YZGL0Lt=so2tA@mail.gmail.com>
+Subject: Re: [PULL 0/3] Misc patches for QEMU 7.1 freeze
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,63 +82,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On Tue, 19 Jul 2022 at 10:37, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 0ebf76aae58324b8f7bf6af798696687f5f4c2a9:
+>
+>   Merge tag 'nvme-next-pull-request' of git://git.infradead.org/qemu-nvme into staging (2022-07-15 15:38:13 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 3746b8ca3e8bc216d03df5813080eeb06bdafabb:
+>
+>   util: Fix broken build on Haiku (2022-07-19 11:32:21 +0200)
+>
+> ----------------------------------------------------------------
+> * Boolean statistics for KVM
+> * Fix build on Haiku
+>
 
-On Thu, Jul 21, 2022 at 08:36:10PM +0100, Alex Bennée wrote:
-> 
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
-> > From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-> >
-> > If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-> > initialize early. Set this using the usual guest random number
-> > generation function. This FDT node is part of the DT specification.
-> >
-> > Cc: Alex Bennée <alex.bennee@linaro.org>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > Message-Id: <20220719121559.135355-1-Jason@zx2c4.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  hw/core/guest-loader.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
-> > index 391c875a29..4f8572693c 100644
-> > --- a/hw/core/guest-loader.c
-> > +++ b/hw/core/guest-loader.c
-> > @@ -31,6 +31,7 @@
-> >  #include "hw/qdev-properties.h"
-> >  #include "qapi/error.h"
-> >  #include "qemu/module.h"
-> > +#include "qemu/guest-random.h"
-> >  #include "guest-loader.h"
-> >  #include "sysemu/device_tree.h"
-> >  #include "hw/boards.h"
-> > @@ -46,6 +47,7 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
-> >      g_autofree char *node = g_strdup_printf("/chosen/module@0x%08" PRIx64,
-> >                                              s->addr);
-> >      uint64_t reg_attr[2] = {cpu_to_be64(s->addr), cpu_to_be64(size)};
-> > +    uint8_t rng_seed[32];
-> >  
-> >      if (!fdt) {
-> >          error_setg(errp, "Cannot modify FDT fields if the machine has none");
-> > @@ -55,6 +57,9 @@ static void loader_insert_platform_data(GuestLoaderState *s, int size,
-> >      qemu_fdt_add_subnode(fdt, node);
-> >      qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
-> >  
-> > +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-> > +    qemu_fdt_setprop(fdt, node, "rng-seed", rng_seed, sizeof(rng_seed));
-> > +
-> 
-> Why are we inserting this here? The guest-loader is only building on
-> what the machine type has already constructed which in the case of -M
-> virt for riscv and ARM already has code for this.
 
-Wish you would have replied to the list patch before Paolo queued it.
+Applied, thanks.
 
-I don't know this mechanism well but I assumed it would pass a unique
-seed to each chained loader. Let me know if I'm misunderstanding the
-purpose; I have no qualms about dropping this patch.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
+for any user-visible changes.
 
-Jason
+-- PMM
 
