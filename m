@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8777457D40C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:23:12 +0200 (CEST)
-Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B507057D450
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:41:13 +0200 (CEST)
+Received: from localhost ([::1]:50794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEblP-0006jo-Hf
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:23:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60542)
+	id 1oEc2q-0001mc-Do
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oEbjp-0005Fd-DE; Thu, 21 Jul 2022 15:21:33 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:49068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oEbjj-0001Ql-A9; Thu, 21 Jul 2022 15:21:32 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6F6DF2E12A0;
- Thu, 21 Jul 2022 22:21:14 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b49f::1:a] (unknown
- [2a02:6b8:b081:b49f::1:a])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- dmsLKHmAZu-LCOmduDm; Thu, 21 Jul 2022 22:21:13 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658431273; bh=UAbTt1ypB49u6OgcqMW4Gw/mWsMyVWMV8JHq95gvlCU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=Tu1lQEU8LMv2+nMCpSCrs5faZ0Wy6/TZDllOLPvkQlMfv5iwYXIDiRfg5ngklw4ff
- p9bJhd/foN2Hd3qEmD3XNh6yiM/bYoCYnCGty1zlC6TOdaEijiD6B7dilAn/NAAuaq
- M+KaYvoJH+r9Hc9J63RHelicSEWWxCVVxxP+4DCs=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <06243e0a-c578-ea3c-7a27-959dbc358823@yandex-team.ru>
-Date: Thu, 21 Jul 2022 22:21:12 +0300
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oEbz9-00006G-A4
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:37:24 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:37881)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oEbz7-0003rP-7S
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:37:22 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id u5so3701829wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 12:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NoAsgHPsuEJFQowCGfy1qcczexg2o/8JOutiXeO3qLE=;
+ b=ExeCciWHFTPNBWR12Ep9UrQp0sIbBYrKtuFThv7Ccsn4qs7ExJX20Z6kpMAEQktIt/
+ qmIc6JnVPZsZi56X5oHRSU/fqOPfsZ3O5+bICnUhdohLLrb8YHm5fSjswKHdNttKe7FG
+ nMElEQ1j4XmygYDfu7vrTKreC4BXWE7u+722IrAgOMVMDLjxOmgZ6tUF0X4SdDK7NThl
+ L19g14b8/K9lqVEGFCpgywlFyoD6ZWm94Tcs8BgzKQHaPfUDh1ZYM+wmOFLCsl2pU8GK
+ Ycc7yY4YwYv1twWfjA8aRwXz3xFCHqoWRU+GnKEnegt6AObgrRvNTXr120al91wuedgM
+ fOJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=NoAsgHPsuEJFQowCGfy1qcczexg2o/8JOutiXeO3qLE=;
+ b=CaKdvKOse/BMj9pkvfIFrOKPNWcpZpPKfFfHCsDxF86rHt5luDjECXpVTfvXbaA0cy
+ UluIsn6sMFe0XPMnMD2TrZCrZpgfh84htJA/+wSvM5IhizceDIf/j6FP8A1gA+eZWFps
+ tEyoayfCKaXXMwl93Bgx1A9Y8w7xxvNGh9DscwBklUPdEYqADXhlEk7N5O/z7Tkx7io6
+ zVM2XQp4x2rWi+2wJtWgoPbW/ugufKFNExjHbx6HCsc4hY9XRGcpaX/Wl5VZXv12yKbq
+ zEQ1+3QGH1G3M2Xv0uhDNwR8TcqX68FP/Op5LgE2LWlEYSlbQ/TsVuRcKPyTikjPctGC
+ sLcQ==
+X-Gm-Message-State: AJIora9sXqHRcyJNLn9SY2eUCHDFlNumDz0DJsCYKzqSdNI8bOg2as9E
+ KgnfrrbgMmjcUqDvoeLmkbCbpbSZx5XQdA==
+X-Google-Smtp-Source: AGRyM1uRckwLsLvfdw6ts5qOt3vedyCLS6nMazszmVY/ryn4RomUWXE5TSWNfTsyjTiqkH3Hkv2dEA==
+X-Received: by 2002:adf:f5cd:0:b0:21e:50bd:cbe1 with SMTP id
+ k13-20020adff5cd000000b0021e50bdcbe1mr3803wrp.540.1658432237942; 
+ Thu, 21 Jul 2022 12:37:17 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ l22-20020a05600c2cd600b003a2f96935c0sm1335603wmc.9.2022.07.21.12.37.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 12:37:16 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id F09981FFB7;
+ Thu, 21 Jul 2022 20:37:15 +0100 (BST)
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-8-pbonzini@redhat.com>
+User-agent: mu4e 1.7.27; emacs 28.1.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
+Date: Thu, 21 Jul 2022 20:36:10 +0100
+In-reply-to: <20220721163621.761513-8-pbonzini@redhat.com>
+Message-ID: <87tu7az28k.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 08/10] iotests/264: add mirror-cancel test-case
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, stefanha@redhat.com,
- kwolf@redhat.com, jsnow@redhat.com, den@openvz.org,
- Hanna Reitz <hreitz@redhat.com>
-References: <20210205163720.887197-1-vsementsov@virtuozzo.com>
- <20210205163720.887197-9-vsementsov@virtuozzo.com>
- <2b67285d-b824-6552-d6a7-0e0d79ab30e2@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <2b67285d-b824-6552-d6a7-0e0d79ab30e2@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,127 +93,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 11:50, Thomas Huth wrote:
-> On 05/02/2021 17.37, Vladimir Sementsov-Ogievskiy wrote:
->> Check that cancel doesn't wait for 10s of nbd reconnect timeout.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> ---
->>   tests/qemu-iotests/264     | 38 ++++++++++++++++++++++++++++++--------
->>   tests/qemu-iotests/264.out |  4 ++--
->>   2 files changed, 32 insertions(+), 10 deletions(-)
->>
->> diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
->> index 6feeaa4056..347e53add5 100755
->> --- a/tests/qemu-iotests/264
->> +++ b/tests/qemu-iotests/264
->> @@ -27,25 +27,26 @@ from iotests import qemu_img_create, file_path, qemu_nbd_popen
->>   disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
->>   nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
->> -size = 5 * 1024 * 1024
->>   wait_limit = 3.0
->>   wait_step = 0.2
->>   class TestNbdReconnect(iotests.QMPTestCase):
->> -    def setUp(self):
->> -        qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
->> -        qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
->> +    def init_vm(self, disk_size):
->> +        qemu_img_create('-f', iotests.imgfmt, disk_a, str(disk_size))
->> +        qemu_img_create('-f', iotests.imgfmt, disk_b, str(disk_size))
->>           self.vm = iotests.VM().add_drive(disk_a)
->>           self.vm.launch()
->> -        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
->> +        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(disk_size))
->>       def tearDown(self):
->>           self.vm.shutdown()
->>           os.remove(disk_a)
->>           os.remove(disk_b)
->> -    def test(self):
->> +    def start_job(self, job):
->> +        """Stat job with nbd target and kill the server"""
->> +        assert job in ('blockdev-backup', 'blockdev-mirror')
->>           with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
->>               result = self.vm.qmp('blockdev-add',
->>                                    **{'node_name': 'backup0',
->> @@ -55,7 +56,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
->>                                                           'path': nbd_sock},
->>                                                'reconnect-delay': 10}})
->>               self.assert_qmp(result, 'return', {})
->> -            result = self.vm.qmp('blockdev-backup', device='drive0',
->> +            result = self.vm.qmp(job, device='drive0',
->>                                    sync='full', target='backup0',
->>                                    speed=(1 * 1024 * 1024))
->>               self.assert_qmp(result, 'return', {})
->> @@ -73,7 +74,8 @@ class TestNbdReconnect(iotests.QMPTestCase):
->>           jobs = self.vm.qmp('query-block-jobs')['return']
->>           # Check that job is still in progress
->> -        self.assertTrue(jobs and jobs[0]['offset'] < jobs[0]['len'])
->> +        self.assertTrue(jobs)
->> +        self.assertTrue(jobs[0]['offset'] < jobs[0]['len'])
->>           result = self.vm.qmp('block-job-set-speed', device='drive0', speed=0)
->>           self.assert_qmp(result, 'return', {})
->> @@ -81,12 +83,32 @@ class TestNbdReconnect(iotests.QMPTestCase):
->>           # Emulate server down time for 1 second
->>           time.sleep(1)
->> +    def test_backup(self):
->> +        size = 5 * 1024 * 1024
->> +        self.init_vm(size)
->> +        self.start_job('blockdev-backup')
->> +
->>           with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
->>               e = self.vm.event_wait('BLOCK_JOB_COMPLETED')
->>               self.assertEqual(e['data']['offset'], size)
->>               result = self.vm.qmp('blockdev-del', node_name='backup0')
->>               self.assert_qmp(result, 'return', {})
->> +    def test_mirror_cancel(self):
->> +        # Mirror speed limit doesn't work well enough, it seems that mirror
->> +        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
->> +        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
->> +        self.init_vm(20 * 1024 * 1024)
->> +        self.start_job('blockdev-mirror')
->> +
->> +        result = self.vm.qmp('block-job-cancel', device='drive0')
->> +        self.assert_qmp(result, 'return', {})
->> +
->> +        start_t = time.time()
->> +        self.vm.event_wait('BLOCK_JOB_CANCELLED')
->> +        delta_t = time.time() - start_t
->> +        self.assertTrue(delta_t < 2.0)
-> 
->   Hi!
-> 
-> For what it's worth, I've just run into this assert while running "make check -j8 SPEED=slow":
-> 
-> --- /home/thuth/devel/qemu/tests/qemu-iotests/264.out
-> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratch/264/264.out.bad
-> @@ -1,5 +1,15 @@
-> -...
-> +..F
-> +======================================================================
-> +FAIL: test_mirror_cancel (__main__.TestNbdReconnect)
-> +----------------------------------------------------------------------
-> +Traceback (most recent call last):
-> +  File "/home/thuth/devel/qemu/tests/qemu-iotests/264", line 112, in test_mirror_cancel
-> +    self.cancel_job()
-> +  File "/home/thuth/devel/qemu/tests/qemu-iotests/264", line 104, in cancel_job
-> +    self.assertTrue(delta_t < 2.0)
-> +AssertionError: False is not true
+
+Paolo Bonzini <pbonzini@redhat.com> writes:
+
+> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+>
+> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+> initialize early. Set this using the usual guest random number
+> generation function. This FDT node is part of the DT specification.
+>
+> Cc: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Message-Id: <20220719121559.135355-1-Jason@zx2c4.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  hw/core/guest-loader.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
+> index 391c875a29..4f8572693c 100644
+> --- a/hw/core/guest-loader.c
+> +++ b/hw/core/guest-loader.c
+> @@ -31,6 +31,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+> +#include "qemu/guest-random.h"
+>  #include "guest-loader.h"
+>  #include "sysemu/device_tree.h"
+>  #include "hw/boards.h"
+> @@ -46,6 +47,7 @@ static void loader_insert_platform_data(GuestLoaderStat=
+e *s, int size,
+>      g_autofree char *node =3D g_strdup_printf("/chosen/module@0x%08" PRI=
+x64,
+>                                              s->addr);
+>      uint64_t reg_attr[2] =3D {cpu_to_be64(s->addr), cpu_to_be64(size)};
+> +    uint8_t rng_seed[32];
+>=20=20
+>      if (!fdt) {
+>          error_setg(errp, "Cannot modify FDT fields if the machine has no=
+ne");
+> @@ -55,6 +57,9 @@ static void loader_insert_platform_data(GuestLoaderStat=
+e *s, int size,
+>      qemu_fdt_add_subnode(fdt, node);
+>      qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
+>=20=20
+> +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+> +    qemu_fdt_setprop(fdt, node, "rng-seed", rng_seed, sizeof(rng_seed));
 > +
->   ----------------------------------------------------------------------
->   Ran 3 tests
-> 
-> -OK
-> +FAILED (failures=1)
-> 
-> (test program exited with status code 1)
-> 
-> Maybe 2.0 is not enough on loaded systems? Should we increase the value there?
-> 
 
-Yes I think we can increase it. We have speed set to 1MB/s in the test. Mirror (due to implementation) will copy 16MB at once.. and then it should wait 16 seconds to copy next 4M. So, if fast-cancelling not work, we'll cancel in 19+ seconds. I think, we can safely increase our bound from 2 to 5-7 seconds.
+Why are we inserting this here? The guest-loader is only building on
+what the machine type has already constructed which in the case of -M
+virt for riscv and ARM already has code for this.
 
--- 
-Best regards,
-Vladimir
+>      if (s->kernel) {
+>          const char *compat[2] =3D { "multiboot,module", "multiboot,kerne=
+l" };
+>          if (qemu_fdt_setprop_string_array(fdt, node, "compatible",
+
+
+--=20
+Alex Benn=C3=A9e
 
