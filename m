@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70E7E57CA77
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:13:21 +0200 (CEST)
-Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C43757CA7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:15:08 +0200 (CEST)
+Received: from localhost ([::1]:43790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEV3Q-00035q-Hw
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59178)
+	id 1oEV59-0006DH-CD
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:15:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUy6-0001hX-Gl
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:07:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40637)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyF-0002Ax-Dv
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:07:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUy3-0000wC-8E
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:07:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyD-0000xk-3f
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:07:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658405266;
+ s=mimecast20190719; t=1658405276;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l5VAvxa5mnx7Ln1XsMG4JeTh82NRLiJe/ZASfhulYHY=;
- b=AAA6yTQ5CliP8oOdPx6nmG8KEw9Ggq5lj0+Pt/zuJ0jATJE7PxQrGmbEw1xani/RJvsA+P
- TNRHZfxTLeQh+NiGJKVlW6d092bIsYwfQ2X2JcNAiV5EKmAJquYkXFrjSMiV3gtRCWA8fN
- xVxBi6RHZBVfd3lVweokIPo3/JL6d9k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=hBbRe241oIn6dwfW5KLA9nuMpaschDSBDr3Vcja/5Ec=;
+ b=SOnqMuwQFaVn+qTubpzyXZ3BrHKh/1w8xz4Vk4O9YvqLzRYwRH+KKf0QgkPYCIDYFDMFk/
+ U6sVh5x+jIMp+xVgDDoonBLYuqA7KLgPUu0XzG3LyRSy0rieBb17XzRAH6AvRADHGgOkC7
+ lalmFnbQNZCi/IZJPJi/INCDwTgjwX8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-20-xJzPL0buNY2_NEX-6z5Gaw-1; Thu, 21 Jul 2022 08:07:43 -0400
-X-MC-Unique: xJzPL0buNY2_NEX-6z5Gaw-1
+ us-mta-184-5CcNNtQwPnKHNNyvZFKzkQ-1; Thu, 21 Jul 2022 08:07:46 -0400
+X-MC-Unique: 5CcNNtQwPnKHNNyvZFKzkQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C82FE2811379;
- Thu, 21 Jul 2022 12:07:42 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C37A0811E81;
+ Thu, 21 Jul 2022 12:07:45 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D556C2026985;
- Thu, 21 Jul 2022 12:07:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3044A2026D64;
+ Thu, 21 Jul 2022 12:07:43 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -53,10 +53,9 @@ Cc: David Hildenbrand <david@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH RFC 2/7] util: Introduce qemu_thread_set_affinity() and
- qemu_thread_get_affinity()
-Date: Thu, 21 Jul 2022 14:07:27 +0200
-Message-Id: <20220721120732.118133-3-david@redhat.com>
+Subject: [PATCH RFC 3/7] util: Introduce ThreadContext user-creatable object
+Date: Thu, 21 Jul 2022 14:07:28 +0200
+Message-Id: <20220721120732.118133-4-david@redhat.com>
 In-Reply-To: <20220721120732.118133-1-david@redhat.com>
 References: <20220721120732.118133-1-david@redhat.com>
 MIME-Version: 1.0
@@ -86,185 +85,457 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Usually, we let upper layers handle CPU pinning, because
-pthread_setaffinity_np() (-> sched_setaffinity()) is blocked via
-seccomp when starting QEMU with
+Setting the CPU affinity of QEMU threads is a bit problematic, because
+QEMU doesn't always have permissions to set the CPU affinity itself,
+for example, with seccomp after initialized by QEMU:
     -sandbox enable=on,resourcecontrol=deny
 
-However, we want to configure and observe the CPU affinity of threads
-from QEMU directly in some cases when the sandbox option is either not
-enabled or not active yet.
+While upper layers are already aware how to handl;e CPU affinities for
+long-lived threads like iothreads or vcpu threads, especially short-lived
+threads, as used for memory-backend preallocation, are more involved to
+handle. These threads are created on demand and upper layers are not even
+able to identify and configure them.
 
-So let's add a way to configure CPU pinning via
-qemu_thread_set_affinity() and obtain CPU affinity via
-qemu_thread_get_affinity() and implement them under POSIX using
-pthread_setaffinity_np() + pthread_getaffinity_np().
+Introduce the concept of a ThreadContext, that is essentially a thread
+used for creating new threads. All threads created via that context
+thread inherit the configured CPU affinity. Consequently, it's
+sufficient to create a ThreadContext and configure it once, and have all
+threads created via that ThreadContext inherit the same CPU affinity.
 
-Implementation under Windows is possible using SetProcessAffinityMask()
-+ GetProcessAffinityMask(), however, that is left as future work.
+The CPU affinity of a ThreadContext can be configured two ways:
+
+(1) Obtaining the thread id via the "thread-id" property and setting the
+    CPU affinity manually.
+
+(2) Setting the "cpu-affinity" property and letting QEMU try set the
+    CPU affinity itself. This will fail if QEMU doesn't have permissions
+    to do so anymore after seccomp was initialized.
+
+A ThreadContext can be reused, simply be reconfiguring the CPU affinity.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- include/qemu/thread.h    |  4 +++
- meson.build              | 16 +++++++++
- util/qemu-thread-posix.c | 70 ++++++++++++++++++++++++++++++++++++++++
- util/qemu-thread-win32.c | 12 +++++++
- 4 files changed, 102 insertions(+)
+ include/qemu/thread-context.h |  58 +++++++
+ qapi/qom.json                 |  16 ++
+ util/meson.build              |   1 +
+ util/oslib-posix.c            |   1 +
+ util/thread-context.c         | 279 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 355 insertions(+)
+ create mode 100644 include/qemu/thread-context.h
+ create mode 100644 util/thread-context.c
 
-diff --git a/include/qemu/thread.h b/include/qemu/thread.h
-index af19f2b3fc..79e507c7f0 100644
---- a/include/qemu/thread.h
-+++ b/include/qemu/thread.h
-@@ -185,6 +185,10 @@ void qemu_event_destroy(QemuEvent *ev);
- void qemu_thread_create(QemuThread *thread, const char *name,
-                         void *(*start_routine)(void *),
-                         void *arg, int mode);
-+int qemu_thread_set_affinity(QemuThread *thread, unsigned long *host_cpus,
-+                             unsigned long nbits);
-+int qemu_thread_get_affinity(QemuThread *thread, unsigned long **host_cpus,
-+                             unsigned long *nbits);
- void *qemu_thread_join(QemuThread *thread);
- void qemu_thread_get_self(QemuThread *thread);
- bool qemu_thread_is_self(QemuThread *thread);
-diff --git a/meson.build b/meson.build
-index 8a8c415fc1..961b3c99ac 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2072,7 +2072,23 @@ config_host_data.set('CONFIG_PTHREAD_CONDATTR_SETCLOCK', cc.links(gnu_source_pre
-     pthread_condattr_setclock(&attr, CLOCK_MONOTONIC);
-     return 0;
-   }''', dependencies: threads))
-+config_host_data.set('CONFIG_PTHREAD_AFFINITY_NP', cc.links(gnu_source_prefix + '''
-+  #include <pthread.h>
+diff --git a/include/qemu/thread-context.h b/include/qemu/thread-context.h
+new file mode 100644
+index 0000000000..c799cbe7a1
+--- /dev/null
++++ b/include/qemu/thread-context.h
+@@ -0,0 +1,58 @@
++/*
++ * QEMU Thread Context
++ *
++ * Copyright Red Hat Inc., 2022
++ *
++ * Authors:
++ *  David Hildenbrand <david@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#ifndef SYSEMU_THREAD_CONTEXT_H
++#define SYSEMU_THREAD_CONTEXT_H
++
++#include "qapi/qapi-types-machine.h"
++#include "qemu/thread.h"
++#include "qom/object.h"
++
++#define TYPE_THREAD_CONTEXT "thread-context"
++OBJECT_DECLARE_TYPE(ThreadContext, ThreadContextClass,
++                    THREAD_CONTEXT)
++
++struct ThreadContextClass {
++    ObjectClass parent_class;
++};
++
++struct ThreadContext {
++    /* private */
++    Object parent;
++
++    /* private */
++    unsigned int thread_id;
++    QemuThread thread;
++
++    /* Semaphore to wait for context thread action. */
++    QemuSemaphore sem;
++    /* Semaphore to wait for action in context thread. */
++    QemuSemaphore sem_thread;
++    /* Mutex to synchronize requests. */
++    QemuMutex mutex;
++
++    /* Commands for the thread to execute. */
++    int thread_cmd;
++    void *thread_cmd_data;
++
++    /* CPU affinity bitmap used for initialization. */
++    unsigned long *init_cpu_bitmap;
++    int init_cpu_nbits;
++};
++
++void thread_context_create_thread(ThreadContext *tc, QemuThread *thread,
++                                  const char *name,
++                                  void *(*start_routine)(void *), void *arg,
++                                  int mode);
++
++#endif /* SYSEMU_THREAD_CONTEXT_H */
+diff --git a/qapi/qom.json b/qapi/qom.json
+index 80dd419b39..4775a333ed 100644
+--- a/qapi/qom.json
++++ b/qapi/qom.json
+@@ -830,6 +830,20 @@
+             'reduced-phys-bits': 'uint32',
+             '*kernel-hashes': 'bool' } }
  
-+  static void *f(void *p) { return NULL; }
-+  int main(void)
-+  {
-+    int setsize = CPU_ALLOC_SIZE(64);
-+    pthread_t thread;
-+    cpu_set_t *cpuset;
-+    pthread_create(&thread, 0, f, 0);
-+    cpuset = CPU_ALLOC(64);
-+    CPU_ZERO_S(setsize, cpuset);
-+    pthread_setaffinity_np(thread, setsize, cpuset);
-+    pthread_getaffinity_np(thread, setsize, cpuset);
-+    CPU_FREE(cpuset);
-+    return 0;
-+  }''', dependencies: threads))
- config_host_data.set('CONFIG_SIGNALFD', cc.links(gnu_source_prefix + '''
-   #include <sys/signalfd.h>
-   #include <stddef.h>
-diff --git a/util/qemu-thread-posix.c b/util/qemu-thread-posix.c
-index ac1d56e673..bae938c670 100644
---- a/util/qemu-thread-posix.c
-+++ b/util/qemu-thread-posix.c
-@@ -16,6 +16,7 @@
- #include "qemu/notify.h"
- #include "qemu-thread-common.h"
- #include "qemu/tsan.h"
++##
++# @ThreadContextProperties:
++#
++# Properties for thread context objects.
++#
++# @cpu-affinity: the CPU affinity for all threads created in the thread
++#                context (default: QEMU main thread affinity)
++#
++# Since: 7.2
++##
++{ 'struct': 'ThreadContextProperties',
++  'data': { '*cpu-affinity': ['uint16'] } }
++
++
+ ##
+ # @ObjectType:
+ #
+@@ -882,6 +896,7 @@
+     { 'name': 'secret_keyring',
+       'if': 'CONFIG_SECRET_KEYRING' },
+     'sev-guest',
++    'thread-context',
+     's390-pv-guest',
+     'throttle-group',
+     'tls-creds-anon',
+@@ -948,6 +963,7 @@
+       'secret_keyring':             { 'type': 'SecretKeyringProperties',
+                                       'if': 'CONFIG_SECRET_KEYRING' },
+       'sev-guest':                  'SevGuestProperties',
++      'thread-context':             'ThreadContextProperties',
+       'throttle-group':             'ThrottleGroupProperties',
+       'tls-creds-anon':             'TlsCredsAnonProperties',
+       'tls-creds-psk':              'TlsCredsPskProperties',
+diff --git a/util/meson.build b/util/meson.build
+index 5e282130df..e97cd2d779 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -1,4 +1,5 @@
+ util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
++util_ss.add(files('thread-context.c'))
+ if not config_host_data.get('CONFIG_ATOMIC64')
+   util_ss.add(files('atomic64.c'))
+ endif
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index 75e8cdcf3e..fa66f73bf8 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -42,6 +42,7 @@
+ #include "qemu/cutils.h"
+ #include "qemu/compiler.h"
+ #include "qemu/units.h"
++#include "qemu/thread-context.h"
+ 
+ #ifdef CONFIG_LINUX
+ #include <sys/syscall.h>
+diff --git a/util/thread-context.c b/util/thread-context.c
+new file mode 100644
+index 0000000000..dcd607c532
+--- /dev/null
++++ b/util/thread-context.c
+@@ -0,0 +1,279 @@
++/*
++ * QEMU Thread Context
++ *
++ * Copyright Red Hat Inc., 2022
++ *
++ * Authors:
++ *  David Hildenbrand <david@redhat.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/thread-context.h"
++#include "qapi/error.h"
++#include "qapi/qapi-builtin-visit.h"
++#include "qapi/visitor.h"
++#include "qemu/config-file.h"
++#include "qapi/qapi-builtin-visit.h"
++#include "qom/object_interfaces.h"
++#include "qemu/module.h"
 +#include "qemu/bitmap.h"
- 
- static bool name_threads;
- 
-@@ -552,6 +553,75 @@ void qemu_thread_create(QemuThread *thread, const char *name,
-     pthread_attr_destroy(&attr);
- }
- 
-+int qemu_thread_set_affinity(QemuThread *thread, unsigned long *host_cpus,
-+                             unsigned long nbits)
++
++enum {
++    TC_CMD_NONE = 0,
++    TC_CMD_STOP,
++    TC_CMD_NEW,
++};
++
++typedef struct ThreadContextCmdNew {
++    QemuThread *thread;
++    const char *name;
++    void *(*start_routine)(void *);
++    void *arg;
++    int mode;
++} ThreadContextCmdNew;
++
++static void *thread_context_run(void *opaque)
 +{
-+#if defined(CONFIG_PTHREAD_AFFINITY_NP)
-+    const size_t setsize = CPU_ALLOC_SIZE(nbits);
-+    unsigned long value;
-+    cpu_set_t *cpuset;
-+    int err;
++    ThreadContext *tc = opaque;
 +
-+    cpuset = CPU_ALLOC(nbits);
-+    g_assert(cpuset);
++    tc->thread_id = qemu_get_thread_id();
++    qemu_sem_post(&tc->sem);
 +
-+    CPU_ZERO_S(setsize, cpuset);
-+    value = find_first_bit(host_cpus, nbits);
-+    while (value < nbits) {
-+        CPU_SET_S(value, setsize, cpuset);
-+        value = find_next_bit(host_cpus, nbits, value + 1);
-+    }
-+
-+    err = pthread_setaffinity_np(thread->thread, setsize, cpuset);
-+    CPU_FREE(cpuset);
-+    return err;
-+#else
-+    return -ENOSYS;
-+#endif
-+}
-+
-+int qemu_thread_get_affinity(QemuThread *thread, unsigned long **host_cpus,
-+                             unsigned long *nbits)
-+{
-+#if defined(CONFIG_PTHREAD_AFFINITY_NP)
-+    unsigned long tmpbits;
-+    cpu_set_t *cpuset;
-+    size_t setsize;
-+    int i, err;
-+
-+    tmpbits = CPU_SETSIZE;
 +    while (true) {
-+        setsize = CPU_ALLOC_SIZE(tmpbits);
-+        cpuset = CPU_ALLOC(tmpbits);
-+        g_assert(cpuset);
++        /*
++         * Threads inherit the CPU affinity of the creating thread. For this
++         * reason, we create new (especially short-lived) threads from our
++         * persistent context thread.
++         *
++         * Especially when QEMU is not allowed to set the affinity itself,
++         * management tools can simply set the affinity of the context thread
++         * after creating the context, to have new threads created via
++         * the context inherit the CPU affinity automatically.
++         */
++        switch (tc->thread_cmd) {
++        case TC_CMD_NONE:
++            break;
++        case TC_CMD_STOP:
++            tc->thread_cmd = TC_CMD_NONE;
++            qemu_sem_post(&tc->sem);
++            return NULL;
++        case TC_CMD_NEW: {
++            ThreadContextCmdNew *cmd_new = tc->thread_cmd_data;
 +
-+        err = pthread_getaffinity_np(thread->thread, setsize, cpuset);
-+        if (err) {
-+            CPU_FREE(cpuset);
-+            if (err != -EINVAL) {
-+                return err;
-+            }
-+            tmpbits *= 2;
-+        } else {
++            qemu_thread_create(cmd_new->thread, cmd_new->name,
++                               cmd_new->start_routine, cmd_new->arg,
++                               cmd_new->mode);
++            tc->thread_cmd = TC_CMD_NONE;
++            tc->thread_cmd_data = NULL;
++            qemu_sem_post(&tc->sem);
 +            break;
 +        }
-+    }
-+
-+    /* Convert the result into a proper bitmap. */
-+    *nbits = tmpbits;
-+    *host_cpus = bitmap_new(tmpbits);
-+    for (i = 0; i < tmpbits; i++) {
-+        if (CPU_ISSET(i, cpuset)) {
-+            set_bit(i, *host_cpus);
++        default:
++            g_assert_not_reached();
 +        }
++        qemu_sem_wait(&tc->sem_thread);
 +    }
-+    CPU_FREE(cpuset);
-+    return 0;
-+#else
-+    return -ENOSYS;
-+#endif
 +}
 +
- void qemu_thread_get_self(QemuThread *thread)
- {
-     thread->thread = pthread_self();
-diff --git a/util/qemu-thread-win32.c b/util/qemu-thread-win32.c
-index a2d5a6e825..72338148bd 100644
---- a/util/qemu-thread-win32.c
-+++ b/util/qemu-thread-win32.c
-@@ -427,6 +427,18 @@ void qemu_thread_create(QemuThread *thread, const char *name,
-     thread->data = data;
- }
- 
-+int qemu_thread_set_affinity(QemuThread *thread, unsigned long *host_cpus,
-+                             unsigned long nbits)
++static void thread_context_set_cpu_affinity(Object *obj, Visitor *v,
++                                            const char *name, void *opaque,
++                                            Error **errp)
 +{
-+    return -ENOSYS;
++    ThreadContext *tc = THREAD_CONTEXT(obj);
++    uint16List *l, *host_cpus = NULL;
++    unsigned long *bitmap = NULL;
++    int nbits = 0, ret;
++    Error *err = NULL;
++
++    visit_type_uint16List(v, name, &host_cpus, &err);
++    if (err) {
++        error_propagate(errp, err);
++        return;
++    }
++
++    if (!host_cpus) {
++        error_setg(errp, "CPU list is empty");
++        goto out;
++    }
++
++    for (l = host_cpus; l; l = l->next) {
++        nbits = MAX(nbits, l->value + 1);
++    }
++    bitmap = bitmap_new(nbits);
++    for (l = host_cpus; l; l = l->next) {
++        set_bit(l->value, bitmap);
++    }
++
++    if (tc->thread_id != -1) {
++        /*
++         * Note: we won't be adjusting the affinity of any thread that is still
++         * around, but only the affinity of the context thread.
++         */
++        ret = qemu_thread_set_affinity(&tc->thread, bitmap, nbits);
++        if (ret) {
++            error_setg(errp, "Setting CPU affinity failed: %s", strerror(ret));
++        }
++    } else {
++        tc->init_cpu_bitmap = bitmap;
++        bitmap = NULL;
++        tc->init_cpu_nbits = nbits;
++    }
++out:
++    g_free(bitmap);
++    qapi_free_uint16List(host_cpus);
 +}
 +
-+int qemu_thread_get_affinity(QemuThread *thread, unsigned long **host_cpus,
-+                             unsigned long *nbits)
++static void thread_context_get_cpu_affinity(Object *obj, Visitor *v,
++                                            const char *name, void *opaque,
++                                            Error **errp)
 +{
-+    return -ENOSYS;
++    unsigned long *bitmap, nbits, value;
++    ThreadContext *tc = THREAD_CONTEXT(obj);
++    uint16List *host_cpus = NULL;
++    uint16List **tail = &host_cpus;
++    int ret;
++
++    if (tc->thread_id == -1) {
++        error_setg(errp, "Object not initialized yet");
++        return;
++    }
++
++    ret = qemu_thread_get_affinity(&tc->thread, &bitmap, &nbits);
++    if (ret) {
++        error_setg(errp, "Getting CPU affinity failed: %s", strerror(ret));
++        return;
++    }
++
++    value = find_first_bit(bitmap, nbits);
++    while (value < nbits) {
++        QAPI_LIST_APPEND(tail, value);
++
++        value = find_next_bit(bitmap, nbits, value + 1);
++    }
++    g_free(bitmap);
++
++    visit_type_uint16List(v, name, &host_cpus, errp);
++    qapi_free_uint16List(host_cpus);
 +}
 +
- void qemu_thread_get_self(QemuThread *thread)
- {
-     thread->data = qemu_thread_data;
++static void thread_context_get_thread_id(Object *obj, Visitor *v,
++                                         const char *name, void *opaque,
++                                         Error **errp)
++{
++    ThreadContext *tc = THREAD_CONTEXT(obj);
++    uint64_t value = tc->thread_id;
++
++    visit_type_uint64(v, name, &value, errp);
++}
++
++static void thread_context_instance_complete(UserCreatable *uc, Error **errp)
++{
++    ThreadContext *tc = THREAD_CONTEXT(uc);
++    char *thread_name;
++    int ret;
++
++    thread_name = g_strdup_printf("TC %s",
++                               object_get_canonical_path_component(OBJECT(uc)));
++    qemu_thread_create(&tc->thread, thread_name, thread_context_run, tc,
++                       QEMU_THREAD_JOINABLE);
++    g_free(thread_name);
++
++    /* Wait until initialization of the thread is done. */
++    while (tc->thread_id == -1) {
++        qemu_sem_wait(&tc->sem);
++    }
++
++    if (tc->init_cpu_bitmap) {
++        ret = qemu_thread_set_affinity(&tc->thread, tc->init_cpu_bitmap,
++                                       tc->init_cpu_nbits);
++        if (ret) {
++            error_setg(errp, "Setting CPU affinity failed: %s", strerror(ret));
++        }
++        g_free(tc->init_cpu_bitmap);
++        tc->init_cpu_bitmap = NULL;
++    }
++}
++
++static void thread_context_class_init(ObjectClass *oc, void *data)
++{
++    UserCreatableClass *ucc = USER_CREATABLE_CLASS(oc);
++
++    ucc->complete = thread_context_instance_complete;
++    object_class_property_add(oc, "thread-id", "int",
++                              thread_context_get_thread_id, NULL, NULL,
++                              NULL);
++    object_class_property_add(oc, "cpu-affinity", "int",
++                              thread_context_get_cpu_affinity,
++                              thread_context_set_cpu_affinity, NULL, NULL);
++}
++
++static void thread_context_instance_init(Object *obj)
++{
++    ThreadContext *tc = THREAD_CONTEXT(obj);
++
++    tc->thread_id = -1;
++    qemu_sem_init(&tc->sem, 0);
++    qemu_sem_init(&tc->sem_thread, 0);
++    qemu_mutex_init(&tc->mutex);
++}
++
++static void thread_context_instance_finalize(Object *obj)
++{
++    ThreadContext *tc = THREAD_CONTEXT(obj);
++
++    if (tc->thread_id != -1) {
++        tc->thread_cmd = TC_CMD_STOP;
++        qemu_sem_post(&tc->sem_thread);
++        qemu_thread_join(&tc->thread);
++    }
++    qemu_sem_destroy(&tc->sem);
++    qemu_sem_destroy(&tc->sem_thread);
++    qemu_mutex_destroy(&tc->mutex);
++}
++
++static const TypeInfo thread_context_info = {
++    .name = TYPE_THREAD_CONTEXT,
++    .parent = TYPE_OBJECT,
++    .class_init = thread_context_class_init,
++    .instance_size = sizeof(ThreadContext),
++    .instance_init = thread_context_instance_init,
++    .instance_finalize = thread_context_instance_finalize,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_USER_CREATABLE },
++        { }
++    }
++};
++
++static void thread_context_register_types(void)
++{
++    type_register_static(&thread_context_info);
++}
++type_init(thread_context_register_types)
++
++void thread_context_create_thread(ThreadContext *tc, QemuThread *thread,
++                                  const char *name,
++                                  void *(*start_routine)(void *), void *arg,
++                                  int mode)
++{
++    ThreadContextCmdNew data = {
++        .thread = thread,
++        .name = name,
++        .start_routine = start_routine,
++        .arg = arg,
++        .mode = mode,
++    };
++
++    qemu_mutex_lock(&tc->mutex);
++    tc->thread_cmd = TC_CMD_NEW;
++    tc->thread_cmd_data = &data;
++    qemu_sem_post(&tc->sem_thread);
++
++    while (tc->thread_cmd != TC_CMD_NONE) {
++        qemu_sem_wait(&tc->sem);
++    }
++    qemu_mutex_unlock(&tc->mutex);
++}
 -- 
 2.35.3
 
