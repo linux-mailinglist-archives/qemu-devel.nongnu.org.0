@@ -2,91 +2,158 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEAA57C8F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:28:51 +0200 (CEST)
-Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB14A57C8F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:29:31 +0200 (CEST)
+Received: from localhost ([::1]:38032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oETQH-0004Ka-RT
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40284)
+	id 1oETQw-000518-T1
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:29:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oETNA-0001o9-AM
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:25:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52210)
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oETOx-0002ld-Mu
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:27:27 -0400
+Received: from mail-bn7nam10on2050.outbound.protection.outlook.com
+ ([40.107.92.50]:40545 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oETN0-0008Q7-UX
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:25:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658399126;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ljozf0zpaNQ6jO86eQ3tUK7Vrs7PUttaQX2tMlthYM8=;
- b=UghCT5Rp1zvuZ1kazcrgZj53e9fKEb95G4s15XS08fQ2rjoaPOCjfTBK/+Mcok2MLYfmk1
- iEDWhHfBxaRBRukOSaKuTURhYxUocGsE34RJX0hE9dXw+s3uHF+l9w2rq8by4Ys9FowwDn
- P66sxtrVL4ZAGsl5Px8ozGeWuvWljWg=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-c5asNV5WMp2RsyLR6zjRxw-1; Thu, 21 Jul 2022 06:25:22 -0400
-X-MC-Unique: c5asNV5WMp2RsyLR6zjRxw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E686C1C004F4;
- Thu, 21 Jul 2022 10:25:21 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.107])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C31B140EBE3;
- Thu, 21 Jul 2022 10:25:16 +0000 (UTC)
-Date: Thu, 21 Jul 2022 11:25:13 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Aarushi Mehta <mehta.aaru20@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- virtio-fs@redhat.com, Hanna Reitz <hreitz@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Peter Xu <peterx@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Julia Suvorova <jusual@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- John G Johnson <john.g.johnson@oracle.com>
-Subject: Re: [PULL 06/18] vfio-user: build library
-Message-ID: <Ytkpiao5Zk8Pj5Lq@redhat.com>
-References: <20220615155129.1025811-1-stefanha@redhat.com>
- <20220615155129.1025811-7-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oETOu-0000Hm-Fw
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:27:27 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Vmp6C+akleKjO/jKIf9JNjRss3znWcw06A5fhBoVsiwTeYF2Lz8oeT3DIYntgPy2xSmjTMJCJwuFU9FLoSe53EDXaimSjxyE74IWbFJuTT7OW6G24lx7Twierm9ahzUisRsJUF6rcQeyhdxV87TG5Cg2P9f1uymDwTRKgGF2iyaXckTfbc7v4H3EgTNtz16s3b2dcl6ldecmDI4fub6gkrTTW2oddrV+xM6owuFe+uAb32Hg980xt/ivX0v+dKmycNwoF555ibgr8tx8eIoAGIOafDDS4/S3/eCuVes8qdn9zwhs+ohdIANfRtQpAioqCWT9VlbkFNjUhZRsXUAIQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pg0/2EbRBjSfICjHk4BOyAszvl0FzffETSdPTSpDvXw=;
+ b=N6NcZQG/vq8yw17Wvyacc4hDjFcYCxG32r4hB6F8kP2NAqhNHgb6UlqGeAcPsO5gimuhQRO+pZWF2UfFzfNfBjgmMkWD+BxSUi6CorCWr+2V2zzCDU7BVOYOZlamX009j4zfPk3hhDUXjksWPYnhFLTf+AkC0mwyA4j2TYav0aBlZ2vsLnEMMZpCeV+yHwxu1oZfWZOa6h/6Y5OwRVbF0ND0oE3I6PjH3Q4+iiEg+jVN2PT7T2Js3ZEl8j/zPvYLm6ZQMt5F10nfnJ6+FIiUWIKDpPggwWnAQ4azDRwdPyGH4Axfb0rXKqmiXkP5UyzRrVnf//N2h6K1Ox8TsOEkqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pg0/2EbRBjSfICjHk4BOyAszvl0FzffETSdPTSpDvXw=;
+ b=dFRJ4rSsiFiUlw9ASjvgTfd6Navm3HEmcVUXiObfTOLfrK24UA1aTGnYaHGSbEQbyuMNDUtcSJZ6tQ6+2cqT79bDHZ7RTYGR9AIvWRJQnXj5k2Kau4A+y+5NQ02GgmvfLDMDpdIaeOyL9mmejsunNI/00P0Mw4jEnQ3JZyKE3ao=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by PH7PR12MB5997.namprd12.prod.outlook.com
+ (2603:10b6:510:1d9::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.23; Thu, 21 Jul
+ 2022 10:27:20 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Thu, 21 Jul
+ 2022 10:27:17 +0000
+Message-ID: <c59fca89-cd0c-1724-210e-d9b01b375103@amd.com>
+Date: Thu, 21 Jul 2022 12:27:03 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>,
+ Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+In-Reply-To: <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0019.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:1c::6) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220615155129.1025811-7-stefanha@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 53eaaeae-6f70-4cdb-2ad8-08da6b0395fc
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5997:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: o3rkqDu/MtUGfyd22dBbc6buHqVUAwskQuYrY8FQ/jqYy4AXtuONs3eOfcOI6y0yMLZMFyoNZQr+OgbE9P0fk9c8kGLw6dL+5a5sDQ/1VIL4G37lan767xHVH+7JvNMPxw9RrqDOnc31y8HlNnpJiAm2LtHZDlts3o0Ot5sH2Jo2GNZQjA1Ag4iQ+j/ZHXK/LzqYbRrvrwagiGq9gyiGSF8NjffP9P/T2dV8HT8CNe+5FpWERS5U3ziaE5FCdrcyH2EPXiNWO6nChzigLX/qid6im3OhYTqYhZg0NRQn+JlLr2NAuVHhLsff++S2reglOI+N+LS/naPXXuXhhDQR9AR9uO3rqg8/ulMb/EDtit3ueoMbJ2dudoMUnnfgv91BUa3PmPa012nIkRLgZxKF/8dZ+bgoFvN9mgE8SAF/n1FNQ8LkL3Qf+H8k/GwB3070VsETOvpBNr3dZxCh20/5mS3TuHwQizEV019UVd4V8ZRRS5EWFjb1Th2VmZje5ONPs9ACfhVlDcyPzsa9gVvtzRJ3aweVSDAmgVFInH/qCRl7Vl38UJVTwc0fCOHZ3baNG8iQOF7mIG5Gc4LV4fK8qTaVGu+EiM1+ELoIrKeyWgCd4aTz8q0+GyaJFPMUTTEmdq4AuDnHnydXga5xHrdDTjVjkhfisCMWhCetZNWaLNgTn579rMtmwi3wedaCGbSlZsEdPCVwRgfPs8taB9+As3fWzRySjv6iW3fZ55SlVytCyHGQyrfP6RD3jsIDU8SCGbk4LTJPiYMOgiis07DQYkSosH4DsXESr8vg36Xr4utexmBPGO4FoDjHNulhT49cBAl6rrV/9rYsY5dQklMkNg82J8j/ijz2cSr+sJHvTqu/+ZLurSqaVHQPNqGLq8V3
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(7406005)(31686004)(5660300002)(8936002)(2906002)(54906003)(7416002)(110136005)(66476007)(86362001)(36756003)(4326008)(316002)(66556008)(83380400001)(6666004)(6506007)(966005)(66946007)(478600001)(41300700001)(8676002)(6486002)(38100700002)(26005)(2616005)(31696002)(186003)(6512007)(921005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WXFUL25NMG5BamhqUUZUMWxpcEhPM0phMnFpM1F1dExSdFBHekc1bTZHcGhr?=
+ =?utf-8?B?SlJCRVFwVG81bWFpVk9BL09xYjRnR2NiQWVkTTlsMUpLMzBCM3JEL1RwTG9T?=
+ =?utf-8?B?RGZDMGwwamlvcEZWczh3WS83WXNkdE5GdGZ2WFpETUtQUDV3VzZwQ29Zekwv?=
+ =?utf-8?B?RTBCQllobEszV1FjZTQxU1lwM0lEWXExWC9xeDFsWFMrRVVuRDBCKytoYlRF?=
+ =?utf-8?B?Z2dnNm1HNnpQQ25OTHVpRm91ZG5uWmZPRGVBdGZ1UHl2VkFOR3BPZGtDRmp5?=
+ =?utf-8?B?QWZTeVFOV3I1d3RXcGdOcWFkUkZVWUx3UjNZejdRN21wdFVQcmJVMUV2Q1g3?=
+ =?utf-8?B?RTlYZk1sM004MnpmTWY1Q0phZzhOMDJzdzFzWTZWa2x6Ulk4TXR5TnRtM1lI?=
+ =?utf-8?B?TGtPQXhSQTRTMHN1Q3l1VU0xRUJtNGtFZDFGWUxMclJ1TUVZUzQ2WHBuM0Y4?=
+ =?utf-8?B?cFFUdjZjdUg4YTB4bGE3dlJJdWN1TWptc2ZIazRsQ2FNM2poTzZDSklqbE1E?=
+ =?utf-8?B?VEdVNkNudjFPU3FqdGdUMGZDMlNrMUpyaGxNNEtMYmZOR0lCQTQzQXAyVUdW?=
+ =?utf-8?B?dndnd29kMStvOWlFMHNiUklvRzhndHo3ckJ3UmpRdjRJS0RrbmptaitJZkpI?=
+ =?utf-8?B?cW5WOENpcjFvVGdtbXRIdC9jU09nUHNyb0U0emZkM0Nvc3llNnF6K3JsZldF?=
+ =?utf-8?B?ZE9Ga2VFSDBmTlZrMjBYRUtRSzM5dTN1MElWdGYvQVJzTGxjZ2NWb2NQVHNx?=
+ =?utf-8?B?NUJqa2JDQ3BqL2pqc3BaZlg0ZExZNUhYVHVRanBGbUY0NWhZeHhkbm9aOElw?=
+ =?utf-8?B?UUcvZ2lSbGYrek9nU1JYQXJBSC9LdldrMHFLV3dkSFZPSktSSkh2amxHTDhs?=
+ =?utf-8?B?TGxlQ3NFNHJGTmZGWHJXZ2svSnhXN28vaS8zanVaU0EyWWNhbjRKSFJVT0pT?=
+ =?utf-8?B?VXd4cTBvWFIydjdDdXlTWTNDTTlwNngrc2V5dHFTdGgyM0hldFdWY3Rpc0Nm?=
+ =?utf-8?B?ZkoweGFxazEvdEx5N3JsblpWWVZiQUNQdmt3YnFKcVp4aUJKT3ZYVW8wQjVD?=
+ =?utf-8?B?ODFsdzE3L3h0SGs5WkVDNUZSdTN4WDEzWEIvZE5kMmljYnFpSFR6Y0pRYlVK?=
+ =?utf-8?B?QnhJRGVnQlRWaFdmS0xpNHBOczNTUHJjQ3lHbTRNcHFUbGJBOWFRTndWNXdM?=
+ =?utf-8?B?ZExmQzIwMDVJUjQveE1CeG1CZzVnSmNONE1kdVB0SEowa3hxa0FyT0VOSE5P?=
+ =?utf-8?B?cmFaS2c0R0xybjc2K1BMblJ3L3JzQlVad2M0NHA2akUvbGtxNS9TZXEvVTBT?=
+ =?utf-8?B?NlZqNlJtNkpTUWtSU0FqNXhFaTQxSm9oY09WMDdJendGV3pqNm43K202c0s5?=
+ =?utf-8?B?MEUrRVJwenF0aUszZitsWVVReG50cHYvdmpkOVdRTFpmbDdnYzl0OGF0QWhI?=
+ =?utf-8?B?UlFoZjVrb0d5R0pWQjRjSW5SdkZaUzlBU0xjeU1QTkhKMmwyY0hQWUpQNlg1?=
+ =?utf-8?B?U0VmYURJM2xYQVFGcjJOQThxNndNcFhuQTFHRExYZlhaRGNnK3VQYUwwUFNW?=
+ =?utf-8?B?ZnlVVFptLzQ5NmJJVmhPL3ZqdzhWUFRLbFM5YmR2b3JUdkMvbi9maHRxWXc0?=
+ =?utf-8?B?OE1mclArTjR0YVBnemxobGFvWnBBcXM3a1RuK05SZEhNZGVRQ3N1K011dnJw?=
+ =?utf-8?B?TEtLK2xjWWc1blZMTzZnd3hJZ044bllhemZBamEvRmQ2cGlQaHhlVTlSa1N2?=
+ =?utf-8?B?RGlQMERzUjdVQ3IzVWhFTUNtUTVNQlVZWHJuM09oQ0hwNC9TR2MrVzNVbjhC?=
+ =?utf-8?B?Sk5vb1NvNm54cDA5VjdPdGJ5d0VUdHNzTVlGYldCMkljbEw4TnpNVEtPQ05J?=
+ =?utf-8?B?TkpHWi9CRW9KS3l0OUp1QWJZNTVKb3VzZUpCaFlPS20xZEhqeE9MYVpxaGdN?=
+ =?utf-8?B?UzU5SG5RRjFmbi93UUREbzg2Q0tPL0NacnQwUnBzSmNMczBtVkQyZFU4QVY0?=
+ =?utf-8?B?MFNBNWg0R0ZhSWhhV01EdTQ1cU1qM3BKbWpkVDFEL2w0UUVvTjdKRVpXS2RJ?=
+ =?utf-8?B?TXZRZlNwem1FbjFmMzhFb216RnYwbUNoWEl0dkFBLzZ0NUJjanNvb2VucVhy?=
+ =?utf-8?Q?JsGJWlysto510nMhC5R5acQJ5?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53eaaeae-6f70-4cdb-2ad8-08da6b0395fc
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 10:27:17.5345 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9ns8BJ2910Nru/VVWMevQ1YUBMuOXwux3PJqjATN8kEFATZe6Vku1yYVToWVgOMore/LEkylzIDRU9hHQjG/XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5997
+Received-SPF: softfail client-ip=40.107.92.50;
+ envelope-from=Pankaj.Gupta@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,318 +166,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Jay / Stefan,
 
-We've got a non-determinsitic hang in QEMU CI since this series
-merged, which we tracked down to a libvfio-user test that is
-flakey:
+>> Normally, a write to unallocated space of a file or the hole of a sparse
+>> file automatically causes space allocation, for memfd, this equals to
+>> memory allocation. This new seal prevents such automatically allocating,
+>> either this is from a direct write() or a write on the previously
+>> mmap-ed area. The seal does not prevent fallocate() so an explicit
+>> fallocate() can still cause allocating and can be used to reserve
+>> memory.
+>>
+>> This is used to prevent unintentional allocation from userspace on a
+>> stray or careless write and any intentional allocation should use an
+>> explicit fallocate(). One of the main usecases is to avoid memory double
+>> allocation for confidential computing usage where we use two memfds to
+>> back guest memory and at a single point only one memfd is alive and we
+>> want to prevent memory allocation for the other memfd which may have
+>> been mmap-ed previously. More discussion can be found at:
+>>
+>>    https://lkml.org/lkml/2022/6/14/1255
+>>
+>> Suggested-by: Sean Christopherson <seanjc@google.com>
+>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>> ---
+>>   include/uapi/linux/fcntl.h |  1 +
+>>   mm/memfd.c                 |  3 ++-
+>>   mm/shmem.c                 | 16 ++++++++++++++--
+>>   3 files changed, 17 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+>> index 2f86b2ad6d7e..98bdabc8e309 100644
+>> --- a/include/uapi/linux/fcntl.h
+>> +++ b/include/uapi/linux/fcntl.h
+>> @@ -43,6 +43,7 @@
+>>   #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+>>   #define F_SEAL_WRITE	0x0008	/* prevent writes */
+>>   #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+>> +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
+> 
+> Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
+> shared zeropage, so you'll simply allocate a new page via read() or on
+> read faults.
+> 
+> 
+> Also, I *think* you can place pages via userfaultfd into shmem. Not sure
+> if that would count "auto alloc", but it would certainly bypass fallocate().
 
-  https://gitlab.com/qemu-project/qemu/-/issues/1114
+I was also thinking this at the same time, but for different reason:
 
-John Levon has proposed a PR to libvfio-user to turn off the
-test, but we'll need one of you to update the git submodule
-for libvfio-user on the QEMU side, as I can't find a nice way
-to selectively skip the test from QEMU side alone.
+"Want to populate private preboot memory with firmware payload", so was 
+thinking userfaulftd could be an option as direct writes are restricted?
 
-With regards
-Daniel
+Thanks,
+Pankaj
 
-On Wed, Jun 15, 2022 at 04:51:17PM +0100, Stefan Hajnoczi wrote:
-> From: Jagannathan Raman <jag.raman@oracle.com>
-> 
-> add the libvfio-user library as a submodule. build it as a meson
-> subproject.
-> 
-> libvfio-user is distributed with BSD 3-Clause license and
-> json-c with MIT (Expat) license
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Message-id: c2adec87958b081d1dc8775d4aa05c897912f025.1655151679.git.jag.raman@oracle.com
-> 
-> [Changed submodule URL to QEMU's libvfio-user mirror on GitLab. The QEMU
-> project mirrors its dependencies so that it can provide full source code
-> even in the event that its dependencies become unavailable. Note that
-> the mirror repo is manually updated, so please contact me to make newer
-> libvfio-user commits available. If I become a bottleneck we can set up a
-> cronjob.
-> 
-> Updated scripts/meson-buildoptions.sh to match the meson_options.txt
-> change. Failure to do so can result in scripts/meson-buildoptions.sh
-> being modified by the build system later on and you end up with a dirty
-> working tree.
-> --Stefan]
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  MAINTAINERS                             |  1 +
->  meson_options.txt                       |  2 ++
->  configure                               | 17 +++++++++++++++++
->  meson.build                             | 23 ++++++++++++++++++++++-
->  .gitlab-ci.d/buildtest.yml              |  1 +
->  .gitmodules                             |  3 +++
->  Kconfig.host                            |  4 ++++
->  hw/remote/Kconfig                       |  4 ++++
->  hw/remote/meson.build                   |  2 ++
->  scripts/meson-buildoptions.sh           |  4 ++++
->  subprojects/libvfio-user                |  1 +
->  tests/docker/dockerfiles/centos8.docker |  2 ++
->  12 files changed, 63 insertions(+), 1 deletion(-)
->  create mode 160000 subprojects/libvfio-user
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 5ba93348aa..d0fcaf0edb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3642,6 +3642,7 @@ F: hw/remote/proxy-memory-listener.c
->  F: include/hw/remote/proxy-memory-listener.h
->  F: hw/remote/iohub.c
->  F: include/hw/remote/iohub.h
-> +F: subprojects/libvfio-user
->  
->  EBPF:
->  M: Jason Wang <jasowang@redhat.com>
-> diff --git a/meson_options.txt b/meson_options.txt
-> index 0e8197386b..f3e2f22c1e 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -88,6 +88,8 @@ option('cfi_debug', type: 'boolean', value: 'false',
->         description: 'Verbose errors in case of CFI violation')
->  option('multiprocess', type: 'feature', value: 'auto',
->         description: 'Out of process device emulation support')
-> +option('vfio_user_server', type: 'feature', value: 'disabled',
-> +       description: 'vfio-user server support')
->  option('dbus_display', type: 'feature', value: 'auto',
->         description: '-display dbus support')
->  option('tpm', type : 'feature', value : 'auto',
-> diff --git a/configure b/configure
-> index 4b12a8094c..c14e7f590a 100755
-> --- a/configure
-> +++ b/configure
-> @@ -315,6 +315,7 @@ meson_args=""
->  ninja=""
->  bindir="bin"
->  skip_meson=no
-> +vfio_user_server="disabled"
->  
->  # The following Meson options are handled manually (still they
->  # are included in the automatically generated help message)
-> @@ -909,6 +910,10 @@ for opt do
->    ;;
->    --disable-blobs) meson_option_parse --disable-install-blobs ""
->    ;;
-> +  --enable-vfio-user-server) vfio_user_server="enabled"
-> +  ;;
-> +  --disable-vfio-user-server) vfio_user_server="disabled"
-> +  ;;
->    --enable-tcmalloc) meson_option_parse --enable-malloc=tcmalloc tcmalloc
->    ;;
->    --enable-jemalloc) meson_option_parse --enable-malloc=jemalloc jemalloc
-> @@ -2132,6 +2137,17 @@ write_container_target_makefile() {
->  
->  
->  
-> +##########################################
-> +# check for vfio_user_server
-> +
-> +case "$vfio_user_server" in
-> +  enabled )
-> +    if test "$git_submodules_action" != "ignore"; then
-> +      git_submodules="${git_submodules} subprojects/libvfio-user"
-> +    fi
-> +    ;;
-> +esac
-> +
->  ##########################################
->  # End of CC checks
->  # After here, no more $cc or $ld runs
-> @@ -2672,6 +2688,7 @@ if test "$skip_meson" = no; then
->    test "$slirp" != auto && meson_option_add "-Dslirp=$slirp"
->    test "$smbd" != '' && meson_option_add "-Dsmbd=$smbd"
->    test "$tcg" != enabled && meson_option_add "-Dtcg=$tcg"
-> +  test "$vfio_user_server" != auto && meson_option_add "-Dvfio_user_server=$vfio_user_server"
->    run_meson() {
->      NINJA=$ninja $meson setup --prefix "$prefix" "$@" $cross_arg "$PWD" "$source_path"
->    }
-> diff --git a/meson.build b/meson.build
-> index 9e65cc5367..ca19ddc30c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -308,6 +308,10 @@ multiprocess_allowed = get_option('multiprocess') \
->    .require(targetos == 'linux', error_message: 'Multiprocess QEMU is supported only on Linux') \
->    .allowed()
->  
-> +vfio_user_server_allowed = get_option('vfio_user_server') \
-> +  .require(targetos == 'linux', error_message: 'vfio-user server is supported only on Linux') \
-> +  .allowed()
-> +
->  have_tpm = get_option('tpm') \
->    .require(targetos != 'windows', error_message: 'TPM emulation only available on POSIX systems') \
->    .allowed()
-> @@ -2380,7 +2384,8 @@ host_kconfig = \
->    (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
->    ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
->    (have_pvrdma ? ['CONFIG_PVRDMA=y'] : []) + \
-> -  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
-> +  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : []) + \
-> +  (vfio_user_server_allowed ? ['CONFIG_VFIO_USER_SERVER_ALLOWED=y'] : [])
->  
->  ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
->  
-> @@ -2672,6 +2677,21 @@ if have_system
->    endif
->  endif
->  
-> +libvfio_user_dep = not_found
-> +if have_system and vfio_user_server_allowed
-> +  have_internal = fs.exists(meson.current_source_dir() / 'subprojects/libvfio-user/meson.build')
-> +
-> +  if not have_internal
-> +    error('libvfio-user source not found - please pull git submodule')
-> +  endif
-> +
-> +  libvfio_user_proj = subproject('libvfio-user')
-> +
-> +  libvfio_user_lib = libvfio_user_proj.get_variable('libvfio_user_dep')
-> +
-> +  libvfio_user_dep = declare_dependency(dependencies: [libvfio_user_lib])
-> +endif
-> +
->  fdt = not_found
->  if have_system
->    fdt_opt = get_option('fdt')
-> @@ -3790,6 +3810,7 @@ summary_info += {'target list':       ' '.join(target_dirs)}
->  if have_system
->    summary_info += {'default devices':   get_option('default_devices')}
->    summary_info += {'out of process emulation': multiprocess_allowed}
-> +  summary_info += {'vfio-user server': vfio_user_server_allowed}
->  endif
->  summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
->  
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index cb7cad44b5..8a4353ef93 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -168,6 +168,7 @@ build-system-centos:
->      IMAGE: centos8
->      CONFIGURE_ARGS: --disable-nettle --enable-gcrypt --enable-fdt=system
->        --enable-modules --enable-trace-backends=dtrace --enable-docs
-> +      --enable-vfio-user-server
->      TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
->        x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
->      MAKE_CHECK_ARGS: check-build
-> diff --git a/.gitmodules b/.gitmodules
-> index b8bff47df8..aedd9a03d4 100644
-> --- a/.gitmodules
-> +++ b/.gitmodules
-> @@ -64,3 +64,6 @@
->  [submodule "tests/lcitool/libvirt-ci"]
->  	path = tests/lcitool/libvirt-ci
->  	url = https://gitlab.com/libvirt/libvirt-ci.git
-> +[submodule "subprojects/libvfio-user"]
-> +	path = subprojects/libvfio-user
-> +	url = https://gitlab.com/qemu-project/libvfio-user.git
-> diff --git a/Kconfig.host b/Kconfig.host
-> index 1165c4eacd..d763d89269 100644
-> --- a/Kconfig.host
-> +++ b/Kconfig.host
-> @@ -42,3 +42,7 @@ config MULTIPROCESS_ALLOWED
->  config FUZZ
->      bool
->      select SPARSE_MEM
-> +
-> +config VFIO_USER_SERVER_ALLOWED
-> +    bool
-> +    imply VFIO_USER_SERVER
-> diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-> index 08c16e235f..2d6b4f4cf4 100644
-> --- a/hw/remote/Kconfig
-> +++ b/hw/remote/Kconfig
-> @@ -2,3 +2,7 @@ config MULTIPROCESS
->      bool
->      depends on PCI && PCI_EXPRESS && KVM
->      select REMOTE_PCIHOST
-> +
-> +config VFIO_USER_SERVER
-> +    bool
-> +    depends on MULTIPROCESS
-> diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-> index e6a5574242..7da83350c8 100644
-> --- a/hw/remote/meson.build
-> +++ b/hw/remote/meson.build
-> @@ -7,6 +7,8 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
->  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
->  
-> +remote_ss.add(when: 'CONFIG_VFIO_USER_SERVER', if_true: libvfio_user_dep)
-> +
->  specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
->  specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
->  
-> diff --git a/scripts/meson-buildoptions.sh b/scripts/meson-buildoptions.sh
-> index 1fc1d2e2c3..24eb5f35ea 100644
-> --- a/scripts/meson-buildoptions.sh
-> +++ b/scripts/meson-buildoptions.sh
-> @@ -153,6 +153,8 @@ meson_options_help() {
->    printf "%s\n" '  usb-redir       libusbredir support'
->    printf "%s\n" '  vde             vde network backend support'
->    printf "%s\n" '  vdi             vdi image format support'
-> +  printf "%s\n" '  vfio-user-server'
-> +  printf "%s\n" '                  vfio-user server support'
->    printf "%s\n" '  vhost-crypto    vhost-user crypto backend support'
->    printf "%s\n" '  vhost-kernel    vhost kernel backend support'
->    printf "%s\n" '  vhost-net       vhost-net kernel acceleration support'
-> @@ -415,6 +417,8 @@ _meson_option_parse() {
->      --disable-vde) printf "%s" -Dvde=disabled ;;
->      --enable-vdi) printf "%s" -Dvdi=enabled ;;
->      --disable-vdi) printf "%s" -Dvdi=disabled ;;
-> +    --enable-vfio-user-server) printf "%s" -Dvfio_user_server=enabled ;;
-> +    --disable-vfio-user-server) printf "%s" -Dvfio_user_server=disabled ;;
->      --enable-vhost-crypto) printf "%s" -Dvhost_crypto=enabled ;;
->      --disable-vhost-crypto) printf "%s" -Dvhost_crypto=disabled ;;
->      --enable-vhost-kernel) printf "%s" -Dvhost_kernel=enabled ;;
-> diff --git a/subprojects/libvfio-user b/subprojects/libvfio-user
-> new file mode 160000
-> index 0000000000..0b28d20557
-> --- /dev/null
-> +++ b/subprojects/libvfio-user
-> @@ -0,0 +1 @@
-> +Subproject commit 0b28d205572c80b568a1003db2c8f37ca333e4d7
-> diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-> index 4b20925bbf..10618bfa83 100644
-> --- a/tests/docker/dockerfiles/centos8.docker
-> +++ b/tests/docker/dockerfiles/centos8.docker
-> @@ -51,6 +51,7 @@ RUN dnf update -y && \
->          libbpf-devel \
->          libcacard-devel \
->          libcap-ng-devel \
-> +        libcmocka-devel \
->          libcurl-devel \
->          libdrm-devel \
->          libepoxy-devel \
-> @@ -59,6 +60,7 @@ RUN dnf update -y && \
->          libgcrypt-devel \
->          libiscsi-devel \
->          libjpeg-devel \
-> +        json-c-devel \
->          libnfs-devel \
->          libpmem-devel \
->          libpng-devel \
-> -- 
-> 2.36.1
-> 
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+
 
 
