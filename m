@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A1C57C960
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:49:30 +0200 (CEST)
-Received: from localhost ([::1]:47552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A59657C961
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 12:52:01 +0200 (CEST)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oETkH-00042c-6e
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43466)
+	id 1oETmi-0006cf-D1
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 06:52:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oETiX-0002fI-I6
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:47:41 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:50916)
+ id 1oETkv-0004Sm-1Z
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:50:09 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:60654)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
- id 1oETiV-00034g-GU
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:47:41 -0400
+ id 1oETkk-0003Nh-U8
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 06:50:08 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 24EC961910;
- Thu, 21 Jul 2022 10:47:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99B4CC341C0;
- Thu, 21 Jul 2022 10:47:36 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EB907618D9;
+ Thu, 21 Jul 2022 10:49:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AC3DC3411E;
+ Thu, 21 Jul 2022 10:49:56 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="QI00wjMV"
+ header.b="RV2+K687"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658400454;
+ t=1658400594;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rlbsdBiTxNAkbJoNlgq6A2tXE6ZGiy0kWkYLQurMKzs=;
- b=QI00wjMVcedehpouzDxiJQm1b/w5Csk9yc6rqtASrkH+V9Qhfzi5kPqlKzjoam8L7QrmkG
- xBQsU79zXKXcwaDXOGxUwvFcxfOS5YHWDbCvDVc+Q1R3pJpro1tmzAtHPZSA2tzAmL02zs
- zbB99xcCXktrulLz3TDgoD5vyt7hlzI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id ca78a015
+ bh=fN/w6gegnQOs4DOJwfQprTiKG82Jv+JUCJ50zi4y3D8=;
+ b=RV2+K687MDB4jmPatYTU9y8e5ChSsqUktWsSUynaM6PbS1Ziy1sc/KlEInS6f/uEAwH9My
+ +w52xFuQSJG5XBKmIS32lLR7Np3K6hR+yOW7h1871JI7EzPQdaY+bY+VyXGFXNJIRiVDPU
+ yWeXDTOhklOBzvkLXjyvT9ANg4a5wMY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5ed7f0e8
  (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Thu, 21 Jul 2022 10:47:33 +0000 (UTC)
+ Thu, 21 Jul 2022 10:49:54 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: mst@redhat.com,
 	pbonzini@redhat.com,
@@ -55,24 +55,24 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v5] hw/i386: pass RNG seed via setup_data entry
-Date: Thu, 21 Jul 2022 12:47:30 +0200
-Message-Id: <20220721104730.434017-1-Jason@zx2c4.com>
-In-Reply-To: <Ytktk532xNP8sjgR@zx2c4.com>
-References: <Ytktk532xNP8sjgR@zx2c4.com>
+Subject: [PATCH v6] hw/i386: pass RNG seed via setup_data entry
+Date: Thu, 21 Jul 2022 12:49:50 +0200
+Message-Id: <20220721104950.434544-1-Jason@zx2c4.com>
+In-Reply-To: <20220721104730.434017-1-Jason@zx2c4.com>
+References: <20220721104730.434017-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=139.178.84.217;
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
  envelope-from=SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -111,7 +111,7 @@ Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
  2 files changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..dd44c72ba3 100644
+index 6003b4b2df..56896cb4b2 100644
 --- a/hw/i386/x86.c
 +++ b/hw/i386/x86.c
 @@ -26,6 +26,7 @@
@@ -162,7 +162,7 @@ index 6003b4b2df..dd44c72ba3 100644
 +    setup_data->next = cpu_to_le64(first_setup_data);
 +    first_setup_data = prot_addr + setup_data_offset;
 +    setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-+    setup_data->len = cpu_to_le32(32);
++    setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
 +    qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
 +
 +    /* Offset 0x250 is a pointer to the first setup_data link. */
