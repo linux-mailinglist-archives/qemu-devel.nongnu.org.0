@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BCBE57D3FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:18:33 +0200 (CEST)
-Received: from localhost ([::1]:44786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8777457D40C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:23:12 +0200 (CEST)
+Received: from localhost ([::1]:47738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEbgt-0004ZQ-WB
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:18:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59392)
+	id 1oEblP-0006jo-Hf
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oEbfZ-0003CV-O3
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:17:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27379)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oEbjp-0005Fd-DE; Thu, 21 Jul 2022 15:21:33 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:49068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oEbfW-0000U2-QK
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:17:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658431026;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F1hLnU9Vmkid83qloC6D0jfIKy1RwhSzY0USNiGf2A8=;
- b=FAo3Wg8FK5prCJEYXAbyImVl54V+1+QPyst/l+KJU9KuJD92H0weaXa9IFfJDXddYnCTBY
- 4/4N7tVmkYveYbw1lWKzYPYDHhh7k+aeUXl6YkppAcBgik7P5inLx+1hLEPwzyi8nTiCx1
- jZBlzzoBxWEkjg78EsVwPL+JrdN1WPI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-552-EvXtauwvPGy1FFX8IFa6Aw-1; Thu, 21 Jul 2022 15:16:54 -0400
-X-MC-Unique: EvXtauwvPGy1FFX8IFa6Aw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9B13685A58A;
- Thu, 21 Jul 2022 19:16:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.47])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 03C0C2166B26;
- Thu, 21 Jul 2022 19:16:52 +0000 (UTC)
-Date: Thu, 21 Jul 2022 14:16:51 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v3 9/9] tests/style: check qemu/osdep.h is NOT included
- in all .h/.c.inc files
-Message-ID: <20220721191651.6ng54wvvotcmr7ap@redhat.com>
-References: <20220707163720.1421716-1-berrange@redhat.com>
- <20220707163720.1421716-10-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oEbjj-0001Ql-A9; Thu, 21 Jul 2022 15:21:32 -0400
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 6F6DF2E12A0;
+ Thu, 21 Jul 2022 22:21:14 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b49f::1:a] (unknown
+ [2a02:6b8:b081:b49f::1:a])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ dmsLKHmAZu-LCOmduDm; Thu, 21 Jul 2022 22:21:13 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1658431273; bh=UAbTt1ypB49u6OgcqMW4Gw/mWsMyVWMV8JHq95gvlCU=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=Tu1lQEU8LMv2+nMCpSCrs5faZ0Wy6/TZDllOLPvkQlMfv5iwYXIDiRfg5ngklw4ff
+ p9bJhd/foN2Hd3qEmD3XNh6yiM/bYoCYnCGty1zlC6TOdaEijiD6B7dilAn/NAAuaq
+ M+KaYvoJH+r9Hc9J63RHelicSEWWxCVVxxP+4DCs=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <06243e0a-c578-ea3c-7a27-959dbc358823@yandex-team.ru>
+Date: Thu, 21 Jul 2022 22:21:12 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 08/10] iotests/264: add mirror-cancel test-case
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, eblake@redhat.com, stefanha@redhat.com,
+ kwolf@redhat.com, jsnow@redhat.com, den@openvz.org,
+ Hanna Reitz <hreitz@redhat.com>
+References: <20210205163720.887197-1-vsementsov@virtuozzo.com>
+ <20210205163720.887197-9-vsementsov@virtuozzo.com>
+ <2b67285d-b824-6552-d6a7-0e0d79ab30e2@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <2b67285d-b824-6552-d6a7-0e0d79ab30e2@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220707163720.1421716-10-berrange@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,39 +83,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 07, 2022 at 05:37:20PM +0100, Daniel P. Berrangé wrote:
-> Since the qemu/osdep.h file must be included as the very first header
-> in all C source files, there is no reason to include it in .h or .c.in
-
-.c.inc
-
-> files.
+On 7/21/22 11:50, Thomas Huth wrote:
+> On 05/02/2021 17.37, Vladimir Sementsov-Ogievskiy wrote:
+>> Check that cancel doesn't wait for 10s of nbd reconnect timeout.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> ---
+>>   tests/qemu-iotests/264     | 38 ++++++++++++++++++++++++++++++--------
+>>   tests/qemu-iotests/264.out |  4 ++--
+>>   2 files changed, 32 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
+>> index 6feeaa4056..347e53add5 100755
+>> --- a/tests/qemu-iotests/264
+>> +++ b/tests/qemu-iotests/264
+>> @@ -27,25 +27,26 @@ from iotests import qemu_img_create, file_path, qemu_nbd_popen
+>>   disk_a, disk_b, nbd_sock = file_path('disk_a', 'disk_b', 'nbd-sock')
+>>   nbd_uri = 'nbd+unix:///?socket=' + nbd_sock
+>> -size = 5 * 1024 * 1024
+>>   wait_limit = 3.0
+>>   wait_step = 0.2
+>>   class TestNbdReconnect(iotests.QMPTestCase):
+>> -    def setUp(self):
+>> -        qemu_img_create('-f', iotests.imgfmt, disk_a, str(size))
+>> -        qemu_img_create('-f', iotests.imgfmt, disk_b, str(size))
+>> +    def init_vm(self, disk_size):
+>> +        qemu_img_create('-f', iotests.imgfmt, disk_a, str(disk_size))
+>> +        qemu_img_create('-f', iotests.imgfmt, disk_b, str(disk_size))
+>>           self.vm = iotests.VM().add_drive(disk_a)
+>>           self.vm.launch()
+>> -        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(size))
+>> +        self.vm.hmp_qemu_io('drive0', 'write 0 {}'.format(disk_size))
+>>       def tearDown(self):
+>>           self.vm.shutdown()
+>>           os.remove(disk_a)
+>>           os.remove(disk_b)
+>> -    def test(self):
+>> +    def start_job(self, job):
+>> +        """Stat job with nbd target and kill the server"""
+>> +        assert job in ('blockdev-backup', 'blockdev-mirror')
+>>           with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+>>               result = self.vm.qmp('blockdev-add',
+>>                                    **{'node_name': 'backup0',
+>> @@ -55,7 +56,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
+>>                                                           'path': nbd_sock},
+>>                                                'reconnect-delay': 10}})
+>>               self.assert_qmp(result, 'return', {})
+>> -            result = self.vm.qmp('blockdev-backup', device='drive0',
+>> +            result = self.vm.qmp(job, device='drive0',
+>>                                    sync='full', target='backup0',
+>>                                    speed=(1 * 1024 * 1024))
+>>               self.assert_qmp(result, 'return', {})
+>> @@ -73,7 +74,8 @@ class TestNbdReconnect(iotests.QMPTestCase):
+>>           jobs = self.vm.qmp('query-block-jobs')['return']
+>>           # Check that job is still in progress
+>> -        self.assertTrue(jobs and jobs[0]['offset'] < jobs[0]['len'])
+>> +        self.assertTrue(jobs)
+>> +        self.assertTrue(jobs[0]['offset'] < jobs[0]['len'])
+>>           result = self.vm.qmp('block-job-set-speed', device='drive0', speed=0)
+>>           self.assert_qmp(result, 'return', {})
+>> @@ -81,12 +83,32 @@ class TestNbdReconnect(iotests.QMPTestCase):
+>>           # Emulate server down time for 1 second
+>>           time.sleep(1)
+>> +    def test_backup(self):
+>> +        size = 5 * 1024 * 1024
+>> +        self.init_vm(size)
+>> +        self.start_job('blockdev-backup')
+>> +
+>>           with qemu_nbd_popen('-k', nbd_sock, '-f', iotests.imgfmt, disk_b):
+>>               e = self.vm.event_wait('BLOCK_JOB_COMPLETED')
+>>               self.assertEqual(e['data']['offset'], size)
+>>               result = self.vm.qmp('blockdev-del', node_name='backup0')
+>>               self.assert_qmp(result, 'return', {})
+>> +    def test_mirror_cancel(self):
+>> +        # Mirror speed limit doesn't work well enough, it seems that mirror
+>> +        # will run many parallel requests anyway. MAX_IN_FLIGHT is 16 and
+>> +        # MAX_IO_BYTES is 1M in mirror.c, so let's use 20M disk.
+>> +        self.init_vm(20 * 1024 * 1024)
+>> +        self.start_job('blockdev-mirror')
+>> +
+>> +        result = self.vm.qmp('block-job-cancel', device='drive0')
+>> +        self.assert_qmp(result, 'return', {})
+>> +
+>> +        start_t = time.time()
+>> +        self.vm.event_wait('BLOCK_JOB_CANCELLED')
+>> +        delta_t = time.time() - start_t
+>> +        self.assertTrue(delta_t < 2.0)
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  tests/style.yml | 5 +++++
->  1 file changed, 5 insertions(+)
+>   Hi!
 > 
-> diff --git a/tests/style.yml b/tests/style.yml
-> index 6d91ac6115..d2a0299a33 100644
-> --- a/tests/style.yml
-> +++ b/tests/style.yml
-> @@ -143,3 +143,8 @@ osdep_h_in_source:
->      - tests/uefi-test-tools/.*
->      - tests/unit/test-rcu-(simpleq|slist|tailq)\.c
->      - tools/ebpf/rss.bpf.c
+> For what it's worth, I've just run into this assert while running "make check -j8 SPEED=slow":
+> 
+> --- /home/thuth/devel/qemu/tests/qemu-iotests/264.out
+> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratch/264/264.out.bad
+> @@ -1,5 +1,15 @@
+> -...
+> +..F
+> +======================================================================
+> +FAIL: test_mirror_cancel (__main__.TestNbdReconnect)
+> +----------------------------------------------------------------------
+> +Traceback (most recent call last):
+> +  File "/home/thuth/devel/qemu/tests/qemu-iotests/264", line 112, in test_mirror_cancel
+> +    self.cancel_job()
+> +  File "/home/thuth/devel/qemu/tests/qemu-iotests/264", line 104, in cancel_job
+> +    self.assertTrue(delta_t < 2.0)
+> +AssertionError: False is not true
 > +
-> +osdep_h_in_header:
-> +  files: \.(h|c\.inc)$
-> +  prohibit: '#include "qemu/osdep\.h"'
-> +  message: only C source files may include qemu/osdep.h
+>   ----------------------------------------------------------------------
+>   Ran 3 tests
+> 
+> -OK
+> +FAILED (failures=1)
+> 
+> (test program exited with status code 1)
+> 
+> Maybe 2.0 is not enough on loaded systems? Should we increase the value there?
+> 
 
-Should we also have a rule that rejects <qemu/osdep.h> in all files
-(our only spelling should be with "", not <>)?
+Yes I think we can increase it. We have speed set to 1MB/s in the test. Mirror (due to implementation) will copy 16MB at once.. and then it should wait 16 seconds to copy next 4M. So, if fast-cancelling not work, we'll cancel in 19+ seconds. I think, we can safely increase our bound from 2 to 5-7 seconds.
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+Best regards,
+Vladimir
 
