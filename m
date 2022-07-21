@@ -2,88 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDC357CF02
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 17:32:20 +0200 (CEST)
-Received: from localhost ([::1]:46208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 275FC57CF30
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 17:33:53 +0200 (CEST)
+Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEY9y-0007Mq-Qt
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 11:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48628)
+	id 1oEYBT-00026H-Tm
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 11:33:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oEY7s-0005Kf-Ek
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:30:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oEY7p-0002KW-2p
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:30:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658417403;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3fJ8+a/ZB0VQUhqCq5h/W2sVLmR/suq3GVBw8vJMoSU=;
- b=Gkou1qGT64S5b0ec4QCQJAgiJk8FUVGesYPg0+CF7B/y7rZiDDQSYN0DDT1yLqAxGKcIlc
- kWLv1/Qr8H1iXYTK8cCjleBUNfmTGQEaQ5Sud2Sq+n7vfQSVMdM+6C2sIyI1qMVMMn2yKA
- brI1q+w9P+2SKF36JauIyC8oBkRiDSs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-111-yDlB7Uk_NwG3EVqThHGrLg-1; Thu, 21 Jul 2022 11:30:01 -0400
-X-MC-Unique: yDlB7Uk_NwG3EVqThHGrLg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p2-20020a05600c1d8200b003a3262d9c51so2946698wms.6
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 08:29:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oEY9l-0007C4-Vb
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:32:06 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:54252)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oEY9j-0002d7-2n
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 11:32:04 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id gn24so1929441pjb.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 08:32:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U+d0OSEASe9H+3z58KzKhgP8akHmocIFwu+GXF2UiT0=;
+ b=Fb8+xGxZGW8gn66hyzYZ3rlmKubAfT3ERnrgrw8guxQtb1U05vy5bn7OQNZy3UDg4S
+ zhcJg/BI+pjjQQvctqkmUbaQxxpMsqJ1am1oxGH8PXFIN6n0L9BskRvwMZVm5nk/q1Vb
+ 00Lmky2qHWat4u/bJXUhjt7UNCCo1kc2OUucBPBLXxjJQ+sGohHi45+gSvl3LqJAFnHw
+ F9aN6Bls2+dwDXOJaj9LKbpvs72ah05Eme3mgey8ymEAVEawcn8ByH7fcblcvedRQjbd
+ DdGnhCPf60DwAip/TZsOmuX+cgo8P+kALzy84SxAKk/+m88OS0v+SLjlwGOrWnl9e1AW
+ L7XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3fJ8+a/ZB0VQUhqCq5h/W2sVLmR/suq3GVBw8vJMoSU=;
- b=DjLWqJMvFrVRz829gnqhuAQkplzjrSHNnpU+nEt2e5MBcs8Ez/PkVjXQ4xwuYZUkrw
- mJNSOy2zT7HENZHa1codwoAYPPBnQ18Gllqfyt0IbJISMR8mAgVgESLLuvhdOTO57qbG
- wqF+lMWzDBeOEi5fs4ZUcHFDzYPSWQq0pae5GmdW2Fyz3e042oX5sDTU3CQvDjV2+Hde
- OWpPeNdPKTwkiKakWR2ATL2pxnQdYkHWU3cpCdYkaaHNTSqF0rq3moJ2Uu3cf41xIxb7
- cSqwoHTcJDRFXN59CZRH6Dg3mgLcPk5P7cumDZ25r+DaY8JmoOPx2T3bwKoM7XRI/wAU
- Zthw==
-X-Gm-Message-State: AJIora+Rc5UNtkSryYhYk5FlILywgiLpqiEeBNlPdA9bN9t3E1mnNYci
- I8kW4ednwQWnAQBlpg+HseA3pZ4qKbjM2gc5h6l6syM+10sxgxlJzADWdi5I/DO+LL5vTJ5g33D
- Da0mTuzMBpi5N6y4=
-X-Received: by 2002:a7b:c04d:0:b0:3a2:f89d:5707 with SMTP id
- u13-20020a7bc04d000000b003a2f89d5707mr8974326wmc.1.1658417398396; 
- Thu, 21 Jul 2022 08:29:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t5vvhXMHWEryZ5Wy5ANuYitr0fQhhLs3PZGfOBGMwsvyDLe7bstZRdkVE3r4f/T3mEr3Thdg==
-X-Received: by 2002:a7b:c04d:0:b0:3a2:f89d:5707 with SMTP id
- u13-20020a7bc04d000000b003a2f89d5707mr8974304wmc.1.1658417398106; 
- Thu, 21 Jul 2022 08:29:58 -0700 (PDT)
-Received: from redhat.com ([2.55.25.63]) by smtp.gmail.com with ESMTPSA id
- t3-20020a1c4603000000b003a2d87aea57sm6067164wma.10.2022.07.21.08.29.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U+d0OSEASe9H+3z58KzKhgP8akHmocIFwu+GXF2UiT0=;
+ b=an7BLwFwGi5IJ4Sgrq1iCFfbQYrCe3m+fcwn8PHi/pqlWnPJqDbJMWUHxi/Z0XYFjW
+ Ca4HZ5/gHUI5oP+BMEiwnQqj8lwxry4I6gbtO3DDkOdJePE5H64JzzKugN4x3D4tELk+
+ H5VwD1DsHFYZvto8wzyj/9k/f0Ta8gwuKbl4k8s4nGAIMQgK58tp8K2y+lqjiy5HvDCB
+ Dn2XAWjjPMUsQBXWw613AJMXoSY6DNFT/8Nzp3gE9y7+RM7lcQgpg5xLk6V3ryqqNGa7
+ 938KDai+KrbDag396UHHoQctvGGgxoNGm5WvOQlQINHH4GdUd0uHd3GJqBCIgQFmJzRN
+ JETA==
+X-Gm-Message-State: AJIora9/SsFIC+OZykmXFb4f3++9KnCGwWIKneyShXdOU1sgPgU/8a8w
+ q1QuStnAW8/qP/oFgvT/2Pve8BQD9f+wRQ==
+X-Google-Smtp-Source: AGRyM1sWqRiwD4uiWQMzUPQX3lXOierHxcrCuBzp/4JaGJpi4zw9GVvPZs252/JTwxTcMCNnsLNyWw==
+X-Received: by 2002:a17:90b:4a08:b0:1ef:f36b:18e1 with SMTP id
+ kk8-20020a17090b4a0800b001eff36b18e1mr12024020pjb.246.1658417520064; 
+ Thu, 21 Jul 2022 08:32:00 -0700 (PDT)
+Received: from ThinkPad-T490.dc1.ventanamicro.com ([182.70.95.50])
+ by smtp.googlemail.com with ESMTPSA id
+ f4-20020a170902684400b0016bdf0032b9sm1814379pln.110.2022.07.21.08.31.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 08:29:57 -0700 (PDT)
-Date: Thu, 21 Jul 2022 11:29:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <eduardo@habkost.net>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 0/4] Refactor x86_load_linux and pass RNG seed via
- setup_data entry
-Message-ID: <20220721112637-mutt-send-email-mst@kernel.org>
-References: <20220721122937.729959-1-pbonzini@redhat.com>
- <20220721105005-mutt-send-email-mst@kernel.org>
- <Ytlso2QIe5oU8toG@zx2c4.com>
+ Thu, 21 Jul 2022 08:31:59 -0700 (PDT)
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
+	alistair.francis@wdc.com
+Subject: [PATCH v6 0/5] RISC-V Smstateen support
+Date: Thu, 21 Jul 2022 21:01:31 +0530
+Message-Id: <20220721153136.377578-1-mchitale@ventanamicro.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Ytlso2QIe5oU8toG@zx2c4.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,64 +89,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 05:11:31PM +0200, Jason A. Donenfeld wrote:
-> Hi Michael,
-> 
-> On Thu, Jul 21, 2022 at 10:52:32AM -0400, Michael S. Tsirkin wrote:
-> > On Thu, Jul 21, 2022 at 02:29:33PM +0200, Paolo Bonzini wrote:
-> > > As mentioned in the reviews of Jason's patches, the fw_cfg data, or at
-> > > least its structure including the size, is part of the guest ABI and
-> > > must match across two sides of migration.
-> > > 
-> > > It would be possible to handle this with some duplicated code between
-> > > the rng seed and DTB handling, but the conditionals to handle the linked
-> > > list would be ugly.  Unfortunately the code of x86_load_linux has no
-> > > data structures available, it's all of a jumble of local variables.
-> > > Hence the first two and largest patches in this series, which remove all
-> > > non-Linux code from the function and move the local variables to a struct
-> > > as necessary.  The function was long overdue for some cleanup anyway.
-> > > 
-> > > With this in place, adding the seed setup_data entry is just a
-> > > couple lines of code, plus the scaffolding for a new machine property
-> > > "linuxboot-seed".  The property supports on/off/auto values, where "auto"
-> > > disables/enables depending on the kernel support for setup data (which was
-> > > added in 2.6.26); "on" currently fails when starting with an old kernel,
-> > > and probably it should also fail when starting a PVH or multiboot kernel.
-> > > 
-> > > Paolo
-> > 
-> > I like the refactoring
-> > 
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > 
-> > To avoid creating extra work for Jason and confusing
-> > attribution, maybe apply Jason's patch then your refactoring
-> > on top?
-> 
-> Yes, I think it'd make sense to apply:
-> https://lore.kernel.org/qemu-devel/20220721125636.446842-1-Jason@zx2c4.com/
-> as-is, without any changes, since that handles your migration concerns.
->
-> And then after, if you want to refactor things in general, apply that on
-> top.
-> 
-> As I mentioned before, we really don't need nor want a user-facing
-> option for this.
+This series adds support for the Smstateen specification which provides
+a mechanism plug potential covert channels which are opened by
+extensions
+that add to processor state that may not get context-switched. Currently
+access to AIA registers, *envcfg registers and floating point(fcsr) is
+controlled via smstateen.
 
-Yes I think we don't want to support such an option.
-We have a general rule of prefixing properties with "x-" for this
-these are considered unstable and we are often adding them for
-internal purposes.
+These patches can also be found on riscv_smstateen_v6 branch at:
+https://github.com/mdchitale/qemu.git
 
-> What I do in that v7 there is sufficient and fine.
-> 
-> Michael - do you want to take that v7 into your tree?
-> 
-> Jason
+The patch 4/5 (AIA) can be reviewed but not merged until the
+bits reserved for AIA get re-defined.
 
-Can be my tree or Paolo's but I'll wait for him to respond, I like consensus.
+Changes in v6:
+- Sync with latest riscv-to-apply.next
+- Make separate read/write ops for m/h/s/stateen1/2/3 regs
+- Add check for mstateen.staten when reading or using h/s/stateen regs
+- Add smstateen fcsr check for all floating point operations
+- Move knobs to enable smstateen in a separate patch.
+
+Changes in v5:
+- Fix the order in which smstateen extension is added to the
+  isa_edata_arr as
+described in rule #3 the comment.
+
+Changes in v4:
+- Fix build issue with riscv32/riscv64-linux-user targets
+
+Changes in v3:
+- Fix coding style issues
+- Fix *stateen0h index calculation
+
+Changes in v2:
+- Make h/s/envcfg bits in m/h/stateen registers as writeable by default.
+
+Anup Patel (1):
+  target/riscv: Force disable extensions if priv spec version does not
+    match
+*** BLURB HERE ***
+
+Mayuresh Chitale (5):
+  target/riscv: Add smstateen support
+  target/riscv: smstateen check for h/senvcfg
+  target/riscv: smstateen check for fcsr
+  target/riscv: smstateen check for AIA/IMSIC
+  target/riscv: smstateen knobs
+
+ target/riscv/cpu.c                        |   2 +
+ target/riscv/cpu.h                        |   4 +
+ target/riscv/cpu_bits.h                   |  37 ++
+ target/riscv/csr.c                        | 703 +++++++++++++++++++++-
+ target/riscv/insn_trans/trans_rvf.c.inc   |  38 +-
+ target/riscv/insn_trans/trans_rvzfh.c.inc |   4 +
+ target/riscv/machine.c                    |  21 +
+ 7 files changed, 804 insertions(+), 5 deletions(-)
 
 -- 
-MST
+2.25.1
 
 
