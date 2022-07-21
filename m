@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D1F57CA53
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:11:28 +0200 (CEST)
-Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757E757CA8B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:19:42 +0200 (CEST)
+Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEV1b-0008B3-Mm
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:11:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
+	id 1oEV9Z-00028k-H6
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:19:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyG-0002G0-WE
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyH-0002IE-MU
  for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26435)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyE-0000yp-8s
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:00 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oEUyF-0000zA-R8
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:08:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658405277;
+ s=mimecast20190719; t=1658405279;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wCw1TAqcCJb5ORU7X6193FGqQ1uL8/tP8E9cw5fwHoI=;
- b=NYv2lW45gb0R6tiwJKA9E4EMfyeUFq2VVVc8umKU0YNAxbP37EtN8CvZLmpM4+9cyqAW0a
- YRA7A7ZKQt4hwq9kqLMgLThAb5rL/aGD7VkneadNmeIfnDLK8ZuMjgO+Mc17lR/JTUR63w
- HONfvaiLNdbn/jQvqOuPZZcZZlujEdc=
+ bh=GO964l5V8yi3bUVNm/6c2vjZuWgRNlysVRVTm37q2xI=;
+ b=dMwOsE5jdb3OWIDE3ICPeW679XgL2Yt6pWeSV8jo3gmbvMq3+d18PvrybRm9USH39cG+rU
+ wAVDFm18SnAxYR1p8ZTaD8SurdcaAc0IaShsMAbilXaT9fw20Dmj1nu689Ls4hf7KKKJcu
+ 4SVTMNUFCx5hvcyxXfa0jbjJTHuGkdw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-496-bryPEPrWPFep2ShXY5BDDA-1; Thu, 21 Jul 2022 08:07:49 -0400
-X-MC-Unique: bryPEPrWPFep2ShXY5BDDA-1
+ us-mta-230-1SbZK0CLNRewe6o7QkuTMQ-1; Thu, 21 Jul 2022 08:07:52 -0400
+X-MC-Unique: 1SbZK0CLNRewe6o7QkuTMQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0C74980029D;
- Thu, 21 Jul 2022 12:07:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CBEC78039A0;
+ Thu, 21 Jul 2022 12:07:51 +0000 (UTC)
 Received: from t480s.fritz.box (unknown [10.39.193.182])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 296DE2026609;
- Thu, 21 Jul 2022 12:07:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6C4722026D64;
+ Thu, 21 Jul 2022 12:07:49 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: David Hildenbrand <david@redhat.com>,
@@ -53,10 +53,10 @@ Cc: David Hildenbrand <david@redhat.com>,
  Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH RFC 4/7] util: Add write-only "node-affinity" property for
+Subject: [PATCH RFC 5/7] util: Make qemu_prealloc_mem() optionally consume a
  ThreadContext
-Date: Thu, 21 Jul 2022 14:07:29 +0200
-Message-Id: <20220721120732.118133-5-david@redhat.com>
+Date: Thu, 21 Jul 2022 14:07:30 +0200
+Message-Id: <20220721120732.118133-6-david@redhat.com>
 In-Reply-To: <20220721120732.118133-1-david@redhat.com>
 References: <20220721120732.118133-1-david@redhat.com>
 MIME-Version: 1.0
@@ -86,168 +86,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's make it easier to pin threads created via a ThreadContext to
-all current CPUs belonging to given NUMA nodes.
-
-As "node-affinity" is simply a shortcut for setting "cpu-affinity", that
-property cannot be read and if the CPUs for a node change due do CPU
-hotplug, the CPU affinity will not get updated.
+... and implement it under POSIX. When a ThreadContext is provided,
+create new threads via the context such that these new threads obtain a
+porperly configured CPU affinity.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- qapi/qom.json         |  7 +++-
- util/meson.build      |  2 +-
- util/thread-context.c | 84 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 91 insertions(+), 2 deletions(-)
+ backends/hostmem.c     |  5 +++--
+ hw/virtio/virtio-mem.c |  2 +-
+ include/qemu/osdep.h   |  4 +++-
+ util/oslib-posix.c     | 20 ++++++++++++++------
+ util/oslib-win32.c     |  2 +-
+ 5 files changed, 22 insertions(+), 11 deletions(-)
 
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 4775a333ed..d36bf3355f 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -838,10 +838,15 @@
- # @cpu-affinity: the CPU affinity for all threads created in the thread
- #                context (default: QEMU main thread affinity)
- #
-+# @node-affinity: shortcut for looking up the current CPUs for the given nodes
-+#                 and setting @cpu-affinity (default: QEMU main thread
-+#                 affinity)
-+#
- # Since: 7.2
- ##
- { 'struct': 'ThreadContextProperties',
--  'data': { '*cpu-affinity': ['uint16'] } }
-+  'data': { '*cpu-affinity': ['uint16'],
-+            '*node-affinity': ['uint16'] } }
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index caff42d3a5..46bd4cc494 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -232,7 +232,8 @@ static void host_memory_backend_set_prealloc(Object *obj, bool value,
+         void *ptr = memory_region_get_ram_ptr(&backend->mr);
+         uint64_t sz = memory_region_size(&backend->mr);
  
+-        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, &local_err);
++        qemu_prealloc_mem(fd, ptr, sz, backend->prealloc_threads, NULL,
++                          &local_err);
+         if (local_err) {
+             error_propagate(errp, local_err);
+             return;
+@@ -394,7 +395,7 @@ host_memory_backend_memory_complete(UserCreatable *uc, Error **errp)
+          */
+         if (backend->prealloc) {
+             qemu_prealloc_mem(memory_region_get_fd(&backend->mr), ptr, sz,
+-                              backend->prealloc_threads, &local_err);
++                              backend->prealloc_threads, NULL, &local_err);
+             if (local_err) {
+                 goto out;
+             }
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 0e9ef4ff19..ed170def48 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -467,7 +467,7 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+             int fd = memory_region_get_fd(&vmem->memdev->mr);
+             Error *local_err = NULL;
  
- ##
-diff --git a/util/meson.build b/util/meson.build
-index e97cd2d779..c0a7bc54d4 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -1,5 +1,5 @@
- util_ss.add(files('osdep.c', 'cutils.c', 'unicode.c', 'qemu-timer-common.c'))
--util_ss.add(files('thread-context.c'))
-+util_ss.add(files('thread-context.c'), numa)
- if not config_host_data.get('CONFIG_ATOMIC64')
-   util_ss.add(files('atomic64.c'))
- endif
-diff --git a/util/thread-context.c b/util/thread-context.c
-index dcd607c532..880f0441be 100644
---- a/util/thread-context.c
-+++ b/util/thread-context.c
-@@ -22,6 +22,10 @@
- #include "qemu/module.h"
- #include "qemu/bitmap.h"
+-            qemu_prealloc_mem(fd, area, size, 1, &local_err);
++            qemu_prealloc_mem(fd, area, size, 1, NULL, &local_err);
+             if (local_err) {
+                 static bool warned;
  
-+#ifdef CONFIG_NUMA
-+#include <numa.h>
-+#endif
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index e556e45143..625298c8bc 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -568,6 +568,8 @@ unsigned long qemu_getauxval(unsigned long type);
+ 
+ void qemu_set_tty_echo(int fd, bool echo);
+ 
++typedef struct ThreadContext ThreadContext;
 +
- enum {
-     TC_CMD_NONE = 0,
-     TC_CMD_STOP,
-@@ -89,6 +93,11 @@ static void thread_context_set_cpu_affinity(Object *obj, Visitor *v,
-     int nbits = 0, ret;
-     Error *err = NULL;
+ /**
+  * qemu_prealloc_mem:
+  * @fd: the fd mapped into the area, -1 for anonymous memory
+@@ -582,7 +584,7 @@ void qemu_set_tty_echo(int fd, bool echo);
+  * after allocating file blocks for mapped files.
+  */
+ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
+-                       Error **errp);
++                       ThreadContext *tc, Error **errp);
  
-+    if (tc->init_cpu_bitmap) {
-+        error_setg(errp, "Mixing CPU and node affinity not supported");
-+        return;
-+    }
-+
-     visit_type_uint16List(v, name, &host_cpus, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -160,6 +169,79 @@ static void thread_context_get_cpu_affinity(Object *obj, Visitor *v,
-     qapi_free_uint16List(host_cpus);
+ /**
+  * qemu_get_pid_name:
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index fa66f73bf8..ce5fea3126 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -404,7 +404,8 @@ static inline int get_memset_num_threads(size_t hpagesize, size_t numpages,
  }
  
-+static void thread_context_set_node_affinity(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+#ifdef CONFIG_NUMA
-+    const int nbits = numa_num_possible_cpus();
-+    ThreadContext *tc = THREAD_CONTEXT(obj);
-+    uint16List *l, *host_nodes = NULL;
-+    unsigned long *bitmap = NULL;
-+    struct bitmask *tmp_cpus;
-+    Error *err = NULL;
-+    int ret, i;
-+
-+    if (tc->init_cpu_bitmap) {
-+        error_setg(errp, "Mixing CPU and node affinity not supported");
-+        return;
-+    }
-+
-+    visit_type_uint16List(v, name, &host_nodes, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    if (!host_nodes) {
-+        error_setg(errp, "Node list is empty");
-+        goto out;
-+    }
-+
-+    bitmap = bitmap_new(nbits);
-+    tmp_cpus = numa_allocate_cpumask();
-+    for (l = host_nodes; l; l = l->next) {
-+        numa_bitmask_clearall(tmp_cpus);
-+        ret = numa_node_to_cpus(l->value, tmp_cpus);
-+        if (ret) {
-+            /* We ignore any errors, such as impossible nodes. */
-+            continue;
+ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+-                           int max_threads, bool use_madv_populate_write)
++                           int max_threads, ThreadContext *tc,
++                           bool use_madv_populate_write)
+ {
+     static gsize initialized = 0;
+     MemsetContext context = {
+@@ -443,9 +444,16 @@ static int touch_all_pages(char *area, size_t hpagesize, size_t numpages,
+         context.threads[i].numpages = numpages_per_thread + (i < leftover);
+         context.threads[i].hpagesize = hpagesize;
+         context.threads[i].context = &context;
+-        qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
+-                           touch_fn, &context.threads[i],
+-                           QEMU_THREAD_JOINABLE);
++        if (tc) {
++            thread_context_create_thread(tc, &context.threads[i].pgthread,
++                                         "touch_pages",
++                                         touch_fn, &context.threads[i],
++                                         QEMU_THREAD_JOINABLE);
++        } else {
++            qemu_thread_create(&context.threads[i].pgthread, "touch_pages",
++                               touch_fn, &context.threads[i],
++                               QEMU_THREAD_JOINABLE);
 +        }
-+        for (i = 0; i < nbits; i++) {
-+            if (numa_bitmask_isbitset(tmp_cpus, i)) {
-+                set_bit(i, bitmap);
-+            }
-+        }
-+    }
-+    numa_free_cpumask(tmp_cpus);
-+
-+    if (bitmap_empty(bitmap, nbits)) {
-+        error_setg(errp, "The nodes select no CPUs");
-+        goto out;
-+    }
-+
-+    if (tc->thread_id != -1) {
-+        /*
-+         * Note: we won't be adjusting the affinity of any thread that is still
-+         * around for now, but only the affinity of the context thread.
-+         */
-+        ret = qemu_thread_set_affinity(&tc->thread, bitmap, nbits);
-+        if (ret) {
-+            error_setg(errp, "Setting CPU affinity failed: %s", strerror(ret));
-+        }
-+    } else {
-+        tc->init_cpu_bitmap = bitmap;
-+        bitmap = NULL;
-+        tc->init_cpu_nbits = nbits;
-+    }
-+out:
-+    g_free(bitmap);
-+    qapi_free_uint16List(host_nodes);
-+#else
-+    error_setg(errp, "NUMA node affinity is not supported by this QEMU");
-+#endif
-+}
-+
- static void thread_context_get_thread_id(Object *obj, Visitor *v,
-                                          const char *name, void *opaque,
-                                          Error **errp)
-@@ -209,6 +291,8 @@ static void thread_context_class_init(ObjectClass *oc, void *data)
-     object_class_property_add(oc, "cpu-affinity", "int",
-                               thread_context_get_cpu_affinity,
-                               thread_context_set_cpu_affinity, NULL, NULL);
-+    object_class_property_add(oc, "node-affinity", "int", NULL,
-+                              thread_context_set_node_affinity, NULL, NULL);
+         addr += context.threads[i].numpages * hpagesize;
+     }
+ 
+@@ -481,7 +489,7 @@ static bool madv_populate_write_possible(char *area, size_t pagesize)
  }
  
- static void thread_context_instance_init(Object *obj)
+ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
+-                       Error **errp)
++                       ThreadContext *tc, Error **errp)
+ {
+     static gsize initialized;
+     int ret;
+@@ -522,7 +530,7 @@ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
+     }
+ 
+     /* touch pages simultaneously */
+-    ret = touch_all_pages(area, hpagesize, numpages, max_threads,
++    ret = touch_all_pages(area, hpagesize, numpages, max_threads, tc,
+                           use_madv_populate_write);
+     if (ret) {
+         error_setg_errno(errp, -ret,
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index e1cb725ecc..a67cb3822e 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -269,7 +269,7 @@ int getpagesize(void)
+ }
+ 
+ void qemu_prealloc_mem(int fd, char *area, size_t sz, int max_threads,
+-                       Error **errp)
++                       ThreadContext *tc, Error **errp)
+ {
+     int i;
+     size_t pagesize = qemu_real_host_page_size();
 -- 
 2.35.3
 
