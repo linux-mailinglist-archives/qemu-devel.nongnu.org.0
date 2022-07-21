@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BF8357C3C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 07:34:36 +0200 (CEST)
-Received: from localhost ([::1]:58348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4463E57C455
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 08:25:16 +0200 (CEST)
+Received: from localhost ([::1]:48270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEOpW-0007Ul-IV
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 01:34:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41696)
+	id 1oEPcY-000581-Rh
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 02:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oEOmw-0005qs-K9; Thu, 21 Jul 2022 01:31:55 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oEOmu-0004PK-K4; Thu, 21 Jul 2022 01:31:54 -0400
-Received: by mail-pl1-x629.google.com with SMTP id c6so812557pla.6;
- Wed, 20 Jul 2022 22:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jWMGZE2RUPcL+wwINz4OpmA89E+OviRHOO2Ec6DlKIA=;
- b=WdmBe7CwctV4szzpK9etg8JLI2ZOMVytNvREBfoqOKxhEPL5Rtr0lKRl+wwosFCZxQ
- Iyel7sQ1wIubnRwiW1VDyP5ShTzTQllMSbHXrcit6FmjaWceld1ZSzWVX3Dq+CdVxS7S
- 8KV3N70u3q2ICIXphF5OhrqF3ElD0rcZNL877iPmFz8j4IDA4duNjbkj8Oc2agbVeJfA
- KCXyc4Ui77b5YGgpvebRg0qi4TX1t+9oVEtAWpN8aTyx/DN+oxpooYcf+V0OSMbC++wN
- 5Ut/RvUY2TCtcp3thUcrGYi44ufYXULBwotKXYYGvh9/XLfRNeLwQUX0UaecyI7wnOXO
- fLTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jWMGZE2RUPcL+wwINz4OpmA89E+OviRHOO2Ec6DlKIA=;
- b=qvDy7/ZbWrF/o2t+vBifBP7Git0n5ZOMTv/6zoC4VErarmXZflPHTwuMYfIIVFccqI
- 4nwbTt9a5vUTjjL1W/wZxGcASREdXvPxVDrmKgVoubP9i8lSAhj8qmPq4pQZThz1SAq/
- 0QP/sDwaDPXV6uGG4B7KoDPYJu13ezpvBq8qQRne7w8nltJaWZvouyLV2G76oN1AsarO
- HDoeh0C7dAV9+k72GitPOhqK5QWoovdLffwCiyNaKmxkRYYKFRufpGn8AWET6x7iYNXP
- XFTp7BlGFs8MjgcL9hZswJbbsVgLmryJamLBnGPqEc6vFhKNR2Bu44So91wPXWCGkuBf
- HTRQ==
-X-Gm-Message-State: AJIora/gf6B7AE3mzgoUuU6p+B7tusG5y7NQ+6cy2yopXC2z1FaxYLVE
- UGIqXD/sLL2ufvv3Bfe4L++2wOtdU5znAjgEQSQ=
-X-Google-Smtp-Source: AGRyM1uOAy9Ae51HUlmnjTmo2CxNjmepyOOYUMO/J3z15QaoCByYyqOWOVtMvw2MKH+XDc2LYcyBEIKmmR5vCf+QF9U=
-X-Received: by 2002:a17:90b:3103:b0:1f2:1464:9622 with SMTP id
- gc3-20020a17090b310300b001f214649622mr9407934pjb.166.1658381510812; Wed, 20
- Jul 2022 22:31:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oEPYy-0003Cd-Ph
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 02:21:32 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oEPYv-00040o-Hx
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 02:21:32 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LpMpW02QVzkXD9;
+ Thu, 21 Jul 2022 14:18:59 +0800 (CST)
+Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 21 Jul 2022 14:21:22 +0800
+Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
+ (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Jul
+ 2022 14:21:22 +0800
+To: <qemu-devel@nongnu.org>, <marcandre.lureau@redhat.com>
+CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
+Subject: [PATCH] dump: introduce dump-cancel QMP command
+Date: Thu, 21 Jul 2022 14:21:18 +0800
+Message-ID: <20220721062118.2015-1-hogan.wang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20220705174933.2898412-1-daolu@rivosinc.com>
- <20220705174933.2898412-2-daolu@rivosinc.com>
- <CAKh7v-R_NmGyHXNL3cEvMu8rCHbJ_S9vkLsVRaiMjG6GHxcYbw@mail.gmail.com>
-In-Reply-To: <CAKh7v-R_NmGyHXNL3cEvMu8rCHbJ_S9vkLsVRaiMjG6GHxcYbw@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 Jul 2022 15:31:24 +1000
-Message-ID: <CAKmqyKN22PMjDCfOCiYffUXm+7hKn=D=RBm+TUGNNtdWa8pi-w@mail.gmail.com>
-Subject: Re: [PATCH v4 1/1] target/riscv: Add Zihintpause support
-To: Dao Lu <daolu@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Heiko Stuebner <heiko@sntech.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.149.172]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600015.china.huawei.com (7.193.23.52)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=hogan.wang@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,113 +65,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hogan Wang <hogan.wang@huawei.com>
+From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-On Tue, Jul 19, 2022 at 4:02 AM Dao Lu <daolu@rivosinc.com> wrote:
->
-> ping
+There's no way to cancel the current executing dump process, lead to the
+virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
+job after daemon restart.
 
-Sorry for the delay.
+Add the 'cancelling' and 'cancelled' dump states.
 
-Do you mind rebasing this on
-https://github.com/alistair23/qemu/tree/riscv-to-apply.next and
-sending a v5
+Use 'dump-cancel' qmp command Set the dump state as 'cancelling'.
+The dump process check the 'cancelling' state and break loops. 
+The 'cancelled' state mark the dump process cancelled success.
 
-Alistair
+---
+ dump/dump.c               | 38 ++++++++++++++++++++++++++++++++++++--
+ include/sysemu/runstate.h |  1 +
+ qapi/dump.json            | 21 ++++++++++++++++++++-
+ 3 files changed, 57 insertions(+), 3 deletions(-)
 
->
-> On Tue, Jul 5, 2022 at 10:49 AM Dao Lu <daolu@rivosinc.com> wrote:
-> >
-> > Added support for RISC-V PAUSE instruction from Zihintpause extension,
-> > enabled by default.
-> >
-> > Tested-by: Heiko Stuebner <heiko@sntech.de>
-> > Signed-off-by: Dao Lu <daolu@rivosinc.com>
-> > ---
-> >  target/riscv/cpu.c                      |  2 ++
-> >  target/riscv/cpu.h                      |  1 +
-> >  target/riscv/insn32.decode              |  7 ++++++-
-> >  target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
-> >  4 files changed, 25 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index ccacdee215..183fb37fdf 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -825,6 +825,7 @@ static Property riscv_cpu_properties[] = {
-> >      DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-> >      DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-> >      DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-> > +    DEFINE_PROP_BOOL("Zihintpause", RISCVCPU, cfg.ext_zihintpause, true),
-> >      DEFINE_PROP_BOOL("Zfh", RISCVCPU, cfg.ext_zfh, false),
-> >      DEFINE_PROP_BOOL("Zfhmin", RISCVCPU, cfg.ext_zfhmin, false),
-> >      DEFINE_PROP_BOOL("Zve32f", RISCVCPU, cfg.ext_zve32f, false),
-> > @@ -996,6 +997,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, char **isa_str, int max_str_len)
-> >       *    extensions by an underscore.
-> >       */
-> >      struct isa_ext_data isa_edata_arr[] = {
-> > +        ISA_EDATA_ENTRY(zihintpause, ext_zihintpause),
-> >          ISA_EDATA_ENTRY(zfh, ext_zfh),
-> >          ISA_EDATA_ENTRY(zfhmin, ext_zfhmin),
-> >          ISA_EDATA_ENTRY(zfinx, ext_zfinx),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index fe6c9a2c92..e466a04a59 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -394,6 +394,7 @@ struct RISCVCPUConfig {
-> >      bool ext_counters;
-> >      bool ext_ifencei;
-> >      bool ext_icsr;
-> > +    bool ext_zihintpause;
-> >      bool ext_svinval;
-> >      bool ext_svnapot;
-> >      bool ext_svpbmt;
-> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> > index 4033565393..595fdcdad8 100644
-> > --- a/target/riscv/insn32.decode
-> > +++ b/target/riscv/insn32.decode
-> > @@ -149,7 +149,12 @@ srl      0000000 .....    ..... 101 ..... 0110011 @r
-> >  sra      0100000 .....    ..... 101 ..... 0110011 @r
-> >  or       0000000 .....    ..... 110 ..... 0110011 @r
-> >  and      0000000 .....    ..... 111 ..... 0110011 @r
-> > -fence    ---- pred:4 succ:4 ----- 000 ----- 0001111
-> > +
-> > +{
-> > +  pause  0000 0001   0000   00000 000 00000 0001111
-> > +  fence  ---- pred:4 succ:4 ----- 000 ----- 0001111
-> > +}
-> > +
-> >  fence_i  ---- ----   ----   ----- 001 ----- 0001111
-> >  csrrw    ............     ..... 001 ..... 1110011 @csr
-> >  csrrs    ............     ..... 010 ..... 1110011 @csr
-> > diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> > index f1342f30f8..2fd07bc2e4 100644
-> > --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> > @@ -796,6 +796,22 @@ static bool trans_srad(DisasContext *ctx, arg_srad *a)
-> >      return gen_shift(ctx, a, EXT_SIGN, tcg_gen_sar_tl, NULL);
-> >  }
-> >
-> > +static bool trans_pause(DisasContext *ctx, arg_pause *a)
-> > +{
-> > +    if (!ctx->cfg_ptr->ext_zihintpause) {
-> > +        return false;
-> > +    }
-> > +
-> > +    /*
-> > +     * PAUSE is a no-op in QEMU,
-> > +     * end the TB and return to main loop
-> > +     */
-> > +    gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> > +    tcg_gen_exit_tb(NULL, 0);
-> > +    ctx->base.is_jmp = DISAS_NORETURN;
-> > +
-> > +    return true;
-> > +}
-> >
-> >  static bool trans_fence(DisasContext *ctx, arg_fence *a)
-> >  {
-> > --
-> > 2.25.1
-> >
->
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..a0ac85aa02 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -118,6 +118,10 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+     DumpState *s = opaque;
+     size_t written_size;
+ 
++    if (qemu_system_dump_cancelling()) {
++        return -ECANCELED;
++    }
++
+     written_size = qemu_write_full(s->fd, buf, size);
+     if (written_size != size) {
+         return -errno;
+@@ -627,6 +631,10 @@ static void dump_iterate(DumpState *s, Error **errp)
+ 
+     do {
+         block = s->next_block;
++        if (qemu_system_dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            return;
++        }
+ 
+         size = block->target_end - block->target_start;
+         if (s->has_filter) {
+@@ -1321,6 +1329,11 @@ static void write_dump_pages(DumpState *s, Error **errp)
+      * first page of page section
+      */
+     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
++        if (qemu_system_dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            goto out;
++        }
++
+         /* check zero page */
+         if (buffer_is_zero(buf, s->dump_info.page_size)) {
+             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
+@@ -1540,6 +1553,22 @@ bool qemu_system_dump_in_progress(void)
+     return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
+ }
+ 
++bool qemu_system_dump_cancelling(void)
++{
++    DumpState *state = &dump_state_global;
++    return (qatomic_read(&state->status) == DUMP_STATUS_CANCELLING);
++}
++
++void qmp_dump_cancel(Error **errp)
++{
++    DumpState *state = &dump_state_global;
++    if (!qemu_system_dump_in_progress()) {
++        return;
++    }
++    qatomic_set(&state->status, DUMP_STATUS_CANCELLING);
++}
++
++
+ /* calculate total size of memory to be dumped (taking filter into
+  * acoount.) */
+ static int64_t dump_calculate_size(DumpState *s)
+@@ -1838,8 +1867,13 @@ static void dump_process(DumpState *s, Error **errp)
+ 
+     /* make sure status is written after written_size updates */
+     smp_wmb();
+-    qatomic_set(&s->status,
+-               (*errp ? DUMP_STATUS_FAILED : DUMP_STATUS_COMPLETED));
++    if (qemu_system_dump_cancelling()) {
++        qatomic_set(&s->status, DUMP_STATUS_CANCELLED);
++    } else if (*errp) {
++        qatomic_set(&s->status, DUMP_STATUS_FAILED);
++    } else {
++        qatomic_set(&s->status, DUMP_STATUS_COMPLETED);
++    }
+ 
+     /* send DUMP_COMPLETED message (unconditionally) */
+     result = qmp_query_dump(NULL);
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index f3ed52548e..a36c1d43f6 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -76,6 +76,7 @@ void qemu_system_reset(ShutdownCause reason);
+ void qemu_system_guest_panicked(GuestPanicInformation *info);
+ void qemu_system_guest_crashloaded(GuestPanicInformation *info);
+ bool qemu_system_dump_in_progress(void);
++bool qemu_system_dump_cancelling(void);
+ 
+ #endif
+ 
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 90859c5483..6dfbb6b7de 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -108,7 +108,7 @@
+ # Since: 2.6
+ ##
+ { 'enum': 'DumpStatus',
+-  'data': [ 'none', 'active', 'completed', 'failed' ] }
++  'data': [ 'none', 'active', 'completed', 'failed', 'cancelling', 'cancelled' ] }
+ 
+ ##
+ # @DumpQueryResult:
+@@ -200,3 +200,22 @@
+ ##
+ { 'command': 'query-dump-guest-memory-capability',
+   'returns': 'DumpGuestMemoryCapability' }
++
++##
++# @dump-cancel:
++#
++# Cancel the current executing dump process.
++#
++# Returns: nothing on success
++#
++# Notes: This command succeeds even if there is no dump process running.
++#
++# Since: 7.2
++#
++# Example:
++#
++# -> { "execute": "dump-cancel" }
++# <- { "return": {} }
++#
++##
++{ 'command': 'dump-cancel' }
+-- 
+2.33.0
+
 
