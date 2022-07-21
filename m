@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0C357D476
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:59:09 +0200 (CEST)
-Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF5157D477
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 21:59:13 +0200 (CEST)
+Received: from localhost ([::1]:34068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEcKB-0001hh-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:59:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
+	id 1oEcKG-0001vv-Tn
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 15:59:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oEcHs-0004vs-MR
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:44 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:29290)
+ id 1oEcHv-0004zg-3I
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:47 -0400
+Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:30700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <het.gala@nutanix.com>)
- id 1oEcHq-0006aZ-DF
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:44 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LIKtfm027882;
- Thu, 21 Jul 2022 12:56:39 -0700
+ id 1oEcHq-0006af-Lq
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 15:56:46 -0400
+Received: from pps.filterd (m0127843.ppops.net [127.0.0.1])
+ by mx0b-002c1b01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LIKn6g028504;
+ Thu, 21 Jul 2022 12:56:41 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version;
- s=proofpoint20171006; bh=fmmRx1Hp8obNbvbVCxieQ6aM7aAPcZ0/V4Wm/KC9XEU=;
- b=qYZA/Uk5lFfZF9sa7+9VOQb15PEY4FJ493W2COY3pCNtDRyua0BIfl9Elv1522RzHjBg
- g+qTaqpFYKwfF3AEs9cVX8saBOcjEJqzsczFXgMK/GfThvUy8IdOs6VVBQPk7JF1qv1I
- MDrRbR325eF8u7f2LhK5KLBIzujjmpn4PEU1M3UJrXXFOQkvk7BMdJRr1e7AtHhzAxRz
- iCBx/3LunTmdX+jOK5eTdRYUEBOCxXreSJj97jhxSIzaJn0iUkSSmi9RuIaJT+aDSJuv
- r70XpBKD0gu0krnhFCcAhAE5pPxXuDTDdfcI6R8JALwUjaaLxyYf16IFTtlDO2n1XXRK 7Q== 
+ s=proofpoint20171006; bh=spXeaXNZ4Rat3K8aTDPyI/u9V4NSR4MKjyRlHVxRLP0=;
+ b=WyGfIkY9naBMD4q24i2OgBNLpGykhw26AOGnnztLy5awlHfk5NiR6/3jBhGwfgZgl1tc
+ EfcQKhqEHp/sqXRxU36YaWhuLuR3zDRO8RnACDYPMDG+JAYsRwiAGAhwsCcTaGMDVYrU
+ OXSfsQhhQndvADR0Uri6q1Oca95VmNznI3jeE+aCWdj9PM63Ixh8JkhZ2uVlqSuhni1d
+ JQPzhxWsMb+gplx3eXYKpapzR7KV49Ceb17tVnkjmIdM4UbnFR4N8rVLmAGfOoURA4qO
+ e5Sl0Rhu0ab6iilasM6QTRlvfMgR8Pe1Win3uFdbsP68OxQAzb4BatSIc83PX0xfjeGc Gg== 
 Received: from nam11-bn8-obe.outbound.protection.outlook.com
  (mail-bn8nam11lp2168.outbound.protection.outlook.com [104.47.58.168])
- by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3hbvv244d6-2
+ by mx0b-002c1b01.pphosted.com (PPS) with ESMTPS id 3hbuehv8s3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 12:56:39 -0700
+ Thu, 21 Jul 2022 12:56:41 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gAHd8XwQVJoMggeMFmAQf2fj0Nuzj01WtlKHljgW5UbXiNZYVavCcz/egGfpb8Szrj05gWWu/LR3I2OSTBO/L+eLX8KyKoI+q3mzF7vToadm683tFwijOVogac58lDFt/jT8HpB+VKRZ71GDaZI1T0D4vGRXCAMvESHgSxJQHjK/wOsVaJf/NK19inWg6Byy7GQsNSPdO2mdeAK7j9eTrK8Xy++/PqaW5dXevdhH8Sy8rriEEPk5qRktUHgX0YDHDQU5dZnIvNPj3ig0hTcWvwgJYGMyu+MZf0HvY6A0btH+E1zdkw+jE8H9AOiXxUI7EuFR56+JsIrv2mtKjrO5bQ==
+ b=Xv7rqdfNZ1/sahaYU7uEKdVKx0T6fP6uLgSIu5S8l8jLc+Tz0SscU7Xe0EP4V0B+h8MWsS3NryMbNhebMtKENKOPtZARioekqYP+lcpSVY5mvdlu2ojKmeLGn0QI2+97v2fKuCpeMnuQUMUOeyTqueTmKf6IOwLl6adSPw/udVmyUTvPdAD8qm+B60nI2Hj1j4t2ktO9ocpLuLILWDKgG2rAvyyc3dnVuoSzWXEeCzv8XSin8jpqOoCtbhHG70kUviOpwewg9KtFal2RTZ7QmDiAo0xvSOtQstgKAkHTuXo/7tLHAV/LuFKBvcZZ+wIszUv3Ts2DbbMlzDGMw5k9/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fmmRx1Hp8obNbvbVCxieQ6aM7aAPcZ0/V4Wm/KC9XEU=;
- b=SlEKw6VTGKJIVM5QH/IRMyYI4VtN3sK38ODHaqv4+KOUweiB6u6h1tgvh8UZXR9p3EtqexBdbn8r10v8Lige6bWLoz5BsllJW6swrsRHNVuImxwF4py7HiD0Rt2ggXi3pINbu1ll+IZIMO2Nq6h3JRos1tktmvDKvGg4WPIDoMv45+S6EKgch40JnxIf0uCCY9TVFaZkArD5Yeh11p3dXSnsrceMtstiFDJ7XyWytsmtwtRtGVLDO0n/pRvf7mWJ/a7lWBzCf1OYAjW8fqwqjZ3ucbw0AgtIsjQwOod5QgUpGzPIu7pONxjhE8e60dSgvTq19wUhO/bINceWlupDyQ==
+ bh=spXeaXNZ4Rat3K8aTDPyI/u9V4NSR4MKjyRlHVxRLP0=;
+ b=H3ty+VbsDncfgBWQlIpHukXt7Hda4Er+91blwcFe/WcRBePywB0BuXi9EuM73aWAW9neu4uWPCeHjnB+BLWARpWYLMRZWvVi6SXxLlEZO6qOSF4MS/nmZqRBSsgtAaI+e9GGQX4o4oDYMdGfxxoUwO3YcpRJzNzkhffrCkD2F9TrDkKcVY/QaD8TTtNryQE2M/amcbHNa61Fn0DoRVB0ciFRGtbtJvFcdU/szyX5Kk1mOtoe6Zt8w+soSrIRgzXHXV9SYPu0lhKvDanBmiJvnBHaOJEDYPh5XKQQC62+GH97LxBQL+VvVHbaPPkTJDwZ7vMDLS3bnqVZ/niK8k4GwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
  dkim=pass header.d=nutanix.com; arc=none
@@ -51,21 +51,21 @@ Received: from BYAPR02MB4343.namprd02.prod.outlook.com (2603:10b6:a03:57::18)
  by DM5PR02MB2825.namprd02.prod.outlook.com (2603:10b6:3:108::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5438.14; Thu, 21 Jul
- 2022 19:56:37 +0000
+ 2022 19:56:39 +0000
 Received: from BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::1493:404b:3242:8e0f]) by BYAPR02MB4343.namprd02.prod.outlook.com
  ([fe80::1493:404b:3242:8e0f%5]) with mapi id 15.20.5438.023; Thu, 21 Jul 2022
- 19:56:37 +0000
+ 19:56:39 +0000
 From: Het Gala <het.gala@nutanix.com>
 To: qemu-devel@nongnu.org
 Cc: quintela@redhat.com, dgilbert@redhat.com, pbonzini@redhat.com,
  berrange@redhat.com, armbru@redhat.com, eblake@redhat.com,
  prerna.saxena@nutanix.com, Het Gala <het.gala@nutanix.com>,
  Manish Mishra <manish.mishra@nutanix.com>
-Subject: [PATCH v2 2/7] multifd: modifying 'migrate' qmp command to add
- multifd socket on particular src and dest pair
-Date: Thu, 21 Jul 2022 19:56:15 +0000
-Message-Id: <20220721195620.123837-3-het.gala@nutanix.com>
+Subject: [PATCH v2 3/7] multifd: adding multi-interface support for multifd on
+ destination side
+Date: Thu, 21 Jul 2022 19:56:16 +0000
+Message-Id: <20220721195620.123837-4-het.gala@nutanix.com>
 X-Mailer: git-send-email 2.22.3
 In-Reply-To: <20220721195620.123837-1-het.gala@nutanix.com>
 References: <20220721195620.123837-1-het.gala@nutanix.com>
@@ -76,57 +76,57 @@ X-ClientProxiedBy: BY5PR16CA0035.namprd16.prod.outlook.com
  (2603:10b6:a03:57::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 72e8852c-1a9d-4f74-2b4b-08da6b531ef6
+X-MS-Office365-Filtering-Correlation-Id: b65b1676-d94d-41dd-7b83-08da6b53200f
 X-MS-TrafficTypeDiagnostic: DM5PR02MB2825:EE_
 x-proofpoint-crosstenant: true
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zWWLnw9QYxozF22iYPYa7Uu6DoH6zTzt97zWE0DfO4+lHj+OyNDSlxIuHIx/jFwlkXnkw/lTkEIq+GQg2I4kObYHySGBsqj1XSp29jNLgu9Jk1P7bLrnpP2j+snreO8cem4cqRvfFRrwM9MCJc0AET797+56MnnBzUZLB/lRfk1Z4D4dTd9tRKGugj77Eh/5h/T7N8osHX+N2aTmVZDidHqmdAWAwTd9fJqXbbn/VGjq25jBGLKChE5JMIBiHd1D3RNjlSy13ABEbBzjKQRQK4w90ETkD1cPwwaSHOXzVDU9wjOmTfA3pC5UIs0oAhMja9aNxrko/YqzhSAKw+dtgmXgMImNINXzTRXynv8YRl3EFFhQh/K5N/ey27wtDGP4cpDvUhrwwlprwUedzgIffzXK5LGqJgbXMNGe0i1iUrYkpLIYpsUH29jq+ddBXPxmVgXwQpKnKx5gvunxXQZcTZiMM4SkkyuCuf2KGnVm+Fos+qAfQiN3bVqXYYRJBc4+A1VVNaiHJJKoK9crqChT14KYWfkwpk4Tp2TrCWQ1LMxy+OnUNafRZ7eughMscx+DQd59lK4y+J7qSn65PIcPmQKJjUqvwVNv63duTNanAaaxLm0Whxcdqa1k4ShH556YFTM8rDmTN7BBWkDudQ4gkzo1nZop+WINxBkNF2RrSwOUvxYGfZ+J/jna7054R6gl5obbpNS5Q33/Di1fnUDWdwzc8J+YH2q+9gd5GejLEHL1m2COWlS641BJS5KMnOiIo/MH79qezjPOVEgyGPywD+wXHgmtNIXRiExjJe4+oiM=
+X-Microsoft-Antispam-Message-Info: uJ33dR4RkQRjE1C+6gLpoOgvUhqoh1wvtvqTjpy1aacu/Xvhc5APrymmsWZ7VM1goL2YWDMJUbcImx40eyLZzZCZnUK6l86fV8UIfjLtHGZROaXE/MeX0ZKAPOljhq5jd/c0M/czv6d5JBLcw9tdP/yXLyd16Q8BAENfzMT5PT8PHKUE5O6LeQOdJZCgJO4o6Lk8pSUaM2wHWc5Vjk7cbC8GvWqzy8PhFkx1NxRKYJj4QC7XfZa51jOvA6NshMWVMg9lsJKLvuW5Pme/qw6qBDsUjYzq37JwiSt1Ruklu8N8AlgU4bxezJv4r3Ksx/NOk3n29RRWvHL4edWw8vTm6cDq3+0VP+9n8J4vwsyuRG8xaVq2OaGW6MBp0h/dppn5sw3Xmm5N9gMxRT+CbHFwX0X7pmrzT+GMnSzsC6ZQckxJTM0yVi3mgSlds2ZrZGrWyZEg0vnm1izM0YXrsP7vdR1uB7zItRWNuNh03u1IFecBNxTjB67VjJ3xHzFgqomh8Qp8eIJX1GLXZlUbfIb9A52XwIlNMhddkD4WMxFuchvPnfx6A5bL3mAkxqkX4z4gpWJEnxc065uCEihlmN3J4aPdIwVT1dy/clot3E1WwSJBsz81eQmvJsqMA29lqhd3YEhGhQwslQLWN0LsqhV8MOQUm7LXOV+TvtLG1wpBrgxdeU7MYJ8xypV8bDKnl2I/MWjAi4A0+NHQSfeJXZU7wCUPqx0L2GB9z7DuObZxksyToNXtLEIlEdH/B5D+kXCuHdxOgrXwh4Ke/bQYO5YqGAz9fw7UI+Kk53AGuDbuHNc=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR02MB4343.namprd02.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(13230016)(39860400002)(136003)(346002)(376002)(396003)(366004)(38350700002)(38100700002)(1076003)(83380400001)(36756003)(186003)(2616005)(26005)(86362001)(107886003)(6512007)(316002)(54906003)(478600001)(66946007)(6916009)(66556008)(52116002)(6506007)(41300700001)(5660300002)(30864003)(4326008)(8676002)(8936002)(44832011)(6486002)(6666004)(66476007)(2906002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?FyFb5iUaczZtoIqljx0vA4fxaURinbYOG7vcFz1Sl+afM4H58wUswoSX8qPV?=
- =?us-ascii?Q?W3z37Par9VhnABgobM3JMxXNHHH695p+qUPkrXtrU7eFqblI84rP6sktBlzD?=
- =?us-ascii?Q?h5JWiXZfIqF6JR0U06p5srJ8nFByBRlMtLQRQtUcRuk16gcTICfI11Tr2uIc?=
- =?us-ascii?Q?76Drv0oSMmDyxU8KHr1iMivRX/t//SzXFfWR5qlWRFiARG2i3n02y+UbfMn1?=
- =?us-ascii?Q?vP3WsSWAOAyzCccLf2mepi9uHEPc/C0xU8Nul48qeppfwffvFkz7t4jmlkoF?=
- =?us-ascii?Q?wmgiQTpHVQ3GOdMgOUTqrzdXM8WFMWmw1xvbBPwqITsjTtUHlmzV3ZGfyz94?=
- =?us-ascii?Q?YiezU4D2UE5j8oMs3vo7GXZx9QEteze3AWDbpIpWO6Bv6wdIaAEmvBftLDrQ?=
- =?us-ascii?Q?mcd7YN/3J84seZKcVgNBEwWrjS7R1yLJxb9dBO3qXRjgmSARuIS/rfOI2Gyj?=
- =?us-ascii?Q?fmglaSTXtwXUrrU1d0+h/ZWAjrCNvo+Jb9Q/FwsRzDseB0eYp5bw/Ww7sMxz?=
- =?us-ascii?Q?MTy6fFY6n1c10WY0ucVC5n0Nbj+xvuGFqVDS/6D1o3hmeBFbPe6Eq5L0P5uf?=
- =?us-ascii?Q?E3GHaNs7llvfwDioEeHAnILtbbVCtPbAmj9prrDx+muXMEUUCQGXRKXKVp6J?=
- =?us-ascii?Q?I2HjYa0H50Hcc9dUQNhkMlpieeOH9+Rtohdif+caq5+4zdUNW35GTeD/HiVp?=
- =?us-ascii?Q?LifN6rg/umFz0frCR3VosZ9JCvPfdP7W1OfWAkAjuS7SWnO5BD9ZiXXoGrt5?=
- =?us-ascii?Q?zk9z43GB6icGy8yaSbdICrMWqaEM6g7zQgSKqHGwx9PQrAQOKH7YFqYUYKk0?=
- =?us-ascii?Q?Zty3bPYeGPhE6dmuergPKQQixyjkJYEndCN11i+/0wPi/H1ddr1e8si1ZNSP?=
- =?us-ascii?Q?fFTAb186PXg7KN8vLmKFXgW7hGyoF6iFCKQO0ddgHbCfqy8rDYDgdgZRRZYd?=
- =?us-ascii?Q?a8l097xZszMr5MZIRt1BwtABrc99L4I8xXWs2+3YNTynNqWZHLiptxkrZz77?=
- =?us-ascii?Q?gaIU3IlLjehA4OUoakiKJOGRhLydZDUG4QrKovvjwpWmSKI5U5mqEw98Sd38?=
- =?us-ascii?Q?KVBuv2uN6y/k4RoClyvCP6PyN9ZIXNGUv8E0zg4XYXYxExTnBWnrTbgwVsYk?=
- =?us-ascii?Q?WPBTZThp9rpK9+1sEkkDUCmgSbRIPOe4lNo4W8sLVQg3rVNvFTHUyl2ikKA7?=
- =?us-ascii?Q?huO7oVXzZ74FSTDy7L6KmWyFaRP8xJnvlG4BO7tt5kXrGHYhe6G770eTL4vw?=
- =?us-ascii?Q?J45hKv/7LDw5X32joV01crJXCnYWQwscDIX3eDSSyKMicqAX1Ka8p6parfAg?=
- =?us-ascii?Q?Y/9juTejQRJ1eeBZGaXFHgIYPlSepg6PFLRzAhCsVb8sUFUONm6cMkApc+a6?=
- =?us-ascii?Q?rrJidgSDrBRlTn9Dbn/9ceNQinnbTkinJK0DlzVzL/J6mG55H7AQXQ3bBVGv?=
- =?us-ascii?Q?Ffjoh43tpABX7W8JFIRjwrHaLW6FeKbpPNwWbnPXKtmzSBYc2OiO4qrREoNz?=
- =?us-ascii?Q?u8JCZfVykD1EIQY3aIZ23L9ThHR/8t30E2U2Hyn2qjvTzq9KjvssVMcLk/6O?=
- =?us-ascii?Q?ofWxTfnhZ0DakrT70esf96W7lDLrQPQ/EFY2quWM?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pG6NAsz8+jIt8L0IzdkDinuLiY6ONlchBRLvwqbHt6JOExHiBCvOKzQS/8XQ?=
+ =?us-ascii?Q?xUOyYQ2uXLQEjZPP6/rSdBLXqbJq3iU8FzW+x3GpjwaRiPORyP2WLM9L+v0l?=
+ =?us-ascii?Q?7wwKpiIH1IlbO1LLYxKDUETjLQX0ZoQ0zEDPKmERO9zwAynmhZ3obYNt+siS?=
+ =?us-ascii?Q?QsWI8gKU/qYnKksrPnnegYn2lBVvPkoS4mjwZfr/flxnh/jnCAbH2weVMB8/?=
+ =?us-ascii?Q?BL5xWibobUaR+hSu7k951/7dC3DihsMx9ftNSF1+/ahdwujOInD7AnXLort1?=
+ =?us-ascii?Q?qXMJ2WuwusCzGv33USv7rUVQoLAvsVPDDlgYiM9U4WVLj56z7L5h/ppldapF?=
+ =?us-ascii?Q?kRHbBWye8Uqc6tsOANPIDG/HjZLndiIYVNuVruHjF9zsXcuF8btTwADgiGjn?=
+ =?us-ascii?Q?wffYoCWfGC+Q6ZMsiytS+rgLEYqONAkzwmzCLEIzPEiB4xB3jp3BiqeW2XVt?=
+ =?us-ascii?Q?X0K/SJZWl9Vo7otFx+EdRTHie/8pQjEBXCTidALb9GY6Q6aNJWEGS1SQkAEn?=
+ =?us-ascii?Q?AUN0u58AYYHYgzKLdp7RtU4rrv99okJqOxiQLnS4TBjAacnvSl5we+U1FVig?=
+ =?us-ascii?Q?dDzkWfoBPg0O2rDnzLHOSZ6YE76GSkfFyK+oJTnWeiTJcPFUEdqP/7r80BKO?=
+ =?us-ascii?Q?g/J39X0K2NifYYzVfJPeLBItaSuXx4v6nOTk7JAKmFNP89p4cVa0mzhy5NMf?=
+ =?us-ascii?Q?cZLnXxt3QxGHghsljeJTPJy3ogUg46yIL/F+4crD2XY7VP318TEi4l5Zp7mB?=
+ =?us-ascii?Q?af9u9RvEhbXaIN/sMCUQqeDiPLmwuJS86GfrNtFf1Eg/ZLmwFP2jR5D2C9J0?=
+ =?us-ascii?Q?fK/soM9nJUpzln8PRFF42Vh8kw4Z8uy/Ghuv3gMNz1dzDpt1cGrcxFBytEi1?=
+ =?us-ascii?Q?jj9eQVCOPbbbE2zIdwPd/+RlXxUVSPoCs5EjAgl3PWeHWpEhFH836wKPfs5J?=
+ =?us-ascii?Q?V8kartxN6K2qBOcLGCbD26/v9wBYTCkDVgvK215pcc/u1LH4yxQJ/EmGAAb1?=
+ =?us-ascii?Q?2wTQNlUoh/vf5Gw48aIjFUfTjYDMCoHIcUcnC2IuFv2C4vsnaLGraD+/8Cxg?=
+ =?us-ascii?Q?WyRz4OYKSmo8EqYWqyBbRq2SKZocaz2vOIilNj1BmQ04IlPVfUu48EXrXhzv?=
+ =?us-ascii?Q?4Er3SWFr9Dh3btQeHPjklMnNaLnkUADvtsQcyCPtx7EqwxdsIviv/qEa0rUU?=
+ =?us-ascii?Q?zRSyzHGBWQ+Z98tmKwefzdA4HX3sOOTGqbT8KVNwNtphIzOalPQtKlNRYCha?=
+ =?us-ascii?Q?KLXyIm1Rr2mmFkEY8vDNGIhdOLNRiQZtEqmpa8aucSeBs0DI7l8ECl1IR8mY?=
+ =?us-ascii?Q?7kcvd1KnhC6t+XI8aLh2SzsHJvJbi1LIsfPl3oj84LNNdYzksR79WYbD8lH1?=
+ =?us-ascii?Q?A2zWlPDyo72T5mXbJcr2h1C8MsPhw3MpBLU/Fvxc8wySO/YhlLoE53W94Qko?=
+ =?us-ascii?Q?/RqxBrX69574HC4oRMgxx4jSqrQldNodAHNYIWmVJofIFoMCu/7C+2p3NBa7?=
+ =?us-ascii?Q?LcbfqwG/Ewa2mZpjmeLaABXUwzs3bUHqs8Pg8MaBC9b30ez4WY2I11sxx3no?=
+ =?us-ascii?Q?fxMO84Kf0o/7K3JcOYnYNW6vhHcbEnqsCcVSMwet?=
 X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72e8852c-1a9d-4f74-2b4b-08da6b531ef6
+X-MS-Exchange-CrossTenant-Network-Message-Id: b65b1676-d94d-41dd-7b83-08da6b53200f
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4343.namprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 19:56:37.4284 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 19:56:39.2564 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: bb047546-786f-4de1-bd75-24e5b6f79043
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: burV58CEAWiLeFa4gMpskW4zX8P7o5W7Oz+PczVkZG7DpF5xbjlzhMpIlzG6TPZ9G+rLoO5OXUIY1oMnjqYTug==
+X-MS-Exchange-CrossTenant-UserPrincipalName: IXWKLu+reRIVZUVGfNV5WsF2x+1NC41sPiSOYOAiNwvj6XqO8sH1HOqCNAPx/0VOIs6N5QXiDo+4C/s3/WTO4g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2825
-X-Proofpoint-ORIG-GUID: lvBuuuIrF4UIvT7DGUnuPC-Zg79Yc7lW
-X-Proofpoint-GUID: lvBuuuIrF4UIvT7DGUnuPC-Zg79Yc7lW
+X-Proofpoint-GUID: Fpffya1FQdscpHlny4zOrfAbc_FW03NS
+X-Proofpoint-ORIG-GUID: Fpffya1FQdscpHlny4zOrfAbc_FW03NS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-21_27,2022-07-21_02,2022-06-22_01
@@ -155,325 +155,490 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-i) Modified the format of the qemu monitor command : 'migrate' by adding a list,
-   each element in the list consisting of multifd connection parameters: source
-   uri, destination uri and of the number of multifd channels between each pair.
+i) Modified the format of qemu monitor command: 'migrate-incoming' by adding
+   a list, each element in the list to open socket listeners with a given
+   number of multifd channels.
 
-ii) Information of all multifd connection parameters' list and length of the
-    list is stored in 'OutgoingMigrateParams' struct.
+ii) Qemu starts with -incoming flag defer and -multi-fd-incoming defer to
+    allow the modified 'migrate-incoming' command to be used.
+
+iii) Format for -multi-fd-incoming flag as a comma separated string has been
+     added with each substring containing listener socket address and number
+     of sockets to open.
 
 Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
 Signed-off-by: Het Gala <het.gala@nutanix.com>
 ---
- migration/migration.c | 52 +++++++++++++++++++++++++++++--------
- migration/socket.c    | 60 ++++++++++++++++++++++++++++++++++++++++---
- migration/socket.h    | 19 +++++++++++++-
- monitor/hmp-cmds.c    |  1 +
- qapi/migration.json   | 47 +++++++++++++++++++++++++++++----
- 5 files changed, 160 insertions(+), 19 deletions(-)
+ migration/migration.c | 143 ++++++++++++++++++++++++++++++++++++------
+ migration/migration.h |   2 +
+ migration/socket.c    |  11 ++--
+ migration/socket.h    |   3 +-
+ qapi/migration.json   |  46 ++++++++++++--
+ qapi/qapi-util.c      |   3 +-
+ qemu-options.hx       |  18 ++++++
+ softmmu/vl.c          |  30 ++++++++-
+ 8 files changed, 221 insertions(+), 35 deletions(-)
 
 diff --git a/migration/migration.c b/migration/migration.c
-index e03f698a3c..572b909423 100644
+index 572b909423..c58b81576c 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -2380,13 +2380,14 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
-     return true;
+@@ -486,28 +486,41 @@ void migrate_add_address(SocketAddress *address)
+                       QAPI_CLONE(SocketAddress, address));
  }
  
--void qmp_migrate(const char *uri, bool has_blk, bool blk,
-+void qmp_migrate(const char *uri, bool has_multi_fd_uri_list,
-+                 MigrateUriParameterList *cap, bool has_blk, bool blk,
-                  bool has_inc, bool inc, bool has_detach, bool detach,
-                  bool has_resume, bool resume, Error **errp)
+-static void qemu_start_incoming_migration(const char *uri, Error **errp)
++static void qemu_start_incoming_migration(const char *uri,
++                                          uint8_t multifd_count, int idx,
++                                          Error **errp)
  {
-     Error *local_err = NULL;
-     MigrationState *s = migrate_get_current();
--    const char *p = NULL;
-+    const char *dst_ptr = NULL;
+     const char *p = NULL;
  
-     if (!migrate_prepare(s, has_blk && blk, has_inc && inc,
-                          has_resume && resume, errp)) {
-@@ -2400,20 +2401,51 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-         }
-     }
- 
-+    /*
-+     * In case of Multi-FD migration, source and destination uri
-+     * supports only tcp network protocol.
-+     */
-+    if (has_multi_fd_uri_list) {
-+        int length = QAPI_LIST_LENGTH(cap);
-+        init_multifd_array(length);
-+        for (int i = 0; i < length; i++) {
-+            const char *pd = NULL, *ps = NULL;
-+            const char *multifd_dst_uri = cap->value->destination_uri;
-+            const char *multifd_src_uri = cap->value->source_uri;
-+            uint8_t multifd_channels = cap->value->multifd_channels;
-+            if (!strstart(multifd_dst_uri, "tcp:", &pd) ||
-+                !strstart(multifd_src_uri, "tcp:", &ps)) {
-+                error_setg(errp, "multi-fd destination and multi-fd source "
-+                "uri, both should be present and follows tcp protocol only");
-+                return;
-+            } else {
-+                store_multifd_migration_params(pd ? pd : multifd_dst_uri,
-+                                            ps ? ps : multifd_src_uri,
-+                                            multifd_channels, i, &local_err);
-+            }
-+            cap = cap->next;
+-    migrate_protocol_allow_multi_channels(false); /* reset it anyway */
+-    qapi_event_send_migration(MIGRATION_STATUS_SETUP);
+-    if (strstart(uri, "tcp:", &p) ||
+-        strstart(uri, "unix:", NULL) ||
+-        strstart(uri, "vsock:", NULL)) {
+-        migrate_protocol_allow_multi_channels(true);
+-        socket_start_incoming_migration(p ? p : uri, errp);
+-#ifdef CONFIG_RDMA
+-    } else if (strstart(uri, "rdma:", &p)) {
+-        rdma_start_incoming_migration(p, errp);
+-#endif
+-    } else if (strstart(uri, "exec:", &p)) {
+-        exec_start_incoming_migration(p, errp);
+-    } else if (strstart(uri, "fd:", &p)) {
+-        fd_start_incoming_migration(p, errp);
++    if (multifd_count ==  0) {
++        migrate_protocol_allow_multi_channels(false); /* reset it anyway */
++        qapi_event_send_migration(MIGRATION_STATUS_SETUP);
++        if (strstart(uri, "tcp:", &p) ||
++            strstart(uri, "unix:", NULL) ||
++            strstart(uri, "vsock:", NULL)) {
++            migrate_protocol_allow_multi_channels(true);
++    #ifdef CONFIG_RDMA
++        } else if (strstart(uri, "rdma:", &p)) {
++            rdma_start_incoming_migration(p, errp);
++    #endif
++        } else if (strstart(uri, "exec:", &p)) {
++            exec_start_incoming_migration(p, errp);
++        } else if (strstart(uri, "fd:", &p)) {
++            fd_start_incoming_migration(p, errp);
++        } else {
++            error_setg(errp, "unknown migration protocol: %s", uri);
 +        }
-+
-+        if (outgoing_param_total_multifds() != migrate_multifd_channels()) {
-+            error_setg(errp, "Total multifd channel number mismatch");
+     } else {
+-        error_setg(errp, "unknown migration protocol: %s", uri);
++        /* multi-FD parameters only support tcp network protocols */
++        if (!strstart(uri, "tcp:", &p)) {
++            error_setg(errp, "multifd-destination uri supports "
++                                "tcp protocol only");
 +            return;
 +        }
++        store_multifd_migration_params(p ? p : uri, NULL, multifd_count,
++        idx, errp);
+     }
++    socket_start_incoming_migration(p ? p : uri, multifd_count, errp);
+ }
+ 
+ static void process_incoming_migration_bh(void *opaque)
+@@ -2192,7 +2205,8 @@ void migrate_del_blocker(Error *reason)
+     migration_blockers = g_slist_remove(migration_blockers, reason);
+ }
+ 
+-void qmp_migrate_incoming(const char *uri, Error **errp)
++/* migrate_incoming function is for -incoming flag process */
++void migrate_incoming(const char *uri, Error **errp)
+ {
+     Error *local_err = NULL;
+     static bool once = true;
+@@ -2210,7 +2224,7 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+         return;
+     }
+ 
+-    qemu_start_incoming_migration(uri, &local_err);
++    qemu_start_incoming_migration(uri, 0, 0, &local_err);
+ 
+     if (local_err) {
+         yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+@@ -2221,6 +2235,95 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+     once = false;
+ }
+ 
++/*
++ * multi_fd_migrate_incoming function is for -multi-fd-migrate-incoming
++ * flag process
++ */
++void multi_fd_migrate_incoming(const char *uri, Error **errp)
++{
++    Error *local_err = NULL;
++    static bool once = true;
++
++    if (!once) {
++        error_setg(errp, "The incoming migration has already been started");
++        return;
++    }
++    if (!runstate_check(RUN_STATE_INMIGRATE)) {
++        error_setg(errp, "'-multi-fd-incoming' was not specified on the command line");
++        return;
 +    }
 +
-     migrate_protocol_allow_multi_channels(false);
--    if (strstart(uri, "tcp:", &p) ||
-+    if (strstart(uri, "tcp:", &dst_ptr) ||
-         strstart(uri, "unix:", NULL) ||
-         strstart(uri, "vsock:", NULL)) {
-         migrate_protocol_allow_multi_channels(true);
--        socket_start_outgoing_migration(s, p ? p : uri, &local_err);
-+        socket_start_outgoing_migration(s, dst_ptr ? dst_ptr : uri, &local_err);
- #ifdef CONFIG_RDMA
--    } else if (strstart(uri, "rdma:", &p)) {
--        rdma_start_outgoing_migration(s, p, &local_err);
-+    } else if (strstart(uri, "rdma:", &dst_ptr)) {
-+        rdma_start_outgoing_migration(s, dst_ptr, &local_err);
- #endif
--    } else if (strstart(uri, "exec:", &p)) {
--        exec_start_outgoing_migration(s, p, &local_err);
--    } else if (strstart(uri, "fd:", &p)) {
--        fd_start_outgoing_migration(s, p, &local_err);
-+    } else if (strstart(uri, "exec:", &dst_ptr)) {
-+        exec_start_outgoing_migration(s, dst_ptr, &local_err);
-+    } else if (strstart(uri, "fd:", &dst_ptr)) {
-+        fd_start_outgoing_migration(s, dst_ptr, &local_err);
-     } else {
-         if (!(has_resume && resume)) {
-             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++    strList *st = strList_from_string(uri, ',');
++    strList *r = st;
++    int length = QAPI_LIST_LENGTH(st);
++    init_multifd_array(length);
++
++    for (int i = 0; i < length; i++) {
++        const char *uri = NULL, *ret = NULL;
++        const char *str = r->value;
++        uint8_t multifd_channels = DEFAULT_MIGRATE_MULTIFD_CHANNELS;
++        int parse_count = qemu_string_count_delim(str, ':');
++        if (parse_count < 2 || parse_count > 3) {
++            error_setg(errp, "Invalid format of string-id %d in "
++                             "'-multi-fd-incoming' flag", i);
++            return;
++        }
++        if (parse_count == 3) {
++            ret = strrchr(str, ':');
++            uri = g_strndup(str, strlen(str) - strlen(ret));
++            multifd_channels = atoi(ret + 1);
++        }
++        qemu_start_incoming_migration(parse_count == 2 ? str : uri,
++                                      multifd_channels, i, &local_err);
++        r = r->next;
++    }
++    if (local_err) {
++        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++        error_propagate(errp, local_err);
++        return;
++    }
++
++    once = false;
++}
++
++/* qmp_migrate_incoming comes from qemu qmp monitor command */
++void qmp_migrate_incoming(const char *uri, bool has_multi_fd_uri_list,
++                          MigrateIncomingUriList *cap, Error **errp)
++{
++    Error *local_err = NULL;
++    static bool once = true;
++
++    if (!once) {
++        error_setg(errp, "The incoming migration has already been started");
++        return;
++    }
++
++    if (!yank_register_instance(MIGRATION_YANK_INSTANCE, errp)) {
++        return;
++    }
++
++    /* For migration thread */
++    qemu_start_incoming_migration(uri, 0, 0, &local_err);
++
++    /* For Multi-FD */
++    int length = QAPI_LIST_LENGTH(cap);
++    init_multifd_array(length);
++    for (int i = 0; i < length; i++) {
++        const char *multifd_dst_uri = cap->value->destination_uri;
++        uint8_t multifd_channels = cap->value->multifd_channels;
++        qemu_start_incoming_migration(multifd_dst_uri, multifd_channels,
++                                      i, &local_err);
++        cap = cap->next;
++    }
++
++    if (local_err) {
++        yank_unregister_instance(MIGRATION_YANK_INSTANCE);
++        error_propagate(errp, local_err);
++        return;
++    }
++    once = false;
++}
++
+ void qmp_migrate_recover(const char *uri, Error **errp)
+ {
+     MigrationIncomingState *mis = migration_incoming_get_current();
+@@ -2246,7 +2349,7 @@ void qmp_migrate_recover(const char *uri, Error **errp)
+      * only re-setup the migration stream and poke existing migration
+      * to continue using that newly established channel.
+      */
+-    qemu_start_incoming_migration(uri, errp);
++    qemu_start_incoming_migration(uri, 0, 0, errp);
+ }
+ 
+ void qmp_migrate_pause(Error **errp)
+diff --git a/migration/migration.h b/migration/migration.h
+index cdad8aceaa..4cb81f7cf0 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -394,6 +394,8 @@ bool migration_is_setup_or_active(int state);
+ bool migration_is_running(int state);
+ 
+ void migrate_init(MigrationState *s);
++void migrate_incoming(const char *uri, Error **errp);
++void multi_fd_migrate_incoming(const char *uri_str, Error **errp);
+ bool migration_is_blocked(Error **errp);
+ /* True if outgoing migration has entered postcopy phase */
+ bool migration_in_postcopy(void);
 diff --git a/migration/socket.c b/migration/socket.c
-index e6fdf3c5e1..f199430bc2 100644
+index f199430bc2..dab872a0fe 100644
 --- a/migration/socket.c
 +++ b/migration/socket.c
-@@ -32,6 +32,28 @@ struct SocketOutgoingArgs {
-     SocketAddress *saddr;
- } outgoing_args;
+@@ -227,17 +227,17 @@ socket_incoming_migration_end(void *opaque)
  
-+struct SocketArgs {
-+    struct SrcDestAddr address;
-+    uint8_t multifd_channels;
-+};
-+
-+struct OutgoingMigrateParams {
-+    struct SocketArgs *socket_args;
-+    size_t socket_args_arr_len;
-+} outgoing_migrate_params;
-+
-+int outgoing_param_total_multifds(void)
-+{
-+    size_t len = outgoing_migrate_params.socket_args_arr_len;
-+    uint64_t total_multifd_channels = 0;
-+
-+    for (int i = 0; i < len; i++) {
-+        total_multifd_channels +=
-+                outgoing_migrate_params.socket_args[i].multifd_channels;
-+    }
-+    return total_multifd_channels;
-+}
-+
- void socket_send_channel_create(QIOTaskFunc f, void *data)
+ static void
+ socket_start_incoming_migration_internal(SocketAddress *saddr,
+-                                         Error **errp)
++                                         uint8_t multifd_count, Error **errp)
  {
-     QIOChannelSocket *sioc = qio_channel_socket_new();
-@@ -65,6 +87,9 @@ int socket_send_channel_destroy(QIOChannel *send)
-         qapi_free_SocketAddress(outgoing_args.saddr);
-         outgoing_args.saddr = NULL;
+     QIONetListener *listener = qio_net_listener_new();
+     MigrationIncomingState *mis = migration_incoming_get_current();
+     size_t i;
+-    int num = 1;
++    uint8_t num = 1;
+ 
+     qio_net_listener_set_name(listener, "migration-socket-listener");
+ 
+     if (migrate_use_multifd()) {
+-        num = migrate_multifd_channels();
++        num = multifd_count;
+     } else if (migrate_postcopy_preempt()) {
+         num = RAM_CHANNEL_MAX;
      }
-+    g_free(outgoing_migrate_params.socket_args);
-+    outgoing_migrate_params.socket_args = NULL;
-+    outgoing_migrate_params.socket_args_arr_len = 0;
-     return 0;
+@@ -266,12 +266,13 @@ socket_start_incoming_migration_internal(SocketAddress *saddr,
+     }
  }
  
-@@ -135,17 +160,46 @@ socket_start_outgoing_migration_internal(MigrationState *s,
- }
- 
- void socket_start_outgoing_migration(MigrationState *s,
--                                     const char *str,
-+                                     const char *dst_str,
-                                      Error **errp)
+-void socket_start_incoming_migration(const char *str, Error **errp)
++void socket_start_incoming_migration(const char *str,
++                                     uint8_t multifd_count, Error **errp)
  {
      Error *err = NULL;
--    SocketAddress *saddr = socket_parse(str, &err);
-+    SocketAddress *dst_saddr = socket_parse(dst_str, &err);
+     SocketAddress *saddr = socket_parse(str, &err);
      if (!err) {
--        socket_start_outgoing_migration_internal(s, saddr, &err);
-+        socket_start_outgoing_migration_internal(s, dst_saddr, &err);
+-        socket_start_incoming_migration_internal(saddr, &err);
++        socket_start_incoming_migration_internal(saddr, multifd_count, &err);
      }
+     qapi_free_SocketAddress(saddr);
      error_propagate(errp, err);
- }
- 
-+void init_multifd_array(int length)
-+{
-+    outgoing_migrate_params.socket_args = g_new0(struct SocketArgs, length);
-+    outgoing_migrate_params.socket_args_arr_len = length;
-+}
-+
-+void store_multifd_migration_params(const char *dst_uri,
-+                                    const char *src_uri,
-+                                    uint8_t multifd_channels,
-+                                    int idx, Error **errp)
-+{
-+    struct SocketArgs *sa = &outgoing_migrate_params.socket_args[idx];
-+    SocketAddress *src_addr, *dst_addr;
-+
-+    src_addr = socket_parse(src_uri, errp);
-+    if (!src_addr) {
-+        return;
-+    }
-+
-+    dst_addr = socket_parse(dst_uri, errp);
-+    if (!dst_addr) {
-+        return;
-+    }
-+
-+    sa->address.dst_addr = dst_addr;
-+    sa->address.src_addr = src_addr;
-+    sa->multifd_channels = multifd_channels;
-+}
-+
- static void socket_accept_incoming_migration(QIONetListener *listener,
-                                              QIOChannelSocket *cioc,
-                                              gpointer opaque)
 diff --git a/migration/socket.h b/migration/socket.h
-index dc54df4e6c..0cbb7220ac 100644
+index 0cbb7220ac..7c82278d33 100644
 --- a/migration/socket.h
 +++ b/migration/socket.h
-@@ -19,13 +19,30 @@
- 
- #include "io/channel.h"
- #include "io/task.h"
-+#include "migration.h"
- 
-+/* info regarding destination and source uri */
-+typedef struct SrcDestAddr {
-+    SocketAddress *dst_addr;
-+    SocketAddress *src_addr;
-+} SrcDestAddr;
-+
-+
-+int outgoing_param_total_multifds(void);
- void socket_send_channel_create(QIOTaskFunc f, void *data);
+@@ -33,7 +33,8 @@ void socket_send_channel_create(QIOTaskFunc f, void *data);
  QIOChannel *socket_send_channel_create_sync(Error **errp);
  int socket_send_channel_destroy(QIOChannel *send);
  
- void socket_start_incoming_migration(const char *str, Error **errp);
+-void socket_start_incoming_migration(const char *str, Error **errp);
++void socket_start_incoming_migration(const char *str, uint8_t number,
++                                     Error **errp);
  
--void socket_start_outgoing_migration(MigrationState *s, const char *str,
-+void socket_start_outgoing_migration(MigrationState *s, const char *dst_str,
+ void socket_start_outgoing_migration(MigrationState *s, const char *dst_str,
                                       Error **errp);
-+
-+int multifd_list_length(MigrateUriParameterList *list);
-+
-+void init_multifd_array(int length);
-+
-+void store_multifd_migration_params(const char *dst_uri, const char *src_uri,
-+                                    uint8_t multifd_channels, int idx,
-+                                    Error **erp);
- #endif
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 6bb6424215..8d25fee4be 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -59,6 +59,7 @@
- #include "migration/snapshot.h"
- #include "migration/misc.h"
- 
-+
- #ifdef CONFIG_SPICE
- #include <spice/enums.h>
- #endif
 diff --git a/qapi/migration.json b/qapi/migration.json
-index 81185d4311..456247af8f 100644
+index 456247af8f..3908c9096c 100644
 --- a/qapi/migration.json
 +++ b/qapi/migration.json
-@@ -1449,12 +1449,37 @@
- ##
- { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+@@ -1526,14 +1526,36 @@
+            '*blk': 'bool', '*inc': 'bool', '*detach': 'bool',
+            '*resume': 'bool' } }
  
 +##
-+# @MigrateUriParameter:
++# @MigrateIncomingUri:
 +#
-+# Information regarding which source interface is connected to which
-+# destination interface and number of multifd channels over each interface.
++# Information regarding which destination listening interface to be connected
++# and number of multifd channels over that interface.
 +#
-+# @source-uri: uri of the source VM. Default port number is 0.
++# @destination-uri: the Uniform Resource Identifier of the destination VM
 +#
-+# @destination-uri: uri of the destination VM
-+#
-+# @multifd-channels: number of parallel multifd channels used to migrate data
-+#                    for specific source-uri and destination-uri. Default value
-+#                    in this case is 2 (Since 7.1)
++# @multifd-channels: number of channels used to migrate data in parallel for
++#                    for specific source-uri and destination-uri.
++#                    Default value in this case is 2 (Since 4.0)
 +#
 +##
-+{ 'struct' : 'MigrateUriParameter',
-+  'data' : { 'source-uri' : 'str',
-+             'destination-uri' : 'str',
-+             '*multifd-channels' : 'uint8'} }
++{ 'struct' : 'MigrateIncomingUri',
++  'data' : { 'destination-uri' : 'str',
++           '*multifd-channels' : 'uint8'} }
 +
  ##
- # @migrate:
+ # @migrate-incoming:
  #
- # Migrates the current running guest to another Virtual Machine.
+ # Start an incoming migration, the qemu must have been started
+-# with -incoming defer
++# with -incoming defer. qemu can also be started with optional
++# -multi-fd-incoming defer for opening multifd listening sockets
  #
- # @uri: the Uniform Resource Identifier of the destination VM
-+#       for migration thread
+ # @uri: The Uniform Resource Identifier identifying the source or
+-#       address to listen on
++#       address to listen on.
 +#
 +# @multi-fd-uri-list: list of pair of source and destination VM Uniform
 +#                     Resource Identifiers with number of multifd-channels
-+#                     for each pair
++#                     for each pair.
  #
- # @blk: do block migration (full disk copy)
+ # Returns: nothing on success
  #
-@@ -1474,20 +1499,32 @@
- # 1. The 'query-migrate' command should be used to check migration's progress
- #    and final result (this information is provided by the 'status' member)
+@@ -1545,19 +1567,31 @@
+ #    compatible with -incoming and the format of the uri is already exposed
+ #    above libvirt.
  #
--# 2. All boolean arguments default to false
-+# 2. The uri argument should have the Uniform Resource Identifier of default
-+#    destination VM. This connection will be bound to default network
- #
--# 3. The user Monitor's "detach" argument is invalid in QMP and should not
-+# 3. All boolean arguments default to false
+-# 2. QEMU must be started with -incoming defer to allow migrate-incoming to
++# 2. multi-fd-uri-list will have list of destination uri as listening sockets
++#    and multi-fd number of channels on each listening socket.
 +#
-+# 4. The user Monitor's "detach" argument is invalid in QMP and should not
- #    be used
++# 3. QEMU must be started with -incoming defer to allow migrate-incoming to
+ #    be used.
+ #
+-# 3. The uri format is the same as for -incoming
++# 4. multi-fd-uri-list format is not the same as for -multi-fd-incoming flag.
++#    For -multi-fd-incoming flag, it is a comma separated list of listener
++#    sockets with multifd channels.
++#    Example: -multi-fd-incoming "tcp::6900:4,tcp:11.0.0.0:7789:5".
  #
  # Example:
  #
--# -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
-+# -> { "execute": "migrate",
+ # -> { "execute": "migrate-incoming",
+-#      "arguments": { "uri": "tcp::4446" } }
 +#      "arguments": {
-+#          "uri": "tcp:0:4446",
-+#          "multi-fd-uri-list": [ { "source-uri": "tcp::6900",
-+#                                   "destination-uri": "tcp:0:4480",
-+#                                   "multifd-channels": 4},
-+#                                 { "source-uri": "tcp:10.0.0.0: ",
-+#                                   "destination-uri": "tcp:11.0.0.0:7789",
-+#                                   "multifd-channels": 5} ] } }
++#          "uri": "tcp::6789",
++#          "multi-fd-uri-list" : [ { "destination-uri" : "tcp::6900",
++#                                    "multifd-channels": 4},
++#                                  { "destination-uri" : "tcp:11.0.0.0:7789",
++#                                    "multifd-channels": 5} ] } }
  # <- { "return": {} }
  #
  ##
- { 'command': 'migrate',
--  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
--           '*detach': 'bool', '*resume': 'bool' } }
-+  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateUriParameter'],
-+           '*blk': 'bool', '*inc': 'bool', '*detach': 'bool',
-+           '*resume': 'bool' } }
+-{ 'command': 'migrate-incoming', 'data': {'uri': 'str' } }
++{ 'command': 'migrate-incoming',
++  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateIncomingUri'] } }
  
  ##
- # @migrate-incoming:
+ # @xen-save-devices-state:
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index 9672ac6018..a256f12ad2 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -15,6 +15,7 @@
+ #include "qapi/error.h"
+ #include "qemu/ctype.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qapi-builtin-types.h"
+ 
+ CompatPolicy compat_policy;
+ 
+@@ -157,7 +158,7 @@ int parse_qapi_name(const char *str, bool complete)
+  * Produce a strList from a delimiter separated list.
+  * A NULL or empty input string return NULL.
+  */
+-strList *strList_from_string(const char *in, char c)
++struct strList *strList_from_string(const char *in, char c)
+ {
+     strList *res = NULL;
+     strList **tail = &res;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 79e00916a1..5555f0d2fd 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4479,6 +4479,24 @@ SRST
+     to issuing the migrate\_incoming to allow the migration to begin.
+ ERST
+ 
++DEF("multi-fd-incoming", HAS_ARG, QEMU_OPTION_multi_fd_incoming, \
++    "-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]\n" \
++    "-multi-fd-incoming defer\n" \
++    "                wait for the URI to be specified via\n" \
++    "                multi_fd_migrate_incoming\n",
++    QEMU_ARCH_ALL)
++SRST
++``-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]``
++    Prepare for multi-fd incoming migration, with multi-fd listening sockets
++    on that connection. Default number of multi-fd channels is 2.
++
++``-multi-fd-incoming defer``
++    Wait for the URI to be specified via multi_fd_migrate\_incoming. The
++    monitor can be used to change settings (such as migration parameters)
++    prior to issuing the multi_fd_migrate\_incoming to allow the migration
++    to begin.
++ERST
++
+ DEF("only-migratable", 0, QEMU_OPTION_only_migratable, \
+     "-only-migratable     allow only migratable devices\n", QEMU_ARCH_ALL)
+ SRST
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index aabd82e09a..07c33ded20 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -45,7 +45,7 @@
+ #include "sysemu/seccomp.h"
+ #include "sysemu/tcg.h"
+ #include "sysemu/xen.h"
+-
++#include "migration/migration.h"
+ #include "qemu/error-report.h"
+ #include "qemu/sockets.h"
+ #include "qemu/accel.h"
+@@ -160,6 +160,7 @@ typedef struct DeviceOption {
+ static const char *cpu_option;
+ static const char *mem_path;
+ static const char *incoming;
++static const char *multi_fd_incoming;
+ static const char *loadvm;
+ static const char *accelerators;
+ static bool have_custom_ram_size;
+@@ -2312,6 +2313,11 @@ static void qemu_validate_options(const QDict *machine_opts)
+         error_report("'preconfig' supports '-incoming defer' only");
+         exit(EXIT_FAILURE);
+     }
++    if (multi_fd_incoming && preconfig_requested &&
++        strcmp(multi_fd_incoming, "defer") != 0) {
++        error_report("'preconfig' supports '-multi-fd-incoming defer' only");
++        exit(EXIT_FAILURE);
++    }
+ 
+ #ifdef CONFIG_CURSES
+     if (is_daemonized() && dpy.type == DISPLAY_TYPE_CURSES) {
+@@ -2600,7 +2606,7 @@ void qmp_x_exit_preconfig(Error **errp)
+     if (incoming) {
+         Error *local_err = NULL;
+         if (strcmp(incoming, "defer") != 0) {
+-            qmp_migrate_incoming(incoming, &local_err);
++            migrate_incoming(incoming, &local_err);
+             if (local_err) {
+                 error_reportf_err(local_err, "-incoming %s: ", incoming);
+                 exit(1);
+@@ -2609,6 +2615,20 @@ void qmp_x_exit_preconfig(Error **errp)
+     } else if (autostart) {
+         qmp_cont(NULL);
+     }
++
++    if (multi_fd_incoming) {
++        Error *local_err = NULL;
++        if (strcmp(multi_fd_incoming, "defer") != 0) {
++            multi_fd_migrate_incoming(multi_fd_incoming, &local_err);
++            if (local_err) {
++                error_reportf_err(local_err, "-multi-fd-incoming %s: ",
++                                multi_fd_incoming);
++                exit(1);
++            }
++        }
++    } else if (autostart) {
++        qmp_cont(NULL);
++    }
+ }
+ 
+ void qemu_init(int argc, char **argv, char **envp)
+@@ -3331,6 +3351,12 @@ void qemu_init(int argc, char **argv, char **envp)
+                 }
+                 incoming = optarg;
+                 break;
++            case QEMU_OPTION_multi_fd_incoming:
++                if (!multi_fd_incoming) {
++                    runstate_set(RUN_STATE_INMIGRATE);
++                }
++                multi_fd_incoming = optarg;
++                break;
+             case QEMU_OPTION_only_migratable:
+                 only_migratable = 1;
+                 break;
 -- 
 2.22.3
 
