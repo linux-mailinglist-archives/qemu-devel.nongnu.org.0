@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDF457CAA7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:31:46 +0200 (CEST)
-Received: from localhost ([::1]:37256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68AD357CAB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:36:16 +0200 (CEST)
+Received: from localhost ([::1]:42602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVLE-0005m4-Pi
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35336)
+	id 1oEVPb-0001Cx-2k
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEVHY-0001FD-V8
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:27:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38657)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oEVJJ-00049Y-PC
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEVHV-0004dH-30
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:27:54 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oEVJG-0004oh-Oj
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:29:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658406472;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=urBEqRteQ6vbve64+cSGkqRLL1DOH018G2yNCqw3V1s=;
- b=cIN4qpjpvEDkfg1Owh0vTagl/FBHSkPZHXfocShsfTq7UmNdq/O+omLhkpA+Ws1fgVLWIm
- 0Fgi3BMHkZcGjbMCuUBu1Ges1mfWBGwh6K7IjiwBfTIIKSgl9fneDyEfgI0tsYEoGKXA0k
- KqYu81G49yYUpJr622E+4HpXw0plCwY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1658406582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4mM1LbWpRl5vKHqBkCA3VS5LSV66iTKSEhYLBo34Ty4=;
+ b=P92LJzuIP5qvTDyLOHlzzllg9vpIPfT9aona6PSCQ6TNTj23Vuzp6DtfZc9D5rNdTWmNV7
+ rKY6J9fGn4RPRKmTR0QWxkaZfsYJK5khKzx+cz/Fn986Zpvvq1ZVWY5Jly6BYLepdQxjEp
+ MIPgLtzw7rFYrk56FdpopZJKbDKx1Gg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-38-gPRzpKzBNN6ZiYPfzzFBgw-1; Thu, 21 Jul 2022 08:27:48 -0400
-X-MC-Unique: gPRzpKzBNN6ZiYPfzzFBgw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6F6323C10225;
- Thu, 21 Jul 2022 12:27:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1752D492C3B;
- Thu, 21 Jul 2022 12:27:45 +0000 (UTC)
-Date: Thu, 21 Jul 2022 13:27:43 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+ us-mta-668-7XChRWRrNm-LbN4OdLFbkA-1; Thu, 21 Jul 2022 08:29:41 -0400
+X-MC-Unique: 7XChRWRrNm-LbN4OdLFbkA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v10-20020a056402348a00b0043bc4b46d06so1022281edc.18
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:29:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4mM1LbWpRl5vKHqBkCA3VS5LSV66iTKSEhYLBo34Ty4=;
+ b=rk1cgQvdNW/9AMPR51pQ0IQs7HIIjzuwoHSRteOscSEo0hm7E8eX0v3sDkOeFRUMDD
+ JXsaSI1AQww6Tmd+4aDwW1OAhrg2QDx2/UYX10gpwd4ShReSlw/tTg8qQnJPD2Rl9cj1
+ uIoRINADFI8cKNFnzOQoxf5OW+3Q/z8/inN9fhaDmLANWwCEzXcGwXXCeBHpwouqpZUX
+ Cm/khTwCaE0nlfUi7Og7pNVEJ9e47BS/lv74uVvvLsv4eNdxfspm/ci4hsVmM+tP5Xhk
+ PHY+O3KWNO6iNlaxU275c+NX7Bu+CFg5UbAWldO+8ga9cMSblbHwlEMuq42INjsjH1Vl
+ xmqw==
+X-Gm-Message-State: AJIora9IcrFVbFAxx+KaOhsid94wR1eDyyJfRfwdeIbXs9SMGQw/vwOC
+ Vu14aItUD4NF9HInUZ5JwJ4/+jg58IItTtwKKfXjwt0t8gbuYeA5nCI7curgOoBzjaMOo/1QcED
+ NPfw/9RAD5KU0Ot2hBIpDHFInPLJ4nCz66g4CGxQXztiMiVJ6Td810Sk3vT1+nwkKzkQ=
+X-Received: by 2002:a05:6402:909:b0:435:a8b:5232 with SMTP id
+ g9-20020a056402090900b004350a8b5232mr57198198edz.240.1658406579600; 
+ Thu, 21 Jul 2022 05:29:39 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sgMa+okWxI4afnwO4pTg8YJo7UUzKd3PC1huMi95TnT3hK/046mhy5FcCuOSdGqoE6zYhW+Q==
+X-Received: by 2002:a05:6402:909:b0:435:a8b:5232 with SMTP id
+ g9-20020a056402090900b004350a8b5232mr57198159edz.240.1658406579356; 
+ Thu, 21 Jul 2022 05:29:39 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ vw23-20020a170907059700b0072af890f52dsm814102ejb.88.2022.07.21.05.29.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jul 2022 05:29:38 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v6] hw/i386: pass RNG seed via setup_data entry
-Message-ID: <YtlGPy+C9ksQQXzO@redhat.com>
-References: <20220721104730.434017-1-Jason@zx2c4.com>
- <20220721104950.434544-1-Jason@zx2c4.com>
- <20220721065744-mutt-send-email-mst@kernel.org>
- <1ee57e75-94a1-cf75-7d49-0d399607fee9@redhat.com>
- <YtlDtSlRel1UUd71@zx2c4.com>
+Subject: [PATCH 0/4] Refactor x86_load_linux and pass RNG seed via setup_data
+ entry
+Date: Thu, 21 Jul 2022 14:29:33 +0200
+Message-Id: <20220721122937.729959-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YtlDtSlRel1UUd71@zx2c4.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -87,61 +99,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 02:16:53PM +0200, Jason A. Donenfeld wrote:
-> Hi Paolo,
-> 
-> On Thu, Jul 21, 2022 at 01:47:02PM +0200, Paolo Bonzini wrote:
-> > On 7/21/22 13:00, Michael S. Tsirkin wrote:
-> > > Well why not.
-> > > 
-> > > Reviewed-by: Michael S. Tsirkin<mst@redhat.com>
-> > > 
-> > > who's merging this? Paolo me or you?
-> > 
-> > I don't think this should be merged as is.
-> > 
-> > The linuxboot ROM takes the data from fw_cfg, and (with the exception of 
-> > ACPI tables) that data is not migrated.  Because reading it into the 
-> > guest is not atomic, both sides must match.  This version of the patches 
-> > at least doesn't move the preexisting DTB entry of the setup_data, but 
-> > it still has a mismatching size and that can be a problem when migrating 
-> > backwards.
-> 
-> As discussed online, this seems absolutely preposterous and will never
-> happen anywhere real ever at all. Trying to account for it is adding
-> needless complexity for no real world benefit; it's the type of thinking
-> that results in a mess. Further, conditionalizing the RNG seed on
-> something else means fewer users receive the increased security of
-> having an early boottime seed. This seems like a silly direction go go
-> in.
+As mentioned in the reviews of Jason's patches, the fw_cfg data, or at
+least its structure including the size, is part of the guest ABI and
+must match across two sides of migration.
 
-As mentioned previously, few users are going to benefit from this
-anyway, because most public cloud VMs don't use direct kernel boot,
-the guest firmware loads the kernel from the guest /boot partition.
+It would be possible to handle this with some duplicated code between
+the rng seed and DTB handling, but the conditionals to handle the linked
+list would be ugly.  Unfortunately the code of x86_load_linux has no
+data structures available, it's all of a jumble of local variables.
+Hence the first two and largest patches in this series, which remove all
+non-Linux code from the function and move the local variables to a struct
+as necessary.  The function was long overdue for some cleanup anyway.
 
-Regardless though, what Paolo described with a machine type specific
-property won't have a significant impact on availablity. This is NOT
-requiring users to opt-in to the seed in general.
+With this in place, adding the seed setup_data entry is just a
+couple lines of code, plus the scaffolding for a new machine property
+"linuxboot-seed".  The property supports on/off/auto values, where "auto"
+disables/enables depending on the kernel support for setup data (which was
+added in 2.6.26); "on" currently fails when starting with an old kernel,
+and probably it should also fail when starting a PVH or multiboot kernel.
 
-Tieing settings to the machine type means that newly provisioned
-guests will get it enabled out of the box, as they'll typically
-use the latest machine type.
+Paolo
 
-Pre-existing guests which have merely upgraded their QEMU instance
-won't get the feature, because they'll be fixed on the old machine
-type to guarantee no guest ABI change. This isn't a problem, as
-such pre-existing guests likely won't have the new Linux code to
-consume the seed anyway.
+Jason A. Donenfeld (1):
+  hw/i386: pass RNG seed via setup_data entry
 
-With regards,
-Daniel
+Paolo Bonzini (3):
+  hw/i386: extract PVH load to a separate function
+  hw/i386: define a struct for Linux boot protocol data
+  hw/i386: extract handling of setup data linked list
+
+ hw/i386/pc.c                                 |   1 +
+ hw/i386/x86.c                                | 303 +++++++++++--------
+ include/hw/i386/x86.h                        |   2 +
+ include/standard-headers/asm-x86/bootparam.h |   1 +
+ 4 files changed, 185 insertions(+), 122 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.36.1
 
 
