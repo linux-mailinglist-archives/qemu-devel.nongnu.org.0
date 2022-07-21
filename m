@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDAA557CA08
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 13:54:43 +0200 (CEST)
-Received: from localhost ([::1]:42638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF70857CA06
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 13:54:41 +0200 (CEST)
+Received: from localhost ([::1]:42470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEUlO-0001Xy-PG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 07:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55994)
+	id 1oEUlM-0001R4-HV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 07:54:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEUj2-0005uT-Hg
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:52:16 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:33428)
+ id 1oEUj3-0005uk-79
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:52:17 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:47085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEUiz-0006Y4-Oj
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:52:15 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id h9so1944366wrm.0
+ id 1oEUj0-0006YS-BV
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 07:52:16 -0400
+Received: by mail-wr1-x434.google.com with SMTP id z13so1869787wro.13
  for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 04:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=R4+PLxWALGlxDrGlf+LhFDgNwdQnyQgdmck8BMB4PZY=;
- b=qGO7YMhDnW/pVmXM91IpEi11rTA8TZrtP56SZwz4NOgEmGnvWHGeleZV4bU1+vAaVQ
- XfgsaBxvi7+Gn04ctoLXVMrfJWMuYMrtHQPJAgvlpr1qsk/Q5pn1hDHzVwxu1UJKGutI
- LGwruyMUV/fkMelrMRudmXOBNPAAEzQS5Ra5XSII+pPcVxEtwZ+AD5mTN+6erxNRSxqM
- bU+AsMvMRKfYcoImp95M6WSXgf3wh2ABJh7Nrw2GiDAd4r49CoOsGhaW2OepXMX6bxWF
- a7T3Elvx5ZrDt95QXHkYtixIhCh20Vcw2LZARfUyUkYWcQ8bs+wH2yXsg0ptoge7rf/L
- Bz3w==
+ bh=PxJwjVAzbS0o6r9Gh4EM7dFWlXeZcq5sXf7+Lmnjej4=;
+ b=JAlrrGIhijtxWfz2ZGXU1tU9NQqC6Mus2tb/9erwjDra90zriFK4jWhHTRa8f0RR18
+ 6xFcD/uNm1xjwRDVKym0toUF21QunzYNcR8/EBQ/iYLDNVFvaT6Fs5I0bIfjzmFT1EHB
+ HFe8x5I9CS4PlvF+mT+U3E8AMN5dcoD45m+/ld1MEbJN9ZQTjXbMo3J4hEqd7O5jCxjM
+ Mo+mRHohEqPJs4WfTEOa1txasr7u02DsIj0k7KmAMJa+odhgT29962XTLeZ54IcgZmVo
+ UHVbqZ3ZM5H9axyMtfJ6NiXQZtaz1KfWAhaArTHY0p5aKVohHqPYtYx5CKfJ8aBIcky2
+ Xwfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R4+PLxWALGlxDrGlf+LhFDgNwdQnyQgdmck8BMB4PZY=;
- b=R1L3d5rivJzYQoJikVkKks3odj621y5BzYgjV3G6igoMbWHaHxP81nHWYS7m0y0Nay
- Ky0lqRuG3Ctw3PGNPaTf7mRsslReys0VvXRGyXnoowP2RXiOnvGybvHLk0bR7St6rtMg
- csb8AKI+editx8JLsW3yCc5ZbF6zcxcOu9Kp8n3zjrJjYqCKvPFAbWSbD/8rEhmyY3mR
- DT5xOA5/g9VYcGLvpxnlZ/I0LIjw55l1g05iZSpD7VvK0fUO9zuM3ReJy0zvRNg8kqDR
- WN4dmkDBw1GarQ8nOGfRBvA7P/1h3Au9XKUpJFh8Ao5eTotb840siGFsz5QAWepW/Nmc
- AT6w==
-X-Gm-Message-State: AJIora//ttYa5+TgQsJtKQPO1UyEPfrQzxAD6+Qjczmik0UUm4+6GEt6
- AvFGSN10sNQ6WF7vS3JxwRSDzXbb6EESBw==
-X-Google-Smtp-Source: AGRyM1vK328VomdNAMIOsI7DI4ii0ZgaR/4c7RzMUXQonRpTm3ov1Bmu/CFaQXaTr0xkbLbZwfiwgQ==
-X-Received: by 2002:a05:6000:702:b0:21d:7f65:f1b5 with SMTP id
- bs2-20020a056000070200b0021d7f65f1b5mr34092781wrb.555.1658404332023; 
+ bh=PxJwjVAzbS0o6r9Gh4EM7dFWlXeZcq5sXf7+Lmnjej4=;
+ b=S6TuTMJsbaOo92khFXn29vqCEJRgxKnanHQdYs8APOnGuU+5xxRY/slOWxD3QDzYsg
+ PYiCYGfqtta3RB2LMFHOXxOtjNHMJtxIfANiwe43b4aln9IqxXZW7rqrz4otgUX0B9P0
+ TVyQST47vmoXKYIGnOGzh25hPp0uMlCSWToKApgUso/Snm2Gy5yiENn5PbHI+vpm67U7
+ iO9dwOK4lPfp7ogYEKFb2J8joQTXacfxh+i72M726EQQmoFQY2mcqo5pf9bG+lG9+te2
+ j+ID2VRGq0dAq76vmae87K3YdemY1ofzLW4RniKwYpMCgi5g8leTo63CgS5X+YyZSfHW
+ Sy3w==
+X-Gm-Message-State: AJIora9cLqk7yeFh7A88TsGgSxgABkhOp9DLGvlE448fOq/HdkNDPzwx
+ XRqjHB4XG966y4XlgUuJuHTjnMtoZg/5Aw==
+X-Google-Smtp-Source: AGRyM1vp4lPIC5QgiM1iUJdKCgqsXHDwNOus2Xs0yCq+ILV+wK9dR6Cv7tZQzmDySP+v4lOmNSzkGQ==
+X-Received: by 2002:a5d:64c2:0:b0:21e:2e1b:d031 with SMTP id
+ f2-20020a5d64c2000000b0021e2e1bd031mr10664854wri.8.1658404332957; 
  Thu, 21 Jul 2022 04:52:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c1d1200b003a04d19dab3sm11772745wms.3.2022.07.21.04.52.10
+ l18-20020a05600c1d1200b003a04d19dab3sm11772745wms.3.2022.07.21.04.52.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 04:52:11 -0700 (PDT)
+ Thu, 21 Jul 2022 04:52:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>,
  Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 1/2] migration: Assert that migrate_multifd_compression()
- returns an in-range value
-Date: Thu, 21 Jul 2022 12:52:06 +0100
-Message-Id: <20220721115207.729615-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/2] migration: Define BLK_MIG_BLOCK_SIZE as unsigned long long
+Date: Thu, 21 Jul 2022 12:52:07 +0100
+Message-Id: <20220721115207.729615-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220721115207.729615-1-peter.maydell@linaro.org>
 References: <20220721115207.729615-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,40 +90,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity complains that when we use the return value from
-migrate_multifd_compression() as an array index:
-  multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
+When we use BLK_MIG_BLOCK_SIZE in expressions like
+block_mig_state.submitted * BLK_MIG_BLOCK_SIZE, this multiplication
+is done as 32 bits, because both operands are 32 bits.  Coverity
+complains about possible overflows because we then accumulate that
+into a 64 bit variable.
 
-that this might overrun the array (which is declared to have size
-MULTIFD_COMPRESSION__MAX).  This is because the function return type
-is MultiFDCompression, which is an autogenerated enum.  The code
-generator includes the "one greater than the maximum possible value"
-MULTIFD_COMPRESSION__MAX in the enum, even though this is not
-actually a valid value for the enum, and this makes Coverity think
-that migrate_multifd_compression() could return that __MAX value and
-index off the end of the array.
+Define BLK_MIG_BLOCK_SIZE as unsigned long long using the ULL suffix.
+The only two current uses of it with this problem are both in
+block_save_pending(), so we could just cast to uint64_t there, but
+using the ULL suffix is simpler and ensures that we don't
+accidentally introduce new variants of the same issue in future.
 
-Suppress the Coverity error by asserting that the value we're going
-to return is within range.
-
-Resolves: Coverity CID 1487239, 1487254
+Resolves: Coverity CID 1487136, 1487175
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- migration/migration.c | 1 +
- 1 file changed, 1 insertion(+)
+I haven't tried to analyse the code to see if the multiplications
+could ever actually end up overflowing, but I would assume
+probably not.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index e03f698a3ca..befd4c58a69 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2617,6 +2617,7 @@ MultiFDCompression migrate_multifd_compression(void)
+ migration/block.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/migration/block.c b/migration/block.c
+index 9e5aae58982..3577c815a94 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -28,7 +28,7 @@
+ #include "sysemu/block-backend.h"
+ #include "trace.h"
  
-     s = migrate_get_current();
+-#define BLK_MIG_BLOCK_SIZE           (1 << 20)
++#define BLK_MIG_BLOCK_SIZE           (1ULL << 20)
+ #define BDRV_SECTORS_PER_DIRTY_CHUNK (BLK_MIG_BLOCK_SIZE >> BDRV_SECTOR_BITS)
  
-+    assert(s->parameters.multifd_compression < MULTIFD_COMPRESSION__MAX);
-     return s->parameters.multifd_compression;
- }
- 
+ #define BLK_MIG_FLAG_DEVICE_BLOCK       0x01
 -- 
 2.25.1
 
