@@ -2,105 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD64F57CC1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:39:45 +0200 (CEST)
-Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56C4557CC2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:43:16 +0200 (CEST)
+Received: from localhost ([::1]:40158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEWP2-00071L-Ug
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:39:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47826)
+	id 1oEWSP-0004pW-RC
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9o-000164-99; Thu, 21 Jul 2022 09:24:00 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18870
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9e-0006Yx-TQ; Thu, 21 Jul 2022 09:24:00 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDCWoM021517;
- Thu, 21 Jul 2022 13:23:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=52GrDtKhGxUangTPf+EpMbnTHx4NT7yGK6SjOKjoFhA=;
- b=I/Rkg2g3ROIwVQd32JT/dMmNcCbAqfdzRFxkAInbnmNW3OgwnieLQSmaqqoC5Yy/99al
- hBFNHj41X1LMUvGFH1Sv3RhKfZYH/WVSHo9jMkf5XVOQvBXXKXab+/TCI0TpAf5Gg4mf
- g+ODfM69AEhzkqSmPKdToDFw2n6ofpR16jedqkppzpBNIHxFE+VOPBQAdLpjEidiLAT/
- IFUiGO+e62G2KlLt/0p8pprO6qh02beOmjtsDuye2T2VeJkSXCIYx+Gl+1IGL9NCPsos
- l01RfNPQSBV0xUQTLCSKuzXCqt/hsQf91QZxdWbNtbG5obWUSFrVzhz9n1lwS+Byp5Av Ew== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6t4sud6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:49 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDCgrw022768;
- Thu, 21 Jul 2022 13:23:49 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf6t4suc9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:49 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDNOqX028923;
- Thu, 21 Jul 2022 13:23:47 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3hbmy8y4xy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:47 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26LDNixr15335826
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 13:23:44 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2CBB74C040;
- Thu, 21 Jul 2022 13:23:44 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1D3114C044;
- Thu, 21 Jul 2022 13:23:43 +0000 (GMT)
-Received: from linux6.. (unknown [9.114.12.104])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 13:23:43 +0000 (GMT)
-From: Janosch Frank <frankja@linux.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- seiden@linux.ibm.com
-Subject: [PATCH v3 14/14] s390x: pv: Add dump support
-Date: Thu, 21 Jul 2022 13:22:56 +0000
-Message-Id: <20220721132256.2171-15-frankja@linux.ibm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220721132256.2171-1-frankja@linux.ibm.com>
-References: <20220721132256.2171-1-frankja@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEWFI-0002C2-R6
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:29:41 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:39619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEWFG-0007h7-Az
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:29:40 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id r3so2758244ybr.6
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 06:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wMzin7E5Cpn0OOA6iYcfFoj5uTks/7enwFRGFFvEKro=;
+ b=StlbiD74wJTpiJhEMR9PHa+7fsYz3vLU8U1XVxJgUGwHkV8Fx9Yehk9kJnxGn0SNoS
+ hdQpVvk6MHwgBiI7M5pR/xTXjl2kJyVRlUGR6T6V/tOCkxktV/1QQdTkwx36YvCNewFe
+ cpt/ef3E+iXkFW0DIHMPrtemQMj8oyQd+sGxgEEqEKwaNXd/p8fb2uSVS0h3ybpYBh3j
+ yar81wwPFme9HuwYCgazyPiQ3wH+mD6kedfNVeFjufXbtUucKp+eDkWg21uIzQjbvQaC
+ vOq95E7vBreM1SY+8dpAZKTwF9AaYqnW9xKHetC2BPrn2H54STb9kw3zocxf/J2MlNlW
+ vN2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wMzin7E5Cpn0OOA6iYcfFoj5uTks/7enwFRGFFvEKro=;
+ b=fl+E0XxXAXIriM5PmgmrfL5bJXqw3oBqzuVttwYDGXC6ek+tEgGu13gyh3kuLEkJ7i
+ hyURsgYmun0JhEdWk24wcp/j0KiipBOpqsCJ4Ko/1/YtNDyruxzSvmLatHkvXjq8UCn5
+ SMnsDN1yGU7Z1kL8Y99PmJ8RESgZTsx0NAr1GFeWTp2nHa+tb3A6EAd2Cxs1BaoDtXKP
+ Hnxm1DhFd5JZ3ljTz7uZpmIVYBexNeIKYQZ2pJaAD3XUEXuobGO4oZu9z4kx1kW0YZl0
+ 1CdG+E0yTML0/HPeWSlGoNf+lnDxnrYCjIn5oRJSO6bYYeDl49Kh+2uflxaR3qw0rsKC
+ uTcA==
+X-Gm-Message-State: AJIora9nxfNxPQD6dcJ/QYH1pLNteM8fb673AqNKwAqvBTFXqQ4Y7vaa
+ WdNjnH3RDlriuWZjWE48kStlCkKUPNAmBJtg5/JbPLovCi8=
+X-Google-Smtp-Source: AGRyM1tDVS8izVo533z+0Aiwf4MJETFj5rApYulRswC0u7m7nMGvVHzUya+z95NiEpoP0pexO+JJtRfFSoIWfQw6ZfI=
+X-Received: by 2002:a25:4101:0:b0:670:87d4:9c36 with SMTP id
+ o1-20020a254101000000b0067087d49c36mr9836388yba.366.1658410176634; Thu, 21
+ Jul 2022 06:29:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Xk1kHR07ahHmq0ifcvEfk4rrpZDRaLEh
-X-Proofpoint-GUID: hPS6urR2pdFGck623J95krqmn7n6sp5v
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_17,2022-07-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0
- bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207210053
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
+ <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
+In-Reply-To: <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 21 Jul 2022 09:29:22 -0400
+Message-ID: <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Klaus Birkelund Jensen <its@irrelevant.dk>, 
+ Keith Busch <kbusch@kernel.org>
+Content-Type: multipart/alternative; boundary="00000000000078655105e450b5c1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,375 +85,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes dumping a guest from the outside is the only way to get the
-data that is needed. This can be the case if a dumping mechanism like
-KDUMP hasn't been configured or data needs to be fetched at a specific
-point. Dumping a protected guest from the outside without help from
-fw/hw doesn't yield sufficient data to be useful. Hence we now
-introduce PV dump support.
+--00000000000078655105e450b5c1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The PV dump support works by integrating the firmware into the dump
-process. New Ultravisor calls are used to initiate the dump process,
-dump cpu data, dump memory state and lastly complete the dump process.
-The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
-its subcommands. The guest's data is fully encrypted and can only be
-decrypted by the entity that owns the customer communication key for
-the dumped guest. Also dumping needs to be allowed via a flag in the
-SE header.
+On Wed, Jul 20, 2022, 22:36 Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-On the QEMU side of things we store the PV dump data in the newly
-introduced architecture ELF sections (storage state and completion
-data) and the cpu notes (for cpu dump data).
+> Hi Stefan,
+>
+> Thanks for the detailed explanation!
+>
+> at 6:21 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> > Hi Jinhao,
+> > Thanks for working on this!
+> >
+> > irqfd is not necessarily faster than KVM ioctl interrupt injection.
+> >
+> > There are at least two non performance reasons for irqfd:
+> > 1. It avoids QEMU emulation code, which historically was not thread saf=
+e
+> and needed the Big QEMU Lock. IOThreads don't hold the BQL and therefore
+> cannot safely call the regular interrupt emulation code in QEMU. I think
+> this is still true today although parts of the code may now be less relia=
+nt
+> on the BQL.
+>
+> This probably means we need to move to irqfd when iothread support is add=
+ed
+> in qemu-nvme.
+>
 
-Users can use the zgetdump tool to convert the encrypted QEMU dump to an
-unencrypted one.
+Yes. You can audit the interrupt code but I'm pretty sure there is shared
+state that needs to be protected by the BQL. So the NVMe emulation code
+probably needs to use irqfd to avoid the interrupt emulation code.
 
-Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
----
- include/elf.h            |   1 +
- target/s390x/arch_dump.c | 248 ++++++++++++++++++++++++++++++++++-----
- 2 files changed, 219 insertions(+), 30 deletions(-)
 
-diff --git a/include/elf.h b/include/elf.h
-index 3a4bcb646a..58f76fd5b4 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -1649,6 +1649,7 @@ typedef struct elf64_shdr {
- #define NT_TASKSTRUCT	4
- #define NT_AUXV		6
- #define NT_PRXFPREG     0x46e62b7f      /* copied from gdb5.1/include/elf/common.h */
-+#define NT_S390_PV_DATA 0x30e           /* s390 protvirt cpu dump data */
- #define NT_S390_GS_CB   0x30b           /* s390 guarded storage registers */
- #define NT_S390_VXRS_HIGH 0x30a         /* s390 vector registers 16-31 */
- #define NT_S390_VXRS_LOW  0x309         /* s390 vector registers 0-15 (lower half) */
-diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
-index 08daf93ae1..e081aa9483 100644
---- a/target/s390x/arch_dump.c
-+++ b/target/s390x/arch_dump.c
-@@ -16,7 +16,8 @@
- #include "s390x-internal.h"
- #include "elf.h"
- #include "sysemu/dump.h"
--
-+#include "hw/s390x/pv.h"
-+#include "kvm/kvm_s390x.h"
- 
- struct S390xUserRegsStruct {
-     uint64_t psw[2];
-@@ -76,9 +77,16 @@ typedef struct noteStruct {
-         uint64_t todcmp;
-         uint32_t todpreg;
-         uint64_t ctrs[16];
-+        uint8_t dynamic[1];  /*
-+                              * Would be a flexible array member, if
-+                              * that was legal inside a union. Real
-+                              * size comes from PV info interface.
-+                              */
-     } contents;
- } QEMU_PACKED Note;
- 
-+static bool pv_dump_initialized;
-+
- static void s390x_write_elf64_prstatus(Note *note, S390CPU *cpu, int id)
- {
-     int i;
-@@ -177,52 +185,82 @@ static void s390x_write_elf64_prefix(Note *note, S390CPU *cpu, int id)
-     note->contents.prefix = cpu_to_be32((uint32_t)(cpu->env.psa));
- }
- 
-+static void s390x_write_elf64_pv(Note *note, S390CPU *cpu, int id)
-+{
-+    note->hdr.n_type = cpu_to_be32(NT_S390_PV_DATA);
-+    if (!pv_dump_initialized) {
-+        return;
-+    }
-+    kvm_s390_dump_cpu(cpu, &note->contents.dynamic);
-+}
- 
- typedef struct NoteFuncDescStruct {
-     int contents_size;
-+    uint64_t (*note_size_func)(void); /* NULL for non-dynamic sized contents */
-     void (*note_contents_func)(Note *note, S390CPU *cpu, int id);
-+    bool pvonly;
- } NoteFuncDesc;
- 
- static const NoteFuncDesc note_core[] = {
--    {sizeof_field(Note, contents.prstatus), s390x_write_elf64_prstatus},
--    {sizeof_field(Note, contents.fpregset), s390x_write_elf64_fpregset},
--    { 0, NULL}
-+    {sizeof_field(Note, contents.prstatus), NULL, s390x_write_elf64_prstatus, false},
-+    {sizeof_field(Note, contents.fpregset), NULL, s390x_write_elf64_fpregset, false},
-+    { 0, NULL, NULL}
- };
- 
- static const NoteFuncDesc note_linux[] = {
--    {sizeof_field(Note, contents.prefix),   s390x_write_elf64_prefix},
--    {sizeof_field(Note, contents.ctrs),     s390x_write_elf64_ctrs},
--    {sizeof_field(Note, contents.timer),    s390x_write_elf64_timer},
--    {sizeof_field(Note, contents.todcmp),   s390x_write_elf64_todcmp},
--    {sizeof_field(Note, contents.todpreg),  s390x_write_elf64_todpreg},
--    {sizeof_field(Note, contents.vregslo),  s390x_write_elf64_vregslo},
--    {sizeof_field(Note, contents.vregshi),  s390x_write_elf64_vregshi},
--    {sizeof_field(Note, contents.gscb),     s390x_write_elf64_gscb},
--    { 0, NULL}
-+    {sizeof_field(Note, contents.prefix),   NULL, s390x_write_elf64_prefix,  false},
-+    {sizeof_field(Note, contents.ctrs),     NULL, s390x_write_elf64_ctrs,    false},
-+    {sizeof_field(Note, contents.timer),    NULL, s390x_write_elf64_timer,   false},
-+    {sizeof_field(Note, contents.todcmp),   NULL, s390x_write_elf64_todcmp,  false},
-+    {sizeof_field(Note, contents.todpreg),  NULL, s390x_write_elf64_todpreg, false},
-+    {sizeof_field(Note, contents.vregslo),  NULL, s390x_write_elf64_vregslo, false},
-+    {sizeof_field(Note, contents.vregshi),  NULL, s390x_write_elf64_vregshi, false},
-+    {sizeof_field(Note, contents.gscb),     NULL, s390x_write_elf64_gscb,    false},
-+    {0, kvm_s390_pv_dmp_get_size_cpu,       s390x_write_elf64_pv, true},
-+    { 0, NULL, NULL}
- };
- 
- static int s390x_write_elf64_notes(const char *note_name,
--                                       WriteCoreDumpFunction f,
--                                       S390CPU *cpu, int id,
--                                       void *opaque,
--                                       const NoteFuncDesc *funcs)
-+                                   WriteCoreDumpFunction f,
-+                                   S390CPU *cpu, int id,
-+                                   void *opaque,
-+                                   const NoteFuncDesc *funcs)
- {
--    Note note;
-+    Note note, *notep;
-     const NoteFuncDesc *nf;
--    int note_size;
-+    int note_size, content_size;
-     int ret = -1;
- 
-     assert(strlen(note_name) < sizeof(note.name));
- 
-     for (nf = funcs; nf->note_contents_func; nf++) {
--        memset(&note, 0, sizeof(note));
--        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
--        note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
--        g_strlcpy(note.name, note_name, sizeof(note.name));
--        (*nf->note_contents_func)(&note, cpu, id);
-+        notep = &note;
-+        if (nf->pvonly && !s390_is_pv()) {
-+            continue;
-+        }
- 
--        note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
--        ret = f(&note, note_size, opaque);
-+        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
-+        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
-+
-+        /* Notes with dynamic sizes need to allocate a note */
-+        if (nf->note_size_func) {
-+            notep = g_malloc0(note_size);
-+        }
-+
-+        memset(notep, 0, sizeof(note));
-+
-+        /* Setup note header data */
-+        notep->hdr.n_descsz = cpu_to_be32(content_size);
-+        notep->hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
-+        g_strlcpy(notep->name, note_name, sizeof(notep->name));
-+
-+        /* Get contents and write them out */
-+        (*nf->note_contents_func)(notep, cpu, id);
-+        ret = f(notep, note_size, opaque);
-+
-+        if (nf->note_size_func) {
-+            g_free(notep);
-+        }
- 
-         if (ret < 0) {
-             return -1;
-@@ -247,12 +285,159 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-     return s390x_write_elf64_notes("LINUX", f, cpu, cpuid, opaque, note_linux);
- }
- 
-+/* PV dump section size functions */
-+static uint64_t get_dump_mem_size_from_len(uint64_t len)
-+{
-+    return (len / (1 << 20)) * kvm_s390_pv_dmp_get_size_mem();
-+}
-+
-+static uint64_t get_size_mem(DumpState *s)
-+{
-+    return get_dump_mem_size_from_len(s->total_size);
-+}
-+
-+static uint64_t get_size_complete(DumpState *s)
-+{
-+    return kvm_s390_pv_dmp_get_size_complete();
-+}
-+
-+/* PV dump section data functions*/
-+static int get_data_complete(DumpState *s, uint8_t *buff)
-+{
-+    int rc;
-+
-+    if (!pv_dump_initialized) {
-+        return 0;
-+    }
-+    rc = kvm_s390_dump_finish(buff);
-+    if (!rc) {
-+            pv_dump_initialized = false;
-+    }
-+    return rc;
-+}
-+
-+static int dump_mem(DumpState *s, uint64_t gaddr, uint8_t *buff, uint64_t buff_len)
-+{
-+    /* We need the gaddr + len and something to write to */
-+    if (!pv_dump_initialized) {
-+        return 0;
-+    }
-+    return kvm_s390_dump_mem(gaddr, buff_len, buff);
-+}
-+
-+static int get_data_mem(DumpState *s, uint8_t *buff)
-+{
-+    int64_t memblock_size, memblock_start;
-+    GuestPhysBlock *block;
-+    uint64_t off;
-+
-+    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-+        memblock_start = dump_get_memblock_start(block, s->begin, s->length);
-+        if (memblock_start == -1) {
-+            continue;
-+        }
-+
-+        memblock_size = dump_get_memblock_size(block, s->begin, s->length);
-+
-+        off = get_dump_mem_size_from_len(block->target_start);
-+        dump_mem(s, block->target_start, buff + off,
-+                 get_dump_mem_size_from_len(memblock_size));
-+    }
-+
-+    return 0;
-+}
-+
-+struct sections {
-+    uint64_t (*sections_size_func)(DumpState *s);
-+    int (*sections_contents_func)(DumpState *s, uint8_t *buff);
-+    char sctn_str[12];
-+} sections[] = {
-+    { get_size_mem, get_data_mem, "pv_mem_meta"},
-+    { get_size_complete, get_data_complete, "pv_compl"},
-+    {NULL , NULL, ""}
-+};
-+
-+static uint64_t arch_sections_write_hdr(void *opaque, uint8_t *buff)
-+{
-+    DumpState *s = opaque;
-+    Elf64_Shdr *shdr = (void *)buff;
-+    struct sections *sctn = sections;
-+    uint64_t off = s->section_offset;
-+
-+    if (!s390_is_pv()) {
-+        return 0;
-+    }
-+
-+    for (; sctn->sections_size_func; off += shdr->sh_size, sctn++, shdr++) {
-+        memset(shdr, 0, sizeof(*shdr));
-+        shdr->sh_type = SHT_PROGBITS;
-+        shdr->sh_offset = off;
-+        shdr->sh_size = sctn->sections_size_func(s);
-+        shdr->sh_name = s->string_table_buf->len;
-+        g_array_append_vals(s->string_table_buf, sctn->sctn_str, sizeof(sctn->sctn_str));
-+    }
-+
-+    return (uintptr_t)shdr - (uintptr_t)buff;
-+}
-+
-+
-+/* Add arch specific number of sections and their respective sizes */
-+static void arch_sections_add(void *opaque)
-+{
-+    DumpState *s = opaque;
-+    struct sections *sctn = sections;
-+
-+    /*
-+     * We only do a PV dump if we are running a PV guest, KVM supports
-+     * the dump API and we got valid dump length information.
-+     */
-+    if (!s390_is_pv() || !kvm_s390_get_protected_dump() ||
-+        !kvm_s390_pv_info_basic_valid()) {
-+        return;
-+    }
-+
-+    /*
-+     * Start the UV dump process by doing the initialize dump call via
-+     * KVM as the proxy.
-+     */
-+    if (!kvm_s390_dump_init()) {
-+            pv_dump_initialized = true;
-+    }
-+
-+    for (; sctn->sections_size_func; sctn++) {
-+        s->shdr_num += 1;
-+        s->elf_section_data_size += sctn->sections_size_func(s);
-+    }
-+}
-+
-+/*
-+ * After the PV dump has been initialized, the CPU data has been
-+ * fetched and memory has been dumped, we need to grab the tweak data
-+ * and the completion data.
-+ */
-+static void arch_sections_write(void *opaque, uint8_t *buff)
-+{
-+    DumpState *s = opaque;
-+    struct sections *sctn = sections;
-+
-+    /* shdr_num should only have been set > 1 if we are protected */
-+    assert(s390_is_pv());
-+
-+    for (; sctn->sections_size_func; sctn++) {
-+        sctn->sections_contents_func(s, buff);
-+        buff += sctn->sections_size_func(s);
-+    }
-+}
-+
- int cpu_get_dump_info(ArchDumpInfo *info,
-                       const struct GuestPhysBlockList *guest_phys_blocks)
- {
-     info->d_machine = EM_S390;
-     info->d_endian = ELFDATA2MSB;
-     info->d_class = ELFCLASS64;
-+    info->arch_sections_add_fn = *arch_sections_add;
-+    info->arch_sections_write_hdr_fn = *arch_sections_write_hdr;
-+    info->arch_sections_write_fn = *arch_sections_write;
- 
-     return 0;
- }
-@@ -261,7 +446,7 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
- {
-     int name_size = 8; /* "LINUX" or "CORE" + pad */
-     size_t elf_note_size = 0;
--    int note_head_size;
-+    int note_head_size, content_size;
-     const NoteFuncDesc *nf;
- 
-     assert(class == ELFCLASS64);
-@@ -270,12 +455,15 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-     note_head_size = sizeof(Elf64_Nhdr);
- 
-     for (nf = note_core; nf->note_contents_func; nf++) {
--        elf_note_size = elf_note_size + note_head_size + name_size +
--                        nf->contents_size;
-+        elf_note_size = elf_note_size + note_head_size + name_size + nf->contents_size;
-     }
-     for (nf = note_linux; nf->note_contents_func; nf++) {
-+        if (nf->pvonly && !s390_is_pv()) {
-+            continue;
-+        }
-+        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
-         elf_note_size = elf_note_size + note_head_size + name_size +
--                        nf->contents_size;
-+                        content_size;
-     }
- 
-     return (elf_note_size) * nr_cpus;
--- 
-2.34.1
+> > 2. The eventfd interface decouples interrupt injection from the KVM
+> ioctl interface. Vhost kernel and vhost-user device emulation code has no
+> dependency on KVM thanks to irqfd. They work with any eventfd, including
+> irqfd.
+>
+> This is contrary to our original belief. Klaus once pointed out that irqf=
+d
+> is KVM specific. I agreed with him since I found irqfd implementation is =
+in
+> virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could you
+> elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?
+>
 
+"They work with any eventfd, including irqfd"
+
+If you look at the vhost kernel or vhost-user code, you'll see they just
+signal the eventfd. It doesn't have to be an irqfd.
+
+An irqfd is a specific type of eventfd that the KVM kernel module
+implements to inject interrupts when the eventfd is signaled.
+
+By the way, this not only decouples vhost from the KVM kernel module, but
+also allows QEMU to emulate MSI-X masking via buffering the interrupt in
+userspace.
+
+
+> > 2. How can I debug this kind of cross QEMU-KVM problems?
+> >
+> > perf(1) is good at observing both kernel and userspace activity
+> together. What is it that you want to debug.
+> >
+>
+> I=E2=80=99ll look into perf(1). I think what I was trying to do is like a=
+ breakdown
+> analysis on which part caused the latency. For example, what is the root
+> cause of the performance improvements or regressions when irqfd is turned
+> on.
+>
+
+Nice, perf(1) is good for that. You can enable trace events and add
+kprobes/uprobes to record timestamps when specific functions are entered.
+
+>
+> > What happens when the MSI-X vector is masked?
+> >
+> > I remember the VIRTIO code having masking support. I'm on my phone and
+> can't check now, but I think it registers a temporary eventfd and buffers
+> irqs while the vector is masked.
+>
+> Yes, this RFC ignored interrupt masking support.
+>
+> >
+> > This makes me wonder if the VIRTIO and NVMe IOThread irqfd code can be
+> unified. Maybe IOThread support can be built into the core device emulati=
+on
+> code (e.g. irq APIs) so that it's not necessary to duplicate it.
+> >
+>
+> Agreed. Recently when working on ioeventfd, iothread and polling support,
+> my
+> typical workflow is to look at how virtio does that and adjust that code
+> into nvme. I think unifying their IOThread code can be beneficial since
+> VIRTIO has incorporated many optimizations over the years that can not be
+> directly enjoyed by nvme. But I fear that subtle differences in the two
+> protocols may cause challenges for the unification.
+>
+> Again, thanks for your help :)
+>
+
+--00000000000078655105e450b5c1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Jul 20, 2022, 22:36 Jinhao Fan &lt;<a href=3D"=
+mailto:fanjinhao21s@ict.ac.cn">fanjinhao21s@ict.ac.cn</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">Hi Stefan,<br>
+<br>
+Thanks for the detailed explanation! <br>
+<br>
+at 6:21 PM, Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com" targe=
+t=3D"_blank" rel=3D"noreferrer">stefanha@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; Hi Jinhao,<br>
+&gt; Thanks for working on this!<br>
+&gt; <br>
+&gt; irqfd is not necessarily faster than KVM ioctl interrupt injection.<br=
+>
+&gt; <br>
+&gt; There are at least two non performance reasons for irqfd:<br>
+&gt; 1. It avoids QEMU emulation code, which historically was not thread sa=
+fe and needed the Big QEMU Lock. IOThreads don&#39;t hold the BQL and there=
+fore cannot safely call the regular interrupt emulation code in QEMU. I thi=
+nk this is still true today although parts of the code may now be less reli=
+ant on the BQL.<br>
+<br>
+This probably means we need to move to irqfd when iothread support is added=
+<br>
+in qemu-nvme.<br></blockquote></div></div><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Yes. You can audit the interrupt code but I&#39;m pretty sure =
+there is shared state that needs to be protected by the BQL. So the NVMe em=
+ulation code probably needs to use irqfd to avoid the interrupt emulation c=
+ode.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; 2. The eventfd interface decouples interrupt injection from the KVM io=
+ctl interface. Vhost kernel and vhost-user device emulation code has no dep=
+endency on KVM thanks to irqfd. They work with any eventfd, including irqfd=
+.<br>
+<br>
+This is contrary to our original belief. Klaus once pointed out that irqfd<=
+br>
+is KVM specific. I agreed with him since I found irqfd implementation is in=
+<br>
+virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could you<b=
+r>
+elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?<br></blockq=
+uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">&quot;They w=
+ork with any eventfd, including irqfd&quot;</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">If you look at the vhost kernel or vhost-user code, you=
+&#39;ll see they just signal the eventfd. It doesn&#39;t have to be an irqf=
+d.</div><div dir=3D"auto"><br></div><div dir=3D"auto">An irqfd is a specifi=
+c type of eventfd that the KVM kernel module implements to inject interrupt=
+s when the eventfd is signaled.</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">By the way, this not only decouples vhost from the KVM kernel mod=
+ule, but also allows QEMU to emulate MSI-X masking via buffering the interr=
+upt in userspace.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div c=
+lass=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; 2. How can I debug this kind of cross QEMU-KVM problems?<br>
+&gt; <br>
+&gt; perf(1) is good at observing both kernel and userspace activity togeth=
+er. What is it that you want to debug.<br>
+&gt; <br>
+<br>
+I=E2=80=99ll look into perf(1). I think what I was trying to do is like a b=
+reakdown<br>
+analysis on which part caused the latency. For example, what is the root<br=
+>
+cause of the performance improvements or regressions when irqfd is turned<b=
+r>
+on.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Nice, perf(1) is good for that. You can enable trace events and add kpro=
+bes/uprobes to record timestamps when specific functions are entered.</div>=
+<div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>
+<br>
+&gt; What happens when the MSI-X vector is masked?<br>
+&gt; <br>
+&gt; I remember the VIRTIO code having masking support. I&#39;m on my phone=
+ and can&#39;t check now, but I think it registers a temporary eventfd and =
+buffers irqs while the vector is masked.<br>
+<br>
+Yes, this RFC ignored interrupt masking support. <br>
+<br>
+&gt; <br>
+&gt; This makes me wonder if the VIRTIO and NVMe IOThread irqfd code can be=
+ unified. Maybe IOThread support can be built into the core device emulatio=
+n code (e.g. irq APIs) so that it&#39;s not necessary to duplicate it.<br>
+&gt; <br>
+<br>
+Agreed. Recently when working on ioeventfd, iothread and polling support, m=
+y<br>
+typical workflow is to look at how virtio does that and adjust that code<br=
+>
+into nvme. I think unifying their IOThread code can be beneficial since<br>
+VIRTIO has incorporated many optimizations over the years that can not be<b=
+r>
+directly enjoyed by nvme. But I fear that subtle differences in the two<br>
+protocols may cause challenges for the unification.<br>
+<br>
+Again, thanks for your help :)<br>
+</blockquote></div></div></div>
+
+--00000000000078655105e450b5c1--
 
