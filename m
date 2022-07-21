@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECCE57D38B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:44:56 +0200 (CEST)
-Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44D5B57D39E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:54:26 +0200 (CEST)
+Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEbAN-00071J-Qv
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:44:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
+	id 1oEbJY-00043j-SV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1oEb9F-0005TF-8v
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:43:45 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:36372)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEbHd-0001T6-4n
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:52:25 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:36797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1oEb9D-0003C7-MW
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:43:45 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id mf4so4700971ejc.3
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 11:43:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oEbHb-0004nA-8p
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:52:24 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-31e7ca45091so27065007b3.3
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 11:52:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KJGFonokiIgul564QGpILiM71KhZjv8G0jbDcrZyBM8=;
- b=poqbciA+KV3SttywQMLXhTpwSk37W1Xp2/HlyneKISNeJe3tfMBwAJxld7g/xKaETA
- KbU4AZB/CFmYt+ndb5ucOrfzAgtnDHIVesWRoRGCAYVYDJacvk+iKvDLDfclQ1Lk+dvA
- ME03wcR9xir7OLNfhOMpFTmirSZZzg46QgS+fco2oWGta+PfmcP9XJlH7zIlcZ6w8E2O
- T+qgkB4WJpIyEWTyNNG9LNpoRhsxNGQzQG4V9K2w7onueLlPkcBMlmO00ZGzIk1MQXRJ
- wgRf7/14uaN3GL9KOHNIPmQqvO8S8QrTZn7/CnhO+y7YzyiKOFrons1tfauftRn2sAPI
- iW0Q==
+ :cc; bh=yLku71WMXtxB/jHp3z7LvApSOOgtePL0FItv/pE8oSQ=;
+ b=ReuaPFAmbVbsXWi8uvmQwOX10jhPN3anf1uPmJw0FmqBp+fS4M22cpk1Ff5JXKWuqH
+ APVHTD5cC5tQvooDOj+l8ul9SIy3d2Sq/9Vt3fMtVdMbdRk0x0rZ5bU5vBKkqUaYdQKL
+ SuqiY39LsEoivzvjSTaWh/98yaORvJ5CYFWR079p1UjFSajOK6Bgc27CiMXO5O5Pm256
+ G6thNJlKt3dxs2RcP4PAcWbiyVklsVI2JoWQj5DEg+00FgAOVLf6spvRSB6o94eWPPVE
+ oq+KUh5NRXI10aIBZTJWAcJEygRbYhO80i4/Ea8se0Pi7/AW6gTkVTI4ITEoun5Bag9i
+ ehcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KJGFonokiIgul564QGpILiM71KhZjv8G0jbDcrZyBM8=;
- b=h1+XYi4MFI7zCWDlayh4PBDm2Vrx6cREaJtpKLsUlUpGCf/YQjHYr24Cw2qcWNVZvZ
- oMa+sSZQpobEFMeFbgEhjHQ6Cz5bMmvVkyYuPjWEnD0aWM49tCvrOPfA6Q8kKr03nJV2
- sBONCI3o7yxcgxOPnTJKEXPF17vH256Xh8mV0gPsli6TljExG/+O445IUuFJ4GGd8C+x
- 02EpBVc45ELN5Y63hNnW4XdYsuumvnKfbra7VlJBgQIYgTUrX+8h/5fDK8vM2Fu+PNBN
- M/IRW1kext0dlQM8LJq80qFvBQwUIuQv1YuDI2MssxCqP0nmIndHt3ALOtt4vbbVboIo
- tR2A==
-X-Gm-Message-State: AJIora/700XDFRykjh2gj9M0iERADHgNgh1Nw9Ppaw1Dm63XXtlXtwg9
- /1f1EdDqdFJPrX0K3bO7eUXuapJUXFMZhbt1Zyc=
-X-Google-Smtp-Source: AGRyM1tkNZAs4SfnIX1eBnmSHLFSkYOdw+iybMrELMw9P5RNUGEeRMz4KpNNcZT3X5ZM9o7j1+FGMHRrCzHnudABIH8=
-X-Received: by 2002:a17:907:7396:b0:72d:a080:86a9 with SMTP id
- er22-20020a170907739600b0072da08086a9mr39238350ejc.49.1658429021471; Thu, 21
- Jul 2022 11:43:41 -0700 (PDT)
+ bh=yLku71WMXtxB/jHp3z7LvApSOOgtePL0FItv/pE8oSQ=;
+ b=d1zhY2sp2eHc9WxVnlNWLvnhuqK1pDWdLXHc0tjugNmTOh5nQCnehd5wPg2Krp+p2k
+ y84Zq8sQ1/Fdm71ACHuET039l94THVW18MLNTSnetFELeijSXoODcOhWvoN7Ap84/8QD
+ eRV+VEfwLQ608sxabnmc5bdW1856DNG9o8Bfykb7AnQWdSAk3wWU7aEYDWvT0cu+jy7Y
+ D2QePn7n63XlaOATV4pM9iKtFwDti3DM1XQ5BJg9aIpyTpqjOVW9j0LiRZx0VPOiNiTn
+ xtVspRoAWavZVTVqwXb25x7nHU68hN+JR5g1t83biJgGKJ/76gvL1lbp9CAojv+Kj4OR
+ bX+A==
+X-Gm-Message-State: AJIora+Pblxykr/vz0lVfAwwJSDsaCbF7MQ9R99e3DsVQHFLwRgDnqnm
+ CEfiu/Le6lfDVGask2NrY7yrOit1QVAQKbo/nNX78Q==
+X-Google-Smtp-Source: AGRyM1vxdrrm18cwNeRCWYdQeJXRHq5KY/YPsuYiYUD8N4zBaGvWFae0N3xmisJhV4HmFvbHdOnJ/gjurALs/XH2MvA=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr46534406ywg.329.1658429541930; Thu, 21
+ Jul 2022 11:52:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220719122334.136290-1-Jason@zx2c4.com>
- <CAJy5ezq7_F6uDrY6RuXe5ru0mAbmx-pBTQoFCtZj4DhEM7EZpw@mail.gmail.com>
- <CAHmME9opYzwtK4oJo1bZo+9FDbXt6TfgybtFTfQpxqx6pOoGWA@mail.gmail.com>
-In-Reply-To: <CAHmME9opYzwtK4oJo1bZo+9FDbXt6TfgybtFTfQpxqx6pOoGWA@mail.gmail.com>
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Date: Thu, 21 Jul 2022 20:43:29 +0200
-Message-ID: <CAJy5ezp-x2R=4yg=S6Tq2U67N8J2mkXNJ=wkv1oqB3r37hiunQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/microblaze: pass random seed to fdt
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000b5c62905e4551882"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-ej1-x62d.google.com
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+ <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+ <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+ <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
+In-Reply-To: <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 21 Jul 2022 19:51:42 +0100
+Message-ID: <CAFEAcA88P5JyqTneiVi6c+ya1Q0A+NkuMjsVx=kj0k_BKa=19w@mail.gmail.com>
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, 
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,86 +91,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b5c62905e4551882
-Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Jul 21, 2022, 6:44 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
-
-> Hey Edgar,
+On Thu, 21 Jul 2022 at 19:41, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> The SLOF repo was last synced automatically 6 days ago. I'm unable to
+> start a new sync operation and maybe the current one is stuck (the web
+> interface claims the sync is currently updating...).
 >
-> On Wed, Jul 20, 2022 at 9:13 AM Edgar E. Iglesias
-> <edgar.iglesias@gmail.com> wrote:
-> >
-> >
-> > On Tue, Jul 19, 2022 at 2:23 PM Jason A. Donenfeld <Jason@zx2c4.com>
-> wrote:
-> >>
-> >> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
-> >> initialize early. Set this using the usual guest random number
-> >> generation function. This FDT node is part of the DT specification.
-> >
-> >
-> > Reviewed-by: Edgar E. Iglesias <edgar.iglesias@amd.com>
->
-> Thanks for looking at this. Paolo (CC'd) just sent a few similar
-> changes for different archs in a pull, but not this one, on the
-> supposition that you'd roll this into your next pull. If this isn't
-> the case, please pipe up so Paolo can take it instead later.
->
-> Jason
->
+> Peter: are you able to fetch https://github.com/aik/SLOF and push to
+> https://gitlab.com/qemu-project/SLOF to manually sync the repo?
 
+End-of-week for me, but I can look at it on Monday...
 
-Ah OK, Paolo, it would be great if you would take this via your tree!
-
-Thanks,
-Edgar
-
->
-
---000000000000b5c62905e4551882
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Jul 21, 2022, 6:44 PM Jason A. Donenfeld &lt;<=
-a href=3D"mailto:Jason@zx2c4.com">Jason@zx2c4.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">Hey Edgar,<br>
-<br>
-On Wed, Jul 20, 2022 at 9:13 AM Edgar E. Iglesias<br>
-&lt;<a href=3D"mailto:edgar.iglesias@gmail.com" target=3D"_blank" rel=3D"no=
-referrer">edgar.iglesias@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On Tue, Jul 19, 2022 at 2:23 PM Jason A. Donenfeld &lt;<a href=3D"mail=
-to:Jason@zx2c4.com" target=3D"_blank" rel=3D"noreferrer">Jason@zx2c4.com</a=
->&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; If the FDT contains /chosen/rng-seed, then the Linux RNG will use =
-it to<br>
-&gt;&gt; initialize early. Set this using the usual guest random number<br>
-&gt;&gt; generation function. This FDT node is part of the DT specification=
-.<br>
-&gt;<br>
-&gt;<br>
-&gt; Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.iglesias@am=
-d.com" target=3D"_blank" rel=3D"noreferrer">edgar.iglesias@amd.com</a>&gt;<=
-br>
-<br>
-Thanks for looking at this. Paolo (CC&#39;d) just sent a few similar<br>
-changes for different archs in a pull, but not this one, on the<br>
-supposition that you&#39;d roll this into your next pull. If this isn&#39;t=
-<br>
-the case, please pipe up so Paolo can take it instead later.<br>
-<br>
-Jason<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"a=
-uto"><br></div><div dir=3D"auto">Ah OK, Paolo, it would be great if you wou=
-ld take this via your tree!=C2=A0</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Thanks,=C2=A0</div><div dir=3D"auto">Edgar</div><div dir=3D"auto"=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-</blockquote></div></div></div>
-
---000000000000b5c62905e4551882--
+thanks
+-- PMM
 
