@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD7057CAEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:53:44 +0200 (CEST)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C5B57CAF6
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 14:56:29 +0200 (CEST)
+Received: from localhost ([::1]:49288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVgU-0007Ya-Mt
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
+	id 1oEVj9-0001aY-QG
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 08:56:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEVYK-0005aL-Po
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:45:16 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:44844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oEVYF-0007rH-LL
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:45:14 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-31e7055a61dso15589807b3.11
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 05:45:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7fAbzGTmnfw22aCUOU6fD6t/bqESInd4QB8qmKm+vew=;
- b=rbhsh1YhdmgUwBCAGmWvijNWVESyagQmblZ38veEcuYcE6baUfDQjuWYN9QGrmgT76
- 4ISfgRQWBur+wc9xe61IDKJA/p1LnAYeqZK2QBfNg2TPwd5UqXPGk2+wg3flwC3AzeH/
- enJCcz2567twgXn57tlrMjGRP5+rMn9jMoV2/OR5rfFwqllkS82gKSPJ+JAfSy0/zOf4
- eEfZGxjqCXsvLNYU5ih9NEzDec0u8gHPNR8Q3SbUMXZLMseu63zWvwQGJnHvKGz7V+Rb
- xs4QETQX3zUM7jAEywRzb0MxJ8kpN4xVWnxpN5ToilVM4hBaiwW/mwKapQAKzqrUnp7z
- nzag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=7fAbzGTmnfw22aCUOU6fD6t/bqESInd4QB8qmKm+vew=;
- b=RYCYw3HHVp1lvs/r5e4zqANdXlRxPSc3GxMhp80AGns0SpwQyawkQMPiQgD/tgOZqA
- L+sU6OGzl36/ybX/3gJyI3y0ytq3FAFRqk8pqF130gWz/TzIBNTT6Dygi6c0+ePbD6Ax
- tMJFyA1fdLbBeMVTwOcflCFeCj2kUeZgq6AY8QxLVFAAksyeJNonD7zFta6+y9jbsW0J
- Hw3hFlm/YS+G/EX5dtTkIQd8lX8x1scOmJeerJ5P4je4/+s2/sey2TGUPIzSeSyQWvRO
- qCDSKSkUPgdSz34BlFh+OVW7OgO0Iangh/sOy8EpNaC3EPTJEgOvh9d7gokHgSHzJbwX
- 4cTQ==
-X-Gm-Message-State: AJIora83l2vCKbzeHWf7Oc6reWeOQshHegKGZcwNAFcXJ+9pkZ1G5HtX
- DBiPscEMwGnkWrQqgnCFNa9VFSYZDoVpxLBCHv/Dtw==
-X-Google-Smtp-Source: AGRyM1v30T5/KsLRMk5B3pL+bq8aoANZ5Cx5wI5TTovJ2TN4Eehr12D9rau35hXLAiWSH5jOpIAX27Hz97JZIzwqvPw=
-X-Received: by 2002:a81:1116:0:b0:31e:7a03:5ea with SMTP id
- 22-20020a811116000000b0031e7a0305eamr4029268ywr.455.1658407510223; Thu, 21
- Jul 2022 05:45:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1oEVcU-0002H1-TX
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:49:34 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:10242)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1oEVcO-0000VX-Or
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 08:49:34 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 45A2040569;
+ Thu, 21 Jul 2022 14:49:15 +0200 (CEST)
+Message-ID: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
+Date: Thu, 21 Jul 2022 14:49:14 +0200
 MIME-Version: 1.0
-References: <20220721115207.729615-1-peter.maydell@linaro.org>
- <20220721115207.729615-3-peter.maydell@linaro.org> <YtlBeDapF2xxtqbJ@work-vm>
-In-Reply-To: <YtlBeDapF2xxtqbJ@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 21 Jul 2022 13:44:30 +0100
-Message-ID: <CAFEAcA9ooYEjhNYg5mWLDjHhq32_rYsWFrf7X+L8OLBJYiiM0w@mail.gmail.com>
-Subject: Re: [PATCH 2/2] migration: Define BLK_MIG_BLOCK_SIZE as unsigned long
- long
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, 
- Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>, 
- Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Content-Language: en-US
+From: Fabian Ebner <f.ebner@proxmox.com>
+To: kvm@vger.kernel.org, qemu-devel@nongnu.org
+Cc: Thomas Lamprecht <t.lamprecht@proxmox.com>,
+ Mira Limbeck <m.limbeck@proxmox.com>
+Subject: Guest reboot issues since QEMU 6.0 and Linux 5.11
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,47 +57,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Jul 2022 at 13:07, Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Peter Maydell (peter.maydell@linaro.org) wrote:
-> > When we use BLK_MIG_BLOCK_SIZE in expressions like
-> > block_mig_state.submitted * BLK_MIG_BLOCK_SIZE, this multiplication
-> > is done as 32 bits, because both operands are 32 bits.  Coverity
-> > complains about possible overflows because we then accumulate that
-> > into a 64 bit variable.
-> >
-> > Define BLK_MIG_BLOCK_SIZE as unsigned long long using the ULL suffix.
-> > The only two current uses of it with this problem are both in
-> > block_save_pending(), so we could just cast to uint64_t there, but
-> > using the ULL suffix is simpler and ensures that we don't
-> > accidentally introduce new variants of the same issue in future.
-> >
-> > Resolves: Coverity CID 1487136, 1487175
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > I haven't tried to analyse the code to see if the multiplications
-> > could ever actually end up overflowing, but I would assume
-> > probably not.
-> >
-> >  migration/block.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/migration/block.c b/migration/block.c
-> > index 9e5aae58982..3577c815a94 100644
-> > --- a/migration/block.c
-> > +++ b/migration/block.c
-> > @@ -28,7 +28,7 @@
-> >  #include "sysemu/block-backend.h"
-> >  #include "trace.h"
-> >
-> > -#define BLK_MIG_BLOCK_SIZE           (1 << 20)
-> > +#define BLK_MIG_BLOCK_SIZE           (1ULL << 20)
->
-> Is it a problem that this is passed to bdrv_create_dirty_bitmap that
-> takes a uint32_t ?
+Hi,
+since about half a year ago, we're getting user reports about guest
+reboot issues with KVM/QEMU[0].
 
-Shouldn't be -- the constant value still fits within 32 bits.
+The most common scenario is a Windows Server VM (2012R2/2016/2019,
+UEFI/OVMF and SeaBIOS) getting stuck during the screen with the Windows
+logo and the spinning circles after a reboot was triggered from within
+the guest. Quitting the kvm process and booting with a fresh instance
+works. The issue seems to become more likely, the longer the kvm
+instance runs.
 
--- PMM
+We did not get such reports while we were providing Linux 5.4 and QEMU
+5.2.0, but we do with Linux 5.11/5.13/5.15 and QEMU 6.x.
+
+I'm just wondering if anybody has seen this issue before or might have a
+hunch what it's about? Any tips on what to look out for when debugging
+are also greatly appreciated!
+
+We do have debug access to a user's test VM and the VM state was saved
+before a problematic reboot, but I can't modify the host system there.
+AFAICT QEMU just executes guest code as usual, but I'm really not sure
+what to look out for.
+
+That VM has CPU type host, and a colleague did have a similar enough CPU
+to load the VM state, but for him, the reboot went through normally. On
+the user's system, it triggers consistently after loading the VM state
+and rebooting.
+
+So unfortunately, we didn't manage to reproduce the issue locally yet.
+With two other images provided by users, we ran into a boot loop, where
+QEMU resets the CPUs and does a few KVM_RUNs before the exit reason is
+KVM_EXIT_SHUTDOWN (which to my understanding indicates a triple fault)
+and then it repeats. It's not clear if the issues are related.
+
+There are also a few reports about non-Windows VMs, mostly Ubuntu 20.04
+with UEFI/OVMF, but again, it's not clear if the issues are related.
+
+[0]: https://forum.proxmox.com/threads/100744/
+(the forum thread is a bit chaotic unfortunately).
+
+Best Regards,
+Fabi
+
 
