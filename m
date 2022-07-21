@@ -2,87 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2E057C264
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 04:44:40 +0200 (CEST)
-Received: from localhost ([::1]:55088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8FA57C2A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 05:24:34 +0200 (CEST)
+Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEMB5-0001ec-Il
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 22:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50754)
+	id 1oEMng-0007Lp-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 23:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
- id 1oEM9e-0000I0-Ns
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 22:43:10 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:36396)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <like.xu.linux@gmail.com>)
- id 1oEM9d-0005Mv-6m
- for qemu-devel@nongnu.org; Wed, 20 Jul 2022 22:43:10 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id s206so401481pgs.3
- for <qemu-devel@nongnu.org>; Wed, 20 Jul 2022 19:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=uvNbIaU3v9XRIIq9DA1vYd0If30efTtASaHTfWCDnr4=;
- b=MORNRzMyVpIXf6+FF0Sbiy0LamHiR1alBkr/JHNU3+HmYy1HXIYyKdmPtPEwOYvNiW
- hJMC1PHX+ugraDgdy+UUPaETMoPDDTzNEBqM+bjbZ0SWoREvFyFMWwpEqEEZA4W+UFZw
- zMki5ylPj9N10zQfXVRNHR7GArkQe5YZrQb1gSXFIbDZWI0F3cYdie8qWqSBqa0fUlC1
- M6JHGLsN6H9aCyomIqXAHOXp17MdJ5tmrQePUlwhh+mIHG7eW/jBeb1f5mf2qCuovUg9
- Dty4qr4LzRySlLGorEt9fYXqsRMmZAWACCIuTeDXgeGCmgxlCRG6ZoGc/s54hSYHmg8o
- twxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=uvNbIaU3v9XRIIq9DA1vYd0If30efTtASaHTfWCDnr4=;
- b=tbhHlt2ftJjctnbAsNaRvHpKzp0kKauc8WDABHm6XlILJG6AJYBwj1XPQHCjXclBcv
- VKjqejSxFCKHh/HiLZhxzM3ClHGoYIKeIpowIEm/ttkBRETUamsnhe/mVS1zwAcQh/Nv
- YKPpKf5utU91e/4Qdyq3XUSzSvr6bQ7TG5Mx7WyY4uCJyJB51RMiYpLAtio5mJ+N1WRc
- iZjmHiS68EicQR9UiRczQ4aK59i1W40qQxcrpP/QsaV8pR9PHnkbm1vxdiMoajXECdxy
- /NLFm/1xLcCB1qYk4WREYPLRA5OIZJM7+dKD86mIL2ck3YjwnkZyThzT/xHkFGMptybt
- dLAg==
-X-Gm-Message-State: AJIora/RNnWv8BbGvyywMWiHSA8sHNRXKvcw9KXDcUqwzSNCnCD56aax
- gYyFcSH6ADv5UVGPT6oHI3E=
-X-Google-Smtp-Source: AGRyM1sjZBqVWX4DwALOuXGhxae5axh4LMDhTNB4ON7U9ZPQvG0U6yG/K5fwquvhsHvC8ujCpr8P3g==
-X-Received: by 2002:a63:696:0:b0:41a:1c20:bf5f with SMTP id
- 144-20020a630696000000b0041a1c20bf5fmr17176172pgg.402.1658371387202; 
- Wed, 20 Jul 2022 19:43:07 -0700 (PDT)
-Received: from [192.168.255.10] ([103.7.29.32])
- by smtp.gmail.com with ESMTPSA id
- x22-20020aa79416000000b005289fad1bbesm360350pfo.94.2022.07.20.19.42.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jul 2022 19:43:06 -0700 (PDT)
-Message-ID: <e71d9885-b12e-e360-0efc-99e182bc7fb3@gmail.com>
-Date: Thu, 21 Jul 2022 10:42:50 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] i386: Disable BTS and PEBS
-Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Cc: Zhenzhong Duan <zhenzhong.duan@intel.com>, qemu-devel@nongnu.org,
- mtosatti@redhat.com, xiangfeix.ma@intel.com
-References: <20220718032206.34488-1-zhenzhong.duan@intel.com>
- <a7bccbc5-fcb7-eaa8-ce95-fa7f380b8af9@redhat.com>
- <YtW+ymE654W662X4@google.com>
- <9dbe748c-57b4-eab5-3933-0e9891b031c1@redhat.com>
- <Ytb9kTFtnltT3fdf@google.com>
-From: Like Xu <like.xu.linux@gmail.com>
-In-Reply-To: <Ytb9kTFtnltT3fdf@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=like.xu.linux@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <ysato@users.sourceforge.jp>)
+ id 1oEMmh-00061b-BN
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 23:23:31 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:58877)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <ysato@users.sourceforge.jp>) id 1oEMme-0002Yv-7s
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 23:23:30 -0400
+Received: from sakura.ysato.name (ik1-413-38519.vs.sakura.ne.jp
+ [153.127.30.23]) (Authenticated sender: PQ4Y-STU)
+ by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 399E410A42B;
+ Thu, 21 Jul 2022 12:23:22 +0900 (JST)
+Received: from SIOS1075.ysato.ml (ae227146.dynamic.ppp.asahi-net.or.jp
+ [14.3.227.146])
+ by sakura.ysato.name (Postfix) with ESMTPSA id 56AE71C008D;
+ Thu, 21 Jul 2022 12:23:22 +0900 (JST)
+Date: Thu, 21 Jul 2022 12:23:22 +0900
+Message-ID: <87y1wnqhcl.wl-ysato@users.sourceforge.jp>
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH] hw/rx: pass random seed to fdt
+In-Reply-To: <20220719122033.135902-1-Jason@zx2c4.com>
+References: <20220719122033.135902-1-Jason@zx2c4.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?ISO-8859-4?Q?Goj=F2?=) APEL-LB/10.8 EasyPG/1.0.0
+ Emacs/27.1 (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: softfail client-ip=202.224.55.13;
+ envelope-from=ysato@users.sourceforge.jp; helo=mail01.asahi-net.or.jp
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,41 +62,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/7/2022 2:53 am, Sean Christopherson wrote:
-> On Tue, Jul 19, 2022, Paolo Bonzini wrote:
->> On 7/18/22 22:12, Sean Christopherson wrote:
->>> On Mon, Jul 18, 2022, Paolo Bonzini wrote:
->>>> This needs to be fixed in the kernel because old QEMU/new KVM is supported.
->>>
->>> I can't object to adding a quirk for this since KVM is breaking userspace, but on
->>> the KVM side we really need to stop "sanitizing" userspace inputs unless it puts
->>> the host at risk, because inevitably it leads to needing a quirk.
->>
->> The problem is not the sanitizing, it's that userspace literally cannot know
->> that this needs to be done because the feature bits are "backwards" (1 =
->> unavailable).
+On Tue, 19 Jul 2022 21:20:33 +0900,
+Jason A. Donenfeld wrote:
 > 
-> Yes, the bits being inverted contributed to KVM not providing a way for userspace
-> to enumerate PEBS and BTS support, but lack of enumeration is a seperate issue.
+> If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+> initialize early. Set this using the usual guest random number
+> generation function. This FDT node is part of the DT specification.
 > 
-> If KVM had simply ignored invalid guest state from the get go, then userspace would
-> never have gained a dependency on KVM sanitizing guest state.  The fact that KVM
-> didn't enumerate support in any way is an orthogonal problem.  To play nice with
-> older userspace, KVM will need to add a quirk to restore the sanizting code, but
-> that doesn't solve the enumeration issue.  And vice versa, solving the enuemaration
-> problem doesn't magically fix old userspace.
+> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> ---
+>  hw/rx/rx-gdbsim.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
->> The right way to fix it is probably to use feature MSRs and, by default,
->> leave the features marked as unavailable.  I'll think it through and post a
->> patch tomorrow for both KVM and QEMU (to enable PEBS).
+> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+> index be147b4bd9..8ffe1b8035 100644
+> --- a/hw/rx/rx-gdbsim.c
+> +++ b/hw/rx/rx-gdbsim.c
+> @@ -19,6 +19,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/error-report.h"
+> +#include "qemu/guest-random.h"
+>  #include "qapi/error.h"
+>  #include "hw/loader.h"
+>  #include "hw/rx/rx62n.h"
+> @@ -83,6 +84,7 @@ static void rx_gdbsim_init(MachineState *machine)
+>      MemoryRegion *sysmem = get_system_memory();
+>      const char *kernel_filename = machine->kernel_filename;
+>      const char *dtb_filename = machine->dtb;
+> +    uint8_t rng_seed[32];
+>  
+>      if (machine->ram_size < mc->default_ram_size) {
+>          char *sz = size_to_str(mc->default_ram_size);
+> @@ -140,6 +142,8 @@ static void rx_gdbsim_init(MachineState *machine)
+>                  error_report("Couldn't set /chosen/bootargs");
+>                  exit(1);
+>              }
+> +            qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
+> +            qemu_fdt_setprop(dtb, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
+>              /* DTB is located at the end of SDRAM space. */
+>              dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16);
+>              rom_add_blob_fixed("dtb", dtb, dtb_size,
+> -- 
+> 2.35.1
+> 
 
-Try to help:
+Reviewed-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 
-KVM already have MSR_IA32_PERF_CAPABILITIES as a feature msr (to enable LBR/PEBS),
-and KVM_CAP_PMU_CAPABILITY as vm ioctl extension for model specific crappiness.
-
-> 
-> Yeah, lack of CPUID bits is annoying.
-> 
-> 
+-- 
+Yosinori Sato
 
