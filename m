@@ -2,163 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E586C57D62A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 23:38:35 +0200 (CEST)
-Received: from localhost ([::1]:45130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3930657D6EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 00:33:54 +0200 (CEST)
+Received: from localhost ([::1]:52194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEdsQ-0003Jo-GR
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 17:38:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58204)
+	id 1oEejw-0004MO-Pa
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 18:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oEdqP-0000ex-Rj
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 17:36:29 -0400
-Received: from mail-bn7nam10on2060.outbound.protection.outlook.com
- ([40.107.92.60]:62433 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oEdqK-00054O-6J
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 17:36:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JKjQA7jIY+jX/99VpUchCQ79rh+yPX/q9wLLchreMvWyq9nqRqNeDplr/NtAmZaBp7RnelyjVlz/yIk5bSVehN/K1Qmig+ay4iR9MW6B//bn8by6//Zp54sv+UuPLWPpcezWdhy5icZc8JbbVZKV4jrAmbuguqR7AW7HfzLShkdWfq6q1kAiEGurH3y7sKxtEOqvWAghM1jfYAlG6O/RCnt6Ae9caOyGSA/3GCAlQw6zW8Pq+Sz7XDaWtsQO8bqIitLhJCSXqNqSv+sKO8+GwMsfSkuKqmZ2kUef9oNCEdTxOJLhZDn4Su/0/eUbnjAyl2QGUCK9ITUmU/4kz5IM9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ObVw19QKlnGSQOIq+Wx2T3DuEwOipm6hnR+n3mEX7E=;
- b=BUOhY4T9nvi7lNOnTHR+lve0XWWZJlsc3hpnPCQk9ykN36rzUaZIfJJlKRdpeIx42+FCMCLO+8HFOvRY47udhoipHw55pzshn027Zs5CwwfJb4t2fxw+B+xp8ofX54xKOHDMBmPzhNsg4gISwzHpz9xocv00pWHL4Rt/LmAbbuHT9ibmSSVi0x8/OFu4RnFDoDRWV0M2wOjovbYDxDMRErslpGjM6M2hJ1tRfsaxKDt0lg4V5F3bBCsDxLoEt67JWwAsfSh3DU/gYBPE6fpGUiNfu6ub1NHADxl+Q7ETmgIdaRNLCQM5k7kS+LSe5Bx0FVtmc+KD1MQHZgys7Idw8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ObVw19QKlnGSQOIq+Wx2T3DuEwOipm6hnR+n3mEX7E=;
- b=cm9RzlPzb3LQfP6iLveo0RU3YhnLFxMnDk6XbC7plimiY8LIUqExKyjLPJ6Vw1GHCiWuiMORT2UOE76InMjj+LlxHlF7UfdnDfp18PRZF1R2Ur0BOWxhmX2ebxao++rclBMY5wta6TASKDNhsqjvmFeu7QKrVjhvec/oQfovh4A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by BN8PR12MB3490.namprd12.prod.outlook.com
- (2603:10b6:408:48::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Thu, 21 Jul
- 2022 21:36:14 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5438.023; Thu, 21 Jul
- 2022 21:36:14 +0000
-Message-ID: <210c89b2-15a6-536d-b149-ea2d9f9fccda@amd.com>
-Date: Thu, 21 Jul 2022 23:36:05 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
-Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- Andy Lutomirski <luto@kernel.org>, Steven Price <steven.price@arm.com>,
- kvm list <kvm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, the arch/x86 maintainers <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>, Dave Hansen
- <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>, nikunj@amd.com, ashish.kalra@amd.com
-References: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
- <20220509223056.pyazfxjwjvipmytb@amd.com> <YnmjvX9ow4elYsY8@google.com>
- <c3ca63d6-db27-d783-40ca-486b3fbbced7@amd.com> <YtnCyqbI26QfRuOP@google.com>
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <YtnCyqbI26QfRuOP@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0148.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:95::7) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEeh7-0002f6-1x; Thu, 21 Jul 2022 18:30:57 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:47089)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEeh5-0007g2-5g; Thu, 21 Jul 2022 18:30:56 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-31e7c4b593fso31497637b3.13; 
+ Thu, 21 Jul 2022 15:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=F1v/Zu3X4Ykgb9e+40HSmCKNFFlEfwDR3XVAs080v/8=;
+ b=Cr9ZCTIBArqMAdDqTUGArkU4zF+Kl+hOMiYRFpIDOqv6nNPpbfXxCYgF90Nm4YBLCL
+ vNd2Km7mZdnacXtpMNVG4Ev+XwBbxpR7Vtn4vf4lSSTHXu6NyA73UUWZ08amVKrimVfR
+ R6Bl0hoH7MT8/oUGY7JtOhl2+wIuBrGmZDQEaTxcg5FreWQOAELzWW+u5l2LG0pfiwPD
+ Y242qZb7ThfgDWR4jK63Yc7pysTepXYYATGS8W52bEX1HHwhtHA3syt2n7FjGrVq52Oc
+ ATuMfuy18jIJtEf3iGZ2kl4JMnECLJ8n8m6ihTv3dcr6hDzIYT+Myn5zNgsmZgcWnXgC
+ spww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=F1v/Zu3X4Ykgb9e+40HSmCKNFFlEfwDR3XVAs080v/8=;
+ b=EDnD0nXaXxCje+Mw8aJkvhnZh0XM1UlAXxsg8jDWXbM8RbG3vfkTXtD8hLkcpvPYnM
+ oDScpW5Xj4Rmdhpx2hGNpuypkM7IQGaUQwhwquMMQzcvCoxCWp0khmxRg0EQ26BNIsPO
+ U6/bNk3FfjEhxw2HDZMCTTrYx9bAn0mquSNrWIPOsPyXGKlv1TQtNIdeCQ4OOFy8R2Ua
+ jM3ypoUVYDZFwAaWPk1P3FjPw7V7u74swZuOstGWE/wsFyOAKC1HbJQ7WbHkPVeGaZJz
+ HEXQeY4NUTEb+HwkxugQM+ZEu5Gh+E3Mi6bXKRIhyiqVri1CgMdc8FkPwwa2JXZzrK0P
+ R2XQ==
+X-Gm-Message-State: AJIora+HzXNcteQxXOL/FNsnhOwjEE0UDBj/SgURRJtbeb4QE5zfXXng
+ AOJ7jD6mPO4+sEeIilcMdrh8HvrJ/qIoA0cvKv8=
+X-Google-Smtp-Source: AGRyM1sGumHNufMYm+bxCfMUr3A7H5YFM7qtH7Ud1cJkH6jE0R3cIs1cW/6x79z6v8EAyBqnAFf6KYtvkTjBio8Zeyg=
+X-Received: by 2002:a0d:cccd:0:b0:31e:8e94:ddb2 with SMTP id
+ o196-20020a0dcccd000000b0031e8e94ddb2mr662233ywd.239.1658442653740; Thu, 21
+ Jul 2022 15:30:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 36ae7c10-47b5-486d-16d1-08da6b61097c
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3490:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NlgUAH9CxSNqctLqi309zwVw2V4sTCDQAACDQFbWtpxSvqY77YHoBO0x5imqdh3q+oRzOjAiiwo0ZI/iR73afDIa7zz6bCdLKGUIeB36vh5Aa3CJRmeVJZHe9zba11WZwAtf6vrisv1ZC27vstzJ1TjPnFSaCfhWhiA/77X2RpMwcIa1p87gg97pr/n6mLWabjqmQVLy+EypsxGumK2vhOCaJNTo+n6S2xUAKCdx+WMEVqlqvUI+t6vdm8V3WqJpy8/8CUtn2rieH59huwM5UVWgc9X9P7peuPrzrLuY58iI1SYt7oeuubyieLiRmnLXFlVjCku0EvT2jlzvsIBCrUWQVMssZogMjYeyNOWxDQ15ZnNeZ8C7kvILGo6ddoQgX3o0ERtY98jfvaqSN9fN9mUsLoTD8zCvDA+S5jV0zL7vrFtdouvUDYCBFiWgvOiFsBTHE+YiMlkXab+1+bftTedrTXdW2qE98qrKIOxFeOb9s4+0iyIFUKBqHZkd8ZnzZu5RxDRArcyrVfwtsvVxT2SIoiRGHM6EUKOWo6JmP0NSZT7hur08yFllwqHoF4lC/DAjoIdiHDFE8GfInDq4hk4wpGDTfe0YlCMPDBaTTonCk1CZ9Z4GEt/P5O8HE/dSaG3URuQqxFO5SfGP8OLtpstwtIGZY6AoJjp5uhHUE1HXegG4ERrtgKRK2wYTBbU0HuAwPHYKgCd49aF6Sv5boqnRQgyYgMzDsFTf80JxArdRbEK01JBp4Ei9+1dmFXVqQ1tNoIHDS6OOJgW0+vV26c9/Ef+HGBAfkdzcl0X/QgoylPn0uoJ2udLR6b2dioUqImm8BmH/zGxt2naDn2FTOw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(396003)(39860400002)(376002)(366004)(136003)(2906002)(7416002)(6486002)(66476007)(31686004)(6506007)(8936002)(6666004)(7406005)(41300700001)(36756003)(5660300002)(86362001)(2616005)(6916009)(186003)(54906003)(6512007)(31696002)(66556008)(316002)(478600001)(4326008)(38100700002)(66946007)(8676002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bkZZM1FkMVFuVmxaaml6VHFRSUxtYUZReXVOeDg3NEd0NFd4b3NhQXZDL1dO?=
- =?utf-8?B?V2I2QTM5YjRQSDBoUEZkOC9XL3lDMEY0TmRheGNuMjNFUUsvV1A5YkRpSU1r?=
- =?utf-8?B?ci9WTFhwUENDYlFWRVdibDJpcWZXdXBMODNuVkV4MDNpYnl3TWp5Wkpkb1Fk?=
- =?utf-8?B?VlZoUGFKdG85MU1UWHJ3SThQQVUrZ3BpOFRYSkNDcUNRZFBJQU1YeWJMWk0v?=
- =?utf-8?B?eWtnUHRNTHU3U3dFaWdHbzRicFBWNkhLdXZNYWZ0U1FReVJ3VkJ2bExVTEJ3?=
- =?utf-8?B?cUpsY2RsRE03SDJjVFhYVmlyYkxBRkpwRXFNaWtlMCtURXJWdFdPOW8wOENk?=
- =?utf-8?B?dnZyUjYzSG11L1AycEkrNFBuamlHeXIwbW9xQ3VnU0tFcVU0OTAzQlhXeWNi?=
- =?utf-8?B?NkFKTyt6WHhkUlk3SnBDUndLdUFFWVdDTGpVN0pyd2NUVDROSHlaUXdoRXQy?=
- =?utf-8?B?MCs3U1FJTnRRV3dwU1dMSEZGQkVWaXNxZzRDNDU2amtFdklNbWE4M1lnREUz?=
- =?utf-8?B?aTdqaW9RY2t4dHNwSEk0T0ZFM0hVTjdZVWtuMlJxQk1mN0c1WFJIbnQ3OTll?=
- =?utf-8?B?UlVaM2g2UWM1WUFod2gwQnNSSXBDMy83a0ZBRmtyRGpZeXhwYmRHa2trV3Fi?=
- =?utf-8?B?eWY5bVNoVHJpbGx1V1hxV3dVcERwOWE2NmtRd1Z4cnJ4bzB5RUl6c2U3bHFW?=
- =?utf-8?B?V2w3cVZtbW1xTGNQTGtIekxIZGg1SnhIUlErM05WcHlVdEV4ZmRoWDE4aE9l?=
- =?utf-8?B?SlowSEFBQ2VtV0VaZVltOGxKcmVacExiWTJFRWtaY3ZSbUJ3ZkFPMmw3VUNC?=
- =?utf-8?B?d1FSWUcwRkJBNGhHN1NYa29KSFB1Q1k3NTFzLzY5dkxuTmVhMEJEWkxxUDl1?=
- =?utf-8?B?Kzg5YUsxMlhCUWZPV2tGeW5XbHdYSklUQzh1dEE5ekQ1NExCNElxYnhHVmU4?=
- =?utf-8?B?YnJ2K3NWR05tSFpnU05KUU1RaFBQT3BlWWxFQWoxem8rQ0VlOEVGYi9BVDVE?=
- =?utf-8?B?QWoyOE40V2orUkUvUVp5L2gxRm9qQlNLTkUxeHdZM24zYmhkOEN5Y00rSkU5?=
- =?utf-8?B?dEFoZThlaXA4eU5SRTBpSzh4aDRMVEZ0cm1FK3VNUS8waDU0VTViRWJOTUl6?=
- =?utf-8?B?ZjQ5L3c4SmtnVTRPeXNCV0VYcnkrZXVkYjNIdHVEUWZlSHJWS2c0aVptZUtH?=
- =?utf-8?B?MzJXUDRPYlVlSTJ3eldxWUtHSUl6TnYxV0psN1lIMkZkOXJXd3lYVThZRW5R?=
- =?utf-8?B?VUhpVzFpT1N5VndDVStMcmwrWFEzalZxNkU0RXpiR2tXNWlnR3Z5R0VRY0ZY?=
- =?utf-8?B?YUt1QXl2ZzhwbVc2Vk9zcWhIc0wreXZjNDlVWlpwdnJDc2pxL2xNSVFWYng2?=
- =?utf-8?B?bVJ2Q251WWcxU2R1bHBtdGVPRCs3ejg5Uk5KZHphaTE5ejhEbXFWL2hWZitI?=
- =?utf-8?B?ZWtEUmdwUEg1cGltNm9kc0RpQUVhdHozbzlVNUdDMHZiV2Z3SkhUMTg5Y2R0?=
- =?utf-8?B?cjNyR25EcFFYaTIvOU01OWVGbzdKK1lLVGlxOE95V25mT09OTk9JOW8yMFZB?=
- =?utf-8?B?TXExdkUxL2t3STVJZE4ydkYwTlZ6ajhLRlJCWm01dkVjN1BGUW5Nd3RvY01N?=
- =?utf-8?B?R1A5SEI0VEJCdGpsVlhubXlBTktOMFkxM3FvUFZXZVR5RmNVc1ZFWEhIUVRQ?=
- =?utf-8?B?NzVnKzlUeUpsOTEvTE82NDhLdVY5Zlh0dDZMUWhBYkhWTlFxTEFCLzc2OFgv?=
- =?utf-8?B?YnBjSlRQNDZ1WHZmSTNPODk5dFF1a1RiaktuVDNQZ2NXcFAxelcrdk00M1NO?=
- =?utf-8?B?cFVsaEJqZUtVUDRLQ0FYdENWZTdKYS9xeXJtRVFrZ0NyV2dZazRya2ZySWo3?=
- =?utf-8?B?ZXNvZ2p2OVVabE5HYUJ6V2s4RVBNVThUYTlLYlFLOXBwd0g5L1l6Mnk5RWVp?=
- =?utf-8?B?Q2VkZHNkUEJJWXQ3TWZqZlBLV2hjeTk1WXNIMEEvcktGTkVia1d6M0xkbVRk?=
- =?utf-8?B?aElpd1IxWENtMEdObUg3UlIxVjFucktib3hzRUY1UVArUG52NEU4dk43bHN6?=
- =?utf-8?B?VG5OQnRhRDFGQlJIVEtLbnNvUy92NVV0MklMQ3lYK09TVkkybUZqRE1hN1Jj?=
- =?utf-8?B?a0gzQklZK1FINnpEU1VVcjdub0NwRS82YWJEWVVicGt1ZGNtVVdnMlJCZElE?=
- =?utf-8?Q?qKmCm9CUGfeKVnDlbZzMHcU=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36ae7c10-47b5-486d-16d1-08da6b61097c
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2022 21:36:14.4598 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eLrCbP1RKq/ldTCiHzx4cnDQnyHqCz36UduLBdxvloASLGaW1F19/McYw69+SAyztSCIUuKSosgq9LrOSBrroQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN8PR12MB3490
-Received-SPF: softfail client-ip=40.107.92.60;
- envelope-from=Pankaj.Gupta@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+ <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+ <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+ <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
+ <CAFEAcA88P5JyqTneiVi6c+ya1Q0A+NkuMjsVx=kj0k_BKa=19w@mail.gmail.com>
+In-Reply-To: <CAFEAcA88P5JyqTneiVi6c+ya1Q0A+NkuMjsVx=kj0k_BKa=19w@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 21 Jul 2022 18:30:41 -0400
+Message-ID: <CAJSP0QW4QgktfL=PHiCdyTgZ2q31qfxtY=BUcEmRA+HmTRBRvQ@mail.gmail.com>
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, 
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000041b3d705e458458d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -175,30 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000041b3d705e458458d
+Content-Type: text/plain; charset="UTF-8"
 
->>>>>       * The current patch should just work, but prefer to have pre-boot guest
->>>>>         payload/firmware population into private memory for performance.
->>>>
->>>> Not just performance in the case of SEV, it's needed there because firmware
->>>> only supports in-place encryption of guest memory, there's no mechanism to
->>>> provide a separate buffer to load into guest memory at pre-boot time. I
->>>> think you're aware of this but wanted to point that out just in case.
->>>
->>> I view it as a performance problem because nothing stops KVM from copying from
->>> userspace into the private fd during the SEV ioctl().  What's missing is the
->>> ability for userspace to directly initialze the private fd, which may or may not
->>> avoid an extra memcpy() depending on how clever userspace is.
->> Can you please elaborate more what you see as a performance problem? And
->> possible ways to solve it?
-> 
-> Oh, I'm not saying there actually _is_ a performance problem.  What I'm saying is
-> that in-place encryption is not a functional requirement, which means it's purely
-> an optimization, and thus we should other bother supporting in-place encryption
-> _if_ it would solve a performane bottleneck.
+On Thu, Jul 21, 2022, 14:52 Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Understood. Thank you!
+> On Thu, 21 Jul 2022 at 19:41, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > The SLOF repo was last synced automatically 6 days ago. I'm unable to
+> > start a new sync operation and maybe the current one is stuck (the web
+> > interface claims the sync is currently updating...).
+> >
+> > Peter: are you able to fetch https://github.com/aik/SLOF and push to
+> > https://gitlab.com/qemu-project/SLOF to manually sync the repo?
+>
+> End-of-week for me, but I can look at it on Monday...
+>
 
-Best regards,
-Pankaj
+I will sync it manually tomorrow.
 
+Have a nice weekend!
+
+Stefan
+
+>
+> thanks
+> -- PMM
+>
+
+--00000000000041b3d705e458458d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Jul 21, 2022, 14:52 Peter Maydell &lt;<a href=
+=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex">On Thu, 21 Jul 2022 at 19:41, Ste=
+fan Hajnoczi &lt;<a href=3D"mailto:stefanha@gmail.com" target=3D"_blank" re=
+l=3D"noreferrer">stefanha@gmail.com</a>&gt; wrote:<br>
+&gt; The SLOF repo was last synced automatically 6 days ago. I&#39;m unable=
+ to<br>
+&gt; start a new sync operation and maybe the current one is stuck (the web=
+<br>
+&gt; interface claims the sync is currently updating...).<br>
+&gt;<br>
+&gt; Peter: are you able to fetch <a href=3D"https://github.com/aik/SLOF" r=
+el=3D"noreferrer noreferrer" target=3D"_blank">https://github.com/aik/SLOF<=
+/a> and push to<br>
+&gt; <a href=3D"https://gitlab.com/qemu-project/SLOF" rel=3D"noreferrer nor=
+eferrer" target=3D"_blank">https://gitlab.com/qemu-project/SLOF</a> to manu=
+ally sync the repo?<br>
+<br>
+End-of-week for me, but I can look at it on Monday...<br></blockquote></div=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">I will sync it manuall=
+y tomorrow.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Have a nice =
+weekend!</div><div dir=3D"auto"><br></div><div dir=3D"auto">Stefan</div><di=
+v dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div></div></div>
+
+--00000000000041b3d705e458458d--
 
