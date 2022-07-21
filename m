@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D4157C71D
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:09:42 +0200 (CEST)
-Received: from localhost ([::1]:55504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD7457C77C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 11:23:32 +0200 (CEST)
+Received: from localhost ([::1]:33550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oESBh-0007zS-Bt
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
+	id 1oESP4-0004hD-VA
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 05:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oES5x-0004LU-5H
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:03:45 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:40570)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oESLV-0002ou-1c
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:19:50 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40612)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <aik@ozlabs.ru>) id 1oES5t-0003MG-DI
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:03:43 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id y141so1176604pfb.7
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 02:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ozlabs-ru.20210112.gappssmtp.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=RWmrzemr7N8yt/+XQWXjdA62ClNalOW0O9cqGXUXTv0=;
- b=UVtAMMMCvZaAvHHzzs5eD3jr8hKdBXeUVlYATKpm3jC2XYv62Mn5g/Z+xekaBqZRUi
- 90cXPGMqZJvSHcBeX/Z2iJKllpADFmUpZTaDLK58lWCaJ+DN7+ItWROlg0dGpv2g4PSA
- hgTz24JvqX1+oy3vK5TxZH8JLOcSn4l2ADKRkvb2Q+flpbV6u6hNM934jy1sIwzpS0CI
- UPHAuntRgOWmrK8We7u52MaW70nuzPPoyER1Ird5Hi4d4tj12B0vMMp7Y8it1okX/2+X
- m/TvcudltGywClTeZ8G1duMxTrSY2hx/674sCF3qDZVJ4Uk3to3ZNTx9SE2L+O9hdFdD
- U2rg==
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1oESLQ-0005lH-B5
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 05:19:45 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id tk8so2090471ejc.7
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 02:19:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=eQ9lI4so5xsuzIA84iYen7qlMEeThAAchgC+Mtb8Bp4=;
+ b=cjeTye4jbzD5o8eSMyaVtNO4BCSqYcuc9WaEXG9Qx6l3kFoYTwSDK0Q93MfdL1loLH
+ f6dZeUh0uihMhuqjNMxLSg1r2R2SLJpR7JfvLZNs2OmI/XjcpRKLrzoESkF1m+I7MWwL
+ g8I7JfGjUBFKnwV/juheCdi7Pz5EiFkXsCIXS01tBktsuXRjdZNyypx7qO3sRe60OGl0
+ abku2EXdYC3j3DOXZdt4Zd+1RJCp2QjD4RAsv8z/a/qwpIJ7BvGS7+WTcxXisJIZmK0F
+ UweURehnC9rsdzSDZv6HXCokGfMh2KnMiF3+0bM/YFq2ApABdoiYlQKcEY4pJ/DCqVUs
+ XDDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RWmrzemr7N8yt/+XQWXjdA62ClNalOW0O9cqGXUXTv0=;
- b=RYj8wdJX1Xxy0wEE29t0g8slVZnkJeW9RI0XegBpMdKHPSi67P2QkRv33A91nycJvG
- AwtGUInXLKazeRQVqmvnIaqWKJsxgTCtvrhhMlX79S2zn8qkKmra+sfdU0vR6OSOmCKS
- EOV5WMdROnChU3f7pW57ky/w2Xk5b2pfMwoo9KxH3PSuJwRZW48KTXRO01GRkU9lqMRQ
- OdJPqShrQvMPLhw0EzC5nHtL+cr0pNwBKIXqIQYTMhSYCt3eeroloRjCv6C25pnRxL9j
- VkyIdW5EZJrcp8a02u0n/tRWAEG1ynoAtyUcIf8omlC6YsiyqjKvae2OGBbAq3soTVOz
- bPnQ==
-X-Gm-Message-State: AJIora9dBtrKvEjko2K+7GTdu/8BzGXV2jjFdOL+lb/DR/Fu3HDgNoSs
- +osHDWeUAE3eO40xBaLbYjN9QQ==
-X-Google-Smtp-Source: AGRyM1v/OzgUfU6EsUm7gyhaPCjB7kgwLtk65aBh9uiL9lEm7r+wSa0ly6nzYEOtMHjqz8EQA/XYYg==
-X-Received: by 2002:a05:6a00:1628:b0:52a:bd79:c175 with SMTP id
- e8-20020a056a00162800b0052abd79c175mr42759538pfc.14.1658394218474; 
- Thu, 21 Jul 2022 02:03:38 -0700 (PDT)
-Received: from [192.168.10.153] (203-7-124-83.dyn.iinet.net.au. [203.7.124.83])
- by smtp.gmail.com with ESMTPSA id
- p2-20020a170902780200b0016a091eb88esm1084407pll.126.2022.07.21.02.03.35
+ bh=eQ9lI4so5xsuzIA84iYen7qlMEeThAAchgC+Mtb8Bp4=;
+ b=WJuPNXCPwOKQrIml5OqrIiDDj/X9e3sWTeqUpx52rntaQT/efPYLsfBrageS1JFUIy
+ euv0notprlXCJM1A53FzyZA8k5Izyx0hsjlIHGLC5ecyOeJFV9EuvJkx7o/m5YUdtfGd
+ VqK/5oRaRyIY30zUt5dGCjtLmFkz6Fus7XQpW3R7i6HJ9j8hPXeqAcaXSB6+pYyZc3c/
+ elGLR1wIpy9NwnzQih+JehRd7kfGdQVEPdzutUl1FV+7OUIbbd0iXrZLdbMVpRVr+mFi
+ S1eB/SkL26yAFCxxSLEo9WmmYGXboX9IWzKddH9lEEalOlLvkE+IKn8U14+AkNWvnq8K
+ XGlg==
+X-Gm-Message-State: AJIora9gqzxdbhHnKwNEeuVa9l7bjyzK9/j1yzGZYlFFVX0y4z8rZLVC
+ q6IdyNktuXjTzISYrYRFl1o=
+X-Google-Smtp-Source: AGRyM1uTGEmD7xrb+ShOvgYSXip68XlrJvVU57494E6VrdO9U8PjufD7aWF37j3IFp81VaEmanwQNA==
+X-Received: by 2002:a17:907:1c0c:b0:72e:dd1f:a230 with SMTP id
+ nc12-20020a1709071c0c00b0072edd1fa230mr35510471ejc.8.1658395181943; 
+ Thu, 21 Jul 2022 02:19:41 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ hw17-20020a170907a0d100b0072f1d8e7301sm618986ejc.66.2022.07.21.02.19.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 02:03:37 -0700 (PDT)
-Message-ID: <a6831bc7-c796-e11e-9a3d-e1e46caf1fa4@ozlabs.ru>
-Date: Thu, 21 Jul 2022 19:03:32 +1000
+ Thu, 21 Jul 2022 02:19:41 -0700 (PDT)
+Message-ID: <06e60181-2f77-6f02-5015-fd14153efff3@redhat.com>
+Date: Thu, 21 Jul 2022 11:19:40 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:103.0) Gecko/20100101
- Thunderbird/103.0
-Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH resend v3] hw/i386: pass RNG seed via setup_data entry
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20220719075930.315237-1-aik@ozlabs.ru>
- <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
- <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
- <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-In-Reply-To: <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>, qemu-devel@nongnu.org
+References: <20220711145432.56704-1-Jason@zx2c4.com>
+ <20220719115300.104095-1-Jason@zx2c4.com> <Ytf9KVQNOZBI5u8f@zx2c4.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <Ytf9KVQNOZBI5u8f@zx2c4.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=aik@ozlabs.ru; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,54 +95,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 21/07/2022 18:48, Peter Maydell wrote:
-> On Thu, 21 Jul 2022 at 09:19, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
->> On 21/07/2022 02:08, Daniel Henrique Barboza wrote:
->>> Hey,
->>>
->>> On 7/19/22 04:59, Alexey Kardashevskiy wrote:
->>>> Alexey Kardashevskiy (1):
->>>>         pseries: Update SLOF firmware image
->>>>
->>>>    docs/system/ppc/pseries.rst |   2 +-
->>>>    pc-bios/README              |   2 +-
->>>>    pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
->>>>    roms/SLOF                   |   2 +-
->>>>    4 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>>
->>>> *** Note: this is not for master, this is for pseries
->>>> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
->>>> too soon so I am posting it anyway.
->>>
->>> I forgot to send a reply yesterday, sorry.
->>>
->>> Don't worry about rushing this SLOF pull. Given that this build doesn't
->>> have bug fixes we can wait to pull it in 7.2. You'll have the time to
->>> sync it up with git.qemu.org and so on.
->>
->>
->> Well, the git.qemu.org is still not updated, and I have no control over
->> this process anyway, who manages it?
+On 7/20/22 15:03, Jason A. Donenfeld wrote:
+> Hi Paolo,
 > 
-> Syncing of those git repos is supposed to be automatic, but
-> occasionally something falls over. Stefan, who looks after
-> the sync process ?
+> On Tue, Jul 19, 2022 at 01:53:00PM +0200, Jason A. Donenfeld wrote:
+>> Tiny machines optimized for fast boot time generally don't use EFI,
+>> which means a random seed has to be supplied some other way. For this
+>> purpose, Linux (≥5.20) supports passing a seed in the setup_data table
+>> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+>> specialized bootloaders. The linked commit shows the upstream kernel
+>> implementation.
 > 
-> Alexey, which specific repo is not syncing ?
+> Having received your message in the other thread hinting, "I think
+> there are some issues with migration compatibility of setup_data and
+> they snowball a bit, so I'll reply there," and being a bit eager to get
+> this moving, I thought I'd preempt that discussion by trying to guess
+> what you have in mind and replying to it. Speculative email execution...
+> 
+> The SETUP_RNG_SEED parameter is used only during boot, and Linux takes
+> pains to zero out its content after using. If a VM is migrated or
+> copied, the RNG state is also migrated, just as is the case before
+> SETUP_RNG_SEED. For that reason, Linux also has a "vmgenid" driver,
+> which QEMU supports via `-device vmgenid,guid=auto`, which is an ACPI
+> mechanism for telling the RNG to reseed under various migration
+> circumstances. But this is merely complementary to SETUP_RNG_SEED, which
+> is intended as a very simple mechanism for passing a seed at the
+> earliest moment in boot, akin to DT's "rng-seed" node.
+> 
+> Hopefully this answers what I think you were going to ask, and sorry if
+> it's a total non-sequitur.
 
+It's not entirely what I was thinking about but it is interesting anyway 
+so thanks for writing that.  Sorry it took some time to reply but these 
+live migration issues are subtle and I wanted to be sure of what is and 
+isn't a problem.
 
-https://git.qemu.org/git/SLOF.git from git@github.com:aik/SLOF.git
+The issue with live migration is that the setup data changes from before 
+to after the patches.  This means that a live migration exactly _in the 
+middle_ of reading the Linux boot data could fail badly.  For example, 
+you could migrate in the middle of reading the DTB, and it would be 
+shifted by the ~50 bytes of the setup_data and seed.  The size would 
+also not match so, even though probably things would mostly work if you 
+place the seed last, that's not really optimal either.
 
-For example, the latest is:
-https://github.com/aik/SLOF/releases/tag/qemu-slof-20220719
+Now I understand that this would be exceedingly unlikely or downright 
+impossible, but the main issue is that, roughly speaking, we try to 
+guarantee unchanged guest ABI on every execution with the appropriate 
+command line options.  So the solution is to add a machine property 
+(e.g. "-M linuxboot-seed=...") that allows enabling/disabling it, and 
+then making it default to off with machine types like pc-i440fx-7.0 that 
+never had the seed.
 
-But it has not made it to where git.qemu.org redirects to:
-https://gitlab.com/qemu-project/SLOF
+In turn this means that the "shape" of the linked list changes a bit and 
+it's better to abstract the creation of the setup_data struct in a 
+separate function.  And then you've got to move the various local 
+variables of x86_load_linux into a struct for sharing.  As I said, it 
+snowballs a bit, but I should be sending out patches later today.
 
+As an aside, QEMU tends to only include code after Linux supports it, 
+but it's in your rng tree so the timing is right; I'll queue the FDT 
+ones for 7.1 since it's nice to have feature parity across all FDT boards.
 
--- 
-Alexey
+Paolo
 
