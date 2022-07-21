@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E11957CBDF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:28:00 +0200 (CEST)
-Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E711F57CBFE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:33:05 +0200 (CEST)
+Received: from localhost ([::1]:45104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEWDf-0007Rq-6V
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:27:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47680)
+	id 1oEWIa-00056O-Jn
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:33:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9W-0000MX-WF; Thu, 21 Jul 2022 09:23:43 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:9564)
+ id 1oEW9X-0000Mf-63; Thu, 21 Jul 2022 09:23:43 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oEW9V-0006Wr-3H; Thu, 21 Jul 2022 09:23:42 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDDB5d024053;
+ id 1oEW9V-0006Wx-LG; Thu, 21 Jul 2022 09:23:42 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26LDDwAw001876;
  Thu, 21 Jul 2022 13:23:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=NF2H7hQ/DOcV35+phOpXvDSrm8Ar/Crkm4ozOHfziVo=;
- b=H44c9eptNuZuY9HFgV2h6/zv/lOyWQhXvhluGpPRiluFsJKlYWehpUqYuyPBa2xJiwDT
- /KgBsMwyach454OoQpRZDN2InUMMOpNIk5YuQrnUE2ZBe80YPR/hzYK+FTMuLk7jWMo1
- DOBGwaharmeYha9AGPRywrNfv3YYJLq2pZzMP7g9tXZgYqK2WEfkz7eOLnTJdb+0mxA5
- AZaA99V4Szigd7UmKlyqueLI49LUoevxxsHpt1RDk/M0IaeTBSw4wtbN87AWsjAfSnSI
- OfcehU+Gz2GyTlQ5CdN5FT/u1DfhyQEOVb1h6CDpD3NELzjxiUrnVLIH8q1Sk26Qfqlt YA== 
+ bh=W3k5Elx9JzuYuyaNG/xU8ybI8yMJ0sNoW9WcXC8aeMQ=;
+ b=OZ8BxdTloIeiyhydk6aS4G9ozk9ftVwYvaSqEr2u3u/3YVyHHRSk6ayeJ/fG1fiFyZBX
+ vR9PZ4Edtb0InpsvfMHyTni2V8NYSCBSpUevwO/R4dqE9cYb/RwZ8uFJ5qXPdS8p19FY
+ sYr04iB3zq5p/S3LOZ2q7pYggEVDNQNd1IYmzr54QUJHouhIeX/bAnOKYnnVLnlFn/VN
+ SdW2wlaxR2asjiyrXFtsMXXRpKfnjeREUen7Ak5OkXIE2cCQRm5ETOHj9sspmitr9FEr
+ +IErbSzX9EBzBhploEDNe5zxShxTlegJ/u7HLHgAcCsWiwPzh+nAx4ycjvEAnVcAqECE 4Q== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf61g3grx-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf74q9axj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:39 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDDLoR026068;
+ Thu, 21 Jul 2022 13:23:40 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26LDE0tM002199;
  Thu, 21 Jul 2022 13:23:39 GMT
 Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
  [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf61g3gr7-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hf74q9aww-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Thu, 21 Jul 2022 13:23:39 +0000
 Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDN6BK029381;
- Thu, 21 Jul 2022 13:23:36 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 3hbmkj70k9-1
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26LDNbvF029788;
+ Thu, 21 Jul 2022 13:23:37 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hbmkj70kb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jul 2022 13:23:36 +0000
+ Thu, 21 Jul 2022 13:23:37 +0000
 Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
  [9.149.105.58])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26LDNX9D18219406
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26LDNYWK22020384
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jul 2022 13:23:33 GMT
+ Thu, 21 Jul 2022 13:23:34 GMT
 Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3C57B4C044;
+ by IMSVA (Postfix) with ESMTP id 716264C046;
+ Thu, 21 Jul 2022 13:23:34 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 624894C040;
  Thu, 21 Jul 2022 13:23:33 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2D83F4C040;
- Thu, 21 Jul 2022 13:23:32 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jul 2022 13:23:32 +0000 (GMT)
+ Thu, 21 Jul 2022 13:23:33 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com
-Subject: [PATCH v3 05/14] dump: Split write of section headers and data and
- add a prepare step
-Date: Thu, 21 Jul 2022 13:22:47 +0000
-Message-Id: <20220721132256.2171-6-frankja@linux.ibm.com>
+Subject: [PATCH v3 06/14] dump: Reorder struct DumpState
+Date: Thu, 21 Jul 2022 13:22:48 +0000
+Message-Id: <20220721132256.2171-7-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220721132256.2171-1-frankja@linux.ibm.com>
 References: <20220721132256.2171-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: yBVkUaUDx4DYwLZCNnlFBdbEJBFf8cRV
-X-Proofpoint-GUID: ds0qFHL6ssvzJAkKgWDEtIfv8QbiZ32n
+X-Proofpoint-GUID: cWa3Dgl7_VKEYMdPm5vbXJeza6xP4GnG
+X-Proofpoint-ORIG-GUID: C8MsP7v7Qv4uQJvavu1r8GzvFzH3D_QA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-21_17,2022-07-20_01,2022-06-22_01
+ definitions=2022-07-21_16,2022-07-20_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- impostorscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0 spamscore=0
- priorityscore=1501 mlxlogscore=999 bulkscore=0 phishscore=0 clxscore=1015
+ impostorscore=0 phishscore=0
+ mlxlogscore=847 adultscore=0 spamscore=0 mlxscore=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207210053
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
@@ -116,200 +115,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By splitting the writing of the section headers and (future) section
-data we prepare for the addition of a string table section and
-architecture sections.
-
-At the same time we move the writing of the section to the end of the
-dump process. This allows the upcoming architecture section code to
-add data after all of the common dump data has been written.
+Let's move ELF related members into one block and guest memory related
+ones into another to improve readability.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- dump/dump.c           | 114 ++++++++++++++++++++++++++++++++----------
- include/sysemu/dump.h |   4 ++
- 2 files changed, 92 insertions(+), 26 deletions(-)
+ include/sysemu/dump.h | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/dump/dump.c b/dump/dump.c
-index 2d04e06815..980702d476 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -342,30 +342,71 @@ static void write_elf_phdr_note(DumpState *s, Error **errp)
-     }
- }
- 
--static void write_elf_section(DumpState *s, int type, Error **errp)
-+static size_t prepare_elf_section_hdr_zero(DumpState *s, void *buff)
- {
--    Elf32_Shdr shdr32;
--    Elf64_Shdr shdr64;
--    int shdr_size;
--    void *shdr;
--    int ret;
-+    if (dump_is_64bit(s)) {
-+        Elf64_Shdr *shdr64 = buff;
- 
--    if (type == 0) {
--        shdr_size = sizeof(Elf32_Shdr);
--        memset(&shdr32, 0, shdr_size);
--        shdr32.sh_info = cpu_to_dump32(s, s->phdr_num);
--        shdr = &shdr32;
-+        shdr64->sh_info = cpu_to_dump32(s, s->phdr_num);
-     } else {
--        shdr_size = sizeof(Elf64_Shdr);
--        memset(&shdr64, 0, shdr_size);
--        shdr64.sh_info = cpu_to_dump32(s, s->phdr_num);
--        shdr = &shdr64;
-+        Elf32_Shdr *shdr32 = buff;
-+
-+        shdr32->sh_info = cpu_to_dump32(s, s->phdr_num);
-     }
- 
--    ret = fd_write_vmcore(shdr, shdr_size, s);
-+    return dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-+}
-+
-+static void prepare_elf_section_hdrs(DumpState *s)
-+{
-+    uint8_t *buff_hdr;
-+    size_t len, sizeof_shdr;
-+
-+    /*
-+     * Section ordering:
-+     * - HDR zero (if needed)
-+     */
-+    sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-+    len = sizeof_shdr * s->shdr_num;
-+    s->elf_section_hdrs = g_malloc0(len);
-+    buff_hdr = s->elf_section_hdrs;
-+
-+    /* Write special section first */
-+    if (s->phdr_num == PN_XNUM) {
-+            prepare_elf_section_hdr_zero(s, buff_hdr);
-+    }
-+}
-+
-+static void prepare_elf_sections(DumpState *s, Error **errp)
-+{
-+    if (!s->shdr_num) {
-+        return;
-+    }
-+
-+    prepare_elf_section_hdrs(s);
-+}
-+
-+static void write_elf_section_headers(DumpState *s, Error **errp)
-+{
-+    size_t sizeof_shdr;
-+    int ret;
-+
-+    sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-+
-+    ret = fd_write_vmcore(s->elf_section_hdrs, s->shdr_num * sizeof_shdr, s);
-     if (ret < 0) {
--        error_setg_errno(errp, -ret,
--                         "dump: failed to write section header table");
-+        error_setg_errno(errp, -ret, "dump: failed to write section headers");
-+    }
-+}
-+
-+static void write_elf_sections(DumpState *s, Error **errp)
-+{
-+    int ret;
-+
-+    /* Write section zero */
-+    ret = fd_write_vmcore(s->elf_section_data, s->elf_section_data_size, s);
-+    if (ret < 0) {
-+        error_setg_errno(errp, -ret, "dump: failed to write section data");
-     }
- }
- 
-@@ -557,12 +598,22 @@ static void dump_begin(DumpState *s, Error **errp)
-     /* Write elf header to buffer */
-     prepare_elf_header(s);
- 
-+    prepare_elf_sections(s, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-     /* Start to write stuff into file descriptor */
-     write_elf_header(s, errp);
-     if (*errp) {
-         return;
-     }
- 
-+    write_elf_section_headers(s, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-     /* write PT_NOTE to vmcore */
-     write_elf_phdr_note(s, errp);
-     if (*errp) {
-@@ -575,14 +626,6 @@ static void dump_begin(DumpState *s, Error **errp)
-         return;
-     }
- 
--    /* write section to vmcore */
--    if (s->shdr_num) {
--        write_elf_section(s, 1, errp);
--        if (*errp) {
--            return;
--        }
--    }
--
-     /* write notes to vmcore */
-     write_elf_notes(s, errp);
- }
-@@ -610,6 +653,19 @@ static void dump_iterate(DumpState *s, Error **errp)
-     }
- }
- 
-+static void dump_end(DumpState *s, Error **errp)
-+{
-+    ERRP_GUARD();
-+
-+    if (!s->elf_section_data_size) {
-+        return;
-+    }
-+    s->elf_section_data = g_malloc0(s->elf_section_data_size);
-+
-+    /* write sections to vmcore */
-+    write_elf_sections(s, errp);
-+}
-+
- static void create_vmcore(DumpState *s, Error **errp)
- {
-     ERRP_GUARD();
-@@ -620,6 +676,12 @@ static void create_vmcore(DumpState *s, Error **errp)
-     }
- 
-     dump_iterate(s, errp);
-+    if (*errp) {
-+        return;
-+    }
-+
-+    /* Write section data after memory has been dumped */
-+    dump_end(s, errp);
- }
- 
- static int write_start_flat_header(int fd)
 diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 58f41bbf45..dad10dee0b 100644
+index dad10dee0b..a94d81303d 100644
 --- a/include/sysemu/dump.h
 +++ b/include/sysemu/dump.h
-@@ -172,6 +172,10 @@ typedef struct DumpState {
+@@ -154,15 +154,8 @@ typedef struct DumpState {
+     GuestPhysBlockList guest_phys_blocks;
+     ArchDumpInfo dump_info;
+     MemoryMappingList list;
+-    uint32_t phdr_num;
+-    uint32_t shdr_num;
+     bool resume;
+     bool detached;
+-    ssize_t note_size;
+-    hwaddr shdr_offset;
+-    hwaddr phdr_offset;
+-    hwaddr section_offset;
+-    hwaddr note_offset;
+     hwaddr memory_offset;
+     int fd;
+ 
+@@ -171,6 +164,16 @@ typedef struct DumpState {
+     int64_t begin;             /* Start address of the chunk we want to dump */
      int64_t length;            /* Length of the dump we want to dump */
  
-     void *elf_header;
-+    void *elf_section_hdrs;
-+    uint64_t elf_section_data_size;
-+    void *elf_section_data;
++    /* Elf dump related data */
++    uint32_t phdr_num;
++    uint32_t shdr_num;
++    uint32_t sh_info;
++    ssize_t note_size;
++    hwaddr shdr_offset;
++    hwaddr phdr_offset;
++    hwaddr note_offset;
++    hwaddr section_offset;
 +
-     uint8_t *note_buf;          /* buffer for notes */
-     size_t note_buf_offset;     /* the writing place in note_buf */
-     uint32_t nr_cpus;           /* number of guest's cpu */
+     void *elf_header;
+     void *elf_section_hdrs;
+     uint64_t elf_section_data_size;
 -- 
 2.34.1
 
