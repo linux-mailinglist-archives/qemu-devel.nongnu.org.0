@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C8757C24E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 04:33:58 +0200 (CEST)
-Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3EF57C25B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 04:37:50 +0200 (CEST)
+Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEM0j-0006bT-5H
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 22:33:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49664)
+	id 1oEM4T-0008J7-VY
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jul 2022 22:37:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oELyd-0005As-HC; Wed, 20 Jul 2022 22:31:47 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44903)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oELya-00043v-SA; Wed, 20 Jul 2022 22:31:46 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q5so501311plr.11;
- Wed, 20 Jul 2022 19:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=s1WNcyYa4BddjaL9iPfXG+ZHXAhJrqaNHYeGKvxu4hU=;
- b=IapxxpWPhrwsO26KKUhc+b3dOOhFWyYGaQMEhaph0IouXJseCD2Pnmzl3nK1tq7tXm
- hTsdrR0CwI0prycNTuLZAjiaSA21KygsnUiS4XW4QgCFVIvmk1hmX9gbNxU91fjFUnXw
- itw5adaC4Gtq+LeW/5Tzz0cSssbRXoTWWXZ5wnthhc5knj37nIQZZ9qGXKC++HZQw9vI
- NsWzfqzWbZiZb+SuiTm+0T0qJsfFeXFAFxWs9baElnrjywqH2KBv86BuJvOvmLSwdjfY
- shOmNo3n4iFxkBEicVzWSqqiuGH7Q+B3UMNY80Wd/XRa7R/gwbMKsW3J6LsOb437xcKp
- C60w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s1WNcyYa4BddjaL9iPfXG+ZHXAhJrqaNHYeGKvxu4hU=;
- b=ZICgamHNVcpkMwwy9DoWmm+DaEkJk1oBostfErHuGorwiHtO2qIZ72dOdQTGYl2Q2g
- vnjgGX+pezMeUJ1U7SYdmULc6H23DdfVus7gidZ9iNN2LhZqUqwVXgaF106ImxoZDKlx
- 25JJS15HrR2cNO8KC2YlxNbqtMU8xxD6U/GFDKO8wHn/j8+WtI0wlQUymQDiTsMpPb6Q
- 7PvdmbWDQt1EARsMK0y4B7Jr5FRMxbx0WqAghUK9GAlCTdtnmtLUSwUxzyBfGL+D+rf6
- Gv72y/NdaGKJl323E4mW32TjGjt7XyW9MIu+7p/nbHVI6y5z/ATxmePh4Zn23Dfk0Jbl
- p5rg==
-X-Gm-Message-State: AJIora/z2llkS4V6cWRFfniVTOnrXeZPlIdHjNAN198w2WnAptDvMptD
- uPgrZ8GLNAJZu6KeAWF6+DR95MdUFaTb+cJpnoM=
-X-Google-Smtp-Source: AGRyM1uDdwpZxT4IXzlNC5EjAQuEnXGHqdPIJyCNNKUi1mDsmo5k6uS+2UCP+5F7tk8WhzFL4T6iI2VAHC8NyJ92TvU=
-X-Received: by 2002:a17:90b:3103:b0:1f2:1464:9622 with SMTP id
- gc3-20020a17090b310300b001f214649622mr8784483pjb.166.1658370702710; Wed, 20
- Jul 2022 19:31:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <165570784143.17634.35095816584573691-0@git.sr.ht>
-In-Reply-To: <165570784143.17634.35095816584573691-0@git.sr.ht>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 21 Jul 2022 12:31:16 +1000
-Message-ID: <CAKmqyKMkEgBE0P-FhurdD_25LrUmc3DXY5bChTZb6vxT73=PGg@mail.gmail.com>
-Subject: Re: [PATCH qemu v6 00/10] Add mask agnostic behavior for rvv
- instructions
-To: "~eopxd" <yueh.ting.chen@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>, 
- WeiWei Li <liweiwei@iscas.ac.cn>, eop Chen <eop.chen@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62e.google.com
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oEM3R-0006yK-No
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 22:36:45 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:45388 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oEM3O-0004bk-Vf
+ for qemu-devel@nongnu.org; Wed, 20 Jul 2022 22:36:45 -0400
+Received: from smtpclient.apple (unknown [159.226.43.13])
+ by APP-05 (Coremail) with SMTP id zQCowAA35uywu9hiuAhMEA--.12225S2;
+ Thu, 21 Jul 2022 10:36:33 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
+Date: Thu, 21 Jul 2022 10:36:32 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Klaus Birkelund Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowAA35uywu9hiuAhMEA--.12225S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxGrWkCr17XrWxZF1UZFyrJFb_yoW5Jw48pa
+ y3G3ZIkrWDJ3s7Z34vga1xGFyUAw1kXF4UCa45t3y8JrZ8K3saqrW7Ka45uFWrCr4vy34j
+ qr4jq348WasYyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUyvb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l
+ 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+ AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+ cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+ 8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU5PpnJUUUUU==
+X-Originating-IP: [159.226.43.13]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,84 +76,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jun 20, 2022 at 4:56 PM ~eopxd <eopxd@git.sr.ht> wrote:
->
-> According to v-spec, mask agnostic behavior can be either kept as
-> undisturbed or set elements' bits to all 1s. To distinguish the
-> difference of mask policies, QEMU should be able to simulate the mask
-> agnostic behavior as "set mask elements' bits to all 1s".
->
-> There are multiple possibility for agnostic elements according to
-> v-spec. The main intent of this patch-set tries to add option that
-> can distinguish between mask policies. Setting agnostic elements to
-> all 1s allows QEMU to express this.
->
-> The following instructions that are always unmasked and not affected:
->
-> - Vector add-with-carry and subtract-with-borrow instructions
-> - Vector merge and move instructions
-> - Vector reduction instructions
-> - Vector mask-register logical instructions
-> - `vcompress`
->
-> v2 updates:
-> - Rebase upon changes of the tail agnostic patch-set
-> - Minor change for vector load/store instructions
->
-> v3 updates:
-> - Rebase upon changes of the tail agnostic patch-set
-> - Fix coding style, add missing space
-> - Trigger `vma` when encountering vector load instructions and not in
->   vector stores
->
-> v4 updates:
-> - Rebase upon changes of the tail agnostic patch-set
->
-> v5 updates:
-> - Tag WeiWei as Reviewed-by for this patch-set
->
-> v6 updates:
-> - Now that the tail agnostic patch-set has been merged, this
->   patch-set no longer depends on it. Rebased to latest master.
->
-> Yueh-Ting (eop) Chen (9):
->   target/riscv: rvv: Add mask agnostic for vv instructions
->   target/riscv: rvv: Add mask agnostic for vector load / store
->     instructions
->   target/riscv: rvv: Add mask agnostic for vx instructions
->   target/riscv: rvv: Add mask agnostic for vector integer shift
->     instructions
->   target/riscv: rvv: Add mask agnostic for vector integer comparison
->     instructions
->   target/riscv: rvv: Add mask agnostic for vector fix-point arithmetic
->     instructions
->   target/riscv: rvv: Add mask agnostic for vector floating-point
->     instructions
->   target/riscv: rvv: Add mask agnostic for vector mask instructions
->   target/riscv: rvv: Add mask agnostic for vector permutation
->     instructions
->
-> eopXD (1):
->   target/riscv: rvv: Add option 'rvv_ma_all_1s' to enable optional mask
->     agnostic behavior
+Hi Stefan,
 
-Thanks!
+Thanks for the detailed explanation!=20
 
-Applied to riscv-to-apply.next
+at 6:21 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 
-Alistair
+> Hi Jinhao,
+> Thanks for working on this!
+>=20
+> irqfd is not necessarily faster than KVM ioctl interrupt injection.
+>=20
+> There are at least two non performance reasons for irqfd:
+> 1. It avoids QEMU emulation code, which historically was not thread =
+safe and needed the Big QEMU Lock. IOThreads don't hold the BQL and =
+therefore cannot safely call the regular interrupt emulation code in =
+QEMU. I think this is still true today although parts of the code may =
+now be less reliant on the BQL.
 
->
->  target/riscv/cpu.c                      |   1 +
->  target/riscv/cpu.h                      |   2 +
->  target/riscv/cpu_helper.c               |   2 +
->  target/riscv/insn_trans/trans_rvv.c.inc |  28 +++++
->  target/riscv/internals.h                |   5 +-
->  target/riscv/translate.c                |   2 +
->  target/riscv/vector_helper.c            | 152 ++++++++++++++++++++----
->  7 files changed, 167 insertions(+), 25 deletions(-)
->
-> --
-> 2.34.2
->
+This probably means we need to move to irqfd when iothread support is =
+added
+in qemu-nvme.
+
+> 2. The eventfd interface decouples interrupt injection from the KVM =
+ioctl interface. Vhost kernel and vhost-user device emulation code has =
+no dependency on KVM thanks to irqfd. They work with any eventfd, =
+including irqfd.
+
+This is contrary to our original belief. Klaus once pointed out that =
+irqfd
+is KVM specific. I agreed with him since I found irqfd implementation is =
+in
+virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could =
+you
+elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?
+
+> 2. How can I debug this kind of cross QEMU-KVM problems?
+>=20
+> perf(1) is good at observing both kernel and userspace activity =
+together. What is it that you want to debug.
+>=20
+
+I=E2=80=99ll look into perf(1). I think what I was trying to do is like =
+a breakdown
+analysis on which part caused the latency. For example, what is the root
+cause of the performance improvements or regressions when irqfd is =
+turned
+on.
+
+> What happens when the MSI-X vector is masked?
+>=20
+> I remember the VIRTIO code having masking support. I'm on my phone and =
+can't check now, but I think it registers a temporary eventfd and =
+buffers irqs while the vector is masked.
+
+Yes, this RFC ignored interrupt masking support.=20
+
+>=20
+> This makes me wonder if the VIRTIO and NVMe IOThread irqfd code can be =
+unified. Maybe IOThread support can be built into the core device =
+emulation code (e.g. irq APIs) so that it's not necessary to duplicate =
+it.
+>=20
+
+Agreed. Recently when working on ioeventfd, iothread and polling =
+support, my
+typical workflow is to look at how virtio does that and adjust that code
+into nvme. I think unifying their IOThread code can be beneficial since
+VIRTIO has incorporated many optimizations over the years that can not =
+be
+directly enjoyed by nvme. But I fear that subtle differences in the two
+protocols may cause challenges for the unification.
+
+Again, thanks for your help :)=
+
 
