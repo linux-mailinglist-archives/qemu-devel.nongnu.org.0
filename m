@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC6957CB63
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:07:35 +0200 (CEST)
-Received: from localhost ([::1]:35656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5BCB57CB7E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 15:10:00 +0200 (CEST)
+Received: from localhost ([::1]:40826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEVtu-0003el-Lt
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:07:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42046)
+	id 1oEVwE-00079q-JU
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 09:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oEVnU-0005fs-KP
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:59 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:34455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oEVnO-0002oK-GP
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:00:56 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id oy13so3064787ejb.1
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 06:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GktTuaL+5l+pkhSlt+t6BusBHwUozEKjvQjMZt+El74=;
- b=LcayB/kJnAonWLOVDDVAbHZ76P3tOdJEgDxXgsGhzgTP3d9x0pratRMmW9JjGyrjvq
- hVD9CwtaVPNL+OsVHrEdZe91xArl23aLbdI4QqPB3WqZlJnLw86lh9boumvVNdYqEyFa
- Ou/X5BjM4Uax/MesF7FLxcAODXeEHQiwRQbCSL2KNXYyiyuKGXVerixUAMY+EYI2wWjs
- PU9681ZJOMP/WjL41uL/1DqGqLnsafV1PRVaaSnmDwtrzleEu+8y/ssAB3TRMVdE/LjM
- 0r8jYDVvk3rgYlJqUwitPLYaVVKEP5BJT0rVsNJdgQUeyl0X4VUGhWGTIATh1fpm+JLo
- +G4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GktTuaL+5l+pkhSlt+t6BusBHwUozEKjvQjMZt+El74=;
- b=f84ziDmFVuwwtGKLhTXpLfkBuVh+yspSNx+Qh2mCkLqD6whdgSN1pqfxxo68fDZMWj
- 9Ggt6i/Q29WoKxeTvX/EkGuxdBlANOeouzqBmBYsbO56vCzGeEBJCEy7N854yz+SIkTM
- D+xh+2JHccZ9ED0FVzog5dTpk0aOGmi2v7MZpZdbjgvSj/5BAvWyRTfln3m8uo+vUI3M
- ebh3VETZkzYTVE097yjSNNogNFlS8RWXoKg/Y1BCn1bBB0y7FQTT2QRf+Nl2lgZPubyk
- WYTbWG1CUSbgEhH1xs4d359X8qoA8b3E+QrmJcypAunAaaGc1eRvnGPo4jivPvRBBRhn
- hFVQ==
-X-Gm-Message-State: AJIora9zrAWT7FiAGlnK6cFi9Yb919lQcla5vOpYMN157CWeCkI8gBZz
- BCjzE7o4/y54vzlutecZ7CU=
-X-Google-Smtp-Source: AGRyM1vf0T3mNhJ3GjEYFAERKpbXMvbyM/SDHZ0aCATMHMBxsge1Glw+entalxOR7CKiQYiHyNrSdw==
-X-Received: by 2002:a17:907:2dab:b0:72f:f7:bdd6 with SMTP id
- gt43-20020a1709072dab00b0072f00f7bdd6mr29671343ejc.330.1658408447092; 
- Thu, 21 Jul 2022 06:00:47 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- jz15-20020a170906bb0f00b0072637b9c8c0sm817622ejb.219.2022.07.21.06.00.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jul 2022 06:00:46 -0700 (PDT)
-Message-ID: <50f168a6-1351-dd5d-67f0-e222f9547071@redhat.com>
-Date: Thu, 21 Jul 2022 15:00:45 +0200
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
+ id 1oEVpf-0007TE-2n
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:03:11 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:32902)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org>)
+ id 1oEVpc-0003Gu-UQ
+ for qemu-devel@nongnu.org; Thu, 21 Jul 2022 09:03:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id A4B81B82472
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 13:03:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF741C341C6
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 13:03:04 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="lvb70eaH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658408582;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=trcg9QLYdMwhWVZyDmx8ZPxmYTZnrCl1xBwptnz+YX4=;
+ b=lvb70eaHLH/woneWyL7yDYZ82qPKixGSm8/HBuEFZ8jo/mQXrAtQx3P9b2u0vQtpRodEwO
+ glcuBYKccrgf2Y6Mn8TjRcVgKZgSNq0H1QHhlfHzdOw5FMwH9jEDdMXu7Lo0R3o/t9hr3Z
+ 65dSpkEnHbDoE+RKG//FYqKnOVCpWGI=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 0d0b78e9
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Thu, 21 Jul 2022 13:03:02 +0000 (UTC)
+Received: by mail-qk1-f172.google.com with SMTP id f14so1226168qkm.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 06:03:01 -0700 (PDT)
+X-Gm-Message-State: AJIora9VgQfj2wf7RDqJ9e6qeYWYudIYxVNrzVy7uUbJx2OT+svuKLWV
+ igjKp/5/K6RyPZouBHTZ/diRX1nWjokycnYayF4=
+X-Google-Smtp-Source: AGRyM1ty70iAH7FdBBL6nhznY8YCjTVJfA2SJfM2vnF6TkFu49dCqyth9irloUzAdoI973B2A/Y98xO7EkMjhiSlnYk=
+X-Received: by 2002:a05:620a:45a9:b0:6b6:895:2d2 with SMTP id
+ bp41-20020a05620a45a900b006b6089502d2mr7652379qkb.70.1658408581168; Thu, 21
+ Jul 2022 06:03:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7] hw/i386: pass RNG seed via setup_data entry
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+References: <20220721122937.729959-1-pbonzini@redhat.com>
+ <20220721122937.729959-5-pbonzini@redhat.com>
+In-Reply-To: <20220721122937.729959-5-pbonzini@redhat.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Thu, 21 Jul 2022 15:02:49 +0200
+X-Gmail-Original-Message-ID: <CAHmME9rSgye+Wpgk52pqsyHUAWiL4nLQMSsQUJt617A_wfCUAw@mail.gmail.com>
+Message-ID: <CAHmME9rSgye+Wpgk52pqsyHUAWiL4nLQMSsQUJt617A_wfCUAw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] hw/i386: pass RNG seed via setup_data entry
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
  Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
  Laurent Vivier <laurent@vivier.eu>
-References: <CAHmME9r8F4-ji6--PikVzSjT-rPiwqkUrK0rBtxtbYNnr8x0Lw@mail.gmail.com>
- <20220721125636.446842-1-Jason@zx2c4.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220721125636.446842-1-Jason@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=2GtW=X2=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,28 +92,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 14:56, Jason A. Donenfeld wrote:
-> Tiny machines optimized for fast boot time generally don't use EFI,
-> which means a random seed has to be supplied some other way. For this
-> purpose, Linux (≥5.20) supports passing a seed in the setup_data table
-> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
-> specialized bootloaders. The linked commit shows the upstream kernel
-> implementation.
-> 
-> At Paolo's request, we don't pass these to versioned machine types ≤7.0.
-> 
-> Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Eduardo Habkost <eduardo@habkost.net>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+On Thu, Jul 21, 2022 at 2:29 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+> +static void x86_machine_get_linuxboot_seed(Object *obj, Visitor *v, const char *name,
+> +                                           void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);
+> +    OnOffAuto linuxboot_seed = x86ms->linuxboot_seed;
+> +
+> +    visit_type_OnOffAuto(v, name, &linuxboot_seed, errp);
+> +}
+> +
+> +static void x86_machine_set_linuxboot_seed(Object *obj, Visitor *v, const char *name,
+> +                                           void *opaque, Error **errp)
+> +{
+> +    X86MachineState *x86ms = X86_MACHINE(obj);
+> +
+> +    visit_type_OnOffAuto(v, name, &x86ms->linuxboot_seed, errp);
+> +}
+> +
 
-LGTM.
+Gross, no! There is no reason at all to make this into a user tunable.
+Please don't do that. The whole point is that this is a simple
+transparent mechanism.
 
-Paolo
+There's also no need to usurp my patchset. I sent a v7 incorporating
+your feedback. So this isn't really appreciated either. I actually
+asked you not to usurp this over IRC, but you did anyway. If your goal
+is "alienate this contributor so he doesn't like working on QEMU,"
+then you're succeeding.
+
+Here's v7:
+https://lore.kernel.org/qemu-devel/20220721125636.446842-1-Jason@zx2c4.com/
+
+This will handle your ridiculous theoretical migratory concerns with
+minimal invasiveness and without having to introduce userfacing
+tunables.
+
+Let's keep discussion on that v7 thread, please.
+
+Thanks,
+Jason
 
