@@ -2,97 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5ED57D33F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:27:11 +0200 (CEST)
-Received: from localhost ([::1]:43148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C50657D389
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jul 2022 20:43:45 +0200 (CEST)
+Received: from localhost ([::1]:53246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEatB-0006O8-PM
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:27:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
+	id 1oEb9D-0005NT-MV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 14:43:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEaqv-0003fI-Rn
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:24:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEaqs-0000P0-05
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 14:24:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658427883;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4OBMgaw5hGWuRebVd9BfhuOJyNpl84DT3/pCT0t2mXo=;
- b=hBBB1FQRRKgLFvHxqeS8jdJTKdeMqWSfC9hAMPk7Vn0g9fYJ0IXNRrkzfH2Ip+jd8FAscs
- viYecplRHIvxQnQTnvpduxSbIeYYpB8WFKtAL2wx0t09CXB7vqkztpp/pJJ/0TIDwamBKN
- wL6nXkSVy/F/nIv7NKw4DlQLrN3ReLU=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-12JO-_8fPq6img2uv-sleg-1; Thu, 21 Jul 2022 14:24:42 -0400
-X-MC-Unique: 12JO-_8fPq6img2uv-sleg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- k190-20020a37bac7000000b006af6d953751so1912054qkf.13
- for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 11:24:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEb6f-0003Hq-Kp; Thu, 21 Jul 2022 14:41:05 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oEb6d-0002uL-Sh; Thu, 21 Jul 2022 14:41:05 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id c131so4225922ybf.9;
+ Thu, 21 Jul 2022 11:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XGtsZv55+SUxCljDxqgcW+wvDHGClRhMxvFLQ4HsyEU=;
+ b=Cr14nbaPeTmy/BAHa3MwpAwUroLWjcaD3A/ExE+3xj48yzxwkqoc86rdJA/8QeZWBU
+ JTSGLPh9Ugf++uXzmk2OkTgw27gZWKr+Nglk0l2haZ16M8Dwf5mn1p4e8NjykiIG0saf
+ GH2dJphsK75kzSk1OP9cjNfLx9qDHQgimdsmg14eQztyLU/x0e816m5GzXi0tVDiNR0+
+ 5FHbzu73n67NXw3wtsqZQJgegQpPf0bsoG6hNWbYnOLiOn7l4a0wZvffCC2nNAC8tEoc
+ g2nV1tJ4kStdQA/vZqnfpVZEs03pWTlJvhhrv92OAmMEYfK7XD6I2fIWggocSA5q1i/B
+ JqKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=4OBMgaw5hGWuRebVd9BfhuOJyNpl84DT3/pCT0t2mXo=;
- b=Ph6/lBkyB5qEZNGt60ffKwwgZGwjHrJV0enxuOIflwykUa4MejQGSqPJFx4fkkWG6T
- OrndkA9yW3mgx8KuVWw4H6eyqAgG1jd4V7TRwnI84BKEsvoDHrFHITppyK3Pzl8pIV7g
- vHkPrdtr/7Mw5wm+3SDmYskLbxKAv9CQi4610vX0lr1scf9EmNGHiYlqET87grlJ6TiT
- S643tnXwWQOkllT6AAOJvW6bRjb2b6FiGTJVQZlujfVypsZHdr9enTIWhwaZ0+6H6dUp
- O6hosegJK2oFn6yulV58v/6kseL45iXrDadd79Dc9QqrXFcNhanVC2ROEU5AWliWC4Ud
- P+yA==
-X-Gm-Message-State: AJIora+izE10F1tftHK5xxAhYXg2yOxv6DPkfDhIzUC5TkNeIMyN/aOB
- mm4VhDSLP1lBVPMUIv3FmDjyg3jkSnW7J9Xy6gev5DapcaqyTYHngyrem+mt4urXFL7JyB8FTyu
- aZJ3EP2wniioqFc0=
-X-Received: by 2002:a05:620a:2904:b0:6b6:250b:fee3 with SMTP id
- m4-20020a05620a290400b006b6250bfee3mr2111299qkp.471.1658427881740; 
- Thu, 21 Jul 2022 11:24:41 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vZ/Rs2bJEyk0hys7mn7azJU7zFXRIZwW+dS4lI8jbO5xDGbO+iq/1hzThlsror1ikcwcmsqQ==
-X-Received: by 2002:a05:620a:2904:b0:6b6:250b:fee3 with SMTP id
- m4-20020a05620a290400b006b6250bfee3mr2111288qkp.471.1658427881503; 
- Thu, 21 Jul 2022 11:24:41 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- bq20-20020a05622a1c1400b00304efba3d84sm1579886qtb.25.2022.07.21.11.24.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jul 2022 11:24:40 -0700 (PDT)
-Date: Thu, 21 Jul 2022 14:24:39 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH] tests: migration-test: Allow test to run without uffd
-Message-ID: <YtmZ58pcnuZvrYxF@xz-m1.local>
-References: <20220707184600.24164-1-peterx@redhat.com>
- <bcd9b961-d1b5-e334-5bb1-7ee56be29725@redhat.com>
- <YtWxHSjpORK31aLs@xz-m1.local>
- <4ebe2d62-b627-3d2b-3c3e-73701fbf7be5@redhat.com>
- <YtaJg0zU8Fo3p2NB@redhat.com>
- <9240083d-ef58-466a-14c1-1c858f67e1d4@redhat.com>
- <YtgR9LL2znac2dsQ@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XGtsZv55+SUxCljDxqgcW+wvDHGClRhMxvFLQ4HsyEU=;
+ b=bElAiYDyFQrYWEKGoA1yO0f4q0gXwvqaOmf/MvPqEJFTBW/i+oCJTUtorr4yb/5cWl
+ K2plA0cS60HHJfU1WjkJYXSbqnhpVp/x/OOlsTZPMHVRgtoT8OMU4pxL6gtxUF9jr3CU
+ DtSyAuwluKFMKx6VwpWv0KNSgyu/aBs9wIZp0p0EJ72LzC03VdEX0VF63AXN6xwcJ0SW
+ cAunpkjOu7naz4Ed8l3NuTBx+ToEjGgPowxsf/RSRJYaaPXWCQuGo0i2EAeZ7ywrRvuk
+ Ro6nSmXFImwQkUiALX+OJfpq87Y6HSsxC7g8OHrOVm3Tr8OdGNw+osZ8yYn7Lr9FG7+f
+ mdOA==
+X-Gm-Message-State: AJIora8hVw2BfOcFAoIhQ06gnj5rVe7ZJQnnkuB1c2uwe99iozJ6a2uB
+ A072T99NpXn9FOYIYpKMhVYmYiMYhPGGb2yeQdM=
+X-Google-Smtp-Source: AGRyM1tndNevpYpdqypDhNM0J6MYDmR0PGLYB65nlim3JsltltoKlhheqCV4jrs1TgZCToNfz9Z1afL7nMjyPcDcrLc=
+X-Received: by 2002:a25:30c4:0:b0:670:9351:324f with SMTP id
+ w187-20020a2530c4000000b006709351324fmr9544519ybw.537.1658428862493; Thu, 21
+ Jul 2022 11:41:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YtgR9LL2znac2dsQ@redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220719075930.315237-1-aik@ozlabs.ru>
+ <99d48009-8403-c868-9f04-c14ca8311369@gmail.com>
+ <c76cf69e-8f6f-333f-e3fb-72c5f1649705@ozlabs.ru>
+ <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8Kma2vGYwS_AwvqvDRiNoeLoS43x2GHtHkAV3QiUJvJQ@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 21 Jul 2022 14:40:50 -0400
+Message-ID: <CAJSP0QWoeyXrzTTrJZu6OPp1DiuyvrecRMSFdLYLvNufxGwwBQ@mail.gmail.com>
+Subject: Re: [PULL SUBSYSTEM qemu-pseries] pseries: Update SLOF firmware image
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel <qemu-devel@nongnu.org>, 
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,120 +87,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 20, 2022 at 03:32:20PM +0100, Daniel P. Berrangé wrote:
-> On Wed, Jul 20, 2022 at 04:11:43PM +0200, Thomas Huth wrote:
-> > On 19/07/2022 12.37, Daniel P. Berrangé wrote:
-> > > On Tue, Jul 19, 2022 at 12:28:24PM +0200, Thomas Huth wrote:
-> > > > On 18/07/2022 21.14, Peter Xu wrote:
-> > > > > Hi, Thomas,
-> > > > > 
-> > > > > On Mon, Jul 18, 2022 at 08:23:26PM +0200, Thomas Huth wrote:
-> > > > > > On 07/07/2022 20.46, Peter Xu wrote:
-> > > > > > > We used to stop running all tests if uffd is not detected.  However
-> > > > > > > logically that's only needed for postcopy not the rest of tests.
-> > > > > > > 
-> > > > > > > Keep running the rest when still possible.
-> > > > > > > 
-> > > > > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > > > > > ---
-> > > > > > >     tests/qtest/migration-test.c | 11 +++++------
-> > > > > > >     1 file changed, 5 insertions(+), 6 deletions(-)
-> > > > > > 
-> > > > > > Did you test your patch in the gitlab-CI? I just added it to my testing-next
-> > > > > > branch and the the test is failing reproducibly on macOS here:
-> > > > > > 
-> > > > > >    https://gitlab.com/thuth/qemu/-/jobs/2736260861#L6275
-> > > > > >    https://gitlab.com/thuth/qemu/-/jobs/2736623914#L6275
-> > > > > > 
-> > > > > > (without your patch the whole test is skipped instead)
-> > > > > 
-> > > > > Thanks for reporting this.
-> > > > > 
-> > > > > Is it easy to figure out which test was failing on your side?  I cannot
-> > > > > easily reproduce this here on a MacOS with M1.
-> > > > 
-> > > > I've modified the yml file to only run the migration test in verbose mode
-> > > > and got this:
-> > > > 
-> > > > ...
-> > > > ok 5 /x86_64/migration/validate_uuid_src_not_set
-> > > > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > > > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > > > source,debug-threads=on -m 150M -serial
-> > > > file:/tmp/migration-test-ef2fMr/src_serial -drive
-> > > > file=/tmp/migration-test-ef2fMr/bootsect,format=raw  -uuid
-> > > > 11111111-1111-1111-1111-111111111111 2>/dev/null -accel qtest
-> > > > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > > > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > > > target,debug-threads=on -m 150M -serial
-> > > > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
-> > > > unix:/tmp/migration-test-ef2fMr/migsocket -drive
-> > > > file=/tmp/migration-test-ef2fMr/bootsect,format=raw   2>/dev/null -accel
-> > > > qtest
-> > > > ok 6 /x86_64/migration/validate_uuid_dst_not_set
-> > > > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > > > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > > > source,debug-threads=on -m 150M -serial
-> > > > file:/tmp/migration-test-ef2fMr/src_serial -drive
-> > > > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
-> > > > # starting QEMU: exec ./qemu-system-x86_64 -qtest unix:/tmp/qtest-58011.sock
-> > > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-58011.qmp,id=char0 -mon
-> > > > chardev=char0,mode=control -display none -accel kvm -accel tcg -name
-> > > > target,debug-threads=on -m 150M -serial
-> > > > file:/tmp/migration-test-ef2fMr/dest_serial -incoming
-> > > > unix:/tmp/migration-test-ef2fMr/migsocket -drive
-> > > > file=/tmp/migration-test-ef2fMr/bootsect,format=raw    -accel qtest
-> > > > **
-> > > > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
-> > > > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
-> > > > Bail out!
-> > > > ERROR:../tests/qtest/migration-helpers.c:181:wait_for_migration_status:
-> > > > assertion failed: (g_test_timer_elapsed() < MIGRATION_STATUS_WAIT_TIMEOUT)
-> > > 
-> > > This is the safety net we put it to catch case where the test has
-> > > got stuck. It is set at 2 minutes.
-> > > 
-> > > There's a chance that is too short, so one first step might be to
-> > > increase to 10 minutes and see if the tests pass. If it still fails,
-> > > then its likely a genuine bug
-> > 
-> > I tried to increase it to 5 minutes first, but that did not help. In a
-> > second try, I increased it to 10 minutes, and then the test was passing,
-> > indeed:
-> > 
-> > https://cirrus-ci.com/task/5819072351830016?logs=build#L7208
-> > 
-> > Could it maybe be accelerated, e.g. by tweaking the downtime limit again?
-> 
-> Oh when I tweaked convergance tunables i missed the auto-converge
-> case as its code looks a bit different.
-> 
-> Possibly change test_migrate_auto_converge
-> 
->     /* Now, when we tested that throttling works, let it converge */
->     migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
->     migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-> 
-> to
-> 
->     migrate_ensure_converge(from);
+On Thu, 21 Jul 2022 at 04:49, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Thu, 21 Jul 2022 at 09:19, Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+> > On 21/07/2022 02:08, Daniel Henrique Barboza wrote:
+> > > Hey,
+> > >
+> > > On 7/19/22 04:59, Alexey Kardashevskiy wrote:
+> > >> Alexey Kardashevskiy (1):
+> > >>        pseries: Update SLOF firmware image
+> > >>
+> > >>   docs/system/ppc/pseries.rst |   2 +-
+> > >>   pc-bios/README              |   2 +-
+> > >>   pc-bios/slof.bin            | Bin 992384 -> 995176 bytes
+> > >>   roms/SLOF                   |   2 +-
+> > >>   4 files changed, 3 insertions(+), 3 deletions(-)
+> > >>
+> > >>
+> > >> *** Note: this is not for master, this is for pseries
+> > >> *** Note2: this has not sync'd to git.qemu.org but softfreeze is
+> > >> too soon so I am posting it anyway.
+> > >
+> > > I forgot to send a reply yesterday, sorry.
+> > >
+> > > Don't worry about rushing this SLOF pull. Given that this build doesn't
+> > > have bug fixes we can wait to pull it in 7.2. You'll have the time to
+> > > sync it up with git.qemu.org and so on.
+> >
+> >
+> > Well, the git.qemu.org is still not updated, and I have no control over
+> > this process anyway, who manages it?
+>
+> Syncing of those git repos is supposed to be automatic, but
+> occasionally something falls over. Stefan, who looks after
+> the sync process ?
 
-Sounds good to me.
+I can help out with GitLab repo syncing. It should work for existing
+qemu-project group repos. We currently cannot set up syncing for new
+repos because qemu-project is in the GitLab Free tier.
 
-Thomas, would that work for you too?  I'm wondering whether you'd like to
-post a patch for that.
+The SLOF repo was last synced automatically 6 days ago. I'm unable to
+start a new sync operation and maybe the current one is stuck (the web
+interface claims the sync is currently updating...).
 
-I could have reposted both patches (including what Dan suggested) but I
-still have no good way to kick that macos test so I cannot verify it.  Let
-me know if you want me to post those, I can do it (and test as much as I
-could) but I may need some help on kicking a test to verify it.
+Peter: are you able to fetch https://github.com/aik/SLOF and push to
+https://gitlab.com/qemu-project/SLOF to manually sync the repo?
 
-Thanks!
+I currently don't have easy access to my ssh key but let me know if
+you can't and I'll see what I can do. Tomorrow I should have access
+again.
 
--- 
-Peter Xu
+Thanks,
+Stefan
 
+
+Stefan
 
