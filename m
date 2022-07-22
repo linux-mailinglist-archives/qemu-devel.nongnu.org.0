@@ -2,62 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C9157DD03
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 10:59:10 +0200 (CEST)
-Received: from localhost ([::1]:50878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23E9557DD09
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:02:01 +0200 (CEST)
+Received: from localhost ([::1]:53670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEoV3-0003IK-F3
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 04:59:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43316)
+	id 1oEoXo-0005Fn-81
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:02:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oEoPk-00083J-V1
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:53:41 -0400
-Received: from mga06b.intel.com ([134.134.136.31]:41955 helo=mga06.intel.com)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oEoSB-0000M7-Vc
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:56:12 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:5162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oEoPh-0008Lq-SG
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658480017; x=1690016017;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=buxSHgisBk+wMiwpjmZecXS7yAvR9q+2wzyTRyF+Nvk=;
- b=CvI9BD994i/t+HRJI3DH8NQQkGtxXtt9KI4NUzZvg5vkb4cU8yeCHvH/
- qhpHIpgCDLpL4NnljGfqyqJskjcXbhuK2vIK98RBsS7z/ng5ZtcM5XMmH
- r4E+PqxymZugb5Yt8X1GqJzENOeoPpjlGT/9ALqsIP3jyLJ/Tyj2jGlg/
- 6buBCrxcJiUiJYWAt/iGbl6NBAqBUGJOQUjQO4fz4mYzDW89uPvYPjLim
- jBa7/+pEait019D6rIf1e4pvSrsj86XaClIpl20Wro2kTBH53Ll2xO7WF
- TX6PSodOWx/7BkB6flxrIis98wWnUxobPCTGhwjzO1uLj1tg3mroQorIm Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="348973155"
-X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="348973155"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2022 01:53:32 -0700
-X-IronPort-AV: E=Sophos;i="5.93,185,1654585200"; d="scan'208";a="626487293"
-Received: from duan-server-s2600bt.bj.intel.com ([10.240.192.143])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Jul 2022 01:53:30 -0700
-From: Zhenzhong Duan <zhenzhong.duan@intel.com>
-To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, peterx@redhat.com, david@redhat.com, f4bug@amsat.org
-Subject: [PATCH v2] softmmu/physmem: Fix input parameters for
- flatview_access_allowed()
-Date: Fri, 22 Jul 2022 16:45:39 +0800
-Message-Id: <20220722084539.187393-1-zhenzhong.duan@intel.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oEoS9-0000Tm-AG
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:56:11 -0400
+Received: from canpemm500005.china.huawei.com (unknown [172.30.72.57])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Lq3D33N21zGp7p;
+ Fri, 22 Jul 2022 16:54:59 +0800 (CST)
+Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
+ canpemm500005.china.huawei.com (7.192.104.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 22 Jul 2022 16:56:04 +0800
+Received: from kwepemm600015.china.huawei.com ([7.193.23.52]) by
+ kwepemm600015.china.huawei.com ([7.193.23.52]) with mapi id 15.01.2375.024;
+ Fri, 22 Jul 2022 16:56:03 +0800
+To: =?utf-8?B?RGFuaWVsIFAuIEJlcnJhbmfDqQ==?= <berrange@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>, "Wangxin
+ (Alexander)" <wangxinxin.wang@huawei.com>
+Subject: Re: [PATCH] dump: introduce dump-cancel QMP command
+Thread-Topic: [PATCH] dump: introduce dump-cancel QMP command
+Thread-Index: AdidqGLXXn8vFcgvS061nQP8k3Zqhg==
+Date: Fri, 22 Jul 2022 08:56:03 +0000
+Message-ID: <6b40667e3b184c0785924c88b2aa17a9@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.166.163.62]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=134.134.136.31;
- envelope-from=zhenzhong.duan@intel.com; helo=mga06.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=hogan.wang@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,45 +69,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Wangjing(Hogan)" <hogan.wang@huawei.com>
+From:  "Wangjing(Hogan)" via <qemu-devel@nongnu.org>
 
-The comment of flatview_access_allowed() suggests to pass address
-within that memory region, this isn't true in some call sites.
-
-This makes qemu log in flatview_access_allowed() confusing and
-potential risk if the input parameter will be checked in the future.
-
-Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
----
-v2: Fix typo and removed Fixed-by per David
-
- softmmu/physmem.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index fb16be57a6c6..214cb04c8fc3 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2850,7 +2850,7 @@ static MemTxResult flatview_write(FlatView *fv, hwaddr addr, MemTxAttrs attrs,
- 
-     l = len;
-     mr = flatview_translate(fv, addr, &addr1, &l, true, attrs);
--    if (!flatview_access_allowed(mr, attrs, addr, len)) {
-+    if (!flatview_access_allowed(mr, attrs, addr1, l)) {
-         return MEMTX_ACCESS_ERROR;
-     }
-     return flatview_write_continue(fv, addr, attrs, buf, len,
-@@ -2917,7 +2917,7 @@ static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
- 
-     l = len;
-     mr = flatview_translate(fv, addr, &addr1, &l, false, attrs);
--    if (!flatview_access_allowed(mr, attrs, addr, len)) {
-+    if (!flatview_access_allowed(mr, attrs, addr1, l)) {
-         return MEMTX_ACCESS_ERROR;
-     }
-     return flatview_read_continue(fv, addr, attrs, buf, len,
--- 
-2.25.1
-
+PiBPbiBUaHUsIEp1bCAyMSwgMjAyMiBhdCAwOToxMzo1M0FNICswMTAwLCBEYW5pZWwgUC4gQmVy
+cmFuZ8OpIHdyb3RlOg0KPiA+IE9uIFRodSwgSnVsIDIxLCAyMDIyIGF0IDAyOjIxOjE4UE0gKzA4
+MDAsIEhvZ2FuIFdhbmcgdmlhIHdyb3RlOg0KPiA+ID4gVGhlcmUncyBubyB3YXkgdG8gY2FuY2Vs
+IHRoZSBjdXJyZW50IGV4ZWN1dGluZyBkdW1wIHByb2Nlc3MsIGxlYWQgdG8gDQo+ID4gPiB0aGUg
+dmlydHVhbCBtYWNoaW5lIG1hbmFnZXIgZGFlbW9uKChlLmcuIGxpYnZpcnRkKSBjYW5ub3QgcmVz
+dG9yZSANCj4gPiA+IHRoZSBkdW1wIGpvYiBhZnRlciBkYWVtb24gcmVzdGFydC4NCj4gPiA+IA0K
+PiA+ID4gQWRkIHRoZSAnY2FuY2VsbGluZycgYW5kICdjYW5jZWxsZWQnIGR1bXAgc3RhdGVzLg0K
+PiA+ID4gDQo+ID4gPiBVc2UgJ2R1bXAtY2FuY2VsJyBxbXAgY29tbWFuZCBTZXQgdGhlIGR1bXAg
+c3RhdGUgYXMgJ2NhbmNlbGxpbmcnLg0KPiA+ID4gVGhlIGR1bXAgcHJvY2VzcyBjaGVjayB0aGUg
+J2NhbmNlbGxpbmcnIHN0YXRlIGFuZCBicmVhayBsb29wcy4gDQo+ID4gPiBUaGUgJ2NhbmNlbGxl
+ZCcgc3RhdGUgbWFyayB0aGUgZHVtcCBwcm9jZXNzIGNhbmNlbGxlZCBzdWNjZXNzLg0KPiA+IA0K
+PiA+IE9uIHRoZSBvbmUgaGFuZCB0aGlzIHBhdGNoIGlzIGZhaXJseSBzaW1wbGUgd2hpY2ggaXMg
+b2J2aW91c2x5IA0KPiA+IGRlc2lyYWJsZS4NCj4gPiANCj4gPiBPbiB0aGUgb3RoZXIgaGFuZCB0
+aG91Z2gsIHRoaXMgZmVlbHMgbGlrZSBpdCBpcyBmdXJ0aGVyIHJlLWludmVudGluZyANCj4gPiB0
+aGUgam9icyBjb25jZXB0Lg0KPiA+IA0KPiA+IElNSE8gaWRlYWxseSB0aGUgJ2R1bXAnIGNvbW1h
+bmQgcHJvYmFibHkgb3VnaHQgdG8gZ2V0IGEgJ2pvYi1pZCcNCj4gDQo+IEkgbWVhbnQgdG8gc2F5
+IGFuICpvcHRpb25hbCogam9iLWlkIGZpZWxkLCBzaW5jZSB3ZSBuZWVkIHRvIGtlZXAgYmFjayBj
+b21wYXQuIFBvc3NpYmx5IHdlIGNvdWxkIHNlY3JldGx5IGNyZWF0ZSBhIGpvYiBhbnl3YXkgaW50
+ZXJuYWxseSBpZiBqb2ItaWQgaXMgb21pdHRlZCwgaWYgaXQgbWFrZXMgY29kZSBlYXNpZXIuDQoN
+CkkgaGF2ZSB0aGUgc2FtZSBpZGVhIGFzIHlvdSwgYW5kIHdpbGwgcHVzaCB0aGUgcGF0Y2hlcyBs
+YXRlci4NCj4gDQo+ID4gcGFyYW1ldGVyLCBhbmQgaW50ZWdyYXRlIHdpdGggdGhlIGdlbmVyaWMg
+YmFja2dyb3VuZCBqb2JzICBmcmFtZXdvcmsuDQo+ID4gVGhpcyB3b3VsZCB1bmxvY2sgdGhlIGFi
+aWxpdHkgdG8gdXNlIGV4aXN0aW5nIGNvbW1hbmRzIGxpa2UgDQo+ID4gJ2pvYi1jYW5jZWwnLCAn
+am9iLXBhdXNlJywgJ2pvYi1yZXN1bWUnLCAncXVleXItam9icycgdG8gaW50ZXJhY3Qgd2l0aCAN
+Cj4gPiBpdC4NCj4gDQo+IFdpdGggcmVnYXJkcywNCj4gRGFuaWVsDQoNCg0K
 
