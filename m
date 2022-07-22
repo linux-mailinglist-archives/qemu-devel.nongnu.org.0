@@ -2,101 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594B257DB78
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:44:06 +0200 (CEST)
-Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D95B57DB89
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:54:10 +0200 (CEST)
+Received: from localhost ([::1]:42240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEnKO-0001fB-TD
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:44:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52576)
+	id 1oEnU7-00086J-R5
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:54:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEn64-0001Vb-KU
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:29:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30380)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oEnNo-0004pk-Ut
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:47:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEn60-0003jn-9S
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:29:14 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oEnNl-0007FW-RV
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:47:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658474951;
+ s=mimecast20190719; t=1658476051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GU0ainywiAqDpCYcz3/XhSR6JnBrizZS7EI4BATV8/c=;
- b=GdW++bmeKEWMZ/Kn0BLZWLKr/hGP8J9pjtLPCmgCAh27Rb6phwvJhm2v22BfYjQ5j43Eiw
- lItk7Fn5HsKPfIQe7b2A0vcqazOp3FhkFV0PaHyQUV3BP79DHagfgR4jR+GdZwELPASlA2
- ZI7yw1ND8LF40jl+uJ3XSxfLrwpqLiU=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=shwlVv+FbeU3zMEq2/nwRFuQclElHDaZSUofPPZVmkk=;
+ b=KeUk2ArXgi/AitGLwAA3L9Lpe/8HZFJQPfpz8g6uBYPFDZ4g/EYvvXE1owfiiHYBbHdKo2
+ eff5lktZ+0KDKTqPoyHDG8nBNs5DXf8hCq/MDsbhvpJX1Jt5olamI+XneQ2im3h2FYH2Im
+ rAYhGdk8Kck9hZL2zff9y0NQv41+ScY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-606-Tc0rTMCRPBy3Na6QrQNP4w-1; Fri, 22 Jul 2022 03:29:08 -0400
-X-MC-Unique: Tc0rTMCRPBy3Na6QrQNP4w-1
-Received: by mail-qk1-f197.google.com with SMTP id
- w22-20020a05620a425600b006b5f48556cbso3144692qko.17
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
+ us-mta-131-VZogwqNMMAOQWrRQKE42Yw-1; Fri, 22 Jul 2022 03:47:29 -0400
+X-MC-Unique: VZogwqNMMAOQWrRQKE42Yw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w15-20020a056402268f00b0043ac600a6bcso2400084edd.6
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 00:47:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent
- :content-language:to:cc:references:from:subject:in-reply-to
- :content-transfer-encoding;
- bh=GU0ainywiAqDpCYcz3/XhSR6JnBrizZS7EI4BATV8/c=;
- b=Gk0i+Xem9vsI3IrMjDZD8uzbbs/XFBC5tksvQJ+FTQNVwFwsNam1IEXB8LcNBmlEbe
- hLUqQlDTQlJzrTaXdrsT0622C86V9+AkOrnVMSrkoo+YoCxHWZ9C8IuJHjscVM0Dc0qL
- ikedLmUefLofT0T3r2/w7siz5+7/JLM4e8hBtXnJr1XYzmDwgv3dpqlRkngn5o9acmVt
- DmImuotgC47sAmQXS7U4KmLxWlsO10hpZ/BB8Es7gIwowNMtraoP8NLUTDi+sTGNcUWG
- uBFE6BgIFlhf+aqrH6ExXNYO2iS6btEulmNsz9otyYGWxg2yS5EubWXlZy21YXvy52Hv
- RS8w==
-X-Gm-Message-State: AJIora8OJqmxT1wn0byTvs/BXlitG6nNvjTc1TLO2jDn0hM/BhaHZyzp
- ywb+0IRk48R4dRGxA7HIgpdhvvR0OkcM9F6IYeYRjMSHNqKsFO6/6xjBmiheRwU4Llp0HFQnRjO
- fqnXJHMmU6zlTJLg=
-X-Received: by 2002:ac8:5f08:0:b0:31f:1a4e:2727 with SMTP id
- x8-20020ac85f08000000b0031f1a4e2727mr1938600qta.414.1658474948451; 
- Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uIWIfF+AYladgPnZPBjcTAqFOcdbf0jrhVz4x7m/Xou1bSJsDeXH+q3plMJmbnGJwuqTPRzw==
-X-Received: by 2002:ac8:5f08:0:b0:31f:1a4e:2727 with SMTP id
- x8-20020ac85f08000000b0031f1a4e2727mr1938586qta.414.1658474948215; 
- Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-42.web.vodafone.de.
- [109.43.176.42]) by smtp.gmail.com with ESMTPSA id
- j8-20020ac84408000000b0031ee2080c73sm2477000qtn.54.2022.07.22.00.29.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 00:29:07 -0700 (PDT)
-Message-ID: <670414db-8d17-63d4-5b20-fcfcd0590553@redhat.com>
-Date: Fri, 22 Jul 2022 09:28:57 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=shwlVv+FbeU3zMEq2/nwRFuQclElHDaZSUofPPZVmkk=;
+ b=g04GHOZFOXbYEqbFX46H6U2FimJwe+LHOyfbnSGFMS2gXnFb0hLPMjqGlwBi0kjA8O
+ b+7dumzNli0l0TLtvsb69y6J2Pvu4ay+c40bcnM8/vMbAYxVQQv8c7JoqgRHrW983W71
+ lEBDsp723SxpQeehxBthiwL+X9FVbrBlO384eA6JAES4wlxxsjwJtzxORH3+hO342Xrk
+ 2+PxOj5aSydg/bh8qRrWSn/DP3tPS4PBmrGYxzeqIA8cM7eZn6OimliYSm9HIGWrE6Zf
+ eW90DzlAAZ9DcdhEbbYwqkYaeWPDAeMKDvYqxwUW1CDW2h52uB6FBlqZAQuCdmZfICQf
+ PpqA==
+X-Gm-Message-State: AJIora8sy+1AhhyA8pqkl2taAtV/iApmel3X/pDN5dSVHwAqH2c8DtML
+ uJRAqvqwq+37m8r88sLDZW9rqyp5+3AOdwXCWSwcazpuMgSATiHGWFLsfkrE2IlQf5d+3O+sm5B
+ tlYaaQlxKcap8bgr2iy3c7L9juKYsD5s=
+X-Received: by 2002:a05:6402:388d:b0:43b:a17b:6212 with SMTP id
+ fd13-20020a056402388d00b0043ba17b6212mr2226671edb.51.1658476048335; 
+ Fri, 22 Jul 2022 00:47:28 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tRqVF391n/l9ROOp1U2BLMMDllLnmqVlBbiZ+vjQP0cJFKwBQQU2/07W+y/xKZbDzCfQPplx56Fs+Wy0jGB8Y=
+X-Received: by 2002:a05:6402:388d:b0:43b:a17b:6212 with SMTP id
+ fd13-20020a056402388d00b0043ba17b6212mr2226654edb.51.1658476048133; Fri, 22
+ Jul 2022 00:47:28 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gonglei <arei.gonglei@huawei.com>
-References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
- <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
- <5bc2fcee-2c5d-c400-5992-e2b4ce828477@ilande.co.uk>
- <Ytlii7t0rERVJBXo@rvkaganb>
- <f85ae904-4a31-141d-17dd-43c5a27d9b07@ilande.co.uk>
- <Ytl3SKpbnp8Twtkq@redhat.com>
- <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-In-Reply-To: <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+References: <20220720131204.591104-1-lulu@redhat.com>
+In-Reply-To: <20220720131204.591104-1-lulu@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Fri, 22 Jul 2022 15:46:52 +0800
+Message-ID: <CACLfguXo3=h0PsHh+oehVcTjRNSqwOCiG9-VM_o7HjUdZBtxcA@mail.gmail.com>
+Subject: Re: [PATCH v13 00/10] vhost-vdpa: add support for configure interrupt
+To: Cindy Lu <lulu@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>, virtio-fs@redhat.com, 
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,83 +95,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/07/2022 18.05, Mark Cave-Ayland wrote:
-> On 21/07/2022 16:56, Daniel P. Berrangé wrote:
-> 
->> On Thu, Jul 21, 2022 at 04:51:51PM +0100, Mark Cave-Ayland wrote:
->>> On 21/07/2022 15:28, Roman Kagan wrote:
->>>
->>> (lots cut)
->>>
->>>> In the guest (Fedora 34):
->>>>
->>>> [root@test ~]# lspci -tv
->>>> -[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM 
->>>> Controller
->>>>              +-01.0  Device 1234:1111
->>>>              +-02.0  Red Hat, Inc. QEMU XHCI Host Controller
->>>>              +-05.0-[01]----00.0  Red Hat, Inc. Virtio block device
->>>>              +-05.1-[02]----00.0  Red Hat, Inc. Virtio network device
->>>>              +-05.2-[03]--
->>>>              +-05.3-[04]--
->>>>              +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface 
->>>> Controller
->>>>              \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus 
->>>> Controller
->>>>
->>>> Changing addr of the second disk from 4 to 0 makes it appear in the
->>>> guest.
->>>>
->>>> What exactly do you find odd?
->>>
->>> Thanks for this, the part I wasn't sure about was whether the device ids in
->>> the command line matched the primary PCI bus or the secondary PCI bus.
->>>
->>> In that case I suspect that the enumeration of non-zero PCIe devices fails
->>> in Linux because of the logic here:
->>> https://github.com/torvalds/linux/blob/master/drivers/pci/probe.c#L2622.
->>
->> Just above that though is logic that handles 'pci=pcie_scan_all'
->> kernel parameter, to make it look for non-zero devices.
->>
->>> I don't have a copy of the PCIe specification, but assuming the comment is
->>> true then your patch looks correct to me. I think it would be worth adding a
->>> similar comment and reference to your patch to explain why the logic is
->>> required, which should also help the PCI maintainers during review.
->>
->> The docs above with the pci=pcie_scan_all suggest it is unusual but not
->> forbidden.
-> 
-> That's interesting as I read it completely the other way around, i.e. PCIe 
-> downstream ports should only have device 0 and the PCI_SCAN_ALL_PCIE_DEVS 
-> flag is there for broken/exotic hardware :)
-> 
-> Perhaps if someone has a copy of the PCIe specification they can check the 
-> wording in section 7.3.1 to see exactly what the correct behaviour should be?
+Hi Micheal.
+Would you help review these patches, not sure if this is ok to merge?
+Thanks
+Cindy
 
-I've got an older version here... it talks about the "Alternative Routing-ID 
-Interpretation" (ARI) there:
-
-"With non-ARI Devices, PCI Express components are restricted to implementing 
-a single Device Number on their primary interface (Upstream Port), but are 
-permitted to implement up to eight
-independent Functions within that Device Number. [...] Downstream Ports that 
-do not have ARI Forwarding enabled must associate only Device 0 with the 
-device [...].
-With an ARI Device, its Device Number is implied to be 0 rather than 
-specified by a field within an ID. The traditional 5-bit Device Number and 
-3-bit Function Number fields in its associated
-Routing IDs, Requester IDs, and Completer IDs are interpreted as a single 
-8-bit Function Number."
-
-There was also an older patch similar to yours here:
-
- 
-https://lore.kernel.org/all/33183CC9F5247A488A2544077AF1902086D6B3F5@SZXEMA503-MBS.china.huawei.com/T/
-
-... but if I've got that right, it has never been merged?
-
-  HTH,
-   Thomas
+On Wed, Jul 20, 2022 at 9:12 PM Cindy Lu <lulu@redhat.com> wrote:
+>
+> Add support for virtio-mmio bus
+> active the notifier while the backend support configure interrupt
+> misc fixes from v1
+>
+> Change in v3
+> fix the coding style problems
+>
+> Change in v4
+> misc fixes from v3
+> merge the set_config_notifier to set_guest_notifier
+> when vdpa start, check the feature by VIRTIO_NET_F_STATUS
+>
+> Change in v5
+> misc fixes from v4
+> split the code to introduce configure interrupt type and the callback function
+> will init the configure interrupt in all virtio-pci and virtio-mmio bus, but will
+> only active while using vhost-vdpa driver
+>
+> Change in v6
+> misc fixes from v5
+> decouple vq from interrupt setting and misc process
+> fix the bug in virtio_net_handle_rx
+>
+> Change in v7
+> misc fixes from v6
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move config_notifier and masked_config_notifier to VirtIODevice
+> fix the bug in virtio_net_handle_rx, add more information
+> add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt
+>
+> Change in v8
+> misc fixes from v7
+> decouple vq from interrupt setting and misc process
+> decouple vq from vector use/release process
+> decouple vq from set notifier fd handler process
+> move the vhost configure interrupt to vhost_net
+>
+> Change in v9
+> misc fixes from v8
+> address the comments from v8
+>
+> Change in v10
+> fix the hang issue in qtest
+> address the comments from v9
+>
+> Change in v11
+> fix the crash in aarch64 plateform.
+> fix the crash upstream reported
+>
+> Changes in v12
+> fix the typo and the comments
+>
+> changes in v13
+> re-send the patches by git-publish
+>
+> Cindy Lu (10):
+>   virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX
+>   virtio-pci: decouple notifier from interrupt process
+>   virtio-pci: decouple the single vector from the interrupt process
+>   vhost: introduce new VhostOps vhost_set_config_call
+>   vhost-vdpa: add support for config interrupt
+>   virtio: add support for configure interrupt
+>   vhost: add support for configure interrupt
+>   virtio-net: add support for configure interrupt
+>   virtio-mmio: add support for configure interrupt
+>   virtio-pci: add support for configure interrupt
+>
+>  hw/display/vhost-user-gpu.c       |  13 ++
+>  hw/net/vhost_net.c                |   9 +
+>  hw/net/virtio-net.c               |  20 ++-
+>  hw/virtio/trace-events            |   1 +
+>  hw/virtio/vhost-user-fs.c         |  14 ++
+>  hw/virtio/vhost-vdpa.c            |   8 +
+>  hw/virtio/vhost-vsock-common.c    |  14 ++
+>  hw/virtio/vhost.c                 |  78 +++++++-
+>  hw/virtio/virtio-crypto.c         |  14 ++
+>  hw/virtio/virtio-mmio.c           |  27 +++
+>  hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------
+>  hw/virtio/virtio-pci.h            |   4 +-
+>  hw/virtio/virtio.c                |  29 +++
+>  include/hw/virtio/vhost-backend.h |   3 +
+>  include/hw/virtio/vhost.h         |   4 +
+>  include/hw/virtio/virtio.h        |   7 +
+>  include/net/vhost_net.h           |   2 +
+>  17 files changed, 443 insertions(+), 87 deletions(-)
+>
+> --
+> 2.34.3
+>
+>
 
 
