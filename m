@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56CF57DB2F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:22:30 +0200 (CEST)
-Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF2F057DAA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:11:40 +0200 (CEST)
+Received: from localhost ([::1]:37900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEmzU-0005Ou-FA
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:22:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47654)
+	id 1oEmp1-0000YP-Hq
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:11:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEmgc-00034M-Hx
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:02:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22431)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oEmjT-0004Va-BT
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:05:55 -0400
+Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:48987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEmgY-0002ie-TK
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:02:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658473373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8lVuut8dDMHF/rB5VP7JnS5uFLPr9DH7Jyo4RHOIWzs=;
- b=RIkOz2Tsm29Hv40TRGtUU6i7mUb5iV36ZZHUigluszzbhevEYUqShE7OEFI+YW7t3UyV5g
- 0CblEKq6gim4fez0MLG727+7hVseQAJmivgFpcfD6gMQqi7ykl+8LyN2sQr7PI0Mpj50xn
- QG/ygBPUemEnACFsdHBinELzRHQ9xeg=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-kgmHP0Y-OKuKD1pVkAJ8eQ-1; Fri, 22 Jul 2022 03:02:51 -0400
-X-MC-Unique: kgmHP0Y-OKuKD1pVkAJ8eQ-1
-Received: by mail-qt1-f197.google.com with SMTP id
- w26-20020a05622a191a00b0031f0b4a561bso2408731qtc.21
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 00:02:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8lVuut8dDMHF/rB5VP7JnS5uFLPr9DH7Jyo4RHOIWzs=;
- b=MrRaQnarQ+11DFRRl7mEWC9VSxcYX6SxTXahnjxx4hraWda8MTrcEHvrU/lOKnttt+
- fXMwWgwFByrWiF162vBhd4NE4lHVeSW3WAcyG/6ilUKsZr0/30vCRoS4ezHMAyLKtF3R
- WiItLTsoDgfq5hHcQdgbOuWMigsf0wn5aT7YiZ8hqmnWvYioKAXQTNaeaItEn7nYqz/d
- gP911AaLLlehusF9zhmv1qAcxed9Nlz/Hs/jMOI1SNzi92mwjOEjJ5LxSf3RT3pZxS/y
- 1MA3MYDrFVYdVRj4UwHOxEhMu971VmaPVCg6lhpF+SkTxUDqSXX5o6H793T/TYo3D/SK
- K6ww==
-X-Gm-Message-State: AJIora9Alrl3KiNVqEq+VglzZQ6dendVWgHblT8u5bVJ6OOZVI3X/A0r
- vqKBeSDdGuh69+3+iPGN4V3zyv2tLfC6Pd5VG5IMgCaKX6ZMjGoryktZoNU19K9aORupdFR6NNH
- vIq3rqf9Hm+p7mZDXoWKQw/9xhMHOm3o=
-X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
- v16-20020a05620a0f1000b006aa318e55a9mr1494360qkl.559.1658473370868; 
- Fri, 22 Jul 2022 00:02:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uHjZ6O36vIliirFjZKTDS+iJ/+qJnNq7TLe3XSwREkPeY/VUFjp9ZoyS/xSQPRpvLymqLycNItZPiSTe4b0Io=
-X-Received: by 2002:a05:620a:f10:b0:6aa:318e:55a9 with SMTP id
- v16-20020a05620a0f1000b006aa318e55a9mr1494342qkl.559.1658473370588; Fri, 22
- Jul 2022 00:02:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oEmjQ-00039Y-Ob
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:05:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id EA75A232F5;
+ Fri, 22 Jul 2022 07:05:40 +0000 (UTC)
+Received: from kaod.org (37.59.142.95) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Fri, 22 Jul
+ 2022 09:05:39 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001c0ab5402-62ce-4943-ae94-18974cadfa17,
+ C964DFE1AD449E897551F86C6D919768E4C9FD76) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.2.115.184
+Message-ID: <ae6d8345-5a14-3f1e-d544-5f07b0b76a9c@kaod.org>
+Date: Fri, 22 Jul 2022 09:05:39 +0200
 MIME-Version: 1.0
-References: <20220718162938.2938783-1-eperezma@redhat.com>
- <20220718162938.2938783-5-eperezma@redhat.com>
- <CACGkMEsjR6HbVLzLNypMu+7yLkAosrkLCSkrySG5miQfd+ZLdg@mail.gmail.com>
-In-Reply-To: <CACGkMEsjR6HbVLzLNypMu+7yLkAosrkLCSkrySG5miQfd+ZLdg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 22 Jul 2022 09:02:14 +0200
-Message-ID: <CAJaqyWdRrX44Seqf4m---6MUFOUAUSt2RsisE2h2sVvLa3T14g@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] vdpa: Add virtio-net mac address via CVQ at start
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Cindy Lu <lulu@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Liuxiangdong <liuxiangdong5@huawei.com>, Eric Blake <eblake@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Gautam Dawar <gdawar@xilinx.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Zhu Lingshan <lingshan.zhu@intel.com>, 
- Parav Pandit <parav@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Eli Cohen <eli@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/8] m25p80: Add SFDP support
+Content-Language: en-US
+To: <qemu-devel@nongnu.org>
+CC: <qemu-arm@nongnu.org>, <qemu-block@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, Joel Stanley <joel@jms.id.au>, Andrew Jeffery
+ <andrew@aj.id.au>, Alistair Francis <alistair@alistair23.me>, Francisco
+ Iglesias <frasse.iglesias@gmail.com>, Iris Chen <irischenlj@fb.com>, Michael
+ Walle <michael@walle.cc>
+References: <20220722063602.128144-1-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220722063602.128144-1-clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 3f2bfa26-25f3-4ac0-a20d-e8e57cd3b5a3
+X-Ovh-Tracer-Id: 5495517448188234674
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtuddguddulecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdehkeelieetvddtlefgveeuheduheetledvtdfgfeffledvjeekjeegledvkeeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepmhhitghhrggvlhesfigrlhhlvgdrtggtpdfovfetjfhoshhtpehmohehhedv
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
+ helo=4.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,200 +77,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 22, 2022 at 4:29 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Tue, Jul 19, 2022 at 12:30 AM Eugenio P=C3=A9rez <eperezma@redhat.com>=
- wrote:
-> >
-> > This is needed so the destination vdpa device see the same state a the
-> > guest set in the source.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  include/net/vhost-vdpa.h |  1 +
-> >  hw/net/vhost_net.c       |  8 +++++
-> >  net/vhost-vdpa.c         | 64 ++++++++++++++++++++++++++++++++++++++--
-> >  3 files changed, 71 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
-> > index b81f9a6f2a..38d65e845d 100644
-> > --- a/include/net/vhost-vdpa.h
-> > +++ b/include/net/vhost-vdpa.h
-> > @@ -15,6 +15,7 @@
-> >  #define TYPE_VHOST_VDPA "vhost-vdpa"
-> >
-> >  struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
-> > +int vhost_vdpa_start(NetClientState *nc);
-> >
-> >  extern const int vdpa_feature_bits[];
-> >
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index ccac5b7a64..f9cebd9716 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *n=
-et,
-> >              }
-> >          }
-> >      }
-> > +
-> > +    if (net->nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA) {
-> > +        r =3D vhost_vdpa_start(net->nc);
-> > +        if (r < 0) {
-> > +            goto fail;
-> > +        }
-> > +    }
->
-> This seems tricky, I wonder if we can do this via NetClientInfo
-> instead of directly via the vhost layer?
->
+On 7/22/22 08:35, Cédric Le Goater wrote:
+> Hello,
+> 
+> This is a refresh of a patchset sent long ago [1] adding support for
 
-Route it via net->nc->info->start()? I think it's better, yes. It was
-how it was done before [1].
+[1] was lost while writing the cover :
 
-vhost_kernel could also call to vhost_net_set_backend there.
+   https://lore.kernel.org/qemu-devel/20200902093107.608000-1-clg@kaod.org/
 
-> Note that the virtio-net has several places that check VDPA backend
-> explicitly. This is suboptimal, I will post patch to hide them via
-> NetClientInfo.
->
-> >      return 0;
-> >  fail:
-> >      file.fd =3D -1;
-> > @@ -373,6 +380,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientSta=
-te *ncs,
-> >          r =3D vhost_net_start_one(get_vhost_net(peer), dev);
-> >
-> >          if (r < 0) {
-> > +            vhost_net_stop_one(get_vhost_net(peer), dev);
->
-> This should not be correct. vhost_net_start_one() fail means the
-> device is not started, stop once again seems not again.
->
+C.
 
-You're right, I think the rebase process put it here by mistake.
-
-> >              goto err_start;
-> >          }
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 533bd9f680..84e90f067a 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -342,9 +342,12 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(=
-VhostShadowVirtqueue *svq,
-> >      virtio_net_ctrl_ack status;
-> >      size_t dev_written;
-> >      int r;
-> > -    void *unused =3D (void *)1;
-> >
-> > -    r =3D vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, u=
-nused);
-> > +    /*
-> > +     * Add a fake non-NULL VirtQueueElement since we'll remove before =
-SVQ
-> > +     * event loop can get it.
-> > +     */
-> > +    r =3D vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, (=
-void *)1);
->
-> Any reason we can 't simply pass NULL as the last parameter for vhost_svq=
-_add()?
->
-
-Since we're being more similar to the kernel, we cannot pass NULL.
-NULL as "data" would mean that there are no descriptors there.
-
-The kernel passes the virtnet_info, but it's totally unused as you're
-polling for receiving the only buffer it introduced previously. We
-can:
-a) Put whatever value we want here (svq? dev_written? any non NULL value wo=
-rk).
-b) Delete this argument and use a sentinel value in SVQ to mark the
-buffers not injected by the guest (separating the code from the kernel
-one).
-
-Thanks!
-
-[1] https://patchwork.kernel.org/project/qemu-devel/patch/20220413163206.19=
-58254-21-eperezma@redhat.com/
-
-> Thanks
->
-> >      if (unlikely(r !=3D 0)) {
-> >          if (unlikely(r =3D=3D -ENOSPC)) {
-> >              qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device que=
-ue\n",
-> > @@ -372,6 +375,63 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(=
-VhostShadowVirtqueue *svq,
-> >      return VIRTIO_NET_OK;
-> >  }
-> >
-> > +int vhost_vdpa_start(NetClientState *nc)
-> > +{
-> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> > +    VirtIONet *n =3D VIRTIO_NET(v->dev->vdev);
-> > +    uint64_t features =3D v->dev->vdev->host_features;
-> > +    VhostShadowVirtqueue *svq;
-> > +
-> > +    if (!v->shadow_vqs_enabled) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    if (v->dev->vq_index + v->dev->nvqs !=3D v->dev->vq_index_end) {
-> > +        /* Only interested in CVQ */
-> > +        return 0;
-> > +    }
-> > +
-> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> > +
-> > +    svq =3D g_ptr_array_index(v->shadow_vqs, 0);
-> > +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-> > +        const struct virtio_net_ctrl_hdr ctrl =3D {
-> > +            .class =3D VIRTIO_NET_CTRL_MAC,
-> > +            .cmd =3D VIRTIO_NET_CTRL_MAC_ADDR_SET,
-> > +        };
-> > +        uint8_t mac[6];
-> > +        const struct iovec out[] =3D {
-> > +            {
-> > +                .iov_base =3D (void *)&ctrl,
-> > +                .iov_len =3D sizeof(ctrl),
-> > +            },{
-> > +                .iov_base =3D mac,
-> > +                .iov_len =3D sizeof(mac),
-> > +            },
-> > +        };
-> > +        struct iovec dev_buffers[2] =3D {
-> > +            { .iov_base =3D s->cvq_cmd_out_buffer },
-> > +            { .iov_base =3D s->cvq_cmd_in_buffer },
-> > +        };
-> > +        bool ok;
-> > +        virtio_net_ctrl_ack state;
-> > +
-> > +        ok =3D vhost_vdpa_net_cvq_map_sg(s, out, ARRAY_SIZE(out), dev_=
-buffers);
-> > +        if (unlikely(!ok)) {
-> > +            return -1;
-> > +        }
-> > +
-> > +        memcpy(mac, n->mac, sizeof(mac));
-> > +        state =3D vhost_vdpa_net_cvq_add(svq, dev_buffers);
-> > +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[0].iov_base);
-> > +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[1].iov_base);
-> > +        return state =3D=3D VIRTIO_NET_OK ? 0 : 1;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >  /**
-> >   * Do not forward commands not supported by SVQ. Otherwise, the device=
- could
-> >   * accept it and qemu would not know how to update the device model.
-> > --
-> > 2.31.1
-> >
->
+> JEDEC STANDARD JESD216 Serial Flash Discovery Parameters (SFDP). SFDP
+> describes the features of a serial flash device using a set of internal
+> parameter tables. Support in Linux has been added some time ago and
+> the spi-nor driver is using it more often to detect the flash settings
+> and even flash models.
+> 
+> Francisco and I are not entirely satisfied with the way the tables are
+> defined. We add some private discussion on how to resolve that but
+> neither of us had the time to pursue the study. Latest Francisco
+> proposal was :
+> 
+>      #define define_sfdp_read_wrap(model, wrap_sz)            \
+>      uint8_t m25p80_sdfp_read_##model(SFDPTable t, uint32_t addr) \
+>      {                                                            \
+>           return m25p80_sdfp_read(t, addr & (wrap_sz-1));          \
+>      }
+>      ...
+>      define_sfdp_read_wrap(mt25ql512ab, SZ_256)
+>      
+>      A new variable in the section would solve it aswell but not convinced at the
+>      moment if it is clear enough:
+>      
+>      typedef struct SFDPSection {
+>           const uint32_t addr;
+>           const uint32_t size;
+>           const uint32_t wrap_sz;
+>           const uint8_t *data;
+>      } SFDPSection;
+>      
+>      #define SFDP_RAW(start_addr, vals...) \
+>      {                                     \
+>         .addr = start_addr,                 \
+>         .size = sizeof((uint8_t[]){vals}),  \
+>         .data = (const uint8_t[]){vals}     \
+>      }
+>      
+>      #define SFDP_RAW_WRAP(start_addr, _wrap_sz, vals...) \
+>      {                                     \
+>         .addr = start_addr,                 \
+>         .size = sizeof((uint8_t[]){vals}),  \
+>         .wrap_sz = _wrap_sz,                \
+>         .data = (const uint8_t[]){vals}     \
+>      }
+>      
+>      #define SFDP_TABLE_END() { 0 }
+>      #define IS_SFDP_END(x) (x.size == 0)
+>      
+>      #define M35T4545_WRAP_SZ 0x100
+>      
+>      static const SFDPTable m35t4545 = {
+>           SFDP_RAW_WRAP(0, M35T4545_WRAP_SZ,
+>                         0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
+>                         0x00, 0x00, 0x01, 0x09, 0x30, 0x00, 0x00, 0xff),
+>      
+>           SFDP_RAW(0x38,
+>                    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x0f,
+>                    0x29, 0xeb, 0x27, 0x6b, 0x08, 0x3b, 0x27, 0xbb,
+>                    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x27, 0xbb,
+>                    0xff, 0xff, 0x29, 0xeb, 0x0c, 0x20, 0x10, 0xd8,
+>                    0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff),
+>      
+>           SFDP_TABLE_END()
+>      };
+>      
+>      uint8_t m25p80_sfdp_read(SFDPTable t, uint32_t addr)
+>      {
+>           if (t[0].wrap_sz) {
+>               addr &= (t.wrap_sz-1);
+>           }
+>      
+>           for (int i = 0; !IS_SFDP_END(t[i]); i++) {
+>               if (addr >= t[i].addr && addr < (t[i].addr + t[i].size)) {
+>                   return t[i].data[addr];
+>               }
+>           }
+>           return 0xFF;
+>      }
+> 
+> Since there is a need, we have been using these patches in OpenBMC for
+> some time now and other projects/companies have requested it, I am
+> resending the patchset as it is to restart the discussion.
+> 
+> Thanks,
+> 
+> C.
+> 
+> Cédric Le Goater (8):
+>    m25p80: Add basic support for the SFDP command
+>    m25p80: Add the n25q256a SFDP table
+>    m25p80: Add the mx25l25635e SFPD table
+>    m25p80: Add the mx25l25635f SFPD table
+>    m25p80: Add the mx66l1g45g SFDP table
+>    m25p80: Add the w25q256 SFPD table
+>    m25p80: Add the w25q512jv SFPD table
+>    arm/aspeed: Replace mx25l25635e chip model
+> 
+>   hw/block/m25p80_sfdp.h |  27 ++++
+>   hw/arm/aspeed.c        |   6 +-
+>   hw/block/m25p80.c      |  49 ++++++-
+>   hw/block/m25p80_sfdp.c | 296 +++++++++++++++++++++++++++++++++++++++++
+>   MAINTAINERS            |   2 +-
+>   hw/block/meson.build   |   1 +
+>   hw/block/trace-events  |   1 +
+>   7 files changed, 371 insertions(+), 11 deletions(-)
+>   create mode 100644 hw/block/m25p80_sfdp.h
+>   create mode 100644 hw/block/m25p80_sfdp.c
+> 
 
 
