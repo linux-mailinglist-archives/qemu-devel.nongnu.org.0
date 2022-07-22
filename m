@@ -2,92 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A27A057E510
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:08:08 +0200 (CEST)
-Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99DA657E522
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:15:07 +0200 (CEST)
+Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEw8F-00082o-P0
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:08:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39738)
+	id 1oEwF0-0001Dr-Iw
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5S-0002Rp-VP
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41643)
+ id 1oEw5R-0002Nl-7T
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5Q-0000sQ-3G
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:14 -0400
+ id 1oEw5P-0000sI-O7
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1658509511;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PD1btTBpC+qgQ2KTNV4mkb/zSVhV+xxH1LBouvq89cE=;
- b=Khcvzuf5sa3YO4or91YDAv74xo+DmuKEjlO70lva4tnnLNXp56dNkDFWfb00hQv5wDwPHh
- zldhZ9WCll/F22WLGu6o0jJkNBoj0Jrb7XjEcnCohbqoaovwgYrBChwJk9NhV87hzvvaUG
- fW7Qua0acZfnhh/8dYRNYs6yx/G7BHM=
+ bh=LYGYSZ/ViMUNXuMyvj+UnhkpUrIpVeF9nrlgNYf68qo=;
+ b=aXzXkcLkflvTaTPbxBnTOLjNgXCIqtmf0PzOGSDyAGcm5MhUjZSxE8nMy+GKLttyGfiqyI
+ Ta2vAlOhrW493kulcgGe3ntkmaDVWXNG8Q5e1qROCkuwqTcdPbRH9qhYg1aJ3vPXBV7yee
+ j9eVBTXUdGxGYR90YSK7rc6CaMMXp8I=
 Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
  [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-626-XbaSrozzNG67ZUBlfeck0w-1; Fri, 22 Jul 2022 13:05:07 -0400
-X-MC-Unique: XbaSrozzNG67ZUBlfeck0w-1
+ us-mta-211-fg8qzzR9N9G5bCx_qGL3tg-1; Fri, 22 Jul 2022 13:05:09 -0400
+X-MC-Unique: fg8qzzR9N9G5bCx_qGL3tg-1
 Received: by mail-ed1-f70.google.com with SMTP id
- b15-20020a056402278f00b0043acaf76f8dso3246887ede.21
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:07 -0700 (PDT)
+ y8-20020a056402358800b0043bcb538b85so1954621edc.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PD1btTBpC+qgQ2KTNV4mkb/zSVhV+xxH1LBouvq89cE=;
- b=27M/7kWXhLDcMEb81b7cj5L7AmtCslKv3nMZF4lkeS6dNCTxMqJFJUH2x3B1DerIfq
- IWgp5XtRRrAN1qmgjgeik0TKzIi+pTzWFD+H/wiO2pmhrTryNHnHi/VVd9Azjy7/DsUK
- jDmgmnctBTKi2cV2rg0vIzHxBYHrsh3X+VsQtYEZNdBCj26fvatPgCnnI+TEh3DybIOf
- rBSlJEL4BXmOvna5Oc8Y7KUPLD3sbeNQDojwRw3CR77h/uVZDDA4wKYp8nugqDDs5GxF
- sIcoa78uNiucphU2ZGxAtvFB6OF1LdENGXEDRgIlm4wxMVPDy+3XWub0lIJxoOAgTa6S
- TyQw==
-X-Gm-Message-State: AJIora+NOWira8TG6xVdv+OO75x/zYl+v6fXqjAd8PIX+/RUQeYXxdPI
- Ik8+xLuq/2Wl28KQfqv0wjZj0CYdF3TTHZhSEvAiJrMkbY7BoskCFbqTn8tXHCyhW2UYlyXC/yN
- Uv7MdTdGY1g8HxnLbhUG6yfZ5XIHh/gERqCEwI76XBnBwBySvvk3/096kVFydMV7Nv1Q=
-X-Received: by 2002:a17:907:a042:b0:72b:4fac:1ddf with SMTP id
- gz2-20020a170907a04200b0072b4fac1ddfmr660182ejc.285.1658509505318; 
- Fri, 22 Jul 2022 10:05:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uYa9NTEbbaLl5zmu2VIvZ57j5Ex1bsuLWci2EeBr6EclpRiTDLBpGYVNx+VoXZoqkqw5yQwg==
-X-Received: by 2002:a17:907:a042:b0:72b:4fac:1ddf with SMTP id
- gz2-20020a170907a04200b0072b4fac1ddfmr660159ejc.285.1658509505003; 
- Fri, 22 Jul 2022 10:05:05 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- q6-20020a056402032600b0043574d27ddasm2741818edw.16.2022.07.22.10.05.03
+ bh=LYGYSZ/ViMUNXuMyvj+UnhkpUrIpVeF9nrlgNYf68qo=;
+ b=1swZY1TXI+IhZ8GTV+I/bmdZXdYYoZhjUdLyoCeND3wkKO3oDyhqkYyz8BDiWE+Rpg
+ mSgiw/R2K0Id6Ec4j9rzBtMEGZFKxthRwy9GKl1ByhZCyqMKF4vijJiQzVZXkyxcc1Ap
+ Ia++FehZwrWJhN72DehrnSSJdPHcQgLDvBtP4sHi5BpC+7n1JvmgzNxg/kZdX1VQmRlZ
+ ZxzbBrb3i3HoaF0RMAUWWkv7ngaiYyngoJS5jkH2ViqZlFFxMoZiRIBwEpvmVTo5Zqcw
+ 0mtd/0Ml5w+QYj5gYZIOZPHcD3GjSBd0hyJpLypxJuKJaDHv3ueAZ6o+7rwfsYOr4eeu
+ QBpA==
+X-Gm-Message-State: AJIora+crWFrajw5TfW6F/qReb6UKs4PKqROa2eUqFPtnuT/IDTsvMBC
+ Fu7NH4w29agrD2DZtCisYfFtZvu/SEGPT6bc+Hs0CpDRHvjSo4cL1zAtfta9FVwJ80tH3WOv7dz
+ 3c0iXsjOdEwfgdqUMrG7HIMbxTDiiIngTvtC7zCnTicAPQS+bwjMP139PixHrZkkf4tg=
+X-Received: by 2002:aa7:d9d3:0:b0:43b:c457:fb06 with SMTP id
+ v19-20020aa7d9d3000000b0043bc457fb06mr804851eds.5.1658509507727; 
+ Fri, 22 Jul 2022 10:05:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u5op6bUtaiArTdHq8pylbBCGtodePuA9oJmavgnC7d1wkpWE19KpYAV/0zz6gbSLAilg4VKg==
+X-Received: by 2002:aa7:d9d3:0:b0:43b:c457:fb06 with SMTP id
+ v19-20020aa7d9d3000000b0043bc457fb06mr804836eds.5.1658509507505; 
+ Fri, 22 Jul 2022 10:05:07 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ c14-20020aa7d60e000000b0043b240ce57bsm2834771edr.82.2022.07.22.10.05.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 10:05:04 -0700 (PDT)
+ Fri, 22 Jul 2022 10:05:06 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Paul Burton <paulburton@kernel.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PULL 6/8] hw/mips: boston: pass random seed to fdt
-Date: Fri, 22 Jul 2022 19:04:47 +0200
-Message-Id: <20220722170449.853222-7-pbonzini@redhat.com>
+ Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PULL 7/8] hw/rx: pass random seed to fdt
+Date: Fri, 22 Jul 2022 19:04:48 +0200
+Message-Id: <20220722170449.853222-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220722170449.853222-1-pbonzini@redhat.com>
 References: <20220722170449.853222-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,49 +105,43 @@ If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
 initialize early. Set this using the usual guest random number
 generation function. This FDT node is part of the DT specification.
 
-I'd do the same for other MIPS platforms but boston is the only one that
-seems to use FDT.
-
-Cc: Paul Burton <paulburton@kernel.org>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
 Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-Id: <20220719120843.134392-1-Jason@zx2c4.com>
+Message-Id: <20220719122033.135902-1-Jason@zx2c4.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/mips/boston.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/rx/rx-gdbsim.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 1debca18ec..d2ab9da1a0 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -34,6 +34,7 @@
- #include "hw/qdev-properties.h"
- #include "qapi/error.h"
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index be147b4bd9..8ffe1b8035 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -19,6 +19,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/cutils.h"
  #include "qemu/error-report.h"
 +#include "qemu/guest-random.h"
- #include "qemu/log.h"
- #include "chardev/char.h"
- #include "sysemu/device_tree.h"
-@@ -363,6 +364,7 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-     size_t ram_low_sz, ram_high_sz;
-     size_t fdt_sz = fdt_totalsize(fdt_orig) * 2;
-     g_autofree void *fdt = g_malloc0(fdt_sz);
+ #include "qapi/error.h"
+ #include "hw/loader.h"
+ #include "hw/rx/rx62n.h"
+@@ -83,6 +84,7 @@ static void rx_gdbsim_init(MachineState *machine)
+     MemoryRegion *sysmem = get_system_memory();
+     const char *kernel_filename = machine->kernel_filename;
+     const char *dtb_filename = machine->dtb;
 +    uint8_t rng_seed[32];
  
-     err = fdt_open_into(fdt_orig, fdt, fdt_sz);
-     if (err) {
-@@ -370,6 +372,9 @@ static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
-         return NULL;
-     }
- 
-+    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
-+    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
-+
-     cmdline = (machine->kernel_cmdline && machine->kernel_cmdline[0])
-             ? machine->kernel_cmdline : " ";
-     err = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+     if (machine->ram_size < mc->default_ram_size) {
+         char *sz = size_to_str(mc->default_ram_size);
+@@ -140,6 +142,8 @@ static void rx_gdbsim_init(MachineState *machine)
+                 error_report("Couldn't set /chosen/bootargs");
+                 exit(1);
+             }
++            qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++            qemu_fdt_setprop(dtb, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
+             /* DTB is located at the end of SDRAM space. */
+             dtb_offset = ROUND_DOWN(machine->ram_size - dtb_size, 16);
+             rom_add_blob_fixed("dtb", dtb, dtb_size,
 -- 
 2.36.1
 
