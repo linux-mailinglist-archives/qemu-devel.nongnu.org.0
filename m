@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BED157E6EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 20:59:36 +0200 (CEST)
-Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3153757E6F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:02:44 +0200 (CEST)
+Received: from localhost ([::1]:45114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oExs7-0006Xq-5d
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 14:59:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37368)
+	id 1oExv9-0002bM-94
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:02:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExpt-0002VM-LU
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:43921)
+ id 1oExpw-0002YA-NR
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExpp-0008Ad-Eg
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:15 -0400
+ id 1oExpr-0008BW-50
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658516232;
+ s=mimecast20190719; t=1658516234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fpfT57491seZYWrEz+pzrabGUy8SceQ7UpD8L+bqDQQ=;
- b=FDJXCbw3DZiKI65iJDEc51z6L0T0Pqni+5GUKBA9xfnmasNrNEn5JbaxXtAw+PC8S/EpON
- 9vnwYndzsuNmQUQnDD+lJIUjpsxUu3dXPBr1Ay8CHNqabnPv5aile3spAh1e2q2xOEdYvP
- ITCD8XlutUxRp4ubq02V77MlNff+ZLk=
+ bh=2pIQlCVfOW6HMba5FJ5YwHm7VSuwN66wgv9KfP3juUQ=;
+ b=Ia/wJ/JYigoQGvYkMN8JHRD3vBEND6eJhT6K+3Mh8xKKq0N0BqVXeqkfV3NH6FF2LvdZOl
+ rwLUb4vjxYw9UNCTEixfCjVZfyBpGaRsjRcaWTLlnoo6En6F0yK25g0SqfZqSYF6BC0Qtc
+ fHGkd4Pw9xK5rXV8K2c5rGHbYD2WL1Q=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-171-w0Cqn02_NSmX54bNs5VbWQ-1; Fri, 22 Jul 2022 14:57:10 -0400
-X-MC-Unique: w0Cqn02_NSmX54bNs5VbWQ-1
+ us-mta-49-o0_8wWaoMo-Ph8kFiOv7uA-1; Fri, 22 Jul 2022 14:57:13 -0400
+X-MC-Unique: o0_8wWaoMo-Ph8kFiOv7uA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7984F804191
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 18:57:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DB6C1101A588
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 18:57:12 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.194.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CF7AD2026D64;
- Fri, 22 Jul 2022 18:57:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BFDED2026D64;
+ Fri, 22 Jul 2022 18:57:10 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -50,9 +50,10 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: [PATCH v6 03/14] net: simplify net_client_parse() error management
-Date: Fri, 22 Jul 2022 20:56:50 +0200
-Message-Id: <20220722185701.300449-4-lvivier@redhat.com>
+Subject: [PATCH v6 04/14] qapi: net: introduce a way to bypass
+ qemu_opts_parse_noisily()
+Date: Fri, 22 Jul 2022 20:56:51 +0200
+Message-Id: <20220722185701.300449-5-lvivier@redhat.com>
 In-Reply-To: <20220722185701.300449-1-lvivier@redhat.com>
 References: <20220722185701.300449-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -82,82 +83,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All net_client_parse() callers exit in case of error.
+As qemu_opts_parse_noisily() flattens the QAPI structures ("type" field
+of Netdev structure can collides with "type" field of SocketAddress),
+we introduce a way to bypass qemu_opts_parse_noisily() and use directly
+visit_type_Netdev() to parse the backend parameters.
 
-Move exit(1) to net_client_parse() and remove error checking from
-the callers.
+More details from Markus:
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
+qemu_init() passes the argument of -netdev, -nic, and -net to
+net_client_parse().
+
+net_client_parse() parses with qemu_opts_parse_noisily(), passing
+QemuOptsList qemu_netdev_opts for -netdev, qemu_nic_opts for -nic, and
+qemu_net_opts for -net.  Their desc[] are all empty, which means any
+keys are accepted.  The result of the parse (a QemuOpts) is stored in
+the QemuOptsList.
+
+Note that QemuOpts is flat by design.  In some places, we layer non-flat
+on top using dotted keys convention, but not here.
+
+net_init_clients() iterates over the stored QemuOpts, and passes them to
+net_init_netdev(), net_param_nic(), or net_init_client(), respectively.
+
+These functions pass the QemuOpts to net_client_init().  They also do
+other things with the QemuOpts, which we can ignore here.
+
+net_client_init() uses the opts visitor to convert the (flat) QemOpts to
+a (non-flat) QAPI object Netdev.  Netdev is also the argument of QMP
+command netdev_add.
+
+The opts visitor was an early attempt to support QAPI in
+(QemuOpts-based) CLI.  It restricts QAPI types to a certain shape; see
+commit eb7ee2cbeb "qapi: introduce OptsVisitor".
+
+A more modern way to support QAPI is qobject_input_visitor_new_str().
+It uses keyval_parse() instead of QemuOpts for KEY=VALUE,... syntax, and
+it also supports JSON syntax.  The former isn't quite as expressive as
+JSON, but it's a lot closer than QemuOpts + opts visitor.
+
+This commit paves the way to use of the modern way instead.
+
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/net/net.h |  2 +-
- net/net.c         |  6 ++----
- softmmu/vl.c      | 12 +++---------
- 3 files changed, 6 insertions(+), 14 deletions(-)
+ include/net/net.h |  2 ++
+ net/net.c         | 57 +++++++++++++++++++++++++++++++++++++++++++++++
+ softmmu/vl.c      |  6 ++++-
+ 3 files changed, 64 insertions(+), 1 deletion(-)
 
 diff --git a/include/net/net.h b/include/net/net.h
-index c53c64ac18c4..e755254443ea 100644
+index e755254443ea..826e14a78734 100644
 --- a/include/net/net.h
 +++ b/include/net/net.h
-@@ -214,7 +214,7 @@ extern NICInfo nd_table[MAX_NICS];
+@@ -214,6 +214,8 @@ extern NICInfo nd_table[MAX_NICS];
  extern const char *host_net_devices[];
  
  /* from net.c */
--int net_client_parse(QemuOptsList *opts_list, const char *str);
-+void net_client_parse(QemuOptsList *opts_list, const char *str);
++bool netdev_is_modern(const char *optarg);
++void netdev_parse_modern(const char *optarg);
+ void net_client_parse(QemuOptsList *opts_list, const char *str);
  void show_netdevs(void);
  void net_init_clients(void);
- void net_check_clients(void);
 diff --git a/net/net.c b/net/net.c
-index 15958f881776..f056e8aebfb2 100644
+index f056e8aebfb2..ffe3e5a2cf1d 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -1579,13 +1579,11 @@ void net_init_clients(void)
+@@ -54,6 +54,7 @@
+ #include "net/colo-compare.h"
+ #include "net/filter.h"
+ #include "qapi/string-output-visitor.h"
++#include "qapi/qobject-input-visitor.h"
+ 
+ /* Net bridge is currently not supported for W32. */
+ #if !defined(_WIN32)
+@@ -63,6 +64,16 @@
+ static VMChangeStateEntry *net_change_state_entry;
+ static QTAILQ_HEAD(, NetClientState) net_clients;
+ 
++typedef struct NetdevQueueEntry {
++    Netdev *nd;
++    Location loc;
++    QSIMPLEQ_ENTRY(NetdevQueueEntry) entry;
++} NetdevQueueEntry;
++
++typedef QSIMPLEQ_HEAD(, NetdevQueueEntry) NetdevQueue;
++
++static NetdevQueue nd_queue = QSIMPLEQ_HEAD_INITIALIZER(nd_queue);
++
+ /***********************************************************/
+ /* network device redirectors */
+ 
+@@ -1562,6 +1573,20 @@ out:
+     return ret;
+ }
+ 
++static void netdev_init_modern(void)
++{
++    while (!QSIMPLEQ_EMPTY(&nd_queue)) {
++        NetdevQueueEntry *nd = QSIMPLEQ_FIRST(&nd_queue);
++
++        QSIMPLEQ_REMOVE_HEAD(&nd_queue, entry);
++        loc_push_restore(&nd->loc);
++        net_client_init1(nd->nd, true, &error_fatal);
++        loc_pop(&nd->loc);
++        qapi_free_Netdev(nd->nd);
++        g_free(nd);
++    }
++}
++
+ void net_init_clients(void)
+ {
+     net_change_state_entry =
+@@ -1569,6 +1594,8 @@ void net_init_clients(void)
+ 
+     QTAILQ_INIT(&net_clients);
+ 
++    netdev_init_modern();
++
+     qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
+                       &error_fatal);
+ 
+@@ -1579,6 +1606,36 @@ void net_init_clients(void)
                        &error_fatal);
  }
  
--int net_client_parse(QemuOptsList *opts_list, const char *optarg)
-+void net_client_parse(QemuOptsList *opts_list, const char *optarg)
++/*
++ * Does this -netdev argument use modern rather than traditional syntax?
++ * Modern syntax is to be parsed with netdev_parse_modern().
++ * Traditional syntax is to be parsed with net_client_parse().
++ */
++bool netdev_is_modern(const char *optarg)
++{
++    return false;
++}
++
++/*
++ * netdev_parse_modern() uses modern, more expressive syntax than
++ * net_client_parse(), but supports only the -netdev option.
++ * netdev_parse_modern() appends to @nd_queue, whereas net_client_parse()
++ * appends to @qemu_netdev_opts.
++ */
++void netdev_parse_modern(const char *optarg)
++{
++    Visitor *v;
++    NetdevQueueEntry *nd;
++
++    v = qobject_input_visitor_new_str(optarg, "type", &error_fatal);
++    nd = g_new(NetdevQueueEntry, 1);
++    visit_type_Netdev(v, NULL, &nd->nd, &error_fatal);
++    visit_free(v);
++    loc_save(&nd->loc);
++
++    QSIMPLEQ_INSERT_TAIL(&nd_queue, nd, entry);
++}
++
+ void net_client_parse(QemuOptsList *opts_list, const char *optarg)
  {
      if (!qemu_opts_parse_noisily(opts_list, optarg, true)) {
--        return -1;
-+        exit(1);
-     }
--
--    return 0;
- }
- 
- /* From FreeBSD */
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 8f3f3bb74389..0478210f2e04 100644
+index 0478210f2e04..351798ee01bc 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2815,21 +2815,15 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -2815,7 +2815,11 @@ void qemu_init(int argc, char **argv, char **envp)
                  break;
              case QEMU_OPTION_netdev:
                  default_net = 0;
--                if (net_client_parse(qemu_find_opts("netdev"), optarg) == -1) {
--                    exit(1);
--                }
-+                net_client_parse(qemu_find_opts("netdev"), optarg);
+-                net_client_parse(qemu_find_opts("netdev"), optarg);
++                if (netdev_is_modern(optarg)) {
++                    netdev_parse_modern(optarg);
++                } else {
++                    net_client_parse(qemu_find_opts("netdev"), optarg);
++                }
                  break;
              case QEMU_OPTION_nic:
                  default_net = 0;
--                if (net_client_parse(qemu_find_opts("nic"), optarg) == -1) {
--                    exit(1);
--                }
-+                net_client_parse(qemu_find_opts("nic"), optarg);
-                 break;
-             case QEMU_OPTION_net:
-                 default_net = 0;
--                if (net_client_parse(qemu_find_opts("net"), optarg) == -1) {
--                    exit(1);
--                }
-+                net_client_parse(qemu_find_opts("net"), optarg);
-                 break;
- #ifdef CONFIG_LIBISCSI
-             case QEMU_OPTION_iscsi:
 -- 
 2.37.1
 
