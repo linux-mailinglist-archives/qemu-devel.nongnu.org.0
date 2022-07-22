@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE8057DD35
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:09:46 +0200 (CEST)
-Received: from localhost ([::1]:59270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4036D57DD73
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:20:16 +0200 (CEST)
+Received: from localhost ([::1]:38852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEofI-0001JI-6r
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:09:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
+	id 1oEopS-0007Hp-Up
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:20:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEoT6-0000rz-Km
+ id 1oEoT7-0000s5-UA
  for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49823)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEoT5-0000Zg-3P
+ id 1oEoT5-0000Zj-AC
  for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1658480226;
@@ -25,24 +25,24 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HmfZTBtu31uLg6djxBfEgCKUx5K7bRKNxH5Q40BBmnY=;
- b=M+Wm8sOj+6RrTpzyfoSq96gSf+X03hVsRglhkfqAJGTV1IxTSFEQOtKLspjSlW5zy5VyMI
- 12qVjoDgdDGta1/Qxzg7Q7fi7eCI0iuhJsz9SFKGYFBTkgbg8BIEFMK1HALrD9sDUELdMN
- OwLOACNmaQzn/LlqOLzerSVISd9Awco=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=b+pUrxmucxdqUhAARgri+wPkG43k1iF1iTN1sUBjuWM=;
+ b=J+5KAeZg30ohkmtlasIzpd3ynw3iUOvh34MD49qCOCRhOdoiic6V1i/yeZK+Ry5y2fkaNB
+ zJtE3GtTtPKnuM37JBaCBMl22q8NfrzUj9VP+ce+6lDqxms4bt2rsOym6d1gZfPzT0NcUN
+ yCO51Nx1Uj3j5n/Dz+EgtR3KDRNH5k0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-503-aO1YX8OPN-CbucuelIAsXQ-1; Fri, 22 Jul 2022 04:57:02 -0400
-X-MC-Unique: aO1YX8OPN-CbucuelIAsXQ-1
+ us-mta-649-eBrQtQnhNjiEvvU3Y8zIZQ-1; Fri, 22 Jul 2022 04:57:05 -0400
+X-MC-Unique: eBrQtQnhNjiEvvU3Y8zIZQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 920F3101AA6C;
- Fri, 22 Jul 2022 08:57:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B04583C0F37F;
+ Fri, 22 Jul 2022 08:57:04 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE76D2166B26;
- Fri, 22 Jul 2022 08:56:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D31CE2166B26;
+ Fri, 22 Jul 2022 08:57:01 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
@@ -55,9 +55,9 @@ Cc: Eric Blake <eblake@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH v3 4/6] vdpa: add NetClientState->start() callback
-Date: Fri, 22 Jul 2022 10:56:42 +0200
-Message-Id: <20220722085644.3376708-5-eperezma@redhat.com>
+Subject: [PATCH v3 5/6] vdpa: Add virtio-net mac address via CVQ at start
+Date: Fri, 22 Jul 2022 10:56:43 +0200
+Message-Id: <20220722085644.3376708-6-eperezma@redhat.com>
 In-Reply-To: <20220722085644.3376708-1-eperezma@redhat.com>
 References: <20220722085644.3376708-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,56 +88,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It allows per-net client operations right after device's successful
-start.
-
-Vhost-vdpa net will use it to add the CVQ buffers to restore the device
-status.
+This is needed so the destination vdpa device see the same state a the
+guest set in the source.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- include/net/net.h  | 2 ++
- hw/net/vhost_net.c | 7 +++++++
- 2 files changed, 9 insertions(+)
+ include/net/vhost-vdpa.h |  1 +
+ net/vhost-vdpa.c         | 57 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 58 insertions(+)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 523136c7ac..ad9e80083a 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -44,6 +44,7 @@ typedef struct NICConf {
+diff --git a/include/net/vhost-vdpa.h b/include/net/vhost-vdpa.h
+index b81f9a6f2a..38d65e845d 100644
+--- a/include/net/vhost-vdpa.h
++++ b/include/net/vhost-vdpa.h
+@@ -15,6 +15,7 @@
+ #define TYPE_VHOST_VDPA "vhost-vdpa"
  
- typedef void (NetPoll)(NetClientState *, bool enable);
- typedef bool (NetCanReceive)(NetClientState *);
-+typedef int (NetStart)(NetClientState *);
- typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
- typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
- typedef void (NetCleanup) (NetClientState *);
-@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
-     NetReceive *receive_raw;
-     NetReceiveIOV *receive_iov;
-     NetCanReceive *can_receive;
-+    NetStart *start;
-     NetCleanup *cleanup;
-     LinkStatusChanged *link_status_changed;
-     QueryRxFilter *query_rx_filter;
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index ccac5b7a64..ddd9ee0441 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *net,
-             }
-         }
-     }
+ struct vhost_net *vhost_vdpa_get_vhost_net(NetClientState *nc);
++int vhost_vdpa_start(NetClientState *nc);
+ 
+ extern const int vdpa_feature_bits[];
+ 
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index bbe1830824..84e90f067a 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -375,6 +375,63 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(VhostShadowVirtqueue *svq,
+     return VIRTIO_NET_OK;
+ }
+ 
++int vhost_vdpa_start(NetClientState *nc)
++{
++    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
++    struct vhost_vdpa *v = &s->vhost_vdpa;
++    VirtIONet *n = VIRTIO_NET(v->dev->vdev);
++    uint64_t features = v->dev->vdev->host_features;
++    VhostShadowVirtqueue *svq;
 +
-+    if (net->nc->info->start) {
-+        r = net->nc->info->start(net->nc);
-+        if (r < 0) {
-+            goto fail;
-+        }
++    if (!v->shadow_vqs_enabled) {
++        return 0;
 +    }
-     return 0;
- fail:
-     file.fd = -1;
++
++    if (v->dev->vq_index + v->dev->nvqs != v->dev->vq_index_end) {
++        /* Only interested in CVQ */
++        return 0;
++    }
++
++    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
++
++    svq = g_ptr_array_index(v->shadow_vqs, 0);
++    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
++        const struct virtio_net_ctrl_hdr ctrl = {
++            .class = VIRTIO_NET_CTRL_MAC,
++            .cmd = VIRTIO_NET_CTRL_MAC_ADDR_SET,
++        };
++        uint8_t mac[6];
++        const struct iovec out[] = {
++            {
++                .iov_base = (void *)&ctrl,
++                .iov_len = sizeof(ctrl),
++            },{
++                .iov_base = mac,
++                .iov_len = sizeof(mac),
++            },
++        };
++        struct iovec dev_buffers[2] = {
++            { .iov_base = s->cvq_cmd_out_buffer },
++            { .iov_base = s->cvq_cmd_in_buffer },
++        };
++        bool ok;
++        virtio_net_ctrl_ack state;
++
++        ok = vhost_vdpa_net_cvq_map_sg(s, out, ARRAY_SIZE(out), dev_buffers);
++        if (unlikely(!ok)) {
++            return -1;
++        }
++
++        memcpy(mac, n->mac, sizeof(mac));
++        state = vhost_vdpa_net_cvq_add(svq, dev_buffers);
++        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[0].iov_base);
++        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[1].iov_base);
++        return state == VIRTIO_NET_OK ? 0 : 1;
++    }
++
++    return 0;
++}
++
+ /**
+  * Do not forward commands not supported by SVQ. Otherwise, the device could
+  * accept it and qemu would not know how to update the device model.
 -- 
 2.31.1
 
