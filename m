@@ -2,74 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5F457DB30
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:24:47 +0200 (CEST)
-Received: from localhost ([::1]:47132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594B257DB78
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:44:06 +0200 (CEST)
+Received: from localhost ([::1]:33350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEn1h-0007PZ-PJ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:24:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
+	id 1oEnKO-0001fB-TD
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEmxa-0004Qv-8q
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:20:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20026)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEn64-0001Vb-KU
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:29:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEmxV-0006fP-MY
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:20:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEn60-0003jn-9S
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 03:29:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658474424;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1658474951;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oiTvm6hnxQzGQ5l4LmwtMVH7HOVH1pTvETNmC25udFY=;
- b=eWsnEMqnBsC/pcxz8MW6pplQ9RaR2Tzo/Z/PNYWJR9enl1UoHdaZdxwRiKyvcgzseQxw5c
- BPDFMev4WhR12L7Qog8/Yd/47JC2dzykeHWXCycCfTHzhP+Z+U/SkFzqXWYTh4AvUWXG+U
- y21COUbrSbi72k3rMYSJfX1XpbVYl/M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GU0ainywiAqDpCYcz3/XhSR6JnBrizZS7EI4BATV8/c=;
+ b=GdW++bmeKEWMZ/Kn0BLZWLKr/hGP8J9pjtLPCmgCAh27Rb6phwvJhm2v22BfYjQ5j43Eiw
+ lItk7Fn5HsKPfIQe7b2A0vcqazOp3FhkFV0PaHyQUV3BP79DHagfgR4jR+GdZwELPASlA2
+ ZI7yw1ND8LF40jl+uJ3XSxfLrwpqLiU=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-608-r4s236RCNTCWyuacqPEPzg-1; Fri, 22 Jul 2022 03:20:17 -0400
-X-MC-Unique: r4s236RCNTCWyuacqPEPzg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 094F9811E81;
- Fri, 22 Jul 2022 07:20:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B60740E8B04;
- Fri, 22 Jul 2022 07:20:14 +0000 (UTC)
-Date: Fri, 22 Jul 2022 08:20:11 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Delevoryas <peter@pjd.dev>
-Cc: jsnow@redhat.com, crosa@redhat.com, bleal@redhat.com, f4bug@amsat.org,
- wainersm@redhat.com, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 1/1] python/machine: Fix AF_UNIX path too long on macOS
-Message-ID: <YtpPltJi/tl5mlBb@redhat.com>
-References: <20220716173434.17183-1-peter@pjd.dev>
- <20220716173434.17183-2-peter@pjd.dev>
- <YtUgMTYSQjm9O+u4@redhat.com> <YtoPBYGmSNfeT1Ot@pdel-mbp>
+ us-mta-606-Tc0rTMCRPBy3Na6QrQNP4w-1; Fri, 22 Jul 2022 03:29:08 -0400
+X-MC-Unique: Tc0rTMCRPBy3Na6QrQNP4w-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ w22-20020a05620a425600b006b5f48556cbso3144692qko.17
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent
+ :content-language:to:cc:references:from:subject:in-reply-to
+ :content-transfer-encoding;
+ bh=GU0ainywiAqDpCYcz3/XhSR6JnBrizZS7EI4BATV8/c=;
+ b=Gk0i+Xem9vsI3IrMjDZD8uzbbs/XFBC5tksvQJ+FTQNVwFwsNam1IEXB8LcNBmlEbe
+ hLUqQlDTQlJzrTaXdrsT0622C86V9+AkOrnVMSrkoo+YoCxHWZ9C8IuJHjscVM0Dc0qL
+ ikedLmUefLofT0T3r2/w7siz5+7/JLM4e8hBtXnJr1XYzmDwgv3dpqlRkngn5o9acmVt
+ DmImuotgC47sAmQXS7U4KmLxWlsO10hpZ/BB8Es7gIwowNMtraoP8NLUTDi+sTGNcUWG
+ uBFE6BgIFlhf+aqrH6ExXNYO2iS6btEulmNsz9otyYGWxg2yS5EubWXlZy21YXvy52Hv
+ RS8w==
+X-Gm-Message-State: AJIora8OJqmxT1wn0byTvs/BXlitG6nNvjTc1TLO2jDn0hM/BhaHZyzp
+ ywb+0IRk48R4dRGxA7HIgpdhvvR0OkcM9F6IYeYRjMSHNqKsFO6/6xjBmiheRwU4Llp0HFQnRjO
+ fqnXJHMmU6zlTJLg=
+X-Received: by 2002:ac8:5f08:0:b0:31f:1a4e:2727 with SMTP id
+ x8-20020ac85f08000000b0031f1a4e2727mr1938600qta.414.1658474948451; 
+ Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uIWIfF+AYladgPnZPBjcTAqFOcdbf0jrhVz4x7m/Xou1bSJsDeXH+q3plMJmbnGJwuqTPRzw==
+X-Received: by 2002:ac8:5f08:0:b0:31f:1a4e:2727 with SMTP id
+ x8-20020ac85f08000000b0031f1a4e2727mr1938586qta.414.1658474948215; 
+ Fri, 22 Jul 2022 00:29:08 -0700 (PDT)
+Received: from [192.168.0.5] (ip-109-43-176-42.web.vodafone.de.
+ [109.43.176.42]) by smtp.gmail.com with ESMTPSA id
+ j8-20020ac84408000000b0031ee2080c73sm2477000qtn.54.2022.07.22.00.29.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jul 2022 00:29:07 -0700 (PDT)
+Message-ID: <670414db-8d17-63d4-5b20-fcfcd0590553@redhat.com>
+Date: Fri, 22 Jul 2022 09:28:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ Laurent Vivier <lvivier@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
+ Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gonglei <arei.gonglei@huawei.com>
+References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
+ <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
+ <5bc2fcee-2c5d-c400-5992-e2b4ce828477@ilande.co.uk>
+ <Ytlii7t0rERVJBXo@rvkaganb>
+ <f85ae904-4a31-141d-17dd-43c5a27d9b07@ilande.co.uk>
+ <Ytl3SKpbnp8Twtkq@redhat.com>
+ <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
+In-Reply-To: <9a3f311e-398e-c36f-a1d2-33c23aa163dc@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YtoPBYGmSNfeT1Ot@pdel-mbp>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,137 +109,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 07:44:21PM -0700, Peter Delevoryas wrote:
-> On Mon, Jul 18, 2022 at 09:56:17AM +0100, Daniel P. Berrangé wrote:
-> > On Sat, Jul 16, 2022 at 10:34:34AM -0700, Peter Delevoryas wrote:
-> > > On macOS, private $TMPDIR's are the default. These $TMPDIR's are
-> > > generated from a user's unix UID and UUID [1], which can create a
-> > > relatively long path:
-> > > 
-> > >     /var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T/
-> > > 
-> > > QEMU's avocado tests create a temporary directory prefixed by
-> > > "avo_qemu_sock_", and create QMP sockets within _that_ as well.
-> > > The QMP socket is unnecessarily long, because a temporary directory
-> > > is created for every QEMUMachine object.
-> > > 
-> > >     /avo_qemu_sock_uh3w_dgc/qemu-37331-10bacf110-monitor.sock
-> > 
-> > 
-> > Looking at this again, I realize my suggestion for dealing with the
-> > second part of the path was mistaken.
-> > 
-> > The "qemu-37331-10bacf110-monitor.sock" part is combining two
-> > pieces.
-> > 
-> > First the result of
-> > 
-> >   f"qemu-{os.getpid()}-{id(self):02x}"
-> > 
-> > is
-> > 
-> >   qemu-37331-10bacf110
-> > 
-> > and the code later than appends '-monitor.sock'
-> > 
-> > So...
-> > 
-> > > 
-> > > The path limit for unix sockets on macOS is 104: [2]
-> > > 
-> > >     /*
-> > >      * [XSI] Definitions for UNIX IPC domain.
-> > >      */
-> > >     struct  sockaddr_un {
-> > 
-> > >         unsigned char   sun_len;        /* sockaddr len including null */
-> > >         sa_family_t     sun_family;     /* [XSI] AF_UNIX */
-> > >         char            sun_path[104];  /* [XSI] path name (gag) */
-> > >     };
-> > > 
-> > > This results in avocado tests failing on macOS because the QMP unix
-> > > socket can't be created, because the path is too long:
-> > > 
-> > >     ERROR| Failed to establish connection: OSError: AF_UNIX path too long
-> > > 
-> > > This change reduces the size of both paths, and removes the unique
-> > > identification information from the socket name, since it seems to be
-> > > unnecessary.
-> > > 
-> > > This commit produces paths like the following:
-> > > 
-> > >     pdel@pdel-mbp:/var/folders/d7/rz20f6hd709c1ty8f6_6y_z40000gn/T
-> > >     $ tree qemu*
-> > >     qemu_oc7h7f3u
-> > >     ├── qmp-console.sock
-> > >     └── qmp-monitor.sock
-> > > 
-> > > [1] https://apple.stackexchange.com/questions/353832/why-is-mac-osx-temp-directory-in-weird-path
-> > > [2] /Library/Developer/CommandLineTools/SDKs/MacOSX12.3.sdk/usr/include/sys/un.h
-> > > 
-> > > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > > ---
-> > >  python/qemu/machine/machine.py         | 2 +-
-> > >  tests/avocado/avocado_qemu/__init__.py | 2 +-
-> > >  2 files changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> > > index 37191f433b..b1823966b3 100644
-> > > --- a/python/qemu/machine/machine.py
-> > > +++ b/python/qemu/machine/machine.py
-> > > @@ -157,7 +157,7 @@ def __init__(self,
-> > >          self._wrapper = wrapper
-> > >          self._qmp_timer = qmp_timer
-> > >  
-> > > -        self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> > > +        self._name = name or "qmp"
-> > 
-> > ...my suggestion here was wrong.
-> > 
-> > We don't need the os.getpid() unoiqueness because the tmpdir already
-> > ensures that is safe, but keeping 'id(self)' is a good idea, if the
-> > test case creates multiple machines concurrently. Bearing in mind we
-> > later append '-monitor.sock' we don't need 'qmp' in the self._name.
-> > 
-> > So on reflection I think I should have suggested using:
-> > 
-> >     self._name = name or f"{id(self):02x}"
-> > 
-> > And *in addition*, a few lines later change:
-> > 
-> >             self._monitor_address = os.path.join(
-> >                 self.sock_dir, f"{self._name}-monitor.sock"
-> >             )
-> > 
-> > To
-> > 
-> >             self._monitor_address = os.path.join(
-> >                 self.sock_dir, f"{self._name}.qmp"
-> >             )
-> >
+On 21/07/2022 18.05, Mark Cave-Ayland wrote:
+> On 21/07/2022 16:56, Daniel P. Berrangé wrote:
 > 
-> Finally getting back to this (sorry, been working on other stuff), and I noticed
-> the console socket is just below this:
+>> On Thu, Jul 21, 2022 at 04:51:51PM +0100, Mark Cave-Ayland wrote:
+>>> On 21/07/2022 15:28, Roman Kagan wrote:
+>>>
+>>> (lots cut)
+>>>
+>>>> In the guest (Fedora 34):
+>>>>
+>>>> [root@test ~]# lspci -tv
+>>>> -[0000:00]-+-00.0  Intel Corporation 82G33/G31/P35/P31 Express DRAM 
+>>>> Controller
+>>>>              +-01.0  Device 1234:1111
+>>>>              +-02.0  Red Hat, Inc. QEMU XHCI Host Controller
+>>>>              +-05.0-[01]----00.0  Red Hat, Inc. Virtio block device
+>>>>              +-05.1-[02]----00.0  Red Hat, Inc. Virtio network device
+>>>>              +-05.2-[03]--
+>>>>              +-05.3-[04]--
+>>>>              +-1f.0  Intel Corporation 82801IB (ICH9) LPC Interface 
+>>>> Controller
+>>>>              \-1f.3  Intel Corporation 82801I (ICH9 Family) SMBus 
+>>>> Controller
+>>>>
+>>>> Changing addr of the second disk from 4 to 0 makes it appear in the
+>>>> guest.
+>>>>
+>>>> What exactly do you find odd?
+>>>
+>>> Thanks for this, the part I wasn't sure about was whether the device ids in
+>>> the command line matched the primary PCI bus or the secondary PCI bus.
+>>>
+>>> In that case I suspect that the enumeration of non-zero PCIe devices fails
+>>> in Linux because of the logic here:
+>>> https://github.com/torvalds/linux/blob/master/drivers/pci/probe.c#L2622.
+>>
+>> Just above that though is logic that handles 'pci=pcie_scan_all'
+>> kernel parameter, to make it look for non-zero devices.
+>>
+>>> I don't have a copy of the PCIe specification, but assuming the comment is
+>>> true then your patch looks correct to me. I think it would be worth adding a
+>>> similar comment and reference to your patch to explain why the logic is
+>>> required, which should also help the PCI maintainers during review.
+>>
+>> The docs above with the pci=pcie_scan_all suggest it is unusual but not
+>> forbidden.
 > 
->     self._console_address = os.path.join(
->         self.sock_dir, f"{self._name}-console.sock"
->     )
+> That's interesting as I read it completely the other way around, i.e. PCIe 
+> downstream ports should only have device 0 and the PCI_SCAN_ALL_PCIE_DEVS 
+> flag is there for broken/exotic hardware :)
 > 
-> So I probably shouldn't do the "-monitor.sock" change right?
+> Perhaps if someone has a copy of the PCIe specification they can check the 
+> wording in section 7.3.1 to see exactly what the correct behaviour should be?
 
-I'd suggest changing this one to   f"{self._name}.con" at the
-same time.
+I've got an older version here... it talks about the "Alternative Routing-ID 
+Interpretation" (ARI) there:
 
+"With non-ARI Devices, PCI Express components are restricted to implementing 
+a single Device Number on their primary interface (Upstream Port), but are 
+permitted to implement up to eight
+independent Functions within that Device Number. [...] Downstream Ports that 
+do not have ARI Forwarding enabled must associate only Device 0 with the 
+device [...].
+With an ARI Device, its Device Number is implied to be 0 rather than 
+specified by a field within an ID. The traditional 5-bit Device Number and 
+3-bit Function Number fields in its associated
+Routing IDs, Requester IDs, and Completer IDs are interpreted as a single 
+8-bit Function Number."
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+There was also an older patch similar to yours here:
+
+ 
+https://lore.kernel.org/all/33183CC9F5247A488A2544077AF1902086D6B3F5@SZXEMA503-MBS.china.huawei.com/T/
+
+... but if I've got that right, it has never been merged?
+
+  HTH,
+   Thomas
 
 
