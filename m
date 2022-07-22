@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D5957E1AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 14:53:12 +0200 (CEST)
-Received: from localhost ([::1]:41574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1349C57E213
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 15:09:34 +0200 (CEST)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEs9X-0001qp-EN
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 08:53:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33438)
+	id 1oEsPN-0002AM-0Z
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 09:09:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oEs4O-0003hJ-VU
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:47:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38570)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oEsKg-0005aA-Po
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 09:04:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oEs4L-0008Np-FQ
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:47:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oEsKa-0000tf-DF
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 09:04:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658494068;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=4UMNW5SEbRjKDN8EtZLXXixfCtUE+YGfVzwFAro5at4=;
- b=JBRnxTIXMwlnuIZ5arjcr39bC+r/LvtO+6bzcrEHPJtUAz2dvWzx1s+OwclpiKOeyCUu4o
- DodQGp0v3Z7ddCET2thNAiUIJi+m6eL3IceBbf9b9hMnnxawUWhlAuB9s0MY7KV+J8Y5Q+
- CvpX4zZoe74RJyTTX5ccvMAFeHv6jq4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1658495075;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LOzPV5e9U4xvLRgG9vwc1jq4IFt2LVNPOuotxJggYB8=;
+ b=JAVyh+YQFSHAYpI+nHbqzgEil7T9Cm/Vgz8gctfmL8rZkcjkDKLX3PAwFt1aVdUMnBhUj8
+ Sgv03ubvoOhZM7geuVlS2TwU3ukmf6rG7O3PShK4kj3+xoPSNCNa1o0wFTIQMS2lonJl6w
+ zllAHbFOfU4ZNqzxIQZg3kCga0dMOjE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-447-b1R0JW2FNx22fdMPlSDgsQ-1; Fri, 22 Jul 2022 08:47:45 -0400
-X-MC-Unique: b1R0JW2FNx22fdMPlSDgsQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c17-20020a7bc011000000b003a2bfaf8d3dso2516679wmb.0
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 05:47:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=4UMNW5SEbRjKDN8EtZLXXixfCtUE+YGfVzwFAro5at4=;
- b=7Hrs7bEjzMPNG1Z3MGju9PNXFEZddh7nruMwKculZATcoJ7ZLQtJozmYZfwJonI9oe
- ghYr5KJ2ROJcMdiUC97z8MwiDl5DfGSAVtXmbBVdUGxqqOV6UzQbGeWDQ/tPOkJs/MfR
- FxNS6JIpDvS1mTSsTONYFp16E/F1HsCpFCrFckpX8NUxH3m5bMVb/veTZm6hxbt4TVTL
- 7SgcbnkJhIVdyAziBFhQcZUzKPbQa4ciW1C6UlOP/1m0l2717TWymu1DbKd2TfMDdQgj
- 98EAW9pmJMNC8mYM6tXjAEPaImI/EyrpBPIjSOT4g/cflXC9uzLu80W7aUXrjzwBnNFw
- J3+A==
-X-Gm-Message-State: AJIora95ko6QG5veQHEFjbjJOvyhFUmlnAH1qnxaM+En3xuzwiYo9BdO
- 2b3qTAPPTiIc4IRZgESaxpBfiPmT3QHxPyAb1zfcxTjNlvBJzzYx6Wmy1S0pTWbe8/MSNE3K2aj
- Q2x9UUguTOYYFba0=
-X-Received: by 2002:a05:600c:502b:b0:3a3:22c1:ca61 with SMTP id
- n43-20020a05600c502b00b003a322c1ca61mr12227767wmr.10.1658494063939; 
- Fri, 22 Jul 2022 05:47:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tqEPlCGJIoNf/J0mlaiTXVQJ4wiyjwzPpIwqUFGQSU0auMiQ8B86Qf6gb09DVWRTJFDOd26A==
-X-Received: by 2002:a05:600c:502b:b0:3a3:22c1:ca61 with SMTP id
- n43-20020a05600c502b00b003a322c1ca61mr12227753wmr.10.1658494063683; 
- Fri, 22 Jul 2022 05:47:43 -0700 (PDT)
-Received: from localhost (84.125.84.58.dyn.user.ono.com. [84.125.84.58])
- by smtp.gmail.com with ESMTPSA id
- l22-20020a05600c2cd600b003a2f96935c0sm4141934wmc.9.2022.07.22.05.47.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 05:47:43 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org,  qemu-block@nongnu.org,  "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>,  Fam Zheng <fam@euphon.net>,  Stefan Hajnoczi
- <stefanha@redhat.com>
-Subject: Re: [PATCH 2/2] migration: Define BLK_MIG_BLOCK_SIZE as unsigned
- long long
-In-Reply-To: <20220721115207.729615-3-peter.maydell@linaro.org> (Peter
- Maydell's message of "Thu, 21 Jul 2022 12:52:07 +0100")
-References: <20220721115207.729615-1-peter.maydell@linaro.org>
- <20220721115207.729615-3-peter.maydell@linaro.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
-Date: Fri, 22 Jul 2022 14:47:41 +0200
-Message-ID: <87ilnp5n6a.fsf@secure.mitica>
+ us-mta-5-eSxC1qd3OJ6ct8MmVWfePg-1; Fri, 22 Jul 2022 09:04:34 -0400
+X-MC-Unique: eSxC1qd3OJ6ct8MmVWfePg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE6AB8037AE;
+ Fri, 22 Jul 2022 13:04:33 +0000 (UTC)
+Received: from localhost.localdomain.com (unknown [10.33.36.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A0F7492C3B;
+ Fri, 22 Jul 2022 13:04:32 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Ed Maste <emaste@freebsd.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH v2 0/3] ci: refresh packages/containers and misc changes
+Date: Fri, 22 Jul 2022 14:04:28 +0100
+Message-Id: <20220722130431.2319019-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -99,26 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> When we use BLK_MIG_BLOCK_SIZE in expressions like
-> block_mig_state.submitted * BLK_MIG_BLOCK_SIZE, this multiplication
-> is done as 32 bits, because both operands are 32 bits.  Coverity
-> complains about possible overflows because we then accumulate that
-> into a 64 bit variable.
->
-> Define BLK_MIG_BLOCK_SIZE as unsigned long long using the ULL suffix.
-> The only two current uses of it with this problem are both in
-> block_save_pending(), so we could just cast to uint64_t there, but
-> using the ULL suffix is simpler and ensures that we don't
-> accidentally introduce new variants of the same issue in future.
->
-> Resolves: Coverity CID 1487136, 1487175
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Mostly this is to get the latest libvirt-ci content pulled in,
+but I throw two small fixes on top.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Changed in v2:
+
+  - Reworded various bits of the commit message
+    for first patch
+
+Daniel P. Berrangé (3):
+  tests: refresh to latest libvirt-ci module
+  gitlab: show testlog.txt contents when cirrus/custom-runner jobs fail
+  gitlab: drop 'containers-layer2' stage
+
+ .gitlab-ci.d/cirrus/build.yml                 |  3 ++-
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  3 +--
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  3 +--
+ .gitlab-ci.d/cirrus/macos-11.vars             |  4 ++--
+ .gitlab-ci.d/container-cross.yml              | 24 +++++++++----------
+ .../custom-runners/centos-stream-8-x86_64.yml |  2 ++
+ .../custom-runners/ubuntu-20.04-aarch32.yml   |  2 ++
+ .../custom-runners/ubuntu-20.04-aarch64.yml   | 12 ++++++++++
+ .../custom-runners/ubuntu-20.04-s390x.yml     | 12 ++++++++++
+ .gitlab-ci.d/stages.yml                       |  1 -
+ tests/docker/dockerfiles/alpine.docker        |  4 +++-
+ tests/docker/dockerfiles/centos8.docker       |  6 ++---
+ tests/docker/dockerfiles/debian-amd64.docker  |  2 ++
+ .../dockerfiles/debian-arm64-cross.docker     |  2 ++
+ .../dockerfiles/debian-armel-cross.docker     |  2 ++
+ .../dockerfiles/debian-armhf-cross.docker     |  2 ++
+ .../dockerfiles/debian-mips64el-cross.docker  |  2 ++
+ .../dockerfiles/debian-mipsel-cross.docker    |  2 ++
+ .../dockerfiles/debian-ppc64el-cross.docker   |  2 ++
+ .../dockerfiles/debian-s390x-cross.docker     |  2 ++
+ tests/docker/dockerfiles/fedora.docker        |  3 ++-
+ tests/docker/dockerfiles/opensuse-leap.docker |  7 +++---
+ tests/docker/dockerfiles/ubuntu2004.docker    |  2 ++
+ tests/lcitool/libvirt-ci                      |  2 +-
+ tests/lcitool/projects/qemu.yml               |  6 +++--
+ tests/lcitool/refresh                         |  4 ++--
+ 26 files changed, 83 insertions(+), 33 deletions(-)
+
+-- 
+2.36.1
 
 
