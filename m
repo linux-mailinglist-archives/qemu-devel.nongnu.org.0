@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9882C57E499
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 18:42:38 +0200 (CEST)
-Received: from localhost ([::1]:47678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2CB57E50F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:08:08 +0200 (CEST)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEvjZ-0005Cv-Ly
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 12:42:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33604)
+	id 1oEw8F-00080s-6G
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oEvhf-0003Ii-7P
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 12:40:39 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:54858)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oEw5G-0002IZ-Aq
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oEvhc-0000Fy-Uk
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 12:40:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ytWm4Np3B0uXMmY9ptHunsFc0bdR71DapK1EnyXkvrQ=; b=mhyn/gdSle5QBPH2+errdb9Bgl
- FxIZ8SNdxAKTlW+q6yAai8OdbOSvoalDBAjO88oj4erVplegT4RRlVx0oZ3FEgeVweOIK3lYh5yB/
- 69FC7Rk8kWbYbLzP1b1vaZ6eHzBG5IusnUtj64K+ZkWKGhjmoHhsrchdiodAzeOy/sgv5SjCFs1te
- LUpHdPi+2DbKQAtHEkX0Re+U/kvwrDYQdXBfcBS8oKP81gUjjyLXqsIaDWeKJezVoQB0sNJNiz77T
- XSvWw8jvJfqtdyoqBMjIKROW5EWNWgCcROZFgUyRcm2WUEgWO1QwlyN4fhD218Vn2IDf6h69hke7p
- xG2Mp8pa9JSechoSWYNsP0UcBld5qIugYmJyjom3w/CfnamKVKBgTYBooPgyzsnr9gvYDBB64iE6f
- cYdcb7VXgm4bccpqOOyEvlg+vglG4crwPre9zFmxXONrG2a64Dcm6hb5Amv5zqMqNo3hk8h1lC2iT
- +9eHPMHbl6LvAhSEwTH3/cczMWVZNbcPhSdgdCoOWfi47mJSAyobD0TPfbJdiShiLTVcKHAOcR3V7
- Kt1qaYlVJLVR9kkPLDtCURWV4Ygssko2o4mlwbjs3biwhQjf+wRV/D3zv6OwDQn3jFRIh9FZ1OQXP
- Azg1qMuvqSH/xjlaAreHfMpP6qXO6M67UZIHA5pio=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oEvgJ-0000Hv-2n; Fri, 22 Jul 2022 17:39:15 +0100
-Message-ID: <2e4c3403-1171-eaa5-3380-2afc385c21a6@ilande.co.uk>
-Date: Fri, 22 Jul 2022 17:40:32 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oEw5A-0000f7-Am
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:04:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658509494;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:  content-type:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RiSR0nz1ppNMgJ7fAp+Yu2XdyVwwNYzH18ikEI3rZWg=;
+ b=H7+wJcDhnkhmhhuVUM8WYXFw307e4kxxQNcev+Hd2C1BK/KB4tn9AiAyxmhYY7WjxFa0Bb
+ Il0FyXkGIMyujtHvKsl/bX1yZZUU455tXKddRHkPFkLF4Y6wedbxqMUHpfChYKEXHeTi2l
+ IJ+46VLP8dGgUQUKjTvGnlbt/JVVyvM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-629-WCQf9Jq8PfCGXp6HjYufKQ-1; Fri, 22 Jul 2022 13:04:53 -0400
+X-MC-Unique: WCQf9Jq8PfCGXp6HjYufKQ-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v9-20020a056402348900b0043bcd680e50so1768676edc.18
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:04:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RiSR0nz1ppNMgJ7fAp+Yu2XdyVwwNYzH18ikEI3rZWg=;
+ b=FS/sfzLnpcpDBpT65h+5NYUBO1RyhiXAl2cZqBxVI0d+xaxAyGAsdJ1bei5mFUlbHk
+ y4wylyIpFPaVPdYBTHVHuq/6/lsch8OmuNGPl706H+3apJFUlhSaEwEdO6FuwFJ5spt/
+ 8P/4WpHNVPH3PDifw5BZPd/e8egXRsT9v4xG4Qg7z2noL6tdWOkOFYDZJurCLySnm7x1
+ Oz38K7Gw2TQtqafu8y8RmGlFbHVP23xW4jWFHkelvxXWtgvjOowBbSdc/5jEJgGwAKOx
+ YQKETM7VXMyeQ3vNtqnPkxU3ACm6W1b31x44AD2nSikQ11q/6mvxuKBQA7rHAmLZKz4f
+ bQmw==
+X-Gm-Message-State: AJIora9pnnDgr6usbCpXqp1An3HAvwehqq9xk3Dq4n1VtGw8OLsILMxj
+ Cn9FLwhXTEn3QaAtNEWPuqzo4xYHx9Id+qN/jw1AJYyl65VBBFnuG7wEfJRxiYQ2VtGz9SsEy2/
+ pYmIwPgLHwzw9K3alNK9mS9VsPoQ8fc4jp+9KTpOdhtxdJgw5qcEh9GLHELrpDWBA8So=
+X-Received: by 2002:a17:907:2808:b0:72b:50cd:2c8a with SMTP id
+ eb8-20020a170907280800b0072b50cd2c8amr653832ejc.246.1658509492041; 
+ Fri, 22 Jul 2022 10:04:52 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t5cLyGkYfKkQp/4dvJChma40n1fLi/pfRHXEyQ4T5PD8WbJXpIzAbe7RPNEoQQlE9vy0+Omg==
+X-Received: by 2002:a17:907:2808:b0:72b:50cd:2c8a with SMTP id
+ eb8-20020a170907280800b0072b50cd2c8amr653806ejc.246.1658509491521; 
+ Fri, 22 Jul 2022 10:04:51 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ bt13-20020a170906b14d00b00726dbb16b8dsm2224667ejb.65.2022.07.22.10.04.50
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jul 2022 10:04:50 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL v2 0/8] More fixes + random seed patches for QEMU 7.1
+Date: Fri, 22 Jul 2022 19:04:41 +0200
+Message-Id: <20220722170449.853222-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Howard Spoelstra <hsp.cat7@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
-References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
- <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
- <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
- <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
- <CAMxuvawyO4uViOTUpji553dkqzRmvoL3YbDXXjd3Ca8SMmWxoA@mail.gmail.com>
- <CABLmASGnjbqwueo9T-Ed7x3srS9BME+C18vSfOP955cZtf=i6w@mail.gmail.com>
- <CAMxuvayg9S3Z8UL8gGLF+6p=j2sFi58RZpTFNB8NcQbzmx_u9Q@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <CAMxuvayg9S3Z8UL8gGLF+6p=j2sFi58RZpTFNB8NcQbzmx_u9Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: Corrupted display changing screen colour depth in
- qemu-system-ppc/MacOS
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,82 +96,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/2022 14:44, Marc-André Lureau wrote:
+The following changes since commit 5288bee45fbd33203b61f8c76e41b15bb5913e6e:
 
-> Hi
-> 
-> On Fri, Jul 22, 2022 at 4:28 PM Howard Spoelstra <hsp.cat7@gmail.com> wrote:
->>
->>
->>
->> On Fri, Jun 17, 2022 at 2:38 PM Marc-André Lureau <marcandre.lureau@redhat.com> wrote:
->>>
->>> Hi
->>>
->>> On Fri, Jun 17, 2022 at 1:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->>>>
->>>>    Hi,
->>>>
->>>>>> Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
->>>>>
->>>>> Commit cb8962c146 drops the QEMU_ALLOCATED_FLAG check: if I add it back in
->>>>> with the following diff on top then everything works again:
->>>>
->>>> Ah, the other way around.
->>>>
->>>>> diff --git a/ui/console.c b/ui/console.c
->>>>> index 365a2c14b8..decae4287f 100644
->>>>> --- a/ui/console.c
->>>>> +++ b/ui/console.c
->>>>> @@ -2400,11 +2400,12 @@ static void vc_chr_open(Chardev *chr,
->>>>>
->>>>>   void qemu_console_resize(QemuConsole *s, int width, int height)
->>>>>   {
->>>>> -    DisplaySurface *surface;
->>>>> +    DisplaySurface *surface = qemu_console_surface(s);
->>>>>
->>>>>       assert(s->console_type == GRAPHIC_CONSOLE);
->>>>>
->>>>> -    if (qemu_console_get_width(s, -1) == width &&
->>>>> +    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
->>>>> +        qemu_console_get_width(s, -1) == width &&
->>>>>           qemu_console_get_height(s, -1) == height) {
->>>>>           return;
->>>>>       }
->>>>>
->>>>>> Which depth changes triggers this?  Going from direct color to a
->>>>>> paletted mode?
->>>>>
->>>>> A quick test suggests anything that isn't 32-bit colour is affected.
->>>>
->>>> Hmm, I think the commit should simply be reverted.
->>>>
->>>> Short-cutting the qemu_console_resize() call is only valid in case the
->>>> current surface was created by qemu_console_resize() too.  When it is
->>>> something else -- typically a surface backed by vga vram -- it's not.
->>>> Looking at the QEMU_ALLOCATED_FLAG checks exactly that ...
->>>
->>> Oh ok, it might be worth adding a comment to clarify that. By
->>> reverting, we are going back to the situation where
->>> qemu_console_resize() will create a needless surface when rendering
->>> with GL. As I tried to explain in the commit message, it will need
->>> more changes to prevent that. I can take a look later.
->>>
->>
->> Hi Marc-André,
->>
->> I wondered whether you've had a chance to look at this?
->>
-> 
-> No, it's not clear to me how to reproduce it. Someone that can
-> actually test it should send a patch with some comments to explain it.
+  Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-07-21 11:13:01 +0100)
 
-Unfortunately I don't know anything about the host display code, but I think I should 
-be able to come up with some Forth to run from the command line that will reproduce 
-the issue with qemu-system-ppc. Let me see if I can come up with something...
+are available in the Git repository at:
 
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream2
 
-ATB,
+for you to fetch changes up to 9fa032885583a2f1cb9cacad2f717784ccea02a1:
 
-Mark.
+  hw/i386: pass RNG seed via setup_data entry (2022-07-22 19:01:44 +0200)
+
+----------------------------------------------------------------
+* Bug fixes
+* Pass random seed to x86 and other FDT platforms
+
+----------------------------------------------------------------
+Alexander Bulekov (1):
+      oss-fuzz: ensure base_copy is a generic-fuzzer
+
+Bin Meng (1):
+      docs: Add caveats for Windows as the build platform
+
+Jason A. Donenfeld (4):
+      hw/nios2: virt: pass random seed to fdt
+      hw/mips: boston: pass random seed to fdt
+      hw/rx: pass random seed to fdt
+      hw/i386: pass RNG seed via setup_data entry
+
+Paolo Bonzini (1):
+      oss-fuzz: remove binaries from qemu-bundle tree
+
+Peter Maydell (1):
+      accel/kvm: Avoid Coverity warning in query_stats()
+
+ accel/kvm/kvm-all.c                          |  2 +-
+ docs/about/build-platforms.rst               | 10 +++++++++-
+ hw/i386/microvm.c                            |  2 +-
+ hw/i386/pc.c                                 |  4 ++--
+ hw/i386/pc_piix.c                            |  2 ++
+ hw/i386/pc_q35.c                             |  2 ++
+ hw/i386/x86.c                                | 26 ++++++++++++++++++++++----
+ hw/mips/boston.c                             |  5 +++++
+ hw/nios2/boot.c                              |  5 +++++
+ hw/rx/rx-gdbsim.c                            |  4 ++++
+ include/hw/i386/pc.h                         |  3 +++
+ include/hw/i386/x86.h                        |  3 ++-
+ include/standard-headers/asm-x86/bootparam.h |  1 +
+ scripts/oss-fuzz/build.sh                    |  6 ++++--
+ 14 files changed, 63 insertions(+), 12 deletions(-)
+-- 
+2.36.1
+
 
