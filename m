@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2560857E34F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 16:59:41 +0200 (CEST)
-Received: from localhost ([::1]:54576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142CC57E355
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:02:13 +0200 (CEST)
+Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEu7v-0002g2-PZ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 10:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34804)
+	id 1oEuAO-0005Hn-5d
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:02:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEu5Q-0000KN-Nc
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:57:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32264)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEu7W-0001tr-By
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:59:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEu5P-0007cq-1Y
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:57:04 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEu7T-0007rs-Q6
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:59:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658501822;
+ s=mimecast20190719; t=1658501951;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nDDlN3mM9HgDb+Z3x6nSHM5nxk54wtzlY3gz8F8WEMw=;
- b=GCmMpGHK/EC55A7jmOmlAlyKICzzETMH10RODfSqCJmbRECO881fkXgccuT331FpAnHQ/q
- 8WASVJLhXUMj9xp2Sh31LUrjeU6aM+28lXlarQOynfNiDFxWjs+tJYdifOLJy5UurU7jG/
- l6EzHyoj+nblPPvN0RXCfAeMyAmKr8I=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=pQiUpOXWKa+Rj6LJzfgnZXjNFC7dq2fhLWb2NyO89xE=;
+ b=bb975gpXiNo78AMoMouerxuNmXNw3LxSxJHERQ5yl9DHBBt0tD23dEfFZ5UE7gOtast5QK
+ bgonAd/OOHDy9OAJMb/4HE0ddY3Zesdb0AXArRHGFyy4lmbs5GwUuGy6SPXET5ql+TjCQD
+ M7gPtr4g0TcoU2HD5JigjsyVEQhV894=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-359-6ENYXo81N3SijJ6xcocwug-1; Fri, 22 Jul 2022 10:57:01 -0400
-X-MC-Unique: 6ENYXo81N3SijJ6xcocwug-1
-Received: by mail-qt1-f199.google.com with SMTP id
- cj19-20020a05622a259300b0031f01f3933cso2972701qtb.18
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 07:57:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nDDlN3mM9HgDb+Z3x6nSHM5nxk54wtzlY3gz8F8WEMw=;
- b=7T8rrvb/HLUEMk9MQ2VEiHzlP/180qsfc3Fzk2ZeJui9kP6A/vAK8GHkZlWsGHOdBb
- ZYd85wtu9QFYj3F+N5DEH36tUQ2rfG0+lt2sHOR6DAiDRALOI2zhpzwqQRvNW9mEhsRK
- ZqSd8mGPujjzL5e1FXUa0qc+mP3LURqab4idwGrVPjf37jB98jg1i7LSpmp7EaRVT2Kc
- 1RWjqpcdqpu/4r6S6m+LYkR2liFG0/tjsGNDNIo68t76opUcIPn5ZzM75oYuzgQNmHyF
- TDx+Wkovia6avquEoiMkgtBJcrEAlXLPv+alyChXpuncwFqNHc/zNGvwBLHxpPQpFC+6
- 1N4g==
-X-Gm-Message-State: AJIora9KTE9d/ZIsbnzZTpa9Sxr0zGWxwoa8ET8dH7RIkSWqD2dHaHaa
- XJiC2t4tGywROxI1ZJeztU/tPeqKdAtkcXhRJfxlMMbgop9b1IXo4oZjxqSXy3nuhPANQpWb5zI
- Vwuz4umWxPiQDzqnGAEN4xmoCL3wDblKScLEMNx+leXNF8EiuPo2UlT3Y4pi/gIIZ
-X-Received: by 2002:a05:620a:3709:b0:6b5:adeb:5ef0 with SMTP id
- de9-20020a05620a370900b006b5adeb5ef0mr196089qkb.307.1658501820696; 
- Fri, 22 Jul 2022 07:57:00 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1umuczP8AH/dCCbA7tcf18WRupss9Yp337bfNs/pIot3tsR6ms1qA9qvvRAgPBOtZwVtXPxlg==
-X-Received: by 2002:a05:620a:3709:b0:6b5:adeb:5ef0 with SMTP id
- de9-20020a05620a370900b006b5adeb5ef0mr196066qkb.307.1658501820388; 
- Fri, 22 Jul 2022 07:57:00 -0700 (PDT)
-Received: from localhost.localdomain
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- y7-20020a37e307000000b006b5e6dac3b0sm3291429qki.128.2022.07.22.07.56.59
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 22 Jul 2022 07:56:59 -0700 (PDT)
-From: Peter Xu <peterx@redhat.com>
+ us-mta-104-MWD37hVNMXWvwSQt4Iy0lQ-1; Fri, 22 Jul 2022 10:59:02 -0400
+X-MC-Unique: MWD37hVNMXWvwSQt4Iy0lQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C07F8802D1C;
+ Fri, 22 Jul 2022 14:59:01 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.232])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B1A62166B26;
+ Fri, 22 Jul 2022 14:59:01 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peterx@redhat.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PATCH v2 2/2] migration-test: Allow test to run without uffd
-Date: Fri, 22 Jul 2022 10:56:54 -0400
-Message-Id: <20220722145654.81103-3-peterx@redhat.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220722145654.81103-1-peterx@redhat.com>
-References: <20220722145654.81103-1-peterx@redhat.com>
+Cc: qemu-trivial@nongnu.org
+Subject: [PATCH] trivial: Fix duplicated words
+Date: Fri, 22 Jul 2022 16:58:59 +0200
+Message-Id: <20220722145859.1952732-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,94 +73,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We used to stop running all tests if uffd is not detected.  However
-logically that's only needed for postcopy not the rest of tests.
+Some files wrongly contain the same word twice in a row.
+One of them should be removed or replaced.
 
-Keep running the rest when still possible.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 48 +++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ Removing duplicated words seems to be the new hip trend on the
+ Linux kernel mailing lists - so let's be hip in QEMU land, too! ;-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index dd50aa600c..8826ee4be4 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2424,14 +2424,11 @@ int main(int argc, char **argv)
- {
-     char template[] = "/tmp/migration-test-XXXXXX";
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_uffd = ufd_version_check();
-     int ret;
+ docs/system/s390x/bootdevices.rst             | 2 +-
+ hw/usb/u2f.h                                  | 2 +-
+ include/hw/qdev-core.h                        | 2 +-
+ block/linux-aio.c                             | 2 +-
+ contrib/plugins/cache.c                       | 2 +-
+ hw/arm/omap2.c                                | 2 +-
+ hw/misc/mac_via.c                             | 2 +-
+ hw/s390x/s390-ccw.c                           | 2 +-
+ linux-user/i386/cpu_loop.c                    | 2 +-
+ target/arm/helper.c                           | 2 +-
+ tools/virtiofsd/fuse_virtio.c                 | 2 +-
+ ui/vdagent.c                                  | 2 +-
+ tests/docker/dockerfiles/debian-native.docker | 2 +-
+ 13 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/docs/system/s390x/bootdevices.rst b/docs/system/s390x/bootdevices.rst
+index 9e591cb9dc..b5950133e8 100644
+--- a/docs/system/s390x/bootdevices.rst
++++ b/docs/system/s390x/bootdevices.rst
+@@ -65,7 +65,7 @@ you can specify it via the ``-global s390-ipl.netboot_fw=filename``
+ command line option.
  
-     g_test_init(&argc, &argv, NULL);
+ The ``bootindex`` property is especially important for booting via the network.
+-If you don't specify the the ``bootindex`` property here, the network bootloader
++If you don't specify the ``bootindex`` property here, the network bootloader
+ firmware code won't get loaded into the guest memory so that the network boot
+ will fail. For a successful network boot, try something like this::
  
--    if (!ufd_version_check()) {
--        return g_test_run();
--    }
--
+diff --git a/hw/usb/u2f.h b/hw/usb/u2f.h
+index db30f3586b..a408a82927 100644
+--- a/hw/usb/u2f.h
++++ b/hw/usb/u2f.h
+@@ -74,7 +74,7 @@ typedef struct U2FKeyState {
+ 
+ /*
+  * API to be used by the U2F key device variants (i.e. hw/u2f-*.c)
+- * to interact with the the U2F key base device (i.e. hw/u2f.c)
++ * to interact with the U2F key base device (i.e. hw/u2f.c)
+  */
+ void u2f_send_to_guest(U2FKeyState *key,
+                        const uint8_t packet[U2FHID_PACKET_SIZE]);
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 98774e2835..785dd5a56e 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -386,7 +386,7 @@ bool qdev_realize_and_unref(DeviceState *dev, BusState *bus, Error **errp);
+  *
+  *  - unrealize any child buses by calling qbus_unrealize()
+  *    (this will recursively unrealize any devices on those buses)
+- *  - call the the unrealize method of @dev
++ *  - call the unrealize method of @dev
+  *
+  * The device can then be freed by causing its reference count to go
+  * to zero.
+diff --git a/block/linux-aio.c b/block/linux-aio.c
+index 9c2393a2f7..d2cfb7f523 100644
+--- a/block/linux-aio.c
++++ b/block/linux-aio.c
+@@ -461,7 +461,7 @@ LinuxAioState *laio_init(Error **errp)
+     s = g_malloc0(sizeof(*s));
+     rc = event_notifier_init(&s->e, false);
+     if (rc < 0) {
+-        error_setg_errno(errp, -rc, "failed to to initialize event notifier");
++        error_setg_errno(errp, -rc, "failed to initialize event notifier");
+         goto out_free_state;
+     }
+ 
+diff --git a/contrib/plugins/cache.c b/contrib/plugins/cache.c
+index b9226e7c40..ac1510aaa1 100644
+--- a/contrib/plugins/cache.c
++++ b/contrib/plugins/cache.c
+@@ -38,7 +38,7 @@ enum EvictionPolicy policy;
+  * put in any of the blocks inside the set. The number of block per set is
+  * called the associativity (assoc).
+  *
+- * Each block contains the the stored tag and a valid bit. Since this is not
++ * Each block contains the stored tag and a valid bit. Since this is not
+  * a functional simulator, the data itself is not stored. We only identify
+  * whether a block is in the cache or not by searching for its tag.
+  *
+diff --git a/hw/arm/omap2.c b/hw/arm/omap2.c
+index 02b1aa8c97..8571eedd73 100644
+--- a/hw/arm/omap2.c
++++ b/hw/arm/omap2.c
+@@ -274,7 +274,7 @@ static void omap_eac_format_update(struct omap_eac_s *s)
+     fmt.freq = s->codec.rate;
+     /* TODO: signedness possibly depends on the CODEC hardware - or
+      * does I2S specify it?  */
+-    /* All register writes are 16 bits so we we store 16-bit samples
++    /* All register writes are 16 bits so we store 16-bit samples
+      * in the buffers regardless of AGCFR[B8_16] value.  */
+     fmt.fmt = AUDIO_FORMAT_U16;
+ 
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index fba85a53d7..f42c12755a 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -587,7 +587,7 @@ static void adb_via_poll(void *opaque)
+         /*
+          * For older Linux kernels that switch to IDLE mode after sending the
+          * ADB command, detect if there is an existing response and return that
+-         * as a a "fake" autopoll reply or bus timeout accordingly
++         * as a "fake" autopoll reply or bus timeout accordingly
+          */
+         *data = v1s->adb_data_out[0];
+         olen = v1s->adb_data_in_size;
+diff --git a/hw/s390x/s390-ccw.c b/hw/s390x/s390-ccw.c
+index 2fc8bb9c23..e2d86d96e7 100644
+--- a/hw/s390x/s390-ccw.c
++++ b/hw/s390x/s390-ccw.c
+@@ -57,7 +57,7 @@ IOInstEnding s390_ccw_store(SubchDev *sch)
+ 
      /*
-      * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
-      * is touchy due to race conditions on dirty bits (especially on PPC for
-@@ -2460,13 +2457,15 @@ int main(int argc, char **argv)
+      * This code is called for both virtual and passthrough devices,
+-     * but only applies to to the latter.  This ugly check makes that
++     * but only applies to the latter.  This ugly check makes that
+      * distinction for us.
+      */
+     if (object_dynamic_cast(OBJECT(sch->driver_data), TYPE_S390_CCW)) {
+diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
+index 492701dd9a..42837399bc 100644
+--- a/linux-user/i386/cpu_loop.c
++++ b/linux-user/i386/cpu_loop.c
+@@ -137,7 +137,7 @@ static void emulate_vsyscall(CPUX86State *env)
+     }
  
-     module_call_init(MODULE_INIT_QOM);
+     /*
+-     * Validate the the pointer arguments.
++     * Validate the pointer arguments.
+      */
+     switch (syscall) {
+     case TARGET_NR_gettimeofday:
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1a8b06410e..e1bdc80c35 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -3898,7 +3898,7 @@ static const ARMCPRegInfo cache_dirty_status_cp_reginfo[] = {
+ };
  
--    qtest_add_func("/migration/postcopy/unix", test_postcopy);
--    qtest_add_func("/migration/postcopy/plain", test_postcopy);
--    qtest_add_func("/migration/postcopy/recovery/plain",
--                   test_postcopy_recovery);
--    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
--    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
--                    test_postcopy_preempt_recovery);
-+    if (has_uffd) {
-+        qtest_add_func("/migration/postcopy/unix", test_postcopy);
-+        qtest_add_func("/migration/postcopy/plain", test_postcopy);
-+        qtest_add_func("/migration/postcopy/recovery/plain",
-+                       test_postcopy_recovery);
-+        qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-+                       test_postcopy_preempt_recovery);
-+    }
+ static const ARMCPRegInfo cache_block_ops_cp_reginfo[] = {
+-    /* We never have a a block transfer operation in progress */
++    /* We never have a block transfer operation in progress */
+     { .name = "BXSR", .cp = 15, .crn = 7, .crm = 12, .opc1 = 0, .opc2 = 4,
+       .access = PL0_R, .type = ARM_CP_CONST | ARM_CP_NO_RAW,
+       .resetvalue = 0 },
+diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+index a52eacf82e..9368e292e4 100644
+--- a/tools/virtiofsd/fuse_virtio.c
++++ b/tools/virtiofsd/fuse_virtio.c
+@@ -379,7 +379,7 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
+     copy_iov(iov, count, in_sg, in_num, iov_len);
  
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-@@ -2474,18 +2473,21 @@ int main(int argc, char **argv)
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/precopy/unix/tls/psk",
-                    test_precopy_unix_tls_psk);
--    /*
--     * NOTE: psk test is enough for postcopy, as other types of TLS
--     * channels are tested under precopy.  Here what we want to test is the
--     * general postcopy path that has TLS channel enabled.
--     */
--    qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
--    qtest_add_func("/migration/postcopy/recovery/tls/psk",
--                   test_postcopy_recovery_tls_psk);
--    qtest_add_func("/migration/postcopy/preempt/tls/psk",
--                   test_postcopy_preempt_tls_psk);
--    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
--                   test_postcopy_preempt_all);
-+
-+    if (has_uffd) {
-+        /*
-+         * NOTE: psk test is enough for postcopy, as other types of TLS
-+         * channels are tested under precopy.  Here what we want to test is the
-+         * general postcopy path that has TLS channel enabled.
-+         */
-+        qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
-+        qtest_add_func("/migration/postcopy/recovery/tls/psk",
-+                       test_postcopy_recovery_tls_psk);
-+        qtest_add_func("/migration/postcopy/preempt/tls/psk",
-+                       test_postcopy_preempt_tls_psk);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
-+                       test_postcopy_preempt_all);
-+    }
- #ifdef CONFIG_TASN1
-     qtest_add_func("/migration/precopy/unix/tls/x509/default-host",
-                    test_precopy_unix_tls_x509_default_host);
+     /*
+-     * Build a copy of the the in_sg iov so we can skip bits in it,
++     * Build a copy of the in_sg iov so we can skip bits in it,
+      * including changing the offsets
+      */
+     in_sg_cpy = g_new(struct iovec, in_num);
+diff --git a/ui/vdagent.c b/ui/vdagent.c
+index aa6167f0b4..a899eed195 100644
+--- a/ui/vdagent.c
++++ b/ui/vdagent.c
+@@ -544,7 +544,7 @@ static void vdagent_clipboard_recv_grab(VDAgentChardev *vd, uint8_t s, uint32_t
+     if (size > sizeof(uint32_t) * 10) {
+         /*
+          * spice has 6 types as of 2021. Limiting to 10 entries
+-         * so we we have some wiggle room.
++         * so we have some wiggle room.
+          */
+         return;
+     }
+diff --git a/tests/docker/dockerfiles/debian-native.docker b/tests/docker/dockerfiles/debian-native.docker
+index efd55cb6e0..8dd033097c 100644
+--- a/tests/docker/dockerfiles/debian-native.docker
++++ b/tests/docker/dockerfiles/debian-native.docker
+@@ -1,7 +1,7 @@
+ #
+ # Docker Debian Native
+ #
+-# This this intended to build QEMU on native host systems. Debian is
++# This is intended to build QEMU on native host systems. Debian is
+ # chosen due to the broadest range on supported host systems for QEMU.
+ #
+ # This docker target is based on the docker.io Debian Bullseye base
 -- 
-2.32.0
+2.31.1
 
 
