@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3900057E517
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:10:02 +0200 (CEST)
-Received: from localhost ([::1]:40614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FDC257E5A6
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:32:48 +0200 (CEST)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEwA5-00040d-AO
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:10:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
+	id 1oEwW6-0002eP-P2
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:32:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5T-0002S1-4m
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35925)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oEwTG-0000hR-G0
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:29:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5R-0000sc-1c
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:14 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1oEwTC-00069T-H4
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:29:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658509512;
+ s=mimecast20190719; t=1658510983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version: content-type:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o37c5iKXF9oD1uwTbUiDSCSU97u2DwwJin3hFWlrpsk=;
- b=NmtstjDD5tByPWzFznabpO/SIfcgus3Hrut6pIOSanBvRnkXAT6YvszvZk9bHP3kOkQn6X
- XShZ+Z+HwkL+Iut8IExAYNBpOk++WfLtmjQ/xURq9wvEnOlCrma210a7Dgq8F7dTO2ZoKG
- 5jZSNcZsF/NluFs3CL/9H/4bJg9qN20=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=yUHhGfdpuasrm32xobCTURb1WCOkySqm+EqJUmjHS0k=;
+ b=T/6kaH286B7c/hK3KM28gvNiANOC4PgOZua8PL2s1259h+NdX0gNGbY9a44nOf4wR0Bz3a
+ qHAPF+7Nk+3zjdwrX9QtdNpPj6ZK8LfEOTioQhJmUaO02g4P4WUZZ17o49hYlwE5eJz96J
+ GHIIn+mZcz3FtNhMnUO7jQJWxNiPVOY=
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
+ [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-222-M9lKLAgDN1O7anxrvp4YpQ-1; Fri, 22 Jul 2022 13:05:11 -0400
-X-MC-Unique: M9lKLAgDN1O7anxrvp4YpQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- l16-20020a056402255000b0043bbb1e39c3so3239647edb.11
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:11 -0700 (PDT)
+ us-mta-616-vgxz-InIOLWTMEXcNz9ncg-1; Fri, 22 Jul 2022 13:29:36 -0400
+X-MC-Unique: vgxz-InIOLWTMEXcNz9ncg-1
+Received: by mail-vs1-f70.google.com with SMTP id
+ o7-20020a677307000000b0035743c045b7so370726vsc.8
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:29:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=o37c5iKXF9oD1uwTbUiDSCSU97u2DwwJin3hFWlrpsk=;
- b=qRRS30kMt9rn+j/ugh4TL9cSHPC+kyUBLMVr3FtKSIQjowds6aQpm9Kj5D2dhzNcfr
- WyBQrOYoZ+6ndnT3aewCiwxmtRZDuyxzYy41j27uweEF+bnnmaU15o21P8u5p+/7l3qS
- P6m2s5bXZCyN+YKSme8Qt/gYR+k/R9sN1vsDiemsMzDDYQ5Rf7pFcpcpqua4VX9w+H6J
- lFvY2Bf04TqljzmFsDLglTyzUiMGVii21CJ2q+uftDuaBGq+ZM7f+ZykeZDLoqzIlcf3
- ADA8xFL3/pC8hh8J0cWtn5dssOWy0culNu+Ph+utfRHB4/3jszJA8WeTszR7iPCxQBrb
- ST/g==
-X-Gm-Message-State: AJIora/MALHG71kd+LJUOmYq/PcinfBi7Ugy5dqMQhbTBq5K+AcOSRWx
- UveUQB+lNIrwQPrbgOiRbVrNOGq37M05XwPd7FlNuu/P6UxSEbZ6nJgqsPJ03mePhpfefWamgA5
- Ic8KEp56b1QqKHr+TrF0ot1Gh+ebK5bnoem4S2Spad52D7P3AAAYs9JNhX5Q0yOH7W1I=
-X-Received: by 2002:a05:6402:5518:b0:43a:9e32:b6fc with SMTP id
- fi24-20020a056402551800b0043a9e32b6fcmr872310edb.252.1658509509490; 
- Fri, 22 Jul 2022 10:05:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uMPYyafNxbTUSggS8cnq6rE5HkvnEjGTLKM7AOQoBCXQuEv+HwG/zrZBcmQ3VKBSjQXQA5Vw==
-X-Received: by 2002:a05:6402:5518:b0:43a:9e32:b6fc with SMTP id
- fi24-20020a056402551800b0043a9e32b6fcmr872273edb.252.1658509509085; 
- Fri, 22 Jul 2022 10:05:09 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- 11-20020a170906310b00b00722fc0779e3sm2170948ejx.85.2022.07.22.10.05.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 10:05:08 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PULL 8/8] hw/i386: pass RNG seed via setup_data entry
-Date: Fri, 22 Jul 2022 19:04:49 +0200
-Message-Id: <20220722170449.853222-9-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220722170449.853222-1-pbonzini@redhat.com>
-References: <20220722170449.853222-1-pbonzini@redhat.com>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=yUHhGfdpuasrm32xobCTURb1WCOkySqm+EqJUmjHS0k=;
+ b=7J5elCt4KujtuwOUXDhoNAgCK2tMiEL4hnLaGFtNr2m07b8K2r5eqQGZ5POb7Hfg9d
+ Uu5p5xQZ7I4WMkkPnIxInlMIicOHobbVDxnFo2Fw1Gb+aQDEKtd48ZJy5XRF0ZlmjNCL
+ JxECbcXkaID1OrFCFm8eThf40++wRWbajGnTLuVaBKQHH9PiBBjZxY34AaNcgFjQ10Ro
+ M+TMD+4VfHfYrUxdley6rQmQhpNFIcNXKS2dbbBY5cieBuMHKCkf3nh7fdwK9p8DUY09
+ DMihcbrNhdOzNvsp99H/F/jYrq4bSnM6bHW7AVVbnAbq7J49Pq4EG3UCKSll84Lsu4tz
+ I8jw==
+X-Gm-Message-State: AJIora8HE5ke1jG6D7LgNszTSdjdHBAxjwt7beyAA7R1waDmHK1WvUwQ
+ 2HiFzv06sVbVUsQxfaWFEvvaj3UzcIqK5N0wFP2EEs3G6SN8gAKbatozM+sDGc11iMAzSt0TD+A
+ JEhb4c+mVnbPqT4dPvEjrk+xfP/7IWiM=
+X-Received: by 2002:ab0:59e6:0:b0:383:6c3d:a6d5 with SMTP id
+ k35-20020ab059e6000000b003836c3da6d5mr452742uad.100.1658510975782; 
+ Fri, 22 Jul 2022 10:29:35 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1unk6BbNLwAqEd7QbPVywbJpUvgMvFxLE4bs+7w+oteQoaG9OLW1XwELWQ0O+tuwmDv6IO53YILHvfmbCD7h84=
+X-Received: by 2002:ab0:59e6:0:b0:383:6c3d:a6d5 with SMTP id
+ k35-20020ab059e6000000b003836c3da6d5mr452738uad.100.1658510975477; Fri, 22
+ Jul 2022 10:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Type: text/plain
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 22 Jul 2022 13:29:24 -0400
+Message-ID: <CAFn=p-ZX-sSpKw-5D-rdwPZ1fbdE=X0VagwoSTVbtQUO_45Vpw@mail.gmail.com>
+Subject: Python package qemu.qmp v0.0.1 released
+To: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- PP_MIME_FAKE_ASCII_TEXT=0.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,220 +84,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+I'm pleased to announce the very first version of the standalone QMP
+library for Python, "qemu.qmp".
 
-Tiny machines optimized for fast boot time generally don't use EFI,
-which means a random seed has to be supplied some other way. For this
-purpose, Linux (â‰¥5.20) supports passing a seed in the setup_data table
-with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
-specialized bootloaders. The linked commit shows the upstream kernel
-implementation.
+PyPI: https://pypi.org/project/qemu.qmp/
+Docs: https://qemu-project.gitlab.io/python-qemu-qmp/
+Source: https://gitlab.com/qemu-project/python-qemu-qmp
 
-At Paolo's request, we don't pass these to versioned machine types â‰¤7.0.
+This library is identical to the one currently in the QEMU repo, with
+a generous helping of extra GitLab CI rules and PyPI packaging
+scripts. In 2021, the QMP library originally written by Luiz
+Capitulino was re-written from the ground up to include native support
+for Python asyncio, which brings along with it some new features and
+characteristics:
 
-Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <eduardo@habkost.net>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
-Cc: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-Id: <20220721125636.446842-1-Jason@zx2c4.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/i386/microvm.c                            |  2 +-
- hw/i386/pc.c                                 |  4 +--
- hw/i386/pc_piix.c                            |  2 ++
- hw/i386/pc_q35.c                             |  2 ++
- hw/i386/x86.c                                | 26 +++++++++++++++++---
- include/hw/i386/pc.h                         |  3 +++
- include/hw/i386/x86.h                        |  3 ++-
- include/standard-headers/asm-x86/bootparam.h |  1 +
- 8 files changed, 35 insertions(+), 8 deletions(-)
+- Full, native support for Python asyncio
+- True asynchronous event handling and full-duplex communication
+- Arbitrary numbers of separate event-handling queues (EventListener objects)
+- Support for out-of-band execution
+- Continued support for QEMU Guest Agent
+- Robust error detection and error reporting mechanisms
+- Semantic error classes for simplified client writing
+- Extensible callback hooks for logging and rewriting I/O messages
+- Support for Python 3.6 through the upcoming Python 3.11
+- Unit testing of the library itself provided by Avocado Framework
+- Compatibility with Luiz's QMP library provided by a synchronous shim class
+- Fully statically typed using Python 3.6 type hints and validated with mypy
+- PEP 561 compliant export of static typing information for client packages
+- Rigorously documented API, including all error pathways and exceptions
+- *Zero* mandatory dependencies! This is all Python stdlib native.
+- LGPLv2+ license for easier external integration.
+- Fully self-contained repository with all publishing and packaging
+scripts included.
+- qmp-shell and qmp-shell-wrap convenience/debugging utilities are included
+- An early alpha version of qmp-tui which has support for displaying
+asynchronous events is also included. This is the version authored by
+Niteesh for Summer 2021's GSoC session.
+- Extensible "AsyncProtocol" class that can be used to implement QTEST
+or other full-duplex, asynchronous message-based protocols.
+- Native GitLab merge request contributor workflow for ease of
+contribution by newer, casual contributors. Merge request
+announcements are automatically relayed to the qemu-devel list via
+GitLab webhook integrations so that core QEMU developers don't miss
+out on development activity.
 
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index dc929727dc..7fe8cce03e 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
-     rom_set_fw(fw_cfg);
- 
-     if (machine->kernel_filename != NULL) {
--        x86_load_linux(x86ms, fw_cfg, 0, true);
-+        x86_load_linux(x86ms, fw_cfg, 0, true, false);
-     }
- 
-     if (mms->option_roms) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 774cb2bf07..d2b5823ffb 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -796,7 +796,7 @@ void xen_load_linux(PCMachineState *pcms)
-     rom_set_fw(fw_cfg);
- 
-     x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
--                   pcmc->pvh_enabled);
-+                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
-     for (i = 0; i < nb_option_roms; i++) {
-         assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
-                !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
-@@ -992,7 +992,7 @@ void pc_memory_init(PCMachineState *pcms,
- 
-     if (linux_boot) {
-         x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
--                       pcmc->pvh_enabled);
-+                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
-     }
- 
-     for (i = 0; i < nb_option_roms; i++) {
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index a234989ac3..fbf9465318 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -438,9 +438,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
- 
- static void pc_i440fx_7_0_machine_options(MachineClass *m)
- {
-+    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_7_1_machine_options(m);
-     m->alias = NULL;
-     m->is_default = false;
-+    pcmc->legacy_no_rng_seed = true;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index f96cbd04e2..12cc76aaf8 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -375,8 +375,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
- 
- static void pc_q35_7_0_machine_options(MachineClass *m)
- {
-+    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_7_1_machine_options(m);
-     m->alias = NULL;
-+    pcmc->legacy_no_rng_seed = true;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 6003b4b2df..ecea25d249 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -26,6 +26,7 @@
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- #include "qemu/datadir.h"
-+#include "qemu/guest-random.h"
- #include "qapi/error.h"
- #include "qapi/qmp/qerror.h"
- #include "qapi/qapi-visit-common.h"
-@@ -766,7 +767,8 @@ static bool load_elfboot(const char *kernel_filename,
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
--                    bool pvh_enabled)
-+                    bool pvh_enabled,
-+                    bool legacy_no_rng_seed)
- {
-     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
-     uint16_t protocol;
-@@ -774,7 +776,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     int dtb_size, setup_data_offset;
-     uint32_t initrd_max;
-     uint8_t header[8192], *setup, *kernel;
--    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0;
-+    hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
-     FILE *f;
-     char *vmode;
-     MachineState *machine = MACHINE(x86ms);
-@@ -784,6 +786,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     const char *dtb_filename = machine->dtb;
-     const char *kernel_cmdline = machine->kernel_cmdline;
-     SevKernelLoaderContext sev_load_ctx = {};
-+    enum { RNG_SEED_LENGTH = 32 };
- 
-     /* Align to 16 bytes as a paranoia measure */
-     cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
-@@ -1063,16 +1066,31 @@ void x86_load_linux(X86MachineState *x86ms,
-         kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
-         kernel = g_realloc(kernel, kernel_size);
- 
--        stq_p(header + 0x250, prot_addr + setup_data_offset);
- 
-         setup_data = (struct setup_data *)(kernel + setup_data_offset);
--        setup_data->next = 0;
-+        setup_data->next = cpu_to_le64(first_setup_data);
-+        first_setup_data = prot_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
- 
-         load_image_size(dtb_filename, setup_data->data, dtb_size);
-     }
- 
-+    if (!legacy_no_rng_seed) {
-+        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
-+        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
-+        kernel = g_realloc(kernel, kernel_size);
-+        setup_data = (struct setup_data *)(kernel + setup_data_offset);
-+        setup_data->next = cpu_to_le64(first_setup_data);
-+        first_setup_data = prot_addr + setup_data_offset;
-+        setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-+        setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-+        qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-+    }
-+
-+    /* Offset 0x250 is a pointer to the first setup_data link. */
-+    stq_p(header + 0x250, first_setup_data);
-+
-     /*
-      * If we're starting an encrypted VM, it will be OVMF based, which uses the
-      * efi stub for booting and doesn't require any values to be placed in the
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b7735dccfc..2a8ffbcfa8 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -127,6 +127,9 @@ struct PCMachineClass {
- 
-     /* create kvmclock device even when KVM PV features are not exposed */
-     bool kvmclock_create_always;
-+
-+    /* skip passing an rng seed for legacy machines */
-+    bool legacy_no_rng_seed;
- };
- 
- #define TYPE_PC_MACHINE "generic-pc-machine"
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 9089bdd99c..6bdf1f6ab2 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -123,7 +123,8 @@ void x86_bios_rom_init(MachineState *ms, const char *default_firmware,
- void x86_load_linux(X86MachineState *x86ms,
-                     FWCfgState *fw_cfg,
-                     int acpi_data_size,
--                    bool pvh_enabled);
-+                    bool pvh_enabled,
-+                    bool legacy_no_rng_seed);
- 
- bool x86_machine_is_smm_enabled(const X86MachineState *x86ms);
- bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
-diff --git a/include/standard-headers/asm-x86/bootparam.h b/include/standard-headers/asm-x86/bootparam.h
-index 072e2ed546..b2aaad10e5 100644
---- a/include/standard-headers/asm-x86/bootparam.h
-+++ b/include/standard-headers/asm-x86/bootparam.h
-@@ -10,6 +10,7 @@
- #define SETUP_EFI			4
- #define SETUP_APPLE_PROPERTIES		5
- #define SETUP_JAILHOUSE			6
-+#define SETUP_RNG_SEED			9
- 
- #define SETUP_INDIRECT			(1<<31)
- 
--- 
-2.36.1
+Cool, in my opinion! This library has been the provider of QMP support
+for all of our Python tests in qemu.git for about two releases now, so
+we've already been using it for some time. I would be flattered if you
+didn't even notice.
+
+Some other features that are in a draft state and need polish, docs,
+and review, but do exist;
+
+- A fully statically typed implementation of the qtest protocol built
+on top of AsyncProtocol
+- An extensible implementation of a complete QMP server, useful for
+acting as a debugging proxy to a QMP server, unit testing of the QMP
+library itself, or for more meticulous unit testing of other QMP
+clients.
+
+With the first official release of this library now published,
+attention will shift to integrating this library back into qemu.git,
+ensuring that both internal and external projects benefit from the
+same library.
+
+Please check out the README visible from PyPI, the source repository,
+or the documentation site for more information; see the issue tracker
+for pending issues and enhancements, or refer to the project
+milestones on GitLab[1] for future roadmap information on this
+mini-project.
+
+Thanks to everyone that helped get to this point; in no particular
+order: Luiz, Hanna, Kevin, Vladimir, Kashyap, Eduardo, Cleber, Daniel,
+Niteesh, Willian, Beraldo, Wainer, Thomas, Eric, Paolo, Stefan,
+Andrea, and Victor. Thanks to my friends outside of work for their
+help, too; thanks Mike J.!
+
+Enjoy!
+
+--John Snow
+
+[1] https://gitlab.com/qemu-project/python-qemu-qmp/-/milestones
 
 
