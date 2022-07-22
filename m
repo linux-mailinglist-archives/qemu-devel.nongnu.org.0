@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE27757E165
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 14:26:49 +0200 (CEST)
-Received: from localhost ([::1]:43258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE8F57E17C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 14:34:31 +0200 (CEST)
+Received: from localhost ([::1]:50732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oErk0-0005d2-IV
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 08:26:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55460)
+	id 1oErrR-0002b3-Nd
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 08:34:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
- id 1oErfK-0001WP-A4
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:21:58 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:51888)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1oErlj-0006Xu-QH
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:28:35 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:65420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
- id 1oErfH-0001bK-1g
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:21:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2FF0761EFF;
- Fri, 22 Jul 2022 12:21:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12858C341C6;
- Fri, 22 Jul 2022 12:21:50 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="maKYnBeQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658492509;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PdV4H36tC87FWwIgf5D/0C7b4o6qtvm9jER4e8pYdYo=;
- b=maKYnBeQr70LnysOTx3nNGdkWKomfsbU++Sn4xovo+YDQnO5FTSzFe3h1myOgL44xXzB9D
- MCoDR56Xq5J/3QfIF9FFCe46SgESh/LpgH6RNR+XVu9zAU6ZUtdhA6tG2VCa3EzqMc7R6X
- uq9z+GKDFlSBFcGXBKLcqZfNYVXzxf4=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b28466f3
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
- Fri, 22 Jul 2022 12:21:49 +0000 (UTC)
-Date: Fri, 22 Jul 2022 14:21:46 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
-Message-ID: <YtqWWiXf3TR0zVXX@zx2c4.com>
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-8-pbonzini@redhat.com>
- <87tu7az28k.fsf@linaro.org> <Ytm1KiyFGNqAo/Af@zx2c4.com>
- <f1ed5194-09dc-432a-666e-b834f4252f4e@redhat.com>
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1oErlg-0003xU-Mf
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:28:35 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 542BF424F9;
+ Fri, 22 Jul 2022 14:28:29 +0200 (CEST)
+Message-ID: <e4c49e1d-4c37-981f-0611-afc754d52202@proxmox.com>
+Date: Fri, 22 Jul 2022 14:28:27 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f1ed5194-09dc-432a-666e-b834f4252f4e@redhat.com>
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: Guest reboot issues since QEMU 6.0 and Linux 5.11
+Content-Language: en-US
+To: Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org,
+ qemu-devel@nongnu.org
+Cc: Thomas Lamprecht <t.lamprecht@proxmox.com>,
+ Mira Limbeck <m.limbeck@proxmox.com>
+References: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
+ <8ac992205e740722160f770821a49278bfa12b0a.camel@redhat.com>
+From: Fiona Ebner <f.ebner@proxmox.com>
+In-Reply-To: <8ac992205e740722160f770821a49278bfa12b0a.camel@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,81 +62,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
-
-On Fri, Jul 22, 2022 at 02:04:45PM +0200, Paolo Bonzini wrote:
-> On 7/21/22 22:20, Jason A. Donenfeld wrote:
-> >> Why are we inserting this here? The guest-loader is only building on
-> >> what the machine type has already constructed which in the case of -M
-> >> virt for riscv and ARM already has code for this.
-> > 
-> > Wish you would have replied to the list patch before Paolo queued it.
+Am 21.07.22 um 17:51 schrieb Maxim Levitsky:
+> On Thu, 2022-07-21 at 14:49 +0200, Fabian Ebner wrote:
+>> Hi,
+>> since about half a year ago, we're getting user reports about guest
+>> reboot issues with KVM/QEMU[0].
+>>
+>> The most common scenario is a Windows Server VM (2012R2/2016/2019,
+>> UEFI/OVMF and SeaBIOS) getting stuck during the screen with the Windows
+>> logo and the spinning circles after a reboot was triggered from within
+>> the guest. Quitting the kvm process and booting with a fresh instance
+>> works. The issue seems to become more likely, the longer the kvm
+>> instance runs.
+>>
+>> We did not get such reports while we were providing Linux 5.4 and QEMU
+>> 5.2.0, but we do with Linux 5.11/5.13/5.15 and QEMU 6.x.
+>>
+>> I'm just wondering if anybody has seen this issue before or might have a
+>> hunch what it's about? Any tips on what to look out for when debugging
+>> are also greatly appreciated!
+>>
+>> We do have debug access to a user's test VM and the VM state was saved
+>> before a problematic reboot, but I can't modify the host system there.
+>> AFAICT QEMU just executes guest code as usual, but I'm really not sure
+>> what to look out for.
+>>
+>> That VM has CPU type host, and a colleague did have a similar enough CPU
+>> to load the VM state, but for him, the reboot went through normally. On
+>> the user's system, it triggers consistently after loading the VM state
+>> and rebooting.
+>>
+>> So unfortunately, we didn't manage to reproduce the issue locally yet.
+>> With two other images provided by users, we ran into a boot loop, where
+>> QEMU resets the CPUs and does a few KVM_RUNs before the exit reason is
+>> KVM_EXIT_SHUTDOWN (which to my understanding indicates a triple fa
+>> ult)
+>> and then it repeats. It's not clear if the issues are related.
 > 
-> Come on.
 > 
-> You posted a couple patches for this work 1 week before soft freeze 
-> (which is when maintainer trees should be ready for merge), so that some 
-> platforms get the support and some don't depending on how ready they 
-> are for the freeze itself.
+> Does the guest have HyperV enabled in it (that is nested virtualization?)
 > 
-> Then you post the rest of the implementation on the day of the freeze. 
-> This patch has a pretty bad commit message too because any discussion on 
-> boot loader chaining belonged there.
+
+For all three machines described above
+Get-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V
+indicates that HyperV is disabled.
+
+> Intel or AMD?
 > 
-> Your own timing was completely off, and the right thing to do would have 
-> been to post a single series for all machines.  This way, even if the 
-> patches were to go via individual trees, maintainers could coordinate on 
-> which version to include, on how to handle migration, and so on.
+
+We do have reports for both Intel and AMD.
+
+> Does the VM uses secure boot / SMM?
 > 
-> Imagine doing the same thing for Linux, you'd be either ignored until 
-> the merge window ends, or alternatively shouted at.  Ignoring patches 
-> sent so close the soft freeze was my first instinct and it would have 
-> been the right call, except that in the meanwhile some architecture had 
-> their patches merged and here we are.
+
+The customer VM which can reliably trigger the issue after loading the
+state and rebooting uses SeaBIOS. For the other two VMs,
+Confirm-SecureBootUEFI
+returns "False".
+
+SMM might be a lead! We did disable SMM in the past, because apparently
+there were problems with it (didn't dig out which, was before I worked
+here), and the timing of enabling it and the reports coming in would
+match. I guess (some) guest OSes don't expect it to be suddenly turned on?
+
+However, there is a report of a user with two clusters with QEMU 5.2,
+one with kernel 5.4 without the issue and one with kernel 5.11 with the
+issue (Windows VM with spinning circles). So that's confusing :/
+
+
+We do use some additional options if the OS type is "Windows" in our
+high-level configuration, including hyperV enlightenments:
+
+> -cpu 'host,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=0x1fff,hv_stimer,hv_synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt'
+> -no-hpet
+> -rtc 'driftfix=slew,base=localtime'
+> -global 'kvm-pit.lost_tick_policy=discard'
+
+But one user reported running into the issue even with OS type "other",
+i.e. when the above options are not present and CPU flags should be just
+'+kvm_pv_eoi,+kvm_pv_unhalt'. There are also reports with CPU type
+different from 'host', also with 'kvm64' (where we automatically set the
+flags +lahf_lm,+sep).
+
+
+Thank you and Best Regards,
+Fiona
+
+P.S. Please don't mind the (from your perspective sudden) name change.
+I'm still the same person and don't intend to change it again :)
+
+> Best regards,
+> 	Maxim Levitsky
 > 
-> If anything _I_ have to apologize to Alex for picking up the patch in 
-> his stead, and for bending the soft freeze rules in an attempt to avoid 
-> having half-assed support where some architectures export the seed and 
-> some don't.  But you really have no standing to complain to him about 
-> not replying timely.
+>>
+>> There are also a few reports about non-Windows VMs, mostly Ubuntu 20.04
+>> with UEFI/OVMF, but again, it's not clear if the issues are related.
+>>
+>> [0]: https://forum.proxmox.com/threads/100744/
+>> (the forum thread is a bit chaotic unfortunately).
+>>
+>> Best Regards,
+>> Fabi
+>>
+>>
+> 
+> 
+> 
 
-Please simmer down and quit the inane drama.
-
-I don't have any qualms about Alex not replying in the two days before
-you sent this pull. What I wish is that this was discussed on the list
-before the pull so that we're now not in this awkward situation of
-patch review inside of a pull. I don't know the procedures on what
-happens now with that. Will this get pulled and now we have to revert?
-Do you have to roll a new pull? I just have no idea, as this is all a
-new thing for me. So my comment is more about the awkward state of
-things than about some kind of failure from Alex. Obviously Alex is fine
-here.
-
-Your comments about my timing are also completely unjustified,
-ridiculous, and actually a tad bit offensive. For the "high profile"
-archs that I really wanted to hit 7.1, I started sending in DTB patches
-a good deal of time ago. The only big arch I really wanted to hit 7.1
-that wasn't queued up was the i386 patch, which I first posted in June.
-Anyway, after it became clear that the i386 work was finally going to be
-picked up, I breathed easy and decided to send in patches for the
-remaining archs, to be picked up whenever. It was *your* decision that
-all the DTB archs get in at the same time, hence picking this up; I had
-no particular feelings on it, particularly as I don't know how to test
-those remaining architectures like I did with the others. Anyway,
-timing-wise, in my own planning, I handled risc-v, or1k, ppc, arm, i386,
-and m68k well in advance and have been itching every single day since
-posting those patches for them to be queued up somewhere.
-
-So I really find your whole email just obnoxious and unnecessary. I've
-been spending time trying to get the rng-seed stuff working on QEMU.
-It's been a bit of a learning curve trying to figure out the QEMU
-development model, and so I've miss-CC'd a few patches here and there.
-But I've definitely tried to get an important subset of those patches in
-in a timely manner. As a maintainer, you're definitely having the effect
-of turning me off of the project rather than trying to acquaint me with
-norms or be helpful.
-
-Please, quit the drama. Enough of this stuff.
-
-Jason
 
