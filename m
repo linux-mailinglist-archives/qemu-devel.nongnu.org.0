@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D9D357E807
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 22:09:51 +0200 (CEST)
-Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20FAB57E7D9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 22:04:23 +0200 (CEST)
+Received: from localhost ([::1]:50542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEyy6-0000xW-KD
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 16:09:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51500)
+	id 1oEysn-0000Ap-3A
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 16:04:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oEyp3-00037F-TY
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:29 -0400
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d]:37693)
+ id 1oEyp4-000389-Tw
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:30 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:40723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oEyp2-0005G4-4h
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:29 -0400
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-10dc6e9f500so1605625fac.4
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 13:00:27 -0700 (PDT)
+ id 1oEyp3-0005Gl-BZ
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:30 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-10d6e8990b9so7547659fac.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 13:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ynwsvdFe45St3WK2+5YgYIPrTLY4PoonLky5nrdFajI=;
- b=fXzVXTzk6GDjtZPVXPM3kk69Gk8+2hoiKeUFG0NiF8po6q3xnqvVgN0ihyjiDZxBmT
- pHIaTJNT+iUapzBhBV+x4JZI5exBE53cGazcVYS8IGLMrGSyd1g7JohhIvC7OG/b5Mwp
- wBt2019Y7u3W9TfisQv+GnPKnx6CIRHH+O/6nLTKUCCRLsxU7lB4cIOKi5islxYO91cu
- wsDkVU7kafscjPizplinCh88mwakgRMAw+t5LnAUXy9vBe2uL/Wr5Wrd2l7GCBMQ2iim
- KWVFK/nuNk/FOkDxPFaLXzOdTzP8O17ptn+5sYs62NbxiEINY5xUeYyHmZGpoTuJ/y9d
- /6Mw==
+ bh=6H1vwOGrBVg5tfAahc7TWhOpLEIjth6n4BeX2NpIabU=;
+ b=UMa18Az1uShjRtVCu9TM/5aBnT3hI9cyUcFR8ruqC3AbVyyHBnJtX71W1LGSD2WULO
+ gUHrYxX9+EgfcdQK1rVdnmwpEBBsFYzO3V1g0+QSvfOpk+mgJhY/Hkyrsy7QIQGbJOXo
+ NnY8qM2lvKPHYnYKrzkkcZGNOrhhEnxJJwxtR0obrT1LYf0cWD4ybw/otlanDwG0BlJ0
+ VjVQq068O3ut82U2ntuxBNZzPdezFESXvYJ0wGpWU8C5qzrxPRVfJPBqwnQsxe3AFX4e
+ jJ9357AWqRh6DwNJ1GC6xudpEAF4217NIlYFotUIJowSnbeykDZRmivd7MZRvf4Gx+63
+ ou/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ynwsvdFe45St3WK2+5YgYIPrTLY4PoonLky5nrdFajI=;
- b=mAhNpZBCyIUTfaaXqg704n7EQQwNA+kFaSAxxxbw5PIfMqctty9pZTBnmxhsEPI+b6
- sKHb3cGIFGplnw5BE9ZXv4i9+wWkF7aXopIR/EsgFtHc3v6PfwaV+qyCZ3Voaqxdh57w
- CoN27ZvzCBMZPkBLK9h01Y0LP62ilViwHM2CbKuJkui6pLf+TGWP1IGUKGQzNipFN2An
- s6nSY3FO3bcl1q3dsxLxmKmyNfmxU5L2bDuYZjrk6HiirrzVoE+HKvUnD2kls1XastjA
- /M1yz6W5rM/AfgZegQxzpJdbbbcTKPZ2chla6QQ+97jsl5jnbTpu4H1EZ+PHhufg1hqR
- /R2A==
-X-Gm-Message-State: AJIora845Tb339NF7ndmqoYpSiJdWt0cinTnr4/qtDYKhsr4Ms7eqzYn
- mw7dF7hHlPFDA6ESdGvoluwzSyyazo8=
-X-Google-Smtp-Source: AGRyM1t+5YIqFG6R/UhlZrCX7/MPTAWZuBO2zt6VTfOzBjts4Rap7ujpW4Z1WA1cJt7R2mnUKtFZyQ==
-X-Received: by 2002:a05:6870:b613:b0:10b:db5f:6026 with SMTP id
- cm19-20020a056870b61300b0010bdb5f6026mr875790oab.159.1658520026447; 
- Fri, 22 Jul 2022 13:00:26 -0700 (PDT)
+ bh=6H1vwOGrBVg5tfAahc7TWhOpLEIjth6n4BeX2NpIabU=;
+ b=3wPEyPAKmpzqYWoN7f5A1crSKQpEKdvHnqXsDkeNrvXlNpY2zTxAA4lrRelBaysnhY
+ z+k2JH8vEY427j2iVwL9nlvO1u4rlIJGfTgVP/wnzpbTYNZU24E0deGrxap0v5ApMT0Y
+ Y/YTeT3oJxpJHcdo6cEN9d4ql1g+zq3WqzVIr6EBRpSlWVDS551WjxE6hR81f4FrsAwX
+ wNXBoDNRVhXlzSwMwHRwwaMq3amhAUGPBp5oZ7w50i/uEmJ0nFI/fW8HHG6pvorhJpnD
+ t6HE2fjp13BAtnp93Mwx1quEu7Dkh91OClrQYyfaVrrc1kqJXSsVEoVcZuDMmSOymkYL
+ bIxg==
+X-Gm-Message-State: AJIora+pO3RU2Tv5x1WFYixU9gACQDzMnHpxTMdGG3Vc+Kl07PazcmHA
+ lQc+OoKBUPfyP5+mQx3L5U477JFJ74k=
+X-Google-Smtp-Source: AGRyM1s9Hmw/Njzptw0G5l207V0ygJovfpp4C1Zm1xvdLKSL0RVJsrBFYSeCZA5P//yRe8AOH/4b9w==
+X-Received: by 2002:a05:6870:51ce:b0:10d:4691:7bd9 with SMTP id
+ b14-20020a05687051ce00b0010d46917bd9mr8272548oaj.185.1658520028230; 
+ Fri, 22 Jul 2022 13:00:28 -0700 (PDT)
 Received: from balboa.COMFAST ([152.254.206.198])
  by smtp.gmail.com with ESMTPSA id
- n14-20020a9d740e000000b0061cae62aafcsm2388218otk.20.2022.07.22.13.00.24
+ n14-20020a9d740e000000b0061cae62aafcsm2388218otk.20.2022.07.22.13.00.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 13:00:26 -0700 (PDT)
+ Fri, 22 Jul 2022 13:00:27 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Alistair Francis <alistair.francis@wdc.com>,
  David Gibson <david@gibson.dropbear.id.au>,
  Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 07/10] device_tree.c: support remaining FDT prop types
-Date: Fri, 22 Jul 2022 17:00:04 -0300
-Message-Id: <20220722200007.1602174-8-danielhb413@gmail.com>
+Subject: [PATCH for-7.2 08/10] device_node.c: enable 'info fdt' to print
+ subnodes
+Date: Fri, 22 Jul 2022 17:00:05 -0300
+Message-Id: <20220722200007.1602174-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220722200007.1602174-1-danielhb413@gmail.com>
 References: <20220722200007.1602174-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,110 +93,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When printing a blob with 'dtc' using the '-O dts' option there are 3
-distinct data types being printed: strings, arrays of uint32s and
-regular byte arrays.
+Printing subnodes of a given node will allow us to show a whole subtree,
+which the additional perk of 'info fdt /' being able to print the whole
+FDT.
 
-Previous patch added support to print strings. Let's add the remaining
-formats. We want to resemble the format that 'dtc -O dts' uses, so every
-uint32 array uses angle brackets (<>), and regular byte array uses square
-brackets ([]). For properties that has no values we keep printing just
-its name.
+Since we're now printing more than one subnode, change 'fdt_info' to
+print the full path of the first node. This small tweak helps
+identifying which node or subnode are being displayed.
 
-The /chosen FDT node from the pSeris machine gives an example of all
-property types 'info fdt' is now able to display:
+To demostrate this capability without printing the whole FDT, the
+'/cpus/cpu-map' node from the ARM 'virt' machine has a lot of subnodes:
 
-(qemu) info fdt /chosen
-chosen {
-    ibm,architecture-vec-5 = [0 0]
-    rng-seed = <0x5967a270 0x62b0fb4f 0x8262b46a 0xabf48423 0xcce9615 0xf9daae64 0x66564790 0x357d1604>
-    ibm,arch-vec-5-platform-support = <0x178018c0 0x19001a40>
-    linux,pci-probe-only = <0x0>
-    stdout-path = '/vdevice/vty@71000000'
-    linux,stdout-path = '/vdevice/vty@71000000'
-    qemu,graphic-depth = <0x20>
-    qemu,graphic-height = <0x258>
-    qemu,graphic-width = <0x320>
+(qemu) info fdt /cpus/cpu-map
+/cpus/cpu-map {
+    socket0 {
+        cluster0 {
+            core0 {
+                cpu = <0x8001>
+            }
+        }
+    }
 }
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- softmmu/device_tree.c | 53 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 51 insertions(+), 2 deletions(-)
+ softmmu/device_tree.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-index 3c070acc0d..3a4d09483b 100644
+index 3a4d09483b..88b6a0c902 100644
 --- a/softmmu/device_tree.c
 +++ b/softmmu/device_tree.c
-@@ -681,6 +681,46 @@ static bool fdt_prop_is_string(const void *data, int size)
-     return true;
+@@ -721,16 +721,24 @@ static void fdt_prop_print_val(const char *propname, const void *data,
+     qemu_printf("]\n");
  }
  
-+static bool fdt_prop_is_uint32_array(int size)
-+{
-+    return size % 4 == 0;
-+}
-+
-+static void fdt_prop_print_uint32_array(const char *propname, const void *data,
-+                                        int prop_size, int padding)
-+{
-+    const fdt32_t *array = data;
-+    int array_len = prop_size / 4;
-+    int i;
-+
-+    qemu_printf("%*s%s = <", padding, "", propname);
-+    for (i = 0; i < array_len; i++) {
-+        qemu_printf("0x%" PRIx32, fdt32_to_cpu(array[i]));
-+
-+        if (i < array_len - 1) {
-+            qemu_printf(" ");
-+        }
-+    }
-+    qemu_printf(">\n");
-+}
-+
-+static void fdt_prop_print_val(const char *propname, const void *data,
-+                               int prop_size, int padding)
-+{
-+    const char *val = data;
-+    int i;
-+
-+    qemu_printf("%*s%s = [", padding, "", propname);
-+    for (i = 0; i < prop_size; i++) {
-+        qemu_printf("%x", val[i]);
-+
-+        if (i < prop_size - 1) {
-+            qemu_printf(" ");
-+        }
-+    }
-+    qemu_printf("]\n");
-+}
-+
- static void fdt_print_node(int node, int depth)
+-static void fdt_print_node(int node, int depth)
++static void fdt_print_node(int node, int depth, const char *fullpath)
  {
      const struct fdt_property *prop = NULL;
-@@ -698,10 +738,19 @@ static void fdt_print_node(int node, int depth)
-         prop = fdt_get_property_by_offset(fdt, property, &prop_size);
-         propname = fdt_string(fdt, fdt32_to_cpu(prop->nameoff));
++    const char *nodename = NULL;
+     const char *propname = NULL;
+     void *fdt = current_machine->fdt;
+     int padding = depth * 4;
+     int property = 0;
++    int parent = node;
+     int prop_size;
  
-+        if (prop_size == 0) {
-+            qemu_printf("%*s%s;\n", padding, "", propname);
-+            continue;
-+        }
+-    qemu_printf("%*s%s {\n", padding, "", fdt_get_name(fdt, node, NULL));
++    if (fullpath != NULL) {
++        nodename = fullpath;
++    } else {
++        nodename = fdt_get_name(fdt, node, NULL);
++    }
 +
-         if (fdt_prop_is_string(prop->data, prop_size)) {
--            qemu_printf("%*s%s = '%s'\n", padding, "", propname, prop->data);
-+            qemu_printf("%*s%s = '%s'\n", padding, "",
-+                        propname, (char *)prop->data);
-+        } else if (fdt_prop_is_uint32_array(prop_size)) {
-+            fdt_prop_print_uint32_array(propname, prop->data, prop_size,
-+                                        padding);
-         } else {
--            qemu_printf("%*s%s;\n", padding, "", propname);
-+            fdt_prop_print_val(propname, prop->data, prop_size, padding);
++    qemu_printf("%*s%s {\n", padding, "", nodename);
+ 
+     padding += 4;
+ 
+@@ -754,6 +762,10 @@ static void fdt_print_node(int node, int depth)
          }
      }
  
++    fdt_for_each_subnode(node, fdt, parent) {
++        fdt_print_node(node, depth + 1, NULL);
++    }
++
+     padding -= 4;
+     qemu_printf("%*s}\n", padding, "");
+ }
+@@ -773,5 +785,5 @@ void fdt_info(const char *fullpath, Error **errp)
+         return;
+     }
+ 
+-    fdt_print_node(node, 0);
++    fdt_print_node(node, 0, fullpath);
+ }
 -- 
 2.36.1
 
