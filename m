@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FE157E51B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:12:43 +0200 (CEST)
-Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFFBC57E518
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:10:02 +0200 (CEST)
+Received: from localhost ([::1]:40646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEwCg-000784-CT
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
+	id 1oEwA5-00041o-W4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:10:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5J-0002J5-P1
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39901)
+ id 1oEw5P-0002Nb-O9
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:24732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5H-0000gD-Nl
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:05 -0400
+ id 1oEw5J-0000qm-HO
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658509502;
+ s=mimecast20190719; t=1658509504;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OsjHDI91sKDaO7jtr73uSZ6ojIq5100HvLrmIMADMIc=;
- b=DGhVBF0fEHZGJkMbNUEC8YcEXqfvMStMrVHNn6lVrmFRLFQYFtJDCd/BMu9Jma1YznE9/2
- 12N5ARaW7PTSZOJcOlucQJjC3ykSKGzQXvuf2VZSvjWpUAOt3ZDbBJrp6BRFojYmrTdAGx
- /x10qMvTBwhYdL5wYWgUOLeNGsGWTSQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VrhJSXJvP21ZKY3MLFzDpxyPH0MrTn07yHLUULeWY6o=;
+ b=OpELdgICa0ZXBD8D+wsLCpuMuK7pcycegUhFapiQytLKmcLU178Tq5UyLL4qFNMWcwDQPe
+ G43KeJPM+OnSn1j3znAIOt/tgD5MZRjFDw2qnE7vVsmCdmFQUzB4V0qaRXSKcsDco23ink
+ GhjpVEiEanbPHqQRMfvbcYDmTVM+/cI=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-216-ttOTIuniOsCZJMUMzKS11w-1; Fri, 22 Jul 2022 13:05:01 -0400
-X-MC-Unique: ttOTIuniOsCZJMUMzKS11w-1
-Received: by mail-ed1-f70.google.com with SMTP id
- b7-20020a056402350700b0043baadc4a58so3207906edd.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:01 -0700 (PDT)
+ us-mta-539-brZc078KPyuGkxRL90MOAA-1; Fri, 22 Jul 2022 13:05:03 -0400
+X-MC-Unique: brZc078KPyuGkxRL90MOAA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ q16-20020a056402519000b0043bd73ad1baso648332edd.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OsjHDI91sKDaO7jtr73uSZ6ojIq5100HvLrmIMADMIc=;
- b=bjX1Vt3B2Gf5Lbpe8xT1w3MV66qz8hK5LRYaMWCAfABDh+K/9/wU8aJ8zUvIuyluVd
- U6G9qsATOjqSMcndX26NZuA+7DFRiG9MfapUaGKvCrUIevkRrnn52JMMFvx8dc95Q+Qv
- 4ydUtcu6Crmi03SxmDmMheCWbXe4zDUVQCURqKHoAU7Mt1j+XpQPo2dkpSiIAuHQFVYN
- Lv9xk+v4IVN8smtHNCzZO819gxSD1vmRndYrKkLa1ZtnALZWccCiGGhgTdSx7Zr58x8R
- bCtIgXdy/1VTPPTANmyL/gtIwWkDlfUKLomiAKvpSoGE++S1bqAT94om2R/yHNPeUA6P
- yWRQ==
-X-Gm-Message-State: AJIora/SXwHoxQ8qm+2p9yIlZXJEz/LpVu68fJA9inkvsXHDUSRpNO2N
- vb21/Yy5MukH0pMdppFOci4yzmpvV56ecvUfX0T9xN2bMjffNDRWxALdlKZQl3ZBXDoKUPmmKW2
- qE1+6iRXoehklE8oYo4T7eYAzieou0rcshVWlKfH94FMxivw5MpA6kOHk1j8cixf3Ekw=
-X-Received: by 2002:a17:906:cc4a:b0:72b:863e:ef7c with SMTP id
- mm10-20020a170906cc4a00b0072b863eef7cmr637891ejb.686.1658509498940; 
- Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vVK/kyx0S61nQJ9nLSqcESzj6LwZQpHg66nWlnQ678cqhuSOqGLtKgdrnu+ys09RUFVTH+Lg==
-X-Received: by 2002:a17:906:cc4a:b0:72b:863e:ef7c with SMTP id
- mm10-20020a170906cc4a00b0072b863eef7cmr637872ejb.686.1658509498605; 
- Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
+ bh=VrhJSXJvP21ZKY3MLFzDpxyPH0MrTn07yHLUULeWY6o=;
+ b=DV6pBuxuRO1rO9BV2uLGOO9ndaowO3+w2OloEgzFACMYM6XkKVdw5a/rZwyUUDglGJ
+ ud1yI0vytx8L+Ax+hyvMOo7gwTbuDP2VkR/C+77HCyIwf4MG9igKRclBu7s40yuGqZjS
+ x77AU9wgksapTUQhjzBALww+KozpAloEgGfIfvXJS2wueEtwZaA9vvCW4ahkGlfAH1Cd
+ 8mgSwWUKw6YrOoFuEfnGji9Z2Z5oRcOzTcSwA594aIQ7yDcFXv1M/qMnEUXSLyU0X62b
+ xCqxiTPkZufyDlCcuPxXoBQXDHoc4/erHbpMqm8cReKQbwxddvBQ97OQCavPBrMtUFwF
+ 45HQ==
+X-Gm-Message-State: AJIora8CwV11o+N/yXG/oSIzUuZeaCIpuDuwR6+34oHkWNOQckMAfeCZ
+ eJDn1JQ7IQU85cyG1PpjdAvJKYVAXqMhW8n5CIMFRRI6IugfNcDYnJBKyx4s9Kz+UfiaLSwDH6U
+ fWorXbJvyIpRYQs0LCFDI1eCzLLjgF6GAGnj36wgsOOg/p1JWnJhhrE4r+YFafd8QA78=
+X-Received: by 2002:a05:6402:5412:b0:435:5997:ccb5 with SMTP id
+ ev18-20020a056402541200b004355997ccb5mr780976edb.167.1658509501888; 
+ Fri, 22 Jul 2022 10:05:01 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sM+/GSVhA0wsY1rbfunQuFU5Ddc2Wq/ncfSg+5wEWX9UJ3kbPiED1BRAr31ZjFZAotQbMM8w==
+X-Received: by 2002:a05:6402:5412:b0:435:5997:ccb5 with SMTP id
+ ev18-20020a056402541200b004355997ccb5mr780946edb.167.1658509501580; 
+ Fri, 22 Jul 2022 10:05:01 -0700 (PDT)
 Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
  by smtp.gmail.com with ESMTPSA id
- e11-20020a056402148b00b0043a43fcde13sm2809577edv.13.2022.07.22.10.04.57
+ l10-20020a1709060cca00b0072b2ef2757csm2188186ejh.180.2022.07.22.10.04.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
+ Fri, 22 Jul 2022 10:05:01 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 4/8] oss-fuzz: ensure base_copy is a generic-fuzzer
-Date: Fri, 22 Jul 2022 19:04:45 +0200
-Message-Id: <20220722170449.853222-5-pbonzini@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Chris Wulff <crwulff@gmail.com>,
+ Marek Vasut <marex@denx.de>
+Subject: [PULL 5/8] hw/nios2: virt: pass random seed to fdt
+Date: Fri, 22 Jul 2022 19:04:46 +0200
+Message-Id: <20220722170449.853222-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220722170449.853222-1-pbonzini@redhat.com>
 References: <20220722170449.853222-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,34 +100,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 
-Depending on how the target list is sorted in by qemu, the first target
-(used as the base copy of the fuzzer, to which all others are linked)
-might not be a generic-fuzzer. Since we are trying to only use
-generic-fuzz, on oss-fuzz, fix that, to ensure the base copy is a
-generic-fuzzer.
+If the FDT contains /chosen/rng-seed, then the Linux RNG will use it to
+initialize early. Set this using the usual guest random number
+generation function. This FDT node is part of the DT specification.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20220720180946.2264253-1-alxndr@bu.edu>
+Cc: Chris Wulff <crwulff@gmail.com>
+Cc: Marek Vasut <marex@denx.de>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+Message-Id: <20220719120113.118034-1-Jason@zx2c4.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/nios2/boot.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 5ee9141e3e..3bda0d72c7 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -92,7 +92,7 @@ make install DESTDIR=$DEST_DIR/qemu-bundle
- rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/bin
- rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/libexec
+diff --git a/hw/nios2/boot.c b/hw/nios2/boot.c
+index 07b8d87633..21cbffff47 100644
+--- a/hw/nios2/boot.c
++++ b/hw/nios2/boot.c
+@@ -34,6 +34,7 @@
+ #include "qemu/option.h"
+ #include "qemu/config-file.h"
+ #include "qemu/error-report.h"
++#include "qemu/guest-random.h"
+ #include "sysemu/device_tree.h"
+ #include "sysemu/reset.h"
+ #include "hw/boards.h"
+@@ -83,6 +84,7 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+     int fdt_size;
+     void *fdt = NULL;
+     int r;
++    uint8_t rng_seed[32];
  
--targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
-+targets=$(./qemu-fuzz-i386 | grep generic-fuzz | awk '$1 ~ /\*/  {print $2}')
- base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
+     if (dtb_filename) {
+         fdt = load_device_tree(dtb_filename, &fdt_size);
+@@ -91,6 +93,9 @@ static int nios2_load_dtb(struct nios2_boot_info bi, const uint32_t ramsize,
+         return 0;
+     }
  
- cp "./qemu-fuzz-i386" "$base_copy"
++    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
++    qemu_fdt_setprop(fdt, "/chosen", "rng-seed", rng_seed, sizeof(rng_seed));
++
+     if (kernel_cmdline) {
+         r = qemu_fdt_setprop_string(fdt, "/chosen", "bootargs",
+                                     kernel_cmdline);
 -- 
 2.36.1
 
