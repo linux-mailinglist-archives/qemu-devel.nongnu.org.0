@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B08B57E81F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 22:12:34 +0200 (CEST)
-Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0720957EA2A
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:11:25 +0200 (CEST)
+Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEz0j-0006Ov-NU
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 16:12:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53132)
+	id 1oF1nn-0004VW-DM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oEyym-0002Eb-HW
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:10:32 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:35832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oEyyk-0000ug-Ar
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:10:32 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 7C18134E63;
- Fri, 22 Jul 2022 20:10:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658520627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0x8/ylRv1p9lv9T2xBFdAE234Y5bhuGkyM8Qbgc+ZoE=;
- b=UZ+dv8EmNZDRTXUlwgUnEXiamS89fIhJlN/5xQOr7P8d0XX798CRvxY6ELgu1tzx8jtBK2
- u4RG50P5FYcf7RAK3o6XC3ZYAJO75orx7h1P3XNY6VJDeK9M2D20zl0RahOmNnIdk0dPns
- GJaU5jg+E7EFxxOn1CJd88Zsol2xNtI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658520627;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0x8/ylRv1p9lv9T2xBFdAE234Y5bhuGkyM8Qbgc+ZoE=;
- b=jsls95wr8roIAT1mFGZaE6TDr4HTQ/h2oBWisUFbRXV9VMxeei/3jTQ+nBINJnSSmnlPt4
- jefF3++Of2TgmKCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3217013AB3;
- Fri, 22 Jul 2022 20:10:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id EmxqCjME22JobgAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 22 Jul 2022 20:10:27 +0000
-Message-ID: <3d9fc1a9-da25-bb34-a961-27b860c90d44@suse.de>
-Date: Fri, 22 Jul 2022 22:10:26 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oF1m6-0002x5-5i; Fri, 22 Jul 2022 19:09:38 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:57722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oF1m3-0003O0-As; Fri, 22 Jul 2022 19:09:37 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9575C746381;
+ Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5718A74637E; Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 55535745702;
+ Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+Date: Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
+ David Gibson <david@gibson.dropbear.id.au>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Subject: Re: [PATCH for-7.2 01/10] hw/arm/boot.c: do not free machine->fdt
+ in arm_load_dtb()
+In-Reply-To: <20220722200007.1602174-2-danielhb413@gmail.com>
+Message-ID: <fc35eb70-93fd-3d90-8d95-2f42f47652ac@eik.bme.hu>
+References: <20220722200007.1602174-1-danielhb413@gmail.com>
+ <20220722200007.1602174-2-danielhb413@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [RFC 0/3] add snapshot/restore fuzzing device
-Content-Language: en-US
-To: Richard Liu <richy.liu.2002@gmail.com>, qemu-devel@nongnu.org
-Cc: alxndr@bu.edu, bsd@redhat.com, darren.kenny@oracle.com,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, nborisov@suse.com,
- Het Gala <het.gala@nutanix.com>
-References: <20220722192041.93006-1-richy.liu.2002@gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20220722192041.93006-1-richy.liu.2002@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,112 +63,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+On Fri, 22 Jul 2022, Daniel Henrique Barboza wrote:
+> At this moment, arm_load_dtb() can free machine->fdt when
+> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
+> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
+> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
+> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
+> arm_load_dtb() will make machine->fdt point to an invalid memory region.
+>
+> This is not an issue right now because there's no code that access
+> machine->fdt after arm_load_dtb(), but we're going to add a couple do
+> FDT HMP commands that will rely on machine->fdt being valid.
+>
+> Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
+> machine->fdt. This will allow the FDT of ARM machines that relies on
+> arm_load_dtb() to be accessed later on.
+>
+> Since all ARM machines allocates the FDT only once, we don't need to
+> worry about leaking the existing FDT during a machine reset (which is
+> something that other machines have to look after, e.g. the ppc64 pSeries
+> machine).
+>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: qemu-arm@nongnu.org
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+> hw/arm/boot.c | 3 ++-
+> 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index ada2717f76..1d9c6047b1 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -684,7 +684,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+>      */
+>     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+>
+> -    g_free(fdt);
+> +    /* Update ms->fdt pointer */
+> +    ms->fdt = fdt;
 
-On 7/22/22 21:20, Richard Liu wrote:
-> This RFC adds a virtual device for snapshot/restores within QEMU. I am working
-> on this as a part of QEMU Google Summer of Code 2022. Fast snapshot/restores
-> within QEMU is helpful for code fuzzing.
-> 
-> I reused the migration code for saving and restoring virtual device and CPU
-> state. As for the RAM, I am using a simple COW mmaped file to do restores.
-> 
-> The loadvm migration function I used for doing restores only worked after I
-> called it from a qemu_bh. I'm not sure if I should run the migration code in a
-> separate thread (see patch 3), since currently it is running as a part of the
-> device code in the vCPU thread.
-> 
-> This is a rough first revision and feedback on the cpu and device state restores
-> is appreciated.
+Not sure this comment is useful as it just states what the assignment does 
+so provides no further info.
 
-As I understand it, usually the save and restore of VM state in QEMU can best be
-managed by libvirt APIs, and for example using the libvirt command line tool virsh:
+Regards,
+BALATON Zoltan
 
-$ virsh save (or managedsave)
-
-$ virsh restore (or start)
-
-These commands start a QEMU migration using the QMP protocol to a file descriptor,
-previously opened by libvirt to contain the state file.
-
-(getfd QMP command):
-https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html#qapidoc-2811
-
-(migrate QMP command):
-https://qemu-project.gitlab.io/qemu/interop/qemu-qmp-ref.html#qapidoc-1947
-
-This is unfortunately currently very slow.
-
-Maybe you could help thinking out or with the implementation of the solution?
-I tried to push this approach that only involves libvirt, using the existing QEMU multifd migration to a socket:
-
-https://listman.redhat.com/archives/libvir-list/2022-June/232252.html
-
-performance is very good compared with what is possible today, but it won't be upstreamable because it is not deemed optimal, and libvirt wants the code to be in QEMU.
-
-What about helping in thinking out how the QEMU-based solution could look like?
-
-The requirements for now in my view seem to be:
-
-* avoiding the kernel file page trashing for large transfers
-  which currently requires in my view changing QEMU to be able to migrate a stream to an fd that is open with O_DIRECT.
-  In practice this means somehow making all QEMU migration stream writes block-friendly (adding some buffering?).
-
-* allow concurrent parallel transfers
-  to be able to use extra cpu resources to speed up the transfer if such resources are available.
-
-* we should be able to transfer multiple GB/s with modern nvmes for super fast VM state save and restore (few seconds even for a 30GB VM),
-  and we should do no worse than the prototype fully implemented in libvirt, otherwise it would not make sense to implement it in QEMU.
-
-What do you think?
-
-Ciao,
-
-Claudio
-
-> 
-> To test locally, boot up any linux distro. I used the following C file to
-> interact with the PCI snapshot device:
-> 
->     #include <stdio.h>
->     #include <stdint.h>
->     #include <fcntl.h>
->     #include <sys/mman.h>
->     #include <unistd.h>
-> 
->     int main() {
->         int fd = open("/sys/bus/pci/devices/0000:00:04.0/resource0", O_RDWR | O_SYNC);
->         size_t size = 1024 * 1024;
->         uint32_t* memory = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-> 
->         printf("%x\n", memory[0]);
-> 
->         int a = 0;
->         memory[0] = 0x101; // save snapshot
->         printf("before: value of a = %d\n", a);
->         a = 1;
->         printf("middle: value of a = %d\n", a);
->         memory[0] = 0x102; // load snapshot
->         printf("after: value of a = %d\n", a);
-> 
->         return 0;
->     }
-> 
-> Richard Liu (3):
->   create skeleton snapshot device and add docs
->   implement ram save/restore
->   use migration code for cpu and device save/restore
-> 
->  docs/devel/snapshot.rst |  26 +++++++
->  hw/i386/Kconfig         |   1 +
->  hw/misc/Kconfig         |   3 +
->  hw/misc/meson.build     |   1 +
->  hw/misc/snapshot.c      | 164 ++++++++++++++++++++++++++++++++++++++++
->  migration/savevm.c      |  84 ++++++++++++++++++++
->  migration/savevm.h      |   3 +
->  7 files changed, 282 insertions(+)
->  create mode 100644 docs/devel/snapshot.rst
->  create mode 100644 hw/misc/snapshot.c
-> 
-
+>
+>     return size;
+>
+>
 
