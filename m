@@ -2,87 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926B857E152
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 14:11:46 +0200 (CEST)
-Received: from localhost ([::1]:57906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEACE57E150
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 14:10:30 +0200 (CEST)
+Received: from localhost ([::1]:56262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oErVR-0004Hr-Oq
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 08:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50924)
+	id 1oErUD-00035n-SG
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 08:10:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oErOm-0003CN-Ai
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:04:52 -0400
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oErOk-0007g6-Dl
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 08:04:51 -0400
-Received: by mail-ej1-x62e.google.com with SMTP id j22so8243414ejs.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 05:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=D6yf3dRooHdt9eeyIKDBPdr+lxHZn2meTPyakwXqhkY=;
- b=jhvV3DnJFcWL0/UAtiDPgzqMAP3JNqDSbiF1HaTufWrDIxBUTEwPzZj5YvGRSb+ol2
- vDW2oBcR/wBDuy8VDryJ7u0uonuYrxfXZTX4EJ2VyU/T38zYkGx4DpqcpkMSx8PXnJa/
- TvM70Hl4szy8h76Di9Qu8WoTFQtZMEsarmSh55qlzF6DQgB6x6ZBg3wm8AmnbOjBZ9Cd
- jWbeVIXUXIKhNVbf7lrOSnL7FIsWiUSDtG/QoMjbovAdLvvXXNVdj3KwTHAUWjI4KrJI
- BFSjBxwN3UMuNwEM+yJlWuL35q1xd7oyiUtG1gJ4TGgmoWY/QZi+jHyHG8DiggD3D4CE
- 8AoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=D6yf3dRooHdt9eeyIKDBPdr+lxHZn2meTPyakwXqhkY=;
- b=0eL5Z1KyC2VO0Q1UQq1xUEwuQt82W5Hi6ieWVDwy1roQrjF5suwMCx9JdTym1t0aKW
- 7M5SWnNZmzhCSKB4TT18+zkoJc/I5eyvBXk8xZPT8efcCvaYLhAI6l85RCPZfflccdd7
- dqb0JwNmCQ0fDAvlHKEXE9KjYFSs81JPs7i0G6lfneExVtkggqKKJqifDKnbyHaZ9E5t
- qhkgSTLHXLsL0E6eesM9O9j4lA9/Y20yPYjCptsmPuGY6Mk6J4ybeDS7vLzBzyBsIs/P
- vt+zIRjwX58kOZ2IqNkLwcR3BjDNpu1X0WGXEgWgYc8Wg2oQCN6e2IGpOxGn9KnBx7be
- QMZQ==
-X-Gm-Message-State: AJIora+wSJAERG+myqSA8QX6MDHk/D8msuGd7LjTNvBOsTGrn+ZEI/Yc
- fIoYjS++3OJGA5bXmBmHjMk=
-X-Google-Smtp-Source: AGRyM1vyxOc2mqKa2wq/c07rY/FJ1ogH0hS2F4737JSaurMLN2BZ6jnBxvLWlDf+BO4dlHG2tXI8nQ==
-X-Received: by 2002:a17:907:7355:b0:72b:4a31:ba39 with SMTP id
- dq21-20020a170907735500b0072b4a31ba39mr218499ejc.490.1658491486766; 
- Fri, 22 Jul 2022 05:04:46 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- h12-20020a1709060f4c00b006ff0b457cdasm1931269ejj.53.2022.07.22.05.04.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 05:04:45 -0700 (PDT)
-Message-ID: <f1ed5194-09dc-432a-666e-b834f4252f4e@redhat.com>
-Date: Fri, 22 Jul 2022 14:04:45 +0200
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oErSE-0008Fq-UL; Fri, 22 Jul 2022 08:08:26 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12592)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
+ id 1oErSC-0001Bl-Qz; Fri, 22 Jul 2022 08:08:26 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26MBNaSR015146;
+ Fri, 22 Jul 2022 12:08:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=zQ8tIUW6U8kbYxaPJDs+7r/p6iUXDTOiQaJPekbq5v8=;
+ b=CcyvCSJSdrpY7jbniUe1ElmWTHlaX432TTN0o34mAI6FMA4qAi1eWcl0a95eJfvs7a9/
+ 3TRFB/ak6eu9JWq7O51jetBpSAX5+LyyJfqAmVHgmgiYxVeMumWZKhQZmalbiYYLURWE
+ c6OEMuAtzY6rjEFFsPzEhYYH5padgDQg9yd/R4NsDI+ARMEiDY12/nBVQpkN1qhIQDdF
+ 2Ycqk+K1ZCl7e72lLLEPmUIaFjJDPU/aSVm7epP9/+IEesBJWixZmhAA3WV4RbowNPKi
+ T1/wrZXed0tGkxANsYStDJSlhY6ZO7WF1uARrb5OSVkNwUYSAKmfEgqCKuq7nY4mMrBr eQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw19ra-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Jul 2022 12:08:20 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26MBQntn025941;
+ Fri, 22 Jul 2022 12:08:20 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hftyw19px-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Jul 2022 12:08:20 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26MBqsTS031310;
+ Fri, 22 Jul 2022 12:08:18 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3hbmy907j9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 22 Jul 2022 12:08:17 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26MC8FgW17891802
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 22 Jul 2022 12:08:15 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC022A405C;
+ Fri, 22 Jul 2022 12:08:14 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 40412A405B;
+ Fri, 22 Jul 2022 12:08:13 +0000 (GMT)
+Received: from [9.171.62.39] (unknown [9.171.62.39])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 22 Jul 2022 12:08:12 +0000 (GMT)
+Message-ID: <15df7e57-0126-850d-4ab6-309ec03a2130@linux.ibm.com>
+Date: Fri, 22 Jul 2022 14:08:12 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
+Subject: Re: [PATCH v8 08/12] s390x/cpu_topology: implementing numa for the
+ s390x topology
 Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-8-pbonzini@redhat.com> <87tu7az28k.fsf@linaro.org>
- <Ytm1KiyFGNqAo/Af@zx2c4.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <Ytm1KiyFGNqAo/Af@zx2c4.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com
+References: <20220620140352.39398-1-pmorel@linux.ibm.com>
+ <20220620140352.39398-9-pmorel@linux.ibm.com>
+ <3a821cd1-b8a0-e737-5279-8ef55e58a77f@linux.ibm.com>
+ <b1e89718-232c-2b0b-2133-102ab7b4dad4@linux.ibm.com>
+ <b30eb75a-5a0b-3428-b812-95a2884914e4@linux.ibm.com>
+ <14afa5dc-80de-c5a2-b57d-867c692b29cf@linux.ibm.com>
+ <e497396a-eadf-15ae-e11c-d6a2bbbff7c7@linux.ibm.com>
+ <3b2f62a7-b526-adfd-e791-f2bc2cae3ccf@linux.ibm.com>
+ <4d0d25e9-fedf-728c-12e9-70e4dc04d6b7@linux.ibm.com>
+ <2c0b3926-482a-9c3f-1937-1be672ba7aeb@linux.ibm.com>
+From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+In-Reply-To: <2c0b3926-482a-9c3f-1937-1be672ba7aeb@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: M8BF2Z0EibtSmByiGT6876XoGTwnOVFk
+X-Proofpoint-ORIG-GUID: XFyA818wX0HDDHJQTd8cuw_1MaRqIzfR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-22_03,2022-07-21_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ mlxlogscore=999 adultscore=0 impostorscore=0 mlxscore=0 spamscore=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207220051
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,42 +130,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 22:20, Jason A. Donenfeld wrote:
->> Why are we inserting this here? The guest-loader is only building on
->> what the machine type has already constructed which in the case of -M
->> virt for riscv and ARM already has code for this.
+On 7/21/22 13:41, Pierre Morel wrote:
 > 
-> Wish you would have replied to the list patch before Paolo queued it.
+> 
+> On 7/21/22 10:16, Janis Schoetterl-Glausch wrote:
+>> On 7/21/22 09:58, Pierre Morel wrote:
+>>>
+>>>
+> 
+> ...snip...
+> 
+>>>
+>>> You are right, numa is redundant for us as we specify the topology using the core-id.
+>>> The roadmap I would like to discuss is using a new:
+>>>
+>>> (qemu) cpu_move src dst
+>>>
+>>> where src is the current core-id and dst is the destination core-id.
+>>>
+>>> I am aware that there are deep implication on current cpu code but I do not think it is not possible.
+>>> If it is unpossible then we would need a new argument to the device_add for cpu to define the "effective_core_id"
+>>> But we will still need the new hmp command to update the topology.
 
-Come on.
+Why the requirement for a hmp command specifically? Would qom-set on a cpu property work?
+>>>
+>> I don't think core-id is the right one, that's the guest visible CPU address, isn't it?
+> 
+> Yes, the topology is the one seen by the guest.
+> 
+>> Although it seems badly named then, since multiple threads are part of the same core (ok, we don't support threads).
+> 
+> I guess that threads will always move with the core or... we do not support threads.
+> 
+>> Instead socket-id, book-id could be changed dynamically instead of being computed from the core-id.
+>>
+> 
+> What becomes of the core-id ?
 
-You posted a couple patches for this work 1 week before soft freeze 
-(which is when maintainer trees should be ready for merge), so that some 
-platforms get the support and some don't depending on how ready they 
-are for the freeze itself.
-
-Then you post the rest of the implementation on the day of the freeze. 
-This patch has a pretty bad commit message too because any discussion on 
-boot loader chaining belonged there.
-
-Your own timing was completely off, and the right thing to do would have 
-been to post a single series for all machines.  This way, even if the 
-patches were to go via individual trees, maintainers could coordinate on 
-which version to include, on how to handle migration, and so on.
-
-Imagine doing the same thing for Linux, you'd be either ignored until 
-the merge window ends, or alternatively shouted at.  Ignoring patches 
-sent so close the soft freeze was my first instinct and it would have 
-been the right call, except that in the meanwhile some architecture had 
-their patches merged and here we are.
-
-If anything _I_ have to apologize to Alex for picking up the patch in 
-his stead, and for bending the soft freeze rules in an attempt to avoid 
-having half-assed support where some architectures export the seed and 
-some don't.  But you really have no standing to complain to him about 
-not replying timely.
-
-Thanks,
-
-Paolo
+It would stay the same. It has to, right? Can't change the address as reported by STAP.
+I would just be completely independent of the other ids.
 
