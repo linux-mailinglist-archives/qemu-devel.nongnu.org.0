@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE9657E75D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:26:47 +0200 (CEST)
-Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C557E71F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:14:52 +0200 (CEST)
+Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEyIQ-0000HZ-Hm
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:26:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
+	id 1oEy6s-0007Zj-V2
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:14:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExyV-0007hh-My
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:06:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60475)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
+ id 1oExzi-0002NF-Pi
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:07:28 -0400
+Received: from ams.source.kernel.org ([145.40.68.75]:49054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExyU-0005O4-2K
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:06:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658516769;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
+ id 1oExzg-0006Sa-GP
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:07:26 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 7073BB829D9
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 19:07:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCFEC341CA
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 19:07:20 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="pYYCrl3E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658516838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MpFAdwGsXZE/J0EePG1F9dnQMC88yow3XHGLkHjbqAk=;
- b=CqipgxtvSOQSzkhCVZUwV3ehnQpGhFhRWf0kOrvKYYl/npW0UIjMKvdOREs9/n49Nt++Wu
- OFvEgn2qSUNblDb624xv6AJqM8l74k2Prr24Q0bs9PBIq0SlL9t7UnnhB+xTO0KJMragcL
- Ls0OrmFep4BfQzSGJ1aWXROf3tFjOCM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-588-bLHGhexPNUqXPMVGyOjSqg-1; Fri, 22 Jul 2022 15:06:08 -0400
-X-MC-Unique: bLHGhexPNUqXPMVGyOjSqg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e5-20020adfa445000000b0021e45ff3413so945546wra.14
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 12:06:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=MpFAdwGsXZE/J0EePG1F9dnQMC88yow3XHGLkHjbqAk=;
- b=buFyQOHbkO7ivmHxVLwMWooJf7r19be10MW03cbndW+9MsdzVyVeHXhF1p0wYtPHqg
- YE90WjVKjC7ieUpGECHo/b1+aPg//j0WPxaSO4IlRxikYSv3OrfSWp4r9GC2V6yA06lC
- 7GXziRH+7N06RNN0v7UZ95+6iehkTcHliXWfW5w3Oya+P5pZBQok5nJcPjOZoOjdkCYq
- MDCuf7E7ryIri9X9XbDq2gQtNyrBiRhNP1PIHz99MOM6YsxVXSXbVA+a94FbhlZwi6ey
- LC/LpyxjhDi81+WJh0YjTVgDV4OdTU1NBc0u8VqPBJU+rfAqlQopRG9dp62S4qNotXp1
- bwQA==
-X-Gm-Message-State: AJIora/w+vQsy6VqhPTpNTAPzZwyWcCcI7BI4V4emoyuL4hoXzJyt+f/
- YtrwX16h891igI3dOrkr2Pk723yrHsAu2/9rW8KIGzoPXVn95urTh70vIZx0KQssloaeAourPQe
- mJt2yhlfFU4mf6y6oVSNqvbZAQL2EhHFUcMCsnMyzRwiA4UIw2fiOx4AnnjTo3/fdOA==
-X-Received: by 2002:a05:600c:19cc:b0:3a3:3cfe:d548 with SMTP id
- u12-20020a05600c19cc00b003a33cfed548mr811018wmq.6.1658516766905; 
- Fri, 22 Jul 2022 12:06:06 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tgY0gcXTpmZhJIvQ3zUmIgcziADPdtoJ9ba8YfuUNRgjjf9+k1uHV4J/ABV3b79TfAG76ejw==
-X-Received: by 2002:a05:600c:19cc:b0:3a3:3cfe:d548 with SMTP id
- u12-20020a05600c19cc00b003a33cfed548mr810990wmq.6.1658516766450; 
- Fri, 22 Jul 2022 12:06:06 -0700 (PDT)
-Received: from [192.168.100.42] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- d14-20020a05600c34ce00b0039747cf8354sm6307408wmq.39.2022.07.22.12.06.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 12:06:05 -0700 (PDT)
-Message-ID: <a1200633-9b76-5af2-837c-235069e2ab49@redhat.com>
-Date: Fri, 22 Jul 2022 21:06:03 +0200
+ bh=AV9+EqH94WDqFtbFHV8s0t7ETEnklgEUOkzd+lxCwOA=;
+ b=pYYCrl3EPVIdzif0z3oVuBAZH8xW1h+L3VYkXYb/Xkj+oJP0rk5KYBaSz7gW/v/3QT8sjZ
+ wN1QZsP60TEHyt7xSrfyHw7Lnv/75+14y7dKoa1C6HYGK6txdgCrX1AeCxJwQB1A5Uqp6o
+ kinUD0SmplcFqIJOmFpnrWCIRb6UtPc=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4dd12a14
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Fri, 22 Jul 2022 19:07:18 +0000 (UTC)
+Received: by mail-yw1-f177.google.com with SMTP id
+ 00721157ae682-31e623a4ff4so57252927b3.4
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 12:07:17 -0700 (PDT)
+X-Gm-Message-State: AJIora81L3u6v5U+uemMVcKhjtfaq8xKGOLtZSgxZBvKSkYcT2850XnK
+ Hnd9nwn4gz1Pt0kKC4+OMVDz8gfZaUfatquojgE=
+X-Google-Smtp-Source: AGRyM1sHozq0HueGKgkyVve5WLl7iSVNye5Rk8ZhypRrELa/CrQfe03fZJ0W/b0z+ag/AnVoZFOCHkZ9hmysUB+/xrU=
+X-Received: by 2002:a0d:c884:0:b0:31c:c31c:87d9 with SMTP id
+ k126-20020a0dc884000000b0031cc31c87d9mr1141881ywd.124.1658516836730; Fri, 22
+ Jul 2022 12:07:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v6 00/14] qapi: net: add unix socket type support to
- netdev backend
-Content-Language: en-US
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- Jason Wang <jasowang@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Ralph Schmieder <ralph.schmieder@gmail.com>,
- Stefano Brivio <sbrivio@redhat.com>
-References: <20220722185701.300449-1-lvivier@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20220722185701.300449-1-lvivier@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-8-pbonzini@redhat.com>
+ <87tu7az28k.fsf@linaro.org> <Ytm1KiyFGNqAo/Af@zx2c4.com>
+ <87o7xhscey.fsf@linaro.org>
+ <YtqJaf5gSyj9cVt6@zx2c4.com> <87k085rz6b.fsf@linaro.org>
+In-Reply-To: <87k085rz6b.fsf@linaro.org>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Fri, 22 Jul 2022 21:07:05 +0200
+X-Gmail-Original-Message-ID: <CAHmME9rnzqvm-vFa43hXY9fnrvGK7iUOR5zph=2w-OBKdPfyVA@mail.gmail.com>
+Message-ID: <CAHmME9rnzqvm-vFa43hXY9fnrvGK7iUOR5zph=2w-OBKdPfyVA@mail.gmail.com>
+Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,14 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/2022 20:56, Laurent Vivier wrote:
-...
+Hi Alex,
 
-Please ignore this series, bad numbering and patch 11 breaks SMTP server...
+On Fri, Jul 22, 2022 at 4:37 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+> That sounds suspiciously like inventing a new ABI between QEMU and
+> guests which we generally try to avoid.
 
-Sent v7 with another SMTP server.
+Well the ABI is just the "rng-seed" param which is part of the DT
+spec. But I can understand why you might find this use a bit "too
+creative". So no qualms about dropping it.
 
-Thanks,
-LAurent
-
+Jason
 
