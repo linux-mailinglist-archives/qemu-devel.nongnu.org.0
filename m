@@ -2,87 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAABB57E339
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 16:48:06 +0200 (CEST)
-Received: from localhost ([::1]:44000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E843D57E356
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:02:31 +0200 (CEST)
+Received: from localhost ([::1]:59302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEtwj-0003PM-Ac
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 10:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
+	id 1oEuAh-0005yo-3d
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oEtv6-0001uR-9j
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:46:24 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:45950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oEtv4-0001XF-Bi
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:46:23 -0400
-Received: by mail-wr1-x434.google.com with SMTP id a5so6790456wrx.12
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 07:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=FRc+3FGH7HLv2fHlHYZFeicZwxHDT299zb1qwt5V2Ak=;
- b=nMcvvthxjog7ZeOALUhETjmZls7cuvAuGCgMujY5OXlHR5KyEJDnOjPu0Uzunhh4Tq
- 76FpwoGVKK5N0jpNjLqGa9wvir000gQLN5JcvOa028btz6SqGrkl0CMvvs6MmGeKE7/B
- TRqobYW8DFz8MkeMNryPopYJcz9obmyRwx3snhoPrw0QLejExrZvTr9n23XTd6xUM4CX
- RcV1IzRrHr3bf9d7yub0KEEeN3SIkU/BjhSDTVM4VkczQDLQyMesaMV8d4tByg1ITLt5
- X/0ZX2ENbIOBSOZdrULd1zRTOM/kfyqoUkYb+6GIai3oak0iPrwhtOdHzrOyURcCyf4v
- 5vYw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEu5Q-0000KL-S5
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:57:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59909)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oEu5N-0007ci-Cx
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 10:57:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658501820;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=dctATIptQZBM58l65Jb88WahbZ6TrQ9jd8W4rI/M1/0=;
+ b=hUu4x6TFlXjkNmIZHILW7szQFmvRRPim6UrbNfdJVJFNwf86ptMu9BZc3MWiRk+D7uRyCe
+ pqw9Dl0Dx3FPZocNJNX0KJgkPvY32MT7bf3M8rI/KwEJ0pqVaVPS5BEg+NSRNHgtHnewTz
+ x4QIESQEh6GZrrKShKaBGuaNJnkk6hk=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-351--Ks24qhTPzSK0cMa98suMw-1; Fri, 22 Jul 2022 10:56:59 -0400
+X-MC-Unique: -Ks24qhTPzSK0cMa98suMw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ ln2-20020a0562145a8200b0047301e9bc53so3150282qvb.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 07:56:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=FRc+3FGH7HLv2fHlHYZFeicZwxHDT299zb1qwt5V2Ak=;
- b=Ivrj2YJ0QOgeSFr3KFjeYEGZ+TBIc07z3pQ+rgKiyIC8gt+uoYd66DO3n2aw3lz3Th
- 6xhfswbI1ZtZt0eGP4577A1RnL7TKiH+RDlXtLkFXJgT0zHrB/7NF++GQCjPYAMdNmMD
- FPOaB56BSj3ulW6f7TigCYZ9AvR/xmVAabH/88EDPIvoAYOajQLqCr4jrDy/P7FwiP4m
- b6E3bNXMP8jsi4RFHLrabH/hJa66Dfi5VTZWHAiE9a41rdxSpZq8Gba7w6iQ/eyKyrh/
- yYs7mPdgOxe4fCPRWECkMMDcT+09nqhlfs6K8OuG8UcuhT2e/5P2Y2eAoHaibN9itf/Q
- Ybcw==
-X-Gm-Message-State: AJIora8cpZ3+f5vyCPguTHYmrWA5ZRFR6hT7GCfUzOfhPA8huUagzFDx
- 0qKETYOxEPL0Mek/N8QcWTCWKg==
-X-Google-Smtp-Source: AGRyM1sGzczlbXQxpI3S1CNxzWAiETnHO2uLveJygHiQOGvE2EEoc2AxQmj9c5VwoXHam+HD/nspbQ==
-X-Received: by 2002:adf:ce0c:0:b0:21d:929e:1522 with SMTP id
- p12-20020adfce0c000000b0021d929e1522mr201803wrn.126.1658501180508; 
- Fri, 22 Jul 2022 07:46:20 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dctATIptQZBM58l65Jb88WahbZ6TrQ9jd8W4rI/M1/0=;
+ b=I2RIlGU0Aj05msq37zzic5uyABEKnU2RvuH04S/E4P/7FFM9gajaMGQ9kO1Il7f7E2
+ XqWpeCAkC+M38aCIjQj21by/CmWP+MNdgNSiPKd6ySLhYMq8N+YX5kpKUorvO/g9kK6b
+ TovTaTZaGBDPrXt+JDeNkr42DdgQ7J5bOXT8NZrKIfI/v4ux9P9jGbWSe6A1ewnUY244
+ WFSw5ElPZq7e6PGBsCQEhyT7RuZFR6tdpgfltUJ3IAt1WztGrZ30zCrYW7WqSwG6EK3f
+ yedQ4neTRsDF3i5FrSy8xR2DYseihlUMKgM7HcDCfhZFhk/whgVl8OWC5bKXDyqDGCO2
+ mPkA==
+X-Gm-Message-State: AJIora/fbyHwZ6loXQ5HShEzcccvUntOZqTcqHexGTRnx77qF2k2X+qk
+ A69SqngYAgOb9b3+BbCnIMe6ElGjQ6k6/FlB0UHovOxzv1+ufZ7/RBPsbZAlkTFp8xLjCFgGSK0
+ heBC1N/4M2vsfGmRvc7FqDSB2M00khPv848to2jhQVi/eiALWodJ/DOq7MquBir+J
+X-Received: by 2002:a05:620a:12ae:b0:6b5:d6d3:f814 with SMTP id
+ x14-20020a05620a12ae00b006b5d6d3f814mr232248qki.458.1658501818098; 
+ Fri, 22 Jul 2022 07:56:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1se6MolKlCrP/16uZ4a39/p3SOvtfFC/i6uYCB8F0H25iMRJjmPio0esg70FHEhfcM7UwYTQA==
+X-Received: by 2002:a05:620a:12ae:b0:6b5:d6d3:f814 with SMTP id
+ x14-20020a05620a12ae00b006b5d6d3f814mr232138qki.458.1658501816032; 
+ Fri, 22 Jul 2022 07:56:56 -0700 (PDT)
+Received: from localhost.localdomain
+ (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
  by smtp.gmail.com with ESMTPSA id
- l18-20020a05600c1d1200b003a04d19dab3sm16429466wms.3.2022.07.22.07.46.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 07:46:19 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B7B51FFB7;
- Fri, 22 Jul 2022 15:46:18 +0100 (BST)
-References: <CAK7rcp-qoQrEo2D_H=39AeJVtZJfmNUuFRfTdQr6LqUpjp+FEQ@mail.gmail.com>
- <87y1woyxvo.fsf@linaro.org>
- <CAK7rcp-Ts=3JNoYRak-Zddb0NDjdgSqbGD32xFEguw0yLqydyw@mail.gmail.com>
- <CAFEAcA8sWMD1eZCZyiMPz_SNKRn6J--Gm53aQuTo-KO5bWyFrQ@mail.gmail.com>
- <CAK7rcp8pvQfn=x1DsFwmr2GbK-tqmCxh8stkA8+QmfdC-peXPA@mail.gmail.com>
- <87pmhxze6g.fsf@linaro.org>
- <CAK7rcp_yhCLJCEgMBRyrZFfwWRSmAah=BSLeDLPYtQyhdo8SgA@mail.gmail.com>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Kenneth Adam Miller <kennethadammiller@gmail.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers
- <qemu-devel@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: Access target TranslatorOps
-Date: Fri, 22 Jul 2022 15:38:31 +0100
-In-reply-to: <CAK7rcp_yhCLJCEgMBRyrZFfwWRSmAah=BSLeDLPYtQyhdo8SgA@mail.gmail.com>
-Message-ID: <87fsitryrp.fsf@linaro.org>
+ y7-20020a37e307000000b006b5e6dac3b0sm3291429qki.128.2022.07.22.07.56.54
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 22 Jul 2022 07:56:55 -0700 (PDT)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: peterx@redhat.com, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH v2 0/2] migration-test: Allow test to run without uffd
+Date: Fri, 22 Jul 2022 10:56:52 -0400
+Message-Id: <20220722145654.81103-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.32.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,131 +99,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Compare to v1, this added a new patch as reported by Thomas to (hopefully)
+allow auto-converge test to pass on some MacOS testbeds.
 
-Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
+Please review, thanks.
 
-> Oh whoa, I thought I could have an architecture neutral way to
-> interface with the TCG to find this out.
+Peter Xu (2):
+  migration-test: Use migrate_ensure_converge() for auto-converge
+  migration-test: Allow test to run without uffd
 
-While the TCG intermediates are architecture neutral there are enough
-difference between the various guest architectures in the way exceptions
-are raised there is no common API. Most will generate an exception with
-a front end specific helper. We only define a few common exception types
-that all CPUs might generate:
+ tests/qtest/migration-test.c | 65 +++++++++++++++---------------------
+ 1 file changed, 26 insertions(+), 39 deletions(-)
 
-  #define EXCP_INTERRUPT  0x10000 /* async interruption */
-  #define EXCP_HLT        0x10001 /* hlt instruction reached */
-  #define EXCP_DEBUG      0x10002 /* cpu stopped after a breakpoint or sing=
-lestep */
-  #define EXCP_HALTED     0x10003 /* cpu is halted (waiting for external ev=
-ent) */
-  #define EXCP_YIELD      0x10004 /* cpu wants to yield timeslice to anothe=
-r */
-  #define EXCP_ATOMIC     0x10005 /* stop-the-world and emulate atomic */
+-- 
+2.32.0
 
-with the front-ends free to generate any others as they see fit.
-
->
-> Yes, I do have to use the decode tree, and converting the script to outpu=
-t the codes would suffice for my case. However,
-> I do not know how to do that at the moment. I've tried my best to underst=
-and the TCG documentation but this appears to
-> not be too straightforward.
-
-We've slowly been moving more stuff into the RST documentation which you
-can see rendered here:
-
-  https://qemu.readthedocs.io/en/latest/devel/index-tcg.html
-
-but we could certainly do with adding some more to describe the general
-flow of translation and execution. However if there are things that
-aren't clear please to ask here and we can do our best to answer.
-
->
-> On Fri, Jul 22, 2022 at 5:31 AM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
- wrote:
->
->  Kenneth Adam Miller <kennethadammiller@gmail.com> writes:
->
->  > I need to determine the set of instruction encodings that the TCG can =
-support for a given platform. I am not
->  bothered
->  > whether the target runs at all, and in fact it is better if it
->  > doesn't, so runtime or translate time doesn't bother me.
->
->  Which architectures are you interested in? For the ones that have been
->  converted to use decode tree it should be easy enough to update the
->  script to emit the uncovered opcode space. However decode tree targets
->  regular encoding - I think it has gained support for multiple encoding
->  modes but I don't know if it can handle the irregular madness of x86.
->
->  > Imagine I were adding support for more instructions for a given platfo=
-rm. I would like to check that I'm using the
->  API
->  > right. It's amazing that it's been so far and there's no way to check =
-that the correct behavior occurs when a given
->  > encoding is encountered regarding the TCG. A boolean result from a can=
-_translate called just when the target
->  encounters
->  > the instruction would be good.
->
->  Generally when the translator encounters an instruction it can't
->  translate it would emit a illegal instruction exception. While you might
->  be able to peek into the TCG opcode stream to see such calls to the
->  relevant helpers I doubt it would be up-streamable as each front end
->  will deal with illegal instructions their own way (including
->  instructions that are illegal due to the current CPU operating mode).
->
->  > Additionally, the ability to force the translation of arbitrary encodi=
-ngs would be good. I
->  > would like to not have to engineer some binary file format.
->
->  You don't need a new binary file format - just to construct an ELF with
->  the stream you want. A possibly adjacent project you might want to look
->  at is RISU:
->
->    https://git.linaro.org/people/peter.maydell/risu.git/about/
->
->  which we've used for testing the range of the translator for a number of
->  architectures.
->
->  >
->  > On Wed, Jul 20, 2022 at 1:37 PM Peter Maydell <peter.maydell@linaro.or=
-g> wrote:
->  >
->  >  On Wed, 20 Jul 2022 at 17:39, Kenneth Adam Miller
->  >  <kennethadammiller@gmail.com> wrote:
->  >  > That I know of, the TCG plugins do not allow me to feed the
->  >  > QEMU instance dynamically changing opcodes. I wouldn't use
->  >  > TranslatorOps if I don't have to. I want to facilitate a
->  >  > use case in which the contents of the target being emulated
->  >  > are changing, but it is not a self modifying target. I have
->  >  > to query and interact with the TCG to find out what opcodes
->  >  > are supported or not.
->  >
->  >  I agree that feeding opcodes into the translator isn't what
->  >  TCG plugins are intended for.
->  >
->  >  I'm definitely not clear on what you're trying to do here,
->  >  so it's hard to suggest some other approach, but linux-user
->  >  code shouldn't be messing with the internals of the translator
->  >  by grabbing the TranslatorOps struct. Among other things,
->  >  linux-user code is runtime and TranslatorOps is for
->  >  translate-time.
->  >
->  >  Sometimes code in linux-user needs to be a bit over-familiar
->  >  with the CPU state, but we try to keep that to a minimum.
->  >  Generally that involves code in target/foo/ providing some
->  >  set of interface functions that code in linux-user/foo/
->  >  can work with, typically passing it the CPU state struct.
->  >
->  >  thanks
->  >  -- PMM
->
->  --=20
->  Alex Benn=C3=A9e
-
-
---=20
-Alex Benn=C3=A9e
 
