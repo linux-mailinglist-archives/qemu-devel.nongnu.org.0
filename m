@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D3C557E71F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:14:52 +0200 (CEST)
-Received: from localhost ([::1]:48254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D940457E75C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:26:20 +0200 (CEST)
+Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEy6s-0007Zj-V2
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:14:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40156)
+	id 1oEyHz-000869-Li
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:26:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
- id 1oExzi-0002NF-Pi
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:07:28 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:49054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
- id 1oExzg-0006Sa-GP
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:07:26 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 7073BB829D9
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 19:07:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACCFEC341CA
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 19:07:20 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="pYYCrl3E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1658516838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AV9+EqH94WDqFtbFHV8s0t7ETEnklgEUOkzd+lxCwOA=;
- b=pYYCrl3EPVIdzif0z3oVuBAZH8xW1h+L3VYkXYb/Xkj+oJP0rk5KYBaSz7gW/v/3QT8sjZ
- wN1QZsP60TEHyt7xSrfyHw7Lnv/75+14y7dKoa1C6HYGK6txdgCrX1AeCxJwQB1A5Uqp6o
- kinUD0SmplcFqIJOmFpnrWCIRb6UtPc=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 4dd12a14
- (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Fri, 22 Jul 2022 19:07:18 +0000 (UTC)
-Received: by mail-yw1-f177.google.com with SMTP id
- 00721157ae682-31e623a4ff4so57252927b3.4
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 12:07:17 -0700 (PDT)
-X-Gm-Message-State: AJIora81L3u6v5U+uemMVcKhjtfaq8xKGOLtZSgxZBvKSkYcT2850XnK
- Hnd9nwn4gz1Pt0kKC4+OMVDz8gfZaUfatquojgE=
-X-Google-Smtp-Source: AGRyM1sHozq0HueGKgkyVve5WLl7iSVNye5Rk8ZhypRrELa/CrQfe03fZJ0W/b0z+ag/AnVoZFOCHkZ9hmysUB+/xrU=
-X-Received: by 2002:a0d:c884:0:b0:31c:c31c:87d9 with SMTP id
- k126-20020a0dc884000000b0031cc31c87d9mr1141881ywd.124.1658516836730; Fri, 22
- Jul 2022 12:07:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
+ id 1oEyDa-0002ge-1q
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:21:46 -0400
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:40556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
+ id 1oEyDU-0003JQ-3Z
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:21:44 -0400
+Received: by mail-pg1-x529.google.com with SMTP id f11so5165907pgj.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 12:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v9nv53xjc4dESiVn3m4kg28mf8iimd6+JcKgKkq7eEw=;
+ b=UNIS2QpWOF4IFg8p+M1yQM5n9OF6GEX1QDONNlTJ47BvV20VGtvuKuQ+L6kw7vkk9O
+ kZXGrLIXvjY4Y5v2v5y8LNbLDJve91vbq+EF2it7H1de8IQx7+frELvWCg9f5oN29sKQ
+ uYCYNnBXBjTzNZcTCCK0fqSt+EZemB/hr3jIS61uBkcxmohvuyH5tr+R0RT39vDc+7vD
+ 3xxv3d8jEYqN3jhMh96ptQ7pDJM7R78ncd8QM/rM7neTE6D4xV35+gTkbuKSf853JktZ
+ Cx2r1LfZLq3UDnsUI4C+icI6mMJmgJq9fMaMiP0CH7XduV7lFR7xzCACxjclafhNUcwA
+ 9UkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=v9nv53xjc4dESiVn3m4kg28mf8iimd6+JcKgKkq7eEw=;
+ b=jA/u7Vwq1HXZbqcpSmRBNmxIBcx2ySHi1+Vg+pmbcYDHzLBHWoWGdDZ2mmESasjI+j
+ mqSWjVt/prUHY2vCrs++M4/8FH9YSWzGt/eOssOILy9mnN2Ft2ec1MOo/5wrumQoEDeO
+ zJ0vV4ihGEy13nB62jHjbgdeHsVIcfv1ghGByk23XgpBIDWqS1o8FQB4Xi8KmvHS3Cny
+ 7TGIJVfQORQw0iswM9POT+dx5RDbUImz/FoshPCfny2v5DnVjMDbOOX5DeOylbvKvO+Z
+ eiGH1rqIHxFdgCEb757sVOOEqACVj9Gz9PT0xsmVteszKj+3Ev2+5x3/d4/Qc0SvpecD
+ 92QA==
+X-Gm-Message-State: AJIora/sGm2IUOIxm5nyB/GrSDTImFQSCwpcgmg8/6fn4hMzcAaiOj/d
+ WTw+AvhZ3SJuAb76ufSFZxDAt8yrSmXaYg==
+X-Google-Smtp-Source: AGRyM1vAP93uWHc7WwkwwOM3XStrJnQ569F13f45hc7sdBYi/qqzrqAmbl0fK1Igf/UP+6TRq5am/w==
+X-Received: by 2002:a63:f306:0:b0:41a:6258:dcd2 with SMTP id
+ l6-20020a63f306000000b0041a6258dcd2mr1061351pgh.28.1658517696783; 
+ Fri, 22 Jul 2022 12:21:36 -0700 (PDT)
+Received: from localhost.localdomain ([76.132.29.156])
+ by smtp.gmail.com with ESMTPSA id
+ h5-20020a17090a2ec500b001f246f2a423sm2006394pjs.17.2022.07.22.12.21.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jul 2022 12:21:36 -0700 (PDT)
+From: Richard Liu <richy.liu.2002@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: alxndr@bu.edu, bsd@redhat.com, darren.kenny@oracle.com,
+ Richard Liu <richy.liu.2002@gmail.com>
+Subject: [RFC 0/3] add snapshot/restore fuzzing device
+Date: Fri, 22 Jul 2022 12:20:38 -0700
+Message-Id: <20220722192041.93006-1-richy.liu.2002@gmail.com>
+X-Mailer: git-send-email 2.35.1
 MIME-Version: 1.0
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-8-pbonzini@redhat.com>
- <87tu7az28k.fsf@linaro.org> <Ytm1KiyFGNqAo/Af@zx2c4.com>
- <87o7xhscey.fsf@linaro.org>
- <YtqJaf5gSyj9cVt6@zx2c4.com> <87k085rz6b.fsf@linaro.org>
-In-Reply-To: <87k085rz6b.fsf@linaro.org>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Fri, 22 Jul 2022 21:07:05 +0200
-X-Gmail-Original-Message-ID: <CAHmME9rnzqvm-vFa43hXY9fnrvGK7iUOR5zph=2w-OBKdPfyVA@mail.gmail.com>
-Message-ID: <CAHmME9rnzqvm-vFa43hXY9fnrvGK7iUOR5zph=2w-OBKdPfyVA@mail.gmail.com>
-Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=richy.liu.2002@gmail.com; helo=mail-pg1-x529.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,16 +88,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+This RFC adds a virtual device for snapshot/restores within QEMU. I am working
+on this as a part of QEMU Google Summer of Code 2022. Fast snapshot/restores
+within QEMU is helpful for code fuzzing.
 
-On Fri, Jul 22, 2022 at 4:37 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
-> That sounds suspiciously like inventing a new ABI between QEMU and
-> guests which we generally try to avoid.
+I reused the migration code for saving and restoring virtual device and CPU
+state. As for the RAM, I am using a simple COW mmaped file to do restores.
 
-Well the ABI is just the "rng-seed" param which is part of the DT
-spec. But I can understand why you might find this use a bit "too
-creative". So no qualms about dropping it.
+The loadvm migration function I used for doing restores only worked after I
+called it from a qemu_bh. I'm not sure if I should run the migration code in a
+separate thread (see patch 3), since currently it is running as a part of the
+device code in the vCPU thread.
 
-Jason
+This is a rough first revision and feedback on the cpu and device state restores
+is appreciated.
+
+To test locally, boot up any linux distro. I used the following C file to
+interact with the PCI snapshot device:
+
+    #include <stdio.h>
+    #include <stdint.h>
+    #include <fcntl.h>
+    #include <sys/mman.h>
+    #include <unistd.h>
+
+    int main() {
+        int fd = open("/sys/bus/pci/devices/0000:00:04.0/resource0", O_RDWR | O_SYNC);
+        size_t size = 1024 * 1024;
+        uint32_t* memory = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+
+        printf("%x\n", memory[0]);
+
+        int a = 0;
+        memory[0] = 0x101; // save snapshot
+        printf("before: value of a = %d\n", a);
+        a = 1;
+        printf("middle: value of a = %d\n", a);
+        memory[0] = 0x102; // load snapshot
+        printf("after: value of a = %d\n", a);
+
+        return 0;
+    }
+
+Richard Liu (3):
+  create skeleton snapshot device and add docs
+  implement ram save/restore
+  use migration code for cpu and device save/restore
+
+ docs/devel/snapshot.rst |  26 +++++++
+ hw/i386/Kconfig         |   1 +
+ hw/misc/Kconfig         |   3 +
+ hw/misc/meson.build     |   1 +
+ hw/misc/snapshot.c      | 164 ++++++++++++++++++++++++++++++++++++++++
+ migration/savevm.c      |  84 ++++++++++++++++++++
+ migration/savevm.h      |   3 +
+ 7 files changed, 282 insertions(+)
+ create mode 100644 docs/devel/snapshot.rst
+ create mode 100644 hw/misc/snapshot.c
+
+-- 
+2.35.1
+
 
