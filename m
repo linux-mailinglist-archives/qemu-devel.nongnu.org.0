@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49FAB57E396
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:14:53 +0200 (CEST)
-Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC0F957E3DC
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:41:42 +0200 (CEST)
+Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEuMe-000875-8Q
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:14:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37736)
+	id 1oEumb-0006Vq-F5
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:41:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEuGN-0005sb-BU
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:08:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54047)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oEujb-0002kC-KW
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:38:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:39889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oEuGK-00024P-5a
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:08:22 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oEuja-0004EB-19
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:38:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658502499;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1658504313;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L2CPznXVTFotBO2L25lCMDn4UpJS4sQKCDt42NppE1I=;
- b=CcCXVaJBhgY0PE3cPd31f8EKz0iCzEIqXUfabbNmRma/3Yg+xgnXfkfzvSDtmo7ESP0aDf
- udc3rvMn0kMofScl0yQ475hB/GLNqYwtUwBWWbvhU4uNAxGjc9Q0+9NZoDyI4F2LAiClaO
- uDovAsmDIUURikOV7bQgDutSpSWwwMk=
+ bh=4K4mlR0jd7r8tM//dO5rJePxti7I5+cJYTe48h5NFzE=;
+ b=UrtbZ8h83BsOuWtCV3MVFSY/BOc5PbhFEj/ckxHakhXNTMbJ9DRC//eC8FctSptGYNzkFe
+ S7kFkD3YCaJG2+vAXnUhKmzkxNrwimMlORtD1THfdWk3jgBWl+oNKJT8CnTaf2gs7Fcq/f
+ 07pUlMoI5hoDik9Y9YzftBfegMK8i+4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-145-P3Pu-SYePJCwFhhqOdWpIQ-1; Fri, 22 Jul 2022 11:08:17 -0400
-X-MC-Unique: P3Pu-SYePJCwFhhqOdWpIQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-403-FK8MKfYPNZqjvvREGyGWbw-1; Fri, 22 Jul 2022 11:36:52 -0400
+X-MC-Unique: FK8MKfYPNZqjvvREGyGWbw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6929B3C0D85B;
- Fri, 22 Jul 2022 15:08:17 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3D6540D2962;
- Fri, 22 Jul 2022 15:08:16 +0000 (UTC)
-Date: Fri, 22 Jul 2022 16:08:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Subject: Re: [PATCH] trivial: Fix duplicated words
-Message-ID: <Ytq9XpkdElP6vphn@redhat.com>
-References: <20220722145859.1952732-1-thuth@redhat.com>
- <Ytq8MarsylEWxvhQ@redhat.com>
- <368acb07-ddcd-7d6f-a86d-deb82a64d82b@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F5F438009E1;
+ Fri, 22 Jul 2022 15:36:52 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C58A0492C3B;
+ Fri, 22 Jul 2022 15:36:51 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: qemu-s390x@nongnu.org, Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-arm@nongnu.org, =?utf-8?Q?Dani?=
+ =?utf-8?Q?el_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 1/3] target/i386: display deprecation status in '-cpu
+ help'
+In-Reply-To: <20220722120224.2311982-2-berrange@redhat.com>
+Organization: Red Hat GmbH
+References: <20220722120224.2311982-1-berrange@redhat.com>
+ <20220722120224.2311982-2-berrange@redhat.com>
+User-Agent: Notmuch/0.36 (https://notmuchmail.org)
+Date: Fri, 22 Jul 2022 17:36:50 +0200
+Message-ID: <8735etnoq5.fsf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <368acb07-ddcd-7d6f-a86d-deb82a64d82b@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -81,44 +82,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 22, 2022 at 05:07:08PM +0200, Thomas Huth wrote:
-> On 22/07/2022 17.03, Daniel P. Berrangé wrote:
-> > On Fri, Jul 22, 2022 at 04:58:59PM +0200, Thomas Huth wrote:
-> > > Some files wrongly contain the same word twice in a row.
-> > > One of them should be removed or replaced.
-> > > 
-> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> > > ---
-> > >   Removing duplicated words seems to be the new hip trend on the
-> > >   Linux kernel mailing lists - so let's be hip in QEMU land, too! ;-)
-> > 
-> > I've got patches proposed for this, as well as test to detect it:
-> > 
-> > https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01405.html
-> > https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01403.html
-> > 
-> > though I'm not checking 'this this' or 'a a'
-> 
-> Ah, ok! Sorry, I should have had a closer look at that series...
-> 
-> So never mind this patch here - but what do we do about "this" and "a" ?
-> Shall I respin my patch limited to those two words, or do you want to
-> include it in your series?
+On Fri, Jul 22 2022, Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-I don't mind if your patches merge now regardless actually, and I'll
-rebase, since it'll likely take me longer to deal with the broader
-review feedback on mine.
+> When the user queries CPU models via QMP there is a 'deprecated' flag
+> present, however, this is not done for the CLI '-cpu help' command.
+>
+> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  target/i386/cpu.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
