@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9AE57E6EC
+	by mail.lfdr.de (Postfix) with ESMTPS id 638CE57E6EB
 	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 20:59:39 +0200 (CEST)
-Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oExsB-0006it-2N
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 14:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37390)
+	id 1oExsA-0006hK-Bx
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 14:59:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExpt-0002VR-Ju
+ id 1oExpt-0002VP-J2
  for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28938)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExpp-0008A8-Dz
+ id 1oExpp-0008AL-F0
  for qemu-devel@nongnu.org; Fri, 22 Jul 2022 14:57:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658516228;
+ s=mimecast20190719; t=1658516230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0MbAG0VboYwZ1cOLT7hPGbWeGyvoNhg6uoBS6+2UCuE=;
- b=dgnb8RX6xfolprzJXNuVTcaAZMtfXnKSA1WMQNfD0kZyH4/ca2U2tY4oAjvKrRTKWrUqVB
- +PhTwHxGp0P4aIBWaIApzvUNY2UAsMmuSGT0o/93alxhIpZemHlCq1LOQaZy8olbLAfTQq
- cuqGOvCrGCD9+f4xQJ9H1J6dQCZIf/Q=
+ bh=FUyRiT2VjEP7jMl2VMKLsOkl0nRLdH8dZVm9pIank9w=;
+ b=JXh2nD2Ztvs9qU5UzvSn7+xY64U52YIxJRCw/tTEOXkY8R6kBZq8PI0syTJ2ltmYX68ALN
+ CNBQ1xqU+Il09ASLOfwkDpP98LdzmzTMcPuYlIsCKw2JXLz5dUddK/Y0m4vCSvB/GWWUsv
+ 9ZhtGr+ZVljC1BaDfPFztxep8qWaXxI=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-615-nGiNCKw6MBmC4lhHBbFnZA-1; Fri, 22 Jul 2022 14:57:06 -0400
-X-MC-Unique: nGiNCKw6MBmC4lhHBbFnZA-1
+ us-mta-272-v34l8fFPN_aXAiXKGneYSg-1; Fri, 22 Jul 2022 14:57:08 -0400
+X-MC-Unique: v34l8fFPN_aXAiXKGneYSg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A05F43C0E217
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 18:57:06 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 866793C0E21C
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 18:57:08 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.194.216])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCF232026D64;
- Fri, 22 Jul 2022 18:57:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8B0F2026D64;
+ Fri, 22 Jul 2022 18:57:06 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  Eric Blake <eblake@redhat.com>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v6 01/14] net: introduce convert_host_port()
-Date: Fri, 22 Jul 2022 20:56:48 +0200
-Message-Id: <20220722185701.300449-2-lvivier@redhat.com>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH v6 02/14] net: remove the @errp argument of net_client_inits()
+Date: Fri, 22 Jul 2022 20:56:49 +0200
+Message-Id: <20220722185701.300449-3-lvivier@redhat.com>
 In-Reply-To: <20220722185701.300449-1-lvivier@redhat.com>
 References: <20220722185701.300449-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,118 +82,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
----
- include/qemu/sockets.h |  2 ++
- net/net.c              | 62 ++++++++++++++++++++++--------------------
- 2 files changed, 34 insertions(+), 30 deletions(-)
+The only caller passes &error_fatal, so use this directly in the function.
 
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 038faa157f59..47194b9732f8 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -47,6 +47,8 @@ void socket_listen_cleanup(int fd, Error **errp);
- int socket_dgram(SocketAddress *remote, SocketAddress *local, Error **errp);
- 
- /* Old, ipv4 only bits.  Don't use for new code. */
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp);
- int parse_host_port(struct sockaddr_in *saddr, const char *str,
-                     Error **errp);
- int socket_init(void);
+It's what we do for -blockdev, -device, and -object.
+
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+---
+ include/net/net.h |  2 +-
+ net/net.c         | 20 +++++++-------------
+ softmmu/vl.c      |  2 +-
+ 3 files changed, 9 insertions(+), 15 deletions(-)
+
+diff --git a/include/net/net.h b/include/net/net.h
+index 523136c7acba..c53c64ac18c4 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -216,7 +216,7 @@ extern const char *host_net_devices[];
+ /* from net.c */
+ int net_client_parse(QemuOptsList *opts_list, const char *str);
+ void show_netdevs(void);
+-int net_init_clients(Error **errp);
++void net_init_clients(void);
+ void net_check_clients(void);
+ void net_cleanup(void);
+ void hmp_host_net_add(Monitor *mon, const QDict *qdict);
 diff --git a/net/net.c b/net/net.c
-index 2db160e0634d..d2288bd3a929 100644
+index d2288bd3a929..15958f881776 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -66,55 +66,57 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
- /***********************************************************/
- /* network device redirectors */
+@@ -1562,27 +1562,21 @@ out:
+     return ret;
+ }
  
--int parse_host_port(struct sockaddr_in *saddr, const char *str,
--                    Error **errp)
-+int convert_host_port(struct sockaddr_in *saddr, const char *host,
-+                      const char *port, Error **errp)
+-int net_init_clients(Error **errp)
++void net_init_clients(void)
  {
--    gchar **substrings;
-     struct hostent *he;
--    const char *addr, *p, *r;
--    int port, ret = 0;
-+    const char *r;
-+    long p;
+     net_change_state_entry =
+         qemu_add_vm_change_state_handler(net_vm_change_state_handler, NULL);
  
-     memset(saddr, 0, sizeof(*saddr));
+     QTAILQ_INIT(&net_clients);
  
--    substrings = g_strsplit(str, ":", 2);
--    if (!substrings || !substrings[0] || !substrings[1]) {
--        error_setg(errp, "host address '%s' doesn't contain ':' "
--                   "separating host from port", str);
--        ret = -1;
--        goto out;
+-    if (qemu_opts_foreach(qemu_find_opts("netdev"),
+-                          net_init_netdev, NULL, errp)) {
+-        return -1;
 -    }
 -
--    addr = substrings[0];
--    p = substrings[1];
--
-     saddr->sin_family = AF_INET;
--    if (addr[0] == '\0') {
-+    if (host[0] == '\0') {
-         saddr->sin_addr.s_addr = 0;
-     } else {
--        if (qemu_isdigit(addr[0])) {
--            if (!inet_aton(addr, &saddr->sin_addr)) {
-+        if (qemu_isdigit(host[0])) {
-+            if (!inet_aton(host, &saddr->sin_addr)) {
-                 error_setg(errp, "host address '%s' is not a valid "
--                           "IPv4 address", addr);
--                ret = -1;
--                goto out;
-+                           "IPv4 address", host);
-+                return -1;
-             }
-         } else {
--            he = gethostbyname(addr);
-+            he = gethostbyname(host);
-             if (he == NULL) {
--                error_setg(errp, "can't resolve host address '%s'", addr);
--                ret = -1;
--                goto out;
-+                error_setg(errp, "can't resolve host address '%s'", host);
-+                return -1;
-             }
-             saddr->sin_addr = *(struct in_addr *)he->h_addr;
-         }
-     }
--    port = strtol(p, (char **)&r, 0);
--    if (r == p) {
--        error_setg(errp, "port number '%s' is invalid", p);
-+    if (qemu_strtol(port, &r, 0, &p) != 0) {
-+        error_setg(errp, "port number '%s' is invalid", port);
-+        return -1;
-+    }
-+    saddr->sin_port = htons(p);
-+    return 0;
-+}
-+
-+int parse_host_port(struct sockaddr_in *saddr, const char *str,
-+                    Error **errp)
-+{
-+    gchar **substrings;
-+    int ret;
-+
-+    substrings = g_strsplit(str, ":", 2);
-+    if (!substrings || !substrings[0] || !substrings[1]) {
-+        error_setg(errp, "host address '%s' doesn't contain ':' "
-+                   "separating host from port", str);
-         ret = -1;
-         goto out;
-     }
--    saddr->sin_port = htons(port);
-+
-+    ret = convert_host_port(saddr, substrings[0], substrings[1], errp);
+-    if (qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("netdev"), net_init_netdev, NULL,
++                      &error_fatal);
  
- out:
-     g_strfreev(substrings);
+-    if (qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL, errp)) {
+-        return -1;
+-    }
++    qemu_opts_foreach(qemu_find_opts("nic"), net_param_nic, NULL,
++                      &error_fatal);
+ 
+-    return 0;
++    qemu_opts_foreach(qemu_find_opts("net"), net_init_client, NULL,
++                      &error_fatal);
+ }
+ 
+ int net_client_parse(QemuOptsList *opts_list, const char *optarg)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index aabd82e09a20..8f3f3bb74389 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -1904,7 +1904,7 @@ static void qemu_create_late_backends(void)
+         qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
+     }
+ 
+-    net_init_clients(&error_fatal);
++    net_init_clients();
+ 
+     object_option_foreach_add(object_create_late);
+ 
 -- 
 2.37.1
 
