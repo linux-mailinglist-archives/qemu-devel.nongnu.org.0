@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C0D57E0C8
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 13:28:01 +0200 (CEST)
-Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E24BA57E0DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 13:35:21 +0200 (CEST)
+Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEqp6-00089c-9v
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 07:28:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39526)
+	id 1oEqwC-0006Ds-EP
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 07:35:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEqay-0003It-Es
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 07:13:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51367)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
+ id 1oEqny-0007kH-9s
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 07:26:51 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:55038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEqax-0006yt-0M
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 07:13:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658488402;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org>)
+ id 1oEqnt-0004Qm-UR
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 07:26:47 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id EAF57615F0;
+ Fri, 22 Jul 2022 11:26:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED06FC341C6;
+ Fri, 22 Jul 2022 11:26:36 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="AuQGjUm2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1658489195;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HOmpxm6oqdk7RUGL1IEZnq38DAo9lbqWvGS7gtDA59c=;
- b=Wguff0Z9kcoguq5mZ4VVONVINpm+UAXMi8GYsbxVuwCk/hN/yihNL7xJpgbCXNlCr5RqBK
- PRg2rxEPDmP4pyRoeawx4euQXVOI4peMeO+9Sjq/VB1Cjwdf+mj9UKLG4R5fIstVlCepXw
- dDRauLGJu49DvPpGFLibWLBp6XgN3XM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-491-vLWVurXqPbeyuV3wXypMRA-1; Fri, 22 Jul 2022 07:13:18 -0400
-X-MC-Unique: vLWVurXqPbeyuV3wXypMRA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9D052813D3E;
- Fri, 22 Jul 2022 11:13:17 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0597F40D2962;
- Fri, 22 Jul 2022 11:13:14 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>
-Subject: [PATCH v4 7/7] vdpa: Delete CVQ migration blocker
-Date: Fri, 22 Jul 2022 13:12:45 +0200
-Message-Id: <20220722111245.3403062-8-eperezma@redhat.com>
-In-Reply-To: <20220722111245.3403062-1-eperezma@redhat.com>
-References: <20220722111245.3403062-1-eperezma@redhat.com>
+ bh=Ax3JZPyQ46FbdGJOsVlKk9TPN3tdi/vPlXv7s6hELuQ=;
+ b=AuQGjUm29kyArlBj5CdhJ4t5fe90KLGTSvfX4YHcL0ruTC7cEqPWvPym4qMIEvwJrSIB+/
+ WTK4aK68nRIl4pajMTt81HMmG7MNBhkyBcpVXMD2yhXeSKOrkFP8ExfPHeUDAeocaHFz6q
+ BvLcapBNOuHxbR8eT1WDTCkba1P+z48=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id a719bc9d
+ (TLSv1.3:AEAD-AES256-GCM-SHA384:256:NO); 
+ Fri, 22 Jul 2022 11:26:35 +0000 (UTC)
+Date: Fri, 22 Jul 2022 13:26:33 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
+Message-ID: <YtqJaf5gSyj9cVt6@zx2c4.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-8-pbonzini@redhat.com>
+ <87tu7az28k.fsf@linaro.org> <Ytm1KiyFGNqAo/Af@zx2c4.com>
+ <87o7xhscey.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <87o7xhscey.fsf@linaro.org>
+Received-SPF: pass client-ip=139.178.84.217;
+ envelope-from=SRS0=KPWh=X3=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,81 +84,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can restore the device state in the destination via CVQ now. Remove
-the migration blocker.
+Hey Alex,
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- include/hw/virtio/vhost-vdpa.h |  1 -
- hw/virtio/vhost-vdpa.c         | 14 --------------
- net/vhost-vdpa.c               |  2 --
- 3 files changed, 17 deletions(-)
+On Fri, Jul 22, 2022 at 10:45:19AM +0100, Alex Bennée wrote:
+> All the guest-loader does is add the information about where in memory a
+> guest and/or it's initrd have been placed in memory to the DTB. It's
+> entirely up to the initial booted code (usually a hypervisor in this
+> case) to decide what gets passed up the chain to any subsequent guests.
 
-diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-index d10a89303e..1111d85643 100644
---- a/include/hw/virtio/vhost-vdpa.h
-+++ b/include/hw/virtio/vhost-vdpa.h
-@@ -35,7 +35,6 @@ typedef struct vhost_vdpa {
-     bool shadow_vqs_enabled;
-     /* IOVA mapping used by the Shadow Virtqueue */
-     VhostIOVATree *iova_tree;
--    Error *migration_blocker;
-     GPtrArray *shadow_vqs;
-     const VhostShadowVirtqueueOps *shadow_vq_ops;
-     void *shadow_vq_ops_opaque;
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 3ff9ce3501..9a2daef7e3 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -1023,13 +1023,6 @@ static bool vhost_vdpa_svqs_start(struct vhost_dev *dev)
-         return true;
-     }
- 
--    if (v->migration_blocker) {
--        int r = migrate_add_blocker(v->migration_blocker, &err);
--        if (unlikely(r < 0)) {
--            return false;
--        }
--    }
--
-     for (i = 0; i < v->shadow_vqs->len; ++i) {
-         VirtQueue *vq = virtio_get_queue(dev->vdev, dev->vq_index + i);
-         VhostShadowVirtqueue *svq = g_ptr_array_index(v->shadow_vqs, i);
-@@ -1072,10 +1065,6 @@ err:
-         vhost_svq_stop(svq);
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
--
-     return false;
- }
- 
-@@ -1095,9 +1084,6 @@ static bool vhost_vdpa_svqs_stop(struct vhost_dev *dev)
-         }
-     }
- 
--    if (v->migration_blocker) {
--        migrate_del_blocker(v->migration_blocker);
--    }
-     return true;
- }
- 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 3e15a42c35..75143ded8b 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -577,8 +577,6 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
- 
-         s->vhost_vdpa.shadow_vq_ops = &vhost_vdpa_net_svq_ops;
-         s->vhost_vdpa.shadow_vq_ops_opaque = s;
--        error_setg(&s->vhost_vdpa.migration_blocker,
--                   "Migration disabled: vhost-vdpa uses CVQ.");
-     }
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa, queue_pair_index, nvqs);
-     if (ret) {
--- 
-2.31.1
+I think that's also my understanding, but let me tell you what I was
+thinking with regards to rng-seed there, and you can tell me if I'm way
+off.
 
+The guest-loader puts in memory various loaders in a multistage boot.
+Let's call it stage0, stage1, stage2, and finally the kernel. Normally,
+rng-seed is only given to one of these stages. That stage may or may not
+pass it to the next one, and it most probably does not. And why should
+it? The host is in a better position to generate these seeds, rather
+than adding finicky and fragile crypto ratcheting code into each stage
+bootloader. So, instead, QEMU can just give each stage its own seed, for
+it to do whatever with. This way, if stage1 does nothing, at least
+there's a fresh unused one available for the kernel when it finally gets
+there.
+
+Does what I describe correspond at all with the use of guest-loader? If
+so, maybe this patch should stay? If not, discard it as rubbish.
+
+Jason
 
