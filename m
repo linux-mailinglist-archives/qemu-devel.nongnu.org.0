@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278CD57DEDB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:54:04 +0200 (CEST)
-Received: from localhost ([::1]:57802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CE957DEE5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 12:06:23 +0200 (CEST)
+Received: from localhost ([::1]:33364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEpMA-0005M9-Sa
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:54:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53272)
+	id 1oEpY5-0000Yc-GD
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 06:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oEpJr-0003yx-RX
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 05:51:39 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52148)
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1oEpU2-0006VS-9I; Fri, 22 Jul 2022 06:02:10 -0400
+Received: from mail-lj1-x231.google.com ([2a00:1450:4864:20::231]:42513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oEpJq-0002iG-96
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 05:51:39 -0400
-Received: by mail-wm1-x333.google.com with SMTP id id17so2469652wmb.1
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 02:51:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=QzBCrWlwcWZXInzS0ITrQnHy6XlPP/9j5siG/21TN30=;
- b=MMrsEmBx0ebXM4nPTmGvjlFU9N6zdyMGzOOoT2Aj6sfKHOKJHswLi257jGgDppRjxI
- eIIFO+xYUBBVIVVy8P8Z9ElSdy9iDO753TkhoM0W84wQILk/1k0eCHBmQp2qlDvUwTOm
- 8XmELklpn+vCcdWqBzbsFAov1las5bI4LvbURHqZOAIy3O2uivKzRb/IQLXHj79UYHiq
- dPlF/Dg0v76ORwOzUM/VsAmr36h4DqL/oo9rlyHQB3csS/q67/j2+aBixNMOxhLIRmz8
- rSzRj56dlnbBcff3M38rzSyWcpZf4GtUvcjHyDoTzqPwmgqUMI/va/Yqd8d6cjQySuwB
- odOA==
+ (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
+ id 1oEpTz-000072-HL; Fri, 22 Jul 2022 06:02:08 -0400
+Received: by mail-lj1-x231.google.com with SMTP id m9so4834047ljp.9;
+ Fri, 22 Jul 2022 03:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=a6GWcq6uoIDiNjpxorFOKeOFb5T26zP05NyaD1MqXbw=;
+ b=Q9Va03I3D5wWoLTw5yNi7Kaa6Bc/HQEH+QsPq/aOXJkjPlsKrpa/vF45whQDcY7B13
+ o0j0czESqZV1uBV+B2vo3GXfqq3m7uLZx4l+TvysBFpUe/Mpo3xLKytiLjzo1YtW5s7T
+ tZeGQC4TwBZfEba42XMmB08VS0Jqb9G8uf5PEHl6gFxNQ/gToPCLyqmsb9QHXPU6hK1o
+ YGV8JVF1LqdRLz0TrJF/PeDcdoiYWr0k+5jqlrEVublE3G8rjZhktwPaYYGMZTifbs7d
+ khrIQ5IP05psdW66vOfBqjDX9RU4rXH4bEnkGmz4ifmPukCOVN7XDLl7C9PJ43m18Obr
+ bykg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=QzBCrWlwcWZXInzS0ITrQnHy6XlPP/9j5siG/21TN30=;
- b=5m0c8yWkXZCL+cJbH5pc/ElnZ38NsHSNRvAHeZki3AdF3qGAYIFE1tEQbipmgjWKcU
- wUD86CHdeg6AJNVd5j5VtALdnJJ6/zZ90zGvbEI1dzd0qoDCzJhLWk1taIsZwlzT+jgi
- aoHIIIx6iCkTv8+9Wq/2URI6YsyPLGCb/I8E+ey10AHo8Oa4ibt2zrZx9rqYnS+fMIzX
- 3idKVX7NVQmgrqnC8WPwE8/L+jFY6j69DsY0g3OSywUvDdL/gmQnk7udRGOhBo0p32ti
- Fah9X5KRRYB1F6wEgvfFOghv/U/HF5Sd2tZH97Scebg2KZiJ1bvcdgKcSFjUBiSzZVmU
- bmew==
-X-Gm-Message-State: AJIora/cYrkNLOoLSxaveipcba4Zr/+dpTkg/RgF3zE2SQ0EIi08FlYq
- UucynK11uV9QCp2I/d+8nvgmYscUnxqyTw==
-X-Google-Smtp-Source: AGRyM1vUvluF4KYP+yUCHdLfeNPZLIQ6wdER47sf9nRYezeaeafEAxDeyEWrcnQh/WNaRYCtbhu8Sw==
-X-Received: by 2002:a05:600c:154f:b0:3a3:4383:e1eb with SMTP id
- f15-20020a05600c154f00b003a34383e1ebmr719714wmg.111.1658483495857; 
- Fri, 22 Jul 2022 02:51:35 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=a6GWcq6uoIDiNjpxorFOKeOFb5T26zP05NyaD1MqXbw=;
+ b=f8ceFhkic/LtEGzLdIZWoPzZoL3ow6V7AY/v4z1uY4Cq8mfhXRJssFKMhM7a3qeyr7
+ 6PIE8xIVoxsqsL3Ohdta52BM9XVpaXhvpWpo2DpzcEf95Liu4RdtG3m9G4mjtl3fnOCD
+ Qkkg/k/9IBX6SpliqB95de3f5vnJ3RdG5EqA4a+cMpN5KTpUFW/sky7y7+yC8+Hi2NNX
+ +uj16mqrXMZaru3VX3l1RpTFA6GOnclNxSoAA1YBeuzXVLcfVL85GuPkFjY4VwHesuai
+ yQuxywL7mvI7gpz4J5Mwc6aWd7tC8P8sK+NiQ7lNqAwXPWRpYHjL6hld7lJSZVPpsHxQ
+ xkTA==
+X-Gm-Message-State: AJIora/AbyfsC1fEzXWf64mnQeZZ6UNZhOG8fQ3HOMMUSeHfBgR5by+8
+ CHvoJimMG1tOHjT9Mv4wFdM=
+X-Google-Smtp-Source: AGRyM1tC1k7LWc5pW+dXqVKONkB8BpqW0GC8X6oajP/5qLRQrk0E03X4yyqkqL3/G4kUjIwmEzViWA==
+X-Received: by 2002:a2e:98cd:0:b0:25d:dad6:3a19 with SMTP id
+ s13-20020a2e98cd000000b0025ddad63a19mr920052ljj.337.1658484124475; 
+ Fri, 22 Jul 2022 03:02:04 -0700 (PDT)
+Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
  by smtp.gmail.com with ESMTPSA id
- j11-20020adfe50b000000b0021e4a4fc017sm4046011wrm.34.2022.07.22.02.51.34
+ j26-20020ac2455a000000b0047f943112e3sm960877lfm.285.2022.07.22.03.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 02:51:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 16DCD1FFB7;
- Fri, 22 Jul 2022 10:51:34 +0100 (BST)
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-8-pbonzini@redhat.com> <87tu7az28k.fsf@linaro.org>
- <Ytm1KiyFGNqAo/Af@zx2c4.com>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Subject: Re: [PULL 7/9] hw/guest-loader: pass random seed to fdt
-Date: Fri, 22 Jul 2022 10:45:19 +0100
-In-reply-to: <Ytm1KiyFGNqAo/Af@zx2c4.com>
-Message-ID: <87o7xhscey.fsf@linaro.org>
+ Fri, 22 Jul 2022 03:02:03 -0700 (PDT)
+Date: Fri, 22 Jul 2022 12:02:02 +0200
+From: Francisco Iglesias <frasse.iglesias@gmail.com>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>,
+ Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
+Subject: Re: [PATCH v3 1/8] m25p80: Add basic support for the SFDP command
+Message-ID: <20220722100158.GA2574@fralle-msi>
+References: <20220722063602.128144-1-clg@kaod.org>
+ <20220722063602.128144-2-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220722063602.128144-2-clg@kaod.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=2a00:1450:4864:20::231;
+ envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x231.google.com
+X-Spam_score_int: -1020
+X-Spam_score: -102.1
+X-Spam_bar: ---------------------------------------------------
+X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_WELCOMELIST=-0.01,
+ USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,51 +95,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On [2022 Jul 22] Fri 08:35:55, Cédric Le Goater wrote:
+> JEDEC STANDARD JESD216 for Serial Flash Discovery Parameters (SFDP)
+> provides a mean to describe the features of a serial flash device
+> using a set of internal parameter tables.
+> 
+> This is the initial framework for the RDSFDP command giving access to
+> a private SFDP area under the flash. This area now needs to be
+> populated with the flash device characteristics, using a new
+> 'sfdp_read' handler under FlashPartInfo.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
 
-"Jason A. Donenfeld" <Jason@zx2c4.com> writes:
+Reviewed-by: Francisco Iglesias <frasse.iglesias@gmail.com>
 
-> Hi Alex,
->
-> On Thu, Jul 21, 2022 at 08:36:10PM +0100, Alex Benn=C3=A9e wrote:
->>=20
->> Paolo Bonzini <pbonzini@redhat.com> writes:
->>=20
-<snip>
->> >      uint64_t reg_attr[2] =3D {cpu_to_be64(s->addr), cpu_to_be64(size)=
-};
->> > +    uint8_t rng_seed[32];
->> >=20=20
->> >      if (!fdt) {
->> >          error_setg(errp, "Cannot modify FDT fields if the machine has=
- none");
->> > @@ -55,6 +57,9 @@ static void loader_insert_platform_data(GuestLoaderS=
-tate *s, int size,
->> >      qemu_fdt_add_subnode(fdt, node);
->> >      qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
->> >=20=20
->> > +    qemu_guest_getrandom_nofail(rng_seed, sizeof(rng_seed));
->> > +    qemu_fdt_setprop(fdt, node, "rng-seed", rng_seed, sizeof(rng_seed=
-));
->> > +
->>=20
->> Why are we inserting this here? The guest-loader is only building on
->> what the machine type has already constructed which in the case of -M
->> virt for riscv and ARM already has code for this.
->
-> Wish you would have replied to the list patch before Paolo queued it.
-
-I'm sorry if I didn't get to it in the *checks notes* 2 days since it
-was posted. I've been on holiday.
-
-> I don't know this mechanism well but I assumed it would pass a unique
-> seed to each chained loader. Let me know if I'm misunderstanding the
-> purpose; I have no qualms about dropping this patch.
-
-All the guest-loader does is add the information about where in memory a
-guest and/or it's initrd have been placed in memory to the DTB. It's
-entirely up to the initial booted code (usually a hypervisor in this
-case) to decide what gets passed up the chain to any subsequent guests.
-
---=20
-Alex Benn=C3=A9e
+> ---
+>  hw/block/m25p80_sfdp.h | 18 ++++++++++++++++++
+>  hw/block/m25p80.c      | 27 +++++++++++++++++++++++++++
+>  MAINTAINERS            |  2 +-
+>  hw/block/trace-events  |  1 +
+>  4 files changed, 47 insertions(+), 1 deletion(-)
+>  create mode 100644 hw/block/m25p80_sfdp.h
+> 
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> new file mode 100644
+> index 000000000000..230b07ef3308
+> --- /dev/null
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -0,0 +1,18 @@
+> +/*
+> + * M25P80 SFDP
+> + *
+> + * Copyright (c) 2020, IBM Corporation.
+> + *
+> + * This code is licensed under the GPL version 2 or later. See the
+> + * COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef HW_M25P80_SFDP_H
+> +#define HW_M25P80_SFDP_H
+> +
+> +/*
+> + * SFDP area has a 3 bytes address space.
+> + */
+> +#define M25P80_SFDP_MAX_SIZE  (1 << 24)
+> +
+> +#endif
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index a8d2519141f7..abdc4c0b0da7 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -35,6 +35,7 @@
+>  #include "qapi/error.h"
+>  #include "trace.h"
+>  #include "qom/object.h"
+> +#include "m25p80_sfdp.h"
+>  
+>  /* 16 MiB max in 3 byte address mode */
+>  #define MAX_3BYTES_SIZE 0x1000000
+> @@ -72,6 +73,7 @@ typedef struct FlashPartInfo {
+>       * This field inform how many die is in the chip.
+>       */
+>      uint8_t die_cnt;
+> +    uint8_t (*sfdp_read)(uint32_t sfdp_addr);
+>  } FlashPartInfo;
+>  
+>  /* adapted from linux */
+> @@ -355,6 +357,7 @@ typedef enum {
+>      BULK_ERASE = 0xc7,
+>      READ_FSR = 0x70,
+>      RDCR = 0x15,
+> +    RDSFDP = 0x5a,
+>  
+>      READ = 0x03,
+>      READ4 = 0x13,
+> @@ -421,6 +424,7 @@ typedef enum {
+>      STATE_COLLECTING_DATA,
+>      STATE_COLLECTING_VAR_LEN_DATA,
+>      STATE_READING_DATA,
+> +    STATE_READING_SFDP,
+>  } CMDState;
+>  
+>  typedef enum {
+> @@ -679,6 +683,8 @@ static inline int get_addr_length(Flash *s)
+>      }
+>  
+>     switch (s->cmd_in_progress) {
+> +   case RDSFDP:
+> +       return 3;
+>     case PP4:
+>     case PP4_4:
+>     case QPP_4:
+> @@ -823,6 +829,11 @@ static void complete_collecting_data(Flash *s)
+>                            " by device\n");
+>          }
+>          break;
+> +
+> +    case RDSFDP:
+> +        s->state = STATE_READING_SFDP;
+> +        break;
+> +
+>      default:
+>          break;
+>      }
+> @@ -1431,6 +1442,16 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>              qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Unknown cmd %x\n", value);
+>          }
+>          break;
+> +    case RDSFDP:
+> +        if (s->pi->sfdp_read) {
+> +            s->needed_bytes = get_addr_length(s) + 1; /* SFDP addr + dummy */
+> +            s->pos = 0;
+> +            s->len = 0;
+> +            s->state = STATE_COLLECTING_DATA;
+> +            break;
+> +        }
+> +        /* Fallthrough */
+> +
+>      default:
+>          s->pos = 0;
+>          s->len = 1;
+> @@ -1538,6 +1559,12 @@ static uint32_t m25p80_transfer8(SSIPeripheral *ss, uint32_t tx)
+>              }
+>          }
+>          break;
+> +    case STATE_READING_SFDP:
+> +        assert(s->pi->sfdp_read);
+> +        r = s->pi->sfdp_read(s->cur_addr);
+> +        trace_m25p80_read_sfdp(s, s->cur_addr, (uint8_t)r);
+> +        s->cur_addr = (s->cur_addr + 1) & (M25P80_SFDP_MAX_SIZE - 1);
+> +        break;
+>  
+>      default:
+>      case STATE_IDLE:
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 6af9cd985cea..92f232f01e3c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1915,7 +1915,7 @@ SSI
+>  M: Alistair Francis <alistair@alistair23.me>
+>  S: Maintained
+>  F: hw/ssi/*
+> -F: hw/block/m25p80.c
+> +F: hw/block/m25p80*
+>  F: include/hw/ssi/ssi.h
+>  X: hw/ssi/xilinx_*
+>  F: tests/qtest/m25p80-test.c
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index d86b53520cc5..2c45a62bd59c 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -80,5 +80,6 @@ m25p80_page_program(void *s, uint32_t addr, uint8_t tx) "[%p] page program cur_a
+>  m25p80_transfer(void *s, uint8_t state, uint32_t len, uint8_t needed, uint32_t pos, uint32_t cur_addr, uint8_t t) "[%p] Transfer state 0x%"PRIx8" len 0x%"PRIx32" needed 0x%"PRIx8" pos 0x%"PRIx32" addr 0x%"PRIx32" tx 0x%"PRIx8
+>  m25p80_read_byte(void *s, uint32_t addr, uint8_t v) "[%p] Read byte 0x%"PRIx32"=0x%"PRIx8
+>  m25p80_read_data(void *s, uint32_t pos, uint8_t v) "[%p] Read data 0x%"PRIx32"=0x%"PRIx8
+> +m25p80_read_sfdp(void *s, uint32_t addr, uint8_t v) "[%p] Read SFDP 0x%"PRIx32"=0x%"PRIx8
+>  m25p80_binding(void *s) "[%p] Binding to IF_MTD drive"
+>  m25p80_binding_no_bdrv(void *s) "[%p] No BDRV - binding to RAM"
+> -- 
+> 2.35.3
+> 
 
