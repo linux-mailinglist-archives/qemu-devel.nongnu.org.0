@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD49857DD66
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:13:49 +0200 (CEST)
-Received: from localhost ([::1]:34056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE8057DD35
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 11:09:46 +0200 (CEST)
+Received: from localhost ([::1]:59270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEojE-0003dl-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:13:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43942)
+	id 1oEofI-0001JI-6r
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 05:09:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEoTK-0000xm-LO
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55007)
+ id 1oEoT6-0000rz-Km
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oEoTI-0000ak-R9
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:22 -0400
+ id 1oEoT5-0000Zg-3P
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 04:57:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658480235;
+ s=mimecast20190719; t=1658480226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7+LUG03BDYPp5kNAJLMAJQOFe/AQNqvHDhHyOWlVtyY=;
- b=VmzCJH72+sv1zDaA7RwGCK5iyU4XPrhLpkF7J6VGDYodLROSd9gy1NkAJhAnaOXykbiJnh
- YM2PWF/Mlu5xPR9phPzNcGJfKNpr8cBj37S72wm+wFigw+mQfrY4xaRgFcVS6NFHFB6t20
- QXE5L+dvQrxjtrYrQA0o89edbcDoz5U=
+ bh=HmfZTBtu31uLg6djxBfEgCKUx5K7bRKNxH5Q40BBmnY=;
+ b=M+Wm8sOj+6RrTpzyfoSq96gSf+X03hVsRglhkfqAJGTV1IxTSFEQOtKLspjSlW5zy5VyMI
+ 12qVjoDgdDGta1/Qxzg7Q7fi7eCI0iuhJsz9SFKGYFBTkgbg8BIEFMK1HALrD9sDUELdMN
+ OwLOACNmaQzn/LlqOLzerSVISd9Awco=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-218-3IiYwqfQODqjKuG_GANF7Q-1; Fri, 22 Jul 2022 04:56:59 -0400
-X-MC-Unique: 3IiYwqfQODqjKuG_GANF7Q-1
+ us-mta-503-aO1YX8OPN-CbucuelIAsXQ-1; Fri, 22 Jul 2022 04:57:02 -0400
+X-MC-Unique: aO1YX8OPN-CbucuelIAsXQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DA2F811E80;
- Fri, 22 Jul 2022 08:56:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 920F3101AA6C;
+ Fri, 22 Jul 2022 08:57:01 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.194.161])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9DC6D2166B26;
- Fri, 22 Jul 2022 08:56:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE76D2166B26;
+ Fri, 22 Jul 2022 08:56:58 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
@@ -55,24 +55,23 @@ Cc: Eric Blake <eblake@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, Eli Cohen <eli@mellanox.com>,
  Stefan Hajnoczi <stefanha@redhat.com>,
  Stefano Garzarella <sgarzare@redhat.com>
-Subject: [PATCH v3 3/6] vdpa: Make vhost_vdpa_net_cvq_map_elem accept any out
- sg
-Date: Fri, 22 Jul 2022 10:56:41 +0200
-Message-Id: <20220722085644.3376708-4-eperezma@redhat.com>
+Subject: [PATCH v3 4/6] vdpa: add NetClientState->start() callback
+Date: Fri, 22 Jul 2022 10:56:42 +0200
+Message-Id: <20220722085644.3376708-5-eperezma@redhat.com>
 In-Reply-To: <20220722085644.3376708-1-eperezma@redhat.com>
 References: <20220722085644.3376708-1-eperezma@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,77 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-So its generic enough to accept any out sg buffer and we can inject
-NIC state messages.
+It allows per-net client operations right after device's successful
+start.
+
+Vhost-vdpa net will use it to add the CVQ buffers to restore the device
+status.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
- net/vhost-vdpa.c | 29 +++++++++++++++--------------
- 1 file changed, 15 insertions(+), 14 deletions(-)
+ include/net/net.h  | 2 ++
+ hw/net/vhost_net.c | 7 +++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 1b82ac2e07..bbe1830824 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -302,35 +302,36 @@ dma_map_err:
- }
+diff --git a/include/net/net.h b/include/net/net.h
+index 523136c7ac..ad9e80083a 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -44,6 +44,7 @@ typedef struct NICConf {
  
- /**
-- * Copy the guest element into a dedicated buffer suitable to be sent to NIC
-+ * Maps out sg and in buffer into dedicated buffers suitable to be sent to NIC
-  *
-- * @iov: [0] is the out buffer, [1] is the in one
-+ * @dev_iov: [0] is the out buffer, [1] is the in one
-  */
--static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
--                                        VirtQueueElement *elem,
--                                        struct iovec *iov)
-+static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
-+                                      const struct iovec *out, size_t out_num,
-+                                      struct iovec *dev_iov)
- {
-     size_t in_copied;
-     bool ok;
- 
--    iov[0].iov_base = s->cvq_cmd_out_buffer;
--    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->out_num,
--                                vhost_vdpa_net_cvq_cmd_len(), iov[0].iov_base,
--                                &iov[0].iov_len, false);
-+    dev_iov[0].iov_base = s->cvq_cmd_out_buffer;
-+    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num,
-+                                vhost_vdpa_net_cvq_cmd_len(),
-+                                dev_iov[0].iov_base, &dev_iov[0].iov_len,
-+                                false);
-     if (unlikely(!ok)) {
-         return false;
+ typedef void (NetPoll)(NetClientState *, bool enable);
+ typedef bool (NetCanReceive)(NetClientState *);
++typedef int (NetStart)(NetClientState *);
+ typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
+ typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
+ typedef void (NetCleanup) (NetClientState *);
+@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
+     NetReceive *receive_raw;
+     NetReceiveIOV *receive_iov;
+     NetCanReceive *can_receive;
++    NetStart *start;
+     NetCleanup *cleanup;
+     LinkStatusChanged *link_status_changed;
+     QueryRxFilter *query_rx_filter;
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index ccac5b7a64..ddd9ee0441 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *net,
+             }
+         }
      }
- 
--    iov[1].iov_base = s->cvq_cmd_in_buffer;
-+    dev_iov[1].iov_base = s->cvq_cmd_in_buffer;
-     ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
--                                sizeof(virtio_net_ctrl_ack), iov[1].iov_base,
--                                &in_copied, true);
-+                                sizeof(virtio_net_ctrl_ack),
-+                                dev_iov[1].iov_base, &in_copied, true);
-     if (unlikely(!ok)) {
-         vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
-         return false;
-     }
- 
--    iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
-+    dev_iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
-     return true;
- }
- 
-@@ -434,7 +435,7 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
-     };
-     bool ok;
- 
--    ok = vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
-+    ok = vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->out_num, dev_buffers);
-     if (unlikely(!ok)) {
-         goto out;
-     }
++
++    if (net->nc->info->start) {
++        r = net->nc->info->start(net->nc);
++        if (r < 0) {
++            goto fail;
++        }
++    }
+     return 0;
+ fail:
+     file.fd = -1;
 -- 
 2.31.1
 
