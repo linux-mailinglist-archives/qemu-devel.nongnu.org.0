@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5322F57E516
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:10:00 +0200 (CEST)
-Received: from localhost ([::1]:40482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FE157E51B
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 19:12:43 +0200 (CEST)
+Received: from localhost ([::1]:44444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEwA3-0003vF-CW
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:09:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39594)
+	id 1oEwCg-000784-CT
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 13:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5I-0002Iz-Vo
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36048)
+ id 1oEw5J-0002J5-P1
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oEw5H-0000fi-4K
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:04 -0400
+ id 1oEw5H-0000gD-Nl
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 13:05:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658509500;
+ s=mimecast20190719; t=1658509502;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QIe3GqZfn4ySK6BpRC1oz1OEETJCzYLqg2tOgkwe3oM=;
- b=c99W640u0+EF+2cTKt/GkUb8lqVSMLrAxVJ55QlTLLjT+VZVPYWKw6+ZSxLgo6ZdYD86QS
- pLJpPZYgEDtBFYR0Lwb2bMw9XreBjGsT9SzG+JG4L2y2D9tWtf91QzH8i5ym8ZRJRbOpMx
- vgfAv1jOwkDXOupd+6M4XYbU0pj3plE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=OsjHDI91sKDaO7jtr73uSZ6ojIq5100HvLrmIMADMIc=;
+ b=DGhVBF0fEHZGJkMbNUEC8YcEXqfvMStMrVHNn6lVrmFRLFQYFtJDCd/BMu9Jma1YznE9/2
+ 12N5ARaW7PTSZOJcOlucQJjC3ykSKGzQXvuf2VZSvjWpUAOt3ZDbBJrp6BRFojYmrTdAGx
+ /x10qMvTBwhYdL5wYWgUOLeNGsGWTSQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-212-taDpcqScPA-qFQT1UAKA-g-1; Fri, 22 Jul 2022 13:04:59 -0400
-X-MC-Unique: taDpcqScPA-qFQT1UAKA-g-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ji2-20020a170907980200b0072b5b6d60c2so2142572ejc.22
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
+ us-mta-216-ttOTIuniOsCZJMUMzKS11w-1; Fri, 22 Jul 2022 13:05:01 -0400
+X-MC-Unique: ttOTIuniOsCZJMUMzKS11w-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b7-20020a056402350700b0043baadc4a58so3207906edd.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 10:05:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QIe3GqZfn4ySK6BpRC1oz1OEETJCzYLqg2tOgkwe3oM=;
- b=Je6OWQm8cD0AbGNbOaXaNLQDsHgT9G7lN5/TothdLZ5cQ1Erp2kEMb352grTWiEzJ5
- zbBm7ThsNGtNvtrE3FDyaCA+fjVfsIVejnAJSVFrYSCRFzOqyhFtPHU73tuSF/ujq8qU
- Tii+138dhWshmuWaJQrWzDEcDSwNbWTstN6ZIMvsz2AtEqV7ISTBS8sVvf852TxF6caa
- TJZpKoGKkUQEl3h2bXURw0RJRsO9OYjB9wkYb/OYIbyfWPqIdqwR8cXxhXguFXnWqMt3
- tRxNdSgOvcEEjPU7cm1vGHhKnAgVzOlK0U0ClDM/m+gcFMTOmMl61915AuAWFgyqAxWe
- FFWg==
-X-Gm-Message-State: AJIora/ydpv96vS99T2SMRuC4CpSCcyjvGsxrY3a2IbZ171SybHPf3VP
- 1UZx9Cx7588F/kQAsF+ErsKIujirCW+XL9U+NMJ63Sr7sl7QxBBkZ2yqmT3t36C7yy4xp1YM8Fk
- QlNjaRthJsIj/MhlY1G9epcdFY1ADMOQtSCrWEG4er7EbCsrWkC0bq/xzgJmCaSeYL2g=
-X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
- hv12-20020a17090760cc00b0072b40a80a5bmr624632ejc.379.1658509497293; 
- Fri, 22 Jul 2022 10:04:57 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vBKP52JveUe93H/JHjs6AGifaaaxQXuZtwWrug1lbvlLzFGXkJtk5jyvsvic+errKTwMYGsA==
-X-Received: by 2002:a17:907:60cc:b0:72b:40a8:a5b with SMTP id
- hv12-20020a17090760cc00b0072b40a80a5bmr624608ejc.379.1658509496986; 
- Fri, 22 Jul 2022 10:04:56 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- kx6-20020a170907774600b0072b3182368fsm2198701ejc.77.2022.07.22.10.04.56
+ bh=OsjHDI91sKDaO7jtr73uSZ6ojIq5100HvLrmIMADMIc=;
+ b=bjX1Vt3B2Gf5Lbpe8xT1w3MV66qz8hK5LRYaMWCAfABDh+K/9/wU8aJ8zUvIuyluVd
+ U6G9qsATOjqSMcndX26NZuA+7DFRiG9MfapUaGKvCrUIevkRrnn52JMMFvx8dc95Q+Qv
+ 4ydUtcu6Crmi03SxmDmMheCWbXe4zDUVQCURqKHoAU7Mt1j+XpQPo2dkpSiIAuHQFVYN
+ Lv9xk+v4IVN8smtHNCzZO819gxSD1vmRndYrKkLa1ZtnALZWccCiGGhgTdSx7Zr58x8R
+ bCtIgXdy/1VTPPTANmyL/gtIwWkDlfUKLomiAKvpSoGE++S1bqAT94om2R/yHNPeUA6P
+ yWRQ==
+X-Gm-Message-State: AJIora/SXwHoxQ8qm+2p9yIlZXJEz/LpVu68fJA9inkvsXHDUSRpNO2N
+ vb21/Yy5MukH0pMdppFOci4yzmpvV56ecvUfX0T9xN2bMjffNDRWxALdlKZQl3ZBXDoKUPmmKW2
+ qE1+6iRXoehklE8oYo4T7eYAzieou0rcshVWlKfH94FMxivw5MpA6kOHk1j8cixf3Ekw=
+X-Received: by 2002:a17:906:cc4a:b0:72b:863e:ef7c with SMTP id
+ mm10-20020a170906cc4a00b0072b863eef7cmr637891ejb.686.1658509498940; 
+ Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vVK/kyx0S61nQJ9nLSqcESzj6LwZQpHg66nWlnQ678cqhuSOqGLtKgdrnu+ys09RUFVTH+Lg==
+X-Received: by 2002:a17:906:cc4a:b0:72b:863e:ef7c with SMTP id
+ mm10-20020a170906cc4a00b0072b863eef7cmr637872ejb.686.1658509498605; 
+ Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ e11-20020a056402148b00b0043a43fcde13sm2809577edv.13.2022.07.22.10.04.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 10:04:56 -0700 (PDT)
+ Fri, 22 Jul 2022 10:04:58 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>
-Subject: [PULL 3/8] oss-fuzz: remove binaries from qemu-bundle tree
-Date: Fri, 22 Jul 2022 19:04:44 +0200
-Message-Id: <20220722170449.853222-4-pbonzini@redhat.com>
+Subject: [PULL 4/8] oss-fuzz: ensure base_copy is a generic-fuzzer
+Date: Fri, 22 Jul 2022 19:04:45 +0200
+Message-Id: <20220722170449.853222-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220722170449.853222-1-pbonzini@redhat.com>
 References: <20220722170449.853222-1-pbonzini@redhat.com>
@@ -98,33 +99,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-oss-fuzz is finding possible fuzzing targets even under qemu-bundle/.../bin, but they
-cannot be used because the required shared libraries are missing.  Since the
-fuzzing targets are already placed manually in $OUT, the bindir and libexecdir
-subtrees are not needed; remove them.
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Cc: Alexander Bulekov <alxndr@bu.edu>
+Depending on how the target list is sorted in by qemu, the first target
+(used as the base copy of the fuzzer, to which all others are linked)
+might not be a generic-fuzzer. Since we are trying to only use
+generic-fuzz, on oss-fuzz, fix that, to ensure the base copy is a
+generic-fuzzer.
+
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20220720180946.2264253-1-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/oss-fuzz/build.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 2656a89aea..5ee9141e3e 100755
+index 5ee9141e3e..3bda0d72c7 100755
 --- a/scripts/oss-fuzz/build.sh
 +++ b/scripts/oss-fuzz/build.sh
-@@ -87,8 +87,10 @@ if [ "$GITLAB_CI" != "true" ]; then
-     make "-j$(nproc)" qemu-fuzz-i386 V=1
- fi
+@@ -92,7 +92,7 @@ make install DESTDIR=$DEST_DIR/qemu-bundle
+ rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/bin
+ rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/libexec
  
--# Prepare a preinstalled tree
-+# Place data files in the preinstall tree
- make install DESTDIR=$DEST_DIR/qemu-bundle
-+rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/bin
-+rm -rf $DEST_DIR/qemu-bundle/opt/qemu-oss-fuzz/libexec
- 
- targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
+-targets=$(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}')
++targets=$(./qemu-fuzz-i386 | grep generic-fuzz | awk '$1 ~ /\*/  {print $2}')
  base_copy="$DEST_DIR/qemu-fuzz-i386-target-$(echo "$targets" | head -n 1)"
+ 
+ cp "./qemu-fuzz-i386" "$base_copy"
 -- 
 2.36.1
 
