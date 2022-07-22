@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0720957EA2A
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:11:25 +0200 (CEST)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A536057EA31
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:12:53 +0200 (CEST)
+Received: from localhost ([::1]:44824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oF1nn-0004VW-DM
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:11:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56128)
+	id 1oF1pE-0006Ab-S7
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:12:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oF1m6-0002x5-5i; Fri, 22 Jul 2022 19:09:38 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:57722)
+ id 1oF1nz-0004ff-F2; Fri, 22 Jul 2022 19:11:35 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:57741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oF1m3-0003O0-As; Fri, 22 Jul 2022 19:09:37 -0400
+ id 1oF1nx-0004wN-TV; Fri, 22 Jul 2022 19:11:35 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9575C746381;
- Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+ by localhost (Postfix) with SMTP id 7B53974637E;
+ Sat, 23 Jul 2022 01:11:31 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5718A74637E; Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+ id 47E7574633F; Sat, 23 Jul 2022 01:11:31 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 55535745702;
- Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
-Date: Sat, 23 Jul 2022 01:09:29 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4602E745702;
+ Sat, 23 Jul 2022 01:11:31 +0200 (CEST)
+Date: Sat, 23 Jul 2022 01:11:31 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
 cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- David Gibson <david@gibson.dropbear.id.au>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
-Subject: Re: [PATCH for-7.2 01/10] hw/arm/boot.c: do not free machine->fdt
- in arm_load_dtb()
-In-Reply-To: <20220722200007.1602174-2-danielhb413@gmail.com>
-Message-ID: <fc35eb70-93fd-3d90-8d95-2f42f47652ac@eik.bme.hu>
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH for-7.2 02/10] hw/ppc/pegasos2.c: set machine->fdt in
+ machine_reset()
+In-Reply-To: <20220722200007.1602174-3-danielhb413@gmail.com>
+Message-ID: <55e98dea-d9f5-c2d4-e9e6-d01ed140b1ce@eik.bme.hu>
 References: <20220722200007.1602174-1-danielhb413@gmail.com>
- <20220722200007.1602174-2-danielhb413@gmail.com>
+ <20220722200007.1602174-3-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,53 +62,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 22 Jul 2022, Daniel Henrique Barboza wrote:
-> At this moment, arm_load_dtb() can free machine->fdt when
-> binfo->dtb_filename is NULL. If there's no 'dtb_filename', 'fdt' will be
-> retrieved by binfo->get_dtb(). If get_dtb() returns machine->fdt, as is
-> the case of machvirt_dtb() from hw/arm/virt.c, fdt now has a pointer to
-> machine->fdt. And, in that case, the existing g_free(fdt) at the end of
-> arm_load_dtb() will make machine->fdt point to an invalid memory region.
+> We'll introduce HMP commands that requires machine->fdt to be set
+> properly.
 >
-> This is not an issue right now because there's no code that access
-> machine->fdt after arm_load_dtb(), but we're going to add a couple do
-> FDT HMP commands that will rely on machine->fdt being valid.
->
-> Instead of freeing 'fdt' at the end of arm_load_dtb(), assign it to
-> machine->fdt. This will allow the FDT of ARM machines that relies on
-> arm_load_dtb() to be accessed later on.
->
-> Since all ARM machines allocates the FDT only once, we don't need to
-> worry about leaking the existing FDT during a machine reset (which is
-> something that other machines have to look after, e.g. the ppc64 pSeries
-> machine).
->
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
+> Cc: BALATON Zoltan <balaton@eik.bme.hu>
+> Cc: qemu-ppc@nongnu.org
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
-> hw/arm/boot.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
+> hw/ppc/pegasos2.c | 3 +++
+> 1 file changed, 3 insertions(+)
 >
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index ada2717f76..1d9c6047b1 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -684,7 +684,8 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
->      */
->     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
+> diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
+> index 61f4263953..9827c3b4c2 100644
+> --- a/hw/ppc/pegasos2.c
+> +++ b/hw/ppc/pegasos2.c
+> @@ -329,6 +329,9 @@ static void pegasos2_machine_reset(MachineState *machine)
+>     g_free(pm->fdt_blob);
+>     pm->fdt_blob = fdt;
 >
-> -    g_free(fdt);
-> +    /* Update ms->fdt pointer */
-> +    ms->fdt = fdt;
+> +    /* Set common MachineState->fdt */
+> +    machine->fdt = fdt;
+> +
 
-Not sure this comment is useful as it just states what the assignment does 
-so provides no further info.
+Again, comment just states what the next line does but does not explain 
+why. Either add a comment that explains why it's set or drop the trivial 
+comment. Otherwise,
 
-Regards,
-BALATON Zoltan
+Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
 
->
->     return size;
->
+>     vof_build_dt(fdt, pm->vof);
+>     vof_client_open_store(fdt, pm->vof, "/chosen", "stdout", "/failsafe");
+>     pm->cpu->vhyp = PPC_VIRTUAL_HYPERVISOR(machine);
 >
 
