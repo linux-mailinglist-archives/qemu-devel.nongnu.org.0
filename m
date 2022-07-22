@@ -2,26 +2,26 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 769B057E71E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:14:40 +0200 (CEST)
-Received: from localhost ([::1]:47730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50CA557E745
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:22:02 +0200 (CEST)
+Received: from localhost ([::1]:37324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEy6h-0007BO-GJ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
+	id 1oEyDp-0002qE-Aw
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:22:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExxd-0006Qs-WA
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:05:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:34957)
+ id 1oExyK-0007Vj-FQ
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:06:01 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:60541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1oExxa-0004uz-Hn
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:05:17 -0400
+ id 1oExyI-0005N5-FO
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:05:59 -0400
 Received: from thinkpad.redhat.com ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis) id
- 1MPp0l-1nsbqo0T3b-00Mupb; Fri, 22 Jul 2022 21:04:45 +0200
+ 1Mi2eP-1nbUPE452X-00e1yX; Fri, 22 Jul 2022 21:04:46 +0200
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -29,39 +29,38 @@ Cc: Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Ralph Schmieder <ralph.schmieder@gmail.com>,
  Stefano Brivio <sbrivio@redhat.com>
-Subject: [PATCH v7 00/14] qapi: net: add unix socket type support to netdev
- backend
-Date: Fri, 22 Jul 2022 21:04:28 +0200
-Message-Id: <20220722190442.301310-1-lvivier@redhat.com>
+Subject: [PATCH v7 01/14] net: introduce convert_host_port()
+Date: Fri, 22 Jul 2022 21:04:29 +0200
+Message-Id: <20220722190442.301310-2-lvivier@redhat.com>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220722190442.301310-1-lvivier@redhat.com>
+References: <20220722190442.301310-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:/nFbNcXBLtEOSNeIl+aqfBtqq/q2Izic5Y7+8jvSk6kwUQnyQPA
- qHZDABX+6ee3vaTlXVuvFd23OKHHRjqWDX32STRkD20JySp9H3dMcMuwQf375ZqJIcZwMo/
- /WJxLidR9+JCXVn3MJDEziL2wqfJMoxP5m+yv+CWrx+mI4a19NVJLTmICI2h8BGuguaokWu
- gBzBH9IqMU/H3mhacA1aw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:biQjl1xaPYU=:r13ebnyNYx5VxRnMMpAw3E
- KqdEJ4GFsiOCZreds2gkMWGZA/rPSxFIzqN20KoVAshbUsTvAX12YmGJNdeOQNY7sYYpygi39
- j6qW6d+GeJ3R6Cfu+xa2eThDOz1xcA8h0muc94xKGdvFokZ/twCQOqYHer6LOH+YtUCR3JLbS
- no+7d9fjE70ze01HK+1uOqcM6YX//43+lxj+dlW/AC6ND/C4SpIYmQTXhDV25vEVHE1Zq2o5Z
- vf8nNV8YQoQxjjJfxF9+eUHpHxmxb1iskKQP9GYDtDWzCZpy0IbRakOarDSLnfKuL2YhtrEQW
- jXIwO5NRz3O+kY5P+g9URjokyLygoXikEMwWZrrZPiuKCrrj16HcMB4JDE5EtW/QwYfa1fFRV
- u7+J+nd08xBXVZR09Q66TmlgTOIitm9ocfbZzZ4JLJ1JW29dwkjg/S0OKifj30E9AwGLvx2LU
- K4sF+pMhk6lAcu2bTcOEhHjV1kmAX8HiRBPAtB/fMxJqa0OC3qf/kKRknlWiOj6FIllqDD8jc
- 5thm7QYFZy/oZo48S5fwD6sp0HkgA9SmkUGgLo04qIjBbOXbEVAPkEK9zwfMyNjKbwyWyxgC6
- vkDnLYGnUc6HJ5Ea0jk2XOkbdIg0QGzaafIeMWYubZcRzqxyg33DhLPrR3BHa5KPWiB0Z5p3R
- qnM97Yj/wBe1Pd0BW3v0CAPxgqydVnYtJkJNl0mA7bj4oiugwgDOJ6ccYdIIw4GbFn5NAqfNG
- mKsKOSQ+8pm/AwkadvI3DYD3chrp93U1v6Ta/Q==
-Received-SPF: permerror client-ip=212.227.126.133;
+X-Provags-ID: V03:K1:ZP2Kx9DTH2400TsoJYcNzwb9TevjOEs6WJpKedK32cFeYrMfvND
+ i8yTnOgJrYTmREWf0VkFYKkak3hNTLS6Bj4Wa1S2fsqTAXsqOw7NC7VgTNQBmn7IFae/5Jv
+ nNamIeV+6UlsYyTHe/hEVapQbgIM6bBmCjvH3IFCN/ArSpXjJRQeGbL2LYnFoEf8q/le/z3
+ f4HgQb4OzbyDPZrlVWYcA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4SKYIwG4VxM=:z/RQ1OXqFbCSjgPofRbzCV
+ BnzDkhTl1y/f0JUvx1ukz1AJlOQ+Wu4iYdiojDFvK8XPLs8hC6t3LqHb5ABPih45qDiQIywtM
+ EooKRAb7m24XeamtW0J77PcHPTtU1My4zZJ5dVGD2zEwws8cdeIbNv8tRGOsadZ84fKa0XEKo
+ Tzd3qPVEkIV1c89OXIyJw58RrAJkeKQfTHW0rj5o+1VVrfjFTtMF+yYJOPU9AneMc4l/Qg/2t
+ nyyvpVqupv/fhydGjkFDiz2rYPU195eRJhcEp5dCeDZFHr2NPO137T5J5HWlV4eufgM0nv6v4
+ yoYZE9WwVR+zeb6u+pugc2lHTWfovCSAowqtbUanqQB1iGydwEJH4ZfZs3lWUHoynG4KAkJwv
+ OR1r1zWfBKQVbRpqj5CfKX+EcRaHJtvfGLOMsdWU6M0GeVfnRtd5Q9gQ6uZxYR9vIyRi/9+p3
+ 3HwTtywLKWBzbf+T9b0lFSPiFVoadqUymGuUVyr5vv1Sc/d63d+1J2zwCtPFKWBKGCcOq03TE
+ g3IbZjgYRb+1NqRSPNU3w6idfQSKnoO943cS7LF7MQZQTV973hGmmLS12MF1Oxt6IytDxg4Lo
+ c0bOZCVxKBHJeiYJ9a7jOavQJJtxPc1lqOmoItAbBfIwXTMYTt72n9Klowxe6pwdvfW68/SC0
+ VxH/rlBShWlRMzg5pgyUGokGnsobd60XtnL7sbFHGa0PiiOyfD34pzbRhoCCxIcgF2deiXCAV
+ zQ5vq6LA8UCYUuxptZaxNa4PUa0DOu/hsLpnVA==
+Received-SPF: permerror client-ip=212.227.126.134;
  envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_FAIL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001, SPF_HELO_NONE=0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,141 +77,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"-netdev socket" only supports inet sockets.
+Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+---
+ include/qemu/sockets.h |  2 ++
+ net/net.c              | 62 ++++++++++++++++++++++--------------------
+ 2 files changed, 34 insertions(+), 30 deletions(-)
 
-It's not a complex task to add support for unix sockets, but
-the socket netdev parameters are not defined to manage well unix
-socket parameters.
-
-As discussed in:
-
-  "socket.c added support for unix domain socket datagram transport"
-  https://lore.kernel.org/qemu-devel/1C0E1BC5-904F-46B0-8044-68E43E67BE60@gmail.com/
-
-This series adds support of unix socket type using SocketAddress QAPI structure.
-
-Two new netdev backends, "stream" and "dgram" are added, that are barely a copy of "socket"
-backend but they use the SocketAddress QAPI to provide socket parameters.
-And then they also implement unix sockets (TCP and UDP).
-
-Some examples of CLI syntax:
-
-  for TCP:
-
-  -netdev stream,id=socket0,addr.type=inet,addr.host=localhost,addr.port=1234
-  -netdev stream,id=socket0,server=off,addr.type=inet,addr.host=localhost,addr.port=1234
-
-  -netdev dgram,id=socket0,\
-          local.type=inet,local.host=localhost,local.port=1234,\
-          remote.type=inet,remote.host=localhost,remote.port=1235
-
-  for UNIX:
-
-  -netdev stream,id=socket0,addr.type=unix,addr.path=/tmp/qemu0
-  -netdev stream,id=socket0,server=off,addr.type=unix,addr.path=/tmp/qemu0
-
-  -netdev dgram,id=socket0,\
-          local.type=unix,local.path=/tmp/qemu0,\
-          remote.type=unix,remote.path=/tmp/qemu1
-
-  for FD:
-
-  -netdev stream,id=socket0,addr.type=fd,addr.str=4
-  -netdev stream,id=socket0,server=off,addr.type=fd,addr.str=5
-
-  -netdev dgram,id=socket0,local.type=fd,addr.str=4
-
-v7:
-  - add qtests
-  - update parameters table in net.json
-  - update socket_uri() and socket_parse()
-
-v6:
-  - s/netdev option/-netdev option/ PATCH 4
-  - s/ / /
-  - update @NetdevStreamOptions and @NetdevDgramOptions comments
-  - update PATCH 4 description message
-  - add missing return in error case for unix stream socket
-  - split socket_uri() patch: move and rename, then change content
-
-v5:
-  - remove RFC prefix
-  - put the change of net_client_parse() into its own patch (exit() in the
-    function)
-  - update comments regarding netdev_is_modern() and netdev_parse_modern()
-  - update error case in net_stream_server_init()
-  - update qemu-options.hx with unix type
-  - fix HMP "info network" with unix protocol/server side.
-
-v4:
-  - net_client_parse() fails with exit() rather than with return.
-  - keep "{ 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' }" on its
-    own line in qapi/net.json
-  - add a comment in qapi/net.json about parameters usage
-  - move netdev_is_modern() check to qemu_init()
-  - in netdev_is_modern(), check for JSON and use qemu_opts_do_parse()
-    to parse parameters and detect type value.
-  - add a blank line after copyright comment
-
-v3:
-  - remove support of "-net" for dgram and stream. They are only
-    supported with "-netdev" option.
-  - use &error_fatal directly in net_client_inits()
-  - update qemu-options.hx
-  - move to QIO for stream socket
-
-v2:
-  - use "stream" and "dgram" rather than "socket-ng,mode=stream"
-    and ""socket-ng,mode=dgram"
-  - extract code to bypass qemu_opts_parse_noisily() to
-    a new patch
-  - do not ignore EINVAL (Stefano)
-  - fix "-net" option
-
-CC: Ralph Schmieder <ralph.schmieder@gmail.com>
-CC: Stefano Brivio <sbrivio@redhat.com>
-CC: Daniel P. Berrangé <berrange@redhat.com>
-CC: Markus Armbruster <armbru@redhat.com>
-
-Laurent Vivier (13):
-  net: introduce convert_host_port()
-  net: remove the @errp argument of net_client_inits()
-  net: simplify net_client_parse() error management
-  qapi: net: introduce a way to bypass qemu_opts_parse_noisily()
-  qapi: net: add stream and dgram netdevs
-  net: stream: add unix socket
-  net: dgram: make dgram_dst generic
-  net: dgram: move mcast specific code from net_socket_fd_init_dgram()
-  net: dgram: add unix socket
-  qemu-sockets: move and rename SocketAddress_to_str()
-  qemu-sockets: update socket_uri() and socket_parse()  to be consistent
-  net: stream: move to QIO
-  tests/qtest: netdev: test stream and dgram backends
-
-Stefano Brivio (1):
-  net: stream: Don't ignore EINVAL on netdev socket connection
-
- hmp-commands.hx             |   2 +-
- include/net/net.h           |   6 +-
- include/qemu/sockets.h      |   4 +-
- monitor/hmp-cmds.c          |  23 +-
- net/clients.h               |   6 +
- net/dgram.c                 | 707 ++++++++++++++++++++++++++++++++++++
- net/hub.c                   |   2 +
- net/meson.build             |   2 +
- net/net.c                   | 169 ++++++---
- net/stream.c                | 376 +++++++++++++++++++
- qapi/net.json               |  63 +++-
- qemu-options.hx             |  14 +
- softmmu/vl.c                |  16 +-
- tests/qtest/meson.build     |   1 +
- tests/qtest/netdev-socket.c | 322 ++++++++++++++++
- util/qemu-sockets.c         |  25 ++
- 16 files changed, 1656 insertions(+), 82 deletions(-)
- create mode 100644 net/dgram.c
- create mode 100644 net/stream.c
- create mode 100644 tests/qtest/netdev-socket.c
-
+diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
+index 038faa157f59..47194b9732f8 100644
+--- a/include/qemu/sockets.h
++++ b/include/qemu/sockets.h
+@@ -47,6 +47,8 @@ void socket_listen_cleanup(int fd, Error **errp);
+ int socket_dgram(SocketAddress *remote, SocketAddress *local, Error **errp);
+ 
+ /* Old, ipv4 only bits.  Don't use for new code. */
++int convert_host_port(struct sockaddr_in *saddr, const char *host,
++                      const char *port, Error **errp);
+ int parse_host_port(struct sockaddr_in *saddr, const char *str,
+                     Error **errp);
+ int socket_init(void);
+diff --git a/net/net.c b/net/net.c
+index 2db160e0634d..d2288bd3a929 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -66,55 +66,57 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
+ /***********************************************************/
+ /* network device redirectors */
+ 
+-int parse_host_port(struct sockaddr_in *saddr, const char *str,
+-                    Error **errp)
++int convert_host_port(struct sockaddr_in *saddr, const char *host,
++                      const char *port, Error **errp)
+ {
+-    gchar **substrings;
+     struct hostent *he;
+-    const char *addr, *p, *r;
+-    int port, ret = 0;
++    const char *r;
++    long p;
+ 
+     memset(saddr, 0, sizeof(*saddr));
+ 
+-    substrings = g_strsplit(str, ":", 2);
+-    if (!substrings || !substrings[0] || !substrings[1]) {
+-        error_setg(errp, "host address '%s' doesn't contain ':' "
+-                   "separating host from port", str);
+-        ret = -1;
+-        goto out;
+-    }
+-
+-    addr = substrings[0];
+-    p = substrings[1];
+-
+     saddr->sin_family = AF_INET;
+-    if (addr[0] == '\0') {
++    if (host[0] == '\0') {
+         saddr->sin_addr.s_addr = 0;
+     } else {
+-        if (qemu_isdigit(addr[0])) {
+-            if (!inet_aton(addr, &saddr->sin_addr)) {
++        if (qemu_isdigit(host[0])) {
++            if (!inet_aton(host, &saddr->sin_addr)) {
+                 error_setg(errp, "host address '%s' is not a valid "
+-                           "IPv4 address", addr);
+-                ret = -1;
+-                goto out;
++                           "IPv4 address", host);
++                return -1;
+             }
+         } else {
+-            he = gethostbyname(addr);
++            he = gethostbyname(host);
+             if (he == NULL) {
+-                error_setg(errp, "can't resolve host address '%s'", addr);
+-                ret = -1;
+-                goto out;
++                error_setg(errp, "can't resolve host address '%s'", host);
++                return -1;
+             }
+             saddr->sin_addr = *(struct in_addr *)he->h_addr;
+         }
+     }
+-    port = strtol(p, (char **)&r, 0);
+-    if (r == p) {
+-        error_setg(errp, "port number '%s' is invalid", p);
++    if (qemu_strtol(port, &r, 0, &p) != 0) {
++        error_setg(errp, "port number '%s' is invalid", port);
++        return -1;
++    }
++    saddr->sin_port = htons(p);
++    return 0;
++}
++
++int parse_host_port(struct sockaddr_in *saddr, const char *str,
++                    Error **errp)
++{
++    gchar **substrings;
++    int ret;
++
++    substrings = g_strsplit(str, ":", 2);
++    if (!substrings || !substrings[0] || !substrings[1]) {
++        error_setg(errp, "host address '%s' doesn't contain ':' "
++                   "separating host from port", str);
+         ret = -1;
+         goto out;
+     }
+-    saddr->sin_port = htons(port);
++
++    ret = convert_host_port(saddr, substrings[0], substrings[1], errp);
+ 
+ out:
+     g_strfreev(substrings);
 -- 
 2.37.1
 
