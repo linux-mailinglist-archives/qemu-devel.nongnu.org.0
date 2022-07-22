@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EAB857E75E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 21:26:50 +0200 (CEST)
-Received: from localhost ([::1]:45854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FF357E818
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 22:11:51 +0200 (CEST)
+Received: from localhost ([::1]:41726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEyIT-0000NG-Df
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 15:26:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43374)
+	id 1oEz02-0004rV-KV
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 16:11:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
- id 1oEyE4-0003Cx-0z
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:22:16 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46943)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oEyp5-0003Aj-RW
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:31 -0400
+Received: from mail-oa1-x2c.google.com ([2001:4860:4864:20::2c]:34667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richy.liu.2002@gmail.com>)
- id 1oEyDe-0003LQ-KH
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 15:22:05 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id c3so5211546pfb.13
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 12:21:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oEyoq-0005C0-3i
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 16:00:31 -0400
+Received: by mail-oa1-x2c.google.com with SMTP id
+ 586e51a60fabf-10d83692d5aso7598381fac.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 13:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SopgYvM+0FjAMmCKhAHP9BuulNAc3Rfbvq2zx2MdjDk=;
- b=bBIpFmx+H9bwtgbI+0nb8bICbdT0jSrmquwzCymqqDU49cb3rdjKKUebZnaCuPah80
- At/ToGme235ukdZucrd3eBTMCW42my1aj0bb1sjQbxy6R/5hc9S/klZGjNEEvBZfdfZh
- emFBuEKpisSQnQ/ZjJn8KUpTKDYkSJ2TMPRJ8uitrzEDetwpH9yXcgXBnx05JKAYE+C+
- R78YlfdC360d6omDZExR+onL+ef1ee0JCAq2JjdOMx6EHJEpMqSLnrWiA24D1Wh/CzHj
- J8uBI7giCKjFA5vf1WpNzFY0tRzPYOusXruaHf0q+HWQOGbq7xj4zyhpguc6Y9+V6xu7
- E1DA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K8/OoR02Me9stxYxSo+jPW6qKqDiYqMLh2/3dD8VItk=;
+ b=TNVt6KX+oBvbkMrPDi79dWuinb6fS8gCcKS1oKjrIyLN9/bR8QLv1NEoRjILtKPmkc
+ q4O8fHuwksRGOiLomxHnwaJ2FOIyF0hSin3pkrB7j/yZtG50mFX17My0N4YrrPzkDKCZ
+ hZs6EjSrTgAv7ZNgF8Ju/sRy5DQQrBNapdMvZ0Eo+u2Fym2AWbP1kXbQGx292zG8FK8q
+ 8GXO1wiMeqyCJZcK2nYM6kHFVjCwFz3uQDviTEojDLxU/bds7J/13Zk48d0pt5pNDgFr
+ XUOOUKXGAtRz19HWcT7heKncgntwmFwpuhQzzEca6ZZTonoaaC31Kqm2QVgGDCym2frE
+ 8gPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SopgYvM+0FjAMmCKhAHP9BuulNAc3Rfbvq2zx2MdjDk=;
- b=liRpzLyH/jdQt0h+y7p6u82Q5KdtXIOKDG/9oGtNpQ2cLvPkmpAY/qKrJWg/GeR4rA
- D8BXrAJ+VOL6pHWiWDoMVMWWZaMM33oiH3SbVbr//WWy7zfAopQRRbC0GFP9Yefk7GmJ
- V+zFxAJ/Cr7zJJk76MpywMFvsUyPRsjc9Ao/N40IeZHkJEb/7rFuElIlTyQ0Ld+NX9j7
- 1VopDJ10v9F4aQ5BChX6oiHI/qZmPO09c5vg7ARngpSm2aSV4zrz3FsoDvSsxyHeZ78J
- cBoQntoW7fgt4lqWkyyPtAVar7+sZc14cL3xXPEO4fUt1AbY1EgKI2YtwxPcdLSe4mMU
- 5y9w==
-X-Gm-Message-State: AJIora/quST56tXXQeFRuSvYFZOLmuk/k2iq3eG6XtB2IGoMbnB7zDiw
- kl42oLejUUuWIZUcU49HFw6YFnyUgcvkpA==
-X-Google-Smtp-Source: AGRyM1tY6oYbWM3YXEyzbvRm2+ftZwSwmDV89aofaofSUdESB+DuXgOoDiaZx2x+0WTun5j9ZSJ4zA==
-X-Received: by 2002:a63:e547:0:b0:419:8146:1f4f with SMTP id
- z7-20020a63e547000000b0041981461f4fmr1017325pgj.507.1658517709057; 
- Fri, 22 Jul 2022 12:21:49 -0700 (PDT)
-Received: from localhost.localdomain ([76.132.29.156])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=K8/OoR02Me9stxYxSo+jPW6qKqDiYqMLh2/3dD8VItk=;
+ b=gkX3xWSFSvvbIumycCwzcQxYZSeOcZRLvZDOuQQ8P5bAFoOitvtZMU7cKOm2A41WG8
+ Wd82AfhhglAqt/yWAx4ZyiNUqiRxjrxgvomu5iJhFSF2PpojzOUSnCRxJ2h3f01EXJxe
+ 3+v6PDfJkOEcVPXL7v7GnczDDdqc39zVyac87YjGR6M6dOdaz5fdQyYd/J3zQiAPlDqB
+ RPkxxPTxqnJ34s7OwTToUckhgWtA/Pc+LKRm9QVUnmWnmCLTtVu3cD1d2OGq/4ZLOsVy
+ S2xxTXva+gQ5slpcz71BnpriYlDavun65EdDnDaapPSwyDYBu71fJYB7YyzXrwo2fjNL
+ K6jA==
+X-Gm-Message-State: AJIora9camYHbDlKUGKGj8PVxhsLLanCLA5dXpdBM6ykSUB3cP1ODS2s
+ 2+ElNMDd/RYts9cqWxnvkwT/jr+6xx8=
+X-Google-Smtp-Source: AGRyM1t1jjwREJFmAoy0muyxDC6uOjR/AKfkvZ1Z/yz0ZhgMH5Ih2a+AbXbCLDEjgrSfw4RWv5ueYw==
+X-Received: by 2002:a05:6871:295:b0:10d:c587:d2c4 with SMTP id
+ i21-20020a056871029500b0010dc587d2c4mr911939oae.122.1658520012635; 
+ Fri, 22 Jul 2022 13:00:12 -0700 (PDT)
+Received: from balboa.COMFAST ([152.254.206.198])
  by smtp.gmail.com with ESMTPSA id
- h5-20020a17090a2ec500b001f246f2a423sm2006394pjs.17.2022.07.22.12.21.48
+ n14-20020a9d740e000000b0061cae62aafcsm2388218otk.20.2022.07.22.13.00.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jul 2022 12:21:48 -0700 (PDT)
-From: Richard Liu <richy.liu.2002@gmail.com>
+ Fri, 22 Jul 2022 13:00:12 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: alxndr@bu.edu, bsd@redhat.com, darren.kenny@oracle.com,
- Richard Liu <richy.liu.2002@gmail.com>
-Subject: [RFC 3/3] use migration code for cpu and device save/restore
-Date: Fri, 22 Jul 2022 12:20:41 -0700
-Message-Id: <20220722192041.93006-4-richy.liu.2002@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220722192041.93006-1-richy.liu.2002@gmail.com>
-References: <20220722192041.93006-1-richy.liu.2002@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: [PATCH for-7.2 00/10] add hmp 'save-fdt' and 'info fdt' commands
+Date: Fri, 22 Jul 2022 16:59:57 -0300
+Message-Id: <20220722200007.1602174-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richy.liu.2002@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::2c;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,153 +91,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reused device migration code for cpu and device state snapshots. In this
-initial version, I used several hacks to get the device code working.
+Hi,
 
-vm_stop doesn't have the intended effect (for qemu_save_device_state)
-unless called outside the vcpu thread. I trick the function into
-thinking it is outside the vcpu thread by temporarily setting
-`current_cpu` to be null.
+After dealing with a FDT element that isn't being shown in the userspace
+and having to shutdown the guest, dump the FDT using 'machine -dumpdtb' and
+then using 'dtc' to see what was inside the FDT, I thought it was a good
+idea to add extra support for FDT handling in QEMU.
 
-The restore code (qemu_loadvm_state in particular) needs to be called
-in a bottom half or a coroutine. I am not sure why.
+This series introduces 2 commands. 'fdt-save' behaves similar to what
+'machine -dumpdtb' does, with the advantage of saving the FDT of a running
+guest on demand. This command is implemented in patch 03.
 
-Signed-off-by: Richard Liu <richy.liu.2002@gmail.com>
----
- hw/misc/snapshot.c |  6 ++++
- migration/savevm.c | 84 ++++++++++++++++++++++++++++++++++++++++++++++
- migration/savevm.h |  3 ++
- 3 files changed, 93 insertions(+)
+The second command, 'info fdt <command>' is more sophisticated. This
+command can print specific nodes and properties of the FDT. A few
+examples:
 
-diff --git a/hw/misc/snapshot.c b/hw/misc/snapshot.c
-index 510bf59dce..afdc5b7f15 100644
---- a/hw/misc/snapshot.c
-+++ b/hw/misc/snapshot.c
-@@ -55,6 +55,9 @@ static void save_snapshot(struct SnapshotState *s) {
-     // map as MAP_PRIVATE to avoid carrying writes back to the saved file
-     fd = open(filepath, O_RDONLY);
-     mmap(guest_mem, guest_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_FIXED, fd, 0);
-+
-+    // save cpu and device state
-+    s->ioc = qemu_snapshot_save_cpu_state();
- }
- 
- static void restore_snapshot(struct SnapshotState *s) {
-@@ -73,6 +76,9 @@ static void restore_snapshot(struct SnapshotState *s) {
-     fd = open(filepath, O_RDONLY);
-     mmap(guest_mem, guest_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_FIXED, fd, 0);
-     close(fd);
-+
-+    // restore cpu and device state
-+    qemu_snapshot_load_cpu_state(s->ioc);
- }
- 
- static uint64_t snapshot_mmio_read(void *opaque, hwaddr addr, unsigned size)
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 48e85c052c..62e5e5b564 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -3309,3 +3309,87 @@ void qmp_snapshot_delete(const char *job_id,
- 
-     job_start(&s->common);
- }
-+
-+// saves the cpu and devices state
-+QIOChannelBuffer* qemu_snapshot_save_cpu_state(void)
-+{
-+    QEMUFile *f;
-+    QIOChannelBuffer *ioc;
-+    MigrationState *ms = migrate_get_current();
-+    int ret;
-+
-+    /* This is a hack to trick vm_stop() into thinking it is not in vcpu thread.
-+     * This is needed to properly stop the VM for a snapshot.
-+     */
-+    CPUState *cpu = current_cpu;
-+    current_cpu = NULL;
-+    vm_stop(RUN_STATE_SAVE_VM);
-+    current_cpu = cpu;
-+
-+    global_state_store_running();
-+
-+    ioc = qio_channel_buffer_new(0x10000);
-+    qio_channel_set_name(QIO_CHANNEL(ioc), "snapshot-buffer");
-+    f = qemu_file_new_output(QIO_CHANNEL(ioc));
-+
-+    /* We need to initialize migration otherwise qemu_save_device_state() will
-+     * complain.
-+     */
-+    migrate_init(ms);
-+    ms->state = MIGRATION_STATUS_NONE;
-+    ms->send_configuration = false;
-+
-+    cpu_synchronize_all_states();
-+
-+    ret = qemu_save_device_state(f);
-+    if (ret < 0) {
-+        fprintf(stderr, "[QEMU] save device err: %d\n", ret);
-+    }
-+
-+    // clean up and restart vm
-+    qemu_fflush(f);
-+    g_free(f);
-+
-+    vm_start();
-+
-+    /* Needed so qemu_loadvm_state does not error with:
-+     * qemu-system-x86_64: Expected vmdescription section, but got 0
-+     */
-+    ms->state = MIGRATION_STATUS_POSTCOPY_ACTIVE;
-+
-+    return ioc;
-+}
-+
-+// loads the cpu and devices state
-+static void do_snapshot_load(void* opaque) {
-+    QIOChannelBuffer *ioc = opaque;
-+    QEMUFile *f;
-+    int ret;
-+
-+    vm_stop(RUN_STATE_RESTORE_VM);
-+
-+    // seek back to beginning of file
-+    qio_channel_io_seek(QIO_CHANNEL(ioc), 0, 0, NULL);
-+    f = qemu_file_new_input(QIO_CHANNEL(ioc));
-+
-+    ret = qemu_loadvm_state(f);
-+    if (ret < 0) {
-+        fprintf(stderr, "[QEMU] loadvm err: %d\n", ret);
-+    }
-+
-+    vm_start();
-+
-+    g_free(f);
-+
-+    // print time to debug speed
-+    struct timespec ts;
-+    clock_gettime(CLOCK_MONOTONIC, &ts);
-+    fprintf(stderr, "loaded snapshot at %ld.%ld\n", ts.tv_sec, ts.tv_nsec);
-+}
-+
-+void qemu_snapshot_load_cpu_state(QIOChannelBuffer *ioc) {
-+    /* Run in a bh because otherwise qemu_loadvm_state won't work
-+     */
-+    QEMUBH *bh = qemu_bh_new(do_snapshot_load, ioc);
-+    qemu_bh_schedule(bh);
-+}
-diff --git a/migration/savevm.h b/migration/savevm.h
-index 6461342cb4..990bcddd2f 100644
---- a/migration/savevm.h
-+++ b/migration/savevm.h
-@@ -68,4 +68,7 @@ int qemu_load_device_state(QEMUFile *f);
- int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-         bool in_postcopy, bool inactivate_disks);
- 
-+QIOChannelBuffer* qemu_snapshot_save_cpu_state(void);
-+void qemu_snapshot_load_cpu_state(QIOChannelBuffer *ioc);
-+
- #endif
+- print the /cpus/cpu@0 from an ARM 'virt' machine:
+
+(qemu) info fdt /cpus/cpu@0
+/cpus/cpu@0 {
+    phandle = <0x8001>
+    reg = <0x0>
+    compatible = 'arm,cortex-a57'
+    device_type = 'cpu'
+}
+(qemu) 
+
+- print the device_type property of the interrupt-controller node of a
+pSeries machine:
+
+(qemu) info fdt /interrupt-controller/device_type
+/interrupt-controller/device_type = 'PowerPC-External-Interrupt-Presentation'
+(qemu) 
+
+Issuing a 'info fdt /' will dump all the FDT. 'info fdt' is implemented
+in patches 4-10.
+
+Both 'fdt-save' and 'info fdt' works across machines and archs based on
+two premises: the FDT must be created using libfdt (which is the case of
+all FDTs created with device_tree.c helpers and the _FDT macro) and the
+FDT must be reachable via MachineState->fdt.
+
+To meet the prerequisites for ARM machines, patch 1 makes a change in
+arm_load_dtb(). Patches 2 and 3 makes a similar change for two PowerPC
+machines that weren't using machine->fdt.
+
+Tests were done using the ARM machvirt machine and ppc64 pSeries
+machine, but any machine that meets the forementioned conditions will be
+supported by these 2 new commands. 
+
+
+Daniel Henrique Barboza (10):
+  hw/arm/boot.c: do not free machine->fdt in arm_load_dtb()
+  hw/ppc/pegasos2.c: set machine->fdt in machine_reset()
+  hw/ppc: set machine->fdt in spapr machine
+  hmp, device_tree.c: introduce fdt-save
+  hmp, device_tree.c: introduce 'info fdt' command
+  device_tree.c: support printing of strings props
+  device_tree.c: support remaining FDT prop types
+  device_node.c: enable 'info fdt' to print subnodes
+  device_tree.c: add fdt_print_property() helper
+  hmp, device_tree.c: add 'info fdt <property>' support
+
+ hmp-commands-info.hx         |  13 +++
+ hmp-commands.hx              |  13 +++
+ hw/arm/boot.c                |   3 +-
+ hw/ppc/pegasos2.c            |   3 +
+ hw/ppc/spapr.c               |   3 +
+ hw/ppc/spapr_hcall.c         |   3 +
+ include/sysemu/device_tree.h |   3 +
+ monitor/misc.c               |  25 ++++
+ softmmu/device_tree.c        | 219 +++++++++++++++++++++++++++++++++++
+ 9 files changed, 284 insertions(+), 1 deletion(-)
+
 -- 
-2.35.1
+2.36.1
 
 
