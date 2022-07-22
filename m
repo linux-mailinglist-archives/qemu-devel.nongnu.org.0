@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F79F57E392
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:14:08 +0200 (CEST)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49FAB57E396
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 17:14:53 +0200 (CEST)
+Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEuLu-0006QP-CT
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:14:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37456)
+	id 1oEuMe-000875-8Q
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 11:14:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEuFQ-00058g-Cp
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41232)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oEuGN-0005sb-BU
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:08:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54047)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oEuFN-0001iE-33
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:07:22 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oEuGK-00024P-5a
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 11:08:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658502440;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1658502499;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f4ceIwmIpo6VF90bAFoKfiugXPvAFI3Dxl59Pmu90hw=;
- b=f4s609BaColCIIpFKnyu5AYBp9nvzj/eFU7s5mTNJt26nYA1BXDItGuXGAGe0I+dzbbpd7
- fieAVZRM1fynCqkUXXzWeMl4xu+j57KmbUqqJ0zcEAyB9yyqYhN8SR3hCd1id3QtBxs8GH
- 8v/z5zaaprrDo79FSoqlWuLIjlP64wY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=L2CPznXVTFotBO2L25lCMDn4UpJS4sQKCDt42NppE1I=;
+ b=CcCXVaJBhgY0PE3cPd31f8EKz0iCzEIqXUfabbNmRma/3Yg+xgnXfkfzvSDtmo7ESP0aDf
+ udc3rvMn0kMofScl0yQ475hB/GLNqYwtUwBWWbvhU4uNAxGjc9Q0+9NZoDyI4F2LAiClaO
+ uDovAsmDIUURikOV7bQgDutSpSWwwMk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-326-aVgVGN14NumFyeX_BgIXeQ-1; Fri, 22 Jul 2022 11:07:11 -0400
-X-MC-Unique: aVgVGN14NumFyeX_BgIXeQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n19-20020a05600c3b9300b003a314062cf4so3956508wms.0
- for <qemu-devel@nongnu.org>; Fri, 22 Jul 2022 08:07:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=f4ceIwmIpo6VF90bAFoKfiugXPvAFI3Dxl59Pmu90hw=;
- b=Kv4pL81xkBhCKIlh+rcjoWu/0tk9NUGRylMigcyBV9qofK7FGmeopfLD1ThGx3AMdX
- eCM9s8/Rp0ny1ZNBjrQPky5qpOiR0qKddTI7p/syOMewO7pYPQUFY0FXggGdwYDkbN63
- KM5zC6hAV8x91X1OvZOOZePXnxd7d1JJdmZkeQi1ngxDEPk98E7fvfw9A3d/etiORyU0
- VQ6RN4ei8hgs9vVrVAv1uuQyJvigeQHSEOZpWgIBmfujSXGMMh3V8BFQnP4pEmob18V5
- E/3/4ImS3Da0G9NwM5eOr5Q8JGX9mUU3z4n5iOxLx9m6dYL1ru/BrRywrEUKah13jpXh
- kNCA==
-X-Gm-Message-State: AJIora+YMHlzRbultIMU0CU7nXNpNccToZ0/Y3pVmuZDn11figNLvwpR
- 51y1q2klYVq52EAc6nD26ItuGhRGWpvHnflAFDrAIyFH5Jr3NVZF9gkcTzrBOpr9SpEDhk88tqw
- tGPVtt9+Dd33HVEc=
-X-Received: by 2002:a5d:5747:0:b0:21d:65e9:be07 with SMTP id
- q7-20020a5d5747000000b0021d65e9be07mr243258wrw.215.1658502430826; 
- Fri, 22 Jul 2022 08:07:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ssx1h81Q7RsPbDLM9Ot61U5GfBLggtgSrLR1kpduszR1Jl1CNX3NIinh0XoDWqyo+S48T/wQ==
-X-Received: by 2002:a5d:5747:0:b0:21d:65e9:be07 with SMTP id
- q7-20020a5d5747000000b0021d65e9be07mr243227wrw.215.1658502430298; 
- Fri, 22 Jul 2022 08:07:10 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-42.web.vodafone.de.
- [109.43.176.42]) by smtp.gmail.com with ESMTPSA id
- a7-20020adffac7000000b0021e3e73dec6sm5735900wrs.72.2022.07.22.08.07.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jul 2022 08:07:09 -0700 (PDT)
-Message-ID: <368acb07-ddcd-7d6f-a86d-deb82a64d82b@redhat.com>
-Date: Fri, 22 Jul 2022 17:07:08 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] trivial: Fix duplicated words
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+ us-mta-145-P3Pu-SYePJCwFhhqOdWpIQ-1; Fri, 22 Jul 2022 11:08:17 -0400
+X-MC-Unique: P3Pu-SYePJCwFhhqOdWpIQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6929B3C0D85B;
+ Fri, 22 Jul 2022 15:08:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3D6540D2962;
+ Fri, 22 Jul 2022 15:08:16 +0000 (UTC)
+Date: Fri, 22 Jul 2022 16:08:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+Subject: Re: [PATCH] trivial: Fix duplicated words
+Message-ID: <Ytq9XpkdElP6vphn@redhat.com>
 References: <20220722145859.1952732-1-thuth@redhat.com>
  <Ytq8MarsylEWxvhQ@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Ytq8MarsylEWxvhQ@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <368acb07-ddcd-7d6f-a86d-deb82a64d82b@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <368acb07-ddcd-7d6f-a86d-deb82a64d82b@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,32 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/2022 17.03, Daniel P. Berrangé wrote:
-> On Fri, Jul 22, 2022 at 04:58:59PM +0200, Thomas Huth wrote:
->> Some files wrongly contain the same word twice in a row.
->> One of them should be removed or replaced.
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   Removing duplicated words seems to be the new hip trend on the
->>   Linux kernel mailing lists - so let's be hip in QEMU land, too! ;-)
+On Fri, Jul 22, 2022 at 05:07:08PM +0200, Thomas Huth wrote:
+> On 22/07/2022 17.03, Daniel P. Berrangé wrote:
+> > On Fri, Jul 22, 2022 at 04:58:59PM +0200, Thomas Huth wrote:
+> > > Some files wrongly contain the same word twice in a row.
+> > > One of them should be removed or replaced.
+> > > 
+> > > Signed-off-by: Thomas Huth <thuth@redhat.com>
+> > > ---
+> > >   Removing duplicated words seems to be the new hip trend on the
+> > >   Linux kernel mailing lists - so let's be hip in QEMU land, too! ;-)
+> > 
+> > I've got patches proposed for this, as well as test to detect it:
+> > 
+> > https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01405.html
+> > https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01403.html
+> > 
+> > though I'm not checking 'this this' or 'a a'
 > 
-> I've got patches proposed for this, as well as test to detect it:
+> Ah, ok! Sorry, I should have had a closer look at that series...
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01405.html
-> https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg01403.html
-> 
-> though I'm not checking 'this this' or 'a a'
+> So never mind this patch here - but what do we do about "this" and "a" ?
+> Shall I respin my patch limited to those two words, or do you want to
+> include it in your series?
 
-Ah, ok! Sorry, I should have had a closer look at that series...
+I don't mind if your patches merge now regardless actually, and I'll
+rebase, since it'll likely take me longer to deal with the broader
+review feedback on mine.
 
-So never mind this patch here - but what do we do about "this" and "a" ? 
-Shall I respin my patch limited to those two words, or do you want to 
-include it in your series?
 
-  Thomas
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
