@@ -2,167 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B00DE57D902
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 05:33:57 +0200 (CEST)
-Received: from localhost ([::1]:35692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A37D57D9BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 07:10:47 +0200 (CEST)
+Received: from localhost ([::1]:34712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEjQK-0004tW-Jg
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jul 2022 23:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39470)
+	id 1oEkw0-0004iU-Ox
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 01:10:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oEjO6-0001uA-L9
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 23:31:38 -0400
-Received: from mga11.intel.com ([192.55.52.93]:40713)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhenzhong.duan@intel.com>)
- id 1oEjO4-000895-PP
- for qemu-devel@nongnu.org; Thu, 21 Jul 2022 23:31:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1658460696; x=1689996696;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=yM83+kcXiuJzst5fUqO0SQEFpGQohyi4+BkqWyPMPls=;
- b=VhgX0rM9s+1GIbJxZuJeryk16kW9s0hBanHR8mndlltbWqQwOnrfUpQj
- KgLfNEUz1ltu/XxZ3GCsoSJBlzVw8bWIbgaRukjCkxDoEpM9NMj+RLGh3
- EjYuh10HMZLc61vz7d/NfD7D7TnhYMk74C8+lK2KmrbAprFWNdZr8kehF
- FaGgcuIuuVFnWWqcu2NzWkFJJakm08+OW90BxVy6hn8638O0DG94vFP2e
- 5sXoepWPcsWXELtxt4bfF5+eGQX6+1ds4QXZgUFeuJaBBXidtzGIAaXkF
- WKj9T5vQ+RhYurdbThvu2AdqY5mH7oLYZgj44yAkEeb+2KmS0/aHEzKYu A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10415"; a="284781109"
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="284781109"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Jul 2022 20:31:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,184,1654585200"; d="scan'208";a="595837262"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by orsmga007.jf.intel.com with ESMTP; 21 Jul 2022 20:31:33 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28; Thu, 21 Jul 2022 20:31:33 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.28 via Frontend Transport; Thu, 21 Jul 2022 20:31:33 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2308.27; Thu, 21 Jul 2022 20:31:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ISr5gADg+YiJXWXKaftCV5Rp95Vlw4T+VB4D4vPmGoVxm/I8yu0FTahBum2Rq+vxy+f1sS3K82VqpCY8pCXZdKzg+4pBgxNEhAs+WjFDtBB95mYaAlhY3m6fvD/IF2gNWnYS6iXJVG+m3/6DjKjtF0A86HCKZt4HmdbHVT2+mpzVqjKNlUzRNfK+BqBKPuVPuasMTDqaQWLcj3HztxJI/Bj2Cr0D+dTKyHiXaRHD2NUqHH3adK5RIMMCfXZphomzQbuzZQoFaAUy4pWtxlK41Aqj/VRIelDkO3m3vVaSHgZfdVfyOKClscJM2+1Bm7pKTyCNZTWnAxlNTCQyI4E5Iw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yM83+kcXiuJzst5fUqO0SQEFpGQohyi4+BkqWyPMPls=;
- b=AlgqWdKV6nooEtIZ9aQZcabjMumcTkX0hvSmJ1s1HXJc/hnBdur3gvSJzYRg3J5Wzv/QabzB9FFo0uNp9nE805owYK0AvKs9R+BPtCk0I9J7Mi10tTM6NhKOzK8gPSoHV53zMsoGQhR5UzN95fn+lyURUgdrTFF+7St5/HZr8cvEl2rHnc877tm+tuCHm1RW5NFvpycRx/wOaHwgv7mdVqKmLAKrlFleif9nkEh6BgNO3RMlsW94NEIZAMig+8+PLhhUmptTZGs6b2ZkJjR4wYmc2hqC9woAV7G/O2nxMyphdVFeJOr+UEcFxC2DfMdRvU9JLSdzQDkSvPqvm+YHMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- (2603:10b6:301:4f::15) by MN0PR11MB6255.namprd11.prod.outlook.com
- (2603:10b6:208:3c4::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Fri, 22 Jul
- 2022 03:31:31 +0000
-Received: from MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::d73:edaf:8500:a40d]) by MWHPR1101MB2110.namprd11.prod.outlook.com
- ([fe80::d73:edaf:8500:a40d%5]) with mapi id 15.20.5438.025; Fri, 22 Jul 2022
- 03:31:31 +0000
-From: "Duan, Zhenzhong" <zhenzhong.duan@intel.com>
-To: Peter Xu <peterx@redhat.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>, "david@redhat.com" <david@redhat.com>,
- "f4bug@amsat.org" <f4bug@amsat.org>
-Subject: RE: [PATCH] memory: Fix wrong end address dump
-Thread-Topic: [PATCH] memory: Fix wrong end address dump
-Thread-Index: AQHYhnvKXwwfv2G79kWV9fHeWEsWta2J6gRg
-Date: Fri, 22 Jul 2022 03:31:31 +0000
-Message-ID: <MWHPR1101MB21107F448D9AE40D8E1BC94092909@MWHPR1101MB2110.namprd11.prod.outlook.com>
-References: <20220622095912.3430583-1-zhenzhong.duan@intel.com>
- <YrOD/HIj7+mDlMeg@xz-m1.local>
-In-Reply-To: <YrOD/HIj7+mDlMeg@xz-m1.local>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.6.500.17
-dlp-reaction: no-action
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5fe229e7-ed57-42e5-8013-08da6b92abc6
-x-ms-traffictypediagnostic: MN0PR11MB6255:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: MHUWVOsyPPkOzSPDE24GY9WJxY4PXqiSM4D1iAuT21hznEivQyNz8ePOIn3PzT/aARlBaYKXi038al/bSjw2IrDbspS1ZuvhANcSe1thZuuLdXLm40sb2yR+u6X70jKW7zbPM7X1krhlcN+2A90vxbffurGCT28R1tolWFdU+B/67AzmTprrQob/HlvZ755F0t3/QqryKkN7RB5jHZv6wWwNAZfHgorfWtLwoVxPrZqsD/jamRrtxYWuRkonj5/25f0Ha78gQGI0jvnFxRXDs3V9vddUiOl7BoKZx1qf+iuwos9Lobgw3uEFCNSQjWK5YKqOEXiELPBAS6KrqjHU6FWSt9hu7Ptf9g2gMTs5qxkwFp1ymQu9xAns7QEIbHOeNIW6P0uFGCQzLR/i9G40846AEsN0K37SRRsDtX8L7Ex19rgySPTm4X50XuKD3uPfZUkemqOfDkRdfXU9CGOevf9ql36wIpmMNDiyzrrImmKq1qNiYaIgbiR/XBead5tbVSVQlRGOLNMWWPs5lU+KcdkedMAJdC4XDZH/NxHa3ISYmBBUKFewwvwolJQwGpDlFVfyNsXJgQP4zxKavfYd9mSvbm8duNrYRdSzERbHkIRkIPtkHRz5yE7kDo/QQFEsSt7KxlFrJ+PKsqnLmxvICbwRQPvt64svvh2GYU1m7r5GvGGeheBc9UQF3cGui9LpJgatT63ceK4Ekorzk5f9SvhPjIqTYOHyh2SFqoQvNnwLVAH2GuImh+y5t661TOvtRjpRlZkE2AUoNmFF34WzYliaSPjT4sxvfWO4Qte/mC4=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1101MB2110.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(136003)(39860400002)(366004)(396003)(376002)(346002)(122000001)(38070700005)(86362001)(33656002)(6506007)(8936002)(52536014)(5660300002)(26005)(82960400001)(186003)(9686003)(7696005)(83380400001)(38100700002)(478600001)(54906003)(316002)(41300700001)(6916009)(71200400001)(64756008)(66476007)(8676002)(76116006)(66556008)(66446008)(4326008)(66946007)(2906002)(55016003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?aWVESXRrWUhVQ2FleDV4blN1VnZ1MDl2Q3NKRVh4b0E1dEdmcnh1eHltS0pO?=
- =?utf-8?B?eTBTLzN0MHd5ZkQ4cUUvL1dNYzM4djYrNHFOVC8xdXFGazNOSkI2SGw1ekxm?=
- =?utf-8?B?b0t3RzgwRmNkbXdZN2dRQTZ0N3dGWlRWTmtKNHNxVE5zY1dkVmhRZGVtRXR0?=
- =?utf-8?B?d0Q2ZXpDRERsWE9IVU5GenhML3c2VU5RN2JIbU1VOUgwWXVkUE9KWXBjYkpV?=
- =?utf-8?B?ejdmbXpvWHc2eStkVitvbUJia3lXWU05aFhQbUVValdiMUxNcW9jZ2FqWXFV?=
- =?utf-8?B?R2dGck1jZzE3RnhyUXRNRVFFRkpNUTdMZlh5TWRYMGlIekRjUTBCYTBKUGU5?=
- =?utf-8?B?NHQzTkMvVkt3TmZaYTJQM2ZxTnUwcjdSUUVYRis4MTc3QkpmdXVUeTF0cWhO?=
- =?utf-8?B?WjdPUTVRMGJ0WDVUNUJ3TzhzRnA3T2p0bXB3RmNIdGFrRUd1V29oM3hIeVJN?=
- =?utf-8?B?UUs0UWZwQW1OY2ZMTllZaXZSNExzL2o0T091NW8yVzZuVFpyQVBXS0Q3OSsv?=
- =?utf-8?B?RDFDa25YeVloWHA2S0htVWNxK2txOXNRNU16Uk5yUGVrM2RGaUQzeWt0ZWF2?=
- =?utf-8?B?ek41ajZ4QlNpUS9rMmNjb2tYL2dMb2I1SUQzUnFkOUppejA4SmRQMGNnQzc2?=
- =?utf-8?B?d1k0WW1TemZjVUMrdVk1L3pJZHphSlZkOFluNVJkWlhobUFzL2xCNFNKa0Y3?=
- =?utf-8?B?aG5VNzR6YXZDL21tSVJKeWZNQWVDbmhJMUdrQzAzVE5TSjZJMzIvVlNKaEZR?=
- =?utf-8?B?OHVad2czQ3BXemFSMFdNdUZiUlF4bGNpQlhSSnhnNmR1U3czYnJTK3hUM21y?=
- =?utf-8?B?VXE1MEJtUWV6ekE5S25zbHhGSlQyVVJDQ01ubEt5TWpoSmdnNllyVXZYRkFa?=
- =?utf-8?B?citvYWdjVXRxWUdFMWpsNnJZVVNzMGVaK3ZRQm0zRWdIL2toOHRJYTY2L25a?=
- =?utf-8?B?YzFlWEZZeHRsMU5yaWIyaUJSK0c0c1o1Z1poTmxqcm1sSU5ja1BVRjJPdmFV?=
- =?utf-8?B?cHdqdnZjcDZoZDV1bzdRN3EvM0hNRzI4UlBYK3RxS0ZvYm42UnBvTnBUN2kz?=
- =?utf-8?B?SFBrelh4MzhZMStHaCtLai9yU0lUazNvZGhCd3g1R0ppTWoxMFlhaVRCdTMv?=
- =?utf-8?B?RkJ2UDVGTnZ4T3I4eE0wQWhaSkhtVFRLT2J5OVJwNDg5NzdKd3RhSVlzdzNO?=
- =?utf-8?B?TFBzWGR6NDVhNUttbnN4VGh5RVlhZmIxaDVQNndLaGk2ZnJTRXpjcTNSOHlX?=
- =?utf-8?B?U1Qxa25EM1hoWVUwZUk0ekJhUHhDTTZVWmRlNjl0YWJ6eUxnUUs5dHMwampz?=
- =?utf-8?B?cEU1ME5odEYzd3lSVnR3cnowNHhhMzRxZGpsWGZKanZYbmZsN2Rwck1rSk9j?=
- =?utf-8?B?NHArQzduNGxEeDJtSzJhM1BpSkZUM2dSY1c5TFN2RWJnQ1RYNUtvTVJ4aGFa?=
- =?utf-8?B?eGwrQytTUnpvbWwzRVZKWGV2TWRITU9FMU1MbXJGVngvTmdrbklkQjlXdm5p?=
- =?utf-8?B?N3RIMkR5Yjd3YVQ5ZEQzTmFyRS9DZUkxZmM2aGpZVEpyQmgyWnpkdW9HMWNQ?=
- =?utf-8?B?MGVncFB2dGdTN3ZDNTFJaTJudFV1TnRocHhSZ1hPUitDMllJOHZiZ0cyMy80?=
- =?utf-8?B?anBoV0lvVFNHTHFBSGdaSXUveWE3L01Bb1FTdzBxT3ZpcndJRk9yWFhMbk8w?=
- =?utf-8?B?UFhvWTN3bzZxRHkxcHZIc3grR096bXVQRWljd2VHOUt3Ty9FUW1xa1dOWEQ1?=
- =?utf-8?B?Rm1KZHNjUVkzMGRDZHpIemJ5SGxRQVdEczVISDJmS0h6QWU3TkcxUy9jLzV3?=
- =?utf-8?B?SkpsM0lMdVBPUlJpRVVDM2RqVjlUMHpQVm1EYnpmb0Q2eFc3SGtZZzVLVm9Z?=
- =?utf-8?B?V2dWdnJ4NUtvZGdTN2poQlI5QTV5UnI4dkNybE85MjZmS2Y4NHJNYnE1WUFL?=
- =?utf-8?B?SkZWVVJ3NFlRWGRJbTJwUjZoRVp5TVZSNU85VFZ4bXJhUWJyZEJrQWpoY1Qy?=
- =?utf-8?B?WnI5ak9MOGU3bCtBYXBSKzJ6dGhXYUFld1U3QlZmTm1pOXpUN2NhUGlwaXhj?=
- =?utf-8?B?WXAxSHNUcDhKQ3JpZ0xZNVF2cituUUt1NTgzdFdvTWhYcGgrMjFJSUtpNHV3?=
- =?utf-8?Q?+nGSfDiP2ZcZXtiI3au59Ipq9?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1oEkua-0003Hh-AB
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 01:09:16 -0400
+Received: from mail-oi1-x231.google.com ([2607:f8b0:4864:20::231]:46968)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <kennethadammiller@gmail.com>)
+ id 1oEkuW-0004Xr-03
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 01:09:16 -0400
+Received: by mail-oi1-x231.google.com with SMTP id o133so4566468oig.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Jul 2022 22:09:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=07MAy01MxpB47t9WTiTEI47znZ4DHvNzQqPM9retIwU=;
+ b=lFXgZ5S/hqa3OqMQQkIfPYfARAgX1p8Okwi166NET9R4aR5BR1fmoQ/fD0fAD5viUo
+ GRCeoPfTOaI7budSPB6NTlavVTO4JFxOp0K45y7DOEg1htj0cln/FjadET6zjro6kgsE
+ AUv9q3EQCpJX51mPJnsM6tkgiwa6U/yxvWqlbeb60YypOBjRIdpKBxmq49/ADWMNb3Iu
+ z+3l8DoNUtfTeIPmmqkXlBHlD4r3Ie2vYpBDIcNuAd6uV6g21+4X5x+/5CnMw7jLxNy9
+ qDVVgioAIdvDkr/43lxIm2ZolEBR4a6sEgVURDVCnDTP+HFKyaDb01jwvOVvoqMgfaXX
+ 1WLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=07MAy01MxpB47t9WTiTEI47znZ4DHvNzQqPM9retIwU=;
+ b=1cnXGh23haXg7HdyontSIZ9HnzFVragaNNgUWb/LTOrWObpOFqq7hFpT00+rRHykT3
+ XlytgALLMzKToV+2WygcYhxK8xmOQlKRMg/Ktf7RYAJ5gVDXngJSc370p6FCbg6pvyEJ
+ 5hnESPYW1eBGeQXK8F2SBUE51+a3X5Hjmq3n8dT1IsWY9OEgr8CW2bwdUL+fJ2xyasAo
+ sRvzm4vQCH7gphQ/RJDfatNhdTLGFjaGgVft4sN0pYtHF2aD1YTM4t/+yEC1DolaMXjh
+ n4ZvaIW30n2gqVkFpgmT2B2ApuNFEfy+LoNq4FvYFbABg/ZaoD0qJQV9zns6qML638/j
+ 2lrQ==
+X-Gm-Message-State: AJIora/ushQqlzZEo1/cRKCa5uI0EmioUhC6SPAyfHH42sf0hfBVAxBG
+ HeqSKEQZz11FNph3rBooJvuklS1TwTIH2DB58MA=
+X-Google-Smtp-Source: AGRyM1sDx+aSGkKnTwnMKxiBoduI7EesF/+9wo9oO78rr5XMH+RAO4MlOramTuoKBoSkz8cbKKRrVzyYSKerwCK2Ju4=
+X-Received: by 2002:a05:6808:1a90:b0:33a:9eba:c8c0 with SMTP id
+ bm16-20020a0568081a9000b0033a9ebac8c0mr664295oib.82.1658466549163; Thu, 21
+ Jul 2022 22:09:09 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1101MB2110.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5fe229e7-ed57-42e5-8013-08da6b92abc6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jul 2022 03:31:31.7031 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: H6KRg7A9WvXLwPaumD1CkNnstQ78SUKajaNQZvJNcIAh5fjclgZK2q0f6Rvq2V0q3UrsYdBS0/YzqESGN7M0YAkC3K+5Iml+DlHuDF5SPa4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6255
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.93;
- envelope-from=zhenzhong.duan@intel.com; helo=mga11.intel.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <CAK7rcp-qoQrEo2D_H=39AeJVtZJfmNUuFRfTdQr6LqUpjp+FEQ@mail.gmail.com>
+ <87y1woyxvo.fsf@linaro.org>
+ <CAK7rcp-Ts=3JNoYRak-Zddb0NDjdgSqbGD32xFEguw0yLqydyw@mail.gmail.com>
+ <CAFEAcA8sWMD1eZCZyiMPz_SNKRn6J--Gm53aQuTo-KO5bWyFrQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8sWMD1eZCZyiMPz_SNKRn6J--Gm53aQuTo-KO5bWyFrQ@mail.gmail.com>
+From: Kenneth Adam Miller <kennethadammiller@gmail.com>
+Date: Fri, 22 Jul 2022 01:08:58 -0400
+Message-ID: <CAK7rcp8pvQfn=x1DsFwmr2GbK-tqmCxh8stkA8+QmfdC-peXPA@mail.gmail.com>
+Subject: Re: Access target TranslatorOps
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="00000000000088ece705e45dd511"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::231;
+ envelope-from=kennethadammiller@gmail.com; helo=mail-oi1-x231.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -178,32 +85,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IFBldGVyIFh1IDxwZXRlcnhA
-cmVkaGF0LmNvbT4NCj5TZW50OiBUaHVyc2RheSwgSnVuZSAyMywgMjAyMiA1OjA1IEFNDQo+VG86
-IER1YW4sIFpoZW56aG9uZyA8emhlbnpob25nLmR1YW5AaW50ZWwuY29tPg0KPkNjOiBxZW11LWRl
-dmVsQG5vbmdudS5vcmc7IHBib256aW5pQHJlZGhhdC5jb207IGRhdmlkQHJlZGhhdC5jb207DQo+
-ZjRidWdAYW1zYXQub3JnDQo+U3ViamVjdDogUmU6IFtQQVRDSF0gbWVtb3J5OiBGaXggd3Jvbmcg
-ZW5kIGFkZHJlc3MgZHVtcA0KPg0KPk9uIFdlZCwgSnVuIDIyLCAyMDIyIGF0IDA1OjU5OjEyUE0g
-KzA4MDAsIFpoZW56aG9uZyBEdWFuIHdyb3RlOg0KPj4gVGhlIGVuZCBhZGRyZXNzIG9mIG1lbW9y
-eSByZWdpb24gc2VjdGlvbiBpc24ndCBjb3JyZWN0bHkgY2FsY3VsYXRlZA0KPj4gd2hpY2ggbGVh
-ZHMgdG8gb3ZlcmZsb3dlZCBtdHJlZSBkdW1wOg0KPj4NCj4+ICAgRGlzcGF0Y2gNCj4+ICAgICBQ
-aHlzaWNhbCBzZWN0aW9ucw0KPj4gICAgICAgLi4uLi4uDQo+PiAgICAgICAjNzAgQDAwMDAwMDAw
-MDAwMDIwMDAuLjAwMDAwMDAwMDAwMTFmZmYgaW8gW1JPT1RdDQo+PiAgICAgICAjNzEgQDAwMDAw
-MDAwMDAwMDUwMDAuLjAwMDAwMDAwMDAwMDVmZmYgKG5vbmFtZSkNCj4+ICAgICAgICM3MiBAMDAw
-MDAwMDAwMDAwNTAwMC4uMDAwMDAwMDAwMDAxNGZmZiBpbyBbUk9PVF0NCj4+ICAgICAgICM3MyBA
-MDAwMDAwMDAwMDAwNTY1OC4uMDAwMDAwMDAwMDAwNTY1OCB2bXBvcnQNCj4+ICAgICAgICM3NCBA
-MDAwMDAwMDAwMDAwNTY1OS4uMDAwMDAwMDAwMDAxNTY1OCBpbyBbUk9PVF0NCj4+ICAgICAgICM3
-NSBAMDAwMDAwMDAwMDAwNjAwMC4uMDAwMDAwMDAwMDAxNWZmZiBpbyBbUk9PVF0NCj4+DQo+PiBB
-ZnRlciBmaXg6DQo+PiAgICAgICAjNzAgQDAwMDAwMDAwMDAwMDIwMDAuLjAwMDAwMDAwMDAwMDRm
-ZmYgaW8gW1JPT1RdDQo+PiAgICAgICAjNzEgQDAwMDAwMDAwMDAwMDUwMDAuLjAwMDAwMDAwMDAw
-MDVmZmYgKG5vbmFtZSkNCj4+ICAgICAgICM3MiBAMDAwMDAwMDAwMDAwNTAwMC4uMDAwMDAwMDAw
-MDAwNTY1NyBpbyBbUk9PVF0NCj4+ICAgICAgICM3MyBAMDAwMDAwMDAwMDAwNTY1OC4uMDAwMDAw
-MDAwMDAwNTY1OCB2bXBvcnQNCj4+ICAgICAgICM3NCBAMDAwMDAwMDAwMDAwNTY1OS4uMDAwMDAw
-MDAwMDAwNWZmZiBpbyBbUk9PVF0NCj4+ICAgICAgICM3NSBAMDAwMDAwMDAwMDAwNjAwMC4uMDAw
-MDAwMDAwMDAwZmZmZiBpbyBbUk9PVF0NCj4+DQo+PiBGaXhlczogNWU4ZmQ5NDdlMjY3MCAoIm1l
-bW9yeTogUmV3b3JrICJpbmZvIG10cmVlIiB0byBwcmludCBmbGF0IHZpZXdzDQo+PiBhbmQgZGlz
-cGF0Y2ggdHJlZXMiKQ0KPj4gU2lnbmVkLW9mZi1ieTogWmhlbnpob25nIER1YW4gPHpoZW56aG9u
-Zy5kdWFuQGludGVsLmNvbT4NCj4NCj5SZXZpZXdlZC1ieTogUGV0ZXIgWHUgPHBldGVyeEByZWRo
-YXQuY29tPg0KSGksDQoNCk5vIHByb2dyZXNzIGZvciBhIGxvbmcgdGltZSwgYW55IGZ1cnRoZXIg
-Y29tbWVudHM/IFRoYW5rcyENCg0KWmhlbnpob25nDQo=
+--00000000000088ece705e45dd511
+Content-Type: text/plain; charset="UTF-8"
+
+I need to determine the set of instruction encodings that the TCG can
+support for a given platform. I am not bothered whether the target runs at
+all, and in fact it is better if it doesn't, so runtime or translate time
+doesn't bother me.
+
+Imagine I were adding support for more instructions for a given platform. I
+would like to check that I'm using the API right. It's amazing that it's
+been so far and there's no way to check that the correct behavior occurs
+when a given encoding is encountered regarding the TCG. A boolean result
+from a can_translate called just when the target encounters the instruction
+would be good. Additionally, the ability to force the translation of
+arbitrary encodings would be good. I would like to not have to engineer
+some binary file format.
+
+On Wed, Jul 20, 2022 at 1:37 PM Peter Maydell <peter.maydell@linaro.org>
+wrote:
+
+> On Wed, 20 Jul 2022 at 17:39, Kenneth Adam Miller
+> <kennethadammiller@gmail.com> wrote:
+> > That I know of, the TCG plugins do not allow me to feed the
+> > QEMU instance dynamically changing opcodes. I wouldn't use
+> > TranslatorOps if I don't have to. I want to facilitate a
+> > use case in which the contents of the target being emulated
+> > are changing, but it is not a self modifying target. I have
+> > to query and interact with the TCG to find out what opcodes
+> > are supported or not.
+>
+> I agree that feeding opcodes into the translator isn't what
+> TCG plugins are intended for.
+>
+> I'm definitely not clear on what you're trying to do here,
+> so it's hard to suggest some other approach, but linux-user
+> code shouldn't be messing with the internals of the translator
+> by grabbing the TranslatorOps struct. Among other things,
+> linux-user code is runtime and TranslatorOps is for
+> translate-time.
+>
+> Sometimes code in linux-user needs to be a bit over-familiar
+> with the CPU state, but we try to keep that to a minimum.
+> Generally that involves code in target/foo/ providing some
+> set of interface functions that code in linux-user/foo/
+> can work with, typically passing it the CPU state struct.
+>
+> thanks
+> -- PMM
+>
+
+--00000000000088ece705e45dd511
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I need to determine the set of instruction encodings that =
+the TCG can support for a given platform. I am not bothered whether the tar=
+get runs at all, and in fact it is better if it doesn&#39;t, so runtime or =
+translate time doesn&#39;t bother me.<div><br></div><div>Imagine I were add=
+ing support for more instructions for a given platform. I would like to che=
+ck that I&#39;m using the API right. It&#39;s amazing that it&#39;s been so=
+ far and there&#39;s no way to check that the correct behavior occurs when =
+a given encoding is encountered regarding the TCG. A boolean result from a =
+can_translate called just when the target encounters the instruction would =
+be good. Additionally, the ability to force the translation of arbitrary en=
+codings would be good. I would like to not have to engineer some binary fil=
+e format.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jul 20, 2022 at 1:37 PM Peter Maydell &lt;<a href=
+=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 20 Jul=
+ 2022 at 17:39, Kenneth Adam Miller<br>
+&lt;<a href=3D"mailto:kennethadammiller@gmail.com" target=3D"_blank">kennet=
+hadammiller@gmail.com</a>&gt; wrote:<br>
+&gt; That I know of, the TCG plugins do not allow me to feed the<br>
+&gt; QEMU instance dynamically changing opcodes. I wouldn&#39;t use<br>
+&gt; TranslatorOps if I don&#39;t have to. I want to facilitate a<br>
+&gt; use case in which the contents of the target being emulated<br>
+&gt; are changing, but it is not a self modifying target. I have<br>
+&gt; to query and interact with the TCG to find out what opcodes<br>
+&gt; are supported or not.<br>
+<br>
+I agree that feeding opcodes into the translator isn&#39;t what<br>
+TCG plugins are intended for.<br>
+<br>
+I&#39;m definitely not clear on what you&#39;re trying to do here,<br>
+so it&#39;s hard to suggest some other approach, but linux-user<br>
+code shouldn&#39;t be messing with the internals of the translator<br>
+by grabbing the TranslatorOps struct. Among other things,<br>
+linux-user code is runtime and TranslatorOps is for<br>
+translate-time.<br>
+<br>
+Sometimes code in linux-user needs to be a bit over-familiar<br>
+with the CPU state, but we try to keep that to a minimum.<br>
+Generally that involves code in target/foo/ providing some<br>
+set of interface functions that code in linux-user/foo/<br>
+can work with, typically passing it the CPU state struct.<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div>
+
+--00000000000088ece705e45dd511--
 
