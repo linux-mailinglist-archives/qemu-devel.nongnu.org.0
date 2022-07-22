@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D97857EA32
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:15:48 +0200 (CEST)
-Received: from localhost ([::1]:47000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91FC357EA34
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:17:16 +0200 (CEST)
+Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oF1s3-0007hu-Fc
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:15:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
+	id 1oF1tT-0000om-QM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:17:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oF1qC-0006K6-KQ
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 19:13:52 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:20002)
+ id 1oF1sU-0007pG-PB
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 19:16:14 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:20036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oF1qA-0005H2-EX
- for qemu-devel@nongnu.org; Fri, 22 Jul 2022 19:13:51 -0400
+ id 1oF1sS-0005iN-Uh
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 19:16:14 -0400
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C2C6074637E;
- Sat, 23 Jul 2022 01:13:48 +0200 (CEST)
+ by localhost (Postfix) with SMTP id AEE957475F9;
+ Sat, 23 Jul 2022 01:16:10 +0200 (CEST)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D170874633F; Sat, 23 Jul 2022 01:13:47 +0200 (CEST)
+ id 76CBC7470B9; Sat, 23 Jul 2022 01:16:10 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D04F9745702;
- Sat, 23 Jul 2022 01:13:47 +0200 (CEST)
-Date: Sat, 23 Jul 2022 01:13:47 +0200 (CEST)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7581D746FDE;
+ Sat, 23 Jul 2022 01:16:10 +0200 (CEST)
+Date: Sat, 23 Jul 2022 01:16:10 +0200 (CEST)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
 cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>, 
- David Gibson <david@gibson.dropbear.id.au>, 
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH for-7.2 04/10] hmp, device_tree.c: introduce fdt-save
-In-Reply-To: <20220722200007.1602174-5-danielhb413@gmail.com>
-Message-ID: <f0b25992-ac35-4b1-1ed9-ebf7ceaecbb7@eik.bme.hu>
+ David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH for-7.2 00/10] add hmp 'save-fdt' and 'info fdt' commands
+In-Reply-To: <20220722200007.1602174-1-danielhb413@gmail.com>
+Message-ID: <58c8906a-392e-7120-1e23-7ab0cfaffcd1@eik.bme.hu>
 References: <20220722200007.1602174-1-danielhb413@gmail.com>
- <20220722200007.1602174-5-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,128 +62,84 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Fri, 22 Jul 2022, Daniel Henrique Barboza wrote:
-> To save the FDT blob we have the '-machine dumpdtb=<file>' property. With this
-> property set, the machine saves the FDT in <file> and exit. The created
-> file can then be converted to plain text dts format using 'dtc'.
+> Hi,
 >
-> There's nothing particularly sophisticated into saving the FDT that
-> can't be done with the machine at any state, as long as the machine has
-> a valid FDT to be saved.
+> After dealing with a FDT element that isn't being shown in the userspace
+> and having to shutdown the guest, dump the FDT using 'machine -dumpdtb' and
+> then using 'dtc' to see what was inside the FDT, I thought it was a good
+> idea to add extra support for FDT handling in QEMU.
 >
-> The 'fdt-save' command receives a 'filename' paramenter and, if a valid
-> FDT is available, it'll save it in a file 'filename'. In short, this is
-> a '-machine dumpdtb' that can be fired on demand via HMP.
+> This series introduces 2 commands. 'fdt-save' behaves similar to what
+> 'machine -dumpdtb' does, with the advantage of saving the FDT of a running
+> guest on demand. This command is implemented in patch 03.
+>
+> The second command, 'info fdt <command>' is more sophisticated. This
+> command can print specific nodes and properties of the FDT. A few
+> examples:
+>
+> - print the /cpus/cpu@0 from an ARM 'virt' machine:
+>
+> (qemu) info fdt /cpus/cpu@0
+> /cpus/cpu@0 {
+>    phandle = <0x8001>
+>    reg = <0x0>
+>    compatible = 'arm,cortex-a57'
+>    device_type = 'cpu'
+> }
+> (qemu)
+>
+> - print the device_type property of the interrupt-controller node of a
+> pSeries machine:
+>
+> (qemu) info fdt /interrupt-controller/device_type
+> /interrupt-controller/device_type = 'PowerPC-External-Interrupt-Presentation'
+> (qemu)
+>
+> Issuing a 'info fdt /' will dump all the FDT. 'info fdt' is implemented
+> in patches 4-10.
+>
+> Both 'fdt-save' and 'info fdt' works across machines and archs based on
+> two premises: the FDT must be created using libfdt (which is the case of
+> all FDTs created with device_tree.c helpers and the _FDT macro) and the
+> FDT must be reachable via MachineState->fdt.
+>
+> To meet the prerequisites for ARM machines, patch 1 makes a change in
+> arm_load_dtb(). Patches 2 and 3 makes a similar change for two PowerPC
+> machines that weren't using machine->fdt.
 
-If it does the same as -machine dumpdtb wouldn't it be more intuitive to 
-call the HMP command the same, so either dumpdtb or machine-dumpdtb or 
-similar? That way it's more obvious that these do the same.
+There are some other machines that load a dtb with load_device_tree(). Do 
+they need some patches too?
 
 Regards,
 BALATON Zoltan
 
-> A valid FDT consists of a FDT that was created using libfdt being
-> retrieved via 'current_machine->fdt' in device_tree.c. This condition is
-> met by most FDT users in QEMU.
+> Tests were done using the ARM machvirt machine and ppc64 pSeries
+> machine, but any machine that meets the forementioned conditions will be
+> supported by these 2 new commands.
 >
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
-> hmp-commands.hx              | 13 +++++++++++++
-> include/sysemu/device_tree.h |  2 ++
-> monitor/misc.c               | 13 +++++++++++++
-> softmmu/device_tree.c        | 18 ++++++++++++++++++
-> 4 files changed, 46 insertions(+)
 >
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index c9d465735a..3c134cf652 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1768,3 +1768,16 @@ ERST
->                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
->         .cmd        = hmp_calc_dirty_rate,
->     },
-> +
-> +    {
-> +        .name       = "fdt-save",
-> +        .args_type  = "filename:s",
-> +        .params     = "[filename] file to save the FDT",
-> +        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
-> +        .cmd        = hmp_fdt_save,
-> +    },
-> +
-> +SRST
-> +``fdt-save`` *filename*
-> +  Save the FDT in the 'filename' file to be decoded using dtc
-> +ERST
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index ef060a9759..1397adb21c 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -123,6 +123,8 @@ int qemu_fdt_nop_node(void *fdt, const char *node_path);
-> int qemu_fdt_add_subnode(void *fdt, const char *name);
-> int qemu_fdt_add_path(void *fdt, const char *path);
+> Daniel Henrique Barboza (10):
+>  hw/arm/boot.c: do not free machine->fdt in arm_load_dtb()
+>  hw/ppc/pegasos2.c: set machine->fdt in machine_reset()
+>  hw/ppc: set machine->fdt in spapr machine
+>  hmp, device_tree.c: introduce fdt-save
+>  hmp, device_tree.c: introduce 'info fdt' command
+>  device_tree.c: support printing of strings props
+>  device_tree.c: support remaining FDT prop types
+>  device_node.c: enable 'info fdt' to print subnodes
+>  device_tree.c: add fdt_print_property() helper
+>  hmp, device_tree.c: add 'info fdt <property>' support
 >
-> +void fdt_save(const char *filename, Error **errp);
-> +
-> #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
->     do {                                                                      \
->         uint32_t qdt_tmp[] = { __VA_ARGS__ };                                 \
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 3d2312ba8d..145285cec0 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -78,6 +78,7 @@
-> #include "qapi/qmp-event.h"
-> #include "sysemu/cpus.h"
-> #include "qemu/cutils.h"
-> +#include "sysemu/device_tree.h"
+> hmp-commands-info.hx         |  13 +++
+> hmp-commands.hx              |  13 +++
+> hw/arm/boot.c                |   3 +-
+> hw/ppc/pegasos2.c            |   3 +
+> hw/ppc/spapr.c               |   3 +
+> hw/ppc/spapr_hcall.c         |   3 +
+> include/sysemu/device_tree.h |   3 +
+> monitor/misc.c               |  25 ++++
+> softmmu/device_tree.c        | 219 +++++++++++++++++++++++++++++++++++
+> 9 files changed, 284 insertions(+), 1 deletion(-)
 >
-> #if defined(TARGET_S390X)
-> #include "hw/s390x/storage-keys.h"
-> @@ -936,6 +937,18 @@ static void hmp_boot_set(Monitor *mon, const QDict *qdict)
->     }
-> }
->
-> +static void hmp_fdt_save(Monitor *mon, const QDict *qdict)
-> +{
-> +    const char *path = qdict_get_str(qdict, "filename");
-> +    Error *local_err = NULL;
-> +
-> +    fdt_save(path, &local_err);
-> +
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +    }
-> +}
-> +
-> static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
-> {
->     bool flatview = qdict_get_try_bool(qdict, "flatview", false);
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 6ca3fad285..eeab6a5ef0 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -643,3 +643,21 @@ out:
->     g_free(propcells);
->     return ret;
-> }
-> +
-> +void fdt_save(const char *filename, Error **errp)
-> +{
-> +    int size;
-> +
-> +    if (!current_machine->fdt) {
-> +        error_setg(errp, "Unable to find the machine FDT");
-> +        return;
-> +    }
-> +
-> +    size = fdt_totalsize(current_machine->fdt);
-> +
-> +    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
-> +        return;
-> +    }
-> +
-> +    error_setg(errp, "Error when saving machine FDT to file %s", filename);
-> +}
 >
 
