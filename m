@@ -2,31 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455AC57DA87
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 09:01:08 +0200 (CEST)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF39957DA81
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jul 2022 08:54:30 +0200 (CEST)
+Received: from localhost ([::1]:49650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oEmeo-0001Iq-Mn
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 03:01:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
+	id 1oEmYQ-0005JF-0C
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 02:54:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w2Kw=X3=kaod.org=clg@ozlabs.org>)
- id 1oEmH8-0008Cj-Uu; Fri, 22 Jul 2022 02:36:46 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:58047
- helo=gandalf.ozlabs.org)
+ id 1oEmHF-0008Cu-Nb; Fri, 22 Jul 2022 02:36:46 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:57171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w2Kw=X3=kaod.org=clg@ozlabs.org>)
- id 1oEmH6-00015g-Kf; Fri, 22 Jul 2022 02:36:38 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4Lq08K6pbKz4xGJ;
- Fri, 22 Jul 2022 16:36:33 +1000 (AEST)
+ id 1oEmHD-00017m-GW; Fri, 22 Jul 2022 02:36:45 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4Lq08Q30VZz4xG6;
+ Fri, 22 Jul 2022 16:36:38 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4Lq08G0lWDz4xFy;
- Fri, 22 Jul 2022 16:36:29 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4Lq08L447Gz4xFy;
+ Fri, 22 Jul 2022 16:36:34 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, qemu-block@nongnu.org,
@@ -36,24 +36,23 @@ Cc: qemu-arm@nongnu.org, qemu-block@nongnu.org,
  Francisco Iglesias <frasse.iglesias@gmail.com>,
  Iris Chen <irischenlj@fb.com>, Michael Walle <michael@walle.cc>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v3 5/8] m25p80: Add the mx66l1g45g SFDP table
-Date: Fri, 22 Jul 2022 08:35:59 +0200
-Message-Id: <20220722063602.128144-6-clg@kaod.org>
+Subject: [PATCH v3 6/8] m25p80: Add the w25q256 SFPD table
+Date: Fri, 22 Jul 2022 08:36:00 +0200
+Message-Id: <20220722063602.128144-7-clg@kaod.org>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220722063602.128144-1-clg@kaod.org>
 References: <20220722063602.128144-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=w2Kw=X3=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,89 +68,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SFDP table size is 0x200 bytes long. The mandatory table for basic
-features is available at byte 0x30 plus some more Macronix specific
-tables.
+The SFDP table size is 0x100 bytes long. Only the mandatory table for
+basic features is available at byte 0x80.
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/block/m25p80_sfdp.h |  2 +-
- hw/block/m25p80.c      |  3 +-
- hw/block/m25p80_sfdp.c | 68 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 71 insertions(+), 2 deletions(-)
+ hw/block/m25p80_sfdp.h |  2 ++
+ hw/block/m25p80.c      |  3 ++-
+ hw/block/m25p80_sfdp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
-index 87690a173c78..468e3434151b 100644
+index 468e3434151b..f60429ab8542 100644
 --- a/hw/block/m25p80_sfdp.h
 +++ b/hw/block/m25p80_sfdp.h
-@@ -19,6 +19,6 @@ extern uint8_t m25p80_sfdp_n25q256a(uint32_t addr);
- 
- extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
+@@ -21,4 +21,6 @@ extern uint8_t m25p80_sfdp_mx25l25635e(uint32_t addr);
  extern uint8_t m25p80_sfdp_mx25l25635f(uint32_t addr);
--
-+extern uint8_t m25p80_sfdp_mx66l1g45g(uint32_t addr);
+ extern uint8_t m25p80_sfdp_mx66l1g45g(uint32_t addr);
  
++extern uint8_t m25p80_sfdp_w25q256(uint32_t addr);
++
  #endif
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 6b120ce65212..52df24d24751 100644
+index 52df24d24751..220dbc8fb327 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -240,7 +240,8 @@ static const FlashPartInfo known_devices[] = {
-     { INFO("mx66l51235f", 0xc2201a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
-     { INFO("mx66u51235f", 0xc2253a,      0,  64 << 10, 1024, ER_4K | ER_32K) },
-     { INFO("mx66u1g45g",  0xc2253b,      0,  64 << 10, 2048, ER_4K | ER_32K) },
--    { INFO("mx66l1g45g",  0xc2201b,      0,  64 << 10, 2048, ER_4K | ER_32K) },
-+    { INFO("mx66l1g45g",  0xc2201b,      0,  64 << 10, 2048, ER_4K | ER_32K),
-+      .sfdp_read = m25p80_sfdp_mx66l1g45g },
- 
-     /* Micron */
-     { INFO("n25q032a11",  0x20bb16,      0,  64 << 10,  64, ER_4K) },
+@@ -345,7 +345,8 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("w25q64",      0xef4017,      0,  64 << 10, 128, ER_4K) },
+     { INFO("w25q80",      0xef5014,      0,  64 << 10,  16, ER_4K) },
+     { INFO("w25q80bl",    0xef4014,      0,  64 << 10,  16, ER_4K) },
+-    { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K) },
++    { INFO("w25q256",     0xef4019,      0,  64 << 10, 512, ER_4K),
++      .sfdp_read = m25p80_sfdp_w25q256 },
+     { INFO("w25q512jv",   0xef4020,      0,  64 << 10, 1024, ER_4K) },
+     { INFO("w25q01jvq",   0xef4021,      0,  64 << 10, 2048, ER_4K) },
+ };
 diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
-index 70c13aea7c63..38c3ced34d2e 100644
+index 38c3ced34d2e..5b011559d43d 100644
 --- a/hw/block/m25p80_sfdp.c
 +++ b/hw/block/m25p80_sfdp.c
-@@ -150,3 +150,71 @@ static const uint8_t sfdp_mx25l25635f[] = {
+@@ -218,3 +218,43 @@ static const uint8_t sfdp_mx66l1g45g[] = {
      0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
  };
- define_sfdp_read(mx25l25635f);
+ define_sfdp_read(mx66l1g45g);
 +
-+static const uint8_t sfdp_mx66l1g45g[] = {
-+    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x02, 0xff,
-+    0x00, 0x06, 0x01, 0x10, 0x30, 0x00, 0x00, 0xff,
-+    0xc2, 0x00, 0x01, 0x04, 0x10, 0x01, 0x00, 0xff,
-+    0x84, 0x00, 0x01, 0x02, 0xc0, 0x00, 0x00, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xe5, 0x20, 0xfb, 0xff, 0xff, 0xff, 0xff, 0x3f,
-+    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x04, 0xbb,
-+    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
-+    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
-+    0x10, 0xd8, 0x00, 0xff, 0xd6, 0x49, 0xc5, 0x00,
-+    0x85, 0xdf, 0x04, 0xe3, 0x44, 0x03, 0x67, 0x38,
-+    0x30, 0xb0, 0x30, 0xb0, 0xf7, 0xbd, 0xd5, 0x5c,
-+    0x4a, 0x9e, 0x29, 0xff, 0xf0, 0x50, 0xf9, 0x85,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0x7f, 0xef, 0xff, 0xff, 0x21, 0x5c, 0xdc, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0x00, 0x36, 0x00, 0x27, 0x9d, 0xf9, 0xc0, 0x64,
-+    0x85, 0xcb, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++/*
++ * Windbond
++ */
++
++static const uint8_t sfdp_w25q256[] = {
++    0x53, 0x46, 0x44, 0x50, 0x00, 0x01, 0x00, 0xff,
++    0x00, 0x00, 0x01, 0x09, 0x80, 0x00, 0x00, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -166,6 +133,11 @@ index 70c13aea7c63..38c3ced34d2e 100644
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xe5, 0x20, 0xf3, 0xff, 0xff, 0xff, 0xff, 0x0f,
++    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x42, 0xbb,
++    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00,
++    0xff, 0xff, 0x21, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
++    0x10, 0xd8, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
@@ -175,13 +147,10 @@ index 70c13aea7c63..38c3ced34d2e 100644
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
-+    0xc2, 0xf5, 0x08, 0x00, 0x0c, 0x04, 0x08, 0x08,
-+    0x01, 0x00, 0x19, 0x0f, 0x01, 0x01, 0x06, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
 +};
-+define_sfdp_read(mx66l1g45g);
++define_sfdp_read(w25q256);
 -- 
 2.35.3
 
