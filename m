@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92E2257EC99
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 09:57:50 +0200 (CEST)
-Received: from localhost ([::1]:51744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1388257ECA5
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 10:09:39 +0200 (CEST)
+Received: from localhost ([::1]:33712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFA1F-00014j-Mx
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 03:57:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36942)
+	id 1oFACe-0008Uo-Kh
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 04:09:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
- id 1oF9ta-0001aR-9i
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 03:49:55 -0400
-Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53990
+ id 1oF9tT-0001YJ-SV
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 03:49:49 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.222]:53114
  helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <huangy81@chinatelecom.cn>) id 1oF9tV-0000Y8-3f
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 03:49:54 -0400
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oF9tN-0000Pn-OU
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 03:49:45 -0400
 HMM_SOURCE_IP: 172.18.0.218:34686.1353564676
 HMM_ATTACHE_NUM: 0000
 HMM_SOURCE_TYPE: SMTP
 Received: from clientip-125.69.42.4 (unknown [172.18.0.218])
- by chinatelecom.cn (HERMES) with SMTP id D16A42800BB;
- Sat, 23 Jul 2022 15:49:45 +0800 (CST)
+ by chinatelecom.cn (HERMES) with SMTP id D3F6D2800BE;
+ Sat, 23 Jul 2022 15:49:33 +0800 (CST)
 X-189-SAVE-TO-SEND: +huangy81@chinatelecom.cn
 Received: from  ([172.18.0.218])
- by app0025 with ESMTP id 1c3f498501884087a6f0a6b3c24e6ad6 for
- qemu-devel@nongnu.org; Sat, 23 Jul 2022 15:49:47 CST
-X-Transaction-ID: 1c3f498501884087a6f0a6b3c24e6ad6
+ by app0025 with ESMTP id 57683ab35c8448a9848f1a03cd4f88ec for
+ qemu-devel@nongnu.org; Sat, 23 Jul 2022 15:49:35 CST
+X-Transaction-ID: 57683ab35c8448a9848f1a03cd4f88ec
 X-Real-From: huangy81@chinatelecom.cn
 X-Receive-IP: 172.18.0.218
 X-MEDUSA-Status: 0
@@ -41,10 +41,9 @@ Cc: Juan Quintela <quintela@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, peterx@redhat.com,
  "Daniel P. Berrange" <berrange@redhat.com>,
  =?UTF-8?q?Hyman=20Huang=28=E9=BB=84=E5=8B=87=29?= <huangy81@chinatelecom.cn>
-Subject: [PATCH 7/8] tests/migration: Introduce dirty-ring-size option into
- guestperf
-Date: Sat, 23 Jul 2022 15:49:19 +0800
-Message-Id: <78a4287b5190fd3a355a30908ec3bcf2509a69a1.1658561555.git.huangy81@chinatelecom.cn>
+Subject: [PATCH 3/8] migration: Introduce dirty-limit capability
+Date: Sat, 23 Jul 2022 15:49:15 +0800
+Message-Id: <f65af19c43e8a26898ad68e87d3ce6268aaf4ec7.1658561555.git.huangy81@chinatelecom.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1658561555.git.huangy81@chinatelecom.cn>
 References: <cover.1658561555.git.huangy81@chinatelecom.cn>
@@ -77,110 +76,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 
-Guestperf tool does not enable diry ring feature when test
-migration by default.
+Introduce migration dirty-limit capability, which can
+be turned on before live migration and limit dirty
+page rate durty live migration.
 
-To support dirty ring migration performance test, introduce
-dirty-ring-size option into guestperf tools, which ranges in
-[1024, 65536].
+Introduce migrate_dirty_limit function to help check
+if dirty-limit capability enabled during live migration.
 
-To set dirty ring size with 4096 during migration test:
-$ ./tests/migration/guestperf.py --dirty-ring-size 4096 xxx
+Meanwhile, refactor vcpu_dirty_rate_stat_collect
+so that period can be configured instead of hardcoded.
+
+dirty-limit capability is kind of like auto-converge
+but using dirty limit instead of traditional cpu-throttle
+to throttle guest down. To enable this feature, turn on
+the dirty-limit capability before live migration using
+migratioin-set-capabilities, and set the parameters
+"x-vcpu-dirty-limit-period", "vcpu-dirty-limit" suitably
+to speed up convergence.
 
 Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
 ---
- tests/migration/guestperf/engine.py   | 7 ++++++-
- tests/migration/guestperf/hardware.py | 8 ++++++--
- tests/migration/guestperf/shell.py    | 7 ++++++-
- 3 files changed, 18 insertions(+), 4 deletions(-)
+ migration/migration.c | 10 ++++++++++
+ migration/migration.h |  1 +
+ qapi/migration.json   |  4 +++-
+ softmmu/dirtylimit.c  | 11 ++++++++++-
+ 4 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
-index 87a6ab2..2b98f00 100644
---- a/tests/migration/guestperf/engine.py
-+++ b/tests/migration/guestperf/engine.py
-@@ -304,7 +304,6 @@ def _get_common_args(self, hardware, tunnelled=False):
-             cmdline = "'" + cmdline + "'"
+diff --git a/migration/migration.c b/migration/migration.c
+index ed1a47b..84b592e 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2508,6 +2508,15 @@ bool migrate_auto_converge(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_AUTO_CONVERGE];
+ }
  
-         argv = [
--            "-accel", "kvm",
-             "-cpu", "host",
-             "-kernel", self._kernel,
-             "-initrd", self._initrd,
-@@ -315,6 +314,12 @@ def _get_common_args(self, hardware, tunnelled=False):
-             "-smp", str(hardware._cpus),
-         ]
- 
-+        if hardware._dirty_ring_size:
-+            argv.extend(["-accel", "kvm,dirty-ring-size=%s" %
-+                         hardware._dirty_ring_size])
-+        else:
-+            argv.extend(["-accel", "kvm"])
++bool migrate_dirty_limit(void)
++{
++    MigrationState *s;
 +
-         if self._debug:
-             argv.extend(["-device", "sga"])
- 
-diff --git a/tests/migration/guestperf/hardware.py b/tests/migration/guestperf/hardware.py
-index 3145785..f779cc0 100644
---- a/tests/migration/guestperf/hardware.py
-+++ b/tests/migration/guestperf/hardware.py
-@@ -23,7 +23,8 @@ def __init__(self, cpus=1, mem=1,
-                  src_cpu_bind=None, src_mem_bind=None,
-                  dst_cpu_bind=None, dst_mem_bind=None,
-                  prealloc_pages = False,
--                 huge_pages=False, locked_pages=False):
-+                 huge_pages=False, locked_pages=False,
-+                 dirty_ring_size=0):
-         self._cpus = cpus
-         self._mem = mem # GiB
-         self._src_mem_bind = src_mem_bind # List of NUMA nodes
-@@ -33,6 +34,7 @@ def __init__(self, cpus=1, mem=1,
-         self._prealloc_pages = prealloc_pages
-         self._huge_pages = huge_pages
-         self._locked_pages = locked_pages
-+        self._dirty_ring_size = dirty_ring_size
- 
- 
-     def serialize(self):
-@@ -46,6 +48,7 @@ def serialize(self):
-             "prealloc_pages": self._prealloc_pages,
-             "huge_pages": self._huge_pages,
-             "locked_pages": self._locked_pages,
-+            "dirty_ring_size": self._dirty_ring_size,
-         }
- 
-     @classmethod
-@@ -59,4 +62,5 @@ def deserialize(cls, data):
-             data["dst_mem_bind"],
-             data["prealloc_pages"],
-             data["huge_pages"],
--            data["locked_pages"])
-+            data["locked_pages"],
-+            data["dirty_ring_size"])
-diff --git a/tests/migration/guestperf/shell.py b/tests/migration/guestperf/shell.py
-index 8a809e3..559616f 100644
---- a/tests/migration/guestperf/shell.py
-+++ b/tests/migration/guestperf/shell.py
-@@ -60,6 +60,8 @@ def __init__(self):
-         parser.add_argument("--prealloc-pages", dest="prealloc_pages", default=False)
-         parser.add_argument("--huge-pages", dest="huge_pages", default=False)
-         parser.add_argument("--locked-pages", dest="locked_pages", default=False)
-+        parser.add_argument("--dirty-ring-size", dest="dirty_ring_size",
-+                            default=0, type=int)
- 
-         self._parser = parser
- 
-@@ -89,7 +91,10 @@ def split_map(value):
- 
-                         locked_pages=args.locked_pages,
-                         huge_pages=args.huge_pages,
--                        prealloc_pages=args.prealloc_pages)
-+                        prealloc_pages=args.prealloc_pages,
++    s = migrate_get_current();
 +
-+                        dirty_ring_size=args.dirty_ring_size)
++    return s->enabled_capabilities[MIGRATION_CAPABILITY_DIRTY_LIMIT];
++}
 +
+ bool migrate_zero_blocks(void)
+ {
+     MigrationState *s;
+@@ -4436,6 +4445,7 @@ static Property migration_properties[] = {
+     DEFINE_PROP_MIG_CAP("x-zero-copy-send",
+             MIGRATION_CAPABILITY_ZERO_COPY_SEND),
+ #endif
++    DEFINE_PROP_MIG_CAP("x-dirty-limit", MIGRATION_CAPABILITY_DIRTY_LIMIT),
  
+     DEFINE_PROP_END_OF_LIST(),
+ };
+diff --git a/migration/migration.h b/migration/migration.h
+index cdad8ac..7fbb9f8 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -409,6 +409,7 @@ bool migrate_ignore_shared(void);
+ bool migrate_validate_uuid(void);
  
- class Shell(BaseShell):
+ bool migrate_auto_converge(void);
++bool migrate_dirty_limit(void);
+ bool migrate_use_multifd(void);
+ bool migrate_pause_before_switchover(void);
+ int migrate_multifd_channels(void);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 0963bab..39e5f5e 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -477,6 +477,8 @@
+ #                    will be handled faster.  This is a performance feature and
+ #                    should not affect the correctness of postcopy migration.
+ #                    (since 7.1)
++# @dirty-limit: Use dirty-limit to throttle down guest if enabled.
++#               (since 7.1)
+ #
+ # Features:
+ # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+@@ -492,7 +494,7 @@
+            'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+            { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+            'validate-uuid', 'background-snapshot',
+-           'zero-copy-send', 'postcopy-preempt'] }
++           'zero-copy-send', 'postcopy-preempt', 'dirty-limit'] }
+ 
+ ##
+ # @MigrationCapabilityStatus:
+diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+index 8d98cb7..1fdd8c6 100644
+--- a/softmmu/dirtylimit.c
++++ b/softmmu/dirtylimit.c
+@@ -23,6 +23,8 @@
+ #include "exec/memory.h"
+ #include "hw/boards.h"
+ #include "sysemu/kvm.h"
++#include "migration/misc.h"
++#include "migration/migration.h"
+ #include "trace.h"
+ 
+ /*
+@@ -75,11 +77,18 @@ static bool dirtylimit_quit;
+ 
+ static void vcpu_dirty_rate_stat_collect(void)
+ {
++    MigrationState *s = migrate_get_current();
+     VcpuStat stat;
+     int i = 0;
++    int64_t period = DIRTYLIMIT_CALC_TIME_MS;
++
++    if (migrate_dirty_limit() &&
++        migration_is_active(s)) {
++        period = s->parameters.x_vcpu_dirty_limit_period;
++    }
+ 
+     /* calculate vcpu dirtyrate */
+-    vcpu_calculate_dirtyrate(DIRTYLIMIT_CALC_TIME_MS,
++    vcpu_calculate_dirtyrate(period,
+                              &stat,
+                              GLOBAL_DIRTY_LIMIT,
+                              false);
 -- 
 1.8.3.1
 
