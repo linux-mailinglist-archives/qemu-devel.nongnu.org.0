@@ -2,97 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431B057EA63
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 01:44:14 +0200 (CEST)
-Received: from localhost ([::1]:36850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3B057EAD4
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 02:53:19 +0200 (CEST)
+Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oF2JZ-0004pw-Ca
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 19:44:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60542)
+	id 1oF3OP-00078B-Uu
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jul 2022 20:53:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oF2CW-00070f-Af; Fri, 22 Jul 2022 19:36:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37088)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oF3MK-0005Tj-RY
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 20:51:08 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1200)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>)
- id 1oF2CU-0004iS-Jf; Fri, 22 Jul 2022 19:36:56 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26MMjS3j007205;
- Fri, 22 Jul 2022 23:36:52 GMT
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oF3MG-0006nJ-Fh
+ for qemu-devel@nongnu.org; Fri, 22 Jul 2022 20:51:08 -0400
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26N0oqOi031783;
+ Sat, 23 Jul 2022 00:51:00 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=oh2/roONDaJQnPSeQ3PmZ/weoNlAbaCp2Jc8rXngRF4=;
- b=AKrZCxErkaluMHDsu1zN4XdLn6PBOM2Oa4ykClFCmlruLLqkr7V1Lj+zATCqEtOEtP0r
- WS42NetF3kBENlaS5uK2TQD+0qMxmMOl9MSTp5bzYA3pZKL19+ZapLTbsh4k8dhobRDL
- nHzI5uFeQwN4MzaiElziHtIqVw2pjfRlKbmt3vdH8BBRIWu9KcIhlEn6Akq2vNtWscMN
- HC+IcR2hf/P8vfXso+mz0j1UatlQCZDDJucbPH4L+oWCTLLX1qBnqdppvNIQyajskRQs
- vEFMmwofelb8LLduHKQHviIMHV5HCxDqjRyPZ6FPdJmVnIXxNI0VqXsLmI1ji0zxd/hv EQ== 
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=ID0g8FWskcxYMWASiHi58bVKWCeMLddjOSJrXksdE0w=;
+ b=TVoz1BNzuLWWGLKJ4GvfmNQCgioG8En1P7lMO1tOqpsR6XGeBxJWALabPrn+2nV7KbHd
+ MrAeZky/3tOVgDBLrNRW1xMipfIJXJRmyrsUMyco8VC7lmFM8Wjpi8Abkee6MVdBLgf0
+ OMZi8oQGTeGGe8FsD6Ej+4+7s6ijSpHGq3YU1YwXg/ReqV6/wcWQ2GfJfy6WUGU03SKU
+ oTxQLtPM6oMUgpRDni9czbVPrJNAdivrJ1qtTjoBOtsfQkBQwDn5CkDISPUobNJlKwf1
+ 9kkzd7Qw0I0uGs+qDpzW284REdgfWPXAOjmAxCMUMgtLYNKXjiagIH7WfEthxhn2npr7 YQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hg4y78w5a-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hg6t8804f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Jul 2022 23:36:51 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26MNPrWS015160;
- Fri, 22 Jul 2022 23:36:51 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hg4y78w4m-1
+ Sat, 23 Jul 2022 00:51:00 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26N0oxtU032340;
+ Sat, 23 Jul 2022 00:50:59 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hg6t8803w-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Jul 2022 23:36:51 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26MNYsMD019902;
- Fri, 22 Jul 2022 23:36:48 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3hfyhsr9rp-1
+ Sat, 23 Jul 2022 00:50:59 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26N0c50x024546;
+ Sat, 23 Jul 2022 00:50:56 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hbmy90tku-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 22 Jul 2022 23:36:48 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26MNaws730736684
+ Sat, 23 Jul 2022 00:50:56 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26N0osOv21168490
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 22 Jul 2022 23:36:58 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E84044C04A;
- Fri, 22 Jul 2022 23:36:45 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7CE144C046;
- Fri, 22 Jul 2022 23:36:45 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.90.71])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 22 Jul 2022 23:36:45 +0000 (GMT)
+ Sat, 23 Jul 2022 00:50:54 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 813D542041;
+ Sat, 23 Jul 2022 00:50:54 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 376204203F;
+ Sat, 23 Jul 2022 00:50:54 +0000 (GMT)
+Received: from [9.171.90.71] (unknown [9.171.90.71])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Sat, 23 Jul 2022 00:50:54 +0000 (GMT)
+Message-ID: <a6565c29dceb47931d22a049fb492f8868da926b.camel@linux.ibm.com>
+Subject: [PING^2] linux-user: Passthrough MADV_DONTNEED for certain file
+ mappings
 From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2 2/2] tests/tcg/s390x: Test unaligned accesses to lowcore
-Date: Sat, 23 Jul 2022 01:36:14 +0200
-Message-Id: <20220722233614.7254-3-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220722233614.7254-1-iii@linux.ibm.com>
-References: <20220722233614.7254-1-iii@linux.ibm.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+To: Laurent Vivier <laurent@vivier.eu>, Richard Henderson
+ <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>
+Date: Sat, 23 Jul 2022 02:50:53 +0200
+In-Reply-To: <20220701135207.2710488-1-iii@linux.ibm.com>
+References: <20220701135207.2710488-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 (3.42.4-2.fc35) 
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: eYshyId3L66aqklvr2KxFUXMdoHHqdwu
-X-Proofpoint-ORIG-GUID: beQvRA_IYE0afFjBOsTthsRc7Mf1M7Ib
+X-Proofpoint-GUID: xiuZBWCh7lyzzcb-Lk9G-_MjTA_IbFGA
+X-Proofpoint-ORIG-GUID: pzMq_DzmmBLxb8afpK_H_jGXGUmp-j7D
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-22_06,2022-07-21_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- malwarescore=0 clxscore=1015 phishscore=0 spamscore=0 impostorscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207220094
+ malwarescore=0
+ impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0
+ mlxlogscore=999 clxscore=1015 lowpriorityscore=0 adultscore=0 phishscore=0
+ mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207230000
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -117,57 +116,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a small test to avoid regressions.
+On Fri, 2022-07-01 at 15:52 +0200, Ilya Leoshkevich wrote:
+> This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
+> support for MADV_DONTNEED"), which added passthrough for anonymous
+> mappings. File mappings can be handled in a similar manner.
+> 
+> In order to do that, mark pages, for which mmap() was passed through,
+> with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
+> pages as well.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  include/exec/cpu-all.h |  6 ++++++
+>  linux-user/mmap.c      | 25 +++++++++++++++++++++----
+>  2 files changed, 27 insertions(+), 4 deletions(-)
+> 
+> diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+> index f5bda2c3ca..fbdbc0fdec 100644
+> --- a/include/exec/cpu-all.h
+> +++ b/include/exec/cpu-all.h
+> @@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
+>  #define PAGE_TARGET_1  0x0200
+>  #define PAGE_TARGET_2  0x0400
+>  
+> +/*
+> + * For linux-user, indicates that the page is mapped with the same
+> semantics
+> + * in both guest and host.
+> + */
+> +#define PAGE_PASSTHROUGH 0x0080
+> +
+>  #if defined(CONFIG_USER_ONLY)
+>  void page_dump(FILE *f);
+>  
+> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+> index 4e7a6be6ee..58622a0c15 100644
+> --- a/linux-user/mmap.c
+> +++ b/linux-user/mmap.c
+> @@ -424,7 +424,8 @@ abi_ulong mmap_find_vma(abi_ulong start,
+> abi_ulong size, abi_ulong align)
+>  abi_long target_mmap(abi_ulong start, abi_ulong len, int
+> target_prot,
+>                       int flags, int fd, abi_ulong offset)
+>  {
+> -    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
+> host_len;
+> +    abi_ulong ret, end, real_start, real_end, retaddr, host_offset,
+> host_len,
+> +              passthrough_start = -1, passthrough_end = -1;
+>      int page_flags, host_prot;
+>  
+>      mmap_lock();
+> @@ -537,6 +538,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>              host_start += offset - host_offset;
+>          }
+>          start = h2g(host_start);
+> +        passthrough_start = start;
+> +        passthrough_end = start + len;
+>      } else {
+>          if (start & ~TARGET_PAGE_MASK) {
+>              errno = EINVAL;
+> @@ -619,6 +622,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>                       host_prot, flags, fd, offset1);
+>              if (p == MAP_FAILED)
+>                  goto fail;
+> +            passthrough_start = real_start;
+> +            passthrough_end = real_end;
+>          }
+>      }
+>   the_end1:
+> @@ -626,7 +631,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong
+> len, int target_prot,
+>          page_flags |= PAGE_ANON;
+>      }
+>      page_flags |= PAGE_RESET;
+> -    page_set_flags(start, start + len, page_flags);
+> +    if (passthrough_start == passthrough_end) {
+> +        page_set_flags(start, start + len, page_flags);
+> +    } else {
+> +        if (start != passthrough_start) {
+> +            page_set_flags(start, passthrough_start, page_flags);
+> +        }
+> +        page_set_flags(passthrough_start, passthrough_end,
+> +                       page_flags | PAGE_PASSTHROUGH);
+> +        if (passthrough_end != start + len) {
+> +            page_set_flags(passthrough_end, start + len,
+> page_flags);
+> +        }
+> +    }
+>   the_end:
+>      trace_target_mmap_complete(start);
+>      if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
+> @@ -845,7 +861,7 @@ static bool
+> can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
+>      }
+>  
+>      for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
+> -        if (!(page_get_flags(addr) & PAGE_ANON)) {
+> +        if (!(page_get_flags(addr) & (PAGE_ANON |
+> PAGE_PASSTHROUGH))) {
+>              return false;
+>          }
+>      }
+> @@ -888,7 +904,8 @@ abi_long target_madvise(abi_ulong start,
+> abi_ulong len_in, int advice)
+>       *
+>       * This breaks MADV_DONTNEED, completely implementing which is
+> quite
+>       * complicated. However, there is one low-hanging fruit: host-
+> page-aligned
+> -     * anonymous mappings. In this case passthrough is safe, so do
+> it.
+> +     * anonymous mappings or mappings that are known to have the
+> same semantics
+> +     * in the host and the guest. In this case passthrough is safe,
+> so do it.
+>       */
+>      mmap_lock();
+>      if ((advice & MADV_DONTNEED) &&
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- tests/tcg/s390x/Makefile.softmmu-target |  9 +++++++++
- tests/tcg/s390x/unaligned-lowcore.S     | 19 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 tests/tcg/s390x/Makefile.softmmu-target
- create mode 100644 tests/tcg/s390x/unaligned-lowcore.S
+Ping^2:
 
-diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..a34fa68473
---- /dev/null
-+++ b/tests/tcg/s390x/Makefile.softmmu-target
-@@ -0,0 +1,9 @@
-+S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
-+VPATH+=$(S390X_SRC)
-+QEMU_OPTS=-action panic=exit-failure -kernel
-+
-+%: %.S
-+	$(CC) -march=z13 -m64 -nostartfiles -static -Wl,-Ttext=0 \
-+		-Wl,--build-id=none $< -o $@
-+
-+TESTS += unaligned-lowcore
-diff --git a/tests/tcg/s390x/unaligned-lowcore.S b/tests/tcg/s390x/unaligned-lowcore.S
-new file mode 100644
-index 0000000000..246b517f11
---- /dev/null
-+++ b/tests/tcg/s390x/unaligned-lowcore.S
-@@ -0,0 +1,19 @@
-+    .org 0x1D0                         /* program new PSW */
-+    .quad 0x2000000000000, 0           /* disabled wait */
-+    .org 0x200                         /* lowcore padding */
-+
-+    .globl _start
-+_start:
-+    lctlg %c0,%c0,_c0
-+    vst %v0,_unaligned
-+    lpswe quiesce_psw
-+
-+    .align 8
-+quiesce_psw:
-+    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
-+_c0:
-+    .quad 0x10060000                   /* lowcore protection, AFP, VX */
-+
-+    .byte 0
-+_unaligned:
-+    .octa 0
--- 
-2.35.3
+https://patchew.org/QEMU/20220701135207.2710488-1-iii@linux.ibm.com/
 
+Is there still a chance that this can get into QEMU 7.1?
 
