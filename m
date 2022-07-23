@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FE9B57ECE3
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 11:06:39 +0200 (CEST)
-Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE92757ECE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 11:06:35 +0200 (CEST)
+Received: from localhost ([::1]:45122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFB5q-0005rq-80
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 05:06:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46342)
+	id 1oFB5l-0005mc-PC
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 05:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAvL-0002Bo-Po
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:55:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:44556)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAvI-0002AA-TI
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:55:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAv9-0001hD-H0
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:55:45 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAv3-0001o8-2i
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:55:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658566521;
+ s=mimecast20190719; t=1658566525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nXZSH4llBhYszCPXN3mWokGoalQ4xjKJs9hNtX154SA=;
- b=C+Rmj+C23CDtv87Ks/Si6ezof2+1fyFvCXJLRMrZx6HX1Kq+2plrYVgKHkdcC6XcKm9kLR
- yl22KDTiPI+1Q0hluLnz/hC+BA8Jr52ERhw5mL0ou1WXGWU9T5NS62JSMfRIUPFbGrwF8s
- +jDr07Krg01+lQoBFElBiU8GNv/S6v0=
+ bh=Zr8daBgJSlOzInqXOIfMFbdj8y2C0a3oO1QsNwO7MfQ=;
+ b=ODRg5VYwkT3uLq6vlC+UvgeELY5xdSPuSOmyDPbm+yCqHmAaPfPx1wdrbhl2h8pb9le6ZS
+ G7RTZF3m6xTmpKzLLDEjX+UscXymxKQ5wzZj7Dz1gymwXmuhr2FT2KJjSjdNGOD96ZHv4f
+ SbfQ7wZI595IBcz8o/1XdpvZ89q37M8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-207-uMVXurgJNwirm5HA8o4OzA-1; Sat, 23 Jul 2022 04:55:19 -0400
-X-MC-Unique: uMVXurgJNwirm5HA8o4OzA-1
+ us-mta-616-aCm580rWNqSH7eWKsSMEiw-1; Sat, 23 Jul 2022 04:55:24 -0400
+X-MC-Unique: aCm580rWNqSH7eWKsSMEiw-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D52B185A79C;
- Sat, 23 Jul 2022 08:55:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 04DFB185A7A4;
+ Sat, 23 Jul 2022 08:55:24 +0000 (UTC)
 Received: from server.redhat.com (ovpn-13-31.pek2.redhat.com [10.72.13.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA43D492C3B;
- Sat, 23 Jul 2022 08:55:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31D79401473;
+ Sat, 23 Jul 2022 08:55:19 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: lulu@redhat.com,
 	qemu-devel@nongnu.org
@@ -50,22 +50,22 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v14 06/10] virtio: add support for configure interrupt
-Date: Sat, 23 Jul 2022 16:54:21 +0800
-Message-Id: <20220723085425.823472-7-lulu@redhat.com>
+Subject: [PATCH v14 07/10] vhost: add support for configure interrupt
+Date: Sat, 23 Jul 2022 16:54:22 +0800
+Message-Id: <20220723085425.823472-8-lulu@redhat.com>
 In-Reply-To: <20220723085425.823472-1-lulu@redhat.com>
 References: <20220723085425.823472-1-lulu@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lulu@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,95 +82,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the functions to support the configure interrupt in virtio
-The function virtio_config_guest_notifier_read will notify the
-guest if there is an configure interrupt.
-The function virtio_config_set_guest_notifier_fd_handler is
-to set the fd hander for the notifier
+Add functions to support configure interrupt.
+The configure interrupt process will start in vhost_dev_start
+and stop in vhost_dev_stop.
+
+Also add the functions to support vhost_config_pending and
+vhost_config_mask.
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/virtio.c         | 29 +++++++++++++++++++++++++++++
- include/hw/virtio/virtio.h |  4 ++++
- 2 files changed, 33 insertions(+)
+ hw/virtio/vhost.c         | 78 ++++++++++++++++++++++++++++++++++++++-
+ include/hw/virtio/vhost.h |  4 ++
+ 2 files changed, 81 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 9d637e043e..ff1f72b9ff 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3471,7 +3471,14 @@ static void virtio_queue_guest_notifier_read(EventNotifier *n)
-         virtio_irq(vq);
-     }
- }
-+static void virtio_config_guest_notifier_read(EventNotifier *n)
-+{
-+    VirtIODevice *vdev = container_of(n, VirtIODevice, config_notifier);
- 
-+    if (event_notifier_test_and_clear(n)) {
-+        virtio_notify_config(vdev);
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index b643f42ea4..e23be58d69 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1550,7 +1550,68 @@ void vhost_virtqueue_mask(struct vhost_dev *hdev, VirtIODevice *vdev, int n,
+     file.index = hdev->vhost_ops->vhost_get_vq_index(hdev, n);
+     r = hdev->vhost_ops->vhost_set_vring_call(hdev, &file);
+     if (r < 0) {
+-        VHOST_OPS_DEBUG(r, "vhost_set_vring_call failed");
++        error_report("vhost_set_vring_call failed %d", -r);
 +    }
 +}
- void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
-                                                 bool with_irqfd)
- {
-@@ -3488,6 +3495,23 @@ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
-     }
- }
- 
-+void virtio_config_set_guest_notifier_fd_handler(VirtIODevice *vdev,
-+                                                 bool assign, bool with_irqfd)
++
++bool vhost_config_pending(struct vhost_dev *hdev)
 +{
-+    EventNotifier *n;
-+    n = &vdev->config_notifier;
-+    if (assign && !with_irqfd) {
-+        event_notifier_set_handler(n, virtio_config_guest_notifier_read);
++    assert(hdev->vhost_ops);
++    if ((hdev->started == false) ||
++        (hdev->vhost_ops->vhost_set_config_call == NULL)) {
++        return false;
++    }
++
++    EventNotifier *notifier =
++        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier;
++    return event_notifier_test_and_clear(notifier);
++}
++
++void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev, bool mask)
++{
++    int fd;
++    int r;
++    EventNotifier *notifier =
++        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier;
++    EventNotifier *config_notifier = &vdev->config_notifier;
++    assert(hdev->vhost_ops);
++
++    if ((hdev->started == false) ||
++        (hdev->vhost_ops->vhost_set_config_call == NULL)) {
++        return;
++    }
++    if (mask) {
++        assert(vdev->use_guest_notifier_mask);
++        fd = event_notifier_get_fd(notifier);
 +    } else {
-+        event_notifier_set_handler(n, NULL);
++        fd = event_notifier_get_fd(config_notifier);
 +    }
-+    if (!assign) {
-+        /* Test and clear notifier before closing it,*/
-+        /* in case poll callback didn't have time to run. */
-+        virtio_config_guest_notifier_read(n);
++    r = hdev->vhost_ops->vhost_set_config_call(hdev, fd);
++    if (r < 0) {
++        error_report("vhost_set_config_call failed %d", -r);
 +    }
 +}
 +
- EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
- {
-     return &vq->guest_notifier;
-@@ -3555,6 +3579,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
-     return &vq->host_notifier;
++static void vhost_stop_config_intr(struct vhost_dev *dev)
++{
++    int fd = -1;
++    assert(dev->vhost_ops);
++    if (dev->vhost_ops->vhost_set_config_call) {
++        dev->vhost_ops->vhost_set_config_call(dev, fd);
++    }
++}
++
++static void vhost_start_config_intr(struct vhost_dev *dev)
++{
++    int r;
++
++    assert(dev->vhost_ops);
++    int fd = event_notifier_get_fd(&dev->vdev->config_notifier);
++    if (dev->vhost_ops->vhost_set_config_call) {
++        r = dev->vhost_ops->vhost_set_config_call(dev, fd);
++        if (!r) {
++            event_notifier_set(&dev->vdev->config_notifier);
++        }
+     }
  }
  
-+EventNotifier *virtio_config_get_guest_notifier(VirtIODevice *vdev)
-+{
-+    return &vdev->config_notifier;
-+}
-+
- void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
- {
-     vq->host_notifier_enabled = enabled;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 4512205503..d3087ed5e8 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -111,6 +111,7 @@ struct VirtIODevice
-     bool use_guest_notifier_mask;
-     AddressSpace *dma_as;
-     QLIST_HEAD(, VirtQueue) *vector_queues;
-+    EventNotifier config_notifier;
+@@ -1766,6 +1827,16 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+         }
+     }
+ 
++    r = event_notifier_init(
++        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier, 0);
++    if (r < 0) {
++        return r;
++    }
++    event_notifier_test_and_clear(
++        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
++    if (!vdev->use_guest_notifier_mask) {
++        vhost_config_mask(hdev, vdev, true);
++    }
+     if (hdev->log_enabled) {
+         uint64_t log_base;
+ 
+@@ -1798,6 +1869,7 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
+             vhost_device_iotlb_miss(hdev, vq->used_phys, true);
+         }
+     }
++    vhost_start_config_intr(hdev);
+     return 0;
+ fail_log:
+     vhost_log_put(hdev, false);
+@@ -1823,6 +1895,9 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+ 
+     /* should only be called after backend is connected */
+     assert(hdev->vhost_ops);
++    event_notifier_test_and_clear(
++        &hdev->vqs[VHOST_QUEUE_NUM_CONFIG_INR].masked_config_notifier);
++    event_notifier_test_and_clear(&vdev->config_notifier);
+ 
+     if (hdev->vhost_ops->vhost_dev_start) {
+         hdev->vhost_ops->vhost_dev_start(hdev, false);
+@@ -1840,6 +1915,7 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
+         }
+         memory_listener_unregister(&hdev->iommu_listener);
+     }
++    vhost_stop_config_intr(hdev);
+     vhost_log_put(hdev, true);
+     hdev->started = false;
+     hdev->vdev = NULL;
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 58a73e7b7a..b0f3b78987 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -29,6 +29,7 @@ struct vhost_virtqueue {
+     unsigned long long used_phys;
+     unsigned used_size;
+     EventNotifier masked_notifier;
++    EventNotifier masked_config_notifier;
+     struct vhost_dev *dev;
  };
  
- struct VirtioDeviceClass {
-@@ -323,6 +324,9 @@ void virtio_queue_aio_attach_host_notifier(VirtQueue *vq, AioContext *ctx);
- void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx);
- VirtQueue *virtio_vector_first_queue(VirtIODevice *vdev, uint16_t vector);
- VirtQueue *virtio_vector_next_queue(VirtQueue *vq);
-+EventNotifier *virtio_config_get_guest_notifier(VirtIODevice *vdev);
-+void virtio_config_set_guest_notifier_fd_handler(VirtIODevice *vdev,
-+                                                 bool assign, bool with_irqfd);
+@@ -37,6 +38,7 @@ typedef unsigned long vhost_log_chunk_t;
+ #define VHOST_LOG_BITS (8 * sizeof(vhost_log_chunk_t))
+ #define VHOST_LOG_CHUNK (VHOST_LOG_PAGE * VHOST_LOG_BITS)
+ #define VHOST_INVALID_FEATURE_BIT   (0xff)
++#define VHOST_QUEUE_NUM_CONFIG_INR 0
  
- static inline void virtio_add_feature(uint64_t *features, unsigned int fbit)
- {
+ struct vhost_log {
+     unsigned long long size;
+@@ -116,6 +118,8 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev);
+ int vhost_dev_enable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
+ void vhost_dev_disable_notifiers(struct vhost_dev *hdev, VirtIODevice *vdev);
++bool vhost_config_pending(struct vhost_dev *hdev);
++void vhost_config_mask(struct vhost_dev *hdev, VirtIODevice *vdev, bool mask);
+ 
+ /* Test and clear masked event pending status.
+  * Should be called after unmask to avoid losing events.
 -- 
 2.34.3
 
