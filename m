@@ -2,70 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423A657ECF1
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 11:13:27 +0200 (CEST)
-Received: from localhost ([::1]:58358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A5457ED00
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jul 2022 11:20:30 +0200 (CEST)
+Received: from localhost ([::1]:35912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFBCP-000755-RQ
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 05:13:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46452)
+	id 1oFBJE-0002o7-Sq
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 05:20:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAvc-0002Xg-V1
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:56:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51623)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oFAyg-0007Tk-O5
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:59:14 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFAva-0002is-Mm
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:56:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658566561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LkEgoD+mBSBOvtj6jnttaFZ79gpqANU+ANVFHYO95Ec=;
- b=FV78Ee6ZsL1XwRz3AbBP/SrRNnYrghf9/BftzcJkGj+imzgMVldxTDNPdl0HuPlZjsCQyy
- 0fNT/XIbLNeBazV5AhcTBoyraPcizBt2DPYqIN26AajROM9lhM7TAEWw4z+wld4MHeXe38
- i3PRAter1BrkmnB6X5A+oYSzmmUJsSE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-428-uTGKSR_oOJ-35Y34eWiyww-1; Sat, 23 Jul 2022 04:55:59 -0400
-X-MC-Unique: uTGKSR_oOJ-35Y34eWiyww-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAAC6804191;
- Sat, 23 Jul 2022 08:55:58 +0000 (UTC)
-Received: from server.redhat.com (ovpn-13-31.pek2.redhat.com [10.72.13.31])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21395C28100;
- Sat, 23 Jul 2022 08:55:54 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: lulu@redhat.com,
-	qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v14 10/10] virtio-pci: add support for configure interrupt
-Date: Sat, 23 Jul 2022 16:54:25 +0800
-Message-Id: <20220723085425.823472-11-lulu@redhat.com>
-In-Reply-To: <20220723085425.823472-1-lulu@redhat.com>
-References: <20220723085425.823472-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oFAye-0003LA-Rz
+ for qemu-devel@nongnu.org; Sat, 23 Jul 2022 04:59:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:References:Cc:To:From:MIME-Version:Date:Message-ID:Sender:
+ Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+ :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/1CrsRTnCYiQaub5I5XX+Zf3Bh5vzpDE+27uJKk1FhU=; b=xZ/llBebPzZ+pvHjmThsAtpOIc
+ dZHdKQewUpKyzZEJJ1BXe2G1CGrLiURCJxbMftrrL1KLKutIp9HADeGYZTVbIw2KD4cUxKkvheaK5
+ jn0S5qv7RTA14JxgyEQBhaBm6kTautklsoWhhwq4Scxf3Nr76o3toSTlXOQuxr64wnzbkgvzdhrQd
+ 1pe4UP2VOaP/OHrVIBh7MIhC8n3rsyabRPoZZaS5TwZ7HxI3Ixf3HJY+Q3+iFAgNX6jpyrzmkr49e
+ 6eafm3wKNu0xvqyGiRgL3g0/3qNHLN926v7d2B27oISh5+hgqNXfE6VjXb+mu4DfX2k+JUUL4/3sq
+ /So2vnDWuybYP81LOtjfh3INWNYuXmHj1WzPwvgxakIN3HJphamq5qY3W+BSLP+J1p8DxD9X+9AMg
+ UMZtQvSfQZZ+A83wAJBETacyjS6seoeP5fEutpP/Yk7H9Z2Sycsx3HN0WVPrJ/hwZLtcDHgXqrpSE
+ AsmY1seAUkA6Tl+f/gqckdpiCO0QyYDtxmJ8d061OhdlCy14OVo0lHh32XdqgQGNfuyNqGCmfHufA
+ AprwjdbTf1ZRd2/jejYtArMChcJWGV/ng+tXRWGJsyYs5npX0kQCZS90XGZEOyhXQxOwnu7GRFMTL
+ zeKX4fyKBHLyM3b346I/erSbMYGMxenZXYVPW1KGU=;
+Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oFAxG-0009g7-3d; Sat, 23 Jul 2022 09:57:50 +0100
+Message-ID: <118d6575-76a8-1b87-4648-b1306c16af63@ilande.co.uk>
+Date: Sat, 23 Jul 2022 09:59:04 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Content-Language: en-US
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+References: <e4c8ced1-3ef4-8956-ead5-91110d3cb38c@ilande.co.uk>
+ <20220616120715.uksbwjynvb6usjhu@sirius.home.kraxel.org>
+ <b93a1312-2272-d7b4-5a45-d04a7fd35840@ilande.co.uk>
+ <20220617095558.xggyv6qk7igofii4@sirius.home.kraxel.org>
+ <CAMxuvawyO4uViOTUpji553dkqzRmvoL3YbDXXjd3Ca8SMmWxoA@mail.gmail.com>
+ <CABLmASGnjbqwueo9T-Ed7x3srS9BME+C18vSfOP955cZtf=i6w@mail.gmail.com>
+ <CAMxuvayg9S3Z8UL8gGLF+6p=j2sFi58RZpTFNB8NcQbzmx_u9Q@mail.gmail.com>
+ <2e4c3403-1171-eaa5-3380-2afc385c21a6@ilande.co.uk>
+In-Reply-To: <2e4c3403-1171-eaa5-3380-2afc385c21a6@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: Corrupted display changing screen colour depth in
+ qemu-system-ppc/MacOS
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,246 +90,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add process to handle the configure interrupt, The function's
-logic is the same with vq interrupt.Add extra process to check
-the configure interrupt
+On 22/07/2022 17:40, Mark Cave-Ayland wrote:
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/virtio-pci.c | 110 ++++++++++++++++++++++++++++++++++-------
- hw/virtio/virtio-pci.h |   4 +-
- 2 files changed, 96 insertions(+), 18 deletions(-)
+> On 22/07/2022 14:44, Marc-André Lureau wrote:
+> 
+>> Hi
+>>
+>> On Fri, Jul 22, 2022 at 4:28 PM Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+>>>
+>>>
+>>>
+>>> On Fri, Jun 17, 2022 at 2:38 PM Marc-André Lureau <marcandre.lureau@redhat.com> 
+>>> wrote:
+>>>>
+>>>> Hi
+>>>>
+>>>> On Fri, Jun 17, 2022 at 1:56 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>>>>>
+>>>>>    Hi,
+>>>>>
+>>>>>>> Can you try ditch the QEMU_ALLOCATED_FLAG check added by the commit?
+>>>>>>
+>>>>>> Commit cb8962c146 drops the QEMU_ALLOCATED_FLAG check: if I add it back in
+>>>>>> with the following diff on top then everything works again:
+>>>>>
+>>>>> Ah, the other way around.
+>>>>>
+>>>>>> diff --git a/ui/console.c b/ui/console.c
+>>>>>> index 365a2c14b8..decae4287f 100644
+>>>>>> --- a/ui/console.c
+>>>>>> +++ b/ui/console.c
+>>>>>> @@ -2400,11 +2400,12 @@ static void vc_chr_open(Chardev *chr,
+>>>>>>
+>>>>>>   void qemu_console_resize(QemuConsole *s, int width, int height)
+>>>>>>   {
+>>>>>> -    DisplaySurface *surface;
+>>>>>> +    DisplaySurface *surface = qemu_console_surface(s);
+>>>>>>
+>>>>>>       assert(s->console_type == GRAPHIC_CONSOLE);
+>>>>>>
+>>>>>> -    if (qemu_console_get_width(s, -1) == width &&
+>>>>>> +    if (surface && (surface->flags & QEMU_ALLOCATED_FLAG) &&
+>>>>>> +        qemu_console_get_width(s, -1) == width &&
+>>>>>>           qemu_console_get_height(s, -1) == height) {
+>>>>>>           return;
+>>>>>>       }
+>>>>>>
+>>>>>>> Which depth changes triggers this?  Going from direct color to a
+>>>>>>> paletted mode?
+>>>>>>
+>>>>>> A quick test suggests anything that isn't 32-bit colour is affected.
+>>>>>
+>>>>> Hmm, I think the commit should simply be reverted.
+>>>>>
+>>>>> Short-cutting the qemu_console_resize() call is only valid in case the
+>>>>> current surface was created by qemu_console_resize() too.  When it is
+>>>>> something else -- typically a surface backed by vga vram -- it's not.
+>>>>> Looking at the QEMU_ALLOCATED_FLAG checks exactly that ...
+>>>>
+>>>> Oh ok, it might be worth adding a comment to clarify that. By
+>>>> reverting, we are going back to the situation where
+>>>> qemu_console_resize() will create a needless surface when rendering
+>>>> with GL. As I tried to explain in the commit message, it will need
+>>>> more changes to prevent that. I can take a look later.
+>>>>
+>>>
+>>> Hi Marc-André,
+>>>
+>>> I wondered whether you've had a chance to look at this?
+>>>
+>>
+>> No, it's not clear to me how to reproduce it. Someone that can
+>> actually test it should send a patch with some comments to explain it.
+> 
+> Unfortunately I don't know anything about the host display code, but I think I should 
+> be able to come up with some Forth to run from the command line that will reproduce 
+> the issue with qemu-system-ppc. Let me see if I can come up with something...
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 4b86008bcf..16be30945a 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -728,7 +728,8 @@ static int virtio_pci_get_notifier(VirtIOPCIProxy *proxy, int queue_no,
-     VirtQueue *vq;
- 
-     if (queue_no == VIRTIO_CONFIG_IRQ_IDX) {
--        return -1;
-+        *n = virtio_config_get_guest_notifier(vdev);
-+        *vector = vdev->config_vector;
-     } else {
-         if (!virtio_queue_get_num(vdev, queue_no)) {
-             return -1;
-@@ -788,7 +789,7 @@ undo:
-     }
-     return ret;
- }
--static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-+static int kvm_virtio_pci_vector_vq_use(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     int ret = 0;
-@@ -803,6 +804,10 @@ static int kvm_virtio_pci_vector_use(VirtIOPCIProxy *proxy, int nvqs)
-     return ret;
- }
- 
-+static int kvm_virtio_pci_vector_config_use(VirtIOPCIProxy *proxy)
-+{
-+    return kvm_virtio_pci_vector_use_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
- 
- static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-                                               int queue_no)
-@@ -827,7 +832,7 @@ static void kvm_virtio_pci_vector_release_one(VirtIOPCIProxy *proxy,
-     kvm_virtio_pci_vq_vector_release(proxy, vector);
- }
- 
--static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-+static void kvm_virtio_pci_vector_vq_release(VirtIOPCIProxy *proxy, int nvqs)
- {
-     int queue_no;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-@@ -840,6 +845,11 @@ static void kvm_virtio_pci_vector_release(VirtIOPCIProxy *proxy, int nvqs)
-     }
- }
- 
-+static void kvm_virtio_pci_vector_config_release(VirtIOPCIProxy *proxy)
-+{
-+    kvm_virtio_pci_vector_release_one(proxy, VIRTIO_CONFIG_IRQ_IDX);
-+}
-+
- static int virtio_pci_one_vector_unmask(VirtIOPCIProxy *proxy,
-                                        unsigned int queue_no,
-                                        unsigned int vector,
-@@ -921,9 +931,19 @@ static int virtio_pci_vector_unmask(PCIDevice *dev, unsigned vector,
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
--
-+    /* unmask config intr */
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        ret = virtio_pci_one_vector_unmask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector,
-+                                           msg, n);
-+        if (ret < 0) {
-+            goto undo_config;
-+        }
-+    }
-     return 0;
--
-+undo_config:
-+    n = virtio_config_get_guest_notifier(vdev);
-+    virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
- undo:
-     vq = virtio_vector_first_queue(vdev, vector);
-     while (vq && unmasked >= 0) {
-@@ -957,6 +977,11 @@ static void virtio_pci_vector_mask(PCIDevice *dev, unsigned vector)
-         }
-         vq = virtio_vector_next_queue(vq);
-     }
-+
-+    if (vector == vdev->config_vector) {
-+        n = virtio_config_get_guest_notifier(vdev);
-+        virtio_pci_one_vector_mask(proxy, VIRTIO_CONFIG_IRQ_IDX, vector, n);
-+    }
- }
- 
- static void virtio_pci_vector_poll(PCIDevice *dev,
-@@ -988,6 +1013,34 @@ static void virtio_pci_vector_poll(PCIDevice *dev,
-             msix_set_pending(dev, vector);
-         }
-     }
-+    /* poll the config intr */
-+    ret = virtio_pci_get_notifier(proxy, VIRTIO_CONFIG_IRQ_IDX, &notifier,
-+                                  &vector);
-+    if (ret < 0) {
-+        return;
-+    }
-+    if (vector < vector_start || vector >= vector_end ||
-+        !msix_is_masked(dev, vector)) {
-+        return;
-+    }
-+    if (k->guest_notifier_pending) {
-+        if (k->guest_notifier_pending(vdev, VIRTIO_CONFIG_IRQ_IDX)) {
-+            msix_set_pending(dev, vector);
-+        }
-+    } else if (event_notifier_test_and_clear(notifier)) {
-+        msix_set_pending(dev, vector);
-+    }
-+}
-+
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd)
-+{
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        virtio_config_set_guest_notifier_fd_handler(vdev, assign, with_irqfd);
-+    } else {
-+        virtio_queue_set_guest_notifier_fd_handler(vq, assign, with_irqfd);
-+    }
- }
- 
- static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-@@ -996,17 +1049,25 @@ static int virtio_pci_set_guest_notifier(DeviceState *d, int n, bool assign,
-     VirtIOPCIProxy *proxy = to_virtio_pci_proxy(d);
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(vdev);
--    VirtQueue *vq = virtio_get_queue(vdev, n);
--    EventNotifier *notifier = virtio_queue_get_guest_notifier(vq);
-+    VirtQueue *vq = NULL;
-+    EventNotifier *notifier = NULL;
-+
-+    if (n == VIRTIO_CONFIG_IRQ_IDX) {
-+        notifier = virtio_config_get_guest_notifier(vdev);
-+    } else {
-+        vq = virtio_get_queue(vdev, n);
-+        notifier = virtio_queue_get_guest_notifier(vq);
-+    }
- 
-     if (assign) {
-         int r = event_notifier_init(notifier, 0);
-         if (r < 0) {
-             return r;
-         }
--        virtio_queue_set_guest_notifier_fd_handler(vq, true, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, true, with_irqfd);
-     } else {
--        virtio_queue_set_guest_notifier_fd_handler(vq, false, with_irqfd);
-+        virtio_pci_set_guest_notifier_fd_handler(vdev, vq, n, false,
-+                                                 with_irqfd);
-         event_notifier_cleanup(notifier);
-     }
- 
-@@ -1047,7 +1108,8 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-     if ((proxy->vector_irqfd || k->guest_notifier_mask) && !assign) {
-         msix_unset_vector_notifiers(&proxy->pci_dev);
-         if (proxy->vector_irqfd) {
--            kvm_virtio_pci_vector_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-+            kvm_virtio_pci_vector_config_release(proxy);
-             g_free(proxy->vector_irqfd);
-             proxy->vector_irqfd = NULL;
-         }
-@@ -1063,20 +1125,28 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
-             goto assign_error;
-         }
-     }
--
-+    r = virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, assign,
-+                                      with_irqfd);
-+    if (r < 0) {
-+        goto config_assign_error;
-+    }
-     /* Must set vector notifier after guest notifier has been assigned */
-     if ((with_irqfd || k->guest_notifier_mask) && assign) {
-         if (with_irqfd) {
-             proxy->vector_irqfd =
-                 g_malloc0(sizeof(*proxy->vector_irqfd) *
-                           msix_nr_vectors_allocated(&proxy->pci_dev));
--            r = kvm_virtio_pci_vector_use(proxy, nvqs);
-+            r = kvm_virtio_pci_vector_vq_use(proxy, nvqs);
-+            if (r < 0) {
-+                goto config_assign_error;
-+            }
-+            r = kvm_virtio_pci_vector_config_use(proxy);
-             if (r < 0) {
--                goto assign_error;
-+                goto config_error;
-             }
-         }
--        r = msix_set_vector_notifiers(&proxy->pci_dev,
--                                      virtio_pci_vector_unmask,
-+
-+        r = msix_set_vector_notifiers(&proxy->pci_dev, virtio_pci_vector_unmask,
-                                       virtio_pci_vector_mask,
-                                       virtio_pci_vector_poll);
-         if (r < 0) {
-@@ -1089,9 +1159,15 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
- notifiers_error:
-     if (with_irqfd) {
-         assert(assign);
--        kvm_virtio_pci_vector_release(proxy, nvqs);
-+        kvm_virtio_pci_vector_vq_release(proxy, nvqs);
-     }
--
-+config_error:
-+    if (with_irqfd) {
-+        kvm_virtio_pci_vector_config_release(proxy);
-+    }
-+config_assign_error:
-+    virtio_pci_set_guest_notifier(d, VIRTIO_CONFIG_IRQ_IDX, !assign,
-+                                  with_irqfd);
- assign_error:
-     /* We get here on assignment failure. Recover by undoing for VQs 0 .. n. */
-     assert(assign);
-diff --git a/hw/virtio/virtio-pci.h b/hw/virtio/virtio-pci.h
-index 2446dcd9ae..b704acc5a8 100644
---- a/hw/virtio/virtio-pci.h
-+++ b/hw/virtio/virtio-pci.h
-@@ -251,5 +251,7 @@ void virtio_pci_types_register(const VirtioPCIDeviceTypeInfo *t);
-  * @fixed_queues.
-  */
- unsigned virtio_pci_optimal_num_queues(unsigned fixed_queues);
--
-+void virtio_pci_set_guest_notifier_fd_handler(VirtIODevice *vdev, VirtQueue *vq,
-+                                              int n, bool assign,
-+                                              bool with_irqfd);
- #endif
--- 
-2.34.3
+Okay here's the command line reproducer for qemu-system-ppc:
 
+./build/qemu-system-ppc -M mac99 -prom-env 'use-nvramrc?=true' -prom-env nvramrc=': 
+vbe-w! f20001ce le-w! f20001d0 le-w! ; : set-res 0 4 vbe-w! 20 3 vbe-w! 320 1 vbe-w! 
+258 2 vbe-w! 61 4 vbe-w! 0 4 vbe-w! 8 3 vbe-w! 320 1 vbe-w! 258 2 vbe-w! 61 4 vbe-w! 
+320 to openbios-video-width 258 to openbios-video-height 320 to line-bytes 8 to 
+depth-bits ;' -prom-env 'boot-command=cd /chosen set-res show-devs' -trace '*vbe*'
+
+I've also uploaded the full command line to 
+https://www.ilande.co.uk/tmp/qemu/ppc-vbe-repro.txt just in case the spacing gets 
+mangled by my mail client.
+
+What this command does is to set the screen resolution to 800x600 32bpp followed by 
+800x600 8bpp using the Bochs VBE registers, and then dump out the device tree to the 
+framebuffer.
+
+If you run this command on current QEMU git then you end up with the same problem 
+exhibited by the QEMU MacOS VGA driver which is that the individual planes become 
+visible on the display as per https://www.ilande.co.uk/tmp/qemu/ppc-vbe-repro-bad.png.
+
+Reverting the effect of cb8962c146 using the patch above restores the previous 
+working behaviour where you end up with black text on a grey background as per 
+https://www.ilande.co.uk/tmp/qemu/ppc-vbe-repro-good.png.
+
+
+ATB,
+
+Mark.
 
