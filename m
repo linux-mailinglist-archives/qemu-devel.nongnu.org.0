@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AF8857F2C1
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 05:31:10 +0200 (CEST)
-Received: from localhost ([::1]:49322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0AE557F382
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 08:53:14 +0200 (CEST)
+Received: from localhost ([::1]:35744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFSKj-0003FW-7J
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jul 2022 23:31:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59030)
+	id 1oFVUH-0001H2-3N
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 02:53:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFSIs-0000vR-M1
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 23:29:14 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:33650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFSIp-0000JW-LZ
- for qemu-devel@nongnu.org; Sat, 23 Jul 2022 23:29:14 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id 17so7649572pfy.0
- for <qemu-devel@nongnu.org>; Sat, 23 Jul 2022 20:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Fk5/EHmltq8muk397Lh0BmtKD4Eiis0rT70GirW3F9M=;
- b=VDpnmEgbLzShTj55DG/yIFSpIGC/Yf1KQpNoGp+YYNZnmK9/v6bVgUfVBUFdSkfFK6
- PSjRTVSUqjvZ1UFf0mru2BIHvUv0cjPS+AJES81xvoqH+6zOjWH1aU9ZQaCCqqTknM6f
- x7DTZ59ABfF0x0Om3osPnjcGXUGlO2I4djUyZSuHrKx517kGVdyQW0EnLRFqYGjVJXY/
- XB9LOTdDm/YO1xb7RBHSIyHO70XaxazOXYyMiF2ykcurrlR5mfk4sS+cA+tMhv1T1y6q
- g0JHQq2veXM0gIhHtLmtp3pXOHTf1fyYyA76eqOO0l5OwFHRMFcQIIT5V0OM1qDoFj3t
- Uwhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Fk5/EHmltq8muk397Lh0BmtKD4Eiis0rT70GirW3F9M=;
- b=VEaRg9Oei/uOnwS0SC3RJGWk7tSracvY2ztJcIDF2fJFyCu0FiyTILITHcDglYKytF
- z8k9DQTaHK3gi2QGDpvyuHOci1cYdUO2rCGxgdwzRArX5pqckDDw8YdMO2+Ak5R0EGkD
- xVPBvKUH/y1jbcq6e304h/PTGLhVCoJGtbJlQb0UynYTB6/SV6Csj66d9hb+cdIxfj4s
- o6F3pnny0jwwfHoq18qLLzLyti9ae8ZEc62ul6M77uQvJm/X4JzC4iXodPupJ+T1A5WA
- x60xSTpV7UApLdeL183zdCoHyAh246fzhk6+35LwG+W/rhbNOnav3F7I52ndspLbc/vw
- X1VQ==
-X-Gm-Message-State: AJIora+GKLywTtpj1n4X4tBBXymaQrn+qtTGVc80p/DV3++elHP0pXNR
- 7YLo1gym+TwxCgwP8J4MivzFI/Ff9gWdCw==
-X-Google-Smtp-Source: AGRyM1t5MNvwbeDIAoGcet5vI9vfDxxLjIIjNJKJSfUeqnMy+BunZh+KdVmGe8KejLyWt9HKZMK6Fw==
-X-Received: by 2002:a05:6a00:b92:b0:52a:e60d:dfbb with SMTP id
- g18-20020a056a000b9200b0052ae60ddfbbmr7088588pfj.72.1658633350012; 
- Sat, 23 Jul 2022 20:29:10 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:f4b6:8b1e:fb15:2af6?
- ([2602:ae:1549:801:f4b6:8b1e:fb15:2af6])
- by smtp.gmail.com with ESMTPSA id
- c4-20020a170903234400b0016bea26bb2asm4534409plh.245.2022.07.23.20.29.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jul 2022 20:29:09 -0700 (PDT)
-Message-ID: <40b70415-dd01-039e-9c69-e2fd566f5f6d@linaro.org>
-Date: Sat, 23 Jul 2022 20:29:06 -0700
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVMT-0004Pl-1S
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVMP-0003Bz-8F
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658645104;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=J0iPB3DRqDPbK100XqnfUzEtNqGTh58Gkx0BC5BknpY=;
+ b=SmTHPAPNOD0ueP8OOvmhonPNUCMhRQ0ppNF2WNRC2tmUN8IaAqbnBxOECtA24Z6Tk9oi2m
+ v/eCRQjMrEN/sGbhQ2pe4VaOAjPzJNH5QQTij6q7244T84kqBkoM0B+RTLxRQclL9nFjYc
+ onZS9nn6BPtwskfDnwbIZfBSzgnqXF8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-206-YkcvpAe_OqCSI1s_XPs43g-1; Sun, 24 Jul 2022 02:45:01 -0400
+X-MC-Unique: YkcvpAe_OqCSI1s_XPs43g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AA5F1803520;
+ Sun, 24 Jul 2022 06:45:00 +0000 (UTC)
+Received: from server.redhat.com (ovpn-12-73.pek2.redhat.com [10.72.12.73])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC9C01410F3C;
+ Sun, 24 Jul 2022 06:44:56 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: qemu-devel@nongnu.org,
+	lulu@redhat.com
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PATCH v15 00/10] vhost-vdpa: add support for configure interrupt
+Date: Sun, 24 Jul 2022 14:44:44 +0800
+Message-Id: <20220724064454.875882-1-lulu@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] include/qemu/host-utils.h: Simplify the compiler check in
- mulu128()
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org
-References: <20220721074809.1513357-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220721074809.1513357-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,16 +80,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 13:18, Thomas Huth wrote:
-> We currently require at least GCC 7.4 or Clang 6.0 for compiling QEMU.
-> GCC has __builtin_mul_overflow since version 5 already, and Clang 6.0
-> also provides this built-in function (see its documentation on this page:
-> https://releases.llvm.org/6.0.0/tools/clang/docs/LanguageExtensions.html ).
-> So we can simplify the #if statement here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+These patches introduced the support for configure interrupt=C2=A0=0D
+These codes are tested on x86_64 and aarch64 platforms. =C2=A0=0D
+the test scenario is based on vp-vdpa/vdpa_sim /virtio net device, with=0D
+the irqfd and without irqfd.=0D
+Tested in virtio-pci bus and virtio-mmio bus=0D
+=0D
+Change in v2:=0D
+Add support for virtio-mmio bus=0D
+active the notifier while the backend support configure interrupt=0D
+misc fixes from v1=0D
+=0D
+Change in v3=0D
+fix the coding style problems=0D
+=0D
+Change in v4=0D
+misc fixes from v3=0D
+merge the set_config_notifier to set_guest_notifier=0D
+when vdpa start, check the feature by VIRTIO_NET_F_STATUS=0D
+=0D
+Change in v5=0D
+misc fixes from v4=0D
+split the code to introduce configure interrupt type and the callback funct=
+ion=0D
+will init the configure interrupt in all virtio-pci and virtio-mmio bus, bu=
+t will=0D
+only active while using vhost-vdpa driver=0D
+=0D
+Change in v6=0D
+misc fixes from v5=0D
+decouple vq from interrupt setting and misc process=0D
+fix the bug in virtio_net_handle_rx=0D
+=0D
+Change in v7=0D
+misc fixes from v6=0D
+decouple vq from interrupt setting and misc process=0D
+decouple vq from vector use/release process=0D
+decouple vq from set notifier fd handler process=0D
+move config_notifier and masked_config_notifier to VirtIODevice=0D
+fix the bug in virtio_net_handle_rx, add more information=0D
+add VIRTIO_CONFIG_IRQ_IDX as the queue number for configure interrupt=C2=A0=
+=0D
+=0D
+Change in v8=0D
+misc fixes from v7=0D
+decouple vq from interrupt setting and misc process=0D
+decouple vq from vector use/release process=0D
+decouple vq from set notifier fd handler process=0D
+move the vhost configure interrupt to vhost_net=0D
+=0D
+Change in v9=0D
+misc fixes from v8=0D
+address the comments from v8=0D
+=0D
+Change in v10=0D
+fix the hang issue in qtest=0D
+address the comments from v9=0D
+=0D
+Change in v11=0D
+fix the crash in aarch64 plateform.=0D
+fix the crash upstream reported=0D
+=0D
+Change in v12=0D
+fix the typo and the comments=0D
+=0D
+changes in v13=0D
+re-send the patches by git-publish=0D
+=0D
+changes in v14=0D
+rebased the code based on upstream=0D
+=0D
+Cindy Lu (10):=0D
+  virtio: introduce macro VIRTIO_CONFIG_IRQ_IDX=0D
+  virtio-pci: decouple notifier from interrupt process=0D
+  virtio-pci: decouple the single vector from the interrupt process=0D
+  vhost: introduce new VhostOps vhost_set_config_call=0D
+  vhost-vdpa: add support for config interrupt=0D
+  virtio: add support for configure interrupt=0D
+  vhost: add support for configure interrupt=0D
+  virtio-net: add support for configure interrupt=0D
+  virtio-mmio: add support for configure interrupt=0D
+  virtio-pci: add support for configure interrupt=0D
+=0D
+ hw/display/vhost-user-gpu.c       |  15 ++=0D
+ hw/net/vhost_net.c                |   9 +=0D
+ hw/net/virtio-net.c               |  20 ++-=0D
+ hw/virtio/trace-events            |   1 +=0D
+ hw/virtio/vhost-user-fs.c         |  16 ++=0D
+ hw/virtio/vhost-vdpa.c            |   8 +=0D
+ hw/virtio/vhost-vsock-common.c    |  16 ++=0D
+ hw/virtio/vhost.c                 |  78 +++++++-=0D
+ hw/virtio/virtio-crypto.c         |  16 ++=0D
+ hw/virtio/virtio-mmio.c           |  27 +++=0D
+ hw/virtio/virtio-pci.c            | 283 +++++++++++++++++++++---------=0D
+ hw/virtio/virtio.c                |  29 +++=0D
+ include/hw/virtio/vhost-backend.h |   3 +=0D
+ include/hw/virtio/vhost.h         |   4 +=0D
+ include/hw/virtio/virtio-pci.h    |   4 +-=0D
+ include/hw/virtio/virtio.h        |   7 +=0D
+ include/net/vhost_net.h           |   2 +=0D
+ 17 files changed, 451 insertions(+), 87 deletions(-)=0D
+=0D
+-- =0D
+2.34.3=0D
+=0D
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
 
