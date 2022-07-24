@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32AFE57F74B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 00:12:25 +0200 (CEST)
-Received: from localhost ([::1]:44168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 948E457F756
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 00:31:05 +0200 (CEST)
+Received: from localhost ([::1]:48022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFjpn-0003qL-9q
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 18:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35774)
+	id 1oFk7s-0007Tw-7M
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 18:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFjoB-0002On-DQ
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 18:10:43 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:54824)
+ id 1oFk4M-0005LD-Sh
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 18:27:26 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFjo9-00030Q-Mj
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 18:10:43 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id y1so603824pja.4
- for <qemu-devel@nongnu.org>; Sun, 24 Jul 2022 15:10:41 -0700 (PDT)
+ id 1oFk4K-0005De-Uo
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 18:27:26 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id ru18so2883618pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 24 Jul 2022 15:27:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=zPk/CEZKxeIDyBsl13PQ161CL0NMTi0PJlA+TAM8IOk=;
- b=TOm7WcGap4uK97LpO9QcJVfCt2hyeCoqBmxFQI1JC2rmzW0s7b+0z44Aoao9t06gwH
- RVlPOUlzOgIeLQGtkI8xTD3qTfAbIOLE3HnkEBBL6PUn2a2rF4oi5JF+xBQu8PQJ4QE+
- CrjGdU522xPz1N+pj76EkDKwfj7m5RBTf+TRkU2dD5HEe+c+K+RDfjp9Gajgp5is0TiY
- iSXsMEY9/GQdtI9NrxHUrGE4OvZPFA5nADRXEp831CHr0MK96uuTmiQUaG2P0QtlGCfg
- YEzxwFtU4wm5tLikU8bQQHRNjl0JgoR8bSumgYZKA9xwMdILRfSKlUDxFe6tlr7lSWqZ
- Kg/Q==
+ bh=NKgfey2sjF2IUE60n6hqAFuEXkyq3XyheCC8MmBlijk=;
+ b=nsOG8jLjhhQm6itoa3G6nOgbXqA0sE4JujXBqIuGxTCofASfibzuTJ/1AQykmGQMiq
+ iqJKqFZyGawPC12FwRa8pbD7Pxhxx8j1pcnXQSDGNu87MfyAXrX2wnFup3WCasNkHY/7
+ o57CTQSGZQO+OmvVL1Ck3ECkrwD95LuUBw67jA+SS7KaS7dhVQW2hmab+De4Qd8St5EU
+ ci4dVu3Jp0xtUE1QPZmY7GrUA0VJ3ZR66LP9/grh6bErCZc5zku9kyulWuoWdCEy27JH
+ Tufv8z4eaCP934kVS9TOcAty50vKRlx8JX1nWd/Ci8eO87P9jC8EPaYgzFnKxY7Hdx4W
+ iFlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=zPk/CEZKxeIDyBsl13PQ161CL0NMTi0PJlA+TAM8IOk=;
- b=Ti1bOEai8Gr74FoXlCcsjGfqOm/S5dGzM6zDKMBzLRcjLRGApfxyyxbIf6K/drVuTk
- EH2ODUGB8cfANx1u2uu75kd27pmwA63+7YgJChrdyI2WJYaIibEAYR5mxxDfK7gFpYDn
- T5QD3c0VYM4ou8+yqUhXqIR5hdyFYxBzLYz6E8r05/AwT0hxn6ly585ko43Wh8Tbp2YB
- E8vweorrNf+Pi+eF/0zUkY4KABXnDW72coN3slOderdwES6j2mksqFYRcdo+yDjlPe7r
- SLH30BRK6+RrWbePDw6Ew5bWCXKMk+8SxBt3PkiIwpjNmfy30r3EvO6k9Sz3tXeBu4H3
- XSCw==
-X-Gm-Message-State: AJIora+Zz8v67pO0vgK+EjzxMFxpckVm/n65isJifv9fqqH9MX4fZTjk
- aNwCEeNL4N/HCnkaxv7gyAdUhw==
-X-Google-Smtp-Source: AGRyM1sm/YbV8ZeR5xkuckDleF3XRkqAQegqV2C8kNM27RfHWFGVZF6lSZ/QDUZ29HLV2fBjHUeWGw==
-X-Received: by 2002:a17:90b:4c92:b0:1f0:1657:fd9c with SMTP id
- my18-20020a17090b4c9200b001f01657fd9cmr11372130pjb.230.1658700639993; 
- Sun, 24 Jul 2022 15:10:39 -0700 (PDT)
+ bh=NKgfey2sjF2IUE60n6hqAFuEXkyq3XyheCC8MmBlijk=;
+ b=PlUqS1Hq9csgNZ6raIB4RPj1VTxt+7HEkrJ+1y0qiR1THuscIFlnQjelW5s0yO8asv
+ fm0KpN364Nwcdw0R/Sn5TUC9WgaGZjsYWubSH0uIR5t8+PJJwGpjaNHTC3vOJEFGcrJh
+ +l51jF/0uu4qd5M/XAXr0/bKwDMcghOM2XmcGMTq/y38KDjSdenY1U2kymNwUXgZAF+Y
+ Y7dGOrJ0kPltVfWaglYxHBLUCgMc1/Ri0x7Kkc3N89zbdoe/cuaqQrFEKEH+fSTWVuQY
+ 7jT68vmboOo9VkXDpa1Ojw1kY99RreygvbJ2YQCSw+v/pOauiPKRPRj8nscO648M7PHU
+ aKZA==
+X-Gm-Message-State: AJIora/WXk16Y0VVjK+2/QRTnrKtW81YWafo4bgbhWzmmZBANp+LneXq
+ GygAvpuOmzSlxDFOpZztXRSCEA==
+X-Google-Smtp-Source: AGRyM1tM+M8sZMluE/GoivHTS6alKkj9AScfv/rwfpQsCuvHs8qHvKTKRCpvPDRRH2/KWnIyebXMvA==
+X-Received: by 2002:a17:902:e749:b0:16c:3d6f:aba3 with SMTP id
+ p9-20020a170902e74900b0016c3d6faba3mr9474048plf.135.1658701643064; 
+ Sun, 24 Jul 2022 15:27:23 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:ef1e:c8e:be06:74d0?
  ([2602:ae:1549:801:ef1e:c8e:be06:74d0])
  by smtp.gmail.com with ESMTPSA id
- w17-20020a170902e89100b0016d02acb57fsm7691880plg.217.2022.07.24.15.10.38
+ c6-20020a62f846000000b005289ffefe82sm7955684pfm.130.2022.07.24.15.27.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Jul 2022 15:10:39 -0700 (PDT)
-Message-ID: <c0f32ff4-aa40-619c-8b03-d966530d5fac@linaro.org>
-Date: Sun, 24 Jul 2022 15:10:37 -0700
+ Sun, 24 Jul 2022 15:27:22 -0700 (PDT)
+Message-ID: <cd5acc65-ad8c-5811-022f-a552b52ba233@linaro.org>
+Date: Sun, 24 Jul 2022 15:27:20 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH] target/ppc: fix unreachable code in do_ldst_quad()
+Subject: Re: [PATCH v2 1/2] qapi: Add exit-failure PanicAction
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org,
- Matheus Ferst <matheus.ferst@eldorado.org.br>
-References: <20220720135723.1391598-1-danielhb413@gmail.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand
+ <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Christian Borntraeger <borntraeger@linux.ibm.com>
+References: <20220722233614.7254-1-iii@linux.ibm.com>
+ <20220722233614.7254-2-iii@linux.ibm.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220720135723.1391598-1-danielhb413@gmail.com>
+In-Reply-To: <20220722233614.7254-2-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,38 +97,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/22 19:27, Daniel Henrique Barboza wrote:
-> Coverity reports that commit fc34e81acd51 ("target/ppc: add macros to
-> check privilege level") turned the following code unreachable:
+On 7/23/22 05:06, Ilya Leoshkevich wrote:
+> Currently QEMU exits with code 0 on both panic an shutdown. For tests
+> it is useful to return 1 on panic, so that it counts as a test
+> failure.
 > 
-> if (!prefixed && !(ctx->insns_flags2 & PPC2_LSQ_ISA207)) {
->      /* lq and stq were privileged prior to V. 2.07 */
->      REQUIRE_SV(ctx);
+> Introduce a new exit-failure PanicAction that makes main() return
+> EXIT_FAILURE. Tests can use -action panic=exit-failure option to
+> activate this behavior.
 > 
->>>>      CID 1490757:  Control flow issues  (UNREACHABLE)
->>>>      This code cannot be reached: "if (ctx->le_mode) {
->      if (ctx->le_mode) {
->          gen_align_no_le(ctx);
->          return true;
->      }
-> }
-> 
-> This happens because the macro REQUIRE_SV(), in CONFIG_USER_MODE, will
-> always result in a 'return true' statement.
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-I think adding ifdefs isn't fantastic.  This isn't actually fix a bug, so we *could* just 
-mark this as ignore in Coverity.
+I like it.
 
-If you wanted to clean this up, remove the implicit control flow from REQUIRE_* and turn 
-the macros into pure predicates, so that you get
-
-     if (REQUIRE_SV(ctx)) {
-         return true;
-     }
-     if (ctx->le_mode) {
-         ...
-     }
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> ---
+>   include/sysemu/sysemu.h |  2 +-
+>   qapi/run-state.json     |  4 +++-
+>   qemu-options.hx         |  2 +-
+>   softmmu/main.c          |  6 ++++--
+>   softmmu/runstate.c      | 17 +++++++++++++----
+>   5 files changed, 22 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+> index 812f66a31a..31aa45160b 100644
+> --- a/include/sysemu/sysemu.h
+> +++ b/include/sysemu/sysemu.h
+> @@ -103,7 +103,7 @@ void qemu_boot_set(const char *boot_order, Error **errp);
+>   bool defaults_enabled(void);
+>   
+>   void qemu_init(int argc, char **argv, char **envp);
+> -void qemu_main_loop(void);
+> +int qemu_main_loop(void);
+>   void qemu_cleanup(void);
+>   
+>   extern QemuOptsList qemu_legacy_drive_opts;
+> diff --git a/qapi/run-state.json b/qapi/run-state.json
+> index 6e2162d7b3..d42c370c4f 100644
+> --- a/qapi/run-state.json
+> +++ b/qapi/run-state.json
+> @@ -364,10 +364,12 @@
+>   #
+>   # @shutdown: Shutdown the VM and exit, according to the shutdown action
+>   #
+> +# @exit-failure: Shutdown the VM and exit with nonzero status
+> +#
+>   # Since: 6.0
+>   ##
+>   { 'enum': 'PanicAction',
+> -  'data': [ 'pause', 'shutdown', 'none' ] }
+> +  'data': [ 'pause', 'shutdown', 'exit-failure', 'none' ] }
+>   
+>   ##
+>   # @watchdog-set-action:
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 79e00916a1..8e17c5064a 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4239,7 +4239,7 @@ DEF("action", HAS_ARG, QEMU_OPTION_action,
+>       "                   action when guest reboots [default=reset]\n"
+>       "-action shutdown=poweroff|pause\n"
+>       "                   action when guest shuts down [default=poweroff]\n"
+> -    "-action panic=pause|shutdown|none\n"
+> +    "-action panic=pause|shutdown|exit-failure|none\n"
+>       "                   action when guest panics [default=shutdown]\n"
+>       "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
+>       "                   action when watchdog fires [default=reset]\n",
+> diff --git a/softmmu/main.c b/softmmu/main.c
+> index c00432ff09..1b675a8c03 100644
+> --- a/softmmu/main.c
+> +++ b/softmmu/main.c
+> @@ -32,11 +32,13 @@
+>   
+>   int qemu_main(int argc, char **argv, char **envp)
+>   {
+> +    int status;
+> +
+>       qemu_init(argc, argv, envp);
+> -    qemu_main_loop();
+> +    status = qemu_main_loop();
+>       qemu_cleanup();
+>   
+> -    return 0;
+> +    return status;
+>   }
+>   
+>   #ifndef CONFIG_COCOA
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 168e1b78a0..1e68680b9d 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -482,7 +482,8 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
+>           qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
+>                                           !!info, info);
+>           vm_stop(RUN_STATE_GUEST_PANICKED);
+> -    } else if (panic_action == PANIC_ACTION_SHUTDOWN) {
+> +    } else if (panic_action == PANIC_ACTION_SHUTDOWN ||
+> +               panic_action == PANIC_ACTION_EXIT_FAILURE) {
+>           qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
+>                                          !!info, info);
+>           vm_stop(RUN_STATE_GUEST_PANICKED);
+> @@ -662,7 +663,7 @@ void qemu_system_debug_request(void)
+>       qemu_notify_event();
+>   }
+>   
+> -static bool main_loop_should_exit(void)
+> +static bool main_loop_should_exit(int *status)
+>   {
+>       RunState r;
+>       ShutdownCause request;
+> @@ -680,6 +681,10 @@ static bool main_loop_should_exit(void)
+>           if (shutdown_action == SHUTDOWN_ACTION_PAUSE) {
+>               vm_stop(RUN_STATE_SHUTDOWN);
+>           } else {
+> +            if (request == SHUTDOWN_CAUSE_GUEST_PANIC &&
+> +                panic_action == PANIC_ACTION_EXIT_FAILURE) {
+> +                *status = EXIT_FAILURE;
+> +            }
+>               return true;
+>           }
+>       }
+> @@ -715,12 +720,14 @@ static bool main_loop_should_exit(void)
+>       return false;
+>   }
+>   
+> -void qemu_main_loop(void)
+> +int qemu_main_loop(void)
+>   {
+> +    int status = EXIT_SUCCESS;
+>   #ifdef CONFIG_PROFILER
+>       int64_t ti;
+>   #endif
+> -    while (!main_loop_should_exit()) {
+> +
+> +    while (!main_loop_should_exit(&status)) {
+>   #ifdef CONFIG_PROFILER
+>           ti = profile_getclock();
+>   #endif
+> @@ -729,6 +736,8 @@ void qemu_main_loop(void)
+>           dev_time += profile_getclock() - ti;
+>   #endif
+>       }
+> +
+> +    return status;
+>   }
+>   
+>   void qemu_add_exit_notifier(Notifier *notify)
+
 
