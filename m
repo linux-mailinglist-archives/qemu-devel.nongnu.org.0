@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F93157F604
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 18:37:27 +0200 (CEST)
-Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E4A57F6B6
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 21:38:44 +0200 (CEST)
+Received: from localhost ([::1]:58430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFebe-00066d-A1
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 12:37:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58024)
+	id 1oFhR4-0000yx-Ru
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 15:38:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFeZu-0003cN-V1
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 12:35:39 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46943)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oFhP8-00083G-Vg
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 15:36:43 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:35691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFeZr-0001xh-Ls
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 12:35:37 -0400
-Received: by mail-pf1-x433.google.com with SMTP id c3so8397283pfb.13
- for <qemu-devel@nongnu.org>; Sun, 24 Jul 2022 09:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=k7u+dS1Dnp5UIZM2Rwg8Sy7j22uDjlZDpx2pla4PIt0=;
- b=vXQ1YEPffNrI0o0wpKJxMNLzakoD2OrJq1+zScUDjXWLXn/+7Sec1s/PPbEgQ2FyeL
- +Ky+vfzhvWqEtYcCzKc8h+llf964YQy21d3rI/AMIwM4JVWPMG4j+msJjxhpNMvmZq1b
- yfxe1cTbKy+SHfB+o0xv60Thdzy+yAAveEchfswXomm0eZ9e0faII3PGHiYz2RkoIz1P
- BrfgQHcS6KjRUdotOLk4rv8Ib7AxtYdsOrxItzVf75/PYCJRbR02DP/b/b0OFEmzf/uV
- anTzZkb8oz07/TmtMyyi0apphjm+bDQO919N0q9yFZLWu36bGH1tRhdhQxJ0Iv1mPD63
- 9yIw==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oFhP7-0008TF-Aw
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 15:36:42 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id e69so16638684ybh.2
+ for <qemu-devel@nongnu.org>; Sun, 24 Jul 2022 12:36:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=V67EhhT6QOQjrWZQykLW/t0/nJHKHq/m2tK15znPOvQ=;
+ b=Fk8J6bIj3G8vaO41vyf4/56XKwXwLHAbSny4mNkGuuKasCrUlzQsmKTXq5cObWroQq
+ CZVAILy87kqEnP4AfZsCmTlx0iMtQQrqfOtHArf8NZhA8fz0w/lYU/E2Yt1oela+LfMZ
+ Or+t8w2Pbb42/u7Y/bRg3HE6kSZlD15QLFlWqxw1RDhL9Um9tp30KZcy7xA1BGuOjlV4
+ y6u6WjNGHLTffyz3v3VYPqDRxcVSPZXnPWZG5bV6hJwMdSLpyrKUyorwPZ4dq2qWpGvu
+ lZhvzo3D6fcdWQIS8rwKlnlmAoIK0v8VXS0wKa7jfDXYxmw8SqJhi0f5XhDh8hDvvKhV
+ oU1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=k7u+dS1Dnp5UIZM2Rwg8Sy7j22uDjlZDpx2pla4PIt0=;
- b=U/wT2ukzbzeMWnb2qs7EAqeEJ/gXhoX3SPsYlG3DK8hU/osi4ZWg0EqNrHx2XP5rS+
- XTB+93ArBlulZTpyZiwCVrsqu3WbggS9qrXmJsopq8FW1INcp+r+FlmPw0VB8b17WRFt
- eLA7PJUvFyng+dhvGyTOVqZ8n0n9dyZlRXdswrbOTyyl4jmjwd8Cli7DZ91dMTzNk/hO
- 3eCN2mJrENpEDZDatIWf1sj7sZvWqtK3JQwfkyq2EGO9cij5hys5AYS5UrcsN469Mfbq
- GpA7BynBDvIJ/E/rHHkQEo6dCnrOcQ5NtLG1m2eB1IXRgcNK5eUn2JCXjkfCLDvYYQLk
- Y0YA==
-X-Gm-Message-State: AJIora/ysmZl/ZkSYlCo+88mT/6YNNZo8kxahmwy2dwPolPXS3Rlh0hH
- +iDQ9q3FYP9bv1m/6YNbMbonVw==
-X-Google-Smtp-Source: AGRyM1tyXrQ4CQDWp4X7x5hP8N7C9ZQfm9nfcgEDcioKyYkQRp8fWKTgtyx1ucq8Z4Gr+KsujqCk+g==
-X-Received: by 2002:a63:fc16:0:b0:415:18c4:75a7 with SMTP id
- j22-20020a63fc16000000b0041518c475a7mr7820467pgi.351.1658680533005; 
- Sun, 24 Jul 2022 09:35:33 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:f67c:fb58:6d94:30be?
- ([2602:ae:1549:801:f67c:fb58:6d94:30be])
- by smtp.gmail.com with ESMTPSA id
- n7-20020a056a00212700b0052ab0a73752sm7704195pfj.198.2022.07.24.09.35.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Jul 2022 09:35:32 -0700 (PDT)
-Message-ID: <d45472dc-4b09-8b58-364c-a82e6870a667@linaro.org>
-Date: Sun, 24 Jul 2022 09:35:29 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=V67EhhT6QOQjrWZQykLW/t0/nJHKHq/m2tK15znPOvQ=;
+ b=jly4L95JfhQTZrDJrR1Jz7MD4FvaeXg9+O4Sc9tfaGsLS9q8e+OKX1XYKb4vh+WC6v
+ IE0Mpd5VWP4clkBG9uduyfUZ0TB765XtZ5+47uLFZOjFfkf1pI996sTmawA7Fvm0Uwrv
+ MuxvYD5Kc5fvlSZWPoBx3/QzdQABOWu6t8h9iJNkB/gvb/exzj0KFZ7o3X0WD0TofOKy
+ +OkPqHpxreMxYmtRnwieQw3sAq57Juv6X8x/smN7FT9zU7PZ8l+GmeEfq6TgTZNu/kha
+ dI/RaiZrSXvwbGsJvDAaYZx85PurXFepnuB/1jDXIwOMQlnnu63WUopCEbknJmxsLBn7
+ acrQ==
+X-Gm-Message-State: AJIora+AMcQP4GW6ECG5cOQmxrexMaWdHpV3NIfzaqqcvQ/WM9mnDFd5
+ 0laOFx7jnfyNFdUhg8bpVdaTsSiFw6AhiLqala+wt0b7FL4=
+X-Google-Smtp-Source: AGRyM1vbmQq4dCzRFijXPAt/5OFLirolrVgI9g18WAbm/6q9PApvCNZKzcADr7vT5fWHmyG7ozN6ngt0x9b61/He3S0=
+X-Received: by 2002:a25:2486:0:b0:670:d0fe:ddef with SMTP id
+ k128-20020a252486000000b00670d0feddefmr7141206ybk.642.1658691399786; Sun, 24
+ Jul 2022 12:36:39 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 3/4] semihosting: Check for errors on SET_ARG()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20220719121110.225657-1-peter.maydell@linaro.org>
- <20220719121110.225657-4-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220719121110.225657-4-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
+ <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
+ <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
+ <DC2847BE-EE1B-4496-9270-C04A4DDF3A7F@ict.ac.cn>
+In-Reply-To: <DC2847BE-EE1B-4496-9270-C04A4DDF3A7F@ict.ac.cn>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sun, 24 Jul 2022 15:36:26 -0400
+Message-ID: <CAJSP0QVPqzck4RTiQmjHpeAvZ1PEZCjjvdpwSdJ836Zw6HG22w@mail.gmail.com>
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Klaus Birkelund Jensen <its@irrelevant.dk>, 
+ Keith Busch <kbusch@kernel.org>
+Content-Type: multipart/alternative; boundary="000000000000ad290f05e4922f91"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,18 +87,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/19/22 17:41, Peter Maydell wrote:
-> The SET_ARG() macro returns an error indication; we check this in the
-> TARGET_SYS_GET_CMDLINE case but not when we use it in implementing
-> TARGET_SYS_ELAPSED.  Check for and handle the errors via the do_fault
-> codepath, and update the comment documenting the SET_ARG() and
-> GET_ARG() macros to note how they handle memory access errors.
-> 
-> Resolves: Coverity CID 1490287
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
+--000000000000ad290f05e4922f91
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Sun, Jul 24, 2022, 11:21 Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-r~
+> at 9:29 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> >
+> > Nice, perf(1) is good for that. You can enable trace events and add
+> > kprobes/uprobes to record timestamps when specific functions are entered.
+> >
+>
+> Thanks Stefan,
+>
+> One last question: Currently we can achieve hundreds of KIOPS. That means
+> perf can easily capture millions of trace events per second. I found perf
+> has quite high overhead at such a rate of trace events. Do you have any
+> advices on tracing high IOPS tasks?
+
+
+I don't. BTW uprobes are expensive but kprobes are cheaper.
+
+Stefan
+
+>
+
+--000000000000ad290f05e4922f91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Jul 24, 2022, 11:21 Jinhao Fan &lt;<a href=3D"=
+mailto:fanjinhao21s@ict.ac.cn">fanjinhao21s@ict.ac.cn</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex">at 9:29 PM, Stefan Hajnoczi &lt;<a href=
+=3D"mailto:stefanha@gmail.com" target=3D"_blank" rel=3D"noreferrer">stefanh=
+a@gmail.com</a>&gt; wrote:<br>
+<br>
+&gt; <br>
+&gt; Nice, perf(1) is good for that. You can enable trace events and add<br=
+>
+&gt; kprobes/uprobes to record timestamps when specific functions are enter=
+ed.<br>
+&gt; <br>
+<br>
+Thanks Stefan,<br>
+<br>
+One last question: Currently we can achieve hundreds of KIOPS. That means<b=
+r>
+perf can easily capture millions of trace events per second. I found perf<b=
+r>
+has quite high overhead at such a rate of trace events. Do you have any<br>
+advices on tracing high IOPS tasks?</blockquote></div></div><div dir=3D"aut=
+o"><br></div><div dir=3D"auto">I don&#39;t. BTW uprobes are expensive but k=
+probes are cheaper.</div><div dir=3D"auto"></div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">Stefan</div><div dir=3D"auto"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
+</blockquote></div></div></div>
+
+--000000000000ad290f05e4922f91--
 
