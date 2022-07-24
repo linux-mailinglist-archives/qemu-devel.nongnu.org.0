@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8777B57F386
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 08:53:48 +0200 (CEST)
-Received: from localhost ([::1]:36650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC5D357F38B
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jul 2022 08:58:18 +0200 (CEST)
+Received: from localhost ([::1]:43984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFVUp-0001uI-7f
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 02:53:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
+	id 1oFVZB-00072u-TG
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 02:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVN8-0004g7-AA
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23631)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVNC-0004lu-7Q
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVN6-0003PY-QH
- for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:50 -0400
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1oFVNA-0003Pk-7m
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 02:45:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658645148;
+ s=mimecast20190719; t=1658645151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0R8/o/H//w+Em8yVHPk0aLYQdVGAy+AfVTjew+q36VM=;
- b=Cr1ZriydiG3T1lvOsrzNQ+hhIZh+ZC4eNB1fDOB7hL9naUftD6ONv413UrSU0rbEfafJOt
- MFsDBaJIpxmERY+s0u0S0KBJ9ELt/tT5mqvxAiDLwvU5cBpJurVbViR1HkFmRBwYtkJn9Z
- 8objTE0Za33kpCPS+6xfcj1wuVPalKo=
+ bh=H1KSQDFw0wKLEGkuP4wLTrs17GepD794izZHkM03jG4=;
+ b=W/dr+w4OhBqWBxOtsymaXmNrv8ZqkzBxhcCpPS4cLmzrkt+Yl5HZNdWoGANk79Sh5UmoY4
+ sTm4axyFzO+xwdqZPyOu9f9tOyy5/lgtyzu7FjuwrYiElGGeukA9dBb1mQJNYac8r+vui7
+ 47r832vTFyhnuTfisO4ORNAvIO2y5xM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-3EhtIzzDNkCwMfpXLNdvDQ-1; Sun, 24 Jul 2022 02:45:44 -0400
-X-MC-Unique: 3EhtIzzDNkCwMfpXLNdvDQ-1
+ us-mta-588-F2DrVIV4M3mdB5stsS0EqA-1; Sun, 24 Jul 2022 02:45:49 -0400
+X-MC-Unique: F2DrVIV4M3mdB5stsS0EqA-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B4678001EA;
- Sun, 24 Jul 2022 06:45:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1FE68001EA;
+ Sun, 24 Jul 2022 06:45:48 +0000 (UTC)
 Received: from server.redhat.com (ovpn-12-73.pek2.redhat.com [10.72.12.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9A88C492CA2;
- Sun, 24 Jul 2022 06:45:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F493492CA2;
+ Sun, 24 Jul 2022 06:45:44 +0000 (UTC)
 From: Cindy Lu <lulu@redhat.com>
 To: qemu-devel@nongnu.org,
 	lulu@redhat.com
@@ -50,9 +50,9 @@ Cc: Stefan Hajnoczi <stefanha@redhat.com>, virtio-fs@redhat.com,
  "Gonglei (Arei)" <arei.gonglei@huawei.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
-Subject: [PATCH v15 05/10] vhost-vdpa: add support for config interrupt
-Date: Sun, 24 Jul 2022 14:44:49 +0800
-Message-Id: <20220724064454.875882-6-lulu@redhat.com>
+Subject: [PATCH v15 06/10] virtio: add support for configure interrupt
+Date: Sun, 24 Jul 2022 14:44:50 +0800
+Message-Id: <20220724064454.875882-7-lulu@redhat.com>
 In-Reply-To: <20220724064454.875882-1-lulu@redhat.com>
 References: <20220724064454.875882-1-lulu@redhat.com>
 MIME-Version: 1.0
@@ -82,53 +82,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new call back function in vhost-vdpa, The function
-vhost_set_config_call can set the event fd to kernel.
-This function will be called in the vhost_dev_start
-and vhost_dev_stop
+Add the functions to support the configure interrupt in virtio
+The function virtio_config_guest_notifier_read will notify the
+guest if there is an configure interrupt.
+The function virtio_config_set_guest_notifier_fd_handler is
+to set the fd hander for the notifier
 
 Signed-off-by: Cindy Lu <lulu@redhat.com>
 ---
- hw/virtio/trace-events | 1 +
- hw/virtio/vhost-vdpa.c | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ hw/virtio/virtio.c         | 29 +++++++++++++++++++++++++++++
+ include/hw/virtio/virtio.h |  4 ++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 20af2e7ebd..1f510ba86e 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -58,6 +58,7 @@ vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRI
- vhost_vdpa_set_owner(void *dev) "dev: %p"
- vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
- vhost_vdpa_get_iova_range(void *dev, uint64_t first, uint64_t last) "dev: %p first: 0x%"PRIx64" last: 0x%"PRIx64
-+vhost_vdpa_set_config_call(void *dev, int fd)"dev: %p fd: %d"
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5d607aeaa0..ab1b46ae28 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3521,7 +3521,14 @@ static void virtio_queue_guest_notifier_read(EventNotifier *n)
+         virtio_irq(vq);
+     }
+ }
++static void virtio_config_guest_notifier_read(EventNotifier *n)
++{
++    VirtIODevice *vdev = container_of(n, VirtIODevice, config_notifier);
  
- # virtio.c
- virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 291cd19054..da8413c9fd 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -744,6 +744,13 @@ static int vhost_vdpa_set_vring_ready(struct vhost_dev *dev)
-     return 0;
++    if (event_notifier_test_and_clear(n)) {
++        virtio_notify_config(vdev);
++    }
++}
+ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+                                                 bool with_irqfd)
+ {
+@@ -3538,6 +3545,23 @@ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+     }
  }
  
-+static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-+                                       int fd)
++void virtio_config_set_guest_notifier_fd_handler(VirtIODevice *vdev,
++                                                 bool assign, bool with_irqfd)
 +{
-+    trace_vhost_vdpa_set_config_call(dev, fd);
-+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, &fd);
++    EventNotifier *n;
++    n = &vdev->config_notifier;
++    if (assign && !with_irqfd) {
++        event_notifier_set_handler(n, virtio_config_guest_notifier_read);
++    } else {
++        event_notifier_set_handler(n, NULL);
++    }
++    if (!assign) {
++        /* Test and clear notifier before closing it,*/
++        /* in case poll callback didn't have time to run. */
++        virtio_config_guest_notifier_read(n);
++    }
 +}
 +
- static void vhost_vdpa_dump_config(struct vhost_dev *dev, const uint8_t *config,
-                                    uint32_t config_len)
+ EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
  {
-@@ -1322,4 +1329,5 @@ const VhostOps vdpa_ops = {
-         .vhost_get_device_id = vhost_vdpa_get_device_id,
-         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
-         .vhost_force_iommu = vhost_vdpa_force_iommu,
-+        .vhost_set_config_call = vhost_vdpa_set_config_call,
+     return &vq->guest_notifier;
+@@ -3618,6 +3642,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
+     return &vq->host_notifier;
+ }
+ 
++EventNotifier *virtio_config_get_guest_notifier(VirtIODevice *vdev)
++{
++    return &vdev->config_notifier;
++}
++
+ void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
+ {
+     vq->host_notifier_enabled = enabled;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index e985ef133f..a7b8cebb60 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -113,6 +113,7 @@ struct VirtIODevice
+     bool use_guest_notifier_mask;
+     AddressSpace *dma_as;
+     QLIST_HEAD(, VirtQueue) *vector_queues;
++    EventNotifier config_notifier;
  };
+ 
+ struct VirtioDeviceClass {
+@@ -327,6 +328,9 @@ void virtio_queue_aio_attach_host_notifier_no_poll(VirtQueue *vq, AioContext *ct
+ void virtio_queue_aio_detach_host_notifier(VirtQueue *vq, AioContext *ctx);
+ VirtQueue *virtio_vector_first_queue(VirtIODevice *vdev, uint16_t vector);
+ VirtQueue *virtio_vector_next_queue(VirtQueue *vq);
++EventNotifier *virtio_config_get_guest_notifier(VirtIODevice *vdev);
++void virtio_config_set_guest_notifier_fd_handler(VirtIODevice *vdev,
++                                                 bool assign, bool with_irqfd);
+ 
+ static inline void virtio_add_feature(uint64_t *features, unsigned int fbit)
+ {
 -- 
 2.34.3
 
