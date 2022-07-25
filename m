@@ -2,97 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3613757F832
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 04:11:53 +0200 (CEST)
-Received: from localhost ([::1]:56584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D5CF57F84B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 04:36:30 +0200 (CEST)
+Received: from localhost ([::1]:34024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFnZY-0005MH-4X
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 22:11:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
+	id 1oFnxN-0002Br-1B
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 22:36:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1oFnWp-0002cr-Ub; Sun, 24 Jul 2022 22:09:03 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:34921)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oFnw2-0000qa-OB
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 22:35:06 -0400
+Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:49100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1oFnWn-0008Lx-Qg; Sun, 24 Jul 2022 22:09:03 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 294675C007D;
- Sun, 24 Jul 2022 22:08:58 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute3.internal (MEProxy); Sun, 24 Jul 2022 22:08:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
- :cc:content-transfer-encoding:content-type:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1658714938; x=
- 1658801338; bh=NEa/j/2SB2pKHYtzCnkefYFBHS8ZAQ2nhbnYIYpEzME=; b=T
- LfVffHLVRBymSt4CypQYaicG4srHhaGxxvYFkzgbUQuyDu2uhmmiDVtYob+ild15
- YNgJedo6ow23P9b08bgy51FmSIYsGv+N9cjbw7urTR5e2qghqKthF3MvAVWEeC7q
- CyB3UJ6XdMkInBHFnrnmouPmIEN4xL8XS+oJoVsH1KBmr/4WSLdkn3KconutO5oI
- n3445VYJ4M7tU03pI6s8tLOVoepR8uO8hTe9BatYrNN++AUrfMmPGspxDVywR2T+
- j0AVVN5UAhc+0Yp3dbWlRz4E3bUJqlVsoMUeWfqh2pr1JPeME9EgrR9kbkIbUZhH
- FjF0bRVOBRW8ANwha2iKQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658714938; x=
- 1658801338; bh=NEa/j/2SB2pKHYtzCnkefYFBHS8ZAQ2nhbnYIYpEzME=; b=a
- kU1jMdrOM5tI+wztQpvp9h72A2YDxrnXTORnnvkuSr4ny2/r9Z7XJrNkLenQFEyd
- 2+hW9E/StCbjYavN/nFeFQMMmEanTnojKKpjsIM7dO/MRQKVgpmVAF2B/1YR8/o7
- yLjbjfLdy3jPHw0Ypm+TatFIKKcMhAp1K+8mOPiNYWKwewUcvTgnSBDeWety6bdj
- SORcknUsNUddjmV/6vhx2n6t1jOsPwh3vUuggfFaXhKK46JWMe/OmzPL/NXEoZKw
- KUbhJD5m9V52DiBcKzahsr26PulE9OYpgCH2p2QKxdOx3w0ae5cWQU05yAxAAgJb
- x+7SWWUfCQAkWv8XG6MoQ==
-X-ME-Sender: <xms:OfvdYh2bVf2hi_s4YxnR6yCQuRklmFNrOzGsmXZTxs2MqeEB5Ybxxg>
- <xme:OfvdYoE1gTOHuJ9qUG-AV6jS3L6rxcwpV8CjOj49XPhONrTZrOZQJvl8fQ3LWtNSt
- EUDxFcM0OkhhQTs6A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgheejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
- nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
- ftrfgrthhtvghrnhepgfeiieettdelkeehffevieetgeejgeffveefhfffkedvudefuddv
- veejgeehheevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
- homheprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:OfvdYh4GYixpTX4JckyehXsc2qJYJZNO-QAGC03kph08mfeAOcNgLA>
- <xmx:OfvdYu36xuMWznYzLdw_jKel8ubBq62CiWLb3GDnRvDsu9qNhukvjQ>
- <xmx:OfvdYkGJ6dUVX4x-oYrz9pnTy0QEuPrLsXboB_Ea5R6xBjDJxWhA8Q>
- <xmx:OvvdYv0hF6cRPBq1luKOpWTZhyTyt8o5CGkQGNA6UMjxDn95B2XGdA>
-Feedback-ID: idfb84289:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 1B69E170007E; Sun, 24 Jul 2022 22:08:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
-Mime-Version: 1.0
-Message-Id: <e98735a4-19ae-4628-bacb-549511821c41@www.fastmail.com>
-In-Reply-To: <20220722063602.128144-9-clg@kaod.org>
-References: <20220722063602.128144-1-clg@kaod.org>
- <20220722063602.128144-9-clg@kaod.org>
-Date: Mon, 25 Jul 2022 11:38:36 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Cameron Esfahani via" <qemu-devel@nongnu.org>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9_via?= <qemu-arm@nongnu.org>,
- qemu-block@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>,
- "Joel Stanley" <joel@jms.id.au>, "Alistair Francis" <alistair@alistair23.me>, 
- "Francisco Iglesias" <frasse.iglesias@gmail.com>,
- "Iris Chen" <irischenlj@fb.com>, "Michael Walle" <michael@walle.cc>
-Subject: Re: [PATCH v3 8/8] arm/aspeed: Replace mx25l25635e chip model
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=andrew@aj.id.au;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oFnvt-0003I7-Dc
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 22:35:00 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R621e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VKFynjP_1658716486; 
+Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VKFynjP_1658716486) by smtp.aliyun-inc.com;
+ Mon, 25 Jul 2022 10:34:46 +0800
+Message-ID: <2cd1040e-7593-dc89-aa6c-9ef12485ef15@linux.alibaba.com>
+Date: Mon, 25 Jul 2022 10:34:45 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH 00/16] Support VIRTIO_F_RING_RESET for virtio-net and
+ vhost-user in virtio pci
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+To: mst@redhat.com, jasowang@redhat.com
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+Cc: hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com, qemu-devel@nongnu.org
+In-Reply-To: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.44;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-44.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,57 +65,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Do you have any comments or suggestions about improvements to this patch 
+set?
 
 
-On Fri, 22 Jul 2022, at 16:06, C=C3=A9dric Le Goater wrote:
-> A mx25l25635f chip model is generally found on these machines. It's
-> newer and uses 4B opcodes which is better to exercise the support in
-> the Linux kernel.
+Regards,
+
+Kangjie
+
+在 2022/7/18 19:16, Kangjie Xu 写道:
+> The virtio queue reset function has already been defined in the virtio spec 1.2.
+> The relevant virtio spec information is here:
 >
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/arm/aspeed.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>      https://github.com/oasis-tcs/virtio-spec/issues/124
+>      https://github.com/oasis-tcs/virtio-spec/issues/139
 >
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 1c611284819d..7e95abc55b09 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -1157,7 +1157,7 @@ static void=20
-> aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
->      amc->soc_name  =3D "ast2400-a1";
->      amc->hw_strap1 =3D PALMETTO_BMC_HW_STRAP1;
->      amc->fmc_model =3D "n25q256a";
-> -    amc->spi_model =3D "mx25l25635e";
-> +    amc->spi_model =3D "mx25l25635f";
-
-Hmm, dmesg reported mx25l25635e on the palmetto I checked
-
->      amc->num_cs    =3D 1;
->      amc->i2c_init  =3D palmetto_bmc_i2c_init;
->      mc->default_ram_size       =3D 256 * MiB;
-> @@ -1208,7 +1208,7 @@ static void=20
-> aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
->      amc->soc_name  =3D "ast2500-a1";
->      amc->hw_strap1 =3D AST2500_EVB_HW_STRAP1;
->      amc->fmc_model =3D "mx25l25635e";
-> -    amc->spi_model =3D "mx25l25635e";
-> +    amc->spi_model =3D "mx25l25635f";
->      amc->num_cs    =3D 1;
->      amc->i2c_init  =3D ast2500_evb_i2c_init;
->      mc->default_ram_size       =3D 512 * MiB;
-> @@ -1258,7 +1258,7 @@ static void=20
-> aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
->      mc->desc       =3D "OpenPOWER Witherspoon BMC (ARM1176)";
->      amc->soc_name  =3D "ast2500-a1";
->      amc->hw_strap1 =3D WITHERSPOON_BMC_HW_STRAP1;
-> -    amc->fmc_model =3D "mx25l25635e";
-> +    amc->fmc_model =3D "mx25l25635f";
-
-The witherspoon I checked also reported mx25l25635e in dmesg for the=20
-FMC.
-
-You do say "generally" in the commit message though.
-
-Andrew
+> This patch set is to support this function in QEMU. It consists of two parts: virtio-net
+> and vhost-user. The patches 1-7 are the implementation for virtio-net and the patches
+> 8-16 are for vhost-user.
+>
+> The process of virt queue reset can be concluded as:
+> 1. The virtqueue is disabled when VIRTIO_PCI_COMMON_Q_RESET is written.
+> 2. Then the virtqueue is restarted after the information of vrings is passed to QEMU and
+> VIRTIO_PCI_COMMON_Q_ENABLE is written.
+>
+> Test environment:
+>      Host: 5.4.189
+>      Qemu: QEMU emulator version 7.0.50
+>      Guest: 5.19.0-rc3 (With vq reset support)
+>      DPDK: 22.07-rc1 (With vq reset support)
+>      Test Cmd: ethtool -g eth1; ethtool -G eth1 rx $1 tx $2; ethtool -g eth1;
+>
+>      The frontend can resize the virtio queue, then virtio queue reset function should
+>      be triggered.
+>
+>      The default is split mode, modify Qemu virtio-net to add PACKED feature to
+>      test packed mode.
+>
+> Guest Kernel Patch:
+>      https://lore.kernel.org/bpf/20220629065656.54420-1-xuanzhuo@linux.alibaba.com/
+>
+> DPDK Code:
+>      https://github.com/middaywords/dpdk/commit/098c8e1dfae10b747da8dd8950a82890efca7bee
+>
+> Please review. Thanks.
+>
+> Kangjie Xu (9):
+>    vhost: add op to enable or disable a single vring
+>    vhost-user: enable/disable a single vring
+>    vhost: extract the logic of unmapping the vrings and desc
+>    vhost: introduce restart and release for vhost_dev's vqs
+>    vhost-net: introduce restart and stop for vhost_net's vqs
+>    virtio: introduce queue_enable in virtio
+>    virtio-net: support queue_enable for vhost-user
+>    virtio-net: support queue_reset for vhost-user
+>    vhost-net: vq reset feature bit support
+>
+> Xuan Zhuo (7):
+>    virtio-pci: virtio_pci_common_cfg add queue_notify_data
+>    virtio: add VIRTIO_F_RING_RESET
+>    virtio: pci: virtio_pci_common_cfg add queue_reset
+>    virtio: introduce __virtio_queue_reset()
+>    virtio: introduce virtio_queue_reset()
+>    virtio-pci: support queue reset
+>    virtio-net: support queue reset
+>
+>   hw/net/vhost_net.c                            | 56 ++++++++++++++++++
+>   hw/net/virtio-net.c                           | 40 +++++++++++++
+>   hw/virtio/vhost-user.c                        | 55 +++++++++++++++---
+>   hw/virtio/vhost.c                             | 49 ++++++++++++++--
+>   hw/virtio/virtio-pci.c                        | 17 ++++++
+>   hw/virtio/virtio.c                            | 57 +++++++++++++------
+>   include/hw/virtio/vhost-backend.h             |  4 ++
+>   include/hw/virtio/vhost.h                     |  6 ++
+>   include/hw/virtio/virtio-pci.h                |  1 +
+>   include/hw/virtio/virtio.h                    |  4 ++
+>   include/net/vhost_net.h                       |  5 ++
+>   .../standard-headers/linux/virtio_config.h    |  5 ++
+>   include/standard-headers/linux/virtio_pci.h   |  4 ++
+>   13 files changed, 274 insertions(+), 29 deletions(-)
+>
 
