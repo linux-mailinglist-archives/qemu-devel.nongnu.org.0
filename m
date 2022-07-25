@@ -2,69 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDFD57F980
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 08:37:34 +0200 (CEST)
-Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5258057F985
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 08:39:44 +0200 (CEST)
+Received: from localhost ([::1]:48352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFrie-0000hX-Ko
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 02:37:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38280)
+	id 1oFrkl-0001uI-6h
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 02:39:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oFreE-0005rW-2i
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 02:33:04 -0400
-Received: from 4.mo552.mail-out.ovh.net ([178.33.43.201]:33199)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1oFrg4-0007Ga-3L; Mon, 25 Jul 2022 02:34:52 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:57027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oFre9-0002Af-PK
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 02:32:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 6BCF422803;
- Mon, 25 Jul 2022 06:32:21 +0000 (UTC)
-Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 25 Jul
- 2022 08:32:19 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-107S0016870ca9c-2298-4e02-825e-780df94e8c99,
- D832AE00456E0C65F35A6D2849B778492C3B7DB7) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <257967d9-fd97-41ed-e5a1-23e4a89dba57@kaod.org>
-Date: Mon, 25 Jul 2022 08:32:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 8/8] arm/aspeed: Replace mx25l25635e chip model
-Content-Language: en-US
-To: Andrew Jeffery <andrew@aj.id.au>, Cameron Esfahani via
- <qemu-devel@nongnu.org>
-CC: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9_via?= <qemu-arm@nongnu.org>,
- <qemu-block@nongnu.org>, Peter Maydell <peter.maydell@linaro.org>, Joel
- Stanley <joel@jms.id.au>, Alistair Francis <alistair@alistair23.me>,
- Francisco Iglesias <frasse.iglesias@gmail.com>, Iris Chen
- <irischenlj@fb.com>, Michael Walle <michael@walle.cc>
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1oFrg1-0002O7-Qc; Mon, 25 Jul 2022 02:34:51 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 7E805320025E;
+ Mon, 25 Jul 2022 02:34:44 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+ by compute3.internal (MEProxy); Mon, 25 Jul 2022 02:34:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1658730884; x=
+ 1658817284; bh=JlzLQlWyT368MPsvcCqpeCYGDZciINrNal04cguLjvU=; b=R
+ CbQrOgYO5T2wFSq7PUJXHfp0gB4D30pRgC+CN3IVrVj2xnVP1jydf0Uw7iPM/yyq
+ qTHqjTtd1CIIWtICv+idinQyobGFisrzMb4KVqbzbp23e1tbmLI8Mp/LZLbi+KcR
+ MeOH7PaH08Ek8xG+LR+j5364rSxt0T1Zxdm8Ku0CpN+lNSb03D3ucpRZ4D2c6qL1
+ h/m1n2rpz1UstmD+de0RpAq9odN5XhCmCNyj9CN8XZrHSDDE6T/lS9xMsEev0dR5
+ +rPh6euDH0m9gQ9MZbGzW/Tcc/6xb93LQ3PcMJiJgZSC0DtVnxCeci4/vk5XGogL
+ 4a4whksg18HHk0twT2zbA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658730884; x=
+ 1658817284; bh=JlzLQlWyT368MPsvcCqpeCYGDZciINrNal04cguLjvU=; b=g
+ tPVHmqyyHJeJCRuOuVc+yDQHWwKL38LojkOBJXww3d14FWI+PYAbzLXXYheHV1ET
+ bQBBzZI6nHSrtrURZOODNy9xGkJ4AVHkUjTwme5W9btAHZxnmItEEsTj4wRFrrbH
+ Zh7ADPOFx33x68NCRBlYn1aOGFGWC5RLNmOh66lIYBhu4DNr7RXGyRTWna+V+dA9
+ 1B+Y9cafHsawdJQ1CL8UwRfzIo9iI/mKsbBUowJb3AIZ4KPaApI6GcasTbIdCpdt
+ ZfFqwy2N5VwnZ6O02UpEppw/CN7Bax3hr3sG6Gdbpi3flijK6sE7WVnXlYrkfjkQ
+ JR96EgZqtdRWgvF3yRb5Q==
+X-ME-Sender: <xms:gzneYj06kLmnVh6hSpvf6LbWCyAMJpzOumXjQGNUqR7NGFX4BGzx4Q>
+ <xme:gzneYiG27XSMTIabk-ktbRaVMtPkwIxBvY_Y2YxIjc8FXI7ELC7WH6uD1KrPO-tRN
+ AUY0JtYgh9r8oLpzA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgudduudcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
+ tehnughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenuc
+ ggtffrrghtthgvrhhnpeehhfdviedvfeeutefgieetgfdtgeehvddtkeelgfekgeelffeg
+ teekgfdtleejueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgu
+ rdgruh
+X-ME-Proxy: <xmx:gzneYj6KpNa09ODGSOmXCTykxJRpV78XrxVd78M8llvarvpESxDj4g>
+ <xmx:gzneYo38TbJVYM9vWa7vlQbImR9PGyrtAqMI85HcHaL0eFmc_5sgWQ>
+ <xmx:gzneYmH6WlAntsLT7Kn5Q34LIm8P_eq6a33EqLoHPcANXpwfYxUaYg>
+ <xmx:hDneYp0KJWWRuRiwq9ETv1HEQ5TxpurRUJEiSqObhWTe1qL760osQw>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 7568B170007E; Mon, 25 Jul 2022 02:34:43 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
+Mime-Version: 1.0
+Message-Id: <dd779816-0c25-4a07-b8d7-c9b94b5f30f2@www.fastmail.com>
+In-Reply-To: <257967d9-fd97-41ed-e5a1-23e4a89dba57@kaod.org>
 References: <20220722063602.128144-1-clg@kaod.org>
  <20220722063602.128144-9-clg@kaod.org>
  <e98735a4-19ae-4628-bacb-549511821c41@www.fastmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <e98735a4-19ae-4628-bacb-549511821c41@www.fastmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.107]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 70187cc3-2f05-4ab5-8586-da4583dc029e
-X-Ovh-Tracer-Id: 4103905162150316978
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgudduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeeggffggfehjefgudefieeuffevheetjefgleeukefggeetgfffjeehtdfgjefgnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehmihgthhgrvghlseifrghllhgvrdgttgdpoffvtefjohhsthepmhhoheehvd
-Received-SPF: pass client-ip=178.33.43.201; envelope-from=clg@kaod.org;
- helo=4.mo552.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ <257967d9-fd97-41ed-e5a1-23e4a89dba57@kaod.org>
+Date: Mon, 25 Jul 2022 16:04:23 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Cameron Esfahani via" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9_via?= <qemu-arm@nongnu.org>,
+ qemu-block@nongnu.org, "Peter Maydell" <peter.maydell@linaro.org>,
+ "Joel Stanley" <joel@jms.id.au>, "Alistair Francis" <alistair@alistair23.me>, 
+ "Francisco Iglesias" <frasse.iglesias@gmail.com>,
+ "Iris Chen" <irischenlj@fb.com>, "Michael Walle" <michael@walle.cc>
+Subject: Re: [PATCH v3 8/8] arm/aspeed: Replace mx25l25635e chip model
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=andrew@aj.id.au;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,73 +110,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/22 04:08, Andrew Jeffery wrote:
-> 
-> 
-> On Fri, 22 Jul 2022, at 16:06, Cédric Le Goater wrote:
->> A mx25l25635f chip model is generally found on these machines. It's
->> newer and uses 4B opcodes which is better to exercise the support in
->> the Linux kernel.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>   hw/arm/aspeed.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->> index 1c611284819d..7e95abc55b09 100644
->> --- a/hw/arm/aspeed.c
->> +++ b/hw/arm/aspeed.c
->> @@ -1157,7 +1157,7 @@ static void
->> aspeed_machine_palmetto_class_init(ObjectClass *oc, void *data)
->>       amc->soc_name  = "ast2400-a1";
->>       amc->hw_strap1 = PALMETTO_BMC_HW_STRAP1;
->>       amc->fmc_model = "n25q256a";
->> -    amc->spi_model = "mx25l25635e";
->> +    amc->spi_model = "mx25l25635f";
-> 
-> Hmm, dmesg reported mx25l25635e on the palmetto I checked
-> 
->>       amc->num_cs    = 1;
->>       amc->i2c_init  = palmetto_bmc_i2c_init;
->>       mc->default_ram_size       = 256 * MiB;
->> @@ -1208,7 +1208,7 @@ static void
->> aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void *data)
->>       amc->soc_name  = "ast2500-a1";
->>       amc->hw_strap1 = AST2500_EVB_HW_STRAP1;
->>       amc->fmc_model = "mx25l25635e";
->> -    amc->spi_model = "mx25l25635e";
->> +    amc->spi_model = "mx25l25635f";
->>       amc->num_cs    = 1;
->>       amc->i2c_init  = ast2500_evb_i2c_init;
->>       mc->default_ram_size       = 512 * MiB;
->> @@ -1258,7 +1258,7 @@ static void
->> aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
->>       mc->desc       = "OpenPOWER Witherspoon BMC (ARM1176)";
->>       amc->soc_name  = "ast2500-a1";
->>       amc->hw_strap1 = WITHERSPOON_BMC_HW_STRAP1;
->> -    amc->fmc_model = "mx25l25635e";
->> +    amc->fmc_model = "mx25l25635f";
-> 
-> The witherspoon I checked also reported mx25l25635e in dmesg for the
-> FMC.
-> 
-> You do say "generally" in the commit message though.
-
-You can not tell from dmesg.
-
-The MX25L25635F and MX25L25635E models share the same JEDEC ID and
-the spi-nor flash device table only contains a mx25l25635e entry.
-The MX25L25635F is detected in mx25l25635_post_bfpt_fixups using SFDP.
-
-That's why I added this warning  :
-
-   https://github.com/legoater/linux/commit/934f0708ac597022cbf6c8d6f2ce91d55025e943
 
 
-C.
+On Mon, 25 Jul 2022, at 16:02, C=C3=A9dric Le Goater wrote:
+> On 7/25/22 04:08, Andrew Jeffery wrote:
+>>=20
+>>=20
+>> On Fri, 22 Jul 2022, at 16:06, C=C3=A9dric Le Goater wrote:
+>>> aspeed_machine_witherspoon_class_init(ObjectClass *oc, void *data)
+>>>       mc->desc       =3D "OpenPOWER Witherspoon BMC (ARM1176)";
+>>>       amc->soc_name  =3D "ast2500-a1";
+>>>       amc->hw_strap1 =3D WITHERSPOON_BMC_HW_STRAP1;
+>>> -    amc->fmc_model =3D "mx25l25635e";
+>>> +    amc->fmc_model =3D "mx25l25635f";
+>>=20
+>> The witherspoon I checked also reported mx25l25635e in dmesg for the
+>> FMC.
+>>=20
+>> You do say "generally" in the commit message though.
+>
+> You can not tell from dmesg.
+>
+> The MX25L25635F and MX25L25635E models share the same JEDEC ID and
+> the spi-nor flash device table only contains a mx25l25635e entry.
+> The MX25L25635F is detected in mx25l25635_post_bfpt_fixups using SFDP.
+>
+> That's why I added this warning  :
+>
+>   =20
+> https://github.com/legoater/linux/commit/934f0708ac597022cbf6c8d6f2ce9=
+1d55025e943
+>
 
-> 
-> Andrew
-
+Oh righto, sorry for the noise.
 
