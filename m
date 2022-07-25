@@ -2,67 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F8557FE66
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:32:08 +0200 (CEST)
-Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B91D57FEBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:04:08 +0200 (CEST)
+Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFwJj-0003LM-6m
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:32:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37662)
+	id 1oFwog-0007zo-Pd
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:04:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFwHJ-0001Zk-74
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:29:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27838)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oFwjE-000402-Ro
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:58:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFwHE-0005em-1y
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:29:34 -0400
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oFwjB-0001fy-2n
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:58:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658748571;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mw+mud1ofr2UYgRSpx1ZK7Xb2PUOXexlMdzs/+lEcVU=;
- b=GaNLAarVXxcncm4TmMUnYbWdF6vKHbg5oWsro0qXiB9NOToFhLJOoYplGsMBFDu+tE6Qk3
- llU8PEocv6GRgcGGDuI1X0EeqKbObMvKLftAroNEa+5bNd/zvxXYMyYYcXpW18gA/Mbw/w
- 9hvONXQvOc5WSoXy2x5/kGl/TAZ+wkY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1658750303;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=gh1CF9/skxxtps1WwbLkaNJbKti0bR9znmqXATo6rcQ=;
+ b=LgYgJZzZrctg1tE4HAY1PkI6H3tOjolPgQjL64z/I1S9bm0QKIYl+VsoGu3ZLpQx3zfk8D
+ Ji+UVlY6GneLzPy179oRKEzyb4PYYqv9vMAQ3hH4caGM0FYSjnGLgEMCIFg5zZuimbRUKK
+ XSBcTXiIS38Y1SU5vl9E3YJkkHHcdMU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-oFALs9dHOIauqg83wFTW8g-1; Mon, 25 Jul 2022 07:29:28 -0400
-X-MC-Unique: oFALs9dHOIauqg83wFTW8g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-448-Z7e9RGT7MxKUAawP3wpCiA-1; Mon, 25 Jul 2022 07:58:20 -0400
+X-MC-Unique: Z7e9RGT7MxKUAawP3wpCiA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEE738037AA;
- Mon, 25 Jul 2022 11:29:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 890FC2166B26;
- Mon, 25 Jul 2022 11:29:24 +0000 (UTC)
-Date: Mon, 25 Jul 2022 12:29:19 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- John Snow <jsnow@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v2 3/3] python/qemu/machine: use socketpair() for QMP by
- default
-Message-ID: <Yt5+jycxnO6Jh1qa@redhat.com>
-References: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
- <20220630123419.1019367-4-marcandre.lureau@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EBF4F3801F4B;
+ Mon, 25 Jul 2022 11:58:19 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0053A492C3B;
+ Mon, 25 Jul 2022 11:58:18 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, mark.cave-ayland@ilande.co.uk,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH] ui/console: fix qemu_console_resize() regression
+Date: Mon, 25 Jul 2022 15:58:15 +0400
+Message-Id: <20220725115815.2461322-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220630123419.1019367-4-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -83,101 +75,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jun 30, 2022 at 04:34:19PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> When no monitor address is given, establish the QMP communication through
-> a socketpair() (API is also supported on Windows since Python 3.5)
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
-> 
-> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-> index 37191f433b2d..aa1d9447352d 100644
-> --- a/python/qemu/machine/machine.py
-> +++ b/python/qemu/machine/machine.py
-> @@ -158,17 +158,13 @@ def __init__(self,
->          self._qmp_timer = qmp_timer
->  
->          self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
-> +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] = None
->          self._temp_dir: Optional[str] = None
->          self._base_temp_dir = base_temp_dir
->          self._sock_dir = sock_dir
->          self._log_dir = log_dir
->  
-> -        if monitor_address is not None:
-> -            self._monitor_address = monitor_address
-> -        else:
-> -            self._monitor_address = os.path.join(
-> -                self.sock_dir, f"{self._name}-monitor.sock"
-> -            )
-> +        self._monitor_address = monitor_address
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Almost nothing in QEMU passes 'monitor_address' right now, so thue effect
-of this will be that essentially all usage switches to the socketpair
-behaviour. Should be ok, as nothing is expecting to have the ability to
-leave QEMU running, and re-connect to its monitor in another process
-later.
+The display may be corrupted when changing screen colour depth in
+qemu-system-ppc/MacOS since 7.0.
 
->  
->          self._console_log_path = console_log
->          if self._console_log_path:
-> @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
->          args = ['-display', 'none', '-vga', 'none']
->  
->          if self._qmp_set:
-> -            if isinstance(self._monitor_address, tuple):
-> +            if self._sock_pair:
-> +                fd = self._sock_pair[0].fileno()
-> +                os.set_inheritable(fd, True)
-> +                moncdev = f"socket,id=mon,fd={fd}"
-> +            elif isinstance(self._monitor_address, tuple):
->                  moncdev = "socket,id=mon,host={},port={}".format(
->                      *self._monitor_address
->                  )
-> @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
->              self._remove_files.append(self._console_address)
->  
->          if self._qmp_set:
-> +            monitor_address = None
-> +            sock = None
-> +            if self._monitor_address is None:
-> +                self._sock_pair = socket.socketpair()
-> +                sock = self._sock_pair[1]
->              if isinstance(self._monitor_address, str):
->                  self._remove_files.append(self._monitor_address)
-> +                monitor_address = self._monitor_address
->              self._qmp_connection = QEMUMonitorProtocol(
-> -                self._monitor_address,
-> +                address=monitor_address,
-> +                sock=sock,
->                  server=True,
->                  nickname=self._name
->              )
-> @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
->          ))
->  
->      def _post_launch(self) -> None:
-> +        self._sock_pair[0].close()
->          if self._qmp_connection:
->              self._qmp.accept(self._qmp_timer)
->  
-> -- 
-> 2.37.0.rc0
-> 
+Do not short-cut qemu_console_resize() if the surface is backed by vga
+vram. When the scanout isn't set, or it is already allocated, or opengl,
+and the size is fitting, we still avoid the reallocation & replace path.
 
-With regards,
-Daniel
+Fixes: commit cb8962c1 ("ui: do not create a surface when resizing a GL scanout")
+
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ ui/console.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/ui/console.c b/ui/console.c
+index e139f7115e1f..765892f84f1c 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -2575,11 +2575,13 @@ static void vc_chr_open(Chardev *chr,
+ 
+ void qemu_console_resize(QemuConsole *s, int width, int height)
+ {
+-    DisplaySurface *surface;
++    DisplaySurface *surface = qemu_console_surface(s);
+ 
+     assert(s->console_type == GRAPHIC_CONSOLE);
+ 
+-    if (qemu_console_get_width(s, -1) == width &&
++    if ((s->scanout.kind != SCANOUT_SURFACE ||
++         (surface && surface->flags & QEMU_ALLOCATED_FLAG)) &&
++        qemu_console_get_width(s, -1) == width &&
+         qemu_console_get_height(s, -1) == height) {
+         return;
+     }
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.37.0.rc0
 
 
