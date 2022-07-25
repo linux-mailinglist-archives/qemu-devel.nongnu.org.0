@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECDA57FECB
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:14:43 +0200 (CEST)
-Received: from localhost ([::1]:46232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923D257FEF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:25:36 +0200 (CEST)
+Received: from localhost ([::1]:60260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFwyv-0006Hh-O8
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:14:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46300)
+	id 1oFx9T-000882-71
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:25:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oFwxA-0004sa-Qf
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:12:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22179)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oFx5W-0002XL-Q0
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oFwx7-0004Pt-O5
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:12:51 -0400
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1oFx5T-00061P-LZ
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658751168;
+ s=mimecast20190719; t=1658751686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=41JaJX3GNzXck1EJ32DKcd9hkubRp7uPtPDHymdItLs=;
- b=CrnOxeIymg9q0EgaRqpB/isOGuqh8M85IbiC4TjBXDLPNeEZCJK28TFeDi5ZsBTldWDnfX
- eng0gTTUfIQPnoXhTlrK/y1zfyckpagAcTC2Oxc/Y9lQ5BG4Se9UV16FxWvjOhLlk26MqZ
- iUgWCeF9+iAAPItgXTezUF/K8opBsdc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=IIHafwP56FxGuxQQljTgUxqnu5zBXa7wmJIETk6M1EQ=;
+ b=BwgT27+GM/flfTkMmiHUyOBWioFOGRVaBsAXiXZn5G4RRRfthOo0B+366/WgEajkjrP31Y
+ IajZpczt7CkUp4z55ppxr5MJeYlIughkYp9tefWkqOUreY9rlasIrZvtVDBgGC+GoURBBc
+ Rvi7NzCHGFf4AXIceerOe5k+5jnD7Bc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-88-T1kFXjjpNrWKSPDm70keig-1; Mon, 25 Jul 2022 08:12:46 -0400
-X-MC-Unique: T1kFXjjpNrWKSPDm70keig-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bh18-20020a05600c3d1200b003a32044cc9fso6091094wmb.6
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 05:12:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=41JaJX3GNzXck1EJ32DKcd9hkubRp7uPtPDHymdItLs=;
- b=hWWscrCEpUy5ZiDO8NgnRZpjZPANvc2RyujdXaTTbRaZBjMJoe0LAk3gjqM4lu+38X
- PR9BvWadHtST9hCuTeu4PUxsMh1vZ47myJfPQwXc0rrPVhtF/p644SYhyt/33N194nUN
- AmXAFQYX3deciN+NH9Av3lLzVj+Swg4NjMcoZlE8NOsvTDRHqFmk1JVzb1iPzvPTwQQT
- GwZ8PektonKxMacWu7dd3azAOB3HjPUxyZQrEY8wIz5IigV6tcf9bGh/7i6WvYkqOQF7
- YZb9mchAILTWDKXBRNUi/Rl14xYCGUDY4Caamwhrl1YRKQYzswQhaIO/DHECePMk0hXS
- 1Fwg==
-X-Gm-Message-State: AJIora+71A5hqSrK31jtk6kzUbsn6SOiw9KIT8ULYQNBWiPiBZlAgX5b
- uAeEhzrzCQT3gqwFavud0nSWRBjdJvFvmWl1r7VjeBgJbEpirt2epMOSZiil9E5amcV+jt2pq9H
- h5YYiYibdlzVzfWs=
-X-Received: by 2002:a05:600c:3593:b0:3a3:3a49:41a3 with SMTP id
- p19-20020a05600c359300b003a33a4941a3mr13009081wmq.166.1658751164444; 
- Mon, 25 Jul 2022 05:12:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ug5Tov+98U7PLKlfSaK2NXo42otXYKHBvUw3EpomTK5L1mbknXvkXRwVBPGMXeC9M/XVpDIg==
-X-Received: by 2002:a05:600c:3593:b0:3a3:3a49:41a3 with SMTP id
- p19-20020a05600c359300b003a33a4941a3mr13009068wmq.166.1658751164217; 
- Mon, 25 Jul 2022 05:12:44 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- x3-20020a05600c420300b003a3200bc788sm17312161wmh.33.2022.07.25.05.12.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 05:12:42 -0700 (PDT)
-Date: Mon, 25 Jul 2022 13:12:40 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH for-7.2 04/10] hmp, device_tree.c: introduce fdt-save
-Message-ID: <Yt6IuASrnXp/7bQb@work-vm>
-References: <20220722200007.1602174-1-danielhb413@gmail.com>
- <20220722200007.1602174-5-danielhb413@gmail.com>
+ us-mta-296-ZK7I7ECNP6uVmMke-cg6og-1; Mon, 25 Jul 2022 08:21:24 -0400
+X-MC-Unique: ZK7I7ECNP6uVmMke-cg6og-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C563A83DDE7;
+ Mon, 25 Jul 2022 12:21:22 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 70F3694580;
+ Mon, 25 Jul 2022 12:21:22 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v2 00/11] Refactor bdrv_try_set_aio_context using transactions
+Date: Mon, 25 Jul 2022 08:21:09 -0400
+Message-Id: <20220725122120.309236-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220722200007.1602174-5-danielhb413@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -100,132 +81,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Daniel Henrique Barboza (danielhb413@gmail.com) wrote:
-> To save the FDT blob we have the '-machine dumpdtb=<file>' property. With this
-> property set, the machine saves the FDT in <file> and exit. The created
-> file can then be converted to plain text dts format using 'dtc'.
-> 
-> There's nothing particularly sophisticated into saving the FDT that
-> can't be done with the machine at any state, as long as the machine has
-> a valid FDT to be saved.
-> 
-> The 'fdt-save' command receives a 'filename' paramenter and, if a valid
-> FDT is available, it'll save it in a file 'filename'. In short, this is
-> a '-machine dumpdtb' that can be fired on demand via HMP.
-> 
-> A valid FDT consists of a FDT that was created using libfdt being
-> retrieved via 'current_machine->fdt' in device_tree.c. This condition is
-> met by most FDT users in QEMU.
-> 
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+The aim of this series is to reorganize bdrv_try_set_aio_context
+and drop BDS ->set_aio_context and ->can_set_aio_ctx callbacks in
+favour of a new one, ->change_aio_ctx.
 
-These all probably should be done as wrappers around qmp equivalents.
+More informations in patch 3 (which is also RFC, due to the doubts
+I have with AioContext locks).
 
-Dave
+Patch 1 just add assertions in the code, 2 extends the transactions API to be able to add also transactions in the tail
+of the list.
+Patch 3 is the core of this series, and introduces the new callback.
+It is marked as RFC and the reason is explained in the commit message.
+Patches 4-5-6 implement ->change_aio_ctx in the various block, blockjob
+and block-backend BDSes.
+Patch 7 substitutes ->change_aio_ctx with the old callbacks, and
+patch 8 takes care of deleting the old callbacks and unused code.
 
-> ---
->  hmp-commands.hx              | 13 +++++++++++++
->  include/sysemu/device_tree.h |  2 ++
->  monitor/misc.c               | 13 +++++++++++++
->  softmmu/device_tree.c        | 18 ++++++++++++++++++
->  4 files changed, 46 insertions(+)
-> 
-> diff --git a/hmp-commands.hx b/hmp-commands.hx
-> index c9d465735a..3c134cf652 100644
-> --- a/hmp-commands.hx
-> +++ b/hmp-commands.hx
-> @@ -1768,3 +1768,16 @@ ERST
->                        "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
->          .cmd        = hmp_calc_dirty_rate,
->      },
-> +
-> +    {
-> +        .name       = "fdt-save",
-> +        .args_type  = "filename:s",
-> +        .params     = "[filename] file to save the FDT",
-> +        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
-> +        .cmd        = hmp_fdt_save,
-> +    },
-> +
-> +SRST
-> +``fdt-save`` *filename*
-> +  Save the FDT in the 'filename' file to be decoded using dtc
-> +ERST
-> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
-> index ef060a9759..1397adb21c 100644
-> --- a/include/sysemu/device_tree.h
-> +++ b/include/sysemu/device_tree.h
-> @@ -123,6 +123,8 @@ int qemu_fdt_nop_node(void *fdt, const char *node_path);
->  int qemu_fdt_add_subnode(void *fdt, const char *name);
->  int qemu_fdt_add_path(void *fdt, const char *path);
->  
-> +void fdt_save(const char *filename, Error **errp);
-> +
->  #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
->      do {                                                                      \
->          uint32_t qdt_tmp[] = { __VA_ARGS__ };                                 \
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 3d2312ba8d..145285cec0 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -78,6 +78,7 @@
->  #include "qapi/qmp-event.h"
->  #include "sysemu/cpus.h"
->  #include "qemu/cutils.h"
-> +#include "sysemu/device_tree.h"
->  
->  #if defined(TARGET_S390X)
->  #include "hw/s390x/storage-keys.h"
-> @@ -936,6 +937,18 @@ static void hmp_boot_set(Monitor *mon, const QDict *qdict)
->      }
->  }
->  
-> +static void hmp_fdt_save(Monitor *mon, const QDict *qdict)
-> +{
-> +    const char *path = qdict_get_str(qdict, "filename");
-> +    Error *local_err = NULL;
-> +
-> +    fdt_save(path, &local_err);
-> +
-> +    if (local_err) {
-> +        error_report_err(local_err);
-> +    }
-> +}
-> +
->  static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
->  {
->      bool flatview = qdict_get_try_bool(qdict, "flatview", false);
-> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
-> index 6ca3fad285..eeab6a5ef0 100644
-> --- a/softmmu/device_tree.c
-> +++ b/softmmu/device_tree.c
-> @@ -643,3 +643,21 @@ out:
->      g_free(propcells);
->      return ret;
->  }
-> +
-> +void fdt_save(const char *filename, Error **errp)
-> +{
-> +    int size;
-> +
-> +    if (!current_machine->fdt) {
-> +        error_setg(errp, "Unable to find the machine FDT");
-> +        return;
-> +    }
-> +
-> +    size = fdt_totalsize(current_machine->fdt);
-> +
-> +    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
-> +        return;
-> +    }
-> +
-> +    error_setg(errp, "Error when saving machine FDT to file %s", filename);
-> +}
-> -- 
-> 2.36.1
-> 
+This series is based on "job: replace AioContext lock with job_mutex",
+but just because it uses job_set_aio_context() introduced there.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Based-on: <20220706201533.289775-1-eesposit@redhat.com>
+---
+v2:
+* remove transaction patch, and drain transactions
+* re-add old AioContext lock/unlock, since it makes sense to have it
+* typos in commit message
+* various cleanups in block-backend callbacks
+* use hash map instead of glist when marking visited nodes
+* 2 more additional patches, getting rid of
+  bdrv_try_set_aio_context and bdrv_child_try_change_aio_context
+
+Emanuele Giuseppe Esposito (11):
+  block.c: assert bs->aio_context is written under BQL and drains
+  block: use transactions as a replacement of ->{can_}set_aio_context()
+  bdrv_change_aio_context: use hash table instead of list of visited
+    nodes
+  bdrv_child_try_change_aio_context: add transaction parameter
+  blockjob: implement .change_aio_ctx in child_job
+  block: implement .change_aio_ctx in child_of_bds
+  block-backend: implement .change_aio_ctx in child_root
+  block: use the new _change_ API instead of _can_set_ and _set_
+  block: remove all unused ->can_set_aio_ctx and ->set_aio_ctx callbacks
+  block: rename bdrv_child_try_change_aio_context in
+    bdrv_try_change_aio_context
+  block: remove bdrv_try_set_aio_context and replace it with
+    bdrv_try_change_aio_context
+
+ block.c                            | 360 ++++++++++++++++-------------
+ block/block-backend.c              |  74 +++---
+ block/export/export.c              |   2 +-
+ blockdev.c                         |  22 +-
+ blockjob.c                         |  50 ++--
+ docs/devel/multiple-iothreads.txt  |   4 +-
+ include/block/block-global-state.h |  18 +-
+ include/block/block_int-common.h   |   6 +-
+ job.c                              |   2 +-
+ tests/unit/test-bdrv-drain.c       |   6 +-
+ tests/unit/test-block-iothread.c   |  10 +-
+ 11 files changed, 310 insertions(+), 244 deletions(-)
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.31.1
 
 
