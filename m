@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD12580164
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:14:32 +0200 (CEST)
-Received: from localhost ([::1]:39782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9F3C580194
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:19:56 +0200 (CEST)
+Received: from localhost ([::1]:42788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFzmx-00048i-23
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:14:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36680)
+	id 1oFzsB-0006RF-KT
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:19:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37966)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oFzlB-0001wm-9h
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:12:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37404)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oFzpe-0004x1-Fm
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:17:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oFzl7-0002l5-P2
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:12:39 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oFzpc-0003hh-0y
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:17:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658761956;
+ s=mimecast20190719; t=1658762234;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nc204jzX41RsuCL9R7hRlF3zrzx30vq1QlH1BUCYeBk=;
- b=ZkDzTwoqKTTMV8ddAJ+/bwCLGInS0NGKMPKb4Ox7rC3MRtnQ8mXVR/sUL2FJx/Pql7fL5b
- C4WLEAFLwiZYdFxGOUpedj5+kJVhy55JD4qr6MKhFa8wAOZcU0iBtY3QFQOVNW33WDCY0A
- d6uAoHOHW1lS1vmvlJkWFavm3/8FnkI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2wxoGkCYT48U9Ch3PpTdzzSYd7BWavA6oYpxXLlcALI=;
+ b=ZmcZtV9fS/wth5jF+CHJ0M6paWrSrw7myZUSLfIN0T2+dTP813oBw1dwpAT6FsuwU7mccK
+ AtMdBvW8WQQg/6qyoKaUybbwVcd8qsPpoqL+axkD1VzdVhF0Q+XKy9ukIdWLTjfK5+0lAU
+ ifmvEFqHYuLPU2z1aEuhmpk+UGILd7U=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-541-v6fM8ehaNq-hkiNzZYh4Mg-1; Mon, 25 Jul 2022 11:12:35 -0400
-X-MC-Unique: v6fM8ehaNq-hkiNzZYh4Mg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- ay19-20020a05600c1e1300b003a315c2c1c0so8831319wmb.7
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:12:34 -0700 (PDT)
+ us-mta-75-_NaTvdA1MG6YY3o8421-ow-1; Mon, 25 Jul 2022 11:17:13 -0400
+X-MC-Unique: _NaTvdA1MG6YY3o8421-ow-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ a18-20020a05600c225200b003a30355c0feso4193630wmm.6
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:17:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=Nc204jzX41RsuCL9R7hRlF3zrzx30vq1QlH1BUCYeBk=;
- b=kpcCngj3s9ccHqPTDb6IrKVlJzh40VGsx7pQb9D2Ogks4KpFHN+Nd6OetUOt6bDhfQ
- vKKJPtxGa6fW4ZmdOMjLeoHJnPvKUGzO0MxlLK1hhiz+I0jaOm4/agzipKFqD9k5jkuW
- peAl+V0jqhXKokSMlZU69TJYKDKEW3e/E0PLNgTlLmJI0jgUmQkK0qtxJ6zQpYqvMar0
- 3XJgPftPiAyj/9liR2zzUPQY9oZIh0voKc5ZdevWZcPoq59D1JS0/b3hmpd4Id6jjedi
- T50p/OqDGKT3pPWVlMJl2/pNJkmrLVgwycJfets5ZRPQYI+SIFGak7Pnl/xgWp7dYmqQ
- LyJg==
-X-Gm-Message-State: AJIora8eAy8eJ8hM4PcCe2rBz5HuxQhQurrIQojXHrA0e5AzeKjk6o28
- 3UQeHFrWAMA4E8g3zvLa4ihHX407cRfyjMQaTpnY5wxzivsyKtR+FOWjcIbY22Mz+ZoG4GPxu+4
- Nq44uWfw7F1OxA50=
-X-Received: by 2002:a1c:f314:0:b0:3a2:fee4:91d4 with SMTP id
- q20-20020a1cf314000000b003a2fee491d4mr20775726wmq.108.1658761954025; 
- Mon, 25 Jul 2022 08:12:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t5ScIPNs+S3sC5PNB6fb1UQ8C7Jx3Tf6mhribmCKCJGMx3MTqRDTv7MMC9EYIOBGxwsLquNg==
-X-Received: by 2002:a1c:f314:0:b0:3a2:fee4:91d4 with SMTP id
- q20-20020a1cf314000000b003a2fee491d4mr20775704wmq.108.1658761953654; 
- Mon, 25 Jul 2022 08:12:33 -0700 (PDT)
+ bh=2wxoGkCYT48U9Ch3PpTdzzSYd7BWavA6oYpxXLlcALI=;
+ b=b+yClTf20QdVrpHokWJNWnbReGz4x6PKF6DFRPl+9s4jLIwoFd556pzwbmm4tEr891
+ IjB2AGR243gV0eupvJg499OYnL0T39uEnsJs/wS3KZrbusFHjSTMG+8bs9C7LYy8woYB
+ DXXU8ChIC4TRPUZBaGdmiz6Sptm7k632G7w/C4Q5oMlVAQg20j/2Rqy+6R9Zv7gzOjt0
+ KoNuGeojpehNYqOrefE1bCw4IIrsRrzfCuJF3RNcspS77mcDCI/xpAIr6iWWFRtXmZbJ
+ BgHkrkZtNbT4gSy6gA7Hy6jNm9xgeb9f12zhEWK0slbSx5Oi8qucZk45tKeGziLsFZxP
+ Tx/Q==
+X-Gm-Message-State: AJIora8TYo/p9ptJsGdt2sqRfhjbC8vIJXsrwnRAYGsPxmazLxM7z4oU
+ pVEtPxXmEm+pNiuPIqNwa0o5aON/W18ADu7r/rVe/mFAZqgxZY/qDZgrYQw/pZ7NMoqjqTixHcO
+ KksNtKsiP71P2sos=
+X-Received: by 2002:adf:d1e2:0:b0:21d:c7ae:3b1a with SMTP id
+ g2-20020adfd1e2000000b0021dc7ae3b1amr7763872wrd.700.1658762232497; 
+ Mon, 25 Jul 2022 08:17:12 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vuwtcBAtWQNCp7kGPzNrLHsOV+EDxMByzwU80sfH6ST8HQ1tBxvpkAt6NEbhiLnSHOpHc8vw==
+X-Received: by 2002:adf:d1e2:0:b0:21d:c7ae:3b1a with SMTP id
+ g2-20020adfd1e2000000b0021dc7ae3b1amr7763858wrd.700.1658762232307; 
+ Mon, 25 Jul 2022 08:17:12 -0700 (PDT)
 Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
  [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
- i13-20020adff30d000000b0021e4982270asm12467747wro.13.2022.07.25.08.12.32
+ y7-20020adfe6c7000000b0021e4f595590sm12348795wrm.28.2022.07.25.08.17.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 08:12:33 -0700 (PDT)
-Message-ID: <cb75282e-40e1-a18f-368c-3e15b5369bf5@redhat.com>
-Date: Mon, 25 Jul 2022 17:12:31 +0200
+ Mon, 25 Jul 2022 08:17:12 -0700 (PDT)
+Message-ID: <e46d8c14-db18-e7cc-460a-2f8a80024653@redhat.com>
+Date: Mon, 25 Jul 2022 17:17:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH] .gitlab-ci.d/windows.yml: Enable native Windows symlink
+Subject: Re: [PATCH v1 11/13] tests/tcg/s390x: Test unaligned accesses to
+ lowcore
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>
-References: <20220725123000.807608-1-bmeng.cn@gmail.com>
- <874jz5i9qr.fsf@linaro.org>
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ aurelien@aurel32.net, pbonzini@redhat.com, stefanha@redhat.com,
+ crosa@redhat.com, peter.maydell@linaro.org,
+ Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "open list:S390 TCG CPUs" <qemu-s390x@nongnu.org>
+References: <20220725140520.515340-1-alex.bennee@linaro.org>
+ <20220725140520.515340-12-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <874jz5i9qr.fsf@linaro.org>
+In-Reply-To: <20220725140520.515340-12-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -106,49 +110,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/07/2022 15.47, Alex Bennée wrote:
+On 25/07/2022 16.05, Alex Bennée wrote:
+> From: Ilya Leoshkevich <iii@linux.ibm.com>
 > 
-> Bin Meng <bmeng.cn@gmail.com> writes:
+> Add a small test to avoid regressions.
 > 
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> The following error message was seen during the configure:
->>
->>    "ln: failed to create symbolic link
->>    'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
->>
->> By default the MSYS environment variable is not defined, so the runtime
->> behavior of winsymlinks is: if <target> does not exist, 'ln -s' fails.
->> At the configure phase, the qemu-system-x86_64.exe has not been built
->> so creation of the symbolic link fails hence the error message.
->>
->> Set winsymlinks to 'native' whose behavior is most similar to the
->> behavior of 'ln -s' on *nix, that is:
->>
->>    a) if native symlinks are enabled, and whether <target> exists
->>       or not, creates <destination> as a native Windows symlink;
->>    b) else if native symlinks are not enabled, and whether <target>
->>       exists or not, 'ln -s' creates as a Windows shortcut file.
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220722233614.7254-3-iii@linux.ibm.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   tests/tcg/s390x/Makefile.softmmu-target |  9 +++++++++
+>   tests/tcg/s390x/unaligned-lowcore.S     | 19 +++++++++++++++++++
+>   2 files changed, 28 insertions(+)
+>   create mode 100644 tests/tcg/s390x/Makefile.softmmu-target
+>   create mode 100644 tests/tcg/s390x/unaligned-lowcore.S
 > 
-> I'm still seeing Windows build failures such as:
-> 
->    https://gitlab.com/stsquad/qemu/-/jobs/2765579269
-> 
-> and
-> 
->    https://gitlab.com/stsquad/qemu/-/jobs/2765579267
-> 
-> Any idea what's falling over?
+> diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Makefile.softmmu-target
+> new file mode 100644
+> index 0000000000..a34fa68473
+> --- /dev/null
+> +++ b/tests/tcg/s390x/Makefile.softmmu-target
+> @@ -0,0 +1,9 @@
+> +S390X_SRC=$(SRC_PATH)/tests/tcg/s390x
+> +VPATH+=$(S390X_SRC)
+> +QEMU_OPTS=-action panic=exit-failure -kernel
+> +
+> +%: %.S
+> +	$(CC) -march=z13 -m64 -nostartfiles -static -Wl,-Ttext=0 \
+> +		-Wl,--build-id=none $< -o $@
+> +
+> +TESTS += unaligned-lowcore
+> diff --git a/tests/tcg/s390x/unaligned-lowcore.S b/tests/tcg/s390x/unaligned-lowcore.S
+> new file mode 100644
+> index 0000000000..246b517f11
+> --- /dev/null
+> +++ b/tests/tcg/s390x/unaligned-lowcore.S
+> @@ -0,0 +1,19 @@
+> +    .org 0x1D0                         /* program new PSW */
+> +    .quad 0x2000000000000, 0           /* disabled wait */
+> +    .org 0x200                         /* lowcore padding */
+> +
+> +    .globl _start
+> +_start:
+> +    lctlg %c0,%c0,_c0
+> +    vst %v0,_unaligned
+> +    lpswe quiesce_psw
+> +
+> +    .align 8
+> +quiesce_psw:
+> +    .quad 0x2000000000000,0xfff        /* see is_special_wait_psw() */
+> +_c0:
+> +    .quad 0x10060000                   /* lowcore protection, AFP, VX */
+> +
+> +    .byte 0
+> +_unaligned:
+> +    .octa 0
 
-No clue, but FWIW, I had the same problem in a run from last Friday here 
-(without this symlink patch):
-
-  https://gitlab.com/thuth/qemu/-/jobs/2758244223#L2817
-
-I've never seen this failure before - so I guess it's rather something new?
-
-  Thomas
+Acked-by: Thomas Huth <thuth@redhat.com>
 
 
