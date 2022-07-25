@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C02C58008C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:14:10 +0200 (CEST)
-Received: from localhost ([::1]:53798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64ED458009A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:19:10 +0200 (CEST)
+Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyqX-0003kK-Id
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:14:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47752)
+	id 1oFyvN-0001TH-JF
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:19:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiB-0000sy-Su
+ id 1oFyiD-0000t5-42
  for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:34 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46715)
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyi8-0000Ey-Uj
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:31 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z13so16112310wro.13
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:28 -0700 (PDT)
+ id 1oFyiB-0000Da-Ev
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:32 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id g2so8065300wru.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mTwSnZFRTEa2KBmATJIqMqf3rBKFb32A5FdFD315qZw=;
- b=a9pEPQ0BccKEbo3o4aw5pE66feGjwsfTdqNxNzwwLJPSeC9cZo2+Du6wCibdlZbkKi
- SVq/+Yl/ursEQy9wH/n6jccD7olbn05VZAPMj5ILtirMhj11EDb7b1zyWWRbI0U7W4hZ
- d/PqJt5kTl/899/ACH8ZLOByez327iTf6emrqsYg1JkLy4MwKdPnmpbS2effrEkKGIhN
- ttMjr9frp5Bw6IUV9H6RTETDWHXRS3rF8W7NzvLOtPcQeKXthyqp1a39OsanU6RNRq74
- //6DLkhFEjC79/N2n+C2jpO40pwhqXNCbqhn3jA98Nbz/WvFOyF6C5B/APtt5slAd9J0
- Oy4g==
+ bh=zdxW6z5bLU/Pb6aFUspnYaHiHoxpeGOigvgPyctL6UM=;
+ b=DScNfJlMu6LtUIV1XaaONy5cibk46J2G67Fs+3r7nI+uorqtWi0/BrQAMjASrE4v0R
+ NkinlXr8dVc2N31MIZ2tTPaLV4XN0R2GBjt+4apYE/JYKr1fSL9EhAHT2hJloceuG0fi
+ TH0mdvMZaxCdcZTqa2+6xaRwTuD+MiaK2nJaOGE5Jj6bawO0oP6KywACryLtmJqWOQXE
+ G1ItQTFQwEBxRYMo9HUn5l/ZMuqEHfZ95BqHit+oGnLo6CDy3A6j9S/X14Px3WeLKAFx
+ UPvmjiTl+gciavMxtsnutG1pHMNX13zJdOdeYc4wKqw+K8yQGwY4mrH56+YVKUgm1ReA
+ hfPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mTwSnZFRTEa2KBmATJIqMqf3rBKFb32A5FdFD315qZw=;
- b=nteWqKTm/kNQlYgnAFU3M8nOu9rG76RFy/k//IZEVIwpBHnlKbfQmeR8wFxcES10vF
- a8/Pjv9xM1+jr+VZHpQK9+utnYiXQr32Duq78ZYHTPPKFI5sOf/dHAu04laCLVALoK6H
- xTjANjYpjXkF5GTFCaAl8K+2ewg4azcBJm6UNcrAohgAt74CVY3uy6PvdoNoNTUUX454
- i5ZlEdJ0HisXsalaGiF/6lLrL9GBII67i+Q2+unEpsyNJIDBDqDnxfxkm24FfEOUG9sb
- l5gbpyy4XvnSy2uencbtAZyX9LwdM1GZHj28tIMEWgs09Vn0mPEMlRSdj6Scfn6YETDZ
- 9BJw==
-X-Gm-Message-State: AJIora+7Bo4CJBNN+FAbtA+1myKOPWQOWTxG85KsuH6a0GhbOdGGaoAq
- 0pXR80SNKJXxqWUEoivuuf9eHg==
-X-Google-Smtp-Source: AGRyM1sYKjcfu63fLhkeDHNPyPUNSQ29LnFR29xwNaGba/VAB50aykrIY3DxqLM6W8OUyIQ7MiRkjg==
-X-Received: by 2002:adf:f747:0:b0:21e:8e2a:7cbc with SMTP id
- z7-20020adff747000000b0021e8e2a7cbcmr2278065wrp.342.1658757927086; 
- Mon, 25 Jul 2022 07:05:27 -0700 (PDT)
+ bh=zdxW6z5bLU/Pb6aFUspnYaHiHoxpeGOigvgPyctL6UM=;
+ b=mURsWESUhvNCUvgxLWCHEZJ+iK6s+gPzlJ7IjxsbYN8AlL4HUHtKnGNDFTF3ubByEY
+ ULVAYS+SmzDXouXnRllORkG7qYES6gvmln/0fTBAOIhMXCoeOSl79Ez+ey2Y57uYHFCq
+ gjsvqlq8HkFJ6qnC2ZLlZDLvEj3pvD0LmYrydjRNg9gLIt9ro+wuwHEzYSGaoCxpks1f
+ f2C5SqM32N9B/vIE+qUdjAJkzUv1OwaJvfAH19KwbJDVrdCEnbn74MmdUHhrFwspStUZ
+ 7K9wp11yD0mOQebCfRT9z6bya5bY/JpTe47L2F3YHXiBbelFm3eD1hmDi6OaFc5OwrkQ
+ FHNg==
+X-Gm-Message-State: AJIora8h+lEQcoLO04y4k01Exh/1hj0msOZkBQoloU7CKDKf8XhBbaIT
+ gVKffKfrXu5JAUDogmaFKUOb8kjk3KN2PQ==
+X-Google-Smtp-Source: AGRyM1sYicD2IDj7ooFNjS6KXYUZSdN99z3XMckdOWY+zlKY7Yh9JC+8KNGT0FZKleuYMWkSjWv80Q==
+X-Received: by 2002:a5d:6c6b:0:b0:1ea:77ea:dde8 with SMTP id
+ r11-20020a5d6c6b000000b001ea77eadde8mr7825288wrz.690.1658757929885; 
+ Mon, 25 Jul 2022 07:05:29 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m6-20020a05600c4f4600b003a3442f1229sm10926905wmq.29.2022.07.25.07.05.21
+ a8-20020adfe5c8000000b0021e5d77a489sm9919263wrn.31.2022.07.25.07.05.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 07:05:24 -0700 (PDT)
+ Mon, 25 Jul 2022 07:05:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3AFB1FFBC;
- Mon, 25 Jul 2022 15:05:20 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 1605F1FFBD;
+ Mon, 25 Jul 2022 15:05:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  peter.maydell@linaro.org, Bin Meng <bin.meng@windriver.com>,
- Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v1 04/13] .cirrus.yml: Change winsymlinks to 'native'
-Date: Mon, 25 Jul 2022 15:05:11 +0100
-Message-Id: <20220725140520.515340-5-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PATCH v1 05/13] .gitlab-ci.d/windows.yml: Enable native Windows
+ symlink
+Date: Mon, 25 Jul 2022 15:05:12 +0100
+Message-Id: <20220725140520.515340-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,19 +100,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present winsymlinks is set to 'nativestrict', and its behavior is:
-
-  a) if native symlinks are enabled and <target> exists, creates
-     <destination> as a native Windows symlink;
-  b) else if native symlinks are not enabled or if <target> does
-     not exist, 'ln -s' fails.
-
-This causes the following error message was seen during the configure:
+The following error message was seen during the configure:
 
   "ln: failed to create symbolic link
   'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
 
-Change winsymlinks to 'native' whose behavior is most similar to the
+By default the MSYS environment variable is not defined, so the runtime
+behavior of winsymlinks is: if <target> does not exist, 'ln -s' fails.
+At the configure phase, the qemu-system-x86_64.exe has not been built
+so creation of the symbolic link fails hence the error message.
+
+Set winsymlinks to 'native' whose behavior is most similar to the
 behavior of 'ln -s' on *nix, that is:
 
   a) if native symlinks are enabled, and whether <target> exists
@@ -119,27 +119,31 @@ behavior of 'ln -s' on *nix, that is:
      exists or not, 'ln -s' creates as a Windows shortcut file.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20220719161230.766063-1-bmeng.cn@gmail.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220725123000.807608-1-bmeng.cn@gmail.com>
 ---
- .cirrus.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.d/windows.yml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 20843a420c..eac39024f2 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -10,7 +10,7 @@ windows_msys2_task:
-     memory: 8G
-   env:
-     CIRRUS_SHELL: powershell
--    MSYS: winsymlinks:nativestrict
-+    MSYS: winsymlinks:native
-     MSYSTEM: MINGW64
-     MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.sfx.exe
-     MSYS2_FINGERPRINT: 0
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 1b2ede49e1..0b9572a8a3 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -57,6 +57,7 @@ msys2-64bit:
+       mingw-w64-x86_64-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
++  - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+       --enable-capstone --without-default-devices'
+   - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
+@@ -89,6 +90,7 @@ msys2-32bit:
+       mingw-w64-i686-usbredir "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
++  - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - mkdir output
+   - cd output
+   - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
 -- 
 2.30.2
 
