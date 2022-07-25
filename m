@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C2E57FFB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:19:13 +0200 (CEST)
-Received: from localhost ([::1]:43614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232A157FFB6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:21:49 +0200 (CEST)
+Received: from localhost ([::1]:47120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFxzM-0006py-4M
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:19:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34826)
+	id 1oFy1q-0000yE-W0
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:21:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oFxwX-000406-VC
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:16:17 -0400
-Received: from mail-oa1-x2e.google.com ([2001:4860:4864:20::2e]:43832)
+ id 1oFxxv-0005P2-4e
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:17:43 -0400
+Received: from mail-ot1-x336.google.com ([2607:f8b0:4864:20::336]:45754)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oFxwW-0008K9-9A
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:16:17 -0400
-Received: by mail-oa1-x2e.google.com with SMTP id
- 586e51a60fabf-10d867a8358so14647755fac.10
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:16:15 -0700 (PDT)
+ id 1oFxxo-00008p-Pj
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:17:39 -0400
+Received: by mail-ot1-x336.google.com with SMTP id
+ c20-20020a9d4814000000b0061cecd22af4so4115661otf.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=3AiK8bpuIWf9xj+ZZl1vQPovFjcoodwMABkvu41rK6k=;
- b=EAaFmNCEqmSvgUyHSSv6uXgmu179aKhAcNLcNI3LTMlT6/hMYE9lIFvP8h0Eqjr6u7
- bNnJKtLOsXzpbcv2CVnKAAL56jP3TRzoxGfRlcfIkYYGjnd8UAJ84acwoO6bMd/l/nQp
- CcEbC3dQRRr3j0tJ1LSeTvRUL/d4OCLx/2nof6msI9O6Fpmf0gpbjXMKe/aK02c+zqVC
- Oio6eqwXXQND3NbKaSd7r3kzbNzdUIakkAyfgO+93jdErmRE8OFK467nfUXO2WLWkfbB
- yuS1wmS8hParNgkFfkudeZkpaZktyvow3oBT23JZzygDmQj1rsWbFe/Mqru6PjtGNmSW
- g+OA==
+ bh=BSIJXOg4nianif+mvv287tl270yT90Wor8zE5AjjBCU=;
+ b=G3SKXbfhYZC5T0dYINdBMbqFEibhctn/HOHpvuTUhsC7kRUNH1gTcMfqmRa1RhL0u0
+ mQSQ9BYxd/bN1CBR5X1+fx0XokqA+Bj4mGe7WjY9kaoLH39ZwaW09oaNC62kvuej6wF3
+ zbjg2jqHFWok1WHv+aG8AGUnbynLi5tek6yxWDxfvmmmxL7anguEHgiIfoo1pj+OEZBx
+ hE0viBgnIYntNQB5b01GmOXEFS5ZPa3/Ok6gOybN7qW4OPiM/qVk9QYyrOmgaJ5CPjFu
+ pbPsqQ4N3kIjYrwoUb8MQOMTKwIn1w99sbStD4hI3CWm5W0LC0KEdu3vAq3M2duXW2Iz
+ mm7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=3AiK8bpuIWf9xj+ZZl1vQPovFjcoodwMABkvu41rK6k=;
- b=f/pe+bfoNBABJ2Tz0gLOkENiBzkfuTINIuaBBw73p3HszuwIMyTWYNFsAuGUQnsQaZ
- aApx+c1/1q7W1m2cs6AanIhwjqp58Hd176DrvrDDwm6KF0GEx1NioMEvxm3nHtzXu17z
- uIVLqQQUZJp4cYbtnK5IEg0RWz1cJVFm0J3YjENBG1wmoRCjyW/CJ0/miZODFT3bQVMl
- 8NNAIWYjACuM0LDTbtqPlbAHSw/WvD0C+AONdQ3QyhoES2P1ZVpZ2p2DLYpNi5JcKgFK
- Nh8xWWTvZe/TFVn6u9uTjmZ86yGMhf84ZJ/lVIa+YZXPw0CEVyHNLJ+Fdo7BGC1+FJ44
- pQXQ==
-X-Gm-Message-State: AJIora9R4aX+1yIOFVnSGzTGRS3qbNi4Cp1RQDGCUe0qvAbGbgx9ktlV
- e1kUT6889lkdpvdsNwqy6zk=
-X-Google-Smtp-Source: AGRyM1syS+3Cs56h6YxL8GUGDTTVNqWM6LGszZBffkOiOp52si9GXMT+0x58hh6XnTv4K3bhi1t6KQ==
-X-Received: by 2002:a05:6870:5586:b0:10d:cca6:ab78 with SMTP id
- n6-20020a056870558600b0010dcca6ab78mr5874506oao.94.1658754974668; 
- Mon, 25 Jul 2022 06:16:14 -0700 (PDT)
+ bh=BSIJXOg4nianif+mvv287tl270yT90Wor8zE5AjjBCU=;
+ b=gTfJD6EHbqutKFXmyTavoKAH7jAdQjddmZ+tM3PqGc/+Qs60ghIoWj5DfmGzvVPueH
+ qRToVdpEcCJM6wkP8FWAROJbYvIwtqimeqBY6q0fzvRwJ7LqllDgQ1ijspHF6HC6GCZ6
+ FsfpDUNvflvMaImc/oHjv8cAUZ2SABDysuDYaiynyxfs/HHfHu3VwY4NZjM6shfVpa5V
+ opzfKqeDrD3HbYGoIOpVfK99qFgp9bSZye+SqQW2Hh8ZptiZZj7YVTus+DKunSUbiPYO
+ rXsD3In6PbaKyFiE7TrGP1nK0qOctMJBqvskhQHI2zxu199XdEa9VxCNEWVa2e8gRin0
+ NErA==
+X-Gm-Message-State: AJIora/N1E7wgkvPV2LCxO1m1ECLGTheLiW2kLaW+nccmFogXT8c+Xa2
+ YTkFG3pyD6cuDvOVPM0bZ1U=
+X-Google-Smtp-Source: AGRyM1tKqRpXfcDDwI42ERkvol05hndZCOfybkkJ7Ke2zpWJiqzy7o4nn8qRHZVlRqzqtA1UuWJnrA==
+X-Received: by 2002:a05:6830:1291:b0:61c:9204:ddb9 with SMTP id
+ z17-20020a056830129100b0061c9204ddb9mr4864098otp.179.1658755055700; 
+ Mon, 25 Jul 2022 06:17:35 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c7:1396:9fee:cbb9:2bbd:ebf6?
  ([2804:431:c7c7:1396:9fee:cbb9:2bbd:ebf6])
  by smtp.gmail.com with ESMTPSA id
- p81-20020acaf154000000b00325cda1ff87sm4913150oih.6.2022.07.25.06.16.13
+ p28-20020a056870831c00b0010c727a3c79sm5893752oae.26.2022.07.25.06.17.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 06:16:14 -0700 (PDT)
-Message-ID: <da81ff9a-069b-1a7a-b633-f47696110759@gmail.com>
-Date: Mon, 25 Jul 2022 10:16:11 -0300
+ Mon, 25 Jul 2022 06:17:35 -0700 (PDT)
+Message-ID: <5982ed2f-7d22-108d-f674-85ff89360593@gmail.com>
+Date: Mon, 25 Jul 2022 10:17:32 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH for-7.2 00/10] add hmp 'save-fdt' and 'info fdt' commands
+Subject: Re: [PATCH for-7.2 04/10] hmp, device_tree.c: introduce fdt-save
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ David Gibson <david@gibson.dropbear.id.au>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 References: <20220722200007.1602174-1-danielhb413@gmail.com>
- <Yt5eJDhwdQclX5fY@redhat.com>
+ <20220722200007.1602174-5-danielhb413@gmail.com>
+ <f0b25992-ac35-4b1-1ed9-ebf7ceaecbb7@eik.bme.hu>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <Yt5eJDhwdQclX5fY@redhat.com>
+In-Reply-To: <f0b25992-ac35-4b1-1ed9-ebf7ceaecbb7@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2e;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::336;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x336.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -99,60 +101,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 7/25/22 06:11, Daniel P. Berrangé wrote:
-> On Fri, Jul 22, 2022 at 04:59:57PM -0300, Daniel Henrique Barboza wrote:
->> Hi,
+On 7/22/22 20:13, BALATON Zoltan wrote:
+> On Fri, 22 Jul 2022, Daniel Henrique Barboza wrote:
+>> To save the FDT blob we have the '-machine dumpdtb=<file>' property. With this
+>> property set, the machine saves the FDT in <file> and exit. The created
+>> file can then be converted to plain text dts format using 'dtc'.
 >>
->> After dealing with a FDT element that isn't being shown in the userspace
->> and having to shutdown the guest, dump the FDT using 'machine -dumpdtb' and
->> then using 'dtc' to see what was inside the FDT, I thought it was a good
->> idea to add extra support for FDT handling in QEMU.
+>> There's nothing particularly sophisticated into saving the FDT that
+>> can't be done with the machine at any state, as long as the machine has
+>> a valid FDT to be saved.
 >>
->> This series introduces 2 commands. 'fdt-save' behaves similar to what
->> 'machine -dumpdtb' does, with the advantage of saving the FDT of a running
->> guest on demand. This command is implemented in patch 03.
->>
->> The second command, 'info fdt <command>' is more sophisticated. This
->> command can print specific nodes and properties of the FDT. A few
->> examples:
->>
->> - print the /cpus/cpu@0 from an ARM 'virt' machine:
->>
->> (qemu) info fdt /cpus/cpu@0
->> /cpus/cpu@0 {
->>      phandle = <0x8001>
->>      reg = <0x0>
->>      compatible = 'arm,cortex-a57'
->>      device_type = 'cpu'
->> }
->> (qemu)
->>
->> - print the device_type property of the interrupt-controller node of a
->> pSeries machine:
->>
->> (qemu) info fdt /interrupt-controller/device_type
->> /interrupt-controller/device_type = 'PowerPC-External-Interrupt-Presentation'
->> (qemu)
+>> The 'fdt-save' command receives a 'filename' paramenter and, if a valid
+>> FDT is available, it'll save it in a file 'filename'. In short, this is
+>> a '-machine dumpdtb' that can be fired on demand via HMP.
 > 
-> Please don't add new HMP-only commands. These should be provided
-> as QMP commands, where the HMP is a tiny shim to the QMP.
+> If it does the same as -machine dumpdtb wouldn't it be more intuitive to call the HMP command the same, so either dumpdtb or machine-dumpdtb or similar? That way it's more obvious that these do the same.
 
-I wasn't sure if this would be useful to be in QMP, but perhaps it's better to
-let QMP consumers to decide whether use it or not.
 
-I'll repost both as QMP commands with an HMP layer on top of them.
+Good point. I'll rename 'fdt-save' to 'dumpdtb'.
 
 
 Daniel
 
 > 
-> If you don't want to think about formally modelling the data
-> for 'info fdt' / 'query-fdt', then just put an 'x-' prefix on
-> the QMP command and return printed formatted data, as illustrated
-> in:
+> Regards,
+> BALATON Zoltan
 > 
-> https://www.qemu.org/docs/master/devel/writing-monitor-commands.html#writing-a-debugging-aid-returning-unstructured-text
-> 
-> With regards,
-> Daniel
+>> A valid FDT consists of a FDT that was created using libfdt being
+>> retrieved via 'current_machine->fdt' in device_tree.c. This condition is
+>> met by most FDT users in QEMU.
+>>
+>> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>> hmp-commands.hx              | 13 +++++++++++++
+>> include/sysemu/device_tree.h |  2 ++
+>> monitor/misc.c               | 13 +++++++++++++
+>> softmmu/device_tree.c        | 18 ++++++++++++++++++
+>> 4 files changed, 46 insertions(+)
+>>
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index c9d465735a..3c134cf652 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -1768,3 +1768,16 @@ ERST
+>>                       "\n\t\t\t -b to specify dirty bitmap as method of calculation)",
+>>         .cmd        = hmp_calc_dirty_rate,
+>>     },
+>> +
+>> +    {
+>> +        .name       = "fdt-save",
+>> +        .args_type  = "filename:s",
+>> +        .params     = "[filename] file to save the FDT",
+>> +        .help       = "save the FDT in the 'filename' file to be decoded using dtc",
+>> +        .cmd        = hmp_fdt_save,
+>> +    },
+>> +
+>> +SRST
+>> +``fdt-save`` *filename*
+>> +  Save the FDT in the 'filename' file to be decoded using dtc
+>> +ERST
+>> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+>> index ef060a9759..1397adb21c 100644
+>> --- a/include/sysemu/device_tree.h
+>> +++ b/include/sysemu/device_tree.h
+>> @@ -123,6 +123,8 @@ int qemu_fdt_nop_node(void *fdt, const char *node_path);
+>> int qemu_fdt_add_subnode(void *fdt, const char *name);
+>> int qemu_fdt_add_path(void *fdt, const char *path);
+>>
+>> +void fdt_save(const char *filename, Error **errp);
+>> +
+>> #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+>>     do {                                                                      \
+>>         uint32_t qdt_tmp[] = { __VA_ARGS__ };                                 \
+>> diff --git a/monitor/misc.c b/monitor/misc.c
+>> index 3d2312ba8d..145285cec0 100644
+>> --- a/monitor/misc.c
+>> +++ b/monitor/misc.c
+>> @@ -78,6 +78,7 @@
+>> #include "qapi/qmp-event.h"
+>> #include "sysemu/cpus.h"
+>> #include "qemu/cutils.h"
+>> +#include "sysemu/device_tree.h"
+>>
+>> #if defined(TARGET_S390X)
+>> #include "hw/s390x/storage-keys.h"
+>> @@ -936,6 +937,18 @@ static void hmp_boot_set(Monitor *mon, const QDict *qdict)
+>>     }
+>> }
+>>
+>> +static void hmp_fdt_save(Monitor *mon, const QDict *qdict)
+>> +{
+>> +    const char *path = qdict_get_str(qdict, "filename");
+>> +    Error *local_err = NULL;
+>> +
+>> +    fdt_save(path, &local_err);
+>> +
+>> +    if (local_err) {
+>> +        error_report_err(local_err);
+>> +    }
+>> +}
+>> +
+>> static void hmp_info_mtree(Monitor *mon, const QDict *qdict)
+>> {
+>>     bool flatview = qdict_get_try_bool(qdict, "flatview", false);
+>> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+>> index 6ca3fad285..eeab6a5ef0 100644
+>> --- a/softmmu/device_tree.c
+>> +++ b/softmmu/device_tree.c
+>> @@ -643,3 +643,21 @@ out:
+>>     g_free(propcells);
+>>     return ret;
+>> }
+>> +
+>> +void fdt_save(const char *filename, Error **errp)
+>> +{
+>> +    int size;
+>> +
+>> +    if (!current_machine->fdt) {
+>> +        error_setg(errp, "Unable to find the machine FDT");
+>> +        return;
+>> +    }
+>> +
+>> +    size = fdt_totalsize(current_machine->fdt);
+>> +
+>> +    if (g_file_set_contents(filename, current_machine->fdt, size, NULL)) {
+>> +        return;
+>> +    }
+>> +
+>> +    error_setg(errp, "Error when saving machine FDT to file %s", filename);
+>> +}
+>>
 
