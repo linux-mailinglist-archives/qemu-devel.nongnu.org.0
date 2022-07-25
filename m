@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2654E57FADD
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:06:00 +0200 (CEST)
-Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE0C57FB0C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:14:09 +0200 (CEST)
+Received: from localhost ([::1]:39576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFt6D-0000a8-UH
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
+	id 1oFtE3-0006sR-B7
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:14:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFsgP-0004DK-He
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45080)
+ id 1oFsgS-0004L4-CU
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58628)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFsgG-0003Eu-RR
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:16 -0400
+ id 1oFsgI-0003G3-K4
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658734748;
+ s=mimecast20190719; t=1658734749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I3pORQ6PuXiP6Yxws6nIIgtNVljaZ3seoYQ/n1fLhRA=;
- b=CMY99NmWSViNQxbbi27sMHtDOtW5wXu6axHDK/jNAoY+fVZ3hgFp9n7nydX8h1nZQtTav2
- tAA2B52AUuhQVXq9W+eTE5kMsYsB0Rj9+cWEsVIoPHGFSAwGoYflueAzI8I0ydV25/J9kV
- QLYiACMolHY6sfZGG3grRAbwBifDTQ0=
+ bh=LM9s2f6eUF43PxjCV18hv9qLtt4l9RfLQtWPgCDMmbQ=;
+ b=HFN4AXnVAzk/SvB1cHB9Txp7vHY/mK5ZSEGWQgaOPIXm8tyG4MMgXxC3Qh9JCIzUWXZL53
+ IdyPS/a21dr13Zl+5QNpmGS9v578PlaMvpBmoDr4F9pGrKXYGwdD4opKQk+5TsXInu7tX5
+ 3pDVyfK0ml0D2X96Tsju3vLffYm1P/w=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-492-MG9ymYfjNPOpEYOK8EuZkg-1; Mon, 25 Jul 2022 03:39:05 -0400
-X-MC-Unique: MG9ymYfjNPOpEYOK8EuZkg-1
+ us-mta-657-dxosgcrYNoiS8FsJUT7NuA-1; Mon, 25 Jul 2022 03:39:05 -0400
+X-MC-Unique: dxosgcrYNoiS8FsJUT7NuA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A29F880418F;
- Mon, 25 Jul 2022 07:39:04 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3AA951032963;
+ Mon, 25 Jul 2022 07:39:05 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 53C3E2166B26;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB2172166B26;
  Mon, 25 Jul 2022 07:39:04 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -53,23 +53,24 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v10 14/21] jobs: protect job.aio_context with BQL and job_mutex
-Date: Mon, 25 Jul 2022 03:38:48 -0400
-Message-Id: <20220725073855.76049-15-eesposit@redhat.com>
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: [PATCH v10 15/21] blockjob.h: categorize fields in struct BlockJob
+Date: Mon, 25 Jul 2022 03:38:49 -0400
+Message-Id: <20220725073855.76049-16-eesposit@redhat.com>
 In-Reply-To: <20220725073855.76049-1-eesposit@redhat.com>
 References: <20220725073855.76049-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eesposit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,130 +87,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to make it thread safe, implement a "fake rwlock",
-where we allow reads under BQL *or* job_mutex held, but
-writes only under BQL *and* job_mutex.
+The same job lock is being used also to protect some of blockjob fields.
+Categorize them just as done in job.h.
 
-The only write we have is in child_job_set_aio_ctx, which always
-happens under drain (so the job is paused).
-For this reason, introduce job_set_aio_context and make sure that
-the context is set under BQL, job_mutex and drain.
-Also make sure all other places where the aiocontext is read
-are protected.
-
-Note: at this stage, job_{lock/unlock} and job lock guard macros
-are *nop*.
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/replication.c |  6 ++++--
- blockjob.c          |  3 ++-
- include/qemu/job.h  | 19 ++++++++++++++++++-
- job.c               | 12 ++++++++++++
- 4 files changed, 36 insertions(+), 4 deletions(-)
+ include/block/blockjob.h | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/block/replication.c b/block/replication.c
-index 55c8f894aa..2189863df1 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -148,8 +148,10 @@ static void replication_close(BlockDriverState *bs)
-     }
-     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
-         commit_job = &s->commit_job->job;
--        assert(commit_job->aio_context == qemu_get_current_aio_context());
--        job_cancel_sync(commit_job, false);
-+        WITH_JOB_LOCK_GUARD() {
-+            assert(commit_job->aio_context == qemu_get_current_aio_context());
-+            job_cancel_sync_locked(commit_job, false);
-+        }
-     }
- 
-     if (s->mode == REPLICATION_MODE_SECONDARY) {
-diff --git a/blockjob.c b/blockjob.c
-index 96fb9d9f73..9ff2727025 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
-         bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
-     }
- 
--    job->job.aio_context = ctx;
-+    job_set_aio_context(&job->job, ctx);
- }
- 
- static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
- {
-     BlockJob *job = c->opaque;
-+    assert(qemu_in_main_thread());
- 
-     return job->job.aio_context;
- }
-diff --git a/include/qemu/job.h b/include/qemu/job.h
-index 5709e8d4a8..c144aabefc 100644
---- a/include/qemu/job.h
-+++ b/include/qemu/job.h
-@@ -77,7 +77,12 @@ typedef struct Job {
- 
-     /** Protected by AioContext lock */
- 
--    /** AioContext to run the job coroutine in */
+diff --git a/include/block/blockjob.h b/include/block/blockjob.h
+index 8b65d3949d..912e10b083 100644
+--- a/include/block/blockjob.h
++++ b/include/block/blockjob.h
+@@ -40,10 +40,16 @@ typedef struct BlockJobDriver BlockJobDriver;
+  * Long-running operation on a BlockDriverState.
+  */
+ typedef struct BlockJob {
+-    /** Data belonging to the generic Job infrastructure */
 +    /**
-+     * AioContext to run the job coroutine in.
-+     * This field can be read when holding either the BQL (so we are in
-+     * the main loop) or the job_mutex.
-+     * It can be only written when we hold *both* BQL and job_mutex.
++     * Data belonging to the generic Job infrastructure.
++     * Protected by job mutex.
 +     */
-     AioContext *aio_context;
+     Job job;
  
-     /** Reference count of the block job */
-@@ -741,4 +746,16 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
- int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
-                            Error **errp);
+-    /** Status that is published by the query-block-jobs QMP API */
++    /**
++     * Status that is published by the query-block-jobs QMP API.
++     * Protected by job mutex.
++     */
+     BlockDeviceIoStatus iostatus;
  
-+/**
-+ * Sets the @job->aio_context.
-+ * Called with job_mutex *not* held.
-+ *
-+ * This function must run in the main thread to protect against
-+ * concurrent read in job_finish_sync_locked(),
-+ * takes the job_mutex lock to protect against the read in
-+ * job_do_yield_locked(), and must be called when the coroutine
-+ * is quiescent.
-+ */
-+void job_set_aio_context(Job *job, AioContext *ctx);
+     /** Speed that was set with @block_job_set_speed.  */
+@@ -55,6 +61,8 @@ typedef struct BlockJob {
+     /** Block other operations when block job is running */
+     Error *blocker;
+ 
++    /** All notifiers are set once in block_job_create() and never modified. */
 +
- #endif
-diff --git a/job.c b/job.c
-index ecec66b44e..0a857b1468 100644
---- a/job.c
-+++ b/job.c
-@@ -394,6 +394,17 @@ Job *job_get(const char *id)
-     return job_get_locked(id);
- }
+     /** Called when a cancelled job is finalised. */
+     Notifier finalize_cancelled_notifier;
  
-+void job_set_aio_context(Job *job, AioContext *ctx)
-+{
-+    /* protect against read in job_finish_sync_locked and job_start */
-+    assert(qemu_in_main_thread());
-+    /* protect against read in job_do_yield_locked */
-+    JOB_LOCK_GUARD();
-+    /* ensure the coroutine is quiescent while the AioContext is changed */
-+    assert(job->pause_count > 0);
-+    job->aio_context = ctx;
-+}
-+
- /* Called with job_mutex *not* held. */
- static void job_sleep_timer_cb(void *opaque)
- {
-@@ -1376,6 +1387,7 @@ int job_finish_sync_locked(Job *job,
- {
-     Error *local_err = NULL;
-     int ret;
-+    assert(qemu_in_main_thread());
+@@ -70,7 +78,10 @@ typedef struct BlockJob {
+     /** Called when the job coroutine yields or terminates */
+     Notifier idle_notifier;
  
-     job_ref_locked(job);
+-    /** BlockDriverStates that are involved in this block job */
++    /**
++     * BlockDriverStates that are involved in this block job.
++     * Always modified and read under QEMU global mutex (GLOBAL_STATE_CODE)
++     */
+     GSList *nodes;
+ } BlockJob;
  
 -- 
 2.31.1
