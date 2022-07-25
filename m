@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146D457FF7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:05:48 +0200 (CEST)
-Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6109D57FF81
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:06:49 +0200 (CEST)
+Received: from localhost ([::1]:34442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFxmM-00077P-DT
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:05:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
+	id 1oFxnM-0008E3-CC
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
- id 1oFxZ8-000249-Qv
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:52:07 -0400
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39689)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
- id 1oFxZ6-0003TW-RO
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:52:06 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id E93335800E2
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:52:02 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute3.internal (MEProxy); Mon, 25 Jul 2022 08:52:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- colorremedies.com; h=cc:content-transfer-encoding:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1658753522; x=1658757122; bh=BXzME7qpM3th0P++sWfnv6jS6
- tarAhrZbaf8U33q5Uk=; b=OkmeehZjZmD7G5M18aXZcRgC4E2D36x6tITyzxEFH
- bnrLvqOU7Prhgc4ASZKnVlvQC9NJzLRkAVSN+ADUNGxtA/cJ8TtmXaDcOFPWMHpj
- OsqrXe6VT4vzKndE7FYS8bNJhX6ln6PIKRR6blqZ8NGmZOVCSOTjo0r8/aWMxg8V
- Exv7CL2a1tmaUxLhzxSo9FipH8lw8f2K8X+Honfx7XEzFvTsW7aIu91g0SPjIY1A
- K9izMXu/znPxVNkS4EJGv4Cwm+fKT7Ap2vv2iIAe697o4ldpinOZvwRtbKfMaw+3
- qWii3bYdQAR8d/Y5LKB6H5/09ceiqQ7BqvIGP+PEMqQlw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=i06494636.fm3; t=1658753522; x=
- 1658757122; bh=BXzME7qpM3th0P++sWfnv6jS6tarAhrZbaf8U33q5Uk=; b=m
- aNj6IB5tBW8z/bBQ8inr0oegZd6hl2Eb4VmL9ekEZyc0hHROc+/ivuoercNRHJ7A
- 1Xb78n4hJp83Bl/yyZDCX1AuY2cJs2pmXrUHHyjpPZ3fzdfToJbKAp+cHGOEEx0J
- BeNtR5eK4B1kRYrUqrOnoO3H0UQjeE/LPhVdksk3kdfJIHymEUcvb9T2QMqiMyrX
- 7/lrkWGxNAzUlW0WccfSA/pLh/NHPjv5QCT9olfkZgq5N3W1p3vENMUaHtAmgalO
- 356iGw/WxrFVDgeyuRL3s+uGiz1xGySEofkb0KxdRN4z88EgLA33CEwpj07G6zTZ
- eoWkM+/Z1cgwyDUbogWrQ==
-X-ME-Sender: <xms:8pHeYnsfNG1bbCGzgwP-CtxFfV1iJmiYzu7Cb7z--He8V4YBZNlkxg>
- <xme:8pHeYocF1EqTu-U_cxv0FhHqh8Jk7ZlvF1BtJUvG9WoHK3sKpepqwhXkN90UDzwGZ
- Gx1ywRRKJl3v2lsYVs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtkedgheegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
- hqredtreerjeenucfhrhhomhepfdevhhhrihhsucfouhhrphhhhidfuceolhhishhtshes
- tgholhhorhhrvghmvgguihgvshdrtghomheqnecuggftrfgrthhtvghrnheptdejvdfgtd
- duhefhtdetffduvdeghfeludeufeetteeivdehleetfeffffdtgedunecuffhomhgrihhn
- pehfvgguohhrrghprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomheplhhishhtshestgholhhorhhrvghmvgguihgvshdr
- tghomh
-X-ME-Proxy: <xmx:8pHeYqz8EXv2VD4IwzBVjZSd8SqWIRJzWwRnpgj4C88gMXIzjK0puA>
- <xmx:8pHeYmOJHut-usay7KEB0PB4HJW314HUKryRT2XmEr-t4NWH4BbXOg>
- <xmx:8pHeYn8190h2Yd2hVZJxSmqwT7rmyQo7EsKvSREThb-otRKb-KdVCQ>
- <xmx:8pHeYqLeXPEzjvOtMDx4DI2L6Ofq2uWaFUUYbcKBG7XwCkDsV2_Ia2DAVDg>
-Feedback-ID: i06494636:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 8FB60170007E; Mon, 25 Jul 2022 08:52:02 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
-Mime-Version: 1.0
-Message-Id: <79ec108b-60bf-4c18-8917-9d7c8fd74b89@www.fastmail.com>
-In-Reply-To: <Yt5etOfFUQb12ljA@redhat.com>
-References: <4f9c91b1-719c-443e-a757-042e772d6019@www.fastmail.com>
- <Yt5etOfFUQb12ljA@redhat.com>
-Date: Mon, 25 Jul 2022 08:51:42 -0400
-From: "Chris Murphy" <lists@colorremedies.com>
-To: qemu-devel@nongnu.org
-Subject: Re: driver type raw-xz supports discard=unmap?
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.230;
- envelope-from=lists@colorremedies.com; helo=new4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFxl3-0005TW-EK
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:04:25 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:44551)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFxl1-00068g-F2
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:04:25 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id j195so539455ybj.11
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tjDXRmPf8hQtmla1dqHis+57C0Y7VxCvMTPZFieXnOw=;
+ b=AJ0Pjru1Hpr305aIg6IOP434WZLWXK7yIr8u0//sB1G9isDnriYi1zFcEbre5KtGAL
+ FRJINe5eBDPM48REPyKaoVi3ftjF+tTK22Oymd/B/lYfiOhJGZjrA2Iz2sbUcPCEbwPE
+ QqYdp43AsXhjDhHm+rPPQTWIzuS2qU6PqwGxZeHSZCPo/6c74GTRLjpCN7QmZwgtRMAX
+ rW50yuON5DvKIuGmyK6w6squkRSPM7WOI6M8g2RQSp08tsfj8pmuZYVBYQcdmJzkihKb
+ jmxNTlFOTTfvgGXaK71lIusgzecIOI0n1dGTBHuc0529L0xCJENgueQPXnz7QeA/TCMc
+ 0mxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tjDXRmPf8hQtmla1dqHis+57C0Y7VxCvMTPZFieXnOw=;
+ b=UqrH0uKgxtgLrJjPE1GNTmgw7lEgmMJ4INxNFq3BJydKm4M3V83WsG8kNB8iJxg+y2
+ ZkdogwUXiZ4HhO5ETCYpgXKnDHF/6jnv3kBc8fn4++rkMLVmAf0brpgQfNt/ZLXJX9Qx
+ tpfSdRycEIm3Na5AHePI67gD0A20wfGehBUDroLAaml0O+Mkb3gaDNTKD8BfQk6Bflfl
+ jFv8GriKVl90aK0PAlniBzuiG0qhfdmYXxdB36IDlIZU49dZ71GNydIgwfrBwl9C0rYr
+ O7VKnt5j/nyUdK/on3lO/8+kftMgVcP8JkyqrLOI4bRXFvpbnLShPzZZrM9I66T759rQ
+ Egyg==
+X-Gm-Message-State: AJIora/1o5iDrTh1u8o/XC+FxUcjAvPnY609yiQ/GFJzCSaAupYLUMB+
+ RJvfnn6pX7CudpKjgOcJ8G+CcmsOEUkIePpyADt8Vg==
+X-Google-Smtp-Source: AGRyM1vvn5cr55zAB2VGddolZEj5oJbu1/3xZ7ESW9QXb38ldGTOwon9voaM3hmmfIPwQYpqmD/HHGLwUTP4ksQbZ+M=
+X-Received: by 2002:a25:d307:0:b0:670:80fd:85c4 with SMTP id
+ e7-20020a25d307000000b0067080fd85c4mr8835003ybf.67.1658754261963; Mon, 25 Jul
+ 2022 06:04:21 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220723111228.8611-1-alanjian85@outlook.com>
+In-Reply-To: <20220723111228.8611-1-alanjian85@outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 25 Jul 2022 14:03:42 +0100
+Message-ID: <CAFEAcA_7RU8KH7GJxmSx9qCB+nkFkw2hQKDtfSABFc5aXa-3Fg@mail.gmail.com>
+Subject: Re: [PATCH] hw/display/bcm2835_fb: Fix framebuffer allocation address
+To: alanjian85 <alanjian85@gmail.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
+ alanjian85 <alanjian85@outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,47 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Mon, Jul 25, 2022, at 5:13 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Fri, Jul 22, 2022 at 04:03:52PM -0400, Chris Murphy wrote:
->> Is this valid?
->>=20
->> `<disk device=3D"disk" type=3D"file">
->> <target dev=3D"vda" bus=3D"virtio"/>
->> <source file=3D"Fedora-Workstation-Rawhide-20220721.n.0.aarch64.raw-x=
-z"/>
->> <driver name=3D"qemu" type=3D"raw-xz" discard=3D"unmap"/>`
->> `/>
->> </disk>`
->>=20
->> I know type=3D"raw" works fine, I'm wondering if there'd be any probl=
-em
->> with type "raw-xz" combined with discards?
+On Sat, 23 Jul 2022 at 12:15, alanjian85 <alanjian85@gmail.com> wrote:
 >
-> This is libvirt configuration, so libvirt-users@redhat.com is the bett=
-er
-> list in general. That said, what is this 'raw-xz' type you refer to ?
+> This patch fixes the dedicated framebuffer mailbox interface(marked as
+> deprecated in official docs, but can still be fixed for emulation purposes)
+> by removing unneeded offset to make it works like buffer allocate tag in
+> bcm2835_property interface[1], some baremetal applications like the
+> Screen01/Screen02 examples from Baking Pi tutorial[2] didn't work
+> before this patch.
 >
-> AFAIK, that is not a disk driver type that exists in either libvirt or
-> QEMU releases.
+> [1] https://github.com/qemu/qemu/blob/master/hw/misc/bcm2835_property.c#L158
+> [2] https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/screen01.html
+>
+> Signed-off-by: alanjian85 <alanjian85@outlook.com>
 
-Huh, interesting. I have no idea then. I just happened to notice it in t=
-he (libvirt) XML config that's used by oz.
-https://kojipkgs.fedoraproject.org//packages/Fedora-Workstation/Rawhide/=
-20220721.n.0/images/libvirt-raw-xz-aarch64.xml
+Thanks for this patch. Our submission rules require a full
+personal name in the Signed-off-by line, not just a username.
+We can't take the patch without this, I'm afraid.
 
-When manually modifying a virt-manager created config, to change "raw" t=
-o "raw-xz" I get an error:
+> ---
+>  hw/display/bcm2835_fb.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 
-# virsh edit uefivm
-error: XML document failed to validate against schema: Unable to validat=
-e doc against /usr/share/libvirt/schemas/domain.rng
-Extra element devices in interleave
-Element domain failed to validate content
+Is there any difference between this patch and the one you
+sent a few days previously?
 
-Failed. Try again? [y,n,i,f,?]:=20
+https://patchew.org/QEMU/20220721081544.38228-1-alanjian85@outlook.com/
 
-I've got no idea what happens if an invalid type is specified in the con=
-fig. The VM's are definitely running despite this. I'll ask oz devs.
+Generally if you're sending an updated version of patch it's helpful
+to mark it as "[PATCH v2]" or whatever, and to include a note below
+the '---' line that says what the changes are.
+
+thanks
+-- PMM
 
