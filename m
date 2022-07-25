@@ -2,101 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C1257FC97
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 11:38:23 +0200 (CEST)
-Received: from localhost ([::1]:57816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CA7357FE04
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:03:24 +0200 (CEST)
+Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFuXe-0001KL-2s
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 05:38:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
+	id 1oFvrv-0000Na-0V
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:03:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFuW9-0008N2-1C
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:36:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFuW4-0004PX-El
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:36:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658741800;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AOYFRhGkb10OAe8LzC2iXHQJ5iqncr95aKZsdocQoTE=;
- b=F7KMhgLO9ZUn/ehncm8tO6pkH0inKJh8ia7xXQOeiylyCH+kWnwPIUlFXwfsnpTmKM7HaX
- P4ojBo11kzARMyUC51Q2odNMLzVdL60ZHBfSkcNgJvxFERI97MnORBgC07Emnc26S5uquE
- caIqXgevsezTaFT+Df/Euec4sPCrvjw=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-240-TJEinlHzOveMvzAbSE7mMA-1; Mon, 25 Jul 2022 05:36:38 -0400
-X-MC-Unique: TJEinlHzOveMvzAbSE7mMA-1
-Received: by mail-pg1-f198.google.com with SMTP id
- 196-20020a6301cd000000b0041b0f053fd1so235811pgb.6
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 02:36:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFvpJ-00067x-W4
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:00:42 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFvpI-0008Vl-A4
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:00:41 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id u5so15425797wrm.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 04:00:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mEQoXa7IYp0GkwsZ9db5gJWuruSBrDHu6zu3PBQmph0=;
+ b=zOHorEBOyQTRwZ/lXObi5bIjfsn3BXYFOtRHJIbU/6D4Bs5YafBSEFArISDe4JluhE
+ MIY7DrpYPgyKeFZIsGmcD0AFMmH5MI/a3sbkGppm8AQ+PFLNqEefC+Z8zC10rV6H3XHz
+ W7Q6I/4UPXKoUMlUg26XKJjNl//scTMt9g5rtp9SueCIE7+BJeK3pRYh7V+/BwGRzgly
+ g8t5BVTFTBtqTrEPSeOFj6H4voqqfTXqjobHfAAZMTB2JZIqKtExOHlj45y1jIe/Y8Bk
+ 2chdrNNI5oguU8WKX0rfIYtmvmx5ueleoFYyx7sEy3QEYgKbvvKdwoo8Ir3A6CF1ppXR
+ BAbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=AOYFRhGkb10OAe8LzC2iXHQJ5iqncr95aKZsdocQoTE=;
- b=fl08DeXEvF0f0xqNwiI6bQxDrLshnRH4URPhwxuUdAcREHCWg5cOZ3kEDv6o6jXZnp
- swo2aJvaQ+vR4kFvpvMI3ir5Ts8d3tWbYBrMIwwprpo8GVQWLWchmNgUfGBvmCaScb3s
- OXzK5Vv/T+fIvCzBUPcdVcI+wrTWaKAfCdEs35JiCfLNbHUjazDXhRf1AVHBgleBxFoa
- V8TJj+lO79mit75rnAqWkvB1Lx1xzHkyo1IgkWiUMcFQuXEtNsXZmx10ju7goPyfNBSX
- t7cH1yvv+aDPVd5Rm0uEmUWyDKLNp0Cjcv96lST3iS0QDHhMmWkme3qHBwYgcONR+BJv
- WEFQ==
-X-Gm-Message-State: AJIora+NiD1rvLn0KKk/E3CGfeRhTLPW/JUZ/lHCa21BAAJOisqgzMEx
- xjaxnLgfhsoUdbquuwV2sSQcQDlHoTMMtBKk9tSYynj2aVlr3khXZHBRd6ITMkWkUVwxwJEeVCE
- T76M/eWsPR2hvpy8=
-X-Received: by 2002:a62:3884:0:b0:52b:ead1:7bc8 with SMTP id
- f126-20020a623884000000b0052bead17bc8mr9166313pfa.78.1658741797524; 
- Mon, 25 Jul 2022 02:36:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uAJPwLww74z3mRYesDxBU6PPDsp78NaoLITE97YOswfQ8HkwxKokcN0osi5NGWFDnkVbKTzg==
-X-Received: by 2002:a62:3884:0:b0:52b:ead1:7bc8 with SMTP id
- f126-20020a623884000000b0052bead17bc8mr9166277pfa.78.1658741797065; 
- Mon, 25 Jul 2022 02:36:37 -0700 (PDT)
-Received: from [10.72.13.203] ([209.132.188.80])
+ bh=mEQoXa7IYp0GkwsZ9db5gJWuruSBrDHu6zu3PBQmph0=;
+ b=kzJYLb7/ogLAirjC5MXfvwYt1mln7L//Bg1y8liNOpHAgh6MbcRxg6ZWglAGl8e/3Q
+ HbIWfz9JY403ehi2jAU7KTFiB2K6W7bDR57tRq5JHp+br0t+ytobC81m7rPUUiR/cOPN
+ 7grkwTg67kQpFKSkWtzpxdIDTUdk9RM3jWf6P1KMAA7QYjvVrestsI5aIOYcXidxaLfe
+ zmstqSlSajVhytPygkPA88XTlLS8sz3mD+2bpL06AG1M9kLoa6/IKMlW8LdhF/b+c2Fm
+ oTzyUYePytGgZidUWVhnrPXHwwM98nWh5FnHxYtCbjo16Xz9L/yFJgiljaDODISIBbtD
+ Iv8g==
+X-Gm-Message-State: AJIora8+A6lVB54cVQo9Wj8zOXcw3tqjRQNlhCFI2K+Kb4sYQqsKG2Cb
+ fbu6B8zhx7K4GfO0bIrxF/F5VgUy9Li0hw==
+X-Google-Smtp-Source: AGRyM1uUJRCMSF7MUq6SZwhn5qY77bIskKXIsGWHby7WC8GRVbrroJeFUwxzZMSxRCkNLCsRaSzRBA==
+X-Received: by 2002:a5d:5112:0:b0:21e:5755:e9ae with SMTP id
+ s18-20020a5d5112000000b0021e5755e9aemr7686089wrt.638.1658746837818; 
+ Mon, 25 Jul 2022 04:00:37 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- s6-20020a170902a50600b0016a0ac06424sm8739568plq.51.2022.07.25.02.36.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 02:36:36 -0700 (PDT)
-Message-ID: <22b35cff-bcd5-78b8-cab4-43d2e65dccbe@redhat.com>
-Date: Mon, 25 Jul 2022 17:36:28 +0800
+ g18-20020a05600c001200b003a31169a7f4sm17309943wmc.12.2022.07.25.04.00.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jul 2022 04:00:37 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>,
+	Jon Alduan <jon.alduan@gmail.com>
+Subject: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t value
+Date: Mon, 25 Jul 2022 12:00:35 +0100
+Message-Id: <20220725110035.1273441-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v2 4/7] vdpa: Add asid parameter to
- vhost_vdpa_dma_map/unmap
-Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
- Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan
- <lingshan.zhu@intel.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20220722134318.3430667-1-eperezma@redhat.com>
- <20220722134318.3430667-5-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220722134318.3430667-5-eperezma@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,197 +87,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For handling guest POSIX timers, we currently use an array
+g_posix_timers[], whose entries are a host timer_t value, or 0 for
+"this slot is unused".  When the guest calls the timer_create syscall
+we look through the array for a slot containing 0, and use that for
+the new timer.
 
-在 2022/7/22 21:43, Eugenio Pérez 写道:
-> So the caller can choose which ASID is destined.
->
-> No need to update the batch functions as they will always be called from
-> memory listener updates at the moment. Memory listener updates will
-> always update ASID 0, as it's the passthrough ASID.
->
-> All vhost devices's ASID are 0 at this moment.
->
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   include/hw/virtio/vhost-vdpa.h |  8 +++++---
->   hw/virtio/vhost-vdpa.c         | 26 ++++++++++++++++----------
->   net/vhost-vdpa.c               |  6 +++---
->   hw/virtio/trace-events         |  4 ++--
->   4 files changed, 26 insertions(+), 18 deletions(-)
->
-> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
-> index 1111d85643..6560bb9d78 100644
-> --- a/include/hw/virtio/vhost-vdpa.h
-> +++ b/include/hw/virtio/vhost-vdpa.h
-> @@ -29,6 +29,7 @@ typedef struct vhost_vdpa {
->       int index;
->       uint32_t msg_type;
->       bool iotlb_batch_begin_sent;
-> +    uint32_t address_space_id;
->       MemoryListener listener;
->       struct vhost_vdpa_iova_range iova_range;
->       uint64_t acked_features;
-> @@ -42,8 +43,9 @@ typedef struct vhost_vdpa {
->       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
->   } VhostVDPA;
->   
-> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> -                       void *vaddr, bool readonly);
-> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
-> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
-> +                       hwaddr size, void *vaddr, bool readonly);
-> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
-> +                         hwaddr size);
->   
->   #endif
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index e1ed56b26d..79623badf2 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -72,22 +72,24 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
->       return false;
->   }
->   
-> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> -                       void *vaddr, bool readonly)
-> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
-> +                       hwaddr size, void *vaddr, bool readonly)
->   {
->       struct vhost_msg_v2 msg = {};
->       int fd = v->device_fd;
->       int ret = 0;
->   
->       msg.type = v->msg_type;
-> +    msg.asid = asid;
->       msg.iotlb.iova = iova;
->       msg.iotlb.size = size;
->       msg.iotlb.uaddr = (uint64_t)(uintptr_t)vaddr;
->       msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
->       msg.iotlb.type = VHOST_IOTLB_UPDATE;
->   
-> -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.size,
-> -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.type);
-> +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova,
-> +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotlb.perm,
-> +                             msg.iotlb.type);
->   
->       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
->           error_report("failed to write, fd=%d, errno=%d (%s)",
-> @@ -98,18 +100,20 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
->       return ret;
->   }
->   
-> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size)
-> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
-> +                         hwaddr size)
->   {
->       struct vhost_msg_v2 msg = {};
->       int fd = v->device_fd;
->       int ret = 0;
->   
->       msg.type = v->msg_type;
-> +    msg.asid = asid;
->       msg.iotlb.iova = iova;
->       msg.iotlb.size = size;
->       msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
->   
-> -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
-> +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.iova,
->                                  msg.iotlb.size, msg.iotlb.type);
->   
->       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
-> @@ -228,7 +232,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->       }
->   
->       vhost_vdpa_iotlb_batch_begin_once(v);
-> -    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> +    ret = vhost_vdpa_dma_map(v, 0, iova, int128_get64(llsize),
->                                vaddr, section->readonly);
->       if (ret) {
->           error_report("vhost vdpa map fail!");
-> @@ -293,7 +297,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
->           vhost_iova_tree_remove(v->iova_tree, result);
->       }
->       vhost_vdpa_iotlb_batch_begin_once(v);
-> -    ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> +    ret = vhost_vdpa_dma_unmap(v, 0, iova, int128_get64(llsize));
->       if (ret) {
->           error_report("vhost_vdpa dma unmap error!");
->       }
-> @@ -884,7 +888,7 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
->       }
->   
->       size = ROUND_UP(result->size, qemu_real_host_page_size());
-> -    r = vhost_vdpa_dma_unmap(v, result->iova, size);
-> +    r = vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, size);
->       return r == 0;
->   }
->   
-> @@ -926,7 +930,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vdpa *v, DMAMap *needle,
->           return false;
->       }
->   
-> -    r = vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
-> +    r = vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
-> +                           needle->size + 1,
->                              (void *)(uintptr_t)needle->translated_addr,
->                              needle->perm == IOMMU_RO);
->       if (unlikely(r != 0)) {
-> @@ -1092,6 +1097,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->   
->       if (started) {
->           vhost_vdpa_host_notifiers_init(dev);
-> +
+This scheme assumes that host timer_t values can never be zero.  This
+is unfortunately not a valid assumption -- for some host libc
+versions, timer_t values are simply indexes starting at 0.  When
+using this kind of host libc, the effect is that the first and second
+timers end up sharing a slot, and so when the guest tries to operate
+on the first timer it changes the second timer instead.
 
+Rework the timer allocation code, so that:
+ * the 'slot in use' indication uses a separate array from the
+   host timer_t array
+ * we grab the free slot atomically, to avoid races when multiple
+   threads call timer_create simultaneously
+ * releasing an allocated slot is abstracted out into a new
+   free_host_timer_slot() function called in the correct places
 
-Unnecessary changes.
+This fixes:
+ * problems on hosts where timer_t 0 is valid
+ * the FIXME in next_free_host_timer() about locking
+ * bugs in the error paths in timer_create where we forgot to release
+   the slot we grabbed, or forgot to free the host timer
 
-Other looks good.
+Reported-by: Jon Alduan <jon.alduan@gmail.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ linux-user/syscall.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-Thanks
-
-
->           ok = vhost_vdpa_svqs_start(dev);
->           if (unlikely(!ok)) {
->               return -1;
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 75143ded8b..8203200c2a 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -229,7 +229,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
->           return;
->       }
->   
-> -    r = vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
-> +    r = vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map->size + 1);
->       if (unlikely(r != 0)) {
->           error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
->       }
-> @@ -278,8 +278,8 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
->           return false;
->       }
->   
-> -    r = vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_len(), buf,
-> -                           !write);
-> +    r = vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
-> +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !write);
->       if (unlikely(r < 0)) {
->           goto dma_map_err;
->       }
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 20af2e7ebd..36e5ae75f6 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -26,8 +26,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
->   vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
->   
->   # vhost-vdpa.c
-> -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-> -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-> +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
->   vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
->   vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
->   vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 991b85e6b4d..b75de1bc8d6 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -497,20 +497,25 @@ _syscall4(int, sys_prlimit64, pid_t, pid, int, resource,
+ 
+ #if defined(TARGET_NR_timer_create)
+ /* Maximum of 32 active POSIX timers allowed at any one time. */
+-static timer_t g_posix_timers[32] = { 0, } ;
++#define GUEST_TIMER_MAX 32
++static timer_t g_posix_timers[GUEST_TIMER_MAX];
++static int g_posix_timer_allocated[GUEST_TIMER_MAX];
+ 
+ static inline int next_free_host_timer(void)
+ {
+-    int k ;
+-    /* FIXME: Does finding the next free slot require a lock? */
+-    for (k = 0; k < ARRAY_SIZE(g_posix_timers); k++) {
+-        if (g_posix_timers[k] == 0) {
+-            g_posix_timers[k] = (timer_t) 1;
++    int k;
++    for (k = 0; k < ARRAY_SIZE(g_posix_timer_allocated); k++) {
++        if (qatomic_xchg(g_posix_timer_allocated + k, 1) == 0) {
+             return k;
+         }
+     }
+     return -1;
+ }
++
++static inline void free_host_timer_slot(int id)
++{
++    qatomic_store_release(g_posix_timer_allocated + id, 0);
++}
+ #endif
+ 
+ static inline int host_to_target_errno(int host_errno)
+@@ -12832,15 +12837,18 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+                 phost_sevp = &host_sevp;
+                 ret = target_to_host_sigevent(phost_sevp, arg2);
+                 if (ret != 0) {
++                    free_host_timer_slot(timer_index);
+                     return ret;
+                 }
+             }
+ 
+             ret = get_errno(timer_create(clkid, phost_sevp, phtimer));
+             if (ret) {
+-                phtimer = NULL;
++                free_host_timer_slot(timer_index);
+             } else {
+                 if (put_user(TIMER_MAGIC | timer_index, arg3, target_timer_t)) {
++                    timer_delete(*phtimer);
++                    free_host_timer_slot(timer_index);
+                     return -TARGET_EFAULT;
+                 }
+             }
+@@ -12976,7 +12984,7 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         } else {
+             timer_t htimer = g_posix_timers[timerid];
+             ret = get_errno(timer_delete(htimer));
+-            g_posix_timers[timerid] = 0;
++            free_host_timer_slot(timerid);
+         }
+         return ret;
+     }
+-- 
+2.25.1
 
 
