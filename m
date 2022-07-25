@@ -2,99 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A66458005E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:07:17 +0200 (CEST)
-Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B99580081
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:11:01 +0200 (CEST)
+Received: from localhost ([::1]:45370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyjs-0002uH-KO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45990)
+	id 1oFynT-0006PQ-Pa
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:10:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oFycz-0004Xf-JH
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:00:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1oFycu-0007XK-W2
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:00:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658757602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6jmWNwqYk5kwgiHXWIIm8ioSuwQvgvWEkAx+DPb/4q0=;
- b=UNXS0rzEIUcNfsMXP1yd7ZwsEsKJ5vxzRX1GHWPQLaaBiC4UHNx2R4oo9bQkyf0kcI9wg8
- S0GPQHiEVzy9N+aI3yUf0HHgSSA9PkMdANCW6b3IP3CYxhlbCr2tiyvBhwCZfDcIziuG/h
- 4hF7BAdNLR2dHpc2NbXqJgfvyE2RFd8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-264-wxnKbkVJOwiymnvbUt0B-g-1; Mon, 25 Jul 2022 09:59:59 -0400
-X-MC-Unique: wxnKbkVJOwiymnvbUt0B-g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- n19-20020a05600c3b9300b003a314062cf4so6330879wms.0
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:59:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oFyi6-0000p3-0w
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:26 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oFyi3-0000Ca-KF
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:25 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b26so16134775wrc.2
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cB57w4C+nd2zErg/MWHj8mg6ds/8aVo+6hyBcgTEsYQ=;
+ b=LnnmZz9iRe4mx9ujgOpFRina2DwJV1sAinObCgJW0VLuC0Tt7SqKWD0DkIO2QPgGny
+ frOZs6rYDbyh8iGvAXxjeG057fHp1k3R6mcTHI2ZuWOWYv383M7gq5JKfBMkjQncsbvK
+ xbVySuhxpXRCZkcV+QM1i2GVzw5AI/OuCaMUoMVH9Z+5vzL6OZxeE2sPCwh9QbzN0ADM
+ 88TSvCOJbp0YIIFVgZo30ZWuFWdYZMjVLDT1A36/tvwvenDhs/bFAxaJ4ZVEMJ9+eJCT
+ uSxGyMrxgC3W2N0cfP5VzemmMA4z1nWC0DDMZgr61/rIxbB8ABQfi0aMmP5I1Xts8LDf
+ Bw5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6jmWNwqYk5kwgiHXWIIm8ioSuwQvgvWEkAx+DPb/4q0=;
- b=jOBsisPmrcnsT2Slvz2y3wZCeRO+G0vWahFambxaYyRfN/cW/B64RMMHk5I7OuaBX/
- nAenMTma84DTzh5QcIRwXaXnN6N4iaOshEVY4lUA23mOs/vOiq48FQQg16SObIlS7zhX
- gkKfKm117/bJmmagRoZBMKE+PxXvPemp3oQ2iTRnxCw26VNEEppH0sLS//PRBqcp4u8R
- oqAq/yVeBob+6VvtS5Wl0rwGkQFx7/CtyaHcQtSokB5KwGysuwa6uzVd/xRLOGMSF6S+
- 212IbOdUutpk40kFXBqIhGrQW1ZJS+/JLANbOs7XlUfRQzEg4tJOFDnuAjYyxm4Hq8S0
- 9N1w==
-X-Gm-Message-State: AJIora8j+YCRj/ns8MtkXPWMNkOY0JChTD95O5jS8+MSze1I9V0b9hlm
- syKCbIiK5c/OC1k51HZHLqTu07MpLwdK7FmCX/gzwJsTsf3bmRZI5m3b5+PTaTfFeaZQ319OTFC
- Vzqvhal19W5dKQRI=
-X-Received: by 2002:a1c:288:0:b0:3a3:5332:9d16 with SMTP id
- 130-20020a1c0288000000b003a353329d16mr5029392wmc.168.1658757598748; 
- Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tK1ke9a5M7sdM8yIy37zhZPWTTlK+N/f3l7d3p6eI+vBa5Jvx9rEfem+qpyRj4CKE/SM+drQ==
-X-Received: by 2002:a1c:288:0:b0:3a3:5332:9d16 with SMTP id
- 130-20020a1c0288000000b003a353329d16mr5029366wmc.168.1658757598535; 
- Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
-Received: from [10.43.2.88] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ bh=cB57w4C+nd2zErg/MWHj8mg6ds/8aVo+6hyBcgTEsYQ=;
+ b=tocgDXpMfe9L3tMPYtG22fI7FFk6DOehVAo27ALeSVOpskH0ybXeW1obimDYphXSe3
+ J/HDUpf7ZH//CsXEEtr3WUbo6oIqQT9P5uhiCkuQp6RsxAg6BYAl3fS91uqGJP9wXhif
+ xsTBpP2DLTrygSFqp+vTfNTiwneoJlPaTJepkMRv08c/9pEaQzSzT7y9qDSmrFq0ybKD
+ 9sN/5I37UYcdMNOqdDJ7piPpDuMRV2Kp0fhEu6fskNaKo5CiVNhKp2WrPYvpriGAYqj9
+ ueoCBgAJZDQpohiouGSHAtP7TYbE3F8DLmTYWATlHQuCAfrqzPGOXoNyi8Jt8KPgkf+P
+ Y6eQ==
+X-Gm-Message-State: AJIora9c+Uj2kQnbqzyIqKl4KL1GLlxLNAC95Wmpw3V9seer4OYr8XPr
+ bwXIl6ZDkmc6w/r5bXqONgukOA==
+X-Google-Smtp-Source: AGRyM1ur/GhGBukFKEZ/3MyqTqABhoeuSJycfApqTqMcToZe59QaJAHWUbbdKaIBO7Av0haiEaE5rw==
+X-Received: by 2002:adf:ea8c:0:b0:21e:463e:7480 with SMTP id
+ s12-20020adfea8c000000b0021e463e7480mr7907801wrm.171.1658757921948; 
+ Mon, 25 Jul 2022 07:05:21 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n124-20020a1c2782000000b003a2c67aa6c0sm16714652wmn.23.2022.07.25.06.59.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
-Message-ID: <d57f77e1-e547-88da-8c97-c8976224bb22@redhat.com>
-Date: Mon, 25 Jul 2022 15:59:53 +0200
+ t21-20020a1c7715000000b003a331c6bffdsm13704269wmi.47.2022.07.25.07.05.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jul 2022 07:05:21 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 648D11FFB7;
+ Mon, 25 Jul 2022 15:05:20 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ peter.maydell@linaro.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 00/13] fixes for 7.1 (testing, docs, semihosting)
+Date: Mon, 25 Jul 2022 15:05:07 +0100
+Message-Id: <20220725140520.515340-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
- ThreadContext
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
- <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Stefan Weil <sw@weilnetz.de>
-References: <20220721120732.118133-1-david@redhat.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20220721120732.118133-1-david@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,14 +93,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/21/22 14:07, David Hildenbrand wrote:
-> This is a follow-up on "util: NUMA aware memory preallocation" [1] by
-> Michal.
+As per usual I've opened up a tree for fixes for the 7.1 release. It
+started as testing/next but I've included some fixes for semihosting
+and a few minor doc updates as well. I'll roll a PR from this at the
+end of the week (unless it doesn't meet the bar for missing rc0
+tomorrow).
 
-I've skimmed through patches and haven't spotted anything obviously
-wrong. I'll test these more once I write libvirt support for them (which
-I plan to do soon).
+Alex Bennée (2):
+  docs/devel: fix description of OBJECT_DECLARE_SIMPLE_TYPE
+  qemu-options: bring the kernel and image options together
 
-Michal
+Bin Meng (2):
+  .cirrus.yml: Change winsymlinks to 'native'
+  .gitlab-ci.d/windows.yml: Enable native Windows symlink
+
+Daniel P. Berrangé (3):
+  tests: refresh to latest libvirt-ci module
+  gitlab: show testlog.txt contents when cirrus/custom-runner jobs fail
+  gitlab: drop 'containers-layer2' stage
+
+Ilya Leoshkevich (2):
+  qapi: Add exit-failure PanicAction
+  tests/tcg/s390x: Test unaligned accesses to lowcore
+
+Peter Maydell (4):
+  semihosting: Don't return negative values on
+    qemu_semihosting_console_write() failure
+  semihosting: Don't copy buffer after console_write()
+  semihosting: Check for errors on SET_ARG()
+  semihosting: Fix handling of buffer in TARGET_SYS_TMPNAM
+
+ docs/devel/qom.rst                            |  3 +-
+ qapi/run-state.json                           |  4 +-
+ include/sysemu/sysemu.h                       |  2 +-
+ semihosting/arm-compat-semi.c                 | 29 +++++-
+ semihosting/console.c                         |  3 +-
+ semihosting/syscalls.c                        |  2 +-
+ softmmu/main.c                                |  6 +-
+ softmmu/runstate.c                            | 17 +++-
+ .cirrus.yml                                   |  2 +-
+ .gitlab-ci.d/cirrus/build.yml                 |  3 +-
+ .gitlab-ci.d/cirrus/freebsd-12.vars           |  3 +-
+ .gitlab-ci.d/cirrus/freebsd-13.vars           |  3 +-
+ .gitlab-ci.d/cirrus/macos-11.vars             |  4 +-
+ .gitlab-ci.d/container-cross.yml              | 24 ++---
+ .../custom-runners/centos-stream-8-x86_64.yml |  2 +
+ .../custom-runners/ubuntu-20.04-aarch32.yml   |  2 +
+ .../custom-runners/ubuntu-20.04-aarch64.yml   | 12 +++
+ .../custom-runners/ubuntu-20.04-s390x.yml     | 12 +++
+ .gitlab-ci.d/stages.yml                       |  1 -
+ .gitlab-ci.d/windows.yml                      |  2 +
+ qemu-options.hx                               | 98 +++++++++++++++----
+ tests/docker/dockerfiles/alpine.docker        |  4 +-
+ tests/docker/dockerfiles/centos8.docker       |  6 +-
+ tests/docker/dockerfiles/debian-amd64.docker  |  2 +
+ .../dockerfiles/debian-arm64-cross.docker     |  2 +
+ .../dockerfiles/debian-armel-cross.docker     |  2 +
+ .../dockerfiles/debian-armhf-cross.docker     |  2 +
+ .../dockerfiles/debian-mips64el-cross.docker  |  2 +
+ .../dockerfiles/debian-mipsel-cross.docker    |  2 +
+ .../dockerfiles/debian-ppc64el-cross.docker   |  2 +
+ .../dockerfiles/debian-s390x-cross.docker     |  2 +
+ tests/docker/dockerfiles/fedora.docker        |  3 +-
+ tests/docker/dockerfiles/opensuse-leap.docker |  7 +-
+ tests/docker/dockerfiles/ubuntu2004.docker    |  2 +
+ tests/lcitool/libvirt-ci                      |  2 +-
+ tests/lcitool/projects/qemu.yml               |  6 +-
+ tests/lcitool/refresh                         |  4 +-
+ tests/tcg/s390x/Makefile.softmmu-target       |  9 ++
+ tests/tcg/s390x/unaligned-lowcore.S           | 19 ++++
+ 39 files changed, 242 insertions(+), 70 deletions(-)
+ create mode 100644 tests/tcg/s390x/Makefile.softmmu-target
+ create mode 100644 tests/tcg/s390x/unaligned-lowcore.S
+
+-- 
+2.30.2
 
 
