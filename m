@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5524D5800AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:25:51 +0200 (CEST)
-Received: from localhost ([::1]:42458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC5F358009C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:19:29 +0200 (CEST)
+Received: from localhost ([::1]:34644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFz1q-0007Uq-CC
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:25:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47956)
+	id 1oFyvg-0001vz-Sp
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiP-00017m-Dq
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:45 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43945)
+ id 1oFyiM-000126-RV
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:43 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiN-0000JJ-Ni
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:45 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id d13so8460888wrn.10
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:43 -0700 (PDT)
+ id 1oFyiK-0000Gg-8P
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:42 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h8so16116332wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yHj/q18KkSPTGRmybHT7bSovMuqm3TPdWZ5l7N31L9s=;
- b=gG8Kcz88Zic0aKKiiAknyouQzz1cTge1VjkglG/cQD4wZWHd/JMZF5uv+wqjSDgMlg
- 0EXu+JzncUS8iPBQbXPdekTCEXCkZ633iyecjxv9ro3/IeBvgfJwG17zt5SO6jMs8+eS
- PEwNAMiBz9FJkO7j+t2VC12nH+VQl643GZbyehtIBK7D7lo9LS9isVcyWJycd59U1UtQ
- CyG2rQhzkayi1Ipqyg5x13cBGFauis3bp/KWpFz1rR64bEW3etQrhHcozEGNR5x8w1ey
- nosIEi7AaAhMUpj7yDh7oSOkSoHxGzDjr3Ac0xXtl2ENjnwfFxxFUXTVlbUHxpvM2jUz
- IBOw==
+ bh=ihqfEvf8e/Rp4WltOhylJI2GJRKNwsRtW1sLAed2GPk=;
+ b=KhO+eDQRv/tNj6WCHJcUbvR2+qTjPD9vigWGI1LGmWjjhWcc101ygfnHK+zdYt0vuu
+ 2NEU9J1JtH/PcapKuQSwnUHqUonxOADRdLAA1z4+EWwrv5yLd6JR7GI4gJJ/7D7AtnVC
+ ZmiRUAM3u8RTjxIs2O51qn19tDBiQiW3H/IShqMr90N85ayuyYPhzvfD7cm4t2VWBRIo
+ 5j/De+xAmI0/qU5EAmD1UpNZ1wqKjhcJTLEUu4Nn9NVYnc8MAz74iFmSJMv3pP5N3IP6
+ 4JKxkrNudLCZmKQE2kYuNHapFrOlmpGkl4/n2USWsUsHIBWc3fbconX3ekIOAzgvTrDp
+ 4rtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yHj/q18KkSPTGRmybHT7bSovMuqm3TPdWZ5l7N31L9s=;
- b=czBeUGRAk2M1C1gt6ThFiVR3RF5GhZbn47wKHoWfluDwhyNIoQbTAGF5T1SkhCtLQq
- QJjzty2kd0jItRHmR69Cb8Fqb9VUQ2VNG4AMKTfJvO8WYoya/OmAv3Non5rEp5FfwN5t
- FB4TTtpLJoUQrz7QszHLdqG274lvYMESJBe3tI3/B1xeuR9W0gRcd/7OEeaEc04USah6
- OI2LlPvzsBbyXKE3BJoOekLSrSwAAp4H4OFhCfUFRYclg5zXytnRKLrN/FiMfTEiX+V+
- thJyQeaWbH1TGxI3rwqtr1gsqa3f+Hkd4ZMdx41TS1W+5YA1vGn4HnEXboc2hQr7z8G+
- VP8g==
-X-Gm-Message-State: AJIora9n3gfgku6S3A44xAeV2oL44Z6EtSHM0Zo00xK3+5rd0m7fqgFQ
- N/Bhu9W1GSlsw32RksGQdi01jw==
-X-Google-Smtp-Source: AGRyM1s6CaOcSsWRqiNi715p28XIHIuSnPk3R6vlt+e1QyF+QYJgN+1lqxCGNuZMAv31O69FtBbwKA==
-X-Received: by 2002:a5d:5250:0:b0:21e:526c:d4ad with SMTP id
- k16-20020a5d5250000000b0021e526cd4admr7297062wrc.103.1658757942481; 
- Mon, 25 Jul 2022 07:05:42 -0700 (PDT)
+ bh=ihqfEvf8e/Rp4WltOhylJI2GJRKNwsRtW1sLAed2GPk=;
+ b=KXwngdAe8gZb19R0GLo1EJ5KN8PiDbacIZMNRxeyf5vraVTagdptNszI4ayfA6BvbO
+ E8MydH6vBnjGc8Ar9xbas2mK9brR4iVj41m9D3CdC7sWR/mkLPLp4S3qBYQNA4yZgsKM
+ lx8hvGrAH3DHUmguRG9NuKwwu8iXmx2ABtLma1Y7pxxE/4NSJrb/S+/9Y2C5nwb+abF/
+ tBDAyucqKYv3mkgyRQFQlpVcjifJXn77n8+SFZv8gzRKXdZ3CBo7oOS8NWTvulMm0PxH
+ rNpredwi6WvDfk7P3RWZYyZrDKM6y4GZy7x2c4CG9Dx0nvM9wMuX4jn8UpTwCdpq8zrg
+ FVIw==
+X-Gm-Message-State: AJIora+6JMSA4ZEyq/E/573th1W/DHDr25Pb7p6pzhIt7a49gPacc6Mv
+ CFK84tpBwz1oSUZ44Is8VIt3Tw==
+X-Google-Smtp-Source: AGRyM1shHO40JCF7qq6oeV2WGMaSzt8Fvk8eOmNQGQS91CKYsrKstGrXWHWH5AVfCny0ZYM8F80qLA==
+X-Received: by 2002:a05:6000:1863:b0:21e:8588:b0c1 with SMTP id
+ d3-20020a056000186300b0021e8588b0c1mr3933962wri.363.1658757939498; 
+ Mon, 25 Jul 2022 07:05:39 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k22-20020a5d5256000000b0021d6a520ce9sm12377002wrc.47.2022.07.25.07.05.25
+ c5-20020a056000104500b0021e82cf35efsm4715729wrx.107.2022.07.25.07.05.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Jul 2022 07:05:34 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C0031FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 717141FFC2;
  Mon, 25 Jul 2022 15:05:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 09/13] semihosting: Fix handling of buffer in
- TARGET_SYS_TMPNAM
-Date: Mon, 25 Jul 2022 15:05:16 +0100
-Message-Id: <20220725140520.515340-10-alex.bennee@linaro.org>
+ peter.maydell@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH  v1 10/13] qapi: Add exit-failure PanicAction
+Date: Mon, 25 Jul 2022 15:05:17 +0100
+Message-Id: <20220725140520.515340-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,57 +98,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Ilya Leoshkevich <iii@linux.ibm.com>
 
-The TARGET_SYS_TMPNAM implementation has two bugs spotted by
-Coverity:
- * confusion about whether 'len' has the length of the string
-   including or excluding the terminating NUL means we
-   lock_user() len bytes of memory but memcpy() len + 1 bytes
- * In the error-exit cases we forget to free() the buffer
-   that asprintf() returned to us
+Currently QEMU exits with code 0 on both panic an shutdown. For tests
+it is useful to return 1 on panic, so that it counts as a test
+failure.
 
-Resolves: Coverity CID 1490285, 1490289
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Introduce a new exit-failure PanicAction that makes main() return
+EXIT_FAILURE. Tests can use -action panic=exit-failure option to
+activate this behavior.
+
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220719121110.225657-5-peter.maydell@linaro.org>
+Message-Id: <20220722233614.7254-2-iii@linux.ibm.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- semihosting/arm-compat-semi.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ qapi/run-state.json     |  4 +++-
+ include/sysemu/sysemu.h |  2 +-
+ softmmu/main.c          |  6 ++++--
+ softmmu/runstate.c      | 17 +++++++++++++----
+ qemu-options.hx         |  2 +-
+ 5 files changed, 22 insertions(+), 9 deletions(-)
 
-diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-index d12288fc80..e741674238 100644
---- a/semihosting/arm-compat-semi.c
-+++ b/semihosting/arm-compat-semi.c
-@@ -504,16 +504,25 @@ void do_common_semihosting(CPUState *cs)
-         GET_ARG(1);
-         GET_ARG(2);
-         len = asprintf(&s, "/tmp/qemu-%x%02x", getpid(), (int)arg1 & 0xff);
-+        if (len < 0) {
-+            common_semi_set_ret(cs, -1);
-+            break;
-+        }
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 6e2162d7b3..d42c370c4f 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -364,10 +364,12 @@
+ #
+ # @shutdown: Shutdown the VM and exit, according to the shutdown action
+ #
++# @exit-failure: Shutdown the VM and exit with nonzero status
++#
+ # Since: 6.0
+ ##
+ { 'enum': 'PanicAction',
+-  'data': [ 'pause', 'shutdown', 'none' ] }
++  'data': [ 'pause', 'shutdown', 'exit-failure', 'none' ] }
+ 
+ ##
+ # @watchdog-set-action:
+diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
+index 812f66a31a..31aa45160b 100644
+--- a/include/sysemu/sysemu.h
++++ b/include/sysemu/sysemu.h
+@@ -103,7 +103,7 @@ void qemu_boot_set(const char *boot_order, Error **errp);
+ bool defaults_enabled(void);
+ 
+ void qemu_init(int argc, char **argv, char **envp);
+-void qemu_main_loop(void);
++int qemu_main_loop(void);
+ void qemu_cleanup(void);
+ 
+ extern QemuOptsList qemu_legacy_drive_opts;
+diff --git a/softmmu/main.c b/softmmu/main.c
+index c00432ff09..1b675a8c03 100644
+--- a/softmmu/main.c
++++ b/softmmu/main.c
+@@ -32,11 +32,13 @@
+ 
+ int qemu_main(int argc, char **argv, char **envp)
+ {
++    int status;
 +
-+        /* Allow for trailing NUL */
-+        len++;
-         /* Make sure there's enough space in the buffer */
--        if (len < 0 || len >= arg2) {
-+        if (len > arg2) {
-+            free(s);
-             common_semi_set_ret(cs, -1);
-             break;
+     qemu_init(argc, argv, envp);
+-    qemu_main_loop();
++    status = qemu_main_loop();
+     qemu_cleanup();
+ 
+-    return 0;
++    return status;
+ }
+ 
+ #ifndef CONFIG_COCOA
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 168e1b78a0..1e68680b9d 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -482,7 +482,8 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
+         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
+                                         !!info, info);
+         vm_stop(RUN_STATE_GUEST_PANICKED);
+-    } else if (panic_action == PANIC_ACTION_SHUTDOWN) {
++    } else if (panic_action == PANIC_ACTION_SHUTDOWN ||
++               panic_action == PANIC_ACTION_EXIT_FAILURE) {
+         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
+                                        !!info, info);
+         vm_stop(RUN_STATE_GUEST_PANICKED);
+@@ -662,7 +663,7 @@ void qemu_system_debug_request(void)
+     qemu_notify_event();
+ }
+ 
+-static bool main_loop_should_exit(void)
++static bool main_loop_should_exit(int *status)
+ {
+     RunState r;
+     ShutdownCause request;
+@@ -680,6 +681,10 @@ static bool main_loop_should_exit(void)
+         if (shutdown_action == SHUTDOWN_ACTION_PAUSE) {
+             vm_stop(RUN_STATE_SHUTDOWN);
+         } else {
++            if (request == SHUTDOWN_CAUSE_GUEST_PANIC &&
++                panic_action == PANIC_ACTION_EXIT_FAILURE) {
++                *status = EXIT_FAILURE;
++            }
+             return true;
          }
-         p = lock_user(VERIFY_WRITE, arg0, len, 0);
-         if (!p) {
-+            free(s);
-             goto do_fault;
-         }
--        memcpy(p, s, len + 1);
-+        memcpy(p, s, len);
-         unlock_user(p, arg0, len);
-         free(s);
-         common_semi_set_ret(cs, 0);
+     }
+@@ -715,12 +720,14 @@ static bool main_loop_should_exit(void)
+     return false;
+ }
+ 
+-void qemu_main_loop(void)
++int qemu_main_loop(void)
+ {
++    int status = EXIT_SUCCESS;
+ #ifdef CONFIG_PROFILER
+     int64_t ti;
+ #endif
+-    while (!main_loop_should_exit()) {
++
++    while (!main_loop_should_exit(&status)) {
+ #ifdef CONFIG_PROFILER
+         ti = profile_getclock();
+ #endif
+@@ -729,6 +736,8 @@ void qemu_main_loop(void)
+         dev_time += profile_getclock() - ti;
+ #endif
+     }
++
++    return status;
+ }
+ 
+ void qemu_add_exit_notifier(Notifier *notify)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 79e00916a1..8e17c5064a 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4239,7 +4239,7 @@ DEF("action", HAS_ARG, QEMU_OPTION_action,
+     "                   action when guest reboots [default=reset]\n"
+     "-action shutdown=poweroff|pause\n"
+     "                   action when guest shuts down [default=poweroff]\n"
+-    "-action panic=pause|shutdown|none\n"
++    "-action panic=pause|shutdown|exit-failure|none\n"
+     "                   action when guest panics [default=shutdown]\n"
+     "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
+     "                   action when watchdog fires [default=reset]\n",
 -- 
 2.30.2
 
