@@ -2,48 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669FC580590
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 22:27:25 +0200 (CEST)
-Received: from localhost ([::1]:60170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A1F58063C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 23:15:05 +0200 (CEST)
+Received: from localhost ([::1]:46870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG4fk-0005B1-Hp
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 16:27:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40218)
+	id 1oG5Ps-00019p-6q
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 17:15:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oG4bz-0002dE-4M
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 16:23:31 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:60865)
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1oG57S-0002SL-3Q; Mon, 25 Jul 2022 16:56:02 -0400
+Received: from relay.virtuozzo.com ([130.117.225.111]:51498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@qemu.org>) id 1oG4bw-0007jf-SE
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 16:23:30 -0400
-Received: (Authenticated sender: no-reply@qemu.org)
- by mail.gandi.net (Postfix) with ESMTPSA id C9C1E200002
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 20:23:23 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1oG57O-0004EB-2f; Mon, 25 Jul 2022 16:56:01 -0400
+Received: from dev006.ch-qa.sw.ru ([172.29.1.11])
+ by relay.virtuozzo.com with esmtp (Exim 4.95)
+ (envelope-from <andrey.zhadchenko@virtuozzo.com>)
+ id 1oG56S-00BzKs-OT; Mon, 25 Jul 2022 22:55:24 +0200
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com, mst@redhat.com,
+ stefanha@redhat.com, den@virtuozzo.com, andrey.zhadchenko@virtuozzo.com
+Subject: [RFC patch 0/1] block: vhost-blk backend
+Date: Mon, 25 Jul 2022 23:55:26 +0300
+Message-Id: <20220725205527.313973-1-andrey.zhadchenko@virtuozzo.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-From: GitLab Bot <no-reply@qemu.org>
-To: <qemu-devel@nongnu.org>
-Subject: [python-qemu-qmp MR #12] Post-release trivial fix roundup
-Date: Mon, 25 Jul 2022 20:23:21 -0000
-Message-ID: <165878060193.7153.13318616533857006676.no-reply@qemu.org>
-X-GitLab-MergeRequest-ID: 167744704
-X-GitLab-Project-Id: 35575318
-X-GitLab-Project-Path: qemu-project/python-qemu-qmp
-X-GitLab-Project: python-qemu-qmp
-X-QEMU-GitLab-MR-IID: 12
-X-QEMU-GitLab-MR-URL: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/12
-X-QEMU-GitLab-Username: jsnow
-Received-SPF: pass client-ip=217.70.178.232; envelope-from=no-reply@qemu.org;
- helo=relay12.mail.gandi.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=130.117.225.111;
+ envelope-from=andrey.zhadchenko@virtuozzo.com; helo=relay.virtuozzo.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 25 Jul 2022 17:12:36 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,17 +52,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
+From:  Andrey Zhadchenko via <qemu-devel@nongnu.org>
 
-Author: John Snow - https://gitlab.com/jsnow
-Merge Request: https://gitlab.com/qemu-project/python-qemu-qmp/-/merge_requests/12
-... from: jsnow/python-qemu-qmp:fixes-roundup
-... into: qemu-project/python-qemu-qmp:main
+Although QEMU virtio-blk is quite fast, there is still some room for
+improvements. Disk latency can be reduced if we handle virito-blk requests
+in host kernel so we avoid a lot of syscalls and context switches.
 
-This MR collects a number of small, trivial fixes that follow the first official release; covering graceful exits if dependencies are missing, better interactive debugging information, and improving packaging, publishing and GitLab CI definitions.
+The biggest disadvantage of this vhost-blk flavor is raw format.
+Luckily Kirill Thai proposed device mapper driver for QCOW2 format to attach
+files as block devices: https://www.spinics.net/lists/kernel/msg4292965.html
 
----
+Also by using kernel modules we can bypass iothread limitation and finaly scale
+block requests with cpus for high-performance devices. This is planned to be
+implemented in next version.
 
-This is an automated message. This bot will only relay the creation of new merge
-requests and will not relay review comments, new revisions, or concluded merges.
-Please follow the GitLab link to participate in review.
+Linux kernel module part:
+https://lore.kernel.org/kvm/20220725202753.298725-1-andrey.zhadchenko@virtuozzo.com/
+
+test setups and results:
+fio --direct=1 --rw=randread  --bs=4k  --ioengine=libaio --iodepth=128
+QEMU drive options: cache=none
+filesystem: xfs
+
+SSD:
+               | randread, IOPS  | randwrite, IOPS |
+Host           |      95.8k	 |	85.3k	   |
+QEMU virtio    |      57.5k	 |	79.4k	   |
+QEMU vhost-blk |      95.6k	 |	84.3k	   |
+
+RAMDISK (vq == vcpu):
+                 | randread, IOPS | randwrite, IOPS |
+virtio, 1vcpu    |	123k	  |	 129k       |
+virtio, 2vcpu    |	253k (??) |	 250k (??)  |
+virtio, 4vcpu    |	158k	  |	 154k       |
+vhost-blk, 1vcpu |	110k	  |	 113k       |
+vhost-blk, 2vcpu |	247k	  |	 252k       |
+vhost-blk, 4vcpu |	576k	  |	 567k       |
+
+Andrey Zhadchenko (1):
+  block: add vhost-blk backend
+
+ configure                     |  13 ++
+ hw/block/Kconfig              |   5 +
+ hw/block/meson.build          |   1 +
+ hw/block/vhost-blk.c          | 395 ++++++++++++++++++++++++++++++++++
+ hw/virtio/meson.build         |   1 +
+ hw/virtio/vhost-blk-pci.c     | 102 +++++++++
+ include/hw/virtio/vhost-blk.h |  44 ++++
+ linux-headers/linux/vhost.h   |   3 +
+ 8 files changed, 564 insertions(+)
+ create mode 100644 hw/block/vhost-blk.c
+ create mode 100644 hw/virtio/vhost-blk-pci.c
+ create mode 100644 include/hw/virtio/vhost-blk.h
+
+-- 
+2.31.1
+
 
