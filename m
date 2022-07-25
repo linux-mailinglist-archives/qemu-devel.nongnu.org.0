@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC195803FC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 20:27:30 +0200 (CEST)
-Received: from localhost ([::1]:38754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31148580427
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 20:41:58 +0200 (CEST)
+Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG2nh-00076I-AG
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 14:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47792)
+	id 1oG31f-000593-4V
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 14:41:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oG2gx-0000bg-AW
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:20:31 -0400
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:33458)
+ id 1oG2y8-0003HE-PQ
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:38:16 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oG2gv-0006Zz-Gm
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:20:30 -0400
-Received: by mail-pl1-x62c.google.com with SMTP id i3so6711191pld.0
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:20:27 -0700 (PDT)
+ id 1oG2xr-0000qc-PG
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:38:14 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id f11so11132400pgj.7
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=ACzgSzCa5ERQJBIyGWPc4HKpcVCvjGP1xHu7xLPnF8Q=;
- b=lP3NpA87wvstnTj22Ldd6LwAxx0lXpE//vOfrAQly0mU4fmI0S/b0tEYcHA9rvAtmz
- eLQJY4ETzHWGsQxHf6H8alLOMTHoNqn3T+3Wh+Rk6ahz8BAx/mYTD6aoWBNWNHD9Qwih
- G1X3N7y8gqwyCQXyhiYzcR4X1fD8NPUeO9HidAq2Kc8TAeO1hzvJKHKUBCrg9ZtdLE3m
- ndyW9E9TWejCHUIytFgkdBwgjFOz7wybg0poemHKHHp3f1WU+yAWl7iLc0Pwt7Eb0Jy7
- zdPu3DEwvCXrd9wmtzB2dUaYwe0u/Qgp7iuRcXKIDLITGEojANNWYM8a10WmtFrgdDHX
- FovA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ch+xhTNmjpdgt5Y7HNAROZ071hdfO36ctCng3FsoPK0=;
+ b=mvI9X1gZrWTCUPqNU/V8qI+hiEqiudyKC8OVjMNmbHjvPqzzVN+ygzCe8BmPKElKeQ
+ niG0195AigRSxA3pabCYNA66t13YA36YnSmwtJjOdr4u14xtUwKd2+0vKqcOivg4nsqQ
+ 0Jl1n48U4+UPz/id8o7Bve8LPwp+dugFimjkb2RV4bjWJ/K3r04AX2gp0/tu7fOz3xfS
+ nFbNm4puQAw+x6LmznwhcSZjE5DdH0ejJLYaMzpU0602Iz0lWYj8TNPLRXpQT2X6RwFB
+ 9S0bZFF+98fs+zthMNBq+cjGJK5+HXkrnMHSWitGjxrnCkkRooR4he5Wekg+rb9rv6Zy
+ dvhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=ACzgSzCa5ERQJBIyGWPc4HKpcVCvjGP1xHu7xLPnF8Q=;
- b=05mzJQPHiwYrlOyMJ9h0WzlEmevLd3iDvbAC6i6bPvrqJDv7v4XketJDPFZmXA/tNC
- l0ksLuPU6UmCLPmCkfomqq9keP4kiLWfApVQNS4tYPWcUZdKN68UzlVLcA9dMZ0e/2vG
- ThP/TOzT4DhqICiyY9jFaMGrQEvy1zoxS0qd1xnqjP0SiFeJtWyXTcY/V7XsmVmwAnrS
- zZKSSy2AmE70P7kVzOx6ZACiOeGrcESTqJ6MM7LkCcjwW98Wz3l9c/8BSUp0rZ15dXCR
- YFewaqIv1HS+n2E4F6JjzYhAg0OrTUXocY2k/k+BbDeUTJyulxeL6UNxraCT6UgBBOzM
- ZkRw==
-X-Gm-Message-State: AJIora/CA4VLcqrKDFRCu8nyQfUlgPiAJgaesoIevm6pC7UCekoD9diz
- x6qC9BPiJ7tOnyHwsIPeHPM1SSQFX/7oww==
-X-Google-Smtp-Source: AGRyM1vcyU9cPEKltgnaJBtHGp+5O50UnODEXq0vXgpaC/rgVKcfGyHYiCA2l6tMMVBESVGYw0tvJA==
-X-Received: by 2002:a17:90b:1d01:b0:1f2:104:6424 with SMTP id
- on1-20020a17090b1d0100b001f201046424mr15263086pjb.101.1658773226097; 
- Mon, 25 Jul 2022 11:20:26 -0700 (PDT)
+ bh=ch+xhTNmjpdgt5Y7HNAROZ071hdfO36ctCng3FsoPK0=;
+ b=rAt3PamK8yuG3w7+ibDZpavMMsziTwfhl15zGnEZmpL2VsT+8c2rtrkb19nFUH9qvN
+ rxCd17b4igDwSryni0TREKUGxRkzOBL/uzoHTYEnqKWdvC/yC7RZVpBjeE0nayy+C5YK
+ RIKIEL/fFmFLxZJOIlOUeA9zUlGIVjEZO9AM7B4c2Z9F09vnb1oAkRxRKdLW+z7OAwt6
+ Humaq3OGTMlPgAzQMvUaL0J+YEwMGM6XbwokUUNKb56fEsIK5DDqpB8HYpViSsNXKZnc
+ f3TXI+u4Gmc3Y8lKnHsFcLtJhu7gMyMvShyczmFEs6K1W2pP9vxnnTlKPi2OJQSqpO0z
+ 6Uxg==
+X-Gm-Message-State: AJIora9mc2iwkEMayu/+6SlH6U1HvdVm3qruHnkbbTZc3HmIZnkDk0nu
+ 3267s19sj7uLE/q4CY6ssQi+jg==
+X-Google-Smtp-Source: AGRyM1sC2BuvxYE8YWPvczj67Nk4w/VjOXgNzyAUi0N0YFgIgKBoCjWF2r8yoG+wJIpvu47CRF43ng==
+X-Received: by 2002:a63:ec17:0:b0:41a:716a:9365 with SMTP id
+ j23-20020a63ec17000000b0041a716a9365mr11936395pgh.204.1658774277295; 
+ Mon, 25 Jul 2022 11:37:57 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:30c1:2484:a853:233d?
  ([2602:ae:1549:801:30c1:2484:a853:233d])
  by smtp.gmail.com with ESMTPSA id
- 6-20020a620606000000b005255489187fsm9948324pfg.135.2022.07.25.11.20.24
+ c15-20020a631c0f000000b0040c74f0cdb5sm8666144pgc.6.2022.07.25.11.37.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 11:20:25 -0700 (PDT)
-Message-ID: <8ee6d63a-67a9-0025-06ef-412f042fffae@linaro.org>
-Date: Mon, 25 Jul 2022 11:20:23 -0700
+ Mon, 25 Jul 2022 11:37:56 -0700 (PDT)
+Message-ID: <bfaad452-fd69-3e79-787d-cec1de8d0147@linaro.org>
+Date: Mon, 25 Jul 2022 11:37:54 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] target/arm: Set KVM_ARM_VCPU_SVE while probing the
- host
+Subject: Re: [PATCH] linux-user: Use memfd for open syscall emulation
 Content-Language: en-US
+To: =?UTF-8?Q?Rainer_M=c3=bcller?= <raimue@codingfarm.de>,
+ qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+References: <20220725162811.87985-1-raimue@codingfarm.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: yuzenghui@huawei.com, qemu-arm@nongnu.org
-References: <20220725181457.41083-1-richard.henderson@linaro.org>
- <20220725181457.41083-3-richard.henderson@linaro.org>
-In-Reply-To: <20220725181457.41083-3-richard.henderson@linaro.org>
+In-Reply-To: <20220725162811.87985-1-raimue@codingfarm.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,83 +94,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/22 11:14, Richard Henderson wrote:
-> Because we weren't setting this flag, our probe of ID_AA64ZFR0
-> was always returning zero.  This also obviates the adjustment
-> of ID_AA64PFR0, which had sanitized the SVE field.
+On 7/25/22 09:28, Rainer Müller wrote:
+> For certain paths in /proc, the open syscall is intercepted and the
+> returned file descriptor points to a temporary file with emulated
+> contents.
+> 
+> If TMPDIR is not accessible or writable for the current user (for
+> example in a read-only mounted chroot or container) tools such as ps
+> from procps may fail unexpectedly. Trying to read one of these paths
+> such as /proc/self/stat would return an error such as ENOENT or EROFS.
+> 
+> To relax the requirement on a writable TMPDIR, use memfd_create()
+> instead to create an anonymous file and return its file descriptor.
+> 
+> Signed-off-by: Rainer Müller <raimue@codingfarm.de>
+> ---
+>   linux-user/syscall.c | 10 +++++++++-
+>   1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 991b85e6b4..3e4af930ad 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -8265,9 +8265,11 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>       }
+>   
+>       if (fake_open->filename) {
+> +        int fd, r;
+> +
+> +#ifndef CONFIG_MEMFD
+>           const char *tmpdir;
+>           char filename[PATH_MAX];
+> -        int fd, r;
+>   
+>           /* create temporary file to map stat to */
+>           tmpdir = getenv("TMPDIR");
+> @@ -8279,6 +8281,12 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+>               return fd;
+>           }
+>           unlink(filename);
+> +#else
+> +        fd = memfd_create("qemu-open", 0);
+> +        if (fd < 0) {
+> +            return fd;
+> +        }
+> +#endif
 
+Even without CONFIG_MEMFD, we will have the memfd_create function available in util/.
+I think you should drop the ifdefs like so:
 
-Oh, I meant to say here that this the effects of the bug are not visible, because the only 
-thing that ISAR.ID_AA64ZFR0 is used for within qemu at present is tcg translation.  The 
-other tests for SVE within KVM are via ISAR.ID_AA64PFR0.SVE.
+#include "qemu/memfd.h"
+
+     fd = memfd_create(...);
+     if (fd < 0) {
+         if (errno != ENOSYS) {
+             return fd;
+         }
+         // tmpdir fallback
+     }
 
 
 r~
-
-
-> 
-> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/kvm64.c | 27 +++++++++++++--------------
->   1 file changed, 13 insertions(+), 14 deletions(-)
-> 
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 36ff20c9e3..8b2ae9948a 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -512,7 +512,6 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->       bool sve_supported;
->       bool pmu_supported = false;
->       uint64_t features = 0;
-> -    uint64_t t;
->       int err;
->   
->       /* Old kernels may not know about the PREFERRED_TARGET ioctl: however
-> @@ -533,10 +532,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->       struct kvm_vcpu_init init = { .target = -1, };
->   
->       /*
-> -     * Ask for Pointer Authentication if supported. We can't play the
-> -     * SVE trick of synthesising the ID reg as KVM won't tell us
-> -     * whether we have the architected or IMPDEF version of PAuth, so
-> -     * we have to use the actual ID regs.
-> +     * Ask for SVE if supported, so that we can query ID_AA64ZFR0,
-> +     * which is otherwise RAZ.
-> +     */
-> +    sve_supported = kvm_arm_svm_supported();
-> +    if (sve_supported) {
-> +        init.features[0] |= 1 << KVM_ARM_VCPU_SVE;
-> +    }
-> +
-> +    /*
-> +     * Ask for Pointer Authentication if supported, so that we get
-> +     * the unsanitized field values for AA64ISAR1_EL1.
->        */
->       if (kvm_arm_pauth_supported()) {
->           init.features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
-> @@ -680,20 +686,13 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
->           }
->       }
->   
-> -    sve_supported = kvm_arm_svm_supported();
-> -
-> -    /* Add feature bits that can't appear until after VCPU init. */
->       if (sve_supported) {
-> -        t = ahcf->isar.id_aa64pfr0;
-> -        t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
-> -        ahcf->isar.id_aa64pfr0 = t;
-> -
->           /*
->            * There is a range of kernels between kernel commit 73433762fcae
->            * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
->            * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
-> -         * SVE support, so we only read it here, rather than together with all
-> -         * the other ID registers earlier.
-> +         * SVE support, which resulted in an error rather than RAZ.
-> +         * So only read the register if we set KVM_ARM_VCPU_SVE above.
->            */
->           err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
->                                 ARM64_SYS_REG(3, 0, 0, 4, 4));
-
 
