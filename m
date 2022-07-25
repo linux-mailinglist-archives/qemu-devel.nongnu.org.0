@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E078B57FF5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:55:38 +0200 (CEST)
-Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCBB57FF63
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:56:31 +0200 (CEST)
+Received: from localhost ([::1]:49536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFxcX-0006WJ-IO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:55:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53328)
+	id 1oFxdN-0007Sb-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:56:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFxPa-00008M-Ik
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:42:14 -0400
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:45911)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFxT1-0004zD-8L
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:45:47 -0400
+Received: from mail-yw1-x112e.google.com ([2607:f8b0:4864:20::112e]:40795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFxPW-0001gS-TK
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:42:12 -0400
-Received: by mail-ed1-x534.google.com with SMTP id p5so2778397edi.12
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 05:42:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oFxSy-0002OJ-Sx
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:45:46 -0400
+Received: by mail-yw1-x112e.google.com with SMTP id
+ 00721157ae682-31d85f82f0bso108069767b3.7
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 05:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=sZ7A5X9s2mTm61vjQaWPsO52yTPkZLIfPfuaQCcLLU0=;
- b=l1xFB8KUArnEUUXq22D2Q1nArGBTdaxi/YJK/Bjqkzdm7Z9R+st6glCera9vpkaJ+g
- AQC+JxjWL8fidB2GDMOlhwfZNVhmYCQ4b20n0U8aUQ4NU1Oi/zI46VlJyEPeUqoPm/zf
- SzknXf6Gx3CgTQeXpaIxg/Kk2P2Ek8CeL6ff1PKKwIsa2MQ6RugbskJJP//jCVQDCzJy
- cUG015qfjjbJgybfdo94KgnBCmOp6kaeBpxt+/jFT/IgO06AytGIXXVX+ck7FU+BBd66
- ZsVAhOnkfsMP38b40C33P4Zile4SCLiXbSpakbtNexrtiBeoEhFSSn8nG6b6wnIhUmy4
- VsBA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ADQu1A5r61KHRPI+uUJ/lRjm9x/Z21z0iSnKTRZco64=;
+ b=UREoc87bwmwoNw5Ohztges8AQo0tTdrLAewklXye5kUtdvA5BsIbYlv4LV+4twr+a2
+ eEEae1L0fypqtJxwlxIMhJQeApG6Z95xn8Whpcv7pXwZX5b5UL4+BXgyFr0xU12EQdow
+ F0JEjSxQbgmNTW/Ifro0g3A3M32QOfaffy5wJw1K5nT7Jjx2w1fnsaTwNZx+cMa1UG2S
+ RUZXYGHXcOIIEEEVM1ZTgtw1I+sI/klOM1BNs1OtGTcxIj5hKUMEpd4iFo7M7SNgD++q
+ 1V4tDEOBMpE29A3l/L0MxM2SGF66oBSG6gr03OY5jD3PX/WJ2RnchlZmpDMUzDPAOAzb
+ vmAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=sZ7A5X9s2mTm61vjQaWPsO52yTPkZLIfPfuaQCcLLU0=;
- b=dqOW1s4+qR1ESHw5L7CymktxxB1NKZYurLtwYycYwLP2qx7Nw6b92jO6PkcUfGRcb7
- x3TTnWsUPLiCJFYyBTWp2vWwY11VlsRqb1zXP7Xm2QYPo/j0nGBJJhkH+x3Gkj9Nt19x
- 4ZSoFUvIz2gqzWnCraHT1MFBY/pSOowtaaKZc78y0dVl588XeR3MHU9QJHqhQaMXo5SN
- epUeP080RvwtwLlXFqwoFX7L1zQcHkfvCFmmrmQ8BebLWDbORXG7x7Ou6dtcvG7lCojn
- 4X/QqwB4AoxRDzPmzfz6s0wlQYFQqWwpG3uDufQfWJY0uuyCsSOGeIVBfmdELDwoyeEy
- dT2A==
-X-Gm-Message-State: AJIora8IeajAF6crcjKxn9ISk7ED244ZjpGcWxhBw+jafBXM++l3pEbB
- /uo/1IO9Se+KvZ9FeF0xPTG5dw==
-X-Google-Smtp-Source: AGRyM1tArpkX9wx1X+gB8PfZ1vDmXKxEhc8fRcawgdaM679vV3/EUgTJ9brivGj4aXkucJZwDQX0mw==
-X-Received: by 2002:a05:6402:3408:b0:43c:2dd3:d86b with SMTP id
- k8-20020a056402340800b0043c2dd3d86bmr1595551edc.108.1658752928226; 
- Mon, 25 Jul 2022 05:42:08 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- 18-20020a170906201200b0072fe6408526sm495311ejo.9.2022.07.25.05.42.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 05:42:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4961D1FFB7;
- Mon, 25 Jul 2022 13:42:06 +0100 (BST)
-References: <20220722233614.7254-1-iii@linux.ibm.com>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, Eric Blake
- <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/2] accel/tcg: Test unaligned stores to s390x
- low-address-protected lowcore
-Date: Mon, 25 Jul 2022 13:41:59 +0100
-In-reply-to: <20220722233614.7254-1-iii@linux.ibm.com>
-Message-ID: <87h735ictd.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ADQu1A5r61KHRPI+uUJ/lRjm9x/Z21z0iSnKTRZco64=;
+ b=tT41iW0v3AdiNTqwd5j9jo8ARZvvUXbqsrv9XQxci09UPdsrWOP2m+Y8cqyIxSDtHp
+ bzIhgu1qGGfwKp9jR+dALBLPj/RZrNkWeCWRPgeZrzyB/wKepNxXQiT/Cv+ANtalmqFh
+ N5+KG065Bm3IXLmMwRMp8IdxmJa1+DOFf/LgX1wIFQh16/9s4QmKjxak4LdmjGUfYy/W
+ PtovYie9kGCKNx4Z6EsTaMhWOzi9QzK/xu+MsitA+ea6xdo4rU2vzZKxcUfzWp3W3xX6
+ 7Xocp5hQivm1m194rJit4VEaAk2Opldv6LWA2O2Awl+eQ6U+8kg+CXu6RxyCUXV1VPuE
+ KK+Q==
+X-Gm-Message-State: AJIora/4jVoChU54Lic12NsjyLzRvyl7ISh6elBfFgR/0UuJ7HCxVNzF
+ X80izgytTN4+Q0wNLOjOgPvqyp1Z+AvkOQl/eVjE9w==
+X-Google-Smtp-Source: AGRyM1t0ugzDF1gf6rg0boqC8XPbhTOvjzkfbfmUQNq3sVj+kUDSonmuY2h9bptan9sNLOoTSNzyGFq0o1uvyt0I24A=
+X-Received: by 2002:a81:770a:0:b0:31e:7cd3:f2d0 with SMTP id
+ s10-20020a81770a000000b0031e7cd3f2d0mr9874069ywc.347.1658753143697; Mon, 25
+ Jul 2022 05:45:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20220725110035.1273441-1-peter.maydell@linaro.org>
+ <Yt561CDN+UjmaDK3@redhat.com>
+In-Reply-To: <Yt561CDN+UjmaDK3@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 25 Jul 2022 13:45:04 +0100
+Message-ID: <CAFEAcA8d5J-WBp6Z=ECiUtP8wCfjv_XZo5GfYAr+x+mH3GpQww@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t
+ value
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, 
+ Jon Alduan <jon.alduan@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=alex.bennee@linaro.org; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,28 +87,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 25 Jul 2022 at 12:13, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> On Mon, Jul 25, 2022 at 12:00:35PM +0100, Peter Maydell wrote:
+> > For handling guest POSIX timers, we currently use an array
+> > g_posix_timers[], whose entries are a host timer_t value, or 0 for
+> > "this slot is unused".  When the guest calls the timer_create syscall
+> > we look through the array for a slot containing 0, and use that for
+> > the new timer.
+> >
+> > This scheme assumes that host timer_t values can never be zero.  This
+> > is unfortunately not a valid assumption -- for some host libc
+> > versions, timer_t values are simply indexes starting at 0.  When
+> > using this kind of host libc, the effect is that the first and second
+> > timers end up sharing a slot, and so when the guest tries to operate
+> > on the first timer it changes the second timer instead.
+>
+> For sake of historical record, could you mention here which specific
+> libc impl / version highlights the problem.
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
+Jon, which host libc are you seeing this with?
 
-> Hi,
->
-> This is a follow-up series for [1].
->
-> The fix has been committed.
->
-> I asked Christian what might be a good alternative for the
-> mmio-debug-exit device for testing, and he suggested to look into
-> shutdown/panic actions.
->
-> Patch 1 adds a new panic action.
-> Patch 2 tests unaligned stores to s390x low-address-protected lowcore;
-> it performs a shutdown on success and panic on failure.
->
-> Best regards,
-> Ilya
-
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
