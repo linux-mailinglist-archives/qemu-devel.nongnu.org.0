@@ -2,95 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5736F580214
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:40:47 +0200 (CEST)
-Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0050058021F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:45:37 +0200 (CEST)
+Received: from localhost ([::1]:34398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG0CK-00016s-96
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:40:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43440)
+	id 1oG0H2-0004eU-5D
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:45:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
- id 1oG09f-0007sL-LO
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:37:59 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:49133)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
- id 1oG09d-0006w6-Fe
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:37:59 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 69131580582
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:37:56 -0400 (EDT)
-Received: from imap50 ([10.202.2.100])
- by compute3.internal (MEProxy); Mon, 25 Jul 2022 11:37:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- colorremedies.com; h=cc:content-transfer-encoding:content-type
- :date:date:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1658763476; x=1658767076; bh=1cDAkM536p/YAtiw9Riycbk+2
- 8nok2fJKBOqgNx31do=; b=kMuUlJ/ZWL2CEPQ4rLoxn8zrxpaDQ6R6HB657OLDu
- imgkl3Wz3MqNjfUemNIvyEPkzn7VzXbogeO5vpA8QgpK9tvsp6d9f2LIjxATj65U
- bBtE3QnkndPq3SU/PLRycVNXcRWGYDK9azfA1UHUyF+7QtlevN9RPQmgjUkMw9jl
- G9sKgBlX5Ht87jnRCVphZEc7HUGKATGRszmbyEXLodvepvScHlL24n7VGAdPXIRT
- QkVPfdfu4VO9iehnSbuEXKOuSSS5urX7uHDX/oLAVCj/XfTebuKYSvd1xIlW3Jg6
- 8ZZ6VmzcDCPxYYKuEvhWzrpPc+IKGzhR4nQsFjnuuD33Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:date:feedback-id:feedback-id:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=i06494636.fm3; t=1658763476; x=
- 1658767076; bh=1cDAkM536p/YAtiw9Riycbk+28nok2fJKBOqgNx31do=; b=U
- AN1Z9Lcchj+nJxNH/llcBinFvvYc3q49cDIeAa0O/UD5WDEdXXljYedSJffTKPVu
- kQZ12igkiQcFz2Td06z1fJ7AZ8RvZVAn2QnjmcMAII5b5qcVL/CC/I/goMjxn3G8
- Bh+uoVy+fmuafbYRDwNmoLJWqmNXLdo6ch9QRY0m8YYNulImATf8QK+obU3TQjm8
- qmtdJW6NSC6EXpr9w9X52CW0fuRzkuH4fs+tUQlBTaXec7AGixQ8QVZqgHzjgD0B
- tX83XVkBykL/5XuBLwSg8y6BhgTIqo4nbJHinA8ZVwG2SyRbUssuRyzb4SQAVSEj
- CYdabLjdTah4eN4N6l+Qw==
-X-ME-Sender: <xms:07jeYvbZZpi5DS90xvR5kDESqqtx5c3u_7qbpyIrXlnAKNGPC-JcZg>
- <xme:07jeYubtW9aCsy_w5c0l__7X0LrFmDZB7WUOQRe_17WgosXeTPVYmjFYZqDT2MPG1
- 8ZzyeMLnUWHbVQqQjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtkedgkeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
- hqredtreerjeenucfhrhhomhepfdevhhhrihhsucfouhhrphhhhidfuceolhhishhtshes
- tgholhhorhhrvghmvgguihgvshdrtghomheqnecuggftrfgrthhtvghrnhepleegleefff
- ekleffffegudejuedujeegheduteehteejleffieekfedvlefhheefnecuffhomhgrihhn
- pehfvgguohhrrghprhhojhgvtghtrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhush
- htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehlihhsthhssegtohhl
- ohhrrhgvmhgvughivghsrdgtohhm
-X-ME-Proxy: <xmx:07jeYh9HSZhMvu7zRFNQ7YgKEnDrvTfKjbdYxYEw9diGkOJPAatBag>
- <xmx:07jeYlqOkGQybUoZIyDDtvzaOxLP1UCQdxTK1iKlvh0DZ_jEwp_6qg>
- <xmx:07jeYqo8rTSZEoLbAZ_wtfQlfsNTzXVTbl2fp7RDIpHEnfd2toGA0w>
- <xmx:07jeYn1NgF3krOsOpgmN4DKqdt3ozIghoDsQ513FcQFMUq3RhVKK0Lea688>
-Feedback-ID: i06494636:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id A0E401700082; Mon, 25 Jul 2022 11:37:55 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
-Mime-Version: 1.0
-Message-Id: <88c597d3-5519-429c-b211-7722b90d98d2@www.fastmail.com>
-In-Reply-To: <Yt6gSz5iQBcXfVO/@redhat.com>
-References: <4f9c91b1-719c-443e-a757-042e772d6019@www.fastmail.com>
- <Yt5etOfFUQb12ljA@redhat.com>
- <79ec108b-60bf-4c18-8917-9d7c8fd74b89@www.fastmail.com>
- <Yt6gSz5iQBcXfVO/@redhat.com>
-Date: Mon, 25 Jul 2022 11:37:35 -0400
-From: "Chris Murphy" <lists@colorremedies.com>
-To: qemu-devel@nongnu.org
-Subject: Re: driver type raw-xz supports discard=unmap?
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.221;
- envelope-from=lists@colorremedies.com; helo=new1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oG0Fp-0003Cw-6T
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:44:21 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:34566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oG0Fl-0007sb-IC
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:44:20 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-31e64ca5161so114583417b3.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vBo7bITbK+UKNPEmD0UYn6nvqKmD1el2oTN8LwNBIHg=;
+ b=FBxMXkjnhwGNF/nuhSAAcQv5nACWstquOCPqyvb1r9ZhY3E7qtyg95Ehr0uiPmyFSK
+ XsSNqETqSBW+E33hSltL6MwHb/SMQuk8jDBbh2NOzsRvFuDwyBCdrjYAP/T+HyyVLgm0
+ hG7izVDcoP+oHnEQRJcFbrlD8ewEngOYTrb1S4fVdS0CdJvxTbIP6E0eZ1Z+8hM5Kpzq
+ DlAgoCAasrK08ZDXdhnLxGh22YX+vGfdI73LAc+31mMIG+n6V3nBhhltU1ALIHuQhvkb
+ pg8BWDQzb2kWxRNZDQ+HQkvWbTB/f/62mO05pTBLTQixS45SthFJIur2+fnKNkEbmTGz
+ TZ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vBo7bITbK+UKNPEmD0UYn6nvqKmD1el2oTN8LwNBIHg=;
+ b=Vmi7zJi/18MdXTs5LWo0rfgwgiGrblMCOpqZZDdiIq4Y7CuVRyg0miuotmu4VEor9m
+ 3shG3N3rMKNoEEzPWPsKJQicKCZK375svk2LCgx89Ca3PYJOLmH6Piqlhb4skxB3EBq5
+ Vu5X4HXjnT4230NrTGGxaOK0yXC0oAcHaxTCUtTf4VxE+h4qdgALPZ72xaSmp1G4a3xJ
+ AgO7j6sfopThSuwolffqNOA0KjScvnuSGz5YXFrscy8B5v0C69TmEh3YoA3Dob0+5kbG
+ XinYc5Nje7E8DExjYfBu5exPk68hGeGZhiES3sPEDZs8y9rkuFLzGaE8oRtawYCJyf+P
+ rTBQ==
+X-Gm-Message-State: AJIora/aFearJndzKKSGIunY79wP3mNZ77TA1sezAkEeaMTXjgJdBXvG
+ Lis8314TAHTv4K2Zf1LncBIh+3DLtm8O9Z15jyU/zDuve1/O8Q==
+X-Google-Smtp-Source: AGRyM1s5zig+tHKKvkT6mf0M3FK8QSUke71vkRQy++qx/JByCGrIFhg/kumJDd6TcXYHGV4ffqO5xjmlHXrVrLRsN+M=
+X-Received: by 2002:a81:8d08:0:b0:317:a4cd:d65d with SMTP id
+ d8-20020a818d08000000b00317a4cdd65dmr10199852ywg.329.1658763838357; Mon, 25
+ Jul 2022 08:43:58 -0700 (PDT)
+MIME-Version: 1.0
+References: <8F58FBA7-17C8-44F6-9798-A65FD63E0E78@livius.net>
+ <BE36745B-A3A6-443A-A290-31A5578F36E3@livius.net>
+In-Reply-To: <BE36745B-A3A6-443A-A290-31A5578F36E3@livius.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 25 Jul 2022 16:43:18 +0100
+Message-ID: <CAFEAcA_BcnzQ1KnRh=ovKTSahHCabc61n+BHvedqjC0bD2fKOg@mail.gmail.com>
+Subject: Re: TARGET_SYS_HEAPINFO and Cortex-A15 memory map
+To: Liviu Ionescu <ilg@livius.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,35 +83,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Mon, Jul 25, 2022, at 9:53 AM, Daniel P. Berrang=C3=A9 wrote:
-> On Mon, Jul 25, 2022 at 08:51:42AM -0400, Chris Murphy wrote:
-
->> Huh, interesting. I have no idea then. I just happened to notice it i=
-n the (libvirt) XML config that's used by oz.
->> https://kojipkgs.fedoraproject.org//packages/Fedora-Workstation/Rawhi=
-de/20220721.n.0/images/libvirt-raw-xz-aarch64.xml
+On Fri, 3 Jun 2022 at 07:17, Liviu Ionescu <ilg@livius.net> wrote:
+> > On 2 Jun 2022, at 21:36, Liviu Ionescu <ilg@livius.net> wrote:
+> >
+> > ... SYS_HEAPINFO...
+> >
+> > 0x04000000 - heap base
+> > 0x08000000 - heap limit
+> > 0x08000000 - stack base
+> > 0x0 - stack limit
 >
-> I don't see 'raw-xz' mentioned anywhere in the Oz code at
+> For Cortex-A72 I see similar values:
 >
->   https://github.com/clalancette/oz
+> 0x44000000
+> 0x48000000
+> 0x48000000
+> 0x40000000
 >
-> was it a fork that's being used ?
-
-Must be. I'm not seeing it in either oz or imagefactory source either.
-
->> I've got no idea what happens if an invalid type is specified in
->> the config. The VM's are definitely running despite this. I'll ask
->> oz devs.
+> just that in this case the memory is writable, and the startup proceeds as expected.
 >
-> This is pretty surprising if they're actually running as it should
-> cause a fatal error message
->
-> error: unsupported configuration: unknown driver format value 'raw-xz'
+> Any idea why in the Cortex-A15 case the memory below 0x08000000 is not writable?
 
-Yep, I'm lost. I guess it's down a rabbit hole or yak shaving time.
+Sorry I didn't get back to this before -- I marked it in my email client
+but then forgot about it :-(
 
---=20
-Chris Murphy
+Anyway, the memory map for the 'virt' board doesn't change for the a72
+versus the a15. In both cases, the memory from 0x0 to 0x08000000
+is the flash memory. So QEMU is incorrect to have reported that as
+the place to put the heap in SYS_HEAPINFO.
+
+I'm not sure why the A72 gives different results, but the heuristic
+that tries to figure out where the heap goes is basically trying to
+do "find the biggest lump of memory which doesn't have some bit of
+the guest code in it", so it's going to be sensitive to things like
+just how big that guest binary happens to be and where it's loaded.
+Perhaps that is why it's ended up different.
+
+I suspect the fix to this bug is going to be "make sure that
+SYS_HEAPINFO doesn't consider memory regions that are rom-devices"
+(we already ignore read-only memory, but flash devices are
+technically not read-only).
+
+You don't mention which QEMU version you are using. We
+rewrote the whole SYS_HEAPINFO handling in commit 5fc983af8b20d6927
+(Feb 2022, should be in 7.0.0) because the old implementation
+could produce some completely wrong results. Looking at the code
+I guess this was with the new implementation, though.
+
+Do you have a test binary I can reproduce this with? That would save
+me a little time.
+
+thanks
+-- PMM
 
