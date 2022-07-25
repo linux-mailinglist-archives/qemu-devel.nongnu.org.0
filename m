@@ -2,87 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 012B4580104
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:52:33 +0200 (CEST)
-Received: from localhost ([::1]:46522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD8C58010A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:53:16 +0200 (CEST)
+Received: from localhost ([::1]:48684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFzRe-0005Qz-QT
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57568)
+	id 1oFzSN-0006wv-Fx
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:53:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFzLU-0007Qf-JZ
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:46:08 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:44698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oFzLR-0006jl-Gx
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:46:08 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- n10-20020a17090a670a00b001f22ebae50aso10483191pjj.3
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:46:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=TR8fQnvf2UdaZzfh1X4YhDMo/Yee0UcQMWrsCMSUBFg=;
- b=Yj3O2XlLpED6TcDrDRe3UWR8e5QVNHMUCsyaisZIV7BTxotmmL7vvwBqZNmqYoJlv2
- BZkEb/XBbJsbxqArR140b+y0gzC4rLhFXzoFn/eTRGZkunIxzhP8OPvZtkywoglpVBJs
- FiD1fZzO+u6qZGnTU3W42jefNIyiDygRo4vyWGgYCodKAMapDChlWFXb+619bRm8+luC
- xp6j+znqQYOcC1ggkaGmlo43kOYRZaJjgyiM0jhHzN5z17Fx9zIohgQE+7wNTRQdTS4T
- HWRykSsl1+Q3Mj2mu5Owj7C3HtAWrZBvsE4qMYEDCeXi6WGQXh4k7Ly9k0s4p6bFAC2u
- y74w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=TR8fQnvf2UdaZzfh1X4YhDMo/Yee0UcQMWrsCMSUBFg=;
- b=abiV15vn1QpNxITfwuwzMQ1QZF6puxI/8uHDpk28EZNLlIGhoaFL+5aOxrJ9NRP/gg
- 7ZOrrShpqxH8+Di7mO+h2rrqMDhh7xGbnMpAuqhfCpUJuz5aKqZK3vqvEfiilugit0V3
- WM3Tl0UeixkXhTgQbrsGCQXxAdyCGgtdIva8W4FfJJjQNI+OXaAoLmW+eJ8fM1UAXLmC
- 7mTT3Z1AC2qKMHLPcr/qY0fdVnOBVf4wXh2oo+5F/iDzpeRcQOf2iskIMhG1F0o/ilVE
- HQ/FRB0qyPVR/qjBwpACN2IPFLQn+GwvGShFk/Pu5/S58gGt7FptLeFWs8l1j3gQher6
- VrwA==
-X-Gm-Message-State: AJIora9vqROZroQFsYe3MEOBCBXcW12KXIOCusXvonHKo16c8/cFNxFd
- Bf6X8tXBo2MLT8XysJUV6k28yA==
-X-Google-Smtp-Source: AGRyM1swAbiFDWJsqcMzidfoRz7fN9yCQECC1dIYq2ioTPtok6nlTUXyiKgSgAFxsSpzr0s56jDG2A==
-X-Received: by 2002:a17:90a:4402:b0:1f2:3507:5f96 with SMTP id
- s2-20020a17090a440200b001f235075f96mr14508130pjg.22.1658760363892; 
- Mon, 25 Jul 2022 07:46:03 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:30c1:2484:a853:233d?
- ([2602:ae:1549:801:30c1:2484:a853:233d])
- by smtp.gmail.com with ESMTPSA id
- k12-20020a170902ce0c00b0016c46ff9741sm9309332plg.67.2022.07.25.07.46.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 07:46:03 -0700 (PDT)
-Message-ID: <2d957926-ef9c-eae5-d78f-3acc04d047cb@linaro.org>
-Date: Mon, 25 Jul 2022 07:46:01 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v7 01/92] target/arm: Add ID_AA64ZFR0 fields and
- isar_feature_aa64_sve2
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oFzPJ-0002Wn-K0
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:50:05 -0400
+Received: from mail-co1nam11on2042.outbound.protection.outlook.com
+ ([40.107.220.42]:7425 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
+ id 1oFzPG-00076w-Fe
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:50:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TTQF4r42Z5Gl2Tm6NREYf3c9wVWCbrTreQIize0P5j/euOjZXwIFk/U00ly6EDX1gy9Cev+raJpTg5mVxAOQ3p/3KOVBbHdb46SMIfyKybiX42QZT5IZpKkIuvGOZwFKB5S4vP9irKT23D6YkmtjqlpXAYApvEODkYMKB/s3lUQD3H6LCwTkXJgwMx12hQTcZHg4sp6beuXzNrJiV9ElFI/tXsTXXyKCIHgUeFtal6kTURafz71mkWkjPzMQoVk44kpHNjMRnTMm/3u/EzSK8nbRtlYIusV3INYgCIszuahBLZtZ021APDCEmFgkRrxq6xVa8PxbAE4oA8a0RD9vtA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qGgh7cGiUxo8piOwCZODYaqKZivAZm519AjxtozZYr0=;
+ b=KhlA1dGLsXZ3h0bT/ABfUGNbRkJ8n5ymL3ufQvcAoUO20b/0+gnrlJ2WWZ/niGAqFpRbkVSg3HdFKTFJmsrvVQkeBF1rND3ZzUVDuINs3t3ei9otTU1ELByxE2Hx8lKYC+a61zyTtTOHDryrz9MneyICmnN73N1OAiLv73/ez+La3mDyLvrhT53Cy7dUTo5Sh4bGR4/0z3TxQPi5fznKgtzbC2YpHllRdLeSHtw78nuopCmYqxPwFgMzUOHGoPwoQYNwT1ml5dxvOpf/kjME+mLYDYy94v823dJYyCulFH+WIaX6sa46gqdmgpyhzDzHFHkuBSRSV1YHJEfRqgXyuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qGgh7cGiUxo8piOwCZODYaqKZivAZm519AjxtozZYr0=;
+ b=RywHUoyM03elksTiq1SJyTSPY4w6SmtqDdcfPAQs1DL/Qgnw9Ui0M6osGKI4YTbC64LLGA83q8wSrkeFWnPqW+he6j9+Ezbw/nb1bTDxWEM3v8Thp+EIbc/fORR511kQlbnNw9fBdid+868bwWnjODyB1yKHLWnibPEuPXsN388=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11) by DM6PR12MB3706.namprd12.prod.outlook.com
+ (2603:10b6:5:1cc::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.18; Mon, 25 Jul
+ 2022 14:49:56 +0000
+Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
+ ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5458.024; Mon, 25 Jul
+ 2022 14:49:56 +0000
+Message-ID: <c193585a-ec32-7ed5-6418-162959e9e449@amd.com>
+Date: Mon, 25 Jul 2022 16:49:52 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
+Subject: Re: [PATCH v7 01/14] mm: Add F_SEAL_AUTO_ALLOCATE seal to memfd
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: David Hildenbrand <david@redhat.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Sean Christopherson <seanjc@google.com>,
+ Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, x86@kernel.org,
+ "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
+ Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>, luto@kernel.org,
+ jun.nakajima@intel.com, dave.hansen@intel.com, ak@linux.intel.com,
+ aarcange@redhat.com, ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
+ mhocko@suse.com, Muchun Song <songmuchun@bytedance.com>
+References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
+ <20220706082016.2603916-2-chao.p.peng@linux.intel.com>
+ <f39c4f63-a511-4beb-b3a4-66589ddb5475@redhat.com>
+ <c59fca89-cd0c-1724-210e-d9b01b375103@amd.com>
+ <20220725135416.GD304216@chaop.bj.intel.com>
 Content-Language: en-US
-To: Zenghui Yu <yuzenghui@huawei.com>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, andrew.jones@linux.dev
-References: <20210525010358.152808-1-richard.henderson@linaro.org>
- <20210525010358.152808-2-richard.henderson@linaro.org>
- <8e2ac59a-af4d-0f2c-455b-b9ed07b1e56a@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <8e2ac59a-af4d-0f2c-455b-b9ed07b1e56a@huawei.com>
+In-Reply-To: <20220725135416.GD304216@chaop.bj.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR3P281CA0052.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:4a::23) To CY4PR1201MB0181.namprd12.prod.outlook.com
+ (2603:10b6:910:1f::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 66a760a8-4a1d-4fba-18c5-08da6e4cf08f
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3706:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: SZ71P4njeNOwMuQCK8udkzGnrs4jK47l58HrMXEpYzhXUspWepzhixYjo5b8lzPAPcB7sH1e07qgvpxLHa3gfYDDkMjygBWTLk8/L+3gTpBEYoIh32zTIt5em/UcggX3AyQi7ND14femlQwFFm7ETrwKVhLfTCHlTfz4YArgHIHOxvPsI1xkU6W76RqCzIANZySgEqTSGNLgdM0ehNayYs+oZ6abCbmjxmb/MRCAt97c0aeP2qqCgXkBa8dc2oB5hZhk0i3jOCzTJMbGhax9TlEZWIx+0OL6oVIqEAxum+WQwMPRLORdD3HNjMmjT1HAWhs9hwp1PE8FRQPB6whknokkvQ7+/9ez/uG29aJDJro3IZllpw5StUPiGbycQR2iyc4EjqzfiJw9stT6XheqZFn/15aqWBCxLLPHPgCQb5+4n4D5SYkbTgBP8ydBReVPzG5X9G5Qi3apbtHGsTUrgXn5wDX1urG15sknifMcnCX4HzmgrU1Bcb2xlpju5ZnR/YNMqIXasqt/ngPGkH9Y7er6z0fWRR/Mu1LJiQwl8xfuVj0PhV96I4fCWlsCyRcp7RlPA0jJyuU1Jm40XGpgvvld3G1qavSrXhv6HxJ5Rc2XDkFZf/zvLGaZKfJWXtwaLjtWhqV0GU8J4L/pzGmtL2nOQc6a1BEtRvMNlHNpSW294+IzQe2hrENColocSG0PhizJyi37FT+RkhbJzdPqUmHC8uB85Q6+ubHkS1LJOeR27Cy5xLauX7Z8FlkrhY2SFdVnFAp5zpuXcXWl6WbGkrTt8/RmCbJwGM81d53dcjxpCmaJFkhpTZ8IATFh3mVZz+ZY+VjjQz8LNXwkAQfqOwnRNT0SfBeYuHokekiO1Co=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(376002)(346002)(396003)(39860400002)(136003)(366004)(7406005)(966005)(478600001)(316002)(7416002)(6486002)(8936002)(5660300002)(66476007)(66556008)(66946007)(8676002)(6506007)(4326008)(6512007)(26005)(6666004)(86362001)(2906002)(36756003)(6916009)(31696002)(54906003)(38100700002)(41300700001)(2616005)(186003)(83380400001)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?djR0bXRNRFFnaytkZGpOcnN3emxLRy9Xam5CU1MwalJ3ZC9ubEtxRVZDRVRM?=
+ =?utf-8?B?a1grQmVwWWtXb1JmeWM3OTVYYnhaaEJkU3RlS0pGMDdXYWZHVzBKOHhzQU5z?=
+ =?utf-8?B?V3hTdk9RMEhMa0xpVVhieUc5dVBlaDFVUGxoNWtvRFI4cHE1VDlnaVJWYTJO?=
+ =?utf-8?B?TjUySVBGR0grMkNKUmVadTl3eEdXMmgxMFVLZFFiZFhsZ0ozWndleWhQQmhB?=
+ =?utf-8?B?alZYSGhpTDJMVzZVaGRGMnlHZkJSM2Jqd3phSEIwM0ZXYnhBYnR3WURDUG9r?=
+ =?utf-8?B?czdsNjh6YjJMcFduMkJGTDNScUdlZ29jdUZkV1ZEUVdEcjRId1gyZEZ2ZEV3?=
+ =?utf-8?B?OVh4ZkJQRDRYK2x4Y1VWV3ZpcWhZSzVPaXpNRDBFUkRkNmhkeTJZNk95V3pt?=
+ =?utf-8?B?V2lTYkRuVHlmNHV0SWlucFdBWW04RFFXd2c5TXh3TVlIR3dKWk1nWmRBTzNp?=
+ =?utf-8?B?L2RuM1FRRWwxckFwMVRTanNVVGJTTWZvVnJrcHJ1N1BzSk50cC8wekhmM3BU?=
+ =?utf-8?B?ZGt3aW1LWnBLMVRTWXZUR1plaFhWSEw0YkxjNUQvS0FGYlRxclNmSmZENGts?=
+ =?utf-8?B?SmttcE9CNjA3VlViYjlPZ2tzM2FaSTBNWGVQSk1VYmRIbzhnWktMdkw4bzhu?=
+ =?utf-8?B?VFBvK3FiVU8vZ0Z6aFVFaGFaWVdScmowQXNENmtpWHplaEthQjh6d1FJemEv?=
+ =?utf-8?B?RkZSZXZDL05qNncxVVF2R3dJTG55USt2NERQblZLazZ5QndFQlZaMnRqNFhR?=
+ =?utf-8?B?MEd1WkR1YUhxMCtJS2hkNUF5a3dZWVhudkRuZ3pjemhyd2pkSmpFQTBxVFdB?=
+ =?utf-8?B?MEErbXEvOEppc3ZZNEFsSUExWkZDa3FLV25Zd1BFWlRwNjVnRzBKWXQ0SHo1?=
+ =?utf-8?B?YSt2TDBoY1F4MWt3eHFpTzBRNmdmczVXWW5xYmRxZjVGR3NuSGovOFNka0F4?=
+ =?utf-8?B?WW9xRFhZd1o1VndEZlF2Y09QLzhGc201U2FQMUszVHMxcUdGS0hkalN2YmhE?=
+ =?utf-8?B?SWJGcm02aFV1MmRlKzVqRGRmWmRjU3hKOUM1WGtXM2FrZUthSVAwdk9GNmp5?=
+ =?utf-8?B?cnUzZHBDdnUvdVVSQWNBVGt2RnZsRGhkYTFkRXdmbWYzdnQwRnhSYmwzUEtx?=
+ =?utf-8?B?NTNZdU9GanFrTS9Dd2ljbkkxcmlzN1d2bEFBTUlFR0M5M1VJNGFIYWxoMGlN?=
+ =?utf-8?B?cEsvcEVQZjhqblovWEYxcnRvMXJTVXdyVUJLYjI1Y0tlYk0wRHRiaFEveXlu?=
+ =?utf-8?B?UDZ1a3RwNURuTlBDbllRQ055ZEp4NU5qODQwSDZsa0ZOKzVwb0ZkL2tmWUxI?=
+ =?utf-8?B?TkRkR2trUzFVZnJPTHZPWVZlcUkvaGEwYVlheWtPdCtrSGNVQVNHb1ZneXNr?=
+ =?utf-8?B?d0FjYXl1MXpzdnBBcExjaUdmWHpTTWhYU3BDN1pCb2I1bWtYZi9oVWthTExI?=
+ =?utf-8?B?aGxMdU1sWCs5ZWtyeXNIRldjVjcxeVkzZEdoZVdsbm16V2ZjMWtRNXB0a2F5?=
+ =?utf-8?B?Nm5wa2Y5dnA5M3NqZXlQS2UzTjZBZm0zUkI4TXFFQjlhcDBnSjJxNHF0emov?=
+ =?utf-8?B?QWR0emtVOTYrOUNUcVlWbzcvVkJOYUJaMjZTWDRqTjBDeEJYMGczdGNQYmRk?=
+ =?utf-8?B?TldlbTduVW9vTzIvN2krK3hVU3dNOVkrTjN1VjNFUkhZQzBCVmJ4MVZMY2wz?=
+ =?utf-8?B?RTJ3SnNQemoxS0ZaMlJqWjBzWVFRYWdxZXVHaXEyVXNEamQvdkVMTEpmc0Jw?=
+ =?utf-8?B?TVFQU1FoczBtYkRGSGdvWEpsRUZ2cDV5dTNwMlh2U0ZWa1lpOTJSOWE4YjRS?=
+ =?utf-8?B?aVR4STI2OFdIWlRtNnJlMWRPWFdscmtWejRoTDA5VHdYbzhQNEkrOUNqRFQ1?=
+ =?utf-8?B?SlY2UXQ0d2VkNWpQcGpWZWZGVVlHZ294M3dyakR1aG9BeklIUjFhNmJrUCt0?=
+ =?utf-8?B?TEtCS2d2VVBFaFpHMXA3MTV4NFU4WEF1aGgzT0VPaDBCL0kwYkZRZUR2ZFBv?=
+ =?utf-8?B?dXpmRWVXSFVyNFhDTUNQZW91SlRNaDIvUTBHVTFLSGprQzFTcFVQci9BWTMw?=
+ =?utf-8?B?WDFuS1lQSzgxMG9GRGRPRWpPbG0zeFBjMTlwbTBMZlZYa3lOTk5yUGtoeitq?=
+ =?utf-8?Q?rLxJ/tjtpzzzPm6nO3C47tiBj?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66a760a8-4a1d-4fba-18c5-08da6e4cf08f
+X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2022 14:49:56.1950 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5uVwNMu6qP6o72b4bf3u4HzMIDGL7TYa8SDu9w6RPOAfY22q6RG+HuVa4T0orWjWK5nu9IZmh+lZkb3/XdmOxA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3706
+Received-SPF: softfail client-ip=40.107.220.42;
+ envelope-from=Pankaj.Gupta@amd.com;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,44 +170,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/25/22 00:05, Zenghui Yu wrote:
->> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
->> index dff85f6db9..37ceadd9a9 100644
->> --- a/target/arm/kvm64.c
->> +++ b/target/arm/kvm64.c
->> @@ -647,17 +647,26 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+
+>>>> Normally, a write to unallocated space of a file or the hole of a sparse
+>>>> file automatically causes space allocation, for memfd, this equals to
+>>>> memory allocation. This new seal prevents such automatically allocating,
+>>>> either this is from a direct write() or a write on the previously
+>>>> mmap-ed area. The seal does not prevent fallocate() so an explicit
+>>>> fallocate() can still cause allocating and can be used to reserve
+>>>> memory.
+>>>>
+>>>> This is used to prevent unintentional allocation from userspace on a
+>>>> stray or careless write and any intentional allocation should use an
+>>>> explicit fallocate(). One of the main usecases is to avoid memory double
+>>>> allocation for confidential computing usage where we use two memfds to
+>>>> back guest memory and at a single point only one memfd is alive and we
+>>>> want to prevent memory allocation for the other memfd which may have
+>>>> been mmap-ed previously. More discussion can be found at:
+>>>>
+>>>>     https://lkml.org/lkml/2022/6/14/1255
+>>>>
+>>>> Suggested-by: Sean Christopherson <seanjc@google.com>
+>>>> Signed-off-by: Chao Peng <chao.p.peng@linux.intel.com>
+>>>> ---
+>>>>    include/uapi/linux/fcntl.h |  1 +
+>>>>    mm/memfd.c                 |  3 ++-
+>>>>    mm/shmem.c                 | 16 ++++++++++++++--
+>>>>    3 files changed, 17 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/include/uapi/linux/fcntl.h b/include/uapi/linux/fcntl.h
+>>>> index 2f86b2ad6d7e..98bdabc8e309 100644
+>>>> --- a/include/uapi/linux/fcntl.h
+>>>> +++ b/include/uapi/linux/fcntl.h
+>>>> @@ -43,6 +43,7 @@
+>>>>    #define F_SEAL_GROW	0x0004	/* prevent file from growing */
+>>>>    #define F_SEAL_WRITE	0x0008	/* prevent writes */
+>>>>    #define F_SEAL_FUTURE_WRITE	0x0010  /* prevent future writes while mapped */
+>>>> +#define F_SEAL_AUTO_ALLOCATE	0x0020  /* prevent allocation for writes */
+>>>
+>>> Why only "on writes" and not "on reads". IIRC, shmem doesn't support the
+>>> shared zeropage, so you'll simply allocate a new page via read() or on
+>>> read faults.
+>>>
+>>>
+>>> Also, I *think* you can place pages via userfaultfd into shmem. Not sure
+>>> if that would count "auto alloc", but it would certainly bypass fallocate().
 >>
->>      sve_supported = ioctl(fdarray[0], KVM_CHECK_EXTENSION, KVM_CAP_ARM_SVE) > 0;
+>> I was also thinking this at the same time, but for different reason:
 >>
->> -    kvm_arm_destroy_scratch_host_vcpu(fdarray);
->> -
->> -    if (err < 0) {
->> -        return false;
->> -    }
->> -
->>      /* Add feature bits that can't appear until after VCPU init. */
->>      if (sve_supported) {
->>          t = ahcf->isar.id_aa64pfr0;
->>          t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
->>          ahcf->isar.id_aa64pfr0 = t;
->> +
->> +        /*
->> +         * Before v5.1, KVM did not support SVE and did not expose
->> +         * ID_AA64ZFR0_EL1 even as RAZ.  After v5.1, KVM still does
->> +         * not expose the register to "user" requests like this
->> +         * unless the host supports SVE.
->> +         */
->> +        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
->> +                              ARM64_SYS_REG(3, 0, 0, 4, 4));
+>> "Want to populate private preboot memory with firmware payload", so was
+>> thinking userfaulftd could be an option as direct writes are restricted?
 > 
-> If I read it correctly, we haven't yet enabled SVE for the scratch vcpu
-> (using the KVM_ARM_VCPU_INIT ioctl with KVM_ARM_VCPU_SVE). KVM will
-> therefore expose ID_AA64ZFR0_EL1 to userspace as RAZ at this point and
-> isar.id_aa64zfr0 is reset to 0. I wonder if it was intentional?
+> If that can be a side effect, I definitely glad to see it, though I'm
+> still not clear how userfaultfd can be particularly helpful for that.
 
-You are correct, this is a bug.  It appears this is hidden because nothing else actually 
-depends on the value within the context of --accel=kvm, e.g. migration.
+Was thinking if we can use userfaultfd to monitor the pagefault on 
+virtual firmware memory range and use to populate the private memory.
 
+Not sure if it is a side effect. Was just theoretically thinking (for 
+now kept the idea aside as these enhancements can be worked later).
 
-r~
+Thanks,
+Pankaj
+
 
