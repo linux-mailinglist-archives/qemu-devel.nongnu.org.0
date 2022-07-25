@@ -2,73 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88898580278
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 18:12:09 +0200 (CEST)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 369815802FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 18:41:01 +0200 (CEST)
+Received: from localhost ([::1]:38330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG0gi-0005ro-7R
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 12:12:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50468)
+	id 1oG18e-0004BA-0N
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 12:41:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oG0Xt-0004xt-2L
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 12:03:01 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:43553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oG0Xn-0002vc-LK
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 12:03:00 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id f73so20848286yba.10
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 09:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=v5b1iNNXdM+k4Y36waGvR5FLMxxKYaV7GdMA7dimYPs=;
- b=u2bHl9QtLeDt1u3AUFwj4fCbA0ueyj0ZQc+GfPXDnVAzASbRVTXaZFfmXlonAFs/5b
- iFiJuy0iNOfKokWD9EO7tZFjB9mQ5O03FTBDGpEmcz1FQVlb6s115jV9qfjLAE5stssx
- a8TvclKSw6CIAw0s+N//hgpPus/d6UqA5gkF9gxPyg7WGlr34oj/t5DQu/NbD134ClfW
- M3+PV0en2/djQ2AZpLh8Af96DneXLC4BSoQUd/upGdGL7AC63o4d/uoEZzUHsDS7J1/1
- WmWfmJ0OkWzzbmiIvSjQ5RZWnnaUSdPFWpf0kA3w1rsIiJmPMduPQ9CELYReynX/SU8p
- XpMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=v5b1iNNXdM+k4Y36waGvR5FLMxxKYaV7GdMA7dimYPs=;
- b=kyccpdkuDrRkhQTKhUxwk3wvnSSdG/H0akKLU6mP/P0ErnNUh58gqS+PZFTgUQiXze
- kTcFvWst307osPWohijJfWnghZURsUwhR3X4g+uaaDIB35nqoLdUL8Gx3xbMW/CN9KR1
- b+U43qGv/zwpvQZhrytTmPx7U4/8sYutrJ3trI9caPJWSnVebAX23WiNXzdFJlRnjVSa
- HvkPHiwmiEJhHvPhEdptplEDqhHWdX07WjaPd+jN8LMMhzJA2hIegpbsIkGXPznQ5sG9
- 1NPneMy1kvK3yCXPSaY8yz/igSicBr0qK0HHzxyBPt0w4QZvbUPuwKs1TQDuktC/KeAV
- rNdA==
-X-Gm-Message-State: AJIora+6Ukhcbj/TusV64EyALemrwk+YURu4tp5Wbm3Bqc1YkdiZjDHi
- 2yvmeyU0QsWEgGGkV9yxEVq60qC7ExdJUxhHPo4i1m9xzD4Giw==
-X-Google-Smtp-Source: AGRyM1sstypB0GG0O7KgN/CEEcCsNx0ZJmyqOihUvvZDESqTpOueHwJPy+pIodHIRFLlgeg2zUFdxE/sPgqfq0HYa6E=
-X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
- t6-20020a5b07c6000000b006706ba6d046mr9534562ybq.140.1658764974548; Mon, 25
- Jul 2022 09:02:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <raimue@zebra.codingfarm.de>)
+ id 1oG137-00016P-Bv
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 12:35:18 -0400
+Received: from donkey.codingfarm.de ([2a01:4f8:190:12cf::d:1]:60942)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <raimue@zebra.codingfarm.de>)
+ id 1oG133-0007mU-EX
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 12:35:15 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-384) server-digest SHA384)
+ (No client certificate requested)
+ by donkey.codingfarm.de (Postfix) with ESMTPSA id 6D5AB802E3;
+ Mon, 25 Jul 2022 18:28:11 +0200 (CEST)
+Received: by zebra.codingfarm.de (Postfix, from userid 1000)
+ id 25CF540CC0; Mon, 25 Jul 2022 18:28:11 +0200 (CEST)
+From: =?UTF-8?q?Rainer=20M=C3=BCller?= <raimue@codingfarm.de>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Rainer=20M=C3=BCller?= <raimue@codingfarm.de>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user: Use memfd for open syscall emulation
+Date: Mon, 25 Jul 2022 18:28:11 +0200
+Message-Id: <20220725162811.87985-1-raimue@codingfarm.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <8F58FBA7-17C8-44F6-9798-A65FD63E0E78@livius.net>
- <BE36745B-A3A6-443A-A290-31A5578F36E3@livius.net>
- <CAFEAcA_BcnzQ1KnRh=ovKTSahHCabc61n+BHvedqjC0bD2fKOg@mail.gmail.com>
- <4B583095-ED34-4D33-A193-59666FBFAB8A@livius.net>
-In-Reply-To: <4B583095-ED34-4D33-A193-59666FBFAB8A@livius.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 25 Jul 2022 17:02:14 +0100
-Message-ID: <CAFEAcA8BJ+jphWCMNemBC30x+wf3PW2kqSqNz6pCHeD+RyBFeQ@mail.gmail.com>
-Subject: Re: TARGET_SYS_HEAPINFO and Cortex-A15 memory map
-To: Liviu Ionescu <ilg@livius.net>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a01:4f8:190:12cf::d:1;
+ envelope-from=raimue@zebra.codingfarm.de; helo=donkey.codingfarm.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NO_DNS_FOR_FROM=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,55 +61,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Jul 2022 at 16:56, Liviu Ionescu <ilg@livius.net> wrote:
->
->
->
-> > On 25 Jul 2022, at 18:43, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > ... the memory map for the 'virt' board doesn't change for the a72
-> > versus the a15. In both cases, the memory from 0x0 to 0x08000000
-> > is the flash memory. So QEMU is incorrect to have reported that as
-> > the place to put the heap in SYS_HEAPINFO.
->
-> Could you also update the documentation pages to reflect the actual memory map for the Arm devices? It took me some time and experimentation to find this for my tests.
+For certain paths in /proc, the open syscall is intercepted and the
+returned file descriptor points to a temporary file with emulated
+contents.
 
-We document what the guest can assume about the virt board
-memory layout here:
+If TMPDIR is not accessible or writable for the current user (for
+example in a read-only mounted chroot or container) tools such as ps
+from procps may fail unexpectedly. Trying to read one of these paths
+such as /proc/self/stat would return an error such as ENOENT or EROFS.
 
-https://www.qemu.org/docs/master/system/arm/virt.html#hardware-configuration-information-for-bare-metal-programming
+To relax the requirement on a writable TMPDIR, use memfd_create()
+instead to create an anonymous file and return its file descriptor.
 
-Flash at 0, RAM at 0x4000_0000, must look in the DTB blob
-for all other information.
+Signed-off-by: Rainer Müller <raimue@codingfarm.de>
+---
+ linux-user/syscall.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-> > I suspect the fix to this bug is going to be "make sure that
-> > SYS_HEAPINFO doesn't consider memory regions that are rom-devices"
->
-> Sounds ok.
->
-> > You don't mention which QEMU version you are using.
->
-> 7.0.0
->
-> > Do you have a test binary I can reproduce this with? That would save
-> > me a little time.
->
-> I have a template project that can generate several binaries intended to run on QEMU:
->
-> - https://github.com/micro-os-plus/hello-world-qemu-template-xpack/
->
-> The only prerequisite is npm/xpm, the rest of the dependencies are handled automatically.
->
-> If this does not work for you, please tell me exactly which binary you need, and I can try to generate it.
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 991b85e6b4..3e4af930ad 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8265,9 +8265,11 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+     }
+ 
+     if (fake_open->filename) {
++        int fd, r;
++
++#ifndef CONFIG_MEMFD
+         const char *tmpdir;
+         char filename[PATH_MAX];
+-        int fd, r;
+ 
+         /* create temporary file to map stat to */
+         tmpdir = getenv("TMPDIR");
+@@ -8279,6 +8281,12 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
+             return fd;
+         }
+         unlink(filename);
++#else
++        fd = memfd_create("qemu-open", 0);
++        if (fd < 0) {
++            return fd;
++        }
++#endif
+ 
+         if ((r = fake_open->fill(cpu_env, fd))) {
+             int e = errno;
+-- 
+2.25.1
 
-The one where SYS_HEAPINFO produces the bogus result putting the
-heap at 0x04000000, that you mentioned in the original report with
-the command line
-
-.../qemu-system-arm  "--machine" "virt" "--cpu" "cortex-a15"
-"--nographic" "-d" "unimp,guest_errors" "--semihosting-config"
-"enable=on,target=native,arg=sample-test,arg=one,arg=two" -s -S
-
-thanks
--- PMM
 
