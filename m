@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 507BA5803F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 20:22:44 +0200 (CEST)
-Received: from localhost ([::1]:33642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6DC5803F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 20:22:35 +0200 (CEST)
+Received: from localhost ([::1]:33234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG2j5-0003RX-Ar
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 14:22:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46996)
+	id 1oG2iv-0003AI-UH
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 14:22:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oG2bo-0004mh-82
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:15:15 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:45638)
+ id 1oG2bp-0004mj-8q
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:15:24 -0400
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:40541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oG2bl-0005q9-E1
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:15:11 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- g5-20020a17090a290500b001f2ea602563so258065pjd.4
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:15:09 -0700 (PDT)
+ id 1oG2bm-0005qS-HF
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 14:15:12 -0400
+Received: by mail-pj1-x102e.google.com with SMTP id
+ p6-20020a17090a680600b001f2267a1c84so13418202pjj.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:15:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N2OJQKKwRLRjFx/fh9iTaEVWiqAoFPuSiTt6AYqCB48=;
- b=k4z62w5IpFLty3Sy7/0qLGS4SWQO4CjNegPSxpWly3VcZf0kSa3MzwL3M4+34CbLqa
- LhO166wyO+M/MVMahHYFFxJ7H01JznqF9r7NbhAoioPy8vi9YSASVFtEPlklaj2an2Ss
- k7UVdtb1Fj6G2gCTDMlP9X+a9TkrSxAzHGuPy5+jg0MDCHDYzOFw6FbNTTlnudA7DtJ6
- OtjUVMv1N3d6Jfq/JvRFU2b1uPxtJqq0G4qoFUw3/AUtEn0yLFJ+BJsAiB3nyZeGoFDV
- et2p2QvXUaNQjN8F4Mz8I9sZMaBu23dvZo/mzJA0lJBnyKfNKDjAHuniH6cnJC1O9xsP
- SYsw==
+ bh=RMuYv4EVFHYkxhumjJ2SxEr+kwKlkg7raeV+cD/IvUA=;
+ b=gdkKLSsn67CGhJcgVZK6E1oznK8FiA2GeWq8C5g/ShfoaiPh7tWV3dMdpTGb1uKEhM
+ x7adCPIMCKbE5h1nf3LOQkd95D8YEruVYo76URWAmy/PN/RI0poGBdafZYcoUhvarlQX
+ tYD8TMikMYuxhi2hNttDdklf909MIQcgxZepLxEn+pzn/+9SJV4c/IDYGaKqnVGg1Dk0
+ jVcbdRRf7hQbilgjF6YK8/M5SBTHlQavxHu5AMhCclx5MqzL0kGntA7w2KTvF+ijPpFN
+ yEJ+OGdg7R1KfOpfOJ5+E1QFVkdluph/gvw4aNR80bzghkcqrd0LiBEyvF9EqtYCOFG2
+ 7oVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=N2OJQKKwRLRjFx/fh9iTaEVWiqAoFPuSiTt6AYqCB48=;
- b=56pmWyb669X1tRtuKN9v9VAQPhi7jyY4FQrm3+oWduz0WLhqh8xVzAD071uAwXwR1O
- j8nblDm1ZD5wQTH2sqMBDlNhDagR8al/ZdMYl/PW6td7w6ZETVb41Phg+IiystrEWu70
- SzJH5LhT8t0paxtchAfx0phktZMm2wlTRkzpnQnBYUtycLMI9H0cH+Zs53S9yOyeIWQB
- U34rPHEZhM2wtNgS5v26ms8C6ojldB3ooVhD2eTquaxXHN/0eF5v8gYd/vpFlM1GZF3f
- vKrZFHQ3SpXAQao4HWWmeBQlzJ+5fqWXRuSfnkaqstuwDdaCJ07dAoS8Jv7Zm0Ca3Jil
- IY5A==
-X-Gm-Message-State: AJIora+l42+gbj3fV3o9FozSBZDU+2F2GAJxioe2YzP8rOJTtZCVdSKN
- xZKeCVGh3G/uTeh1YijtT0dLg6T9kzdB8A==
-X-Google-Smtp-Source: AGRyM1vNlm5NJPRWRznEPLaCoFG+T677SB5++0X1+X8SW8/nlaPXr5Pw+es5HEDBMdyFVYE67OT72g==
-X-Received: by 2002:a17:902:ec86:b0:16d:6424:efb2 with SMTP id
- x6-20020a170902ec8600b0016d6424efb2mr9952698plg.62.1658772908058; 
- Mon, 25 Jul 2022 11:15:08 -0700 (PDT)
+ bh=RMuYv4EVFHYkxhumjJ2SxEr+kwKlkg7raeV+cD/IvUA=;
+ b=YKbj3oJPfr9PxPIw2rKmkE6VSH7M/np7ey82IUin3dV0cFkgSIIxOqbGCfzDZOnEnb
+ ZvEiE3Ca+L3F228x0arEC+29VXHlywvvuHQ1d6iPM/+h1wxOuwXULsBRWjmqVQJ0zJX8
+ zeYmCkh696+pwMvIQ68H7pTxBx8HgVDQXUpHLbDX+lo+YpAm8VQ+NokUEjHs1sYj5b1I
+ t83GqOAl+X3dzpw8AV6ziNiy3IAGdzU/BfA8A42YtrKIL4rDYubVmHK2/yPLZd30gWtI
+ n+Sd82wFPDSjam1j6gEtWfJRrt8AFC/I+v2a8iCYHqiagc2wT1FzIj1ykcrpHP9m6oDa
+ yzgw==
+X-Gm-Message-State: AJIora8ZusuiZFuAmqvzY4R9m/IiuXXdUh0Y5kMeqeiPaUw8+pPnydsT
+ 2CuX/EQlJx2XCcO1ZontbwBlXykUq7fEpw==
+X-Google-Smtp-Source: AGRyM1uV9VK9jpy6AJF2jPFpKKvHyzcfdAZx+xKOrsk9bVr6s/uggvaXdYXvr3lcxFhWvNBP2/wrUA==
+X-Received: by 2002:a17:902:8b88:b0:16d:2a70:26d9 with SMTP id
+ ay8-20020a1709028b8800b0016d2a7026d9mr13502777plb.84.1658772909150; 
+ Mon, 25 Jul 2022 11:15:09 -0700 (PDT)
 Received: from stoup.. ([2602:ae:1549:801:30c1:2484:a853:233d])
  by smtp.gmail.com with ESMTPSA id
- bg5-20020a1709028e8500b0016d8d277c02sm1125004plb.25.2022.07.25.11.15.07
+ bg5-20020a1709028e8500b0016d8d277c02sm1125004plb.25.2022.07.25.11.15.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 11:15:07 -0700 (PDT)
+ Mon, 25 Jul 2022 11:15:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: yuzenghui@huawei.com,
 	qemu-arm@nongnu.org
-Subject: [PATCH 2/3] target/arm: Set KVM_ARM_VCPU_SVE while probing the host
-Date: Mon, 25 Jul 2022 11:14:56 -0700
-Message-Id: <20220725181457.41083-3-richard.henderson@linaro.org>
+Subject: [PATCH 3/3] target/arm: Move sve probe inside kvm >= 4.15 branch
+Date: Mon, 25 Jul 2022 11:14:57 -0700
+Message-Id: <20220725181457.41083-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220725181457.41083-1-richard.henderson@linaro.org>
 References: <20220725181457.41083-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,73 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because we weren't setting this flag, our probe of ID_AA64ZFR0
-was always returning zero.  This also obviates the adjustment
-of ID_AA64PFR0, which had sanitized the SVE field.
+The test for the IF block indicates no ID registers are exposed, much
+less host support for SVE.  Move the SVE probe into the ELSE block.
 
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/kvm64.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
+ target/arm/kvm64.c | 22 +++++++++++-----------
+ 1 file changed, 11 insertions(+), 11 deletions(-)
 
 diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 36ff20c9e3..8b2ae9948a 100644
+index 8b2ae9948a..bc3d7d9883 100644
 --- a/target/arm/kvm64.c
 +++ b/target/arm/kvm64.c
-@@ -512,7 +512,6 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     bool sve_supported;
-     bool pmu_supported = false;
-     uint64_t features = 0;
--    uint64_t t;
-     int err;
- 
-     /* Old kernels may not know about the PREFERRED_TARGET ioctl: however
-@@ -533,10 +532,17 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-     struct kvm_vcpu_init init = { .target = -1, };
- 
-     /*
--     * Ask for Pointer Authentication if supported. We can't play the
--     * SVE trick of synthesising the ID reg as KVM won't tell us
--     * whether we have the architected or IMPDEF version of PAuth, so
--     * we have to use the actual ID regs.
-+     * Ask for SVE if supported, so that we can query ID_AA64ZFR0,
-+     * which is otherwise RAZ.
-+     */
-+    sve_supported = kvm_arm_svm_supported();
-+    if (sve_supported) {
-+        init.features[0] |= 1 << KVM_ARM_VCPU_SVE;
-+    }
-+
-+    /*
-+     * Ask for Pointer Authentication if supported, so that we get
-+     * the unsanitized field values for AA64ISAR1_EL1.
-      */
-     if (kvm_arm_pauth_supported()) {
-         init.features[0] |= (1 << KVM_ARM_VCPU_PTRAUTH_ADDRESS |
-@@ -680,20 +686,13 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+@@ -684,18 +684,18 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+             err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
+                                   ARM64_SYS_REG(3, 3, 9, 12, 0));
          }
+-    }
+ 
+-    if (sve_supported) {
+-        /*
+-         * There is a range of kernels between kernel commit 73433762fcae
+-         * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
+-         * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
+-         * SVE support, which resulted in an error rather than RAZ.
+-         * So only read the register if we set KVM_ARM_VCPU_SVE above.
+-         */
+-        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
+-                              ARM64_SYS_REG(3, 0, 0, 4, 4));
++        if (sve_supported) {
++            /*
++             * There is a range of kernels between kernel commit 73433762fcae
++             * and f81cb2c3ad41 which have a bug where the kernel doesn't
++             * expose SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has
++             * enabled SVE support, which resulted in an error rather than RAZ.
++             * So only read the register if we set KVM_ARM_VCPU_SVE above.
++             */
++            err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
++                                  ARM64_SYS_REG(3, 0, 0, 4, 4));
++        }
      }
  
--    sve_supported = kvm_arm_svm_supported();
--
--    /* Add feature bits that can't appear until after VCPU init. */
-     if (sve_supported) {
--        t = ahcf->isar.id_aa64pfr0;
--        t = FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
--        ahcf->isar.id_aa64pfr0 = t;
--
-         /*
-          * There is a range of kernels between kernel commit 73433762fcae
-          * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
-          * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
--         * SVE support, so we only read it here, rather than together with all
--         * the other ID registers earlier.
-+         * SVE support, which resulted in an error rather than RAZ.
-+         * So only read the register if we set KVM_ARM_VCPU_SVE above.
-          */
-         err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
-                               ARM64_SYS_REG(3, 0, 0, 4, 4));
+     kvm_arm_destroy_scratch_host_vcpu(fdarray);
 -- 
 2.34.1
 
