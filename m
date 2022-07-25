@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B2C57F9E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 09:09:18 +0200 (CEST)
-Received: from localhost ([::1]:60226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2326E57F9E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 09:10:24 +0200 (CEST)
+Received: from localhost ([::1]:33302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFsDN-00029l-3c
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 03:09:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
+	id 1oFsEQ-00032i-V6
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 03:10:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFsAK-000797-99
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:06:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:20819)
+ id 1oFsBz-0000Oc-D7
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:07:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFsAF-0006qc-Dd
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:06:06 -0400
+ id 1oFsBx-00071g-Cf
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:07:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658732762;
+ s=mimecast20190719; t=1658732868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=elSTjRohIJiUeyPzNiwPS4DYIb0+TLcyHv+/MSTItP0=;
- b=OMiGTnwmhH2dXSQWw7tNIAjWOrjsRlOtfaqtO2AIf8xAC8YsTk5nsWekdI1QirUWohBOZ4
- vE6STMK/DuIfNJg+PtulakVoQbUSr9p5NIy4HTK6bZiePykzCilqwYrVpWk3aK+X77yszG
- xzGwiQg9vToKV93CPBkXvdaOk1Oe7iU=
-Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
- [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d9eaj1DoG8Ac3WS9RAR0NNxNI6/ZX16bjZ631mEaxy8=;
+ b=H2jDTzLhQ7ikzmpsDaIVnuMoEdIDaXEnMrnV0ENWhhkJpiVdythd5S9JNi4VHHvo+zc2DV
+ 8+xes43cyH9KbfeAYaPCd+aP+2C5cPCsSAka0OycJJonCfdoTq/ZQLcsVcTZOebzEq5vbZ
+ mgwFqSrEOjipNaqI9s//WnexmPXBrKU=
+Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
+ [209.85.167.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-261-Onr78sa5Paydpj7FZ9hyLA-1; Mon, 25 Jul 2022 03:06:00 -0400
-X-MC-Unique: Onr78sa5Paydpj7FZ9hyLA-1
-Received: by mail-lf1-f72.google.com with SMTP id
- t2-20020a19dc02000000b0048a097cd904so3232408lfg.17
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 00:06:00 -0700 (PDT)
+ us-mta-444-WhuE0kadNqq44Nz_DbBULg-1; Mon, 25 Jul 2022 03:07:44 -0400
+X-MC-Unique: WhuE0kadNqq44Nz_DbBULg-1
+Received: by mail-lf1-f70.google.com with SMTP id
+ y7-20020ac24467000000b0048a7aa5a96dso1694780lfl.11
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 00:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=elSTjRohIJiUeyPzNiwPS4DYIb0+TLcyHv+/MSTItP0=;
- b=aL2w5b3/ENzfMhwU08/420ypI90WExWUDmMsj25HqqVhYQs2wBmby3E1AClJ20eSnK
- IxhjTcrH2VesI0mYbIzZPRx2SH3AXKjydQaI+6tLpdUkZjRPNYxtUPmjcKEpYvaTzJwW
- 0V8OVJN5GVfdWVf4WbPsZpaMKG4eHMfA7x4+fIDSs1tPJWqG24OywYS0i/4JJGp95jw5
- UnF/AYIppYd27EZxfcpJMSdLToiW6f1FSIaAqykrhkcv4Qth46lmzk5ME4NYGUXAYbNl
- 91Bf7fJLf0tBLIs0MHKxXU68hqYCdkGGkJam5o6NnhIJIRc6aFnSwGOOicoIEGg9+mHp
- u6Pg==
-X-Gm-Message-State: AJIora/7I08DFKRtz0+WslfX0jN7QcrP54dGo0a3SfcwjXVuDbIfBXBA
- HBtKYeoWypj4TNIppgk7iNjv/DnaH0neBz+QRBTaWbBIdaX1prFKmTPRDkkaESz7MrGgNP5p7AN
- JXHe9GKeULe7TYEnU5rk8gIuuKzAQwlM=
-X-Received: by 2002:a2e:a99e:0:b0:25e:a54:8328 with SMTP id
- x30-20020a2ea99e000000b0025e0a548328mr596359ljq.141.1658732759058; 
- Mon, 25 Jul 2022 00:05:59 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sVmZVAqRDsXG4CFKHCnFQ7vli9uxz3ycKXJfYa08PVb4jwQ6ZGxT+PFAf9lYLcsaSteNeKJqrYES7Uo/q6kUI=
-X-Received: by 2002:a2e:a99e:0:b0:25e:a54:8328 with SMTP id
- x30-20020a2ea99e000000b0025e0a548328mr596350ljq.141.1658732758748; Mon, 25
- Jul 2022 00:05:58 -0700 (PDT)
+ bh=d9eaj1DoG8Ac3WS9RAR0NNxNI6/ZX16bjZ631mEaxy8=;
+ b=agXXP5VLGMeVX37YiKDl820BRKGj1aLrDRfZSh40QzJAZpidxErTDS/5CD1HUz6k/k
+ 8mCQ8JahaEhyMHzCh/hlatqHMILnGPsY+W2hlhzgdZmHMVvlbGuRwJI0C+c1RzNYglIn
+ rmqWb5+CfUhKsgq9p8GnhUJSXISrNxHe+cmY6rpfF6jZ8aSo5mmvv+eqVWISoOKWkly5
+ e0DPqkfJEnUgrnu+uMs3XNmwq6m4mo/OuCL9Tu/peT40cFIJc3/jpG3xyt8PgmGHgOOp
+ Y1qNcDGlwr45SOha9Y35pJP6a23RvXVbUtezRcmbFf7NSx6i8yZRu+SgibwoUkrHT0Yy
+ yS9Q==
+X-Gm-Message-State: AJIora976fB/4xaUErDHVOoZBKOsCF1DwRluHkpiCaHZatNfalUz43Ec
+ 5z3oO2dGyZIGXb9QdPU3AMTQb7ohS57FanqTvKbxDOd55opSk07AjEbQm+D5S+qZR/VUUbnBKrH
+ 9RPLeKj8P8ki5+Lfo0G+Z/0uJZz1jKtE=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr3095086ljk.243.1658732862573; 
+ Mon, 25 Jul 2022 00:07:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s0ZR30briwjNT0l4ErAZEfL5JspPxehGV3xY9wI5aoR4s9ajS9DiERUQlZxSR3J5G878eHQ/GgRjZzeg0Yc8Y=
+X-Received: by 2002:a2e:9e1a:0:b0:25d:f9db:92f7 with SMTP id
+ e26-20020a2e9e1a000000b0025df9db92f7mr3095081ljk.243.1658732862402; Mon, 25
+ Jul 2022 00:07:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722082630.3371384-1-eperezma@redhat.com>
-In-Reply-To: <20220722082630.3371384-1-eperezma@redhat.com>
+References: <20220718120545.2879871-1-eperezma@redhat.com>
+In-Reply-To: <20220718120545.2879871-1-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 25 Jul 2022 15:05:47 +0800
-Message-ID: <CACGkMEu-kmHBbOevmMOcUW9eSk4N2-6_QAS1HTqz0cwduU4jaQ@mail.gmail.com>
-Subject: Re: [PATCH] vdpa: Fix memory listener deletions of iova tree
+Date: Mon, 25 Jul 2022 15:07:31 +0800
+Message-ID: <CACGkMEtQN7EaPvwUzN8fU_LdOqKS90nk0n_CuAduVgsSf+oU2Q@mail.gmail.com>
+Subject: Re: [PATCH v2] vhost: Get vring base from vq, not svq
 To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,54 +93,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 22, 2022 at 4:26 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
+On Mon, Jul 18, 2022 at 8:05 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wr=
 ote:
 >
-> vhost_vdpa_listener_region_del is always deleting the first iova entry
-> of the tree, since it's using the needle iova instead of the result's
-> one.
+> The SVQ vring used idx usually match with the guest visible one, as long
+> as all the guest buffers (GPA) maps to exactly one buffer within qemu's
+> VA. However, as we can see in virtqueue_map_desc, a single guest buffer
+> could map to many buffers in SVQ vring.
 >
-> This was detected using a vga virtual device in the VM using vdpa SVQ.
-> It makes some extra memory adding and deleting, so the wrong one was
-> mapped / unmapped. This was undetected before since all the memory was
-> mappend and unmapped totally without that device, but other conditions
-> could trigger it too:
+> Also, its also a mistake to rewind them at the source of migration.
+> Since VirtQueue is able to migrate the inflight descriptors, its
+> responsability of the destination to perform the rewind just in case it
+> cannot report the inflight descriptors to the device.
 >
-> * mem_region was with .iova =3D 0, .translated_addr =3D (correct GPA).
-> * iova_tree_find_iova returned right result, but does not update
->   mem_region.
-> * iova_tree_remove always removed region with .iova =3D 0. Right iova wer=
-e
->   sent to the device.
-> * Next map will fill the first region with .iova =3D 0, causing a mapping
->   with the same iova and device complains, if the next action is a map.
-> * Next unmap will cause to try to unmap again iova =3D 0, causing the
->   device to complain that no region was mapped at iova =3D 0.
+> This makes easier to migrate between backends or to recover them in
+> vhost devices that support set in flight descriptors.
 >
-> Fixes: 34e3c94edaef ("vdpa: Add custom IOTLB translations to SVQ")
-> Reported-by: Lei Yang <leiyang@redhat.com>
+> Fixes: 6d0b22266633 ("vdpa: Adapt vhost_vdpa_get_vring_base to SVQ")
 > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
 
 Acked-by: Jason Wang <jasowang@redhat.com>
 
+>
+> --
+> v2: Squash both fixes in one.
 > ---
->  hw/virtio/vhost-vdpa.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/virtio/vhost-vdpa.c | 24 ++++++++++++------------
+>  1 file changed, 12 insertions(+), 12 deletions(-)
 >
 > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 291cd19054..00e990ea40 100644
+> index 795ed5a049..4458c8d23e 100644
 > --- a/hw/virtio/vhost-vdpa.c
 > +++ b/hw/virtio/vhost-vdpa.c
-> @@ -290,7 +290,7 @@ static void vhost_vdpa_listener_region_del(MemoryList=
-ener *listener,
+> @@ -1178,7 +1178,18 @@ static int vhost_vdpa_set_vring_base(struct vhost_=
+dev *dev,
+>                                         struct vhost_vring_state *ring)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> +    VirtQueue *vq =3D virtio_get_queue(dev->vdev, ring->index);
 >
->          result =3D vhost_iova_tree_find_iova(v->iova_tree, &mem_region);
->          iova =3D result->iova;
-> -        vhost_iova_tree_remove(v->iova_tree, &mem_region);
-> +        vhost_iova_tree_remove(v->iova_tree, result);
+> +    /*
+> +     * vhost-vdpa devices does not support in-flight requests. Set all o=
+f them
+> +     * as available.
+> +     *
+> +     * TODO: This is ok for networking, but other kinds of devices might
+> +     * have problems with these retransmissions.
+> +     */
+> +    while (virtqueue_rewind(vq, 1)) {
+> +        continue;
+> +    }
+>      if (v->shadow_vqs_enabled) {
+>          /*
+>           * Device vring base was set at device start. SVQ base is handle=
+d by
+> @@ -1194,21 +1205,10 @@ static int vhost_vdpa_get_vring_base(struct vhost=
+_dev *dev,
+>                                         struct vhost_vring_state *ring)
+>  {
+>      struct vhost_vdpa *v =3D dev->opaque;
+> -    int vdpa_idx =3D ring->index - dev->vq_index;
+>      int ret;
+>
+>      if (v->shadow_vqs_enabled) {
+> -        VhostShadowVirtqueue *svq =3D g_ptr_array_index(v->shadow_vqs, v=
+dpa_idx);
+> -
+> -        /*
+> -         * Setting base as last used idx, so destination will see as ava=
+ilable
+> -         * all the entries that the device did not use, including the in=
+-flight
+> -         * processing ones.
+> -         *
+> -         * TODO: This is ok for networking, but other kinds of devices m=
+ight
+> -         * have problems with these retransmissions.
+> -         */
+> -        ring->num =3D svq->last_used_idx;
+> +        ring->num =3D virtio_queue_get_last_avail_idx(dev->vdev, ring->i=
+ndex);
+>          return 0;
 >      }
->      vhost_vdpa_iotlb_batch_begin_once(v);
->      ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+>
 > --
 > 2.31.1
 >
