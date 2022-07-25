@@ -2,100 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2D957FF70
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:03:20 +0200 (CEST)
-Received: from localhost ([::1]:55688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 146D457FF7E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:05:48 +0200 (CEST)
+Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFxjz-0003XQ-2n
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55604)
+	id 1oFxmM-00077P-DT
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:05:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFxY3-0000fw-2o
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:50:59 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4876)
+ (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
+ id 1oFxZ8-000249-Qv
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:52:07 -0400
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:39689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFxY0-0003HU-Jg
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:50:58 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26PCoTa5030312;
- Mon, 25 Jul 2022 12:50:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=KBMQnLS4rB7dI1/NUPbNS0LcjMN3QG2k8Xwnh19IL7A=;
- b=Sjk+3Rr6ouFuyxYiDf/Z8dNwn2VQ0Th7yv5KapKU2VnFLwlOEexcdAkW+wIJ0Vl5J/pF
- 7l3sv1iuNhtVfjh8TsDnWL/NVKkXFnrCqSW9pbolSluXArwtvKqhvBKGg2xzm3OFTW7q
- XsMDpTYAO2e9NZ7B83gcMywoKXV3Sbfb2SL6SNvF2KTas5xyeI51pmifOk6WxR18fte6
- 030qauHytndeQO9xXg8hz/zgBFnh/Tv7dx0h8vkM3loZq29fqNKzZTln+cmS4PUN4YnU
- lC0xDKGJJ1fyqlyRCGcxvggX1uYfLhJk5XsOQgJ4Re5Er2/L2zMaEdBlsFQTk5imFGuD jw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhuhbg07p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jul 2022 12:50:52 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26PCojuI031080;
- Mon, 25 Jul 2022 12:50:50 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhuhbg07c-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jul 2022 12:50:50 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26PCZ0uP011842;
- Mon, 25 Jul 2022 12:50:48 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3hh6euh4we-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jul 2022 12:50:48 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26PCmmfP23265668
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 25 Jul 2022 12:48:48 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0579842041;
- Mon, 25 Jul 2022 12:50:45 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9D7154203F;
- Mon, 25 Jul 2022 12:50:44 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.40.49])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 25 Jul 2022 12:50:44 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v2] linux-user: Passthrough MADV_DONTNEED for certain file
- mappings
-Date: Mon, 25 Jul 2022 14:50:43 +0200
-Message-Id: <20220725125043.43048-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: cIXtOy17zmt5NBV22rdteIyJBlTtbihz
-X-Proofpoint-GUID: axXzL4VcsMHgVUmkygDxjJHJA3ZqiUP1
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-25_09,2022-07-25_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- bulkscore=0 spamscore=0 clxscore=1015 phishscore=0 mlxscore=0
- malwarescore=0 adultscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207250052
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+ (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
+ id 1oFxZ6-0003TW-RO
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:52:06 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id E93335800E2
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:52:02 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+ by compute3.internal (MEProxy); Mon, 25 Jul 2022 08:52:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ colorremedies.com; h=cc:content-transfer-encoding:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1658753522; x=1658757122; bh=BXzME7qpM3th0P++sWfnv6jS6
+ tarAhrZbaf8U33q5Uk=; b=OkmeehZjZmD7G5M18aXZcRgC4E2D36x6tITyzxEFH
+ bnrLvqOU7Prhgc4ASZKnVlvQC9NJzLRkAVSN+ADUNGxtA/cJ8TtmXaDcOFPWMHpj
+ OsqrXe6VT4vzKndE7FYS8bNJhX6ln6PIKRR6blqZ8NGmZOVCSOTjo0r8/aWMxg8V
+ Exv7CL2a1tmaUxLhzxSo9FipH8lw8f2K8X+Honfx7XEzFvTsW7aIu91g0SPjIY1A
+ K9izMXu/znPxVNkS4EJGv4Cwm+fKT7Ap2vv2iIAe697o4ldpinOZvwRtbKfMaw+3
+ qWii3bYdQAR8d/Y5LKB6H5/09ceiqQ7BqvIGP+PEMqQlw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:date:feedback-id:feedback-id:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=i06494636.fm3; t=1658753522; x=
+ 1658757122; bh=BXzME7qpM3th0P++sWfnv6jS6tarAhrZbaf8U33q5Uk=; b=m
+ aNj6IB5tBW8z/bBQ8inr0oegZd6hl2Eb4VmL9ekEZyc0hHROc+/ivuoercNRHJ7A
+ 1Xb78n4hJp83Bl/yyZDCX1AuY2cJs2pmXrUHHyjpPZ3fzdfToJbKAp+cHGOEEx0J
+ BeNtR5eK4B1kRYrUqrOnoO3H0UQjeE/LPhVdksk3kdfJIHymEUcvb9T2QMqiMyrX
+ 7/lrkWGxNAzUlW0WccfSA/pLh/NHPjv5QCT9olfkZgq5N3W1p3vENMUaHtAmgalO
+ 356iGw/WxrFVDgeyuRL3s+uGiz1xGySEofkb0KxdRN4z88EgLA33CEwpj07G6zTZ
+ eoWkM+/Z1cgwyDUbogWrQ==
+X-ME-Sender: <xms:8pHeYnsfNG1bbCGzgwP-CtxFfV1iJmiYzu7Cb7z--He8V4YBZNlkxg>
+ <xme:8pHeYocF1EqTu-U_cxv0FhHqh8Jk7ZlvF1BtJUvG9WoHK3sKpepqwhXkN90UDzwGZ
+ Gx1ywRRKJl3v2lsYVs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtkedgheegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
+ hqredtreerjeenucfhrhhomhepfdevhhhrihhsucfouhhrphhhhidfuceolhhishhtshes
+ tgholhhorhhrvghmvgguihgvshdrtghomheqnecuggftrfgrthhtvghrnheptdejvdfgtd
+ duhefhtdetffduvdeghfeludeufeetteeivdehleetfeffffdtgedunecuffhomhgrihhn
+ pehfvgguohhrrghprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomheplhhishhtshestgholhhorhhrvghmvgguihgvshdr
+ tghomh
+X-ME-Proxy: <xmx:8pHeYqz8EXv2VD4IwzBVjZSd8SqWIRJzWwRnpgj4C88gMXIzjK0puA>
+ <xmx:8pHeYmOJHut-usay7KEB0PB4HJW314HUKryRT2XmEr-t4NWH4BbXOg>
+ <xmx:8pHeYn8190h2Yd2hVZJxSmqwT7rmyQo7EsKvSREThb-otRKb-KdVCQ>
+ <xmx:8pHeYqLeXPEzjvOtMDx4DI2L6Ofq2uWaFUUYbcKBG7XwCkDsV2_Ia2DAVDg>
+Feedback-ID: i06494636:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8FB60170007E; Mon, 25 Jul 2022 08:52:02 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
+Mime-Version: 1.0
+Message-Id: <79ec108b-60bf-4c18-8917-9d7c8fd74b89@www.fastmail.com>
+In-Reply-To: <Yt5etOfFUQb12ljA@redhat.com>
+References: <4f9c91b1-719c-443e-a757-042e772d6019@www.fastmail.com>
+ <Yt5etOfFUQb12ljA@redhat.com>
+Date: Mon, 25 Jul 2022 08:51:42 -0400
+From: "Chris Murphy" <lists@colorremedies.com>
+To: qemu-devel@nongnu.org
+Subject: Re: driver type raw-xz supports discard=unmap?
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.230;
+ envelope-from=lists@colorremedies.com; helo=new4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,114 +104,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a follow-up for commit 892a4f6a750a ("linux-user: Add partial
-support for MADV_DONTNEED"), which added passthrough for anonymous
-mappings. File mappings can be handled in a similar manner.
 
-In order to do that, mark pages, for which mmap() was passed through,
-with PAGE_PASSTHROUGH, and then allow madvise() passthrough for these
-pages as well.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
+On Mon, Jul 25, 2022, at 5:13 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Fri, Jul 22, 2022 at 04:03:52PM -0400, Chris Murphy wrote:
+>> Is this valid?
+>>=20
+>> `<disk device=3D"disk" type=3D"file">
+>> <target dev=3D"vda" bus=3D"virtio"/>
+>> <source file=3D"Fedora-Workstation-Rawhide-20220721.n.0.aarch64.raw-x=
+z"/>
+>> <driver name=3D"qemu" type=3D"raw-xz" discard=3D"unmap"/>`
+>> `/>
+>> </disk>`
+>>=20
+>> I know type=3D"raw" works fine, I'm wondering if there'd be any probl=
+em
+>> with type "raw-xz" combined with discards?
+>
+> This is libvirt configuration, so libvirt-users@redhat.com is the bett=
+er
+> list in general. That said, what is this 'raw-xz' type you refer to ?
+>
+> AFAIK, that is not a disk driver type that exists in either libvirt or
+> QEMU releases.
 
-v1: https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg00112.html
-v1 -> v2: Fix PAGE_PASSTHROUGH value; make checks consistent with
-          page_set_flags() (Laurent).
+Huh, interesting. I have no idea then. I just happened to notice it in t=
+he (libvirt) XML config that's used by oz.
+https://kojipkgs.fedoraproject.org//packages/Fedora-Workstation/Rawhide/=
+20220721.n.0/images/libvirt-raw-xz-aarch64.xml
 
- include/exec/cpu-all.h |  6 ++++++
- linux-user/mmap.c      | 25 +++++++++++++++++++++----
- 2 files changed, 27 insertions(+), 4 deletions(-)
+When manually modifying a virt-manager created config, to change "raw" t=
+o "raw-xz" I get an error:
 
-diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-index f5bda2c3ca..2d29ba13c0 100644
---- a/include/exec/cpu-all.h
-+++ b/include/exec/cpu-all.h
-@@ -262,6 +262,12 @@ extern const TargetPageBits target_page;
- #define PAGE_TARGET_1  0x0200
- #define PAGE_TARGET_2  0x0400
- 
-+/*
-+ * For linux-user, indicates that the page is mapped with the same semantics
-+ * in both guest and host.
-+ */
-+#define PAGE_PASSTHROUGH 0x0800
-+
- #if defined(CONFIG_USER_ONLY)
- void page_dump(FILE *f);
- 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 4e7a6be6ee..79928e3ae5 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -424,7 +424,8 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
- abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-                      int flags, int fd, abi_ulong offset)
- {
--    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len;
-+    abi_ulong ret, end, real_start, real_end, retaddr, host_offset, host_len,
-+              passthrough_start = -1, passthrough_end = -1;
-     int page_flags, host_prot;
- 
-     mmap_lock();
-@@ -537,6 +538,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-             host_start += offset - host_offset;
-         }
-         start = h2g(host_start);
-+        passthrough_start = start;
-+        passthrough_end = start + len;
-     } else {
-         if (start & ~TARGET_PAGE_MASK) {
-             errno = EINVAL;
-@@ -619,6 +622,8 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-                      host_prot, flags, fd, offset1);
-             if (p == MAP_FAILED)
-                 goto fail;
-+            passthrough_start = real_start;
-+            passthrough_end = real_end;
-         }
-     }
-  the_end1:
-@@ -626,7 +631,18 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
-         page_flags |= PAGE_ANON;
-     }
-     page_flags |= PAGE_RESET;
--    page_set_flags(start, start + len, page_flags);
-+    if (passthrough_start == passthrough_end) {
-+        page_set_flags(start, start + len, page_flags);
-+    } else {
-+        if (start < passthrough_start) {
-+            page_set_flags(start, passthrough_start, page_flags);
-+        }
-+        page_set_flags(passthrough_start, passthrough_end,
-+                       page_flags | PAGE_PASSTHROUGH);
-+        if (passthrough_end < start + len) {
-+            page_set_flags(passthrough_end, start + len, page_flags);
-+        }
-+    }
-  the_end:
-     trace_target_mmap_complete(start);
-     if (qemu_loglevel_mask(CPU_LOG_PAGE)) {
-@@ -845,7 +861,7 @@ static bool can_passthrough_madv_dontneed(abi_ulong start, abi_ulong end)
-     }
- 
-     for (addr = start; addr < end; addr += TARGET_PAGE_SIZE) {
--        if (!(page_get_flags(addr) & PAGE_ANON)) {
-+        if (!(page_get_flags(addr) & (PAGE_ANON | PAGE_PASSTHROUGH))) {
-             return false;
-         }
-     }
-@@ -888,7 +904,8 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
-      *
-      * This breaks MADV_DONTNEED, completely implementing which is quite
-      * complicated. However, there is one low-hanging fruit: host-page-aligned
--     * anonymous mappings. In this case passthrough is safe, so do it.
-+     * anonymous mappings or mappings that are known to have the same semantics
-+     * in the host and the guest. In this case passthrough is safe, so do it.
-      */
-     mmap_lock();
-     if ((advice & MADV_DONTNEED) &&
--- 
-2.35.3
+# virsh edit uefivm
+error: XML document failed to validate against schema: Unable to validat=
+e doc against /usr/share/libvirt/schemas/domain.rng
+Extra element devices in interleave
+Element domain failed to validate content
 
+Failed. Try again? [y,n,i,f,?]:=20
+
+I've got no idea what happens if an invalid type is specified in the con=
+fig. The VM's are definitely running despite this. I'll ask oz devs.
 
