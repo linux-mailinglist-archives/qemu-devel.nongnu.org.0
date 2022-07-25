@@ -2,67 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219495806D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 23:32:59 +0200 (CEST)
-Received: from localhost ([::1]:60514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C152580775
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 00:36:21 +0200 (CEST)
+Received: from localhost ([::1]:52286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG5hB-0002xJ-NT
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 17:32:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48914)
+	id 1oG6gV-0004zt-2c
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 18:36:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkhai@ya.ru>) id 1oG5QF-0001WT-Nx
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 17:15:27 -0400
-Received: from forward101o.mail.yandex.net ([2a02:6b8:0:1a2d::601]:47476)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tkhai@ya.ru>) id 1oG5QB-0006u4-JL
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 17:15:27 -0400
-Received: from iva1-dcde80888020.qloud-c.yandex.net
- (iva1-dcde80888020.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:7695:0:640:dcde:8088])
- by forward101o.mail.yandex.net (Yandex) with ESMTP id 2ECB3369B50D;
- Tue, 26 Jul 2022 00:15:15 +0300 (MSK)
-Received: by iva1-dcde80888020.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id ZXho2Z3dGu-FCh4KT0f; Tue, 26 Jul 2022 00:15:14 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ya.ru; s=mail;
- t=1658783714; bh=kAhlQFCfWhrWOTesABzSAGCxFIgasBuWCk2ikQwkOAw=;
- h=Cc:References:Date:Message-ID:In-Reply-To:From:To:Subject;
- b=a7+K89XMIQp31FWkZzoPIemd6vfXr+vHqwHgBtS4m/bzkyi/EYQtofn2uuUCzuxaA
- Hf4kCrj87gbytIcL3w7tp2E0ai84alujiOiPi7SJxeEs1n31ugUxDSoJsNaclJ6QG+
- YJAxA4Z5VYsL5IyLgtdoRBy8OndxHTvtpH1jleLY=
-Authentication-Results: iva1-dcde80888020.qloud-c.yandex.net;
- dkim=pass header.i=@ya.ru
-Subject: Re: Attaching qcow2 images to containers
-To: Stefan Hajnoczi <stefanha@redhat.com>,
- Kirill Tkhai <kirill.tkhai@openvz.org>
-Cc: qemu-devel@nongnu.org, dm-devel@redhat.com, linux-kernel@vger.kernel.org, 
- Kevin Wolf <kwolf@redhat.com>, hreitz@redhat.com,
- Xie Yongji <xieyongji@bytedance.com>, sgarzare@redhat.com, tkhai@ya.ru
-References: <YoSSkOQaGL0sBNOI@stefanha-x1.localdomain>
-From: Kirill Tkhai <tkhai@ya.ru>
-Message-ID: <d4aafde8-1686-4423-e9b1-c1cc825236e6@ya.ru>
-Date: Tue, 26 Jul 2022 00:15:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oG6bL-0002AP-AM
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 18:30:59 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33696)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oG6bB-0000PV-RP
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 18:30:51 -0400
+Received: by mail-pl1-x636.google.com with SMTP id w10so120893plq.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 15:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pAsgUqjp+kH5MijKCf2WqKZ7Oadnu9fvl3ipCXeZf+g=;
+ b=DxPmGsk/WdXPP05y3YODBsGwyjMN4SqNZ9zucK9eYEyIIkd2C1IZCo0fYOC2ja8OXE
+ fy5zYfMelhqRz67/APtFkgBYSM5kFUM4VxlS18hgP7UioUXzUOYfJ+Mf67lKRmcO5Nde
+ YGRgQ+T0oBmY3KH5/j2C1FnqLy6AI2eQvvbLsbWl7NPALQTweR44oyFjiCXN82ojB70V
+ zoMpzjTBKh+5PKDy4xC180pv2kWYC3MnbyJcUVPWZa7N17YPFsEciB9Ufx4lsMeEELlN
+ 4fot807cWwuV3jWL50GGBkfoopH9BJwzpBlOmIk+m8gQ6h7m3oABiO/vmAw8KG52J5OF
+ BCNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pAsgUqjp+kH5MijKCf2WqKZ7Oadnu9fvl3ipCXeZf+g=;
+ b=bjYamzcKx5PLwhe3Sz8anh2zzYZzTWbynpHCMOgM2lji/mgJsd3KNXYBUMf2on3M3+
+ FH12tySUltjgNYiU7eklLKqVE4iCksOe5AIdzVF44XivXtGFwHJc0GJ6qeLDYNB2Y3/D
+ YxjosNPBldq1pt0NPiDFv4NxNPmJkKkUpbL0K9/rQDOP7lljKTwnrbd+C1Kv/GewL+kW
+ GDKLTmdtgtXoerUliKIPzs1KiPP0TuBCPh9fVB9TDYfXgPVzY5Dsr3dz5akOC4RWYwip
+ agAW7eix6vCV5PKEsMsnww0V8RFYNmv5TPG6RLXg27G4KlzuNvjubwMKBI/NQ9tddt3g
+ mung==
+X-Gm-Message-State: AJIora84TZ9DNMEF9/WNCzc1cJX09BS3oxWvGrLVHAf1cqqXzrLM1XMZ
+ HQUOekn08gp6K8L9Y4NoBn2r4V0Nm7JHjnZN3BR9JA==
+X-Google-Smtp-Source: AGRyM1vR3h3BrysMQvtZdPCpD0OQau0gQLilnjV1DzzoryueH6SRYp71I3PZuU17pCnjHVTYssxsGT1+ZBQydEjrMCc=
+X-Received: by 2002:a17:90a:9409:b0:1f0:e171:f2bd with SMTP id
+ r9-20020a17090a940900b001f0e171f2bdmr16057685pjo.245.1658788233495; Mon, 25
+ Jul 2022 15:30:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YoSSkOQaGL0sBNOI@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::601; envelope-from=tkhai@ya.ru;
- helo=forward101o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220723090335.671105-1-atishp@rivosinc.com>
+ <CAKmqyKODh+im_v2NJhRcYgeaYmvDS9BXW++RaOzEb9oQD53zKw@mail.gmail.com>
+In-Reply-To: <CAKmqyKODh+im_v2NJhRcYgeaYmvDS9BXW++RaOzEb9oQD53zKw@mail.gmail.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Mon, 25 Jul 2022 15:30:22 -0700
+Message-ID: <CAHBxVyHP8HYytR4ifBZhSOkEPX+u1tGdoVu5jk+FanWbHgD0-w@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000006a5c3505e4a8bbe6"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=atishp@rivosinc.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 25 Jul 2022 17:29:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,77 +86,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Stefan,
+--0000000000006a5c3505e4a8bbe6
+Content-Type: text/plain; charset="UTF-8"
 
-sorry for the late reply. I missed your message since I don't use that email address anymore.
-Sent a patch to fix the stale address in .mailmap.
+On Sun, Jul 24, 2022 at 6:14 PM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-On 18.05.2022 09:30, Stefan Hajnoczi wrote:
-> Hi Kirill,
-> I saw your "[PATCH 0/4] dm: Introduce dm-qcow2 driver to attach QCOW2
-> files as block device" patch series:
-> https://lore.kernel.org/linux-kernel/YkME5ZS2CpXuNmN6@infradead.org/T/
-> 
-> There has been recent work in vDPA (VIRTIO Data Path Acceleration) to
-> achieve similar functionality. The qemu-storage-daemon VDUSE export
-> attaches a virtio-blk device to the host kernel and QEMU's qcow2
-> implementation can be used:
-> https://patchew.org/QEMU/20220504074051.90-1-xieyongji@bytedance.com/
-> 
-> A container can then access this virtio-blk device (/dev/vda). Note that
-> the virtio-blk device is implemented in software using vDPA/VDUSE, there
-> is no virtio-pci device.
-> 
-> As a quick comparison with a dm-qcow2 target, this approach keeps the
-> qcow2 code in QEMU userspace and can take advantage of QEMU block layer
-> features (storage migration/mirroring/backup, snapshots, etc). On the
-> other hand, it's likely to be more heavyweight because bounce buffers
-> are required in VDUSE for security reasons, there is a separate
-> userspace process involved, and there's the virtio_blk.ko driver and an
-> emulated virtio-blk device involved.
+> On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
+> >
+> > Since commit 40244040a7ac, multi-socket configuration with plic is
+> > broken as the hartid for second socket is calculated incorrectly.
+> > The hartid stored in addr_config already includes the offset
+> > for the base hartid for that socket. Adding it again would lead
+> > to segfault while creating the plic device for the virt machine.
+> > qdev_connect_gpio_out was also invoked with incorrect number of gpio
+> > lines.
+> >
+> > Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the
+> addr_config buffer)
+> >
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+>
+> Can you share the -cpu options that causes the segfault? I'll add it
+> to my test case
+>
+>
+"-cpu rv64 -M virt -m 2G -smp 4 -object
+memory-backend-ram,size=1G,policy=bind,host-nodes=0,id=ram-node0  \
+-numa node,memdev=ram-node0   \
+-object memory-backend-ram,size=1G,policy=bind,host-nodes=0,id=ram-node1 \
+-numa node,memdev=ram-node1"
 
-The main idea is to reach the best performance and density. This is possible only,
-if driver's hot path is implemented in kernel. Comparing to NBD the driver shows
-much better results in these criteria.
+You also need to enable  CONFIG_NUMA in kernel.
 
-This has a continuation, and I mean DAX here. IO handling with any userspace-based
-implementation will be slower, than DAX in case of kernel-based implementation. So,
-in my driver IO handling is done in kernel, while DAX support is a subject of
-the future development.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> Alistair
+>
+> > ---
+> >  hw/intc/sifive_plic.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> > index 56d60e9ac935..fdac028a521f 100644
+> > --- a/hw/intc/sifive_plic.c
+> > +++ b/hw/intc/sifive_plic.c
+> > @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char
+> *hart_config,
+> >
+> >      for (i = 0; i < plic->num_addrs; i++) {
+> >          int cpu_num = plic->addr_config[i].hartid;
+> > -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
+> > +        CPUState *cpu = qemu_get_cpu(cpu_num);
+> >
+> >          if (plic->addr_config[i].mode == PLICMode_M) {
+> > -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
+> > +            qdev_connect_gpio_out(dev, cpu_num,
+> >                                    qdev_get_gpio_in(DEVICE(cpu),
+> IRQ_M_EXT));
+> >          }
+> >          if (plic->addr_config[i].mode == PLICMode_S) {
+> > --
+> > 2.25.1
+> >
+> >
+>
 
-And this driver and advantages of QEMU block layer are not mutually exclusive.
-This driver *does not implement* snapshot or backup support, here is only hot-path
-doing IO handling.
- 
-> Another similar feature that was recently added to QEMU is the
-> qemu-storage-daemon FUSE export:
-> 
->   $ qemu-storage-daemon \
->         --blockdev file,filename=test.img,node-name=drive0 \
-> 	--export fuse,node-name=drive0,id=fuse0,mountpoint=/tmp/foo
->   $ ls -alF /tmp/foo
->   -r--------. 1 me me 10737418240 May 18 07:22 /tmp/foo
-> 
-> This exports a disk image as a file via FUSE. Programs can access it
-> like a regular file and qemu-storage-daemon will do the qcow2 I/O on the
-> underlying file.
-> 
-> I wanted to mention these options for exposing qcow2 disk images to
-> processes/containers on the host. Depending on your use cases they might
-> be interesting. Performance comparisons against VDUSE and FUSE exports
-> would be interesting since these new approaches seem to be replacing
-> qemu-nbd.
-> 
-> Can you share more about your use cases for the dm-qcow2 target? It
-> could be useful for everyone I've CCed to be aware of various efforts in
-> this area.
+--0000000000006a5c3505e4a8bbe6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The use case is containers, and they are the requestor for high density.
-The userspace-based implementation overhead will be noticeable on nodes
-running a lot of containers (just because of any overhead is noticeable
-there :)). Also, it's very useful to use the same disk image for VMs and
-containers giving people to choose what they want in the moment.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div dir=3D"lt=
+r"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Sun, Jul 24, 2022 at 6:14 PM Alistair Francis &lt;<a href=3D"mail=
+to:alistair23@gmail.com" target=3D"_blank">alistair23@gmail.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sat, Jul =
+23, 2022 at 7:22 PM Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Since commit 40244040a7ac, multi-socket configuration with plic is<br>
+&gt; broken as the hartid for second socket is calculated incorrectly.<br>
+&gt; The hartid stored in addr_config already includes the offset<br>
+&gt; for the base hartid for that socket. Adding it again would lead<br>
+&gt; to segfault while creating the plic device for the virt machine.<br>
+&gt; qdev_connect_gpio_out was also invoked with incorrect number of gpio<b=
+r>
+&gt; lines.<br>
+&gt;<br>
+&gt; Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_=
+config buffer)<br>
+&gt;<br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+<br>
+Can you share the -cpu options that causes the segfault? I&#39;ll add it<br=
+>
+to my test case<br>
+<br></blockquote><div><br></div><div>&quot;-cpu rv64 -M virt -m 2G -smp 4 -=
+object memory-backend-ram,size=3D1G,policy=3Dbind,host-nodes=3D0,id=3Dram-n=
+ode0=C2=A0 \<br>-numa node,memdev=3Dram-node0=C2=A0 =C2=A0\</div><div>-obje=
+ct memory-backend-ram,size=3D1G,policy=3Dbind,host-nodes=3D0,id=3Dram-node1=
+ \</div><div>-numa node,memdev=3Dram-node1&quot;<br></div><div><br></div><d=
+iv>You also need to enable=C2=A0=C2=A0CONFIG_NUMA in kernel.</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+<br>
+Alistair<br>
+<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/intc/sifive_plic.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br>
+&gt; index 56d60e9ac935..fdac028a521f 100644<br>
+&gt; --- a/hw/intc/sifive_plic.c<br>
+&gt; +++ b/hw/intc/sifive_plic.c<br>
+&gt; @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, cha=
+r *hart_config,<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; plic-&gt;num_addrs; i++) {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int cpu_num =3D plic-&gt;addr_config=
+[i].hartid;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(hartid_bas=
+e + cpu_num);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(cpu_num);<=
+br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
+=3D PLICMode_M) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
+num_harts + cpu_num,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
+cpu_num,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DE=
+VICE(cpu), IRQ_M_EXT));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
+=3D PLICMode_S) {<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
+</div>
 
-Best wishes,
-Kirill
+--0000000000006a5c3505e4a8bbe6--
 
