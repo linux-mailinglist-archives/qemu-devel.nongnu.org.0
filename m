@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BAB57FE28
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:15:27 +0200 (CEST)
-Received: from localhost ([::1]:40790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A3BB57FE55
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:26:26 +0200 (CEST)
+Received: from localhost ([::1]:44438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFw3Z-00050z-IU
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33988)
+	id 1oFwEC-0008JH-Qg
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFw1m-0003PP-Cm
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:13:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFw1i-0002r0-6G
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:13:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658747608;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=UdqucLx+7i9LXxGjGcpFy1fnVRGt8feuyxatqC2B7xA=;
- b=eLGJSBip2rBjkZWk8oZnLjLQrdmbI1H1ACEpaDT0gOcY7HV7zuHF+4Zqr05+la8Qv/Lb2C
- qpUpuhfuALMhfpPbYxOFMb4yKuFlyZguCwjimN0v45ybOKhW6wWn6WLBqLGOABv01E3fzA
- X5dM58MFYrHsc6P/Wf5Con91GGbXe3Q=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-288-Uh0gUGVNNSaESPaDobbJAg-1; Mon, 25 Jul 2022 07:13:27 -0400
-X-MC-Unique: Uh0gUGVNNSaESPaDobbJAg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2DBCA185A794;
- Mon, 25 Jul 2022 11:13:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C34D2166B26;
- Mon, 25 Jul 2022 11:13:26 +0000 (UTC)
-Date: Mon, 25 Jul 2022 12:13:24 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- Jon Alduan <jon.alduan@gmail.com>
-Subject: Re: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t
- value
-Message-ID: <Yt561CDN+UjmaDK3@redhat.com>
-References: <20220725110035.1273441-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oFwBa-0006h9-GZ
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:23:42 -0400
+Received: from mail-lj1-x22d.google.com ([2a00:1450:4864:20::22d]:34522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oFwBY-0004Xb-No
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:23:42 -0400
+Received: by mail-lj1-x22d.google.com with SMTP id w18so1664787lje.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 04:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FemZC50nbRhdAr+2tYqkduBw4NjSbIuHSmf0fWTtu4g=;
+ b=MQJ/C2NlJgkE34Hzrh3NF95x4gmLtwwx4S9RItt1mkFim6BTyEGbRSymOSzyucdzSc
+ vkLioQV3P3eVjNn8AvtcTNjrqmA5NInuUq/uaRw8tDyM/rTPeRpH6fB6Or/ywRQz/FkJ
+ i9N0u/P3HuX5bi/NYwrs09FzGK7ze7FeZqW/uo+9mxA+8M/SBDmxS32sv9GoscUKe6OR
+ qk4zSAP4+w2/J4N9rj+5Omdm6e8ogIuhtxys+FfNhBzuh13o6PuQFg9RcVkJWnrwmk1z
+ JCsI8OH26YIMfs6jYsOgf7A/91XTwCrF+Tkr/Iftxy8Z0AwlmSuo3YL0aDZX43Pf4E06
+ yECQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FemZC50nbRhdAr+2tYqkduBw4NjSbIuHSmf0fWTtu4g=;
+ b=MFPfhoNYlMAXcT8ZapeBprNzw+RKuZr02EoSIKh2+NDVUyp9rAILYNtfgPb8pT31sY
+ yQ40exKhsFIA2MH9kclEUFlSDOFo7w62bD9Qg+d7AjAqQ2ni7LihjDVzQX+0LFJ/j/9o
+ gqEocyScqClUFKtfTvju3OkvWTE9xnjyxrdHJmCfagadVDvly/aoe8opAM87h36Hiaql
+ /PgHx9HenCiMNRlB/hhkNRVvn15Sgg6tPzUIjtvCTx8eBfb8ksnoAUxx8EBp/F6dW5fQ
+ Efw1J+jl8KypLNO/D7wk9oMFBs/z70WxdazRwUvaFnGnd0rfw78IHB5HAitNilviXEV7
+ xfew==
+X-Gm-Message-State: AJIora8p2O+V+ENEB+NDZPvawgVxEbZ8fz76094vOdXu6JXfhkECP+FD
+ msRca9IVOKTv5XoJybDnvupuL5iJ+edjXPOxQEI=
+X-Google-Smtp-Source: AGRyM1twCkSJhy43oNXsFr87SVs9K78A+LpaR3EdLRz1SioLPFev7CGD/04o38xOlKaU7pVu/S/iO90UHO1my3uxKO8=
+X-Received: by 2002:a2e:b88a:0:b0:25d:aa7b:e6ec with SMTP id
+ r10-20020a2eb88a000000b0025daa7be6ecmr3874180ljp.67.1658748217764; Mon, 25
+ Jul 2022 04:23:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220725110035.1273441-1-peter.maydell@linaro.org>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
+ <CAFn=p-Z1JqriE2iD26pYFycNBZhkxK3wqOcz6KzD-CegFP+qKQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-Z1JqriE2iD26pYFycNBZhkxK3wqOcz6KzD-CegFP+qKQ@mail.gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 25 Jul 2022 15:23:26 +0400
+Message-ID: <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] python/qemu/machine: fix potential hang in QMP
+ accept
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Cleber Rosa <crosa@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>,
+ Daniel Berrange <berrange@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004ab2bc05e49f6a13"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x22d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,53 +82,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022 at 12:00:35PM +0100, Peter Maydell wrote:
-> For handling guest POSIX timers, we currently use an array
-> g_posix_timers[], whose entries are a host timer_t value, or 0 for
-> "this slot is unused".  When the guest calls the timer_create syscall
-> we look through the array for a slot containing 0, and use that for
-> the new timer.
-> 
-> This scheme assumes that host timer_t values can never be zero.  This
-> is unfortunately not a valid assumption -- for some host libc
-> versions, timer_t values are simply indexes starting at 0.  When
-> using this kind of host libc, the effect is that the first and second
-> timers end up sharing a slot, and so when the guest tries to operate
-> on the first timer it changes the second timer instead.
+--0000000000004ab2bc05e49f6a13
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For sake of historical record, could you mention here which specific
-libc impl / version highlights the problem.
+Hi
 
-> 
-> Rework the timer allocation code, so that:
->  * the 'slot in use' indication uses a separate array from the
->    host timer_t array
->  * we grab the free slot atomically, to avoid races when multiple
->    threads call timer_create simultaneously
->  * releasing an allocated slot is abstracted out into a new
->    free_host_timer_slot() function called in the correct places
-> 
-> This fixes:
->  * problems on hosts where timer_t 0 is valid
->  * the FIXME in next_free_host_timer() about locking
->  * bugs in the error paths in timer_create where we forgot to release
->    the slot we grabbed, or forgot to free the host timer
-> 
-> Reported-by: Jon Alduan <jon.alduan@gmail.com>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  linux-user/syscall.c | 24 ++++++++++++++++--------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+On Fri, Jul 1, 2022 at 2:51 AM John Snow <jsnow@redhat.com> wrote:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> On Thu, Jun 30, 2022 at 8:34 AM <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Hi,
+> >
+> > As reported earlier by Richard Henderson ("virgl avocado hang" thread),
+> avocado
+> > tests may hang when QEMU exits before the QMP connection is established=
+.
+> >
+> > v2:
+> >  - use a socketpair() for QMP (instead of async concurrent code from v1=
+)
+> as
+> >    suggested by Daniel Berrange.
+> >  - should not regress (hopefully)
+> >
+> > Marc-Andr=C3=A9 Lureau (3):
+> >   python/qmp/protocol: add open_with_socket()
+> >   python/qmp/legacy: make QEMUMonitorProtocol accept a socket
+> >   python/qemu/machine: use socketpair() for QMP by default
+> >
+> >  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+> >  python/qemu/qmp/legacy.py      | 18 +++++++++++++++---
+> >  python/qemu/qmp/protocol.py    | 25 ++++++++++++++++++++-----
+> >  3 files changed, 51 insertions(+), 16 deletions(-)
+> >
+> > --
+> > 2.37.0.rc0
+> >
+>
+> For anything that touches python/qemu/qmp/*, may I please ask that you
+> submit them to https://gitlab.com/qemu-project/python-qemu-qmp ?
+>
+>
+Ok
 
+
+> (I'll review them in the meantime on-list just in the interest of
+> moving things along.)
+>
+
+I was waiting for a review before updating the patches / moving to
+python-qemu-qmp.
+
+thanks
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000004ab2bc05e49f6a13
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 1, 2022 at 2:51 AM John=
+ Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jun 3=
+0, 2022 at 8:34 AM &lt;<a href=3D"mailto:marcandre.lureau@redhat.com" targe=
+t=3D"_blank">marcandre.lureau@redhat.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Hi,<br>
+&gt;<br>
+&gt; As reported earlier by Richard Henderson (&quot;virgl avocado hang&quo=
+t; thread), avocado<br>
+&gt; tests may hang when QEMU exits before the QMP connection is establishe=
+d.<br>
+&gt;<br>
+&gt; v2:<br>
+&gt;=C2=A0 - use a socketpair() for QMP (instead of async concurrent code f=
+rom v1) as<br>
+&gt;=C2=A0 =C2=A0 suggested by Daniel Berrange.<br>
+&gt;=C2=A0 - should not regress (hopefully)<br>
+&gt;<br>
+&gt; Marc-Andr=C3=A9 Lureau (3):<br>
+&gt;=C2=A0 =C2=A0python/qmp/protocol: add open_with_socket()<br>
+&gt;=C2=A0 =C2=A0python/qmp/legacy: make QEMUMonitorProtocol accept a socke=
+t<br>
+&gt;=C2=A0 =C2=A0python/qemu/machine: use socketpair() for QMP by default<b=
+r>
+&gt;<br>
+&gt;=C2=A0 python/qemu/machine/machine.py | 24 ++++++++++++++++--------<br>
+&gt;=C2=A0 python/qemu/qmp/legacy.py=C2=A0 =C2=A0 =C2=A0 | 18 +++++++++++++=
+++---<br>
+&gt;=C2=A0 python/qemu/qmp/protocol.py=C2=A0 =C2=A0 | 25 ++++++++++++++++++=
+++-----<br>
+&gt;=C2=A0 3 files changed, 51 insertions(+), 16 deletions(-)<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.37.0.rc0<br>
+&gt;<br>
+<br>
+For anything that touches python/qemu/qmp/*, may I please ask that you<br>
+submit them to <a href=3D"https://gitlab.com/qemu-project/python-qemu-qmp" =
+rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/python=
+-qemu-qmp</a> ?<br>
+<br></blockquote><div><br></div><div>Ok</div><div>=C2=A0<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">
+(I&#39;ll review them in the meantime on-list just in the interest of<br>
+moving things along.)<br></blockquote><div><br></div><div>I was waiting for=
+ a review before updating the patches / moving to python-qemu-qmp.</div><di=
+v><br></div><div>thanks</div><div>=C2=A0<br></div></div>-- <br><div dir=3D"=
+ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000004ab2bc05e49f6a13--
 
