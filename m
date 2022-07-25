@@ -2,77 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3AB580059
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:04:03 +0200 (CEST)
-Received: from localhost ([::1]:34416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A66458005E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:07:17 +0200 (CEST)
+Received: from localhost ([::1]:40338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFygk-0007Fv-2R
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:04:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45886)
+	id 1oFyjs-0002uH-KO
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oFycW-0004Jn-1r
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:59:40 -0400
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:35882)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1oFycz-0004Xf-JH
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:00:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oFycN-0007TK-VW
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:59:35 -0400
-Received: from myt6-81d8ab6a9f9d.qloud-c.yandex.net
- (myt6-81d8ab6a9f9d.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:520a:0:640:81d8:ab6a])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 1F5F92E132A;
- Mon, 25 Jul 2022 16:59:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b423::1:1] (unknown
- [2a02:6b8:b081:b423::1:1])
- by myt6-81d8ab6a9f9d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- 4qAmK7xjHN-xLOWbi1K; Mon, 25 Jul 2022 16:59:22 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658757562; bh=6FhqBMQqh1wUD6pYi00XepkwLu3M9CocOjyRsxhjhpc=;
- h=In-Reply-To:From:Date:References:To:Subject:Message-ID;
- b=Vj+gBgXnkd3p3COJ2Q1TwmPRA8avF+8lMP9rTRRmP9hF58eh70sfv6cUkJMgP4bsS
- LODkqFcaEfojEda9ytGIbAHFL5tE8Q/6Wi49V6yZBgh99CeAQgGGqgkQ9po3GmiETR
- v/XNqEzgDW0vYrKZAzoMojPYPoBfte5nCvpBHmhI=
-Authentication-Results: myt6-81d8ab6a9f9d.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <630f6dd4-7bb2-0023-9c9a-542e1ce3e0b9@yandex-team.ru>
-Date: Mon, 25 Jul 2022 16:59:21 +0300
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1oFycu-0007XK-W2
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:00:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658757602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6jmWNwqYk5kwgiHXWIIm8ioSuwQvgvWEkAx+DPb/4q0=;
+ b=UNXS0rzEIUcNfsMXP1yd7ZwsEsKJ5vxzRX1GHWPQLaaBiC4UHNx2R4oo9bQkyf0kcI9wg8
+ S0GPQHiEVzy9N+aI3yUf0HHgSSA9PkMdANCW6b3IP3CYxhlbCr2tiyvBhwCZfDcIziuG/h
+ 4hF7BAdNLR2dHpc2NbXqJgfvyE2RFd8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-264-wxnKbkVJOwiymnvbUt0B-g-1; Mon, 25 Jul 2022 09:59:59 -0400
+X-MC-Unique: wxnKbkVJOwiymnvbUt0B-g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ n19-20020a05600c3b9300b003a314062cf4so6330879wms.0
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:59:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=6jmWNwqYk5kwgiHXWIIm8ioSuwQvgvWEkAx+DPb/4q0=;
+ b=jOBsisPmrcnsT2Slvz2y3wZCeRO+G0vWahFambxaYyRfN/cW/B64RMMHk5I7OuaBX/
+ nAenMTma84DTzh5QcIRwXaXnN6N4iaOshEVY4lUA23mOs/vOiq48FQQg16SObIlS7zhX
+ gkKfKm117/bJmmagRoZBMKE+PxXvPemp3oQ2iTRnxCw26VNEEppH0sLS//PRBqcp4u8R
+ oqAq/yVeBob+6VvtS5Wl0rwGkQFx7/CtyaHcQtSokB5KwGysuwa6uzVd/xRLOGMSF6S+
+ 212IbOdUutpk40kFXBqIhGrQW1ZJS+/JLANbOs7XlUfRQzEg4tJOFDnuAjYyxm4Hq8S0
+ 9N1w==
+X-Gm-Message-State: AJIora8j+YCRj/ns8MtkXPWMNkOY0JChTD95O5jS8+MSze1I9V0b9hlm
+ syKCbIiK5c/OC1k51HZHLqTu07MpLwdK7FmCX/gzwJsTsf3bmRZI5m3b5+PTaTfFeaZQ319OTFC
+ Vzqvhal19W5dKQRI=
+X-Received: by 2002:a1c:288:0:b0:3a3:5332:9d16 with SMTP id
+ 130-20020a1c0288000000b003a353329d16mr5029392wmc.168.1658757598748; 
+ Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tK1ke9a5M7sdM8yIy37zhZPWTTlK+N/f3l7d3p6eI+vBa5Jvx9rEfem+qpyRj4CKE/SM+drQ==
+X-Received: by 2002:a1c:288:0:b0:3a3:5332:9d16 with SMTP id
+ 130-20020a1c0288000000b003a353329d16mr5029366wmc.168.1658757598535; 
+ Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
+Received: from [10.43.2.88] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ n124-20020a1c2782000000b003a2c67aa6c0sm16714652wmn.23.2022.07.25.06.59.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jul 2022 06:59:58 -0700 (PDT)
+Message-ID: <d57f77e1-e547-88da-8c97-c8976224bb22@redhat.com>
+Date: Mon, 25 Jul 2022 15:59:53 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
+ Thunderbird/91.11.0
+Subject: Re: [PATCH RFC 0/7] hostmem: NUMA-aware memory preallocation using
+ ThreadContext
 Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru,
- Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
- <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
- <YtfhWgayuGKNVjGq@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <YtfhWgayuGKNVjGq@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Cc: Igor Mammedov <imammedo@redhat.com>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Stefan Weil <sw@weilnetz.de>
+References: <20220721120732.118133-1-david@redhat.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <20220721120732.118133-1-david@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,58 +110,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/20/22 14:04, Daniel P. Berrangé wrote:
-> On Wed, Jul 20, 2022 at 02:00:16PM +0300, Roman Kagan wrote:
->> On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrangé wrote:
->>> On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote:
->>>> It's possible to create non-working configurations by attaching a device
->>>> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
->>>> specifying a slot number other that zero, e.g.:
->>>>
->>>>      -device pcie-root-port,id=s0,... \
->>>>      -device virtio-blk-pci,bus=s0,addr=4,...
->>>>
->>>> Make QEMU reject such configurations and only allow addr=0 on the
->>>> secondary bus of a PCIe slot.
->>>
->>> What do you mean by 'non-working' in this case.  The guest OS boots
->>> OK, but I indeed don't see the device in the guest, but IIUC it was
->>> said that was just because Linux doesn't scan for a non-zero slot.
->>
->> Right.  I don't remember if it was Linux or firmware or both but indeed
->> at least Linux guests don't see devices if attached to a PCIe slot at
->> addr != 0.  (Which is kinda natural for a thing called "slot", isn't it?)
-> 
-> I vaguely recall there was an option to tell linux to scan all slots,
-> not just slot 0, not sure if that's applicable here.
-> 
->>
->>> That wouldn't be a broken config from QEMU's POV though, merely a
->>> guest OS limitation ?
->>
->> Strictly speaking it wouldn't, indeed.  But we've had created such a
->> configuration (due to a bug in our management layer) and spent
->> non-negligible time trying to figure out why the attached device didn't
->> appear in the guest.  So I thought it made sense to reject a
->> configuration which is known to confuse guests.  Doesn't it?
-> 
-> If a configuration is a permissible per the hardware design / spec, then
-> QEMU should generally allow it.  We don't want to constrain host side
-> configs based on the current limitations of guest OS whose behaviour can
-> change over time, or where a different guest OS may have a different POV.
-> 
+On 7/21/22 14:07, David Hildenbrand wrote:
+> This is a follow-up on "util: NUMA aware memory preallocation" [1] by
+> Michal.
 
-If I understand correctly further answers the configration that we try to forbid is not permissible by PCIe spec. So seems valid to forbid it. We still need to mention specification in commit message and in the comment.
+I've skimmed through patches and haven't spotted anything obviously
+wrong. I'll test these more once I write libvirt support for them (which
+I plan to do soon).
 
-If we still afraid to forbid at once that invalid configuration that was previously allowed, may be we can proceed with some of the following:
+Michal
 
-1. Make a deprecation period of three releases and print only warning during this period. And forbid the invalid configuration three releases later. Still I'm not sure that someone will see these warnings in logs..
-
-2. Make a boolean config option, like CONFIG_PCIE_STRICT, which forbids invalid configurations. This way we keep default behavior, that allows to test something unusual, but add an option that we can use for production solution where it's important to reduce number of possibilities to break the VM.
-
-What do you think?
-
--- 
-Best regards,
-Vladimir
 
