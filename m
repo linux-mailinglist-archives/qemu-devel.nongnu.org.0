@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C149580009
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:37:14 +0200 (CEST)
-Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7231A58000A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:39:12 +0200 (CEST)
+Received: from localhost ([::1]:33126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyGm-0001Kh-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
+	id 1oFyIh-0002xp-L3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyEy-0007fS-L8
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:35:20 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39591)
+ id 1oFyFu-0000WC-30
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:36:18 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37526)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyEw-0003Vl-RH
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:35:20 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id d8so15929227wrp.6
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:35:17 -0700 (PDT)
+ id 1oFyFs-0003ec-Bn
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:36:17 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ c187-20020a1c35c4000000b003a30d88fe8eso9397327wma.2
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:36:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=lqhlxWyWKLtuFG4jSAJ7ND2MnebtAmoapB/e7kVT1wE=;
- b=ot1mPT+ujEGfRAKap2gVWUqkgNtNS4V2+9ZS1LY8h59nPWfRO/M/tO912yvdxzoUcp
- 74pv3sFi5Em8FYKNTK0YfPFgMSW9sUpsJFfUXEg0VZyeZuISYZudCc/WabLMVhD3prvb
- J9cG0OxhNnTfcqLEj3bQNcCm0QAEQ09yKwfMpxV991znO6njTaf6ja/4YqpsPBZW4Vrc
- gXBPwZ0OmxBa8Ij87Kwfw0AUww4JqTOiW7IXU/VbGYupbFqeHadpH5tN+o1TYlr5tG3q
- y5AQ2HTVB0Ib8WuL+2YJt3ffrE15rH7graUgjbYBT22vbo/V52cu0AUhSLTBZodfirkr
- xSXQ==
+ bh=OfmxjlbQnb3FijvcGAPT5HeULIx0pKRwdVq8SzMfjSs=;
+ b=KB9whdl/t5xEZC8fgKLrbI3NY+xsGfMT8IKoUHltfTslsSf369wPqfefBvdaTpOofd
+ 68ZTv9M6T6JiaKwOXjEYPgh9v4bS5PEtAbCYLrNfM3xdqeztKsM7aPc6V4L5+RQmFe8n
+ CD/ZAiI7Ur5CwrqpVH1+cyj8mnWGHnwvv3t1sxOTIYgep8OOcGUlKU7iz4GdXnSinsWk
+ hf9dqlLHwX7t8u+h4d7b4uXJKtNdNcgpUBwJJryvlaQV7l2qHuGha3Ume61zRCZa76wv
+ tC2SHbyHGFhd8DgLKlfYM+IyiRegWS6wR7zfrLWzdIJqG0KDDUfL3bY3VS3Eg7NFyL4i
+ zOtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=lqhlxWyWKLtuFG4jSAJ7ND2MnebtAmoapB/e7kVT1wE=;
- b=SLxesC+mb+vBkE+i/s7GHg6FVW1IimK9Sddu4hPOm3H9AHXqUklAmtqsV4E4prtNuP
- g0JEdw/QD4hw+c2dNlS8e2R4KpWEdZnQ4GcGXKhjjSqKa2f5CKVtindhxInsuq3f3ENj
- ya9vqJamPpPP4v2O3sy1AxhwHhQD86ka/v7ipedABq5fFCidETWs8k86AK8QUBm9kUxq
- FmaGV49XLu5cBMtxCm90WmtN7hFY1ckHWWqgmk8OZuLNAEFza+DSXrD7ovd4hFqfQPOV
- v7gjlmM0RpvQXCO1cL+yjGH5eIr1Yu127XjtU/X8TeVqz1M/6Usi1hoDchFI2uMZlcSD
- zKbA==
-X-Gm-Message-State: AJIora/zWfIH6ZzZsJ+qbaZOFbqb2utJxtLcxAQC2eiiLh7DUmZHEkCS
- /82M73DC4FFi+yaoT1uI9vhYnw==
-X-Google-Smtp-Source: AGRyM1vMzSgaTqAN9tGuj9NqRNrBC4/Akp19Hv04YuYDVWoOO1+XX4zmJPD7jK0Dvxhe9gkhFjE9wA==
-X-Received: by 2002:a5d:498f:0:b0:21e:4074:8c49 with SMTP id
- r15-20020a5d498f000000b0021e40748c49mr7961362wrq.70.1658756115890; 
- Mon, 25 Jul 2022 06:35:15 -0700 (PDT)
+ bh=OfmxjlbQnb3FijvcGAPT5HeULIx0pKRwdVq8SzMfjSs=;
+ b=yj6tgNzhOTIGDmUIvyTn1ZtqN/iGvIbGdZB3k0qYxp3QTnwQUjYLdUxMec+pEJYH/P
+ fynvCvIeG9vN/Tq1M8chlJOR2sskGb+lFgSH5TXlYtuqOH8G39qVq4uQwd9xpJ41xGC3
+ cA+XCIF6FCBV27lfmqHFGZYFY510zTVEhWiizSfl+H3WHB9s9Mkc/gNJLhDG48UaKxtW
+ sSf7JJHgDj3PCqDzL5R3isiYqhlC1ER++dL9IlnBQtAIA+92ejRb2OUu8/ZuvPO7JDTH
+ 4rSE0oOaMUPf4JahHrT4qLCYNJSfQ8dspcHMAh6lwY4t3ZJc/a8seuTj+khEz2hYb8nQ
+ ZfFQ==
+X-Gm-Message-State: AJIora+SNpe6YVGhnPMCgpZm+erqPNCiCYC8h21PEOzcuwEIAAkVT49B
+ K7VuwkPpkO4pRkh3Vxwob1A+eA==
+X-Google-Smtp-Source: AGRyM1vznrB7z6yoQrpD7twpdkIkFJ40PxuHbX2E5VOqrVrcrDnONvsmpYyMojc3s0myM7ijZLrC+A==
+X-Received: by 2002:a05:600c:3786:b0:3a3:19d4:293f with SMTP id
+ o6-20020a05600c378600b003a319d4293fmr21883832wmr.116.1658756174379; 
+ Mon, 25 Jul 2022 06:36:14 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o5-20020a05600c4fc500b003a03185231bsm16265535wmq.31.2022.07.25.06.35.14
+ s3-20020a05600c384300b003a2d47d3051sm16304328wmr.41.2022.07.25.06.36.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 06:35:15 -0700 (PDT)
+ Mon, 25 Jul 2022 06:36:13 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 70C1F1FFB7;
- Mon, 25 Jul 2022 14:35:14 +0100 (BST)
-References: <20220712103131.2006653-1-alex.bennee@linaro.org>
+ by zen.linaroharston (Postfix) with ESMTP id 1B1741FFB7;
+ Mon, 25 Jul 2022 14:36:13 +0100 (BST)
+References: <20220707151037.397324-1-alex.bennee@linaro.org>
 User-agent: mu4e 1.7.27; emacs 28.1.90
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH] docs/devel: fix description of
- OBJECT_DECLARE_SIMPLE_TYPE
-Date: Mon, 25 Jul 2022 14:35:07 +0100
-In-reply-to: <20220712103131.2006653-1-alex.bennee@linaro.org>
-Message-ID: <87czdtiact.fsf@linaro.org>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, =?utf-8?Q?C?=
+ =?utf-8?Q?=C3=A9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2] qemu-options: bring the kernel and image options
+ together
+Date: Mon, 25 Jul 2022 14:36:06 +0100
+In-reply-to: <20220707151037.397324-1-alex.bennee@linaro.org>
+Message-ID: <878rohiab6.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,28 +98,18 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
 
-> Since 30b5707c26 (qom: Remove module_obj_name parameter from
-> OBJECT_DECLARE* macros) we don't need the additional two parameters.
-> Fix the documentation.
+> How to control the booting of QEMU is often a source of confusion for
+> users. Bring the options that control this together in the manual
+> pages and add some verbiage to describe when each option is
+> appropriate. This attempts to codify some of the knowledge expressed
+> in:
+>
+>   https://stackoverflow.com/questions/58420670/qemu-bios-vs-kernel-vs-dev=
+ice-loader-file/58434837#58434837
 >
 > Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  docs/devel/qom.rst | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
-> index e5fe3597cd..0cf9a714f0 100644
-> --- a/docs/devel/qom.rst
-> +++ b/docs/devel/qom.rst
-> @@ -292,8 +292,7 @@ in the header file:
->  .. code-block:: c
->     :caption: Declaring a simple type
->=20=20
-> -   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, my_device,
-> -                              MY_DEVICE, DEVICE)
-> +   OBJECT_DECLARE_SIMPLE_TYPE(MyDevice, MY_DEVICE)
->=20=20
->  This is equivalent to the following:
+> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
+> Message-Id: <20220622145052.4012981-1-alex.bennee@linaro.org>
 
 Queued to testing/next, thanks.
 
