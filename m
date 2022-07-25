@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5473E57FEFA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:25:55 +0200 (CEST)
-Received: from localhost ([::1]:32814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FE3D57FF1B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:40:10 +0200 (CEST)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFx9m-0000KE-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:25:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48694)
+	id 1oFxNZ-0005yp-Fi
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:40:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFx5c-0002Yv-DJ
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47322)
+ id 1oFx5g-0002aP-RG
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFx5Z-00062t-0o
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:34 -0400
+ id 1oFx5c-000643-Sm
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658751691;
+ s=mimecast20190719; t=1658751694;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ibePkfzDt/wBtcTJ6xHX6w7CbYK24Namjfp2PXdQc0k=;
- b=HFGZNFeXvb6dWUd5i3xYaORMyf86JffqOL5kHaAb9EXd3tKJOWgiSpt3zNTq7bu+ZMKv4m
- ayxHe5pRE+bvmAgBJ4Ceb1fYJdTJmwQaCPkHIw6wPmPyOSWj8gqwyAoEpvNp2t9Bhu4W/u
- u6TvrPiBALfi2+XOyaGy8/eqXNzmUPM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=QZc/V6yFNZqX368tkz9lUtNf7KB1xzUrf6fToh59Kjs=;
+ b=B5zQvR2Dbk0byMicvZ+3jAFdH3BpwQmmtcdlKhdaEjFPRC9WeCdFdOUX5x/V+FVPrYwLCx
+ AFhoRJLnAPQfuHxPOZmVDHq/LCgiuCk33L3IVZCqQsWunLeZEndz07+JL5+RI81XYri3JE
+ 2exrXMP3OCBEU6hcSvFClzH0nOeCLDo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-644-9eFepM5zO3ma0__2V5EVvg-1; Mon, 25 Jul 2022 08:21:28 -0400
-X-MC-Unique: 9eFepM5zO3ma0__2V5EVvg-1
+ us-mta-648-wMcUrmYjOJu9oaJScKIWYg-1; Mon, 25 Jul 2022 08:21:30 -0400
+X-MC-Unique: wMcUrmYjOJu9oaJScKIWYg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6437D1C05AAB;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA2988C0803;
  Mon, 25 Jul 2022 12:21:25 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CCB8518EB5;
- Mon, 25 Jul 2022 12:21:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6BD45909FE;
+ Mon, 25 Jul 2022 12:21:25 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -52,10 +52,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v2 07/11] block-backend: implement .change_aio_ctx in
- child_root
-Date: Mon, 25 Jul 2022 08:21:16 -0400
-Message-Id: <20220725122120.309236-8-eesposit@redhat.com>
+Subject: [PATCH v2 08/11] block: use the new _change_ API instead of _can_set_
+ and _set_
+Date: Mon, 25 Jul 2022 08:21:17 -0400
+Message-Id: <20220725122120.309236-9-eesposit@redhat.com>
 In-Reply-To: <20220725122120.309236-1-eesposit@redhat.com>
 References: <20220725122120.309236-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -69,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,97 +85,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-blk_root_change_aio_ctx() is very similar to blk_root_can_set_aio_ctx(),
-but implements a new transaction so that if all check pass, the new
-transaction's .commit will take care of changing the BlockBackend
-AioContext. blk_root_set_aio_ctx_commit() is the same as
-blk_root_set_aio_ctx().
+Replace all direct usage of ->can_set_aio_ctx and ->set_aio_ctx,
+and call bdrv_child_try_change_aio_context() in
+bdrv_try_set_aio_context(), the main function called through
+the whole block layer.
 
-Note: bdrv_child_try_change_aio_context() is not called by
-anyone at this point.
+From this point onwards, ->can_set_aio_ctx and ->set_aio_ctx
+won't be used anymore.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block/block-backend.c | 52 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ block.c               | 44 ++++++++++++++++++++++++-------------------
+ block/block-backend.c |  8 ++++++--
+ 2 files changed, 31 insertions(+), 21 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index f425b00793..b4951c6e21 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -138,6 +138,9 @@ static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
-                                      GSList **ignore, Error **errp);
- static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
-                                  GSList **ignore);
-+static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
-+                                    GHashTable *visited, Transaction *tran,
-+                                    Error **errp);
+diff --git a/block.c b/block.c
+index bcc9b0d099..9b47aacad2 100644
+--- a/block.c
++++ b/block.c
+@@ -2970,17 +2970,21 @@ static void bdrv_attach_child_common_abort(void *opaque)
+     }
  
- static char *blk_root_get_parent_desc(BdrvChild *child)
+     if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
+-        GSList *ignore;
++        Transaction *tran;
++        GHashTable *visited;
++        bool ret;
+ 
+-        /* No need to ignore `child`, because it has been detached already */
+-        ignore = NULL;
+-        child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
+-                                      &error_abort);
+-        g_slist_free(ignore);
++        tran = tran_new();
+ 
+-        ignore = NULL;
+-        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
+-        g_slist_free(ignore);
++        /* No need to visit `child`, because it has been detached already */
++        visited = g_hash_table_new(NULL, NULL);
++        ret = child->klass->change_aio_ctx(child, s->old_parent_ctx, visited,
++                                           tran, &error_abort);
++        g_hash_table_destroy(visited);
++
++        /* transaction is supposed to always succeed */
++        assert(ret == true);
++        tran_commit(tran);
+     }
+ 
+     bdrv_unref(bs);
+@@ -3041,18 +3045,20 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
+         Error *local_err = NULL;
+         int ret = bdrv_try_set_aio_context(child_bs, parent_ctx, &local_err);
+ 
+-        if (ret < 0 && child_class->can_set_aio_ctx) {
+-            GSList *ignore = g_slist_prepend(NULL, new_child);
+-            if (child_class->can_set_aio_ctx(new_child, child_ctx, &ignore,
+-                                             NULL))
+-            {
++        if (ret < 0 && child_class->change_aio_ctx) {
++            Transaction *tran = tran_new();
++            GHashTable *visited = g_hash_table_new(NULL, NULL);
++            bool ret_child;
++
++            g_hash_table_add(visited, new_child);
++            ret_child = child_class->change_aio_ctx(new_child, child_ctx,
++                                                    visited, tran, NULL);
++            if (ret_child == true) {
+                 error_free(local_err);
+                 ret = 0;
+-                g_slist_free(ignore);
+-                ignore = g_slist_prepend(NULL, new_child);
+-                child_class->set_aio_ctx(new_child, child_ctx, &ignore);
+             }
+-            g_slist_free(ignore);
++            tran_finalize(tran, ret_child == true ? 0 : -1);
++            g_hash_table_destroy(visited);
+         }
+ 
+         if (ret < 0) {
+@@ -7732,7 +7738,7 @@ int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+                              Error **errp)
  {
-@@ -336,6 +339,7 @@ static const BdrvChildClass child_root = {
- 
-     .can_set_aio_ctx    = blk_root_can_set_aio_ctx,
-     .set_aio_ctx        = blk_root_set_aio_ctx,
-+    .change_aio_ctx     = blk_root_change_aio_ctx,
- 
-     .get_parent_aio_context = blk_root_get_parent_aio_context,
- };
-@@ -2208,6 +2212,54 @@ int blk_set_aio_context(BlockBackend *blk, AioContext *new_context,
-     return blk_do_set_aio_context(blk, new_context, true, errp);
+     GLOBAL_STATE_CODE();
+-    return bdrv_child_try_set_aio_context(bs, ctx, NULL, errp);
++    return bdrv_child_try_change_aio_context(bs, ctx, NULL, errp);
  }
  
-+typedef struct BdrvStateBlkRootContext {
-+    AioContext *new_ctx;
-+    BlockBackend *blk;
-+} BdrvStateBlkRootContext;
-+
-+static void blk_root_set_aio_ctx_commit(void *opaque)
-+{
-+    BdrvStateBlkRootContext *s = opaque;
-+    BlockBackend *blk = s->blk;
-+
-+    blk_do_set_aio_context(blk, s->new_ctx, false, &error_abort);
-+}
-+
-+static TransactionActionDrv set_blk_root_context = {
-+    .commit = blk_root_set_aio_ctx_commit,
-+    .clean = g_free,
-+};
-+
-+static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
-+                                    GHashTable *visited, Transaction *tran,
-+                                    Error **errp)
-+{
-+    BlockBackend *blk = child->opaque;
-+    BdrvStateBlkRootContext *s;
-+
-+    if (!blk->allow_aio_context_change) {
-+        /*
-+         * Manually created BlockBackends (those with a name) that are not
-+         * attached to anything can change their AioContext without updating
-+         * their user; return an error for others.
-+         */
-+        if (!blk->name || blk->dev) {
-+            /* TODO Add BB name/QOM path */
-+            error_setg(errp, "Cannot change iothread of active block backend");
-+            return false;
-+        }
-+    }
-+
-+    s = g_new(BdrvStateBlkRootContext, 1);
-+    *s = (BdrvStateBlkRootContext) {
-+        .new_ctx = ctx,
-+        .blk = blk,
-+    };
-+
-+    tran_add(tran, &set_blk_root_context, s);
-+    return true;
-+}
-+
- static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
-                                      GSList **ignore, Error **errp)
- {
+ void bdrv_add_aio_context_notifier(BlockDriverState *bs,
+diff --git a/block/block-backend.c b/block/block-backend.c
+index b4951c6e21..3046b4cc54 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2184,8 +2184,12 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
+         bdrv_ref(bs);
+ 
+         if (update_root_node) {
+-            ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
+-                                                 errp);
++            /*
++             * update_root_node MUST be false for blk_root_set_aio_ctx_commit(),
++             * as we are already in the commit function of a transaction.
++             */
++            ret = bdrv_child_try_change_aio_context(bs, new_context, blk->root,
++                                                    errp);
+             if (ret < 0) {
+                 bdrv_unref(bs);
+                 return ret;
 -- 
 2.31.1
 
