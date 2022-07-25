@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6182958008D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:15:11 +0200 (CEST)
-Received: from localhost ([::1]:55710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9320B580085
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:12:16 +0200 (CEST)
+Received: from localhost ([::1]:48988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyrW-00058Y-Gk
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:15:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47724)
+	id 1oFyoh-0000Vp-9Y
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:12:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyi9-0000re-SA
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:31 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:43602)
+ id 1oFyiB-0000st-SS
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:34 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyi6-0000Ei-K8
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:29 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- j29-20020a05600c1c1d00b003a2fdafdefbso6431079wms.2
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:26 -0700 (PDT)
+ id 1oFyi9-0000FF-IV
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:30 -0400
+Received: by mail-wr1-x430.google.com with SMTP id k11so15663607wrx.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bM/w8+B7ncjv5XtvNRo9ixZZ47c0W7NUiHr8jF0XJI4=;
- b=ZkkkWPrS4rtAqbK9HDEmqIBZXIyIK59VPM/PiMhW0b5EHcpb6e/OqtghYYjNt1MWTo
- ClppAtYh3Ix7PMFaIF6U1hz/ae/rwqDOT2N/tf2YDG/BBbesLkjmDt6GPxQGwC+MTUqY
- YIX+oRo/s/huvdAv2ayFL59OXmer3rSaWKqxzzly0SwP7sj/oa6/qA6YRm0mb6KIEZ/l
- l0YQj/8DvWyE6uGoUto+QlauWQu915Vii5MyBfkHqgz3t34lHCHotXURjfWYZUt897h7
- 9J+j+XhCj0C4cqwAFPI1NUZI7fgJtasSMdX0RWXDNYYZ24/wwwwxBM+L/JRx5uxCECIE
- ssFg==
+ bh=cuuXQH2wboaX5IPGA3m9AhAnhitniNjGQ5r1hTwm0bY=;
+ b=NKZuv0qNEGzTKaUIUTmBpxVY44OUXGUntwZsgd7wz/7aQxYVFnSfZO3hrkuiUyK2TB
+ lEItGRSpa4+WbUhClr4ZFZMW5MjGouq3EydCRsm+1YKkam2aCddFwfPmq9cfOGfjEMTv
+ W6i2+Vz/NLWX4711waSi41Cx6iAwWNntx05HaYI4HahZ365XkUICbMQnKjzhiJbNspRz
+ cpoR3tywPRIZquZxMGok718TAnFieNXj3qUQHUH1ZTkKAV5K1klc5s3LCiIwrY8iLRWF
+ g4zBbeL6kjWXkbX2+gr/GH8PHYao/RZhFVhGozbdSIMnkKZtthqaORSR4k4JFHmHs4hC
+ r8MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bM/w8+B7ncjv5XtvNRo9ixZZ47c0W7NUiHr8jF0XJI4=;
- b=LV8AbgZ3HpuSNB/AMI0KVMKTb4LOCaRwdwYmUgLv3ClsJkyEIb9xZGTDv1aB3InR5P
- MXvjg942TFgdrbA/NCFaCdn+6AYS301wmaZgrTYPSlXwDYXKwJ2hiHyRrd0sFNZbaAQc
- bNT5Vxd5qTnAvJ8/Muupp9LH1NAIJipjXZq6TVz0ABdYSypaxIx+JhDmQSgfl/XNs52i
- Puu5AQm6/g+W64jCFjhPKv00Fro4VeHMXNpsrmBkP6prDifL3R6kzrmZCYb9qa66nteo
- vRTiwl5Whz+INUo7MrcaDjsQ88h+9mtV2idIwUf9d7ryLbrD+hGwxQNUoE5TXG+a6MNe
- ocuA==
-X-Gm-Message-State: AJIora/OaSrhZKL2D1kfkMDmPxkHj10j9fAR39L+DHHY1oz1Qas9kVAC
- tMrB1pSEoPCbD5z+QjcE7BUGtQ==
-X-Google-Smtp-Source: AGRyM1urbkIwaFA121M/94cxATqRVKbVxBe5Exb/BIgnk1L02CjiAF88y7PPr6PbXzmFM1njF/Cfwg==
-X-Received: by 2002:a05:600c:148:b0:3a3:2753:e551 with SMTP id
- w8-20020a05600c014800b003a32753e551mr21396132wmm.131.1658757925036; 
- Mon, 25 Jul 2022 07:05:25 -0700 (PDT)
+ bh=cuuXQH2wboaX5IPGA3m9AhAnhitniNjGQ5r1hTwm0bY=;
+ b=giC7QMoV+1PYej1BEce++VilB3ny+rLGOm6MLWz6fhqJPCVbKgEXcJgq853i4RssqC
+ tygfeCswuwaKEa4ulgzLaliKixLoUAEQV3U08AuY5/7cCaeVrRK2V3RWfFc6zxt0ru8I
+ OYW5LqKd68rIjIGMORUwBRAJXio3QWhJvETa57WgfgOfAjmi9O8w5wdRcRJhP7pnp76a
+ +OCElo5TrlDZJw9fapvR9WWSmy7L7YzPkflBVqDdWsKmvmSyzWedA2svyaUKzAdm+uRZ
+ y+MVD3tmkFG+Pdly72U7gG9Zb3XCZdVDnZ+NesnAjeBChkBDc8Fu6kHSgVT/D5DtR2iw
+ ZziQ==
+X-Gm-Message-State: AJIora8PlwaV2B4akFnIILsetFbaVvaGOVgw365srOmrZF5jTaz4Djcd
+ EXaxDrVH/dziD5O94/X8DjxIlA==
+X-Google-Smtp-Source: AGRyM1urw2DBqBmWaVL+d+C7TFw0OoYLb1ospBLWszAYL18Us8oScYowis3dM2O8lMprpch0zlM6mA==
+X-Received: by 2002:a5d:6484:0:b0:21e:8ab7:fbc9 with SMTP id
+ o4-20020a5d6484000000b0021e8ab7fbc9mr3295507wri.316.1658757927898; 
+ Mon, 25 Jul 2022 07:05:27 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l37-20020a05600c1d2500b003a33227e49bsm14606414wms.4.2022.07.25.07.05.21
+ q26-20020a056000137a00b0021e0147da47sm11935452wrz.96.2022.07.25.07.05.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 07:05:21 -0700 (PDT)
+ Mon, 25 Jul 2022 07:05:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CCEDE1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id DCBB51FFBB;
  Mon, 25 Jul 2022 15:05:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,18 +64,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH v1 02/13] gitlab: show testlog.txt contents when
- cirrus/custom-runner jobs fail
-Date: Mon, 25 Jul 2022 15:05:09 +0100
-Message-Id: <20220725140520.515340-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 03/13] gitlab: drop 'containers-layer2' stage
+Date: Mon, 25 Jul 2022 15:05:10 +0100
+Message-Id: <20220725140520.515340-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,196 +99,135 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-When tests fail meson just displays a summary and tells you to look at
-the testlog.txt file for details. The native jobs on shared runners
-publish testlog.txt as an artifact. For the Cirrus jobs and custom
-runner jobs this is not currently possible. The best we can do is cat
-the log contents on failure, to give maintainers a fighting chance
-of diagnosing the problem.
+Since we express dependancies via a 'needs' clause, we don't need to
+split container builds into separate stages. GitLab happily lets jobs
+depend on other jobs in the same stage and will run them when possible.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220722130431.2319019-3-berrange@redhat.com>
+Message-Id: <20220722130431.2319019-4-berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/cirrus/build.yml                        |  3 ++-
- .../custom-runners/centos-stream-8-x86_64.yml        |  2 ++
- .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml |  2 ++
- .gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml | 12 ++++++++++++
- .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml   | 12 ++++++++++++
- 5 files changed, 30 insertions(+), 1 deletion(-)
+ .gitlab-ci.d/container-cross.yml | 24 ++++++++++++------------
+ .gitlab-ci.d/stages.yml          |  1 -
+ 2 files changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/.gitlab-ci.d/cirrus/build.yml b/.gitlab-ci.d/cirrus/build.yml
-index c555f5d36e..7ef6af8d33 100644
---- a/.gitlab-ci.d/cirrus/build.yml
-+++ b/.gitlab-ci.d/cirrus/build.yml
-@@ -32,5 +32,6 @@ build_task:
-     - $MAKE -j$(sysctl -n hw.ncpu)
-     - for TARGET in $TEST_TARGETS ;
-       do
--        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1 ;
-+        $MAKE -j$(sysctl -n hw.ncpu) $TARGET V=1
-+        || { cat meson-logs/testlog.txt; exit 1; } ;
-       done
-diff --git a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-index 49aa703f55..068b0c4335 100644
---- a/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-+++ b/.gitlab-ci.d/custom-runners/centos-stream-8-x86_64.yml
-@@ -23,6 +23,8 @@ centos-stream-8-x86_64:
-  - mkdir build
-  - cd build
-  - ../scripts/ci/org.centos/stream/8/x86_64/configure
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make -j"$JOBS"
-  - make NINJA=":" check
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
-  - ../scripts/ci/org.centos/stream/8/x86_64/test-avocado
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-index 1998460d06..cbfa9cc164 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch32.yml
-@@ -19,5 +19,7 @@ ubuntu-20.04-aarch32-all:
-  - mkdir build
-  - cd build
-  - ../configure --cross-prefix=arm-linux-gnueabihf-
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-index 65718a188a..3d878914e7 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-aarch64.yml
-@@ -17,9 +17,12 @@ ubuntu-20.04-aarch64-all-linux-static:
-  - mkdir build
-  - cd build
-  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
-  - make --output-sync -j`nproc --ignore=40` check-tcg V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
+index b7963498a3..505b267542 100644
+--- a/.gitlab-ci.d/container-cross.yml
++++ b/.gitlab-ci.d/container-cross.yml
+@@ -1,20 +1,20 @@
+ alpha-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-alpha-cross
  
- ubuntu-20.04-aarch64-all:
-  needs: []
-@@ -38,8 +41,10 @@ ubuntu-20.04-aarch64-all:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ amd64-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-amd64-cross
  
- ubuntu-20.04-aarch64-alldbg:
-  needs: []
-@@ -54,9 +59,11 @@ ubuntu-20.04-aarch64-alldbg:
-  - mkdir build
-  - cd build
-  - ../configure --enable-debug --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ amd64-debian-user-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-all-test-cross
+@@ -65,21 +65,21 @@ hexagon-cross-container:
  
- ubuntu-20.04-aarch64-clang:
-  needs: []
-@@ -75,8 +82,10 @@ ubuntu-20.04-aarch64-clang:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ hppa-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-hppa-cross
  
- ubuntu-20.04-aarch64-tci:
-  needs: []
-@@ -95,6 +104,7 @@ ubuntu-20.04-aarch64-tci:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --enable-tcg-interpreter
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
+ m68k-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-m68k-cross
  
- ubuntu-20.04-aarch64-notcg:
-@@ -114,5 +124,7 @@ ubuntu-20.04-aarch64-notcg:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --disable-tcg
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-index 03e74c97db..0c835939db 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
-@@ -17,9 +17,12 @@ ubuntu-20.04-s390x-all-linux-static:
-  - mkdir build
-  - cd build
-  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
-  - make --output-sync -j`nproc` check-tcg V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ mips64-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips64-cross
+@@ -92,7 +92,7 @@ mips64el-debian-cross-container:
  
- ubuntu-20.04-s390x-all:
-  needs: []
-@@ -35,8 +38,10 @@ ubuntu-20.04-s390x-all:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ mips-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-mips-cross
+@@ -105,7 +105,7 @@ mipsel-debian-cross-container:
  
- ubuntu-20.04-s390x-alldbg:
-  needs: []
-@@ -55,9 +60,11 @@ ubuntu-20.04-s390x-alldbg:
-  - mkdir build
-  - cd build
-  - ../configure --enable-debug --disable-libssh
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make clean
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ powerpc-test-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian11-container']
+   variables:
+     NAME: debian-powerpc-test-cross
+@@ -127,7 +127,7 @@ riscv64-debian-cross-container:
+ # we can however build TCG tests using a non-sid base
+ riscv64-debian-test-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian11-container']
+   variables:
+     NAME: debian-riscv64-test-cross
+@@ -140,21 +140,21 @@ s390x-debian-cross-container:
  
- ubuntu-20.04-s390x-clang:
-  needs: []
-@@ -76,8 +83,10 @@ ubuntu-20.04-s390x-clang:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ sh4-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-sh4-cross
  
- ubuntu-20.04-s390x-tci:
-  needs: []
-@@ -96,6 +105,7 @@ ubuntu-20.04-s390x-tci:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --enable-tcg-interpreter
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
+ sparc64-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-sparc64-cross
  
- ubuntu-20.04-s390x-notcg:
-@@ -115,5 +125,7 @@ ubuntu-20.04-s390x-notcg:
-  - mkdir build
-  - cd build
-  - ../configure --disable-libssh --disable-tcg
-+   || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc`
-  - make --output-sync -j`nproc` check V=1
-+   || { cat meson-logs/testlog.txt; exit 1; } ;
+ tricore-debian-cross-container:
+   extends: .container_job_template
+-  stage: containers-layer2
++  stage: containers
+   needs: ['amd64-debian10-container']
+   variables:
+     NAME: debian-tricore-cross
+diff --git a/.gitlab-ci.d/stages.yml b/.gitlab-ci.d/stages.yml
+index f50826018d..f92f57a27d 100644
+--- a/.gitlab-ci.d/stages.yml
++++ b/.gitlab-ci.d/stages.yml
+@@ -3,6 +3,5 @@
+ #  - test (for test stages, using build artefacts from a build stage)
+ stages:
+   - containers
+-  - containers-layer2
+   - build
+   - test
 -- 
 2.30.2
 
