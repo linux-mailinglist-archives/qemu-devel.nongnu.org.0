@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CD35801DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:28:35 +0200 (CEST)
-Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5736F580214
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 17:40:47 +0200 (CEST)
+Received: from localhost ([::1]:58274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG00Y-0003Oy-EE
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:28:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40664)
+	id 1oG0CK-00016s-96
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 11:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oFzyd-0001ot-7z
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:26:35 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:40914)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oFzya-0005FX-Uz
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:26:34 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-31d85f82f0bso113634467b3.7
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 08:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Ondw/cl/bNKIE9vg+l4mJKreUoqxLdVwpgSsqLs4cKU=;
- b=vdxE2enSlTZngwdG88UmEd0yABlZd8OKlOmLEPBNitLoUJft/I4LTsipACD7iBQOHs
- Ml6PGMkqhCqrpi+XTr0BmzXrH7QWRRlBcBWgMeWCr+dcgKu5UegVVc/rHEKgFnj70MRb
- aqYYHraLrcJ2J5AlUZAwDaiPUE5/Bk2yecuxplt5RziGEX1+n6SV46W6DXCoqcA7SP1u
- mI1dWxf0jQiKge9r7JOwEpiS2WUyzGdnj287rodzyYrAQo8aDSMonGXALatpEnCiPY6C
- Yikt94VP/9XPf7N69fXZhOtbhvJHvzYnaP+MReyYAYbHy4pTtxUJVJWVlOrCotrBSiQ6
- 6T2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Ondw/cl/bNKIE9vg+l4mJKreUoqxLdVwpgSsqLs4cKU=;
- b=uUjI/gmttro2cKNwAxuGzwdVXAQAmKAUSfq9BFkJ4In+gXQrOlhQuv12kct+IBkXOh
- JUkzYnXiahE1JWZXX3V7WAN6DlYsCpzafG6ViO98rSZiModTnyNOe3UyWh3sjnj8/lC1
- JUT/nOxexGStrsVutQwSFw0Ykn/uGCcBROHj9JyWDVImsXaDAhoP6GUFXaljux9qFcTv
- kFt17HBSzbRADs3n65cloSE1Goxixu7VhU9kELKI5JicF7N5gGuzX1xzM8fJdP+rVNxR
- VLOs7EUQUqsOQwLWI+lJU0NEnHP1Da6vWhmBRwzoylC6aoeS7wMyYipMGUr4mxNljtBy
- svmw==
-X-Gm-Message-State: AJIora9NviYEzbkpbksXTj8LW5p3ZrlWGQm2MKRqlsAmn0WCLbQvfLDQ
- l7A3M7AoB2CvttqfaQUEEXsAUSKwQMgoHA4mCmzGKA==
-X-Google-Smtp-Source: AGRyM1vNPzI0ul4/gGB1R3KYkvCLdhOxmVbMpkbjUicDc5e+TPPR1oDj+Gpz+Kj0fGzyMWcc+InXhRfcJJbq6bBm5jg=
-X-Received: by 2002:a81:1116:0:b0:31e:7a03:5ea with SMTP id
- 22-20020a811116000000b0031e7a0305eamr10742219ywr.455.1658762791841; Mon, 25
- Jul 2022 08:26:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220707163720.1421716-1-berrange@redhat.com>
- <20220707163720.1421716-2-berrange@redhat.com>
- <CAFEAcA-gANYJSK4LPXQoP0jTO5ex-zf3XZA2WH91ByXCEZMysQ@mail.gmail.com>
- <Ytgt+I+XFg2sFbNi@redhat.com>
-In-Reply-To: <Ytgt+I+XFg2sFbNi@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 25 Jul 2022 16:25:51 +0100
-Message-ID: <CAFEAcA_tuox_exYgvFJ8ZOLk=bZbepKr5ToS7DR5VAsyOhhgfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/9] tests: introduce tree-wide code style checking
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+ (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
+ id 1oG09f-0007sL-LO
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:37:59 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:49133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lists@colorremedies.com>)
+ id 1oG09d-0006w6-Fe
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 11:37:59 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 69131580582
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 11:37:56 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+ by compute3.internal (MEProxy); Mon, 25 Jul 2022 11:37:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ colorremedies.com; h=cc:content-transfer-encoding:content-type
+ :date:date:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1658763476; x=1658767076; bh=1cDAkM536p/YAtiw9Riycbk+2
+ 8nok2fJKBOqgNx31do=; b=kMuUlJ/ZWL2CEPQ4rLoxn8zrxpaDQ6R6HB657OLDu
+ imgkl3Wz3MqNjfUemNIvyEPkzn7VzXbogeO5vpA8QgpK9tvsp6d9f2LIjxATj65U
+ bBtE3QnkndPq3SU/PLRycVNXcRWGYDK9azfA1UHUyF+7QtlevN9RPQmgjUkMw9jl
+ G9sKgBlX5Ht87jnRCVphZEc7HUGKATGRszmbyEXLodvepvScHlL24n7VGAdPXIRT
+ QkVPfdfu4VO9iehnSbuEXKOuSSS5urX7uHDX/oLAVCj/XfTebuKYSvd1xIlW3Jg6
+ 8ZZ6VmzcDCPxYYKuEvhWzrpPc+IKGzhR4nQsFjnuuD33Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:date:feedback-id:feedback-id:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+ :x-me-sender:x-sasl-enc; s=i06494636.fm3; t=1658763476; x=
+ 1658767076; bh=1cDAkM536p/YAtiw9Riycbk+28nok2fJKBOqgNx31do=; b=U
+ AN1Z9Lcchj+nJxNH/llcBinFvvYc3q49cDIeAa0O/UD5WDEdXXljYedSJffTKPVu
+ kQZ12igkiQcFz2Td06z1fJ7AZ8RvZVAn2QnjmcMAII5b5qcVL/CC/I/goMjxn3G8
+ Bh+uoVy+fmuafbYRDwNmoLJWqmNXLdo6ch9QRY0m8YYNulImATf8QK+obU3TQjm8
+ qmtdJW6NSC6EXpr9w9X52CW0fuRzkuH4fs+tUQlBTaXec7AGixQ8QVZqgHzjgD0B
+ tX83XVkBykL/5XuBLwSg8y6BhgTIqo4nbJHinA8ZVwG2SyRbUssuRyzb4SQAVSEj
+ CYdabLjdTah4eN4N6l+Qw==
+X-ME-Sender: <xms:07jeYvbZZpi5DS90xvR5kDESqqtx5c3u_7qbpyIrXlnAKNGPC-JcZg>
+ <xme:07jeYubtW9aCsy_w5c0l__7X0LrFmDZB7WUOQRe_17WgosXeTPVYmjFYZqDT2MPG1
+ 8ZzyeMLnUWHbVQqQjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtkedgkeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtgfesth
+ hqredtreerjeenucfhrhhomhepfdevhhhrihhsucfouhhrphhhhidfuceolhhishhtshes
+ tgholhhorhhrvghmvgguihgvshdrtghomheqnecuggftrfgrthhtvghrnhepleegleefff
+ ekleffffegudejuedujeegheduteehteejleffieekfedvlefhheefnecuffhomhgrihhn
+ pehfvgguohhrrghprhhojhgvtghtrdhorhhgpdhgihhthhhusgdrtghomhenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehlihhsthhssegtohhl
+ ohhrrhgvmhgvughivghsrdgtohhm
+X-ME-Proxy: <xmx:07jeYh9HSZhMvu7zRFNQ7YgKEnDrvTfKjbdYxYEw9diGkOJPAatBag>
+ <xmx:07jeYlqOkGQybUoZIyDDtvzaOxLP1UCQdxTK1iKlvh0DZ_jEwp_6qg>
+ <xmx:07jeYqo8rTSZEoLbAZ_wtfQlfsNTzXVTbl2fp7RDIpHEnfd2toGA0w>
+ <xmx:07jeYn1NgF3krOsOpgmN4DKqdt3ozIghoDsQ513FcQFMUq3RhVKK0Lea688>
+Feedback-ID: i06494636:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id A0E401700082; Mon, 25 Jul 2022 11:37:55 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
+Mime-Version: 1.0
+Message-Id: <88c597d3-5519-429c-b211-7722b90d98d2@www.fastmail.com>
+In-Reply-To: <Yt6gSz5iQBcXfVO/@redhat.com>
+References: <4f9c91b1-719c-443e-a757-042e772d6019@www.fastmail.com>
+ <Yt5etOfFUQb12ljA@redhat.com>
+ <79ec108b-60bf-4c18-8917-9d7c8fd74b89@www.fastmail.com>
+ <Yt6gSz5iQBcXfVO/@redhat.com>
+Date: Mon, 25 Jul 2022 11:37:35 -0400
+From: "Chris Murphy" <lists@colorremedies.com>
+To: qemu-devel@nongnu.org
+Subject: Re: driver type raw-xz supports discard=unmap?
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=66.111.4.221;
+ envelope-from=lists@colorremedies.com; helo=new1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,73 +107,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 17:32, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
-> I would certainly like to see us eventually remove
-> checkpatch.pl because of the various downsides it has.
+
+
+On Mon, Jul 25, 2022, at 9:53 AM, Daniel P. Berrang=C3=A9 wrote:
+> On Mon, Jul 25, 2022 at 08:51:42AM -0400, Chris Murphy wrote:
+
+>> Huh, interesting. I have no idea then. I just happened to notice it i=
+n the (libvirt) XML config that's used by oz.
+>> https://kojipkgs.fedoraproject.org//packages/Fedora-Workstation/Rawhi=
+de/20220721.n.0/images/libvirt-raw-xz-aarch64.xml
 >
-> The caveat is that I've not actually looked in any detail
-> at what things checkpatch.pl actually checks for. Without
-> looking my guess-timate is that we could probably replace
-> 90% of it without much trouble. Perhaps we'll just decide
-> some of the checkjs in checkpatch aren't worth the burden
-> of maintaining its usage.
+> I don't see 'raw-xz' mentioned anywhere in the Oz code at
+>
+>   https://github.com/clalancette/oz
+>
+> was it a fork that's being used ?
 
-I went through checkpatch, and here are the warnings I think
-are worth making sure we still have. I've included all the
-ones that look like we've added them specifically for QEMU
-on the basis that if we cared enough to edit checkpatch to
-add them then we ought to care enough to retain them.
+Must be. I'm not seeing it in either oz or imagefactory source either.
 
-* "Do not add expected files together with tests,
-   follow instructions in tests/qtest/bios-tables-test.c"
-* "do not set execute permissions for source files"
-* "please use python3 interpreter"
-* "Author email address is mangled by the mailing list"
-* syntax checks on Signed-off-by lines
-* "does MAINTAINERS need updating?"
-* "Invalid UTF-8"
-* "trailing whitespace"
-* "DOS line endings" (maybe)
-* "Don't use '#' flag of printf format ('%#') in trace-events"
-* "Hex numbers must be prefixed with '0x' [in trace-events]"
-* line-length checks (though for a "whole codebase must pass"
-  test we would want to set the length longer than the current
-  "author should consider whether to wrap" value
-* hard coded tabs
-* the various dodgy-indentation checks
-* the various space-required checks eg around operators
-* misformatted block comments
-* "do not use C99 // comments"
-* "do not initialise globals/statics to 0 or NULL"
-* "do not use assignment in if condition"
-* "braces {} are necessary for all arms of this statement"
-* "braces {} are necessary even for single statement blocks"
-* "Use of volatile is usually wrong, please add a comment"
-* "g_free(NULL) is safe this check is probably not required"
-* "memory barrier without comment"
-* "unnecessary cast may hide bugs, use g_new/g_renew instead"
-* "consider using g_path_get_$1() in preference to g_strdup($1())"
-* "use g_memdup2() instead of unsafe g_memdup()"
-* "consider using qemu_$1 in preference to $1" (strto* etc)
-* "use sigaction to establish signal handlers; signal is not portable"
-* "please use block_init(), type_init() etc. instead of module_init()"
-* "initializer for struct $1 should normally be const"
-* "Error messages should not contain newlines"
-* "use ctz32() instead of ffs()"
-* ditto, ffsl, ffsll, bzero, getpagesize, _SC_PAGESIZE
-* "Use g_assert or g_assert_not_reached" [instead of non-exiting glib asser=
-ts]
+>> I've got no idea what happens if an invalid type is specified in
+>> the config. The VM's are definitely running despite this. I'll ask
+>> oz devs.
+>
+> This is pretty surprising if they're actually running as it should
+> cause a fatal error message
+>
+> error: unsupported configuration: unknown driver format value 'raw-xz'
 
-These seem to me to fall into three categories:
+Yep, I'm lost. I guess it's down a rabbit hole or yak shaving time.
 
-(1) many are easy enough to do with grep
-(2) there are some checks we really do want to do on the patch,
-not on the codebase (most obviously things like Signed-off-by:
-format checks)
-(3) there are coding style checks that do need to have at least some
-idea of C syntax, to check brace placement, whitespace, etc
-
-thanks
--- PMM
+--=20
+Chris Murphy
 
