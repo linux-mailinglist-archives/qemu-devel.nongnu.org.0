@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5766B57F7E2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 03:17:05 +0200 (CEST)
-Received: from localhost ([::1]:43616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0797C57F7E9
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 03:25:36 +0200 (CEST)
+Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFmiV-0001Av-Ut
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 21:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52320)
+	id 1oFmqk-0003hM-JW
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jul 2022 21:25:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oFmgB-000856-BT; Sun, 24 Jul 2022 21:14:39 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37614)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oFmpc-0002Kl-7A
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 21:24:24 -0400
+Received: from mail-qt1-x832.google.com ([2607:f8b0:4864:20::832]:45782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oFmg9-0000g2-Md; Sun, 24 Jul 2022 21:14:39 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id bh13so9017668pgb.4;
- Sun, 24 Jul 2022 18:14:36 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oFmpX-0002CD-5C
+ for qemu-devel@nongnu.org; Sun, 24 Jul 2022 21:24:23 -0400
+Received: by mail-qt1-x832.google.com with SMTP id b21so7263529qte.12
+ for <qemu-devel@nongnu.org>; Sun, 24 Jul 2022 18:24:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rpUztao9v4w21QPSh70Cfo4TBSWijTdTp3bElPebtP0=;
- b=A1yRpjaLSNHGCnIXM0LQJntJ14BVQvlNdbL0Qde0YOB8eE5eVMkr02aqzZL+D+VTl5
- e/ix4342GO/yuKHiqDxtL7LYo9dk8OW1CrKfhQaxlA7lpA8kd2P3kTdTjSs5egPy/okw
- iwKvZ6aJBavo4OhdEItU/NNrvSZmOVdX/ZthkYgecOIDrz/srWHAEMUCRCWlmhWBK7x+
- xyaei6yJBQSAnjLcaB04dgUER4a/tY0coq1Urn4FJhhvIdc5H/vUSA+tPVA1bF/f+EEb
- ETZJYG1D08ul/7pMdrDCkoiC4Z5PxK7a5Zpm2GtJIeixXwrmcMjd1DQ58U911hhG+G49
- hQ1A==
+ :cc; bh=NIPEZ9vppOXx9vEPrXuz/VCJ2UjpYMCM5qD0y6qevT0=;
+ b=IkGSlg2CH5nMkU/oYxsBWndlqBYlzQrvtdKXi+QR7qxuUaUsxrXqcJpsuYedbdguFq
+ 2M8owhPNbHdLFCVPmzdya4cRIbQ6DBeVseMIv3+moqf3XdqLn4AYODvGKZEtAvQ9UCq2
+ Xi+nAFHsT80texK+Jry8HvMYcMGSHURjAXh9QjonLEH4ASpS8lBFfJ9WiAn+T7ECHDI/
+ fLhqfQ+XVCdDIb0tW2xJGKBEJufBElenM5Oko4aW5tjmZkdkbyMR1yv/EzHybNp/AmHT
+ YM9j8zq5cMVB2mwgOyD+LnY5OsWe/wpb0264tubbt+sDp9TKBDblywrGubFo0GniIqBc
+ Z/CA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rpUztao9v4w21QPSh70Cfo4TBSWijTdTp3bElPebtP0=;
- b=u9480QpeBhEBDKURIsrj5eiXO2HqwfGmpJulZ/xsj7YtYg4uRgPXvg9vda99dmAr3z
- Vl7ouu5iptQ54eoJXQJHQ5LZGIJvP7oLkysHMKdlj4MWLTRWEI9wPfoOShKs1z7hwAp/
- +TPvhdMzgfJEa0nfmKQqhUN8Q3OEOJ3QFnqhVWw+5Pwuj1SOt+S2TzhNOZwAmQbQiWQx
- tfBzY/E3+ilaOMG9hH6tFNQnP121QoG22Ih/vEaEJ3xyvi/bg/Dl5BlvqyZg0Fg30xbs
- wz4pylgAf7oa2Rpe65QfQwou1dvnv+7v9kG0cHbxHj9ZRqiylFZGRtHhR87N/x0M7b1Z
- dbJQ==
-X-Gm-Message-State: AJIora+JJjCdOh2vKMJs2Xm+C0S7JJT0A5dPdVIC+pI4tLewmU2PyxqH
- IhmK1cW+YmE+IH0jha8yG3CzY+4fT++HlOV2MGs=
-X-Google-Smtp-Source: AGRyM1t2ScHZoMVVzY1lE7S9ze1SxkzqqRMju2IS/DOwKaAmNAeLrnvUIrr/u2HDpnps4RrSaj4bJxdwwRvJLP3oK2M=
-X-Received: by 2002:aa7:9e9b:0:b0:528:2948:e974 with SMTP id
- p27-20020aa79e9b000000b005282948e974mr10335909pfq.79.1658711674935; Sun, 24
- Jul 2022 18:14:34 -0700 (PDT)
+ bh=NIPEZ9vppOXx9vEPrXuz/VCJ2UjpYMCM5qD0y6qevT0=;
+ b=PCvZOh6T5+yHp6ZNbi615ftfy+asBlRwRTbMyGzJwgmLTT4UoakJ5HHLMl/R5/wwni
+ KQ6yvTgLFMe6xDauLm6doP6Hmnu9UV++6qk6GtYcskpU7Zd4a04HxgjpwJiSNtBqUMji
+ wqH+9F12pamVA4GYa7TOcWVTqMnB5GAhFkWZKj1ZFIBUGp6a21NV4nn9AWEJu1Kqj8Jx
+ IcrHElu5Nz3JkgjyAGlzQfJJQU+4zoPejqeN6N58esITDUwejzfT2rLj4s/62GmFHHDC
+ Ppqjxby6aL1nci5pPdmloXIKkrv81Zu1ODDTXEKISB+2gBzmUonJPbYBYPiiChgi6j2m
+ ZMtg==
+X-Gm-Message-State: AJIora85G+T8bKrwWTYUY/MwisIjjzL8aDNHnzO1FLnpLojHWV4vR07e
+ 5me4b2QVWC5JkwdrZj0rMiuhoPtsAYjIXhjc0XA=
+X-Google-Smtp-Source: AGRyM1ugz6KKsc1l34rzOH9zdqvQii55fPYInMC/7yfDCzSSQUxfWeBNyfFQortqoFEL0J5++Kldt8gY06rFAfJ4m/g=
+X-Received: by 2002:a05:622a:343:b0:31f:3383:3971 with SMTP id
+ r3-20020a05622a034300b0031f33833971mr5060308qtw.276.1658712257973; Sun, 24
+ Jul 2022 18:24:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220723090335.671105-1-atishp@rivosinc.com>
-In-Reply-To: <20220723090335.671105-1-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 25 Jul 2022 11:14:08 +1000
-Message-ID: <CAKmqyKODh+im_v2NJhRcYgeaYmvDS9BXW++RaOzEb9oQD53zKw@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
-To: Atish Patra <atishp@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+References: <20220719161230.766063-1-bmeng.cn@gmail.com>
+In-Reply-To: <20220719161230.766063-1-bmeng.cn@gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 25 Jul 2022 09:24:06 +0800
+Message-ID: <CAEUhbmV85bb-q8Q_Oda6EngJsRdpJq9fhSej-By6jHu390SEow@mail.gmail.com>
+Subject: Re: [PATCH] .cirrus.yml: Change winsymlinks to 'native'
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=alistair23@gmail.com; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::832;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x832.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,50 +84,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
+On Wed, Jul 20, 2022 at 12:12 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Since commit 40244040a7ac, multi-socket configuration with plic is
-> broken as the hartid for second socket is calculated incorrectly.
-> The hartid stored in addr_config already includes the offset
-> for the base hartid for that socket. Adding it again would lead
-> to segfault while creating the plic device for the virt machine.
-> qdev_connect_gpio_out was also invoked with incorrect number of gpio
-> lines.
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_config buffer)
+> At present winsymlinks is set to 'nativestrict', and its behavior is:
 >
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-
-Can you share the -cpu options that causes the segfault? I'll add it
-to my test case
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+>   a) if native symlinks are enabled and <target> exists, creates
+>      <destination> as a native Windows symlink;
+>   b) else if native symlinks are not enabled or if <target> does
+>      not exist, 'ln -s' fails.
+>
+> This causes the following error message was seen during the configure:
+>
+>   "ln: failed to create symbolic link
+>   'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
+>
+> Change winsymlinks to 'native' whose behavior is most similar to the
+> behavior of 'ln -s' on *nix, that is:
+>
+>   a) if native symlinks are enabled, and whether <target> exists
+>      or not, creates <destination> as a native Windows symlink;
+>   b) else if native symlinks are not enabled, and whether <target>
+>      exists or not, 'ln -s' creates as a Windows shortcut file.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->  hw/intc/sifive_plic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 56d60e9ac935..fdac028a521f 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>  .cirrus.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
->      for (i = 0; i < plic->num_addrs; i++) {
->          int cpu_num = plic->addr_config[i].hartid;
-> -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
-> +        CPUState *cpu = qemu_get_cpu(cpu_num);
->
->          if (plic->addr_config[i].mode == PLICMode_M) {
-> -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
-> +            qdev_connect_gpio_out(dev, cpu_num,
->                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
->          }
->          if (plic->addr_config[i].mode == PLICMode_S) {
-> --
-> 2.25.1
->
->
+
+Ping?
 
