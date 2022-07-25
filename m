@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EBD580028
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:49:37 +0200 (CEST)
-Received: from localhost ([::1]:43212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E42B58003C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:55:21 +0200 (CEST)
+Received: from localhost ([::1]:51684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFySl-00020X-LY
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42338)
+	id 1oFyYJ-00082c-Re
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:55:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFyOB-0006NY-ES
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:44:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:24054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFyO9-00052b-KL
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:44:51 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26PDBvYH011622;
- Mon, 25 Jul 2022 13:44:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=Pz/gTj+4Dq/VaCqzBApevJOS1bfX/1mQPspzCYtHoBo=;
- b=Pw0ZVrGgO+1TaPv7Bkb5ddf8qnCsUG7o1ZEmwcQQTAfV2tlegYGWB2bk5j3nMulx5/Iz
- RYdESyPkGF72SbmRirTE5V1T/BHmEpogqXaovnF/LZwSwIJWkeNFssMIUCeuBU2eEn1J
- UdnK7JA1Ztm7fgcKrfZubwzzm4S3n3qnYh3zxogdejmtwIdXzXVo2VDwTuCTc0ahq5hP
- pGbWOICxfV1Mk/WYtiEt93iE1eEIHZu840G6JfsYcWuKb9Ms8ehqDphc1ODX09NHCE80
- Y3SxqjyHWuZwrw5lz7pptzGyi8oT6GFeOUkJy88NWa25+GXppq5UQl+/sVdExqkiM8yc lA== 
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhuue99bu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jul 2022 13:44:47 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26PDZYh8029950;
- Mon, 25 Jul 2022 13:44:45 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 3hg96wjh7v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jul 2022 13:44:45 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26PDigIN22479180
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 25 Jul 2022 13:44:42 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 25308AE04D;
- Mon, 25 Jul 2022 13:44:42 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D444AAE045;
- Mon, 25 Jul 2022 13:44:41 +0000 (GMT)
-Received: from heavy.lan (unknown [9.171.40.49])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 25 Jul 2022 13:44:41 +0000 (GMT)
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH] linux-user: Implement stracing madvise()
-Date: Mon, 25 Jul 2022 15:44:40 +0200
-Message-Id: <20220725134440.172892-1-iii@linux.ibm.com>
-X-Mailer: git-send-email 2.35.3
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oFyRn-0000YR-Nv
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:48:36 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:45583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oFyRk-0005hl-9i
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:48:33 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id fy29so20591135ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=7u6TkkmpJQu41A+WayvVhyqF6DgkbZd4/ZL106Owl7k=;
+ b=noxofZyz55NrA8jTIPzBn7kQmz/F7+K2n69m/cViU5CwkA7kxpuai048imIj/hv0Oi
+ gnwwfSZQ29BdK/sPNybNi+UAlX0ffo4k4LR/b7HY1+ISIA+v8eOULwIghVYvekeXdmtW
+ aRmZr+KX/tv4b/q4WW8VXcOchmHl9J/ctqcQWHFESkRJRBb3dHJaUf/nmuUPbtVn0CIQ
+ gEGrCaHGdHweTyolKfOBFnThepbjTFT4q6qJ2iASnhVCgpQdeWTO+dXTDcIOSutU5Dgo
+ lrljkU2mjqjLJm7/Kbm6vAt6mEOhI1MSZL62iJwXdZGefxtA0Gi6Ia0ipgKhltHwimbD
+ REow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=7u6TkkmpJQu41A+WayvVhyqF6DgkbZd4/ZL106Owl7k=;
+ b=Euh7BUY40AsQtHxsb+cj/PkJCsHTFavXlCAEG0AkrLhg8ZIREQrsbmkDcydghxYlWL
+ aUnmhIDyLPG/1n4C2vyPYuzdcysRh6WcYjrXxpBmpoHorDqhsHTIwrHM1eXHzShcNShb
+ kXB47Bn14i6Hi3q7V1Cj0ClR+hNyrTvDEezBn5XKVs3EI8W9cF8s6JUBNjR5H00qQsJh
+ L+A1nhYKovM9DBoe8XV7llR/ylmWBotKbQg8bBM3+bA82f6bhjUUWFeHFuVhPAbkfBw2
+ yLIxskBSR6Pus5sLmLRxk8udp8virAIjSTAVXhL0Bv5b9dXc5EBnHo9uZsqjXeiTWyLs
+ VWmQ==
+X-Gm-Message-State: AJIora/UymWA1dQSvyMeqmJnXBnjTRA/18LJU+Ftfr2TrrXnx2ZZVibM
+ 8jSqHn913AltuFQiv+/B8auq4w==
+X-Google-Smtp-Source: AGRyM1u2eUKWsQo9feUu14WX1SYFHH+AhTLHvX99gQSYponYhII+B5+uinQCyGagkTQG8FajdS0nig==
+X-Received: by 2002:a17:906:5a51:b0:72b:5cdf:ed77 with SMTP id
+ my17-20020a1709065a5100b0072b5cdfed77mr10022423ejc.505.1658756910426; 
+ Mon, 25 Jul 2022 06:48:30 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ jz15-20020a170906bb0f00b0072637b9c8c0sm5358206ejb.219.2022.07.25.06.48.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jul 2022 06:48:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A96221FFB7;
+ Mon, 25 Jul 2022 14:48:28 +0100 (BST)
+References: <20220725123000.807608-1-bmeng.cn@gmail.com>
+User-agent: mu4e 1.7.27; emacs 28.1.90
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Beraldo Leal <bleal@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <f4bug@amsat.org>, Thomas Huth <thuth@redhat.com>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org, Bin Meng
+ <bin.meng@windriver.com>
+Subject: Re: [PATCH] .gitlab-ci.d/windows.yml: Enable native Windows symlink
+Date: Mon, 25 Jul 2022 14:47:55 +0100
+In-reply-to: <20220725123000.807608-1-bmeng.cn@gmail.com>
+Message-ID: <874jz5i9qr.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: tBwA17oCUjUVjs9TQh8AtxA5STrneg-l
-X-Proofpoint-ORIG-GUID: tBwA17oCUjUVjs9TQh8AtxA5STrneg-l
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-25_09,2022-07-25_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 lowpriorityscore=0
- adultscore=0 priorityscore=1501 spamscore=0 bulkscore=0 clxscore=1011
- suspectscore=0 mlxlogscore=999 phishscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207250057
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,71 +95,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The default implementation has several problems: the first argument is
-not displayed as a pointer, making it harder to grep; the third
-argument is not symbolized; and there are several extra unused
-arguments.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
----
- linux-user/strace.c    | 29 +++++++++++++++++++++++++++++
- linux-user/strace.list |  2 +-
- 2 files changed, 30 insertions(+), 1 deletion(-)
+Bin Meng <bmeng.cn@gmail.com> writes:
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 7d882526da..32a6987844 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -2969,6 +2969,35 @@ print_stat(CPUArchState *cpu_env, const struct syscallname *name,
- #define print_lstat64   print_stat
- #endif
- 
-+#if defined(TARGET_NR_madvise)
-+#define TARGET_MADV_NORMAL 0
-+#define TARGET_MADV_RANDOM 1
-+#define TARGET_MADV_SEQUENTIAL 2
-+#define TARGET_MADV_WILLNEED 3
-+#define TARGET_MADV_DONTNEED 4
-+
-+static struct enums madvise_advice[] = {
-+    ENUM_TARGET(MADV_NORMAL),
-+    ENUM_TARGET(MADV_RANDOM),
-+    ENUM_TARGET(MADV_SEQUENTIAL),
-+    ENUM_TARGET(MADV_WILLNEED),
-+    ENUM_TARGET(MADV_DONTNEED),
-+    ENUM_END,
-+};
-+
-+static void
-+print_madvise(CPUArchState *cpu_env, const struct syscallname *name,
-+              abi_long arg0, abi_long arg1, abi_long arg2,
-+              abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_pointer(arg0, 0);
-+    print_raw_param("%d", arg1, 0);
-+    print_enums(madvise_advice, arg2, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #if defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
- static void
- print_fstat(CPUArchState *cpu_env, const struct syscallname *name,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 72e17b1acf..c93effdbc8 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -541,7 +541,7 @@
- { TARGET_NR_lstat64, "lstat64" , NULL, print_lstat64, NULL },
- #endif
- #ifdef TARGET_NR_madvise
--{ TARGET_NR_madvise, "madvise" , NULL, NULL, NULL },
-+{ TARGET_NR_madvise, "madvise" , NULL, print_madvise, NULL },
- #endif
- #ifdef TARGET_NR_madvise1
- { TARGET_NR_madvise1, "madvise1" , NULL, NULL, NULL },
--- 
-2.35.3
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> The following error message was seen during the configure:
+>
+>   "ln: failed to create symbolic link
+>   'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
+>
+> By default the MSYS environment variable is not defined, so the runtime
+> behavior of winsymlinks is: if <target> does not exist, 'ln -s' fails.
+> At the configure phase, the qemu-system-x86_64.exe has not been built
+> so creation of the symbolic link fails hence the error message.
+>
+> Set winsymlinks to 'native' whose behavior is most similar to the
+> behavior of 'ln -s' on *nix, that is:
+>
+>   a) if native symlinks are enabled, and whether <target> exists
+>      or not, creates <destination> as a native Windows symlink;
+>   b) else if native symlinks are not enabled, and whether <target>
+>      exists or not, 'ln -s' creates as a Windows shortcut file.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
+I'm still seeing Windows build failures such as:
+
+  https://gitlab.com/stsquad/qemu/-/jobs/2765579269
+
+and
+
+  https://gitlab.com/stsquad/qemu/-/jobs/2765579267
+
+Any idea what's falling over?
+
+> ---
+>
+>  .gitlab-ci.d/windows.yml | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+> index 1b2ede49e1..0b9572a8a3 100644
+> --- a/.gitlab-ci.d/windows.yml
+> +++ b/.gitlab-ci.d/windows.yml
+> @@ -57,6 +57,7 @@ msys2-64bit:
+>        mingw-w64-x86_64-zstd "
+>    - $env:CHERE_INVOKING =3D 'yes'  # Preserve the current working direct=
+ory
+>    - $env:MSYSTEM =3D 'MINGW64'     # Start a 64 bit Mingw environment
+> +  - $env:MSYS =3D 'winsymlinks:native' # Enable native Windows symlink
+>    - .\msys64\usr\bin\bash -lc './configure --target-list=3Dx86_64-softmmu
+>        --enable-capstone --without-default-devices'
+>    - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=3D/d' build/config-host.ma=
+k"
+> @@ -89,6 +90,7 @@ msys2-32bit:
+>        mingw-w64-i686-usbredir "
+>    - $env:CHERE_INVOKING =3D 'yes'  # Preserve the current working direct=
+ory
+>    - $env:MSYSTEM =3D 'MINGW32'     # Start a 32-bit MinG environment
+> +  - $env:MSYS =3D 'winsymlinks:native' # Enable native Windows symlink
+>    - mkdir output
+>    - cd output
+>    - ..\msys64\usr\bin\bash -lc "../configure --target-list=3Dppc64-softm=
+mu"
+
+
+--=20
+Alex Benn=C3=A9e
 
