@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FE3D57FF1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:40:10 +0200 (CEST)
-Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D660257FF0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 14:34:27 +0200 (CEST)
+Received: from localhost ([::1]:42084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFxNZ-0005yp-Fi
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:40:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48780)
+	id 1oFxI2-0007Td-To
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 08:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFx5g-0002aP-RG
+ id 1oFx5e-0002ZU-VU
  for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54212)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFx5c-000643-Sm
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:39 -0400
+ id 1oFx5b-00063m-5j
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 08:21:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658751694;
+ s=mimecast20190719; t=1658751693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QZc/V6yFNZqX368tkz9lUtNf7KB1xzUrf6fToh59Kjs=;
- b=B5zQvR2Dbk0byMicvZ+3jAFdH3BpwQmmtcdlKhdaEjFPRC9WeCdFdOUX5x/V+FVPrYwLCx
- AFhoRJLnAPQfuHxPOZmVDHq/LCgiuCk33L3IVZCqQsWunLeZEndz07+JL5+RI81XYri3JE
- 2exrXMP3OCBEU6hcSvFClzH0nOeCLDo=
+ bh=aflsxyqV2PY2bBSJ3ntXY9CIh+jpY2Cxb5V1co3Ae1Y=;
+ b=AxoEVgUh/GSAIBimW9CGBZCiVC9DYxrj66x8vOOdBzI/dPC+HmTtYE5P3/2D709UWWL6Os
+ drwh0HdwzmP3ThQAxCslVRh7N/Yp6FojSr0VFLL4FzvLmR2aS8dXfRjbmq8RW3Ddn2IYA7
+ 6DIa35BoKUVau2BQGuM3lEkbJFHKeks=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-648-wMcUrmYjOJu9oaJScKIWYg-1; Mon, 25 Jul 2022 08:21:30 -0400
-X-MC-Unique: wMcUrmYjOJu9oaJScKIWYg-1
+ us-mta-226-oy-bLe0XMEWyC2eBfL57-w-1; Mon, 25 Jul 2022 08:21:28 -0400
+X-MC-Unique: oy-bLe0XMEWyC2eBfL57-w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BA2988C0803;
- Mon, 25 Jul 2022 12:21:25 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 36E2E85178C;
+ Mon, 25 Jul 2022 12:21:26 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6BD45909FE;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C17D090A00;
  Mon, 25 Jul 2022 12:21:25 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
@@ -52,10 +52,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
  Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Subject: [PATCH v2 08/11] block: use the new _change_ API instead of _can_set_
- and _set_
-Date: Mon, 25 Jul 2022 08:21:17 -0400
-Message-Id: <20220725122120.309236-9-eesposit@redhat.com>
+Subject: [PATCH v2 09/11] block: remove all unused ->can_set_aio_ctx and
+ ->set_aio_ctx callbacks
+Date: Mon, 25 Jul 2022 08:21:18 -0400
+Message-Id: <20220725122120.309236-10-eesposit@redhat.com>
 In-Reply-To: <20220725122120.309236-1-eesposit@redhat.com>
 References: <20220725122120.309236-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -85,113 +85,409 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace all direct usage of ->can_set_aio_ctx and ->set_aio_ctx,
-and call bdrv_child_try_change_aio_context() in
-bdrv_try_set_aio_context(), the main function called through
-the whole block layer.
-
-From this point onwards, ->can_set_aio_ctx and ->set_aio_ctx
-won't be used anymore.
+Together with all _can_set_ and _set_ APIs, as they are not needed
+anymore.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- block.c               | 44 ++++++++++++++++++++++++-------------------
- block/block-backend.c |  8 ++++++--
- 2 files changed, 31 insertions(+), 21 deletions(-)
+ block.c                            | 196 -----------------------------
+ block/block-backend.c              |  33 -----
+ blockjob.c                         |  35 ------
+ include/block/block-global-state.h |   9 --
+ include/block/block_int-common.h   |   4 -
+ 5 files changed, 277 deletions(-)
 
 diff --git a/block.c b/block.c
-index bcc9b0d099..9b47aacad2 100644
+index 9b47aacad2..c066b41c8c 100644
 --- a/block.c
 +++ b/block.c
-@@ -2970,17 +2970,21 @@ static void bdrv_attach_child_common_abort(void *opaque)
-     }
- 
-     if (bdrv_child_get_parent_aio_context(child) != s->old_parent_ctx) {
--        GSList *ignore;
-+        Transaction *tran;
-+        GHashTable *visited;
-+        bool ret;
- 
--        /* No need to ignore `child`, because it has been detached already */
--        ignore = NULL;
--        child->klass->can_set_aio_ctx(child, s->old_parent_ctx, &ignore,
--                                      &error_abort);
--        g_slist_free(ignore);
-+        tran = tran_new();
- 
--        ignore = NULL;
--        child->klass->set_aio_ctx(child, s->old_parent_ctx, &ignore);
--        g_slist_free(ignore);
-+        /* No need to visit `child`, because it has been detached already */
-+        visited = g_hash_table_new(NULL, NULL);
-+        ret = child->klass->change_aio_ctx(child, s->old_parent_ctx, visited,
-+                                           tran, &error_abort);
-+        g_hash_table_destroy(visited);
-+
-+        /* transaction is supposed to always succeed */
-+        assert(ret == true);
-+        tran_commit(tran);
-     }
- 
-     bdrv_unref(bs);
-@@ -3041,18 +3045,20 @@ static int bdrv_attach_child_common(BlockDriverState *child_bs,
-         Error *local_err = NULL;
-         int ret = bdrv_try_set_aio_context(child_bs, parent_ctx, &local_err);
- 
--        if (ret < 0 && child_class->can_set_aio_ctx) {
--            GSList *ignore = g_slist_prepend(NULL, new_child);
--            if (child_class->can_set_aio_ctx(new_child, child_ctx, &ignore,
--                                             NULL))
--            {
-+        if (ret < 0 && child_class->change_aio_ctx) {
-+            Transaction *tran = tran_new();
-+            GHashTable *visited = g_hash_table_new(NULL, NULL);
-+            bool ret_child;
-+
-+            g_hash_table_add(visited, new_child);
-+            ret_child = child_class->change_aio_ctx(new_child, child_ctx,
-+                                                    visited, tran, NULL);
-+            if (ret_child == true) {
-                 error_free(local_err);
-                 ret = 0;
--                g_slist_free(ignore);
--                ignore = g_slist_prepend(NULL, new_child);
--                child_class->set_aio_ctx(new_child, child_ctx, &ignore);
-             }
--            g_slist_free(ignore);
-+            tran_finalize(tran, ret_child == true ? 0 : -1);
-+            g_hash_table_destroy(visited);
-         }
- 
-         if (ret < 0) {
-@@ -7732,7 +7738,7 @@ int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-                              Error **errp)
- {
-     GLOBAL_STATE_CODE();
--    return bdrv_child_try_set_aio_context(bs, ctx, NULL, errp);
-+    return bdrv_child_try_change_aio_context(bs, ctx, NULL, errp);
+@@ -1247,20 +1247,6 @@ static bool bdrv_child_cb_change_aio_ctx(BdrvChild *child, AioContext *ctx,
+     return bdrv_change_aio_context(bs, ctx, visited, tran, errp);
  }
  
- void bdrv_add_aio_context_notifier(BlockDriverState *bs,
+-static bool bdrv_child_cb_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                          GSList **ignore, Error **errp)
+-{
+-    BlockDriverState *bs = child->opaque;
+-    return bdrv_can_set_aio_context(bs, ctx, ignore, errp);
+-}
+-
+-static void bdrv_child_cb_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                      GSList **ignore)
+-{
+-    BlockDriverState *bs = child->opaque;
+-    return bdrv_set_aio_context_ignore(bs, ctx, ignore);
+-}
+-
+ /*
+  * Returns the options and flags that a temporary snapshot should get, based on
+  * the originally requested flags (the originally requested image will have
+@@ -1501,8 +1487,6 @@ const BdrvChildClass child_of_bds = {
+     .attach          = bdrv_child_cb_attach,
+     .detach          = bdrv_child_cb_detach,
+     .inactivate      = bdrv_child_cb_inactivate,
+-    .can_set_aio_ctx = bdrv_child_cb_can_set_aio_ctx,
+-    .set_aio_ctx     = bdrv_child_cb_set_aio_ctx,
+     .change_aio_ctx  = bdrv_child_cb_change_aio_ctx,
+     .update_filename = bdrv_child_cb_update_filename,
+     .get_parent_aio_context = child_of_bds_get_parent_aio_context,
+@@ -7334,125 +7318,6 @@ static void bdrv_attach_aio_context(BlockDriverState *bs,
+     bs->walking_aio_notifiers = false;
+ }
+ 
+-/*
+- * Changes the AioContext used for fd handlers, timers, and BHs by this
+- * BlockDriverState and all its children and parents.
+- *
+- * Must be called from the main AioContext.
+- *
+- * The caller must own the AioContext lock for the old AioContext of bs, but it
+- * must not own the AioContext lock for new_context (unless new_context is the
+- * same as the current context of bs).
+- *
+- * @ignore will accumulate all visited BdrvChild objects. The caller is
+- * responsible for freeing the list afterwards.
+- */
+-void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+-                                 AioContext *new_context, GSList **ignore)
+-{
+-    AioContext *old_context = bdrv_get_aio_context(bs);
+-    GSList *children_to_process = NULL;
+-    GSList *parents_to_process = NULL;
+-    GSList *entry;
+-    BdrvChild *child, *parent;
+-
+-    g_assert(qemu_get_current_aio_context() == qemu_get_aio_context());
+-    GLOBAL_STATE_CODE();
+-
+-    if (old_context == new_context) {
+-        return;
+-    }
+-
+-    bdrv_drained_begin(bs);
+-
+-    QLIST_FOREACH(child, &bs->children, next) {
+-        if (g_slist_find(*ignore, child)) {
+-            continue;
+-        }
+-        *ignore = g_slist_prepend(*ignore, child);
+-        children_to_process = g_slist_prepend(children_to_process, child);
+-    }
+-
+-    QLIST_FOREACH(parent, &bs->parents, next_parent) {
+-        if (g_slist_find(*ignore, parent)) {
+-            continue;
+-        }
+-        *ignore = g_slist_prepend(*ignore, parent);
+-        parents_to_process = g_slist_prepend(parents_to_process, parent);
+-    }
+-
+-    for (entry = children_to_process;
+-         entry != NULL;
+-         entry = g_slist_next(entry)) {
+-        child = entry->data;
+-        bdrv_set_aio_context_ignore(child->bs, new_context, ignore);
+-    }
+-    g_slist_free(children_to_process);
+-
+-    for (entry = parents_to_process;
+-         entry != NULL;
+-         entry = g_slist_next(entry)) {
+-        parent = entry->data;
+-        assert(parent->klass->set_aio_ctx);
+-        parent->klass->set_aio_ctx(parent, new_context, ignore);
+-    }
+-    g_slist_free(parents_to_process);
+-
+-    bdrv_detach_aio_context(bs);
+-
+-    /* Acquire the new context, if necessary */
+-    if (qemu_get_aio_context() != new_context) {
+-        aio_context_acquire(new_context);
+-    }
+-
+-    bdrv_attach_aio_context(bs, new_context);
+-
+-    /*
+-     * If this function was recursively called from
+-     * bdrv_set_aio_context_ignore(), there may be nodes in the
+-     * subtree that have not yet been moved to the new AioContext.
+-     * Release the old one so bdrv_drained_end() can poll them.
+-     */
+-    if (qemu_get_aio_context() != old_context) {
+-        aio_context_release(old_context);
+-    }
+-
+-    bdrv_drained_end(bs);
+-
+-    if (qemu_get_aio_context() != old_context) {
+-        aio_context_acquire(old_context);
+-    }
+-    if (qemu_get_aio_context() != new_context) {
+-        aio_context_release(new_context);
+-    }
+-}
+-
+-static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+-                                            GSList **ignore, Error **errp)
+-{
+-    GLOBAL_STATE_CODE();
+-    if (g_slist_find(*ignore, c)) {
+-        return true;
+-    }
+-    *ignore = g_slist_prepend(*ignore, c);
+-
+-    /*
+-     * A BdrvChildClass that doesn't handle AioContext changes cannot
+-     * tolerate any AioContext changes
+-     */
+-    if (!c->klass->can_set_aio_ctx) {
+-        char *user = bdrv_child_user_desc(c);
+-        error_setg(errp, "Changing iothreads is not supported by %s", user);
+-        g_free(user);
+-        return false;
+-    }
+-    if (!c->klass->can_set_aio_ctx(c, ctx, ignore, errp)) {
+-        assert(!errp || *errp);
+-        return false;
+-    }
+-    return true;
+-}
+-
+ typedef struct BdrvStateSetAioContext {
+     AioContext *new_ctx;
+     BlockDriverState *bs;
+@@ -7486,17 +7351,6 @@ static bool bdrv_parent_change_aio_context(BdrvChild *c, AioContext *ctx,
+     return true;
+ }
+ 
+-bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+-                                    GSList **ignore, Error **errp)
+-{
+-    GLOBAL_STATE_CODE();
+-    if (g_slist_find(*ignore, c)) {
+-        return true;
+-    }
+-    *ignore = g_slist_prepend(*ignore, c);
+-    return bdrv_can_set_aio_context(c->bs, ctx, ignore, errp);
+-}
+-
+ bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
+                                    GHashTable *visited, Transaction *tran,
+                                    Error **errp)
+@@ -7509,33 +7363,6 @@ bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
+     return bdrv_change_aio_context(c->bs, ctx, visited, tran, errp);
+ }
+ 
+-/* @ignore will accumulate all visited BdrvChild object. The caller is
+- * responsible for freeing the list afterwards. */
+-bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+-                              GSList **ignore, Error **errp)
+-{
+-    BdrvChild *c;
+-
+-    if (bdrv_get_aio_context(bs) == ctx) {
+-        return true;
+-    }
+-
+-    GLOBAL_STATE_CODE();
+-
+-    QLIST_FOREACH(c, &bs->parents, next_parent) {
+-        if (!bdrv_parent_can_set_aio_context(c, ctx, ignore, errp)) {
+-            return false;
+-        }
+-    }
+-    QLIST_FOREACH(c, &bs->children, next) {
+-        if (!bdrv_child_can_set_aio_context(c, ctx, ignore, errp)) {
+-            return false;
+-        }
+-    }
+-
+-    return true;
+-}
+-
+ static void bdrv_drained_end_clean(void *opaque)
+ {
+     BdrvStateSetAioContext *state = (BdrvStateSetAioContext *) opaque;
+@@ -7615,29 +7442,6 @@ static bool bdrv_change_aio_context(BlockDriverState *bs, AioContext *ctx,
+     return true;
+ }
+ 
+-int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+-                                   BdrvChild *ignore_child, Error **errp)
+-{
+-    GSList *ignore;
+-    bool ret;
+-
+-    GLOBAL_STATE_CODE();
+-
+-    ignore = ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL;
+-    ret = bdrv_can_set_aio_context(bs, ctx, &ignore, errp);
+-    g_slist_free(ignore);
+-
+-    if (!ret) {
+-        return -EPERM;
+-    }
+-
+-    ignore = ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL;
+-    bdrv_set_aio_context_ignore(bs, ctx, &ignore);
+-    g_slist_free(ignore);
+-
+-    return 0;
+-}
+-
+ /*
+  * Change bs's and recursively all of its parents' and children's AioContext
+  * to the given new context, returning an error if that isn't possible.
 diff --git a/block/block-backend.c b/block/block-backend.c
-index b4951c6e21..3046b4cc54 100644
+index 3046b4cc54..a27b8b7a89 100644
 --- a/block/block-backend.c
 +++ b/block/block-backend.c
-@@ -2184,8 +2184,12 @@ static int blk_do_set_aio_context(BlockBackend *blk, AioContext *new_context,
-         bdrv_ref(bs);
+@@ -134,10 +134,6 @@ static void blk_root_drained_end(BdrvChild *child, int *drained_end_counter);
+ static void blk_root_change_media(BdrvChild *child, bool load);
+ static void blk_root_resize(BdrvChild *child);
  
-         if (update_root_node) {
--            ret = bdrv_child_try_set_aio_context(bs, new_context, blk->root,
--                                                 errp);
-+            /*
-+             * update_root_node MUST be false for blk_root_set_aio_ctx_commit(),
-+             * as we are already in the commit function of a transaction.
-+             */
-+            ret = bdrv_child_try_change_aio_context(bs, new_context, blk->root,
-+                                                    errp);
-             if (ret < 0) {
-                 bdrv_unref(bs);
-                 return ret;
+-static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                     GSList **ignore, Error **errp);
+-static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                 GSList **ignore);
+ static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
+                                     GHashTable *visited, Transaction *tran,
+                                     Error **errp);
+@@ -337,8 +333,6 @@ static const BdrvChildClass child_root = {
+     .attach             = blk_root_attach,
+     .detach             = blk_root_detach,
+ 
+-    .can_set_aio_ctx    = blk_root_can_set_aio_ctx,
+-    .set_aio_ctx        = blk_root_set_aio_ctx,
+     .change_aio_ctx     = blk_root_change_aio_ctx,
+ 
+     .get_parent_aio_context = blk_root_get_parent_aio_context,
+@@ -2264,33 +2258,6 @@ static bool blk_root_change_aio_ctx(BdrvChild *child, AioContext *ctx,
+     return true;
+ }
+ 
+-static bool blk_root_can_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                     GSList **ignore, Error **errp)
+-{
+-    BlockBackend *blk = child->opaque;
+-
+-    if (blk->allow_aio_context_change) {
+-        return true;
+-    }
+-
+-    /* Only manually created BlockBackends that are not attached to anything
+-     * can change their AioContext without updating their user. */
+-    if (!blk->name || blk->dev) {
+-        /* TODO Add BB name/QOM path */
+-        error_setg(errp, "Cannot change iothread of active block backend");
+-        return false;
+-    }
+-
+-    return true;
+-}
+-
+-static void blk_root_set_aio_ctx(BdrvChild *child, AioContext *ctx,
+-                                 GSList **ignore)
+-{
+-    BlockBackend *blk = child->opaque;
+-    blk_do_set_aio_context(blk, ctx, false, &error_abort);
+-}
+-
+ void blk_add_aio_context_notifier(BlockBackend *blk,
+         void (*attached_aio_context)(AioContext *new_context, void *opaque),
+         void (*detach_aio_context)(void *opaque), void *opaque)
+diff --git a/blockjob.c b/blockjob.c
+index 704bab060f..dadb2feca4 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -170,39 +170,6 @@ static bool child_job_change_aio_ctx(BdrvChild *c, AioContext *ctx,
+     return true;
+ }
+ 
+-static bool child_job_can_set_aio_ctx(BdrvChild *c, AioContext *ctx,
+-                                      GSList **ignore, Error **errp)
+-{
+-    BlockJob *job = c->opaque;
+-    GSList *l;
+-
+-    for (l = job->nodes; l; l = l->next) {
+-        BdrvChild *sibling = l->data;
+-        if (!bdrv_child_can_set_aio_context(sibling, ctx, ignore, errp)) {
+-            return false;
+-        }
+-    }
+-    return true;
+-}
+-
+-static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
+-                                  GSList **ignore)
+-{
+-    BlockJob *job = c->opaque;
+-    GSList *l;
+-
+-    for (l = job->nodes; l; l = l->next) {
+-        BdrvChild *sibling = l->data;
+-        if (g_slist_find(*ignore, sibling)) {
+-            continue;
+-        }
+-        *ignore = g_slist_prepend(*ignore, sibling);
+-        bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+-    }
+-
+-    job_set_aio_context(&job->job, ctx);
+-}
+-
+ static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
+ {
+     BlockJob *job = c->opaque;
+@@ -216,8 +183,6 @@ static const BdrvChildClass child_job = {
+     .drained_begin      = child_job_drained_begin,
+     .drained_poll       = child_job_drained_poll,
+     .drained_end        = child_job_drained_end,
+-    .can_set_aio_ctx    = child_job_can_set_aio_ctx,
+-    .set_aio_ctx        = child_job_set_aio_ctx,
+     .change_aio_ctx     = child_job_change_aio_ctx,
+     .stay_at_node       = true,
+     .get_parent_aio_context = child_job_get_parent_aio_context,
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 1bd445b507..54fd008442 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -217,18 +217,9 @@ void coroutine_fn bdrv_co_lock(BlockDriverState *bs);
+  */
+ void coroutine_fn bdrv_co_unlock(BlockDriverState *bs);
+ 
+-void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+-                                 AioContext *new_context, GSList **ignore);
+ int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+                              Error **errp);
+-int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+-                                   BdrvChild *ignore_child, Error **errp);
+-bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+-                                    GSList **ignore, Error **errp);
+-bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+-                              GSList **ignore, Error **errp);
+ AioContext *bdrv_child_get_parent_aio_context(BdrvChild *c);
+-
+ bool bdrv_child_change_aio_context(BdrvChild *c, AioContext *ctx,
+                                    GHashTable *visited, Transaction *tran,
+                                    Error **errp);
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index c639873487..8f3102cc3d 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -892,10 +892,6 @@ struct BdrvChildClass {
+     int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
+                            const char *filename, Error **errp);
+ 
+-    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
+-                        GSList **ignore, Error **errp);
+-    void (*set_aio_ctx)(BdrvChild *child, AioContext *ctx, GSList **ignore);
+-
+     bool (*change_aio_ctx)(BdrvChild *child, AioContext *ctx,
+                            GHashTable *visited, Transaction *tran,
+                            Error **errp);
 -- 
 2.31.1
 
