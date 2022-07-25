@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E9C58008F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:16:11 +0200 (CEST)
-Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A19858008E
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:15:42 +0200 (CEST)
+Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFysU-0006UQ-7w
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:16:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47808)
+	id 1oFys1-00065u-EH
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiF-0000vI-Km
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:35 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45801)
+ id 1oFyiH-0000w2-59
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:37 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiE-0000GS-2N
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:35 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v13so8342039wru.12
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:33 -0700 (PDT)
+ id 1oFyiF-0000Gg-2m
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:36 -0400
+Received: by mail-wr1-x429.google.com with SMTP id h8so16115847wrw.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jNWPEy+XnytumBC/Srj6YaFH4JrGJodkvAAc76627RY=;
- b=bYoLgcOR+OP02jBknYaZAZZ1i0VMBlHS8jukDi1gsVfT+awdnBtEz92G1g5qJdnCCH
- K3orX0a4TIiO7XARBp76FB1foIWmS5/Sg024kgSfEr9CEX5ZkfK7bxg/Tjy44m5bm6Bw
- OzJuzVDysFaYIYL4cHTV5qGfGrOXURKzT6jcaWf9TY30DQFb4houFY3OlIjKWxU2VrRj
- L1PyGuSGRDeWhYGetycYjleD1kIj+UVMU442e59Q76y8ZOHzBEQ88xLuZSpJfYLaZeIf
- H4U0S5iebgN2/rp/KwQfqvYtaepY3mytsrxv77WYTe/GQBwQo0RnkT/GJ2IIejbfB18J
- 64/A==
+ bh=cE/FR17mvWvfbQ79ls9QY67VkyGl05hhpT8w+cwb150=;
+ b=hTWMAGJQwFLMiT59GBdReM6rgU4k+6uHMiCRCi7v2eXCOXcjWFHip/nAEVDu4krBqb
+ FWT/ujJ5lClEq8o+3BBo7wNscqDEJmClDTpKOq6YuMCRIbjnPFHZ4UUfYuQ4W0pYh9wQ
+ VDa3Jkq2eYmMyhizsq0CfNbcmOe/EXHoOvheuGhDc4u9lBhnYc7hZJECUrOzLwC0SzAF
+ Oa9Byo2yi+YoZHnnHvwZKUvzPqGCQYBVmW2joFU+I/5BemcYRwQlBcxnQq8zqGazP96F
+ tvHRx/Mh4IoomSOnb87AHHJY7mkZhaA4ZqnzM/AbHXtnMq4hrOSmo0ORMqQ9Os4VFa6w
+ d5wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jNWPEy+XnytumBC/Srj6YaFH4JrGJodkvAAc76627RY=;
- b=MD8sjSXugn+iGFKohHSZkubJhF3tipW2K0kDnILUqqL3XRmTZe67i3IsEquYEajlLf
- XOIOnmq72pDOfXMNPhAE0ccUI/cjFTTptwHIW2S9BnqxKLvQqGTbKf3NnlHXzPrG5MOe
- UnUmBIiUGofu1lPoJ20acf/UOzRBOvME3sfEaQodUWLdoQfT0193+4hdt2olUzOc4Z8x
- N8s2ZHAHu/kjZtBphx9i8P+Pwhr0Gaozw5DgSJovTxlE98y/rv2egY5HiF/ppLOcv0cj
- Z1fuUWDm4YxUClhITg1oGiSNi1kiWY+0hikq/+AvA/dRYcxxcAdMJJAjExnii6kSJF8E
- bCjg==
-X-Gm-Message-State: AJIora8oBb98jP4iXp4v/LPQhV2rb6egjXTkvqsayi9Qp1RmL+eKxuhG
- ky0E/X3dRxKzbLQOMsTrBJDHWQ==
-X-Google-Smtp-Source: AGRyM1u+qJcBuHV75Yzlfmuy427h6zd2jqc+aP87F0y2CIQWbUE1q8ohi7ysLalOHbJaWj4ZyW6MSQ==
-X-Received: by 2002:adf:f4d1:0:b0:21e:484e:ac59 with SMTP id
- h17-20020adff4d1000000b0021e484eac59mr7406811wrp.125.1658757932721; 
- Mon, 25 Jul 2022 07:05:32 -0700 (PDT)
+ bh=cE/FR17mvWvfbQ79ls9QY67VkyGl05hhpT8w+cwb150=;
+ b=kBtDKJuMyOmCTKTsko3UuUsJmCiqMxtwjMitptmW2BbacrQ0DFSviSu81UnC7MUAXQ
+ 02BKraEw2RGQH6FIsvHUQlVbLX5LNd0fodIjVn8JaX3u4v9A5JFBmAkwbcRFVVyy6dms
+ yj3ScmHP1vB9c9U0cAktKjpQ64ftc3AWb4Mg9AvcP8GfI/nUk4gWDnDUh3bpBPT1RDWZ
+ ohI5bCwcyEWpRIC0P5xsLwy9umaTte6yQJFzFBCoMzNsrd9ftdXH113Pt/a3qixIxyth
+ A5XKct+sZKBzImkiFOqC0A5Z378DaEvhMOpG+JkujzAUi0SsyKxH/9mkNSM8o8JW5HP1
+ 7N9w==
+X-Gm-Message-State: AJIora+OVE4uquYDIN2be02dMM72z5/JpXgU2bk4kcxZZMpQNiFuBe7Z
+ xROGURRdUsadUpkGwoTC9d2uGQiX53dGUA==
+X-Google-Smtp-Source: AGRyM1vwDe+3GHsUXngqMVygioqBQnH9IWpzwYhjVhP3pBy7qMYDL6g2Wfcrev2Z0PdtvXX2oZAXag==
+X-Received: by 2002:a5d:6c65:0:b0:21d:b7c0:9930 with SMTP id
+ r5-20020a5d6c65000000b0021db7c09930mr7627169wrz.500.1658757933719; 
+ Mon, 25 Jul 2022 07:05:33 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n11-20020a05600c304b00b003a320b6d5eesm17154014wmh.15.2022.07.25.07.05.22
+ j3-20020adfa543000000b0021e150553acsm9422351wrb.14.2022.07.25.07.05.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Jul 2022 07:05:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 21E5C1FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 3950E1FFBF;
  Mon, 25 Jul 2022 15:05:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -62,18 +62,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 06/13] semihosting: Don't return negative values on
- qemu_semihosting_console_write() failure
-Date: Mon, 25 Jul 2022 15:05:13 +0100
-Message-Id: <20220725140520.515340-7-alex.bennee@linaro.org>
+Subject: [PATCH v1 07/13] semihosting: Don't copy buffer after console_write()
+Date: Mon, 25 Jul 2022 15:05:14 +0100
+Message-Id: <20220725140520.515340-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,42 +97,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The documentation comment for qemu_semihosting_console_write() says
- * Returns: number of bytes written -- this should only ever be short
- * on some sort of i/o error.
+The console_write() semihosting function outputs guest data from a
+buffer; it doesn't update that buffer.  It therefore doesn't need to
+pass a length value to unlock_user(), but can pass 0, meaning "do not
+copy any data back to the guest memory".
 
-and the callsites rely on this.  However, the implementation code
-path which sends console output to a chardev doesn't honour this,
-and will return negative values on error.  Bring it into line with
-the other implementation codepaths and the documentation, so that
-it returns 0 on error.
-
-Spotted by Coverity, because console_write() passes the return value
-to unlock_user(), which doesn't accept a negative length.
-
-Resolves: Coverity CID 1490288
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220719121110.225657-2-peter.maydell@linaro.org>
+Message-Id: <20220719121110.225657-3-peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- semihosting/console.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ semihosting/syscalls.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/semihosting/console.c b/semihosting/console.c
-index 5b1ec0a1c3..0f976fe8cb 100644
---- a/semihosting/console.c
-+++ b/semihosting/console.c
-@@ -111,7 +111,8 @@ int qemu_semihosting_console_read(CPUState *cs, void *buf, int len)
- int qemu_semihosting_console_write(void *buf, int len)
- {
-     if (console.chr) {
--        return qemu_chr_write_all(console.chr, (uint8_t *)buf, len);
-+        int r = qemu_chr_write_all(console.chr, (uint8_t *)buf, len);
-+        return r < 0 ? 0 : r;
-     } else {
-         return fwrite(buf, 1, len, stderr);
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 4847f66c02..508a0ad88c 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -627,7 +627,7 @@ static void console_write(CPUState *cs, gdb_syscall_complete_cb complete,
      }
+     ret = qemu_semihosting_console_write(ptr, len);
+     complete(cs, ret ? ret : -1, ret ? 0 : EIO);
+-    unlock_user(ptr, buf, ret);
++    unlock_user(ptr, buf, 0);
+ }
+ 
+ static void console_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
 -- 
 2.30.2
 
