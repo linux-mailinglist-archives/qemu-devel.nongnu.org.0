@@ -2,100 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9F857FB77
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:37:57 +0200 (CEST)
-Received: from localhost ([::1]:51762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BC357FBB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:51:26 +0200 (CEST)
+Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFtb9-0007wS-Re
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:37:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60480)
+	id 1oFtoD-0003Vi-5J
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:51:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFtZR-0006Rj-Jq
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 04:36:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47809)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oFtlV-0001S9-Mx
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 04:48:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFtZN-0003kJ-81
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 04:36:08 -0400
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oFtlS-0005MJ-8V
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 04:48:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658738164;
+ s=mimecast20190719; t=1658738912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=owbknCUQXPLBnhWooxhE3MTlXCtMHLsCXZtfhOTscDc=;
- b=a9ouHEmW9p3EiNSeZ8Zau1ufXQZ2X+yCaUfHrj158h7c9T7kJwI/TOQCCo8r3z3WvbR1ZW
- Pj1scEkqAoN8TQmBEUSyqkBHmB1kd9kCDbLyLbt4fdo/fCyvrruq1+TLE47lQvFGnOyTyD
- /iAkzPj5vu5FR076108L3n2/kVKvthE=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=0Tg5Qa1pHz3gHsPzahvY/yfZr0zoXJw+EtLVjtO4M4c=;
+ b=hOk78Ob2aN62o8Zc9Fn+I2ViYiG3GW72XsIGs73G1FQreGWFVyIXLZIF3D3X7aqSLc7nv9
+ 4iHIGgk3LEVBiQwUDLe+6VI7RbIUnIKeUBSj8/pWH0oKwjW4WZWwycCENx3FTFz4wV9Fco
+ 8rWDUGuip/QJAP4/5ZKLB+wSyMzrlN4=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-2bY-4Jh5OraorG8TOQmFGA-1; Mon, 25 Jul 2022 04:36:02 -0400
-X-MC-Unique: 2bY-4Jh5OraorG8TOQmFGA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- p13-20020ad45f4d000000b0044399a9bb4cso7170188qvg.15
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 01:36:02 -0700 (PDT)
+ us-mta-99-9o4E5rYtNWaR9PTne4U1wA-1; Mon, 25 Jul 2022 04:48:30 -0400
+X-MC-Unique: 9o4E5rYtNWaR9PTne4U1wA-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ u14-20020a056a00098e00b0052b433b04d6so3556281pfg.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 01:48:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=owbknCUQXPLBnhWooxhE3MTlXCtMHLsCXZtfhOTscDc=;
- b=3VRIq+7phVJU2EiacSUZwSup4FZGb4uzrGt3GWABDK8DfJs2TcFEcYtEJXrK6uLxBi
- EsoFKYzTqmGR+5pQL1c9pUvYaseKXZ6jumwmAVXsA2IJpJ9TbKsHt6cHfdm7EN4Rl06R
- KeuqfT2CQf5TTS+qkZu9QrhIF2dNGIoMANcrN6SJuy/Ex+fwLRo6rU5aRZ+2RgT3EZWD
- NL+Wd6kiZQBDtGXmn9Q/RmamsqAzSz+v0VZqVoF/8MoZvtihZm7UuUAL8/qOXiyNGAuC
- WZVWdhMDARWNhkhQ30xSblVC9ytD5MQNKvH/83DtxvWXrb/c0UOKdP07SmTySFQXFc3B
- SpLg==
-X-Gm-Message-State: AJIora/EjPLmUlYxnIHbI9iCLDBDwqV0MxVIMxHIvlZxRYXv6RtJJU7Q
- vF6X3cK4JA/Wua8mhD31hwJBfQlZsgfz7hGMJknsrLSz2Zopjpf5WKo/Z/y+ZgeQjk9T2ZgU3WM
- Mlln54CFC4x2yLXw=
-X-Received: by 2002:a05:620a:4610:b0:6b5:eab2:8342 with SMTP id
- br16-20020a05620a461000b006b5eab28342mr8337695qkb.261.1658738162355; 
- Mon, 25 Jul 2022 01:36:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sPlLhJvEXsn7nZoNFJiOnHgocCZlAEgBbd/HqH0OtihcbviaRI5zsXI584vSC8aXI4S86nnw==
-X-Received: by 2002:a05:620a:4610:b0:6b5:eab2:8342 with SMTP id
- br16-20020a05620a461000b006b5eab28342mr8337677qkb.261.1658738162101; 
- Mon, 25 Jul 2022 01:36:02 -0700 (PDT)
-Received: from [192.168.149.123]
- (58.254.164.109.static.wline.lns.sme.cust.swisscom.ch. [109.164.254.58])
+ bh=0Tg5Qa1pHz3gHsPzahvY/yfZr0zoXJw+EtLVjtO4M4c=;
+ b=RydA5VjkZFGasM6gemyr2R/2nz/HzAN5W+pkOkdk/rzW6qsk7sqv+gROM4O4WGTHSl
+ Y6eUkz7SrvQHAfmkgiSmHPnJ4nPT3oLpFJUOl2iWpWlh0shXFCAxqVvmq/a0zcBcPh9X
+ 8HMgy7Bci6Z3P8XGekhNdKQ+xoj97qYE/8FCEQi3wOrsgljb5im1UAVMxC6dQa8e6X0G
+ wlIijB+nvDTbpOlddu8GWxY8KZTQ6LpRxRIJlFguq9HervdwdWpkmmR3RTHophEUyohb
+ I8tFbDpZY+5XG9zy9fML777CDQqpTCdvLIIReI83yLg27ctbL6E9R8AoPcCcp2nRWbDI
+ QAIA==
+X-Gm-Message-State: AJIora8h2iy3kqT9FFXsmjejcqDZD75Q8TA2tjwKZSDgkkljA5LMt1h0
+ yF/NdnTkcRvqkIdr9kmxLDchQ7Uej3xNnvdNxy5Xa71UYxvLhIffrT8g25mlbHH6I6R3aRlbnDR
+ QH8Q9IuVju3e86Ng=
+X-Received: by 2002:a17:902:d2d1:b0:16d:37b3:f8b3 with SMTP id
+ n17-20020a170902d2d100b0016d37b3f8b3mr11036969plc.98.1658738909247; 
+ Mon, 25 Jul 2022 01:48:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uoKcbzU6AfJAud7muo1xckB1xdS2kPMyZ5ea+CsXyC14+whbBue1hBFUWLlf4FAoOTfZdBAA==
+X-Received: by 2002:a17:902:d2d1:b0:16d:37b3:f8b3 with SMTP id
+ n17-20020a170902d2d100b0016d37b3f8b3mr11036936plc.98.1658738908869; 
+ Mon, 25 Jul 2022 01:48:28 -0700 (PDT)
+Received: from [10.72.13.203] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- x8-20020a05620a12a800b006b5b7a8e6a2sm8016525qki.23.2022.07.25.01.36.00
+ s4-20020a170903200400b0016c67a3b7d0sm8563753pla.61.2022.07.25.01.48.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 01:36:01 -0700 (PDT)
-Message-ID: <78a1a230-e5ca-5956-4462-b1efc8a4c61f@redhat.com>
-Date: Mon, 25 Jul 2022 10:35:58 +0200
+ Mon, 25 Jul 2022 01:48:28 -0700 (PDT)
+Message-ID: <8e0e690d-d6af-db2f-5150-480a5d5d6793@redhat.com>
+Date: Mon, 25 Jul 2022 16:48:20 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.2.0
-Subject: Re: [RFC PATCH 3/8] RFC: block: use transactions as a replacement of
- ->{can_}set_aio_context()
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v4 3/7] vdpa: Make vhost_vdpa_net_cvq_map_elem accept any
+ out sg
 Content-Language: en-US
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, qemu-block@nongnu.org
-References: <20220712211911.1302836-1-eesposit@redhat.com>
- <20220712211911.1302836-4-eesposit@redhat.com>
- <c8b42a96-8a69-48d4-00cf-28e60363cd93@yandex-team.ru>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-In-Reply-To: <c8b42a96-8a69-48d4-00cf-28e60363cd93@yandex-team.ru>
-Content-Type: text/plain; charset=UTF-8
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
+ <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cornelia Huck
+ <cohuck@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>
+References: <20220722111245.3403062-1-eperezma@redhat.com>
+ <20220722111245.3403062-4-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220722111245.3403062-4-eperezma@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,144 +114,85 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+在 2022/7/22 19:12, Eugenio Pérez 写道:
+> So its generic enough to accept any out sg buffer and we can inject
+> NIC state messages.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   net/vhost-vdpa.c | 29 +++++++++++++++--------------
+>   1 file changed, 15 insertions(+), 14 deletions(-)
+>
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 1b82ac2e07..bbe1830824 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -302,35 +302,36 @@ dma_map_err:
+>   }
+>   
+>   /**
+> - * Copy the guest element into a dedicated buffer suitable to be sent to NIC
+> + * Maps out sg and in buffer into dedicated buffers suitable to be sent to NIC
+>    *
+> - * @iov: [0] is the out buffer, [1] is the in one
+> + * @dev_iov: [0] is the out buffer, [1] is the in one
 
-Am 20/07/2022 um 16:09 schrieb Vladimir Sementsov-Ogievskiy:
-> On 7/13/22 00:19, Emanuele Giuseppe Esposito wrote:
->> +/*
->> + * @visited will accumulate all visited BdrvChild object. The caller is
->> + * responsible for freeing the list afterwards.
->> + */
->> +bool bdrv_change_aio_context(BlockDriverState *bs, AioContext *ctx,
->> +                             GSList **visited, Transaction *tran,
->> +                             Error **errp)
->> +{
->> +    BdrvChild *c;
->> +    BdrvStateSetAioContext *state;
->> +
->> +    GLOBAL_STATE_CODE();
->> +
->> +    if (bdrv_get_aio_context(bs) == ctx) {
->> +        return true;
->> +    }
->> +
->> +    QLIST_FOREACH(c, &bs->parents, next_parent) {
->> +        if (!bdrv_parent_change_aio_context(c, ctx, visited, tran,
->> errp)) {
->> +            return false;
->> +        }
->> +    }
->> +
->> +    QLIST_FOREACH(c, &bs->children, next) {
->> +        if (!bdrv_child_change_aio_context(c, ctx, visited, tran,
->> errp)) {
->> +            return false;
->> +        }
->> +    }
->> +
->> +    state = g_new(BdrvStateSetAioContext, 1);
->> +    *state = (BdrvStateSetAioContext) {
->> +        .new_ctx = ctx,
->> +        .bs = bs,
->> +    };
->> +
->> +    /* First half of transactions are drains */
->> +    tran_add(tran, &drained_begin_end, state);
->> +    /*
->> +     * Second half of transactions takes care of setting the
->> +     * AioContext and free the state
->> +     */
->> +    tran_add_tail(tran, &set_aio_context, state);
->> +
->> +    return true;
->> +}
-> 
-> 
-> First, it looks like you want to use .commit() as .prepare(), .clean()
-> as commit(), and .prepare() as something that just schedule other actions.
-> 
-> In block transaction any effect that is visible to other transaction
-> actions should be done in .prepare(). (and .prepare is the main function
-> of the action with *tran parameter, i.e. bdrv_change_aio_context()
-> function is actually .prepare() phase).
-> 
-> So, ideally, the action:
-> 
->  - does the complete thing in .prepare (i.e. in the main function of the
-> action)
->  - rollback it in .abort
->  - nothing in .commit
-> 
-> Usually we still need a .commit phase for irreversible part of the
-> action (like calling free() on the object). But that should be
-> transparent for other actions.
-> 
-> So, generally we do:
-> 
-> tran = tran_new()
-> 
-> action_a(..., tran);
-> action_b(..., tran);
-> action_c(..., tran);
-> 
-> 
-> And we expect, that action_b() operates on top of action_a() already
-> done. And action_c() operate on top of action_b() done. So we cannot
-> postpone visible (to other actions) effect of the action to .commit phase.
-> 
-> So, for example, if you want a kind of smart drained section in
-> transaction, you may add simple
-> 
-> bdrv_drain_tran(..., tran);
-> 
-> that just call drained_begin(), and have only .clean() handler that call
-> drained_end(). This way you may do
-> 
-> bdrv_drain_tran(...., tran);
-> action_a(..., tran);
-> action_b(..., tran);
-> 
-> And be sure that both actions and all their .abort/.commit/.clean
-> handlers are called inside drained seaction. Isn't it what you need?
 
-I understand how you see transactions, but I think we can also use them
-in a different way than intended (with proper documentation).
+This still has assumption on the layout. I wonder if it's better to 
+simply use in_sg and out_sg.
 
-I don't think it makes sense to use transactions as rollback in this
-case, even though with the coming v2 it would be more similar to what
-you propose:
+Thanks
 
-.prepare takes care of drain and checking if the node is ok
-.commit changes the aiocontext lock only if all nodes are drained and
-passed the test
-.clean undrains (drained end)
 
-> 
-> 
-> Second, this all becomes extremely difficult when we mix transactions
-> and recursion. When I moved permission system to transactions, I've
-> introduced topological dfs search to just get a list of nodes to handle.
-> I think, if we want to rework aio context change, we should first get
-> rid of recursion.
-> 
-
-I honestly don't see how recursion complicates things. It's just graph
-traversal, and building a list of things to do while doing that.
-
-Isn't it much more complex to do it with a loop (ie not recursively?).
-Your bdrv_topological_dfs is recursive too.
-
-Think about it as 2 separate steps:
-- Recursion takes care of checking the nodes and draining them
-- Once done, if all nodes are ready to switch, switch linearly by
-iterating in a list of callbacks
-
-Anyways, I am probably not going to wait your feedback and send v2 just
-because I think the way I did this double transaction list in v1
-confuses people.
-
-Feel free to continue the discussion here or in v2 directly, though.
-
-Thank you,
-Emanuele
+>    */
+> -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+> -                                        VirtQueueElement *elem,
+> -                                        struct iovec *iov)
+> +static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
+> +                                      const struct iovec *out, size_t out_num,
+> +                                      struct iovec *dev_iov)
+>   {
+>       size_t in_copied;
+>       bool ok;
+>   
+> -    iov[0].iov_base = s->cvq_cmd_out_buffer;
+> -    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->out_num,
+> -                                vhost_vdpa_net_cvq_cmd_len(), iov[0].iov_base,
+> -                                &iov[0].iov_len, false);
+> +    dev_iov[0].iov_base = s->cvq_cmd_out_buffer;
+> +    ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num,
+> +                                vhost_vdpa_net_cvq_cmd_len(),
+> +                                dev_iov[0].iov_base, &dev_iov[0].iov_len,
+> +                                false);
+>       if (unlikely(!ok)) {
+>           return false;
+>       }
+>   
+> -    iov[1].iov_base = s->cvq_cmd_in_buffer;
+> +    dev_iov[1].iov_base = s->cvq_cmd_in_buffer;
+>       ok = vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
+> -                                sizeof(virtio_net_ctrl_ack), iov[1].iov_base,
+> -                                &in_copied, true);
+> +                                sizeof(virtio_net_ctrl_ack),
+> +                                dev_iov[1].iov_base, &in_copied, true);
+>       if (unlikely(!ok)) {
+>           vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffer);
+>           return false;
+>       }
+>   
+> -    iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
+> +    dev_iov[1].iov_len = sizeof(virtio_net_ctrl_ack);
+>       return true;
+>   }
+>   
+> @@ -434,7 +435,7 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
+>       };
+>       bool ok;
+>   
+> -    ok = vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
+> +    ok = vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->out_num, dev_buffers);
+>       if (unlikely(!ok)) {
+>           goto out;
+>       }
 
 
