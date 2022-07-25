@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9320B580085
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:12:16 +0200 (CEST)
-Received: from localhost ([::1]:48988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C02C58008C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:14:10 +0200 (CEST)
+Received: from localhost ([::1]:53798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyoh-0000Vp-9Y
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47748)
+	id 1oFyqX-0003kK-Id
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiB-0000st-SS
+ id 1oFyiB-0000sy-Su
  for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:34 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:38576)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyi9-0000FF-IV
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:30 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k11so15663607wrx.5
+ id 1oFyi8-0000Ey-Uj
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:31 -0400
+Received: by mail-wr1-x430.google.com with SMTP id z13so16112310wro.13
  for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cuuXQH2wboaX5IPGA3m9AhAnhitniNjGQ5r1hTwm0bY=;
- b=NKZuv0qNEGzTKaUIUTmBpxVY44OUXGUntwZsgd7wz/7aQxYVFnSfZO3hrkuiUyK2TB
- lEItGRSpa4+WbUhClr4ZFZMW5MjGouq3EydCRsm+1YKkam2aCddFwfPmq9cfOGfjEMTv
- W6i2+Vz/NLWX4711waSi41Cx6iAwWNntx05HaYI4HahZ365XkUICbMQnKjzhiJbNspRz
- cpoR3tywPRIZquZxMGok718TAnFieNXj3qUQHUH1ZTkKAV5K1klc5s3LCiIwrY8iLRWF
- g4zBbeL6kjWXkbX2+gr/GH8PHYao/RZhFVhGozbdSIMnkKZtthqaORSR4k4JFHmHs4hC
- r8MA==
+ bh=mTwSnZFRTEa2KBmATJIqMqf3rBKFb32A5FdFD315qZw=;
+ b=a9pEPQ0BccKEbo3o4aw5pE66feGjwsfTdqNxNzwwLJPSeC9cZo2+Du6wCibdlZbkKi
+ SVq/+Yl/ursEQy9wH/n6jccD7olbn05VZAPMj5ILtirMhj11EDb7b1zyWWRbI0U7W4hZ
+ d/PqJt5kTl/899/ACH8ZLOByez327iTf6emrqsYg1JkLy4MwKdPnmpbS2effrEkKGIhN
+ ttMjr9frp5Bw6IUV9H6RTETDWHXRS3rF8W7NzvLOtPcQeKXthyqp1a39OsanU6RNRq74
+ //6DLkhFEjC79/N2n+C2jpO40pwhqXNCbqhn3jA98Nbz/WvFOyF6C5B/APtt5slAd9J0
+ Oy4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cuuXQH2wboaX5IPGA3m9AhAnhitniNjGQ5r1hTwm0bY=;
- b=giC7QMoV+1PYej1BEce++VilB3ny+rLGOm6MLWz6fhqJPCVbKgEXcJgq853i4RssqC
- tygfeCswuwaKEa4ulgzLaliKixLoUAEQV3U08AuY5/7cCaeVrRK2V3RWfFc6zxt0ru8I
- OYW5LqKd68rIjIGMORUwBRAJXio3QWhJvETa57WgfgOfAjmi9O8w5wdRcRJhP7pnp76a
- +OCElo5TrlDZJw9fapvR9WWSmy7L7YzPkflBVqDdWsKmvmSyzWedA2svyaUKzAdm+uRZ
- y+MVD3tmkFG+Pdly72U7gG9Zb3XCZdVDnZ+NesnAjeBChkBDc8Fu6kHSgVT/D5DtR2iw
- ZziQ==
-X-Gm-Message-State: AJIora8PlwaV2B4akFnIILsetFbaVvaGOVgw365srOmrZF5jTaz4Djcd
- EXaxDrVH/dziD5O94/X8DjxIlA==
-X-Google-Smtp-Source: AGRyM1urw2DBqBmWaVL+d+C7TFw0OoYLb1ospBLWszAYL18Us8oScYowis3dM2O8lMprpch0zlM6mA==
-X-Received: by 2002:a5d:6484:0:b0:21e:8ab7:fbc9 with SMTP id
- o4-20020a5d6484000000b0021e8ab7fbc9mr3295507wri.316.1658757927898; 
+ bh=mTwSnZFRTEa2KBmATJIqMqf3rBKFb32A5FdFD315qZw=;
+ b=nteWqKTm/kNQlYgnAFU3M8nOu9rG76RFy/k//IZEVIwpBHnlKbfQmeR8wFxcES10vF
+ a8/Pjv9xM1+jr+VZHpQK9+utnYiXQr32Duq78ZYHTPPKFI5sOf/dHAu04laCLVALoK6H
+ xTjANjYpjXkF5GTFCaAl8K+2ewg4azcBJm6UNcrAohgAt74CVY3uy6PvdoNoNTUUX454
+ i5ZlEdJ0HisXsalaGiF/6lLrL9GBII67i+Q2+unEpsyNJIDBDqDnxfxkm24FfEOUG9sb
+ l5gbpyy4XvnSy2uencbtAZyX9LwdM1GZHj28tIMEWgs09Vn0mPEMlRSdj6Scfn6YETDZ
+ 9BJw==
+X-Gm-Message-State: AJIora+7Bo4CJBNN+FAbtA+1myKOPWQOWTxG85KsuH6a0GhbOdGGaoAq
+ 0pXR80SNKJXxqWUEoivuuf9eHg==
+X-Google-Smtp-Source: AGRyM1sYKjcfu63fLhkeDHNPyPUNSQ29LnFR29xwNaGba/VAB50aykrIY3DxqLM6W8OUyIQ7MiRkjg==
+X-Received: by 2002:adf:f747:0:b0:21e:8e2a:7cbc with SMTP id
+ z7-20020adff747000000b0021e8e2a7cbcmr2278065wrp.342.1658757927086; 
  Mon, 25 Jul 2022 07:05:27 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q26-20020a056000137a00b0021e0147da47sm11935452wrz.96.2022.07.25.07.05.21
+ m6-20020a05600c4f4600b003a3442f1229sm10926905wmq.29.2022.07.25.07.05.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Jul 2022 07:05:24 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DCBB51FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id F3AFB1FFBC;
  Mon, 25 Jul 2022 15:05:20 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [PATCH  v1 03/13] gitlab: drop 'containers-layer2' stage
-Date: Mon, 25 Jul 2022 15:05:10 +0100
-Message-Id: <20220725140520.515340-4-alex.bennee@linaro.org>
+ peter.maydell@linaro.org, Bin Meng <bin.meng@windriver.com>,
+ Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 04/13] .cirrus.yml: Change winsymlinks to 'native'
+Date: Mon, 25 Jul 2022 15:05:11 +0100
+Message-Id: <20220725140520.515340-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
@@ -97,137 +96,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Since we express dependancies via a 'needs' clause, we don't need to
-split container builds into separate stages. GitLab happily lets jobs
-depend on other jobs in the same stage and will run them when possible.
+At present winsymlinks is set to 'nativestrict', and its behavior is:
 
+  a) if native symlinks are enabled and <target> exists, creates
+     <destination> as a native Windows symlink;
+  b) else if native symlinks are not enabled or if <target> does
+     not exist, 'ln -s' fails.
+
+This causes the following error message was seen during the configure:
+
+  "ln: failed to create symbolic link
+  'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
+
+Change winsymlinks to 'native' whose behavior is most similar to the
+behavior of 'ln -s' on *nix, that is:
+
+  a) if native symlinks are enabled, and whether <target> exists
+     or not, creates <destination> as a native Windows symlink;
+  b) else if native symlinks are not enabled, and whether <target>
+     exists or not, 'ln -s' creates as a Windows shortcut file.
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Acked-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20220722130431.2319019-4-berrange@redhat.com>
+Reviewed-by: Yonggang Luo <luoyonggang@gmail.com>
+Message-Id: <20220719161230.766063-1-bmeng.cn@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/container-cross.yml | 24 ++++++++++++------------
- .gitlab-ci.d/stages.yml          |  1 -
- 2 files changed, 12 insertions(+), 13 deletions(-)
+ .cirrus.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/container-cross.yml b/.gitlab-ci.d/container-cross.yml
-index b7963498a3..505b267542 100644
---- a/.gitlab-ci.d/container-cross.yml
-+++ b/.gitlab-ci.d/container-cross.yml
-@@ -1,20 +1,20 @@
- alpha-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-alpha-cross
- 
- amd64-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-amd64-cross
- 
- amd64-debian-user-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-all-test-cross
-@@ -65,21 +65,21 @@ hexagon-cross-container:
- 
- hppa-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-hppa-cross
- 
- m68k-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-m68k-cross
- 
- mips64-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mips64-cross
-@@ -92,7 +92,7 @@ mips64el-debian-cross-container:
- 
- mips-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-mips-cross
-@@ -105,7 +105,7 @@ mipsel-debian-cross-container:
- 
- powerpc-test-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian11-container']
-   variables:
-     NAME: debian-powerpc-test-cross
-@@ -127,7 +127,7 @@ riscv64-debian-cross-container:
- # we can however build TCG tests using a non-sid base
- riscv64-debian-test-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian11-container']
-   variables:
-     NAME: debian-riscv64-test-cross
-@@ -140,21 +140,21 @@ s390x-debian-cross-container:
- 
- sh4-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-sh4-cross
- 
- sparc64-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-sparc64-cross
- 
- tricore-debian-cross-container:
-   extends: .container_job_template
--  stage: containers-layer2
-+  stage: containers
-   needs: ['amd64-debian10-container']
-   variables:
-     NAME: debian-tricore-cross
-diff --git a/.gitlab-ci.d/stages.yml b/.gitlab-ci.d/stages.yml
-index f50826018d..f92f57a27d 100644
---- a/.gitlab-ci.d/stages.yml
-+++ b/.gitlab-ci.d/stages.yml
-@@ -3,6 +3,5 @@
- #  - test (for test stages, using build artefacts from a build stage)
- stages:
-   - containers
--  - containers-layer2
-   - build
-   - test
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 20843a420c..eac39024f2 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -10,7 +10,7 @@ windows_msys2_task:
+     memory: 8G
+   env:
+     CIRRUS_SHELL: powershell
+-    MSYS: winsymlinks:nativestrict
++    MSYS: winsymlinks:native
+     MSYSTEM: MINGW64
+     MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.sfx.exe
+     MSYS2_FINGERPRINT: 0
 -- 
 2.30.2
 
