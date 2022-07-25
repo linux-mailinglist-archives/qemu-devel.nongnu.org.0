@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A19858008E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:15:42 +0200 (CEST)
-Received: from localhost ([::1]:56968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE81580082
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:11:09 +0200 (CEST)
+Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFys1-00065u-EH
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
+	id 1oFync-0006bU-69
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:11:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiH-0000w2-59
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:37 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34425)
+ id 1oFyiD-0000t7-PJ
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:34 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:38575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyiF-0000Gg-2m
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:36 -0400
-Received: by mail-wr1-x429.google.com with SMTP id h8so16115847wrw.1
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:34 -0700 (PDT)
+ id 1oFyiC-0000Fk-3Q
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:05:33 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id k11so15663810wrx.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 07:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cE/FR17mvWvfbQ79ls9QY67VkyGl05hhpT8w+cwb150=;
- b=hTWMAGJQwFLMiT59GBdReM6rgU4k+6uHMiCRCi7v2eXCOXcjWFHip/nAEVDu4krBqb
- FWT/ujJ5lClEq8o+3BBo7wNscqDEJmClDTpKOq6YuMCRIbjnPFHZ4UUfYuQ4W0pYh9wQ
- VDa3Jkq2eYmMyhizsq0CfNbcmOe/EXHoOvheuGhDc4u9lBhnYc7hZJECUrOzLwC0SzAF
- Oa9Byo2yi+YoZHnnHvwZKUvzPqGCQYBVmW2joFU+I/5BemcYRwQlBcxnQq8zqGazP96F
- tvHRx/Mh4IoomSOnb87AHHJY7mkZhaA4ZqnzM/AbHXtnMq4hrOSmo0ORMqQ9Os4VFa6w
- d5wA==
+ bh=QS8/Mz4m9SIuDGhgYB4lvPLK9Hni5wZ7MVsQ4sSUUEo=;
+ b=hF6YZy1VAcTK6qC1lTDtiUryQZ2Z8uxqJk6BbwyoJJu+/4lSm98/cdut9K+znTnWqh
+ fZZiJsYlwujll5l3T/iesUTUrLTo6hiezc8grwPcrBLdxA0EnJKknzcgVmgmhDN3kEL9
+ wpGMR7IVTsmzBtq/6Cq/p8Pa7HvHuC2go5//XpCGk7vYlfxKmoTe9n2DBy05RLmBMKkG
+ DtqJ4g1iVgt8HZGrfKepWt+SzEoH3ztlY6/0zqD2XMnCpD9HCGnY+gAsneqoNb3C9MYz
+ D6J069kb9TsfEXkKpGWAk1ZauAwL3Ie8Nj+D4YZwvJluM10cg7kvAhBuOWqtoUnM3nl3
+ VxeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cE/FR17mvWvfbQ79ls9QY67VkyGl05hhpT8w+cwb150=;
- b=kBtDKJuMyOmCTKTsko3UuUsJmCiqMxtwjMitptmW2BbacrQ0DFSviSu81UnC7MUAXQ
- 02BKraEw2RGQH6FIsvHUQlVbLX5LNd0fodIjVn8JaX3u4v9A5JFBmAkwbcRFVVyy6dms
- yj3ScmHP1vB9c9U0cAktKjpQ64ftc3AWb4Mg9AvcP8GfI/nUk4gWDnDUh3bpBPT1RDWZ
- ohI5bCwcyEWpRIC0P5xsLwy9umaTte6yQJFzFBCoMzNsrd9ftdXH113Pt/a3qixIxyth
- A5XKct+sZKBzImkiFOqC0A5Z378DaEvhMOpG+JkujzAUi0SsyKxH/9mkNSM8o8JW5HP1
- 7N9w==
-X-Gm-Message-State: AJIora+OVE4uquYDIN2be02dMM72z5/JpXgU2bk4kcxZZMpQNiFuBe7Z
- xROGURRdUsadUpkGwoTC9d2uGQiX53dGUA==
-X-Google-Smtp-Source: AGRyM1vwDe+3GHsUXngqMVygioqBQnH9IWpzwYhjVhP3pBy7qMYDL6g2Wfcrev2Z0PdtvXX2oZAXag==
-X-Received: by 2002:a5d:6c65:0:b0:21d:b7c0:9930 with SMTP id
- r5-20020a5d6c65000000b0021db7c09930mr7627169wrz.500.1658757933719; 
- Mon, 25 Jul 2022 07:05:33 -0700 (PDT)
+ bh=QS8/Mz4m9SIuDGhgYB4lvPLK9Hni5wZ7MVsQ4sSUUEo=;
+ b=7KPRrrIqL4D5G0T0FMpzk5k2VKeOhh/Ilfip13DWU7KWsVqTC2/yN2tVp5kfOmoDhJ
+ lFS9YB7phuGizre2+hLx7+7L5n2NHYvzoReYxYlHtEaIeWq/hnsPIROFK449AC/lPxNa
+ 5NKkAo78XAYk60qMULvAG0Bg+Z+R6DWx9RAGS+OrAJu54xT6H+lhKuVWBcWHes9PYD8+
+ cxKnfqfAJnT0gVMl5un9v/NhLTRs4VrS/4CKVI2aoWLE6CQ3XoygN3MQJYur2jc4Rqo9
+ tswMCyUXY+KTtg4sw9Te+HGq2NQiW4wIv/B/YoVva07/RWkO2xZjqFOXC2hs1Sw+o9/m
+ mi2g==
+X-Gm-Message-State: AJIora8qiG34iBBWQKY7AxoNjJsIrZYsPFECANtfvhqqSCw9pyag0dwV
+ tygorfFnI8LoKgvgFpnHQvnWDARzr1/Ejw==
+X-Google-Smtp-Source: AGRyM1ug4ZGilnwe4U2/U1lxPPTx/Pc4TAt6nbEySY+9O7YlH0tkemRiU0VR984F+iz4XFxsmvFlug==
+X-Received: by 2002:a5d:434a:0:b0:21d:aa7e:b1bb with SMTP id
+ u10-20020a5d434a000000b0021daa7eb1bbmr8292689wrr.619.1658757930685; 
+ Mon, 25 Jul 2022 07:05:30 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j3-20020adfa543000000b0021e150553acsm9422351wrb.14.2022.07.25.07.05.23
+ f8-20020a05600c4e8800b003a31673515bsm20185235wmq.7.2022.07.25.07.05.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 25 Jul 2022 07:05:25 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3950E1FFBF;
+ by zen.linaroharston (Postfix) with ESMTP id 45A071FFC0;
  Mon, 25 Jul 2022 15:05:21 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -62,17 +62,17 @@ Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
  peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 07/13] semihosting: Don't copy buffer after console_write()
-Date: Mon, 25 Jul 2022 15:05:14 +0100
-Message-Id: <20220725140520.515340-8-alex.bennee@linaro.org>
+Subject: [PATCH  v1 08/13] semihosting: Check for errors on SET_ARG()
+Date: Mon, 25 Jul 2022 15:05:15 +0100
+Message-Id: <20220725140520.515340-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220725140520.515340-1-alex.bennee@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,32 +97,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The console_write() semihosting function outputs guest data from a
-buffer; it doesn't update that buffer.  It therefore doesn't need to
-pass a length value to unlock_user(), but can pass 0, meaning "do not
-copy any data back to the guest memory".
+The SET_ARG() macro returns an error indication; we check this in the
+TARGET_SYS_GET_CMDLINE case but not when we use it in implementing
+TARGET_SYS_ELAPSED.  Check for and handle the errors via the do_fault
+codepath, and update the comment documenting the SET_ARG() and
+GET_ARG() macros to note how they handle memory access errors.
 
+Resolves: Coverity CID 1490287
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220719121110.225657-3-peter.maydell@linaro.org>
+Message-Id: <20220719121110.225657-4-peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- semihosting/syscalls.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ semihosting/arm-compat-semi.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index 4847f66c02..508a0ad88c 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -627,7 +627,7 @@ static void console_write(CPUState *cs, gdb_syscall_complete_cb complete,
-     }
-     ret = qemu_semihosting_console_write(ptr, len);
-     complete(cs, ret ? ret : -1, ret ? 0 : EIO);
--    unlock_user(ptr, buf, ret);
-+    unlock_user(ptr, buf, 0);
- }
+diff --git a/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
+index 1a1e2a6960..d12288fc80 100644
+--- a/semihosting/arm-compat-semi.c
++++ b/semihosting/arm-compat-semi.c
+@@ -171,6 +171,12 @@ static LayoutInfo common_semi_find_bases(CPUState *cs)
+  * Read the input value from the argument block; fail the semihosting
+  * call if the memory read fails. Eventually we could use a generic
+  * CPUState helper function here.
++ * Note that GET_ARG() handles memory access errors by jumping to
++ * do_fault, so must be used as the first thing done in handling a
++ * semihosting call, to avoid accidentally leaking allocated resources.
++ * SET_ARG(), since it unavoidably happens late, instead returns an
++ * error indication (0 on success, non-0 for error) which the caller
++ * should check.
+  */
  
- static void console_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
+ #define GET_ARG(n) do {                                 \
+@@ -739,10 +745,14 @@ void do_common_semihosting(CPUState *cs)
+     case TARGET_SYS_ELAPSED:
+         elapsed = get_clock() - clock_start;
+         if (sizeof(target_ulong) == 8) {
+-            SET_ARG(0, elapsed);
++            if (SET_ARG(0, elapsed)) {
++                goto do_fault;
++            }
+         } else {
+-            SET_ARG(0, (uint32_t) elapsed);
+-            SET_ARG(1, (uint32_t) (elapsed >> 32));
++            if (SET_ARG(0, (uint32_t) elapsed) ||
++                SET_ARG(1, (uint32_t) (elapsed >> 32))) {
++                goto do_fault;
++            }
+         }
+         common_semi_set_ret(cs, 0);
+         break;
 -- 
 2.30.2
 
