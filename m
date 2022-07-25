@@ -2,83 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7231A58000A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:39:12 +0200 (CEST)
-Received: from localhost ([::1]:33126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E2658000B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 15:43:34 +0200 (CEST)
+Received: from localhost ([::1]:36264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFyIh-0002xp-L3
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39170)
+	id 1oFyMv-0005Q8-FK
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 09:43:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyFu-0000WC-30
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:36:18 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:37526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oFyFs-0003ec-Bn
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:36:17 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- c187-20020a1c35c4000000b003a30d88fe8eso9397327wma.2
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 06:36:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=OfmxjlbQnb3FijvcGAPT5HeULIx0pKRwdVq8SzMfjSs=;
- b=KB9whdl/t5xEZC8fgKLrbI3NY+xsGfMT8IKoUHltfTslsSf369wPqfefBvdaTpOofd
- 68ZTv9M6T6JiaKwOXjEYPgh9v4bS5PEtAbCYLrNfM3xdqeztKsM7aPc6V4L5+RQmFe8n
- CD/ZAiI7Ur5CwrqpVH1+cyj8mnWGHnwvv3t1sxOTIYgep8OOcGUlKU7iz4GdXnSinsWk
- hf9dqlLHwX7t8u+h4d7b4uXJKtNdNcgpUBwJJryvlaQV7l2qHuGha3Ume61zRCZa76wv
- tC2SHbyHGFhd8DgLKlfYM+IyiRegWS6wR7zfrLWzdIJqG0KDDUfL3bY3VS3Eg7NFyL4i
- zOtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=OfmxjlbQnb3FijvcGAPT5HeULIx0pKRwdVq8SzMfjSs=;
- b=yj6tgNzhOTIGDmUIvyTn1ZtqN/iGvIbGdZB3k0qYxp3QTnwQUjYLdUxMec+pEJYH/P
- fynvCvIeG9vN/Tq1M8chlJOR2sskGb+lFgSH5TXlYtuqOH8G39qVq4uQwd9xpJ41xGC3
- cA+XCIF6FCBV27lfmqHFGZYFY510zTVEhWiizSfl+H3WHB9s9Mkc/gNJLhDG48UaKxtW
- sSf7JJHgDj3PCqDzL5R3isiYqhlC1ER++dL9IlnBQtAIA+92ejRb2OUu8/ZuvPO7JDTH
- 4rSE0oOaMUPf4JahHrT4qLCYNJSfQ8dspcHMAh6lwY4t3ZJc/a8seuTj+khEz2hYb8nQ
- ZfFQ==
-X-Gm-Message-State: AJIora+SNpe6YVGhnPMCgpZm+erqPNCiCYC8h21PEOzcuwEIAAkVT49B
- K7VuwkPpkO4pRkh3Vxwob1A+eA==
-X-Google-Smtp-Source: AGRyM1vznrB7z6yoQrpD7twpdkIkFJ40PxuHbX2E5VOqrVrcrDnONvsmpYyMojc3s0myM7ijZLrC+A==
-X-Received: by 2002:a05:600c:3786:b0:3a3:19d4:293f with SMTP id
- o6-20020a05600c378600b003a319d4293fmr21883832wmr.116.1658756174379; 
- Mon, 25 Jul 2022 06:36:14 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- s3-20020a05600c384300b003a2d47d3051sm16304328wmr.41.2022.07.25.06.36.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 06:36:13 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1B1741FFB7;
- Mon, 25 Jul 2022 14:36:13 +0100 (BST)
-References: <20220707151037.397324-1-alex.bennee@linaro.org>
-User-agent: mu4e 1.7.27; emacs 28.1.90
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, =?utf-8?Q?C?=
- =?utf-8?Q?=C3=A9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2] qemu-options: bring the kernel and image options
- together
-Date: Mon, 25 Jul 2022 14:36:06 +0100
-In-reply-to: <20220707151037.397324-1-alex.bennee@linaro.org>
-Message-ID: <878rohiab6.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFyKf-0003uI-6e
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:41:13 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:42490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFyKc-0004fG-Nt
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 09:41:12 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26PDKpFZ020813;
+ Mon, 25 Jul 2022 13:41:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=BIV0GJbaNk1AEEPVnFZ7z/2cNKwzNIzBQ5JiuW0IWGQ=;
+ b=jkznFqhH+V1grTDbVOIAX/Nd7eNnHmg1FX9QEIDz1I/G9yLGZMkbuFQjGAQtKgVCzHKY
+ dpsMhdYZ23NIodR0071c7/A7cIKTxsZb65jBJJwQU9IA/B9qZQ7oAsmWIptJkvgk5kQw
+ VgN6LhoEsgq1/+8cE/EZLBRssLPjLKnjP41adT3blO75ycN0XS0dLSklKHnBzU36hkbQ
+ dguZQLsRpgo5TNHFsdGQXicufvskqovjrTFRu1z7f5K2JCVa+2/zRN7h78C8/Y9cEFj3
+ hwGTbmsCUhvNFq6+vIIkTCWGAuXiMLN32Wc6CdVxUqGCAWlT95HsEinGZ5ndfjbebJcB dQ== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhuyv0jw0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jul 2022 13:41:09 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26PDbVbx014404;
+ Mon, 25 Jul 2022 13:41:06 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hg97tah4r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jul 2022 13:41:06 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26PDf2Sf19988946
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Jul 2022 13:41:02 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F01E64C046;
+ Mon, 25 Jul 2022 13:41:01 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A57CD4C040;
+ Mon, 25 Jul 2022 13:41:01 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.40.49])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 25 Jul 2022 13:41:01 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] linux-user: Do not treat madvise()'s advice as a bitmask
+Date: Mon, 25 Jul 2022 15:41:00 +0200
+Message-Id: <20220725134100.128035-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 14-098v0BnuoV7LZoPKHjcuXQ9jNDbEd
+X-Proofpoint-ORIG-GUID: 14-098v0BnuoV7LZoPKHjcuXQ9jNDbEd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-25_09,2022-07-25_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=958 bulkscore=0
+ lowpriorityscore=0 impostorscore=0 mlxscore=0 adultscore=0
+ priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207250057
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,24 +103,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Advice is enum, not flags. Doing (advice & MADV_DONTNEED) also matches
+e.g. MADV_MERGEABLE.
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ linux-user/mmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> How to control the booting of QEMU is often a source of confusion for
-> users. Bring the options that control this together in the manual
-> pages and add some verbiage to describe when each option is
-> appropriate. This attempts to codify some of the knowledge expressed
-> in:
->
->   https://stackoverflow.com/questions/58420670/qemu-bios-vs-kernel-vs-dev=
-ice-loader-file/58434837#58434837
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: C=C3=A9dric Le Goater <clg@kaod.org>
-> Message-Id: <20220622145052.4012981-1-alex.bennee@linaro.org>
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 4e7a6be6ee..edceaca4a8 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -891,7 +891,7 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
+      * anonymous mappings. In this case passthrough is safe, so do it.
+      */
+     mmap_lock();
+-    if ((advice & MADV_DONTNEED) &&
++    if (advice == MADV_DONTNEED &&
+         can_passthrough_madv_dontneed(start, end)) {
+         ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
+     }
+-- 
+2.35.3
 
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
 
