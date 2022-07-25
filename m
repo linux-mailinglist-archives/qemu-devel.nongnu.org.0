@@ -2,73 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D915800BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:28:33 +0200 (CEST)
-Received: from localhost ([::1]:45294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1176E5800C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 16:32:45 +0200 (CEST)
+Received: from localhost ([::1]:50140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFz4S-00017p-Nc
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48028)
+	id 1oFz8V-0004YB-MQ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 10:32:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFyik-0001cR-US
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:06:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47767)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFz50-0001fL-1e
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:29:06 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:29486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFyif-0000KX-PL
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:06:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658757960;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aKHocq3ucPWFmYBIKtek1W2sDX85ef1wrg2w1l/QC/M=;
- b=ZJ6XJyyog9udHwu/eCc+HYkroUypk7gHc36U/QwSmqenm8T2qg8glh2E1pjTZwL1WVfKYu
- dgy1IwXuqdbpkU8UtEYkxA6uh4EWdVYgF42FIeUawB3VTL/Fw7mx5K6PlabiuWos9O0WaI
- nGumQhAgFOhm8p/ku4HLcM6ipDkzB7c=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-BJs8-oU7MxOT3tYPgtDbpQ-1; Mon, 25 Jul 2022 10:05:57 -0400
-X-MC-Unique: BJs8-oU7MxOT3tYPgtDbpQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1CAB48037AA;
- Mon, 25 Jul 2022 14:05:57 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F48D1121314;
- Mon, 25 Jul 2022 14:05:56 +0000 (UTC)
-Date: Mon, 25 Jul 2022 15:05:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH for-7.2 00/10] add hmp 'save-fdt' and 'info fdt' commands
-Message-ID: <Yt6jQRwr+iSjVmcP@redhat.com>
-References: <20220722200007.1602174-1-danielhb413@gmail.com>
- <Yt5eJDhwdQclX5fY@redhat.com>
- <da81ff9a-069b-1a7a-b633-f47696110759@gmail.com>
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1oFz4x-00042Z-Mb
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 10:29:05 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26PECOQZ015546;
+ Mon, 25 Jul 2022 14:29:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=37c9+hO6LBgpz3ru9HTjgiFIqqDQLhr6MCysafOjqRI=;
+ b=ppcDZ6BlNI+PApoYVo1tf21fQT3y/Pi8C2JlZrLT3XT7EjJPJRR1PzHG1nTeNzaJr6Tb
+ ezenyNiAD7NjXvC0gSDrOjEZbuEf6kNabPwNnamVwvBIvU9hurhaP+dMh4B7r29sH2ZL
+ 9lUZXHyMghDMm80vxAvCZqszJK3uFGZN4FcLSNp2GSWoR8WvVdFypZw37/CIB0U9hq03
+ mkLo9Aqc+Xs2HAOVVXpRfCfgijaIbf0GahQsG9bURh5X10UT/FrQ+WIT2ae1AbF4dcRs
+ eHxjn8otjYisBwu7OmPChCd+OgwbpA//NT0u0SBVeKK1RM1+16YQ1nwbpYZ5CZevp8nG Sw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhvqrrjtv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jul 2022 14:29:01 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26PEDPMT017832;
+ Mon, 25 Jul 2022 14:29:01 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hhvqrrjsd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jul 2022 14:29:01 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26PENLqA002848;
+ Mon, 25 Jul 2022 14:28:58 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hg96wjjrs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jul 2022 14:28:58 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26PEQwn418350516
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Jul 2022 14:26:58 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 66C3CA405B;
+ Mon, 25 Jul 2022 14:28:55 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B1A1A4054;
+ Mon, 25 Jul 2022 14:28:55 +0000 (GMT)
+Received: from heavy.lan (unknown [9.171.40.49])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 25 Jul 2022 14:28:55 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH] target/sh4: Honor QEMU_LOG_FILENAME with QEMU_LOG=cpu
+Date: Mon, 25 Jul 2022 16:28:54 +0200
+Message-Id: <20220725142854.177451-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <da81ff9a-069b-1a7a-b633-f47696110759@gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: c2Amv1C5Flez3aIMh9hO0M4LYmgcxZQ8
+X-Proofpoint-GUID: 71qTcRtdsEWL9tRJjHEGgir3mPOj5hoJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-25_09,2022-07-25_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 adultscore=0
+ phishscore=0 clxscore=1011 mlxscore=0 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207250059
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,67 +108,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022 at 10:16:11AM -0300, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 7/25/22 06:11, Daniel P. Berrangé wrote:
-> > On Fri, Jul 22, 2022 at 04:59:57PM -0300, Daniel Henrique Barboza wrote:
-> > > Hi,
-> > > 
-> > > After dealing with a FDT element that isn't being shown in the userspace
-> > > and having to shutdown the guest, dump the FDT using 'machine -dumpdtb' and
-> > > then using 'dtc' to see what was inside the FDT, I thought it was a good
-> > > idea to add extra support for FDT handling in QEMU.
-> > > 
-> > > This series introduces 2 commands. 'fdt-save' behaves similar to what
-> > > 'machine -dumpdtb' does, with the advantage of saving the FDT of a running
-> > > guest on demand. This command is implemented in patch 03.
-> > > 
-> > > The second command, 'info fdt <command>' is more sophisticated. This
-> > > command can print specific nodes and properties of the FDT. A few
-> > > examples:
-> > > 
-> > > - print the /cpus/cpu@0 from an ARM 'virt' machine:
-> > > 
-> > > (qemu) info fdt /cpus/cpu@0
-> > > /cpus/cpu@0 {
-> > >      phandle = <0x8001>
-> > >      reg = <0x0>
-> > >      compatible = 'arm,cortex-a57'
-> > >      device_type = 'cpu'
-> > > }
-> > > (qemu)
-> > > 
-> > > - print the device_type property of the interrupt-controller node of a
-> > > pSeries machine:
-> > > 
-> > > (qemu) info fdt /interrupt-controller/device_type
-> > > /interrupt-controller/device_type = 'PowerPC-External-Interrupt-Presentation'
-> > > (qemu)
-> > 
-> > Please don't add new HMP-only commands. These should be provided
-> > as QMP commands, where the HMP is a tiny shim to the QMP.
-> 
-> I wasn't sure if this would be useful to be in QMP, but perhaps it's better to
-> let QMP consumers to decide whether use it or not.
+When using QEMU_LOG=cpu on sh4, QEMU_LOG_FILENAME is partially ignored.
+Fix by using qemu_fprintf() instead of qemu_printf() in the respective
+places.
 
-That's not a relevant question to consider. The end goal is for HMP
-to be 100% implemented in terms of QMP commands. So if anything is
-required for HMP, then by definition it is also required for QMP.
+Fixes: 90c84c560067 ("qom/cpu: Simplify how CPUClass:cpu_dump_state() prints")
+Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ target/sh4/translate.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-The only question is whether the QMP command should be marked stable
-or unstable. If there's any doubt, that pushes towards the 'unstable'
-side, such that we don't have to promise API compat
-
-With regards,
-Daniel
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index f1b190e7cf..9aadaf52cd 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -171,16 +171,16 @@ void superh_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+     qemu_fprintf(f, "sgr=0x%08x dbr=0x%08x delayed_pc=0x%08x fpul=0x%08x\n",
+                  env->sgr, env->dbr, env->delayed_pc, env->fpul);
+     for (i = 0; i < 24; i += 4) {
+-        qemu_printf("r%d=0x%08x r%d=0x%08x r%d=0x%08x r%d=0x%08x\n",
+-		    i, env->gregs[i], i + 1, env->gregs[i + 1],
+-		    i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
++        qemu_fprintf(f, "r%d=0x%08x r%d=0x%08x r%d=0x%08x r%d=0x%08x\n",
++                     i, env->gregs[i], i + 1, env->gregs[i + 1],
++                     i + 2, env->gregs[i + 2], i + 3, env->gregs[i + 3]);
+     }
+     if (env->flags & DELAY_SLOT) {
+-        qemu_printf("in delay slot (delayed_pc=0x%08x)\n",
+-		    env->delayed_pc);
++        qemu_fprintf(f, "in delay slot (delayed_pc=0x%08x)\n",
++                     env->delayed_pc);
+     } else if (env->flags & DELAY_SLOT_CONDITIONAL) {
+-        qemu_printf("in conditional delay slot (delayed_pc=0x%08x)\n",
+-		    env->delayed_pc);
++        qemu_fprintf(f, "in conditional delay slot (delayed_pc=0x%08x)\n",
++                     env->delayed_pc);
+     } else if (env->flags & DELAY_SLOT_RTE) {
+         qemu_fprintf(f, "in rte delay slot (delayed_pc=0x%08x)\n",
+                      env->delayed_pc);
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.35.3
 
 
