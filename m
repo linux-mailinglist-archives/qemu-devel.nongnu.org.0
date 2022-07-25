@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E64557FAE2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:06:28 +0200 (CEST)
-Received: from localhost ([::1]:59462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2654E57FADD
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 10:06:00 +0200 (CEST)
+Received: from localhost ([::1]:59102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFt6h-0000qA-9h
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48378)
+	id 1oFt6D-0000a8-UH
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 04:05:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFsgU-0004Re-VA
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24384)
+ id 1oFsgP-0004DK-He
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1oFsgJ-0003Gl-Ij
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:22 -0400
+ id 1oFsgG-0003Eu-RR
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 03:39:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658734751;
+ s=mimecast20190719; t=1658734748;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cy2b8cneai4t4g/XTPzXVpXDYIJlnZ1+NOGtoxjCrQY=;
- b=eQUWA+Yfh3lPBo/U38FGZN20qMMP0lwqQhM98VW5DQyNeyDkJcV5muKiuNyA34jslyuJiU
- oePDaQD/XBf1nz3w8d0Pd7sfpmML/3fGcy2ZXyW7suCEwpcYGAfEdD6OaTcIAVs2yO5hta
- plRW1lQR2/giCWHIqh8D47OuBhKh1dI=
+ bh=I3pORQ6PuXiP6Yxws6nIIgtNVljaZ3seoYQ/n1fLhRA=;
+ b=CMY99NmWSViNQxbbi27sMHtDOtW5wXu6axHDK/jNAoY+fVZ3hgFp9n7nydX8h1nZQtTav2
+ tAA2B52AUuhQVXq9W+eTE5kMsYsB0Rj9+cWEsVIoPHGFSAwGoYflueAzI8I0ydV25/J9kV
+ QLYiACMolHY6sfZGG3grRAbwBifDTQ0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-QGoai_AQMDahWucvzAYl-g-1; Mon, 25 Jul 2022 03:39:04 -0400
-X-MC-Unique: QGoai_AQMDahWucvzAYl-g-1
+ us-mta-492-MG9ymYfjNPOpEYOK8EuZkg-1; Mon, 25 Jul 2022 03:39:05 -0400
+X-MC-Unique: MG9ymYfjNPOpEYOK8EuZkg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
  [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4BE09801755;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A29F880418F;
  Mon, 25 Jul 2022 07:39:04 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F07A82166B26;
- Mon, 25 Jul 2022 07:39:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 53C3E2166B26;
+ Mon, 25 Jul 2022 07:39:04 +0000 (UTC)
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 To: qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -53,12 +53,10 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Xie Changlong <xiechanglong.d@gmail.com>,
  Markus Armbruster <armbru@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-devel@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Subject: [PATCH v10 13/21] job: detect change of aiocontext within job
- coroutine
-Date: Mon, 25 Jul 2022 03:38:47 -0400
-Message-Id: <20220725073855.76049-14-eesposit@redhat.com>
+ qemu-devel@nongnu.org, Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: [PATCH v10 14/21] jobs: protect job.aio_context with BQL and job_mutex
+Date: Mon, 25 Jul 2022 03:38:48 -0400
+Message-Id: <20220725073855.76049-15-eesposit@redhat.com>
 In-Reply-To: <20220725073855.76049-1-eesposit@redhat.com>
 References: <20220725073855.76049-1-eesposit@redhat.com>
 MIME-Version: 1.0
@@ -72,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,106 +86,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+In order to make it thread safe, implement a "fake rwlock",
+where we allow reads under BQL *or* job_mutex held, but
+writes only under BQL *and* job_mutex.
 
-We want to make sure access of job->aio_context is always done
-under either BQL or job_mutex. The problem is that using
-aio_co_enter(job->aiocontext, job->co) in job_start and job_enter_cond
-makes the coroutine immediately resume, so we can't hold the job lock.
-And caching it is not safe either, as it might change.
+The only write we have is in child_job_set_aio_ctx, which always
+happens under drain (so the job is paused).
+For this reason, introduce job_set_aio_context and make sure that
+the context is set under BQL, job_mutex and drain.
+Also make sure all other places where the aiocontext is read
+are protected.
 
-job_start is under BQL, so it can freely read job->aiocontext, but
-job_enter_cond is not. In order to fix this, use aio_co_wake():
-the advantage is that it won't use job->aiocontext, but the
-main disadvantage is that it won't be able to detect a change of
-job AioContext.
+Note: at this stage, job_{lock/unlock} and job lock guard macros
+are *nop*.
 
-Calling bdrv_try_set_aio_context() will issue the following calls
-(simplified):
-* in terms of  bdrv callbacks:
-  .drained_begin -> .set_aio_context -> .drained_end
-* in terms of child_job functions:
-  child_job_drained_begin -> child_job_set_aio_context -> child_job_drained_end
-* in terms of job functions:
-  job_pause_locked -> job_set_aio_context -> job_resume_locked
-
-We can see that after setting the new aio_context, job_resume_locked
-calls again job_enter_cond, which then invokes aio_co_wake(). But
-while job->aiocontext has been set in job_set_aio_context,
-job->co->ctx has not changed, so the coroutine would be entering in
-the wrong aiocontext.
-
-Using aio_co_schedule in job_resume_locked() might seem as a valid
-alternative, but the problem is that the bh resuming the coroutine
-is not scheduled immediately, and if in the meanwhile another
-bdrv_try_set_aio_context() is run (see test_propagate_mirror() in
-test-block-iothread.c), we would have the first schedule in the
-wrong aiocontext, and the second set of drains won't even manage
-to schedule the coroutine, as job->busy would still be true from
-the previous job_resume_locked().
-
-The solution is to stick with aio_co_wake(), but then detect every time
-the coroutine resumes back from yielding if job->aio_context
-has changed. If so, we can reschedule it to the new context.
-
-Check for the aiocontext change in job_do_yield_locked because:
-1) aio_co_reschedule_self requires to be in the running coroutine
-2) since child_job_set_aio_context allows changing the aiocontext only
-   while the job is paused, this is the exact place where the coroutine
-   resumes, before running JobDriver's code.
-
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- job.c | 21 +++++++++++++++++++--
- 1 file changed, 19 insertions(+), 2 deletions(-)
+ block/replication.c |  6 ++++--
+ blockjob.c          |  3 ++-
+ include/qemu/job.h  | 19 ++++++++++++++++++-
+ job.c               | 12 ++++++++++++
+ 4 files changed, 36 insertions(+), 4 deletions(-)
 
+diff --git a/block/replication.c b/block/replication.c
+index 55c8f894aa..2189863df1 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -148,8 +148,10 @@ static void replication_close(BlockDriverState *bs)
+     }
+     if (s->stage == BLOCK_REPLICATION_FAILOVER) {
+         commit_job = &s->commit_job->job;
+-        assert(commit_job->aio_context == qemu_get_current_aio_context());
+-        job_cancel_sync(commit_job, false);
++        WITH_JOB_LOCK_GUARD() {
++            assert(commit_job->aio_context == qemu_get_current_aio_context());
++            job_cancel_sync_locked(commit_job, false);
++        }
+     }
+ 
+     if (s->mode == REPLICATION_MODE_SECONDARY) {
+diff --git a/blockjob.c b/blockjob.c
+index 96fb9d9f73..9ff2727025 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
+         bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+     }
+ 
+-    job->job.aio_context = ctx;
++    job_set_aio_context(&job->job, ctx);
+ }
+ 
+ static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
+ {
+     BlockJob *job = c->opaque;
++    assert(qemu_in_main_thread());
+ 
+     return job->job.aio_context;
+ }
+diff --git a/include/qemu/job.h b/include/qemu/job.h
+index 5709e8d4a8..c144aabefc 100644
+--- a/include/qemu/job.h
++++ b/include/qemu/job.h
+@@ -77,7 +77,12 @@ typedef struct Job {
+ 
+     /** Protected by AioContext lock */
+ 
+-    /** AioContext to run the job coroutine in */
++    /**
++     * AioContext to run the job coroutine in.
++     * This field can be read when holding either the BQL (so we are in
++     * the main loop) or the job_mutex.
++     * It can be only written when we hold *both* BQL and job_mutex.
++     */
+     AioContext *aio_context;
+ 
+     /** Reference count of the block job */
+@@ -741,4 +746,16 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
+ int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
+                            Error **errp);
+ 
++/**
++ * Sets the @job->aio_context.
++ * Called with job_mutex *not* held.
++ *
++ * This function must run in the main thread to protect against
++ * concurrent read in job_finish_sync_locked(),
++ * takes the job_mutex lock to protect against the read in
++ * job_do_yield_locked(), and must be called when the coroutine
++ * is quiescent.
++ */
++void job_set_aio_context(Job *job, AioContext *ctx);
++
+ #endif
 diff --git a/job.c b/job.c
-index b0729e2bb2..ecec66b44e 100644
+index ecec66b44e..0a857b1468 100644
 --- a/job.c
 +++ b/job.c
-@@ -585,7 +585,9 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job))
-     timer_del(&job->sleep_timer);
-     job->busy = true;
-     real_job_unlock();
--    aio_co_enter(job->aio_context, job->co);
-+    job_unlock();
-+    aio_co_wake(job->co);
-+    job_lock();
+@@ -394,6 +394,17 @@ Job *job_get(const char *id)
+     return job_get_locked(id);
  }
  
- void job_enter_cond(Job *job, bool(*fn)(Job *job))
-@@ -611,6 +613,8 @@ void job_enter(Job *job)
-  */
- static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
++void job_set_aio_context(Job *job, AioContext *ctx)
++{
++    /* protect against read in job_finish_sync_locked and job_start */
++    assert(qemu_in_main_thread());
++    /* protect against read in job_do_yield_locked */
++    JOB_LOCK_GUARD();
++    /* ensure the coroutine is quiescent while the AioContext is changed */
++    assert(job->pause_count > 0);
++    job->aio_context = ctx;
++}
++
+ /* Called with job_mutex *not* held. */
+ static void job_sleep_timer_cb(void *opaque)
  {
-+    AioContext *next_aio_context;
-+
-     real_job_lock();
-     if (ns != -1) {
-         timer_mod(&job->sleep_timer, ns);
-@@ -622,7 +626,20 @@ static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
-     qemu_coroutine_yield();
-     job_lock();
+@@ -1376,6 +1387,7 @@ int job_finish_sync_locked(Job *job,
+ {
+     Error *local_err = NULL;
+     int ret;
++    assert(qemu_in_main_thread());
  
--    /* Set by job_enter_cond() before re-entering the coroutine.  */
-+    next_aio_context = job->aio_context;
-+    /*
-+     * Coroutine has resumed, but in the meanwhile the job AioContext
-+     * might have changed via bdrv_try_set_aio_context(), so we need to move
-+     * the coroutine too in the new aiocontext.
-+     */
-+    while (qemu_get_current_aio_context() != next_aio_context) {
-+        job_unlock();
-+        aio_co_reschedule_self(next_aio_context);
-+        job_lock();
-+        next_aio_context = job->aio_context;
-+    }
-+
-+    /* Set by job_enter_cond_locked() before re-entering the coroutine.  */
-     assert(job->busy);
- }
+     job_ref_locked(job);
  
 -- 
 2.31.1
