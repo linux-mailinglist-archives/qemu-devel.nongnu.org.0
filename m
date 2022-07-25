@@ -2,164 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1A057FC4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 11:26:20 +0200 (CEST)
-Received: from localhost ([::1]:48236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE63657FC88
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 11:36:14 +0200 (CEST)
+Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFuLz-0002HM-BK
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 05:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
+	id 1oFuVX-0008FH-4e
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 05:36:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oFuK0-0000LM-MW
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:24:16 -0400
-Received: from mail-co1nam11on20612.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::612]:27681
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oFuSA-0005cQ-RE
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:32:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47728)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Pankaj.Gupta@amd.com>)
- id 1oFuJy-0002a6-1o
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:24:16 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WrzFT5MtCs2Btrdz0IkZRQzNnDlmXCtQL32KPXjhRvJxVFrnRbuUM9pn9jfA2J6Orf5U4WlWM3eayabxsnHDEgLqGMnykPklgRktvaz61DR7HZ6MmY5hpm57X1DtjyPbDujbD2WKltyrlYdPnkrxnLxpn+m4xs5FInHS7QcHoEqX3MRzJuZG/g/a6bhPES9j15iG9B5valLF2bqFb8sL7H6/k62/EgXqEdT7J7PjdmlHNRZYg4r5h5wwX4n4ixVEEuSeyN/NrtewRZgxl7KoyL1DBrOB4+emfmxKOBWelJ6ySMliyj098dXfQgVWbbzlmpksp7/+jwviq9+Z6J5TeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f9gJz52bityA0G4eTEvfuw1EK4wdHbEs3XJxz071Qyc=;
- b=MPLdT8Xzz4+wMsAyK1E3RqK83Tbr0/8Y0BljTnr9WPWRbY1x6XI9EgNP1R7SEUu9rsRdaWTxIPZY1vPdTwooIxgsmrFk3ZH7k8iqKVHJ8uEfTBGpNEesX36fBJAlcPxWWYe5eIM73YBK0fJQkb3m3kVR6wgxFL7sKReQlN3QLyaBg2iw6F2tSTefDtOU2KrhjqPg75h3AXavIUTl/o/FshLDMIlNILSg/d3ZTRyVeowMeviFIKUKKfR8L6Amd6ZL7SyMW6t4MoeanTHEw6kyMFcV1HZV4XKKiE+XXyKybqkg+HRXtP0ouP7mqdqk98i3tY8LiC8J2g3Gdqr+lNm5NA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f9gJz52bityA0G4eTEvfuw1EK4wdHbEs3XJxz071Qyc=;
- b=ivEYi1NKyxXbcSIPS5dLH/QOgXrK1TRmNxdRjlqcoH4P9eqA10vqfU4Q4eCcVZ4UGsOM3Ukp6zn1ttsMAElq22WZTq7U3gKtO+lJZLU2SA+2eXQaZJjibcjTHXfWUW94zgOZb8DlAtRWdLT8QR7kCJUs13eq8FzjnJQz8qvGmxQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11) by BY5PR12MB4917.namprd12.prod.outlook.com
- (2603:10b6:a03:1d1::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Mon, 25 Jul
- 2022 09:19:06 +0000
-Received: from CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a]) by CY4PR1201MB0181.namprd12.prod.outlook.com
- ([fe80::1001:3c79:9504:8d6a%10]) with mapi id 15.20.5458.024; Mon, 25 Jul
- 2022 09:19:05 +0000
-Message-ID: <17ce3189-5e88-3c9b-605d-e259dcedece3@amd.com>
-Date: Mon, 25 Jul 2022 11:19:02 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v5 00/13] KVM: mm: fd-based approach for supporting KVM
- guest private memory
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oFuS6-0003x1-R9
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:32:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658741557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yGPU90wcH5aF2ldDWHfAt8U9zVeHE+VrG3GM1F49rF0=;
+ b=ViqAH+vWAiQGONtcwPdxAYSVAbYTZlsVrybDQ7chjhEisffKkAppwLTTGm+3if7cc2CdCu
+ tiCOLHMLV6o3wBp1KQc4q2lodRiUmOIWWScZ3mwbyNVnp2QS65DwBX57hI+DMhuM9qQblE
+ x736QKqqOGTkmPV5ddgjNZrhpSqTU9k=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-205-4Su4VAO1MaitNweBlhlidA-1; Mon, 25 Jul 2022 05:32:36 -0400
+X-MC-Unique: 4Su4VAO1MaitNweBlhlidA-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ f14-20020a170902ce8e00b0016d5e636249so2679777plg.7
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 02:32:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yGPU90wcH5aF2ldDWHfAt8U9zVeHE+VrG3GM1F49rF0=;
+ b=wn9LLAurnvKduBlg2k0+Dq5kR0j9NUMYE5Vdqp4B1cHTcMmQmfKIYgRRt4+Fv3HNHo
+ 7oPCYBeMnXatrPvfHbkV94GUyzqIRri4T2XRBnXTotJupC6ShDEU0Zj1xMUXrVv2qlN/
+ 7wj+ILwWV1czeCzyNCevHssrdFnE2S2ifDHwC+6cIvfJOkrIY6yxlay67qg87kghNePY
+ 2GYyL5/HAHA5qtsbvaLtyrpiON+yl8xR+8A5DMPly1qWI6gBY/SYtF71Mqc8LSxGB/Gd
+ 7WQPsfk4tkgWbQMHtibLHNj2PaGe+GPB6g6HSEIi3wDWhNOZ7iMgQFykSOchVsff8ozw
+ RjMA==
+X-Gm-Message-State: AJIora+j91oCltv7Eb0iomYFGB046ZwH7hXCp0mP5CK9EDsHx1+CzYZC
+ JHbxYiYawm86nTSA1VJPhJJhYoAL3al3JfUwQyhMEbOqZaDOyiRQ0ZuOa6XfncNOHTRohOf6Jht
+ IyyeeajNFOl+dcSk=
+X-Received: by 2002:a63:148:0:b0:41a:53d5:fb04 with SMTP id
+ 69-20020a630148000000b0041a53d5fb04mr10476356pgb.39.1658741554919; 
+ Mon, 25 Jul 2022 02:32:34 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sG0KtI4+zy/TvXK6ir9awAZzpIYBdwW+XltOMdsxNWXJLDeefiVqxT4jpJygSCvHh4jn2XZw==
+X-Received: by 2002:a63:148:0:b0:41a:53d5:fb04 with SMTP id
+ 69-20020a630148000000b0041a53d5fb04mr10476346pgb.39.1658741554668; 
+ Mon, 25 Jul 2022 02:32:34 -0700 (PDT)
+Received: from [10.72.13.203] ([209.132.188.80])
+ by smtp.gmail.com with ESMTPSA id
+ a17-20020aa795b1000000b0050dc762816dsm9002718pfk.71.2022.07.25.02.32.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jul 2022 02:32:33 -0700 (PDT)
+Message-ID: <2530135d-42a6-462e-5835-5e8f948c3f09@redhat.com>
+Date: Mon, 25 Jul 2022 17:32:25 +0800
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v4 6/7] vdpa: Add virtio-net mac address via CVQ at start
 Content-Language: en-US
-To: Andy Lutomirski <luto@kernel.org>, Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,
- Quentin Perret <qperret@google.com>, Michael Roth <michael.roth@amd.com>,
- Steven Price <steven.price@arm.com>, kvm list <kvm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
- Linux API <linux-api@vger.kernel.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Vitaly Kuznetsov <vkuznets@redhat.com>, Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, the arch/x86 maintainers <x86@kernel.org>,
- "H. Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>, "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>, Dave Hansen
- <dave.hansen@intel.com>, Andi Kleen <ak@linux.intel.com>,
- David Hildenbrand <david@redhat.com>, Marc Zyngier <maz@kernel.org>,
- Will Deacon <will@kernel.org>, nikunj@amd.com, ashish.kalra@amd.com
-References: <83fd55f8-cd42-4588-9bf6-199cbce70f33@www.fastmail.com>
- <YksIQYdG41v3KWkr@google.com> <Ykslo2eo2eRXrpFR@google.com>
- <eefc3c74-acca-419c-8947-726ce2458446@www.fastmail.com>
- <Ykwbqv90C7+8K+Ao@google.com> <YkyEaYiL0BrDYcZv@google.com>
- <20220422105612.GB61987@chaop.bj.intel.com>
- <20220509223056.pyazfxjwjvipmytb@amd.com> <YnmjvX9ow4elYsY8@google.com>
- <c3ca63d6-db27-d783-40ca-486b3fbbced7@amd.com> <YtnCyqbI26QfRuOP@google.com>
- <2171cf37-ea82-25c5-ad85-a80519525045@kernel.org>
-From: "Gupta, Pankaj" <pankaj.gupta@amd.com>
-In-Reply-To: <2171cf37-ea82-25c5-ad85-a80519525045@kernel.org>
+To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
+Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
+ <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cornelia Huck
+ <cohuck@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Liuxiangdong <liuxiangdong5@huawei.com>
+References: <20220722111245.3403062-1-eperezma@redhat.com>
+ <20220722111245.3403062-7-eperezma@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220722111245.3403062-7-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: AM5PR1001CA0070.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:206:15::47) To CY4PR1201MB0181.namprd12.prod.outlook.com
- (2603:10b6:910:1f::11)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0fe40321-a29d-4fb4-40ac-08da6e1eb82b
-X-MS-TrafficTypeDiagnostic: BY5PR12MB4917:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ZSz2FxlVn7MaI5zGpyMLVRnxvM5rzwItupVpbKwUttGhbMZx6lCuOOLqSp3BL6MRxkNxJUZAdJNFWd4+zFkgmmIM71urdKNuIK1wEfvhNuUW/qTxPqVo6gGb+nUt4DoI3ge2xfKCpYgnJM9THIc5KeCN+sdRVwDSzc7aYkX4sxKPlCzTV6YSVkE4trUSwU1cAoJWnWUVqYW4l2ivp+cCaWZECDkmD72RlNC4BWugA9vl4cRz7NUtAuWiUi8E28pc6rIL1P+/K827e/4ywKPVaGmuoJbMlooGjvqSVIGEDqe51+/zQjpMT8lj635CWSs7bZ1PBBcStp1r4JkiU6+Z79txe0/z4ZVRAOKeEo5Oy5Wg/raE+SFXMwHrhEWowE4arrCXG3J8D+dAhqc+lUBqmWVry06DPN78ygfXFT4N8hFHKfXiSXBLQF7B8wKt1BqXSVz8PdDTjKyxJQnxpijkQtBZXwNswRNQDsPauwMRnR2VG95c9y1uspyOhyITNhrLnbBAtoMaZ6v+YvoQJfogehgu7VvV4BC88eyn24XyhTRTYisYo2iADsEDwPwYhbOdnM3BSJsjJtvGcK2eZoy6IoHauB3mbWSZH6h2DocoTsffyPMfcIC6eICHGNDBQgpEUXp5ntKSw1f+mAC6dbGUcFxuHYgMbjiS9svuGfv9hzsBZibosAe6XzGWLfJH+C1dDJjPSUq1ugPb2tT0+bycIjLrvs4aABoqZXzOk4HqMvOV02dpg/UuHVS+bjHW2czNNAGxt9y+ovLZHoPtyCGT405vI+5lQOuCNHfMFd0Q7T99tYkyOui9uNHChC6XOgS1CuBf7dxCVz7jW7BeaZ4PGw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CY4PR1201MB0181.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(39860400002)(136003)(346002)(396003)(366004)(376002)(31686004)(36756003)(83380400001)(8936002)(86362001)(31696002)(6512007)(38100700002)(2616005)(6506007)(186003)(478600001)(316002)(41300700001)(6666004)(110136005)(54906003)(6486002)(7406005)(5660300002)(7416002)(8676002)(66946007)(26005)(66476007)(66556008)(4326008)(2906002)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YUVVSWxzUUxzTzlLWDBycWtGZXkzZkt5U09FOXB4OTdxbVRpUWs0dmFRT0cy?=
- =?utf-8?B?Z21GSFhGdm84WFNkOXNCMzFuNVNnZllWTGtmMnZ0ZkJwUHZRcVBGajEraVpK?=
- =?utf-8?B?dTlFSjFGNkNjQ0svSm1UWUszbkY3T3lXNnFpbk9HdlVHRnpoM3N0NjhmNWNK?=
- =?utf-8?B?Y2xDYTFLcTI2Z1hqV0lDME5IL1g4SDkxb3U1UkpXSE1wOC92VjRLem1hLzkw?=
- =?utf-8?B?Sm85UkZ3eUg3NlBIbjhSdzNtMHo4ZGlpZEsxYnJvbXg5Zmo0TUJHTzVlNEVF?=
- =?utf-8?B?aE5ieEl0RUFSUnJHMXdZclU5Wjc0RTlLWjVjTDRCVDVYMFExaFFQRHlPY3Rj?=
- =?utf-8?B?THBkdkFKMS9iaUVmOUNWN1A1SEtBaXJiNXRqOFh4MS9acWJPYmVhd00vMklo?=
- =?utf-8?B?S0ZEK1dFNTAyazNZQlpiYVhRK1ppWkcxWktKb3JBWktxTGozMjNGcWZFbGFH?=
- =?utf-8?B?MjBVSG9pYzk1SlJZbElwVkswQUYwSkdmRTVaRStPa0J0endFdjdkOHFGTEJL?=
- =?utf-8?B?cXFwemNCeDkvdHU3Nm42ZzFlTFEySUpGa1lReDJwZ0VVRGZITEUxMzdGSXVR?=
- =?utf-8?B?T3RvbjVLN1RXZnZBV3dkR3RXSlBhQ1F3Q0VnYmt2WGppdCtqdUVFQUhTN29s?=
- =?utf-8?B?azhYY1h0WmVueENKZlJCNDQ2d21TNU1yVWMzRWQrZW0wL0ptSXE2ZitlNW5t?=
- =?utf-8?B?RXpaSUlJSiswWndXSTlRcUpsVjcxeDM4eGZKb05OV1hzeVZWSm1uNi9DT0lz?=
- =?utf-8?B?ZUhlYW5qcmxodVMxcHlkZldDeU1mWWJrTGNsSXFOd0ZRdkRTUGxIQU12Rlpy?=
- =?utf-8?B?TGhlekxEQVV1aFc3dEplYWVZNzBYZm1HdnNzN3phQVhYMENUMmxnMUlrTnNB?=
- =?utf-8?B?VDVqS2V5L0FzVnI0V1JwRWZ0cUlyaUczMGdoRk9vTnpjQ0VCK0FCbHo1cVlR?=
- =?utf-8?B?dGNoTGxWeVlZMXJ5dVIzMUtaY2o4MnB0OWhyUUc0NkJGL1lMck0yU0k1d0Ru?=
- =?utf-8?B?UXBsNUllSGcxQ3V3L2NKRS94djkzQUQzYlhPd0FkS3o1cGxuRktLU2svSkVU?=
- =?utf-8?B?NHZ1eUtWL2RGeGhtSGF6d1lTank1bkIxTjFvU1RwZEtFOTNvUVJxeWpFUHlv?=
- =?utf-8?B?NzhWeHRwZHh1ZHBmY2x2eUxZb09hVmZyWU1vQUp3Q0pWOUxscFNwdndiZ2Y2?=
- =?utf-8?B?S05SK1RwT0xRM1VhOU8ydEhLenFtZHFwM2hlb0o3NDJ0NGJiM2JENlV5bmwy?=
- =?utf-8?B?RjVzUTdzR2hKNmN0Zlk0WUxhRFZoZG5rekxmZWlUVnV1NmJFblI5V2xWWVdL?=
- =?utf-8?B?TFNEcjdCcUtJK2pRYnlhVnNhaTFaQnNsd2FzWFdTekRwL2JUWmczVUJXU0tk?=
- =?utf-8?B?RUk3RGdJcFlja3dicGxydmJvYmdMekdtTEhsTDBrU2k5MDJCRUFNOWpHbFJp?=
- =?utf-8?B?YWt1OTNUZWRTQUdGaWtPemtqS2o0TTlIVzlOMEtmN3Q4eWxUQ2QwaFY1RW5u?=
- =?utf-8?B?aDA5SmdNazRyd1ZlazdqNEJTd1p3UnJGWlRrbm9LZVpiRU9YUzBvbHQ3TjlF?=
- =?utf-8?B?K1hEdGVMRU9sS3d2NDAxUmFXdnFoK2RydmtQZ2F2dnc1UkgvRHYya0czN3Jl?=
- =?utf-8?B?OU1hNVdMR2Q2WHNwVEJraW9tYzFGUHlXSVRKMHlpWEx0dWdkeHVyWGNYcjh2?=
- =?utf-8?B?cVE3YThLSlZCaFB0SjJWSUtqU1hFbi9LYTBuWlpkZDJhUFlCN2pCQkdmbENk?=
- =?utf-8?B?Y1JXNFE2ZVo3YldGL2RTcHp6UTlGN0JVYlNRaytNMHdENTBqbDY3N3ZrajhE?=
- =?utf-8?B?aUJoS0p5NFdERTFvdHFzdVNENUMzTEFUOFQ0SXpCUDVaQXgvbUIvOFNEWm50?=
- =?utf-8?B?ditvNnZTcVMydzFqRGdhdGp3WFdlcWFXRU54eFV0aDJDUjVlSDZFNjNHN096?=
- =?utf-8?B?RUtMQU5wSlBGams5ZWdCVFV3cWV6UFd3UDNISVViR2xFYjB2dithVEdmVzJG?=
- =?utf-8?B?TWZGb01SalFPcjRuOFBGQzE1bnkxWFBaQVZIbGhLYTRaWUJoZEhROFA0cnZM?=
- =?utf-8?B?YkdOQlhYdW92SklTSUhXYnRvUG4wd1poUGZiZ2lWVEZzZlJvek1yTFBWOHZx?=
- =?utf-8?Q?MxFDuwSJaqD8Ijo94HQzPfzVL?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fe40321-a29d-4fb4-40ac-08da6e1eb82b
-X-MS-Exchange-CrossTenant-AuthSource: CY4PR1201MB0181.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jul 2022 09:19:04.7700 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Eu57ewKcRDTfEijcv744kG5B0ZilckD434KHF/4Fm5vDPDwGoq31MQ8Qr+k2by0ldLNCm51PMOzvD7avPO8zZg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4917
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::612;
- envelope-from=Pankaj.Gupta@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -176,46 +113,102 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
->>>> I view it as a performance problem because nothing stops KVM from 
->>>> copying from
->>>> userspace into the private fd during the SEV ioctl().  What's 
->>>> missing is the
->>>> ability for userspace to directly initialze the private fd, which 
->>>> may or may not
->>>> avoid an extra memcpy() depending on how clever userspace is.
->>> Can you please elaborate more what you see as a performance problem? And
->>> possible ways to solve it?
->>
->> Oh, I'm not saying there actually _is_ a performance problem.  What 
->> I'm saying is
->> that in-place encryption is not a functional requirement, which means 
->> it's purely
->> an optimization, and thus we should other bother supporting in-place 
->> encryption
->> _if_ it would solve a performane bottleneck.
-> 
-> Even if we end up having a performance problem, I think we need to 
-> understand the workloads that we want to optimize before getting too 
-> excited about designing a speedup.
-> 
-> In particular, there's (depending on the specific technology, perhaps, 
-> and also architecture) a possible tradeoff between trying to reduce 
-> copying and trying to reduce unmapping and the associated flushes.  If a 
-> user program maps an fd, populates it, and then converts it in place 
-> into private memory (especially if it doesn't do it in a single shot), 
-> then that memory needs to get unmapped both from the user mm and 
-> probably from the kernel direct map.  On the flip side, it's possible to 
-> imagine an ioctl that does copy-and-add-to-private-fd that uses a 
-> private mm and doesn't need any TLB IPIs.
-> 
-> All of this is to say that trying to optimize right now seems quite 
-> premature to me.
-
-Agree to it. Thank you for explaining!
-
-Thanks,
-Pankaj
+在 2022/7/22 19:12, Eugenio Pérez 写道:
+> This is needed so the destination vdpa device see the same state a the
+> guest set in the source.
+>
+> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> ---
+>   net/vhost-vdpa.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 61 insertions(+)
+>
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 61516b1432..3e15a42c35 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -365,10 +365,71 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(VhostShadowVirtqueue *svq,
+>       return VIRTIO_NET_OK;
+>   }
+>   
+> +static int vhost_vdpa_net_start(NetClientState *nc)
+> +{
+> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
+> +    struct vhost_vdpa *v = &s->vhost_vdpa;
+> +    VirtIONet *n;
+> +    uint64_t features;
+> +    VhostShadowVirtqueue *svq;
+> +
+> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+> +
+> +    if (!v->shadow_vqs_enabled) {
+> +        return 0;
+> +    }
+> +
+> +    if (v->dev->nvqs != 1 &&
+> +        v->dev->vq_index + v->dev->nvqs != v->dev->vq_index_end) {
+> +        /* Only interested in CVQ */
+> +        return 0;
+> +    }
 
 
+I'd have a dedicated NetClientInfo for cvq.
+
+
+> +
+> +    n = VIRTIO_NET(v->dev->vdev);
+> +    features = v->dev->vdev->host_features;
+> +    svq = g_ptr_array_index(v->shadow_vqs, 0);
+> +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
+> +        const struct virtio_net_ctrl_hdr ctrl = {
+> +            .class = VIRTIO_NET_CTRL_MAC,
+> +            .cmd = VIRTIO_NET_CTRL_MAC_ADDR_SET,
+> +        };
+> +        uint8_t mac[6];
+> +        const struct iovec out[] = {
+> +            {
+> +                .iov_base = (void *)&ctrl,
+> +                .iov_len = sizeof(ctrl),
+> +            },{
+> +                .iov_base = mac,
+> +                .iov_len = sizeof(mac),
+> +            },
+> +        };
+> +        struct iovec dev_buffers[2] = {
+> +            { .iov_base = s->cvq_cmd_out_buffer },
+> +            { .iov_base = s->cvq_cmd_in_buffer },
+> +        };
+> +        bool ok;
+> +        virtio_net_ctrl_ack state;
+> +
+> +        ok = vhost_vdpa_net_cvq_map_sg(s, out, ARRAY_SIZE(out), dev_buffers);
+
+
+To speed up the state recovery, can we map those buffers during svq start?
+
+Thanks
+
+
+> +        if (unlikely(!ok)) {
+> +            return -1;
+> +        }
+> +
+> +        memcpy(mac, n->mac, sizeof(mac));
+> +        state = vhost_vdpa_net_cvq_add(svq, dev_buffers);
+> +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[0].iov_base);
+> +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[1].iov_base);
+> +        return state == VIRTIO_NET_OK ? 0 : 1;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>   static NetClientInfo net_vhost_vdpa_info = {
+>           .type = NET_CLIENT_DRIVER_VHOST_VDPA,
+>           .size = sizeof(VhostVDPAState),
+>           .receive = vhost_vdpa_receive,
+> +        .start = vhost_vdpa_net_start,
+>           .cleanup = vhost_vdpa_cleanup,
+>           .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
+>           .has_ufo = vhost_vdpa_has_ufo,
 
 
