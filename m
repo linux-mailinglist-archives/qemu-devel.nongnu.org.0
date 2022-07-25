@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B53057FE62
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:29:41 +0200 (CEST)
-Received: from localhost ([::1]:46636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F8557FE66
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 13:32:08 +0200 (CEST)
+Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFwHM-0001aA-2t
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37122)
+	id 1oFwJj-0003LM-6m
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 07:32:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFwFo-0000A1-RL
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:28:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56172)
+ id 1oFwHJ-0001Zk-74
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:29:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27838)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oFwFl-0005Ti-QU
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:28:03 -0400
+ id 1oFwHE-0005em-1y
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 07:29:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658748480;
+ s=mimecast20190719; t=1658748571;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SPXvXfYBPsKmqug+Z/sHqrC6MzZVUBr6exufPN305T8=;
- b=ZKRvl+kkNTzqK+fWg5wqkOmCTJURxrPXMD5/ym3vpQ1uHEwabBioGjpj2to8d8Ulmer9Hm
- xWqMLfbmINd3Um2kSgYswhFacaoP65PC3FJc2OQaqDCo/5I7vW86HVdwa86y2cutO9RU2Y
- cajXnCvj0BNnQe7IaNeUEBXzN5xewgM=
+ bh=mw+mud1ofr2UYgRSpx1ZK7Xb2PUOXexlMdzs/+lEcVU=;
+ b=GaNLAarVXxcncm4TmMUnYbWdF6vKHbg5oWsro0qXiB9NOToFhLJOoYplGsMBFDu+tE6Qk3
+ llU8PEocv6GRgcGGDuI1X0EeqKbObMvKLftAroNEa+5bNd/zvxXYMyYYcXpW18gA/Mbw/w
+ 9hvONXQvOc5WSoXy2x5/kGl/TAZ+wkY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-320-otXCs-iFM72NPTDluVzBpA-1; Mon, 25 Jul 2022 07:27:57 -0400
-X-MC-Unique: otXCs-iFM72NPTDluVzBpA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-644-oFALs9dHOIauqg83wFTW8g-1; Mon, 25 Jul 2022 07:29:28 -0400
+X-MC-Unique: oFALs9dHOIauqg83wFTW8g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D76C185A7A4;
- Mon, 25 Jul 2022 11:27:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AEE738037AA;
+ Mon, 25 Jul 2022 11:29:27 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.203])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA515C15D67;
- Mon, 25 Jul 2022 11:27:53 +0000 (UTC)
-Date: Mon, 25 Jul 2022 12:27:48 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 890FC2166B26;
+ Mon, 25 Jul 2022 11:29:24 +0000 (UTC)
+Date: Mon, 25 Jul 2022 12:29:19 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: John Snow <jsnow@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>,
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org, Cleber Rosa <crosa@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
-Subject: Re: [PATCH v2 0/3] python/qemu/machine: fix potential hang in QMP
- accept
-Message-ID: <Yt5+NMuW+l4OhDH2@redhat.com>
+ John Snow <jsnow@redhat.com>, Beraldo Leal <bleal@redhat.com>
+Subject: Re: [PATCH v2 3/3] python/qemu/machine: use socketpair() for QMP by
+ default
+Message-ID: <Yt5+jycxnO6Jh1qa@redhat.com>
 References: <20220630123419.1019367-1-marcandre.lureau@redhat.com>
- <CAFn=p-Z1JqriE2iD26pYFycNBZhkxK3wqOcz6KzD-CegFP+qKQ@mail.gmail.com>
- <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
+ <20220630123419.1019367-4-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1C+NEqp-P9BAzT5ADkxVP_pZyvtZPAOVz3R_Xq0w7tCmpg@mail.gmail.com>
+In-Reply-To: <20220630123419.1019367-4-marcandre.lureau@redhat.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -89,58 +87,91 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022 at 03:23:26PM +0400, Marc-André Lureau wrote:
-> Hi
+On Thu, Jun 30, 2022 at 04:34:19PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> On Fri, Jul 1, 2022 at 2:51 AM John Snow <jsnow@redhat.com> wrote:
+> When no monitor address is given, establish the QMP communication through
+> a socketpair() (API is also supported on Windows since Python 3.5)
 > 
-> > On Thu, Jun 30, 2022 at 8:34 AM <marcandre.lureau@redhat.com> wrote:
-> > >
-> > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > Hi,
-> > >
-> > > As reported earlier by Richard Henderson ("virgl avocado hang" thread),
-> > avocado
-> > > tests may hang when QEMU exits before the QMP connection is established.
-> > >
-> > > v2:
-> > >  - use a socketpair() for QMP (instead of async concurrent code from v1)
-> > as
-> > >    suggested by Daniel Berrange.
-> > >  - should not regress (hopefully)
-> > >
-> > > Marc-André Lureau (3):
-> > >   python/qmp/protocol: add open_with_socket()
-> > >   python/qmp/legacy: make QEMUMonitorProtocol accept a socket
-> > >   python/qemu/machine: use socketpair() for QMP by default
-> > >
-> > >  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
-> > >  python/qemu/qmp/legacy.py      | 18 +++++++++++++++---
-> > >  python/qemu/qmp/protocol.py    | 25 ++++++++++++++++++++-----
-> > >  3 files changed, 51 insertions(+), 16 deletions(-)
-> > >
-> > > --
-> > > 2.37.0.rc0
-> > >
-> >
-> > For anything that touches python/qemu/qmp/*, may I please ask that you
-> > submit them to https://gitlab.com/qemu-project/python-qemu-qmp ?
-> >
-> >
-> Ok
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+>  1 file changed, 16 insertions(+), 8 deletions(-)
 > 
-> 
-> > (I'll review them in the meantime on-list just in the interest of
-> > moving things along.)
-> >
-> 
-> I was waiting for a review before updating the patches / moving to
-> python-qemu-qmp.
+> diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
+> index 37191f433b2d..aa1d9447352d 100644
+> --- a/python/qemu/machine/machine.py
+> +++ b/python/qemu/machine/machine.py
+> @@ -158,17 +158,13 @@ def __init__(self,
+>          self._qmp_timer = qmp_timer
+>  
+>          self._name = name or f"qemu-{os.getpid()}-{id(self):02x}"
+> +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] = None
+>          self._temp_dir: Optional[str] = None
+>          self._base_temp_dir = base_temp_dir
+>          self._sock_dir = sock_dir
+>          self._log_dir = log_dir
+>  
+> -        if monitor_address is not None:
+> -            self._monitor_address = monitor_address
+> -        else:
+> -            self._monitor_address = os.path.join(
+> -                self.sock_dir, f"{self._name}-monitor.sock"
+> -            )
+> +        self._monitor_address = monitor_address
 
-This code looks decent to me
+Almost nothing in QEMU passes 'monitor_address' right now, so thue effect
+of this will be that essentially all usage switches to the socketpair
+behaviour. Should be ok, as nothing is expecting to have the ability to
+leave QEMU running, and re-connect to its monitor in another process
+later.
 
-  Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>  
+>          self._console_log_path = console_log
+>          if self._console_log_path:
+> @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
+>          args = ['-display', 'none', '-vga', 'none']
+>  
+>          if self._qmp_set:
+> -            if isinstance(self._monitor_address, tuple):
+> +            if self._sock_pair:
+> +                fd = self._sock_pair[0].fileno()
+> +                os.set_inheritable(fd, True)
+> +                moncdev = f"socket,id=mon,fd={fd}"
+> +            elif isinstance(self._monitor_address, tuple):
+>                  moncdev = "socket,id=mon,host={},port={}".format(
+>                      *self._monitor_address
+>                  )
+> @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
+>              self._remove_files.append(self._console_address)
+>  
+>          if self._qmp_set:
+> +            monitor_address = None
+> +            sock = None
+> +            if self._monitor_address is None:
+> +                self._sock_pair = socket.socketpair()
+> +                sock = self._sock_pair[1]
+>              if isinstance(self._monitor_address, str):
+>                  self._remove_files.append(self._monitor_address)
+> +                monitor_address = self._monitor_address
+>              self._qmp_connection = QEMUMonitorProtocol(
+> -                self._monitor_address,
+> +                address=monitor_address,
+> +                sock=sock,
+>                  server=True,
+>                  nickname=self._name
+>              )
+> @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
+>          ))
+>  
+>      def _post_launch(self) -> None:
+> +        self._sock_pair[0].close()
+>          if self._qmp_connection:
+>              self._qmp.accept(self._qmp_timer)
+>  
+> -- 
+> 2.37.0.rc0
+> 
 
 With regards,
 Daniel
