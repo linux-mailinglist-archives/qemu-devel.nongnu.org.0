@@ -2,100 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE63657FC88
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 11:36:14 +0200 (CEST)
-Received: from localhost ([::1]:55642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05C1257FC97
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jul 2022 11:38:23 +0200 (CEST)
+Received: from localhost ([::1]:57816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oFuVX-0008FH-4e
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 05:36:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
+	id 1oFuXe-0001KL-2s
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 05:38:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFuSA-0005cQ-RE
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:32:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47728)
+ id 1oFuW9-0008N2-1C
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:36:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oFuS6-0003x1-R9
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:32:41 -0400
+ id 1oFuW4-0004PX-El
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 05:36:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658741557;
+ s=mimecast20190719; t=1658741800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yGPU90wcH5aF2ldDWHfAt8U9zVeHE+VrG3GM1F49rF0=;
- b=ViqAH+vWAiQGONtcwPdxAYSVAbYTZlsVrybDQ7chjhEisffKkAppwLTTGm+3if7cc2CdCu
- tiCOLHMLV6o3wBp1KQc4q2lodRiUmOIWWScZ3mwbyNVnp2QS65DwBX57hI+DMhuM9qQblE
- x736QKqqOGTkmPV5ddgjNZrhpSqTU9k=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AOYFRhGkb10OAe8LzC2iXHQJ5iqncr95aKZsdocQoTE=;
+ b=F7KMhgLO9ZUn/ehncm8tO6pkH0inKJh8ia7xXQOeiylyCH+kWnwPIUlFXwfsnpTmKM7HaX
+ P4ojBo11kzARMyUC51Q2odNMLzVdL60ZHBfSkcNgJvxFERI97MnORBgC07Emnc26S5uquE
+ caIqXgevsezTaFT+Df/Euec4sPCrvjw=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-205-4Su4VAO1MaitNweBlhlidA-1; Mon, 25 Jul 2022 05:32:36 -0400
-X-MC-Unique: 4Su4VAO1MaitNweBlhlidA-1
-Received: by mail-pl1-f197.google.com with SMTP id
- f14-20020a170902ce8e00b0016d5e636249so2679777plg.7
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 02:32:35 -0700 (PDT)
+ us-mta-240-TJEinlHzOveMvzAbSE7mMA-1; Mon, 25 Jul 2022 05:36:38 -0400
+X-MC-Unique: TJEinlHzOveMvzAbSE7mMA-1
+Received: by mail-pg1-f198.google.com with SMTP id
+ 196-20020a6301cd000000b0041b0f053fd1so235811pgb.6
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 02:36:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=yGPU90wcH5aF2ldDWHfAt8U9zVeHE+VrG3GM1F49rF0=;
- b=wn9LLAurnvKduBlg2k0+Dq5kR0j9NUMYE5Vdqp4B1cHTcMmQmfKIYgRRt4+Fv3HNHo
- 7oPCYBeMnXatrPvfHbkV94GUyzqIRri4T2XRBnXTotJupC6ShDEU0Zj1xMUXrVv2qlN/
- 7wj+ILwWV1czeCzyNCevHssrdFnE2S2ifDHwC+6cIvfJOkrIY6yxlay67qg87kghNePY
- 2GYyL5/HAHA5qtsbvaLtyrpiON+yl8xR+8A5DMPly1qWI6gBY/SYtF71Mqc8LSxGB/Gd
- 7WQPsfk4tkgWbQMHtibLHNj2PaGe+GPB6g6HSEIi3wDWhNOZ7iMgQFykSOchVsff8ozw
- RjMA==
-X-Gm-Message-State: AJIora+j91oCltv7Eb0iomYFGB046ZwH7hXCp0mP5CK9EDsHx1+CzYZC
- JHbxYiYawm86nTSA1VJPhJJhYoAL3al3JfUwQyhMEbOqZaDOyiRQ0ZuOa6XfncNOHTRohOf6Jht
- IyyeeajNFOl+dcSk=
-X-Received: by 2002:a63:148:0:b0:41a:53d5:fb04 with SMTP id
- 69-20020a630148000000b0041a53d5fb04mr10476356pgb.39.1658741554919; 
- Mon, 25 Jul 2022 02:32:34 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sG0KtI4+zy/TvXK6ir9awAZzpIYBdwW+XltOMdsxNWXJLDeefiVqxT4jpJygSCvHh4jn2XZw==
-X-Received: by 2002:a63:148:0:b0:41a:53d5:fb04 with SMTP id
- 69-20020a630148000000b0041a53d5fb04mr10476346pgb.39.1658741554668; 
- Mon, 25 Jul 2022 02:32:34 -0700 (PDT)
+ bh=AOYFRhGkb10OAe8LzC2iXHQJ5iqncr95aKZsdocQoTE=;
+ b=fl08DeXEvF0f0xqNwiI6bQxDrLshnRH4URPhwxuUdAcREHCWg5cOZ3kEDv6o6jXZnp
+ swo2aJvaQ+vR4kFvpvMI3ir5Ts8d3tWbYBrMIwwprpo8GVQWLWchmNgUfGBvmCaScb3s
+ OXzK5Vv/T+fIvCzBUPcdVcI+wrTWaKAfCdEs35JiCfLNbHUjazDXhRf1AVHBgleBxFoa
+ V8TJj+lO79mit75rnAqWkvB1Lx1xzHkyo1IgkWiUMcFQuXEtNsXZmx10ju7goPyfNBSX
+ t7cH1yvv+aDPVd5Rm0uEmUWyDKLNp0Cjcv96lST3iS0QDHhMmWkme3qHBwYgcONR+BJv
+ WEFQ==
+X-Gm-Message-State: AJIora+NiD1rvLn0KKk/E3CGfeRhTLPW/JUZ/lHCa21BAAJOisqgzMEx
+ xjaxnLgfhsoUdbquuwV2sSQcQDlHoTMMtBKk9tSYynj2aVlr3khXZHBRd6ITMkWkUVwxwJEeVCE
+ T76M/eWsPR2hvpy8=
+X-Received: by 2002:a62:3884:0:b0:52b:ead1:7bc8 with SMTP id
+ f126-20020a623884000000b0052bead17bc8mr9166313pfa.78.1658741797524; 
+ Mon, 25 Jul 2022 02:36:37 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uAJPwLww74z3mRYesDxBU6PPDsp78NaoLITE97YOswfQ8HkwxKokcN0osi5NGWFDnkVbKTzg==
+X-Received: by 2002:a62:3884:0:b0:52b:ead1:7bc8 with SMTP id
+ f126-20020a623884000000b0052bead17bc8mr9166277pfa.78.1658741797065; 
+ Mon, 25 Jul 2022 02:36:37 -0700 (PDT)
 Received: from [10.72.13.203] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- a17-20020aa795b1000000b0050dc762816dsm9002718pfk.71.2022.07.25.02.32.28
+ s6-20020a170902a50600b0016a0ac06424sm8739568plq.51.2022.07.25.02.36.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 02:32:33 -0700 (PDT)
-Message-ID: <2530135d-42a6-462e-5835-5e8f948c3f09@redhat.com>
-Date: Mon, 25 Jul 2022 17:32:25 +0800
+ Mon, 25 Jul 2022 02:36:36 -0700 (PDT)
+Message-ID: <22b35cff-bcd5-78b8-cab4-43d2e65dccbe@redhat.com>
+Date: Mon, 25 Jul 2022 17:36:28 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v4 6/7] vdpa: Add virtio-net mac address via CVQ at start
+Subject: Re: [PATCH v2 4/7] vdpa: Add asid parameter to
+ vhost_vdpa_dma_map/unmap
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand
- <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, Eric Blake <eblake@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, Cornelia Huck
- <cohuck@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Liuxiangdong <liuxiangdong5@huawei.com>
-References: <20220722111245.3403062-1-eperezma@redhat.com>
- <20220722111245.3403062-7-eperezma@redhat.com>
+Cc: Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, kvm@vger.kernel.org,
+ Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Zhu Lingshan
+ <lingshan.zhu@intel.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
+ Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20220722134318.3430667-1-eperezma@redhat.com>
+ <20220722134318.3430667-5-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220722111245.3403062-7-eperezma@redhat.com>
+In-Reply-To: <20220722134318.3430667-5-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,102 +113,196 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/22 19:12, Eugenio Pérez 写道:
-> This is needed so the destination vdpa device see the same state a the
-> guest set in the source.
+在 2022/7/22 21:43, Eugenio Pérez 写道:
+> So the caller can choose which ASID is destined.
+>
+> No need to update the batch functions as they will always be called from
+> memory listener updates at the moment. Memory listener updates will
+> always update ASID 0, as it's the passthrough ASID.
+>
+> All vhost devices's ASID are 0 at this moment.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->   net/vhost-vdpa.c | 61 ++++++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 61 insertions(+)
+>   include/hw/virtio/vhost-vdpa.h |  8 +++++---
+>   hw/virtio/vhost-vdpa.c         | 26 ++++++++++++++++----------
+>   net/vhost-vdpa.c               |  6 +++---
+>   hw/virtio/trace-events         |  4 ++--
+>   4 files changed, 26 insertions(+), 18 deletions(-)
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 61516b1432..3e15a42c35 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -365,10 +365,71 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(VhostShadowVirtqueue *svq,
->       return VIRTIO_NET_OK;
+> diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-vdpa.h
+> index 1111d85643..6560bb9d78 100644
+> --- a/include/hw/virtio/vhost-vdpa.h
+> +++ b/include/hw/virtio/vhost-vdpa.h
+> @@ -29,6 +29,7 @@ typedef struct vhost_vdpa {
+>       int index;
+>       uint32_t msg_type;
+>       bool iotlb_batch_begin_sent;
+> +    uint32_t address_space_id;
+>       MemoryListener listener;
+>       struct vhost_vdpa_iova_range iova_range;
+>       uint64_t acked_features;
+> @@ -42,8 +43,9 @@ typedef struct vhost_vdpa {
+>       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
+>   } VhostVDPA;
+>   
+> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+> -                       void *vaddr, bool readonly);
+> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size);
+> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                       hwaddr size, void *vaddr, bool readonly);
+> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                         hwaddr size);
+>   
+>   #endif
+> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> index e1ed56b26d..79623badf2 100644
+> --- a/hw/virtio/vhost-vdpa.c
+> +++ b/hw/virtio/vhost-vdpa.c
+> @@ -72,22 +72,24 @@ static bool vhost_vdpa_listener_skipped_section(MemoryRegionSection *section,
+>       return false;
 >   }
 >   
-> +static int vhost_vdpa_net_start(NetClientState *nc)
-> +{
-> +    VhostVDPAState *s = DO_UPCAST(VhostVDPAState, nc, nc);
-> +    struct vhost_vdpa *v = &s->vhost_vdpa;
-> +    VirtIONet *n;
-> +    uint64_t features;
-> +    VhostShadowVirtqueue *svq;
+> -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+> -                       void *vaddr, bool readonly)
+> +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                       hwaddr size, void *vaddr, bool readonly)
+>   {
+>       struct vhost_msg_v2 msg = {};
+>       int fd = v->device_fd;
+>       int ret = 0;
+>   
+>       msg.type = v->msg_type;
+> +    msg.asid = asid;
+>       msg.iotlb.iova = iova;
+>       msg.iotlb.size = size;
+>       msg.iotlb.uaddr = (uint64_t)(uintptr_t)vaddr;
+>       msg.iotlb.perm = readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
+>       msg.iotlb.type = VHOST_IOTLB_UPDATE;
+>   
+> -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb.size,
+> -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb.type);
+> +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova,
+> +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotlb.perm,
+> +                             msg.iotlb.type);
+>   
+>       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+>           error_report("failed to write, fd=%d, errno=%d (%s)",
+> @@ -98,18 +100,20 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
+>       return ret;
+>   }
+>   
+> -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr size)
+> +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr iova,
+> +                         hwaddr size)
+>   {
+>       struct vhost_msg_v2 msg = {};
+>       int fd = v->device_fd;
+>       int ret = 0;
+>   
+>       msg.type = v->msg_type;
+> +    msg.asid = asid;
+>       msg.iotlb.iova = iova;
+>       msg.iotlb.size = size;
+>       msg.iotlb.type = VHOST_IOTLB_INVALIDATE;
+>   
+> -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
+> +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.iova,
+>                                  msg.iotlb.size, msg.iotlb.type);
+>   
+>       if (write(fd, &msg, sizeof(msg)) != sizeof(msg)) {
+> @@ -228,7 +232,7 @@ static void vhost_vdpa_listener_region_add(MemoryListener *listener,
+>       }
+>   
+>       vhost_vdpa_iotlb_batch_begin_once(v);
+> -    ret = vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
+> +    ret = vhost_vdpa_dma_map(v, 0, iova, int128_get64(llsize),
+>                                vaddr, section->readonly);
+>       if (ret) {
+>           error_report("vhost vdpa map fail!");
+> @@ -293,7 +297,7 @@ static void vhost_vdpa_listener_region_del(MemoryListener *listener,
+>           vhost_iova_tree_remove(v->iova_tree, result);
+>       }
+>       vhost_vdpa_iotlb_batch_begin_once(v);
+> -    ret = vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
+> +    ret = vhost_vdpa_dma_unmap(v, 0, iova, int128_get64(llsize));
+>       if (ret) {
+>           error_report("vhost_vdpa dma unmap error!");
+>       }
+> @@ -884,7 +888,7 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost_vdpa *v,
+>       }
+>   
+>       size = ROUND_UP(result->size, qemu_real_host_page_size());
+> -    r = vhost_vdpa_dma_unmap(v, result->iova, size);
+> +    r = vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, size);
+>       return r == 0;
+>   }
+>   
+> @@ -926,7 +930,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vdpa *v, DMAMap *needle,
+>           return false;
+>       }
+>   
+> -    r = vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
+> +    r = vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
+> +                           needle->size + 1,
+>                              (void *)(uintptr_t)needle->translated_addr,
+>                              needle->perm == IOMMU_RO);
+>       if (unlikely(r != 0)) {
+> @@ -1092,6 +1097,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+>   
+>       if (started) {
+>           vhost_vdpa_host_notifiers_init(dev);
 > +
-> +    assert(nc->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
-> +
-> +    if (!v->shadow_vqs_enabled) {
-> +        return 0;
-> +    }
-> +
-> +    if (v->dev->nvqs != 1 &&
-> +        v->dev->vq_index + v->dev->nvqs != v->dev->vq_index_end) {
-> +        /* Only interested in CVQ */
-> +        return 0;
-> +    }
 
 
-I'd have a dedicated NetClientInfo for cvq.
+Unnecessary changes.
 
-
-> +
-> +    n = VIRTIO_NET(v->dev->vdev);
-> +    features = v->dev->vdev->host_features;
-> +    svq = g_ptr_array_index(v->shadow_vqs, 0);
-> +    if (features & BIT_ULL(VIRTIO_NET_F_CTRL_MAC_ADDR)) {
-> +        const struct virtio_net_ctrl_hdr ctrl = {
-> +            .class = VIRTIO_NET_CTRL_MAC,
-> +            .cmd = VIRTIO_NET_CTRL_MAC_ADDR_SET,
-> +        };
-> +        uint8_t mac[6];
-> +        const struct iovec out[] = {
-> +            {
-> +                .iov_base = (void *)&ctrl,
-> +                .iov_len = sizeof(ctrl),
-> +            },{
-> +                .iov_base = mac,
-> +                .iov_len = sizeof(mac),
-> +            },
-> +        };
-> +        struct iovec dev_buffers[2] = {
-> +            { .iov_base = s->cvq_cmd_out_buffer },
-> +            { .iov_base = s->cvq_cmd_in_buffer },
-> +        };
-> +        bool ok;
-> +        virtio_net_ctrl_ack state;
-> +
-> +        ok = vhost_vdpa_net_cvq_map_sg(s, out, ARRAY_SIZE(out), dev_buffers);
-
-
-To speed up the state recovery, can we map those buffers during svq start?
+Other looks good.
 
 Thanks
 
 
-> +        if (unlikely(!ok)) {
-> +            return -1;
-> +        }
-> +
-> +        memcpy(mac, n->mac, sizeof(mac));
-> +        state = vhost_vdpa_net_cvq_add(svq, dev_buffers);
-> +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[0].iov_base);
-> +        vhost_vdpa_cvq_unmap_buf(v, dev_buffers[1].iov_base);
-> +        return state == VIRTIO_NET_OK ? 0 : 1;
-> +    }
-> +
-> +    return 0;
-> +}
-> +
->   static NetClientInfo net_vhost_vdpa_info = {
->           .type = NET_CLIENT_DRIVER_VHOST_VDPA,
->           .size = sizeof(VhostVDPAState),
->           .receive = vhost_vdpa_receive,
-> +        .start = vhost_vdpa_net_start,
->           .cleanup = vhost_vdpa_cleanup,
->           .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
->           .has_ufo = vhost_vdpa_has_ufo,
+>           ok = vhost_vdpa_svqs_start(dev);
+>           if (unlikely(!ok)) {
+>               return -1;
+> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> index 75143ded8b..8203200c2a 100644
+> --- a/net/vhost-vdpa.c
+> +++ b/net/vhost-vdpa.c
+> @@ -229,7 +229,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr)
+>           return;
+>       }
+>   
+> -    r = vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
+> +    r = vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map->size + 1);
+>       if (unlikely(r != 0)) {
+>           error_report("Device cannot unmap: %s(%d)", g_strerror(r), r);
+>       }
+> @@ -278,8 +278,8 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_vdpa *v,
+>           return false;
+>       }
+>   
+> -    r = vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_len(), buf,
+> -                           !write);
+> +    r = vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
+> +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !write);
+>       if (unlikely(r < 0)) {
+>           goto dma_map_err;
+>       }
+> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> index 20af2e7ebd..36e5ae75f6 100644
+> --- a/hw/virtio/trace-events
+> +++ b/hw/virtio/trace-events
+> @@ -26,8 +26,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%d flags:0x%"PRIx32""
+>   vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
+>   
+>   # vhost-vdpa.c
+> -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+> -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+> +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
+> +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t asid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
+>   vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>   vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
+>   vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t llend, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx64" vaddr: %p read-only: %d"
 
 
