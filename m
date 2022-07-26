@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64D575808E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 03:06:25 +0200 (CEST)
-Received: from localhost ([::1]:57416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EC65808FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 03:23:55 +0200 (CEST)
+Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG91j-0004or-Qx
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 21:06:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49608)
+	id 1oG9If-00031I-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 21:23:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oG8yU-00039v-0j
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 21:03:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28262)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1oG8yQ-0003y1-9x
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 21:03:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658797376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=ejJmAr86DGbz9s7yRzkcrwTo+f0hkCdqLJ6XYxYOPzI=;
- b=OqCvhcx1XnVOvlQIZLSUT6O3DvmdaelxS/KwNCGq20vClYprFr4S+BfqYZ2E6rvGtvB0ZH
- ZJszW/mh4MFxfyCsRvYKKmBScg+7D1aPxjgWfGUQy6ova1ZInnzAKVEZ6dhbDGB5FztwOf
- A2HZjI5Wu2MMwTxza/QUbNTMA6L+16U=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-18-B9O-j50VN0auAVMQke8tsg-1; Mon, 25 Jul 2022 21:02:54 -0400
-X-MC-Unique: B9O-j50VN0auAVMQke8tsg-1
-Received: by mail-oi1-f198.google.com with SMTP id
- ay32-20020a056808302000b002f96abff093so5484618oib.23
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 18:02:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oG9Ff-0000xV-0U; Mon, 25 Jul 2022 21:20:47 -0400
+Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:37748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oG9Fc-0006dj-S3; Mon, 25 Jul 2022 21:20:46 -0400
+Received: by mail-qt1-x836.google.com with SMTP id l14so9543454qtv.4;
+ Mon, 25 Jul 2022 18:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UKkB3HULRj3pUMmgT7OAFIB5pdUVGm/GcYLhlJ2fbiM=;
+ b=ZOPuhM7S6MsLqjdVjiwtnjsXjl6yFboh+slRXuHNgPB//aoSd0w/GAXGC2AYR7E6Ww
+ KZbRpBwMS8hOOUPcRAHwax4aiQOqgSq5TyOjDlx72wnBdsbpVJU7ShDIyE0ky6LDWKm8
+ a2ebzRMMAXZRf6f1GG8ZH/BchCamLL0Fl7Tvd8AnuNLoyyzSE37PwNn4POWee0MeOeF3
+ BUlSOHoWwtqHlZxRodeb+1WR5R2jl9Kus9PvQ1Dv0S5uzOFf9MdIH+5ph6vhADxxjH/R
+ uROg486VwASsvEs/jABOqwC3t2SY3WpVAHBBkTPw3r/wK/YzYuE3oL9/wuzhUPBnQ5Mi
+ ZbLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ejJmAr86DGbz9s7yRzkcrwTo+f0hkCdqLJ6XYxYOPzI=;
- b=6o2sl6nwEfuUenHQzIo/7qoNYNhszhJeS2Lg5W8Paj7N9g163rgqLzMtkaTH5FVgA8
- Imuzjcx3a+o8ItOElSb2IXhbhjDq+f6MXGVR7yYktNcLETuafvnjuu79lMNbnUwcikhg
- 5NMOWDIJs6E8onrL3P2WzaemjSn3qeiJuz547qwSgdxVfcnc0P0DackY+IDK/FHGn0eh
- cS+fiq+A/mqactOf9rACAmPHDVY7YSZeILJ2tNCFfNmsRI9F0jL367BhTJb4DGORGnzi
- TrgIf+ZqgxlvYhPKuURFnyWH03Y+q7VH5n3F/0vHWvYF0cSLxKdtte7xJVlxXex6L6Ka
- SG2Q==
-X-Gm-Message-State: AJIora+nN6kXr3R0FFlUjSBD1D7WHw/C2WIGSZjzVHRnr3f1OuoVkS6F
- beUaUsFohiaDfpvZC4faSYQprNgLLJtdtBEoTrvX2MBAzAjQjY1u1HklARx63xhsAjSkwC6Vwtp
- nb50FnFc6PA9SbmA=
-X-Received: by 2002:a9d:73ce:0:b0:61c:8fe1:4deb with SMTP id
- m14-20020a9d73ce000000b0061c8fe14debmr5566481otk.220.1658797373925; 
- Mon, 25 Jul 2022 18:02:53 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sFBQbAKpDah/Wn4auzEAMDb2wrJ0gAanDJrm4BeGkJc7QlDtIMjnBby/3uUtZRei6xK7CAUQ==
-X-Received: by 2002:a9d:73ce:0:b0:61c:8fe1:4deb with SMTP id
- m14-20020a9d73ce000000b0061c8fe14debmr5566469otk.220.1658797373703; 
- Mon, 25 Jul 2022 18:02:53 -0700 (PDT)
-Received: from localhost.localdomain ([2804:431:c7f0:ec8c:e219:73f:cde6:2139])
- by smtp.gmail.com with ESMTPSA id
- i4-20020a056808030400b0032ed2343100sm5480189oie.14.2022.07.25.18.02.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 18:02:53 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Cc: Leonardo Bras <leobras@redhat.com>,
-	qemu-devel@nongnu.org
-Subject: [PATCH v1 1/1] migration: add remaining params->has_* = true in
- migration_instance_init()
-Date: Mon, 25 Jul 2022 22:02:35 -0300
-Message-Id: <20220726010235.342927-1-leobras@redhat.com>
-X-Mailer: git-send-email 2.37.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UKkB3HULRj3pUMmgT7OAFIB5pdUVGm/GcYLhlJ2fbiM=;
+ b=jJwYwkmFjTxlKs8ascJNQI6aSdP0CZsk6JZONPsxQ6wKuTQtWp8nCxXtgmuTt0+YsF
+ WWoat0Ww6JNlaEcqNhaODfY7G0GI+PgKkZPeYm80fkuEFLhSgaadMzfO2DGEg/n2p1R7
+ Wfu6k7/e2vuE8Vef6QnV1k6GJ153iZXpEJSZ/F1dt9oSLGxpKJiKS/QL61PdhtlA4Qs5
+ WxXZ45cd0VXR1w2d6tWZuK7aCPhk0+HV55RSV+QqK73D5UMkwm1XwMo0FzTWOtEz4MlZ
+ hhC0a2Dgl4RipVVkU0ef0ZbTHt5u4yxnd5hvKAsLg/KLpOPcWeKZBduZ8ZHPfBrj1/DF
+ /c9w==
+X-Gm-Message-State: AJIora9hsTqXPAQaexO5OSF3qf9aNGBqZtRariEQFKfm/U87PCQXWd0o
+ stbAZxTstg87wq4VfoqGzMr5Xv4pvzSKHIGQ7AE=
+X-Google-Smtp-Source: AGRyM1v5Oq6ibNjY9kTVwavxnUasb0PXWn+YuJfZrK5IuhnUR92S0axYiZC5m9zj1RGDh4KvocBDxTsoK75D2XGMhhA=
+X-Received: by 2002:a05:622a:100d:b0:31f:25e3:7a45 with SMTP id
+ d13-20020a05622a100d00b0031f25e37a45mr12446508qte.365.1658798443069; Mon, 25
+ Jul 2022 18:20:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <CADmoyEiUoULvn76UXcS0DaF2-Us4CTL=SyXf7PWYqfPTF3PTtQ@mail.gmail.com>
+In-Reply-To: <CADmoyEiUoULvn76UXcS0DaF2-Us4CTL=SyXf7PWYqfPTF3PTtQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 26 Jul 2022 09:20:29 +0800
+Message-ID: <CAEUhbmXSUJNxTtjA5W5x_EtnOHERhMvj6ZZVrT-qx-k9_gHB_w@mail.gmail.com>
+Subject: Re: How to read RISC-V mcycle CSR from Linux userspace app?
+To: Maxim Blinov <maxim.blinov@embecosm.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x836.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,41 +81,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of params->has_* = true are missing in migration_instance_init, this
-causes migrate_params_check() to skip some tests, allowing some
-unsupported scenarios.
+On Tue, Jul 26, 2022 at 12:58 AM Maxim Blinov <maxim.blinov@embecosm.com> wrote:
+>
+> Hi all, stupid question but I can't for the life of me figure this out
+> even with all the docs open.
+>
+> I need to get an estimate figure for the cyclecount of a busy loop in
+> one of my small Linux userspace apps. The app in question is running
+> in qemu-system-riscv64. I've compiled QEMU myself, and the full code
+> is like this:
+>
+> #include <unistd.h>
+> #include <stdint.h>
+> #include <stdlib.h>
+> #include <stdio.h>
+>
+> uint64_t get_mcycle() {
+>   uint64_t mcycle = 0;
+>
+>   asm volatile ("csrr %0,mcycle"   : "=r" (mcycle)  );
 
-Fix this by adding all missing params->has_* = true in
-migration_instance_init().
+Change this to "csrr %0,cycle" and you should be able to run your program.
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/migration.c | 4 ++++
- 1 file changed, 4 insertions(+)
+>
+>   return mcycle;
+> }
+>
+> int main(int argc, char **argv) {
+>   printf("Hello\n");
+>   printf("mcycle is %lu\n", get_mcycle());
+>
+>   return 0;
+> }
+>
+> Now I get SIGILL when I hit the `csrr` insn, which makes sense.
+> According to the "Privileged Architecture Version 1.10", page 32, [1]
+> we need to set mcounteren, hcounteren, and scounteren low bits to 1 in
+> order to get the mcycle csr to become available in userspace. So I add
+> the following function:
+>
+> void enable_mcount() {
+>   /* Enable IR, TM, CY */
+>   uint64_t mcounteren = 0x5;
+>   asm volatile ("csrw mcounteren,%0" : "=r" (mcounteren));
+>   asm volatile ("csrw hcounteren,%0" : "=r" (mcounteren));
+>   asm volatile ("csrw scounteren,%0" : "=r" (mcounteren));
+> }
+>
+> And call it before I call get_mcycle(), but this triggers SIGILL
+> (unsurprisingly) also, since these CSRs are also privileged. So
+> there's a bit of a chicken and egg problem.
+>
+> Could someone more knowledgeable please suggest what the course of
+> action here is? I've got QEMU revision f45fd24c90 checked out, and I'm
+> staring at qemu/target/riscv/csr.c:71, which seems to deal with
+> whether or not to raise a SIGILL upon access. I can see a condition
+> for when we're in 'S' mode, but nothing for 'U' mode. Does that mean
+> there is fundamentally no access to these CSR's from 'U' mode? Is it
+> possible to just hack it in?
 
-diff --git a/migration/migration.c b/migration/migration.c
-index e03f698a3c..82fbe0cf55 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4451,6 +4451,7 @@ static void migration_instance_init(Object *obj)
-     /* Set has_* up only for parameter checks */
-     params->has_compress_level = true;
-     params->has_compress_threads = true;
-+    params->has_compress_wait_thread = true;
-     params->has_decompress_threads = true;
-     params->has_throttle_trigger_threshold = true;
-     params->has_cpu_throttle_initial = true;
-@@ -4471,6 +4472,9 @@ static void migration_instance_init(Object *obj)
-     params->has_announce_max = true;
-     params->has_announce_rounds = true;
-     params->has_announce_step = true;
-+    params->has_tls_creds = true;
-+    params->has_tls_hostname = true;
-+    params->has_tls_authz = true;
- 
-     qemu_sem_init(&ms->postcopy_pause_sem, 0);
-     qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
--- 
-2.37.1
+In the user space, you can only read the U-mode CSRs like cycle, but NOT mcycle.
 
+>
+> Maxim
+>
+> [1]: https://riscv.org/wp-content/uploads/2017/05/riscv-privileged-v1.10.pdf
+>
+
+Regards,
+Bin
 
