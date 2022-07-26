@@ -2,86 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53B8D581A8C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:52:17 +0200 (CEST)
-Received: from localhost ([::1]:44890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F06581A6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:44:13 +0200 (CEST)
+Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQbI-0003z9-DP
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:52:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
+	id 1oGQTU-0003J3-Cm
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:44:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGQLD-0003IX-Vz
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:35:40 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGQLC-0004JU-Bg
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:35:39 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id z3so14259968plb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=KozUYsbKRIhh2VNIgblb73kOES0Vu5VipPYKlFfNnOk=;
- b=A35vwUbrLKFy5eqv85SrBn/0PS06rsLgUjDDUI508ibuEbCZcQYvG1S5AOsd/IFuPH
- UqyujDZv5slu++Ye+rX5rnw207c4mhRFiXY4glgFH1kOs7SmuFr52sRXXz5WPneaIvgL
- ZUkDstHG/O2h56XTbFeWufLCN6boIjWIdRhpmXKc8C/+l1fGBK45rcMESELu+vH8HQND
- pLELTPQOlzzGVxeDyNHYHlu6tFPna2M/VbPY9xSIYxsJbMyjuKn6MyO/hZ9Xbp+Vjojo
- VHLm+wTuH36NqIsvIqlgrRDOGSSF9gHs44IlZ/RWyIaCZqRreqwZzxWIXAVa0O0tSPzC
- inqg==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQ5-0006Bj-DI
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQPv-000502-4x
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658864430;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=ebMRh43JKe2KXs4NKkK4opdxkF1UWx+16y5U1Ff7+tw=;
+ b=FPbYHFdDpJy1hogOt8mTwAkiA1DbkA7N4yfLH4yhxIMqot3jZzfUjfduhiOGB5BgCFzZH6
+ qK04E769TNZF+tiIG/JcVgcnBxkZkXYV1AAVsxb9Dafuj22m9sq2Bn2Noml7uDulV3+0Jx
+ 7CW0/n5TaGLfqdCsBkWiPa8xkWNOGvE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-602-licKJJyTMtGRLBjkByNc-w-1; Tue, 26 Jul 2022 15:40:29 -0400
+X-MC-Unique: licKJJyTMtGRLBjkByNc-w-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ r82-20020a1c4455000000b003a300020352so8023463wma.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=KozUYsbKRIhh2VNIgblb73kOES0Vu5VipPYKlFfNnOk=;
- b=VgNxDgO1Yfc/l5DQe+iJYglqK2dIBXZFL0cHMRc4SloSCYrr3kAxBZWP00qBRELxYS
- vI5KWAik5oVrQjnQbAZ6mNEKijp8LNTy5z/6ocXRmOdibuLtFj9cc8YLQObKMk/+s0rA
- kXfE8E8oRgYD4QJALQA/JqUA3YzbvyWv73FZgt70C4At5gWcymZgeCK3NBRBAwRhcWSJ
- BvKsgqW79qyvKkq6x98nqhrZR8lNQOU4cD8z2bU+x4e+NIhZHbR9MTLmE9LaN2UtBD9y
- 5NtnBzM5QRirdom8TRli8dWLl3R4Te7FRBQ0PBKUJocuGrIna8LjqPce0K6vb1ViuQ82
- 85HA==
-X-Gm-Message-State: AJIora9Q4dC0wEFLsvQl99/Kj+ReIzAGoNvQIIoePKN4Uz+4cO5RHRIV
- mgwdE1L2KDRLp+nMb10daWrKiw==
-X-Google-Smtp-Source: AGRyM1t08s2EGQWiZ1mH4xd/RGbeLoaTZroWPY4PDJ96aX15j5/Om0OkCmRXkLu9PE+3hSO3y7Tt2A==
-X-Received: by 2002:a17:903:41d0:b0:16d:4b28:769a with SMTP id
- u16-20020a17090341d000b0016d4b28769amr18410264ple.112.1658864136139; 
- Tue, 26 Jul 2022 12:35:36 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:33b:7a10:8a4c:53bc?
- ([2602:ae:1549:801:33b:7a10:8a4c:53bc])
+ h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=ebMRh43JKe2KXs4NKkK4opdxkF1UWx+16y5U1Ff7+tw=;
+ b=r6cJ75FvY8hKF4WIzQi2LbybSg+Rh3U0CkfArxKHUL5JEBNktekp8cKFgdLIL4cQ5+
+ Wl1JccgpefwRFOSoZlFSefwEsGAqfxbdj7A6KhTd7iMcsq5t9aevzRS7EdLc00WVFZPd
+ cntaf89mTYoDlxQ8te5qCtPoev1g54rQTKSvbnZ7MwB6ctkiqqShgzvhn0T3BULlRcVW
+ lJYZSEqlQW/inocNIrAWW+/u+BxVC6r1570pFR8Tu+oYpCHnJbuZ8lBtHpw6OYrdjRA2
+ ilYldidUsYbMmiss4x4ndfJVxQRZ1PMHXfHTU2vDLz3xaziT3AH8IKKc+nPbqyqIHMhp
+ ptNQ==
+X-Gm-Message-State: AJIora/hLyiSGaR77fqiaazmWXf3kQrEct1I/BkMqI1+nI5wGeV6B55k
+ LuLMe3Ts4lFl4f3XAlU6EWsmuxTZL9wcP0UwApTTl6PBC2SlskYu3YGsgpk4sePyR3Zpnjx2+Fv
+ 3CcTcnDas7Kms48yV267BNzEPpsjp/VhiN0TsDVtlgysG2sq8lIwuN3sKBHeu
+X-Received: by 2002:adf:e652:0:b0:21d:6e43:3ec4 with SMTP id
+ b18-20020adfe652000000b0021d6e433ec4mr12752294wrn.358.1658864427522; 
+ Tue, 26 Jul 2022 12:40:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t0IisO2csr7XR4fFr2DpLfzk48ZqfLi/uTvBmGZwwy+R07TOt2ulKWL2ArzKApFovEJCiVFw==
+X-Received: by 2002:adf:e652:0:b0:21d:6e43:3ec4 with SMTP id
+ b18-20020adfe652000000b0021d6e433ec4mr12752278wrn.358.1658864426914; 
+ Tue, 26 Jul 2022 12:40:26 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
  by smtp.gmail.com with ESMTPSA id
- f15-20020a170902ce8f00b0016b68cf6ae5sm12056488plg.226.2022.07.26.12.35.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 12:35:35 -0700 (PDT)
-Message-ID: <633e5fc5-a5ca-f49f-2e6f-5ea63309016f@linaro.org>
-Date: Tue, 26 Jul 2022 12:35:33 -0700
+ r11-20020a5d498b000000b0021e42e7c7dbsm15657163wrq.83.2022.07.26.12.40.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jul 2022 12:40:26 -0700 (PDT)
+Date: Tue, 26 Jul 2022 15:40:25 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/16] pc,virtio: fixes
+Message-ID: <20220726193858.177462-1-mst@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC 1/2] hw/ppc/ppc440_uc: Initialize length passed to
- cpu_physical_memory_map()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220726182341.1888115-1-peter.maydell@linaro.org>
- <20220726182341.1888115-2-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220726182341.1888115-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,31 +94,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 11:23, Peter Maydell wrote:
-> In dcr_write_dma(), there is code that uses cpu_physical_memory_map()
-> to implement a DMA transfer.  That function takes a 'plen' argument,
-> which points to a hwaddr which is used for both input and output: the
-> caller must set it to the size of the range it wants to map, and on
-> return it is updated to the actual length mapped. The dcr_write_dma()
-> code fails to initialize rlen and wlen, so will end up mapping an
-> unpredictable amount of memory.
-> 
-> Initialize the length values correctly, and check that we managed to
-> map the entire range before using the fast-path memmove().
-> 
-> This was spotted by Coverity, which points out that we never
-> initialized the variables before using them.
-> 
-> Fixes: Coverity CID 1487137
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
-> This seems totally broken, so I presume we just don't have any
-> guest code that actually exercises this...
-> ---
->   hw/ppc/ppc440_uc.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+The following changes since commit d1c912b816844aa045082595eba796b5a025dbc4:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-07-26 13:29:26 +0100)
 
-r~
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+
+for you to fetch changes up to 0522be9a0c0094088ccef7aab352c57f483ca250:
+
+  hw/virtio/virtio-iommu: Enforce power-of-two notify for both MAP and UNMAP (2022-07-26 15:33:29 -0400)
+
+----------------------------------------------------------------
+pc,virtio: fixes
+
+Several fixes. From now on, regression fixes only.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Jean-Philippe Brucker (1):
+      hw/virtio/virtio-iommu: Enforce power-of-two notify for both MAP and UNMAP
+
+Joao Martins (11):
+      hw/i386: add 4g boundary start to X86MachineState
+      i386/pc: create pci-host qdev prior to pc_memory_init()
+      i386/pc: pass pci_hole64_size to pc_memory_init()
+      i386/pc: factor out above-4g end to an helper
+      i386/pc: factor out cxl range end to helper
+      i386/pc: factor out cxl range start to helper
+      i386/pc: handle unitialized mr in pc_get_cxl_range_end()
+      i386/pc: factor out device_memory base/size to helper
+      i386/pc: bounds check phys-bits against max used GPA
+      i386/pc: relocate 4g start to 1T where applicable
+      i386/pc: restrict AMD only enforcing of 1Tb hole to new machine type
+
+Jonathan Cameron (3):
+      hw/machine: Clear out left over CXL related pointer from move of state handling to machines.
+      hw/i386/pc: Always place CXL Memory Regions after device_memory
+      hw/cxl: Fix size of constant in interleave granularity function.
+
+Robert Hoo (1):
+      acpi/nvdimm: Define trace events for NVDIMM and substitute nvdimm_debug()
+
+ include/hw/boards.h            |   1 -
+ include/hw/cxl/cxl_component.h |   2 +-
+ include/hw/i386/pc.h           |   4 +-
+ include/hw/i386/x86.h          |   3 +
+ include/hw/mem/nvdimm.h        |   8 --
+ include/hw/pci-host/i440fx.h   |   3 +-
+ hw/acpi/nvdimm.c               |  35 ++++---
+ hw/i386/acpi-build.c           |   2 +-
+ hw/i386/pc.c                   | 209 ++++++++++++++++++++++++++++++++---------
+ hw/i386/pc_piix.c              |  15 ++-
+ hw/i386/pc_q35.c               |  15 ++-
+ hw/i386/sgx.c                  |   2 +-
+ hw/i386/x86.c                  |   1 +
+ hw/pci-host/i440fx.c           |   5 +-
+ hw/virtio/virtio-iommu.c       |  47 +++++----
+ hw/acpi/trace-events           |  13 +++
+ 16 files changed, 258 insertions(+), 107 deletions(-)
+
 
