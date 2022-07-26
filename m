@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9F95580A81
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 06:38:32 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA89F580A85
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 06:43:13 +0200 (CEST)
+Received: from localhost ([::1]:36282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGCL2-0007KY-1j
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 00:38:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46358)
+	id 1oGCPZ-0002yL-02
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 00:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGCHL-0004XA-Hn
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:34:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGCHJ-0007fS-UZ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:34:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658810080;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UJ5xOLHPncxOBj5H7Chl9wJHdrXZujfOPVZRvf0eUQI=;
- b=HpiIiJKWygLfdRDcByAnoLmVmsswE+cUT7VT9cgzBwUE0gIN5yaJrYh3T+SyCIvhlye3Az
- hvX1EoQH/WsO8qdOpHsuSJcj/ZhJ8W8Xfj0L847Yzt6Rh3N4QGegYnXXepcL+kJwJ2jAts
- hFLqVdFNMyByOF7GqY+ewC3mJahGM4s=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-8MhBSL36PpWLUC36QmHe5g-1; Tue, 26 Jul 2022 00:34:39 -0400
-X-MC-Unique: 8MhBSL36PpWLUC36QmHe5g-1
-Received: by mail-lf1-f69.google.com with SMTP id
- dt17-20020a0565122a9100b0048a878a2a56so1162199lfb.6
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 21:34:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGCNS-0000sg-E8
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:41:05 -0400
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:46004)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGCNL-0000AN-5A
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:40:56 -0400
+Received: by mail-pl1-x629.google.com with SMTP id w7so12247458ply.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 21:40:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=OsbmZy1iQp03ox7tQRMghj+VEKCMy7YUpaAQ5jYopM8=;
+ b=Jr7RQI1HFkWNzeb060gijixXCOYftEFuTaz48A2OYQ8bQzXj6QC9NWCviNZqTV2qPs
+ qOmvq0UJvi2SvSW8pXhwmFWNoXM53FGhB8/ULEdMYJmWAeAuo5lEFqamidluQMaBSufZ
+ jvt9B0lVRUqK8ZPXZ6nMQp4tkcdP2oIQxsflz95qUYRTH8K1SpjM15Hn4zVCJkDYZJ+c
+ sBFjJVJSQT4yMCg5h5z8nvNgm1fExBNTbhm5elp0WuuWlGoraP6aiQ8wEIkgfP7S8NRJ
+ 3R24wSa5BcQy1dxc9ZE5YRMbghuqUvdbPV9XQXqfkQUj64j+ltMKVOdORd5UybKVDTMV
+ s2aA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=UJ5xOLHPncxOBj5H7Chl9wJHdrXZujfOPVZRvf0eUQI=;
- b=JWYV9hEejqR/FNG7CHrk/xvtj4tWTkYStI70nkHUpebgFjl8cF0Pzpx1KwqqiNGxEh
- fr4b7DnQYYQCsvknzMoPCxACgg8fUx7rNkF6jEvKvLyUYLX49KX9tB21ZsEiI9KM+gc/
- ca+f0k8hSVTLZcRgCNSRnbf0hia3bWkhwIdRRlFYAi6MtyWyOJeVc1c7GSuIt34cGtxF
- NrXyhLcPxpEw23o+wBYSzcqfuM+6cjMN5J0JhQgn3xKX2Lj52vfzdwoz71Daykgj4kB/
- YQvYUqiVKHq45kgKvRKLNKzjoUnjpG8VE0Ys/sc7jaz+ZeqyLvr81fIuKeBsztHf+53u
- /Ecg==
-X-Gm-Message-State: AJIora+ZMP0nuq6M93zqErtzxACEMoZgzkJPwm8nUuzWv19nKfzXa6vq
- 8LUvgXnVxkQxJt9KBuQ3r4BTADS0fFTMevGtUwPRSdKRYnkC9QuBhnZ5SpqaqTuzAH3KzW4fETo
- l+2L2o8qclxX+5eVCNb6dVfyMqsF1DQQ=
-X-Received: by 2002:a2e:b0c6:0:b0:25e:b20:94b4 with SMTP id
- g6-20020a2eb0c6000000b0025e0b2094b4mr2148219ljl.487.1658810077524; 
- Mon, 25 Jul 2022 21:34:37 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1svmOJq71BOQ6IMX3gsyIiMotJNSJ/PN5H2Cr6IM1CH4nVD+goKiQlkonxPHjNyec2Wbd7nwY0Qs3dPyBiDxv0=
-X-Received: by 2002:a2e:b0c6:0:b0:25e:b20:94b4 with SMTP id
- g6-20020a2eb0c6000000b0025e0b2094b4mr2148209ljl.487.1658810076965; Mon, 25
- Jul 2022 21:34:36 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=OsbmZy1iQp03ox7tQRMghj+VEKCMy7YUpaAQ5jYopM8=;
+ b=L/87sOIJttLSdiRGNnSjX+2ewICof9t8lEY2nX3LXpTecjdu0lPUhV5B+zPx1udyev
+ lSFQvi2Rhs/qpqm2K0+4lgkk2lTnahVdtEmbbu+/LBlo6BLTj3t8RhxZZWkd9ZVKsHqy
+ lmFRYIcspZAELrAh4QJezZuXPH6tgoqm4TviKwZi+n1i++xr6XfY9AYGPwrv6FrnHwPr
+ ZqBJm4kPfz8iUiydIRRiLwijTBbNVAixf7O46HxKTwUafA5v1/5REKKK5RPRy+14dLpF
+ 6P/i7iUUeFOqCODzUxVc3zEgBVA6B9fZeYsA9h65Y53Bjkl7UVT5ccdB0WLV4x58vnls
+ FheA==
+X-Gm-Message-State: AJIora8aIWfCXfhGovGEjE0JyvZDsN/+AjEYK6oWn3CCt7RE7JZdRszq
+ XQbdakm1YC57x9EVZxiyc5q46w==
+X-Google-Smtp-Source: AGRyM1tiXM0lFxyiKj96UcHFybeFUNb1pA+F93XHZAU53XtFdkV2c++TxHWphQYE1BoTPFejYt6wHg==
+X-Received: by 2002:a17:903:31c9:b0:16c:3024:69c4 with SMTP id
+ v9-20020a17090331c900b0016c302469c4mr15342359ple.81.1658810453146; 
+ Mon, 25 Jul 2022 21:40:53 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:673b:b40:a955:bc1b?
+ ([2602:ae:1549:801:673b:b40:a955:bc1b])
+ by smtp.gmail.com with ESMTPSA id
+ m7-20020a1709026bc700b0016be834d54asm10067069plt.306.2022.07.25.21.40.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jul 2022 21:40:52 -0700 (PDT)
+Message-ID: <4d385c58-2c8f-6f40-7953-50424f766b9d@linaro.org>
+Date: Mon, 25 Jul 2022 21:40:50 -0700
 MIME-Version: 1.0
-References: <20220722082630.3371384-1-eperezma@redhat.com>
- <CACGkMEu-kmHBbOevmMOcUW9eSk4N2-6_QAS1HTqz0cwduU4jaQ@mail.gmail.com>
-In-Reply-To: <CACGkMEu-kmHBbOevmMOcUW9eSk4N2-6_QAS1HTqz0cwduU4jaQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Tue, 26 Jul 2022 12:34:25 +0800
-Message-ID: <CACGkMEvx4sk0jsHDiVajnxNijn-z=xDfZAmD3yE=ceEfHDvpgg@mail.gmail.com>
-Subject: Re: [PATCH] vdpa: Fix memory listener deletions of iova tree
-To: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/3] target/arm: Create kvm_arm_svm_supported
+Content-Language: en-US
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20220725181457.41083-1-richard.henderson@linaro.org>
+ <20220725181457.41083-2-richard.henderson@linaro.org>
+ <8d493056-fc22-cc0a-29ab-15a810ff1c30@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <8d493056-fc22-cc0a-29ab-15a810ff1c30@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,65 +95,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022 at 3:05 PM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Fri, Jul 22, 2022 at 4:26 PM Eugenio P=C3=A9rez <eperezma@redhat.com> =
-wrote:
-> >
-> > vhost_vdpa_listener_region_del is always deleting the first iova entry
-> > of the tree, since it's using the needle iova instead of the result's
-> > one.
-> >
-> > This was detected using a vga virtual device in the VM using vdpa SVQ.
-> > It makes some extra memory adding and deleting, so the wrong one was
-> > mapped / unmapped. This was undetected before since all the memory was
-> > mappend and unmapped totally without that device, but other conditions
-> > could trigger it too:
-> >
-> > * mem_region was with .iova =3D 0, .translated_addr =3D (correct GPA).
-> > * iova_tree_find_iova returned right result, but does not update
-> >   mem_region.
-> > * iova_tree_remove always removed region with .iova =3D 0. Right iova w=
-ere
-> >   sent to the device.
-> > * Next map will fill the first region with .iova =3D 0, causing a mappi=
-ng
-> >   with the same iova and device complains, if the next action is a map.
-> > * Next unmap will cause to try to unmap again iova =3D 0, causing the
-> >   device to complain that no region was mapped at iova =3D 0.
-> >
-> > Fixes: 34e3c94edaef ("vdpa: Add custom IOTLB translations to SVQ")
-> > Reported-by: Lei Yang <leiyang@redhat.com>
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> Acked-by: Jason Wang <jasowang@redhat.com>
+On 7/25/22 19:02, Zenghui Yu wrote:
+> Hi Richard,
+> 
+> On 2022/7/26 2:14, Richard Henderson wrote:
+>> Indication for support for SVE will not depend on whether we
+>> perform the query on the main kvm_state or the temp vcpu.
+>> Mirror kvm_arm_pauth_supported.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  target/arm/kvm64.c | 7 ++++++-
+>>  1 file changed, 6 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+>> index d16d4ea250..36ff20c9e3 100644
+>> --- a/target/arm/kvm64.c
+>> +++ b/target/arm/kvm64.c
+>> @@ -496,6 +496,11 @@ static bool kvm_arm_pauth_supported(void)
+>>              kvm_check_extension(kvm_state, KVM_CAP_ARM_PTRAUTH_GENERIC));
+>>  }
+>>
+>> +static bool kvm_arm_svm_supported(void)
+>> +{
+>> +    return kvm_check_extension(kvm_state, KVM_CAP_ARM_SVE);
+>> +}
+>> +
+> 
+> Not sure if it's a typo. Maybe we should instead use
+> kvm_arm_sve_supported() which was introduced in commit 14e99e0fbbc6.
 
-I've queued this for hard-freeze.
+Oof, it certainly is.
 
-Thanks
-
->
-> > ---
-> >  hw/virtio/vhost-vdpa.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 291cd19054..00e990ea40 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -290,7 +290,7 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
-stener *listener,
-> >
-> >          result =3D vhost_iova_tree_find_iova(v->iova_tree, &mem_region=
-);
-> >          iova =3D result->iova;
-> > -        vhost_iova_tree_remove(v->iova_tree, &mem_region);
-> > +        vhost_iova_tree_remove(v->iova_tree, result);
-> >      }
-> >      vhost_vdpa_iotlb_batch_begin_once(v);
-> >      ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> > --
-> > 2.31.1
-> >
-
+r~
 
