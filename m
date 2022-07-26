@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03783580A7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 06:31:20 +0200 (CEST)
-Received: from localhost ([::1]:54164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99E59580A80
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 06:38:19 +0200 (CEST)
+Received: from localhost ([::1]:58014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGCE2-0003df-Od
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 00:31:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45998)
+	id 1oGCKo-0006s9-Fp
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 00:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGCBp-00023C-UP
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53907)
+ id 1oGCG7-0004E6-3l
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:33:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGCBm-0006uz-RQ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:29:00 -0400
+ id 1oGCG3-0007c4-Fy
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:33:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658809738;
+ s=mimecast20190719; t=1658810002;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mH0XY+8YpCJXT+gFhjqpIKrKIj68fZMvFLFWSz9KGPw=;
- b=BUsLVZfAjtc54Gc4KEqd8CxLcHYOTHFAF1jxFOkStZPANMC3uwsS7hqd4DwOrQ5I4kQIKW
- TTtZ7uqLOJu59PxYuJhp39CwJSQgn5kB0m1T/7q3U3P/JhdpI4QuM5RRQpYm7DUCcf7tVb
- xJLTgC4aVSG7ocVQ85EooCgwIxgL4zM=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=k0ZHGRkHGN2ocWWhjuMPV1yyguEqDv5mrkPvbipGLPM=;
+ b=DU8v6Z29lJF72Ib34n18LfnmMH8K0f5ZP68dFEhC50IzGuNUN38phpfaiDJOmcSZNOxW0y
+ Grzym6Pv5O0MOC9JOjkD1Joow4QazxUUZ+cWEWkRGbUv3D3FfuhaP57PYPLYcV7IVMmGS1
+ UsYnCj9DSc3acq1oorCV/8fBR3XmDlg=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-646-tAJyzcSOOy-Oc_tFbiTNJg-1; Tue, 26 Jul 2022 00:28:56 -0400
-X-MC-Unique: tAJyzcSOOy-Oc_tFbiTNJg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- t19-20020a17090a5d9300b001f2f3223d17so256692pji.9
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 21:28:56 -0700 (PDT)
+ us-mta-376-iosDwfa3MmyItAePDDf_Fw-1; Tue, 26 Jul 2022 00:33:21 -0400
+X-MC-Unique: iosDwfa3MmyItAePDDf_Fw-1
+Received: by mail-lf1-f69.google.com with SMTP id
+ u25-20020a199219000000b0048a7af081bfso2361140lfd.23
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 21:33:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=mH0XY+8YpCJXT+gFhjqpIKrKIj68fZMvFLFWSz9KGPw=;
- b=Z929c2pf5iyKz1laJWszP3AKacLmxJjnf1rFAbKPq+LzYqn8RBrrRKwpR6wblSnsJ0
- 4xqz8x86QDfiVOf5slSqzD9VN9r76HjpX3t+sEFZM9dOUy+hDlXLhxyh5EFWpAYt+fti
- gYX9A6DOqul/y+L+1AC6CPqU/u26sxvzn+aDXMgTUH3MQyFNJGiFnLW6mwhX64xOQFWh
- YoVPu6kaNYItb6qrMihfAJf+5qRK0oX6FNDo1PZfZTXJpyQdGxNAU6A9zN+Y5YEZ8agF
- ka9FWkueaI0CIK58yBPmmsVflQJ4kPubCMAimNpCO1Omhq3bDnZpt/TJ0jCBZVt1wy+I
- 5y0w==
-X-Gm-Message-State: AJIora/KCDohEd+dbjVwpdlOyoVhwtBEDP6AfgPDvDae08IYVxlVXyao
- 8cqK/tk/bHvVx3gw3mv6eetveNLeWgKUa8bwYm2Y+2qgT+PcMY8aXOk0T1fWHdzseBM4KYWlAIM
- ma3xJ+TU594WTVWM=
-X-Received: by 2002:a62:38cb:0:b0:528:2ed8:7e3d with SMTP id
- f194-20020a6238cb000000b005282ed87e3dmr16085595pfa.82.1658809735159; 
- Mon, 25 Jul 2022 21:28:55 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tPHsM68jUuvIyg+b0KpZQse1ThQWWrRpm7eD+JcmR97jeaP+4jF6+fOIAq6mfxLJzqkWEc1Q==
-X-Received: by 2002:a62:38cb:0:b0:528:2ed8:7e3d with SMTP id
- f194-20020a6238cb000000b005282ed87e3dmr16085583pfa.82.1658809734894; 
- Mon, 25 Jul 2022 21:28:54 -0700 (PDT)
-Received: from [10.72.12.201] ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id
- n7-20020a654507000000b0041ab83d39d4sm5321405pgq.0.2022.07.25.21.28.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 21:28:54 -0700 (PDT)
-Message-ID: <e443d984-d4ae-084a-060c-70f802830014@redhat.com>
-Date: Tue, 26 Jul 2022 12:28:49 +0800
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=k0ZHGRkHGN2ocWWhjuMPV1yyguEqDv5mrkPvbipGLPM=;
+ b=XKvaULbJ1LAkPl9gnmQAwfI4ojqNjxTkqAIxj8OzFxLWSX4cgI7lKkBDhzIO+04eZv
+ uihmvnRdABQ+GjxsO/RrU1KHUyRuypH4KQuQLJBgTgRtr9UhkseROynq5iHwcqlRlURc
+ dF3IIaGfeZMIyxyiS381QLl4JLPe05JDtuFcgkcWSv9WgAD6XdsSSXW/6Q+xFiySu7PR
+ 7yMedaDV7tmhpTSSBtpUhJK2PwCE4WpU7SclkAqhDmFiQVBP2rUu8s+IBCnQef0a/Pne
+ fDm8ejNVGJsmBJbjTfdYw9C4LHUDA0Tyu8ur5qLFAvaKBHvkpyuUnzOvD+fwAieze5aF
+ oCIQ==
+X-Gm-Message-State: AJIora8BemV6L5MaNGaPm+ODL/Sz2ZPphl3nD7tRUSQjZMbW06Kn7We9
+ wAgg6XXPNmsczZzX9gqamuxdi1d4/HmludaIVkZm5ZZjGAJUGwJkgOxCu4LEkLunFdmqvCYzHK9
+ d42L4+k8xwrl6ff+7+R9LH9CsSJFn4ds=
+X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
+ s4-20020a2e83c4000000b0025dea2c5bc2mr4940323ljh.251.1658809999841; 
+ Mon, 25 Jul 2022 21:33:19 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u2pq4PmgRI2yUUeApabPnUNPITR3JsopDyRJ6LhCYYdis2aND5scSP9pBKoo6baUYVFhcRj4Ibo+Ybr3O1Wtc=
+X-Received: by 2002:a2e:83c4:0:b0:25d:ea2c:5bc2 with SMTP id
+ s4-20020a2e83c4000000b0025dea2c5bc2mr4940312ljh.251.1658809999303; Mon, 25
+ Jul 2022 21:33:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 16/16] vhost-net: vq reset feature bit support
-Content-Language: en-US
-To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
-Cc: mst@redhat.com, hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <229f4bc4d6ba7e85a09d6f35d2d06f3cc6a46a6a.1658141552.git.kangjie.xu@linux.alibaba.com>
+References: <20220720111303.10628-1-ake@igel.co.jp>
+In-Reply-To: <20220720111303.10628-1-ake@igel.co.jp>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <229f4bc4d6ba7e85a09d6f35d2d06f3cc6a46a6a.1658141552.git.kangjie.xu@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Tue, 26 Jul 2022 12:33:07 +0800
+Message-ID: <CACGkMEtUGP7j=VB2p0ZCp-XBktXp8rccdcJWQ2p57sfkKM1jEQ@mail.gmail.com>
+Subject: Re: [PATCH] e1000e: Fix possible interrupt loss when using MSI
+To: Ake Koomsin <ake@igel.co.jp>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -86,8 +75,8 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,57 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/7/18 19:17, Kangjie Xu 写道:
-> Add support for negotation of vq reset feature bit.
+On Wed, Jul 20, 2022 at 7:14 PM Ake Koomsin <ake@igel.co.jp> wrote:
 >
-> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Commit "e1000e: Prevent MSI/MSI-X storms" introduced msi_causes_pending
+> to prevent interrupt storms problem. It was tested with MSI-X.
+>
+> In case of MSI, the guest can rely solely on interrupts to clear ICR.
+> Upon clearing all pending interrupts, msi_causes_pending gets cleared.
+> However, when e1000e_itr_should_postpone() in e1000e_send_msi() returns
+> true, MSI never gets fired by e1000e_intrmgr_on_throttling_timer()
+> because msi_causes_pending is still set. This results in interrupt loss.
+>
+> To prevent this, we need to clear msi_causes_pending when MSI is going
+> to get fired by the throttling timer. The guest can then receive
+> interrupts eventually.
+>
+> Signed-off-by: Ake Koomsin <ake@igel.co.jp>
 
-
-I'd suggest to add support for vhost-net kernel as well. It looks much 
-more easier than vhost-user (I guess a stop/start would do the trick).
+I've queued this.
 
 Thanks
 
-
 > ---
->   hw/net/vhost_net.c  | 1 +
->   hw/net/virtio-net.c | 3 ++-
->   2 files changed, 3 insertions(+), 1 deletion(-)
+>  hw/net/e1000e_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> index 4f5f034c11..de910f6466 100644
-> --- a/hw/net/vhost_net.c
-> +++ b/hw/net/vhost_net.c
-> @@ -73,6 +73,7 @@ static const int user_feature_bits[] = {
->       VIRTIO_NET_F_MTU,
->       VIRTIO_F_IOMMU_PLATFORM,
->       VIRTIO_F_RING_PACKED,
-> +    VIRTIO_F_RING_RESET,
->       VIRTIO_NET_F_RSS,
->       VIRTIO_NET_F_HASH_REPORT,
->   
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 0747ffe71c..a8b299067a 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -757,6 +757,8 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->   
->       virtio_add_feature(&features, VIRTIO_NET_F_MAC);
->   
-> +    virtio_add_feature(&features, VIRTIO_F_RING_RESET);
-> +
->       if (!peer_has_vnet_hdr(n)) {
->           virtio_clear_feature(&features, VIRTIO_NET_F_CSUM);
->           virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO4);
-> @@ -777,7 +779,6 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->       }
->   
->       if (!get_vhost_net(nc->peer)) {
-> -        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
->           return features;
->       }
->   
+> diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+> index 2c51089a82..208e3e0d79 100644
+> --- a/hw/net/e1000e_core.c
+> +++ b/hw/net/e1000e_core.c
+> @@ -159,6 +159,8 @@ e1000e_intrmgr_on_throttling_timer(void *opaque)
+>
+>      if (msi_enabled(timer->core->owner)) {
+>          trace_e1000e_irq_msi_notify_postponed();
+> +        /* Clear msi_causes_pending to fire MSI eventually */
+> +        timer->core->msi_causes_pending = 0;
+>          e1000e_set_interrupt_cause(timer->core, 0);
+>      } else {
+>          trace_e1000e_irq_legacy_notify_postponed();
+> --
+> 2.25.1
+>
 
 
