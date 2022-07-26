@@ -2,95 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA926581234
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:38:59 +0200 (CEST)
-Received: from localhost ([::1]:51480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04C78581241
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:44:26 +0200 (CEST)
+Received: from localhost ([::1]:56674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGItu-0004Ci-6x
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47528)
+	id 1oGIz9-0007vM-CK
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:44:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGInL-0005Q4-D0
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:32:11 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:45091)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oGIqh-0002BW-Pb
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:35:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGInJ-00072J-5H
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:32:11 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id CE58D320090F;
- Tue, 26 Jul 2022 07:32:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 26 Jul 2022 07:32:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1658835126; x=1658921526; bh=8q
- 8ZFx2aPbe410EnBSZN9jm3YB4vBmBqzgcCDdItA/c=; b=nrkKyoBA3cnKEZ/wX4
- V/X40u52qJl5AJ66DCa+Z2aitslEZM/SKaJTCid3fRfM6RcYmjvq2E2oj+8gdSb9
- d6nKcZpY/YtO4b0AY6zOlxTtmIJ2rTMMLS2JmxcrgOXYcJUEiR8D9q3gT0I078u+
- zta7BrFaXcSN9E0n8oEbxPS4as2j0hOsHx1wSg/0g02KvkXx7vLcwiAaP7W1LjrH
- kbKZzvlOBvnmnM1+2vJ4JCzspSMqXfF5gUFTLBxR5n2ykbOIdnr3YNaaostb/yoC
- fZe4+94m/y9TsGsgGFpBcNCbpzcvjej2NZUN06LTBcqgM9zcZXy8HzKECarKunqS
- KSkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1658835126; x=1658921526; bh=8q8ZFx2aPbe410EnBSZN9jm3YB4v
- BmBqzgcCDdItA/c=; b=sCFD8wlT24Pi6+MPWuz3tjJLMqcX0moVCaQ6/xzAajok
- sbbCe7dR/ENt3lfj5wN9x8YwVEbba04vEpspr2o/bcpPXL9shD+MW3LhHfK0NR4P
- M9mtsZKDvC/FiwRhZ/5FQ7duM6ML8kpP5wUSR3ODLtzXox8u4pS6KNx5eExUADSk
- XpC05BG7PFXW9p+CtENNchAB382CVwLs4+cQNlWQPuKD00OLrZeilrA4FIeDVTey
- P8ZL+O8r77VikwIS4Ki24HAF03aHDLgvLVYtAO1kn3kX10P2a44jAKl6LqB+4Oqq
- 5bka4axaA7J9GdV6Sv0v6l0X3U5h6H/3BnJbYC2X/g==
-X-ME-Sender: <xms:tdDfYmdR57zh6ULFL0QI8fk5Slm3AFSiZ8hz_H7ueCXU2BmQ16GL-Q>
- <xme:tdDfYgNPiuZw-GrxxI6HKsr-2anfAivbXZjAPW25YsTB-3jV8YQn-K0Ql-6urDf_g
- 3KvIMqfM2bSVDUso2g>
-X-ME-Received: <xmr:tdDfYniuBNSPxibgEMOINoiQrvnp2U7D282duQkgq9lxV9tupE-W86E>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddutddggeduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgjeefffdvuefhieefhffggfeuleehudekveejvedtuddugeeigeetffff
- jeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ttDfYj-FQaaTxiXtIza2RpJ1g_f_7quCB3dJoLNb7Njh2qbl3y6ESw>
- <xmx:ttDfYisa9FsAEFaVwfmrKnfD5U7fpRGPxQaN2vQWpxEc2n-WL6H8tA>
- <xmx:ttDfYqFi_GDGirNXxWuRCEdnUNQMnuHNqywucch5Ccjnppr7lB1FLw>
- <xmx:ttDfYkUiLfZQqliS5y-Tfq3O1FLQcLpl9evotuImDNjg50aXgwnVlg>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Jul 2022 07:32:04 -0400 (EDT)
-Date: Tue, 26 Jul 2022 13:32:03 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <Yt/Qs5PelXjX8E1v@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <Yt8DWWg8qPLxL0fk@apples>
- <D12147BE-7F7A-4F41-9317-765F7EB2E971@ict.ac.cn>
- <Yt+avxgBxcwrxYgi@apples>
- <869047CA-DD0A-45D1-9DBA-2BA1A3E00ADF@ict.ac.cn>
- <Yt+xpMzwRWvn3QqR@apples> <Yt+9Spzi17LRRexQ@apples>
- <Yt/O8+n1pf3SRR7e@apples>
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1oGIqe-0007nE-Lc
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:35:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658835335;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wBKIaecUD13cIBswPGPTp8AjChGPi8/Yp+2lKHbqeXI=;
+ b=SI1iI3fQorUGuslXlCLP+JnFVFTYZwvdv6VQk2uioRlwcm8OxVwVafZZDlxMv7IjFSwc+8
+ 9xj+MKPch1K5bVa5XrVyy4QeJkYIDVFG6MuR3UhKCZz8uCKmrrwi3tGwmgOoSK+PBYVxUe
+ YoWg7lcjB4OO9gLUvwgf2IpWCEQhepg=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-56-ZDlfMrebMJGgAL3DIK91tQ-1; Tue, 26 Jul 2022 07:35:34 -0400
+X-MC-Unique: ZDlfMrebMJGgAL3DIK91tQ-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-106a48f2df7so7585200fac.16
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 04:35:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wBKIaecUD13cIBswPGPTp8AjChGPi8/Yp+2lKHbqeXI=;
+ b=Mtl7LGwyB9yh9ri/Q5wSBKUKvnpbgIUrbFb5pwSIqsumbAPR7fis/yjSp3LXtQijXD
+ cpn66OLDQ41OKDc+FBYK/WLCUvnopIun3aVkRFhz6AtemzyBGruksJkLvuOW5VRGIKcL
+ 9U7Q2+ISSFHsF8AoQID5aCpxE+Nbuctp9i7l+6VLbB4s4b+YnTMpTzZtH3gNUvcaFGsK
+ v3NFYCsrxfhEuT3rD5ml3tdSy4QWHEMGoHFw41NAgPhlHzjY3b8/jZ4tgtd79TGonNur
+ dRRqyqqxkywVemW1Z3jqYvt8w+qTap8DYWbFbUDqfrd/BVsFsaJSr4bpGxLDZPakPXb2
+ cY7A==
+X-Gm-Message-State: AJIora/kqV+ICrMUcSYb3qfuBsVQELPDHKGYJnsD/ygb/Wka6ptXCZD/
+ Yg42Xkz6iLACNnADhRxe9fE2dgGqNQjPc5d75SU7mCNjMn/MwjZ66ahxy9AbENYDEdNhxhzDtl3
+ 7rNBRa0/FOjmLDSfwnuuimDeZjafPV1M=
+X-Received: by 2002:a05:6830:58:b0:61c:cf3c:14b8 with SMTP id
+ d24-20020a056830005800b0061ccf3c14b8mr6184041otp.38.1658835334008; 
+ Tue, 26 Jul 2022 04:35:34 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1teWtuuLaHKUGx9QNmdizDt25MYDfREAr2mAO97ZVZIseJrGpCJJERcAl+9QZAy8JDCNaWqbMx0sStT6+MltQ0=
+X-Received: by 2002:a05:6830:58:b0:61c:cf3c:14b8 with SMTP id
+ d24-20020a056830005800b0061ccf3c14b8mr6184027otp.38.1658835333790; Tue, 26
+ Jul 2022 04:35:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hLN4B82/tHxwgKjk"
-Content-Disposition: inline
-In-Reply-To: <Yt/O8+n1pf3SRR7e@apples>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220726092248.128336-1-frankja@linux.ibm.com>
+ <20220726092248.128336-3-frankja@linux.ibm.com>
+In-Reply-To: <20220726092248.128336-3-frankja@linux.ibm.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 26 Jul 2022 15:35:22 +0400
+Message-ID: <CAMxuvazFw2eD1dTQJOQniQCc4faJd3zQw0jtfKdKygWEEtPe5A@mail.gmail.com>
+Subject: Re: [PATCH v4 02/17] dump: Introduce GuestPhysBlock offset and length
+ filter functions
+To: Janosch Frank <frankja@linux.ibm.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
+ mhartmay@linux.ibm.com, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
+ Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, 
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, seiden@linux.ibm.com,
+ scgl@linux.ibm.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,183 +99,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Jul 26, 2022 at 1:23 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+>
+> The iteration over the memblocks is hard to understand so it's about
+> time to clean it up. Instead of manually grabbing the next memblock we
+> can use QTAILQ_FOREACH to iterate over all memblocks.
+>
+> Additionally we move the calculation of the offset and length out by
+> using the dump_get_memblock_*() functions.
+>
+> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> ---
+>  dump/dump.c           | 37 +++++++++++++++++++++++++++++++++++++
+>  include/sysemu/dump.h |  5 +++++
+>  2 files changed, 42 insertions(+)
+>
+> diff --git a/dump/dump.c b/dump/dump.c
+> index 0ed7cf9c7b..0fd7c76c1e 100644
+> --- a/dump/dump.c
+> +++ b/dump/dump.c
+> @@ -591,6 +591,43 @@ static void dump_begin(DumpState *s, Error **errp)
+>      write_elf_notes(s, errp);
+>  }
+>
+> +int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
+> +                               int64_t filter_area_length)
+> +{
+> +    int64_t size, left, right;
+> +
+> +    /* No filter, return full size */
+> +    if (!filter_area_length) {
+> +        return block->target_end - block->target_start;
+> +    }
+> +
+> +    /* calculate the overlapped region. */
+> +    left = MAX(filter_area_start, block->target_start);
+> +    right = MIN(filter_area_start + filter_area_length, block->target_end);
+> +    size = right - left;
+> +    size = size > 0 ? size : 0;
+> +
+> +    return size;
+> +}
+> +
+> +int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
+> +                                int64_t filter_area_length)
+> +{
+> +    if (filter_area_length) {
+> +        /* return -1 if the block is not within filter area */
+> +        if (block->target_start >= filter_area_start + filter_area_length ||
+> +            block->target_end <= filter_area_start) {
+> +            return -1;
+> +        }
+> +
+> +        if (filter_area_start > block->target_start) {
+> +            return filter_area_start - block->target_start;
+> +        }
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+>  static int get_next_block(DumpState *s, GuestPhysBlock *block)
+>  {
+>      while (1) {
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index ffc2ea1072..6ce3c24197 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -203,4 +203,9 @@ typedef struct DumpState {
+>  uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
+>  uint32_t cpu_to_dump32(DumpState *s, uint32_t val);
+>  uint64_t cpu_to_dump64(DumpState *s, uint64_t val);
+> +
+> +int64_t dump_get_memblock_size(GuestPhysBlock *block, int64_t filter_area_start,
+> +                               int64_t filter_area_length);
+> +int64_t dump_get_memblock_start(GuestPhysBlock *block, int64_t filter_area_start,
+> +                                int64_t filter_area_length);
 
---hLN4B82/tHxwgKjk
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The functions don't need to be exported. You probably need to
+introduce them back with their usage, to avoid some compiler warning.
+If you can't split the introduction and related refactoring, then
+let's have a single patch.
 
-On Jul 26 13:24, Klaus Jensen wrote:
-> On Jul 26 12:09, Klaus Jensen wrote:
-> > On Jul 26 11:19, Klaus Jensen wrote:
-> > > On Jul 26 15:55, Jinhao Fan wrote:
-> > > > at 3:41 PM, Klaus Jensen <its@irrelevant.dk> wrote:
-> > > >=20
-> > > > > On Jul 26 15:35, Jinhao Fan wrote:
-> > > > >> at 4:55 AM, Klaus Jensen <its@irrelevant.dk> wrote:
-> > > > >>=20
-> > > > >>> We have a regression following this patch that we need to addre=
-ss.
-> > > > >>>=20
-> > > > >>> With this patch, issuing a reset on the device (`nvme reset /de=
-v/nvme0`
-> > > > >>> will do the trick) causes QEMU to hog my host cpu at 100%.
-> > > > >>>=20
-> > > > >>> I'm still not sure what causes this. The trace output is a bit
-> > > > >>> inconclusive still.
-> > > > >>>=20
-> > > > >>> I'll keep looking into it.
-> > > > >>=20
-> > > > >> I cannot reproduce this bug. I just start the VM and used `nvme =
-reset
-> > > > >> /dev/nvme0`. Did you do anything before the reset?
-> > > > >=20
-> > > > > Interesting and thanks for checking! Looks like a kernel issue th=
-en!
-> > > > >=20
-> > > > > I remember that I'm using a dev branch (nvme-v5.20) of the kernel=
- and
-> > > > > reverting to a stock OS kernel did not produce the bug.
-> > > >=20
-> > > > I=E2=80=99m using 5.19-rc4 which I pulled from linux-next on Jul 1.=
- It works ok on
-> > > > my machine.
-> > >=20
-> > > Interesting. I can reproduce on 5.19-rc4 from torvalds tree. Can you
-> > > drop your qemu command line here?
-> > >=20
-> > > This is mine.
-> > >=20
-> > > /home/kbj/work/src/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
-> > >   -nodefaults \
-> > >   -display "none" \
-> > >   -machine "q35,accel=3Dkvm,kernel-irqchip=3Dsplit" \
-> > >   -cpu "host" \
-> > >   -smp "4" \
-> > >   -m "8G" \
-> > >   -device "intel-iommu" \
-> > >   -netdev "user,id=3Dnet0,hostfwd=3Dtcp::2222-:22" \
-> > >   -device "virtio-net-pci,netdev=3Dnet0" \
-> > >   -device "virtio-rng-pci" \
-> > >   -drive "id=3Dboot,file=3D/home/kbj/work/vol/machines/img/nvme.qcow2=
-,format=3Dqcow2,if=3Dvirtio,discard=3Dunmap,media=3Ddisk,read-only=3Dno" \
-> > >   -device "pcie-root-port,id=3Dpcie_root_port1,chassis=3D1,slot=3D0" \
-> > >   -device "nvme,id=3Dnvme0,serial=3Ddeadbeef,bus=3Dpcie_root_port1,md=
-ts=3D7" \
-> > >   -drive "id=3Dnull,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don=
-,format=3Draw" \
-> > >   -device "nvme-ns,id=3Dnvm-1,drive=3Dnvm-1,bus=3Dnvme0,nsid=3D1,driv=
-e=3Dnull,logical_block_size=3D4096,physical_block_size=3D4096" \
-> > >   -pidfile "/home/kbj/work/vol/machines/run/null/pidfile" \
-> > >   -kernel "/home/kbj/work/src/kernel/linux/arch/x86_64/boot/bzImage" \
-> > >   -append "root=3D/dev/vda1 console=3DttyS0,115200 audit=3D0 intel_io=
-mmu=3Don" \
-> > >   -virtfs "local,path=3D/home/kbj/work/src/kernel/linux,security_mode=
-l=3Dnone,readonly=3Don,mount_tag=3Dkernel_dir" \
-> > >   -serial "mon:stdio" \
-> > >   -d "guest_errors" \
-> > >   -D "/home/kbj/work/vol/machines/log/null/qemu.log" \
-> > >   -trace "pci_nvme*"
-> >=20
-> > Alright. It was *some* config issue with my kernel. Reverted to a
-> > defconfig + requirements and the issue went away.
-> >=20
->=20
-> And it went away because I didn't include iommu support in that kernel (a=
-nd its
-> not enabled by default on the stock OS kernel).
->=20
-> > I'll try to track down what happended, but doesnt look like qemu is at
-> > fault here.
->=20
-> OK. So.
->=20
-> I can continue to reproduce this if the machine has a virtual intel iommu
-> enabled. And it only happens when this commit is applied.
->=20
-> I even backported this patch (and the shadow doorbell patch) to v7.0 and =
-v6.2
-> (i.e. no SRIOV or CC logic changes that could be buggy) and it still exhi=
-bits
-> this behavior. Sometimes QEMU coredumps on poweroff and I managed to grab=
- one:
->=20
-> Program terminated with signal SIGSEGV, Segmentation fault.
-> #0  nvme_process_sq (opaque=3D0x556329708110) at ../hw/nvme/ctrl.c:5720
-> 5720   NvmeCQueue *cq =3D n->cq[sq->cqid];
-> [Current thread is 1 (Thread 0x7f7363553cc0 (LWP 2554896))]
-> (gdb) bt
-> #0  nvme_process_sq (opaque=3D0x556329708110) at ../hw/nvme/ctrl.c:5720
-> #1  0x0000556326e82e28 in nvme_sq_notifier (e=3D0x556329708148) at ../hw/=
-nvme/ctrl.c:3993
-> #2  0x000055632738396a in aio_dispatch_handler (ctx=3D0x5563291c3160, nod=
-e=3D0x55632a228b60) at ../util/aio-posix.c:329
-> #3  0x0000556327383b22 in aio_dispatch_handlers (ctx=3D0x5563291c3160) at=
- ../util/aio-posix.c:372
-> #4  0x0000556327383b78 in aio_dispatch (ctx=3D0x5563291c3160) at ../util/=
-aio-posix.c:382
-> #5  0x000055632739d748 in aio_ctx_dispatch (source=3D0x5563291c3160, call=
-back=3D0x0, user_data=3D0x0) at ../util/async.c:311
-> #6  0x00007f7369398163 in g_main_context_dispatch () at /usr/lib64/libgli=
-b-2.0.so.0
-> #7  0x00005563273af279 in glib_pollfds_poll () at ../util/main-loop.c:232
-> #8  0x00005563273af2f6 in os_host_main_loop_wait (timeout=3D0x1dbe22c0) a=
-t ../util/main-loop.c:255
-> #9  0x00005563273af404 in main_loop_wait (nonblocking=3D0x0) at ../util/m=
-ain-loop.c:531
-> #10 0x00005563270714d9 in qemu_main_loop () at ../softmmu/runstate.c:726
-> #11 0x0000556326c7ea46 in main (argc=3D0x2e, argv=3D0x7ffc6977f198, envp=
-=3D0x7ffc6977f310) at ../softmmu/main.c:50
->=20
-> At this point, there should not be any CQ/SQs (I detached the device from=
- the
-> kernel driver which deletes all queues and bound it to vfio-pci instead),=
- but
-> somehow a stale notifier is called on poweroff and the queue is bogus, ca=
-using
-> the segfault.
->=20
-> (gdb) p cq->cqid
-> $2 =3D 0x7880
->=20
-> My guess would be that we are not cleaning up the notifier properly. Curr=
-ently
-> we do this
->=20
->     if (cq->ioeventfd_enabled) {
->         memory_region_del_eventfd(&n->iomem,
->                                   0x1000 + offset, 4, false, 0, &cq->noti=
-fier);
->         event_notifier_cleanup(&cq->notifier);
->     }
->=20
->=20
-> Any ioeventfd experts that has some insights into what we are doing
-> wrong here? Something we need to flush? I tried with a test_and_clear on
-> the eventfd but that didnt do the trick.
->=20
-> I think we'd need to revert this until we can track down what is going wr=
-ong.
+Thanks
 
-One more thing - I now also triggered the coredump with just a `modprobe
-vfio-pci` following a `nvme reset /dev/nvme0`.
+>  #endif
+> --
+> 2.34.1
+>
 
-Similar backtrace.
-
---hLN4B82/tHxwgKjk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLf0LEACgkQTeGvMW1P
-Dek1Ywf/dzJKQL3sUWXfIacODblE/awEjMBn4gj0g7OVOX7x2kqALn4COhXqm8nz
-SR9o2PAdFWzZ8exalI54aVd1IbrmqKJLiz6jpTxj9VNsVeccqOhQMOt74GrcjfXR
-h7TT/4MnDfLyhDWLPR0VXdw1u6tINrh5zW58IG95lCAInOFtkgZvkBmE8Kb0zJDN
-MzYMtMPO68TwVq1VXyFzZu30r+77Iez10bvqyF+nwS6/n6Ubff0fJsERUzm4vqGi
-LixpqgRCZHb+Xz6IjZtIXBAdgKiAxQU+VwVbnD4iiLkeF7RFr9IJbaaDLCLST+kl
-7KHM1RtpUHLTuYHN130vLfEoNJLw/Q==
-=kL+6
------END PGP SIGNATURE-----
-
---hLN4B82/tHxwgKjk--
 
