@@ -2,70 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31275581583
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 16:39:14 +0200 (CEST)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 492EC58157E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 16:38:28 +0200 (CEST)
+Received: from localhost ([::1]:38580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGLiL-00045E-8U
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 10:39:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34942)
+	id 1oGLhb-0002ua-BD
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 10:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGLZy-0006hl-IG
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:38 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:45668)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oGLZq-0006ex-30
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:27 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGLZv-0005I9-JM
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:34 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id a82so20027932ybb.12
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GULCDdtUJXn8yNrvsrInz144fCRO/iI6RixUcYA9Kz4=;
- b=oR8UdxC7u1Na6H760Pba5sFhGrSSgzpKdhCKh35V9CsLglP1UARXuTD+X709S23nz6
- Sx3RupFOscMT0u+wTvuiwYsST6TyPI54tHInNcK4gD5W8q3yLvRVlw5BEt/FdoTg72XU
- vOm+vqKxzyJrepLZkQHm+2V1Xy6sjhayZ/+S0wH4x32GjG/GcDqOUDiTapHvB1qogM8/
- HOExRW16TmeLXSBak7Xto2f6DoCAJAblJst/bpQOCh2Itrmb7G/Qlk/QpyoKv5xnYOgV
- 6hGPumlMu3QZHuYal/c9KzbzdjwFkMFKPtIh3EBn/kH1W6LfouOHiZ8eOrH+3APF1MIq
- FCcA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oGLZn-0005HD-Qf
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:25 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id w185so13400952pfb.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/jPv7MNHn/R3CBy/IbY1X9QGH75qE6Q82yfr4zVBfQ0=;
+ b=LwgTAmJoaUXO9rpBH9LnGAFhbjMtWVSCFb0MtQScWhGj0B162HuAu1nYB/BpKodWKI
+ lllVCgh4JhMdgnbUO7UBGTQoUhf26F83GRCkuTLgUk/DmmXNWJEiJ5NJZ/ZszWWDnsRQ
+ u7xYSO9VY+BGoOwS+1dn+GN3/x/0OoW6FrXh5wnQAlYh3TrTLjpRwrT0rDBALYvJf/Ur
+ VDEGiNxT0NIAEV2Uln/Nv8tDYxz+fo9araOJ77Ik4YIWOBSezz93iI2RYKKOeratVjbi
+ f8q7MDLpxOr7tEdTI37fOPaqE6pQLXwZbUf2n5jzw0NkpVatcwt85pswc2Ntg6dEMZLf
+ afNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GULCDdtUJXn8yNrvsrInz144fCRO/iI6RixUcYA9Kz4=;
- b=TkZxoJVC6ro9Ph59qguNzFauCo2ysk8kLqWd8S4zhlG1hnQnU44P/s81oEif41eULU
- ryjpL6kC5iunLV2DEHP8PPXZqqA6/iswIcGb7nIdPT1zv0eH+hGloZ6FVaQDY+GSIdV0
- bpzACMofAE7/xfb1zpC2ZBQW5UIuRY7Kn4tDUajtuZsBgbVHCXmzpuu0mgaN3nB/zvuv
- nzqhi2LwwNfK0kvXGeqn7Q4GNUkLFpJGmDYOSxQST1ZB+qRruCiDdGSpHwWyt4ALfd/8
- Lmjb0GP8jkyzEkoWlcn+bkHkm0wPoKhaYcDe1ku3DvZIm46XKMVrWsVb2mcQ6wda4OTl
- PPuQ==
-X-Gm-Message-State: AJIora9Q08ORHGJ65D2oN3lrFQOD7j9floEMwb3YvouRRd/oA072X36j
- PBoDMJFDvGUI1xEu3nFqtx2w/pG0GM0RuZZrEro8bQ6VpxA=
-X-Google-Smtp-Source: AGRyM1ui90ee01Sk9B0ETEar86b4GAKOCI8hI8rLmNkTmmOKx+y29gJZWEWUIS1jPfwY0SKbsjw+FdULj5IYfy2q4xM=
-X-Received: by 2002:a5b:e90:0:b0:671:670a:594a with SMTP id
- z16-20020a5b0e90000000b00671670a594amr5437644ybr.193.1658845830447; Tue, 26
- Jul 2022 07:30:30 -0700 (PDT)
+ h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+ :subject:content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/jPv7MNHn/R3CBy/IbY1X9QGH75qE6Q82yfr4zVBfQ0=;
+ b=YAAEvh9c65SMs7bd4lAbKxsylOMjyJ5OayqM0S1hZ4zHzZZ7lghlRYYiGpqQ8UMgns
+ T6m4gwAoqAzyaxIWVzG7m1+vWaSy9hdSUZ9urjGE9xuACNQOyj6ax+ZoeAV+BI0Cd9A1
+ nGTsoxkXwsJC/yniTjWXYuNtmbRj90FbQJnaTPcaK3KcPMyQJlqjC0e+ZIzhVpeuMZXn
+ JIvPTKT3mqNdCF34Qt2u1LvL72kSPJ49uhaB9WPow9ZjmUSFP8gf3YbzjAccCq6xLZXs
+ vdt0JzXorQthzuTsXh4lbyc61dw8sg/3K6GnpMMiTwffifman8Gyp33ibaR9lLqLngdv
+ tACQ==
+X-Gm-Message-State: AJIora+XSbGI82glIxhQcFST9vD+Y/qI5pBQWCVdz9TiFtglHrnw2Ojd
+ txM0djrpruFolCXAxD0MHX8=
+X-Google-Smtp-Source: AGRyM1swylSUhoYBofO17nuskVgjC4UrlsT+yujJmW6wfmw8EFu74hZ1EUHrwJGrc3bYpm/nobVe4A==
+X-Received: by 2002:aa7:8253:0:b0:52b:f4f7:bc55 with SMTP id
+ e19-20020aa78253000000b0052bf4f7bc55mr10683785pfn.4.1658845818810; 
+ Tue, 26 Jul 2022 07:30:18 -0700 (PDT)
+Received: from [192.168.205.175] (113.red-88-29-182.dynamicip.rima-tde.net.
+ [88.29.182.113]) by smtp.gmail.com with ESMTPSA id
+ y1-20020a17090264c100b0016d2e8c2228sm11504715pli.238.2022.07.26.07.30.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 07:30:17 -0700 (PDT)
+Message-ID: <ffca882a-fa87-ec24-2b7b-a86e8b46369a@amsat.org>
+Date: Tue, 26 Jul 2022 16:30:11 +0200
 MIME-Version: 1.0
-References: <20220726094442.4452-1-laurent@vivier.eu>
-In-Reply-To: <20220726094442.4452-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Jul 2022 15:29:50 +0100
-Message-ID: <CAFEAcA-RZcTNytmyTpCKLfSNjk1UGv+dFh0ptZM6LRfSt5pzmA@mail.gmail.com>
-Subject: Re: [PULL 0/3] Linux user for 7.1 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v1 03/13] gitlab: drop 'containers-layer2' stage
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: fam@euphon.net, berrange@redhat.com, aurelien@aurel32.net,
+ pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
+ peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20220725140520.515340-1-alex.bennee@linaro.org>
+ <20220725140520.515340-4-alex.bennee@linaro.org>
+In-Reply-To: <20220725140520.515340-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,31 +98,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On Tue, 26 Jul 2022 at 10:49, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 5288bee45fbd33203b61f8c76e41b15bb5913e6e:
->
->   Merge tag 'for-upstream' of https://gitlab.com/bonzini/qemu into staging (2022-07-21 11:13:01 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/laurent_vivier/qemu.git tags/linux-user-for-7.1-pull-request
->
-> for you to fetch changes up to 6f200f51869ff0de7ea0343dd7104362e994b382:
->
->   linux-user: Use target abi_int type for pipefd[1] in pipe() (2022-07-25 10:42:11 +0200)
->
-> ----------------------------------------------------------------
-> linux-user pull request 20220726
->
-> ----------------------------------------------------------------
+On 25/7/22 16:05, Alex Bennée wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
+> 
+> Since we express dependancies via a 'needs' clause, we don't need to
 
+Typo "dependencies".
 
-Applied, thanks.
+> split container builds into separate stages. GitLab happily lets jobs
+> depend on other jobs in the same stage and will run them when possible.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/7.1
-for any user-visible changes.
+Nice!
 
--- PMM
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Message-Id: <20220722130431.2319019-4-berrange@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   .gitlab-ci.d/container-cross.yml | 24 ++++++++++++------------
+>   .gitlab-ci.d/stages.yml          |  1 -
+>   2 files changed, 12 insertions(+), 13 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
