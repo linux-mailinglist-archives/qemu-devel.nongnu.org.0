@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7358558161C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:09:35 +0200 (CEST)
-Received: from localhost ([::1]:53878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0C9C581657
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:24:33 +0200 (CEST)
+Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGMBi-0000sv-Ej
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:09:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
+	id 1oGMQC-0003ac-Pu
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGM7J-0005K7-LC
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:05:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:25542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGM7G-0002zf-Ci
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:05:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658847897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WvUq+4+UZEdCZNghObbzTIsHwGzQaP0cbPTa0Ik0SXE=;
- b=PAwWT/xNaz7WBeF5GrtZQ/+SiigF2fVSN4x/tekcux3wZ5jW/bh6tTZMXhG4Zko76L3api
- +Zo02gkNp6Y8STYOM23KR76bcJwCNWaRhj63Jo+6e+aFaBPSN5o7nEBKpbA74grq39Cv2c
- FssqFM69zojs+xpWfNRiJFn2PZPcQWg=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-5HQpkvnCNNOQyvnM5Xscaw-1; Tue, 26 Jul 2022 11:04:55 -0400
-X-MC-Unique: 5HQpkvnCNNOQyvnM5Xscaw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- h15-20020a056402280f00b0043bd8412fe0so6122008ede.16
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 08:04:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGMM7-0006Nd-6O
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:23 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:53839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGMM5-00062X-EQ
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:18 -0400
+Received: by mail-wm1-x329.google.com with SMTP id a11so8946082wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 08:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ZzyAgYoa6uNLZTiIWNp3MXyMKFoL8B4Ig4Rg0wdDoA=;
+ b=du44jIXQtwGUuF0YXIuiIG0smt/MpMEnRDah3Cq7xAxX+wF0MS6Sy+lI0mGg/1WErQ
+ TJjjmwWYRMiNe5P9Jw8VXCgYEieoMauxpWZLpG/g6/TQHZMZHsuyic/2uWEKYHj2AaNs
+ adPor2YVKVIAzLPyhT0XW345zODJzmhywaesUf9oMKrzQkOMogyTW3zqjmL7z2ZIVsh/
+ AmbzFQkYj5ZnW57VwxB1qswaewqyMh2sTQ96Zips+hf5GRlqRQEQ2WvKH8CfE5WO8Fek
+ +6u1N4SyoAF/tG7ywIwMAc/LHBVFhGJfzXeyQ4gWn7qfrebI617atKmOL7BnSuu1OsYw
+ wsuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=WvUq+4+UZEdCZNghObbzTIsHwGzQaP0cbPTa0Ik0SXE=;
- b=K3MT6LDWxs6lWH+ulZtxANBBHbu7bYVGOad+Yw88TP30KRhVj69qwTAOYqBbzf1dop
- Mxfqy2DEWnmU/4029jj2srbVUVhne1+Ec2zyUI483MA5VBqqCm1LVFalckpsQa8L12ud
- FSVozxST69AFxd2oeNz+5mqAH1oS2DLZirPTR6MRexjWZvMhpX7ACKKxH+HNl6o4kP0Y
- aqPN+nGcX/9rVZA46Ju3rGG2muxT5u41GSvLf1Hfzsxbj+PqjHjHYpnY46BKUNDEmMxu
- iqS0euHfAZgIJ/GdxXK60V8O2fexj9wVNYUac4jLJzrIRgyonDD7RyHRLdCe0A1QluOD
- ax8Q==
-X-Gm-Message-State: AJIora+AqNxQgdjb3f6DDdRdysJzq6mixxIPAwjIjqn0G3PoY/2O458p
- KWeIRKjwvpLkICvZS6BKPPZU2/37YjB+idfx0GTz4xjxpDodUlNWzHFxGdAX9oAqys21crQcw0D
- zR1IO9Z33L2WwYJo=
-X-Received: by 2002:a05:6402:278c:b0:43a:91cb:c43a with SMTP id
- b12-20020a056402278c00b0043a91cbc43amr18768247ede.188.1658847894025; 
- Tue, 26 Jul 2022 08:04:54 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sqnO1ZxA1HPUE0mQa592YZpsryBqmJkWl9M6sKEw11PyCro64ucYN7574tltA9dBF8Y+ODyw==
-X-Received: by 2002:a05:6402:278c:b0:43a:91cb:c43a with SMTP id
- b12-20020a056402278c00b0043a91cbc43amr18768213ede.188.1658847893371; 
- Tue, 26 Jul 2022 08:04:53 -0700 (PDT)
-Received: from redhat.com ([2.55.43.166]) by smtp.gmail.com with ESMTPSA id
- b7-20020aa7c6c7000000b0043a78236cd2sm8784603eds.89.2022.07.26.08.04.50
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5ZzyAgYoa6uNLZTiIWNp3MXyMKFoL8B4Ig4Rg0wdDoA=;
+ b=WNsGEHT2xUnQU12BgPAOkAewFqbY+g4pGJq3EAyz6gV508vigQxmtqb3gchfO4V+nJ
+ 6OHHgTe7O+Z2xPfVrp1NRiuDWfaMyxZqmY36qV3j4nAic8IaxPaZ55wEPzKIANCqiCh7
+ JEotmmaMEuelpTz3A/t36QhUCQV0ZTKStXRba+bM4Vp2+NbiFW82kJ4ep/H2hx/5GavG
+ GHu9ma2owF3boPA2NJbDY7RsCDAbQkW7UkXJjI9mBQB8sktvEhb1doVND0H9wRc//fOV
+ w432f45etA+5PTx2g+L6llHByq2HUKXOkDHq6pckcDMTWovDKpB4/RRdh3kNMB5y8BlM
+ EaRw==
+X-Gm-Message-State: AJIora8i/DyE0kJLwwpqw610uHtqv6qwVmN3eoNJvCZeCLA2XAwwt5Y2
+ Yv+n3eWKMInqLq2XbxfKRpZjP4FoM/LYXA==
+X-Google-Smtp-Source: AGRyM1utRoVKsNZ9rz9KjqVqDSkqD9/vv7clNIyS/C6vdtKXbIraYjAqlzfgzTQ5ZuhSfQjnUyActA==
+X-Received: by 2002:a05:600c:34c9:b0:3a3:74a1:2754 with SMTP id
+ d9-20020a05600c34c900b003a374a12754mr2156781wmq.35.1658848815585; 
+ Tue, 26 Jul 2022 08:20:15 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ n5-20020a1c2705000000b003a1980d55c4sm21932739wmn.47.2022.07.26.08.20.14
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 08:04:52 -0700 (PDT)
-Date: Tue, 26 Jul 2022 11:04:48 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-Cc: jonathan.cameron@huawei.com, qemu-devel@nongnu.org,
- yangyicong@huawei.com, chenxiang66@hisilicon.com,
- linuxarm@huawei.com, qemu-arm@nongnu.org, peter.maydell@linaro.org,
- imammedo@redhat.com, wangyanan55@huawei.com,
- marcel.apfelbaum@gmail.com, eduardo@habkost.net,
- Brice.Goglin@inria.fr, jingqi.liu@intel.com
-Subject: Re: [PATCH v2 0/8] AArch64/HMAT support and tests
-Message-ID: <20220726110406-mutt-send-email-mst@kernel.org>
-References: <20220719094950.1049516-1-hesham.almatary@huawei.com>
+ Tue, 26 Jul 2022 08:20:14 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/9] target-arm queue
+Date: Tue, 26 Jul 2022 16:20:03 +0100
+Message-Id: <20220726152012.1631158-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220719094950.1049516-1-hesham.almatary@huawei.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,68 +86,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 19, 2022 at 10:49:42AM +0100, Hesham Almatary wrote:
-> This patchset adds support for AArch64/HMAT including a test.
-> It relies on other two patch sets from:
-> 
-> Brice Goglin: to support -numa without initiators on q35/x86.
->   https://lore.kernel.org/all/ed23accb-2c8b-90f4-a7a3-f81cc57bf678@inria.fr/
-> Xiang Chen: to enable/support HMAT on AArch64.
->   https://lore.kernel.org/all/1643102134-15506-1-git-send-email-chenxiang66@hisilicon.com/
+A last lot of bug fixes before rc0...
 
-Thanks!
-I think it's best to merge this all after the release.
-I've tagged this but please ping me after the release
-just to make sure. Thanks everyone!
+thanks
+-- PMM
 
-> I further add a test with ACPI/HMAT tables that uses the two
-> patch sets.
-> 
-> Changes from v1:
-> - Generate APIC and PPTT ACPI tables for AArch64/virt
-> - Avoid using legacy syntax in numa/bios tests
-> - Delete unchanged FACP tables
-> 
-> Brice Goglin (4):
->   hmat acpi: Don't require initiator value in -numa
->   tests: acpi: add and whitelist *.hmat-noinitiator expected blobs
->   tests: acpi: q35: add test for hmat nodes without initiators
->   tests: acpi: q35: update expected blobs *.hmat-noinitiators expected
->     HMAT:
-> 
-> Hesham Almatary (3):
->   tests: Add HMAT AArch64/virt empty table files
->   tests: acpi: aarch64/virt: add a test for hmat nodes with no initiators
->   tests: virt: Update expected *.acpihmatvirt tables
-> 
-> Xiang Chen (1):
->   hw/arm/virt: Enable HMAT on arm virt machine
-> 
->  hw/arm/Kconfig                                |   1 +
->  hw/arm/virt-acpi-build.c                      |   7 ++
->  hw/core/machine.c                             |   4 +-
->  tests/data/acpi/q35/APIC.acpihmat-noinitiator | Bin 0 -> 144 bytes
->  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 0 -> 8553 bytes
->  tests/data/acpi/q35/HMAT.acpihmat-noinitiator | Bin 0 -> 288 bytes
->  tests/data/acpi/q35/SRAT.acpihmat-noinitiator | Bin 0 -> 312 bytes
->  tests/data/acpi/virt/APIC.acpihmatvirt        | Bin 0 -> 396 bytes
->  tests/data/acpi/virt/DSDT.acpihmatvirt        | Bin 0 -> 5282 bytes
->  tests/data/acpi/virt/HMAT.acpihmatvirt        | Bin 0 -> 288 bytes
->  tests/data/acpi/virt/PPTT.acpihmatvirt        | Bin 0 -> 196 bytes
->  tests/data/acpi/virt/SRAT.acpihmatvirt        | Bin 0 -> 240 bytes
->  tests/qtest/bios-tables-test.c                | 109 ++++++++++++++++++
->  13 files changed, 118 insertions(+), 3 deletions(-)
->  create mode 100644 tests/data/acpi/q35/APIC.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/DSDT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/HMAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/q35/SRAT.acpihmat-noinitiator
->  create mode 100644 tests/data/acpi/virt/APIC.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/DSDT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/HMAT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/PPTT.acpihmatvirt
->  create mode 100644 tests/data/acpi/virt/SRAT.acpihmatvirt
-> 
-> -- 
-> 2.25.1
+The following changes since commit 0d0275c31f00b71b49eb80bbdca2cfe244cf80fb:
 
+  Merge tag 'net-pull-request' of https://github.com/jasowang/qemu into staging (2022-07-26 10:31:02 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20220726
+
+for you to fetch changes up to 5865d99fe88d8c8fa437c18c6b63fb2a8165634f:
+
+  hw/display/bcm2835_fb: Fix framebuffer allocation address (2022-07-26 14:09:44 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * Update Coverity component definitions
+ * target/arm: Add MO_128 entry to pred_esz_masks[]
+ * configure: Fix portability issues
+ * hw/display/bcm2835_fb: Fix framebuffer allocation address
+
+----------------------------------------------------------------
+Alan Jian (1):
+      hw/display/bcm2835_fb: Fix framebuffer allocation address
+
+Peter Maydell (8):
+      scripts/coverity-scan/COMPONENTS.md: Add loongarch component
+      scripts/coverity-scan/COMPONENTS.md: Update slirp component info
+      target/arm: Add MO_128 entry to pred_esz_masks[]
+      configure: Add missing POSIX-required space
+      configure: Add braces to clarify intent of $emu[[:space:]]
+      configure: Don't use bash-specific string-replacement syntax
+      configure: Drop dead code attempting to use -msmall-data on alpha hosts
+      configure: Avoid '==' bashism
+
+ configure                           | 20 +++++++-------------
+ target/arm/cpu.h                    |  2 +-
+ hw/display/bcm2835_fb.c             |  3 +--
+ target/arm/translate-sve.c          |  5 +++--
+ scripts/coverity-scan/COMPONENTS.md |  7 +++++--
+ 5 files changed, 17 insertions(+), 20 deletions(-)
 
