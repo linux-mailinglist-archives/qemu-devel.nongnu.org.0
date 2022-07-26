@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3CE581A87
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:50:30 +0200 (CEST)
-Received: from localhost ([::1]:40494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0D78581AC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:14:00 +0200 (CEST)
+Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQZZ-0000su-RZ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52564)
+	id 1oGQwJ-0003gz-86
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:13:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQX-00079B-CV
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:41:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32180)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQV-000563-Di
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:41:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658864465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=lcDZ+kvJCB8XhMtmG2zKvtJJoMu/uNhWnfYMk/wNzZ0=;
- b=SZyKBVZyW1Bt55w4rVhqJ12OeRnWD+QiW79GTdNdFJ4neyrzbp5llETyh7N1Qkj26BDEVI
- 1ERiAwSZfRKKrn5hOFHR/eUHYKZYWkWdUCpVexH3DJGYXDS2UlbonSpQ6802GE/FoLPbIj
- KNZzQX0PfaiXyt4grThxl/qR2r+hwaI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-179-Af-fJphZPYa6C0UAtYzzNA-1; Tue, 26 Jul 2022 15:41:04 -0400
-X-MC-Unique: Af-fJphZPYa6C0UAtYzzNA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h65-20020a1c2144000000b003a30cae106cso10646682wmh.8
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:41:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oGQGA-0006bj-6V
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:35 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oGQG4-0003bF-3k
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:22 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id h8so21457802wrw.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=TJYGQIz+rWx7e0twPEDMb7ZMcWZRr8Vc82PxTGHPmrg=;
+ b=rbC3RCkFQLOWSKwxagAYuVJF2zp2n0bmKFOy5vbWFv0oWniEMmWI8VGPrj00yOq/RY
+ lmrijP9isQ0gJmD4ZjL1mJcPXzNfb2gyogn1amPM+wc5/ffM9jhvE496ilnfO3FFaKdP
+ 1wz2FORZIdXkeaiy8juQbUQNO4YoENc+WW36Fstgu2KUMwYEcY6Y9TQsHtTdtVHyRGEW
+ ZdzIYdpdixxW3mYd4s396W9WIElndQgkEUOVXS87JMUdC+zIs8c+su2yQR+ggjvbypeX
+ Y/bcubCquOg1aUCH8BVRwqM+MMDkAGA+HSQu8kQJ62+6jOOh3yaexPFqoKFK8/fNZCAr
+ jw9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=lcDZ+kvJCB8XhMtmG2zKvtJJoMu/uNhWnfYMk/wNzZ0=;
- b=YzOy1HrdrYk3K3Z3AgjnYnDHRqTiiWXy9BmJbwhNjT27smo196xX3Bj+siulhv56xe
- 9yft94PBALYByQ80aUmIHsUVsHccAYNaTySRKXFucgZ8OMpKkeOub7kqDcHhAShZEtIi
- QmIITTssVT0q1CvPBR7OwWsHLJqbKbfpSU/HHfkC4YUdb5zyPek3CuLBCJ/zcy7qr/rN
- AGFe0qzU5BQ5uhE8aZLfcllYEMG7Mxshf3TaZWiVp9AOfmxpT6MLV+tzEELhHDuWSmPF
- yeOQt9QITOF1AESYQ6jmnLWjaXBN/vzlUJlPbyveeoEI7Q7sE7ViU+7RD1byicW/HITq
- CK8Q==
-X-Gm-Message-State: AJIora+pc748I+3/AeLKkM5B1C2uEshAxdlqZhSqzZk3RzHt4fXFz4ME
- KMQA4sHsl8sgrOt7dehUSc8NzkOBV4TsvPJ2Wg0YL69lFF0/6nPbVrm9q40SjfmLMgtT4umXAfI
- ODCzSN8VgJSgjGNrM3lHeFZrAbXn9Gkb44GrUPZM/1756ZVQ5xFtVLk/Yxd5X
-X-Received: by 2002:a5d:4f82:0:b0:21e:b8b2:cbc3 with SMTP id
- d2-20020a5d4f82000000b0021eb8b2cbc3mr1650978wru.661.1658864463230; 
- Tue, 26 Jul 2022 12:41:03 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vF6lwk7fGS5sVmjm+NSyovip5XgEy2rWFGFYkDwUGMcSb3XJK3Se2mQrF6qSk8J0+QiEsxnQ==
-X-Received: by 2002:a5d:4f82:0:b0:21e:b8b2:cbc3 with SMTP id
- d2-20020a5d4f82000000b0021eb8b2cbc3mr1650962wru.661.1658864462864; 
- Tue, 26 Jul 2022 12:41:02 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=TJYGQIz+rWx7e0twPEDMb7ZMcWZRr8Vc82PxTGHPmrg=;
+ b=jiuYZ/TcMzPN+CjHikXny8TI+AsrIsuk8QdLrrhTIZNxfgIynMItFVw0KleBUKJdaI
+ nPmDXT9rtV2l1aQoyqQFcMp1t2fER6Ut598r1WBgYsy1NJ0sZQMSEEE3B6B4nBiEHm6F
+ GVeRvprU9GKFenNh6p9KO/vORgZ/lLSX00xYXhjyaA1/CRFKHiMbtIOfSTW8bcjft3hN
+ f0xwtv7RCIpkw0dzyoBzdDDXfybQfRLbjSyVvgpjzthFJlVjwMybBt38Ix1iuZt5kP9z
+ Sbh7BFLq9DVluvSSuIudQFjlP2UnxG89O5T/KrBB/3fevA4P3fSwFLkZJjtH7b8TkUbX
+ Firg==
+X-Gm-Message-State: AJIora+StU0UN2GK2wqIbSrUZCIGUNAg2Cbk/NBQd5+5oRacEatXzDgy
+ q8xqqvIlyUPbRkbF0lAUshaG3Q==
+X-Google-Smtp-Source: AGRyM1v/EP8nba2SBussHKMr4DmX2ICvXysTtIL+uDUDZD2N32iJBtYInsYbekT6bupmWHAUZKX9Pw==
+X-Received: by 2002:a5d:460e:0:b0:21e:6d12:d308 with SMTP id
+ t14-20020a5d460e000000b0021e6d12d308mr11951414wrq.419.1658863818534; 
+ Tue, 26 Jul 2022 12:30:18 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o15-20020a05600c510f00b003a30fbde91dsm25264601wms.20.2022.07.26.12.41.01
+ i6-20020a5d5226000000b0021d6d9c0bd9sm15124735wra.82.2022.07.26.12.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:41:02 -0700 (PDT)
-Date: Tue, 26 Jul 2022 15:41:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ Tue, 26 Jul 2022 12:30:14 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 62CE21FFC4;
+ Tue, 26 Jul 2022 20:21:51 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Tina Zhang <tina.zhang@intel.com>, Eric Auger <eric.auger@redhat.com>
-Subject: [PULL 16/16] hw/virtio/virtio-iommu: Enforce power-of-two notify for
- both MAP and UNMAP
-Message-ID: <20220726193858.177462-17-mst@redhat.com>
-References: <20220726193858.177462-1-mst@redhat.com>
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ mark.cave-ayland@ilande.co.uk, jasowang@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v3 12/21] hw/virtio: add vhost-user-gpio-pci boilerplate
+Date: Tue, 26 Jul 2022 20:21:41 +0100
+Message-Id: <20220726192150.2435175-13-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
+References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,108 +95,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Viresh Kumar <viresh.kumar@linaro.org>
 
-Currently we only enforce power-of-two mappings (required by the QEMU
-notifier) for UNMAP requests. A MAP request not aligned on a
-power-of-two may be successfully handled by VFIO, and then the
-corresponding UNMAP notify will fail because it will attempt to split
-that mapping. Ensure MAP and UNMAP notifications are consistent.
+This allows is to instantiate a vhost-user-gpio device as part of a PCI
+bus. It is mostly boilerplate which looks pretty similar to the
+vhost-user-fs-pci device.
 
-Fixes: dde3f08b5cab ("virtio-iommu: Handle non power of 2 range invalidations")
-Reported-by: Tina Zhang <tina.zhang@intel.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20220718135636.338264-1-jean-philippe@linaro.org>
-Tested-by: Tina Zhang <tina.zhang@intel.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <5f560cab92d0d789b1c94295ec74b9952907d69d.1641987128.git.viresh.kumar@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/virtio/virtio-iommu.c | 47 ++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 19 deletions(-)
+ hw/virtio/vhost-user-gpio-pci.c | 69 +++++++++++++++++++++++++++++++++
+ hw/virtio/meson.build           |  1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 hw/virtio/vhost-user-gpio-pci.c
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 281152d338..62e07ec2e4 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -197,6 +197,32 @@ static gint interval_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
-     }
- }
- 
-+static void virtio_iommu_notify_map_unmap(IOMMUMemoryRegion *mr,
-+                                          IOMMUTLBEvent *event,
-+                                          hwaddr virt_start, hwaddr virt_end)
+diff --git a/hw/virtio/vhost-user-gpio-pci.c b/hw/virtio/vhost-user-gpio-pci.c
+new file mode 100644
+index 0000000000..b3028a24a1
+--- /dev/null
++++ b/hw/virtio/vhost-user-gpio-pci.c
+@@ -0,0 +1,69 @@
++/*
++ * Vhost-user gpio virtio device PCI glue
++ *
++ * Copyright (c) 2022 Viresh Kumar <viresh.kumar@linaro.org>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "hw/qdev-properties.h"
++#include "hw/virtio/vhost-user-gpio.h"
++#include "hw/virtio/virtio-pci.h"
++
++struct VHostUserGPIOPCI {
++    VirtIOPCIProxy parent_obj;
++    VHostUserGPIO vdev;
++};
++
++typedef struct VHostUserGPIOPCI VHostUserGPIOPCI;
++
++#define TYPE_VHOST_USER_GPIO_PCI "vhost-user-gpio-pci-base"
++
++DECLARE_INSTANCE_CHECKER(VHostUserGPIOPCI, VHOST_USER_GPIO_PCI,
++                         TYPE_VHOST_USER_GPIO_PCI)
++
++static void vhost_user_gpio_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
 +{
-+    uint64_t delta = virt_end - virt_start;
++    VHostUserGPIOPCI *dev = VHOST_USER_GPIO_PCI(vpci_dev);
++    DeviceState *vdev = DEVICE(&dev->vdev);
 +
-+    event->entry.iova = virt_start;
-+    event->entry.addr_mask = delta;
-+
-+    if (delta == UINT64_MAX) {
-+        memory_region_notify_iommu(mr, 0, *event);
-+    }
-+
-+    while (virt_start != virt_end + 1) {
-+        uint64_t mask = dma_aligned_pow2_mask(virt_start, virt_end, 64);
-+
-+        event->entry.addr_mask = mask;
-+        event->entry.iova = virt_start;
-+        memory_region_notify_iommu(mr, 0, *event);
-+        virt_start += mask + 1;
-+        if (event->entry.perm != IOMMU_NONE) {
-+            event->entry.translated_addr += mask + 1;
-+        }
-+    }
++    vpci_dev->nvectors = 1;
++    qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
 +}
 +
- static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr virt_start,
-                                     hwaddr virt_end, hwaddr paddr,
-                                     uint32_t flags)
-@@ -215,19 +241,16 @@ static void virtio_iommu_notify_map(IOMMUMemoryRegion *mr, hwaddr virt_start,
++static void vhost_user_gpio_pci_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    VirtioPCIClass *k = VIRTIO_PCI_CLASS(klass);
++    PCIDeviceClass *pcidev_k = PCI_DEVICE_CLASS(klass);
++    k->realize = vhost_user_gpio_pci_realize;
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
++    pcidev_k->vendor_id = PCI_VENDOR_ID_REDHAT_QUMRANET;
++    pcidev_k->device_id = 0; /* Set by virtio-pci based on virtio id */
++    pcidev_k->revision = 0x00;
++    pcidev_k->class_id = PCI_CLASS_COMMUNICATION_OTHER;
++}
++
++static void vhost_user_gpio_pci_instance_init(Object *obj)
++{
++    VHostUserGPIOPCI *dev = VHOST_USER_GPIO_PCI(obj);
++
++    virtio_instance_init_common(obj, &dev->vdev, sizeof(dev->vdev),
++                                TYPE_VHOST_USER_GPIO);
++}
++
++static const VirtioPCIDeviceTypeInfo vhost_user_gpio_pci_info = {
++    .base_name = TYPE_VHOST_USER_GPIO_PCI,
++    .non_transitional_name = "vhost-user-gpio-pci",
++    .instance_size = sizeof(VHostUserGPIOPCI),
++    .instance_init = vhost_user_gpio_pci_instance_init,
++    .class_init = vhost_user_gpio_pci_class_init,
++};
++
++static void vhost_user_gpio_pci_register(void)
++{
++    virtio_pci_types_register(&vhost_user_gpio_pci_info);
++}
++
++type_init(vhost_user_gpio_pci_register);
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index 33c8e71fab..c14e3db10a 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -30,6 +30,7 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_MEM', if_true: files('virtio-mem.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_I2C', if_true: files('vhost-user-i2c.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_RNG', if_true: files('vhost-user-rng.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_GPIO', if_true: files('vhost-user-gpio.c'))
++virtio_ss.add(when: ['CONFIG_VIRTIO_PCI', 'CONFIG_VHOST_USER_GPIO'], if_true: files('vhost-user-gpio-pci.c'))
  
-     event.type = IOMMU_NOTIFIER_MAP;
-     event.entry.target_as = &address_space_memory;
--    event.entry.addr_mask = virt_end - virt_start;
--    event.entry.iova = virt_start;
-     event.entry.perm = perm;
-     event.entry.translated_addr = paddr;
- 
--    memory_region_notify_iommu(mr, 0, event);
-+    virtio_iommu_notify_map_unmap(mr, &event, virt_start, virt_end);
- }
- 
- static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
-                                       hwaddr virt_end)
- {
-     IOMMUTLBEvent event;
--    uint64_t delta = virt_end - virt_start;
- 
-     if (!(mr->iommu_notify_flags & IOMMU_NOTIFIER_UNMAP)) {
-         return;
-@@ -239,22 +262,8 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
-     event.entry.target_as = &address_space_memory;
-     event.entry.perm = IOMMU_NONE;
-     event.entry.translated_addr = 0;
--    event.entry.addr_mask = delta;
--    event.entry.iova = virt_start;
- 
--    if (delta == UINT64_MAX) {
--        memory_region_notify_iommu(mr, 0, event);
--    }
--
--
--    while (virt_start != virt_end + 1) {
--        uint64_t mask = dma_aligned_pow2_mask(virt_start, virt_end, 64);
--
--        event.entry.addr_mask = mask;
--        event.entry.iova = virt_start;
--        memory_region_notify_iommu(mr, 0, event);
--        virt_start += mask + 1;
--    }
-+    virtio_iommu_notify_map_unmap(mr, &event, virt_start, virt_end);
- }
- 
- static gboolean virtio_iommu_notify_unmap_cb(gpointer key, gpointer value,
+ virtio_pci_ss = ss.source_set()
+ virtio_pci_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-pci.c'))
 -- 
-MST
+2.30.2
 
 
