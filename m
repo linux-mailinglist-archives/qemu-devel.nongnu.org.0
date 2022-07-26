@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E651581A68
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:42:32 +0200 (CEST)
-Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F21581A9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:59:01 +0200 (CEST)
+Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQRr-0008Sl-8u
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:42:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49136)
+	id 1oGQho-0004NQ-Lz
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:59:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8H-0003Or-J5
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:18 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41555)
+ id 1oGQ8F-0003No-P4
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:16 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8F-0002PG-VR
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:17 -0400
-Received: by mail-wr1-x429.google.com with SMTP id q18so11037760wrx.8
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:15 -0700 (PDT)
+ id 1oGQ8E-0002Gz-4p
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:15 -0400
+Received: by mail-wr1-x431.google.com with SMTP id m17so21167266wrw.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hfKNVlrrL3u0vef+FWTAR3LbzLx2Gk+OTMM5YcoQN7Q=;
- b=CP7lN+TmZ3Pujh0mILQ2/noel6Xy+f6GVEdKkt7wPZTgcLy/3d+waBOSwnEauerGe6
- GTIb4KE6LeUH6OvLAHCy0fVRV7IpoaC9KaD+glw+HCFliTQxbMQg0jzOLRR9/95aZ3r0
- IxFp7nQuc0GqtVn3EuVklVS9wJtUhK6nmTvTbhPxhnDphkcrpFmDGE/CmOlvskhT7LAP
- HYt4hxlaYSVzFYeBux39dxQ5jz9MBSV7xv9HeGKEQKQvGN//IqlGthWESbN5kJVuvVgZ
- YbcQZaUAc97TozDJikyVxPRwbF3B2OWdkM8FjLFp7BsONr64zsCFSwxrbRDSq/0E/wmR
- LWRA==
+ bh=5yuBY8XhniW5U3BckTrWu3/MUge9sIzVNIAB45zhSUM=;
+ b=aYHkGrAWWbmJzOEvdL6EsWf5rY3TvU1X5EE6dpqIPsw47NhrxzW/yzy9XPfdW3C8b6
+ dP72QJZGdWh1xuBDci+l80i8/QXQCO6JkA7hq16xQqNgyNaB3Cj6W4VipNxIg7FLdFI+
+ 3jY3kWIrecnk0MPCT2SE/wOliO6lJx77Pgs5Li2E+t+dMIvQ+H2YRxaviWEdBminb3op
+ PvQ/GWI6aneYOkszsPNdUJhb8P4L7Rr95fUVt9AEcym/lRKPZa5ysYcaedzEXCWVNMRo
+ 8Qe9Cisb+P8iVMuCmqnUiBXXGa2D9Ksbtj3HXV9RuqB5yWf25F09SSpHTNKFJBCpM82E
+ 87gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hfKNVlrrL3u0vef+FWTAR3LbzLx2Gk+OTMM5YcoQN7Q=;
- b=RZ0oEyPvpBlaAdlG+ddP9govW8pEHRFlmBhskcsU7tFdF6sP8eZcXLELkRCbsI5uA7
- 01LIH7Lr2wbWhTW3qNscX6LoVfu1ETQNFsCKyQv7fRgayXhy3JMjXMUhI+hqx7rvxnk6
- 0e+V4vSTS7xS5sYYZaPKNx7qVUE2WFrz8x8RExX/9NIhJ2J85XJ2MJxj/9+K9fnRxCwz
- 8UMUBSwUacnNNdfTBJ8iDDrA4Jxujfxz3q6Rc7phVurDnVGjEqC+Q2RUYnC0oxH4X92Q
- EW8Tj135XEHJEo4OjahXOaeHSlerU1F/DzSP9t+QwSyg8ZMKUdxbeXNSatN38wCxYDOS
- tP4g==
-X-Gm-Message-State: AJIora+bmsr5g90rxNmeK1LlPBJC+XZsYm0uawbDIgooECBOG2zTNlna
- hv6BQ17bXFL48Z4xWOR5nGZlCA==
-X-Google-Smtp-Source: AGRyM1tK0EoYiSgvr3c6MnDpkS8VPb/mN7dezxP8RhaeszDkO5g6tbGO54aZ0dF/1N9gPF7cJEZXog==
-X-Received: by 2002:a05:6000:1547:b0:21e:5be2:9ed3 with SMTP id
- 7-20020a056000154700b0021e5be29ed3mr11929957wry.459.1658863334633; 
- Tue, 26 Jul 2022 12:22:14 -0700 (PDT)
+ bh=5yuBY8XhniW5U3BckTrWu3/MUge9sIzVNIAB45zhSUM=;
+ b=tefjm0eNX1ke9k+y16cPVzS8IrBan5/k40fJvJnSfkBozqH41O2vQAkh+BHvBmgBlF
+ Q4E0FhqX1ER9p/mqZtMl3WpNYclD71eqYE5T4zC5MkNgoEowNgrhrh8QM5EDi5RUSYXo
+ WwvsDrNwg/mU2POl6wKAiSnywkJXnXHsAPy0rRC44g0oljsdZc86ipQuyRR/pRF7AJHk
+ RqmbbK+pqd+lhWFFD22yT650K1AK3mSnCZ00JXA1/kqTYOUmv45ZouiD+U3yfc3QHnpu
+ 4u2bfppLj/SrKzodzqgk7IhqozjQnxA2kESecek1uQ2TKy+pFDV5AdlqONftAJVADSws
+ AJAg==
+X-Gm-Message-State: AJIora+Y04BCQPzjqPlWyCtIDjVVRY3YSFMe8m1hqFkdKYB6Ue4A0IxA
+ 8rxjVRFcD7dCXPYBz1Q5axzdrcP8RHwbig==
+X-Google-Smtp-Source: AGRyM1vi457BNj5NqMsPy3KxJOdZDZtoV3dIMhHkmuSHAhdHWUfPzkSbMRWR3tYBM/ThsA2kKm8bIQ==
+X-Received: by 2002:adf:ed8d:0:b0:21e:c7fb:7945 with SMTP id
+ c13-20020adfed8d000000b0021ec7fb7945mr158066wro.353.1658863332721; 
+ Tue, 26 Jul 2022 12:22:12 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p20-20020a05600c1d9400b003a3561d4f3fsm9574115wms.43.2022.07.26.12.21.59
+ y2-20020a5d6142000000b0021d70a871cbsm15306184wrt.32.2022.07.26.12.21.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Jul 2022 12:22:07 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E1F9F1FFCB;
- Tue, 26 Jul 2022 20:21:51 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 053CF1FFCC;
+ Tue, 26 Jul 2022 20:21:52 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
@@ -64,17 +64,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 19/21] tests/qtest: implement stub for VHOST_USER_GET_CONFIG
-Date: Tue, 26 Jul 2022 20:21:48 +0100
-Message-Id: <20220726192150.2435175-20-alex.bennee@linaro.org>
+Subject: [PATCH v3 20/21] tests/qtest: add a get_features op to vhost-user-test
+Date: Tue, 26 Jul 2022 20:21:49 +0100
+Message-Id: <20220726192150.2435175-21-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,46 +97,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't implement the full solution because frankly none of the tests
-need to at the moment. We may end up re-implementing libvhostuser in
-the end.
+As we expand this test for more virtio devices we will need to support
+different feature sets. Add a mandatory op field to fetch the list of
+features needed for the test itself.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qtest/vhost-user-test.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tests/qtest/vhost-user-test.c | 37 +++++++++++++++++++++++++----------
+ 1 file changed, 27 insertions(+), 10 deletions(-)
 
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index db18e0b664..d546721f5d 100644
+index d546721f5d..28b4cf28ec 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -79,6 +79,8 @@ typedef enum VhostUserRequest {
-     VHOST_USER_SET_PROTOCOL_FEATURES = 16,
-     VHOST_USER_GET_QUEUE_NUM = 17,
-     VHOST_USER_SET_VRING_ENABLE = 18,
-+    VHOST_USER_GET_CONFIG = 24,
-+    VHOST_USER_SET_CONFIG = 25,
-     VHOST_USER_MAX
- } VhostUserRequest;
+@@ -171,10 +171,11 @@ struct vhost_user_ops {
+             const char *chr_opts);
  
-@@ -372,6 +374,17 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+     /* VHOST-USER commands. */
++    uint64_t (*get_features)(TestServer *s);
+     void (*set_features)(TestServer *s, CharBackend *chr,
+-            VhostUserMsg *msg);
++                         VhostUserMsg *msg);
+     void (*get_protocol_features)(TestServer *s,
+-            CharBackend *chr, VhostUserMsg *msg);
++                                  CharBackend *chr, VhostUserMsg *msg);
+ };
+ 
+ static const char *init_hugepagefs(void);
+@@ -338,20 +339,22 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+ 
+     switch (msg.request) {
+     case VHOST_USER_GET_FEATURES:
++        /* Mandatory for tests to define get_features */
++        g_assert(s->vu_ops->get_features);
++
+         /* send back features to qemu */
+         msg.flags |= VHOST_USER_REPLY_MASK;
+         msg.size = sizeof(m.payload.u64);
+-        msg.payload.u64 = 0x1ULL << VHOST_F_LOG_ALL |
+-            0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
+-        if (s->queues > 1) {
+-            msg.payload.u64 |= 0x1ULL << VIRTIO_NET_F_MQ;
+-        }
++
+         if (s->test_flags >= TEST_FLAGS_BAD) {
+             msg.payload.u64 = 0;
+             s->test_flags = TEST_FLAGS_END;
++        } else {
++            msg.payload.u64 = s->vu_ops->get_features(s);
          }
+-        p = (uint8_t *) &msg;
+-        qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
++
++        qemu_chr_fe_write_all(chr, (uint8_t *) &msg,
++                              VHOST_USER_HDR_SIZE + msg.size);
          break;
  
-+    case VHOST_USER_GET_CONFIG:
-+        /*
-+         * Treat GET_CONFIG as a NOP and just reply and let the guest
-+         * consider we have updated its memory. Tests currently don't
-+         * require working configs.
-+         */
-+        msg.flags |= VHOST_USER_REPLY_MASK;
-+        p = (uint8_t *) &msg;
-+        qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-+        break;
+     case VHOST_USER_SET_FEATURES:
+@@ -990,8 +993,21 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
+     wait_for_rings_started(s, s->queues * 2);
+ }
+ 
 +
-     case VHOST_USER_SET_PROTOCOL_FEATURES:
-         /*
-          * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
++static uint64_t vu_net_get_features(TestServer *s)
++{
++    uint64_t features = 0x1ULL << VHOST_F_LOG_ALL |
++        0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES;
++
++    if (s->queues > 1) {
++        features |= 0x1ULL << VIRTIO_NET_F_MQ;
++    }
++
++    return features;
++}
++
+ static void vu_net_set_features(TestServer *s, CharBackend *chr,
+-        VhostUserMsg *msg)
++                                VhostUserMsg *msg)
+ {
+     g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
+     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
+@@ -1020,6 +1036,7 @@ static struct vhost_user_ops g_vu_net_ops = {
+ 
+     .append_opts = append_vhost_net_opts,
+ 
++    .get_features = vu_net_get_features,
+     .set_features = vu_net_set_features,
+     .get_protocol_features = vu_net_get_protocol_features,
+ };
 -- 
 2.30.2
 
