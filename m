@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30634581AB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:09:12 +0200 (CEST)
-Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9A29581AE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:18:16 +0200 (CEST)
+Received: from localhost ([::1]:60800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQrf-0005OX-8D
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
+	id 1oGR0R-0001oT-C3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQG4-0006Zb-JX
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:20 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41630)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQG1-0003ar-MJ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:19 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id q18so11061097wrx.8
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xlxq1ZBU6AcDaP18E14EH8M6boLy3BklV7N6rZI3qJs=;
- b=jVEZ6Irk8Wh2gVvq9LX+XUkphMQElCWlmKsJ/HVQuPtCdhI928/IDc+OCg7HyHVMyX
- qDJxTHRud0QAUVd1rwl0QLicifrbP4bQ7I0J/AyyMIYUoi8L/brqsmT7GbkVeP8pD2vz
- zXWwkFMJFdAq+yq7zF09j9kx3rtXLB8FSRn4EkhLqE8UEKKJ7P1YNql1zc5hfq8Bxz+0
- DCg0M2wx6Exo6sxuzKLzavG/gQtoZI9Gj0wucxCuMHIXoLbFDugIvgjxxn1At3tuMOOz
- c+tqkOkbN49RIT/Zb1d9e3EP2sOoDDlIf+NBsMLMzoDFlH1rcbhLVILeMLrvvYMhZdfY
- Cpkw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQ4-00069f-Pt
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQPx-00050D-Gb
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658864432;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wm9tRtc/l3bnnSUQgHT6lQeiNh5OiDryPaWVqdA+A3w=;
+ b=TPDecPRaHTuOPTox5pfnBXgX2DXH+rHMNgnthLAf1jCzqJGsKWS3O6XScuDIfMo2l4guCj
+ zBgbANS56Np3XmhHH823n4wnUlNbsM8JpMMvTEDp3I6/afhNubdp2CBSV1dQvJ4CBTB66O
+ lFFaCv40hT8a+ilrx6q7ldd1EF/gIwk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-625-14zKmBBjOZqERixc6isqjA-1; Tue, 26 Jul 2022 15:40:31 -0400
+X-MC-Unique: 14zKmBBjOZqERixc6isqjA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ v18-20020a05600c215200b003a2fea66b7cso5689287wml.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:31 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=xlxq1ZBU6AcDaP18E14EH8M6boLy3BklV7N6rZI3qJs=;
- b=mlMgkPkeBgoZ2XbGQUaH5yGUjMlS0HHF33YP/nO9QivjyKxAc/VGaGmAXHeErfkkSt
- qfLV7nsS8ioztzH6ZAdx/nFRynqSRcuk7O/GbGD0wTWk/6OVuX/mwr0qZnyWR14rGb6x
- MFuiX+dxdEW2+kIv1Jjjw0a9BkGtIc6BrD6jLPCqA7gRXhTEe7Z/m/1qcbTgyycSVXCu
- 3R/5Tk3Q7oBkb0xSYcD9NbMOKlv60EIeC9tQ0IMmgLNI3jx5vdMHMTG4iCnLIzgku5iQ
- yUL5iUYGenv2PDCNQ8aXmnzA0E+sjrnyRM8VKHWPW5p2Qc8dgPh8rpR3xrDJT0RtDILZ
- PqJg==
-X-Gm-Message-State: AJIora/HrwrrBAXR0M9dSj8b10J8tItAtxXzOqBs3Zqf7Xdoc+pACl8U
- +JsaCz8cC346Pk8WtE5jOPs9pg==
-X-Google-Smtp-Source: AGRyM1se2F8HaTBrPJbsrgtfD6902+CAb1kjyZdUyKf/ZYMdxdYERV/TpF9o5fip4XqQsduMxl/F2g==
-X-Received: by 2002:a05:6000:1541:b0:21d:b298:96be with SMTP id
- 1-20020a056000154100b0021db29896bemr11546897wry.206.1658863816126; 
- Tue, 26 Jul 2022 12:30:16 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=wm9tRtc/l3bnnSUQgHT6lQeiNh5OiDryPaWVqdA+A3w=;
+ b=ZlgALvRwRF8P0GZ6EjVvAM2B1qjz2TSpQfPRES485drMM17hAChxpH9h6MXO33/+C+
+ XfRFjdop87B7fVBmjWFco9WPeJXq+97Bhv+gN6ERLfc1ijMfjos3XYgkX9GoA8xIdH5T
+ +PDGvg6/+GTw1ENrrsq/CkY5jmnabDs6X+jRWkvfdMQ0RC0KS7xTRd2hpIKaE1/Z8ByP
+ 9J1hp0uHyMI0h4jthbjnFpWR0KiTLrbxPj8iHYKfOnpVOv9HBkjEXkHPFOTCMHd08kmK
+ 6ff/toNe3nnJ2cu582Ut1JRRsCu92LA42olEz2URs/BKnfZ3gVn/gKAZZ+1P0kM+Te5J
+ ZHVw==
+X-Gm-Message-State: AJIora84Bmj0OdT5mDKqgk6FuGVAOw+M3uWfV35AmOfL3LhDhQKYxxWN
+ nFuKOk9j/S86fhrQrWuM4GwFdzjvjym39Gr30H5rtu7sQL6/I4SCgJkFnUYKpB/5OMb/un6zQ9a
+ YiksLsUJa0kK7X8zF79eMq9rDL8JUKdUR4EFcXmdTGXimorY67Z1cSx+pAME/
+X-Received: by 2002:adf:fbc6:0:b0:21e:3960:45b3 with SMTP id
+ d6-20020adffbc6000000b0021e396045b3mr11425004wrs.92.1658864429991; 
+ Tue, 26 Jul 2022 12:40:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uUZwjy2OXAeRJV+tcVpMsOP8FCq81DxQ4+TEXBBmqt56oXP8xN6VtlRrrs5BoGbDH/FaqfMA==
+X-Received: by 2002:adf:fbc6:0:b0:21e:3960:45b3 with SMTP id
+ d6-20020adffbc6000000b0021e396045b3mr11424979wrs.92.1658864429376; 
+ Tue, 26 Jul 2022 12:40:29 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
  by smtp.gmail.com with ESMTPSA id
- c17-20020adffb51000000b0021d7fa77710sm15240057wrs.92.2022.07.26.12.30.14
+ ib13-20020a05600ca14d00b003a31ba538c2sm18195558wmb.40.2022.07.26.12.40.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:30:14 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A864C1FFC8;
- Tue, 26 Jul 2022 20:21:51 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Tue, 26 Jul 2022 12:40:28 -0700 (PDT)
+Date: Tue, 26 Jul 2022 15:40:27 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- mark.cave-ayland@ilande.co.uk, jasowang@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH  v3 16/21] tests/qtest: catch unhandled vhost-user messages
-Date: Tue, 26 Jul 2022 20:21:45 +0100
-Message-Id: <20220726192150.2435175-17-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
-References: <20220726192150.2435175-1-alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Robert Hoo <robert.hu@linux.intel.com>, Jingqi Liu <jingqi.liu@intel.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ David Hildenbrand <david@redhat.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Subject: [PULL 01/16] acpi/nvdimm: Define trace events for NVDIMM and
+ substitute nvdimm_debug()
+Message-ID: <20220726193858.177462-2-mst@redhat.com>
+References: <20220726193858.177462-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,85 +102,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to action every message but lets document the ones we
-are expecting to consume so future tests don't get confused about
-unhandled bits.
+From: Robert Hoo <robert.hu@linux.intel.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
+Signed-off-by: Robert Hoo <robert.hu@linux.intel.com>
+Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
+Message-Id: <20220704085852.330005-1-robert.hu@linux.intel.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
-v1
-  - drop g_test_fail() when we get unexpected result, that just hangs
----
- tests/qtest/vhost-user-test.c | 40 +++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ include/hw/mem/nvdimm.h |  8 --------
+ hw/acpi/nvdimm.c        | 35 ++++++++++++++++-------------------
+ hw/acpi/trace-events    | 13 +++++++++++++
+ 3 files changed, 29 insertions(+), 27 deletions(-)
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 968113d591..d0fa034601 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -358,12 +358,41 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         }
-         break;
+diff --git a/include/hw/mem/nvdimm.h b/include/hw/mem/nvdimm.h
+index cf8f59be44..acf887c83d 100644
+--- a/include/hw/mem/nvdimm.h
++++ b/include/hw/mem/nvdimm.h
+@@ -29,14 +29,6 @@
+ #include "hw/acpi/aml-build.h"
+ #include "qom/object.h"
  
-+    case VHOST_USER_SET_OWNER:
-+        /*
-+         * We don't need to do anything here, the remote is just
-+         * letting us know it is in charge. Just log it.
-+         */
-+        qos_printf("set_owner: start of session\n");
-+        break;
-+
-     case VHOST_USER_GET_PROTOCOL_FEATURES:
-         if (s->vu_ops->get_protocol_features) {
-             s->vu_ops->get_protocol_features(s, chr, &msg);
-         }
-         break;
+-#define NVDIMM_DEBUG 0
+-#define nvdimm_debug(fmt, ...)                                \
+-    do {                                                      \
+-        if (NVDIMM_DEBUG) {                                   \
+-            fprintf(stderr, "nvdimm: " fmt, ## __VA_ARGS__);  \
+-        }                                                     \
+-    } while (0)
+-
+ /*
+  * The minimum label data size is required by NVDIMM Namespace
+  * specification, see the chapter 2 Namespaces:
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 5f85b16327..31e46df0bd 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -35,6 +35,7 @@
+ #include "hw/nvram/fw_cfg.h"
+ #include "hw/mem/nvdimm.h"
+ #include "qemu/nvdimm-utils.h"
++#include "trace.h"
  
-+    case VHOST_USER_SET_PROTOCOL_FEATURES:
-+        /*
-+         * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
-+         * the remote end to send this. There is no handshake reply so
-+         * just log the details for debugging.
-+         */
-+        qos_printf("set_protocol_features: 0x%"PRIx64 "\n", msg.payload.u64);
-+        break;
-+
-+        /*
-+         * A real vhost-user backend would actually set the size and
-+         * address of the vrings but we can simply report them.
-+         */
-+    case VHOST_USER_SET_VRING_NUM:
-+        qos_printf("set_vring_num: %d/%d\n",
-+                   msg.payload.state.index, msg.payload.state.num);
-+        break;
-+    case VHOST_USER_SET_VRING_ADDR:
-+        qos_printf("set_vring_addr:\n");
-+        break;
-+
-     case VHOST_USER_GET_VRING_BASE:
-         /* send back vring base to qemu */
-         msg.flags |= VHOST_USER_REPLY_MASK;
-@@ -428,7 +457,18 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-         break;
+ /*
+  * define Byte Addressable Persistent Memory (PM) Region according to
+@@ -550,8 +551,8 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
  
-+    case VHOST_USER_SET_VRING_ENABLE:
-+        /*
-+         * Another case we ignore as we don't need to respond. With a
-+         * fully functioning vhost-user we would enable/disable the
-+         * vring monitoring.
-+         */
-+        qos_printf("set_vring(%d)=%s\n", msg.payload.state.index,
-+                   msg.payload.state.num ? "enabled" : "disabled");
-+        break;
-+
-     default:
-+        qos_printf("vhost-user: un-handled message: %d\n", msg.request);
-         break;
+     fit = fit_buf->fit;
+ 
+-    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
+-                 read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
++    trace_acpi_nvdimm_read_fit(read_fit->offset, fit->len,
++                               fit_buf->dirty ? "Yes" : "No");
+ 
+     if (read_fit->offset > fit->len) {
+         func_ret_status = NVDIMM_DSM_RET_STATUS_INVALID;
+@@ -658,7 +659,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
+     label_size = nvdimm->label_size;
+     mxfer = nvdimm_get_max_xfer_label_size();
+ 
+-    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
++    trace_acpi_nvdimm_label_info(label_size, mxfer);
+ 
+     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
+     label_size_out.label_size = cpu_to_le32(label_size);
+@@ -674,20 +675,18 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
+     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
+ 
+     if (offset + length < offset) {
+-        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
+-                     length);
++        trace_acpi_nvdimm_label_overflow(offset, length);
+         return ret;
      }
  
+     if (nvdimm->label_size < offset + length) {
+-        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
+-                     offset + length, nvdimm->label_size);
++        trace_acpi_nvdimm_label_oversize(offset + length, nvdimm->label_size);
+         return ret;
+     }
+ 
+     if (length > nvdimm_get_max_xfer_label_size()) {
+-        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
+-                     length, nvdimm_get_max_xfer_label_size());
++        trace_acpi_nvdimm_label_xfer_exceed(length,
++                                            nvdimm_get_max_xfer_label_size());
+         return ret;
+     }
+ 
+@@ -710,8 +709,8 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     get_label_data->offset = le32_to_cpu(get_label_data->offset);
+     get_label_data->length = le32_to_cpu(get_label_data->length);
+ 
+-    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
+-                 get_label_data->offset, get_label_data->length);
++    trace_acpi_nvdimm_read_label(get_label_data->offset,
++                                 get_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
+                                         get_label_data->length);
+@@ -749,8 +748,8 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     set_label_data->offset = le32_to_cpu(set_label_data->offset);
+     set_label_data->length = le32_to_cpu(set_label_data->length);
+ 
+-    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
+-                 set_label_data->offset, set_label_data->length);
++    trace_acpi_nvdimm_write_label(set_label_data->offset,
++                                  set_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
+                                         set_label_data->length);
+@@ -821,7 +820,7 @@ static void nvdimm_dsm_device(NvdimmDsmIn *in, hwaddr dsm_mem_addr)
+ static uint64_t
+ nvdimm_dsm_read(void *opaque, hwaddr addr, unsigned size)
+ {
+-    nvdimm_debug("BUG: we never read _DSM IO Port.\n");
++    trace_acpi_nvdimm_read_io_port();
+     return 0;
+ }
+ 
+@@ -832,7 +831,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     NvdimmDsmIn *in;
+     hwaddr dsm_mem_addr = val;
+ 
+-    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
++    trace_acpi_nvdimm_dsm_mem_addr(dsm_mem_addr);
+ 
+     /*
+      * The DSM memory is mapped to guest address space so an evil guest
+@@ -846,12 +845,10 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     in->function = le32_to_cpu(in->function);
+     in->handle = le32_to_cpu(in->handle);
+ 
+-    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
+-                 in->handle, in->function);
++    trace_acpi_nvdimm_dsm_info(in->revision, in->handle, in->function);
+ 
+     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
+-        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
+-                     in->revision, 0x1);
++        trace_acpi_nvdimm_invalid_revision(in->revision);
+         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
+         goto exit;
+     }
+diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+index 2250126a22..eb60b04f9b 100644
+--- a/hw/acpi/trace-events
++++ b/hw/acpi/trace-events
+@@ -70,3 +70,16 @@ acpi_erst_reset_out(unsigned record_count) "record_count %u"
+ acpi_erst_post_load(void *header, unsigned slot_size) "header: 0x%p slot_size %u"
+ acpi_erst_class_init_in(void)
+ acpi_erst_class_init_out(void)
++
++# nvdimm.c
++acpi_nvdimm_read_fit(uint32_t offset, uint32_t len, const char *dirty) "Read FIT: offset 0x%" PRIx32 " FIT size 0x%" PRIx32 " Dirty %s"
++acpi_nvdimm_label_info(uint32_t label_size, uint32_t mxfer) "label_size 0x%" PRIx32 ", max_xfer 0x%" PRIx32
++acpi_nvdimm_label_overflow(uint32_t offset, uint32_t length) "offset 0x%" PRIx32 " + length 0x%" PRIx32 " is overflow"
++acpi_nvdimm_label_oversize(uint32_t pos, uint64_t size) "position 0x%" PRIx32 " is beyond label data (len = %" PRIu64 ")"
++acpi_nvdimm_label_xfer_exceed(uint32_t length, uint32_t max_xfer) "length (0x%" PRIx32 ") is larger than max_xfer (0x%" PRIx32 ")"
++acpi_nvdimm_read_label(uint32_t offset, uint32_t length) "Read Label Data: offset 0x%" PRIx32 " length 0x%" PRIx32
++acpi_nvdimm_write_label(uint32_t offset, uint32_t length) "Write Label Data: offset 0x%" PRIx32 " length 0x%" PRIx32
++acpi_nvdimm_read_io_port(void) "Alert: we never read _DSM IO Port"
++acpi_nvdimm_dsm_mem_addr(uint64_t dsm_mem_addr) "dsm memory address 0x%" PRIx64
++acpi_nvdimm_dsm_info(uint32_t revision, uint32_t handle, uint32_t function) "Revision 0x%" PRIx32 " Handle 0x%" PRIx32 " Function 0x%" PRIx32
++acpi_nvdimm_invalid_revision(uint32_t revision) "Revision 0x%" PRIx32 " is not supported, expect 0x1"
 -- 
-2.30.2
+MST
 
 
