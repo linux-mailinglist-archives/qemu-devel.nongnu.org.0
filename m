@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1AA25817F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:54:00 +0200 (CEST)
-Received: from localhost ([::1]:35896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80B7581777
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:32:42 +0200 (CEST)
+Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNol-000675-HC
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35200)
+	id 1oGNUA-0005z5-0l
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:32:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9z-0003CX-8m
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:51 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9994)
+ id 1oGN9u-00031c-N1
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:46 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:63776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9w-0006CF-UI
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:50 -0400
+ id 1oGN9s-0006BT-Oe
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:46 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3YH031760;
- Tue, 26 Jul 2022 16:11:24 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0WX031705;
+ Tue, 26 Jul 2022 16:11:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=gJGFuTMaWiIcrsU6nRU8Y2CLbN0aTbcqp7/ItlBmngM=;
- b=z7LshblmLYFwMhp0Wv1BO+l/pF8TMtyXbQivFaUuNu05Dj9RzoY+mjDyrEAM83BWEtfB
- 3ztb87Yd5yg9RSQkr6Whcc7VbIFQx2oWifwcZQZH7r+axoWySWeiNEcbvrYBUcd+hwqF
- X3bil78z53guWnyHXGY4eB+arP5GB7s1qu5T6I1mDuwivqFVUHO5uLfyqNyU6OGqZkpz
- YlzUDR7hQxePElDwIl6LZoXmvjU6gkIgv9jkZneSPMhccEHvAxwlBXOfEgen7t0vmlJm
- pr2DYXFivfNaEREFFTFusi8SoMrY0nZkC+25a5SjkEd+LimslZY/e94S+w5RH5t8kBEq kQ== 
+ bh=ZDACp+BhoEIdrXn1AEBV3fe6/8jmjJCXG/9a7LZRvpI=;
+ b=K78tzen7tg7NBQ7F5shz7PpcRWxLDLrtevIYILe0B9zogBWVlGfkHiPXx3Ah0zkmUtdt
+ Bd3AAHxYyRUmMiIp4rXvtmzYUjm4mDb3j9Z/9xtbnU3Rk7EhSyLTcXfsv0zB/l+1fXJg
+ oHhy7W0BWmR7z3Us4MWiyLmsLEq+Pj52dAvuxm6/2DL6HDzmVDT478nHIRN5O+wecDqY
+ oFum9u6r+Z/gZ19CnTR3f/bV+UowWXMuv+fGILh84W8vY+4aLNr7AxqM6JQho8J6E+qf
+ TkhNGtGae7PJivVCWdfCh0+OnE7AwtJ0pPCXJUYuRif9mjC8qw1CPtTJNDfbM0LkhAAe Fw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1bd-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1bg-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:23 +0000
+ Tue, 26 Jul 2022 16:11:25 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEq0Yb006400; Tue, 26 Jul 2022 16:11:23 GMT
+ with ESMTP id 26QFl76E006339; Tue, 26 Jul 2022 16:11:24 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq25j-1
+ 3hh65bq27c-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:22 +0000
+ Tue, 26 Jul 2022 16:11:24 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uT1023334;
- Tue, 26 Jul 2022 16:11:22 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uT3023334;
+ Tue, 26 Jul 2022 16:11:23 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-27; Tue, 26 Jul 2022 16:11:22 +0000
+ ESMTP id 3hh65bq0y5-28; Tue, 26 Jul 2022 16:11:23 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 26/46] cpr: Mismatched GPAs fix
-Date: Tue, 26 Jul 2022 09:10:23 -0700
-Message-Id: <1658851843-236870-27-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 27/46] hostmem-memfd: cpr support
+Date: Tue, 26 Jul 2022 09:10:24 -0700
+Message-Id: <1658851843-236870-28-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: PYrA6gTumkwN1EFC16sdjsEW-qb-qUeH
-X-Proofpoint-GUID: PYrA6gTumkwN1EFC16sdjsEW-qb-qUeH
+X-Proofpoint-ORIG-GUID: nKuVBDL1Z87hw0tbCz4aLP720Tm4fNXb
+X-Proofpoint-GUID: nKuVBDL1Z87hw0tbCz4aLP720Tm4fNXb
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,112 +113,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For cpr-exec mode, ramblock_is_ignored is always true, and the address of
-each migrated memory region must match the address of the statically
-initialized region on the target.  However, for a PCI rom block, the region
-address is set when the guest writes to a BAR on the source, which does not
-occur on the target, causing a "Mismatched GPAs" error during cpr-exec
-migration.
-
-To fix, unconditionally set the target's address to the source's address
-if the region does not have an address yet.
+Preserve memory-backend-memfd memory objects during cpr.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/exec/memory.h | 12 ++++++++++++
- migration/ram.c       | 17 ++++++++++-------
- softmmu/memory.c      | 10 ++++++++--
- 3 files changed, 30 insertions(+), 9 deletions(-)
+ backends/hostmem-memfd.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 128bf3e..9b3bad5 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -738,6 +738,7 @@ struct MemoryRegion {
-     bool flush_coalesced_mmio;
-     uint8_t dirty_log_mask;
-     bool is_iommu;
-+    bool has_addr;
-     RAMBlock *ram_block;
-     Object *owner;
- 
-@@ -2268,6 +2269,17 @@ void memory_region_set_enabled(MemoryRegion *mr, bool enabled);
- void memory_region_set_address(MemoryRegion *mr, hwaddr addr);
- 
- /*
-+ * memory_region_set_address_only: set the address of a region.
-+ *
-+ * Same as memory_region_set_address, but without causing transaction side
-+ * effects.
-+ *
-+ * @mr: the region to be updated
-+ * @addr: new address, relative to container region
-+ */
-+void memory_region_set_address_only(MemoryRegion *mr, hwaddr addr);
-+
-+/*
-  * memory_region_set_size: dynamically update the size of a region.
-  *
-  * Dynamically updates the size of a region.
-diff --git a/migration/ram.c b/migration/ram.c
-index 4c868d2..6005c53 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -4314,13 +4314,16 @@ static int ram_load_precopy(QEMUFile *f)
-                     }
-                     if (migrate_ignore_shared()) {
-                         hwaddr addr = qemu_get_be64(f);
--                        if (ramblock_is_ignored(block) &&
--                            block->mr->addr != addr) {
--                            error_report("Mismatched GPAs for block %s "
--                                         "%" PRId64 "!= %" PRId64,
--                                         id, (uint64_t)addr,
--                                         (uint64_t)block->mr->addr);
--                            ret = -EINVAL;
-+                        if (ramblock_is_ignored(block)) {
-+                            if (!block->mr->has_addr) {
-+                                memory_region_set_address_only(block->mr, addr);
-+                            } else if (block->mr->addr != addr) {
-+                                error_report("Mismatched GPAs for block %s "
-+                                             "%" PRId64 "!= %" PRId64,
-+                                             id, (uint64_t)addr,
-+                                             (uint64_t)block->mr->addr);
-+                                ret = -EINVAL;
-+                            }
-                         }
-                     }
-                     ram_control_load_hook(f, RAM_CONTROL_BLOCK_REG,
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 6aa3a2f..8825608 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2552,7 +2552,7 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
-     for (alias = subregion->alias; alias; alias = alias->alias) {
-         alias->mapped_via_alias++;
-     }
--    subregion->addr = offset;
-+    memory_region_set_address_only(subregion, offset);
-     memory_region_update_container_subregions(subregion);
- }
- 
-@@ -2632,10 +2632,16 @@ static void memory_region_readd_subregion(MemoryRegion *mr)
-     }
- }
- 
-+void memory_region_set_address_only(MemoryRegion *mr, hwaddr addr)
-+{
-+    mr->addr = addr;
-+    mr->has_addr = true;
-+}
-+
- void memory_region_set_address(MemoryRegion *mr, hwaddr addr)
+diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+index 3fc85c3..d421a4f 100644
+--- a/backends/hostmem-memfd.c
++++ b/backends/hostmem-memfd.c
+@@ -14,6 +14,7 @@
+ #include "sysemu/hostmem.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/memfd.h"
++#include "migration/cpr-state.h"
+ #include "qemu/module.h"
+ #include "qapi/error.h"
+ #include "qom/object.h"
+@@ -36,28 +37,29 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
  {
-     if (addr != mr->addr) {
--        mr->addr = addr;
-+        memory_region_set_address_only(mr, addr);
-         memory_region_readd_subregion(mr);
+     HostMemoryBackendMemfd *m = MEMORY_BACKEND_MEMFD(backend);
+     uint32_t ram_flags;
+-    char *name;
+-    int fd;
++    g_autofree char *name = host_memory_backend_get_name(backend);
++    int fd = cpr_find_fd(name, 0);
+ 
+     if (!backend->size) {
+         error_setg(errp, "can't create backend with size 0");
+         return;
      }
+ 
+-    fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
+-                           m->hugetlb, m->hugetlbsize, m->seal ?
+-                           F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
+-                           errp);
+-    if (fd == -1) {
+-        return;
++    if (fd < 0) {
++        fd = qemu_memfd_create(TYPE_MEMORY_BACKEND_MEMFD, backend->size,
++                               m->hugetlb, m->hugetlbsize, m->seal ?
++                               F_SEAL_GROW | F_SEAL_SHRINK | F_SEAL_SEAL : 0,
++                               errp);
++        if (fd == -1) {
++            return;
++        }
++        cpr_save_fd(name, 0, fd);
+     }
+ 
+-    name = host_memory_backend_get_name(backend);
+     ram_flags = backend->share ? RAM_SHARED : 0;
+     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
+     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend), name,
+                                    backend->size, ram_flags, fd, 0, errp);
+-    g_free(name);
  }
+ 
+ static bool
 -- 
 1.8.3.1
 
