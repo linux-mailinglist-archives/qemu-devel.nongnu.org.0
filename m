@@ -2,84 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB17581C1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 00:33:13 +0200 (CEST)
-Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC8D581C72
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 01:37:06 +0200 (CEST)
+Received: from localhost ([::1]:37838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGT72-0002AN-RO
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 18:33:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
+	id 1oGU6q-00088j-FZ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 19:37:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGT4W-0000AJ-6S
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 18:30:36 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:43590)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGU4F-0006GT-9g
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 19:34:23 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:38786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGT4U-00081X-Hn
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 18:30:35 -0400
-Received: by mail-pl1-x633.google.com with SMTP id y15so14571270plp.10
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 15:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=EAOh7ody7FjcYbY421CRDtj6XGuAd4ZPAqoBV1psZH4=;
- b=ZW+fQzUbD3eFmyGwPgfRPCxf1/q49AU+Cvm0f9Z4i2bZU8/ExAKzmhFPt/RC0ut+or
- rwDz3iXTw6OyNVeKsc1YWqsPkNuL5jvGSAhC7T2hMdhqwIWt1QCzLinHJAcy5fFpJuCp
- dRZvW5qCBICyJKTSrcKCBzZ+LNU+qua0jY9I/y92JD0zyLbs+gj93xdQ+z7mGkH5hFhR
- U7Nsyq5LLUthjEyXsjD9ZweS/tPZp6ly/5ltxb2iBGFyNkvbw6Skk0RU1wg4sb9lN5Ak
- jpCYeZ+C2VIZoQhoLsp4WUgn/NHQ5jRdq4QL/Xenalcez5qctUPvJo3ddfDBBPCyaIgD
- 13dg==
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGU4D-0000mr-F3
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 19:34:23 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id d124so10307316ybb.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 16:34:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rcv3BerRzS8DVpOuhoIas8P0MgVMpBkfWmBlnwFf+74=;
+ b=GryJORAi3eCWU6SwjTigrM6r/SQPQrFsyklQHBkI2kUbR6gMHS2HALlgH2hWZnRGCB
+ +/R/CoGHM5KIwFtQINiy9BCrNDVqutOOBrbxVW49OuYJ1QGzyoxPKj7T0sZoyPYJ4SJJ
+ 5XdcNXIcxUdZ38mbq2ssHLAbb7YIh9OQQv4Wk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=EAOh7ody7FjcYbY421CRDtj6XGuAd4ZPAqoBV1psZH4=;
- b=IR5SrVOQrzy4Q2szMpP6YycK5vW/iCFIgEXCdMH7m4SFMv3OYnqH7Ggg6HKXET7get
- Gw2cGQvnda0qpejBduVwX30kiVkOO7GnU5k07ubE6HD+DeoJnuSdrseFiXuii8X5CNLW
- TuM1wur+9vW+YKnoVd3K41UNxu64STkIjkLmSCZ/qfgy+ccUHr4t3FGnJETXE8N2eBOo
- Ofe/Peyn9vDeXSdYWUNhjN143zjXdbEYxkYfOh4rg7kNDsHlT+8TyoMYbNZZu9ZYcyBo
- Nte7B59ShGv2LgKSRhuk2FVQSOWPWVrs2efW7NMN5zy3HfV0azaHnjbL79OD+x9g09Pk
- eHKA==
-X-Gm-Message-State: AJIora9ni3OsuzadoohS6i+YEZcA0kzxSc0h/vsnqiJR1W53k+0UInAv
- l376UMepo2Kc533zEGkSEFHm7g==
-X-Google-Smtp-Source: AGRyM1v4aL0neq+yfn3Fk/moDVdAG9RkKCstEyNnTwVr4bCC2jdbNZ/qkt5se6+YRY3ODjLJj61wlw==
-X-Received: by 2002:a17:902:a604:b0:16d:9bde:8657 with SMTP id
- u4-20020a170902a60400b0016d9bde8657mr5197045plq.17.1658874632013; 
- Tue, 26 Jul 2022 15:30:32 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:33b:7a10:8a4c:53bc?
- ([2602:ae:1549:801:33b:7a10:8a4c:53bc])
- by smtp.gmail.com with ESMTPSA id
- u8-20020a1709026e0800b0016a3248376esm12003010plk.181.2022.07.26.15.30.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 15:30:31 -0700 (PDT)
-Message-ID: <219fb09f-c46a-4dda-9ab7-ebb0772c17f5@linaro.org>
-Date: Tue, 26 Jul 2022 15:30:29 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rcv3BerRzS8DVpOuhoIas8P0MgVMpBkfWmBlnwFf+74=;
+ b=HCFJqJVDENONu8bRs1E7vD3q2BojzbtdlIK6tvMS5eU5P/YyuNjoh277+5kI+06Oh3
+ AESBSNl/X7ksbUCh80Xht7CKANAKF/c7/n+lFf2Rc+GSwvLlYuWYfadPlYJgtwA2pWzN
+ pU/XZpvRgfaRIh0hZQvJ95sjQolvO9DZPk7tBgMSqBuEr8hSOoS926+XK2we8R2eLmlF
+ 9sLFKShx2+o1Se4HhmmYqYik4QPxMEoe8H9ptUUhPCGmualNuEL9J6fQxw1pTdvJKliJ
+ FuL0ckk9VrAF3LWubp6E2uMuD0mWOWinFScfgxUVb3M8n+Van8OYTHMYi8+GGt/gLzPo
+ hjtA==
+X-Gm-Message-State: AJIora9ZYfwVLgjeX5/pYNHlmP/DAYLNHmgZKMvPdoGzxI0K6nkvVfw3
+ p56RHP8ZMHXnRqRcA7+VyDo2UHIhVTM4+8+ByazA
+X-Google-Smtp-Source: AGRyM1uzhTuNY9aWPp59X9u3/Y95iBOoLJQmYnDQC8yhDQkppOdo6FSdeymYwaFcvsLUdT/+915/b96NzSG40VZOLzw=
+X-Received: by 2002:a25:e687:0:b0:671:7972:45a7 with SMTP id
+ d129-20020a25e687000000b00671797245a7mr3516308ybh.301.1658878459321; Tue, 26
+ Jul 2022 16:34:19 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20220726163206.1780707-1-peter.maydell@linaro.org>
- <20220726163206.1780707-3-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220726163206.1780707-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+References: <20220702134149.14384-1-liweiwei@iscas.ac.cn>
+ <CAKmqyKNoijHZENxw4dtAK9BfA_-kT8vShrKaC6oero8K4BUCjQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKNoijHZENxw4dtAK9BfA_-kT8vShrKaC6oero8K4BUCjQ@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 26 Jul 2022 16:34:07 -0700
+Message-ID: <CAOnJCUJzVwAC7YNQipLV=e+R8D6VYTOOKqoM74Edf3wO3_=MSg@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: fix csr check for cycle{h}, instret{h},
+ time{h}, hpmcounter3~31{h}
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Weiwei Li <liweiwei@iscas.ac.cn>, Atish Patra <atishp@rivosinc.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ wangjunqiang <wangjunqiang@iscas.ac.cn>, 
+ =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb2d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,52 +87,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 09:32, Peter Maydell wrote:
-> Coverity complains that in functions like pci_set_word_by_mask()
-> we might end up shifting by more than 31 bits. This is true,
-> but only if the caller passes in a zero mask. Help Coverity out
-> by asserting that the mask argument is valid.
-> 
-> Fixes: CID 1487168
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Note that only 1 of these 4 functions is used, and that only
-> in 2 places in the codebase. In both cases the mask argument
-> is a compile-time constant.
-> ---
->   include/hw/pci/pci.h | 20 ++++++++++++++++----
->   1 file changed, 16 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index c79144bc5ef..0392b947b8b 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -688,7 +688,10 @@ static inline void
->   pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
->   {
->       uint8_t val = pci_get_byte(config);
-> -    uint8_t rval = reg << ctz32(mask);
-> +    uint8_t rval;
-> +
-> +    assert(mask & 0xff);
+On Wed, Jul 20, 2022 at 9:32 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Sat, Jul 2, 2022 at 11:42 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+> >
+> > - improve the field extract progress
 
-Why the and, especially considering the uint8_t type?
+This part is already improved with the PMU series.
 
-> @@ -696,7 +699,10 @@ static inline void
->   pci_set_word_by_mask(uint8_t *config, uint16_t mask, uint16_t reg)
->   {
->       uint16_t val = pci_get_word(config);
-> -    uint16_t rval = reg << ctz32(mask);
-> +    uint16_t rval;
-> +
-> +    assert(mask & 0xffff);
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg895143.html
 
-Similarly.
+> > - add stand-alone check for mcuonteren when in less-privileged mode
+> > - add check for scounteren when 'S' is enabled and current priv is PRV_U
+> >
 
-Otherwise,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+These two parts are fine. I am resending the remaining patches for the
+PMU series.
+Can you please rebase your top and resend it ?
+
+> > Signed-off-by: Weiwei Li <liweiwei@iscas.ac.cn>
+> > Signed-off-by: Junqiang Wang <wangjunqiang@iscas.ac.cn>
+>
+> + Atish
+>
+> Alistair
+>
+> > ---
+> >  target/riscv/csr.c | 76 ++++++++++++++--------------------------------
+> >  1 file changed, 22 insertions(+), 54 deletions(-)
+> >
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index 6dbe9b541f..a4719cbf35 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -72,66 +72,34 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+> >  #if !defined(CONFIG_USER_ONLY)
+> >      CPUState *cs = env_cpu(env);
+> >      RISCVCPU *cpu = RISCV_CPU(cs);
+> > +    uint32_t field = 0;
+> >
+> >      if (!cpu->cfg.ext_counters) {
+> >          /* The Counters extensions is not enabled */
+> >          return RISCV_EXCP_ILLEGAL_INST;
+> >      }
+> >
+> > -    if (riscv_cpu_virt_enabled(env)) {
+> > -        switch (csrno) {
+> > -        case CSR_CYCLE:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> > -                get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_TIME:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> > -                get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_INSTRET:
+> > -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> > -                get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> > -            if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3)) &&
+> > -                get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3))) {
+> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -            }
+> > -            break;
+> > -        }
+> > -        if (riscv_cpu_mxl(env) == MXL_RV32) {
+> > -            switch (csrno) {
+> > -            case CSR_CYCLEH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_CY)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_TIMEH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_TM)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_INSTRETH:
+> > -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> > -                    get_field(env->mcounteren, COUNTEREN_IR)) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> > -                if (!get_field(env->hcounteren, 1 << (csrno - CSR_HPMCOUNTER3H)) &&
+> > -                    get_field(env->mcounteren, 1 << (csrno - CSR_HPMCOUNTER3H))) {
+> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > -                }
+> > -                break;
+> > -            }
+> > +    if (csrno <= CSR_HPMCOUNTER31 && csrno >= CSR_CYCLE) {
+> > +        field = 1 << (csrno - CSR_CYCLE);
+> > +    } else if (riscv_cpu_mxl(env) == MXL_RV32 && csrno <= CSR_HPMCOUNTER31H &&
+> > +               csrno >= CSR_CYCLEH) {
+> > +        field = 1 << (csrno - CSR_CYCLEH);
+> > +    }
+> > +
+> > +    if (env->priv < PRV_M && !get_field(env->mcounteren, field)) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    if (riscv_cpu_virt_enabled(env) && !get_field(env->hcounteren, field)) {
+> > +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > +    }
+> > +
+> > +    if (riscv_has_ext(env, RVS) && env->priv == PRV_U &&
+> > +        !get_field(env->scounteren, field)) {
+> > +        if (riscv_cpu_virt_enabled(env)) {
+> > +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > +        } else {
+> > +            return RISCV_EXCP_ILLEGAL_INST;
+> >          }
+> >      }
+> >  #endif
+> > --
+> > 2.17.1
+> >
+> >
 
 
-r~
+
+-- 
+Regards,
+Atish
 
