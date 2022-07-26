@@ -2,83 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5A215819AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 20:27:46 +0200 (CEST)
-Received: from localhost ([::1]:52018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 961B75819C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 20:31:41 +0200 (CEST)
+Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGPHV-00058g-R0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 14:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37296)
+	id 1oGPLI-0000Ak-Ki
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 14:31:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGPCx-0000ah-3h
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:03 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:33347)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGPDh-00013s-9Z
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:49 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGPCv-0001bb-JD
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:02 -0400
-Received: by mail-pg1-x534.google.com with SMTP id 72so13868083pge.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 11:23:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGPDe-0001dW-Ef
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:47 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v17so2343682wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 11:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/tiQs6g9ta2YRq84Uoz5Bacm9WHxFxqymykjMT8vquI=;
- b=xiV9PecmuFzqgFslDgX+jF+rhmdW1vGOF3z77MHj8TFvs+qwBWmnycxAnFcUyQRZGY
- qVG2sgbc0sAEI8bH3cOvBhfvho15hi3UTMwVh7DTsOjDxcKVBD8WyNByk2wieuL6MVyc
- gI1STfiSBFgtTTYtpG/BAAF7Z4y6KfkDqe3nfAVOP8ojq1ELrZ9SQ/6JtoGNe1oRAe6D
- dRc8vw/d5nuJQTgIvvlngO5i8xxl0FrkloFZy77QspVnQDOvWWUNCtJMLhiYgdlvU2az
- OwcBFIc9tKr5459LNg/TVh/l+KuunzmKKqoazyCzx8Yc9f5osBm1yThLzlusgqy8PNsb
- ckow==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Q3wRM0mYTsBHQhTgGrkSqDwGFdrtiUjwZJz6kElPnj8=;
+ b=WeltduiBaletKGgtO3lnBR+GpLm6wvkJ4wSb475GkcQDGjZ2Av0waKab2SX9lmR2Y1
+ Qnti0EU3JyWbwrF0us3SqwfazJBbG0Wt9UCOCk2gNq9T9RluR4dzgaMMi5XFxhTT10Kw
+ COMwBlOnPEn60tqCmCn/MwN5IfjGw5hxizvGs4K1nvFxP1Mbhav0xfWKxoWxQ7fAKq0i
+ syB29I1BMzD0hNWuci6bXC55Dzn127fOwxXwOXGnLO/C1PnFEunZfA0ev4/01leX2nJY
+ /R4hu3/zVlhIceDaa4ZpnhAevsZIqTKdhicgcKUvmcbxRShaSj7L9w7YrPbCVL7y9XWA
+ KWEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/tiQs6g9ta2YRq84Uoz5Bacm9WHxFxqymykjMT8vquI=;
- b=AeiiEPIlaPmAq0oZZ6E/dMiK4kqUG4Mb7z91IXhZj/PguRt1xjJLrs078Ay2xAEH57
- 55VDjCu9lFFzB4fUjT7Jxw69qP55f6tEjXoSyynpoudoxx/pIA8PdQhXmiPrSpplbf2J
- pD6cNAu5nmz9oevtgPXjpa5QNjRtwEL5EiKC9WxVVNWw4ZqmSBailm/L659XTKd7uHa9
- byM7JXdCNIHRTpByFgOzSt4jsLKCxMktG7NQlPdeY7dtt/T+ppE7PhdhqIDr8aO/zIyT
- y8gUlA7AYuwN97CF2PsYEr7HyB1qOQZ+5l+SbCzW2F4mIwwH0HUa/eDP1ZgZMBT8QMXT
- EacA==
-X-Gm-Message-State: AJIora/O1bluzndV7U9dkEexYQCO8xuj5sipedH8jYvsVr94zBAxRSoI
- 37elvsa6Wel/7Z/ZhdP3OahMnA==
-X-Google-Smtp-Source: AGRyM1tmGa4AEszMR4LSvXemsScmGpzxuFmX+TwfhRY/se62Ip0JBAAJeRF/CA7dE65MjvdY8r9b1g==
-X-Received: by 2002:a65:5cc4:0:b0:41a:ae9f:5642 with SMTP id
- b4-20020a655cc4000000b0041aae9f5642mr15523950pgt.542.1658859780001; 
- Tue, 26 Jul 2022 11:23:00 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:33b:7a10:8a4c:53bc?
- ([2602:ae:1549:801:33b:7a10:8a4c:53bc])
+ bh=Q3wRM0mYTsBHQhTgGrkSqDwGFdrtiUjwZJz6kElPnj8=;
+ b=sHmxnHhi+8ErrhNnX6jK//1eaCPvqyBVFoJ3bmY23YnFUvbUr72JPqs4cg9l9M4ca2
+ VHp+Zz0fRTClikcGyMjexo6gvi/E53ILg1v4f+2bHLyZvbGanGS4I6KzYU7C0Ml+Nlad
+ rj6bk9i+Z4JG0YhwDaSSd10JocjOl4gdpMWFuaCI0ZXIXCSC1X5fOXxtU5AJyKbXoNMM
+ DVJZY2NzQ1pkgZBW4wA5i9FT2iIVbjtmXQ12f/mzFhup1nxWx8MbpOPNm57vMWJW3LQ+
+ NijJPtz3yUtuNGXwim/IV5qkfAeLqHAIw5CiU4mUYzNw1MFfw8cCq10aAKaGQIAeVR4L
+ 2XLA==
+X-Gm-Message-State: AJIora9pI1QX+LfmJH2kUqIoCKU8NZMowb7eAfNL+Z2ode+zMgvNfnnk
+ lWi3K6gpmlIqOYt2fqUnc5oWOWwr1h+w1g==
+X-Google-Smtp-Source: AGRyM1sk7vLwhyiQSfmYJQ3sIhBk6Trux+m6gSooLxVVzoAc4MZU/9Am7xhpUTgMjmykNUCasKHMiA==
+X-Received: by 2002:a5d:4e41:0:b0:21e:88f9:84be with SMTP id
+ r1-20020a5d4e41000000b0021e88f984bemr7242462wrt.67.1658859824537; 
+ Tue, 26 Jul 2022 11:23:44 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- x5-20020a170902ec8500b0016c4f0065b4sm2224011plg.84.2022.07.26.11.22.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 11:22:59 -0700 (PDT)
-Message-ID: <8ffc86b3-4ad6-1ab6-7b7d-a297bc3023d3@linaro.org>
-Date: Tue, 26 Jul 2022 11:22:57 -0700
+ f5-20020adff445000000b0021e5f32ade7sm11725343wrp.68.2022.07.26.11.23.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jul 2022 11:23:44 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
+Date: Tue, 26 Jul 2022 19:23:39 +0100
+Message-Id: <20220726182341.1888115-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: hexagon docker test failure
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>
-References: <e23e406a-bd4f-3ff0-a3f6-4f15eb18eecc@linaro.org>
- <SN4PR0201MB880842E568E6F1BEAE5E1139DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
- <15ff8390-a822-f904-457b-0647104fab54@linaro.org>
- <SN4PR0201MB88082B3DC160E3D4F40729B9DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <SN4PR0201MB88082B3DC160E3D4F40729B9DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,39 +88,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 11:00, Taylor Simpson wrote:
-> So, instead of putting those in CFLAGS, put them in EXTRA_CFLAGS.
-> 
-> --- a/tests/tcg/hexagon/Makefile.target
-> +++ b/tests/tcg/hexagon/Makefile.target
-> @@ -20,6 +20,7 @@ EXTRA_RUNS =
->   
->   CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
->   CFLAGS += -fno-unroll-loops
-> +EXTRA_CFLAGS += -mv67 -O2
->   
->   HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
->   VPATH += $(HEX_SRC)
+This patchset is mainly trying to fix a problem that Coverity spotted
+in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the code
+is not correctly using the cpu_physical_memory_map() function.
+While I was fixing that I noticed a second problem in this code,
+where it doesn't have a fallback for when cpu_physical_memory_map()
+says "I couldn't map that for you".
 
-Ah, ok.
+I've marked these patches as RFC, partly because I don't have any
+guest that would exercise the code changes[*], and partly because
+I don't have any documentation of the hardware to tell me how it
+should behave, so patch 2 in particular has some FIXMEs. I also
+notice that the code doesn't update any of the registers like the
+count or source/base addresses when the DMA transfer happens, which
+seems odd, but perhaps the real hardware does work like that.
 
-> Do I understand correctly that putting the flags in Makefile.target is the proper way and cross_cc_cflags is obsolete?
+I think we should probably take patch 1 (which is a fairly minimal
+fix of the use-of-uninitialized-data problem), but patch 2 is a bit
+more unfinished.
 
-cross_cc_flags is intended to handle using one compiler for multiple targets, e.g. arm vs 
-armbe.
+[*] The commit 3c409c1927efde2fc that added this code says it's used
+by AmigaOS.)
 
-Which is not what you're attempting to do; you're trying to test a particular isa. 
-Compare tests/tcg/aarch64/Makefile.target:
+thanks
+-- PMM
 
-bti-1 bti-3: CFLAGS += -mbranch-protection=standard
+Peter Maydell (2):
+  hw/ppc/ppc440_uc: Initialize length passed to
+    cpu_physical_memory_map()
+  hw/ppc/ppc440_uc: Handle mapping failure in DMA engine
 
-pauth-%: CFLAGS += -march=armv8.3-a
+ hw/ppc/ppc440_uc.c | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
-mte-%: CFLAGS += -march=armv8.5-a+memtag
+-- 
+2.25.1
 
-
-where we set specific isa extensions for specific tests.
-
-
-r~
 
