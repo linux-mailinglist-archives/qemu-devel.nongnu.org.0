@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53489581B0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:28:11 +0200 (CEST)
-Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE434581B11
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:30:48 +0200 (CEST)
+Received: from localhost ([::1]:33676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGRA2-0001me-CA
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:28:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58552)
+	id 1oGRCZ-0005ec-PE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:30:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGQuk-0001Jt-4f; Tue, 26 Jul 2022 16:12:23 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:47792)
+ id 1oGQun-0001LO-CP; Tue, 26 Jul 2022 16:12:25 -0400
+Received: from forwardcorp1p.mail.yandex.net ([77.88.29.217]:34600)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGQui-0001Hh-1Z; Tue, 26 Jul 2022 16:12:21 -0400
+ id 1oGQuj-0001Hq-Sn; Tue, 26 Jul 2022 16:12:23 -0400
 Received: from sas1-7470331623bb.qloud-c.yandex.net
  (sas1-7470331623bb.qloud-c.yandex.net
  [IPv6:2a02:6b8:c08:bd1e:0:640:7470:3316])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 3CE1B2E1C6A;
- Tue, 26 Jul 2022 23:12:11 +0300 (MSK)
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 57D182E0C7C;
+ Tue, 26 Jul 2022 23:12:12 +0300 (MSK)
 Received: from localhost.localdomain (172.31.44.48-vpn.dhcp.yndx.net
  [172.31.44.48])
  by sas1-7470331623bb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- ZssKVYgWJm-CAO0JcVS; Tue, 26 Jul 2022 23:12:10 +0300
+ ZssKVYgWJm-CBO028tv; Tue, 26 Jul 2022 23:12:11 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1658866330; bh=sPtLArjWYB88od/2JdIUzS/SuNMzIlHO8CijWViWhOE=;
+ t=1658866331; bh=0TCakQ4ndmZLdd1cOsw/z2YQaMII6NoaA7Hn15EFnfQ=;
  h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=Ix4syYO3KK+qnVJ9u6lvoZJ1ZxNNoa8xjRINZCkEnJYL60VZjLZn/JjvRk7GcJN3l
- 0UeGNhVhO8MZXCNU8OP2aDMpowZwO6ldyEcTBsgQUcThNvNixNKIVIYcgxOO2sf0ZX
- 0MACpX1+r0dfeaoKOmHNiZD1voUH2Pd8M9BU77tk=
+ b=i/3QNdoKJVHmiTOYc5ye5RHifw0vMtVhQIMsLnvk64M97YwLle8v0KyV6F8y5RZQA
+ umhg3d5o3+KBqaqiuxlhAcOfAwJM+walLPjRVcbM6B9FF5ZUOze37ryAwmiLfpqLlS
+ a/K2zzII13Z6Nvd9mkpXF7+wGgQ2R1VxipcDQpdg=
 Authentication-Results: sas1-7470331623bb.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
  vsementsov@yandex-team.ru
-Subject: [PATCH v7 14/15] block/snapshot: drop indirection around
- bdrv_snapshot_fallback_ptr
-Date: Tue, 26 Jul 2022 23:11:33 +0300
-Message-Id: <20220726201134.924743-15-vsementsov@yandex-team.ru>
+Subject: [PATCH v7 15/15] block: refactor bdrv_remove_file_or_backing_child to
+ bdrv_remove_child
+Date: Tue, 26 Jul 2022 23:11:34 +0300
+Message-Id: <20220726201134.924743-16-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220726201134.924743-1-vsementsov@yandex-team.ru>
 References: <20220726201134.924743-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=77.88.29.217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -75,119 +75,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now the indirection is not actually used, we can safely reduce it to
-simple pointer. For consistency do a bit of refactoring to get rid of
-_ptr suffixes that become meaningless.
+Now the function can remove any child, so give it more common name.
+Drop assertions and drop bs argument which becomes unused. Function
+would be reused in a further commit.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/snapshot.c | 38 ++++++++++++++++----------------------
- 1 file changed, 16 insertions(+), 22 deletions(-)
+ block.c | 27 +++++++++------------------
+ 1 file changed, 9 insertions(+), 18 deletions(-)
 
-diff --git a/block/snapshot.c b/block/snapshot.c
-index f3971ac2bd..e22ac3eac6 100644
---- a/block/snapshot.c
-+++ b/block/snapshot.c
-@@ -151,34 +151,29 @@ bool bdrv_snapshot_find_by_id_and_name(BlockDriverState *bs,
- }
+diff --git a/block.c b/block.c
+index 3343dc5649..55cff270f8 100644
+--- a/block.c
++++ b/block.c
+@@ -92,9 +92,7 @@ static bool bdrv_recurse_has_child(BlockDriverState *bs,
  
- /**
-- * Return a pointer to the child BDS pointer to which we can fall
-+ * Return a pointer to child of given BDS to which we can fall
-  * back if the given BDS does not support snapshots.
-  * Return NULL if there is no BDS to (safely) fall back to.
-- *
-- * We need to return an indirect pointer because bdrv_snapshot_goto()
-- * has to modify the BdrvChild pointer.
-  */
--static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
-+static BdrvChild *bdrv_snapshot_fallback_child(BlockDriverState *bs)
- {
--    BdrvChild **fallback;
--    BdrvChild *child = bdrv_primary_child(bs);
-+    BdrvChild *fallback = bdrv_primary_child(bs);
-+    BdrvChild *child;
+ static void bdrv_replace_child_noperm(BdrvChild *child,
+                                       BlockDriverState *new_bs);
+-static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+-                                              BdrvChild *child,
+-                                              Transaction *tran);
++static void bdrv_remove_child(BdrvChild *child, Transaction *tran);
+ static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
+                                             Transaction *tran);
  
-     /* We allow fallback only to primary child */
--    if (!child) {
-+    if (!fallback) {
-         return NULL;
+@@ -3337,7 +3335,7 @@ static int bdrv_set_file_or_backing_noperm(BlockDriverState *parent_bs,
+ 
+     if (child) {
+         bdrv_unset_inherits_from(parent_bs, child, tran);
+-        bdrv_remove_file_or_backing_child(parent_bs, child, tran);
++        bdrv_remove_child(child, tran);
      }
--    fallback = (child == bs->file ? &bs->file : &bs->backing);
--    assert(*fallback == child);
  
-     /*
-      * Check that there are no other children that would need to be
-      * snapshotted.  If there are, it is not safe to fall back to
--     * *fallback.
-+     * fallback.
-      */
-     QLIST_FOREACH(child, &bs->children, next) {
-         if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
-                            BDRV_CHILD_FILTERED) &&
--            child != *fallback)
-+            child != fallback)
-         {
-             return NULL;
-         }
-@@ -189,8 +184,7 @@ static BdrvChild **bdrv_snapshot_fallback_ptr(BlockDriverState *bs)
- 
- static BlockDriverState *bdrv_snapshot_fallback(BlockDriverState *bs)
- {
--    BdrvChild **child_ptr = bdrv_snapshot_fallback_ptr(bs);
--    return child_ptr ? (*child_ptr)->bs : NULL;
-+    return child_bs(bdrv_snapshot_fallback_child(bs));
+     if (!child_bs) {
+@@ -5021,26 +5019,19 @@ static bool should_update_child(BdrvChild *c, BlockDriverState *to)
+     return ret;
  }
  
- int bdrv_can_snapshot(BlockDriverState *bs)
-@@ -237,7 +231,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-                        Error **errp)
+-static void bdrv_remove_filter_or_cow_child_commit(void *opaque)
++static void bdrv_remove_child_commit(void *opaque)
  {
-     BlockDriver *drv = bs->drv;
--    BdrvChild **fallback_ptr;
-+    BdrvChild *fallback;
-     int ret, open_ret;
- 
      GLOBAL_STATE_CODE();
-@@ -260,13 +254,13 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         return ret;
+     bdrv_child_free(opaque);
+ }
+ 
+-static TransactionActionDrv bdrv_remove_filter_or_cow_child_drv = {
+-    .commit = bdrv_remove_filter_or_cow_child_commit,
++static TransactionActionDrv bdrv_remove_child_drv = {
++    .commit = bdrv_remove_child_commit,
+ };
+ 
+-/*
+- * A function to remove backing or file child of @bs.
+- * Function doesn't update permissions, caller is responsible for this.
+- */
+-static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+-                                              BdrvChild *child,
+-                                              Transaction *tran)
++/* Function doesn't update permissions, caller is responsible for this. */
++static void bdrv_remove_child(BdrvChild *child, Transaction *tran)
+ {
+-    assert(child == bs->backing || child == bs->file);
+-
+     if (!child) {
+         return;
+     }
+@@ -5049,7 +5040,7 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+         bdrv_replace_child_tran(child, NULL, tran);
      }
  
--    fallback_ptr = bdrv_snapshot_fallback_ptr(bs);
--    if (fallback_ptr) {
-+    fallback = bdrv_snapshot_fallback_child(bs);
-+    if (fallback) {
-         QDict *options;
-         QDict *file_options;
-         Error *local_err = NULL;
--        BlockDriverState *fallback_bs = (*fallback_ptr)->bs;
--        char *subqdict_prefix = g_strdup_printf("%s.", (*fallback_ptr)->name);
-+        BlockDriverState *fallback_bs = fallback->bs;
-+        char *subqdict_prefix = g_strdup_printf("%s.", fallback->name);
+-    tran_add(tran, &bdrv_remove_filter_or_cow_child_drv, child);
++    tran_add(tran, &bdrv_remove_child_drv, child);
+ }
  
-         options = qdict_clone_shallow(bs->options);
+ /*
+@@ -5060,7 +5051,7 @@ static void bdrv_remove_file_or_backing_child(BlockDriverState *bs,
+ static void bdrv_remove_filter_or_cow_child(BlockDriverState *bs,
+                                             Transaction *tran)
+ {
+-    bdrv_remove_file_or_backing_child(bs, bdrv_filter_or_cow_child(bs), tran);
++    bdrv_remove_child(bdrv_filter_or_cow_child(bs), tran);
+ }
  
-@@ -277,8 +271,8 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         qobject_unref(file_options);
-         g_free(subqdict_prefix);
- 
--        /* Force .bdrv_open() below to re-attach fallback_bs on *fallback_ptr */
--        qdict_put_str(options, (*fallback_ptr)->name,
-+        /* Force .bdrv_open() below to re-attach fallback_bs on fallback */
-+        qdict_put_str(options, fallback->name,
-                       bdrv_get_node_name(fallback_bs));
- 
-         /* Now close bs, apply the snapshot on fallback_bs, and re-open bs */
-@@ -287,7 +281,7 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
-         }
- 
-         /* .bdrv_open() will re-attach it */
--        bdrv_unref_child(bs, *fallback_ptr);
-+        bdrv_unref_child(bs, fallback);
- 
-         ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
-         open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
+ static int bdrv_replace_node_noperm(BlockDriverState *from,
 -- 
 2.25.1
 
