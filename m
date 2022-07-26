@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD695581BAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:33:14 +0200 (CEST)
-Received: from localhost ([::1]:54338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E9C581BB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:37:36 +0200 (CEST)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGSAz-000428-3t
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
+	id 1oGSFD-0006mX-O1
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGS7m-0001dE-TE
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:29:56 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35331)
+ id 1oGSDe-00057E-Kt
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:35:58 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:43898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGS7i-00064e-D2
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:29:54 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- o20-20020a17090aac1400b001f2da729979so228005pjq.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:29:49 -0700 (PDT)
+ id 1oGSDZ-0007CM-29
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:35:58 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id y15so14471570plp.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hdtVyiry550dc1SE8B5NPw4yX89iIoWX9f+Ujw+S0Yo=;
- b=HZ/B0px9FLQbguQVze5GlBO2YjDAavJn+TKYOX7BznmZv7ViI+g/A+BkFXTegLlXh4
- a9fnSXJw8E44PCcMCx/ezhDt9BveBhwbLbl0AkgpucSUAV5ePd4zFkSZiIE0xUabP6wm
- 2uMG2GHhcSRXpuqG1Zwzg2x0W+WnDcvRsqnycYBjIAY1jjL2/K+ztbdPD5nsWXooGuO+
- 2AJ+/lZZB62z6YHncC4Ppbg3rNhuLPV5ceqZDr/h1OME5/6TAyAmd72gb9yW+tWpNJ8w
- plerpecZJKOYHqtge7BeFYuJTn7QPJ84CIZwRAYeLLpC+O0wK69qd5H1R3Ik5o/wqXti
- wXLg==
+ bh=4fUD7qMwznQRZX7t8SsuOMqgRYh5DVy1YPW3f2buatM=;
+ b=F1s3PpfM1YJ05K9FK0e2ONRJ8IPZFi0oCV5tRrSPDScjqCNFAgKopWuprrahOHFyzU
+ S8xZKLDXZ68TdkipNrf9DaVNLRXOPesg9N+UKZnVhK8djRVLTlDLqW+PohrLGeKCgtH1
+ gH+DoCR7m8Gjl0SkHx3Cr6JWiJg6lTcWErNzU2U2P5+satn9xU81geUsA6Itke+uZJTI
+ HQ7rCyzg3slH+liCVVujYqxAxQKk1mDB+nBtCs5r4ps5wRmDm6XvhRaKff4Lqdz7bEbg
+ orxZ21U4RhsOpZ+Wgx+Oh2+s3B7M4qLiAapt4b0e58SVjon+Asproy39QE6usnW2GpZ+
+ 0CVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=hdtVyiry550dc1SE8B5NPw4yX89iIoWX9f+Ujw+S0Yo=;
- b=mjYBhEcMsGvsO2d2HBLo+PFAZn4W5nN0vTVB7aHU/elWPI9N2ewaBOtFb8t8JYAWaE
- ZkhUAgN9UFHrIesETBvynbJYWKF7iB5HCkkngDkA2VGDGDNRNr4GMCAo7asEZXG5d2PC
- LxehZ+E8inv0WXdqBR+o4V1dA+pz+mot7f8r5pk8ZeRSZ5SKUUoIGX4/QO5+q4hE9b4w
- opxQBjcNwTjYItnYFa/J8+UgxCZYbzntCMuzk30xYtYbvlYYtjDHQR9vAVNPXRU8T7t8
- r7J/DxMhMw0Y2n4c/UGtLocGOu1K1dE5qXUy3XWE6iS3zIUNBNb2wDYoEn8gp+q9Ko6Q
- KArA==
-X-Gm-Message-State: AJIora/kRTwH2vO+1Ize9BQtuqbzmZJDXtM/lWWtAHJvm3Kiwq1LkvPX
- gaHgUxjTHwyH6UEHDKgZ6m0=
-X-Google-Smtp-Source: AGRyM1sN9Wr1BIDctP6h5rU6Rk541WxF6MOcAaU0yFt+dzyDRbFECCouT2OxbBVJlSP/IHrN6GoCXw==
-X-Received: by 2002:a17:902:8b88:b0:16d:2a70:26d9 with SMTP id
- ay8-20020a1709028b8800b0016d2a7026d9mr18720456plb.84.1658870988456; 
- Tue, 26 Jul 2022 14:29:48 -0700 (PDT)
+ bh=4fUD7qMwznQRZX7t8SsuOMqgRYh5DVy1YPW3f2buatM=;
+ b=XOH6kcakkPlM8zHBQFXwksYLPigBVeP4lMNEoZpEGb0YrMAIWIGe68Os9cktUb1X21
+ DKg1ua2aE3Dwd3IZo8Ya7BDyDPLWhdBP6CwBlByNo0Okp5VnpMS4HS1SrodJ/XbVVehd
+ kxBSzIx/3X4lJNKsg7+9G1sAIdZ7aHWKpMgB2Pu7YWQFexrmkjXsPGkBrUx9Vuz/TIKy
+ 9c3bLO6mGwBzOpYhoRzixnUe5VkdyQFS2VNKf9ECL/WWStIb5NDgz/ctEGNRw4OXWpY0
+ i1XKIBzzuhWR3/H637jLSjwp0g2ZPseql0lZxrcbYgv15GM6egcrc377o/2K51wMbaoo
+ Fl9w==
+X-Gm-Message-State: AJIora8ZrlyR11HPR3UGkTXYCXwjZ6IO0uBQ0BO/BQeA+5rPEJNLQliS
+ k7njgyAFrSd7Mb28CiTHxYs=
+X-Google-Smtp-Source: AGRyM1um/vErQDuNtNPtGcQxf0k/EHUwEyn9FVsbHDhrF+rvS9P70SWfX5O+AxQZpmdH0BN2K0VfNg==
+X-Received: by 2002:a17:902:ecd0:b0:16d:5001:48f with SMTP id
+ a16-20020a170902ecd000b0016d5001048fmr17246016plh.90.1658871351092; 
+ Tue, 26 Jul 2022 14:35:51 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- 65-20020a621544000000b00528d880a32fsm12284319pfv.78.2022.07.26.14.29.45
+ o6-20020a170902d4c600b0016c1b178628sm12272389plg.269.2022.07.26.14.35.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 14:29:47 -0700 (PDT)
-Message-ID: <7ce4e714-57e1-30a1-9a16-4690c93f4031@amsat.org>
-Date: Tue, 26 Jul 2022 23:29:42 +0200
+ Tue, 26 Jul 2022 14:35:50 -0700 (PDT)
+Message-ID: <c13afe31-6b53-f819-a434-3b608ce23f99@amsat.org>
+Date: Tue, 26 Jul 2022 23:35:45 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
+Subject: Re: hexagon docker test failure
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20220726163206.1780707-1-peter.maydell@linaro.org>
- <20220726163206.1780707-3-peter.maydell@linaro.org>
-In-Reply-To: <20220726163206.1780707-3-peter.maydell@linaro.org>
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <e23e406a-bd4f-3ff0-a3f6-4f15eb18eecc@linaro.org>
+ <SN4PR0201MB880842E568E6F1BEAE5E1139DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
+In-Reply-To: <SN4PR0201MB880842E568E6F1BEAE5E1139DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1029.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,23 +97,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 26/7/22 18:32, Peter Maydell wrote:
-> Coverity complains that in functions like pci_set_word_by_mask()
-> we might end up shifting by more than 31 bits. This is true,
-> but only if the caller passes in a zero mask. Help Coverity out
-> by asserting that the mask argument is valid.
-> 
-> Fixes: CID 1487168
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Note that only 1 of these 4 functions is used, and that only
-> in 2 places in the codebase. In both cases the mask argument
-> is a compile-time constant.
-> ---
->   include/hw/pci/pci.h | 20 ++++++++++++++++----
->   1 file changed, 16 insertions(+), 4 deletions(-)
+(Cc'ing Paolo for commit cd362defb)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 26/7/22 19:23, Taylor Simpson wrote:
+> 
+>> -----Original Message-----
+>> From: Richard Henderson <richard.henderson@linaro.org>
+>> Sent: Tuesday, July 26, 2022 10:41 AM
+>> To: Taylor Simpson <tsimpson@quicinc.com>
+>> Cc: qemu-devel <qemu-devel@nongnu.org>
+>> Subject: hexagon docker test failure
+>>
+>> Hi Taylor,
+>>
+>> One of your recent hexagon testsuite changes is incompatible with the
+>> docker image that we're using:
+>>
+>> tests/tcg/hexagon/multi_result.c:79:16: error: invalid instruction
+>>
+>>     asm volatile("%0,p0 = vminub(%2, %3)\n\t"
+>>
+>>                  ^
+>>
+>> <inline asm>:1:2: note: instantiated into assembly here
+>>
+>>           r3:2,p0 = vminub(r1:0, r3:2)
+>>
+>>           ^
+>>
+>> 1 error generated.
+>>
+>>
+>> Can we try again to update debian-hexagon-cross?  I recall that last time
+>> there was a compiler bug that prevented forward progress.  Perhaps that has
+>> been fixed in the interim?
+>>
+>> I'm willing to accept such an update in the next week before rc1, but if we
+>> can't manage that we'll need to disable the failing test(s?).  Thanks in
+>> advance,
+>>
+>>
+>> r~
+> 
+> Hi Richard,
+> 
+> Some of the tests require the -mv67 flag to be passed to the compiler because they have instructions that are new in v67.
+> 
+> This patch
+> commit cd362defbbd09cbbc08b3bb465141542887b8cef
+> Author: Paolo Bonzini <pbonzini@redhat.com>
+> Date:   Fri May 27 16:35:48 2022 +0100
+> 
+>      tests/tcg: merge configure.sh back into main configure script
+> 
+> Moved this line from tests/tcg/configure.sh to the main configure script
+> : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
+> 
+> 
+> However, those flags aren't actually passed to the compiler any more - at least by default.
+> 
+> The gitlab builder is passing
+> https://gitlab.com/qemu-project/qemu/-/jobs/2771528066
+> So, there must be something in $MAKE_CHECK_ARGS
+> 
+> I use the following when I run
+> make EXTRA_CFLAGS='-mv67 -O2' check-tcg
+> 
+> 
+> So, we probably don't need a new docker image.  Do other targets have their cross_cc_cflags?  Please advise.
+> 
+> Thanks,
+> Taylor
+> 
 
 
