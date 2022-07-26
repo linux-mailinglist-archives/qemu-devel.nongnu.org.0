@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D09F581796
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:40:30 +0200 (CEST)
-Received: from localhost ([::1]:39702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D52558176A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:27:02 +0200 (CEST)
+Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNbh-0005TU-4I
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:40:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34994)
+	id 1oGNOf-0000E2-6i
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9r-0002zM-RG
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:44 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:56664)
+ id 1oGN9f-0002hR-G1
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:31 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9p-0006B3-To
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:43 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnQMX006253;
- Tue, 26 Jul 2022 16:11:15 GMT
+ id 1oGN9b-00069m-NS
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:31 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3YC031760;
+ Tue, 26 Jul 2022 16:11:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=UeVpLzMN2ckFZbyc+DCWwGK/6FspYnHNV9zJfYVysp4=;
- b=xShHdNnj01YCSmYw7qTCuBSkNA6tLPsZKt1Ey6qykXr2bk8QiI0Kw4e8zLUBv1VzqmWh
- y9FbgheP33/Xdws5d1xSnkzbkuKRDsR7WdEfy5Nnz3k/9gIK9xihm5Rl/gdh8x3wh82n
- DiTq0MWWcm3NXecYBCA+fPDTVHoggJuh3TtSjWVvHNOREMmerySbNC8T0jcFtR9pptGU
- 7OFS9Hr6a/PgfM5JNHz162KxFDyE+3KPE5p1d5ZICyd9xKszySAw7zxI4tElXAjhchz3
- 0gyiXIzXhoERN1nVPHTHDIl8CK55K6f7h5P1fqwPWj6mE3KyI03kJKii2+XKMTyi40Ue 3Q== 
+ bh=x9IWBCn4oIQGc5lzeOKqfAYzc9jsiabJWl/fQQx2PfA=;
+ b=vpnrEoUPlAOz8fVg+E9OfxE/+H72gn5+16reAtyJXYV0TWFSZuwf0R2VAmhY2Yu9p3Ma
+ oRYKIJwqYQIoa/6a3OeNq1qtGeG4qpXDiHY0090bj0r7M/pTiiXUsck4Ha9Lq9aFZDWX
+ SW+AacvYRby9vp43Bt4pT+b7j3TCfyVqkahOVkS+HFHAOQEc0HDkrwMyhwVdZjL0an//
+ 3Fpdka+tKY+Kukmrzzkwvw7ww9OPuJRvdG4m3yHO6+Q0B7OBY3shmZxmMFyLhMm6pAps
+ fxTVxP1wq3koieo81a9/gL5BsAAr348KAh9rB4uU66xBxhWNamhJx0vJD/s7eY2VNgmJ aw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940pu1x-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1ap-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:15 +0000
+ Tue, 26 Jul 2022 16:11:16 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QExV3H006241; Tue, 26 Jul 2022 16:11:14 GMT
+ with ESMTP id 26QFswoh006211; Tue, 26 Jul 2022 16:11:15 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq1ww-1
+ 3hh65bq1y2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:14 +0000
+ Tue, 26 Jul 2022 16:11:15 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSn023334;
- Tue, 26 Jul 2022 16:11:13 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSp023334;
+ Tue, 26 Jul 2022 16:11:15 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-21; Tue, 26 Jul 2022 16:11:13 +0000
+ ESMTP id 3hh65bq0y5-22; Tue, 26 Jul 2022 16:11:14 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 20/46] vl: helper to request re-exec
-Date: Tue, 26 Jul 2022 09:10:17 -0700
-Message-Id: <1658851843-236870-21-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 21/46] cpr: preserve extra state
+Date: Tue, 26 Jul 2022 09:10:18 -0700
+Message-Id: <1658851843-236870-22-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: ZML2-6gSZZlSUOGE1lPJHUr42_hHfafm
-X-Proofpoint-ORIG-GUID: ZML2-6gSZZlSUOGE1lPJHUr42_hHfafm
+X-Proofpoint-ORIG-GUID: kS9TTxf5SO5XpnF9bWqqNkoWjDO9O2SG
+X-Proofpoint-GUID: kS9TTxf5SO5XpnF9bWqqNkoWjDO9O2SG
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,90 +113,525 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a qemu_system_exec_request() hook that causes the main loop to exit and
-re-exec qemu using the specified arguments.
+cpr must save state that is needed after qemu is restarted, when devices
+are realized.  Thus the extra state cannot be saved in the migration stream
+file, as objects must already exist before that file can be loaded.  Instead,
+define auxilliary state structures and vmstate descriptions, not associated
+with any registered object, and serialize the aux state to a memfd file.
+Deserialize after qemu restarts, before devices are realized.
+
+The following state is saved:
+  * cpr mode
+  * file descriptor names and values
+  * memfd values and properties for ram blocks
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/sysemu/runstate.h |  1 +
- softmmu/runstate.c        | 24 ++++++++++++++++++++++++
- 2 files changed, 25 insertions(+)
+ MAINTAINERS                   |   3 +
+ include/migration/cpr-state.h |  30 ++++
+ migration/cpr-state.c         | 362 ++++++++++++++++++++++++++++++++++++++++++
+ migration/meson.build         |   1 +
+ migration/trace-events        |   8 +
+ stubs/cpr-state.c             |  26 +++
+ stubs/meson.build             |   1 +
+ 7 files changed, 431 insertions(+)
+ create mode 100644 include/migration/cpr-state.h
+ create mode 100644 migration/cpr-state.c
+ create mode 100644 stubs/cpr-state.c
 
-diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
-index f3ed525..a5f0738 100644
---- a/include/sysemu/runstate.h
-+++ b/include/sysemu/runstate.h
-@@ -62,6 +62,7 @@ void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
- void qemu_register_wakeup_notifier(Notifier *notifier);
- void qemu_register_wakeup_support(void);
- void qemu_system_shutdown_request(ShutdownCause reason);
-+void qemu_system_exec_request(const strList *args);
- void qemu_system_powerdown_request(void);
- void qemu_register_powerdown_notifier(Notifier *notifier);
- void qemu_register_shutdown_notifier(Notifier *notifier);
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 168e1b7..14b43df 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -37,6 +37,7 @@
- #include "monitor/monitor.h"
- #include "net/net.h"
- #include "net/vhost_net.h"
-+#include "qapi/util.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-events-run-state.h"
-@@ -353,6 +354,7 @@ static NotifierList wakeup_notifiers =
- static NotifierList shutdown_notifiers =
-     NOTIFIER_LIST_INITIALIZER(shutdown_notifiers);
- static uint32_t wakeup_reason_mask = ~(1 << QEMU_WAKEUP_REASON_NONE);
-+static GStrv exec_argv;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 362cfde..122af30 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3165,6 +3165,9 @@ M: Steve Sistare <steven.sistare@oracle.com>
+ R: Mark Kanda <mark.kanda@oracle.com>
+ S: Maintained
+ F: tests/unit/test-strlist.c
++F: include/migration/cpr-state.h
++F: migration/cpr-state.c
++F: stubs/cpr-state.c
  
- ShutdownCause qemu_shutdown_requested_get(void)
- {
-@@ -369,6 +371,11 @@ static int qemu_shutdown_requested(void)
-     return qatomic_xchg(&shutdown_requested, SHUTDOWN_CAUSE_NONE);
- }
- 
-+static int qemu_exec_requested(void)
+ Record/replay
+ M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+diff --git a/include/migration/cpr-state.h b/include/migration/cpr-state.h
+new file mode 100644
+index 0000000..a9ae6ae
+--- /dev/null
++++ b/include/migration/cpr-state.h
+@@ -0,0 +1,30 @@
++/*
++ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef MIGRATION_CPR_STATE_H
++#define MIGRATION_CPR_STATE_H
++
++#include "qapi/qapi-types-migration.h"
++
++typedef int (*cpr_walk_fd_cb)(const char *name, int id, int fd, void *opaque);
++
++void cpr_save_fd(const char *name, int id, int fd);
++void cpr_delete_fd(const char *name, int id);
++int cpr_find_fd(const char *name, int id);
++int cpr_walk_fd(cpr_walk_fd_cb cb, void *handle);
++void cpr_save_memfd(const char *name, int fd, size_t len, size_t maxlen,
++                    uint64_t align);
++int cpr_find_memfd(const char *name, size_t *lenp, size_t *maxlenp,
++                   uint64_t *alignp);
++void cpr_delete_memfd(const char *name);
++void cpr_resave_fd(const char *name, int id, int fd);
++int cpr_state_save(Error **errp);
++void cpr_state_unsave(void);
++int cpr_state_load(Error **errp);
++void cpr_state_print(void);
++
++#endif
+diff --git a/migration/cpr-state.c b/migration/cpr-state.c
+new file mode 100644
+index 0000000..fb34b1a
+--- /dev/null
++++ b/migration/cpr-state.c
+@@ -0,0 +1,362 @@
++/*
++ * Copyright (c) 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/cutils.h"
++#include "qemu/queue.h"
++#include "qemu/memfd.h"
++#include "qapi/error.h"
++#include "io/channel-file.h"
++#include "migration/vmstate.h"
++#include "migration/cpr-state.h"
++#include "migration/migration.h"
++#include "migration/misc.h"
++#include "migration/qemu-file.h"
++#include "trace.h"
++
++/*************************************************************************/
++/* cpr state container for all information to be saved. */
++
++typedef QLIST_HEAD(CprNameList, CprName) CprNameList;
++
++typedef struct CprState {
++    MigMode mode;
++    CprNameList fds;            /* list of CprFd */
++    CprNameList memfd;          /* list of CprMemfd */
++} CprState;
++
++static CprState cpr_state = {
++    .mode = MIG_MODE_NORMAL,
++};
++
++/*************************************************************************/
++/* Generic list of names. */
++
++typedef struct CprName {
++    char *name;
++    unsigned int namelen;
++    int id;
++    QLIST_ENTRY(CprName) next;
++} CprName;
++
++static const VMStateDescription vmstate_cpr_name = {
++    .name = "cpr name",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(namelen, CprName),
++        VMSTATE_VBUFFER_ALLOC_UINT32(name, CprName, 0, NULL, namelen),
++        VMSTATE_INT32(id, CprName),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void
++add_name(CprNameList *head, const char *name, int id, CprName *elem)
 +{
-+    return exec_argv != NULL;
++    elem->name = g_strdup(name);
++    elem->namelen = strlen(name) + 1;
++    elem->id = id;
++    QLIST_INSERT_HEAD(head, elem, next);
 +}
 +
- static void qemu_kill_report(void)
- {
-     if (!qtest_driver() && shutdown_signal) {
-@@ -627,6 +634,13 @@ void qemu_system_shutdown_request(ShutdownCause reason)
-     qemu_notify_event();
- }
- 
-+void qemu_system_exec_request(const strList *args)
++static CprName *find_name(CprNameList *head, const char *name, int id)
 +{
-+    exec_argv = strv_from_strList(args);
-+    shutdown_requested = 1;
-+    qemu_notify_event();
-+}
++    CprName *elem;
 +
- static void qemu_system_powerdown(void)
- {
-     qapi_event_send_powerdown();
-@@ -675,6 +689,16 @@ static bool main_loop_should_exit(void)
-     }
-     request = qemu_shutdown_requested();
-     if (request) {
-+
-+        if (qemu_exec_requested()) {
-+            Error *err = NULL;
-+            execvp(exec_argv[0], exec_argv);
-+            error_setg_errno(&err, errno, "execvp %s failed", exec_argv[0]);
-+            error_report_err(err);
-+            g_strfreev(exec_argv);
-+            exec_argv = NULL;
-+            return false;
++    QLIST_FOREACH(elem, head, next) {
++        if (!strcmp(elem->name, name) && elem->id == id) {
++            return elem;
 +        }
-         qemu_kill_report();
-         qemu_system_shutdown(request);
-         if (shutdown_action == SHUTDOWN_ACTION_PAUSE) {
++    }
++    return NULL;
++}
++
++static void delete_name(CprNameList *head, const char *name, int id)
++{
++    CprName *elem = find_name(head, name, id);
++
++    if (elem) {
++        QLIST_REMOVE(elem, next);
++        g_free(elem->name);
++        g_free(elem);
++    }
++}
++
++/****************************************************************************/
++/* Lists of named things.  The first field of each entry must be a CprName. */
++
++typedef struct CprFd {
++    CprName name;               /* must be first */
++    int fd;
++} CprFd;
++
++static const VMStateDescription vmstate_cpr_fd = {
++    .name = "cpr fd",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(name, CprFd, 1, vmstate_cpr_name, CprName),
++        VMSTATE_INT32(fd, CprFd),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++#define CPR_FD(elem)        ((CprFd *)(elem))
++#define CPR_FD_FD(elem)     (CPR_FD(elem)->fd)
++
++void cpr_save_fd(const char *name, int id, int fd)
++{
++    CprFd *elem = g_new0(CprFd, 1);
++
++    trace_cpr_save_fd(name, id, fd);
++    elem->fd = fd;
++    add_name(&cpr_state.fds, name, id, &elem->name);
++}
++
++void cpr_delete_fd(const char *name, int id)
++{
++    trace_cpr_delete_fd(name, id);
++    delete_name(&cpr_state.fds, name, id);
++}
++
++int cpr_find_fd(const char *name, int id)
++{
++    CprName *elem = find_name(&cpr_state.fds, name, id);
++    int fd = elem ? CPR_FD_FD(elem) : -1;
++
++    if (fd >= 0) {
++        /* Set cloexec to prevent fd leaks from fork until the next cpr-exec */
++        qemu_set_cloexec(fd);
++    }
++
++    trace_cpr_find_fd(name, id, fd);
++    return fd;
++}
++
++int cpr_walk_fd(cpr_walk_fd_cb cb, void *opaque)
++{
++    CprName *elem;
++
++    QLIST_FOREACH(elem, &cpr_state.fds, next) {
++        if (cb(elem->name, elem->id, CPR_FD_FD(elem), opaque)) {
++            return 1;
++        }
++    }
++    return 0;
++}
++
++void cpr_resave_fd(const char *name, int id, int fd)
++{
++    CprName *elem = find_name(&cpr_state.fds, name, id);
++    int old_fd = elem ? CPR_FD_FD(elem) : -1;
++
++    if (old_fd < 0) {
++        cpr_save_fd(name, id, fd);
++    } else if (old_fd != fd) {
++        error_setg(&error_fatal,
++                   "internal error: cpr fd '%s' id %d value %d "
++                   "already saved with a different value %d",
++                   name, id, fd, old_fd);
++    }
++}
++
++/*************************************************************************/
++/* A memfd ram block. */
++
++typedef struct CprMemfd {
++    CprName name;               /* must be first */
++    size_t len;
++    size_t maxlen;
++    uint64_t align;
++} CprMemfd;
++
++static const VMStateDescription vmstate_cpr_memfd = {
++    .name = "cpr memfd",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_STRUCT(name, CprMemfd, 1, vmstate_cpr_name, CprName),
++        VMSTATE_UINT64(len, CprMemfd),
++        VMSTATE_UINT64(maxlen, CprMemfd),
++        VMSTATE_UINT64(align, CprMemfd),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++#define CPR_MEMFD(elem)        ((CprMemfd *)(elem))
++#define CPR_MEMFD_LEN(elem)    (CPR_MEMFD(elem)->len)
++#define CPR_MEMFD_MAXLEN(elem) (CPR_MEMFD(elem)->maxlen)
++#define CPR_MEMFD_ALIGN(elem)  (CPR_MEMFD(elem)->align)
++
++void cpr_save_memfd(const char *name, int fd, size_t len, size_t maxlen,
++                    uint64_t align)
++{
++    CprMemfd *elem = g_new0(CprMemfd, 1);
++
++    trace_cpr_save_memfd(name, len, maxlen, align);
++    elem->len = len;
++    elem->maxlen = maxlen;
++    elem->align = align;
++    add_name(&cpr_state.memfd, name, 0, &elem->name);
++    cpr_save_fd(name, 0, fd);
++}
++
++void cpr_delete_memfd(const char *name)
++{
++    trace_cpr_delete_memfd(name);
++    delete_name(&cpr_state.memfd, name, 0);
++    cpr_delete_fd(name, 0);
++}
++
++int cpr_find_memfd(const char *name, size_t *lenp, size_t *maxlenp,
++                   uint64_t *alignp)
++{
++    int fd = cpr_find_fd(name, 0);
++    CprName *elem = find_name(&cpr_state.memfd, name, 0);
++
++    if (elem) {
++        *lenp = CPR_MEMFD_LEN(elem);
++        *maxlenp = CPR_MEMFD_MAXLEN(elem);
++        *alignp = CPR_MEMFD_ALIGN(elem);
++    } else {
++        *lenp = 0;
++        *maxlenp = 0;
++        *alignp = 0;
++    }
++
++    trace_cpr_find_memfd(name, *lenp, *maxlenp, *alignp);
++    return fd;
++}
++
++/*************************************************************************/
++/* cpr state container interface and implementation. */
++
++#define CPR_STATE_NAME "QEMU_CPR_STATE"
++
++static const VMStateDescription vmstate_cpr_state = {
++    .name = CPR_STATE_NAME,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(mode, CprState),
++        VMSTATE_QLIST_V(fds, CprState, 1, vmstate_cpr_fd, CprFd, name.next),
++        VMSTATE_QLIST_V(memfd, CprState, 1, vmstate_cpr_memfd, CprMemfd,
++                        name.next),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static QEMUFile *qemu_file_new_fd_input(int fd, const char *name)
++{
++    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
++    QIOChannel *ioc = QIO_CHANNEL(fioc);
++    qio_channel_set_name(ioc, name);
++    return qemu_file_new_input(ioc);
++}
++
++static QEMUFile *qemu_file_new_fd_output(int fd, const char *name)
++{
++    g_autoptr(QIOChannelFile) fioc = qio_channel_file_new_fd(fd);
++    QIOChannel *ioc = QIO_CHANNEL(fioc);
++    qio_channel_set_name(ioc, name);
++    return qemu_file_new_output(ioc);
++}
++
++int cpr_state_save(Error **errp)
++{
++    int ret, mfd;
++    QEMUFile *f;
++    char val[16];
++
++    mfd = memfd_create(CPR_STATE_NAME, 0);
++    if (mfd < 0) {
++        error_setg_errno(errp, errno, "memfd_create failed");
++        return -1;
++    }
++
++    cpr_state.mode = migrate_mode();
++    qemu_clear_cloexec(mfd);
++
++    f = qemu_file_new_fd_output(mfd, CPR_STATE_NAME);
++    ret = vmstate_save_state(f, &vmstate_cpr_state, &cpr_state, 0);
++    if (ret) {
++        error_setg(errp, "vmstate_save_state error %d", ret);
++        goto error;
++    }
++
++    /* Do not close f, as mfd must remain open. */
++    qemu_fflush(f);
++    lseek(mfd, 0, SEEK_SET);
++
++    /* Remember mfd for post-exec cpr_state_load */
++    snprintf(val, sizeof(val), "%d", mfd);
++    g_setenv(CPR_STATE_NAME, val, 1);
++
++    return 0;
++
++error:
++    close(mfd);
++    cpr_state.mode = MIG_MODE_NORMAL;
++    return ret;
++}
++
++void cpr_state_unsave(void)
++{
++    int mfd;
++    const char *val = g_getenv(CPR_STATE_NAME);
++
++    if (val) {
++        g_unsetenv(CPR_STATE_NAME);
++        if (!qemu_strtoi(val, NULL, 10, &mfd)) {
++            close(mfd);
++        }
++    }
++}
++
++int cpr_state_load(Error **errp)
++{
++    int ret, mfd;
++    QEMUFile *f;
++    const char *val = g_getenv(CPR_STATE_NAME);
++
++    if (!val) {
++        return 0;
++    }
++    g_unsetenv(CPR_STATE_NAME);
++    if (qemu_strtoi(val, NULL, 10, &mfd)) {
++        error_setg(errp, "Bad %s env value %s", CPR_STATE_NAME, val);
++        return 1;
++    }
++    f = qemu_file_new_fd_input(mfd, CPR_STATE_NAME);
++    ret = vmstate_load_state(f, &vmstate_cpr_state, &cpr_state, 1);
++    qemu_fclose(f);
++
++    if (!ret) {
++        migrate_get_current()->parameters.mode = cpr_state.mode;
++    } else {
++        error_setg(errp, "vmstate_load_state error %d", ret);
++    }
++
++    return ret;
++}
++
++void cpr_state_print(void)
++{
++    CprName *elem;
++
++    printf("cpr_state:\n");
++    printf("- mode = %d\n", cpr_state.mode);
++    QLIST_FOREACH(elem, &cpr_state.fds, next) {
++        printf("- %s %d : fd=%d\n", elem->name, elem->id, CPR_FD_FD(elem));
++    }
++    QLIST_FOREACH(elem, &cpr_state.memfd, next) {
++        printf("- %s : len=%lu, maxlen=%lu, align=%lu\n", elem->name,
++               CPR_MEMFD_LEN(elem), CPR_MEMFD_MAXLEN(elem),
++               CPR_MEMFD_ALIGN(elem));
++    }
++}
+diff --git a/migration/meson.build b/migration/meson.build
+index 30a8392..f7d130d 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -15,6 +15,7 @@ softmmu_ss.add(files(
+   'channel-block.c',
+   'colo-failover.c',
+   'colo.c',
++  'cpr-state.c',
+   'exec.c',
+   'fd.c',
+   'file.c',
+diff --git a/migration/trace-events b/migration/trace-events
+index d72dd85..ed15a22 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -327,6 +327,14 @@ colo_receive_message(const char *msg) "Receive '%s' message"
+ # colo-failover.c
+ colo_failover_set_state(const char *new_state) "new state %s"
+ 
++# cpr-state.c
++cpr_save_fd(const char *name, int id, int fd) "%s, id %d, fd %d"
++cpr_delete_fd(const char *name, int id) "%s, id %d"
++cpr_find_fd(const char *name, int id, int fd) "%s, id %d returns %d"
++cpr_save_memfd(const char *name, size_t len, size_t maxlen, uint64_t align) "%s, len %lu, maxlen %lu, align %lu"
++cpr_delete_memfd(const char *name) "%s"
++cpr_find_memfd(const char *name, size_t len, size_t maxlen, uint64_t align) "%s, len %lu, maxlen %lu, align %lu"
++
+ # block-dirty-bitmap.c
+ send_bitmap_header_enter(void) ""
+ send_bitmap_bits(uint32_t flags, uint64_t start_sector, uint32_t nr_sectors, uint64_t data_size) "flags: 0x%x, start_sector: %" PRIu64 ", nr_sectors: %" PRIu32 ", data_size: %" PRIu64
+diff --git a/stubs/cpr-state.c b/stubs/cpr-state.c
+new file mode 100644
+index 0000000..1c9dc78
+--- /dev/null
++++ b/stubs/cpr-state.c
+@@ -0,0 +1,26 @@
++/*
++ * Copyright (c) 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "migration/cpr-state.h"
++
++void cpr_save_fd(const char *name, int id, int fd)
++{
++}
++
++void cpr_delete_fd(const char *name, int id)
++{
++}
++
++int cpr_find_fd(const char *name, int id)
++{
++    return -1;
++}
++
++void cpr_resave_fd(const char *name, int id, int fd)
++{
++}
+diff --git a/stubs/meson.build b/stubs/meson.build
+index d8f3fd5..392b1b5 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -4,6 +4,7 @@ stub_ss.add(files('blk-exp-close-all.c'))
+ stub_ss.add(files('blockdev-close-all-bdrv-states.c'))
+ stub_ss.add(files('change-state-handler.c'))
+ stub_ss.add(files('cmos.c'))
++stub_ss.add(files('cpr-state.c'))
+ stub_ss.add(files('cpu-get-clock.c'))
+ stub_ss.add(files('cpus-get-virtual-clock.c'))
+ stub_ss.add(files('qemu-timer-notify-cb.c'))
 -- 
 1.8.3.1
 
