@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEF68581205
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:34:36 +0200 (CEST)
-Received: from localhost ([::1]:47216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43D2581209
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:35:19 +0200 (CEST)
+Received: from localhost ([::1]:48544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGIpf-00016x-FT
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:34:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
+	id 1oGIqM-0001zC-Oh
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:35:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oGIlo-00046k-BQ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:30:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35420)
+ id 1oGIn6-00050u-DI
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:31:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oGIll-0006WN-OP
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:30:35 -0400
+ id 1oGIn4-0006xu-Kp
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:31:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658835032;
+ s=mimecast20190719; t=1658835113;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QQbhntD5W4BAK6W0uLVBhbpTnMQjJECJk8HRHWmhbIY=;
- b=iDMuKR1Ap3GWDtU4oxCegfKbpnnpF+IKziZAbpnNawbzB19uyqSOHRoYopvVdCIJfNk8N8
- pNoK1cAwjaDI+S1RfGOGYAgtTIjLFNRx631rhop1xsF3xH7VCwiAjhMZAzes87XR26XsLl
- 2Ri3HKr2TTlWUXdbiDPiUqdhB1fG3Ag=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wPPKTSsuoIBwLuFT3VQvCw9I2YfXgqO/lfKiClHxXj4=;
+ b=hdUgT82mkitAy+fpuBcfwaP+M9b6+oglR37v9D3wylIDHaUXzvgYbWCXEemKmnM6FnPwDm
+ OpB5BQYQtcktQiVrfKTAqyd5sWLNI8mjFi2fTZcAYBQaCbOY2ICB24fZKi8aZcmt/GGcg1
+ klbe/ezvoVzMCxBpVWB0O4zqjonDm1g=
+Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com
+ [209.85.160.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-575-UyzLzwDOMQyJvyiWn1uOmw-1; Tue, 26 Jul 2022 07:30:31 -0400
-X-MC-Unique: UyzLzwDOMQyJvyiWn1uOmw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-10dcc7339c4so4937473fac.13
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 04:30:31 -0700 (PDT)
+ us-mta-75-75liDv4OOee6mdUMiRK-Fg-1; Tue, 26 Jul 2022 07:31:51 -0400
+X-MC-Unique: 75liDv4OOee6mdUMiRK-Fg-1
+Received: by mail-oa1-f69.google.com with SMTP id
+ 586e51a60fabf-10dabd8f066so6737109fac.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 04:31:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QQbhntD5W4BAK6W0uLVBhbpTnMQjJECJk8HRHWmhbIY=;
- b=F0iwQpwoRg1F5jstrdBKlRTjNo6mKvNKvYdNerEcwblxAt+jjNuiCfmhk29TeENthg
- ZgQWfQl+jLPe71bh2sL1RGQW15bUwtDM2OzbUqLi32kVeF4ut8TPEQAvtDnppmLBmdWL
- /CGTMUhX1Fg6xlk6H73Ey4jiulCH4Rn1+zicSI8DQCljZQdmMtg/grBpmLohxtOryL4m
- enjt+hBhOsyZxSaRsI760PZ1oJ3SGl5kdLYbYPjobrTTMLnMPPVW6vauXlqh6FYVlP2i
- 1Xx5DX+jdfyrYhQ8D7+08zq3X65yt1xja/cgxsztUjANKK+EfZzWXF8Z4EMb7Pio0Xwm
- R8mQ==
-X-Gm-Message-State: AJIora94uEduooHLHI7YI+rFb9Za0GeuSip5OUveIkploj9IP5yGVp0E
- YgA/5bcllsL63DWLwbNH/sF2fXRIyyPXVL97rKnELWFkgyAKV+7X46ka2qau8ll0UmL3iCsVXQC
- I2x0emf2yxx51ZeLw0dA3uLPj0egkaDY=
-X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
- i1-20020a056870c1c100b000ee5c837be7mr8683782oad.53.1658835030896; 
- Tue, 26 Jul 2022 04:30:30 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t/ou3JwoIYx6/YbzSoDDUgNjeMxccBE1v2XN5H2kKV3s3voJuJJ6QJNyowI5ALam628CFE+1jvUYockjcY3ss=
-X-Received: by 2002:a05:6870:c1c1:b0:ee:5c83:7be7 with SMTP id
- i1-20020a056870c1c100b000ee5c837be7mr8683769oad.53.1658835030687; Tue, 26 Jul
- 2022 04:30:30 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=wPPKTSsuoIBwLuFT3VQvCw9I2YfXgqO/lfKiClHxXj4=;
+ b=MQGrO9j4u/xp/7lyV3xCBwPT77sqqoGnbfZ1cFFVxNBDe5Qjg4UgDtsuMsmung/qBQ
+ QfyLNTRqGv/C2Gl8HQ2VJ8IYPdjsrUy9K0QDBdQDRuKgOGdIiHV5R0OsqIdffx8JMxu7
+ Gbh5dvzerZDDqUtAAIiMCYBJb2CHUIwC/y2POTduClXqaXh1LvaTlvDBC+0FRQum2tnP
+ p5/T95Gj6oJCLmazqrkQdZnSujvVsyhaW4wmsw+QGajTSqIoXaIxkqCpJqAU7cMXCGi9
+ HYPe2J/+RgAzrO+UB0PhNtqvdIPqwgn0HJjIebPsaEiJVMXNGd6k44pXHLcnlhu0VH0n
+ /I9Q==
+X-Gm-Message-State: AJIora82y6IpEz4gXIG5FR2xgJC6vcqc0xogvBwUSGwJ+lD0NY5mN/Am
+ FEhIhHSrrhpAa6Bg/GLDGsIuQm+Zo5llDk4pPa8VCqIs83nZKedVI4rkvbFGIFI4sqgnwU1hwnl
+ KoMfl3BVIJN67iyK4RM+eFa7RiDTDZow=
+X-Received: by 2002:a05:6808:2187:b0:33a:c507:d4f3 with SMTP id
+ be7-20020a056808218700b0033ac507d4f3mr7854245oib.205.1658835111020; 
+ Tue, 26 Jul 2022 04:31:51 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vH48HjZj4raguUCk3LFr8XZNqPqO5Fowjd5x2jtTO52TGX6aSRLOQbfA82En7HBKWVxfHe7PRy3vKPz/oEwf8=
+X-Received: by 2002:a05:6808:2187:b0:33a:c507:d4f3 with SMTP id
+ be7-20020a056808218700b0033ac507d4f3mr7854225oib.205.1658835110842; Tue, 26
+ Jul 2022 04:31:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-13-frankja@linux.ibm.com>
-In-Reply-To: <20220726092248.128336-13-frankja@linux.ibm.com>
+ <20220726092248.128336-6-frankja@linux.ibm.com>
+In-Reply-To: <20220726092248.128336-6-frankja@linux.ibm.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 26 Jul 2022 15:30:19 +0400
-Message-ID: <CAMxuvazpXtOjWH_OoBDAj0VB4gjGAcy4ozv_oouRYtcZ_+MZvQ@mail.gmail.com>
-Subject: Re: [PATCH v4 12/17] dump/dump: Add arch section support
+Date: Tue, 26 Jul 2022 15:31:40 +0400
+Message-ID: <CAMxuvayir+vx8vjxt-wHHGsS0oyrfdzJftm4yikob6OHqoXAFw@mail.gmail.com>
+Subject: Re: [PATCH v4 05/17] dump: Cleanup and annotate guest memory related
+ DumpState struct members
 To: Janosch Frank <frankja@linux.ibm.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  mhartmay@linux.ibm.com, 
@@ -74,6 +76,7 @@ Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
  "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, seiden@linux.ibm.com,
  scgl@linux.ibm.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -100,101 +103,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Hi
 
-On Tue, Jul 26, 2022 at 1:23 PM Janosch Frank <frankja@linux.ibm.com> wrote:
+On Tue, Jul 26, 2022 at 1:23 PM Janosch Frank <frankja@linux.ibm.com> wrote=
+:
 >
-> Add hooks which architectures can use to add arbitrary data to custom
-> sections.
+> We can safely remove next_block and start as both of them aren't used
+> anymore due to the block iteration re-work.
+>
+
+I suggest removing next_block with the patch that gets rids of its usage.
+
+> Also we add comments to the remaining guest memory related struct
+> members and a comment on top to group them.
 >
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+
+With that change,
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
 > ---
->  dump/dump.c                |  5 +++++
->  include/sysemu/dump-arch.h | 27 +++++++++++++++++++++++++++
->  2 files changed, 32 insertions(+)
+>  include/sysemu/dump.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
 >
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 298a1e923f..1ec4c3b6c3 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -398,6 +398,7 @@ static void prepare_elf_section_hdrs(DumpState *s)
->      /*
->       * Section ordering:
->       * - HDR zero (if needed)
-> +     * - Arch section hdrs
->       * - String table hdr
->       */
->      sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-> @@ -415,6 +416,8 @@ static void prepare_elf_section_hdrs(DumpState *s)
->          return;
->      }
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index 6ce3c24197..24ebb02660 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -166,11 +166,10 @@ typedef struct DumpState {
+>      hwaddr memory_offset;
+>      int fd;
 >
-> +    buff_hdr += dump_arch_sections_write_hdr(&s->dump_info, s, buff_hdr);
-> +
->      /*
->       * String table needs to be last section since strings are added
->       * via arch_sections_write_hdr().
-> @@ -758,6 +761,7 @@ static void dump_end(DumpState *s, Error **errp)
->          return;
->      }
->      s->elf_section_data = g_malloc0(s->elf_section_data_size);
-> +    dump_arch_sections_write(&s->dump_info, s, s->elf_section_data);
+> -    GuestPhysBlock *next_block;
+> -    ram_addr_t start;
+> -    bool has_filter;
+> -    int64_t begin;
+> -    int64_t length;
+> +    /* Guest memory related data */
+> +    bool has_filter;           /* Are we dumping parts of the memory? */
+> +    int64_t begin;             /* Start address of the chunk we want to =
+dump */
+> +    int64_t length;            /* Length of the dump we want to dump */
 >
->      /* write sections to vmcore */
->      write_elf_sections(s, errp);
-> @@ -1929,6 +1933,7 @@ static void dump_init(DumpState *s, int fd, bool has_format,
->       * If phdr_num overflowed we have at least one section header
->       * More sections/hdrs can be added by the architectures
->       */
-> +    dump_arch_sections_add(&s->dump_info, (void *)s);
->      if (s->shdr_num > 1) {
->          /* Reserve the string table */
->          s->shdr_num += 1;
-> diff --git a/include/sysemu/dump-arch.h b/include/sysemu/dump-arch.h
-> index e25b02e990..de77908424 100644
-> --- a/include/sysemu/dump-arch.h
-> +++ b/include/sysemu/dump-arch.h
-> @@ -21,6 +21,9 @@ typedef struct ArchDumpInfo {
->      uint32_t page_size;      /* The target's page size. If it's variable and
->                                * unknown, then this should be the maximum. */
->      uint64_t phys_base;      /* The target's physmem base. */
-> +    void (*arch_sections_add_fn)(void *opaque);
-> +    uint64_t (*arch_sections_write_hdr_fn)(void *opaque, uint8_t *buff);
-> +    void (*arch_sections_write_fn)(void *opaque, uint8_t *buff);
-
-Why not pass DumpState? If there is an issue with header declaration
-order, you can always move the declaration in include/qemu/typedefs.h,
-I guess.
-
->  } ArchDumpInfo;
+>      uint8_t *note_buf;          /* buffer for notes */
+>      size_t note_buf_offset;     /* the writing place in note_buf */
+> --
+> 2.34.1
 >
->  struct GuestPhysBlockList; /* memory_mapping.h */
-> @@ -28,4 +31,28 @@ int cpu_get_dump_info(ArchDumpInfo *info,
->                        const struct GuestPhysBlockList *guest_phys_blocks);
->  ssize_t cpu_get_note_size(int class, int machine, int nr_cpus);
->
-> +static inline void dump_arch_sections_add(ArchDumpInfo *info, void *opaque)
-> +{
-> +    if (info->arch_sections_add_fn) {
-> +        info->arch_sections_add_fn(opaque);
-> +    }
-> +}
-> +
-> +static inline uint64_t dump_arch_sections_write_hdr(ArchDumpInfo *info,
-> +                                                void *opaque, uint8_t *buff)
-> +{
-> +    if (info->arch_sections_write_hdr_fn) {
-> +        return info->arch_sections_write_hdr_fn(opaque, buff);
-> +    }
-> +    return 0;
-> +}
-> +
-> +static inline void dump_arch_sections_write(ArchDumpInfo *info, void *opaque,
-> +                                            uint8_t *buff)
-> +{
-> +    if (info->arch_sections_write_fn) {
-> +        info->arch_sections_write_fn(opaque, buff);
-> +    }
-> +}
-
-We probably don't need those static inline helpers in the header.
 
 
