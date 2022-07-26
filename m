@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F5D58172C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:20:27 +0200 (CEST)
-Received: from localhost ([::1]:59980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B3F58171E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:15:59 +0200 (CEST)
+Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNII-0005bU-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:20:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
+	id 1oGNDy-0008V6-KV
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9c-0002YG-BD
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:28 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:30354)
+ id 1oGN9e-0002cI-2I
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:30 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:43970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9Y-00068j-0L
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:28 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0W6031705;
- Tue, 26 Jul 2022 16:10:52 GMT
+ id 1oGN9a-00069Z-Ta
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:29 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnPjv006246;
+ Tue, 26 Jul 2022 16:10:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=yXrJ08KHOxEJ/hD4SqAtRPsvFhgL0OoAgWyjTIRuH3k=;
- b=vhut7YH0uxmZ/uPWBUI3agMdzeYxBUOR/jD90+ZKHdErYhlSw8UYLsda1Rq0u3CYw0LL
- 9P+z6rgLk+MLDB+MOexWIhVXgiN4yXrnaH3oNGkcAUa4cssvO04HAhA9GMXKh+jSqEhR
- DOUSqmhvYhmorAh03zKSFL0E1hFkK6zDXE729BtHQIBX3HcOdibXruFHH+F0QxNKo/8E
- R5QrFkmoAg7/Np7iBINn0uSAVHNb4UPn24rzqNK8sJhR7UEYOipkK9inwpncKe7xF64c
- pJZGmj9cnfsAt3/dDot2CKui0MNsfzer9Zn+wZI5QIXibQ/nLiwy7qqu3dUi6V6MFkUt Xg== 
+ bh=Hq5Lcyhok4JEPa68Dr7lhFUs7IbghRLotg6m//Z2H5U=;
+ b=1xoyLAQUvsUddjRnes1fDAYgCg1k4Wk9LzA3ih4iSPDje00dYXr4Pd8eMOZ0MG9VhOb+
+ 0kj1uffEzT7qtpF7xQ6aB7FPRxQob4XACBK6bEyWWMUx1gMklLqxx9vBe8Ren7dKHpBV
+ 3/tiD230K9uxeUAlPPpCB8pwGcxXiRnW1IWi0o3OpTWs5Krjdl+Ug6svFXIcYl7virXW
+ 2ol9pUVD5MXuCwTUzKxbZN+7KI88l2iAxfAQX8Au1nEqpUZrlxQ/wCuR3rAeAk6YHLGl
+ O00ZVPaHtijPeeA5pzjfgCKKjfmTr3IkCbIoOz7jybsWrjmjp9xgQQDpsDSVkhTDWE30 dA== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q188-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940ptyj-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:51 +0000
+ Tue, 26 Jul 2022 16:10:53 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QFEnog006399; Tue, 26 Jul 2022 16:10:50 GMT
+ with ESMTP id 26QFniKp006262; Tue, 26 Jul 2022 16:10:52 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq159-1
+ 3hh65bq178-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:50 +0000
+ Tue, 26 Jul 2022 16:10:52 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSF023334;
- Tue, 26 Jul 2022 16:10:49 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSH023334;
+ Tue, 26 Jul 2022 16:10:51 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-4; Tue, 26 Jul 2022 16:10:49 +0000
+ ESMTP id 3hh65bq0y5-5; Tue, 26 Jul 2022 16:10:51 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 03/46] migration: file URI
-Date: Tue, 26 Jul 2022 09:10:00 -0700
-Message-Id: <1658851843-236870-4-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 04/46] migration: mode parameter
+Date: Tue, 26 Jul 2022 09:10:01 -0700
+Message-Id: <1658851843-236870-5-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: 3hrmhkCSdlvTgxEGmYjGbFkCEPuZbpcY
-X-Proofpoint-GUID: 3hrmhkCSdlvTgxEGmYjGbFkCEPuZbpcY
+X-Proofpoint-GUID: OyVVGMJQ63FyHYbLCn850ATM5olnSvD9
+X-Proofpoint-ORIG-GUID: OyVVGMJQ63FyHYbLCn850ATM5olnSvD9
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,192 +113,269 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend the migration URI to support file:<filename>.  This can be used for
-any migration scenario that does not require a reverse path.  It is easier
-to use than the fd:<fdname> URI.  It can be use in HMP commands, and as
-a qemu command-line parameter.
+Create a mode migration parameter that can be used to select alternate
+migration algorithms.  The default mode is normal, representing the
+current migration algorithm, and does not need to be explicitly set.
+
+No functional change until a new mode is added, except that the mode is
+shown by the 'info migrate' command.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- migration/file.c       | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++
- migration/file.h       | 14 ++++++++++++
- migration/meson.build  |  1 +
- migration/migration.c  |  5 ++++
- migration/trace-events |  4 ++++
- qemu-options.hx        |  6 ++++-
- 6 files changed, 91 insertions(+), 1 deletion(-)
- create mode 100644 migration/file.c
- create mode 100644 migration/file.h
+ hw/core/qdev-properties-system.c    | 12 ++++++++++++
+ include/hw/qdev-properties-system.h |  4 ++++
+ include/migration/misc.h            |  4 ++++
+ migration/migration.c               | 28 ++++++++++++++++++++++++++++
+ monitor/hmp-cmds.c                  |  8 ++++++++
+ qapi/migration.json                 | 28 +++++++++++++++++++++++++---
+ 6 files changed, 81 insertions(+), 3 deletions(-)
 
-diff --git a/migration/file.c b/migration/file.c
-new file mode 100644
-index 0000000..233bcda
---- /dev/null
-+++ b/migration/file.c
-@@ -0,0 +1,62 @@
-+/*
-+ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index a91f605..0a7b25b 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -650,6 +650,18 @@ const PropertyInfo qdev_prop_multifd_compression = {
+     .set_default_value = qdev_propinfo_set_default_value_enum,
+ };
+ 
++/* --- MigMode --- */
 +
-+#include "qemu/osdep.h"
-+#include "channel.h"
-+#include "file.h"
-+#include "migration.h"
-+#include "io/channel-file.h"
-+#include "io/channel-util.h"
-+#include "trace.h"
++const PropertyInfo qdev_prop_mig_mode = {
++    .name = "MigMode",
++    .description = "mig_mode values, "
++                   "normal/exec",
++    .enum_table = &MigMode_lookup,
++    .get = qdev_propinfo_get_enum,
++    .set = qdev_propinfo_set_enum,
++    .set_default_value = qdev_propinfo_set_default_value_enum,
++};
 +
-+void file_start_outgoing_migration(MigrationState *s, const char *filename,
-+                                   Error **errp)
-+{
-+    g_autoptr(QIOChannelFile) fioc = NULL;
-+    QIOChannel *ioc;
+ /* --- Reserved Region --- */
+ 
+ /*
+diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
+index 0ac327a..1418801 100644
+--- a/include/hw/qdev-properties-system.h
++++ b/include/hw/qdev-properties-system.h
+@@ -7,6 +7,7 @@ extern const PropertyInfo qdev_prop_chr;
+ extern const PropertyInfo qdev_prop_macaddr;
+ extern const PropertyInfo qdev_prop_reserved_region;
+ extern const PropertyInfo qdev_prop_multifd_compression;
++extern const PropertyInfo qdev_prop_mig_mode;
+ extern const PropertyInfo qdev_prop_losttickpolicy;
+ extern const PropertyInfo qdev_prop_blockdev_on_error;
+ extern const PropertyInfo qdev_prop_bios_chs_trans;
+@@ -41,6 +42,9 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+ #define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compression, \
+                        MultiFDCompression)
++#define DEFINE_PROP_MIG_MODE(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_mig_mode, \
++                       MigMode)
+ #define DEFINE_PROP_LOSTTICKPOLICY(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_losttickpolicy, \
+                         LostTickPolicy)
+diff --git a/include/migration/misc.h b/include/migration/misc.h
+index 4659067..1e01134 100644
+--- a/include/migration/misc.h
++++ b/include/migration/misc.h
+@@ -15,6 +15,7 @@
+ #define MIGRATION_MISC_H
+ 
+ #include "qemu/notify.h"
++#include "qapi/qapi-types-migration.h"
+ #include "qapi/qapi-types-net.h"
+ 
+ /* migration/ram.c */
+@@ -75,4 +76,7 @@ bool migration_in_bg_snapshot(void);
+ /* migration/block-dirty-bitmap.c */
+ void dirty_bitmap_mig_init(void);
+ 
++MigMode migrate_mode(void);
++MigMode migrate_mode_of(MigrationState *s);
 +
-+    trace_migration_file_outgoing(filename);
-+
-+    fioc = qio_channel_file_new_path(filename, O_CREAT | O_WRONLY | O_TRUNC,
-+                                     0600, errp);
-+    if (!fioc) {
-+        return;
-+    }
-+
-+    ioc = QIO_CHANNEL(fioc);
-+    qio_channel_set_name(ioc, "migration-file-outgoing");
-+    migration_channel_connect(s, ioc, NULL, NULL);
-+}
-+
-+static gboolean file_accept_incoming_migration(QIOChannel *ioc,
-+                                               GIOCondition condition,
-+                                               gpointer opaque)
-+{
-+    migration_channel_process_incoming(ioc);
-+    object_unref(OBJECT(ioc));
-+    return G_SOURCE_REMOVE;
-+}
-+
-+void file_start_incoming_migration(const char *filename, Error **errp)
-+{
-+    QIOChannelFile *fioc = NULL;
-+    QIOChannel *ioc;
-+
-+    trace_migration_file_incoming(filename);
-+
-+    fioc = qio_channel_file_new_path(filename, O_RDONLY, 0, errp);
-+    if (!fioc) {
-+        return;
-+    }
-+
-+    ioc = QIO_CHANNEL(fioc);
-+    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-incoming");
-+    qio_channel_add_watch_full(ioc, G_IO_IN,
-+                               file_accept_incoming_migration,
-+                               NULL, NULL,
-+                               g_main_context_get_thread_default());
-+}
-diff --git a/migration/file.h b/migration/file.h
-new file mode 100644
-index 0000000..aa697df
---- /dev/null
-+++ b/migration/file.h
-@@ -0,0 +1,14 @@
-+/*
-+ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef QEMU_MIGRATION_FILE_H
-+#define QEMU_MIGRATION_FILE_H
-+void file_start_incoming_migration(const char *filename, Error **errp);
-+
-+void file_start_outgoing_migration(MigrationState *s, const char *filename,
-+                                   Error **errp);
-+#endif
-diff --git a/migration/meson.build b/migration/meson.build
-index 690487c..30a8392 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -17,6 +17,7 @@ softmmu_ss.add(files(
-   'colo.c',
-   'exec.c',
-   'fd.c',
-+  'file.c',
-   'global_state.c',
-   'migration.c',
-   'multifd.c',
+ #endif
 diff --git a/migration/migration.c b/migration/migration.c
-index e03f698..d1cfca1 100644
+index d1cfca1..38584db 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -20,6 +20,7 @@
- #include "migration/blocker.h"
- #include "exec.h"
- #include "fd.h"
-+#include "file.h"
- #include "socket.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-@@ -505,6 +506,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
-         exec_start_incoming_migration(p, errp);
-     } else if (strstart(uri, "fd:", &p)) {
-         fd_start_incoming_migration(p, errp);
-+    } else if (strstart(uri, "file:", &p)) {
-+        file_start_incoming_migration(p, errp);
-     } else {
-         error_setg(errp, "unknown migration protocol: %s", uri);
+@@ -904,6 +904,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
+ 
+     /* TODO use QAPI_CLONE() instead of duplicating it inline */
+     params = g_malloc0(sizeof(*params));
++    params->has_mode = true;
++    params->mode = s->parameters.mode;
+     params->has_compress_level = true;
+     params->compress_level = s->parameters.compress_level;
+     params->has_compress_threads = true;
+@@ -1576,6 +1578,10 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+ 
+     /* TODO use QAPI_CLONE() instead of duplicating it inline */
+ 
++    if (params->has_mode) {
++        dest->mode = params->mode;
++    }
++
+     if (params->has_compress_level) {
+         dest->compress_level = params->compress_level;
      }
-@@ -2414,6 +2417,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
-         exec_start_outgoing_migration(s, p, &local_err);
-     } else if (strstart(uri, "fd:", &p)) {
-         fd_start_outgoing_migration(s, p, &local_err);
-+    } else if (strstart(uri, "file:", &p)) {
-+        file_start_outgoing_migration(s, p, &local_err);
-     } else {
-         if (!(has_resume && resume)) {
-             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
-diff --git a/migration/trace-events b/migration/trace-events
-index a34afe7..d72dd85 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -302,6 +302,10 @@ migration_exec_incoming(const char *cmd) "cmd=%s"
- migration_fd_outgoing(int fd) "fd=%d"
- migration_fd_incoming(int fd) "fd=%d"
+@@ -1673,6 +1679,10 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
  
-+# file.c
-+migration_file_outgoing(const char *filename) "filename=%s"
-+migration_file_incoming(const char *filename) "filename=%s"
+     /* TODO use QAPI_CLONE() instead of duplicating it inline */
+ 
++    if (params->has_mode) {
++        s->parameters.mode = params->mode;
++    }
 +
- # socket.c
- migration_socket_incoming_accepted(void) ""
- migration_socket_outgoing_connected(const char *hostname) "hostname=%s"
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 79e0091..5ff47f4 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4451,6 +4451,7 @@ DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
-     "                prepare for incoming migration, listen on\n" \
-     "                specified protocol and socket address\n" \
-     "-incoming fd:fd\n" \
-+    "-incoming file:filename\n" \
-     "-incoming exec:cmdline\n" \
-     "                accept incoming migration on given file descriptor\n" \
-     "                or from given external command\n" \
-@@ -4467,7 +4468,10 @@ SRST
-     Prepare for incoming migration, listen on a given unix socket.
+     if (params->has_compress_level) {
+         s->parameters.compress_level = params->compress_level;
+     }
+@@ -2663,6 +2673,20 @@ int migrate_use_tls(void)
+     return s->parameters.tls_creds && *s->parameters.tls_creds;
+ }
  
- ``-incoming fd:fd``
--    Accept incoming migration from a given filedescriptor.
-+    Accept incoming migration from a given file descriptor.
++MigMode migrate_mode(void)
++{
++    MigrationState *s;
 +
-+``-incoming file:filename``
-+    Accept incoming migration from a given file.
++    s = migrate_get_current();
++
++    return s->parameters.mode;
++}
++
++MigMode migrate_mode_of(MigrationState *s)
++{
++    return s->parameters.mode;
++}
++
+ int migrate_use_xbzrle(void)
+ {
+     MigrationState *s;
+@@ -4321,6 +4345,9 @@ static Property migration_properties[] = {
+                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
  
- ``-incoming exec:cmdline``
-     Accept incoming migration as an output from specified external
+     /* Migration parameters */
++    DEFINE_PROP_MIG_MODE("mode", MigrationState,
++                      parameters.mode,
++                      MIG_MODE_NORMAL),
+     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
+                       parameters.compress_level,
+                       DEFAULT_MIGRATE_COMPRESS_LEVEL),
+@@ -4454,6 +4481,7 @@ static void migration_instance_init(Object *obj)
+     params->tls_creds = g_strdup("");
+ 
+     /* Set has_* up only for parameter checks */
++    params->has_mode = true;
+     params->has_compress_level = true;
+     params->has_compress_threads = true;
+     params->has_decompress_threads = true;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index c6cd6f9..6632ada 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -431,6 +431,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+         monitor_printf(mon, "%s: %" PRIu64 " ms\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_ANNOUNCE_STEP),
+             params->announce_step);
++        assert(params->has_mode);
++        monitor_printf(mon, "%s: %s\n",
++            MigrationParameter_str(MIGRATION_PARAMETER_MODE),
++            qapi_enum_lookup(&MigMode_lookup, params->mode));
+         assert(params->has_compress_level);
+         monitor_printf(mon, "%s: %u\n",
+             MigrationParameter_str(MIGRATION_PARAMETER_COMPRESS_LEVEL),
+@@ -1219,6 +1223,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+     }
+ 
+     switch (val) {
++    case MIGRATION_PARAMETER_MODE:
++        p->has_mode = true;
++        visit_type_MigMode(v, param, &p->mode, &err);
++        break;
+     case MIGRATION_PARAMETER_COMPRESS_LEVEL:
+         p->has_compress_level = true;
+         visit_type_uint8(v, param, &p->compress_level, &err);
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 81185d4..931c492 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -568,6 +568,16 @@
+             { 'name': 'zstd', 'if': 'CONFIG_ZSTD' } ] }
+ 
+ ##
++# @MigMode:
++#
++# @normal: the original form of migration.
++#
++# Since: 7.1
++##
++{ 'enum': 'MigMode',
++  'data': [ 'normal' ] }
++
++##
+ # @BitmapMigrationBitmapAliasTransform:
+ #
+ # @persistent: If present, the bitmap will be made persistent
+@@ -627,6 +637,9 @@
+ #
+ # Migration parameters enumeration
+ #
++# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
++#        (Since 7.1)
++#
+ # @announce-initial: Initial delay (in milliseconds) before sending the first
+ #                    announce (Since 4.0)
+ #
+@@ -782,7 +795,8 @@
+ # Since: 2.4
+ ##
+ { 'enum': 'MigrationParameter',
+-  'data': ['announce-initial', 'announce-max',
++  'data': ['mode',
++           'announce-initial', 'announce-max',
+            'announce-rounds', 'announce-step',
+            'compress-level', 'compress-threads', 'decompress-threads',
+            'compress-wait-thread', 'throttle-trigger-threshold',
+@@ -801,6 +815,9 @@
+ ##
+ # @MigrateSetParameters:
+ #
++# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
++#        (Since 7.1)
++#
+ # @announce-initial: Initial delay (in milliseconds) before sending the first
+ #                    announce (Since 4.0)
+ #
+@@ -949,7 +966,8 @@
+ # TODO either fuse back into MigrationParameters, or make
+ # MigrationParameters members mandatory
+ { 'struct': 'MigrateSetParameters',
+-  'data': { '*announce-initial': 'size',
++  'data': { '*mode': 'MigMode',
++            '*announce-initial': 'size',
+             '*announce-max': 'size',
+             '*announce-rounds': 'size',
+             '*announce-step': 'size',
+@@ -999,6 +1017,9 @@
+ #
+ # The optional members aren't actually optional.
+ #
++# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
++#        (Since 7.1)
++#
+ # @announce-initial: Initial delay (in milliseconds) before sending the
+ #                    first announce (Since 4.0)
+ #
+@@ -1147,7 +1168,8 @@
+ # Since: 2.4
+ ##
+ { 'struct': 'MigrationParameters',
+-  'data': { '*announce-initial': 'size',
++  'data': { '*mode': 'MigMode',
++            '*announce-initial': 'size',
+             '*announce-max': 'size',
+             '*announce-rounds': 'size',
+             '*announce-step': 'size',
 -- 
 1.8.3.1
 
