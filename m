@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B61C5817E2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:50:10 +0200 (CEST)
-Received: from localhost ([::1]:56368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB565817F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:54:09 +0200 (CEST)
+Received: from localhost ([::1]:36498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNl3-0000NJ-Kx
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:50:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
+	id 1oGNou-0006Wa-P3
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:54:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9w-00032p-Be
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:48 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:63790)
+ id 1oGN9z-0003D1-Cc
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:51 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9t-0006BV-AV
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:46 -0400
+ id 1oGN9x-0006CC-0m
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:51 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3rm031740;
- Tue, 26 Jul 2022 16:11:03 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0WL031705;
+ Tue, 26 Jul 2022 16:11:04 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=LqQ8YCk1YEPqlNHgEe+n7xXNNWUvyhiv7wrUe+46OQk=;
- b=ZlHZLUrpsdhktvI+1rP86akZZIDbWvpwOOMSnXyLDLxKcG7W4vzL6EWxAM/sen2BhVTB
- jYLH5SXev7tvBeprAXlMe+vXaTPGFjbTpYa7tvlMoyY+YzI2vVKEmQR1afHDhtf2ks3n
- Zu47Qf6YqDDbQ8qeNXRuYqOiQhO7O3WFOElXw0481Tl5e0ErwE+EnVT+u2wLoojhFQx5
- SqLRTqpWsL41FtJqkdYa+s6+7ePaJdiKj+gk7YK80RqcKkvscQx1SRd5Blsr2rHFYYjR
- iSwgyFkqNo3Z3oaNYeMEnkmlkE1Z3E26L20hLp9GVW+cJhku+kBEITXQELAxc7zuAOZw Cw== 
+ bh=o18BApzijf1mfH2fl19ONXWdJYodCvNV0zGfIkHl45A=;
+ b=Jn3qBSafILCWd0JgF3RupmP4yS3lGWiIE16AoOeHugF0JG0i+rapaZTJGVn/GYjGLvU/
+ 7Mo0QzqeL62tBu2wEjv92g/2gMdtgj8jzVEDzVLqXyyQdFZG3ZkuyeUvHlY5J7d+97Sl
+ 4mMHtQxz0WzznEINqxVFwAL5hpN2iB2QKbWwOmif+OzBMYbtn8owwZPx9WmRSkVUa0UF
+ LMD54wdFjl0p8kSeyI5awnq3uylHIbqa7lh/LxYpB6uGEqmBTfZwMKZGUmXbDymTOh0g
+ 4LgmFg91zqtKyyy2J7b6Hb6DUE4SZo0P46/vpV8DCEaCdlU/pAf2lR51+cHj4CrBAomn qw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q19h-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q19q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:02 +0000
+ Tue, 26 Jul 2022 16:11:04 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QF72WX006333; Tue, 26 Jul 2022 16:11:01 GMT
+ with ESMTP id 26QEplHD006291; Tue, 26 Jul 2022 16:11:02 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq1jf-1
+ 3hh65bq1ke-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:01 +0000
+ Tue, 26 Jul 2022 16:11:02 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uST023334;
- Tue, 26 Jul 2022 16:11:00 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSV023334;
+ Tue, 26 Jul 2022 16:11:01 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-11; Tue, 26 Jul 2022 16:11:00 +0000
+ ESMTP id 3hh65bq0y5-12; Tue, 26 Jul 2022 16:11:01 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 10/46] qdev-properties: strList
-Date: Tue, 26 Jul 2022 09:10:07 -0700
-Message-Id: <1658851843-236870-11-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 11/46] qapi: strList_from_string
+Date: Tue, 26 Jul 2022 09:10:08 -0700
+Message-Id: <1658851843-236870-12-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: k077_CNPyspdXcf9Ly719g2QWu0iu8K8
-X-Proofpoint-GUID: k077_CNPyspdXcf9Ly719g2QWu0iu8K8
+X-Proofpoint-ORIG-GUID: S_dHIjZyff2pn1lgxwxOsIZ4DUIX04Qi
+X-Proofpoint-GUID: S_dHIjZyff2pn1lgxwxOsIZ4DUIX04Qi
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,98 +113,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define a list-of-strings property, to be used for the cpr-exec-args
-migration property in a subsequent patch.
+Generalize strList_from_comma_list() to take any delimiter character, rename
+as strList_from_string(), and move it to qapi/util.c.
+
+No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/core/qdev-properties.c    | 44 ++++++++++++++++++++++++++++++++++++++++++++
- include/hw/qdev-properties.h |  3 +++
- 2 files changed, 47 insertions(+)
+ include/qapi/util.h |  9 +++++++++
+ monitor/hmp-cmds.c  | 31 +++----------------------------
+ qapi/qapi-util.c    | 23 +++++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 28 deletions(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 357b876..851f490 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -9,6 +9,7 @@
- #include "qemu/units.h"
- #include "qemu/cutils.h"
- #include "qdev-prop-internal.h"
-+#include "qapi/qapi-builtin-visit.h"
+diff --git a/include/qapi/util.h b/include/qapi/util.h
+index 81a2b13..7d88b09 100644
+--- a/include/qapi/util.h
++++ b/include/qapi/util.h
+@@ -22,6 +22,8 @@ typedef struct QEnumLookup {
+     const int size;
+ } QEnumLookup;
  
- void qdev_prop_set_after_realize(DeviceState *dev, const char *name,
-                                   Error **errp)
-@@ -490,6 +491,49 @@ const PropertyInfo qdev_prop_string = {
-     .set   = set_string,
- };
++struct strList;
++
+ const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
+ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
+                     int def, Error **errp);
+@@ -31,6 +33,13 @@ bool qapi_bool_parse(const char *name, const char *value, bool *obj,
+ int parse_qapi_name(const char *name, bool complete);
  
-+/* --- strList --- */
+ /*
++ * Produce a strList from the character delimited string @in.
++ * All strings are g_strdup'd.
++ * A NULL or empty input string returns NULL.
++ */
++struct strList *strList_from_string(const char *in, char delim);
 +
-+static void release_strList(Object *obj, const char *name, void *opaque)
++/*
+  * For any GenericList @list, insert @element at the front.
+  *
+  * Note that this macro evaluates @element exactly once, so it is safe
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 6632ada..a394526 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -43,6 +43,7 @@
+ #include "qapi/qapi-commands-stats.h"
+ #include "qapi/qapi-commands-tpm.h"
+ #include "qapi/qapi-commands-ui.h"
++#include "qapi/util.h"
+ #include "qapi/qapi-visit-net.h"
+ #include "qapi/qapi-visit-migration.h"
+ #include "qapi/qmp/qdict.h"
+@@ -71,32 +72,6 @@ bool hmp_handle_error(Monitor *mon, Error *err)
+     return false;
+ }
+ 
+-/*
+- * Produce a strList from a comma separated list.
+- * A NULL or empty input string return NULL.
+- */
+-static strList *strList_from_comma_list(const char *in)
+-{
+-    strList *res = NULL;
+-    strList **tail = &res;
+-
+-    while (in && in[0]) {
+-        char *comma = strchr(in, ',');
+-        char *value;
+-
+-        if (comma) {
+-            value = g_strndup(in, comma - in);
+-            in = comma + 1; /* skip the , */
+-        } else {
+-            value = g_strdup(in);
+-            in = NULL;
+-        }
+-        QAPI_LIST_APPEND(tail, value);
+-    }
+-
+-    return res;
+-}
+-
+ void hmp_info_name(Monitor *mon, const QDict *qdict)
+ {
+     NameInfo *info;
+@@ -1125,7 +1100,7 @@ void hmp_announce_self(Monitor *mon, const QDict *qdict)
+                                             migrate_announce_params());
+ 
+     qapi_free_strList(params->interfaces);
+-    params->interfaces = strList_from_comma_list(interfaces_str);
++    params->interfaces = strList_from_string(interfaces_str, ',');
+     params->has_interfaces = params->interfaces != NULL;
+     params->id = g_strdup(id);
+     params->has_id = !!params->id;
+@@ -2409,7 +2384,7 @@ static StatsFilter *stats_filter(StatsTarget target, const char *names,
+             request->provider = provider_idx;
+             if (names && !g_str_equal(names, "*")) {
+                 request->has_names = true;
+-                request->names = strList_from_comma_list(names);
++                request->names = strList_from_string(names, ',');
+             }
+             QAPI_LIST_PREPEND(request_list, request);
+         }
+diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
+index 63596e1..b61c73c 100644
+--- a/qapi/qapi-util.c
++++ b/qapi/qapi-util.c
+@@ -15,6 +15,7 @@
+ #include "qapi/error.h"
+ #include "qemu/ctype.h"
+ #include "qapi/qmp/qerror.h"
++#include "qapi/qapi-builtin-types.h"
+ 
+ CompatPolicy compat_policy;
+ 
+@@ -152,3 +153,25 @@ int parse_qapi_name(const char *str, bool complete)
+     }
+     return p - str;
+ }
++
++strList *strList_from_string(const char *in, char delim)
 +{
-+    Property *prop = opaque;
-+    g_free(*(char **)object_field_prop_ptr(obj, prop));
-+}
++    strList *res = NULL;
++    strList **tail = &res;
 +
-+static void get_strList(Object *obj, Visitor *v, const char *name,
-+                       void *opaque, Error **errp)
-+{
-+    Property *prop = opaque;
-+    strList **ptr = object_field_prop_ptr(obj, prop);
++    while (in && in[0]) {
++        char *next = strchr(in, delim);
++        char *value;
 +
-+    if (!*ptr) {
-+        strList *str = NULL;
-+        visit_type_strList(v, name, &str, errp);
-+    } else {
-+        visit_type_strList(v, name, ptr, errp);
++        if (next) {
++            value = g_strndup(in, next - in);
++            in = next + 1; /* skip the delim */
++        } else {
++            value = g_strdup(in);
++            in = NULL;
++        }
++        QAPI_LIST_APPEND(tail, value);
 +    }
++
++    return res;
 +}
-+
-+static void set_strList(Object *obj, Visitor *v, const char *name,
-+                       void *opaque, Error **errp)
-+{
-+    Property *prop = opaque;
-+    strList **ptr = object_field_prop_ptr(obj, prop);
-+    strList *str;
-+
-+    if (!visit_type_strList(v, name, &str, errp)) {
-+        return;
-+    }
-+    g_free(*ptr);
-+    *ptr = str;
-+}
-+
-+const PropertyInfo qdev_prop_strlist = {
-+    .name  = "strList",
-+    .release = release_strList,
-+    .get   = get_strList,
-+    .set   = set_strList,
-+};
-+
- /* --- on/off/auto --- */
- 
- const PropertyInfo qdev_prop_on_off_auto = {
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index e1df088..df1b869 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -59,6 +59,7 @@ extern const PropertyInfo qdev_prop_uint64_checkmask;
- extern const PropertyInfo qdev_prop_int64;
- extern const PropertyInfo qdev_prop_size;
- extern const PropertyInfo qdev_prop_string;
-+extern const PropertyInfo qdev_prop_strlist;
- extern const PropertyInfo qdev_prop_on_off_auto;
- extern const PropertyInfo qdev_prop_size32;
- extern const PropertyInfo qdev_prop_arraylen;
-@@ -171,6 +172,8 @@ extern const PropertyInfo qdev_prop_link;
-     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size, uint64_t)
- #define DEFINE_PROP_STRING(_n, _s, _f)             \
-     DEFINE_PROP(_n, _s, _f, qdev_prop_string, char*)
-+#define DEFINE_PROP_STRLIST(_n, _s, _f)             \
-+    DEFINE_PROP(_n, _s, _f, qdev_prop_strlist, strList*)
- #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
- #define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
 -- 
 1.8.3.1
 
