@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496C8581A93
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:56:42 +0200 (CEST)
-Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E54B5581A9D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:59:35 +0200 (CEST)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQfY-0001Gc-1a
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52378)
+	id 1oGQiM-0005c1-V0
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:59:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQE-0006Nt-8f
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41977)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQL-0006bq-B9
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQC-00052L-1k
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:49 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQI-00053G-Ly
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658864445;
+ s=mimecast20190719; t=1658864452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IdmtmvyLempN390IswXPp8lMHnKmN++8ryVr23XiQDw=;
- b=LkJgfLlTndEjqZumn6+sfU4UV9jqG7T+e+qUFAOytcKJ7+K/yXc9w5HZogJNeIK2kKCBg2
- Wo3hQNxZK9qKTGOX8J7g3Qhfv8DNc9Pn3g3hNnHqK+W+XVlh+8M6QKnOoiqnRXVpbzhXyw
- hbg0QkgNjgOIWMoE2EhIo46HkZ9SskY=
+ bh=LppvYmBYIc3J2UR5ly1bIdgZ+ZbkH9f8vVFSDz8MN2g=;
+ b=hbjOwhGLQDXeB9svywgtQxx40pjh4zEuvjZU9V7+EfGH6ufv3skG4x7H+VQql7hRaxBxGG
+ s3id//WywjE6vgw/3CoK2kiGnbV0XAyIMOdfjz+byBWyhRNl4FI95boV280bvdko8EuF1q
+ hC8SRgJIfRCeXewNO70ulLwgW+gMr8I=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-654-dl_8-daZNcGCPno-vg_drQ-1; Tue, 26 Jul 2022 15:40:44 -0400
-X-MC-Unique: dl_8-daZNcGCPno-vg_drQ-1
+ us-mta-647-EJ3lkLt-PLSHxTqrKQW24Q-1; Tue, 26 Jul 2022 15:40:50 -0400
+X-MC-Unique: EJ3lkLt-PLSHxTqrKQW24Q-1
 Received: by mail-wm1-f70.google.com with SMTP id
- p36-20020a05600c1da400b003a33a8c14f2so6930644wms.7
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:44 -0700 (PDT)
+ n30-20020a05600c501e00b003a3264465ebso982870wmr.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=IdmtmvyLempN390IswXPp8lMHnKmN++8ryVr23XiQDw=;
- b=jDDOgdiwwOfIS2gwLG+JX/efIIqAsVT3X63g1aopvpQ56NyWRD3SHIXG/8ApN6itVP
- xLb1wDBmBj9O4pF7mvd2wnUkg8OTjOyu9RzWbUJ0aa+EkeXJgE/VI+sv7Mcc2R3OwJVJ
- iaaIBAgQKg9xF+tmz7ZkirAc3hA3krUzX6FI1XJpGX7ccILOrNLac2GsKLFO+UO9jbHH
- HrFtWPXGsNSIdogxegicqBqWWT3RY6MBm1KmVJfzVyyr18tu5zz22B8yfceRtR6nUphz
- nYhhLGcoDHTd75QHRlJWIrhgQVOb9MEf9KgEFr83CA5Arj2M/Bn+cyC8sO+7XribJQjI
- hFkw==
-X-Gm-Message-State: AJIora86zQ8d4l00CzXDdL2We6TAG/izpBnGxRnKFyIOWdyZbm4LzajZ
- 7qrI93hbLrBl4N/6e6Ljd1Rmai1IYyMx57kskBOy4MzddhUz2xSQaCq5usQVHCli9Kuakk2lNO0
- 6z0ueLHhvR1Z7Tf8g8sNzYDf02enDeL3ByWQgKSVn9+aIsOEteSQoOGoJB5Vg
-X-Received: by 2002:adf:fb90:0:b0:21e:4eb6:b880 with SMTP id
- a16-20020adffb90000000b0021e4eb6b880mr11671074wrr.551.1658864442695; 
- Tue, 26 Jul 2022 12:40:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t+QSEnEZqMFy8S+2YlmayN24RYT6kv8PRXb4vuzPOR+ZNTJpvelIW0P+Z92AnBXHJFe2Azcw==
-X-Received: by 2002:adf:fb90:0:b0:21e:4eb6:b880 with SMTP id
- a16-20020adffb90000000b0021e4eb6b880mr11671052wrr.551.1658864442420; 
- Tue, 26 Jul 2022 12:40:42 -0700 (PDT)
+ bh=LppvYmBYIc3J2UR5ly1bIdgZ+ZbkH9f8vVFSDz8MN2g=;
+ b=s2ZS3PkLXEf34aRvZ1QDECozP98eBvArPDJZ/pUxU0wJP9ToHG6ETbcGdFRkovuFz2
+ 2FlKe2pKzHvh7hWk3Xk4h56Rr0+dGP+pyAGcOdCvZr9E5hGZ9wdhPDp5kOUeVLQg1aq3
+ BvkctloIpTh4EJMbKATLxLKNaVx5zKXH725FZhLqwmmdO/wDrddGY1BZKVuu4SyhEW42
+ 2Oo6irD2b11Pfu504KcikLfiQc8ljh/jBHgPJes0LpygMkASOjBZuTH4d3EP/Th3/wuQ
+ /fmAIFx8vOrNhVU438bQpeYUMlMBLSzX5PnPyQwEFi3uyl6s6XWtmKppnw2UWJSeVk1i
+ 525w==
+X-Gm-Message-State: AJIora8hUQKoM17tX8oo8fRMoQvM0xHQ52T+acnTJ7fAp3/A2R7gnU8o
+ vlAgdUV9iE9LjyzGY6RmpcYb5tyc9w/K/CWYtw9IeYLatONSrYo8xF0yP/FBuQJiIYwEEKZrf5P
+ E+r6LU0CM+eRAmUnoMFEzIke0EzWQYcgApWRIp9D6LkD+qWYwNV0ZcYqi0tOj
+X-Received: by 2002:adf:fd09:0:b0:21e:c912:151f with SMTP id
+ e9-20020adffd09000000b0021ec912151fmr91560wrr.302.1658864449449; 
+ Tue, 26 Jul 2022 12:40:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vS/T5d2cVpJD6Nml4MxpUuHncOK9Zp0vukuF3t6aw4hes5yiethlii5G62svae1GvIok9drg==
+X-Received: by 2002:adf:fd09:0:b0:21e:c912:151f with SMTP id
+ e9-20020adffd09000000b0021ec912151fmr91537wrr.302.1658864449180; 
+ Tue, 26 Jul 2022 12:40:49 -0700 (PDT)
 Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
  by smtp.gmail.com with ESMTPSA id
- n5-20020adff085000000b0021eb5a1bb1csm1561897wro.30.2022.07.26.12.40.41
+ o27-20020a5d58db000000b0021d80f53324sm15047873wrf.7.2022.07.26.12.40.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:40:42 -0700 (PDT)
-Date: Tue, 26 Jul 2022 15:40:40 -0400
+ Tue, 26 Jul 2022 12:40:48 -0700 (PDT)
+Date: Tue, 26 Jul 2022 15:40:47 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Joao Martins <joao.m.martins@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Cameron <jonathan.cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 07/16] i386/pc: pass pci_hole64_size to pc_memory_init()
-Message-ID: <20220726193858.177462-8-mst@redhat.com>
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 10/16] i386/pc: factor out cxl range start to helper
+Message-ID: <20220726193858.177462-11-mst@redhat.com>
 References: <20220726193858.177462-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,14 +80,14 @@ Content-Disposition: inline
 In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,120 +106,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Use the pre-initialized pci-host qdev and fetch the
-pci-hole64-size into pc_memory_init() newly added argument.
-Use PCI_HOST_PROP_PCI_HOLE64_SIZE pci-host property for
-fetching pci-hole64-size.
+Factor out the calculation of the base address of the memory region.
+It will be used later on for the cxl range end counterpart calculation
+and as well in pc_memory_init() CXL memory region initialization, thus
+avoiding duplication.
 
-This is in preparation to determine that host-phys-bits are
-enough and for pci-hole64-size to be considered to relocate
-ram-above-4g to be at 1T (on AMD platforms).
-
+Cc: Jonathan Cameron <jonathan.cameron@huawei.com>
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220719170014.27028-4-joao.m.martins@oracle.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20220719170014.27028-7-joao.m.martins@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/i386/pc.h |  3 ++-
- hw/i386/pc.c         |  3 ++-
- hw/i386/pc_piix.c    |  7 ++++++-
- hw/i386/pc_q35.c     | 10 +++++++++-
- 4 files changed, 19 insertions(+), 4 deletions(-)
+ hw/i386/pc.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 2a8ffbcfa8..01938fce4c 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -162,7 +162,8 @@ void xen_load_linux(PCMachineState *pcms);
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory);
-+                    MemoryRegion **ram_memory,
-+                    uint64_t pci_hole64_size);
- uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
- void pc_basic_device_init(struct PCMachineState *pcms,
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 13b68307be..f4d5b25fdd 100644
+index cb27309e76..9e1a067c41 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -817,7 +817,8 @@ void xen_load_linux(PCMachineState *pcms)
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory)
-+                    MemoryRegion **ram_memory,
-+                    uint64_t pci_hole64_size)
- {
-     int linux_boot, i;
-     MemoryRegion *option_rom_mr;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index b8b3ce3408..aa191d405a 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
-     MemoryRegion *pci_memory;
-     MemoryRegion *rom_memory;
-     ram_addr_t lowmem;
-+    uint64_t hole64_size;
-     DeviceState *i440fx_host;
+@@ -825,6 +825,22 @@ static hwaddr pc_above_4g_end(PCMachineState *pcms)
+     return x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+ }
  
-     /*
-@@ -166,10 +167,14 @@ static void pc_init1(MachineState *machine,
-         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
-         rom_memory = pci_memory;
-         i440fx_host = qdev_new(host_type);
-+        hole64_size = object_property_get_uint(OBJECT(i440fx_host),
-+                                               PCI_HOST_PROP_PCI_HOLE64_SIZE,
-+                                               &error_abort);
-     } else {
-         pci_memory = NULL;
-         rom_memory = system_memory;
-         i440fx_host = NULL;
-+        hole64_size = 0;
-     }
- 
-     pc_guest_info_init(pcms);
-@@ -186,7 +191,7 @@ static void pc_init1(MachineState *machine,
-     /* allocate ram and load rom/bios */
-     if (!xen_enabled()) {
-         pc_memory_init(pcms, system_memory,
--                       rom_memory, &ram_memory);
-+                       rom_memory, &ram_memory, hole64_size);
-     } else {
-         pc_system_flash_cleanup_unused(pcms);
-         if (machine->kernel_filename != NULL) {
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index f4d23b1469..307910b33c 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -138,6 +138,7 @@ static void pc_q35_init(MachineState *machine)
-     MachineClass *mc = MACHINE_GET_CLASS(machine);
-     bool acpi_pcihp;
-     bool keep_pci_slot_hpc;
-+    uint64_t pci_hole64_size = 0;
- 
-     /* Check whether RAM fits below 4G (leaving 1/2 GByte for IO memory
-      * and 256 Mbytes for PCI Express Enhanced Configuration Access Mapping
-@@ -206,8 +207,15 @@ static void pc_q35_init(MachineState *machine)
-     /* create pci host bus */
-     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
- 
-+    if (pcmc->pci_enabled) {
-+        pci_hole64_size = object_property_get_uint(OBJECT(q35_host),
-+                                                   PCI_HOST_PROP_PCI_HOLE64_SIZE,
-+                                                   &error_abort);
++static uint64_t pc_get_cxl_range_start(PCMachineState *pcms)
++{
++    PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
++    MachineState *machine = MACHINE(pcms);
++    hwaddr cxl_base;
++
++    if (pcmc->has_reserved_memory && machine->device_memory->base) {
++        cxl_base = machine->device_memory->base
++            + memory_region_size(&machine->device_memory->mr);
++    } else {
++        cxl_base = pc_above_4g_end(pcms);
 +    }
 +
-     /* allocate ram and load rom/bios */
--    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
-+    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
-+                   pci_hole64_size);
++    return cxl_base;
++}
++
+ static uint64_t pc_get_cxl_range_end(PCMachineState *pcms)
+ {
+     uint64_t start = 0;
+@@ -946,13 +962,7 @@ void pc_memory_init(PCMachineState *pcms,
+         MemoryRegion *mr = &pcms->cxl_devices_state.host_mr;
+         hwaddr cxl_size = MiB;
  
-     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
-     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+-        if (pcmc->has_reserved_memory && machine->device_memory->base) {
+-            cxl_base = machine->device_memory->base
+-                + memory_region_size(&machine->device_memory->mr);
+-        } else {
+-            cxl_base = pc_above_4g_end(pcms);
+-        }
+-
++        cxl_base = pc_get_cxl_range_start(pcms);
+         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
+         memory_region_init(mr, OBJECT(machine), "cxl_host_reg", cxl_size);
+         memory_region_add_subregion(system_memory, cxl_base, mr);
 -- 
 MST
 
