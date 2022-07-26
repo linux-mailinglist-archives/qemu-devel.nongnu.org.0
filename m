@@ -2,121 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB2D581436
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 15:32:25 +0200 (CEST)
-Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33005812DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 14:10:53 +0200 (CEST)
+Received: from localhost ([::1]:47764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGKfg-0001L6-JL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 09:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
+	id 1oGJOk-0005gj-Kq
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 08:10:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGF3Y-0001CH-NS
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 03:32:41 -0400
-Received: from mail-bn7nam10on20622.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::622]:54786
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGJMM-0003Pv-4A
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 08:08:22 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:45491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGF3S-0006VI-OG
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 03:32:38 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HTT0akrSmxMhMVNNIPxwAq2i+JWBVs9Dx4ziAPIzlqDomIKejSsHMs8DxPXiQNnYJWeJd31gfmUFHU6huCaEeDY5TK6eqoR8SC83/xrVAe19zZYtOj+5LRG9AIi4OqNdiye1WRBU7WdXgNmqCIjjjkUIsGJvI6ZyvV6zU3X9gYC23aOVYgcSoIux1+YaVXS+8d98matO/AjcSutrQviAoNkynGzUyfhfuv66oywjAzGApV1Tevgjc3XlT6uLrDf1VRQSitinJgg9tgtQ/Ls8Fn4hw63qbWO7/X0bEjttLDpPir484XRtP8OVS3dWlbMZHHAVGbpZb4v6X/05WX9sLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=22UwUfqLHVun0WsIx7T3Dig1cCtbEOkI11uEVVytnBg=;
- b=ljRouiX+SN1SEX7RRbJPYGhlkaH2idVhX/90yu/LOgnrJIk56RqtgzNzuUhkYBqZF7lzEGq/kuuRfPWecVbKZq3cRS9huc6jqPRo0eSjFwcURwKP2HTH3yaYyxJRetiDNlQRomp/ETl280VlUJwkh5fOm6Onm3fjbKzs0KuK1Bk0lPd2VkcBvyoS2MbpEBHjDsgi4hanQPTG8gpHzAXbHWdCZlwuzUypwDkOwEbp2cLG4Z1FufrPoqyNR+zV24YTlRUYFqJvHx6koTrx4ns+HJPmLGgyuiDOnnOaIlLVFygPGc8kK53LcqUILM92Dw2BT7/oXxY8+MhbqAtrkqz5jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=22UwUfqLHVun0WsIx7T3Dig1cCtbEOkI11uEVVytnBg=;
- b=vn7IlPcrRPz7HmSHiFigAqKNsC3fzL2yQUeUk08KKvW+FQ5MLXGjWtI4fkSuQ+FZDS+MKGOtu8/uX+fA3J388kmKVN6ZHbIHzI9rvOP8aaZP41SU803yAaHHJNyOlcXu1hqvl81EzWSGvnHB93XjHRom+TrlzIjLNkFODZ6v+uU=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
- CH2PR12MB4876.namprd12.prod.outlook.com (2603:10b6:610:67::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.5458.19; Tue, 26 Jul 2022 07:27:28 +0000
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::ec80:e3fd:e3e2:605d]) by DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::ec80:e3fd:e3e2:605d%5]) with mapi id 15.20.5458.024; Tue, 26 Jul 2022
- 07:27:28 +0000
-Date: Tue, 26 Jul 2022 15:27:07 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: anthony.perard@citrix.com, qemu-devel@nongnu.org,
- xen-devel@lists.xenproject.org
-Cc: Trigger Huang <Trigger.Huang@amd.com>
-Subject: Question to mem-path support at QEMU for Xen
-Message-ID: <Yt+XS81vmsWoJA5y@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR02CA0015.apcprd02.prod.outlook.com
- (2603:1096:3:17::27) To DM5PR12MB2504.namprd12.prod.outlook.com
- (2603:10b6:4:b5::19)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGJMI-0005QZ-Li
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 08:08:21 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id B3B583200977;
+ Tue, 26 Jul 2022 08:08:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Tue, 26 Jul 2022 08:08:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1658837295; x=1658923695; bh=58
+ l6R2f7INDs7+d7GwW7Z/fvrfz4C/6iDQqY3oWhHu8=; b=vAJYODDADRQ+ltjbLx
+ iby7WfjYYLWPm/98vG2/roptDBdGHd/F0uP0HHeqZaWa005OuwNrNp7wljmoPqIq
+ BF/TpikYnQKQDsyw2AGGJItSgBbQNkMOqaz9aRD32kaxe7yRoi0lL5y5Wqm//b62
+ at4BvWYltXf96o5V3aym9O5gqXmmkxrE/Nq08WB6Nwk9GemfePazr7LcBLQUBDlh
+ vIGrdi0RkBjLeQttQ4mJbw55ST4VwCp3RpnJp8WuiaVkDRKRGoYUb+K2yTyQIHJ1
+ QfBKRfOyqgDB7BsamNRDRi9pi3s9f5pwy5pymeKZJvDEJ35ta9BkhJj9Zls6C19m
+ DwUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1658837295; x=1658923695; bh=58l6R2f7INDs7+d7GwW7Z/fvrfz4
+ C/6iDQqY3oWhHu8=; b=OJeOp/r2dvMcdN4u5WDj2QKuMMkhncLIG2keHtQkDjg+
+ TQL0q2oHr5C9otQwPcQydGQqpCB245mXh4OSufLfiQ3d8kv8LOQ2pdVv41/6P6UK
+ zNhgaQR3DaocB1xLYU4CrJJmgKx88Fh5I8mO9F9SY/EDC0Ox+IznfrAG1jlC9CNr
+ W5m9U87fYR9QwfatVIhywivDfxcCiwjkty7q+ym0YwnUiZVAv1KMZZgfbTFKg2I1
+ YF/ciETk7VtAe1UA6fUiJwToRyyEeL7nEOsROyKnWlDG/uYuOLkaYKwWaqSRPmXP
+ /08UIZDX7O2vofI0IW+i0Qw/7CRJ1rNtuPAYeBQbNw==
+X-ME-Sender: <xms:LtnfYtuqs0BUHd9dP9qiIHu1TtlPQHYwCYsDI5ZEZ8j-rTJVXr51MQ>
+ <xme:LtnfYmed2qsgzO3Pv24ApEoqUHpTbE6zrfoyHr8iJnSX4IzmGN6BfNTVKzizKzu35
+ DgPwcGenIfdhS356Pk>
+X-ME-Received: <xmr:LtnfYgzn0_kxDv9x54wK4nIlikdkH_uD9OR7Mh1j3utYJftjgABGewvT7Pf23wtNq3obmQTGSnisg4K91LV6>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddutddggeekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepkeeiffejgfeukeehvdegfeeuheehvdfgheelkedugffgjeevveeiheehleeh
+ jedunecuffhomhgrihhnpegtthhrlhdrtgifnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:LtnfYkOUwWwf9r7peKW567VEjqag84EVZuhQ8-nYgBUU7mGrTA-Tqw>
+ <xmx:LtnfYt8WqD0YlPas3YmXkj0eB2hcM04GjMK0njd6sUx4E4gUxZRm9Q>
+ <xmx:LtnfYkWzmD32tm_R3xKhR9gNpfrl8XnWpupis89o_ufFM0_jr39V3w>
+ <xmx:L9nfYglCwylrhw7qlrCc8J8dhOCU11bkHZQMYg58YiZyUrR4CTLCRw>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Jul 2022 08:08:12 -0400 (EDT)
+Date: Tue, 26 Jul 2022 14:08:09 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+Message-ID: <Yt/ZKVHjSTTt08MV@apples>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <Yt8DWWg8qPLxL0fk@apples>
+ <D12147BE-7F7A-4F41-9317-765F7EB2E971@ict.ac.cn>
+ <Yt+avxgBxcwrxYgi@apples>
+ <869047CA-DD0A-45D1-9DBA-2BA1A3E00ADF@ict.ac.cn>
+ <Yt+xpMzwRWvn3QqR@apples> <Yt+9Spzi17LRRexQ@apples>
+ <Yt/O8+n1pf3SRR7e@apples> <Yt/Qs5PelXjX8E1v@apples>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b2d6d8da-9007-4d0f-8b0b-08da6ed84b1b
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4876:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 5HTpbED94Roz8ouAJpF5vu99VXvPWcgJirTwu8fSOuVqNgzGbloSC8iIFaToGUmouwAjxZQr+LVdfvulzQc7g4LKO70IDD+O8Snm62TeQa8jO1CgUaGj/ltpoJ05NTFTxWNVUZTC0eIF5eZGoAgUo3H7DnRWHP5aoUsbjWJ05AfKkmIsYuQZlwByqn5x1W2IMwDK8yHA3Kw7TGKPYmSfSt+Pbeu5xB8k3XA38SPanqtZh2wqu+H+4/vw6roMeZTajMfGgCbySYh+AEMb1oUpY9EMSJ6447uCNQjoe0DCnXHMinluEGnyJ2NgcYX3J3lPm/FBiyPP662TIvIYkCJg1mqiVnSYL+UF4ql9Z09jA57SgSNLmNYCt1Y9w/JjqiIZKVcXQRv5untl8SkskDiyfVbEeZ9bLOPyQqqrlv5PbsmtsNQsc3PieIkdJWgrkgiYSqdAphGXGOb6Y+hOTp5LIAocomg0Uc2UoE4/bj5bqV9uv6qXoouk7ZJwC9a9raUWL9bsa+vYV4Y2AGP+rdDdNaniBjW+ji1JTHvwIDCWNoBPjQJlMmXeiGna25qjczUZzoJ/CGoqjYholKWs0QF/YH+MIsBLEGn6339chnlqnk3geLwL93+MEf+jpXEsu4c+lQazrrrs9YlccXRi4K5puwvU7aIPbQrYB3adUEHwMhaQE1bhtjJn3Q3LjcYbO7qUNRaCLS9RD6C58sfuVdLOh3xFpT2DtBnQ6BLu17qfKz1THiTQrobn9g1pE00+pqh4wegIzeW1dIQOPn35SbESDYVgwnj5+REdFTqTF5tX7BM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(66556008)(66946007)(8676002)(66476007)(38100700002)(6486002)(4326008)(6512007)(478600001)(26005)(316002)(2906002)(41300700001)(86362001)(6666004)(6506007)(83380400001)(4744005)(8936002)(36756003)(2616005)(5660300002)(186003)(67856001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/ZGtlzo7NQu79UfERErzBw0ueK0BGgF12+O4DYn3fCWlhyaxUxxMSd/hFbJl?=
- =?us-ascii?Q?wQxi+O0XWcN8bGq4RB9QlJYki/272puJAN/ti14tDNd1vodCnGDOBZnDYav6?=
- =?us-ascii?Q?L9PlsFE88eTaU03lS9iMRcbY9Y0IyLHqjoXJvMWfRo9n7tVRtIJd0ixBxj+m?=
- =?us-ascii?Q?RjTXqOp/lBwtKR06t1/6/3M2gEiJVCWDoyhYQdQJrGvJ61B6kVwprw8F6tuH?=
- =?us-ascii?Q?NmmY0R/OLuCEbCznaGrkx9oVYpSJI0VBICQB6Q6izJDPi47VfTB01KeV9Ntl?=
- =?us-ascii?Q?J/8drnHzgBwroXiD12wJUm855U3VyKErom/0LwCzwmV2A+1EU48rsE0X6CzR?=
- =?us-ascii?Q?NO69aQ9Hjlq4GW0UkUk2hloiIG1z07MFN6+vzc1TK1BR8DYfzQxuPYodnYc+?=
- =?us-ascii?Q?q4OzG331FZx6FbvkfakmC0Oz8pdEklDhEHWWy2zYLPKHn3COO8vAEBSCTEA8?=
- =?us-ascii?Q?EYOAvrfnCDoKDy7LHSUcnQrpPSSS9TuoM5mtnPwxQ/vcb64MCx1gWR3kMgej?=
- =?us-ascii?Q?L58qm6VpTwm0JEFYs91qQA2Wvc0Pw/APQhx2/4mxOlnc+bybb0k79yQqpJPZ?=
- =?us-ascii?Q?pAYLlw37Q54uCtLyt9TtxBEN223WrWrFjpAicjunDHGrQmYSOFpjitwxAhjR?=
- =?us-ascii?Q?adL4o835kqjPNIBgf1JkTUnVlm/5XWOeHsZWUEjU5r3PZxFuMW0f5HSJrXDP?=
- =?us-ascii?Q?7hD5thWw/fr9a7CDFpydwu/j/WAgqnAVhXpJ2wDHNdMftEqYoj6FG0TuiIbR?=
- =?us-ascii?Q?N1mG2EWTf8VTEAXwYqEkLMdsjfSAf6XBH4HpPIHDQseBfH858jU4zx8kFrPU?=
- =?us-ascii?Q?5S2MhTHWGcOAN2VpQxROMbaB04I4iJabfhwaimH+W5h2C89P73Ba2dHDDzjE?=
- =?us-ascii?Q?2RcPYs2FE16NP6Z2Nnc3BKi2lPxbbmy9dTkPy8ijeojKcIW2PVI0N/ATcJNe?=
- =?us-ascii?Q?BeMQNjeVXHsZYV37rUKGLi5vxpRFh0qo051hH5rx/EGuZuuyfAuP6E5nZJiZ?=
- =?us-ascii?Q?BCe2QcinUJPVBbkxiZparZ3XMcBkxR7MAliI0U7aEBJB2P7/RifWm7I280uW?=
- =?us-ascii?Q?9TB3nFEHnxAIUFwXr2KHm7D2jEEMeAFeLPoXAQDYI5kloCtRHfkZWyoLlnkJ?=
- =?us-ascii?Q?a3zSFgVn5LluEh0FfFtoRJ/3QOj402F7OKCGMIVUPwYYsDje/QcCSkxSIQrw?=
- =?us-ascii?Q?F6ALixn78QGU6gvgWsiGrpynyBM97I1pOW+NbdVex1uP94pIlY1hC/BtQ3LW?=
- =?us-ascii?Q?qWbcgw2czHYFKZ2tcfPzWPEWMUZxKiHZhTyzZF5VbjIlQBDVUWmYtlefmeNB?=
- =?us-ascii?Q?jBCKlB5/Xt6vK+mDMe4ivExBeKLwyaYYRq4UWYAyu/zmWWzIzRs/Se6TzyrV?=
- =?us-ascii?Q?9vbGlLjgs4Go/zm3BnNT+3B/aYl6w0SsbuDcmqkn2eD+/KawfPEBFnyxoi++?=
- =?us-ascii?Q?v1P1Xz5DiIUIC8gzM5jqnJJlBHjfL8cZLREXxmboEkVQNK3VZ5xTrwwwp5rh?=
- =?us-ascii?Q?myS0WnUSaJM4eHeFxEVUO8FmDw4W+YpuBTcCtWbi5I5BvBUr63vpdgqnL3Qi?=
- =?us-ascii?Q?cDPy+CL6ADg7Fytsb+eNHw6NM0juGvSnNIo9kDhb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2d6d8da-9007-4d0f-8b0b-08da6ed84b1b
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 07:27:27.9683 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ENv+5gf61BqVaY1rdExOwyOUAkRHY6kmNvTgwCQBZ+CHsIiYLW+MspTaVpx9BD5aIQGDcJKyccMa2MCdrWdRgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4876
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::622;
- envelope-from=Ray.Huang@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RzXfZSZLUbwY05fT"
+Content-Disposition: inline
+In-Reply-To: <Yt/Qs5PelXjX8E1v@apples>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 26 Jul 2022 09:26:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,20 +107,242 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Anthony and other Qemu/Xen guys,
 
-We are trying to enable venus on Xen virtualization platform. And we would
-like to use the backend memory with memory-backend-memfd,id=mem1,size=4G
-options on QEMU, however, the QEMU will tell us the "-mem-path" is not
-supported with Xen. I verified the same function on KVM.
+--RzXfZSZLUbwY05fT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-qemu-system-i386: -mem-path not supported with Xen
+On Jul 26 13:32, Klaus Jensen wrote:
+> On Jul 26 13:24, Klaus Jensen wrote:
+> > On Jul 26 12:09, Klaus Jensen wrote:
+> > > On Jul 26 11:19, Klaus Jensen wrote:
+> > > > On Jul 26 15:55, Jinhao Fan wrote:
+> > > > > at 3:41 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+> > > > >=20
+> > > > > > On Jul 26 15:35, Jinhao Fan wrote:
+> > > > > >> at 4:55 AM, Klaus Jensen <its@irrelevant.dk> wrote:
+> > > > > >>=20
+> > > > > >>> We have a regression following this patch that we need to add=
+ress.
+> > > > > >>>=20
+> > > > > >>> With this patch, issuing a reset on the device (`nvme reset /=
+dev/nvme0`
+> > > > > >>> will do the trick) causes QEMU to hog my host cpu at 100%.
+> > > > > >>>=20
+> > > > > >>> I'm still not sure what causes this. The trace output is a bit
+> > > > > >>> inconclusive still.
+> > > > > >>>=20
+> > > > > >>> I'll keep looking into it.
+> > > > > >>=20
+> > > > > >> I cannot reproduce this bug. I just start the VM and used `nvm=
+e reset
+> > > > > >> /dev/nvme0`. Did you do anything before the reset?
+> > > > > >=20
+> > > > > > Interesting and thanks for checking! Looks like a kernel issue =
+then!
+> > > > > >=20
+> > > > > > I remember that I'm using a dev branch (nvme-v5.20) of the kern=
+el and
+> > > > > > reverting to a stock OS kernel did not produce the bug.
+> > > > >=20
+> > > > > I=E2=80=99m using 5.19-rc4 which I pulled from linux-next on Jul =
+1. It works ok on
+> > > > > my machine.
+> > > >=20
+> > > > Interesting. I can reproduce on 5.19-rc4 from torvalds tree. Can you
+> > > > drop your qemu command line here?
+> > > >=20
+> > > > This is mine.
+> > > >=20
+> > > > /home/kbj/work/src/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
+> > > >   -nodefaults \
+> > > >   -display "none" \
+> > > >   -machine "q35,accel=3Dkvm,kernel-irqchip=3Dsplit" \
+> > > >   -cpu "host" \
+> > > >   -smp "4" \
+> > > >   -m "8G" \
+> > > >   -device "intel-iommu" \
+> > > >   -netdev "user,id=3Dnet0,hostfwd=3Dtcp::2222-:22" \
+> > > >   -device "virtio-net-pci,netdev=3Dnet0" \
+> > > >   -device "virtio-rng-pci" \
+> > > >   -drive "id=3Dboot,file=3D/home/kbj/work/vol/machines/img/nvme.qco=
+w2,format=3Dqcow2,if=3Dvirtio,discard=3Dunmap,media=3Ddisk,read-only=3Dno" \
+> > > >   -device "pcie-root-port,id=3Dpcie_root_port1,chassis=3D1,slot=3D0=
+" \
+> > > >   -device "nvme,id=3Dnvme0,serial=3Ddeadbeef,bus=3Dpcie_root_port1,=
+mdts=3D7" \
+> > > >   -drive "id=3Dnull,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3D=
+on,format=3Draw" \
+> > > >   -device "nvme-ns,id=3Dnvm-1,drive=3Dnvm-1,bus=3Dnvme0,nsid=3D1,dr=
+ive=3Dnull,logical_block_size=3D4096,physical_block_size=3D4096" \
+> > > >   -pidfile "/home/kbj/work/vol/machines/run/null/pidfile" \
+> > > >   -kernel "/home/kbj/work/src/kernel/linux/arch/x86_64/boot/bzImage=
+" \
+> > > >   -append "root=3D/dev/vda1 console=3DttyS0,115200 audit=3D0 intel_=
+iommu=3Don" \
+> > > >   -virtfs "local,path=3D/home/kbj/work/src/kernel/linux,security_mo=
+del=3Dnone,readonly=3Don,mount_tag=3Dkernel_dir" \
+> > > >   -serial "mon:stdio" \
+> > > >   -d "guest_errors" \
+> > > >   -D "/home/kbj/work/vol/machines/log/null/qemu.log" \
+> > > >   -trace "pci_nvme*"
+> > >=20
+> > > Alright. It was *some* config issue with my kernel. Reverted to a
+> > > defconfig + requirements and the issue went away.
+> > >=20
+> >=20
+> > And it went away because I didn't include iommu support in that kernel =
+(and its
+> > not enabled by default on the stock OS kernel).
+> >=20
+> > > I'll try to track down what happended, but doesnt look like qemu is at
+> > > fault here.
+> >=20
+> > OK. So.
+> >=20
+> > I can continue to reproduce this if the machine has a virtual intel iom=
+mu
+> > enabled. And it only happens when this commit is applied.
+> >=20
+> > I even backported this patch (and the shadow doorbell patch) to v7.0 an=
+d v6.2
+> > (i.e. no SRIOV or CC logic changes that could be buggy) and it still ex=
+hibits
+> > this behavior. Sometimes QEMU coredumps on poweroff and I managed to gr=
+ab one:
+> >=20
+> > Program terminated with signal SIGSEGV, Segmentation fault.
+> > #0  nvme_process_sq (opaque=3D0x556329708110) at ../hw/nvme/ctrl.c:5720
+> > 5720   NvmeCQueue *cq =3D n->cq[sq->cqid];
+> > [Current thread is 1 (Thread 0x7f7363553cc0 (LWP 2554896))]
+> > (gdb) bt
+> > #0  nvme_process_sq (opaque=3D0x556329708110) at ../hw/nvme/ctrl.c:5720
+> > #1  0x0000556326e82e28 in nvme_sq_notifier (e=3D0x556329708148) at ../h=
+w/nvme/ctrl.c:3993
+> > #2  0x000055632738396a in aio_dispatch_handler (ctx=3D0x5563291c3160, n=
+ode=3D0x55632a228b60) at ../util/aio-posix.c:329
+> > #3  0x0000556327383b22 in aio_dispatch_handlers (ctx=3D0x5563291c3160) =
+at ../util/aio-posix.c:372
+> > #4  0x0000556327383b78 in aio_dispatch (ctx=3D0x5563291c3160) at ../uti=
+l/aio-posix.c:382
+> > #5  0x000055632739d748 in aio_ctx_dispatch (source=3D0x5563291c3160, ca=
+llback=3D0x0, user_data=3D0x0) at ../util/async.c:311
+> > #6  0x00007f7369398163 in g_main_context_dispatch () at /usr/lib64/libg=
+lib-2.0.so.0
+> > #7  0x00005563273af279 in glib_pollfds_poll () at ../util/main-loop.c:2=
+32
+> > #8  0x00005563273af2f6 in os_host_main_loop_wait (timeout=3D0x1dbe22c0)=
+ at ../util/main-loop.c:255
+> > #9  0x00005563273af404 in main_loop_wait (nonblocking=3D0x0) at ../util=
+/main-loop.c:531
+> > #10 0x00005563270714d9 in qemu_main_loop () at ../softmmu/runstate.c:726
+> > #11 0x0000556326c7ea46 in main (argc=3D0x2e, argv=3D0x7ffc6977f198, env=
+p=3D0x7ffc6977f310) at ../softmmu/main.c:50
+> >=20
+> > At this point, there should not be any CQ/SQs (I detached the device fr=
+om the
+> > kernel driver which deletes all queues and bound it to vfio-pci instead=
+), but
+> > somehow a stale notifier is called on poweroff and the queue is bogus, =
+causing
+> > the segfault.
+> >=20
+> > (gdb) p cq->cqid
+> > $2 =3D 0x7880
+> >=20
+> > My guess would be that we are not cleaning up the notifier properly. Cu=
+rrently
+> > we do this
+> >=20
+> >     if (cq->ioeventfd_enabled) {
+> >         memory_region_del_eventfd(&n->iomem,
+> >                                   0x1000 + offset, 4, false, 0, &cq->no=
+tifier);
+> >         event_notifier_cleanup(&cq->notifier);
+> >     }
+> >=20
+> >=20
+> > Any ioeventfd experts that has some insights into what we are doing
+> > wrong here? Something we need to flush? I tried with a test_and_clear on
+> > the eventfd but that didnt do the trick.
+> >=20
+> > I think we'd need to revert this until we can track down what is going =
+wrong.
+>=20
+> One more thing - I now also triggered the coredump with just a `modprobe
+> vfio-pci` following a `nvme reset /dev/nvme0`.
+>=20
+> Similar backtrace.
 
-So may I know whether Xen has any limitation that support
-memory-backend-memfd in QEMU or just implementation is not done yet?
+Alright. Forget about the iommu, that was just a coincidence.
 
-Looking forward to your reply!
+This patch seems to fix it. I guess it is the
+event_notifier_set_handler(..., NULL) that does the trick, but I'd like
+to understand why ;)
 
-Thanks a lot,
-Ray
+
+diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+index 533ad14e7a61..3bc3c6bfbe78 100644
+--- i/hw/nvme/ctrl.c
++++ w/hw/nvme/ctrl.c
+@@ -4238,7 +4238,9 @@ static void nvme_cq_notifier(EventNotifier *e)
+     NvmeCQueue *cq =3D container_of(e, NvmeCQueue, notifier);
+     NvmeCtrl *n =3D cq->ctrl;
+=20
+-    event_notifier_test_and_clear(&cq->notifier);
++    if (!event_notifier_test_and_clear(e)) {
++        return;
++    }
+=20
+     nvme_update_cq_head(cq);
+=20
+@@ -4275,7 +4277,9 @@ static void nvme_sq_notifier(EventNotifier *e)
+ {
+     NvmeSQueue *sq =3D container_of(e, NvmeSQueue, notifier);
+=20
+-    event_notifier_test_and_clear(&sq->notifier);
++    if (!event_notifier_test_and_clear(e)) {
++        return;
++    }
+=20
+     nvme_process_sq(sq);
+ }
+@@ -4307,6 +4311,8 @@ static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
+     if (sq->ioeventfd_enabled) {
+         memory_region_del_eventfd(&n->iomem,
+                                   0x1000 + offset, 4, false, 0, &sq->notif=
+ier);
++        event_notifier_set_handler(&sq->notifier, NULL);
++        nvme_sq_notifier(&sq->notifier);
+         event_notifier_cleanup(&sq->notifier);
+     }
+     g_free(sq->io_req);
+@@ -4697,6 +4703,8 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
+     if (cq->ioeventfd_enabled) {
+         memory_region_del_eventfd(&n->iomem,
+                                   0x1000 + offset, 4, false, 0, &cq->notif=
+ier);
++        event_notifier_set_handler(&cq->notifier, NULL);
++        nvme_cq_notifier(&cq->notifier);
+         event_notifier_cleanup(&cq->notifier);
+     }
+     if (msix_enabled(&n->parent_obj)) {
+
+--RzXfZSZLUbwY05fT
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLf2SQACgkQTeGvMW1P
+DelbWQf/fROq2EKxcejSDy2M3iGhWNLKz6/BzG+VME9zGtFdAX0/aSxZ0VAiYmtv
+DKODJ6EHEiYfSs3ggOFlIgpFscm5OX7AOGRVnKOAzv33OFcHX1RHI5ZkuU9G6zcK
+BBtqK8VH2a+z17TeIsiTLkRkuCZ5KReue+ZRV9aFXWrXQt8K52HyZiz1e5fAjdmw
+xghXyjAIvmfQBNzgA+T6a8hJjhKYqWMLCX2IJ4MripNrnyLRQv99UkGa3XvFXQEw
+i/mI8RURsGkCH1fcah/Kyrtcz4vwMozGmMSZFH0YgbWI0MicJq94PASiakESKm/2
+hWbJqjUd9NcDfm+j3fTM3x9vWAHBAQ==
+=pz51
+-----END PGP SIGNATURE-----
+
+--RzXfZSZLUbwY05fT--
 
