@@ -2,56 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52E1580AD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 07:29:36 +0200 (CEST)
-Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCF1580AE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 07:47:56 +0200 (CEST)
+Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGD8R-0008WP-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 01:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
+	id 1oGDQB-00060K-8R
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 01:47:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGD6g-00075i-8W
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:27:46 -0400
-Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:38633)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGD6W-0006AI-AY
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:27:39 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VKTuvQh_1658813244; 
-Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VKTuvQh_1658813244) by smtp.aliyun-inc.com;
- Tue, 26 Jul 2022 13:27:25 +0800
-Message-ID: <1b0f4eed-7925-949d-678a-f929c6baddda@linux.alibaba.com>
-Date: Tue, 26 Jul 2022 13:27:24 +0800
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGDMU-0004T2-Dm
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:44:06 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:42670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGDMS-0008Qx-H0
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:44:06 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id c131so23649446ybf.9
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 22:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NptvMj9pKC9wOZCoGLFX/utBCL/bwWKPEEgu6s5EwiE=;
+ b=lE7cLP401HrR97nuFzJRcb5Vdd7a3giTo/4a8aDhw4Thox8glJ826+d7S7PzOqzfgi
+ bSFSqNay3FKbmE4U1mTyQc93bOgSmxPnqv9mzR6/Inw6s17aZA+Qq0MRGU3usQmMI9lX
+ xdYrlMH8wZ3+//ccAhVaisqsTKrH2CUuCQa0A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NptvMj9pKC9wOZCoGLFX/utBCL/bwWKPEEgu6s5EwiE=;
+ b=zVEtzwoX68N8xtDCmuCIkmvL4aHsLdbN6kAQFlyHnvlIXKK76ubvGXCxqoyw7a8fMN
+ jXLbNRjZMK+e34xh8cY9fDNCiVfLrNot7hmlcqfWz+RNbNL2CFkV136YgLnlWjgcinIF
+ KGX8zPOcoIQpGSJloAj6tW3C7ho8w6CusSzyn9lGxlzEYyn7UaaWOPoJmLV3ZFLXmowN
+ jdBI+4zCs8snQSdxX8Ql3Imlqw1/XL15QTtOPkTFWVn3HfKDKjrs0Uv7OL6jx4QpQFov
+ yjEqiy2n1tIjUE8FCL7GAJvF1cPSm58gSj3+4A6dkinQz1McTI/N23SIPYk9W220sw2m
+ M+Gg==
+X-Gm-Message-State: AJIora8wY4HR7Oyt542Os695FM7nAbZqnbWPbv9BggK0pwJZNpYezxab
+ 41v/igeTuW/H8cgV9uB+ZDPq8LDH3xrkeQV5cpbL
+X-Google-Smtp-Source: AGRyM1viNRKR9UmLU6zj4fszLCMy57CjDl042r7tEQ5fDkQsZtz0Sl/zopXciqUlYwJvB64I1ZRrgLAiKIPdCdG7qDc=
+X-Received: by 2002:a25:18d6:0:b0:66f:6620:4482 with SMTP id
+ 205-20020a2518d6000000b0066f66204482mr11482348yby.303.1658814242939; Mon, 25
+ Jul 2022 22:44:02 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.10.0
-Subject: Re: [PATCH 09/16] vhost-user: enable/disable a single vring
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <46deff7d44ad806a4bfb9235e57b0d37d8cfa95c.1658141552.git.kangjie.xu@linux.alibaba.com>
- <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: mst@redhat.com, hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com,
- qemu-devel@nongnu.org
-In-Reply-To: <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.131;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-131.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20220722010046.343744-1-atishp@rivosinc.com>
+ <20220722010046.343744-2-atishp@rivosinc.com>
+ <20220723094323.f3rsmdqwf7mno6wu@kamzik>
+In-Reply-To: <20220723094323.f3rsmdqwf7mno6wu@kamzik>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Mon, 25 Jul 2022 22:43:52 -0700
+Message-ID: <CAOnJCUKJdJnVhJ+zt1gsfYRM0OL4Vw2+P5QMMH-BotkwT1Fjew@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] hw/intc: Move mtimer/mtimecmp to aclint
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Atish Patra <atishp@rivosinc.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Anup Patel <anup@brainfault.org>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,136 +85,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, Jul 23, 2022 at 2:43 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> On Thu, Jul 21, 2022 at 06:00:44PM -0700, Atish Patra wrote:
+> > Historically, The mtime/mtimecmp has been part of the CPU because
+> > they are per hart entities. However, they actually belong to aclint
+> > which is a MMIO device.
+> >
+> > Move them to the ACLINT device. This also emulates the real hardware
+> > more closely.
+> >
+> > Reviewed-by: Anup Patel <anup@brainfault.org>
+> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  hw/intc/riscv_aclint.c         | 41 ++++++++++++++++++++++++----------
+> >  hw/timer/ibex_timer.c          | 18 ++++++---------
+> >  include/hw/intc/riscv_aclint.h |  2 ++
+> >  include/hw/timer/ibex_timer.h  |  2 ++
+> >  target/riscv/cpu.h             |  2 --
+> >  target/riscv/machine.c         |  5 ++---
+> >  6 files changed, 42 insertions(+), 28 deletions(-)
+> >
+> > diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
+> > index e7942c4e5a32..47f355224612 100644
+> > --- a/hw/intc/riscv_aclint.c
+> > +++ b/hw/intc/riscv_aclint.c
+> > @@ -32,6 +32,7 @@
+> >  #include "hw/intc/riscv_aclint.h"
+> >  #include "qemu/timer.h"
+> >  #include "hw/irq.h"
+> > +#include "migration/vmstate.h"
+> >
+> >  typedef struct riscv_aclint_mtimer_callback {
+> >      RISCVAclintMTimerState *s;
+> > @@ -65,8 +66,8 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
+> >
+> >      uint64_t rtc_r = cpu_riscv_read_rtc(mtimer);
+> >
+> > -    cpu->env.timecmp = value;
+> > -    if (cpu->env.timecmp <= rtc_r) {
+> > +    mtimer->timecmp[hartid] = value;
+> > +    if (mtimer->timecmp[hartid] <= rtc_r) {
+> >          /*
+> >           * If we're setting an MTIMECMP value in the "past",
+> >           * immediately raise the timer interrupt
+> > @@ -77,7 +78,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
+> >
+> >      /* otherwise, set up the future timer interrupt */
+> >      qemu_irq_lower(mtimer->timer_irqs[hartid - mtimer->hartid_base]);
+> > -    diff = cpu->env.timecmp - rtc_r;
+> > +    diff = mtimer->timecmp[hartid] - rtc_r;
+> >      /* back to ns (note args switched in muldiv64) */
+> >      uint64_t ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+> >
+> > @@ -102,7 +103,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
+> >          next = MIN(next, INT64_MAX);
+> >      }
+> >
+> > -    timer_mod(cpu->env.timer, next);
+> > +    timer_mod(mtimer->timers[hartid], next);
+> >  }
+> >
+> >  /*
+> > @@ -133,11 +134,11 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
+> >                            "aclint-mtimer: invalid hartid: %zu", hartid);
+> >          } else if ((addr & 0x7) == 0) {
+> >              /* timecmp_lo for RV32/RV64 or timecmp for RV64 */
+> > -            uint64_t timecmp = env->timecmp;
+> > +            uint64_t timecmp = mtimer->timecmp[hartid];
+> >              return (size == 4) ? (timecmp & 0xFFFFFFFF) : timecmp;
+> >          } else if ((addr & 0x7) == 4) {
+> >              /* timecmp_hi */
+> > -            uint64_t timecmp = env->timecmp;
+> > +            uint64_t timecmp = mtimer->timecmp[hartid];
+> >              return (timecmp >> 32) & 0xFFFFFFFF;
+> >          } else {
+> >              qemu_log_mask(LOG_UNIMP,
+> > @@ -177,7 +178,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+> >          } else if ((addr & 0x7) == 0) {
+> >              if (size == 4) {
+> >                  /* timecmp_lo for RV32/RV64 */
+> > -                uint64_t timecmp_hi = env->timecmp >> 32;
+> > +                uint64_t timecmp_hi = mtimer->timecmp[hartid] >> 32;
+> >                  riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
+> >                      timecmp_hi << 32 | (value & 0xFFFFFFFF));
+> >              } else {
+> > @@ -188,7 +189,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+> >          } else if ((addr & 0x7) == 4) {
+> >              if (size == 4) {
+> >                  /* timecmp_hi for RV32/RV64 */
+> > -                uint64_t timecmp_lo = env->timecmp;
+> > +                uint64_t timecmp_lo = mtimer->timecmp[hartid];
+> >                  riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
+> >                      value << 32 | (timecmp_lo & 0xFFFFFFFF));
+> >              } else {
+> > @@ -234,7 +235,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
+> >              }
+> >              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
+> >                                                mtimer->hartid_base + i,
+> > -                                              env->timecmp);
+> > +                                              mtimer->timecmp[i]);
+> >          }
+> >          return;
+> >      }
+> > @@ -284,6 +285,8 @@ static void riscv_aclint_mtimer_realize(DeviceState *dev, Error **errp)
+> >      s->timer_irqs = g_new(qemu_irq, s->num_harts);
+> >      qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
+> >
+> > +    s->timers = g_malloc0(s->num_harts * sizeof(QEMUTimer));
+>
+> It looks like we're overallocating the space here, since we want an
+> array of QEMUTimer pointers, not QEMUTimer objects. Also, QEMU
+> prefers g_new to g_malloc (see docs/devel/style.rst).
+>
 
-在 2022/7/26 12:07, Jason Wang 写道:
->
-> 在 2022/7/18 19:17, Kangjie Xu 写道:
->> Implement the vhost_set_single_vring_enable, which is to enable or
->> disable a single vring.
->>
->> The parameter wait_for_reply is added to help for some cases such as
->> vq reset.
->>
->> Meanwhile, vhost_user_set_vring_enable() is refactored.
->>
->> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->> ---
->>   hw/virtio/vhost-user.c | 55 ++++++++++++++++++++++++++++++++++++------
->>   1 file changed, 48 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->> index 75b8df21a4..5a80a415f0 100644
->> --- a/hw/virtio/vhost-user.c
->> +++ b/hw/virtio/vhost-user.c
->> @@ -267,6 +267,8 @@ struct scrub_regions {
->>       int fd_idx;
->>   };
->>   +static int enforce_reply(struct vhost_dev *dev, const VhostUserMsg 
->> *msg);
->> +
->>   static bool ioeventfd_enabled(void)
->>   {
->>       return !kvm_enabled() || kvm_eventfds_enabled();
->> @@ -1198,6 +1200,49 @@ static int vhost_user_set_vring_base(struct 
->> vhost_dev *dev,
->>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
->>   }
->>   +
->> +static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
->> +                                              int index,
->> +                                              int enable,
->> +                                              bool wait_for_reply)
->> +{
->> +    int ret;
->> +
->> +    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
->> +        return -EINVAL;
->> +    }
->> +
->> +    struct vhost_vring_state state = {
->> +        .index = index,
->> +        .num   = enable,
->> +    };
->> +
->> +    VhostUserMsg msg = {
->> +        .hdr.request = VHOST_USER_SET_VRING_ENABLE,
->> +        .hdr.flags = VHOST_USER_VERSION,
->> +        .payload.state = state,
->> +        .hdr.size = sizeof(msg.payload.state),
->> +    };
->> +
->> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
->> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
->> +
->> +    if (reply_supported && wait_for_reply) {
->> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
->> +    }
->
->
-> Do we need to fail if !realy_supported && wait_for_reply?
->
-> Thanks
->
->
-I guess you mean "should we fail if VHOST_USER_PROTOCOL_F_REPLY_ACK 
-feature is not supported?".
+Ahh yes. Thanks for catching that. I will fix it in the next verison.
 
-The implementation here is similar to that in vhost_user_set_vring_addr().
-
-If this feature is not supported, it will call enforce_reply(), then 
-call vhost_user_get_features() to get a reply.
-
-Since the messages will be processed sequentailly in DPDK, success of 
-enforce_reply() means the previous message VHOST_USER_SET_VRING_ENABLE 
-has been processed.
-
-Thanks
-
+> Thanks,
+> drew
 >
->> +
->> +    ret = vhost_user_write(dev, &msg, NULL, 0);
->> +    if (ret < 0) {
->> +        return ret;
->> +    }
->> +
->> +    if (wait_for_reply) {
->> +        return enforce_reply(dev, &msg);
->> +    }
->> +
->> +    return ret;
->> +}
->> +
->>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int 
->> enable)
->>   {
->>       int i;
->> @@ -1207,13 +1252,8 @@ static int vhost_user_set_vring_enable(struct 
->> vhost_dev *dev, int enable)
->>       }
->>         for (i = 0; i < dev->nvqs; ++i) {
->> -        int ret;
->> -        struct vhost_vring_state state = {
->> -            .index = dev->vq_index + i,
->> -            .num   = enable,
->> -        };
->> -
->> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, 
->> &state);
->> +        int ret = vhost_user_set_single_vring_enable(dev, 
->> dev->vq_index + i,
->> +                                                     enable, false);
->>           if (ret < 0) {
->>               /*
->>                * Restoring the previous state is likely infeasible, 
->> as well as
->> @@ -2627,6 +2667,7 @@ const VhostOps user_ops = {
->>           .vhost_set_owner = vhost_user_set_owner,
->>           .vhost_reset_device = vhost_user_reset_device,
->>           .vhost_get_vq_index = vhost_user_get_vq_index,
->> +        .vhost_set_single_vring_enable = 
->> vhost_user_set_single_vring_enable,
->>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
->>           .vhost_requires_shm_log = vhost_user_requires_shm_log,
->>           .vhost_migration_done = vhost_user_migration_done,
+
+
+-- 
+Regards,
+Atish
 
