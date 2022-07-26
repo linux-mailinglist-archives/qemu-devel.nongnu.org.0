@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA18D581047
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:47:15 +0200 (CEST)
-Received: from localhost ([::1]:39180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFCC658105D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:52:50 +0200 (CEST)
+Received: from localhost ([::1]:47514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGH9n-0007Ts-24
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:47:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60208)
+	id 1oGHFC-00051F-2H
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGnE-0004cK-Sy; Tue, 26 Jul 2022 05:23:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7070)
+ id 1oGGnG-0004em-Kl; Tue, 26 Jul 2022 05:23:59 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGnB-0005aR-Pv; Tue, 26 Jul 2022 05:23:55 -0400
+ id 1oGGnD-0005ad-9S; Tue, 26 Jul 2022 05:23:57 -0400
 Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q8rYbF003412;
- Tue, 26 Jul 2022 09:23:52 GMT
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q8rWPo003347;
+ Tue, 26 Jul 2022 09:23:53 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=BCKxo5hnXlHgHs8RuTNPsMcXA2toIdRtPsp7HWvCtHE=;
- b=m2kJDLhHOnk7iduBgPNsFBV0ccGuVuV6wggXQp0lkKi/eArOI1mZff71qnwpOQpH0ZcP
- +PO5PXZU9Ur+jZwT9xsCdCRUoNTTE27RbctLtyiiSnYbP1w+GvX1HPpSdlXOz4+iR1dE
- KLm3IRQ1SPYDT6kA7IzDIVDWdcEnL0UsN7wNYeGMZ3lUZXW+QPrVFvYryYnsDw2z8GxY
- Q/RaHc1yKxCqJKyGIHrHSnKAvP38glHiJpPe7m4+3znSflMkgwldeh648jSiPJdHT47a
- 1nOULXt2YfWZjlzcDGSNqfGpJDhwTK/IuI8ibxmESFHI1zQ9zDWiJzaHZMSkV9rAF/Nx Cw== 
+ bh=R5c3v2RJVn4rfCJmoch98x9HsH4lVw2dJ8P/rzUPYzg=;
+ b=cRLn3F+z0uVSW9TRcb7oDbv0dxCCBncr/xb4Roy8UKS3e56oFDmV2v/wVhcgBsXoT+C8
+ 0ho8wgYsFUG4jtchpFm4QMVyZMs5Hh8t38aJUf6+w5/oKSks4RInUDGt/9aDehRZK0Z8
+ M5NVdmu6qWD8sxIxxil1LuFy+x8c1pPP/wvvgODTQoMAfi2ARXQ1W9PDwD4mUDn8fhKo
+ eHj4EtxLTG14v86YMtlX322NmU+PS65//PLkjMciBfyMa2q9BCfLKt6rbyBUtfwLAgnW
+ t5XE5K4b9xFKYuABbs9V4a80Ttfw2aj9MRzsX5cp+v+vfmX8ovfIdoDrZm+ln2tgTnk7 uQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtp7-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtq3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:51 +0000
+ Tue, 26 Jul 2022 09:23:53 +0000
 Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q90JdX028958;
- Tue, 26 Jul 2022 09:23:51 GMT
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtnb-1
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q8sKba005465;
+ Tue, 26 Jul 2022 09:23:53 GMT
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtnv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:51 +0000
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9KBbD005626;
- Tue, 26 Jul 2022 09:23:49 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma05fra.de.ibm.com with ESMTP id 3hg94eap65-1
+ Tue, 26 Jul 2022 09:23:53 +0000
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9LPYE008707;
+ Tue, 26 Jul 2022 09:23:50 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma04fra.de.ibm.com with ESMTP id 3hg945jnx8-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:48 +0000
+ Tue, 26 Jul 2022 09:23:50 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26Q9NjpT19530124
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26Q9O01m16515444
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 09:23:45 GMT
+ Tue, 26 Jul 2022 09:24:00 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C545BA405B;
+ by IMSVA (Postfix) with ESMTP id 182EEA405F;
+ Tue, 26 Jul 2022 09:23:47 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EBF1AA4054;
  Tue, 26 Jul 2022 09:23:45 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A4D66A4054;
- Tue, 26 Jul 2022 09:23:44 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 26 Jul 2022 09:23:44 +0000 (GMT)
+ Tue, 26 Jul 2022 09:23:45 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v4 13/17] linux header sync
-Date: Tue, 26 Jul 2022 09:22:44 +0000
-Message-Id: <20220726092248.128336-14-frankja@linux.ibm.com>
+Subject: [PATCH v4 14/17] s390x: Add protected dump cap
+Date: Tue, 26 Jul 2022 09:22:45 +0000
+Message-Id: <20220726092248.128336-15-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220726092248.128336-1-frankja@linux.ibm.com>
 References: <20220726092248.128336-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: aqmL1jaCdAIg8cuRTCFkcz94MuJGoiLG
-X-Proofpoint-ORIG-GUID: vtuHtRMx_iRp4NEHuNHtLbNN5m_tvKFz
+X-Proofpoint-GUID: ixfleIMDQZbRreSHb8quaMk2G-_ccpHp
+X-Proofpoint-ORIG-GUID: pF9EzKi8zRiaMnrRIGvhqk7ncBUsFNK_
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-26_02,2022-07-25_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 malwarescore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ bulkscore=0 suspectscore=0 mlxlogscore=951 priorityscore=1501
  impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207260033
@@ -115,115 +115,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the uapi data for KVM_CAP_S390_PROTECTED_DUMP which I expect to be
-added with 5.20.
-
-Also add the missing NT_S390_RI_CB and the new NT_S390_PV_CPU_DATA elf
-note types.
+Add a protected dump capability for later feature checking.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Steffen Eiden <seiden@linux.ibm.com>
 ---
- include/elf.h             |  2 ++
- linux-headers/linux/kvm.h | 54 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
+ target/s390x/kvm/kvm.c       | 7 +++++++
+ target/s390x/kvm/kvm_s390x.h | 1 +
+ 2 files changed, 8 insertions(+)
 
-diff --git a/include/elf.h b/include/elf.h
-index 3a4bcb646a..94fdcfd8dc 100644
---- a/include/elf.h
-+++ b/include/elf.h
-@@ -1649,6 +1649,8 @@ typedef struct elf64_shdr {
- #define NT_TASKSTRUCT	4
- #define NT_AUXV		6
- #define NT_PRXFPREG     0x46e62b7f      /* copied from gdb5.1/include/elf/common.h */
-+#define NT_S390_PV_CPU_DATA	0x30e	/* s390 protvirt cpu dump data */
-+#define NT_S390_RI_CB	0x30d		/* s390 runtime instrumentation */
- #define NT_S390_GS_CB   0x30b           /* s390 guarded storage registers */
- #define NT_S390_VXRS_HIGH 0x30a         /* s390 vector registers 16-31 */
- #define NT_S390_VXRS_LOW  0x309         /* s390 vector registers 0-15 (lower half) */
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index f089349149..46133ef36c 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -1150,6 +1150,7 @@ struct kvm_ppc_resize_hpt {
- #define KVM_CAP_DISABLE_QUIRKS2 213
- /* #define KVM_CAP_VM_TSC_CONTROL 214 */
- #define KVM_CAP_SYSTEM_EVENT_DATA 215
-+#define KVM_CAP_S390_PROTECTED_DUMP 217
+diff --git a/target/s390x/kvm/kvm.c b/target/s390x/kvm/kvm.c
+index 7bd8db0e7b..cbd8c91424 100644
+--- a/target/s390x/kvm/kvm.c
++++ b/target/s390x/kvm/kvm.c
+@@ -157,6 +157,7 @@ static int cap_ri;
+ static int cap_hpage_1m;
+ static int cap_vcpu_resets;
+ static int cap_protected;
++static int cap_protected_dump;
  
- #ifdef KVM_CAP_IRQ_ROUTING
+ static bool mem_op_storage_key_support;
  
-@@ -1651,6 +1652,55 @@ struct kvm_s390_pv_unp {
- 	__u64 tweak;
- };
+@@ -362,6 +363,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
+     cap_s390_irq = kvm_check_extension(s, KVM_CAP_S390_INJECT_IRQ);
+     cap_vcpu_resets = kvm_check_extension(s, KVM_CAP_S390_VCPU_RESETS);
+     cap_protected = kvm_check_extension(s, KVM_CAP_S390_PROTECTED);
++    cap_protected_dump = kvm_check_extension(s, KVM_CAP_S390_PROTECTED_DUMP);
  
-+enum pv_cmd_info_id {
-+	KVM_PV_INFO_VM,
-+	KVM_PV_INFO_DUMP,
-+};
-+
-+struct kvm_s390_pv_info_dump {
-+	__u64 dump_cpu_buffer_len;
-+	__u64 dump_config_mem_buffer_per_1m;
-+	__u64 dump_config_finalize_len;
-+};
-+
-+struct kvm_s390_pv_info_vm {
-+	__u64 inst_calls_list[4];
-+	__u64 max_cpus;
-+	__u64 max_guests;
-+	__u64 max_guest_addr;
-+	__u64 feature_indication;
-+};
-+
-+struct kvm_s390_pv_info_header {
-+	__u32 id;
-+	__u32 len_max;
-+	__u32 len_written;
-+	__u32 reserved;
-+};
-+
-+struct kvm_s390_pv_info {
-+	struct kvm_s390_pv_info_header header;
-+	union {
-+		struct kvm_s390_pv_info_dump dump;
-+		struct kvm_s390_pv_info_vm vm;
-+	};
-+};
-+
-+enum pv_cmd_dmp_id {
-+        KVM_PV_DUMP_INIT,
-+        KVM_PV_DUMP_CONFIG_STATE,
-+        KVM_PV_DUMP_COMPLETE,
-+        KVM_PV_DUMP_CPU,
-+};
-+
-+struct kvm_s390_pv_dmp {
-+        __u64 subcmd;
-+        __u64 buff_addr;
-+        __u64 buff_len;
-+        __u64 gaddr;
-+        __u64 reserved[4];
-+};
-+
- enum pv_cmd_id {
- 	KVM_PV_ENABLE,
- 	KVM_PV_DISABLE,
-@@ -1659,6 +1709,8 @@ enum pv_cmd_id {
- 	KVM_PV_VERIFY,
- 	KVM_PV_PREP_RESET,
- 	KVM_PV_UNSHARE_ALL,
-+        KVM_PV_INFO,
-+        KVM_PV_DUMP,
- };
+     kvm_vm_enable_cap(s, KVM_CAP_S390_USER_SIGP, 0);
+     kvm_vm_enable_cap(s, KVM_CAP_S390_VECTOR_REGISTERS, 0);
+@@ -2043,6 +2045,11 @@ int kvm_s390_assign_subch_ioeventfd(EventNotifier *notifier, uint32_t sch,
+     return kvm_vm_ioctl(kvm_state, KVM_IOEVENTFD, &kick);
+ }
  
- struct kvm_pv_cmd {
-@@ -2067,4 +2119,6 @@ struct kvm_stats_desc {
- /* Available with KVM_CAP_XSAVE2 */
- #define KVM_GET_XSAVE2		  _IOR(KVMIO,  0xcf, struct kvm_xsave)
- 
-+#define KVM_S390_PV_CPU_COMMAND _IOWR(KVMIO, 0xd0, struct kvm_pv_cmd)
++int kvm_s390_get_protected_dump(void)
++{
++    return cap_protected_dump;
++}
 +
- #endif /* __LINUX_KVM_H */
+ int kvm_s390_get_ri(void)
+ {
+     return cap_ri;
+diff --git a/target/s390x/kvm/kvm_s390x.h b/target/s390x/kvm/kvm_s390x.h
+index 05a5e1e6f4..31a69f9ce2 100644
+--- a/target/s390x/kvm/kvm_s390x.h
++++ b/target/s390x/kvm/kvm_s390x.h
+@@ -26,6 +26,7 @@ int kvm_s390_set_cpu_state(S390CPU *cpu, uint8_t cpu_state);
+ void kvm_s390_vcpu_interrupt_pre_save(S390CPU *cpu);
+ int kvm_s390_vcpu_interrupt_post_load(S390CPU *cpu);
+ int kvm_s390_get_hpage_1m(void);
++int kvm_s390_get_protected_dump(void);
+ int kvm_s390_get_ri(void);
+ int kvm_s390_get_clock(uint8_t *tod_high, uint64_t *tod_clock);
+ int kvm_s390_get_clock_ext(uint8_t *tod_high, uint64_t *tod_clock);
 -- 
 2.34.1
 
