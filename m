@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6292A58171B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:15:52 +0200 (CEST)
-Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F5D58172C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:20:27 +0200 (CEST)
+Received: from localhost ([::1]:59980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNDr-0008Dw-3n
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:15:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
+	id 1oGNII-0005bU-BQ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:20:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9a-0002V1-JG
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:26 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:30352)
+ id 1oGN9c-0002YG-BD
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:28 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:30354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9X-00068i-2P
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:26 -0400
+ id 1oGN9Y-00068j-0L
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:28 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0W4031705;
- Tue, 26 Jul 2022 16:10:50 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0W6031705;
+ Tue, 26 Jul 2022 16:10:52 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=d4Wf6zvZj7pf1CIr9mYRqH/hBauzgg9hCULr1Yp9if8=;
- b=GO0EGcwrQc3xbJZBz7FWMSopAEpw9qE0LJQay8YBgF6c9lxLGHZ2v2DAQcp+KsnIhgWi
- tjXiZTrW3XghT1Deh6o6bXhIRbQEVIcu8u6ipHcgSs7G4Ma/ksV9oLkkTJJAT8oCOSxX
- QdCMvXF2g3tbzyc+uUQSF10bwx5Kg8KlvSsM2M68Vlkx3wTUxYp+OcS6ZptVBIE0mvI2
- 99okKRHgtw5aTEOsg4J+u++xltXsF4ylBUfqS339xYiG4oao7tZw+3fSLMx2WcsCrVQ0
- wB1hzp+m62ed13rb1iYfWxPga3Qq7T745w3cwEdjLHpdKLoJtYXeX9qrCjhsXVGhEX1f hQ== 
+ bh=yXrJ08KHOxEJ/hD4SqAtRPsvFhgL0OoAgWyjTIRuH3k=;
+ b=vhut7YH0uxmZ/uPWBUI3agMdzeYxBUOR/jD90+ZKHdErYhlSw8UYLsda1Rq0u3CYw0LL
+ 9P+z6rgLk+MLDB+MOexWIhVXgiN4yXrnaH3oNGkcAUa4cssvO04HAhA9GMXKh+jSqEhR
+ DOUSqmhvYhmorAh03zKSFL0E1hFkK6zDXE729BtHQIBX3HcOdibXruFHH+F0QxNKo/8E
+ R5QrFkmoAg7/Np7iBINn0uSAVHNb4UPn24rzqNK8sJhR7UEYOipkK9inwpncKe7xF64c
+ pJZGmj9cnfsAt3/dDot2CKui0MNsfzer9Zn+wZI5QIXibQ/nLiwy7qqu3dUi6V6MFkUt Xg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q183-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q188-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:50 +0000
+ Tue, 26 Jul 2022 16:10:51 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QF22wV006237; Tue, 26 Jul 2022 16:10:49 GMT
+ with ESMTP id 26QFEnog006399; Tue, 26 Jul 2022 16:10:50 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq13s-1
+ 3hh65bq159-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:49 +0000
+ Tue, 26 Jul 2022 16:10:50 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSD023334;
- Tue, 26 Jul 2022 16:10:48 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSF023334;
+ Tue, 26 Jul 2022 16:10:49 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-3; Tue, 26 Jul 2022 16:10:48 +0000
+ ESMTP id 3hh65bq0y5-4; Tue, 26 Jul 2022 16:10:49 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 02/46] memory: RAM_NAMED_FILE flag
-Date: Tue, 26 Jul 2022 09:09:59 -0700
-Message-Id: <1658851843-236870-3-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 03/46] migration: file URI
+Date: Tue, 26 Jul 2022 09:10:00 -0700
+Message-Id: <1658851843-236870-4-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: p91a6EQpoQTppzKRHDz_TwKH0S0rS12Q
-X-Proofpoint-GUID: p91a6EQpoQTppzKRHDz_TwKH0S0rS12Q
+X-Proofpoint-ORIG-GUID: 3hrmhkCSdlvTgxEGmYjGbFkCEPuZbpcY
+X-Proofpoint-GUID: 3hrmhkCSdlvTgxEGmYjGbFkCEPuZbpcY
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,98 +113,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A memory-backend-ram or a memory-backend-memfd block with the RAM_SHARED
-flag set is not migrated when migrate_ignore_shared() is true, but this
-is wrong, because it has no named backing store, and its contents will be
-lost.  Define a new flag RAM_NAMED_FILE to distinguish this case.  Cpr will
-also test this flag, for similar reasons.
+Extend the migration URI to support file:<filename>.  This can be used for
+any migration scenario that does not require a reverse path.  It is easier
+to use than the fd:<fdname> URI.  It can be use in HMP commands, and as
+a qemu command-line parameter.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- backends/hostmem-file.c | 1 +
- include/exec/memory.h   | 3 +++
- include/exec/ram_addr.h | 1 +
- migration/ram.c         | 3 ++-
- softmmu/physmem.c       | 7 ++++++-
- 5 files changed, 13 insertions(+), 2 deletions(-)
+ migration/file.c       | 62 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/file.h       | 14 ++++++++++++
+ migration/meson.build  |  1 +
+ migration/migration.c  |  5 ++++
+ migration/trace-events |  4 ++++
+ qemu-options.hx        |  6 ++++-
+ 6 files changed, 91 insertions(+), 1 deletion(-)
+ create mode 100644 migration/file.c
+ create mode 100644 migration/file.h
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index 2514128..486d77d 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -56,6 +56,7 @@ file_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     ram_flags = backend->share ? RAM_SHARED : 0;
-     ram_flags |= backend->reserve ? 0 : RAM_NORESERVE;
-     ram_flags |= fb->is_pmem ? RAM_PMEM : 0;
-+    ram_flags |= RAM_NAMED_FILE;
-     memory_region_init_ram_from_file(&backend->mr, OBJECT(backend), name,
-                                      backend->size, fb->align, ram_flags,
-                                      fb->mem_path, fb->readonly, errp);
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index bfb1de8..7513d04 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -206,6 +206,9 @@ typedef struct IOMMUTLBEvent {
- /* RAM that isn't accessible through normal means. */
- #define RAM_PROTECTED (1 << 8)
- 
-+/* RAM is an mmap-ed named file */
-+#define RAM_NAMED_FILE (1 << 9)
+diff --git a/migration/file.c b/migration/file.c
+new file mode 100644
+index 0000000..233bcda
+--- /dev/null
++++ b/migration/file.c
+@@ -0,0 +1,62 @@
++/*
++ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
 +
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index f3e0c78..4405e2e 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -94,6 +94,7 @@ static inline unsigned long int ramblock_recv_bitmap_offset(void *host_addr,
- }
- 
- bool ramblock_is_pmem(RAMBlock *rb);
-+bool ramblock_is_named_file(RAMBlock *rb);
- 
- long qemu_minrampagesize(void);
- long qemu_maxrampagesize(void);
-diff --git a/migration/ram.c b/migration/ram.c
-index b94669b..3ea3b41 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -165,7 +165,8 @@ out:
- bool ramblock_is_ignored(RAMBlock *block)
- {
-     return !qemu_ram_is_migratable(block) ||
--           (migrate_ignore_shared() && qemu_ram_is_shared(block));
-+           (migrate_ignore_shared() && qemu_ram_is_shared(block) &&
-+            ramblock_is_named_file(block));
- }
- 
- #undef RAMBLOCK_FOREACH
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index dc3c3e5..cce721a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2070,7 +2070,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
- 
-     /* Just support these ram flags by now. */
-     assert((ram_flags & ~(RAM_SHARED | RAM_PMEM | RAM_NORESERVE |
--                          RAM_PROTECTED)) == 0);
-+                          RAM_PROTECTED | RAM_NAMED_FILE)) == 0);
- 
-     if (xen_enabled()) {
-         error_setg(errp, "-mem-path not supported with Xen");
-@@ -3675,6 +3675,11 @@ bool ramblock_is_pmem(RAMBlock *rb)
-     return rb->flags & RAM_PMEM;
- }
- 
-+bool ramblock_is_named_file(RAMBlock *rb)
++#include "qemu/osdep.h"
++#include "channel.h"
++#include "file.h"
++#include "migration.h"
++#include "io/channel-file.h"
++#include "io/channel-util.h"
++#include "trace.h"
++
++void file_start_outgoing_migration(MigrationState *s, const char *filename,
++                                   Error **errp)
 +{
-+    return rb->flags & RAM_NAMED_FILE;
++    g_autoptr(QIOChannelFile) fioc = NULL;
++    QIOChannel *ioc;
++
++    trace_migration_file_outgoing(filename);
++
++    fioc = qio_channel_file_new_path(filename, O_CREAT | O_WRONLY | O_TRUNC,
++                                     0600, errp);
++    if (!fioc) {
++        return;
++    }
++
++    ioc = QIO_CHANNEL(fioc);
++    qio_channel_set_name(ioc, "migration-file-outgoing");
++    migration_channel_connect(s, ioc, NULL, NULL);
 +}
 +
- static void mtree_print_phys_entries(int start, int end, int skip, int ptr)
- {
-     if (start == end - 1) {
++static gboolean file_accept_incoming_migration(QIOChannel *ioc,
++                                               GIOCondition condition,
++                                               gpointer opaque)
++{
++    migration_channel_process_incoming(ioc);
++    object_unref(OBJECT(ioc));
++    return G_SOURCE_REMOVE;
++}
++
++void file_start_incoming_migration(const char *filename, Error **errp)
++{
++    QIOChannelFile *fioc = NULL;
++    QIOChannel *ioc;
++
++    trace_migration_file_incoming(filename);
++
++    fioc = qio_channel_file_new_path(filename, O_RDONLY, 0, errp);
++    if (!fioc) {
++        return;
++    }
++
++    ioc = QIO_CHANNEL(fioc);
++    qio_channel_set_name(QIO_CHANNEL(ioc), "migration-file-incoming");
++    qio_channel_add_watch_full(ioc, G_IO_IN,
++                               file_accept_incoming_migration,
++                               NULL, NULL,
++                               g_main_context_get_thread_default());
++}
+diff --git a/migration/file.h b/migration/file.h
+new file mode 100644
+index 0000000..aa697df
+--- /dev/null
++++ b/migration/file.h
+@@ -0,0 +1,14 @@
++/*
++ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef QEMU_MIGRATION_FILE_H
++#define QEMU_MIGRATION_FILE_H
++void file_start_incoming_migration(const char *filename, Error **errp);
++
++void file_start_outgoing_migration(MigrationState *s, const char *filename,
++                                   Error **errp);
++#endif
+diff --git a/migration/meson.build b/migration/meson.build
+index 690487c..30a8392 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -17,6 +17,7 @@ softmmu_ss.add(files(
+   'colo.c',
+   'exec.c',
+   'fd.c',
++  'file.c',
+   'global_state.c',
+   'migration.c',
+   'multifd.c',
+diff --git a/migration/migration.c b/migration/migration.c
+index e03f698..d1cfca1 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -20,6 +20,7 @@
+ #include "migration/blocker.h"
+ #include "exec.h"
+ #include "fd.h"
++#include "file.h"
+ #include "socket.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+@@ -505,6 +506,8 @@ static void qemu_start_incoming_migration(const char *uri, Error **errp)
+         exec_start_incoming_migration(p, errp);
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_incoming_migration(p, errp);
++    } else if (strstart(uri, "file:", &p)) {
++        file_start_incoming_migration(p, errp);
+     } else {
+         error_setg(errp, "unknown migration protocol: %s", uri);
+     }
+@@ -2414,6 +2417,8 @@ void qmp_migrate(const char *uri, bool has_blk, bool blk,
+         exec_start_outgoing_migration(s, p, &local_err);
+     } else if (strstart(uri, "fd:", &p)) {
+         fd_start_outgoing_migration(s, p, &local_err);
++    } else if (strstart(uri, "file:", &p)) {
++        file_start_outgoing_migration(s, p, &local_err);
+     } else {
+         if (!(has_resume && resume)) {
+             yank_unregister_instance(MIGRATION_YANK_INSTANCE);
+diff --git a/migration/trace-events b/migration/trace-events
+index a34afe7..d72dd85 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -302,6 +302,10 @@ migration_exec_incoming(const char *cmd) "cmd=%s"
+ migration_fd_outgoing(int fd) "fd=%d"
+ migration_fd_incoming(int fd) "fd=%d"
+ 
++# file.c
++migration_file_outgoing(const char *filename) "filename=%s"
++migration_file_incoming(const char *filename) "filename=%s"
++
+ # socket.c
+ migration_socket_incoming_accepted(void) ""
+ migration_socket_outgoing_connected(const char *hostname) "hostname=%s"
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 79e0091..5ff47f4 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4451,6 +4451,7 @@ DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
+     "                prepare for incoming migration, listen on\n" \
+     "                specified protocol and socket address\n" \
+     "-incoming fd:fd\n" \
++    "-incoming file:filename\n" \
+     "-incoming exec:cmdline\n" \
+     "                accept incoming migration on given file descriptor\n" \
+     "                or from given external command\n" \
+@@ -4467,7 +4468,10 @@ SRST
+     Prepare for incoming migration, listen on a given unix socket.
+ 
+ ``-incoming fd:fd``
+-    Accept incoming migration from a given filedescriptor.
++    Accept incoming migration from a given file descriptor.
++
++``-incoming file:filename``
++    Accept incoming migration from a given file.
+ 
+ ``-incoming exec:cmdline``
+     Accept incoming migration as an output from specified external
 -- 
 1.8.3.1
 
