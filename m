@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43577581A1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:09:12 +0200 (CEST)
-Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51795581A39
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:21:59 +0200 (CEST)
+Received: from localhost ([::1]:52944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGPva-0008UV-UH
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:09:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46560)
+	id 1oGQ7u-00035N-B5
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:21:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGPtE-0006kp-WA; Tue, 26 Jul 2022 15:06:45 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:35662)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGPtB-0000H6-42; Tue, 26 Jul 2022 15:06:43 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 21F8B2E1A69;
- Tue, 26 Jul 2022 22:06:30 +0300 (MSK)
-Received: from [172.31.44.48] (172.31.44.48-vpn.dhcp.yndx.net [172.31.44.48])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id 4XzUlrF1Km-6TOOpAxC; Tue, 26 Jul 2022 22:06:29 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658862389; bh=iChm0rCgzKnG64x7w2SIRLSG4m5Yraf99sPEljrAkkY=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=QiqLFOymhRLB8lqRaljoAeWsBm7B9+nnVCsWq7oOVdxdaxVOcknGSnWMrv9jBhdFt
- qmz9Xe5D2FboYlk+ZHOtX2EXmCHjrRiKVLyz2RpHyUCeDNWYG4T2LsIQxUFQPXBCyJ
- 1cDvE2lJI2GX+90qFkSQkywJCX9trT85tFSLC0bI=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <5d8d63ac-f5bd-29fb-850b-a73cefdfa75a@yandex-team.ru>
-Date: Tue, 26 Jul 2022 22:06:28 +0300
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oGQ4Z-0001VK-Pc
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:18:28 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:27666)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oGQ4X-0001oK-AI
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:18:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1658863105; x=1690399105;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=YDc8d0/ulNFVdaGou5invAchKaj4Z92iBsLV/0D5HFU=;
+ b=chz6F5PnXXLIGk9OXTAFRPNAn40MeQppWgn0m5+z/KJOIRNOp2bus6ns
+ f+WrgBFgqOwRVeSYRuyp4Wq8Pp2wlc+sAKhtuK5cKSBXHyXTx52AN41hT
+ ps6S2XBApnANW4iH+veIcjnTwqMl5hPTGtEDYMHrN0zUoGR6rN0IO4boF E=;
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+ by alexa-out.qualcomm.com with ESMTP; 26 Jul 2022 12:18:20 -0700
+X-QCInternal: smtphost
+Received: from hu-tsimpson-lv.qualcomm.com (HELO
+ hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
+ by ironmsg-lv-alpha.qualcomm.com with ESMTP; 26 Jul 2022 12:18:19 -0700
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 9C84650018F; Tue, 26 Jul 2022 12:17:59 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, mlambert@quicinc.com
+Subject: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
+ EXTRA_CFLAGS
+Date: Tue, 26 Jul 2022 12:17:57 -0700
+Message-Id: <20220726191757.30104-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 0/2] block/parallels: Fix buffer-based write call
-Content-Language: en-US
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Denis V . Lunev" <den@openvz.org>, Kevin Wolf <kwolf@redhat.com>
-References: <20220714132801.72464-1-hreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220714132801.72464-1-hreitz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
+ helo=alexa-out.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,30 +72,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/14/22 16:27, Hanna Reitz wrote:
-> Hi,
-> 
-> While reviewing Stefan’s libblkio driver series, I’ve noticed that
-> block/parallels.c contains a call to bdrv_co_pwritev() that doesn’t pass
-> a QEMUIOVector object but a plain buffer instead.  That seems wrong and
-> also pretty dangerous, so change it to a bdrv_co_pwrite() call (as I
-> assume it should be), and add a regression test demonstrating the
-> problem.
-> 
-> 
-> Hanna Reitz (2):
->    block/parallels: Fix buffer-based write call
->    iotests/131: Add parallels regression test
-> 
->   block/parallels.c          |  4 ++--
->   tests/qemu-iotests/131     | 35 ++++++++++++++++++++++++++++++++++-
->   tests/qemu-iotests/131.out | 13 +++++++++++++
->   3 files changed, 49 insertions(+), 3 deletions(-)
-> 
-
-Thanks, applied to my block branch.
-
--- 
-Best regards,
-Vladimir
+VGhlIGNyb3NzX2NjX2NmbGFnc19oZXhhZ29uIGluIGNvbmZpZ3VyZSBhcmUgbm90IGdldHRpbmcg
+cGFzc2VkIHRvCnRoZSBIZXhhZ29uIGNyb3NzIGNvbXBpbGVyLiAgU2V0IEVYVFJBX0NGTEFHUyBp
+bgp0ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQuCgpTdWdnZXN0ZWQtYnk6IFJpY2hh
+cmQgSGVuZGVyc29uIDxyaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnPgpTaWduZWQtb2ZmLWJ5
+OiBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+Ci0tLQogdGVzdHMvdGNnL2hl
+eGFnb24vTWFrZWZpbGUudGFyZ2V0IHwgMSArCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KykKCmRpZmYgLS1naXQgYS90ZXN0cy90Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQgYi90ZXN0
+cy90Y2cvaGV4YWdvbi9NYWtlZmlsZS50YXJnZXQKaW5kZXggMjNiOTg3MDUzNC4uNjI3YmY1OGZl
+NiAxMDA2NDQKLS0tIGEvdGVzdHMvdGNnL2hleGFnb24vTWFrZWZpbGUudGFyZ2V0CisrKyBiL3Rl
+c3RzL3RjZy9oZXhhZ29uL01ha2VmaWxlLnRhcmdldApAQCAtMjAsNiArMjAsNyBAQCBFWFRSQV9S
+VU5TID0KIAogQ0ZMQUdTICs9IC1Xbm8taW5jb21wYXRpYmxlLXBvaW50ZXItdHlwZXMgLVduby11
+bmRlZmluZWQtaW50ZXJuYWwKIENGTEFHUyArPSAtZm5vLXVucm9sbC1sb29wcworRVhUUkFfQ0ZM
+QUdTICs9IC1tdjY3IC1PMgogCiBIRVhfU1JDPSQoU1JDX1BBVEgpL3Rlc3RzL3RjZy9oZXhhZ29u
+CiBWUEFUSCArPSAkKEhFWF9TUkMpCi0tIAoyLjE3LjEKCg==
 
