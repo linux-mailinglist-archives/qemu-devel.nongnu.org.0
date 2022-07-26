@@ -2,85 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31E09581BC3
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:46:27 +0200 (CEST)
-Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B33581BD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:54:36 +0200 (CEST)
+Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGSNm-0000zR-CS
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:46:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
+	id 1oGSVf-0003br-Ui
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:54:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGSLg-0007uF-9l
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:44:16 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:33433)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGSSZ-0001fa-Bm
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:23 -0400
+Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:38747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGSLe-0008IW-OG
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:44:16 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- f11-20020a17090a4a8b00b001f2f7e32d03so1798169pjh.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:44:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y9mhsEn/4vqp0Tyupt7ORRe6ak75G4kfKy9GeIShSEY=;
- b=EsejyOaqUoEcQOQBOI0rUSeh6nHcJQFOefI7mJAEj0zIjbjFC9J9umHLT6dcZ9RoeO
- kQmFAVIMlJMD6z+slOqjRQ+4VjpBMeWsnty09gTJkIGkqYGmUvNXkH8C1VgWeI8DE1jC
- nwzcZ0ts85IglHVK6nIHdBKzgpz1QUxybMU8Rjfn89JKoW8KOyivUtBvpaG5D98TEWHz
- hV9SuLOLXmNjKtGQ6gtflNQY13lssPeJOTkndEd8jZ6VSMmDFhGpO5SzcawHQ77STLta
- j0lxXn2U73kLrxA2+cR7wJ28w9N0+XadvY89X8JxhXJQuiV5NdC7kmZzVpuY3CrQLI5p
- FaKQ==
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oGSSX-00015K-7n
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:23 -0400
+Received: by mail-yw1-x112b.google.com with SMTP id
+ 00721157ae682-31f41584236so48435187b3.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:51:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=atishpatra.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=YydpgrxDW5FnuWQpSXFhFRvKWyeb+vea0xnBM5Q2B9k=;
+ b=oedFiu8fkFrH0o9wCxLFFZ6fcLQuAUNRfPzvZtdxJsOkexCLv+ggZWAsgYlWw1r/Ms
+ nzXuOaO7H8gUsJgncXxOvSC73sn1BGn7PnlrAb0Ghm16IiEkWLJo4K4xjbUM/mL+bjDH
+ 8CrOSxLiGDj1iV/PzlYnKj9dB0Vd7C9EulTOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Y9mhsEn/4vqp0Tyupt7ORRe6ak75G4kfKy9GeIShSEY=;
- b=d83/RbKsHBEsQ+P5Ak1dPNNBEJ9Po9aOS/IBmESbA7z5AImYFMjiLkcadtBf1C0Mxy
- 0+hxrthJWm8SN39rGfkk2x7LDwd4OXxKf/oa1jOQWdWL+/zntz+64nclMJt67kms1V/a
- Mhr9nS+Gj27iA6CZjfq0QUMAhVkGiogiVkH28C/CHbbGqHRAdpbR2jhjmvUep/RkSWXW
- E6YBWyE8OBmHdObsArH2Cm9ndGVrLyJhUkAea1A9gJkKYP5+CqbjP7DQOXJDDmejHtvE
- WkT9lJ/mXmqY3MxAHa4DPx/NkmpIyZXK1ngsS8Ij1KjR+faC1L0pMK+/U24tVFQRRFtc
- P+BA==
-X-Gm-Message-State: AJIora+MPSNiBXaHwHei3TPNNe+QkUMMIHudmbycXEX9rpfDks3NORh/
- zH7ti24sKqPRSfwA20fN6T8=
-X-Google-Smtp-Source: AGRyM1vE2bz1glb4dIM9knyT7bijiE1qXgUXZo+Q0q63V/zK5L3osO9RGPxjRorooV/IDwO0d1tWVw==
-X-Received: by 2002:a17:902:d507:b0:16d:7d89:15dc with SMTP id
- b7-20020a170902d50700b0016d7d8915dcmr9775751plg.31.1658871853097; 
- Tue, 26 Jul 2022 14:44:13 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- my10-20020a17090b4c8a00b001f23db09351sm47519pjb.46.2022.07.26.14.44.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 14:44:12 -0700 (PDT)
-Message-ID: <943057f3-1fa4-90e9-1f2d-37fdd81015b4@amsat.org>
-Date: Tue, 26 Jul 2022 23:44:08 +0200
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=YydpgrxDW5FnuWQpSXFhFRvKWyeb+vea0xnBM5Q2B9k=;
+ b=IpU5rq+kiLwQSqN11CrtTJYeh9h61JUV77jbf+wgOmms5KcakUX32R0dodqJuLjkCv
+ 2q6VzgltVOVas3HExoqAV+eYBnWjIY+iwT9IGSQ76HvQMw5pjfSXYjbA49XJIlBSR75V
+ q0ztef2LiMWU3aCJpbSdcCu6XAhdJZIHNvgOPq/nolyJ2S5CIivMoNJ9+Fp714B7JEep
+ 1hyR4XgdQSJxJrmcpg3W2CdP+aDAq7Ccu4AdqlJjBBOAsFlvteyZKVZtVbfRrKnqtPQj
+ jND5TVwL4Ox3E9wN4J/n5eYINBpbOkeEdVU28rwQN8a0+m+2OSAv6sBs6vEszVfmzVi9
+ XLsg==
+X-Gm-Message-State: AJIora+/MeqlKOKJTmFl6UuNSYs6KvfjpyCq5xFAQnpK2ocjcdb4OHOq
+ LW4eiVVnZ+s5/vX5yoybx6bQaujz74y9afFEXMn3
+X-Google-Smtp-Source: AGRyM1tpgv4ZXF7lapS4/JdDieY93f+5T0eCPugN6KEcT7VED3oZPGclbzsAe22eUg0K0VVJft54DQbrrI0OCN0hqL4=
+X-Received: by 2002:a0d:d753:0:b0:31f:4e9f:a9ff with SMTP id
+ z80-20020a0dd753000000b0031f4e9fa9ffmr3825554ywd.194.1658872278973; Tue, 26
+ Jul 2022 14:51:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
- EXTRA_CFLAGS
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, 
- mlambert@quicinc.com
-References: <20220726191757.30104-1-tsimpson@quicinc.com>
-In-Reply-To: <20220726191757.30104-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20220620231603.2547260-1-atishp@rivosinc.com>
+ <20220620231603.2547260-12-atishp@rivosinc.com>
+ <4485024.MHq7AAxBmi@diego>
+In-Reply-To: <4485024.MHq7AAxBmi@diego>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 26 Jul 2022 14:51:08 -0700
+Message-ID: <CAOnJCUJ=3X-nNhfRW8LDiLRLnKrb2WyCT=pVYevDttwGcyauuw@mail.gmail.com>
+Subject: Re: [PATCH v10 11/12] hw/riscv: virt: Add PMU DT node to the device
+ tree
+To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Atish Patra <atishp@rivosinc.com>, Bin Meng <bin.meng@windriver.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
+ envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,63 +88,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-Hi Taylor,
+On Thu, Jul 14, 2022 at 3:27 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
+>
+> Hi Atish,
+>
+> Am Dienstag, 21. Juni 2022, 01:16:01 CEST schrieb Atish Patra:
+> > Qemu virt machine can support few cache events and cycle/instret counte=
+rs.
+> > It also supports counter overflow for these events.
+> >
+> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
+> > capabilities. There are some dummy nodes added for testing as well.
+> >
+> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+>
+> > +static void create_fdt_socket_pmu(RISCVVirtState *s,
+> > +                                  int socket, uint32_t *phandle,
+> > +                                  uint32_t *intc_phandles)
+> > +{
+> > +    int cpu;
+> > +    char *pmu_name;
+> > +    uint32_t *pmu_cells;
+> > +    MachineState *mc =3D MACHINE(s);
+> > +    RISCVCPU hart =3D s->soc[socket].harts[0];
+> > +
+> > +    pmu_cells =3D g_new0(uint32_t, s->soc[socket].num_harts * 2);
+> > +
+> > +    for (cpu =3D 0; cpu < s->soc[socket].num_harts; cpu++) {
+> > +        pmu_cells[cpu * 2 + 0] =3D cpu_to_be32(intc_phandles[cpu]);
+> > +        pmu_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_PMU_OVF);
+> > +    }
+> > +
+> > +    pmu_name =3D g_strdup_printf("/soc/pmu");
+> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
+> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pm=
+u");
+>
+> Where is the binding document for this?
+>
+> As the comment below states the "riscv,event-to-mhpmcounters" property
+> is opensbi-specific and gets removed in the opensbi stage, but that still
+> leaves the pmu node in it and from the version I found, Rob wasn't overly
+> happy with the compatible [0]. Did this get addressed?
+>
 
-On 26/7/22 21:17, Taylor Simpson wrote:
-> The cross_cc_cflags_hexagon in configure are not getting passed to
-> the Hexagon cross compiler.  Set EXTRA_CFLAGS in
-> tests/tcg/hexagon/Makefile.target.
-> 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   tests/tcg/hexagon/Makefile.target | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-> index 23b9870534..627bf58fe6 100644
-> --- a/tests/tcg/hexagon/Makefile.target
-> +++ b/tests/tcg/hexagon/Makefile.target
-> @@ -20,6 +20,7 @@ EXTRA_RUNS =
->   
->   CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
->   CFLAGS += -fno-unroll-loops
-> +EXTRA_CFLAGS += -mv67 -O2
->   
->   HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
->   VPATH += $(HEX_SRC)
+This is OpenSBI specific binding.
+https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.=
+md
 
-My understanding of Richard suggestion is something like:
+Linux kernel doesn't use binding anymore. The earlier version patches
+relied on the DT binding.
+However, based on the feedback it was removed.
 
--- >8 --
-@@ -45,6 +45,8 @@ HEX_TESTS += overflow
+OpenSBI should delete the node and the interrupt-extended property
+deletion is necessary at this point.
 
-  TESTS += $(HEX_TESTS)
+>
+> Thanks
+> Heiko
+>
+>
+> [0] https://lore.kernel.org/all/YXhPqfpXh1VZN07T@robh.at.kernel.org/
+>
+>
+>
+> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
+> > +
+> > +    g_free(pmu_name);
+> > +    g_free(pmu_cells);
+> > +}
+> > +
+> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *m=
+emmap,
+> >                                 bool is_32_bit, uint32_t *phandle,
+> >                                 uint32_t *irq_mmio_phandle,
+> > @@ -759,6 +786,7 @@ static void create_fdt_sockets(RISCVVirtState *s, c=
+onst MemMapEntry *memmap,
+> >                      &intc_phandles[phandle_pos]);
+> >              }
+> >          }
+> > +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
+> >      }
+> >
+> >      if (s->aia_type =3D=3D VIRT_AIA_TYPE_APLIC_IMSIC) {
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index 7d9e2aca12a9..69bbd9fff4e1 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -1110,6 +1110,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, c=
+har **isa_str, int max_str_len)
+> >          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
+> >          ISA_EDATA_ENTRY(zhinx, ext_zhinx),
+> >          ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
+> > +        ISA_EDATA_ENTRY(sscofpmf, ext_sscofpmf),
+> >          ISA_EDATA_ENTRY(svinval, ext_svinval),
+> >          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
+> >          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
+> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
+> > index 34096941c0ce..59feb3c243dd 100644
+> > --- a/target/riscv/pmu.c
+> > +++ b/target/riscv/pmu.c
+> > @@ -20,11 +20,68 @@
+> >  #include "cpu.h"
+> >  #include "pmu.h"
+> >  #include "sysemu/cpu-timers.h"
+> > +#include "sysemu/device_tree.h"
+> >
+> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
+> >  #define MAKE_32BIT_MASK(shift, length) \
+> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
+> >
+> > +/**
+> > + * To keep it simple, any event can be mapped to any programmable coun=
+ters in
+> > + * QEMU. The generic cycle & instruction count events can also be moni=
+tored
+> > + * using programmable counters. In that case, mcycle & minstret must c=
+ontinue
+> > + * to provide the correct value as well. Heterogeneous PMU per hart is=
+ not
+> > + * supported yet. Thus, number of counters are same across all harts.
+> > + */
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_na=
+me)
+> > +{
+> > +    uint32_t fdt_event_ctr_map[20] =3D {};
+> > +    uint32_t cmask;
+> > +
+> > +    /* All the programmable counters can map to any event */
+> > +    cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
+> > +
+> > +   /**
+> > +    * The event encoding is specified in the SBI specification
+> > +    * Event idx is a 20bits wide number encoded as follows:
+> > +    * event_idx[19:16] =3D type
+> > +    * event_idx[15:0] =3D code
+> > +    * The code field in cache events are encoded as follows:
+> > +    * event_idx.code[15:3] =3D cache_id
+> > +    * event_idx.code[2:1] =3D op_id
+> > +    * event_idx.code[0:0] =3D result_id
+> > +    */
+> > +
+> > +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
+> > +   fdt_event_ctr_map[0] =3D cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[1] =3D cpu_to_be32(0x00000001);
+> > +   fdt_event_ctr_map[2] =3D cpu_to_be32(cmask | 1 << 0);
+> > +
+> > +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
+> > +   fdt_event_ctr_map[3] =3D cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
+> > +   fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) =
+*/
+> > +   fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
+> > +   fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01)=
+ */
+> > +   fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
+> > +   fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) =
+*/
+> > +   fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
+> > +   fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
+> > +
+> > +   /* This a OpenSBI specific DT property documented in OpenSBI docs *=
+/
+> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
+> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
+> > +}
+> > +
+> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
+> >  {
+> >      if (ctr_idx < 3 || ctr_idx >=3D RV_MAX_MHPMCOUNTERS ||
+> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
+> > index 036653627f78..3004ce37b636 100644
+> > --- a/target/riscv/pmu.h
+> > +++ b/target/riscv/pmu.h
+> > @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
+> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
+> >                                 uint32_t ctr_idx);
+> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_i=
+dx);
+> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pm=
+u_name);
+> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
+> >                            uint32_t ctr_idx);
+> >
+>
+>
+>
+>
+>
 
-+$(filter-out usr, $(HEX_TESTS)): CFLAGS += -mv67 -O2
-+
-  # This test has to be compiled for the -mv67t target
-  usr: usr.c
-         $(CC) $(CFLAGS) -mv67t -O2 -Wno-inline-asm 
--Wno-expansion-to-defined $< -o $@ $(LDFLAGS)
----
 
-Eventually to keep the same style in the file:
--- >8 --
-@@ -46,6 +46,5 @@ HEX_TESTS += overflow
-  TESTS += $(HEX_TESTS)
-
-  # This test has to be compiled for the -mv67t target
--usr: usr.c
--       $(CC) $(CFLAGS) -mv67t -O2 -Wno-inline-asm 
--Wno-expansion-to-defined $< -o $@ $(LDFLAGS)
-+usr: CFLAGS += -mv67t -O2 -Wno-inline-asm -Wno-expansion-to-defined
----
-
+--=20
 Regards,
-
-Phil.
+Atish
 
