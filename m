@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A08558166A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:30:24 +0200 (CEST)
-Received: from localhost ([::1]:56586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C104158165F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:27:59 +0200 (CEST)
+Received: from localhost ([::1]:51586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGMVr-0004P9-Es
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:30:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51950)
+	id 1oGMTW-0000tx-QW
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGMMF-0006PO-O3
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:27 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38607)
+ id 1oGMMI-0006Vg-Rl
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:35 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGMMD-00063T-6l
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:27 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- f24-20020a1cc918000000b003a30178c022so11544509wmb.3
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 08:20:23 -0700 (PDT)
+ id 1oGMMD-00063j-Ey
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 11:20:30 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id id17so8962783wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 08:20:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0ZhXnkNY51Ak8uQsgToIykxdNgR1qaaFhrhnxOotnMI=;
- b=rlKTRKlLGVsfdBXWgsR/5GtJeUTDisi72aya2fNJ8tgPWRzxVvuCewl1dguEjHMrN7
- chjVcTfB94EWhHRbi0aHVKrNMRf1+9HoWXKPwoe9mD6G42dpR5O7prgwaSucfqivkCMx
- 48fUQuZ6VO/yf68iYzUfRCGOm6XBsN3lTopzG6PPDZY3lPloySQS9592JZ9eLGNz1/52
- vVkBelkH+itmNIWwtZ3hglwi8u3hfZj9IgLWK6PpWz9Wvv7qPK0I+UhXlgFYOlLwx2wE
- wC20s9/OpEON6zw04f1MCVwmp2sGnsAgYVJnhIOLD4blq1d64B1KcxEaa1AhgaJ7eCVX
- usiA==
+ bh=pjPZonZgIif23LZ1eMjprz1ddmRluH8DP+Iy9f6sgDM=;
+ b=twyBhViCa3bdyDCbXVONj55ckcfmc3r4DYT7tfLNsRIkfzbCfJAKB/DzeVZh32s6zR
+ O9u7FdQLu/U0wDycfsBBno2m4r9GotOpteYrkgvQG5giVR2lznftvE6j0fsr7GcXvXqP
+ BnK31OchApsHrC6EEfAt22Ox5HB2qqu9/f4Aiob1x0eF54oL7r9kjpHn32L6rzCVqksK
+ CGhpwq86ty127nqcoeU8JpX/WLszlqtwPL3yA67LlzsBCXlav9fnap7tJYmosW0udDwO
+ A8u92dKK4W1NFyzvSRp6TjQMfUpjor0679LByECHoTA8voddhZwcWcTl0HmQyVa82Pms
+ 1CZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0ZhXnkNY51Ak8uQsgToIykxdNgR1qaaFhrhnxOotnMI=;
- b=0xAKQzGevzyEzGyWf+KgjpVBhiIAXjoseGVMm7CuIxY9HTeWG/llyXPo1q9HT8JBmm
- usuec1RCjPPLYEcxjkMm1ESRmd9IeJhj3j56ZqPj9uiv9sSPf5nS9ed0xw/gBh/KPOtv
- 47vV8ZkoUhQ6YHqr4gjPCpNCz1Et2Btr6JsP5C1PGKDGsppZ7dutbFZaciPeWX0WVkJg
- DH77UICv5AjY+ugvSvjm/9wKKWIfxS1k+GymjhV6mO88GVM0z1E4tzgJ621kQ1IVf7kL
- Zw3J912ldACDyWnFPoFEdtxSw8ot/7lnGRKC1Q75AMkl1TfvD1tWMC/n5XYA3TelvqJ4
- 24zw==
-X-Gm-Message-State: AJIora83lpPhIovOvAC/lrx/qW9+uM6idtm2oHINvW+LXNNxMq9AXvKc
- ujN7fF44KCjN0mnVfUcB71g/Ru/7G8RnRA==
-X-Google-Smtp-Source: AGRyM1vvu4t/+eiz5bosZ/tKtcJ0J+cVfjeZu7wO2rp8XOkVGlV1tLvLUroCnYBnbV6wAaPBHF9F2A==
-X-Received: by 2002:a7b:ce8a:0:b0:3a3:1181:20ae with SMTP id
- q10-20020a7bce8a000000b003a3118120aemr12119396wmj.96.1658848822869; 
- Tue, 26 Jul 2022 08:20:22 -0700 (PDT)
+ bh=pjPZonZgIif23LZ1eMjprz1ddmRluH8DP+Iy9f6sgDM=;
+ b=ebI6dJfD4Bdl0Md4M/LAMW2pLl95wVEcZkL8gI+uJGYoj2fESlAAXXiWWdAtybFzNl
+ 1W9zsHoKUn4sCBAYUnagkg+l9PS/BtDe6YIg/ahxjHuXajzHaF2C2ShU0+5O9NL66OcX
+ oN8vhC7Te2tUQm5101CbHRtuifcDi6L58UgN5W9aS5vqGn84vxwMsj404kio2kx00sQJ
+ 5LMO+P4OJZ0Q89Alpy0ka8IY20lCs3zatOKdgTiWBTTjQB6KAnC7Zw2qKzaE3czyfDoO
+ 7ujUud9c42tG8tpDN7JdJww7aO5WtLu3NZ/70XwU8HfItuXMrdXGYbNom3AhLPKC1Fnl
+ AaGA==
+X-Gm-Message-State: AJIora8tBdtx0KYBkqz+dBPpwoXHHA2NPoTfGxhCQJ5CMrS3+JKIXHgr
+ LiiFxVAs6i/qZlm/dr1crOaoOzyDT3YV2A==
+X-Google-Smtp-Source: AGRyM1ue7scHQBSF4MsfggxCQ4F2roYGwOTlZASJMDMcH/EldUD/HFm6X+ppnq+hYIEHosrMvUhKJQ==
+X-Received: by 2002:a7b:ce0a:0:b0:3a3:1adf:af34 with SMTP id
+ m10-20020a7bce0a000000b003a31adfaf34mr12306948wmc.127.1658848823710; 
+ Tue, 26 Jul 2022 08:20:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  n5-20020a1c2705000000b003a1980d55c4sm21932739wmn.47.2022.07.26.08.20.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 08:20:22 -0700 (PDT)
+ Tue, 26 Jul 2022 08:20:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] configure: Avoid '==' bashism
-Date: Tue, 26 Jul 2022 16:20:11 +0100
-Message-Id: <20220726152012.1631158-9-peter.maydell@linaro.org>
+Subject: [PULL 9/9] hw/display/bcm2835_fb: Fix framebuffer allocation address
+Date: Tue, 26 Jul 2022 16:20:12 +0100
+Message-Id: <20220726152012.1631158-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220726152012.1631158-1-peter.maydell@linaro.org>
 References: <20220726152012.1631158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,31 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The '==' operator to test is a bashism; the standard way to copmare
-strings is '='. This causes dash to complain:
+From: Alan Jian <alanjian85@gmail.com>
 
-../../configure: 681: test: linux: unexpected operator
+This patch fixes the dedicated framebuffer mailbox interface by
+removing an unneeded offset.  This means that we pick the framebuffer
+address in the same way that we do if the guest code uses the buffer
+allocate mechanism of the bcm2835_property interface (case
+0x00040001: /* Allocate buffer */ in bcm2835_property.c).
 
+The documentation of this mailbox interface doesn't say anything
+about using parts of the request buffer address to affect the
+chosen framebuffer address:
+https://github.com/raspberrypi/firmware/wiki/Mailbox-framebuffer-interface
+
+Some baremetal applications like the Screen01/Screen02 examples from
+Baking Pi tutorial[1] didn't work before this patch.
+
+[1] https://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/os/screen01.html
+
+Signed-off-by: Alan Jian <alanjian85@outlook.com>
+Message-id: 20220725145838.8412-1-alanjian85@outlook.com
+[PMM: tweaked commit message]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20220720152631.450903-6-peter.maydell@linaro.org
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/display/bcm2835_fb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index d0e9a51462e..2c19329d58c 100755
---- a/configure
-+++ b/configure
-@@ -678,7 +678,7 @@ werror=""
+diff --git a/hw/display/bcm2835_fb.c b/hw/display/bcm2835_fb.c
+index 088fc3d51c5..a05277674f2 100644
+--- a/hw/display/bcm2835_fb.c
++++ b/hw/display/bcm2835_fb.c
+@@ -279,8 +279,7 @@ static void bcm2835_fb_mbox_push(BCM2835FBState *s, uint32_t value)
+     newconf.xoffset = ldl_le_phys(&s->dma_as, value + 24);
+     newconf.yoffset = ldl_le_phys(&s->dma_as, value + 28);
  
- meson_option_build_array() {
-   printf '['
--  (if test "$targetos" == windows; then
-+  (if test "$targetos" = windows; then
-     IFS=\;
-   else
-     IFS=:
+-    newconf.base = s->vcram_base | (value & 0xc0000000);
+-    newconf.base += BCM2835_FB_OFFSET;
++    newconf.base = s->vcram_base + BCM2835_FB_OFFSET;
+ 
+     /* Copy fields which we don't want to change from the existing config */
+     newconf.pixo = s->config.pixo;
 -- 
 2.25.1
 
