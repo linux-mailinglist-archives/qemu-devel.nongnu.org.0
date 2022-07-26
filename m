@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106EF5817BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:44:02 +0200 (CEST)
-Received: from localhost ([::1]:47444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C37E581786
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:38:28 +0200 (CEST)
+Received: from localhost ([::1]:36920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNf6-0002R3-42
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
+	id 1oGNZj-0003YW-Ce
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:38:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9x-00037P-Jk
+ id 1oGN9x-00038A-QX
  for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:49 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:6800)
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:6928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9v-0006Bn-M8
+ id 1oGN9v-0006Bp-Up
  for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:49 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3Y7016266;
- Tue, 26 Jul 2022 16:11:27 GMT
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnPJH006232;
+ Tue, 26 Jul 2022 16:11:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=KqUPut4P3GrI4rQG1Qzle999jooTQlmLWG7MmXouCMI=;
- b=k4ogjDZ6XegMPNnXbbd3/vDn3he94SFrvbdFbQS/+40wbb1/n2IKLHZk/7bBhL1H3bNL
- 2Fh+1CnLXh0eK3pB2ZPhluQQdYWp4fzyLzxfLjLUmrfC/Vujc5ifmA+J/ZlwLzBdjgt3
- syNnswBNjJBj//q0aB/JqCsd7+PAGr7+aaBgid+eNglLakwhW2BkpT/TvwfE4W7KYR/i
- uWnU9OkaiUVyOGxkF41m2jzlgJC0RW891tVrd97jgemaRv2MQb7grmENzu2jG/O1dij/
- sGD/KiKevh9NiR8Bwh/jvLqre5OIYW7L5VRrnmehNYRJT9tiXb8WCKpWAjDod2zq9E6O Ug== 
+ bh=1+/ytfkDpSKmDm01CDM7uSiGT1XR/vhCuNqgiw3jFew=;
+ b=g7YkFlNiyLUuM9tPjNk+ZFtIcJyU4WWaUZHSIBQw2XyIN56PwsDj5dAfgyggx5mi+0O1
+ oGnmeT0lTgPAVPHIZR7+XAntHRZbvqJ7uAIGZk+3KGu7fBIp22OipcZd+xB9L900espW
+ Szg3Sa89lXGXfqzoDgI7TA7NItcT3bQEEIporyaIAX9Tqwz9ZPxCioYs4twtsZAcATsY
+ SdAGB3J96YaUuvc4ChDbI8QNfRw3JX1W7sQKUXDwx44ZRfDY9SxnKGR8L01RxwbNo8uH
+ Vd091NJ7efho5F+IXfAAZQsmnId1eHdmYgZYtZL2DLjd1uhFa2T/tEW/l/C2U9+XX59u bQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a9f0w0-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940pu38-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:26 +0000
+ Tue, 26 Jul 2022 16:11:28 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEvo84006379; Tue, 26 Jul 2022 16:11:26 GMT
+ with ESMTP id 26QEvo86006379; Tue, 26 Jul 2022 16:11:27 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq28j-1
+ 3hh65bq2a3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:25 +0000
+ Tue, 26 Jul 2022 16:11:27 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uT5023334;
- Tue, 26 Jul 2022 16:11:25 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uT7023334;
+ Tue, 26 Jul 2022 16:11:26 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-29; Tue, 26 Jul 2022 16:11:25 +0000
+ ESMTP id 3hh65bq0y5-30; Tue, 26 Jul 2022 16:11:26 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 28/46] hostmem-epc: cpr support
-Date: Tue, 26 Jul 2022 09:10:25 -0700
-Message-Id: <1658851843-236870-29-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 29/46] pci: export msix_is_pending
+Date: Tue, 26 Jul 2022 09:10:26 -0700
+Message-Id: <1658851843-236870-30-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: L89OKDV4GNA-4VdTSwCQ2_d3Tc25wx0C
-X-Proofpoint-ORIG-GUID: L89OKDV4GNA-4VdTSwCQ2_d3Tc25wx0C
+X-Proofpoint-GUID: THORIT1ovjZdG4mqgtSeUijzCqxKR0pb
+X-Proofpoint-ORIG-GUID: THORIT1ovjZdG4mqgtSeUijzCqxKR0pb
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,60 +113,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Preserve memory-backend-epc memory objects during cpr.
+Export msix_is_pending for use by cpr.  No functional change.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- backends/hostmem-epc.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
+ hw/pci/msix.c         | 2 +-
+ include/hw/pci/msix.h | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/backends/hostmem-epc.c b/backends/hostmem-epc.c
-index 037292d..c6b1fe4 100644
---- a/backends/hostmem-epc.c
-+++ b/backends/hostmem-epc.c
-@@ -16,32 +16,34 @@
- #include "qapi/error.h"
- #include "sysemu/hostmem.h"
- #include "hw/i386/hostmem-epc.h"
-+#include "migration/cpr-state.h"
- 
- static void
- sgx_epc_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
- {
-     uint32_t ram_flags;
--    char *name;
--    int fd;
-+    g_autofree char *name = object_get_canonical_path(OBJECT(backend));
-+    int fd = cpr_find_fd(name, 0);
- 
-     if (!backend->size) {
-         error_setg(errp, "can't create backend with size 0");
-         return;
-     }
- 
--    fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-     if (fd < 0) {
--        error_setg_errno(errp, errno,
--                         "failed to open /dev/sgx_vepc to alloc SGX EPC");
--        return;
-+        fd = qemu_open_old("/dev/sgx_vepc", O_RDWR);
-+        if (fd < 0) {
-+            error_setg_errno(errp, errno,
-+                            "failed to open /dev/sgx_vepc to alloc SGX EPC");
-+            return;
-+        }
-+        cpr_save_fd(name, 0, fd);
-     }
- 
--    name = object_get_canonical_path(OBJECT(backend));
-     ram_flags = (backend->share ? RAM_SHARED : 0) | RAM_PROTECTED;
-     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
-                                    name, backend->size, ram_flags,
-                                    fd, 0, errp);
--    g_free(name);
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 1e381a9..f642a43 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -69,7 +69,7 @@ static uint8_t *msix_pending_byte(PCIDevice *dev, int vector)
+     return dev->msix_pba + vector / 8;
  }
  
- static void sgx_epc_backend_instance_init(Object *obj)
+-static int msix_is_pending(PCIDevice *dev, int vector)
++int msix_is_pending(PCIDevice *dev, unsigned int vector)
+ {
+     return *msix_pending_byte(dev, vector) & msix_pending_mask(vector);
+ }
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 4f1cda0..f2f2d85 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -32,6 +32,7 @@ int msix_present(PCIDevice *dev);
+ bool msix_is_masked(PCIDevice *dev, unsigned vector);
+ void msix_set_pending(PCIDevice *dev, unsigned vector);
+ void msix_clr_pending(PCIDevice *dev, int vector);
++int msix_is_pending(PCIDevice *dev, unsigned vector);
+ 
+ int msix_vector_use(PCIDevice *dev, unsigned vector);
+ void msix_vector_unuse(PCIDevice *dev, unsigned vector);
 -- 
 1.8.3.1
 
