@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 927CB581A69
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:42:34 +0200 (CEST)
-Received: from localhost ([::1]:55278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681A5581A72
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:46:51 +0200 (CEST)
+Received: from localhost ([::1]:35408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQRt-0008Ul-Js
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:42:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48938)
+	id 1oGQW2-0005kp-1S
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:46:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ85-0003F9-1O
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:05 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:34653)
+ id 1oGQ86-0003GB-8J
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:07 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ83-0002Jm-Jm
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:04 -0400
-Received: by mail-wm1-x333.google.com with SMTP id
- r1-20020a05600c35c100b003a326685e7cso1292854wmq.1
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:01 -0700 (PDT)
+ id 1oGQ83-0002Jw-KN
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:05 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id v13so13679311wru.12
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=c6PIYMIE3JaTrY/DQKZRjBqoWth+KWJVDK8v0sIayL0=;
- b=Yd1RoS03X2dpWLourmcbXGS38aK3+3OavISnGFTifCiACdYTsYuAM/VnhG3XMXv1Jd
- s6kcKw9HFfzu3Xa0Z+jm9NP6xnKsteMi36yME18o6xLclNZuX+Xq7BuxATIqQUijw0Gr
- SIKuveVbEZ5EvAMUAaUoGZE/MbWIvk1dC9IMuFOO1aYsH93t/Ddt8z94WQ1VphMsnZny
- 6REMkZ8dS9zopGQNP4gHydFnWtk6KVWHlMCWdFU87mp1ebMYhj1c6mWENRRjLJugRG9+
- 3aVQPO+k0cX9ax7FZoIF9pVYOknXhuFlX+3rlgu6httxTv9iUHb4W85giUi/LMO4RYiB
- 3xXQ==
+ bh=LTNybQ3j99OfucIFux/yLfgRaMJqRwC34AP3ZvaRhZ0=;
+ b=QUWI0g7DdWfKkgII/OjGbhRWXJcgm++PJpQC2QIKRNp5CXImPv9wBXpTWRkv572tz6
+ uS2Hsj5+D1c0LPrea1oZSOc4UBbuRIShpJjmSNFjs2iAjIS8w4iqZZdzhmvmZ6qhpQrn
+ gdi6rthlOJsWFM2yrtR+QevuCGDssYHHv/JCzOKBtZHFARKpQoku1ngcEQgyyHGzSMf4
+ B8UgOnozsvXYToAfaWfd81CelY3kD8gznml5lNP+Xe3Wr5wI/zlZsTu5JQa0sRE9Ex5p
+ DIQ9lNw6irSeMTo0EJfbl+73fc2V8Qd+oFFlIcP2IF+O4zzLxBueq/2zT/iVIjzjXrb9
+ kD5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=c6PIYMIE3JaTrY/DQKZRjBqoWth+KWJVDK8v0sIayL0=;
- b=S96P140QL/Gt4fmneV2GI5ld2MnYBeQPaG6Kzy7/DgvSqjdtcFO6la+hG6rm/O6E4M
- xKLPtsNinZ5mVraDjwZ7BM9FQpsHeCw/gCqeTWU2GZF0BGF27mK7TCwW4XKXQy4BKxUX
- tiHwcClc3QnL7+gT6b2rfAYCL+/AfHsFB8+nf9kJVBooEDAclF5JkSLQZP7Lojq5CMg9
- glrQMolchi2FrSxJsmsPnUDJcwqH+Rc6CkQG5f5DcUtrmYydgz6pY4VaKABA+KfDA7zS
- NddGp8b7K3h3B0KKfcXMNoOX/zy/ULUbmwyvqe1LLBd/v/Kk8QYd6HUbwfy7A2UgJ0Xd
- FsHA==
-X-Gm-Message-State: AJIora+qYAlx7owHLuDU7YehUStjNb5HnJ3TYcr/ALMHrpnwqFiLw1kZ
- sHmfvjXsofSRkhR8V25u1UtemQ==
-X-Google-Smtp-Source: AGRyM1vS/VFK0v5dRH2s16M8HUIJiaCfIU+hkNCeZ8NnLJu1K3C7s/9xytbuGo7MoaN6IP4AT0fIXw==
-X-Received: by 2002:a1c:2981:0:b0:3a2:ffe9:945c with SMTP id
- p123-20020a1c2981000000b003a2ffe9945cmr478140wmp.38.1658863321016; 
+ bh=LTNybQ3j99OfucIFux/yLfgRaMJqRwC34AP3ZvaRhZ0=;
+ b=QNjtRGrV6W/5htguUW5DeiNVhmZ/pBIogkQV3VYWJxxHbTjgCLeMDABQk0645Rqw4K
+ zt/pqQ5tNhpGyUgpTpBWgGpYFbb66MQcKQJxR7Kro1QwHO7NIEj0QbVEEFqUvlxJs80+
+ 8diT0Oa473ZP7LvFkvzxJvDxUd6eClqD9IP99l1g4MQHYZUOc2SCyYzcOQxNmKL1Q+sF
+ Hca8XLp6n0Q+cQKdUyFjTlIta3ly9iS+r4iTdUOvJiklBWZ5VJ+rsXwm1N/ETbHXWZdE
+ EpMoxFV+No9HIaPyrq3a7jrVLuWP7kIih51FWM/RfsZmCnzXwX7+AS4ygcLgYOD40TV4
+ tJ9A==
+X-Gm-Message-State: AJIora/3ljiHQ4CRF0Dv3GODAOpeL92EKDxLGanOogBN8xjktzITehdY
+ NcfpN6Tl0vPYry365V+/5nyWIw==
+X-Google-Smtp-Source: AGRyM1tKLkE3cmwG7Mnlwh6DEr+JoRYn9FssLmWJaWP9KNNoIICux/GYnfXRavgCMkWo84Bncnmi8w==
+X-Received: by 2002:a05:6000:1841:b0:21e:81a3:e6ef with SMTP id
+ c1-20020a056000184100b0021e81a3e6efmr8889243wri.369.1658863321806; 
  Tue, 26 Jul 2022 12:22:01 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bd6-20020a05600c1f0600b003a050a391e8sm19502099wmb.38.2022.07.26.12.21.52
+ k66-20020a1ca145000000b003a2fdde48d1sm18548865wme.25.2022.07.26.12.21.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Jul 2022 12:21:58 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B8A781FFBD;
+ by zen.linaroharston (Postfix) with ESMTP id D070D1FFBE;
  Tue, 26 Jul 2022 20:21:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
  mark.cave-ayland@ilande.co.uk, jasowang@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Coiby Xu <Coiby.Xu@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org (open list:Block layer core)
-Subject: [PATCH v3 05/21] block/vhost-user-blk-server: don't expose
- VHOST_USER_F_PROTOCOL_FEATURES
-Date: Tue, 26 Jul 2022 20:21:34 +0100
-Message-Id: <20220726192150.2435175-6-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH v3 06/21] hw/virtio: incorporate backend features in features
+Date: Tue, 26 Jul 2022 20:21:35 +0100
+Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,31 +95,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bit is unused in actual VirtIO feature negotiation and should
-only appear in the vhost-user messages between master and slave.
+There are some extra bits used over a vhost-user connection which are
+hidden from the device itself. We need to set them here to ensure we
+enable things like the protocol extensions.
 
-[AJB: experiment, this doesn't break the tests but I'm not super
-confident of the range of tests]
+Currently net/vhost-user.c has it's own inscrutable way of persisting
+this data but it really should live in the core vhost_user code.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- block/export/vhost-user-blk-server.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/virtio/vhost-user.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index 3409d9e02e..d31436006d 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -125,8 +125,7 @@ static uint64_t vu_blk_get_features(VuDev *dev)
-                1ull << VIRTIO_BLK_F_MQ |
-                1ull << VIRTIO_F_VERSION_1 |
-                1ull << VIRTIO_RING_F_INDIRECT_DESC |
--               1ull << VIRTIO_RING_F_EVENT_IDX |
--               1ull << VHOST_USER_F_PROTOCOL_FEATURES;
-+               1ull << VIRTIO_RING_F_EVENT_IDX ;
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 55fce18480..a96a586ebf 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1461,7 +1461,14 @@ static int vhost_user_set_features(struct vhost_dev *dev,
+      */
+     bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
  
-     if (!vexp->handler.writable) {
-         features |= 1ull << VIRTIO_BLK_F_RO;
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
++    /*
++     * We need to include any extra backend only feature bits that
++     * might be needed by our device. Currently this includes the
++     * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
++     * features.
++     */
++    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
++                              features | dev->backend_features,
+                               log_enabled);
+ }
+ 
 -- 
 2.30.2
 
