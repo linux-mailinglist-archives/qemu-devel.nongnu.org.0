@@ -2,96 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9A0581009
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:37:24 +0200 (CEST)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C8F558101E
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:41:51 +0200 (CEST)
+Received: from localhost ([::1]:58486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGH0F-0004B5-HI
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:37:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
+	id 1oGH4Y-00012f-Bv
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:41:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGn8-0004Lw-71; Tue, 26 Jul 2022 05:23:50 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6462)
+ id 1oGGn9-0004RU-B5; Tue, 26 Jul 2022 05:23:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:20634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGn6-0005ZK-GY; Tue, 26 Jul 2022 05:23:49 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q9HusX022681;
- Tue, 26 Jul 2022 09:23:46 GMT
+ id 1oGGn7-0005ZY-HT; Tue, 26 Jul 2022 05:23:51 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q8rQao003152;
+ Tue, 26 Jul 2022 09:23:48 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=trS/a3KAWxcr4CmDh1TkEQrbv2SpbBZQyNfnbu2EFTE=;
- b=R/pBL1Ltj7bIlVEQBSBZ/NIgpqP+ia/sfwR4CT1qIzDDyUGlK4Y7HNi4dLb3Gs89n7rZ
- ez42QzxD2Q41A74aOoQvHi5j2OZ30Og4468goaWG0NBpxHorotIcor9hFovaYI2h8qvH
- eGmyUtVshnamWG0GiN0PYUyZfdZ11Y1xbe+Ks2JTgwVJxdnywMX79J48CJ0kbfhvKcLS
- 2ZeeAczxRpYBpJZ7BtW/sdUGzwib1yszOwDff/ELCrzqJP1BssFMwI5fBt4QGZyNIufp
- DVTW6Qt8y983n8Squ+K+cqIWxnZh7fuOlzNX7i9tQ/wr3mbtQsvqzZxm/GrcaCxM3zKT 6A== 
+ content-transfer-encoding; s=pp1;
+ bh=1NwRgihiRrIpxJ8jBCRc20a5b2DsmxGeplnbjIIPNf4=;
+ b=A8AjxOUGOzYTX0Ibbt6X4qdHsNezKH/n5LWv6D9DXU9IbdRYFFt6Td9ZzisLcDJza0Ay
+ Dkchxdpjzflewh8gFk7F8EXOo/mjJRPtpBLTDGvjl58TXOilsPkB+hcQpQ6MIIX5pcKx
+ JuaB8SjwB9SqUK7emiohjG8LDqL6a1t2v5SeJ5cY9TmG+kwwRNfRK5ljy0JSA0VE0Q/q
+ ma8/Ct6TTc2s2bF4oD5AXPW5MbXEcBj+OF2rBL0/u+ubwSliBXrda1AsTikxOKkyuHK4
+ vRd73tCAxKZhPdAvmYMoPuPqEQ33/GUDrG1WEwCvP2uKtzWSKavkcMdjqhekqo88vyi6 Rg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdgy8313-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtme-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:46 +0000
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q9KcBJ007687;
- Tue, 26 Jul 2022 09:23:46 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdgy8306-1
+ Tue, 26 Jul 2022 09:23:47 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q8t2ev007553;
+ Tue, 26 Jul 2022 09:23:47 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtke-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:45 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9L1Tb017876;
- Tue, 26 Jul 2022 09:23:43 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 3hh6euj8ja-1
+ Tue, 26 Jul 2022 09:23:47 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9Lsgl008172;
+ Tue, 26 Jul 2022 09:23:44 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hg97tbjff-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:43 +0000
+ Tue, 26 Jul 2022 09:23:44 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26Q9NsuX21496272
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26Q9LhUG23920982
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 09:23:54 GMT
+ Tue, 26 Jul 2022 09:21:43 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9C0C3A405B;
+ by IMSVA (Postfix) with ESMTP id E3D7FA405B;
+ Tue, 26 Jul 2022 09:23:41 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C2641A4054;
  Tue, 26 Jul 2022 09:23:40 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7A8FDA4054;
- Tue, 26 Jul 2022 09:23:39 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 26 Jul 2022 09:23:39 +0000 (GMT)
+ Tue, 26 Jul 2022 09:23:40 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v4 09/17] dump: Reorder struct DumpState
-Date: Tue, 26 Jul 2022 09:22:40 +0000
-Message-Id: <20220726092248.128336-10-frankja@linux.ibm.com>
+Subject: [PATCH v4 10/17] dump: Swap segment and section header locations
+Date: Tue, 26 Jul 2022 09:22:41 +0000
+Message-Id: <20220726092248.128336-11-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220726092248.128336-1-frankja@linux.ibm.com>
 References: <20220726092248.128336-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: KmzEcO7HXM68WBgtauqekSa-whbzDgZq
-X-Proofpoint-GUID: iM4xBoQOrSmuG2yOABUQsiCHqHOCOkz3
+X-Proofpoint-GUID: dQZxqR_Anh1f1lOMwg22QNvfe6TJuTMH
+X-Proofpoint-ORIG-GUID: CraD5GXH0PssiNB3L6FfYiibOjyVOP7W
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-26_02,2022-07-25_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  clxscore=1015 malwarescore=0
- suspectscore=0 lowpriorityscore=0 mlxscore=0 mlxlogscore=940 spamscore=0
- adultscore=0 priorityscore=1501 impostorscore=0 phishscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207260033
+ bulkscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207260033
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -116,52 +115,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's move ELF related members into one block and guest memory related
-ones into another to improve readability.
+For the upcoming string table and arch section support we need to
+modify the elf layout a bit. Instead of the segments, i.e. the guest's
+memory contents, beeing the last area the section data will live at
+the end of the file. This will allow us to write the section data
+after all guest memory has been dumped which is important for the s390
+PV dump support.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/sysemu/dump.h | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ dump/dump.c           | 21 ++++++++++++---------
+ include/sysemu/dump.h |  1 +
+ 2 files changed, 13 insertions(+), 9 deletions(-)
 
+diff --git a/dump/dump.c b/dump/dump.c
+index a6bb7bfa21..3cf846d0a0 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -588,6 +588,9 @@ static void dump_begin(DumpState *s, Error **errp)
+      *   --------------
+      *   |  memory     |
+      *   --------------
++     *   |  sectn data |
++     *   --------------
++
+      *
+      * we only know where the memory is saved after we write elf note into
+      * vmcore.
+@@ -1852,18 +1855,18 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+         }
+     }
+ 
++    tmp = (s->phdr_num == PN_XNUM) ? s->sh_info : s->phdr_num;
+     if (dump_is_64bit(s)) {
+-        s->phdr_offset = sizeof(Elf64_Ehdr);
+-        s->shdr_offset = s->phdr_offset + sizeof(Elf64_Phdr) * s->phdr_num;
+-        s->note_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
+-        s->memory_offset = s->note_offset + s->note_size;
++        s->shdr_offset = sizeof(Elf64_Ehdr);
++        s->phdr_offset = s->shdr_offset + sizeof(Elf64_Shdr) * s->shdr_num;
++        s->note_offset = s->phdr_offset + sizeof(Elf64_Phdr) * tmp;
+     } else {
+-
+-        s->phdr_offset = sizeof(Elf32_Ehdr);
+-        s->shdr_offset = s->phdr_offset + sizeof(Elf32_Phdr) * s->phdr_num;
+-        s->note_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
+-        s->memory_offset = s->note_offset + s->note_size;
++        s->shdr_offset = sizeof(Elf32_Ehdr);
++        s->phdr_offset = s->shdr_offset + sizeof(Elf32_Shdr) * s->shdr_num;
++        s->note_offset = s->phdr_offset + sizeof(Elf32_Phdr) * tmp;
+     }
++    s->memory_offset = s->note_offset + s->note_size;
++    s->section_offset = s->memory_offset + s->total_size;
+ 
+     return;
+ 
 diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index 686555f908..3937afe0f9 100644
+index 3937afe0f9..696e6c67d6 100644
 --- a/include/sysemu/dump.h
 +++ b/include/sysemu/dump.h
-@@ -154,15 +154,8 @@ typedef struct DumpState {
-     GuestPhysBlockList guest_phys_blocks;
-     ArchDumpInfo dump_info;
-     MemoryMappingList list;
--    uint32_t phdr_num;
--    uint32_t shdr_num;
-     bool resume;
-     bool detached;
--    ssize_t note_size;
--    hwaddr shdr_offset;
--    hwaddr phdr_offset;
--    hwaddr section_offset;
--    hwaddr note_offset;
-     hwaddr memory_offset;
-     int fd;
+@@ -172,6 +172,7 @@ typedef struct DumpState {
+     hwaddr shdr_offset;
+     hwaddr phdr_offset;
+     hwaddr note_offset;
++    hwaddr section_offset;
  
-@@ -171,6 +164,15 @@ typedef struct DumpState {
-     int64_t begin;             /* Start address of the chunk we want to dump */
-     int64_t length;            /* Length of the dump we want to dump */
- 
-+    /* Elf dump related data */
-+    uint32_t phdr_num;
-+    uint32_t shdr_num;
-+    uint32_t sh_info;
-+    ssize_t note_size;
-+    hwaddr shdr_offset;
-+    hwaddr phdr_offset;
-+    hwaddr note_offset;
-+
      void *elf_header;
      void *elf_section_hdrs;
-     uint64_t elf_section_data_size;
 -- 
 2.34.1
 
