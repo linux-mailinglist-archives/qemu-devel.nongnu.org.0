@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5C5581A49
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:26:15 +0200 (CEST)
-Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5B581A91
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:56:11 +0200 (CEST)
+Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQC6-0000em-5j
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:26:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49048)
+	id 1oGQf4-000084-AJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:56:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8C-0003LR-DN
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:12 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42996)
+ id 1oGQ8E-0003Mj-CE
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:14 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33355)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8A-0002OI-9Z
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:11 -0400
-Received: by mail-wr1-x429.google.com with SMTP id bn9so10575923wrb.9
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:09 -0700 (PDT)
+ id 1oGQ8C-0002OM-4e
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:13 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id h9so21496419wrm.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rgdjLK+rHmGYzX+axfdcXU3cC80ktttNYMslWS8NxWI=;
- b=bxqWqE5cdTZyQNhToMXoxCgKMRyOYgZEl/xoUkm3uBAbqW1J3E3JcxNGIFFCYcik8R
- v1an9MAOYZ+Py5I3CKXRsjGiorpPEd8/6MsNlXctQ3PkSEF/CNepV6nRBQDE+CfaL9kz
- AUQ++dbXJoMY8clgcu/WNQvdMrVqakcmMWlpRTo/CA8CCP6j9ihRLX0nTvgzUEEDnnfL
- L1x5g8fBiotXQxH/sXDG1CRofmRLH2o5tkcE8KVDyD965oFnGXvCZ/W0hsVZQBI2ac4b
- bI3FLNUGDL/DxTpbFmrjzVBZZqYQ1X26LnR4R00mQwvbj6nvEgN0zoleH2FFlSj1nI/t
- M2Bg==
+ bh=M3AwLOO4tJSX2vgFnHe89rY8t5sl7yh4FwF2sza60a4=;
+ b=YFZM3SAWhCsWYiAAU+juFm/2nGYXO7JZo/FUKFvJIzyxBTSVomht3D7zRSZ0iGoitO
+ d8lLhOzrd17TXUmiDmhyisnDgE5msVDiLUlJSgkozeBP3P1//WMcLSPhaKjPTuLsM3EH
+ S3Pa6lC9KI8WiRkf9/AvvmueAq1K5NiczC+EuzZHiyRen3Ot5sn78elpSh+DXGG1ulBc
+ Jv0DU9pRQk8Y6IiHfG7TQpWT3+vFrNM5h6q8Hmgu4pYUem4PzYo93yRBTWZ++1DK0XfH
+ pzy40LBJbJTu/W2R2xV0ocw4EN3hMTH0IIBFHX5SCOMbGxDVQhDqJBYcS0iK3TplxUTW
+ rapw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rgdjLK+rHmGYzX+axfdcXU3cC80ktttNYMslWS8NxWI=;
- b=RVigpPd0v0Xxi7yj3HlbIdibeDLLjcxGja8EIodUa9yOGtcgWnVHU7sEkzUpNLUECg
- 1DTqdgUZbrFOztmQZLvQGIq+dC8iB3fCDwrzzhGQm1FNBG8r2IW/rrmUvLP1vyVVUd5P
- RXyj68cGdY2LILVtL+7MzeDiVv4L3N5DTL4kldDX/KtmcJBMt2IQmx1W/xj7M1R6y/O1
- vYr8XteUTP5XRUvrlyvYHMbiyW3DVRjDVpQV6kwK4YYqHefxoI0EcOdBRO65KwpPQgyr
- uQbWWSzDlwFhFHdR7BzECI1bZAgl3quXAhDq0ZTgd049AmL2dMd1VkjH9oiVfNWM6Vax
- ujzw==
-X-Gm-Message-State: AJIora9Byg8cb7jxinwofLhpGBopL7HwS3QFAr3krompXdlN46Ihx6cf
- yrklziDpHEkei+AG4ECCymhdqA==
-X-Google-Smtp-Source: AGRyM1tCxn4NvieKVmhr1NrJdwHDx9kyJ3juDJ2rxFRZZ7anLDB7SC54Qjzgv0ia5sxTjgtTz6/ukg==
-X-Received: by 2002:a5d:588d:0:b0:21d:a5d2:42d5 with SMTP id
- n13-20020a5d588d000000b0021da5d242d5mr11559128wrf.588.1658863328911; 
- Tue, 26 Jul 2022 12:22:08 -0700 (PDT)
+ bh=M3AwLOO4tJSX2vgFnHe89rY8t5sl7yh4FwF2sza60a4=;
+ b=vHLREeCoIHe9oXicuhFz9KymZFkZ5mpR5Q/LLq0k0Um0lVX2JYIBrYGZ1SPO1IYK7A
+ 95lr/T0RunR3NMhUPvMOpSXFDU/1v4ebmF1J++YdonsM0Dqk1vjcq6miMi6tL9QZhIy8
+ s7+HI4FEYgGMvnDUQ5jbJiwpfrLEtIka32pPgHWlS2vOuGGj2O3hailkijSWF88i0Gj2
+ aWdq1qjh3X/inM770BQHSHL+z/AlfjaDiMNZACz9PRd3tyH70Er/aAl2SlMDpDT0/WC+
+ gACU7ZyX4q8idiHBzAl4oj34tobWMOanIP8H0TrSu5zljbmW1+KB3FzJdOWaAxJgsSfG
+ jD5A==
+X-Gm-Message-State: AJIora+ErKY/P4WZk7rApodvZFTrucT6dVpcqudjZTlmIUI0cYZrs4Dv
+ 8kjqdWcbR8WHhjkEyACwmtQnmQ==
+X-Google-Smtp-Source: AGRyM1sHrliBoGwSEmE3n1nRrH7TXR2B6Vhuz3gRes7WKNGJiRledHtAppWL3RkBP1bqtjLh0g2cBg==
+X-Received: by 2002:a05:6000:2a4:b0:21e:6e0e:df1f with SMTP id
+ l4-20020a05600002a400b0021e6e0edf1fmr11614994wry.516.1658863329858; 
+ Tue, 26 Jul 2022 12:22:09 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- y7-20020adfe6c7000000b0021e4f595590sm15502588wrm.28.2022.07.26.12.21.58
+ az14-20020adfe18e000000b0021e529efa60sm9911003wrb.1.2022.07.26.12.21.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Jul 2022 12:21:59 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 919121FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id BF61B1FFC9;
  Tue, 26 Jul 2022 20:21:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,17 +64,18 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 15/21] tests/qtest: use qos_printf instead of g_test_message
-Date: Tue, 26 Jul 2022 20:21:44 +0100
-Message-Id: <20220726192150.2435175-16-alex.bennee@linaro.org>
+Subject: [PATCH v3 17/21] tests/qtest: plain g_assert for
+ VHOST_USER_F_PROTOCOL_FEATURES
+Date: Tue, 26 Jul 2022 20:21:46 +0100
+Message-Id: <20220726192150.2435175-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,90 +98,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The vhost-user tests respawn qos-test as a standalone process. As a
-result the gtester framework squashes all messages coming out of it
-which make it hard to debug. As the test does not care about asserting
-certain messages just convert the tests to use the direct qos_printf.
+checkpatch.pl warns that non-plain asserts should be avoided so
+convert the check to a plain g_assert.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qtest/qos-test.c        |  5 +++++
- tests/qtest/vhost-user-test.c | 13 +++++++------
- 2 files changed, 12 insertions(+), 6 deletions(-)
+ tests/qtest/vhost-user-test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index ac23def284..d0bdf06fad 100644
---- a/tests/qtest/qos-test.c
-+++ b/tests/qtest/qos-test.c
-@@ -320,6 +320,11 @@ static void walk_path(QOSGraphNode *orig_path, int len)
- int main(int argc, char **argv, char** envp)
- {
-     g_test_init(&argc, &argv, NULL);
-+
-+    if (g_test_subprocess()) {
-+        qos_printf("qos_test running single test in subprocess\n");
-+    }
-+
-     if (g_test_verbose()) {
-         qos_printf("ENVIRONMENT VARIABLES: {\n");
-         for (char **env = envp; *env != 0; env++) {
 diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 8bf390be20..968113d591 100644
+index d0fa034601..db18e0b664 100644
 --- a/tests/qtest/vhost-user-test.c
 +++ b/tests/qtest/vhost-user-test.c
-@@ -26,6 +26,7 @@
- #include "libqos/virtio-pci.h"
- 
- #include "libqos/malloc-pc.h"
-+#include "libqos/qgraph_internal.h"
- #include "hw/virtio/virtio-net.h"
- 
- #include "standard-headers/linux/vhost_types.h"
-@@ -316,7 +317,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-     }
- 
-     if (size != VHOST_USER_HDR_SIZE) {
--        g_test_message("Wrong message size received %d", size);
-+        qos_printf("%s: Wrong message size received %d\n", __func__, size);
-         return;
-     }
- 
-@@ -327,8 +328,8 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         p += VHOST_USER_HDR_SIZE;
-         size = qemu_chr_fe_read_all(chr, p, msg.size);
-         if (size != msg.size) {
--            g_test_message("Wrong message size received %d != %d",
--                           size, msg.size);
-+            qos_printf("%s: Wrong message size received %d != %d\n",
-+                       __func__, size, msg.size);
-             return;
-         }
-     }
-@@ -450,7 +451,7 @@ static const char *init_hugepagefs(void)
-     }
- 
-     if (access(path, R_OK | W_OK | X_OK)) {
--        g_test_message("access on path (%s): %s", path, strerror(errno));
-+        qos_printf("access on path (%s): %s", path, strerror(errno));
-         g_test_fail();
-         return NULL;
-     }
-@@ -460,13 +461,13 @@ static const char *init_hugepagefs(void)
-     } while (ret != 0 && errno == EINTR);
- 
-     if (ret != 0) {
--        g_test_message("statfs on path (%s): %s", path, strerror(errno));
-+        qos_printf("statfs on path (%s): %s", path, strerror(errno));
-         g_test_fail();
-         return NULL;
-     }
- 
-     if (fs.f_type != HUGETLBFS_MAGIC) {
--        g_test_message("Warning: path not on HugeTLBFS: %s", path);
-+        qos_printf("Warning: path not on HugeTLBFS: %s", path);
-         g_test_fail();
-         return NULL;
-     }
+@@ -980,8 +980,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
+ static void vu_net_set_features(TestServer *s, CharBackend *chr,
+         VhostUserMsg *msg)
+ {
+-    g_assert_cmpint(msg->payload.u64 &
+-            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
++    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
+     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
+         qemu_chr_fe_disconnect(chr);
+         s->test_flags = TEST_FLAGS_BAD;
 -- 
 2.30.2
 
