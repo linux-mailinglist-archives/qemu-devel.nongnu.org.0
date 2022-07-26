@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 790FC5817E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:50:09 +0200 (CEST)
-Received: from localhost ([::1]:56272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3B6581802
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:59:15 +0200 (CEST)
+Received: from localhost ([::1]:44988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNl2-0000Iw-Cv
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:50:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
+	id 1oGNtp-00049h-93
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:59:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAA-0003bv-5O
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:02 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:17754)
+ id 1oGNAH-0003ps-9t
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:09 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:55384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNA6-0006Hq-HE
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:01 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFniXQ026856;
- Tue, 26 Jul 2022 16:11:45 GMT
+ id 1oGNAF-0006HZ-Ge
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:08 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3YY031760;
+ Tue, 26 Jul 2022 16:11:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=+5DZhvpcutXxTAh81Iz/WfPJurqpPUzxECoLcJTQsZo=;
- b=E3idDNG44Nz3gna2IrcHYeiRT+pc44sLIGjpZNu1meQknVbJcIC28rflckmNy+zg6wcS
- RLNxLbTAcHC7Ycothfy9u2mPJHnhtU/Fa9HD0zNa3znHUyqAvzfaNI39gJj8IgHikySn
- //rJdWQo10Tv5JWrb6U5vq7DY+YMXM0ykb+fWUI3Y7vjnPK1aOLO4KLriIFAwrdl6kX7
- 0dy2fKjlLx5qjnbvc2p7ONSuO/YGQ0Ku/lRW7tHjxjJO3MuX6WhsE2Xz8WGiBEZ5cYSV
- 3IUYWh4PjqdqNGdeNlvcJRobc1VAq2bwSCw9Mu2R/Tsm2DFMVJsMIptKmnisuH/burhY dQ== 
+ bh=aR1MZlzjRbE/NI5sYu1+v+e2TS21eJrAYRi/imDMAmQ=;
+ b=qpfjQj3kPV4fYnTY+YexWjp9XXXDb+TJuhsafYc/PFrWDmexESowTDJ/7RSk4vCw4f4q
+ 36lyKdP28ONzgVJocEjCC0/T8kS1Ev615VCEMVIyHsOo8khH22k0ppMO6X79rhlZXlYf
+ Thd89RSFEmWoXEG+Vnmjdd2Zfi0BX9ubxnWa4fDk7oCWxLRkT+ZVMjHZXX0CBZZ8WyRr
+ HKCLJBQTWRIs8FX/rsH01E2roPePdjY/NEmWC3Ad61Ee1tzhE03KUDXYtw+XoWHii7y6
+ IBsf9jfZo4lS9X1EfB0UvR0N+TU7MvVPYF08wqyBnaZVreGKYxrjc0DgFboCgWc3oF9d EQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9anxn1s-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1d9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:44 +0000
+ Tue, 26 Jul 2022 16:11:46 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEYQ1L006294; Tue, 26 Jul 2022 16:11:43 GMT
+ with ESMTP id 26QF380m006266; Tue, 26 Jul 2022 16:11:45 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq2qw-1
+ 3hh65bq2sk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:43 +0000
+ Tue, 26 Jul 2022 16:11:45 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTT023334;
- Tue, 26 Jul 2022 16:11:42 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTV023334;
+ Tue, 26 Jul 2022 16:11:44 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-41; Tue, 26 Jul 2022 16:11:42 +0000
+ ESMTP id 3hh65bq0y5-42; Tue, 26 Jul 2022 16:11:44 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 40/46] python/machine: QEMUMachine full_args
-Date: Tue, 26 Jul 2022 09:10:37 -0700
-Message-Id: <1658851843-236870-41-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 41/46] python/machine: QEMUMachine reopen_qmp_connection
+Date: Tue, 26 Jul 2022 09:10:38 -0700
+Message-Id: <1658851843-236870-42-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,10 +87,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: 8xKFPvk9of0Pn7inhCv-HESGtA0hhQCn
-X-Proofpoint-GUID: 8xKFPvk9of0Pn7inhCv-HESGtA0hhQCn
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: qUFCzoujNTdUgvQFHBeK9bHy1nH4RlYt
+X-Proofpoint-GUID: qUFCzoujNTdUgvQFHBeK9bHy1nH4RlYt
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -113,32 +113,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide full_args() to return all command-line arguments used to start a
-vm, some of which are not otherwise visible to QEMUMachine clients.  This
-is needed by the cpr test, which must start a vm, then pass all qemu
-command-line arguments when setting the cpr-exec-args migration parameter.
+Provide reopen_qmp_connection() to reopen a closed monitor connection.
+This is needed by cpr, because qemu exec closes the monitor socket.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- python/qemu/machine/machine.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ python/qemu/machine/machine.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index 37191f4..d05950e 100644
+index d05950e..60b934d 100644
 --- a/python/qemu/machine/machine.py
 +++ b/python/qemu/machine/machine.py
-@@ -332,6 +332,11 @@ def args(self) -> List[str]:
-         """Returns the list of arguments given to the QEMU binary."""
-         return self._args
+@@ -491,6 +491,15 @@ def _close_qmp_connection(self) -> None:
+         finally:
+             self._qmp_connection = None
  
-+    @property
-+    def full_args(self) -> List[str]:
-+        """Returns the full list of arguments used to launch QEMU."""
-+        return list(self._qemu_full_args)
++    def reopen_qmp_connection(self):
++        self._close_qmp_connection()
++        self._qmp_connection = QEMUMonitorProtocol(
++            self._monitor_address,
++            server=True,
++            nickname=self._name
++        )
++        self._qmp.accept(self._qmp_timer)
 +
-     def _pre_launch(self) -> None:
-         if self._console_set:
-             self._remove_files.append(self._console_address)
+     def _early_cleanup(self) -> None:
+         """
+         Perform any cleanup that needs to happen before the VM exits.
 -- 
 1.8.3.1
 
