@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7E9C581BB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:37:36 +0200 (CEST)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E09581BC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:46:27 +0200 (CEST)
+Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGSFD-0006mX-O1
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45326)
+	id 1oGSNm-0000zR-CS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:46:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGSDe-00057E-Kt
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:35:58 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:43898)
+ id 1oGSLg-0007uF-9l
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:44:16 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:33433)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGSDZ-0007CM-29
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:35:58 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id y15so14471570plp.10
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:35:52 -0700 (PDT)
+ id 1oGSLe-0008IW-OG
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:44:16 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ f11-20020a17090a4a8b00b001f2f7e32d03so1798169pjh.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4fUD7qMwznQRZX7t8SsuOMqgRYh5DVy1YPW3f2buatM=;
- b=F1s3PpfM1YJ05K9FK0e2ONRJ8IPZFi0oCV5tRrSPDScjqCNFAgKopWuprrahOHFyzU
- S8xZKLDXZ68TdkipNrf9DaVNLRXOPesg9N+UKZnVhK8djRVLTlDLqW+PohrLGeKCgtH1
- gH+DoCR7m8Gjl0SkHx3Cr6JWiJg6lTcWErNzU2U2P5+satn9xU81geUsA6Itke+uZJTI
- HQ7rCyzg3slH+liCVVujYqxAxQKk1mDB+nBtCs5r4ps5wRmDm6XvhRaKff4Lqdz7bEbg
- orxZ21U4RhsOpZ+Wgx+Oh2+s3B7M4qLiAapt4b0e58SVjon+Asproy39QE6usnW2GpZ+
- 0CVQ==
+ bh=Y9mhsEn/4vqp0Tyupt7ORRe6ak75G4kfKy9GeIShSEY=;
+ b=EsejyOaqUoEcQOQBOI0rUSeh6nHcJQFOefI7mJAEj0zIjbjFC9J9umHLT6dcZ9RoeO
+ kQmFAVIMlJMD6z+slOqjRQ+4VjpBMeWsnty09gTJkIGkqYGmUvNXkH8C1VgWeI8DE1jC
+ nwzcZ0ts85IglHVK6nIHdBKzgpz1QUxybMU8Rjfn89JKoW8KOyivUtBvpaG5D98TEWHz
+ hV9SuLOLXmNjKtGQ6gtflNQY13lssPeJOTkndEd8jZ6VSMmDFhGpO5SzcawHQ77STLta
+ j0lxXn2U73kLrxA2+cR7wJ28w9N0+XadvY89X8JxhXJQuiV5NdC7kmZzVpuY3CrQLI5p
+ FaKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=4fUD7qMwznQRZX7t8SsuOMqgRYh5DVy1YPW3f2buatM=;
- b=XOH6kcakkPlM8zHBQFXwksYLPigBVeP4lMNEoZpEGb0YrMAIWIGe68Os9cktUb1X21
- DKg1ua2aE3Dwd3IZo8Ya7BDyDPLWhdBP6CwBlByNo0Okp5VnpMS4HS1SrodJ/XbVVehd
- kxBSzIx/3X4lJNKsg7+9G1sAIdZ7aHWKpMgB2Pu7YWQFexrmkjXsPGkBrUx9Vuz/TIKy
- 9c3bLO6mGwBzOpYhoRzixnUe5VkdyQFS2VNKf9ECL/WWStIb5NDgz/ctEGNRw4OXWpY0
- i1XKIBzzuhWR3/H637jLSjwp0g2ZPseql0lZxrcbYgv15GM6egcrc377o/2K51wMbaoo
- Fl9w==
-X-Gm-Message-State: AJIora8ZrlyR11HPR3UGkTXYCXwjZ6IO0uBQ0BO/BQeA+5rPEJNLQliS
- k7njgyAFrSd7Mb28CiTHxYs=
-X-Google-Smtp-Source: AGRyM1um/vErQDuNtNPtGcQxf0k/EHUwEyn9FVsbHDhrF+rvS9P70SWfX5O+AxQZpmdH0BN2K0VfNg==
-X-Received: by 2002:a17:902:ecd0:b0:16d:5001:48f with SMTP id
- a16-20020a170902ecd000b0016d5001048fmr17246016plh.90.1658871351092; 
- Tue, 26 Jul 2022 14:35:51 -0700 (PDT)
+ bh=Y9mhsEn/4vqp0Tyupt7ORRe6ak75G4kfKy9GeIShSEY=;
+ b=d83/RbKsHBEsQ+P5Ak1dPNNBEJ9Po9aOS/IBmESbA7z5AImYFMjiLkcadtBf1C0Mxy
+ 0+hxrthJWm8SN39rGfkk2x7LDwd4OXxKf/oa1jOQWdWL+/zntz+64nclMJt67kms1V/a
+ Mhr9nS+Gj27iA6CZjfq0QUMAhVkGiogiVkH28C/CHbbGqHRAdpbR2jhjmvUep/RkSWXW
+ E6YBWyE8OBmHdObsArH2Cm9ndGVrLyJhUkAea1A9gJkKYP5+CqbjP7DQOXJDDmejHtvE
+ WkT9lJ/mXmqY3MxAHa4DPx/NkmpIyZXK1ngsS8Ij1KjR+faC1L0pMK+/U24tVFQRRFtc
+ P+BA==
+X-Gm-Message-State: AJIora+MPSNiBXaHwHei3TPNNe+QkUMMIHudmbycXEX9rpfDks3NORh/
+ zH7ti24sKqPRSfwA20fN6T8=
+X-Google-Smtp-Source: AGRyM1vE2bz1glb4dIM9knyT7bijiE1qXgUXZo+Q0q63V/zK5L3osO9RGPxjRorooV/IDwO0d1tWVw==
+X-Received: by 2002:a17:902:d507:b0:16d:7d89:15dc with SMTP id
+ b7-20020a170902d50700b0016d7d8915dcmr9775751plg.31.1658871853097; 
+ Tue, 26 Jul 2022 14:44:13 -0700 (PDT)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- o6-20020a170902d4c600b0016c1b178628sm12272389plg.269.2022.07.26.14.35.48
+ my10-20020a17090b4c8a00b001f23db09351sm47519pjb.46.2022.07.26.14.44.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 14:35:50 -0700 (PDT)
-Message-ID: <c13afe31-6b53-f819-a434-3b608ce23f99@amsat.org>
-Date: Tue, 26 Jul 2022 23:35:45 +0200
+ Tue, 26 Jul 2022 14:44:12 -0700 (PDT)
+Message-ID: <943057f3-1fa4-90e9-1f2d-37fdd81015b4@amsat.org>
+Date: Tue, 26 Jul 2022 23:44:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: hexagon docker test failure
+Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
+ EXTRA_CFLAGS
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
-References: <e23e406a-bd4f-3ff0-a3f6-4f15eb18eecc@linaro.org>
- <SN4PR0201MB880842E568E6F1BEAE5E1139DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
-In-Reply-To: <SN4PR0201MB880842E568E6F1BEAE5E1139DE949@SN4PR0201MB8808.namprd02.prod.outlook.com>
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, 
+ mlambert@quicinc.com
+References: <20220726191757.30104-1-tsimpson@quicinc.com>
+In-Reply-To: <20220726191757.30104-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,77 +98,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-(Cc'ing Paolo for commit cd362defb)
+Hi Taylor,
 
-On 26/7/22 19:23, Taylor Simpson wrote:
+On 26/7/22 21:17, Taylor Simpson wrote:
+> The cross_cc_cflags_hexagon in configure are not getting passed to
+> the Hexagon cross compiler.  Set EXTRA_CFLAGS in
+> tests/tcg/hexagon/Makefile.target.
 > 
->> -----Original Message-----
->> From: Richard Henderson <richard.henderson@linaro.org>
->> Sent: Tuesday, July 26, 2022 10:41 AM
->> To: Taylor Simpson <tsimpson@quicinc.com>
->> Cc: qemu-devel <qemu-devel@nongnu.org>
->> Subject: hexagon docker test failure
->>
->> Hi Taylor,
->>
->> One of your recent hexagon testsuite changes is incompatible with the
->> docker image that we're using:
->>
->> tests/tcg/hexagon/multi_result.c:79:16: error: invalid instruction
->>
->>     asm volatile("%0,p0 = vminub(%2, %3)\n\t"
->>
->>                  ^
->>
->> <inline asm>:1:2: note: instantiated into assembly here
->>
->>           r3:2,p0 = vminub(r1:0, r3:2)
->>
->>           ^
->>
->> 1 error generated.
->>
->>
->> Can we try again to update debian-hexagon-cross?  I recall that last time
->> there was a compiler bug that prevented forward progress.  Perhaps that has
->> been fixed in the interim?
->>
->> I'm willing to accept such an update in the next week before rc1, but if we
->> can't manage that we'll need to disable the failing test(s?).  Thanks in
->> advance,
->>
->>
->> r~
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   tests/tcg/hexagon/Makefile.target | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> Hi Richard,
-> 
-> Some of the tests require the -mv67 flag to be passed to the compiler because they have instructions that are new in v67.
-> 
-> This patch
-> commit cd362defbbd09cbbc08b3bb465141542887b8cef
-> Author: Paolo Bonzini <pbonzini@redhat.com>
-> Date:   Fri May 27 16:35:48 2022 +0100
-> 
->      tests/tcg: merge configure.sh back into main configure script
-> 
-> Moved this line from tests/tcg/configure.sh to the main configure script
-> : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-> 
-> 
-> However, those flags aren't actually passed to the compiler any more - at least by default.
-> 
-> The gitlab builder is passing
-> https://gitlab.com/qemu-project/qemu/-/jobs/2771528066
-> So, there must be something in $MAKE_CHECK_ARGS
-> 
-> I use the following when I run
-> make EXTRA_CFLAGS='-mv67 -O2' check-tcg
-> 
-> 
-> So, we probably don't need a new docker image.  Do other targets have their cross_cc_cflags?  Please advise.
-> 
-> Thanks,
-> Taylor
-> 
+> diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+> index 23b9870534..627bf58fe6 100644
+> --- a/tests/tcg/hexagon/Makefile.target
+> +++ b/tests/tcg/hexagon/Makefile.target
+> @@ -20,6 +20,7 @@ EXTRA_RUNS =
+>   
+>   CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
+>   CFLAGS += -fno-unroll-loops
+> +EXTRA_CFLAGS += -mv67 -O2
+>   
+>   HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
+>   VPATH += $(HEX_SRC)
 
+My understanding of Richard suggestion is something like:
+
+-- >8 --
+@@ -45,6 +45,8 @@ HEX_TESTS += overflow
+
+  TESTS += $(HEX_TESTS)
+
++$(filter-out usr, $(HEX_TESTS)): CFLAGS += -mv67 -O2
++
+  # This test has to be compiled for the -mv67t target
+  usr: usr.c
+         $(CC) $(CFLAGS) -mv67t -O2 -Wno-inline-asm 
+-Wno-expansion-to-defined $< -o $@ $(LDFLAGS)
+---
+
+Eventually to keep the same style in the file:
+-- >8 --
+@@ -46,6 +46,5 @@ HEX_TESTS += overflow
+  TESTS += $(HEX_TESTS)
+
+  # This test has to be compiled for the -mv67t target
+-usr: usr.c
+-       $(CC) $(CFLAGS) -mv67t -O2 -Wno-inline-asm 
+-Wno-expansion-to-defined $< -o $@ $(LDFLAGS)
++usr: CFLAGS += -mv67t -O2 -Wno-inline-asm -Wno-expansion-to-defined
+---
+
+Regards,
+
+Phil.
 
