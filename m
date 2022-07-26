@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8298581A5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:35:45 +0200 (CEST)
-Received: from localhost ([::1]:47982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 892B3581A46
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:26:03 +0200 (CEST)
+Received: from localhost ([::1]:32970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQLI-0003Gp-B0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48806)
+	id 1oGQBu-0000UF-CH
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:26:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ7v-0003A5-T3
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:21:58 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40548)
+ id 1oGQ80-0003Cz-HR
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:00 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ7t-0002Gz-Rr
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:21:55 -0400
-Received: by mail-wr1-x431.google.com with SMTP id m17so21166314wrw.7
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:21:53 -0700 (PDT)
+ id 1oGQ7y-0002HV-0i
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:21:59 -0400
+Received: by mail-wr1-x436.google.com with SMTP id g2so13396966wru.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:21:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YA8bK0QimOlD2NvATId4ShuayIO9M3XtMDLWtyqNjMU=;
- b=rvCiJcliKYs27pOKccyWbWtEwBAGTJnUIVV3uD0ieM/Jj0FL/nfm1fESd0M6AaLIQ9
- UtPCVOd+dJQUqnefBkpnS7b9Qrjsw93toP7BioknpsGhscDPCGth7OVMgyMu8r4wlr/K
- R46chISaJ0kVR9ouJ/mZODJDG07oHeJF3hq/Z6gWS5uSY1LoUf0T3RzbKtH1vZLh3e29
- xOzX5TsbtKjCoPV3tPWWjsyDE/18Hwo305voq5+BmVUPLx+V0Nqj1/+1ohcJHxCnVJsJ
- sdUcwzKRNndiAlGNhHQFcZDTDtWAW4uJ0yh4wcsDIlVyZuPet60YWUrJ1wDrCw2DhEay
- GqHw==
+ bh=84wQKQaoKJK6iaVE173auQGOX9Kt1NYCFzy5qnZ8uJk=;
+ b=kch7zEt17q5jtDmuSy/r4PrZ0BPhTdm93LGH5/AQ2qqOpD9tBfi4PVRFPzHSxRDC22
+ xtCuwNNEACgZbHpfRPtnnpM3Sbfq8vrEfySYWcBH2d4sVRSGN/bqwxql9XA02cZE/aaI
+ TS1mLiyz4E4/16JX2qbG8Gkmg8BiYXR4X1C7r7u0PYV0jZZwHz6IlY5EVvob/a7I4oMO
+ jsgaw8itkUk5tsUKOq/Oz2BWa+crPqxyzK4lpw8rK5huxgktACtL1yFDIfjQzCottYwr
+ 0cLFbICEcAQL68TZVb6Tlge0sfH9doQBI5P7huFLAvwISkRBx+E6inh7tradlKTbTJ7R
+ lygQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YA8bK0QimOlD2NvATId4ShuayIO9M3XtMDLWtyqNjMU=;
- b=fSKa6cKkNVeMI9Wedeuxmz86fQvb+Kz0YosJDGLGIqgXeBERfTKoCvmHu7qjj+mvjP
- j6ycdBWOit5h28jriv4gGCOfvipaSmHomsId7htdBi0/rJyISBQ8j08oivK/wrtZjC6S
- M7ubLMx5G5nwUNDTjkjRBtOEk+XAust/hqOpNUXRGP10tF6eDfm2lHcSUeVsxum0akIr
- LHI+zE3YeQtHZsNCJoMIGjukNjMvmwbksfgRlnOgGncZ3BXY3BLFgKeI6gSAMuFj04WD
- gEHgo/bDDfmonbACJ9aXneBKgwwKk9fzC0+nXMB1oWwZPo+wbamovY+ufXrsifebhVrB
- RWhw==
-X-Gm-Message-State: AJIora94J0EAJhvahOUkcYrLt92PC5gzSXtfeWYdwxciaX7DHb6JulV7
- CxYVglJwjNumfkIEhYs6VhBLkQ==
-X-Google-Smtp-Source: AGRyM1v55a66K/AQi26HXoAL9CEJVPVAMRdLt5PXAFlOS4vlblXY8EJ5hZ6fWP8ST3KpSIOXZ/xz4g==
-X-Received: by 2002:a05:6000:2a8:b0:21d:8c81:7eb0 with SMTP id
- l8-20020a05600002a800b0021d8c817eb0mr11435997wry.460.1658863312083; 
- Tue, 26 Jul 2022 12:21:52 -0700 (PDT)
+ bh=84wQKQaoKJK6iaVE173auQGOX9Kt1NYCFzy5qnZ8uJk=;
+ b=tLoOD6fQ5oaoFO9tgmjHgaCZydu8TeS/6UjcvrK4lFMIz7GLvYdeK0o2kberJEfspL
+ 8UDmKveriKr+t1u+W61lzR19ovXuJpsw6AZNGjrubnOwG5ofrCy6FYHthLpgRIf6OwKn
+ D4lWqwJAygu/qMlgbY6WNmUyBwTcOv/gnlMFhajU9D+Ong9PXywB3lhGMmZZEMuEN4Yq
+ t4+gNGFxU/N1wPjLhNO/GOBdCz0pAOAcJSxCWMdGWYwdd6Wd0nNI9DOftgcRqFPfWHze
+ 0D7MChyLAqH6hOfcQfCxDcvkt3fSGLT/KnyXPzWn6UC46hv6msjgfJztjJNZU3W5CkF6
+ GHrg==
+X-Gm-Message-State: AJIora9joVfhv3S6py34eZQWz4JqrwoyFEsfqMQDaSFnQDQHxE7TpKYV
+ YwOPqNbdbFfKcEjchVwIBCclUQ==
+X-Google-Smtp-Source: AGRyM1tYFS5T4JB9pCJKP+5yHNnwItuOyc5yLE5g7OzQRU+V2vfQyHwcZMmzNrLDk2+TSk00H7eNNg==
+X-Received: by 2002:a05:6000:188b:b0:21d:b277:d492 with SMTP id
+ a11-20020a056000188b00b0021db277d492mr12246772wri.311.1658863316526; 
+ Tue, 26 Jul 2022 12:21:56 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- h21-20020a05600c351500b003a31df6af2esm25229340wmq.1.2022.07.26.12.21.50
+ g3-20020a5d5543000000b0021e4bc9edbfsm15095344wrw.112.2022.07.26.12.21.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Jul 2022 12:21:51 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A6AA1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 966EB1FFBB;
  Tue, 26 Jul 2022 20:21:50 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -62,17 +62,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
  mark.cave-ayland@ilande.co.uk, jasowang@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v3 02/21] include/hw: document vhost_dev feature life-cycle
-Date: Tue, 26 Jul 2022 20:21:31 +0100
-Message-Id: <20220726192150.2435175-3-alex.bennee@linaro.org>
+Subject: [PATCH  v3 03/21] hw/virtio: fix some coding style issues
+Date: Tue, 26 Jul 2022 20:21:32 +0100
+Message-Id: <20220726192150.2435175-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,33 +95,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Try and explicitly document the various state of feature bits as
-related to the vhost_dev structure. Importantly the backend_features
-can advertise things like VHOST_USER_F_PROTOCOL_FEATURES which is
-never exposed to the driver and is only present in the vhost-user
-feature negotiation.
-
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/virtio/vhost.h | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/vhost-user.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index a346f23d13..586c5457e2 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -86,8 +86,11 @@ struct vhost_dev {
-     /* if non-zero, minimum required value for max_queues */
-     int num_queues;
-     uint64_t features;
-+    /** @acked_features: final set of negotiated features */
-     uint64_t acked_features;
-+    /** @backend_features: backend specific feature bits */
-     uint64_t backend_features;
-+    /** @protocol_features: final negotiated protocol features */
-     uint64_t protocol_features;
-     uint64_t max_queues;
-     uint64_t backend_cap;
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 75b8df21a4..55fce18480 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -200,7 +200,7 @@ typedef struct {
+     VhostUserRequest request;
+ 
+ #define VHOST_USER_VERSION_MASK     (0x3)
+-#define VHOST_USER_REPLY_MASK       (0x1<<2)
++#define VHOST_USER_REPLY_MASK       (0x1 << 2)
+ #define VHOST_USER_NEED_REPLY_MASK  (0x1 << 3)
+     uint32_t flags;
+     uint32_t size; /* the following payload size */
+@@ -208,7 +208,7 @@ typedef struct {
+ 
+ typedef union {
+ #define VHOST_USER_VRING_IDX_MASK   (0xff)
+-#define VHOST_USER_VRING_NOFD_MASK  (0x1<<8)
++#define VHOST_USER_VRING_NOFD_MASK  (0x1 << 8)
+         uint64_t u64;
+         struct vhost_vring_state state;
+         struct vhost_vring_addr addr;
+@@ -248,7 +248,8 @@ struct vhost_user {
+     size_t             region_rb_len;
+     /* RAMBlock associated with a given region */
+     RAMBlock         **region_rb;
+-    /* The offset from the start of the RAMBlock to the start of the
++    /*
++     * The offset from the start of the RAMBlock to the start of the
+      * vhost region.
+      */
+     ram_addr_t        *region_rb_offset;
 -- 
 2.30.2
 
