@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03EC65808FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 03:23:55 +0200 (CEST)
-Received: from localhost ([::1]:37210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5683580924
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 03:41:07 +0200 (CEST)
+Received: from localhost ([::1]:43086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oG9If-00031I-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 21:23:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
+	id 1oG9ZK-0008Bk-Ge
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 21:41:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oG9Ff-0000xV-0U; Mon, 25 Jul 2022 21:20:47 -0400
-Received: from mail-qt1-x836.google.com ([2607:f8b0:4864:20::836]:37748)
+ id 1oG9XD-0006fl-2N
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 21:38:56 -0400
+Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:45980)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oG9Fc-0006dj-S3; Mon, 25 Jul 2022 21:20:46 -0400
-Received: by mail-qt1-x836.google.com with SMTP id l14so9543454qtv.4;
- Mon, 25 Jul 2022 18:20:43 -0700 (PDT)
+ id 1oG9XA-0000ai-Mw
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 21:38:54 -0400
+Received: by mail-qv1-xf35.google.com with SMTP id x6so246946qvu.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 18:38:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UKkB3HULRj3pUMmgT7OAFIB5pdUVGm/GcYLhlJ2fbiM=;
- b=ZOPuhM7S6MsLqjdVjiwtnjsXjl6yFboh+slRXuHNgPB//aoSd0w/GAXGC2AYR7E6Ww
- KZbRpBwMS8hOOUPcRAHwax4aiQOqgSq5TyOjDlx72wnBdsbpVJU7ShDIyE0ky6LDWKm8
- a2ebzRMMAXZRf6f1GG8ZH/BchCamLL0Fl7Tvd8AnuNLoyyzSE37PwNn4POWee0MeOeF3
- BUlSOHoWwtqHlZxRodeb+1WR5R2jl9Kus9PvQ1Dv0S5uzOFf9MdIH+5ph6vhADxxjH/R
- uROg486VwASsvEs/jABOqwC3t2SY3WpVAHBBkTPw3r/wK/YzYuE3oL9/wuzhUPBnQ5Mi
- ZbLg==
+ :cc:content-transfer-encoding;
+ bh=mhjx9RorWkqidavlQthUFEPVOYIpqiJgrM886b/nnFg=;
+ b=n4Ymy39RejRNVNwm8qBZjE5ZuNftN542ZowDGXUIme5cE6HcE7oAm6UwXGWQDK0Z2C
+ i4bz7Sc54BxvC8W99vjVkoTfh3ua5j7TYA9AKKWtzZbuGaNU9gbasgMqRDb9p1zEmOpA
+ Xaj5RZhWTvy6jpRxgIfmfztBP+t3zP7j7KWTdUOEzyyA+CeO0tPhSy49YbLH5EaWtSRH
+ aH9kJw6UvfLOD4wz5VUvjbpxbndjyDHSMlVDLIypvwGNi8dhuqepl0hsgAQzWCQWnb3B
+ irJlTSzihnWBKIJFaiizBPsGx5aVbt5u2l+vnyMRy3WGsE64g1GLv2ExppmQ3shJ/GQ+
+ dBNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UKkB3HULRj3pUMmgT7OAFIB5pdUVGm/GcYLhlJ2fbiM=;
- b=jJwYwkmFjTxlKs8ascJNQI6aSdP0CZsk6JZONPsxQ6wKuTQtWp8nCxXtgmuTt0+YsF
- WWoat0Ww6JNlaEcqNhaODfY7G0GI+PgKkZPeYm80fkuEFLhSgaadMzfO2DGEg/n2p1R7
- Wfu6k7/e2vuE8Vef6QnV1k6GJ153iZXpEJSZ/F1dt9oSLGxpKJiKS/QL61PdhtlA4Qs5
- WxXZ45cd0VXR1w2d6tWZuK7aCPhk0+HV55RSV+QqK73D5UMkwm1XwMo0FzTWOtEz4MlZ
- hhC0a2Dgl4RipVVkU0ef0ZbTHt5u4yxnd5hvKAsLg/KLpOPcWeKZBduZ8ZHPfBrj1/DF
- /c9w==
-X-Gm-Message-State: AJIora9hsTqXPAQaexO5OSF3qf9aNGBqZtRariEQFKfm/U87PCQXWd0o
- stbAZxTstg87wq4VfoqGzMr5Xv4pvzSKHIGQ7AE=
-X-Google-Smtp-Source: AGRyM1v5Oq6ibNjY9kTVwavxnUasb0PXWn+YuJfZrK5IuhnUR92S0axYiZC5m9zj1RGDh4KvocBDxTsoK75D2XGMhhA=
-X-Received: by 2002:a05:622a:100d:b0:31f:25e3:7a45 with SMTP id
- d13-20020a05622a100d00b0031f25e37a45mr12446508qte.365.1658798443069; Mon, 25
- Jul 2022 18:20:43 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=mhjx9RorWkqidavlQthUFEPVOYIpqiJgrM886b/nnFg=;
+ b=NVO1Ck1mspPlMlZiEQPv5xd0EAoObSnS0p9SPWo9Ou7W+0jm7r+QoOhrXfT78asGBQ
+ rauYYNEAtWnWbCx3IWn5Nlcy29o7dY2t3RyozV1KC/Cns3nHOfOqeSiI0JZXfGsvtgy8
+ mlhwuD/yKehIZXGKsr4K+9AUlICHIxmPOo6vNhb+XZbBsydeWqsanU7mRR+xTO+JhJRu
+ y9stGNVOA5gUm9ITj3HbdUdv8XrYY46iK1i67YWEnJyrnhPWy8n4UjvHBYAIcX9al3mT
+ aM+4/uWnNGr4k6TGOgzygxti3DcLAGWf+4y9gvihMC4PrJaSFxX+aKZyQTQMG7nW/AeO
+ T5bg==
+X-Gm-Message-State: AJIora8QhQF+0yOZjD3fN1IO3kXslXWO3W5hz7pH5m5EwWRKybqYFTCT
+ iErOqjIg0vPkjbyvH4dzGLCz2DjTPNhxAq4d3Cw=
+X-Google-Smtp-Source: AGRyM1tF7+o4YQpmz5WRK2obq7mIp4TLGNTM4u9ICtuyQcIjcq8w8hyi3QNDbZuX4yCLkfqHmfy6ED/e6WXctUGzGKk=
+X-Received: by 2002:a0c:a947:0:b0:474:55c3:21bb with SMTP id
+ z7-20020a0ca947000000b0047455c321bbmr3786892qva.51.1658799531441; Mon, 25 Jul
+ 2022 18:38:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADmoyEiUoULvn76UXcS0DaF2-Us4CTL=SyXf7PWYqfPTF3PTtQ@mail.gmail.com>
-In-Reply-To: <CADmoyEiUoULvn76UXcS0DaF2-Us4CTL=SyXf7PWYqfPTF3PTtQ@mail.gmail.com>
+References: <20220725123000.807608-1-bmeng.cn@gmail.com>
+ <874jz5i9qr.fsf@linaro.org>
+In-Reply-To: <874jz5i9qr.fsf@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 26 Jul 2022 09:20:29 +0800
-Message-ID: <CAEUhbmXSUJNxTtjA5W5x_EtnOHERhMvj6ZZVrT-qx-k9_gHB_w@mail.gmail.com>
-Subject: Re: How to read RISC-V mcycle CSR from Linux userspace app?
-To: Maxim Blinov <maxim.blinov@embecosm.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
+Date: Tue, 26 Jul 2022 09:38:40 +0800
+Message-ID: <CAEUhbmWBaCrODGY_KMncAmTy53gmid4R=OKDMTi1T1fR0PUBMw@mail.gmail.com>
+Subject: Re: [PATCH] .gitlab-ci.d/windows.yml: Enable native Windows symlink
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::836;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qt1-x836.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,71 +89,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 12:58 AM Maxim Blinov <maxim.blinov@embecosm.com> wrote:
+On Mon, Jul 25, 2022 at 9:48 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 >
-> Hi all, stupid question but I can't for the life of me figure this out
-> even with all the docs open.
 >
-> I need to get an estimate figure for the cyclecount of a busy loop in
-> one of my small Linux userspace apps. The app in question is running
-> in qemu-system-riscv64. I've compiled QEMU myself, and the full code
-> is like this:
+> Bin Meng <bmeng.cn@gmail.com> writes:
 >
-> #include <unistd.h>
-> #include <stdint.h>
-> #include <stdlib.h>
-> #include <stdio.h>
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > The following error message was seen during the configure:
+> >
+> >   "ln: failed to create symbolic link
+> >   'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
+> >
+> > By default the MSYS environment variable is not defined, so the runtime
+> > behavior of winsymlinks is: if <target> does not exist, 'ln -s' fails.
+> > At the configure phase, the qemu-system-x86_64.exe has not been built
+> > so creation of the symbolic link fails hence the error message.
+> >
+> > Set winsymlinks to 'native' whose behavior is most similar to the
+> > behavior of 'ln -s' on *nix, that is:
+> >
+> >   a) if native symlinks are enabled, and whether <target> exists
+> >      or not, creates <destination> as a native Windows symlink;
+> >   b) else if native symlinks are not enabled, and whether <target>
+> >      exists or not, 'ln -s' creates as a Windows shortcut file.
+> >
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 >
-> uint64_t get_mcycle() {
->   uint64_t mcycle = 0;
+> I'm still seeing Windows build failures such as:
 >
->   asm volatile ("csrr %0,mcycle"   : "=r" (mcycle)  );
+>   https://gitlab.com/stsquad/qemu/-/jobs/2765579269
 
-Change this to "csrr %0,cycle" and you should be able to run your program.
-
->
->   return mcycle;
-> }
->
-> int main(int argc, char **argv) {
->   printf("Hello\n");
->   printf("mcycle is %lu\n", get_mcycle());
->
->   return 0;
-> }
->
-> Now I get SIGILL when I hit the `csrr` insn, which makes sense.
-> According to the "Privileged Architecture Version 1.10", page 32, [1]
-> we need to set mcounteren, hcounteren, and scounteren low bits to 1 in
-> order to get the mcycle csr to become available in userspace. So I add
-> the following function:
->
-> void enable_mcount() {
->   /* Enable IR, TM, CY */
->   uint64_t mcounteren = 0x5;
->   asm volatile ("csrw mcounteren,%0" : "=r" (mcounteren));
->   asm volatile ("csrw hcounteren,%0" : "=r" (mcounteren));
->   asm volatile ("csrw scounteren,%0" : "=r" (mcounteren));
-> }
->
-> And call it before I call get_mcycle(), but this triggers SIGILL
-> (unsurprisingly) also, since these CSRs are also privileged. So
-> there's a bit of a chicken and egg problem.
->
-> Could someone more knowledgeable please suggest what the course of
-> action here is? I've got QEMU revision f45fd24c90 checked out, and I'm
-> staring at qemu/target/riscv/csr.c:71, which seems to deal with
-> whether or not to raise a SIGILL upon access. I can see a condition
-> for when we're in 'S' mode, but nothing for 'U' mode. Does that mean
-> there is fundamentally no access to these CSR's from 'U' mode? Is it
-> possible to just hack it in?
-
-In the user space, you can only read the U-mode CSRs like cycle, but NOT mcycle.
+I've seen this one before. Looks like this one can be easily reproduced.
 
 >
-> Maxim
+> and
 >
-> [1]: https://riscv.org/wp-content/uploads/2017/05/riscv-privileged-v1.10.pdf
+>   https://gitlab.com/stsquad/qemu/-/jobs/2765579267
+
+This one seems to be a random failure?
+
+>
+> Any idea what's falling over?
 >
 
 Regards,
