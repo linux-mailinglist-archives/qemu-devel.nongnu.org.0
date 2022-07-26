@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24470581ABE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:10:11 +0200 (CEST)
-Received: from localhost ([::1]:44298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC67581B2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:40:56 +0200 (CEST)
+Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQsc-0006tM-0d
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:10:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52558)
+	id 1oGRMN-0007Bp-9n
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQW-00075f-Fj
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:41:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51224)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQVe-0005k9-3n
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:46:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQT-00055s-Jk
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:41:08 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQVb-0005uB-HP
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:46:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658864464;
+ s=mimecast20190719; t=1658864782;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V1IKCe7yIF2E/hPoISiqm0oVbyToOdynnJZQWYYPxCo=;
- b=Gu09TE4NrlRrMxPTuuLYRnHmcqX3VBldt+uwMnOyI1q7q4abG6zSARSlsKtPFQwDMUIYda
- FY+7NHJOdRq7emXSWUmc6gwWhGzDTjWoK8jcl3FAHF6Tr3p3kmHR4DJlyTZLJSD4eS2Koh
- dBB1U0hShbYc/cu8k/KSd2NXpNDDpvk=
+ bh=ZRjRPmwIBTJe/I+OuH6/x+Nzm34as938KEPxnhYmq50=;
+ b=dhXoCgI89M4xiXNCJVilkIR4gXE8V1aPVOkY907eimn7OUw3IO5BVL1t7AerSMVNJntBoB
+ 97Cmhskwboj9pe7XgbWfVzJ6rYnWuNg4pFi7E4qIBeoQ8yRSIe0ufnD7hl8udvS2l7UKFc
+ egEdpGmy/RomrehbFQppDyugGK73HGY=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-562-h7emPvgKPbe0yI0ZnFgQoQ-1; Tue, 26 Jul 2022 15:41:02 -0400
-X-MC-Unique: h7emPvgKPbe0yI0ZnFgQoQ-1
+ us-mta-133-xT3LorXIP2-74UpVjHtfwQ-1; Tue, 26 Jul 2022 15:46:21 -0400
+X-MC-Unique: xT3LorXIP2-74UpVjHtfwQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- k27-20020a05600c1c9b00b003a2fee19a80so10672461wms.1
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:41:02 -0700 (PDT)
+ f21-20020a1cc915000000b003a3551598a1so2757763wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:46:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=V1IKCe7yIF2E/hPoISiqm0oVbyToOdynnJZQWYYPxCo=;
- b=7GvNe8maZm4eoHgzMNONtVwWkGliAQ63M1QEbjwAFFFhHzPKmEE2F4gMCrxGFeFVEl
- x2emmzAzdz1ho5sJUV2Eghm7eP3uBKQ2DSwAgtYU/B3YCtWjD/GN8lkkiqdvJnjqwIMF
- 0q2Zc83P8LC0gsE0KQdjphHr9N/EXuNXcgtDLI7eanHWv7zy38f3iR0cPCRBegxJ1cuu
- SCO/EZbI5lH9PaOK9RGokPs0vwoHHWXjq8YasAXaNDBWPkJJRzsnP1zZ0wJ6EC2JDgSf
- 02Hd0a7CLN1tcz2rOIBgRXeAlQNbFQ+Gl1tiUK5v2wOTUn6ntlXeRhWTWvcUAIrfvCeo
- joIw==
-X-Gm-Message-State: AJIora8/mvzEAOvMf4FbcHOIp6wh4wxcuEJ21yDKKYtmTsr8VdsFNn6o
- phXwlvFAWkzmOkru7JttEE+J95wv5czL3FzezO79ik3CJEryYqJL0JBzRo5Ug7gAXBrtOABSjFQ
- PXYbwQ0YkAjMfGTHbmxNUumVEcGGwAzum3MWkGsHhMj0/mMf2/0D+pKj5PlLj
-X-Received: by 2002:a05:6000:144f:b0:21d:a3cc:a6fa with SMTP id
- v15-20020a056000144f00b0021da3cca6famr11849264wrx.191.1658864461354; 
- Tue, 26 Jul 2022 12:41:01 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sDP7z54pSBf0Nhy0UfGhgWgcZd3N4FgwAeD5CLGYbPbNAHqHF3fhK5T/rsgvRDPyFGqb0i4g==
-X-Received: by 2002:a05:6000:144f:b0:21d:a3cc:a6fa with SMTP id
- v15-20020a056000144f00b0021da3cca6famr11849243wrx.191.1658864460929; 
- Tue, 26 Jul 2022 12:41:00 -0700 (PDT)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=ZRjRPmwIBTJe/I+OuH6/x+Nzm34as938KEPxnhYmq50=;
+ b=8N4b1f6dNT54rXukmz2v7xHXldLvDxUI2+ttho/9Y20dtaGCrzHzhbyke4OKoVn60t
+ 2ENTuMJkWT7mRso6bAuJS1NrwgNdhAAPxjj1gzfdvniJM8yJSTaZXNAa1cyaz0kjRz04
+ mjDrS008EVUnf/CxdJT7ktHBMATUnHd6pnjs+OyI66ZhdnHk0cWdg0PWRcDngHOaKTKS
+ nCVHPaSRB568jnm8Fm6qStEgcryyTOmpciLX4RHOdHfT2LVI0IBgoPlKy1mKrKe9UGa+
+ WcJnVSsvUl3ZXuNzz2G0kobAL4r8sS7uTKIPSQPhYCJY8MikiTiY+p2PMUd7e3D7EwIc
+ 20dQ==
+X-Gm-Message-State: AJIora8XpSiAI6tlFEkyS2FNJrmPh5hUlhoqDp7+lADqPIGFMqWbKDRj
+ 9TbGit7KeEjUL6vcELknvnYGCwGfgwB0kvY1+5R1KfUyjEFN/hOAX3fnVuqFGuyRC/ASHqEIrzz
+ yCIBe2+sxcTgBIZk=
+X-Received: by 2002:a05:600c:6002:b0:3a3:5453:bcbe with SMTP id
+ az2-20020a05600c600200b003a35453bcbemr543991wmb.190.1658864780296; 
+ Tue, 26 Jul 2022 12:46:20 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tTpsCgJBgPEU3MUAM7nzZCCB2GK2lIrgnVyzYbJ4uqrLque3RGmD324B+Y40wHaLxW1vWkZQ==
+X-Received: by 2002:a05:600c:6002:b0:3a3:5453:bcbe with SMTP id
+ az2-20020a05600c600200b003a35453bcbemr543964wmb.190.1658864779772; 
+ Tue, 26 Jul 2022 12:46:19 -0700 (PDT)
 Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
  by smtp.gmail.com with ESMTPSA id
- l3-20020a1c7903000000b003a320e6f011sm19980433wme.1.2022.07.26.12.40.59
+ d1-20020adfe2c1000000b0021e491fd250sm15690348wrj.89.2022.07.26.12.46.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:41:00 -0700 (PDT)
-Date: Tue, 26 Jul 2022 15:40:58 -0400
+ Tue, 26 Jul 2022 12:46:19 -0700 (PDT)
+Date: Tue, 26 Jul 2022 15:46:16 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 15/16] i386/pc: restrict AMD only enforcing of 1Tb hole to new
- machine type
-Message-ID: <20220726193858.177462-16-mst@redhat.com>
-References: <20220726193858.177462-1-mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org,
+ viresh.kumar@linaro.org, mark.cave-ayland@ilande.co.uk, jasowang@redhat.com
+Subject: Re: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio cleanups
+Message-ID: <20220726154324-mutt-send-email-mst@kernel.org>
+References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,96 +100,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joao Martins <joao.m.martins@oracle.com>
+On Tue, Jul 26, 2022 at 08:21:29PM +0100, Alex Bennée wrote:
+> Hi,
+> 
+> After much slogging through the vhost-user code I've gotten the
+> virtio-gpio device working again. The core change in pushing the
+> responsibility for VHOST_USER_F_PROTOCOL_FEATURES down to the
+> vhost-user layer (which knows it needs it). We still need to account
+> for that in virtio-gpio because the result of the negotiating protocol
+> features is the vrings start disabled so the stub needs to explicitly
+> enable them. I did consider pushing this behaviour explicitly into
+> vhost_dev_start but that would have required un-picking it from
+> vhost-net (which is the only other device which uses protocol features
+> AFAICT - but is a measure more complex in it's setup).
+> 
+> As last time there are a whole series of clean-ups and doc tweaks. I
+> don't know if any are trivial enough to sneak into later RCs but it
+> shouldn't be a problem to wait until the tree re-opens.
 
-The added enforcing is only relevant in the case of AMD where the
-range right before the 1TB is restricted and cannot be DMA mapped
-by the kernel consequently leading to IOMMU INVALID_DEVICE_REQUEST
-or possibly other kinds of IOMMU events in the AMD IOMMU.
+Right. Still I think some are fixes we should merge now.
+I am thinking patches 5, 7,8,9 ? 6 if it makes backporting
+much easier. WDYT? If you agree pls separate bugfixes in
+series I can apply. Thanks!
 
-Although, there's a case where it may make sense to disable the
-IOVA relocation/validation when migrating from a
-non-amd-1tb-aware qemu to one that supports it.
-
-Relocating RAM regions to after the 1Tb hole has consequences for
-guest ABI because we are changing the memory mapping, so make
-sure that only new machine enforce but not older ones.
-
-Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220719170014.27028-12-joao.m.martins@oracle.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- include/hw/i386/pc.h | 1 +
- hw/i386/pc.c         | 6 ++++--
- hw/i386/pc_piix.c    | 1 +
- hw/i386/pc_q35.c     | 1 +
- 4 files changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 01938fce4c..8435733bd6 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -118,6 +118,7 @@ struct PCMachineClass {
-     bool has_reserved_memory;
-     bool enforce_aligned_dimm;
-     bool broken_reserved_end;
-+    bool enforce_amd_1tb_hole;
- 
-     /* generate legacy CPU hotplug AML */
-     bool legacy_cpu_hotplug;
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1c5c9e17c6..7280c02ce3 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -951,9 +951,10 @@ void pc_memory_init(PCMachineState *pcms,
-     /*
-      * The HyperTransport range close to the 1T boundary is unique to AMD
-      * hosts with IOMMUs enabled. Restrict the ram-above-4g relocation
--     * to above 1T to AMD vCPUs only.
-+     * to above 1T to AMD vCPUs only. @enforce_amd_1tb_hole is only false in
-+     * older machine types (<= 7.0) for compatibility purposes.
-      */
--    if (IS_AMD_CPU(&cpu->env)) {
-+    if (IS_AMD_CPU(&cpu->env) && pcmc->enforce_amd_1tb_hole) {
-         /* Bail out if max possible address does not cross HT range */
-         if (pc_max_used_gpa(pcms, pci_hole64_size) >= AMD_HT_START) {
-             x86ms->above_4g_mem_start = AMD_ABOVE_1TB_START;
-@@ -1902,6 +1903,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
-     pcmc->has_reserved_memory = true;
-     pcmc->kvmclock_enabled = true;
-     pcmc->enforce_aligned_dimm = true;
-+    pcmc->enforce_amd_1tb_hole = true;
-     /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K reported
-      * to be used at the moment, 32K should be enough for a while.  */
-     pcmc->acpi_data_size = 0x20000 + 0x8000;
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index aa191d405a..a5c65c1c35 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -451,6 +451,7 @@ static void pc_i440fx_7_0_machine_options(MachineClass *m)
-     m->alias = NULL;
-     m->is_default = false;
-     pcmc->legacy_no_rng_seed = true;
-+    pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 307910b33c..3a35193ff7 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -387,6 +387,7 @@ static void pc_q35_7_0_machine_options(MachineClass *m)
-     pc_q35_7_1_machine_options(m);
-     m->alias = NULL;
-     pcmc->legacy_no_rng_seed = true;
-+    pcmc->enforce_amd_1tb_hole = false;
-     compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
-     compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
- }
--- 
-MST
+> There is a remaining issue that a --enable-sanitizers build fails for
+> qos-test due to leaks. It shows up as a leak from:
+> 
+>   Direct leak of 240 byte(s) in 1 object(s) allocated from:                                                                                                                    
+>       #0 0x7fc5a3f2a037 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:154                                                                    
+>       #1 0x7fc5a2e5cda0 in g_malloc0 ../../../glib/gmem.c:136                                                                                                                  
+>       #2 0x55ce773cc728 in virtio_device_realize ../../hw/virtio/virtio.c:3691                                                                                                 
+>       #3 0x55ce7784ed7e in device_set_realized ../../hw/core/qdev.c:553                                                                                                        
+>       #4 0x55ce77862d0c in property_set_bool ../../qom/object.c:2273                 
+> 
+> I'm not entirely sure what the allocation is because it gets inlined
+> in the virtio_device_realize call. Perhaps it's the QOM object itself
+> which is never gracefully torn down at the end of the test?
+> 
+> However when I attempted to bisect I found master was broken as well.
+> For example in my arm/aarch64-softmmu build we see 5 failures:
+> 
+> Summary of Failures:
+> 
+>    3/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test            ERROR          96.15s   killed by signal 6 SIGABRT
+>    9/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/qos-test                  ERROR          32.50s   killed by signal 6 SIGABRT
+>   11/48 qemu:qtest+qtest-arm / qtest-arm/qos-test                          ERROR          26.93s   killed by signal 6 SIGABRT
+>   20/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/device-introspect-test    ERROR           5.17s   killed by signal 6 SIGABRT
+>   45/48 qemu:qtest+qtest-arm / qtest-arm/device-introspect-test            ERROR           4.97s   killed by signal 6 SIGABRT
+> 
+> Of which the qos-tests are the only new ones. I suspect something must
+> be preventing the other stuff being exercised in our CI system.
+> 
+> Alex Bennée (19):
+>   include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
+>   include/hw: document vhost_dev feature life-cycle
+>   hw/virtio: fix some coding style issues
+>   hw/virtio: log potentially buggy guest drivers
+>   block/vhost-user-blk-server: don't expose
+>     VHOST_USER_F_PROTOCOL_FEATURES
+>   hw/virtio: incorporate backend features in features
+>   hw/virtio: gracefully handle unset vhost_dev vdev
+>   hw/virtio: handle un-configured shutdown in virtio-pci
+>   hw/virtio: fix vhost_user_read tracepoint
+>   hw/virtio: add some vhost-user trace events
+>   tests/qtest: pass stdout/stderr down to subtests
+>   tests/qtest: add a timeout for subprocess_run_one_test
+>   tests/qtest: use qos_printf instead of g_test_message
+>   tests/qtest: catch unhandled vhost-user messages
+>   tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
+>   tests/qtest: add assert to catch bad features
+>   tests/qtest: implement stub for VHOST_USER_GET_CONFIG
+>   tests/qtest: add a get_features op to vhost-user-test
+>   tests/qtest: enable tests for virtio-gpio
+> 
+> Viresh Kumar (2):
+>   hw/virtio: add boilerplate for vhost-user-gpio device
+>   hw/virtio: add vhost-user-gpio-pci boilerplate
+> 
+>  include/hw/virtio/vhost-user-gpio.h  |  35 +++
+>  include/hw/virtio/vhost.h            |   3 +
+>  include/hw/virtio/virtio.h           |   7 +-
+>  tests/qtest/libqos/virtio-gpio.h     |  35 +++
+>  block/export/vhost-user-blk-server.c |   3 +-
+>  hw/virtio/vhost-user-gpio-pci.c      |  69 +++++
+>  hw/virtio/vhost-user-gpio.c          | 414 +++++++++++++++++++++++++++
+>  hw/virtio/vhost-user.c               |  20 +-
+>  hw/virtio/vhost.c                    |  16 +-
+>  hw/virtio/virtio-pci.c               |   9 +-
+>  hw/virtio/virtio.c                   |   7 +
+>  tests/qtest/libqos/virtio-gpio.c     | 171 +++++++++++
+>  tests/qtest/libqos/virtio.c          |   4 +-
+>  tests/qtest/qos-test.c               |   8 +-
+>  tests/qtest/vhost-user-test.c        | 172 +++++++++--
+>  hw/virtio/Kconfig                    |   5 +
+>  hw/virtio/meson.build                |   2 +
+>  hw/virtio/trace-events               |   9 +
+>  tests/qtest/libqos/meson.build       |   1 +
+>  19 files changed, 956 insertions(+), 34 deletions(-)
+>  create mode 100644 include/hw/virtio/vhost-user-gpio.h
+>  create mode 100644 tests/qtest/libqos/virtio-gpio.h
+>  create mode 100644 hw/virtio/vhost-user-gpio-pci.c
+>  create mode 100644 hw/virtio/vhost-user-gpio.c
+>  create mode 100644 tests/qtest/libqos/virtio-gpio.c
+> 
+> -- 
+> 2.30.2
 
 
