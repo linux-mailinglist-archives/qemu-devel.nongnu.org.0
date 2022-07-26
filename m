@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B12C581AA6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:05:35 +0200 (CEST)
-Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30634581AB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:09:12 +0200 (CEST)
+Received: from localhost ([::1]:42080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQo9-0000u4-UX
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:05:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
+	id 1oGQrf-0005OX-8D
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:09:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQG2-0006Yn-Pt
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:18 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34668)
+ id 1oGQG4-0006Zb-JX
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:20 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQG0-0003aW-Vs
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:18 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- r1-20020a05600c35c100b003a326685e7cso1301181wmq.1
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:30:16 -0700 (PDT)
+ id 1oGQG1-0003ar-MJ
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:19 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id q18so11061097wrx.8
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Pe5Zimqd2c5xifMUxUMxyry48TVU96KwaVMb7LRHl5I=;
- b=zwzj80eC+gHx6S0MoXibeXV7C+sjg2dr+TLUyHkjnGt+Cg2Sf1+KAv5Ggc9hq3E1TV
- 0/lOeuGlI/RQ4BEoQHchHdjXTI6VdskcHTY8KmUxGxsRXvC9rOVlIFPc5LXZH84yvodX
- PLC5pN3IsB7mYgsbnxnyqtIgl08yCRvL5titeMOfiLRIg+zMd4UuMhcw8FmwgydutLdR
- B0YQ6Hqc8zSHqFQxZ2XnzCYDsG2/ey8l6P+ABSzWCalfgb67bFleLsaQtVacb6hsWsfz
- bLRSBCxgHapMa3oa4z7fmbZshin1lg0kgE+scV37f2TP2iC57u/OXa9LHVaDUl21YB5d
- S/oA==
+ bh=xlxq1ZBU6AcDaP18E14EH8M6boLy3BklV7N6rZI3qJs=;
+ b=jVEZ6Irk8Wh2gVvq9LX+XUkphMQElCWlmKsJ/HVQuPtCdhI928/IDc+OCg7HyHVMyX
+ qDJxTHRud0QAUVd1rwl0QLicifrbP4bQ7I0J/AyyMIYUoi8L/brqsmT7GbkVeP8pD2vz
+ zXWwkFMJFdAq+yq7zF09j9kx3rtXLB8FSRn4EkhLqE8UEKKJ7P1YNql1zc5hfq8Bxz+0
+ DCg0M2wx6Exo6sxuzKLzavG/gQtoZI9Gj0wucxCuMHIXoLbFDugIvgjxxn1At3tuMOOz
+ c+tqkOkbN49RIT/Zb1d9e3EP2sOoDDlIf+NBsMLMzoDFlH1rcbhLVILeMLrvvYMhZdfY
+ Cpkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Pe5Zimqd2c5xifMUxUMxyry48TVU96KwaVMb7LRHl5I=;
- b=SPTkS9rT5Jcr15IVQOp3uz1lVOrNwA7QJhW5AmbyCJPvQSngcKoI72XvJogL9JA02I
- GMo5BnnZYz1QEnDiWdcTKXvPhFldTzI5KikEAf0ri0x0ri7tbZpO1Wce+L5MqAG0o8oO
- QH8196tAqzi8j5Brxk/8dXAZWE1emwBqo+Z2EM8zEOzL+fx6u0m5g6e9nqOJCALZ5Rcr
- ALFVP+mCkrA/KZc+PiIJppC+9U1ArDVkMpP9lvd2VJ6EdwDh8hjxM+gyMyZsvUhWd3xL
- h9x/7KpaWUyEly5OOU8ZyG2jWBVw0i+Zyq6Wsc0/pl82W26Ra/R2r9vjLfCqHukO1dKw
- GSBA==
-X-Gm-Message-State: AJIora8PcaqkDG2g/mx2x6CHAJlY0ceUf+kT3SZfrqA2SB6j+Gglgcqr
- Jb0Tsa0JlX7iunG77eC8E7hxvA==
-X-Google-Smtp-Source: AGRyM1uzk2LHEr9dplaroo5yIwqppLo8dP+wEIJoxOqPKXUpv7E0Ylry8yAN2HSKVIbTJqZaz44IZg==
-X-Received: by 2002:a05:600c:600b:b0:3a3:1176:222d with SMTP id
- az11-20020a05600c600b00b003a31176222dmr510171wmb.42.1658863815304; 
- Tue, 26 Jul 2022 12:30:15 -0700 (PDT)
+ bh=xlxq1ZBU6AcDaP18E14EH8M6boLy3BklV7N6rZI3qJs=;
+ b=mlMgkPkeBgoZ2XbGQUaH5yGUjMlS0HHF33YP/nO9QivjyKxAc/VGaGmAXHeErfkkSt
+ qfLV7nsS8ioztzH6ZAdx/nFRynqSRcuk7O/GbGD0wTWk/6OVuX/mwr0qZnyWR14rGb6x
+ MFuiX+dxdEW2+kIv1Jjjw0a9BkGtIc6BrD6jLPCqA7gRXhTEe7Z/m/1qcbTgyycSVXCu
+ 3R/5Tk3Q7oBkb0xSYcD9NbMOKlv60EIeC9tQ0IMmgLNI3jx5vdMHMTG4iCnLIzgku5iQ
+ yUL5iUYGenv2PDCNQ8aXmnzA0E+sjrnyRM8VKHWPW5p2Qc8dgPh8rpR3xrDJT0RtDILZ
+ PqJg==
+X-Gm-Message-State: AJIora/HrwrrBAXR0M9dSj8b10J8tItAtxXzOqBs3Zqf7Xdoc+pACl8U
+ +JsaCz8cC346Pk8WtE5jOPs9pg==
+X-Google-Smtp-Source: AGRyM1se2F8HaTBrPJbsrgtfD6902+CAb1kjyZdUyKf/ZYMdxdYERV/TpF9o5fip4XqQsduMxl/F2g==
+X-Received: by 2002:a05:6000:1541:b0:21d:b298:96be with SMTP id
+ 1-20020a056000154100b0021db29896bemr11546897wry.206.1658863816126; 
+ Tue, 26 Jul 2022 12:30:16 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p15-20020a05600c358f00b003a32297598csm23918246wmq.43.2022.07.26.12.30.14
+ c17-20020adffb51000000b0021d7fa77710sm15240057wrs.92.2022.07.26.12.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 26 Jul 2022 12:30:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6E6961FFC5;
+ by zen.linaroharston (Postfix) with ESMTP id A864C1FFC8;
  Tue, 26 Jul 2022 20:21:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -65,17 +64,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH  v3 13/21] tests/qtest: pass stdout/stderr down to subtests
-Date: Tue, 26 Jul 2022 20:21:42 +0100
-Message-Id: <20220726192150.2435175-14-alex.bennee@linaro.org>
+Subject: [PATCH  v3 16/21] tests/qtest: catch unhandled vhost-user messages
+Date: Tue, 26 Jul 2022 20:21:45 +0100
+Message-Id: <20220726192150.2435175-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,36 +97,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When trying to work out what the virtio-net-tests where doing it was
-hard because the g_test_trap_subprocess redirects all output to
-/dev/null. Lift this restriction by using the appropriate flags so you
-can see something similar to what the vhost-user-blk tests show when
-running.
+We don't need to action every message but lets document the ones we
+are expecting to consume so future tests don't get confused about
+unhandled bits.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220407150042.2338562-1-alex.bennee@linaro.org>
 
 ---
-v2
-  - keep dumping of CLI behind the g_test_verbose flag
+v1
+  - drop g_test_fail() when we get unexpected result, that just hangs
 ---
- tests/qtest/qos-test.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qtest/vhost-user-test.c | 40 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
 
-diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index f97d0a08fd..7e1c8fc579 100644
---- a/tests/qtest/qos-test.c
-+++ b/tests/qtest/qos-test.c
-@@ -185,7 +185,8 @@ static void run_one_test(const void *arg)
- static void subprocess_run_one_test(const void *arg)
- {
-     const gchar *path = arg;
--    g_test_trap_subprocess(path, 0, 0);
-+    g_test_trap_subprocess(path, 0,
-+                           G_TEST_SUBPROCESS_INHERIT_STDOUT | G_TEST_SUBPROCESS_INHERIT_STDERR);
-     g_test_trap_assert_passed();
- }
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 968113d591..d0fa034601 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -358,12 +358,41 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         }
+         break;
+ 
++    case VHOST_USER_SET_OWNER:
++        /*
++         * We don't need to do anything here, the remote is just
++         * letting us know it is in charge. Just log it.
++         */
++        qos_printf("set_owner: start of session\n");
++        break;
++
+     case VHOST_USER_GET_PROTOCOL_FEATURES:
+         if (s->vu_ops->get_protocol_features) {
+             s->vu_ops->get_protocol_features(s, chr, &msg);
+         }
+         break;
+ 
++    case VHOST_USER_SET_PROTOCOL_FEATURES:
++        /*
++         * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
++         * the remote end to send this. There is no handshake reply so
++         * just log the details for debugging.
++         */
++        qos_printf("set_protocol_features: 0x%"PRIx64 "\n", msg.payload.u64);
++        break;
++
++        /*
++         * A real vhost-user backend would actually set the size and
++         * address of the vrings but we can simply report them.
++         */
++    case VHOST_USER_SET_VRING_NUM:
++        qos_printf("set_vring_num: %d/%d\n",
++                   msg.payload.state.index, msg.payload.state.num);
++        break;
++    case VHOST_USER_SET_VRING_ADDR:
++        qos_printf("set_vring_addr:\n");
++        break;
++
+     case VHOST_USER_GET_VRING_BASE:
+         /* send back vring base to qemu */
+         msg.flags |= VHOST_USER_REPLY_MASK;
+@@ -428,7 +457,18 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
+         break;
+ 
++    case VHOST_USER_SET_VRING_ENABLE:
++        /*
++         * Another case we ignore as we don't need to respond. With a
++         * fully functioning vhost-user we would enable/disable the
++         * vring monitoring.
++         */
++        qos_printf("set_vring(%d)=%s\n", msg.payload.state.index,
++                   msg.payload.state.num ? "enabled" : "disabled");
++        break;
++
+     default:
++        qos_printf("vhost-user: un-handled message: %d\n", msg.request);
+         break;
+     }
  
 -- 
 2.30.2
