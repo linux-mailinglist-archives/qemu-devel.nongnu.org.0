@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8B33581BD5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:54:36 +0200 (CEST)
-Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3C82581BDB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 23:57:06 +0200 (CEST)
+Received: from localhost ([::1]:36816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGSVf-0003br-Ui
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:54:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
+	id 1oGSY5-0005IV-MU
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 17:57:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1oGSSZ-0001fa-Bm
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:23 -0400
-Received: from mail-yw1-x112b.google.com ([2607:f8b0:4864:20::112b]:38747)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGSSn-0001v7-Ro
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:37 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1oGSSX-00015K-7n
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:23 -0400
-Received: by mail-yw1-x112b.google.com with SMTP id
- 00721157ae682-31f41584236so48435187b3.5
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=YydpgrxDW5FnuWQpSXFhFRvKWyeb+vea0xnBM5Q2B9k=;
- b=oedFiu8fkFrH0o9wCxLFFZ6fcLQuAUNRfPzvZtdxJsOkexCLv+ggZWAsgYlWw1r/Ms
- nzXuOaO7H8gUsJgncXxOvSC73sn1BGn7PnlrAb0Ghm16IiEkWLJo4K4xjbUM/mL+bjDH
- 8CrOSxLiGDj1iV/PzlYnKj9dB0Vd7C9EulTOA=
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGSSl-00016Q-Vu
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 17:51:37 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id y1so6475988pja.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 14:51:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=yP7ZaLRd8QdOoe8uOfYOxdnz0I0b44XKcQkvqRYwsq0=;
+ b=FV6qFrFj91tqhSvzpPHm7fDEqlC8BGUF5WJ3FDBNvtpVKiYy+hgnvIRX0hMAhpLNt/
+ u+2pgl71yu1+qu40ZYTUcmGN7++IKkpTvwO3TsA3jJAvCe41f/BX+9NHhdk75a+mr7Qj
+ M0/z1J0h/2oKXpmmu3UciU/71NeETEWl6zLF+2IL+Wy8LxFUIXFcjvUqzInoIPnsfiN0
+ wd/ROhByFm46dXqQvs22Bu4SxU+KKrlwPOhneaXC8Mc2z7ZGjQ5vgXzeZOof3Ork85On
+ 8D28VbA/Y0lDVw5Tz0qdg/vD7/qBeGzLaHoMZ9RtGsmGmB0ezuwonJeeey6NA3m2U380
+ 9yTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=YydpgrxDW5FnuWQpSXFhFRvKWyeb+vea0xnBM5Q2B9k=;
- b=IpU5rq+kiLwQSqN11CrtTJYeh9h61JUV77jbf+wgOmms5KcakUX32R0dodqJuLjkCv
- 2q6VzgltVOVas3HExoqAV+eYBnWjIY+iwT9IGSQ76HvQMw5pjfSXYjbA49XJIlBSR75V
- q0ztef2LiMWU3aCJpbSdcCu6XAhdJZIHNvgOPq/nolyJ2S5CIivMoNJ9+Fp714B7JEep
- 1hyR4XgdQSJxJrmcpg3W2CdP+aDAq7Ccu4AdqlJjBBOAsFlvteyZKVZtVbfRrKnqtPQj
- jND5TVwL4Ox3E9wN4J/n5eYINBpbOkeEdVU28rwQN8a0+m+2OSAv6sBs6vEszVfmzVi9
- XLsg==
-X-Gm-Message-State: AJIora+/MeqlKOKJTmFl6UuNSYs6KvfjpyCq5xFAQnpK2ocjcdb4OHOq
- LW4eiVVnZ+s5/vX5yoybx6bQaujz74y9afFEXMn3
-X-Google-Smtp-Source: AGRyM1tpgv4ZXF7lapS4/JdDieY93f+5T0eCPugN6KEcT7VED3oZPGclbzsAe22eUg0K0VVJft54DQbrrI0OCN0hqL4=
-X-Received: by 2002:a0d:d753:0:b0:31f:4e9f:a9ff with SMTP id
- z80-20020a0dd753000000b0031f4e9fa9ffmr3825554ywd.194.1658872278973; Tue, 26
- Jul 2022 14:51:18 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=yP7ZaLRd8QdOoe8uOfYOxdnz0I0b44XKcQkvqRYwsq0=;
+ b=Rw8vv5nSCJz26ZSdrW1Pm5UmSAnBTP+EJoipJ34GJIq+rZGNIb874ysm2JoJoqBa2b
+ ldxAGQDauTc5z1j/bQ2hAMDqDXnWIgpezcAhhJTN68SxhN6fRSYbERVAFPB46TaDZyvi
+ akxxd6RN4ZeSawttZdA2mWON2n7Cb4jQg9PZQNvbK4NQoWspdJA42Ljnk6oDaAWdl5D3
+ HXngjEwNrv/vylWwRC6vsEUwYsHXDf+8IoTd/BZnFZ+jN/qAITHHS4S0S0v1KG9e1gh2
+ hRwgVlcTrz+rJ6HlY12ZrmOSMLIZ/Axd3D5F8XgcUYHAfN7FkovuuQYm/PyRmqYwAsJf
+ YKJg==
+X-Gm-Message-State: AJIora8cd0UfaVRxsJSfg1Zxg5ayu0SxT+pCvILlMJjQ1JlejTTpByeo
+ 0J0zcqJpCI+PV/Zg7k8he+zNAw==
+X-Google-Smtp-Source: AGRyM1sWfYQFRAd1voY5hR5UNUtfEuSk7LdvflgP7DtwHey02WgrlMdTTFRsT1aEXYzFUCiziNgppg==
+X-Received: by 2002:a17:90a:2ec5:b0:1f2:ea66:c832 with SMTP id
+ h5-20020a17090a2ec500b001f2ea66c832mr1084190pjs.31.1658872294344; 
+ Tue, 26 Jul 2022 14:51:34 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:33b:7a10:8a4c:53bc?
+ ([2602:ae:1549:801:33b:7a10:8a4c:53bc])
+ by smtp.gmail.com with ESMTPSA id
+ b2-20020a170902650200b0016d1d1c376fsm10582007plk.287.2022.07.26.14.51.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 14:51:33 -0700 (PDT)
+Message-ID: <dfa73e9a-9e2f-3b4b-b370-8ff40126eb32@linaro.org>
+Date: Tue, 26 Jul 2022 14:51:32 -0700
 MIME-Version: 1.0
-References: <20220620231603.2547260-1-atishp@rivosinc.com>
- <20220620231603.2547260-12-atishp@rivosinc.com>
- <4485024.MHq7AAxBmi@diego>
-In-Reply-To: <4485024.MHq7AAxBmi@diego>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Tue, 26 Jul 2022 14:51:08 -0700
-Message-ID: <CAOnJCUJ=3X-nNhfRW8LDiLRLnKrb2WyCT=pVYevDttwGcyauuw@mail.gmail.com>
-Subject: Re: [PATCH v10 11/12] hw/riscv: virt: Add PMU DT node to the device
- tree
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Atish Patra <atishp@rivosinc.com>, Bin Meng <bin.meng@windriver.com>, 
- Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112b;
- envelope-from=atishp@atishpatra.org; helo=mail-yw1-x112b.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 00/16] pc,virtio: fixes
+Content-Language: en-US
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220726193858.177462-1-mst@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,209 +93,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 14, 2022 at 3:27 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
->
-> Hi Atish,
->
-> Am Dienstag, 21. Juni 2022, 01:16:01 CEST schrieb Atish Patra:
-> > Qemu virt machine can support few cache events and cycle/instret counte=
-rs.
-> > It also supports counter overflow for these events.
-> >
-> > Add a DT node so that OpenSBI/Linux kernel is aware of the virt machine
-> > capabilities. There are some dummy nodes added for testing as well.
-> >
-> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
-> > Signed-off-by: Atish Patra <atish.patra@wdc.com>
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
->
-> > +static void create_fdt_socket_pmu(RISCVVirtState *s,
-> > +                                  int socket, uint32_t *phandle,
-> > +                                  uint32_t *intc_phandles)
-> > +{
-> > +    int cpu;
-> > +    char *pmu_name;
-> > +    uint32_t *pmu_cells;
-> > +    MachineState *mc =3D MACHINE(s);
-> > +    RISCVCPU hart =3D s->soc[socket].harts[0];
-> > +
-> > +    pmu_cells =3D g_new0(uint32_t, s->soc[socket].num_harts * 2);
-> > +
-> > +    for (cpu =3D 0; cpu < s->soc[socket].num_harts; cpu++) {
-> > +        pmu_cells[cpu * 2 + 0] =3D cpu_to_be32(intc_phandles[cpu]);
-> > +        pmu_cells[cpu * 2 + 1] =3D cpu_to_be32(IRQ_PMU_OVF);
-> > +    }
-> > +
-> > +    pmu_name =3D g_strdup_printf("/soc/pmu");
-> > +    qemu_fdt_add_subnode(mc->fdt, pmu_name);
-> > +    qemu_fdt_setprop_string(mc->fdt, pmu_name, "compatible", "riscv,pm=
-u");
->
-> Where is the binding document for this?
->
-> As the comment below states the "riscv,event-to-mhpmcounters" property
-> is opensbi-specific and gets removed in the opensbi stage, but that still
-> leaves the pmu node in it and from the version I found, Rob wasn't overly
-> happy with the compatible [0]. Did this get addressed?
->
+On 7/26/22 12:40, Michael S. Tsirkin wrote:
+> The following changes since commit d1c912b816844aa045082595eba796b5a025dbc4:
+> 
+>    Merge tag 'linux-user-for-7.1-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2022-07-26 13:29:26 +0100)
+> 
+> are available in the Git repository at:
+> 
+>    git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> 
+> for you to fetch changes up to 0522be9a0c0094088ccef7aab352c57f483ca250:
+> 
+>    hw/virtio/virtio-iommu: Enforce power-of-two notify for both MAP and UNMAP (2022-07-26 15:33:29 -0400)
+> 
+> ----------------------------------------------------------------
+> pc,virtio: fixes
+> 
+> Several fixes. From now on, regression fixes only.
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-This is OpenSBI specific binding.
-https://github.com/riscv-software-src/opensbi/blob/master/docs/pmu_support.=
-md
-
-Linux kernel doesn't use binding anymore. The earlier version patches
-relied on the DT binding.
-However, based on the feedback it was removed.
-
-OpenSBI should delete the node and the interrupt-extended property
-deletion is necessary at this point.
-
->
-> Thanks
-> Heiko
->
->
-> [0] https://lore.kernel.org/all/YXhPqfpXh1VZN07T@robh.at.kernel.org/
->
->
->
-> > +    riscv_pmu_generate_fdt_node(mc->fdt, hart.cfg.pmu_num, pmu_name);
-> > +
-> > +    g_free(pmu_name);
-> > +    g_free(pmu_cells);
-> > +}
-> > +
-> >  static void create_fdt_sockets(RISCVVirtState *s, const MemMapEntry *m=
-emmap,
-> >                                 bool is_32_bit, uint32_t *phandle,
-> >                                 uint32_t *irq_mmio_phandle,
-> > @@ -759,6 +786,7 @@ static void create_fdt_sockets(RISCVVirtState *s, c=
-onst MemMapEntry *memmap,
-> >                      &intc_phandles[phandle_pos]);
-> >              }
-> >          }
-> > +        create_fdt_socket_pmu(s, socket, phandle, intc_phandles);
-> >      }
-> >
-> >      if (s->aia_type =3D=3D VIRT_AIA_TYPE_APLIC_IMSIC) {
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 7d9e2aca12a9..69bbd9fff4e1 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -1110,6 +1110,7 @@ static void riscv_isa_string_ext(RISCVCPU *cpu, c=
-har **isa_str, int max_str_len)
-> >          ISA_EDATA_ENTRY(zve64f, ext_zve64f),
-> >          ISA_EDATA_ENTRY(zhinx, ext_zhinx),
-> >          ISA_EDATA_ENTRY(zhinxmin, ext_zhinxmin),
-> > +        ISA_EDATA_ENTRY(sscofpmf, ext_sscofpmf),
-> >          ISA_EDATA_ENTRY(svinval, ext_svinval),
-> >          ISA_EDATA_ENTRY(svnapot, ext_svnapot),
-> >          ISA_EDATA_ENTRY(svpbmt, ext_svpbmt),
-> > diff --git a/target/riscv/pmu.c b/target/riscv/pmu.c
-> > index 34096941c0ce..59feb3c243dd 100644
-> > --- a/target/riscv/pmu.c
-> > +++ b/target/riscv/pmu.c
-> > @@ -20,11 +20,68 @@
-> >  #include "cpu.h"
-> >  #include "pmu.h"
-> >  #include "sysemu/cpu-timers.h"
-> > +#include "sysemu/device_tree.h"
-> >
-> >  #define RISCV_TIMEBASE_FREQ 1000000000 /* 1Ghz */
-> >  #define MAKE_32BIT_MASK(shift, length) \
-> >          (((uint32_t)(~0UL) >> (32 - (length))) << (shift))
-> >
-> > +/**
-> > + * To keep it simple, any event can be mapped to any programmable coun=
-ters in
-> > + * QEMU. The generic cycle & instruction count events can also be moni=
-tored
-> > + * using programmable counters. In that case, mcycle & minstret must c=
-ontinue
-> > + * to provide the correct value as well. Heterogeneous PMU per hart is=
- not
-> > + * supported yet. Thus, number of counters are same across all harts.
-> > + */
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_ctrs, char *pmu_na=
-me)
-> > +{
-> > +    uint32_t fdt_event_ctr_map[20] =3D {};
-> > +    uint32_t cmask;
-> > +
-> > +    /* All the programmable counters can map to any event */
-> > +    cmask =3D MAKE_32BIT_MASK(3, num_ctrs);
-> > +
-> > +   /**
-> > +    * The event encoding is specified in the SBI specification
-> > +    * Event idx is a 20bits wide number encoded as follows:
-> > +    * event_idx[19:16] =3D type
-> > +    * event_idx[15:0] =3D code
-> > +    * The code field in cache events are encoded as follows:
-> > +    * event_idx.code[15:3] =3D cache_id
-> > +    * event_idx.code[2:1] =3D op_id
-> > +    * event_idx.code[0:0] =3D result_id
-> > +    */
-> > +
-> > +   /* SBI_PMU_HW_CPU_CYCLES: 0x01 : type(0x00) */
-> > +   fdt_event_ctr_map[0] =3D cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[1] =3D cpu_to_be32(0x00000001);
-> > +   fdt_event_ctr_map[2] =3D cpu_to_be32(cmask | 1 << 0);
-> > +
-> > +   /* SBI_PMU_HW_INSTRUCTIONS: 0x02 : type(0x00) */
-> > +   fdt_event_ctr_map[3] =3D cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[4] =3D cpu_to_be32(0x00000002);
-> > +   fdt_event_ctr_map[5] =3D cpu_to_be32(cmask | 1 << 2);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 READ : 0x00 MISS : 0x00 type(0x01) =
-*/
-> > +   fdt_event_ctr_map[6] =3D cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[7] =3D cpu_to_be32(0x00010019);
-> > +   fdt_event_ctr_map[8] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_DTLB : 0x03 WRITE : 0x01 MISS : 0x00 type(0x01)=
- */
-> > +   fdt_event_ctr_map[9] =3D cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[10] =3D cpu_to_be32(0x0001001B);
-> > +   fdt_event_ctr_map[11] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* SBI_PMU_HW_CACHE_ITLB : 0x04 READ : 0x00 MISS : 0x00 type(0x01) =
-*/
-> > +   fdt_event_ctr_map[12] =3D cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[13] =3D cpu_to_be32(0x00010021);
-> > +   fdt_event_ctr_map[14] =3D cpu_to_be32(cmask);
-> > +
-> > +   /* This a OpenSBI specific DT property documented in OpenSBI docs *=
-/
-> > +   qemu_fdt_setprop(fdt, pmu_name, "riscv,event-to-mhpmcounters",
-> > +                    fdt_event_ctr_map, sizeof(fdt_event_ctr_map));
-> > +}
-> > +
-> >  static bool riscv_pmu_counter_valid(RISCVCPU *cpu, uint32_t ctr_idx)
-> >  {
-> >      if (ctr_idx < 3 || ctr_idx >=3D RV_MAX_MHPMCOUNTERS ||
-> > diff --git a/target/riscv/pmu.h b/target/riscv/pmu.h
-> > index 036653627f78..3004ce37b636 100644
-> > --- a/target/riscv/pmu.h
-> > +++ b/target/riscv/pmu.h
-> > @@ -31,5 +31,6 @@ int riscv_pmu_init(RISCVCPU *cpu, int num_counters);
-> >  int riscv_pmu_update_event_map(CPURISCVState *env, uint64_t value,
-> >                                 uint32_t ctr_idx);
-> >  int riscv_pmu_incr_ctr(RISCVCPU *cpu, enum riscv_pmu_event_idx event_i=
-dx);
-> > +void riscv_pmu_generate_fdt_node(void *fdt, int num_counters, char *pm=
-u_name);
-> >  int riscv_pmu_setup_timer(CPURISCVState *env, uint64_t value,
-> >                            uint32_t ctr_idx);
-> >
->
->
->
->
->
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
 
---=20
-Regards,
-Atish
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Jean-Philippe Brucker (1):
+>        hw/virtio/virtio-iommu: Enforce power-of-two notify for both MAP and UNMAP
+> 
+> Joao Martins (11):
+>        hw/i386: add 4g boundary start to X86MachineState
+>        i386/pc: create pci-host qdev prior to pc_memory_init()
+>        i386/pc: pass pci_hole64_size to pc_memory_init()
+>        i386/pc: factor out above-4g end to an helper
+>        i386/pc: factor out cxl range end to helper
+>        i386/pc: factor out cxl range start to helper
+>        i386/pc: handle unitialized mr in pc_get_cxl_range_end()
+>        i386/pc: factor out device_memory base/size to helper
+>        i386/pc: bounds check phys-bits against max used GPA
+>        i386/pc: relocate 4g start to 1T where applicable
+>        i386/pc: restrict AMD only enforcing of 1Tb hole to new machine type
+> 
+> Jonathan Cameron (3):
+>        hw/machine: Clear out left over CXL related pointer from move of state handling to machines.
+>        hw/i386/pc: Always place CXL Memory Regions after device_memory
+>        hw/cxl: Fix size of constant in interleave granularity function.
+> 
+> Robert Hoo (1):
+>        acpi/nvdimm: Define trace events for NVDIMM and substitute nvdimm_debug()
+> 
+>   include/hw/boards.h            |   1 -
+>   include/hw/cxl/cxl_component.h |   2 +-
+>   include/hw/i386/pc.h           |   4 +-
+>   include/hw/i386/x86.h          |   3 +
+>   include/hw/mem/nvdimm.h        |   8 --
+>   include/hw/pci-host/i440fx.h   |   3 +-
+>   hw/acpi/nvdimm.c               |  35 ++++---
+>   hw/i386/acpi-build.c           |   2 +-
+>   hw/i386/pc.c                   | 209 ++++++++++++++++++++++++++++++++---------
+>   hw/i386/pc_piix.c              |  15 ++-
+>   hw/i386/pc_q35.c               |  15 ++-
+>   hw/i386/sgx.c                  |   2 +-
+>   hw/i386/x86.c                  |   1 +
+>   hw/pci-host/i440fx.c           |   5 +-
+>   hw/virtio/virtio-iommu.c       |  47 +++++----
+>   hw/acpi/trace-events           |  13 +++
+>   16 files changed, 258 insertions(+), 107 deletions(-)
+> 
+> 
+
 
