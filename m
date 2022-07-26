@@ -2,93 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76BD580FDB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:27:50 +0200 (CEST)
-Received: from localhost ([::1]:60852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3869B580FDD
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:27:54 +0200 (CEST)
+Received: from localhost ([::1]:32818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGGqz-0001Ew-SH
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:27:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60008)
+	id 1oGGr3-0001P3-AJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGmx-00047o-Gx; Tue, 26 Jul 2022 05:23:39 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35300)
+ id 1oGGn0-000480-BD; Tue, 26 Jul 2022 05:23:42 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:16548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGmv-0005XG-6P; Tue, 26 Jul 2022 05:23:39 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q9LMB4019799;
- Tue, 26 Jul 2022 09:23:34 GMT
+ id 1oGGmx-0005XM-Gw; Tue, 26 Jul 2022 05:23:41 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q9LYNN006830;
+ Tue, 26 Jul 2022 09:23:35 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=jZ4QupvGOjRV2RhHYJ1X0SwqCK5AGE+yHdpj80rpq/g=;
- b=tAQkTYUo9AgZxqaIPqFSEmTzIBSZ4uYuZFmC41z/DA+Wag0e/RKB0wT8bVGFUYWOIXke
- ZKQfkThKniEvntFsB/sjbFL/yUFhV3okee0amkUWYlbkRI+AgxlbJuFVmu/Ekr139TR3
- gcVVrbEHQ3qwrB0ZKjiozSZ6LITpu9Zcsl2Exbo37sgzuBnwmWcq/oFqjOAaLI/6XVAj
- J9JcakWQnLoQm3gM57QfUGPLl4ezB+xgEauDTIo+DJAPABHJ+lCyR+DMDEJUACnnoqHv
- THjN62ly+MNB+Yld/X65yqIeqXQafOsjcEs4JJ+0W1H78Kddk9O+9xBjqBYIB5QPFy9v Mg== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=VxegnwZvW+xAETkfyswh0EhnG1BjKHusc9M2zhmlUX0=;
+ b=j5AS4okSVCdVS6UD6X7nfDQ39fkv6eMJu1xrS4VuskYnRjubqQwzuxz9qeHejlhvZj7b
+ xI+v+Rq1J7TCT8AuKFxBFbvszy1UXdVbMGj50pLIeYkiJPfdEFKBgFgvVMNqmqweKAQl
+ pSDg4bV00cFQPRiZ1wA1WM/qppJuObILSrInhFOItvBjYJi3klqCvRjKX5rM3Q2Petce
+ +ZQVqDYVTv2xYorCvhj+Sa2kqn0ZCBqwokvu2LfAW1+yrEPmMQ/0wWy/0NtHL5KU+wqf
+ XUXNh0V5AEZL20tKrUws4zrlMEIZc9fqDSf79tyYaqPxWlJy3YVG6303+OixuTFKE6Ui Pw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdjm81nm-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdjpr1p3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:34 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q9M4uL021953;
- Tue, 26 Jul 2022 09:23:34 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdjm81mw-1
+ Tue, 26 Jul 2022 09:23:35 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q9N7NG017156;
+ Tue, 26 Jul 2022 09:23:35 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdjpr1nh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:34 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9LCKi017902;
- Tue, 26 Jul 2022 09:23:32 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 3hh6euj8j2-1
+ Tue, 26 Jul 2022 09:23:35 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9LEI7026305;
+ Tue, 26 Jul 2022 09:23:33 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hg96wkjsy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:32 +0000
+ Tue, 26 Jul 2022 09:23:33 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26Q9NS3221037342
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26Q9NUeR22675864
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 09:23:28 GMT
+ Tue, 26 Jul 2022 09:23:30 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D9014A4054;
- Tue, 26 Jul 2022 09:23:28 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 36D72A405F;
+ Tue, 26 Jul 2022 09:23:30 +0000 (GMT)
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6D7BA405B;
- Tue, 26 Jul 2022 09:23:27 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0B365A4054;
+ Tue, 26 Jul 2022 09:23:29 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 26 Jul 2022 09:23:27 +0000 (GMT)
+ Tue, 26 Jul 2022 09:23:28 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v4 00/17] dump: Add arch section and s390x PV dump
-Date: Tue, 26 Jul 2022 09:22:31 +0000
-Message-Id: <20220726092248.128336-1-frankja@linux.ibm.com>
+Subject: [PATCH v4 01/17] dump: Rename write_elf_loads to write_elf_phdr_loads
+Date: Tue, 26 Jul 2022 09:22:32 +0000
+Message-Id: <20220726092248.128336-2-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220726092248.128336-1-frankja@linux.ibm.com>
+References: <20220726092248.128336-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RUYmjqQl_HexYzNjMPtkPbPReuHH0TmC
-X-Proofpoint-ORIG-GUID: XS9Foo8zYIWUVyXrqEy9HDlcr8io3rVV
+X-Proofpoint-GUID: 357A1lpw_DUJijV6ROJLeTG5CtCIjvXe
+X-Proofpoint-ORIG-GUID: BriHEpg0VFd7v3fhVTx7s919WtEHdj5O
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-26_02,2022-07-25_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 lowpriorityscore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 priorityscore=1501 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 adultscore=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 lowpriorityscore=0
+ phishscore=0 mlxscore=0 suspectscore=0 mlxlogscore=999 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207260033
 Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
  helo=mx0b-001b2d01.pphosted.com
@@ -114,78 +116,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously this series was two separate series:
- * Arch section support
-   Adds the possibility for arch code to add custom section data.
+Let's make it a bit clearer that we write the program headers of the
+PT_LOAD type.
 
- * s390 PV dump support
-   Adds PV dump data to the custom arch sections.
+Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ dump/dump.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I've chosen to merge them so it's easier to understand why the arch
-section support has been implement the way it is.
-
-Additionally I've added cleanup patches beforehand which clean up the
-GuestPhysBlock usage.
-
-v4:
-	* Moved the ELF note type introduction to the header sync
-	* Split the iteration re-work into more patches
-	* Added missing Rev-bys
-	* Moved the introduction of section_offset to the patch where it's first used
-	* Removed the buffer from prepare_elf_section_hdr_zero()
-	* Removed buff argument from prepare_elf_section_hdr_zero()
-	* Renamed some of the pv functions
-
-v3:
-	* I forgot to reserve the new ELF note so I'm currently
-          discussing its name and over which tree it will be pulled
-          with the kernel devs
-	* Split code into "dump: Rename write_elf_loads to write_elf_phdr_loads"
-	* Refined a lot of the commit messages
-	* Split the string table patch into two: the swap of the
-          section/segment and the string table support
-	* Renamed write_elf_section_hdr_zero() to prepare_elf_section_hdr_zero()
-	* Removed rogue code from "dump/dump: Add arch section support"
-
-v2:
-	* Added "dump: Cleanup memblock usage"
-	* Fixed whitespace problems and review comments
-	* Added missing *errp check in dump_end
-
-
-Janosch Frank (17):
-  dump: Rename write_elf_loads to write_elf_phdr_loads
-  dump: Introduce GuestPhysBlock offset and length filter functions
-  dump: Convert GuestPhysBlock iterators and use the filter functions
-  dump: Rework get_start_block
-  dump: Cleanup and annotate guest memory related DumpState struct
-    members
-  dump: Rework dump_calculate_size function
-  dump: Allocate header
-  dump: Split write of section headers and data and add a prepare step
-  dump: Reorder struct DumpState
-  dump: Swap segment and section header locations
-  dump/dump: Add section string table support
-  dump/dump: Add arch section support
-  linux header sync
-  s390x: Add protected dump cap
-  s390x: Introduce PV query interface
-  s390x: Add KVM PV dump interface
-  s390x: pv: Add dump support
-
- dump/dump.c                  | 458 +++++++++++++++++++++++------------
- hw/s390x/pv.c                | 112 +++++++++
- hw/s390x/s390-virtio-ccw.c   |   5 +
- include/elf.h                |   2 +
- include/hw/s390x/pv.h        |  18 ++
- include/sysemu/dump-arch.h   |  27 +++
- include/sysemu/dump.h        |  37 ++-
- linux-headers/linux/kvm.h    |  54 +++++
- target/s390x/arch_dump.c     | 248 ++++++++++++++++---
- target/s390x/kvm/kvm.c       |   7 +
- target/s390x/kvm/kvm_s390x.h |   1 +
- 11 files changed, 767 insertions(+), 202 deletions(-)
-
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..0ed7cf9c7b 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -490,7 +490,7 @@ static void get_offset_range(hwaddr phys_addr,
+     }
+ }
+ 
+-static void write_elf_loads(DumpState *s, Error **errp)
++static void write_elf_phdr_loads(DumpState *s, Error **errp)
+ {
+     ERRP_GUARD();
+     hwaddr offset, filesz;
+@@ -573,8 +573,8 @@ static void dump_begin(DumpState *s, Error **errp)
+         return;
+     }
+ 
+-    /* write all PT_LOAD to vmcore */
+-    write_elf_loads(s, errp);
++    /* write all PT_LOADs to vmcore */
++    write_elf_phdr_loads(s, errp);
+     if (*errp) {
+         return;
+     }
 -- 
 2.34.1
 
