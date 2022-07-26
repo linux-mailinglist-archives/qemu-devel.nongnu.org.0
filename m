@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73037581788
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:39:34 +0200 (CEST)
-Received: from localhost ([::1]:39158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1AA25817F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:54:00 +0200 (CEST)
+Received: from localhost ([::1]:35896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNan-00054e-FH
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:39:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35112)
+	id 1oGNol-000675-HC
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9w-00033q-Bd
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:48 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:2718)
+ id 1oGN9z-0003CX-8m
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:51 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:9994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9t-0006Bd-Vt
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:47 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn4iJ016269;
- Tue, 26 Jul 2022 16:11:22 GMT
+ id 1oGN9w-0006CF-UI
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:50 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3YH031760;
+ Tue, 26 Jul 2022 16:11:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=Dkgw2hV3LTizWyr+JMzC+LU6gc3ZsMZvXFzyN2LhVpY=;
- b=nxlnicrNzlU+wq7uQJcZdHYE32Jjt7X9WFKglzZMRFnRrMJNWYvxb/zOxzi9p2+uNLvE
- fqfjUZXy7ZuhjP6urFlQCnG4NuhVIi7o/b1x36BppAUf/JmkrqFuskaycqozeS9Sxh9E
- EOwo6ww9YP5k182i21p5ybR/1H/C9VUEdt3G33Kiu0pjm3vzfy85Ghue0GsgPXok/jsv
- rHnkq7AuqhtoXsVSwrHGFMQ4N5CoxC9GJP7XbVIERVUp241O8fPo+++Z3aQQvyy3Uzil
- K9w7xyhiIMDS6WjAqWfF39JG5qBGtWCs9dbhRKf5grzb0yrOhFXIBtiPn5eiayhLHbQi zw== 
+ bh=gJGFuTMaWiIcrsU6nRU8Y2CLbN0aTbcqp7/ItlBmngM=;
+ b=z7LshblmLYFwMhp0Wv1BO+l/pF8TMtyXbQivFaUuNu05Dj9RzoY+mjDyrEAM83BWEtfB
+ 3ztb87Yd5yg9RSQkr6Whcc7VbIFQx2oWifwcZQZH7r+axoWySWeiNEcbvrYBUcd+hwqF
+ X3bil78z53guWnyHXGY4eB+arP5GB7s1qu5T6I1mDuwivqFVUHO5uLfyqNyU6OGqZkpz
+ YlzUDR7hQxePElDwIl6LZoXmvjU6gkIgv9jkZneSPMhccEHvAxwlBXOfEgen7t0vmlJm
+ pr2DYXFivfNaEREFFTFusi8SoMrY0nZkC+25a5SjkEd+LimslZY/e94S+w5RH5t8kBEq kQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a9f0vh-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1bd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:22 +0000
+ Tue, 26 Jul 2022 16:11:23 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QF5NqA006270; Tue, 26 Jul 2022 16:11:21 GMT
+ with ESMTP id 26QEq0Yb006400; Tue, 26 Jul 2022 16:11:23 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq242-1
+ 3hh65bq25j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:21 +0000
+ Tue, 26 Jul 2022 16:11:22 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSx023334;
- Tue, 26 Jul 2022 16:11:20 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uT1023334;
+ Tue, 26 Jul 2022 16:11:22 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-26; Tue, 26 Jul 2022 16:11:20 +0000
+ ESMTP id 3hh65bq0y5-27; Tue, 26 Jul 2022 16:11:22 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 25/46] cpr: only-cpr-capable
-Date: Tue, 26 Jul 2022 09:10:22 -0700
-Message-Id: <1658851843-236870-26-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 26/46] cpr: Mismatched GPAs fix
+Date: Tue, 26 Jul 2022 09:10:23 -0700
+Message-Id: <1658851843-236870-27-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: dGeuz_FRqFAM53Y8AxSPtX-4jrTsch1z
-X-Proofpoint-ORIG-GUID: dGeuz_FRqFAM53Y8AxSPtX-4jrTsch1z
+X-Proofpoint-ORIG-GUID: PYrA6gTumkwN1EFC16sdjsEW-qb-qUeH
+X-Proofpoint-GUID: PYrA6gTumkwN1EFC16sdjsEW-qb-qUeH
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,103 +113,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the only-cpr-capable option, which causes qemu to exit with an error
-if any devices that are not capable of cpr are added.  This guarantees that
-the migrate commanmd will not fail due to a blocker.
+For cpr-exec mode, ramblock_is_ignored is always true, and the address of
+each migrated memory region must match the address of the statically
+initialized region on the target.  However, for a PCI rom block, the region
+address is set when the guest writes to a BAR on the source, which does not
+occur on the target, causing a "Mismatched GPAs" error during cpr-exec
+migration.
+
+To fix, unconditionally set the target's address to the source's address
+if the region does not have an address yet.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- include/migration/cpr.h |  2 ++
- migration/migration.c   | 13 +++++++++++++
- qemu-options.hx         |  8 ++++++++
- softmmu/vl.c            |  4 ++++
- 4 files changed, 27 insertions(+)
+ include/exec/memory.h | 12 ++++++++++++
+ migration/ram.c       | 17 ++++++++++-------
+ softmmu/memory.c      | 10 ++++++++--
+ 3 files changed, 30 insertions(+), 9 deletions(-)
 
-diff --git a/include/migration/cpr.h b/include/migration/cpr.h
-index c48be2d..f2dfb1b 100644
---- a/include/migration/cpr.h
-+++ b/include/migration/cpr.h
-@@ -8,6 +8,8 @@
- #ifndef MIGRATION_CPR_H
- #define MIGRATION_CPR_H
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 128bf3e..9b3bad5 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -738,6 +738,7 @@ struct MemoryRegion {
+     bool flush_coalesced_mmio;
+     uint8_t dirty_log_mask;
+     bool is_iommu;
++    bool has_addr;
+     RAMBlock *ram_block;
+     Object *owner;
  
-+#define CPR_MODES     (BIT(MIG_MODE_CPR_REBOOT) | BIT(MIG_MODE_CPR_EXEC))
+@@ -2268,6 +2269,17 @@ void memory_region_set_enabled(MemoryRegion *mr, bool enabled);
+ void memory_region_set_address(MemoryRegion *mr, hwaddr addr);
+ 
+ /*
++ * memory_region_set_address_only: set the address of a region.
++ *
++ * Same as memory_region_set_address, but without causing transaction side
++ * effects.
++ *
++ * @mr: the region to be updated
++ * @addr: new address, relative to container region
++ */
++void memory_region_set_address_only(MemoryRegion *mr, hwaddr addr);
 +
- extern bool only_cpr_capable;
- 
- void cpr_init(void);
-diff --git a/migration/migration.c b/migration/migration.c
-index 7b46213..e0fc2b8 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2181,6 +2181,11 @@ bool migrate_mode_enabled(MigMode mode)
-     return !!(migrate_enabled_modes & BIT(mode));
++/*
+  * memory_region_set_size: dynamically update the size of a region.
+  *
+  * Dynamically updates the size of a region.
+diff --git a/migration/ram.c b/migration/ram.c
+index 4c868d2..6005c53 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -4314,13 +4314,16 @@ static int ram_load_precopy(QEMUFile *f)
+                     }
+                     if (migrate_ignore_shared()) {
+                         hwaddr addr = qemu_get_be64(f);
+-                        if (ramblock_is_ignored(block) &&
+-                            block->mr->addr != addr) {
+-                            error_report("Mismatched GPAs for block %s "
+-                                         "%" PRId64 "!= %" PRId64,
+-                                         id, (uint64_t)addr,
+-                                         (uint64_t)block->mr->addr);
+-                            ret = -EINVAL;
++                        if (ramblock_is_ignored(block)) {
++                            if (!block->mr->has_addr) {
++                                memory_region_set_address_only(block->mr, addr);
++                            } else if (block->mr->addr != addr) {
++                                error_report("Mismatched GPAs for block %s "
++                                             "%" PRId64 "!= %" PRId64,
++                                             id, (uint64_t)addr,
++                                             (uint64_t)block->mr->addr);
++                                ret = -EINVAL;
++                            }
+                         }
+                     }
+                     ram_control_load_hook(f, RAM_CONTROL_BLOCK_REG,
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 6aa3a2f..8825608 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -2552,7 +2552,7 @@ static void memory_region_add_subregion_common(MemoryRegion *mr,
+     for (alias = subregion->alias; alias; alias = alias->alias) {
+         alias->mapped_via_alias++;
+     }
+-    subregion->addr = offset;
++    memory_region_set_address_only(subregion, offset);
+     memory_region_update_container_subregions(subregion);
  }
  
-+static bool migrate_modes_enabled(int modes)
+@@ -2632,10 +2632,16 @@ static void memory_region_readd_subregion(MemoryRegion *mr)
+     }
+ }
+ 
++void memory_region_set_address_only(MemoryRegion *mr, hwaddr addr)
 +{
-+    return (modes & migrate_enabled_modes) == modes;
++    mr->addr = addr;
++    mr->has_addr = true;
 +}
 +
- static int migrate_check_enabled(Error **errp)
+ void memory_region_set_address(MemoryRegion *mr, hwaddr addr)
  {
-     MigMode mode = migrate_mode();
-@@ -2262,6 +2267,14 @@ static int check_blockers(Error **reasonp, Error **errp, int modes)
-         return -EACCES;
+     if (addr != mr->addr) {
+-        mr->addr = addr;
++        memory_region_set_address_only(mr, addr);
+         memory_region_readd_subregion(mr);
      }
- 
-+    if (only_cpr_capable && (modes & CPR_MODES) &&
-+        migrate_modes_enabled(modes & CPR_MODES)) {
-+        error_propagate_prepend(errp, *reasonp,
-+                                "-only-cpr-capable specified, but: ");
-+        *reasonp = NULL;
-+        return -EACCES;
-+    }
-+
-     return add_blockers(reasonp, errp, modes);
  }
- 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 7797d3d..3ed9270 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4501,6 +4501,14 @@ SRST
-     migration using any mode except 'normal'.
- ERST
- 
-+DEF("only-cpr-capable", 0, QEMU_OPTION_only_cpr_capable, \
-+    "-only-cpr-capable    allow only cpr capable devices\n", QEMU_ARCH_ALL)
-+SRST
-+``-only-cpr-capable``
-+    Only allow cpr capable devices, which guarantees that cpr will not
-+    fail due to a cpr blocker.
-+ERST
-+
- DEF("nodefaults", 0, QEMU_OPTION_nodefaults, \
-     "-nodefaults     don't create default devices\n", QEMU_ARCH_ALL)
- SRST
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5f6cd8c..bed147c 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -77,6 +77,7 @@
- #include "hw/block/block.h"
- #include "hw/i386/x86.h"
- #include "hw/i386/pc.h"
-+#include "migration/cpr.h"
- #include "migration/misc.h"
- #include "migration/snapshot.h"
- #include "sysemu/tpm.h"
-@@ -3366,6 +3367,9 @@ void qemu_init(int argc, char **argv, char **envp)
-             case QEMU_OPTION_only_migratable:
-                 only_migratable = 1;
-                 break;
-+            case QEMU_OPTION_only_cpr_capable:
-+                only_cpr_capable = true;
-+                break;
-             case QEMU_OPTION_migrate_mode_enable:
-                 migrate_enable_mode(qapi_enum_parse(&MigMode_lookup, optarg, -1,
-                                                     &error_fatal));
 -- 
 1.8.3.1
 
