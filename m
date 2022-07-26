@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492EC58157E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 16:38:28 +0200 (CEST)
-Received: from localhost ([::1]:38580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 580DF581594
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 16:42:33 +0200 (CEST)
+Received: from localhost ([::1]:45274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGLhb-0002ua-BD
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 10:38:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34886)
+	id 1oGLlY-0007nV-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 10:42:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGLZq-0006ex-30
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:27 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:37412)
+ id 1oGLas-000787-FL
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:31:30 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:44634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGLZn-0005HD-Qf
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:30:25 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id w185so13400952pfb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:30:20 -0700 (PDT)
+ id 1oGLaq-0005MK-GZ
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:31:29 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id p1so4985445plr.11
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:31:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/jPv7MNHn/R3CBy/IbY1X9QGH75qE6Q82yfr4zVBfQ0=;
- b=LwgTAmJoaUXO9rpBH9LnGAFhbjMtWVSCFb0MtQScWhGj0B162HuAu1nYB/BpKodWKI
- lllVCgh4JhMdgnbUO7UBGTQoUhf26F83GRCkuTLgUk/DmmXNWJEiJ5NJZ/ZszWWDnsRQ
- u7xYSO9VY+BGoOwS+1dn+GN3/x/0OoW6FrXh5wnQAlYh3TrTLjpRwrT0rDBALYvJf/Ur
- VDEGiNxT0NIAEV2Uln/Nv8tDYxz+fo9araOJ77Ik4YIWOBSezz93iI2RYKKOeratVjbi
- f8q7MDLpxOr7tEdTI37fOPaqE6pQLXwZbUf2n5jzw0NkpVatcwt85pswc2Ntg6dEMZLf
- afNQ==
+ bh=T9hlhpmBl60RmvUYOs5WhjDJFPpkXvox3fdnmOLcq2k=;
+ b=b9v5x3+ggn6M8fBvBVwd3OP2Mx3hejobFRf2vWwfKI/wcAZ0OruSnP6R500GqasY2b
+ /IeP2tX8JePMYXXIT2wvsdJXf6jus3hMZWWwE+m3jPG8UFTOlb9/OD16Psi7JjTzFr1x
+ fGdtIfxlsI8QA+w6RjPelZ7lk1v1FDGjD4ukWLpK1BPODbIUTRXHZm0h40bJEqFKu0y+
+ UZvgKKQ/4yXh7BvVbC6EbhgAfdw4oVHJhjEr90ifaRXCeZluNN4XEscxQOfSJSsGDMAr
+ 7oKhpGbJUyDylmgqKcaaZKo+PopqPr437wc4MR4l0xK4pH0+WcMJSi0ol/2gE1+LHbEy
+ yGQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
  :subject:content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/jPv7MNHn/R3CBy/IbY1X9QGH75qE6Q82yfr4zVBfQ0=;
- b=YAAEvh9c65SMs7bd4lAbKxsylOMjyJ5OayqM0S1hZ4zHzZZ7lghlRYYiGpqQ8UMgns
- T6m4gwAoqAzyaxIWVzG7m1+vWaSy9hdSUZ9urjGE9xuACNQOyj6ax+ZoeAV+BI0Cd9A1
- nGTsoxkXwsJC/yniTjWXYuNtmbRj90FbQJnaTPcaK3KcPMyQJlqjC0e+ZIzhVpeuMZXn
- JIvPTKT3mqNdCF34Qt2u1LvL72kSPJ49uhaB9WPow9ZjmUSFP8gf3YbzjAccCq6xLZXs
- vdt0JzXorQthzuTsXh4lbyc61dw8sg/3K6GnpMMiTwffifman8Gyp33ibaR9lLqLngdv
- tACQ==
-X-Gm-Message-State: AJIora+XSbGI82glIxhQcFST9vD+Y/qI5pBQWCVdz9TiFtglHrnw2Ojd
- txM0djrpruFolCXAxD0MHX8=
-X-Google-Smtp-Source: AGRyM1swylSUhoYBofO17nuskVgjC4UrlsT+yujJmW6wfmw8EFu74hZ1EUHrwJGrc3bYpm/nobVe4A==
-X-Received: by 2002:aa7:8253:0:b0:52b:f4f7:bc55 with SMTP id
- e19-20020aa78253000000b0052bf4f7bc55mr10683785pfn.4.1658845818810; 
- Tue, 26 Jul 2022 07:30:18 -0700 (PDT)
+ bh=T9hlhpmBl60RmvUYOs5WhjDJFPpkXvox3fdnmOLcq2k=;
+ b=bNK8AHnEJ05G/tnXIa4TuWMcvUUACIuQhGwslyKl9rwv5U9v90WRBVWjMkketMNqa2
+ nmwj2Jh3COD1rkO2NxmmLvHgM6bpchiW9DM1TwMFTsKwQ3e2W9JZrU2ivJ3LPxyt29t7
+ Gbg2IcMjc27GNB4r1vTcFz/Z9AxqyqmchnYvhys+qUjwDmWtZJXc5VLg4kLi+jmbi1DZ
+ cm6IvcTBzguudrLrKtWsOhbybKpwU7ZEn/HGThTtsmGYSfW5FJT4fAz0kjcPCjozoSxy
+ dlXAfcwV4SwNYGcLsapD8CJUvJAgmEa/yIGvFo4/SAUuAuPQ9lU29lYH4L/Lk5Fw4jfB
+ qTLQ==
+X-Gm-Message-State: AJIora9pGFKhOrOmcIie+H1xIeJzTM30dPNtURkuwl1YThK3s2yOHuRX
+ KGP5UpueVRmzbtZ00cjN7P0=
+X-Google-Smtp-Source: AGRyM1tBI4yznPc7/SGAv7b2Lu470fl94okkFr8vVac5oAkgcaVqwkwuYHxncUMz26Y2XhfSxZ8ZbQ==
+X-Received: by 2002:a17:902:d58c:b0:16c:7fef:af9f with SMTP id
+ k12-20020a170902d58c00b0016c7fefaf9fmr17226724plh.81.1658845886767; 
+ Tue, 26 Jul 2022 07:31:26 -0700 (PDT)
 Received: from [192.168.205.175] (113.red-88-29-182.dynamicip.rima-tde.net.
  [88.29.182.113]) by smtp.gmail.com with ESMTPSA id
- y1-20020a17090264c100b0016d2e8c2228sm11504715pli.238.2022.07.26.07.30.14
+ k13-20020a170902c40d00b0016d21697ed9sm5060329plk.48.2022.07.26.07.31.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 07:30:17 -0700 (PDT)
-Message-ID: <ffca882a-fa87-ec24-2b7b-a86e8b46369a@amsat.org>
-Date: Tue, 26 Jul 2022 16:30:11 +0200
+ Tue, 26 Jul 2022 07:31:26 -0700 (PDT)
+Message-ID: <c9cdf388-3f9e-6527-3666-79a146fb3f22@amsat.org>
+Date: Tue, 26 Jul 2022 16:31:21 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v1 03/13] gitlab: drop 'containers-layer2' stage
+Subject: Re: [PATCH v1 06/13] semihosting: Don't return negative values on
+ qemu_semihosting_console_write() failure
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 Cc: fam@euphon.net, berrange@redhat.com, aurelien@aurel32.net,
  pbonzini@redhat.com, stefanha@redhat.com, crosa@redhat.com,
- peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+ peter.maydell@linaro.org, Richard Henderson <richard.henderson@linaro.org>
 References: <20220725140520.515340-1-alex.bennee@linaro.org>
- <20220725140520.515340-4-alex.bennee@linaro.org>
-In-Reply-To: <20220725140520.515340-4-alex.bennee@linaro.org>
+ <20220725140520.515340-7-alex.bennee@linaro.org>
+In-Reply-To: <20220725140520.515340-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,25 +101,29 @@ Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
 On 25/7/22 16:05, Alex Bennée wrote:
-> From: Daniel P. Berrangé <berrange@redhat.com>
+> From: Peter Maydell <peter.maydell@linaro.org>
 > 
-> Since we express dependancies via a 'needs' clause, we don't need to
-
-Typo "dependencies".
-
-> split container builds into separate stages. GitLab happily lets jobs
-> depend on other jobs in the same stage and will run them when possible.
-
-Nice!
-
-> Acked-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Message-Id: <20220722130431.2319019-4-berrange@redhat.com>
+> The documentation comment for qemu_semihosting_console_write() says
+>   * Returns: number of bytes written -- this should only ever be short
+>   * on some sort of i/o error.
+> 
+> and the callsites rely on this.  However, the implementation code
+> path which sends console output to a chardev doesn't honour this,
+> and will return negative values on error.  Bring it into line with
+> the other implementation codepaths and the documentation, so that
+> it returns 0 on error.
+> 
+> Spotted by Coverity, because console_write() passes the return value
+> to unlock_user(), which doesn't accept a negative length.
+> 
+> Resolves: Coverity CID 1490288
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20220719121110.225657-2-peter.maydell@linaro.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   .gitlab-ci.d/container-cross.yml | 24 ++++++++++++------------
->   .gitlab-ci.d/stages.yml          |  1 -
->   2 files changed, 12 insertions(+), 13 deletions(-)
+>   semihosting/console.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
