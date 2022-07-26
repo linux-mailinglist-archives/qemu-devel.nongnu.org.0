@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF865817D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:48:49 +0200 (CEST)
-Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79BC758180D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:04:30 +0200 (CEST)
+Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNjl-0007AK-1c
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
+	id 1oGNyv-0002gx-9c
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:04:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAL-0003tc-Er
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:17 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:64918)
+ id 1oGNAI-0003qf-7O
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:10 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:58864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAI-0006IO-Fp
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:12 -0400
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3V5016260;
- Tue, 26 Jul 2022 16:11:48 GMT
+ id 1oGNAF-0006Ho-T6
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:09 -0400
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnPkc006246;
+ Tue, 26 Jul 2022 16:11:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=gCFN+vkQnI4S420XG5KSD9WqDBxmdYUEBiWYi3C1Q8s=;
- b=jzfLKJwuhUGVqEckBDCetXx9SEigsqX/jt6tUPs2tX2zz3tUD4GI4qwth/2PFwaitIOP
- hqip6m9sBTCqzD0opIZyTJOhiA+9gHOzlArZIQGmPhPhN7e2jgjlCqd7zd1M2jKIXK6U
- /r2HGpXw4pNdEFdUGG+AMXtWyVTDFnI9ppSf/EQNFYCz9uuWZxYGSk2N+mUUiWfh6407
- vZFlfA9ug1SJzKwNcDvw+g7sNwsloSn2yS3xCIcwKIIh2MXQ4cczFdZRYkxJXAuM5D8A
- G3lYWpiX49moGtVswHIbbdOzPlz/iSizjp1qqowoalX7pthQ8KxoToZueSPCbHlP4IHn tg== 
+ bh=XWPoP8C9iiQogi/HZHyZoI/o3z4hkHqPOgmaMM3RQJo=;
+ b=SUPpMJjTWZUktLVcIFGQ2kthf+c+sQrAB+nzpqD4gpX1UeurdUugWOTNc8qQ+6TMRGoh
+ rjnNDOWNFQQqd+UMO5Kgpdi82OH0lHqS/qZIbroeHZz3wy7FoFafFWMc+TDdlQ94sbY5
+ rpWUP3ChtCDZOzWJ2M9GnjeQMyVD8ONg2BQvcXTPjbirsmgDP1+dIDVY7ABpUFYresyU
+ 2DG6nqSDMl2Ms5FXXvhqJ3iSPQztxvyNGiChjHMMNwHBEEqsB6JiK4GiAp2T9RCQLJfd
+ 10pOX9bhMlIsrnaxqqllZRDKEwFJhj/PAIeb6mnB03fCiPr9coG4KL0PQNuQeckwCfXL HA== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a9f0xc-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940pu4t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:47 +0000
+ Tue, 26 Jul 2022 16:11:49 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEhMpG006143; Tue, 26 Jul 2022 16:11:46 GMT
+ with ESMTP id 26QF380q006266; Tue, 26 Jul 2022 16:11:48 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq2u0-1
+ 3hh65bq2vh-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:46 +0000
+ Tue, 26 Jul 2022 16:11:48 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTX023334;
- Tue, 26 Jul 2022 16:11:45 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTZ023334;
+ Tue, 26 Jul 2022 16:11:47 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-43; Tue, 26 Jul 2022 16:11:45 +0000
+ ESMTP id 3hh65bq0y5-44; Tue, 26 Jul 2022 16:11:47 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 42/46] tests/avocado: add cpr regression test
-Date: Tue, 26 Jul 2022 09:10:39 -0700
-Message-Id: <1658851843-236870-43-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 43/46] vl: start on wakeup request
+Date: Tue, 26 Jul 2022 09:10:40 -0700
+Message-Id: <1658851843-236870-44-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: 5_9P3XFYsEfAMI5B9txVuMhiz21gRpca
-X-Proofpoint-ORIG-GUID: 5_9P3XFYsEfAMI5B9txVuMhiz21gRpca
+X-Proofpoint-GUID: bDDl62MBzZCbuvASfcHkUpWkqpDpG9Tn
+X-Proofpoint-ORIG-GUID: bDDl62MBzZCbuvASfcHkUpWkqpDpG9Tn
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,207 +113,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If qemu starts and loads a VM in the suspended state, then a later wakeup
+request will set the state to running, which is not sufficient to initialize
+the vm, as vm_start was never called during this invocation of qemu.  See
+qemu_system_wakeup_request().
+
+Define the start_on_wakeup_requested() hook to cause vm_start() to be called
+when processing the wakeup request.  This will be called in a subsequent
+migration patch.
+
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- MAINTAINERS          |   1 +
- tests/avocado/cpr.py | 176 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 177 insertions(+)
- create mode 100644 tests/avocado/cpr.py
+ include/sysemu/runstate.h |  1 +
+ softmmu/runstate.c        | 15 ++++++++++++++-
+ 2 files changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b93b0bb..adc1218 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3172,6 +3172,7 @@ F: stubs/cpr-state.c
- F: include/migration/cpr.h
- F: migration/cpr.c
- F: hw/vfio/cpr.c
-+F: tests/avocado/cpr.py
+diff --git a/include/sysemu/runstate.h b/include/sysemu/runstate.h
+index a5f0738..cfcdbf5 100644
+--- a/include/sysemu/runstate.h
++++ b/include/sysemu/runstate.h
+@@ -57,6 +57,7 @@ void qemu_system_reset_request(ShutdownCause reason);
+ void qemu_system_suspend_request(void);
+ void qemu_register_suspend_notifier(Notifier *notifier);
+ bool qemu_wakeup_suspend_enabled(void);
++void qemu_system_start_on_wakeup_request(void);
+ void qemu_system_wakeup_request(WakeupReason reason, Error **errp);
+ void qemu_system_wakeup_enable(WakeupReason reason, bool enabled);
+ void qemu_register_wakeup_notifier(Notifier *notifier);
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index fb86740..c7db5ac 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -338,6 +338,7 @@ void vm_state_notify(bool running, RunState state)
+     }
+ }
  
- Record/replay
- M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-diff --git a/tests/avocado/cpr.py b/tests/avocado/cpr.py
-new file mode 100644
-index 0000000..11e1376
---- /dev/null
-+++ b/tests/avocado/cpr.py
-@@ -0,0 +1,176 @@
-+# cpr test
++static bool start_on_wakeup_requested;
+ static ShutdownCause reset_requested;
+ static ShutdownCause shutdown_requested;
+ static int shutdown_signal;
+@@ -571,6 +572,11 @@ void qemu_register_suspend_notifier(Notifier *notifier)
+     notifier_list_add(&suspend_notifiers, notifier);
+ }
+ 
++void qemu_system_start_on_wakeup_request(void)
++{
++    start_on_wakeup_requested = true;
++}
 +
-+# Copyright (c) 2021, 2022 Oracle and/or its affiliates.
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2.
-+# See the COPYING file in the top-level directory.
+ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+ {
+     trace_system_wakeup_request(reason);
+@@ -583,7 +589,14 @@ void qemu_system_wakeup_request(WakeupReason reason, Error **errp)
+     if (!(wakeup_reason_mask & (1 << reason))) {
+         return;
+     }
+-    runstate_set(RUN_STATE_RUNNING);
 +
-+import tempfile
-+from avocado_qemu import QemuSystemTest
-+from avocado.utils import wait
++    if (start_on_wakeup_requested) {
++        start_on_wakeup_requested = false;
++        vm_start();
++    } else {
++        runstate_set(RUN_STATE_RUNNING);
++    }
 +
-+class Cpr(QemuSystemTest):
-+    """
-+    :avocado: tags=cpr
-+    """
-+
-+    timeout = 5
-+    fast_timeout = 1
-+
-+    @staticmethod
-+    def has_status(vm, status, command):
-+        return vm.command(command)['status'] in status
-+
-+    def wait_for_status(self, vm, status, command):
-+        wait.wait_for(self.has_status,
-+                      timeout=self.timeout,
-+                      step=0.1,
-+                      args=(vm,status,command,))
-+
-+    def wait_for_runstate(self, vm, status):
-+        self.wait_for_status(vm, status, 'query-status')
-+
-+    def wait_for_migration(self, vm, status):
-+        self.wait_for_status(vm, status, 'query-migrate')
-+
-+    def run_and_fail(self, vm, msg):
-+        # Qemu will fail fast, so disable monitor to avoid timeout in accept
-+        vm.set_qmp_monitor(False)
-+        vm.launch()
-+        vm.wait(self.timeout)
-+        self.assertRegex(vm.get_log(), msg)
-+
-+    def get_vm_for_restart(self):
-+        return self.get_vm('-nodefaults',
-+                           '-migrate-mode-enable', 'cpr-exec',
-+                           '-object', 'memory-backend-memfd,id=pc.ram,size=8M',
-+                           '-machine', 'memory-backend=pc.ram')
-+
-+    def do_cpr_exec(self, vmstate_name):
-+        vm = self.get_vm_for_restart()
-+        vm.launch()
-+
-+        uri = 'file:' + vmstate_name
-+        args = vm.full_args + ['-incoming', 'defer']
-+
-+        vm.command('migrate-set-parameters', cpr_exec_args=args)
-+        vm.command('migrate-set-parameters', mode='cpr-exec')
-+        vm.qmp('migrate', uri=uri)
-+
-+        # Cannot poll for migration status, because qemu may call execv before
-+        # we see it. Wait for STOP instead.
-+        vm.event_wait(name='STOP', timeout=self.fast_timeout)
-+
-+        # Migrate execs and closes the monitor socket, so reopen it.
-+        vm.reopen_qmp_connection()
-+
-+        self.assertEqual(vm.command('query-status')['status'], 'inmigrate')
-+        resp = vm.command('migrate-incoming', uri=uri)
-+        self.wait_for_migration(vm, ('completed', 'failed'))
-+        self.assertEqual(vm.command('query-migrate')['status'], 'completed')
-+
-+        resp = vm.command('cont')
-+        vm.event_wait(name='RESUME', timeout=self.fast_timeout)
-+        self.assertEqual(vm.command('query-status')['status'], 'running')
-+
-+    def do_cpr_reboot(self, vmstate_name):
-+        args = ['-nodefaults', '-migrate-mode-enable', 'cpr-reboot' ]
-+        old_vm = self.get_vm(*args)
-+        old_vm.launch()
-+
-+        uri = 'file:' + vmstate_name
-+
-+        old_vm.command('migrate-set-capabilities', capabilities = [
-+                       { "capability": "x-ignore-shared", "state": True }])
-+        old_vm.command('migrate-set-parameters', mode='cpr-reboot')
-+        old_vm.qmp('migrate', uri=uri)
-+        self.wait_for_migration(old_vm, ('completed', 'failed'))
-+        self.assertEqual(old_vm.command('query-migrate')['status'],
-+                         'completed')
-+        self.assertEqual(old_vm.command('query-status')['status'],
-+                         'postmigrate')
-+
-+        args = args + ['-incoming', 'defer']
-+        new_vm = self.get_vm(*args)
-+        new_vm.launch()
-+        self.assertEqual(new_vm.command('query-status')['status'], 'inmigrate')
-+
-+        new_vm.command('migrate-set-capabilities', capabilities = [
-+                       { "capability": "x-ignore-shared", "state": True }])
-+        new_vm.command('migrate-set-parameters', mode='cpr-reboot')
-+        new_vm.command('migrate-incoming', uri=uri)
-+        self.wait_for_migration(new_vm, ('completed', 'failed'))
-+        self.assertEqual(new_vm.command('query-migrate')['status'], 'completed')
-+
-+        new_vm.command('cont')
-+        new_vm.event_wait(name='RESUME', timeout=self.fast_timeout)
-+        self.assertEqual(new_vm.command('query-status')['status'], 'running')
-+
-+    def test_cpr_exec(self):
-+        """
-+        Verify that cpr restart mode works
-+        """
-+        with tempfile.NamedTemporaryFile() as vmstate_file:
-+            self.do_cpr_exec(vmstate_file.name)
-+
-+    def test_cpr_reboot(self):
-+        """
-+        Verify that cpr reboot mode works
-+        """
-+        with tempfile.NamedTemporaryFile() as vmstate_file:
-+            self.do_cpr_reboot(vmstate_file.name)
-+
-+    def test_cpr_block_cpr_exec(self):
-+        """
-+        Verify that qemu rejects cpr restart mode for volatile memory
-+        """
-+
-+        vm = self.get_vm('-nodefaults',
-+                         '-migrate-mode-enable', 'cpr-exec')
-+        vm.launch()
-+        uri='file:/dev/null'
-+        args = vm.full_args + ['-S']
-+        resp = vm.command('migrate-set-parameters', mode='cpr-exec')
-+        rsp = vm.qmp('migrate', uri=uri)
-+        vm.qmp('quit')
-+
-+        expect = r'Memory region .* is volatile'
-+        self.assertRegex(rsp['error']['desc'], expect)
-+
-+    def test_cpr_block_memfd(self):
-+
-+        """
-+        Verify that qemu complains for only-cpr-capable and volatile memory
-+        """
-+        vm = self.get_vm('-nodefaults',
-+                         '-migrate-mode-enable', 'cpr-exec',
-+                         '-only-cpr-capable')
-+        self.run_and_fail(vm, r'only-cpr-capable specified.* Memory ')
-+
-+    def test_cpr_block_replay(self):
-+        """
-+        Verify that qemu complains for only-cpr-capable and replay
-+        """
-+        vm = self.get_vm_for_restart()
-+        vm.add_args('-only-cpr-capable',
-+                    '-icount', 'shift=10,rr=record,rrfile=/dev/null')
-+        self.run_and_fail(vm, r'only-cpr-capable specified.* replay ')
-+
-+    def test_cpr_block_chardev(self):
-+        """
-+        Verify that qemu complains for only-cpr-capable and unsupported chardev
-+        """
-+        vm = self.get_vm_for_restart()
-+        vm.add_args('-only-cpr-capable',
-+                    '-chardev', 'vc,id=vc1')
-+        self.run_and_fail(vm, r'only-cpr-capable specified.* vc1 ')
-+
-+    def test_cpr_allow_chardev(self):
-+        """
-+        Verify that qemu allows unsupported chardev with reopen-on-cpr
-+        """
-+        vm = self.get_vm_for_restart()
-+        vm.add_args('-only-cpr-capable',
-+                    '-chardev', 'vc,id=vc1,reopen-on-cpr=on')
-+        vm.launch()
-+        self.wait_for_runstate(vm, ('running'))
+     wakeup_reason = reason;
+     qemu_notify_event();
+ }
 -- 
 1.8.3.1
 
