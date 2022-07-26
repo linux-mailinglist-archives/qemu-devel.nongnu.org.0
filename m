@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B988D581779
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:32:53 +0200 (CEST)
-Received: from localhost ([::1]:57316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDCE581826
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:11:56 +0200 (CEST)
+Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNUK-0006Ue-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:32:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
+	id 1oGO68-0005Pz-04
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNA4-0003PH-Di
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:56 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:7536)
+ id 1oGNB5-0004gN-Om
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:59 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:25814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNA2-0006H4-2g
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:56 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnMFT026393;
- Tue, 26 Jul 2022 16:11:41 GMT
+ id 1oGNB2-0006OW-I1
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:58 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnE4S024578;
+ Tue, 26 Jul 2022 16:11:43 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=d9YQm01zhlAKelUEkg9PtJXEYEmRHSGN1zF3T3YRxfM=;
- b=M+H9KG06P5gI9zuvfZNWGVNIiwZALyo5z4Kjz4a+HhHNB2yjAKQWZisu9gxdgmUCtfKT
- 63/S6Qn9fkwDgqBl6hJXODGipiiNwMtfBygkVpKFlPo2udoiNxTM22MdicSa8c2azDxx
- sEGJybUolfaP6CWzTYJWmdjsDeFXvC5KyCJK2leITVUa5UYCYEOwLKPQZMR41QhdAK08
- EbyLKgn2m4uUvN/GLWxZKSmdaHbB1dqQjMb5TBiQkXondCQwlsEjrWB0HH7ly0IWCj5l
- IZJ9hEXok3kWDi1WI4XnHtw5F7aox3TY/3GuIZPRRBe3/+7EeIqoW+shIZtyEgXcw7fL 4Q== 
+ bh=TUmorKeflFpmI5VFZReXi35EpmdOkVvMmjfUaEiC4Ks=;
+ b=VE6bHdrV30FyRmPHjadTE1ZbC5vyFVd9mx6POXZWfhyfjEXVND/zm3gvsxussh6DxIRx
+ hriDoGxGEslRSh5boHoW+anV3Mj2CBkLgX33keNnG1xAWmEQwkrczkR9BgTJGGgh71xf
+ tHuSsaDROA4x7Mi23ctTX+WTCDueANzbqeWTndNCoPnVVuecMXEKYdUmHIvlttT58LwF
+ fJsBm+XfMf9jYDW+K1zR6PXXYnn6665c/+Si7Or0VMxr13aZfA9pyRY7r6fDWUD/R1RC
+ Ju8S6DH4EZlSCM56CCVpWvXpkP7EEej1MDqs1t7mGNZIBOcV/FWBWGGN9l6gp8n31mzv wg== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg94gevyq-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9hsq2p2-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:41 +0000
+ Tue, 26 Jul 2022 16:11:42 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEvo8D006379; Tue, 26 Jul 2022 16:11:40 GMT
+ with ESMTP id 26QFAO7f006435; Tue, 26 Jul 2022 16:11:42 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq2n2-1
+ 3hh65bq2pc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:40 +0000
+ Tue, 26 Jul 2022 16:11:42 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTP023334;
- Tue, 26 Jul 2022 16:11:39 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTR023334;
+ Tue, 26 Jul 2022 16:11:41 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-39; Tue, 26 Jul 2022 16:11:39 +0000
+ ESMTP id 3hh65bq0y5-40; Tue, 26 Jul 2022 16:11:41 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 38/46] chardev: cpr for pty
-Date: Tue, 26 Jul 2022 09:10:35 -0700
-Message-Id: <1658851843-236870-39-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 39/46] chardev: cpr for sockets
+Date: Tue, 26 Jul 2022 09:10:36 -0700
+Message-Id: <1658851843-236870-40-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: SLolOr_Hi0kQxw921kyQZ2ptsCqaAJ9e
-X-Proofpoint-ORIG-GUID: SLolOr_Hi0kQxw921kyQZ2ptsCqaAJ9e
+X-Proofpoint-ORIG-GUID: OxNYsLM8uec00QlwhrlYauXQOd9TqHRn
+X-Proofpoint-GUID: OxNYsLM8uec00QlwhrlYauXQOd9TqHRn
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,66 +113,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Save and restore pty descriptors across cpr-exec.
+Save accepted socket fds before cpr-exec, and look for them after.
+Block cpr-exec if a socket enables the TLS or websocket option.
+Allow a monitor socket by closing it on exec.
 
+Signed-off-by: Mark Kanda <mark.kanda@oracle.com>
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char-pty.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ chardev/char-socket.c         | 48 +++++++++++++++++++++++++++++++++++++++++++
+ include/chardev/char-socket.h |  1 +
+ monitor/hmp.c                 |  3 +++
+ monitor/qmp.c                 |  4 ++++
+ 4 files changed, 56 insertions(+)
 
-diff --git a/chardev/char-pty.c b/chardev/char-pty.c
-index 53f25c6..5707b13 100644
---- a/chardev/char-pty.c
-+++ b/chardev/char-pty.c
-@@ -29,6 +29,7 @@
- #include "qemu/sockets.h"
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index dc4e218..f93bae8 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -26,6 +26,8 @@
+ #include "chardev/char.h"
+ #include "io/channel-socket.h"
+ #include "io/channel-websock.h"
++#include "migration/blocker.h"
++#include "migration/cpr-state.h"
  #include "qemu/error-report.h"
  #include "qemu/module.h"
-+#include "migration/cpr-state.h"
- #include "qemu/qemu-print.h"
+ #include "qemu/option.h"
+@@ -33,6 +35,7 @@
+ #include "qapi/clone-visitor.h"
+ #include "qapi/qapi-visit-sockets.h"
+ #include "qemu/yank.h"
++#include "sysemu/sysemu.h"
  
  #include "chardev/char-io.h"
-@@ -190,6 +191,9 @@ static void char_pty_finalize(Object *obj)
-     Chardev *chr = CHARDEV(obj);
-     PtyChardev *s = PTY_CHARDEV(obj);
+ #include "chardev/char-socket.h"
+@@ -358,6 +361,11 @@ static void tcp_chr_free_connection(Chardev *chr)
+     SocketChardev *s = SOCKET_CHARDEV(chr);
+     int i;
  
 +    if (chr->cpr_enabled) {
 +        cpr_delete_fd(chr->label, 0);
 +    }
-     pty_chr_state(chr, 0);
-     object_unref(OBJECT(s->ioc));
-     pty_chr_timer_cancel(s);
-@@ -317,12 +321,20 @@ static void char_pty_open(Chardev *chr,
-     char pty_name[PATH_MAX];
-     char *name;
++    migrate_del_blocker(&s->cpr_blocker);
++
+     if (s->read_msgfds_num) {
+         for (i = 0; i < s->read_msgfds_num; i++) {
+             close(s->read_msgfds[i]);
+@@ -923,6 +931,10 @@ static void tcp_chr_accept(QIONetListener *listener,
+                                QIO_CHANNEL(cioc));
+     }
+     tcp_chr_new_client(chr, cioc);
++
++    if (s->sioc && chr->cpr_enabled) {
++        cpr_resave_fd(chr->label, 0, s->sioc->fd);
++    }
+ }
  
-+    master_fd = cpr_find_fd(chr->label, 0);
-+    if (master_fd >= 0) {
-+        chr->filename = g_strdup_printf("pty:unknown");
-+        goto have_fd;
+ 
+@@ -1178,6 +1190,27 @@ static gboolean socket_reconnect_timeout(gpointer opaque)
+     return false;
+ }
+ 
++static int load_char_socket_fd(Chardev *chr, Error **errp)
++{
++    ERRP_GUARD();
++    SocketChardev *sockchar = SOCKET_CHARDEV(chr);
++    QIOChannelSocket *sioc;
++    const char *label = chr->label;
++    int fd = cpr_find_fd(label, 0);
++
++    if (fd != -1) {
++        sockchar = SOCKET_CHARDEV(chr);
++        sioc = qio_channel_socket_new_fd(fd, errp);
++        if (sioc) {
++            tcp_chr_accept(sockchar->listener, sioc, chr);
++            object_unref(OBJECT(sioc));
++        } else {
++            error_prepend(errp, "could not restore socket for %s", label);
++            return -1;
++        }
++    }
++    return 0;
++}
+ 
+ static int qmp_chardev_open_socket_server(Chardev *chr,
+                                           bool is_telnet,
+@@ -1388,6 +1421,19 @@ static void qmp_chardev_open_socket(Chardev *chr,
+     }
+     s->registered_yank = true;
+ 
++    if (!s->tls_creds && !s->is_websock) {
++        qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
++    } else if (!chr->reopen_on_cpr) {
++        s->cpr_blocker = NULL;
++        error_setg(&s->cpr_blocker,
++                   "error: socket %s is not cpr capable due to %s option",
++                   chr->label, (s->tls_creds ? "TLS" : "websocket"));
++        if (migrate_add_blockers(&s->cpr_blocker, errp, MIG_MODE_CPR_EXEC,
++                                 -1)) {
++            return;
++        }
 +    }
 +
-     master_fd = qemu_openpty_raw(&slave_fd, pty_name);
-     if (master_fd < 0) {
-         error_setg_errno(errp, errno, "Failed to create PTY");
-         return;
-     }
--
-+    if (chr->cpr_enabled) {
-+        cpr_save_fd(chr->label, 0, master_fd);
-+    }
-     close(slave_fd);
-     if (!g_unix_set_fd_nonblocking(master_fd, true, NULL)) {
-         error_setg_errno(errp, errno, "Failed to set FD nonblocking");
-@@ -333,6 +345,8 @@ static void char_pty_open(Chardev *chr,
-     qemu_printf("char device redirected to %s (label %s)\n",
-                 pty_name, chr->label);
+     /* be isn't opened until we get a connection */
+     *be_opened = false;
  
-+have_fd:
-+    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
-     s = PTY_CHARDEV(chr);
-     s->ioc = QIO_CHANNEL(qio_channel_file_new_fd(master_fd));
-     name = g_strdup_printf("chardev-pty-%s", chr->label);
+@@ -1403,6 +1449,8 @@ static void qmp_chardev_open_socket(Chardev *chr,
+             return;
+         }
+     }
++
++    load_char_socket_fd(chr, errp);
+ }
+ 
+ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
+diff --git a/include/chardev/char-socket.h b/include/chardev/char-socket.h
+index 0708ca6..1c3abf7 100644
+--- a/include/chardev/char-socket.h
++++ b/include/chardev/char-socket.h
+@@ -78,6 +78,7 @@ struct SocketChardev {
+     bool connect_err_reported;
+ 
+     QIOTask *connect_task;
++    Error *cpr_blocker;
+ };
+ typedef struct SocketChardev SocketChardev;
+ 
+diff --git a/monitor/hmp.c b/monitor/hmp.c
+index 15ca047..75e6739 100644
+--- a/monitor/hmp.c
++++ b/monitor/hmp.c
+@@ -1501,4 +1501,7 @@ void monitor_init_hmp(Chardev *chr, bool use_readline, Error **errp)
+     qemu_chr_fe_set_handlers(&mon->common.chr, monitor_can_read, monitor_read,
+                              monitor_event, NULL, &mon->common, NULL, true);
+     monitor_list_append(&mon->common);
++
++    /* monitor cannot yet be preserved across cpr */
++    chr->reopen_on_cpr = true;
+ }
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 092c527..0b3aac6 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -535,4 +535,8 @@ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+                                  NULL, &mon->common, NULL, true);
+         monitor_list_append(&mon->common);
+     }
++
++    /* Monitor cannot yet be preserved across cpr */
++    chr->reopen_on_cpr = true;
++    chr->cpr_enabled = false;
+ }
 -- 
 1.8.3.1
 
