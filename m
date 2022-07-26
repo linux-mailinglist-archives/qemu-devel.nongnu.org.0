@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8D25811C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:19:15 +0200 (CEST)
-Received: from localhost ([::1]:53432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9675811DE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:24:39 +0200 (CEST)
+Received: from localhost ([::1]:58788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGIan-0001yz-O9
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:19:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37364)
+	id 1oGIg0-000683-Rv
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:24:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGIVh-0007D2-Vd
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48726)
+ id 1oGIcA-0002nO-01
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:20:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGIVb-0001er-3M
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:54 -0400
+ id 1oGIbt-00034z-IP
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:20:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658834030;
+ s=mimecast20190719; t=1658834420;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=hxu+2+tPJfcqV3to7MkE7sdjaCwIOCoBHbdqnf+lSTM=;
- b=jV1CilmL2Rr1QaZrBYqpfGBzGnd218dlg3V4GdcVra9x6Zcyr9Ulft6MattrY2MW6221Tp
- kzRrG3lF0hn/gCsvmHbh+lhUCcvZiHYkMnjlS+Q45ECBAqocpuUa5x7zWl4wPcmuRoM6aP
- ALWmv1Xz88fShZjgG2rXi1I4mjrkFJs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kyod1YhPVA6hFLT3wWK6GRnmF1fV4wX6UIvJH8GMJA4=;
+ b=QoImiIL38xzqFaQYGRLGwt27VotLEOi3OuGcQ7tz7kSNlRbmsM5NrFTt+14ces2ARrRyAe
+ vDSNL+YJSMgjHhzJdxuK+6dJ+vFrBlzo36IW0u43uqUJzP3wQyl6nKiBAzg0wr1kkrbJw9
+ XNZ5yQYP8Kfr18gVPAlyYAhBrLmZUyA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-295-L7-SMSBPMhKZvSz7I6nVvA-1; Tue, 26 Jul 2022 07:13:47 -0400
-X-MC-Unique: L7-SMSBPMhKZvSz7I6nVvA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-12-0avfY0veNWuW2IsTHX4eFQ-1; Tue, 26 Jul 2022 07:20:15 -0400
+X-MC-Unique: 0avfY0veNWuW2IsTHX4eFQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A68F2812C25;
- Tue, 26 Jul 2022 11:13:46 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 093A685A585;
+ Tue, 26 Jul 2022 11:20:15 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCFAC140EBE3;
- Tue, 26 Jul 2022 11:13:44 +0000 (UTC)
-Date: Tue, 26 Jul 2022 12:13:42 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C3D811121314;
+ Tue, 26 Jul 2022 11:20:13 +0000 (UTC)
+Date: Tue, 26 Jul 2022 12:20:11 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Het Gala <het.gala@nutanix.com>
 Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, armbru@redhat.com, eblake@redhat.com,
  prerna.saxena@nutanix.com, Manish Mishra <manish.mishra@nutanix.com>
-Subject: Re: [PATCH v2 2/7] multifd: modifying 'migrate' qmp command to add
- multifd socket on particular src and dest pair
-Message-ID: <Yt/MZiK3OuvQMRfF@redhat.com>
+Subject: Re: [PATCH v2 3/7] multifd: adding multi-interface support for
+ multifd on destination side
+Message-ID: <Yt/N629r3EpOLrHG@redhat.com>
 References: <20220721195620.123837-1-het.gala@nutanix.com>
- <20220721195620.123837-3-het.gala@nutanix.com>
+ <20220721195620.123837-4-het.gala@nutanix.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220721195620.123837-3-het.gala@nutanix.com>
+In-Reply-To: <20220721195620.123837-4-het.gala@nutanix.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,170 +84,54 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 21, 2022 at 07:56:15PM +0000, Het Gala wrote:
-> i) Modified the format of the qemu monitor command : 'migrate' by adding a list,
->    each element in the list consisting of multifd connection parameters: source
->    uri, destination uri and of the number of multifd channels between each pair.
+On Thu, Jul 21, 2022 at 07:56:16PM +0000, Het Gala wrote:
+> i) Modified the format of qemu monitor command: 'migrate-incoming' by adding
+>    a list, each element in the list to open socket listeners with a given
+>    number of multifd channels.
 > 
-> ii) Information of all multifd connection parameters' list and length of the
->     list is stored in 'OutgoingMigrateParams' struct.
+> ii) Qemu starts with -incoming flag defer and -multi-fd-incoming defer to
+>     allow the modified 'migrate-incoming' command to be used.
+> 
+> iii) Format for -multi-fd-incoming flag as a comma separated string has been
+>      added with each substring containing listener socket address and number
+>      of sockets to open.
 > 
 > Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
 > Signed-off-by: Het Gala <het.gala@nutanix.com>
-> ---
->  migration/migration.c | 52 +++++++++++++++++++++++++++++--------
->  migration/socket.c    | 60 ++++++++++++++++++++++++++++++++++++++++---
->  migration/socket.h    | 19 +++++++++++++-
->  monitor/hmp-cmds.c    |  1 +
->  qapi/migration.json   | 47 +++++++++++++++++++++++++++++----
->  5 files changed, 160 insertions(+), 19 deletions(-)
-> 
 
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index 81185d4311..456247af8f 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1449,12 +1449,37 @@
->  ##
->  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 79e00916a1..5555f0d2fd 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -4479,6 +4479,24 @@ SRST
+>      to issuing the migrate\_incoming to allow the migration to begin.
+>  ERST
 >  
-> +##
-> +# @MigrateUriParameter:
-> +#
-> +# Information regarding which source interface is connected to which
-> +# destination interface and number of multifd channels over each interface.
-> +#
-> +# @source-uri: uri of the source VM. Default port number is 0.
-> +#
-> +# @destination-uri: uri of the destination VM
-> +#
-> +# @multifd-channels: number of parallel multifd channels used to migrate data
-> +#                    for specific source-uri and destination-uri. Default value
-> +#                    in this case is 2 (Since 7.1)
-> +#
-> +##
-> +{ 'struct' : 'MigrateUriParameter',
-> +  'data' : { 'source-uri' : 'str',
-> +             'destination-uri' : 'str',
-> +             '*multifd-channels' : 'uint8'} }
+> +DEF("multi-fd-incoming", HAS_ARG, QEMU_OPTION_multi_fd_incoming, \
+> +    "-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]\n" \
+> +    "-multi-fd-incoming defer\n" \
+> +    "                wait for the URI to be specified via\n" \
+> +    "                multi_fd_migrate_incoming\n",
+> +    QEMU_ARCH_ALL)
+> +SRST
+> +``-multi-fd-incoming tcp:[host]:port[:channel][,to=maxport][,ipv4=on|off][,ipv6=on|off]``
+> +    Prepare for multi-fd incoming migration, with multi-fd listening sockets
+> +    on that connection. Default number of multi-fd channels is 2.
 > +
->  ##
->  # @migrate:
->  #
->  # Migrates the current running guest to another Virtual Machine.
->  #
->  # @uri: the Uniform Resource Identifier of the destination VM
-> +#       for migration thread
-> +#
-> +# @multi-fd-uri-list: list of pair of source and destination VM Uniform
-> +#                     Resource Identifiers with number of multifd-channels
-> +#                     for each pair
->  #
->  # @blk: do block migration (full disk copy)
->  #
-> @@ -1474,20 +1499,32 @@
->  # 1. The 'query-migrate' command should be used to check migration's progress
->  #    and final result (this information is provided by the 'status' member)
->  #
-> -# 2. All boolean arguments default to false
-> +# 2. The uri argument should have the Uniform Resource Identifier of default
-> +#    destination VM. This connection will be bound to default network
->  #
-> -# 3. The user Monitor's "detach" argument is invalid in QMP and should not
-> +# 3. All boolean arguments default to false
-> +#
-> +# 4. The user Monitor's "detach" argument is invalid in QMP and should not
->  #    be used
->  #
->  # Example:
->  #
-> -# -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
-> +# -> { "execute": "migrate",
-> +#      "arguments": {
-> +#          "uri": "tcp:0:4446",
-> +#          "multi-fd-uri-list": [ { "source-uri": "tcp::6900",
-> +#                                   "destination-uri": "tcp:0:4480",
-> +#                                   "multifd-channels": 4},
-> +#                                 { "source-uri": "tcp:10.0.0.0: ",
-> +#                                   "destination-uri": "tcp:11.0.0.0:7789",
-> +#                                   "multifd-channels": 5} ] } }
->  # <- { "return": {} }
->  #
->  ##
->  { 'command': 'migrate',
-> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
-> -           '*detach': 'bool', '*resume': 'bool' } }
-> +  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateUriParameter'],
-> +           '*blk': 'bool', '*inc': 'bool', '*detach': 'bool',
-> +           '*resume': 'bool' } }
+> +``-multi-fd-incoming defer``
+> +    Wait for the URI to be specified via multi_fd_migrate\_incoming. The
+> +    monitor can be used to change settings (such as migration parameters)
+> +    prior to issuing the multi_fd_migrate\_incoming to allow the migration
+> +    to begin.
+> +ERST
 
-Considering the existing migrate API from a QAPI design POV, I
-think there are several significant flaws with it
+We should not be adding any new -multi-fd-incoming CLI parameter at all.
+The CLI is so unsuitable for any complex configuration param and this
+is a prime example. 
 
-The use of URIs is the big red flag. It is basically a data encoding
-scheme within a data encoding scheme.  QEMU code should be able to
-directly work with the results from QAPI, without having todo a
-second level of parsing.
-
-URIs made sense in the context of HMP or the QemuOpts CLI, but do not
-make sense in QMP. We made a mistake in this respect when we first
-introduced QMP and implemented 'migrate'.
-
-If we going to extend the migrate API I think we should stop using URIs
-for the new fields, and instead define a QAPI discriminated union for
-the different data transport backends we offer. 
-
-     { 'enum': 'MigrateTransport',
-       'data': ['socket', 'exec'] }
-
-     { 'union': 'MigrateAddress',
-       'base': { 'transport': 'MigrateTransport'},
-       'discriminator': 'transport',
-       'data': {
-           'socket': 'SocketAddress',
-	   'exec': ['str'],
-       }
-
-NB, 'socket' should be able to cover all of  'tcp', 'unix', 'vsock'
-and 'fd' already. I'm fuzzy on best way to represent RDMA.
-
-
-IIUC, the desire of migration maintainers is that we can ultimately
-have multifd as the preferred, or even only, mechanism. Aside from
-the main outbound migration control channel, and the multifd
-data channels, IIUC we have a potential desire to have more channels
-for post-copy async requests.
-
-This all suggests to me a more general representation along the
-lines of:
-
-  { 'enum': 'MigrateChannelType',
-    'data': ['control', 'data', 'async'] }
-
-  { 'struct': 'MigrateChannel',
-    'data': {
-       'type': 'MigrateChannelType',
-       'src-addr': 'MigrateAddress',
-       'dst-addr': 'MigrateAddress',
-       'count': 'int',
-    } }
-
-  { 'comand': 'migrate',
-    'data': {
-      '*uri': 'str'
-      '*channels': ['MigrateChannel']
-    }
-  }
-
-With 'uri' and 'channels' being mutually exclusive here.
-
-This whole scheme brings in redundancy wrt to the 'migrate-set-parameters'
-API wrt multifd - essentally the same data is now being set in two
-different places. IMHO, we should declare the 'multifd' capability
-and the 'multifd-chanels' parameter deprecated, since the information
-they provide is totally redundant, if you're giving an explicit list
-of channels to 'migrate'.
-
+If anything we should fully deprecate anything that is not '-incoming defer'
+such that we become 100% QMP/QAPI based for incoming migration config.
 
 
 With regards,
