@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0A25809AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 04:54:01 +0200 (CEST)
-Received: from localhost ([::1]:34562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E8275809B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 04:55:37 +0200 (CEST)
+Received: from localhost ([::1]:37004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGAhr-0008V6-KR
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 22:53:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34486)
+	id 1oGAjP-0001iV-Iw
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 22:55:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGAex-0006Mn-25
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 22:50:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20719)
+ id 1oGAhA-0008Fb-8r
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 22:53:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGAet-0001zQ-6o
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 22:50:57 -0400
+ id 1oGAh5-0002Gd-MT
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 22:53:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658803852;
+ s=mimecast20190719; t=1658803988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B4OyTWDPf99wUWao15KfntbHwx+2BmkkkATqA6p8C6I=;
- b=ZU0+Ba2Hv2uhDqqF2ozHqiOCIwsYSoJwFvcleNjU3Q6DVvvXaIDMxvxFY0drUfmsJ56zuQ
- Y3ClWc7xXoVlO9FtAHldAxGWbFMdgCD1Elc+0IIniL25+xY898o/r9DRK0YEEsWqGU9rgg
- aY4mjBaB6NiO3hnm4nSN5wcFy5vX/to=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=4178Felqsy2EZbsR9TcpG0OIhJBWPEWb36USZQFouDs=;
+ b=Aipaoj0P3olJQVqP03KZwLKoH/Vp4YFqV6Dq8EMywTOCHJlpfZuGcHlLoQRbZ1j/Fp01rt
+ wKfSC+jdq75b8FlF7D4qM6TIqh5Jo9x9oDea6ZI18muVsShrH6GfJc879HlLNZyubER8tA
+ TWxyZGWObW6j8Hq8LjkQvhrayI3mRDc=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-550-MtKxXvCjPFilFYguqLo4lg-1; Mon, 25 Jul 2022 22:50:50 -0400
-X-MC-Unique: MtKxXvCjPFilFYguqLo4lg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- u4-20020a170902e5c400b0016d6a70a282so3237926plf.10
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 19:50:50 -0700 (PDT)
+ us-mta-389-5Ri4IJnLNLiLXK2QAGyUGg-1; Mon, 25 Jul 2022 22:53:06 -0400
+X-MC-Unique: 5Ri4IJnLNLiLXK2QAGyUGg-1
+Received: by mail-pg1-f199.google.com with SMTP id
+ 31-20020a63125f000000b00419a2da53bdso5772220pgs.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 19:53:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=B4OyTWDPf99wUWao15KfntbHwx+2BmkkkATqA6p8C6I=;
- b=v6TSuJZFXc0xe/rBVeOaRE+7V1Jq3UVeTYFwETKuXr/XCTbcu74/O5kej7yv4nF3XP
- nOo9lvwL9gnsoLgaM6FR4iyhZILjpb0SFX99sT2ullWmrDnhzwb7eRQIqfmyy9qUQBZp
- GX/vcY9wloII7U7tO5uq3NcrBZrISSBe9wVyHMq+lW4/6nKvGsksd3Mmu3XQ/mHW3o+7
- AYoFALYkks1XhsYQeUaKWMAkA9taFfjqB16J+D8rHKy2rtVDhNTapb4bgFISr3Mei61g
- YbCq7w0wB7sbk2Iknetpgxxqj1+D5JaZiC+PeR8B5EAGfpc3P4MZwcbZ/cTwjg1N4cpN
- +0+Q==
-X-Gm-Message-State: AJIora+ztSqZNtOoJiLEdA1fELBwS7oevi2sUL3Ql2uy2mI4IVOVMrlc
- afN7I0V4CFsL63LrDCPfNimjbPjTDPETT7PqQ9858HGTbmV7AksGngDYon13rBnt9g3rEY4teuV
- BZl1zVqR1/u6dGn4=
-X-Received: by 2002:a05:6a00:b8b:b0:51c:2487:57b5 with SMTP id
- g11-20020a056a000b8b00b0051c248757b5mr15331091pfj.56.1658803849326; 
- Mon, 25 Jul 2022 19:50:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tOqIw+fPoD8FEeOWoKCxtJLFDuzAVw3vHmhuanxb7kg4iqOpddftKxdB019nZDm7LxyzZDRQ==
-X-Received: by 2002:a05:6a00:b8b:b0:51c:2487:57b5 with SMTP id
- g11-20020a056a000b8b00b0051c248757b5mr15331058pfj.56.1658803849026; 
- Mon, 25 Jul 2022 19:50:49 -0700 (PDT)
+ bh=4178Felqsy2EZbsR9TcpG0OIhJBWPEWb36USZQFouDs=;
+ b=ndJebKCRsVVEDPQ1adRNgA/qKrypZoaJ8FCR50NRx/2YZkJXNJDCM3fTzkIeZqMIG+
+ 38Y7+2uNFnyV5mEn5KJQmkzrOeQb03UYC1zGfMdbW9HV3LovtZRwMZTkhaYqgDdj1B1/
+ YLKQI9kfNG4Ml/A/yYW7qihGk+C0y0OzeigeBWUJCqIztQhKCL3sn8IbyZfXcOzbHhpU
+ FhfL4TLaX+Ml/mM5N3HwvXJ2238tDWMrlkNLQ3GcCZExiOm1ei44xOaune+4gUcaUe41
+ zaaW0BQgI8Mm/HA8uM4pPLplwqlexvLGTqtvViap/TNUyjW1qA0QgHQtwc62Kxi5zvOH
+ aRmQ==
+X-Gm-Message-State: AJIora814CBn647LLMLFl84/l9qcyFRLpab3kH1IAwzBY5+HjgDg5QDV
+ zHWEYL55GPF8bi5DibOSUCsF+5At2TAx+ItzVrYOiddnUjYiRw+wcL8MCksgMymj+w8PWDW9EGl
+ w3kzWUMMn8pgGr2U=
+X-Received: by 2002:a05:6a00:23c9:b0:52a:cedd:3992 with SMTP id
+ g9-20020a056a0023c900b0052acedd3992mr15103815pfc.43.1658803985255; 
+ Mon, 25 Jul 2022 19:53:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uMvn+ntuDGJfneq07EY9raRYDydYnbgN6HdSri2FZ6fZ6JiAv0ZlYqnmhAJBqBNBM9Z99eUA==
+X-Received: by 2002:a05:6a00:23c9:b0:52a:cedd:3992 with SMTP id
+ g9-20020a056a0023c900b0052acedd3992mr15103804pfc.43.1658803984963; 
+ Mon, 25 Jul 2022 19:53:04 -0700 (PDT)
 Received: from [10.72.12.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- f16-20020a170902ab9000b0016d2d2c7df1sm9983338plr.188.2022.07.25.19.50.37
+ d1-20020a170903230100b0016d738d5dbbsm3326664plh.97.2022.07.25.19.52.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 19:50:48 -0700 (PDT)
-Message-ID: <2f8cb2fd-9aaf-3cd6-7068-575470c63f23@redhat.com>
-Date: Tue, 26 Jul 2022 10:50:36 +0800
+ Mon, 25 Jul 2022 19:53:04 -0700 (PDT)
+Message-ID: <9cbd4657-2c60-be8c-efce-7c2af47398a0@redhat.com>
+Date: Tue, 26 Jul 2022 10:52:57 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH v4 2/7] vdpa: Extract vhost_vdpa_net_cvq_add from
- vhost_vdpa_net_handle_ctrl_avail
+Subject: Re: [PATCH v4 4/7] vdpa: add NetClientState->start() callback
 Content-Language: en-US
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>, 
@@ -84,19 +83,19 @@ Cc: Parav Pandit <parav@mellanox.com>, Zhu Lingshan <lingshan.zhu@intel.com>,
  <stefanha@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Liuxiangdong <liuxiangdong5@huawei.com>
 References: <20220722111245.3403062-1-eperezma@redhat.com>
- <20220722111245.3403062-3-eperezma@redhat.com>
+ <20220722111245.3403062-5-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <20220722111245.3403062-3-eperezma@redhat.com>
+In-Reply-To: <20220722111245.3403062-5-eperezma@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,155 +114,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 在 2022/7/22 19:12, Eugenio Pérez 写道:
-> So we can reuse to inject state messages.
+> It allows per-net client operations right after device's successful
+> start.
+>
+> Vhost-vdpa net will use it to add the CVQ buffers to restore the device
+> status.
 >
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->   net/vhost-vdpa.c | 74 ++++++++++++++++++++++++++++++------------------
->   1 file changed, 47 insertions(+), 27 deletions(-)
+>   include/net/net.h  | 2 ++
+>   hw/net/vhost_net.c | 7 +++++++
+>   2 files changed, 9 insertions(+)
 >
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 6abad276a6..1b82ac2e07 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -334,6 +334,46 @@ static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
->       return true;
->   }
+> diff --git a/include/net/net.h b/include/net/net.h
+> index 523136c7ac..ad9e80083a 100644
+> --- a/include/net/net.h
+> +++ b/include/net/net.h
+> @@ -44,6 +44,7 @@ typedef struct NICConf {
 >   
-> +static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(VhostShadowVirtqueue *svq,
-> +                                               const struct iovec *dev_buffers)
+>   typedef void (NetPoll)(NetClientState *, bool enable);
+>   typedef bool (NetCanReceive)(NetClientState *);
+> +typedef int (NetStart)(NetClientState *);
+>   typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
+>   typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
+>   typedef void (NetCleanup) (NetClientState *);
+> @@ -71,6 +72,7 @@ typedef struct NetClientInfo {
+>       NetReceive *receive_raw;
+>       NetReceiveIOV *receive_iov;
+>       NetCanReceive *can_receive;
+> +    NetStart *start;
 
 
-Let's make this support any layout by accepting in/out sg.
+I think we probably need a better name here. (start should go with 
+DRIVER_OK or SET_VRING_ENABLE)
 
-
-> +{
-> +    /* in buffer used for device model */
-> +    virtio_net_ctrl_ack status;
-> +    size_t dev_written;
-> +    int r;
-> +
-> +    /*
-> +     * Add a fake non-NULL VirtQueueElement since we'll remove before SVQ
-> +     * event loop can get it.
-> +     */
-> +    r = vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, (void *)1);
-
-
-I'd suggest to avoid the trick like (void *)1, which is usually a hint 
-of the defect of the API.
-
-We can either:
-
-1) make vhost_svq_get() check ndescs instead of elem
-
-or
-
-2) simple pass sg
+How about load or other (not a native speaker).
 
 Thanks
 
 
-> +    if (unlikely(r != 0)) {
-> +        if (unlikely(r == -ENOSPC)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
-> +                          __func__);
+>       NetCleanup *cleanup;
+>       LinkStatusChanged *link_status_changed;
+>       QueryRxFilter *query_rx_filter;
+> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> index ccac5b7a64..ddd9ee0441 100644
+> --- a/hw/net/vhost_net.c
+> +++ b/hw/net/vhost_net.c
+> @@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *net,
+>               }
+>           }
+>       }
+> +
+> +    if (net->nc->info->start) {
+> +        r = net->nc->info->start(net->nc);
+> +        if (r < 0) {
+> +            goto fail;
 > +        }
-> +        return VIRTIO_NET_ERR;
 > +    }
-> +
-> +    /*
-> +     * We can poll here since we've had BQL from the time we sent the
-> +     * descriptor. Also, we need to take the answer before SVQ pulls by itself,
-> +     * when BQL is released
-> +     */
-> +    dev_written = vhost_svq_poll(svq);
-> +    if (unlikely(dev_written < sizeof(status))) {
-> +        error_report("Insufficient written data (%zu)", dev_written);
-> +        return VIRTIO_NET_ERR;
-> +    }
-> +
-> +    memcpy(&status, dev_buffers[1].iov_base, sizeof(status));
-> +    if (status != VIRTIO_NET_OK) {
-> +        return VIRTIO_NET_ERR;
-> +    }
-> +
-> +    return VIRTIO_NET_OK;
-> +}
-> +
->   /**
->    * Do not forward commands not supported by SVQ. Otherwise, the device could
->    * accept it and qemu would not know how to update the device model.
-> @@ -380,19 +420,18 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
->                                               void *opaque)
->   {
->       VhostVDPAState *s = opaque;
-> -    size_t in_len, dev_written;
-> +    size_t in_len;
->       virtio_net_ctrl_ack status = VIRTIO_NET_ERR;
->       /* out and in buffers sent to the device */
->       struct iovec dev_buffers[2] = {
->           { .iov_base = s->cvq_cmd_out_buffer },
->           { .iov_base = s->cvq_cmd_in_buffer },
->       };
-> -    /* in buffer used for device model */
-> +    /* in buffer seen by virtio-net device model */
->       const struct iovec in = {
->           .iov_base = &status,
->           .iov_len = sizeof(status),
->       };
-> -    int r = -EINVAL;
->       bool ok;
->   
->       ok = vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
-> @@ -405,35 +444,16 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostShadowVirtqueue *svq,
->           goto out;
->       }
->   
-> -    r = vhost_svq_add(svq, &dev_buffers[0], 1, &dev_buffers[1], 1, elem);
-> -    if (unlikely(r != 0)) {
-> -        if (unlikely(r == -ENOSPC)) {
-> -            qemu_log_mask(LOG_GUEST_ERROR, "%s: No space on device queue\n",
-> -                          __func__);
-> -        }
-> -        goto out;
-> -    }
-> -
-> -    /*
-> -     * We can poll here since we've had BQL from the time we sent the
-> -     * descriptor. Also, we need to take the answer before SVQ pulls by itself,
-> -     * when BQL is released
-> -     */
-> -    dev_written = vhost_svq_poll(svq);
-> -    if (unlikely(dev_written < sizeof(status))) {
-> -        error_report("Insufficient written data (%zu)", dev_written);
-> -        goto out;
-> -    }
-> -
-> -    memcpy(&status, dev_buffers[1].iov_base, sizeof(status));
-> +    status = vhost_vdpa_net_cvq_add(svq, dev_buffers);
->       if (status != VIRTIO_NET_OK) {
->           goto out;
->       }
->   
->       status = VIRTIO_NET_ERR;
-> -    virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, dev_buffers, 1);
-> -    if (status != VIRTIO_NET_OK) {
-> +    in_len = virtio_net_handle_ctrl_iov(svq->vdev, &in, 1, dev_buffers, 1);
-> +    if (in_len != sizeof(status) || status != VIRTIO_NET_OK) {
->           error_report("Bad CVQ processing in model");
-> +        return VIRTIO_NET_ERR;
->       }
->   
->   out:
-> @@ -450,7 +470,7 @@ out:
->       if (dev_buffers[1].iov_base) {
->           vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, dev_buffers[1].iov_base);
->       }
-> -    return r;
-> +    return status == VIRTIO_NET_OK ? 0 : 1;
->   }
->   
->   static const VhostShadowVirtqueueOps vhost_vdpa_net_svq_ops = {
+>       return 0;
+>   fail:
+>       file.fd = -1;
 
 
