@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A612581B01
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:25:06 +0200 (CEST)
-Received: from localhost ([::1]:49156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF8E2581B0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:27:53 +0200 (CEST)
+Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGR73-0004zm-3m
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:25:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52344)
+	id 1oGR9k-00019x-ME
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQ9-0006JF-TZ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45993)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQB-0006LL-IR
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQ6-00051U-0M
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:44 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQQ7-00051x-Ip
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:40:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658864441;
+ s=mimecast20190719; t=1658864442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=APQb4qnExfzNsssSKVQTxFsOb7acJVHhdlS++yMpUB8=;
- b=GDU/nex8NFJT+cfB4P4nNQsAdN4HnMSjgFQ4ipSt92HDUSxPWW/VVx/fP8p6iYSONGGYV/
- bMo6p1egOZRoCmQIzgBwBwl992G28ngpaj2oIoQJlP2I4A8uBKO2S4Y8ZliaTEbt1Hg8NI
- yDa0KG4VUZ64wLmnVQ/dwTeUPcfYCEw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vGBMWsxmCt/y7feB6L2gahZSd7fcXIeSGu61umWiBGY=;
+ b=RIccC0Ejaen36twGjedZh6+HQV2eRdwmIojXAp2CQTpMLjCQLTcL76NpgHmjsZHkRFBu2Q
+ 0u88y5JHyH/+SbNf4IKfQpA0RPwsd0r7Hm+ReyyfBsUgSa5JMJ4OYFJP9CMtr24qU3pOfC
+ x/lMWLpefKIQJ1tHoE8bLX6WYrtnV40=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-569-bouA34sMPhySwM1ZJI-jVQ-1; Tue, 26 Jul 2022 15:40:40 -0400
-X-MC-Unique: bouA34sMPhySwM1ZJI-jVQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- q19-20020a7bce93000000b003a3264f3de9so5690867wmj.3
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:39 -0700 (PDT)
+ us-mta-208-KJO1CijAMgKYXUUVK62Hlg-1; Tue, 26 Jul 2022 15:40:42 -0400
+X-MC-Unique: KJO1CijAMgKYXUUVK62Hlg-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ bh18-20020a05600c3d1200b003a32044cc9fso8029294wmb.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:40:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=APQb4qnExfzNsssSKVQTxFsOb7acJVHhdlS++yMpUB8=;
- b=cb/QtYFQhZ3IguOCge8tuJAzGZsYF6cI0DEJb/nQougwknS3cH7F7Vbfbr8E5jUb0E
- Jth3HWWkbCsqYCDcZP2rnK1OYvyUTqrVyD1N2oz4DNrHi0DWj7AwDIOa0sthlEKIzYhE
- SiWoLclzd4WodfhNLB4ZZjkQ3LTYn9PVsDSXXkkyzWRi/X3izOW2NYAreTCtv8MqFKFC
- xkeyZj67W7tkl0DNuOh2aMBl628atQXfNEFEAhw5yqWxQxt0VOYSc/podkynyXYIbf3n
- n6Y6F5iU9imSRVE18zUiNFBsstxtTcT2fkIx/bmjHbJ+f9cJuugy7L5YiQt+CyFGKUPQ
- kMxg==
-X-Gm-Message-State: AJIora/C1b8SJMiTfXH9P3PLMr8DUB3kVBhg2rjOZy5VOYCHj28Smxuc
- J+nrXguwkE1dsm3jxBIHAoqmYHEITFeZTivXgpfRQV4khPd0xzQcJhaqj92qRr98TtT5mWFxMQz
- +v+D7fJz0gYqJF2fLN/HswP0Pird7X7FwRQdCtoVWVL/VZvpjZwZ/Mr2vMuSD
-X-Received: by 2002:a1c:2783:0:b0:3a2:fd82:bf46 with SMTP id
- n125-20020a1c2783000000b003a2fd82bf46mr492018wmn.29.1658864438549; 
- Tue, 26 Jul 2022 12:40:38 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sUb3y0ZNfoD3pE0q/a2pT3dsBljtxinrBmorGMKy31vCvHDLe2ncS90PVQFP0h6tEwL/EZzg==
-X-Received: by 2002:a1c:2783:0:b0:3a2:fd82:bf46 with SMTP id
- n125-20020a1c2783000000b003a2fd82bf46mr491988wmn.29.1658864438158; 
- Tue, 26 Jul 2022 12:40:38 -0700 (PDT)
+ bh=vGBMWsxmCt/y7feB6L2gahZSd7fcXIeSGu61umWiBGY=;
+ b=kFT0oxZYNkTpKHw6zVj6h8uLA/Et+/FSWi8Ki+msCxOYf7HSTMGjUsjCxN92kfvoPa
+ SWVRNrvnn3EnKZm8KoVvpFs3wjfV9mQe5dD/tpz0gANEvQLGU5Hz9fEBSaK1rwWSbFCe
+ TC1hxl6AmAAUlM+wL687Z/vvutQzud9AqV6Y8n+TqxLXAYU/6I8N6il6XYZdCzWTThHg
+ vP2KFXggLmZpW53odxctJu9mJOm4qFnAjdf0qxVlHrV9i7X9+l/6iMcqATYqV4sInLJa
+ 0jsSbUqXFuG63dHLbUk6V7+XRiYte5QtYp7Wq7w8tm8VEl5iYUgq3caF5AnAl2ORCikJ
+ puEQ==
+X-Gm-Message-State: AJIora/KGi8/HTpQb+RzWzlv8l0HCH4BI1gM0SyFBv6c70eABREi6Kbm
+ WJGi/8ppKqXrzuckWaqskgxqbLrDBhCXSA9ljoNM1TUV2+nuXLNbj8YpDodtnBQxjGv+mATBPse
+ 18qstglneW4yili4/P9JjtJ8JIYvedoaJaAfx/pm3cFzKP1rAxo09SWtocEYK
+X-Received: by 2002:a7b:c453:0:b0:3a3:1c65:ff97 with SMTP id
+ l19-20020a7bc453000000b003a31c65ff97mr482941wmi.180.1658864440556; 
+ Tue, 26 Jul 2022 12:40:40 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uvyYqqonebrom7qJZL3jrZ5ufTYFG5EuOJAR8KoG0du8+LTzW94TI2xkBRJHXp+gIiCHTpEw==
+X-Received: by 2002:a7b:c453:0:b0:3a3:1c65:ff97 with SMTP id
+ l19-20020a7bc453000000b003a31c65ff97mr482927wmi.180.1658864440269; 
+ Tue, 26 Jul 2022 12:40:40 -0700 (PDT)
 Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
  by smtp.gmail.com with ESMTPSA id
- d13-20020adf9c8d000000b0021e4c3b2967sm15999722wre.65.2022.07.26.12.40.36
+ c7-20020a05600c0a4700b003a31f71c5b8sm26908380wmq.27.2022.07.26.12.40.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:40:37 -0700 (PDT)
-Date: Tue, 26 Jul 2022 15:40:35 -0400
+ Tue, 26 Jul 2022 12:40:39 -0700 (PDT)
+Date: Tue, 26 Jul 2022 15:40:38 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Joao Martins <joao.m.martins@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 05/16] hw/i386: add 4g boundary start to X86MachineState
-Message-ID: <20220726193858.177462-6-mst@redhat.com>
+Subject: [PULL 06/16] i386/pc: create pci-host qdev prior to pc_memory_init()
+Message-ID: <20220726193858.177462-7-mst@redhat.com>
 References: <20220726193858.177462-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -79,14 +79,14 @@ Content-Disposition: inline
 In-Reply-To: <20220726193858.177462-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,122 +105,128 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joao Martins <joao.m.martins@oracle.com>
 
-Rather than hardcoding the 4G boundary everywhere, introduce a
-X86MachineState field @above_4g_mem_start and use it
-accordingly.
+At the start of pc_memory_init() we usually pass a range of
+0..UINT64_MAX as pci_memory, when really its 2G (i440fx) or
+32G (q35). To get the real user value, we need to get pci-host
+passed property for default pci_hole64_size. Thus to get that,
+create the qdev prior to memory init to better make estimations
+on max used/phys addr.
 
-This is in preparation for relocating ram-above-4g to be
-dynamically start at 1T on AMD platforms.
+This is in preparation to determine that host-phys-bits are
+enough and also for pci-hole64-size to be considered to relocate
+ram-above-4g to be at 1T (on AMD platforms).
 
 Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20220719170014.27028-2-joao.m.martins@oracle.com>
+Message-Id: <20220719170014.27028-3-joao.m.martins@oracle.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/i386/x86.h |  3 +++
- hw/i386/acpi-build.c  |  2 +-
- hw/i386/pc.c          | 11 ++++++-----
- hw/i386/sgx.c         |  2 +-
- hw/i386/x86.c         |  1 +
- 5 files changed, 12 insertions(+), 7 deletions(-)
+ include/hw/pci-host/i440fx.h | 3 ++-
+ hw/i386/pc_piix.c            | 7 +++++--
+ hw/i386/pc_q35.c             | 6 +++---
+ hw/pci-host/i440fx.c         | 5 ++---
+ 4 files changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 6bdf1f6ab2..62fa5774f8 100644
---- a/include/hw/i386/x86.h
-+++ b/include/hw/i386/x86.h
-@@ -56,6 +56,9 @@ struct X86MachineState {
-     /* RAM information (sizes, addresses, configuration): */
-     ram_addr_t below_4g_mem_size, above_4g_mem_size;
+diff --git a/include/hw/pci-host/i440fx.h b/include/hw/pci-host/i440fx.h
+index 52518dbf08..d02bf1ed6b 100644
+--- a/include/hw/pci-host/i440fx.h
++++ b/include/hw/pci-host/i440fx.h
+@@ -35,7 +35,8 @@ struct PCII440FXState {
  
-+    /* Start address of the initial RAM above 4G */
-+    uint64_t above_4g_mem_start;
-+
-     /* CPU and apic information: */
-     bool apic_xrupt_override;
-     unsigned pci_irq_mask;
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index cad6f5ac41..0355bd3dda 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2024,7 +2024,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
-                 build_srat_memory(table_data, mem_base, mem_len, i - 1,
-                                   MEM_AFFINITY_ENABLED);
-             }
--            mem_base = 1ULL << 32;
-+            mem_base = x86ms->above_4g_mem_start;
-             mem_len = next_base - x86ms->below_4g_mem_size;
-             next_base = mem_base + mem_len;
-         }
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 46ab1dcb47..13b68307be 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -850,9 +850,10 @@ void pc_memory_init(PCMachineState *pcms,
-                                  machine->ram,
-                                  x86ms->below_4g_mem_size,
-                                  x86ms->above_4g_mem_size);
--        memory_region_add_subregion(system_memory, 0x100000000ULL,
-+        memory_region_add_subregion(system_memory, x86ms->above_4g_mem_start,
-                                     ram_above_4g);
--        e820_add_entry(0x100000000ULL, x86ms->above_4g_mem_size, E820_RAM);
-+        e820_add_entry(x86ms->above_4g_mem_start, x86ms->above_4g_mem_size,
-+                       E820_RAM);
-     }
+ #define TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE "igd-passthrough-i440FX"
  
-     if (pcms->sgx_epc.size != 0) {
-@@ -893,7 +894,7 @@ void pc_memory_init(PCMachineState *pcms,
-             machine->device_memory->base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-         } else {
-             machine->device_memory->base =
--                0x100000000ULL + x86ms->above_4g_mem_size;
-+                x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-         }
+-PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++PCIBus *i440fx_init(const char *pci_type,
++                    DeviceState *dev,
+                     MemoryRegion *address_space_mem,
+                     MemoryRegion *address_space_io,
+                     ram_addr_t ram_size,
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index fbf9465318..b8b3ce3408 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -91,6 +91,7 @@ static void pc_init1(MachineState *machine,
+     MemoryRegion *pci_memory;
+     MemoryRegion *rom_memory;
+     ram_addr_t lowmem;
++    DeviceState *i440fx_host;
  
-         machine->device_memory->base =
-@@ -927,7 +928,7 @@ void pc_memory_init(PCMachineState *pcms,
-         } else if (pcms->sgx_epc.size != 0) {
-             cxl_base = sgx_epc_above_4g_end(&pcms->sgx_epc);
-         } else {
--            cxl_base = 0x100000000ULL + x86ms->above_4g_mem_size;
-+            cxl_base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
-         }
- 
-         e820_add_entry(cxl_base, cxl_size, E820_RESERVED);
-@@ -1035,7 +1036,7 @@ uint64_t pc_pci_hole64_start(void)
-     } else if (pcms->sgx_epc.size != 0) {
-             hole64_start = sgx_epc_above_4g_end(&pcms->sgx_epc);
+     /*
+      * Calculate ram split, for memory below and above 4G.  It's a bit
+@@ -164,9 +165,11 @@ static void pc_init1(MachineState *machine,
+         pci_memory = g_new(MemoryRegion, 1);
+         memory_region_init(pci_memory, NULL, "pci", UINT64_MAX);
+         rom_memory = pci_memory;
++        i440fx_host = qdev_new(host_type);
      } else {
--        hole64_start = 0x100000000ULL + x86ms->above_4g_mem_size;
-+        hole64_start = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+         pci_memory = NULL;
+         rom_memory = system_memory;
++        i440fx_host = NULL;
      }
  
-     return ROUND_UP(hole64_start, 1 * GiB);
-diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
-index a44d66ba2a..09d9c7c73d 100644
---- a/hw/i386/sgx.c
-+++ b/hw/i386/sgx.c
-@@ -295,7 +295,7 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
-         return;
+     pc_guest_info_init(pcms);
+@@ -200,8 +203,8 @@ static void pc_init1(MachineState *machine,
+         const char *type = xen_enabled() ? TYPE_PIIX3_XEN_DEVICE
+                                          : TYPE_PIIX3_DEVICE;
+ 
+-        pci_bus = i440fx_init(host_type,
+-                              pci_type,
++        pci_bus = i440fx_init(pci_type,
++                              i440fx_host,
+                               system_memory, system_io, machine->ram_size,
+                               x86ms->below_4g_mem_size,
+                               x86ms->above_4g_mem_size,
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 12cc76aaf8..f4d23b1469 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -203,12 +203,12 @@ static void pc_q35_init(MachineState *machine)
+                             pcms->smbios_entry_point_type);
      }
  
--    sgx_epc->base = 0x100000000ULL + x86ms->above_4g_mem_size;
-+    sgx_epc->base = x86ms->above_4g_mem_start + x86ms->above_4g_mem_size;
+-    /* allocate ram and load rom/bios */
+-    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
+-
+     /* create pci host bus */
+     q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
  
-     memory_region_init(&sgx_epc->mr, OBJECT(pcms), "sgx-epc", UINT64_MAX);
-     memory_region_add_subregion(get_system_memory(), sgx_epc->base,
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index ecea25d249..050eedc0c8 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -1391,6 +1391,7 @@ static void x86_machine_initfn(Object *obj)
-     x86ms->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
-     x86ms->bus_lock_ratelimit = 0;
-+    x86ms->above_4g_mem_start = 4 * GiB;
++    /* allocate ram and load rom/bios */
++    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory);
++
+     object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
+     object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
+                              OBJECT(ram_memory), NULL);
+diff --git a/hw/pci-host/i440fx.c b/hw/pci-host/i440fx.c
+index 1c5ad5f918..d5426ef4a5 100644
+--- a/hw/pci-host/i440fx.c
++++ b/hw/pci-host/i440fx.c
+@@ -237,7 +237,8 @@ static void i440fx_realize(PCIDevice *dev, Error **errp)
+     }
  }
  
- static void x86_machine_class_init(ObjectClass *oc, void *data)
+-PCIBus *i440fx_init(const char *host_type, const char *pci_type,
++PCIBus *i440fx_init(const char *pci_type,
++                    DeviceState *dev,
+                     MemoryRegion *address_space_mem,
+                     MemoryRegion *address_space_io,
+                     ram_addr_t ram_size,
+@@ -246,7 +247,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+                     MemoryRegion *pci_address_space,
+                     MemoryRegion *ram_memory)
+ {
+-    DeviceState *dev;
+     PCIBus *b;
+     PCIDevice *d;
+     PCIHostState *s;
+@@ -254,7 +254,6 @@ PCIBus *i440fx_init(const char *host_type, const char *pci_type,
+     unsigned i;
+     I440FXState *i440fx;
+ 
+-    dev = qdev_new(host_type);
+     s = PCI_HOST_BRIDGE(dev);
+     b = pci_root_bus_new(dev, NULL, pci_address_space,
+                          address_space_io, 0, TYPE_PCI_BUS);
 -- 
 MST
 
