@@ -2,96 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7431C581046
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:47:15 +0200 (CEST)
-Received: from localhost ([::1]:39122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54553581032
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 11:45:11 +0200 (CEST)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGH9m-0007RH-BB
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60252)
+	id 1oGH7m-0004df-Bl
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 05:45:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGnH-0004fY-Sj; Tue, 26 Jul 2022 05:24:00 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:3530)
+ id 1oGGnJ-0004hR-OP; Tue, 26 Jul 2022 05:24:02 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:29572
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGGnG-0005b0-1e; Tue, 26 Jul 2022 05:23:59 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q8rVrC003302;
+ id 1oGGnG-0005b7-1s; Tue, 26 Jul 2022 05:24:00 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q9DueW030610;
  Tue, 26 Jul 2022 09:23:56 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=9dkoH7yZe5wC+2uqdq25GnS30EFA2vvlokv8l171feU=;
- b=sCCtoaXX/NI1jqlqTyJEycmJ86InGdDJroBfnbw60/2YPkZY+8p1ErU9tqD3KmfcS53F
- HUe1ARjqYq3JpUf3sJTC9DU+X4cQmxotxLPVdagRTMlJObM8J+OSQUFmeHefKb8l0+Jd
- oPKWZEargj6VM+F7UY3RvD39aztClf7nhz9EvbCPfCgJiGm+i3ArYGgxHPRbbTcR8tjC
- FG9TpIGSLYTS8D4RVSiK9nBeftqCmQwDe0YBjEGNcgrjukzs0hQgvW8tj7i8WAanvwoQ
- xqwMO6OKUnOwAu5npoVoG9Do/q6y63USAkhIk0x3KA+XaG/8gLGqIUsts0g7xIfktWof Rw== 
+ bh=Q9/DTecg3+DrwqiHnopvPhI4Q2b0eDJx4gVdTvntgO8=;
+ b=O9PwW1OfqkfvExDLpv/erzUiZTL+h7ZdOgrrV7JcaFHFhRUvP9QNUDkn8fpssqkdJN6S
+ rhaDqfc6P0V/keBTmaqrdb184P3KvR36R5yQIvN1g8AgOxMUT7Z1MsQItG86TmXXiEVU
+ nWppyEVHOct8xFqpemgZiqEqKtWdmQZ3bR8y94AbyTr7uY1gs+DFaiqMxAzZooEbq/+Y
+ wIEQDCzMnIkwqs13w+B65nKjggxvVikFMFHDzBIhcU1WVbqg13aPsHpltxOE3gcsdmzx
+ 25WX2GhhV1JPXJ+t0s0tbkYzHV9wa/SBadbXDFq0GzFNwVf1xLyA4fZ61/zt8sNYTysc iA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtr7-1
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdeu087g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 26 Jul 2022 09:23:56 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q8rYcj003419;
- Tue, 26 Jul 2022 09:23:55 GMT
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjd59gtq6-1
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26Q9F5ZY001691;
+ Tue, 26 Jul 2022 09:23:56 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjdeu086x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
  Tue, 26 Jul 2022 09:23:55 +0000
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9LVHO002961;
- Tue, 26 Jul 2022 09:23:53 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma02fra.de.ibm.com with ESMTP id 3hg946bhyp-1
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26Q9LbeO026381;
+ Tue, 26 Jul 2022 09:23:54 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hg96wkjtk-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jul 2022 09:23:52 +0000
+ Tue, 26 Jul 2022 09:23:54 +0000
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com
  (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26Q9NnSZ18678076
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26Q9NpZK23789962
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 09:23:49 GMT
+ Tue, 26 Jul 2022 09:23:51 GMT
 Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A67EFA4060;
+ by IMSVA (Postfix) with ESMTP id EE527A405B;
+ Tue, 26 Jul 2022 09:23:50 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD1D7A4054;
  Tue, 26 Jul 2022 09:23:49 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 86191A4054;
- Tue, 26 Jul 2022 09:23:48 +0000 (GMT)
 Received: from linux6.. (unknown [9.114.12.104])
  by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Tue, 26 Jul 2022 09:23:48 +0000 (GMT)
+ Tue, 26 Jul 2022 09:23:49 +0000 (GMT)
 From: Janosch Frank <frankja@linux.ibm.com>
 To: qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
  borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com, scgl@linux.ibm.com
-Subject: [PATCH v4 16/17] s390x: Add KVM PV dump interface
-Date: Tue, 26 Jul 2022 09:22:47 +0000
-Message-Id: <20220726092248.128336-17-frankja@linux.ibm.com>
+Subject: [PATCH v4 17/17] s390x: pv: Add dump support
+Date: Tue, 26 Jul 2022 09:22:48 +0000
+Message-Id: <20220726092248.128336-18-frankja@linux.ibm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220726092248.128336-1-frankja@linux.ibm.com>
 References: <20220726092248.128336-1-frankja@linux.ibm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: iqZIzvW4VpCqej4b2yQte-bnYqFXgIoU
-X-Proofpoint-ORIG-GUID: zcYNcKPqYioYkiKYkJrUjYCXgJvSws3p
+X-Proofpoint-GUID: e7E7NnA-rhTjjlNT7XldPWzDsyNBzfqe
+X-Proofpoint-ORIG-GUID: 775Bb0GY-0ILZ-plH0GJ82wIiVYamCUS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-26_02,2022-07-25_03,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 mlxscore=0 phishscore=0 spamscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ clxscore=1015 suspectscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 mlxscore=0 mlxlogscore=999 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207260033
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -115,103 +116,361 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's add a few bits of code which hide the new KVM PV dump API from
-us via new functions.
+Sometimes dumping a guest from the outside is the only way to get the
+data that is needed. This can be the case if a dumping mechanism like
+KDUMP hasn't been configured or data needs to be fetched at a specific
+point. Dumping a protected guest from the outside without help from
+fw/hw doesn't yield sufficient data to be useful. Hence we now
+introduce PV dump support.
+
+The PV dump support works by integrating the firmware into the dump
+process. New Ultravisor calls are used to initiate the dump process,
+dump cpu data, dump memory state and lastly complete the dump process.
+The UV calls are exposed by KVM via the new KVM_PV_DUMP command and
+its subcommands. The guest's data is fully encrypted and can only be
+decrypted by the entity that owns the customer communication key for
+the dumped guest. Also dumping needs to be allowed via a flag in the
+SE header.
+
+On the QEMU side of things we store the PV dump data in the newly
+introduced architecture ELF sections (storage state and completion
+data) and the cpu notes (for cpu dump data).
+
+Users can use the zgetdump tool to convert the encrypted QEMU dump to an
+unencrypted one.
 
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 ---
- hw/s390x/pv.c         | 51 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/s390x/pv.h |  8 +++++++
- 2 files changed, 59 insertions(+)
+ target/s390x/arch_dump.c | 248 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 218 insertions(+), 30 deletions(-)
 
-diff --git a/hw/s390x/pv.c b/hw/s390x/pv.c
-index 2b892b45e8..ce3b6ad3e9 100644
---- a/hw/s390x/pv.c
-+++ b/hw/s390x/pv.c
-@@ -175,6 +175,57 @@ bool kvm_s390_pv_info_basic_valid(void)
-     return info_valid;
+diff --git a/target/s390x/arch_dump.c b/target/s390x/arch_dump.c
+index 08daf93ae1..8afef4127c 100644
+--- a/target/s390x/arch_dump.c
++++ b/target/s390x/arch_dump.c
+@@ -16,7 +16,8 @@
+ #include "s390x-internal.h"
+ #include "elf.h"
+ #include "sysemu/dump.h"
+-
++#include "hw/s390x/pv.h"
++#include "kvm/kvm_s390x.h"
+ 
+ struct S390xUserRegsStruct {
+     uint64_t psw[2];
+@@ -76,9 +77,16 @@ typedef struct noteStruct {
+         uint64_t todcmp;
+         uint32_t todpreg;
+         uint64_t ctrs[16];
++        uint8_t dynamic[1];  /*
++                              * Would be a flexible array member, if
++                              * that was legal inside a union. Real
++                              * size comes from PV info interface.
++                              */
+     } contents;
+ } QEMU_PACKED Note;
+ 
++static bool pv_dump_initialized;
++
+ static void s390x_write_elf64_prstatus(Note *note, S390CPU *cpu, int id)
+ {
+     int i;
+@@ -177,52 +185,82 @@ static void s390x_write_elf64_prefix(Note *note, S390CPU *cpu, int id)
+     note->contents.prefix = cpu_to_be32((uint32_t)(cpu->env.psa));
  }
  
-+static int s390_pv_dump_cmd(uint64_t subcmd, uint64_t uaddr, uint64_t gaddr,
-+                            uint64_t len)
++static void s390x_write_elf64_pv(Note *note, S390CPU *cpu, int id)
 +{
-+    struct kvm_s390_pv_dmp dmp = {
-+        .subcmd = subcmd,
-+        .buff_addr = uaddr,
-+        .buff_len = len,
-+        .gaddr = gaddr,
-+    };
-+    int ret;
-+
-+    ret = s390_pv_cmd(KVM_PV_DUMP, (void *)&dmp);
-+    if (ret) {
-+        error_report("KVM DUMP command %ld failed", subcmd);
++    note->hdr.n_type = cpu_to_be32(NT_S390_PV_CPU_DATA);
++    if (!pv_dump_initialized) {
++        return;
 +    }
-+    return ret;
++    kvm_s390_dump_cpu(cpu, &note->contents.dynamic);
 +}
-+
-+int kvm_s390_dump_cpu(S390CPU *cpu, void *buff)
-+{
-+    struct kvm_s390_pv_dmp dmp = {
-+        .subcmd = KVM_PV_DUMP_CPU,
-+        .buff_addr = (uint64_t)buff,
-+        .gaddr = 0,
-+        .buff_len = info_dump.dump_cpu_buffer_len,
-+    };
-+    struct kvm_pv_cmd pv = {
-+        .cmd = KVM_PV_DUMP,
-+        .data = (uint64_t)&dmp,
-+    };
-+
-+    return kvm_vcpu_ioctl(CPU(cpu), KVM_S390_PV_CPU_COMMAND, &pv);
-+}
-+
-+int kvm_s390_dump_init(void)
-+{
-+    return s390_pv_dump_cmd(KVM_PV_DUMP_INIT, 0, 0, 0);
-+}
-+
-+int kvm_s390_dump_mem(uint64_t gaddr, size_t len, void *dest)
-+{
-+    return s390_pv_dump_cmd(KVM_PV_DUMP_CONFIG_STATE, (uint64_t)dest,
-+                            gaddr, len);
-+}
-+
-+int kvm_s390_dump_complete(void *buff)
-+{
-+    return s390_pv_dump_cmd(KVM_PV_DUMP_COMPLETE, (uint64_t)buff, 0,
-+                            info_dump.dump_config_finalize_len);
-+}
-+
- #define TYPE_S390_PV_GUEST "s390-pv-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(S390PVGuest, S390_PV_GUEST)
  
-diff --git a/include/hw/s390x/pv.h b/include/hw/s390x/pv.h
-index 573259cf2b..02a6c06b9f 100644
---- a/include/hw/s390x/pv.h
-+++ b/include/hw/s390x/pv.h
-@@ -51,6 +51,10 @@ uint64_t kvm_s390_pv_dmp_get_size_cpu(void);
- uint64_t kvm_s390_pv_dmp_get_size_stor_state(void);
- uint64_t kvm_s390_pv_dmp_get_size_complete(void);
- bool kvm_s390_pv_info_basic_valid(void);
-+int kvm_s390_dump_init(void);
-+int kvm_s390_dump_cpu(S390CPU *cpu, void *buff);
-+int kvm_s390_dump_mem(uint64_t addr, size_t len, void *dest);
-+int kvm_s390_dump_complete(void *buff);
- #else /* CONFIG_KVM */
- static inline bool s390_is_pv(void) { return false; }
- static inline int s390_pv_query_info(void) { return 0; }
-@@ -66,6 +70,10 @@ static inline uint64_t kvm_s390_pv_dmp_get_size_cpu(void) { return 0; }
- static inline uint64_t kvm_s390_pv_dmp_get_size_stor_state(void) { return 0; }
- static inline uint64_t kvm_s390_pv_dmp_get_size_complete(void) { return 0; }
- static inline bool kvm_s390_pv_info_basic_valid(void) { return false; }
-+static inline int kvm_s390_dump_init(void) { return 0; }
-+static inline int kvm_s390_dump_cpu(S390CPU *cpu, void *buff, size_t len) { return 0; }
-+static inline int kvm_s390_dump_mem(uint64_t addr, size_t len, void *dest) { return 0; }
-+static inline int kvm_s390_dump_complete(void *buff) { return 0; }
- #endif /* CONFIG_KVM */
+ typedef struct NoteFuncDescStruct {
+     int contents_size;
++    uint64_t (*note_size_func)(void); /* NULL for non-dynamic sized contents */
+     void (*note_contents_func)(Note *note, S390CPU *cpu, int id);
++    bool pvonly;
+ } NoteFuncDesc;
  
- int s390_pv_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
+ static const NoteFuncDesc note_core[] = {
+-    {sizeof_field(Note, contents.prstatus), s390x_write_elf64_prstatus},
+-    {sizeof_field(Note, contents.fpregset), s390x_write_elf64_fpregset},
+-    { 0, NULL}
++    {sizeof_field(Note, contents.prstatus), NULL, s390x_write_elf64_prstatus, false},
++    {sizeof_field(Note, contents.fpregset), NULL, s390x_write_elf64_fpregset, false},
++    { 0, NULL, NULL}
+ };
+ 
+ static const NoteFuncDesc note_linux[] = {
+-    {sizeof_field(Note, contents.prefix),   s390x_write_elf64_prefix},
+-    {sizeof_field(Note, contents.ctrs),     s390x_write_elf64_ctrs},
+-    {sizeof_field(Note, contents.timer),    s390x_write_elf64_timer},
+-    {sizeof_field(Note, contents.todcmp),   s390x_write_elf64_todcmp},
+-    {sizeof_field(Note, contents.todpreg),  s390x_write_elf64_todpreg},
+-    {sizeof_field(Note, contents.vregslo),  s390x_write_elf64_vregslo},
+-    {sizeof_field(Note, contents.vregshi),  s390x_write_elf64_vregshi},
+-    {sizeof_field(Note, contents.gscb),     s390x_write_elf64_gscb},
+-    { 0, NULL}
++    {sizeof_field(Note, contents.prefix),   NULL, s390x_write_elf64_prefix,  false},
++    {sizeof_field(Note, contents.ctrs),     NULL, s390x_write_elf64_ctrs,    false},
++    {sizeof_field(Note, contents.timer),    NULL, s390x_write_elf64_timer,   false},
++    {sizeof_field(Note, contents.todcmp),   NULL, s390x_write_elf64_todcmp,  false},
++    {sizeof_field(Note, contents.todpreg),  NULL, s390x_write_elf64_todpreg, false},
++    {sizeof_field(Note, contents.vregslo),  NULL, s390x_write_elf64_vregslo, false},
++    {sizeof_field(Note, contents.vregshi),  NULL, s390x_write_elf64_vregshi, false},
++    {sizeof_field(Note, contents.gscb),     NULL, s390x_write_elf64_gscb,    false},
++    {0, kvm_s390_pv_dmp_get_size_cpu,       s390x_write_elf64_pv, true},
++    { 0, NULL, NULL}
+ };
+ 
+ static int s390x_write_elf64_notes(const char *note_name,
+-                                       WriteCoreDumpFunction f,
+-                                       S390CPU *cpu, int id,
+-                                       void *opaque,
+-                                       const NoteFuncDesc *funcs)
++                                   WriteCoreDumpFunction f,
++                                   S390CPU *cpu, int id,
++                                   void *opaque,
++                                   const NoteFuncDesc *funcs)
+ {
+-    Note note;
++    Note note, *notep;
+     const NoteFuncDesc *nf;
+-    int note_size;
++    int note_size, content_size;
+     int ret = -1;
+ 
+     assert(strlen(note_name) < sizeof(note.name));
+ 
+     for (nf = funcs; nf->note_contents_func; nf++) {
+-        memset(&note, 0, sizeof(note));
+-        note.hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
+-        note.hdr.n_descsz = cpu_to_be32(nf->contents_size);
+-        g_strlcpy(note.name, note_name, sizeof(note.name));
+-        (*nf->note_contents_func)(&note, cpu, id);
++        notep = &note;
++        if (nf->pvonly && !s390_is_pv()) {
++            continue;
++        }
+ 
+-        note_size = sizeof(note) - sizeof(note.contents) + nf->contents_size;
+-        ret = f(&note, note_size, opaque);
++        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
++        note_size = sizeof(note) - sizeof(notep->contents) + content_size;
++
++        /* Notes with dynamic sizes need to allocate a note */
++        if (nf->note_size_func) {
++            notep = g_malloc0(note_size);
++        }
++
++        memset(notep, 0, sizeof(note));
++
++        /* Setup note header data */
++        notep->hdr.n_descsz = cpu_to_be32(content_size);
++        notep->hdr.n_namesz = cpu_to_be32(strlen(note_name) + 1);
++        g_strlcpy(notep->name, note_name, sizeof(notep->name));
++
++        /* Get contents and write them out */
++        (*nf->note_contents_func)(notep, cpu, id);
++        ret = f(notep, note_size, opaque);
++
++        if (nf->note_size_func) {
++            g_free(notep);
++        }
+ 
+         if (ret < 0) {
+             return -1;
+@@ -247,12 +285,159 @@ int s390_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
+     return s390x_write_elf64_notes("LINUX", f, cpu, cpuid, opaque, note_linux);
+ }
+ 
++/* PV dump section size functions */
++static uint64_t get_dump_stor_state_size_from_len(uint64_t len)
++{
++    return (len / (1 << 20)) * kvm_s390_pv_dmp_get_size_stor_state();
++}
++
++static uint64_t get_size_stor_state(DumpState *s)
++{
++    return get_dump_stor_state_size_from_len(s->total_size);
++}
++
++static uint64_t get_size_complete(DumpState *s)
++{
++    return kvm_s390_pv_dmp_get_size_complete();
++}
++
++/* PV dump section data functions*/
++static int get_data_complete(DumpState *s, uint8_t *buff)
++{
++    int rc;
++
++    if (!pv_dump_initialized) {
++        return 0;
++    }
++    rc = kvm_s390_dump_complete(buff);
++    if (!rc) {
++            pv_dump_initialized = false;
++    }
++    return rc;
++}
++
++static int dump_mem(DumpState *s, uint64_t gaddr, uint8_t *buff, uint64_t buff_len)
++{
++    /* We need the gaddr + len and something to write to */
++    if (!pv_dump_initialized) {
++        return 0;
++    }
++    return kvm_s390_dump_mem(gaddr, buff_len, buff);
++}
++
++static int get_data_mem(DumpState *s, uint8_t *buff)
++{
++    int64_t memblock_size, memblock_start;
++    GuestPhysBlock *block;
++    uint64_t off;
++
++    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
++        memblock_start = dump_get_memblock_start(block, s->begin, s->length);
++        if (memblock_start == -1) {
++            continue;
++        }
++
++        memblock_size = dump_get_memblock_size(block, s->begin, s->length);
++
++        off = get_dump_stor_state_size_from_len(block->target_start);
++        dump_mem(s, block->target_start, buff + off,
++                 get_dump_stor_state_size_from_len(memblock_size));
++    }
++
++    return 0;
++}
++
++struct sections {
++    uint64_t (*sections_size_func)(DumpState *s);
++    int (*sections_contents_func)(DumpState *s, uint8_t *buff);
++    char sctn_str[12];
++} sections[] = {
++    { get_size_stor_state, get_data_mem, "pv_mem_meta"},
++    { get_size_complete, get_data_complete, "pv_compl"},
++    {NULL , NULL, ""}
++};
++
++static uint64_t arch_sections_write_hdr(void *opaque, uint8_t *buff)
++{
++    DumpState *s = opaque;
++    Elf64_Shdr *shdr = (void *)buff;
++    struct sections *sctn = sections;
++    uint64_t off = s->section_offset;
++
++    if (!s390_is_pv()) {
++        return 0;
++    }
++
++    for (; sctn->sections_size_func; off += shdr->sh_size, sctn++, shdr++) {
++        memset(shdr, 0, sizeof(*shdr));
++        shdr->sh_type = SHT_PROGBITS;
++        shdr->sh_offset = off;
++        shdr->sh_size = sctn->sections_size_func(s);
++        shdr->sh_name = s->string_table_buf->len;
++        g_array_append_vals(s->string_table_buf, sctn->sctn_str, sizeof(sctn->sctn_str));
++    }
++
++    return (uintptr_t)shdr - (uintptr_t)buff;
++}
++
++
++/* Add arch specific number of sections and their respective sizes */
++static void arch_sections_add(void *opaque)
++{
++    DumpState *s = opaque;
++    struct sections *sctn = sections;
++
++    /*
++     * We only do a PV dump if we are running a PV guest, KVM supports
++     * the dump API and we got valid dump length information.
++     */
++    if (!s390_is_pv() || !kvm_s390_get_protected_dump() ||
++        !kvm_s390_pv_info_basic_valid()) {
++        return;
++    }
++
++    /*
++     * Start the UV dump process by doing the initialize dump call via
++     * KVM as the proxy.
++     */
++    if (!kvm_s390_dump_init()) {
++            pv_dump_initialized = true;
++    }
++
++    for (; sctn->sections_size_func; sctn++) {
++        s->shdr_num += 1;
++        s->elf_section_data_size += sctn->sections_size_func(s);
++    }
++}
++
++/*
++ * After the PV dump has been initialized, the CPU data has been
++ * fetched and memory has been dumped, we need to grab the tweak data
++ * and the completion data.
++ */
++static void arch_sections_write(void *opaque, uint8_t *buff)
++{
++    DumpState *s = opaque;
++    struct sections *sctn = sections;
++
++    /* shdr_num should only have been set > 1 if we are protected */
++    assert(s390_is_pv());
++
++    for (; sctn->sections_size_func; sctn++) {
++        sctn->sections_contents_func(s, buff);
++        buff += sctn->sections_size_func(s);
++    }
++}
++
+ int cpu_get_dump_info(ArchDumpInfo *info,
+                       const struct GuestPhysBlockList *guest_phys_blocks)
+ {
+     info->d_machine = EM_S390;
+     info->d_endian = ELFDATA2MSB;
+     info->d_class = ELFCLASS64;
++    info->arch_sections_add_fn = *arch_sections_add;
++    info->arch_sections_write_hdr_fn = *arch_sections_write_hdr;
++    info->arch_sections_write_fn = *arch_sections_write;
+ 
+     return 0;
+ }
+@@ -261,7 +446,7 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+ {
+     int name_size = 8; /* "LINUX" or "CORE" + pad */
+     size_t elf_note_size = 0;
+-    int note_head_size;
++    int note_head_size, content_size;
+     const NoteFuncDesc *nf;
+ 
+     assert(class == ELFCLASS64);
+@@ -270,12 +455,15 @@ ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
+     note_head_size = sizeof(Elf64_Nhdr);
+ 
+     for (nf = note_core; nf->note_contents_func; nf++) {
+-        elf_note_size = elf_note_size + note_head_size + name_size +
+-                        nf->contents_size;
++        elf_note_size = elf_note_size + note_head_size + name_size + nf->contents_size;
+     }
+     for (nf = note_linux; nf->note_contents_func; nf++) {
++        if (nf->pvonly && !s390_is_pv()) {
++            continue;
++        }
++        content_size = nf->contents_size ? nf->contents_size : nf->note_size_func();
+         elf_note_size = elf_note_size + note_head_size + name_size +
+-                        nf->contents_size;
++                        content_size;
+     }
+ 
+     return (elf_note_size) * nr_cpus;
 -- 
 2.34.1
 
