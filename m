@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA2C558182D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:12:24 +0200 (CEST)
-Received: from localhost ([::1]:41322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B697E58176C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:27:09 +0200 (CEST)
+Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGO6Z-0006NW-PW
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:12:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35614)
+	id 1oGNOm-0000XC-R8
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAt-0004Ra-Tq
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:47 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:2906)
+ id 1oGNA2-0003Ml-U0
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:54 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:19746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAq-0006ML-IQ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:47 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFniTD026859;
- Tue, 26 Jul 2022 16:11:31 GMT
+ id 1oGNA0-0006DQ-Ud
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:54 -0400
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn0Wb031705;
+ Tue, 26 Jul 2022 16:11:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=YkStBWkDvFaBlcHw6tgsBE0nchZy1NMuBEgCqF0y1Zk=;
- b=sKRn1eLoMSvUvtaZGTBqML/Me2Fwp85NRbpY2pUpdlhoihHDUnJ6pxTZlphHg3O+26ek
- 9ER+AT8uJxqt93VGrXZhKj5wg9iqWLI53SOJpZyRGmb6wWtqCPNs1P84TYY2HcAVsmsL
- 01ISGyrH806OXHBe0J4+S7EFrZEpnU6v8fAyBsMqoTRiHHp6QTINi87NMSEe9h2bu+TL
- c34pYcFKMYxJpfgIZ46tQCkI/KnFOzxDBt8i4uRSIrkafiS0BZDayjzav1CZTJ00qiKg
- B4w+Wjy5Yzo+6jx4p98RZRwvlJuRJJDGnenoad6yITv47xGzD8GUCa4/oPQR5+PSfPBy Mw== 
+ bh=ZpMX+dkGp0nolXRTPsLQuh/GSasLYD0jX7mg8D5/X9E=;
+ b=EXPyEujxmrWbfQpY/0Z2qu4wE4wxZtPIr9Za6uwqgsB6IlAmOlqrAvA6ih6cDJN94Nuj
+ CdvoZCwh2bZvL2xC+UwySXPic6g9VpcjkVMhHGK8KfmDlJ6Y4b7g6GxLZyfH8doQPvCG
+ +tzReWDMhK9WhOafiGA32N8on7qa/7lrJhrTAnUJcqH/BsadVUustCGaVYfGw0YzWFWx
+ NyFTTrpnGZVkL+dbdCUHnQy9dM434+qvdFCIiqjhd0+ZIwVXhB2MSKt0MDsqOgL0B5i/
+ XjebZ5Bq4XXlokzthqJXW8Hs/GacxKUD4Vhlw3kRT0yRX8djsh3T/NmnmRa7MzENweyD fw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9anxn0y-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1c7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:31 +0000
+ Tue, 26 Jul 2022 16:11:33 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QEYQ17006294; Tue, 26 Jul 2022 16:11:30 GMT
+ with ESMTP id 26QEhMox006143; Tue, 26 Jul 2022 16:11:32 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq2cq-1
+ 3hh65bq2dy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:30 +0000
+ Tue, 26 Jul 2022 16:11:32 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTB023334;
- Tue, 26 Jul 2022 16:11:29 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTD023334;
+ Tue, 26 Jul 2022 16:11:31 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-32; Tue, 26 Jul 2022 16:11:29 +0000
+ ESMTP id 3hh65bq0y5-33; Tue, 26 Jul 2022 16:11:31 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 31/46] vfio-pci: cpr part 1 (fd and dma)
-Date: Tue, 26 Jul 2022 09:10:28 -0700
-Message-Id: <1658851843-236870-32-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 32/46] vfio-pci: cpr part 2 (msi)
+Date: Tue, 26 Jul 2022 09:10:29 -0700
+Message-Id: <1658851843-236870-33-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,10 +87,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: 9j204NwVMeydaCcG7BAizOA7CYRPmc1-
-X-Proofpoint-GUID: 9j204NwVMeydaCcG7BAizOA7CYRPmc1-
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-ORIG-GUID: FeeHbKC5XTxjTxP2rkCO4LYKLyUvqpXt
+X-Proofpoint-GUID: FeeHbKC5XTxjTxP2rkCO4LYKLyUvqpXt
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -113,720 +113,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable vfio-pci devices to be saved and restored across a cpr-exec of qemu.
-
-At vfio creation time, save the value of vfio container, group, and device
-descriptors in cpr state.
-
-In the container pre_save handler, suspend the use of virtual addresses
-in DMA mappings with VFIO_DMA_UNMAP_FLAG_VADDR, because guest ram will
-be remapped at a different VA after exec.  DMA to already-mapped pages
-continues.  Save the msi message area as part of vfio-pci vmstate, save the
-interrupt and notifier eventfd's in cpr state, and clear the close-on-exec
-flag for the vfio descriptors.  The flag is not cleared earlier because
-the descriptors should not persist across miscellaneous fork and exec calls
-that may be performed during normal operation.
-
-On qemu restart, vfio_realize() finds the saved descriptors, uses the
-descriptors, and notes that the device is being reused.  Device and iommu
-state is already configured, so operations in vfio_realize that would
-modify the configuration are skipped for a reused device, including vfio
-ioctl's and writes to PCI configuration space.  Vfio PCI device reset
-is also suppressed. The result is that vfio_realize constructs qemu
-data structures that reflect the current state of the device.  However,
-the reconstruction is not complete until migrate_incoming is called.
-migrate_incoming loads the msi data, the vfio post_load handler finds
-eventfds in cpr state, rebuilds vector data structures, and attaches the
-interrupts to the new KVM instance.  The container post_load handler then
-invokes the main vfio listener callback, which walks the flattened ranges
-of the vfio address space and calls VFIO_DMA_MAP_FLAG_VADDR to inform the
-kernel of the new VA's.  Lastly, migration resumes the VM.
-
-This functionality is delivered by 3 patches for clarity.  Part 1 handles
-device file descriptors and DMA.  Part 2 adds eventfd and MSI/MSI-X vector
-support.  Part 3 adds INTX support.
+Finish cpr for vfio-pci MSI/MSI-X devices by preserving eventfd's and
+vector state.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- MAINTAINERS                   |   1 +
- hw/pci/pci.c                  |  12 ++++
- hw/vfio/common.c              | 152 +++++++++++++++++++++++++++++++++++-------
- hw/vfio/cpr.c                 | 120 +++++++++++++++++++++++++++++++++
- hw/vfio/meson.build           |   1 +
- hw/vfio/pci.c                 |  43 ++++++++++++
- hw/vfio/trace-events          |   1 +
- include/hw/vfio/vfio-common.h |  11 +++
- include/migration/vmstate.h   |   2 +
- 9 files changed, 319 insertions(+), 24 deletions(-)
- create mode 100644 hw/vfio/cpr.c
+ hw/vfio/pci.c | 119 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 118 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 42f6f4a..3af099a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3170,6 +3170,7 @@ F: migration/cpr-state.c
- F: stubs/cpr-state.c
- F: include/migration/cpr.h
- F: migration/cpr.c
-+F: hw/vfio/cpr.c
- 
- Record/replay
- M: Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 2f450f6..d7f945f 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -32,6 +32,7 @@
- #include "hw/pci/pci_host.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "migration/misc.h"
- #include "migration/qemu-file-types.h"
- #include "migration/vmstate.h"
- #include "monitor/monitor.h"
-@@ -350,6 +351,17 @@ static void pci_reset_regions(PCIDevice *dev)
- 
- static void pci_do_device_reset(PCIDevice *dev)
- {
-+    /*
-+     * A PCI device that is resuming for cpr is already configured, so do
-+     * not reset it here when we are called from qemu_system_reset prior to
-+     * cpr load, else interrupts may be lost for vfio-pci devices.  It is
-+     * safe to skip this reset for all PCI devices, because cpr load will set
-+     * all fields that would have been set here.
-+     */
-+    if (migrate_mode() == MIG_MODE_CPR_EXEC) {
-+        return;
-+    }
-+
-     pci_device_deassert_intx(dev);
-     assert(dev->irq_state == 0);
- 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index ace9562..b7b35d4 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -31,6 +31,7 @@
- #include "exec/memory.h"
- #include "exec/ram_addr.h"
- #include "hw/hw.h"
-+#include "migration/cpr-state.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/range.h"
-@@ -460,6 +461,8 @@ static int vfio_dma_unmap(VFIOContainer *container,
-         .size = size,
-     };
- 
-+    assert(!container->reused);
-+
-     if (iotlb && container->dirty_pages_supported &&
-         vfio_devices_all_running_and_saving(container)) {
-         return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-@@ -496,12 +499,24 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
- {
-     struct vfio_iommu_type1_dma_map map = {
-         .argsz = sizeof(map),
--        .flags = VFIO_DMA_MAP_FLAG_READ,
-         .vaddr = (__u64)(uintptr_t)vaddr,
-         .iova = iova,
-         .size = size,
-     };
- 
-+    /*
-+     * Set the new vaddr for any mappings registered during cpr load.
-+     * Reused is cleared thereafter.
-+     */
-+    if (container->reused) {
-+        map.flags = VFIO_DMA_MAP_FLAG_VADDR;
-+        if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map)) {
-+            goto fail;
-+        }
-+        return 0;
-+    }
-+
-+    map.flags = VFIO_DMA_MAP_FLAG_READ;
-     if (!readonly) {
-         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
-     }
-@@ -517,7 +532,9 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
-         return 0;
-     }
- 
--    error_report("VFIO_MAP_DMA failed: %s", strerror(errno));
-+fail:
-+    error_report("vfio_dma_map %s (iova %lu, size %ld, va %p): %s",
-+        (container->reused ? "VADDR" : ""), iova, size, vaddr, strerror(errno));
-     return -errno;
- }
- 
-@@ -882,6 +899,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-+    vfio_container_region_add(container, section);
-+}
-+
-+void vfio_container_region_add(VFIOContainer *container,
-+                               MemoryRegionSection *section)
-+{
-     hwaddr iova, end;
-     Int128 llend, llsize;
-     void *vaddr;
-@@ -1492,6 +1515,12 @@ static void vfio_listener_release(VFIOContainer *container)
-     }
- }
- 
-+void vfio_listener_register(VFIOContainer *container)
-+{
-+    container->listener = vfio_memory_listener;
-+    memory_listener_register(&container->listener, container->space->as);
-+}
-+
- static struct vfio_info_cap_header *
- vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
- {
-@@ -1910,6 +1939,22 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
- {
-     int iommu_type, ret;
- 
-+    /*
-+     * If container is reused, just set its type and skip the ioctls, as the
-+     * container and group are already configured in the kernel.
-+     * VFIO_TYPE1v2_IOMMU is the only type that supports reuse/cpr.
-+     */
-+    if (container->reused) {
-+        if (ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_TYPE1v2_IOMMU)) {
-+            container->iommu_type = VFIO_TYPE1v2_IOMMU;
-+            return 0;
-+        } else {
-+            error_setg(errp, "container was reused but VFIO_TYPE1v2_IOMMU "
-+                             "is not supported");
-+            return -errno;
-+        }
-+    }
-+
-     iommu_type = vfio_get_iommu_type(container, errp);
-     if (iommu_type < 0) {
-         return iommu_type;
-@@ -2014,9 +2059,12 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
- {
-     VFIOContainer *container;
-     int ret, fd;
-+    bool reused;
-     VFIOAddressSpace *space;
- 
-     space = vfio_get_address_space(as);
-+    fd = cpr_find_fd("vfio_container_for_group", group->groupid);
-+    reused = (fd > 0);
- 
-     /*
-      * VFIO is currently incompatible with discarding of RAM insofar as the
-@@ -2049,27 +2097,47 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-      * details once we know which type of IOMMU we are using.
-      */
- 
-+    /*
-+     * If the container is reused, then the group is already attached in the
-+     * kernel.  If a container with matching fd is found, then update the
-+     * userland group list and return.  If not, then after the loop, create
-+     * the container struct and group list.
-+     */
-+
-     QLIST_FOREACH(container, &space->containers, next) {
--        if (!ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
--            ret = vfio_ram_block_discard_disable(container, true);
--            if (ret) {
--                error_setg_errno(errp, -ret,
--                                 "Cannot set discarding of RAM broken");
--                if (ioctl(group->fd, VFIO_GROUP_UNSET_CONTAINER,
--                          &container->fd)) {
--                    error_report("vfio: error disconnecting group %d from"
--                                 " container", group->groupid);
--                }
--                return ret;
-+        if (reused) {
-+            if (container->fd != fd) {
-+                continue;
-+            }
-+        } else if (ioctl(group->fd, VFIO_GROUP_SET_CONTAINER, &container->fd)) {
-+            continue;
-+        }
-+
-+        ret = vfio_ram_block_discard_disable(container, true);
-+        if (ret) {
-+            error_setg_errno(errp, -ret,
-+                             "Cannot set discarding of RAM broken");
-+            if (ioctl(group->fd, VFIO_GROUP_UNSET_CONTAINER,
-+                      &container->fd)) {
-+                error_report("vfio: error disconnecting group %d from"
-+                             " container", group->groupid);
-             }
--            group->container = container;
--            QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-+            goto delete_fd_exit;
-+        }
-+        group->container = container;
-+        QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-+        if (!reused) {
-             vfio_kvm_device_add_group(group);
--            return 0;
-+            cpr_save_fd("vfio_container_for_group", group->groupid,
-+                        container->fd);
-         }
-+        return 0;
-+    }
-+
-+    if (!reused) {
-+        fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
-     }
- 
--    fd = qemu_open_old("/dev/vfio/vfio", O_RDWR);
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "failed to open /dev/vfio/vfio");
-         ret = -errno;
-@@ -2087,6 +2155,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     container = g_malloc0(sizeof(*container));
-     container->space = space;
-     container->fd = fd;
-+    container->reused = reused;
-     container->error = NULL;
-     container->dirty_pages_supported = false;
-     container->dma_max_mappings = 0;
-@@ -2099,10 +2168,15 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         goto free_container_exit;
-     }
- 
-+    ret = vfio_cpr_register_container(container, errp);
-+    if (ret) {
-+        goto free_container_exit;
-+    }
-+
-     ret = vfio_ram_block_discard_disable(container, true);
-     if (ret) {
-         error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
--        goto free_container_exit;
-+        goto unregister_container_exit;
-     }
- 
-     switch (container->iommu_type) {
-@@ -2213,9 +2287,16 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     group->container = container;
-     QLIST_INSERT_HEAD(&container->group_list, group, container_next);
- 
--    container->listener = vfio_memory_listener;
--
--    memory_listener_register(&container->listener, container->space->as);
-+    /*
-+     * If reused, register the listener later, after all state that may
-+     * affect regions and mapping boundaries has been cpr load'ed.  Later,
-+     * the listener will invoke its callback on each flat section and call
-+     * vfio_dma_map to supply the new vaddr, and the calls will match the
-+     * mappings remembered by the kernel.
-+     */
-+    if (!reused) {
-+        vfio_listener_register(container);
-+    }
- 
-     if (container->error) {
-         ret = -1;
-@@ -2225,6 +2306,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     }
- 
-     container->initialized = true;
-+    cpr_resave_fd("vfio_container_for_group", group->groupid, fd);
- 
-     return 0;
- listener_release_exit:
-@@ -2236,6 +2318,9 @@ listener_release_exit:
- enable_discards_exit:
-     vfio_ram_block_discard_disable(container, false);
- 
-+unregister_container_exit:
-+    vfio_cpr_unregister_container(container);
-+
- free_container_exit:
-     g_free(container);
- 
-@@ -2245,6 +2330,8 @@ close_fd_exit:
- put_space_exit:
-     vfio_put_address_space(space);
- 
-+delete_fd_exit:
-+    cpr_delete_fd("vfio_container_for_group", group->groupid);
-     return ret;
- }
- 
-@@ -2254,6 +2341,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
- 
-     QLIST_REMOVE(group, container_next);
-     group->container = NULL;
-+    cpr_delete_fd("vfio_container_for_group", group->groupid);
- 
-     /*
-      * Explicitly release the listener first before unset container,
-@@ -2290,6 +2378,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
-         }
- 
-         trace_vfio_disconnect_container(container->fd);
-+        vfio_cpr_unregister_container(container);
-         close(container->fd);
-         g_free(container);
- 
-@@ -2319,7 +2408,12 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
-     group = g_malloc0(sizeof(*group));
- 
-     snprintf(path, sizeof(path), "/dev/vfio/%d", groupid);
--    group->fd = qemu_open_old(path, O_RDWR);
-+
-+    group->fd = cpr_find_fd("vfio_group", groupid);
-+    if (group->fd < 0) {
-+        group->fd = qemu_open_old(path, O_RDWR);
-+    }
-+
-     if (group->fd < 0) {
-         error_setg_errno(errp, errno, "failed to open %s", path);
-         goto free_group_exit;
-@@ -2352,7 +2446,7 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp)
-     }
- 
-     QLIST_INSERT_HEAD(&vfio_group_list, group, next);
--
-+    cpr_resave_fd("vfio_group", groupid, group->fd);
-     return group;
- 
- close_fd_exit:
-@@ -2377,6 +2471,7 @@ void vfio_put_group(VFIOGroup *group)
-     vfio_disconnect_container(group);
-     QLIST_REMOVE(group, next);
-     trace_vfio_put_group(group->fd);
-+    cpr_delete_fd("vfio_group", group->groupid);
-     close(group->fd);
-     g_free(group);
- 
-@@ -2390,8 +2485,14 @@ int vfio_get_device(VFIOGroup *group, const char *name,
- {
-     struct vfio_device_info dev_info = { .argsz = sizeof(dev_info) };
-     int ret, fd;
-+    bool reused;
-+
-+    fd = cpr_find_fd(name, 0);
-+    reused = (fd >= 0);
-+    if (!reused) {
-+        fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
-+    }
- 
--    fd = ioctl(group->fd, VFIO_GROUP_GET_DEVICE_FD, name);
-     if (fd < 0) {
-         error_setg_errno(errp, errno, "error getting device from group %d",
-                          group->groupid);
-@@ -2436,11 +2537,13 @@ int vfio_get_device(VFIOGroup *group, const char *name,
-     vbasedev->num_irqs = dev_info.num_irqs;
-     vbasedev->num_regions = dev_info.num_regions;
-     vbasedev->flags = dev_info.flags;
-+    vbasedev->reused = reused;
- 
-     trace_vfio_get_device(name, dev_info.flags, dev_info.num_regions,
-                           dev_info.num_irqs);
- 
-     vbasedev->reset_works = !!(dev_info.flags & VFIO_DEVICE_FLAGS_RESET);
-+    cpr_resave_fd(name, 0, fd);
-     return 0;
- }
- 
-@@ -2452,6 +2555,7 @@ void vfio_put_base_device(VFIODevice *vbasedev)
-     QLIST_REMOVE(vbasedev, next);
-     vbasedev->group = NULL;
-     trace_vfio_put_base_device(vbasedev->fd);
-+    cpr_delete_fd(vbasedev->name, 0);
-     close(vbasedev->fd);
- }
- 
-diff --git a/hw/vfio/cpr.c b/hw/vfio/cpr.c
-new file mode 100644
-index 0000000..83f7872
---- /dev/null
-+++ b/hw/vfio/cpr.c
-@@ -0,0 +1,120 @@
-+/*
-+ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include <sys/ioctl.h>
-+#include <linux/vfio.h>
-+#include "hw/vfio/vfio-common.h"
-+#include "sysemu/kvm.h"
-+#include "qapi/error.h"
-+#include "migration/blocker.h"
-+#include "migration/migration.h"
-+#include "migration/misc.h"
-+#include "migration/vmstate.h"
-+#include "trace.h"
-+
-+static int
-+vfio_dma_unmap_vaddr_all(VFIOContainer *container, Error **errp)
-+{
-+    struct vfio_iommu_type1_dma_unmap unmap = {
-+        .argsz = sizeof(unmap),
-+        .flags = VFIO_DMA_UNMAP_FLAG_VADDR | VFIO_DMA_UNMAP_FLAG_ALL,
-+        .iova = 0,
-+        .size = 0,
-+    };
-+    if (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-+        error_setg_errno(errp, errno, "vfio_dma_unmap_vaddr_all");
-+        return -errno;
-+    }
-+    container->vaddr_unmapped = true;
-+    return 0;
-+}
-+
-+static bool vfio_is_cpr_capable(VFIOContainer *container, Error **errp)
-+{
-+    if (!ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UPDATE_VADDR) ||
-+        !ioctl(container->fd, VFIO_CHECK_EXTENSION, VFIO_UNMAP_ALL)) {
-+        error_setg(errp, "VFIO container does not support VFIO_UPDATE_VADDR "
-+                         "or VFIO_UNMAP_ALL");
-+        return false;
-+    } else {
-+        return true;
-+    }
-+}
-+
-+static bool vfio_vmstate_needed(void *opaque)
-+{
-+    return migrate_mode() == MIG_MODE_CPR_EXEC;
-+}
-+
-+static int vfio_container_pre_save(void *opaque)
-+{
-+    VFIOContainer *container = (VFIOContainer *)opaque;
-+    Error *err = NULL;
-+
-+    if (!vfio_is_cpr_capable(container, &err) ||
-+        vfio_dma_unmap_vaddr_all(container, &err)) {
-+        error_report_err(err);
-+        return -1;
-+    }
-+    return 0;
-+}
-+
-+static int vfio_container_post_load(void *opaque, int version_id)
-+{
-+    VFIOContainer *container = (VFIOContainer *)opaque;
-+    VFIOGroup *group;
-+    Error *err = NULL;
-+    VFIODevice *vbasedev;
-+
-+    if (!vfio_is_cpr_capable(container, &err)) {
-+        error_report_err(err);
-+        return -1;
-+    }
-+
-+    vfio_listener_register(container);
-+    container->reused = false;
-+
-+    QLIST_FOREACH(group, &container->group_list, container_next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            vbasedev->reused = false;
-+        }
-+    }
-+    return 0;
-+}
-+
-+static const VMStateDescription vfio_container_vmstate = {
-+    .name = "vfio-container",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .pre_save = vfio_container_pre_save,
-+    .post_load = vfio_container_post_load,
-+    .needed = vfio_vmstate_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+int vfio_cpr_register_container(VFIOContainer *container, Error **errp)
-+{
-+    container->cpr_blocker = NULL;
-+    if (!vfio_is_cpr_capable(container, &container->cpr_blocker)) {
-+        return migrate_add_blockers(&container->cpr_blocker, errp,
-+                                    MIG_MODE_CPR_EXEC, -1);
-+    }
-+
-+    vmstate_register(NULL, -1, &vfio_container_vmstate, container);
-+
-+    return 0;
-+}
-+
-+void vfio_cpr_unregister_container(VFIOContainer *container)
-+{
-+    migrate_del_blocker(&container->cpr_blocker);
-+
-+    vmstate_unregister(NULL, &vfio_container_vmstate, container);
-+}
-diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
-index da9af29..e247b2b 100644
---- a/hw/vfio/meson.build
-+++ b/hw/vfio/meson.build
-@@ -5,6 +5,7 @@ vfio_ss.add(files(
-   'migration.c',
- ))
- vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
-+  'cpr.c',
-   'display.c',
-   'pci-quirks.c',
-   'pci.c',
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 0143c9a..b5fd2ec 100644
+index b5fd2ec..1d0e8db 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -28,6 +28,8 @@
- #include "hw/pci/pci_bridge.h"
- #include "hw/qdev-properties.h"
- #include "hw/qdev-properties-system.h"
-+#include "migration/misc.h"
-+#include "migration/cpr-state.h"
- #include "migration/vmstate.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/error-report.h"
-@@ -3243,6 +3245,11 @@ static void vfio_pci_reset(DeviceState *dev)
- {
-     VFIOPCIDevice *vdev = VFIO_PCI(dev);
+@@ -54,17 +54,47 @@ static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
+ static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
+ static void vfio_msi_disable_common(VFIOPCIDevice *vdev);
  
-+    /* Do not reset the device during qemu_system_reset prior to cpr load */
++#define EVENT_FD_NAME(vdev, name)   \
++    g_strdup_printf("%s_%s", (vdev)->vbasedev.name, (name))
++
++static void save_event_fd(VFIOPCIDevice *vdev, const char *name, int nr,
++                          EventNotifier *ev)
++{
++    int fd = event_notifier_get_fd(ev);
++
++    if (fd >= 0) {
++        g_autofree char *fdname = EVENT_FD_NAME(vdev, name);
++
++        cpr_resave_fd(fdname, nr, fd);
++    }
++}
++
++static int load_event_fd(VFIOPCIDevice *vdev, const char *name, int nr)
++{
++    g_autofree char *fdname = EVENT_FD_NAME(vdev, name);
++    return cpr_find_fd(fdname, nr);
++}
++
++static void delete_event_fd(VFIOPCIDevice *vdev, const char *name, int nr)
++{
++    g_autofree char *fdname = EVENT_FD_NAME(vdev, name);
++    cpr_delete_fd(fdname, nr);
++}
++
+ /* Create new or reuse existing eventfd */
+ static int vfio_notifier_init(VFIOPCIDevice *vdev, EventNotifier *e,
+                               const char *name, int nr)
+ {
+-    int fd = -1;   /* placeholder until a subsequent patch */
+     int ret = 0;
++    int fd = load_event_fd(vdev, name, nr);
+ 
+     if (fd >= 0) {
+         event_notifier_init_fd(e, fd);
+     } else {
+         ret = event_notifier_init(e, 0);
++        if (!ret) {
++            save_event_fd(vdev, name, nr, e);
++        }
+     }
+     return ret;
+ }
+@@ -72,6 +102,7 @@ static int vfio_notifier_init(VFIOPCIDevice *vdev, EventNotifier *e,
+ static void vfio_notifier_cleanup(VFIOPCIDevice *vdev, EventNotifier *e,
+                                   const char *name, int nr)
+ {
++    delete_event_fd(vdev, name, nr);
+     event_notifier_cleanup(e);
+ }
+ 
+@@ -512,6 +543,15 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+     VFIOMSIVector *vector;
+     int ret;
+ 
++    /*
++     * Ignore the callback from msix_set_vector_notifiers during resume.
++     * The necessary subset of these actions is called from vfio_claim_vectors
++     * during post load.
++     */
++    if (vdev->vbasedev.reused) {
++        return 0;
++    }
++
+     trace_vfio_msix_vector_do_use(vdev->vbasedev.name, nr);
+ 
+     vector = &vdev->msi_vectors[nr];
+@@ -2784,6 +2824,11 @@ static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
+     fd = event_notifier_get_fd(&vdev->err_notifier);
+     qemu_set_fd_handler(fd, vfio_err_notifier_handler, NULL, vdev);
+ 
++    /* Do not alter irq_signaling during vfio_realize for cpr */
 +    if (vdev->vbasedev.reused) {
 +        return;
 +    }
 +
-     trace_vfio_pci_reset(vdev->vbasedev.name);
+     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_ERR_IRQ_INDEX, 0,
+                                VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+         error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+@@ -2849,6 +2894,12 @@ static void vfio_register_req_notifier(VFIOPCIDevice *vdev)
+     fd = event_notifier_get_fd(&vdev->req_notifier);
+     qemu_set_fd_handler(fd, vfio_req_notifier_handler, NULL, vdev);
  
-     vfio_pci_pre_reset(vdev);
-@@ -3350,6 +3357,41 @@ static Property vfio_pci_dev_properties[] = {
++    /* Do not alter irq_signaling during vfio_realize for cpr */
++    if (vdev->vbasedev.reused) {
++        vdev->req_enabled = true;
++        return;
++    }
++
+     if (vfio_set_irq_signaling(&vdev->vbasedev, VFIO_PCI_REQ_IRQ_INDEX, 0,
+                            VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+         error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+@@ -3357,6 +3408,46 @@ static Property vfio_pci_dev_properties[] = {
      DEFINE_PROP_END_OF_LIST(),
  };
  
-+/*
-+ * The kernel may change non-emulated config bits.  Exclude them from the
-+ * changed-bits check in get_pci_config_device.
-+ */
-+static int vfio_pci_pre_load(void *opaque)
++static void vfio_claim_vectors(VFIOPCIDevice *vdev, int nr_vectors, bool msix)
++{
++    int i, fd;
++    bool pending = false;
++    PCIDevice *pdev = &vdev->pdev;
++
++    vdev->nr_vectors = nr_vectors;
++    vdev->msi_vectors = g_new0(VFIOMSIVector, nr_vectors);
++    vdev->interrupt = msix ? VFIO_INT_MSIX : VFIO_INT_MSI;
++
++    vfio_prepare_kvm_msi_virq_batch(vdev);
++
++    for (i = 0; i < nr_vectors; i++) {
++        VFIOMSIVector *vector = &vdev->msi_vectors[i];
++
++        fd = load_event_fd(vdev, "interrupt", i);
++        if (fd >= 0) {
++            vfio_vector_init(vdev, i);
++            qemu_set_fd_handler(fd, vfio_msi_interrupt, NULL, vector);
++        }
++
++        if (load_event_fd(vdev, "kvm_interrupt", i) >= 0) {
++            vfio_add_kvm_msi_virq(vdev, vector, i, msix);
++        } else {
++            vdev->msi_vectors[i].virq = -1;
++        }
++
++        if (msix && msix_is_pending(pdev, i) && msix_is_masked(pdev, i)) {
++            set_bit(i, vdev->msix->pending);
++            pending = true;
++        }
++    }
++
++    vfio_commit_kvm_msi_virq_batch(vdev);
++
++    if (msix) {
++        memory_region_set_enabled(&pdev->msix_pba_mmio, pending);
++    }
++}
++
+ /*
+  * The kernel may change non-emulated config bits.  Exclude them from the
+  * changed-bits check in get_pci_config_device.
+@@ -3375,6 +3466,29 @@ static int vfio_pci_pre_load(void *opaque)
+     return 0;
+ }
+ 
++static int vfio_pci_post_load(void *opaque, int version_id)
 +{
 +    VFIOPCIDevice *vdev = opaque;
 +    PCIDevice *pdev = &vdev->pdev;
-+    int size = MIN(pci_config_size(pdev), vdev->config_size);
-+    int i;
++    int nr_vectors;
 +
-+    for (i = 0; i < size; i++) {
-+        pdev->cmask[i] &= vdev->emulated_config_bits[i];
++    if (msix_enabled(pdev)) {
++        msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
++                                   vfio_msix_vector_release, NULL);
++        nr_vectors = vdev->msix->entries;
++        vfio_claim_vectors(vdev, nr_vectors, true);
++
++    } else if (msi_enabled(pdev)) {
++        nr_vectors = msi_nr_vectors_allocated(pdev);
++        vfio_claim_vectors(vdev, nr_vectors, false);
++
++    } else if (vfio_pci_read_config(pdev, PCI_INTERRUPT_PIN, 1)) {
++        assert(0);      /* completed in a subsequent patch */
 +    }
 +
 +    return 0;
 +}
 +
-+static bool vfio_pci_needed(void *opaque)
-+{
-+    return migrate_mode() == MIG_MODE_CPR_EXEC;
-+}
-+
-+static const VMStateDescription vfio_pci_vmstate = {
-+    .name = "vfio-pci",
-+    .version_id = 0,
-+    .minimum_version_id = 0,
-+    .priority = MIG_PRI_VFIO_PCI,       /* must load before container */
-+    .pre_load = vfio_pci_pre_load,
-+    .needed = vfio_pci_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
+ static bool vfio_pci_needed(void *opaque)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
-@@ -3357,6 +3399,7 @@ static void vfio_pci_dev_class_init(ObjectClass *klass, void *data)
- 
-     dc->reset = vfio_pci_reset;
-     device_class_set_props(dc, vfio_pci_dev_properties);
-+    dc->vmsd = &vfio_pci_vmstate;
-     dc->desc = "VFIO-based PCI device assignment";
-     set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-     pdc->realize = vfio_realize;
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 73dffe9..a6d0034 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -119,6 +119,7 @@ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Devic
- vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
- vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
- vfio_dma_unmap_overflow_workaround(void) ""
-+vfio_region_remap(const char *name, int fd, uint64_t iova_start, uint64_t iova_end, void *vaddr) "%s fd %d 0x%"PRIx64" - 0x%"PRIx64" [%p]"
- 
- # platform.c
- vfio_platform_base_device_init(char *name, int groupid) "%s belongs to group #%d"
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index e573f5a..17ad9ba 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -81,10 +81,14 @@ typedef struct VFIOContainer {
-     int fd; /* /dev/vfio/vfio, empowered by the attached groups */
-     MemoryListener listener;
-     MemoryListener prereg_listener;
-+    Notifier cpr_notifier;
-+    Error *cpr_blocker;
-     unsigned iommu_type;
-     Error *error;
-     bool initialized;
-     bool dirty_pages_supported;
-+    bool reused;
-+    bool vaddr_unmapped;
-     uint64_t dirty_pgsizes;
-     uint64_t max_dirty_bitmap_size;
-     unsigned long pgsizes;
-@@ -136,6 +140,7 @@ typedef struct VFIODevice {
-     bool no_mmap;
-     bool ram_block_discard_allowed;
-     bool enable_migration;
-+    bool reused;
-     VFIODeviceOps *ops;
-     unsigned int num_irqs;
-     unsigned int num_regions;
-@@ -213,6 +218,9 @@ void vfio_put_group(VFIOGroup *group);
- int vfio_get_device(VFIOGroup *group, const char *name,
-                     VFIODevice *vbasedev, Error **errp);
- 
-+int vfio_cpr_register_container(VFIOContainer *container, Error **errp);
-+void vfio_cpr_unregister_container(VFIOContainer *container);
-+
- extern const MemoryRegionOps vfio_region_ops;
- typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
- extern VFIOGroupList vfio_group_list;
-@@ -234,6 +242,9 @@ struct vfio_info_cap_header *
- vfio_get_device_info_cap(struct vfio_device_info *info, uint16_t id);
- #endif
- extern const MemoryListener vfio_prereg_listener;
-+void vfio_listener_register(VFIOContainer *container);
-+void vfio_container_region_add(VFIOContainer *container,
-+                               MemoryRegionSection *section);
- 
- int vfio_spapr_create_window(VFIOContainer *container,
-                              MemoryRegionSection *section,
-diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-index ad24aa1..d76f7f1 100644
---- a/include/migration/vmstate.h
-+++ b/include/migration/vmstate.h
-@@ -157,6 +157,8 @@ typedef enum {
-     MIG_PRI_GICV3_ITS,          /* Must happen before PCI devices */
-     MIG_PRI_GICV3,              /* Must happen before the ITS */
-     MIG_PRI_MAX,
-+    MIG_PRI_VFIO_PCI =
-+        MIG_PRI_DEFAULT + 1,   /* Must happen before vfio containers */
- } MigrationPriority;
- 
- struct VMStateField {
+     return migrate_mode() == MIG_MODE_CPR_EXEC;
+@@ -3386,8 +3500,11 @@ static const VMStateDescription vfio_pci_vmstate = {
+     .minimum_version_id = 0,
+     .priority = MIG_PRI_VFIO_PCI,       /* must load before container */
+     .pre_load = vfio_pci_pre_load,
++    .post_load = vfio_pci_post_load,
+     .needed = vfio_pci_needed,
+     .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(pdev, VFIOPCIDevice),
++        VMSTATE_MSIX_TEST(pdev, VFIOPCIDevice, vfio_msix_present),
+         VMSTATE_END_OF_LIST()
+     }
+ };
 -- 
 1.8.3.1
 
