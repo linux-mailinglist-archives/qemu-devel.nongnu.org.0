@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8C0580A04
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 05:34:21 +0200 (CEST)
-Received: from localhost ([::1]:54326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A0A580A19
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 05:47:14 +0200 (CEST)
+Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGBKt-0007L4-TS
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 23:34:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
+	id 1oGBXN-0003MI-0X
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jul 2022 23:47:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGBIr-0005jM-6C
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 23:32:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40622)
+ id 1oGBUE-0001np-ED
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 23:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:51241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGBIn-000852-DD
- for qemu-devel@nongnu.org; Mon, 25 Jul 2022 23:32:11 -0400
+ id 1oGBUA-000151-Ul
+ for qemu-devel@nongnu.org; Mon, 25 Jul 2022 23:43:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658806328;
+ s=mimecast20190719; t=1658807033;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0yWfDtlI5eoEJamqGTv31OwQny5fGqZxrOIlPsv/Vvg=;
- b=G+sxKeBdTGFQM3ZDIcy+vdccn+8my+AMp1460JDZtZUmMlflgdryL37ece27bBk+P86LzE
- LAMoztJ46Zyi+rDZNv9WTz+ye6cWCnTHT9V5h33mTmM8OmM6AW/uwxONqoD00oJc9tJulc
- hfC3wx1pRm+LyO5OJcRyt+4FHroGh7M=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=I8h9sIgX26Ftv5peArEpPtiXWh9oUxK5TF1Yb0cR7PU=;
+ b=Vr6l8ZDGWLK0o5ORJaLFilw/t82Mb7GQ8TAfQg6dHBzbbGynZFeejNJ1Pxate4RMeMQXOt
+ EnhKBpw1A2rBkB/DWzJEcP1n5NZn6RAxesIWe+FEqP9at+L6SV6fvGFUcss/2sdOojekEn
+ TGEd7tept5lqNm3RNLlt6h5Q4yD5xiI=
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-79-i7Oh9sw5OI-CQCVS2Bm1Dw-1; Mon, 25 Jul 2022 23:32:06 -0400
-X-MC-Unique: i7Oh9sw5OI-CQCVS2Bm1Dw-1
-Received: by mail-pl1-f199.google.com with SMTP id
- n15-20020a170902d2cf00b0016d68b4fcc0so3494786plc.8
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 20:32:06 -0700 (PDT)
+ us-mta-609-qZI-J1hnMgeKimyNfsvuiA-1; Mon, 25 Jul 2022 23:43:50 -0400
+X-MC-Unique: qZI-J1hnMgeKimyNfsvuiA-1
+Received: by mail-pl1-f200.google.com with SMTP id
+ m5-20020a170902f64500b0016d313f3ce7so7733175plg.23
+ for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 20:43:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=0yWfDtlI5eoEJamqGTv31OwQny5fGqZxrOIlPsv/Vvg=;
- b=JoBeRuKGwdz0sMPlXQfUketeDM+jEqjbQ/heruAGrOI2Z5GVeTAEHhbCJrQRaiOaD2
- guTXxsFkbJRVegv7xiMNw/Rndufjc3eYURb2ANebMwPIGo3fnGuy2Ba88RyH5d+92Xfn
- Ofud1HNuIe3/tOSjFr9RjLcPlXssNZ1b5TB7DHKTE61+4zRRbCEMjPitSUfHAxej1n46
- Y2bol2EQS6k4DxNMk/+d2iiiafV8JTSUn+c8fBmaD8XugDnt3uPJt2jmuAzmxAEebWxI
- C7v1NMQP7Gr2M2YVBIO6lrQsqoa76ES7EtxLVPLULWCCvH4DjqphilAC6zfmSQ/AxCMx
- kdmA==
-X-Gm-Message-State: AJIora9UksfDasGUQsVotW5GKsqfphuMFyRBwCZPEO8eVlkUbDjNj+KN
- oTd1Hcbi5YK0NoJUwy63EM1FTkWtXV/Inle5WQpkb0I9ECPwUPsf0CAbIhvA7LrAg5Vu3xOg+EL
- JrkKGNgLU6NXCPP8=
-X-Received: by 2002:a17:90a:5998:b0:1f2:1c38:7f64 with SMTP id
- l24-20020a17090a599800b001f21c387f64mr32830396pji.16.1658806325577; 
- Mon, 25 Jul 2022 20:32:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v05DIemBBZsPI00ilI2jEUUUurwFEOzSCqkIZQjWhfYYeWUbT9oCtZ/rHhM6T6Z8eNU/FsMw==
-X-Received: by 2002:a17:90a:5998:b0:1f2:1c38:7f64 with SMTP id
- l24-20020a17090a599800b001f21c387f64mr32830378pji.16.1658806325202; 
- Mon, 25 Jul 2022 20:32:05 -0700 (PDT)
+ bh=I8h9sIgX26Ftv5peArEpPtiXWh9oUxK5TF1Yb0cR7PU=;
+ b=wbXo9gV51FDQQjJqnb1Pfpu0Q31I63+Xwb4dDnVo5eumisag+m47c5utaWk3tUbAxS
+ rpu5b6RNjJYkhhbXW/yPjYmb7YeMrmLR/FAmvKiRp1Nj/A5s3DKZfG5laTC1iqPmgbBA
+ TZPn/a7omWmFJBn0r5iZ6VIzr26bDsud5YMtOZL8di0Ci7ZrKrGUwW3drlCrolTNT3AL
+ oV5tCeUxL/qg6Q/QXbmforwg7FIb1bm5eTOMPH0OIBe74TMGy3upz0Ke5Ml2SxQUqVT8
+ 5JIIirJ4M8nGzUaXXAjlcMrARxtIrbX/K0mT9gjH9N2+ChqaPb+5Ffqj3W+C6uywQRhu
+ whKQ==
+X-Gm-Message-State: AJIora+e4X7iqmEsZhMJMeGJo+TfVLPJ6JnmWP8KFf9oGOsVhzLu4lar
+ JTiEbndlvqermwOFHS8x94uX22tCx5aWONFwoeT5BuGcJUgIIIKlV7fskIS9TyMDHxo+66dwLEg
+ 0zdt+xBhtYIhPk4E=
+X-Received: by 2002:a63:f84b:0:b0:416:360f:230d with SMTP id
+ v11-20020a63f84b000000b00416360f230dmr13738795pgj.376.1658807029457; 
+ Mon, 25 Jul 2022 20:43:49 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vRx9db8SRNKMO2YNN++3qyYoBNhbd/i7a3QgzedQqVu9GPuILjYB2SxA1pYpyomLsPkOX93Q==
+X-Received: by 2002:a63:f84b:0:b0:416:360f:230d with SMTP id
+ v11-20020a63f84b000000b00416360f230dmr13738786pgj.376.1658807029186; 
+ Mon, 25 Jul 2022 20:43:49 -0700 (PDT)
 Received: from [10.72.12.201] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- e5-20020a17090a7c4500b001f001acc0e2sm11954101pjl.41.2022.07.25.20.32.01
+ b17-20020a170903229100b0016bef6f6903sm10237456plh.72.2022.07.25.20.43.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jul 2022 20:32:04 -0700 (PDT)
-Message-ID: <9ee782bb-494a-367e-6b06-261a8ae920db@redhat.com>
-Date: Tue, 26 Jul 2022 11:31:59 +0800
+ Mon, 25 Jul 2022 20:43:48 -0700 (PDT)
+Message-ID: <b5fb3193-a0a7-88c2-11b0-700a101c642e@redhat.com>
+Date: Tue, 26 Jul 2022 11:43:41 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 06/16] virtio-pci: support queue reset
+Subject: Re: [PATCH 07/16] virtio-net: support queue reset
 Content-Language: en-US
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>, qemu-devel@nongnu.org
 Cc: mst@redhat.com, hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <e354b6aea06652e934f1dfef5ddc89c64857adb2.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <c6718441a57198bc22d9861417e5ae69c0a70fdb.1658141552.git.kangjie.xu@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <e354b6aea06652e934f1dfef5ddc89c64857adb2.1658141552.git.kangjie.xu@linux.alibaba.com>
+In-Reply-To: <c6718441a57198bc22d9861417e5ae69c0a70fdb.1658141552.git.kangjie.xu@linux.alibaba.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
@@ -107,88 +107,72 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 在 2022/7/18 19:17, Kangjie Xu 写道:
 > From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 >
-> PCI devices support vq reset.
+> virtio-net implements queue reset. Queued packets in the corresponding
+> queue pair are flushed or purged.
 >
-> Based on this function, the driver can adjust the size of the ring, and
-> quickly recycle the buffer in the ring.
+> Queue reset is currently only implemented for non-vhosts.
 >
 > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 > ---
->   hw/virtio/virtio-pci.c         | 16 ++++++++++++++++
->   include/hw/virtio/virtio-pci.h |  1 +
->   2 files changed, 17 insertions(+)
+>   hw/net/virtio-net.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 >
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 45327f0b31..35e8a5101a 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -1246,6 +1246,9 @@ static uint64_t virtio_pci_common_read(void *opaque, hwaddr addr,
->       case VIRTIO_PCI_COMMON_Q_USEDHI:
->           val = proxy->vqs[vdev->queue_sel].used[1];
->           break;
-> +    case VIRTIO_PCI_COMMON_Q_RESET:
-> +        val = proxy->vqs[vdev->queue_sel].reset;
-> +        break;
->       default:
->           val = 0;
->       }
-> @@ -1333,6 +1336,7 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
->                          ((uint64_t)proxy->vqs[vdev->queue_sel].used[1]) << 32 |
->                          proxy->vqs[vdev->queue_sel].used[0]);
->               proxy->vqs[vdev->queue_sel].enabled = 1;
-> +            proxy->vqs[vdev->queue_sel].reset = 0;
->           } else {
->               virtio_error(vdev, "wrong value for queue_enable %"PRIx64, val);
->           }
-> @@ -1355,6 +1359,17 @@ static void virtio_pci_common_write(void *opaque, hwaddr addr,
->       case VIRTIO_PCI_COMMON_Q_USEDHI:
->           proxy->vqs[vdev->queue_sel].used[1] = val;
->           break;
-> +    case VIRTIO_PCI_COMMON_Q_RESET:
-> +        if (val == 1) {
-> +            proxy->vqs[vdev->queue_sel].reset = 1;
-> +
-> +            virtio_queue_reset(vdev, vdev->queue_sel);
-> +
-> +            /* mark reset complete */
-
-
-The code explain itself, so the comment could be removed.
-
-
-> +            proxy->vqs[vdev->queue_sel].reset = 0;
-> +            proxy->vqs[vdev->queue_sel].enabled = 0;
-> +        }
-> +        break;
->       default:
->           break;
->       }
-> @@ -1950,6 +1965,7 @@ static void virtio_pci_reset(DeviceState *qdev)
+> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> index 7ad948ee7c..8396e21a67 100644
+> --- a/hw/net/virtio-net.c
+> +++ b/hw/net/virtio-net.c
+> @@ -531,6 +531,19 @@ static RxFilterInfo *virtio_net_query_rxfilter(NetClientState *nc)
+>       return info;
+>   }
 >   
->       for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->           proxy->vqs[i].enabled = 0;
-> +        proxy->vqs[i].reset = 0;
->           proxy->vqs[i].num = 0;
->           proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
->           proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
-> diff --git a/include/hw/virtio/virtio-pci.h b/include/hw/virtio/virtio-pci.h
-> index 2446dcd9ae..e9290e2b94 100644
-> --- a/include/hw/virtio/virtio-pci.h
-> +++ b/include/hw/virtio/virtio-pci.h
-> @@ -117,6 +117,7 @@ typedef struct VirtIOPCIRegion {
->   typedef struct VirtIOPCIQueue {
->     uint16_t num;
->     bool enabled;
-> +  bool reset;
+> +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+> +{
+> +    VirtIONet *n = VIRTIO_NET(vdev);
+> +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
+> +
+> +    if (!nc->peer) {
+> +        return;
+> +    }
+> +
+> +    qemu_flush_or_purge_queued_packets(nc->peer, true);
+> +    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
 
 
-How is this migrated?
+Let's try to reuse this function in virtio_net_reset().
+
+
+> +}
+> +
+>   static void virtio_net_reset(VirtIODevice *vdev)
+>   {
+>       VirtIONet *n = VIRTIO_NET(vdev);
+> @@ -741,6 +754,7 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+>       }
+>   
+>       if (!get_vhost_net(nc->peer)) {
+> +        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
+
+
+This breaks migration compatibility.
+
+We probably need:
+
+1) a new command line parameter
+2) make it disabled for pre-7.2 machine
 
 Thanks
 
 
->     uint32_t desc[2];
->     uint32_t avail[2];
->     uint32_t used[2];
+>           return features;
+>       }
+>   
+> @@ -3766,6 +3780,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
+>       vdc->set_features = virtio_net_set_features;
+>       vdc->bad_features = virtio_net_bad_features;
+>       vdc->reset = virtio_net_reset;
+> +    vdc->queue_reset = virtio_net_queue_reset;
+>       vdc->set_status = virtio_net_set_status;
+>       vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
+>       vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
 
 
