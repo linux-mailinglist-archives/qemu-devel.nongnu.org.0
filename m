@@ -2,76 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F5E5815E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:03:49 +0200 (CEST)
-Received: from localhost ([::1]:47348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 621DC5815E2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 17:03:15 +0200 (CEST)
+Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGM68-00046w-3I
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:03:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42388)
+	id 1oGM5Z-0003Rp-UE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 11:03:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGM0v-0006ON-Dj
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:58:25 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:43708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGM0t-0001ds-Tz
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:58:25 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id f73so25712773yba.10
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OPm0BPkHwfEjwockYFc0GAABybyewroH36qwIUhnDyY=;
- b=dRN0dwD6m/dMw5UZpCaDe0v6sFiumdEGl3S/2yEsUeByp/uQBxCQ5IuKOYJ5yx/swe
- VUkW4RhFWfh1G1DvwzVmNmFQ/LsVLIFs2ZUvqzTv231jZ8jL975M21OAN4ZB13/sPPqQ
- tJGAinpXGVQV/+uqxrhpziAgdc89s81s08TEyvPiogiEH/R3iH6Up1nS5/1U16VJV0KP
- 9oLJsqY0u4MzG0LFcN/wSs5C8yTRNoHPldjkoQ2nvibzIqwwtYhT0pXttQFatDzetr+B
- 8fcQIjToHYOC6LRn+Jla+okrfnD3Umz+hLbq19nJwuwxUB3nJmmqg57mOb9zHXBfkz+z
- rngg==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oGM1f-0007Os-Da
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:59:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38882)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oGM1c-0001jX-KJ
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 10:59:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658847547;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=70oJqdnEfQeJ4nk4sUORQ5L6L+G/tYoPpM5+AZIiIeA=;
+ b=LU7MwnG/pcQ/wHMS6MTFt1FJtm8JyFu9sHXW3PSpzkgY8Zu4ooDpxFi3lDXivQqP2bdAF0
+ y2tXsw4ySlatRQigXZWm0r6flRwh6R3Xe8lAdmZ53My1iY++J2f5wCk4z9eeAW1NWp2MHq
+ OCRsy2YDj+RDlerbWCRYPw+FHyvhj+A=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-582-_kCxj3gpNp-csv3BNm8fcw-1; Tue, 26 Jul 2022 10:59:06 -0400
+X-MC-Unique: _kCxj3gpNp-csv3BNm8fcw-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ w15-20020a056402268f00b0043be4012ea9so4758401edd.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 07:59:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OPm0BPkHwfEjwockYFc0GAABybyewroH36qwIUhnDyY=;
- b=6O3x/56O8HycnNW5u/515j7xF3walBFr1fFZJcHXEJvgtzJv6rb7keztDcjPdgq02y
- EMVQU/GO+0WkeEGeroZ2UAzfB67gwrOvWt4Dug2J+FeDwpdVm3foEqIagUGnDGE6YvZD
- l+mHDBngARFPsIF8UMLcsRW0jcK+s1p6iB+xqC6Qs94lEB0rQXu8MEhg6WYH6ifQGkQV
- +4i2DXBIL18HMkoQLBrqh6sPak+JprbFtCym54LEcY26lqIaoluLO1JSFj/tsIoFZ00B
- 9iEVLI6g8h5K0uPOvvL6ZLX0fDdxj2jorRDtJKoXKZ3czFmn7n+lVO2lYjR1TarKcUef
- uLjg==
-X-Gm-Message-State: AJIora+Qp5Vk104xJ3tneDYMdHgppZmobhB9L1zrU81Jh+bVhiMXPyaB
- s3rNd1K2DhmpNzFiYAAuKdJYHAF4LL4zJ91PyruQVw==
-X-Google-Smtp-Source: AGRyM1thbN3cp7UiJKAqyi2eeO5IJv7AeYDIT//yITN6nAEkFaja5pgBnGJA+bhKyXFO3tfeUX1dluP/cT04iyhRsaM=
-X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
- n23-20020a25d617000000b0067179bd69bfmr1690869ybg.85.1658847502768; Tue, 26
- Jul 2022 07:58:22 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=70oJqdnEfQeJ4nk4sUORQ5L6L+G/tYoPpM5+AZIiIeA=;
+ b=EXxN1gbE/xjuEsNBEPBbgAuMds33OutHQtVlIdn+Bft+Uu3zx/KB515kChFeyelups
+ anwR5eRVuGwuWcd7V2/7jd0MadJqiNq4V605oaw2aJwrNtWIWBYOIkfmOr3NC645jHmK
+ lgBf9vODRHjaPa9L3eT+bJIJZyh5AO8WlGceJdmIlrhjLq83D7+SS5EpP0Ici6whgdyw
+ jXXAJ+0I8yGW8dNMJBZ6auSfg1jMG5kdRPUp9Jc2l5VIh7DGjiszOqHuiQaVWsSJ2cpt
+ in/3Hfm3wKEOsYqDtxIwAAWdhMx96D5UNXuqK58NkD1YDLyN7hen7IxtkODnD+HB7efp
+ PD6A==
+X-Gm-Message-State: AJIora9G0vU4KQ0XHLjra/GS2Q5A4W+2ijsa5s3JrauByKyPVR7hl9zj
+ Ek8xHHsSYlU7cBtRalursmHqT0qo5ugVWoEMFJR2kuD4/qFeRUqyRxcLO6ePimR/DrBr/MLfqTH
+ 7eZ/GnU8LIZ8Ap7g=
+X-Received: by 2002:a05:6402:2786:b0:43a:dc4e:ea63 with SMTP id
+ b6-20020a056402278600b0043adc4eea63mr19280432ede.175.1658847545643; 
+ Tue, 26 Jul 2022 07:59:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vu6m+zqMqu21y6FkvkYAdeDsZM9q2eEQgbbasK2siS0lm6UgS0EFTepXFqPJBjfj1sQ3p5zQ==
+X-Received: by 2002:a05:6402:2786:b0:43a:dc4e:ea63 with SMTP id
+ b6-20020a056402278600b0043adc4eea63mr19280391ede.175.1658847545085; 
+ Tue, 26 Jul 2022 07:59:05 -0700 (PDT)
+Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
+ ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.googlemail.com with ESMTPSA id
+ h23-20020aa7c957000000b0043bea0a48d0sm4113413edt.22.2022.07.26.07.59.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 07:59:04 -0700 (PDT)
+Message-ID: <7242f915-03a7-2e22-26a4-3d3a11fbcac6@redhat.com>
+Date: Tue, 26 Jul 2022 16:59:03 +0200
 MIME-Version: 1.0
-References: <20220630085219.1305519-1-armbru@redhat.com>
- <20220701043032.GA28338@raphael-debian-dev>
- <87wncx2xw4.fsf@pond.sub.org>
-In-Reply-To: <87wncx2xw4.fsf@pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Jul 2022 15:57:42 +0100
-Message-ID: <CAFEAcA993Z7ty7FvxEX7JjLZCFWrcPRuy2eMJKwoVTZJ1Z7_vQ@mail.gmail.com>
-Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
- VuVirtqElement
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mst@redhat.com" <mst@redhat.com>, 
- "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: QEMU Developer Survey for KVM Forum 2022
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <87v8rkgfgl.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <87v8rkgfgl.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,20 +103,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 1 Jul 2022 at 06:41, Markus Armbruster <armbru@redhat.com> wrote:
-> Could we use a contrib/README with an explanation what "contrib" means,
-> and how to build and use the stuff there?
+On 7/26/22 15:27, Alex Bennée wrote:
+> Hi,
+> 
+> For the QEMU keynote at KVM Forum I'd like to repeat the developer
+> survey this year. It's only short (7 questions) and reprises some of the
+> questions from last year as well as a couple of new ones. It should only
+> take a few minutes to complete.
+> 
+> You can find the survey at:
+> 
+>    https://forms.gle/Y1niFJLbBHmA5Pgk9
+> 
+> I'll be presenting the data along with all the other interesting stats
+> in our QEMU keynote session at this years KVM Forum (Sep 12th-14th).
+> 
+> Thanks in advance for your time.
 
-I would rather we got rid of contrib/ entirely. Our git repo
-should contain things we care about enough to really support
-and believe in, in which case they should be in top level
-directories matching what they are (eg tools/). If we don't
-believe in these things enough to really support them, then
-we should drop them, and let those who do care maintain them
-as out-of-tree tools if they like.
+Can you add "get paid to work partly on QEMU" and possibly add 
+percentages (e.g. <30%, 30-70%, >70%)?
 
-subprojects/ is similarly vague.
+Paolo
 
-thanks
--- PMM
 
