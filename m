@@ -2,88 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BC67581B2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:40:56 +0200 (CEST)
-Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69972581AC9
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 22:14:09 +0200 (CEST)
+Received: from localhost ([::1]:52144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGRMN-0007Bp-9n
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:40:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53690)
+	id 1oGQwS-00047m-GQ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 16:14:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQVe-0005k9-3n
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:46:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38379)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oGQg1-00023y-35; Tue, 26 Jul 2022 15:57:09 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGQVb-0005uB-HP
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:46:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658864782;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZRjRPmwIBTJe/I+OuH6/x+Nzm34as938KEPxnhYmq50=;
- b=dhXoCgI89M4xiXNCJVilkIR4gXE8V1aPVOkY907eimn7OUw3IO5BVL1t7AerSMVNJntBoB
- 97Cmhskwboj9pe7XgbWfVzJ6rYnWuNg4pFi7E4qIBeoQ8yRSIe0ufnD7hl8udvS2l7UKFc
- egEdpGmy/RomrehbFQppDyugGK73HGY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-133-xT3LorXIP2-74UpVjHtfwQ-1; Tue, 26 Jul 2022 15:46:21 -0400
-X-MC-Unique: xT3LorXIP2-74UpVjHtfwQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- f21-20020a1cc915000000b003a3551598a1so2757763wmb.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:46:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc;
- bh=ZRjRPmwIBTJe/I+OuH6/x+Nzm34as938KEPxnhYmq50=;
- b=8N4b1f6dNT54rXukmz2v7xHXldLvDxUI2+ttho/9Y20dtaGCrzHzhbyke4OKoVn60t
- 2ENTuMJkWT7mRso6bAuJS1NrwgNdhAAPxjj1gzfdvniJM8yJSTaZXNAa1cyaz0kjRz04
- mjDrS008EVUnf/CxdJT7ktHBMATUnHd6pnjs+OyI66ZhdnHk0cWdg0PWRcDngHOaKTKS
- nCVHPaSRB568jnm8Fm6qStEgcryyTOmpciLX4RHOdHfT2LVI0IBgoPlKy1mKrKe9UGa+
- WcJnVSsvUl3ZXuNzz2G0kobAL4r8sS7uTKIPSQPhYCJY8MikiTiY+p2PMUd7e3D7EwIc
- 20dQ==
-X-Gm-Message-State: AJIora8XpSiAI6tlFEkyS2FNJrmPh5hUlhoqDp7+lADqPIGFMqWbKDRj
- 9TbGit7KeEjUL6vcELknvnYGCwGfgwB0kvY1+5R1KfUyjEFN/hOAX3fnVuqFGuyRC/ASHqEIrzz
- yCIBe2+sxcTgBIZk=
-X-Received: by 2002:a05:600c:6002:b0:3a3:5453:bcbe with SMTP id
- az2-20020a05600c600200b003a35453bcbemr543991wmb.190.1658864780296; 
- Tue, 26 Jul 2022 12:46:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tTpsCgJBgPEU3MUAM7nzZCCB2GK2lIrgnVyzYbJ4uqrLque3RGmD324B+Y40wHaLxW1vWkZQ==
-X-Received: by 2002:a05:600c:6002:b0:3a3:5453:bcbe with SMTP id
- az2-20020a05600c600200b003a35453bcbemr543964wmb.190.1658864779772; 
- Tue, 26 Jul 2022 12:46:19 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
- by smtp.gmail.com with ESMTPSA id
- d1-20020adfe2c1000000b0021e491fd250sm15690348wrj.89.2022.07.26.12.46.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:46:19 -0700 (PDT)
-Date: Tue, 26 Jul 2022 15:46:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, slp@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org,
- viresh.kumar@linaro.org, mark.cave-ayland@ilande.co.uk, jasowang@redhat.com
-Subject: Re: [PATCH v3 for 7.2 00/21] virtio-gpio and various virtio cleanups
-Message-ID: <20220726154324-mutt-send-email-mst@kernel.org>
-References: <20220726192150.2435175-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oGQfz-0007Hm-6J; Tue, 26 Jul 2022 15:57:08 -0400
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QJs3Xr004262;
+ Tue, 26 Jul 2022 19:57:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=uPgi82Drif+3cwvWk15HIHzg6ihS286bFOjMDYCXYYk=;
+ b=iQyoA8fcHtL6jVnscmVmKxAZ3cYn4v61Q6foDEoqnzksrXBRniL0n/gzUy5seXUrDgdV
+ vSvp05E1AkgiHtUblmKLSt9tgUnYSS/SH9GUCBjoyBMdu2RoV5YyJsciz7BW1lV8A4PN
+ ejSSyjNI4Lt2BccSTx6nr3TgdvLviYKWTdkH4XQGa/unzMx+1En8FUcGQtinpeYZNrUY
+ k9396tjEAAgmW0FLNNy8mgehJHMr4RvdurknioMYXjfSz4lYu8cHCwRDBDY6AbOiNSv6
+ FYLfap457Lm3sABZevH5s1KjwIOw+JCW61mr8sJymMf7kBhFIzQW50CJw9Ucyk5hYEnc Ow== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjpu201ym-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jul 2022 19:57:01 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QJusfJ016049;
+ Tue, 26 Jul 2022 19:57:01 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjpu201xu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jul 2022 19:57:00 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26QJqFFt016724;
+ Tue, 26 Jul 2022 19:56:58 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma03fra.de.ibm.com with ESMTP id 3hg95yb4xs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jul 2022 19:56:58 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26QJsukY22479316
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Jul 2022 19:54:56 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 996F64C044;
+ Tue, 26 Jul 2022 19:56:55 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8668B4C040;
+ Tue, 26 Jul 2022 19:56:55 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue, 26 Jul 2022 19:56:55 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 3538EE01EA; Tue, 26 Jul 2022 21:48:53 +0200 (CEST)
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH] s390x/cpumodel: add stfl197
+ processor-activity-instrumentation extension 1
+Date: Tue, 26 Jul 2022 21:48:52 +0200
+Message-Id: <20220726194852.171039-1-borntraeger@linux.ibm.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: a9EB9pXOgjJTZHzsiOMo9F73aP7z81sV
+X-Proofpoint-ORIG-GUID: 9DS0qMs1WXT_H53haMd7t1022Y2Gbhp4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-26_06,2022-07-26_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011
+ priorityscore=1501 suspectscore=0 bulkscore=0 impostorscore=0 spamscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207260075
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,110 +115,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 08:21:29PM +0100, Alex Bennée wrote:
-> Hi,
-> 
-> After much slogging through the vhost-user code I've gotten the
-> virtio-gpio device working again. The core change in pushing the
-> responsibility for VHOST_USER_F_PROTOCOL_FEATURES down to the
-> vhost-user layer (which knows it needs it). We still need to account
-> for that in virtio-gpio because the result of the negotiating protocol
-> features is the vrings start disabled so the stub needs to explicitly
-> enable them. I did consider pushing this behaviour explicitly into
-> vhost_dev_start but that would have required un-picking it from
-> vhost-net (which is the only other device which uses protocol features
-> AFAICT - but is a measure more complex in it's setup).
-> 
-> As last time there are a whole series of clean-ups and doc tweaks. I
-> don't know if any are trivial enough to sneak into later RCs but it
-> shouldn't be a problem to wait until the tree re-opens.
+Add stfle 197 (processor-activity-instrumentation extension 1) to the
+gen16 default model and fence it off for 7.0 and older.
 
-Right. Still I think some are fixes we should merge now.
-I am thinking patches 5, 7,8,9 ? 6 if it makes backporting
-much easier. WDYT? If you agree pls separate bugfixes in
-series I can apply. Thanks!
+Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
+---
+ hw/s390x/s390-virtio-ccw.c          | 1 +
+ target/s390x/cpu_features_def.h.inc | 1 +
+ target/s390x/gen-features.c         | 2 ++
+ 3 files changed, 4 insertions(+)
 
-> There is a remaining issue that a --enable-sanitizers build fails for
-> qos-test due to leaks. It shows up as a leak from:
-> 
->   Direct leak of 240 byte(s) in 1 object(s) allocated from:                                                                                                                    
->       #0 0x7fc5a3f2a037 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:154                                                                    
->       #1 0x7fc5a2e5cda0 in g_malloc0 ../../../glib/gmem.c:136                                                                                                                  
->       #2 0x55ce773cc728 in virtio_device_realize ../../hw/virtio/virtio.c:3691                                                                                                 
->       #3 0x55ce7784ed7e in device_set_realized ../../hw/core/qdev.c:553                                                                                                        
->       #4 0x55ce77862d0c in property_set_bool ../../qom/object.c:2273                 
-> 
-> I'm not entirely sure what the allocation is because it gets inlined
-> in the virtio_device_realize call. Perhaps it's the QOM object itself
-> which is never gracefully torn down at the end of the test?
-> 
-> However when I attempted to bisect I found master was broken as well.
-> For example in my arm/aarch64-softmmu build we see 5 failures:
-> 
-> Summary of Failures:
-> 
->    3/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test            ERROR          96.15s   killed by signal 6 SIGABRT
->    9/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/qos-test                  ERROR          32.50s   killed by signal 6 SIGABRT
->   11/48 qemu:qtest+qtest-arm / qtest-arm/qos-test                          ERROR          26.93s   killed by signal 6 SIGABRT
->   20/48 qemu:qtest+qtest-aarch64 / qtest-aarch64/device-introspect-test    ERROR           5.17s   killed by signal 6 SIGABRT
->   45/48 qemu:qtest+qtest-arm / qtest-arm/device-introspect-test            ERROR           4.97s   killed by signal 6 SIGABRT
-> 
-> Of which the qos-tests are the only new ones. I suspect something must
-> be preventing the other stuff being exercised in our CI system.
-> 
-> Alex Bennée (19):
->   include/hw/virtio: more comment for VIRTIO_F_BAD_FEATURE
->   include/hw: document vhost_dev feature life-cycle
->   hw/virtio: fix some coding style issues
->   hw/virtio: log potentially buggy guest drivers
->   block/vhost-user-blk-server: don't expose
->     VHOST_USER_F_PROTOCOL_FEATURES
->   hw/virtio: incorporate backend features in features
->   hw/virtio: gracefully handle unset vhost_dev vdev
->   hw/virtio: handle un-configured shutdown in virtio-pci
->   hw/virtio: fix vhost_user_read tracepoint
->   hw/virtio: add some vhost-user trace events
->   tests/qtest: pass stdout/stderr down to subtests
->   tests/qtest: add a timeout for subprocess_run_one_test
->   tests/qtest: use qos_printf instead of g_test_message
->   tests/qtest: catch unhandled vhost-user messages
->   tests/qtest: plain g_assert for VHOST_USER_F_PROTOCOL_FEATURES
->   tests/qtest: add assert to catch bad features
->   tests/qtest: implement stub for VHOST_USER_GET_CONFIG
->   tests/qtest: add a get_features op to vhost-user-test
->   tests/qtest: enable tests for virtio-gpio
-> 
-> Viresh Kumar (2):
->   hw/virtio: add boilerplate for vhost-user-gpio device
->   hw/virtio: add vhost-user-gpio-pci boilerplate
-> 
->  include/hw/virtio/vhost-user-gpio.h  |  35 +++
->  include/hw/virtio/vhost.h            |   3 +
->  include/hw/virtio/virtio.h           |   7 +-
->  tests/qtest/libqos/virtio-gpio.h     |  35 +++
->  block/export/vhost-user-blk-server.c |   3 +-
->  hw/virtio/vhost-user-gpio-pci.c      |  69 +++++
->  hw/virtio/vhost-user-gpio.c          | 414 +++++++++++++++++++++++++++
->  hw/virtio/vhost-user.c               |  20 +-
->  hw/virtio/vhost.c                    |  16 +-
->  hw/virtio/virtio-pci.c               |   9 +-
->  hw/virtio/virtio.c                   |   7 +
->  tests/qtest/libqos/virtio-gpio.c     | 171 +++++++++++
->  tests/qtest/libqos/virtio.c          |   4 +-
->  tests/qtest/qos-test.c               |   8 +-
->  tests/qtest/vhost-user-test.c        | 172 +++++++++--
->  hw/virtio/Kconfig                    |   5 +
->  hw/virtio/meson.build                |   2 +
->  hw/virtio/trace-events               |   9 +
->  tests/qtest/libqos/meson.build       |   1 +
->  19 files changed, 956 insertions(+), 34 deletions(-)
->  create mode 100644 include/hw/virtio/vhost-user-gpio.h
->  create mode 100644 tests/qtest/libqos/virtio-gpio.h
->  create mode 100644 hw/virtio/vhost-user-gpio-pci.c
->  create mode 100644 hw/virtio/vhost-user-gpio.c
->  create mode 100644 tests/qtest/libqos/virtio-gpio.c
-> 
-> -- 
-> 2.30.2
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index cc3097bfee80..6268aa5d0888 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
+     static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
+ 
+     ccw_machine_7_1_instance_options(machine);
++    s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
+     s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
+ }
+ 
+diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
+index 3603e5fb12c6..e3cfe637354b 100644
+--- a/target/s390x/cpu_features_def.h.inc
++++ b/target/s390x/cpu_features_def.h.inc
+@@ -114,6 +114,7 @@ DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH2, "vxpdeh2", STFL, 192, "Vector-Packed-Decima
+ DEF_FEAT(BEAR_ENH, "beareh", STFL, 193, "BEAR-enhancement facility")
+ DEF_FEAT(RDP, "rdp", STFL, 194, "Reset-DAT-protection facility")
+ DEF_FEAT(PAI, "pai", STFL, 196, "Processor-Activity-Instrumentation facility")
++DEF_FEAT(PAIE, "paie", STFL, 197, "Processor-Activity-Instrumentation extension-1")
+ 
+ /* Features exposed via SCLP SCCB Byte 80 - 98  (bit numbers relative to byte-80) */
+ DEF_FEAT(SIE_GSLS, "gsls", SCLP_CONF_CHAR, 40, "SIE: Guest-storage-limit-suppression facility")
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index ad140184b903..1558c5262616 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -575,6 +575,7 @@ static uint16_t full_GEN16_GA1[] = {
+     S390_FEAT_BEAR_ENH,
+     S390_FEAT_RDP,
+     S390_FEAT_PAI,
++    S390_FEAT_PAIE,
+ };
+ 
+ 
+@@ -669,6 +670,7 @@ static uint16_t default_GEN16_GA1[] = {
+     S390_FEAT_BEAR_ENH,
+     S390_FEAT_RDP,
+     S390_FEAT_PAI,
++    S390_FEAT_PAIE,
+ };
+ 
+ /* QEMU (CPU model) features */
+-- 
+2.36.1
 
 
