@@ -2,74 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCF1580AE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 07:47:56 +0200 (CEST)
-Received: from localhost ([::1]:60420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3FB580AFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 08:15:20 +0200 (CEST)
+Received: from localhost ([::1]:37896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGDQB-00060K-8R
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 01:47:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53928)
+	id 1oGDqg-0003Fr-Np
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 02:15:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1oGDMU-0004T2-Dm
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:44:06 -0400
-Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:42670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
- id 1oGDMS-0008Qx-H0
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:44:06 -0400
-Received: by mail-yb1-xb32.google.com with SMTP id c131so23649446ybf.9
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 22:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=atishpatra.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NptvMj9pKC9wOZCoGLFX/utBCL/bwWKPEEgu6s5EwiE=;
- b=lE7cLP401HrR97nuFzJRcb5Vdd7a3giTo/4a8aDhw4Thox8glJ826+d7S7PzOqzfgi
- bSFSqNay3FKbmE4U1mTyQc93bOgSmxPnqv9mzR6/Inw6s17aZA+Qq0MRGU3usQmMI9lX
- xdYrlMH8wZ3+//ccAhVaisqsTKrH2CUuCQa0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NptvMj9pKC9wOZCoGLFX/utBCL/bwWKPEEgu6s5EwiE=;
- b=zVEtzwoX68N8xtDCmuCIkmvL4aHsLdbN6kAQFlyHnvlIXKK76ubvGXCxqoyw7a8fMN
- jXLbNRjZMK+e34xh8cY9fDNCiVfLrNot7hmlcqfWz+RNbNL2CFkV136YgLnlWjgcinIF
- KGX8zPOcoIQpGSJloAj6tW3C7ho8w6CusSzyn9lGxlzEYyn7UaaWOPoJmLV3ZFLXmowN
- jdBI+4zCs8snQSdxX8Ql3Imlqw1/XL15QTtOPkTFWVn3HfKDKjrs0Uv7OL6jx4QpQFov
- yjEqiy2n1tIjUE8FCL7GAJvF1cPSm58gSj3+4A6dkinQz1McTI/N23SIPYk9W220sw2m
- M+Gg==
-X-Gm-Message-State: AJIora8wY4HR7Oyt542Os695FM7nAbZqnbWPbv9BggK0pwJZNpYezxab
- 41v/igeTuW/H8cgV9uB+ZDPq8LDH3xrkeQV5cpbL
-X-Google-Smtp-Source: AGRyM1viNRKR9UmLU6zj4fszLCMy57CjDl042r7tEQ5fDkQsZtz0Sl/zopXciqUlYwJvB64I1ZRrgLAiKIPdCdG7qDc=
-X-Received: by 2002:a25:18d6:0:b0:66f:6620:4482 with SMTP id
- 205-20020a2518d6000000b0066f66204482mr11482348yby.303.1658814242939; Mon, 25
- Jul 2022 22:44:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGDnm-0001kO-2s
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 02:12:18 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:44098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGDnb-0003yn-J1
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 02:12:11 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R371e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046059;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VKU5A4U_1658815916; 
+Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VKU5A4U_1658815916) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 14:11:57 +0800
+Message-ID: <cb841328-d8a7-657f-e917-d0ca955a470f@linux.alibaba.com>
+Date: Tue, 26 Jul 2022 14:11:56 +0800
 MIME-Version: 1.0
-References: <20220722010046.343744-1-atishp@rivosinc.com>
- <20220722010046.343744-2-atishp@rivosinc.com>
- <20220723094323.f3rsmdqwf7mno6wu@kamzik>
-In-Reply-To: <20220723094323.f3rsmdqwf7mno6wu@kamzik>
-From: Atish Patra <atishp@atishpatra.org>
-Date: Mon, 25 Jul 2022 22:43:52 -0700
-Message-ID: <CAOnJCUKJdJnVhJ+zt1gsfYRM0OL4Vw2+P5QMMH-BotkwT1Fjew@mail.gmail.com>
-Subject: Re: [PATCH v6 1/3] hw/intc: Move mtimer/mtimecmp to aclint
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Atish Patra <atishp@rivosinc.com>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Anup Patel <anup@brainfault.org>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
- envelope-from=atishp@atishpatra.org; helo=mail-yb1-xb32.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH 12/16] vhost-net: introduce restart and stop for
+ vhost_net's vqs
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <67cdafe53cfd096060957426c307d1580f3fd2e4.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <df5a8738-212e-c0f0-8085-288805e4b779@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+In-Reply-To: <df5a8738-212e-c0f0-8085-288805e4b779@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.43;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-43.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,129 +69,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 23, 2022 at 2:43 AM Andrew Jones <ajones@ventanamicro.com> wrote:
->
-> On Thu, Jul 21, 2022 at 06:00:44PM -0700, Atish Patra wrote:
-> > Historically, The mtime/mtimecmp has been part of the CPU because
-> > they are per hart entities. However, they actually belong to aclint
-> > which is a MMIO device.
-> >
-> > Move them to the ACLINT device. This also emulates the real hardware
-> > more closely.
-> >
-> > Reviewed-by: Anup Patel <anup@brainfault.org>
-> > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  hw/intc/riscv_aclint.c         | 41 ++++++++++++++++++++++++----------
-> >  hw/timer/ibex_timer.c          | 18 ++++++---------
-> >  include/hw/intc/riscv_aclint.h |  2 ++
-> >  include/hw/timer/ibex_timer.h  |  2 ++
-> >  target/riscv/cpu.h             |  2 --
-> >  target/riscv/machine.c         |  5 ++---
-> >  6 files changed, 42 insertions(+), 28 deletions(-)
-> >
-> > diff --git a/hw/intc/riscv_aclint.c b/hw/intc/riscv_aclint.c
-> > index e7942c4e5a32..47f355224612 100644
-> > --- a/hw/intc/riscv_aclint.c
-> > +++ b/hw/intc/riscv_aclint.c
-> > @@ -32,6 +32,7 @@
-> >  #include "hw/intc/riscv_aclint.h"
-> >  #include "qemu/timer.h"
-> >  #include "hw/irq.h"
-> > +#include "migration/vmstate.h"
-> >
-> >  typedef struct riscv_aclint_mtimer_callback {
-> >      RISCVAclintMTimerState *s;
-> > @@ -65,8 +66,8 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
-> >
-> >      uint64_t rtc_r = cpu_riscv_read_rtc(mtimer);
-> >
-> > -    cpu->env.timecmp = value;
-> > -    if (cpu->env.timecmp <= rtc_r) {
-> > +    mtimer->timecmp[hartid] = value;
-> > +    if (mtimer->timecmp[hartid] <= rtc_r) {
-> >          /*
-> >           * If we're setting an MTIMECMP value in the "past",
-> >           * immediately raise the timer interrupt
-> > @@ -77,7 +78,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
-> >
-> >      /* otherwise, set up the future timer interrupt */
-> >      qemu_irq_lower(mtimer->timer_irqs[hartid - mtimer->hartid_base]);
-> > -    diff = cpu->env.timecmp - rtc_r;
-> > +    diff = mtimer->timecmp[hartid] - rtc_r;
-> >      /* back to ns (note args switched in muldiv64) */
-> >      uint64_t ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> >
-> > @@ -102,7 +103,7 @@ static void riscv_aclint_mtimer_write_timecmp(RISCVAclintMTimerState *mtimer,
-> >          next = MIN(next, INT64_MAX);
-> >      }
-> >
-> > -    timer_mod(cpu->env.timer, next);
-> > +    timer_mod(mtimer->timers[hartid], next);
-> >  }
-> >
-> >  /*
-> > @@ -133,11 +134,11 @@ static uint64_t riscv_aclint_mtimer_read(void *opaque, hwaddr addr,
-> >                            "aclint-mtimer: invalid hartid: %zu", hartid);
-> >          } else if ((addr & 0x7) == 0) {
-> >              /* timecmp_lo for RV32/RV64 or timecmp for RV64 */
-> > -            uint64_t timecmp = env->timecmp;
-> > +            uint64_t timecmp = mtimer->timecmp[hartid];
-> >              return (size == 4) ? (timecmp & 0xFFFFFFFF) : timecmp;
-> >          } else if ((addr & 0x7) == 4) {
-> >              /* timecmp_hi */
-> > -            uint64_t timecmp = env->timecmp;
-> > +            uint64_t timecmp = mtimer->timecmp[hartid];
-> >              return (timecmp >> 32) & 0xFFFFFFFF;
-> >          } else {
-> >              qemu_log_mask(LOG_UNIMP,
-> > @@ -177,7 +178,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
-> >          } else if ((addr & 0x7) == 0) {
-> >              if (size == 4) {
-> >                  /* timecmp_lo for RV32/RV64 */
-> > -                uint64_t timecmp_hi = env->timecmp >> 32;
-> > +                uint64_t timecmp_hi = mtimer->timecmp[hartid] >> 32;
-> >                  riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-> >                      timecmp_hi << 32 | (value & 0xFFFFFFFF));
-> >              } else {
-> > @@ -188,7 +189,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
-> >          } else if ((addr & 0x7) == 4) {
-> >              if (size == 4) {
-> >                  /* timecmp_hi for RV32/RV64 */
-> > -                uint64_t timecmp_lo = env->timecmp;
-> > +                uint64_t timecmp_lo = mtimer->timecmp[hartid];
-> >                  riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu), hartid,
-> >                      value << 32 | (timecmp_lo & 0xFFFFFFFF));
-> >              } else {
-> > @@ -234,7 +235,7 @@ static void riscv_aclint_mtimer_write(void *opaque, hwaddr addr,
-> >              }
-> >              riscv_aclint_mtimer_write_timecmp(mtimer, RISCV_CPU(cpu),
-> >                                                mtimer->hartid_base + i,
-> > -                                              env->timecmp);
-> > +                                              mtimer->timecmp[i]);
-> >          }
-> >          return;
-> >      }
-> > @@ -284,6 +285,8 @@ static void riscv_aclint_mtimer_realize(DeviceState *dev, Error **errp)
-> >      s->timer_irqs = g_new(qemu_irq, s->num_harts);
-> >      qdev_init_gpio_out(dev, s->timer_irqs, s->num_harts);
-> >
-> > +    s->timers = g_malloc0(s->num_harts * sizeof(QEMUTimer));
->
-> It looks like we're overallocating the space here, since we want an
-> array of QEMUTimer pointers, not QEMUTimer objects. Also, QEMU
-> prefers g_new to g_malloc (see docs/devel/style.rst).
->
 
-Ahh yes. Thanks for catching that. I will fix it in the next verison.
-
-> Thanks,
-> drew
+在 2022/7/26 12:16, Jason Wang 写道:
 >
+> 在 2022/7/18 19:17, Kangjie Xu 写道:
+>> Introduce vhost_virtqueue_restart(), which can restart the
+>> virtqueue when the vhost net started running before.
+>>
+>> Introduce vhost_virtqueue_stop(), which can disable the vq
+>> and unmap vrings and the desc of the vq. When disabling the
+>> vq, the function is blocked and waits for a reply.
+>>
+>> Combining the two functions, we can reset a virtqueue with a
+>> started vhost net.
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>   hw/net/vhost_net.c      | 55 +++++++++++++++++++++++++++++++++++++++++
+>>   include/net/vhost_net.h |  5 ++++
+>>   2 files changed, 60 insertions(+)
+>>
+>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>> index ccac5b7a64..4f5f034c11 100644
+>> --- a/hw/net/vhost_net.c
+>> +++ b/hw/net/vhost_net.c
+>> @@ -514,3 +514,58 @@ int vhost_net_set_mtu(struct vhost_net *net, 
+>> uint16_t mtu)
+>>         return vhost_ops->vhost_net_set_mtu(&net->dev, mtu);
+>>   }
+>> +
+>> +void vhost_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
+>> +                          int vq_index)
+>
+>
+> Let's rename this as vhost_net_virtqueue_stop()
+>
+Yeah, I agree.
 
+Thanks
 
--- 
-Regards,
-Atish
+>
+>> +{
+>> +    VHostNetState *net = get_vhost_net(nc->peer);
+>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+>> +    int r;
+>> +
+>> +    assert(vhost_ops);
+>> +
+>> +    r = vhost_ops->vhost_set_single_vring_enable(&net->dev, 
+>> vq_index, 0, true);
+>> +    if (r < 0) {
+>> +        goto err_queue_disable;
+>> +    }
+>> +
+>> +    vhost_dev_virtqueue_release(&net->dev, vdev, vq_index);
+>> +
+>> +    return;
+>> +
+>> +err_queue_disable:
+>> +    error_report("Error when releasing the qeuue.");
+>> +}
+>> +
+>> +int vhost_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+>> +                            int vq_index)
+>> +{
+>> +    VHostNetState *net = get_vhost_net(nc->peer);
+>> +    const VhostOps *vhost_ops = net->dev.vhost_ops;
+>> +    int r;
+>> +
+>> +    if (!net->dev.started) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    assert(vhost_ops);
+>> +
+>> +    r = vhost_dev_virtqueue_restart(&net->dev, vdev, vq_index);
+>> +    if (r < 0) {
+>> +        goto err_start;
+>> +    }
+>> +
+>> +    r = vhost_ops->vhost_set_single_vring_enable(&net->dev, 
+>> vq_index, 1,
+>> +                                                 false);
+>
+>
+> So it looks nothing vhost_net specific but vhost. And why not do 
+> set_single_vring_enable in vhost_dev_virtqueue_restart() (btw, the 
+> name of this function looks confusing).
+>
+> Thanks
+>
+>
+I thought it was a convention that virtio-net will call vhost_net first, 
+and cannot call vhost directly. So I implement it in this way.
+
+It's no probem to move it to vhost. I'll fix it.
+
+Thanks
+
+>> +    if (r < 0) {
+>> +        goto err_start;
+>> +    }
+>> +
+>> +    return 0;
+>> +
+>> +err_start:
+>> +    error_report("Error when restarting the queue.");
+>> +    vhost_dev_stop(&net->dev, vdev);
+>> +
+>> +    return r;
+>> +}
+>> diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+>> index 387e913e4e..fcb09e36ef 100644
+>> --- a/include/net/vhost_net.h
+>> +++ b/include/net/vhost_net.h
+>> @@ -48,4 +48,9 @@ uint64_t vhost_net_get_acked_features(VHostNetState 
+>> *net);
+>>     int vhost_net_set_mtu(struct vhost_net *net, uint16_t mtu);
+>>   +void vhost_virtqueue_stop(VirtIODevice *vdev, NetClientState *nc,
+>> +                          int vq_index);
+>> +int vhost_virtqueue_restart(VirtIODevice *vdev, NetClientState *nc,
+>> +                            int vq_index);
+>> +
+>>   #endif
 
