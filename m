@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F90580AA9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 07:05:00 +0200 (CEST)
-Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52E1580AD5
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 07:29:36 +0200 (CEST)
+Received: from localhost ([::1]:53478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGCkd-0003Dm-H7
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 01:04:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49432)
+	id 1oGD8R-0008WP-Ha
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 01:29:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGCeV-0006Fb-6U
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:58:44 -0400
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:43898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oGCeR-0002bi-5e
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 00:58:38 -0400
-Received: by mail-pl1-x632.google.com with SMTP id y15so12283933plp.10
- for <qemu-devel@nongnu.org>; Mon, 25 Jul 2022 21:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=emSFyLsiKiz9IhTW6WmW8M3rFKM7w+1zQzDRk8176ug=;
- b=JVkZgxXg+61wUQ+htk4SFkSLrq1sPlvbxNnzaXlrtMlVX+g9TLB6DFl3QPvfB77013
- bzpaEKTYDwMUpu8EhCxhHIbaud6S8kSOV0ZM/ph7U5HJS0zCk4IMy9x1hSNKI9Dno3KW
- oPPF1hs+5080+fW7LD12TCjREWn5UKdhPhul8OEkLAl8krfP7suZvWPLF9vC0qhCbu6n
- BoVjBtHS5b9509ucYcJtdhN11yebYIpkXnmzaEAMSUSqUf2TqIteCyPFVY0QSBU3oElC
- IZ6t1+JLQf3f2pCpSh9kkMOqC4SC+urZtVjmm9kXuJ5jG7PTmhPMCLaqkeQlLS3bRF8C
- S4IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=emSFyLsiKiz9IhTW6WmW8M3rFKM7w+1zQzDRk8176ug=;
- b=iqRoCLL0+h5MgeVoq70TE8IQlbJCBXknk8OL9eBatmCgLrFT9EZppDtUgpcMl3mK6+
- aHpQ9AKd38nvrDI+mehApPWrh8/k97MvMOEFGaNm0hKGN0lMa+M1i2pXkCRNsYACOLXj
- +UMop0jw3OOWTCBd32CxnJicivHhdLbqPoxrL0DsDPjV7I/bqJPWLqFPBc1U+PKf8HeH
- wZUrKWHXRxxTZ8cKBk0hvwothXHZX5ClB+YArqI+zCIdiGRb3mQ8c7/EwUCtoRDaIs1d
- CqsIxttFqA6vivRZbAd9cgsz/8A/A4EKDHmYlYg/ANn3z68AW1HybMJnnqMLTGIidvGW
- 4RbQ==
-X-Gm-Message-State: AJIora9+gKYy8wWUtMvYjqdDQtPAcHZK/pzqZ68WYeiuemYSegI89JqH
- vOrPxDPSXHQUmHVSxCLAdWao8prz2Xqdxw==
-X-Google-Smtp-Source: AGRyM1vJw+pVOGA9S8JirJ/1J8VVNh649qzra7x3u/wtiKTY4doef2dZ/5P3ADQXDiSOoosONxFZ1Q==
-X-Received: by 2002:a17:902:a586:b0:16c:3182:a9b with SMTP id
- az6-20020a170902a58600b0016c31820a9bmr15115484plb.44.1658811513688; 
- Mon, 25 Jul 2022 21:58:33 -0700 (PDT)
-Received: from stoup.. ([2602:ae:1549:801:673b:b40:a955:bc1b])
- by smtp.gmail.com with ESMTPSA id
- o19-20020aa79793000000b00525343b5047sm10550460pfp.76.2022.07.25.21.58.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jul 2022 21:58:33 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: yuzenghui@huawei.com,
-	qemu-arm@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: Move sve probe inside kvm >= 4.15 branch
-Date: Mon, 25 Jul 2022 21:58:28 -0700
-Message-Id: <20220726045828.53697-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220726045828.53697-1-richard.henderson@linaro.org>
-References: <20220726045828.53697-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGD6g-00075i-8W
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:27:46 -0400
+Received: from out30-131.freemail.mail.aliyun.com ([115.124.30.131]:38633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGD6W-0006AI-AY
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 01:27:39 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046051;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VKTuvQh_1658813244; 
+Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VKTuvQh_1658813244) by smtp.aliyun-inc.com;
+ Tue, 26 Jul 2022 13:27:25 +0800
+Message-ID: <1b0f4eed-7925-949d-678a-f929c6baddda@linux.alibaba.com>
+Date: Tue, 26 Jul 2022 13:27:24 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.10.0
+Subject: Re: [PATCH 09/16] vhost-user: enable/disable a single vring
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <46deff7d44ad806a4bfb9235e57b0d37d8cfa95c.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: mst@redhat.com, hengqi@linux.alibaba.com, xuanzhuo@linux.alibaba.com,
+ qemu-devel@nongnu.org
+In-Reply-To: <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=115.124.30.131;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-131.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,49 +67,136 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The test for the IF block indicates no ID registers are exposed, much
-less host support for SVE.  Move the SVE probe into the ELSE block.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/kvm64.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+在 2022/7/26 12:07, Jason Wang 写道:
+>
+> 在 2022/7/18 19:17, Kangjie Xu 写道:
+>> Implement the vhost_set_single_vring_enable, which is to enable or
+>> disable a single vring.
+>>
+>> The parameter wait_for_reply is added to help for some cases such as
+>> vq reset.
+>>
+>> Meanwhile, vhost_user_set_vring_enable() is refactored.
+>>
+>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>> ---
+>>   hw/virtio/vhost-user.c | 55 ++++++++++++++++++++++++++++++++++++------
+>>   1 file changed, 48 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>> index 75b8df21a4..5a80a415f0 100644
+>> --- a/hw/virtio/vhost-user.c
+>> +++ b/hw/virtio/vhost-user.c
+>> @@ -267,6 +267,8 @@ struct scrub_regions {
+>>       int fd_idx;
+>>   };
+>>   +static int enforce_reply(struct vhost_dev *dev, const VhostUserMsg 
+>> *msg);
+>> +
+>>   static bool ioeventfd_enabled(void)
+>>   {
+>>       return !kvm_enabled() || kvm_eventfds_enabled();
+>> @@ -1198,6 +1200,49 @@ static int vhost_user_set_vring_base(struct 
+>> vhost_dev *dev,
+>>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+>>   }
+>>   +
+>> +static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
+>> +                                              int index,
+>> +                                              int enable,
+>> +                                              bool wait_for_reply)
+>> +{
+>> +    int ret;
+>> +
+>> +    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    struct vhost_vring_state state = {
+>> +        .index = index,
+>> +        .num   = enable,
+>> +    };
+>> +
+>> +    VhostUserMsg msg = {
+>> +        .hdr.request = VHOST_USER_SET_VRING_ENABLE,
+>> +        .hdr.flags = VHOST_USER_VERSION,
+>> +        .payload.state = state,
+>> +        .hdr.size = sizeof(msg.payload.state),
+>> +    };
+>> +
+>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+>> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>> +
+>> +    if (reply_supported && wait_for_reply) {
+>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>> +    }
+>
+>
+> Do we need to fail if !realy_supported && wait_for_reply?
+>
+> Thanks
+>
+>
+I guess you mean "should we fail if VHOST_USER_PROTOCOL_F_REPLY_ACK 
+feature is not supported?".
 
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 43cd7eb890..9b9dd46d78 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -679,18 +679,18 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
-             err |= read_sys_reg64(fdarray[2], &ahcf->isar.reset_pmcr_el0,
-                                   ARM64_SYS_REG(3, 3, 9, 12, 0));
-         }
--    }
- 
--    if (sve_supported) {
--        /*
--         * There is a range of kernels between kernel commit 73433762fcae
--         * and f81cb2c3ad41 which have a bug where the kernel doesn't expose
--         * SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has enabled
--         * SVE support, which resulted in an error rather than RAZ.
--         * So only read the register if we set KVM_ARM_VCPU_SVE above.
--         */
--        err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
--                              ARM64_SYS_REG(3, 0, 0, 4, 4));
-+        if (sve_supported) {
-+            /*
-+             * There is a range of kernels between kernel commit 73433762fcae
-+             * and f81cb2c3ad41 which have a bug where the kernel doesn't
-+             * expose SYS_ID_AA64ZFR0_EL1 via the ONE_REG API unless the VM has
-+             * enabled SVE support, which resulted in an error rather than RAZ.
-+             * So only read the register if we set KVM_ARM_VCPU_SVE above.
-+             */
-+            err |= read_sys_reg64(fdarray[2], &ahcf->isar.id_aa64zfr0,
-+                                  ARM64_SYS_REG(3, 0, 0, 4, 4));
-+        }
-     }
- 
-     kvm_arm_destroy_scratch_host_vcpu(fdarray);
--- 
-2.34.1
+The implementation here is similar to that in vhost_user_set_vring_addr().
 
+If this feature is not supported, it will call enforce_reply(), then 
+call vhost_user_get_features() to get a reply.
+
+Since the messages will be processed sequentailly in DPDK, success of 
+enforce_reply() means the previous message VHOST_USER_SET_VRING_ENABLE 
+has been processed.
+
+Thanks
+
+>
+>> +
+>> +    ret = vhost_user_write(dev, &msg, NULL, 0);
+>> +    if (ret < 0) {
+>> +        return ret;
+>> +    }
+>> +
+>> +    if (wait_for_reply) {
+>> +        return enforce_reply(dev, &msg);
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int 
+>> enable)
+>>   {
+>>       int i;
+>> @@ -1207,13 +1252,8 @@ static int vhost_user_set_vring_enable(struct 
+>> vhost_dev *dev, int enable)
+>>       }
+>>         for (i = 0; i < dev->nvqs; ++i) {
+>> -        int ret;
+>> -        struct vhost_vring_state state = {
+>> -            .index = dev->vq_index + i,
+>> -            .num   = enable,
+>> -        };
+>> -
+>> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE, 
+>> &state);
+>> +        int ret = vhost_user_set_single_vring_enable(dev, 
+>> dev->vq_index + i,
+>> +                                                     enable, false);
+>>           if (ret < 0) {
+>>               /*
+>>                * Restoring the previous state is likely infeasible, 
+>> as well as
+>> @@ -2627,6 +2667,7 @@ const VhostOps user_ops = {
+>>           .vhost_set_owner = vhost_user_set_owner,
+>>           .vhost_reset_device = vhost_user_reset_device,
+>>           .vhost_get_vq_index = vhost_user_get_vq_index,
+>> +        .vhost_set_single_vring_enable = 
+>> vhost_user_set_single_vring_enable,
+>>           .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>>           .vhost_requires_shm_log = vhost_user_requires_shm_log,
+>>           .vhost_migration_done = vhost_user_migration_done,
 
