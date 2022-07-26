@@ -2,92 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5F35810DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 12:12:21 +0200 (CEST)
-Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98903581143
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 12:35:14 +0200 (CEST)
+Received: from localhost ([::1]:52688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGHY4-0001mU-GN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 06:12:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49340)
+	id 1oGHuC-0004DV-87
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 06:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGHVD-0007ng-08
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 06:09:23 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:40213)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oGHqJ-0002ZG-2U
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 06:31:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40077)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGHVA-00064N-TV
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 06:09:22 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id AECE4320093F;
- Tue, 26 Jul 2022 06:09:18 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 26 Jul 2022 06:09:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1658830158; x=1658916558; bh=mV
- wQns5GSjqLB9VisqjsXF957mNrYCEgFMcbcZDhiuM=; b=nkyvWPLRhVWrMo0o9O
- uUW6is5kQn5TPYj0hj5Ee7ir2sKQfCzUAZj7yS83vfLLQ+FnI6vyTy/f7Xdr/nUp
- pa4/ZugRqVhrQEXLOjicr1diR8cdGlNTiJxZzutbvUO4Hl3n8/MP+7El+yCVW65q
- v7RCkWDCQZKhRWxlybNA2boTroaMtsWqvW5QBWrknbA174GgQGdJbjlsrETmazBK
- 7CucMiA1UXpR9RcF5gUCTpbA5nZrmCgYxmbl5KpxM6/TTHgSGkdCN9N6x0k8JxEL
- 7yyFyq2Ker4Ap51DxldqUsM2GTB6Y0oYAXZp24E2vAcg4+MQch3vFUVHDvKLI+/n
- 5StQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1658830158; x=1658916558; bh=mVwQns5GSjqLB9VisqjsXF957mNr
- YCEgFMcbcZDhiuM=; b=3L0dLt1wtcQsccc/6JU+HgUAbxz7EMs3u9mzrl8/5XMT
- 9A4zlAYxezln1LmZHjBTqzeSijHqCy5qk6KBmtrBlZu7qnz+uO6Zzan2dp90vqbl
- 04IecyG2B0WUWH+umuAg2E96XaWSUNBHT0i4GL+ZxFO5NX12jlxmiDbNNkMyh4Ct
- /9N3ZRvKAj8rIfAgjVGQo1PqY8OOE8Hqv/auHdZ7rsFKrUPXBfMGmghaPtpK5arV
- bpaHYakbyd/RTgN57Lte9QiG1MDzkaXRS2YLfi8O0enZg/I7IeMBnjH/6zNoFR0Q
- ccR++vdIfkzqew6GTknv7WyCmda5xgrfcJTtm/oS3g==
-X-ME-Sender: <xms:TL3fYnpEW0-XpHXvZqGXmkCp412w6B1y9C2e8JsfChIOneG43SmoFw>
- <xme:TL3fYhrgz_3AZ8oXcudvGPcnI32X7S6letSelL-NtrVzFA248fk_RidM5wDlO9Fii
- gBVZ3aTbJpehXjeuiM>
-X-ME-Received: <xmr:TL3fYkMfMvAW-FjrwBzXvXSONbWr9eJ-MdDFV4FmSMgZoXLqnc24J5k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddutddgvdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvvefukfhfgggtuggjsehgtd
- erredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
- vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeejgfejfeffvdeuhfeifefhgffgue
- elhedukeevjeevtdduudegieegteffffejveenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:Tb3fYq7tFH769hvBu9NeWghcaknNEXC2_KOpLQXa0ONdRerpZG3H2Q>
- <xmx:Tb3fYm5LH7lnmJONE-ahOjTRfqa-5MhFUUG5fCATuaFfJolM8t3RrQ>
- <xmx:Tb3fYiiOZl4Y3RFRfDziAA79bjI5pgNKrEbosYVjDMygEg5NqiBD-g>
- <xmx:Tr3fYmEYk0JcMc2T5H-w3D-ZSzYzLqlwZhO3kD6cVASqU3JF9efwJw>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 26 Jul 2022 06:09:16 -0400 (EDT)
-Date: Tue, 26 Jul 2022 12:09:14 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org
-Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
-Message-ID: <Yt+9Spzi17LRRexQ@apples>
-References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
- <Yt8DWWg8qPLxL0fk@apples>
- <D12147BE-7F7A-4F41-9317-765F7EB2E971@ict.ac.cn>
- <Yt+avxgBxcwrxYgi@apples>
- <869047CA-DD0A-45D1-9DBA-2BA1A3E00ADF@ict.ac.cn>
- <Yt+xpMzwRWvn3QqR@apples>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1oGHqF-0001kZ-2W
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 06:31:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658831466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kVRa8ffHmDgT9+/RpCwukEy2WXxgJ6HQ5P8cvE5cOVM=;
+ b=S2f/ghwQcVdkzzCS5Cmq8vAgQzP3j5aZjY04UBm+04Mxn4oCvdHximPa9zUrornka1ZBvc
+ FW/azkHZL40MvTbP06oAUkdKcPhenlPnZkdjLMtUGixMf8JxoxqZiDgP+K80qUuHbmv0AR
+ zMN1kgXiU2oprRghiOrP0IPVFD62o+c=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-101-jqQrAXltPCG6JNduBTVJIw-1; Tue, 26 Jul 2022 06:31:04 -0400
+X-MC-Unique: jqQrAXltPCG6JNduBTVJIw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50CD13C0E212
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 10:31:04 +0000 (UTC)
+Received: from localhost (unknown [10.39.208.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 38C3E40F9D42;
+ Tue, 26 Jul 2022 10:31:02 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Cc: kraxel@redhat.com, pbonzini@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Subject: [PATCH] ui: -display dbus requires gbm
+Date: Tue, 26 Jul 2022 14:31:00 +0400
+Message-Id: <20220726103100.2579854-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="WajGkKi55+4swvkn"
-Content-Disposition: inline
-In-Reply-To: <Yt+xpMzwRWvn3QqR@apples>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,98 +78,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
---WajGkKi55+4swvkn
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For now, -display dbus also requires GBM, for EGL setup.
 
-On Jul 26 11:19, Klaus Jensen wrote:
-> On Jul 26 15:55, Jinhao Fan wrote:
-> > at 3:41 PM, Klaus Jensen <its@irrelevant.dk> wrote:
-> >=20
-> > > On Jul 26 15:35, Jinhao Fan wrote:
-> > >> at 4:55 AM, Klaus Jensen <its@irrelevant.dk> wrote:
-> > >>=20
-> > >>> We have a regression following this patch that we need to address.
-> > >>>=20
-> > >>> With this patch, issuing a reset on the device (`nvme reset /dev/nv=
-me0`
-> > >>> will do the trick) causes QEMU to hog my host cpu at 100%.
-> > >>>=20
-> > >>> I'm still not sure what causes this. The trace output is a bit
-> > >>> inconclusive still.
-> > >>>=20
-> > >>> I'll keep looking into it.
-> > >>=20
-> > >> I cannot reproduce this bug. I just start the VM and used `nvme reset
-> > >> /dev/nvme0`. Did you do anything before the reset?
-> > >=20
-> > > Interesting and thanks for checking! Looks like a kernel issue then!
-> > >=20
-> > > I remember that I'm using a dev branch (nvme-v5.20) of the kernel and
-> > > reverting to a stock OS kernel did not produce the bug.
-> >=20
-> > I=E2=80=99m using 5.19-rc4 which I pulled from linux-next on Jul 1. It =
-works ok on
-> > my machine.
->=20
-> Interesting. I can reproduce on 5.19-rc4 from torvalds tree. Can you
-> drop your qemu command line here?
->=20
-> This is mine.
->=20
-> /home/kbj/work/src/qemu/build/x86_64-softmmu/qemu-system-x86_64 \
->   -nodefaults \
->   -display "none" \
->   -machine "q35,accel=3Dkvm,kernel-irqchip=3Dsplit" \
->   -cpu "host" \
->   -smp "4" \
->   -m "8G" \
->   -device "intel-iommu" \
->   -netdev "user,id=3Dnet0,hostfwd=3Dtcp::2222-:22" \
->   -device "virtio-net-pci,netdev=3Dnet0" \
->   -device "virtio-rng-pci" \
->   -drive "id=3Dboot,file=3D/home/kbj/work/vol/machines/img/nvme.qcow2,for=
-mat=3Dqcow2,if=3Dvirtio,discard=3Dunmap,media=3Ddisk,read-only=3Dno" \
->   -device "pcie-root-port,id=3Dpcie_root_port1,chassis=3D1,slot=3D0" \
->   -device "nvme,id=3Dnvme0,serial=3Ddeadbeef,bus=3Dpcie_root_port1,mdts=
-=3D7" \
->   -drive "id=3Dnull,if=3Dnone,file=3Dnull-co://,file.read-zeroes=3Don,for=
-mat=3Draw" \
->   -device "nvme-ns,id=3Dnvm-1,drive=3Dnvm-1,bus=3Dnvme0,nsid=3D1,drive=3D=
-null,logical_block_size=3D4096,physical_block_size=3D4096" \
->   -pidfile "/home/kbj/work/vol/machines/run/null/pidfile" \
->   -kernel "/home/kbj/work/src/kernel/linux/arch/x86_64/boot/bzImage" \
->   -append "root=3D/dev/vda1 console=3DttyS0,115200 audit=3D0 intel_iommu=
-=3Don" \
->   -virtfs "local,path=3D/home/kbj/work/src/kernel/linux,security_model=3D=
-none,readonly=3Don,mount_tag=3Dkernel_dir" \
->   -serial "mon:stdio" \
->   -d "guest_errors" \
->   -D "/home/kbj/work/vol/machines/log/null/qemu.log" \
->   -trace "pci_nvme*"
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1108
 
-Alright. It was *some* config issue with my kernel. Reverted to a
-defconfig + requirements and the issue went away.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
-I'll try to track down what happended, but doesnt look like qemu is at
-fault here.
+diff --git a/meson.build b/meson.build
+index 8a8c415fc1f8..b2c18faa0f4c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1679,6 +1679,8 @@ dbus_display = get_option('dbus_display') \
+            error_message: '-display dbus requires gdbus-codegen') \
+   .require(opengl.found(),
+            error_message: '-display dbus requires epoxy/egl') \
++  .require(gbm.found(),
++           error_message: '-display dbus requires gbm') \
+   .allowed()
+ 
+ have_virtfs = get_option('virtfs') \
+-- 
+2.37.0.rc0
 
---WajGkKi55+4swvkn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLfvUkACgkQTeGvMW1P
-Deli+wgAlmrBDnGRYm1IqrVv11zCzp9WrDJ4rri6We43/8KYnTda8xT6Yo48Tshs
-30JOOxIjlJmUa6q86NGO4wJwh38EqGJd7yX11L64iH4aYppoqbCilvjFAeQWUUdc
-hXRUoMjDadAbgkN8Gmmm2k9CNcTfIuqdzHH3D79zxkXvN7Z1m1prx6bZoE+dxgVu
-Wj7Cogl1SEhmEVivXTrYRlF5/Yz9tJQjAxt3IwrTasGHQjQkKJbEQ+LpVHCN6IBG
-pQ1Y56hpKRCfZSMgo9dYv48799OmGeBj+8TArJEaCXifc9R7e3LPiSXPOkVC8ljZ
-pKQTFUardAP4fnEvq9uzwJEf3rt2Tg==
-=styQ
------END PGP SIGNATURE-----
-
---WajGkKi55+4swvkn--
 
