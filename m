@@ -2,158 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 095F15811C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:19:22 +0200 (CEST)
-Received: from localhost ([::1]:53556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8D25811C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:19:15 +0200 (CEST)
+Received: from localhost ([::1]:53432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGIav-00024s-4p
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:19:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37272)
+	id 1oGIan-0001yz-O9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:19:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1oGIVT-0007B5-3Q
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:45 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:47210)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGIVh-0007D2-Vd
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1oGIVM-0001bV-Q0
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:42 -0400
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26Q8Tle7026987;
- Tue, 26 Jul 2022 11:13:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2022-7-12;
- bh=LMQzhZ5d+uo9GwgY6P2ze+0b3GfY8xiqucHaThXQsIE=;
- b=zK1BTA2FVnM5+USOi2+pch5+i42pN9dvNRjWGjR2RpbvCyyoEMkDuaoQK01kHxAMwVwx
- katibv83I9zRntNIcjMM3YWqQgh5x3KvaVOia/hElHbuGguTCBGoZWBKk5xLDztbEG3N
- k2Kfr4Bj0CUsBsy/c10XlLTefIZeKCO+E88WnPm6/rXDc38GB06JLALxqGZXf5JaYjld
- stv1lwE74UWlghRSMf+KnB6+hd/l6DP/IzAtPtG7SwbbxQ+FrjQZK7a/NVhYSLQGPUPl
- ajDDs3KH/vXs1gnZv4T6tjeQx7Yzn+I+o23p4gUlteBAcSR7oMj7tvaU4FvTYUNNf8Ut 7w== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com
- (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9anwugf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 11:13:29 +0000
-Received: from pps.filterd
- (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QA3i5P017794; Tue, 26 Jul 2022 11:13:23 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com
- (mail-mw2nam12lp2049.outbound.protection.outlook.com [104.47.66.49])
- by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh650cjf0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 11:13:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CrIGPplbql+ykDOh/z3odjAZrcwFP8Swh652TuG3LK2Wp0YGKJToUb2o6b1B4jUSOQzfP1rC0WhqXTru9YyscrB5Po/ea53KozDaUAXepTPEcYOxLb3nfTYI4CMdh/idyO5pyOqerF02s7CY5ttXCfX/6maCd9uVndCgPgR7Jj1wI9BcxUvYU3v7KIxOYM1xaZRnN+e2jObMy0KPoW4JXuk0G8yEt2r9OVD9TWpfWZhslcsRqKRAx/dXtt8aI1Z5Z5zWScjji5A9uvNB3OOvSHsgBj7Ss7Oishm1/NLHIAV2gWIsFncEde1bjnobbxHWhPIZ6s/fwdW+71lIcI8Qzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LMQzhZ5d+uo9GwgY6P2ze+0b3GfY8xiqucHaThXQsIE=;
- b=hR3YpRe4BMAGexqx+ZVuudFQ2YMFCJBg1LboMIk7KN8jNQf3RmSG0ldVbVDJjpeAeEA2wDG/MJtFi02B9MRMUVRs/ImU9iZZWdMNPBgsAuLb5ahCSY4Si0JNK3WTbJ/rd1yaKQ5uSsUtD6s6SAnfYBWhvgW1qQi9+Con4pCwYZaH6VfFdHMgegdcZqEQFikBOQUKPK2hMO1QZPHZpa+vhHoIlhreX87jYxCbaxhabTTpmKjMoIxeCmgOG91sTr09IgYfx0p5Iy+rvO4dugYYt+onTNe5hAyDIVdGzJK2c4cpR05ndclk573GPjpKSe69WEjn/U8y8DXXwng11Pd6vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LMQzhZ5d+uo9GwgY6P2ze+0b3GfY8xiqucHaThXQsIE=;
- b=aKolwgX0WWfxkUgFPOO5a5fDG2lFCRliaddi16H9f+vcpQg4drvrC/Lrm6iwu85KgSvBPMwjwjqQPnv7JSdBGFif4pkrKewGliDjhrZIzARitG+fFmwDpiXkFU/W39BzUPuqzsUbtG3YhLFoHue+/4t/Kzo3YNI+fhQ393ev/ys=
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by CY4PR10MB1286.namprd10.prod.outlook.com (2603:10b6:903:28::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.20; Tue, 26 Jul
- 2022 11:13:21 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0%8]) with mapi id 15.20.5458.025; Tue, 26 Jul 2022
- 11:13:21 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: zhenwei pi <pizhenwei@bytedance.com>, dgilbert@redhat.com
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, zhenwei pi
- <pizhenwei@bytedance.com>
-Subject: Re: [PATCH] monitor: Support specified vCPU registers
-In-Reply-To: <20220719075544.932927-1-pizhenwei@bytedance.com>
-References: <20220719075544.932927-1-pizhenwei@bytedance.com>
-Date: Tue, 26 Jul 2022 12:13:17 +0100
-Message-ID: <m2a68wxh2q.fsf@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: DB9PR02CA0018.eurprd02.prod.outlook.com
- (2603:10a6:10:1d9::23) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGIVb-0001er-3M
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:13:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658834030;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hxu+2+tPJfcqV3to7MkE7sdjaCwIOCoBHbdqnf+lSTM=;
+ b=jV1CilmL2Rr1QaZrBYqpfGBzGnd218dlg3V4GdcVra9x6Zcyr9Ulft6MattrY2MW6221Tp
+ kzRrG3lF0hn/gCsvmHbh+lhUCcvZiHYkMnjlS+Q45ECBAqocpuUa5x7zWl4wPcmuRoM6aP
+ ALWmv1Xz88fShZjgG2rXi1I4mjrkFJs=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-295-L7-SMSBPMhKZvSz7I6nVvA-1; Tue, 26 Jul 2022 07:13:47 -0400
+X-MC-Unique: L7-SMSBPMhKZvSz7I6nVvA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6A68F2812C25;
+ Tue, 26 Jul 2022 11:13:46 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCFAC140EBE3;
+ Tue, 26 Jul 2022 11:13:44 +0000 (UTC)
+Date: Tue, 26 Jul 2022 12:13:42 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Het Gala <het.gala@nutanix.com>
+Cc: qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, armbru@redhat.com, eblake@redhat.com,
+ prerna.saxena@nutanix.com, Manish Mishra <manish.mishra@nutanix.com>
+Subject: Re: [PATCH v2 2/7] multifd: modifying 'migrate' qmp command to add
+ multifd socket on particular src and dest pair
+Message-ID: <Yt/MZiK3OuvQMRfF@redhat.com>
+References: <20220721195620.123837-1-het.gala@nutanix.com>
+ <20220721195620.123837-3-het.gala@nutanix.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1d46a07a-8124-4328-9ffa-08da6ef7d99b
-X-MS-TrafficTypeDiagnostic: CY4PR10MB1286:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EkuyO/lPnsjrBbUvRtwWe41DlD2X7FgB1Y8sDMUhuIfWPwyNBcY97SRXYLyrjGT/o6U1Z6cnD1WotQPAmuEic2RGldEb2+5Lst2x0x0kw8JBtuf2lgXXXsLE5QseQrbb3sRSy4igT5n9RMWovuPnF6ATPnjXzIObZ9Ics+cpXPIS/LZ/lEjJjmRK1VpJ1+E3xfFxR6BvjaO+kHLTpaTDtwOPisiJRcLgBiy+nkjJO94WChkJfcCh3KmZf8Eh7MzZI4lDJESgJG0CdXiZGKqIqM6FRjg/5tDXjlIYqP31dbjYZ1Di9AwLTPth6qzpBxl+I72zKgqCKfuTxMXuGmoZNpAHgK/jbxQtgVjd5Z7Aa+UEy2xvbc1iLPmyMYRMYpAJF0teg/DlfS/Eoq4ubUCFnLoyq2txfNbGCvgZ2MmvGzDEWiMnXVhIjCSe3EZqFAuY1QehX/uX6oO5AmdYsBsUlrzIWUv6vJj1L2NaVkKGTcvgfQ2e4GX4Ygg3f5Ws+pqENtZaMwFSikfNWCGVP/BtXka0194nu1JZogTVrysZsrlHaGNV1KFP8IPuzE18gSWcFVHUstHsgD4hiSR0XueTLLacxr+V04/Dni/tloXsRNRGMnua8opB1FRKs2V+W0O+MDrlLzRVKrP7D45Mhv57hOPGFy8O4/f0eopRp/UCul8kYjHCKmhWEP5n4kAwLzgEM0KAChNufcgBBA+2lyeRJtWOPuexbc+rqCgUrnuD+nE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(346002)(136003)(376002)(366004)(39860400002)(396003)(8936002)(83380400001)(38100700002)(41300700001)(36756003)(6666004)(86362001)(5660300002)(186003)(6486002)(478600001)(4326008)(66556008)(8676002)(66946007)(66476007)(6506007)(44832011)(26005)(2906002)(6512007)(2616005)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?YaSfYwKHlHT3yqQSfoVdC/FiYkXmEiSJIg2kcxu+8iiXtyjEql74vDqxMTMA?=
- =?us-ascii?Q?FoFvKmoHU/ikBMp5RPQyCtDYOMdCPjQHgAJtLaOkur+J8/RVVpBStcNndCUg?=
- =?us-ascii?Q?yoSxe9GH21GlkrFwbshJZ/XCTI/u/zIQa8AbKNlBSYL9r5Ky4Pkp2iO+7HsH?=
- =?us-ascii?Q?y2hyQPqVc3shETHInOG9+PJOtfUdGEgLI3CEzmRBoAchdERcH/NFQLOfq3oU?=
- =?us-ascii?Q?qaz7LS+TLQSN0sb2pGN5+az3QuZ6WGMM7rL+Yyn471bwfpgyigWiv/LML5n1?=
- =?us-ascii?Q?JLMrrxZteAaLx9rWEkxJHzjcJ13bZQPJ1+qHjIPM4KPK+pTh/sr/XHL/vaqu?=
- =?us-ascii?Q?rutlapoAtSrTUEpsxwvbJwfj7zUzdwmVtt3wuiI0ENM7Ii0+aCOUNC8x8Huu?=
- =?us-ascii?Q?/+t4frTJkUaos0sRIhZOfYY0MEP9Q2OVlXC12QBD3YrwEubueWC2yEQV4jOk?=
- =?us-ascii?Q?sZjMPFIJPw6rAiI+leoEkNepAYcvY9kncJlFse69oazF/gTnhWuHIE/VtboH?=
- =?us-ascii?Q?tHzMEpETW64oyGIkjhyiF68emTk0ioILLVm10m/ptOcBgI1gGKgqwbUofxMp?=
- =?us-ascii?Q?9bxppLBWpuW1YQ3at54o1f4IqNZd5MiYO2WCLshWKmliwPbSV3AZreXoeZur?=
- =?us-ascii?Q?O2Qpl8B7XjRZHJfqNYMxPkHe3Ouvjxe/SMok6SpavenDa3c+u1MfpYew3KRN?=
- =?us-ascii?Q?xFxxgSXTJ1t9BaLXAxdWTd0Do3ze5oeL1nXxBhFl3p/znFgsKoRpohybW8V3?=
- =?us-ascii?Q?0IiS2yCSOVHRXyU/oNli6R5OPTwBZhMBsRCbIhV2Se1tWOTZxKaFKH6tHP3B?=
- =?us-ascii?Q?7oDamHn19qAtYfXoHWWP16We40u3oJ7mhSz4CXRRaj5E3mQlSaxEdPGEv1xB?=
- =?us-ascii?Q?QbafK3fRL4UtGtQ9vGX0BQmCkafBjPgocIie784x3niEDP6hRQVAgmCdPq9a?=
- =?us-ascii?Q?pmd65jgmj9Nxin5wvYgf8E6r15uSQLHH6Z4tnXjbVFw5Uk3Um7E4tiVtFKBH?=
- =?us-ascii?Q?pw01QFEjF40Th4cJ0c3/DC37TGho732Jpk9o1HhomNuJy2JyOIKZoiln6Swz?=
- =?us-ascii?Q?qknV0mOTq0d56gaTA7XABb7i1A40caSMkyasQ3NGlVimaEPm8he56ezY1kmE?=
- =?us-ascii?Q?oEIb/PDALVfQeAw4e/lJ1liptX7/o672USUqbA3lskmLscb/P4Zsiv2V5hJ+?=
- =?us-ascii?Q?3Yfa2fB0OPmcfd3aW5CM51hspaS/6TBBtp+E5cTgzKO6Fz08Nbpt4GafqUFd?=
- =?us-ascii?Q?ibwul6vdRDVRCVeuY71FFW0vusKHS2zX1xxI9nt6CSiMJXl2K4t9KxGV5gl7?=
- =?us-ascii?Q?bg3t9/+4z3P+yXvLTZ4k/RPCni/ouLUk4owIp6bwjh7FLnZEtz0J5JTGC+eV?=
- =?us-ascii?Q?jnIUY2UhHNUYwsYWsE83xDKgsTbe2xRTU98u3LD6VVxmsySXJNpqCnrevyB9?=
- =?us-ascii?Q?pR5ZF2P0Ooe/k0Os30MVT96k/n9RH0o9qjk+sbYc0TrRVa4euWhu/Yrt2HgW?=
- =?us-ascii?Q?tgtolwBqInsCV5QFq0IdcR00rdS5WxbWxoAw65Ro1BBfQts13Mf2YKKxtOBr?=
- =?us-ascii?Q?39jCVSWUtshCnUQ7wqzuQCPs5jTkLUGP3azMLsMM?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d46a07a-8124-4328-9ffa-08da6ef7d99b
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 11:13:21.5678 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: avAQP++UtelJBSwg9Nnst4IC2UF2jJO47yVgkWFXbLoQbquppqex7M3efenGN8qtbIRN6dei3Ax6Iw8qkwpMAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1286
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-26_04,2022-07-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0
- phishscore=0 bulkscore=0
- adultscore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207260042
-X-Proofpoint-ORIG-GUID: 97tD3Cffa3ryqFWD1bAcSWojlcbv-BVW
-X-Proofpoint-GUID: 97tD3Cffa3ryqFWD1bAcSWojlcbv-BVW
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220721195620.123837-3-het.gala@nutanix.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -166,93 +80,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2022-07-19 at 15:55:44 +08, zhenwei pi wrote:
-> Originally we have to get all the vCPU registers and parse the
-> specified one. To improve the performance of this usage, allow user
-> specified vCPU id to query registers.
->
-> Run a VM with 16 vCPU, use bcc tool to track the latency of
-> 'hmp_info_registers':
-> 'info registers -a' uses about 3ms;
-> 'info register 12' uses about 150us.
-
-TYPO: I'm assuming that should be 'info registers 12'?
-
->
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+On Thu, Jul 21, 2022 at 07:56:15PM +0000, Het Gala wrote:
+> i) Modified the format of the qemu monitor command : 'migrate' by adding a list,
+>    each element in the list consisting of multifd connection parameters: source
+>    uri, destination uri and of the number of multifd channels between each pair.
+> 
+> ii) Information of all multifd connection parameters' list and length of the
+>     list is stored in 'OutgoingMigrateParams' struct.
+> 
+> Suggested-by: Manish Mishra <manish.mishra@nutanix.com>
+> Signed-off-by: Het Gala <het.gala@nutanix.com>
 > ---
->  hmp-commands-info.hx |  6 +++---
->  monitor/misc.c       | 19 +++++++++++++++++++
->  2 files changed, 22 insertions(+), 3 deletions(-)
->
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 3ffa24bd67..6023e2b5c5 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -100,9 +100,9 @@ ERST
+>  migration/migration.c | 52 +++++++++++++++++++++++++++++--------
+>  migration/socket.c    | 60 ++++++++++++++++++++++++++++++++++++++++---
+>  migration/socket.h    | 19 +++++++++++++-
+>  monitor/hmp-cmds.c    |  1 +
+>  qapi/migration.json   | 47 +++++++++++++++++++++++++++++----
+>  5 files changed, 160 insertions(+), 19 deletions(-)
+> 
+
+> diff --git a/qapi/migration.json b/qapi/migration.json
+> index 81185d4311..456247af8f 100644
+> --- a/qapi/migration.json
+> +++ b/qapi/migration.json
+> @@ -1449,12 +1449,37 @@
+>  ##
+>  { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
 >  
->      {
->          .name       = "registers",
-> -        .args_type  = "cpustate_all:-a",
-> -        .params     = "[-a]",
-> -        .help       = "show the cpu registers (-a: all - show register info for all cpus)",
-> +        .args_type  = "cpustate_all:-a,vcpu:i?",
-> +        .params     = "[-a] [vcpu]",
-
-From what I can see in the code, only one of these may be specified at a
-time - or at least, '-a' will take precedence.
-
-Maybe it would read more correctly as '[-a|vcpu]' ?
-
-> +        .help       = "show the cpu registers (-a: all - show register info for all cpus; vcpu: vCPU to query)",
-
-Possibly also it would be worth saying "...; vcpu: specific vCPU to query"?
-
->          .cmd        = hmp_info_registers,
->      },
->  
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 3d2312ba8d..b12309faad 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -307,6 +307,7 @@ int monitor_get_cpu_index(Monitor *mon)
->  static void hmp_info_registers(Monitor *mon, const QDict *qdict)
->  {
->      bool all_cpus = qdict_get_try_bool(qdict, "cpustate_all", false);
-> +    int vcpu = qdict_get_try_int(qdict, "vcpu", -1);
->      CPUState *cs;
->  
->      if (all_cpus) {
-> @@ -314,6 +315,24 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
->              monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
->              cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
->          }
-> +    } else if (vcpu >= 0) {
-> +        CPUState *target_cs = NULL;
+> +##
+> +# @MigrateUriParameter:
+> +#
+> +# Information regarding which source interface is connected to which
+> +# destination interface and number of multifd channels over each interface.
+> +#
+> +# @source-uri: uri of the source VM. Default port number is 0.
+> +#
+> +# @destination-uri: uri of the destination VM
+> +#
+> +# @multifd-channels: number of parallel multifd channels used to migrate data
+> +#                    for specific source-uri and destination-uri. Default value
+> +#                    in this case is 2 (Since 7.1)
+> +#
+> +##
+> +{ 'struct' : 'MigrateUriParameter',
+> +  'data' : { 'source-uri' : 'str',
+> +             'destination-uri' : 'str',
+> +             '*multifd-channels' : 'uint8'} }
 > +
-> +        CPU_FOREACH(cs) {
-> +            if (cs->cpu_index == vcpu) {
-> +                target_cs = cs;
-> +                break;
-> +            }
-> +        }
-> +
-> +        if (!target_cs) {
-> +            monitor_printf(mon, "CPU#%d not available\n", vcpu);
-> +            return;
-> +        }
-> +
-> +        monitor_printf(mon, "\nCPU#%d\n", target_cs->cpu_index);
-> +        cpu_dump_state(target_cs, NULL, CPU_DUMP_FPU);
-> +        return;
+>  ##
+>  # @migrate:
+>  #
+>  # Migrates the current running guest to another Virtual Machine.
+>  #
+>  # @uri: the Uniform Resource Identifier of the destination VM
+> +#       for migration thread
+> +#
+> +# @multi-fd-uri-list: list of pair of source and destination VM Uniform
+> +#                     Resource Identifiers with number of multifd-channels
+> +#                     for each pair
+>  #
+>  # @blk: do block migration (full disk copy)
+>  #
+> @@ -1474,20 +1499,32 @@
+>  # 1. The 'query-migrate' command should be used to check migration's progress
+>  #    and final result (this information is provided by the 'status' member)
+>  #
+> -# 2. All boolean arguments default to false
+> +# 2. The uri argument should have the Uniform Resource Identifier of default
+> +#    destination VM. This connection will be bound to default network
+>  #
+> -# 3. The user Monitor's "detach" argument is invalid in QMP and should not
+> +# 3. All boolean arguments default to false
+> +#
+> +# 4. The user Monitor's "detach" argument is invalid in QMP and should not
+>  #    be used
+>  #
+>  # Example:
+>  #
+> -# -> { "execute": "migrate", "arguments": { "uri": "tcp:0:4446" } }
+> +# -> { "execute": "migrate",
+> +#      "arguments": {
+> +#          "uri": "tcp:0:4446",
+> +#          "multi-fd-uri-list": [ { "source-uri": "tcp::6900",
+> +#                                   "destination-uri": "tcp:0:4480",
+> +#                                   "multifd-channels": 4},
+> +#                                 { "source-uri": "tcp:10.0.0.0: ",
+> +#                                   "destination-uri": "tcp:11.0.0.0:7789",
+> +#                                   "multifd-channels": 5} ] } }
+>  # <- { "return": {} }
+>  #
+>  ##
+>  { 'command': 'migrate',
+> -  'data': {'uri': 'str', '*blk': 'bool', '*inc': 'bool',
+> -           '*detach': 'bool', '*resume': 'bool' } }
+> +  'data': {'uri': 'str', '*multi-fd-uri-list': ['MigrateUriParameter'],
+> +           '*blk': 'bool', '*inc': 'bool', '*detach': 'bool',
+> +           '*resume': 'bool' } }
 
-This return call seems unnecessary here.
+Considering the existing migrate API from a QAPI design POV, I
+think there are several significant flaws with it
 
-Thanks,
+The use of URIs is the big red flag. It is basically a data encoding
+scheme within a data encoding scheme.  QEMU code should be able to
+directly work with the results from QAPI, without having todo a
+second level of parsing.
 
-Darren.
+URIs made sense in the context of HMP or the QemuOpts CLI, but do not
+make sense in QMP. We made a mistake in this respect when we first
+introduced QMP and implemented 'migrate'.
+
+If we going to extend the migrate API I think we should stop using URIs
+for the new fields, and instead define a QAPI discriminated union for
+the different data transport backends we offer. 
+
+     { 'enum': 'MigrateTransport',
+       'data': ['socket', 'exec'] }
+
+     { 'union': 'MigrateAddress',
+       'base': { 'transport': 'MigrateTransport'},
+       'discriminator': 'transport',
+       'data': {
+           'socket': 'SocketAddress',
+	   'exec': ['str'],
+       }
+
+NB, 'socket' should be able to cover all of  'tcp', 'unix', 'vsock'
+and 'fd' already. I'm fuzzy on best way to represent RDMA.
+
+
+IIUC, the desire of migration maintainers is that we can ultimately
+have multifd as the preferred, or even only, mechanism. Aside from
+the main outbound migration control channel, and the multifd
+data channels, IIUC we have a potential desire to have more channels
+for post-copy async requests.
+
+This all suggests to me a more general representation along the
+lines of:
+
+  { 'enum': 'MigrateChannelType',
+    'data': ['control', 'data', 'async'] }
+
+  { 'struct': 'MigrateChannel',
+    'data': {
+       'type': 'MigrateChannelType',
+       'src-addr': 'MigrateAddress',
+       'dst-addr': 'MigrateAddress',
+       'count': 'int',
+    } }
+
+  { 'comand': 'migrate',
+    'data': {
+      '*uri': 'str'
+      '*channels': ['MigrateChannel']
+    }
+  }
+
+With 'uri' and 'channels' being mutually exclusive here.
+
+This whole scheme brings in redundancy wrt to the 'migrate-set-parameters'
+API wrt multifd - essentally the same data is now being set in two
+different places. IMHO, we should declare the 'multifd' capability
+and the 'multifd-chanels' parameter deprecated, since the information
+they provide is totally redundant, if you're giving an explicit list
+of channels to 'migrate'.
+
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
