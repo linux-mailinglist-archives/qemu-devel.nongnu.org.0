@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AB5B581A91
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:56:11 +0200 (CEST)
-Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A187D581A65
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 21:42:16 +0200 (CEST)
+Received: from localhost ([::1]:54852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGQf4-000084-AJ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:56:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49076)
+	id 1oGQRb-0008AE-OE
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 15:42:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8E-0003Mj-CE
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:14 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33355)
+ id 1oGQGC-0006bt-BN
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:35 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGQ8C-0002OM-4e
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:22:13 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h9so21496419wrm.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:22:10 -0700 (PDT)
+ id 1oGQG6-0003bT-1y
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 15:30:24 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d8so21379539wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 12:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=M3AwLOO4tJSX2vgFnHe89rY8t5sl7yh4FwF2sza60a4=;
- b=YFZM3SAWhCsWYiAAU+juFm/2nGYXO7JZo/FUKFvJIzyxBTSVomht3D7zRSZ0iGoitO
- d8lLhOzrd17TXUmiDmhyisnDgE5msVDiLUlJSgkozeBP3P1//WMcLSPhaKjPTuLsM3EH
- S3Pa6lC9KI8WiRkf9/AvvmueAq1K5NiczC+EuzZHiyRen3Ot5sn78elpSh+DXGG1ulBc
- Jv0DU9pRQk8Y6IiHfG7TQpWT3+vFrNM5h6q8Hmgu4pYUem4PzYo93yRBTWZ++1DK0XfH
- pzy40LBJbJTu/W2R2xV0ocw4EN3hMTH0IIBFHX5SCOMbGxDVQhDqJBYcS0iK3TplxUTW
- rapw==
+ bh=PYaGkXjsZkoph9fA5YpZi9kVlMvB2mVtLyywEwpEssY=;
+ b=ual7CBUuvRDdw1MsLKJ5y9GezAGN+AST2WPzf2yk2Np9/RY3mmGfEDID+i+ed+M2h3
+ g8jLpNPySYjNuKdDSBLr3Ss9dOfDD+AoSxGU+45BFKwg3DJ0gxPAP4sSEC95FMW8nDsS
+ fohp7/TfA0kv/qeuCvtzrwknoecHBdndJcwBKds/Hw0jPC0+oMA09sltLXolo31IV4Wh
+ AUVXml4r7bEj2zIrM6M1FEKkO8wJeq27dJE5gjhxoK2wSZSuYEGl+cBf7Jpe5GpI8Q5w
+ rqa4AcoeuTfU0dhP2WRfgzyp8PjIdSQGenvZ5epopNoyumjGkG3GUmAHEGgMUqpASi85
+ pFeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M3AwLOO4tJSX2vgFnHe89rY8t5sl7yh4FwF2sza60a4=;
- b=vHLREeCoIHe9oXicuhFz9KymZFkZ5mpR5Q/LLq0k0Um0lVX2JYIBrYGZ1SPO1IYK7A
- 95lr/T0RunR3NMhUPvMOpSXFDU/1v4ebmF1J++YdonsM0Dqk1vjcq6miMi6tL9QZhIy8
- s7+HI4FEYgGMvnDUQ5jbJiwpfrLEtIka32pPgHWlS2vOuGGj2O3hailkijSWF88i0Gj2
- aWdq1qjh3X/inM770BQHSHL+z/AlfjaDiMNZACz9PRd3tyH70Er/aAl2SlMDpDT0/WC+
- gACU7ZyX4q8idiHBzAl4oj34tobWMOanIP8H0TrSu5zljbmW1+KB3FzJdOWaAxJgsSfG
- jD5A==
-X-Gm-Message-State: AJIora+ErKY/P4WZk7rApodvZFTrucT6dVpcqudjZTlmIUI0cYZrs4Dv
- 8kjqdWcbR8WHhjkEyACwmtQnmQ==
-X-Google-Smtp-Source: AGRyM1sHrliBoGwSEmE3n1nRrH7TXR2B6Vhuz3gRes7WKNGJiRledHtAppWL3RkBP1bqtjLh0g2cBg==
-X-Received: by 2002:a05:6000:2a4:b0:21e:6e0e:df1f with SMTP id
- l4-20020a05600002a400b0021e6e0edf1fmr11614994wry.516.1658863329858; 
- Tue, 26 Jul 2022 12:22:09 -0700 (PDT)
+ bh=PYaGkXjsZkoph9fA5YpZi9kVlMvB2mVtLyywEwpEssY=;
+ b=srdW51lmWNXKgsXhm648cZwVZJnV1lb52ZEr57DClHXn4vArepocgTChHs3+PHNeyE
+ sCtHIfoqXkFEb0JzGb3kyqDqmTMi4vPfExCHp3mYPHSeVLc/4jlZyU1mzyYyAxx5iRTK
+ t9uV18qyJImVPEd+6lSP5s2QFJNA3YvPAwwAQFA5q9u852iXjjSEYslWLLasrtFaxIAq
+ IsDewfqSApgbuCMs8OP6dxDuCyvM5PxeeBYzEnxeQ8VCv0wIIKo2NNID54/2qZTNwy3m
+ +7BMvbydoE67b5OpToxgznhXR7YW9738XbFGXPNoIoy0iQOqL4JpdxOWwyNLIAf/Iww8
+ q8Mg==
+X-Gm-Message-State: AJIora/qBKYQZAOOR9pt2SKoOM+R64+TxzAzXpSb7F3G6m0i/lT4PlUK
+ 0pqRpa/QQZnKazafv09wIdSudA==
+X-Google-Smtp-Source: AGRyM1t72VyM1VmtJ2TdD07MYTIgBN9CRsWte1hCUx6n+AWCBgXLd2NuNZrtbD4BNAJcAHx3bDLV5g==
+X-Received: by 2002:a5d:59c6:0:b0:21e:86fe:fcc6 with SMTP id
+ v6-20020a5d59c6000000b0021e86fefcc6mr8196415wry.139.1658863819519; 
+ Tue, 26 Jul 2022 12:30:19 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- az14-20020adfe18e000000b0021e529efa60sm9911003wrb.1.2022.07.26.12.21.58
+ q6-20020a1cf306000000b0039c5ab7167dsm21916848wmq.48.2022.07.26.12.30.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 12:21:59 -0700 (PDT)
+ Tue, 26 Jul 2022 12:30:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BF61B1FFC9;
+ by zen.linaroharston (Postfix) with ESMTP id CB3A41FFCA;
  Tue, 26 Jul 2022 20:21:51 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -64,18 +64,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v3 17/21] tests/qtest: plain g_assert for
- VHOST_USER_F_PROTOCOL_FEATURES
-Date: Tue, 26 Jul 2022 20:21:46 +0100
-Message-Id: <20220726192150.2435175-18-alex.bennee@linaro.org>
+Subject: [PATCH  v3 18/21] tests/qtest: add assert to catch bad features
+Date: Tue, 26 Jul 2022 20:21:47 +0100
+Message-Id: <20220726192150.2435175-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220726192150.2435175-1-alex.bennee@linaro.org>
 References: <20220726192150.2435175-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,28 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-checkpatch.pl warns that non-plain asserts should be avoided so
-convert the check to a plain g_assert.
+No device driver (which is what the qvirtio_ access functions
+represent) should be setting UNUSED(30) in the feature space. Although
+existing libqos users mask it out lets ensure nothing sneaks through.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qtest/vhost-user-test.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/qtest/libqos/virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index d0fa034601..db18e0b664 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -980,8 +980,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
- static void vu_net_set_features(TestServer *s, CharBackend *chr,
-         VhostUserMsg *msg)
+diff --git a/tests/qtest/libqos/virtio.c b/tests/qtest/libqos/virtio.c
+index 09ec09b655..03056e5187 100644
+--- a/tests/qtest/libqos/virtio.c
++++ b/tests/qtest/libqos/virtio.c
+@@ -101,6 +101,8 @@ uint64_t qvirtio_get_features(QVirtioDevice *d)
+ 
+ void qvirtio_set_features(QVirtioDevice *d, uint64_t features)
  {
--    g_assert_cmpint(msg->payload.u64 &
--            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
-+    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
-     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
-         qemu_chr_fe_disconnect(chr);
-         s->test_flags = TEST_FLAGS_BAD;
++    g_assert(!(features & QVIRTIO_F_BAD_FEATURE));
++
+     d->features = features;
+     d->bus->set_features(d, features);
+ 
 -- 
 2.30.2
 
