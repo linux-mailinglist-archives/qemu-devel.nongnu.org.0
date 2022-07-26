@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961B75819C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 20:31:41 +0200 (CEST)
-Received: from localhost ([::1]:57072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D875819CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 20:34:22 +0200 (CEST)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGPLI-0000Ak-Ki
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 14:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1oGPNt-0001fR-EP
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 14:34:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGPDh-00013s-9Z
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:49 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43623)
+ id 1oGPDv-0001cJ-CK
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:24:03 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:44553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGPDe-0001dW-Ef
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:23:47 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v17so2343682wrr.10
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 11:23:45 -0700 (PDT)
+ id 1oGPDf-0001de-3N
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 14:24:03 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ b21-20020a05600c4e1500b003a32bc8612fso8618706wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 11:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q3wRM0mYTsBHQhTgGrkSqDwGFdrtiUjwZJz6kElPnj8=;
- b=WeltduiBaletKGgtO3lnBR+GpLm6wvkJ4wSb475GkcQDGjZ2Av0waKab2SX9lmR2Y1
- Qnti0EU3JyWbwrF0us3SqwfazJBbG0Wt9UCOCk2gNq9T9RluR4dzgaMMi5XFxhTT10Kw
- COMwBlOnPEn60tqCmCn/MwN5IfjGw5hxizvGs4K1nvFxP1Mbhav0xfWKxoWxQ7fAKq0i
- syB29I1BMzD0hNWuci6bXC55Dzn127fOwxXwOXGnLO/C1PnFEunZfA0ev4/01leX2nJY
- /R4hu3/zVlhIceDaa4ZpnhAevsZIqTKdhicgcKUvmcbxRShaSj7L9w7YrPbCVL7y9XWA
- KWEA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=vy16z4ljJdbwe81vd9Sx+BZv55mLr+tRl2mig2DmfaQ=;
+ b=KDQTm0FxKQ3uVMDcXWucyFcC32XBkuowajZtNCmiCeEgGjD1cCwC6TY/7xN0qLdw3E
+ 6mfZ3tYYC5CZMgqNt3ATx6vNzEAshqafhtgMlSWk87SHdnge7sc2SLglga+FeWj/afOw
+ 0wsYTkAffNiZ6RDizeG0941xIGEkFNAlNS3mky066HIkkHDqMeFfAENroau0rk7uPONW
+ fiGAzYYH/oQuWRfungdpLnQ15HMBME+LQS1+5Mwfd2HwGM1oLzFdY97+kr5kcA1120na
+ hRFFkxzD8CQFNuuzxCzWXAYln88eq3pGC3lj2j5aWFN3FpKHDuUf8Dsip0bw96WRdiAi
+ 6hng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Q3wRM0mYTsBHQhTgGrkSqDwGFdrtiUjwZJz6kElPnj8=;
- b=sHmxnHhi+8ErrhNnX6jK//1eaCPvqyBVFoJ3bmY23YnFUvbUr72JPqs4cg9l9M4ca2
- VHp+Zz0fRTClikcGyMjexo6gvi/E53ILg1v4f+2bHLyZvbGanGS4I6KzYU7C0Ml+Nlad
- rj6bk9i+Z4JG0YhwDaSSd10JocjOl4gdpMWFuaCI0ZXIXCSC1X5fOXxtU5AJyKbXoNMM
- DVJZY2NzQ1pkgZBW4wA5i9FT2iIVbjtmXQ12f/mzFhup1nxWx8MbpOPNm57vMWJW3LQ+
- NijJPtz3yUtuNGXwim/IV5qkfAeLqHAIw5CiU4mUYzNw1MFfw8cCq10aAKaGQIAeVR4L
- 2XLA==
-X-Gm-Message-State: AJIora9pI1QX+LfmJH2kUqIoCKU8NZMowb7eAfNL+Z2ode+zMgvNfnnk
- lWi3K6gpmlIqOYt2fqUnc5oWOWwr1h+w1g==
-X-Google-Smtp-Source: AGRyM1sk7vLwhyiQSfmYJQ3sIhBk6Trux+m6gSooLxVVzoAc4MZU/9Am7xhpUTgMjmykNUCasKHMiA==
-X-Received: by 2002:a5d:4e41:0:b0:21e:88f9:84be with SMTP id
- r1-20020a5d4e41000000b0021e88f984bemr7242462wrt.67.1658859824537; 
- Tue, 26 Jul 2022 11:23:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=vy16z4ljJdbwe81vd9Sx+BZv55mLr+tRl2mig2DmfaQ=;
+ b=hu9/mbRdq+5p5iMUI2a4vd3SAlY4YS8pD/fblGjGd8KKm85tzCBvyEjUGfP6aqr4Sp
+ RnLyGyH87ftwVQb65mWKeaLUv7vHv96eq0kaP99FPcp9vfO/bYGHTCdoUFP4K/tEN4nc
+ iylsF4lPgEKpaEKdc/Bw1R5RjwS0p/T+t+GyDG5VtY7ROdjfEU6tVu+UWQpry4jPRGif
+ pZow7NWoMTwGQsTF7WzPF2/eAqP2xuiVPLsR6qabs8aCyX23k0kqbF51ZvivlBOO6U0j
+ QCigIy4rBjZKkeW0guq8xNrpq8P/QNJU3h+9X8bn0pGKbkj6v+hQTqNYtzCgFgKx3A6o
+ uZSg==
+X-Gm-Message-State: AJIora+ncGM5/4dEbm1tYjKRlOD0EgQ2+xKr8HAdzmQ4FpZ6BsnIVEB3
+ 3KQghamuQnFgaS4XBBRIxuItFfEmJYDNmw==
+X-Google-Smtp-Source: AGRyM1uKDzX3/hcD+XAOS5SyAX0cERT6c7yrdaeQ/7g+DoQPQMczR065oFxzssbuPn908eUgIRxqlQ==
+X-Received: by 2002:a05:600c:2044:b0:3a3:15a1:ddfd with SMTP id
+ p4-20020a05600c204400b003a315a1ddfdmr332556wmg.3.1658859825611; 
+ Tue, 26 Jul 2022 11:23:45 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- f5-20020adff445000000b0021e5f32ade7sm11725343wrp.68.2022.07.26.11.23.43
+ f5-20020adff445000000b0021e5f32ade7sm11725343wrp.68.2022.07.26.11.23.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 11:23:44 -0700 (PDT)
+ Tue, 26 Jul 2022 11:23:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
  Daniel Henrique Barboza <danielhb413@gmail.com>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
-Date: Tue, 26 Jul 2022 19:23:39 +0100
-Message-Id: <20220726182341.1888115-1-peter.maydell@linaro.org>
+Subject: [RFC 1/2] hw/ppc/ppc440_uc: Initialize length passed to
+ cpu_physical_memory_map()
+Date: Tue, 26 Jul 2022 19:23:40 +0100
+Message-Id: <20220726182341.1888115-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220726182341.1888115-1-peter.maydell@linaro.org>
+References: <20220726182341.1888115-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,39 +92,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset is mainly trying to fix a problem that Coverity spotted
-in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the code
-is not correctly using the cpu_physical_memory_map() function.
-While I was fixing that I noticed a second problem in this code,
-where it doesn't have a fallback for when cpu_physical_memory_map()
-says "I couldn't map that for you".
+In dcr_write_dma(), there is code that uses cpu_physical_memory_map()
+to implement a DMA transfer.  That function takes a 'plen' argument,
+which points to a hwaddr which is used for both input and output: the
+caller must set it to the size of the range it wants to map, and on
+return it is updated to the actual length mapped. The dcr_write_dma()
+code fails to initialize rlen and wlen, so will end up mapping an
+unpredictable amount of memory.
 
-I've marked these patches as RFC, partly because I don't have any
-guest that would exercise the code changes[*], and partly because
-I don't have any documentation of the hardware to tell me how it
-should behave, so patch 2 in particular has some FIXMEs. I also
-notice that the code doesn't update any of the registers like the
-count or source/base addresses when the DMA transfer happens, which
-seems odd, but perhaps the real hardware does work like that.
+Initialize the length values correctly, and check that we managed to
+map the entire range before using the fast-path memmove().
 
-I think we should probably take patch 1 (which is a fairly minimal
-fix of the use-of-uninitialized-data problem), but patch 2 is a bit
-more unfinished.
+This was spotted by Coverity, which points out that we never
+initialized the variables before using them.
 
-[*] The commit 3c409c1927efde2fc that added this code says it's used
-by AmigaOS.)
+Fixes: Coverity CID 1487137
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This seems totally broken, so I presume we just don't have any
+guest code that actually exercises this...
+---
+ hw/ppc/ppc440_uc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  hw/ppc/ppc440_uc: Initialize length passed to
-    cpu_physical_memory_map()
-  hw/ppc/ppc440_uc: Handle mapping failure in DMA engine
-
- hw/ppc/ppc440_uc.c | 34 +++++++++++++++++++++++++++++++++-
- 1 file changed, 33 insertions(+), 1 deletion(-)
-
+diff --git a/hw/ppc/ppc440_uc.c b/hw/ppc/ppc440_uc.c
+index a1ecf6dd1c2..11fdb88c220 100644
+--- a/hw/ppc/ppc440_uc.c
++++ b/hw/ppc/ppc440_uc.c
+@@ -904,14 +904,17 @@ static void dcr_write_dma(void *opaque, int dcrn, uint32_t val)
+                     int width, i, sidx, didx;
+                     uint8_t *rptr, *wptr;
+                     hwaddr rlen, wlen;
++                    hwaddr xferlen;
+ 
+                     sidx = didx = 0;
+                     width = 1 << ((val & DMA0_CR_PW) >> 25);
++                    xferlen = count * width;
++                    wlen = rlen = xferlen;
+                     rptr = cpu_physical_memory_map(dma->ch[chnl].sa, &rlen,
+                                                    false);
+                     wptr = cpu_physical_memory_map(dma->ch[chnl].da, &wlen,
+                                                    true);
+-                    if (rptr && wptr) {
++                    if (rptr && rlen == xferlen && wptr && wlen == xferlen) {
+                         if (!(val & DMA0_CR_DEC) &&
+                             val & DMA0_CR_SAI && val & DMA0_CR_DAI) {
+                             /* optimise common case */
 -- 
 2.25.1
 
