@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E18581803
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:59:15 +0200 (CEST)
-Received: from localhost ([::1]:44962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1C658180C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:04:26 +0200 (CEST)
+Received: from localhost ([::1]:53196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNtq-00048b-NZ
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:59:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
+	id 1oGNyr-0002WZ-3e
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAD-0003hy-TR
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:05 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:45888)
+ id 1oGNA1-0003JE-PD
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:53 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:1398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGNAB-0006Gv-BZ
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:12:05 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnQMm006253;
- Tue, 26 Jul 2022 16:11:39 GMT
+ id 1oGN9z-0006GO-Im
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:53 -0400
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnLSW026363;
+ Tue, 26 Jul 2022 16:11:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=0FXxfcuX+isM/WZ7So7KOzTnYv4rPmh6nZLqhSmQbwI=;
- b=1CVgjzsXE8Wqw/jCRU1qEkL1+OWzkFEtold1Tj7d9VoJYJ+v5fPVmElUCXCD+/dNGXgm
- cxeiuAq6dGHdh0d/ifOXXGHFsbGkiIa91qac0pDWj+UpIT5bOgIN7zNzLQdOdf3vNBFo
- EtOgUxsJGOm9lQvAM1BR1RR7kFsECT0MWU3Ba5kcqczv3N0AN1uAoT8hdEpDlXrwjFJW
- Tutgs8lCTzJN86GpWb2WWPGlCArdVQ6+nS2y2Pu0iiNWVdApRYgPr9tBC2FhlL+zNbfC
- hAGU3Z6vK1OtfP5E6HufPN24rNwLcrAOrJUN2PQTrmrnzk5AuA5KCA7MGhEcxyfAJONl Jg== 
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2022-7-12;
+ bh=FdjfbToNENcHoYA83g7aexkqA3oeeEMO7cPYRQj8ZGw=;
+ b=u8oXxhSl26NuBXwroxpNQx/VC7snH9HpJpxXTtJoikSbwaSUrfZO3DLOcykU/DB+Ki07
+ T2sNrcS3eLy2Kz1A8CAM8IPmzGo/P3uvvyCDcfWrX5jLLWy5xroh59QQJERz0u0M6eM0
+ tK1mUC+MsTI8fdDLLoYur8ZnZV8QIHzwAqUpOeLALA9/YbYK8xcPizYzk71Iz9JUwl9d
+ 75/Vi1yqf8i6rsKqvgPcDQ4eF7GNUTSdlFNWZ0qxoqFVet945ApA+FvbsqzbfWe8P+RK
+ MRPBc3wkSSlsuYYYK4ySjGghqJuCmVtZvRrVwZ4Q+nPJjCfMXhM5ggWty+F65h+noTWf qQ== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940pu40-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg94gevyn-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Tue, 26 Jul 2022 16:11:39 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QF5NqW006270; Tue, 26 Jul 2022 16:11:38 GMT
+ with ESMTP id 26QF22xG006237; Tue, 26 Jul 2022 16:11:39 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq2jv-1
+ 3hh65bq2kv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:37 +0000
+ Tue, 26 Jul 2022 16:11:39 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTL023334;
- Tue, 26 Jul 2022 16:11:37 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uTN023334;
+ Tue, 26 Jul 2022 16:11:38 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-37; Tue, 26 Jul 2022 16:11:37 +0000
+ ESMTP id 3hh65bq0y5-38; Tue, 26 Jul 2022 16:11:38 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,12 +74,15 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 36/46] chardev: cpr framework
-Date: Tue, 26 Jul 2022 09:10:33 -0700
-Message-Id: <1658851843-236870-37-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 37/46] chardev: cpr for simple devices
+Date: Tue, 26 Jul 2022 09:10:34 -0700
+Message-Id: <1658851843-236870-38-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-26_04,2022-07-26_01,2022-06-22_01
@@ -87,10 +91,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: P3UQ7OklpxvNxfil2E3RfzqT6jGzXCrW
-X-Proofpoint-ORIG-GUID: P3UQ7OklpxvNxfil2E3RfzqT6jGzXCrW
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: CuSK1GkKfdIACEotwsCtrNY_1QFMFhPu
+X-Proofpoint-ORIG-GUID: CuSK1GkKfdIACEotwsCtrNY_1QFMFhPu
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -113,254 +117,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add QEMU_CHAR_FEATURE_CPR for devices that support cpr-exec by preserving
-an open descriptor across exec.  Add the chardev reopen-on-cpr option for
-devices that should be closed on cpr and reopened after exec.
-
-Enable cpr for a chardev if it has QEMU_CHAR_FEATURE_CPR and reopen-on-cpr
-is false.  Allow cpr-save if either QEMU_CHAR_FEATURE_CPR or reopen-on-cpr
-is true for all chardevs in the configuration.
+Set QEMU_CHAR_FEATURE_CPR for devices that trivially support cpr-exec.
+char-stdio is slightly less trivial.  Allow the gdb server by
+closing it on exec.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- chardev/char.c         | 49 +++++++++++++++++++++++++++++++++++++++++++++----
- include/chardev/char.h |  5 +++++
- qapi/char.json         |  7 ++++++-
- qemu-options.hx        | 26 ++++++++++++++++++++++----
- 4 files changed, 78 insertions(+), 9 deletions(-)
+ MAINTAINERS           |  1 +
+ chardev/char-mux.c    |  1 +
+ chardev/char-null.c   |  1 +
+ chardev/char-serial.c |  1 +
+ chardev/char-stdio.c  | 31 +++++++++++++++++++++++++++++++
+ gdbstub.c             |  1 +
+ stubs/meson.build     |  1 +
+ stubs/migration.c     | 33 +++++++++++++++++++++++++++++++++
+ 8 files changed, 70 insertions(+)
+ create mode 100644 stubs/migration.c
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 0169d8d..01755d7 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -36,6 +36,8 @@
- #include "qemu/help_option.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-+#include "migration/cpr-state.h"
-+#include "migration/blocker.h"
- #include "qemu/id.h"
- #include "qemu/coroutine.h"
- #include "qemu/yank.h"
-@@ -236,26 +238,55 @@ int qemu_chr_add_client(Chardev *s, int fd)
- static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
-                            bool *be_opened, Error **errp)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3af099a..b93b0bb 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3038,6 +3038,7 @@ F: tests/qtest/migration-test.c
+ F: docs/devel/migration.rst
+ F: qapi/migration.json
+ F: tests/migration/
++F: stubs/migration.c
+ 
+ D-Bus
+ M: Marc-André Lureau <marcandre.lureau@redhat.com>
+diff --git a/chardev/char-mux.c b/chardev/char-mux.c
+index ee2d47b..d47fa31 100644
+--- a/chardev/char-mux.c
++++ b/chardev/char-mux.c
+@@ -337,6 +337,7 @@ static void qemu_chr_open_mux(Chardev *chr,
+      */
+     *be_opened = muxes_opened;
+     qemu_chr_fe_init(&d->chr, drv, errp);
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+ }
+ 
+ static void qemu_chr_parse_mux(QemuOpts *opts, ChardevBackend *backend,
+diff --git a/chardev/char-null.c b/chardev/char-null.c
+index 1c6a290..02acaff 100644
+--- a/chardev/char-null.c
++++ b/chardev/char-null.c
+@@ -32,6 +32,7 @@ static void null_chr_open(Chardev *chr,
+                           Error **errp)
  {
-+    ERRP_GUARD();
-+    g_autofree char *fdname = NULL;
-+
-     ChardevClass *cc = CHARDEV_GET_CLASS(chr);
-     /* Any ChardevCommon member would work */
-     ChardevCommon *common = backend ? backend->u.null.data : NULL;
-+    bool has_logfile = (common && common->has_logfile);
-+    bool has_feature_cpr;
+     *be_opened = false;
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+ }
  
--    if (common && common->has_logfile) {
-+    if (has_logfile) {
-         int flags = O_WRONLY;
-+        fdname = g_strdup_printf("%s_log", chr->label);
-         if (common->has_logappend &&
-             common->logappend) {
-             flags |= O_APPEND;
-         } else {
-             flags |= O_TRUNC;
-         }
--        chr->logfd = qemu_create(common->logfile, flags, 0666, errp);
-+        chr->logfd = cpr_find_fd(fdname, 0);
-+        if (chr->logfd < 0) {
-+            chr->logfd = qemu_create(common->logfile, flags, 0666, errp);
-+        }
-         if (chr->logfd < 0) {
-             return;
-         }
+ static void char_null_class_init(ObjectClass *oc, void *data)
+diff --git a/chardev/char-serial.c b/chardev/char-serial.c
+index 4b0b83d..7aa2042 100644
+--- a/chardev/char-serial.c
++++ b/chardev/char-serial.c
+@@ -277,6 +277,7 @@ static void qmp_chardev_open_serial(Chardev *chr,
      }
+     tty_serial_init(fd, 115200, 'N', 8, 1);
  
-+    chr->reopen_on_cpr = (common && common->reopen_on_cpr);
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
+     qemu_chr_open_fd(chr, fd, fd);
+ }
+ #endif /* __linux__ || __sun__ */
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 3c64867..7a96bdc 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -27,6 +27,7 @@
+ #include "qemu/option.h"
+ #include "qemu/sockets.h"
+ #include "qapi/error.h"
++#include "migration/misc.h"
+ #include "chardev/char.h"
+ 
+ #ifdef _WIN32
+@@ -40,19 +41,46 @@
+ #ifndef _WIN32
+ /* init terminal so that we can grab keys */
+ static struct termios oldtty;
++static struct termios newtty;
+ static int old_fd0_flags;
++static int new_fd0_flags;
+ static bool stdio_in_use;
+ static bool stdio_allow_signal;
+ static bool stdio_echo_state;
++static Notifier cpr_notifier;
+ 
+ static void term_exit(void)
+ {
+     if (stdio_in_use) {
++        tcgetattr(0, &newtty);
++        new_fd0_flags = fcntl(0, F_GETFL);
 +
-     if (cc->open) {
-         cc->open(chr, backend, be_opened, errp);
-+        if (*errp) {
-+            return;
+         tcsetattr(0, TCSANOW, &oldtty);
+         fcntl(0, F_SETFL, old_fd0_flags);
+     }
+ }
+ 
++static void term_reenter(void)
++{
++    if (stdio_in_use) {
++        tcsetattr(0, TCSANOW, &newtty);
++        fcntl(0, F_SETFL, new_fd0_flags);
++    }
++}
++
++static void term_cpr_exec_notifier(Notifier *notifier, void *data)
++{
++    MigrationState *s = data;
++
++    if (migrate_mode_of(s) == MIG_MODE_CPR_EXEC) {
++        if (migration_has_finished(s)) {
++            term_exit();
++        } else if (migration_has_failed(s)) {
++            term_reenter();
 +        }
 +    }
++}
 +
-+    /* Evaluate this after the open method sets the feature */
-+    has_feature_cpr = qemu_chr_has_feature(chr, QEMU_CHAR_FEATURE_CPR);
-+    chr->cpr_enabled = !chr->reopen_on_cpr && has_feature_cpr;
-+
-+    if (!chr->reopen_on_cpr && !has_feature_cpr) {
-+        chr->cpr_blocker = NULL;
-+        error_setg(&chr->cpr_blocker,
-+                "chardev %s -> %s does not allow cpr. See reopen-on-cpr.",
-+                chr->label, chr->filename);
-+        migrate_add_blockers(&chr->cpr_blocker, errp, MIG_MODE_CPR_EXEC, -1);
-+
-+    } else if (chr->cpr_enabled && has_logfile) {
-+        cpr_resave_fd(fdname, 0, chr->logfd);
-     }
+ static void qemu_chr_set_echo_stdio(Chardev *chr, bool echo)
+ {
+     struct termios tty;
+@@ -117,6 +145,8 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
++    qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_CPR);
++    migration_add_notifier(&cpr_notifier, term_cpr_exec_notifier);
+ }
+ #endif
+ 
+@@ -147,6 +177,7 @@ static void char_stdio_finalize(Object *obj)
+ {
+ #ifndef _WIN32
+     term_exit();
++    migration_remove_notifier(&cpr_notifier);
+ #endif
  }
  
-@@ -297,11 +328,16 @@ static void char_finalize(Object *obj)
-     if (chr->be) {
-         chr->be->chr = NULL;
+diff --git a/gdbstub.c b/gdbstub.c
+index cf869b1..08b3d80 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -3616,6 +3616,7 @@ int gdbserver_start(const char *device)
+         mon_chr = gdbserver_state.mon_chr;
+         reset_gdbserver_state();
      }
--    g_free(chr->filename);
--    g_free(chr->label);
-     if (chr->logfd != -1) {
-+        g_autofree char *fdname = g_strdup_printf("%s_log", chr->label);
-+        if (chr->cpr_enabled) {
-+            cpr_delete_fd(fdname, 0);
-+        }
-         close(chr->logfd);
-     }
-+    migrate_del_blocker(&chr->cpr_blocker);
-+    g_free(chr->filename);
-+    g_free(chr->label);
-     qemu_mutex_destroy(&chr->chr_write_lock);
- }
++    mon_chr->reopen_on_cpr = true;
  
-@@ -501,6 +537,8 @@ void qemu_chr_parse_common(QemuOpts *opts, ChardevCommon *backend)
+     create_processes(&gdbserver_state);
  
-     backend->has_logappend = true;
-     backend->logappend = qemu_opt_get_bool(opts, "logappend", false);
+diff --git a/stubs/meson.build b/stubs/meson.build
+index 392b1b5..a1eda95 100644
+--- a/stubs/meson.build
++++ b/stubs/meson.build
+@@ -27,6 +27,7 @@ if libaio.found()
+   stub_ss.add(files('linux-aio.c'))
+ endif
+ stub_ss.add(files('migr-blocker.c'))
++stub_ss.add(files('migration.c'))
+ stub_ss.add(files('module-opts.c'))
+ stub_ss.add(files('monitor.c'))
+ stub_ss.add(files('monitor-core.c'))
+diff --git a/stubs/migration.c b/stubs/migration.c
+new file mode 100644
+index 0000000..f2f79bd
+--- /dev/null
++++ b/stubs/migration.c
+@@ -0,0 +1,33 @@
++/*
++ * Copyright (c) 2021, 2022 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.
++ * See the COPYING file in the top-level directory.
++ */
 +
-+    backend->reopen_on_cpr = qemu_opt_get_bool(opts, "reopen-on-cpr", false);
- }
- 
- static const ChardevClass *char_get_class(const char *driver, Error **errp)
-@@ -942,6 +980,9 @@ QemuOptsList qemu_chardev_opts = {
-         },{
-             .name = "abstract",
-             .type = QEMU_OPT_BOOL,
-+        },{
-+            .name = "reopen-on-cpr",
-+            .type = QEMU_OPT_BOOL,
- #endif
-         },
-         { /* end of list */ }
-diff --git a/include/chardev/char.h b/include/chardev/char.h
-index a319b5f..bbf2560 100644
---- a/include/chardev/char.h
-+++ b/include/chardev/char.h
-@@ -50,6 +50,8 @@ typedef enum {
-     /* Whether the gcontext can be changed after calling
-      * qemu_chr_be_update_read_handlers() */
-     QEMU_CHAR_FEATURE_GCONTEXT,
-+    /* Whether the device supports cpr */
-+    QEMU_CHAR_FEATURE_CPR,
- 
-     QEMU_CHAR_FEATURE_LAST,
- } ChardevFeature;
-@@ -67,6 +69,9 @@ struct Chardev {
-     int be_open;
-     /* used to coordinate the chardev-change special-case: */
-     bool handover_yank_instance;
-+    bool reopen_on_cpr;
-+    bool cpr_enabled;
-+    Error *cpr_blocker;
-     GSource *gsource;
-     GMainContext *gcontext;
-     DECLARE_BITMAP(features, QEMU_CHAR_FEATURE_LAST);
-diff --git a/qapi/char.json b/qapi/char.json
-index 923dc50..0c3558e 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -204,12 +204,17 @@
- # @logfile: The name of a logfile to save output
- # @logappend: true to append instead of truncate
- #             (default to false to truncate)
-+# @reopen-on-cpr: if true, close device's fd on cpr-save and reopen it after
-+#                 cpr-exec. Set this to allow CPR on a device that does not
-+#                 support QEMU_CHAR_FEATURE_CPR. defaults to false.
-+#                 since 7.1.
- #
- # Since: 2.6
- ##
- { 'struct': 'ChardevCommon',
-   'data': { '*logfile': 'str',
--            '*logappend': 'bool' } }
-+            '*logappend': 'bool',
-+            '*reopen-on-cpr': 'bool' } }
- 
- ##
- # @ChardevFile:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 3ed9270..ea79afa 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3295,43 +3295,57 @@ DEFHEADING(Character device options:)
- 
- DEF("chardev", HAS_ARG, QEMU_OPTION_chardev,
-     "-chardev help\n"
--    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "-chardev null,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off][,reopen-on-cpr=on|off]\n"
-     "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,nodelay=on|off]\n"
-     "         [,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds][,mux=on|off]\n"
--    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID] (tcp)\n"
-+    "         [,logfile=PATH][,logappend=on|off][,tls-creds=ID][,tls-authz=ID][,reopen-on-cpr=on|off] (tcp)\n"
-     "-chardev socket,id=id,path=path[,server=on|off][,wait=on|off][,telnet=on|off][,websocket=on|off][,reconnect=seconds]\n"
--    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off] (unix)\n"
-+    "         [,mux=on|off][,logfile=PATH][,logappend=on|off][,abstract=on|off][,tight=on|off][,reopen-on-cpr=on|off] (unix)\n"
-     "-chardev udp,id=id[,host=host],port=port[,localaddr=localaddr]\n"
-     "         [,localport=localport][,ipv4=on|off][,ipv6=on|off][,mux=on|off]\n"
--    "         [,logfile=PATH][,logappend=on|off]\n"
-+    "         [,logfile=PATH][,logappend=on|off][,reopen-on-cpr=on|off]\n"
-     "-chardev msmouse,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev vc,id=id[[,width=width][,height=height]][[,cols=cols][,rows=rows]]\n"
-     "         [,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev ringbuf,id=id[,size=size][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev file,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev pipe,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #ifdef _WIN32
-     "-chardev console,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
- #else
-     "-chardev pty,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev stdio,id=id[,mux=on|off][,signal=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #ifdef CONFIG_BRLAPI
-     "-chardev braille,id=id[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(__linux__) || defined(__sun__) || defined(__FreeBSD__) \
-         || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
-     "-chardev serial,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev tty,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
-     "-chardev parallel,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev parport,id=id,path=path[,mux=on|off][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
- #if defined(CONFIG_SPICE)
-     "-chardev spicevmc,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
-     "-chardev spiceport,id=id,name=name[,debug=debug][,logfile=PATH][,logappend=on|off]\n"
-+    "         [,reopen-on-cpr=on|off]\n"
- #endif
-     , QEMU_ARCH_ALL
- )
-@@ -3406,6 +3420,10 @@ The general form of a character device option is:
-     ``logappend`` option controls whether the log file will be truncated
-     or appended to when opened.
- 
-+    Every backend supports the ``reopen-on-cpr`` option.  If on, the
-+    devices's descriptor is closed during cpr save, and reopened after exec.
-+    This is useful for devices that do not support cpr.
++#include "qemu/osdep.h"
++#include "migration/misc.h"
 +
- The available backends are:
- 
- ``-chardev null,id=id``
++void migration_add_notifier(Notifier *notify,
++                            void (*cb)(Notifier *notifier, void *data))
++{
++}
++
++void migration_remove_notifier(Notifier *notify)
++{
++}
++
++bool migration_has_finished(MigrationState *s)
++{
++    return false;
++}
++
++bool migration_has_failed(MigrationState *s)
++{
++    return false;
++}
++
++MigMode migrate_mode_of(MigrationState *s)
++{
++    return 0;
++}
 -- 
 1.8.3.1
 
