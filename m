@@ -2,90 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1C6658124E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 13:49:46 +0200 (CEST)
-Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB2D581436
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 15:32:25 +0200 (CEST)
+Received: from localhost ([::1]:48658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGJ4G-00020G-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 07:49:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49894)
+	id 1oGKfg-0001L6-JL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 09:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oGIso-0003be-9Q
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:37:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60277)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGF3Y-0001CH-NS
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 03:32:41 -0400
+Received: from mail-bn7nam10on20622.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::622]:54786
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1oGIsk-00088F-Ag
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 07:37:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658835465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LlKYOBSxKQylXqNGELKFnaG3nWvlj69KMN+KrzoU1GM=;
- b=AAvT4WiN08yuR4GH1ps9WP9yhiKOTbSaT3kqRp2BHWrBvAXOUCWYYOCjgV171ArAJUPsDD
- MB4GXRiQd4/W9tMl6Rvm2zaU8Q7RAaiesTA4sEsypJbU3/E4uZAMx6JAzD+Bm66xdVs10h
- wFC/dFPxFdGdEysJ+Xfgf2nT4SM7SIw=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-157-45z8lqRRMoOSfa_l0w_Dtg-1; Tue, 26 Jul 2022 07:37:44 -0400
-X-MC-Unique: 45z8lqRRMoOSfa_l0w_Dtg-1
-Received: by mail-oi1-f200.google.com with SMTP id
- s19-20020a056808209300b0033ac2da4062so3935190oiw.13
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 04:37:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LlKYOBSxKQylXqNGELKFnaG3nWvlj69KMN+KrzoU1GM=;
- b=Quzqiy4ROKCGIUhrhF+8Dk4f4G1RSUYcBpA/W0kJj4FE0SlnuispzTyTuGz2EJEPpt
- /WbyiyauOgCBWhPESj3C+XwWQHpz81aYx5j6XKE/Zi+Y2WYCNtN14jtkfTKUrKALP5so
- NGNziboLDPPI93G9PDS3BRa4YgdDBOlvaRvRmtDkYx3oqU5TnIqO2q3xobE6aO1hlsDA
- 4ZPMiVN2hfrJSxGDCIPYV9j+vVGOFdEQ4olb0VId5I9h1+FSqpXzMCoFdqhOT4c5t8DG
- uKFZVrVPyVMO2jj4Isd2IVXuAotOBrlkAf7XRjr/B70f0E3k76KfXrRKawOn09QdaN/y
- w/jA==
-X-Gm-Message-State: AJIora9G4jTrpRYiEvw0hSipTf/6mQ67jbmGyDBD4cmZoF/kSPj3WNUf
- SDM1jewyuZ2eqMyFfOOVoaWmdzDUSZ8TGKeOzVaY1eJ+FWmxyEF2EWKIvhhGJ4EsPIbYTGMgHdv
- jSQolykskhNHgZUqYg5fiWlVomo7L2gk=
-X-Received: by 2002:a05:6830:58:b0:61c:cf3c:14b8 with SMTP id
- d24-20020a056830005800b0061ccf3c14b8mr6186685otp.38.1658835463313; 
- Tue, 26 Jul 2022 04:37:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sQqKAzYbnPtwf8GuPLmWhz5z2y3iUGGbX9+lsBNSH35wxjoAa3RaVs9UPZuCF6X7mf4F51jI24utVMxceEIOc=
-X-Received: by 2002:a05:6830:58:b0:61c:cf3c:14b8 with SMTP id
- d24-20020a056830005800b0061ccf3c14b8mr6186671otp.38.1658835463114; Tue, 26
- Jul 2022 04:37:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGF3S-0006VI-OG
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 03:32:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HTT0akrSmxMhMVNNIPxwAq2i+JWBVs9Dx4ziAPIzlqDomIKejSsHMs8DxPXiQNnYJWeJd31gfmUFHU6huCaEeDY5TK6eqoR8SC83/xrVAe19zZYtOj+5LRG9AIi4OqNdiye1WRBU7WdXgNmqCIjjjkUIsGJvI6ZyvV6zU3X9gYC23aOVYgcSoIux1+YaVXS+8d98matO/AjcSutrQviAoNkynGzUyfhfuv66oywjAzGApV1Tevgjc3XlT6uLrDf1VRQSitinJgg9tgtQ/Ls8Fn4hw63qbWO7/X0bEjttLDpPir484XRtP8OVS3dWlbMZHHAVGbpZb4v6X/05WX9sLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=22UwUfqLHVun0WsIx7T3Dig1cCtbEOkI11uEVVytnBg=;
+ b=ljRouiX+SN1SEX7RRbJPYGhlkaH2idVhX/90yu/LOgnrJIk56RqtgzNzuUhkYBqZF7lzEGq/kuuRfPWecVbKZq3cRS9huc6jqPRo0eSjFwcURwKP2HTH3yaYyxJRetiDNlQRomp/ETl280VlUJwkh5fOm6Onm3fjbKzs0KuK1Bk0lPd2VkcBvyoS2MbpEBHjDsgi4hanQPTG8gpHzAXbHWdCZlwuzUypwDkOwEbp2cLG4Z1FufrPoqyNR+zV24YTlRUYFqJvHx6koTrx4ns+HJPmLGgyuiDOnnOaIlLVFygPGc8kK53LcqUILM92Dw2BT7/oXxY8+MhbqAtrkqz5jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=22UwUfqLHVun0WsIx7T3Dig1cCtbEOkI11uEVVytnBg=;
+ b=vn7IlPcrRPz7HmSHiFigAqKNsC3fzL2yQUeUk08KKvW+FQ5MLXGjWtI4fkSuQ+FZDS+MKGOtu8/uX+fA3J388kmKVN6ZHbIHzI9rvOP8aaZP41SU803yAaHHJNyOlcXu1hqvl81EzWSGvnHB93XjHRom+TrlzIjLNkFODZ6v+uU=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ CH2PR12MB4876.namprd12.prod.outlook.com (2603:10b6:610:67::10) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5458.19; Tue, 26 Jul 2022 07:27:28 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::ec80:e3fd:e3e2:605d]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::ec80:e3fd:e3e2:605d%5]) with mapi id 15.20.5458.024; Tue, 26 Jul 2022
+ 07:27:28 +0000
+Date: Tue, 26 Jul 2022 15:27:07 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: anthony.perard@citrix.com, qemu-devel@nongnu.org,
+ xen-devel@lists.xenproject.org
+Cc: Trigger Huang <Trigger.Huang@amd.com>
+Subject: Question to mem-path support at QEMU for Xen
+Message-ID: <Yt+XS81vmsWoJA5y@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR02CA0015.apcprd02.prod.outlook.com
+ (2603:1096:3:17::27) To DM5PR12MB2504.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::19)
 MIME-Version: 1.0
-References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-5-frankja@linux.ibm.com>
-In-Reply-To: <20220726092248.128336-5-frankja@linux.ibm.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 26 Jul 2022 15:37:32 +0400
-Message-ID: <CAMxuvazsOKrqZwU4RUcbPAdvk8+Kd7U4TRA0WbPYPoZAg=mPiw@mail.gmail.com>
-Subject: Re: [PATCH v4 04/17] dump: Rework get_start_block
-To: Janosch Frank <frankja@linux.ibm.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo" <pbonzini@redhat.com>,
- mhartmay@linux.ibm.com, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, imbrenda@linux.ibm.com, 
- Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, 
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>, seiden@linux.ibm.com,
- scgl@linux.ibm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b2d6d8da-9007-4d0f-8b0b-08da6ed84b1b
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4876:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 5HTpbED94Roz8ouAJpF5vu99VXvPWcgJirTwu8fSOuVqNgzGbloSC8iIFaToGUmouwAjxZQr+LVdfvulzQc7g4LKO70IDD+O8Snm62TeQa8jO1CgUaGj/ltpoJ05NTFTxWNVUZTC0eIF5eZGoAgUo3H7DnRWHP5aoUsbjWJ05AfKkmIsYuQZlwByqn5x1W2IMwDK8yHA3Kw7TGKPYmSfSt+Pbeu5xB8k3XA38SPanqtZh2wqu+H+4/vw6roMeZTajMfGgCbySYh+AEMb1oUpY9EMSJ6447uCNQjoe0DCnXHMinluEGnyJ2NgcYX3J3lPm/FBiyPP662TIvIYkCJg1mqiVnSYL+UF4ql9Z09jA57SgSNLmNYCt1Y9w/JjqiIZKVcXQRv5untl8SkskDiyfVbEeZ9bLOPyQqqrlv5PbsmtsNQsc3PieIkdJWgrkgiYSqdAphGXGOb6Y+hOTp5LIAocomg0Uc2UoE4/bj5bqV9uv6qXoouk7ZJwC9a9raUWL9bsa+vYV4Y2AGP+rdDdNaniBjW+ji1JTHvwIDCWNoBPjQJlMmXeiGna25qjczUZzoJ/CGoqjYholKWs0QF/YH+MIsBLEGn6339chnlqnk3geLwL93+MEf+jpXEsu4c+lQazrrrs9YlccXRi4K5puwvU7aIPbQrYB3adUEHwMhaQE1bhtjJn3Q3LjcYbO7qUNRaCLS9RD6C58sfuVdLOh3xFpT2DtBnQ6BLu17qfKz1THiTQrobn9g1pE00+pqh4wegIzeW1dIQOPn35SbESDYVgwnj5+REdFTqTF5tX7BM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(136003)(39860400002)(376002)(366004)(396003)(346002)(66556008)(66946007)(8676002)(66476007)(38100700002)(6486002)(4326008)(6512007)(478600001)(26005)(316002)(2906002)(41300700001)(86362001)(6666004)(6506007)(83380400001)(4744005)(8936002)(36756003)(2616005)(5660300002)(186003)(67856001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/ZGtlzo7NQu79UfERErzBw0ueK0BGgF12+O4DYn3fCWlhyaxUxxMSd/hFbJl?=
+ =?us-ascii?Q?wQxi+O0XWcN8bGq4RB9QlJYki/272puJAN/ti14tDNd1vodCnGDOBZnDYav6?=
+ =?us-ascii?Q?L9PlsFE88eTaU03lS9iMRcbY9Y0IyLHqjoXJvMWfRo9n7tVRtIJd0ixBxj+m?=
+ =?us-ascii?Q?RjTXqOp/lBwtKR06t1/6/3M2gEiJVCWDoyhYQdQJrGvJ61B6kVwprw8F6tuH?=
+ =?us-ascii?Q?NmmY0R/OLuCEbCznaGrkx9oVYpSJI0VBICQB6Q6izJDPi47VfTB01KeV9Ntl?=
+ =?us-ascii?Q?J/8drnHzgBwroXiD12wJUm855U3VyKErom/0LwCzwmV2A+1EU48rsE0X6CzR?=
+ =?us-ascii?Q?NO69aQ9Hjlq4GW0UkUk2hloiIG1z07MFN6+vzc1TK1BR8DYfzQxuPYodnYc+?=
+ =?us-ascii?Q?q4OzG331FZx6FbvkfakmC0Oz8pdEklDhEHWWy2zYLPKHn3COO8vAEBSCTEA8?=
+ =?us-ascii?Q?EYOAvrfnCDoKDy7LHSUcnQrpPSSS9TuoM5mtnPwxQ/vcb64MCx1gWR3kMgej?=
+ =?us-ascii?Q?L58qm6VpTwm0JEFYs91qQA2Wvc0Pw/APQhx2/4mxOlnc+bybb0k79yQqpJPZ?=
+ =?us-ascii?Q?pAYLlw37Q54uCtLyt9TtxBEN223WrWrFjpAicjunDHGrQmYSOFpjitwxAhjR?=
+ =?us-ascii?Q?adL4o835kqjPNIBgf1JkTUnVlm/5XWOeHsZWUEjU5r3PZxFuMW0f5HSJrXDP?=
+ =?us-ascii?Q?7hD5thWw/fr9a7CDFpydwu/j/WAgqnAVhXpJ2wDHNdMftEqYoj6FG0TuiIbR?=
+ =?us-ascii?Q?N1mG2EWTf8VTEAXwYqEkLMdsjfSAf6XBH4HpPIHDQseBfH858jU4zx8kFrPU?=
+ =?us-ascii?Q?5S2MhTHWGcOAN2VpQxROMbaB04I4iJabfhwaimH+W5h2C89P73Ba2dHDDzjE?=
+ =?us-ascii?Q?2RcPYs2FE16NP6Z2Nnc3BKi2lPxbbmy9dTkPy8ijeojKcIW2PVI0N/ATcJNe?=
+ =?us-ascii?Q?BeMQNjeVXHsZYV37rUKGLi5vxpRFh0qo051hH5rx/EGuZuuyfAuP6E5nZJiZ?=
+ =?us-ascii?Q?BCe2QcinUJPVBbkxiZparZ3XMcBkxR7MAliI0U7aEBJB2P7/RifWm7I280uW?=
+ =?us-ascii?Q?9TB3nFEHnxAIUFwXr2KHm7D2jEEMeAFeLPoXAQDYI5kloCtRHfkZWyoLlnkJ?=
+ =?us-ascii?Q?a3zSFgVn5LluEh0FfFtoRJ/3QOj402F7OKCGMIVUPwYYsDje/QcCSkxSIQrw?=
+ =?us-ascii?Q?F6ALixn78QGU6gvgWsiGrpynyBM97I1pOW+NbdVex1uP94pIlY1hC/BtQ3LW?=
+ =?us-ascii?Q?qWbcgw2czHYFKZ2tcfPzWPEWMUZxKiHZhTyzZF5VbjIlQBDVUWmYtlefmeNB?=
+ =?us-ascii?Q?jBCKlB5/Xt6vK+mDMe4ivExBeKLwyaYYRq4UWYAyu/zmWWzIzRs/Se6TzyrV?=
+ =?us-ascii?Q?9vbGlLjgs4Go/zm3BnNT+3B/aYl6w0SsbuDcmqkn2eD+/KawfPEBFnyxoi++?=
+ =?us-ascii?Q?v1P1Xz5DiIUIC8gzM5jqnJJlBHjfL8cZLREXxmboEkVQNK3VZ5xTrwwwp5rh?=
+ =?us-ascii?Q?myS0WnUSaJM4eHeFxEVUO8FmDw4W+YpuBTcCtWbi5I5BvBUr63vpdgqnL3Qi?=
+ =?us-ascii?Q?cDPy+CL6ADg7Fytsb+eNHw6NM0juGvSnNIo9kDhb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2d6d8da-9007-4d0f-8b0b-08da6ed84b1b
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jul 2022 07:27:27.9683 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ENv+5gf61BqVaY1rdExOwyOUAkRHY6kmNvTgwCQBZ+CHsIiYLW+MspTaVpx9BD5aIQGDcJKyccMa2MCdrWdRgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4876
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::622;
+ envelope-from=Ray.Huang@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 26 Jul 2022 09:26:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,79 +131,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 1:23 PM Janosch Frank <frankja@linux.ibm.com> wrote=
-:
->
-> get_start_block() returns the start address of the first memory block
-> or -1.
->
-> With the GuestPhysBlock iterator conversion we don't need to set the
-> start address and can therefore remove that code. The only
-> functionality left is the validation of the start block so it only
-> makes sense to re-name the function to validate_start_block()
->
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+Hi Anthony and other Qemu/Xen guys,
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+We are trying to enable venus on Xen virtualization platform. And we would
+like to use the backend memory with memory-backend-memfd,id=mem1,size=4G
+options on QEMU, however, the QEMU will tell us the "-mem-path" is not
+supported with Xen. I verified the same function on KVM.
 
-> ---
->  dump/dump.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
->
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 35b9833a00..b59faf9941 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -1498,30 +1498,22 @@ static void create_kdump_vmcore(DumpState *s, Err=
-or **errp)
->      }
->  }
->
-> -static ram_addr_t get_start_block(DumpState *s)
-> +static int validate_start_block(DumpState *s)
->  {
->      GuestPhysBlock *block;
->
->      if (!s->has_filter) {
-> -        s->next_block =3D QTAILQ_FIRST(&s->guest_phys_blocks.head);
->          return 0;
->      }
->
->      QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> +        /* This block is out of the range */
->          if (block->target_start >=3D s->begin + s->length ||
->              block->target_end <=3D s->begin) {
-> -            /* This block is out of the range */
->              continue;
->          }
-> -
-> -        s->next_block =3D block;
-> -        if (s->begin > block->target_start) {
-> -            s->start =3D s->begin - block->target_start;
-> -        } else {
-> -            s->start =3D 0;
-> -        }
-> -        return s->start;
-> -    }
-> +        return 0;
-> +   }
->
->      return -1;
->  }
-> @@ -1668,8 +1660,8 @@ static void dump_init(DumpState *s, int fd, bool ha=
-s_format,
->          goto cleanup;
->      }
->
-> -    s->start =3D get_start_block(s);
-> -    if (s->start =3D=3D -1) {
-> +    /* Is the filter filtering everything? */
-> +    if (validate_start_block(s) =3D=3D -1) {
->          error_setg(errp, QERR_INVALID_PARAMETER, "begin");
->          goto cleanup;
->      }
-> --
-> 2.34.1
->
+qemu-system-i386: -mem-path not supported with Xen
 
+So may I know whether Xen has any limitation that support
+memory-backend-memfd in QEMU or just implementation is not done yet?
+
+Looking forward to your reply!
+
+Thanks a lot,
+Ray
 
