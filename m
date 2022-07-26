@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD43A58175E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:23:35 +0200 (CEST)
-Received: from localhost ([::1]:40068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F84058175B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:23:33 +0200 (CEST)
+Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNLK-0002xR-PV
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34844)
+	id 1oGNLH-0002oj-Lk
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9d-0002am-GS
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:29 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:33860)
+ id 1oGN9o-0002xp-8V
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:41 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:47480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9Z-00069E-HM
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:29 -0400
+ id 1oGN9m-00069w-63
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:39 -0400
 Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3av031727;
- Tue, 26 Jul 2022 16:11:13 GMT
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn3ax031727;
+ Tue, 26 Jul 2022 16:11:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-type : content-transfer-encoding; s=corp-2022-7-12;
- bh=MbfnnC1qY1LDXF+ob6lpIOUBkz0IM61m41VFAnUlMC0=;
- b=QokN1Oh3gF0XYbe2GB65orTgViG8mmmGh7aKCuOF0aIhaQwKbggq5Xd/hl5W/z54gSgM
- UAQY8wJe8eVxUwY4Qwpd7qZcko/7Sr6ZKdkYh1IIC0t00MD2hyOWtCEhnvLhCJK1929Y
- QrQT2k3hlOhOV3FLsjJ+6RUwpz/9Yef5jMHoeZA5s/+pZzmr0Qo0X7MTGkXieja2fjFN
- 9RK4mV6ZiZHIwWeQP4Tz8v95I4pvf4LDY7hPcRKiiKIu6pq7HkvzKp5Hsqb1/qgKdliu
- AhsaIWZLe66lxA1rmIow6HjfnHQ5oBlnwMq9uSdHoE1YUvVc4YP7cqRH2jGvCudd8kPK FA== 
+ bh=BAGQccShDx/q70x2HUcyuw0XTEqvlsCEcSSSkR8wpdA=;
+ b=WYTnehC8AgOYP8Rc3wOY4TsV1t1jEc4OIUATukp6S/31F8F1/uFQSGaxzeH2bEAai4LL
+ yAuqTkPiGvetxvthVJVj63SFg0CMmYJqJl1RbS8dKdjX1exnjE6Tqc8rfFRN/GifG+An
+ /J4h+9ZJdI0Fcs1ULTm1QoZi0uPCu55UEwfDVcne91eC3fAFdrx+/OMaSnnrLgIEr3DK
+ PzaGki25H16m8nT3eyGB311wp8uffY2Mtd2KJ2P0ZQOyOZIoKY5v+Q+kw+cTXFsxdtqF
+ 6vBttddjcUXNr3yvh9jr5/B2GqiCq2xC5U+5wwn0Sw4eI5UxJFjc09TOGid1N6ZZRto5 Jw== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1ab-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a4q1ag-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:12 +0000
+ Tue, 26 Jul 2022 16:11:14 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QFl763006339; Tue, 26 Jul 2022 16:11:11 GMT
+ with ESMTP id 26QF380I006266; Tue, 26 Jul 2022 16:11:13 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq1uu-1
+ 3hh65bq1vy-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:11:11 +0000
+ Tue, 26 Jul 2022 16:11:13 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSj023334;
- Tue, 26 Jul 2022 16:11:11 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSl023334;
+ Tue, 26 Jul 2022 16:11:12 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-19; Tue, 26 Jul 2022 16:11:10 +0000
+ ESMTP id 3hh65bq0y5-20; Tue, 26 Jul 2022 16:11:12 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -74,9 +74,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 18/46] memory: flat section iterator
-Date: Tue, 26 Jul 2022 09:10:15 -0700
-Message-Id: <1658851843-236870-19-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 19/46] oslib: qemu_clear_cloexec
+Date: Tue, 26 Jul 2022 09:10:16 -0700
+Message-Id: <1658851843-236870-20-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -91,8 +91,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-ORIG-GUID: 1vBJwC0V0P1Avf41pfJSTUByE3yZofYh
-X-Proofpoint-GUID: 1vBJwC0V0P1Avf41pfJSTUByE3yZofYh
+X-Proofpoint-ORIG-GUID: 5TE-ZkiADh9wv6hbLFRDBqaDx4RMzXIa
+X-Proofpoint-GUID: 5TE-ZkiADh9wv6hbLFRDBqaDx4RMzXIa
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -117,89 +117,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add an iterator over the sections of a flattened address space.
+Define qemu_clear_cloexec, analogous to qemu_set_cloexec.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- include/exec/memory.h | 31 +++++++++++++++++++++++++++++++
- softmmu/memory.c      | 21 +++++++++++++++++++++
- 2 files changed, 52 insertions(+)
+ include/qemu/osdep.h | 9 +++++++++
+ util/oslib-posix.c   | 9 +++++++++
+ util/oslib-win32.c   | 4 ++++
+ 3 files changed, 22 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 7513d04..9629289 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -2346,6 +2346,37 @@ void memory_region_set_ram_discard_manager(MemoryRegion *mr,
-                                            RamDiscardManager *rdm);
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b1c161c..015c764 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -549,6 +549,15 @@ ssize_t qemu_write_full(int fd, const void *buf, size_t count)
  
- /**
-+ * memory_region_section_cb: callback for address_space_flat_for_each_section()
+ void qemu_set_cloexec(int fd);
+ 
++/*
++ * Clear FD_CLOEXEC for a descriptor.
 + *
-+ * @mrs: MemoryRegionSection of the range
-+ * @opaque: data pointer passed to address_space_flat_for_each_section()
-+ * @errp: error message, returned to the address_space_flat_for_each_section
-+ *        caller.
-+ *
-+ * Returns: non-zero to stop the iteration, and 0 to continue.  The same
-+ * non-zero value is returned to the address_space_flat_for_each_section caller.
++ * The caller must guarantee that no other fork+exec's occur before the
++ * exec that is intended to inherit this descriptor, eg by suspending CPUs
++ * and blocking monitor commands.
 + */
++void qemu_clear_cloexec(int fd);
 +
-+typedef int (*memory_region_section_cb)(MemoryRegionSection *mrs,
-+                                        void *opaque,
-+                                        Error **errp);
-+
-+/**
-+ * address_space_flat_for_each_section: walk the ranges in the address space
-+ * flat view and call @func for each.  Return 0 on success, else return non-zero
-+ * with a message in @errp.
-+ *
-+ * @as: target address space
-+ * @func: callback function
-+ * @opaque: passed to @func
-+ * @errp: passed to @func
-+ */
-+int address_space_flat_for_each_section(AddressSpace *as,
-+                                        memory_region_section_cb func,
-+                                        void *opaque,
-+                                        Error **errp);
-+
-+/**
-  * memory_region_find: translate an address/size relative to a
-  * MemoryRegion into a #MemoryRegionSection.
+ /* Return a dynamically allocated directory path that is appropriate for storing
+  * local state.
   *
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 7ba2048..6aa3a2f 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2683,6 +2683,27 @@ bool memory_region_is_mapped(MemoryRegion *mr)
-     return !!mr->container || mr->mapped_via_alias;
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index bffec18..7990aab 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -257,6 +257,15 @@ void qemu_set_cloexec(int fd)
+     assert(f != -1);
  }
  
-+int address_space_flat_for_each_section(AddressSpace *as,
-+                                        memory_region_section_cb func,
-+                                        void *opaque,
-+                                        Error **errp)
++void qemu_clear_cloexec(int fd)
 +{
-+    FlatView *view = address_space_get_flatview(as);
-+    FlatRange *fr;
-+    int ret;
-+
-+    FOR_EACH_FLAT_RANGE(fr, view) {
-+        MemoryRegionSection mrs = section_from_flat_range(fr, view);
-+        ret = func(&mrs, opaque, errp);
-+        if (ret) {
-+            return ret;
-+        }
-+    }
-+
-+    flatview_unref(view);
-+    return 0;
++    int f;
++    f = fcntl(fd, F_GETFD);
++    assert(f != -1);
++    f = fcntl(fd, F_SETFD, f & ~FD_CLOEXEC);
++    assert(f != -1);
 +}
 +
- /* Same as memory_region_find, but it does not add a reference to the
-  * returned region.  It must be called from an RCU critical section.
-  */
+ char *
+ qemu_get_local_state_dir(void)
+ {
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 5723d3e..5bed148 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -226,6 +226,10 @@ void qemu_set_cloexec(int fd)
+ {
+ }
+ 
++void qemu_clear_cloexec(int fd)
++{
++}
++
+ int qemu_get_thread_id(void)
+ {
+     return GetCurrentThreadId();
 -- 
 1.8.3.1
 
