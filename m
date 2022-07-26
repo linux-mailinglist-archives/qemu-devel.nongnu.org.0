@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B3F58171E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:15:59 +0200 (CEST)
-Received: from localhost ([::1]:51988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D011C581778
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 18:32:45 +0200 (CEST)
+Received: from localhost ([::1]:56836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGNDy-0008V6-KV
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34852)
+	id 1oGNUC-00069r-Tr
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 12:32:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9e-0002cI-2I
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:30 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:43970)
+ id 1oGN9p-0002yb-Qb
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:42 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:50384)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
- id 1oGN9a-00069Z-Ta
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:29 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFnPjv006246;
- Tue, 26 Jul 2022 16:10:53 GMT
+ id 1oGN9n-0006AM-HS
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:11:41 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26QFn4hv016269;
+ Tue, 26 Jul 2022 16:10:57 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2022-7-12;
- bh=Hq5Lcyhok4JEPa68Dr7lhFUs7IbghRLotg6m//Z2H5U=;
- b=1xoyLAQUvsUddjRnes1fDAYgCg1k4Wk9LzA3ih4iSPDje00dYXr4Pd8eMOZ0MG9VhOb+
- 0kj1uffEzT7qtpF7xQ6aB7FPRxQob4XACBK6bEyWWMUx1gMklLqxx9vBe8Ren7dKHpBV
- 3/tiD230K9uxeUAlPPpCB8pwGcxXiRnW1IWi0o3OpTWs5Krjdl+Ug6svFXIcYl7virXW
- 2ol9pUVD5MXuCwTUzKxbZN+7KI88l2iAxfAQX8Au1nEqpUZrlxQ/wCuR3rAeAk6YHLGl
- O00ZVPaHtijPeeA5pzjfgCKKjfmTr3IkCbIoOz7jybsWrjmjp9xgQQDpsDSVkhTDWE30 dA== 
+ bh=u2MWiSZpF/89/yzfefk2Fsd8NnqPznxjKBk/scAaZvA=;
+ b=TMtxlw62/7naRMWgmpPUlJtYh3IJ0oC+tIgmEprRiq3NN+fqJLqcLf9s5TzIZJTfdlmt
+ RB+QyuRwYrnUhm0P7cy8Yiwma/BtTH+g3CrAYGYoq5vRDy+MNI3O7b/VEXHAgUgZlZ5h
+ Ts28yI4jnaKaMos8lf7W++441vKMN0Fg89r2Q3007AXfomevxTCFsEHuJK6couOYCyFh
+ 797lYhYNzZ3wKeabXPxtuEwEiwQAAbtv0nHoELAVw6rv0iuXeCi0R4AiGdpRLMG2A1Bu
+ dlTQCj9FZ9z7H+a8BEr3m0Pe7SRGGynuiWAih/wWKBo2fEPqDXt5nSbpIMUbEz69QFNt IA== 
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg940ptyj-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hg9a9f0t5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:53 +0000
+ Tue, 26 Jul 2022 16:10:57 +0000
 Received: from pps.filterd
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 26QFniKp006262; Tue, 26 Jul 2022 16:10:52 GMT
+ with ESMTP id 26QFswoO006211; Tue, 26 Jul 2022 16:10:55 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hh65bq178-1
+ 3hh65bq18k-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jul 2022 16:10:52 +0000
+ Tue, 26 Jul 2022 16:10:53 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com
  (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSH023334;
- Tue, 26 Jul 2022 16:10:51 GMT
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26QG5uSJ023334;
+ Tue, 26 Jul 2022 16:10:52 GMT
 Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
  by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
- ESMTP id 3hh65bq0y5-5; Tue, 26 Jul 2022 16:10:51 +0000
+ ESMTP id 3hh65bq0y5-6; Tue, 26 Jul 2022 16:10:52 +0000
 From: Steve Sistare <steven.sistare@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -73,9 +73,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Igor Mammedov <imammedo@redhat.com>,
  David Hildenbrand <david@redhat.com>, John Snow <jsnow@redhat.com>,
  Peng Liang <tcx4c70@gmail.com>
-Subject: [PATCH V9 04/46] migration: mode parameter
-Date: Tue, 26 Jul 2022 09:10:01 -0700
-Message-Id: <1658851843-236870-5-git-send-email-steven.sistare@oracle.com>
+Subject: [PATCH V9 05/46] migration: migrate-enable-mode option
+Date: Tue, 26 Jul 2022 09:10:02 -0700
+Message-Id: <1658851843-236870-6-git-send-email-steven.sistare@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
 References: <1658851843-236870-1-git-send-email-steven.sistare@oracle.com>
@@ -87,8 +87,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  spamscore=0 mlxlogscore=999 suspectscore=0 bulkscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
  definitions=main-2207260063
-X-Proofpoint-GUID: OyVVGMJQ63FyHYbLCn850ATM5olnSvD9
-X-Proofpoint-ORIG-GUID: OyVVGMJQ63FyHYbLCn850ATM5olnSvD9
+X-Proofpoint-GUID: iF24gUVxG8YJCaf4dLmv1TdeCCgll1us
+X-Proofpoint-ORIG-GUID: iF24gUVxG8YJCaf4dLmv1TdeCCgll1us
 Received-SPF: pass client-ip=205.220.177.32;
  envelope-from=steven.sistare@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -113,269 +113,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create a mode migration parameter that can be used to select alternate
-migration algorithms.  The default mode is normal, representing the
-current migration algorithm, and does not need to be explicitly set.
+Add the '-migrate-enable-mode <mode>' command-line option as a
+pre-requisite for migration using the mode.  Multiple
+-migrate-enable-mode options may be specified, one per mode.
 
-No functional change until a new mode is added, except that the mode is
-shown by the 'info migrate' command.
+Requiring -migrate-enable-mode allows qemu to initialize objects
+differently, if necessary, so that migration for a mode is not blocked.
 
 Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
 ---
- hw/core/qdev-properties-system.c    | 12 ++++++++++++
- include/hw/qdev-properties-system.h |  4 ++++
- include/migration/misc.h            |  4 ++++
- migration/migration.c               | 28 ++++++++++++++++++++++++++++
- monitor/hmp-cmds.c                  |  8 ++++++++
- qapi/migration.json                 | 28 +++++++++++++++++++++++++---
- 6 files changed, 81 insertions(+), 3 deletions(-)
+ include/migration/misc.h |  2 ++
+ migration/migration.c    | 31 +++++++++++++++++++++++++++++++
+ qemu-options.hx          | 10 ++++++++++
+ softmmu/vl.c             |  4 ++++
+ 4 files changed, 47 insertions(+)
 
-diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index a91f605..0a7b25b 100644
---- a/hw/core/qdev-properties-system.c
-+++ b/hw/core/qdev-properties-system.c
-@@ -650,6 +650,18 @@ const PropertyInfo qdev_prop_multifd_compression = {
-     .set_default_value = qdev_propinfo_set_default_value_enum,
- };
- 
-+/* --- MigMode --- */
-+
-+const PropertyInfo qdev_prop_mig_mode = {
-+    .name = "MigMode",
-+    .description = "mig_mode values, "
-+                   "normal/exec",
-+    .enum_table = &MigMode_lookup,
-+    .get = qdev_propinfo_get_enum,
-+    .set = qdev_propinfo_set_enum,
-+    .set_default_value = qdev_propinfo_set_default_value_enum,
-+};
-+
- /* --- Reserved Region --- */
- 
- /*
-diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
-index 0ac327a..1418801 100644
---- a/include/hw/qdev-properties-system.h
-+++ b/include/hw/qdev-properties-system.h
-@@ -7,6 +7,7 @@ extern const PropertyInfo qdev_prop_chr;
- extern const PropertyInfo qdev_prop_macaddr;
- extern const PropertyInfo qdev_prop_reserved_region;
- extern const PropertyInfo qdev_prop_multifd_compression;
-+extern const PropertyInfo qdev_prop_mig_mode;
- extern const PropertyInfo qdev_prop_losttickpolicy;
- extern const PropertyInfo qdev_prop_blockdev_on_error;
- extern const PropertyInfo qdev_prop_bios_chs_trans;
-@@ -41,6 +42,9 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
- #define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compression, \
-                        MultiFDCompression)
-+#define DEFINE_PROP_MIG_MODE(_n, _s, _f, _d) \
-+    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_mig_mode, \
-+                       MigMode)
- #define DEFINE_PROP_LOSTTICKPOLICY(_n, _s, _f, _d) \
-     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_losttickpolicy, \
-                         LostTickPolicy)
 diff --git a/include/migration/misc.h b/include/migration/misc.h
-index 4659067..1e01134 100644
+index 1e01134..71b6285 100644
 --- a/include/migration/misc.h
 +++ b/include/migration/misc.h
-@@ -15,6 +15,7 @@
- #define MIGRATION_MISC_H
+@@ -78,5 +78,7 @@ void dirty_bitmap_mig_init(void);
  
- #include "qemu/notify.h"
-+#include "qapi/qapi-types-migration.h"
- #include "qapi/qapi-types-net.h"
+ MigMode migrate_mode(void);
+ MigMode migrate_mode_of(MigrationState *s);
++void migrate_enable_mode(MigMode mode);
++bool migrate_mode_enabled(MigMode mode);
  
- /* migration/ram.c */
-@@ -75,4 +76,7 @@ bool migration_in_bg_snapshot(void);
- /* migration/block-dirty-bitmap.c */
- void dirty_bitmap_mig_init(void);
- 
-+MigMode migrate_mode(void);
-+MigMode migrate_mode_of(MigrationState *s);
-+
  #endif
 diff --git a/migration/migration.c b/migration/migration.c
-index d1cfca1..38584db 100644
+index 38584db..5f704a9 100644
 --- a/migration/migration.c
 +++ b/migration/migration.c
-@@ -904,6 +904,8 @@ MigrationParameters *qmp_query_migrate_parameters(Error **errp)
+@@ -173,6 +173,7 @@ INITIALIZE_MIGRATE_CAPS_SET(check_caps_background_snapshot,
  
-     /* TODO use QAPI_CLONE() instead of duplicating it inline */
-     params = g_malloc0(sizeof(*params));
-+    params->has_mode = true;
-+    params->mode = s->parameters.mode;
-     params->has_compress_level = true;
-     params->compress_level = s->parameters.compress_level;
-     params->has_compress_threads = true;
-@@ -1576,6 +1578,10 @@ static void migrate_params_test_apply(MigrateSetParameters *params,
+ static MigrationState *current_migration;
+ static MigrationIncomingState *current_incoming;
++static int migrate_enabled_modes = BIT(MIG_MODE_NORMAL);
  
-     /* TODO use QAPI_CLONE() instead of duplicating it inline */
+ static GSList *migration_blockers;
  
-+    if (params->has_mode) {
-+        dest->mode = params->mode;
-+    }
-+
-     if (params->has_compress_level) {
-         dest->compress_level = params->compress_level;
-     }
-@@ -1673,6 +1679,10 @@ static void migrate_params_apply(MigrateSetParameters *params, Error **errp)
- 
-     /* TODO use QAPI_CLONE() instead of duplicating it inline */
- 
-+    if (params->has_mode) {
-+        s->parameters.mode = params->mode;
-+    }
-+
-     if (params->has_compress_level) {
-         s->parameters.compress_level = params->compress_level;
-     }
-@@ -2663,6 +2673,20 @@ int migrate_use_tls(void)
-     return s->parameters.tls_creds && *s->parameters.tls_creds;
+@@ -2140,6 +2141,29 @@ bool migration_is_active(MigrationState *s)
+             s->state == MIGRATION_STATUS_POSTCOPY_ACTIVE);
  }
  
-+MigMode migrate_mode(void)
++void migrate_enable_mode(MigMode mode)
 +{
-+    MigrationState *s;
-+
-+    s = migrate_get_current();
-+
-+    return s->parameters.mode;
++    migrate_enabled_modes |= BIT(mode);
 +}
 +
-+MigMode migrate_mode_of(MigrationState *s)
++bool migrate_mode_enabled(MigMode mode)
 +{
-+    return s->parameters.mode;
++    return !!(migrate_enabled_modes & BIT(mode));
 +}
 +
- int migrate_use_xbzrle(void)
++static int migrate_check_enabled(Error **errp)
++{
++    MigMode mode = migrate_mode();
++
++    if (!migrate_mode_enabled(mode)) {
++        error_setg(errp, "migrate mode is not enabled.  "
++                         "Use '-migrate-mode-enable %s'.",
++                   MigMode_str(mode));
++        return -1;
++    }
++    return 0;
++}
++
+ void migrate_init(MigrationState *s)
  {
-     MigrationState *s;
-@@ -4321,6 +4345,9 @@ static Property migration_properties[] = {
-                       clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
+     /*
+@@ -2210,6 +2234,9 @@ void qmp_migrate_incoming(const char *uri, Error **errp)
+     Error *local_err = NULL;
+     static bool once = true;
  
-     /* Migration parameters */
-+    DEFINE_PROP_MIG_MODE("mode", MigrationState,
-+                      parameters.mode,
-+                      MIG_MODE_NORMAL),
-     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
-                       parameters.compress_level,
-                       DEFAULT_MIGRATE_COMPRESS_LEVEL),
-@@ -4454,6 +4481,7 @@ static void migration_instance_init(Object *obj)
-     params->tls_creds = g_strdup("");
- 
-     /* Set has_* up only for parameter checks */
-+    params->has_mode = true;
-     params->has_compress_level = true;
-     params->has_compress_threads = true;
-     params->has_decompress_threads = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index c6cd6f9..6632ada 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -431,6 +431,10 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
-         monitor_printf(mon, "%s: %" PRIu64 " ms\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_ANNOUNCE_STEP),
-             params->announce_step);
-+        assert(params->has_mode);
-+        monitor_printf(mon, "%s: %s\n",
-+            MigrationParameter_str(MIGRATION_PARAMETER_MODE),
-+            qapi_enum_lookup(&MigMode_lookup, params->mode));
-         assert(params->has_compress_level);
-         monitor_printf(mon, "%s: %u\n",
-             MigrationParameter_str(MIGRATION_PARAMETER_COMPRESS_LEVEL),
-@@ -1219,6 +1223,10 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
++    if (migrate_check_enabled(errp)) {
++        return;
++    }
+     if (!once) {
+         error_setg(errp, "The incoming migration has already been started");
+         return;
+@@ -2356,6 +2383,10 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
+         return false;
      }
  
-     switch (val) {
-+    case MIGRATION_PARAMETER_MODE:
-+        p->has_mode = true;
-+        visit_type_MigMode(v, param, &p->mode, &err);
-+        break;
-     case MIGRATION_PARAMETER_COMPRESS_LEVEL:
-         p->has_compress_level = true;
-         visit_type_uint8(v, param, &p->compress_level, &err);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index 81185d4..931c492 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -568,6 +568,16 @@
-             { 'name': 'zstd', 'if': 'CONFIG_ZSTD' } ] }
- 
- ##
-+# @MigMode:
-+#
-+# @normal: the original form of migration.
-+#
-+# Since: 7.1
-+##
-+{ 'enum': 'MigMode',
-+  'data': [ 'normal' ] }
++    if (migrate_check_enabled(errp)) {
++        return false;
++    }
 +
-+##
- # @BitmapMigrationBitmapAliasTransform:
- #
- # @persistent: If present, the bitmap will be made persistent
-@@ -627,6 +637,9 @@
- #
- # Migration parameters enumeration
- #
-+# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
-+#        (Since 7.1)
-+#
- # @announce-initial: Initial delay (in milliseconds) before sending the first
- #                    announce (Since 4.0)
- #
-@@ -782,7 +795,8 @@
- # Since: 2.4
- ##
- { 'enum': 'MigrationParameter',
--  'data': ['announce-initial', 'announce-max',
-+  'data': ['mode',
-+           'announce-initial', 'announce-max',
-            'announce-rounds', 'announce-step',
-            'compress-level', 'compress-threads', 'decompress-threads',
-            'compress-wait-thread', 'throttle-trigger-threshold',
-@@ -801,6 +815,9 @@
- ##
- # @MigrateSetParameters:
- #
-+# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
-+#        (Since 7.1)
-+#
- # @announce-initial: Initial delay (in milliseconds) before sending the first
- #                    announce (Since 4.0)
- #
-@@ -949,7 +966,8 @@
- # TODO either fuse back into MigrationParameters, or make
- # MigrationParameters members mandatory
- { 'struct': 'MigrateSetParameters',
--  'data': { '*announce-initial': 'size',
-+  'data': { '*mode': 'MigMode',
-+            '*announce-initial': 'size',
-             '*announce-max': 'size',
-             '*announce-rounds': 'size',
-             '*announce-step': 'size',
-@@ -999,6 +1017,9 @@
- #
- # The optional members aren't actually optional.
- #
-+# @mode: Migration mode. See description in @MigMode. Default is 'normal'.
-+#        (Since 7.1)
-+#
- # @announce-initial: Initial delay (in milliseconds) before sending the
- #                    first announce (Since 4.0)
- #
-@@ -1147,7 +1168,8 @@
- # Since: 2.4
- ##
- { 'struct': 'MigrationParameters',
--  'data': { '*announce-initial': 'size',
-+  'data': { '*mode': 'MigMode',
-+            '*announce-initial': 'size',
-             '*announce-max': 'size',
-             '*announce-rounds': 'size',
-             '*announce-step': 'size',
+     if (migration_is_blocked(errp)) {
+         return false;
+     }
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5ff47f4..7797d3d 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4491,6 +4491,16 @@ SRST
+     an unmigratable state.
+ ERST
+ 
++DEF("migrate-mode-enable", HAS_ARG, QEMU_OPTION_migrate_mode_enable, \
++    "-migrate-mode-enable <mode>    enable the migration mode.\n",
++    QEMU_ARCH_ALL)
++SRST
++``-migrate-mode-enable <mode>``
++    Enable the specified migrate mode.  May be supplied
++    multiple times, once per mode.  This is a pre-requisite for performing a
++    migration using any mode except 'normal'.
++ERST
++
+ DEF("nodefaults", 0, QEMU_OPTION_nodefaults, \
+     "-nodefaults     don't create default devices\n", QEMU_ARCH_ALL)
+ SRST
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7189eb6..83f3be0 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3364,6 +3364,10 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_only_migratable:
+                 only_migratable = 1;
+                 break;
++            case QEMU_OPTION_migrate_mode_enable:
++                migrate_enable_mode(qapi_enum_parse(&MigMode_lookup, optarg, -1,
++                                                    &error_fatal));
++                break;
+             case QEMU_OPTION_nodefaults:
+                 has_defaults = 0;
+                 break;
 -- 
 1.8.3.1
 
