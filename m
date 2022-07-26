@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D5AA581823
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:11:45 +0200 (CEST)
-Received: from localhost ([::1]:39410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730FC581847
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jul 2022 19:22:28 +0200 (CEST)
+Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGO5w-00053V-AV
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40468)
+	id 1oGOGJ-0008DM-Bq
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 13:22:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGNTh-0005Ze-Vk
+ id 1oGNTi-0005aD-68
  for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:32:14 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50705)
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGNTg-0000wh-4C
+ id 1oGNTg-0000wl-Ff
  for qemu-devel@nongnu.org; Tue, 26 Jul 2022 12:32:13 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id v5so9081329wmj.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 09:32:11 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id v5so9081356wmj.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 09:32:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CGvQiIFMlOrrEaULg5rsrG44DygaTz/1MqDAYgHgSEU=;
- b=CoaMQLm/OvWyCUfVMtf0WR5Vl2S+Lk2y4ZBokdaTX9D5BQ5Y030knTcFSVvuy/mPA4
- 3L3Eo3CAPhfzQdFyJoSUQULbZ/UtqYfS3gr72W7mTTWkBsgCNn8rbTLvrmb3bknxibJJ
- vJA2o/dZsU5ECeEQwCFXoWBkP/9jKObxUR4YQ2ZKfZxQOfFCDKT8zdugmBxPA2rtY+d0
- eafndM65klFuyA8LE94mr+O2Gdox+AaHBgJC5lxGt9gpfDPbbLkJH60lvANZfw9qIs9l
- 9tGzvqBqbyD+H9w/ZIVEvjMeTpd5TYHK8YAATAV+iwKAdJwVYcGWoko477MnalMIzYWz
- PHew==
+ bh=JfWxJ00rIlfds3jFPlwG4e1sYuE0E+4UdrBr43y55Zw=;
+ b=dr+20bMl0Nm2uwaBpL/mYr+RelGqMIImKVYpfQcvtYSIh1E7eLcdJTG+WgKrAV6CQb
+ GgQ1hJBwVrqZVGkD0xS4sCqgTisOsUvamJytTdP9m1fcQqRHBifWRutaeRnVJPAmS1UR
+ J+luhHQpLcwncsGvzvCk0lwiKGDI3ENyB9qhesPdyCbN3UVNeXHQh1NE0ze63tw84dGL
+ EHG6l5bxrKBLX/5u8BRvzuMwFVr+ZuEfXV2sR6h785OMx3P61mWSDelxdhUg7hrAB7vh
+ iFuYIptF4wCkAZmf0OkA/nMgk+w/4zSJO0t43o+YdK4Uq0mflksvhDqdvSdeNYZ3IvFv
+ tDhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CGvQiIFMlOrrEaULg5rsrG44DygaTz/1MqDAYgHgSEU=;
- b=ydZtGFvtIlp3NdROA500sEeDKGVoo7acB/jpjRkpqp2RxYufNVAvVIL2Ull/D+UR0e
- dktvpLl0gIT7GLera8MtmUViPJVtBYnGka2v7SFsQsMExptNzDoFHwJM6YVQhqY7U042
- qwRndnd7c4lSI1sJFmjgdv2c+rX27kgPmCFzc28ONV7XA3S3tC8F0AFW/HuynRwTEOyN
- rvfhBot3F337YvI8EXHb8ZRo4nTCZmIPJUbLwdjrH6pPBzDMUJ5YTuaSSEJjq35ig9Su
- A8SxPqT7aq81AcYtezLeyCRWQrQkOELzNZOjOcjo8L9lI/S6IbLxbJ6EeeRtraAEnNSu
- JilQ==
-X-Gm-Message-State: AJIora8YwiVRsXM3ewLI3R2Nijjgvz4sIYD832TR0/8SQbkM5WeIXP+g
- U7CmGAibR/dLOVplJeQv4pv4NlhLoQk/lw==
-X-Google-Smtp-Source: AGRyM1uDBxCJ8uiQFkrtmZhvgdxcwD8E+AHWZgblwH207izUugeZJVA4bVhvn/iz4gf6gqdKVdJrhw==
-X-Received: by 2002:a05:600c:4e0d:b0:3a3:bc7:e9ec with SMTP id
- b13-20020a05600c4e0d00b003a30bc7e9ecmr1204wmq.167.1658853129953; 
- Tue, 26 Jul 2022 09:32:09 -0700 (PDT)
+ bh=JfWxJ00rIlfds3jFPlwG4e1sYuE0E+4UdrBr43y55Zw=;
+ b=AhKT6XAK5vspyd8HlsRNM5IgtesMS4LLuN9t/hr2OtJgjXt0BdqFMGd6PsNRD5M81N
+ 3U5bw1vcacjOIR4TaLl+2y3pWm/ya8ZrtYanrpFdYwR+f9IDBiutX1SaM3JeHYATmE4C
+ pjDJA1qoxdCF+tdUiSJS5ZSHURyEgadEbkl2aomepYV2puqc9RppJ6EQUMhBCfd/+XCz
+ 3IkhvDXXGdU1ErQJF9QRFtCrc3NA5nG861bGjN1YwClbHIZ+TDAyGodQjXktYgvd/bbn
+ Sbe7aQGYm8iws7gt2wFzpqYpwiP5FUylpRu9GnSf1ybdV7EPSZt7pYPWUp9ZhUFsgh+x
+ MKuA==
+X-Gm-Message-State: AJIora9NIoL9Hw98U98b3GtNz7ScUt/QUyssMiIHzEJLHlgRQl6B6/VL
+ f6ZhjVZiapfq2ALk16imQC1AjEvk1CfKRg==
+X-Google-Smtp-Source: AGRyM1vkaSu8aLfGD+Fv9wRZZ0rcvUa4lvb22O6bE2i7rBvpC3eU3gWIrsO8y6rrSVY93RkipyUtdw==
+X-Received: by 2002:a05:600c:1552:b0:3a3:2e4c:bd0a with SMTP id
+ f18-20020a05600c155200b003a32e4cbd0amr34297wmg.82.1658853130846; 
+ Tue, 26 Jul 2022 09:32:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d14-20020a05600c34ce00b0039747cf8354sm19236198wmq.39.2022.07.26.09.32.08
+ d14-20020a05600c34ce00b0039747cf8354sm19236198wmq.39.2022.07.26.09.32.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 09:32:09 -0700 (PDT)
+ Tue, 26 Jul 2022 09:32:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH 1/2] pci: Remove unused pci_get_*_by_mask() functions
-Date: Tue, 26 Jul 2022 17:32:05 +0100
-Message-Id: <20220726163206.1780707-2-peter.maydell@linaro.org>
+Subject: [PATCH 2/2] pci: Sanity check mask argument to pci_set_*_by_mask()
+Date: Tue, 26 Jul 2022 17:32:06 +0100
+Message-Id: <20220726163206.1780707-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220726163206.1780707-1-peter.maydell@linaro.org>
 References: <20220726163206.1780707-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,78 +89,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper functions pci_get_{byte,word,long,quad}_by_mask()
-were added in 2012 in commit c9f50cea70a1596. In the decade
-since we have never added a single use of them.
+Coverity complains that in functions like pci_set_word_by_mask()
+we might end up shifting by more than 31 bits. This is true,
+but only if the caller passes in a zero mask. Help Coverity out
+by asserting that the mask argument is valid.
 
-The helpers clearly aren't that helpful, so drop them
-rather than carrying around dead code.
+Fixes: CID 1487168
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/pci/pci.h | 28 ----------------------------
- 1 file changed, 28 deletions(-)
+Note that only 1 of these 4 functions is used, and that only
+in 2 places in the codebase. In both cases the mask argument
+is a compile-time constant.
+---
+ include/hw/pci/pci.h | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index b54b6ef88fc..c79144bc5ef 100644
+index c79144bc5ef..0392b947b8b 100644
 --- a/include/hw/pci/pci.h
 +++ b/include/hw/pci/pci.h
-@@ -692,13 +692,6 @@ pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
+@@ -688,7 +688,10 @@ static inline void
+ pci_set_byte_by_mask(uint8_t *config, uint8_t mask, uint8_t reg)
+ {
+     uint8_t val = pci_get_byte(config);
+-    uint8_t rval = reg << ctz32(mask);
++    uint8_t rval;
++
++    assert(mask & 0xff);
++    rval = reg << ctz32(mask);
      pci_set_byte(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint8_t
--pci_get_byte_by_mask(uint8_t *config, uint8_t mask)
--{
--    uint8_t val = pci_get_byte(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -696,7 +699,10 @@ static inline void
  pci_set_word_by_mask(uint8_t *config, uint16_t mask, uint16_t reg)
  {
-@@ -707,13 +700,6 @@ pci_set_word_by_mask(uint8_t *config, uint16_t mask, uint16_t reg)
+     uint16_t val = pci_get_word(config);
+-    uint16_t rval = reg << ctz32(mask);
++    uint16_t rval;
++
++    assert(mask & 0xffff);
++    rval = reg << ctz32(mask);
      pci_set_word(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint16_t
--pci_get_word_by_mask(uint8_t *config, uint16_t mask)
--{
--    uint16_t val = pci_get_word(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -704,7 +710,10 @@ static inline void
  pci_set_long_by_mask(uint8_t *config, uint32_t mask, uint32_t reg)
  {
-@@ -722,13 +708,6 @@ pci_set_long_by_mask(uint8_t *config, uint32_t mask, uint32_t reg)
+     uint32_t val = pci_get_long(config);
+-    uint32_t rval = reg << ctz32(mask);
++    uint32_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_long(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint32_t
--pci_get_long_by_mask(uint8_t *config, uint32_t mask)
--{
--    uint32_t val = pci_get_long(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- static inline void
+@@ -712,7 +721,10 @@ static inline void
  pci_set_quad_by_mask(uint8_t *config, uint64_t mask, uint64_t reg)
  {
-@@ -737,13 +716,6 @@ pci_set_quad_by_mask(uint8_t *config, uint64_t mask, uint64_t reg)
+     uint64_t val = pci_get_quad(config);
+-    uint64_t rval = reg << ctz32(mask);
++    uint64_t rval;
++
++    assert(mask);
++    rval = reg << ctz32(mask);
      pci_set_quad(config, (~mask & val) | (mask & rval));
  }
  
--static inline uint64_t
--pci_get_quad_by_mask(uint8_t *config, uint64_t mask)
--{
--    uint64_t val = pci_get_quad(config);
--    return (val & mask) >> ctz32(mask);
--}
--
- PCIDevice *pci_new_multifunction(int devfn, bool multifunction,
-                                     const char *name);
- PCIDevice *pci_new(int devfn, const char *name);
 -- 
 2.25.1
 
