@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFF085828D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 16:42:07 +0200 (CEST)
-Received: from localhost ([::1]:34604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E4B858292C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:00:03 +0200 (CEST)
+Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGiEh-0000dp-34
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 10:42:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55298)
+	id 1oGiW2-0003Va-5I
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:00:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGiBG-0006GL-2n; Wed, 27 Jul 2022 10:38:37 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:41706)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGiCU-0007D9-1e; Wed, 27 Jul 2022 10:39:50 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGiB5-0006DL-BR; Wed, 27 Jul 2022 10:38:33 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id i7so13031041qvr.8;
- Wed, 27 Jul 2022 07:38:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGiCS-0006Iv-Jy; Wed, 27 Jul 2022 10:39:49 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id o15so2442822yba.10;
+ Wed, 27 Jul 2022 07:39:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VxIA/PHpEdtnotfWlvZummFGqx6TwbUW8xxbXNPOtLg=;
- b=V9bcy74qOwsxDJ6n1pX/ipVr1EnDJldeJDO/VEMPEqBKKQGPY4OxyybkH2IE8qTe7T
- Bd1xXJGhdpIMT//7BElqiPKUtDvMqFKBWZaY92SzBjxNpeqtfKC34WxoJ6Sr0oftz3Tt
- 8mSH1QzoRoffU8512d4BxpYJY22pAlReqUmjfkjAZh+9l1+x/GXdzbiUxzbnNTUspVNW
- /8Jbs5zl39VcipuYXGQZHC87+7QYa1Djaw/09mKNRye9Q7qITLp7RHJADUM7utjiF93t
- UX2L2ZJ0414IOq5YhzYrJYYkGkhRxjQXSMo6yROX7AE2tQbUZigo3mSyAw7jcSEMbAaD
- rA+g==
+ :cc; bh=EV2Nu4Ep/Xp9EAqF2XYhS4EkantcIcyjq+CThjWXU1Y=;
+ b=XZT1WlWyyf66n1CEjHMbhmWgkaToPLD6nMtZeJaUh4jn6gfw3Abf4WUn48scCgIrGr
+ Cl7oas6T+kj+c9c+cx0ZxDHLtg/1/4eQIG30mPZbbl1UpRW1HKerv/K4c3j930aoz1GR
+ ckKo18SWXnMFwcVgr3WnoAMhIAEk2yJl5CL/JBT8UqixoASL8/s5RcS8Lwi/ke6GBjQg
+ VXFhhF3VlGBVP17mNVgJ72ZRzSZqt63AM8z8ju4yBgdiDu0eMmgUYCW1GZRW525Wfsje
+ DT0SnyzUTHO7u5R6fxPvnrw5oAY7iq9ddj8q9mfFURwc+0oWmRomK7PWlKC6QYnAD1JZ
+ hOxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VxIA/PHpEdtnotfWlvZummFGqx6TwbUW8xxbXNPOtLg=;
- b=7lGWWMSaOyZ8ObZy5KR8qlaBcii4fy3JQWJiACymoAIcHaQHAnt1RYklu9IHKcysGF
- g3SVACBHo3ntLrqulTO0gQUD3tAxAAwOFzrWr7IVBLlEqPBVKIdfunBGkWdjRFFPbi5c
- aZ3H808bAHIfiam0URNZTVOnyILnLhuF+b4YnSI3BRdrrW9xoMe+gQ17/ZJEVShjIpm7
- eltUcCS/veGixFoiHq5KR4yVlGFKH2oJ/jaBw3tpfhUYJ6a4pJ8SjEifMF4eCjcNLms2
- fyONnhi5EcDVzTLiCl1XClxGOLN1DW+YsU2E1BR2NAJG4miCX+hLXviaoulxMdXTX4dn
- U6hg==
-X-Gm-Message-State: AJIora/NsnXNMVU7buwMrS3rOHKXNmsDmLZZve/PRsOfw9GBIVBAwYWf
- zf/MUbbs2p2FRQ/i1GkcgUATjo737jL9tZtPw6A=
-X-Google-Smtp-Source: AGRyM1sTrt0OwWeVc/Vm42sNvvcqHd22tc2BqIcM+/P0iNrx592+eESDGa6wHQEaAwcmlJiJg9ZhsE0g8gzbHPu8Jl0=
-X-Received: by 2002:a05:6214:1bca:b0:474:4a5:6ba8 with SMTP id
- m10-20020a0562141bca00b0047404a56ba8mr19367749qvc.114.1658932701660; Wed, 27
- Jul 2022 07:38:21 -0700 (PDT)
+ bh=EV2Nu4Ep/Xp9EAqF2XYhS4EkantcIcyjq+CThjWXU1Y=;
+ b=wlY2rrqofCWMu0kC+GBVAWuI35Qg1XfALpo+40Jg8bV7iybPh0sG/vBUIPa/ne0rLw
+ I9K4psyP6YqBxON1QPVhFKOLrc3k8+vQeFZ5K6f/JyUaS7It8OEVopZNy4Qh3gXP9uuI
+ 1E2pFGLG1FZwQ5CeBH47XhCEHDOhftwdInzG0xBD/Ulj5tmFZVgN5WlYg59q+35pRilq
+ DVBOUf/TYo7foGiikrrCG3j9IsLe/LeMpZ3gE9jbfxXCu7/22cBdnINTLPbiTqZS76zN
+ 6i2VJlbNne1e0dM8YBBwuZwmQSJdEFe4p9aBnA7czcEWlSEeiBw54NUN16daVtXTOQ99
+ 59Iw==
+X-Gm-Message-State: AJIora+tTtcd9yGtOd7bSdhk5BPAbMzz1CUSytA4CR2Wa2VGx8OQvQL9
+ WV0CdacnKSOMKVfIl1vJAleiJwjsbu7RiD8jHpo=
+X-Google-Smtp-Source: AGRyM1sMI4FwQsoKLOswzCRJmUHFXdl/8UG6QKf/0pHRYZ2MwE2fqNx+s8NfsDU+RqAMk45CLY0gduwM5uVQgS4OHsY=
+X-Received: by 2002:a25:238d:0:b0:673:4607:acf4 with SMTP id
+ j135-20020a25238d000000b006734607acf4mr593818ybj.209.1658932786382; Wed, 27
+ Jul 2022 07:39:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220727142037.rzm4o4huq22vagcp@hetzy.fluff.org>
-In-Reply-To: <20220727142037.rzm4o4huq22vagcp@hetzy.fluff.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 27 Jul 2022 22:38:10 +0800
-Message-ID: <CAEUhbmU_3+-A8vAnnCmZ_qYaWv=0QFjkMeBwH+sZ60t+ivHGFw@mail.gmail.com>
-Subject: Re: fu740 target
-To: Ben Dooks <qemu@ben.fluff.org>, Frank Chang <frank.chang@sifive.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>
+References: <20220712021345.8530-1-faithilikerun@gmail.com>
+ <20220712021345.8530-7-faithilikerun@gmail.com>
+In-Reply-To: <20220712021345.8530-7-faithilikerun@gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 27 Jul 2022 10:39:34 -0400
+Message-ID: <CAJSP0QXObLgmFSjgsGoH2hz+aYLUu_q_UF7d_f8OVk4R1FACew@mail.gmail.com>
+Subject: Re: [RFC v4 6/9] raw-format: add zone operations
+To: Sam Li <faithilikerun@gmail.com>, Markus Armbruster <armbru@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ qemu block <qemu-block@nongnu.org>, Eric Blake <eblake@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,33 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 10:24 PM Ben Dooks <qemu@ben.fluff.org> wrote:
+On Mon, 11 Jul 2022 at 22:21, Sam Li <faithilikerun@gmail.com> wrote:
 >
-> Is anyone working on adding a sifive-u74 core to the list of supported
-> CPU types? I was looking at full emulation of the Unmatched but at the
-> moment the best we have is sifive-u54 and I think that misses at least
-> two CSRs the sifive-u74 has.
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> ---
+>  block/raw-format.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 >
-> Does anyone have plans to add the sifive-u74, and if not, would a plan
-> to add gradual support for it like adding CSRs 0x7c1 and 0x7c2 so we
-> can run an Unmatched U-boot SPL against it.
+> diff --git a/block/raw-format.c b/block/raw-format.c
+> index 69fd650eaf..96bdb6c1e2 100644
+> --- a/block/raw-format.c
+> +++ b/block/raw-format.c
+> @@ -314,6 +314,17 @@ static int coroutine_fn raw_co_pdiscard(BlockDriverState *bs,
+>      return bdrv_co_pdiscard(bs->file, offset, bytes);
+>  }
+>
+> +static int coroutine_fn raw_co_zone_report(BlockDriverState *bs, int64_t offset,
+> +                                           int64_t *nr_zones,
+> +                                           BlockZoneDescriptor *zones) {
+> +    return bdrv_co_zone_report(bs->file->bs, offset, nr_zones, zones);
+> +}
+> +
+> +static int coroutine_fn raw_co_zone_mgmt(BlockDriverState *bs, zone_op op,
+> +                                         int64_t offset, int64_t len) {
+> +    return bdrv_co_zone_mgmt(bs->file->bs, op, offset, len);
+> +}
+> +
 
-Adding 0x7c1/7c2 would be a vendor-specific CSR approach?
+Kevin, Markus, or Hanna: bdrv_*() APIs take a mix of BlockDriverState
+*bs and BdrvChild *child arguments. Should these new APIs take bs or
+child?
 
->
-> If not, is there a definitive U54->U74 set of public differnces around
-> we could use to start from? I'd like to be able to run a full Unmatched
-> image using qemu at some point to add to the current real-board testing
-> we're doing.
->
-> (I have a basic addition of the type and the two CSRs as a couple of
-> patches if that would help as a start)
->
-
-I am not aware of anyone doing U74 modeling in QEMU, but SiFive folks
-(+Frank) may have one downstream as I see they posted several bug
-fixes in the existing U54 model.
-
-Regards,
-Bin
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
