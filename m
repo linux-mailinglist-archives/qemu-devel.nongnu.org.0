@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A3358332F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:12:26 +0200 (CEST)
-Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46213583330
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:12:39 +0200 (CEST)
+Received: from localhost ([::1]:37424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGmSE-0002j7-Ac
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
+	id 1oGmSU-0003JB-3f
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:12:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oGmHt-0005OR-OX
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:01:41 -0400
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:40756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oGmHr-0004JI-IL
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:01:41 -0400
-Received: by mail-pj1-x102a.google.com with SMTP id
- w63-20020a17090a6bc500b001f3160a6011so1256159pjj.5
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 12:01:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SFTW4afqMv8Iz6F882Kc1hdDJcateS79z6VX3Z8ZVH0=;
- b=CiJcnT4scWaKVCDeHM3WMmUgJ0nmTDv3fa2U/754LfCDdiKrIRCNKs2VSLJ4+f67e8
- 1EcdvtL9+daNx0cyCvMYGQe1f25BoL+FBhp/NBJL/wV3e/R0ymyXh3/kIVX5kOT97BTh
- NcFYsnKPSNjS3v4to6qKD+XxSGg6k0hCcAdRA//Uf2uAW020BLGxhzvkdPD5oIYBNNd4
- zieAZ481vF6mQy4L/jtfxxOVbwQ7S9Bu7TOlRLdXJD6jyriRFj94WZX/mREPm2LqQsvT
- t3URVRb+HJAq9+grzZ+D6803NBQp1KWhj96flVm5zVK9oBps6518v1kbqS70cYa2p61U
- VLDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SFTW4afqMv8Iz6F882Kc1hdDJcateS79z6VX3Z8ZVH0=;
- b=Wf0dKEAOIUnHNdshtJPmdW+HrM8wveek+fUpeAyfVxWZMG0YDDeAmVU59Vb10DEf9a
- HQ2sE2NpD8HvPyeQQ+99yC/2RkgGINNJQJID9yElojOeXv5ibIir2F2QCVp/k6ohwCPK
- eV6xen3uRX61eLd5FnwwBIc33vEm1pQLbTXihklHJiHe9SLnheMkPRKWHldvPYu8fiHU
- xsxeO2xkryONEKaVRE5QfG/tT+YfYstflxjrhaUAqGyT8vfcKWiLKBWniNQLTvapNPrG
- 2mwFsb1zRFwpSlJjA7Wepsxwoq1f1FLZBC1Cxnd/rpxyyPnLfzAJdQg4yaCLUB+67wfo
- /CJA==
-X-Gm-Message-State: AJIora/GcypRLguAJHhHlACRCGoxfDLZyGb4JWi93ZQr5BwrFsyRDbDF
- 62QIMk4+vkI3WXWRjR5+4z+QYAN4pDXIWCjUxU5yog==
-X-Google-Smtp-Source: AGRyM1tfdk8uWVWUdm25QzQmnaCvQJqairxYo1P8DvznJ3sBXkAlVmbh40FFzJMFN/TfjtLkXxrAjSjjuvRAfguCndw=
-X-Received: by 2002:a17:902:da91:b0:16d:3bc2:ff49 with SMTP id
- j17-20020a170902da9100b0016d3bc2ff49mr22768807plx.85.1658948497866; Wed, 27
- Jul 2022 12:01:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGmKB-0006Zd-ES
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:04:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGmK7-0004UK-Mn
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:04:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658948639;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nAni1DVazzgY7pmVEIEYbtHygX+chAkfLSomdaNaCaw=;
+ b=dde9VBDfVaQDzVK/Fqc+Qhn7Zc8kQh/4ki2yOMAZhfXZ0uDWqVn9bRXVnNf8HASdah80vl
+ tZQ91fddJV7Tq/FdoC9eNoIRJMTOgi4JkIZ4MRUbeizBklUIhFHhN4TrqPMfteNdC1+Hmd
+ NFk8xosSRfoMtRFoivNLq8IQ6KChzK4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-653-6cQqwcB3MSK-A2DmVzxd6w-1; Wed, 27 Jul 2022 15:03:54 -0400
+X-MC-Unique: 6cQqwcB3MSK-A2DmVzxd6w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4606B1019C8D;
+ Wed, 27 Jul 2022 19:03:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D0EB0141511F;
+ Wed, 27 Jul 2022 19:03:50 +0000 (UTC)
+Date: Wed, 27 Jul 2022 21:03:49 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, venture@google.com, Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org,
+ bin.meng@windriver.com, qemu-block@nongnu.org, thuth@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+Message-ID: <YuGMFRDj3tLOIJK7@redhat.com>
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org>
 MIME-Version: 1.0
-References: <20220723090335.671105-1-atishp@rivosinc.com>
- <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
-In-Reply-To: <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Wed, 27 Jul 2022 12:01:26 -0700
-Message-ID: <CAHBxVyHku+yjKVVoD1aZMTsDDE2qER-qFm_gTt5OxL0P8sqEXw@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
-To: Alistair Francis <alistair23@gmail.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000ea999805e4ce0b55"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87ilnuda33.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,204 +85,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ea999805e4ce0b55
-Content-Type: text/plain; charset="UTF-8"
+Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
+> Hao Wu <wuhaotsh@google.com> writes:
+> 
+> > This type is used to represent block devs that are not suitable to
+> > be represented by other existing types.
+> >
+> > A sample use is to represent an at24c eeprom device defined in
+> > hw/nvram/eeprom_at24c.c. The block device can be used to contain the
+> > content of the said eeprom device.
+> >
+> > Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> 
+> Let me add a bit more history in the hope of helping other reviewers.
+> 
+> v3 of this series[1] used IF_NONE for the EEPROM device.
+> 
+> Peter Maydell questioned that[2], and we concluded it's wrong.  I wrote
+> 
+>     [A] board can use any traditional interface type.  If none of them
+>     matches, and common decency prevents use of a non-matching one,
+>     invent a new one.  We could do IF_OTHER.
+> 
+> Thomas Huth cleaned up the existing abuse of IF_NONE to use IF_PFLASH
+> instead, in commit 6b717a8d44:
+> 
+>     hw/misc/sifive_u_otp: Use IF_PFLASH for the OTP device instead of IF_NONE
+> 
+>     Configuring a drive with "if=none" is meant for creation of a backend
+>     only, it should not get automatically assigned to a device frontend.
+>     Use "if=pflash" for the One-Time-Programmable device instead (like
+>     it is e.g. also done for the efuse device in hw/arm/xlnx-zcu102.c).
+> 
+>     Since the old way of configuring the device has already been published
+>     with the previous QEMU versions, we cannot remove this immediately, but
+>     have to deprecate it and support it for at least two more releases.
+> 
+>     Signed-off-by: Thomas Huth <thuth@redhat.com>
+>     Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>     Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>     Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>     Message-id: 20211119102549.217755-1-thuth@redhat.com
+>     Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> 
+> An OTP device isn't really a parallel flash, and neither are eFuses.
+> More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
+> other interface types, too.
+> 
+> This patch introduces IF_OTHER.  The patch after next uses it for an
+> EEPROM device.
+> 
+> Do we want IF_OTHER?
 
-On Wed, Jul 27, 2022 at 5:23 AM Alistair Francis <alistair23@gmail.com>
-wrote:
+What would the semantics even be? Any block device that doesn't pick up
+a different category may pick up IF_OTHER backends?
 
-> On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
-> >
-> > Since commit 40244040a7ac, multi-socket configuration with plic is
-> > broken as the hartid for second socket is calculated incorrectly.
-> > The hartid stored in addr_config already includes the offset
-> > for the base hartid for that socket. Adding it again would lead
-> > to segfault while creating the plic device for the virt machine.
-> > qdev_connect_gpio_out was also invoked with incorrect number of gpio
-> > lines.
-> >
-> > Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the
-> addr_config buffer)
-> >
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >  hw/intc/sifive_plic.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> > index 56d60e9ac935..fdac028a521f 100644
-> > --- a/hw/intc/sifive_plic.c
-> > +++ b/hw/intc/sifive_plic.c
-> > @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char
-> *hart_config,
-> >
-> >      for (i = 0; i < plic->num_addrs; i++) {
-> >          int cpu_num = plic->addr_config[i].hartid;
-> > -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
-> > +        CPUState *cpu = qemu_get_cpu(cpu_num);
-> >
-> >          if (plic->addr_config[i].mode == PLICMode_M) {
-> > -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
-> > +            qdev_connect_gpio_out(dev, cpu_num,
->
-> Argh!
->
-> I was trying to get this ready to go into 7.1. I have been working on
-> updating my tests to catch this failure in the future as well.
->
-> While testing this change I noticed that it breaks the noMMU test case.
->
-> I think the correct fix is actually this (on top of your patch):
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index fdac028a52..af4ae3630e 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char
-> *hart_config,
->         CPUState *cpu = qemu_get_cpu(cpu_num);
->
->         if (plic->addr_config[i].mode == PLICMode_M) {
-> -            qdev_connect_gpio_out(dev, cpu_num,
-> +            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base +
-> cpu_num,
->                                   qdev_get_gpio_in(DEVICE(cpu),
-> IRQ_M_EXT));
->         }
->         if (plic->addr_config[i].mode == PLICMode_S) {
->
-> The idea is that we need to increment the second argument to
-> qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S
-> case.
->
-> This ensures that we do that correctly without breaking anything.
->
-> How does that look to you?
->
->
-Ahh yes. That makes sense.
-Tested the updated change on multi-socket as well.
+It certainly feels like a strange interface to ask for "other" disk and
+then getting as surprise what this other thing might be. It's
+essentially the same as having an explicit '-device other', and I
+suppose most people would find that strange.
 
+> If no, I guess we get to abuse IF_PFLASH some more.
+> 
+> If yes, I guess we should use IF_PFLASH only for actual parallel flash
+> memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
+> be worth the trouble, though.
+> 
+> Thoughts?
 
-> Alistair
->
-> >                                    qdev_get_gpio_in(DEVICE(cpu),
-> IRQ_M_EXT));
-> >          }
-> >          if (plic->addr_config[i].mode == PLICMode_S) {
-> > --
-> > 2.25.1
-> >
-> >
->
+If the existing types aren't good enough (I don't have an opinion on
+whether IF_PFLASH is a good match), let's add a new one. But a specific
+new one, not just "other".
 
---000000000000ea999805e4ce0b55
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Kevin
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:23 AM Alist=
-air Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->On Sat, Jul 23, 2022 at 7:22 PM Atish Patra &lt;<a href=3D"mailto:atishp@r=
-ivosinc.com" target=3D"_blank">atishp@rivosinc.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Since commit 40244040a7ac, multi-socket configuration with plic is<br>
-&gt; broken as the hartid for second socket is calculated incorrectly.<br>
-&gt; The hartid stored in addr_config already includes the offset<br>
-&gt; for the base hartid for that socket. Adding it again would lead<br>
-&gt; to segfault while creating the plic device for the virt machine.<br>
-&gt; qdev_connect_gpio_out was also invoked with incorrect number of gpio<b=
-r>
-&gt; lines.<br>
-&gt;<br>
-&gt; Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_=
-config buffer)<br>
-&gt;<br>
-&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
-target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hw/intc/sifive_plic.c | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br>
-&gt; index 56d60e9ac935..fdac028a521f 100644<br>
-&gt; --- a/hw/intc/sifive_plic.c<br>
-&gt; +++ b/hw/intc/sifive_plic.c<br>
-&gt; @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, cha=
-r *hart_config,<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; plic-&gt;num_addrs; i++) {<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int cpu_num =3D plic-&gt;addr_config=
-[i].hartid;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(hartid_bas=
-e + cpu_num);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(cpu_num);<=
-br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
-=3D PLICMode_M) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
-num_harts + cpu_num,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
-cpu_num,<br>
-<br>
-Argh!<br>
-<br>
-I was trying to get this ready to go into 7.1. I have been working on<br>
-updating my tests to catch this failure in the future as well.<br>
-<br>
-While testing this change I noticed that it breaks the noMMU test case.<br>
-<br>
-I think the correct fix is actually this (on top of your patch):<br>
-<br>
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br>
-index fdac028a52..af4ae3630e 100644<br>
---- a/hw/intc/sifive_plic.c<br>
-+++ b/hw/intc/sifive_plic.c<br>
-@@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char<br>
-*hart_config,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(cpu_num);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=3D PLICMod=
-e_M) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, cpu_n=
-um,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, num_h=
-arts - plic-&gt;hartid_base + cpu_num,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(cpu),=
- IRQ_M_EXT));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=3D PLICMod=
-e_S) {<br>
-<br>
-The idea is that we need to increment the second argument to<br>
-qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S<br>
-case.<br>
-<br>
-This ensures that we do that correctly without breaking anything.<br>
-<br>
-How does that look to you?<br>
-<br></blockquote><div><br></div><div>Ahh yes. That makes sense.</div><div>T=
-ested the updated change on multi-socket as well.</div><div>=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">
-Alistair<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DE=
-VICE(cpu), IRQ_M_EXT));<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
-=3D PLICMode_S) {<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div></div>
-
---000000000000ea999805e4ce0b55--
 
