@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DC1F58272B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 14:56:40 +0200 (CEST)
-Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35BBD582756
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:04:06 +0200 (CEST)
+Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGgac-00011c-FU
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 08:56:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56148)
+	id 1oGgho-0004Pk-Mo
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:04:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGgXh-0007Y8-4i
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:53:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGgXd-00049T-Sq
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:53:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658926412;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PQe7Gn6Sfzum3jVrMIwBz1QmAS6smjeOJUvnKSCIMf0=;
- b=Of0PV+DaflkqmFmDuJOaF99TfQ+UQHg12WZaZeeHaL47CIG6ZUiSH/y2JgloS9ojfadxNf
- jjKIjvEvh+6onyWc0apBH23LM0NsIiNpD8Jf/9kxr0hosiojWRqM/hTLqrRsrON5V1W9MA
- Wd9LWiBpbhd6T0kdwBEhd9JkiW1igPg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-657-2g5VTpFqPiiqEQZmpPb6ew-1; Wed, 27 Jul 2022 08:53:31 -0400
-X-MC-Unique: 2g5VTpFqPiiqEQZmpPb6ew-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2ECEE811E81;
- Wed, 27 Jul 2022 12:53:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2280FC44AE3;
- Wed, 27 Jul 2022 12:53:30 +0000 (UTC)
-Date: Wed, 27 Jul 2022 13:53:27 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Yan Vugenfirer <yvugenfi@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH 2/5] util/oslib-win32: Add a helper to get the Windows
- version
-Message-ID: <YuE1Rx1tOOwuS4SV@redhat.com>
-References: <20220727073542.811420-1-bmeng.cn@gmail.com>
- <20220727073542.811420-3-bmeng.cn@gmail.com>
- <CAGoVJZzZN5CNoURh4-uMqkPwUd-Z03PmZZ04v8M+BYi2tX37_g@mail.gmail.com>
- <CAEUhbmWv1zdYFJ-ojWxH_KnJygS2ceQyPPBvDwQ4rEqzR534EQ@mail.gmail.com>
- <YuEMnI/Sji1/r7bk@redhat.com>
- <CAEUhbmVT6bwMObhW59Oxf6nfPazDziXYbuqxC=pLBEbd26r_NQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGgb3-00019j-Pb
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:57:11 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:34352)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGgax-000537-OZ
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:57:02 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id i14so30104033yba.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 05:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jaILcpFOdNns/9Fm7gsbMoU7wVSdMqpKlfRiC6dW6XU=;
+ b=ptk+lRnBLA/lv/TTqgbDM5tZTVueP+I1pJHqrIaZJBmAgxMpsWj1rQ3C23M2BKhH3l
+ 4ZSHM8DTPWVpP8xd+iw8446Jc9Ud3wvaP64ooh7M7MB3BcuLWiB+vNrT+I9gHxMuDsaF
+ iS84h5d+vW6bHkDbSnfW4/Bi6jjxHNBo+pydqysAFt4YzxTMjl8saZ1FtCbSOuKEAb3H
+ EGQHlYxi5M1QpMXTWDILg6MsHK4iRGwVQV916a7VWuLCB0uPuPNr6iRMfjc4YQoQ3bVb
+ 0sSYQekw90MHGR2SxYyMjeGk7Aq/LDy5ZNCj3gJABZPiOhTAQwH1uHKZpP8BodTi+6Fr
+ E72Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jaILcpFOdNns/9Fm7gsbMoU7wVSdMqpKlfRiC6dW6XU=;
+ b=TQgOKNcO/D5/+BY2bP29vDVXoGVW9KZgfiDF5aONmxodwg2Pc3KDtTfHmw7MNsnbJ3
+ RXkz0vY/jv0YhrZrTwLmnPzhXsPaGtWI8EwqrcguYOkNZrF/Di8CnTNOCFj0JsaAg1rf
+ WwQR/q7wAMkAnlbB9CkWBjLkUY5G4BaP8BntHRMvjbqzIZehadNQGzLuIMHD/OWZ797V
+ L963NpqDGBj3XP3p6USejHf9scmNi8jjKNjnHai5/QloRc6U+YUUg08O9ZnK5iB4FS1J
+ v41UM3fR20R1LOT9jcQX6RJvpbFxj/qM9w0Z5zgHvJv3iqyh3wNtUWlswmvZY4ngdTrR
+ /wGg==
+X-Gm-Message-State: AJIora83+j9Eo7ERZjHUmQRTcN0yI35GdbX6LyfLLrvHx9g0+Sdwkn/2
+ T2kVlmvTwUdXAa7WJsoqXsBFpSNTxG8VQ8OJzzVdfg==
+X-Google-Smtp-Source: AGRyM1vOx9qBR94W5XgK6fX+UiG7lQ20DFOFSugYukqfzugjbzdekN9Fwk1PJzNvA3ptoJbQT5/KZdge2xeyAmiTl3c=
+X-Received: by 2002:a5b:e90:0:b0:671:670a:594a with SMTP id
+ z16-20020a5b0e90000000b00671670a594amr9358408ybr.193.1658926617407; Wed, 27
+ Jul 2022 05:56:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmVT6bwMObhW59Oxf6nfPazDziXYbuqxC=pLBEbd26r_NQ@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220713165449.37433-1-ben.dooks@sifive.com>
+ <20220727111320.5b7qobwx5bbwh65d@hetzy.fluff.org>
+In-Reply-To: <20220727111320.5b7qobwx5bbwh65d@hetzy.fluff.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 27 Jul 2022 13:56:17 +0100
+Message-ID: <CAFEAcA_aw002ZP6a=M5VyjVSs9Ln-Pv3ED0-eTtJj4bFM+KcJw@mail.gmail.com>
+Subject: Re: updates for designware pci-host
+To: Ben Dooks <qemu@ben.fluff.org>
+Cc: Ben Dooks <ben.dooks@sifive.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
+ Sudip Mukherjee <sudip.mukherjee@sifive.com>, 
+ William Salmon <william.salmon@sifive.com>,
+ Adnan Chowdhury <adnan.chowdhury@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,114 +83,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 07:55:40PM +0800, Bin Meng wrote:
-> On Wed, Jul 27, 2022 at 6:00 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+On Wed, 27 Jul 2022 at 12:15, Ben Dooks <qemu@ben.fluff.org> wrote:
+>
+> On Wed, Jul 13, 2022 at 05:54:42PM +0100, Ben Dooks wrote:
+> > As part of a project we have been looking at using the DesignWare
+> > PCIe host. We found a few issues of missing features or small bugs
+> > when using this with a recent Linux kernel (v5.17.x)
 > >
-> > On Wed, Jul 27, 2022 at 05:38:27PM +0800, Bin Meng wrote:
-> > > On Wed, Jul 27, 2022 at 4:50 PM Yan Vugenfirer <yvugenfi@redhat.com> wrote:
-> > > >
-> > > > On Wed, Jul 27, 2022 at 10:43 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > > > >
-> > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > >
-> > > > > This adds a helper to get the Windows version via the RtlGetVersion
-> > > > > call, for QEMU codes to determine the Windows version at run-time.
-> > > > >
-> > > > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > > ---
-> > > > >
-> > > > >  include/sysemu/os-win32.h |  2 ++
-> > > > >  util/oslib-win32.c        | 15 +++++++++++++++
-> > > > >  2 files changed, 17 insertions(+)
-> > > > >
-> > > > > diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> > > > > index edc3b38a57..1e324026a4 100644
-> > > > > --- a/include/sysemu/os-win32.h
-> > > > > +++ b/include/sysemu/os-win32.h
-> > > > > @@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
-> > > > >  ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
-> > > > >                             struct sockaddr *addr, socklen_t *addrlen);
-> > > > >
-> > > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
-> > > > > +
-> > > > >  #ifdef __cplusplus
-> > > > >  }
-> > > > >  #endif
-> > > > > diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> > > > > index 5723d3eb4c..6d2387b9ff 100644
-> > > > > --- a/util/oslib-win32.c
-> > > > > +++ b/util/oslib-win32.c
-> > > > > @@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
-> > > > >       */
-> > > > >      return qemu_fdatasync(fd);
-> > > > >  }
-> > > > > +
-> > > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
-> > > > > +{
-> > > > > +    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
-> > > > > +
-> > > > > +    /* RtlGetVersion is available starting with Windows 2000 */
-> > > > > +    HMODULE module = GetModuleHandle("ntdll");
-> > > > > +    PVOID fun = GetProcAddress(module, "RtlGetVersion");
-> > > > > +    rtl_get_version_t rtl_get_version = (rtl_get_version_t)fun;
-> > > > > +
-> > > > > +    info->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
-> > > > > +    rtl_get_version(info);
-> > > > The original function, when it was present in qemu-ga, tested that
-> > > > getting the function address succeeded.
-> > > > I think this test should be kept.
-> > > > See below:
-> > > > -    PVOID fun = GetProcAddress(module, "RtlGetVersion");
-> > > > -    if (fun == NULL) {
-> > > > -        error_setg(errp, QERR_QGA_COMMAND_FAILED,
-> > > > -            "Failed to get address of RtlGetVersion");
-> > > > -        return;
-> > > > -    }
-> > > >
-> > >
-> > > Please see the comment:
-> > >
-> > > /* RtlGetVersion is available starting with Windows 2000 */
-> > >
-> > > I don't think we need that check.
-> >
-> > In include/qemu/osdep.h we have
-> >
-> > /* as defined in sdkddkver.h */
-> > #ifndef _WIN32_WINNT
-> > #define _WIN32_WINNT 0x0601 /* Windows 7 API (should be in sync with glib) */
-> > #endif
-> >
-> > so do we even need to have the GetProcAddress calls at all ?
-> >
-> > Surely we can just  '#include <ddk/ntddk.h>' and call
-> > RtlGetVersion directly at compile time ?
-> >
-> 
-> I believe #include <ddk/ntddk.h> is used in the kernel mode driver
-> programming environment.
-> In the user space we will have to use the ntdll exported symbol.
-> 
-> I cannot locate a Microsoft doc that tells us to call RtlGetVersion
-> directly in the user space.
+> > Whilst doing this we also made a start on some tracing events.
+>
+> Hi, has anyone had a chance to review these. If so can this series
+> get applied? If not should anyone else be added to the review list?
+>
+> If it would be easier I can try and find a git tree to publish this
+> branch on if a pull request would be easier.
 
-I wonder if we actually need to add this helper API to QEMU at all.
+Is there a public spec for the hardware? There isn't anything
+listed in the source file in the tree. Without the h/w specs
+it's pretty difficult to review changes.
 
-Would it be possible to use GLib 's  g_win32_check_windows_version API
-instead ?
-
-https://developer-old.gnome.org/glib/unstable/glib-Windows-Compatibility-Functions.html#g-win32-check-windows-version
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
