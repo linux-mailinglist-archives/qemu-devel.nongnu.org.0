@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FD4581E46
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 05:29:36 +0200 (CEST)
-Received: from localhost ([::1]:45712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A508581E73
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 05:56:47 +0200 (CEST)
+Received: from localhost ([::1]:34176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGXjr-0000g8-5P
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 23:29:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40772)
+	id 1oGYAA-0005XR-73
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 23:56:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oGXgu-0007Gs-Sh
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:26:32 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53163)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGY8S-0003VK-7X
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:55:00 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:37530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oGXgn-0003lv-Q7
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:26:28 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id ku18so15204861pjb.2
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 20:26:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=RmiGG4bUmRx/UXXrg2ocsj8uXzgYoEcEGWmHmsvms+s=;
- b=WJdD57ry+qJmxK4r77GHPnZ+1YOEuYzUyCYeOqRk+BDPHUoHGPm6+sOMnpwS/FXxjH
- cGt1TvfGORMgXj+8Gv1mgeLdVQJ08oUwfZ+a8+hXt3TXHq3K8LyAlIJSN35xFX1avBRo
- k0ETTR/d7mkqnQKpBCVtFataqxiALSHhFfB7QfamXYu/bR7mzgKDOZY4AoB7YKt5iAo7
- QZLqyGYG9zB6MGMcu+Z3L+9fpusoFd8F8KuvNzkLBrlTOp9rHzrDcE5SriclSsXspM6m
- G6W9FWg/VS9nPAczDvYS3lxtxdRKbILyefLSYyfjmCcyqUt0rhOI9o1fPg6Q/q9za+NW
- 1ArA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGY8Q-0007ur-8F
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:54:59 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id d3so7212530pls.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 20:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=Q3T/z125hqshkNOgoBmPYOqwJJdbCPnO7Lrzo1El2lY=;
+ b=MdgAhNdO1xW5RU/kM+ulWb9dDodFz/utgRrhZdmMbLQSUU2ubYVdzNV/Q687GZ2OIa
+ bcqZ+TGszVXv/gLHjD9MlNJvkxL1GFKTxwZbbd+0y7F05epXe/5IyxRn+VxEUvcAlaXr
+ xiV5+A/x6RDJVqEwNdc6EEpwL7Y4/m8t3Q8reE+Ryl/+gGkaG77bZnmI4PW5KVKZC5Qw
+ 28fHC4+fOrTxUCCxtZ7O+P6HgLw3afMNXu6XR+xWHW8jKGK/J9mMNRzZcdCIrv5WCu4G
+ F1R9cKsuZfuCNygM2BAT1oRzzwtHdgQQot48mXzFvuf+eXzaAogqda5Ff8zSvT1VL9g8
+ 4AOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=RmiGG4bUmRx/UXXrg2ocsj8uXzgYoEcEGWmHmsvms+s=;
- b=iThfb58jqlpO5EqxvTve0rbIJcP73ckUGOVaU1h3RvpV+8su6GDKn5zTKjIVYHtgbZ
- 9H9A/T5YyS8GN18TDKWcU3dIUkhWrKqn2iPXzTpmYcUcGM5X79Jak6amoFgL3SZ4/h/k
- 6n4QhbwqRcQTjHloW969RLHYAa9ae/9KAQH0GTuctsmqzlv/gO6dyXpGBTYcqxYZuAHU
- +ASy2/QUwtsED+n/Lu/c9CHhx5U1UPMN2X94WW6SLiVShWU3Tjf3QUCZB3UaHTdUINtP
- fIfk66ADhIqc3Vf3Dpj4rZNtme4oNR7OAhw1xK1IFVZIVU0WhMJoAMMmAKqUTIMP+Any
- Exwg==
-X-Gm-Message-State: AJIora/fMGQ+45qak9mcsHTjQ8K+4sTmjzlDGjoEy4Via3V/Tv2YPyeA
- EI+QuOrVaCTZlbJWTmNfhxmmjQ==
-X-Google-Smtp-Source: AGRyM1vOq7iKqIOJOqfH3Q6dzVqGSHXBKd+CxcNmiaaw2D9ZUL1NKgGvsmcW5EgRqigTJbvdAKbRYA==
-X-Received: by 2002:a17:90b:4b0a:b0:1f0:5c2d:fe72 with SMTP id
- lx10-20020a17090b4b0a00b001f05c2dfe72mr2298268pjb.150.1658892383660; 
- Tue, 26 Jul 2022 20:26:23 -0700 (PDT)
-Received: from anup-ubuntu64-vm.. ([171.76.87.63])
+ bh=Q3T/z125hqshkNOgoBmPYOqwJJdbCPnO7Lrzo1El2lY=;
+ b=LWuNZlnwYl0Gh9kzPdocjhpJA7EfP5EPzismvHguzfKwRFMLQLeOQTzmcDsSQCjJm2
+ oE+1aRe01E1qFykNSO7+2iuL8WTZVrq1U3dcbI7ySLmRm37oip9weP7IhWMOQ9PHurej
+ pNboU3WN79SjnReuX3U2mZk2laoUCyPmNiOvrT75B1zth6yx4vtjTm4w70tSCIOKPoJQ
+ CYzLQpmTT5/Kxg3qge5o2nv6y6w1daxsjHDe50PjtFGRGeypJNjC45bVxxVDFFDV5UaA
+ 4vxOzzXXMhNEWOdGu3vTHqUhyuYuhAqbjD3m/2n7rvH0JdBUHJl5QB2LmMKdsT2sXrPe
+ 4HAg==
+X-Gm-Message-State: AJIora/isWcfU3EDjD1PyeGKGwjg76syW0uAIvpn/7GhFy2VFP1v32a9
+ QezHlNqCfTLqMl1Yst7cZNCakQ==
+X-Google-Smtp-Source: AGRyM1t459XKqZqL2QWLWMNS4/lZYW6ekyLPWQB97d4OpjrEjuDKNYhITRId/rMRRBe+A3WBAc3T5A==
+X-Received: by 2002:a17:90b:4d92:b0:1f0:47e4:f36 with SMTP id
+ oj18-20020a17090b4d9200b001f047e40f36mr2337277pjb.194.1658894096536; 
+ Tue, 26 Jul 2022 20:54:56 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:4e4e:de15:7ffb:6b9b?
+ ([2602:ae:1549:801:4e4e:de15:7ffb:6b9b])
  by smtp.gmail.com with ESMTPSA id
- m11-20020a170902d18b00b0016bf4428586sm11971987plb.208.2022.07.26.20.26.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jul 2022 20:26:23 -0700 (PDT)
-From: Anup Patel <apatel@ventanamicro.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
+ 125-20020a621883000000b005289a50e4c2sm12450892pfy.23.2022.07.26.20.54.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 20:54:55 -0700 (PDT)
+Message-ID: <ae29e548-c3a6-dca1-81aa-68c4cad27384@linaro.org>
+Date: Tue, 26 Jul 2022 20:54:53 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] target/riscv: Ensure opcode is saved for every instruction
+Content-Language: en-US
+To: Anup Patel <apatel@ventanamicro.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
 Cc: Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Anup Patel <apatel@ventanamicro.com>
-Subject: [PATCH] target/riscv: Ensure opcode is saved for every instruction
-Date: Wed, 27 Jul 2022 08:55:24 +0530
-Message-Id: <20220727032524.101280-1-apatel@ventanamicro.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x1031.google.com
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <20220727032524.101280-1-apatel@ventanamicro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220727032524.101280-1-apatel@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,143 +97,150 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should call decode_save_opc() for every decoded instruction
-because generating transformed instruction upon guest page faults
-expects opcode to be available. Without this, hypervisor sees
-transformed instruction as zero in htinst CSR for guest MMIO
-emulation which makes MMIO emulation in hypervisor slow and
-also breaks nested virtualization.
+On 7/26/22 20:25, Anup Patel wrote:
+> We should call decode_save_opc() for every decoded instruction
+> because generating transformed instruction upon guest page faults
+> expects opcode to be available. Without this, hypervisor sees
+> transformed instruction as zero in htinst CSR for guest MMIO
+> emulation which makes MMIO emulation in hypervisor slow and
+> also breaks nested virtualization.
 
-Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc")
-Signed-off-by: Anup Patel <apatel@ventanamicro.com>
----
- target/riscv/insn_trans/trans_privileged.c.inc |  4 ----
- target/riscv/insn_trans/trans_rvh.c.inc        |  2 --
- target/riscv/insn_trans/trans_rvi.c.inc        |  2 --
- target/riscv/translate.c                       | 10 ++++------
- 4 files changed, 4 insertions(+), 14 deletions(-)
+Then just add decode_save_opc to load/store insns, not everything including plain 
+arithmetic...
 
-diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-index 46f96ad74d..53613682e8 100644
---- a/target/riscv/insn_trans/trans_privileged.c.inc
-+++ b/target/riscv/insn_trans/trans_privileged.c.inc
-@@ -75,7 +75,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- {
- #ifndef CONFIG_USER_ONLY
-     if (has_ext(ctx, RVS)) {
--        decode_save_opc(ctx);
-         gen_helper_sret(cpu_pc, cpu_env);
-         tcg_gen_exit_tb(NULL, 0); /* no chaining */
-         ctx->base.is_jmp = DISAS_NORETURN;
-@@ -91,7 +90,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
- static bool trans_mret(DisasContext *ctx, arg_mret *a)
- {
- #ifndef CONFIG_USER_ONLY
--    decode_save_opc(ctx);
-     gen_helper_mret(cpu_pc, cpu_env);
-     tcg_gen_exit_tb(NULL, 0); /* no chaining */
-     ctx->base.is_jmp = DISAS_NORETURN;
-@@ -104,7 +102,6 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
- static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- {
- #ifndef CONFIG_USER_ONLY
--    decode_save_opc(ctx);
-     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     gen_helper_wfi(cpu_env);
-     return true;
-@@ -116,7 +113,6 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
- static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
- {
- #ifndef CONFIG_USER_ONLY
--    decode_save_opc(ctx);
-     gen_helper_tlb_flush(cpu_env);
-     return true;
- #endif
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index 4f8aecddc7..cebcb3f8f6 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -169,7 +169,6 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
--    decode_save_opc(ctx);
-     gen_helper_hyp_gvma_tlb_flush(cpu_env);
-     return true;
- #endif
-@@ -180,7 +179,6 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
--    decode_save_opc(ctx);
-     gen_helper_hyp_tlb_flush(cpu_env);
-     return true;
- #endif
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-index c49dbec0eb..1f318ffbef 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -834,8 +834,6 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
- 
- static bool do_csr_post(DisasContext *ctx)
- {
--    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
--    decode_save_opc(ctx);
-     /* We may have changed important cpu state -- exit to main loop. */
-     gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-     tcg_gen_exit_tb(NULL, 0);
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index a79d0cd95b..5425d19846 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -207,10 +207,10 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-     tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
- }
- 
--static void decode_save_opc(DisasContext *ctx)
-+static void decode_save_opc(DisasContext *ctx, target_ulong opc)
- {
-     assert(ctx->insn_start != NULL);
--    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
-+    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
-     ctx->insn_start = NULL;
- }
- 
-@@ -240,8 +240,6 @@ static void generate_exception(DisasContext *ctx, int excp)
- 
- static void gen_exception_illegal(DisasContext *ctx)
- {
--    tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
--                   offsetof(CPURISCVState, bins));
-     generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
- }
- 
-@@ -643,8 +641,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-         return;
-     }
- 
--    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
--    decode_save_opc(ctx);
-     gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
- }
- 
-@@ -1055,6 +1051,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
- 
-     /* Check for compressed insn */
-     if (extract16(opcode, 0, 2) != 3) {
-+        decode_save_opc(ctx, opcode);
-         if (!has_ext(ctx, RVC)) {
-             gen_exception_illegal(ctx);
-         } else {
-@@ -1071,6 +1068,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-                                              ctx->base.pc_next + 2));
-         ctx->opcode = opcode32;
-         ctx->pc_succ_insn = ctx->base.pc_next + 4;
-+        decode_save_opc(ctx, opcode32);
- 
-         for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
-             if (decoders[i].guard_func(ctx) &&
--- 
-2.34.1
+
+r~
+
+
+> 
+> Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc")
+> Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+> ---
+>   target/riscv/insn_trans/trans_privileged.c.inc |  4 ----
+>   target/riscv/insn_trans/trans_rvh.c.inc        |  2 --
+>   target/riscv/insn_trans/trans_rvi.c.inc        |  2 --
+>   target/riscv/translate.c                       | 10 ++++------
+>   4 files changed, 4 insertions(+), 14 deletions(-)
+> 
+> diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
+> index 46f96ad74d..53613682e8 100644
+> --- a/target/riscv/insn_trans/trans_privileged.c.inc
+> +++ b/target/riscv/insn_trans/trans_privileged.c.inc
+> @@ -75,7 +75,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>   {
+>   #ifndef CONFIG_USER_ONLY
+>       if (has_ext(ctx, RVS)) {
+> -        decode_save_opc(ctx);
+>           gen_helper_sret(cpu_pc, cpu_env);
+>           tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>           ctx->base.is_jmp = DISAS_NORETURN;
+> @@ -91,7 +90,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
+>   static bool trans_mret(DisasContext *ctx, arg_mret *a)
+>   {
+>   #ifndef CONFIG_USER_ONLY
+> -    decode_save_opc(ctx);
+>       gen_helper_mret(cpu_pc, cpu_env);
+>       tcg_gen_exit_tb(NULL, 0); /* no chaining */
+>       ctx->base.is_jmp = DISAS_NORETURN;
+> @@ -104,7 +102,6 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
+>   static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+>   {
+>   #ifndef CONFIG_USER_ONLY
+> -    decode_save_opc(ctx);
+>       gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+>       gen_helper_wfi(cpu_env);
+>       return true;
+> @@ -116,7 +113,6 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
+>   static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
+>   {
+>   #ifndef CONFIG_USER_ONLY
+> -    decode_save_opc(ctx);
+>       gen_helper_tlb_flush(cpu_env);
+>       return true;
+>   #endif
+> diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+> index 4f8aecddc7..cebcb3f8f6 100644
+> --- a/target/riscv/insn_trans/trans_rvh.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvh.c.inc
+> @@ -169,7 +169,6 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
+>   {
+>       REQUIRE_EXT(ctx, RVH);
+>   #ifndef CONFIG_USER_ONLY
+> -    decode_save_opc(ctx);
+>       gen_helper_hyp_gvma_tlb_flush(cpu_env);
+>       return true;
+>   #endif
+> @@ -180,7 +179,6 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
+>   {
+>       REQUIRE_EXT(ctx, RVH);
+>   #ifndef CONFIG_USER_ONLY
+> -    decode_save_opc(ctx);
+>       gen_helper_hyp_tlb_flush(cpu_env);
+>       return true;
+>   #endif
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index c49dbec0eb..1f318ffbef 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -834,8 +834,6 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+>   
+>   static bool do_csr_post(DisasContext *ctx)
+>   {
+> -    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
+> -    decode_save_opc(ctx);
+>       /* We may have changed important cpu state -- exit to main loop. */
+>       gen_set_pc_imm(ctx, ctx->pc_succ_insn);
+>       tcg_gen_exit_tb(NULL, 0);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index a79d0cd95b..5425d19846 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -207,10 +207,10 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
+>       tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
+>   }
+>   
+> -static void decode_save_opc(DisasContext *ctx)
+> +static void decode_save_opc(DisasContext *ctx, target_ulong opc)
+>   {
+>       assert(ctx->insn_start != NULL);
+> -    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
+> +    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
+>       ctx->insn_start = NULL;
+>   }
+>   
+> @@ -240,8 +240,6 @@ static void generate_exception(DisasContext *ctx, int excp)
+>   
+>   static void gen_exception_illegal(DisasContext *ctx)
+>   {
+> -    tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
+> -                   offsetof(CPURISCVState, bins));
+>       generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+>   }
+>   
+> @@ -643,8 +641,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
+>           return;
+>       }
+>   
+> -    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
+> -    decode_save_opc(ctx);
+>       gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
+>   }
+>   
+> @@ -1055,6 +1051,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>   
+>       /* Check for compressed insn */
+>       if (extract16(opcode, 0, 2) != 3) {
+> +        decode_save_opc(ctx, opcode);
+>           if (!has_ext(ctx, RVC)) {
+>               gen_exception_illegal(ctx);
+>           } else {
+> @@ -1071,6 +1068,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
+>                                                ctx->base.pc_next + 2));
+>           ctx->opcode = opcode32;
+>           ctx->pc_succ_insn = ctx->base.pc_next + 4;
+> +        decode_save_opc(ctx, opcode32);
+>   
+>           for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
+>               if (decoders[i].guard_func(ctx) &&
 
 
