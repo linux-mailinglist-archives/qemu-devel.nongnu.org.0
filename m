@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A29315824E3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 12:55:29 +0200 (CEST)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39AC0582505
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 12:59:26 +0200 (CEST)
+Received: from localhost ([::1]:44434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGehM-0008BP-17
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 06:55:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33224)
+	id 1oGelB-0002lC-AL
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 06:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGedd-00052G-H2
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:51:37 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:38168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGeda-0000Mx-Oq
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:51:37 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id EBDC1206C8;
- Wed, 27 Jul 2022 10:51:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658919091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cMmJC6kQinkWWdWqzh2EgHkwV7ZeSMRdfaR+Xfc+7s0=;
- b=qqoj8o9AHpf/PqYmBwm8+B/vUuUZamD7uJ6U0zaz5klbbOaN+9Dz0kiY1J/EOETu3gWUjn
- XUtzD0KOOKlOW3KAN0AFUzEYqlujHml6FA9QqyXybeDE/kQfls8ukyoO9DT6n7EovcDn/U
- drD3kDnGNBgP9qZq7U6frfq6s74Xmps=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658919091;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=cMmJC6kQinkWWdWqzh2EgHkwV7ZeSMRdfaR+Xfc+7s0=;
- b=fe0ruvceGOXRPpe/XP13ldrOkMvI4A6TXirScKzbjDgWgCB4haSrBfbDbTN2xuU3v+nD8g
- Lq1+PI0jgrMwB3Dw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C84DA13A8E;
- Wed, 27 Jul 2022 10:51:31 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id eTYjL7MY4WIrcQAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 27 Jul 2022 10:51:31 +0000
-Message-ID: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
-Date: Wed, 27 Jul 2022 12:51:31 +0200
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1oGejw-0001PT-IL
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:58:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45152)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1oGejt-0001NV-0c
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:58:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658919483;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ylN6eWJrykTn8Fm2VBKpO+xEiN2oxF3J+Sd8xiswdYk=;
+ b=Peqb/+ADTjRDIkRwA+1i+JB1tIz05hGX3w0MrnOS1+uWxnF0LsqUrTUG0m3+oD8obXtpKm
+ u5cpoAGz7swlvtH627EA23bbaAcv67dospAbJ5g49CJ+g6+SOWxTTELMDDKe5hjHpUulfc
+ TnpW+Qwh7N9oklCEfza1bQQVv+d9FXI=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-218-8vr_SvKlMomAQR2v1OHgiw-1; Wed, 27 Jul 2022 06:57:59 -0400
+X-MC-Unique: 8vr_SvKlMomAQR2v1OHgiw-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ a19-20020a19f813000000b0048a7379e38bso4566806lff.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 03:57:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=ylN6eWJrykTn8Fm2VBKpO+xEiN2oxF3J+Sd8xiswdYk=;
+ b=6ICNGgSImgAqP5T6jX7dPFsv+9xXpg2Hj612HThyXi70cg+FjR8SfVAh9tnq4yoPxx
+ /2c321V5Dlauf0ZCfnMbKaL3a6KfpQ95wGiUz4jL8LKvPw/RRuIzVPIdYEAFG2O4cvaa
+ 62rYSLx5KecFXJIpSTjFPwX43pUHm4SZFkz5pNz3owgLPtWqgO+dqBb7VghZFJ7/Etqh
+ Vbz4pJ0uayOu/WxEiJtID1vuZ9iGcasRYhdLGjHmsZL6QQNQUNVtD1TwKiPMRtoByjUu
+ Jle2ovdfAdQPbXDcejf+QOPyLaKb8yGZKvSjuDCZIJ8zmKN/I3QOX5kpSVtuSDveEOb5
+ zWBA==
+X-Gm-Message-State: AJIora9oUho/bxawP+m8l+T2KtKlfG4rgE9b2ol4dOg8585/zerdpccA
+ IsxLtWF9543VVot0AHTTTbkM+RwZlUxcTwxYHvS3jdlfvW687cHuHX9ib/XC+roALOkOzWufzn0
+ RORTB1qW2ImLoMoSaJBEs/3fRg9L09DA=
+X-Received: by 2002:a05:651c:220a:b0:25d:5f87:1ed7 with SMTP id
+ y10-20020a05651c220a00b0025d5f871ed7mr6983417ljq.20.1658919478011; 
+ Wed, 27 Jul 2022 03:57:58 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uiK73EtAbVSUlJ6bmompOYWDEh2oBO8lhzRrc5vCQM7hXLSAXrzEFSmkm2o3CCOBazyMyLT1XGBXFlvdcWxNU=
+X-Received: by 2002:a05:651c:220a:b0:25d:5f87:1ed7 with SMTP id
+ y10-20020a05651c220a00b0025d5f871ed7mr6983405ljq.20.1658919477531; Wed, 27
+ Jul 2022 03:57:57 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Subject: virtio: why no full reset on virtio_set_status 0 ?
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220727073542.811420-1-bmeng.cn@gmail.com>
+ <20220727073542.811420-3-bmeng.cn@gmail.com>
+ <CAGoVJZzZN5CNoURh4-uMqkPwUd-Z03PmZZ04v8M+BYi2tX37_g@mail.gmail.com>
+ <CAEUhbmWv1zdYFJ-ojWxH_KnJygS2ceQyPPBvDwQ4rEqzR534EQ@mail.gmail.com>
+ <YuEMnI/Sji1/r7bk@redhat.com>
+In-Reply-To: <YuEMnI/Sji1/r7bk@redhat.com>
+From: Yan Vugenfirer <yvugenfi@redhat.com>
+Date: Wed, 27 Jul 2022 13:57:46 +0300
+Message-ID: <CAGoVJZx6By31HdTHdRE1BQ3riFO13Z8QGd4avFSwfYPnhScaKg@mail.gmail.com>
+Subject: Re: [PATCH 2/5] util/oslib-win32: Add a helper to get the Windows
+ version
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Bin Meng <bin.meng@windriver.com>, Xuzhou Cheng <xuzhou.cheng@windriver.com>, 
+ Stefan Weil <sw@weilnetz.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=yvugenfi@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,79 +100,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael and all,
+On Wed, Jul 27, 2022 at 1:00 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Jul 27, 2022 at 05:38:27PM +0800, Bin Meng wrote:
+> > On Wed, Jul 27, 2022 at 4:50 PM Yan Vugenfirer <yvugenfi@redhat.com> wr=
+ote:
+> > >
+> > > On Wed, Jul 27, 2022 at 10:43 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > From: Bin Meng <bin.meng@windriver.com>
+> > > >
+> > > > This adds a helper to get the Windows version via the RtlGetVersion
+> > > > call, for QEMU codes to determine the Windows version at run-time.
+> > > >
+> > > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > ---
+> > > >
+> > > >  include/sysemu/os-win32.h |  2 ++
+> > > >  util/oslib-win32.c        | 15 +++++++++++++++
+> > > >  2 files changed, 17 insertions(+)
+> > > >
+> > > > diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> > > > index edc3b38a57..1e324026a4 100644
+> > > > --- a/include/sysemu/os-win32.h
+> > > > +++ b/include/sysemu/os-win32.h
+> > > > @@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, s=
+ize_t len, int flags);
+> > > >  ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int =
+flags,
+> > > >                             struct sockaddr *addr, socklen_t *addrl=
+en);
+> > > >
+> > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
+> > > > +
+> > > >  #ifdef __cplusplus
+> > > >  }
+> > > >  #endif
+> > > > diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> > > > index 5723d3eb4c..6d2387b9ff 100644
+> > > > --- a/util/oslib-win32.c
+> > > > +++ b/util/oslib-win32.c
+> > > > @@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int =
+fd)
+> > > >       */
+> > > >      return qemu_fdatasync(fd);
+> > > >  }
+> > > > +
+> > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
+> > > > +{
+> > > > +    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW=
+);
+> > > > +
+> > > > +    /* RtlGetVersion is available starting with Windows 2000 */
+> > > > +    HMODULE module =3D GetModuleHandle("ntdll");
+> > > > +    PVOID fun =3D GetProcAddress(module, "RtlGetVersion");
+> > > > +    rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun;
+> > > > +
+> > > > +    info->dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW);
+> > > > +    rtl_get_version(info);
+> > > The original function, when it was present in qemu-ga, tested that
+> > > getting the function address succeeded.
+> > > I think this test should be kept.
+> > > See below:
+> > > -    PVOID fun =3D GetProcAddress(module, "RtlGetVersion");
+> > > -    if (fun =3D=3D NULL) {
+> > > -        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+> > > -            "Failed to get address of RtlGetVersion");
+> > > -        return;
+> > > -    }
+> > >
+> >
+> > Please see the comment:
+> >
+> > /* RtlGetVersion is available starting with Windows 2000 */
+> >
+> > I don't think we need that check.
+>
+> In include/qemu/osdep.h we have
+>
+> /* as defined in sdkddkver.h */
+> #ifndef _WIN32_WINNT
+> #define _WIN32_WINNT 0x0601 /* Windows 7 API (should be in sync with glib=
+) */
+> #endif
+>
+> so do we even need to have the GetProcAddress calls at all ?
+>
+> Surely we can just  '#include <ddk/ntddk.h>' and call
+> RtlGetVersion directly at compile time ?
+Yes.
+https://docs.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nf-wdm-rt=
+lgetversion
+- RtlGetVersion is available from Windows 2000.
 
-I have started researching a qemu / ovs / dpdk bug:
+Best regards,
+Yan.
 
-https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
+>
+>
+> With regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-that seems to be affecting multiple parties in the telco space,
-
-and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
-in virtio_set_status, when receiving a status value of 0.
-
-It seems it has always been this way, so I am clearly missing / forgetting something basic,
-
-I checked the virtio spec at https://docs.oasis-open.org/
-
-and from:
-
-"
-4.1.4.3 Common configuration structure layout
-
-device_status
-The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
-
-"
-
-and
-
-"
-2.4.1 Device Requirements: Device Reset
-A device MUST reinitialize device status to 0 after receiving a reset.
-"
-
-I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
-
-Instead, we have just the check:
-
-    if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
-        (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
-        virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
-    }
-
-which just sets the started field,
-
-and then we have the call to the virtio device class set_status (virtio_net...),
-but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
-
-"
-    vdev->start_on_kick = false;
-    vdev->started = false;
-    vdev->broken = false;
-    vdev->guest_features = 0;
-    vdev->queue_sel = 0;
-    vdev->status = 0;
-    vdev->disabled = false;
-    qatomic_set(&vdev->isr, 0);
-    vdev->config_vector = VIRTIO_NO_VECTOR;
-    virtio_notify_vector(vdev, vdev->config_vector);
-
-    for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-        ... initialize vdev->vq[i] ...
-    }
-"
-
-Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
-but what am I missing here?
-
-Thanks,
-
-Claudio
-
--- 
-Claudio Fontana
-Engineering Manager Virtualization, SUSE Labs Core
-
-SUSE Software Solutions Italy Srl
 
