@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C0B5823DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 12:09:55 +0200 (CEST)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC8E058240D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 12:20:11 +0200 (CEST)
+Received: from localhost ([::1]:40074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGdzG-0008Oz-4F
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 06:09:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51036)
+	id 1oGe9C-0003PR-8w
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 06:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oGdvo-0005mB-Qv; Wed, 27 Jul 2022 06:06:21 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:45221)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1oGdvm-00014i-0u; Wed, 27 Jul 2022 06:06:20 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.192])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 02B5511AA13AA;
- Wed, 27 Jul 2022 12:06:13 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 27 Jul
- 2022 12:06:00 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00469e61e53-652a-4331-90e8-38b25b7e1b70,
- E44A067E472E6C720F6619EB00F9B7C009C32E64) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <69fc7600-052b-a077-27b0-da5751ca3379@kaod.org>
-Date: Wed, 27 Jul 2022 12:05:58 +0200
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGe5D-0000kG-Ec
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:16:03 -0400
+Received: from mail-qv1-xf32.google.com ([2607:f8b0:4864:20::f32]:44889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGe5B-0002fU-Nf
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 06:16:03 -0400
+Received: by mail-qv1-xf32.google.com with SMTP id b11so8017465qvo.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 03:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/38pYSz5HWc7EArFd+LOz4D0bCzQF5Q2aBqWNBc5KY0=;
+ b=kJ25yFju6m3A35mPZ5/anMKIm/5SZwSraiZfjCWrsaYAQA3jlKUwgNiM7OMSIoevVx
+ e7+lFua50/ABywEKYpRYLoc2C8HKALbdtm3rzhodn+uKqseCc4KbAHEw/iJgaM+1DTMp
+ 2FKNlwO4GlaF5rvHF8xEv4e6evd+mv0C3pczrVkwGfIxZjDuAjEbF7C8l9lLq9h+qsxX
+ yIL3zav5c28TTznjrZZruUS2e8thOKknJO+Co0GlY2DRGqW3ewaHow4NjlUp6xhSVcB2
+ dKc2WCf4SdYHmv0gJhtNwVdLwS/wgLXuoJL0Ehs7nifmx1uMw7dDfKDoc2xRCg54FQS7
+ NeOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/38pYSz5HWc7EArFd+LOz4D0bCzQF5Q2aBqWNBc5KY0=;
+ b=CF6BrmsOTSr8Nq5ey8k3ONVZYazRhjksv4mxyjP2nSHkjBHeP8Pby873MgD+w/Ah1J
+ xvLyOqD7hTuApH0PsNeTCGKKlDrqwd3RIlXfMBBXemyshvI0/7Xk0dGTOBbG7Bt+kPi3
+ xIxjixfpo0ts6Tfc1pDTqXKkBb7MgSkajZXPg1h7LuI/dwSbSplKjLsKtaLbbMw7nYgK
+ 5u618lmILnFGREcZdtvre8D6GLUS8D+AlLp+VThMbkVaofgUQsyI/ejtvVVlH6QCNH2a
+ 9MTK4H9WKhPkFF4xlTiqOOXarcyj9lv0ubjYApqDQanc0MLEgCdE5hSkG86fEFwYsAMf
+ 3CfA==
+X-Gm-Message-State: AJIora8ekrNJfJDBmB1oQx+eoaHVDJ5j/uhhmCSgUc+yCrE7YiJqAV+y
+ dBuR543J7OisxvKr7uLePb8fKDsseJbV6iQ3ly0=
+X-Google-Smtp-Source: AGRyM1s2JGigfUyjixC2jcllQTN09UvDsQjehUE2we2RHFx42wZDnJNSny4h/u2OnU76zdb+yoRmBHdXupe6yLMxFGw=
+X-Received: by 2002:a05:6214:242d:b0:473:7c45:635e with SMTP id
+ gy13-20020a056214242d00b004737c45635emr18094771qvb.12.1658916960954; Wed, 27
+ Jul 2022 03:16:00 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 6/9] aspeed: Add AST2600 (BMC) to fby35
-Content-Language: en-US
-To: Peter Delevoryas <peter@pjd.dev>
-CC: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery
- <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, <qemu-arm@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20220705191400.41632-1-peter@pjd.dev>
- <20220705191400.41632-7-peter@pjd.dev>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220705191400.41632-7-peter@pjd.dev>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: 08e4de2a-a86f-4ae3-8694-cdb0fe5a2457
-X-Ovh-Tracer-Id: 1011058119300582182
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddgvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffgefgkeevvedvvdffleefheelfffhhfetgeekudeuveffffekjeeiveffledthfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220727073542.811420-1-bmeng.cn@gmail.com>
+ <YuD/+ehoLlwvzopk@redhat.com>
+In-Reply-To: <YuD/+ehoLlwvzopk@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 27 Jul 2022 18:15:50 +0800
+Message-ID: <CAEUhbmXR95LDOvPS6bRn5K4qeGLNXVVC0rtVAvGQsN7F8+VYQw@mail.gmail.com>
+Subject: Re: [PATCH 0/5] Enable unix socket support on Windows
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,110 +88,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/5/22 21:13, Peter Delevoryas wrote:
-> You can test booting the BMC with both '-device loader' and '-drive
-> file'. This is necessary because of how the fb-openbmc boot sequence
-> works (jump to 0x20000000 after U-Boot SPL).
-> 
->      wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
->      qemu-system-arm -machine fby35 -nographic \
->          -device loader,file=fby35.mtd,addr=0,cpu-num=0 -drive file=fby35.mtd,format=raw,if=mtd
-> 
-> Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> ---
->   hw/arm/fby35.c | 41 +++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 41 insertions(+)
-> 
-> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-> index 03b458584c..5c5224d374 100644
-> --- a/hw/arm/fby35.c
-> +++ b/hw/arm/fby35.c
-> @@ -6,17 +6,55 @@
->    */
->   
->   #include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "qapi/error.h"
-> +#include "sysemu/sysemu.h"
->   #include "hw/boards.h"
-> +#include "hw/arm/aspeed_soc.h"
->   
->   #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
->   OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
->   
->   struct Fby35State {
->       MachineState parent_obj;
-> +
-> +    MemoryRegion bmc_memory;
-> +    MemoryRegion bmc_dram;
-> +    MemoryRegion bmc_boot_rom;
-> +
-> +    AspeedSoCState bmc;
->   };
->   
-> +#define FBY35_BMC_RAM_SIZE (2 * GiB)
-> +
-> +static void fby35_bmc_init(Fby35State *s)
-> +{
-> +    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
-> +    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
-> +                           FBY35_BMC_RAM_SIZE, &error_abort);
+On Wed, Jul 27, 2022 at 5:06 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Wed, Jul 27, 2022 at 03:35:37PM +0800, Bin Meng wrote:
+> > Support for the unix socket has existed both in BSD and Linux for the
+> > longest time, but not on Windows. Since Windows 10 build 17063 [1],
+> > the native support for the unix socket has came to Windows. Starting
+> > this build, two Win32 processes can use the AF_UNIX address family
+> > over Winsock API to communicate with each other.
+> >
+> > Introduce a new build time config option CONFIG_AF_UNIX when the build
+> > host has such a capability, and a run-time check afunix_available() for
+> > Windows host in the QEMU sockets util codes.
+> >
+> > [1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows=
+/
+> >
+> >
+> > Bin Meng (5):
+> >   util/qemu-sockets: Replace the call to close a socket with
+> >     closesocket()
+> >   util/oslib-win32: Add a helper to get the Windows version
+> >   qga/commands-win32: Use os_get_win_version()
+> >   util/qemu-sockets: Enable unix socket support on Windows
+> >   chardev/char-socket: Update AF_UNIX for Windows
+> >
+> >  meson.build               |  6 +++++
+> >  include/sysemu/os-win32.h |  2 ++
+> >  chardev/char-socket.c     |  8 +++++-
+> >  qga/commands-win32.c      | 27 +-------------------
+> >  util/oslib-win32.c        | 15 +++++++++++
+> >  util/qemu-sockets.c       | 52 ++++++++++++++++++++++++++++++++-------
+> >  6 files changed, 74 insertions(+), 36 deletions(-)
+>
+> What about net/socket.c ?
 
-A MachineState object is used as a owner of the RAM region and this
-should assert in memory_region_init_ram() :
+It looks net/socket.c does not need to adapt.
 
-     /* This will assert if owner is neither NULL nor a DeviceState.
-      * We only want the owner here for the purposes of defining a
-      * unique name for migration. TODO: Ideally we should implement
-      * a naming scheme for Objects which are not DeviceStates, in
-      * which case we can relax this restriction.
-      */
-     owner_dev = DEVICE(owner);
+> Also there are many tests using AF_UNIX and this doesn't appear to
+> have enablede any of them.  I'd at least exepct to see  the sockets
+> tests-io-channel-socket.c test enabled to prove this functionality
+> is working.
+>
 
-It went unnoticed until I started experimenting with some MachineState
-modifications. CONFIG_QOM_CAST_DEBUG needs to be defined to catch the
-error. I would have thought that CI was doing this check. It seems not,
-which is surprising.
+Enabling qtest to run on Windows is underway but that's a separate
+topic. The qtest itself is using unix socket so as long as we can run
+qtest on Windows, we should be fine.
+I feel this series is independent enough of being a standalone one.
 
-Anyhow, this needs a fix for 7.1 and I will work on it.
+> There are a few other AF_UNIX references in teh code, though many
+> seems to be Linux specific.
 
-C.
-
-> +
-> +    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
-> +    object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
-> +                            &error_abort);
-> +    object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
-> +                             &error_abort);
-> +    object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram),
-> +                             &error_abort);
-> +    object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0,
-> +                            &error_abort);
-> +    object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003,
-> +                            &error_abort);
-> +    aspeed_soc_uart_set_chr(&s->bmc, ASPEED_DEV_UART5, serial_hd(0));
-> +    qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
-> +
-> +    aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
-> +}
-> +
->   static void fby35_init(MachineState *machine)
->   {
-> +    Fby35State *s = FBY35(machine);
-> +
-> +    fby35_bmc_init(s);
->   }
->   
->   static void fby35_class_init(ObjectClass *oc, void *data)
-> @@ -25,6 +63,9 @@ static void fby35_class_init(ObjectClass *oc, void *data)
->   
->       mc->desc = "Meta Platforms fby35";
->       mc->init = fby35_init;
-> +    mc->no_floppy = 1;
-> +    mc->no_cdrom = 1;
-> +    mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
->   }
->   
->   static const TypeInfo fby35_types[] = {
-
+Regards,
+Bin
 
