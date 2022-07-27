@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F7C582921
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 16:55:57 +0200 (CEST)
-Received: from localhost ([::1]:46486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4B32582938
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:03:15 +0200 (CEST)
+Received: from localhost ([::1]:56374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGiS4-0007LZ-OV
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 10:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58458)
+	id 1oGiZ8-0006AF-Bj
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:03:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGiPO-000429-5o; Wed, 27 Jul 2022 10:53:10 -0400
-Received: from mail-yw1-x1134.google.com ([2607:f8b0:4864:20::1134]:45012)
+ id 1oGiQA-0005G5-9H; Wed, 27 Jul 2022 10:53:59 -0400
+Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:45019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGiPL-0008I7-Kc; Wed, 27 Jul 2022 10:53:08 -0400
-Received: by mail-yw1-x1134.google.com with SMTP id
- 00721157ae682-31f661b3f89so16670837b3.11; 
- Wed, 27 Jul 2022 07:53:06 -0700 (PDT)
+ id 1oGiQ8-0008Mf-Tl; Wed, 27 Jul 2022 10:53:58 -0400
+Received: by mail-yw1-x1136.google.com with SMTP id
+ 00721157ae682-31f661b3f89so16695387b3.11; 
+ Wed, 27 Jul 2022 07:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rddNDXD6w2TYwWkvfuo0TUEXGpS/Fy1rxTu9AAgWLoM=;
- b=JguEZU6RQ3XXHJazC1HLC3eIr37drib8ou5YCcBGnR3qKc5UnYLSjVflotN+E8u2Ex
- 2bIEIE4uGY9mkTz+pKBczWpDFrgSs1ai4hSlXiIviYYbZzb85sKQ9MyRpP1xdG3sLvXb
- TAuvoU6fygPLaxyXqawQDTGKhwM9nmgovE275Ys2n5a/O4gAm7EQ8RYpUqOJF7ZoNSlR
- hKwkL5pGyBSnMbMD3VOs1hVatzU35DwHr61NTOk9FfeKORUr0pH/P7WKdEZ82xAbLJG3
- jDLO4wWlz+DfcQoe7vqQGLgxT2o51MV4P58HQRm0CmNnza1DxCPyS+xqNAX3sZkTWKRN
- IWiQ==
+ :cc; bh=mvetXBU+NHdUWkDKp48TBnKK1qntd33MZb1+Io6rSMU=;
+ b=dL9HpPpEuSVxLKebhtvFFFz1t1J3xfC2YXMUm8oiJDlNxGd67lXZwnyG8HT0NMn0BV
+ jtTplJuF9W1TzLNJMLDdyHiKg4WyBJufiouNPiJjZN2tUby/NH7vyztVFtpneMjRu9An
+ QRYNeS0H05rZkwb6b6LKLf/ppAiB0NX0lw/0fH12KLnhi6Nkk2635jzcvoJf3xgTplrm
+ OGqu+JD0ZKpsYsV6lCzK/snH7Lw9VzqPKsd9u8UhCdIY5MEs74MHNmN5Bc9BAk2sC9Mm
+ DIEDsG36PQTKSAyODuSqOIhX0UKMGl7a7EuJG6ugvDLCsTZKwaqJYIDvQfVBxwuIex4n
+ ynpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=rddNDXD6w2TYwWkvfuo0TUEXGpS/Fy1rxTu9AAgWLoM=;
- b=RkDHxa9GeJqJjdtwN99FkHp4RXDHEVLk44nPrSAv1poeMKt6ECrQEV+AW+cEA8gUNL
- JPxkV345etGR7XS4vseMEEJHSVAtck0iD0s5Qq8dnb3u+FRq4vFAggayWdMCXKbT4M4y
- Ef/M9aOxMDVZgpLieFiLZi/4CC++BSH0sTUmum5HDHYrjOtidJL95MNAVkeAJJZq+ot4
- mnX01HFBOSbUQqJMwQnuULolqYBwakf2QJV3PIYVd53waK1vtq0hLBqpCSsAZQ6tekc7
- URp9inntkhVzyXjn80rQ+8SbiIaFu+p6M5I04TNZWweDI+Ni4LtlkgwEyoZff+S7EhZn
- 9vfg==
-X-Gm-Message-State: AJIora9HUdt+sEN+sxTTs03OW/Cof/OTMfEtEs0rSsnKiTNXWQX4R9c+
- ZyoL9pTSeqKkDJKNra2cmG+7sRXLHJKdyMEktfg=
-X-Google-Smtp-Source: AGRyM1sXEcYxWU0lnE5WtR4QJtDaEV5FZwqllM0aRCTXHpYxSiykM1SXyK/SEC94KESzjWv+vraYtwGgPuVFfqb75pI=
-X-Received: by 2002:a81:91d6:0:b0:322:13f1:5da3 with SMTP id
- i205-20020a8191d6000000b0032213f15da3mr157229ywg.156.1658933586139; Wed, 27
- Jul 2022 07:53:06 -0700 (PDT)
+ bh=mvetXBU+NHdUWkDKp48TBnKK1qntd33MZb1+Io6rSMU=;
+ b=R2VQoMpu3VUSL6DYEFpAnnUQwU26g+3dxf/gQXNQZ2bPyjH3j1g2Pd5RkHMgPPp6RK
+ 8Gelc1sV1eo9XZSnBk+CjzPTuQiWi4quGdNRcLKtRlkMTrm+nPkVvt5JNObtpzAIbCoY
+ PdRkio+LuhSupG9mTnZTkNnlpgLWHU30Je9wllv4N0veEhpBk1cPez3f54/WBb8ijRbw
+ p+GN/BpXXe39z9chu9luO1+VGQIZgqjfqVBuZ8TEkhNGi66om0MgK4uNIeKl99CGbXkY
+ mWsAyTsGHRZ4T2jCJrns8oRJ1o0bnGRLCdGoGLcQ1HSYGt/HqvkCvSR68VJ+qFN5esfF
+ u49g==
+X-Gm-Message-State: AJIora+FRM7YQXyOB4uugtf6mUnmRLrWqCzqWjeSPr+jY4N+lWLSs664
+ 3mRTeunuSpL2gk5te0RzNE3hxh6g1iervIY4SCuoLrCktwWMHw==
+X-Google-Smtp-Source: AGRyM1vSHGMo3Dbu3gh/MmCXGFUwV3nPQrR/w1WpoSSjnSDrkoDNoYwanl8YAnV3615cKQ5r66MbkE/M6/rR0nSbhrI=
+X-Received: by 2002:a81:d45:0:b0:31f:65a4:27ba with SMTP id
+ 66-20020a810d45000000b0031f65a427bamr2169991ywn.239.1658933635598; Wed, 27
+ Jul 2022 07:53:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <20220712021345.8530-9-faithilikerun@gmail.com>
-In-Reply-To: <20220712021345.8530-9-faithilikerun@gmail.com>
+ <20220712021345.8530-10-faithilikerun@gmail.com>
+In-Reply-To: <20220712021345.8530-10-faithilikerun@gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 27 Jul 2022 10:52:54 -0400
-Message-ID: <CAJSP0QVh-JWfhu__rxpeBBGO8w5nw9k8PkP5bJ9ocFUMk2Mj5A@mail.gmail.com>
-Subject: Re: [RFC v4 8/9] include: add support for zoned block devices
+Date: Wed, 27 Jul 2022 10:53:44 -0400
+Message-ID: <CAJSP0QXciO-hJaH8qswm13JOh-O0AMLV1ckFUvcTUr=8k_OBwA@mail.gmail.com>
+Subject: Re: [RFC v4 9/9] qapi: add support for zoned host device
 To: Sam Li <faithilikerun@gmail.com>
 Cc: qemu-devel <qemu-devel@nongnu.org>, 
  Damien Le Moal <damien.lemoal@opensource.wdc.com>,
@@ -64,8 +64,8 @@ Cc: qemu-devel <qemu-devel@nongnu.org>,
  Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1134;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1134.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1136.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,38 +88,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 at 22:21, Sam Li <faithilikerun@gmail.com> wrote:
+On Mon, 11 Jul 2022 at 22:31, Sam Li <faithilikerun@gmail.com> wrote:
 >
-> This is the virtio_blk.h header file from Dmitry's "virtio-blk: add
-> support for zoned block devices" patch. It introduces
-> virtio_blk_zoned_characteristics struct from Dmitry's virtio-blk zoned
-> storage spec.
->
-> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
 > ---
->  include/standard-headers/linux/virtio_blk.h | 157 ++++++++++++++++++--
->  1 file changed, 141 insertions(+), 16 deletions(-)
->
-> diff --git a/include/standard-headers/linux/virtio_blk.h b/include/standard-headers/linux/virtio_blk.h
-> index 2dcc90826a..f07fbe1b9b 100644
-> --- a/include/standard-headers/linux/virtio_blk.h
-> +++ b/include/standard-headers/linux/virtio_blk.h
-> @@ -25,10 +25,10 @@
->   * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
->   * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
->   * SUCH DAMAGE. */
-> -#include "standard-headers/linux/types.h"
-> -#include "standard-headers/linux/virtio_ids.h"
-> -#include "standard-headers/linux/virtio_config.h"
-> -#include "standard-headers/linux/virtio_types.h"
-> +#include <linux/types.h>
-> +#include <linux/virtio_ids.h>
-> +#include <linux/virtio_config.h>
-> +#include <linux/virtio_types.h>
+>  block/file-posix.c   | 8 +++++++-
+>  qapi/block-core.json | 7 +++++--
+>  2 files changed, 12 insertions(+), 3 deletions(-)
 
-This file can't be copied from Linux verbatim. It needs to be
-converted using scripts/update-linux-headers.sh.
+Please squash this into the patch that adds zoned_host_device.
 
 Stefan
 
