@@ -2,77 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF11B582652
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 14:24:07 +0200 (CEST)
-Received: from localhost ([::1]:33170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 449D7582663
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 14:26:53 +0200 (CEST)
+Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGg58-0005jY-W6
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 08:24:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49942)
+	id 1oGg7o-0007hb-DG
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 08:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oGfzm-0001Pg-2Z
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:18:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oGfzi-0006gk-N4
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:18:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658924310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=O9fnthMzfJLVM79QjbbMjM8a3h7O0bHpxqPLXB+XmNs=;
- b=f0irRHIVx+ih9efxOsHmTMGDwRQrjA04up0UEMO96AMbJSxP7HZjUDlZa+UmNBmm+1ldJ+
- InRQUAQR3ItRW1m0fUGaIjRlKZzSTaPXlcC7CvyKyL9D2piNf4At015GTud5rHphOcdYuZ
- 7NLRNzKzFAEmuAyAzDpLNN1U4P7ti1o=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-75-JYsAZtImMMG7lDpsGE4WQA-1; Wed, 27 Jul 2022 08:18:25 -0400
-X-MC-Unique: JYsAZtImMMG7lDpsGE4WQA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D36758001EA;
- Wed, 27 Jul 2022 12:18:24 +0000 (UTC)
-Received: from gondolin.fritz.box (unknown [10.39.193.143])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 73B8C492CA2;
- Wed, 27 Jul 2022 12:18:20 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH for-7.2] hw: Add compat machines for 7.2
-Date: Wed, 27 Jul 2022 14:17:55 +0200
-Message-Id: <20220727121755.395894-1-cohuck@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oGg4n-0005Ax-Un; Wed, 27 Jul 2022 08:23:45 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:36680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oGg4m-0007iK-BA; Wed, 27 Jul 2022 08:23:45 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ 15-20020a17090a098f00b001f305b453feso2034531pjo.1; 
+ Wed, 27 Jul 2022 05:23:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+ruz5ZV7m2FQZQa4g1aL3tUmblQr1UHvdV8mU5Q5wC8=;
+ b=kBbNWheBlEyzHEdeeOl+eXpOYLfeJXqeO9TQg/pGPx3jl15g/StYESse7iQQvGWhvG
+ GqclGYaZDv7TvJs0Svr4WUHWbdjm0KdmgQhPVGkvYzgnO7Tsk5Aewl+iuappR0G47jME
+ QU4dvKyfJoytYhhyN0gYhEilXOCA6z/3RcX8cDkGtFhr+N7uxJDW06K1xo8otMO2Fscp
+ XpGMI/9cfdX/SrE0TjVSOrIe4NFQk+tsMscodemz4fWx5iCG91i6csWIOefv4Cun9STu
+ rNIlGMf4+QmtHELvxkZxARzDZaU9NhhTVPjkNe5yMcbL+zbOKRK0cILLrdQW8T3U3Gp3
+ ktqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+ruz5ZV7m2FQZQa4g1aL3tUmblQr1UHvdV8mU5Q5wC8=;
+ b=03uZSn6ABZk9jLUWTZ4QrzR/M0KtXvnUFIBu9f0uekXeJfrb0cnhAktmW9GZv3FyV1
+ Bfq5ecRrKvVnaOKa2Aw0hLD7Cyi8+rDKSNnTBVf9K9XtJCl3sKEy1t6q27ryu0guAsD8
+ NX8BGofwVIeV4pU9+XjW4AQ9WXDN7OYa3doDXn3jYjV4x1Vzx85g9iFu3ssUUj5aJMJS
+ xDCqKZbhkidH5R7Fi8Dn+RVaM8N4LILgM6L8d82rdepJbK5obV9NB95LdMgGZlzF3s2T
+ sCuyi6rXdEp6g8dk6qvnI0VLUcRtNJ5d8Q9Nqquwed0Lw5wBpt7ICKKH5hV3KeboeKLw
+ yI2Q==
+X-Gm-Message-State: AJIora+u5VIq3cirorrImVGPCuiVtv12e9W8K+5LPPwvS/w8teLt/GC2
+ onQXj/PecTo8yO/GjIHMTMBuN6jFqMUZAzAOHro=
+X-Google-Smtp-Source: AGRyM1sFBPvdAUv5lBcFDZp7LUbLdH/0AVtMRQs1VMAiIKa4hSkkdZDxGxVwlO928KhMOVSSKI9pg1w2C8jPvj8hAZs=
+X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
+ gm14-20020a17090b100e00b001f30a4a2620mr3227304pjb.120.1658924622442; Wed, 27
+ Jul 2022 05:23:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220723090335.671105-1-atishp@rivosinc.com>
+In-Reply-To: <20220723090335.671105-1-atishp@rivosinc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 27 Jul 2022 22:23:16 +1000
+Message-ID: <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
+To: Atish Patra <atishp@rivosinc.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=alistair23@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,253 +84,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add 7.2 machine types for arm/i440fx/m68k/q35/s390x/spapr.
+On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
+>
+> Since commit 40244040a7ac, multi-socket configuration with plic is
+> broken as the hartid for second socket is calculated incorrectly.
+> The hartid stored in addr_config already includes the offset
+> for the base hartid for that socket. Adding it again would lead
+> to segfault while creating the plic device for the virt machine.
+> qdev_connect_gpio_out was also invoked with incorrect number of gpio
+> lines.
+>
+> Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_config buffer)
+>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>  hw/intc/sifive_plic.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index 56d60e9ac935..fdac028a521f 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
+>
+>      for (i = 0; i < plic->num_addrs; i++) {
+>          int cpu_num = plic->addr_config[i].hartid;
+> -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
+> +        CPUState *cpu = qemu_get_cpu(cpu_num);
+>
+>          if (plic->addr_config[i].mode == PLICMode_M) {
+> -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
+> +            qdev_connect_gpio_out(dev, cpu_num,
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- hw/arm/virt.c              |  9 ++++++++-
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/m68k/virt.c             |  9 ++++++++-
- hw/ppc/spapr.c             | 15 +++++++++++++--
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- 10 files changed, 79 insertions(+), 7 deletions(-)
+Argh!
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 9633f822f361..1a6480fd2a76 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -3094,10 +3094,17 @@ static void machvirt_machine_init(void)
- }
- type_init(machvirt_machine_init);
- 
-+static void virt_machine_7_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
-+
- static void virt_machine_7_1_options(MachineClass *mc)
- {
-+    virt_machine_7_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(7, 1)
-+DEFINE_VIRT_MACHINE(7, 1)
- 
- static void virt_machine_7_0_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index a673302ccec5..aa520e74a8c8 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -40,6 +40,9 @@
- #include "hw/virtio/virtio-pci.h"
- #include "qom/object_interfaces.h"
- 
-+GlobalProperty hw_compat_7_1[] = {};
-+const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
-+
- GlobalProperty hw_compat_7_0[] = {
-     { "arm-gicv3-common", "force-8-bit-prio", "on" },
-     { "nvme-ns", "eui64-default", "on"},
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 774cb2bf0748..31724c42ac90 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -107,6 +107,9 @@
-     { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
-     { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
- 
-+GlobalProperty pc_compat_7_1[] = {};
-+const size_t pc_compat_7_1_len = G_N_ELEMENTS(pc_compat_7_1);
-+
- GlobalProperty pc_compat_7_0[] = {};
- const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
- 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index a234989ac363..34fa0021c7be 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
- }
- 
--static void pc_i440fx_7_1_machine_options(MachineClass *m)
-+static void pc_i440fx_7_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -433,6 +433,18 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
-+                      pc_i440fx_7_2_machine_options);
-+
-+static void pc_i440fx_7_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_7_2_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-+    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
-+}
-+
- DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
-                       pc_i440fx_7_1_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index f96cbd04e284..38634cd11413 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -362,7 +362,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_7_1_machine_options(MachineClass *m)
-+static void pc_q35_7_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -370,6 +370,17 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
-+                   pc_q35_7_2_machine_options);
-+
-+static void pc_q35_7_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_7_2_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-+    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
-+}
-+
- DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
-                    pc_q35_7_1_machine_options);
- 
-diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-index 0aa383fa6bda..3122c8ef2c38 100644
---- a/hw/m68k/virt.c
-+++ b/hw/m68k/virt.c
-@@ -322,10 +322,17 @@ type_init(virt_machine_register_types)
-     } \
-     type_init(machvirt_machine_##major##_##minor##_init);
- 
-+static void virt_machine_7_2_options(MachineClass *mc)
-+{
-+}
-+DEFINE_VIRT_MACHINE(7, 2, true)
-+
- static void virt_machine_7_1_options(MachineClass *mc)
- {
-+    virt_machine_7_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
- }
--DEFINE_VIRT_MACHINE(7, 1, true)
-+DEFINE_VIRT_MACHINE(7, 1, false)
- 
- static void virt_machine_7_0_options(MachineClass *mc)
- {
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index bc9ba6e6dcf2..fb790b61e442 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4730,15 +4730,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
-     }                                                                \
-     type_init(spapr_machine_register_##suffix)
- 
-+/*
-+ * pseries-7.2
-+ */
-+static void spapr_machine_7_2_class_options(MachineClass *mc)
-+{
-+    /* Defaults for the latest behaviour inherited from the base class */
-+}
-+
-+DEFINE_SPAPR_MACHINE(7_2, "7.2", true);
-+
- /*
-  * pseries-7.1
-  */
- static void spapr_machine_7_1_class_options(MachineClass *mc)
- {
--    /* Defaults for the latest behaviour inherited from the base class */
-+    spapr_machine_7_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
- }
- 
--DEFINE_SPAPR_MACHINE(7_1, "7.1", true);
-+DEFINE_SPAPR_MACHINE(7_1, "7.1", false);
- 
- /*
-  * pseries-7.0
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index cc3097bfee80..bf1b36d824db 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -792,14 +792,26 @@ bool css_migration_enabled(void)
-     }                                                                         \
-     type_init(ccw_machine_register_##suffix)
- 
-+static void ccw_machine_7_2_instance_options(MachineState *machine)
-+{
-+}
-+
-+static void ccw_machine_7_2_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(7_2, "7.2", true);
-+
- static void ccw_machine_7_1_instance_options(MachineState *machine)
- {
-+    ccw_machine_7_2_instance_options(machine);
- }
- 
- static void ccw_machine_7_1_class_options(MachineClass *mc)
- {
-+    ccw_machine_7_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
- }
--DEFINE_CCW_MACHINE(7_1, "7.1", true);
-+DEFINE_CCW_MACHINE(7_1, "7.1", false);
- 
- static void ccw_machine_7_0_instance_options(MachineState *machine)
- {
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index d94edcef2883..487243a39c84 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -380,6 +380,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
-+extern GlobalProperty hw_compat_7_1[];
-+extern const size_t hw_compat_7_1_len;
-+
- extern GlobalProperty hw_compat_7_0[];
- extern const size_t hw_compat_7_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index b7735dccfc81..4517fa08f2e9 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -195,6 +195,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
- /* sgx.c */
- void pc_machine_init_sgx_epc(PCMachineState *pcms);
- 
-+extern GlobalProperty pc_compat_7_1[];
-+extern const size_t pc_compat_7_1_len;
-+
- extern GlobalProperty pc_compat_7_0[];
- extern const size_t pc_compat_7_0_len;
- 
--- 
-2.35.3
+I was trying to get this ready to go into 7.1. I have been working on
+updating my tests to catch this failure in the future as well.
 
+While testing this change I noticed that it breaks the noMMU test case.
+
+I think the correct fix is actually this (on top of your patch):
+
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index fdac028a52..af4ae3630e 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char
+*hart_config,
+        CPUState *cpu = qemu_get_cpu(cpu_num);
+
+        if (plic->addr_config[i].mode == PLICMode_M) {
+-            qdev_connect_gpio_out(dev, cpu_num,
++            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base + cpu_num,
+                                  qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+        }
+        if (plic->addr_config[i].mode == PLICMode_S) {
+
+The idea is that we need to increment the second argument to
+qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S
+case.
+
+This ensures that we do that correctly without breaking anything.
+
+How does that look to you?
+
+Alistair
+
+>                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
+>          }
+>          if (plic->addr_config[i].mode == PLICMode_S) {
+> --
+> 2.25.1
+>
+>
 
