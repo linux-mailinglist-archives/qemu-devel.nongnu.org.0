@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B3E58223F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:35:33 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8611258226C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:51:10 +0200 (CEST)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGcVt-0004BD-ST
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56658)
+	id 1oGcl1-0006Jc-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:51:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oGcPd-00009n-DE
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:29:01 -0400
-Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:42465)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oGcPZ-0001oB-8z
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:29:00 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.194])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 1C6C220A62;
- Wed, 27 Jul 2022 08:28:47 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 27 Jul
- 2022 10:28:46 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002ebc09e51-502e-4a3b-8938-89a0c14635b2,
- D92FAF4A07D3D917E7F8426E5A0F17E38A049A7F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <a7f02b8a-a132-5b8f-6ceb-0d6920ce2a22@kaod.org>
-Date: Wed, 27 Jul 2022 10:28:38 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGcVE-00042L-6v; Wed, 27 Jul 2022 04:34:48 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:60966 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGcVA-0002cK-Hw; Wed, 27 Jul 2022 04:34:47 -0400
+Received: from [192.168.3.6] (unknown [116.224.155.20])
+ by APP-01 (Coremail) with SMTP id qwCowAAHTJyX+OBi8Hj7Ag--.49997S2;
+ Wed, 27 Jul 2022 16:34:32 +0800 (CST)
+Subject: Re: [PATCH v11 2/6] target/riscv: Simplify counter predicate function
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
+ <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, qemu-riscv@nongnu.org
+References: <20220727064913.1041427-1-atishp@rivosinc.com>
+ <20220727064913.1041427-3-atishp@rivosinc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <4fe4fca9-71ea-de77-1db1-b02302599881@iscas.ac.cn>
+Date: Wed, 27 Jul 2022 16:34:31 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
+In-Reply-To: <20220727064913.1041427-3-atishp@rivosinc.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>
-CC: <qemu-ppc@nongnu.org>, BALATON Zoltan <balaton@eik.bme.hu>, Daniel
- Henrique Barboza <danielhb413@gmail.com>
-References: <20220726182341.1888115-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <20220726182341.1888115-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: b741d1cf-888a-430e-93e7-5f30d1222390
-X-Ovh-Tracer-Id: 17815677178140003235
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevudehheeggeehvdetuedvieeugfelgedujeelvdelveehvddtjeeiveetteegffenucffohhmrghinhepghhithhhuhgsrdgtohhmpdgrrhhoshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheegke
-Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
- helo=4.mo548.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-CM-TRANSID: qwCowAAHTJyX+OBi8Hj7Ag--.49997S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtr4kAr18AryUXFWfCr4kWFg_yoW7Cry7pa
+ 13ta17K39avr9rCa9rJ3WDGr1kuryxJay5Gw45Gw4vkw45JFn8Xa4Duw4jqa4rt345tw4v
+ gF4Uu3s8ua1UWa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1U
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0JUx73kUUUUU=
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,63 +79,180 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 20:23, Peter Maydell wrote:
-> This patchset is mainly trying to fix a problem that Coverity spotted
-> in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the code
-> is not correctly using the cpu_physical_memory_map() function.
-> While I was fixing that I noticed a second problem in this code,
-> where it doesn't have a fallback for when cpu_physical_memory_map()
-> says "I couldn't map that for you".
-> 
-> I've marked these patches as RFC, partly because I don't have any
-> guest that would exercise the code changes[*], 
 
-I build these :
+ÔÚ 2022/7/27 ÏÂÎç2:49, Atish Patra Ð´µÀ:
+> All the hpmcounters and the fixed counters (CY, IR, TM) can be represented
+> as a unified counter. Thus, the predicate function doesn't need handle each
+> case separately.
+>
+> Simplify the predicate function so that we just handle things differently
+> between RV32/RV64 and S/HS mode.
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   target/riscv/csr.c | 112 +++++----------------------------------------
+>   1 file changed, 11 insertions(+), 101 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 1233bfa0a726..57dbbf9b09a0 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>       CPUState *cs = env_cpu(env);
+>       RISCVCPU *cpu = RISCV_CPU(cs);
+>       int ctr_index;
+> +    target_ulong ctr_mask;
+>       int base_csrno = CSR_CYCLE;
+>       bool rv32 = riscv_cpu_mxl(env) == MXL_RV32 ? true : false;
+>   
+> @@ -82,122 +83,31 @@ static RISCVException ctr(CPURISCVState *env, int csrno)
+>           base_csrno += 0x80;
+>       }
+>       ctr_index = csrno - base_csrno;
+> +    ctr_mask = BIT(ctr_index);
+>   
+>       if ((csrno >= CSR_CYCLE && csrno <= CSR_INSTRET) ||
+>           (csrno >= CSR_CYCLEH && csrno <= CSR_INSTRETH)) {
+>           goto skip_ext_pmu_check;
+>       }
+>   
+> -    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs & BIT(ctr_index)))) {
+> +    if (!(cpu->pmu_avail_ctrs & ctr_mask)) {
+>           /* No counter is enabled in PMU or the counter is out of range */
+>           return RISCV_EXCP_ILLEGAL_INST;
+>       }
+>   
+>   skip_ext_pmu_check:
+>   
+> -    if (env->priv == PRV_S) {
+> -        switch (csrno) {
+> -        case CSR_CYCLE:
+> -            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                return RISCV_EXCP_ILLEGAL_INST;
+> -            }
+> -            break;
+> -        case CSR_TIME:
+> -            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                return RISCV_EXCP_ILLEGAL_INST;
+> -            }
+> -            break;
+> -        case CSR_INSTRET:
+> -            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                return RISCV_EXCP_ILLEGAL_INST;
+> -            }
+> -            break;
+> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> -                return RISCV_EXCP_ILLEGAL_INST;
+> -            }
+> -            break;
+> -        }
+> -        if (rv32) {
+> -            switch (csrno) {
+> -            case CSR_CYCLEH:
+> -                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                    return RISCV_EXCP_ILLEGAL_INST;
+> -                }
+> -                break;
+> -            case CSR_TIMEH:
+> -                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                    return RISCV_EXCP_ILLEGAL_INST;
+> -                }
+> -                break;
+> -            case CSR_INSTRETH:
+> -                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                    return RISCV_EXCP_ILLEGAL_INST;
+> -                }
+> -                break;
+> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                if (!get_field(env->mcounteren, 1 << ctr_index)) {
+> -                    return RISCV_EXCP_ILLEGAL_INST;
+> -                }
+> -                break;
+> -            }
+> -        }
+> +    if (((env->priv == PRV_S) && (!get_field(env->mcounteren, ctr_mask))) ||
+> +       ((env->priv == PRV_U) && (!get_field(env->scounteren, ctr_mask)))) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+>       }
+>   
+>       if (riscv_cpu_virt_enabled(env)) {
+> -        switch (csrno) {
+> -        case CSR_CYCLE:
+> -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> -                get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_TIME:
+> -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> -                get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_INSTRET:
+> -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> -                get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
+> -            if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> -                 get_field(env->mcounteren, 1 << ctr_index)) {
+> -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -            }
+> -            break;
+> -        }
+> -        if (rv32) {
+> -            switch (csrno) {
+> -            case CSR_CYCLEH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
+> -                    get_field(env->mcounteren, COUNTEREN_CY)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_TIMEH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
+> -                    get_field(env->mcounteren, COUNTEREN_TM)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_INSTRETH:
+> -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
+> -                    get_field(env->mcounteren, COUNTEREN_IR)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
+> -                if (!get_field(env->hcounteren, 1 << ctr_index) &&
+> -                     get_field(env->mcounteren, 1 << ctr_index)) {
+> -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> -                }
+> -                break;
+> -            }
+> +        if (!get_field(env->mcounteren, ctr_mask)) {
+> +            /* The bit must be set in mcountern for HS mode access */
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +        } else if (!get_field(env->hcounteren, ctr_mask)) {
+> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+>           }
 
-   https://github.com/legoater/qemu-ppc-boot/tree/main/buildroot/qemu_ppc_sam460ex-2022.02-4-geae5011c83-20220309
+The logic is changed here. In original logic, 
+RISCV_EXCP_VIRT_INSTRUCTION_FAULT is triggered when
 
-but none of the DCR DMA registers are used.
+!get_field(env->hcounteren, 1 << ctr_index) && get_field(env->mcounteren, 1 << ctr_index)
 
-There are images for the sam460ex images here :
+The new logic is RISCV_EXCP_VIRT_INSTRUCTION_FAULT is triggered when !get_field(env->mcounteren, ctr_mask)
 
-   http://www.aros.org/nightly1.php
+or !get_field(env->hcounteren, 1 << ctr_index) && get_field(env->mcounteren, 1 << ctr_index)
 
-But AFAICT, it does not go beyond the bootloader.
+Regards,
 
-> and partly because
-> I don't have any documentation of the hardware to tell me how it
-> should behave, so patch 2 in particular has some FIXMEs. I also
-> notice that the code doesn't update any of the registers like the
-> count or source/base addresses when the DMA transfer happens, which
-> seems odd, but perhaps the real hardware does work like that.
-> 
-> I think we should probably take patch 1 (which is a fairly minimal
-> fix of the use-of-uninitialized-data problem),
+Weiwei Li
 
-LGTM,
-
-Thanks,
-
-C.
-
-
-
-
-> but patch 2 is a bit more unfinished.
-> 
-> [*] The commit 3c409c1927efde2fc that added this code says it's used
-> by AmigaOS.)
-> 
-> thanks
-> -- PMM
-> 
-> Peter Maydell (2):
->    hw/ppc/ppc440_uc: Initialize length passed to
->      cpu_physical_memory_map()
->    hw/ppc/ppc440_uc: Handle mapping failure in DMA engine
-> 
->   hw/ppc/ppc440_uc.c | 34 +++++++++++++++++++++++++++++++++-
->   1 file changed, 33 insertions(+), 1 deletion(-)
-> 
+>       }
+>   #endif
 
 
