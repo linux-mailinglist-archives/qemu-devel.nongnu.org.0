@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF2F582955
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:11:12 +0200 (CEST)
-Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55724582960
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:13:47 +0200 (CEST)
+Received: from localhost ([::1]:38794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGigo-00041D-IA
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33402)
+	id 1oGijK-0005py-Di
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:13:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGice-0001Gp-KP; Wed, 27 Jul 2022 11:06:56 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGicc-00025A-R8; Wed, 27 Jul 2022 11:06:52 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id i14so30715375yba.1;
- Wed, 27 Jul 2022 08:06:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x9fg7H1MtH0wbLzFHDc3g3kIU9HllXQeawZXX0g4nJ0=;
- b=PhRIOJy9iWFaHqq7n+5Z8Qn6Tj+iX1HypgEmCQzbv37CnMnfdm2tG7Jo7yj9QnXYwg
- oXo+nNlYe2+cLp5F/2K138nAXaCgyK1BWUj7yBVwmKKmB7iHFhRSiZNNuIoPhmPnvYCE
- 73C5X/d5+GiHumy9TxrDYO2hS63egIXFEPsM+4EBP3ZRd+1OBPWyoeahdKSJfnrLGVLf
- eb4DUHJksjpU6RQ+0fELGwk3ZKnFAjotNUNZTb0TKCzGmCoywlLBsq+SxJzg85H5OfkJ
- OxTPzXzsJtgb0GXe8EtHzhg2ufJYPWzLYaznhu+m4APSSc5guU17RNbAgy30SwyXGze5
- khTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=x9fg7H1MtH0wbLzFHDc3g3kIU9HllXQeawZXX0g4nJ0=;
- b=Q8beF3RmWC2bh6Eq3e0Ib0W/f7YBUOyRBgUvADbZTx7rQCAB8RavJOPM7uOyyeO947
- DVF4an9vtsiLUKxWI4M07XJkgU328LzCNG82bOAVSZVtj+wCjripHCCj1ch5gI9fPZ7U
- raXf0mWtolBn2WBW9a1RYxsBJ1giixnuDEIN/70bAHfXil83mZh53k/3GPSm3zBlxK5w
- yx1BMtabvm8iS+amzml8bPTuoSSWhdMVpXXYtJ/iaxqrQwzJAuUz3dxZTISoAoID+jvL
- JEWCot2Dnqdamf4GcxRcZ0kFPRs1m6J3UwedqbYiznqtgx0efq1sm9vRmXHvYlaKtShn
- WA2w==
-X-Gm-Message-State: AJIora8qb38F/8F3qM6HKGpVbof22DaCc/iDfhpgnIf0U+mhb96YcFMA
- GW/fepB3O7Xx+z1uUoEYPVUqb5J+nIdHfuSH+vc=
-X-Google-Smtp-Source: AGRyM1uTv0h7HxS7wEMFY5lCQXZrdB7xzZawjAhjPUagWI5arYmw1qrvgKERTlspejMW6wBDFc1mWQmJvOswreHcS9U=
-X-Received: by 2002:a25:238d:0:b0:673:4607:acf4 with SMTP id
- j135-20020a25238d000000b006734607acf4mr687229ybj.209.1658934409433; Wed, 27
- Jul 2022 08:06:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
-In-Reply-To: <20220712021345.8530-1-faithilikerun@gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 27 Jul 2022 11:06:37 -0400
-Message-ID: <CAJSP0QUhg-5xioYmJzmjeXqPrZ_GB1dMxQj230neQp2mUNEMcw@mail.gmail.com>
-Subject: Re: [RFC v4 0/9] Add support for zoned device
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Markus Armbruster <armbru@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>, 
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oGifj-0003Q2-R6
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:10:04 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:47430 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oGiff-0002KU-Ge
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:10:03 -0400
+Received: from smtpclient.apple (unknown [221.220.143.85])
+ by APP-05 (Coremail) with SMTP id zQCowADnlew7VeFiIqZQEw--.62699S2;
+ Wed, 27 Jul 2022 23:09:49 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <YuD1k54rwj1whnE6@apples>
+Date: Wed, 27 Jul 2022 23:09:40 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>, kbusch@kernel.org,
+ Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <B2CD2E1C-BBEE-42D2-9A94-3D3657012E99@ict.ac.cn>
+References: <D12147BE-7F7A-4F41-9317-765F7EB2E971@ict.ac.cn>
+ <Yt+avxgBxcwrxYgi@apples> <869047CA-DD0A-45D1-9DBA-2BA1A3E00ADF@ict.ac.cn>
+ <Yt+xpMzwRWvn3QqR@apples> <Yt+9Spzi17LRRexQ@apples> <Yt/O8+n1pf3SRR7e@apples>
+ <Yt/Qs5PelXjX8E1v@apples> <Yt/ZKVHjSTTt08MV@apples> <YuDkBkrqXaosJbRM@apples>
+ <42878984-948E-4D65-8CA0-293564640F35@ict.ac.cn> <YuD1k54rwj1whnE6@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowADnlew7VeFiIqZQEw--.62699S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrur1ktFy7ZF1rWryxJF1rXrb_yoWkGrbE9w
+ 48Jr93Kws7ZrsIkrZIkw47XrW2grW8Gw1DKw4UWry3JF4rtFsruF40gFnYyrWUZ3y5J345
+ KrnxXr1aqw1UZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUb28YjsxI4VWkKwAYFVCjjxCrM7AC8VAFwI0_Gr0_Xr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
+ A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IE
+ w4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMc
+ vjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY02Avz4vE14v_XrWl42xK82IY
+ c2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+ 026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF
+ 0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0x
+ vE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2
+ jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07brJPiUUUUU=
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,37 +80,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series introduces the concept of zoned storage to the QEMU
-block layer. Documentation is needed so that users and developers know
-how to use and maintain this feature.
+After digging through the source code, I found event_notifier_cleanup() =
+only
+closes the eventfd, but does not de-register the event from QEMU=E2=80=99s=
+ event
+loop. event_notifier_set_handler() actually interacts with the event =
+loop.
+It is a wrapper around aio_set_event_notifier(), which is again a =
+wrapper of
+aio_set_fd_handler(). Passing in a handler of NULL means removing the fd
+handler from the event loop.
 
-As a minimum, let's document how to pass through zoned block devices on Linux:
+Therefore, originally in nvme_free_sq/cq(), we closed the eventfd but =
+did
+not delete its handler. I guess maybe sometime later the fd is reused =
+and
+that corresponding file is somehow written (A POLLIN event), this will
+trigger the event loop to call the stale handler, which causes this bug.
 
-diff --git a/docs/system/qemu-block-drivers.rst.inc
-b/docs/system/qemu-block-drivers.rst.inc
-index dfe5d2293d..f6ba05710a 100644
---- a/docs/system/qemu-block-drivers.rst.inc
-+++ b/docs/system/qemu-block-drivers.rst.inc
-@@ -430,6 +430,12 @@ Hard disks
-   you may corrupt your host data (use the ``-snapshot`` command
-   line option or modify the device permissions accordingly).
+So the correct order is:
 
-+Zoned block devices
-+  Zoned block devices can be passed through to the guest if the emulated
-+  storage controller supports zoned storage. Use ``--blockdev
-+  zoned_host_device,node-name=drive0,filename=/dev/nullb0`` to pass through
-+  ``/dev/nullb0`` as ``drive0``.
-+
- Windows
- ^^^^^^^
+Init:
+1. event_notifier_init: Open the eventfd
+2. event_notifier_set_handler: Register on the event loop
+3. memory_region_add_eventfd: Associate with IO region
 
-For developers there should be an explanation of the zoned storage
-APIs and how BlockDrivers declare support. It should also mention the
-status of pass through (implemented in the zoned_host_device driver)
-vs zone emulation (not implemented in the QEMU block layer) so
-developers understand the block layer's zoned storage capabilities.
-You can add a docs/devel/zoned-storage.rst file to document this or
-let me know if you want me to write it.
+Cleanup:
+1. memory_region_del_eventfd: De-associate with IO region
+2. event_notifier_set_handler(NULL): Remove from the event loop
+3. event_notifier_cleanup: Close the eventfd
 
-Stefan
 
