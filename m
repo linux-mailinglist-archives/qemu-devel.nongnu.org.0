@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EA0581DD4
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 04:58:46 +0200 (CEST)
-Received: from localhost ([::1]:53942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4941C581E14
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 05:16:13 +0200 (CEST)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGXG1-0001tx-4d
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 22:58:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34590)
+	id 1oGXWt-0004N4-S0
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jul 2022 23:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oGXEK-0000Vb-N7
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 22:57:00 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:38304 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oGXEH-0006oi-9i
- for qemu-devel@nongnu.org; Tue, 26 Jul 2022 22:57:00 -0400
-Received: from smtpclient.apple (unknown [159.226.43.13])
- by APP-01 (Coremail) with SMTP id qwCowABHjZ1jqeBixyHhAg--.3679S2;
- Wed, 27 Jul 2022 10:56:36 +0800 (CST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] hw/nvme: Add iothread support
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <YuAtWPjAu2j+ttvo@kbusch-mbp.dhcp.thefacebook.com>
-Date: Wed, 27 Jul 2022 10:56:35 +0800
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- Klaus Birkelund Jensen <its@irrelevant.dk>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1FBBC9E0-81BD-47EA-92A0-DDBFDFDFA33F@ict.ac.cn>
-References: <20220720090053.309229-1-fanjinhao21s@ict.ac.cn>
- <E29F6EF6-F2BF-41F4-B04E-E6D901D64078@ict.ac.cn>
- <Yt/+GfYPyeM4gFdq@kbusch-mbp.dhcp.thefacebook.com>
- <2606E835-E12F-4AE2-8CBC-7267016AAB7B@ict.ac.cn>
- <YuAtWPjAu2j+ttvo@kbusch-mbp.dhcp.thefacebook.com>
-To: Keith Busch <kbusch@kernel.org>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: qwCowABHjZ1jqeBixyHhAg--.3679S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFWfXF4xXr45Ww4kAry7Jrb_yoW3XFbE9F
- n5uayfGa17Z3yY9Fy5KrnrAr47J3yxXryFv39FvryYg39YqF95trnagr45u3WrXFWkXFyr
- GrWqqr1Fvry8WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJTRUUUbwxYjsxI4VW3JwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
- 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
- 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
- cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
- 8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCF04k20xvY0x0EwIxGrwCF
- x2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14
- v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY
- 67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2
- IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
- xVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUc_-PUUUUU
-X-Originating-IP: [159.226.43.13]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGXU5-0000Or-7d
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:13:17 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oGXU2-0001UZ-04
+ for qemu-devel@nongnu.org; Tue, 26 Jul 2022 23:13:16 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id
+ b7-20020a17090a12c700b001f20eb82a08so820456pjg.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 20:13:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=4WC9f5lxSfx7hhl1OarFAfA2LCu5RHfDHjy7VyYabp4=;
+ b=kdKm3UYYBeOVX5Lhw1lwvX0HwV0rHuScfB/6Tcv4Lf2DvY2MsJYXfC6IpjC1Bw4sua
+ pzNfjqPVOZd7xt5ob0p6Q1Qk/o8A93DFs2T7HhQ6o/GBSdD6NmgAdUZa0wpofVtS4dQj
+ /CJnHh2chx7xaTPSKe5+sJRIY8fbS30jeDthFVYbmiKBG9z9jMYDHxr6zSzLpAW7BhyW
+ +WsLqChqTf8cEPrj0PYkakFLZIEenH0uNL4ND6N8WSnDsfmuWRuQWXyyqdPYylzsL+18
+ N7DAHJTAl4MQa8oh60Lx1jaUvi96oa82C3zUrxoOUnbB7GvnG0dKoPlKqh2UE6lKfynX
+ r+6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=4WC9f5lxSfx7hhl1OarFAfA2LCu5RHfDHjy7VyYabp4=;
+ b=sVV9LOTDTQ+Ew0XRhNYSJ/tX2K54qD8bcuguVe7995vJPkfM3GUGPNbTroUDejEMfH
+ ARt/cznS8afC7Ok38p2MK5GnOhzeDm22lpuyrZohiVSETsrBsTqhFYBxrE5OyAD7Lo8X
+ bOzbR/mYkXEhLZ0PuugtvRUI1bCeVkGFOLjSws52nfW+humMIe1E35O61+wMctBNDUPB
+ lCJQP2T0kLIgp4sdYJXgvSk6PBzv3vRdslMey7pL/Tdv8LllNp50rY26/D0r0/BSc0pA
+ 1uqhgGC3GiP4zzpIgkD3Yi2yrDSIiDXjAvbhqOh3+7q/JiMFPTQzX7N0/oUnn+WWV9/t
+ IMLw==
+X-Gm-Message-State: AJIora+ml+BKqstTo5FUfIM2jL5Fml3gln93ZS21UUQv2VHbxKkM/RlQ
+ Xge9rdRCxPEVuiPYQbfzSGr/aQ==
+X-Google-Smtp-Source: AGRyM1tJ5OLUBSihisF29lFu8Eb0THnm+ZintwWiaEkVTVUrAQByfOzpbeKJBzE9NuGJiEF21RpLaw==
+X-Received: by 2002:a17:902:ce09:b0:16c:c7b6:8b63 with SMTP id
+ k9-20020a170902ce0900b0016cc7b68b63mr19773969plg.35.1658891592320; 
+ Tue, 26 Jul 2022 20:13:12 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:4e4e:de15:7ffb:6b9b?
+ ([2602:ae:1549:801:4e4e:de15:7ffb:6b9b])
+ by smtp.gmail.com with ESMTPSA id
+ e1-20020a170902784100b0016d4f05eb95sm8227697pln.272.2022.07.26.20.13.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jul 2022 20:13:11 -0700 (PDT)
+Message-ID: <0c5d679f-367f-080d-7c46-137383fd054c@linaro.org>
+Date: Tue, 26 Jul 2022 20:13:09 -0700
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] hw/microblaze: pass random seed to fdt
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20220719122334.136290-1-Jason@zx2c4.com>
+ <CAJy5ezq7_F6uDrY6RuXe5ru0mAbmx-pBTQoFCtZj4DhEM7EZpw@mail.gmail.com>
+ <CAHmME9opYzwtK4oJo1bZo+9FDbXt6TfgybtFTfQpxqx6pOoGWA@mail.gmail.com>
+ <CAJy5ezp-x2R=4yg=S6Tq2U67N8J2mkXNJ=wkv1oqB3r37hiunQ@mail.gmail.com>
+ <CAHmME9r1L5PV8GB4HL+7QW7LRmy1fEh54A57M3aQ+0K_OwLPdQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAHmME9r1L5PV8GB4HL+7QW7LRmy1fEh54A57M3aQ+0K_OwLPdQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,24 +99,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 2:07 AM, Keith Busch <kbusch@kernel.org> wrote:
+On 7/26/22 18:49, Jason A. Donenfeld wrote:
+> Hi Edgar,
+> 
+> On Thu, Jul 21, 2022 at 8:43 PM Edgar E. Iglesias
+> <edgar.iglesias@gmail.com> wrote:
+>> Ah OK, Paolo, it would be great if you would take this via your tree!
+> 
+> It looks like Paolo never did this. So you might want to queue this
+> somewhere, or bug him to take it, or something. I don't know how this
+> works with 7.1-rc0 just being tagged, but I assume this means this has
+> to wait until 7.2
 
-> MSI-x uses MMIO for masking, so there's no need for an NVMe specific =
-way to
-> mask these interrupts. You can just use the generic PCIe methods to =
-clear the
-> vector's enable bit. But no NVMe driver that I know of is making use =
-of these
-> either, though it should be possible to make linux start doing that.
+Yes, it has missed the window by over a week now: soft freeze.
+You really should have kept all of these in one thread.
 
-I believe we need to handle MSI-x masking in the NVMe controller after =
-we
-switch to irqfd. Before that QEMU=E2=80=99s MSI-x emulation logic helps =
-us handle
-masked interrupts. But with irqfd, we bypass QEMU=E2=80=99s MSI-x and =
-let the kernel
-send the interrupt directly. Therefore qemu-nvme needs to do some
-bookkeeping about which interrupt vectors are masked.
-msix_set_vector_notifiers helps us do that.=
 
+r~
 
