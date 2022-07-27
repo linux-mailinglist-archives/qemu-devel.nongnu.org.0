@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476CC582A30
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:03:10 +0200 (CEST)
-Received: from localhost ([::1]:32932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F1CD582A32
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:03:22 +0200 (CEST)
+Received: from localhost ([::1]:33976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGjV1-0000gx-VS
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:03:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45618)
+	id 1oGjVH-0001Ne-DU
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:03:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGjPE-0002Bw-BK
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:04 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41501)
+ id 1oGjPF-0002I1-S5
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:05 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oGjPC-0001rq-RS
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:04 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id q18so14644483wrx.8
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:57:02 -0700 (PDT)
+ id 1oGjPE-0001tW-Ar
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:05 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q18so14644590wrx.8
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qn9sIffAzV9IF+yjjzIzifr78tit+1ZOBIt0UyqO2Rk=;
- b=ut+JAknea4rQt9AKGfQscWuPNlJ6r1xiDhvUbLU1irq2wMhyqw0J6JTlsIm8sCwYNZ
- xVnsEePP1haEDvHRCDen/zl/IUYGZYnfyO6BZQbhFU0sJ/8CJx7lugHh6+u2m9GxwlO7
- Oq311eBRM2KHU2Kn4UfCfdzrZkkaRdMNwYqf+ztGiC+C25BYvg7eIeAj79/WH+DF15Yd
- OPwgmElW9+SEJSzeg7UdRA8Rrfz5wR25EAhgrDOk79Q4siMpzit60v2Uxuhf8hd54KtO
- ha4+geR57RIr6GATMS6hjtitUZpZTuyFPhLHIrpQUsoxomHgQt1iwEwd/20D/+vax/vY
- gPXw==
+ bh=4eDTMZuplKv3vlzOJLUiGIKcACQb4M3CCNXBulI4W+E=;
+ b=YvWVUPI3vG9fbc0RtpFuSD3OiJxdNxsB03LeOtR+JfYT+ou1Jni6Oykt736WkS9rRz
+ 2HWD6oY9q+3sFLwEfpf2Ux2pNXbA5ujf8CyU56F15RzQubJC5XugJ5X4gC8/zmp+h3r+
+ Ymj9MjjxMn7G0IfZe3/SJXzROhlQaRQEhHuMqBIQB0dXTYwESVFFBZM9gccAJWDfvJuY
+ KzFpe8gVCZFl+KpyAMaMQ2OseO2axhYyKBnXdYaJ2BT5cpYtp+oIK39+Y8ThmuZGG99h
+ yGunOxqyemX/v8rviTiJuTNPgnn8+bpihV4UrcRsLJLmxbDoHuZnrsv3pyCBePMD3WJR
+ 2apA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qn9sIffAzV9IF+yjjzIzifr78tit+1ZOBIt0UyqO2Rk=;
- b=1AODFBYCMqMwqVkbQBpnsTIxEErO00bp/G+wHI0gtXQnotOKqyKmO5bImpvNaeB4bg
- I+my12GErKPH9gijvKpH1BMJcK3F6IbjzLk2fmhewkUzss0W7EuDa8Q2Zx0AltFFf1xh
- lGE5SnGNAGmqOxawSxdNV6zkKQBsJVNnc5AUolLz7UkH2J2xmsEgdVlYgL00jni0fwH3
- TyuHwB0BDSLNIFd5IU6YzUSh94yDK8bs4SSUzV7n7whlJe2Y4LH9Kk7i2SRHpRJPhhp3
- yx7o1WPLlGbBQ+qngvJvTfpoe1k17wvjHNxTeTi6iGnA623zzBtp5wvcZSy6Ze613Xda
- pLYA==
-X-Gm-Message-State: AJIora9AS9fdGqJwANw5UlHPAYwBwpmUEviZKjS18z9igt/lhGoqNvFf
- dq6NI9+lwJjFif/N60iDuxPjMQ==
-X-Google-Smtp-Source: AGRyM1uqX+yN5pThZf/4NHdNj940Px3JypPsXfOEnq7L3z5179bBFpB7i0FMdUc05PuRRhm5pIvFQg==
-X-Received: by 2002:a05:600c:4110:b0:3a3:33cd:3984 with SMTP id
- j16-20020a05600c411000b003a333cd3984mr3560159wmi.128.1658937422182; 
+ bh=4eDTMZuplKv3vlzOJLUiGIKcACQb4M3CCNXBulI4W+E=;
+ b=dB+Hyq2cIWDJMh6/2FghjlHLvnx30XFwaLrzaN4LxLfnt3AHfUjUUdZWOJbzNkPKqg
+ tzhsX5gJnv1bX50Y7mWpvpuw4Y1cXleXwke4VOr/R/AHukmlybRFs701FxK6Iztyb1xq
+ TWaNtOL7YNir7xk38PUYxBfx89s8aDURe+ctagqInnVE0PK9//+sQ8J/q9Hn8FAyzwFg
+ 8oGqbY344SdT3i8yZxLcpqHNiMyCZJS7UHJM3z+BFIEGJySz/BTvqs9E44Yh+ZXbutK8
+ Xl9HMSJv/L6OCmwal6d4TI/z5G69Oi3jX23tE9imPd8/cYC4al73KG9nGyx/gOEJa4JP
+ MMew==
+X-Gm-Message-State: AJIora8bdMd+85htVaIeKrnT/p4HFOq+kMqzG90zONPWXFMPpTO201rz
+ aWgBhOy/zyA4yxFnHriRuUGfew==
+X-Google-Smtp-Source: AGRyM1sVVUbJ3P3x8nfP2DxMMPeYsm3jKKPyxg5VDB1oFfq3GWVTdf5gDSUNliXPNmMIKjJIEO+0gA==
+X-Received: by 2002:a05:600c:1d1b:b0:3a3:e2:42d1 with SMTP id
+ l27-20020a05600c1d1b00b003a300e242d1mr3511625wms.137.1658937422833; 
  Wed, 27 Jul 2022 08:57:02 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- w10-20020adfde8a000000b0021e50971147sm17337016wrl.44.2022.07.27.08.56.54
+ p12-20020a05600c23cc00b003a2c67aa6c0sm3075944wmb.23.2022.07.27.08.56.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 08:56:56 -0700 (PDT)
+ Wed, 27 Jul 2022 08:57:01 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AF42E1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id C5DC31FFBD;
  Wed, 27 Jul 2022 16:56:53 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: mst@redhat.com,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v1 4/5] hw/virtio: handle un-configured shutdown in virtio-pci
-Date: Wed, 27 Jul 2022 16:56:52 +0100
-Message-Id: <20220727155653.3974426-5-alex.bennee@linaro.org>
+Subject: [PATCH  v1 5/5] hw/virtio: fix vhost_user_read tracepoint
+Date: Wed, 27 Jul 2022 16:56:53 +0100
+Message-Id: <20220727155653.3974426-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220727155653.3974426-1-alex.bennee@linaro.org>
 References: <20220727155653.3974426-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,38 +93,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The assert() protecting against leakage is a little aggressive and
-causes needless crashes if a device is shutdown without having been
-configured. In this case no descriptors are lost because none have
-been assigned.
+As reads happen in the callback we were never seeing them. We only
+really care about the header so move the tracepoint to when the header
+is complete.
 
+Fixes: 6ca6d8ee9d (hw/virtio: add vhost_user_[read|write] trace points)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220726192150.2435175-9-alex.bennee@linaro.org>
+Message-Id: <20220726192150.2435175-10-alex.bennee@linaro.org>
 ---
- hw/virtio/virtio-pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-user.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 45327f0b31..5ce61f9b45 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -996,9 +996,14 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 1936a44e82..c0b50deaf2 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -295,6 +295,8 @@ static int vhost_user_read_header(struct vhost_dev *dev, VhostUserMsg *msg)
+         return -EPROTO;
+     }
  
-     nvqs = MIN(nvqs, VIRTIO_QUEUE_MAX);
++    trace_vhost_user_read(msg->hdr.request, msg->hdr.flags);
++
+     return 0;
+ }
  
--    /* When deassigning, pass a consistent nvqs value
--     * to avoid leaking notifiers.
-+    /*
-+     * When deassigning, pass a consistent nvqs value to avoid leaking
-+     * notifiers. But first check we've actually been configured, exit
-+     * early if we haven't.
-      */
-+    if (!assign && !proxy->nvqs_with_notifiers) {
-+        return 0;
-+    }
-     assert(assign || nvqs == proxy->nvqs_with_notifiers);
+@@ -544,8 +546,6 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+         }
+     }
  
-     proxy->nvqs_with_notifiers = nvqs;
+-    trace_vhost_user_read(msg.hdr.request, msg.hdr.flags);
+-
+     return 0;
+ }
+ 
 -- 
 2.30.2
 
