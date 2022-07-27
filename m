@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34351583367
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:21:35 +0200 (CEST)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1ADF583383
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:25:38 +0200 (CEST)
+Received: from localhost ([::1]:46746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGmb7-0007bu-Fn
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:21:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51488)
+	id 1oGmf2-00029s-SP
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:25:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGmNG-0008D1-Lz; Wed, 27 Jul 2022 15:07:15 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:46338)
+ id 1oGmNH-0008D3-BH; Wed, 27 Jul 2022 15:07:15 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:50376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGmNC-00051q-FX; Wed, 27 Jul 2022 15:07:13 -0400
+ id 1oGmNE-000521-Ai; Wed, 27 Jul 2022 15:07:13 -0400
 Received: from iva8-3a65cceff156.qloud-c.yandex.net
  (iva8-3a65cceff156.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 9F1DB2E206D;
- Wed, 27 Jul 2022 22:07:00 +0300 (MSK)
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 263BA2E0974;
+ Wed, 27 Jul 2022 22:07:02 +0300 (MSK)
 Received: from localhost.localdomain (172.31.41.131-vpn.dhcp.yndx.net
  [172.31.41.131])
  by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- lEd3EUqO2s-6wOOts0F; Wed, 27 Jul 2022 22:06:59 +0300
+ lEd3EUqO2s-70OOsEgk; Wed, 27 Jul 2022 22:07:01 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1658948819; bh=lwbA1fVen4BaZnWdH6dj3oNIg6PuEtrKfsEn1Lfs3RE=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=uC2K0KG//Y1zyJn3mvQSjVyCPaMfqUIndz5fmuacht3RWopzcKNCToPWWGClTaefY
- 9uL1X+Kmo58nwcSVg4YrDnVNqPuydZkJSrElH8TtFWNMunUtgMEhwhCm5hQic0nqVz
- KlszHxZGAy80AoikTuwN9wHeY1NKjZDmnLjTkyc8=
+ t=1658948821; bh=ITm4/qIgvcgoWJmSBIq+Z1cbVfBb36dogMDzX7p/ShE=;
+ h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
+ b=xhfuKckBEEaDklsv3JIhmG3Lpn2UKT6AGEk+1xRaepR7ihJQ0LJrDQwI1JlA+z/wH
+ 5M6FH3w+iU9VeAKAtHgnfDMNSdH68ejOaeIzCp6qPcGEMdEh622kbj1dgbf8yo4M5q
+ i88LnSni+gqshr8raG9jonNfLBEcFuZ+87arU+mU=
 Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
@@ -43,14 +43,16 @@ To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@yandex-team.ru, den@openvz.org,
  stefanha@redhat.com
-Subject: [PULL 0/2] block: fix parallels block driver
-Date: Wed, 27 Jul 2022 22:06:33 +0300
-Message-Id: <20220727190635.1024863-1-vsementsov@yandex-team.ru>
+Subject: [PULL 1/2] block/parallels: Fix buffer-based write call
+Date: Wed, 27 Jul 2022 22:06:34 +0300
+Message-Id: <20220727190635.1024863-2-vsementsov@yandex-team.ru>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220727190635.1024863-1-vsementsov@yandex-team.ru>
+References: <20220727190635.1024863-1-vsementsov@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -73,32 +75,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f6cce6bcb2ef959cdd4da0e368f7c72045f21d6d:
+From: Hanna Reitz <hreitz@redhat.com>
 
-  Merge tag 'pull-target-arm-20220726' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-07-26 08:32:01 -0700)
+Commit a4072543ccdddbd241d5962d9237b8b41fd006bf has changed the I/O here
+from working on a local one-element I/O vector to just using the buffer
+directly (using the bdrv_co_pread()/bdrv_co_pwrite() helper functions
+introduced shortly before).
 
-are available in the Git repository at:
+However, it only changed the bdrv_co_preadv() call to bdrv_co_pread() -
+the subsequent bdrv_co_pwritev() call stayed this way, and so still
+expects a QEMUIOVector pointer instead of a plain buffer.  We must
+change that to be a bdrv_co_pwrite() call.
 
-  https://gitlab.com/vsementsov/qemu.git tags/pull-block-2022-07-27
+Fixes: a4072543ccdddbd241d5962d ("block/parallels: use buffer-based io")
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+Reviewed-by: Denis V. Lunev <den@openvz.org>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Message-Id: <20220714132801.72464-2-hreitz@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+---
+ block/parallels.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-for you to fetch changes up to 0c2cb3827e46dc30cd41eeb38f8e318eb665e6a4:
-
-  iotests/131: Add parallels regression test (2022-07-26 22:05:20 +0300)
-
-----------------------------------------------------------------
-Block: fix parallels block driver
-
-----------------------------------------------------------------
-
-Hanna Reitz (2):
-  block/parallels: Fix buffer-based write call
-  iotests/131: Add parallels regression test
-
- block/parallels.c          |  4 ++--
- tests/qemu-iotests/131     | 35 ++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/131.out | 13 +++++++++++++
- 3 files changed, 49 insertions(+), 3 deletions(-)
-
+diff --git a/block/parallels.c b/block/parallels.c
+index 8b235b9505..a229c06f25 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -241,8 +241,8 @@ static int64_t allocate_clusters(BlockDriverState *bs, int64_t sector_num,
+             return ret;
+         }
+ 
+-        ret = bdrv_co_pwritev(bs->file, s->data_end * BDRV_SECTOR_SIZE,
+-                              nb_cow_bytes, buf, 0);
++        ret = bdrv_co_pwrite(bs->file, s->data_end * BDRV_SECTOR_SIZE,
++                             nb_cow_bytes, buf, 0);
+         qemu_vfree(buf);
+         if (ret < 0) {
+             return ret;
 -- 
 2.25.1
 
