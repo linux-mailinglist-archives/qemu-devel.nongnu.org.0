@@ -2,55 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C072D582E77
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 19:13:16 +0200 (CEST)
-Received: from localhost ([::1]:47668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 695B6582EE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 19:18:56 +0200 (CEST)
+Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGkax-00028t-7y
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 13:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
+	id 1oGkgQ-000637-4k
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 13:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk24-0004Gq-5k; Wed, 27 Jul 2022 12:37:13 -0400
-Received: from [200.168.210.66] (port=61870 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk22-0007pB-Id; Wed, 27 Jul 2022 12:37:11 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 27 Jul 2022 13:36:39 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 22F2F800058;
- Wed, 27 Jul 2022 13:36:39 -0300 (-03)
-From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>
-Subject: [RFC PATCH 8/8] tests/docker: Selective line reading by python script
-Date: Wed, 27 Jul 2022 13:36:32 -0300
-Message-Id: <20220727163632.59806-9-lucas.araujo@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
-References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGk94-0001Ha-RY
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 12:44:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGk91-0000PR-1Y
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 12:44:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658940261;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+kVXU4wTwMF0FvWTrLiBffHoTFCcQcfcfXhm9LNWOQY=;
+ b=L2MG+Wn0VilLaMAd6lLx5WyR1WxFrSoFy7u4rRdPBU6kEPnF+H9jWzr+XgzOfHMX4XMmc3
+ uo0CP/osocm1r+stwdbwrWQ9Eppw4y67OqNFieH2M7Fd8LOPUhIGsuBCOU4Zt2v6Sq2yWD
+ FDSl1fKk+VO1wpq/f04UDmZHUOYVcZo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-306-GnthmNQFNtmCnsy4eSYbVg-1; Wed, 27 Jul 2022 12:44:18 -0400
+X-MC-Unique: GnthmNQFNtmCnsy4eSYbVg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F26B101A54E;
+ Wed, 27 Jul 2022 16:44:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 680052166B26;
+ Wed, 27 Jul 2022 16:44:16 +0000 (UTC)
+Date: Wed, 27 Jul 2022 18:44:15 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel@nongnu.org,
+ its@irrelevant.dk, kbusch@kernel.org,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Julia Suvorova <jusual@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ "open list:Linux io_uring" <qemu-block@nongnu.org>
+Subject: Re: [PATCH] block/io_uring: add missing include file
+Message-ID: <YuFrX31f836vaPVW@redhat.com>
+References: <20220721065645.577404-1-fanjinhao21s@ict.ac.cn>
+ <20220721070956.js5rqulrpjx4i5ab@sgarzare-redhat>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jul 2022 16:36:39.0392 (UTC)
- FILETIME=[0BB59600:01D8A1D7]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.659,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+In-Reply-To: <20220721070956.js5rqulrpjx4i5ab@sgarzare-redhat>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,92 +83,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Building some images failed on ppc64le because the dockerfile tried to
-install some packages that are only available in x86 and arm64, to solve
-this while still having those packages be available in those architectures
-a comment was put before the installation command to instruct the python
-script into ignoring those lines for some architectures (in this case
-ppc64le)
+Am 21.07.2022 um 09:09 hat Stefano Garzarella geschrieben:
+> On Thu, Jul 21, 2022 at 02:56:45PM +0800, Jinhao Fan wrote:
+> > The commit "Use io_uring_register_ring_fd() to skip fd operations" uses
+> > warn_report but did not include the header file "qemu/error-report.h".
+> > This causes "error: implicit declaration of function ‘warn_report’".
+> > Include this header file.
+> > 
+> 
+> We could add:
+> 
+> Fixes: e2848bc574 ("Use io_uring_register_ring_fd() to skip fd operations")
+> 
+> > Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+> > ---
+> > block/io_uring.c | 1 +
+> > 1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/block/io_uring.c b/block/io_uring.c
+> > index f8a19fd97f..a1760152e0 100644
+> > --- a/block/io_uring.c
+> > +++ b/block/io_uring.c
+> > @@ -11,6 +11,7 @@
+> > #include "qemu/osdep.h"
+> > #include <liburing.h>
+> > #include "block/aio.h"
+> > +#include "qemu/error-report.h"
+> > #include "qemu/queue.h"
+> > #include "block/block.h"
+> > #include "block/raw-aio.h"
+> > -- 
+> > 2.25.1
+> > 
+> > 
+> 
+> Thanks for the fix:
+> 
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Overall I'm not a big fan of the way I solved this problem, so I'd like
-to know if anyone has a better way to make these dockerfilse work in
-PPC64LE.
+Thanks, applied to the block branch.
 
-For context the base images used here are available in PPC64LE but some
-of the packages installed are not (in alpine's case it's XEN, which is
-only available to x86 and ARM), so this patch create a ignore_list which
-is set on a per-architecture basis, and any packages in a dockerfile in
-this ignore_list will not be copied to the temporary dockerfile used in
-the docker command.
-
-Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
----
- tests/docker/docker.py                 | 15 ++++++++++++---
- tests/docker/dockerfiles/alpine.docker |  2 ++
- 2 files changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index d0af2861b8..9b962d1c78 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -14,6 +14,7 @@
- import os
- import sys
- import subprocess
-+import platform
- import json
- import hashlib
- import atexit
-@@ -207,8 +208,15 @@ def _read_qemu_dockerfile(img_name):
- 
- def _dockerfile_preprocess(df):
-     out = ""
-+    ignore_list = []
-     for l in df.splitlines():
--        if len(l.strip()) == 0 or l.startswith("#"):
-+        if len(l.strip()) == 0:
-+            continue
-+        if l.startswith("#"):
-+            if len(l.split()) >= 3:
-+                if l.split()[1] == "ignore":
-+                    if platform.processor() in l.split()[2].split(','):
-+                        ignore_list += l.split()[3].split(',')
-             continue
-         from_pref = "FROM qemu/"
-         if l.startswith(from_pref):
-@@ -219,7 +227,8 @@ def _dockerfile_preprocess(df):
-             inlining = _read_qemu_dockerfile(l[len(from_pref):])
-             out += _dockerfile_preprocess(inlining)
-             continue
--        out += l + "\n"
-+        if not any(x in l.split() for x in ignore_list):
-+            out += l + "\n"
-     return out
- 
- 
-@@ -330,7 +339,7 @@ def build_image(self, tag, docker_dir, dockerfile,
-         tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
-                                              encoding='utf-8',
-                                              dir=docker_dir, suffix=".docker")
--        tmp_df.write(dockerfile)
-+        tmp_df.write(_dockerfile_preprocess(dockerfile))
- 
-         if user:
-             uid = os.getuid()
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 2943a99730..5cec46d8f2 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -6,6 +6,8 @@
- 
- FROM docker.io/library/alpine:edge
- 
-+# Lines to by ignored when this file is read by the python script
-+# ignore ppc64le,ppc64 xen-dev
- RUN apk update && \
-     apk upgrade && \
-     apk add \
--- 
-2.25.1
+Kevin
 
 
