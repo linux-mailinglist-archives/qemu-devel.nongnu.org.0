@@ -2,58 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5FE582108
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:26:05 +0200 (CEST)
-Received: from localhost ([::1]:44874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D183C5820FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:23:31 +0200 (CEST)
+Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGbQi-0007tA-6k
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:26:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41452)
+	id 1oGbOE-0005n2-TP
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGb76-0007sg-TZ
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:05:49 -0400
-Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:49126)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGb8A-0000Oo-Ny
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:06:54 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:45217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGb6i-00060Q-T3
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:05:41 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R541e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VKZsOAy_1658905515; 
-Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VKZsOAy_1658905515) by smtp.aliyun-inc.com;
- Wed, 27 Jul 2022 15:05:15 +0800
-Message-ID: <810e4f2c-69bb-e2be-1faf-056549063fae@linux.alibaba.com>
-Date: Wed, 27 Jul 2022 15:05:14 +0800
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGb85-0006Og-8P
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:06:54 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id CF3205C0113;
+ Wed, 27 Jul 2022 03:06:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 27 Jul 2022 03:06:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1658905608; x=1658992008; bh=Zi
+ B/W8PdZzdTzE6MAYKVHEbE7gRbGGOmKmQuMfURriE=; b=r2Jny1r3rLNluzc4LO
+ UtA/OdYH0066khtIrgS4WWex2F/OImaFPiDiCkdvWA8WjN5v0CIhsJap6HCS1ilh
+ S45mnlUq13pK14PYWDuPXBq1SCO2wQstvmBl9UkmIuGllevpuMuR60l1YAT6ugE4
+ iSmD+WBtx1F9N+Gk8nMIWc9ieiwJBqPkIUCwqXcbest4p/97vn9AU2SADyYrbUhQ
+ i32IGOEGX7uSvEyMJ9c2FTEJF/vzt2HFyGNOd3RPzQodjzhSwz0UV4iXuZD+QxI2
+ lx91ts61LNOIvBMiutMUNZf2wdKftgJDU7IKUe7G69leAjp37Hcp2cVJMTHTBeQA
+ RQMw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1658905608; x=1658992008; bh=ZiB/W8PdZzdTzE6MAYKVHEbE7gRb
+ GGOmKmQuMfURriE=; b=hbFZ42mnpm63vfr+M1q/9NEdD+K7x0NO516NwsJybXbl
+ O0J3KkNuZyixV690A8oUtNb8FBai/USGGE4d4hd+zkka+Oq8zYvtNecROQCn7pqG
+ f/p89jKwiHQfnTCG7AfWnKKgczt4EB5WEaJTd0M7xP9+4WuaH//oQ9xBkr0glMvY
+ K99WGN4zFOaD6qzCkAPxf7DfVOrKJjDN3Tb/PBgFqmjQbsVrwQMKMelOlGMLMYn0
+ uUil9jrRPBZu6s98sFK1xpE3VH3JjMKn/K9IaPeTDZBmKDub41gRmMHcST3Ux4vX
+ reTQqn46aoLUwq/U+ejeQ6q9gJIaPMWBL+CyfZwkHA==
+X-ME-Sender: <xms:COTgYq9h9AzmQAdfPdJNGpnSgCdc94O-vL6siHHqZ3Dnxdpngiyqog>
+ <xme:COTgYqvtGis6enVnwf_PEEjQVTkHeqNtNIH1UPlIJZKV94FyLDFR1BfGHU440u_eB
+ Bh4dJhGXkCltC6Mt5Y>
+X-ME-Received: <xmr:COTgYgAsA-e9PSYIldahJSUuJuhVBN1mEic7AzGJrmaH4n5wb6P0mho>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduuddguddukecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeetgfdtfefhueeigffgffekffekleehleeuieevgfefvddthfeiveegfedt
+ uedutdenucffohhmrghinheptghtrhhlrdgtfienucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:COTgYicoxQpvnKPiv6f2Cb3vn3UuQ3992OQmUHsD39_96iOzCLuCKg>
+ <xmx:COTgYvPmPMrhE81eFmLexgGxkIJ-AePbGJooAmtrdAEgXUJaNVoARg>
+ <xmx:COTgYslDV_bNkOoeSqMbKetM4O8-Iq30KvC1yaWQAVqiKYjjePtVEw>
+ <xmx:COTgYq3Qe4p2ogX-htMDvxaPEgKG_9JkcwZg00caf8YO3K3jxkgzKQ>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Jul 2022 03:06:47 -0400 (EDT)
+Date: Wed, 27 Jul 2022 09:06:46 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Cc: qemu-devel@nongnu.org, kbusch@kernel.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v4] hw/nvme: Use ioeventfd to handle doorbell updates
+Message-ID: <YuDkBkrqXaosJbRM@apples>
+References: <20220705142403.101539-1-fanjinhao21s@ict.ac.cn>
+ <Yt8DWWg8qPLxL0fk@apples>
+ <D12147BE-7F7A-4F41-9317-765F7EB2E971@ict.ac.cn>
+ <Yt+avxgBxcwrxYgi@apples>
+ <869047CA-DD0A-45D1-9DBA-2BA1A3E00ADF@ict.ac.cn>
+ <Yt+xpMzwRWvn3QqR@apples> <Yt+9Spzi17LRRexQ@apples>
+ <Yt/O8+n1pf3SRR7e@apples> <Yt/Qs5PelXjX8E1v@apples>
+ <Yt/ZKVHjSTTt08MV@apples>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 08/16] vhost: add op to enable or disable a single vring
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <8bf7574d8e133d3fa7e8b09f4deb59369916774a.1658141552.git.kangjie.xu@linux.alibaba.com>
- <b078fc30-0c8b-b56c-e320-c89e6376fb21@redhat.com>
- <93985df7-7d5f-782e-10ed-7494f0806d22@linux.alibaba.com>
- <CACGkMEsTcoLQYJVxT8J3yDu007zan-3OsExRHFe3DCsZ1_y1=w@mail.gmail.com>
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com, mst@redhat.com
-In-Reply-To: <CACGkMEsTcoLQYJVxT8J3yDu007zan-3OsExRHFe3DCsZ1_y1=w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.133;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-133.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="j01b6PcDziecpSGH"
+Content-Disposition: inline
+In-Reply-To: <Yt/ZKVHjSTTt08MV@apples>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,91 +109,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/27 12:55, Jason Wang 写道:
-> On Tue, Jul 26, 2022 at 2:39 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
->>
->> 在 2022/7/26 11:49, Jason Wang 写道:
->>> 在 2022/7/18 19:17, Kangjie Xu 写道:
->>>> The interface to set enable status for a single vring is lacked in
->>>> VhostOps, since the vhost_set_vring_enable_op will manipulate all
->>>> virtqueues in a device.
->>>>
->>>> Resetting a single vq will rely on this interface. It requires a
->>>> reply to indicate that the reset operation is finished, so the
->>>> parameter, wait_for_reply, is added.
->>>
->>> The wait reply seems to be a implementation specific thing. Can we
->>> hide it?
->>>
->>> Thanks
->>>
->> I do not hide wait_for_reply here because when stopping the queue, a
->> reply is needed to ensure that the message has been processed and queue
->> has been disabled.
-> This needs to be done at vhost-backend level instead of the general vhost code.
->
-> E.g vhost-kernel or vDPA is using ioctl() which is synchronous.
-Yeah, I understand your concerns, will fix it in the next version.
->> When restarting the queue, we do not need a reply, which is the same as
->> what qemu does in vhost_dev_start().
->>
->> So I add this parameter to distinguish the two cases.
->>
->> I think one alternative implementation is to add a interface in
->> VhostOps: queue_reset(). In this way details can be hidden. What do you
->> think of this solution? Does it look better?
-> Let me ask it differently, under which case can we call this function
-> with wait_for_reply = false?
->
-> Thanks
+--j01b6PcDziecpSGH
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Cases when we do not need to wait until that the reply has been 
-processed. Actually in dev_start(), or dev_stop(), they do not wait for 
-replies when enabling/disabling vqs.
+On Jul 26 14:08, Klaus Jensen wrote:
+>=20
+> Alright. Forget about the iommu, that was just a coincidence.
+>=20
+> This patch seems to fix it. I guess it is the
+> event_notifier_set_handler(..., NULL) that does the trick, but I'd like
+> to understand why ;)
+>=20
+>=20
+> diff --git i/hw/nvme/ctrl.c w/hw/nvme/ctrl.c
+> index 533ad14e7a61..3bc3c6bfbe78 100644
+> --- i/hw/nvme/ctrl.c
+> +++ w/hw/nvme/ctrl.c
+> @@ -4238,7 +4238,9 @@ static void nvme_cq_notifier(EventNotifier *e)
+>      NvmeCQueue *cq =3D container_of(e, NvmeCQueue, notifier);
+>      NvmeCtrl *n =3D cq->ctrl;
+> =20
+> -    event_notifier_test_and_clear(&cq->notifier);
+> +    if (!event_notifier_test_and_clear(e)) {
+> +        return;
+> +    }
+> =20
+>      nvme_update_cq_head(cq);
+> =20
+> @@ -4275,7 +4277,9 @@ static void nvme_sq_notifier(EventNotifier *e)
+>  {
+>      NvmeSQueue *sq =3D container_of(e, NvmeSQueue, notifier);
+> =20
+> -    event_notifier_test_and_clear(&sq->notifier);
+> +    if (!event_notifier_test_and_clear(e)) {
+> +        return;
+> +    }
+> =20
+>      nvme_process_sq(sq);
+>  }
+> @@ -4307,6 +4311,8 @@ static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *=
+n)
+>      if (sq->ioeventfd_enabled) {
+>          memory_region_del_eventfd(&n->iomem,
+>                                    0x1000 + offset, 4, false, 0, &sq->not=
+ifier);
+> +        event_notifier_set_handler(&sq->notifier, NULL);
+> +        nvme_sq_notifier(&sq->notifier);
+>          event_notifier_cleanup(&sq->notifier);
+>      }
+>      g_free(sq->io_req);
+> @@ -4697,6 +4703,8 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *=
+n)
+>      if (cq->ioeventfd_enabled) {
+>          memory_region_del_eventfd(&n->iomem,
+>                                    0x1000 + offset, 4, false, 0, &cq->not=
+ifier);
+> +        event_notifier_set_handler(&cq->notifier, NULL);
+> +        nvme_cq_notifier(&cq->notifier);
+>          event_notifier_cleanup(&cq->notifier);
+>      }
+>      if (msix_enabled(&n->parent_obj)) {
 
-Specifically, vhost_set_vring_enable() will call it with wait_for_reply 
-= false.
+Jinhao,
 
-In our vq reset scenario, it should be synchronous because the driver 
-need to modify queues after the device stop using the vq in the backend. 
-Undefined errors will occur If the device is still using the queue when 
-the driver is making modifications to it,
+Do you have any comments on the above patch - does it make sense to you,
+considering the effort you've done into researching how virtio does
+this?
 
-Back to our implementation, we will not expose this parameter in the 
-next version.
+--j01b6PcDziecpSGH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Thanks.
+-----BEGIN PGP SIGNATURE-----
 
->> Thanks
->>
->>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>>> ---
->>>>    include/hw/virtio/vhost-backend.h | 4 ++++
->>>>    1 file changed, 4 insertions(+)
->>>>
->>>> diff --git a/include/hw/virtio/vhost-backend.h
->>>> b/include/hw/virtio/vhost-backend.h
->>>> index eab46d7f0b..7bddd1e9a0 100644
->>>> --- a/include/hw/virtio/vhost-backend.h
->>>> +++ b/include/hw/virtio/vhost-backend.h
->>>> @@ -81,6 +81,9 @@ typedef int (*vhost_set_backend_cap_op)(struct
->>>> vhost_dev *dev);
->>>>    typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
->>>>    typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
->>>>    typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx);
->>>> +typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev *dev,
->>>> +                                                int index, int enable,
->>>> +                                                bool wait_for_reply);
->>>>    typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
->>>>                                             int enable);
->>>>    typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
->>>> @@ -155,6 +158,7 @@ typedef struct VhostOps {
->>>>        vhost_set_owner_op vhost_set_owner;
->>>>        vhost_reset_device_op vhost_reset_device;
->>>>        vhost_get_vq_index_op vhost_get_vq_index;
->>>> +    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
->>>>        vhost_set_vring_enable_op vhost_set_vring_enable;
->>>>        vhost_requires_shm_log_op vhost_requires_shm_log;
->>>>        vhost_migration_done_op vhost_migration_done;
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLg5AMACgkQTeGvMW1P
+DenWNQf9FAmuGay131j1Rx0LOhwflEQBKns2gn8OM1ORCqlFK2Muv5iFLhF6V//o
+bgX4cOogBNHsYYJ5mUXmPEV0liEPJ1fNr/7sKDQpdBMqn5IMNpQCw2jPOigBQR89
+EE8Vixxf9G608+G6j32HUfFMkd9R6TIaH7/WSjkEKJ7Zfy3kPCFCUWBPLREmJuz2
+M0VSWx9rEH230xEn+AiKXqgyt5Dq/+yffYQlLQdvugB61tGVA9Z1BbtZjcQXDO7N
+aNy6M0L98Zq7mhKmws+E2c33YWm1UI/PjZGclOuztuTo6/nIGyw6Sj0oogkh8uy6
+e5SR9jBWdqagSF3f1wkFWY82SsKpxA==
+=kwSJ
+-----END PGP SIGNATURE-----
+
+--j01b6PcDziecpSGH--
 
