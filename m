@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F410581E8B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 06:10:55 +0200 (CEST)
-Received: from localhost ([::1]:39810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20805581F50
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 06:53:53 +0200 (CEST)
+Received: from localhost ([::1]:47896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGYNp-0002Tz-Rs
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 00:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45794)
+	id 1oGZ3P-0002If-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 00:53:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oGYJv-0008Em-K1
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:06:53 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:33659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1oGYJt-0001eF-NO
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:06:51 -0400
-Received: by mail-lf1-x133.google.com with SMTP id t17so13133783lfk.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 21:06:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=A+q6Pj0FrZt3juRl6sxbSjA0dmzRpgSA74+4NooIBNo=;
- b=fRQ54GZAuLZ3k63QIyxdPuEY8RAvmBwBPx3G4LYI8egZm55UAt0G42tKIPAOg3N1Jz
- ZmlMiTk37DTjvu0hZ4xghHsy1J8vm4OcySyRw7SbZj41lZV/Ukdplcri8AoutRt60+40
- Wwr6T3GXOVQfg03NTOdsQjUVuuP1yhP7tTiIMGTVct1Xg8KUjkXFoQ+iaIZao8f+lAkU
- lw/C09/JYBBWpUGsikNALGS8qzt41U+RpzejP0aAH2P2kOKOJ23M2+bcER0nYxHZUL4m
- 7OyTQC35zwOuzhic3CDI0YTfhVzKsY8uMYj38GIgVaw7cX+t/wOJLBDVNg9J+6PPizMW
- sLWA==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oGZ16-0000oj-7N
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:51:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:36528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oGZ10-0008WR-7h
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:51:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658897480;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JtlTACsMImUJt4pPBtvGyZTAbrtgoD3J/DrBzM57qZE=;
+ b=J0YSl35q2+ZSBM9Emtrn7SMtuwL2kusSwT/I/rLY3PDCgQ4+oWzKCJC6d3ZVUqpdQh8yXT
+ f1RKCyy7duAGCZ3wJnG39Wzvu1xMbZIat25+d7aMylor5T+OSOvkvwF8kTm8BOvoRV3IHc
+ gLORsq4i/7sRwx1SHGF0oCO6EJrhPE8=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-klYlorcoPIe7Q_alVb9FGA-1; Wed, 27 Jul 2022 00:51:18 -0400
+X-MC-Unique: klYlorcoPIe7Q_alVb9FGA-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ k25-20020a195619000000b00489e6a6527eso4892510lfb.8
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 21:51:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=A+q6Pj0FrZt3juRl6sxbSjA0dmzRpgSA74+4NooIBNo=;
- b=D9pTPI4L+/43B507L07s8U2AIrYIPCec1yVEthcuJTuzwfhnPUmd9OIeyj5tA2k7qp
- MPRch3BHWyodxbwcgSaYTqt4Qd3/YSvrKU818yJOb0RorYhFg/15NVin8hRPvSol3PKD
- dONkz1A7KOmXTRQXnDytU3SNovY7/L6jbo9PY7ZmhX8G6HF0WaHCi+IeKVy0oUG3hpvn
- CZprEwqtE9o7MwzQvv13gWtH3JjD88GipQc7ArbL3Cq03BdDDjOMA2XU/In/f+pFjxMv
- yVE68N0Q4vbn3unREClNZ04N0hRvLopYWwQmxuFyqaq/SdX0h6t/GeVjxWIPExNPuVhx
- 2OKA==
-X-Gm-Message-State: AJIora8ffAR8BWbz8fQpo4lkkaP7JcDVZeTQrxgqpCICKE/PmNGQwNYq
- vqyJTBiQqbxoYz0EbAWRUAU4NOdGkDWoOJhry1zF4w==
-X-Google-Smtp-Source: AGRyM1sDG+vyAgFzRu0dOXieArLHZRvX3KuDpGrIVMTc/5XwoCbQ8BcZPH8QVBzGm2jpgC6Gakeh8uJCA1c05Zw7b/I=
-X-Received: by 2002:a05:6512:230f:b0:489:676f:2705 with SMTP id
- o15-20020a056512230f00b00489676f2705mr7122809lfu.419.1658894807334; Tue, 26
- Jul 2022 21:06:47 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=JtlTACsMImUJt4pPBtvGyZTAbrtgoD3J/DrBzM57qZE=;
+ b=7oDqTlNc/siMGvLfGEVIFWC4H10CthQ4YvWsPncPN50nYSKz1ukhm9iAK8SnRjukpf
+ 7SUzwCvhG6WnfbfcX0zDeriHJ91NPaKkftFeMr8l2Sn8wiz8TSQi8DNZru6jlccQlXLS
+ 2UNsaCbcuJEdx5J97boiqc6wvukE2prZC7veKLDXASTwl8yL1Tu/o8/GSJ7RyC7hz/ve
+ 2d56nvNFHgUKWzFXC4VIpHyU9k8KGyuu+cXT6w81qxSvqPk/qgMyRrUB3XQMLGgz5Gc1
+ fAK6xlv6rRZ5lRcdtjN+PRy6/149XJYnk/ojoa2qz4xUrwPTyrk0qyjY3lCCLww37cnv
+ JaVg==
+X-Gm-Message-State: AJIora/kdLVvfksQn2Frr4XfO3b5xgBvn18iVH5pUItHxXL02zz9izB4
+ TVy8vZPtitm8zqz2ESmi1hNvaWE54ZzSMfvLl++DOpQMPL43NLB+2wmJrVqmi03SSjoM3+lN7px
+ j1wAVO1ynNXka6RNAd99bg7rAIGjDplw=
+X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
+ y14-20020a0565123f0e00b0048a5edd99b2mr7128494lfa.124.1658897476937; 
+ Tue, 26 Jul 2022 21:51:16 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tKyscZW/ND7lN9NJLQJeNwAsrKkkxpy684N4Epts+RO8CJYT85W6O+0v0vPhu6XB+UrXuNahNms8gZV5PSm/E=
+X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
+ y14-20020a0565123f0e00b0048a5edd99b2mr7128485lfa.124.1658897476356; Tue, 26
+ Jul 2022 21:51:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220727032524.101280-1-apatel@ventanamicro.com>
- <ae29e548-c3a6-dca1-81aa-68c4cad27384@linaro.org>
-In-Reply-To: <ae29e548-c3a6-dca1-81aa-68c4cad27384@linaro.org>
-From: Anup Patel <apatel@ventanamicro.com>
-Date: Wed, 27 Jul 2022 09:36:34 +0530
-Message-ID: <CAK9=C2Ut-_6_ARpVFKcjeLgau2eqUL5Cbu3FD96hZ-EFD7RC5Q@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Ensure opcode is saved for every instruction
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Alistair Francis <Alistair.Francis@wdc.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, 
- Atish Patra <atishp@atishpatra.org>, Anup Patel <anup@brainfault.org>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <46deff7d44ad806a4bfb9235e57b0d37d8cfa95c.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
+ <1b0f4eed-7925-949d-678a-f929c6baddda@linux.alibaba.com>
+In-Reply-To: <1b0f4eed-7925-949d-678a-f929c6baddda@linux.alibaba.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Wed, 27 Jul 2022 12:51:05 +0800
+Message-ID: <CACGkMEsQ6aW-ihHoiioD5M6acVwQ2vgW97XJ0BoQxVtc3JnNVw@mail.gmail.com>
+Subject: Re: [PATCH 09/16] vhost-user: enable/disable a single vring
+To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: mst <mst@redhat.com>, hengqi@linux.alibaba.com, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, qemu-devel <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=apatel@ventanamicro.com; helo=mail-lf1-x133.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,170 +97,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 9:24 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, Jul 26, 2022 at 1:27 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> w=
+rote:
 >
-> On 7/26/22 20:25, Anup Patel wrote:
-> > We should call decode_save_opc() for every decoded instruction
-> > because generating transformed instruction upon guest page faults
-> > expects opcode to be available. Without this, hypervisor sees
-> > transformed instruction as zero in htinst CSR for guest MMIO
-> > emulation which makes MMIO emulation in hypervisor slow and
-> > also breaks nested virtualization.
 >
-> Then just add decode_save_opc to load/store insns, not everything including plain
-> arithmetic...
+> =E5=9C=A8 2022/7/26 12:07, Jason Wang =E5=86=99=E9=81=93:
+> >
+> > =E5=9C=A8 2022/7/18 19:17, Kangjie Xu =E5=86=99=E9=81=93:
+> >> Implement the vhost_set_single_vring_enable, which is to enable or
+> >> disable a single vring.
+> >>
+> >> The parameter wait_for_reply is added to help for some cases such as
+> >> vq reset.
+> >>
+> >> Meanwhile, vhost_user_set_vring_enable() is refactored.
+> >>
+> >> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> >> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> >> ---
+> >>   hw/virtio/vhost-user.c | 55 ++++++++++++++++++++++++++++++++++++----=
+--
+> >>   1 file changed, 48 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> >> index 75b8df21a4..5a80a415f0 100644
+> >> --- a/hw/virtio/vhost-user.c
+> >> +++ b/hw/virtio/vhost-user.c
+> >> @@ -267,6 +267,8 @@ struct scrub_regions {
+> >>       int fd_idx;
+> >>   };
+> >>   +static int enforce_reply(struct vhost_dev *dev, const VhostUserMsg
+> >> *msg);
+> >> +
+> >>   static bool ioeventfd_enabled(void)
+> >>   {
+> >>       return !kvm_enabled() || kvm_eventfds_enabled();
+> >> @@ -1198,6 +1200,49 @@ static int vhost_user_set_vring_base(struct
+> >> vhost_dev *dev,
+> >>       return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+> >>   }
+> >>   +
+> >> +static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
+> >> +                                              int index,
+> >> +                                              int enable,
+> >> +                                              bool wait_for_reply)
+> >> +{
+> >> +    int ret;
+> >> +
+> >> +    if (index < dev->vq_index || index >=3D dev->vq_index + dev->nvqs=
+) {
+> >> +        return -EINVAL;
+> >> +    }
+> >> +
+> >> +    struct vhost_vring_state state =3D {
+> >> +        .index =3D index,
+> >> +        .num   =3D enable,
+> >> +    };
+> >> +
+> >> +    VhostUserMsg msg =3D {
+> >> +        .hdr.request =3D VHOST_USER_SET_VRING_ENABLE,
+> >> +        .hdr.flags =3D VHOST_USER_VERSION,
+> >> +        .payload.state =3D state,
+> >> +        .hdr.size =3D sizeof(msg.payload.state),
+> >> +    };
+> >> +
+> >> +    bool reply_supported =3D virtio_has_feature(dev->protocol_feature=
+s,
+> >> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+> >> +
+> >> +    if (reply_supported && wait_for_reply) {
+> >> +        msg.hdr.flags |=3D VHOST_USER_NEED_REPLY_MASK;
+> >> +    }
+> >
+> >
+> > Do we need to fail if !realy_supported && wait_for_reply?
+> >
+> > Thanks
+> >
+> >
+> I guess you mean "should we fail if VHOST_USER_PROTOCOL_F_REPLY_ACK
+> feature is not supported?".
+>
+> The implementation here is similar to that in vhost_user_set_vring_addr()=
+.
+>
+> If this feature is not supported, it will call enforce_reply(), then
+> call vhost_user_get_features() to get a reply.
 
-We will have to add for float load/store, atomics, and HLV/HSV as
-well. Basically we end-up adding for everything except integer and
-float arithmetic.
+Ok, so you meant we can then fallback to VHOST_USER_GET_FEATURES? I
+wonder how robust is this, e.g is the bakcend required to process
+vhost-user request in order?
 
-I see that decode_save_opc() only saves opcode in an array
-through tcg_set_insn_start_param(). Which brings me to the
-question about how much are we saving by distributing
-decode_save_opc() calls ?
-
-If we distribute decode_save_opc() calls then the code becomes
-fragile for future changes and we will miss adding decode_save_opc()
-for some new extensions.
-
-Regards,
-Anup
+Thanks
 
 >
+> Since the messages will be processed sequentailly in DPDK, success of
+> enforce_reply() means the previous message VHOST_USER_SET_VRING_ENABLE
+> has been processed.
 >
-> r~
+> Thanks
 >
+> >
+> >> +
+> >> +    ret =3D vhost_user_write(dev, &msg, NULL, 0);
+> >> +    if (ret < 0) {
+> >> +        return ret;
+> >> +    }
+> >> +
+> >> +    if (wait_for_reply) {
+> >> +        return enforce_reply(dev, &msg);
+> >> +    }
+> >> +
+> >> +    return ret;
+> >> +}
+> >> +
+> >>   static int vhost_user_set_vring_enable(struct vhost_dev *dev, int
+> >> enable)
+> >>   {
+> >>       int i;
+> >> @@ -1207,13 +1252,8 @@ static int vhost_user_set_vring_enable(struct
+> >> vhost_dev *dev, int enable)
+> >>       }
+> >>         for (i =3D 0; i < dev->nvqs; ++i) {
+> >> -        int ret;
+> >> -        struct vhost_vring_state state =3D {
+> >> -            .index =3D dev->vq_index + i,
+> >> -            .num   =3D enable,
+> >> -        };
+> >> -
+> >> -        ret =3D vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE,
+> >> &state);
+> >> +        int ret =3D vhost_user_set_single_vring_enable(dev,
+> >> dev->vq_index + i,
+> >> +                                                     enable, false);
+> >>           if (ret < 0) {
+> >>               /*
+> >>                * Restoring the previous state is likely infeasible,
+> >> as well as
+> >> @@ -2627,6 +2667,7 @@ const VhostOps user_ops =3D {
+> >>           .vhost_set_owner =3D vhost_user_set_owner,
+> >>           .vhost_reset_device =3D vhost_user_reset_device,
+> >>           .vhost_get_vq_index =3D vhost_user_get_vq_index,
+> >> +        .vhost_set_single_vring_enable =3D
+> >> vhost_user_set_single_vring_enable,
+> >>           .vhost_set_vring_enable =3D vhost_user_set_vring_enable,
+> >>           .vhost_requires_shm_log =3D vhost_user_requires_shm_log,
+> >>           .vhost_migration_done =3D vhost_user_migration_done,
 >
-> >
-> > Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc")
-> > Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-> > ---
-> >   target/riscv/insn_trans/trans_privileged.c.inc |  4 ----
-> >   target/riscv/insn_trans/trans_rvh.c.inc        |  2 --
-> >   target/riscv/insn_trans/trans_rvi.c.inc        |  2 --
-> >   target/riscv/translate.c                       | 10 ++++------
-> >   4 files changed, 4 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/target/riscv/insn_trans/trans_privileged.c.inc b/target/riscv/insn_trans/trans_privileged.c.inc
-> > index 46f96ad74d..53613682e8 100644
-> > --- a/target/riscv/insn_trans/trans_privileged.c.inc
-> > +++ b/target/riscv/insn_trans/trans_privileged.c.inc
-> > @@ -75,7 +75,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
-> >   {
-> >   #ifndef CONFIG_USER_ONLY
-> >       if (has_ext(ctx, RVS)) {
-> > -        decode_save_opc(ctx);
-> >           gen_helper_sret(cpu_pc, cpu_env);
-> >           tcg_gen_exit_tb(NULL, 0); /* no chaining */
-> >           ctx->base.is_jmp = DISAS_NORETURN;
-> > @@ -91,7 +90,6 @@ static bool trans_sret(DisasContext *ctx, arg_sret *a)
-> >   static bool trans_mret(DisasContext *ctx, arg_mret *a)
-> >   {
-> >   #ifndef CONFIG_USER_ONLY
-> > -    decode_save_opc(ctx);
-> >       gen_helper_mret(cpu_pc, cpu_env);
-> >       tcg_gen_exit_tb(NULL, 0); /* no chaining */
-> >       ctx->base.is_jmp = DISAS_NORETURN;
-> > @@ -104,7 +102,6 @@ static bool trans_mret(DisasContext *ctx, arg_mret *a)
-> >   static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
-> >   {
-> >   #ifndef CONFIG_USER_ONLY
-> > -    decode_save_opc(ctx);
-> >       gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> >       gen_helper_wfi(cpu_env);
-> >       return true;
-> > @@ -116,7 +113,6 @@ static bool trans_wfi(DisasContext *ctx, arg_wfi *a)
-> >   static bool trans_sfence_vma(DisasContext *ctx, arg_sfence_vma *a)
-> >   {
-> >   #ifndef CONFIG_USER_ONLY
-> > -    decode_save_opc(ctx);
-> >       gen_helper_tlb_flush(cpu_env);
-> >       return true;
-> >   #endif
-> > diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-> > index 4f8aecddc7..cebcb3f8f6 100644
-> > --- a/target/riscv/insn_trans/trans_rvh.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvh.c.inc
-> > @@ -169,7 +169,6 @@ static bool trans_hfence_gvma(DisasContext *ctx, arg_sfence_vma *a)
-> >   {
-> >       REQUIRE_EXT(ctx, RVH);
-> >   #ifndef CONFIG_USER_ONLY
-> > -    decode_save_opc(ctx);
-> >       gen_helper_hyp_gvma_tlb_flush(cpu_env);
-> >       return true;
-> >   #endif
-> > @@ -180,7 +179,6 @@ static bool trans_hfence_vvma(DisasContext *ctx, arg_sfence_vma *a)
-> >   {
-> >       REQUIRE_EXT(ctx, RVH);
-> >   #ifndef CONFIG_USER_ONLY
-> > -    decode_save_opc(ctx);
-> >       gen_helper_hyp_tlb_flush(cpu_env);
-> >       return true;
-> >   #endif
-> > diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
-> > index c49dbec0eb..1f318ffbef 100644
-> > --- a/target/riscv/insn_trans/trans_rvi.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvi.c.inc
-> > @@ -834,8 +834,6 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
-> >
-> >   static bool do_csr_post(DisasContext *ctx)
-> >   {
-> > -    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-> > -    decode_save_opc(ctx);
-> >       /* We may have changed important cpu state -- exit to main loop. */
-> >       gen_set_pc_imm(ctx, ctx->pc_succ_insn);
-> >       tcg_gen_exit_tb(NULL, 0);
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index a79d0cd95b..5425d19846 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -207,10 +207,10 @@ static void gen_check_nanbox_s(TCGv_i64 out, TCGv_i64 in)
-> >       tcg_gen_movcond_i64(TCG_COND_GEU, out, in, t_max, in, t_nan);
-> >   }
-> >
-> > -static void decode_save_opc(DisasContext *ctx)
-> > +static void decode_save_opc(DisasContext *ctx, target_ulong opc)
-> >   {
-> >       assert(ctx->insn_start != NULL);
-> > -    tcg_set_insn_start_param(ctx->insn_start, 1, ctx->opcode);
-> > +    tcg_set_insn_start_param(ctx->insn_start, 1, opc);
-> >       ctx->insn_start = NULL;
-> >   }
-> >
-> > @@ -240,8 +240,6 @@ static void generate_exception(DisasContext *ctx, int excp)
-> >
-> >   static void gen_exception_illegal(DisasContext *ctx)
-> >   {
-> > -    tcg_gen_st_i32(tcg_constant_i32(ctx->opcode), cpu_env,
-> > -                   offsetof(CPURISCVState, bins));
-> >       generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
-> >   }
-> >
-> > @@ -643,8 +641,6 @@ static void gen_set_rm(DisasContext *ctx, int rm)
-> >           return;
-> >       }
-> >
-> > -    /* The helper may raise ILLEGAL_INSN -- record binv for unwind. */
-> > -    decode_save_opc(ctx);
-> >       gen_helper_set_rounding_mode(cpu_env, tcg_constant_i32(rm));
-> >   }
-> >
-> > @@ -1055,6 +1051,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-> >
-> >       /* Check for compressed insn */
-> >       if (extract16(opcode, 0, 2) != 3) {
-> > +        decode_save_opc(ctx, opcode);
-> >           if (!has_ext(ctx, RVC)) {
-> >               gen_exception_illegal(ctx);
-> >           } else {
-> > @@ -1071,6 +1068,7 @@ static void decode_opc(CPURISCVState *env, DisasContext *ctx, uint16_t opcode)
-> >                                                ctx->base.pc_next + 2));
-> >           ctx->opcode = opcode32;
-> >           ctx->pc_succ_insn = ctx->base.pc_next + 4;
-> > +        decode_save_opc(ctx, opcode32);
-> >
-> >           for (size_t i = 0; i < ARRAY_SIZE(decoders); ++i) {
-> >               if (decoders[i].guard_func(ctx) &&
->
+
 
