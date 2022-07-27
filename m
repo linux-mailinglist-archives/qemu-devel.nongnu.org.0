@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 609705827C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:33:45 +0200 (CEST)
-Received: from localhost ([::1]:49086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62125827D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:37:36 +0200 (CEST)
+Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGhAV-000875-VI
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:33:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34344)
+	id 1oGhEF-000317-SU
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGh5C-0003VX-VZ
+ id 1oGh5C-0003VY-Uy
  for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:14 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44580)
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGh5B-00022W-Dj
+ id 1oGh5B-00022w-Ds
  for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:14 -0400
-Received: by mail-pl1-x635.google.com with SMTP id p1so7618686plr.11
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:28:10 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id r186so15943515pgr.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=RFwJC4o8e5unv4cZEgy8YcWZ7BgqUqHRQ5uPl7IbilA=;
- b=Eoyll8sl06IqX1xvXH9a8yezpz/NHz96QCtlVdBOp0M7Xcxf4mtBIeCru8ExEpYdEw
- Uu+5kQ6lt0vu1iEUJd74UlOel1oMcsigKXPR3mpLHrdaKW3qLNs1yzoqFwm3uAOPmNgY
- skR7KcCWcD+56zeFxvRaU+yeIJWurayX2FOmP6GhxkRgqwjITvFCw0AsI8qOarvfOO+w
- gDl3dVjWjYCsdTaiduOsqcAV5wGoRMlc7b5aFTdpC40KFaW7/WHDe22xrBInBU/QnFHk
- rxK+Qwz3sG7hxslasHkQdAlZuv13+lfm2pkDG/VqrqCwLkkIdFWHXsa5+qEZ7W7p/qM1
- +Vjg==
+ bh=1Phf7RRs9YPshwkeWcjieRVLG6Kz9qCuEGQI3Aw89tI=;
+ b=IbBmHuDpEMfiwARyflJ/ijqAcCXoeCQelqeV2vCNdnxhEsWEsLUX2J04zTEkqU+BY4
+ 4GqWH0JuDKGePQ9/ft3eIgq1BMD3W9G1SWp6gfZ4H9Vner9wVIdDDSKlp3Ouc3G53dCl
+ LxY5rWWp71Zw+wj0Yg/OKwpymz++VGXQLsv8lQjVIHVLlHXM4XPSOVLIFAIQ8RY89uKz
+ jfttPn3zSnVd7lg1myvAY+wFRNZ0Ca+gyhT+zDGjxx2iSkM52hpVJMyQntn+iqG+UJbb
+ FbKFRgU4TMyR0XgGuKmI56wpRGSxNw1xCFLqrjH+ObHHvNzVQgn0TslJIbbuiAqjUZU1
+ hOlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=RFwJC4o8e5unv4cZEgy8YcWZ7BgqUqHRQ5uPl7IbilA=;
- b=oE4fPJAvikIzYIbKIA5/T346wUskqzH8G7KtKK5JRk3b2NFRshrFOtdxWEppojksXh
- ulona1ixt6+w1Y+qgw+tSIhWqiGsECACYSeYlnxaKlVO/JipSvEZdSbAPPuOE1LmYAL3
- nYVLCCsHoB0z4MZMVrTYvKo+UC6j0KI/9qrQwHjoSd93wTKxBgOz0g6Ps2Qp0KpCB8c5
- /Nfg4eKH+SN8nY+IcCUscz1HNjFDjKFbzv5MUUC7knp865T/yyydTk2HfiaQO9FncKCJ
- sa3EDjDpHKufb+cToobabLyfayy7UfFRVZKsQv311cuZYfQi9oTzsDoniTxzry1PD83h
- NnAg==
-X-Gm-Message-State: AJIora+HdVP0IDkHukGE1gBX7gPStqh77gHYLN2LYaTrFhpASfIXtEcU
- EqvnsBVvjct8igwDqsncVTVwBgV01aQ=
-X-Google-Smtp-Source: AGRyM1tL6mMepQ2rVum+15fCRIEsq1tCfUxfhx/xg8Q6Yl87nNhVq8s3eU4mHVJ3owSod5x6cpWDaA==
-X-Received: by 2002:a17:90b:3c8c:b0:1f2:205c:2480 with SMTP id
- pv12-20020a17090b3c8c00b001f2205c2480mr4723848pjb.54.1658928489233; 
- Wed, 27 Jul 2022 06:28:09 -0700 (PDT)
+ bh=1Phf7RRs9YPshwkeWcjieRVLG6Kz9qCuEGQI3Aw89tI=;
+ b=LJ0nwBkcKHMUm7jamhEJBWJvfEWdEVAhVjDrmPhc5kDqVJ8d8DTfVreH0w22nORDP8
+ J6dmr+8zgIhJuuUYURVLTBh4h5+HsGjLSxGjf1XZF30oVXTtMsV2BSUEAKaj/51CSb5N
+ qMBnOmIMvutbYkA4qA9cZ1M/KjtZEVlLBxKrPOEyXXW9MXRj1jzKbOCCmR+tdpSNcMvJ
+ umyI78iT1ISg6MrtnwpIcW/bbhAC8fAeciUo+UlwnBxybSfzoFICZSYu74MF9ceS1a83
+ z93EngzwDYKB1GjLqgWVRt037D742PEVRjln283WaDG4DD6qY5eqUbK7sFf3fueZaUj6
+ ykQw==
+X-Gm-Message-State: AJIora+hSiryWbciiXIbkNFkw3qWHvDFG7qgPmV8M4M0IOBsKRKEMIWX
+ jInCAbtETw8EcczYCR8dv25AF15zSig=
+X-Google-Smtp-Source: AGRyM1vbTnT8CHLbgBJ4/4Xxxm42QwPeT5nG7135p5idU6HI7nmN0gU7R4zMC0NNEnEIS1RtHGU7tQ==
+X-Received: by 2002:a63:6e85:0:b0:41b:42d0:83ef with SMTP id
+ j127-20020a636e85000000b0041b42d083efmr3454252pgc.236.1658928491393; 
+ Wed, 27 Jul 2022 06:28:11 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- ij13-20020a170902ab4d00b0016daee46b72sm1971192plb.237.2022.07.27.06.28.07
+ ij13-20020a170902ab4d00b0016daee46b72sm1971192plb.237.2022.07.27.06.28.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 06:28:08 -0700 (PDT)
+ Wed, 27 Jul 2022 06:28:10 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH v2 1/6] util/qemu-sockets: Replace the call to close a socket
- with closesocket()
-Date: Wed, 27 Jul 2022 21:27:57 +0800
-Message-Id: <20220727132802.812580-2-bmeng.cn@gmail.com>
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH v2 2/6] util/oslib-win32: Add a helper to get the Windows
+ version
+Date: Wed, 27 Jul 2022 21:27:58 +0800
+Message-Id: <20220727132802.812580-3-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727132802.812580-1-bmeng.cn@gmail.com>
 References: <20220727132802.812580-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,53 +92,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-close() is a *nix function. It works on any file descriptor, and
-sockets in *nix are an example of a file descriptor.
+This adds a helper to get the Windows version via the RtlGetVersion
+call, for QEMU codes to determine the Windows version at run-time.
 
-closesocket() is a Windows-specific function, which works only
-specifically with sockets. Sockets on Windows do not use *nix-style
-file descriptors, and socket() returns a handle to a kernel object
-instead, so it must be closed with closesocket().
-
-In QEMU there is already a logic to handle such platform difference
-in os-posix.h and os-win32.h, that:
-
-  * closesocket maps to close on POSIX
-  * closesocket maps to a wrapper that calls the real closesocket()
-    on Windows
-
-Replace the call to close a socket with closesocket() instead.
-
+Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
 (no changes since v1)
 
- util/qemu-sockets.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/sysemu/os-win32.h |  2 ++
+ util/oslib-win32.c        | 15 +++++++++++++++
+ 2 files changed, 17 insertions(+)
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 13b5b197f9..0e2298278f 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -487,7 +487,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+index edc3b38a57..1e324026a4 100644
+--- a/include/sysemu/os-win32.h
++++ b/include/sysemu/os-win32.h
+@@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
+ ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+                            struct sockaddr *addr, socklen_t *addrlen);
  
-         if (ret < 0) {
-             error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
--            close(sock);
-+            closesocket(sock);
-             return -1;
-         }
-     }
-@@ -1050,7 +1050,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
-     return sock;
- 
-  err:
--    close(sock);
-+    closesocket(sock);
-     return -1;
++void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
++
+ #ifdef __cplusplus
  }
- 
+ #endif
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index 5723d3eb4c..6d2387b9ff 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
+      */
+     return qemu_fdatasync(fd);
+ }
++
++void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
++{
++    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
++
++    /* RtlGetVersion is available starting with Windows 2000 */
++    HMODULE module = GetModuleHandle("ntdll");
++    PVOID fun = GetProcAddress(module, "RtlGetVersion");
++    rtl_get_version_t rtl_get_version = (rtl_get_version_t)fun;
++
++    info->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
++    rtl_get_version(info);
++
++    return;
++}
 -- 
 2.34.1
 
