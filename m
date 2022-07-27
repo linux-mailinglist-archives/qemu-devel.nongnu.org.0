@@ -2,172 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1BA0583403
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 22:20:26 +0200 (CEST)
-Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92717583445
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 22:53:03 +0200 (CEST)
+Received: from localhost ([::1]:59872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGnW3-0001fu-4D
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 16:20:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
+	id 1oGo1c-0003Uf-M6
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 16:53:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aidan@revers.engineering>)
- id 1oGlM6-0003y2-PL
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:02:00 -0400
-Received: from gorilla.birch.relay.mailchannels.net ([23.83.209.75]:48936)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oGnrR-0005oh-3O
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 16:42:29 -0400
+Received: from mout.gmx.net ([212.227.15.15]:42381)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <aidan@revers.engineering>)
- id 1oGlLv-0003jC-9y
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:01:49 -0400
-X-Sender-Id: _forwarded-from|174.118.239.227
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
- by relay.mailchannels.net (Postfix) with ESMTP id CE8F36A1FFF
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:01:01 +0000 (UTC)
-Received: from ptl-hosting.impi.io (unknown [127.0.0.6])
- (Authenticated sender: sbjln7t7f3)
- by relay.mailchannels.net (Postfix) with ESMTPA id 572346A1F9B
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:01:01 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1658944861; a=rsa-sha256;
- cv=none;
- b=H0xk/Eu13mbyC9MesLs1NaKfahRtPaDUsriwHOQgnsJ+ZhrN+rwJXv1OoPqHXU1L/gxbiX
- eP6kxUfOo9ViUK9Minwnf0VZOuecjsn+fDa1ZdfuWmdf08HpQZLhIpndBbSeHMHJKsRrO1
- 8uw2OJMyHkxgt1A6MvcNIEtIs3ba62SwrivCjxOXsCw2VMdCaNpC2SXD8qllDGq0dFzfxz
- mgjfUYWyR8DkPAmTS4kCKCY3Z4uMK5xexAEi67byvB6kN7xrphtbS9hQmQdrWWD4juZgKH
- rixTXb3HAsPXlTpXgScD6IhhZrEV9CTKbOVZmMETwgvJwjTYm7pG/ImI+eNgGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net; s=arc-2022; t=1658944861;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=RKRtPcXj2vQ5BwIX8Ppl/YTORBe9OQZQQyGMlGUy3e8=;
- b=zicJ8h3vWQVv7HeWDiNQasYGHtZ94gs8/MQ9CJ7FJEJLN4qRAh5zUMx6jPhcnnT9VQoZAA
- pHvTYtLfGMvePpF1aRJ+w7S7d0rpR6xXus9ps+nlW458c0xwcNBSuBtnm6+ODjyitfqiat
- /qAvh7Ku4GLFqGzH/DzHtls6j2UuRkhtIs3lLruZ9HetSE7sb/ITyuJOy/a8Pl67ObZYSr
- WILDLxB6C6Y2y03UtL1z6+xKAzNAPQGhL3IC5H7+TuSB3jyGO/YJY1Fe0ndZVegW8g/gXh
- UI14LM0IeU2+DfbmoJVIfS++2rl/8Pp5aD9Ifxp9RehLyLMNUK8lq4R5AklICw==
-ARC-Authentication-Results: i=1; rspamd-7447d7d98f-wsb25;
- auth=pass smtp.auth=sbjln7t7f3 smtp.mailfrom=aidan@revers.engineering
-X-Sender-Id: _forwarded-from|174.118.239.227
-X-MC-Relay: Forwarding
-X-MailChannels-SenderId: _forwarded-from|174.118.239.227
-X-MailChannels-Auth-Id: sbjln7t7f3
-X-Little-Thoughtful: 254aab0b727911ad_1658944861587_3036677071
-X-MC-Loop-Signature: 1658944861587:855010816
-X-MC-Ingress-Time: 1658944861586
-Received: from ptl-hosting.impi.io ([TEMPUNAVAIL]. [198.12.12.226])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
- by 100.116.106.72 (trex/6.7.1); Wed, 27 Jul 2022 18:01:01 +0000
-Received: from mailnull by ptl-hosting.impi.io with spam-scanner (Exim 4.95)
- (envelope-from <aidan@revers.engineering>) id 1oGlL9-0003W6-7C
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:00:59 -0400
-X-ImunifyEmail-Filter-Info: ewogICAgImlzX3NraXBwZWQiOiBmYWxzZSwKICAgICJ0aW1lX3JlYWw
- iOiAwLjM5NTEyNCwKICAgICJzeW1ib2xzIjogewogICAgICAgICJNSU
- 1FX1VOS05PV04iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc2NvcmUiO
- iAwLjEwMDAwMCwKICAgICAgICAgICAgIm9wdGlvbnMiOiBbCiAgICAg
- ICAgICAgICAgICAidGV4dC9wbGFpbiIKICAgICAgICAgICAgXSwKICA
- gICAgICAgICAgImRlc2NyaXB0aW9uIjogIk1pc3Npbmcgb3IgdW5rbm
- 93biBjb250ZW50LXR5cGUiLAogICAgICAgICAgICAibmFtZSI6ICJNS
- U1FX1VOS05PV04iLAogICAgICAgICAgICAic2NvcmUiOiAwLjEwMDAw
- MAogICAgICAgIH0sCiAgICAgICAgIlJDVkRfVExTX0FMTCI6IHsKICA
- gICAgICAgICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAgICAgICAgIC
- JkZXNjcmlwdGlvbiI6ICJBbGwgaG9wcyB1c2VkIGVuY3J5cHRlZCB0c
- mFuc3BvcnRzIiwKICAgICAgICAgICAgIm5hbWUiOiAiUkNWRF9UTFNf
- QUxMIiwKICAgICAgICAgICAgInNjb3JlIjogMAogICAgICAgIH0sCiA
- gICAgICAgIkFSQ19OQSI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY2
- 9yZSI6IDAsCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJBUkMgc
- 2lnbmF0dXJlIGFic2VudCIsCiAgICAgICAgICAgICJuYW1lIjogIkFS
- Q19OQSIsCiAgICAgICAgICAgICJzY29yZSI6IDAKICAgICAgICB9LAo
- gICAgICAgICJUT19NQVRDSF9FTlZSQ1BUX1NPTUUiOiB7CiAgICAgIC
- AgICAgICJtZXRyaWNfc2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY
- 3JpcHRpb24iOiAiU29tZSBvZiB0aGUgcmVjaXBpZW50cyBtYXRjaCB0
- aGUgZW52ZWxvcGUiLAogICAgICAgICAgICAibmFtZSI6ICJUT19NQVR
- DSF9FTlZSQ1BUX1NPTUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCi
- AgICAgICAgfSwKICAgICAgICAiUl9NSVNTSU5HX0NIQVJTRVQiOiB7C
- iAgICAgICAgICAgICJtZXRyaWNfc2NvcmUiOiAwLjUwMDAwMCwKICAg
- ICAgICAgICAgImRlc2NyaXB0aW9uIjogIkNoYXJzZXQgaXMgbWlzc2l
- uZyBpbiBhIG1lc3NhZ2UiLAogICAgICAgICAgICAibmFtZSI6ICJSX0
- 1JU1NJTkdfQ0hBUlNFVCIsCiAgICAgICAgICAgICJzY29yZSI6IDAuN
- TAwMDAwCiAgICAgICAgfSwKICAgICAgICAiQVNOIjogewogICAgICAg
- ICAgICAibWV0cmljX3Njb3JlIjogMCwKICAgICAgICAgICAgIm9wdGl
- vbnMiOiBbCiAgICAgICAgICAgICAgICAiYXNuOjgxMiwgaXBuZXQ6MT
- c0LjExOC4xOTIuMC8xOCwgY291bnRyeTpDQSIKICAgICAgICAgICAgX
- SwKICAgICAgICAgICAgIm5hbWUiOiAiQVNOIiwKICAgICAgICAgICAg
- InNjb3JlIjogMAogICAgICAgIH0sCiAgICAgICAgIlJDVkRfVklBX1N
- NVFBfQVVUSCI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY29yZSI6ID
- AsCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJBdXRoZW50aWNhd
- GVkIGhhbmQtb2ZmIHdhcyBzZWVuIGluIFJlY2VpdmVkIGhlYWRlcnMi
- LAogICAgICAgICAgICAibmFtZSI6ICJSQ1ZEX1ZJQV9TTVRQX0FVVEg
- iLAogICAgICAgICAgICAic2NvcmUiOiAwCiAgICAgICAgfSwKICAgIC
- AgICAiRlJPTV9IQVNfRE4iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc
- 2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY3JpcHRpb24iOiAiRnJv
- bSBoZWFkZXIgaGFzIGEgZGlzcGxheSBuYW1lIiwKICAgICAgICAgICA
- gIm5hbWUiOiAiRlJPTV9IQVNfRE4iLAogICAgICAgICAgICAic2Nvcm
- UiOiAwCiAgICAgICAgfSwKICAgICAgICAiUkNQVF9DT1VOVF9USFJFR
- SI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAg
- ICAgICAgICJvcHRpb25zIjogWwogICAgICAgICAgICAgICAgIjMiCiA
- gICAgICAgICAgIF0sCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6IC
- IzLTUgcmVjaXBpZW50cyIsCiAgICAgICAgICAgICJuYW1lIjogIlJDU
- FRfQ09VTlRfVEhSRUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCiAg
- ICAgICAgfSwKICAgICAgICAiVE9fRE5fU09NRSI6IHsKICAgICAgICA
- gICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAgICAgICAgICJkZXNjcm
- lwdGlvbiI6ICJTb21lIG9mIHRoZSByZWNpcGllbnRzIGhhdmUgZGlzc
- GxheSBuYW1lcyIsCiAgICAgICAgICAgICJuYW1lIjogIlRPX0ROX1NP
- TUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCiAgICAgICAgfSwKICA
- gICAgICAiTUlEX0NPTlRBSU5TX0ZST00iOiB7CiAgICAgICAgICAgIC
- JtZXRyaWNfc2NvcmUiOiAxLAogICAgICAgICAgICAiZGVzY3JpcHRpb
- 24iOiAiTWVzc2FnZS1JRCBjb250YWlucyBGcm9tIGFkZHJlc3MiLAog
- ICAgICAgICAgICAibmFtZSI6ICJNSURfQ09OVEFJTlNfRlJPTSIsCiA
- gICAgICAgICAgICJzY29yZSI6IDEKICAgICAgICB9LAogICAgICAgIC
- JGUk9NX0VRX0VOVkZST00iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc
- 2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY3JpcHRpb24iOiAiRnJv
- bSBhZGRyZXNzIGlzIHRoZSBzYW1lIGFzIHRoZSBlbnZlbG9wZSIsCiA
- gICAgICAgICAgICJuYW1lIjogIkZST01fRVFfRU5WRlJPTSIsCiAgIC
- AgICAgICAgICJzY29yZSI6IDAKICAgICAgICB9LAogICAgICAgICJNS
- U1FX1RSQUNFIjogewogICAgICAgICAgICAibWV0cmljX3Njb3JlIjog
- MCwKICAgICAgICAgICAgIm9wdGlvbnMiOiBbCiAgICAgICAgICAgICA
- gICAiMDp+IgogICAgICAgICAgICBdLAogICAgICAgICAgICAibmFtZS
- I6ICJNSU1FX1RSQUNFIiwKICAgICAgICAgICAgInNjb3JlIjogMAogI
- CAgICAgIH0sCiAgICAgICAgIlJDVkRfQ09VTlRfT05FIjogewogICAg
- ICAgICAgICAibWV0cmljX3Njb3JlIjogMCwKICAgICAgICAgICAgIm9
- wdGlvbnMiOiBbCiAgICAgICAgICAgICAgICAiMSIKICAgICAgICAgIC
- AgXSwKICAgICAgICAgICAgImRlc2NyaXB0aW9uIjogIk1lc3NhZ2Uga
- GFzIG9uZSBSZWNlaXZlZCBoZWFkZXIiLAogICAgICAgICAgICAibmFt
- ZSI6ICJSQ1ZEX0NPVU5UX09ORSIsCiAgICAgICAgICAgICJzY29yZSI
- 6IDAKICAgICAgICB9CiAgICB9LAogICAgInJlcXVpcmVkX3Njb3JlIj
- ogNywKICAgICJtZXNzYWdlcyI6IHt9LAogICAgImFjdGlvbiI6ICJub
- yBhY3Rpb24iLAogICAgIm1lc3NhZ2UtaWQiOiAiMjAyMjA3MjcxODAw
- MTIuNDU2MTUtMS1haWRhbkByZXZlcnMuZW5naW5lZXJpbmciLAogICA
- gInNjb3JlIjogMS42MDAwMDAKfQ==
-X-ImunifyEmail-Filter-Score: 1.6
-X-ImunifyEmail-Filter-Action: no action
-Received: from cpeac202e0890b3-cmac202e0890b0.cpe.net.cable.rogers.com
- ([174.118.239.227]:61760 helo=localhost.localdomain)
- by ptl-hosting.impi.io with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
- (envelope-from <aidan@revers.engineering>) id 1oGlL6-0002vW-T3;
- Wed, 27 Jul 2022 14:00:58 -0400
-From: Aidan Khoury <aidan@revers.engineering>
-To: qemu-devel@nongnu.org
-Cc: sunilmut@microsoft.com,
-	Aidan Khoury <aidan@revers.engineering>
-Subject: [PATCH] WHPX: Add support for device backed memory regions
-Date: Wed, 27 Jul 2022 15:00:12 -0300
-Message-Id: <20220727180012.45615-1-aidan@revers.engineering>
-X-Mailer: git-send-email 2.37.1
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oGnr3-0002XT-0F
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 16:42:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1658954520;
+ bh=v/j/+x/IsmA109CKUDUDDmCMyuzRZKNAhpb1V5etliU=;
+ h=X-UI-Sender-Class:From:To:Subject:Date;
+ b=kKd/rZKlz2fqwFRD/OY4g8A0SoV/Rkbrq0jNffT5olZd18hJElHY9KmUgd0UG+VL7
+ kQfXDPygdmdQjufKMYOc0WLMH5MAIIl/MG4/0x6vZz7eFyQEVktBV+1amEp6vKcU4L
+ mty5/dYpJ9QJFsWO75LRqq1BXbNMIsuY/+uqukWM=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from p100.fritz.box ([92.116.185.42]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mzyya-1nW0WU092s-00wzSO; Wed, 27
+ Jul 2022 22:42:00 +0200
+From: Helge Deller <deller@gmx.de>
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH 0/2] linux-user: Improve strace output
+Date: Wed, 27 Jul 2022 22:41:57 +0200
+Message-Id: <20220727204159.106936-1-deller@gmx.de>
+X-Mailer: git-send-email 2.35.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AuthUser: 
-Received-SPF: pass client-ip=23.83.209.75;
- envelope-from=aidan@revers.engineering;
- helo=gorilla.birch.relay.mailchannels.net
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6cHfeF5Zr0L31lTstY0bIrGSJAzY2cySZfQ/jssdbMmaN+XrI7q
+ xQnBN7Uz4DC/2uAwJlKdZPBJxeqaZlbM+aGYaTJ3mB9UEogVpfBqiAp8SHHNtWvbkPWdjol
+ b6jW6eeF0MGPwVyAhSUk5W1blN9jHPT+ElgMaKjPNBnoyqe8LKqH5Cgp4OFkraYN/s2Oi4k
+ GjGpIoCBSD4JQPtOE9ITg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Mxq5UfKDki0=:/rfS46kDAxLCkMv+OnX+uu
+ nK1lzycgRzz+JV2hE3QZ9jmQqSetbu3I95zFiraAJJtqtXFR2KipgsAVIqO1z1HsXF1kpHZQ2
+ 82/+lfLSyIRMH5ARI67qYfy7T5LMS6WhC3mpA1jnxjkQof2htpZG77zcLVEDE7vY6aoCalPO/
+ eCdPLd+0hAGJ3j/CSV8QoTJimpoJq3fXXa5QbYluriuoO8gAjbr20aOqGCBv2buZ36aPNhVWK
+ +mWnZL1XfsMODrzwT7hDmjM8fBoV0Sp5fa5nyEnim8Q7UgrylW4YQvrJjUB9D/bgw83HQAGuW
+ 3A0olTvSCUIe45arvoZ86XZmlHI5Li3td6M4OjFDg83Z8O+2wU/r6tM6Q4M3dkUgQgrL/aDUG
+ MMR2RBynaLk4Gvqt2Y+ZT8zGse629tjBtzA92Eg45c6fxunI3+P40smkKHizVkKvaQZTmx2EC
+ ovwfhirzKNP23mU2s+IENKs/vCpyFbmGkFHoT61tJ4JPfV03ONkV/j8gbLgUWxnVWe8yplp6R
+ iVBemGr9/W8vQX9TUt6w1f1vEYWWyidsMdewpfsNdSqvSRQn04RBx0S6doWajdpWnd0fxJ9/M
+ 1M2qvQByNWnW5e1Y2cYMFo1RIvjtt6ceoGFBlZTdQS33Jwy3bUJL0v/+j0STp9EZrNY60sJuO
+ tYNTWBuy3NrcC+2yCrF9xQZeySd94mIKvT9aPTBZ3oV71nk9KOtq5ZCuNyi5DA3xJYsRxYCRI
+ jAOnjQitnHO0IIQXo7HmCi7P3nbaEx+XgxMr1TrDc76sbQIetSQt/JAJtzPOaWAxLbJGTNu7T
+ YkiuXnfMQdc4iKEQ7RS3JOp+cMcswKYMaDHvS++yPIOrupBeeSlbS6VOEDS6ONZlHVE5OeBBX
+ yA1xEorwvPOqeIxuqUaC8O3B0g3aAhWOH6UEAGbVHnmf4HYLh8JVWWYh6/qTr5vTyLassH8h1
+ ckzzgDLvU2BNjr0IR222iT5RKNd0vFd18hxQTNKLq0zAYs7wJ7z70HHp2SmaOJi0wqD+2NZzV
+ sTjYap/PKep8dtz2OKrzm2JrsbWSqOWU7ibapMxlscmSFLMCMnqQ1j9BOf0EsmKd377QjAwjH
+ yp9qy+4hK4OO9aFumNCArT44zzwYK83jxa+PL8fXFJNjnEs2dBVHeck7A==
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 27 Jul 2022 16:07:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -182,56 +83,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Due to skipping the mapping of read only device memory, Windows
-Hypervisor Platform would fail to emulate such memory accesses when booting
-OVMF EDK2 firmware. This patch adds ROM device memory region support
-for WHPX since the Windows Hypervisor Platform supports mapping read-only
-device memory, which allows successful booting of OVMF EDK2 firmware.
+Two patches which improve the linux-user strace output:
+a) Add some missing signal names
+b) Add missing clock_gettime64() syscall
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/513
-          https://gitlab.com/qemu-project/qemu/-/issues/934
-Buglink: https://bugs.launchpad.net/bugs/1821595
+Helge Deller (2):
+  linux-user: Add missing signals in strace output
+  linux-user: Add missing clock_gettime64() syscall strace
 
-Signed-off-by: Aidan Khoury <aidan@revers.engineering>
----
- target/i386/whpx/whpx-all.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ linux-user/signal-common.h | 46 +++++++++++++++++++++
+ linux-user/signal.c        | 37 ++---------------
+ linux-user/strace.c        | 84 +++++++++++++++++++++++++++++---------
+ linux-user/strace.list     |  4 ++
+ 4 files changed, 117 insertions(+), 54 deletions(-)
 
-diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
-index b22a3314b4..7a61df1135 100644
---- a/target/i386/whpx/whpx-all.c
-+++ b/target/i386/whpx/whpx-all.c
-@@ -2363,11 +2363,18 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
-     MemoryRegion *mr = section->mr;
-     hwaddr start_pa = section->offset_within_address_space;
-     ram_addr_t size = int128_get64(section->size);
-+    bool is_romd = false;
-     unsigned int delta;
-     uint64_t host_va;
- 
-     if (!memory_region_is_ram(mr)) {
--        return;
-+        if (memory_region_is_romd(mr)) {
-+            is_romd = true;
-+            warn_report("WHPX: ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
-+                        start_pa, start_pa + size);
-+        } else {
-+            return;
-+        }
-     }
- 
-     delta = qemu_real_host_page_size() - (start_pa & ~qemu_real_host_page_mask());
-@@ -2386,7 +2393,7 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
-             + section->offset_within_region + delta;
- 
-     whpx_update_mapping(start_pa, size, (void *)(uintptr_t)host_va, add,
--                        memory_region_is_rom(mr), mr->name);
-+                        memory_region_is_rom(mr) || is_romd, mr->name);
- }
- 
- static void whpx_region_add(MemoryListener *listener,
--- 
-2.37.1
-
+=2D-
+2.35.3
 
 
