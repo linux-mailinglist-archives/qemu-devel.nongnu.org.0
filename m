@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A677858297A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:21:01 +0200 (CEST)
-Received: from localhost ([::1]:46904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F5858298E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:26:23 +0200 (CEST)
+Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGiqK-0003eN-Lf
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:21:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
+	id 1oGivV-0007bT-0S
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:26:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGio2-0001k6-5E
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:18:38 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:39733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGinr-0003u3-8y
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:18:37 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-31f64093c21so20177817b3.6
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:18:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=mZkre0S3ymD4HMg+YenL876ZuL42lUPGx7aRb/bqTQI=;
- b=ER3sbIeUSk36589MSX5AOI4mA/2iP9qgEamMTUGF2Cbj3j8W8ktG+oua6Aeor3PpDw
- vuMqqvfvOeG6UY1WG3zuXLD57pA1SBqmoo057LEAwYVxYun2Lp2EAc4533RxbQNDk/DC
- DOBtIsVaYrCm0YMBScYeq9TM5oWICh6zIRheSjcgMZ+K15J2FXbBaQT6U8mYFTVkzMNj
- bo/fCHKJVpcYc4FM1lexwKscag6hIrxmh+JH2fdf9aUI0pXcCo9fc6tcUTtnmFR6lOzN
- YF61bKdFR35dIFxtf5sIYJKHJClL8fkyx/hEW0C4l7ROmAds8/jzUP8iR/J2Q8v800EO
- tqqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=mZkre0S3ymD4HMg+YenL876ZuL42lUPGx7aRb/bqTQI=;
- b=jnViE8Lr1peyuPWtt3LT3vHp97I+XxgMV8mL26hhGkDzs840l2fZJ4dpZcJUJjWYaN
- rRdy+BaEFgXVgkuC9LoytFJabWXMjKfSXJs9DFuOVpBLC/Q/92PF4OZYaQX9TI4RRmuq
- tWuFAC8ivLYBo7M3spt9BMsJ/agt4KA7ip4zXby5ViWGEMI+8uv1HpPUFeMDoyV840SQ
- z2UfEru6iCM2riTcKJ2IJn7Ptlp/2YZVvMiXnjPWi7twYAy7Fdm7WAzNeTfgOR87+CCr
- MVFeyqihH8fkB1HXp1PM15UcpkCyxQ2yNTyf2OWCy2C2UebraAsFBpnaZNctsWwvVv6D
- t17g==
-X-Gm-Message-State: AJIora/Uu/tpiaD4VFZmhHRk9MtUFhg2qkwXn1d+D5/Pr8oPZ3jqdlID
- ANSYka5wH+7b6SNWkfSikdRYu4jVlZ6eUh1TV5Q=
-X-Google-Smtp-Source: AGRyM1t+u23RHGpuGtPR0A+IjMedQ3wLxWHRD5mYmwieUoKCc0Xr1Q9uSob4OgA3WwON8PoGDrFexzo8cDHVrjCOY1w=
-X-Received: by 2002:a81:d45:0:b0:31f:65a4:27ba with SMTP id
- 66-20020a810d45000000b0031f65a427bamr2276229ywn.239.1658935106168; Wed, 27
- Jul 2022 08:18:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oGisV-0005PV-Ow; Wed, 27 Jul 2022 11:23:16 -0400
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:41778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oGisR-0004ov-MV; Wed, 27 Jul 2022 11:23:14 -0400
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id DAB172E1497;
+ Wed, 27 Jul 2022 18:23:00 +0300 (MSK)
+Received: from [10.211.19.155] (10.211.19.155-vpn.dhcp.yndx.net
+ [10.211.19.155])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ DSnamhCpbe-MwOaUMFu; Wed, 27 Jul 2022 18:23:00 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1658935380; bh=T4Qymsj1cSfcsYF+LMddrGpfYxy6dJROs7te1S78MN4=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=gdU+Cs30hsmtdFlzbhyos1rklYKIFNUsO0NnirT5ogbvwahg5UrNMXLqt6NggXt82
+ xsFTMGgyOSBoVH6Ld7+KuAbP/KI193fOOB8gb2KAltQZHIqaAD3P9o3lOvoTdM/6W0
+ NzgKQMBsUDB0UvKbG3fZxD/hksCNejXmPqH9gfac=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <dca440a2-59ce-764e-c82d-fc9ca6490af5@yandex-team.ru>
+Date: Wed, 27 Jul 2022 18:22:58 +0300
 MIME-Version: 1.0
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
- <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
- <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
- <YuDmwhKBpllXNG1i@apples>
-In-Reply-To: <YuDmwhKBpllXNG1i@apples>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 27 Jul 2022 11:18:14 -0400
-Message-ID: <CAJSP0QVzhvQ4zeS5BemoxYahuWfMY-Yqt9P+O=uxGVayM8Ms3A@mail.gmail.com>
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>, 
- Keith Busch <kbusch@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v10 14/21] jobs: protect job.aio_context with BQL and
+ job_mutex
+Content-Language: en-US
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-15-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220725073855.76049-15-eesposit@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,88 +84,146 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jul 2022 at 03:18, Klaus Jensen <its@irrelevant.dk> wrote:
->
-> On Jul 21 09:29, Stefan Hajnoczi wrote:
-> > On Wed, Jul 20, 2022, 22:36 Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
-> >
-> > > Hi Stefan,
-> > >
-> > > Thanks for the detailed explanation!
-> > >
-> > > at 6:21 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > >
-> > > > Hi Jinhao,
-> > > > Thanks for working on this!
-> > > >
-> > > > irqfd is not necessarily faster than KVM ioctl interrupt injection.
-> > > >
-> > > > There are at least two non performance reasons for irqfd:
-> > > > 1. It avoids QEMU emulation code, which historically was not thread=
- safe
-> > > and needed the Big QEMU Lock. IOThreads don't hold the BQL and theref=
-ore
-> > > cannot safely call the regular interrupt emulation code in QEMU. I th=
-ink
-> > > this is still true today although parts of the code may now be less r=
-eliant
-> > > on the BQL.
-> > >
-> > > This probably means we need to move to irqfd when iothread support is=
- added
-> > > in qemu-nvme.
-> > >
-> >
-> > Yes. You can audit the interrupt code but I'm pretty sure there is shar=
-ed
-> > state that needs to be protected by the BQL. So the NVMe emulation code
-> > probably needs to use irqfd to avoid the interrupt emulation code.
-> >
-> >
-> > > > 2. The eventfd interface decouples interrupt injection from the KVM
-> > > ioctl interface. Vhost kernel and vhost-user device emulation code ha=
-s no
-> > > dependency on KVM thanks to irqfd. They work with any eventfd, includ=
-ing
-> > > irqfd.
-> > >
-> > > This is contrary to our original belief. Klaus once pointed out that =
-irqfd
-> > > is KVM specific. I agreed with him since I found irqfd implementation=
- is in
-> > > virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could=
- you
-> > > elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?
-> > >
-> >
-> > "They work with any eventfd, including irqfd"
-> >
-> > If you look at the vhost kernel or vhost-user code, you'll see they jus=
-t
-> > signal the eventfd. It doesn't have to be an irqfd.
-> >
-> > An irqfd is a specific type of eventfd that the KVM kernel module
-> > implements to inject interrupts when the eventfd is signaled.
-> >
-> > By the way, this not only decouples vhost from the KVM kernel module, b=
-ut
-> > also allows QEMU to emulate MSI-X masking via buffering the interrupt i=
-n
-> > userspace.
-> >
-> >
->
-> The virtio dataplane (iothread support) only works with kvm if I am not
-> mistaken, so I guess this is similar to what we want to do here. If we
-> dont have KVM, we wont use iothread and we wont use the kvm
-> irqchip/irqfd.
->
-> Am I understanding this correctly?
+On 7/25/22 10:38, Emanuele Giuseppe Esposito wrote:
+> In order to make it thread safe, implement a "fake rwlock",
+> where we allow reads under BQL *or* job_mutex held, but
+> writes only under BQL *and* job_mutex.
+> 
+> The only write we have is in child_job_set_aio_ctx, which always
+> happens under drain (so the job is paused).
+> For this reason, introduce job_set_aio_context and make sure that
+> the context is set under BQL, job_mutex and drain.
 
-I think that is incorrect. QEMU has guest notifier emulation for the
-non-KVM (and non-MSI-X PCI) cases. When there is no irqfd support
-available, QEMU sets up a regular eventfd and calls
-virtio_queue_guest_notifier_read() when it becomes readable.
+actually, we only make sure that pause was scheduled
 
-Stefan
+> Also make sure all other places where the aiocontext is read
+> are protected.
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*.
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   block/replication.c |  6 ++++--
+>   blockjob.c          |  3 ++-
+>   include/qemu/job.h  | 19 ++++++++++++++++++-
+>   job.c               | 12 ++++++++++++
+>   4 files changed, 36 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/replication.c b/block/replication.c
+> index 55c8f894aa..2189863df1 100644
+> --- a/block/replication.c
+> +++ b/block/replication.c
+> @@ -148,8 +148,10 @@ static void replication_close(BlockDriverState *bs)
+>       }
+>       if (s->stage == BLOCK_REPLICATION_FAILOVER) {
+>           commit_job = &s->commit_job->job;
+> -        assert(commit_job->aio_context == qemu_get_current_aio_context());
+> -        job_cancel_sync(commit_job, false);
+> +        WITH_JOB_LOCK_GUARD() {
+> +            assert(commit_job->aio_context == qemu_get_current_aio_context());
+> +            job_cancel_sync_locked(commit_job, false);
+> +        }
+>       }
+>   
+>       if (s->mode == REPLICATION_MODE_SECONDARY) {
+> diff --git a/blockjob.c b/blockjob.c
+> index 96fb9d9f73..9ff2727025 100644
+> --- a/blockjob.c
+> +++ b/blockjob.c
+> @@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
+>           bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+>       }
+>   
+> -    job->job.aio_context = ctx;
+> +    job_set_aio_context(&job->job, ctx);
+>   }
+>   
+>   static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
+>   {
+>       BlockJob *job = c->opaque;
+> +    assert(qemu_in_main_thread());
+>   
+>       return job->job.aio_context;
+>   }
+> diff --git a/include/qemu/job.h b/include/qemu/job.h
+> index 5709e8d4a8..c144aabefc 100644
+> --- a/include/qemu/job.h
+> +++ b/include/qemu/job.h
+> @@ -77,7 +77,12 @@ typedef struct Job {
+>   
+>       /** Protected by AioContext lock */
+>   
+> -    /** AioContext to run the job coroutine in */
+> +    /**
+> +     * AioContext to run the job coroutine in.
+> +     * This field can be read when holding either the BQL (so we are in
+> +     * the main loop) or the job_mutex.
+> +     * It can be only written when we hold *both* BQL and job_mutex.
+> +     */
+>       AioContext *aio_context;
+>   
+>       /** Reference count of the block job */
+> @@ -741,4 +746,16 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
+>   int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
+>                              Error **errp);
+>   
+> +/**
+> + * Sets the @job->aio_context.
+> + * Called with job_mutex *not* held.
+> + *
+> + * This function must run in the main thread to protect against
+> + * concurrent read in job_finish_sync_locked(),
+> + * takes the job_mutex lock to protect against the read in
+> + * job_do_yield_locked(), and must be called when the coroutine
+> + * is quiescent.
+
+What means "coroutine is quescent"? Could we just swap it by "job is paused"?
+
+> + */
+> +void job_set_aio_context(Job *job, AioContext *ctx);
+> +
+>   #endif
+> diff --git a/job.c b/job.c
+> index ecec66b44e..0a857b1468 100644
+> --- a/job.c
+> +++ b/job.c
+> @@ -394,6 +394,17 @@ Job *job_get(const char *id)
+>       return job_get_locked(id);
+>   }
+>   
+> +void job_set_aio_context(Job *job, AioContext *ctx)
+> +{
+> +    /* protect against read in job_finish_sync_locked and job_start */
+> +    assert(qemu_in_main_thread());
+> +    /* protect against read in job_do_yield_locked */
+> +    JOB_LOCK_GUARD();
+> +    /* ensure the coroutine is quiescent while the AioContext is changed */
+
+pause_count means pause was scheduled. Job may be paused already, or may be not. I'm not against the assertion, it helps. I just think that we don't have the guarantee that comment claims. (And I still don't understand what means coroutine is quiescent. And not that there are may be several job related coroutines: the main one and some worker coroutines).
+
+> +    assert(job->pause_count > 0);
+> +    job->aio_context = ctx;
+> +}
+> +
+>   /* Called with job_mutex *not* held. */
+>   static void job_sleep_timer_cb(void *opaque)
+>   {
+> @@ -1376,6 +1387,7 @@ int job_finish_sync_locked(Job *job,
+>   {
+>       Error *local_err = NULL;
+>       int ret;
+> +    assert(qemu_in_main_thread());
+>   
+>       job_ref_locked(job);
+>   
+
+without "quiescent coroutine" concept:
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+
+-- 
+Best regards,
+Vladimir
 
