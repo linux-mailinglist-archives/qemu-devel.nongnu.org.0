@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E25BB582232
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:32:24 +0200 (CEST)
-Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B3E58223F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:35:33 +0200 (CEST)
+Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGcSu-0002kU-1V
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56182)
+	id 1oGcVt-0004BD-ST
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:35:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oGcNO-0005ap-NC; Wed, 27 Jul 2022 04:26:42 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:58262 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oGcNL-0001WI-KM; Wed, 27 Jul 2022 04:26:42 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-01 (Coremail) with SMTP id qwCowAA3fJy59uBi89D6Ag--.4276S2;
- Wed, 27 Jul 2022 16:26:34 +0800 (CST)
-Subject: Re: [PATCH v11 5/6] target/riscv: Update the privilege field for
- sscofpmf CSRs
-To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-References: <20220727064913.1041427-1-atishp@rivosinc.com>
- <20220727064913.1041427-6-atishp@rivosinc.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <1293559b-9c4e-4162-6453-28e7c51e85a2@iscas.ac.cn>
-Date: Wed, 27 Jul 2022 16:26:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oGcPd-00009n-DE
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:29:01 -0400
+Received: from 4.mo548.mail-out.ovh.net ([188.165.42.229]:42465)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oGcPZ-0001oB-8z
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:29:00 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.194])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 1C6C220A62;
+ Wed, 27 Jul 2022 08:28:47 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 27 Jul
+ 2022 10:28:46 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002ebc09e51-502e-4a3b-8938-89a0c14635b2,
+ D92FAF4A07D3D917E7F8426E5A0F17E38A049A7F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <a7f02b8a-a132-5b8f-6ceb-0d6920ce2a22@kaod.org>
+Date: Wed, 27 Jul 2022 10:28:38 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220727064913.1041427-6-atishp@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
 Content-Language: en-US
-X-CM-TRANSID: qwCowAA3fJy59uBi89D6Ag--.4276S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxKw4rCw4DXr4rKFy7tw45GFg_yoWxGrWrpr
- 4YkrW3t3Z7Jr1xX393t3ZrJFyrArn5AFsFkr4xAr48AF4kJw1DGa4xXr4qkFy5t3yrCF1k
- K3W3Kr4UZa4rtrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
- Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
- I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
- 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
- Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
- WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
- 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
- IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI
- 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
- evJa73UjIFyTuYvjfUnXdbUUUUU
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+To: Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>
+CC: <qemu-ppc@nongnu.org>, BALATON Zoltan <balaton@eik.bme.hu>, Daniel
+ Henrique Barboza <danielhb413@gmail.com>
+References: <20220726182341.1888115-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220726182341.1888115-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b741d1cf-888a-430e-93e7-5f30d1222390
+X-Ovh-Tracer-Id: 17815677178140003235
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddgtdegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeevudehheeggeehvdetuedvieeugfelgedujeelvdelveehvddtjeeiveetteegffenucffohhmrghinhepghhithhhuhgsrdgtohhmpdgrrhhoshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepuggrnhhivghlhhgsgedufeesghhmrghilhdrtghomhdpoffvtefjohhsthepmhhoheegke
+Received-SPF: pass client-ip=188.165.42.229; envelope-from=clg@kaod.org;
+ helo=4.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,162 +74,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/26/22 20:23, Peter Maydell wrote:
+> This patchset is mainly trying to fix a problem that Coverity spotted
+> in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the code
+> is not correctly using the cpu_physical_memory_map() function.
+> While I was fixing that I noticed a second problem in this code,
+> where it doesn't have a fallback for when cpu_physical_memory_map()
+> says "I couldn't map that for you".
+> 
+> I've marked these patches as RFC, partly because I don't have any
+> guest that would exercise the code changes[*], 
 
-在 2022/7/27 下午2:49, Atish Patra 写道:
-> The sscofpmf extension was ratified as a part of priv spec v1.12.
-> Mark the csr_ops accordingly.
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->   target/riscv/csr.c | 90 ++++++++++++++++++++++++++++++----------------
->   1 file changed, 60 insertions(+), 30 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 57dbbf9b09a0..ec6d7f022ad5 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -3859,63 +3859,92 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->                                                          write_mhpmevent },
->   
->       [CSR_MHPMEVENT3H]    = { "mhpmevent3h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+I build these :
 
-Similar to the first commit, it's better to align with the first element 
-"mhpmevent3h" .Otherwise,
+   https://github.com/legoater/qemu-ppc-boot/tree/main/buildroot/qemu_ppc_sam460ex-2022.02-4-geae5011c83-20220309
 
-Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+but none of the DCR DMA registers are used.
 
-Regards,
+There are images for the sam460ex images here :
 
-Weiwei Li
+   http://www.aros.org/nightly1.php
 
->       [CSR_MHPMEVENT4H]    = { "mhpmevent4h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT5H]    = { "mhpmevent5h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT6H]    = { "mhpmevent6h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT7H]    = { "mhpmevent7h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT8H]    = { "mhpmevent8h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT9H]    = { "mhpmevent9h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                          write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT10H]   = { "mhpmevent10h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT11H]   = { "mhpmevent11h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT12H]   = { "mhpmevent12h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT13H]   = { "mhpmevent13h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT14H]   = { "mhpmevent14h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT15H]   = { "mhpmevent15h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT16H]   = { "mhpmevent16h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT17H]   = { "mhpmevent17h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT18H]   = { "mhpmevent18h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT19H]   = { "mhpmevent19h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT20H]   = { "mhpmevent20h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT21H]   = { "mhpmevent21h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT22H]   = { "mhpmevent22h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT23H]   = { "mhpmevent23h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT24H]   = { "mhpmevent24h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT25H]   = { "mhpmevent25h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT26H]   = { "mhpmevent26h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT27H]   = { "mhpmevent27h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT28H]   = { "mhpmevent28h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT29H]   = { "mhpmevent29h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT30H]   = { "mhpmevent30h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_MHPMEVENT31H]   = { "mhpmevent31h",    sscofpmf,  read_mhpmeventh,
-> -                                                       write_mhpmeventh},
-> +                                                           write_mhpmeventh,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->   
->       [CSR_HPMCOUNTER3H]   = { "hpmcounter3h",   ctr32,  read_hpmcounterh },
->       [CSR_HPMCOUNTER4H]   = { "hpmcounter4h",   ctr32,  read_hpmcounterh },
-> @@ -4005,7 +4034,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->                                                          write_mhpmcounterh },
->       [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", mctr32,  read_hpmcounterh,
->                                                          write_mhpmcounterh },
-> -    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf },
-> +    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf,
-> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
->   
->   #endif /* !CONFIG_USER_ONLY */
->   };
+But AFAICT, it does not go beyond the bootloader.
+
+> and partly because
+> I don't have any documentation of the hardware to tell me how it
+> should behave, so patch 2 in particular has some FIXMEs. I also
+> notice that the code doesn't update any of the registers like the
+> count or source/base addresses when the DMA transfer happens, which
+> seems odd, but perhaps the real hardware does work like that.
+> 
+> I think we should probably take patch 1 (which is a fairly minimal
+> fix of the use-of-uninitialized-data problem),
+
+LGTM,
+
+Thanks,
+
+C.
+
+
+
+
+> but patch 2 is a bit more unfinished.
+> 
+> [*] The commit 3c409c1927efde2fc that added this code says it's used
+> by AmigaOS.)
+> 
+> thanks
+> -- PMM
+> 
+> Peter Maydell (2):
+>    hw/ppc/ppc440_uc: Initialize length passed to
+>      cpu_physical_memory_map()
+>    hw/ppc/ppc440_uc: Handle mapping failure in DMA engine
+> 
+>   hw/ppc/ppc440_uc.c | 34 +++++++++++++++++++++++++++++++++-
+>   1 file changed, 33 insertions(+), 1 deletion(-)
+> 
 
 
