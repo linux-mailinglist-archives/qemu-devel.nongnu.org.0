@@ -2,74 +2,172 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48FF5833E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 22:02:25 +0200 (CEST)
-Received: from localhost ([::1]:37230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BA0583403
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 22:20:26 +0200 (CEST)
+Received: from localhost ([::1]:48222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGnEb-0000tB-Vw
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 16:02:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
+	id 1oGnW3-0001fu-4D
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 16:20:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGnBb-0007DP-3o
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:59:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52797)
+ (Exim 4.90_1) (envelope-from <aidan@revers.engineering>)
+ id 1oGlM6-0003y2-PL
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:02:00 -0400
+Received: from gorilla.birch.relay.mailchannels.net ([23.83.209.75]:48936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGnBZ-0004V7-Fd
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:59:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658951952;
+ (Exim 4.90_1) (envelope-from <aidan@revers.engineering>)
+ id 1oGlLv-0003jC-9y
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:01:49 -0400
+X-Sender-Id: _forwarded-from|174.118.239.227
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+ by relay.mailchannels.net (Postfix) with ESMTP id CE8F36A1FFF
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:01:01 +0000 (UTC)
+Received: from ptl-hosting.impi.io (unknown [127.0.0.6])
+ (Authenticated sender: sbjln7t7f3)
+ by relay.mailchannels.net (Postfix) with ESMTPA id 572346A1F9B
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:01:01 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1658944861; a=rsa-sha256;
+ cv=none;
+ b=H0xk/Eu13mbyC9MesLs1NaKfahRtPaDUsriwHOQgnsJ+ZhrN+rwJXv1OoPqHXU1L/gxbiX
+ eP6kxUfOo9ViUK9Minwnf0VZOuecjsn+fDa1ZdfuWmdf08HpQZLhIpndBbSeHMHJKsRrO1
+ 8uw2OJMyHkxgt1A6MvcNIEtIs3ba62SwrivCjxOXsCw2VMdCaNpC2SXD8qllDGq0dFzfxz
+ mgjfUYWyR8DkPAmTS4kCKCY3Z4uMK5xexAEi67byvB6kN7xrphtbS9hQmQdrWWD4juZgKH
+ rixTXb3HAsPXlTpXgScD6IhhZrEV9CTKbOVZmMETwgvJwjTYm7pG/ImI+eNgGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net; s=arc-2022; t=1658944861;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6zpXnta6diRZfbj+VJXcJUATkfytjElo97bTfLBsznI=;
- b=bVjws2Hucc2MtICgRkOOPBPK1/4VsdDVzmKKi92V64sBCA+nSahnTnhsQIfHupGn5UNte+
- EZuPDxr666q24DOFTb9Ni7kwTZB+CexvGyIW12Pg0fltf9I8zLgZDUcgS1gDlWAJ8up9BY
- 67NS3KeneyW70f5QvUSGhocKCnxBbrI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-MniAXugTM0WsMivq-O2JyQ-1; Wed, 27 Jul 2022 15:59:11 -0400
-X-MC-Unique: MniAXugTM0WsMivq-O2JyQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66E92185A7BA;
- Wed, 27 Jul 2022 19:59:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.209])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6175B40C1288;
- Wed, 27 Jul 2022 19:59:09 +0000 (UTC)
-Date: Wed, 27 Jul 2022 21:59:08 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PULL 14/15] qdev: Base object creation on QDict rather than
- QemuOpts
-Message-ID: <YuGZDNovoWLp/F2x@redhat.com>
-References: <20211015144640.198044-1-kwolf@redhat.com>
- <20211015144640.198044-15-kwolf@redhat.com>
- <CAFEAcA9jnySMWRD56FF9D7rXhwARiyvqJx+4Ys+smYa2ghdLBg@mail.gmail.com>
- <87wnctzdl9.fsf@pond.sub.org>
- <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=RKRtPcXj2vQ5BwIX8Ppl/YTORBe9OQZQQyGMlGUy3e8=;
+ b=zicJ8h3vWQVv7HeWDiNQasYGHtZ94gs8/MQ9CJ7FJEJLN4qRAh5zUMx6jPhcnnT9VQoZAA
+ pHvTYtLfGMvePpF1aRJ+w7S7d0rpR6xXus9ps+nlW458c0xwcNBSuBtnm6+ODjyitfqiat
+ /qAvh7Ku4GLFqGzH/DzHtls6j2UuRkhtIs3lLruZ9HetSE7sb/ITyuJOy/a8Pl67ObZYSr
+ WILDLxB6C6Y2y03UtL1z6+xKAzNAPQGhL3IC5H7+TuSB3jyGO/YJY1Fe0ndZVegW8g/gXh
+ UI14LM0IeU2+DfbmoJVIfS++2rl/8Pp5aD9Ifxp9RehLyLMNUK8lq4R5AklICw==
+ARC-Authentication-Results: i=1; rspamd-7447d7d98f-wsb25;
+ auth=pass smtp.auth=sbjln7t7f3 smtp.mailfrom=aidan@revers.engineering
+X-Sender-Id: _forwarded-from|174.118.239.227
+X-MC-Relay: Forwarding
+X-MailChannels-SenderId: _forwarded-from|174.118.239.227
+X-MailChannels-Auth-Id: sbjln7t7f3
+X-Little-Thoughtful: 254aab0b727911ad_1658944861587_3036677071
+X-MC-Loop-Signature: 1658944861587:855010816
+X-MC-Ingress-Time: 1658944861586
+Received: from ptl-hosting.impi.io ([TEMPUNAVAIL]. [198.12.12.226])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384)
+ by 100.116.106.72 (trex/6.7.1); Wed, 27 Jul 2022 18:01:01 +0000
+Received: from mailnull by ptl-hosting.impi.io with spam-scanner (Exim 4.95)
+ (envelope-from <aidan@revers.engineering>) id 1oGlL9-0003W6-7C
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 14:00:59 -0400
+X-ImunifyEmail-Filter-Info: ewogICAgImlzX3NraXBwZWQiOiBmYWxzZSwKICAgICJ0aW1lX3JlYWw
+ iOiAwLjM5NTEyNCwKICAgICJzeW1ib2xzIjogewogICAgICAgICJNSU
+ 1FX1VOS05PV04iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc2NvcmUiO
+ iAwLjEwMDAwMCwKICAgICAgICAgICAgIm9wdGlvbnMiOiBbCiAgICAg
+ ICAgICAgICAgICAidGV4dC9wbGFpbiIKICAgICAgICAgICAgXSwKICA
+ gICAgICAgICAgImRlc2NyaXB0aW9uIjogIk1pc3Npbmcgb3IgdW5rbm
+ 93biBjb250ZW50LXR5cGUiLAogICAgICAgICAgICAibmFtZSI6ICJNS
+ U1FX1VOS05PV04iLAogICAgICAgICAgICAic2NvcmUiOiAwLjEwMDAw
+ MAogICAgICAgIH0sCiAgICAgICAgIlJDVkRfVExTX0FMTCI6IHsKICA
+ gICAgICAgICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAgICAgICAgIC
+ JkZXNjcmlwdGlvbiI6ICJBbGwgaG9wcyB1c2VkIGVuY3J5cHRlZCB0c
+ mFuc3BvcnRzIiwKICAgICAgICAgICAgIm5hbWUiOiAiUkNWRF9UTFNf
+ QUxMIiwKICAgICAgICAgICAgInNjb3JlIjogMAogICAgICAgIH0sCiA
+ gICAgICAgIkFSQ19OQSI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY2
+ 9yZSI6IDAsCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJBUkMgc
+ 2lnbmF0dXJlIGFic2VudCIsCiAgICAgICAgICAgICJuYW1lIjogIkFS
+ Q19OQSIsCiAgICAgICAgICAgICJzY29yZSI6IDAKICAgICAgICB9LAo
+ gICAgICAgICJUT19NQVRDSF9FTlZSQ1BUX1NPTUUiOiB7CiAgICAgIC
+ AgICAgICJtZXRyaWNfc2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY
+ 3JpcHRpb24iOiAiU29tZSBvZiB0aGUgcmVjaXBpZW50cyBtYXRjaCB0
+ aGUgZW52ZWxvcGUiLAogICAgICAgICAgICAibmFtZSI6ICJUT19NQVR
+ DSF9FTlZSQ1BUX1NPTUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCi
+ AgICAgICAgfSwKICAgICAgICAiUl9NSVNTSU5HX0NIQVJTRVQiOiB7C
+ iAgICAgICAgICAgICJtZXRyaWNfc2NvcmUiOiAwLjUwMDAwMCwKICAg
+ ICAgICAgICAgImRlc2NyaXB0aW9uIjogIkNoYXJzZXQgaXMgbWlzc2l
+ uZyBpbiBhIG1lc3NhZ2UiLAogICAgICAgICAgICAibmFtZSI6ICJSX0
+ 1JU1NJTkdfQ0hBUlNFVCIsCiAgICAgICAgICAgICJzY29yZSI6IDAuN
+ TAwMDAwCiAgICAgICAgfSwKICAgICAgICAiQVNOIjogewogICAgICAg
+ ICAgICAibWV0cmljX3Njb3JlIjogMCwKICAgICAgICAgICAgIm9wdGl
+ vbnMiOiBbCiAgICAgICAgICAgICAgICAiYXNuOjgxMiwgaXBuZXQ6MT
+ c0LjExOC4xOTIuMC8xOCwgY291bnRyeTpDQSIKICAgICAgICAgICAgX
+ SwKICAgICAgICAgICAgIm5hbWUiOiAiQVNOIiwKICAgICAgICAgICAg
+ InNjb3JlIjogMAogICAgICAgIH0sCiAgICAgICAgIlJDVkRfVklBX1N
+ NVFBfQVVUSCI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY29yZSI6ID
+ AsCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6ICJBdXRoZW50aWNhd
+ GVkIGhhbmQtb2ZmIHdhcyBzZWVuIGluIFJlY2VpdmVkIGhlYWRlcnMi
+ LAogICAgICAgICAgICAibmFtZSI6ICJSQ1ZEX1ZJQV9TTVRQX0FVVEg
+ iLAogICAgICAgICAgICAic2NvcmUiOiAwCiAgICAgICAgfSwKICAgIC
+ AgICAiRlJPTV9IQVNfRE4iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc
+ 2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY3JpcHRpb24iOiAiRnJv
+ bSBoZWFkZXIgaGFzIGEgZGlzcGxheSBuYW1lIiwKICAgICAgICAgICA
+ gIm5hbWUiOiAiRlJPTV9IQVNfRE4iLAogICAgICAgICAgICAic2Nvcm
+ UiOiAwCiAgICAgICAgfSwKICAgICAgICAiUkNQVF9DT1VOVF9USFJFR
+ SI6IHsKICAgICAgICAgICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAg
+ ICAgICAgICJvcHRpb25zIjogWwogICAgICAgICAgICAgICAgIjMiCiA
+ gICAgICAgICAgIF0sCiAgICAgICAgICAgICJkZXNjcmlwdGlvbiI6IC
+ IzLTUgcmVjaXBpZW50cyIsCiAgICAgICAgICAgICJuYW1lIjogIlJDU
+ FRfQ09VTlRfVEhSRUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCiAg
+ ICAgICAgfSwKICAgICAgICAiVE9fRE5fU09NRSI6IHsKICAgICAgICA
+ gICAgIm1ldHJpY19zY29yZSI6IDAsCiAgICAgICAgICAgICJkZXNjcm
+ lwdGlvbiI6ICJTb21lIG9mIHRoZSByZWNpcGllbnRzIGhhdmUgZGlzc
+ GxheSBuYW1lcyIsCiAgICAgICAgICAgICJuYW1lIjogIlRPX0ROX1NP
+ TUUiLAogICAgICAgICAgICAic2NvcmUiOiAwCiAgICAgICAgfSwKICA
+ gICAgICAiTUlEX0NPTlRBSU5TX0ZST00iOiB7CiAgICAgICAgICAgIC
+ JtZXRyaWNfc2NvcmUiOiAxLAogICAgICAgICAgICAiZGVzY3JpcHRpb
+ 24iOiAiTWVzc2FnZS1JRCBjb250YWlucyBGcm9tIGFkZHJlc3MiLAog
+ ICAgICAgICAgICAibmFtZSI6ICJNSURfQ09OVEFJTlNfRlJPTSIsCiA
+ gICAgICAgICAgICJzY29yZSI6IDEKICAgICAgICB9LAogICAgICAgIC
+ JGUk9NX0VRX0VOVkZST00iOiB7CiAgICAgICAgICAgICJtZXRyaWNfc
+ 2NvcmUiOiAwLAogICAgICAgICAgICAiZGVzY3JpcHRpb24iOiAiRnJv
+ bSBhZGRyZXNzIGlzIHRoZSBzYW1lIGFzIHRoZSBlbnZlbG9wZSIsCiA
+ gICAgICAgICAgICJuYW1lIjogIkZST01fRVFfRU5WRlJPTSIsCiAgIC
+ AgICAgICAgICJzY29yZSI6IDAKICAgICAgICB9LAogICAgICAgICJNS
+ U1FX1RSQUNFIjogewogICAgICAgICAgICAibWV0cmljX3Njb3JlIjog
+ MCwKICAgICAgICAgICAgIm9wdGlvbnMiOiBbCiAgICAgICAgICAgICA
+ gICAiMDp+IgogICAgICAgICAgICBdLAogICAgICAgICAgICAibmFtZS
+ I6ICJNSU1FX1RSQUNFIiwKICAgICAgICAgICAgInNjb3JlIjogMAogI
+ CAgICAgIH0sCiAgICAgICAgIlJDVkRfQ09VTlRfT05FIjogewogICAg
+ ICAgICAgICAibWV0cmljX3Njb3JlIjogMCwKICAgICAgICAgICAgIm9
+ wdGlvbnMiOiBbCiAgICAgICAgICAgICAgICAiMSIKICAgICAgICAgIC
+ AgXSwKICAgICAgICAgICAgImRlc2NyaXB0aW9uIjogIk1lc3NhZ2Uga
+ GFzIG9uZSBSZWNlaXZlZCBoZWFkZXIiLAogICAgICAgICAgICAibmFt
+ ZSI6ICJSQ1ZEX0NPVU5UX09ORSIsCiAgICAgICAgICAgICJzY29yZSI
+ 6IDAKICAgICAgICB9CiAgICB9LAogICAgInJlcXVpcmVkX3Njb3JlIj
+ ogNywKICAgICJtZXNzYWdlcyI6IHt9LAogICAgImFjdGlvbiI6ICJub
+ yBhY3Rpb24iLAogICAgIm1lc3NhZ2UtaWQiOiAiMjAyMjA3MjcxODAw
+ MTIuNDU2MTUtMS1haWRhbkByZXZlcnMuZW5naW5lZXJpbmciLAogICA
+ gInNjb3JlIjogMS42MDAwMDAKfQ==
+X-ImunifyEmail-Filter-Score: 1.6
+X-ImunifyEmail-Filter-Action: no action
+Received: from cpeac202e0890b3-cmac202e0890b0.cpe.net.cable.rogers.com
+ ([174.118.239.227]:61760 helo=localhost.localdomain)
+ by ptl-hosting.impi.io with esmtpsa (TLS1.2) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.95)
+ (envelope-from <aidan@revers.engineering>) id 1oGlL6-0002vW-T3;
+ Wed, 27 Jul 2022 14:00:58 -0400
+From: Aidan Khoury <aidan@revers.engineering>
+To: qemu-devel@nongnu.org
+Cc: sunilmut@microsoft.com,
+	Aidan Khoury <aidan@revers.engineering>
+Subject: [PATCH] WHPX: Add support for device backed memory regions
+Date: Wed, 27 Jul 2022 15:00:12 -0300
+Message-Id: <20220727180012.45615-1-aidan@revers.engineering>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_cYpt_FU5mD+X+BSmQq9e6u1n+nm8EVfdrPeVN0o3Spw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+X-AuthUser: 
+Received-SPF: pass client-ip=23.83.209.75;
+ envelope-from=aidan@revers.engineering;
+ helo=gorilla.birch.relay.mailchannels.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 27 Jul 2022 16:07:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,25 +182,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 07.07.2022 um 22:24 hat Peter Maydell geschrieben:
-> On Mon, 4 Jul 2022 at 05:50, Markus Armbruster <armbru@redhat.com> wrote:
-> > My initial (knee-jerk) reaction to breaking array properties: Faster,
-> > Pussycat! Kill! Kill!
-> 
-> In an ideal world, what would you replace them with?
+Due to skipping the mapping of read only device memory, Windows
+Hypervisor Platform would fail to emulate such memory accesses when booting
+OVMF EDK2 firmware. This patch adds ROM device memory region support
+for WHPX since the Windows Hypervisor Platform supports mapping read-only
+device memory, which allows successful booting of OVMF EDK2 firmware.
 
-The next (and final) patch in this pull request added JSON syntax for
--device, so we can actually have proper list properties now that are
-accessed with the normal list visitors. I suppose some integration with
-the qdev property system is still missing, but on the QOM level it could
-be used.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/513
+          https://gitlab.com/qemu-project/qemu/-/issues/934
+Buglink: https://bugs.launchpad.net/bugs/1821595
 
-In the ideal world, we would also be able to replace the human CLI
-syntax so that JSON isn't required for this, but doing this in reality
-would probably cause new compatibility problems - though libvirt has
-been using JSON for a while, so I guess it wouldn't mind an incompatible
-change of human syntax.
+Signed-off-by: Aidan Khoury <aidan@revers.engineering>
+---
+ target/i386/whpx/whpx-all.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Kevin
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index b22a3314b4..7a61df1135 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -2363,11 +2363,18 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
+     MemoryRegion *mr = section->mr;
+     hwaddr start_pa = section->offset_within_address_space;
+     ram_addr_t size = int128_get64(section->size);
++    bool is_romd = false;
+     unsigned int delta;
+     uint64_t host_va;
+ 
+     if (!memory_region_is_ram(mr)) {
+-        return;
++        if (memory_region_is_romd(mr)) {
++            is_romd = true;
++            warn_report("WHPX: ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
++                        start_pa, start_pa + size);
++        } else {
++            return;
++        }
+     }
+ 
+     delta = qemu_real_host_page_size() - (start_pa & ~qemu_real_host_page_mask());
+@@ -2386,7 +2393,7 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
+             + section->offset_within_region + delta;
+ 
+     whpx_update_mapping(start_pa, size, (void *)(uintptr_t)host_va, add,
+-                        memory_region_is_rom(mr), mr->name);
++                        memory_region_is_rom(mr) || is_romd, mr->name);
+ }
+ 
+ static void whpx_region_add(MemoryListener *listener,
+-- 
+2.37.1
+
 
 
