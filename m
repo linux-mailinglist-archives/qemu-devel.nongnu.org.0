@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC22B582343
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:37:41 +0200 (CEST)
-Received: from localhost ([::1]:59514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A10582348
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:38:22 +0200 (CEST)
+Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGdTt-0001V8-Te
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42622)
+	id 1oGdUi-0002Cc-Dr
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:38:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oGdNv-0004qQ-Ro
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:31:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22430)
+ id 1oGdOD-0005Gd-Il
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:31:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1oGdNr-0003nv-Ao
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:31:17 -0400
+ id 1oGdOB-0003qc-Pu
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:31:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658914274;
+ s=mimecast20190719; t=1658914295;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=A0rtM9FLAfQqHQ48biHyZ0IsrZJYWD/FEDFDnjt+Ceg=;
- b=NwD2gJ5hPv3B8tqvmhplXjsJdajRQJtl9UpFJ55lI4OQJM/D2BgUInvqbGxRgB4gAA77ve
- vfmLdOalK/DLimKL7OQtHdh2d4GeI33x1c8u9ct98P5I+7tGn81Z6tzwaIFLJKLFlrRLoY
- vxOpVCAGbJic6MuJrQfSNUkAud9TTOk=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Dst2Plvd4t7zB6RJSDJwAGsKZgrt7gGwzPqCUQMj+fk=;
+ b=Cv7p5KfYxHcLQcrvbTAZqbZwtG35JoWQQd4y6YXVWIJddyAV7d/zXE71y2RippDdtmHp/E
+ Bq3KCufPKpO2A3kwLHLg6s/5vLDkqg6V4VZIEDzUvo7hWeQh8H1CSY4L6UpdI9qIk8qzSV
+ wX+nVnSc1EsZ3+QcQm6MWJ4WPItW+Lk=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-RT21UOlJOUOXcL1N_GW8Zw-1; Wed, 27 Jul 2022 05:31:10 -0400
-X-MC-Unique: RT21UOlJOUOXcL1N_GW8Zw-1
-Received: by mail-yb1-f197.google.com with SMTP id
- u6-20020a25b7c6000000b00670862c5b16so13025982ybj.12
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 02:31:10 -0700 (PDT)
+ us-mta-463-zbrvAfO5OqWGYNKnL4T-Yw-1; Wed, 27 Jul 2022 05:31:26 -0400
+X-MC-Unique: zbrvAfO5OqWGYNKnL4T-Yw-1
+Received: by mail-yw1-f199.google.com with SMTP id
+ 00721157ae682-31dfe25bd47so133408227b3.18
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 02:31:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=A0rtM9FLAfQqHQ48biHyZ0IsrZJYWD/FEDFDnjt+Ceg=;
- b=lYXiTmB8sBGEuJJTC8T9nvDcjV4kRtZrdImIfqL14HZUSC+qeKXzejDfqn9oWSPLXg
- SOoi+cJ9rBAgMip5yUm4A6znRcJ39WvI48Da37xAOeMRTBTOtv/TSGt4lHYKCimEtAWk
- Qpfs3OJzZ4uZdAWgTSjFsyzBlZxGsx4pamZEmv8NWzTVUNPb4HgG4/hPL/l6Zo09b4WY
- OeAd02XuD2yTrV4MyiFy1CQ9tMnqNhdc8r3nuFv5FUWrodmUaOt/ll9o6zmOorvakeaq
- +sexEuL550hwrNBpsSqnWbd4hDqew3+yPXeTAUcrxI1CSdYCdw9PMWvQEdUbi7n17nFS
- ASRg==
-X-Gm-Message-State: AJIora9waQKSOyJUfh6faIJ294sRlVGomTjPOQxLPIwHBrvaHomkyBSh
- Fl404H+LInwR6m+eJ5F6Tdmij7KXEcedDqkX8kDTrkRzgqMSmtmQWv5ZknbvrddaNZ4KV6Oegnc
- wEBZzigtQ3D7Mg8KgMJEmj39PThlGH7c=
-X-Received: by 2002:a81:430d:0:b0:31e:60a4:7bc6 with SMTP id
- q13-20020a81430d000000b0031e60a47bc6mr17757770ywa.515.1658914270371; 
- Wed, 27 Jul 2022 02:31:10 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tR+SUSu2xfpaT5F/XXaA71xnPahNioje/hwBZQT3JBb0uIWZqAdRWwi/5AvO2qFLSowVgtqpKkVKK8ce3XOn8=
-X-Received: by 2002:a81:430d:0:b0:31e:60a4:7bc6 with SMTP id
- q13-20020a81430d000000b0031e60a47bc6mr17757751ywa.515.1658914270135; Wed, 27
- Jul 2022 02:31:10 -0700 (PDT)
+ bh=Dst2Plvd4t7zB6RJSDJwAGsKZgrt7gGwzPqCUQMj+fk=;
+ b=0QBrjENCUQjjLKk5jWy95aWe1YMBYJkMZ+b2Vmjbx0MGLStoly2Y9i1vP6SNvnSLuv
+ MTYrVYLqsdtvzogfJUVzqZMD0etZIk/VxRXRdY6sQ7JuKE+UuXz1i/hz8X0GuG4bmKzU
+ 3GFEN5FKzQLIH6IrDtIx8RYrz6xrkBJ5Ypnl2mu9TRzrgTGJjT39sn5Xj4Jd8JoKveAD
+ Vx+fCXbdZMVbHd+RqGNYpAgdqUIKG3tb42X7EVZyc6iLxJkSx5elQwLI1FnJfqV10YYy
+ anf5ExzmnJCe8+aiSMpV1y4RZAgOItpoHb7Zg92Htq1Ge1q1fux3uLlStk/Tu6JPaQhc
+ aA5A==
+X-Gm-Message-State: AJIora81DqSTcHi3tYudVAjWWVcutCS4d0ayvuIE0KVYMku72Uwwvldp
+ fsJHHN/VpiSXHjZTQTQpk7Dx1HN5/JLXK2dq2jTF+byk5rEFv1F6SJaOyR+LwfICvYNMEqc5TPY
+ lnCOSCIPkgF2j6+NzopJx8R9oGXmvU9o=
+X-Received: by 2002:a25:bacf:0:b0:66f:4c39:5c34 with SMTP id
+ a15-20020a25bacf000000b0066f4c395c34mr17080306ybk.74.1658914285739; 
+ Wed, 27 Jul 2022 02:31:25 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t63Hl3klWgMxpANhIWk86MnRBu4hksZXazMECIygBATRH80vgxbFsXV+mz4FjQbHm/vDPuStLAHn0mcgYxxpU=
+X-Received: by 2002:a25:bacf:0:b0:66f:4c39:5c34 with SMTP id
+ a15-20020a25bacf000000b0066f4c395c34mr17080287ybk.74.1658914285526; Wed, 27
+ Jul 2022 02:31:25 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220727092135.302915-1-thuth@redhat.com>
- <20220727092135.302915-3-thuth@redhat.com>
-In-Reply-To: <20220727092135.302915-3-thuth@redhat.com>
+ <20220727092135.302915-4-thuth@redhat.com>
+In-Reply-To: <20220727092135.302915-4-thuth@redhat.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Wed, 27 Jul 2022 12:30:58 +0300
-Message-ID: <CAPMcbCp5BMALXPXMGkmLD8MGvd4aqAEChpa_bdR1khKCHOGpiw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] qga: Replace 'blacklist' and 'whitelist' in the guest
- agent sources
+Date: Wed, 27 Jul 2022 12:31:14 +0300
+Message-ID: <CAPMcbCoqA6sYLNNNwUgOis3FVdGdt7pe2y70Tbi5g2vvyw8U5w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] tests/unit/test-qga: Replace the word 'blacklist' in
+ the guest agent unit test
 To: Thomas Huth <thuth@redhat.com>
 Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>, 
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000c8dbd105e4c613ed"
+Content-Type: multipart/alternative; boundary="000000000000b3b0bc05e4c614e7"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
@@ -96,7 +96,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000c8dbd105e4c613ed
+--000000000000b3b0bc05e4c614e7
 Content-Type: text/plain; charset="UTF-8"
 
 Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
@@ -107,325 +107,46 @@ On Wed, Jul 27, 2022 at 12:21 PM Thomas Huth <thuth@redhat.com> wrote:
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  qga/qapi-schema.json   |  4 +--
->  qga/guest-agent-core.h |  2 +-
->  qga/commands-posix.c   | 16 ++++++------
->  qga/commands-win32.c   | 10 +++----
->  qga/main.c             | 59 +++++++++++++++++++++---------------------
->  5 files changed, 46 insertions(+), 45 deletions(-)
+>  tests/unit/test-qga.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-> index 869399ea1a..026a56f76c 100644
-> --- a/qga/qapi-schema.json
-> +++ b/qga/qapi-schema.json
-> @@ -16,8 +16,8 @@
->
->  { 'pragma': { 'doc-required': true } }
->
-> -# Whitelists to permit QAPI rule violations; think twice before you
-> -# add to them!
-> +# Lists with items allowed to permit QAPI rule violations; think twice
-> +# before you add to them!
->  { 'pragma': {
->      # Types whose member names may use '_'
->      'member-name-exceptions': [
-> diff --git a/qga/guest-agent-core.h b/qga/guest-agent-core.h
-> index 29cd50402f..b4e7c52c61 100644
-> --- a/qga/guest-agent-core.h
-> +++ b/qga/guest-agent-core.h
-> @@ -24,7 +24,7 @@ typedef struct GACommandState GACommandState;
->  extern GAState *ga_state;
->  extern QmpCommandList ga_commands;
->
-> -GList *ga_command_blacklist_init(GList *blacklist);
-> +GList *ga_command_init_blockedrpcs(GList *blockedrpcs);
->  void ga_command_state_init(GAState *s, GACommandState *cs);
->  void ga_command_state_add(GACommandState *cs,
->                            void (*init)(void),
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 954efed01b..eea819cff0 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -3356,8 +3356,8 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum,
-> Error **errp)
+> diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+> index c398866f46..80bb6b0866 100644
+> --- a/tests/unit/test-qga.c
+> +++ b/tests/unit/test-qga.c
+> @@ -629,7 +629,7 @@ static void test_qga_get_time(gconstpointer fix)
+>      g_assert_cmpint(time, >, 0);
 >  }
->  #endif
 >
-> -/* add unsupported commands to the blacklist */
-> -GList *ga_command_blacklist_init(GList *blacklist)
-> +/* add unsupported commands to the list of blocked RPCs */
-> +GList *ga_command_init_blockedrpcs(GList *blockedrpcs)
+> -static void test_qga_blacklist(gconstpointer data)
+> +static void test_qga_blockedrpcs(gconstpointer data)
 >  {
->  #if !defined(__linux__)
->      {
-> @@ -3370,13 +3370,13 @@ GList *ga_command_blacklist_init(GList *blacklist)
->          char **p = (char **)list;
+>      TestFixture fix;
+>      QDict *ret, *error;
+> @@ -637,7 +637,7 @@ static void test_qga_blacklist(gconstpointer data)
 >
->          while (*p) {
-> -            blacklist = g_list_append(blacklist, g_strdup(*p++));
-> +            blockedrpcs = g_list_append(blockedrpcs, g_strdup(*p++));
->          }
->      }
->  #endif
+>      fixture_setup(&fix, "-b guest-ping,guest-get-time", NULL);
 >
->  #if !defined(HAVE_GETIFADDRS)
-> -    blacklist = g_list_append(blacklist,
-> +    blockedrpcs = g_list_append(blockedrpcs,
->                                g_strdup("guest-network-get-interfaces"));
->  #endif
+> -    /* check blacklist */
+> +    /* check blocked RPCs */
+>      ret = qmp_fd(fix.fd, "{'execute': 'guest-ping'}");
+>      g_assert_nonnull(ret);
+>      error = qdict_get_qdict(ret, "error");
+> @@ -968,7 +968,7 @@ int main(int argc, char **argv)
+>      g_test_add_data_func("/qga/fsfreeze-status", &fix,
+>                           test_qga_fsfreeze_status);
 >
-> @@ -3390,18 +3390,18 @@ GList *ga_command_blacklist_init(GList *blacklist)
->          char **p = (char **)list;
->
->          while (*p) {
-> -            blacklist = g_list_append(blacklist, g_strdup(*p++));
-> +            blockedrpcs = g_list_append(blockedrpcs, g_strdup(*p++));
->          }
->      }
->  #endif
->
->  #if !defined(CONFIG_FSTRIM)
-> -    blacklist = g_list_append(blacklist, g_strdup("guest-fstrim"));
-> +    blockedrpcs = g_list_append(blockedrpcs, g_strdup("guest-fstrim"));
->  #endif
->
-> -    blacklist = g_list_append(blacklist, g_strdup("guest-get-devices"));
-> +    blockedrpcs = g_list_append(blockedrpcs,
-> g_strdup("guest-get-devices"));
->
-> -    return blacklist;
-> +    return blockedrpcs;
->  }
->
->  /* register init/cleanup routines for stateful command groups */
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index 7ed7664715..ec9f55b453 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -2005,8 +2005,8 @@ GuestMemoryBlockInfo
-> *qmp_guest_get_memory_block_info(Error **errp)
->      return NULL;
->  }
->
-> -/* add unsupported commands to the blacklist */
-> -GList *ga_command_blacklist_init(GList *blacklist)
-> +/* add unsupported commands to the list of blocked RPCs */
-> +GList *ga_command_init_blockedrpcs(GList *blockedrpcs)
->  {
->      const char *list_unsupported[] = {
->          "guest-suspend-hybrid",
-> @@ -2017,7 +2017,7 @@ GList *ga_command_blacklist_init(GList *blacklist)
->      char **p = (char **)list_unsupported;
->
->      while (*p) {
-> -        blacklist = g_list_append(blacklist, g_strdup(*p++));
-> +        blockedrpcs = g_list_append(blockedrpcs, g_strdup(*p++));
->      }
->
->      if (!vss_init(true)) {
-> @@ -2028,11 +2028,11 @@ GList *ga_command_blacklist_init(GList *blacklist)
->          p = (char **)list;
->
->          while (*p) {
-> -            blacklist = g_list_append(blacklist, g_strdup(*p++));
-> +            blockedrpcs = g_list_append(blockedrpcs, g_strdup(*p++));
->          }
->      }
->
-> -    return blacklist;
-> +    return blockedrpcs;
->  }
->
->  /* register init/cleanup routines for stateful command groups */
-> diff --git a/qga/main.c b/qga/main.c
-> index 74e5c9b10c..5a9d8252e0 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -87,7 +87,7 @@ struct GAState {
->  #endif
->      bool delimit_response;
->      bool frozen;
-> -    GList *blacklist;
-> +    GList *blockedrpcs;
->      char *state_filepath_isfrozen;
->      struct {
->          const char *log_filepath;
-> @@ -107,7 +107,7 @@ struct GAState *ga_state;
->  QmpCommandList ga_commands;
->
->  /* commands that are safe to issue while filesystems are frozen */
-> -static const char *ga_freeze_whitelist[] = {
-> +static const char *ga_freeze_allowlist[] = {
->      "guest-ping",
->      "guest-info",
->      "guest-sync",
-> @@ -363,31 +363,31 @@ static gint ga_strcmp(gconstpointer str1,
-> gconstpointer str2)
->  }
->
->  /* disable commands that aren't safe for fsfreeze */
-> -static void ga_disable_non_whitelisted(const QmpCommand *cmd, void
-> *opaque)
-> +static void ga_disable_not_allowed(const QmpCommand *cmd, void *opaque)
->  {
-> -    bool whitelisted = false;
-> +    bool allowed = false;
->      int i = 0;
->      const char *name = qmp_command_name(cmd);
->
-> -    while (ga_freeze_whitelist[i] != NULL) {
-> -        if (strcmp(name, ga_freeze_whitelist[i]) == 0) {
-> -            whitelisted = true;
-> +    while (ga_freeze_allowlist[i] != NULL) {
-> +        if (strcmp(name, ga_freeze_allowlist[i]) == 0) {
-> +            allowed = true;
->          }
->          i++;
->      }
-> -    if (!whitelisted) {
-> +    if (!allowed) {
->          g_debug("disabling command: %s", name);
->          qmp_disable_command(&ga_commands, name, "the agent is in frozen
-> state");
->      }
->  }
->
-> -/* [re-]enable all commands, except those explicitly blacklisted by user
-> */
-> -static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opaque)
-> +/* [re-]enable all commands, except those explicitly blocked by user */
-> +static void ga_enable_non_blocked(const QmpCommand *cmd, void *opaque)
->  {
-> -    GList *blacklist = opaque;
-> +    GList *blockedrpcs = opaque;
->      const char *name = qmp_command_name(cmd);
->
-> -    if (g_list_find_custom(blacklist, name, ga_strcmp) == NULL &&
-> +    if (g_list_find_custom(blockedrpcs, name, ga_strcmp) == NULL &&
->          !qmp_command_is_enabled(cmd)) {
->          g_debug("enabling command: %s", name);
->          qmp_enable_command(&ga_commands, name);
-> @@ -426,8 +426,8 @@ void ga_set_frozen(GAState *s)
->      if (ga_is_frozen(s)) {
->          return;
->      }
-> -    /* disable all non-whitelisted (for frozen state) commands */
-> -    qmp_for_each_command(&ga_commands, ga_disable_non_whitelisted, NULL);
-> +    /* disable all forbidden (for frozen state) commands */
-> +    qmp_for_each_command(&ga_commands, ga_disable_not_allowed, NULL);
->      g_warning("disabling logging due to filesystem freeze");
->      ga_disable_logging(s);
->      s->frozen = true;
-> @@ -465,8 +465,8 @@ void ga_unset_frozen(GAState *s)
->          s->deferred_options.pid_filepath = NULL;
->      }
->
-> -    /* enable all disabled, non-blacklisted commands */
-> -    qmp_for_each_command(&ga_commands, ga_enable_non_blacklisted,
-> s->blacklist);
-> +    /* enable all disabled, non-blocked commands */
-> +    qmp_for_each_command(&ga_commands, ga_enable_non_blocked,
-> s->blockedrpcs);
->      s->frozen = false;
->      if (!ga_delete_file(s->state_filepath_isfrozen)) {
->          g_warning("unable to delete %s, fsfreeze may not function
-> properly",
-> @@ -896,7 +896,8 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)
->      int64_t handle;
->
->      g_assert(s->pstate_filepath);
-> -    /* we blacklist commands and avoid operations that potentially require
-> +    /*
-> +     * We block commands and avoid operations that potentially require
->       * writing to disk when we're in a frozen state. this includes opening
->       * new files, so we should never get here in that situation
->       */
-> @@ -950,8 +951,8 @@ struct GAConfig {
->  #ifdef _WIN32
->      const char *service;
->  #endif
-> -    gchar *bliststr; /* blacklist may point to this string */
-> -    GList *blacklist;
-> +    gchar *bliststr; /* blockedrpcs may point to this string */
-> +    GList *blockedrpcs;
->      int daemonize;
->      GLogLevelFlags log_level;
->      int dumpconf;
-> @@ -1019,7 +1020,7 @@ static void config_load(GAConfig *config)
->      if (g_key_file_has_key(keyfile, "general", blockrpcs_key, NULL)) {
->          config->bliststr =
->              g_key_file_get_string(keyfile, "general", blockrpcs_key,
-> &gerr);
-> -        config->blacklist = g_list_concat(config->blacklist,
-> +        config->blockedrpcs = g_list_concat(config->blockedrpcs,
->                                            split_list(config->bliststr,
-> ","));
->      }
->
-> @@ -1079,7 +1080,7 @@ static void config_dump(GAConfig *config)
->                             config->log_level == G_LOG_LEVEL_MASK);
->      g_key_file_set_boolean(keyfile, "general", "retry-path",
->                             config->retry_path);
-> -    tmp = list_join(config->blacklist, ',');
-> +    tmp = list_join(config->blockedrpcs, ',');
->      g_key_file_set_string(keyfile, "general", "block-rpcs", tmp);
->      g_free(tmp);
->
-> @@ -1171,8 +1172,8 @@ static void config_parse(GAConfig *config, int argc,
-> char **argv)
->                  qmp_for_each_command(&ga_commands, ga_print_cmd, NULL);
->                  exit(EXIT_SUCCESS);
->              }
-> -            config->blacklist = g_list_concat(config->blacklist,
-> -                                             split_list(optarg, ","));
-> +            config->blockedrpcs = g_list_concat(config->blockedrpcs,
-> +                                                split_list(optarg, ","));
->              break;
->          }
->  #ifdef _WIN32
-> @@ -1226,7 +1227,7 @@ static void config_free(GAConfig *config)
->  #ifdef CONFIG_FSFREEZE
->      g_free(config->fsfreeze_hook);
->  #endif
-> -    g_list_free_full(config->blacklist, g_free);
-> +    g_list_free_full(config->blockedrpcs, g_free);
->      g_free(config);
->  }
->
-> @@ -1310,7 +1311,7 @@ static GAState *initialize_agent(GAConfig *config,
-> int socket_activation)
->              s->deferred_options.log_filepath = config->log_filepath;
->          }
->          ga_disable_logging(s);
-> -        qmp_for_each_command(&ga_commands, ga_disable_non_whitelisted,
-> NULL);
-> +        qmp_for_each_command(&ga_commands, ga_disable_not_allowed, NULL);
->      } else {
->          if (config->daemonize) {
->              become_daemon(config->pid_filepath);
-> @@ -1334,10 +1335,10 @@ static GAState *initialize_agent(GAConfig *config,
-> int socket_activation)
->          return NULL;
->      }
->
-> -    config->blacklist = ga_command_blacklist_init(config->blacklist);
-> -    if (config->blacklist) {
-> -        GList *l = config->blacklist;
-> -        s->blacklist = config->blacklist;
-> +    config->blockedrpcs =
-> ga_command_init_blockedrpcs(config->blockedrpcs);
-> +    if (config->blockedrpcs) {
-> +        GList *l = config->blockedrpcs;
-> +        s->blockedrpcs = config->blockedrpcs;
->          do {
->              g_debug("disabling command: %s", (char *)l->data);
->              qmp_disable_command(&ga_commands, l->data, NULL);
+> -    g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
+> +    g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
+>      g_test_add_data_func("/qga/config", NULL, test_qga_config);
+>      g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
+>      g_test_add_data_func("/qga/guest-exec-invalid", &fix,
 > --
 > 2.31.1
 >
 >
 
---000000000000c8dbd105e4c613ed
+--000000000000b3b0bc05e4c614e7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -440,389 +161,54 @@ ng-left:1ex">Let&#39;s use better, more inclusive wording here.<br>
 Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
 =3D"_blank">thuth@redhat.com</a>&gt;<br>
 ---<br>
-=C2=A0qga/qapi-schema.json=C2=A0 =C2=A0|=C2=A0 4 +--<br>
-=C2=A0qga/guest-agent-core.h |=C2=A0 2 +-<br>
-=C2=A0qga/commands-posix.c=C2=A0 =C2=A0| 16 ++++++------<br>
-=C2=A0qga/commands-win32.c=C2=A0 =C2=A0| 10 +++----<br>
-=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 59 ++++++=
-+++++++++++++++---------------------<br>
-=C2=A05 files changed, 46 insertions(+), 45 deletions(-)<br>
+=C2=A0tests/unit/test-qga.c | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
 <br>
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json<br>
-index 869399ea1a..026a56f76c 100644<br>
---- a/qga/qapi-schema.json<br>
-+++ b/qga/qapi-schema.json<br>
-@@ -16,8 +16,8 @@<br>
-<br>
-=C2=A0{ &#39;pragma&#39;: { &#39;doc-required&#39;: true } }<br>
-<br>
--# Whitelists to permit QAPI rule violations; think twice before you<br>
--# add to them!<br>
-+# Lists with items allowed to permit QAPI rule violations; think twice<br>
-+# before you add to them!<br>
-=C2=A0{ &#39;pragma&#39;: {<br>
-=C2=A0 =C2=A0 =C2=A0# Types whose member names may use &#39;_&#39;<br>
-=C2=A0 =C2=A0 =C2=A0&#39;member-name-exceptions&#39;: [<br>
-diff --git a/qga/guest-agent-core.h b/qga/guest-agent-core.h<br>
-index 29cd50402f..b4e7c52c61 100644<br>
---- a/qga/guest-agent-core.h<br>
-+++ b/qga/guest-agent-core.h<br>
-@@ -24,7 +24,7 @@ typedef struct GACommandState GACommandState;<br>
-=C2=A0extern GAState *ga_state;<br>
-=C2=A0extern QmpCommandList ga_commands;<br>
-<br>
--GList *ga_command_blacklist_init(GList *blacklist);<br>
-+GList *ga_command_init_blockedrpcs(GList *blockedrpcs);<br>
-=C2=A0void ga_command_state_init(GAState *s, GACommandState *cs);<br>
-=C2=A0void ga_command_state_add(GACommandState *cs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0void (*init)(void),<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index 954efed01b..eea819cff0 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -3356,8 +3356,8 @@ qmp_guest_fstrim(bool has_minimum, int64_t minimum, E=
-rror **errp)<br>
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c<br>
+index c398866f46..80bb6b0866 100644<br>
+--- a/tests/unit/test-qga.c<br>
++++ b/tests/unit/test-qga.c<br>
+@@ -629,7 +629,7 @@ static void test_qga_get_time(gconstpointer fix)<br>
+=C2=A0 =C2=A0 =C2=A0g_assert_cmpint(time, &gt;, 0);<br>
 =C2=A0}<br>
-=C2=A0#endif<br>
 <br>
--/* add unsupported commands to the blacklist */<br>
--GList *ga_command_blacklist_init(GList *blacklist)<br>
-+/* add unsupported commands to the list of blocked RPCs */<br>
-+GList *ga_command_init_blockedrpcs(GList *blockedrpcs)<br>
+-static void test_qga_blacklist(gconstpointer data)<br>
++static void test_qga_blockedrpcs(gconstpointer data)<br>
 =C2=A0{<br>
-=C2=A0#if !defined(__linux__)<br>
-=C2=A0 =C2=A0 =C2=A0{<br>
-@@ -3370,13 +3370,13 @@ GList *ga_command_blacklist_init(GList *blacklist)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char **p =3D (char **)list;<br>
+=C2=A0 =C2=A0 =C2=A0TestFixture fix;<br>
+=C2=A0 =C2=A0 =C2=A0QDict *ret, *error;<br>
+@@ -637,7 +637,7 @@ static void test_qga_blacklist(gconstpointer data)<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (*p) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blacklist =3D g_list_append(blac=
-klist, g_strdup(*p++));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blockedrpcs =3D g_list_append(bl=
-ockedrpcs, g_strdup(*p++));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#endif<br>
+=C2=A0 =C2=A0 =C2=A0fixture_setup(&amp;fix, &quot;-b guest-ping,guest-get-t=
+ime&quot;, NULL);<br>
 <br>
-=C2=A0#if !defined(HAVE_GETIFADDRS)<br>
--=C2=A0 =C2=A0 blacklist =3D g_list_append(blacklist,<br>
-+=C2=A0 =C2=A0 blockedrpcs =3D g_list_append(blockedrpcs,<br>
+-=C2=A0 =C2=A0 /* check blacklist */<br>
++=C2=A0 =C2=A0 /* check blocked RPCs */<br>
+=C2=A0 =C2=A0 =C2=A0ret =3D qmp_fd(fix.fd, &quot;{&#39;execute&#39;: &#39;g=
+uest-ping&#39;}&quot;);<br>
+=C2=A0 =C2=A0 =C2=A0g_assert_nonnull(ret);<br>
+=C2=A0 =C2=A0 =C2=A0error =3D qdict_get_qdict(ret, &quot;error&quot;);<br>
+@@ -968,7 +968,7 @@ int main(int argc, char **argv)<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_data_func(&quot;/qga/fsfreeze-status&quot;, =
+&amp;fix,<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_strdup(&quot;guest-network-get-inte=
-rfaces&quot;));<br>
-=C2=A0#endif<br>
+=A0 =C2=A0 =C2=A0 test_qga_fsfreeze_status);<br>
 <br>
-@@ -3390,18 +3390,18 @@ GList *ga_command_blacklist_init(GList *blacklist)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char **p =3D (char **)list;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (*p) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blacklist =3D g_list_append(blac=
-klist, g_strdup(*p++));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blockedrpcs =3D g_list_append(bl=
-ockedrpcs, g_strdup(*p++));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#endif<br>
-<br>
-=C2=A0#if !defined(CONFIG_FSTRIM)<br>
--=C2=A0 =C2=A0 blacklist =3D g_list_append(blacklist, g_strdup(&quot;guest-=
-fstrim&quot;));<br>
-+=C2=A0 =C2=A0 blockedrpcs =3D g_list_append(blockedrpcs, g_strdup(&quot;gu=
-est-fstrim&quot;));<br>
-=C2=A0#endif<br>
-<br>
--=C2=A0 =C2=A0 blacklist =3D g_list_append(blacklist, g_strdup(&quot;guest-=
-get-devices&quot;));<br>
-+=C2=A0 =C2=A0 blockedrpcs =3D g_list_append(blockedrpcs, g_strdup(&quot;gu=
-est-get-devices&quot;));<br>
-<br>
--=C2=A0 =C2=A0 return blacklist;<br>
-+=C2=A0 =C2=A0 return blockedrpcs;<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* register init/cleanup routines for stateful command groups */<br>
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
-index 7ed7664715..ec9f55b453 100644<br>
---- a/qga/commands-win32.c<br>
-+++ b/qga/commands-win32.c<br>
-@@ -2005,8 +2005,8 @@ GuestMemoryBlockInfo *qmp_guest_get_memory_block_info=
-(Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0}<br>
-<br>
--/* add unsupported commands to the blacklist */<br>
--GList *ga_command_blacklist_init(GList *blacklist)<br>
-+/* add unsupported commands to the list of blocked RPCs */<br>
-+GList *ga_command_init_blockedrpcs(GList *blockedrpcs)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0const char *list_unsupported[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;guest-suspend-hybrid&quot;,<br>
-@@ -2017,7 +2017,7 @@ GList *ga_command_blacklist_init(GList *blacklist)<br=
->
-=C2=A0 =C2=A0 =C2=A0char **p =3D (char **)list_unsupported;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0while (*p) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 blacklist =3D g_list_append(blacklist, g_strdu=
-p(*p++));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 blockedrpcs =3D g_list_append(blockedrpcs, g_s=
-trdup(*p++));<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!vss_init(true)) {<br>
-@@ -2028,11 +2028,11 @@ GList *ga_command_blacklist_init(GList *blacklist)<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p =3D (char **)list;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0while (*p) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blacklist =3D g_list_append(blac=
-klist, g_strdup(*p++));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blockedrpcs =3D g_list_append(bl=
-ockedrpcs, g_strdup(*p++));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 return blacklist;<br>
-+=C2=A0 =C2=A0 return blockedrpcs;<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* register init/cleanup routines for stateful command groups */<br>
-diff --git a/qga/main.c b/qga/main.c<br>
-index 74e5c9b10c..5a9d8252e0 100644<br>
---- a/qga/main.c<br>
-+++ b/qga/main.c<br>
-@@ -87,7 +87,7 @@ struct GAState {<br>
-=C2=A0#endif<br>
-=C2=A0 =C2=A0 =C2=A0bool delimit_response;<br>
-=C2=A0 =C2=A0 =C2=A0bool frozen;<br>
--=C2=A0 =C2=A0 GList *blacklist;<br>
-+=C2=A0 =C2=A0 GList *blockedrpcs;<br>
-=C2=A0 =C2=A0 =C2=A0char *state_filepath_isfrozen;<br>
-=C2=A0 =C2=A0 =C2=A0struct {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0const char *log_filepath;<br>
-@@ -107,7 +107,7 @@ struct GAState *ga_state;<br>
-=C2=A0QmpCommandList ga_commands;<br>
-<br>
-=C2=A0/* commands that are safe to issue while filesystems are frozen */<br=
->
--static const char *ga_freeze_whitelist[] =3D {<br>
-+static const char *ga_freeze_allowlist[] =3D {<br>
-=C2=A0 =C2=A0 =C2=A0&quot;guest-ping&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;guest-info&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;guest-sync&quot;,<br>
-@@ -363,31 +363,31 @@ static gint ga_strcmp(gconstpointer str1, gconstpoint=
-er str2)<br>
-=C2=A0}<br>
-<br>
-=C2=A0/* disable commands that aren&#39;t safe for fsfreeze */<br>
--static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque=
-)<br>
-+static void ga_disable_not_allowed(const QmpCommand *cmd, void *opaque)<br=
->
-=C2=A0{<br>
--=C2=A0 =C2=A0 bool whitelisted =3D false;<br>
-+=C2=A0 =C2=A0 bool allowed =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0int i =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0const char *name =3D qmp_command_name(cmd);<br>
-<br>
--=C2=A0 =C2=A0 while (ga_freeze_whitelist[i] !=3D NULL) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(name, ga_freeze_whitelist[i]) =3D=
-=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 whitelisted =3D true;<br>
-+=C2=A0 =C2=A0 while (ga_freeze_allowlist[i] !=3D NULL) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(name, ga_freeze_allowlist[i]) =3D=
-=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 allowed =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i++;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 if (!whitelisted) {<br>
-+=C2=A0 =C2=A0 if (!allowed) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;disabling command: %s&quot;=
-, name);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_disable_command(&amp;ga_commands, nam=
-e, &quot;the agent is in frozen state&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
--/* [re-]enable all commands, except those explicitly blacklisted by user *=
-/<br>
--static void ga_enable_non_blacklisted(const QmpCommand *cmd, void *opaque)=
-<br>
-+/* [re-]enable all commands, except those explicitly blocked by user */<br=
->
-+static void ga_enable_non_blocked(const QmpCommand *cmd, void *opaque)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 GList *blacklist =3D opaque;<br>
-+=C2=A0 =C2=A0 GList *blockedrpcs =3D opaque;<br>
-=C2=A0 =C2=A0 =C2=A0const char *name =3D qmp_command_name(cmd);<br>
-<br>
--=C2=A0 =C2=A0 if (g_list_find_custom(blacklist, name, ga_strcmp) =3D=3D NU=
-LL &amp;&amp;<br>
-+=C2=A0 =C2=A0 if (g_list_find_custom(blockedrpcs, name, ga_strcmp) =3D=3D =
-NULL &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0!qmp_command_is_enabled(cmd)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;enabling command: %s&quot;,=
- name);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_enable_command(&amp;ga_commands, name=
-);<br>
-@@ -426,8 +426,8 @@ void ga_set_frozen(GAState *s)<br>
-=C2=A0 =C2=A0 =C2=A0if (ga_is_frozen(s)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 /* disable all non-whitelisted (for frozen state) commands *=
-/<br>
--=C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_disable_non_whitel=
-isted, NULL);<br>
-+=C2=A0 =C2=A0 /* disable all forbidden (for frozen state) commands */<br>
-+=C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_disable_not_allowe=
-d, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0g_warning(&quot;disabling logging due to filesystem fre=
-eze&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0ga_disable_logging(s);<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;frozen =3D true;<br>
-@@ -465,8 +465,8 @@ void ga_unset_frozen(GAState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;deferred_options.pid_filepath =3D N=
-ULL;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 /* enable all disabled, non-blacklisted commands */<br>
--=C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_enable_non_blackli=
-sted, s-&gt;blacklist);<br>
-+=C2=A0 =C2=A0 /* enable all disabled, non-blocked commands */<br>
-+=C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_enable_non_blocked=
-, s-&gt;blockedrpcs);<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;frozen =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0if (!ga_delete_file(s-&gt;state_filepath_isfrozen)) {<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_warning(&quot;unable to delete %s, fsfr=
-eeze may not function properly&quot;,<br>
-@@ -896,7 +896,8 @@ int64_t ga_get_fd_handle(GAState *s, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0int64_t handle;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0g_assert(s-&gt;pstate_filepath);<br>
--=C2=A0 =C2=A0 /* we blacklist commands and avoid operations that potential=
-ly require<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* We block commands and avoid operations that potentia=
-lly require<br>
-=C2=A0 =C2=A0 =C2=A0 * writing to disk when we&#39;re in a frozen state. th=
-is includes opening<br>
-=C2=A0 =C2=A0 =C2=A0 * new files, so we should never get here in that situa=
-tion<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
-@@ -950,8 +951,8 @@ struct GAConfig {<br>
-=C2=A0#ifdef _WIN32<br>
-=C2=A0 =C2=A0 =C2=A0const char *service;<br>
-=C2=A0#endif<br>
--=C2=A0 =C2=A0 gchar *bliststr; /* blacklist may point to this string */<br=
->
--=C2=A0 =C2=A0 GList *blacklist;<br>
-+=C2=A0 =C2=A0 gchar *bliststr; /* blockedrpcs may point to this string */<=
-br>
-+=C2=A0 =C2=A0 GList *blockedrpcs;<br>
-=C2=A0 =C2=A0 =C2=A0int daemonize;<br>
-=C2=A0 =C2=A0 =C2=A0GLogLevelFlags log_level;<br>
-=C2=A0 =C2=A0 =C2=A0int dumpconf;<br>
-@@ -1019,7 +1020,7 @@ static void config_load(GAConfig *config)<br>
-=C2=A0 =C2=A0 =C2=A0if (g_key_file_has_key(keyfile, &quot;general&quot;, bl=
-ockrpcs_key, NULL)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0config-&gt;bliststr =3D<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_key_file_get_string(keyfi=
-le, &quot;general&quot;, blockrpcs_key, &amp;gerr);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;blacklist =3D g_list_concat(config-=
-&gt;blacklist,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;blockedrpcs =3D g_list_concat(confi=
-g-&gt;blockedrpcs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0split_list(config-&gt;bliststr, &quot;,&quot;));<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -1079,7 +1080,7 @@ static void config_dump(GAConfig *config)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;log_level =3D=3D G_LOG_LEVEL_MASK);<br>
-=C2=A0 =C2=A0 =C2=A0g_key_file_set_boolean(keyfile, &quot;general&quot;, &q=
-uot;retry-path&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;retry_path);<br>
--=C2=A0 =C2=A0 tmp =3D list_join(config-&gt;blacklist, &#39;,&#39;);<br>
-+=C2=A0 =C2=A0 tmp =3D list_join(config-&gt;blockedrpcs, &#39;,&#39;);<br>
-=C2=A0 =C2=A0 =C2=A0g_key_file_set_string(keyfile, &quot;general&quot;, &qu=
-ot;block-rpcs&quot;, tmp);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(tmp);<br>
-<br>
-@@ -1171,8 +1172,8 @@ static void config_parse(GAConfig *config, int argc, =
-char **argv)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_for_each_=
-command(&amp;ga_commands, ga_print_cmd, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_SUC=
-CESS);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;blacklist =3D g_list_=
-concat(config-&gt;blacklist,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0split_list(optarg, &quot;,&quot;));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 config-&gt;blockedrpcs =3D g_lis=
-t_concat(config-&gt;blockedrpcs,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 split_list(optarg, &quot;,&quot;));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#ifdef _WIN32<br>
-@@ -1226,7 +1227,7 @@ static void config_free(GAConfig *config)<br>
-=C2=A0#ifdef CONFIG_FSFREEZE<br>
-=C2=A0 =C2=A0 =C2=A0g_free(config-&gt;fsfreeze_hook);<br>
-=C2=A0#endif<br>
--=C2=A0 =C2=A0 g_list_free_full(config-&gt;blacklist, g_free);<br>
-+=C2=A0 =C2=A0 g_list_free_full(config-&gt;blockedrpcs, g_free);<br>
-=C2=A0 =C2=A0 =C2=A0g_free(config);<br>
-=C2=A0}<br>
-<br>
-@@ -1310,7 +1311,7 @@ static GAState *initialize_agent(GAConfig *config, in=
-t socket_activation)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;deferred_options.log_=
-filepath =3D config-&gt;log_filepath;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ga_disable_logging(s);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_disa=
-ble_non_whitelisted, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_for_each_command(&amp;ga_commands, ga_disa=
-ble_not_allowed, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (config-&gt;daemonize) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0become_daemon(config-&gt;pi=
-d_filepath);<br>
-@@ -1334,10 +1335,10 @@ static GAState *initialize_agent(GAConfig *config, =
-int socket_activation)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 config-&gt;blacklist =3D ga_command_blacklist_init(config-&g=
-t;blacklist);<br>
--=C2=A0 =C2=A0 if (config-&gt;blacklist) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 GList *l =3D config-&gt;blacklist;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;blacklist =3D config-&gt;blacklist;<br>
-+=C2=A0 =C2=A0 config-&gt;blockedrpcs =3D ga_command_init_blockedrpcs(confi=
-g-&gt;blockedrpcs);<br>
-+=C2=A0 =C2=A0 if (config-&gt;blockedrpcs) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 GList *l =3D config-&gt;blockedrpcs;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;blockedrpcs =3D config-&gt;blockedrpcs;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0do {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;disabling com=
-mand: %s&quot;, (char *)l-&gt;data);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qmp_disable_command(&amp;ga=
-_commands, l-&gt;data, NULL);<br>
+-=C2=A0 =C2=A0 g_test_add_data_func(&quot;/qga/blacklist&quot;, NULL, test_=
+qga_blacklist);<br>
++=C2=A0 =C2=A0 g_test_add_data_func(&quot;/qga/blockedrpcs&quot;, NULL, tes=
+t_qga_blockedrpcs);<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_data_func(&quot;/qga/config&quot;, NULL, tes=
+t_qga_config);<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_data_func(&quot;/qga/guest-exec&quot;, &amp;=
+fix, test_qga_guest_exec);<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_data_func(&quot;/qga/guest-exec-invalid&quot=
+;, &amp;fix,<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div>
 
---000000000000c8dbd105e4c613ed--
+--000000000000b3b0bc05e4c614e7--
 
 
