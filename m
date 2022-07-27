@@ -2,58 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BCD58223B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:34:43 +0200 (CEST)
-Received: from localhost ([::1]:51006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D013058224A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:40:20 +0200 (CEST)
+Received: from localhost ([::1]:55336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGcV8-0003rs-BH
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:34:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55624)
+	id 1oGcaY-00074V-Ju
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:40:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGcKk-0003Na-TI
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:23:59 -0400
-Received: from out199-8.us.a.mail.aliyun.com ([47.90.199.8]:47437)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oGcMs-00059z-Al
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:26:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48391)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGcKb-00013T-Dg
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:23:52 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VKa69hG_1658910219; 
-Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VKa69hG_1658910219) by smtp.aliyun-inc.com;
- Wed, 27 Jul 2022 16:23:40 +0800
-Message-ID: <5b5bc692-f7fb-1e76-6404-b0e036f7b419@linux.alibaba.com>
-Date: Wed, 27 Jul 2022 16:23:39 +0800
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oGcMo-0001TC-N2
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:26:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658910364;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ICpaEiSxojxXFzhdsxw1apYjlgzn3uwKsV6RQrtOq2M=;
+ b=I3sJ6Eqg/DgtwfZZQDbG9GXGAyPbzN/FdGIXk/wbZGfa3+oU/u0QiRfQD3ndJr2nsgkZgX
+ /0YkwGNamh5jh3URNlWdRqUx7Ifar52AhEnh36ReWJJPm2oQuqSEeu3qtHXKwaYc2VQMUT
+ fDtXnb3pMH5r1QpP+/putsKFAV4WIg8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317-w0heT01kPz-kiQkPu5iF-g-1; Wed, 27 Jul 2022 04:26:03 -0400
+X-MC-Unique: w0heT01kPz-kiQkPu5iF-g-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ f18-20020a056402355200b0043be3af7a63so6096362edd.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 01:26:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=ICpaEiSxojxXFzhdsxw1apYjlgzn3uwKsV6RQrtOq2M=;
+ b=tUVOBb1foUcC5xfusqsDZSu/CmjVTXOK+4SlXufjCQvbac6wT5kw3hGdalQTU0Y0KG
+ OAhDKatjOOswMqKSOq+VNRS3TmGbAKj+cDMF/fR9FR6DekxlU5+g/i0O0oNwvPU5+GzP
+ 2JBAsN/AQVHEYlKWG0te5ROLWSirktTn8ysKMS2Zz4kKH+ld9XYuo2GtIMWxR/yOVFyE
+ ub0dWNbelueClOWikDYmaiZEHUE6gxqb24GzPImzNzxdINJWiid2QG+mVQbQWmvxcyDE
+ z/hBPCqK4XMVqOa51k9WoYfgLdYLjdBe9QPbRRfIFhkSdWANh9VR2kij3jQ7A/mX1nUg
+ Nx8Q==
+X-Gm-Message-State: AJIora/6kf1bXXPSE9V/vrzmjY97IXY8luJ6g6lR2y0AGHQpU21zkdO1
+ t1QM/+riB+DLRYPh3BQpRs0Vuuo/xTvsKagH4zCzWt/hGwoibcUi1T3tCn4dxZzzQo5P6RPt2EI
+ 8ChIA+MgOU9sTLgY=
+X-Received: by 2002:a17:907:9803:b0:72e:ec55:b2a5 with SMTP id
+ ji3-20020a170907980300b0072eec55b2a5mr16724878ejc.347.1658910362283; 
+ Wed, 27 Jul 2022 01:26:02 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1ueb+WnphRSBL0aTK4YbtWw6KbU0Ia03bZNQbklY0H0RJXGFG9JWwUo/5JxOCaagBtPL0KbnQ==
+X-Received: by 2002:a17:907:9803:b0:72e:ec55:b2a5 with SMTP id
+ ji3-20020a170907980300b0072eec55b2a5mr16724853ejc.347.1658910362048; 
+ Wed, 27 Jul 2022 01:26:02 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id
+ e2-20020a170906314200b0072b3406e9c2sm7338364eje.95.2022.07.27.01.26.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jul 2022 01:26:01 -0700 (PDT)
+Date: Wed, 27 Jul 2022 10:26:00 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Roman Kagan
+ <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org, Thomas Huth
+ <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru, Paolo Bonzini
+ <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
+Message-ID: <20220727102600.0528cdcb@redhat.com>
+In-Reply-To: <630f6dd4-7bb2-0023-9c9a-542e1ce3e0b9@yandex-team.ru>
+References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
+ <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
+ <YtfhWgayuGKNVjGq@redhat.com>
+ <630f6dd4-7bb2-0023-9c9a-542e1ce3e0b9@yandex-team.ru>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 11/16] vhost: introduce restart and release for
- vhost_dev's vqs
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <98cc06919b016e16b9abc606dd514ac2b4f85c06.1658141552.git.kangjie.xu@linux.alibaba.com>
- <2606a57f-53ef-8cc4-d51a-76c43f6ecbcf@redhat.com>
- <f28d29ac-f244-a523-ed78-84c438d13340@linux.alibaba.com>
- <CACGkMEtxXSm8Qc1LpKJJYm9cQ-F+eU5Lqecr62maRPxq1tM5rg@mail.gmail.com>
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, xuanzhuo@linux.alibaba.com,
- hengqi@linux.alibaba.com, mst@redhat.com
-In-Reply-To: <CACGkMEtxXSm8Qc1LpKJJYm9cQ-F+eU5Lqecr62maRPxq1tM5rg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=47.90.199.8;
- envelope-from=kangjie.xu@linux.alibaba.com; helo=out199-8.us.a.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,154 +106,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 25 Jul 2022 16:59:21 +0300
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
 
-在 2022/7/27 12:47, Jason Wang 写道:
-> On Tue, Jul 26, 2022 at 1:13 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
->>
->> 在 2022/7/26 12:13, Jason Wang 写道:
->>> 在 2022/7/18 19:17, Kangjie Xu 写道:
->>>> Introduce vhost_dev_virtqueue_restart(), which can restart the
->>>> virtqueue when the vhost has already started running.
->>>>
->>>> Meanwhile, vhost_dev_virtqueue_release(), which can ummap the
->>>> vrings and the desc of a specific vq of a device.
->>>>
->>>> Combining the two functions, we can reset a virtqueue with a
->>>> started vhost.
->>>>
->>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>>> ---
->>>>    hw/virtio/vhost.c         | 29 +++++++++++++++++++++++++++++
->>>>    include/hw/virtio/vhost.h |  6 ++++++
->>>>    2 files changed, 35 insertions(+)
->>>>
->>>> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->>>> index e467dfc7bc..d158d71866 100644
->>>> --- a/hw/virtio/vhost.c
->>>> +++ b/hw/virtio/vhost.c
->>>> @@ -1904,3 +1904,32 @@ int vhost_net_set_backend(struct vhost_dev *hdev,
->>>>          return -ENOSYS;
->>>>    }
->>>> +
->>>> +void vhost_dev_virtqueue_release(struct vhost_dev *hdev,
->>>> VirtIODevice *vdev,
->>>> +                                 int vq_index)
->>>> +{
->>>> +    int idx = vq_index - hdev->vq_index;
->>>> +
->>>> +    idx = hdev->vhost_ops->vhost_get_vq_index(hdev, idx);
->>>> +
->>>> +    vhost_virtqueue_unmap(hdev,
->>>> +                          vdev,
->>>> +                          hdev->vqs + idx,
->>>> +                          hdev->vq_index + idx);
->>>> +}
->>>
->>> Anything wrong that makes you can't use vhost_virtqueue_stop() here?
->>>
->>> Thanks
->>>
->> Yeah, vhost_virtqueue_stop() will result in all the queues in the device
->> being stopped.
-> This sounds a defect of the backend. I think we'd better not
-> workaround it in the qemu.
-Yeah, I agree.
->> In the scenario of DPDK-OVS, vhost_virtqueue_stop will send
->> VHOST_USER_GET_VRING_BASE to DPDK. This message is meant to destroy the
->> queue.
-> That's tricky.
->
->> However, In DPDK, VHOST_USER_GET_VRING_BASE message will lead to
->> vhost_destroy_device_notify(). This function will disable all the queues
->> in the device.
-> Ok. I wonder how the reset is implemented in DPDK? It looks to me a
-> new type of request is required.
->
-Currently, DPDK does not support reset of queue level, but it supports 
-device-level reset. VHOST_USER_RESET_DEVICE request exists in vhost 
-protocol but it is not used in vhost-net module in QEMU.
+> On 7/20/22 14:04, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Jul 20, 2022 at 02:00:16PM +0300, Roman Kagan wrote: =20
+> >> On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrang=C3=A9 wrot=
+e: =20
+> >>> On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote: =20
+> >>>> It's possible to create non-working configurations by attaching a de=
+vice
+> >>>> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
+> >>>> specifying a slot number other that zero, e.g.:
+> >>>>
+> >>>>      -device pcie-root-port,id=3Ds0,... \
+> >>>>      -device virtio-blk-pci,bus=3Ds0,addr=3D4,...
+> >>>>
+> >>>> Make QEMU reject such configurations and only allow addr=3D0 on the
+> >>>> secondary bus of a PCIe slot. =20
+> >>>
+> >>> What do you mean by 'non-working' in this case.  The guest OS boots
+> >>> OK, but I indeed don't see the device in the guest, but IIUC it was
+> >>> said that was just because Linux doesn't scan for a non-zero slot. =20
+> >>
+> >> Right.  I don't remember if it was Linux or firmware or both but indeed
+> >> at least Linux guests don't see devices if attached to a PCIe slot at
+> >> addr !=3D 0.  (Which is kinda natural for a thing called "slot", isn't=
+ it?) =20
+> >=20
+> > I vaguely recall there was an option to tell linux to scan all slots,
+> > not just slot 0, not sure if that's applicable here.
+> >  =20
+> >> =20
+> >>> That wouldn't be a broken config from QEMU's POV though, merely a
+> >>> guest OS limitation ? =20
+> >>
+> >> Strictly speaking it wouldn't, indeed.  But we've had created such a
+> >> configuration (due to a bug in our management layer) and spent
+> >> non-negligible time trying to figure out why the attached device didn't
+> >> appear in the guest.  So I thought it made sense to reject a
+> >> configuration which is known to confuse guests.  Doesn't it? =20
+> >=20
+> > If a configuration is a permissible per the hardware design / spec, then
+> > QEMU should generally allow it.  We don't want to constrain host side
+> > configs based on the current limitations of guest OS whose behaviour can
+> > change over time, or where a different guest OS may have a different PO=
+V.
+> >  =20
+>=20
+> If I understand correctly further answers the configration that we try to=
+ forbid is not permissible by PCIe spec. So seems valid to forbid it. We st=
+ill need to mention specification in commit message and in the comment.
+>=20
+> If we still afraid to forbid at once that invalid configuration that was =
+previously allowed, may be we can proceed with some of the following:
+>=20
+> 1. Make a deprecation period of three releases and print only warning dur=
+ing this period. And forbid the invalid configuration three releases later.=
+ Still I'm not sure that someone will see these warnings in logs..
+>=20
+> 2. Make a boolean config option, like CONFIG_PCIE_STRICT, which forbids i=
+nvalid configurations. This way we keep default behavior, that allows to te=
+st something unusual, but add an option that we can use for production solu=
+tion where it's important to reduce number of possibilities to break the VM.
+>=20
+> What do you think?
+Given that non zero slots are used only on broken hardware/firmware and it's
+just workaround for those in linux kernel.
+I wouldn't bother with 1 or 2 (I think just a note on change log should
+be sufficient)
 
-It seems like there is no way for the driver to directly reset the 
-device in vhost user net (If we use ethtool -r <eth_name>, we will get 
-operation not supported.)
 
-Actually we can plug the driver in and out to perform a device reset 
-operation, but it will be applied to all the devices. I take it for 
-example here.
-
-If you plug out the driver(modprobe -r virtio-net), vhost_dev_stop() 
-will be called in qemu. DPDK will receive VHOST_USER_GET_VRING_BASE 
-messages for each virtqueue.
-
-Then you can plug in the driver(modprobe virtio-net), vhost_dev_start() 
-will be called in qemu. The process is same as when we boot the machine, 
-DPDK will receive:
-
-     VHOST_USER_SET_VRING_NUM, VHOST_USER_SET_VRING_BASE, 
-VHOST_USER_SET_VRING_ADDR, VHOST_USER_SET_VRING_KICK, 
-VHOST_USER_SET_VRING_CALL
-
-in order to start a virtqueue.
-
-Our vq reset implemenation does not need any change to the DPDK except 
-adding the feature bit, since we reuse all the request types in 
-vhost-user protocol.
-
-I agree that we should add a new request in vhost-user protocol to 
-support vq reset, we'll implement it in the next version.
-
->> Thus, when restarting the queue, other queues except the restarted one
->> are still disabled.
->>
->> On the other hand, I think it may be not necessary to destroy the queue.
->> We can simply disable it. When restarting the queue, it will be
->> intialized again.
-> So for vhost-net kernel, we can simply set NULL as the backend for a
-> specific virtqueue. We just need to refactor the stop codes (which did
-> it at vhost device level instead of queue level currently).
->
-> Thanks
-
-Yes, I think so.
-
-Thanks
-
->> Thanks
->>
->>>> +
->>>> +int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice
->>>> *vdev,
->>>> +                                int vq_index)
->>>> +{
->>>> +    int idx = vq_index - hdev->vq_index;
->>>> +    int r = 0;
->>>> +
->>>> +    idx = hdev->vhost_ops->vhost_get_vq_index(hdev, idx);
->>>> +
->>>> +    r = vhost_virtqueue_start(hdev,
->>>> +                              vdev,
->>>> +                              hdev->vqs + idx,
->>>> +                              hdev->vq_index + idx);
->>>> +
->>>> +    return r;
->>>> +}
->>>> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
->>>> index a346f23d13..7df7dbe24d 100644
->>>> --- a/include/hw/virtio/vhost.h
->>>> +++ b/include/hw/virtio/vhost.h
->>>> @@ -277,6 +277,12 @@ bool vhost_has_free_slot(void);
->>>>    int vhost_net_set_backend(struct vhost_dev *hdev,
->>>>                              struct vhost_vring_file *file);
->>>>    +
->>>> +void vhost_dev_virtqueue_release(struct vhost_dev *hdev,
->>>> VirtIODevice *vdev,
->>>> +                                 int vq_index);
->>>> +int vhost_dev_virtqueue_restart(struct vhost_dev *hdev, VirtIODevice
->>>> *vdev,
->>>> +                                int vq_index);
->>>> +
->>>>    int vhost_device_iotlb_miss(struct vhost_dev *dev, uint64_t iova,
->>>> int write);
->>>>      void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
 
