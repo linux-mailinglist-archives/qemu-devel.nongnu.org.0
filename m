@@ -2,97 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91375582068
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:49:27 +0200 (CEST)
-Received: from localhost ([::1]:58412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B9E582085
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:55:44 +0200 (CEST)
+Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGarG-0002gF-6a
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:49:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35994)
+	id 1oGaxL-0000We-HM
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:55:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGaaw-0004eg-99
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:32:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48107)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGamP-0000Oi-Dg
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:44:26 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:38276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGaas-0008MQ-MH
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:32:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658903547;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lwOttoZHv3w7q24ptUThjbhOVf3i4HkuYnqwbIGWlfA=;
- b=aZXsxiLHoZzavmqXrBpjFf/ViBxBIN+HE0v7CA5DTxpj2mO7hYrVcSJ3yaDnG+CeU/C9a6
- jKyJP5sLaX5Mj7dh15xoaxHSQW9/LpRLJRUaKEjDBLtUZv8usS4uNXeCqxaaAPx9XQH22g
- A0sLspu55tIr+e1NBpY2DMwZ1oD58Ts=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-6KoT2dOhOTu5hwONCWlqNw-1; Wed, 27 Jul 2022 02:32:25 -0400
-X-MC-Unique: 6KoT2dOhOTu5hwONCWlqNw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- 130-20020a1c0288000000b003a3497306a8so695166wmc.9
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 23:32:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=lwOttoZHv3w7q24ptUThjbhOVf3i4HkuYnqwbIGWlfA=;
- b=mHvwZOQqXEJKVO/W6UYy0F+wNw6uUhs8xZ5VKPNpacRStVmeqIh00TZjHgzKsvCcDy
- Ie9zPgWM+QjkWGFfMZITMqOQPL2clKeUJUpFiT86hFDCeQWjMiTvZPv5lrMVU0TA5S0u
- F6cMgpTTfun2TdGaFdSxmv9jTIXKFRu/DAgOpJClD5oq32Xm+/HrRfQF/nLe6TG2jETp
- Em++pxgIfK1kmXzQMTmC7fJfd1cBqzx5rIoKGNXis3Yoqb5DHASxPzGZ7klX8U0FGK1y
- MzvwaM9reoNl1JCqmqkhc+YPWHYJufqCsqtfIWwi3x2JkeDGUYQm3AR7bmNRmFWD3HoF
- u45w==
-X-Gm-Message-State: AJIora/fn70iCryVFAiprUfQJhC7yHg0tpwjto4JB2AkZTCM48LLPADC
- rIF3S2GrhHaEb4fDwBk5CE7HuXJfZdoiQ1V+uVTHMZ2PcoHp4xoyDKfQOKPePSb+ncQ+/EJxPgr
- 74QqWiiacmMi7XLA=
-X-Received: by 2002:a05:6000:1e04:b0:21d:7ec3:fe5a with SMTP id
- bj4-20020a0560001e0400b0021d7ec3fe5amr13565286wrb.116.1658903543807; 
- Tue, 26 Jul 2022 23:32:23 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1syPl5z8sagHGuR+4AIGCC9FntIXmAZmpcrB+ZIbRTo03OrXTLB4J8EH6K8dtUgWA7X/hM0hw==
-X-Received: by 2002:a05:6000:1e04:b0:21d:7ec3:fe5a with SMTP id
- bj4-20020a0560001e0400b0021d7ec3fe5amr13565273wrb.116.1658903543595; 
- Tue, 26 Jul 2022 23:32:23 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-164.web.vodafone.de.
- [109.43.176.164]) by smtp.gmail.com with ESMTPSA id
- v62-20020a1cac41000000b003a31f1edfa7sm1159766wme.41.2022.07.26.23.32.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 23:32:23 -0700 (PDT)
-Message-ID: <6abac561-2a13-433b-bd97-740fdce08314@redhat.com>
-Date: Wed, 27 Jul 2022 08:32:22 +0200
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGamF-0002KT-2I
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:44:18 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R101e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VKZluKf_1658904240; 
+Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VKZluKf_1658904240) by smtp.aliyun-inc.com;
+ Wed, 27 Jul 2022 14:44:01 +0800
+Message-ID: <1fcf4956-a28f-ada5-87c8-e3c64fb57eb4@linux.alibaba.com>
+Date: Wed, 27 Jul 2022 14:44:00 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3] target/s390x: support PRNO_TRNG instruction
-Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- David Hildenbrand <david@redhat.com>
-Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-References: <Ytft08S2eGaYVwC3@zx2c4.com>
- <20220720120859.339788-1-Jason@zx2c4.com>
- <c61e0119-24e8-c1a3-d1c1-cd57b3feca02@redhat.com>
- <YuCWRaEqrF2XwlsQ@zx2c4.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <YuCWRaEqrF2XwlsQ@zx2c4.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH 09/16] vhost-user: enable/disable a single vring
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <46deff7d44ad806a4bfb9235e57b0d37d8cfa95c.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <3fd4d288-8db7-41f4-7e8b-0a8ef44c936f@redhat.com>
+ <1b0f4eed-7925-949d-678a-f929c6baddda@linux.alibaba.com>
+ <CACGkMEsQ6aW-ihHoiioD5M6acVwQ2vgW97XJ0BoQxVtc3JnNVw@mail.gmail.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+In-Reply-To: <CACGkMEsQ6aW-ihHoiioD5M6acVwQ2vgW97XJ0BoQxVtc3JnNVw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.133;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-133.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,25 +69,152 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2022 03.35, Jason A. Donenfeld wrote:
-> Hey David,
-> 
-> On Wed, Jul 20, 2022 at 08:41:48PM +0200, David Hildenbrand wrote:
->> I did not review the doc in detail once again, maybe I get to that later
->> this week.
-> 
-> Did you ever get around to merging this patch? Is it in some tree
-> somewhere?
 
-QEMU is in the freeze phase now, so new feature won't be merged before the 
-next release, see:
+在 2022/7/27 12:51, Jason Wang 写道:
+> On Tue, Jul 26, 2022 at 1:27 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
+>>
+>> 在 2022/7/26 12:07, Jason Wang 写道:
+>>> 在 2022/7/18 19:17, Kangjie Xu 写道:
+>>>> Implement the vhost_set_single_vring_enable, which is to enable or
+>>>> disable a single vring.
+>>>>
+>>>> The parameter wait_for_reply is added to help for some cases such as
+>>>> vq reset.
+>>>>
+>>>> Meanwhile, vhost_user_set_vring_enable() is refactored.
+>>>>
+>>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+>>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>>> ---
+>>>>    hw/virtio/vhost-user.c | 55 ++++++++++++++++++++++++++++++++++++------
+>>>>    1 file changed, 48 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+>>>> index 75b8df21a4..5a80a415f0 100644
+>>>> --- a/hw/virtio/vhost-user.c
+>>>> +++ b/hw/virtio/vhost-user.c
+>>>> @@ -267,6 +267,8 @@ struct scrub_regions {
+>>>>        int fd_idx;
+>>>>    };
+>>>>    +static int enforce_reply(struct vhost_dev *dev, const VhostUserMsg
+>>>> *msg);
+>>>> +
+>>>>    static bool ioeventfd_enabled(void)
+>>>>    {
+>>>>        return !kvm_enabled() || kvm_eventfds_enabled();
+>>>> @@ -1198,6 +1200,49 @@ static int vhost_user_set_vring_base(struct
+>>>> vhost_dev *dev,
+>>>>        return vhost_set_vring(dev, VHOST_USER_SET_VRING_BASE, ring);
+>>>>    }
+>>>>    +
+>>>> +static int vhost_user_set_single_vring_enable(struct vhost_dev *dev,
+>>>> +                                              int index,
+>>>> +                                              int enable,
+>>>> +                                              bool wait_for_reply)
+>>>> +{
+>>>> +    int ret;
+>>>> +
+>>>> +    if (index < dev->vq_index || index >= dev->vq_index + dev->nvqs) {
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    struct vhost_vring_state state = {
+>>>> +        .index = index,
+>>>> +        .num   = enable,
+>>>> +    };
+>>>> +
+>>>> +    VhostUserMsg msg = {
+>>>> +        .hdr.request = VHOST_USER_SET_VRING_ENABLE,
+>>>> +        .hdr.flags = VHOST_USER_VERSION,
+>>>> +        .payload.state = state,
+>>>> +        .hdr.size = sizeof(msg.payload.state),
+>>>> +    };
+>>>> +
+>>>> +    bool reply_supported = virtio_has_feature(dev->protocol_features,
+>>>> + VHOST_USER_PROTOCOL_F_REPLY_ACK);
+>>>> +
+>>>> +    if (reply_supported && wait_for_reply) {
+>>>> +        msg.hdr.flags |= VHOST_USER_NEED_REPLY_MASK;
+>>>> +    }
+>>>
+>>> Do we need to fail if !realy_supported && wait_for_reply?
+>>>
+>>> Thanks
+>>>
+>>>
+>> I guess you mean "should we fail if VHOST_USER_PROTOCOL_F_REPLY_ACK
+>> feature is not supported?".
+>>
+>> The implementation here is similar to that in vhost_user_set_vring_addr().
+>>
+>> If this feature is not supported, it will call enforce_reply(), then
+>> call vhost_user_get_features() to get a reply.
+> Ok, so you meant we can then fallback to VHOST_USER_GET_FEATURES? I
+> wonder how robust is this, e.g is the bakcend required to process
+> vhost-user request in order?
+>
+> Thanks
+Yes, we rely on VHOST_USER_GET_FEATURES message to ensure that 
+VHOST_USER_SET_VRING_ENABLE has been processed.
 
-  https://wiki.qemu.org/Planning/7.1
+It's not robust. I reviewed the vhost-user protocol in qemu doc, 
+actually it does not specify that the backend should process them in order.
 
-Maybe we could use the time to implement the missing SHA512 stuff to avoid 
-having an inconsistency between the Principles of Operation and the emulated 
-machine in QEMU?
+I think adding a new vhost protocol message can fix this issue. The new 
+invented message should reset the queue, and have a blocked read to 
+ensure the message has been processed.
 
-  Thomas
+Thanks
 
+>> Since the messages will be processed sequentailly in DPDK, success of
+>> enforce_reply() means the previous message VHOST_USER_SET_VRING_ENABLE
+>> has been processed.
+>>
+>> Thanks
+>>
+>>>> +
+>>>> +    ret = vhost_user_write(dev, &msg, NULL, 0);
+>>>> +    if (ret < 0) {
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    if (wait_for_reply) {
+>>>> +        return enforce_reply(dev, &msg);
+>>>> +    }
+>>>> +
+>>>> +    return ret;
+>>>> +}
+>>>> +
+>>>>    static int vhost_user_set_vring_enable(struct vhost_dev *dev, int
+>>>> enable)
+>>>>    {
+>>>>        int i;
+>>>> @@ -1207,13 +1252,8 @@ static int vhost_user_set_vring_enable(struct
+>>>> vhost_dev *dev, int enable)
+>>>>        }
+>>>>          for (i = 0; i < dev->nvqs; ++i) {
+>>>> -        int ret;
+>>>> -        struct vhost_vring_state state = {
+>>>> -            .index = dev->vq_index + i,
+>>>> -            .num   = enable,
+>>>> -        };
+>>>> -
+>>>> -        ret = vhost_set_vring(dev, VHOST_USER_SET_VRING_ENABLE,
+>>>> &state);
+>>>> +        int ret = vhost_user_set_single_vring_enable(dev,
+>>>> dev->vq_index + i,
+>>>> +                                                     enable, false);
+>>>>            if (ret < 0) {
+>>>>                /*
+>>>>                 * Restoring the previous state is likely infeasible,
+>>>> as well as
+>>>> @@ -2627,6 +2667,7 @@ const VhostOps user_ops = {
+>>>>            .vhost_set_owner = vhost_user_set_owner,
+>>>>            .vhost_reset_device = vhost_user_reset_device,
+>>>>            .vhost_get_vq_index = vhost_user_get_vq_index,
+>>>> +        .vhost_set_single_vring_enable =
+>>>> vhost_user_set_single_vring_enable,
+>>>>            .vhost_set_vring_enable = vhost_user_set_vring_enable,
+>>>>            .vhost_requires_shm_log = vhost_user_requires_shm_log,
+>>>>            .vhost_migration_done = vhost_user_migration_done,
 
