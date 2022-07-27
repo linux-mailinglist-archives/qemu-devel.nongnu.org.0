@@ -2,143 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FEB9582A04
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:52:55 +0200 (CEST)
-Received: from localhost ([::1]:45154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A50CC582A0E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:56:17 +0200 (CEST)
+Received: from localhost ([::1]:49818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGjLB-0006MA-W8
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:52:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44418)
+	id 1oGjOS-0001Eu-P8
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:56:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1oGjJU-0004x5-1P
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:51:08 -0400
-Received: from mail-dm6nam10on2062a.outbound.protection.outlook.com
- ([2a01:111:f400:7e88::62a]:52112
- helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oGjLl-0006iO-Ij; Wed, 27 Jul 2022 11:53:29 -0400
+Received: from forwardcorp1p.mail.yandex.net
+ ([2a02:6b8:0:1472:2741:0:8b6:217]:54904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1oGjJP-0000y3-Fi
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:51:07 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HAThZ4fIolGJRfyQrs3pFSx6coMFwzMkmarcAbFtTEl0AVv5TgG1zxbbBDYsFx6qARrELRlq+UkvG3LzIiLK8g6KBUn0btua/DLoFsm4FhV/Eqq41voSOOW8eKewv3SkBVqon13NuoLBy0Q+UeoS99YiWagGf0K5AdXR8zoAqjwK4O0DRXq/OauiuUfLo+R1J+7yx7MUxjjZg8yHp49+XspEUIH6cB893AxPHraxjK6Bhj2fIr4Zqst92GQ/yu3s33yP5soVhutOi8R0yCVzEdE9tXTtJ59ot5sgMPrH5kOkKinXQTpkBcOrQ1pw/50sinQ67/BA0uk03r2qJ8W0UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1iw7rDFyh1imEGbNybqizIMDbobocA+PAxcBsSR86HY=;
- b=FjzxDh0FRcyBjjZuCqQTpd8QBdGz7NHfApgMFpMQXtJKLpJooWuZwjta9dl8naJwBzY3VBkZZyoguTMi07Frkl3BfXVGpURWzZqJMZJbFajD9KhoKHSIbF5XRycRmtZzFrGVQiYa/eypi/HeIJ/e0HrtVtHVNR5ymME3ep7pa605RLqpYbgZezaAS5PIHH0AgcOGunDZc6ILPn0uUV5iZGoAL1mDaaXywnsj14uD+BgPnxCALVTDVWAY5xx7JWqQL9Fn68lEmBR5XzN0pYEnw4OGgupnGXt3avPBqm8UIWAV7AU6NRsnIJ7kUNXgRKzi9aJ+qG++ztbOTOJv4lIEzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1iw7rDFyh1imEGbNybqizIMDbobocA+PAxcBsSR86HY=;
- b=f0t+43YurXiNb6sT1V3VIFdxVUdnKT245+Q5lVjTvNXr60CaFAI97HSyi6X2pqoM9BGhGc5uTGMhTNfxfNBeGEZhtA6Wej+Hq2IOayyGqitlUyq5jiZK0Ent4RLhMG1d56yRi4FppxnLK3qUlKK66BGDSbfrlzhC1spOtdMWkS/FTn4Em3BcmDNMbR526sYri1c8aPUn8lKLjnNBIllvOes/jk/Kvm6/1M8f27zInocFRzdKpT8Mk4aDddokE3UP0LWxRKuTY/1Dw0gnI/hdew14BLEV80REFP7FrTB+Iuxx4sQ00UQbgiDg2hR4KHYJA4Wu+nlIh4J8YIZyPNvgLw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com (2603:10b6:5:209::13)
- by MN2PR12MB3151.namprd12.prod.outlook.com (2603:10b6:208:d1::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.19; Wed, 27 Jul
- 2022 15:45:54 +0000
-Received: from DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::e4ed:a822:b348:f38d]) by DM6PR12MB5549.namprd12.prod.outlook.com
- ([fe80::e4ed:a822:b348:f38d%8]) with mapi id 15.20.5458.025; Wed, 27 Jul 2022
- 15:45:54 +0000
-Message-ID: <39f6d299-96c8-9e8c-dcbc-0e4873fd225f@nvidia.com>
-Date: Wed, 27 Jul 2022 18:45:46 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 07/11] vfio/migration: Implement VFIO migration
- protocol v2
+ (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
+ id 1oGjLg-0001HD-KC; Wed, 27 Jul 2022 11:53:27 -0400
+Received: from sas1-c73b4b4f4b95.qloud-c.yandex.net
+ (sas1-c73b4b4f4b95.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c08:12a9:0:640:c73b:4b4f])
+ by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 287962E0A91;
+ Wed, 27 Jul 2022 18:53:13 +0300 (MSK)
+Received: from [10.211.19.155] (10.211.19.155-vpn.dhcp.yndx.net
+ [10.211.19.155])
+ by sas1-c73b4b4f4b95.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ Ag60TXN0up-rAPSsDwX; Wed, 27 Jul 2022 18:53:12 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1658937192; bh=5M9M4q3ZyGbFY53z3X2h7Wns/YhCjOv2utDH/iqqUcE=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=kGXh6WT9di4iPe3cMxX7/BUT+hG0MSHZ33zVAvrrP5sut2FpZ7hI3f+njjoKzZkDC
+ Y9EgbVvV5V8/pxwWRMk9xP1tk2Dlm3iak6QiOpQ2KvJBkRbZ9NPsF2wvU6xbpp0NEG
+ z14zAXug6REfjhc/tG5CFlnNSYqIHfxpOeeVbk4U=
+Authentication-Results: sas1-c73b4b4f4b95.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <d3212eb9-1054-9821-4062-5e9b960da630@yandex-team.ru>
+Date: Wed, 27 Jul 2022 18:53:10 +0300
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v10 18/21] job.c: enable job lock/unlock and remove
+ Aiocontext locks
 Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>, Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>, Yishai Hadas <yishaih@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>
-References: <20220530170739.19072-1-avihaih@nvidia.com>
- <20220530170739.19072-8-avihaih@nvidia.com>
- <20220718151219.GA60193@nvidia.com>
-From: Avihai Horon <avihaih@nvidia.com>
-In-Reply-To: <20220718151219.GA60193@nvidia.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-19-eesposit@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+In-Reply-To: <20220725073855.76049-19-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: LO2P265CA0071.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:60::35) To DM6PR12MB5549.namprd12.prod.outlook.com
- (2603:10b6:5:209::13)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d2ac5c47-9637-4e20-fad7-08da6fe716e5
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3151:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cv8R67PA0yb/CsvW+m9BRW9cTw22YWXX5UoVZ23JpkCFW0v4bTTZJnW9UV2RfZT3r5XkZ026mke7MYCKAfWKE3fFi6pjPhyW8gBsJ22h4/yGfawXXROgql3HJbfAU16ikxHkvlbjgFHPKzMuxOEPPycAMzXNy8fm2CbRVvb1480eDjRpszbf71SkIsUUvXDHPOCjiRon+o6PlTRqbIoKusC/lmF+Peq/C7Bre+E5wVRLJoLZ7df57YGIx7gDPdWXGG5aA84Dm23urmv6SFFCpLey/vBMRMXDfDlO/F6M7E3opHbGi6xJY2DcrmUWB5PznAWdQXDtc+c89na71VS97CTwK0+OmQA8M+KboeCa6d99UISiP/keG6rwqwAdk0AvofMkODl48fuoG7pJkgEanxy9AVArfkosodDfGG5zutc8B1harVIFhk+FEpakyQ8PqoWdCMtlR4dfpOxJjWxh4u6dgj6DiI4JI64nNxhHx66JKEnoz3axlYqEoGBSaYrtsoylLmaujWfSCAoplW5xUGHqwnoG2XujwcthKNY+gElFL7VHKmkBZ8rAKRxR3JRTv+aaDzR0t52mJ9//BQqJ+8Wr5cqQov8nyGqCiNOPFO3Omawrtcl8VGWHot3LNW3Qra7iv6tpTLKsvAsEFj1M0hHA995fVpuMXiKabziNVC91A5AQGlgu4Z87mqLHIUiEXIKCbLNKKK/Vb+Ve9XgXtiaxgkVbT/C5VhpMidiHGGj/Um0/3ka88eSjkpaLV/VgYPZ+aM5EPlOOtQD5VcF72FXoFgS/KdZVNMid323Xjx1yV2YP78Gu22XfVzPPifyvRs3J4N5RUzAVAsfo0HhQgw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB5549.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(53546011)(66476007)(66946007)(4326008)(8936002)(8676002)(66556008)(6512007)(26005)(6486002)(5660300002)(31686004)(2616005)(316002)(38100700002)(478600001)(54906003)(6506007)(107886003)(86362001)(41300700001)(6666004)(36756003)(83380400001)(2906002)(186003)(110136005)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmRCbWpOY0gwbzBROVhSakVWaUo1RDgwVER6Yng4YXpkNmM0eEl5Vk1YN0hk?=
- =?utf-8?B?K0VBdUozdkQzZXR4WjY1V3ZHWGlWOVVDM25RaWRQZFNHN2ViRnhBcDJiQ0xV?=
- =?utf-8?B?UGMwdm5COW9MTlh2TEhnTlp0NTE5M2xzb00yWnh0eEUwWWR6MmRIRFJnWHVs?=
- =?utf-8?B?OUlOYXZVK0hHSmF5MS9sSW4wQWxxQkJKenRWVTRWdUg5Y0YwYldDZVAyNlFR?=
- =?utf-8?B?L1NKQi9GQzJrMG9PbWMvNm14cnpLNytpczJTS1Rjck40OUN2TTdoYi9RS1Jx?=
- =?utf-8?B?T3Fvb2R3Q0ZXWERENEFxOU16S2xrZmhSWWwrQnJmOGlJUkJ5Q3g5clNFM2xy?=
- =?utf-8?B?b0lpSC9SUnRCV0g1ZkY0VkRxTXBwdXQvK1lGNXhPRjVqWm9DVlZQbnJQN2Jv?=
- =?utf-8?B?eEFCcnloSXowamNkdDNDZ0xYUzBZQU8xNFNBSTJjaXlFMzUwVkltY21EU2Yr?=
- =?utf-8?B?NWRUc0RkcW52dmNyVmJZV040Q29OREk1djl1Zm9ibHcvczNsWlJCb1B1d3lX?=
- =?utf-8?B?V2RzV0JpWFBWa1VBYVcrYjhjelJiVnF3WFBMOWwvNnA4bWgzWXJQQmRWS2h3?=
- =?utf-8?B?TUJwa1lxdEs0R2xNQzA0YXV6VlV3TVRhSTNDTVRqQlFSdW5OWGVJeVR4UE1P?=
- =?utf-8?B?TVBFN2ZNdFArdTN4dVFxbXlpMTd0YWZiQjdlOGp6RjhXVTNFTmhuUzkxWUF1?=
- =?utf-8?B?Vm9hMjlpTGFSRWoyb01nY1EvQlQ1MyszL2E4V0ljemQ3SG1tcHRFM1NxNzJE?=
- =?utf-8?B?MVduQlJqSnoyT2IzWDFPTGsyQU5OR0FDWGtjRGIvYlc1OFc1ekJUYzBveUVC?=
- =?utf-8?B?ajBJK29JSGc3N1VyVS8xTm9wUW9TWkczSCtoV1IyMjhsN2N5RjFDT1RSRm1R?=
- =?utf-8?B?VmZFWjFSMVdjNU1ndFBiOEw1dGVMeDRjODdZemtHSElmSEc4LzQ1eDVzRlk2?=
- =?utf-8?B?UHJqOTV2RUtBdGtmK1hHQWZXNTJ5T2Q3SThrY241ZkJpOHlES0lDL1M3QVA2?=
- =?utf-8?B?Q3BLM3piZnZlbktDOC9XaUhPZXBoVWV5c0htT09ZRVhnSThGUXE5VS91aUFh?=
- =?utf-8?B?NTk0K1lTa2xDMnYwWlR4SjQ0L1V2TEhsK05FMmxkNC96eUdQT2xpSHRNNlJt?=
- =?utf-8?B?RmhzQldDWHJUL056OTB6MThmNFJTcWJPVllqT2RGc2NONVRkeUFUZUJMVWZ1?=
- =?utf-8?B?WWpJWlVRcWJOSEtYdUE1MXJXOFV5dTBia2xabVk4SmVld2pPa0hZRkRSQXdY?=
- =?utf-8?B?d2p0UGpCOUZxQmRZM21oNmFaemEwczEzRG5UNFBzZ1czNUdTOGRrSlYwSEhZ?=
- =?utf-8?B?OVNnRkVBdW9MRndPL1pTRU4xWmZQOTZYMm1NZG8rcGU0ZkI0bWk4S25XSUlL?=
- =?utf-8?B?YVRwTG5BWlNMOXlhc2RJNmZvTlNraFJCVnFDbXQvMlY2TWtRWVhndXoyZ1ZY?=
- =?utf-8?B?NVRLOHJDa0gwNXhxbVlzU3RhdWI3ZXlNTDd5T1BmVWpDdm1VeXV1dm1oOUZ5?=
- =?utf-8?B?eUdGWGNCdEtydE44RzJDMVpFYkk5K1ZYdGNnU21Hc2swWjNBUkRjU3VrYzBW?=
- =?utf-8?B?am5GUGV6aER3Si9meVg1MTVXQkJxM1E0djdIbkUxM0RKcmtEOGNEK2IzTlk5?=
- =?utf-8?B?QkM0eVZuUzZxQThqcUtDMCs3MlZ5RTV3VWhFNnFnNHhpODE2YTJyYXVwTC8y?=
- =?utf-8?B?SWFvK0djckdlem5LcThWV2tlUGIzbldQYjFhVVkxeWRKWUFqOVJRZzFhQTlL?=
- =?utf-8?B?M0ZraHY5V2g2bWhVNVcyWFg5cGN0ek9teEVGTmpWdEFOeERjN084T3BwT1V2?=
- =?utf-8?B?NUVmbXcwU2Q3Njk2ZGE0SVhYU3cydC9SYUt0aTg5anYyNkd1TjJSakVld2sx?=
- =?utf-8?B?aUd0cFVKYyt3NUdIV1lCWllnMjQwbnh2bENhVkx3dUQyT01oc2M2WlFhTzV1?=
- =?utf-8?B?WGUxWElLSVhYUm5KWTc1aUFqbTlRVm5OblZubVZZTVZ3ZnJkUU85ZlhMR0p6?=
- =?utf-8?B?SGE1S0NrT0JQdmtRZk5XMFZwTkdySHRRQzZWSGN1N2JqcUd4bWs2dmIzalNN?=
- =?utf-8?B?T04ycXEyQ2xvTy8vMndEd3pQMGsvei9QdUxFMlVORGt5OGNpWHIwbUhYVEY5?=
- =?utf-8?Q?YiX4p5blwjwEYRJU4vijG2y5q?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2ac5c47-9637-4e20-fad7-08da6fe716e5
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5549.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jul 2022 15:45:54.0364 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OQfgjrXDTApxdLG0CBxE42TXjf+mud3vmgpNam4pLKrCwJYnc6WgbBWYFfKkPFiFjrOPROb0SgIk6koExXFNzA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3151
-Received-SPF: softfail client-ip=2a01:111:f400:7e88::62a;
- envelope-from=avihaih@nvidia.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -155,124 +85,457 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 7/25/22 10:38, Emanuele Giuseppe Esposito wrote:
+> Change the job_{lock/unlock} and macros to use job_mutex.
+> 
+> Now that they are not nop anymore, remove the aiocontext
+> to avoid deadlocks.
+> 
+> Therefore:
+> - when possible, remove completely the aiocontext lock/unlock pair
+> - if it is used by some other function too, reduce the locking
+>    section as much as possible, leaving the job API outside.
+> - change AIO_WAIT_WHILE in AIO_WAIT_WHILE_UNLOCKED, since we
+>    are not using the aiocontext lock anymore
+> 
+> There is only one JobDriver callback, ->free() that assumes that
+> the aiocontext lock is held (because it calls bdrv_unref), so for
+> now keep that under aiocontext lock.
+> 
+> Also remove real_job_{lock/unlock}, as they are replaced by the
+> public functions.
+> 
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   blockdev.c                       | 74 +++++-----------------------
+>   include/qemu/job.h               | 22 ++++-----
+>   job-qmp.c                        | 46 +++--------------
+>   job.c                            | 84 ++++++--------------------------
+>   tests/unit/test-bdrv-drain.c     |  4 +-
+>   tests/unit/test-block-iothread.c |  2 +-
+>   tests/unit/test-blockjob.c       | 15 ++----
+>   7 files changed, 52 insertions(+), 195 deletions(-)
+> 
+> diff --git a/blockdev.c b/blockdev.c
+> index 5b79093155..2cd84d206c 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -155,12 +155,7 @@ void blockdev_mark_auto_del(BlockBackend *blk)
+>       for (job = block_job_next_locked(NULL); job;
+>            job = block_job_next_locked(job)) {
+>           if (block_job_has_bdrv(job, blk_bs(blk))) {
+> -            AioContext *aio_context = job->job.aio_context;
+> -            aio_context_acquire(aio_context);
+> -
+>               job_cancel_locked(&job->job, false);
+> -
+> -            aio_context_release(aio_context);
+>           }
+>       }
+>   
+> @@ -1836,14 +1831,7 @@ static void drive_backup_abort(BlkActionState *common)
+>       DriveBackupState *state = DO_UPCAST(DriveBackupState, common, common);
+>   
+>       if (state->job) {
+> -        AioContext *aio_context;
+> -
+> -        aio_context = bdrv_get_aio_context(state->bs);
+> -        aio_context_acquire(aio_context);
+> -
+>           job_cancel_sync(&state->job->job, true);
+> -
+> -        aio_context_release(aio_context);
+>       }
+>   }
+>   
+> @@ -1937,14 +1925,7 @@ static void blockdev_backup_abort(BlkActionState *common)
+>       BlockdevBackupState *state = DO_UPCAST(BlockdevBackupState, common, common);
+>   
+>       if (state->job) {
+> -        AioContext *aio_context;
+> -
+> -        aio_context = bdrv_get_aio_context(state->bs);
+> -        aio_context_acquire(aio_context);
+> -
+>           job_cancel_sync(&state->job->job, true);
+> -
+> -        aio_context_release(aio_context);
+>       }
+>   }
+>   
+> @@ -3306,19 +3287,14 @@ out:
+>   }
+>   
+>   /*
+> - * Get a block job using its ID and acquire its AioContext.
+> - * Called with job_mutex held.
+> + * Get a block job using its ID. Called with job_mutex held.
+>    */
+> -static BlockJob *find_block_job_locked(const char *id,
+> -                                       AioContext **aio_context,
+> -                                       Error **errp)
+> +static BlockJob *find_block_job_locked(const char *id, Error **errp)
+>   {
+>       BlockJob *job;
+>   
+>       assert(id != NULL);
+>   
+> -    *aio_context = NULL;
+> -
+>       job = block_job_get_locked(id);
+>   
+>       if (!job) {
+> @@ -3327,36 +3303,30 @@ static BlockJob *find_block_job_locked(const char *id,
+>           return NULL;
+>       }
+>   
+> -    *aio_context = block_job_get_aio_context(job);
+> -    aio_context_acquire(*aio_context);
+> -
+>       return job;
+>   }
+>   
+>   void qmp_block_job_set_speed(const char *device, int64_t speed, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(device, &aio_context, errp);
+> +    job = find_block_job_locked(device, errp);
+>   
+>       if (!job) {
+>           return;
+>       }
+>   
+>       block_job_set_speed_locked(job, speed, errp);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_cancel(const char *device,
+>                             bool has_force, bool force, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(device, &aio_context, errp);
+> +    job = find_block_job_locked(device, errp);
+>   
+>       if (!job) {
+>           return;
+> @@ -3369,22 +3339,19 @@ void qmp_block_job_cancel(const char *device,
+>       if (job_user_paused_locked(&job->job) && !force) {
+>           error_setg(errp, "The block job for device '%s' is currently paused",
+>                      device);
+> -        goto out;
+> +        return;
+>       }
+>   
+>       trace_qmp_block_job_cancel(job);
+>       job_user_cancel_locked(&job->job, force, errp);
+> -out:
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_pause(const char *device, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(device, &aio_context, errp);
+> +    job = find_block_job_locked(device, errp);
+>   
+>       if (!job) {
+>           return;
+> @@ -3392,16 +3359,14 @@ void qmp_block_job_pause(const char *device, Error **errp)
+>   
+>       trace_qmp_block_job_pause(job);
+>       job_user_pause_locked(&job->job, errp);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_resume(const char *device, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(device, &aio_context, errp);
+> +    job = find_block_job_locked(device, errp);
+>   
+>       if (!job) {
+>           return;
+> @@ -3409,16 +3374,14 @@ void qmp_block_job_resume(const char *device, Error **errp)
+>   
+>       trace_qmp_block_job_resume(job);
+>       job_user_resume_locked(&job->job, errp);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_complete(const char *device, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(device, &aio_context, errp);
+> +    job = find_block_job_locked(device, errp);
+>   
+>       if (!job) {
+>           return;
+> @@ -3426,16 +3389,14 @@ void qmp_block_job_complete(const char *device, Error **errp)
+>   
+>       trace_qmp_block_job_complete(job);
+>       job_complete_locked(&job->job, errp);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_finalize(const char *id, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    job = find_block_job_locked(id, &aio_context, errp);
+> +    job = find_block_job_locked(id, errp);
+>   
+>       if (!job) {
+>           return;
+> @@ -3445,24 +3406,16 @@ void qmp_block_job_finalize(const char *id, Error **errp)
+>       job_ref_locked(&job->job);
+>       job_finalize_locked(&job->job, errp);
+>   
+> -    /*
+> -     * Job's context might have changed via job_finalize (and job_txn_apply
+> -     * automatically acquires the new one), so make sure we release the correct
+> -     * one.
+> -     */
+> -    aio_context = block_job_get_aio_context(job);
+>       job_unref_locked(&job->job);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_block_job_dismiss(const char *id, Error **errp)
+>   {
+> -    AioContext *aio_context;
+>       BlockJob *bjob;
+>       Job *job;
+>   
+>       JOB_LOCK_GUARD();
+> -    bjob = find_block_job_locked(id, &aio_context, errp);
+> +    bjob = find_block_job_locked(id, errp);
+>   
+>       if (!bjob) {
+>           return;
+> @@ -3471,7 +3424,6 @@ void qmp_block_job_dismiss(const char *id, Error **errp)
+>       trace_qmp_block_job_dismiss(bjob);
+>       job = &bjob->job;
+>       job_dismiss_locked(&job, errp);
+> -    aio_context_release(aio_context);
+>   }
+>   
+>   void qmp_change_backing_file(const char *device,
+> @@ -3753,15 +3705,11 @@ BlockJobInfoList *qmp_query_block_jobs(Error **errp)
+>       for (job = block_job_next_locked(NULL); job;
+>            job = block_job_next_locked(job)) {
+>           BlockJobInfo *value;
+> -        AioContext *aio_context;
+>   
+>           if (block_job_is_internal(job)) {
+>               continue;
+>           }
+> -        aio_context = block_job_get_aio_context(job);
+> -        aio_context_acquire(aio_context);
+> -        value = block_job_query(job, errp);
+> -        aio_context_release(aio_context);
+> +        value = block_job_query_locked(job, errp);
+>           if (!value) {
+>               qapi_free_BlockJobInfoList(head);
+>               return NULL;
+> diff --git a/include/qemu/job.h b/include/qemu/job.h
+> index c144aabefc..676f69bb2e 100644
+> --- a/include/qemu/job.h
+> +++ b/include/qemu/job.h
+> @@ -75,13 +75,14 @@ typedef struct Job {
+>       ProgressMeter progress;
+>   
+>   
+> -    /** Protected by AioContext lock */
+> +    /** Protected by job_mutex */
+>   
+>       /**
+>        * AioContext to run the job coroutine in.
+> -     * This field can be read when holding either the BQL (so we are in
+> -     * the main loop) or the job_mutex.
+> -     * It can be only written when we hold *both* BQL and job_mutex.
+> +     * The job Aiocontext can be read when holding *either*
+> +     * the BQL (so we are in the main loop) or the job_mutex.
+> +     * It can only be written when we hold *both* BQL
+> +     * and the job_mutex.
 
-On 7/18/2022 6:12 PM, Jason Gunthorpe wrote:
-> On Mon, May 30, 2022 at 08:07:35PM +0300, Avihai Horon wrote:
->
->> +/* Returns 1 if end-of-stream is reached, 0 if more data and -1 if error */
->> +static int vfio_save_block(QEMUFile *f, VFIOMigration *migration)
->> +{
->> +    ssize_t data_size;
->> +
->> +    data_size = read(migration->data_fd, migration->data_buffer,
->> +                     migration->data_buffer_size);
->> +    if (data_size < 0) {
->> +        return -1;
->> +    }
->> +    if (data_size == 0) {
->> +        return 1;
->> +    }
->> +
->> +    qemu_put_be64(f, VFIO_MIG_FLAG_DEV_DATA_STATE);
->> +    qemu_put_be64(f, data_size);
->> +    qemu_put_buffer_async(f, migration->data_buffer, data_size, false);
->> +    qemu_fflush(f);
->> +    bytes_transferred += data_size;
->> +
->> +    trace_vfio_save_block(migration->vbasedev->name, data_size);
->> +
->> +    return qemu_file_get_error(f);
->> +}
-> We looked at this from an eye to "how much data is transfered" per
-> callback.
->
-> The above function is the basic data mover, and
-> 'migration->data_buffer_size' is set to 1MB at the moment.
->
-> So, we product up to 1MB VFIO_MIG_FLAG_DEV_DATA_STATE sections.
->
-> This series does not include the precopy support, but that will
-> include a precopy 'save_live_iterate' function like this:
->
-> static int vfio_save_iterate(QEMUFile *f, void *opaque)
-> {
->      VFIODevice *vbasedev = opaque;
->      VFIOMigration *migration = vbasedev->migration;
->      int ret;
->
->      ret = vfio_save_block(f, migration);
->      if (ret < 0) {
->          return ret;
->      }
->      if (ret == 1) {
->          return 1;
->      }
->      qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
->      return 0;
-> }
->
-> Thus, during precopy this will never do more than 1MB per callback.
->
->> +static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
->> +{
->> +    VFIODevice *vbasedev = opaque;
->> +    enum vfio_device_mig_state recover_state;
->> +    int ret;
->> +
->> +    /* We reach here with device state STOP or STOP_COPY only */
->> +    recover_state = VFIO_DEVICE_STATE_STOP;
->> +    ret = vfio_migration_set_state(vbasedev, VFIO_DEVICE_STATE_STOP_COPY,
->> +                                   recover_state);
->> +    if (ret) {
->> +        return ret;
->> +    }
->> +
->> +    do {
->> +        ret = vfio_save_block(f, vbasedev->migration);
->> +        if (ret < 0) {
->> +            return ret;
->> +        }
->> +    } while (!ret);
-> This seems to be the main problem where we chain together 1MB blocks
-> until the entire completed precopy data is completed. The above is
-> hooked to 'save_live_complete_precopy'
->
-> So, if we want to break the above up into some 'save_iterate' like
-> function, do you have some advice how to do it? The above do/while
-> must happen after the VFIO_DEVICE_STATE_STOP_COPY.
+You reword comment you've added some patches ago. Could you please merge this to original patch?
 
-Ping.
+>        */
+>       AioContext *aio_context;
+>   
+> @@ -106,7 +107,7 @@ typedef struct Job {
+>       /**
+>        * Set to false by the job while the coroutine has yielded and may be
+>        * re-entered by job_enter(). There may still be I/O or event loop activity
+> -     * pending. Accessed under block_job_mutex (in blockjob.c).
+> +     * pending. Accessed under job_mutex.
+>        *
+>        * When the job is deferred to the main loop, busy is true as long as the
+>        * bottom half is still pending.
+> @@ -322,9 +323,9 @@ typedef enum JobCreateFlags {
+>   
+>   extern QemuMutex job_mutex;
+>   
+> -#define JOB_LOCK_GUARD() /* QEMU_LOCK_GUARD(&job_mutex) */
+> +#define JOB_LOCK_GUARD() QEMU_LOCK_GUARD(&job_mutex)
+>   
+> -#define WITH_JOB_LOCK_GUARD() /* WITH_QEMU_LOCK_GUARD(&job_mutex) */
+> +#define WITH_JOB_LOCK_GUARD() WITH_QEMU_LOCK_GUARD(&job_mutex)
+>   
+>   /**
+>    * job_lock:
+> @@ -672,7 +673,7 @@ void job_user_cancel_locked(Job *job, bool force, Error **errp);
+>    * Returns the return value from the job if the job actually completed
+>    * during the call, or -ECANCELED if it was canceled.
+>    *
+> - * Callers must hold the AioContext lock of job->aio_context.
+> + * Called with job_lock held.
 
-Juan, AFAIU (and correct me if I am wrong) the problem on source side is 
-that save_live_complete_precopy handlers are called with iothread 
-locked, so during this time QEMU is non-responsive.
-On destination side, we don't yield every now and then like RAM code 
-does, so QEMU is non-responsive there as well.
+That's wrong, it should be called with job_lock not held :)
 
-Is it possible to solve this problem by letting the VFIO 
-save_live_complete_precopy handler run outside the iothread lock?
+>    */
+>   int job_cancel_sync(Job *job, bool force);
+>   
+> @@ -697,8 +698,7 @@ void job_cancel_sync_all(void);
+>    * function).
+>    *
+>    * Returns the return value from the job.
+> - *
+> - * Callers must hold the AioContext lock of job->aio_context.
+> + * Called with job_lock held.
 
-For example, add a function to SaveVMHandlers that indicates whether 
-this specific save_live_complete_precopy handler should run 
-inside/outside iothread lock?
-Or add a save_live_complete_precopy_nonblocking handler that runs 
-outside the iothread lock?
+and this,
 
-On destination side, since VFIO data is sent in chunks of 1MB, we can 
-yield every now and then.
+>    */
+>   int job_complete_sync(Job *job, Error **errp);
+>   
+> @@ -734,7 +734,7 @@ void job_dismiss_locked(Job **job, Error **errp);
+>    * Returns 0 if the job is successfully completed, -ECANCELED if the job was
+>    * cancelled before completing, and -errno in other error cases.
+>    *
+> - * Callers must hold the AioContext lock of job->aio_context.
+> + * Called with job_lock held.
 
-What do you think?
+and this.
 
-Thanks.
+>    */
+>   int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
+>                       Error **errp);
+> diff --git a/job-qmp.c b/job-qmp.c
+> index cfaf34ffb7..96d67246d2 100644
+> --- a/job-qmp.c
+> +++ b/job-qmp.c
+> @@ -30,36 +30,27 @@
 
-> For mlx5 the above loop will often be ~10MB's for small VMs and
-> 100MB's for big VMs (big meaning making extensive use of RDMA
-> functionality), and this will not change with pre-copy support or not.
->
-> Is it still a problem?
->
-> For other devices, like a GPU, I would imagine pre-copy support is
-> implemented and this will be a smaller post-precopy residual.
->
-> Jason
+[..]
+
+>   }
+> @@ -501,8 +481,12 @@ void job_unref_locked(Job *job)>           assert(!job->txn);
+>   
+>           if (job->driver->free) {
+> +            AioContext *aio_context = job->aio_context;
+>               job_unlock();
+> +            /* FIXME: aiocontext lock is required because cb calls blk_unref */
+> +            aio_context_acquire(aio_context);
+>               job->driver->free(job);
+> +            aio_context_release(aio_context);
+
+So, job_unref_locked() must be called with aio_context not locked, otherwise we dead-lock here? That should be documented in function declaration comment.
+
+For example in qemu-img.c in run_block_job() we do exactly that: call job_unref_locked()  inside aio-context lock critical seaction..
+
+
+>               job_lock();
+>           }
+>   
+> @@ -581,21 +565,17 @@ void job_enter_cond_locked(Job *job, bool(*fn)(Job *job))
+>           return;
+>       }
+>   
+> -    real_job_lock();
+>       if (job->busy) {
+> -        real_job_unlock();
+>           return;
+>       }
+>   
+>       if (fn && !fn(job)) {
+> -        real_job_unlock();
+>           return;
+>       }
+>   
+>       assert(!job->deferred_to_main_loop);
+>       timer_del(&job->sleep_timer);
+>       job->busy = true;
+> -    real_job_unlock();
+>       job_unlock();
+>       aio_co_wake(job->co);
+>       job_lock();
+> @@ -626,13 +606,11 @@ static void coroutine_fn job_do_yield_locked(Job *job, uint64_t ns)
+>   {
+>       AioContext *next_aio_context;
+>   
+> -    real_job_lock();
+>       if (ns != -1) {
+>           timer_mod(&job->sleep_timer, ns);
+>       }
+>       job->busy = false;
+>       job_event_idle_locked(job);
+> -    real_job_unlock();
+>       job_unlock();
+>       qemu_coroutine_yield();
+>       job_lock();
+> @@ -922,6 +900,7 @@ static void job_clean(Job *job)
+>   static int job_finalize_single_locked(Job *job)
+>   {
+>       int job_ret;
+> +    AioContext *ctx = job->aio_context;
+>   
+>       assert(job_is_completed_locked(job));
+>   
+> @@ -929,6 +908,7 @@ static int job_finalize_single_locked(Job *job)
+>       job_update_rc_locked(job);
+>   
+>       job_unlock();
+> +    aio_context_acquire(ctx);
+
+Hmm, and this function and all its callers now should be called with aio-context lock not locked?
+
+For example job_exit is scheduled as as BH. Aren't BHs called with aio-context lock held?
+
+>   
+>       if (!job->ret) {
+>           job_commit(job);
+> @@ -937,6 +917,7 @@ static int job_finalize_single_locked(Job *job)
+>       }
+>       job_clean(job);
+>   
+> +    aio_context_release(ctx);
+>       job_lock();
+>   
+>       if (job->cb) {
+
+[..]
+
+
+-- 
+Best regards,
+Vladimir
 
