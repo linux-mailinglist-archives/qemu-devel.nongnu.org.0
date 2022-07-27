@@ -2,78 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2836A583146
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 19:53:57 +0200 (CEST)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2945C583145
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 19:53:35 +0200 (CEST)
+Received: from localhost ([::1]:56682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGlEK-0005HJ-06
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 13:53:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35896)
+	id 1oGlDx-0004bo-VA
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 13:53:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGkte-0004sc-1w
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 13:32:34 -0400
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c]:46654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGktc-0007xM-DN
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 13:32:33 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 0E6C13EC78;
- Wed, 27 Jul 2022 17:32:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658943150; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5tgx3ZeoonjHNLFfvxi4FaAkLYVWCI+M67CQIzn1QoU=;
- b=wXk3sdfHJ4+mhg5WKlGWLRzpoWAzDthFr4M2YlM3i7nHluP6Rj9EGHblT77okPaPyk/MXk
- XET2cccqYKdgKX0uwRlTKNuQe0cwpE99d7wGxZ8zLYbE3CwudZFKWrSo9KsWXWm0PQJnr3
- cSOOWcrEWbNQFSLXNPq7pjD6sI+9sc0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658943150;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5tgx3ZeoonjHNLFfvxi4FaAkLYVWCI+M67CQIzn1QoU=;
- b=fjbUTNyzOUoeiViCmazNNFcNfSAEj6v3llV9+MOO57qWu3vgruWCFZmnpcSiOVniloTzk1
- AnjEH+1K6/ap7lAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D517113A8E;
- Wed, 27 Jul 2022 17:32:29 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id QL8FMq124WJ4IAAAMHmgww
- (envelope-from <cfontana@suse.de>); Wed, 27 Jul 2022 17:32:29 +0000
-Message-ID: <c111d840-a10d-6374-6ee4-85d7b23b4967@suse.de>
-Date: Wed, 27 Jul 2022 19:32:29 +0200
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1oGl46-0005Hf-8t; Wed, 27 Jul 2022 13:43:22 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:65292)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
+ id 1oGl43-0000ul-N9; Wed, 27 Jul 2022 13:43:21 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26RHfiFi013641;
+ Wed, 27 Jul 2022 17:43:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=pxTnHIhivDrPiccMS9fahelJtd8gkm19hQZnwutfoo0=;
+ b=tTlzNWDbPRHd85IPjMOt8njiTwkpZ+/ewa53HTi6cMdm9xmqk3mDmG3RHxE9JK+QC9H3
+ 4cTNQccck4SlUbgDPse6sSfaFdDocRgfXDXFrjhpBhi+zlYVZiF0IF+L+3LWQ44bv1NC
+ ByDx6xba2k6CJJtxCW+DnDdt0FjyxWp4C+O1roZJA5tAniFb1r14ZEHAfBrZssQLX8CT
+ LbUp9OUM9KNE73tzury1nFkU0o1lxyxJf+rrXOsFMToxlTqjIqFer9KRBpHf1594kEAF
+ uQhF6VIYn5uTiaED4lG9UMRQQ9BuxPq50Fo9lMJD+lShoGZUyX5brtd9wOffv5a9WJqr cQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hk9mc8xdu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jul 2022 17:43:07 +0000
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26RHh7RS020560;
+ Wed, 27 Jul 2022 17:43:07 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hk9mc8xda-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jul 2022 17:43:07 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26RHZ7Ec029615;
+ Wed, 27 Jul 2022 17:43:04 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hg97tdb1j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jul 2022 17:43:04 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 26RHh2Rm12517714
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Jul 2022 17:43:02 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4214011C04C;
+ Wed, 27 Jul 2022 17:43:02 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 02C3411C04A;
+ Wed, 27 Jul 2022 17:43:02 +0000 (GMT)
+Received: from [9.171.34.118] (unknown [9.171.34.118])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 27 Jul 2022 17:43:01 +0000 (GMT)
+Message-ID: <01f7144d-2fc9-4244-d4ae-7a6d2eb1720a@linux.ibm.com>
+Date: Wed, 27 Jul 2022 19:43:00 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH] virtio-pci: don't touch pci on virtio reset
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 07/12] ppc/pnv: remove pnv-phb3-root-port
 Content-Language: en-US
-From: Claudio Fontana <cfontana@suse.de>
-To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20220727161445.21428-1-mst@redhat.com>
- <c458e6cd-a18e-88e9-dcdf-5e294713ad87@suse.de>
-In-Reply-To: <c458e6cd-a18e-88e9-dcdf-5e294713ad87@suse.de>
-Content-Type: text/plain; charset=UTF-8
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220624084921.399219-1-danielhb413@gmail.com>
+ <20220624084921.399219-8-danielhb413@gmail.com>
+From: Frederic Barrat <fbarrat@linux.ibm.com>
+In-Reply-To: <20220624084921.399219-8-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1c;
- envelope-from=cfontana@suse.de; helo=smtp-out1.suse.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: I2RB0koWx6waIdNQly-eY_fKhaA3UE7C
+X-Proofpoint-GUID: B2L_njJOyRkyPOwowp-TphvFha_fVrVK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-07-27_06,2022-07-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0
+ spamscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
+ adultscore=0 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2207270074
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,59 +116,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hmm, no that's not it,
-still segfault in ovs, but I'll try to see if I can merge that and the workaround I am currently using...
 
 
-On 7/27/22 19:14, Claudio Fontana wrote:
-> testing it now...
+On 24/06/2022 10:49, Daniel Henrique Barboza wrote:
+> The unified pnv-phb-root-port can be used in its place. There is no ABI
+> breakage in doing so because no official QEMU release introduced user
+> creatable pnv-phb3-root-port devices.
 > 
-> Thanks!
-> 
-> C
-> 
-> 
-> On 7/27/22 18:14, Michael S. Tsirkin wrote:
->> virtio level reset should not affect pci express
->> registers such as PM, error or link.
->>
->> Fixes: 27ce0f3afc ("hw/virtio: fix Power Management Control Register for PCI Express virtio devices")
->> Fixes: d584f1b9ca ("hw/virtio: fix Link Control Register for PCI Express virtio devices")
->> Fixes: c2cabb3422 ("hw/virtio: fix error enabling flags in Device Control register")
->> Cc: "Marcel Apfelbaum" <marcel@redhat.com>
->> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->> ---
->>  hw/virtio/virtio-pci.c | 9 ++++++++-
->>  1 file changed, 8 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
->> index 45327f0b31..3189ec014d 100644
->> --- a/hw/virtio/virtio-pci.c
->> +++ b/hw/virtio/virtio-pci.c
->> @@ -1955,6 +1955,13 @@ static void virtio_pci_reset(DeviceState *qdev)
->>          proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
->>          proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
->>      }
->> +}
->> +
->> +static void virtio_pci_bus_reset(DeviceState *qdev)
->> +{
->> +    PCIDevice *dev = PCI_DEVICE(qdev);
->> +
->> +    virtio_pci_reset(qdev);
->>  
->>      if (pci_is_express(dev)) {
->>          pcie_cap_deverr_reset(dev);
->> @@ -2022,7 +2029,7 @@ static void virtio_pci_class_init(ObjectClass *klass, void *data)
->>      k->class_id = PCI_CLASS_OTHERS;
->>      device_class_set_parent_realize(dc, virtio_pci_dc_realize,
->>                                      &vpciklass->parent_dc_realize);
->> -    dc->reset = virtio_pci_reset;
->> +    dc->reset = virtio_pci_bus_reset;
->>  }
->>  
->>  static const TypeInfo virtio_pci_info = {
-> 
-> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
+
+Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+
+   Fred
+
+
+>   hw/pci-host/pnv_phb.c          |  2 +-
+>   hw/pci-host/pnv_phb3.c         | 42 ----------------------------------
+>   hw/ppc/pnv.c                   |  1 +
+>   include/hw/pci-host/pnv_phb3.h |  6 -----
+>   4 files changed, 2 insertions(+), 49 deletions(-)
+> 
+> diff --git a/hw/pci-host/pnv_phb.c b/hw/pci-host/pnv_phb.c
+> index 5e61f85614..cdddc6a389 100644
+> --- a/hw/pci-host/pnv_phb.c
+> +++ b/hw/pci-host/pnv_phb.c
+> @@ -34,7 +34,7 @@ static void pnv_phb_realize(DeviceState *dev, Error **errp)
+>       switch (phb->version) {
+>       case 3:
+>           phb_typename = g_strdup(TYPE_PNV_PHB3);
+> -        phb_rootport_typename = g_strdup(TYPE_PNV_PHB3_ROOT_PORT);
+> +        phb_rootport_typename = g_strdup(TYPE_PNV_PHB_ROOT_PORT);
+>           break;
+>       case 4:
+>           phb_typename = g_strdup(TYPE_PNV_PHB4);
+> diff --git a/hw/pci-host/pnv_phb3.c b/hw/pci-host/pnv_phb3.c
+> index ad5d67a8e8..2966374008 100644
+> --- a/hw/pci-host/pnv_phb3.c
+> +++ b/hw/pci-host/pnv_phb3.c
+> @@ -1122,51 +1122,9 @@ static const TypeInfo pnv_phb3_root_bus_info = {
+>       .class_init = pnv_phb3_root_bus_class_init,
+>   };
+>   
+> -static void pnv_phb3_root_port_realize(DeviceState *dev, Error **errp)
+> -{
+> -    PCIERootPortClass *rpc = PCIE_ROOT_PORT_GET_CLASS(dev);
+> -    PCIDevice *pci = PCI_DEVICE(dev);
+> -    Error *local_err = NULL;
+> -
+> -    rpc->parent_realize(dev, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return;
+> -    }
+> -    pci_config_set_interrupt_pin(pci->config, 0);
+> -}
+> -
+> -static void pnv_phb3_root_port_class_init(ObjectClass *klass, void *data)
+> -{
+> -    DeviceClass *dc = DEVICE_CLASS(klass);
+> -    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+> -    PCIERootPortClass *rpc = PCIE_ROOT_PORT_CLASS(klass);
+> -
+> -    dc->desc     = "IBM PHB3 PCIE Root Port";
+> -
+> -    device_class_set_parent_realize(dc, pnv_phb3_root_port_realize,
+> -                                    &rpc->parent_realize);
+> -    dc->user_creatable = false;
+> -
+> -    k->vendor_id = PCI_VENDOR_ID_IBM;
+> -    k->device_id = 0x03dc;
+> -    k->revision  = 0;
+> -
+> -    rpc->exp_offset = 0x48;
+> -    rpc->aer_offset = 0x100;
+> -}
+> -
+> -static const TypeInfo pnv_phb3_root_port_info = {
+> -    .name          = TYPE_PNV_PHB3_ROOT_PORT,
+> -    .parent        = TYPE_PCIE_ROOT_PORT,
+> -    .instance_size = sizeof(PnvPHB3RootPort),
+> -    .class_init    = pnv_phb3_root_port_class_init,
+> -};
+> -
+>   static void pnv_phb3_register_types(void)
+>   {
+>       type_register_static(&pnv_phb3_root_bus_info);
+> -    type_register_static(&pnv_phb3_root_port_info);
+>       type_register_static(&pnv_phb3_type_info);
+>       type_register_static(&pnv_phb3_iommu_memory_region_info);
+>   }
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index b7273f386e..d82c66ca6f 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -2108,6 +2108,7 @@ static void pnv_machine_power8_class_init(ObjectClass *oc, void *data)
+>   
+>       static GlobalProperty phb_compat[] = {
+>           { TYPE_PNV_PHB, "version", "3" },
+> +        { TYPE_PNV_PHB_ROOT_PORT, "version", "3" },
+>       };
+>   
+>       mc->desc = "IBM PowerNV (Non-Virtualized) POWER8";
+> diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
+> index 3b9ff1096a..bff69201d9 100644
+> --- a/include/hw/pci-host/pnv_phb3.h
+> +++ b/include/hw/pci-host/pnv_phb3.h
+> @@ -108,12 +108,6 @@ struct PnvPBCQState {
+>    */
+>   #define TYPE_PNV_PHB3_ROOT_BUS "pnv-phb3-root"
+>   
+> -#define TYPE_PNV_PHB3_ROOT_PORT "pnv-phb3-root-port"
+> -
+> -typedef struct PnvPHB3RootPort {
+> -    PCIESlot parent_obj;
+> -} PnvPHB3RootPort;
+> -
+>   /*
+>    * PHB3 PCIe Host Bridge for PowerNV machines (POWER8)
+>    */
 
