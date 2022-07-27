@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32015831D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 20:18:50 +0200 (CEST)
-Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107425831F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 20:26:02 +0200 (CEST)
+Received: from localhost ([::1]:32934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGlcP-00071A-L1
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 14:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41908)
+	id 1oGljM-0003AT-JS
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 14:26:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oGlTA-0001ga-3D; Wed, 27 Jul 2022 14:09:16 -0400
-Received: from new1-smtp.messagingengine.com ([66.111.4.221]:36147)
+ id 1oGlVc-00041A-8k; Wed, 27 Jul 2022 14:11:48 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:50161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oGlT7-0004hk-BL; Wed, 27 Jul 2022 14:09:15 -0400
+ id 1oGlVa-0005Fj-N3; Wed, 27 Jul 2022 14:11:47 -0400
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id E997A5804C5;
- Wed, 27 Jul 2022 14:09:09 -0400 (EDT)
+ by mailnew.nyi.internal (Postfix) with ESMTP id D266B58047C;
+ Wed, 27 Jul 2022 14:11:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 27 Jul 2022 14:09:09 -0400
+ by compute3.internal (MEProxy); Wed, 27 Jul 2022 14:11:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
  :content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1658945349; x=
- 1658948949; bh=VxsAfHDLVkArDp3PLv6yizX3WBE44dQA0TMxD8PBX+8=; b=O
- vqlxMfictm3RzCq5bSJR/LMnSjC53YObViEiqupASvU/qkANrBQ8PWm18JlkEDXy
- mGCAFA/YynMwTVoj8TcKWEkymeTC/LHUUvy+MpXCD5GkdxUYBIP+tAh4YgLV7hrk
- AHi8s99rO7+aRknxePRqK352AWh3bAF6A2k5xBwqhqdDU5utD1oB5m1sVOwhyTkO
- wP3vJTe/uMTW7zdDCoX+mhqkyenLj12wBYqZklWplNX78i8j3mU/wHNLLmExWw1F
- EiJ0Pi6rcMdnz8l8ZbrD4bcy9wWh2xDyXz7H1bkfZag9b0+Ekl8QjJSEpiCtbXUJ
- RfU8kEZZIC9KIgwVnHAOA==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1658945505; x=
+ 1658949105; bh=I6o5+aqKdGAf1PI13B0XJeL3DLZqir/p32rXy/Htx9M=; b=b
+ XRaPGzVC+qmeQWxc2vw3Vi15ahxvAAf729w4dMHfBwvUKxcviApPt8Z5K+rCbbpz
+ 4PYRmB1cedU+vI+9+T0+Rs9OKKrA7N+GUvu239Gb0NdnJnod5zFku/6yGmKrEiB4
+ JrO/aCaoAwZEZUAkeC0A+5IXWZu4J9UNfcAHcLMPLlSwiRfizcU7UXYGY85C1EjP
+ NnXbpRLOmwNiRkliPRRKe7oz4RXs/D0Ra0v58gOdSKS6Ihb292FgeSkJFJR/Mt86
+ ISAHd2RYpvN/k3/4MYn0gny8YhPnNH93MYN1laDfSnXuvAe86tWhJERmozidL3mS
+ 0yK4B0o4ENZ68cWxAX5Nw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658945349; x=
- 1658948949; bh=VxsAfHDLVkArDp3PLv6yizX3WBE44dQA0TMxD8PBX+8=; b=t
- scf0G6nDGLauKlcyex+YCzGGNOQgOTe/8nlZmRP/BxO/UmubPg/eMGyLdoGUxuh+
- sSrL7ZaA02KMhlwzKiyluLMQ02gW6P86gphHWFJPR5ni4YVIP3mmfHe6421pJwAt
- 2KS1U6MF52ob8nTosObabMkx03s36cJ7ltnd+PRewwtmgXNT35ycgtt8AdY+YQln
- k9AGOgzbG7nqja1NlVqvmQqkceq/mbKDtSBWriIYVq4AeRuFRpRsrlFlDUw6ceeo
- tb1V8LF91C15+BIbU89y4SAvwCUsBXacXvCdhw1cQ5l9xeq1bK6RuzcEBmnGq5Km
- G4XgkqcZDUiySL2UteTIA==
-X-ME-Sender: <xms:RH_hYvs2kwftvNapYEjrJuveySWPYAmMbzPi2Nwqi-HjChX2sGC5fQ>
- <xme:RH_hYgcHbh4qi4NiOMM0JWJfpVdWGW2NauUDCWT1DmH9sMqrBh4BflYMYH9UfzHN_
- HZsPVp_CeL1vyZ5qQg>
-X-ME-Received: <xmr:RH_hYiyg_VJljRmpDeVbz1IVvP5jn76x58xSaD78UGDUlG_BYjzN4nhyM2cVu2QCm5dvsHHADFZt>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddguddvudcutefuodetggdotefrod
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658945505; x=
+ 1658949105; bh=I6o5+aqKdGAf1PI13B0XJeL3DLZqir/p32rXy/Htx9M=; b=G
+ FI8R8pWTbckLK2J6vWM1ypi8xwkGfFrQD/P7+iR5CtGCsL0vURGsgZWbg/lT8EQ8
+ tXBm3voyfXerzy6+mW2CxmDmjbUFx20gl/Tul9HQV1bSSWdfy4FpOwnZoS5YegTM
+ c+pMALtBsTXCHQSnjK0hrrqceweeOZTU7cyh8rXxnyFHKHPIgnE08FnH7mAROXjs
+ QS/FvLUxZrrPpzfJf/OFtyxGh8H5w0uDybNzubRtP2sbA+IiGyPAtfmjrvS5TzYq
+ OgTRAzfeDOn/1pj1nHlf7UiH8h4HBSNIq5w7OmqKF4j4S9lJKSwMR2Ng7LHAkrUQ
+ 5dRazAOr1pMkFt69aQkSA==
+X-ME-Sender: <xms:4X_hYpt2rIGcSwkT1RQd741RZmPpnZ08jAmuk409p_S6HLp-tCz_9w>
+ <xme:4X_hYife1zGscQp9giGE-OiTZadT7ZpkDqh0cGIJVOYRYrKt5DanJJ3UYB3Ms_4F2
+ dwGiS5AuT75EJp7VtI>
+X-ME-Received: <xmr:4X_hYsz41L9sjPlq9rHG6R4EJIPNEie3EHJEFcT4AL9FgQZHkBWqTAnyEg1RwznT0jdVlawqwqx7>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddguddvvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtudenucfhrhhomheprfgv
  thgvrhcuffgvlhgvvhhorhihrghsuceophgvthgvrhesphhjugdruggvvheqnecuggftrf
- grthhtvghrnhepgfeukefftdeutefgheetffeltdeuhefgheegleefudejfefhffetkedv
- tdefteetnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:RH_hYuMmWEnTYCqheI3hTmYi7xOvTCoaiUuI2GFcvBUihXVK55BYRw>
- <xmx:RH_hYv9EAF2aJma7ubwv1WJkH0Vb_e2GJ9uMJbpDODSfZm6Q86JK0A>
- <xmx:RH_hYuUWFRXfeTyd66QblpNPz3lT2MiUAkaVdy7SqKYbkOupBPF_5Q>
- <xmx:RX_hYrbXUXaPhJNai967j7X2EmiEVaQB82vsmGlUWoIZ14IwB4hTIg>
+ grthhtvghrnhephfegffevudefveetgeekteeijefhhfduueejvdegvdehffehjeevtefh
+ hffffeeunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+ epphgvthgvrhesphhjugdruggvvh
+X-ME-Proxy: <xmx:4X_hYgOjKI4SumPotnqq9MKQlc-KI47hvolEuEDKwtt58IY9t3I4Tg>
+ <xmx:4X_hYp_eySakimI-SWx1NOO33_2g6uKmiJht3HiY7JvYR-SMqdgnvg>
+ <xmx:4X_hYgVAcX8roifjYXZrJjYDYEWzCy65e1djPvSfirdqwiLQi_5THQ>
+ <xmx:4X_hYlbOi6bDDBZlBQj5OU039zksGxmR0WIu96VgDc4wPlvCGoHF6A>
 Feedback-ID: i9e814621:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Jul 2022 14:09:07 -0400 (EDT)
-Date: Wed, 27 Jul 2022 11:09:06 -0700
+ 27 Jul 2022 14:11:44 -0400 (EDT)
+Date: Wed, 27 Jul 2022 11:11:43 -0700
 From: Peter Delevoryas <peter@pjd.dev>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 6/9] aspeed: Add AST2600 (BMC) to fby35
-Message-ID: <YuF/QguEYUr1n02H@pdel-fedora-MJ0HJWH9>
-References: <20220705191400.41632-1-peter@pjd.dev>
- <20220705191400.41632-7-peter@pjd.dev>
- <69fc7600-052b-a077-27b0-da5751ca3379@kaod.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH for 7.1 2/2] aspeed/fby35: Fix owner of the BMC RAM
+ memory region
+Message-ID: <YuF/34NFoBr4Ey6D@pdel-fedora-MJ0HJWH9>
+References: <20220727102714.803041-1-clg@kaod.org>
+ <20220727102714.803041-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <69fc7600-052b-a077-27b0-da5751ca3379@kaod.org>
+In-Reply-To: <20220727102714.803041-3-clg@kaod.org>
 Received-SPF: pass client-ip=66.111.4.221; envelope-from=peter@pjd.dev;
  helo=new1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -106,54 +106,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 12:05:58PM +0200, Cédric Le Goater wrote:
-> On 7/5/22 21:13, Peter Delevoryas wrote:
-> > You can test booting the BMC with both '-device loader' and '-drive
-> > file'. This is necessary because of how the fb-openbmc boot sequence
-> > works (jump to 0x20000000 after U-Boot SPL).
-> > 
-> >      wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
-> >      qemu-system-arm -machine fby35 -nographic \
-> >          -device loader,file=fby35.mtd,addr=0,cpu-num=0 -drive file=fby35.mtd,format=raw,if=mtd
-> > 
-> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > ---
-> >   hw/arm/fby35.c | 41 +++++++++++++++++++++++++++++++++++++++++
-> >   1 file changed, 41 insertions(+)
-> > 
-> > diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-> > index 03b458584c..5c5224d374 100644
-> > --- a/hw/arm/fby35.c
-> > +++ b/hw/arm/fby35.c
-> > @@ -6,17 +6,55 @@
-> >    */
-> >   #include "qemu/osdep.h"
-> > +#include "qemu/units.h"
-> > +#include "qapi/error.h"
-> > +#include "sysemu/sysemu.h"
-> >   #include "hw/boards.h"
-> > +#include "hw/arm/aspeed_soc.h"
-> >   #define TYPE_FBY35 MACHINE_TYPE_NAME("fby35")
-> >   OBJECT_DECLARE_SIMPLE_TYPE(Fby35State, FBY35);
-> >   struct Fby35State {
-> >       MachineState parent_obj;
-> > +
-> > +    MemoryRegion bmc_memory;
-> > +    MemoryRegion bmc_dram;
-> > +    MemoryRegion bmc_boot_rom;
-> > +
-> > +    AspeedSoCState bmc;
-> >   };
-> > +#define FBY35_BMC_RAM_SIZE (2 * GiB)
-> > +
-> > +static void fby35_bmc_init(Fby35State *s)
-> > +{
-> > +    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
-> > +    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
-> > +                           FBY35_BMC_RAM_SIZE, &error_abort);
-> 
+On Wed, Jul 27, 2022 at 12:27:14PM +0200, Cédric Le Goater wrote:
 > A MachineState object is used as a owner of the RAM region and this
-> should assert in memory_region_init_ram() :
+> asserts in memory_region_init_ram() when QEMU is built with
+> CONFIG_QOM_CAST_DEBUG :
 > 
 >     /* This will assert if owner is neither NULL nor a DeviceState.
 >      * We only want the owner here for the purposes of defining a
@@ -163,53 +119,57 @@ On Wed, Jul 27, 2022 at 12:05:58PM +0200, Cédric Le Goater wrote:
 >      */
 >     owner_dev = DEVICE(owner);
 > 
-> It went unnoticed until I started experimenting with some MachineState
-> modifications. CONFIG_QOM_CAST_DEBUG needs to be defined to catch the
-> error. I would have thought that CI was doing this check. It seems not,
-> which is surprising.
-
-Hmmm! I see, didn't realize this was a requirement. Thanks for catching it!
-
+> Use the BMC and BIC objects as the owners of their memory regions.
 > 
-> Anyhow, this needs a fix for 7.1 and I will work on it.
+> Cc: Peter Delevoryas <peter@pjd.dev>
+> Fixes: 778e14cc5cd5 ("aspeed: Add AST2600 (BMC) to fby35")
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
 
-I see, yes, thanks!!
+Looks good to me, thanks for fixing this Cedric!
+Peter
 
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+
+>  hw/arm/fby35.c | 14 +++++++++-----
+>  1 file changed, 9 insertions(+), 5 deletions(-)
 > 
-> C.
-> 
-> > +
-> > +    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
-> > +    object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
-> > +                            &error_abort);
-> > +    object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
-> > +                             &error_abort);
-> > +    object_property_set_link(OBJECT(&s->bmc), "dram", OBJECT(&s->bmc_dram),
-> > +                             &error_abort);
-> > +    object_property_set_int(OBJECT(&s->bmc), "hw-strap1", 0x000000C0,
-> > +                            &error_abort);
-> > +    object_property_set_int(OBJECT(&s->bmc), "hw-strap2", 0x00000003,
-> > +                            &error_abort);
-> > +    aspeed_soc_uart_set_chr(&s->bmc, ASPEED_DEV_UART5, serial_hd(0));
-> > +    qdev_realize(DEVICE(&s->bmc), NULL, &error_abort);
-> > +
-> > +    aspeed_board_init_flashes(&s->bmc.fmc, "n25q00", 2, 0);
-> > +}
-> > +
-> >   static void fby35_init(MachineState *machine)
-> >   {
-> > +    Fby35State *s = FBY35(machine);
-> > +
-> > +    fby35_bmc_init(s);
-> >   }
-> >   static void fby35_class_init(ObjectClass *oc, void *data)
-> > @@ -25,6 +63,9 @@ static void fby35_class_init(ObjectClass *oc, void *data)
-> >       mc->desc = "Meta Platforms fby35";
-> >       mc->init = fby35_init;
-> > +    mc->no_floppy = 1;
-> > +    mc->no_cdrom = 1;
-> > +    mc->min_cpus = mc->max_cpus = mc->default_cpus = 2;
-> >   }
-> >   static const TypeInfo fby35_types[] = {
+> diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
+> index 79605f306462..90c04bbc3389 100644
+> --- a/hw/arm/fby35.c
+> +++ b/hw/arm/fby35.c
+> @@ -72,11 +72,13 @@ static void fby35_bmc_init(Fby35State *s)
+>  {
+>      DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
+>  
+> -    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
+> -    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
+> +    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
+> +
+> +    memory_region_init(&s->bmc_memory, OBJECT(&s->bmc), "bmc-memory",
+> +                       UINT64_MAX);
+> +    memory_region_init_ram(&s->bmc_dram, OBJECT(&s->bmc), "bmc-dram",
+>                             FBY35_BMC_RAM_SIZE, &error_abort);
+>  
+> -    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
+>      object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
+>                              &error_abort);
+>      object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
+> @@ -120,9 +122,11 @@ static void fby35_bic_init(Fby35State *s)
+>      s->bic_sysclk = clock_new(OBJECT(s), "SYSCLK");
+>      clock_set_hz(s->bic_sysclk, 200000000ULL);
+>  
+> -    memory_region_init(&s->bic_memory, OBJECT(s), "bic-memory", UINT64_MAX);
+> -
+>      object_initialize_child(OBJECT(s), "bic", &s->bic, "ast1030-a1");
+> +
+> +    memory_region_init(&s->bic_memory, OBJECT(&s->bic), "bic-memory",
+> +                       UINT64_MAX);
+> +
+>      qdev_connect_clock_in(DEVICE(&s->bic), "sysclk", s->bic_sysclk);
+>      object_property_set_link(OBJECT(&s->bic), "memory", OBJECT(&s->bic_memory),
+>                               &error_abort);
+> -- 
+> 2.37.1
 > 
 
