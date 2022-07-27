@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35BBD582756
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:04:06 +0200 (CEST)
-Received: from localhost ([::1]:50312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1840B58275B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:05:32 +0200 (CEST)
+Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGgho-0004Pk-Mo
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:04:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
+	id 1oGgjD-0004zz-3o
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGgb3-00019j-Pb
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:57:11 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:34352)
+ id 1oGgd5-0001zy-FC
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:59:17 -0400
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oGgax-000537-OZ
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:57:02 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id i14so30104033yba.1
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 05:56:58 -0700 (PDT)
+ id 1oGgd3-0005Zq-K6
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:59:11 -0400
+Received: by mail-yb1-xb35.google.com with SMTP id a82so24500769ybb.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 05:59:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jaILcpFOdNns/9Fm7gsbMoU7wVSdMqpKlfRiC6dW6XU=;
- b=ptk+lRnBLA/lv/TTqgbDM5tZTVueP+I1pJHqrIaZJBmAgxMpsWj1rQ3C23M2BKhH3l
- 4ZSHM8DTPWVpP8xd+iw8446Jc9Ud3wvaP64ooh7M7MB3BcuLWiB+vNrT+I9gHxMuDsaF
- iS84h5d+vW6bHkDbSnfW4/Bi6jjxHNBo+pydqysAFt4YzxTMjl8saZ1FtCbSOuKEAb3H
- EGQHlYxi5M1QpMXTWDILg6MsHK4iRGwVQV916a7VWuLCB0uPuPNr6iRMfjc4YQoQ3bVb
- 0sSYQekw90MHGR2SxYyMjeGk7Aq/LDy5ZNCj3gJABZPiOhTAQwH1uHKZpP8BodTi+6Fr
- E72Q==
+ :cc; bh=BNpzrrIJUdSWAIxF6BWPh4upFFo8fQMFIBZ8Qf+l1Ek=;
+ b=DvDcRmNMEuHuBVjCUFEm44OLrPvfew0CZfAlswD86v9zPM9A7NYQQA1+Ozh+pd+NFk
+ mizrSovUq3mOeJQfC6OQcIWmYDpc2H51Oo0u+CXFwO2LLNuE2JoFw4UMrrdCCS0T/uMl
+ xyLYAuSaXt2LoToEKBYULw2yx7VzuYEWSL7Y2dPON4BMMoVKTQOMPBtrEDtxjObXKTET
+ o/gN+aCjU9Qt+XMzNYb8ZaddoEc9oo6iVnbe4sVB9YeE/AwYSN6H0650mcSk8x1hzORc
+ Q6TOqK+JvMg2K06l3ZxJHF7KVsnXV7jnxblcrVsPkkrsRvLtV++TGTuFDSbQGvx/o39P
+ TFkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jaILcpFOdNns/9Fm7gsbMoU7wVSdMqpKlfRiC6dW6XU=;
- b=TQgOKNcO/D5/+BY2bP29vDVXoGVW9KZgfiDF5aONmxodwg2Pc3KDtTfHmw7MNsnbJ3
- RXkz0vY/jv0YhrZrTwLmnPzhXsPaGtWI8EwqrcguYOkNZrF/Di8CnTNOCFj0JsaAg1rf
- WwQR/q7wAMkAnlbB9CkWBjLkUY5G4BaP8BntHRMvjbqzIZehadNQGzLuIMHD/OWZ797V
- L963NpqDGBj3XP3p6USejHf9scmNi8jjKNjnHai5/QloRc6U+YUUg08O9ZnK5iB4FS1J
- v41UM3fR20R1LOT9jcQX6RJvpbFxj/qM9w0Z5zgHvJv3iqyh3wNtUWlswmvZY4ngdTrR
- /wGg==
-X-Gm-Message-State: AJIora83+j9Eo7ERZjHUmQRTcN0yI35GdbX6LyfLLrvHx9g0+Sdwkn/2
- T2kVlmvTwUdXAa7WJsoqXsBFpSNTxG8VQ8OJzzVdfg==
-X-Google-Smtp-Source: AGRyM1vOx9qBR94W5XgK6fX+UiG7lQ20DFOFSugYukqfzugjbzdekN9Fwk1PJzNvA3ptoJbQT5/KZdge2xeyAmiTl3c=
-X-Received: by 2002:a5b:e90:0:b0:671:670a:594a with SMTP id
- z16-20020a5b0e90000000b00671670a594amr9358408ybr.193.1658926617407; Wed, 27
- Jul 2022 05:56:57 -0700 (PDT)
+ bh=BNpzrrIJUdSWAIxF6BWPh4upFFo8fQMFIBZ8Qf+l1Ek=;
+ b=8BkeFKbYRQO5v0CLpzKdmVLIsfT8n3GGrHAk9UxItToFG7OebJknMimxy3kcpUrjDC
+ OT/Mzhc/weFza+EY9HUhXzuSID/bg8yiomDA52pHnFZZIU9VH/mhbUE8pJWeHjmKqg9z
+ UTgEnz2MjoPnjMV3NP58vEsgSoUUmchroFwJPrcdEmMmDmFQEYF5Gc/V3PsKPU1B67D9
+ Z07YpyujMuN1PIAHrj3cwSIKpBtbK42Pv8EekNec/uoE06yEF2PyMCOeXpuAKyyPPOpu
+ Zv+YVsAokzGLh8s9o59fVH/9Gh5iSIOb+bJja/fgnLhMb+D8itG9dZYJGN6K3AJDclmV
+ 0CCQ==
+X-Gm-Message-State: AJIora8As/2E9RIvDuSdJ+UcdpFOEtXnsvuyEHAjec02EcdHJpLAJcSU
+ SjRGvVDM7BVNfqCJKnhNiVbTvqid0LpM7laTmjhaHg==
+X-Google-Smtp-Source: AGRyM1vX/hp8IUThI2bYWFZt2ObDEXmFz8PQl6GKtHQRxp7HN9Ycy9WfzWe00y4Do6B93I02pIlwbv7r28IGM4bRAR4=
+X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
+ n23-20020a25d617000000b0067179bd69bfmr5203063ybg.85.1658926748670; Wed, 27
+ Jul 2022 05:59:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220713165449.37433-1-ben.dooks@sifive.com>
- <20220727111320.5b7qobwx5bbwh65d@hetzy.fluff.org>
-In-Reply-To: <20220727111320.5b7qobwx5bbwh65d@hetzy.fluff.org>
+References: <20220718115433.802-1-quic_trohmel@quicinc.com>
+ <1bd12eb5-86fa-fe28-c07c-2b538156ece2@rwth-aachen.de>
+In-Reply-To: <1bd12eb5-86fa-fe28-c07c-2b538156ece2@rwth-aachen.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 27 Jul 2022 13:56:17 +0100
-Message-ID: <CAFEAcA_aw002ZP6a=M5VyjVSs9Ln-Pv3ED0-eTtJj4bFM+KcJw@mail.gmail.com>
-Subject: Re: updates for designware pci-host
-To: Ben Dooks <qemu@ben.fluff.org>
-Cc: Ben Dooks <ben.dooks@sifive.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Jude Onyenegecha <jude.onyenegecha@sifive.com>,
- Sudip Mukherjee <sudip.mukherjee@sifive.com>, 
- William Salmon <william.salmon@sifive.com>,
- Adnan Chowdhury <adnan.chowdhury@sifive.com>
+Date: Wed, 27 Jul 2022 13:58:28 +0100
+Message-ID: <CAFEAcA_48umuKdaZgD5rSqHSc7NVhLHJPHBf3bq0Nm6+EwqfKg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/9] Add Cortex-R52
+To: Tobias Roehmel <tobias.roehmel@rwth-aachen.de>
+Cc: Tobias Roehmel <quic_trohmel@quicinc.com>, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,25 +82,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jul 2022 at 12:15, Ben Dooks <qemu@ben.fluff.org> wrote:
+On Wed, 27 Jul 2022 at 12:43, Tobias Roehmel
+<tobias.roehmel@rwth-aachen.de> wrote:
 >
-> On Wed, Jul 13, 2022 at 05:54:42PM +0100, Ben Dooks wrote:
-> > As part of a project we have been looking at using the DesignWare
-> > PCIe host. We found a few issues of missing features or small bugs
-> > when using this with a recent Linux kernel (v5.17.x)
-> >
-> > Whilst doing this we also made a start on some tracing events.
+> On 18.07.22 13:54, Tobias Roehmel wrote:
+> ping
 >
-> Hi, has anyone had a chance to review these. If so can this series
-> get applied? If not should anyone else be added to the review list?
+> https://patchew.org/QEMU/20220718115433.802-1-quic._5Ftrohmel@quicinc.com/
+> https://lore.kernel.org/qemu-devel/20220718115433.802-1-quic_trohmel@quicinc.com/
 >
-> If it would be easier I can try and find a git tree to publish this
-> branch on if a pull request would be easier.
+> I didn't reply to the previous review, because I did what was suggested
+> and summarized it here.
+> I hope that did break the etiquette.
 
-Is there a public spec for the hardware? There isn't anything
-listed in the source file in the tree. Without the h/w specs
-it's pretty difficult to review changes.
+That's fine. I missed this series, so thanks for the ping; I've
+added it to my list to review. Note that because we're now in
+freeze for the 7.1 release, I may need to prioritize for-7.1
+work ahead of this, but I should get to it in the next week or so.
 
-thanks
 -- PMM
 
