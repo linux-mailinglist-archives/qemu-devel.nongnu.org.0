@@ -2,94 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D013058224A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:40:20 +0200 (CEST)
-Received: from localhost ([::1]:55336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25BB582232
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 10:32:24 +0200 (CEST)
+Received: from localhost ([::1]:49508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGcaY-00074V-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:40:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56052)
+	id 1oGcSu-0002kU-1V
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 04:32:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oGcMs-00059z-Al
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:26:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48391)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oGcMo-0001TC-N2
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 04:26:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658910364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ICpaEiSxojxXFzhdsxw1apYjlgzn3uwKsV6RQrtOq2M=;
- b=I3sJ6Eqg/DgtwfZZQDbG9GXGAyPbzN/FdGIXk/wbZGfa3+oU/u0QiRfQD3ndJr2nsgkZgX
- /0YkwGNamh5jh3URNlWdRqUx7Ifar52AhEnh36ReWJJPm2oQuqSEeu3qtHXKwaYc2VQMUT
- fDtXnb3pMH5r1QpP+/putsKFAV4WIg8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-317-w0heT01kPz-kiQkPu5iF-g-1; Wed, 27 Jul 2022 04:26:03 -0400
-X-MC-Unique: w0heT01kPz-kiQkPu5iF-g-1
-Received: by mail-ed1-f69.google.com with SMTP id
- f18-20020a056402355200b0043be3af7a63so6096362edd.6
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 01:26:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ICpaEiSxojxXFzhdsxw1apYjlgzn3uwKsV6RQrtOq2M=;
- b=tUVOBb1foUcC5xfusqsDZSu/CmjVTXOK+4SlXufjCQvbac6wT5kw3hGdalQTU0Y0KG
- OAhDKatjOOswMqKSOq+VNRS3TmGbAKj+cDMF/fR9FR6DekxlU5+g/i0O0oNwvPU5+GzP
- 2JBAsN/AQVHEYlKWG0te5ROLWSirktTn8ysKMS2Zz4kKH+ld9XYuo2GtIMWxR/yOVFyE
- ub0dWNbelueClOWikDYmaiZEHUE6gxqb24GzPImzNzxdINJWiid2QG+mVQbQWmvxcyDE
- z/hBPCqK4XMVqOa51k9WoYfgLdYLjdBe9QPbRRfIFhkSdWANh9VR2kij3jQ7A/mX1nUg
- Nx8Q==
-X-Gm-Message-State: AJIora/6kf1bXXPSE9V/vrzmjY97IXY8luJ6g6lR2y0AGHQpU21zkdO1
- t1QM/+riB+DLRYPh3BQpRs0Vuuo/xTvsKagH4zCzWt/hGwoibcUi1T3tCn4dxZzzQo5P6RPt2EI
- 8ChIA+MgOU9sTLgY=
-X-Received: by 2002:a17:907:9803:b0:72e:ec55:b2a5 with SMTP id
- ji3-20020a170907980300b0072eec55b2a5mr16724878ejc.347.1658910362283; 
- Wed, 27 Jul 2022 01:26:02 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1ueb+WnphRSBL0aTK4YbtWw6KbU0Ia03bZNQbklY0H0RJXGFG9JWwUo/5JxOCaagBtPL0KbnQ==
-X-Received: by 2002:a17:907:9803:b0:72e:ec55:b2a5 with SMTP id
- ji3-20020a170907980300b0072eec55b2a5mr16724853ejc.347.1658910362048; 
- Wed, 27 Jul 2022 01:26:02 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- e2-20020a170906314200b0072b3406e9c2sm7338364eje.95.2022.07.27.01.26.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 01:26:01 -0700 (PDT)
-Date: Wed, 27 Jul 2022 10:26:00 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>, Roman Kagan
- <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org, Thomas Huth
- <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, yc-core@yandex-team.ru, Paolo Bonzini
- <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH v3] hw/pci/pci_bridge: ensure PCIe slots have only one slot
-Message-ID: <20220727102600.0528cdcb@redhat.com>
-In-Reply-To: <630f6dd4-7bb2-0023-9c9a-542e1ce3e0b9@yandex-team.ru>
-References: <20220720102555.874394-1-rvkagan@yandex-team.ru>
- <Ytfcivbtj8+JnLfz@redhat.com> <YtfgQN+BQ8Egn0ha@rvkaganb>
- <YtfhWgayuGKNVjGq@redhat.com>
- <630f6dd4-7bb2-0023-9c9a-542e1ce3e0b9@yandex-team.ru>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGcNO-0005ap-NC; Wed, 27 Jul 2022 04:26:42 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:58262 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGcNL-0001WI-KM; Wed, 27 Jul 2022 04:26:42 -0400
+Received: from [192.168.3.6] (unknown [116.224.155.20])
+ by APP-01 (Coremail) with SMTP id qwCowAA3fJy59uBi89D6Ag--.4276S2;
+ Wed, 27 Jul 2022 16:26:34 +0800 (CST)
+Subject: Re: [PATCH v11 5/6] target/riscv: Update the privilege field for
+ sscofpmf CSRs
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+References: <20220727064913.1041427-1-atishp@rivosinc.com>
+ <20220727064913.1041427-6-atishp@rivosinc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <1293559b-9c4e-4162-6453-28e7c51e85a2@iscas.ac.cn>
+Date: Wed, 27 Jul 2022 16:26:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <20220727064913.1041427-6-atishp@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-CM-TRANSID: qwCowAA3fJy59uBi89D6Ag--.4276S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxKw4rCw4DXr4rKFy7tw45GFg_yoWxGrWrpr
+ 4YkrW3t3Z7Jr1xX393t3ZrJFyrArn5AFsFkr4xAr48AF4kJw1DGa4xXr4qkFy5t3yrCF1k
+ K3W3Kr4UZa4rtrDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUvE14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+ I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r
+ 4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE67vI
+ Y487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbV
+ WUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF
+ 67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42
+ IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6Fyj6rWUJwCI
+ 42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+ evJa73UjIFyTuYvjfUnXdbUUUUU
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,75 +80,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Jul 2022 16:59:21 +0300
-Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
 
-> On 7/20/22 14:04, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, Jul 20, 2022 at 02:00:16PM +0300, Roman Kagan wrote: =20
-> >> On Wed, Jul 20, 2022 at 11:44:26AM +0100, Daniel P. Berrang=C3=A9 wrot=
-e: =20
-> >>> On Wed, Jul 20, 2022 at 01:25:55PM +0300, Roman Kagan wrote: =20
-> >>>> It's possible to create non-working configurations by attaching a de=
-vice
-> >>>> to a derivative of PCIe slot (pcie-root-port, ioh3420, etc) and
-> >>>> specifying a slot number other that zero, e.g.:
-> >>>>
-> >>>>      -device pcie-root-port,id=3Ds0,... \
-> >>>>      -device virtio-blk-pci,bus=3Ds0,addr=3D4,...
-> >>>>
-> >>>> Make QEMU reject such configurations and only allow addr=3D0 on the
-> >>>> secondary bus of a PCIe slot. =20
-> >>>
-> >>> What do you mean by 'non-working' in this case.  The guest OS boots
-> >>> OK, but I indeed don't see the device in the guest, but IIUC it was
-> >>> said that was just because Linux doesn't scan for a non-zero slot. =20
-> >>
-> >> Right.  I don't remember if it was Linux or firmware or both but indeed
-> >> at least Linux guests don't see devices if attached to a PCIe slot at
-> >> addr !=3D 0.  (Which is kinda natural for a thing called "slot", isn't=
- it?) =20
-> >=20
-> > I vaguely recall there was an option to tell linux to scan all slots,
-> > not just slot 0, not sure if that's applicable here.
-> >  =20
-> >> =20
-> >>> That wouldn't be a broken config from QEMU's POV though, merely a
-> >>> guest OS limitation ? =20
-> >>
-> >> Strictly speaking it wouldn't, indeed.  But we've had created such a
-> >> configuration (due to a bug in our management layer) and spent
-> >> non-negligible time trying to figure out why the attached device didn't
-> >> appear in the guest.  So I thought it made sense to reject a
-> >> configuration which is known to confuse guests.  Doesn't it? =20
-> >=20
-> > If a configuration is a permissible per the hardware design / spec, then
-> > QEMU should generally allow it.  We don't want to constrain host side
-> > configs based on the current limitations of guest OS whose behaviour can
-> > change over time, or where a different guest OS may have a different PO=
-V.
-> >  =20
->=20
-> If I understand correctly further answers the configration that we try to=
- forbid is not permissible by PCIe spec. So seems valid to forbid it. We st=
-ill need to mention specification in commit message and in the comment.
->=20
-> If we still afraid to forbid at once that invalid configuration that was =
-previously allowed, may be we can proceed with some of the following:
->=20
-> 1. Make a deprecation period of three releases and print only warning dur=
-ing this period. And forbid the invalid configuration three releases later.=
- Still I'm not sure that someone will see these warnings in logs..
->=20
-> 2. Make a boolean config option, like CONFIG_PCIE_STRICT, which forbids i=
-nvalid configurations. This way we keep default behavior, that allows to te=
-st something unusual, but add an option that we can use for production solu=
-tion where it's important to reduce number of possibilities to break the VM.
->=20
-> What do you think?
-Given that non zero slots are used only on broken hardware/firmware and it's
-just workaround for those in linux kernel.
-I wouldn't bother with 1 or 2 (I think just a note on change log should
-be sufficient)
+在 2022/7/27 下午2:49, Atish Patra 写道:
+> The sscofpmf extension was ratified as a part of priv spec v1.12.
+> Mark the csr_ops accordingly.
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   target/riscv/csr.c | 90 ++++++++++++++++++++++++++++++----------------
+>   1 file changed, 60 insertions(+), 30 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 57dbbf9b09a0..ec6d7f022ad5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -3859,63 +3859,92 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                                                          write_mhpmevent },
+>   
+>       [CSR_MHPMEVENT3H]    = { "mhpmevent3h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
 
+Similar to the first commit, it's better to align with the first element 
+"mhpmevent3h" .Otherwise,
+
+Reviewed-by: Weiwei Li <liweiwei@iscas.ac.cn>
+
+Regards,
+
+Weiwei Li
+
+>       [CSR_MHPMEVENT4H]    = { "mhpmevent4h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT5H]    = { "mhpmevent5h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT6H]    = { "mhpmevent6h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT7H]    = { "mhpmevent7h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT8H]    = { "mhpmevent8h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT9H]    = { "mhpmevent9h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                          write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT10H]   = { "mhpmevent10h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT11H]   = { "mhpmevent11h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT12H]   = { "mhpmevent12h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT13H]   = { "mhpmevent13h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT14H]   = { "mhpmevent14h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT15H]   = { "mhpmevent15h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT16H]   = { "mhpmevent16h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT17H]   = { "mhpmevent17h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT18H]   = { "mhpmevent18h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT19H]   = { "mhpmevent19h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT20H]   = { "mhpmevent20h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT21H]   = { "mhpmevent21h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT22H]   = { "mhpmevent22h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT23H]   = { "mhpmevent23h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT24H]   = { "mhpmevent24h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT25H]   = { "mhpmevent25h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT26H]   = { "mhpmevent26h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT27H]   = { "mhpmevent27h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT28H]   = { "mhpmevent28h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT29H]   = { "mhpmevent29h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT30H]   = { "mhpmevent30h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_MHPMEVENT31H]   = { "mhpmevent31h",    sscofpmf,  read_mhpmeventh,
+> -                                                       write_mhpmeventh},
+> +                                                           write_mhpmeventh,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>       [CSR_HPMCOUNTER3H]   = { "hpmcounter3h",   ctr32,  read_hpmcounterh },
+>       [CSR_HPMCOUNTER4H]   = { "hpmcounter4h",   ctr32,  read_hpmcounterh },
+> @@ -4005,7 +4034,8 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                                                          write_mhpmcounterh },
+>       [CSR_MHPMCOUNTER31H] = { "mhpmcounter31h", mctr32,  read_hpmcounterh,
+>                                                          write_mhpmcounterh },
+> -    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf },
+> +    [CSR_SCOUNTOVF]      = { "scountovf", sscofpmf,  read_scountovf,
+> +                                         .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>   #endif /* !CONFIG_USER_ONLY */
+>   };
 
 
