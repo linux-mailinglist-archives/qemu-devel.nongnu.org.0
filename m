@@ -2,39 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BCB8582C73
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:46:40 +0200 (CEST)
-Received: from localhost ([::1]:53414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5F5582C71
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:46:33 +0200 (CEST)
+Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGkBA-00023G-I4
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:46:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53564)
+	id 1oGkB5-0001wk-Hj
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk1g-0003rN-49; Wed, 27 Jul 2022 12:36:49 -0400
+ id 1oGk1j-0003rt-RS; Wed, 27 Jul 2022 12:36:51 -0400
 Received: from [200.168.210.66] (port=61870 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk1c-0007pB-RV; Wed, 27 Jul 2022 12:36:47 -0400
+ id 1oGk1h-0007pB-2t; Wed, 27 Jul 2022 12:36:50 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 27 Jul 2022 13:36:37 -0300
+ Wed, 27 Jul 2022 13:36:38 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id 98584800058;
+ by p9ibm (Postfix) with ESMTP id C6EC7800358;
  Wed, 27 Jul 2022 13:36:37 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
-Subject: [PATCH 0/8] Patch series to set up a ppc64le CI
-Date: Wed, 27 Jul 2022 13:36:24 -0300
-Message-Id: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <willianr@redhat.com>
+Subject: [PATCH 1/8] tests/docker: Fix alpine dockerfile
+Date: Wed, 27 Jul 2022 13:36:25 -0300
+Message-Id: <20220727163632.59806-2-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jul 2022 16:36:37.0860 (UTC)
- FILETIME=[0ACBD240:01D8A1D7]
+X-OriginalArrivalTime: 27 Jul 2022 16:36:38.0079 (UTC)
+ FILETIME=[0AED3CF0:01D8A1D7]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -59,31 +66,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series aim to make easier to set up a compilation and CI
-environment in PPC64 and PPC64LE machines.
+Currently the run script uses 'readlink -e' but the image only has the
+busybox readlink, this commit add the coreutils package which
+contains the readlink with the '-e' option.
 
-The first 2 patches is a fix not related to ppc64.
-Patch 3 and 4 also affect some other architectures.
-Patches 5 to 7 are adding Power specific additions.
+Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
+---
+ tests/docker/dockerfiles/alpine.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patch 8 is a RFC for a current way to run the docker tests in PPC64LE.
-
-Lucas Mateus Castro(alqotel) (8):
-  tests/docker: Fix alpine dockerfile
-  scripts/ci/setup: ninja missing from build-environment
-  scripts/ci/setup: Fix libxen requirements
-  scripts/ci/setup: spice-server only on x86 aarch64
-  scripts/ci/setup: Add ppc64le to vars.yml template
-  scripts/ci/setup: Add Fedora to build-environment.yml
-  scripts/ci/setup: Added debian to build-environment.yml
-  tests/docker: Selective line reading by python script
-
- scripts/ci/setup/build-environment.yml | 54 +++++++++++++++++++++-----
- scripts/ci/setup/vars.yml.template     |  1 +
- tests/docker/docker.py                 | 15 +++++--
- tests/docker/dockerfiles/alpine.docker |  3 ++
- 4 files changed, 61 insertions(+), 12 deletions(-)
-
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+index 3f4c0f95cb..2943a99730 100644
+--- a/tests/docker/dockerfiles/alpine.docker
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -21,6 +21,7 @@ RUN apk update && \
+         cdrkit \
+         ceph-dev \
+         clang \
++        coreutils \
+         ctags \
+         curl-dev \
+         cyrus-sasl-dev \
 -- 
 2.25.1
 
