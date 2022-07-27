@@ -2,61 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFD1058231B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:28:37 +0200 (CEST)
-Received: from localhost ([::1]:52182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC6658233C
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:36:02 +0200 (CEST)
+Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGdLI-0003sL-Kc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:28:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
+	id 1oGdST-0000Q3-FY
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:36:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdEs-00057R-VV
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:21:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54004)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGdMW-0004Cu-Px
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:30:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdEo-0002LK-52
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:21:57 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGdMP-0003Ts-G1
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:29:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658913711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ s=mimecast20190719; t=1658914184;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PpVecOWIK7EPtinVFSnYW1ad9CIw7kruWyv0MiDo6Qo=;
- b=OrDGiqGCGV15sjyZVXm3L3pXqURhpzJuHCB/iNu3dYbS/RTMOES0A5RO9OJsIp/+TDw9fg
- 3RS2QttjJAalSng8ZZ7T7V1XbPV8ZXU566rEtGABn06NT0hs8Bn0m40LYOXEvo4Umgk+hJ
- rhXClDkbZNFctWUbACUvT50ZLxURElw=
+ bh=9hotjTpabDOTq6aMmT4deKJYsYoUcbg94Uv6QsAY/D4=;
+ b=R8EIxEFUp8ki/6DpZYG75bN1ggzzTT8ZxiAyWzrTI5IqziNo+RpZ8C8EEs8P0RYbc6cB2s
+ 5VpU7xyyr4ezzlER0sP8lVQXdZQiFJg2YG1ZgmHPwP/1E9tdKzkLo9YzMrQFGAmwEa4/Qs
+ ySqR9LBsYBzf2+q0b5887d30YTldwMg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-342-xXtXs-G-M5KwMLzbubVdNQ-1; Wed, 27 Jul 2022 05:21:47 -0400
-X-MC-Unique: xXtXs-G-M5KwMLzbubVdNQ-1
+ us-mta-494-M6I3u9viMbuMQ88JCWptVQ-1; Wed, 27 Jul 2022 05:29:41 -0400
+X-MC-Unique: M6I3u9viMbuMQ88JCWptVQ-1
 Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
  [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5F59E2804076;
- Wed, 27 Jul 2022 09:21:47 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D912F492C3B;
- Wed, 27 Jul 2022 09:21:45 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Michael Roth <michael.roth@amd.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PATCH 3/3] tests/unit/test-qga: Replace the word 'blacklist' in the
- guest agent unit test
-Date: Wed, 27 Jul 2022 11:21:35 +0200
-Message-Id: <20220727092135.302915-4-thuth@redhat.com>
-In-Reply-To: <20220727092135.302915-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 946051C00AC1;
+ Wed, 27 Jul 2022 09:29:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D9BC492C3B;
+ Wed, 27 Jul 2022 09:29:38 +0000 (UTC)
+Date: Wed, 27 Jul 2022 10:29:34 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 1/3] qga: Replace 'blacklist' command line and config
+ file options by 'block-rpcs'
+Message-ID: <YuEFfizE+lpguU7g@redhat.com>
 References: <20220727092135.302915-1-thuth@redhat.com>
+ <20220727092135.302915-2-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220727092135.302915-2-thuth@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -77,48 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use better, more inclusive wording here.
+On Wed, Jul 27, 2022 at 11:21:33AM +0200, Thomas Huth wrote:
+> Let's use a more appropriate wording for this command line and config
+> file option. The old ones are still accepted for compatibility reasons,
+> but marked as deprecated now so that it could be removed in a future
+> version of QEMU.
+> 
+> This change is based on earlier patches from Philippe Mathieu-Daudé,
+> with the idea for the new option name suggested by BALATON Zoltan.
+> 
+> And while we're at it, replace the "?" in the help text with "help"
+> since that does not have the problem of conflicting with the wildcard
+> character of the shells.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/about/deprecated.rst  | 19 +++++++++++++++++++
+>  docs/interop/qemu-ga.rst   |  8 ++++----
+>  qga/main.c                 | 18 +++++++++++++-----
+>  tests/unit/test-qga.c      |  2 +-
+>  tests/data/test-qga-config |  2 +-
+>  5 files changed, 38 insertions(+), 11 deletions(-)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/unit/test-qga.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
-index c398866f46..80bb6b0866 100644
---- a/tests/unit/test-qga.c
-+++ b/tests/unit/test-qga.c
-@@ -629,7 +629,7 @@ static void test_qga_get_time(gconstpointer fix)
-     g_assert_cmpint(time, >, 0);
- }
- 
--static void test_qga_blacklist(gconstpointer data)
-+static void test_qga_blockedrpcs(gconstpointer data)
- {
-     TestFixture fix;
-     QDict *ret, *error;
-@@ -637,7 +637,7 @@ static void test_qga_blacklist(gconstpointer data)
- 
-     fixture_setup(&fix, "-b guest-ping,guest-get-time", NULL);
- 
--    /* check blacklist */
-+    /* check blocked RPCs */
-     ret = qmp_fd(fix.fd, "{'execute': 'guest-ping'}");
-     g_assert_nonnull(ret);
-     error = qdict_get_qdict(ret, "error");
-@@ -968,7 +968,7 @@ int main(int argc, char **argv)
-     g_test_add_data_func("/qga/fsfreeze-status", &fix,
-                          test_qga_fsfreeze_status);
- 
--    g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
-+    g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
-     g_test_add_data_func("/qga/config", NULL, test_qga_config);
-     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
-     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
+
+With regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
