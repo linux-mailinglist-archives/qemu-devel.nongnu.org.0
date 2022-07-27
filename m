@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F5858298E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:26:23 +0200 (CEST)
-Received: from localhost ([::1]:51874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B46C5829B1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:34:19 +0200 (CEST)
+Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGivV-0007bT-0S
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:26:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
+	id 1oGj3B-0004Sj-GC
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGisV-0005PV-Ow; Wed, 27 Jul 2022 11:23:16 -0400
-Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:41778)
+ id 1oGiyj-0001ce-LY; Wed, 27 Jul 2022 11:29:41 -0400
+Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:47168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGisR-0004ov-MV; Wed, 27 Jul 2022 11:23:14 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id DAB172E1497;
- Wed, 27 Jul 2022 18:23:00 +0300 (MSK)
+ id 1oGiyf-0005a8-Fd; Wed, 27 Jul 2022 11:29:40 -0400
+Received: from myt5-70c90f7d6d7d.qloud-c.yandex.net
+ (myt5-70c90f7d6d7d.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e2c:0:640:70c9:f7d])
+ by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 808F72E1FC5;
+ Wed, 27 Jul 2022 18:29:24 +0300 (MSK)
 Received: from [10.211.19.155] (10.211.19.155-vpn.dhcp.yndx.net
  [10.211.19.155])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- DSnamhCpbe-MwOaUMFu; Wed, 27 Jul 2022 18:23:00 +0300
+ by myt5-70c90f7d6d7d.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ X2qXzrLaWw-TMPajtEf; Wed, 27 Jul 2022 18:29:23 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 X-Yandex-Fwd: 1
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1658935380; bh=T4Qymsj1cSfcsYF+LMddrGpfYxy6dJROs7te1S78MN4=;
+ t=1658935763; bh=S6myq1jqoV6qyYRnkUw2e1OYQEIBdz/DnTEoU4xd35E=;
  h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=gdU+Cs30hsmtdFlzbhyos1rklYKIFNUsO0NnirT5ogbvwahg5UrNMXLqt6NggXt82
- xsFTMGgyOSBoVH6Ld7+KuAbP/KI193fOOB8gb2KAltQZHIqaAD3P9o3lOvoTdM/6W0
- NzgKQMBsUDB0UvKbG3fZxD/hksCNejXmPqH9gfac=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ b=aWmIDjG73h5Sxb1sKrD3itwT1ofYDwkA+r4BhLHU2V5b/bo8aH/Ca3+dsynxuSkJc
+ 5Ml45mznTFNa6EIZAtr2NK6WWJ7GIkTM/zEEwgTVyiFDw/K3Lqivm2YY3i03E5JmhC
+ V12F+6XuXsVb50fGfjaSeBQLmAsNeBr8tZHalcT0=
+Authentication-Results: myt5-70c90f7d6d7d.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
-Message-ID: <dca440a2-59ce-764e-c82d-fc9ca6490af5@yandex-team.ru>
-Date: Wed, 27 Jul 2022 18:22:58 +0300
+Message-ID: <41d4b19d-f0c1-99dd-b5c5-735694241dcc@yandex-team.ru>
+Date: Wed, 27 Jul 2022 18:29:22 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.8.1
-Subject: Re: [PATCH v10 14/21] jobs: protect job.aio_context with BQL and
- job_mutex
+Subject: Re: [PATCH v10 17/21] blockjob: protect iostatus field in BlockJob
+ struct
 Content-Language: en-US
 To: Emanuele Giuseppe Esposito <eesposit@redhat.com>, qemu-block@nongnu.org
 Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
@@ -55,19 +55,19 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi
  <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org
 References: <20220725073855.76049-1-eesposit@redhat.com>
- <20220725073855.76049-15-eesposit@redhat.com>
+ <20220725073855.76049-18-eesposit@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220725073855.76049-15-eesposit@redhat.com>
+In-Reply-To: <20220725073855.76049-18-eesposit@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=95.108.205.193;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
+ envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,143 +85,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/25/22 10:38, Emanuele Giuseppe Esposito wrote:
-> In order to make it thread safe, implement a "fake rwlock",
-> where we allow reads under BQL *or* job_mutex held, but
-> writes only under BQL *and* job_mutex.
+> iostatus is the only field (together with .job) that needs
+> protection using the job mutex.
 > 
-> The only write we have is in child_job_set_aio_ctx, which always
-> happens under drain (so the job is paused).
-> For this reason, introduce job_set_aio_context and make sure that
-> the context is set under BQL, job_mutex and drain.
+> It is set in the main loop (GLOBAL_STATE functions) but read
+> in I/O code (block_job_error_action).
 
-actually, we only make sure that pause was scheduled
+Hmm, block_job_error_action doesn't read iostatus..
 
-> Also make sure all other places where the aiocontext is read
-> are protected.
+Also, iostatus is read by by mirror_run, which is not protected.
+
 > 
-> Note: at this stage, job_{lock/unlock} and job lock guard macros
-> are *nop*.
+> In order to protect it, change block_job_iostatus_set_err
+> to block_job_iostatus_set_err_locked(), always called under
+> job lock.
 > 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->   block/replication.c |  6 ++++--
->   blockjob.c          |  3 ++-
->   include/qemu/job.h  | 19 ++++++++++++++++++-
->   job.c               | 12 ++++++++++++
->   4 files changed, 36 insertions(+), 4 deletions(-)
+>   blockjob.c | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/block/replication.c b/block/replication.c
-> index 55c8f894aa..2189863df1 100644
-> --- a/block/replication.c
-> +++ b/block/replication.c
-> @@ -148,8 +148,10 @@ static void replication_close(BlockDriverState *bs)
->       }
->       if (s->stage == BLOCK_REPLICATION_FAILOVER) {
->           commit_job = &s->commit_job->job;
-> -        assert(commit_job->aio_context == qemu_get_current_aio_context());
-> -        job_cancel_sync(commit_job, false);
-> +        WITH_JOB_LOCK_GUARD() {
-> +            assert(commit_job->aio_context == qemu_get_current_aio_context());
-> +            job_cancel_sync_locked(commit_job, false);
-> +        }
->       }
->   
->       if (s->mode == REPLICATION_MODE_SECONDARY) {
 > diff --git a/blockjob.c b/blockjob.c
-> index 96fb9d9f73..9ff2727025 100644
+> index 0663faee2c..448bdb5a53 100644
 > --- a/blockjob.c
 > +++ b/blockjob.c
-> @@ -162,12 +162,13 @@ static void child_job_set_aio_ctx(BdrvChild *c, AioContext *ctx,
->           bdrv_set_aio_context_ignore(sibling->bs, ctx, ignore);
+> @@ -363,7 +363,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
+>       return block_job_query_locked(job, errp);
+>   }
+>   
+> -static void block_job_iostatus_set_err(BlockJob *job, int error)
+> +/* Called with job lock held */
+> +static void block_job_iostatus_set_err_locked(BlockJob *job, int error)
+>   {
+>       if (job->iostatus == BLOCK_DEVICE_IO_STATUS_OK) {
+>           job->iostatus = error == ENOSPC ? BLOCK_DEVICE_IO_STATUS_NOSPACE :
+> @@ -577,8 +578,8 @@ BlockErrorAction block_job_error_action(BlockJob *job, BlockdevOnError on_err,
+>                    */
+>                   job->job.user_paused = true;
+>               }
+> +            block_job_iostatus_set_err_locked(job, error);
+>           }
+> -        block_job_iostatus_set_err(job, error);
 >       }
->   
-> -    job->job.aio_context = ctx;
-> +    job_set_aio_context(&job->job, ctx);
+>       return action;
 >   }
->   
->   static AioContext *child_job_get_parent_aio_context(BdrvChild *c)
->   {
->       BlockJob *job = c->opaque;
-> +    assert(qemu_in_main_thread());
->   
->       return job->job.aio_context;
->   }
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index 5709e8d4a8..c144aabefc 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -77,7 +77,12 @@ typedef struct Job {
->   
->       /** Protected by AioContext lock */
->   
-> -    /** AioContext to run the job coroutine in */
-> +    /**
-> +     * AioContext to run the job coroutine in.
-> +     * This field can be read when holding either the BQL (so we are in
-> +     * the main loop) or the job_mutex.
-> +     * It can be only written when we hold *both* BQL and job_mutex.
-> +     */
->       AioContext *aio_context;
->   
->       /** Reference count of the block job */
-> @@ -741,4 +746,16 @@ int job_finish_sync(Job *job, void (*finish)(Job *, Error **errp),
->   int job_finish_sync_locked(Job *job, void (*finish)(Job *, Error **errp),
->                              Error **errp);
->   
-> +/**
-> + * Sets the @job->aio_context.
-> + * Called with job_mutex *not* held.
-> + *
-> + * This function must run in the main thread to protect against
-> + * concurrent read in job_finish_sync_locked(),
-> + * takes the job_mutex lock to protect against the read in
-> + * job_do_yield_locked(), and must be called when the coroutine
-> + * is quiescent.
 
-What means "coroutine is quescent"? Could we just swap it by "job is paused"?
-
-> + */
-> +void job_set_aio_context(Job *job, AioContext *ctx);
-> +
->   #endif
-> diff --git a/job.c b/job.c
-> index ecec66b44e..0a857b1468 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -394,6 +394,17 @@ Job *job_get(const char *id)
->       return job_get_locked(id);
->   }
->   
-> +void job_set_aio_context(Job *job, AioContext *ctx)
-> +{
-> +    /* protect against read in job_finish_sync_locked and job_start */
-> +    assert(qemu_in_main_thread());
-> +    /* protect against read in job_do_yield_locked */
-> +    JOB_LOCK_GUARD();
-> +    /* ensure the coroutine is quiescent while the AioContext is changed */
-
-pause_count means pause was scheduled. Job may be paused already, or may be not. I'm not against the assertion, it helps. I just think that we don't have the guarantee that comment claims. (And I still don't understand what means coroutine is quiescent. And not that there are may be several job related coroutines: the main one and some worker coroutines).
-
-> +    assert(job->pause_count > 0);
-> +    job->aio_context = ctx;
-> +}
-> +
->   /* Called with job_mutex *not* held. */
->   static void job_sleep_timer_cb(void *opaque)
->   {
-> @@ -1376,6 +1387,7 @@ int job_finish_sync_locked(Job *job,
->   {
->       Error *local_err = NULL;
->       int ret;
-> +    assert(qemu_in_main_thread());
->   
->       job_ref_locked(job);
->   
-
-without "quiescent coroutine" concept:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
 
 -- 
 Best regards,
