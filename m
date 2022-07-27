@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62125827D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:37:36 +0200 (CEST)
-Received: from localhost ([::1]:53422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3A15827C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:33:47 +0200 (CEST)
+Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGhEF-000317-SU
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34346)
+	id 1oGhAY-0008Dr-Rv
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34382)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGh5C-0003VY-Uy
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:14 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:35633)
+ id 1oGh5F-0003aH-WF
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:18 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44580)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGh5B-00022w-Ds
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:14 -0400
-Received: by mail-pg1-x536.google.com with SMTP id r186so15943515pgr.2
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:28:12 -0700 (PDT)
+ id 1oGh5E-00022W-Eb
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:28:17 -0400
+Received: by mail-pl1-x635.google.com with SMTP id p1so7618891plr.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1Phf7RRs9YPshwkeWcjieRVLG6Kz9qCuEGQI3Aw89tI=;
- b=IbBmHuDpEMfiwARyflJ/ijqAcCXoeCQelqeV2vCNdnxhEsWEsLUX2J04zTEkqU+BY4
- 4GqWH0JuDKGePQ9/ft3eIgq1BMD3W9G1SWp6gfZ4H9Vner9wVIdDDSKlp3Ouc3G53dCl
- LxY5rWWp71Zw+wj0Yg/OKwpymz++VGXQLsv8lQjVIHVLlHXM4XPSOVLIFAIQ8RY89uKz
- jfttPn3zSnVd7lg1myvAY+wFRNZ0Ca+gyhT+zDGjxx2iSkM52hpVJMyQntn+iqG+UJbb
- FbKFRgU4TMyR0XgGuKmI56wpRGSxNw1xCFLqrjH+ObHHvNzVQgn0TslJIbbuiAqjUZU1
- hOlA==
+ bh=K5RpPkx1Tcaz5Omqx39MjgHtnMsOaSt7tarRvfh7ii0=;
+ b=n22+ofw9nMS/BRENh9Kg8p9NzD8aGfslVNNtxySXeee1BBcxj/fIyKiMZJ7glPLxUc
+ 5srfZ4nbsN8t16nesMiuwUJJGQxjwtlNgObBXE/LcaOj6FegTWIYF/zg1OAZy08EPkDE
+ cNmmAKG5eHAcdGcwD0MZ0SSJSWM4GJ1x+EfHt6lOe3BLffRlPOWp/OVYg3M1jdnSPWpz
+ jAognOqsTMo2Ev2L5iOLpeGb0FmNKQ2kB7VpdLtKpq3LVDonLqY1/2xgORjVNetvoVw1
+ Q17L6vZWSgwRHLJhuoxx2jpn39rJrVZ1tpP9z7GDOCFRIBv33io2F+G/hrSU8y8lKhx5
+ BCFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1Phf7RRs9YPshwkeWcjieRVLG6Kz9qCuEGQI3Aw89tI=;
- b=LJ0nwBkcKHMUm7jamhEJBWJvfEWdEVAhVjDrmPhc5kDqVJ8d8DTfVreH0w22nORDP8
- J6dmr+8zgIhJuuUYURVLTBh4h5+HsGjLSxGjf1XZF30oVXTtMsV2BSUEAKaj/51CSb5N
- qMBnOmIMvutbYkA4qA9cZ1M/KjtZEVlLBxKrPOEyXXW9MXRj1jzKbOCCmR+tdpSNcMvJ
- umyI78iT1ISg6MrtnwpIcW/bbhAC8fAeciUo+UlwnBxybSfzoFICZSYu74MF9ceS1a83
- z93EngzwDYKB1GjLqgWVRt037D742PEVRjln283WaDG4DD6qY5eqUbK7sFf3fueZaUj6
- ykQw==
-X-Gm-Message-State: AJIora+hSiryWbciiXIbkNFkw3qWHvDFG7qgPmV8M4M0IOBsKRKEMIWX
- jInCAbtETw8EcczYCR8dv25AF15zSig=
-X-Google-Smtp-Source: AGRyM1vbTnT8CHLbgBJ4/4Xxxm42QwPeT5nG7135p5idU6HI7nmN0gU7R4zMC0NNEnEIS1RtHGU7tQ==
-X-Received: by 2002:a63:6e85:0:b0:41b:42d0:83ef with SMTP id
- j127-20020a636e85000000b0041b42d083efmr3454252pgc.236.1658928491393; 
- Wed, 27 Jul 2022 06:28:11 -0700 (PDT)
+ bh=K5RpPkx1Tcaz5Omqx39MjgHtnMsOaSt7tarRvfh7ii0=;
+ b=EKx+9ejSVSI4NfIusIKJksBviwRAtv4CxfWTMp02O2jReFQG5/0hipdU5AvJ8qUwoo
+ 4j786/D7cJ+CC2MKAdC85bp8lUMX8AUmniYjKTY+wm4cfyesZsqeYf65f884ZGO3u+mt
+ 8HZnMPXOPujnQ2g6bfia0C90YyxmQrvBccTSr6OcjyTZrQVV8tbmfTWH1CpKn7ncqM1B
+ x1FH4EjZTML0Y6c8tRV0FEcfcqAXKdC5htOa606mC/rCcs0k+GlpWTl3oG6MyVa2fm0S
+ WH94itFRYU9w5kJDDvRQ8i8pcA9nvc9wc/PQqpNy/WN7R2y+uwx3MzEVhahdgOSco6jt
+ B84w==
+X-Gm-Message-State: AJIora/c6Rcah9j5xlSDH+gT+RgIqpKgctW7AGhBGAur0n1og37UrJ8w
+ o9ut7wz/MWylLQDceKi6i06M7ZZ2wDg=
+X-Google-Smtp-Source: AGRyM1u1K0nWw3+XrlOmBKON3YI+U+iQ35DaUqsFTSaEnIkoDaU39IlppvdHplQxwt8/EWOLx9zhVA==
+X-Received: by 2002:a17:90b:38cf:b0:1f2:fb9c:6003 with SMTP id
+ nn15-20020a17090b38cf00b001f2fb9c6003mr4613578pjb.214.1658928494033; 
+ Wed, 27 Jul 2022 06:28:14 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- ij13-20020a170902ab4d00b0016daee46b72sm1971192plb.237.2022.07.27.06.28.09
+ ij13-20020a170902ab4d00b0016daee46b72sm1971192plb.237.2022.07.27.06.28.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 06:28:10 -0700 (PDT)
+ Wed, 27 Jul 2022 06:28:13 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v2 2/6] util/oslib-win32: Add a helper to get the Windows
- version
-Date: Wed, 27 Jul 2022 21:27:58 +0800
-Message-Id: <20220727132802.812580-3-bmeng.cn@gmail.com>
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Subject: [PATCH v2 3/6] qga/commands-win32: Use os_get_win_version()
+Date: Wed, 27 Jul 2022 21:27:59 +0800
+Message-Id: <20220727132802.812580-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220727132802.812580-1-bmeng.cn@gmail.com>
 References: <20220727132802.812580-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,55 +92,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This adds a helper to get the Windows version via the RtlGetVersion
-call, for QEMU codes to determine the Windows version at run-time.
+Drop its own ga_get_win_version() implementation, and use the one
+provided in oslib-win32 instead.
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
 (no changes since v1)
 
- include/sysemu/os-win32.h |  2 ++
- util/oslib-win32.c        | 15 +++++++++++++++
- 2 files changed, 17 insertions(+)
+ qga/commands-win32.c | 27 +--------------------------
+ 1 file changed, 1 insertion(+), 26 deletions(-)
 
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index edc3b38a57..1e324026a4 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
- ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
-                            struct sockaddr *addr, socklen_t *addrlen);
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index 7ed7664715..6186f2e1f2 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -2178,26 +2178,6 @@ static ga_win_10_0_t const WIN_10_0_CLIENT_VERSION_MATRIX[3] = {
+     {0, 0}
+ };
  
-+void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
-+
- #ifdef __cplusplus
- }
- #endif
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-index 5723d3eb4c..6d2387b9ff 100644
---- a/util/oslib-win32.c
-+++ b/util/oslib-win32.c
-@@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
-      */
-     return qemu_fdatasync(fd);
- }
-+
-+void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
-+{
-+    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
-+
-+    /* RtlGetVersion is available starting with Windows 2000 */
-+    HMODULE module = GetModuleHandle("ntdll");
-+    PVOID fun = GetProcAddress(module, "RtlGetVersion");
-+    rtl_get_version_t rtl_get_version = (rtl_get_version_t)fun;
-+
-+    info->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
-+    rtl_get_version(info);
-+
-+    return;
-+}
+-static void ga_get_win_version(RTL_OSVERSIONINFOEXW *info, Error **errp)
+-{
+-    typedef NTSTATUS(WINAPI *rtl_get_version_t)(
+-        RTL_OSVERSIONINFOEXW *os_version_info_ex);
+-
+-    info->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
+-
+-    HMODULE module = GetModuleHandle("ntdll");
+-    PVOID fun = GetProcAddress(module, "RtlGetVersion");
+-    if (fun == NULL) {
+-        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+-            "Failed to get address of RtlGetVersion");
+-        return;
+-    }
+-
+-    rtl_get_version_t rtl_get_version = (rtl_get_version_t)fun;
+-    rtl_get_version(info);
+-    return;
+-}
+-
+ static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id)
+ {
+     DWORD major = os_version->dwMajorVersion;
+@@ -2312,17 +2292,12 @@ static char *ga_get_current_arch(void)
+ 
+ GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+ {
+-    Error *local_err = NULL;
+     OSVERSIONINFOEXW os_version = {0};
+     bool server;
+     char *product_name;
+     GuestOSInfo *info;
+ 
+-    ga_get_win_version(&os_version, &local_err);
+-    if (local_err) {
+-        error_propagate(errp, local_err);
+-        return NULL;
+-    }
++    os_get_win_version(&os_version);
+ 
+     server = os_version.wProductType != VER_NT_WORKSTATION;
+     product_name = ga_get_win_product_name(errp);
 -- 
 2.34.1
 
