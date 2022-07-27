@@ -2,85 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576A45829C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:36:58 +0200 (CEST)
-Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDAD5829F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:48:18 +0200 (CEST)
+Received: from localhost ([::1]:40548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGj5k-0005v2-VT
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:36:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40830)
+	id 1oGjGi-00036s-Ol
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:48:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGj1t-0003X1-Ux
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:32:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58170)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGjCl-0007Hk-Cr
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:44:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGj1c-0006CH-Mf
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:32:55 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGjCi-0007sJ-GJ
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:44:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658935958;
+ s=mimecast20190719; t=1658936647;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=l1gu6hqPYwHzWRykITBLC8u+IW1ocpfZ34urOhe4xjc=;
- b=YZf7OSrw2VsDGTjXLKcEYG9sGxAIL4aZcAqF0vcIt/3UaVNrML8OqTySAfKiJ1T994vwwZ
- 5Xr5P4HrAD/dEYhmoSC5JLfo4ArGtEfvd4lV/EWjg/aU2HqumdQfaBUDtV2ZAvCLbqNRUB
- mRD5vNma01zfx9aaJdlVPg8yw7zKBrs=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Xjoftw+lPi/Jdd4dOQv7y6H1hb7jKnp8oUGe5twN9uw=;
+ b=ROXneAvBvvsteAFiHIdqI2QhyasWaDGyon5ta9QRDaUkJkZlab7EDdPx2SAFJqlPZh0h8z
+ PSt+8IOdEc+rbHSjdDW05TdMjKaTAaF5QJs1hCdk7JYtRm3NStODkMJ/wtCYu8xAjmzCMO
+ QKzHoLNVtwDlNZKsBob387oXolGuNOM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-43-lVtPQlS-NdOEAiXZZY6oBg-1; Wed, 27 Jul 2022 11:32:36 -0400
-X-MC-Unique: lVtPQlS-NdOEAiXZZY6oBg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- n10-20020a5d6b8a000000b0021da91e4a64so3070325wrx.8
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:32:36 -0700 (PDT)
+ us-mta-78-fPezSYlIOs6QhWeuG-M0_A-1; Wed, 27 Jul 2022 11:44:06 -0400
+X-MC-Unique: fPezSYlIOs6QhWeuG-M0_A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ o2-20020a056402438200b0043ccb3ed7dfso586666edc.22
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:44:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=l1gu6hqPYwHzWRykITBLC8u+IW1ocpfZ34urOhe4xjc=;
- b=nW4KKssUExb+1unM+62i4g0db18FOtxiszh9GMWCqMRi0Ljr/FCLzJ1CSp8Q3N0MIQ
- ULP5Z/3tWznq9Ftm3PT1zeyBEWftjGk7pN5fm9o4LwLlN/MRbChbwLQMQnWIFkq9VQ+k
- fL79GC3/zR+077GiS2DRfJx9CUnDAc/sURFraZsUVaKIdNbDsOB4R6TPTUL0Dv4GJSGs
- 82m/B3ITLaseaoz7JKi4uvd3PjdlM5Fuqv9fFKc0rOai4dPXwF4l4GaH6FErmTta+bFK
- gzczicojQQIeFI1xr7UlHbReXiqtCjLfmbjctrjxmjCcyq6EButDFrawul1VMmy9DJTO
- 3uNg==
-X-Gm-Message-State: AJIora8JMaK5JrIqpLF+DAT36Ea0x1Wk4BsUSt2ie1J/jh7JW2+FSVXk
- Q0WM8JIuHDkF2DHVlL4v+1IgoL5dezEXPqAES095oGNExcrbN5jd3EBIpYyPOouZ3TpMEF6qza8
- tFAMo0ZU0t2MZmfY=
-X-Received: by 2002:a05:600c:358d:b0:3a3:2fe2:7d5e with SMTP id
- p13-20020a05600c358d00b003a32fe27d5emr3590521wmq.77.1658935955213; 
- Wed, 27 Jul 2022 08:32:35 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s78uW9F3J7Px0JtHHPc3MLnOKDTal+WRtX0xxCFgQk10ZYtECeKvcqAZIgZnGQywIDQe0Wiw==
-X-Received: by 2002:a05:600c:358d:b0:3a3:2fe2:7d5e with SMTP id
- p13-20020a05600c358d00b003a32fe27d5emr3590489wmq.77.1658935954617; 
- Wed, 27 Jul 2022 08:32:34 -0700 (PDT)
+ bh=Xjoftw+lPi/Jdd4dOQv7y6H1hb7jKnp8oUGe5twN9uw=;
+ b=Oo9703TlrJgmbu4lWBLWq0rhkxe/W3rlyvhyMeIZLk2mr7n1Gtlr6VDEzubUDHd66+
+ doWdxm8ZAqSDFvZDkajY3igcV5kyyzQ59NzdGJnApN6c9ZBUq4pzHkTFsnspKHl8okZB
+ 9SN/zlkf5SoJgQlN8gl7Wf/G8eFSC4hRtDCguPoIBq05pXmPPybNkU7DKTc5WqYmYQ3g
+ 5kAlR7l0VAY6RiM99Lu1/V2lDZbCyxCLeP2vqryVac5hHOG4N+pAiaDR+cxKdh3xwbKC
+ EzOa95o44rWay1t3sg1uWuYRa5Y+ZQcPK4W4fsCWAwz7td+6MgNgFA82vrki8CrIwEep
+ GiHg==
+X-Gm-Message-State: AJIora9JPqA0aKIPbL1BvaICAasLvDpVmLLLTvnABKXl2pD4YbAe/l7i
+ SPe0OBrGe7RBMIkmrHgerC/AjA9/A33f7qVn7qHyRl3EkWhNXMzj/YUatjH8JtvyKek4yeGZQco
+ 7gKffuZKz2+UbWrk=
+X-Received: by 2002:a17:907:9810:b0:72f:36e5:266c with SMTP id
+ ji16-20020a170907981000b0072f36e5266cmr17963167ejc.105.1658936645138; 
+ Wed, 27 Jul 2022 08:44:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uFZGQD3a281tjE4wzKhXvbtnkIpRIqZTMJS8oOccdgxgUCZ2E8X7qMw1LXWcjb+xYUX+5jGg==
+X-Received: by 2002:a17:907:9810:b0:72f:36e5:266c with SMTP id
+ ji16-20020a170907981000b0072f36e5266cmr17963152ejc.105.1658936644855; 
+ Wed, 27 Jul 2022 08:44:04 -0700 (PDT)
 Received: from redhat.com ([2.52.132.243]) by smtp.gmail.com with ESMTPSA id
- p2-20020a05600c1d8200b003a32251c3f9sm3000285wms.5.2022.07.27.08.32.33
+ g16-20020a50ee10000000b0043cc58ca84dsm796262eds.39.2022.07.27.08.44.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 08:32:34 -0700 (PDT)
-Date: Wed, 27 Jul 2022 11:32:30 -0400
+ Wed, 27 Jul 2022 08:44:04 -0700 (PDT)
+Date: Wed, 27 Jul 2022 11:44:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: qemu-devel@nongnu.org,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Marcel Apfelbaum <marcel@redhat.com>, Jason Wang <jasowang@redhat.com>
-Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
-Message-ID: <20220727112737-mutt-send-email-mst@kernel.org>
-References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
+To: Eli Cohen <elic@nvidia.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Subject: Re: VIRTIO_NET_F_MTU not negotiated
+Message-ID: <20220727114228-mutt-send-email-mst@kernel.org>
+References: <CAJaqyWc0M4O8Rr2jR4L_myPd_VmxkYjHTnwdxQFAf3N_hZw_3g@mail.gmail.com>
+ <DM8PR12MB540033DA1293BA23E29148EAAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWfOS9nCBNeborhTdOXAnmZX9XwRF=2E0aphuHbqr352CA@mail.gmail.com>
+ <DM8PR12MB54005AB1DE4617493645D2CBAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWczrvaaookrQE5=6mTABS-VmJKF6iY+aO3ZD8OB4FumRA@mail.gmail.com>
+ <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <20220727032334-mutt-send-email-mst@kernel.org>
+ <DM8PR12MB5400E307D34E8B0C5D224813AB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <20220727053311-mutt-send-email-mst@kernel.org>
+ <DM8PR12MB5400AE8A41758321E0348764AB979@DM8PR12MB5400.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <DM8PR12MB5400AE8A41758321E0348764AB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,129 +107,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 12:51:31PM +0200, Claudio Fontana wrote:
-> Hi Michael and all,
+On Wed, Jul 27, 2022 at 10:16:19AM +0000, Eli Cohen wrote:
+> > -----Original Message-----
+> > From: Michael S. Tsirkin <mst@redhat.com>
+> > Sent: Wednesday, July 27, 2022 12:35 PM
+> > To: Eli Cohen <elic@nvidia.com>
+> > Cc: Eugenio Perez Martin <eperezma@redhat.com>; qemu-devel@nongnu.org; Jason Wang <jasowang@redhat.com>;
+> > virtualization@lists.linux-foundation.org
+> > Subject: Re: VIRTIO_NET_F_MTU not negotiated
+> > 
+> > On Wed, Jul 27, 2022 at 09:04:47AM +0000, Eli Cohen wrote:
+> > > > -----Original Message-----
+> > > > From: Michael S. Tsirkin <mst@redhat.com>
+> > > > Sent: Wednesday, July 27, 2022 10:25 AM
+> > > > To: Eli Cohen <elic@nvidia.com>
+> > > > Cc: Eugenio Perez Martin <eperezma@redhat.com>; qemu-devel@nongnu.org; Jason Wang <jasowang@redhat.com>;
+> > > > virtualization@lists.linux-foundation.org
+> > > > Subject: Re: VIRTIO_NET_F_MTU not negotiated
+> > > >
+> > > > On Wed, Jul 27, 2022 at 06:51:56AM +0000, Eli Cohen wrote:
+> > > > > I found out that the reason why I could not enforce the mtu stems from the fact that I did not configure max mtu for the net
+> > device
+> > > > (e.g. through libvirt <mtu size="9000"/>).
+> > > > > Libvirt does not allow this configuration for vdpa devices and probably for a reason. The vdpa backend driver has the freedom
+> > to do
+> > > > it using its copy of virtio_net_config.
+> > > > >
+> > > > > The code in qemu that is responsible to allow to consider the device MTU restriction is here:
+> > > > >
+> > > > > static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+> > > > > {
+> > > > >     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+> > > > >     VirtIONet *n = VIRTIO_NET(dev);
+> > > > >     NetClientState *nc;
+> > > > >     int i;
+> > > > >
+> > > > >     if (n->net_conf.mtu) {
+> > > > >         n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
+> > > > >     }
+> > > > >
+> > > > > The above code can be interpreted as follows:
+> > > > > if the command line arguments of qemu indicates that mtu should be limited, then we would read this mtu limitation from the
+> > > > device (that actual value is ignored).
+> > > > >
+> > > > > I worked around this limitation by unconditionally setting VIRTIO_NET_F_MTU in the host features. As said, it only indicates
+> > that
+> > > > we should read the actual limitation for the device.
+> > > > >
+> > > > > If this makes sense I can send a patch to fix this.
+> > > >
+> > > > Well it will then either have to be for vdpa only, or have
+> > > > compat machinery to avoid breaking migration.
+> > > >
+> > >
+> > > How about this one:
+> > >
+> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > index 1067e72b3975..e464e4645c79 100644
+> > > --- a/hw/net/virtio-net.c
+> > > +++ b/hw/net/virtio-net.c
+> > > @@ -3188,6 +3188,7 @@ static void virtio_net_guest_notifier_mask(VirtIODevice *vdev, int idx,
+> > >  static void virtio_net_set_config_size(VirtIONet *n, uint64_t host_features)
+> > >  {
+> > >      virtio_add_feature(&host_features, VIRTIO_NET_F_MAC);
+> > > +    virtio_add_feature(&host_features, VIRTIO_NET_F_MTU);
+> > >
+> > >      n->config_size = virtio_feature_get_config_size(feature_sizes,
+> > >                                                      host_features);
+> > 
+> > Seems to increase config size unconditionally?
 > 
-> I have started researching a qemu / ovs / dpdk bug:
-> 
-> https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
-> 
-> that seems to be affecting multiple parties in the telco space,
-> 
-> and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
-> in virtio_set_status, when receiving a status value of 0.
-> 
-> It seems it has always been this way, so I am clearly missing / forgetting something basic,
-> 
-> I checked the virtio spec at https://docs.oasis-open.org/
-> 
-> and from:
-> 
-> "
-> 4.1.4.3 Common configuration structure layout
-> 
-> device_status
-> The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
-> 
-> "
-> 
-> and
-> 
-> "
-> 2.4.1 Device Requirements: Device Reset
-> A device MUST reinitialize device status to 0 after receiving a reset.
-> "
-> 
-> I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
-> 
-> Instead, we have just the check:
-> 
->     if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
->         (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
->         virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
->     }
-> 
-> which just sets the started field,
-> 
-> and then we have the call to the virtio device class set_status (virtio_net...),
-> but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
-> 
-> "
->     vdev->start_on_kick = false;
->     vdev->started = false;
->     vdev->broken = false;
->     vdev->guest_features = 0;
->     vdev->queue_sel = 0;
->     vdev->status = 0;
->     vdev->disabled = false;
->     qatomic_set(&vdev->isr, 0);
->     vdev->config_vector = VIRTIO_NO_VECTOR;
->     virtio_notify_vector(vdev, vdev->config_vector);
-> 
->     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->         ... initialize vdev->vq[i] ...
->     }
-> "
-> 
-> Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
-> but what am I missing here?
-> 
-> Thanks,
-> 
-> Claudio
-> 
-> -- 
-> Claudio Fontana
-> Engineering Manager Virtualization, SUSE Labs Core
-> 
-> SUSE Software Solutions Italy Srl
+> Right but you pay for reading two more bytes. Is that such a high price to pay?
 
 
-So for example for pci:
-
-    case VIRTIO_PCI_STATUS:
-
-
-	....
-
-        if (vdev->status == 0) {
-            virtio_pci_reset(DEVICE(proxy));
-        }
-
-which I suspect is a bug because:
-
-static void virtio_pci_reset(DeviceState *qdev)
-{
-    VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
-    VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
-    PCIDevice *dev = PCI_DEVICE(qdev);
-    int i;
-
-    virtio_bus_reset(bus);
-    msix_unuse_all_vectors(&proxy->pci_dev);
-
-    for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-        proxy->vqs[i].enabled = 0;
-        proxy->vqs[i].num = 0;
-        proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
-        proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
-        proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
-    }
+That's not a performance question. The issue compatibility, size
+should not change for a given machine type.
 
 
-so far so good
+> > 
+> > > @@ -3512,6 +3513,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+> > >
+> > >     if (nc->peer && nc->peer->info->type == NET_CLIENT_DRIVER_VHOST_VDPA) {
+> > >          struct virtio_net_config netcfg = {};
+> > > +        n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
+> > >          memcpy(&netcfg.mac, &n->nic_conf.macaddr, ETH_ALEN);
+> > >          vhost_net_set_config(get_vhost_net(nc->peer),
+> > >              (uint8_t *)&netcfg, 0, ETH_ALEN, VHOST_SET_CONFIG_TYPE_MASTER);
+> > 
+> > And the point is vdpa does not support migration anyway ATM, right?
+> > 
+> 
+> I don't see how this can affect vdpa live migration. Am I missing something?
 
-    if (pci_is_express(dev)) {
-        pcie_cap_deverr_reset(dev);
-        pcie_cap_lnkctl_reset(dev);
-
-        pci_set_word(dev->config + dev->exp.pm_cap + PCI_PM_CTRL, 0);
-    }
-
-this part is wrong I think, it got here by mistake since the same
-function is used for bus level reset.
-
-Jason, Marcel, any input?
+config size affects things like pci BAR size. This must not change
+during migration.
 
 -- 
 MST
