@@ -2,92 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4025822F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:20:41 +0200 (CEST)
-Received: from localhost ([::1]:41206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC153582307
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 11:25:11 +0200 (CEST)
+Received: from localhost ([::1]:47776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGdDc-0004a3-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:20:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39530)
+	id 1oGdHv-0000l5-UX
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 05:25:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdB7-0002o9-4N
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:18:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37824)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdEt-00057a-GH
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdAz-0001RT-95
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:17:59 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGdEf-0002Kk-Is
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 05:21:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658913468;
+ s=mimecast20190719; t=1658913704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Rbg9pPc1G/kotU6wh69svSiP7Ut6zjRk6YyhhRlYPMs=;
- b=AqCwBJ8OnFULo+cvLcALZqMiqcApDimAxEMWbFKhd5roRteRDaej11ZHOsEiCbWAZZMFlR
- y3R59DzYfIe0fQq2VqUxzXLM2X+yxxHefXgwU6nnC/7mtP5yO6gc2jRvOD6/c9TZeIl2ux
- /7ufzonL8QxkZvyb4vPjkLrMKKaZP9w=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MZJDqfVgNpD4gCCau6VbVzaZvQCnGY5PjB/p3ujgxU0=;
+ b=LAS81OeSiOnLaNkpkTFFa+dau7fV/lmHnh9LoQYsgLT1OgKcPn6hBsQIdt7Y+qCvBQAs+J
+ l3Fvp9pqGh6m7cuuKSbVFT0zyUDQfnbP1ztv474EatFdZzXfLSDWOqeMhzNptZKUVtIBOI
+ Ch6jYSW+8vTFjgJmGjkIFHrxN8qnj9M=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-8-y1n5PV0wMVeaeFrNMYStJA-1; Wed, 27 Jul 2022 05:17:44 -0400
-X-MC-Unique: y1n5PV0wMVeaeFrNMYStJA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- n19-20020a05600c3b9300b003a314062cf4so1687115wms.0
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 02:17:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=Rbg9pPc1G/kotU6wh69svSiP7Ut6zjRk6YyhhRlYPMs=;
- b=vYwQaVfx1MBHwvtbsIpVZJG1UZAmELPa/qaEH+nU6/Hluo8qJzqWoMqtNmD+phxk7r
- tafBIIcsaOw88settosTlBacWjEgbbffHHSZLTCZc/IdDrne2Xn50uE6WUkoVMPnJuzA
- O3o7Bj6ThOTY0/WYLGdUerNr7FnJQGKLmNmde8h7BXt/8803n6nifBP9f03K+Jz28NUF
- so0YV1qTi1R+5kO3m7HkO2vrwrUpGSqAvBQyrGMj3yDaIIAtQAEUR8afI+YBGYWnCmVQ
- wge36GMg3Ig9OIqN/P7B9UkVhvLeHODhDYgZqlgyWzD4Fmlo8bc5ZhotbHuU0OCHXb6C
- chvg==
-X-Gm-Message-State: AJIora+XONP/+4eFMYgag8kQuW9YqsRB9R7JqCssygYUmcZbQxhZC2oj
- S//0IOnExX7DE/vS8G2obVPBBzcjEoYqtBJkj5KOF1QpC6gyVlXe175yks6F867/pOH4VAVmZbh
- yccQCDivfwGHEwT8=
-X-Received: by 2002:a1c:7407:0:b0:3a3:1d8:5c12 with SMTP id
- p7-20020a1c7407000000b003a301d85c12mr2283115wmc.191.1658913463656; 
- Wed, 27 Jul 2022 02:17:43 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t0QIJHZcWhYSbMxbrTkVgxK9nGNIiL8HXBo/7AgnhzpF1kFG5uWvLcOjsrmOZa83NA81ZaOw==
-X-Received: by 2002:a1c:7407:0:b0:3a3:1d8:5c12 with SMTP id
- p7-20020a1c7407000000b003a301d85c12mr2283094wmc.191.1658913463359; 
- Wed, 27 Jul 2022 02:17:43 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-164.web.vodafone.de.
- [109.43.176.164]) by smtp.gmail.com with ESMTPSA id
- z3-20020adfec83000000b0021dd08ad8d7sm47855wrn.46.2022.07.27.02.17.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Jul 2022 02:17:43 -0700 (PDT)
-Message-ID: <5b88dcf7-5247-fa84-e625-4099ca8c4930@redhat.com>
-Date: Wed, 27 Jul 2022 11:17:42 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] .gitlab-ci.d/windows.yml: Enable native Windows symlink
-Content-Language: en-US
-To: luoyonggang@gmail.com
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>
-References: <20220725123000.807608-1-bmeng.cn@gmail.com>
- <874jz5i9qr.fsf@linaro.org>
- <CAEUhbmWBaCrODGY_KMncAmTy53gmid4R=OKDMTi1T1fR0PUBMw@mail.gmail.com>
- <CAEUhbmWkVfjEgkg6uQ8cVVO7ipdiKuKeuco+fGNQ4zZdCnrA4Q@mail.gmail.com>
- <YuD9YuSbmCbzo9kB@redhat.com>
- <d90aa096-352a-fce4-4931-523cbea406d3@redhat.com>
- <CAE2XoE-A5S=P0nCzPvi4cxKnT3oG1kbxfNfHaBaj58xh=9pmiw@mail.gmail.com>
+ us-mta-618-A9ZN0J-1Mzy7_78XGeM6Rw-1; Wed, 27 Jul 2022 05:21:41 -0400
+X-MC-Unique: A9ZN0J-1Mzy7_78XGeM6Rw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B340985A584;
+ Wed, 27 Jul 2022 09:21:40 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9FF2E492C3B;
+ Wed, 27 Jul 2022 09:21:38 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAE2XoE-A5S=P0nCzPvi4cxKnT3oG1kbxfNfHaBaj58xh=9pmiw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Michael Roth <michael.roth@amd.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH for-7.2 0/3] Replace 'blacklist' and 'whitelist' in the guest
+ agent
+Date: Wed, 27 Jul 2022 11:21:32 +0200
+Message-Id: <20220727092135.302915-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -95,8 +61,8 @@ X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,14 +78,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/07/2022 11.11, 罗勇刚(Yonggang Luo) wrote:
-> I've seen the cirrus ci always succeed, maybe using cirrus instead?
+Let's use more appropriate words here - the feature in the guest agent
+is about blocking RPCs, so we should talk about that instead of using
+the term "blacklist" here.
 
-IIRC the free tier of Cirrus only allows two jobs in parallel, and we're 
-using that for FreeBSD and macOS already - we could maybe add another manual 
-job like we do it for NetBSD and OpenBSD already, but that means that the 
-MSYS2 build won't run by default anymore.
+The patches are based on earlier work by Philippe Mathieu-Daudé,
+with the idea for the new option name suggested by BALATON Zoltan.
 
-  Thomas
+Thomas Huth (3):
+  qga: Replace 'blacklist' command line and config file options by
+    'block-rpcs'
+  qga: Replace 'blacklist' and 'whitelist' in the guest agent sources
+  tests/unit/test-qga: Replace the word 'blacklist' in the guest agent
+    unit test
+
+ docs/about/deprecated.rst  | 19 ++++++++++
+ docs/interop/qemu-ga.rst   |  8 ++--
+ qga/qapi-schema.json       |  4 +-
+ qga/guest-agent-core.h     |  2 +-
+ qga/commands-posix.c       | 16 ++++----
+ qga/commands-win32.c       | 10 ++---
+ qga/main.c                 | 77 +++++++++++++++++++++-----------------
+ tests/unit/test-qga.c      |  8 ++--
+ tests/data/test-qga-config |  2 +-
+ 9 files changed, 87 insertions(+), 59 deletions(-)
+
+-- 
+2.31.1
 
 
