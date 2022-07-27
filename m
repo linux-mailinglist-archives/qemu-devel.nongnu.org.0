@@ -2,95 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7435582116
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:30:17 +0200 (CEST)
-Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87930582149
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:40:03 +0200 (CEST)
+Received: from localhost ([::1]:59876 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGbUm-00034Y-MX
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:30:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
+	id 1oGbeE-0002OZ-54
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:40:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGbPs-0007kU-BL
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:25:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50807)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGbPo-0000gO-SD
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:25:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658906707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1uhvQJgNgBb/EtrY8/HY6JS8Vo63objp9HUag9lldKg=;
- b=Ow0KRks+sRJjiuH4lW+6VmpxnABMYuWTsbxnh1Mpu0FJjF14EgfG43E/snrh9dLVnocEqB
- dDwsofuuX5VQM4Rs/cAT9Ai722QzBoySDUWXWdxYhuM0fJDrvpKksKeQV50Hx00GwjZeQ+
- wyOhPIyz1/pC50LrKHcBZfYYbq7b/sA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-488-QYyTMxoWMlWAfdUYALvE_Q-1; Wed, 27 Jul 2022 03:25:06 -0400
-X-MC-Unique: QYyTMxoWMlWAfdUYALvE_Q-1
-Received: by mail-wr1-f71.google.com with SMTP id
- e19-20020adfa453000000b0021eb66639cbso651408wra.6
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 00:25:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGbaC-0005ug-3e
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:52 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGbaA-0002Hp-B1
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:51 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id 70so15427047pfx.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 00:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FsmJxnUEsDzLqMFBH4/49xsi/OdBYy5DMcmNBDOTH7o=;
+ b=VqDuMNTFjXgwp5Y3OlNdWCxOtkPdd/JO9bhQKyfPgvqwIWvZbKcDYQIRpwumCudQ3m
+ qzIyEXl1m7wxEuUdhssC6Q8hTxcoaExfMM0UCP/Cl0ocJ6BUf+guM1DrUW3CETqadO9E
+ DsBpv45rc/H12J/9vqVHpolmmwE9nNSC1yeDYC0S5QnRbv+yUWvmX0xqws1gG5xthi+4
+ GKU6b7bmfWHoiI3w//TomoLUls2Ynr+z2INJsV/rlVuSXjEJ0UEKAbEIp9RtkBCO/9qb
+ jlNndeYC8WFUrm5sL74fZJO4xwpe5TGEF0DptuzLXAKy+7tEGMeeuTTWoX02RowaHbhc
+ LhYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=1uhvQJgNgBb/EtrY8/HY6JS8Vo63objp9HUag9lldKg=;
- b=GGWCy4DTsLy4LPYnX82JarQQWkqZiVDAHLfniB1G6uCwuuIrwK6ZD+LFvazhbuOiO/
- d7dh97PZt5MVFsiAewlNb7thLAlnM5gHjjjvatN/cZWeZPdhdeo/FDzvI/Lc+AFSnS8C
- ofnYaov4Fyur4xhREH6SjerOJW8OyKKGimqN2CKiN2vVy+BnkpnOaggOtz4JPYF1vyzO
- HvST6Wqyyy67RTBxRMXH0w8gFj1gN6wC0ACr7YUe/hsYwYVw5KSJn51XkM8DlAkctpzY
- GI+o+clMblkYMZT4gAqw4EFekH+gRmXqIreDm8t44GHDo7ItwYzspk4o/z6+inGxkFXU
- FvQw==
-X-Gm-Message-State: AJIora+aInPxSxk3a1v1qkpKz91eVyBUu0i1j9a4iNPc3R/orsMbiwzc
- AR/wmP4WodeKLs1UZMRFu6V7Sk/3GozWgqMnYM4ljL5/ytrKw2Y+WqhHAy3w5syNBY2HwELBOHe
- ANxHokDbCM+5rs3A=
-X-Received: by 2002:a5d:4d41:0:b0:21e:a5e3:cb9b with SMTP id
- a1-20020a5d4d41000000b0021ea5e3cb9bmr4027751wru.523.1658906705187; 
- Wed, 27 Jul 2022 00:25:05 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vdi1dmMTF6RxBH2H+iNqBm37tUcvS9QzwF73frC4+Mb1+XJ1V8EML989kkzICu8iUiUhyqYQ==
-X-Received: by 2002:a5d:4d41:0:b0:21e:a5e3:cb9b with SMTP id
- a1-20020a5d4d41000000b0021ea5e3cb9bmr4027735wru.523.1658906704925; 
- Wed, 27 Jul 2022 00:25:04 -0700 (PDT)
-Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=FsmJxnUEsDzLqMFBH4/49xsi/OdBYy5DMcmNBDOTH7o=;
+ b=qFEjqIEjRafMK1q+9oNQeqqoLAj4hUXSBz1oYh7VTBU9AvWNRmEZjekXcgf9YQPMdv
+ zoxnXTPKGMb94g5nlokJTELqiVQ6nPDbK4rC5JuxS+oHmlsLPvep8kOGJlntRAxfKy0E
+ kVgH/Xaejq0lVzXoOmuUSf0xXPRDuJVU1ybM0P0agUy/3BgigFxwXGK3JYAB3TVVlUXX
+ bChLJG7ccC55LGJCfX7+vPa4iZ9MmLWDee788Xm6UP0qrAm2JzdeCVRIbyV4toXMnp5V
+ CoLG9wXIY0eCDtGQ8bBn0xJQCsnYsd5u3PwiNDjUJtMnpUZf9Q2GBiEDt592oR6lwXwS
+ Fzbw==
+X-Gm-Message-State: AJIora9VXulJX31fePeNAaZIupDXeXQAuVedVzXeAUFm6nsVLrqlpMXL
+ 2PzALPQO677FUX9KIxQZ3XEV4aHTP6A=
+X-Google-Smtp-Source: AGRyM1u3KvE8v8Djao3gHiwzcm8Ci+wINytLMs4XnrqSMghNdc+7AZABWgpM/l6UQg9L/VI24yJ/nw==
+X-Received: by 2002:a05:6a00:a08:b0:52b:fd6e:b198 with SMTP id
+ p8-20020a056a000a0800b0052bfd6eb198mr11286394pfh.53.1658907348474; 
+ Wed, 27 Jul 2022 00:35:48 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- k10-20020a5d428a000000b0021eaf4138aesm3574743wrq.108.2022.07.27.00.25.03
+ z7-20020a170902ccc700b0016c09a0ef87sm10533834ple.255.2022.07.27.00.35.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 00:25:04 -0700 (PDT)
-Date: Wed, 27 Jul 2022 03:25:01 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eli Cohen <elic@nvidia.com>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Jason Wang <jasowang@redhat.com>,
- "virtualization@lists.linux-foundation.org"
- <virtualization@lists.linux-foundation.org>
-Subject: Re: VIRTIO_NET_F_MTU not negotiated
-Message-ID: <20220727032334-mutt-send-email-mst@kernel.org>
-References: <DM8PR12MB5400869D5921E28CE2DC7263AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
- <20220719093841-mutt-send-email-mst@kernel.org>
- <DM8PR12MB5400F967A710B1151AD5132CAB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
- <DM8PR12MB5400AB08EE51E6BF05EEBDE2AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
- <CAJaqyWc0M4O8Rr2jR4L_myPd_VmxkYjHTnwdxQFAf3N_hZw_3g@mail.gmail.com>
- <DM8PR12MB540033DA1293BA23E29148EAAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
- <CAJaqyWfOS9nCBNeborhTdOXAnmZX9XwRF=2E0aphuHbqr352CA@mail.gmail.com>
- <DM8PR12MB54005AB1DE4617493645D2CBAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
- <CAJaqyWczrvaaookrQE5=6mTABS-VmJKF6iY+aO3ZD8OB4FumRA@mail.gmail.com>
- <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+ Wed, 27 Jul 2022 00:35:47 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Konstantin Kostiuk <kkostiuk@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH 0/5] Enable unix socket support on Windows
+Date: Wed, 27 Jul 2022 15:35:37 +0800
+Message-Id: <20220727073542.811420-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,34 +90,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 06:51:56AM +0000, Eli Cohen wrote:
-> I found out that the reason why I could not enforce the mtu stems from the fact that I did not configure max mtu for the net device (e.g. through libvirt <mtu size="9000"/>).
-> Libvirt does not allow this configuration for vdpa devices and probably for a reason. The vdpa backend driver has the freedom to do it using its copy of virtio_net_config.
-> 
-> The code in qemu that is responsible to allow to consider the device MTU restriction is here:
-> 
-> static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> {
->     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->     VirtIONet *n = VIRTIO_NET(dev);
->     NetClientState *nc;
->     int i;
-> 
->     if (n->net_conf.mtu) {
->         n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
->     }
-> 
-> The above code can be interpreted as follows:
-> if the command line arguments of qemu indicates that mtu should be limited, then we would read this mtu limitation from the device (that actual value is ignored).
-> 
-> I worked around this limitation by unconditionally setting VIRTIO_NET_F_MTU in the host features. As said, it only indicates that we should read the actual limitation for the device.
-> 
-> If this makes sense I can send a patch to fix this.
+Support for the unix socket has existed both in BSD and Linux for the
+longest time, but not on Windows. Since Windows 10 build 17063 [1],
+the native support for the unix socket has came to Windows. Starting
+this build, two Win32 processes can use the AF_UNIX address family
+over Winsock API to communicate with each other.
 
-Well it will then either have to be for vdpa only, or have
-compat machinery to avoid breaking migration.
+Introduce a new build time config option CONFIG_AF_UNIX when the build
+host has such a capability, and a run-time check afunix_available() for
+Windows host in the QEMU sockets util codes.
+
+[1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
+
+
+Bin Meng (5):
+  util/qemu-sockets: Replace the call to close a socket with
+    closesocket()
+  util/oslib-win32: Add a helper to get the Windows version
+  qga/commands-win32: Use os_get_win_version()
+  util/qemu-sockets: Enable unix socket support on Windows
+  chardev/char-socket: Update AF_UNIX for Windows
+
+ meson.build               |  6 +++++
+ include/sysemu/os-win32.h |  2 ++
+ chardev/char-socket.c     |  8 +++++-
+ qga/commands-win32.c      | 27 +-------------------
+ util/oslib-win32.c        | 15 +++++++++++
+ util/qemu-sockets.c       | 52 ++++++++++++++++++++++++++++++++-------
+ 6 files changed, 74 insertions(+), 36 deletions(-)
 
 -- 
-MST
+2.34.1
 
 
