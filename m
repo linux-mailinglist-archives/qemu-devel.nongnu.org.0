@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B7E582A84
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:17:53 +0200 (CEST)
-Received: from localhost ([::1]:54100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF572582A4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:08:02 +0200 (CEST)
+Received: from localhost ([::1]:39520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGjjM-0006vH-C5
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:17:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60460)
+	id 1oGjZp-0005Cr-DK
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:08:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ming.lei@redhat.com>)
- id 1oGiY7-0005Xl-6Z
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:02:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ming.lei@redhat.com>)
- id 1oGiY1-0001CT-3w
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:02:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658934123;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f20xJSSOw4to1YvtD8QTYSKujSIjW6nxQIvZt8u0EZQ=;
- b=CkeBdyL9MDRqI/3whlyt3oAU2cJfV0V2fu0bncZXbWmZRoWCeWCLzP3VXYM3dLoUrqIi0q
- vjJ3FjW5qMmhYKEAs3SEtF/gwAB8AWnahz7JlHq4H/biZclEZPlAcUVkctUi66anFdx1ij
- kPpxFKseNcL+KIXGTbzL6Sy2Swa3a2s=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-68-G3uIKqAyP6mH4mkcle0dEw-1; Wed, 27 Jul 2022 11:00:24 -0400
-X-MC-Unique: G3uIKqAyP6mH4mkcle0dEw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E364299E76D;
- Wed, 27 Jul 2022 14:59:56 +0000 (UTC)
-Received: from T590 (ovpn-8-32.pek2.redhat.com [10.72.8.32])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23B8F403D0E0;
- Wed, 27 Jul 2022 14:59:47 +0000 (UTC)
-Date: Wed, 27 Jul 2022 22:59:42 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Markus Armbruster <armbru@redhat.com>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>,
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>,
- Jens Axboe <axboe@kernel.dk>, ming.lei@redhat.com
-Subject: Re: [RFC v4 5/9] qemu-iotests: test new zone operations.
-Message-ID: <YuFS3vfQi3OPTKi0@T590>
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <20220712021345.8530-6-faithilikerun@gmail.com>
- <CAJSP0QVd0_njYR5ZT0VjGt=CgN8dZnXVZdjmh8uUhj3uO=DwUw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oGjPA-000225-HG
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:00 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oGjP8-0001ru-1H
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:57:00 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id v13so17284113wru.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:56:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WTel/fQ7Gj1d2ni3sryAwF0T/iksivK0kIXjy8395Xc=;
+ b=ActJj0k3rthL0kOqAKCRJuVtFE8KcDK7jZCxI6bx5PwY2bAVKjN8UQ3J9igIrwYN7J
+ DraBV+iK4OxV8CZJWX8DT6yTBhhRFgcb/+5wQA3btjkHhYmRgv6YlU2s3meh+mqW+HTr
+ c8+7ZD6Upss+GPZjqQyyO2iO7Fru9XqrQPB4ruJBjmUfM+g7mWDQkMP0plT7mwCcSx/Y
+ HU5RkZ2zTie2B0DD/DoVPB6Li102YJcppiHiQmk2NXg71IF2Ug5PQUORvpfleOJO0z4y
+ W60lflpU7qhN1zbl8DQx+T8mMm/RuZ96LEi36KqRDUdM96vK9agQ2d+wD1MKyTiKljlh
+ pgvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=WTel/fQ7Gj1d2ni3sryAwF0T/iksivK0kIXjy8395Xc=;
+ b=bxGC6gf1tpOlwUng+EDfPrqgWrpIHEMPYxJWgEiKevqXMjrEK24lg+8LTSzilgVL3E
+ qjj3LckAujJV5ss5jS4/0d7funABxswEBh/2b1ia6YyS9f6151Qcj+iYfmjwScImARGA
+ TCkQpWLjxzOtk8OAeasY9u2I+fV61w3Pg7T7UdfRvTTknZQSI266DJwTkWZxJHGQREDp
+ Xn42xSmGWgs0x0KEHeSt9OpzpXFV9rRQlF1qfy/qag5mx6vw8lEkOtz/3NDKnPyLCXN9
+ CCMdMi5fFK5RDuf+Rpgdu/Th62Y3EhxdxRqk7vGQsznFEqqqWgYphy57TT53tXf1P1+z
+ mRCw==
+X-Gm-Message-State: AJIora9saBj6lj5f+A9QQBwEfZdbcC/BUoPh3n21KxcpdoWJIZYV05g9
+ DvS//YM3oSw+PgYatzu1a9TRBWhLZoIXZA==
+X-Google-Smtp-Source: AGRyM1usv0Z+sVaIUtHKgIZkz4fNn+l1Oj0uuFHRYxL7C6ndE3l22PGSvL+/xPXKO3AP28ye5HOkXA==
+X-Received: by 2002:a05:6000:c3:b0:21e:e081:4cc4 with SMTP id
+ q3-20020a05600000c300b0021ee0814cc4mr1566620wrx.93.1658937416029; 
+ Wed, 27 Jul 2022 08:56:56 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j11-20020adfe50b000000b0021e4a4fc017sm17415987wrm.34.2022.07.27.08.56.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jul 2022 08:56:54 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8D3D61FFBA;
+ Wed, 27 Jul 2022 16:56:53 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH  v1 2/5] hw/virtio: incorporate backend features in features
+Date: Wed, 27 Jul 2022 16:56:50 +0100
+Message-Id: <20220727155653.3974426-3-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220727155653.3974426-1-alex.bennee@linaro.org>
+References: <20220727155653.3974426-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QVd0_njYR5ZT0VjGt=CgN8dZnXVZdjmh8uUhj3uO=DwUw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ming.lei@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 27 Jul 2022 12:10:07 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,91 +93,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 10:34:56AM -0400, Stefan Hajnoczi wrote:
-> On Mon, 11 Jul 2022 at 22:21, Sam Li <faithilikerun@gmail.com> wrote:
-> >
-> > We have added new block layer APIs of zoned block devices. Test it with:
-> > (1) Create a null_blk device, run each zone operation on it and see
-> > whether reporting right zone information.
-> >
-> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> > ---
-> >  tests/qemu-iotests/tests/zoned.sh | 69 +++++++++++++++++++++++++++++++
-> >  1 file changed, 69 insertions(+)
-> >  create mode 100755 tests/qemu-iotests/tests/zoned.sh
-> >
-> > diff --git a/tests/qemu-iotests/tests/zoned.sh b/tests/qemu-iotests/tests/zoned.sh
-> > new file mode 100755
-> > index 0000000000..e14a3a420e
-> > --- /dev/null
-> > +++ b/tests/qemu-iotests/tests/zoned.sh
-> > @@ -0,0 +1,69 @@
-> > +#!/usr/bin/env bash
-> > +#
-> > +# Test zone management operations.
-> > +#
-> > +
-> > +seq="$(basename $0)"
-> > +echo "QA output created by $seq"
-> > +status=1 # failure is the default!
-> > +
-> > +_cleanup()
-> > +{
-> > +  _cleanup_test_img
-> > +  sudo rmmod null_blk
-> > +}
-> > +trap "_cleanup; exit \$status" 0 1 2 3 15
-> > +
-> > +# get standard environment, filters and checks
-> > +. ./common.rc
-> > +. ./common.filter
-> > +. ./common.qemu
-> > +
-> > +# This test only runs on Linux hosts with raw image files.
-> > +_supported_fmt raw
-> > +_supported_proto file
-> > +_supported_os Linux
-> > +
-> > +QEMU_IO="build/qemu-io"
-> > +IMG="--image-opts driver=zoned_host_device,filename=/dev/nullb0"
-> > +QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
-> > +
-> > +echo "Testing a null_blk device"
-> > +echo "Simple cases: if the operations work"
-> > +sudo modprobe null_blk nr_devices=1 zoned=1
-> 
-> Jens & Ming Lei:
-> 
-> null_blk is not ideal for automated test cases because it requires
-> root and is global. If two tests are run at the same time they will
-> interfere with each other. There is no way to have independent
-> instances of the null_blk kernel module and the /dev/nullb0 device on
-> a single Linux system. I think this test case can be merged for now
-> but if there's time I suggest investigating alternatives.
-> 
-> Maybe the new Linux ublk_drv driver is a better choice if it supports
-> unprivileged operation with multiple independent block devices (plus
+There are some extra bits used over a vhost-user connection which are
+hidden from the device itself. We need to set them here to ensure we
+enable things like the protocol extensions.
 
-This can be one big topic, and IMO, the io path needs to be reviewed
-wrt. security risk. Also if one block device is stuck, it shouldn't
-affect others, so far it can be one problem at least in sync/writeback,
-if one device is hang, writeback on all block device may not move on.
+Currently net/vhost-user.c has it's own inscrutable way of persisting
+this data but it really should live in the core vhost_user code.
 
-> zoned storage!). It would be necessary to write a userspace null block
-> device that supports zoned storage if that doesn't exist already. I
-> have CCed Ming Lei and Jens Axboe for thoughts.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20220726192150.2435175-7-alex.bennee@linaro.org>
+---
+ hw/virtio/vhost-user.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-IMO, it shouldn't be hard to simulate zoned from userspace, the
-patches[1] for setting device parameters are just sent out, then zoned
-parameter could be sent to driver with the added commands easily.
-
-Even ublk can be used to implement zoned target, such as, ublk is
-exposed as one normal disk, but the backing disk could be one real
-zoned/zns device.
-
-[1] https://lore.kernel.org/linux-block/20220727141628.985429-1-ming.lei@redhat.com/T/#mb5518cf418b63fb6ca649f0df199137e50907a29
-
-thanks,
-Ming
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 75b8df21a4..1936a44e82 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -1460,7 +1460,14 @@ static int vhost_user_set_features(struct vhost_dev *dev,
+      */
+     bool log_enabled = features & (0x1ULL << VHOST_F_LOG_ALL);
+ 
+-    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES, features,
++    /*
++     * We need to include any extra backend only feature bits that
++     * might be needed by our device. Currently this includes the
++     * VHOST_USER_F_PROTOCOL_FEATURES bit for enabling protocol
++     * features.
++     */
++    return vhost_user_set_u64(dev, VHOST_USER_SET_FEATURES,
++                              features | dev->backend_features,
+                               log_enabled);
+ }
+ 
+-- 
+2.30.2
 
 
