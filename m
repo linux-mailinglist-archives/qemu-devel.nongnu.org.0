@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C354582970
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:18:05 +0200 (CEST)
-Received: from localhost ([::1]:43760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A677858297A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:21:01 +0200 (CEST)
+Received: from localhost ([::1]:46904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGinS-00016X-T6
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35316)
+	id 1oGiqK-0003eN-Lf
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:21:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oGikR-0007B3-1k; Wed, 27 Jul 2022 11:14:56 -0400
-Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:40469)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGio2-0001k6-5E
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:18:38 -0400
+Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:39733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oGikP-00031K-GD; Wed, 27 Jul 2022 11:14:54 -0400
-Received: by mail-yb1-xb34.google.com with SMTP id 123so7916872ybv.7;
- Wed, 27 Jul 2022 08:14:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGinr-0003u3-8y
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 11:18:37 -0400
+Received: by mail-yw1-x112a.google.com with SMTP id
+ 00721157ae682-31f64093c21so20177817b3.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 08:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=YTW5gVMsDhqrBiHxLkDbWXMcxYQHnrcWZnj+3AXeKJo=;
- b=PCE1s+52/AaQcgNkprq1uuzLi86PzdAV2llVa5Ta/J6Y2sWLXsBhWj5hU2wL7Bezb1
- nDanDuC+daxlxfsrNpcptbWNHuWHlUwz73l1YP4bT51iZwTeLmHJupB5m5vb/YGActG9
- utnwSo3zp8v7ZNRBL2PCAcCmGUenj7yV1NzzGXifdj1W1UX4VJcUPAy3EKXEMQsnaLqU
- xcB0SQ6q8NxgCRiMeHqSSQ/VQUrhRE+BXKY3EQRbjuLorQkUj9lOutVVeP8MHwYllgb8
- ndmeV0vXG7hZWIZ/OTmSlXySPJwPUtk9Ii5c9N6bbMXUVVqLyrekdOqCiUGqAqWNtlC2
- Z8bQ==
+ bh=mZkre0S3ymD4HMg+YenL876ZuL42lUPGx7aRb/bqTQI=;
+ b=ER3sbIeUSk36589MSX5AOI4mA/2iP9qgEamMTUGF2Cbj3j8W8ktG+oua6Aeor3PpDw
+ vuMqqvfvOeG6UY1WG3zuXLD57pA1SBqmoo057LEAwYVxYun2Lp2EAc4533RxbQNDk/DC
+ DOBtIsVaYrCm0YMBScYeq9TM5oWICh6zIRheSjcgMZ+K15J2FXbBaQT6U8mYFTVkzMNj
+ bo/fCHKJVpcYc4FM1lexwKscag6hIrxmh+JH2fdf9aUI0pXcCo9fc6tcUTtnmFR6lOzN
+ YF61bKdFR35dIFxtf5sIYJKHJClL8fkyx/hEW0C4l7ROmAds8/jzUP8iR/J2Q8v800EO
+ tqqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=YTW5gVMsDhqrBiHxLkDbWXMcxYQHnrcWZnj+3AXeKJo=;
- b=rlIP5AdKYLReoAacDU9g79XU4+j1k3wsOmwLm+0RSYE0nVmhqvQkWi3n2H4DoFiT0W
- QTT09EmlEd0auGxFJM88J69tgUa/N/R7t/uEdec89lPBhOYyyH9fuMD75woGylknnb6p
- OCi98C9W+/zU4Zyk2r+zmKX6YeSUnAC6zwORBcJfgmMQ0r10JCw2WY/gi5aAzW09V3jx
- YDOH8YZJLqAd8CPG4Z9pDucUmN3WKdIhdcxIS3XnhPvlxpMwOCLtsZV5ylETI398udso
- SltA+8JEntmZASb4/lYKFQEPr1QCWqSQ6v1uRqnJBCTk9hBjAobROf3bjevnzyATZfKN
- dC+w==
-X-Gm-Message-State: AJIora+IyZg+uqbk/w7qowBk0b6JJiq4KSqSJ4uiKCo88mVWLBZH4c0M
- XvdrjY6RNrqJItCExmo+Sl0RwykQo3dkLdq94BA=
-X-Google-Smtp-Source: AGRyM1t4El6ZcVDJr+brBkLk0aoGCY4tb2VS9GsbyxgoK7dM/1Wd+3ffSxwqLN6j4XE3jDtdv1o/5z5JsROQBY3dg0w=
-X-Received: by 2002:a05:6902:1348:b0:671:78a4:471f with SMTP id
- g8-20020a056902134800b0067178a4471fmr5925610ybu.242.1658934891367; Wed, 27
- Jul 2022 08:14:51 -0700 (PDT)
+ bh=mZkre0S3ymD4HMg+YenL876ZuL42lUPGx7aRb/bqTQI=;
+ b=jnViE8Lr1peyuPWtt3LT3vHp97I+XxgMV8mL26hhGkDzs840l2fZJ4dpZcJUJjWYaN
+ rRdy+BaEFgXVgkuC9LoytFJabWXMjKfSXJs9DFuOVpBLC/Q/92PF4OZYaQX9TI4RRmuq
+ tWuFAC8ivLYBo7M3spt9BMsJ/agt4KA7ip4zXby5ViWGEMI+8uv1HpPUFeMDoyV840SQ
+ z2UfEru6iCM2riTcKJ2IJn7Ptlp/2YZVvMiXnjPWi7twYAy7Fdm7WAzNeTfgOR87+CCr
+ MVFeyqihH8fkB1HXp1PM15UcpkCyxQ2yNTyf2OWCy2C2UebraAsFBpnaZNctsWwvVv6D
+ t17g==
+X-Gm-Message-State: AJIora/Uu/tpiaD4VFZmhHRk9MtUFhg2qkwXn1d+D5/Pr8oPZ3jqdlID
+ ANSYka5wH+7b6SNWkfSikdRYu4jVlZ6eUh1TV5Q=
+X-Google-Smtp-Source: AGRyM1t+u23RHGpuGtPR0A+IjMedQ3wLxWHRD5mYmwieUoKCc0Xr1Q9uSob4OgA3WwON8PoGDrFexzo8cDHVrjCOY1w=
+X-Received: by 2002:a81:d45:0:b0:31f:65a4:27ba with SMTP id
+ 66-20020a810d45000000b0031f65a427bamr2276229ywn.239.1658935106168; Wed, 27
+ Jul 2022 08:18:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <CAJSP0QUhg-5xioYmJzmjeXqPrZ_GB1dMxQj230neQp2mUNEMcw@mail.gmail.com>
-In-Reply-To: <CAJSP0QUhg-5xioYmJzmjeXqPrZ_GB1dMxQj230neQp2mUNEMcw@mail.gmail.com>
-From: Sam Li <faithilikerun@gmail.com>
-Date: Wed, 27 Jul 2022 23:14:56 +0800
-Message-ID: <CAAAx-8KXBc1D1dL+fEXtWAJ9fpZmx+GYpyUROo3JVqUQCdHZUg@mail.gmail.com>
-Subject: Re: [RFC v4 0/9] Add support for zoned device
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Markus Armbruster <armbru@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>, 
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
+References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
+ <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
+ <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
+ <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
+ <YuDmwhKBpllXNG1i@apples>
+In-Reply-To: <YuDmwhKBpllXNG1i@apples>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 27 Jul 2022 11:18:14 -0400
+Message-ID: <CAJSP0QVzhvQ4zeS5BemoxYahuWfMY-Yqt9P+O=uxGVayM8Ms3A@mail.gmail.com>
+Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
+To: Klaus Jensen <its@irrelevant.dk>
+Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>, 
+ Keith Busch <kbusch@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
- envelope-from=faithilikerun@gmail.com; helo=mail-yb1-xb34.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,47 +89,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Hajnoczi <stefanha@gmail.com> =E4=BA=8E2022=E5=B9=B47=E6=9C=8827=E6=
-=97=A5=E5=91=A8=E4=B8=89 23:06=E5=86=99=E9=81=93=EF=BC=9A
+On Wed, 27 Jul 2022 at 03:18, Klaus Jensen <its@irrelevant.dk> wrote:
 >
-> This patch series introduces the concept of zoned storage to the QEMU
-> block layer. Documentation is needed so that users and developers know
-> how to use and maintain this feature.
+> On Jul 21 09:29, Stefan Hajnoczi wrote:
+> > On Wed, Jul 20, 2022, 22:36 Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
+> >
+> > > Hi Stefan,
+> > >
+> > > Thanks for the detailed explanation!
+> > >
+> > > at 6:21 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > >
+> > > > Hi Jinhao,
+> > > > Thanks for working on this!
+> > > >
+> > > > irqfd is not necessarily faster than KVM ioctl interrupt injection.
+> > > >
+> > > > There are at least two non performance reasons for irqfd:
+> > > > 1. It avoids QEMU emulation code, which historically was not thread=
+ safe
+> > > and needed the Big QEMU Lock. IOThreads don't hold the BQL and theref=
+ore
+> > > cannot safely call the regular interrupt emulation code in QEMU. I th=
+ink
+> > > this is still true today although parts of the code may now be less r=
+eliant
+> > > on the BQL.
+> > >
+> > > This probably means we need to move to irqfd when iothread support is=
+ added
+> > > in qemu-nvme.
+> > >
+> >
+> > Yes. You can audit the interrupt code but I'm pretty sure there is shar=
+ed
+> > state that needs to be protected by the BQL. So the NVMe emulation code
+> > probably needs to use irqfd to avoid the interrupt emulation code.
+> >
+> >
+> > > > 2. The eventfd interface decouples interrupt injection from the KVM
+> > > ioctl interface. Vhost kernel and vhost-user device emulation code ha=
+s no
+> > > dependency on KVM thanks to irqfd. They work with any eventfd, includ=
+ing
+> > > irqfd.
+> > >
+> > > This is contrary to our original belief. Klaus once pointed out that =
+irqfd
+> > > is KVM specific. I agreed with him since I found irqfd implementation=
+ is in
+> > > virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could=
+ you
+> > > elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?
+> > >
+> >
+> > "They work with any eventfd, including irqfd"
+> >
+> > If you look at the vhost kernel or vhost-user code, you'll see they jus=
+t
+> > signal the eventfd. It doesn't have to be an irqfd.
+> >
+> > An irqfd is a specific type of eventfd that the KVM kernel module
+> > implements to inject interrupts when the eventfd is signaled.
+> >
+> > By the way, this not only decouples vhost from the KVM kernel module, b=
+ut
+> > also allows QEMU to emulate MSI-X masking via buffering the interrupt i=
+n
+> > userspace.
+> >
+> >
 >
-> As a minimum, let's document how to pass through zoned block devices on L=
-inux:
+> The virtio dataplane (iothread support) only works with kvm if I am not
+> mistaken, so I guess this is similar to what we want to do here. If we
+> dont have KVM, we wont use iothread and we wont use the kvm
+> irqchip/irqfd.
 >
-> diff --git a/docs/system/qemu-block-drivers.rst.inc
-> b/docs/system/qemu-block-drivers.rst.inc
-> index dfe5d2293d..f6ba05710a 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -430,6 +430,12 @@ Hard disks
->    you may corrupt your host data (use the ``-snapshot`` command
->    line option or modify the device permissions accordingly).
->
-> +Zoned block devices
-> +  Zoned block devices can be passed through to the guest if the emulated
-> +  storage controller supports zoned storage. Use ``--blockdev
-> +  zoned_host_device,node-name=3Ddrive0,filename=3D/dev/nullb0`` to pass =
-through
-> +  ``/dev/nullb0`` as ``drive0``.
-> +
->  Windows
->  ^^^^^^^
->
-> For developers there should be an explanation of the zoned storage
-> APIs and how BlockDrivers declare support. It should also mention the
-> status of pass through (implemented in the zoned_host_device driver)
-> vs zone emulation (not implemented in the QEMU block layer) so
-> developers understand the block layer's zoned storage capabilities.
-> You can add a docs/devel/zoned-storage.rst file to document this or
-> let me know if you want me to write it.
+> Am I understanding this correctly?
 
-I will write the document and address the issues in the reviews, which
-should be in the next revision.
-Thanks for reviewing!
+I think that is incorrect. QEMU has guest notifier emulation for the
+non-KVM (and non-MSI-X PCI) cases. When there is no irqfd support
+available, QEMU sets up a regular eventfd and calls
+virtio_queue_guest_notifier_read() when it becomes readable.
 
-Have a good day!
-Sam
+Stefan
 
