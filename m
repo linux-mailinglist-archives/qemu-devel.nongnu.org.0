@@ -2,110 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B92A581FFE
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:19:20 +0200 (CEST)
-Received: from localhost ([::1]:44138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A1958201A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:29:09 +0200 (CEST)
+Received: from localhost ([::1]:48896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGaO6-0008A9-No
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:19:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32830)
+	id 1oGaXc-0003MS-AC
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:29:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1oGaIw-0006LZ-K5; Wed, 27 Jul 2022 02:13:59 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:11420
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGaU2-0000Sd-MW
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:25:26 -0400
+Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:39342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
- id 1oGaIu-0004Y3-C7; Wed, 27 Jul 2022 02:13:58 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26R5lYHd004389;
- Wed, 27 Jul 2022 06:13:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=/55CuUwGZ8oSs8y5RHPX54DbjpjXAa763bY36kB1dxU=;
- b=CUaxf7ow/mXtz7CAdLMO1EcNy3jh4MbTob+AUFRNtUK9iQrhffZVtojt+xFkHvolwWrO
- RYmhjFo8mRstGT3XIKn5RteDDOa5kLCRGgil0YRhjDGPGvKa2I2/1wetsWTo4Ynf2BEA
- 8U2s5lHoRPrzc1m3yY/qpBukSqMhachWALdXhIP3Mizmvr24Rd/qvfhD73x/Kp7YbY2j
- 1FpRNlQ9LsFmQ6VXTsTQFF3lkxhNy3bZRiy6o2YU6p3jOHK9KbzFveWyH+YucEocVsh2
- /bYYGXmLTp3Jx8FWdYONhBTAeug/wzYNYb9DSloTss4O3PwZYvCoDkRcD3L/PZ/FBPAu dw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjyh08np0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 06:13:53 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26R5w4Zj014878;
- Wed, 27 Jul 2022 06:13:53 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hjyh08nn5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 06:13:53 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26R65BkI026539;
- Wed, 27 Jul 2022 06:13:51 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma03ams.nl.ibm.com with ESMTP id 3hh6eukbbk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 06:13:51 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26R6Dmv119988956
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Jul 2022 06:13:48 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03E2B42045;
- Wed, 27 Jul 2022 06:13:48 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABBBC4204B;
- Wed, 27 Jul 2022 06:13:47 +0000 (GMT)
-Received: from [9.171.41.21] (unknown [9.171.41.21])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 27 Jul 2022 06:13:47 +0000 (GMT)
-Message-ID: <6e034c2e-25c3-3416-e0c4-993c4222d8ae@linux.ibm.com>
-Date: Wed, 27 Jul 2022 08:13:47 +0200
+ (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
+ id 1oGaTt-0006iB-8s
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:25:19 -0400
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R161e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
+ MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
+ TI=SMTPD_---0VKZiRYu_1658903019; 
+Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
+ fp:SMTPD_---0VKZiRYu_1658903019) by smtp.aliyun-inc.com;
+ Wed, 27 Jul 2022 14:25:04 +0800
+Message-ID: <81462777-254b-762c-cbe3-2272ca343b60@linux.alibaba.com>
+Date: Wed, 27 Jul 2022 14:23:38 +0800
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH] s390x/cpumodel: add stfl197
- processor-activity-instrumentation extension 1
-Content-Language: en-US
-To: David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- Cornelia Huck <cohuck@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20220726194852.171039-1-borntraeger@linux.ibm.com>
- <acee8628-7bfa-2f62-6ccb-e58f78bd56c2@redhat.com>
-From: Christian Borntraeger <borntraeger@linux.ibm.com>
-In-Reply-To: <acee8628-7bfa-2f62-6ccb-e58f78bd56c2@redhat.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH 07/16] virtio-net: support queue reset
+To: Jason Wang <jasowang@redhat.com>
+References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <c6718441a57198bc22d9861417e5ae69c0a70fdb.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <b5fb3193-a0a7-88c2-11b0-700a101c642e@redhat.com>
+ <649c4b07-6443-e637-a124-52f2e655236d@linux.alibaba.com>
+ <CACGkMEtNhVYSeXdeXTds38bMUvUau9SvMWoavqnO-O2znMW6bA@mail.gmail.com>
+From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, hengqi@linux.alibaba.com,
+ xuanzhuo@linux.alibaba.com
+In-Reply-To: <CACGkMEtNhVYSeXdeXTds38bMUvUau9SvMWoavqnO-O2znMW6bA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cCbD-3fhl4Hv8BEaaWLBRNdjrCT0YEe7
-X-Proofpoint-ORIG-GUID: v8lpEPAneBziztZU8Aqh_iX1BrGeuFVR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-26_07,2022-07-26_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- impostorscore=0 mlxscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
- phishscore=0 adultscore=0 suspectscore=0 bulkscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207270021
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=115.124.30.43;
+ envelope-from=kangjie.xu@linux.alibaba.com;
+ helo=out30-43.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,74 +71,98 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-
-Am 26.07.22 um 22:00 schrieb David Hildenbrand:
-> On 26.07.22 21:48, Christian Borntraeger wrote:
->> Add stfle 197 (processor-activity-instrumentation extension 1) to the
->> gen16 default model and fence it off for 7.0 and older.
-> 
-> QEMU is already in soft-freeze. I assume you want to get this still into
-> 7.1. (decision not in my hands :) )
-
-Right, 7.1 and 7.2 are both valid options.
-
-
-> Anyhow, if a re-target to the next release is required or not
-> 
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> 
+在 2022/7/27 13:00, Jason Wang 写道:
+> On Tue, Jul 26, 2022 at 3:02 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
 >>
->> Signed-off-by: Christian Borntraeger <borntraeger@linux.ibm.com>
->> ---
->>   hw/s390x/s390-virtio-ccw.c          | 1 +
->>   target/s390x/cpu_features_def.h.inc | 1 +
->>   target/s390x/gen-features.c         | 2 ++
->>   3 files changed, 4 insertions(+)
+>> 在 2022/7/26 11:43, Jason Wang 写道:
+>>> 在 2022/7/18 19:17, Kangjie Xu 写道:
+>>>> From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>>>
+>>>> virtio-net implements queue reset. Queued packets in the corresponding
+>>>> queue pair are flushed or purged.
+>>>>
+>>>> Queue reset is currently only implemented for non-vhosts.
+>>>>
+>>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>>>> ---
+>>>>    hw/net/virtio-net.c | 15 +++++++++++++++
+>>>>    1 file changed, 15 insertions(+)
+>>>>
+>>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>>> index 7ad948ee7c..8396e21a67 100644
+>>>> --- a/hw/net/virtio-net.c
+>>>> +++ b/hw/net/virtio-net.c
+>>>> @@ -531,6 +531,19 @@ static RxFilterInfo
+>>>> *virtio_net_query_rxfilter(NetClientState *nc)
+>>>>        return info;
+>>>>    }
+>>>>    +static void virtio_net_queue_reset(VirtIODevice *vdev, uint32_t
+>>>> queue_index)
+>>>> +{
+>>>> +    VirtIONet *n = VIRTIO_NET(vdev);
+>>>> +    NetClientState *nc = qemu_get_subqueue(n->nic, vq2q(queue_index));
+>>>> +
+>>>> +    if (!nc->peer) {
+>>>> +        return;
+>>>> +    }
+>>>> +
+>>>> +    qemu_flush_or_purge_queued_packets(nc->peer, true);
+>>>> +    assert(!virtio_net_get_subqueue(nc)->async_tx.elem);
+>>>
+>>> Let's try to reuse this function in virtio_net_reset().
+>>>
+>> Yeah, I'll fix it.
 >>
->> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
->> index cc3097bfee80..6268aa5d0888 100644
->> --- a/hw/s390x/s390-virtio-ccw.c
->> +++ b/hw/s390x/s390-virtio-ccw.c
->> @@ -806,6 +806,7 @@ static void ccw_machine_7_0_instance_options(MachineState *machine)
->>       static const S390FeatInit qemu_cpu_feat = { S390_FEAT_LIST_QEMU_V7_0 };
->>   
->>       ccw_machine_7_1_instance_options(machine);
->> +    s390_cpudef_featoff_greater(16, 1, S390_FEAT_PAIE);
->>       s390_set_qemu_cpu_model(0x8561, 15, 1, qemu_cpu_feat);
->>   }
->>   
->> diff --git a/target/s390x/cpu_features_def.h.inc b/target/s390x/cpu_features_def.h.inc
->> index 3603e5fb12c6..e3cfe637354b 100644
->> --- a/target/s390x/cpu_features_def.h.inc
->> +++ b/target/s390x/cpu_features_def.h.inc
->> @@ -114,6 +114,7 @@ DEF_FEAT(VECTOR_PACKED_DECIMAL_ENH2, "vxpdeh2", STFL, 192, "Vector-Packed-Decima
->>   DEF_FEAT(BEAR_ENH, "beareh", STFL, 193, "BEAR-enhancement facility")
->>   DEF_FEAT(RDP, "rdp", STFL, 194, "Reset-DAT-protection facility")
->>   DEF_FEAT(PAI, "pai", STFL, 196, "Processor-Activity-Instrumentation facility")
->> +DEF_FEAT(PAIE, "paie", STFL, 197, "Processor-Activity-Instrumentation extension-1")
->>   
->>   /* Features exposed via SCLP SCCB Byte 80 - 98  (bit numbers relative to byte-80) */
->>   DEF_FEAT(SIE_GSLS, "gsls", SCLP_CONF_CHAR, 40, "SIE: Guest-storage-limit-suppression facility")
->> diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
->> index ad140184b903..1558c5262616 100644
->> --- a/target/s390x/gen-features.c
->> +++ b/target/s390x/gen-features.c
->> @@ -575,6 +575,7 @@ static uint16_t full_GEN16_GA1[] = {
->>       S390_FEAT_BEAR_ENH,
->>       S390_FEAT_RDP,
->>       S390_FEAT_PAI,
->> +    S390_FEAT_PAIE,
->>   };
->>   
->>   
->> @@ -669,6 +670,7 @@ static uint16_t default_GEN16_GA1[] = {
->>       S390_FEAT_BEAR_ENH,
->>       S390_FEAT_RDP,
->>       S390_FEAT_PAI,
->> +    S390_FEAT_PAIE,
->>   };
->>   
->>   /* QEMU (CPU model) features */
-> 
-> 
+>> Thanks.
+>>
+>>>> +}
+>>>> +
+>>>>    static void virtio_net_reset(VirtIODevice *vdev)
+>>>>    {
+>>>>        VirtIONet *n = VIRTIO_NET(vdev);
+>>>> @@ -741,6 +754,7 @@ static uint64_t
+>>>> virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+>>>>        }
+>>>>          if (!get_vhost_net(nc->peer)) {
+>>>> +        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
+>>>
+>>> This breaks migration compatibility.
+>>>
+>>> We probably need:
+>>>
+>>> 1) a new command line parameter
+>>> 2) make it disabled for pre-7.2 machine
+>>>
+>>> Thanks
+>>>
+>>>
+>> Sorry, I don't get what is the meaning of "pre-7.2 machine". Could you
+>> please explain it?
+> I meant for pre 7.2 machine type, we should make reset fault off by default.
+>
+> Otherwise we break migration compatibility.
+>
+> Thanks
+
+Sorry, I did not express myself clearly. Is "7.2" the version of a 
+system or a module? If it is a system version, what is the system?
+
+I did not have backgrond knowledge related to this part and will 
+investigate migration issues afterwards.
+
+Thanks.
+
+>> Thanks
+>>
+>>>>            return features;
+>>>>        }
+>>>>    @@ -3766,6 +3780,7 @@ static void virtio_net_class_init(ObjectClass
+>>>> *klass, void *data)
+>>>>        vdc->set_features = virtio_net_set_features;
+>>>>        vdc->bad_features = virtio_net_bad_features;
+>>>>        vdc->reset = virtio_net_reset;
+>>>> +    vdc->queue_reset = virtio_net_queue_reset;
+>>>>        vdc->set_status = virtio_net_set_status;
+>>>>        vdc->guest_notifier_mask = virtio_net_guest_notifier_mask;
+>>>>        vdc->guest_notifier_pending = virtio_net_guest_notifier_pending;
 
