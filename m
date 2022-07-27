@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555C45834C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 23:18:45 +0200 (CEST)
-Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B12A5834CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 23:23:13 +0200 (CEST)
+Received: from localhost ([::1]:45534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGoQW-0002qo-31
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 17:18:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
+	id 1oGoUp-0005fO-4R
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 17:23:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGoNM-0000ie-1f
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 17:15:28 -0400
-Received: from mail-vs1-f53.google.com ([209.85.217.53]:43641)
+ id 1oGoSt-0003va-CB; Wed, 27 Jul 2022 17:21:11 -0400
+Received: from mail-ua1-f48.google.com ([209.85.222.48]:37413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oGoNJ-0007eL-Vx
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 17:15:27 -0400
-Received: by mail-vs1-f53.google.com with SMTP id d187so17685559vsd.10
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 14:15:25 -0700 (PDT)
+ id 1oGoSr-0008Qi-0N; Wed, 27 Jul 2022 17:21:11 -0400
+Received: by mail-ua1-f48.google.com with SMTP id s7so54279uao.4;
+ Wed, 27 Jul 2022 14:21:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/nHJki5cIM5T2FJVwWVBRal1FUfl3vf8/GP4Ra6YEPs=;
- b=7ZzSe09WDOqLK8mWieBhIRasxcAns+h+e0w2c4DSICbMFHG11XVflCJkb7nOGgLQbk
- To6IW/23uaFi0GF+7iEAK8WXvkPAQNvLk9O8wfwOdSra6FwQWuh5w/QKqDNs9p5Q/3VN
- +9d1VNwo3NzKPgL0FyqZxdWhjkQWg7RecALa5W3RHPk7P3oHPIKmVUUIciZQlv0AUFKH
- CAWju8iAEZdFI0tKU+XcyOipMpRwT1x5vBG39ERYNpvJS61YqC05vYs9agvleRDZRrmE
- tHNivCZM8IoFOBvdm84SCuWOJ43O6s1AcpkEMWrNOL6intNinbf5Y8D9D4LchIQTCECi
- y5RQ==
-X-Gm-Message-State: AJIora8j9MLV4F1JDdiuJv9AH87eh4xFl+Fhg1xsUSWEIuxU1NkdIHW7
- ybwx/evmCX1WkJX/uqJ+4U60tFc1iRi+1C9BvVpOmtudklc=
-X-Google-Smtp-Source: AGRyM1tkY8kNXqQdf+Ur157V7kD+tGxbQhl5QVvi/rju3kDFRyvQftCzV7umzomRHb9ZxbGfPWH5DlzVeNOBlZYObyk=
-X-Received: by 2002:a67:e08c:0:b0:358:3c69:6dd0 with SMTP id
- f12-20020a67e08c000000b003583c696dd0mr7688628vsl.45.1658956524353; Wed, 27
- Jul 2022 14:15:24 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=GNaoZ2q+9hgMhAYMWP0afi/9yxeMTyQwZq40xr65n4M=;
+ b=FDQhaKy7AjZj0v2nZHB1cXX1iCOS02uAudW+IDmjVDifZthtXiyJrdz5ekRA74hGho
+ JB/6IT40r2AvK7SQKDngoUNeMPsgOD+Zvc89veez1RAd7JjIlJ4TejjP3b53SwQ66Z3D
+ M8xU9KhYaKkXdN8rwA8NFQytsfknjYJ/GnTW354CKJXel5ND8QlEoo6xYocn8jsgCkiI
+ IZOth0ew5P3wRXMLUxV6IFeciuunJcK9YT5AnKuAmOgu7/mgg9XH4eOBl9740BFOtFVw
+ 12kDHD1/4gbbuuYLdaboNdY5c5U+18I0ZZZSKV8ElWgweL1m8VlJmbmaHOfpzpykUrdx
+ QFhA==
+X-Gm-Message-State: AJIora9HW6oBNtG8ujKP63rZ7dVwJoS8DuBUCijwpvLSngBSB7GwUkdn
+ im+FqPGfO9DjscE5pIJKa48CTvO5S93Bjb8vBf0=
+X-Google-Smtp-Source: AGRyM1t7Rf/Ap2jbX9xVYvem/VFPExsMiUJHB5SO8Di0+mvmd5nRVfEBfBPqw3i/fyyci8kWZzCz/b4lnb9HwWLdBPo=
+X-Received: by 2002:ab0:7c50:0:b0:384:e315:a358 with SMTP id
+ d16-20020ab07c50000000b00384e315a358mr536685uaw.118.1658956867594; Wed, 27
+ Jul 2022 14:21:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
-In-Reply-To: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
-Date: Wed, 27 Jul 2022 23:15:13 +0200
-Message-ID: <CAAdtpL778EC-8sWyXxFpSUzP55LP4tRWC4a2agNXjFJ4u73E6w@mail.gmail.com>
-Subject: Re: When create a new qemu fork, can not run pipeline,
- what I need to do?
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
-Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-level <qemu-devel@nongnu.org>
+References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+ <20220727163632.59806-9-lucas.araujo@eldorado.org.br>
+In-Reply-To: <20220727163632.59806-9-lucas.araujo@eldorado.org.br>
+Date: Wed, 27 Jul 2022 23:20:56 +0200
+Message-ID: <CAAdtpL6=AZkgs7rLGGxwmnyaB6WPDXdUwN2Cj4unZTkkci_YZQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 8/8] tests/docker: Selective line reading by python
+ script
+To: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, 
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Willian Rampazzo <willianr@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, 
+ Erik Skultety <eskultet@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.217.53;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f53.google.com
+Received-SPF: pass client-ip=209.85.222.48;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ua1-f48.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -77,142 +81,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Cc'ing build and test automation maintainers.
++Erik/Daniel
 
-On Wed, Jul 27, 2022 at 1:22 PM =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <=
-luoyonggang@gmail.com> wrote:
+On Wed, Jul 27, 2022 at 6:37 PM Lucas Mateus Castro(alqotel)
+<lucas.araujo@eldorado.org.br> wrote:
 >
-> =C2=B7=C2=B7=C2=B7
-> Pipeline cannot be run.
+> Building some images failed on ppc64le because the dockerfile tried to
+> install some packages that are only available in x86 and arm64, to solve
+> this while still having those packages be available in those architectures
+> a comment was put before the installation command to instruct the python
+> script into ignoring those lines for some architectures (in this case
+> ppc64le)
 >
-> No stages / jobs for this pipeline.
+> Overall I'm not a big fan of the way I solved this problem, so I'd like
+> to know if anyone has a better way to make these dockerfilse work in
+> PPC64LE.
 >
-> The form contains the following warning:
+> For context the base images used here are available in PPC64LE but some
+> of the packages installed are not (in alpine's case it's XEN, which is
+> only available to x86 and ARM), so this patch create a ignore_list which
+> is set on a per-architecture basis, and any packages in a dockerfile in
+> this ignore_list will not be copied to the temporary dockerfile used in
+> the docker command.
+
+Shouldn't this be done on lcitool side?
+(https://gitlab.com/libvirt/libvirt-ci/-/tree/master/lcitool)
+
+> Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
+> ---
+>  tests/docker/docker.py                 | 15 ++++++++++++---
+>  tests/docker/dockerfiles/alpine.docker |  2 ++
+>  2 files changed, 14 insertions(+), 3 deletions(-)
 >
-> 121 warnings found: showing first 25
+> diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+> index d0af2861b8..9b962d1c78 100755
+> --- a/tests/docker/docker.py
+> +++ b/tests/docker/docker.py
+> @@ -14,6 +14,7 @@
+>  import os
+>  import sys
+>  import subprocess
+> +import platform
+>  import json
+>  import hashlib
+>  import atexit
+> @@ -207,8 +208,15 @@ def _read_qemu_dockerfile(img_name):
 >
-> jobs:amd64-centos8-container may allow multiple pipelines to run for a si=
-ngle action due to `rules:when` clause with no `workflow:rules` - read more=
-: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>  def _dockerfile_preprocess(df):
+>      out = ""
+> +    ignore_list = []
+>      for l in df.splitlines():
+> -        if len(l.strip()) == 0 or l.startswith("#"):
+> +        if len(l.strip()) == 0:
+> +            continue
+> +        if l.startswith("#"):
+> +            if len(l.split()) >= 3:
+> +                if l.split()[1] == "ignore":
+> +                    if platform.processor() in l.split()[2].split(','):
+> +                        ignore_list += l.split()[3].split(',')
+>              continue
+>          from_pref = "FROM qemu/"
+>          if l.startswith(from_pref):
+> @@ -219,7 +227,8 @@ def _dockerfile_preprocess(df):
+>              inlining = _read_qemu_dockerfile(l[len(from_pref):])
+>              out += _dockerfile_preprocess(inlining)
+>              continue
+> -        out += l + "\n"
+> +        if not any(x in l.split() for x in ignore_list):
+> +            out += l + "\n"
+>      return out
 >
-> jobs:amd64-fedora-container may allow multiple pipelines to run for a sin=
-gle action due to `rules:when` clause with no `workflow:rules` - read more:=
- https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
 >
-> jobs:amd64-debian10-container may allow multiple pipelines to run for a s=
-ingle action due to `rules:when` clause with no `workflow:rules` - read mor=
-e: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+> @@ -330,7 +339,7 @@ def build_image(self, tag, docker_dir, dockerfile,
+>          tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
+>                                               encoding='utf-8',
+>                                               dir=docker_dir, suffix=".docker")
+> -        tmp_df.write(dockerfile)
+> +        tmp_df.write(_dockerfile_preprocess(dockerfile))
 >
-> jobs:alpha-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>          if user:
+>              uid = os.getuid()
+> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+> index 2943a99730..5cec46d8f2 100644
+> --- a/tests/docker/dockerfiles/alpine.docker
+> +++ b/tests/docker/dockerfiles/alpine.docker
+> @@ -6,6 +6,8 @@
 >
-> jobs:amd64-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>  FROM docker.io/library/alpine:edge
 >
-> jobs:amd64-debian-user-cross-container may allow multiple pipelines to ru=
-n for a single action due to `rules:when` clause with no `workflow:rules` -=
- read more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-war=
-nings
->
-> jobs:arm64-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:armel-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:armhf-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:hexagon-cross-container may allow multiple pipelines to run for a si=
-ngle action due to `rules:when` clause with no `workflow:rules` - read more=
-: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:hppa-debian-cross-container may allow multiple pipelines to run for =
-a single action due to `rules:when` clause with no `workflow:rules` - read =
-more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:m68k-debian-cross-container may allow multiple pipelines to run for =
-a single action due to `rules:when` clause with no `workflow:rules` - read =
-more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:mips64-debian-cross-container may allow multiple pipelines to run fo=
-r a single action due to `rules:when` clause with no `workflow:rules` - rea=
-d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
-s
->
-> jobs:mips64el-debian-cross-container may allow multiple pipelines to run =
-for a single action due to `rules:when` clause with no `workflow:rules` - r=
-ead more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warni=
-ngs
->
-> jobs:mips-debian-cross-container may allow multiple pipelines to run for =
-a single action due to `rules:when` clause with no `workflow:rules` - read =
-more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:mipsel-debian-cross-container may allow multiple pipelines to run fo=
-r a single action due to `rules:when` clause with no `workflow:rules` - rea=
-d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
-s
->
-> jobs:powerpc-test-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:ppc64el-debian-cross-container may allow multiple pipelines to run f=
-or a single action due to `rules:when` clause with no `workflow:rules` - re=
-ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
-gs
->
-> jobs:riscv64-debian-cross-container may allow multiple pipelines to run f=
-or a single action due to `rules:when` clause with no `workflow:rules` - re=
-ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
-gs
->
-> jobs:riscv64-debian-test-cross-container may allow multiple pipelines to =
-run for a single action due to `rules:when` clause with no `workflow:rules`=
- - read more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-w=
-arnings
->
-> jobs:s390x-debian-cross-container may allow multiple pipelines to run for=
- a single action due to `rules:when` clause with no `workflow:rules` - read=
- more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:sh4-debian-cross-container may allow multiple pipelines to run for a=
- single action due to `rules:when` clause with no `workflow:rules` - read m=
-ore: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
->
-> jobs:sparc64-debian-cross-container may allow multiple pipelines to run f=
-or a single action due to `rules:when` clause with no `workflow:rules` - re=
-ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
-gs
->
-> jobs:tricore-debian-cross-container may allow multiple pipelines to run f=
-or a single action due to `rules:when` clause with no `workflow:rules` - re=
-ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
-gs
->
-> jobs:xtensa-debian-cross-container may allow multiple pipelines to run fo=
-r a single action due to `rules:when` clause with no `workflow:rules` - rea=
-d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
-s
->
-> Run for branch name or tag
-> master
-> Variables
-> Specify variable values to be used in this run. The values specified in C=
-I/CD settings will be used by default.
-> Run pipelineCancel
-> =C2=B7=C2=B7=C2=B7
+> +# Lines to by ignored when this file is read by the python script
+> +# ignore ppc64le,ppc64 xen-dev
+>  RUN apk update && \
+>      apk upgrade && \
+>      apk add \
 > --
->          =E6=AD=A4=E8=87=B4
-> =E7=A4=BC
-> =E7=BD=97=E5=8B=87=E5=88=9A
-> Yours
->     sincerely,
-> Yonggang Luo
+> 2.25.1
+>
 
