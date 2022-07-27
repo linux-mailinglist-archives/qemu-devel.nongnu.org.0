@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C7AD582019
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:28:24 +0200 (CEST)
-Received: from localhost ([::1]:47942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 511B3582034
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:38:08 +0200 (CEST)
+Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGaWt-0002i5-DK
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:28:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1oGagI-0006eU-UZ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGaT8-00009K-Ep
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:24:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oGaT4-0006S0-Nz
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:24:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658903064;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UjCGozTLQ+bCeV4Cutxdj8M2yJOMrYfoJgrahp3WJ+s=;
- b=FBkPLbqWhRZVSVCDWTAdgfFrf1jAEem051j8h3zldCZtegLZSHCU4ghJisFGO2McbVBQSq
- SCNJt06HDJwxclsjKQ0oEKqH2dTqbD/lqPF2olp1yJhEak1YekSV67zV08H11fqJumUubT
- wimGUHF05gA0/Dez14Crkv6Y+61qhDc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-551-eOYAbWeGMQaEq7YRx-Ad_A-1; Wed, 27 Jul 2022 02:24:21 -0400
-X-MC-Unique: eOYAbWeGMQaEq7YRx-Ad_A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg6-20020a05600c3c8600b003a03d5d19e4so203446wmb.1
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 23:24:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=UjCGozTLQ+bCeV4Cutxdj8M2yJOMrYfoJgrahp3WJ+s=;
- b=ONTxzDO7uA89dBhRCbUMcTv2JE60fNe+/By4u9M+mnNVrMKrqIF53RN+dCIlKXkWvD
- a5W92fgrCQFYly53O4GQxZigH15CaKUw7CjJX4Gwb7Qemi0FNWgL6JCZCVtddH0JGoMp
- ektjAex5nVv3sSJzuL+YiNfUgjSD6j5sIBV5eth2xEcaOZn4jycsvqzqjIuyx4W8o7o+
- XGsroBYSidOHQ77TxX0i/xMyaoevJsOUcawhzj5t9j7HgiZakbb7fGNfOzSGBf3WC0Rm
- 5wmXaq8RM5mYal7hpEABz1nb7bDNSY5fQ/apOfxPYIktk4CHkcwgxRlruRJSFxLsyYZe
- ZLUQ==
-X-Gm-Message-State: AJIora9cTwb9Ueei9sZi2lk7G782vbqg1FJq9hho8h/MlhdjxMFdLUO5
- r2OvzcpcuJhi6ArUQZloiF5LOjvyhWsK7+SiWf4n0xnZgRYT0ywlhB3VvFL9eJjOrlaUQKh/KMY
- ISGnNr/tUEAsWvTg=
-X-Received: by 2002:a7b:c3cc:0:b0:3a3:8ec:d69 with SMTP id
- t12-20020a7bc3cc000000b003a308ec0d69mr1788457wmj.78.1658903060774; 
- Tue, 26 Jul 2022 23:24:20 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uDGqJsA3qf9dJ7c1Talx7C/mpkf967HBnvJyvjlhlQPanRGSu4Z2MJZcOBexndZbAJkt6pXg==
-X-Received: by 2002:a7b:c3cc:0:b0:3a3:8ec:d69 with SMTP id
- t12-20020a7bc3cc000000b003a308ec0d69mr1788438wmj.78.1658903060435; 
- Tue, 26 Jul 2022 23:24:20 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-164.web.vodafone.de.
- [109.43.176.164]) by smtp.gmail.com with ESMTPSA id
- t18-20020a05600c199200b003a3278d5cafsm1166141wmq.28.2022.07.26.23.24.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jul 2022 23:24:20 -0700 (PDT)
-Message-ID: <c33192cd-2122-2491-015b-620906b63712@redhat.com>
-Date: Wed, 27 Jul 2022 08:24:19 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 14/21] tests/qtest: add a timeout for
- subprocess_run_one_test
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
- stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- mark.cave-ayland@ilande.co.uk, jasowang@redhat.com,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20220726192150.2435175-1-alex.bennee@linaro.org>
- <20220726192150.2435175-15-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220726192150.2435175-15-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oGaYm-00048P-1c
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:30:21 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:51704 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>) id 1oGaYg-0007l6-OM
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:30:18 -0400
+Received: from smtpclient.apple (unknown [159.226.43.13])
+ by APP-01 (Coremail) with SMTP id qwCowADHDJ1j2+BiGhXyAg--.4012S2;
+ Wed, 27 Jul 2022 14:29:56 +0800 (CST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] hw/nvme: Add iothread support
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <1FBBC9E0-81BD-47EA-92A0-DDBFDFDFA33F@ict.ac.cn>
+Date: Wed, 27 Jul 2022 14:29:55 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Klaus Birkelund Jensen <its@irrelevant.dk>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <AB440904-88D3-45C4-B05A-580C003DB922@ict.ac.cn>
+References: <20220720090053.309229-1-fanjinhao21s@ict.ac.cn>
+ <E29F6EF6-F2BF-41F4-B04E-E6D901D64078@ict.ac.cn>
+ <Yt/+GfYPyeM4gFdq@kbusch-mbp.dhcp.thefacebook.com>
+ <2606E835-E12F-4AE2-8CBC-7267016AAB7B@ict.ac.cn>
+ <YuAtWPjAu2j+ttvo@kbusch-mbp.dhcp.thefacebook.com>
+ <1FBBC9E0-81BD-47EA-92A0-DDBFDFDFA33F@ict.ac.cn>
+To: Keith Busch <kbusch@kernel.org>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: qwCowADHDJ1j2+BiGhXyAg--.4012S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrKw43Kry7Xw1fur4DWr15urg_yoWfKwbE9F
+ 1kuayfGw47uanaga4aqrnrArsrta47Wryft39Fvr12q39aqF95Krn3ur45uws5XFW0qFyU
+ GrWqqr1YvFyxWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbw8YjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+ 6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+ 8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0
+ cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I
+ 8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxAIw28IcxkI7VAKI48JMxC2
+ 0s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI
+ 0_JrI_JrWlx4CE17CEb7AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE
+ 14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20x
+ vaj40_WFyUJVCq3wCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+ 6r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jY6wZUUUUU=
+X-Originating-IP: [159.226.43.13]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.21;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,33 +81,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/07/2022 21.21, Alex Bennée wrote:
-> Hangs have been observed in the tests and currently we don't timeout
-> if a subprocess hangs. Rectify that.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> 
-> ---
-> v3
->    - expand timeout to 180 at Thomas' suggestion
-> ---
->   tests/qtest/qos-test.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-> index 7e1c8fc579..ac23def284 100644
-> --- a/tests/qtest/qos-test.c
-> +++ b/tests/qtest/qos-test.c
-> @@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
->   static void subprocess_run_one_test(const void *arg)
->   {
->       const gchar *path = arg;
-> -    g_test_trap_subprocess(path, 0,
-> +    g_test_trap_subprocess(path, 180 * G_USEC_PER_SEC,
->                              G_TEST_SUBPROCESS_INHERIT_STDOUT | G_TEST_SUBPROCESS_INHERIT_STDERR);
->       g_test_trap_assert_passed();
->   }
+at 10:56 AM, Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> at 2:07 AM, Keith Busch <kbusch@kernel.org> wrote:
+>=20
+>> MSI-x uses MMIO for masking, so there's no need for an NVMe specific =
+way to
+>> mask these interrupts. You can just use the generic PCIe methods to =
+clear the
+>> vector's enable bit. But no NVMe driver that I know of is making use =
+of these
+>> either, though it should be possible to make linux start doing that.
+>=20
+> I believe we need to handle MSI-x masking in the NVMe controller after =
+we
+> switch to irqfd. Before that QEMU=E2=80=99s MSI-x emulation logic =
+helps us handle
+> masked interrupts. But with irqfd, we bypass QEMU=E2=80=99s MSI-x and =
+let the kernel
+> send the interrupt directly. Therefore qemu-nvme needs to do some
+> bookkeeping about which interrupt vectors are masked.
+> msix_set_vector_notifiers helps us do that.
+
+But as no NVMe driver makes use of MSI-x interrupt masking, is it OK if =
+we
+just leave MSI-x masking support broken when irqfd is enabled?=
 
 
