@@ -2,108 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC38058326A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 20:52:22 +0200 (CEST)
-Received: from localhost ([::1]:55778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A3358332F
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:12:26 +0200 (CEST)
+Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGm8r-0003Zs-RV
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 14:52:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
+	id 1oGmSE-0002j7-Ac
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oGlzb-00064J-5m; Wed, 27 Jul 2022 14:42:47 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13182)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oGlzY-0001Jh-6d; Wed, 27 Jul 2022 14:42:46 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26RILdJi015626;
- Wed, 27 Jul 2022 18:42:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=tHuo98TE4IHOxWrEcoxJwRFupSvgpdzAe8iH2AdahUg=;
- b=ZX+VWoNYByF1Zr5z0izU9lKN3bEbmGg4r9DzybrqW8ty3JYvrnOBvLq0cU1Etzukkis1
- DP2hCAapPOnUhFVq4T2XBes8DEd4ZzsdqE56Vf5MpXj4QOziGnUqQ/8cAxTO/M9tibSQ
- fF0d2gm9AWXC2kX9zSOBgqjvRWPbW2NTW5mEvNWLZfUcWkiKa6YYR5Zzsy7OIvD/uk6W
- hNUgmsAxl4onoHAQ90y08jn2zypqtYXmcEbVHvJpb97Aif47BJrx+qZAitkHWyguv4FT
- bnGgMl73PPjrJVhSw2Ue/dhZswi6MNnuDXQVz1ELUyoaD282hF2E5IQMjtR8NlEH3KyH lg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hkajv0n7y-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 18:42:42 +0000
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26RIfXa8023170;
- Wed, 27 Jul 2022 18:42:41 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hkajv0n6w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 18:42:41 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26RIcG20018044;
- Wed, 27 Jul 2022 18:42:39 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 3hg98fhv5u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 18:42:39 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26RIgoGB24314208
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Jul 2022 18:42:50 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A3F611C04C;
- Wed, 27 Jul 2022 18:42:36 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 851A911C04A;
- Wed, 27 Jul 2022 18:42:35 +0000 (GMT)
-Received: from [9.171.26.130] (unknown [9.171.26.130])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 27 Jul 2022 18:42:35 +0000 (GMT)
-Message-ID: <1fe68eb2-3a5e-6452-8126-79609c06063e@linux.ibm.com>
-Date: Wed, 27 Jul 2022 20:42:35 +0200
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oGmHt-0005OR-OX
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:01:41 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:40756)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oGmHr-0004JI-IL
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:01:41 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ w63-20020a17090a6bc500b001f3160a6011so1256159pjj.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 12:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SFTW4afqMv8Iz6F882Kc1hdDJcateS79z6VX3Z8ZVH0=;
+ b=CiJcnT4scWaKVCDeHM3WMmUgJ0nmTDv3fa2U/754LfCDdiKrIRCNKs2VSLJ4+f67e8
+ 1EcdvtL9+daNx0cyCvMYGQe1f25BoL+FBhp/NBJL/wV3e/R0ymyXh3/kIVX5kOT97BTh
+ NcFYsnKPSNjS3v4to6qKD+XxSGg6k0hCcAdRA//Uf2uAW020BLGxhzvkdPD5oIYBNNd4
+ zieAZ481vF6mQy4L/jtfxxOVbwQ7S9Bu7TOlRLdXJD6jyriRFj94WZX/mREPm2LqQsvT
+ t3URVRb+HJAq9+grzZ+D6803NBQp1KWhj96flVm5zVK9oBps6518v1kbqS70cYa2p61U
+ VLDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SFTW4afqMv8Iz6F882Kc1hdDJcateS79z6VX3Z8ZVH0=;
+ b=Wf0dKEAOIUnHNdshtJPmdW+HrM8wveek+fUpeAyfVxWZMG0YDDeAmVU59Vb10DEf9a
+ HQ2sE2NpD8HvPyeQQ+99yC/2RkgGINNJQJID9yElojOeXv5ibIir2F2QCVp/k6ohwCPK
+ eV6xen3uRX61eLd5FnwwBIc33vEm1pQLbTXihklHJiHe9SLnheMkPRKWHldvPYu8fiHU
+ xsxeO2xkryONEKaVRE5QfG/tT+YfYstflxjrhaUAqGyT8vfcKWiLKBWniNQLTvapNPrG
+ 2mwFsb1zRFwpSlJjA7Wepsxwoq1f1FLZBC1Cxnd/rpxyyPnLfzAJdQg4yaCLUB+67wfo
+ /CJA==
+X-Gm-Message-State: AJIora/GcypRLguAJHhHlACRCGoxfDLZyGb4JWi93ZQr5BwrFsyRDbDF
+ 62QIMk4+vkI3WXWRjR5+4z+QYAN4pDXIWCjUxU5yog==
+X-Google-Smtp-Source: AGRyM1tfdk8uWVWUdm25QzQmnaCvQJqairxYo1P8DvznJ3sBXkAlVmbh40FFzJMFN/TfjtLkXxrAjSjjuvRAfguCndw=
+X-Received: by 2002:a17:902:da91:b0:16d:3bc2:ff49 with SMTP id
+ j17-20020a170902da9100b0016d3bc2ff49mr22768807plx.85.1658948497866; Wed, 27
+ Jul 2022 12:01:37 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v4 04/17] dump: Rework get_start_block
-Content-Language: en-US
-To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
- borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
- cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
- seiden@linux.ibm.com
-References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-5-frankja@linux.ibm.com>
-From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-In-Reply-To: <20220726092248.128336-5-frankja@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: PTpvEIl9WOpWYmU93HTeuvOKTbiFHfpP
-X-Proofpoint-ORIG-GUID: GY-X_G_JmxCzcp-SnZQZmAfFOOpCaSWt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-27_07,2022-07-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0
- bulkscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0 adultscore=0
- spamscore=0 phishscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2207270079
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220723090335.671105-1-atishp@rivosinc.com>
+ <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
+In-Reply-To: <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Wed, 27 Jul 2022 12:01:26 -0700
+Message-ID: <CAHBxVyHku+yjKVVoD1aZMTsDDE2qER-qFm_gTt5OxL0P8sqEXw@mail.gmail.com>
+Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
+To: Alistair Francis <alistair23@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
+Content-Type: multipart/alternative; boundary="000000000000ea999805e4ce0b55"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -119,98 +87,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 11:22, Janosch Frank wrote:
-> get_start_block() returns the start address of the first memory block
-> or -1.
-> 
-> With the GuestPhysBlock iterator conversion we don't need to set the
-> start address and can therefore remove that code. The only
-> functionality left is the validation of the start block so it only
-> makes sense to re-name the function to validate_start_block()
-> 
-> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+--000000000000ea999805e4ce0b55
+Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
+On Wed, Jul 27, 2022 at 5:23 AM Alistair Francis <alistair23@gmail.com>
+wrote:
 
-See suggenstions below.
+> On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
+> >
+> > Since commit 40244040a7ac, multi-socket configuration with plic is
+> > broken as the hartid for second socket is calculated incorrectly.
+> > The hartid stored in addr_config already includes the offset
+> > for the base hartid for that socket. Adding it again would lead
+> > to segfault while creating the plic device for the virt machine.
+> > qdev_connect_gpio_out was also invoked with incorrect number of gpio
+> > lines.
+> >
+> > Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the
+> addr_config buffer)
+> >
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >  hw/intc/sifive_plic.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> > index 56d60e9ac935..fdac028a521f 100644
+> > --- a/hw/intc/sifive_plic.c
+> > +++ b/hw/intc/sifive_plic.c
+> > @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char
+> *hart_config,
+> >
+> >      for (i = 0; i < plic->num_addrs; i++) {
+> >          int cpu_num = plic->addr_config[i].hartid;
+> > -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
+> > +        CPUState *cpu = qemu_get_cpu(cpu_num);
+> >
+> >          if (plic->addr_config[i].mode == PLICMode_M) {
+> > -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
+> > +            qdev_connect_gpio_out(dev, cpu_num,
+>
+> Argh!
+>
+> I was trying to get this ready to go into 7.1. I have been working on
+> updating my tests to catch this failure in the future as well.
+>
+> While testing this change I noticed that it breaks the noMMU test case.
+>
+> I think the correct fix is actually this (on top of your patch):
+>
+> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+> index fdac028a52..af4ae3630e 100644
+> --- a/hw/intc/sifive_plic.c
+> +++ b/hw/intc/sifive_plic.c
+> @@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char
+> *hart_config,
+>         CPUState *cpu = qemu_get_cpu(cpu_num);
+>
+>         if (plic->addr_config[i].mode == PLICMode_M) {
+> -            qdev_connect_gpio_out(dev, cpu_num,
+> +            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base +
+> cpu_num,
+>                                   qdev_get_gpio_in(DEVICE(cpu),
+> IRQ_M_EXT));
+>         }
+>         if (plic->addr_config[i].mode == PLICMode_S) {
+>
+> The idea is that we need to increment the second argument to
+> qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S
+> case.
+>
+> This ensures that we do that correctly without breaking anything.
+>
+> How does that look to you?
+>
+>
+Ahh yes. That makes sense.
+Tested the updated change on multi-socket as well.
 
-> ---
->  dump/dump.c | 20 ++++++--------------
->  1 file changed, 6 insertions(+), 14 deletions(-)
-> 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 35b9833a00..b59faf9941 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -1498,30 +1498,22 @@ static void create_kdump_vmcore(DumpState *s, Error **errp)
->      }
->  }
->  
-> -static ram_addr_t get_start_block(DumpState *s)
-> +static int validate_start_block(DumpState *s)
->  {
->      GuestPhysBlock *block;
->  
->      if (!s->has_filter) {
-> -        s->next_block = QTAILQ_FIRST(&s->guest_phys_blocks.head);
->          return 0;
->      }
->  
->      QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-> +        /* This block is out of the range */
->          if (block->target_start >= s->begin + s->length ||
->              block->target_end <= s->begin) {
-> -            /* This block is out of the range */
->              continue;
->          }
-> -
-> -        s->next_block = block;
-> -        if (s->begin > block->target_start) {
-> -            s->start = s->begin - block->target_start;
-> -        } else {
-> -            s->start = 0;
-> -        }
-> -        return s->start;
-> -    }
-> +        return 0;
-> +   }
->  
->      return -1;
->  }
 
-If you change the dump_get_memblock_* functions to take the DumpState, you could do
+> Alistair
+>
+> >                                    qdev_get_gpio_in(DEVICE(cpu),
+> IRQ_M_EXT));
+> >          }
+> >          if (plic->addr_config[i].mode == PLICMode_S) {
+> > --
+> > 2.25.1
+> >
+> >
+>
 
-bool has_unfiltered_mem(DumpState *s)
-{
-    GuestPhysBlock *block;
+--000000000000ea999805e4ce0b55
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-    QTAILQ_FOREACH(block, &s->guest_phys_blocks.head, next) {
-        if (dump_get_memblock_size(block, s) > 0) {
-            return true;
-        }
-    }
-    return false;
-}
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:23 AM Alist=
+air Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.co=
+m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>On Sat, Jul 23, 2022 at 7:22 PM Atish Patra &lt;<a href=3D"mailto:atishp@r=
+ivosinc.com" target=3D"_blank">atishp@rivosinc.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Since commit 40244040a7ac, multi-socket configuration with plic is<br>
+&gt; broken as the hartid for second socket is calculated incorrectly.<br>
+&gt; The hartid stored in addr_config already includes the offset<br>
+&gt; for the base hartid for that socket. Adding it again would lead<br>
+&gt; to segfault while creating the plic device for the virt machine.<br>
+&gt; qdev_connect_gpio_out was also invoked with incorrect number of gpio<b=
+r>
+&gt; lines.<br>
+&gt;<br>
+&gt; Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_=
+config buffer)<br>
+&gt;<br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 hw/intc/sifive_plic.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br>
+&gt; index 56d60e9ac935..fdac028a521f 100644<br>
+&gt; --- a/hw/intc/sifive_plic.c<br>
+&gt; +++ b/hw/intc/sifive_plic.c<br>
+&gt; @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, cha=
+r *hart_config,<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; plic-&gt;num_addrs; i++) {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int cpu_num =3D plic-&gt;addr_config=
+[i].hartid;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(hartid_bas=
+e + cpu_num);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(cpu_num);<=
+br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
+=3D PLICMode_M) {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
+num_harts + cpu_num,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, =
+cpu_num,<br>
+<br>
+Argh!<br>
+<br>
+I was trying to get this ready to go into 7.1. I have been working on<br>
+updating my tests to catch this failure in the future as well.<br>
+<br>
+While testing this change I noticed that it breaks the noMMU test case.<br>
+<br>
+I think the correct fix is actually this (on top of your patch):<br>
+<br>
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c<br>
+index fdac028a52..af4ae3630e 100644<br>
+--- a/hw/intc/sifive_plic.c<br>
++++ b/hw/intc/sifive_plic.c<br>
+@@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char<br>
+*hart_config,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPUState *cpu =3D qemu_get_cpu(cpu_num);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=3D PLICMod=
+e_M) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, cpu_n=
+um,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_connect_gpio_out(dev, num_h=
+arts - plic-&gt;hartid_base + cpu_num,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DEVICE(cpu),=
+ IRQ_M_EXT));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=3D PLICMod=
+e_S) {<br>
+<br>
+The idea is that we need to increment the second argument to<br>
+qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S<br>
+case.<br>
+<br>
+This ensures that we do that correctly without breaking anything.<br>
+<br>
+How does that look to you?<br>
+<br></blockquote><div><br></div><div>Ahh yes. That makes sense.</div><div>T=
+ested the updated change on multi-socket as well.</div><div>=C2=A0</div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">
+Alistair<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qdev_get_gpio_in(DE=
+VICE(cpu), IRQ_M_EXT));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (plic-&gt;addr_config[i].mode =3D=
+=3D PLICMode_S) {<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt;<br>
+</blockquote></div></div>
 
-or you could do the same with the existing dump_get_memblock_size, add
-
-    if (has_filter && !length) {
-        error_setg(errp, QERR_INVALID_PARAMETER, "length");
-        goto cleanup;
-    }
-
-to dump_init, encode has_filter in length as you're currently doing and get rid of s->has_filter entirely.
-
-> @@ -1668,8 +1660,8 @@ static void dump_init(DumpState *s, int fd, bool has_format,
->          goto cleanup;
->      }
->  
-> -    s->start = get_start_block(s);
-> -    if (s->start == -1) {
-> +    /* Is the filter filtering everything? */
-> +    if (validate_start_block(s) == -1) {
->          error_setg(errp, QERR_INVALID_PARAMETER, "begin");
->          goto cleanup;
->      }
-
+--000000000000ea999805e4ce0b55--
 
