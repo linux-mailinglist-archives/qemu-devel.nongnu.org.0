@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449D7582663
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 14:26:53 +0200 (CEST)
-Received: from localhost ([::1]:35994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC1F58272B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 14:56:40 +0200 (CEST)
+Received: from localhost ([::1]:45902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGg7o-0007hb-DG
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 08:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50772)
+	id 1oGgac-00011c-FU
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 08:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oGg4n-0005Ax-Un; Wed, 27 Jul 2022 08:23:45 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:36680)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oGg4m-0007iK-BA; Wed, 27 Jul 2022 08:23:45 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- 15-20020a17090a098f00b001f305b453feso2034531pjo.1; 
- Wed, 27 Jul 2022 05:23:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+ruz5ZV7m2FQZQa4g1aL3tUmblQr1UHvdV8mU5Q5wC8=;
- b=kBbNWheBlEyzHEdeeOl+eXpOYLfeJXqeO9TQg/pGPx3jl15g/StYESse7iQQvGWhvG
- GqclGYaZDv7TvJs0Svr4WUHWbdjm0KdmgQhPVGkvYzgnO7Tsk5Aewl+iuappR0G47jME
- QU4dvKyfJoytYhhyN0gYhEilXOCA6z/3RcX8cDkGtFhr+N7uxJDW06K1xo8otMO2Fscp
- XpGMI/9cfdX/SrE0TjVSOrIe4NFQk+tsMscodemz4fWx5iCG91i6csWIOefv4Cun9STu
- rNIlGMf4+QmtHELvxkZxARzDZaU9NhhTVPjkNe5yMcbL+zbOKRK0cILLrdQW8T3U3Gp3
- ktqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+ruz5ZV7m2FQZQa4g1aL3tUmblQr1UHvdV8mU5Q5wC8=;
- b=03uZSn6ABZk9jLUWTZ4QrzR/M0KtXvnUFIBu9f0uekXeJfrb0cnhAktmW9GZv3FyV1
- Bfq5ecRrKvVnaOKa2Aw0hLD7Cyi8+rDKSNnTBVf9K9XtJCl3sKEy1t6q27ryu0guAsD8
- NX8BGofwVIeV4pU9+XjW4AQ9WXDN7OYa3doDXn3jYjV4x1Vzx85g9iFu3ssUUj5aJMJS
- xDCqKZbhkidH5R7Fi8Dn+RVaM8N4LILgM6L8d82rdepJbK5obV9NB95LdMgGZlzF3s2T
- sCuyi6rXdEp6g8dk6qvnI0VLUcRtNJ5d8Q9Nqquwed0Lw5wBpt7ICKKH5hV3KeboeKLw
- yI2Q==
-X-Gm-Message-State: AJIora+u5VIq3cirorrImVGPCuiVtv12e9W8K+5LPPwvS/w8teLt/GC2
- onQXj/PecTo8yO/GjIHMTMBuN6jFqMUZAzAOHro=
-X-Google-Smtp-Source: AGRyM1sFBPvdAUv5lBcFDZp7LUbLdH/0AVtMRQs1VMAiIKa4hSkkdZDxGxVwlO928KhMOVSSKI9pg1w2C8jPvj8hAZs=
-X-Received: by 2002:a17:90b:100e:b0:1f3:a4a:2620 with SMTP id
- gm14-20020a17090b100e00b001f30a4a2620mr3227304pjb.120.1658924622442; Wed, 27
- Jul 2022 05:23:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGgXh-0007Y8-4i
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:53:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oGgXd-00049T-Sq
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 08:53:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658926412;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PQe7Gn6Sfzum3jVrMIwBz1QmAS6smjeOJUvnKSCIMf0=;
+ b=Of0PV+DaflkqmFmDuJOaF99TfQ+UQHg12WZaZeeHaL47CIG6ZUiSH/y2JgloS9ojfadxNf
+ jjKIjvEvh+6onyWc0apBH23LM0NsIiNpD8Jf/9kxr0hosiojWRqM/hTLqrRsrON5V1W9MA
+ Wd9LWiBpbhd6T0kdwBEhd9JkiW1igPg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-2g5VTpFqPiiqEQZmpPb6ew-1; Wed, 27 Jul 2022 08:53:31 -0400
+X-MC-Unique: 2g5VTpFqPiiqEQZmpPb6ew-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2ECEE811E81;
+ Wed, 27 Jul 2022 12:53:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2280FC44AE3;
+ Wed, 27 Jul 2022 12:53:30 +0000 (UTC)
+Date: Wed, 27 Jul 2022 13:53:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Yan Vugenfirer <yvugenfi@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Bin Meng <bin.meng@windriver.com>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH 2/5] util/oslib-win32: Add a helper to get the Windows
+ version
+Message-ID: <YuE1Rx1tOOwuS4SV@redhat.com>
+References: <20220727073542.811420-1-bmeng.cn@gmail.com>
+ <20220727073542.811420-3-bmeng.cn@gmail.com>
+ <CAGoVJZzZN5CNoURh4-uMqkPwUd-Z03PmZZ04v8M+BYi2tX37_g@mail.gmail.com>
+ <CAEUhbmWv1zdYFJ-ojWxH_KnJygS2ceQyPPBvDwQ4rEqzR534EQ@mail.gmail.com>
+ <YuEMnI/Sji1/r7bk@redhat.com>
+ <CAEUhbmVT6bwMObhW59Oxf6nfPazDziXYbuqxC=pLBEbd26r_NQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20220723090335.671105-1-atishp@rivosinc.com>
-In-Reply-To: <20220723090335.671105-1-atishp@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 27 Jul 2022 22:23:16 +1000
-Message-ID: <CAKmqyKP4jg5yoTfQX_=CcL9y5F9FtKBQ4OHH31KoD14T1H4mVA@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
-To: Atish Patra <atishp@rivosinc.com>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
- "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEUhbmVT6bwMObhW59Oxf6nfPazDziXYbuqxC=pLBEbd26r_NQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,80 +87,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 23, 2022 at 7:22 PM Atish Patra <atishp@rivosinc.com> wrote:
->
-> Since commit 40244040a7ac, multi-socket configuration with plic is
-> broken as the hartid for second socket is calculated incorrectly.
-> The hartid stored in addr_config already includes the offset
-> for the base hartid for that socket. Adding it again would lead
-> to segfault while creating the plic device for the virt machine.
-> qdev_connect_gpio_out was also invoked with incorrect number of gpio
-> lines.
->
-> Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_config buffer)
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->  hw/intc/sifive_plic.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-> index 56d60e9ac935..fdac028a521f 100644
-> --- a/hw/intc/sifive_plic.c
-> +++ b/hw/intc/sifive_plic.c
-> @@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char *hart_config,
->
->      for (i = 0; i < plic->num_addrs; i++) {
->          int cpu_num = plic->addr_config[i].hartid;
-> -        CPUState *cpu = qemu_get_cpu(hartid_base + cpu_num);
-> +        CPUState *cpu = qemu_get_cpu(cpu_num);
->
->          if (plic->addr_config[i].mode == PLICMode_M) {
-> -            qdev_connect_gpio_out(dev, num_harts + cpu_num,
-> +            qdev_connect_gpio_out(dev, cpu_num,
+On Wed, Jul 27, 2022 at 07:55:40PM +0800, Bin Meng wrote:
+> On Wed, Jul 27, 2022 at 6:00 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Wed, Jul 27, 2022 at 05:38:27PM +0800, Bin Meng wrote:
+> > > On Wed, Jul 27, 2022 at 4:50 PM Yan Vugenfirer <yvugenfi@redhat.com> wrote:
+> > > >
+> > > > On Wed, Jul 27, 2022 at 10:43 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > > >
+> > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > >
+> > > > > This adds a helper to get the Windows version via the RtlGetVersion
+> > > > > call, for QEMU codes to determine the Windows version at run-time.
+> > > > >
+> > > > > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > > > ---
+> > > > >
+> > > > >  include/sysemu/os-win32.h |  2 ++
+> > > > >  util/oslib-win32.c        | 15 +++++++++++++++
+> > > > >  2 files changed, 17 insertions(+)
+> > > > >
+> > > > > diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> > > > > index edc3b38a57..1e324026a4 100644
+> > > > > --- a/include/sysemu/os-win32.h
+> > > > > +++ b/include/sysemu/os-win32.h
+> > > > > @@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t len, int flags);
+> > > > >  ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+> > > > >                             struct sockaddr *addr, socklen_t *addrlen);
+> > > > >
+> > > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
+> > > > > +
+> > > > >  #ifdef __cplusplus
+> > > > >  }
+> > > > >  #endif
+> > > > > diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> > > > > index 5723d3eb4c..6d2387b9ff 100644
+> > > > > --- a/util/oslib-win32.c
+> > > > > +++ b/util/oslib-win32.c
+> > > > > @@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
+> > > > >       */
+> > > > >      return qemu_fdatasync(fd);
+> > > > >  }
+> > > > > +
+> > > > > +void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
+> > > > > +{
+> > > > > +    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
+> > > > > +
+> > > > > +    /* RtlGetVersion is available starting with Windows 2000 */
+> > > > > +    HMODULE module = GetModuleHandle("ntdll");
+> > > > > +    PVOID fun = GetProcAddress(module, "RtlGetVersion");
+> > > > > +    rtl_get_version_t rtl_get_version = (rtl_get_version_t)fun;
+> > > > > +
+> > > > > +    info->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
+> > > > > +    rtl_get_version(info);
+> > > > The original function, when it was present in qemu-ga, tested that
+> > > > getting the function address succeeded.
+> > > > I think this test should be kept.
+> > > > See below:
+> > > > -    PVOID fun = GetProcAddress(module, "RtlGetVersion");
+> > > > -    if (fun == NULL) {
+> > > > -        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+> > > > -            "Failed to get address of RtlGetVersion");
+> > > > -        return;
+> > > > -    }
+> > > >
+> > >
+> > > Please see the comment:
+> > >
+> > > /* RtlGetVersion is available starting with Windows 2000 */
+> > >
+> > > I don't think we need that check.
+> >
+> > In include/qemu/osdep.h we have
+> >
+> > /* as defined in sdkddkver.h */
+> > #ifndef _WIN32_WINNT
+> > #define _WIN32_WINNT 0x0601 /* Windows 7 API (should be in sync with glib) */
+> > #endif
+> >
+> > so do we even need to have the GetProcAddress calls at all ?
+> >
+> > Surely we can just  '#include <ddk/ntddk.h>' and call
+> > RtlGetVersion directly at compile time ?
+> >
+> 
+> I believe #include <ddk/ntddk.h> is used in the kernel mode driver
+> programming environment.
+> In the user space we will have to use the ntdll exported symbol.
+> 
+> I cannot locate a Microsoft doc that tells us to call RtlGetVersion
+> directly in the user space.
 
-Argh!
+I wonder if we actually need to add this helper API to QEMU at all.
 
-I was trying to get this ready to go into 7.1. I have been working on
-updating my tests to catch this failure in the future as well.
+Would it be possible to use GLib 's  g_win32_check_windows_version API
+instead ?
 
-While testing this change I noticed that it breaks the noMMU test case.
+https://developer-old.gnome.org/glib/unstable/glib-Windows-Compatibility-Functions.html#g-win32-check-windows-version
 
-I think the correct fix is actually this (on top of your patch):
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index fdac028a52..af4ae3630e 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -457,7 +457,7 @@ DeviceState *sifive_plic_create(hwaddr addr, char
-*hart_config,
-        CPUState *cpu = qemu_get_cpu(cpu_num);
-
-        if (plic->addr_config[i].mode == PLICMode_M) {
--            qdev_connect_gpio_out(dev, cpu_num,
-+            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base + cpu_num,
-                                  qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
-        }
-        if (plic->addr_config[i].mode == PLICMode_S) {
-
-The idea is that we need to increment the second argument to
-qdev_connect_gpio_out() for the PLICMode_M compared to the PLICMode_S
-case.
-
-This ensures that we do that correctly without breaking anything.
-
-How does that look to you?
-
-Alistair
-
->                                    qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EXT));
->          }
->          if (plic->addr_config[i].mode == PLICMode_S) {
-> --
-> 2.25.1
->
->
 
