@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 064D5583395
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:29:44 +0200 (CEST)
-Received: from localhost ([::1]:50366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62C315833C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 21:39:39 +0200 (CEST)
+Received: from localhost ([::1]:58226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGmj1-0004l9-2M
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:29:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51504)
+	id 1oGmsW-0002wX-5S
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 15:39:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGmNH-0008DN-Av; Wed, 27 Jul 2022 15:07:15 -0400
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:46374)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGmn7-0006hO-4f
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:33:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oGmNE-000527-7j; Wed, 27 Jul 2022 15:07:14 -0400
-Received: from iva8-3a65cceff156.qloud-c.yandex.net
- (iva8-3a65cceff156.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 6766E2E20FA;
- Wed, 27 Jul 2022 22:07:03 +0300 (MSK)
-Received: from localhost.localdomain (172.31.41.131-vpn.dhcp.yndx.net
- [172.31.41.131])
- by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- lEd3EUqO2s-72OO50p5; Wed, 27 Jul 2022 22:07:02 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1658948822; bh=jDJaFix2iJm+jPuI7aRxvWc8zDl/yn66dHKdXW9ez5k=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=DtbPHTQugVDr5v95smb63oX6PPyI/Cm5w2mTMZJRpQjRShsx7+UokE9JukbfSgZqa
- ms88Y98auOjQZPtNApLs06wu2WD/Fin9E3cwHbXrz0CIe5gb1bz7EGV9GJJccIwB9H
- btkJC6I8vfv2681BRQxp9m4ieVb74CVBVNdIAQkc=
-Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, hreitz@redhat.com,
- kwolf@redhat.com, vsementsov@yandex-team.ru, den@openvz.org,
- stefanha@redhat.com
-Subject: [PULL 2/2] iotests/131: Add parallels regression test
-Date: Wed, 27 Jul 2022 22:06:35 +0300
-Message-Id: <20220727190635.1024863-3-vsementsov@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220727190635.1024863-1-vsementsov@yandex-team.ru>
-References: <20220727190635.1024863-1-vsementsov@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oGmn0-0000ay-OD
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 15:33:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658950429;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F8aG+xqlg7S7qrggqrYU2k+A00Sb6LEOAkj2nCO300U=;
+ b=EBM77IKxp0ioZN4sCcKiUx/T8UlzcwD0YMOmVMF1KIL4zbo7r0RJX6/tWhJdL/fffKDRvv
+ 2e2abGkAjrdULlpokyEV49kW9NXXs1lp2/Zl1V2ovj5uH/rD8MSWRzcajZoRMN1kFAKMO+
+ bx4V3Fwxa1/IfMY22oQLMiqGWYCEicI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-449-YgWvMHJ9M_Orn0rWpMs3Qw-1; Wed, 27 Jul 2022 15:33:46 -0400
+X-MC-Unique: YgWvMHJ9M_Orn0rWpMs3Qw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E0927101A54E;
+ Wed, 27 Jul 2022 19:33:45 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.209])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4149B40CFD0A;
+ Wed, 27 Jul 2022 19:33:42 +0000 (UTC)
+Date: Wed, 27 Jul 2022 21:33:40 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, Alberto Faria <afaria@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Eric Blake <eblake@redhat.com>,
+ sgarzare@redhat.com, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
+ John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Yanan Wang <wangyanan55@huawei.com>, pkrempa@redhat.com
+Subject: Re: [RFC v3 1/8] blkio: add io_uring block driver using libblkio
+Message-ID: <YuGTFJ3r7+MMAxhR@redhat.com>
+References: <20220708041737.1768521-1-stefanha@redhat.com>
+ <20220708041737.1768521-2-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220708041737.1768521-2-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,99 +88,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hanna Reitz <hreitz@redhat.com>
+Am 08.07.2022 um 06:17 hat Stefan Hajnoczi geschrieben:
+> libblkio (https://gitlab.com/libblkio/libblkio/) is a library for
+> high-performance disk I/O. It currently supports io_uring and
+> virtio-blk-vhost-vdpa with additional drivers under development.
+> 
+> One of the reasons for developing libblkio is that other applications
+> besides QEMU can use it. This will be particularly useful for
+> vhost-user-blk which applications may wish to use for connecting to
+> qemu-storage-daemon.
+> 
+> libblkio also gives us an opportunity to develop in Rust behind a C API
+> that is easy to consume from QEMU.
+> 
+> This commit adds io_uring and virtio-blk-vhost-vdpa BlockDrivers to QEMU
+> using libblkio. It will be easy to add other libblkio drivers since they
+> will share the majority of code.
+> 
+> For now I/O buffers are copied through bounce buffers if the libblkio
+> driver requires it. Later commits add an optimization for
+> pre-registering guest RAM to avoid bounce buffers.
+> 
+> The syntax is:
+> 
+>   --blockdev io_uring,node-name=drive0,filename=test.img,readonly=on|off,cache.direct=on|off
+> 
+> and:
+> 
+>   --blockdev virtio-blk-vhost-vdpa,node-name=drive0,path=/dev/vdpa...,readonly=on|off
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Test an allocating write to a parallels image that has a backing node.
-Before HEAD^, doing so used to give me a failed assertion (when the
-backing node contains only `42` bytes; the results varies with the value
-chosen, for `0` bytes, for example, all I get is EIO).
+The subject line implies only io_uring, but you actually add vhost-vdpa
+support, too. I think the subject line should be changed.
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Denis V. Lunev <den@openvz.org>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-Message-Id: <20220714132801.72464-3-hreitz@redhat.com>
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
----
- tests/qemu-iotests/131     | 35 ++++++++++++++++++++++++++++++++++-
- tests/qemu-iotests/131.out | 13 +++++++++++++
- 2 files changed, 47 insertions(+), 1 deletion(-)
+I think it would also make sense to already implement support for
+vhost-user-blk on the QEMU side even if support isn't compiled in
+libblkio by default and opening vhost-user-blk images would therefore
+always fail with a default build.
 
-diff --git a/tests/qemu-iotests/131 b/tests/qemu-iotests/131
-index d7456cae5b..a847692b4c 100755
---- a/tests/qemu-iotests/131
-+++ b/tests/qemu-iotests/131
-@@ -43,7 +43,7 @@ _supported_os Linux
- 
- inuse_offset=$((0x2c))
- 
--size=64M
-+size=$((64 * 1024 * 1024))
- CLUSTER_SIZE=64k
- IMGFMT=parallels
- _make_test_img $size
-@@ -70,6 +70,39 @@ _check_test_img
- _check_test_img -r all
- { $QEMU_IO -c "read -P 0x11 64k 64k" "$TEST_IMG"; } 2>&1 | _filter_qemu_io | _filter_testdir
- 
-+echo "== allocate with backing =="
-+# Verify that allocating clusters works fine even when there is a backing image.
-+# Regression test for a bug where we would pass a buffer read from the backing
-+# node as a QEMUIOVector object, which could cause anything from I/O errors over
-+# assertion failures to invalid reads from memory.
-+
-+# Clear image
-+_make_test_img $size
-+# Create base image
-+TEST_IMG="$TEST_IMG.base" _make_test_img $size
-+
-+# Write some data to the base image (which would trigger an assertion failure if
-+# interpreted as a QEMUIOVector)
-+$QEMU_IO -c 'write -P 42 0 64k' "$TEST_IMG.base" | _filter_qemu_io
-+
-+# Parallels does not seem to support storing a backing filename in the image
-+# itself, so we need to build our backing chain on the command line
-+imgopts="driver=$IMGFMT,file.driver=$IMGPROTO,file.filename=$TEST_IMG"
-+imgopts+=",backing.driver=$IMGFMT"
-+imgopts+=",backing.file.driver=$IMGPROTO,backing.file.filename=$TEST_IMG.base"
-+
-+# Cause allocation in the top image
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+    $QEMU_IO --image-opts "$imgopts" -c 'write -P 1 0 64' | _filter_qemu_io
-+
-+# Verify
-+QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT \
-+    $QEMU_IO --image-opts "$imgopts" \
-+    -c 'read -P 1 0 64' \
-+    -c "read -P 42 64 $((64 * 1024 - 64))" \
-+    -c "read -P 0 64k $((size - 64 * 1024))" \
-+    | _filter_qemu_io
-+
- # success, all done
- echo "*** done"
- rm -f $seq.full
-diff --git a/tests/qemu-iotests/131.out b/tests/qemu-iotests/131.out
-index 70da03dee5..de5ef7a8f5 100644
---- a/tests/qemu-iotests/131.out
-+++ b/tests/qemu-iotests/131.out
-@@ -37,4 +37,17 @@ Double checking the fixed image now...
- No errors were found on the image.
- read 65536/65536 bytes at offset 65536
- 64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+== allocate with backing ==
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=67108864
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 64/64 bytes at offset 0
-+64 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 64/64 bytes at offset 0
-+64 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 65472/65472 bytes at offset 64
-+63.938 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 67043328/67043328 bytes at offset 65536
-+63.938 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- *** done
--- 
-2.25.1
+But then you could run QEMU with a custom build of libblkio to make use
+of it without patching QEMU. This is probably useful for getting libvirt
+support for using a storage daemon implemented without having to wait
+for another QEMU release. (Peter, do you have any opinion on this?)
+
+Kevin
 
 
