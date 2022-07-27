@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17ED582926
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 16:57:47 +0200 (CEST)
-Received: from localhost ([::1]:48436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68BF582943
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 17:05:26 +0200 (CEST)
+Received: from localhost ([::1]:59458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGiTr-0000N6-0r
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 10:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57694)
+	id 1oGibF-0008UF-Q9
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 11:05:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGiNC-0002PJ-GU; Wed, 27 Jul 2022 10:50:55 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:40645)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGiNP-0002TA-Oi; Wed, 27 Jul 2022 10:51:07 -0400
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:36684)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oGiN8-00080D-Q0; Wed, 27 Jul 2022 10:50:53 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id 123so7792944ybv.7;
- Wed, 27 Jul 2022 07:50:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oGiNN-00085p-8C; Wed, 27 Jul 2022 10:51:06 -0400
+Received: by mail-qv1-xf2e.google.com with SMTP id i13so13065045qvo.3;
+ Wed, 27 Jul 2022 07:51:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3SgQcACQ1MTx0eGdzOJU9m+EZFwn74WsgvryQXFSkmM=;
- b=i2suq4bCe1rAWBRp97Mqrz8KxhJvlBQZkdsHURX/v+4Xoog3QLRT3g/VPkeRe3B/Fr
- WejfEm5ppc9ZdusEQaR5oxqz1/lYjeOASDSq7tJiSlS/+uROIbOC8B2YZ5GOt+IZ2Mer
- zXpOmIE0VPgLx+t4DDacSl1+ZeNW8fJCrdlx/dWpwMAPqI6JOYUKJ4ICqCviBOKt3Cju
- cAAdXvg1ES1Q6doArEoQAHC68ZPEgjZpy3fdUXjVnfAeXJVgd8IB8YNQEv3qbfMsYZPd
- uRzgeh3yYvmXu1MiMG6lmsvBE1n4aK69bFtn605EH9NtH8FJd+bTA1QfHenGvVQHTKPU
- hHWg==
+ :cc; bh=o+QUn1RdrP7aoA+6z3z6YJAlszPm4BddVrir0So4cuI=;
+ b=Ms+whUOL1U2EmI/rEcLlzZHeRbHHmG433BFr9Qpw4cG2yv5Mv1bJeggbgBNxK89Cbo
+ BwOOw+yz+Un50iC3+ug+xWo6EEr0t8Lme6AOW8IuNO4nRgSSaVQph5wtpU2tcNQ5tH5N
+ r3LgdbfnzfDOi5FnNi3M0BP0qAvjSMjadIaYIPHr99dS+2ssI/qtUl+iBtlBBjBseEG4
+ OEpSNRAReCx2E5IYdpogF+6bNcAAVxOQhBgo2SVeWRG5jjg9BJqworer1Epw+uEz3Ai6
+ XUGMQvx1q+3foQO/dLWAqkXJvg7Dg9s5BiWUCr0TGH41FVtXLl1s2I/agIIWCwcZiifU
+ 8rkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=3SgQcACQ1MTx0eGdzOJU9m+EZFwn74WsgvryQXFSkmM=;
- b=l6+uPmvMCZvs+24chMYVg2LnzTEfeCfCjh81Y8djECm5mUUZUH3Wxa93LzBvmkYc/y
- Q/oLqTLr/6+JUAaJkKRIEvkXR+Xt5k0zktOffI4km3miQ3HGXuo04w6mVJ5YZyIk9s53
- PQeNhEC/ehLfAXl4MXY+c0S4Mi9fHsTPpw3Ca6pqPhBqi/RlmbAFf8Gu/Syu9o1cZXQs
- RYgH+R0BWP5q4q9s3zkeC3v1DCwcF/Xmvxs/bS1BEDNzUv+fFvYvgdlYyJTehBMDE/hi
- JVyazaQtSjPBWb2leBBZVnjGjTnB6id9yiTBkPg+ZyXWhng3kXCqCM+Xy/RRga77NtHW
- /yzg==
-X-Gm-Message-State: AJIora9eeRJl3q59wq6922b+dLkgSwK4PSWpezEzxougK00Lhwo11qid
- pEJv+nQig/ufKBIzPnKGppI0zcUMND3SbZE/PK0=
-X-Google-Smtp-Source: AGRyM1uXrp+Z9fxkm3wcTnRTl7ewKcLXnTqz0fD9g3V9qPK4E8jj/Ggyb2jBJWX+85fMvB2jgIRZZe2x0vv/XV78lKs=
-X-Received: by 2002:a5b:c87:0:b0:66f:2298:4ed7 with SMTP id
- i7-20020a5b0c87000000b0066f22984ed7mr17717115ybq.207.1658933449558; Wed, 27
- Jul 2022 07:50:49 -0700 (PDT)
+ bh=o+QUn1RdrP7aoA+6z3z6YJAlszPm4BddVrir0So4cuI=;
+ b=ERYJ6l5PwHM0NfNh+OmTP5sV7tOOb7IOiEs94y23PcIEfOfD6o8hGxijbk6xu9a9t8
+ 7XpOXF7EWZ8e1zXhtkvhN81cEk9Lg3bZO0G9UnUOuhM9ViPg207eikTo4zC1SNeJpX3U
+ le3Nb0vrHQo7nLRw8zheYjATd0cYdnledRESO9nE+8oT12VF9iZ5o/tDxN3dEHgAdLKi
+ kGnGv/7S8EIEHFYwfB6I8xvJaHe2gxJueiFoMJwmVlWunO8+Yh1MHgTj94y5jspdNROB
+ SYNSWn+lGJb81YYIYjI/TyhPpgXxuciAfenrXSXzPH6ir9f+B9Odj5EOOmto2nvh7Eug
+ iquQ==
+X-Gm-Message-State: AJIora/4CSrumjA+cr/+3I39RI9dxx5+clP8CzuC8GNmw8KxqzaKhyVl
+ mxU77RxbBR6Gyv4OcslQg7YvxPgMYU137SG76Yo=
+X-Google-Smtp-Source: AGRyM1u0FLSwdiQ8p7cZxDk+1K/toDjIwiSYgAQ0vQl8db2n5EcAfWF4O8NVrK8D0KqEQj+oOPg0PNB6S0+TE7e5WoM=
+X-Received: by 2002:a05:6214:5195:b0:474:454a:cfe7 with SMTP id
+ kl21-20020a056214519500b00474454acfe7mr13824755qvb.85.1658933462454; Wed, 27
+ Jul 2022 07:51:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220712021345.8530-1-faithilikerun@gmail.com>
- <20220712021345.8530-8-faithilikerun@gmail.com>
-In-Reply-To: <20220712021345.8530-8-faithilikerun@gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Wed, 27 Jul 2022 10:50:38 -0400
-Message-ID: <CAJSP0QVTGa0smONqrFXJW=tVpDcax+M4j3-tQFYeK23QL3FBnA@mail.gmail.com>
-Subject: Re: [RFC v4 7/9] config: add check to block layer
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, 
- Damien Le Moal <damien.lemoal@opensource.wdc.com>,
- Markus Armbruster <armbru@redhat.com>, 
- Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>, 
- Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
+References: <20220727142037.rzm4o4huq22vagcp@hetzy.fluff.org>
+ <CAEUhbmU_3+-A8vAnnCmZ_qYaWv=0QFjkMeBwH+sZ60t+ivHGFw@mail.gmail.com>
+ <831aebc7-ab6c-7cb8-b890-26270657bd69@codethink.co.uk>
+In-Reply-To: <831aebc7-ab6c-7cb8-b890-26270657bd69@codethink.co.uk>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 27 Jul 2022 22:50:51 +0800
+Message-ID: <CAEUhbmX5TsSaRbxKWNcTFtx2QRg-T9pbasWfCou9Y-Mgt0K=Vw@mail.gmail.com>
+Subject: Re: fu740 target
+To: Ben Dooks <ben.dooks@codethink.co.uk>
+Cc: Ben Dooks <qemu@ben.fluff.org>, Frank Chang <frank.chang@sifive.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-qv1-xf2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,93 +83,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 11 Jul 2022 at 22:22, Sam Li <faithilikerun@gmail.com> wrote:
+On Wed, Jul 27, 2022 at 10:44 PM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
 >
-> Putting zoned/non-zoned BlockDrivers on top of each other is not
-> allowed.
+> On 27/07/2022 15:38, Bin Meng wrote:
+> > On Wed, Jul 27, 2022 at 10:24 PM Ben Dooks <qemu@ben.fluff.org> wrote:
+> >>
+> >> Is anyone working on adding a sifive-u74 core to the list of supported
+> >> CPU types? I was looking at full emulation of the Unmatched but at the
+> >> moment the best we have is sifive-u54 and I think that misses at least
+> >> two CSRs the sifive-u74 has.
+> >>
+> >> Does anyone have plans to add the sifive-u74, and if not, would a plan
+> >> to add gradual support for it like adding CSRs 0x7c1 and 0x7c2 so we
+> >> can run an Unmatched U-boot SPL against it.
+> >
+> > Adding 0x7c1/7c2 would be a vendor-specific CSR approach?
 >
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  block.c                          | 7 +++++++
->  block/file-posix.c               | 2 ++
->  include/block/block_int-common.h | 5 +++++
->  3 files changed, 14 insertions(+)
+> Part of the FU740 feature disable controls
+
+Yep I know that. I was asking if you use a vendor-specific CSR
+approach in QEMU to handle such cleanly.
+
 >
-> diff --git a/block.c b/block.c
-> index 2c00dddd80..0e24582c7d 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -7945,6 +7945,13 @@ void bdrv_add_child(BlockDriverState *parent_bs, BlockDriverState *child_bs,
->          return;
->      }
->
-> +    if (parent_bs->drv->is_zoned != child_bs->drv->is_zoned) {
-> +        error_setg(errp, "Cannot add a %s child to a %s parent",
-> +                   child_bs->drv->is_zoned ? "zoned" : "non-zoned",
-> +                   parent_bs->drv->is_zoned ? "zoned" : "non-zoned");
-> +        return;
-> +    }
+> >>
+> >> If not, is there a definitive U54->U74 set of public differnces around
+> >> we could use to start from? I'd like to be able to run a full Unmatched
+> >> image using qemu at some point to add to the current real-board testing
+> >> we're doing.
+> >>
+> >> (I have a basic addition of the type and the two CSRs as a couple of
+> >> patches if that would help as a start)
+> >>
+> >
+> > I am not aware of anyone doing U74 modeling in QEMU, but SiFive folks
+> > (+Frank) may have one downstream as I see they posted several bug
+> > fixes in the existing U54 model.
+> >
 
-Please explain the rationale:
-
-/*
- * Non-zoned block drivers do not follow zoned storage constraints
-(i.e. sequential writes
- * to zones). Refuse mixing zoned and non-zoned drivers in a graph.
- */
-
-> +
->      if (!QLIST_EMPTY(&child_bs->parents)) {
->          error_setg(errp, "The node %s already has a parent",
->                     child_bs->node_name);
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 42708012ff..e9ad1d8e1e 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -3924,6 +3924,7 @@ static BlockDriver bdrv_host_device = {
->      .format_name        = "host_device",
->      .protocol_name        = "host_device",
->      .instance_size      = sizeof(BDRVRawState),
-> +    .is_zoned = false,
-
-In C static struct fields are automatically initialized to 0/false.
-This line can be omitted.
-
->      .bdrv_needs_filename = true,
->      .bdrv_probe_device  = hdev_probe_device,
->      .bdrv_parse_filename = hdev_parse_filename,
-> @@ -3971,6 +3972,7 @@ static BlockDriver bdrv_zoned_host_device = {
->          .format_name = "zoned_host_device",
->          .protocol_name = "zoned_host_device",
->          .instance_size = sizeof(BDRVRawState),
-> +        .is_zoned = true,
->          .bdrv_needs_filename = true,
->          .bdrv_probe_device  = hdev_probe_device,
->          .bdrv_parse_filename = hdev_parse_filename,
-> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-> index 6037871089..29f1ec9184 100644
-> --- a/include/block/block_int-common.h
-> +++ b/include/block/block_int-common.h
-> @@ -141,6 +141,11 @@ struct BlockDriver {
->       */
->      bool is_format;
->
-> +    /*
-> +     * Set to true if the BlockDriver is a zoned block driver.
-> +     */
-> +    bool is_zoned;
-
-This isn't powerful enough to express the constraints.
-block/raw-format.c supports both non-zoned and zoned children (after
-your patch) but it won't pass the check.
-
-Perhaps add bool supports_zoned_children and change the check to:
-
-if (child_bs->drv->is_zoned &&
-!parent_bs->drv->supports_zoned_children) { ...refuse... }
-
-Then raw-format would work on top of zoned_host_device as well as
-still working on non-zoned BDSes.
-
-Stefan
+Regards,
+Bin
 
