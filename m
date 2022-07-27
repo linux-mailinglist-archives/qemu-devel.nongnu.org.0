@@ -2,96 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 159EC583155
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 19:58:42 +0200 (CEST)
-Received: from localhost ([::1]:36668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0AE5831FE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 20:28:35 +0200 (CEST)
+Received: from localhost ([::1]:34706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGlIu-0001uY-HR
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 13:58:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37664)
+	id 1oGllq-0004Ul-Ac
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 14:28:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oGl57-0006EK-Au; Wed, 27 Jul 2022 13:44:25 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:23350)
+ id 1oGlGn-0007lv-7R; Wed, 27 Jul 2022 13:56:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1oGl55-00010E-Mn; Wed, 27 Jul 2022 13:44:25 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26RHfhNF013603;
- Wed, 27 Jul 2022 17:44:20 GMT
+ id 1oGlGl-0002rr-7p; Wed, 27 Jul 2022 13:56:28 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26RHr0JV005801;
+ Wed, 27 Jul 2022 17:56:22 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=SFmUZFneEIx1M2KUu9dj3yqGKAnvF8xUonZuW8/8m38=;
- b=of909jDH1rJd6Ox8JEBXvsGi88YHRnb7tU8SJbSirhLsdEoG7MJJc1sDgDTrf13XQ5Ak
- KT27HQJ/pvMvvgoRuRjHx/Fku1SX3vSc9/uBvqgS2VtsynikuIhV9VTx4zrCMiymh5X/
- zWC75dBwaxoy/u65uHOCfBM1v3ehA6cprYDYBRTw1fK102vppqM1mOxYzn6xKDtt0jIT
- MPgYx5ivG9AX9JqwAButjdZ8XQdkiMiD/nMyCVI325o4auxe6M9IIyCTGoc9+XLb5XfC
- 7gEfFd1G37Cw0oYrimNBjDp+ocGsBzQ3qfN7UgFt0tps0R8gZGuXQr9wG1ESCB7Q+XK7 zQ== 
+ bh=YTYIh+ja8zYBHR7IYn20F2f2BXGzZY9uKeOhybMNg7g=;
+ b=U99xeYNnVia07Os3DDgcni8wLjjA0ouBBx/0SN070gh9arC3TSjXI6BlbOmbCFNNPfQd
+ JvJEUTtzpLoZ2hV8lpyEjp64j0PyZrPwNkezsCnBer4RxfKeDs3ckCQeCa8hpxXM6b14
+ EMeh5u+SzDa2pUDR3ZUaKPTkbOCwtt+4Ii8uItQB7aIGgSKrylWCauXJMUREkzpEOYr3
+ vzEx223C9ee+2P+YZI6I8pYQdHLeMkm5tLSW8QweF5q4MgI2ydbZmWt1J3timRdB+Z9F
+ Mk7qDcOu0Rev1od2oYtsIRrFcnQcNhcufX/cs5XwoLKoRRbz50y4h3TVgQuToFT97ZMd CA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hk9mc8y94-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hka5482xe-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 17:44:20 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26RHg6HP015493;
- Wed, 27 Jul 2022 17:44:19 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hk9mc8y8e-1
+ Wed, 27 Jul 2022 17:56:22 +0000
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26RHIdqj003447;
+ Wed, 27 Jul 2022 17:41:40 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hk9na8uhb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 17:44:19 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26RHZbt2019772;
- Wed, 27 Jul 2022 17:44:17 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 3hg96wnc0q-1
+ Wed, 27 Jul 2022 17:41:40 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26RHZojx029879;
+ Wed, 27 Jul 2022 17:41:38 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hg97tdb0j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 27 Jul 2022 17:44:17 +0000
+ Wed, 27 Jul 2022 17:41:38 +0000
 Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
  [9.149.105.61])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26RHiEjw17039740
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26RHdZLN19464524
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 27 Jul 2022 17:44:14 GMT
+ Wed, 27 Jul 2022 17:39:35 GMT
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 83D2C11C04C;
- Wed, 27 Jul 2022 17:44:14 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 652CD11C052;
+ Wed, 27 Jul 2022 17:41:36 +0000 (GMT)
 Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4A14311C04A;
- Wed, 27 Jul 2022 17:44:14 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2B23411C04A;
+ Wed, 27 Jul 2022 17:41:36 +0000 (GMT)
 Received: from [9.171.34.118] (unknown [9.171.34.118])
  by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 27 Jul 2022 17:44:14 +0000 (GMT)
-Message-ID: <47a121b1-a867-cde1-e540-eca4f3d02af0@linux.ibm.com>
-Date: Wed, 27 Jul 2022 19:44:12 +0200
+ Wed, 27 Jul 2022 17:41:36 +0000 (GMT)
+Message-ID: <fdb9248c-1b25-ec59-1532-a2ce093edf96@linux.ibm.com>
+Date: Wed, 27 Jul 2022 19:41:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 11/12] ppc/pnv: remove PnvPHB4.version
+Subject: Re: [PATCH v3 05/12] ppc/pnv: turn PnvPHB4 into a PnvPHB backend
 Content-Language: en-US
 To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
 Cc: qemu-ppc@nongnu.org, clg@kaod.org
 References: <20220624084921.399219-1-danielhb413@gmail.com>
- <20220624084921.399219-12-danielhb413@gmail.com>
+ <20220624084921.399219-6-danielhb413@gmail.com>
 From: Frederic Barrat <fbarrat@linux.ibm.com>
-In-Reply-To: <20220624084921.399219-12-danielhb413@gmail.com>
+In-Reply-To: <20220624084921.399219-6-danielhb413@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 4wf8HCVn2S1j29c2Dp9fOn6xw_fi2Tps
-X-Proofpoint-GUID: 2uNJzGAgfBhB7wfXK8AFzTuJ3f7LpEuK
+X-Proofpoint-GUID: UmjLJgurs__oFhfZBTPPqBQJrH17b9f0
+X-Proofpoint-ORIG-GUID: 5ZkXQtPeEH3ibHZO-lJx88OnSltxcEYx
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-27_06,2022-07-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0
- spamscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
- adultscore=0 mlxscore=0 malwarescore=0 bulkscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207270074
+ phishscore=0 clxscore=1015
+ suspectscore=0 mlxscore=0 priorityscore=1501 impostorscore=0 bulkscore=0
+ spamscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
+ definitions=main-2207270074
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -19
@@ -119,31 +119,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 24/06/2022 10:49, Daniel Henrique Barboza wrote:
-> It's unused.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 1df91971b8..b7273f386e 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -672,7 +672,14 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
+>   static int pnv_chip_power9_pic_print_info_child(Object *child, void *opaque)
+>   {
+>       Monitor *mon = opaque;
+> -    PnvPHB4 *phb4 = (PnvPHB4 *) object_dynamic_cast(child, TYPE_PNV_PHB4);
+> +    PnvPHB *phb =  (PnvPHB *) object_dynamic_cast(child, TYPE_PNV_PHB);
+> +    PnvPHB4 *phb4;
+> +
+> +    if (!phb) {
+> +        return 0;
+> +    }
+> +
+> +    phb4 = (PnvPHB4 *)phb->backend;
+>   
+>       if (phb4) {
+>           pnv_phb4_pic_print_info(phb4, mon);
 
 
+The full code in pnv_chip_power9_pic_print_info_child() looks like this:
+
+     PnvPHB *phb =  (PnvPHB *) object_dynamic_cast(child, TYPE_PNV_PHB);
+     PnvPHB4 *phb4;
+
+     if (!phb) {
+         return 0;
+     }
+
+     phb4 = (PnvPHB4 *)phb->backend;
+
+     if (phb4) {
+         pnv_phb4_pic_print_info(phb4, mon);
+     }
+
+Which is correct. However, if I want to nitpick, phb->backend is defined 
+when the PnvPHB object is realized, so I don't think we can get here 
+with the pointer being null, so we could remove the second if statement 
+for readability. The reason I mention it is that we don't take that much 
+care in the pnv_chip_power8_pic_print_info() function just above, so it 
+looks a bit odd.
+
+In any case:
 Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
 
    Fred
 
 
->   include/hw/pci-host/pnv_phb4.h | 2 --
->   1 file changed, 2 deletions(-)
-> 
+
+
+> @@ -2122,8 +2129,14 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+>       PnvMachineClass *pmc = PNV_MACHINE_CLASS(oc);
+>       static const char compat[] = "qemu,powernv9\0ibm,powernv";
+>   
+> +    static GlobalProperty phb_compat[] = {
+> +        { TYPE_PNV_PHB, "version", "4" },
+> +    };
+> +
+>       mc->desc = "IBM PowerNV (Non-Virtualized) POWER9";
+>       mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.0");
+> +    compat_props_add(mc->compat_props, phb_compat, G_N_ELEMENTS(phb_compat));
+> +
+>       xfc->match_nvt = pnv_match_nvt;
+>   
+>       mc->alias = "powernv";
+> @@ -2140,8 +2153,13 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+>       XiveFabricClass *xfc = XIVE_FABRIC_CLASS(oc);
+>       static const char compat[] = "qemu,powernv10\0ibm,powernv";
+>   
+> +    static GlobalProperty phb_compat[] = {
+> +        { TYPE_PNV_PHB, "version", "5" },
+> +    };
+> +
+>       mc->desc = "IBM PowerNV (Non-Virtualized) POWER10";
+>       mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power10_v2.0");
+> +    compat_props_add(mc->compat_props, phb_compat, G_N_ELEMENTS(phb_compat));
+>   
+>       pmc->compat = compat;
+>       pmc->compat_size = sizeof(compat);
 > diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-> index 61a0cb9989..20aa4819d3 100644
+> index 90843ac3a9..f22253358f 100644
 > --- a/include/hw/pci-host/pnv_phb4.h
 > +++ b/include/hw/pci-host/pnv_phb4.h
-> @@ -77,8 +77,6 @@ struct PnvPHB4 {
+> @@ -18,6 +18,7 @@
+>   typedef struct PnvPhb4PecState PnvPhb4PecState;
+>   typedef struct PnvPhb4PecStack PnvPhb4PecStack;
+>   typedef struct PnvPHB4 PnvPHB4;
+> +typedef struct PnvPHB PnvPHB;
+>   typedef struct PnvChip PnvChip;
+>   
+>   /*
+> @@ -78,7 +79,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB4, PNV_PHB4)
+>   #define PCI_MMIO_TOTAL_SIZE        (0x1ull << 60)
+>   
+>   struct PnvPHB4 {
+> -    PCIExpressHost parent_obj;
+> +    DeviceState parent;
+> +
+> +    PnvPHB *phb_base;
+>   
 >       uint32_t chip_id;
 >       uint32_t phb_id;
->   
-> -    uint64_t version;
-> -
->       /* The owner PEC */
->       PnvPhb4PecState *pec;
->   
 
