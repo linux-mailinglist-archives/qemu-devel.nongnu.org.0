@@ -2,58 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45FCC582081
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:53:43 +0200 (CEST)
-Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A2A582086
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 08:55:59 +0200 (CEST)
+Received: from localhost ([::1]:39506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGavO-0006nM-7C
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38338)
+	id 1oGaxZ-0000jO-4z
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 02:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGaql-0002Ce-2d
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:48:55 -0400
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:48944)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kangjie.xu@linux.alibaba.com>)
- id 1oGaqc-0003AZ-9B
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:48:48 -0400
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R111e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=kangjie.xu@linux.alibaba.com; NM=1; PH=DS; RN=5; SR=0;
- TI=SMTPD_---0VKZlwCE_1658904519; 
-Received: from 30.227.68.147(mailfrom:kangjie.xu@linux.alibaba.com
- fp:SMTPD_---0VKZlwCE_1658904519) by smtp.aliyun-inc.com;
- Wed, 27 Jul 2022 14:48:40 +0800
-Message-ID: <c5ee93ce-21be-b4f2-56be-de0215908cdf@linux.alibaba.com>
-Date: Wed, 27 Jul 2022 14:48:39 +0800
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oGarB-0002jx-Ip
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:49:21 -0400
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:46724)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oGar9-0003Cl-Bn
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 02:49:21 -0400
+Received: by mail-pj1-x102a.google.com with SMTP id
+ q7-20020a17090a7a8700b001f300db8677so1231729pjf.5
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 23:49:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MpimQ6+09mUVE4WvHhBVGuIpQQ7ydg8M7uYBdweOsYc=;
+ b=pijkmxZy8s8zrRZbkSPyFG7CCSyEX18mlsWIRjdMM1wjeSHFuZHWppaTBkTl04Fqcn
+ lz/+90qfMOoW9yUIDAQ4q6lWzPH0QX5mkiZKJlgGo/Z3xdUuc+P0LQYRaAcuzdgB+dE6
+ zo7Qor8v3yiuNkks5/MFh3Uxty+mlXi5CLqag1puFmsn/CaCgYwJ/kkyMObwwttnibuG
+ Dr0wVQRMAhBV5W2qZblZtRERzHfpjWlcRwA0shyVT82s9DXk4GrJdOOJC311IkX+MQj5
+ xyx92i/Q+BQups05xsu8nLVuKk34pUenf/SEUZ+fWLdF1U6hCvuN8btiySWEFVuMQlFP
+ k0Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MpimQ6+09mUVE4WvHhBVGuIpQQ7ydg8M7uYBdweOsYc=;
+ b=119VGw7xFRIh37nGhT5ctoD1o1ziyIf8xKP+HC+zfQdddAZC5OiEa+JQTtLfTG8Hml
+ vnrWT9UTnwEs1wjqbtyMKPofXCYVm/sCJpc9y9VvGZmb30yDdH1wuoOTBrWZ96xZHn++
+ jXtG+POwPfxa4JCcx69nn4PaZAUDhXIUri/Ryqul5oksyXjlN4XRcLghoQsGl3dci/Zv
+ ecb1prGXn+YfBFoG4IqNBTME5T2fxOG8VkJb36QJA5mzhPcJ8IcH/6Vd4XUsBAt0ekG0
+ x28buAaVucHtGxwRRYt63bn5YB+3Nuhdqp2KbsO/fIpZle7R9XxFBEWClS9OSShEsBlN
+ Hu7w==
+X-Gm-Message-State: AJIora88v4l5wkfPJnjT9bRheNzQJt3iIA/RViNXzvJrh7QXBQvoXcVt
+ 7pDFt6NBnSZWttfpWpgF4W7SuhybXBVdBw==
+X-Google-Smtp-Source: AGRyM1vYkSBow1RzYOU4ZmafMZpVQv+5T7/WEvo0d8ZG08Rbw/qjkAxos+I6VoAMCGTbFofw+P6xkQ==
+X-Received: by 2002:a17:902:ced1:b0:16d:6b7c:2f2f with SMTP id
+ d17-20020a170902ced100b0016d6b7c2f2fmr14123782plg.107.1658904557425; 
+ Tue, 26 Jul 2022 23:49:17 -0700 (PDT)
+Received: from atishp.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ f16-20020a170902ab9000b0016d2d2c7df1sm12764851plr.188.2022.07.26.23.49.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jul 2022 23:49:17 -0700 (PDT)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Cc: Atish Patra <atishp@rivosinc.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v11 0/6] Improve PMU support
+Date: Tue, 26 Jul 2022 23:49:07 -0700
+Message-Id: <20220727064913.1041427-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 16/16] vhost-net: vq reset feature bit support
-To: Jason Wang <jasowang@redhat.com>
-References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <229f4bc4d6ba7e85a09d6f35d2d06f3cc6a46a6a.1658141552.git.kangjie.xu@linux.alibaba.com>
- <e443d984-d4ae-084a-060c-70f802830014@redhat.com>
- <1dee6c9f-aeee-cd72-7141-dd95eed811c0@linux.alibaba.com>
- <CACGkMEtm33BR3r9cUJCRnPDvOa7fck2goZKKqk4S3Y0+3FAqOA@mail.gmail.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, hengqi@linux.alibaba.com,
- xuanzhuo@linux.alibaba.com
-From: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-In-Reply-To: <CACGkMEtm33BR3r9cUJCRnPDvOa7fck2goZKKqk4S3Y0+3FAqOA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.54;
- envelope-from=kangjie.xu@linux.alibaba.com;
- helo=out30-54.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,69 +91,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
 
-在 2022/7/27 12:53, Jason Wang 写道:
-> On Tue, Jul 26, 2022 at 2:24 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> wrote:
->>
->> 在 2022/7/26 12:28, Jason Wang 写道:
->>> 在 2022/7/18 19:17, Kangjie Xu 写道:
->>>> Add support for negotation of vq reset feature bit.
->>>>
->>>> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
->>>> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
->>>
->>> I'd suggest to add support for vhost-net kernel as well. It looks much
->>> more easier than vhost-user (I guess a stop/start would do the trick).
->>>
->>> Thanks
->>>
->>>
->> Yeah, we've planned to support it in the future.
-> If it's possible, I suggest to implement in this series. It would be
-> easier since it current kernel support it already (via SET_BACKEND).
->
-> Thanks
+This series implements remaining PMU infrastructure to support
+PMU in virt machine. The first seven patches from the original series
+have been merged already.
 
-Okay, in the next version, we will add the implementation for 
-vhost-kernel vq reset.
+This will allow us to add any PMU events in future.
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
 
-Thanks
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
 
->> Thanks
->>
->>>> ---
->>>>    hw/net/vhost_net.c  | 1 +
->>>>    hw/net/virtio-net.c | 3 ++-
->>>>    2 files changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
->>>> index 4f5f034c11..de910f6466 100644
->>>> --- a/hw/net/vhost_net.c
->>>> +++ b/hw/net/vhost_net.c
->>>> @@ -73,6 +73,7 @@ static const int user_feature_bits[] = {
->>>>        VIRTIO_NET_F_MTU,
->>>>        VIRTIO_F_IOMMU_PLATFORM,
->>>>        VIRTIO_F_RING_PACKED,
->>>> +    VIRTIO_F_RING_RESET,
->>>>        VIRTIO_NET_F_RSS,
->>>>        VIRTIO_NET_F_HASH_REPORT,
->>>>    diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->>>> index 0747ffe71c..a8b299067a 100644
->>>> --- a/hw/net/virtio-net.c
->>>> +++ b/hw/net/virtio-net.c
->>>> @@ -757,6 +757,8 @@ static uint64_t
->>>> virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->>>>          virtio_add_feature(&features, VIRTIO_NET_F_MAC);
->>>>    +    virtio_add_feature(&features, VIRTIO_F_RING_RESET);
->>>> +
->>>>        if (!peer_has_vnet_hdr(n)) {
->>>>            virtio_clear_feature(&features, VIRTIO_NET_F_CSUM);
->>>>            virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO4);
->>>> @@ -777,7 +779,6 @@ static uint64_t
->>>> virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
->>>>        }
->>>>          if (!get_vhost_net(nc->peer)) {
->>>> -        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
->>>>            return features;
->>>>        }
+Here is an output of perf stat/report while running hackbench with latest
+OpenSBI & Linux kernel.
+
+Perf stat:
+==========
+[root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 0.265 [sec]
+
+ Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+
+     4,167,825,362      cycles                                                      
+     4,166,609,256      instructions              #    1.00  insn per cycle         
+         3,092,026      dTLB-load-misses                                            
+           258,280      dTLB-store-misses                                           
+         2,068,966      iTLB-load-misses                                            
+
+       0.585791767 seconds time elapsed
+
+       0.373802000 seconds user
+       1.042359000 seconds sys
+
+Perf record:
+============
+[root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 1.397 [sec]
+[ perf record: Woken up 10 times to write data ]
+Check IO/CPU overload!
+[ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+107K cycles                                                                    ◆
+107K instructions                                                              ▒
+250 dTLB-load-misses                                                           ▒
+13 dTLB-store-misses                                                           ▒
+172 iTLB-load-misses      
+..
+
+Changes from v10->v11:
+1. Rebased on top of the master where first 7 patches were already merged.
+2. Removed unnecessary additional check in ctr predicate function.
+3. Removed unnecessary priv version checks in mcountinhibit read/write. 
+4. Added Heiko's reviewed-by/tested-by tags.
+
+Changes from v8->v9:
+1. Added the write_done flags to the vmstate.
+2. Fixed the hpmcounter read access from M-mode.
+
+Changes from v7->v8:
+1. Removeding ordering constraints for mhpmcounter & mhpmevent.
+
+Changes from v6->v7:
+1. Fixed all the compilation errors for the usermode.
+
+Changes from v5->v6:
+1. Fixed compilation issue with PATCH 1.
+2. Addressed other comments.
+
+Changes from v4->v5:
+1. Rebased on top of the -next with following patches.
+   - isa extension
+   - priv 1.12 spec
+2. Addressed all the comments on v4
+3. Removed additional isa-ext DT node in favor of riscv,isa string update
+
+Changes from v3->v4:
+1. Removed the dummy events from pmu DT node.
+2. Fixed pmu_avail_counters mask generation.
+3. Added a patch to simplify the predicate function for counters. 
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/qemu/tree/riscv_pmu_v11
+
+Atish Patra (6):
+target/riscv: Add sscofpmf extension support
+target/riscv: Simplify counter predicate function
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+target/riscv: Update the privilege field for sscofpmf CSRs
+target/riscv: Remove additional priv version check for mcountinhibit
+
+hw/riscv/virt.c           |  28 +++
+target/riscv/cpu.c        |  12 ++
+target/riscv/cpu.h        |  25 +++
+target/riscv/cpu_bits.h   |  55 +++++
+target/riscv/cpu_helper.c |  25 +++
+target/riscv/csr.c        | 314 ++++++++++++++++++-----------
+target/riscv/machine.c    |   1 +
+target/riscv/pmu.c        | 414 +++++++++++++++++++++++++++++++++++++-
+target/riscv/pmu.h        |   8 +
+9 files changed, 763 insertions(+), 119 deletions(-)
+
+--
+2.25.1
+
 
