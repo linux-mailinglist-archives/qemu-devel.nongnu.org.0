@@ -2,92 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BAC2582114
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:28:28 +0200 (CEST)
-Received: from localhost ([::1]:48742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7435582116
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:30:17 +0200 (CEST)
+Received: from localhost ([::1]:49810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGbT1-0002EB-52
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:28:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43538)
+	id 1oGbUm-00034Y-MX
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGbJR-0002G8-9v
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:18:33 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55319)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGbPs-0007kU-BL
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:25:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1oGbJP-0007vb-Au
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:18:33 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 4BCA85C0091;
- Wed, 27 Jul 2022 03:18:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 27 Jul 2022 03:18:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1658906309; x=1658992709; bh=4W
- ai1eB/i3xNCiLS/RELICSxowQ6QleCAfk+lAZ00+Y=; b=TGr2N9cnbblBCK427y
- UN4/DmXkCC/RLP9C9uQKN9cTTL4OwxCh89x/Bf1LWukt2zrGvh9ICu6KFCdIothc
- BlMVqsATX5R/Ve4k6deHZlNkkXaYe4QHaF1QcYREqXdSpIYg1Y8BT2BcWeIlHJls
- iJgU5pMAftk/IgQxpRCW5wR5SnMTgmX9LzR9cIzGEtssrPn8mYgSKEJ53U1dX2z6
- 5FSCrHHHKuK39uG7hTZt5MQY8p2vx+V/oXlTBkNUgUsMd5JPFzT7uvFpLw5eqpeU
- wCSWsAKlLTCK2258JJCvlKY3098C2aPQWhxzQ0s83pOzIckQp2882Z2ERXU0rbOe
- EyGQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1658906309; x=1658992709; bh=4Wai1eB/i3xNCiLS/RELICSxowQ6
- QleCAfk+lAZ00+Y=; b=e7I5lNv7XtHMjNF+hbEceNFV/RE6urZ8uYIZqMoGHFQn
- Vcszz0l9fqCsacVEqzKn+GuHzw1BpvplPRJwtN1d6TGkmjB67NEprbtN5JZxQUSY
- uHTtgspyFX6DtA+GVlhzFGdLVu0xmbqdc0tTZ+e+uUGtMPB2n6+VvpRHquDkv4A7
- lE2xKul+s201z/++4DQaiYh0wTfQU3uaQHLH9hWNXVowSTp5D9GffJxoPDtjVbi5
- JrpBZA9IMG2OrbNwfyBHMjU4crDEL8D3Izepo27JMr25QTgSqnjRFZEQtiSX18UO
- w0oESsKXWXD1kAXw885fnDXa5KNyY8UIcOkuqcXqcA==
-X-ME-Sender: <xms:xebgYlxf7Qcqn2GWbMjf-xDBj3IRmWtLQPiG7tS8xNclDxdvdyiyow>
- <xme:xebgYlRehJzhtmy8Uguc0sW_6R2MUydRTlxuBl3eix_kdSEJB0n4l9Mby8uB3ubjZ
- muvMlVfxxg_cduPhZg>
-X-ME-Received: <xmr:xebgYvX561V9H9YP46xycR57ZOS9kLrejlEXUsMJ91pXF4-ixSk4rW4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduuddguddvtdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
- ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:xebgYnj3ysAks8UGPBhGPU5EmvAyQrzd8Ys0XOU8jBNfdjzL4xTp2w>
- <xmx:xebgYnDypN-QGHpZJfCzuCVMIH0DkJkS53DE70byf6GEhJZuTmp-EQ>
- <xmx:xebgYgJ2Mov-brhHyTIui5onkH6SBF8Sra5rVJZSxnWtyxRUPeiW2Q>
- <xmx:xebgYuPZvnpK7UGJCqnRKzKD8rNLKumoz0TdaVb19YPwUcW3H7ru2g>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Jul 2022 03:18:28 -0400 (EDT)
-Date: Wed, 27 Jul 2022 09:18:26 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Jinhao Fan <fanjinhao21s@ict.ac.cn>, qemu-devel <qemu-devel@nongnu.org>,
- Keith Busch <kbusch@kernel.org>
-Subject: Re: [RFC] hw/nvme: Use irqfd to send interrupts
-Message-ID: <YuDmwhKBpllXNG1i@apples>
-References: <20220709043503.2228736-1-fanjinhao21s@ict.ac.cn>
- <CAJSP0QWSGG4=Vj2j5yw2o13FrHbSC0WZ=MJgPj6Jio_5WhvOyw@mail.gmail.com>
- <4BB551D8-F877-4382-A4B9-D6913580AAE1@ict.ac.cn>
- <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oGbPo-0000gO-SD
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:25:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658906707;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1uhvQJgNgBb/EtrY8/HY6JS8Vo63objp9HUag9lldKg=;
+ b=Ow0KRks+sRJjiuH4lW+6VmpxnABMYuWTsbxnh1Mpu0FJjF14EgfG43E/snrh9dLVnocEqB
+ dDwsofuuX5VQM4Rs/cAT9Ai722QzBoySDUWXWdxYhuM0fJDrvpKksKeQV50Hx00GwjZeQ+
+ wyOhPIyz1/pC50LrKHcBZfYYbq7b/sA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-488-QYyTMxoWMlWAfdUYALvE_Q-1; Wed, 27 Jul 2022 03:25:06 -0400
+X-MC-Unique: QYyTMxoWMlWAfdUYALvE_Q-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ e19-20020adfa453000000b0021eb66639cbso651408wra.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 00:25:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=1uhvQJgNgBb/EtrY8/HY6JS8Vo63objp9HUag9lldKg=;
+ b=GGWCy4DTsLy4LPYnX82JarQQWkqZiVDAHLfniB1G6uCwuuIrwK6ZD+LFvazhbuOiO/
+ d7dh97PZt5MVFsiAewlNb7thLAlnM5gHjjjvatN/cZWeZPdhdeo/FDzvI/Lc+AFSnS8C
+ ofnYaov4Fyur4xhREH6SjerOJW8OyKKGimqN2CKiN2vVy+BnkpnOaggOtz4JPYF1vyzO
+ HvST6Wqyyy67RTBxRMXH0w8gFj1gN6wC0ACr7YUe/hsYwYVw5KSJn51XkM8DlAkctpzY
+ GI+o+clMblkYMZT4gAqw4EFekH+gRmXqIreDm8t44GHDo7ItwYzspk4o/z6+inGxkFXU
+ FvQw==
+X-Gm-Message-State: AJIora+aInPxSxk3a1v1qkpKz91eVyBUu0i1j9a4iNPc3R/orsMbiwzc
+ AR/wmP4WodeKLs1UZMRFu6V7Sk/3GozWgqMnYM4ljL5/ytrKw2Y+WqhHAy3w5syNBY2HwELBOHe
+ ANxHokDbCM+5rs3A=
+X-Received: by 2002:a5d:4d41:0:b0:21e:a5e3:cb9b with SMTP id
+ a1-20020a5d4d41000000b0021ea5e3cb9bmr4027751wru.523.1658906705187; 
+ Wed, 27 Jul 2022 00:25:05 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vdi1dmMTF6RxBH2H+iNqBm37tUcvS9QzwF73frC4+Mb1+XJ1V8EML989kkzICu8iUiUhyqYQ==
+X-Received: by 2002:a5d:4d41:0:b0:21e:a5e3:cb9b with SMTP id
+ a1-20020a5d4d41000000b0021ea5e3cb9bmr4027735wru.523.1658906704925; 
+ Wed, 27 Jul 2022 00:25:04 -0700 (PDT)
+Received: from redhat.com ([2a06:c701:7424:0:3d16:86dc:de54:5671])
+ by smtp.gmail.com with ESMTPSA id
+ k10-20020a5d428a000000b0021eaf4138aesm3574743wrq.108.2022.07.27.00.25.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jul 2022 00:25:04 -0700 (PDT)
+Date: Wed, 27 Jul 2022 03:25:01 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eli Cohen <elic@nvidia.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Subject: Re: VIRTIO_NET_F_MTU not negotiated
+Message-ID: <20220727032334-mutt-send-email-mst@kernel.org>
+References: <DM8PR12MB5400869D5921E28CE2DC7263AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <20220719093841-mutt-send-email-mst@kernel.org>
+ <DM8PR12MB5400F967A710B1151AD5132CAB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <DM8PR12MB5400AB08EE51E6BF05EEBDE2AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWc0M4O8Rr2jR4L_myPd_VmxkYjHTnwdxQFAf3N_hZw_3g@mail.gmail.com>
+ <DM8PR12MB540033DA1293BA23E29148EAAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWfOS9nCBNeborhTdOXAnmZX9XwRF=2E0aphuHbqr352CA@mail.gmail.com>
+ <DM8PR12MB54005AB1DE4617493645D2CBAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWczrvaaookrQE5=6mTABS-VmJKF6iY+aO3ZD8OB4FumRA@mail.gmail.com>
+ <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="vVrZZNfMed08eMGJ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJSP0QUf4K=N7ZDAXrB3WvUxx4DoA4Sg0hSTri1WKGTnsMtN2g@mail.gmail.com>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,95 +108,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, Jul 27, 2022 at 06:51:56AM +0000, Eli Cohen wrote:
+> I found out that the reason why I could not enforce the mtu stems from the fact that I did not configure max mtu for the net device (e.g. through libvirt <mtu size="9000"/>).
+> Libvirt does not allow this configuration for vdpa devices and probably for a reason. The vdpa backend driver has the freedom to do it using its copy of virtio_net_config.
+> 
+> The code in qemu that is responsible to allow to consider the device MTU restriction is here:
+> 
+> static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+> {
+>     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+>     VirtIONet *n = VIRTIO_NET(dev);
+>     NetClientState *nc;
+>     int i;
+> 
+>     if (n->net_conf.mtu) {
+>         n->host_features |= (1ULL << VIRTIO_NET_F_MTU);
+>     }
+> 
+> The above code can be interpreted as follows:
+> if the command line arguments of qemu indicates that mtu should be limited, then we would read this mtu limitation from the device (that actual value is ignored).
+> 
+> I worked around this limitation by unconditionally setting VIRTIO_NET_F_MTU in the host features. As said, it only indicates that we should read the actual limitation for the device.
+> 
+> If this makes sense I can send a patch to fix this.
 
---vVrZZNfMed08eMGJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Well it will then either have to be for vdpa only, or have
+compat machinery to avoid breaking migration.
 
-On Jul 21 09:29, Stefan Hajnoczi wrote:
-> On Wed, Jul 20, 2022, 22:36 Jinhao Fan <fanjinhao21s@ict.ac.cn> wrote:
->=20
-> > Hi Stefan,
-> >
-> > Thanks for the detailed explanation!
-> >
-> > at 6:21 PM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> >
-> > > Hi Jinhao,
-> > > Thanks for working on this!
-> > >
-> > > irqfd is not necessarily faster than KVM ioctl interrupt injection.
-> > >
-> > > There are at least two non performance reasons for irqfd:
-> > > 1. It avoids QEMU emulation code, which historically was not thread s=
-afe
-> > and needed the Big QEMU Lock. IOThreads don't hold the BQL and therefore
-> > cannot safely call the regular interrupt emulation code in QEMU. I think
-> > this is still true today although parts of the code may now be less rel=
-iant
-> > on the BQL.
-> >
-> > This probably means we need to move to irqfd when iothread support is a=
-dded
-> > in qemu-nvme.
-> >
->=20
-> Yes. You can audit the interrupt code but I'm pretty sure there is shared
-> state that needs to be protected by the BQL. So the NVMe emulation code
-> probably needs to use irqfd to avoid the interrupt emulation code.
->=20
->=20
-> > > 2. The eventfd interface decouples interrupt injection from the KVM
-> > ioctl interface. Vhost kernel and vhost-user device emulation code has =
-no
-> > dependency on KVM thanks to irqfd. They work with any eventfd, including
-> > irqfd.
-> >
-> > This is contrary to our original belief. Klaus once pointed out that ir=
-qfd
-> > is KVM specific. I agreed with him since I found irqfd implementation i=
-s in
-> > virt/kvm/eventfd.c. But irqfd indeed avoids the KVM ioctl call. Could y=
-ou
-> > elaborate on what =E2=80=9Cno dependency on KVM=E2=80=9D means?
-> >
->=20
-> "They work with any eventfd, including irqfd"
->=20
-> If you look at the vhost kernel or vhost-user code, you'll see they just
-> signal the eventfd. It doesn't have to be an irqfd.
->=20
-> An irqfd is a specific type of eventfd that the KVM kernel module
-> implements to inject interrupts when the eventfd is signaled.
->=20
-> By the way, this not only decouples vhost from the KVM kernel module, but
-> also allows QEMU to emulate MSI-X masking via buffering the interrupt in
-> userspace.
->=20
->=20
+-- 
+MST
 
-The virtio dataplane (iothread support) only works with kvm if I am not
-mistaken, so I guess this is similar to what we want to do here. If we
-dont have KVM, we wont use iothread and we wont use the kvm
-irqchip/irqfd.
-
-Am I understanding this correctly?
-
---vVrZZNfMed08eMGJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLg5sEACgkQTeGvMW1P
-Den18ggAmjPfPc8d0/h69eBYfA9AbSRlXBS02Mk0zTgHOAJMpjksuaMjQo2oKL1d
-+6x8luNePYNyp54rU8mugUFSpej+5LBM5kMfhzyvAdWJBE/opN+h1aVWy6lEixRI
-K85LwMMV94O1b0y6o1JFwK8h5ie+KhGq6ECRRj8g114Yx74qvOocB8qLY301InEX
-n6IXHubXxezULj9e41J/7pUXUVe1rvMCBYjzggusb4gjA/By9F6gzBCcV9wv2ORe
-EzqCiIMJNzGCTOQrtR/eaGoDGEwHGBYd3HG1Zd2Q3VNRyZoXXSfb1RwdLqQfstuQ
-a6zsLzccdqDd7OoosFsWybsCCjS7jg==
-=M9T5
------END PGP SIGNATURE-----
-
---vVrZZNfMed08eMGJ--
 
