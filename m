@@ -2,27 +2,27 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A5F5582C71
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:46:33 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21848582D6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 18:57:52 +0200 (CEST)
+Received: from localhost ([::1]:33598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGkB5-0001wk-Hj
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:46:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53582)
+	id 1oGkM1-0008UU-Ku
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 12:57:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk1j-0003rt-RS; Wed, 27 Jul 2022 12:36:51 -0400
+ id 1oGk1m-0003sv-AI; Wed, 27 Jul 2022 12:36:55 -0400
 Received: from [200.168.210.66] (port=61870 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oGk1h-0007pB-2t; Wed, 27 Jul 2022 12:36:50 -0400
+ id 1oGk1k-0007pB-Vi; Wed, 27 Jul 2022 12:36:54 -0400
 Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
  secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
  Wed, 27 Jul 2022 13:36:38 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTP id C6EC7800358;
- Wed, 27 Jul 2022 13:36:37 -0300 (-03)
+ by p9ibm (Postfix) with ESMTP id 0370E800058;
+ Wed, 27 Jul 2022 13:36:38 -0300 (-03)
 From: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
@@ -32,16 +32,16 @@ Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
  Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Willian Rampazzo <willianr@redhat.com>
-Subject: [PATCH 1/8] tests/docker: Fix alpine dockerfile
-Date: Wed, 27 Jul 2022 13:36:25 -0300
-Message-Id: <20220727163632.59806-2-lucas.araujo@eldorado.org.br>
+Subject: [PATCH 2/8] scripts/ci/setup: ninja missing from build-environment
+Date: Wed, 27 Jul 2022 13:36:26 -0300
+Message-Id: <20220727163632.59806-3-lucas.araujo@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
 References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 27 Jul 2022 16:36:38.0079 (UTC)
- FILETIME=[0AED3CF0:01D8A1D7]
+X-OriginalArrivalTime: 27 Jul 2022 16:36:38.0235 (UTC)
+ FILETIME=[0B050AB0:01D8A1D7]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
 Received-SPF: pass client-ip=200.168.210.66;
  envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,27 +66,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the run script uses 'readlink -e' but the image only has the
-busybox readlink, this commit add the coreutils package which
-contains the readlink with the '-e' option.
+ninja-build is missing from the RHEL environment, so a system prepared
+with that script would still fail to compile QEMU.
+Tested on a Fedora 36
 
 Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
 ---
- tests/docker/dockerfiles/alpine.docker | 1 +
+ scripts/ci/setup/build-environment.yml | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 3f4c0f95cb..2943a99730 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -21,6 +21,7 @@ RUN apk update && \
-         cdrkit \
-         ceph-dev \
-         clang \
-+        coreutils \
-         ctags \
-         curl-dev \
-         cyrus-sasl-dev \
+diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/build-environment.yml
+index 232525b91d..6df3e61d94 100644
+--- a/scripts/ci/setup/build-environment.yml
++++ b/scripts/ci/setup/build-environment.yml
+@@ -150,6 +150,7 @@
+           - libepoxy-devel
+           - libgcrypt-devel
+           - lzo-devel
++          - ninja-build
+           - make
+           - mesa-libEGL-devel
+           - nettle-devel
 -- 
 2.25.1
 
