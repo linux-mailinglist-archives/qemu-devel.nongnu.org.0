@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87930582149
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:40:03 +0200 (CEST)
-Received: from localhost ([::1]:59876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9569858214D
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 09:40:07 +0200 (CEST)
+Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGbeE-0002OZ-54
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:40:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
+	id 1oGbeI-0002XG-KE
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 03:40:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGbaC-0005ug-3e
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:52 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:34726)
+ id 1oGbaE-0005wF-9X
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:54 -0400
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:45908)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oGbaA-0002Hp-B1
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:51 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id 70so15427047pfx.1
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 00:35:49 -0700 (PDT)
+ id 1oGbaC-0002I0-NS
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 03:35:53 -0400
+Received: by mail-pf1-x42a.google.com with SMTP id y9so15368121pff.12
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 00:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FsmJxnUEsDzLqMFBH4/49xsi/OdBYy5DMcmNBDOTH7o=;
- b=VqDuMNTFjXgwp5Y3OlNdWCxOtkPdd/JO9bhQKyfPgvqwIWvZbKcDYQIRpwumCudQ3m
- qzIyEXl1m7wxEuUdhssC6Q8hTxcoaExfMM0UCP/Cl0ocJ6BUf+guM1DrUW3CETqadO9E
- DsBpv45rc/H12J/9vqVHpolmmwE9nNSC1yeDYC0S5QnRbv+yUWvmX0xqws1gG5xthi+4
- GKU6b7bmfWHoiI3w//TomoLUls2Ynr+z2INJsV/rlVuSXjEJ0UEKAbEIp9RtkBCO/9qb
- jlNndeYC8WFUrm5sL74fZJO4xwpe5TGEF0DptuzLXAKy+7tEGMeeuTTWoX02RowaHbhc
- LhYQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=kS/P/+A+ljy2bYx4PLr8f8hnFjz0iV4LBw7/6hnHSmQ=;
+ b=UY0ItBBbOL8xRO2BSV8SGeB6FVlk8IGwc+ATRPN4yWIZJCzU+W/hKufHkpx+BEMuK6
+ x3O2G0LspxjG3iFZiqvqUJYComjQmR3TlBE7p6qRcBfgikyIbPuRwKUAk5M4GMc54m52
+ RJOdd1L909kjgIsGZXJIFDC/Kxw07y0PNqMkMUVUI0fct9EDxP8XJFEYExrjaZrnT/R2
+ qAXUcTkNvWHd27au0wMo5OQQYjKjovl2FmmkZtI1itgPhBNy0s31WITJ/E0VpghSScHS
+ 8S8wRPE0aH8TXS/fMVArgvPdojvrKlGBmtodXZNq2tDwm6L752ZUyhaDjowNY0sLkfB4
+ lTPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=FsmJxnUEsDzLqMFBH4/49xsi/OdBYy5DMcmNBDOTH7o=;
- b=qFEjqIEjRafMK1q+9oNQeqqoLAj4hUXSBz1oYh7VTBU9AvWNRmEZjekXcgf9YQPMdv
- zoxnXTPKGMb94g5nlokJTELqiVQ6nPDbK4rC5JuxS+oHmlsLPvep8kOGJlntRAxfKy0E
- kVgH/Xaejq0lVzXoOmuUSf0xXPRDuJVU1ybM0P0agUy/3BgigFxwXGK3JYAB3TVVlUXX
- bChLJG7ccC55LGJCfX7+vPa4iZ9MmLWDee788Xm6UP0qrAm2JzdeCVRIbyV4toXMnp5V
- CoLG9wXIY0eCDtGQ8bBn0xJQCsnYsd5u3PwiNDjUJtMnpUZf9Q2GBiEDt592oR6lwXwS
- Fzbw==
-X-Gm-Message-State: AJIora9VXulJX31fePeNAaZIupDXeXQAuVedVzXeAUFm6nsVLrqlpMXL
- 2PzALPQO677FUX9KIxQZ3XEV4aHTP6A=
-X-Google-Smtp-Source: AGRyM1u3KvE8v8Djao3gHiwzcm8Ci+wINytLMs4XnrqSMghNdc+7AZABWgpM/l6UQg9L/VI24yJ/nw==
-X-Received: by 2002:a05:6a00:a08:b0:52b:fd6e:b198 with SMTP id
- p8-20020a056a000a0800b0052bfd6eb198mr11286394pfh.53.1658907348474; 
- Wed, 27 Jul 2022 00:35:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=kS/P/+A+ljy2bYx4PLr8f8hnFjz0iV4LBw7/6hnHSmQ=;
+ b=jdPH4yALaAHTyy6NasgF+RjmfwuTWB/LdfE2IFAN/6yifWQ+9u/oo3uE20HS2NZoS6
+ QSaL1olhjSH2Ukmh3PLbUGpj6c2tZfCQvzdnLG2WXlgKtnG0TmQiMhH3Agbc9oqrfmkD
+ A0vGGFHL6/9yqFudotVQyPvQbP3g5vxsCyf5C71eE5nNy1G6j7LTU7PnA9GRfAzdN3Q4
+ t50v9MMPBRScZvdXqW8R2M9jOvZPldnYP2atImDXdHDMRBKgIjwBwgO3Q+xCDbmQuddW
+ Bej1LRlVxvMIc02DEHPwmQf64A81gHMQM+yi3GVFpuu8mXd4nbhzzmkcoXqHVvTmVTzr
+ THqQ==
+X-Gm-Message-State: AJIora8mhT0ytyJqGr6lJkn8b+B+O+alwcCoOTm3PiWW/7NTniADrkKi
+ h99YDzcSujLxiLOFifDL9/UGyZ8/SQg=
+X-Google-Smtp-Source: AGRyM1u8D9/jn+uhWgVK4yvcTpDFDLnLQwmfnB2Xbxh40ZNHCmSIUQxZHrb+Nr1aFKIJkkptl5t0eA==
+X-Received: by 2002:a65:460b:0:b0:41a:6637:6544 with SMTP id
+ v11-20020a65460b000000b0041a66376544mr17832655pgq.511.1658907351057; 
+ Wed, 27 Jul 2022 00:35:51 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- z7-20020a170902ccc700b0016c09a0ef87sm10533834ple.255.2022.07.27.00.35.45
+ z7-20020a170902ccc700b0016c09a0ef87sm10533834ple.255.2022.07.27.00.35.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 00:35:47 -0700 (PDT)
+ Wed, 27 Jul 2022 00:35:50 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Konstantin Kostiuk <kkostiuk@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH 0/5] Enable unix socket support on Windows
-Date: Wed, 27 Jul 2022 15:35:37 +0800
-Message-Id: <20220727073542.811420-1-bmeng.cn@gmail.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH 1/5] util/qemu-sockets: Replace the call to close a socket
+ with closesocket()
+Date: Wed, 27 Jul 2022 15:35:38 +0800
+Message-Id: <20220727073542.811420-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220727073542.811420-1-bmeng.cn@gmail.com>
+References: <20220727073542.811420-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,35 +90,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support for the unix socket has existed both in BSD and Linux for the
-longest time, but not on Windows. Since Windows 10 build 17063 [1],
-the native support for the unix socket has came to Windows. Starting
-this build, two Win32 processes can use the AF_UNIX address family
-over Winsock API to communicate with each other.
+From: Bin Meng <bin.meng@windriver.com>
 
-Introduce a new build time config option CONFIG_AF_UNIX when the build
-host has such a capability, and a run-time check afunix_available() for
-Windows host in the QEMU sockets util codes.
+close() is a *nix function. It works on any file descriptor, and
+sockets in *nix are an example of a file descriptor.
 
-[1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
+closesocket() is a Windows-specific function, which works only
+specifically with sockets. Sockets on Windows do not use *nix-style
+file descriptors, and socket() returns a handle to a kernel object
+instead, so it must be closed with closesocket().
 
+In QEMU there is already a logic to handle such platform difference
+in os-posix.h and os-win32.h, that:
 
-Bin Meng (5):
-  util/qemu-sockets: Replace the call to close a socket with
-    closesocket()
-  util/oslib-win32: Add a helper to get the Windows version
-  qga/commands-win32: Use os_get_win_version()
-  util/qemu-sockets: Enable unix socket support on Windows
-  chardev/char-socket: Update AF_UNIX for Windows
+  * closesocket maps to close on POSIX
+  * closesocket maps to a wrapper that calls the real closesocket()
+    on Windows
 
- meson.build               |  6 +++++
- include/sysemu/os-win32.h |  2 ++
- chardev/char-socket.c     |  8 +++++-
- qga/commands-win32.c      | 27 +-------------------
- util/oslib-win32.c        | 15 +++++++++++
- util/qemu-sockets.c       | 52 ++++++++++++++++++++++++++++++++-------
- 6 files changed, 74 insertions(+), 36 deletions(-)
+Replace the call to close a socket with closesocket() instead.
 
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+ util/qemu-sockets.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 13b5b197f9..0e2298278f 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -487,7 +487,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
+ 
+         if (ret < 0) {
+             error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
+-            close(sock);
++            closesocket(sock);
+             return -1;
+         }
+     }
+@@ -1050,7 +1050,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
+     return sock;
+ 
+  err:
+-    close(sock);
++    closesocket(sock);
+     return -1;
+ }
+ 
 -- 
 2.34.1
 
