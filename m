@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD6F58286B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 16:18:41 +0200 (CEST)
-Received: from localhost ([::1]:34152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF71582886
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 16:25:05 +0200 (CEST)
+Received: from localhost ([::1]:43310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGhrz-0005lf-9h
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 10:18:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47932)
+	id 1oGhyC-000457-3Z
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 10:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oGhks-0000ap-Fk; Wed, 27 Jul 2022 10:11:19 -0400
-Received: from mail-oa1-x30.google.com ([2001:4860:4864:20::30]:34518)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGhn6-0002YV-M4; Wed, 27 Jul 2022 10:13:36 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:39490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oGhkp-0001P4-L1; Wed, 27 Jul 2022 10:11:18 -0400
-Received: by mail-oa1-x30.google.com with SMTP id
- 586e51a60fabf-10e615a36b0so1207986fac.1; 
- Wed, 27 Jul 2022 07:11:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oGhn4-0001al-Oj; Wed, 27 Jul 2022 10:13:36 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id r3so30403312ybr.6;
+ Wed, 27 Jul 2022 07:13:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ejUSe6ITp3kFe9yB2MeJwLytQJRl7fVwa53xZoWFZvI=;
- b=PltL+jimoFesoNCcsSRqgBebVxGwXs1o5Gd2He2albh1eWh10e9iWMtxCCMACUlERh
- Hn9RRMnY3A1FEdM74WCaez7iLgz01w+h67z4O5pQZJRgjzMeGdxQGyTH794hiU5TmIDO
- pCcJIO5EKft5h2xr1lQ0QK0i9Nsl0CfC2Z/zvCC2Ak6oZgjr+EBZqozhj/Q6st8ywerb
- cb93zxekpHkVTjB8zkI+QVPWYxkAVpuU4+UOokFFRSPyQtz0U5Qu1uo8QVISAu5FmPIA
- 8tSDldWOIKtT1s+Zt7cwoJ/wkNoqk71sK/VdFu1+3o6Sb/7/JAWKX+jqOu8NDEjl1J/T
- oKng==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/Jy3ULmb8PQjbButpfETSuOBZI4vGSzySeDchywT+KM=;
+ b=EI6YJR/xwcC67dytfOsn9QuVNkMbFZIzm4ayilLPQvDseIBGdhvl/y26NfQSZdDUxY
+ GHQ1tini+x+LrOsa7PYXZPacQmUtK9FLqyZDJUVx+sMKogUWIJfEDcYHAQvwOCDY9lkf
+ /ngmwE+weqtSjtJVeaIf4u9Vs+TDER8sbgNJOWOTW0h/tAqSsedZ1uVu0UzLNS54oqYx
+ k1dcWXIu5I8+tPXiZUgzw+aIzKqU3a8rX/Yw/ZQcNi7TSU2i7w7C9q/AFEEnVCREKf/E
+ 7gF+boEK1pIo9lIsAQ9wbN9+JTvbw88iWl5YMlQzVE0UnONYWh5Uxmqyn69gQyQ9zUdb
+ eVwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ejUSe6ITp3kFe9yB2MeJwLytQJRl7fVwa53xZoWFZvI=;
- b=2prESZ0qRrO6WWWTdXkt2axegNjc6RrYyJGUCAp3redly89y/3YK1ijkdONRiFy/pd
- +DxHQqPEPQSMkN/bC9IJTNPbZzubOYa4mHCX08wcLvO2KScUKBRc0OEoEPtR/HC7uORR
- g9KGbxomOw/nXbSjEPLIe+yEJfzPKpkKTzBN7Nbkxt+qoFv7RxLocRLlwXNxvZtHoIL9
- JqCvV1qthM000W6aqVzDY6myod/QxtMRxTzhGYJgJEZxLgWW2JNE5hbi7ue6jaoCS0+v
- DNZrgFtiU+fFV7jSe0ktduOjQsKqou7aRjMu5+mUBnhXPgHGTIKHMpD2sFc7sW3o6t4r
- FK0A==
-X-Gm-Message-State: AJIora9kNIY/clOXnkkBSGZCv+pnFvq9grBvXEvR0hf7BRWqS3wQZalv
- bvu6dg6gVywjX2TDAsZCar8=
-X-Google-Smtp-Source: AGRyM1v9ZtqJlPjpc5UmLmR/LxzR/VdDQ+0Z0q0a6t+vqW6svReELc8ynPig37bzR6saPsZnmKnf3w==
-X-Received: by 2002:a05:6870:1c7:b0:10e:3855:7930 with SMTP id
- n7-20020a05687001c700b0010e38557930mr2169019oad.50.1658931073896; 
- Wed, 27 Jul 2022 07:11:13 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:1396:b354:ef67:bd69:305a?
- ([2804:431:c7c7:1396:b354:ef67:bd69:305a])
- by smtp.gmail.com with ESMTPSA id
- v15-20020a056870708f00b0010e3f390ecasm1977303oae.16.2022.07.27.07.11.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 27 Jul 2022 07:11:13 -0700 (PDT)
-Message-ID: <067b069a-4930-f5a9-2ce7-d4eb225c0825@gmail.com>
-Date: Wed, 27 Jul 2022 11:11:11 -0300
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/Jy3ULmb8PQjbButpfETSuOBZI4vGSzySeDchywT+KM=;
+ b=i130vCOqyv2qT8nGdTLpC0tw+kKy90Gp6SSnniAfsVhOCWgbwakcfabxVP3wdHxVFa
+ /nYJIklf3i8xn53ig9iH3JGoW2HE0DRovMUY6SSG5ZnHaqAdFdzJnJotU/Dlijo5JxQV
+ vntWCgGYeoxiXUAezO04K9DZFX+lvkOTMVQKdFYJEebsxoo9YnAL3VM395hhFjedfUre
+ dfd68BqXY97/iEMh38PwSNp9QbBKWYC3v0ymMoSwF+Jx5xKKjcTK1WBr5lO22m55Ddv0
+ voyhuU/XkMAz7EflxWHoR2/r39C2ak/fTd7rBPyIopKrMmKbOt9dbVJBVbGZpJ0WcbAq
+ xMDQ==
+X-Gm-Message-State: AJIora/f1sZF6OODkLpvYyQ4WW4IxSEq5jZcNmt0j1w8COJv1JHhaXd6
+ cMsfQBnDSV0yjZ90URwB2asuM9TvGjzqo42eqXk=
+X-Google-Smtp-Source: AGRyM1sOi1rdyaQI5g2WFX6JO/eKvbYU7tNhTm3ZSJjPL0dTrKrcqBl/DbDL9c7b+6Fqtef2Tvmenxx9iHaVMqwGX3Q=
+X-Received: by 2002:a25:e78e:0:b0:671:88ae:bee0 with SMTP id
+ e136-20020a25e78e000000b0067188aebee0mr1534114ybh.58.1658931210464; Wed, 27
+ Jul 2022 07:13:30 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [RFC 1/2] hw/ppc/ppc440_uc: Initialize length passed to
- cpu_physical_memory_map()
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20220726182341.1888115-1-peter.maydell@linaro.org>
- <20220726182341.1888115-2-peter.maydell@linaro.org>
- <CAFEAcA8s9vgBFVuDVVednC4cv5Q4M7L+uTCc74tEmdht4ss+pA@mail.gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <CAFEAcA8s9vgBFVuDVVednC4cv5Q4M7L+uTCc74tEmdht4ss+pA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::30;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+References: <20220712021345.8530-1-faithilikerun@gmail.com>
+ <20220712021345.8530-3-faithilikerun@gmail.com>
+In-Reply-To: <20220712021345.8530-3-faithilikerun@gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Wed, 27 Jul 2022 10:13:17 -0400
+Message-ID: <CAJSP0QXpzgXjNuzdEAQ9hA4JU_gqO2mHAEVfesoZsjG6eDRz=g@mail.gmail.com>
+Subject: Re: [RFC v4 2/9] qemu-io: add zoned block device operations.
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, 
+ Damien Le Moal <damien.lemoal@opensource.wdc.com>,
+ Markus Armbruster <armbru@redhat.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, qemu block <qemu-block@nongnu.org>, 
+ Eric Blake <eblake@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,51 +87,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 11 Jul 2022 at 22:17, Sam Li <faithilikerun@gmail.com> wrote:
+> +int bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
+> +                        int64_t *nr_zones,
+> +                        BlockZoneDescriptor *zones)
+> +{
+> +    BlockDriver *drv = bs->drv;
+> +    CoroutineIOCompletion co = {
+> +            .coroutine = qemu_coroutine_self(),
+> +    };
+> +    IO_CODE();
+> +
+> +    bdrv_inc_in_flight(bs);
+> +    if (!drv || (!drv->bdrv_co_zone_report)) {
+> +        co.ret = -ENOTSUP;
+> +        goto out;
+> +    }
+> +
+> +    if (drv->bdrv_co_zone_report) {
 
+At this point we know drv->bdrv_co_zone_report is non-NULL because it
+has been checked already. The if statement can be dropped.
 
-On 7/26/22 15:24, Peter Maydell wrote:
-> On Tue, 26 Jul 2022 at 19:23, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> In dcr_write_dma(), there is code that uses cpu_physical_memory_map()
->> to implement a DMA transfer.  That function takes a 'plen' argument,
->> which points to a hwaddr which is used for both input and output: the
->> caller must set it to the size of the range it wants to map, and on
->> return it is updated to the actual length mapped. The dcr_write_dma()
->> code fails to initialize rlen and wlen, so will end up mapping an
->> unpredictable amount of memory.
->>
->> Initialize the length values correctly, and check that we managed to
->> map the entire range before using the fast-path memmove().
->>
->> This was spotted by Coverity, which points out that we never
->> initialized the variables before using them.
->>
->> Fixes: Coverity CID 1487137
-> 
-> Also CID 1487150 (it reports the wlen and rlen issues separately).
+> +        co.ret = drv->bdrv_co_zone_report(bs, offset, nr_zones, zones);
+> +    } else {
+> +        co.ret = -ENOTSUP;
 
-I amended in tree:
+This case is already handled by if (... ||
+(!drv->bdrv_co_zone_report)) above. The else body can be dropped.
 
+> +        goto out;
+> +        qemu_coroutine_yield();
+> +    }
+> +
+> +out:
+> +    bdrv_dec_in_flight(bs);
+> +    return co.ret;
+> +}
+> +
+> +int bdrv_co_zone_mgmt(BlockDriverState *bs, enum zone_op op,
 
-     Fixes: Coverity CID 1487137, 1487150
+Please follow QEMU coding style and typedef BdrvZoneOp instead of
+writing out enum zone_op.
 
+> +        int64_t offset, int64_t len)
+> +{
+> +    BlockDriver *drv = bs->drv;
+> +    CoroutineIOCompletion co = {
+> +            .coroutine = qemu_coroutine_self(),
+> +    };
+> +    IO_CODE();
+> +
+> +    bdrv_inc_in_flight(bs);
+> +    if (!drv || (!drv->bdrv_co_zone_mgmt)) {
+> +        co.ret = -ENOTSUP;
+> +        goto out;
+> +    }
+> +
+> +    if (drv->bdrv_co_zone_mgmt) {
+> +        co.ret = drv->bdrv_co_zone_mgmt(bs, op, offset, len);
+> +    } else {
+> +        co.ret = -ENOTSUP;
+> +        goto out;
+> +        qemu_coroutine_yield();
+> +    }
 
-I also believe that this Coverity fix isn't dependent on patch 2, which
-apparently will take longer to get reviewed, so it's fine to take it
-now.
+Same comments here.
 
+> +
+> +out:
+> +    bdrv_dec_in_flight(bs);
+> +    return co.ret;
+> +}
+> +
+>  void *qemu_blockalign(BlockDriverState *bs, size_t size)
+>  {
+>      IO_CODE();
+> diff --git a/include/block/block-io.h b/include/block/block-io.h
+> index 053a27141a..a0ae140452 100644
+> --- a/include/block/block-io.h
+> +++ b/include/block/block-io.h
+> @@ -80,6 +80,13 @@ int bdrv_co_ioctl(BlockDriverState *bs, int req, void *buf);
+>  /* Ensure contents are flushed to disk.  */
+>  int coroutine_fn bdrv_co_flush(BlockDriverState *bs);
+>
+> +/* Report zone information of zone block device. */
+> +int coroutine_fn bdrv_co_zone_report(BlockDriverState *bs, int64_t offset,
+> +                                     int64_t *nr_zones,
+> +                                     BlockZoneDescriptor *zones);
+> +int coroutine_fn bdrv_co_zone_mgmt(BlockDriverState *bs, zone_op op,
+> +                                   int64_t offset, int64_t len);
+> +
+>  int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+>  bool bdrv_can_write_zeroes_with_unmap(BlockDriverState *bs);
+>  int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+> @@ -289,6 +296,12 @@ bdrv_readv_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+>  int generated_co_wrapper
+>  bdrv_writev_vmstate(BlockDriverState *bs, QEMUIOVector *qiov, int64_t pos);
+>
+> +int generated_co_wrapper
+> +blk_zone_report(BlockBackend *blk, int64_t offset, int64_t *nr_zones,
+> +                BlockZoneDescriptor *zones);
+> +int generated_co_wrapper
+> +blk_zone_mgmt(BlockBackend *blk, enum zone_op op, int64_t offset, int64_t len);
+> +
+>  /**
+>   * bdrv_parent_drained_begin_single:
+>   *
+> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> index 2f0d8ac25a..a88fa322d2 100644
+> --- a/qemu-io-cmds.c
+> +++ b/qemu-io-cmds.c
+> @@ -1706,6 +1706,144 @@ static const cmdinfo_t flush_cmd = {
+>      .oneline    = "flush all in-core file state to disk",
+>  };
+>
+> +static int zone_report_f(BlockBackend *blk, int argc, char **argv)
+> +{
+> +    int ret;
+> +    int64_t offset, nr_zones;
+> +
+> +    ++optind;
+> +    offset = cvtnum(argv[optind]);
+> +    ++optind;
+> +    nr_zones = cvtnum(argv[optind]);
+> +
+> +    g_autofree BlockZoneDescriptor *zones = NULL;
+> +    zones = g_new(BlockZoneDescriptor, nr_zones);
+> +    ret = blk_zone_report(blk, offset, &nr_zones, zones);
+> +    if (ret < 0) {
+> +        printf("zone report failed: %s\n", strerror(-ret));
+> +    } else {
+> +        for (int i = 0; i < nr_zones; ++i) {
+> +            printf("start: 0x%" PRIx64 ", len 0x%" PRIx64 ", "
+> +                   "cap"" 0x%" PRIx64 ",wptr 0x%" PRIx64 ", "
+> +                   "zcond:%u, [type: %u]\n",
+> +                   zones[i].start, zones[i].length, zones[i].cap, zones[i].wp,
+> +                   zones[i].cond, zones[i].type);
+> +        }
+> +    }
+> +    return ret;
+> +}
+> +
+> +static const cmdinfo_t zone_report_cmd = {
+> +        .name = "zone_report",
+> +        .altname = "zp",
+> +        .cfunc = zone_report_f,
+> +        .argmin = 2,
+> +        .argmax = 2,
+> +        .args = "offset number",
+> +        .oneline = "report zone information",
+> +};
+> +
+> +static int zone_open_f(BlockBackend *blk, int argc, char **argv)
+> +{
+> +    int ret;
+> +    int64_t offset, len;
+> +    ++optind;
+> +    offset = cvtnum(argv[optind]);
+> +    ++optind;
+> +    len = cvtnum(argv[optind]);
+> +    ret = blk_zone_mgmt(blk, zone_open, offset, len);
 
-
-Thanks,
-
-
-Daniel
-
-
-
-
-> 
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> -- PMM
+Please name enum constants in all caps: BDRV_ZONE_OPEN or BDRV_ZO_OPEN.
 
