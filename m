@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D58D582761
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:10:44 +0200 (CEST)
-Received: from localhost ([::1]:56744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE0A582767
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 15:12:34 +0200 (CEST)
+Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGgoE-0001BZ-OF
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58964)
+	id 1oGgq1-0002nU-CP
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 09:12:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oGgkb-00067n-Uc
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:07:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:22901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1oGgkY-0007JO-Ls
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:06:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658927212;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4XejCrChvZSYE2VxOUDJ3jksFKFezBbn1sw+B8wRr2E=;
- b=SMKL1B1f/BaJTlOLAZKyJDI6FCIMhfWRYumYLXk4aWLbQBW6AjEj/n1ViP+FwY3DvOGRiM
- 3GvR6I0hm6KLE/j0iLQjuCpTUUY7Vk6PjfWXiHd7O1UBu3N3PzVne0Yil13cu0bYOROtmS
- enklut2R6WqpIitKwFt0GWJtE1rGPbg=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-493-hD75e8EzMru58AQWaeCxPQ-1; Wed, 27 Jul 2022 09:06:51 -0400
-X-MC-Unique: hD75e8EzMru58AQWaeCxPQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k27-20020a05600c1c9b00b003a2fee19a80so1151660wms.1
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:06:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGglB-0006yH-IY
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:07:34 -0400
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:38509)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oGgl9-0007M6-QR
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 09:07:33 -0400
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-31f41584236so66332987b3.5
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 06:07:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vY1IQLB3naamW5x7+ajRl5v8vZYisUNbV7tfLqvYob8=;
+ b=OxsZJQznIbOi+PyaPSp9jpyIbCiKPuN5D/zS52ySJ3oAMFeGiIQtfZtvhcjXTxUgm+
+ h8i51etXJcXF25OjW64VJePm/B0/IF6nQXAyxZHqSlAIVYGtknUFuO1IC+95WS7WzY2W
+ qopzHleSb9IVp3aF6eGcR5Y8W04GEGGOW578vSPTqbsbTAfKtynhuuDJsrC5NOmfcGfn
+ MtQYgUEW67o/aUhDp7D23/C0J46RBn9c9ndGLgOCO4l5HAbmgrcbE6nP6U4/DB4l+5Iw
+ 83seglabcgVTLsFSl8/Wzts1GAM8dpeWfpyDJNVUuRG9Oz8Y8bvV+lg4WM+pp6xychKU
+ +luQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4XejCrChvZSYE2VxOUDJ3jksFKFezBbn1sw+B8wRr2E=;
- b=gYLhgZFPyuYTKNPWVzEi+B0aDC0k3OLis2iLsWWe/RUbM8W36mf1MZdETPsfW8jEvF
- SqXJ/MUGQsBfAP82bRNbD15yocuNP8UcLRctjj3Ee3NEP6yNGAFDzHAeRTVONuxCg7T0
- 1qj7MpOfD6S02bcXtwF93fCJwVevE4NCf36RYNm07Q3CHvOlQIAn5jI3kMIG3G78aH/e
- i3IEs9m9PciNgPgkZP5ocTWpkGHeqzxEA/V7lWWB4dP12Tsg0zSBhH5Xl/uNiswRzxj8
- fsrquDYLIbZqwFgkk76awSTyRI1Qxth4yYY+Oad+i7Kgg70TNfDG517X3Kic6WApJ2kw
- KeFQ==
-X-Gm-Message-State: AJIora9mKM9LfC5onumzkTMR9X2AXThcogeWDt5uOWZTFnRqIYEDd51e
- +gvj69YaBmeouKRmupXe11J3/Hn+q/JfTCjR6XDtVpjRFKFx5m8iVlvsgW4raOptVwzkUcfrkce
- 88xlpnfuTkeVRmDg=
-X-Received: by 2002:a05:6000:2cf:b0:21e:8036:1d0b with SMTP id
- o15-20020a05600002cf00b0021e80361d0bmr12202253wry.94.1658927209768; 
- Wed, 27 Jul 2022 06:06:49 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1t67gpjAQJwh0PAkibf/oQB5ELnI1Upw5px82QK7VqcoTUa7HpHLFIDa14/csg8ciQoo+yyCg==
-X-Received: by 2002:a05:6000:2cf:b0:21e:8036:1d0b with SMTP id
- o15-20020a05600002cf00b0021e80361d0bmr12202216wry.94.1658927209231; 
- Wed, 27 Jul 2022 06:06:49 -0700 (PDT)
-Received: from sgarzare-redhat (host-79-46-200-178.retail.telecomitalia.it.
- [79.46.200.178]) by smtp.gmail.com with ESMTPSA id
- k22-20020a5d5256000000b0021d6a520ce9sm17470844wrc.47.2022.07.27.06.06.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 06:06:47 -0700 (PDT)
-Date: Wed, 27 Jul 2022 15:06:44 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: "Denis V. Lunev" <den@virtuozzo.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, kwolf@redhat.com,
- hreitz@redhat.com, stefanha@redhat.com
-Subject: Re: [RFC patch 0/1] block: vhost-blk backend
-Message-ID: <20220727130644.wspwadl5645gfdpr@sgarzare-redhat>
-References: <20220725205527.313973-1-andrey.zhadchenko@virtuozzo.com>
- <20220726094740-mutt-send-email-mst@kernel.org>
- <94e5b188-8489-9f75-a481-015667bc0ba4@virtuozzo.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vY1IQLB3naamW5x7+ajRl5v8vZYisUNbV7tfLqvYob8=;
+ b=O5+Aa0LbKk0oj4PDBh69dE5rTUf0PXoKmNFVtLMVN4KrU4IyP1TXLJ3gNGvqebTrzS
+ b3wBYCmLYno0/0JU4I/bJ4c2/onmapzPXA6HPvZRQd3MtLWgPejA26gQbO13LrlN4TL/
+ 6z1FBz+wdiaBFJRP2xia3Pvu0EZrPrjtKceDVs8V95kUOXZk2DuQONiB4U6yWkwaBAV3
+ 4qOzv6KYec97kEWMaH/SQ8xOKvDbwuztcr4YjNi1DeuXgw57/PN3aTq9DRacBexf3lhL
+ EHwwQYCWg20E23i7nWx75wQQI853hVoT7m4kCnj0t5HC/VnWG34DTj+LEAlYM+1dblMf
+ TLnQ==
+X-Gm-Message-State: AJIora9+WnD1L+WQmbP+3VEkGznnr0bmJ+snZGzN/X4ZdaMWPP0y3kXn
+ rAJBOrLca4X2t775N9213/APlQWr4ZWsaKLouBddrg==
+X-Google-Smtp-Source: AGRyM1v8oQywCiv4/SZCp2tEwkXu5V1X3NnNxiQMWEyvAgxV55b5q266HxcS/X7hhkH1h4uC/c/jkXrSgRXGPAr6OzY=
+X-Received: by 2002:a0d:cc0d:0:b0:31f:8a70:38e0 with SMTP id
+ o13-20020a0dcc0d000000b0031f8a7038e0mr1508370ywd.347.1658927250638; Wed, 27
+ Jul 2022 06:07:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <94e5b188-8489-9f75-a481-015667bc0ba4@virtuozzo.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220726182341.1888115-1-peter.maydell@linaro.org>
+ <a7f02b8a-a132-5b8f-6ceb-0d6920ce2a22@kaod.org>
+ <77d060c0-6b8a-5c20-58c0-ed6f0d45e99@eik.bme.hu>
+ <CAFEAcA_5dS=Mng3bpptRrGpD36AsOQLNQ_2ntokSBK0X+oLPUw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_5dS=Mng3bpptRrGpD36AsOQLNQ_2ntokSBK0X+oLPUw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 27 Jul 2022 14:06:50 +0100
+Message-ID: <CAFEAcA_=eY5yhz0_f2xXA6yFePvpmSoLqtw1saMjY=w1kvD1Lw@mail.gmail.com>
+Subject: Re: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,54 +88,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 04:15:48PM +0200, Denis V. Lunev wrote:
->On 26.07.2022 15:51, Michael S. Tsirkin wrote:
->>On Mon, Jul 25, 2022 at 11:55:26PM +0300, Andrey Zhadchenko wrote:
->>>Although QEMU virtio-blk is quite fast, there is still some room for
->>>improvements. Disk latency can be reduced if we handle virito-blk requests
->>>in host kernel so we avoid a lot of syscalls and context switches.
->>>
->>>The biggest disadvantage of this vhost-blk flavor is raw format.
->>>Luckily Kirill Thai proposed device mapper driver for QCOW2 format to attach
->>>files as block devices: https://www.spinics.net/lists/kernel/msg4292965.html
->>That one seems stalled. Do you plan to work on that too?
->We have too. The difference in numbers, as you seen below is quite too
->much. We have waited for this patch to be sent to keep pushing.
+On Wed, 27 Jul 2022 at 14:01, Peter Maydell <peter.maydell@linaro.org> wrot=
+e:
 >
->It should be noted that may be talk on OSS this year could also push a bit.
+> On Wed, 27 Jul 2022 at 12:55, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+> >
+> > On Wed, 27 Jul 2022, C=C3=A9dric Le Goater wrote:
+> > > On 7/26/22 20:23, Peter Maydell wrote:
+> > >> This patchset is mainly trying to fix a problem that Coverity spotte=
+d
+> > >> in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the cod=
+e
+> > >> is not correctly using the cpu_physical_memory_map() function.
+> >
+> > Likely I did not know how this function works when implementing it and =
+may
+> > have used it wrong but none of the reviews spotted it either. (I may ha=
+ve
+> > used some other DMA device model as an inspiration but don't remember
+> > which.)
+> >
+> > >> While I was fixing that I noticed a second problem in this code,
+> > >> where it doesn't have a fallback for when cpu_physical_memory_map()
+> > >> says "I couldn't map that for you".
+> >
+> > When can that happen? If only in cases when guest gives invalid paramet=
+ers
+> > then maybe we don't have to bother with that and can let it fail but
+> > having a fallback does not hurt.
+>
+> Mostly it happens when the thing being DMA'd to or from is not RAM.
+> Ordinarily I wouldn't expect that to be likely, but the DMA device
+> here has a "don't advance the src/destination" option which I assume
+> would be used for things like DMA'ing to or from a device FIFO.
+> Perhaps AmigaOS doesn't in practice do that.
 
-Cool, the results are similar of what I saw when I compared vhost-blk 
-and io_uring passthrough with NVMe (Slide 7 here: [1]).
+Oh, and we should probably use the 'call address_space_read/write'
+fallback for all cases of "don't advance the pointer", because
+address_space_map() will not handle that correctly -- it will
+typically return a 'bounce buffer' and then copy the bounce buffer
+to the device, so the effect will be like reading/writing the
+FIFO device only once instead of reading/writing all the data.
 
-About QEMU block layer support, we recently started to work on libblkio 
-[2]. Stefan also sent an RFC [3] to implement the QEMU BlockDriver.
-Currently it supports virtio-blk devices using vhost-vdpa and 
-vhost-user.
-We could add support for vhost (kernel) as well, though, we were 
-thinking of leveraging vDPA to implement in-kernel software device as 
-well.
-
-That way we could reuse a lot of the code to support both hardware and 
-software accelerators.
-
-In the talk [1] I describe the idea a little bit, and a few months ago I 
-did a PoC (unsubmitted RFC) to see if it was feasible and the numbers 
-were in line with vhost-blk.
-
-Do you think we could join forces and just have an in-kernel vdpa-blk 
-software device?
-
-Of course we could have both vhost-blk and vdpa-blk, but with vDPA 
-perhaps we can have one software stack to maintain for both HW and 
-software accelerators.
-
-Thanks,
-Stefano
-
-[1] 
-https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-software-offload-for-virtio-blk-stefano-garzarella-red-hat
-[2] https://gitlab.com/libblkio/libblkio
-[3] 
-https://lore.kernel.org/qemu-devel/20220708041737.1768521-1-stefanha@redhat.com/
-
+thanks
+-- PMM
 
