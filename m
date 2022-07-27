@@ -2,72 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9639C583435
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 22:48:16 +0200 (CEST)
-Received: from localhost ([::1]:56318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555C45834C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 23:18:45 +0200 (CEST)
+Received: from localhost ([::1]:41550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGnwu-0000gV-HY
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 16:48:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40138)
+	id 1oGoQW-0002qo-31
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 17:18:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oGnrG-0005fv-D6
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 16:42:20 -0400
-Received: from mout.gmx.net ([212.227.15.15]:44485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1oGnr3-0002XS-0C
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 16:42:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1658954520;
- bh=dCdzq+pCRW4zypzLKTY3jwYmXtP2d/+tZhmPug7nOGo=;
- h=X-UI-Sender-Class:From:To:Subject:Date:In-Reply-To:References;
- b=CmJMsa+ZwXSqgMnHR/p66L6YKbNyAYKTGfPbYf4KAzpqD8TKiTOX1eZUHUKAJ33K9
- AOKlUyNYx2Im7eSEqvhEhM+MXn232mx3HYOamsxqpeG5lEFGwqbzdmKxt3JcDX4CJp
- h3Barscqw0bKOOO/lJxBHbWCuuWKmhg8LF7lOKo4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from p100.fritz.box ([92.116.185.42]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MgNcz-1npTBH1Hl1-00hwVx; Wed, 27
- Jul 2022 22:42:00 +0200
-From: Helge Deller <deller@gmx.de>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH 2/2] linux-user: Add missing clock_gettime64() syscall strace
-Date: Wed, 27 Jul 2022 22:41:59 +0200
-Message-Id: <20220727204159.106936-3-deller@gmx.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220727204159.106936-1-deller@gmx.de>
-References: <20220727204159.106936-1-deller@gmx.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oGoNM-0000ie-1f
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 17:15:28 -0400
+Received: from mail-vs1-f53.google.com ([209.85.217.53]:43641)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oGoNJ-0007eL-Vx
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 17:15:27 -0400
+Received: by mail-vs1-f53.google.com with SMTP id d187so17685559vsd.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 14:15:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/nHJki5cIM5T2FJVwWVBRal1FUfl3vf8/GP4Ra6YEPs=;
+ b=7ZzSe09WDOqLK8mWieBhIRasxcAns+h+e0w2c4DSICbMFHG11XVflCJkb7nOGgLQbk
+ To6IW/23uaFi0GF+7iEAK8WXvkPAQNvLk9O8wfwOdSra6FwQWuh5w/QKqDNs9p5Q/3VN
+ +9d1VNwo3NzKPgL0FyqZxdWhjkQWg7RecALa5W3RHPk7P3oHPIKmVUUIciZQlv0AUFKH
+ CAWju8iAEZdFI0tKU+XcyOipMpRwT1x5vBG39ERYNpvJS61YqC05vYs9agvleRDZRrmE
+ tHNivCZM8IoFOBvdm84SCuWOJ43O6s1AcpkEMWrNOL6intNinbf5Y8D9D4LchIQTCECi
+ y5RQ==
+X-Gm-Message-State: AJIora8j9MLV4F1JDdiuJv9AH87eh4xFl+Fhg1xsUSWEIuxU1NkdIHW7
+ ybwx/evmCX1WkJX/uqJ+4U60tFc1iRi+1C9BvVpOmtudklc=
+X-Google-Smtp-Source: AGRyM1tkY8kNXqQdf+Ur157V7kD+tGxbQhl5QVvi/rju3kDFRyvQftCzV7umzomRHb9ZxbGfPWH5DlzVeNOBlZYObyk=
+X-Received: by 2002:a67:e08c:0:b0:358:3c69:6dd0 with SMTP id
+ f12-20020a67e08c000000b003583c696dd0mr7688628vsl.45.1658956524353; Wed, 27
+ Jul 2022 14:15:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
+In-Reply-To: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
+Date: Wed, 27 Jul 2022 23:15:13 +0200
+Message-ID: <CAAdtpL778EC-8sWyXxFpSUzP55LP4tRWC4a2agNXjFJ4u73E6w@mail.gmail.com>
+Subject: Re: When create a new qemu fork, can not run pipeline,
+ what I need to do?
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: Yonggang Luo <luoyonggang@gmail.com>, qemu-level <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Lsbgm9x2zOeNI8b/D9GCGpYT0q6ITrtb98d+oavI/bRh26yfEjr
- G/ZpLVQ4bLrtu5zGlYxYE+lqRAL3a04PcpW93WdPvnHxPZ4vZe7v+C+Mc9Yj8n7uCPMpOWS
- qj/M+SoKEkODXpdLqgm9YibWy3/O26G1j8/LoGok115zF4JuXnJbL2I5JEc7b4/GyaAXn96
- ph2Q6IIXyfsDjbMbjLzjQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Awi3vidbaRs=:vJUpvXeT3qhOAYpoW9cnXA
- w/niGwclSSf66YrF3g/piOV7Pqas3ZoU/X/NJTDYkiUe+va4Xf0WT3aHUid7NREkBJ2QQHMW4
- /s7FJEv6SzxxFw37lvrwipHYBY4L2LOUYQvWEWlSBN9SkmgTXETM0VoG6sb+P6gj9a+eY3jn+
- v7b5HFE1EO9TrgJHz3b2o+bmpqJiG9OKjgJOuhq2OULmWOH85QVtyTfH32PB0YaVpouJ4qbk+
- 0cExkUtpVcgyan9iMMOj0vwWYADs0bL3HHbc23HB4NEcchUOPAr3hoM+uf5cL7eT7nygGXFof
- KInqYoSg55FNgZYfxAI3gfRZkxkE8/FhwXkuL33NUG9JaGV757mdLmtQzVJP9holE3dkS1MH6
- Xifq4tZsTEk9N88HwLxQqyQl3ilEpVDFIsl/ulN/b+Wlv59lFuxWgkRRHS19R+fXOe8rqe8A0
- IrBJP9fvFI4hd1YhLXowuZ/oQgeNoJoIGBP0yr2L6a8/Qj9hRwWmjc5SDKsvyYvNdpWjvgv6W
- yL/2FmE7M69kofRC9hM386e83epFRyv8FyjKbD/LgnNaWhoh6DTs5JpXDxI+no7+TJOn0Ewu8
- eLDHFlwA3Kg2ab7Hq82+c8rvBzyOOIljxanp9yakgrvIl8eAnqqSTpxQimqIbHRsjq0ynl4sV
- wSbLBP8VrTMZNUBeolVpciTSCYkASaIEocVJi0QTrD5kclDIIpi3HTo76ysL6FADmgRywNM74
- exkdJN02i2iBJDCStx+31dwOUYeGFoyrwvBSj7IgLbKdwMlnGSUCkZ5LOFn+hVoA3XwbpyczB
- VG+jsE3wdS9dXxRQnheotn9eQbEcWOKP5BwtqJjLd9T7fre7L9nql3wAzGRs1FlPYDgf3Kpl0
- I/FvG8kZbUu1VtjfUFKRWd7CsuPtjyYj3YTiZKJlET6CqTXQZ8C1bIUBo/SvpAItmGUBnipZz
- mOnvHGAc0DOseCiMR1LVyXkeTg9Mp8oHEULfX3rDCYmRZ7xBLkZmFqBNf6wFxIYxU5NoCRRMi
- /MVdR75s1m61700zgnjrRRFfG/vgVmzH/PHz6NfW6ZZU4KftRvm/rRMs/tEb9pw6yD61tsNFo
- i9lDGsg46BFq6P51rc+aK4AJuCa5/dl7RUIxv1vvvWp+5aKFJ0cIfabMA==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Received-SPF: pass client-ip=209.85.217.53;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-vs1-f53.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,128 +74,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
-Allow linux-user to strace the clock_gettime64() syscall.
-This syscall is used a lot on 32-bit guest architectures which use newer
-glibc versions.
+Cc'ing build and test automation maintainers.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
-=2D--
- linux-user/strace.c    | 53 ++++++++++++++++++++++++++++++++++++++++++
- linux-user/strace.list |  4 ++++
- 2 files changed, 57 insertions(+)
-
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index a217c1025a..27309f1106 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -82,6 +82,7 @@ UNUSED static void print_buf(abi_long addr, abi_long len=
-, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
- UNUSED static void print_timeval(abi_ulong, int);
- UNUSED static void print_timespec(abi_ulong, int);
-+UNUSED static void print_timespec64(abi_ulong, int);
- UNUSED static void print_timezone(abi_ulong, int);
- UNUSED static void print_itimerval(abi_ulong, int);
- UNUSED static void print_number(abi_long, int);
-@@ -794,6 +795,24 @@ print_syscall_ret_clock_gettime(CPUArchState *cpu_env=
-, const struct syscallname
- #define print_syscall_ret_clock_getres     print_syscall_ret_clock_gettim=
-e
- #endif
-
-+#if defined(TARGET_NR_clock_gettime64)
-+static void
-+print_syscall_ret_clock_gettime64(CPUArchState *cpu_env, const struct sys=
-callname *name,
-+                                abi_long ret, abi_long arg0, abi_long arg=
-1,
-+                                abi_long arg2, abi_long arg3, abi_long ar=
-g4,
-+                                abi_long arg5)
-+{
-+    if (!print_syscall_err(ret)) {
-+        qemu_log(TARGET_ABI_FMT_ld, ret);
-+        qemu_log(" (");
-+        print_timespec64(arg1, 1);
-+        qemu_log(")");
-+    }
-+
-+    qemu_log("\n");
-+}
-+#endif
-+
- #ifdef TARGET_NR_gettimeofday
- static void
- print_syscall_ret_gettimeofday(CPUArchState *cpu_env, const struct syscal=
-lname *name,
-@@ -1651,6 +1670,27 @@ print_timespec(abi_ulong ts_addr, int last)
-     }
- }
-
-+static void
-+print_timespec64(abi_ulong ts_addr, int last)
-+{
-+    if (ts_addr) {
-+        struct target__kernel_timespec *ts;
-+
-+        ts =3D lock_user(VERIFY_READ, ts_addr, sizeof(*ts), 1);
-+        if (!ts) {
-+            print_pointer(ts_addr, last);
-+            return;
-+        }
-+        qemu_log("{tv_sec =3D %lld"
-+                 ",tv_nsec =3D %lld}%s",
-+                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->t=
-v_nsec),
-+                 get_comma(last));
-+        unlock_user(ts, ts_addr, 0);
-+    } else {
-+        qemu_log("NULL%s", get_comma(last));
-+    }
-+}
-+
- static void
- print_timezone(abi_ulong tz_addr, int last)
- {
-@@ -2266,6 +2306,19 @@ print_clock_gettime(CPUArchState *cpu_env, const st=
-ruct syscallname *name,
- #define print_clock_getres     print_clock_gettime
- #endif
-
-+#if defined(TARGET_NR_clock_gettime64)
-+static void
-+print_clock_gettime64(CPUArchState *cpu_env, const struct syscallname *na=
-me,
-+                    abi_long arg0, abi_long arg1, abi_long arg2,
-+                    abi_long arg3, abi_long arg4, abi_long arg5)
-+{
-+    print_syscall_prologue(name);
-+    print_enums(clockids, arg0, 0);
-+    print_pointer(arg1, 1);
-+    print_syscall_epilogue(name);
-+}
-+#endif
-+
- #ifdef TARGET_NR_clock_settime
- static void
- print_clock_settime(CPUArchState *cpu_env, const struct syscallname *name=
-,
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 72e17b1acf..a78cdf3cdf 100644
-=2D-- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -1676,3 +1676,7 @@
- #ifdef TARGET_NR_copy_file_range
- { TARGET_NR_copy_file_range, "copy_file_range", "%s(%d,%p,%d,%p,"TARGET_A=
-BI_FMT_lu",%u)", NULL, NULL },
- #endif
-+#ifdef TARGET_NR_clock_gettime64
-+{ TARGET_NR_clock_gettime64, "clock_gettime64" , NULL, print_clock_gettim=
-e64,
-+                           print_syscall_ret_clock_gettime64 },
-+#endif
-=2D-
-2.35.3
-
+On Wed, Jul 27, 2022 at 1:22 PM =E7=BD=97=E5=8B=87=E5=88=9A(Yonggang Luo) <=
+luoyonggang@gmail.com> wrote:
+>
+> =C2=B7=C2=B7=C2=B7
+> Pipeline cannot be run.
+>
+> No stages / jobs for this pipeline.
+>
+> The form contains the following warning:
+>
+> 121 warnings found: showing first 25
+>
+> jobs:amd64-centos8-container may allow multiple pipelines to run for a si=
+ngle action due to `rules:when` clause with no `workflow:rules` - read more=
+: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:amd64-fedora-container may allow multiple pipelines to run for a sin=
+gle action due to `rules:when` clause with no `workflow:rules` - read more:=
+ https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:amd64-debian10-container may allow multiple pipelines to run for a s=
+ingle action due to `rules:when` clause with no `workflow:rules` - read mor=
+e: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:alpha-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:amd64-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:amd64-debian-user-cross-container may allow multiple pipelines to ru=
+n for a single action due to `rules:when` clause with no `workflow:rules` -=
+ read more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-war=
+nings
+>
+> jobs:arm64-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:armel-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:armhf-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:hexagon-cross-container may allow multiple pipelines to run for a si=
+ngle action due to `rules:when` clause with no `workflow:rules` - read more=
+: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:hppa-debian-cross-container may allow multiple pipelines to run for =
+a single action due to `rules:when` clause with no `workflow:rules` - read =
+more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:m68k-debian-cross-container may allow multiple pipelines to run for =
+a single action due to `rules:when` clause with no `workflow:rules` - read =
+more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:mips64-debian-cross-container may allow multiple pipelines to run fo=
+r a single action due to `rules:when` clause with no `workflow:rules` - rea=
+d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
+s
+>
+> jobs:mips64el-debian-cross-container may allow multiple pipelines to run =
+for a single action due to `rules:when` clause with no `workflow:rules` - r=
+ead more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warni=
+ngs
+>
+> jobs:mips-debian-cross-container may allow multiple pipelines to run for =
+a single action due to `rules:when` clause with no `workflow:rules` - read =
+more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:mipsel-debian-cross-container may allow multiple pipelines to run fo=
+r a single action due to `rules:when` clause with no `workflow:rules` - rea=
+d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
+s
+>
+> jobs:powerpc-test-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:ppc64el-debian-cross-container may allow multiple pipelines to run f=
+or a single action due to `rules:when` clause with no `workflow:rules` - re=
+ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
+gs
+>
+> jobs:riscv64-debian-cross-container may allow multiple pipelines to run f=
+or a single action due to `rules:when` clause with no `workflow:rules` - re=
+ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
+gs
+>
+> jobs:riscv64-debian-test-cross-container may allow multiple pipelines to =
+run for a single action due to `rules:when` clause with no `workflow:rules`=
+ - read more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-w=
+arnings
+>
+> jobs:s390x-debian-cross-container may allow multiple pipelines to run for=
+ a single action due to `rules:when` clause with no `workflow:rules` - read=
+ more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:sh4-debian-cross-container may allow multiple pipelines to run for a=
+ single action due to `rules:when` clause with no `workflow:rules` - read m=
+ore: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnings
+>
+> jobs:sparc64-debian-cross-container may allow multiple pipelines to run f=
+or a single action due to `rules:when` clause with no `workflow:rules` - re=
+ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
+gs
+>
+> jobs:tricore-debian-cross-container may allow multiple pipelines to run f=
+or a single action due to `rules:when` clause with no `workflow:rules` - re=
+ad more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warnin=
+gs
+>
+> jobs:xtensa-debian-cross-container may allow multiple pipelines to run fo=
+r a single action due to `rules:when` clause with no `workflow:rules` - rea=
+d more: https://docs.gitlab.com/ee/ci/troubleshooting.html#pipeline-warning=
+s
+>
+> Run for branch name or tag
+> master
+> Variables
+> Specify variable values to be used in this run. The values specified in C=
+I/CD settings will be used by default.
+> Run pipelineCancel
+> =C2=B7=C2=B7=C2=B7
+> --
+>          =E6=AD=A4=E8=87=B4
+> =E7=A4=BC
+> =E7=BD=97=E5=8B=87=E5=88=9A
+> Yours
+>     sincerely,
+> Yonggang Luo
 
