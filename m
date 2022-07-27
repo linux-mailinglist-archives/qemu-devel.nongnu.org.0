@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 747F9581F56
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 06:56:08 +0200 (CEST)
-Received: from localhost ([::1]:50662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4217C581F5B
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jul 2022 06:58:45 +0200 (CEST)
+Received: from localhost ([::1]:55088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGZ5b-0004Em-DM
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 00:56:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50006)
+	id 1oGZ88-0007GP-9T
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 00:58:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGZ3E-0002E4-4K
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56609)
+ id 1oGZ5i-0004Jf-2a
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:56:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oGZ3C-0000QC-8U
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:53:39 -0400
+ id 1oGZ5e-0000yH-Rg
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 00:56:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658897616;
+ s=mimecast20190719; t=1658897770;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SMlM9HtrK6sgqmCMnJsb/uagRHZR/eofDBx2ZRublZo=;
- b=YZeqygyMOmIzfm6wfq50I6NhXQGRF4PDSvGF1YHupjCEWOFuBhhSv3u48VeOq6DScmXR+C
- PUrUX/F/1iaQFe+aSEcWcZ5d5ASALlXByHJk1NLo8DmXAg87bEi4cYiEV0f7ykPiuFxmka
- qf+e27aA7woRKotZSKOo5VrdbYlW/Ug=
-Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
- [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kU7TFJZS1q3Mj0P8d19/qGNxpvpAv6O1ACR+T60dq/M=;
+ b=DT8vWb6CbjbP00EmZJ/qBxxsw87PsjLK6/RuMBi+QRFL1bUVvv8a6CTe7RBZ6/23RXLa58
+ tzRwhe3ZMjDIeetK8E3HleRiR/aiBeaiPA0c1+G+Gd9ezTFFu5coQIHzf1RFL3uauWEwlj
+ hAfpzEiiz/a2DI7s8kp9vUqKj+Oy26k=
+Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
+ [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-155-GJ5uJpgCOIy9x2XALfOE-w-1; Wed, 27 Jul 2022 00:53:35 -0400
-X-MC-Unique: GJ5uJpgCOIy9x2XALfOE-w-1
-Received: by mail-lf1-f69.google.com with SMTP id
- k25-20020a195619000000b00489e6a6527eso4894434lfb.8
- for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 21:53:34 -0700 (PDT)
+ us-mta-240-FkCVcgOqNCSMWVOK-TU1nQ-1; Wed, 27 Jul 2022 00:56:08 -0400
+X-MC-Unique: FkCVcgOqNCSMWVOK-TU1nQ-1
+Received: by mail-lj1-f200.google.com with SMTP id
+ bd2-20020a05651c168200b0025dcd868408so3582371ljb.2
+ for <qemu-devel@nongnu.org>; Tue, 26 Jul 2022 21:56:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=SMlM9HtrK6sgqmCMnJsb/uagRHZR/eofDBx2ZRublZo=;
- b=GxywbH4UilwWyAaYzZtNlalyvxakIZG1YfKb58rj8sbwXBcxmwhQLszomeo/yj+gm4
- iBm8Pus5ijJZa6gFblOj9FtHZbTtjK556Q9WNbZXeih3uRhQo05YU9576wO9cGhqWONS
- ++0U2UelDrnAXiEfUelz94VSghjQpVJlDH3419kqm8pSJlyrGAvHYHXYsnq28cpzdA3i
- OFMvI87eWlvERj+R8XO02Zg7s1BI2TWMfcgiU7DDKklg4zcrYRKvtUjUZSaiO7p6qpud
- lIz+LdBVYUbAm9UlC91oxI7epk2Qpe6AXHSq0B9tdRhszDotqw7CNIm6hYxRusbtLv0/
- 8xPQ==
-X-Gm-Message-State: AJIora+4/EFLBshwYg+LN3vDeO7nHXASYKpTeQxwrMg3GD0r59OgI7vW
- SUX4RuxCO+c5jIABqAoqOaZ6Riws7GXxdYmyz1BB3MY3sKTjp2pF/7kaTSFdC/7Ql1J5NUIlRzP
- K3STMwu3MO5BArtWzdeORq2NA2H9uYa4=
-X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
- y14-20020a0565123f0e00b0048a5edd99b2mr7130554lfa.124.1658897613715; 
- Tue, 26 Jul 2022 21:53:33 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1slxe+fidKRo8rmNEFmwb9sDzrnfDr1WDfFXLNi74tjKKoVYADrywpW4c7L6MSNVXYHXBsqjMhJQ+CQmIg7LA0=
-X-Received: by 2002:a05:6512:3f0e:b0:48a:5edd:99b2 with SMTP id
- y14-20020a0565123f0e00b0048a5edd99b2mr7130549lfa.124.1658897613419; Tue, 26
- Jul 2022 21:53:33 -0700 (PDT)
+ bh=kU7TFJZS1q3Mj0P8d19/qGNxpvpAv6O1ACR+T60dq/M=;
+ b=n0Dact0vxOPWtmtQJ95vyhZHIKC1a5Ufs4fxGoHCCod9M/bW6eyjSEpjyNcuuSmYyf
+ qQDTVkF+o33XydlsLUV5e8fIoJf6e+nd1Fop+5zOgVANGKrbnbO32sS/DV9mVwEKBya2
+ reHTn4avYnHjNKwS8TVqEJoYhhWZxfoDN68xNr0tNz15RT2yx0O3slQMAh2bwGeBa3B8
+ yaSAnzFySG8KDg25/E1IQb0b+fevdhaRm+shIfTIMLSrr4On4Cvon29Hg2+fyD8rLEwY
+ t8Id/knwtSFLnLTVfXE3IEQ21NfsOjK86JAxHu6vMmLLJtdgqCgyS7DNjDSD3IUihaQd
+ W4Jw==
+X-Gm-Message-State: AJIora9tyXtRcS31mCStkegNWWssepLyyPnlDbUc27vN/Fs3us9YCfGo
+ Y9VDuSt4BbSRVRlX4w+5pwQwnNwNyYlvPENHT5PRTqiXMdkItlROpFaJE41Aqe2ffSlAGN7E7FR
+ fAzCoYBZPyEkkU5bXe0cFB5XNZ8Bt8dY=
+X-Received: by 2002:a05:6512:2394:b0:48a:7cfd:72ac with SMTP id
+ c20-20020a056512239400b0048a7cfd72acmr7223054lfv.411.1658897766246; 
+ Tue, 26 Jul 2022 21:56:06 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1upyADc+bqSRLZk1ajG7DgdkIGdEh6asrzLQR88Tn/UcBu6sANKAbIlnW1f8l7BkfFLL8iDCzUBP+DNRone/UE=
+X-Received: by 2002:a05:6512:2394:b0:48a:7cfd:72ac with SMTP id
+ c20-20020a056512239400b0048a7cfd72acmr7223048lfv.411.1658897766055; Tue, 26
+ Jul 2022 21:56:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1658141552.git.kangjie.xu@linux.alibaba.com>
- <229f4bc4d6ba7e85a09d6f35d2d06f3cc6a46a6a.1658141552.git.kangjie.xu@linux.alibaba.com>
- <e443d984-d4ae-084a-060c-70f802830014@redhat.com>
- <1dee6c9f-aeee-cd72-7141-dd95eed811c0@linux.alibaba.com>
-In-Reply-To: <1dee6c9f-aeee-cd72-7141-dd95eed811c0@linux.alibaba.com>
+ <8bf7574d8e133d3fa7e8b09f4deb59369916774a.1658141552.git.kangjie.xu@linux.alibaba.com>
+ <b078fc30-0c8b-b56c-e320-c89e6376fb21@redhat.com>
+ <93985df7-7d5f-782e-10ed-7494f0806d22@linux.alibaba.com>
+In-Reply-To: <93985df7-7d5f-782e-10ed-7494f0806d22@linux.alibaba.com>
 From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 27 Jul 2022 12:53:22 +0800
-Message-ID: <CACGkMEtm33BR3r9cUJCRnPDvOa7fck2goZKKqk4S3Y0+3FAqOA@mail.gmail.com>
-Subject: Re: [PATCH 16/16] vhost-net: vq reset feature bit support
+Date: Wed, 27 Jul 2022 12:55:54 +0800
+Message-ID: <CACGkMEsTcoLQYJVxT8J3yDu007zan-3OsExRHFe3DCsZ1_y1=w@mail.gmail.com>
+Subject: Re: [PATCH 08/16] vhost: add op to enable or disable a single vring
 To: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-Cc: mst <mst@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- hengqi@linux.alibaba.com, qemu-devel <qemu-devel@nongnu.org>
+Cc: mst <mst@redhat.com>, qemu-devel <qemu-devel@nongnu.org>, 
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, hengqi@linux.alibaba.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,70 +97,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 2:24 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> w=
+On Tue, Jul 26, 2022 at 2:39 PM Kangjie Xu <kangjie.xu@linux.alibaba.com> w=
 rote:
 >
 >
-> =E5=9C=A8 2022/7/26 12:28, Jason Wang =E5=86=99=E9=81=93:
+> =E5=9C=A8 2022/7/26 11:49, Jason Wang =E5=86=99=E9=81=93:
 > >
 > > =E5=9C=A8 2022/7/18 19:17, Kangjie Xu =E5=86=99=E9=81=93:
-> >> Add support for negotation of vq reset feature bit.
+> >> The interface to set enable status for a single vring is lacked in
+> >> VhostOps, since the vhost_set_vring_enable_op will manipulate all
+> >> virtqueues in a device.
 > >>
-> >> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
-> >> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> >> Resetting a single vq will rely on this interface. It requires a
+> >> reply to indicate that the reset operation is finished, so the
+> >> parameter, wait_for_reply, is added.
 > >
 > >
-> > I'd suggest to add support for vhost-net kernel as well. It looks much
-> > more easier than vhost-user (I guess a stop/start would do the trick).
+> > The wait reply seems to be a implementation specific thing. Can we
+> > hide it?
 > >
 > > Thanks
 > >
-> >
-> Yeah, we've planned to support it in the future.
+> I do not hide wait_for_reply here because when stopping the queue, a
+> reply is needed to ensure that the message has been processed and queue
+> has been disabled.
 
-If it's possible, I suggest to implement in this series. It would be
-easier since it current kernel support it already (via SET_BACKEND).
+This needs to be done at vhost-backend level instead of the general vhost c=
+ode.
+
+E.g vhost-kernel or vDPA is using ioctl() which is synchronous.
+
+>
+> When restarting the queue, we do not need a reply, which is the same as
+> what qemu does in vhost_dev_start().
+>
+> So I add this parameter to distinguish the two cases.
+>
+> I think one alternative implementation is to add a interface in
+> VhostOps: queue_reset(). In this way details can be hidden. What do you
+> think of this solution? Does it look better?
+
+Let me ask it differently, under which case can we call this function
+with wait_for_reply =3D false?
 
 Thanks
 
 >
 > Thanks
 >
-> >> ---
-> >>   hw/net/vhost_net.c  | 1 +
-> >>   hw/net/virtio-net.c | 3 ++-
-> >>   2 files changed, 3 insertions(+), 1 deletion(-)
+> >
 > >>
-> >> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> >> index 4f5f034c11..de910f6466 100644
-> >> --- a/hw/net/vhost_net.c
-> >> +++ b/hw/net/vhost_net.c
-> >> @@ -73,6 +73,7 @@ static const int user_feature_bits[] =3D {
-> >>       VIRTIO_NET_F_MTU,
-> >>       VIRTIO_F_IOMMU_PLATFORM,
-> >>       VIRTIO_F_RING_PACKED,
-> >> +    VIRTIO_F_RING_RESET,
-> >>       VIRTIO_NET_F_RSS,
-> >>       VIRTIO_NET_F_HASH_REPORT,
-> >>   diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> >> index 0747ffe71c..a8b299067a 100644
-> >> --- a/hw/net/virtio-net.c
-> >> +++ b/hw/net/virtio-net.c
-> >> @@ -757,6 +757,8 @@ static uint64_t
-> >> virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-> >>         virtio_add_feature(&features, VIRTIO_NET_F_MAC);
-> >>   +    virtio_add_feature(&features, VIRTIO_F_RING_RESET);
-> >> +
-> >>       if (!peer_has_vnet_hdr(n)) {
-> >>           virtio_clear_feature(&features, VIRTIO_NET_F_CSUM);
-> >>           virtio_clear_feature(&features, VIRTIO_NET_F_HOST_TSO4);
-> >> @@ -777,7 +779,6 @@ static uint64_t
-> >> virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-> >>       }
-> >>         if (!get_vhost_net(nc->peer)) {
-> >> -        virtio_add_feature(&features, VIRTIO_F_RING_RESET);
-> >>           return features;
-> >>       }
+> >> Signed-off-by: Kangjie Xu <kangjie.xu@linux.alibaba.com>
+> >> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> >> ---
+> >>   include/hw/virtio/vhost-backend.h | 4 ++++
+> >>   1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/include/hw/virtio/vhost-backend.h
+> >> b/include/hw/virtio/vhost-backend.h
+> >> index eab46d7f0b..7bddd1e9a0 100644
+> >> --- a/include/hw/virtio/vhost-backend.h
+> >> +++ b/include/hw/virtio/vhost-backend.h
+> >> @@ -81,6 +81,9 @@ typedef int (*vhost_set_backend_cap_op)(struct
+> >> vhost_dev *dev);
+> >>   typedef int (*vhost_set_owner_op)(struct vhost_dev *dev);
+> >>   typedef int (*vhost_reset_device_op)(struct vhost_dev *dev);
+> >>   typedef int (*vhost_get_vq_index_op)(struct vhost_dev *dev, int idx)=
+;
+> >> +typedef int (*vhost_set_single_vring_enable_op)(struct vhost_dev *dev=
+,
+> >> +                                                int index, int enable=
+,
+> >> +                                                bool wait_for_reply);
+> >>   typedef int (*vhost_set_vring_enable_op)(struct vhost_dev *dev,
+> >>                                            int enable);
+> >>   typedef bool (*vhost_requires_shm_log_op)(struct vhost_dev *dev);
+> >> @@ -155,6 +158,7 @@ typedef struct VhostOps {
+> >>       vhost_set_owner_op vhost_set_owner;
+> >>       vhost_reset_device_op vhost_reset_device;
+> >>       vhost_get_vq_index_op vhost_get_vq_index;
+> >> +    vhost_set_single_vring_enable_op vhost_set_single_vring_enable;
+> >>       vhost_set_vring_enable_op vhost_set_vring_enable;
+> >>       vhost_requires_shm_log_op vhost_requires_shm_log;
+> >>       vhost_migration_done_op vhost_migration_done;
 >
 
 
