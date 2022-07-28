@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ED4E584308
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:24:34 +0200 (CEST)
-Received: from localhost ([::1]:59130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD4D5842FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:22:53 +0200 (CEST)
+Received: from localhost ([::1]:55652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH5NJ-0006QM-9l
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
+	id 1oH5Lg-00042A-Ns
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:22:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oH5Aw-0002dJ-Jr
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 11:11:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54787)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1oH5Au-0005LW-Mt
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 11:11:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659021104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7Fxpl60zAyEoxJZOb074sYjEHyQMTlN42THtevp4wVE=;
- b=gn4b2cgc4uQ13rlqzmrN953DYg6RHe6G3OYYH7gya35sOXR0eJMWjC+ZNSVeruuvUE371B
- a6T2Y2pcWJRkJpxf/DNi8tG1OSsxHklTaDmU2opsvA0fdHAMeRzMgljIMtY34qcUIstmn/
- LZ0bPlCs3PcsCyCSx2nu71UBFM0nViI=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-96-V7fyQDSONAiwbq8usaeFFA-1; Thu, 28 Jul 2022 11:11:42 -0400
-X-MC-Unique: V7fyQDSONAiwbq8usaeFFA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- lp8-20020a056214590800b004744f4ad562so1498202qvb.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 08:11:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH5CQ-0004Hv-5o
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 11:13:19 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:37473)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH5CO-0005cZ-Fk
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 11:13:17 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id 141so3744320ybn.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 08:13:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=SsngolPpNfFh5iuJu0R8PCnaLqWy8O9mKkc9PJvlZJ8=;
+ b=HE+Nti2sACUZs/W3nUScm0SuMCa3yJuLwHwuovKiDnhOpvz4JwJy2DaYu+xIkIeITs
+ +G+I59Uo9Qg+8QH2T53PVi2VwYlPJi3l3rIMybslLLRBotjZ46vTFRowaNAOv49rQZtf
+ GLSR6TxiMMDhalJzb93wwmORbEIG7hh1/9kXKVL6XmtqM8M44CX7hPfvVLgTB4HURvrQ
+ oz/4lJjKnxADMVyGCqaPs57VwpS8MCKTjRSp7CL+cd9MmVCorxmmBmijjy1EYXLqOWRG
+ 3hxzPGr/ACvzU1X1QvVGJYIZVRyP+yYR/7O7MfH/9K8bMJvIMJqAlxitlVKOGlfGmsIP
+ GtBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7Fxpl60zAyEoxJZOb074sYjEHyQMTlN42THtevp4wVE=;
- b=CD8IhOeJCHAVvW/kjVw82DS74QOnWQQARYR8GVDc+YVxzSTYQ1H+IGpAUBxSSnFw8A
- AXd/uxHFVd6q9ZPaGSZxSzn+qETHmdVs40zFEFWwM+lD0Wx4rGKM3egEf/F3RVt0E4+c
- sPZw22HcZMIw8Gqe3uMyd6p1L8OUOTJXmkZ6/2T6RfZPASl+7wESpLE47T+ehjspXwvX
- rEfk60h6Zj5xEuCYRFi8ArHSIfMGobhdq5YRq5+v31zKZXk4+2iZ+2h7U1cniFIX2pGP
- KkOM+kE+ZU6myTCPY3ZmtqA+tJd7k2X2l1xF5S6QU1MW4PL24PZzR7ipN91GK3bfzVpD
- CNbA==
-X-Gm-Message-State: AJIora9Ji8SvBb78uExoS01WNOMzApBqKDrwo4gX5/QawvsVWXKrXiT8
- gKVG7YB2edmmEnHTudhQeYScU/xmCUaVO3rO9s47fGItLk7MtAQeIQi8sKKcVEE/1J4RyoqJwLi
- JLAtgPRQlDsJfRac=
-X-Received: by 2002:ac8:5cc3:0:b0:31f:782:8588 with SMTP id
- s3-20020ac85cc3000000b0031f07828588mr23626232qta.594.1659021102324; 
- Thu, 28 Jul 2022 08:11:42 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s3n2ylSPoupQgT+hlvJXblKVQPHVPqezw1oBbDVw5OlU5vjqwE1t0Fq4eebXrUNjHtH+3yMg==
-X-Received: by 2002:ac8:5cc3:0:b0:31f:782:8588 with SMTP id
- s3-20020ac85cc3000000b0031f07828588mr23626209qta.594.1659021102085; 
- Thu, 28 Jul 2022 08:11:42 -0700 (PDT)
-Received: from xz-m1.local
- (bras-base-aurron9127w-grc-35-70-27-3-10.dsl.bell.ca. [70.27.3.10])
- by smtp.gmail.com with ESMTPSA id
- fu10-20020a05622a5d8a00b0031f319ce7cesm578849qtb.73.2022.07.28.08.11.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 08:11:41 -0700 (PDT)
-Date: Thu, 28 Jul 2022 11:11:40 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v3 0/2] migration-test: Allow test to run without uffd
-Message-ID: <YuKnLOHbJ5iktZld@xz-m1.local>
-References: <20220728133516.92061-1-peterx@redhat.com>
- <10edefb1-3764-d0e5-f4be-0738224fcb04@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=SsngolPpNfFh5iuJu0R8PCnaLqWy8O9mKkc9PJvlZJ8=;
+ b=mUOre87OIoAM0J8eQJhIl3gVqnygkbFRcZLx2mCTGM1N5CuiluEEXgAVpf6fJ9f5cp
+ 5gqtYskrT8qWQ8qwCy5BH5UXsSonw86J6Y62w9M7QrppFOobExg/qDRqsI19m4+TFoyk
+ X9Ulbu2WiwnIFASdFFapW0bwbF57s0UrV6yUdZzVz4fjlksbfCD19ML9z6gtqBrba6+f
+ rYsAUi5rZs9i08C5d9UiOFysrorKAFLWQntGNCC7+wGebXLrkdZrp0o55hkXwpGnDffc
+ Vuo/YkAJFfE6VmYDm9XFeIb4pMC6CZ5ayFM7TlynZNmvHi8hxk1Joga5vzmiQDUZ00iz
+ /ZhA==
+X-Gm-Message-State: AJIora/eLhjRom/7B4CCXdpDhiHOSMtdJP9YipejoVzwtbDkfOgB+O3Q
+ 9TKevMfAxMUfqIZDhtJ1BOk9tdvBwcnSMUGjwE9L9A==
+X-Google-Smtp-Source: AGRyM1vqYX1yl81M1Qv8GeGuDIwuI2uCZb9Wu+beh+tGf3Ulss3zG+rc6lweUXxRr2vfvtcMy5ChG7RUb21LoyyMSFc=
+X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
+ n23-20020a25d617000000b0067179bd69bfmr9387260ybg.85.1659021194241; Thu, 28
+ Jul 2022 08:13:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <10edefb1-3764-d0e5-f4be-0738224fcb04@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+ <YuKgxM4IjAXh/goO@work-vm>
+ <20220728165411.5701befb@redhat.com> <YuKmuvgqMQtTXVjX@work-vm>
+In-Reply-To: <YuKmuvgqMQtTXVjX@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jul 2022 16:12:34 +0100
+Message-ID: <CAFEAcA-H=P44_e9qbKiGiCXjs9JPCmhEK5qp23TLX229G=Y6rg@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
+ aurelien@aurel32.net, jiaxun.yang@flygoat.com, ani@anisinha.ca, 
+ mst@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,38 +86,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 04:44:49PM +0200, Thomas Huth wrote:
-> On 28/07/2022 15.35, Peter Xu wrote:
-> > v2:
-> > - Fix warning in patch 1 [Thomas]
-> > - Collected R-b for Daniel
-> > 
-> > Compare to v1, this added a new patch as reported by Thomas to (hopefully)
-> > allow auto-converge test to pass on some MacOS testbeds.
-> > 
-> > Please review, thanks.
-> > 
-> > Peter Xu (2):
-> >    migration-test: Use migrate_ensure_converge() for auto-converge
-> >    migration-test: Allow test to run without uffd
-> > 
-> >   tests/qtest/migration-test.c | 67 +++++++++++++++---------------------
-> >   1 file changed, 27 insertions(+), 40 deletions(-)
-> 
-> Seems to work now:
-> 
-> https://api.cirrus-ci.com/v1/task/4760264934424576/logs/build.log
-> 
-> Citing:
-> 
-> " 2/59 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test         OK
-> 218.87s   33 subtests passed"
-> 
-> Tested-by: Thomas Huth <thuth@redhat.com>
+On Thu, 28 Jul 2022 at 16:09, Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> * Igor Mammedov (imammedo@redhat.com) wrote:
+> > On Thu, 28 Jul 2022 15:44:20 +0100
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> >
+> > > * Igor Mammedov (imammedo@redhat.com) wrote:
+> > > > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
+> > > >   $ qemu-system-mips -monitor stdio
+> > > >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+> > > >   Segmentation fault (core dumped)
+> > > >
+> > > > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
+> > > > which are valid only for x86 and not for MIPS (as it requires ACPI
+> > > > tables support which is not existent for ithe later)
+> > > >
+> > > > Issue was probably exposed by trying to cleanup/compile out unused
+> > > > ACPI bits from MIPS target (but forgetting about migration bits).
+> > > >
+> > > > Disable compiled out features using compat properties as the least
+> > > > risky way to deal with issue.
+> > >
+> > > Isn't the problem partially due to a 'stub' vmsd which isn't terminated?
+> >
+> > Not sure what "'stub' vmsd" is, can you explain?
+>
+> In hw/acpi/acpi-pci-hotplug-stub.c there is :
+> const VMStateDescription vmstate_acpi_pcihp_pci_status;
+>
+> this seg happens when the migration code walks into that - this should
+> always get populated with some of the minimal fields, in particular the
+> .name and .fields array terminated with VMSTATE_END_OF_LIST().
 
-Thanks!
+Either:
+ (1) we should be sure the vmstate struct does not get used if the
+     compile-time config has ended up with the stub
+or
+ (2) it needs to actually match the real vmstate struct, otherwise
+     migration between a QEMU built with a config that just got the
+     stub version and a QEMU built with a config that got the full
+     version will break
 
--- 
-Peter Xu
+This patch does the former. Segfaulting if we got something wrong
+and tried to use the vmstate when we weren't expecting to is
+arguably better than producing an incompatible migration stream.
+(Better still would be if we caught this on machine startup rather
+than only when savevm was invoked.)
 
+thanks
+-- PMM
 
