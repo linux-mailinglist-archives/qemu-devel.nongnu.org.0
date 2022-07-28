@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86034583E48
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B7A1583E49
 	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:05:56 +0200 (CEST)
-Received: from localhost ([::1]:54094 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH2H4-0007Ev-Tz
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
+	id 1oH2H5-0007Hc-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:05:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oH2Ba-0001Q0-NA
+ id 1oH2Ba-0001Mi-4v
  for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52217)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oH2BT-0001iX-LA
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:14 -0400
+ id 1oH2BT-0001ig-Lj
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1659009606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=A6nxP9Kj3J6zT0Wv7iynmOA4d36UBo2zsHpiNFE8G/8=;
- b=ILlaqpumSRjQPuEDUdOYuiO1soNHqz4OPtQ/VMp+l52I04yG0691R0NjRwZfgjsP++3QM4
- YqzLEiy916kxVq1WlypbgyV1ERWjwRkwWkE/om2z9S3Q3Oy1qaoy61mqT1x1yWlq1jLJ14
- xhvZhsneWt52BX+ISAxUcYyR82JxBF0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EDNsgNORhf5MUfZCXD5Dgxbpg5HCOhY3hdxecTLw2cA=;
+ b=ZoJzAsk/ugeuaTepgpiq4ZsFV7U5JsxdEb+YANIi08DxJFVRbAeSgCgsmgiRjONXA9dKCm
+ Y6S04Z7kEZyzgsQt1j/+Tp9JWOTOfY/BPpAdMaNjKF7UIGGAZC1s9gSToBEGNw2SVoH2nC
+ lpGtDNxDby/BrjluKqGpmMF5AbPWtdw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-522-VbB0BlTXO5W3WoooGR9FLw-1; Thu, 28 Jul 2022 08:00:01 -0400
-X-MC-Unique: VbB0BlTXO5W3WoooGR9FLw-1
+ us-mta-132-4RCJgOFFMG6ywvFr9K1pwg-1; Thu, 28 Jul 2022 08:00:03 -0400
+X-MC-Unique: 4RCJgOFFMG6ywvFr9K1pwg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CFE601C0336E;
- Thu, 28 Jul 2022 12:00:00 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 092C7185A7A4;
+ Thu, 28 Jul 2022 12:00:03 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74FD918EB5;
- Thu, 28 Jul 2022 11:59:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DB5D90A11;
+ Thu, 28 Jul 2022 12:00:01 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -49,10 +50,12 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v2 0/6] Eliminate multifd flush
-Date: Thu, 28 Jul 2022 13:59:51 +0200
-Message-Id: <20220728115957.5554-1-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 1/6] multifd: Create property
+ multifd-sync-after-each-section
+Date: Thu, 28 Jul 2022 13:59:52 +0200
+Message-Id: <20220728115957.5554-2-quintela@redhat.com>
+In-Reply-To: <20220728115957.5554-1-quintela@redhat.com>
+References: <20220728115957.5554-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
@@ -80,37 +83,92 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+We used to synchronize all channels at the end of each RAM section
+sent.  That is not needed, so preparing to only synchronize once every
+full round in latests patches.
 
-In this v2:
-- update to latest upstream
-- change 0, 1, 2 values to defines
-- Add documentation for SAVE_VM_FLAGS
-- Add missing qemu_fflush(), it made random hangs for migration test
-  (only for tls, no clue why).
+Notice that we initialize the property as true.  We will change the
+default when we introduce the new mechanism.
 
-Please, review.
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-[v1]
-Upstream multifd code synchronize all threads after each RAM section.  This is suboptimal.
-Change it to only flush after we go trough all ram.
+---
 
-Preserve all semantics for old machine types.
+Rename each-iteration to after-each-section
 
-Juan Quintela (6):
-  multifd: Create property multifd-sync-after-each-section
-  multifd: Protect multifd_send_sync_main() calls
-  migration: Simplify ram_find_and_save_block()
-  migration: Make find_dirty_block() return a single parameter
-  multifd: Only sync once each full round of memory
-  ram: Document migration ram flags
-
- migration/migration.h |  6 +++
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/migration.h |  6 ++++++
  hw/core/machine.c     |  1 +
- migration/migration.c | 11 ++++-
- migration/ram.c       | 98 ++++++++++++++++++++++++++++++-------------
- 4 files changed, 85 insertions(+), 31 deletions(-)
+ migration/migration.c | 11 ++++++++++-
+ 3 files changed, 17 insertions(+), 1 deletion(-)
 
+diff --git a/migration/migration.h b/migration/migration.h
+index cdad8aceaa..6abd2a51f5 100644
+--- a/migration/migration.h
++++ b/migration/migration.h
+@@ -373,6 +373,11 @@ struct MigrationState {
+      * This save hostname when out-going migration starts
+      */
+     char *hostname;
++    /*
++     * Synchronize channels after each section is sent.
++     * We used to do that on the past, but it is suboptimal.
++     */
++    bool multifd_sync_after_each_section;
+ };
+ 
+ void migrate_set_state(int *state, int old_state, int new_state);
+@@ -415,6 +420,7 @@ int migrate_multifd_channels(void);
+ MultiFDCompression migrate_multifd_compression(void);
+ int migrate_multifd_zlib_level(void);
+ int migrate_multifd_zstd_level(void);
++bool migrate_multifd_sync_after_each_section(void);
+ 
+ #ifdef CONFIG_LINUX
+ bool migrate_use_zero_copy_send(void);
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index a673302cce..9645a25f8f 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -43,6 +43,7 @@
+ GlobalProperty hw_compat_7_0[] = {
+     { "arm-gicv3-common", "force-8-bit-prio", "on" },
+     { "nvme-ns", "eui64-default", "on"},
++    { "migration", "multifd-sync-after-each-section", "on"},
+ };
+ const size_t hw_compat_7_0_len = G_N_ELEMENTS(hw_compat_7_0);
+ 
+diff --git a/migration/migration.c b/migration/migration.c
+index e03f698a3c..ebca4f2d8a 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2592,6 +2592,13 @@ bool migrate_use_multifd(void)
+     return s->enabled_capabilities[MIGRATION_CAPABILITY_MULTIFD];
+ }
+ 
++bool migrate_multifd_sync_after_each_section(void)
++{
++    MigrationState *s = migrate_get_current();
++
++    return s->multifd_sync_after_each_section;
++}
++
+ bool migrate_pause_before_switchover(void)
+ {
+     MigrationState *s;
+@@ -4384,7 +4391,9 @@ static Property migration_properties[] = {
+     DEFINE_PROP_STRING("tls-creds", MigrationState, parameters.tls_creds),
+     DEFINE_PROP_STRING("tls-hostname", MigrationState, parameters.tls_hostname),
+     DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
+-
++    /* We will change to false when we introduce the new mechanism */
++    DEFINE_PROP_BOOL("multifd-sync-after-each-section", MigrationState,
++                      multifd_sync_after_each_section, true),
+     /* Migration capabilities */
+     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
+     DEFINE_PROP_MIG_CAP("x-rdma-pin-all", MIGRATION_CAPABILITY_RDMA_PIN_ALL),
 -- 
 2.37.1
 
