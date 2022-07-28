@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99BF584320
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:33:08 +0200 (CEST)
-Received: from localhost ([::1]:46820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06EEE58431F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:32:59 +0200 (CEST)
+Received: from localhost ([::1]:46538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH5VW-0001sg-CM
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37414)
+	id 1oH5VS-0001cM-1R
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1oH5FD-0006KD-HQ; Thu, 28 Jul 2022 11:16:11 -0400
-Received: from dfw.source.kernel.org ([139.178.84.217]:42338)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1oH5FA-0006RG-4F; Thu, 28 Jul 2022 11:16:10 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 9B99261AF9;
- Thu, 28 Jul 2022 15:16:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9C5C433D6;
- Thu, 28 Jul 2022 15:16:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1659021362;
- bh=HKcV0VLiTHT9/K/bl8OzhHIrkOdo2TJuxwbPgq85C5Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FhX6xvV7B/5rcgtwBSXEzPAaM8231fGKLTQEG/9RHn5OJfOSYn9lXS5obQUigtuYb
- Q9GXHgWysZ8USd/Y4w5j1k+Sl8oE2ZpSR7VVY/5JTOmZU1hYqqKkfJzs3cum3cFj7+
- bndBpOhm9IavBBkIKaeLuoFp9AQmjy7K7Zfz3gmTMeeOWr9dd/z9UgRT6VC2NiL/wq
- eoeHvPa78GAiY3EHmpmwix+rHrcBZT7YJWq09HXqMkr20cWIvJdHd5FVTQkwyDKq7g
- arQlOq8vBKxs7HoVsIraR5BKhA1PfVcr8HkMeAWdqH8NqpTyAkVCha6YE58ga5sYlD
- 8D3USQADsz/RQ==
-Date: Thu, 28 Jul 2022 09:15:59 -0600
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>, Klaus Jensen <k.jensen@samsung.com>
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oH5Rn-0005Of-6d; Thu, 28 Jul 2022 11:29:11 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:36350 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oH5Rj-00058j-QT; Thu, 28 Jul 2022 11:29:10 -0400
+Received: from smtpclient.apple (unknown [221.220.143.85])
+ by APP-05 (Coremail) with SMTP id zQCowAB3fLA4q+JiBAjCEw--.4353S2;
+ Thu, 28 Jul 2022 23:28:56 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
 Subject: Re: [PATCH for-7.1 0/3] hw/nvme: misc ioeventfd fixes
-Message-ID: <YuKoL3uMTRbcJOLh@kbusch-mbp.dhcp.thefacebook.com>
-References: <20220728082522.3161739-1-its@irrelevant.dk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 In-Reply-To: <20220728082522.3161739-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=kbusch@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Date: Thu, 28 Jul 2022 23:28:55 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <CD3C62CF-02C3-47F7-8241-2BC9F7975FB2@ict.ac.cn>
+References: <20220728082522.3161739-1-its@irrelevant.dk>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowAB3fLA4q+JiBAjCEw--.4353S2
+X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+ VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUY17k0a2IF6F4UM7kC6x804xWl14x267AK
+ xVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
+ A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j
+ 6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2z280aVAFwI0_Cr
+ 1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv
+ 0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z2
+ 80aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkIecxE
+ wVAFwVW5WwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
+ 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
+ IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
+ AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAFwI0_
+ Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUx-
+ B_UUUUU
+X-Originating-IP: [221.220.143.85]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,12 +73,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 10:25:19AM +0200, Klaus Jensen wrote:
+at 4:25 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+
 > From: Klaus Jensen <k.jensen@samsung.com>
 > 
 > A set of fixes/changes to the ioeventfd support.
+> 
+> Klaus Jensen (3):
+>  hw/nvme: skip queue processing if notifier is cleared
+>  hw/nvme: unregister the event notifier handler on the main loop
+>  hw/nvme: do not enable ioeventfd by default
+> 
+> hw/nvme/ctrl.c | 12 +++++++++---
+> 1 file changed, 9 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.36.1
 
-Series looks good.
+Looks good to me as well.
 
-Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+
 
