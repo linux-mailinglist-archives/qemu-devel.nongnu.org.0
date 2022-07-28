@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 217A2583E58
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:09:34 +0200 (CEST)
-Received: from localhost ([::1]:33462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2342583E4B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:06:00 +0200 (CEST)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH2Kb-0003yQ-71
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:09:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40258)
+	id 1oH2H9-0007Sp-RG
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:05:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oH2Be-0001Yi-L6
+ id 1oH2Bd-0001Wq-V4
  for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23138)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oH2Bc-0001xl-R6
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:18 -0400
+ id 1oH2Bc-0001xI-Bl
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659009616;
+ s=mimecast20190719; t=1659009615;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fuYKXod9meK5/3kuBVMs3EAPF/cb5AdSc/xEpwKg5J0=;
- b=OlHOykj+Nwiv61g5N7cc6fKJ1fzw9WYFZhxohIHgD49h77eP8K1XRV1RTDVVq1Ac2T1Dz6
- V+7tqkBx6lnEroZ+6S3dkD7bhOs/AMgz7oorKz7fK6/TzWXWkethYJTDFkNvaMg/WXABiO
- WGnZTTB2kRxjaqDfSnt/xPt8fwotxoU=
+ bh=UXb1utX6d/dWs0SXVyXsGugRaFi8XCeLP+OgLPZtVpQ=;
+ b=FvwzO7hvmmn7Xl/wbOsUYhoeNCyr2DtC5FqQjdcW/HQ9eSmN7fKLD6jsREGuZuC83j3znl
+ vNX2vJ6GLoL3iepDTkhV1RitipM8CW2UOouDNsC39pW6IhEA1yFcrvi/rcG/Zn7w/fne9p
+ Wq5FSaS/kEsonDrbzVA9ws2p9FUFQV8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-665-6E4Jy28mNCSdoVZ_IESdOw-1; Thu, 28 Jul 2022 08:00:11 -0400
-X-MC-Unique: 6E4Jy28mNCSdoVZ_IESdOw-1
+ us-mta-241-66PMlBp4N4aTkDvXi2qKmw-1; Thu, 28 Jul 2022 08:00:12 -0400
+X-MC-Unique: 66PMlBp4N4aTkDvXi2qKmw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7DECF811E76;
- Thu, 28 Jul 2022 12:00:10 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 187EC8032F1;
+ Thu, 28 Jul 2022 12:00:12 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F1BF594561;
- Thu, 28 Jul 2022 12:00:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE33F18EB5;
+ Thu, 28 Jul 2022 12:00:10 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -50,9 +50,9 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
-Subject: [PATCH v2 5/6] multifd: Only sync once each full round of memory
-Date: Thu, 28 Jul 2022 13:59:56 +0200
-Message-Id: <20220728115957.5554-6-quintela@redhat.com>
+Subject: [PATCH v2 6/6] ram: Document migration ram flags
+Date: Thu, 28 Jul 2022 13:59:57 +0200
+Message-Id: <20220728115957.5554-7-quintela@redhat.com>
 In-Reply-To: <20220728115957.5554-1-quintela@redhat.com>
 References: <20220728115957.5554-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -82,120 +82,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We need to add a new flag to mean to sync at that point.
-Notice that we still synchronize at the end of setup and at the end of
-complete stages.
+0x80 is RAM_SAVE_FLAG_HOOK, it is in qemu-file now.
+Bigger usable flag is 0x200, noticing that.
+We can reuse RAM_SAVe_FLAG_FULL.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
-
 ---
+ migration/ram.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Add missing qemu_fflush(), now it passes all tests always.
----
- migration/migration.c |  2 +-
- migration/ram.c       | 27 ++++++++++++++++++++++++++-
- 2 files changed, 27 insertions(+), 2 deletions(-)
-
-diff --git a/migration/migration.c b/migration/migration.c
-index ebca4f2d8a..7905145d7d 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4393,7 +4393,7 @@ static Property migration_properties[] = {
-     DEFINE_PROP_STRING("tls-authz", MigrationState, parameters.tls_authz),
-     /* We will change to false when we introduce the new mechanism */
-     DEFINE_PROP_BOOL("multifd-sync-after-each-section", MigrationState,
--                      multifd_sync_after_each_section, true),
-+                      multifd_sync_after_each_section, false),
-     /* Migration capabilities */
-     DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRLE),
-     DEFINE_PROP_MIG_CAP("x-rdma-pin-all", MIGRATION_CAPABILITY_RDMA_PIN_ALL),
 diff --git a/migration/ram.c b/migration/ram.c
-index 1507ba1991..234603ee4f 100644
+index 234603ee4f..83a48e3889 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -82,6 +82,7 @@
+@@ -73,16 +73,19 @@
+  * RAM_SSAVE_FLAG_COMPRESS_PAGE just rename it.
+  */
+ 
+-#define RAM_SAVE_FLAG_FULL     0x01 /* Obsolete, not used anymore */
++/* RAM_SAVE_FLAG_FULL has been obsoleted since at least 2009, we can
++ * reuse it */
++#define RAM_SAVE_FLAG_FULL     0x01
+ #define RAM_SAVE_FLAG_ZERO     0x02
+ #define RAM_SAVE_FLAG_MEM_SIZE 0x04
+ #define RAM_SAVE_FLAG_PAGE     0x08
+ #define RAM_SAVE_FLAG_EOS      0x10
+ #define RAM_SAVE_FLAG_CONTINUE 0x20
  #define RAM_SAVE_FLAG_XBZRLE   0x40
- /* 0x80 is reserved in migration.h start with 0x100 next */
+-/* 0x80 is reserved in migration.h start with 0x100 next */
++/* 0x80 is reserved in qemu-file.h for RAM_SAVE_FLAG_HOOK */
  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
-+#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
+ #define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
++/* We can't use any flag that is bigger that 0x200 */
  
  XBZRLECacheStats xbzrle_counters;
  
-@@ -1540,6 +1541,7 @@ retry:
-  * associated with the search process.
-  *
-  * Returns:
-+ *         <0: An error happened
-  *         PAGE_ALL_CLEAN: no dirty page found, give up
-  *         PAGE_TRY_AGAIN: no dirty page found, retry for next block
-  *         PAGE_DIRTY_FOUND: dirty page found
-@@ -1572,6 +1574,14 @@ static int find_dirty_block(RAMState *rs, PageSearchStatus *pss)
-         pss->page = 0;
-         pss->block = QLIST_NEXT_RCU(pss->block, next);
-         if (!pss->block) {
-+            if (!migrate_multifd_sync_after_each_section()) {
-+                int ret = multifd_send_sync_main(rs->f);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+                qemu_put_be64(rs->f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-+                qemu_fflush(rs->f);
-+            }
-             /*
-              * If memory migration starts over, we will meet a dirtied page
-              * which may still exists in compression threads's ring, so we
-@@ -2556,6 +2566,9 @@ static int ram_find_and_save_block(RAMState *rs)
-                         break;
-                     } else if (res == PAGE_TRY_AGAIN) {
-                         continue;
-+                    } else if (res < 0) {
-+                        pages = res;
-+                        break;
-                     }
-                 }
-             }
-@@ -3232,6 +3245,10 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
-+    if (!migrate_multifd_sync_after_each_section()) {
-+        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-+    }
-+
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -3419,6 +3436,9 @@ static int ram_save_complete(QEMUFile *f, void *opaque)
-         return ret;
-     }
- 
-+    if (!migrate_multifd_sync_after_each_section()) {
-+        qemu_put_be64(f, RAM_SAVE_FLAG_MULTIFD_SYNC);
-+    }
-     qemu_put_be64(f, RAM_SAVE_FLAG_EOS);
-     qemu_fflush(f);
- 
-@@ -4087,7 +4107,9 @@ int ram_load_postcopy(QEMUFile *f, int channel)
-             }
-             decompress_data_with_multi_threads(f, page_buffer, len);
-             break;
--
-+        case RAM_SAVE_FLAG_MULTIFD_SYNC:
-+            multifd_recv_sync_main();
-+            break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             if (migrate_multifd_sync_after_each_section()) {
-@@ -4367,6 +4389,9 @@ static int ram_load_precopy(QEMUFile *f)
-                 break;
-             }
-             break;
-+        case RAM_SAVE_FLAG_MULTIFD_SYNC:
-+            multifd_recv_sync_main();
-+            break;
-         case RAM_SAVE_FLAG_EOS:
-             /* normal exit */
-             if (migrate_multifd_sync_after_each_section()) {
 -- 
 2.37.1
 
