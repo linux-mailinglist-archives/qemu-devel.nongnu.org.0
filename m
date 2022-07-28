@@ -2,109 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E61DA58449A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:07:38 +0200 (CEST)
-Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136F75844A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:11:19 +0200 (CEST)
+Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH6z3-000411-At
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:07:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40804)
+	id 1oH72b-0006Rx-Vw
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oH6uZ-00018Z-4L
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:03:00 -0400
-Received: from mail-co1nam11on2062e.outbound.protection.outlook.com
- ([2a01:111:f400:7eab::62e]:39072
- helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH70a-0004lf-E9
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:09:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1oH6uU-0008FD-9T
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:02:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=A0ynKkHCeXdkT5qLi0uhPchMNzSzWzfNKSqrMGcB2p06t4tEcWUxwhNim+2F8QJVrooPYyiS/tvzTTdwydGnNe2zjsxl4zYnqun+qAfPcQVSUPRZeN17DBBhbMgi5/OFSAZpL3mKnh+OWqs+8Mwrhi8Xng/lcWi51tH0owlGcXHxOQlLOqcU2fPmXCV1yyLcqbjWFI0ne7t1yHHlNGxnPKmVDk1P+1KwGHDFDcxvL549Sry+J5nCALf9ocxdKxF6kEXSPdXxseBQ0RjJ1q3VnVVnA6wpjXfETyXW37flGPWAUfVNMHW7Xpiyjd5C66VLUZu7co1Z4DIlpwsqKV4NGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H4bLPadNEhqX6P+FD+2AFehiS+K8DPiRXIDAGsh9SVY=;
- b=eMiJVRjA4Fd+7Wmvk3hIX4FNPJHL9iZU029AktNGLJdgcQNo0KNcFZtz+6u28h/xEbv0txradHvTLQQ2gBFk1l6iR7ZB87TDeIxmwmKyIeDJEeKI+yduCSi6tr0wEWA27uurJOPf12WbFzjVpkHjjneX9SJgRsVO3T9MNzJ4v8cxZQuxC1S0F9msyEtD7ebHvWJJDi+L1f0IVek78G56Vw2VPghngjYHRadcWSOjH5EH40uvx4IVwkZa+n67udqhifjhqGE3L6TkPc/CQkxm52ulwpu8sv4uSQMgptk/9GiAnA34V3++Ndrcmo/lf1S4WVH5iJMlMBThDGCXzn+PKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H4bLPadNEhqX6P+FD+2AFehiS+K8DPiRXIDAGsh9SVY=;
- b=5tcAnNsfSrjMBW3tySIYM6V8X3epKE9nZxjmNSK357yViIsIC7NGrh+VcUBbkGkmtf0lugaPyUo5o/dmhwNKrLJQZ0zfg/6LO6uPtIGdbli1xBkwwKG/lPOr/TzvoOyu9mQfUalu5ZqUEvx8i0zuGlGuF6XDUPnqH7kwZdewDfo=
-Received: from BN9P222CA0017.NAMP222.PROD.OUTLOOK.COM (2603:10b6:408:10c::22)
- by CH2PR12MB3926.namprd12.prod.outlook.com (2603:10b6:610:27::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.22; Thu, 28 Jul
- 2022 16:57:45 +0000
-Received: from BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:10c:cafe::66) by BN9P222CA0017.outlook.office365.com
- (2603:10b6:408:10c::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11 via Frontend
- Transport; Thu, 28 Jul 2022 16:57:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT049.mail.protection.outlook.com (10.13.177.157) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.5482.10 via Frontend Transport; Thu, 28 Jul 2022 16:57:44 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 28 Jul
- 2022 11:57:44 -0500
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH70X-0000pN-Mw
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:09:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659028144;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DogADKDCHu9M+X1pX23VQYzagzQQ9RO4hkFFwkg90B8=;
+ b=NBNNGDz67LiXSrkWvqbYKk1VImJ5smdItSLa7cmfC3rUOUFamXAc0mbwFhLItUyVdGAR0w
+ dH2VdDkImkLkfoQZrOy/4fK3qJ2IuFFUWj4TKwL5uw0LKtW0Il0TksvH7DqwG1qAn5G1nq
+ KxGN8YPUQaaeRZVr7BrTQOexh6QRoOA=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-50-6wLUm-IRPUu0CNEkCYNGQQ-1; Thu, 28 Jul 2022 13:09:03 -0400
+X-MC-Unique: 6wLUm-IRPUu0CNEkCYNGQQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BACA51824600;
+ Thu, 28 Jul 2022 17:09:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 87EAB2026D64;
+ Thu, 28 Jul 2022 17:08:58 +0000 (UTC)
+Date: Thu, 28 Jul 2022 19:08:57 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Hao Wu <wuhaotsh@google.com>,
+ richard.henderson@linaro.org, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, venture@google.com, Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org,
+ bin.meng@windriver.com, qemu-block@nongnu.org, thuth@redhat.com,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+Message-ID: <YuLCqeG21TCyBSTF@redhat.com>
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
+ <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
+ <YuKPVi9UjmZVqw5a@redhat.com> <878rodxpeq.fsf@pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Subject: [ANNOUNCE] QEMU 7.1.0-rc0 is now available
-From: Michael Roth <michael.roth@amd.com>
-To: <qemu-devel@nongnu.org>
-CC: <richard.henderson@linaro.org>
-Date: Thu, 28 Jul 2022 11:57:29 -0500
-Message-ID: <165902744932.407137.16336985253861525657@amd.com>
-User-Agent: alot/0.9
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 71fff46b-97d0-475d-6042-08da70ba4add
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3926:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: c6JzNiO6wnA/rgKIRPmc6vJvAGuAETh6ipU+2k/u9EqCfyFrd/t2BATcj3hSoeqZvooLRtgjhR81f73APLX02y895e9c/tsBZZqSk153gQf59mZnXxYtYJGwkhOqBnatKlSNW//0ho6cPfna2IVp0TnnwXhDqwNlgFD4csrxxFVWoxUcbpHC0TCmy7HeP5XjgRZZ9+aeJ5rztU85+5FtqWb4eOFMlbZQhDVZ/VagOUnTJl71sCm4NZoJMvi8i12Yw50n9eF3Sw/R7yI3+1qvturTMWUSbQwLm9zvpSCOvSgf9RTOrQecRXFXp0rZNkzOVwH0Hm9y6KnG4LHkeT/j/4h5yGa3Q67Iz7kpZh+MpMmVzQ0JvzyXx9T7+dYwtCopOUhuHQshN1AqI5PC+PTQPrrSMcmwaipfaoO74jqLHd2kfOhGeyLQWJ92uX1ik5ZBkQTswCcw55JEdaaE1ZTOTOJATUiXtrdVxwjOPNySSkWqg8BHpUS0E2w/48rmt4rhX8OSlVcHPnWkz+rKnofGb0se/tmtxKzbDRWnTvJdilLI120k7HG79Mw5F1w6yw9QJ91rkf8CiU4zkx/b1B93RZuUjzb9nFd7nCVynztw9KHKt8JyINdlIkh2dFdaYMxL9+gSZ+9IDf28dUHj08UajkfqMRy8f8SjO3OZ3OgorBLABF1MC3PPvHI8UrGlilxr00aS5hE7CPwzOkYwefJMCcultAXRcaweoMAA6OFYEMYAr/qnkL7FSJVL9n75z5Q87HWF/xBNl6P15cB4aaPFDImi1DhYFERDIPeOWTdO+ZjOFZV4DNuEhEdjYHMmML3U2rLImsL6WbQjtyTIAmCrltEo05DiUR2TG2fELnrMggQoItJ28NyG27iUsbiaEa97
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(39860400002)(376002)(136003)(396003)(36840700001)(46966006)(40470700004)(70586007)(26005)(4744005)(6666004)(70206006)(83380400001)(6916009)(316002)(81166007)(336012)(36756003)(8676002)(47076005)(426003)(2616005)(4326008)(40480700001)(16526019)(41300700001)(82310400005)(36860700001)(966005)(40460700003)(8936002)(44832011)(186003)(2906002)(86362001)(478600001)(356005)(5660300002)(82740400003)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 16:57:44.7815 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71fff46b-97d0-475d-6042-08da70ba4add
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3926
-Received-SPF: softfail client-ip=2a01:111:f400:7eab::62e;
- envelope-from=Michael.Roth@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878rodxpeq.fsf@pond.sub.org>
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -120,28 +85,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+Am 28.07.2022 um 16:50 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > Am 28.07.2022 um 11:46 hat Peter Maydell geschrieben:
+> >> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
+> >> >
+> >> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
+> >> > > An OTP device isn't really a parallel flash, and neither are eFuses.
+> >> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
+> >> > > other interface types, too.
+> >> > >
+> >> > > This patch introduces IF_OTHER.  The patch after next uses it for an
+> >> > > EEPROM device.
+> >> > >
+> >> > > Do we want IF_OTHER?
+> >> >
+> >> > What would the semantics even be? Any block device that doesn't pick up
+> >> > a different category may pick up IF_OTHER backends?
+> >> >
+> >> > It certainly feels like a strange interface to ask for "other" disk and
+> >> > then getting as surprise what this other thing might be. It's
+> >> > essentially the same as having an explicit '-device other', and I
+> >> > suppose most people would find that strange.
+> >> >
+> >> > > If no, I guess we get to abuse IF_PFLASH some more.
+> >> > >
+> >> > > If yes, I guess we should use IF_PFLASH only for actual parallel flash
+> >> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
+> >> > > be worth the trouble, though.
+> >> > >
+> >> > > Thoughts?
+> >> >
+> >> > If the existing types aren't good enough (I don't have an opinion on
+> >> > whether IF_PFLASH is a good match), let's add a new one. But a specific
+> >> > new one, not just "other".
+> >> 
+> >> I think the common thread is "this isn't what anybody actually thinks
+> >> of as being a 'disk', but we would like to back it with a block device
+> >> anyway". That can cover a fair range of possibilities...
+> >
+> > How confident are we that no board will ever have two devices of this
+> > kind?
+> >
+> > As long as every board has at most one, if=other is a bad user interface
+> > in terms of descriptiveness, but still more or less workable as long as
+> > you know what it means for the specific board you use.
+> >
+> > But if you have more than one device, it becomes hard to predict which
+> > device gets which backend - it depends on the initialisation order in
+> > the code then,
+> 
+> Really?  Board code should use IF_OTHER devices just like it uses the
+> other interface types, namely connecting each frontend device to a
+> backend device with a well-known and fixed interface type and index (or
+> bus and unit instead, where appropriate).
+> 
+> >                and I'm pretty sure that this isn't something that should
+> > have significance in external interfaces and therefore become a stable
+> > API.
+> 
+> I agree that "implied by execution order" is a bad idea: commit
+> 95fd260f0a "blockdev: Drop unused drive_get_next()".
 
-On behalf of the QEMU Team, I'd like to announce the availability of the
-first release candidate for the QEMU 7.1 release. This release is meant
-for testing purposes and should not be used in a production environment.
+Ah good, I was indeed thinking of something drive_get_next()-like.
 
-  http://download.qemu-project.org/qemu-7.1.0-rc0.tar.xz
-  http://download.qemu-project.org/qemu-7.1.0-rc0.tar.xz.sig
+In case the board works with explicit indices, the situation is not as
+bad as I was afraid. It will certainly be workable (even if not obvious)
+for any boards that have a fixed number of devices with block backends,
+which should cover everything we're intending to cover here.
 
-You can help improve the quality of the QEMU 7.1 release by testing this
-release and reporting bugs using our GitLab issue tracker:
+I still consider if=other a bad user interface because what it means is
+completely opaque, but if that's okay for you in your board, who am I to
+object.
 
-  https://gitlab.com/qemu-project/qemu/-/issues
+(Of course, the real solution would be having a generic way to set qdev
+properties for on-board devices. I'm not expecting that we're getting
+this anytime soon, though.)
 
-The release plan, as well a documented known issues for release
-candidates, are available at:
+Kevin
 
-  http://wiki.qemu.org/Planning/7.1
-
-Please add entries to the ChangeLog for the 7.1 release below:
-
-  http://wiki.qemu.org/ChangeLog/7.1
-
-Thank you to everyone involved!
 
