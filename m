@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B993E583F5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:58:44 +0200 (CEST)
-Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF1BD583F67
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:01:15 +0200 (CEST)
+Received: from localhost ([::1]:47464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH36B-0007Wm-9Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
+	id 1oH38d-0000wJ-1I
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oH327-0004um-G1
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:54:34 -0400
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:41974)
+ id 1oH33k-0005pl-FV
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:56:12 -0400
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:44699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oH325-0003VR-Oh
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:54:31 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id t1so2698730lft.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 05:54:29 -0700 (PDT)
+ id 1oH33i-0007HA-QW
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:56:12 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id w15so2686638lft.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 05:56:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XayPAOeCU0JCltzVvxkOZ8RNCR6hB7aKhjXHXt227oI=;
- b=GKjpWqc5ixDGE+5UuVQSVywXLOuUlSE8HvKowj/+Cq9xM0KQkCPtwZ+jMFhClL9SGB
- sGax8rniRmAu3MQ1J98EB205twYZtY74BXvxWu9L1WBTGZO/nRLH3UchU+TksagTVdKn
- 38V7iBOgxQoqJ59oXvTAHe/y3F2oNR006B5DWYGCVv4dk3j13aiK42/Hacp16qZRAsQp
- +KGNJT35x3UStticYICgcubmvPbJpzI9MNlVUmCW4hudGZRWo+BcKH3/AhWoE2pXclxR
- 6yFqA2LCDg7/zBXbHJvVbvpYUaOOk5Xb42Nm5udtBmKyouZuU/iEfc3y0D4nUVP2YmeJ
- vpZw==
+ :cc; bh=3+Xf3SXeLKKtBDKNtR6juxXVaEyW17X6rOyLfChviOs=;
+ b=iedox6uboMudcaoJd6A0ln/hGeyoTicSuLQ4uweQyhcbGBNQPE2Ohv3DtFeOD5rV56
+ qpUXK4acTVM7XkxRo6ypGlzIvbfp8ShcQyZgBk5WRKWCwrzm6Hp1Uv7ed2ZSQynPeTyy
+ jI8P/MljHkHw/BrNgHGm4Ie/66uexLCTMnGH+LBNb2jcm5bj4I1FQuRmmhdXC+Pwjwia
+ +yVzi7UoATsCS8WtY92kBseNG1hozB9b7ZKm3bNRH4bBhon018ISo6SWiqy6WOCMa0yK
+ n2VqMaKIf4o1U8Ysan11pjEaK+nK2pKYNI0rnnweNggTdEhQgausS7QD2ZUIeD09ZEKP
+ C+JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=XayPAOeCU0JCltzVvxkOZ8RNCR6hB7aKhjXHXt227oI=;
- b=GRpJq/WoR/FXH6I06E2EQJLZhJd69hNL5lzvxac9avwpFdSti67zXseFdlqLmm6BSG
- MEX7h+tfygXuyAOxYlibSkKBLbgeZFUUVwXD2b4URNIuxUMVd4AbiMDWqQontsBWe4W/
- /m1D0ZJdvIDIMDItu50oGaZkimGBqnfzPtJPm8wyldKg0z9Y0jguHM1fPvO0h1YSR5OQ
- X95F5UI/y2xgqeFn+is6LESbCbGLGEhx512/8xLvvBKaeUImXwhoTjbk59xoohhD0Ry3
- cj/IIuHaV5LSx9g+/MRSZKtHqgAY8tE0b2SqeawBNOeOmNMKBZMkTaHAhJPwNMVh5rRe
- JsYQ==
-X-Gm-Message-State: AJIora/A2fpuaOLkydH4bzwJF2GuJmhukP7RoaEbh9EX3fQaypdYLEGh
- niRZ4EgrpjsONmvvqYQOIkoZ7p7lfKovOdxK9XyPT7ub7ekpVw==
-X-Google-Smtp-Source: AGRyM1sQMqMGlgmDjCzn71/HpyeVWJdjS/qUjNuj13oOiRTlIziYj54NQnRW3X/p5VhotocyTeppeQAwRLyrtXYJB9s=
-X-Received: by 2002:a05:6512:3e24:b0:48a:97af:d76e with SMTP id
- i36-20020a0565123e2400b0048a97afd76emr6152316lfv.432.1659012867924; Thu, 28
- Jul 2022 05:54:27 -0700 (PDT)
+ bh=3+Xf3SXeLKKtBDKNtR6juxXVaEyW17X6rOyLfChviOs=;
+ b=TF9Lgwsa970PC8kc/Dhou3EQlZgnFkcJtEC7cMJA/Py0Y8BGyANLNcYmiRNTeIGtOp
+ P9GO9zT7OWSxVAQc6/sOZfRkfXI3mXCjvyeWQ+AzqLUOISjGkDHOlTZ/fRT7lWoX4J+x
+ bjWwKgZd7w9DcJ1kvV6qoBlEEdRlTBlijDfXycMD1bcPcTDPBxh2E3cQetPWj0nutW/Z
+ 5DxnlyLQgFfaZshiX9LgC3WXNO5HxpZxWm9wSjFsxib1FdMhkVJAVO5xwgzgQz3baiIF
+ ZnreJw/HrBngweusOxFjjekBVWzUIuRnB1OcdKii0RJhdN+V8HEfhgGSKVWW7+3Q+In7
+ IPaw==
+X-Gm-Message-State: AJIora+wcUOtocJqp09M6ko7KaG7/d5IVJ/XPiT5dYRMn3F5Z3gOqedh
+ efrHpbIkuFLmo7Rl8/3o9PEYg1IsnBMqc7gO89w=
+X-Google-Smtp-Source: AGRyM1us7ehe+Vzpc6HDGMi0JbtfZsY/+rE3n9bkIZCPgSAhy69slWh2cv0Om3/ETQK76U7pQ05lw+fFvOM1+zNCwe8=
+X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id
+ y25-20020a0565123f1900b0048a874f0534mr7401968lfa.446.1659012968520; Thu, 28
+ Jul 2022 05:56:08 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220727132802.812580-1-bmeng.cn@gmail.com>
- <20220727132802.812580-3-bmeng.cn@gmail.com>
-In-Reply-To: <20220727132802.812580-3-bmeng.cn@gmail.com>
+ <20220727132802.812580-4-bmeng.cn@gmail.com>
+In-Reply-To: <20220727132802.812580-4-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 28 Jul 2022 16:54:16 +0400
-Message-ID: <CAJ+F1CL+yNJEWy_njk_Re28kvVTiauk_kCeyB3i3Ee=g+VkoXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] util/oslib-win32: Add a helper to get the Windows
- version
+Date: Thu, 28 Jul 2022 16:55:57 +0400
+Message-ID: <CAJ+F1C+cziL4QU_u+sYisqb2NC39hiwHp+WFB+2EVukhmzbJ1A@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] qga/commands-win32: Use os_get_win_version()
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-Content-Type: multipart/alternative; boundary="000000000000aba67605e4dd085f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Michael Roth <michael.roth@amd.com>
+Content-Type: multipart/alternative; boundary="000000000000aaa1da05e4dd0ee4"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,72 +83,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000aba67605e4dd085f
+--000000000000aaa1da05e4dd0ee4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Wed, Jul 27, 2022 at 5:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, Jul 27, 2022 at 5:30 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> This adds a helper to get the Windows version via the RtlGetVersion
-> call, for QEMU codes to determine the Windows version at run-time.
+> Drop its own ga_get_win_version() implementation, and use the one
+> provided in oslib-win32 instead.
 >
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+>
+
+Will be squashed with the previous patch, since the move should be done
+together.
+
+
 > ---
 >
 > (no changes since v1)
 >
-
-It looks like you are introducing new code, but in fact it's almost
-identical as the  ga_get_win_version() function. Please do the move in the
-same patch.
-
-
->  include/sysemu/os-win32.h |  2 ++
->  util/oslib-win32.c        | 15 +++++++++++++++
->  2 files changed, 17 insertions(+)
+>  qga/commands-win32.c | 27 +--------------------------
+>  1 file changed, 1 insertion(+), 26 deletions(-)
 >
-> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> index edc3b38a57..1e324026a4 100644
-> --- a/include/sysemu/os-win32.h
-> +++ b/include/sysemu/os-win32.h
-> @@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t
-> len, int flags);
->  ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
->                             struct sockaddr *addr, socklen_t *addrlen);
+> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+> index 7ed7664715..6186f2e1f2 100644
+> --- a/qga/commands-win32.c
+> +++ b/qga/commands-win32.c
+> @@ -2178,26 +2178,6 @@ static ga_win_10_0_t const
+> WIN_10_0_CLIENT_VERSION_MATRIX[3] =3D {
+>      {0, 0}
+>  };
 >
-> +void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
-> +
->  #ifdef __cplusplus
->  }
->  #endif
-> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
-> index 5723d3eb4c..6d2387b9ff 100644
-> --- a/util/oslib-win32.c
-> +++ b/util/oslib-win32.c
-> @@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
->       */
->      return qemu_fdatasync(fd);
->  }
-> +
-> +void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
-> +{
-> +    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
-> +
-> +    /* RtlGetVersion is available starting with Windows 2000 */
-> +    HMODULE module =3D GetModuleHandle("ntdll");
-> +    PVOID fun =3D GetProcAddress(module, "RtlGetVersion");
-> +    rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun;
-> +
-> +    info->dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW);
-> +    rtl_get_version(info);
-> +
-> +    return;
-> +}
+> -static void ga_get_win_version(RTL_OSVERSIONINFOEXW *info, Error **errp)
+> -{
+> -    typedef NTSTATUS(WINAPI *rtl_get_version_t)(
+> -        RTL_OSVERSIONINFOEXW *os_version_info_ex);
+> -
+> -    info->dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW);
+> -
+> -    HMODULE module =3D GetModuleHandle("ntdll");
+> -    PVOID fun =3D GetProcAddress(module, "RtlGetVersion");
+> -    if (fun =3D=3D NULL) {
+> -        error_setg(errp, QERR_QGA_COMMAND_FAILED,
+> -            "Failed to get address of RtlGetVersion");
+> -        return;
+> -    }
+> -
+> -    rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun;
+> -    rtl_get_version(info);
+> -    return;
+> -}
+> -
+>  static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool id=
+)
+>  {
+>      DWORD major =3D os_version->dwMajorVersion;
+> @@ -2312,17 +2292,12 @@ static char *ga_get_current_arch(void)
+>
+>  GuestOSInfo *qmp_guest_get_osinfo(Error **errp)
+>  {
+> -    Error *local_err =3D NULL;
+>      OSVERSIONINFOEXW os_version =3D {0};
+>      bool server;
+>      char *product_name;
+>      GuestOSInfo *info;
+>
+> -    ga_get_win_version(&os_version, &local_err);
+> -    if (local_err) {
+> -        error_propagate(errp, local_err);
+> -        return NULL;
+> -    }
+> +    os_get_win_version(&os_version);
+>
+>      server =3D os_version.wProductType !=3D VER_NT_WORKSTATION;
+>      product_name =3D ga_get_win_product_name(errp);
 > --
 > 2.34.1
 >
@@ -159,82 +171,92 @@ same patch.
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000aba67605e4dd085f
+--000000000000aaa1da05e4dd0ee4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:35 PM Bin=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:30 PM Bin=
  Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
 wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
 px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
  Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
 eng@windriver.com</a>&gt;<br>
 <br>
-This adds a helper to get the Windows version via the RtlGetVersion<br>
-call, for QEMU codes to determine the Windows version at run-time.<br>
+Drop its own ga_get_win_version() implementation, and use the one<br>
+provided in oslib-win32 instead.<br>
 <br>
-Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
-m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
 Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
+<div>Will be squashed with the previous patch, since the move should be don=
+e together.</div><div>=C2=A0<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
 ---<br>
 <br>
-(no changes since v1)<br></blockquote><div><br></div><div>It looks like you=
- are introducing new code, but in fact it&#39;s almost identical as the=C2=
-=A0 ga_get_win_version() function. Please do the move in the same patch.</d=
-iv><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+(no changes since v1)<br>
 <br>
-=C2=A0include/sysemu/os-win32.h |=C2=A0 2 ++<br>
-=C2=A0util/oslib-win32.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 +++++++++++++++<br=
->
-=C2=A02 files changed, 17 insertions(+)<br>
+=C2=A0qga/commands-win32.c | 27 +--------------------------<br>
+=C2=A01 file changed, 1 insertion(+), 26 deletions(-)<br>
 <br>
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h<br>
-index edc3b38a57..1e324026a4 100644<br>
---- a/include/sysemu/os-win32.h<br>
-+++ b/include/sysemu/os-win32.h<br>
-@@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t le=
-n, int flags);<br>
-=C2=A0ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int fla=
-gs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 struct sockaddr *addr, socklen_t *addrlen);<br>
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c<br>
+index 7ed7664715..6186f2e1f2 100644<br>
+--- a/qga/commands-win32.c<br>
++++ b/qga/commands-win32.c<br>
+@@ -2178,26 +2178,6 @@ static ga_win_10_0_t const WIN_10_0_CLIENT_VERSION_M=
+ATRIX[3] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0{0, 0}<br>
+=C2=A0};<br>
 <br>
-+void os_get_win_version(RTL_OSVERSIONINFOEXW *info);<br>
-+<br>
-=C2=A0#ifdef __cplusplus<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-diff --git a/util/oslib-win32.c b/util/oslib-win32.c<br>
-index 5723d3eb4c..6d2387b9ff 100644<br>
---- a/util/oslib-win32.c<br>
-+++ b/util/oslib-win32.c<br>
-@@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0return qemu_fdatasync(fd);<br>
-=C2=A0}<br>
-+<br>
-+void os_get_win_version(RTL_OSVERSIONINFOEXW *info)<br>
-+{<br>
-+=C2=A0 =C2=A0 typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOE=
-XW);<br>
-+<br>
-+=C2=A0 =C2=A0 /* RtlGetVersion is available starting with Windows 2000 */<=
-br>
-+=C2=A0 =C2=A0 HMODULE module =3D GetModuleHandle(&quot;ntdll&quot;);<br>
-+=C2=A0 =C2=A0 PVOID fun =3D GetProcAddress(module, &quot;RtlGetVersion&quo=
-t;);<br>
-+=C2=A0 =C2=A0 rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun=
-;<br>
-+<br>
-+=C2=A0 =C2=A0 info-&gt;dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW=
+-static void ga_get_win_version(RTL_OSVERSIONINFOEXW *info, Error **errp)<b=
+r>
+-{<br>
+-=C2=A0 =C2=A0 typedef NTSTATUS(WINAPI *rtl_get_version_t)(<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 RTL_OSVERSIONINFOEXW *os_version_info_ex);<br>
+-<br>
+-=C2=A0 =C2=A0 info-&gt;dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW=
 );<br>
-+=C2=A0 =C2=A0 rtl_get_version(info);<br>
-+<br>
-+=C2=A0 =C2=A0 return;<br>
-+}<br>
+-<br>
+-=C2=A0 =C2=A0 HMODULE module =3D GetModuleHandle(&quot;ntdll&quot;);<br>
+-=C2=A0 =C2=A0 PVOID fun =3D GetProcAddress(module, &quot;RtlGetVersion&quo=
+t;);<br>
+-=C2=A0 =C2=A0 if (fun =3D=3D NULL) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, QERR_QGA_COMMAND_FAILED,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;Failed to get address of R=
+tlGetVersion&quot;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun=
+;<br>
+-=C2=A0 =C2=A0 rtl_get_version(info);<br>
+-=C2=A0 =C2=A0 return;<br>
+-}<br>
+-<br>
+=C2=A0static char *ga_get_win_name(OSVERSIONINFOEXW const *os_version, bool=
+ id)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0DWORD major =3D os_version-&gt;dwMajorVersion;<br>
+@@ -2312,17 +2292,12 @@ static char *ga_get_current_arch(void)<br>
+<br>
+=C2=A0GuestOSInfo *qmp_guest_get_osinfo(Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 Error *local_err =3D NULL;<br>
+=C2=A0 =C2=A0 =C2=A0OSVERSIONINFOEXW os_version =3D {0};<br>
+=C2=A0 =C2=A0 =C2=A0bool server;<br>
+=C2=A0 =C2=A0 =C2=A0char *product_name;<br>
+=C2=A0 =C2=A0 =C2=A0GuestOSInfo *info;<br>
+<br>
+-=C2=A0 =C2=A0 ga_get_win_version(&amp;os_version, &amp;local_err);<br>
+-=C2=A0 =C2=A0 if (local_err) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate(errp, local_err);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return NULL;<br>
+-=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 os_get_win_version(&amp;os_version);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0server =3D os_version.wProductType !=3D VER_NT_WORKSTAT=
+ION;<br>
+=C2=A0 =C2=A0 =C2=A0product_name =3D ga_get_win_product_name(errp);<br>
 -- <br>
 2.34.1<br>
 <br>
@@ -242,5 +264,5 @@ t;);<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000aba67605e4dd085f--
+--000000000000aaa1da05e4dd0ee4--
 
