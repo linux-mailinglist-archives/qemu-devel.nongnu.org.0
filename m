@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C7A584254
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:54:23 +0200 (CEST)
-Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68ABA58425F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:55:40 +0200 (CEST)
+Received: from localhost ([::1]:48044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4u5-00025v-W2
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
+	id 1oH4vK-0003e0-C1
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:55:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4q9-0006MU-6e
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:50:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41748)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4rU-0007a0-Ah
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:51:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57162)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4q5-0005Ll-Gw
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:50:14 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4rQ-00064S-EA
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:51:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659019812;
+ s=mimecast20190719; t=1659019894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h1THK366nG+yLMgHoIdTGT8kQ1oG9u1RyeAzzR/3KV8=;
- b=JnaGl0W77Xfn0LP5VK6E2yd87V0IetMsLwLDajjLYEkzFjzod0vchWfiowKJ2pL/67mAJr
- wcADW9w+uJTr24+Zekb5GVS/yJaLuRAVZuy2+EdWmYuv1JDjqxNQC+yqxCf9rxtKOW34hx
- 2T43Bzwy0j4s5k7aVaj01rvTZorNTFg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XSgHLzDKLe63FgbEgd4ROad5E62nSsjy5YKI4EJFq0Y=;
+ b=aMUnSREVq2D2IYJDy0RZhM74DfMrknJmSDID3UNWcRPPs+pc74X7vOa+Rgds+lBPQYfDcw
+ rp3FxGWvBWm5hwmngXh5fYFiR+Y9JAs+rBlj4ngWog8ifa+dkD+nsVCOEQLt99IfMN5ygl
+ xfvCnGDHx1v9i3AjJfLTdSz7/aAeiT8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-185-Gy4yZ42fOnivYoaQEuBBTw-1; Thu, 28 Jul 2022 10:50:08 -0400
-X-MC-Unique: Gy4yZ42fOnivYoaQEuBBTw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-150-5x4ASOtlP22ozeg1rDAJsQ-1; Thu, 28 Jul 2022 10:51:30 -0400
+X-MC-Unique: 5x4ASOtlP22ozeg1rDAJsQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA92218A6506;
- Thu, 28 Jul 2022 14:50:07 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C53D3C01E17;
+ Thu, 28 Jul 2022 14:51:30 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 592B72166B26;
- Thu, 28 Jul 2022 14:50:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 12E2318EB7;
+ Thu, 28 Jul 2022 14:51:30 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id EE2D421E6930; Thu, 28 Jul 2022 16:50:05 +0200 (CEST)
+ id 0C71D21E6930; Thu, 28 Jul 2022 16:51:29 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,  Hao Wu <wuhaotsh@google.com>,
- richard.henderson@linaro.org,  qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,  venture@google.com,  Avi.Fishman@nuvoton.com,
- kfting@nuvoton.com,  hskinnemoen@google.com,  f4bug@amsat.org,
- bin.meng@windriver.com,  qemu-block@nongnu.org,  thuth@redhat.com,  Hanna
- Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
-References: <20220714182836.89602-1-wuhaotsh@google.com>
- <20220714182836.89602-6-wuhaotsh@google.com>
- <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
- <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
- <YuKPVi9UjmZVqw5a@redhat.com>
-Date: Thu, 28 Jul 2022 16:50:05 +0200
-In-Reply-To: <YuKPVi9UjmZVqw5a@redhat.com> (Kevin Wolf's message of "Thu, 28
- Jul 2022 15:29:58 +0200")
-Message-ID: <878rodxpeq.fsf@pond.sub.org>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  Igor Mammedov
+ <imammedo@redhat.com>,  qemu-devel@nongnu.org,  mst@redhat.com,
+ t0rr3sp3dr0@gmail.com,  alex.bennee@linaro.org,  dgilbert@redhat.com,
+ agraf@suse.de
+Subject: Re: [PATCH for-7.1] applesmc: silence invalid key warning in case
+ default one is used
+References: <20220728093558.1163751-1-imammedo@redhat.com>
+ <YuJbaxMbqNF+Cw65@redhat.com>
+ <CAFEAcA85qvEjV53XMs3uDWKqzY4vrLqxfLKjZ_qfbrYMmfkx=Q@mail.gmail.com>
+ <YuJjhHLzQEx4Ui1J@redhat.com>
+ <CAFEAcA_cH7_r7vFYno1A=1XfjfWHj=VbDY62up2yqrkQ3VdTLw@mail.gmail.com>
+ <87mtctxt49.fsf@pond.sub.org>
+ <CAFEAcA_GfY8uDA+z8NSOebw1MKoaNoCNYiRBss3Ku-Q-jTBeWg@mail.gmail.com>
+ <YuKSXDgCmmBNJndy@redhat.com>
+Date: Thu, 28 Jul 2022 16:51:29 +0200
+In-Reply-To: <YuKSXDgCmmBNJndy@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 28 Jul 2022 14:42:52 +0100")
+Message-ID: <874jz1xpce.fsf@pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,66 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-> Am 28.07.2022 um 11:46 hat Peter Maydell geschrieben:
->> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
+> On Thu, Jul 28, 2022 at 02:40:22PM +0100, Peter Maydell wrote:
+>> On Thu, 28 Jul 2022 at 14:30, Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>> > Peter Maydell <peter.maydell@linaro.org> writes:
+>> > I applaud the renaissance of roman-style inscriptions, but it's not ju=
+st
+>> > words without spaces, it's also capital letters only:
 >> >
->> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
->> > > An OTP device isn't really a parallel flash, and neither are eFuses.
->> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
->> > > other interface types, too.
->> > >
->> > > This patch introduces IF_OTHER.  The patch after next uses it for an
->> > > EEPROM device.
->> > >
->> > > Do we want IF_OTHER?
+>> >     ANY64CHARACTERFAKEOSKISENOUGHTOPREVENTINVALIDKEYWARNINGSONSTDERR
 >> >
->> > What would the semantics even be? Any block device that doesn't pick up
->> > a different category may pick up IF_OTHER backends?
->> >
->> > It certainly feels like a strange interface to ask for "other" disk and
->> > then getting as surprise what this other thing might be. It's
->> > essentially the same as having an explicit '-device other', and I
->> > suppose most people would find that strange.
->> >
->> > > If no, I guess we get to abuse IF_PFLASH some more.
->> > >
->> > > If yes, I guess we should use IF_PFLASH only for actual parallel flash
->> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
->> > > be worth the trouble, though.
->> > >
->> > > Thoughts?
->> >
->> > If the existing types aren't good enough (I don't have an opinion on
->> > whether IF_PFLASH is a good match), let's add a new one. But a specific
->> > new one, not just "other".
->> 
->> I think the common thread is "this isn't what anybody actually thinks
->> of as being a 'disk', but we would like to back it with a block device
->> anyway". That can cover a fair range of possibilities...
+>> > Seriously, throw in some dashes or spaces.
+>>=20
+>>       any-64-char-fake-osk-will-avoid-an-invalid-key-warning-on-stderr
 >
-> How confident are we that no board will ever have two devices of this
-> kind?
+> On the basis that virtualization gives you turtles all the way down...
 >
-> As long as every board has at most one, if=other is a bad user interface
-> in terms of descriptiveness, but still more or less workable as long as
-> you know what it means for the specific board you use.
->
-> But if you have more than one device, it becomes hard to predict which
-> device gets which backend - it depends on the initialisation order in
-> the code then,
+>  -device isa-applesmc,osk=3D=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=
+=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=
+=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2=F0=9F=90=A2
 
-Really?  Board code should use IF_OTHER devices just like it uses the
-other interface types, namely connecting each frontend device to a
-backend device with a well-known and fixed interface type and index (or
-bus and unit instead, where appropriate).
-
->                and I'm pretty sure that this isn't something that should
-> have significance in external interfaces and therefore become a stable
-> API.
-
-I agree that "implied by execution order" is a bad idea: commit
-95fd260f0a "blockdev: Drop unused drive_get_next()".
+Oh, Egyptian rather than Roman.  Works for me!
 
 
