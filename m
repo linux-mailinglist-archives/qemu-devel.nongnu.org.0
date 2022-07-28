@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50616584071
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:57:39 +0200 (CEST)
-Received: from localhost ([::1]:56502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2EBA58404C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:48:14 +0200 (CEST)
+Received: from localhost ([::1]:43604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH41C-0006cM-DT
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:57:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35898)
+	id 1oH3s3-0005gE-SZ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH3kh-0006WJ-1Y
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:40:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH3kb-0004b8-Ia
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:40:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659015629;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kWEUIZmzClZUIxtDa3GWdOFk7OGmLqO53Qq9Uv2F8ZE=;
- b=D1EpYotpMYsnvEN9f0odOOFWdR4FCdrv59dEuppDgnx7t0Ln9G5HNNvPQA44rUPaZdm5IV
- +5Jr25aJgWH+mNavafwzmTaI/rbQEQQolB9YMqNpCc4XaHLHPB6qsiGET6OAtb2dML8FqQ
- OuEMzAPgkUHJ/lv45KDdCp4sa5wWB90=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-533-NdE-AoKhN1aase4JjB2srg-1; Thu, 28 Jul 2022 09:40:25 -0400
-X-MC-Unique: NdE-AoKhN1aase4JjB2srg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2B193C1104D;
- Thu, 28 Jul 2022 13:40:24 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CF68D2026D64;
- Thu, 28 Jul 2022 13:40:23 +0000 (UTC)
-Date: Thu, 28 Jul 2022 14:40:21 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, peter.maydell@linaro.org,
- ani@anisinha.ca
-Subject: Re: [PATCH for-7.1] tests: acpi: silence applesmc warning about
- invalid key
-Message-ID: <YuKRxeHrPIo6+ryP@redhat.com>
-References: <20220728133713.1369596-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH3lE-0007U3-94
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:41:08 -0400
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:39747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH3lA-0004kr-VC
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:41:07 -0400
+Received: by mail-yb1-xb34.google.com with SMTP id r3so3308188ybr.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 06:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1lQgWxlQ4slLvmYL3VJ5B+tRHfjdk41NTcExj0tuCvo=;
+ b=Nu+Gw1FdvFpwmJdHRGeo//NMNDFgfX5oQC6ROONxycV+qB2V2XUMuNiC/6RiSc20w3
+ Oj8hNMi4m6GN2Qy+2L3jlPRlhMMz4UZUFd+zcjO0iLLDf0bVgWChuToFrAQJzVVFHZoO
+ N+qEmIP9CbTIL40jWeWCnigcjGbrfQvsPe+Rr1LkT7Ti9o1qOjJtY4e8ox+FRnJ1yql6
+ GHuAQPIp0DPBsNETnxAZNbqICxBSNvkeiCb4kK8oO8sjcg1QWVfGGP4hwxk9xM/xZ54h
+ R0d/NleBm92YcTsQV5FWHh2bGFTxTzHQXiud/gOQIcN9i9Bny4k7gtVGZk5WxuZpWIEw
+ pfnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1lQgWxlQ4slLvmYL3VJ5B+tRHfjdk41NTcExj0tuCvo=;
+ b=rIyTJt4MFSMAVbIEZXxGkvNaJVPWUJKouJ27qovXij3Khs/RiyCZCDKbVGKtzVRbsx
+ EZl8b9AQtqel7wgS7QADzAlHqJFMSU/Pc8jl07ozPz9NG1LcU28aFToFuMTTNNfa/V6N
+ 2Qz7GYQyLv+a66wNHRAXsvX8+4xUtLQmdxo8AMZ/Fyc/KAdk780WHn0OUYkPhvfg5Pp0
+ mJWEmkifQozeJZ0rTyl0ccyWm0tUaLwjwfrkQjuFnnGk4EFTn59UbojvAyxQc79dcxOz
+ vvDQkunCHJcdP+qsOTA66zxQDGs5MxQ+PtoRcv32CpNp8f1G9h5h9xACQxNTwtQ1MmoV
+ hGBg==
+X-Gm-Message-State: AJIora+haoLmF+eyEt2t2aC/enpGfZWQkzRfmMr2ll1B8hCX3j/SS1uf
+ S0dvB2hFBbYthxQOBmN9KPzyQYc6VlgcpfXqH7eVsQ==
+X-Google-Smtp-Source: AGRyM1sQpl+czWy4ERfzrDrKHF4nawIWFr7CVDdDSm9un/+m78IyMsDyv4m7z2Jj9kq0G0trGhnudzq4K6uMkzmO/GQ=
+X-Received: by 2002:a25:928b:0:b0:671:548f:fabd with SMTP id
+ y11-20020a25928b000000b00671548ffabdmr13912884ybl.39.1659015662755; Thu, 28
+ Jul 2022 06:41:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220728133713.1369596-1-imammedo@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220728093558.1163751-1-imammedo@redhat.com>
+ <YuJbaxMbqNF+Cw65@redhat.com>
+ <CAFEAcA85qvEjV53XMs3uDWKqzY4vrLqxfLKjZ_qfbrYMmfkx=Q@mail.gmail.com>
+ <YuJjhHLzQEx4Ui1J@redhat.com>
+ <CAFEAcA_cH7_r7vFYno1A=1XfjfWHj=VbDY62up2yqrkQ3VdTLw@mail.gmail.com>
+ <87mtctxt49.fsf@pond.sub.org>
+In-Reply-To: <87mtctxt49.fsf@pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jul 2022 14:40:22 +0100
+Message-ID: <CAFEAcA_GfY8uDA+z8NSOebw1MKoaNoCNYiRBss3Ku-Q-jTBeWg@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] applesmc: silence invalid key warning in case
+ default one is used
+To: Markus Armbruster <armbru@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, mst@redhat.com, 
+ t0rr3sp3dr0@gmail.com, alex.bennee@linaro.org, dgilbert@redhat.com, 
+ agraf@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 09:37:13AM -0400, Igor Mammedov wrote:
-> OSK value is irrelevant for ACPI test case.
-> Supply fake OSK explicitly to prevent QEMU complaining about
-> invalid key when it fallbacks to default_osk.
-> 
-> Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  tests/qtest/bios-tables-test.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-> index 359916c228..7c5f736b51 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1632,7 +1632,9 @@ static void test_acpi_q35_applesmc(void)
->          .variant = ".applesmc",
->      };
->  
-> -    test_acpi_one("-device isa-applesmc", &data);
-> +    /* supply fake 64-byte OSK to silence missing key warning */
-> +    test_acpi_one("-device isa-applesmc,osk=any64characterfakeoskisenough"
-> +                  "topreventinvalidkeywarningsonstderr", &data);
->      free_test_data(&data);
->  }
+On Thu, 28 Jul 2022 at 14:30, Markus Armbruster <armbru@redhat.com> wrote:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> I applaud the renaissance of roman-style inscriptions, but it's not just
+> words without spaces, it's also capital letters only:
+>
+>     ANY64CHARACTERFAKEOSKISENOUGHTOPREVENTINVALIDKEYWARNINGSONSTDERR
+>
+> Seriously, throw in some dashes or spaces.
 
-All 64 chars present and correct.
+      any-64-char-fake-osk-will-avoid-an-invalid-key-warning-on-stderr
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
