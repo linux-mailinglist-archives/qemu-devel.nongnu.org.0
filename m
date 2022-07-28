@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DAB9583E66
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:13:01 +0200 (CEST)
-Received: from localhost ([::1]:42048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFE2B583E67
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:13:10 +0200 (CEST)
+Received: from localhost ([::1]:42290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH2Nw-0001Ot-CH
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:13:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40382)
+	id 1oH2O5-0001Yc-RT
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:13:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH2C5-00027M-3I
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35658)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oH2Ib-0001L5-Dm
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:07:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:55409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH2C3-0002JI-56
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:00:44 -0400
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oH2IL-0005gv-Et
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:07:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659009642;
+ s=mimecast20190719; t=1659010032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oNEhgI3RYTlVQuhabd9H2P9wS7SiApQP2A7A3ILkBoU=;
- b=fgXUCzugAakrnTqtxn/5rwYYrFac8IZMofSgrH1fslPjije0Q1E5H399uuwHbkLBLVB55H
- TcDzf9vNR1eseliiz5BQ5l0CWzb/C+SMT9g999A42aIBe2/CMGyqYKXIVGXjS3pkZPT1Eo
- 5+S7IR7ZsTAlvVlkDwAM1SSCrOfSm8I=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TOB/iugwWBsSN5EtQtdQ41IDIgqbUeL6AoVPo2VkqHo=;
+ b=gVsWtqeu6QhbmDUGvuSlZuK3EQMECdamwg4ajU1ED7XNUFkyWU4oAHp2xDTg78JXOMfBt7
+ cRGprLi+GxlP3x3/TkOvBpEdi1Qw3jkxnpxS9Kf/pzufnwtaXJ+0I5QMbA/YoBNkpMrdco
+ wyzJjOvDhTcEg75kB6xKU7pyLra1/74=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-421-S3aoNT1sP8apK2h2p4X1ZQ-1; Thu, 28 Jul 2022 08:00:41 -0400
-X-MC-Unique: S3aoNT1sP8apK2h2p4X1ZQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- ga9-20020a1709070c0900b0072b4d787f5dso549854ejc.21
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 05:00:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oNEhgI3RYTlVQuhabd9H2P9wS7SiApQP2A7A3ILkBoU=;
- b=lumoUu096Ur5LAAYhds9F9qrEfcFBI5pgKAtThRZei8Oj5Q6oK04z0qYIh2XhPGiQT
- 5lFpeeBt7i1jxjbbU5Pg8NQbeJnXuqtdRZbsl+fOZmUN+IXMf8jpCi4NhncNZKQDQ/L/
- 6cXEy53MBdl34g8MHWDRBIPGmpsvlwoJYLYcxOjDyM2XfsFGlyUrvtpHld+lCF8Z8MEw
- WwYRyIyoZd1D1LDrWHhYTEshdd+hsDQA711e6OoX+suq3lui/De7f7JqMUBODhqMytau
- 2HiDwU12Ng0qPc/F3N272tahXGZQE39KvWmFwZqQ0B/pMMtCiEo4Fmov5A4Xvah7r8N5
- r3wA==
-X-Gm-Message-State: AJIora//IrPgvJZYGNuXcXC+guWvRTxM+ngIaIvzupVSsLalAadJMGRh
- ibrUXLPuYnie5mzg+6yTXKWIrdPp472O10JPZbylqumqfrIhTKiNJhojyFVv1T/pzkFGUutK6NC
- w3Uj/PR5WrkadRRQ=
-X-Received: by 2002:a17:907:9809:b0:72f:817:d433 with SMTP id
- ji9-20020a170907980900b0072f0817d433mr20999285ejc.483.1659009640033; 
- Thu, 28 Jul 2022 05:00:40 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v/2yWRl8fdtH/xv4TpwqjvCI+LPUtJarhmTwJwtt2x+PBUfB+OY6gqCNVRorPMlhc490rSZA==
-X-Received: by 2002:a17:907:9809:b0:72f:817:d433 with SMTP id
- ji9-20020a170907980900b0072f0817d433mr20999273ejc.483.1659009639750; 
- Thu, 28 Jul 2022 05:00:39 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- b12-20020aa7df8c000000b0043ba0cf5dbasm590158edy.2.2022.07.28.05.00.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 05:00:39 -0700 (PDT)
-Date: Thu, 28 Jul 2022 14:00:37 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- mst@redhat.com, t0rr3sp3dr0@gmail.com, alex.bennee@linaro.org,
- dgilbert@redhat.com, agraf@suse.de
-Subject: Re: [PATCH for-7.1] applesmc: silence invalid key warning in case
- default one is used
-Message-ID: <20220728140037.4b1456ae@redhat.com>
-In-Reply-To: <YuJjhHLzQEx4Ui1J@redhat.com>
-References: <20220728093558.1163751-1-imammedo@redhat.com>
- <YuJbaxMbqNF+Cw65@redhat.com>
- <CAFEAcA85qvEjV53XMs3uDWKqzY4vrLqxfLKjZ_qfbrYMmfkx=Q@mail.gmail.com>
- <YuJjhHLzQEx4Ui1J@redhat.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ us-mta-15-ghujAfWDOXatNB98jvIVfw-1; Thu, 28 Jul 2022 08:07:11 -0400
+X-MC-Unique: ghujAfWDOXatNB98jvIVfw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 22D361824603
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 12:07:11 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B658141511F;
+ Thu, 28 Jul 2022 12:07:10 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: [PATCH v2 0/2] migration: Store ram size value
+Date: Thu, 28 Jul 2022 14:07:07 +0200
+Message-Id: <20220728120709.5782-1-quintela@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,57 +77,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jul 2022 11:23:00 +0100
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+Hi
 
-> On Thu, Jul 28, 2022 at 11:05:13AM +0100, Peter Maydell wrote:
-> > On Thu, 28 Jul 2022 at 10:48, Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote: =20
-> > >
-> > > On Thu, Jul 28, 2022 at 05:35:58AM -0400, Igor Mammedov wrote: =20
-> > > > QEMU probably can't carry OSK key[1] for legal reasons so it
-> > > > can't supply the valid default key. However when tests are run
-> > > > applesmc will pollute test log with distracting warning,
-> > > > silence that warning so it won't distract maintainers/CI. =20
-> > >
-> > > What test is causing this problem ? =20
-> >=20
-> > bios-tables-test -- see here for the relevant bit of the log:
-> >=20
-> > https://lore.kernel.org/qemu-devel/CAFEAcA8u8jm7b+JD_t0qMNMy+WSJPOw=3Dq=
-xqptZpwTp=3DTkcXrhg@mail.gmail.com/ =20
->=20
-> The right fix is for bios-tables-tests to pass an explicit 'osk' value
-> then. As its a test it doesn't have to be a genuine OSK, jsut any old
-> 64-byte string
->=20
-> diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-tes=
-t.c
-> index 359916c228..f6b5adf200 100644
-> --- a/tests/qtest/bios-tables-test.c
-> +++ b/tests/qtest/bios-tables-test.c
-> @@ -1632,7 +1632,7 @@ static void test_acpi_q35_applesmc(void)
->          .variant =3D ".applesmc",
->      };
-> =20
-> -    test_acpi_one("-device isa-applesmc", &data);
-> +    test_acpi_one("-device isa-applesmc,osk=3Diamalsonottherealoskimjust=
-heretostopbiostablestestspammingstderr", &data);
->      free_test_data(&data);
->  }
+I just resized this patch for latest upstream, we still have the same
+trouble for huge guests, we are doing lots of RCU operations that are
+not needed at all.  As David explained on the previous submission,
+ram_mig_ram_block_resized() aborts migration when size changes.
 
-that will work, care tho send a formal patch or should I take over?
+Please review.
 
-However we still have bogus default_osk, yes it will cause warning which
-typically nobody will see and end user will still end up with upset guest.
-Right thing would be to require osk explicitly and drop default completely.
-Users who actually run MacOS guest must be providing OSK explicitly already
-so they won't be affected and anyone else using default is broken anyways
-(whether QEMU started directly or through mgmt layer)
+[v1]
 
->=20
->=20
-> With regards,
-> Daniel
+Current migration code recalculates the amount of RAM each time that
+is needed.  This calculation requires RCU and other operations.
+During migration we disable hot/unplug of memory, so we can store it.
+
+Notice the times difference, and specially that ram_bytes_total()
+don't appears anymore in the perf output.
+
+total time: 75852 ms
+downtime: 264 ms
+setup: 273 ms
+transferred ram: 19671939 kbytes
+throughput: 2132.28 mbps
+remaining ram: 0 kbytes
+total ram: 1077936904 kbytes
+duplicate: 265170289 pages
+skipped: 0 pages
+normal: 4316628 pages
+normal bytes: 17266512 kbytes
+dirty sync count: 4
+page size: 4 kbytes
+multifd bytes: 17341329 kbytes
+pages-per-second: 1236658
+precopy ram: 2330608 kbytes
+downtime ram: 1 kbytes
+
+  37.97%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+  10.42%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+   6.67%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+   3.71%  live_migration   qemu-system-x86_64       [.] ram_bytes_total_common
+   2.79%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+   2.69%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+   2.41%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+   1.55%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+   1.26%  live_migration   qemu-system-x86_64       [.] find_next_bit
+   1.07%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.07%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.06%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.05%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.04%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.03%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.02%  live_migration   qemu-system-x86_64       [.] migrate_ignore_shared
+   1.01%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.01%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   1.01%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.98%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+   0.96%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.93%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.92%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.90%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.88%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.85%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.83%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.61%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+   0.48%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+
+Migration status: completed
+total time: 70033 ms
+downtime: 279 ms
+setup: 280 ms
+transferred ram: 19692747 kbytes
+throughput: 2312.82 mbps
+remaining ram: 0 kbytes
+total ram: 1077936904 kbytes
+duplicate: 265164421 pages
+skipped: 0 pages
+normal: 4322415 pages
+normal bytes: 17289660 kbytes
+dirty sync count: 3
+page size: 4 kbytes
+multifd bytes: 17362190 kbytes
+pages-per-second: 2523447
+precopy ram: 2330555 kbytes
+downtime ram: 1 kbytes
+
+  43.64%  live_migration   qemu-system-x86_64       [.] buffer_zero_avx512
+  11.32%  live_migration   qemu-system-x86_64       [.] ram_find_and_save_block.part.0
+   7.60%  live_migration   qemu-system-x86_64       [.] add_to_iovec
+   2.95%  live_migration   qemu-system-x86_64       [.] qemu_put_byte.part.0
+   2.73%  live_migration   qemu-system-x86_64       [.] bitmap_test_and_clear_atomic
+   1.76%  live_migration   qemu-system-x86_64       [.] qemu_put_be32
+   1.44%  live_migration   qemu-system-x86_64       [.] find_next_bit
+   0.84%  multifdsend_1    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.84%  multifdsend_7    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.81%  multifdsend_15   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.80%  multifdsend_4    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.80%  multifdsend_3    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.79%  multifdsend_12   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.79%  multifdsend_14   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.79%  multifdsend_11   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.78%  multifdsend_13   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.78%  live_migration   qemu-system-x86_64       [.] ram_save_iterate
+   0.77%  multifdsend_9    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.77%  multifdsend_5    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.77%  multifdsend_10   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.77%  multifdsend_2    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.77%  multifdsend_6    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.76%  multifdsend_8    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.71%  multifdsend_0    [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.66%  live_migration   qemu-system-x86_64       [.] save_zero_page_to_file.part.0
+   0.62%  live_migration   qemu-system-x86_64       [.] qemu_ram_is_migratable
+   0.54%  live_migration   [kernel.kallsyms]        [k] copy_user_enhanced_fast_string
+   0.51%  live_migration   qemu-system-x86_64       [.] qemu_put_byte
+
+Please, review.
+
+Thanks, Juan.
+
+Juan Quintela (2):
+  migration: Split ram_bytes_total_common() in two functions
+  migration: Calculate ram size once
+
+ migration/ram.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
+
+-- 
+2.37.1
 
 
