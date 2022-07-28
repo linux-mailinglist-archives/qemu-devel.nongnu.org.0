@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B41AE583BAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:04:22 +0200 (CEST)
-Received: from localhost ([::1]:48478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21083583BC5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:08:12 +0200 (CEST)
+Received: from localhost ([::1]:52100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH0NP-0006mH-VW
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:04:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40206)
+	id 1oH0R8-000165-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH08K-0001M6-Fs
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:48:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH08C-0002ZK-QL
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:48:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659001716;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=cGnRsD7zlBOZZYTuhT2iaKlg/Oi0sMSuoeVF5fHqidk=;
- b=emlj1UwQZ4RS62EWEx2Dr+xzceelV4qU1VPUDZiiRylLzoZLE74xQUrkVEbJN/7pHa8aL3
- W4ZFvITae/2uTcnCShKqs9CObecgtGWbvwbDOejLNSBxdwnq5VXt3FJlI4eCNTemDHJG8s
- mc8uvNSyyPRYkuri4zYZr1tVn6BiT80=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-206-Kqc_urfBPhCLDNnx-i86Ug-1; Thu, 28 Jul 2022 05:48:32 -0400
-X-MC-Unique: Kqc_urfBPhCLDNnx-i86Ug-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 97547802D1C;
- Thu, 28 Jul 2022 09:48:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7310340315E;
- Thu, 28 Jul 2022 09:48:30 +0000 (UTC)
-Date: Thu, 28 Jul 2022 10:48:27 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, t0rr3sp3dr0@gmail.com,
- alex.bennee@linaro.org, dgilbert@redhat.com, agraf@suse.de,
- peter.maydell@linaro.org
-Subject: Re: [PATCH for-7.1] applesmc: silence invalid key warning in case
- default one is used
-Message-ID: <YuJbaxMbqNF+Cw65@redhat.com>
-References: <20220728093558.1163751-1-imammedo@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH0Br-0004oE-TT
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:52:23 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:40848)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH0Bp-0004Me-Kb
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:52:23 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id 123so2434151ybv.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 02:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CclOETi+Vhv48j6oliPuKoZdSQm5aSmbz7ClPj8Nf6Q=;
+ b=cP/oE+UtU6ThfpsGMTT3iXPJRWKJQkYfhT3pH8B9SGqwHe9fZu642gXsRYvPAOurXH
+ DdzHu2msUaZTZxtLs7BinD1npVTExIyQRavT4M1N6DMdR1UmFv5DgazRPyU2G0EHVSRy
+ pwTMuQxAHCXAmxFgP+hIEnV2HWA1mRspuFQoYs61ZwLlbkEGpgh+2JibbNsagtRiQKWi
+ dZaeNwRnbR55Iqk3sFzXFrUhMz2gawm12w+qmNXnnXBxbGxbMMYpxrVqfHX7bCo1LNo1
+ VPYN5yUfeZZT3IlJpxrLMEg0bk8WPpzsKE/+4Rafl+yIxHLXSnEOlYnZv59Vss15LHSH
+ UWTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CclOETi+Vhv48j6oliPuKoZdSQm5aSmbz7ClPj8Nf6Q=;
+ b=wGUOk9YzE7ZdMyHRwbTc7w+jAxvbRcBSWa931woWj19mePtWQkw48gVPBTgB/t0vyP
+ nDFjKfeCYoTU8a3nqRRor+IBYP8wv8LylxKs+3y+8zgjW8KQVQ95zcp/YbwsDl84977G
+ HuB04pJnUX3tsMJxHpTMiXymKy0U5okhtV4hj9kPe2nZk7WVGK2Z5QICyTL7nj/stxjc
+ WY1vRXthltt9PZ06QbvWSH3/LtpP5flCyjq8k3Jc7trMcRv7Fv46aO9Tsrz4ZBbibdvD
+ VQMgDUI4KjjbeDwzwywUMkHR2EUGAl/OgCDiiHhusKCbLO37luBBRGo1ou7RbPTOnZoQ
+ +92w==
+X-Gm-Message-State: AJIora8nY97okGiRzcNCqvHu4mvuhzFm4tdTwcR39hzICTiQbQImsmYD
+ AVwAxeeKZBO3ZE1IbU1BKwAiNiyEB63yDySL8NcRGw==
+X-Google-Smtp-Source: AGRyM1tXSCPAokZuHC4uAYhHtx4dip4JA7ZEV5g+NULYfPj5lhm0vy8I2KpX9Q6M7wvSB1cwsUVV9FyffRr6VM4m9TA=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr20070880ybq.140.1659001940607; Thu, 28
+ Jul 2022 02:52:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220728093558.1163751-1-imammedo@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220630085219.1305519-1-armbru@redhat.com>
+ <20220701043032.GA28338@raphael-debian-dev>
+ <87wncx2xw4.fsf@pond.sub.org>
+ <CAFEAcA993Z7ty7FvxEX7JjLZCFWrcPRuy2eMJKwoVTZJ1Z7_vQ@mail.gmail.com>
+ <20220727172759.GA30765@raphael-debian-dev>
+In-Reply-To: <20220727172759.GA30765@raphael-debian-dev>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jul 2022 10:51:40 +0100
+Message-ID: <CAFEAcA_g-7uM3WN6ijL4RFcb5qRatX11vyeVvSwNHRNXbuAjgg@mail.gmail.com>
+Subject: Re: [PATCH] contrib/vhost-user-blk: Clean up deallocation of
+ VuVirtqElement
+To: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "mst@redhat.com" <mst@redhat.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,75 +86,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 05:35:58AM -0400, Igor Mammedov wrote:
-> QEMU probably can't carry OSK key[1] for legal reasons so it
-> can't supply the valid default key. However when tests are run
-> applesmc will pollute test log with distracting warning,
-> silence that warning so it won't distract maintainers/CI.
+On Wed, 27 Jul 2022 at 18:28, Raphael Norwitz
+<raphael.norwitz@nutanix.com> wrote:
+>
+> On Tue, Jul 26, 2022 at 03:57:42PM +0100, Peter Maydell wrote:
+> > On Fri, 1 Jul 2022 at 06:41, Markus Armbruster <armbru@redhat.com> wrote:
+> > > Could we use a contrib/README with an explanation what "contrib" means,
+> > > and how to build and use the stuff there?
+> >
+> > I would rather we got rid of contrib/ entirely. Our git repo
+> > should contain things we care about enough to really support
+> > and believe in, in which case they should be in top level
+> > directories matching what they are (eg tools/). If we don't
+> > believe in these things enough to really support them, then
+> > we should drop them, and let those who do care maintain them
+> > as out-of-tree tools if they like.
+> >
+>
+> I can't speak for a lot of stuff in contrib/ but I find the vhost-user
+> backends like vhost-user-blk and vhost-user-scsi helpful for testing and
+> development. I would like to keep maintaining those two at least.
 
-What test is causing this problem ?
+Right, I don't mean we should just delete contrib/, but for the
+things currently in it that we do care about, we should define
+what their relationship to QEMU is and put them in a part of
+the source tree that says what they actually are. contrib/
+just means "nobody thought about it".
 
-> 
-> If user launches MacOS guest without supplying valid or any key
-> they will get upset MacOS (and legality of specifying valid key
-> on CLI is also questionable). This patch favors QEMU/tests vs
-> MacOS guest.
-> 
-> A patch from Apple needed to change default to the valid key,
-> until then prefer QEMU maintainers sanity/cleaner test logs
-> vs any inconvenience users running MacOS guest might suffer.
-> 
-> 1) After some googling, it seems 'secret' key is the same for
->    all Mac hardware and is widely known but whether it's
->    permited to use that is up to lawyers/Apple to decide.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  hw/misc/applesmc.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
-> index 5f9c742e50..bce27b0950 100644
-> --- a/hw/misc/applesmc.c
-> +++ b/hw/misc/applesmc.c
-> @@ -84,7 +84,7 @@ enum {
->  #define smc_debug(...) do { } while (0)
->  #endif
->  
-> -static char default_osk[64] = "This is a dummy key. Enter the real key "
-> +static char default_osk[65] = "This is a dummy key. Enter the real key "
->                                "using the -osk parameter";
-
-This is a distinct bug fix from the problem described. We should
-take this as a standalone fix no matter what.
-
->  struct AppleSMCData {
-> @@ -335,10 +335,12 @@ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
->      isa_register_ioport(&s->parent_obj, &s->io_err,
->                          s->iobase + APPLESMC_ERR_PORT);
->  
-> -    if (!s->osk || (strlen(s->osk) != 64)) {
-> -        warn_report("Using AppleSMC with invalid key");
-> +    if (!s->osk) {
->          s->osk = default_osk;
->      }
-> +    if (strlen(s->osk) != 64) {
-> +        warn_report("Using AppleSMC with invalid key");
-> +    }
-
-This means users who invoke QEMU won't see the warning any more. This
-feels like a dubious change, as it degrades the user experiance for
-sake of tests - IMHO users takes priority over any testing.
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
