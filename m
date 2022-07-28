@@ -2,62 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB4885844E5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:24:43 +0200 (CEST)
-Received: from localhost ([::1]:50260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F78058453F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 20:05:55 +0200 (CEST)
+Received: from localhost ([::1]:36958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH7FX-0007La-KN
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45302)
+	id 1oH7tR-00045e-Mb
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 14:05:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oH7DY-0005Zk-Np
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:22:36 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:38973)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oH7r5-0002YH-Hd; Thu, 28 Jul 2022 14:03:28 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:12419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oH7DX-00089h-3i
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:22:36 -0400
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mati7-1njiLF1KPr-00cMqP; Thu, 28 Jul 2022 19:22:30 +0200
-Message-ID: <6480fb47-c9cb-41e8-49ca-7f57ad9c2a87@vivier.eu>
-Date: Thu, 28 Jul 2022 19:22:29 +0200
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oH7r2-0006qc-Qy; Thu, 28 Jul 2022 14:03:26 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 514067462D3;
+ Thu, 28 Jul 2022 20:03:18 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 453F47461AE; Thu, 28 Jul 2022 20:03:17 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4139B745702;
+ Thu, 28 Jul 2022 20:03:17 +0200 (CEST)
+Date: Thu, 28 Jul 2022 20:03:17 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Peter Maydell <peter.maydell@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: [RFC 0/2] Fix Coverity and other errors in ppc440_uc DMA
+In-Reply-To: <20220726182341.1888115-1-peter.maydell@linaro.org>
+Message-ID: <bf85e7a2-e824-b424-3422-a5b85cca7c5@eik.bme.hu>
+References: <20220726182341.1888115-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user: Do not treat madvise()'s advice as a bitmask
-Content-Language: fr
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@linux.ibm.com>
-References: <20220725134100.128035-1-iii@linux.ibm.com>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20220725134100.128035-1-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:QyW2h1YuMpfibdNI8LNQzqEwo5x42cxD958kq1MH2RpQYNMdk6O
- 9Jb2xb4uliuaTmARZmuT5q4JUdSoD3yffP8bMG+LMI7LQJ1jBtcFxZY3+2k1iQ/lPO9xWo0
- c+LKccXz3ATn7Bhplh+iqDDp4GW51WCIaUeZBrZ5ZYA0RJqrrpL9Dgz+CmuEbgVwCCI+/vC
- 4tHPtt9sg3yzbdYmY/Huw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:6RBsAIgNqSM=:WzohcYNGxGY/7k+mIrIqjm
- puXl7PGcSzZBhSecCmiC0u1hNBszd06cmp6E2UIa56Iu2nqXUAxxDy5KtAFbk2zhbcvcYlF0c
- 57rcCGxL0cbcSkzRgnB8RUUC2ig1HVeSHz/YgVKiUTLXJjI2xg/8hxfFfi/3v6YdfnPK46y62
- UxlvpwgqJnvYFCd4enFS+fCO9X+fSGwf25EhhnwQgz1AR0JcKCpkZ3MQq4L700/v8tUtYQlNU
- Zt1fQlU8aWSKBJWCJLUTB3rkAP8buOl731GVucGGFQc3h1/C0h0qUeP5EaE8Yw3IGw4IrDnhS
- 6EiIf9U994sTLtJZ8t2c/SoiaE5N+Gh09TNOy8gRlOnvaiQN+6k5MDyCW010EE3/RryRNVUYf
- 05W+TVB65HdFHdL3RXT6urYtP3dAvS2792wln1HWgH3ou2biVENw8USfn4jOyaQqYPUWOgYHi
- VdITw/nFKgu9U27/cpNdBahRKxZu15q+DOHNnm0Cjh1saaXDRgaGYy/o4Av3hKNcD8Fktbj8e
- HgJwTL1azPDOCZvhAgUux5w4f+syRPaJxcDVA10QqJhpxQMcO3Mo/7mlD7FKmQl/MHBV48ANm
- a3p5B80vMqc68CCSaT7mc0PpZGsOvPPXl9o2cp4T0IdzRSGy5VSgZmhPsJYQIZ5JjKWbxAGSV
- XisoGbbTc7mdcPhB+MgbnuCdfhhcAuCimgB44rhdX39K7OjxOk++C3R4mCa0xtV2z69BHSDyk
- /PemCLpIPfKrjscStNf8v5ybWR+v8ZRA0sNJpA==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,29 +60,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/07/2022 à 15:41, Ilya Leoshkevich a écrit :
-> Advice is enum, not flags. Doing (advice & MADV_DONTNEED) also matches
-> e.g. MADV_MERGEABLE.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/mmap.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-> index 4e7a6be6ee..edceaca4a8 100644
-> --- a/linux-user/mmap.c
-> +++ b/linux-user/mmap.c
-> @@ -891,7 +891,7 @@ abi_long target_madvise(abi_ulong start, abi_ulong len_in, int advice)
->        * anonymous mappings. In this case passthrough is safe, so do it.
->        */
->       mmap_lock();
-> -    if ((advice & MADV_DONTNEED) &&
-> +    if (advice == MADV_DONTNEED &&
->           can_passthrough_madv_dontneed(start, end)) {
->           ret = get_errno(madvise(g2h_untagged(start), len, MADV_DONTNEED));
->       }
+On Tue, 26 Jul 2022, Peter Maydell wrote:
+> This patchset is mainly trying to fix a problem that Coverity spotted
+> in the dcr_write_dma() function in hw/ppc/ppc440_uc.c, where the code
+> is not correctly using the cpu_physical_memory_map() function.
+> While I was fixing that I noticed a second problem in this code,
+> where it doesn't have a fallback for when cpu_physical_memory_map()
+> says "I couldn't map that for you".
+>
+> I've marked these patches as RFC, partly because I don't have any
+> guest that would exercise the code changes[*], and partly because
+> I don't have any documentation of the hardware to tell me how it
+> should behave, so patch 2 in particular has some FIXMEs. I also
+> notice that the code doesn't update any of the registers like the
+> count or source/base addresses when the DMA transfer happens, which
+> seems odd, but perhaps the real hardware does work like that.
+>
+> I think we should probably take patch 1 (which is a fairly minimal
+> fix of the use-of-uninitialized-data problem), but patch 2 is a bit
+> more unfinished.
+>
+> [*] The commit 3c409c1927efde2fc that added this code says it's used
+> by AmigaOS.)
 
-Fixes: 892a4f6a750a ("linux-user: Add partial support for MADV_DONTNEED")
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+AmigaOS still boots with these patches and I see no difference so
+
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+(I did not check what parameters AmigaOS uses (could not find a simple 
+trace option for that, may need to add some debug printfs to test that) so 
+not sure if the added code was actually run or it still only uses the code 
+path as before. Fixing the map length should show some effect but I don't 
+see any.)
+
+Regards,
+BALATON Zoltan
+
+> thanks
+> -- PMM
+>
+> Peter Maydell (2):
+>  hw/ppc/ppc440_uc: Initialize length passed to
+>    cpu_physical_memory_map()
+>  hw/ppc/ppc440_uc: Handle mapping failure in DMA engine
+>
+> hw/ppc/ppc440_uc.c | 34 +++++++++++++++++++++++++++++++++-
+> 1 file changed, 33 insertions(+), 1 deletion(-)
+>
+>
 
