@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0871583B4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:35:07 +0200 (CEST)
-Received: from localhost ([::1]:40584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54E5E583B71
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:41:54 +0200 (CEST)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGzv8-00064b-NY
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:35:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35648)
+	id 1oH01f-0003Q4-UN
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:41:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oGzpV-0001R5-0A
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:29:20 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:40776)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oGzpS-0007Ti-Rl
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:29:16 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id r12so499530uaf.7
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 02:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=4D/xERkLJ6XFPcqjuGz3MiCmAW7KZMcyOyZblu0wp6Q=;
- b=kdWmHgXcBBIuElsoMqemq964kpVRSl4elrf5+q1e1QxpDb9BPCL8cFdLbbmYEKMcHh
- Hv1YQW/g3095fBTaG+zilOjN5Jj2F5p7YwwkfNV8dGM7jQ7GRNUDMRpwhEbW9t5/PJLr
- Pys+PjVglx2D2slEUjY5z6OL5pkFEbjGNzC6Jvi40Gn10jX+hkCubLCCa/1jTzUve466
- 6tpFtkdjY5CUY64e/gXXsuom6GjbgnuPq+MNjReb2z2cx2EODy0yM7hCaJUDbvWSaMez
- S2iNutzNhgQ/Hdl3d4dRXVBkYo+p2iTnSOj+TbLshu6cIk6c3TFtuRps7MjA8mKkI4uJ
- jLHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=4D/xERkLJ6XFPcqjuGz3MiCmAW7KZMcyOyZblu0wp6Q=;
- b=ZNKuFoPUv/OrYvRU4PWvknMBZwlwDInPY7yuyBXo2aG2UiqnPXelvETItqbdraUeeX
- 7StiJ55ivKsifYeBsSF7enpMZK7Bp65lmYKcIzst4Q9JzVaqQ8+F76CcVZOTFi3Tg4+8
- jaH+1xn5+zU5tkYQZBZnJmVPX1kqjJIJQen1p9X6fomrPkF58kNnOa+HVax4J/SOqocW
- zcPGa2Tvpev6wnICrDItxKFxbB70e9lh6OxZDkaiO3DbKNgK3aNipXE0axuJx0RJV4WE
- fmoxviAK+VSpuZeQb8Ngm62038mlJ18NL2oKX5lJIvEr+2Pn/VbuIVzc3v4qRm9reMmZ
- ji7Q==
-X-Gm-Message-State: AJIora9JpbHQMiYXv/5rN61GB3c48fDviVlj0R0EUlDuPaAnQSYhl3YU
- OkKg44FEhDSlcXKQQjAARb2IXzLGRa0W8myqLAU=
-X-Google-Smtp-Source: AGRyM1uDdCrFk5J4jEUFbuRevMKjI2lOy7gMqDbB+dtggRJVD2tiQ/JdJVewb6hRxxZNtdhwc2+vs0N6+CA88P9bDPM=
-X-Received: by 2002:ab0:3303:0:b0:384:dd5b:ef55 with SMTP id
- r3-20020ab03303000000b00384dd5bef55mr2211996uao.27.1659000552442; Thu, 28 Jul
- 2022 02:29:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oGzw8-0006w2-G8
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:36:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44212)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oGzw4-0000O6-P7
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:36:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659000962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2UJGgabuVFGHq5XUuV5VDhxy1w/UlIZ0G13KeLSGwEU=;
+ b=U/Z1JN6qGWFti4PDvgoe0LugJsnP58Jb6ybMzUhVyAY8sL6YMP89fccNfNKvljEC0fHR7K
+ Xt8IcY/0Jj75LZ5VYqTyDiu1QjpO3S1a84djZDYuNiHda6Xvt/tIao0SnoP7EzKVI2dt7x
+ zznqzuQ/wr2ZvB4hq2Djn6sj0Mfj/Xs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-132-IQceuZz2PHyiFCPIzaofQw-1; Thu, 28 Jul 2022 05:36:01 -0400
+X-MC-Unique: IQceuZz2PHyiFCPIzaofQw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A93AA811E80;
+ Thu, 28 Jul 2022 09:36:00 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+ (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 99E001121319;
+ Thu, 28 Jul 2022 09:35:59 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: mst@redhat.com, t0rr3sp3dr0@gmail.com, alex.bennee@linaro.org,
+ dgilbert@redhat.com, agraf@suse.de, peter.maydell@linaro.org
+Subject: [PATCH for-7.1] applesmc: silence invalid key warning in case default
+ one is used
+Date: Thu, 28 Jul 2022 05:35:58 -0400
+Message-Id: <20220728093558.1163751-1-imammedo@redhat.com>
 MIME-Version: 1.0
-References: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
- <YuJLKn8y7LrjnBjK@redhat.com>
-In-Reply-To: <YuJLKn8y7LrjnBjK@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 28 Jul 2022 17:28:59 +0800
-Message-ID: <CAE2XoE-KfoKtcepFgT9zSj6TDtu+T04=TA=4eDxumF6RNrPYyA@mail.gmail.com>
-Subject: Re: When create a new qemu fork, can not run pipeline,
- what I need to do?
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000009c522105e4da2ae9"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92a;
- envelope-from=luoyonggang@gmail.com; helo=mail-ua1-x92a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,90 +76,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009c522105e4da2ae9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+QEMU probably can't carry OSK key[1] for legal reasons so it
+can't supply the valid default key. However when tests are run
+applesmc will pollute test log with distracting warning,
+silence that warning so it won't distract maintainers/CI.
 
-On Thu, Jul 28, 2022 at 4:39 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
->
-> On Wed, Jul 27, 2022 at 07:20:51PM +0800, =E7=BD=97=E5=8B=87=E5=88=9A(Yon=
-ggang Luo) wrote:
-> > =C2=B7=C2=B7=C2=B7
-> > Pipeline cannot be run.
-> >
-> > No stages / jobs for this pipeline.
->
-> No jobs are created until you set 'QEMU_CI=3D1', which creates jobs and
-> lets them be manually started, or set 'QEMU_CI=3D2' which creates jobs
-> and runs them all immediately. Please see:
->
->   docs/devel/ci-jobs.rst.inc
->
+If user launches MacOS guest without supplying valid or any key
+they will get upset MacOS (and legality of specifying valid key
+on CLI is also questionable). This patch favors QEMU/tests vs
+MacOS guest.
 
-Thanks, I've tried to locate this but not found it
+A patch from Apple needed to change default to the valid key,
+until then prefer QEMU maintainers sanity/cleaner test logs
+vs any inconvenience users running MacOS guest might suffer.
 
->
-> > The form contains the following warning:
-> >
-> > 121 warnings found: showing first 25
->
-> The warnings are harmless since we don't use merge requests.
->
-> With regards,
-> Daniel
-> --
-> |: https://berrange.com      -o-
-https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-https://www.instagram.com/dberrange :|
->
+1) After some googling, it seems 'secret' key is the same for
+   all Mac hardware and is widely known but whether it's
+   permited to use that is up to lawyers/Apple to decide.
 
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ hw/misc/applesmc.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+diff --git a/hw/misc/applesmc.c b/hw/misc/applesmc.c
+index 5f9c742e50..bce27b0950 100644
+--- a/hw/misc/applesmc.c
++++ b/hw/misc/applesmc.c
+@@ -84,7 +84,7 @@ enum {
+ #define smc_debug(...) do { } while (0)
+ #endif
+ 
+-static char default_osk[64] = "This is a dummy key. Enter the real key "
++static char default_osk[65] = "This is a dummy key. Enter the real key "
+                               "using the -osk parameter";
+ 
+ struct AppleSMCData {
+@@ -335,10 +335,12 @@ static void applesmc_isa_realize(DeviceState *dev, Error **errp)
+     isa_register_ioport(&s->parent_obj, &s->io_err,
+                         s->iobase + APPLESMC_ERR_PORT);
+ 
+-    if (!s->osk || (strlen(s->osk) != 64)) {
+-        warn_report("Using AppleSMC with invalid key");
++    if (!s->osk) {
+         s->osk = default_osk;
+     }
++    if (strlen(s->osk) != 64) {
++        warn_report("Using AppleSMC with invalid key");
++    }
+ 
+     QLIST_INIT(&s->data_def);
+     qdev_applesmc_isa_reset(dev);
+-- 
+2.31.1
 
---0000000000009c522105e4da2ae9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><br>On Thu, Jul 28, 2022 at 4:39 PM Daniel P. Berrang=
-=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&g=
-t; wrote:<br>&gt;<br>&gt; On Wed, Jul 27, 2022 at 07:20:51PM +0800, =E7=BD=
-=97=E5=8B=87=E5=88=9A(Yonggang Luo) wrote:<br>&gt; &gt; =C2=B7=C2=B7=C2=B7<=
-br>&gt; &gt; Pipeline cannot be run.<br>&gt; &gt;<br>&gt; &gt; No stages / =
-jobs for this pipeline.<br>&gt;<br>&gt; No jobs are created until you set &=
-#39;QEMU_CI=3D1&#39;, which creates jobs and<br>&gt; lets them be manually =
-started, or set &#39;QEMU_CI=3D2&#39; which creates jobs<br>&gt; and runs t=
-hem all immediately. Please see:<br>&gt;<br>&gt; =C2=A0 docs/devel/ci-jobs.=
-rst.inc<br>&gt;<div><br></div><div>Thanks, I&#39;ve tried to locate this bu=
-t not found it</div><div><br>&gt;<br>&gt; &gt; The form contains the follow=
-ing warning:<br>&gt; &gt;<br>&gt; &gt; 121 warnings found: showing first 25=
-<br>&gt;<br>&gt; The warnings are harmless since we don&#39;t use merge req=
-uests.<br>&gt;<br>&gt; With regards,<br>&gt; Daniel<br>&gt; --<br>&gt; |: <=
-a href=3D"https://berrange.com">https://berrange.com</a> =C2=A0 =C2=A0 =C2=
-=A0-o- =C2=A0 =C2=A0<a href=3D"https://www.flickr.com/photos/dberrange">htt=
-ps://www.flickr.com/photos/dberrange</a> :|<br>&gt; |: <a href=3D"https://l=
-ibvirt.org">https://libvirt.org</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 -o- =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://fstop138.berrange.com"=
->https://fstop138.berrange.com</a> :|<br>&gt; |: <a href=3D"https://entangl=
-e-photo.org">https://entangle-photo.org</a> =C2=A0 =C2=A0-o- =C2=A0 =C2=A0<=
-a href=3D"https://www.instagram.com/dberrange">https://www.instagram.com/db=
-errange</a> :|<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=
-=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
-
---0000000000009c522105e4da2ae9--
 
