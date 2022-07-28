@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B733583BE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:19:06 +0200 (CEST)
-Received: from localhost ([::1]:33694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 213B1583BFF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:27:37 +0200 (CEST)
+Received: from localhost ([::1]:40036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH0bg-00084R-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:19:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45992)
+	id 1oH0ju-0004Is-9I
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan@daynix.com>) id 1oH0Wo-0005xc-2R
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:14:02 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yan@daynix.com>) id 1oH0Wl-0004dW-Hz
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:14:01 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- i10-20020a1c3b0a000000b003a2fa488efdso67697wma.4
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 03:13:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:from:to:cc;
- bh=OwtQ01iyvWW02aEqU8I1cLzmE86cVtLSJOim+G3EiMo=;
- b=nC6N1+FIfZ8qW8P0WLRt9JA3s69lzCNOcSga+7s0vxdLP3XjZhzqaIkwkP5P1tgdci
- GR29rDWmzdTuVrv+SOFKki7grcLPwYUiqICTNkz5XhDaGc4HlU/7v/OjyUWcuiqFLq5w
- XxlGRm45fSYhULfaBFChgd0iPEaaWaecoYNrA1cFSRmVPSds/r64v9iD0YBl+QaoJDmb
- DDT76x+FsCCNvJoWCquIF8cbzw2e7TqhQbbyL6e1OOVJJx1N3F1SLvDT+LLLDn/gXuhc
- sLzhGwsywrEMLyiwnEFIBOkxkyeil52HKUcWSpIYYBKOX6evRjV1ebxhgp/HO558pWb5
- /7DQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:references:message-id:content-transfer-encoding:cc:date
- :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc;
- bh=OwtQ01iyvWW02aEqU8I1cLzmE86cVtLSJOim+G3EiMo=;
- b=uwGP+W4X+LRNSJStudkS/kriH7QxBREPFDY0nRMWUHMYPGCCYEMkP4QhaUa+HYXZJs
- YVL5H69krGH/Ywyt1Fi6r8jA2uBdAW4+5MWx2UhbTKtTj4QpHlW9UL1mZ1XM82Bb//cp
- 4Ktt6ca4zOuAPJRs5dfJT90LQELZrISUDVWNvHGk5fit5//2QaSkkK33sojx6ZEwzgq7
- uvplY/o5DmhcGpPY9zp92mJvlo+Tu/XfUKDeSHlnAysYXv5i18gqOWumB0BdrOklKx/n
- yS32Fdf+cCVWPII54X+5DEOEXs0oQElc0LO1iwICH9U1+hPqn9f47VjUKSptbIagIYs/
- ULDw==
-X-Gm-Message-State: AJIora8DChMeYI4HN+/c+h0cYw9q/d8gfw2MFPAFQAlwVmnmk2rZhbSy
- U/tpRx7ykYg92sTWTTUR692vCw==
-X-Google-Smtp-Source: AGRyM1vHfpjCseABSE4t/EiEtNmp3FM9HuOorpTvtmL0uvz/Z+yWRkdPxuVojee2GnZDIh6FNDVYjw==
-X-Received: by 2002:a05:600c:3b9e:b0:3a2:feb5:2b43 with SMTP id
- n30-20020a05600c3b9e00b003a2feb52b43mr6073835wms.26.1659003237562; 
- Thu, 28 Jul 2022 03:13:57 -0700 (PDT)
-Received: from smtpclient.apple (bzq-84-110-34-91.static-ip.bezeqint.net.
- [84.110.34.91]) by smtp.gmail.com with ESMTPSA id
- r21-20020a05600c35d500b003a17ab4e7c8sm5441937wmq.39.2022.07.28.03.13.56
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 28 Jul 2022 03:13:56 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: Guest reboot issues since QEMU 6.0 and Linux 5.11
-From: Yan Vugenfirer <yan@daynix.com>
-In-Reply-To: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
-Date: Thu, 28 Jul 2022 13:13:54 +0300
-Cc: kvm@vger.kernel.org, QEMU Developers <qemu-devel@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>,
- Mira Limbeck <m.limbeck@proxmox.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1675C8E3-D071-4F5A-814B-A06C281CC930@daynix.com>
-References: <eb0e0c7e-5b6f-a573-43f6-bd58be243d6b@proxmox.com>
-To: Fabian Ebner <f.ebner@proxmox.com>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-Received-SPF: none client-ip=2a00:1450:4864:20::336;
- envelope-from=yan@daynix.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oH0fh-0001g0-LZ
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:23:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oH0fd-0003mb-Ka
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:23:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659003788;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=A+7jehwJQUlTljn7foPGhRyYq9uPjkZEPlWsS4J8f3k=;
+ b=dFF30jQHbFqYYF7ZId3cfmtIN1G1MnP/ejDyF9mwzPraj9QAQWDM+WWya7oYB2T/nFzMaf
+ zwGmO5PlKw636mv71cPf46+BwV+Ln/+h3lA+SSKSPWsfPothn1smPlxrBpNkzlDC72eEhV
+ bBruoy7VX2yxnvjEPgrLVqRhrC/TxlA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-662-o_fT_mKbOPaQsJfc5QCKqA-1; Thu, 28 Jul 2022 06:23:05 -0400
+X-MC-Unique: o_fT_mKbOPaQsJfc5QCKqA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EA8D43C01E15;
+ Thu, 28 Jul 2022 10:23:04 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.211])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D6BE1121314;
+ Thu, 28 Jul 2022 10:23:03 +0000 (UTC)
+Date: Thu, 28 Jul 2022 11:23:00 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ mst@redhat.com, t0rr3sp3dr0@gmail.com, alex.bennee@linaro.org,
+ dgilbert@redhat.com, agraf@suse.de
+Subject: Re: [PATCH for-7.1] applesmc: silence invalid key warning in case
+ default one is used
+Message-ID: <YuJjhHLzQEx4Ui1J@redhat.com>
+References: <20220728093558.1163751-1-imammedo@redhat.com>
+ <YuJbaxMbqNF+Cw65@redhat.com>
+ <CAFEAcA85qvEjV53XMs3uDWKqzY4vrLqxfLKjZ_qfbrYMmfkx=Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA85qvEjV53XMs3uDWKqzY4vrLqxfLKjZ_qfbrYMmfkx=Q@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,74 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Fabian,
+On Thu, Jul 28, 2022 at 11:05:13AM +0100, Peter Maydell wrote:
+> On Thu, 28 Jul 2022 at 10:48, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Thu, Jul 28, 2022 at 05:35:58AM -0400, Igor Mammedov wrote:
+> > > QEMU probably can't carry OSK key[1] for legal reasons so it
+> > > can't supply the valid default key. However when tests are run
+> > > applesmc will pollute test log with distracting warning,
+> > > silence that warning so it won't distract maintainers/CI.
+> >
+> > What test is causing this problem ?
+> 
+> bios-tables-test -- see here for the relevant bit of the log:
+> 
+> https://lore.kernel.org/qemu-devel/CAFEAcA8u8jm7b+JD_t0qMNMy+WSJPOw=qxqptZpwTp=TkcXrhg@mail.gmail.com/
 
-Can you save the dump file with QEMU monitor using dump-guest-memory or =
-with virsh dump?
-Then you can use elf2dmp (compiled with QEMU and is found in =
-=E2=80=9Ccontrib=E2=80=9D folder) to covert the dump file to WinDbg =
-format and examine the stack.=20
+The right fix is for bios-tables-tests to pass an explicit 'osk' value
+then. As its a test it doesn't have to be a genuine OSK, jsut any old
+64-byte string
+
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 359916c228..f6b5adf200 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1632,7 +1632,7 @@ static void test_acpi_q35_applesmc(void)
+         .variant = ".applesmc",
+     };
+ 
+-    test_acpi_one("-device isa-applesmc", &data);
++    test_acpi_one("-device isa-applesmc,osk=iamalsonottherealoskimjustheretostopbiostablestestspammingstderr", &data);
+     free_test_data(&data);
+ }
+ 
 
 
-Best regards,
-Yan.
-
-
-> On 21 Jul 2022, at 3:49 PM, Fabian Ebner <f.ebner@proxmox.com> wrote:
->=20
-> Hi,
-> since about half a year ago, we're getting user reports about guest
-> reboot issues with KVM/QEMU[0].
->=20
-> The most common scenario is a Windows Server VM (2012R2/2016/2019,
-> UEFI/OVMF and SeaBIOS) getting stuck during the screen with the =
-Windows
-> logo and the spinning circles after a reboot was triggered from within
-> the guest. Quitting the kvm process and booting with a fresh instance
-> works. The issue seems to become more likely, the longer the kvm
-> instance runs.
->=20
-> We did not get such reports while we were providing Linux 5.4 and QEMU
-> 5.2.0, but we do with Linux 5.11/5.13/5.15 and QEMU 6.x.
->=20
-> I'm just wondering if anybody has seen this issue before or might have =
-a
-> hunch what it's about? Any tips on what to look out for when debugging
-> are also greatly appreciated!
->=20
-> We do have debug access to a user's test VM and the VM state was saved
-> before a problematic reboot, but I can't modify the host system there.
-> AFAICT QEMU just executes guest code as usual, but I'm really not sure
-> what to look out for.
->=20
-> That VM has CPU type host, and a colleague did have a similar enough =
-CPU
-> to load the VM state, but for him, the reboot went through normally. =
-On
-> the user's system, it triggers consistently after loading the VM state
-> and rebooting.
->=20
-> So unfortunately, we didn't manage to reproduce the issue locally yet.
-> With two other images provided by users, we ran into a boot loop, =
-where
-> QEMU resets the CPUs and does a few KVM_RUNs before the exit reason is
-> KVM_EXIT_SHUTDOWN (which to my understanding indicates a triple fault)
-> and then it repeats. It's not clear if the issues are related.
->=20
-> There are also a few reports about non-Windows VMs, mostly Ubuntu =
-20.04
-> with UEFI/OVMF, but again, it's not clear if the issues are related.
->=20
-> [0]: https://forum.proxmox.com/threads/100744/
-> (the forum thread is a bit chaotic unfortunately).
->=20
-> Best Regards,
-> Fabi
->=20
->=20
->=20
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
