@@ -2,84 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F1DB5838BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 08:28:06 +0200 (CEST)
-Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC4E5838CD
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 08:33:13 +0200 (CEST)
+Received: from localhost ([::1]:47296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGx08-000502-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 02:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54860)
+	id 1oGx56-0008TN-OT
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 02:33:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oGwoM-0007mM-Ky
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 02:15:59 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:38572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oGwoK-0001Ln-GJ
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 02:15:54 -0400
-Received: by mail-pg1-x530.google.com with SMTP id e132so765321pgc.5
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 23:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=message-id:subject:from:to:cc:date:in-reply-to:references
- :user-agent:mime-version:content-transfer-encoding;
- bh=y+/CyGndx4zb9OmyEuZ7VbJIwOxTwcM6U9V/usfNHyc=;
- b=hAECxBItV+U8mAkOmD+teAO2+AmoHl4EbYVbTQz7uZvtdmaAqxAat8s9JlO9VWtngo
- aMvanhhseq4l+WluKNvPXMh9xqApe8+JWPHs3NgAQo2feJXvqWXdZmg0grV6t3aEMRMV
- xe65KQE0vCBhVCcq4Adhgk2AEQrGHX3+vk5z9/DJb9jU5eZsUEgnJMZk+xQHl1OPQBjM
- X2e/EN2ozte9+BW80Q4Dhm7QRsjRsbNbYQIfmlSyJE9r9+y8X2mz26Tg+utl+W6pJApS
- rNECHOUtj9D61G6ly3F49Q0Rt/HheM6uzkxjaph3ixC42Bf15ic53A5HZbVGU9Vk71R3
- 6c8A==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oGww0-0002Lj-G4
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 02:23:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38931)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1oGwvy-0002Wb-C8
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 02:23:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658989425;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r9f9dsGiU6YoR8zHBL32kZ+yOVMsee4d2ttxhqldkuQ=;
+ b=OoGQkUmnNapQhJlsCdoVy/tZoJSCuhyhLPk+HLVMiqFbjS8wxJXMS8pgl5Z1V/wS9yg0tx
+ 3b+R/ZN2vq7vFjocddnV5AhyZGWeM7aC0QrikuYtJMOoAJdJdqDKXnnGaX9VVlMXgRBB0v
+ 5Sh3HnzKPUgWCoG3wycNN8e4d71NHMY=
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
+ [209.85.214.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-605-Idz77bXwNvSfQZsr57-tJw-1; Thu, 28 Jul 2022 02:23:43 -0400
+X-MC-Unique: Idz77bXwNvSfQZsr57-tJw-1
+Received: by mail-pl1-f198.google.com with SMTP id
+ b17-20020a170903229100b0016d3e892112so697396plh.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 23:23:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=y+/CyGndx4zb9OmyEuZ7VbJIwOxTwcM6U9V/usfNHyc=;
- b=M87ndIBZ4EkXcFw6L7eEJX9FBfoJH0AacLtgPVJDFw0mHNTEWyHEUmiHp6QelsWY9j
- 6oxj6uROMcX19irHXMEyYizsYv3BkqYZTP2sxQH3LADutg333vlix9AplI3GZiuMDfbW
- lSwrxt4UWHHPlgfCAxf7BKegl7SK5DV1J6nkxzXj4zwkrKmVBVocZGwN/CRwd6ZFl1uR
- JX/JOQj0xCkiIulvxCIgdGFiy7BBwVvJ1vzVexUgZaR2TUmJgze37LfuSdFdrEYVx3k2
- ZD7tCBEqJHXUkSP+AgEGJ1a5gswLmehHTsMCt7USZDv4UsVEEuexEI5H2c/9ADITCSJ3
- NdaA==
-X-Gm-Message-State: AJIora9eHBCe86njYxXw7S0lIvfMwloaKsoe/YdJDRBHRY9ggCRG0G1l
- f2B4r9srDOYxm25RpcrKJsz2yQ==
-X-Google-Smtp-Source: AGRyM1vOTL4Odcb6qbrTQ6SW6V1iBxeWZUJ66lw97XAlf+T6wwytGVUTsVE7sm2vsV0Ca4fiL+lBJg==
-X-Received: by 2002:a63:8142:0:b0:419:a843:1720 with SMTP id
- t63-20020a638142000000b00419a8431720mr21974071pgd.317.1658988951027; 
- Wed, 27 Jul 2022 23:15:51 -0700 (PDT)
-Received: from [192.168.1.18] ([171.50.205.214])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=r9f9dsGiU6YoR8zHBL32kZ+yOVMsee4d2ttxhqldkuQ=;
+ b=5uiZAIP0X1c38c7XHKvLbvGsm9SwBotLv47RMCGFs06L68TeGjIdNFoqa7Cochf0K7
+ MuUrYUkMK2Gwhwxu9HgltFn1D5c2UonrElng2Y6ztl/R7E2j5gG3X7+JLHryGRqhn9qZ
+ uhP8LRL6ErEtqW+sAjoz8sxEonMhBJOq2UKqaLIhA+Smoe8jEL/tB50sCJlcBfSKqwAG
+ 1vwxh4t5pIND16lYa5Nn3HBr5PZscbGl8Zt/Lf8yBC41HLkbxa0vwwHpuAwYA8B6j9Kf
+ zEh6uTiVgbWwSXLvxC62pLqelJtIRVUYQ2lGpROz/t4jCC81NND9bUjGuu7OwQfR7TZo
+ eSAw==
+X-Gm-Message-State: AJIora8KTac2B3nYArVKFDUdV+ihyVIVRMb5hPJvscet6FggwE2/1an4
+ XYRVtqupDdkiDzyecbVfLqC8fCHOgvWWwQ5dyLQD/4K/miQbyEa/TjtUPJk+5sVm/AumHw3/3xL
+ lUoZW9x0lX6f1UwY=
+X-Received: by 2002:a17:90b:3b82:b0:1f0:73e1:8426 with SMTP id
+ pc2-20020a17090b3b8200b001f073e18426mr8439185pjb.209.1658989422797; 
+ Wed, 27 Jul 2022 23:23:42 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1tpCvnK197EzZcmxqyLlLvegqeB+CJ2CrdeEnRjeG8VPAPhs9WKTgAalblErRaCiGmC+9uREg==
+X-Received: by 2002:a17:90b:3b82:b0:1f0:73e1:8426 with SMTP id
+ pc2-20020a17090b3b8200b001f073e18426mr8439162pjb.209.1658989422514; 
+ Wed, 27 Jul 2022 23:23:42 -0700 (PDT)
+Received: from [10.72.12.154] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- b12-20020a17090a550c00b001f2fbf2c42esm101361pji.26.2022.07.27.23.15.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jul 2022 23:15:50 -0700 (PDT)
-Message-ID: <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
-Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org, 
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-Date: Thu, 28 Jul 2022 11:45:42 +0530
-In-Reply-To: <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
-References: <20220721153136.377578-1-mchitale@ventanamicro.com>
- <20220721153136.377578-4-mchitale@ventanamicro.com>
- <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
- <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
- <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+ x68-20020a626347000000b0052c89540659sm15229pfb.189.2022.07.27.23.23.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Jul 2022 23:23:41 -0700 (PDT)
+Message-ID: <d8e9a065-d300-51d1-513f-d766f83abf77@redhat.com>
+Date: Thu, 28 Jul 2022 14:23:35 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH v3 08/21] hw/virtio: handle un-configured shutdown in
+ virtio-pci
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ mark.cave-ayland@ilande.co.uk
+References: <20220726192150.2435175-1-alex.bennee@linaro.org>
+ <20220726192150.2435175-9-alex.bennee@linaro.org>
+From: Jason Wang <jasowang@redhat.com>
+In-Reply-To: <20220726192150.2435175-9-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,247 +107,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
-> 
-> 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
-> > On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
-> > > 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
-> > > > If smstateen is implemented and sstateen0.fcsr is clear then
-> > > > the
-> > > > floating point operations must return illegal instruction
-> > > > exception.
-> > > > 
-> > > > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> > > > ---
-> > > >   target/riscv/csr.c                        | 23 ++++++++++++++
-> > > >   target/riscv/insn_trans/trans_rvf.c.inc   | 38
-> > > > +++++++++++++++++++++--
-> > > >   target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
-> > > >   3 files changed, 63 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > > > index ab06b117f9..a597b6cbc7 100644
-> > > > --- a/target/riscv/csr.c
-> > > > +++ b/target/riscv/csr.c
-> > > > @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState *env,
-> > > > int
-> > > > csrno)
-> > > >           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
-> > > >           return RISCV_EXCP_ILLEGAL_INST;
-> > > >       }
-> > > > +
-> > > > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> > > > +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> > > > +    }
-> > > >   #endif
-> > > >       return RISCV_EXCP_NONE;
-> > > >   }
-> > > > @@ -1876,6 +1880,9 @@ static RISCVException
-> > > > write_mstateen0(CPURISCVState *env, int csrno,
-> > > >                                         target_ulong new_val)
-> > > >   {
-> > > >       uint64_t wr_mask = SMSTATEEN_STATEN |
-> > > > SMSTATEEN0_HSENVCFG;
-> > > > +    if (!riscv_has_ext(env, RVF)) {
-> > > > +        wr_mask |= SMSTATEEN0_FCSR;
-> > > > +    }
-> > > >   
-> > > >       return write_mstateen(env, csrno, wr_mask, new_val);
-> > > >   }
-> > > > @@ -1924,6 +1931,10 @@ static RISCVException
-> > > > write_mstateen0h(CPURISCVState *env, int csrno,
-> > > >   {
-> > > >       uint64_t wr_mask = SMSTATEEN_STATEN |
-> > > > SMSTATEEN0_HSENVCFG;
-> > > >   
-> > > > +    if (!riscv_has_ext(env, RVF)) {
-> > > > +        wr_mask |= SMSTATEEN0_FCSR;
-> > > > +    }
-> > > > +
-> > > >       return write_mstateenh(env, csrno, wr_mask, new_val);
-> > > >   }
-> > > >   
-> > > > @@ -1973,6 +1984,10 @@ static RISCVException
-> > > > write_hstateen0(CPURISCVState *env, int csrno,
-> > > >   {
-> > > >       uint64_t wr_mask = SMSTATEEN_STATEN |
-> > > > SMSTATEEN0_HSENVCFG;
-> > > >   
-> > > > +    if (!riscv_has_ext(env, RVF)) {
-> > > > +        wr_mask |= SMSTATEEN0_FCSR;
-> > > > +    }
-> > > > +
-> > > >       return write_hstateen(env, csrno, wr_mask, new_val);
-> > > >   }
-> > > >   
-> > > > @@ -2024,6 +2039,10 @@ static RISCVException
-> > > > write_hstateen0h(CPURISCVState *env, int csrno,
-> > > >   {
-> > > >       uint64_t wr_mask = SMSTATEEN_STATEN |
-> > > > SMSTATEEN0_HSENVCFG;
-> > > >   
-> > > > +    if (!riscv_has_ext(env, RVF)) {
-> > > > +        wr_mask |= SMSTATEEN0_FCSR;
-> > > > +    }
-> > > > +
-> > > >       return write_hstateenh(env, csrno, wr_mask, new_val);
-> > > >   }
-> > > >   
-> > > > @@ -2083,6 +2102,10 @@ static RISCVException
-> > > > write_sstateen0(CPURISCVState *env, int csrno,
-> > > >   {
-> > > >       uint64_t wr_mask = SMSTATEEN_STATEN |
-> > > > SMSTATEEN0_HSENVCFG;
-> > > >   
-> > > > +    if (!riscv_has_ext(env, RVF)) {
-> > > > +        wr_mask |= SMSTATEEN0_FCSR;
-> > > > +    }
-> > > > +
-> > > >       return write_sstateen(env, csrno, wr_mask, new_val);
-> > > >   }
-> > > >   
-> > > > diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
-> > > > b/target/riscv/insn_trans/trans_rvf.c.inc
-> > > > index a1d3eb52ad..c43c48336b 100644
-> > > > --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> > > > +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> > > > @@ -24,9 +24,43 @@
-> > > >               return false; \
-> > > >   } while (0)
-> > > >   
-> > > > +#ifndef CONFIG_USER_ONLY
-> > > > +#define SMSTATEEN_CHECK(ctx) do {\
-> > > > +    CPUState *cpu = ctx->cs; \
-> > > > +    CPURISCVState *env = cpu->env_ptr; \
-> > > > +    if (ctx->cfg_ptr->ext_smstateen && \
-> > > > +        (env->priv < PRV_M)) { \
-> > > > +        uint64_t stateen = env->mstateen[0]; \
-> > > > +        uint64_t hstateen = env->hstateen[0]; \
-> > > > +        uint64_t sstateen = env->sstateen[0]; \
-> > > > +        if (!(stateen & SMSTATEEN_STATEN)) {\
-> > > > +            hstateen = 0; \
-> > > > +            sstateen = 0; \
-> > > > +        } \
-> > > > +        if (ctx->virt_enabled) { \
-> > > > +            stateen &= hstateen; \
-> > > > +            if (!(hstateen & SMSTATEEN_STATEN)) {\
-> > > > +                sstateen = 0; \
-> > > > +            } \
-> > > > +        } \
-> > > > +        if (env->priv == PRV_U && has_ext(ctx, RVS))
-> > > > {\eventually
-> > > > meaning
-> > > > +            stateen &= sstateen; \
-> > > > +        } \
-> > > > +        if (!(stateen & SMSTATEEN0_FCSR)) { \
-> > > > +            return false; \
-> > > > +        } \
-> > > > +    } \
-> > > > +} while (0)
-> > > 
-> > > It's better to add a space before '\'.
-> > 
-> > ok. will modify in the next version.
-> > > > +#else
-> > > > +#define SMSTATEEN_CHECK(ctx)
-> > > > +#endif
-> > > > +
-> > > >   #define REQUIRE_ZFINX_OR_F(ctx) do {\
-> > > > -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> > > > -        REQUIRE_EXT(ctx, RVF); \
-> > > > +    if (!has_ext(ctx, RVF)) { \
-> > > > +        SMSTATEEN_CHECK(ctx); \
-> > > > +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> > > > +            return false; \
-> > > > +        } \
-> > > >       } \
-> > > >   } while (0)
-> > > 
-> > > SMSTATEEN_CHECK is for CSR. and REQUIRE_ZFINX_OR_F is for
-> > > Extension.
-> > > I think It's better to separate them. By the way, if we want the
-> > > smallest modification
-> > > for current code, adding it to REQUIRE_FPU seems better.
-> > 
-> > Actually REQUIRE_FPU is checking for mstatus.fs but as per
-> > smstateen
-> > spec we need to check for misa.f which is done in
-> > REQUIRE_ZFINX_OR_F.
-> 
-> OK. It's acceptable to me  even though I prefer separating them.
-> 
-> However, I find another question in SMSTATEEN_CHECK: when access is
-> disallowed by Xstateen.FCSR,  
-> 
-> it's always return false  which will trigger illegal instruction
-> exception finally.
-> 
-> However, this exception is triggered by accessing fcsr CSR which may
-> trigger illegal instruction trap and virtual
-> instruction trap in different situation.
-> 
-> "For convenience, when the stateen CSRs are implemented and misa.F =
-> 0, then if bit 1 of a
-> controlling stateen0 CSR is zero, all floating-point instructions
-> cause an illegal instruction trap (or virtual
-> instruction trap, if relevant), as though they all access fcsr,
-> regardless of whether they really do."
-> 
-> And  stateen.fcsr is only work when zfinx is enabled, so  it's better
-> to SMSTATEEN_CHECK(ctx) after check for 
-> 
-> "!ctx->cfg_ptr->ext_zfinx"
 
-Actually the spec refers only to misa.F and not zfinx and regarding the
-fcsr its :
-"as though they all access fcsr, regardless of whether they really do"
+在 2022/7/27 03:21, Alex Bennée 写道:
+> The assert() protecting against leakage is a little aggressive and
+> causes needless crashes if a device is shutdown without having been
+> configured. In this case no descriptors are lost because none have
+> been assigned.
+>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   hw/virtio/virtio-pci.c | 9 +++++++--
+>   1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 45327f0b31..5ce61f9b45 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -996,9 +996,14 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
+>   
+>       nvqs = MIN(nvqs, VIRTIO_QUEUE_MAX);
+>   
+> -    /* When deassigning, pass a consistent nvqs value
+> -     * to avoid leaking notifiers.
+> +    /*
+> +     * When deassigning, pass a consistent nvqs value to avoid leaking
+> +     * notifiers. But first check we've actually been configured, exit
+> +     * early if we haven't.
+>        */
+> +    if (!assign && !proxy->nvqs_with_notifiers) {
+> +        return 0;
+> +    }
 
-> Regards,
-> Weiwei Li
-> > > Regards,
-> > > Weiwei Li
-> > > 
-> > > >   
-> > > > diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > > > b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > > > index 5d07150cd0..b165ea9d58 100644
-> > > > --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > > > +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> > > > @@ -17,24 +17,28 @@
-> > > >    */
-> > > >   
-> > > >   #define REQUIRE_ZFH(ctx) do { \
-> > > > +    SMSTATEEN_CHECK(ctx); \
-> > > >       if (!ctx->cfg_ptr->ext_zfh) {      \
-> > > >           return false;         \
-> > > >       }                         \
-> > > >   } while (0)
-> > > >   
-> > > >   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
-> > > > +    SMSTATEEN_CHECK(ctx); \
-> > > >       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) {
-> > > > \
-> > > >           return false;                  \
-> > > >       }                                  \
-> > > >   } while (0)
-> > > >   
-> > > >   #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
-> > > > +    SMSTATEEN_CHECK(ctx); \
-> > > >       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) 
-> > > > { \
-> > > >           return false;                         \
-> > > >       }                                         \
-> > > >   } while (0)
-> > > >   
-> > > >   #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do {
-> > > > \
-> > > > +    SMSTATEEN_CHECK(ctx); \
-> > > >       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin
-> > > > ||          \
-> > > >             ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr-
-> > > > >ext_zhinxmin)) 
-> > > > {     \
-> > > >           return
-> > > > false;                                        \
+
+I think the logic is the caller is in charge of tracking whether the 
+vhost device is started so it can avoid calling this function?
+
+Thanks
+
+
+>       assert(assign || nvqs == proxy->nvqs_with_notifiers);
+>   
+>       proxy->nvqs_with_notifiers = nvqs;
 
 
