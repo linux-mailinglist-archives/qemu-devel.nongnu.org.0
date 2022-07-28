@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB6D55844BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:18:01 +0200 (CEST)
-Received: from localhost ([::1]:44768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B50D65844BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:19:53 +0200 (CEST)
+Received: from localhost ([::1]:47138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH796-0003JE-4x
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:18:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1oH7Au-0004xQ-GP
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oH75J-0000p9-Qi
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:14:05 -0400
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:46697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oH75I-0003Un-6Z
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:14:05 -0400
-Received: by mail-pg1-x532.google.com with SMTP id 6so1996520pgb.13
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 10:14:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=PxIj9x3Qj7wGGq+L6hnxjPePcB3g34I/8eBsjBNut6s=;
- b=cccJCNlPM1Rm9taTXadWt95MWMNMdDdUvioowcAuxYW4cQ0Iehm29e2A8+XMLlnYYD
- On1WFTgHk1mznGgYr0WaAZpG9MZiSbVimID9rSgtY66D9Q7k4ukY3QGq8WnZHT15ytcS
- ECD/PD/5EogZyFXTpECa+T5WP54VP7tunlkACUq39KvarnyUjKhtk8xPLdm5ntykJ+Fa
- F57xkv2ksiwZElFZV/5HbSFRJO4JUJNxy1g812QD+Mk909ojEN2Wg/JQhniD9Yd39e5j
- 8qvMEDxYDQ+ZJ+xMmI2JqjLlfiYa0GCdr11o/Z44xoMr6AtycZ7wMKqGG3BoCUr0LeBF
- BI2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=PxIj9x3Qj7wGGq+L6hnxjPePcB3g34I/8eBsjBNut6s=;
- b=cqbKBExU3S370dWyHn+f7vr0TOGeJILv/n3R0LvM9Fl6pR6jRW8QDhrIcmtLTyNExV
- IeMaC5kVj8GipNpWnHkUJ2KEfDz+MS3BNeRh/3odTkwWsruXgNsCALplymtd069v8xlh
- GzJcOPF6+wi2B+/dGsYMeATrTXEWHJGYv0/YspqRSQTnOX9vvev0Ja3CUaDeotU0IYz6
- +CxwtLAnnVnrOGNezs3ETjI8wuY13QpWt6nu2kvW7j1V7Tp1FxnHHeMnDUQtEcRhcypY
- r8xO1LV0MorChHPyyaTmLVriR7wRY0jsdXvRNYjiR39evUx4uXufJYcC6iAqPWPyHwq8
- oMEA==
-X-Gm-Message-State: AJIora+fjSFDFOMu6DfmQBZdAALchwatGQ4hXiC0ERg/C0oAQF/f7DM9
- cnj/XVE88PnepkA8+l2UmYeUAA==
-X-Google-Smtp-Source: AGRyM1tptmVG7XzGTEwtqZE4asB66mueVO3NZIfub46ohgbD4k1GwUeyvN9JFX4SN8WEDt147TUqyQ==
-X-Received: by 2002:a05:6a02:30d:b0:412:9de2:eb48 with SMTP id
- bn13-20020a056a02030d00b004129de2eb48mr23409098pgb.47.1659028442527; 
- Thu, 28 Jul 2022 10:14:02 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:d1a3:8e57:d847:7607?
- ([2602:ae:1549:801:d1a3:8e57:d847:7607])
- by smtp.gmail.com with ESMTPSA id
- u62-20020a626041000000b0052b94e757ecsm961880pfb.213.2022.07.28.10.14.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 10:14:02 -0700 (PDT)
-Message-ID: <927ec016-4964-47e1-02c4-bd2e9edaec7b@linaro.org>
-Date: Thu, 28 Jul 2022 10:13:59 -0700
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oH797-0003T0-H9
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:18:07 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:57739)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oH795-0004WI-NY
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:18:01 -0400
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MXY2Z-1ny8AW2avn-00Z1JG; Thu, 28 Jul 2022 19:17:55 +0200
+Message-ID: <5886bdc6-95bd-bfb6-dea3-3bc18076b170@vivier.eu>
+Date: Thu, 28 Jul 2022 19:17:52 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH for-7.1?] kvm: don't use perror() without useful errno
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20220728142446.438177-1-cohuck@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220728142446.438177-1-cohuck@redhat.com>
+Subject: Re: [PATCH for-7.1] linux-user/flatload.c: Fix setting of
+ image_info::end_code
+Content-Language: fr
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20220728151406.2262862-1-peter.maydell@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20220728151406.2262862-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:ku5yWSjxhasfOJvltfJKbjD33E9FLIJH9QH04U2JoETdoXxL3qk
+ FdbnuJxai4ZDRpM1fceOB4UbJXpsYCT3Y1I+zFGi5yoDmlDMNxs1SLnvLWkrUVZqveNJLgK
+ HAc4EPCttKNQSz7ubfyUJ5SCRCtOG/J9t/GSxsH02PnHHkPf95Sn2ijJNDqUDW8TcNdbya9
+ Ck069JGeqWDCXu1YFRmOQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:BrHAMBzQgE8=:sulkvOdd5UhiC4+KmbQWNi
+ RTzWgQ/agwHIORjTtTy0zqDEJJneE/IJSW5CX1sq60bGnRQVmxHs07LHoj2gKz1nOGp7tNcXC
+ qAxasuOmunsAyFyx1CqJa2NV6UYnfEJaLmV0mnzFoAIwX+pRhNHZAKjMuRFSwfbcBQHFjkUnb
+ bEbGW/3LucVHf7hnW3lXNzzGOAfpVJ7LLZDFFUuGUcxuuud2wWH0ukHBFeFHEKHr6JtUlg3MY
+ wmj3ixUwgLMM+JIlV1iUG+lxDamUoHNHGuHRFS+iJJJ8tT4LCbRqJ3U5bfQnSyOQ13n8FvxIT
+ KdyNl5oALvUEvd0BLB+enfDJeY0hnU6pjegWvOVw5eGdPp+HIFUb4kGlVkU9ib0x6WTgTdUeR
+ /Ws/e2SVCir/lVe/gMvofU528OHBKDAwiW4Z+/7uVIal7rsq4e5/W4eFwmIrFgTuu+ugm2hSS
+ hixQ8anIdY08O2krBfSbWcBGV2iMKgpx9S89V9AKLW0tHRQcDPC6yPCs3wMPjUZDPUNID/Yb6
+ u03m6DWewoLsPvlbykMaVHF5WUBXZLwbB2KODDPXLp62nXSKwmr9GSCbt0XLMmuXml7hNHU6g
+ 8J79YWGqV5MThEuII0be0xkzBr4OkJIOg3+j7wJXfSTw8gClgI+maoJHi3olAiXIjk5QGgI+L
+ c+VlW7/MeeFEVoZXJeEqFOtmFSP7mtwJUypfPajbnP5svDawlIkEcyZumfwbwvvRit3g00YEU
+ YPF1EgHmHH8k5eWmjCNUvi2NgRfTR8czzVoKwQ==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,20 +73,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/22 07:24, Cornelia Huck wrote:
-> perror() is designed to append the decoded errno value to a
-> string. This, however, only makes sense if we called something that
-> actually sets errno prior to that.
+Le 28/07/2022 à 17:14, Peter Maydell a écrit :
+> The flatload loader sets the end_code field in the image_info struct
+> incorrectly, due to a typo.
 > 
-> For the callers that check for split irqchip support that is not the
-> case, and we end up with confusing error messages that end in
-> "success". Use error_report() instead.
+> This is a very long-standing bug (dating all the way back to when
+> the bFLT loader was added in 2006), but has gone unnoticed because
+> (a) most people don't use bFLT binaries
+> (b) we don't actually do anything with the end_code field, except
+>      print it in debugging traces and pass it to TCG plugins
 > 
-> Signed-off-by: Cornelia Huck<cohuck@redhat.com>
+> Fix the typo.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1119
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>   linux-user/flatload.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/flatload.c b/linux-user/flatload.c
+> index e4c2f89a226..e99570ca182 100644
+> --- a/linux-user/flatload.c
+> +++ b/linux-user/flatload.c
+> @@ -808,7 +808,7 @@ int load_flt_binary(struct linux_binprm *bprm, struct image_info *info)
+>   
+>       /* Stash our initial stack pointer into the mm structure */
+>       info->start_code = libinfo[0].start_code;
+> -    info->end_code = libinfo[0].start_code = libinfo[0].text_len;
+> +    info->end_code = libinfo[0].start_code + libinfo[0].text_len;
+>       info->start_data = libinfo[0].start_data;
+>       info->end_data = libinfo[0].end_data;
+>       info->start_brk = libinfo[0].start_brk;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Applied to my linux-user-for-7.1 branch.
 
+Thanks,
+Laurent
 
-r~
 
