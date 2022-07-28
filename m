@@ -2,54 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62269583A5E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 10:30:41 +0200 (CEST)
-Received: from localhost ([::1]:43538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9A9583A70
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 10:39:03 +0200 (CEST)
+Received: from localhost ([::1]:49486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGyuj-0000xa-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 04:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46534)
+	id 1oGz2r-0005In-4K
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 04:39:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1oGyam-0006ry-89; Thu, 28 Jul 2022 04:10:11 -0400
-Received: from imap5.colo.codethink.co.uk ([78.40.148.171]:51804)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oGypZ-0006hH-0a
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:25:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1oGyai-0000gz-Qc; Thu, 28 Jul 2022 04:09:58 -0400
-Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
- ([86.15.83.122] helo=[192.168.0.17])
- by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1oGyac-007muH-2i; Thu, 28 Jul 2022 09:09:50 +0100
-Message-ID: <a0267001-a369-cfab-40ac-05037649166c@codethink.co.uk>
-Date: Thu, 28 Jul 2022 09:09:49 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1oGypU-0004oY-TB
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:25:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1658996711;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IC4LUHTrLpcYQYkZhy5aIQO4x13tAtRHpNlVFyvZjIM=;
+ b=GA9iQFKtILXM5BgR6QbERkPM+tZ9tDqPhitv0p32eP//2Q+tSxDPfhjPe1LVFiI7nClGrx
+ HrSWR9tUecrsmtjSVtM5v9tAUWOdyKyaJ2YXJJUHWGrNJ8QyyGWaHgzNuukt3UrA7wXXVq
+ BrJtjPFVPQW3Z8JtQhx2Mg7h+LsVZ/Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-453-dtqzooJ-N_S7u3WUC9ytwA-1; Thu, 28 Jul 2022 04:25:09 -0400
+X-MC-Unique: dtqzooJ-N_S7u3WUC9ytwA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ f21-20020a1cc915000000b003a3551598a1so247121wmb.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 01:25:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=IC4LUHTrLpcYQYkZhy5aIQO4x13tAtRHpNlVFyvZjIM=;
+ b=yIOHSMu9PQSrmlWZ/aTYsCcHD2CIk71Cyc3mw1hjmITAFrh29WENhMm3Wp/hpYXroZ
+ H3U7iQC9Z6lPFw8y5BuT0FfXT0z6v8etF1yEACWTXohsvVdzdYDHEIr1ZqdKQhbaKrLd
+ b4v3icXHK8PWM7qZq2n+qk5LMOFcik9fm69gUt5II2jo8gVf0r8gJM5A/LfMeF2UQ12N
+ XOlksHG49ifz3SoWVc8jLTiARWhrJ5uHevOHJXMl9WlevP8zuOjmAhWvL53qkR3az/E5
+ IDT0cIji9dSwHFoEqZev/9qVfXoaGJcTpifv9i816OfedRTE8aJ+73oQdopsi+rUmjt7
+ 5GFw==
+X-Gm-Message-State: AJIora+aqSVMzIkMiMzFgeY0lUgR6e0HdRaIWCS24zE5cYPxrzSjPV/T
+ W81Ww50VArKlj0SYvSOE3H73Z+22XJBtf7mCmtSeCnmox5uIP6NUgWIwIt+K2oGM1kWe6NCrCN1
+ v1KYUKtyrlk1mYtM=
+X-Received: by 2002:a5d:624e:0:b0:21e:bd15:3e11 with SMTP id
+ m14-20020a5d624e000000b0021ebd153e11mr6171562wrv.431.1658996707659; 
+ Thu, 28 Jul 2022 01:25:07 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t9wavR/akWlW12ho112Q418SU7K142EYpV4sVW5UkkPGmP0qFIvXuG+pXXXPqyrlBI+M9z6g==
+X-Received: by 2002:a5d:624e:0:b0:21e:bd15:3e11 with SMTP id
+ m14-20020a5d624e000000b0021ebd153e11mr6171543wrv.431.1658996707318; 
+ Thu, 28 Jul 2022 01:25:07 -0700 (PDT)
+Received: from localhost (static-110-87-86-188.ipcom.comunitel.net.
+ [188.86.87.110]) by smtp.gmail.com with ESMTPSA id
+ i3-20020a05600c354300b003a2e92edeccsm5361277wmq.46.2022.07.28.01.25.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 01:25:06 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>,  Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <f4bug@amsat.org>,  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>,  Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH 5/5] multifd: Only sync once each full round of memory
+In-Reply-To: <YsRy0VtnZvhIGiDd@work-vm> (David Alan Gilbert's message of "Tue, 
+ 5 Jul 2022 18:20:17 +0100")
+References: <20220621140507.1246-1-quintela@redhat.com>
+ <20220621140507.1246-6-quintela@redhat.com> <YsRDEyA0mjUD4DSB@work-vm>
+ <8735ff1tn1.fsf@secure.mitica> <YsRsYiouIb8+GRua@redhat.com>
+ <YsRxRCgSkQx6Ruqv@work-vm> <YsRx6sXGos52Nhar@redhat.com>
+ <YsRy0VtnZvhIGiDd@work-vm>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Thu, 28 Jul 2022 10:25:05 +0200
+Message-ID: <87fsild4pq.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
-Content-Language: en-GB
-To: Mayuresh Chitale <mchitale@ventanamicro.com>,
- Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-References: <20220721153136.377578-1-mchitale@ventanamicro.com>
- <20220721153136.377578-4-mchitale@ventanamicro.com>
- <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
- <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
- <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
- <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=78.40.148.171;
- envelope-from=ben.dooks@codethink.co.uk; helo=imap5.colo.codethink.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,154 +108,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/07/2022 07:15, Mayuresh Chitale wrote:
-> On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
->>
->> 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
->>> On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
->>>> 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
->>>>> If smstateen is implemented and sstateen0.fcsr is clear then
->>>>> the
->>>>> floating point operations must return illegal instruction
->>>>> exception.
->>>>>
->>>>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
->>>>> ---
->>>>>    target/riscv/csr.c                        | 23 ++++++++++++++
->>>>>    target/riscv/insn_trans/trans_rvf.c.inc   | 38
->>>>> +++++++++++++++++++++--
->>>>>    target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
->>>>>    3 files changed, 63 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>>> index ab06b117f9..a597b6cbc7 100644
->>>>> --- a/target/riscv/csr.c
->>>>> +++ b/target/riscv/csr.c
->>>>> @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState *env,
->>>>> int
->>>>> csrno)
->>>>>            !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
->>>>>            return RISCV_EXCP_ILLEGAL_INST;
->>>>>        }
->>>>> +
->>>>> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->>>>> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
->>>>> +    }
->>>>>    #endif
->>>>>        return RISCV_EXCP_NONE;
->>>>>    }
->>>>> @@ -1876,6 +1880,9 @@ static RISCVException
->>>>> write_mstateen0(CPURISCVState *env, int csrno,
->>>>>                                          target_ulong new_val)
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>>    
->>>>>        return write_mstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>> @@ -1924,6 +1931,10 @@ static RISCVException
->>>>> write_mstateen0h(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_mstateenh(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -1973,6 +1984,10 @@ static RISCVException
->>>>> write_hstateen0(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_hstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -2024,6 +2039,10 @@ static RISCVException
->>>>> write_hstateen0h(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_hstateenh(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -2083,6 +2102,10 @@ static RISCVException
->>>>> write_sstateen0(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_sstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> b/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> index a1d3eb52ad..c43c48336b 100644
->>>>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> @@ -24,9 +24,43 @@
->>>>>                return false; \
->>>>>    } while (0)
->>>>>    
->>>>> +#ifndef CONFIG_USER_ONLY
->>>>> +#define SMSTATEEN_CHECK(ctx) do {\
->>>>> +    CPUState *cpu = ctx->cs; \
->>>>> +    CPURISCVState *env = cpu->env_ptr; \
->>>>> +    if (ctx->cfg_ptr->ext_smstateen && \
->>>>> +        (env->priv < PRV_M)) { \
->>>>> +        uint64_t stateen = env->mstateen[0]; \
->>>>> +        uint64_t hstateen = env->hstateen[0]; \
->>>>> +        uint64_t sstateen = env->sstateen[0]; \
->>>>> +        if (!(stateen & SMSTATEEN_STATEN)) {\
->>>>> +            hstateen = 0; \
->>>>> +            sstateen = 0; \
->>>>> +        } \
->>>>> +        if (ctx->virt_enabled) { \
->>>>> +            stateen &= hstateen; \
->>>>> +            if (!(hstateen & SMSTATEEN_STATEN)) {\
->>>>> +                sstateen = 0; \
->>>>> +            } \
->>>>> +        } \
->>>>> +        if (env->priv == PRV_U && has_ext(ctx, RVS))
->>>>> {\eventually
->>>>> meaning
->>>>> +            stateen &= sstateen; \
->>>>> +        } \
->>>>> +        if (!(stateen & SMSTATEEN0_FCSR)) { \
->>>>> +            return false; \
->>>>> +        } \
->>>>> +    } \
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+>> On Tue, Jul 05, 2022 at 06:13:40PM +0100, Dr. David Alan Gilbert wrote:
+>> > * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+>> > > On Tue, Jul 05, 2022 at 05:11:46PM +0200, Juan Quintela wrote:
+>> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>> > > > > * Juan Quintela (quintela@redhat.com) wrote:
+>> > > > >> We need to add a new flag to mean to sync at that point.
+>> > > > >> Notice that we still synchronize at the end of setup and at the=
+ end of
+>> > > > >> complete stages.
+>> > > > >>=20
+>> > > > >> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> > > > >> ---
+>> > > > >>  migration/migration.c |  2 +-
+>> > > > >>  migration/ram.c       | 42 ++++++++++++++++++++++++++++++-----=
+-------
+>> > > > >>  2 files changed, 31 insertions(+), 13 deletions(-)
+>> > > > >>=20
+>> > > > >> diff --git a/migration/migration.c b/migration/migration.c
+>> > > > >> index 3f79df0b70..6627787fc2 100644
+>> > > > >> --- a/migration/migration.c
+>> > > > >> +++ b/migration/migration.c
+>> > > > >> @@ -4283,7 +4283,7 @@ static Property migration_properties[] =
+=3D {
+>> > > > >>                        DEFAULT_MIGRATE_ANNOUNCE_STEP),
+>> > > > >>      /* We will change to false when we introduce the new mecha=
+nism */
+>> > > > >>      DEFINE_PROP_BOOL("multifd-sync-each-iteration", MigrationS=
+tate,
+>> > > > >> -                      multifd_sync_each_iteration, true),
+>> > > > >> +                      multifd_sync_each_iteration, false),
+>> > > > >>=20=20
+>> > > > >>      /* Migration capabilities */
+>> > > > >>      DEFINE_PROP_MIG_CAP("x-xbzrle", MIGRATION_CAPABILITY_XBZRL=
+E),
+>> > > > >> diff --git a/migration/ram.c b/migration/ram.c
+>> > > > >> index 2c7289edad..6792986565 100644
+>> > > > >> --- a/migration/ram.c
+>> > > > >> +++ b/migration/ram.c
+>> > > > >> @@ -81,6 +81,7 @@
+>> > > > >>  #define RAM_SAVE_FLAG_XBZRLE   0x40
+>> > > > >>  /* 0x80 is reserved in migration.h start with 0x100 next */
+>> > > > >>  #define RAM_SAVE_FLAG_COMPRESS_PAGE    0x100
+>> > > > >> +#define RAM_SAVE_FLAG_MULTIFD_SYNC     0x200
+>> > > > >
+>> > > > > Note this is the very last usable flag!
+>> > > >=20
+>> > > > We can recover two flags right now:
+>> > > >=20
+>> > > > RAM_SAVE_FLAG_FULL is not used anymore.
+>> > > > 0x80 is free since years ago.
+>> > > >=20
+>> > > > Once multifd is default, there are some other that could go.
+>> >=20
+>> > I have suggested that a few times in the past.
+>> >=20
+>> > > Non-multifd migration isn't likely to go away any time soon, given
+>> > > distros desire to support migration between QEMU's with quite
+>> > > significantly different versions. So feels like quite a long time
+>> > > before we might reclaim more flags.
+>> > >=20
+>> > > > > We could do with avoiding using them as flags where we dont need=
+ to.
+>> > > >=20
+>> > > > I can't really think on another way to do it.  The other thing tha=
+t I
+>> > > > can do is just reuse one of the flags that don't make sense for mu=
+ltifd
+>> > > > (RAM_SAVE_FLAG_ZERO after zero pages patch,
+>> > > > RAM_SAVE_FLAG_XBZRLE/COMPRESS_PAGE).
+>> > >=20
+>> > > Re-using flags based on use context differences feels like a recipe
+>> > > to confuse people.
+>> >=20
+>> > Note that most of these things aren't really 'flags'; in the sense that
+>> > only a few of them are actually combinable; so we should start using
+>> > combinations to mean things new.
+>>=20
+>> IOW, treat the field as an enum of valid values instead, and just
+>> define enum entries for the few valid combinations, giving us many
+>> more values to play with ?
+>
+> Right; some care needs to be taken with the ones that were interpreted
+> as flags; but since you're not going to send the new values to an old
+> qemu, you've got quite a bit of flexibility.
 
-given the size of that I would have thought an "static inline"
-function would be easier to write and maintain for SMSTATEEN_CHECK
+Rigth now no combinations are allowed, so we are free to play with that
+combination thing.  Reception side code is:
 
+        switch (flags & ~RAM_SAVE_FLAG_CONTINUE) {
+        case RAM_SAVE_FLAG_MEM_SIZE:
+        ....
+        break;
 
--- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+        case RAM_SAVE_FLAG_ZERO:
+            ...
+            break;
 
-https://www.codethink.co.uk/privacy.html
+        case RAM_SAVE_FLAG_PAGE:
+            ....
+            break;
+
+        case RAM_SAVE_FLAG_COMPRESS_PAGE:
+            ....
+            break;
+
+        case RAM_SAVE_FLAG_XBZRLE:
+            ....
+            break;
+        case RAM_SAVE_FLAG_MULTIFD_SYNC:
+            ...
+            break;
+        case RAM_SAVE_FLAG_EOS:
+            ....
+            break;
+        default:
+            if (flags & RAM_SAVE_FLAG_HOOK) {
+                   .....
+            }
+        }
+
+So the only value that is a flag is the CONTINUE one, there are not
+other combinations with other flags.
+
+Yes, the RAM_SAVE_FLAG_HOOK is as weird as it can be.
+
+Later, Juan.
+
 
