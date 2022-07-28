@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA61583C33
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:43:06 +0200 (CEST)
-Received: from localhost ([::1]:57296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48089583C85
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 12:50:09 +0200 (CEST)
+Received: from localhost ([::1]:37862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH0yv-00088y-L6
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:43:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50998)
+	id 1oH15j-0005sh-SL
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 06:50:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH0sJ-0002CQ-DZ
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:36:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:33023)
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>)
+ id 1oH0xV-00060n-9J; Thu, 28 Jul 2022 06:41:37 -0400
+Received: from test-v6.fluff.org ([2a01:4f8:222:2004::3]:36764
+ helo=hetzy.fluff.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oH0sG-0006Fz-7W
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 06:36:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659004571;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=QQz0mvKWse3kBnHcENkOszuicVSoBsnp3yA7qJK4KWs=;
- b=RJtIpn7If02TEFNLbj5Fb6gDv3IIFkKNXT7iO4T7xsurRnqjwf1HL1lfhw5+VzR22ysMSi
- 3cCE+rjmanxT3ReTDNiE+GLqq7Enj3gQ7xjX8Ef1zlL1WOpV9zd5SDc8KMJ7in6C7qdjH3
- PJm6dKPoTn/cihRcnKSAA6ZRj8Y5xkw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-259-bx0mXJyUNHG4sGCb3uGxwA-1; Thu, 28 Jul 2022 06:36:10 -0400
-X-MC-Unique: bx0mXJyUNHG4sGCb3uGxwA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A9E9B8032E3
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 10:36:09 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B0F240FD341;
- Thu, 28 Jul 2022 10:36:09 +0000 (UTC)
-Date: Thu, 28 Jul 2022 11:36:07 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/docker: regenerate container Dockerfiles
-Message-ID: <YuJmlyKBfRs/uWNF@redhat.com>
-References: <20220728102955.240048-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <ben@fluff.org>)
+ id 1oH0xS-0007BU-PK; Thu, 28 Jul 2022 06:41:36 -0400
+Received: from ben by hetzy.fluff.org with local (Exim 4.89)
+ (envelope-from <ben@fluff.org>)
+ id 1oH0xN-0007FI-GV; Thu, 28 Jul 2022 11:41:29 +0100
+Date: Thu, 28 Jul 2022 11:41:29 +0100
+From: Ben Dooks <qemu@ben.fluff.org>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Ben Dooks <qemu@ben.fluff.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
+ qemu-arm@nongnu.org
+Subject: Re: [PATCH v3 1/5] device_tree: add qemu_fdt_setprop_strings() helper
+Message-ID: <20220728104129.gfbxpf4stnv5v6wa@hetzy.fluff.org>
+References: <20220727223905.624285-1-qemu@ben.fluff.org>
+ <20220727223905.624285-2-qemu@ben.fluff.org>
+ <20220728092227.m2v6nyy4eblcreo2@kamzik>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220728102955.240048-1-pbonzini@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <20220728092227.m2v6nyy4eblcreo2@kamzik>
+X-Disclaimer: These are my views alone.
+X-URL: http://www.fluff.org/
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: <locally generated>
+X-SA-Exim-Mail-From: ben@fluff.org
+X-SA-Exim-Scanned: No (on hetzy.fluff.org); SAEximRunCond expanded to false
+Received-SPF: pass client-ip=2a01:4f8:222:2004::3; envelope-from=ben@fluff.org;
+ helo=hetzy.fluff.org
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,36 +61,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 12:29:55PM +0200, Paolo Bonzini wrote:
-> Copy over the most recent qemu.yml from lcitool, with updated
-> dependencies, and use it to regenerate the Dockerfiles.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Thu, Jul 28, 2022 at 11:22:27AM +0200, Andrew Jones wrote:
+> On Wed, Jul 27, 2022 at 11:39:01PM +0100, Ben Dooks wrote:
+> > Add a helper to set a property from a set of strings
+> > to reduce the following code:
+> > 
+> >     static const char * const clint_compat[2] = {
+> >         "sifive,clint0", "riscv,clint0"
+> >     };
+> > 
+> >     qemu_fdt_setprop_string_array(fdt, nodename, "compatible",
+> >         (char **)&clint_compat, ARRAY_SIZE(clint_compat));
+> > 
+> > Signed-off-by: Ben Dooks <qemu@ben.fluff.org>
+> > ---
+> > v3;
+> >  - fix return value for the call
+> >  - add better help text
+> > v2:
+> >  - fix node/path in comment
+> > ---
+> >  include/sysemu/device_tree.h | 19 +++++++++++++++++++
+> >  1 file changed, 19 insertions(+)
+> > 
+> > diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> > index ef060a9759..83bdfe390e 100644
+> > --- a/include/sysemu/device_tree.h
+> > +++ b/include/sysemu/device_tree.h
+> > @@ -87,6 +87,25 @@ int qemu_fdt_setprop_string(void *fdt, const char *node_path,
+> >  int qemu_fdt_setprop_string_array(void *fdt, const char *node_path,
+> >                                    const char *prop, char **array, int len);
+> >  
+> > +/**
+> > + * qemu_fdt_setprop_strings: set a property from a set of strings
+> > + *
+> > + * @fdt: pointer to the dt blob
+> > + * @path: node name
+> > + * @prop: property array
+> > + *
+> > + * This is a helper for the qemu_fdt_setprop_string_array() function
+> > + * which takes a va-arg set of strings instead of having to setup a
+> > + * single use string array.
+> > + */
+> > +#define qemu_fdt_setprop_strings(fdt, path, prop, ...)          \
+> > +    ({ int __ret; do {                                          \
+> > +        static const char * const __strs[] = { __VA_ARGS__ };   \
+> > +        __ret = qemu_fdt_setprop_string_array(fdt, path, prop,  \
+> > +                (char **)&__strs, ARRAY_SIZE(__strs));          \
+> > +     } while(0); __ret; })
+> 
+> The do { } while (0) shouldn't be necessary inside the ({}), but I
+> think we should change the places that are checking the return value
+> of qemu_fdt_setprop_string_array() to not check the return value,
+> because it will always be zero. qemu_fdt_setprop_string_array() calls
+> qemu_fdt_setprop() which exits QEMU on error. Then, after there are
+> no callers checking the return value we can change this macro to
 
+I think I did this due to the hw/ppc changes that /do/ check the
+return code but are different enough to not be trivially changable.
 
-NB, the qemu.yml in libvirt-ci.git ought be removed. The
-one in qemu.git is considered the canonical source of
-info.
+I'll go back and make this the original do {} while() tongith and
+post a v4 for people to look. The hw/ppc stuff can stay as is for
+now.
 
-The latest refresh is already posted at
+Thank you for the review.
 
-  https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg04030.html
-
-and queued by Alex:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg04284.html
-
-
-
-With regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Ben Dooks, ben@fluff.org, http://www.fluff.org/ben/
+
+Large Hadron Colada: A large Pina Colada that makes the universe disappear.
 
 
