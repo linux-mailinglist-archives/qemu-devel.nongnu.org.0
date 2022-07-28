@@ -2,83 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CDE58415F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:34:10 +0200 (CEST)
-Received: from localhost ([::1]:46590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447D35841DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:38:20 +0200 (CEST)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4aW-0006YX-71
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1oH4eY-0002WU-M5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:38:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH46f-0003NX-GS
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:03:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25573)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH47l-0004OC-Ka
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:04:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH46a-0005XD-Sb
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:03:14 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH47j-0005fV-9H
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:04:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659016991;
+ s=mimecast20190719; t=1659017061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bp9MI9TKd+Ng568dne52yZ2870kOeeZ21RNHjNYdSfM=;
- b=SJvPVD/uT0ogaIQ+/vb73hMwZWhNOV4TMkolfIBeoW1ZQA3fIpplAtoDwfZl5HVJI31IGs
- BCYPn4ECbD+66ilIB1efuovqFvJ8Ao/pZ5ZgoxsY39VgYmj533impEiql42Mb+s+ExYezw
- qZJr7e1cJtgAr5KdzIGTpWreC6fq3lU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DBSTWQeFU5TTHOWp8ApyBl4dW0QC6YJ/QcqdTdxiyiI=;
+ b=aTe/SWlvLg4dBWRO2s4hjwV3QaG541vfn9G5yX0u8YxNUtATBtddEjg09gCUXzp6d2LTAw
+ dBJOIAa0gJmV9Cbbbl1qMGiTSvEG4gMitiWMfZfrtqUCWOrF4c92q30eLEJ+nA+mhS+1LH
+ aPjpI9UQPhjgw5bCxcA2La+9Td5X8Vg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-394-m4IFGxh-P66SyHeBj-EQYw-1; Thu, 28 Jul 2022 10:03:10 -0400
-X-MC-Unique: m4IFGxh-P66SyHeBj-EQYw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- dz20-20020a0564021d5400b0043be2c5cd32so1171860edb.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 07:03:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Bp9MI9TKd+Ng568dne52yZ2870kOeeZ21RNHjNYdSfM=;
- b=1SzJWLgcRAViJWMBSFiqusC7lTp8TaOfD+irwBJ/k9G1lEzXsjKjeD34sMd6Y5FTbn
- mysyFiAPBethxWfrDAPPF+7Qn6Jq5VkLwr/cRzGNKNaDsI07PxP4QH1HrDPVE/kKITSo
- NAKDTrCldxa3n9wUwt0uk7vbgn+mNQBh1iA1s2xzq4lClqH/HCkKoZl3r+2cp8+4LmPF
- JOfjfYVH7jC33H6psc4rCQ30ouaCzh2OoEEOam18++pWBf9KYYUAs/RHLfRA8PqoSCZy
- 5yDWSxM8lx5tZr9xdGTZ4wL5Czeq4tNwHOIzfxPyCPstuj69GInStjjwxBCC+enpseHo
- LK8A==
-X-Gm-Message-State: AJIora8F6bNCouRVZ4Bu5QBkmQkqMefpaRfaqs6B3GWC1RWcIVgDJDbs
- Y2J7vCcrUWnRq4gI275gKVn7Xr5tMTPak2RGQS4jFoldcDmH1U+iJDDR4mrMzDi7ZxPivWRNiRz
- 2ABE5C5fM4gVEQqs=
-X-Received: by 2002:a17:907:9483:b0:72f:6e4f:f54c with SMTP id
- dm3-20020a170907948300b0072f6e4ff54cmr21435587ejc.471.1659016989132; 
- Thu, 28 Jul 2022 07:03:09 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tF52kLy4mBDYI67GTsysVAEdUKJf0uXGrxHsQy+6tUzVzNpdVM716GncMvMkJ8HN/yfoGA1g==
-X-Received: by 2002:a17:907:9483:b0:72f:6e4f:f54c with SMTP id
- dm3-20020a170907948300b0072f6e4ff54cmr21435547ejc.471.1659016988539; 
- Thu, 28 Jul 2022 07:03:08 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- 9-20020a170906200900b006fe8a4ec62fsm455835ejo.4.2022.07.28.07.03.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 07:03:08 -0700 (PDT)
-Date: Thu, 28 Jul 2022 16:03:07 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- gaosong@loongson.cn, maobibo@loongson.cn, mark.cave-ayland@ilande.co.uk,
- mst@redhat.com, ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: Re: [PATCH 5/6] hw/loongarch: Add acpi ged support
-Message-ID: <20220728160307.4fcc3ce0@redhat.com>
-In-Reply-To: <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
-References: <20220712083206.4187715-1-yangxiaojuan@loongson.cn>
- <20220712083206.4187715-6-yangxiaojuan@loongson.cn>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ us-mta-612-XGqdWITFOwGUXicXNovveQ-1; Thu, 28 Jul 2022 10:04:19 -0400
+X-MC-Unique: XGqdWITFOwGUXicXNovveQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DE301019DE2;
+ Thu, 28 Jul 2022 14:04:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2536E492C3B;
+ Thu, 28 Jul 2022 14:04:18 +0000 (UTC)
+Date: Thu, 28 Jul 2022 16:04:16 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Cc: Hogan Wang <hogan.wang@huawei.com>, berrange@redhat.com,
+ qemu-devel@nongnu.org, wangxinxin.wang@huawei.com, armbru@redhat.com
+Subject: Re: [PATCH 3/3] dump: support cancel dump process
+Message-ID: <YuKXYEVLYA8BCqjY@redhat.com>
+References: <20220727140110.2698-1-hogan.wang@huawei.com>
+ <20220727140110.2698-3-hogan.wang@huawei.com>
+ <CAJ+F1CK_YZBsy8UEem0aJd6FKgeA1QfYK60Tn0tCTUAuT7LZHw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CK_YZBsy8UEem0aJd6FKgeA1QfYK60Tn0tCTUAuT7LZHw@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -102,251 +81,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 12 Jul 2022 16:32:05 +0800
-Xiaojuan Yang <yangxiaojuan@loongson.cn> wrote:
-
-> Loongarch virt machine uses general hardware reduces acpi method, rather
-> than LS7A acpi device. Now only power management function is used in
-> acpi ged device, memory hotplug will be added later. Also acpi tables
-> such as RSDP/RSDT/FADT etc.
+Am 28.07.2022 um 14:37 hat Marc-André Lureau geschrieben:
+> Hi
 > 
-> The acpi table has submited to acpi spec, and will release soon.
+> On Wed, Jul 27, 2022 at 6:02 PM Hogan Wang via <qemu-devel@nongnu.org>
+> wrote:
 > 
-> Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
-> ---
->  hw/loongarch/Kconfig        |   2 +
->  hw/loongarch/acpi-build.c   | 609 ++++++++++++++++++++++++++++++++++++
->  hw/loongarch/loongson3.c    |  78 ++++-
->  hw/loongarch/meson.build    |   1 +
->  include/hw/loongarch/virt.h |  13 +
->  include/hw/pci-host/ls7a.h  |   4 +
->  6 files changed, 704 insertions(+), 3 deletions(-)
->  create mode 100644 hw/loongarch/acpi-build.c
+> > Break saving pages or dump iterate when dump job in cancel state,
+> > make sure dump process exits as soon as possible.
+> >
+> > Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+> >
 > 
-> diff --git a/hw/loongarch/Kconfig b/hw/loongarch/Kconfig
-> index 610552e522..a99aa387c3 100644
-> --- a/hw/loongarch/Kconfig
-> +++ b/hw/loongarch/Kconfig
-> @@ -15,3 +15,5 @@ config LOONGARCH_VIRT
->      select LOONGARCH_EXTIOI
->      select LS7A_RTC
->      select SMBIOS
-> +    select ACPI_PCI
-> +    select ACPI_HW_REDUCED
-> diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-> new file mode 100644
-> index 0000000000..b95b83b079
-> --- /dev/null
-> +++ b/hw/loongarch/acpi-build.c
-[...]
+> Overall, the series looks good to me. Please send it with a top cover
+> letter, so it can be processed by patchew too.
+> 
+> I am not familiar with the job infrastructure, it would be nice if Kevin
+> could check the usage or give some advice.
 
+There is one big point I see with this series, which is that it could be
+considered an incompatible change to 'dump-guest-memory'. Clients are
+expected to manage the job now. Though in practice with the default
+settings, maybe it actually just results in clients receiving additional
+QMP events. (Technically, it is still incompatible because the command
+will now fail if you have another job called 'memory-guest-dump' - no
+good reason to have that, but it's a scenario that worked and breaks
+after this series.)
 
-Most of the following code copied from x86 which is needlessly
-complicated for loongarch wich doesn't have all that legacy to care about,
-see ARM's variant virt_acpi_setup() for a cleaner example and
-drop not needed parts.
+Markus, do you have an opinion on whether job creation must be
+explicitly enabled with a new option or if we can just switch existing
+callers?
 
-> +static void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-> +{
-> +    LoongArchMachineState *lams = LOONGARCH_MACHINE(machine);
-> +    GArray *table_offsets;
-> +    AcpiFadtData fadt_data;
-> +    unsigned facs, rsdt, fadt, dsdt;
-> +    uint8_t *u;
-> +    size_t aml_len = 0;
-> +    GArray *tables_blob = tables->table_data;
-> +
-> +    init_common_fadt_data(&fadt_data);
-> +
-> +    table_offsets = g_array_new(false, true, sizeof(uint32_t));
-> +    ACPI_BUILD_DPRINTF("init ACPI tables\n");
-> +
-> +    bios_linker_loader_alloc(tables->linker,
-> +                             ACPI_BUILD_TABLE_FILE, tables_blob,
-> +                             64, false);
-> +
-> +    /*
-> +     * FACS is pointed to by FADT.
-> +     * We place it first since it's the only table that has alignment
-> +     * requirements.
-> +     */
-> +    facs = tables_blob->len;
-> +    build_facs(tables_blob);
-> +
-> +    /* DSDT is pointed to by FADT */
-> +    dsdt = tables_blob->len;
-> +    build_dsdt(tables_blob, tables->linker, machine);
-> +
-> +    /*
-> +     * Count the size of the DSDT, we will need it for
-> +     * legacy sizing of ACPI tables.
-> +     */
-> +    aml_len += tables_blob->len - dsdt;
-> +
-> +    /* ACPI tables pointed to by RSDT */
-> +    fadt = tables_blob->len;
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    fadt_data.facs_tbl_offset = &facs;
-> +    fadt_data.dsdt_tbl_offset = &dsdt;
-> +    fadt_data.xdsdt_tbl_offset = &dsdt;
-> +    build_fadt(tables_blob, tables->linker, &fadt_data,
-> +               lams->oem_id, lams->oem_table_id);
-> +    aml_len += tables_blob->len - fadt;
-> +
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    build_madt(tables_blob, tables->linker, lams);
-> +
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    build_srat(tables_blob, tables->linker, machine);
-> +
-> +    acpi_add_table(table_offsets, tables_blob);
-> +    {
-> +        AcpiMcfgInfo mcfg = {
-> +           .base = cpu_to_le64(LS_PCIECFG_BASE),
-> +           .size = cpu_to_le64(LS_PCIECFG_SIZE),
-> +        };
-> +        build_mcfg(tables_blob, tables->linker, &mcfg, lams->oem_id,
-> +                   lams->oem_table_id);
-> +    }
-> +
-> +    /* Add tables supplied by user (if any) */
-> +    for (u = acpi_table_first(); u; u = acpi_table_next(u)) {
-> +        unsigned len = acpi_table_len(u);
-> +
-> +        acpi_add_table(table_offsets, tables_blob);
-> +        g_array_append_vals(tables_blob, u, len);
-> +    }
-> +
-> +    /* RSDT is pointed to by RSDP */
-> +    rsdt = tables_blob->len;
-> +    build_rsdt(tables_blob, tables->linker, table_offsets,
-> +               lams->oem_id, lams->oem_table_id);
-> +
-> +    /* RSDP is in FSEG memory, so allocate it separately */
-> +    {
-> +        AcpiRsdpData rsdp_data = {
-> +            .revision = 0,
-> +            .oem_id = lams->oem_id,
-> +            .xsdt_tbl_offset = NULL,
-> +            .rsdt_tbl_offset = &rsdt,
-> +        };
-> +        build_rsdp(tables->rsdp, tables->linker, &rsdp_data);
-> +    }
-> +
-> +    /*
-> +     * The align size is 128, warn if 64k is not enough therefore
-> +     * the align size could be resized.
-> +     */
-> +    if (tables_blob->len > ACPI_BUILD_TABLE_SIZE / 2) {
-> +        warn_report("ACPI table size %u exceeds %d bytes,"
-> +                    " migration may not work",
-> +                    tables_blob->len, ACPI_BUILD_TABLE_SIZE / 2);
-> +        error_printf("Try removing CPUs, NUMA nodes, memory slots"
-> +                     " or PCI bridges.");
-> +    }
-> +
-> +    acpi_align_size(tables->linker->cmd_blob, ACPI_BUILD_ALIGN_SIZE);
-> +
-> +    /* Cleanup memory that's no longer used. */
-> +    g_array_free(table_offsets, true);
-> +}
-> +
-> +static void acpi_ram_update(MemoryRegion *mr, GArray *data)
-> +{
-> +    uint32_t size = acpi_data_len(data);
-> +
-> +    /*
-> +     * Make sure RAM size is correct - in case it got changed
-> +     * e.g. by migration
-> +     */
-> +    memory_region_ram_resize(mr, size, &error_abort);
-> +
-> +    memcpy(memory_region_get_ram_ptr(mr), data->data, size);
-> +    memory_region_set_dirty(mr, 0, size);
-> +}
-> +
-> +static void acpi_build_update(void *build_opaque)
-> +{
-> +    AcpiBuildState *build_state = build_opaque;
-> +    AcpiBuildTables tables;
-> +
-> +    /* No state to update or already patched? Nothing to do. */
-> +    if (!build_state || build_state->patched) {
-> +        return;
-> +    }
-> +    build_state->patched = 1;
-> +
-> +    acpi_build_tables_init(&tables);
-> +
-> +    acpi_build(&tables, MACHINE(qdev_get_machine()));
-> +
-> +    acpi_ram_update(build_state->table_mr, tables.table_data);
-> +    acpi_ram_update(build_state->rsdp_mr, tables.rsdp);
-> +    acpi_ram_update(build_state->linker_mr, tables.linker->cmd_blob);
-> +
-> +    acpi_build_tables_cleanup(&tables, true);
-> +}
-> +
-> +static void acpi_build_reset(void *build_opaque)
-> +{
-> +    AcpiBuildState *build_state = build_opaque;
-> +    build_state->patched = 0;
-> +}
-> +
-> +static const VMStateDescription vmstate_acpi_build = {
-> +    .name = "acpi_build",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8(patched, AcpiBuildState),
-> +        VMSTATE_END_OF_LIST()
-> +    },
-> +};
-> +
-> +void loongarch_acpi_setup(LoongArchMachineState *lams)
-> +{
-> +    AcpiBuildTables tables;
-> +    AcpiBuildState *build_state;
-> +
-> +    if (!lams->fw_cfg) {
-> +        ACPI_BUILD_DPRINTF("No fw cfg. Bailing out.\n");
-> +        return;
-> +    }
-> +
-> +    if (!loongarch_is_acpi_enabled(lams)) {
-> +        ACPI_BUILD_DPRINTF("ACPI disabled. Bailing out.\n");
-> +        return;
-> +    }
-> +
-> +    build_state = g_malloc0(sizeof *build_state);
-> +
-> +    acpi_build_tables_init(&tables);
-> +    acpi_build(&tables, MACHINE(lams));
-> +
-> +    /* Now expose it all to Guest */
-> +    build_state->table_mr = acpi_add_rom_blob(acpi_build_update,
-> +                                              build_state, tables.table_data,
-> +                                              ACPI_BUILD_TABLE_FILE);
-> +    assert(build_state->table_mr != NULL);
-> +
-> +    build_state->linker_mr =
-> +        acpi_add_rom_blob(acpi_build_update, build_state,
-> +                          tables.linker->cmd_blob, ACPI_BUILD_LOADER_FILE);
-> +
-> +    build_state->rsdp_mr = acpi_add_rom_blob(acpi_build_update,
-> +                                             build_state, tables.rsdp,
-> +                                             ACPI_BUILD_RSDP_FILE);
-> +
-> +    qemu_register_reset(acpi_build_reset, build_state);
-> +    acpi_build_reset(build_state);
-> +    vmstate_register(NULL, 0, &vmstate_acpi_build, build_state);
-> +
-> +    /*
-> +     * Cleanup tables but don't free the memory: we track it
-> +     * in build_state.
-> +     */
-> +    acpi_build_tables_cleanup(&tables, false);
-> +}
-[...]
+The implementation of a very basic job looks mostly okay to me, though
+of course it doesn't support a few things like pausing the job and
+proper progress monitoring. But these things are optional, so it's not a
+blocker.
+
+The one thing I would strongly recommend to include is an auto-dismiss
+option like every other job has. It is required so that management tools
+can query the final job status before it goes away. Most of the
+information is in QMP events, too, but events can be lost. auto-finalize
+isn't required for this job because it doesn't actually do anything in
+the finalize phase.
+
+I'm not sure how safe the whole thing is when it runs in the background
+and you can send additional QMP commands while it's running, but that is
+preexisting with detach=true.
+
+Kevin
 
 
