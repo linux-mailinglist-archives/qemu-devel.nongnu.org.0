@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C07583623
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 03:06:31 +0200 (CEST)
-Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEF72583625
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 03:06:33 +0200 (CEST)
+Received: from localhost ([::1]:43770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGryw-0005rB-Fj
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 21:06:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54912)
+	id 1oGryy-0005xc-UN
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jul 2022 21:06:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2015eeb89=alistair.francis@opensource.wdc.com>)
- id 1oGrsw-0001Tl-DX
- for qemu-devel@nongnu.org; Wed, 27 Jul 2022 21:00:18 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:38260)
+ id 1oGrsx-0001U1-0G
+ for qemu-devel@nongnu.org; Wed, 27 Jul 2022 21:00:29 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:38268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=2015eeb89=alistair.francis@opensource.wdc.com>)
- id 1oGrss-00019x-MV
+ id 1oGrsu-0001AK-TA
  for qemu-devel@nongnu.org; Wed, 27 Jul 2022 21:00:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1658970014; x=1690506014;
+ t=1658970016; x=1690506016;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dUWi1ZHzGMH90lfUXo2/B4CEK4V2LINxYOaJx+iIO24=;
- b=YtDGHPXkfTbhx8hTKrn7MXrO2xtYHSPTavsbqxeCMozotWoeJdoxmYxH
- r8tiU4JwFpteavDxWWTgX+0miyzXJUAqYBvhDd0QnzC4w8kOGElTP44b0
- LggQozHOcShXniemYq9Bbm8cA11+3GslvO42qSSmg6ZeipKGFDm4oJDOQ
- fmiZfpuSVW41GCo3Sve/bTp1bFLYM+4Ycve042j34gSeZVd0rQMuyWscA
- S5UDE7Li6UW20cq+AZhdjZH0xEV3yk31c4MQUuZRNIYDfC1UzmkLfOgbx
- 6tTq+r9yQgUtpJHTK8eq17Puh4fypUuJWpqsNCQYvf7yIAE7SI+oNrsdt w==;
-X-IronPort-AV: E=Sophos;i="5.93,196,1654531200"; d="scan'208";a="207719370"
+ bh=Y+Gs+EeH8M/oThW2c7E/r1DVOEnrJeyMxJuaOyZxUJY=;
+ b=j4DRq9HgPXim9haV36E7jS2BOa1x18OB5R3haRemrXLend//52/eEHlp
+ 3qK5UVFd97nu07dFpBhtNAJFFvNAuIhNuK8TCDuTOmkGbgbf/ShjI7FKc
+ pHkF1pyoZMGVKPTCkCcZOlVBwvhPYq5JpnMtzo+U2i/ET5fWSb92uUp0k
+ 19pMP6Aoiqczm013XHexMiDR1u6vzqvBOJFLm+4owZFPf6d+fSxbUAcfv
+ uI/YG7exBUWTu+bRfbCeudEAnEWCAVobEuafeb7tqOxKkzxuhsNKKIw8x
+ ZsERnovKT8K1D2R092OpIK57FkUnl0EEcxyFFcPKg4S31RGcHKrXlFhZ+ A==;
+X-IronPort-AV: E=Sophos;i="5.93,196,1654531200"; d="scan'208";a="207719383"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2022 09:00:11 +0800
-IronPort-SDR: 9uANjdHtHVWikp2bDjwRWoBVwCX7Qw4/v7oEukMwe56D8AjvcPfcp5xwA6TGOsigpabMEs8wJ2
- slRP5CDXORH1UYeo7O1f1JydWukkRHBcQ1aPtjEs77eh0N1w6tEy2JPbhNOa+QK5i93p1rzTKO
- rMjXzNCoIEniqvI1s5IY3cp5K3tc1o1qiab91B7eDcz/fcWLY9SeBVctZlm05o033oRguUKIkW
- 2xVeb+k8XK2Ox3YBLYhvZdJRx/DdYGXMUj8Rossq95oEWqy1XWLYYluUwqsxnefB0XkR4YDyAm
- vnt2UrxmRCqTi76edxybgfne
+ by ob1.hgst.iphmx.com with ESMTP; 28 Jul 2022 09:00:13 +0800
+IronPort-SDR: CvhkhRToFWP/6DjE7hBd9lyVJmvB95ngb113XLOW/lNXFp3lLn4nP8r/gdX+t2tJZRMSnSYUxc
+ uCmlMujYRzJho4xE7MecVMkxacezsfGhfXc9B6rrpegdqlex1Xdbq3mnOgNmKxJX+y780Yn0eF
+ QY3wibkK2MP9dEzifn6izjLLGEr4yLLKvMzB5A2vXP7/e3GXdGba+N8TLitfN13Xp5zD/a1N6R
+ N7oL5ysT8j9lynZH9FYBiNuXl2MavSb5QBMfBdwQHvNzS4keZeSbuZ3jUU5mP0rUe9iFrT6H8V
+ K5B4BGuBbyz0qYk8ex+7jJBC
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 27 Jul 2022 17:16:18 -0700
-IronPort-SDR: ksHz4VFD99tXn4+0/1ioyBeDT19/djZUlVjuKJ2sv4Lu6sqSOc/gJ+r8g2Ho8s7s7WOJaFars9
- CgrpnOoUIsZomAYNJpabPSFS1s8PAx78UqnRmmG5lxymTalO8RioYXJr+zWsa1+QpbCp+NiK0E
- NWF6ItMuOvd0/yEfm4gMXrXooZTonkQ60BT2YP1wBvfG7Wxb83b+d2lu9skkMlt5ZzM2RObNcL
- jn8EJ18SvcX5lMb0NRL6QDlDMpVVfx4A/H8U71STrvdyE4MWr/gSi/tjQPGESae4nUErRigThn
- 2jM=
+ 27 Jul 2022 17:16:21 -0700
+IronPort-SDR: iI9eg4u2KSsB/A55L+TIUtUMOOaKDEPdzgUX+KowVEi5znrZLu1uV2hnq6kXCAJnSaxnd1MwZa
+ 9VNwPSvVGazgw5g3j6fHGT1LDzvXr75ADzKHHXGBWVyiCXVEO8NryxIcd5gbV16KL3MvnQ0S++
+ jxeU+NAbutOwdIOI+/rspuL5EW9kSzjeuk0Q9Utj5rJLUtd9rQjv/5nxf7Ph6hg2qWCxllTp+e
+ w1bh1rJSDSK2OwWQRwFpbmYWI8k6/T2Emyvjurbj02otik1Trk8KMFIyT+W90FAgykTgxMDlqT
+ 2hY=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 27 Jul 2022 18:00:12 -0700
+ 27 Jul 2022 18:00:14 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LtXPQ6Gk8z1Rw4L
- for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:00:10 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LtXPT4877z1Rwnx
+ for <qemu-devel@nongnu.org>; Wed, 27 Jul 2022 18:00:13 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1658970010; x=1661562011; bh=dUWi1ZHzGMH90lfUXo
- 2/B4CEK4V2LINxYOaJx+iIO24=; b=n5ipI/FMqwlhkR8D+RVkDl595OHwi6Sbs2
- Ehruot+3U4R4gC7oFqoCe7wXAsHdQlEACZ/XKJmdvi0Bzuzv99WbaiXQ/MLO/wi+
- SghiV0BJTrHVDimJeR4q75+dybEayur5ZR3vr+uzMTr6So/cH78PFm7tFEZbN2r8
- 0KrYOuSoIHU9Gyo45/0Sj3bCV1JfIdGl+RQIDppIjwqbgz+NlFG0XX7vqtn1y6iJ
- 7xIf2OFc5C5cnagl4JRd9OR2SA+hKGswzwzJ5Mg7S5qoreaxaVOHQ7B2FwByLbIJ
- ErGgmG9908Ipp3tbzTuQrOzGK1aDVJF6dX0uHrPChxzJjVALaydQ==
+ :from; s=dkim; t=1658970013; x=1661562014; bh=Y+Gs+EeH8M/oThW2c7
+ E/r1DVOEnrJeyMxJuaOyZxUJY=; b=sRwspD4MjwCW7Vug4zAM+HP5JJSt2SmtKA
+ PueGQQhGzEFRdRC0uIkd3yImjokM5pZLu+nos7hAvAPYUEeDCHlvc21R6lkqopZC
+ 0VMhA1vnyr0cS8lktrdmAuSQbhxsWp7yyRGg1Mg+F8fMJONzmKGT3VnEWM9T4Z0R
+ ptyMAYdIFZ15GSbze7q/+/VOGTnews2l1cJpvURYHRdgt3BDuQ1YSRpJMmuDYOiv
+ c4wMJKoCQTEpJ30lBsqo88Fw9dUmmLG2X9j/EJBgKO56eYEY2CBs95vtNboMYOBg
+ GCVFSfaw3ErRDY7uQ1op8T1KkK4slKu0vouyk3z5rgmF77gKCTrQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id V9tW5-8sfxyD for <qemu-devel@nongnu.org>;
- Wed, 27 Jul 2022 18:00:10 -0700 (PDT)
+ port 10026) with ESMTP id COIU2vEMcKq0 for <qemu-devel@nongnu.org>;
+ Wed, 27 Jul 2022 18:00:13 -0700 (PDT)
 Received: from toolbox.wdc.com (unknown [10.225.165.18])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LtXPN2V7Xz1RtVk;
- Wed, 27 Jul 2022 18:00:08 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LtXPR0mQHz1RtVk;
+ Wed, 27 Jul 2022 18:00:10 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Palmer Dabbelt <palmer@rivosinc.com>,
+Cc: alistair23@gmail.com, Atish Patra <atishp@rivosinc.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 1/2] RISC-V: Allow both Zmmul and M
-Date: Thu, 28 Jul 2022 10:59:59 +1000
-Message-Id: <20220728010000.2764631-2-alistair.francis@opensource.wdc.com>
+Subject: [PULL 2/2] hw/intc: sifive_plic: Fix multi-socket plic configuraiton
+Date: Thu, 28 Jul 2022 11:00:00 +1000
+Message-Id: <20220728010000.2764631-3-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220728010000.2764631-1-alistair.francis@opensource.wdc.com>
 References: <20220728010000.2764631-1-alistair.francis@opensource.wdc.com>
@@ -115,42 +115,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Palmer Dabbelt <palmer@rivosinc.com>
+From: Atish Patra <atishp@rivosinc.com>
 
-We got to talking about how Zmmul and M interact with each other
-https://github.com/riscv/riscv-isa-manual/issues/869 , and it turns out
-that QEMU's behavior is slightly wrong: having Zmmul and M is a legal
-combination, it just means that the multiplication instructions are
-supported even when M is disabled at runtime via misa.
+Since commit 40244040a7ac, multi-socket configuration with plic is
+broken as the hartid for second socket is calculated incorrectly.
+The hartid stored in addr_config already includes the offset
+for the base hartid for that socket. Adding it again would lead
+to segfault while creating the plic device for the virt machine.
+qdev_connect_gpio_out was also invoked with incorrect number of gpio
+lines.
 
-This just stops overriding M from Zmmul, with that the other checks for
-the multiplication instructions work as per the ISA.
+Fixes: 40244040a7ac (hw/intc: sifive_plic: Avoid overflowing the addr_con=
+fig buffer)
 
-Signed-off-by: Palmer Dabbelt <palmer@rivosinc.com>
+Signed-off-by: Atish Patra <atishp@rivosinc.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20220714180033.22385-1-palmer@rivosinc.com>
+Message-Id: <20220723090335.671105-1-atishp@rivosinc.com>
+[ Changes by AF:
+ - Change the qdev_connect_gpio_out() numbering
+]
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 5 -----
- 1 file changed, 5 deletions(-)
+ hw/intc/sifive_plic.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1bb3973806..ac6f82ebd0 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -619,11 +619,6 @@ static void riscv_cpu_realize(DeviceState *dev, Erro=
-r **errp)
-             cpu->cfg.ext_ifencei =3D true;
-         }
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index 56d60e9ac9..af4ae3630e 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -454,10 +454,10 @@ DeviceState *sifive_plic_create(hwaddr addr, char *=
+hart_config,
 =20
--        if (cpu->cfg.ext_m && cpu->cfg.ext_zmmul) {
--            warn_report("Zmmul will override M");
--            cpu->cfg.ext_m =3D false;
--        }
--
-         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-             error_setg(errp,
-                        "I and E extensions are incompatible");
+     for (i =3D 0; i < plic->num_addrs; i++) {
+         int cpu_num =3D plic->addr_config[i].hartid;
+-        CPUState *cpu =3D qemu_get_cpu(hartid_base + cpu_num);
++        CPUState *cpu =3D qemu_get_cpu(cpu_num);
+=20
+         if (plic->addr_config[i].mode =3D=3D PLICMode_M) {
+-            qdev_connect_gpio_out(dev, num_harts + cpu_num,
++            qdev_connect_gpio_out(dev, num_harts - plic->hartid_base + c=
+pu_num,
+                                   qdev_get_gpio_in(DEVICE(cpu), IRQ_M_EX=
+T));
+         }
+         if (plic->addr_config[i].mode =3D=3D PLICMode_S) {
 --=20
 2.37.1
 
