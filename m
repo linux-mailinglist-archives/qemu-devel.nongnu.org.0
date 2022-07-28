@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B61583F52
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:53:46 +0200 (CEST)
-Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B993E583F5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 14:58:44 +0200 (CEST)
+Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH31N-0004ld-Kh
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:53:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51958)
+	id 1oH36B-0007Wm-9Y
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 08:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oH2z4-0003Hy-05
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:51:22 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:41942)
+ id 1oH327-0004um-G1
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:54:34 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:41974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oH2z2-00032H-9z
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:51:21 -0400
-Received: by mail-lf1-x134.google.com with SMTP id t1so2687256lft.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 05:51:19 -0700 (PDT)
+ id 1oH325-0003VR-Oh
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 08:54:31 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id t1so2698730lft.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 05:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ip6eWBQW05SA0snuKmP1KnUP59+YmnJoRMzzYhbgMw4=;
- b=cnWoovVtscjnopzFxvSb4nKwpTx3KaDqHdA4RILpA9L6H7eqfyQodCw79uP7aqZqH1
- 1zj0O655LRuYDVoNbOIWoZWnDRklkUIEB5FTWs/zpCL/yx61I8nQZmcwlxbY/rDDaC4W
- 6YQgSPF76MDAxJKv7nWx/vjRxiQeCaKdd/yuBeIMAKaSoOb56ZvBBFqOFcZ14OjlT1kr
- AkBLsaKqS0VFEB3CaCiZ7crUZyXuWtXAP73uMYM1DJDznnLme4LfjcF0GgDR/YUEzncH
- ug71l0bGZ1nNt74iuCO6yePQG4+GmU6DKPPJ62KIoU8WJrq2c7LbtNQ2q8CNaPGI/Px4
- 6rXw==
+ :cc; bh=XayPAOeCU0JCltzVvxkOZ8RNCR6hB7aKhjXHXt227oI=;
+ b=GKjpWqc5ixDGE+5UuVQSVywXLOuUlSE8HvKowj/+Cq9xM0KQkCPtwZ+jMFhClL9SGB
+ sGax8rniRmAu3MQ1J98EB205twYZtY74BXvxWu9L1WBTGZO/nRLH3UchU+TksagTVdKn
+ 38V7iBOgxQoqJ59oXvTAHe/y3F2oNR006B5DWYGCVv4dk3j13aiK42/Hacp16qZRAsQp
+ +KGNJT35x3UStticYICgcubmvPbJpzI9MNlVUmCW4hudGZRWo+BcKH3/AhWoE2pXclxR
+ 6yFqA2LCDg7/zBXbHJvVbvpYUaOOk5Xb42Nm5udtBmKyouZuU/iEfc3y0D4nUVP2YmeJ
+ vpZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ip6eWBQW05SA0snuKmP1KnUP59+YmnJoRMzzYhbgMw4=;
- b=VpEa6w0srj53Z6Nyipfu+avUJmye5jONFfwhc0/ZAMylANuzxxr3Pp69kZefEMO9M6
- E7eu1L8gKXUJa23kiZkfta+sTTBqrIfAgKEKh/Qlv1aM/38bG7nYgXdO+r26jmPjqJMB
- O5a9nvnsOKw+WkSlkWr4lclyBNYHes4MqY8UKeyEa6NXJrIcCz+/rh1pe5kNWtvTtfAx
- 5fwDYjgXrm/FoYcHrxSftCwL7nGgUd6+B2NqDcR213dkgI/+rGHCM3vKNniQ3izVu6iX
- J0ppFjo80twdHGq4654hp9i69vt8YG6x75/TTrnuHmzkjjkzaq+zglZ+9i8fR8FBL1Hl
- y0DQ==
-X-Gm-Message-State: AJIora+FzDzabbj6ox50fHneugGtcwnpNjRFgAnnGfmxqznHv5G5PPqQ
- s34c8m6nL6zQr65EtoJtLmzqBDmGv/V/1W727jY=
-X-Google-Smtp-Source: AGRyM1swLH21Ad4ccLGtimX3wGUIVtC521GjX6m5muHhmaYUBm5lLLmLb4RwVEAI6RZMn4ObQemARBwR2POpACQt+dA=
-X-Received: by 2002:a05:6512:2621:b0:47f:d228:bdeb with SMTP id
- bt33-20020a056512262100b0047fd228bdebmr9138558lfb.121.1659012677689; Thu, 28
- Jul 2022 05:51:17 -0700 (PDT)
+ bh=XayPAOeCU0JCltzVvxkOZ8RNCR6hB7aKhjXHXt227oI=;
+ b=GRpJq/WoR/FXH6I06E2EQJLZhJd69hNL5lzvxac9avwpFdSti67zXseFdlqLmm6BSG
+ MEX7h+tfygXuyAOxYlibSkKBLbgeZFUUVwXD2b4URNIuxUMVd4AbiMDWqQontsBWe4W/
+ /m1D0ZJdvIDIMDItu50oGaZkimGBqnfzPtJPm8wyldKg0z9Y0jguHM1fPvO0h1YSR5OQ
+ X95F5UI/y2xgqeFn+is6LESbCbGLGEhx512/8xLvvBKaeUImXwhoTjbk59xoohhD0Ry3
+ cj/IIuHaV5LSx9g+/MRSZKtHqgAY8tE0b2SqeawBNOeOmNMKBZMkTaHAhJPwNMVh5rRe
+ JsYQ==
+X-Gm-Message-State: AJIora/A2fpuaOLkydH4bzwJF2GuJmhukP7RoaEbh9EX3fQaypdYLEGh
+ niRZ4EgrpjsONmvvqYQOIkoZ7p7lfKovOdxK9XyPT7ub7ekpVw==
+X-Google-Smtp-Source: AGRyM1sQMqMGlgmDjCzn71/HpyeVWJdjS/qUjNuj13oOiRTlIziYj54NQnRW3X/p5VhotocyTeppeQAwRLyrtXYJB9s=
+X-Received: by 2002:a05:6512:3e24:b0:48a:97af:d76e with SMTP id
+ i36-20020a0565123e2400b0048a97afd76emr6152316lfv.432.1659012867924; Thu, 28
+ Jul 2022 05:54:27 -0700 (PDT)
 MIME-Version: 1.0
 References: <20220727132802.812580-1-bmeng.cn@gmail.com>
- <20220727132802.812580-2-bmeng.cn@gmail.com>
-In-Reply-To: <20220727132802.812580-2-bmeng.cn@gmail.com>
+ <20220727132802.812580-3-bmeng.cn@gmail.com>
+In-Reply-To: <20220727132802.812580-3-bmeng.cn@gmail.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 28 Jul 2022 16:51:06 +0400
-Message-ID: <CAJ+F1CL5424FCqKcX9MQE+FQ8gzPrAttSbbstHYVhYyyQwK_eA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/6] util/qemu-sockets: Replace the call to close a
- socket with closesocket()
+Date: Thu, 28 Jul 2022 16:54:16 +0400
+Message-ID: <CAJ+F1CL+yNJEWy_njk_Re28kvVTiauk_kCeyB3i3Ee=g+VkoXQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] util/oslib-win32: Add a helper to get the Windows
+ version
 To: Bin Meng <bmeng.cn@gmail.com>
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000054e46305e4dcfd34"
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+Content-Type: multipart/alternative; boundary="000000000000aba67605e4dd085f"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,72 +84,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000054e46305e4dcfd34
+--000000000000aba67605e4dd085f
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 27, 2022 at 5:28 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+Hi
+
+On Wed, Jul 27, 2022 at 5:35 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
 > From: Bin Meng <bin.meng@windriver.com>
 >
-> close() is a *nix function. It works on any file descriptor, and
-> sockets in *nix are an example of a file descriptor.
+> This adds a helper to get the Windows version via the RtlGetVersion
+> call, for QEMU codes to determine the Windows version at run-time.
 >
-> closesocket() is a Windows-specific function, which works only
-> specifically with sockets. Sockets on Windows do not use *nix-style
-> file descriptors, and socket() returns a handle to a kernel object
-> instead, so it must be closed with closesocket().
->
-> In QEMU there is already a logic to handle such platform difference
-> in os-posix.h and os-win32.h, that:
->
->   * closesocket maps to close on POSIX
->   * closesocket maps to a wrapper that calls the real closesocket()
->     on Windows
->
-> Replace the call to close a socket with closesocket() instead.
->
+> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
->
-
-This is a fix, could go in 7.1. Daniel, do you take it?
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
-Thanks
-
----
+> ---
 >
 > (no changes since v1)
 >
->  util/qemu-sockets.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+
+It looks like you are introducing new code, but in fact it's almost
+identical as the  ga_get_win_version() function. Please do the move in the
+same patch.
+
+
+>  include/sysemu/os-win32.h |  2 ++
+>  util/oslib-win32.c        | 15 +++++++++++++++
+>  2 files changed, 17 insertions(+)
 >
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 13b5b197f9..0e2298278f 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -487,7 +487,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Erro=
-r
-> **errp)
+> diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> index edc3b38a57..1e324026a4 100644
+> --- a/include/sysemu/os-win32.h
+> +++ b/include/sysemu/os-win32.h
+> @@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t
+> len, int flags);
+>  ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int flags,
+>                             struct sockaddr *addr, socklen_t *addrlen);
 >
->          if (ret < 0) {
->              error_setg_errno(errp, errno, "Unable to set KEEPALIVE");
-> -            close(sock);
-> +            closesocket(sock);
->              return -1;
->          }
->      }
-> @@ -1050,7 +1050,7 @@ static int unix_connect_saddr(UnixSocketAddress
-> *saddr, Error **errp)
->      return sock;
->
->   err:
-> -    close(sock);
-> +    closesocket(sock);
->      return -1;
+> +void os_get_win_version(RTL_OSVERSIONINFOEXW *info);
+> +
+>  #ifdef __cplusplus
 >  }
->
+>  #endif
+> diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+> index 5723d3eb4c..6d2387b9ff 100644
+> --- a/util/oslib-win32.c
+> +++ b/util/oslib-win32.c
+> @@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)
+>       */
+>      return qemu_fdatasync(fd);
+>  }
+> +
+> +void os_get_win_version(RTL_OSVERSIONINFOEXW *info)
+> +{
+> +    typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOEXW);
+> +
+> +    /* RtlGetVersion is available starting with Windows 2000 */
+> +    HMODULE module =3D GetModuleHandle("ntdll");
+> +    PVOID fun =3D GetProcAddress(module, "RtlGetVersion");
+> +    rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun;
+> +
+> +    info->dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW);
+> +    rtl_get_version(info);
+> +
+> +    return;
+> +}
 > --
 > 2.34.1
 >
@@ -159,76 +159,82 @@ r
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000054e46305e4dcfd34
+--000000000000aba67605e4dd085f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:28 PM Bin M=
-eng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin M=
-eng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.men=
-g@windriver.com</a>&gt;<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:35 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
+ Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
+eng@windriver.com</a>&gt;<br>
 <br>
-close() is a *nix function. It works on any file descriptor, and<br>
-sockets in *nix are an example of a file descriptor.<br>
+This adds a helper to get the Windows version via the RtlGetVersion<br>
+call, for QEMU codes to determine the Windows version at run-time.<br>
 <br>
-closesocket() is a Windows-specific function, which works only<br>
-specifically with sockets. Sockets on Windows do not use *nix-style<br>
-file descriptors, and socket() returns a handle to a kernel object<br>
-instead, so it must be closed with closesocket().<br>
-<br>
-In QEMU there is already a logic to handle such platform difference<br>
-in os-posix.h and os-win32.h, that:<br>
-<br>
-=C2=A0 * closesocket maps to close on POSIX<br>
-=C2=A0 * closesocket maps to a wrapper that calls the real closesocket()<br=
->
-=C2=A0 =C2=A0 on Windows<br>
-<br>
-Replace the call to close a socket with closesocket() instead.<br>
-<br>
+Signed-off-by: Xuzhou Cheng &lt;<a href=3D"mailto:xuzhou.cheng@windriver.co=
+m" target=3D"_blank">xuzhou.cheng@windriver.com</a>&gt;<br>
 Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br></blockquote><div><br></div>=
-<div>This is a fix, could go in 7.1. Daniel, do you take it?<br></div><div>=
-<br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:ma=
-rcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div><d=
-iv><br></div><div>Thanks</div><div><br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
 ---<br>
 <br>
-(no changes since v1)<br>
+(no changes since v1)<br></blockquote><div><br></div><div>It looks like you=
+ are introducing new code, but in fact it&#39;s almost identical as the=C2=
+=A0 ga_get_win_version() function. Please do the move in the same patch.</d=
+iv><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 <br>
-=C2=A0util/qemu-sockets.c | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0include/sysemu/os-win32.h |=C2=A0 2 ++<br>
+=C2=A0util/oslib-win32.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 +++++++++++++++<br=
+>
+=C2=A02 files changed, 17 insertions(+)<br>
 <br>
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-index 13b5b197f9..0e2298278f 100644<br>
---- a/util/qemu-sockets.c<br>
-+++ b/util/qemu-sockets.c<br>
-@@ -487,7 +487,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error =
-**errp)<br>
+diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h<br>
+index edc3b38a57..1e324026a4 100644<br>
+--- a/include/sysemu/os-win32.h<br>
++++ b/include/sysemu/os-win32.h<br>
+@@ -204,6 +204,8 @@ ssize_t qemu_recv_wrap(int sockfd, void *buf, size_t le=
+n, int flags);<br>
+=C2=A0ssize_t qemu_recvfrom_wrap(int sockfd, void *buf, size_t len, int fla=
+gs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 struct sockaddr *addr, socklen_t *addrlen);<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret &lt; 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg_errno(errp, errn=
-o, &quot;Unable to set KEEPALIVE&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(sock);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 closesocket(sock);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-@@ -1050,7 +1050,7 @@ static int unix_connect_saddr(UnixSocketAddress *sadd=
-r, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0return sock;<br>
-<br>
-=C2=A0 err:<br>
--=C2=A0 =C2=A0 close(sock);<br>
-+=C2=A0 =C2=A0 closesocket(sock);<br>
-=C2=A0 =C2=A0 =C2=A0return -1;<br>
++void os_get_win_version(RTL_OSVERSIONINFOEXW *info);<br>
++<br>
+=C2=A0#ifdef __cplusplus<br>
 =C2=A0}<br>
-<br>
+=C2=A0#endif<br>
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c<br>
+index 5723d3eb4c..6d2387b9ff 100644<br>
+--- a/util/oslib-win32.c<br>
++++ b/util/oslib-win32.c<br>
+@@ -547,3 +547,18 @@ int qemu_msync(void *addr, size_t length, int fd)<br>
+=C2=A0 =C2=A0 =C2=A0 */<br>
+=C2=A0 =C2=A0 =C2=A0return qemu_fdatasync(fd);<br>
+=C2=A0}<br>
++<br>
++void os_get_win_version(RTL_OSVERSIONINFOEXW *info)<br>
++{<br>
++=C2=A0 =C2=A0 typedef LONG (WINAPI *rtl_get_version_t)(PRTL_OSVERSIONINFOE=
+XW);<br>
++<br>
++=C2=A0 =C2=A0 /* RtlGetVersion is available starting with Windows 2000 */<=
+br>
++=C2=A0 =C2=A0 HMODULE module =3D GetModuleHandle(&quot;ntdll&quot;);<br>
++=C2=A0 =C2=A0 PVOID fun =3D GetProcAddress(module, &quot;RtlGetVersion&quo=
+t;);<br>
++=C2=A0 =C2=A0 rtl_get_version_t rtl_get_version =3D (rtl_get_version_t)fun=
+;<br>
++<br>
++=C2=A0 =C2=A0 info-&gt;dwOSVersionInfoSize =3D sizeof(RTL_OSVERSIONINFOEXW=
+);<br>
++=C2=A0 =C2=A0 rtl_get_version(info);<br>
++<br>
++=C2=A0 =C2=A0 return;<br>
++}<br>
 -- <br>
 2.34.1<br>
 <br>
@@ -236,5 +242,5 @@ r, Error **errp)<br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
 mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000054e46305e4dcfd34--
+--000000000000aba67605e4dd085f--
 
