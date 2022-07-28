@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 136F75844A4
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:11:19 +0200 (CEST)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814955844A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 19:13:48 +0200 (CEST)
+Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH72b-0006Rx-Vw
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:11:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42368)
+	id 1oH751-0000LE-Kn
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 13:13:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH70a-0004lf-E9
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:09:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH70X-0000pN-Mw
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:09:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659028144;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DogADKDCHu9M+X1pX23VQYzagzQQ9RO4hkFFwkg90B8=;
- b=NBNNGDz67LiXSrkWvqbYKk1VImJ5smdItSLa7cmfC3rUOUFamXAc0mbwFhLItUyVdGAR0w
- dH2VdDkImkLkfoQZrOy/4fK3qJ2IuFFUWj4TKwL5uw0LKtW0Il0TksvH7DqwG1qAn5G1nq
- KxGN8YPUQaaeRZVr7BrTQOexh6QRoOA=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-50-6wLUm-IRPUu0CNEkCYNGQQ-1; Thu, 28 Jul 2022 13:09:03 -0400
-X-MC-Unique: 6wLUm-IRPUu0CNEkCYNGQQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BACA51824600;
- Thu, 28 Jul 2022 17:09:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 87EAB2026D64;
- Thu, 28 Jul 2022 17:08:58 +0000 (UTC)
-Date: Thu, 28 Jul 2022 19:08:57 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Hao Wu <wuhaotsh@google.com>,
- richard.henderson@linaro.org, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, venture@google.com, Avi.Fishman@nuvoton.com,
- kfting@nuvoton.com, hskinnemoen@google.com, f4bug@amsat.org,
- bin.meng@windriver.com, qemu-block@nongnu.org, thuth@redhat.com,
- Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
-Message-ID: <YuLCqeG21TCyBSTF@redhat.com>
-References: <20220714182836.89602-1-wuhaotsh@google.com>
- <20220714182836.89602-6-wuhaotsh@google.com>
- <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
- <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
- <YuKPVi9UjmZVqw5a@redhat.com> <878rodxpeq.fsf@pond.sub.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oH72r-0006ep-8g
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:11:33 -0400
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:46682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oH72p-0001Nd-Jj
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 13:11:32 -0400
+Received: by mail-pg1-x531.google.com with SMTP id 6so1991489pgb.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 10:11:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ICUbhPhTdbsYQ21f/Lz5X/8MA99LufwMeBeU6i0QQPY=;
+ b=HntA6RVR4JK6fFZdquAztw+Cz417b/jxQ+qBtw+BEcDeegoyY/sTDn/2Ce9wAIX9+l
+ QxpczoFawjN4tMY0UGB2zt29Zd3JnX3LpXkVD8CwcfQM5oJFGVJh2GOFgOmz3iTvhfs3
+ XGPjssy4VAZCeePPEf3dS8Y9uec5frmURTiaIiStICK18KtDs8c696w2LfOJCEQ2jwJc
+ Uti3HXboVpWDWvJ9oqkc55UWMah0sui7BwmDFOp8MTH1im7vVaLkDD7EosTUZ4kHmtFd
+ D2/dEMPyEGGwoLRBm3+vn3+5Fazc7Sr23Jq4N3uC0w+YisWl4LkJuYrHA7+aSslfHhTw
+ j+Kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ICUbhPhTdbsYQ21f/Lz5X/8MA99LufwMeBeU6i0QQPY=;
+ b=4ueRMBYflIt7qlbXnbS26CFwo1z5SbeujDFirvydmzru9FBGqZDOyzI1mqGpVc0+kx
+ D/NEq5PVE8bt8XchWbjdWrFOymUzjWzZye6J4ShqnnzloC3uIiBkEmJbihnwp685LnPq
+ BxVrOnaeexMG6AzS3U15nZdtDXcoUTape/nQZunsHVb+L1n14aVEXCBnvW7u49f/5Aw8
+ 3c69EPO4g42SGOZuNXjyIZcnTWxojHHF3TflxPJt1Z849H6hswrwbzE3j+64hOXSiTam
+ YhbFgfOFH0E69P1LGfCkoTQEZ/oItCKybkcIlwr+xmwAobOu46cHf5/A9pTpVtYcWoo3
+ 26dA==
+X-Gm-Message-State: AJIora+HH2QkCfIvtbtHmqiONaYcCwA95U68g3oN6igdykI8oihMnW+U
+ h+vE9PBLVvqfiD8l7ySlyPG0Mg==
+X-Google-Smtp-Source: AGRyM1sfqQhiOwf5ExyAS+Gc1fEJuWDXLqH2OHRCX1arwiUf6I9xOEh/FrdJY6dv9jI7m25ELVMjug==
+X-Received: by 2002:a65:68d4:0:b0:41b:7702:6361 with SMTP id
+ k20-20020a6568d4000000b0041b77026361mr1834813pgt.299.1659028289224; 
+ Thu, 28 Jul 2022 10:11:29 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:d1a3:8e57:d847:7607?
+ ([2602:ae:1549:801:d1a3:8e57:d847:7607])
+ by smtp.gmail.com with ESMTPSA id
+ w13-20020aa79a0d000000b0052b36de51cdsm1008508pfj.111.2022.07.28.10.11.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jul 2022 10:11:28 -0700 (PDT)
+Message-ID: <b103fb49-0316-6a49-198a-b2ffe8e9e805@linaro.org>
+Date: Thu, 28 Jul 2022 10:11:25 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <878rodxpeq.fsf@pond.sub.org>
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH for-7.1] linux-user/flatload.c: Fix setting of
+ image_info::end_code
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <laurent@vivier.eu>
+References: <20220728151406.2262862-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220728151406.2262862-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,84 +94,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.07.2022 um 16:50 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On 7/28/22 08:14, Peter Maydell wrote:
+> The flatload loader sets the end_code field in the image_info struct
+> incorrectly, due to a typo.
 > 
-> > Am 28.07.2022 um 11:46 hat Peter Maydell geschrieben:
-> >> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
-> >> >
-> >> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
-> >> > > An OTP device isn't really a parallel flash, and neither are eFuses.
-> >> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
-> >> > > other interface types, too.
-> >> > >
-> >> > > This patch introduces IF_OTHER.  The patch after next uses it for an
-> >> > > EEPROM device.
-> >> > >
-> >> > > Do we want IF_OTHER?
-> >> >
-> >> > What would the semantics even be? Any block device that doesn't pick up
-> >> > a different category may pick up IF_OTHER backends?
-> >> >
-> >> > It certainly feels like a strange interface to ask for "other" disk and
-> >> > then getting as surprise what this other thing might be. It's
-> >> > essentially the same as having an explicit '-device other', and I
-> >> > suppose most people would find that strange.
-> >> >
-> >> > > If no, I guess we get to abuse IF_PFLASH some more.
-> >> > >
-> >> > > If yes, I guess we should use IF_PFLASH only for actual parallel flash
-> >> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
-> >> > > be worth the trouble, though.
-> >> > >
-> >> > > Thoughts?
-> >> >
-> >> > If the existing types aren't good enough (I don't have an opinion on
-> >> > whether IF_PFLASH is a good match), let's add a new one. But a specific
-> >> > new one, not just "other".
-> >> 
-> >> I think the common thread is "this isn't what anybody actually thinks
-> >> of as being a 'disk', but we would like to back it with a block device
-> >> anyway". That can cover a fair range of possibilities...
-> >
-> > How confident are we that no board will ever have two devices of this
-> > kind?
-> >
-> > As long as every board has at most one, if=other is a bad user interface
-> > in terms of descriptiveness, but still more or less workable as long as
-> > you know what it means for the specific board you use.
-> >
-> > But if you have more than one device, it becomes hard to predict which
-> > device gets which backend - it depends on the initialisation order in
-> > the code then,
+> This is a very long-standing bug (dating all the way back to when
+> the bFLT loader was added in 2006), but has gone unnoticed because
+> (a) most people don't use bFLT binaries
+> (b) we don't actually do anything with the end_code field, except
+>      print it in debugging traces and pass it to TCG plugins
 > 
-> Really?  Board code should use IF_OTHER devices just like it uses the
-> other interface types, namely connecting each frontend device to a
-> backend device with a well-known and fixed interface type and index (or
-> bus and unit instead, where appropriate).
+> Fix the typo.
 > 
-> >                and I'm pretty sure that this isn't something that should
-> > have significance in external interfaces and therefore become a stable
-> > API.
-> 
-> I agree that "implied by execution order" is a bad idea: commit
-> 95fd260f0a "blockdev: Drop unused drive_get_next()".
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1119
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   linux-user/flatload.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ah good, I was indeed thinking of something drive_get_next()-like.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-In case the board works with explicit indices, the situation is not as
-bad as I was afraid. It will certainly be workable (even if not obvious)
-for any boards that have a fixed number of devices with block backends,
-which should cover everything we're intending to cover here.
-
-I still consider if=other a bad user interface because what it means is
-completely opaque, but if that's okay for you in your board, who am I to
-object.
-
-(Of course, the real solution would be having a generic way to set qdev
-properties for on-board devices. I'm not expecting that we're getting
-this anytime soon, though.)
-
-Kevin
-
+r~
 
