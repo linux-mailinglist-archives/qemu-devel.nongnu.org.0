@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14BA0584268
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:58:11 +0200 (CEST)
-Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053B8584290
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:09:34 +0200 (CEST)
+Received: from localhost ([::1]:37952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4xm-00071N-7A
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:58:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1oH58m-0008E9-Lh
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH4u5-00028h-0U
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:54:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oH4u0-00089b-Tk
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:54:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659020056;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HTZl+WzIOBRQMOQ0DcwHo7ggYIlc0NVu6b7ob27ID0g=;
- b=GQIoLsir0280fWg/k8LBQSntaK59XQNCS292gIlZSj2/DoKwNm1UuYQzBEhtHMAor/UvJs
- mFiOjDm+gJOKZ+eIBtG0q4kRwuklCh4YQnQgBx/7a1aUMM7WMhMfxnWz0NpRhUNahIfim3
- OVwnQhwbQbkNwouaRZvz/fIvJv1o4x8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-185-JQ_scwNIMvyKX4khbrNGXA-1; Thu, 28 Jul 2022 10:54:14 -0400
-X-MC-Unique: JQ_scwNIMvyKX4khbrNGXA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- f13-20020a0564021e8d00b00437a2acb543so1255079edf.7
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 07:54:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH4zE-0000Yc-Mb
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:59:42 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:35565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oH4z7-0002XY-66
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:59:40 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id n8so3703204yba.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 07:59:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Lnf+TMUXbt/kQAgMdjh+++TtQJ+1pRGY9fD05kQD3to=;
+ b=j7DnhQbFs1O0d+7Wq0j4LIKrHMAYISEL9TX3ChQ2WLydSnw3jVL3gVGq2nVu8NQPuU
+ J1jXCzQKXN41CnMcU1hL/JJUO/FjgYyxL1ff1C7x5JXRdyUxr5Jgd78FZsbDpT2ofPYB
+ /wAwcTwx1NaBpQ3HFpu5LJQEM+hSYecFs49WYg6dHP3dVH+VhIlA5fCLpobM5hRFKz9/
+ nL76RY5XvoeYkOw/nynwciBe0IyQuRs5uyA1o89yNW2UWGuRgPJf/H91dH5N8oeZmRLB
+ nWUn9VdgAVJNmiD6RSF4SIjsyw9fhwwPnbwC6q0Xz5TxIJnqfVSb6iz6sEbj+Qpgygln
+ 2N2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=HTZl+WzIOBRQMOQ0DcwHo7ggYIlc0NVu6b7ob27ID0g=;
- b=CnYagMyPEJ9W2sNLB+dnCDwiScjFztqoix/OJlV9JEW+yuH3EuFsKWSNnEJeegfu81
- NwtRrR5npLDGZV7PPj2Vzh1lrSlKDTFx1YdXJ3d4M1rfg48z2D1ArI51tGsWI2JZvwXr
- 89n8Kqs4yv2FindRvth/MV9/lh0JBNzvSrcNnsA42j5Pp8vH/yfwbElSgLZzZz2ykiJ8
- BoJC9MrCaUt8FCjHnBll6Ww67//8KAO+BM5jmo7L8p7mlrr7EyxXlZ9Pd5pUnIm2aqIZ
- BgdzWefPQ9tg0+BhbABuzgUPM87nTCsrH1+N2U9l3mM8NIxdYEV3dnVaHeVRUKlRM23o
- 0HXA==
-X-Gm-Message-State: AJIora/h50GlK+nEJ3jJfTl9htaVduGLe0of55jtOF0rtZxhSD6moEmX
- NcW3NHWnKr7Cj0jyxJU58QGDZa3wZxFOUEDo09CHowJ4HighpmK8GoEl8bGm6QFq7hG8tRvHj+u
- Y1fjDJ5FTQmYdW4M=
-X-Received: by 2002:a17:907:724c:b0:72e:e6fe:5ea4 with SMTP id
- ds12-20020a170907724c00b0072ee6fe5ea4mr21884325ejc.421.1659020053640; 
- Thu, 28 Jul 2022 07:54:13 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1u3ZS3DocYjicmVVP/TbaefDFwDKmI3+fAOAUI+I5IeSGGteXwRP7wp5Ytbe3/+l4/2QGfybw==
-X-Received: by 2002:a17:907:724c:b0:72e:e6fe:5ea4 with SMTP id
- ds12-20020a170907724c00b0072ee6fe5ea4mr21884290ejc.421.1659020053144; 
- Thu, 28 Jul 2022 07:54:13 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- z25-20020aa7d419000000b0043a43fcde13sm841041edq.13.2022.07.28.07.54.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 07:54:12 -0700 (PDT)
-Date: Thu, 28 Jul 2022 16:54:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, f4bug@amsat.org, aurelien@aurel32.net,
- jiaxun.yang@flygoat.com, peter.maydell@linaro.org, ani@anisinha.ca,
- mst@redhat.com
-Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features
- of PIIX4_PM
-Message-ID: <20220728165411.5701befb@redhat.com>
-In-Reply-To: <YuKgxM4IjAXh/goO@work-vm>
-References: <20220728115034.1327988-1-imammedo@redhat.com>
- <YuKgxM4IjAXh/goO@work-vm>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Lnf+TMUXbt/kQAgMdjh+++TtQJ+1pRGY9fD05kQD3to=;
+ b=hsnCScVbUk3r228Amx13UO4KQYpHN0ZHHIn4HxXhW5xcurzSGo5rf9V675J3LpCpMK
+ AQ0cfGyxlhBD3OcMns6icb2DUTyq6uAsk3DleUxXAFLYTro53gVVpeiUSQhgGqQIOMkg
+ Ns6Cltj+kqEGW+BDzay2QKVA9xL979fVQ4zHLfzDwsPl6WEiaDzuJ7U1fcx6XcfUZixD
+ Fq3+C1KVEEGjozjbW143DrE5bVcGKU5EjQIBXf7EHkPpEP2Ye49ErzdgWYadJ6YYUUK3
+ JkQy4CT7gGi/mITv4Jgg1ucsKQm1JkWBiHOYODfZisqFI1o1aBC+69C6C77Brwd0EYem
+ Wvgg==
+X-Gm-Message-State: AJIora/5KNOigIaywdpH8+pKOs2hmGKAsbe/k65Iny4igGHj5YN94Lm7
+ Ch1ErGHgHnGaVvnUbdKYopTADyUH5W48s5bAvqwQpQ==
+X-Google-Smtp-Source: AGRyM1v1Smx6GeN3wkZQDANSGTvC06hegtxpvQr2d153N8J+3vjPNrdYsjeUGYZ1ofCq04C+NSAUMw0Vh5xNv/ST08w=
+X-Received: by 2002:a25:cf47:0:b0:671:8224:75c6 with SMTP id
+ f68-20020a25cf47000000b00671822475c6mr6284216ybg.288.1659020371965; Thu, 28
+ Jul 2022 07:59:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
+ <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
+ <YuKPVi9UjmZVqw5a@redhat.com> <878rodxpeq.fsf@pond.sub.org>
+In-Reply-To: <878rodxpeq.fsf@pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jul 2022 15:58:51 +0100
+Message-ID: <CAFEAcA_=PPJO5K8r5QFKJRhX4j9jwPPSceAUPjhK0z_bmLdyrA@mail.gmail.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+To: Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Hao Wu <wuhaotsh@google.com>,
+ richard.henderson@linaro.org, 
+ qemu-arm@nongnu.org, qemu-devel@nongnu.org, venture@google.com, 
+ Avi.Fishman@nuvoton.com, kfting@nuvoton.com, hskinnemoen@google.com, 
+ f4bug@amsat.org, bin.meng@windriver.com, qemu-block@nongnu.org, 
+ thuth@redhat.com, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,74 +90,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jul 2022 15:44:20 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On Thu, 28 Jul 2022 at 15:50, Markus Armbruster <armbru@redhat.com> wrote:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> >
+> > But if you have more than one device, it becomes hard to predict which
+> > device gets which backend - it depends on the initialisation order in
+> > the code then,
+>
+> Really?  Board code should use IF_OTHER devices just like it uses the
+> other interface types, namely connecting each frontend device to a
+> backend device with a well-known and fixed interface type and index (or
+> bus and unit instead, where appropriate).
 
-> * Igor Mammedov (imammedo@redhat.com) wrote:
-> > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
-> >   $ qemu-system-mips -monitor stdio
-> >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
-> >   Segmentation fault (core dumped)
-> > 
-> > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
-> > which are valid only for x86 and not for MIPS (as it requires ACPI
-> > tables support which is not existent for ithe later)
-> > 
-> > Issue was probably exposed by trying to cleanup/compile out unused
-> > ACPI bits from MIPS target (but forgetting about migration bits).
-> > 
-> > Disable compiled out features using compat properties as the least
-> > risky way to deal with issue.  
-> 
-> Isn't the problem partially due to a 'stub' vmsd which isn't terminated?
+I think part of the problem is that unlike the typical disk
+interface, where there is some idea of bus-and-unit-number or
+index number that it makes sense to expose to users, these
+"miscellaneous storage" devices don't have any particular index
+concept -- in the real hardware there are just a random set of
+devices that are connected in various places. So you're requiring
+users to look up the documentation for "index 0 is this eeprom,
+index 1 is that other eeprom, index 2 is ...".
 
-Not sure what "'stub' vmsd" is, can you explain?
-
-> 
-> Dave
-> 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> > PS:
-> > another approach could be setting defaults to disabled state and
-> > enabling them using compat props on PC machines (which is more
-> > code to deal with => more risky) or continue with PIIX4_PM
-> > refactoring to split x86-shism out (which I'm not really
-> > interested in due to risk of regressions for not much of
-> > benefit)
-> > ---
-> >  hw/mips/malta.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/hw/mips/malta.c b/hw/mips/malta.c
-> > index 7a0ec513b0..0e932988e0 100644
-> > --- a/hw/mips/malta.c
-> > +++ b/hw/mips/malta.c
-> > @@ -1442,6 +1442,14 @@ static const TypeInfo mips_malta_device = {
-> >      .instance_init = mips_malta_instance_init,
-> >  };
-> >  
-> > +GlobalProperty malta_compat[] = {
-> > +    { "PIIX4_PM", "memory-hotplug-support", "off" },
-> > +    { "PIIX4_PM", "acpi-pci-hotplug-with-bridge-support", "off" },
-> > +    { "PIIX4_PM", "acpi-root-pci-hotplug", "off" },
-> > +    { "PIIX4_PM", "x-not-migrate-acpi-index", "true" },
-> > +};
-> > +const size_t malta_compat_len = G_N_ELEMENTS(malta_compat);
-> > +
-> >  static void mips_malta_machine_init(MachineClass *mc)
-> >  {
-> >      mc->desc = "MIPS Malta Core LV";
-> > @@ -1455,6 +1463,7 @@ static void mips_malta_machine_init(MachineClass *mc)
-> >      mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
-> >  #endif
-> >      mc->default_ram_id = "mips_malta.ram";
-> > +    compat_props_add(mc->compat_props, malta_compat, malta_compat_len);
-> >  }
-> >  
-> >  DEFINE_MACHINE("malta", mips_malta_machine_init)
-> > -- 
-> > 2.31.1
-> >   
-
+thanks
+-- PMM
 
