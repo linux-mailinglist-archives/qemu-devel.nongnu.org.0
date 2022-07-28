@@ -2,139 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 369FD583822
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 07:31:42 +0200 (CEST)
-Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77080583827
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 07:36:09 +0200 (CEST)
+Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGw7Y-0000oy-Pu
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 01:31:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
+	id 1oGwBs-0002m7-8L
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 01:36:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
- id 1oGw4n-0007S9-Eh; Thu, 28 Jul 2022 01:28:49 -0400
-Received: from mail-dbaeur03on2097.outbound.protection.outlook.com
- ([40.107.104.97]:53089 helo=EUR03-DBA-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.zhadchenko@virtuozzo.com>)
- id 1oGw4k-0000Ya-Dq; Thu, 28 Jul 2022 01:28:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=k6kubXJBTshHW3toDaJRGwqoclqzLcdKLPdGInDgCTbIF+x++Q5l6yM1mNXcx+8UgguhcGfoz18mluDTefotnSCHAPDPeiWAA4NCkiM9tsQLhHaJzTd4L4B6ZAYIs7KHwM8GLH1nQtUlpKlXdZZ4tWU4BF8eUiOCBZ8dq2XO1EvK8Z9fstHnNfPEl6tV9YBNkQJz32hfg/dxfHX+U5zY1VSDJU/svHLSSvxr7hqtAlg+FgjdhQ0Ybtci2Xj6BmqbJO48sZ6RTKzAOyjBwiiueRRdy017ay6Qp+hA5MCbwuVVZpqzMzRwRBrCbomoq6BieOJTvAVR4WvPeWi+oKBO4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ApR2Ycpp6bEPUkqGn1znIZ0q3dIOFL1R3KD30wKtDJE=;
- b=hB+SSeciU5JltDpX9JAJOUwzarbkpUceV4GX3ZDWcCYRWWh0tSEg13sHpGd5+1HnxKBCwn/WhWAThMj1W8VRbwkdLt/mDx5aU4jYYqzbj0MYIpio+5zKj+hoLHjdf8D3PTrHlfqCc4WH+jRwk/BkF70bdfRDZTk+73tyetINI5y1RHbtCi62RaX9cmUCOinmlymdbDN5OtT8c6orqn9BizV9shv+ANtYD2c/134NhIPWiBx1c3THVwtoqMB4i3zhbKwQZqBt+20e33K+ogfRKLqUVIz/GHxMiG1iusv7vQEcW2bVAwRxS/3Kvv2pZOjflQnc+Uy3Wwb/x7jT8TLOdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ApR2Ycpp6bEPUkqGn1znIZ0q3dIOFL1R3KD30wKtDJE=;
- b=y6JewQssaWm096pB1QEbvzdcUTa/4ZJmBb3lploaDjT3oxNfxlkHGf75BCQqqaJPah/f4Hx23iVbe/zrPXjHmCNSL14va4bg5c4aShHVwEhy4IsKU1svNhQ6b7jxFO3abMcwWv2rwcCgcenPVAC/XxYOXwFxL5n7vGRHI7ZwJr66aKf9FRoyJwmQVUYakYs7Juy3GGVWTW0V8JGfDVn33O6cMj8nRqeHIBJoIpeTmZ6qBSuytJVDSzWzixAbBzvBzVCimVQvPIWfTA7XSCrW4FeuaLVZgx71uBmC3YnYik3ShQLwSyafTB7CYqM/rkii4mSbqQkDjcK6OVsM4luwEQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM8PR08MB5732.eurprd08.prod.outlook.com (2603:10a6:20b:1d4::16)
- by AM6PR08MB5220.eurprd08.prod.outlook.com (2603:10a6:20b:c3::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.20; Thu, 28 Jul
- 2022 05:28:40 +0000
-Received: from AM8PR08MB5732.eurprd08.prod.outlook.com
- ([fe80::b480:6a4d:2d92:f863]) by AM8PR08MB5732.eurprd08.prod.outlook.com
- ([fe80::b480:6a4d:2d92:f863%2]) with mapi id 15.20.5482.010; Thu, 28 Jul 2022
- 05:28:40 +0000
-Message-ID: <de1bfd8f-c627-b936-ef5e-d71953236d96@virtuozzo.com>
-Date: Thu, 28 Jul 2022 08:28:37 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [RFC patch 0/1] block: vhost-blk backend
-Content-Language: en-US
-To: Stefano Garzarella <sgarzare@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, kwolf@redhat.com, hreitz@redhat.com,
- stefanha@redhat.com, den@virtuozzo.com
-References: <20220725205527.313973-1-andrey.zhadchenko@virtuozzo.com>
- <20220726094740-mutt-send-email-mst@kernel.org>
- <94e5b188-8489-9f75-a481-015667bc0ba4@virtuozzo.com>
- <20220727130644.wspwadl5645gfdpr@sgarzare-redhat>
-From: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-In-Reply-To: <20220727130644.wspwadl5645gfdpr@sgarzare-redhat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0130.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:97::17) To AM8PR08MB5732.eurprd08.prod.outlook.com
- (2603:10a6:20b:1d4::16)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1oGw5g-00085P-O6; Thu, 28 Jul 2022 01:29:44 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
+ id 1oGw5d-0001iW-Ir; Thu, 28 Jul 2022 01:29:44 -0400
+Received: by mail-wr1-x432.google.com with SMTP id v17so749449wrr.10;
+ Wed, 27 Jul 2022 22:29:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/JkBbpIWZXcAxve5KK0nrCKA6K831YyKe1c0Yb4Z+OE=;
+ b=T1u8//tSiOBcrQeFkWvA/u3dviIw3WzfeVs/04+m95Be5w1TsUWsT4SeOWpcpEaLRo
+ SYu9ZQnMtyzWxnWsDOVPeJbnFgHk9c5XvbUB8nqddLAxCX3xxjnJ1uOFX7peQPpiW552
+ D6SCMCc02tRRVyCo8arWWEsVNEeWUGeqZxbcs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/JkBbpIWZXcAxve5KK0nrCKA6K831YyKe1c0Yb4Z+OE=;
+ b=UtSLSnOvkdEyjClQnDkDB9zWFSU8Xb58jQV4CYAvbtqO2Kq9/4mBdZYudELTiqz4Nx
+ ju5yPhZVwfImAfn68bPRXh68Xo3uyotwf8oJOCc/HvC4i+fnf8yyO729sO9JUOacjvEn
+ mKSSGocVsEhpBp4iDmmnQjFQPVVEkyQ9qaVHquf8pXTqU97FOfYWxh4Af84RuKoqBMgT
+ lKu0hvrjtSoqeWZDtOurIXZq5frIqPa1cabc5uA7fVE6gMbBn+AsJWFTYcWLrlgQsZXm
+ cFMZYCudBaGk3Iz/+QKyuy9cMAJb5xwvv9Y7/VB2BS9Prb2+u3fLiNBPJolWs9KNeGpw
+ 6rRg==
+X-Gm-Message-State: AJIora8GRxOm9tebkFGq3dFG9iG+yrY4LlXXDfd431+Na1kXC6AN6+vU
+ OhqtmjUP/xvDXhH7g/9nrjbkl9yqfWtLh85pdH8=
+X-Google-Smtp-Source: AGRyM1vqEMpxyavMUsVtDfv6yjQZLxFuEKIqHJ95jqZIKrd2ycVeYa5Q37c4CecbCGizifZS9XDyRZe0KHGcnFxsQVA=
+X-Received: by 2002:a5d:64c7:0:b0:21d:a743:394 with SMTP id
+ f7-20020a5d64c7000000b0021da7430394mr15579249wri.628.1658986179174; Wed, 27
+ Jul 2022 22:29:39 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4bd6240-46ab-4dc4-2c72-08da705a0778
-X-MS-TrafficTypeDiagnostic: AM6PR08MB5220:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: iuoBYINy86QEiTN9iGJI3B5ppA3nIOdwDWvGk1kvRxqQuV6NSurs0351m5LJ8/pCq3O6aoHETHsVLGYkUjauTOhZn6+itx/b7AttBDEdULT1rL2db67YFdpOPv82SMIIC/Wi29Gu4TF7DbRTXrIr0+8LREN/Wg8phRGjqVxDPg9e9qPw1UI4GgehxEB2EeLPGj/VKY6KcWmno/RMmslx/aWGDa4XMPdr9ygywIRTPqL5wHN+WSghn2P7uvxMd3W/qATJ+PTuWL7/Jn6SO8LkUVuYWB34BvQW6OvgEnYboTmHsGkvrWSKJdHovraMDyM+FOxeGRa7NRu8OjV6U2RLA/6WNE2pSYAfrMuhWddGvtJPRxDAUeLit0ZMD40LfyKnUNdeNMBNbWAjN2QeM8Or+8QxG4YV4gU/iKPtR6WSGvYMcibgdSzF+q9kppRdH4btcdaltQr+YZfeA7LXeZlXmbtONoMhViWyx8fIUy7jhkPj+0kRM8+vTUpcg7XKBJy7ygH/MEV/5b1VMmavWHzoXMaokYjvsqVh9TlsLLm1LOlz8GdkWwrhWNwbTYKZ73pN+FcC6BFNnqm3gYdV7tqvRKcI/ikK3cGODXtfL5BlAEfnYD0M1BYFyj2LtXZh42fwzni8Il58TMyLngwMygX8JdwT7nE4d4OsvW/3xWMvHL3cC1wR1fAnlmU11+VokT4ud9GmSpvYZFWG40Tx3EyK3n6QC2b++BOn8BpPppU9iOGNKwNrCm9Fr/4z+Bpke/U00MC+hwXHgX2I4k+Ey3HNeySgqsT9UOkGh5PrADqicVbLXokwYpH/An9UST1HGmiP8WwTP7KlCbB+Af7wQPMk9dDTo4oT4JVn2ztakG5EtYY=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM8PR08MB5732.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(136003)(396003)(39850400004)(376002)(346002)(366004)(2616005)(107886003)(316002)(83380400001)(8936002)(2906002)(38100700002)(41300700001)(6486002)(31686004)(36756003)(5660300002)(478600001)(966005)(6666004)(53546011)(6916009)(6512007)(26005)(8676002)(86362001)(31696002)(66476007)(44832011)(4326008)(66946007)(6506007)(186003)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QW1kbm5SSnVlU002VEw1d1hoUnNEMEN2Y1dFcnlUUHhWRnk2ZDZOUFhXemJS?=
- =?utf-8?B?cDY0MmRNVm1OWmtYOVZpSW05MnIzenJ1UVhFY0RkVkRjbU1ZakhIdU9XODFZ?=
- =?utf-8?B?VmVlTitVUUkzUXlNYkkrRkl6dk9lL3lmZU40V1VVc2tidXdxK2RYMXZSQWdt?=
- =?utf-8?B?YnpQYkZpMGNKQUdrRVVONzF6SDI0aFVPWEdUNTJDcTVYdnhqY2MvSmY5UHZQ?=
- =?utf-8?B?blZLUExLWFpGeEg5Ungzb1ErUHRkQS9ZOFM5eVVZQmxtdmhISUExK3BkTEZ3?=
- =?utf-8?B?L3oxQ3NNQTVLRlhEeElxOXg0Z0hrMXQwekdFQXo4NWNhb2VaWllXT2dCUFBC?=
- =?utf-8?B?RVR4dmhERS81L2dKendFRFJjakFnZ0x5cnlYZXNKRVRsTG9qKzQ5L0lNTjJT?=
- =?utf-8?B?SXc1NHZGUmMzRVRVVDdXWHUyNGh6cFJKMy9FY09OZmtSSHFZcUc5YmVCQldp?=
- =?utf-8?B?TCt6ai91ZHFUdHRIbkViOFFZOUdaWGNGNDBJTHE0Ulc3QXBZdElXQjlZTXdn?=
- =?utf-8?B?MVhRclhqM1JtN25BclRrd2R5MFpOYUdua2ZSVkNiR1BabDFuZjdBU2FDZS94?=
- =?utf-8?B?d2xlWTRZV0EwYllUeHZGL2N5WGNBSW9rYnFBeVdicVgrVDl3Q2NiN3RxY2Y1?=
- =?utf-8?B?RnlIYUFCTFYxeFo0NEFsNXh1c0xTeTJVZVgrRmRoSkkwdXNmbXdxSFlaWUl2?=
- =?utf-8?B?YTNhdmR0R3NKS1ZWbFYwT3B0VTlkVitlajBNRVJEUHlYa2VaME5CRXNraXVl?=
- =?utf-8?B?SjNlRkNOMFlQNlFKQVJxVDl1cTEweFNJYkJLaG0xemNaa1lmWklRYUtCV2xV?=
- =?utf-8?B?SVFURmNXV2JZVWQ0SmQrU2IzNGJCejM0Tk9NMk4zV2J6M3NOcUZUSWVBNFhC?=
- =?utf-8?B?UnVLNGt6ZytuSmdOTlIwU0dGSW9ucVV1b2NRMVRxVzhzRWxRdFdLNk8xZm9B?=
- =?utf-8?B?WGEwWVMrTmswNzFLT0hvMlcxTUdLK0VKSHNjZEVuRkl6d3VxK1R2dUdxWXV1?=
- =?utf-8?B?K3l4MFQwb0JWbit4c1JUM240WG52dkRZTjR2c2IwWXZUSUZTQkEwa01zeUNa?=
- =?utf-8?B?bStzU280SUdkMXFka1BXMkFiV3lLTzA5bmVONUpJVkx4Y3YwTVF6YzBTaHN5?=
- =?utf-8?B?ZXo3OFNpc3hKdGtXR3lCVjV4VVVrbndqY1lRUzNnK2R3eVArM240YU9WYnMw?=
- =?utf-8?B?ZmREcnRNR1E1TmV4c3IrR2RwUEdyNSs0L1ZSY2JPMnE4SytXMDVwTzA4UVM2?=
- =?utf-8?B?U3BCWFRpeExOUU53d1lWQUxsNkhJMjUxMlRPZHcwU2RJN3Q5eWF5VEo0cHBy?=
- =?utf-8?B?N1haUGxOcG1PZmZkR1J5djdWRGpFT2hiUlRCTVYweFpYZlRQVCtSRlZxMkZS?=
- =?utf-8?B?QWZHZEdhMkx6OFRiV2VWcjVyNCtlT0dTNjVBcHUxZnRlcm92bnM4azRpVExT?=
- =?utf-8?B?OXZna2NGT3k4ckdHQ3FPcTBzVldGc3VUK1M2QVArdmhVTWJqZXJraEkxbGxZ?=
- =?utf-8?B?MTFON1Zua1FBOWRFUElZMEh5Ry9xa1ZONDN4dXh6U1pyNlJOQVBFTzBoTk4w?=
- =?utf-8?B?b2FpSU01VEhPSUo0ZHZIdEdjcU5UbkRaSEFMZ2FvTkRscjZKZG1Ea0NTUkxy?=
- =?utf-8?B?QTV3cmM1T09YRFNXV0gxT3crcXhsaklHMnpKVjBva2xQY0h6S2daakhQcDJY?=
- =?utf-8?B?YXZvSHFqNVYvaDlqMDdKalhhelZrTXNST2c0UkVON1FKRjlmVEdEMHRzbFUx?=
- =?utf-8?B?bUhwVzBNQXR5NnRMVjdFdEg3UTh2NUg4RDBpWG42S3BnazRPazROekJ0dk5z?=
- =?utf-8?B?RXF4bXQzcG1iRVgrQVRlNVExampEb0NSTEdBNEE4dmxoeXhYZ1hZbUUzYUgw?=
- =?utf-8?B?bkcwOGFNbjhiTEpTRVZTUFVycUpOajhRZFRGUktoQlJZU29mSjJpRWxGL1Ny?=
- =?utf-8?B?Rzc0UzRnUjFDeGlpc0xyTEdPV0tTS0JTb243QnJjUVZUK2k4Ky94WUNEZ1pw?=
- =?utf-8?B?VllYMS9CWnFrYlhIVG1WaENtU1RBTktjb0hEUmhHQlJNZGIwL0xyWkpXYkMr?=
- =?utf-8?B?NnhPa3F4Vkc4Rk1zQUNNK2NET2kvTXgvWDZVN0czaEJDY1JjSERsdVEzTjgr?=
- =?utf-8?B?UFFxaVRWKytJdWg4MkcxTlZJazBhK0E5VUxpY1E0VGNzWHNXd0U5aGRCRTZK?=
- =?utf-8?Q?dKlHswMXacjCpiiDYgVJ0k0=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4bd6240-46ab-4dc4-2c72-08da705a0778
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR08MB5732.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 05:28:40.2280 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NlFoGWJ9mp08Y0dpJbFI++0lhYVVUqH7sa/h+ldxaEZuEJ3j2rGE2Xdw8vzXLyV7mbuXIZwKnOSVzyEqdlbpZEZ6mqnGa+SKQasL1M9Upkw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5220
-Received-SPF: pass client-ip=40.107.104.97;
- envelope-from=andrey.zhadchenko@virtuozzo.com;
- helo=EUR03-DBA-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220720133352.904263-1-npiggin@gmail.com>
+ <5df2f253-7b74-1553-348c-370b78876c33@gmail.com>
+In-Reply-To: <5df2f253-7b74-1553-348c-370b78876c33@gmail.com>
+From: Joel Stanley <joel@jms.id.au>
+Date: Thu, 28 Jul 2022 05:29:26 +0000
+Message-ID: <CACPK8XeZm2_Thk7cJEWCEvVFGdpqr+VpMcrQ8DykGMRRnbozdw@mail.gmail.com>
+Subject: Re: [PATCH v3] target/ppc: Implement new wait variants
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org, 
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?V=C3=ADctor_Colombo?= <victor.colombo@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=joel.stan@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,65 +80,225 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 27 Jul 2022 at 13:49, Daniel Henrique Barboza
+<danielhb413@gmail.com> wrote:
+>
+>
+>
+> On 7/20/22 10:33, Nicholas Piggin wrote:
+> > ISA v2.06 adds new variations of wait, specified by the WC field. These
+> > are not all compatible with the prior wait implementation, because they
+> > add additional conditions that cause the processor to resume, which can
+> > cause software to hang or run very slowly.
+>
+> So I suppose this is not a new feature, but a bug fix to remediate these hangs
+> cause by the incompatibility of the WC field  with other ISA versions. Is
+> that right?
 
-On 7/27/22 16:06, Stefano Garzarella wrote:
-> On Tue, Jul 26, 2022 at 04:15:48PM +0200, Denis V. Lunev wrote:
->> On 26.07.2022 15:51, Michael S. Tsirkin wrote:
->>> On Mon, Jul 25, 2022 at 11:55:26PM +0300, Andrey Zhadchenko wrote:
->>>> Although QEMU virtio-blk is quite fast, there is still some room for
->>>> improvements. Disk latency can be reduced if we handle virito-blk 
->>>> requests
->>>> in host kernel so we avoid a lot of syscalls and context switches.
->>>>
->>>> The biggest disadvantage of this vhost-blk flavor is raw format.
->>>> Luckily Kirill Thai proposed device mapper driver for QCOW2 format 
->>>> to attach
->>>> files as block devices: 
->>>> https://www.spinics.net/lists/kernel/msg4292965.html
->>> That one seems stalled. Do you plan to work on that too?
->> We have too. The difference in numbers, as you seen below is quite too
->> much. We have waited for this patch to be sent to keep pushing.
->>
->> It should be noted that may be talk on OSS this year could also push a 
->> bit.
-> 
-> Cool, the results are similar of what I saw when I compared vhost-blk 
-> and io_uring passthrough with NVMe (Slide 7 here: [1]).
-> 
-> About QEMU block layer support, we recently started to work on libblkio 
-> [2]. Stefan also sent an RFC [3] to implement the QEMU BlockDriver.
-> Currently it supports virtio-blk devices using vhost-vdpa and vhost-user.
-> We could add support for vhost (kernel) as well, though, we were 
-> thinking of leveraging vDPA to implement in-kernel software device as well.
-> 
-> That way we could reuse a lot of the code to support both hardware and 
-> software accelerators.
-> 
-> In the talk [1] I describe the idea a little bit, and a few months ago I 
-> did a PoC (unsubmitted RFC) to see if it was feasible and the numbers 
-> were in line with vhost-blk.
-> 
-> Do you think we could join forces and just have an in-kernel vdpa-blk 
-> software device?
+That's the case. Nick has some kernel patches that make Linux use the
+new opcode:
 
-This seems worth trying. Why double the efforts to do the same. Yet I 
-would like to play a bit with your vdpa-blk PoC beforehand. Can you send 
-it to me with some instructions how to run it?
+ https://lore.kernel.org/all/20220720132132.903462-1-npiggin@gmail.com/
 
-> 
-> Of course we could have both vhost-blk and vdpa-blk, but with vDPA 
-> perhaps we can have one software stack to maintain for both HW and 
-> software accelerators.
-> 
+With these applied the kernel hangs during boot if more than one CPU
+is present. I was able to reproduce with ppc64le_defconfig and this
+command line:
+
+ qemu-system-ppc64 -M pseries,x-vof=on -cpu POWER10 -smp 2 -nographic
+-kernel zImage.pseries -no-reboot
+
+Qemu will exit (as there's no filesystem) if the test "passes", or
+hang during boot if it hits the bug.
+
+There's a kernel here with the patches applied in case someone else
+wants to test:
+
+https://ozlabs.org/~joel/zImage.pseries-v5.19-rc8-wait-v3
+
+Tested-by: Joel Stanley <joel@jms.id.au>
+
+Because of the hang it would be best if we merged the patch as a fix
+sooner rather than later.
+
+Cheers,
+
+Joel
+
+> I'm explicitly asking for it because if it's a bug fix it's ok to pick it
+> during the freeze. Especially here, given that what you're doing is mostly
+> adding no-ops for conditions that we're not covering.
+>
+> >
+> > ISA v3.0 changed the wait opcode and removed the new variants (retaining
+> > the WC field but making non-zero values reserved).
+> >
+> > ISA v3.1 added new WC values to the new wait opcode, and added a PL
+> > field.
+> >
+> > This implements the new wait encoding and supports WC variants with
+> > no-op implementations, which provides basic correctness as explained in
+> > comments.
+> >
+> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+> > ---
+> > v3:
+> > - Add EXTRACT_HELPERs
+> > - Reserved fields should be ignored, not trap.
+> > - v3.1 defines special case of reserved PL values being treated as
+> >    a no-op when WC=2.
+> > - Change code organization to (hopefully) be easier to follow each
+> >    ISA / variation.
+> > - Tested old wait variant with Linux e6500 boot and verify that
+> >    gen_wait is called and takes the expected path.
+> >
+> > Thanks,
+> > Nick
+> >
+> >   target/ppc/internal.h  |  3 ++
+> >   target/ppc/translate.c | 96 ++++++++++++++++++++++++++++++++++++++----
+> >   2 files changed, 91 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+> > index 2add128cd1..57c0a42a6b 100644
+> > --- a/target/ppc/internal.h
+> > +++ b/target/ppc/internal.h
+> > @@ -168,6 +168,9 @@ EXTRACT_HELPER_SPLIT_3(DX, 10, 6, 6, 5, 16, 1, 1, 0, 0)
+> >   /* darn */
+> >   EXTRACT_HELPER(L, 16, 2);
+> >   #endif
+> > +/* wait */
+> > +EXTRACT_HELPER(WC, 21, 2);
+> > +EXTRACT_HELPER(PL, 16, 2);
+> >
+> >   /***                            Jump target decoding                       ***/
+> >   /* Immediate address */
+> > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> > index 1d6daa4608..e0a835ac90 100644
+> > --- a/target/ppc/translate.c
+> > +++ b/target/ppc/translate.c
+> > @@ -4066,12 +4066,91 @@ static void gen_sync(DisasContext *ctx)
+> >   /* wait */
+> >   static void gen_wait(DisasContext *ctx)
+> >   {
+> > -    TCGv_i32 t0 = tcg_const_i32(1);
+> > -    tcg_gen_st_i32(t0, cpu_env,
+> > -                   -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
+> > -    tcg_temp_free_i32(t0);
+> > -    /* Stop translation, as the CPU is supposed to sleep from now */
+> > -    gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
+> > +    uint32_t wc;
+> > +
+> > +    if (ctx->insns_flags & PPC_WAIT) {
+> > +        /* v2.03-v2.07 define an older incompatible 'wait' encoding. */
+> > +
+> > +        if (ctx->insns_flags2 & PPC2_PM_ISA206) {
+> > +            /* v2.06 introduced the WC field. WC > 0 may be treated as no-op. */
+> > +            wc = WC(ctx->opcode);
+> > +        } else {
+> > +            wc = 0;
+> > +        }
+> > +
+> > +    } else if (ctx->insns_flags2 & PPC2_ISA300) {
+> > +        /* v3.0 defines a new 'wait' encoding. */
+> > +        wc = WC(ctx->opcode);
+>
+>
+> The ISA seems to indicate that WC=3 is always reserved in both ISA300 and
+> ISA310. I believe you can check for WC=3 and gen_invalid() return right
+> off the bat at this point.
+>
+>
 > Thanks,
-> Stefano
-> 
-> [1] 
-> https://kvmforum2021.sched.com/event/ke3a/vdpa-blk-unified-hardware-and-software-offload-for-virtio-blk-stefano-garzarella-red-hat 
-> 
-> [2] https://gitlab.com/libblkio/libblkio
-> [3] 
-> https://lore.kernel.org/qemu-devel/20220708041737.1768521-1-stefanha@redhat.com/ 
-> 
-> 
+>
+>
+> Daniel
+>
+>
+>
+> > +        if (ctx->insns_flags2 & PPC2_ISA310) {
+> > +            uint32_t pl = PL(ctx->opcode);
+> > +
+> > +            /* WC 1,2 may be treated as no-op. WC 3 is reserved. */
+> > +            if (wc == 3) {
+> > +                gen_invalid(ctx);
+> > +                return;
+> > +            }
+> > +
+> > +            /* PL 1-3 are reserved. If WC=2 then the insn is treated as noop. */
+> > +            if (pl > 0 && wc != 2) {
+> > +                gen_invalid(ctx);
+> > +                return;
+> > +            }
+> > +
+> > +        } else { /* ISA300 */
+> > +            /* WC 1-3 are reserved */
+> > +            if (wc > 0) {
+> > +                gen_invalid(ctx);
+> > +                return;
+> > +            }
+> > +        }
+> > +
+> > +    } else {
+> > +        warn_report("wait instruction decoded with wrong ISA flags.");
+> > +        gen_invalid(ctx);
+> > +        return;
+> > +    }
+> > +
+> > +    /*
+> > +     * wait without WC field or with WC=0 waits for an exception / interrupt
+> > +     * to occur.
+> > +     */
+> > +    if (wc == 0) {
+> > +        TCGv_i32 t0 = tcg_const_i32(1);
+> > +        tcg_gen_st_i32(t0, cpu_env,
+> > +                       -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
+> > +        tcg_temp_free_i32(t0);
+> > +        /* Stop translation, as the CPU is supposed to sleep from now */
+> > +        gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
+> > +    }
+> > +
+> > +    /*
+> > +     * Other wait types must not just wait until an exception occurs because
+> > +     * ignoring their other wake-up conditions could cause a hang.
+> > +     *
+> > +     * For v2.06 and 2.07, wc=1,2,3 are architected but may be implemented as
+> > +     * no-ops.
+> > +     *
+> > +     * wc=1 and wc=3 explicitly allow the instruction to be treated as a no-op.
+> > +     *
+> > +     * wc=2 waits for an implementation-specific condition, such could be
+> > +     * always true, so it can be implemented as a no-op.
+> > +     *
+> > +     * For v3.1, wc=1,2 are architected but may be implemented as no-ops.
+> > +     *
+> > +     * wc=1 (waitrsv) waits for an exception or a reservation to be lost.
+> > +     * Reservation-loss may have implementation-specific conditions, so it
+> > +     * can be implemented as a no-op.
+> > +     *
+> > +     * wc=2 waits for an exception or an amount of time to pass. This
+> > +     * amount is implementation-specific so it can be implemented as a
+> > +     * no-op.
+> > +     *
+> > +     * ISA v3.1 allows for execution to resume "in the rare case of
+> > +     * an implementation-dependent event", so in any case software must
+> > +     * not depend on the architected resumption condition to become
+> > +     * true, so no-op implementations should be architecturally correct
+> > +     * (if suboptimal).
+> > +     */
+> >   }
+> >
+> >   #if defined(TARGET_PPC64)
+> > @@ -6852,8 +6931,9 @@ GEN_HANDLER2(stdcx_, "stdcx.", 0x1F, 0x16, 0x06, 0x00000000, PPC_64B),
+> >   GEN_HANDLER_E(stqcx_, 0x1F, 0x16, 0x05, 0, PPC_NONE, PPC2_LSQ_ISA207),
+> >   #endif
+> >   GEN_HANDLER(sync, 0x1F, 0x16, 0x12, 0x039FF801, PPC_MEM_SYNC),
+> > -GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x03FFF801, PPC_WAIT),
+> > -GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300),
+> > +/* ISA v3.0 changed the extended opcode from 62 to 30 */
+> > +GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x039FF801, PPC_WAIT),
+> > +GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039CF801, PPC_NONE, PPC2_ISA300),
+> >   GEN_HANDLER(b, 0x12, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
+> >   GEN_HANDLER(bc, 0x10, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
+> >   GEN_HANDLER(bcctr, 0x13, 0x10, 0x10, 0x00000000, PPC_FLOW),
+>
 
