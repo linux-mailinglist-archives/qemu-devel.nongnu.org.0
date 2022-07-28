@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F7F583FE5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:25:04 +0200 (CEST)
-Received: from localhost ([::1]:42994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F71583FEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:27:20 +0200 (CEST)
+Received: from localhost ([::1]:45822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH3Ve-0001c2-Tt
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:25:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59554)
+	id 1oH3Xr-0003cM-Gz
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:27:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oH3SX-0006KQ-Hv; Thu, 28 Jul 2022 09:21:49 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:39500)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oH3SV-0008I3-GT; Thu, 28 Jul 2022 09:21:49 -0400
-Received: by mail-oi1-x234.google.com with SMTP id n206so2386765oia.6;
- Thu, 28 Jul 2022 06:21:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=jqP2Wvb7gFEdz8ABHAhYDlQ9kxsNQrrBVQl2veuJhJY=;
- b=L4Pfn2r5ckXN3vj5FK+OtfKQw/2Um3/DD0nU+Q0V2PlaNizD8DZHL5JGR2D5KKQb+3
- xZxd/AeD7Fr7+93sufzgrdCpoH2AAzoKfjhedmwEP2J//ZVBTFZFQHK9cWbz+WB+ZlNs
- qJ61PyRjtU4mZtimYCEoRwdg9pXJPwEPCQO21ISbVLF0+7tPfX0huDieiLOLuCPBQNxV
- HKWiL8VlYpciqK5fNZfzjA9mKh4YzHWU44TkdkefeZi2LVjg8Krn1frNB0CqlF+mWBCt
- TeganlBYdViH0rNEbFlDV4ApYV5JUYPAj6wkNtXprvLC03ClDNdRIldyS1YkVoSPrNUz
- J5Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=jqP2Wvb7gFEdz8ABHAhYDlQ9kxsNQrrBVQl2veuJhJY=;
- b=XNOK9LE0Rl9GbbsSs4d0dQOf5n36wxGbZ3MqPDfJpGCRhOw9OwhKh1PguYkofCJWtd
- x+qx0yjUleeefcMOWmoip8G+3+VTaNcDbhH7A8l4ngv3ISwkdNAs4f7G3G+NcWmNi5KM
- BZtqhT8T8+61UoveB/gs7IhytYGnK2yCJ4X26amWblIZewYECKTQRt70/chy+xpBYfIK
- sIXUDwqe/K9ymNG5Q2jtPfcrE7jFVSdK5UH6PoVr6Qb5gcLoPrSCH+aHuVbpIrLFBg5y
- muNj/9mMbSBHf+sAh3NLYiHaqqIVu77KPjq7qymnVK4SX4TsqG0b3tFCkZ060GTwx8v0
- CYPg==
-X-Gm-Message-State: AJIora9c0VcD6kZhsDUd/9jviDMoMlY4JoQQhk/dVm7ukbTMexOB1lS4
- HgYipfce/n6Zz9gW+JzMCa0=
-X-Google-Smtp-Source: AGRyM1tmJ9tY6O5a8PQIoD+Ss58+55vX/csqVyX7Rfv2Va/RSoA5O+A5AIec9B7pic2fVB7xAgZo+g==
-X-Received: by 2002:a05:6808:14d4:b0:33b:1489:8752 with SMTP id
- f20-20020a05680814d400b0033b14898752mr1778339oiw.174.1659014505015; 
- Thu, 28 Jul 2022 06:21:45 -0700 (PDT)
-Received: from [192.168.10.102] ([179.225.208.46])
- by smtp.gmail.com with ESMTPSA id
- a6-20020a0568300b8600b0061ca92ae442sm254867otv.72.2022.07.28.06.21.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 06:21:44 -0700 (PDT)
-Message-ID: <dea4f85e-e18d-5c17-de07-56eaaf75eb8a@gmail.com>
-Date: Thu, 28 Jul 2022 10:21:33 -0300
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oH3TZ-0007SE-Gi; Thu, 28 Jul 2022 09:22:53 -0400
+Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:53505)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oH3TW-0001Rs-H8; Thu, 28 Jul 2022 09:22:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.52])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4DDAE11AF8A63;
+ Thu, 28 Jul 2022 15:22:38 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Thu, 28 Jul
+ 2022 15:22:36 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R00694b0c5f2-cd27-452d-afa5-b80c7e9d95cb,
+ D5C8B4ACC7AAF03C2427E421B0C3D41118C6E647) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.11.52.30
+Message-ID: <a2a6045f-5352-b09d-ac86-aedfad3aa240@kaod.org>
+Date: Thu, 28 Jul 2022 15:22:34 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH for-7.2] hw: Add compat machines for 7.2
+ Thunderbird/91.11.0
+Subject: Re: [PATCH] aspeed: Enable backend file for eeprom
 Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Eric Farman <farman@linux.ibm.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20220727121755.395894-1-cohuck@redhat.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220727121755.395894-1-cohuck@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x234.google.com
+To: John Wang <wangzq.jn@gmail.com>
+CC: <patrick@stwcx.xyz>, Peter Maydell <peter.maydell@linaro.org>, Andrew
+ Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, "open list:ASPEED
+ BMCs" <qemu-arm@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>, Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+References: <20220728061228.152704-1-wangzhiqiang02@inspur.com>
+ <6ad0dee4-58c3-de80-177c-d06bb45ba8af@kaod.org>
+ <CAHwNHZUsodef8LcE+wjp2OFk=b01zEMx12bLDVoW3h5hFt=xFA@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CAHwNHZUsodef8LcE+wjp2OFk=b01zEMx12bLDVoW3h5hFt=xFA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: b44f98ae-a441-4dda-a81b-82c8a37de98b
+X-Ovh-Tracer-Id: 10204593808155642732
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgtdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefhfeevveegueejhfettdeuvdejtefgkeffkeejgeeuteejgfduieelhedttefhtdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehquhhitggpjhgrvghhhihoohesqhhuihgtihhntgdrtghomhdpoffvtefjohhsthepmhhohedvle
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout4.mo529.mail-out.ovh.net
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,260 +78,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 7/27/22 09:17, Cornelia Huck wrote:
-> Add 7.2 machine types for arm/i440fx/m68k/q35/s390x/spapr.
+On 7/28/22 09:20, John Wang wrote:
+> Cédric Le Goater <clg@kaod.org> 于2022年7月28日周四 14:28写道：
+>>
+>> Hello John,
+>>
+>> On 7/28/22 08:12, John Wang wrote:
+>>> tested on a fp5280g2:
+>>>
+>>> $QEMU_BIN -machine fp5280g2-bmc \
+>>>          -nographic \
+>>>          -drive file="${IMAGE_PATH}",format=raw,if=mtd \
+>>>          -drive file="eeprom.bin",format=raw,if=pflash,index=1 \
+>>>          ${NIC}
+>>>
+>>> root@fp5280g2:/sys/bus/i2c/devices/1-0050# hexdump eeprom -C
+>>> 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>>> *
+>>> ....
+>>> ....
+>>> 00000240  2c 87 a3 a4 1d d3 11 b2  02 d2 c2 9d 44 60 cf 3e  |,...........D`.>|
+>>> 00000250  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+>>>
+>>> It's same as the "eeprom.bin"
+>>>
+>>> Signed-off-by: John Wang <wangzhiqiang02@inspur.com>
+>>> Change-Id: I5c44785a028144b24aa0b22643266d83addc5eab
+>>> ---
+>>>    hw/arm/aspeed.c | 16 ++++++++++++----
+>>>    1 file changed, 12 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>>> index 4193a3d23d..80aa687372 100644
+>>> --- a/hw/arm/aspeed.c
+>>> +++ b/hw/arm/aspeed.c
+>>> @@ -431,12 +431,20 @@ static void aspeed_machine_init(MachineState *machine)
+>>>        arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo);
+>>>    }
+>>>
+>>> -static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize)
+>>> +static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsize,
+>>> +                              int index)
+>>>    {
+>>>        I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+>>>        DeviceState *dev = DEVICE(i2c_dev);
+>>>
+>>> +    DriveInfo *dinfo = drive_get_by_index(IF_PFLASH, index);
+>>
+>> I don't think IF_PFLASH is the appropriate type.
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> ---
-
-Looking good for pseries.
-
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-
->   hw/arm/virt.c              |  9 ++++++++-
->   hw/core/machine.c          |  3 +++
->   hw/i386/pc.c               |  3 +++
->   hw/i386/pc_piix.c          | 14 +++++++++++++-
->   hw/i386/pc_q35.c           | 13 ++++++++++++-
->   hw/m68k/virt.c             |  9 ++++++++-
->   hw/ppc/spapr.c             | 15 +++++++++++++--
->   hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
->   include/hw/boards.h        |  3 +++
->   include/hw/i386/pc.h       |  3 +++
->   10 files changed, 79 insertions(+), 7 deletions(-)
+> thanks
 > 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 9633f822f361..1a6480fd2a76 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -3094,10 +3094,17 @@ static void machvirt_machine_init(void)
->   }
->   type_init(machvirt_machine_init);
->   
-> +static void virt_machine_7_2_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
-> +
->   static void virt_machine_7_1_options(MachineClass *mc)
->   {
-> +    virt_machine_7_2_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->   }
-> -DEFINE_VIRT_MACHINE_AS_LATEST(7, 1)
-> +DEFINE_VIRT_MACHINE(7, 1)
->   
->   static void virt_machine_7_0_options(MachineClass *mc)
->   {
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index a673302ccec5..aa520e74a8c8 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -40,6 +40,9 @@
->   #include "hw/virtio/virtio-pci.h"
->   #include "qom/object_interfaces.h"
->   
-> +GlobalProperty hw_compat_7_1[] = {};
-> +const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
-> +
->   GlobalProperty hw_compat_7_0[] = {
->       { "arm-gicv3-common", "force-8-bit-prio", "on" },
->       { "nvme-ns", "eui64-default", "on"},
-> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-> index 774cb2bf0748..31724c42ac90 100644
-> --- a/hw/i386/pc.c
-> +++ b/hw/i386/pc.c
-> @@ -107,6 +107,9 @@
->       { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
->       { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
->   
-> +GlobalProperty pc_compat_7_1[] = {};
-> +const size_t pc_compat_7_1_len = G_N_ELEMENTS(pc_compat_7_1);
-> +
->   GlobalProperty pc_compat_7_0[] = {};
->   const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
->   
-> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-> index a234989ac363..34fa0021c7be 100644
-> --- a/hw/i386/pc_piix.c
-> +++ b/hw/i386/pc_piix.c
-> @@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
->       machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
->   }
->   
-> -static void pc_i440fx_7_1_machine_options(MachineClass *m)
-> +static void pc_i440fx_7_2_machine_options(MachineClass *m)
->   {
->       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->       pc_i440fx_machine_options(m);
-> @@ -433,6 +433,18 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
->       pcmc->default_cpu_version = 1;
->   }
->   
-> +DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
-> +                      pc_i440fx_7_2_machine_options);
-> +
-> +static void pc_i440fx_7_1_machine_options(MachineClass *m)
-> +{
-> +    pc_i440fx_7_2_machine_options(m);
-> +    m->alias = NULL;
-> +    m->is_default = false;
-> +    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-> +    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
-> +}
-> +
->   DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
->                         pc_i440fx_7_1_machine_options);
->   
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index f96cbd04e284..38634cd11413 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -362,7 +362,7 @@ static void pc_q35_machine_options(MachineClass *m)
->       m->max_cpus = 288;
->   }
->   
-> -static void pc_q35_7_1_machine_options(MachineClass *m)
-> +static void pc_q35_7_2_machine_options(MachineClass *m)
->   {
->       PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->       pc_q35_machine_options(m);
-> @@ -370,6 +370,17 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
->       pcmc->default_cpu_version = 1;
->   }
->   
-> +DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
-> +                   pc_q35_7_2_machine_options);
-> +
-> +static void pc_q35_7_1_machine_options(MachineClass *m)
-> +{
-> +    pc_q35_7_2_machine_options(m);
-> +    m->alias = NULL;
-> +    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
-> +    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
-> +}
-> +
->   DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
->                      pc_q35_7_1_machine_options);
->   
-> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
-> index 0aa383fa6bda..3122c8ef2c38 100644
-> --- a/hw/m68k/virt.c
-> +++ b/hw/m68k/virt.c
-> @@ -322,10 +322,17 @@ type_init(virt_machine_register_types)
->       } \
->       type_init(machvirt_machine_##major##_##minor##_init);
->   
-> +static void virt_machine_7_2_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_VIRT_MACHINE(7, 2, true)
-> +
->   static void virt_machine_7_1_options(MachineClass *mc)
->   {
-> +    virt_machine_7_2_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->   }
-> -DEFINE_VIRT_MACHINE(7, 1, true)
-> +DEFINE_VIRT_MACHINE(7, 1, false)
->   
->   static void virt_machine_7_0_options(MachineClass *mc)
->   {
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index bc9ba6e6dcf2..fb790b61e442 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4730,15 +4730,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
->       }                                                                \
->       type_init(spapr_machine_register_##suffix)
->   
-> +/*
-> + * pseries-7.2
-> + */
-> +static void spapr_machine_7_2_class_options(MachineClass *mc)
-> +{
-> +    /* Defaults for the latest behaviour inherited from the base class */
-> +}
-> +
-> +DEFINE_SPAPR_MACHINE(7_2, "7.2", true);
-> +
->   /*
->    * pseries-7.1
->    */
->   static void spapr_machine_7_1_class_options(MachineClass *mc)
->   {
-> -    /* Defaults for the latest behaviour inherited from the base class */
-> +    spapr_machine_7_2_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->   }
->   
-> -DEFINE_SPAPR_MACHINE(7_1, "7.1", true);
-> +DEFINE_SPAPR_MACHINE(7_1, "7.1", false);
->   
->   /*
->    * pseries-7.0
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index cc3097bfee80..bf1b36d824db 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -792,14 +792,26 @@ bool css_migration_enabled(void)
->       }                                                                         \
->       type_init(ccw_machine_register_##suffix)
->   
-> +static void ccw_machine_7_2_instance_options(MachineState *machine)
-> +{
-> +}
-> +
-> +static void ccw_machine_7_2_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(7_2, "7.2", true);
-> +
->   static void ccw_machine_7_1_instance_options(MachineState *machine)
->   {
-> +    ccw_machine_7_2_instance_options(machine);
->   }
->   
->   static void ccw_machine_7_1_class_options(MachineClass *mc)
->   {
-> +    ccw_machine_7_2_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
->   }
-> -DEFINE_CCW_MACHINE(7_1, "7.1", true);
-> +DEFINE_CCW_MACHINE(7_1, "7.1", false);
->   
->   static void ccw_machine_7_0_instance_options(MachineState *machine)
->   {
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index d94edcef2883..487243a39c84 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -380,6 +380,9 @@ struct MachineState {
->       } \
->       type_init(machine_initfn##_register_types)
->   
-> +extern GlobalProperty hw_compat_7_1[];
-> +extern const size_t hw_compat_7_1_len;
-> +
->   extern GlobalProperty hw_compat_7_0[];
->   extern const size_t hw_compat_7_0_len;
->   
-> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-> index b7735dccfc81..4517fa08f2e9 100644
-> --- a/include/hw/i386/pc.h
-> +++ b/include/hw/i386/pc.h
-> @@ -195,6 +195,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
->   /* sgx.c */
->   void pc_machine_init_sgx_epc(PCMachineState *pcms);
->   
-> +extern GlobalProperty pc_compat_7_1[];
-> +extern const size_t pc_compat_7_1_len;
-> +
->   extern GlobalProperty pc_compat_7_0[];
->   extern const size_t pc_compat_7_0_len;
->   
+>>
+>> Jae proposed a similar patch with IF_NONE which should fit your need :
+>>
+>>     https://lore.kernel.org/all/20220718175214.2087644-1-quic_jaehyoo@quicinc.com/
+>>
+>> Could you please give it a try ?
+> 
+> I tested on a fp5280g2-bmc, It's ok.  I would abandon my patch :）
+> 
+>>
+>> It's available on my branch :
+>>
+>>     https://github.com/legoater/qemu/commits/aspeed-7.1
+> 
+> I checked it, and will use this tree to module a new machine. :)
+
+Or simply grab the patch if you only need one.
+
+I don't think this is the correct approach for mainline. See this thread :
+
+   https://lore.kernel.org/all/CAFEAcA8sNjLsknea5Nt-tANEniFF2FYmjiV0xz=pr+vFwkX-gw@mail.gmail.com/t/
+
+C.
+
+> 
+>>
+>> Thanks,
+>>
+>> C.
+>>
+>>
+>>> +    BlockBackend *blk = dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
+>>> +
+>>> +    if (blk) {
+>>> +        qdev_prop_set_drive(DEVICE(dev), "drive", blk);
+>>> +    }
+>>>        qdev_prop_set_uint32(dev, "rom-size", rsize);
+>>> +
+>>>        i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+>>>    }
+>>>
+>>> @@ -685,7 +693,7 @@ static void fp5280g2_bmc_i2c_init(AspeedMachineState *bmc)
+>>>        I2CSlave *i2c_mux;
+>>>
+>>>        /* The at24c256 */
+>>> -    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 1), 0x50, 32768);
+>>> +    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 1), 0x50, 32768, 1);
+>>>
+>>>        /* The fp5280g2 expects a TMP112 but a TMP105 is compatible */
+>>>        i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), TYPE_TMP105,
+>>> @@ -918,13 +926,13 @@ static void bletchley_bmc_i2c_init(AspeedMachineState *bmc)
+>>>        }
+>>>
+>>>        /* Bus 6 */
+>>> -    at24c_eeprom_init(i2c[6], 0x56, 65536);
+>>> +    at24c_eeprom_init(i2c[6], 0x56, 65536, 1);
+>>>        /* Missing model: nxp,pcf85263 @ 0x51 , but ds1338 works enough */
+>>>        i2c_slave_create_simple(i2c[6], "ds1338", 0x51);
+>>>
+>>>
+>>>        /* Bus 7 */
+>>> -    at24c_eeprom_init(i2c[7], 0x54, 65536);
+>>> +    at24c_eeprom_init(i2c[7], 0x54, 65536, 2);
+>>>
+>>>        /* Bus 9 */
+>>>        i2c_slave_create_simple(i2c[9], TYPE_TMP421, 0x4f);
+>>
+
 
