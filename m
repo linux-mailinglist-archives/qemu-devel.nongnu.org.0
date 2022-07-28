@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03321583FD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:18:56 +0200 (CEST)
-Received: from localhost ([::1]:35484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A0E583FE0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:23:58 +0200 (CEST)
+Received: from localhost ([::1]:41590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH3Pj-0004hi-3D
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:18:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57326)
+	id 1oH3Ub-0000e7-IO
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:23:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oH3Jc-0008T1-25; Thu, 28 Jul 2022 09:12:37 -0400
-Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:42968)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oH3JZ-0002NK-Vn; Thu, 28 Jul 2022 09:12:35 -0400
-Received: by mail-ot1-x333.google.com with SMTP id
- k25-20020a056830169900b0061c6f68f451so1126409otr.9; 
- Thu, 28 Jul 2022 06:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=idimK8N9h5ZeguSlDf0OrkaOTuZas/uRkWYjnt6nuNA=;
- b=gmBZC/OxRJq73cZBt/dTv+eKMuGjk5w85GK3Sii5AEYOsrFywIN59TfC6EiVj7xRuD
- 4ZSETYlc70NwwY68wyR2czHsTiGQh2lAJguh+KRf3H8dzq00DlzPLsnjRO89qLNYM+GF
- MUW1njQHsuz5us98Kfia1Rzs7iZj7yTXnIXC09ZFc8z1uzG9rIZmKx3AMZxFaArmq0pC
- 3Wdlo0HSjiMdSAgBFlEIAzRA8FDjLalv+Va3Bc6pHuaQz+qFwsyLpuDaGiBg/z4ro7Df
- LXlmLwKzVEA5dQr6RWG+hue1EJK/oHfbDXhCEjWhWSuwKFKVCuxVGfVNm7/Ht6+o0/Nu
- cQRg==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oH3NU-0002qg-JN
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:16:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30427)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1oH3NQ-0003FP-TV
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:16:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659014191;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5AI7gEcauDVRcNhvEJ+ss1MBv3WS+UEYNQmXQ2mpLaA=;
+ b=O0PoXjocyR0D+DBGrTB8MO5B0nMTOoPe3pXrKxIlWBb0c99KFyhUsy6NwALV+EurhK5gga
+ h335vCZtAOYNMWBDZE3giHzeP5mHdtoQHvS4cLRgZuYTLk4vPOarxsf6DWVkGcwDrJngWD
+ ArHCEIYVh88yQ/89zDPW6qp2B8pokN4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-670-07lxpgYzN8ykEc-qGJXgkw-1; Thu, 28 Jul 2022 09:16:30 -0400
+X-MC-Unique: 07lxpgYzN8ykEc-qGJXgkw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ y2-20020a056402440200b0043bd6c898deso1101311eda.20
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 06:16:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=idimK8N9h5ZeguSlDf0OrkaOTuZas/uRkWYjnt6nuNA=;
- b=5LUr9nhV4HQGV0oTefu6m1kihgc6D4R+Fup3axa1v/R+gMjJZUFymeQ5IOjNmGpxTR
- z80mhi9ByY/qAg15cvzyFhhnbJ9U7X4K8SYrsxcG8zR+1l7b38RN34ZOcbM/xduALECa
- UanZD/oitewuKDsGZk4xZVaxwmkp4k2+ABWmyYcoWFqHD8jvK04RM0/kS8NqX29gxXqJ
- fTPNeF9NiLUQjwJlIXBVqPe9/ZSg10+mV+gMFFyzy28LEAK/8iRg0CUGux4EiuP4nkXd
- 2Kq6K6gNu9jHYq0HGiDCLIiVPNdLsfZazJGPLX5r7eYMNkEEpoBaBkOfwe4QLIaew4F3
- ozhQ==
-X-Gm-Message-State: AJIora+5E2njHeV2U3YFWHkHTNZC34WTdu9lhzQMANfMtgmrg0FUbl/M
- vFzYBkzqgnIKzicoXK1YuLY=
-X-Google-Smtp-Source: AGRyM1vIwILDzI/8bv47DHv6jBMo+BHvDzE656oYVxLehGIcm98m6Ib/kmbGFmhF2VPdD4ZSvuywZA==
-X-Received: by 2002:a05:6830:2908:b0:61d:26f8:94c5 with SMTP id
- z8-20020a056830290800b0061d26f894c5mr965311otu.64.1659013952580; 
- Thu, 28 Jul 2022 06:12:32 -0700 (PDT)
-Received: from [192.168.10.102] ([179.225.208.46])
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5AI7gEcauDVRcNhvEJ+ss1MBv3WS+UEYNQmXQ2mpLaA=;
+ b=ZpPDIcDgYrzun3kUvLZhFOSyfOB2xC34mkaFy3Ti0XRCLHj9au85DKvVIlLySmtoH1
+ Fo4bWjTV4A7caWR8fSFdABadRZ70VUR0hXtk335Z6CoUYib2sSbfp955WEYo2iOOEzvi
+ JCmA5SjvXpFXtbCClXwU5gfmIYt5ZogS4/Jqcel7THUsRpSt66uulH0bSmu5g3iAi/aO
+ +D4UV1jPz2milk5TKw0t7UXiCXCHd02Hi2/77BtntwlWfcFF1iXfOZ0Vdaxca+9AjkgJ
+ bjNOnpf86jkVPtE1gBK+XAMModv1DQFs35hc4zygiPhj3Pr5/FGGA/GRwNwxCK2t/OHl
+ WEGQ==
+X-Gm-Message-State: AJIora/aF/5hMBVbjcq78leAPRhyNAaNESMp5HEbEf+MD3PyfTI+HGIc
+ 8HgZuVC8VgpHCK8GpxYgomdqL5SqelbaESTvGP1bboXAqLwiLajK9kaxBCw0LAFw3L0L01AMYKD
+ 0P1B30ViFR3vmgXo=
+X-Received: by 2002:a17:907:2888:b0:72b:8f41:1405 with SMTP id
+ em8-20020a170907288800b0072b8f411405mr20183000ejc.564.1659014189239; 
+ Thu, 28 Jul 2022 06:16:29 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t1SUc6wdZtsN8TFMvC7f43BgF7J8MWCymetCKqGYhIux3ZvfVHmAhMl3/Nwcpmx4S4zzLnlg==
+X-Received: by 2002:a17:907:2888:b0:72b:8f41:1405 with SMTP id
+ em8-20020a170907288800b0072b8f411405mr20182984ejc.564.1659014188925; 
+ Thu, 28 Jul 2022 06:16:28 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- v22-20020a4ae056000000b00435f239e5b3sm344152oos.10.2022.07.28.06.12.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 06:12:32 -0700 (PDT)
-Message-ID: <ced9492b-8fb4-0066-3c22-20d30b38c4f5@gmail.com>
-Date: Thu, 28 Jul 2022 10:12:26 -0300
+ r26-20020a170906365a00b0072fdb26bd9fsm412832ejb.172.2022.07.28.06.16.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 06:16:28 -0700 (PDT)
+Date: Thu, 28 Jul 2022 15:16:27 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, aurelien@aurel32.net,
+ jiaxun.yang@flygoat.com, ani@anisinha.ca, dgilbert@redhat.com,
+ mst@redhat.com
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features
+ of PIIX4_PM
+Message-ID: <20220728151627.119d57d5@redhat.com>
+In-Reply-To: <CAFEAcA95sRW8u2NFDa1BX7uNg2t85Yr_kPgWWC+5QnJobygwMA@mail.gmail.com>
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+ <CAFEAcA95sRW8u2NFDa1BX7uNg2t85Yr_kPgWWC+5QnJobygwMA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v3 00/12] powernv: introduce pnv-phb base/proxy devices
-Content-Language: en-US
-To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org
-References: <20220624084921.399219-1-danielhb413@gmail.com>
- <22b1124d-3c57-925f-56e7-1b85342be7ff@linux.ibm.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <22b1124d-3c57-925f-56e7-1b85342be7ff@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::333;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x333.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,73 +103,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 28 Jul 2022 13:29:07 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
+> On Thu, 28 Jul 2022 at 12:50, Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
+> >   $ qemu-system-mips -monitor stdio
+> >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+> >   Segmentation fault (core dumped)
+> >
+> > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
+> > which are valid only for x86 and not for MIPS (as it requires ACPI
+> > tables support which is not existent for ithe later)
+> >
+> > Issue was probably exposed by trying to cleanup/compile out unused
+> > ACPI bits from MIPS target (but forgetting about migration bits).
+> >
+> > Disable compiled out features using compat properties as the least
+> > risky way to deal with issue.
+> >
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>  
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/995
+> 
+> > ---
+> > PS:
+> > another approach could be setting defaults to disabled state and
+> > enabling them using compat props on PC machines (which is more
+> > code to deal with => more risky) or continue with PIIX4_PM
+> > refactoring to split x86-shism out (which I'm not really
+> > interested in due to risk of regressions for not much of
+> > benefit)
+> > ---
+> >  hw/mips/malta.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> > index 7a0ec513b0..0e932988e0 100644
+> > --- a/hw/mips/malta.c
+> > +++ b/hw/mips/malta.c
+> > @@ -1442,6 +1442,14 @@ static const TypeInfo mips_malta_device = {
+> >      .instance_init = mips_malta_instance_init,
+> >  };
+> >
+> > +GlobalProperty malta_compat[] = {
+> > +    { "PIIX4_PM", "memory-hotplug-support", "off" },
+> > +    { "PIIX4_PM", "acpi-pci-hotplug-with-bridge-support", "off" },
+> > +    { "PIIX4_PM", "acpi-root-pci-hotplug", "off" },
+> > +    { "PIIX4_PM", "x-not-migrate-acpi-index", "true" },
+> > +};  
+> 
+> Is there an easy way to assert in hw/acpi/piix4.c that if
+> CONFIG_ACPI_PCIHP was not set then the board has initialized
+> all these properties to the don't-use-hotplug state ?
+> That would be a guard against similar bugs (though I suppose
+> we probably aren't likely to add new piix4 boards...)
 
-On 7/27/22 14:28, Frederic Barrat wrote:
-> 
-> 
-> On 24/06/2022 10:49, Daniel Henrique Barboza wrote:
->> Hi,
->>
->> This is the version 3 of the pnv-phb proxy device which has the
->> following main differences from v2:
->>
->> - it's rebased on top of "[PATCH v3 0/8] pnv-phb related cleanups"
->> - it doesn't have any patches related to user-created devices
->>
->> There is no user visible change made here yet. We're making device
->> changes that are effective using default settings.
->>
->> Changes from v2:
->> - all related changes made with the rebase on top of "[PATCH v3 0/8]
->> pnv-phb related cleanups"
->> - the following user devices patches were removed:
->>    - ppc/pnv: user created pnv-phb for powernv8
->>    - ppc/pnv: user created pnv-phb for powernv9
->>    - ppc/pnv: change pnv_phb4_get_pec() to also retrieve chip10->pecs
->>    - ppc/pnv: user creatable pnv-phb for powernv10
->> - v2 link: https://lists.gnu.org/archive/html/qemu-devel/2022-05/msg06254.html
-> 
-> 
-> This series look pretty good to me! I only have a couple of minor comments, which I don't think are worth a resend.
-> 
->    Fred
+unfortunately new features still creep in 'pc' machine
+ex: "acpi-root-pci-hotplug"), and I don't see an easy
+way to compile that nor enforce that in the future.
 
+Far from easy would be split piix4_pm on base/enhanced
+classes so we wouldn't need x86 specific hacks in 'base'
+variant (assuming 'enhanced' could maintain the current
+VMSTATE to keep cross-version migration working).
 
-Thanks for the review! Patches queued in gitlab.com/danielhb/qemu/tree/ppc-7.2 .
-
-
-Daniel
-
+> > +const size_t malta_compat_len = G_N_ELEMENTS(malta_compat);
+> > +
+> >  static void mips_malta_machine_init(MachineClass *mc)
+> >  {
+> >      mc->desc = "MIPS Malta Core LV";
+> > @@ -1455,6 +1463,7 @@ static void mips_malta_machine_init(MachineClass *mc)
+> >      mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
+> >  #endif
+> >      mc->default_ram_id = "mips_malta.ram";
+> > +    compat_props_add(mc->compat_props, malta_compat, malta_compat_len);
+> >  }
+> >
+> >  DEFINE_MACHINE("malta", mips_malta_machine_init)
+> > --
+> > 2.31.1  
 > 
+> thanks
+> -- PMM
 > 
-> 
->> Daniel Henrique Barboza (12):
->>    ppc/pnv: add PHB3 bus init helper
->>    ppc/pnv: add PnvPHB base/proxy device
->>    ppc/pnv: turn PnvPHB3 into a PnvPHB backend
->>    ppc/pnv: add PHB4 bus init helper
->>    ppc/pnv: turn PnvPHB4 into a PnvPHB backend
->>    ppc/pnv: add pnv-phb-root-port device
->>    ppc/pnv: remove pnv-phb3-root-port
->>    ppc/pnv: remove pnv-phb4-root-port
->>    ppc/pnv: remove root port name from pnv_phb_attach_root_port()
->>    ppc/pnv: remove pecc->rp_model
->>    ppc/pnv: remove PnvPHB4.version
->>    ppc/pnv: move attach_root_port helper to pnv-phb.c
->>
->>   hw/pci-host/meson.build        |   3 +-
->>   hw/pci-host/pnv_phb.c          | 244 +++++++++++++++++++++++++++++++++
->>   hw/pci-host/pnv_phb.h          |  55 ++++++++
->>   hw/pci-host/pnv_phb3.c         | 106 ++++----------
->>   hw/pci-host/pnv_phb4.c         | 144 ++++---------------
->>   hw/pci-host/pnv_phb4_pec.c     |   5 +-
->>   hw/ppc/pnv.c                   |  68 ++++-----
->>   include/hw/pci-host/pnv_phb3.h |  12 +-
->>   include/hw/pci-host/pnv_phb4.h |  18 +--
->>   include/hw/ppc/pnv.h           |   5 +-
->>   10 files changed, 401 insertions(+), 259 deletions(-)
->>   create mode 100644 hw/pci-host/pnv_phb.c
->>   create mode 100644 hw/pci-host/pnv_phb.h
->>
+
 
