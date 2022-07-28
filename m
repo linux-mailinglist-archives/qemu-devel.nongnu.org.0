@@ -2,67 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAF458421E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:46:29 +0200 (CEST)
-Received: from localhost ([::1]:34076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B67584288
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 17:05:40 +0200 (CEST)
+Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4mP-0001rE-AS
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:46:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52590)
+	id 1oH550-0004GX-Pn
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 11:05:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oH4iz-0006k4-0g; Thu, 28 Jul 2022 10:42:53 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:60236)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oH4kY-0008UL-FS
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:44:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28939)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1oH4iu-0000nk-W9; Thu, 28 Jul 2022 10:42:51 -0400
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 7C90D2E046F;
- Thu, 28 Jul 2022 17:42:30 +0300 (MSK)
-Received: from [10.211.24.38] (10.211.24.38-vpn.dhcp.yndx.net [10.211.24.38])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with
- ESMTPSA id aIXPCEuCME-gSOa1dPh; Thu, 28 Jul 2022 17:42:29 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1659019349; bh=ixefPU+SFl6A15nCZsEMlxO9Jw3fDTb/OnL2TnIHTuU=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=FcWTzywqxBlGP07G5WINmbYvtqxqzPIXOn9+fY4gUkV7yr1/w8NfpRZx5KulNlMRL
- BwcWUFgpRcG8xnqJ97fHqUC+oM7wPS2UaCYLDtwqFfoufms5y5cAvccTUNLXEd/feg
- VLfpGsYPAqxpjsaCqAIjQd60yn7gFzm/+1x72FEM=
-Authentication-Results: vla1-81430ab5870b.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <1aa3921a-0e67-d580-9bf2-c098d242e380@yandex-team.ru>
-Date: Thu, 28 Jul 2022 17:42:28 +0300
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oH4kV-00024T-7h
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:44:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659019466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oYOuffALX1JzN6sCP1a4RnuxVmo3aivYFvPLfQB29SQ=;
+ b=R9lTB/vww2tWFwH8RZO/HATYpSIuv/ga25VbiUcw29sfvEoNDEaYY1nClLbiM5r67A7Tb5
+ u5wA+Mfc8ZZUKqqQSjqqpf0i7JEl+Q7rtj4xqtt+/Wmpoe6Y6UTDksYvcgIZ/A+1d1e1e2
+ ZR0pzZkPbXnM3/xpiSvpTYYI/kLqTs0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-144-rYdHJv0SMAu-6n4iNfcbAg-1; Thu, 28 Jul 2022 10:44:24 -0400
+X-MC-Unique: rYdHJv0SMAu-6n4iNfcbAg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k27-20020a05600c1c9b00b003a2fee19a80so2594515wms.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 07:44:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=oYOuffALX1JzN6sCP1a4RnuxVmo3aivYFvPLfQB29SQ=;
+ b=snJZMS9mLjICtWRThAVZwsZ4VNzxtUdkoL98na2mo/x7rGcKuRnz+dagche/TkV/vM
+ 1ZGLCrkW1NYvAYSbw2oprOXyZbxzZWLdTcLKFwwmW+qKc29PvJsipgfLOEJUDCPEbwDD
+ 3ZwRTLrLa7suYGTEWRDKoaRYVy4HF2tPL29i1IE/0Z15FEEbJ/lQcfhSTfnOq+6ydIlS
+ Tbttf5lD2dMQU6YScjxH6h92w+aJzdpbokFWe8+6ZKQW4R0+HPcCNsGuxArIxe0IiQ5k
+ iLILT78iAf2Uyh9q08EB0PK1pjvPxwWFrvAzllDA47stR81EFhF1TBd94YahN5T5FYGN
+ vEWg==
+X-Gm-Message-State: AJIora/x5MGqKk7pFQW+ntsrCQlufToJcNZS4YPq268yGn/lHwaTuMO5
+ 4p7u772lbetPNLNP2hPFAufrCE+In7L4DaYFWx2uVmhE3sRNok/KpaeB0mc/nTd28F6eJ9tWv8v
+ P11PcU1ZRXBbaHbw=
+X-Received: by 2002:a05:600c:1d9a:b0:3a3:34d:d6ac with SMTP id
+ p26-20020a05600c1d9a00b003a3034dd6acmr6829273wms.206.1659019463075; 
+ Thu, 28 Jul 2022 07:44:23 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1t4YWt+yjlyv2LAcn1v2aJmu2fit6L1B/XCOMDdBx1ZjxnuTFYMJIGph5leRNJZwJ4I61KQ4Q==
+X-Received: by 2002:a05:600c:1d9a:b0:3a3:34d:d6ac with SMTP id
+ p26-20020a05600c1d9a00b003a3034dd6acmr6829256wms.206.1659019462595; 
+ Thu, 28 Jul 2022 07:44:22 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ m5-20020a5d4a05000000b0021ea1bcc300sm1177166wrq.56.2022.07.28.07.44.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 07:44:22 -0700 (PDT)
+Date: Thu, 28 Jul 2022 15:44:20 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, f4bug@amsat.org, aurelien@aurel32.net,
+ jiaxun.yang@flygoat.com, peter.maydell@linaro.org, ani@anisinha.ca,
+ mst@redhat.com
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+Message-ID: <YuKgxM4IjAXh/goO@work-vm>
+References: <20220728115034.1327988-1-imammedo@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH 1/1] block: add missed block_acct_setup with new block
- device init procedure
-Content-Language: en-US
-To: "Denis V. Lunev" <den@openvz.org>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org
-Cc: Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>, 
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
-References: <20220711110725.425261-1-den@openvz.org>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20220711110725.425261-1-den@openvz.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a02:6b8:0:1619::183;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220728115034.1327988-1-imammedo@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,125 +101,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/11/22 14:07, Denis V. Lunev wrote:
-> Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
-> the first glance, but it has changed things a lot. 'libvirt' uses it to
-> detect that it should follow new initialization way and this changes
-> things considerably. With this procedure followed, blockdev_init() is
-> not called anymore and thus block_acct_setup() helper is not called.
-
-I'm not sure that 5f76a7aac156ca is really the corner stone.. But yes,
-libvirt moved to "blockdev era", which means that we don't use old -drive,
-instead block nodes are created by -blockdev / qmp: blockdev-add, and attached
-to block devices by node-name.
-
-And if I understand correctly blockdev_init() is called only on -drive path.
-
-I have some questions:
-
-1. After this patch, don't we call block_acct_setup() twice on old path with -drive? That seems safe as block_acct_setup just assign fields of BlockAcctStats.. But that's doesn't look good.
-
-2. Do we really need these options? Could we instead just enable accounting invalid and failed ops unconditionally? I doubt that someone will learn that these new options appeared and will use them to disable the failed/invalid accounting again.
-
-
+* Igor Mammedov (imammedo@redhat.com) wrote:
+> QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
+>   $ qemu-system-mips -monitor stdio
+>   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+>   Segmentation fault (core dumped)
 > 
-> This means in particular that defaults for block accounting statistics
-> are changed and account_invalid/account_failed are actually initialized
-> as false instead of true originally.
+> It happens due to PIIX4_PM trying to parse hotplug vmstate structures
+> which are valid only for x86 and not for MIPS (as it requires ACPI
+> tables support which is not existent for ithe later)
 > 
-> This commit changes things to match original world. It adds
-> account_invalid/account_failed properties to BlockConf and setups them
-> accordingly.
+> Issue was probably exposed by trying to cleanup/compile out unused
+> ACPI bits from MIPS target (but forgetting about migration bits).
 > 
-> Signed-off-by: Denis V. Lunev <den@openvz.org>
-> CC: Peter Krempa <pkrempa@redhat.com>
-> CC: Markus Armbruster <armbru@redhat.com>
-> CC: John Snow <jsnow@redhat.com>
-> CC: Kevin Wolf <kwolf@redhat.com>
-> CC: Hanna Reitz <hreitz@redhat.com>
+> Disable compiled out features using compat properties as the least
+> risky way to deal with issue.
+
+Isn't the problem partially due to a 'stub' vmsd which isn't terminated?
+
+Dave
+
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 > ---
->   hw/block/block.c           |  2 +
->   include/hw/block/block.h   |  7 +++-
->   tests/qemu-iotests/172.out | 76 ++++++++++++++++++++++++++++++++++++++
->   3 files changed, 84 insertions(+), 1 deletion(-)
+> PS:
+> another approach could be setting defaults to disabled state and
+> enabling them using compat props on PC machines (which is more
+> code to deal with => more risky) or continue with PIIX4_PM
+> refactoring to split x86-shism out (which I'm not really
+> interested in due to risk of regressions for not much of
+> benefit)
+> ---
+>  hw/mips/malta.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> diff --git a/hw/block/block.c b/hw/block/block.c
-> index 25f45df723..53b100cdc3 100644
-> --- a/hw/block/block.c
-> +++ b/hw/block/block.c
-> @@ -205,6 +205,8 @@ bool blkconf_apply_backend_options(BlockConf *conf, bool readonly,
-      BlockdevOnError rerror;
->       blk_set_enable_write_cache(blk, wce);
->       blk_set_on_error(blk, rerror, werror);
->   
-> +    block_acct_setup(blk_get_stats(blk), conf->account_invalid,
-> +                     conf->account_failed);
->       return true;
->   }
->   
-> diff --git a/include/hw/block/block.h b/include/hw/block/block.h
-> index 5902c0440a..ffd439fc83 100644
-> --- a/include/hw/block/block.h
-> +++ b/include/hw/block/block.h
-> @@ -31,6 +31,7 @@ typedef struct BlockConf {
->       uint32_t lcyls, lheads, lsecs;
->       OnOffAuto wce;
->       bool share_rw;
-> +    bool account_invalid, account_failed;
->       BlockdevOnError rerror;
->       BlockdevOnError werror;
->   } BlockConf;
-> @@ -61,7 +62,11 @@ static inline unsigned int get_physical_block_exp(BlockConf *conf)
->                          _conf.discard_granularity, -1),                  \
->       DEFINE_PROP_ON_OFF_AUTO("write-cache", _state, _conf.wce,           \
->                               ON_OFF_AUTO_AUTO),                          \
-> -    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false)
-> +    DEFINE_PROP_BOOL("share-rw", _state, _conf.share_rw, false),        \
-> +    DEFINE_PROP_BOOL("account-invalid", _state,                         \
-> +                     _conf.account_invalid, true),                      \
-> +    DEFINE_PROP_BOOL("account-failed", _state,                          \
-> +                     _conf.account_failed, true)
->   
->   #define DEFINE_BLOCK_PROPERTIES(_state, _conf)                          \
->       DEFINE_PROP_DRIVE("drive", _state, _conf.blk),                      \
-> diff --git a/tests/qemu-iotests/172.out b/tests/qemu-iotests/172.out
-> index 9479b92185..a6c451e098 100644
-> --- a/tests/qemu-iotests/172.out
-> +++ b/tests/qemu-iotests/172.out
-> @@ -28,6 +28,8 @@ Formatting 'TEST_DIR/t.IMGFMT.3', fmt=IMGFMT size=737280
->                   discard_granularity = 4294967295 (4 GiB)
->                   write-cache = "auto"
->                   share-rw = false
-> +                account-invalid = true
-> +                account-failed = true
->                   drive-type = "288"
->   
->   
-> @@ -55,6 +57,8 @@ Testing: -fda TEST_DIR/t.qcow2
->                   discard_granularity = 4294967295 (4 GiB)
->                   write-cache = "auto"
->                   share-rw = false
-> +                account-invalid = true
-> +                account-failed = true
->                   drive-type = "144"
->   floppy0 (NODE_NAME): TEST_DIR/t.qcow2 (qcow2)
->       Attached to:      /machine/unattached/device[N]
-> @@ -92,6 +96,8 @@ Testing: -fdb TEST_DIR/t.qcow2
->                   discard_granularity = 4294967295 (4 GiB)
->                   write-cache = "auto"
->                   share-rw = false
-> +                account-invalid = true
-> +                account-failed = true
->                   drive-type = "144"
->                 dev: floppy, id ""
->                   unit = 0 (0x0)
-> @@ -104,6 +110,8 @@ Testing: -fdb TEST_DIR/t.qcow2
->                   discard_granularity = 4294967295 (4 GiB)
-
-[..]
-
-
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 7a0ec513b0..0e932988e0 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -1442,6 +1442,14 @@ static const TypeInfo mips_malta_device = {
+>      .instance_init = mips_malta_instance_init,
+>  };
+>  
+> +GlobalProperty malta_compat[] = {
+> +    { "PIIX4_PM", "memory-hotplug-support", "off" },
+> +    { "PIIX4_PM", "acpi-pci-hotplug-with-bridge-support", "off" },
+> +    { "PIIX4_PM", "acpi-root-pci-hotplug", "off" },
+> +    { "PIIX4_PM", "x-not-migrate-acpi-index", "true" },
+> +};
+> +const size_t malta_compat_len = G_N_ELEMENTS(malta_compat);
+> +
+>  static void mips_malta_machine_init(MachineClass *mc)
+>  {
+>      mc->desc = "MIPS Malta Core LV";
+> @@ -1455,6 +1463,7 @@ static void mips_malta_machine_init(MachineClass *mc)
+>      mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
+>  #endif
+>      mc->default_ram_id = "mips_malta.ram";
+> +    compat_props_add(mc->compat_props, malta_compat, malta_compat_len);
+>  }
+>  
+>  DEFINE_MACHINE("malta", mips_malta_machine_init)
+> -- 
+> 2.31.1
+> 
 -- 
-Best regards,
-Vladimir
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
