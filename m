@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56CA1584702
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 22:27:51 +0200 (CEST)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5261A584713
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 22:35:48 +0200 (CEST)
+Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHA6o-0006iv-5D
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 16:27:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
+	id 1oHAEU-0000pF-R5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 16:35:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHA45-0004cO-JQ
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:25:01 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45689)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oHAAx-0007LW-Jk; Thu, 28 Jul 2022 16:32:07 -0400
+Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:40808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHA44-000270-0c
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:25:01 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- o14-20020a17090a4b4e00b001f2f2b61be5so3269550pjl.4
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 13:24:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oHAAw-0004H0-1d; Thu, 28 Jul 2022 16:32:07 -0400
+Received: by mail-oa1-x29.google.com with SMTP id
+ 586e51a60fabf-10e45b51f77so3716074fac.7; 
+ Thu, 28 Jul 2022 13:32:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=AWfyfXG0clLB30RO72afhGky9uZ0UKn5sAaCFqZ0W6Q=;
- b=ZXWQX6ufTp0anoK9BVOLm3IKblRA9IFZg96Xi5X7PCQufYbvpmrI5jkR0K7B/GjXly
- +lvwqtylTJbt1fRivPOwOyElDDbC8Mll4NLqr/8dw/CRbJu0B6SpzGoT0yi3Yw1vLb/I
- XtGjgZra8h3Fg6rsouGjr+aIWI7AgC3sUYlF4+Gdxl+PF9o+yuLlGbBHC2BtDiCmm923
- 5H+Qnij+QJMVWiMcrLfS5hLLSyZm0qAGO7I6qRaKQ2m3TO685k5STNM7PCrs1gThhiPM
- wxXMIzP3qAqismb/s0E0Ehi71/BpL82jA84irEGgj9P2PQetN/e/wLYzSqo8litltsoS
- iKLA==
+ bh=g85C+4aZW1jP0xjdxzWGasnh4qYONvseasJKr8V+Iuk=;
+ b=lbWEkITlnafJMhl9PoxBqgcKxWpl+ufWHjsdx8oPXz25/eMvKzSUrd07C3X4Ye/L0v
+ EAsTBtm/BHimyW2S/4Z+jX4XmI6KdSr/XmYHVMiY79BhLyHpQXhrq8rLpDO95QPEQK2n
+ bbi4LAkX3oYZ/0d4+rZLgszzKurUv48+mRHK1epg7eydj10H0tRNTPlD4jb15CMwuSa0
+ CJHthVim3Br1pgva/WhMZc87uMNqEdH+MCa8TrClSVHbyAUWuYZk63DT2dVK2FUU2UAh
+ nBZq/a4M5VCiFwNCQyqIztB9Hf72dqHUF1ISVu7UO5jKKf4EZo9+QMnBgK3IsqpRf0GP
+ GZyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=AWfyfXG0clLB30RO72afhGky9uZ0UKn5sAaCFqZ0W6Q=;
- b=i8dnkhBNn/9u92tW4j2rf60/qOIDMclUItpUwikOW3DUbRMeohT6JAzxri/0EiyChI
- Qf7+kQwJY5c6LYE+yXEKoddVw5nsOjUQF9i7vnLSkXC4TCDvvk7cTMurdPpVtFkHzDzB
- CrzI8/BROppr+dUZnpy7V7qSXKH4URPqnjh8JOVScTQH2bhMKjvszELhfu7D7Me3fj5k
- p7XAz1pHqiUpGNe8TwQl2RQwe7QWjM33QVJrIdtAd/MA0w+9a1KwQjvYHv2Xky8X1OJD
- HT3IJoSeHzJUc74Qjju+1RZaWl6u19i/TVS2umnLoPvQ6lgJzXb6BRIT08jWI2Lo1B0i
- PzDA==
-X-Gm-Message-State: ACgBeo3RMHiLeApOIYjQEOxW1txeJw4aLdf7jjigDZeI6PmkRmxEffgm
- PXJbZAJtbDjx6kZh0U+c5hh6+w==
-X-Google-Smtp-Source: AA6agR7EG4Q2El3vFtdz/pT3m56vcu8GDF9LJACR8bUc5ai3PJHc+uAlPbehlYFdGA0wWhKpDOzMMQ==
-X-Received: by 2002:a17:90a:2948:b0:1f3:1b42:a810 with SMTP id
- x8-20020a17090a294800b001f31b42a810mr404190pjf.203.1659039898237; 
- Thu, 28 Jul 2022 13:24:58 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:d1a3:8e57:d847:7607?
- ([2602:ae:1549:801:d1a3:8e57:d847:7607])
+ bh=g85C+4aZW1jP0xjdxzWGasnh4qYONvseasJKr8V+Iuk=;
+ b=ywVqRXCe4nQD2PRw4jTXwRdjX/NHuBH7wb3vbF/FLzYnM+rx8GBv0nl4nvJvDLL+ND
+ 0TttAYm5WLqXK7AAhzJ15Bov+UIAoLpmZ1TqsmwcNVI0b1n34rQWeoMeIJ6fhyRHWQGM
+ 073RihZwpBXcnshfGb3weeABe1Y94q67HjrLEPthVVmfKSRzho63tQgc3M1CPx/x7Csm
+ NoR1T4IuvMRfKjHPI8hLQqAV9mOrxKr09wLdC10FQEKLVnGunNtHVk4XcbbQ+Rg3e2f3
+ K18M9O9eqnrKlEJsM9jM4bFWqxOqS+nIGzXP3y5VqX1i6rxLrJXL9tkE4Qf1eKF2jbkk
+ s48w==
+X-Gm-Message-State: AJIora95XVuIpA0TuQqfvpG3Ig7BGz1AKVlVazIgR2rDDSOQa4H2RpDU
+ 4QKWLjFHM8mB3kM6LiQ2e2Y=
+X-Google-Smtp-Source: AGRyM1vUQEdPQId1d8dHmVcLDQLWl8KYMrXpwzotxoBQdQbGZPNmt/V/kO432GuFpuoLBxckSMYTqQ==
+X-Received: by 2002:a05:6870:339a:b0:f2:d065:be1f with SMTP id
+ w26-20020a056870339a00b000f2d065be1fmr196826oae.69.1659040324435; 
+ Thu, 28 Jul 2022 13:32:04 -0700 (PDT)
+Received: from [192.168.10.102] ([179.225.208.46])
  by smtp.gmail.com with ESMTPSA id
- b12-20020a1709027e0c00b0016d3a354cffsm1731343plm.89.2022.07.28.13.24.57
+ h26-20020a9d641a000000b0061c530ec022sm672434otl.79.2022.07.28.13.32.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 13:24:57 -0700 (PDT)
-Message-ID: <3290dbf5-c87b-2dad-598e-cb2cad04bde4@linaro.org>
-Date: Thu, 28 Jul 2022 13:24:55 -0700
+ Thu, 28 Jul 2022 13:32:04 -0700 (PDT)
+Message-ID: <03379d76-a85b-3d1b-c334-ddb02823c418@gmail.com>
+Date: Thu, 28 Jul 2022 17:32:01 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
- EXTRA_CFLAGS
+ Thunderbird/91.10.0
+Subject: Re: [PULL 0/3] ppc queue
 Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
- mlambert@quicinc.com
-References: <20220726191757.30104-1-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220726191757.30104-1-tsimpson@quicinc.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
+References: <20220728165519.2101401-1-danielhb413@gmail.com>
+ <8a7f394c-55ac-09cb-91b0-41f5d4c12fff@linaro.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <8a7f394c-55ac-09cb-91b0-41f5d4c12fff@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:4860:4864:20::29;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,34 +93,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 12:17, Taylor Simpson wrote:
-> The cross_cc_cflags_hexagon in configure are not getting passed to
-> the Hexagon cross compiler.  Set EXTRA_CFLAGS in
-> tests/tcg/hexagon/Makefile.target.
+
+
+On 7/28/22 17:18, Richard Henderson wrote:
+> On 7/28/22 09:55, Daniel Henrique Barboza wrote:
+>>    https://gitlab.com/danielhb/qemu.git  pull-ppc-20220728
 > 
-> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->   tests/tcg/hexagon/Makefile.target | 1 +
->   1 file changed, 1 insertion(+)
+> fatal: couldn't find remote ref pull-ppc-20220728
+> 
+> 
+> Did you forget to push the tag to gitlab?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+I guess I mistyped the credentials when running make-pullreq.sh and the
+tag wasn't pushed. Can you try again? It is pushed now:
+
+https://gitlab.com/danielhb/qemu/-/commits/pull-ppc-20220728
 
 
-r~
+Thanks,
+
+
+Daniel
 
 > 
-> diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-> index 23b9870534..627bf58fe6 100644
-> --- a/tests/tcg/hexagon/Makefile.target
-> +++ b/tests/tcg/hexagon/Makefile.target
-> @@ -20,6 +20,7 @@ EXTRA_RUNS =
->   
->   CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
->   CFLAGS += -fno-unroll-loops
-> +EXTRA_CFLAGS += -mv67 -O2
->   
->   HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
->   VPATH += $(HEX_SRC)
-
+> 
+> r~
 
