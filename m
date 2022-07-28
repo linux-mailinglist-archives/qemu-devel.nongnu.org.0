@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1A75846F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 22:22:43 +0200 (CEST)
-Received: from localhost ([::1]:44436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56CA1584702
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 22:27:51 +0200 (CEST)
+Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHA1q-0004Mg-FJ
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 16:22:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56272)
+	id 1oHA6o-0006iv-5D
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 16:27:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oH9xh-0001vC-Mp
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:18:29 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:56015)
+ id 1oHA45-0004cO-JQ
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:25:01 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45689)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oH9xg-0006MD-0g
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:18:25 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id b10so2804396pjq.5
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 13:18:23 -0700 (PDT)
+ id 1oHA44-000270-0c
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 16:25:01 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ o14-20020a17090a4b4e00b001f2f2b61be5so3269550pjl.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 13:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=OvbDVShkWFuLlTrKjaY61ZJ2IPiCN90fV1g7dlwW2Zg=;
- b=R9zcICx1OpXaasUvWv7r2eRLnWGGdhHGFPRMDLP9gvNlymX/gwcOlVahRkV3Hi3l9t
- WA3531uFdevUHwmE6LReScRtPfNlTeDxZdLINzrcpA7ic2IWDI5+74OysSD5BwCqK9Gk
- QenY9Vw6lpHXGKdNji4JUHixSSJGqTtfqEcBkxqVqJx+ALOkdLz+Xm/lyxhT8tF8Ae9X
- Ybm4xrPl/7zEoywJMHpbkPTT8bd3hdO2LXc0tJYiYES9LMRE1BmaqDO3RS3f4rT+Ul6B
- d92o0ubNTl5vcTp4dWpni9EQEEEkIn4/jIp8VNtm54HGViW1OyWBaSEzrX9T8KzrwJD7
- 0ThQ==
+ bh=AWfyfXG0clLB30RO72afhGky9uZ0UKn5sAaCFqZ0W6Q=;
+ b=ZXWQX6ufTp0anoK9BVOLm3IKblRA9IFZg96Xi5X7PCQufYbvpmrI5jkR0K7B/GjXly
+ +lvwqtylTJbt1fRivPOwOyElDDbC8Mll4NLqr/8dw/CRbJu0B6SpzGoT0yi3Yw1vLb/I
+ XtGjgZra8h3Fg6rsouGjr+aIWI7AgC3sUYlF4+Gdxl+PF9o+yuLlGbBHC2BtDiCmm923
+ 5H+Qnij+QJMVWiMcrLfS5hLLSyZm0qAGO7I6qRaKQ2m3TO685k5STNM7PCrs1gThhiPM
+ wxXMIzP3qAqismb/s0E0Ehi71/BpL82jA84irEGgj9P2PQetN/e/wLYzSqo8litltsoS
+ iKLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=OvbDVShkWFuLlTrKjaY61ZJ2IPiCN90fV1g7dlwW2Zg=;
- b=tJiGMzsZxcjaf6fcHl7aMfp6B2HyxVhCvtyok9t0neMvrU9TYiZT4rUs34hf93pAeb
- VPAabmSigVbgeq8p5J6wKn/fhKUA8VrJq8tdsR7L9ctF+Br0J/xf7qXP9e7NTIt5QiNA
- Tn8MnPs2nvn0ECPaP1juzVfhBp3e9bDqrS91/X9ppsK0T2QK5KJvMk6Ylmk/IdCsVRB7
- /V6FmaAZVJ0eScurbO+WoDhYyf5zsQ8WqUen55B0oGxx+jCvQwMbZ6nlJeQ2P6MYfsIC
- rIttP9YsUpGdrLPgyotu0P0O4C7F5AU2ghE/XhsG8i4R9twQec6v2zO3mklPWxhBsJbn
- 03dA==
-X-Gm-Message-State: ACgBeo2drVkvnza4Ugr1U6MdudiPWQF/E09o1ZbmAX6EmjDkepVqqqxk
- 3np6hQjg/knyoFVoI3j4vOzNRg==
-X-Google-Smtp-Source: AA6agR7a8o7liFWG2rFjjtAThYHLNClNbM1T3n4TxJGD/UzK4TYahklvoxux18PQyKTeQVtzBRkgog==
-X-Received: by 2002:a17:902:930b:b0:16d:191e:cb7c with SMTP id
- bc11-20020a170902930b00b0016d191ecb7cmr485146plb.43.1659039502320; 
- Thu, 28 Jul 2022 13:18:22 -0700 (PDT)
+ bh=AWfyfXG0clLB30RO72afhGky9uZ0UKn5sAaCFqZ0W6Q=;
+ b=i8dnkhBNn/9u92tW4j2rf60/qOIDMclUItpUwikOW3DUbRMeohT6JAzxri/0EiyChI
+ Qf7+kQwJY5c6LYE+yXEKoddVw5nsOjUQF9i7vnLSkXC4TCDvvk7cTMurdPpVtFkHzDzB
+ CrzI8/BROppr+dUZnpy7V7qSXKH4URPqnjh8JOVScTQH2bhMKjvszELhfu7D7Me3fj5k
+ p7XAz1pHqiUpGNe8TwQl2RQwe7QWjM33QVJrIdtAd/MA0w+9a1KwQjvYHv2Xky8X1OJD
+ HT3IJoSeHzJUc74Qjju+1RZaWl6u19i/TVS2umnLoPvQ6lgJzXb6BRIT08jWI2Lo1B0i
+ PzDA==
+X-Gm-Message-State: ACgBeo3RMHiLeApOIYjQEOxW1txeJw4aLdf7jjigDZeI6PmkRmxEffgm
+ PXJbZAJtbDjx6kZh0U+c5hh6+w==
+X-Google-Smtp-Source: AA6agR7EG4Q2El3vFtdz/pT3m56vcu8GDF9LJACR8bUc5ai3PJHc+uAlPbehlYFdGA0wWhKpDOzMMQ==
+X-Received: by 2002:a17:90a:2948:b0:1f3:1b42:a810 with SMTP id
+ x8-20020a17090a294800b001f31b42a810mr404190pjf.203.1659039898237; 
+ Thu, 28 Jul 2022 13:24:58 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:d1a3:8e57:d847:7607?
  ([2602:ae:1549:801:d1a3:8e57:d847:7607])
  by smtp.gmail.com with ESMTPSA id
- a19-20020a656413000000b0040c74f0cdb5sm1378505pgv.6.2022.07.28.13.18.21
+ b12-20020a1709027e0c00b0016d3a354cffsm1731343plm.89.2022.07.28.13.24.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 13:18:21 -0700 (PDT)
-Message-ID: <8a7f394c-55ac-09cb-91b0-41f5d4c12fff@linaro.org>
-Date: Thu, 28 Jul 2022 13:18:19 -0700
+ Thu, 28 Jul 2022 13:24:57 -0700 (PDT)
+Message-ID: <3290dbf5-c87b-2dad-598e-cb2cad04bde4@linaro.org>
+Date: Thu, 28 Jul 2022 13:24:55 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PULL 0/3] ppc queue
+Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
+ EXTRA_CFLAGS
 Content-Language: en-US
-To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
-References: <20220728165519.2101401-1-danielhb413@gmail.com>
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+Cc: f4bug@amsat.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
+ mlambert@quicinc.com
+References: <20220726191757.30104-1-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220728165519.2101401-1-danielhb413@gmail.com>
+In-Reply-To: <20220726191757.30104-1-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,14 +96,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/22 09:55, Daniel Henrique Barboza wrote:
->    https://gitlab.com/danielhb/qemu.git  pull-ppc-20220728
+On 7/26/22 12:17, Taylor Simpson wrote:
+> The cross_cc_cflags_hexagon in configure are not getting passed to
+> the Hexagon cross compiler.  Set EXTRA_CFLAGS in
+> tests/tcg/hexagon/Makefile.target.
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
+>   tests/tcg/hexagon/Makefile.target | 1 +
+>   1 file changed, 1 insertion(+)
 
-fatal: couldn't find remote ref pull-ppc-20220728
-
-
-Did you forget to push the tag to gitlab?
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
+> 
+> diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
+> index 23b9870534..627bf58fe6 100644
+> --- a/tests/tcg/hexagon/Makefile.target
+> +++ b/tests/tcg/hexagon/Makefile.target
+> @@ -20,6 +20,7 @@ EXTRA_RUNS =
+>   
+>   CFLAGS += -Wno-incompatible-pointer-types -Wno-undefined-internal
+>   CFLAGS += -fno-unroll-loops
+> +EXTRA_CFLAGS += -mv67 -O2
+>   
+>   HEX_SRC=$(SRC_PATH)/tests/tcg/hexagon
+>   VPATH += $(HEX_SRC)
+
 
