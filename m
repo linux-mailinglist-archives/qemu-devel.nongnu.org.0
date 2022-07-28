@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC2C58482B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 00:21:30 +0200 (CEST)
-Received: from localhost ([::1]:51194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED23584830
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 00:24:03 +0200 (CEST)
+Received: from localhost ([::1]:53434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHBsn-0000NS-9H
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 18:21:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48516)
+	id 1oHBvG-00022o-IF
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 18:24:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oHBqh-0006wV-7t
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 18:19:19 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52001)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1oHBqf-0000xE-MH
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 18:19:18 -0400
-Received: by mail-wm1-x335.google.com with SMTP id id17so1712157wmb.1
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 15:19:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=cu/wk1tJrX6hhS0STWJo91yqRMhvA82H6r0n+GMeWBM=;
- b=mjj4hNLfmPbL+WU7epl+Xh3LDCq35NBL/3vyys69cQF3i/c2vW+eUqzXZmTsgqwp/Z
- xoagqLgcpOEG/OTwK/Pa9QtqYGg6aeiHibAtk7thg0E1qZmkvZZI3fBkvpCeTmgCB+i2
- xtK2Kiq6GaPkUSyqr58M5+DP0KAnpH7gcooTn3hYF9a2e/23iAPS9zqRH8h3+bi9VlWv
- DxGESoaHld7INsYMCCLQ5GAUIFNC42+ALz0lYbbT/6Q2UwgED8FkmdjU+Irz2JgMhrSy
- +rO35KFLy3dnwKX6VoFX2b8e6fwvr0JkjFfxbZ7VlY0fS7hZA+Oz2OddAcBLVDG08zwd
- xPTA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oHBu2-0000cz-IZ
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 18:22:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oHBtz-00020D-Oq
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 18:22:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659046962;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
+ b=BIo2lvi8DGuaVKEk15UyFYNxeWv8FYpLJe/ezTY0TGmnWHk1ft12ZMXvLtIqqrUyHTJI3Y
+ ECD+Y4AXhcGIPW1oar/23SoKJKLWZYsLdJ0Utd84hQRmUVkOLC5HwwM0yd4jPSiS0/fE38
+ y+JQaZpyjizyBYmQbyij64YgaLABnQA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-37-B6eBW9eVMw6Pp146Yy0Xvw-1; Thu, 28 Jul 2022 18:22:41 -0400
+X-MC-Unique: B6eBW9eVMw6Pp146Yy0Xvw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t12-20020adfba4c000000b0021e7440666bso728327wrg.22
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 15:22:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
- :subject:content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=cu/wk1tJrX6hhS0STWJo91yqRMhvA82H6r0n+GMeWBM=;
- b=fZeW/oHQhtmIPh37x5jTH6wU4grRL4+1bdpbn2/bliyAsoM0N8eEBHIOQREZuj1cOP
- jmsN4npvYEf/y18VJ1R0+jPBmrq75BkvOG78K7adGiRWmHNIRGZk4TS4uEn5sIS6TF2X
- 3C4X0zjqDI2PGuCBAUWlBye/YT7DgsngsLwGPje8NHCTRKczL581oVUEexxGMxtWKMSS
- cNKjcU+MXKhD3646M9LE6xQTPf+r+g4roIX8DdStTKsRg3PW9c1jSY82SeQ2lE6AB/qy
- ZQtig8P6YafJJDWa1Lk6sfuCXM7gZqmu6qfsmvRo7F9J8zf9pDgFfJ5evXmor93bgG+Z
- 0Thg==
-X-Gm-Message-State: AJIora/x6nczsRDd+sMS7igSLc+Gr2p+dR+H7kcgCCe/qQ0v0gecKZK4
- 2HALMQ5rsGrVy/xPSlOO65I=
-X-Google-Smtp-Source: AGRyM1sW3wgd63T9i9ojoQQ6O7pqJM5MD5btyECWPXkUa+eirO5HzeDAToNezu/P9ZmeZJi0B6PMDg==
-X-Received: by 2002:a05:600c:1c96:b0:3a3:10b6:e84f with SMTP id
- k22-20020a05600c1c9600b003a310b6e84fmr829749wms.175.1659046755433; 
- Thu, 28 Jul 2022 15:19:15 -0700 (PDT)
-Received: from ?IPV6:2001:b07:6468:f312:9af8:e5f5:7516:fa89?
- ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.googlemail.com with ESMTPSA id
- p5-20020a5d48c5000000b0020e6ce4dabdsm156014wrs.103.2022.07.28.15.19.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 15:19:14 -0700 (PDT)
-Message-ID: <d1417e91-1fb6-5f25-8c4a-2340b3da9f9b@redhat.com>
-Date: Fri, 29 Jul 2022 00:19:12 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] Hexagon (tests/tcg/hexagon) add compiler options to
- EXTRA_CFLAGS
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, f4bug@amsat.org, ale@rev.ng, anjo@rev.ng,
- bcain@quicinc.com, mlambert@quicinc.com
-References: <20220726191757.30104-1-tsimpson@quicinc.com>
+ bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
+ b=6XyCeQhL22dmgLyWC7XHMsvUwUEtFcjXSU+4Z4aS+A9TFNmaTkQvnBBsZG1adyuApi
+ yQrHyr8M69knfy+SalHBbneZ13upVbOnhrYjBq3NBCy2cYIczSe7E76209oLte+2Pzv/
+ VQpAiw9JbhTqr+Cfp2jyfDe9xy3mLXXf7ipx0A0x+6/RRS1BxyXAXfC3NY97jv62OYa8
+ kRLy0L2ghCXibev55jcN4ohG9dbKQMjFU1AgNBOncX/wI/Z/jDac3D1OtyvWlrGdDGTV
+ fijjxpzanPDNeJWPS0EOckz0R2TgJmf+1vqSDv01vSeaPCXn7ehJ8bEdAsJ7LLa52LeS
+ k6qQ==
+X-Gm-Message-State: ACgBeo17rjQAqHqOzxsE+XzJ458DMG1RPFmMHyVJwJlem5Fv7Y3YgtCH
+ XzcpU5Zi576jqEX4nhRDiq7U+Qn9F3PXDpfmUC6MNlF81XztaU3adxLbq5mlbqrTtNHWsWnyxxf
+ gfwQPCavuJ81OzUocwr1MJN5m2iFP/dPRUxXcFJuGG8KPsW8iSOFDMwNQqs2MCZ3rGXk=
+X-Received: by 2002:adf:f3cb:0:b0:21e:4cce:b620 with SMTP id
+ g11-20020adff3cb000000b0021e4cceb620mr568507wrp.7.1659046959721; 
+ Thu, 28 Jul 2022 15:22:39 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7vSI6GgWSLGf0lwTnPlrbfXMVdOLVJknHQmo7WivJlbKsqgB+aukgPMZOcUbT1ilIAvcdVIw==
+X-Received: by 2002:adf:f3cb:0:b0:21e:4cce:b620 with SMTP id
+ g11-20020adff3cb000000b0021e4cceb620mr568497wrp.7.1659046959467; 
+ Thu, 28 Jul 2022 15:22:39 -0700 (PDT)
+Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
+ o9-20020a05600c4fc900b003a31c4f6f74sm7774150wmq.32.2022.07.28.15.22.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jul 2022 15:22:38 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <20220726191757.30104-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org,
+	Taylor Simpson <tsimpson@quicinc.com>
+Subject: [PATCH] configure: pass correct cflags to container-based cross
+ compilers
+Date: Fri, 29 Jul 2022 00:22:37 +0200
+Message-Id: <20220728222237.307698-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
+MIME-Version: 1.0
+Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,16 +97,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/26/22 21:17, Taylor Simpson wrote:
-> The cross_cc_cflags_hexagon in configure are not getting passed to
-> the Hexagon cross compiler.  Set EXTRA_CFLAGS in
-> tests/tcg/hexagon/Makefile.target.
-> 
-> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
-> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
-> ---
+probe_target_compiler returns nonempty $target_cc for installed toolchains
+and $container_cross_cc for container-based toolchains.  In both cases
+however the flags (coming from $cross_cc_cflags_${target_arch}) must be
+in $target_cflags.
 
-The bug applies to all targets, I am going to post a patch to fix it.
+Therefore, do not clear them prior to returning from probe_target_compiler.
 
-Paolo
+Reported-by: Taylor Simpson <tsimpson@quicinc.com>
+Fixes: 92e288fcfb ("build: try both native and cross compilers", 2022-07-08)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/configure b/configure
+index c4c02b8438..72ab03f11a 100755
+--- a/configure
++++ b/configure
+@@ -2173,7 +2173,6 @@ probe_target_compiler() {
+     build_static=
+     target_cc=
+     target_ccas=
+-    target_cflags=
+     target_ar=
+     target_as=
+     target_ld=
+-- 
+2.36.1
+
 
