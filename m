@@ -2,63 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8400583B13
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:19:07 +0200 (CEST)
-Received: from localhost ([::1]:49394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D48583B02
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:12:33 +0200 (CEST)
+Received: from localhost ([::1]:41344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGzfe-0001EW-Bm
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:19:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53460)
+	id 1oGzZH-00042p-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:12:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGz39-0005dU-HB
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:39:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24850)
+ id 1oGz7h-00086z-3W
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:44:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oGz36-0003Nj-FR
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:39:17 -0400
+ id 1oGz7b-00047F-SV
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 04:43:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658997554;
+ s=mimecast20190719; t=1658997835;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WnVUIA0DRZpIbhGtGtkeqarf4EvBx7FuPQCmg18jULI=;
- b=hX0eVyjLntjA3uBe3y9tNlIdfs6zJ0LQ0ptjNwvDX6t3OAMPSF+F8vZd+Dc1mdsxAefMlW
- VpJxwK/pKxTqEHJ2TFXJ9tTXAhnDBGICCcF3tDAa7Q/Hv80g3gx1rLfUZcoB14jTBP8tdR
- cTfgiJGo5zMCGD7D3wbJCLefKjv+A2o=
+ bh=DKNOBGTGACsgOQZJS4Zl38xeuF7YIi0IINaUI035qwg=;
+ b=XoqsbnOCYFbvRd6Mh4p2E/MT95j8AxzJD5Un7SHI62icdA5JcQwuawnP1yYEXvm4msjuQd
+ mFuukrBRYpcCVIZys48Xc+vAZqZk2Q0f9hKRvk/geSy5Rws7U7+dayDusqeqB2VWH8+et0
+ naYCRX9CJT4CQ6+dS0v0wz4QSnujWeg=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-376-0dMNigzdPMmvtFOHRBh3Dg-1; Thu, 28 Jul 2022 04:39:12 -0400
-X-MC-Unique: 0dMNigzdPMmvtFOHRBh3Dg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-322-gma4at5XNbCpNDqACChqpg-1; Thu, 28 Jul 2022 04:43:46 -0400
+X-MC-Unique: gma4at5XNbCpNDqACChqpg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 56AD01C05ABE;
- Thu, 28 Jul 2022 08:39:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C5002806AB0;
+ Thu, 28 Jul 2022 08:43:46 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.211])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DD08A1415118;
- Thu, 28 Jul 2022 08:39:11 +0000 (UTC)
-Date: Thu, 28 Jul 2022 09:39:06 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DF5A31121314;
+ Thu, 28 Jul 2022 08:43:44 +0000 (UTC)
+Date: Thu, 28 Jul 2022 09:43:41 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Cc: qemu-level <qemu-devel@nongnu.org>
-Subject: Re: When create a new qemu fork, can not run pipeline, what I need
- to do?
-Message-ID: <YuJLKn8y7LrjnBjK@redhat.com>
-References: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Lucas Mateus Castro(alqotel)" <lucas.araujo@eldorado.org.br>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>
+Subject: Re: [RFC PATCH 8/8] tests/docker: Selective line reading by python
+ script
+Message-ID: <YuJML2PaiIRE2vGU@redhat.com>
+References: <20220727163632.59806-1-lucas.araujo@eldorado.org.br>
+ <20220727163632.59806-9-lucas.araujo@eldorado.org.br>
+ <CAAdtpL6=AZkgs7rLGGxwmnyaB6WPDXdUwN2Cj4unZTkkci_YZQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAE2XoE_Ki5QJSH9LNkFOzOwMFJdS=y6=bb2g=9ODawuFymADdA@mail.gmail.com>
+In-Reply-To: <CAAdtpL6=AZkgs7rLGGxwmnyaB6WPDXdUwN2Cj4unZTkkci_YZQ@mail.gmail.com>
 User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
@@ -84,24 +92,109 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 27, 2022 at 07:20:51PM +0800, 罗勇刚(Yonggang Luo) wrote:
-> ···
-> Pipeline cannot be run.
+On Wed, Jul 27, 2022 at 11:20:56PM +0200, Philippe Mathieu-Daudé wrote:
+> +Erik/Daniel
 > 
-> No stages / jobs for this pipeline.
-
-No jobs are created until you set 'QEMU_CI=1', which creates jobs and
-lets them be manually started, or set 'QEMU_CI=2' which creates jobs
-and runs them all immediately. Please see:
-
-  docs/devel/ci-jobs.rst.inc
-
-
-> The form contains the following warning:
+> On Wed, Jul 27, 2022 at 6:37 PM Lucas Mateus Castro(alqotel)
+> <lucas.araujo@eldorado.org.br> wrote:
+> >
+> > Building some images failed on ppc64le because the dockerfile tried to
+> > install some packages that are only available in x86 and arm64, to solve
+> > this while still having those packages be available in those architectures
+> > a comment was put before the installation command to instruct the python
+> > script into ignoring those lines for some architectures (in this case
+> > ppc64le)
+> >
+> > Overall I'm not a big fan of the way I solved this problem, so I'd like
+> > to know if anyone has a better way to make these dockerfilse work in
+> > PPC64LE.
+> >
+> > For context the base images used here are available in PPC64LE but some
+> > of the packages installed are not (in alpine's case it's XEN, which is
+> > only available to x86 and ARM), so this patch create a ignore_list which
+> > is set on a per-architecture basis, and any packages in a dockerfile in
+> > this ignore_list will not be copied to the temporary dockerfile used in
+> > the docker command.
 > 
-> 121 warnings found: showing first 25
+> Shouldn't this be done on lcitool side?
+> (https://gitlab.com/libvirt/libvirt-ci/-/tree/master/lcitool)
 
-The warnings are harmless since we don't use merge requests.
+Yes, to fix this properly we'll need to identify which packages are
+architecture specific, and create separate 'RUN' commands that skip
+those packages on arches in question. Doable, but not entirely easy.
+
+> 
+> > Signed-off-by: Lucas Mateus Castro(alqotel) <lucas.araujo@eldorado.org.br>
+> > ---
+> >  tests/docker/docker.py                 | 15 ++++++++++++---
+> >  tests/docker/dockerfiles/alpine.docker |  2 ++
+> >  2 files changed, 14 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+> > index d0af2861b8..9b962d1c78 100755
+> > --- a/tests/docker/docker.py
+> > +++ b/tests/docker/docker.py
+> > @@ -14,6 +14,7 @@
+> >  import os
+> >  import sys
+> >  import subprocess
+> > +import platform
+> >  import json
+> >  import hashlib
+> >  import atexit
+> > @@ -207,8 +208,15 @@ def _read_qemu_dockerfile(img_name):
+> >
+> >  def _dockerfile_preprocess(df):
+> >      out = ""
+> > +    ignore_list = []
+> >      for l in df.splitlines():
+> > -        if len(l.strip()) == 0 or l.startswith("#"):
+> > +        if len(l.strip()) == 0:
+> > +            continue
+> > +        if l.startswith("#"):
+> > +            if len(l.split()) >= 3:
+> > +                if l.split()[1] == "ignore":
+> > +                    if platform.processor() in l.split()[2].split(','):
+> > +                        ignore_list += l.split()[3].split(',')
+> >              continue
+> >          from_pref = "FROM qemu/"
+> >          if l.startswith(from_pref):
+> > @@ -219,7 +227,8 @@ def _dockerfile_preprocess(df):
+> >              inlining = _read_qemu_dockerfile(l[len(from_pref):])
+> >              out += _dockerfile_preprocess(inlining)
+> >              continue
+> > -        out += l + "\n"
+> > +        if not any(x in l.split() for x in ignore_list):
+> > +            out += l + "\n"
+> >      return out
+> >
+> >
+> > @@ -330,7 +339,7 @@ def build_image(self, tag, docker_dir, dockerfile,
+> >          tmp_df = tempfile.NamedTemporaryFile(mode="w+t",
+> >                                               encoding='utf-8',
+> >                                               dir=docker_dir, suffix=".docker")
+> > -        tmp_df.write(dockerfile)
+> > +        tmp_df.write(_dockerfile_preprocess(dockerfile))
+> >
+> >          if user:
+> >              uid = os.getuid()
+> > diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+> > index 2943a99730..5cec46d8f2 100644
+> > --- a/tests/docker/dockerfiles/alpine.docker
+> > +++ b/tests/docker/dockerfiles/alpine.docker
+> > @@ -6,6 +6,8 @@
+> >
+> >  FROM docker.io/library/alpine:edge
+> >
+> > +# Lines to by ignored when this file is read by the python script
+> > +# ignore ppc64le,ppc64 xen-dev
+> >  RUN apk update && \
+> >      apk upgrade && \
+> >      apk add \
+> > --
+> > 2.25.1
+> >
+> 
 
 With regards,
 Daniel
