@@ -2,69 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77080583827
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 07:36:09 +0200 (CEST)
-Received: from localhost ([::1]:33940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DABC658383B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 07:48:17 +0200 (CEST)
+Received: from localhost ([::1]:39162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGwBs-0002m7-8L
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 01:36:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45120)
+	id 1oGwNb-0006x8-Ga
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 01:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1oGw5g-00085P-O6; Thu, 28 Jul 2022 01:29:44 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43898)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1oGw5d-0001iW-Ir; Thu, 28 Jul 2022 01:29:44 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v17so749449wrr.10;
- Wed, 27 Jul 2022 22:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/JkBbpIWZXcAxve5KK0nrCKA6K831YyKe1c0Yb4Z+OE=;
- b=T1u8//tSiOBcrQeFkWvA/u3dviIw3WzfeVs/04+m95Be5w1TsUWsT4SeOWpcpEaLRo
- SYu9ZQnMtyzWxnWsDOVPeJbnFgHk9c5XvbUB8nqddLAxCX3xxjnJ1uOFX7peQPpiW552
- D6SCMCc02tRRVyCo8arWWEsVNEeWUGeqZxbcs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/JkBbpIWZXcAxve5KK0nrCKA6K831YyKe1c0Yb4Z+OE=;
- b=UtSLSnOvkdEyjClQnDkDB9zWFSU8Xb58jQV4CYAvbtqO2Kq9/4mBdZYudELTiqz4Nx
- ju5yPhZVwfImAfn68bPRXh68Xo3uyotwf8oJOCc/HvC4i+fnf8yyO729sO9JUOacjvEn
- mKSSGocVsEhpBp4iDmmnQjFQPVVEkyQ9qaVHquf8pXTqU97FOfYWxh4Af84RuKoqBMgT
- lKu0hvrjtSoqeWZDtOurIXZq5frIqPa1cabc5uA7fVE6gMbBn+AsJWFTYcWLrlgQsZXm
- cFMZYCudBaGk3Iz/+QKyuy9cMAJb5xwvv9Y7/VB2BS9Prb2+u3fLiNBPJolWs9KNeGpw
- 6rRg==
-X-Gm-Message-State: AJIora8GRxOm9tebkFGq3dFG9iG+yrY4LlXXDfd431+Na1kXC6AN6+vU
- OhqtmjUP/xvDXhH7g/9nrjbkl9yqfWtLh85pdH8=
-X-Google-Smtp-Source: AGRyM1vqEMpxyavMUsVtDfv6yjQZLxFuEKIqHJ95jqZIKrd2ycVeYa5Q37c4CecbCGizifZS9XDyRZe0KHGcnFxsQVA=
-X-Received: by 2002:a5d:64c7:0:b0:21d:a743:394 with SMTP id
- f7-20020a5d64c7000000b0021da7430394mr15579249wri.628.1658986179174; Wed, 27
- Jul 2022 22:29:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1oGwFF-0003cl-1Y
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 01:39:39 -0400
+Received: from mail-sn1anam02on2045.outbound.protection.outlook.com
+ ([40.107.96.45]:15956 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <elic@nvidia.com>) id 1oGwFB-0006bQ-PC
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 01:39:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kwukzjqcE9Fwjp4wKcAOiANKVT9GNeXVr06AcyHtlBstj33kHoukyKGRVv7Us9/UA8GjXb1KgIavgATAjlE5hVs1TCEseqnRqGLALEoACzpfoYZ4jEFlKiiX+JqyJVhvn3i8bO91tZ3B1pmHJwP2unQBMWWBB7sHtPz8ebxYPiJT1H1GR3zCCVd5TEqkHT3e2Q7R41YoppjaNVKWAfKTtDH5RBxjlIpZ1QAqAvyeqZp4Zxoj4pRYgsQioC7yHMK8FfYDnYx/LH5HxKWToJD4ete59N6Qun8HRqwdkvpi9uFqn6qdtqK9BVvXuVMmeBKZTBR0z6wEI/k6ioEVpws/hQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CYqgbzsXZt1knYs2yEmBb9g5sLDkWQ5WnSz5q0RRcQ8=;
+ b=QZEUZz6RzjdTmHEXoLZyiyFkvBXk4TL+9bj/l+duOGOJtD0JzuBoZKZuB7aIN8HZyuSqdNVKnT73ipTeR5QsUvc3rdRMa/uV/1dmaMltq+7ukCIxS9UhnDbCbfSZmIwtOWknoZ7fl3GfPwaZdDMvWVYeQUlTuBwuPfzw7iIuGdwHtQWZ7rEWW5Q8NC1rdFJD82ZDPJ0PoAP0/Ecp9WaHTK3ksBiM53K3gSnNzLNaQGP9fstlC90Xu5BxEWM/nYcIdvDTfnohd9fIdiCW28vIG+P+3Ng2Xbe6lroNncHbPsqgAwm1CaVZ7y0hm+D1TOl0HOFIqHXKZXNMnHticoU3Og==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CYqgbzsXZt1knYs2yEmBb9g5sLDkWQ5WnSz5q0RRcQ8=;
+ b=XhdarQHamCYX3qnLG5hHIZL3TVUymMMx0HwdJbhsnYb0H0c6cLTQ5T1LGYJio3P6G4HeUIMOCm/tP/1sB5cXub/vFbRf3+eCJdt+OrEOtbmAfyV0BfjP6cFWr2pnBjap6cjAVR+9htPZMK7b7dhevJCkv4qdZkUZj1V4czlxeiWuXExJJMdkkKEK/5AU6o8Mnd1AR0D9rW536begwLRJrSugW/tZdxJCGfIMmmA6FLvke9yyY3cvbW+6ZenBSatLoi5yTyIwhSXECeuuNK5rhw3++1W/CgElaWZlc0HVrZrYdcNfrozXTbULyuZy7nRhdFd8aJvi3Uu1GRgfZdKHhQ==
+Received: from DM8PR12MB5400.namprd12.prod.outlook.com (2603:10b6:8:3b::12) by
+ MW6PR12MB7069.namprd12.prod.outlook.com (2603:10b6:303:238::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Thu, 28 Jul
+ 2022 05:39:27 +0000
+Received: from DM8PR12MB5400.namprd12.prod.outlook.com
+ ([fe80::54d4:93f6:1cfa:948a]) by DM8PR12MB5400.namprd12.prod.outlook.com
+ ([fe80::54d4:93f6:1cfa:948a%4]) with mapi id 15.20.5482.006; Thu, 28 Jul 2022
+ 05:39:27 +0000
+From: Eli Cohen <elic@nvidia.com>
+To: Jason Wang <jasowang@redhat.com>
+CC: Eugenio Perez Martin <eperezma@redhat.com>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "virtualization@lists.linux-foundation.org"
+ <virtualization@lists.linux-foundation.org>
+Subject: RE: VIRTIO_NET_F_MTU not negotiated
+Thread-Topic: VIRTIO_NET_F_MTU not negotiated
+Thread-Index: AdibctjDcRi2EWKMSzmmrEX7B4yyOAAAkbGAAAAkGdAAAGTyoAAB7gYAACC7v/AAAsI8gAAAarJAAAVbDgABV8vWUAAo8zOAAAcmxcA=
+Date: Thu, 28 Jul 2022 05:39:27 +0000
+Message-ID: <DM8PR12MB5400DBF0BFFF104940BB4A45AB969@DM8PR12MB5400.namprd12.prod.outlook.com>
+References: <DM8PR12MB5400869D5921E28CE2DC7263AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <20220719093841-mutt-send-email-mst@kernel.org>
+ <DM8PR12MB5400F967A710B1151AD5132CAB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <DM8PR12MB5400AB08EE51E6BF05EEBDE2AB8F9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWc0M4O8Rr2jR4L_myPd_VmxkYjHTnwdxQFAf3N_hZw_3g@mail.gmail.com>
+ <DM8PR12MB540033DA1293BA23E29148EAAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWfOS9nCBNeborhTdOXAnmZX9XwRF=2E0aphuHbqr352CA@mail.gmail.com>
+ <DM8PR12MB54005AB1DE4617493645D2CBAB8E9@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CAJaqyWczrvaaookrQE5=6mTABS-VmJKF6iY+aO3ZD8OB4FumRA@mail.gmail.com>
+ <DM8PR12MB54001D7DFB29EF048CCD04CCAB979@DM8PR12MB5400.namprd12.prod.outlook.com>
+ <CACGkMEtDu9D2ovmWkKEuxqg5POqvMgYNK1_MHWCGMYOG7_t7Qg@mail.gmail.com>
+In-Reply-To: <CACGkMEtDu9D2ovmWkKEuxqg5POqvMgYNK1_MHWCGMYOG7_t7Qg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 45a2e83c-6a9b-4b90-4ea2-08da705b898b
+x-ms-traffictypediagnostic: MW6PR12MB7069:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: KL9ApODyEPKfUHRLbG899uvHhjh6rIGkvCfsZEjeHzyzSzhXziTS9bLFC4yZ93EFyMZtf1/tM07zGIx8vR8YPCL1Pj4AkSIUVSqySR6ULvBAaHyekPSyEAkQJzhauU6vpZ486zrtG79jjSOwhbCQPgGSt+Qd8Qa9toxPkkff4JDmlUAgsZcWtD/dVWRPgZRfTtZSDfKqDNWluUw1mM8AjsqVOKritKo32mJgyqq0C+Hr2nJgOyXzhzU0kw8MCnI4vc1Exh60JXdqXFlXNvB1lijst+ex8Y6wnzPh8oa6QfK9l724fFgSrUOWAqQE++gZuUuG25rMA2EoMTWHZNFZhANjmGZtwfW1EuCzQMm1hRmE3LkDnLGWgBLTFt0FBN3jgI0RWgtQxp055YKoE8OFMUUGUvezwC17lbG8VG+4MMrkcgDOdKmY8AAnRixagQb9Q9KuIlffbAiylpPnSW9lDlRWRXOR10admGk0WkZbTIDL9Zo3on31gk7ATPdSi3fJEFokCgqoBuWG8kvyh0g5zCsUxG9g8L2FTOxmvcKEAqOOZAUX69bGM8lXZF6nvu6Es/IIMY42RzQ7/gQnosHW4EFNp9be34TAtH+go6z4czjS/+5D+veNkEu8vseV6FFR+12JnJmw59wLfbVqjFlWey0aFf5tytTNVLu2pcLD1dZipPoPLIryOEzrJqvcOeWN4snKqEwZg8kDibxWbgaTRllPGjLzxblf25jFH3AHKgq1J4F/CRyyY3uAGAzIE6u+xKSfy+ojIyaMJ2osfWxp5aDVhOrwSpx1mT1wjkGBLaHdVA2/hmNzgkRljz/tBLxt
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM8PR12MB5400.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(396003)(346002)(366004)(39860400002)(136003)(376002)(41300700001)(64756008)(8676002)(4326008)(66476007)(2906002)(66556008)(76116006)(38100700002)(66946007)(66446008)(478600001)(55016003)(8936002)(52536014)(33656002)(5660300002)(71200400001)(7116003)(6916009)(54906003)(122000001)(316002)(186003)(6506007)(7696005)(83380400001)(86362001)(53546011)(26005)(9686003)(38070700005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WHhhdzBwaWZITTM2MFhiblVFdHUrazVEVXN5ZDVabFN0aUM5MU55TTdVTGxI?=
+ =?utf-8?B?Vyt6WFNyclJZWFVjc3FMQTJpR0R3MU5rQ1IrVEtUQ3VtU3BDR0lIS1hBSzg5?=
+ =?utf-8?B?VVAxUWUyeFBjTiszOExIbEdXcDY2N1dacExYbE40eU1nMGgvSVM2ZytCRDEr?=
+ =?utf-8?B?TEtDdmc3UU5FYk9OWk5qRjRxNFd6UXlFWTQzNnEzZHZzbmlldEVwWTh0L1R2?=
+ =?utf-8?B?L0JsWG1UV0ZRS1NnYjlGcUVCOWtnUENLK1NxUS9vN01yMnlRakFCZkVtaGxo?=
+ =?utf-8?B?Uk51K2NjSnBYNExha0VONCtZRXZNYjJFdlFRTTRPOWxkSGRYZHVsaUJhZHBV?=
+ =?utf-8?B?MnhwTm5hZm5kTnNCMU15aTZhZDlkV05KYTJkMWVybzRBei9hY3R1MmJ5UDBC?=
+ =?utf-8?B?a0QxQWhtNDdGQ2Q0dXNFUGh0MDM1NVgyVUx0K2RCNHNFQmUxbU02MG45eVl5?=
+ =?utf-8?B?bG5HODR5dFJ5SG95TTBJYWRsaGtBZ1VWVFVPdnRGRExnVno1VnZNMUE0a1Ri?=
+ =?utf-8?B?SS9hd0Z4NkREbHNUWUhlL3VRbFBGWGFLajdzWVJ5SGt1eGdxY040V2tIUFZB?=
+ =?utf-8?B?THZvUUtmSlV2VFFTelJKSk80bEUyT1dFdm5OVXE3Q1dSNDhSOFQ3U1BUVFZI?=
+ =?utf-8?B?Z3pLQjZJNzBtYWZ2bGlnTnpLSjl1bWY1WGxKODRFNGVNd0p0NWttM0Q5Tlhp?=
+ =?utf-8?B?RFVrbTZGSW5EUTJkWDZBTlJXeXpkZGhXZjROZFhPSDRSUEhJdEoxbDRWTXlo?=
+ =?utf-8?B?WGJ4Ly9QeGRXY1Jkb2d0dUdSS1U2Y09iZnB5akRvcVJsT0NZVXFhUENPYTJH?=
+ =?utf-8?B?N1hra3dnTWJiQ1dHdmZYQnZNVFpLYm9aTE5rRWZPQjNScFdMUTJ1TTA1SWtR?=
+ =?utf-8?B?dE9FaWRPSUZ1V2l2Vy9LU1Z2ZGVzblUxWEZXdUJsVUZhWnBQM25ick5FSXdF?=
+ =?utf-8?B?QmJ0b1ZFRDNqcGdacXcyRHJaR0tiZjVtblRtNDVObVVzMEpZRkdCbmNYcWVK?=
+ =?utf-8?B?RGg4bmlhNjZGTm9MTlEyNk4zT2FqYlVQaDZCWGN5Q2p0bnV0WFUzdXhobjk3?=
+ =?utf-8?B?MzlDa3NLRDJ0WWlZeWNNYzhPSkRsbHlkT3pCNmtwd0MvUXgrQWpTK0kyb2Rm?=
+ =?utf-8?B?bXFWdFVLNTJnaThQT0VVY2ZnTTZkWXExblcweWluYnprbXlleEdKNXF4Witq?=
+ =?utf-8?B?UzBBMUpVMGx6UzU0d0szSnU1eE1ZYm5uamgrNVZydjBkTGRINXQyelJ0WnN4?=
+ =?utf-8?B?d3Ira3JMbnRxK3g3Q3YrVitwMWVqWnZZeVdjV2twSXQySmU3ZkZWcWRJUVBl?=
+ =?utf-8?B?YzlMNnZpK2hOQXZFYVJkWkpnUWs2ZVVQSmg4NTVJRnE3d0lra1NxM1FrQ0s3?=
+ =?utf-8?B?eHZ0czdaZGJoVG40cTYvZlExc21DSUZVTldZU0Y5VWc1VjhBOWNvN0NiemJa?=
+ =?utf-8?B?dmdzRElPcGFjUFJJWTN2S2NQSGZEMzNpM0NlZWxOQnV5TDJ0Y1FMUDVxVFJU?=
+ =?utf-8?B?MWcrUG14OVhyTU5TaFVKZ2pWck9vTk9xR2NqZHN6M2N6YzZFSjVEM2doVEJR?=
+ =?utf-8?B?eWFRNzBzWVk2ZjZaRE4vTFNMUWFXSWFnNGFFajNreVQ3NE15UnE1NG1NNU5H?=
+ =?utf-8?B?ZWE3THZNaXBXQmhkTno3dm9ibVpkNzZVK25DNWNrVTJkUzFBZHJVL3J3cmsw?=
+ =?utf-8?B?Q21wNGRzaWNxMTdUSnVhRU9HcFRnaGtWeHBsQ29sMlNOZ0tzY3ZQM0pSbi9o?=
+ =?utf-8?B?dkxSUHYxa3k5UHAvQVRMTFk1MUpPMnhrVkN4VkdyS1VjclpoMlgra3JlRTNY?=
+ =?utf-8?B?MXdWTmw4bmgzeHpVOVJpS2ZyUE4rQVo1Z0lpRC9SUlZTelFFWFFudlhDVnI1?=
+ =?utf-8?B?RDNiTi9nc2tSVE1DemZ5Zi9QYnU2cmNFa1IyU0lqZDdFTnMwWEZrVFJLd2tv?=
+ =?utf-8?B?azdBTnQyQzM1NUpJUjRFa2RRTmR5cENacit0L0NBZ2UxUnJZd0NzTUVoVHJ0?=
+ =?utf-8?B?MXZPem5oRGU4QkZ1K21vQ2ZicVVHbm0raTJlSFlHWTlVNDhvck1ZL0tkU3I5?=
+ =?utf-8?B?MzZhVzFpNXhhTFVScUorNk5UMnRqclliY2tJN2RzczdyNG16eWVZUTNaVlNG?=
+ =?utf-8?Q?OR0A=3D?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20220720133352.904263-1-npiggin@gmail.com>
- <5df2f253-7b74-1553-348c-370b78876c33@gmail.com>
-In-Reply-To: <5df2f253-7b74-1553-348c-370b78876c33@gmail.com>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 28 Jul 2022 05:29:26 +0000
-Message-ID: <CACPK8XeZm2_Thk7cJEWCEvVFGdpqr+VpMcrQ8DykGMRRnbozdw@mail.gmail.com>
-Subject: Re: [PATCH v3] target/ppc: Implement new wait variants
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>, qemu-ppc@nongnu.org, 
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?V=C3=ADctor_Colombo?= <victor.colombo@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=joel.stan@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5400.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45a2e83c-6a9b-4b90-4ea2-08da705b898b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2022 05:39:27.7976 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: PdjZFh5XJ2jmVTJPMZ8plVp+stMiZXm661Rj463Wo2dSIpLNr6jyo4sUZzJmHlTp
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB7069
+Received-SPF: softfail client-ip=40.107.96.45; envelope-from=elic@nvidia.com;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,225 +156,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jul 2022 at 13:49, Daniel Henrique Barboza
-<danielhb413@gmail.com> wrote:
->
->
->
-> On 7/20/22 10:33, Nicholas Piggin wrote:
-> > ISA v2.06 adds new variations of wait, specified by the WC field. These
-> > are not all compatible with the prior wait implementation, because they
-> > add additional conditions that cause the processor to resume, which can
-> > cause software to hang or run very slowly.
->
-> So I suppose this is not a new feature, but a bug fix to remediate these hangs
-> cause by the incompatibility of the WC field  with other ISA versions. Is
-> that right?
-
-That's the case. Nick has some kernel patches that make Linux use the
-new opcode:
-
- https://lore.kernel.org/all/20220720132132.903462-1-npiggin@gmail.com/
-
-With these applied the kernel hangs during boot if more than one CPU
-is present. I was able to reproduce with ppc64le_defconfig and this
-command line:
-
- qemu-system-ppc64 -M pseries,x-vof=on -cpu POWER10 -smp 2 -nographic
--kernel zImage.pseries -no-reboot
-
-Qemu will exit (as there's no filesystem) if the test "passes", or
-hang during boot if it hits the bug.
-
-There's a kernel here with the patches applied in case someone else
-wants to test:
-
-https://ozlabs.org/~joel/zImage.pseries-v5.19-rc8-wait-v3
-
-Tested-by: Joel Stanley <joel@jms.id.au>
-
-Because of the hang it would be best if we merged the patch as a fix
-sooner rather than later.
-
-Cheers,
-
-Joel
-
-> I'm explicitly asking for it because if it's a bug fix it's ok to pick it
-> during the freeze. Especially here, given that what you're doing is mostly
-> adding no-ops for conditions that we're not covering.
->
-> >
-> > ISA v3.0 changed the wait opcode and removed the new variants (retaining
-> > the WC field but making non-zero values reserved).
-> >
-> > ISA v3.1 added new WC values to the new wait opcode, and added a PL
-> > field.
-> >
-> > This implements the new wait encoding and supports WC variants with
-> > no-op implementations, which provides basic correctness as explained in
-> > comments.
-> >
-> > Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
-> > ---
-> > v3:
-> > - Add EXTRACT_HELPERs
-> > - Reserved fields should be ignored, not trap.
-> > - v3.1 defines special case of reserved PL values being treated as
-> >    a no-op when WC=2.
-> > - Change code organization to (hopefully) be easier to follow each
-> >    ISA / variation.
-> > - Tested old wait variant with Linux e6500 boot and verify that
-> >    gen_wait is called and takes the expected path.
-> >
-> > Thanks,
-> > Nick
-> >
-> >   target/ppc/internal.h  |  3 ++
-> >   target/ppc/translate.c | 96 ++++++++++++++++++++++++++++++++++++++----
-> >   2 files changed, 91 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-> > index 2add128cd1..57c0a42a6b 100644
-> > --- a/target/ppc/internal.h
-> > +++ b/target/ppc/internal.h
-> > @@ -168,6 +168,9 @@ EXTRACT_HELPER_SPLIT_3(DX, 10, 6, 6, 5, 16, 1, 1, 0, 0)
-> >   /* darn */
-> >   EXTRACT_HELPER(L, 16, 2);
-> >   #endif
-> > +/* wait */
-> > +EXTRACT_HELPER(WC, 21, 2);
-> > +EXTRACT_HELPER(PL, 16, 2);
-> >
-> >   /***                            Jump target decoding                       ***/
-> >   /* Immediate address */
-> > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> > index 1d6daa4608..e0a835ac90 100644
-> > --- a/target/ppc/translate.c
-> > +++ b/target/ppc/translate.c
-> > @@ -4066,12 +4066,91 @@ static void gen_sync(DisasContext *ctx)
-> >   /* wait */
-> >   static void gen_wait(DisasContext *ctx)
-> >   {
-> > -    TCGv_i32 t0 = tcg_const_i32(1);
-> > -    tcg_gen_st_i32(t0, cpu_env,
-> > -                   -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
-> > -    tcg_temp_free_i32(t0);
-> > -    /* Stop translation, as the CPU is supposed to sleep from now */
-> > -    gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
-> > +    uint32_t wc;
-> > +
-> > +    if (ctx->insns_flags & PPC_WAIT) {
-> > +        /* v2.03-v2.07 define an older incompatible 'wait' encoding. */
-> > +
-> > +        if (ctx->insns_flags2 & PPC2_PM_ISA206) {
-> > +            /* v2.06 introduced the WC field. WC > 0 may be treated as no-op. */
-> > +            wc = WC(ctx->opcode);
-> > +        } else {
-> > +            wc = 0;
-> > +        }
-> > +
-> > +    } else if (ctx->insns_flags2 & PPC2_ISA300) {
-> > +        /* v3.0 defines a new 'wait' encoding. */
-> > +        wc = WC(ctx->opcode);
->
->
-> The ISA seems to indicate that WC=3 is always reserved in both ISA300 and
-> ISA310. I believe you can check for WC=3 and gen_invalid() return right
-> off the bat at this point.
->
->
-> Thanks,
->
->
-> Daniel
->
->
->
-> > +        if (ctx->insns_flags2 & PPC2_ISA310) {
-> > +            uint32_t pl = PL(ctx->opcode);
-> > +
-> > +            /* WC 1,2 may be treated as no-op. WC 3 is reserved. */
-> > +            if (wc == 3) {
-> > +                gen_invalid(ctx);
-> > +                return;
-> > +            }
-> > +
-> > +            /* PL 1-3 are reserved. If WC=2 then the insn is treated as noop. */
-> > +            if (pl > 0 && wc != 2) {
-> > +                gen_invalid(ctx);
-> > +                return;
-> > +            }
-> > +
-> > +        } else { /* ISA300 */
-> > +            /* WC 1-3 are reserved */
-> > +            if (wc > 0) {
-> > +                gen_invalid(ctx);
-> > +                return;
-> > +            }
-> > +        }
-> > +
-> > +    } else {
-> > +        warn_report("wait instruction decoded with wrong ISA flags.");
-> > +        gen_invalid(ctx);
-> > +        return;
-> > +    }
-> > +
-> > +    /*
-> > +     * wait without WC field or with WC=0 waits for an exception / interrupt
-> > +     * to occur.
-> > +     */
-> > +    if (wc == 0) {
-> > +        TCGv_i32 t0 = tcg_const_i32(1);
-> > +        tcg_gen_st_i32(t0, cpu_env,
-> > +                       -offsetof(PowerPCCPU, env) + offsetof(CPUState, halted));
-> > +        tcg_temp_free_i32(t0);
-> > +        /* Stop translation, as the CPU is supposed to sleep from now */
-> > +        gen_exception_nip(ctx, EXCP_HLT, ctx->base.pc_next);
-> > +    }
-> > +
-> > +    /*
-> > +     * Other wait types must not just wait until an exception occurs because
-> > +     * ignoring their other wake-up conditions could cause a hang.
-> > +     *
-> > +     * For v2.06 and 2.07, wc=1,2,3 are architected but may be implemented as
-> > +     * no-ops.
-> > +     *
-> > +     * wc=1 and wc=3 explicitly allow the instruction to be treated as a no-op.
-> > +     *
-> > +     * wc=2 waits for an implementation-specific condition, such could be
-> > +     * always true, so it can be implemented as a no-op.
-> > +     *
-> > +     * For v3.1, wc=1,2 are architected but may be implemented as no-ops.
-> > +     *
-> > +     * wc=1 (waitrsv) waits for an exception or a reservation to be lost.
-> > +     * Reservation-loss may have implementation-specific conditions, so it
-> > +     * can be implemented as a no-op.
-> > +     *
-> > +     * wc=2 waits for an exception or an amount of time to pass. This
-> > +     * amount is implementation-specific so it can be implemented as a
-> > +     * no-op.
-> > +     *
-> > +     * ISA v3.1 allows for execution to resume "in the rare case of
-> > +     * an implementation-dependent event", so in any case software must
-> > +     * not depend on the architected resumption condition to become
-> > +     * true, so no-op implementations should be architecturally correct
-> > +     * (if suboptimal).
-> > +     */
-> >   }
-> >
-> >   #if defined(TARGET_PPC64)
-> > @@ -6852,8 +6931,9 @@ GEN_HANDLER2(stdcx_, "stdcx.", 0x1F, 0x16, 0x06, 0x00000000, PPC_64B),
-> >   GEN_HANDLER_E(stqcx_, 0x1F, 0x16, 0x05, 0, PPC_NONE, PPC2_LSQ_ISA207),
-> >   #endif
-> >   GEN_HANDLER(sync, 0x1F, 0x16, 0x12, 0x039FF801, PPC_MEM_SYNC),
-> > -GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x03FFF801, PPC_WAIT),
-> > -GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039FF801, PPC_NONE, PPC2_ISA300),
-> > +/* ISA v3.0 changed the extended opcode from 62 to 30 */
-> > +GEN_HANDLER(wait, 0x1F, 0x1E, 0x01, 0x039FF801, PPC_WAIT),
-> > +GEN_HANDLER_E(wait, 0x1F, 0x1E, 0x00, 0x039CF801, PPC_NONE, PPC2_ISA300),
-> >   GEN_HANDLER(b, 0x12, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
-> >   GEN_HANDLER(bc, 0x10, 0xFF, 0xFF, 0x00000000, PPC_FLOW),
-> >   GEN_HANDLER(bcctr, 0x13, 0x10, 0x10, 0x00000000, PPC_FLOW),
->
+PiBGcm9tOiBKYXNvbiBXYW5nIDxqYXNvd2FuZ0ByZWRoYXQuY29tPg0KPiBTZW50OiBUaHVyc2Rh
+eSwgSnVseSAyOCwgMjAyMiA1OjA5IEFNDQo+IFRvOiBFbGkgQ29oZW4gPGVsaWNAbnZpZGlhLmNv
+bT4NCj4gQ2M6IEV1Z2VuaW8gUGVyZXogTWFydGluIDxlcGVyZXptYUByZWRoYXQuY29tPjsgcWVt
+dS1kZXZlbEBub25nbnUub3JnOyBNaWNoYWVsIFMuIFRzaXJraW4gPG1zdEByZWRoYXQuY29tPjsN
+Cj4gdmlydHVhbGl6YXRpb25AbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmcNCj4gU3ViamVjdDog
+UmU6IFZJUlRJT19ORVRfRl9NVFUgbm90IG5lZ290aWF0ZWQNCj4gDQo+IE9uIFdlZCwgSnVsIDI3
+LCAyMDIyIGF0IDI6NTIgUE0gRWxpIENvaGVuIDxlbGljQG52aWRpYS5jb20+IHdyb3RlOg0KPiA+
+DQo+ID4gSSBmb3VuZCBvdXQgdGhhdCB0aGUgcmVhc29uIHdoeSBJIGNvdWxkIG5vdCBlbmZvcmNl
+IHRoZSBtdHUgc3RlbXMgZnJvbSB0aGUgZmFjdCB0aGF0IEkgZGlkIG5vdCBjb25maWd1cmUgbWF4
+IG10dSBmb3IgdGhlIG5ldCBkZXZpY2UNCj4gKGUuZy4gdGhyb3VnaCBsaWJ2aXJ0IDxtdHUgc2l6
+ZT0iOTAwMCIvPikuDQo+ID4gTGlidmlydCBkb2VzIG5vdCBhbGxvdyB0aGlzIGNvbmZpZ3VyYXRp
+b24gZm9yIHZkcGEgZGV2aWNlcyBhbmQgcHJvYmFibHkgZm9yIGEgcmVhc29uLiBUaGUgdmRwYSBi
+YWNrZW5kIGRyaXZlciBoYXMgdGhlIGZyZWVkb20gdG8gZG8NCj4gaXQgdXNpbmcgaXRzIGNvcHkg
+b2YgdmlydGlvX25ldF9jb25maWcuDQo+ID4NCj4gPiBUaGUgY29kZSBpbiBxZW11IHRoYXQgaXMg
+cmVzcG9uc2libGUgdG8gYWxsb3cgdG8gY29uc2lkZXIgdGhlIGRldmljZSBNVFUgcmVzdHJpY3Rp
+b24gaXMgaGVyZToNCj4gPg0KPiA+IHN0YXRpYyB2b2lkIHZpcnRpb19uZXRfZGV2aWNlX3JlYWxp
+emUoRGV2aWNlU3RhdGUgKmRldiwgRXJyb3IgKiplcnJwKQ0KPiA+IHsNCj4gPiAgICAgVmlydElP
+RGV2aWNlICp2ZGV2ID0gVklSVElPX0RFVklDRShkZXYpOw0KPiA+ICAgICBWaXJ0SU9OZXQgKm4g
+PSBWSVJUSU9fTkVUKGRldik7DQo+ID4gICAgIE5ldENsaWVudFN0YXRlICpuYzsNCj4gPiAgICAg
+aW50IGk7DQo+ID4NCj4gPiAgICAgaWYgKG4tPm5ldF9jb25mLm10dSkgew0KPiA+ICAgICAgICAg
+bi0+aG9zdF9mZWF0dXJlcyB8PSAoMVVMTCA8PCBWSVJUSU9fTkVUX0ZfTVRVKTsNCj4gPiAgICAg
+fQ0KPiA+DQo+ID4gVGhlIGFib3ZlIGNvZGUgY2FuIGJlIGludGVycHJldGVkIGFzIGZvbGxvd3M6
+DQo+ID4gaWYgdGhlIGNvbW1hbmQgbGluZSBhcmd1bWVudHMgb2YgcWVtdSBpbmRpY2F0ZXMgdGhh
+dCBtdHUgc2hvdWxkIGJlIGxpbWl0ZWQsIHRoZW4gd2Ugd291bGQgcmVhZCB0aGlzIG10dSBsaW1p
+dGF0aW9uIGZyb20gdGhlDQo+IGRldmljZSAodGhhdCBhY3R1YWwgdmFsdWUgaXMgaWdub3JlZCku
+DQo+ID4NCj4gPiBJIHdvcmtlZCBhcm91bmQgdGhpcyBsaW1pdGF0aW9uIGJ5IHVuY29uZGl0aW9u
+YWxseSBzZXR0aW5nIFZJUlRJT19ORVRfRl9NVFUgaW4gdGhlIGhvc3QgZmVhdHVyZXMuIEFzIHNh
+aWQsIGl0IG9ubHkgaW5kaWNhdGVzIHRoYXQNCj4gd2Ugc2hvdWxkIHJlYWQgdGhlIGFjdHVhbCBs
+aW1pdGF0aW9uIGZvciB0aGUgZGV2aWNlLg0KPiA+DQo+ID4gSWYgdGhpcyBtYWtlcyBzZW5zZSBJ
+IGNhbiBzZW5kIGEgcGF0Y2ggdG8gZml4IHRoaXMuDQo+IA0KPiBJIHdvbmRlciB3aGV0aGVyIGl0
+J3Mgd29ydGggdG8gYm90aGVyOg0KPiANCj4gMSkgbWdtdCAoYWJvdmUgbGlidmlydCkgc2hvdWxk
+IGhhdmUgdGhlIGtub3dsZWRnZSB0byBwcmVwYXJlIHRoZSBjb3JyZWN0IFhNTA0KPiAyKSBpdCdz
+IG5vdCBzcGVjaWZpYyB0byBNVFUsIHdlIGhhZCBvdGhlciBmZWF0dXJlcyB3b3JrIGxpa2UsIGZv
+cg0KPiBleGFtcGxlLCB0aGUgbXVsdGlxdWV1ZT8NCj4gDQoNCg0KQ3VycmVudGx5IGxpYnZpcnQg
+ZG9lcyBub3QgcmVjb2duaXplIHNldHRpbmcgdGhlIG10dSB0aHJvdWdoIFhNTCBmb3IgdmRwYSBk
+ZXZpY2UuIFNvIHlvdSBtZWFuIHRoZSBmaXggc2hvdWxkIGdvIHRvIGxpYnZpcnQ/DQpGdXJ0aGVy
+bW9yZSwgZXZlbiBpZiBsaWJ2aXJ0IHN1cHBvcnRzIE1UVSBjb25maWd1cmF0aW9uIGZvciBhIHZk
+cGEgZGV2aWNlLCB0aGUgYWN0dWFsIHZhbHVlIHByb3ZpZGVkIHdpbGwgYmUgaWdub3JlZCBhbmQg
+dGhlIGxpbWl0YXRpb24gd2lsbCBiZSB0YWtlbiBmcm9tIHdoYXQgdGhlIHZkcGEgZGV2aWNlIHB1
+Ymxpc2hlZCBpbiBpdHMgdmlydGlvX25ldF9jb25maWcgc3RydWN0dXJlLiBUaGF0IG1ha2VzIHRo
+ZSBYTUwgY29uZmlndXJhdGlvbiBiaW5hcnkuDQoNCj4gVGhhbmtzDQoNCg==
 
