@@ -2,92 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D0E583B7B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:46:22 +0200 (CEST)
-Received: from localhost ([::1]:53994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7144F583B83
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 11:50:18 +0200 (CEST)
+Received: from localhost ([::1]:59946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH05z-0007Gd-QV
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:46:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58950)
+	id 1oH09n-0002wJ-Im
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 05:50:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oGzUT-0002Kz-FZ
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:07:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:32533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oGzUP-0005pk-U6
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:07:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1658999241;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGzWC-0002oK-L6
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:09:27 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:45190)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGzWA-00069Q-4h
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 05:09:20 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 7E8585C0F5;
+ Thu, 28 Jul 2022 09:09:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658999356; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/oJApOrDfrX4FQZuuQyx0no2eYW+qxMkaCfN7sK4t+A=;
- b=DuQdOl+7noQ7s+EBFgCgsY1b1XSmtGt2mHsYMRZECjL8scEXtNh4cdZy/17xGnhbw5KO/R
- u6zaL4bXx6XYnLsQWq9ZyGmiwzHlMOtOTWnEcWsfx46KVfvu+Nka5LzVYOmbg7wHRbC5P7
- rUtc7pyzXHN688gc19v7K8sZIXwaXcw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-561-fLfTUqKiNjOvD-DayqEaLA-1; Thu, 28 Jul 2022 05:07:19 -0400
-X-MC-Unique: fLfTUqKiNjOvD-DayqEaLA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- x5-20020adfbb45000000b0021ee56506dfso222614wrg.11
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 02:07:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=/oJApOrDfrX4FQZuuQyx0no2eYW+qxMkaCfN7sK4t+A=;
- b=75W0P+rCUEzsgt6WreKfZdmaQJanHY49nIW/bg6w7kEGHIZdSpMbEnHICfbGnZrUSc
- vLtlzNqBgtq1fc4kefsmLTqizGj2UCh1rzXCnvEHZ4GvXmtbAj3yeKfYJYjZp0ffVtAL
- ZNFwxuREPJYLWfQSu2mztwfkSJDrJsR0hGZc9xpa4DH/y8L8qB4H7iYj6ZoMSQIRh2eU
- TfYVyJ5rwCd6T9/GJ7fUMgmOXyCWfbBGCA6jSq1xKuIfe4mQC3q2XmSJUminGPdUBcHl
- PsYGAL1d2zHhsNP0nTxyTrIaMoFJLcJQU1eIjn5uemDd3hIjzi218f/EFWoKct2vnYCY
- en1g==
-X-Gm-Message-State: AJIora9I0Ris28VD8t3BZEyYmzm0yCO6d6jHpLdO544s04YgMSFedy+N
- PY7iszAujwMyIn1TG9S14/qkucClQuWDG+EitbWmoD+CZ0ZtTqqkkzn2+HBOtShtz3B7F40vPXO
- 1e9jB85IfEHNaLb4=
-X-Received: by 2002:a1c:4c0f:0:b0:3a3:1401:7660 with SMTP id
- z15-20020a1c4c0f000000b003a314017660mr5906290wmf.8.1658999238524; 
- Thu, 28 Jul 2022 02:07:18 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uZ7DTsJPP++VD9nRaJf0jtqZevphb3gdFkoN+Nh7Biw39rRhKnxo4AI20dbz9+q/7ptxBi5w==
-X-Received: by 2002:a1c:4c0f:0:b0:3a3:1401:7660 with SMTP id
- z15-20020a1c4c0f000000b003a314017660mr5906261wmf.8.1658999238178; 
- Thu, 28 Jul 2022 02:07:18 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- n8-20020a5d4008000000b0021ed0202015sm445946wrp.10.2022.07.28.02.07.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 02:07:17 -0700 (PDT)
-Date: Thu, 28 Jul 2022 10:07:14 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras <leobras@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH 4/5] migration: Make find_dirty_block() return a single
- parameter
-Message-ID: <YuJRwjD+jbDXiGG4@work-vm>
-References: <20220621140507.1246-1-quintela@redhat.com>
- <20220621140507.1246-5-quintela@redhat.com>
- <YsQ0fc67PKePt3rS@work-vm> <87sfmnderg.fsf@secure.mitica>
+ bh=LENLZc2rDo4fL7gSt/oUH1P+gE7clSy4Bmnj7Gv8aE4=;
+ b=ZrN7F4d+an0M3+Im+WK64HmkXZLEGbDS8kzzQzfVb8mgF9lqlgHeJWypMU3lwVqr3uRyuD
+ puYUZXBuyU8XfUVYvjsaw1iTkFbk1l8NiLS6vyQfJe/SgVp90R+dA7JnNPekWy8h7G4UxV
+ ytPF2xRrV5xW9IeuF8q74IiAxztIa2E=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658999356;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LENLZc2rDo4fL7gSt/oUH1P+gE7clSy4Bmnj7Gv8aE4=;
+ b=atqWUjedd8AYKE7eQ3FG+NQPd3bPGARN1lml/mEcza7k4a01Ep0Mqqdvwgi6eM0jU0bgjA
+ z83om4BIgayrjKBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4BB6D13427;
+ Thu, 28 Jul 2022 09:09:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id CmKjEDxS4mLTRAAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 28 Jul 2022 09:09:16 +0000
+Message-ID: <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
+Date: Thu, 28 Jul 2022 11:09:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87sfmnderg.fsf@secure.mitica>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
+Content-Language: en-US
+From: Claudio Fontana <cfontana@suse.de>
+To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>
+References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
+ <20220727112737-mutt-send-email-mst@kernel.org>
+ <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
+ <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
+In-Reply-To: <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,32 +92,258 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Juan Quintela (quintela@redhat.com) wrote:
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > * Juan Quintela (quintela@redhat.com) wrote:
-> >> We used to return two bools, just return a single int with the
-> >> following meaning:
-> >> 
-> >> old return / again / new return
-> >> false        false   0
-> >> false        true    1
-> >> true         true    2  /* We don't care about again at all */
-> >
-> > We shouldn't use magic numbers; if you want to return it in a single
-> > value then it should be an enum so it is clear.
+On 7/28/22 09:43, Claudio Fontana wrote:
+> On 7/28/22 03:27, Jason Wang wrote:
+>> On Wed, Jul 27, 2022 at 11:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>>>
+>>> On Wed, Jul 27, 2022 at 12:51:31PM +0200, Claudio Fontana wrote:
+>>>> Hi Michael and all,
+>>>>
+>>>> I have started researching a qemu / ovs / dpdk bug:
+>>>>
+>>>> https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
+>>>>
+>>>> that seems to be affecting multiple parties in the telco space,
+>>>>
+>>>> and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
+>>>> in virtio_set_status, when receiving a status value of 0.
+>>>>
+>>>> It seems it has always been this way, so I am clearly missing / forgetting something basic,
+>>>>
+>>>> I checked the virtio spec at https://docs.oasis-open.org/
+>>>>
+>>>> and from:
+>>>>
+>>>> "
+>>>> 4.1.4.3 Common configuration structure layout
+>>>>
+>>>> device_status
+>>>> The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
+>>>>
+>>>> "
+>>>>
+>>>> and
+>>>>
+>>>> "
+>>>> 2.4.1 Device Requirements: Device Reset
+>>>> A device MUST reinitialize device status to 0 after receiving a reset.
+>>>> "
+>>>>
+>>>> I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
+>>>>
+>>>> Instead, we have just the check:
+>>>>
+>>>>     if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
+>>>>         (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
+>>>>         virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
+>>>>     }
+>>>>
+>>>> which just sets the started field,
+>>>>
+>>>> and then we have the call to the virtio device class set_status (virtio_net...),
+>>>> but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
+>>>>
+>>>> "
+>>>>     vdev->start_on_kick = false;
+>>>>     vdev->started = false;
+>>>>     vdev->broken = false;
+>>>>     vdev->guest_features = 0;
+>>>>     vdev->queue_sel = 0;
+>>>>     vdev->status = 0;
+>>>>     vdev->disabled = false;
+>>>>     qatomic_set(&vdev->isr, 0);
+>>>>     vdev->config_vector = VIRTIO_NO_VECTOR;
+>>>>     virtio_notify_vector(vdev, vdev->config_vector);
+>>>>
+>>>>     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>>>>         ... initialize vdev->vq[i] ...
+>>>>     }
+>>>> "
+>>>>
+>>>> Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
+>>>> but what am I missing here?
+>>>>
+>>>> Thanks,
+>>>>
+>>>> Claudio
+>>>>
+>>>> --
+>>>> Claudio Fontana
+>>>> Engineering Manager Virtualization, SUSE Labs Core
+>>>>
+>>>> SUSE Software Solutions Italy Srl
+>>>
+>>>
+>>> So for example for pci:
+>>>
+>>>     case VIRTIO_PCI_STATUS:
+>>>
+>>>
+>>>         ....
+>>>
+>>>         if (vdev->status == 0) {
+>>>             virtio_pci_reset(DEVICE(proxy));
+>>>         }
+>>>
+>>> which I suspect is a bug because:
+>>>
+>>> static void virtio_pci_reset(DeviceState *qdev)
+>>> {
+>>>     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
+>>>     VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
+>>>     PCIDevice *dev = PCI_DEVICE(qdev);
+>>>     int i;
+>>>
+>>>     virtio_bus_reset(bus);
+>>
+>> Note that we do virtio_reset() here.
 > 
-> I need to also return an error in the following patches.
-> I am not sure if it clearer to try to change to an enum.
-> Will try and see.
-
-Well even if you used a const or #define, it would be better than having
-0/1/2 all over.
-
-Dave
-
-> Later, Juan.
 > 
+> Yes, thank you, I completely overlooked it, I noticed this in Michael's response as well.
+> 
+> However we end up with multiple calls to k->set_status, one from the virtio_set_status call,
+> and one from the virtio_bus_reset(), which is probably something we don't want.
+> 
+> All in all it is not clear what the meaning of virtio_set_status is supposed to be I think,
+> and I wonder what the assumptions are among all the callers.
+> If it is supposed to be an implementation of the virtio standard field as described, I think we should do the reset right then and there,
+> but maybe the true meaning of the function is another one I couldn't understand, since _some_ of the cases are processes there.
+> 
+> And there is a question about ordering:
+> 
+> in virtio_pci we end up calling virtio_set_status(0), which gets us k->set_status(vdev, 0), which lands in virtio_net_set_status(0) and virtio_net_vhost_status,
+> which causes a vhost_net_stop().
+> 
+> Should we instead land in virtio_net_reset() first, by doing a virtio reset earlier when detecting a 0 value from the driver?
+> 
+> in the scenario I am looking at (with vhost-user, ovs/dpdk, and a guest testpmd application),
+> the guest application goes away without any chance to signal (kill -9), then gets immediately restarted and does a write of 0 to status, while qemu and ovs still hold the state for the device.
+> 
+> As QEMU lands in vhost_net_stop(), it seems to cause a chain of events that crash ovs which is trying to read an rx burst from the queue,
+> while QEMU is left hanging waiting forever for a response to VHOST_USER_GET_VRING_BASE issued as a result of vhost_net_stop.
+> 
+> Just saying, I am having more success with the second ordering, but I am still studying, don't have the full picture yet.
+
+
+Currently I'm doing (on top of Michael's patch) the following which seems to be working
+(but of course this does not even being to look at the other transports, architectures etc),
+just an idea to share:
+
+---
+ hw/virtio/virtio-pci.c | 7 ++++---
+ hw/virtio/virtio.c     | 7 ++++++-
+ 2 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 3189ec014d..3cbfa3ce3a 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -312,6 +312,7 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
+     case VIRTIO_PCI_QUEUE_PFN:
+         pa = (hwaddr)val << VIRTIO_PCI_QUEUE_ADDR_SHIFT;
+         if (pa == 0) {
++            virtio_bus_reset(&proxy->bus);
+             virtio_pci_reset(DEVICE(proxy));
+         }
+         else
+@@ -1941,11 +1942,8 @@ static void virtio_pci_exit(PCIDevice *pci_dev)
+ static void virtio_pci_reset(DeviceState *qdev)
+ {
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
+-    VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
+-    PCIDevice *dev = PCI_DEVICE(qdev);
+     int i;
+ 
+-    virtio_bus_reset(bus);
+     msix_unuse_all_vectors(&proxy->pci_dev);
+ 
+     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+@@ -1960,7 +1958,10 @@ static void virtio_pci_reset(DeviceState *qdev)
+ static void virtio_pci_bus_reset(DeviceState *qdev)
+ {
+     PCIDevice *dev = PCI_DEVICE(qdev);
++    VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
++    VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
+ 
++    virtio_bus_reset(bus);
+     virtio_pci_reset(qdev);
+ 
+     if (pci_is_express(dev)) {
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 5d607aeaa0..da58ca6f86 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -1977,6 +1977,12 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+     trace_virtio_set_status(vdev, val);
+ 
++    if (val == 0) {
++        VirtioBusState *bus = VIRTIO_BUS(qdev_get_parent_bus(DEVICE(vdev)));
++        virtio_bus_reset(bus);
++        return 0;
++    }
++
+     if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+         if (!(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) &&
+             val & VIRTIO_CONFIG_S_FEATURES_OK) {
+@@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
+     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+     int i;
+ 
+-    virtio_set_status(vdev, 0);
+     if (current_cpu) {
+         /* Guest initiated reset */
+         vdev->device_endian = virtio_current_cpu_endian();
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.26.2
+
+
+
+
+
+
+> 
+> Thanks,
+> 
+> Claudio
+> 
+>>
+>>>     msix_unuse_all_vectors(&proxy->pci_dev);
+>>>
+>>>     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>>>         proxy->vqs[i].enabled = 0;
+>>>         proxy->vqs[i].num = 0;
+>>>         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
+>>>         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+>>>         proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
+>>>     }
+>>>
+>>>
+>>> so far so good
+>>>
+>>>     if (pci_is_express(dev)) {
+>>>         pcie_cap_deverr_reset(dev);
+>>>         pcie_cap_lnkctl_reset(dev);
+>>>
+>>>         pci_set_word(dev->config + dev->exp.pm_cap + PCI_PM_CTRL, 0);
+>>>     }
+>>>
+>>> this part is wrong I think, it got here by mistake since the same
+>>> function is used for bus level reset.
+>>>
+>>> Jason, Marcel, any input?
+>>
+>> Yes, I think we don't need PCI stuff here. We do virtio reset not pci.
+>>
+>> Thanks
+>>
+>>>
+>>> --
+>>> MST
+>>>
+>>
+>>
+> 
+> 
 
 
