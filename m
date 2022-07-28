@@ -2,124 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C557D58398D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:34:58 +0200 (CEST)
-Received: from localhost ([::1]:37690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2F75839A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:40:37 +0200 (CEST)
+Received: from localhost ([::1]:41936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGy2q-0000ff-8G
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
+	id 1oGy8I-0003n8-IK
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:40:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGxrj-0003Cf-V9
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:23:30 -0400
-Received: from mail-bn7nam10on2062d.outbound.protection.outlook.com
- ([2a01:111:f400:7e8a::62d]:20597
- helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGxrf-0000KM-Aq
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:23:26 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OH2/21JpN852iGsRsRsJgZHyXPa78n7YWkigWDdoCm5rfb2lT0UL5l4EhlxSwBPws3gZA3PfLRNeihZCN7HAqmXD4xnPUUIm/J1lUuY1pIPhlNmiE5cH5Bk0YETciB6IDud9+OWqktHzpAnDxK5ZXACkMS7RxTJDwHynfPuQHKGqdfp9wXLsPSgQI1HHgSkJ7Ydy3QRwbAdOfKHNBQ9IBU18+5tIIiyqxRJV5zdtecEEJMdBLZ2oOnFFXjvXyMzapV6b3NdfS8SJGJFadls0CD7xFvtLU/xBQ+bSOSKMSWXRwtaBzqhT5A0+RBknJEsR1BAYY2dho9ijGJJWLkZSCA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JVtWydABZS9UVNKHKOuqwYPe3aWGg5rbzuVhbSD4ULI=;
- b=KwUzJ4jhWtTd0i1G65KFRD0JRQVzNpFE/zGvPzLfxftBEwwUj/FFuGjo+FbHjE+ktY+m6+Zm3GLwBxmM/o8WrcnKKc5h2eVKaXR1hJHCfoZfoCymALEtr5+jc1AMknvfDypWgDPUjzCWEX5HeEppA/IogFCsM9KE2qtMx6jGpAQJTincg0z5qVlQJlpPwIjoKrrAVPhJVSN3gfuAFEMb+KuLdHNx4gNjwjbOq+1ZwAYTmvGhH+NxEhbkGIM7XJ4l34UwVwrTDMNWidVjYWQmANsCMbi/YIJeBemBQgt6uDWtg1HOo+vohrO5vfZywgeOhsWHTe94x6B+iz9jY2y3uQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JVtWydABZS9UVNKHKOuqwYPe3aWGg5rbzuVhbSD4ULI=;
- b=PnOIgGI188mq1nplPxBFjUeTE33ya/Z2/iVTX0FLF3syadDIaMITPfvs3aWR2L6HlZfcJaAsDN+dVymleKsZgqM12H/UkshvXd/8ghx7csawSsoyvIFlBALYBVRcPVSuvcQly2ZLyaHahG6kRRex4msSkq9leFzLKhoyKEkaIX4=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
- MN2PR12MB3935.namprd12.prod.outlook.com (2603:10b6:208:168::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.6; Thu, 28 Jul
- 2022 07:18:12 +0000
-Received: from DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::ec80:e3fd:e3e2:605d]) by DM5PR12MB2504.namprd12.prod.outlook.com
- ([fe80::ec80:e3fd:e3e2:605d%5]) with mapi id 15.20.5458.025; Thu, 28 Jul 2022
- 07:18:12 +0000
-Date: Thu, 28 Jul 2022 15:17:49 +0800
-From: Huang Rui <ray.huang@amd.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: "anthony.perard@citrix.com" <anthony.perard@citrix.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- "Huang, Trigger" <Trigger.Huang@amd.com>
-Subject: Re: Question to mem-path support at QEMU for Xen
-Message-ID: <YuI4HXKaRnnS9foV@amd.com>
-References: <Yt+XS81vmsWoJA5y@amd.com>
- <20220727101930.66ed56e1@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220727101930.66ed56e1@redhat.com>
-X-ClientProxiedBy: SI2PR01CA0050.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::21) To DM5PR12MB2504.namprd12.prod.outlook.com
- (2603:10b6:4:b5::19)
+ (Exim 4.90_1) (envelope-from <wangzq.jn@gmail.com>)
+ id 1oGxpX-0001i1-EA; Thu, 28 Jul 2022 03:21:11 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wangzq.jn@gmail.com>)
+ id 1oGxpS-0007kc-Df; Thu, 28 Jul 2022 03:21:08 -0400
+Received: by mail-ej1-x643.google.com with SMTP id b11so1610987eju.10;
+ Thu, 28 Jul 2022 00:21:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=l15Kj6Unzh6fF5IwMDXFTXEbGfGj7Eu+Iih9FO8l06o=;
+ b=JNVadVW7y/a3EjapL6gyxv6mPEMV+XivXOveDCmTWy9bcFyvZhZAxywXdabLaZ5SAS
+ TvnXKmt9kiYuEdpRVsEftdruqt/WaolDii6qtfHHVJ1kNqjmzICA0piAhJtC19Xvjgks
+ 5aBQdfFS5pVVzI3h1Y0eyto6D9K7P6CL5ZpKHZwJp/P3uhsliHEXPnd9jwaMNfeHaT85
+ KvH7xUJRDz+AKDMlDde+F6oeIVpPNpRt5Uh0qV8eLnluaKI369juG7TMU6ajg+tfHrwR
+ O815C2vnQZC1sx9420WMGW8YjDR9lah9hhp9igODdfz7rF8r/WELW7b/NueeIsv3QPsV
+ WzyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=l15Kj6Unzh6fF5IwMDXFTXEbGfGj7Eu+Iih9FO8l06o=;
+ b=hGlFgEF6d2XM5sMJ7+N8L7wMiNHtxf312yEJJCDkawhYkOFPTqokyOh/1WDeEb3Wd9
+ B5VRW3DTEH6/SMrTcpNkC+HT2G1OjWUI0iUA4PEVmp7kHsOuBaUSqCyTKsz36pClKfXH
+ 6BsQktGUgmCUG1Dpds7Fv6Ej5JUhucHn4cak91Y6iw5ORJO0UIU3SzaAQv3i8u2S/Dvy
+ fecKxz0dvktAzEWtyLWmom4VweIkhEy7dNInfQEOD1QEuyr30CpRGfGzH9WqlGN9yMY4
+ 648DtnQtyFAJT4IOh0XITwkJGxVxTHRhbsvRTAiVMLfz7v2iSYnOJQpQZxa94d63RApA
+ WUbg==
+X-Gm-Message-State: AJIora8oAmb8RVrBv88wuk4JEbvtBVkihi+Qn3mrZ6yA97EU31m18O8e
+ /gYy6Dc0PKg5PgkmqgscUfPtD3OxHjU+gZNJCi8=
+X-Google-Smtp-Source: AGRyM1sdsx0DYrAd1+D2/CaC8/OZpZgeWzaEwSs0ypS/zjjtrx96s4hyfLkWnLEAYjWnuMVi1ZQQv1eJVDloISZ4fB0=
+X-Received: by 2002:a17:907:2cd4:b0:72b:7fa8:eafc with SMTP id
+ hg20-20020a1709072cd400b0072b7fa8eafcmr20346264ejc.438.1658992862519; Thu, 28
+ Jul 2022 00:21:02 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 75e122b7-116b-49ec-db96-08da70695505
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3935:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: JxxMHokLlN3zmJXA13qIHOsvsOEYi1KXj1IEya4deqizHbsGO883Fu+10crgMg7B/ECRrQyVYZsME2z6Y4BURkiqhiV+XobV1xiXJkYNGlxfnwh2i2KeTlOUtoLn1aVjItidZBvZIYd1+eW/Hj/aTGwCJVbx3Em9svxRZHpcQI1O5V1K0AMaCYmjPdoHGS2qTKAwcHUbyXOg4mxAJYWfS0dVTN9a7i4gMjM0mgfqL7E9mP1rjJMj3K+iKdKUbqSHlBNG57nfMAsE4TevopFLfLdE0Cf16+YDKYZGm6vZQNsevT0zg744SXLCx4tODNlqFop4E88ZPrIWrPws2ht54WW3fvg3uX4n+RXwCbZQbXoCD/voXGhMLzrun+hr5jAy9sUMJInuv+Z3UpH36TqYHLcpEysN/godpo3wR33eW87Mv3tnKckTIYHzXq4543CUMK1o24NA0NV5EYe92c1PLzBuouUj6ye18iLKSaEmnjBfX/ob/Rj0IxPLmgtMiZ/HHsk8Fa/wP8sOkxVuL0jD6JNdgrrahQSdpcpXT0V7aQYvsGKV3pwZSrha9o2hm5rRKj3EaFBMn8eMEt0x93Hn+KAg2JWHf1YWfq8dA9jQ4cw51gThVqwwbjXk42ke65SHEKYJ1p9WU346uJGuAwXX8+DETLJovOvm2F+LVAfRb9KXKeBXJRF/yaJQEahc1yksz0ycQ3UcwTP/IGlUiPSWwdHPp19U//N7s/oZSxB6zonR5B1ozqwuF4xZs1/K9ijl
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(41300700001)(26005)(36756003)(6512007)(6666004)(6506007)(8676002)(6486002)(478600001)(66946007)(66556008)(66476007)(38100700002)(4326008)(83380400001)(8936002)(5660300002)(2616005)(54906003)(86362001)(316002)(186003)(2906002)(6916009);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KEqfQ6Vifx4G6sz3S7Q7Lbs5N2ZlBkepJtyHnl6GmiBj5npSNUo8IvuesaLp?=
- =?us-ascii?Q?J8yj9shP7NdDO/sI8Rj4bl8pIyNFa7Eo/G2qURKswDHWwZex63Mr5GrbS+kV?=
- =?us-ascii?Q?2PZ/Fri5dmfn8M3pSwaocw8eHXPQdqNk2Gtf56xjnxXW35xKtDmh8JiavHdV?=
- =?us-ascii?Q?WqMiQ0ioN9NgYU8o9I21+xKbribsyWBRtQhXo62qolCPQCjmj0uiAazEUNsZ?=
- =?us-ascii?Q?ZSMn3Jf1A0jGGGW2lqYGHd4UzMe1agbLny4HvYU/UvRbTIgyAV0GDNFudaJd?=
- =?us-ascii?Q?34mquZzvKSJ05xLl1N7rpQAIXn7aiSxMWSUP/E7/l1nWcPZkItzBzvCARmvD?=
- =?us-ascii?Q?T8oN4YnVYVK2ULc36HsAtcTVGkM/HPoWMF4B+AsKVOczHw+vWFd+EeVgj1s7?=
- =?us-ascii?Q?wREN/d++dUCILX4yv1L6ft6ixGAnRFagmnwBpQ3cFj+LVi/lBoW2cbWGWbLC?=
- =?us-ascii?Q?UvKc9feEmoqu9C0m7fEwF2hZDQnsbQ3OiCjeJnI3/5pW5gKJLwXoEFxCn+xg?=
- =?us-ascii?Q?BpfSufYiZPQIYs57/nlm3oN/xyO58LQEltpHHL0xjJf4XH+Eb4FKKlDrztpz?=
- =?us-ascii?Q?5yXDt9+kYbQYRM+ppW5FljAenWz5Bu/BZRT44JZRlIlGXRuBz/a26UL4C3No?=
- =?us-ascii?Q?nqd8Ehvd5BmWN4aV53OsKnAKvvXHhBRtFyvUkdV3taev2Xbsvx06QgkURzA9?=
- =?us-ascii?Q?Slg0riC2npx73Sv8ztbrwsIs4oYjbsW8v76NXU5bdflAz8px4cpZTWRzAPsQ?=
- =?us-ascii?Q?W1ilqZgnWvmGRroRReDDgqvxS2kOL7vbHzFIHsCWNQBGhzlo518owAi+XqYj?=
- =?us-ascii?Q?GTh6wjPUTA4ycM6M7KWBOHbMbnOAwaCL31qfNE1lDiFjEL9VHbiSkY62A87c?=
- =?us-ascii?Q?+cqfWv9v0UB1tOBezTC3Gdg0TorlIMFimCoeXxbjp499Fs0eNaotj9NPUtdy?=
- =?us-ascii?Q?10sR2Zf1ubhdq0WTQPNebVfSVw4HYTcdNJatvG3hWxRYxu8n1iOr4kGXFBvv?=
- =?us-ascii?Q?GhDFVWyV28dw479ICxj/4fdj7G+r5ph5s6dIhSZra1sky0V/H+ksADR6rmEh?=
- =?us-ascii?Q?JdhjUL5/ymJjUU49gHQbcyV13V0gVNOmo3bE3euI9tiOyrFpZYn0qG0oXHQI?=
- =?us-ascii?Q?JRZUay/NThRmfBglkPBqUK9qBIl4e/sk8un11emMv9hPgPtDI5/k8NvZg9X5?=
- =?us-ascii?Q?GIg9oBEMy5duK7XvuBHYiA/afWBNwD2NTzOKCxImJoB4mM+nH9x42qqLUSpP?=
- =?us-ascii?Q?t18dfdVIAGr2G6YXQmDrd/joGFZgbAuDyPVrILQil8a6DFNFW/TZ9kQE8a59?=
- =?us-ascii?Q?ejtH8eG+y1JAv7c60VxFTLbZaan42fIrQ4Ht+3xsgDcPBsz75Esp7CN3+bMr?=
- =?us-ascii?Q?mmAopwKXQU9hmUgQutn8P5U1PKMKwGyPHUbODSYSGBf1NtoMFTVQ7yP+r4KO?=
- =?us-ascii?Q?eLJWmCRRNssyLxEsUSbLw/nIX31PfpzP80OxxQIjN7dXR5+eWA7QaPUHUxrN?=
- =?us-ascii?Q?eu+pzXiNNIjERS1d4KFI0EBMZG6CYo/gqQ+6tU9iA6iMdB6+NK9m9D4FbDUU?=
- =?us-ascii?Q?nMAMupKfPPknKb7P3Mawa2yiW4EF2o15pJRbuuYX?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e122b7-116b-49ec-db96-08da70695505
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 07:18:12.8076 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AUHjGMhFxkTB/QGy2WCt9r2AHbSwJxuWmEL68dCbBB84dTGSP/1X9g/AQp32xQLR58U5Z6kvzT8dlaDIASNA5A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3935
-Received-SPF: softfail client-ip=2a01:111:f400:7e8a::62d;
- envelope-from=Ray.Huang@amd.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+References: <20220728061228.152704-1-wangzhiqiang02@inspur.com>
+ <6ad0dee4-58c3-de80-177c-d06bb45ba8af@kaod.org>
+In-Reply-To: <6ad0dee4-58c3-de80-177c-d06bb45ba8af@kaod.org>
+From: John Wang <wangzq.jn@gmail.com>
+Date: Thu, 28 Jul 2022 15:20:51 +0800
+Message-ID: <CAHwNHZUsodef8LcE+wjp2OFk=b01zEMx12bLDVoW3h5hFt=xFA@mail.gmail.com>
+Subject: Re: [PATCH] aspeed: Enable backend file for eeprom
+To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: patrick@stwcx.xyz, Peter Maydell <peter.maydell@linaro.org>, 
+ Andrew Jeffery <andrew@aj.id.au>, Joel Stanley <joel@jms.id.au>, 
+ "open list:ASPEED BMCs" <qemu-arm@nongnu.org>, 
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Jae Hyun Yoo <quic_jaehyoo@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=wangzq.jn@gmail.com; helo=mail-ej1-x643.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -135,50 +86,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+C=C3=A9dric Le Goater <clg@kaod.org> =E4=BA=8E2022=E5=B9=B47=E6=9C=8828=E6=
+=97=A5=E5=91=A8=E5=9B=9B 14:28=E5=86=99=E9=81=93=EF=BC=9A
+>
+> Hello John,
+>
+> On 7/28/22 08:12, John Wang wrote:
+> > tested on a fp5280g2:
+> >
+> > $QEMU_BIN -machine fp5280g2-bmc \
+> >         -nographic \
+> >         -drive file=3D"${IMAGE_PATH}",format=3Draw,if=3Dmtd \
+> >         -drive file=3D"eeprom.bin",format=3Draw,if=3Dpflash,index=3D1 \
+> >         ${NIC}
+> >
+> > root@fp5280g2:/sys/bus/i2c/devices/1-0050# hexdump eeprom -C
+> > 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |..........=
+......|
+> > *
+> > ....
+> > ....
+> > 00000240  2c 87 a3 a4 1d d3 11 b2  02 d2 c2 9d 44 60 cf 3e  |,.........=
+..D`.>|
+> > 00000250  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |..........=
+......|
+> >
+> > It's same as the "eeprom.bin"
+> >
+> > Signed-off-by: John Wang <wangzhiqiang02@inspur.com>
+> > Change-Id: I5c44785a028144b24aa0b22643266d83addc5eab
+> > ---
+> >   hw/arm/aspeed.c | 16 ++++++++++++----
+> >   1 file changed, 12 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> > index 4193a3d23d..80aa687372 100644
+> > --- a/hw/arm/aspeed.c
+> > +++ b/hw/arm/aspeed.c
+> > @@ -431,12 +431,20 @@ static void aspeed_machine_init(MachineState *mac=
+hine)
+> >       arm_load_kernel(ARM_CPU(first_cpu), machine, &aspeed_board_binfo)=
+;
+> >   }
+> >
+> > -static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsiz=
+e)
+> > +static void at24c_eeprom_init(I2CBus *bus, uint8_t addr, uint32_t rsiz=
+e,
+> > +                              int index)
+> >   {
+> >       I2CSlave *i2c_dev =3D i2c_slave_new("at24c-eeprom", addr);
+> >       DeviceState *dev =3D DEVICE(i2c_dev);
+> >
+> > +    DriveInfo *dinfo =3D drive_get_by_index(IF_PFLASH, index);
+>
+> I don't think IF_PFLASH is the appropriate type.
 
-Appreciate you for the reply!
+thanks
 
-On Wed, Jul 27, 2022 at 04:19:30PM +0800, Igor Mammedov wrote:
-> On Tue, 26 Jul 2022 15:27:07 +0800
-> Huang Rui <ray.huang@amd.com> wrote:
-> 
-> > Hi Anthony and other Qemu/Xen guys,
-> > 
-> > We are trying to enable venus on Xen virtualization platform. And we would
-> > like to use the backend memory with memory-backend-memfd,id=mem1,size=4G
-> > options on QEMU, however, the QEMU will tell us the "-mem-path" is not
-> > supported with Xen. I verified the same function on KVM.
-> > 
-> > qemu-system-i386: -mem-path not supported with Xen
-> > 
-> > So may I know whether Xen has any limitation that support
-> > memory-backend-memfd in QEMU or just implementation is not done yet?
-> 
-> Currently Xen doesn't use guest RAM allocation the way the rest of
-> accelerators do. (it has hacks in memory_region/ramblock API,
-> that divert RAM allocation calls to Xen specific API)
+>
+> Jae proposed a similar patch with IF_NONE which should fit your need :
+>
+>    https://lore.kernel.org/all/20220718175214.2087644-1-quic_jaehyoo@quic=
+inc.com/
+>
+> Could you please give it a try ?
 
-I am new for Xen and QEMU, we are working on GPU. We would like to have a
-piece of backend memroy like video memory for VirtIO GPU to support guest
-VM Mesa Vulkan (Venus). Do you mean we can the memory_region/ramblock APIs
-to work around it?
+I tested on a fp5280g2-bmc, It's ok.  I would abandon my patch :=EF=BC=89
 
-> 
-> The sane way would extend Xen to accept RAM regions (whatever they are
-> ram or fd based) QEMU allocates instead of going its own way. This way
-> it could reuse all memory backends that QEMU provides for the rest of
-> the non-Xen world. (not to mention that we could drop non trivial
-> Xen hacks so that guest RAM handling would be consistent with other
-> accelerators)
-> 
+>
+> It's available on my branch :
+>
+>    https://github.com/legoater/qemu/commits/aspeed-7.1
 
-May I know what do you mean by "going its own way"? This sounds good, could
-you please elaborate on how can we implement this? We would like to give a
-try to address the problem on Xen. Would you mind to point somewhere that I
-can learn and understand the RAM region. Very happy to see your
-suggestions!
+I checked it, and will use this tree to module a new machine. :)
 
-Thanks & Best Regards,
-Ray
+>
+> Thanks,
+>
+> C.
+>
+>
+> > +    BlockBackend *blk =3D dinfo ? blk_by_legacy_dinfo(dinfo) : NULL;
+> > +
+> > +    if (blk) {
+> > +        qdev_prop_set_drive(DEVICE(dev), "drive", blk);
+> > +    }
+> >       qdev_prop_set_uint32(dev, "rom-size", rsize);
+> > +
+> >       i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> >   }
+> >
+> > @@ -685,7 +693,7 @@ static void fp5280g2_bmc_i2c_init(AspeedMachineStat=
+e *bmc)
+> >       I2CSlave *i2c_mux;
+> >
+> >       /* The at24c256 */
+> > -    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 1), 0x50, 32768);
+> > +    at24c_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 1), 0x50, 32768, 1=
+);
+> >
+> >       /* The fp5280g2 expects a TMP112 but a TMP105 is compatible */
+> >       i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 2), TYPE_TM=
+P105,
+> > @@ -918,13 +926,13 @@ static void bletchley_bmc_i2c_init(AspeedMachineS=
+tate *bmc)
+> >       }
+> >
+> >       /* Bus 6 */
+> > -    at24c_eeprom_init(i2c[6], 0x56, 65536);
+> > +    at24c_eeprom_init(i2c[6], 0x56, 65536, 1);
+> >       /* Missing model: nxp,pcf85263 @ 0x51 , but ds1338 works enough *=
+/
+> >       i2c_slave_create_simple(i2c[6], "ds1338", 0x51);
+> >
+> >
+> >       /* Bus 7 */
+> > -    at24c_eeprom_init(i2c[7], 0x54, 65536);
+> > +    at24c_eeprom_init(i2c[7], 0x54, 65536, 2);
+> >
+> >       /* Bus 9 */
+> >       i2c_slave_create_simple(i2c[9], TYPE_TMP421, 0x4f);
+>
 
