@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5A1E583F9D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:09:14 +0200 (CEST)
-Received: from localhost ([::1]:54584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1242A583FAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 15:12:17 +0200 (CEST)
+Received: from localhost ([::1]:56868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH3GL-0006LT-RT
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55134)
+	id 1oH3JG-00085z-3s
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 09:12:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oH3Bu-0002QB-AO
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:04:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oH3Bo-0000tA-AL
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:04:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659013471;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WBwGlZ/6KjgnfpNW77UvjL6Fwd6a5dnyoSp+ELpscmw=;
- b=Vdwt0BL9HeWUxxLmh2nRGjQDiPZ/UUQLQTYjxCyCk4N/RBFmu41xBOZYK1qjTyMJPYZUsS
- /GZWbbpi3NJRglQcnjfvUftExu5jP9RVnd12TMWdlSeUplequdeCHlqukq/aTCDDpjdTcT
- fQmsLc0s86DRu5Ikr54STXA40+2xcDQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-253-sjajuMxjMT-ZKb_sKVtSyw-1; Thu, 28 Jul 2022 09:04:30 -0400
-X-MC-Unique: sjajuMxjMT-ZKb_sKVtSyw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- r10-20020a05600c284a00b003a2ff6c9d6aso2471371wmb.4
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 06:04:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oH3GN-0006R3-KT; Thu, 28 Jul 2022 09:09:15 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:33391)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oH3GL-0001jM-Qh; Thu, 28 Jul 2022 09:09:15 -0400
+Received: by mail-ot1-x329.google.com with SMTP id
+ y10-20020a9d634a000000b006167f7ce0c5so1160686otk.0; 
+ Thu, 28 Jul 2022 06:09:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=8P1iYUkh0D2fxcXk7oxa/0//UFiQaQPxOm3ZEP0ycJ0=;
+ b=HaDPrLWwGxF6BzlNkXfcc5AGQ1dvtS1a+pWz8ArmAgWAAaT+WRMosxjlLotpvglnjt
+ bbgPS95UnausZuQYtgwBXYAeVvY2nYdw9QVi+ridNP5C7QjffrSSaNS6rLyHcdr/uP/k
+ dWmRaiDHIm47P7w4A1yJT30amfkXWF+JPlCUphUUOlkWdWlxTHiGtKH5O7oYMbk7GJ5k
+ JgDU/tQ2lPVohLIOcunNhb3dVomfr7MRTidoZbUFz+1VZss3wybVn2l11OmL377quz7y
+ azu16vEeI3K/33fwiQrZD0C/o9BzGZOMSLgLD1IsdxjDbHfD1pvlgS9afz0156hIvcT4
+ kKeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=WBwGlZ/6KjgnfpNW77UvjL6Fwd6a5dnyoSp+ELpscmw=;
- b=HJBAp8pcwGt9oXfz4/iiE0LIwiJPEKOS0A2AcnXzOpab2tv4tARdG4NZzo76QBZ7M/
- fYOuO0kTjjssP3QK7niKB0o+0t2zCrOl3dz4ixeUPADY42I1ScFr7gJt6EMXk64CoUWA
- dlZT3WEyN1rPKNEiyb1ovBPiaIOKRLERtTtyuE+5qlBwfMvuMYcPJKt/6A9ZoTOqUbkU
- 6OpaHBSeWZ9angKDK981SEpcFo9aOM1Vl6AK9jluGG/Qw/JDXGvUP1H/7s70vOWgBz5I
- XgMqoD5wXGCRDyvu5m6Ys5lcPKzapxrmHnDhjm0gI0+tIhv3D+mi2M7H5WSkrsD0opVT
- 1SMg==
-X-Gm-Message-State: AJIora9T+or3CRKReVgzx3S1k9nCt7ZFBJ7/yZM6ecY4MYQt5dOprxc0
- 4hXFI6f5DUn7Wzx0yuRlM6QMLFHkxXjQ7LMkzb9L70RcpeocF7No+gCOscMixEfJ4CZyhAf7NOd
- u0dTdgNexM4n9yqQ=
-X-Received: by 2002:a05:600c:4fcf:b0:3a3:40f6:4c4d with SMTP id
- o15-20020a05600c4fcf00b003a340f64c4dmr6363480wmq.60.1659013469147; 
- Thu, 28 Jul 2022 06:04:29 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sZUNjfwQB0Zx5hShsHiGFDfxc7dIFrxg1mPFODzUw/WUDfXEYOmNA0PgjRqKKM6IjPPhyycQ==
-X-Received: by 2002:a05:600c:4fcf:b0:3a3:40f6:4c4d with SMTP id
- o15-20020a05600c4fcf00b003a340f64c4dmr6363450wmq.60.1659013468598; 
- Thu, 28 Jul 2022 06:04:28 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-134.web.vodafone.de.
- [109.43.176.134]) by smtp.gmail.com with ESMTPSA id
- d6-20020adff2c6000000b0021f0452eca6sm856106wrp.107.2022.07.28.06.04.27
+ bh=8P1iYUkh0D2fxcXk7oxa/0//UFiQaQPxOm3ZEP0ycJ0=;
+ b=FgobWcTbkGjUvO7rG8EgZDNFyH7cX5TJZF4FB2XpCEwMk6iGKmLPt0CBotKzuZ1AXz
+ /aVAXnohgQoQeqmKxn+TQRaECkmoV5mxYstXaaXldkzVjyK+/mdSfwW8R4zsyrB7A64O
+ 92vZCiDp1NFfsxuqCeoitcwZdQG4GzIqP3uGR+L4QVQF0nE7BR57cbhUTPgHggg7vy9I
+ b3qkmhktfihPTJs38iaV7zPlBl1KynfA3+qm8NeJ8EgCb2ASThDkSg02QyjA+TdXAF5n
+ BngKt/QRxoDmKTePPu9zinHKHQzCWvIJehUrdsswGgmuvgGpUg81PYF7slWVu0AMZPTx
+ rQ8g==
+X-Gm-Message-State: AJIora8RLhUb5y7x24A+NLSZgklgCyEUC/uJi2yhE7c4M4UIPWynT92P
+ s3NGLlgTxL93UvIsHNCvGmX8pds499g=
+X-Google-Smtp-Source: AGRyM1s6QtaNP17g5ixWG9dDWDBfb0FeLW4HgeJax82CM+i2l1w3NxWhRlGBv5woQ6uUu/4pazXP1A==
+X-Received: by 2002:a9d:73d0:0:b0:61c:8d31:6981 with SMTP id
+ m16-20020a9d73d0000000b0061c8d316981mr10419125otk.99.1659013751414; 
+ Thu, 28 Jul 2022 06:09:11 -0700 (PDT)
+Received: from [192.168.10.102] ([179.225.208.46])
+ by smtp.gmail.com with ESMTPSA id
+ e137-20020a4a558f000000b00431d44849e9sm347881oob.20.2022.07.28.06.09.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 06:04:28 -0700 (PDT)
-Message-ID: <75f92280-97b9-1ace-be12-ebc2993d2066@redhat.com>
-Date: Thu, 28 Jul 2022 15:04:27 +0200
+ Thu, 28 Jul 2022 06:09:11 -0700 (PDT)
+Message-ID: <79ffedd9-0bf5-4ed2-dc0e-50d6d41c554c@gmail.com>
+Date: Thu, 28 Jul 2022 10:09:05 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 1/2] migration-test: Use migrate_ensure_converge() for
- auto-converge
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3 05/12] ppc/pnv: turn PnvPHB4 into a PnvPHB backend
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20220722145654.81103-1-peterx@redhat.com>
- <20220722145654.81103-2-peterx@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220722145654.81103-2-peterx@redhat.com>
+To: Frederic Barrat <fbarrat@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org
+References: <20220624084921.399219-1-danielhb413@gmail.com>
+ <20220624084921.399219-6-danielhb413@gmail.com>
+ <fdb9248c-1b25-ec59-1532-a2ce093edf96@linux.ibm.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <fdb9248c-1b25-ec59-1532-a2ce093edf96@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::329;
+ envelope-from=danielhb413@gmail.com; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,74 +94,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/07/2022 16.56, Peter Xu wrote:
-> Thomas reported that auto-converge test will timeout on MacOS CI gatings.
-> Use the migrate_ensure_converge() helper too in the auto-converge as when
-> Daniel reworked the other test cases.
+
+
+On 7/27/22 14:41, Frederic Barrat wrote:
 > 
-> Since both max_bandwidth / downtime_limit will not be used for converge
-> calculations, make it simple by removing the remaining check, then we can
-> completely remove both variables altogether, since migrate_ensure_converge
-> is used the remaining check won't make much sense anyway.
 > 
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->   tests/qtest/migration-test.c | 17 +----------------
->   1 file changed, 1 insertion(+), 16 deletions(-)
+> On 24/06/2022 10:49, Daniel Henrique Barboza wrote:
 > 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 71595a74fd..dd50aa600c 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -1776,14 +1776,6 @@ static void test_migrate_auto_converge(void)
->        * so we need to decrease a bandwidth.
->        */
->       const int64_t init_pct = 5, inc_pct = 50, max_pct = 95;
-> -    const int64_t max_bandwidth = 400000000; /* ~400Mb/s */
-> -    const int64_t downtime_limit = 250; /* 250ms */
-> -    /*
-> -     * We migrate through unix-socket (> 500Mb/s).
-> -     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
-> -     * So, we can predict expected_threshold
-> -     */
-> -    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
->   
->       if (test_migrate_start(&from, &to, uri, &args)) {
->           return;
-> @@ -1818,8 +1810,7 @@ static void test_migrate_auto_converge(void)
->       /* The first percentage of throttling should be equal to init_pct */
->       g_assert_cmpint(percentage, ==, init_pct);
->       /* Now, when we tested that throttling works, let it converge */
-> -    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
-> -    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
-> +    migrate_ensure_converge(from);
->   
->       /*
->        * Wait for pre-switchover status to check last throttle percentage
-> @@ -1830,11 +1821,6 @@ static void test_migrate_auto_converge(void)
->       /* The final percentage of throttling shouldn't be greater than max_pct */
->       percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
->       g_assert_cmpint(percentage, <=, max_pct);
-> -
-> -    remaining = read_ram_property_int(from, "remaining");
-> -    g_assert_cmpint(remaining, <,
-> -                    (expected_threshold + expected_threshold / 100));
-> -
+>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>> index 1df91971b8..b7273f386e 100644
+>> --- a/hw/ppc/pnv.c
+>> +++ b/hw/ppc/pnv.c
+>> @@ -672,7 +672,14 @@ static void pnv_chip_power8_pic_print_info(PnvChip *chip, Monitor *mon)
+>>   static int pnv_chip_power9_pic_print_info_child(Object *child, void *opaque)
+>>   {
+>>       Monitor *mon = opaque;
+>> -    PnvPHB4 *phb4 = (PnvPHB4 *) object_dynamic_cast(child, TYPE_PNV_PHB4);
+>> +    PnvPHB *phb =  (PnvPHB *) object_dynamic_cast(child, TYPE_PNV_PHB);
+>> +    PnvPHB4 *phb4;
+>> +
+>> +    if (!phb) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    phb4 = (PnvPHB4 *)phb->backend;
+>>       if (phb4) {
+>>           pnv_phb4_pic_print_info(phb4, mon);
+> 
+> 
+> The full code in pnv_chip_power9_pic_print_info_child() looks like this:
+> 
+>      PnvPHB *phb =  (PnvPHB *) object_dynamic_cast(child, TYPE_PNV_PHB);
+>      PnvPHB4 *phb4;
+> 
+>      if (!phb) {
+>          return 0;
+>      }
+> 
+>      phb4 = (PnvPHB4 *)phb->backend;
+> 
+>      if (phb4) {
+>          pnv_phb4_pic_print_info(phb4, mon);
+>      }
+> 
+> Which is correct. However, if I want to nitpick, phb->backend is defined when the PnvPHB object is realized, so I don't think we can get here with the pointer being null, so we could remove the second if statement for readability. The reason I mention it is that we don't take that much care in the pnv_chip_power8_pic_print_info() function just above, so it looks a bit odd.
 
-I'm getting this on FreeBSD:
-
-../tests/qtest/migration-test.c:1771:13: error: unused variable 'remaining' 
-[-Werror,-Wunused-variable]
-     int64_t remaining, percentage;
-             ^
-1 error generated.
-
-Did you try this with -Werror ?
-
-  Thomas
+Good point. I changed it to look like this:
 
 
+static int pnv_chip_power9_pic_print_info_child(Object *child, void *opaque)
+{
+     Monitor *mon = opaque;
+     PnvPHB *phb =  (PnvPHB *) object_dynamic_cast(child, TYPE_PNV_PHB);
 
+     if (!phb) {
+         return 0;
+     }
+
+     pnv_phb4_pic_print_info(PNV_PHB4(phb->backend), mon);
+
+     return 0;
+}
+
+phb->backend being either NULL or not a PHB4 object is serious enough to assert
+out, so the PNV_PHB4() macro seems justified.
+
+
+Thanks,
+
+
+Daniel
+
+> 
+> In any case:
+> Reviewed-by: Frederic Barrat <fbarrat@linux.ibm.com>
+> 
+>    Fred
+> 
+> 
+> 
+> 
+>> @@ -2122,8 +2129,14 @@ static void pnv_machine_power9_class_init(ObjectClass *oc, void *data)
+>>       PnvMachineClass *pmc = PNV_MACHINE_CLASS(oc);
+>>       static const char compat[] = "qemu,powernv9\0ibm,powernv";
+>> +    static GlobalProperty phb_compat[] = {
+>> +        { TYPE_PNV_PHB, "version", "4" },
+>> +    };
+>> +
+>>       mc->desc = "IBM PowerNV (Non-Virtualized) POWER9";
+>>       mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power9_v2.0");
+>> +    compat_props_add(mc->compat_props, phb_compat, G_N_ELEMENTS(phb_compat));
+>> +
+>>       xfc->match_nvt = pnv_match_nvt;
+>>       mc->alias = "powernv";
+>> @@ -2140,8 +2153,13 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
+>>       XiveFabricClass *xfc = XIVE_FABRIC_CLASS(oc);
+>>       static const char compat[] = "qemu,powernv10\0ibm,powernv";
+>> +    static GlobalProperty phb_compat[] = {
+>> +        { TYPE_PNV_PHB, "version", "5" },
+>> +    };
+>> +
+>>       mc->desc = "IBM PowerNV (Non-Virtualized) POWER10";
+>>       mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power10_v2.0");
+>> +    compat_props_add(mc->compat_props, phb_compat, G_N_ELEMENTS(phb_compat));
+>>       pmc->compat = compat;
+>>       pmc->compat_size = sizeof(compat);
+>> diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
+>> index 90843ac3a9..f22253358f 100644
+>> --- a/include/hw/pci-host/pnv_phb4.h
+>> +++ b/include/hw/pci-host/pnv_phb4.h
+>> @@ -18,6 +18,7 @@
+>>   typedef struct PnvPhb4PecState PnvPhb4PecState;
+>>   typedef struct PnvPhb4PecStack PnvPhb4PecStack;
+>>   typedef struct PnvPHB4 PnvPHB4;
+>> +typedef struct PnvPHB PnvPHB;
+>>   typedef struct PnvChip PnvChip;
+>>   /*
+>> @@ -78,7 +79,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(PnvPHB4, PNV_PHB4)
+>>   #define PCI_MMIO_TOTAL_SIZE        (0x1ull << 60)
+>>   struct PnvPHB4 {
+>> -    PCIExpressHost parent_obj;
+>> +    DeviceState parent;
+>> +
+>> +    PnvPHB *phb_base;
+>>       uint32_t chip_id;
+>>       uint32_t phb_id;
 
