@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5261A584713
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 22:35:48 +0200 (CEST)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928585847CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 23:42:17 +0200 (CEST)
+Received: from localhost ([::1]:38670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHAEU-0000pF-R5
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 16:35:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58526)
+	id 1oHBGq-0006p4-3D
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 17:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oHAAx-0007LW-Jk; Thu, 28 Jul 2022 16:32:07 -0400
-Received: from mail-oa1-x29.google.com ([2001:4860:4864:20::29]:40808)
+ id 1oHBE6-0004fY-GG; Thu, 28 Jul 2022 17:39:28 -0400
+Received: from mail-oa1-x34.google.com ([2001:4860:4864:20::34]:46042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oHAAw-0004H0-1d; Thu, 28 Jul 2022 16:32:07 -0400
-Received: by mail-oa1-x29.google.com with SMTP id
- 586e51a60fabf-10e45b51f77so3716074fac.7; 
- Thu, 28 Jul 2022 13:32:05 -0700 (PDT)
+ id 1oHBE5-0007IH-0Q; Thu, 28 Jul 2022 17:39:26 -0400
+Received: by mail-oa1-x34.google.com with SMTP id
+ 586e51a60fabf-10d845dcf92so3885774fac.12; 
+ Thu, 28 Jul 2022 14:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=g85C+4aZW1jP0xjdxzWGasnh4qYONvseasJKr8V+Iuk=;
- b=lbWEkITlnafJMhl9PoxBqgcKxWpl+ufWHjsdx8oPXz25/eMvKzSUrd07C3X4Ye/L0v
- EAsTBtm/BHimyW2S/4Z+jX4XmI6KdSr/XmYHVMiY79BhLyHpQXhrq8rLpDO95QPEQK2n
- bbi4LAkX3oYZ/0d4+rZLgszzKurUv48+mRHK1epg7eydj10H0tRNTPlD4jb15CMwuSa0
- CJHthVim3Br1pgva/WhMZc87uMNqEdH+MCa8TrClSVHbyAUWuYZk63DT2dVK2FUU2UAh
- nBZq/a4M5VCiFwNCQyqIztB9Hf72dqHUF1ISVu7UO5jKKf4EZo9+QMnBgK3IsqpRf0GP
- GZyw==
+ bh=8l+S4QlLQ8zxU1HMTKEhFAH35d+PyqAlLtuQMK1u3sk=;
+ b=bcXNCX3zF6U0m3gY5VH9CIcnej0I/3Dazsw8KOoV01rufzxvg48SWqcoN1eM/avhbS
+ DHtKXv729Tw9N17L0vZZrHTmBEl9b7H2Qynx0G2OQ+7Y+20HPuFccG9JvR6Jfa3roEdp
+ SGyTnvt3PK1WV5yDkxWGkb4Xz3Wqy3t7v1/0zZSzI5UhC2A3KY+W5wIQ6F4WBs1y+80P
+ y04NjYcz6jSFOQToC4bno1KRq2uSHh7ytC9nTAFtJ3S68elxFIwlpvnu48ccFk97t6t/
+ AN6eatOj0NDKaK6hdcMwl8r3DQ8Yo5Fz2MIlW6Ab/jVMT1VM1WMr4R/Poq5NZ58hb2B3
+ m5Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=g85C+4aZW1jP0xjdxzWGasnh4qYONvseasJKr8V+Iuk=;
- b=ywVqRXCe4nQD2PRw4jTXwRdjX/NHuBH7wb3vbF/FLzYnM+rx8GBv0nl4nvJvDLL+ND
- 0TttAYm5WLqXK7AAhzJ15Bov+UIAoLpmZ1TqsmwcNVI0b1n34rQWeoMeIJ6fhyRHWQGM
- 073RihZwpBXcnshfGb3weeABe1Y94q67HjrLEPthVVmfKSRzho63tQgc3M1CPx/x7Csm
- NoR1T4IuvMRfKjHPI8hLQqAV9mOrxKr09wLdC10FQEKLVnGunNtHVk4XcbbQ+Rg3e2f3
- K18M9O9eqnrKlEJsM9jM4bFWqxOqS+nIGzXP3y5VqX1i6rxLrJXL9tkE4Qf1eKF2jbkk
- s48w==
-X-Gm-Message-State: AJIora95XVuIpA0TuQqfvpG3Ig7BGz1AKVlVazIgR2rDDSOQa4H2RpDU
- 4QKWLjFHM8mB3kM6LiQ2e2Y=
-X-Google-Smtp-Source: AGRyM1vUQEdPQId1d8dHmVcLDQLWl8KYMrXpwzotxoBQdQbGZPNmt/V/kO432GuFpuoLBxckSMYTqQ==
-X-Received: by 2002:a05:6870:339a:b0:f2:d065:be1f with SMTP id
- w26-20020a056870339a00b000f2d065be1fmr196826oae.69.1659040324435; 
- Thu, 28 Jul 2022 13:32:04 -0700 (PDT)
+ bh=8l+S4QlLQ8zxU1HMTKEhFAH35d+PyqAlLtuQMK1u3sk=;
+ b=le5V0tH4seOnBx/oLzNV7SWKLvxyQaJas+T9b4dc5MFG7UIS1G9XZQ9GbjO5/gSi3q
+ KCNgT48BTvuByYF/cyl2qCf6JrPF6W8oyF4gyQ3PD06oJIXzcgdAsBmtPMhMnlKvuL9S
+ tKgbXhG8iqKaiJgYTqS7nOmC/JrnFi7N7roXGdYwV2a11Di+PxjvAHJI4DCyq6t+IlNt
+ LW2VVQWiPRd78mctO0Wz2y0YJrao6ElvIQ3INuzH9K11FFkH7ZrJddisXjVCwG6vFls3
+ eZ8r/ckbfT1z/D+Jni3pi9UCyVajtIJze5DKuEkPGHYyskMB73MZN9fYKmrnUjkEzgaP
+ LFTg==
+X-Gm-Message-State: AJIora+4wtTrJT4McWFpWzr12SmbfOd2EG2kMt8upmKVz80f3KnS78s6
+ IQeO2zXgIp4jXKoqb7BXv5g=
+X-Google-Smtp-Source: AGRyM1vgUJTXWve0vXhu6GLQOn09cWnnZIOuUe2Do1xN+0sDMg7JAQrgaNTl+OSPxVaoKV1zSFwocA==
+X-Received: by 2002:a05:6870:14c7:b0:f2:c44c:d054 with SMTP id
+ l7-20020a05687014c700b000f2c44cd054mr320891oab.70.1659044363057; 
+ Thu, 28 Jul 2022 14:39:23 -0700 (PDT)
 Received: from [192.168.10.102] ([179.225.208.46])
  by smtp.gmail.com with ESMTPSA id
- h26-20020a9d641a000000b0061c530ec022sm672434otl.79.2022.07.28.13.32.02
+ f24-20020a056870899800b0010db1a8d931sm951036oaq.28.2022.07.28.14.39.20
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 13:32:04 -0700 (PDT)
-Message-ID: <03379d76-a85b-3d1b-c334-ddb02823c418@gmail.com>
-Date: Thu, 28 Jul 2022 17:32:01 -0300
+ Thu, 28 Jul 2022 14:39:22 -0700 (PDT)
+Message-ID: <222e2084-3090-517c-170d-ae098a79aff8@gmail.com>
+Date: Thu, 28 Jul 2022 18:39:18 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PULL 0/3] ppc queue
+Subject: Re: [PATCH] ppc: Remove redundant macro MSR_BOOK3S_MASK.
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
-References: <20220728165519.2101401-1-danielhb413@gmail.com>
- <8a7f394c-55ac-09cb-91b0-41f5d4c12fff@linaro.org>
+To: Yonggang Luo <luoyonggang@gmail.com>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ qemu-trivial@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org
+References: <20220728201135.223-1-luoyonggang@gmail.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <8a7f394c-55ac-09cb-91b0-41f5d4c12fff@linaro.org>
+In-Reply-To: <20220728201135.223-1-luoyonggang@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::29;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x29.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2001:4860:4864:20::34;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x34.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -95,27 +96,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 7/28/22 17:18, Richard Henderson wrote:
-> On 7/28/22 09:55, Daniel Henrique Barboza wrote:
->>    https://gitlab.com/danielhb/qemu.git  pull-ppc-20220728
+On 7/28/22 17:11, Yonggang Luo wrote:
+> Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
+> ---
+>   target/ppc/excp_helper.c | 1 -
+>   1 file changed, 1 deletion(-)
 > 
-> fatal: couldn't find remote ref pull-ppc-20220728
-> 
-> 
-> Did you forget to push the tag to gitlab?
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index cb752b184a..7550aafed6 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -2015,7 +2015,6 @@ void helper_rfi(CPUPPCState *env)
+>       do_rfi(env, env->spr[SPR_SRR0], env->spr[SPR_SRR1] & 0xfffffffful);
+>   }
+>   
+> -#define MSR_BOOK3S_MASK
 
-I guess I mistyped the credentials when running make-pullreq.sh and the
-tag wasn't pushed. Can you try again? It is pushed now:
-
-https://gitlab.com/danielhb/qemu/-/commits/pull-ppc-20220728
+The tag was introduced by a2e71b28e832 ("ppc: Fix rfi/rfid/hrfi/... emulation").
+Even back then it wasn't being used.
 
 
-Thanks,
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+
+Laurent, I believe this is qemu-trivial material. Let me know if you want
+me to get it via the ppc tree instead.
 
 
 Daniel
 
-> 
-> 
-> r~
+
+>   #if defined(TARGET_PPC64)
+>   void helper_rfid(CPUPPCState *env)
+>   {
 
