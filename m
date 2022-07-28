@@ -2,59 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7A4583A45
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 10:22:20 +0200 (CEST)
-Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62269583A5E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 10:30:41 +0200 (CEST)
+Received: from localhost ([::1]:43538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGymh-0003sJ-AL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 04:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46240)
+	id 1oGyuj-0000xa-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 04:30:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oGyYu-0006Be-Ie; Thu, 28 Jul 2022 04:08:04 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:49818 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oGyYo-0000Rx-7b; Thu, 28 Jul 2022 04:08:04 -0400
-Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-01 (Coremail) with SMTP id qwCowADHDJ3EQ+Ji9E5qAw--.14907S2;
- Thu, 28 Jul 2022 16:07:40 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
- qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH] hw/nvme: Add helper functions for qid-db conversion
-Date: Thu, 28 Jul 2022 16:07:10 +0800
-Message-Id: <20220728080710.372027-1-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1oGyam-0006ry-89; Thu, 28 Jul 2022 04:10:11 -0400
+Received: from imap5.colo.codethink.co.uk ([78.40.148.171]:51804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1oGyai-0000gz-Qc; Thu, 28 Jul 2022 04:09:58 -0400
+Received: from cpc152649-stkp13-2-0-cust121.10-2.cable.virginm.net
+ ([86.15.83.122] helo=[192.168.0.17])
+ by imap5.colo.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+ id 1oGyac-007muH-2i; Thu, 28 Jul 2022 09:09:50 +0100
+Message-ID: <a0267001-a369-cfab-40ac-05037649166c@codethink.co.uk>
+Date: Thu, 28 Jul 2022 09:09:49 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
+Content-Language: en-GB
+To: Mayuresh Chitale <mchitale@ventanamicro.com>,
+ Weiwei Li <liweiwei@iscas.ac.cn>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com
+References: <20220721153136.377578-1-mchitale@ventanamicro.com>
+ <20220721153136.377578-4-mchitale@ventanamicro.com>
+ <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
+ <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
+ <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
+ <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowADHDJ3EQ+Ji9E5qAw--.14907S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuw4kWFWxGr48KF1fCF4xtFb_yoW7ur15pF
- s3XFZIyr4fCF1qqa95JrnrXw15Z397XryUCrnxK3Wakr93Zry8Aay8CFWFkF1fZrykZrWY
- vr48JF13WF47JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUvG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAKzI0EY4vE
- 52x082I5MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
- W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
- 1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
- IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAI
- cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa
- 73UjIFyTuYvjTRtGYLUUUUU
-X-Originating-IP: [159.226.43.62]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=78.40.148.171;
+ envelope-from=ben.dooks@codethink.co.uk; helo=imap5.colo.codethink.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -72,165 +66,151 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the introduction of shadow doorbell and ioeventfd, we need to do
-frequent conversion between qid and its doorbell offset. The original
-hard-coded calculation is confusing and error-prone. Add several helper
-functions to do this task.
+On 28/07/2022 07:15, Mayuresh Chitale wrote:
+> On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
+>>
+>> 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
+>>> On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
+>>>> 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
+>>>>> If smstateen is implemented and sstateen0.fcsr is clear then
+>>>>> the
+>>>>> floating point operations must return illegal instruction
+>>>>> exception.
+>>>>>
+>>>>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+>>>>> ---
+>>>>>    target/riscv/csr.c                        | 23 ++++++++++++++
+>>>>>    target/riscv/insn_trans/trans_rvf.c.inc   | 38
+>>>>> +++++++++++++++++++++--
+>>>>>    target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
+>>>>>    3 files changed, 63 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>>>> index ab06b117f9..a597b6cbc7 100644
+>>>>> --- a/target/riscv/csr.c
+>>>>> +++ b/target/riscv/csr.c
+>>>>> @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState *env,
+>>>>> int
+>>>>> csrno)
+>>>>>            !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+>>>>>            return RISCV_EXCP_ILLEGAL_INST;
+>>>>>        }
+>>>>> +
+>>>>> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+>>>>> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+>>>>> +    }
+>>>>>    #endif
+>>>>>        return RISCV_EXCP_NONE;
+>>>>>    }
+>>>>> @@ -1876,6 +1880,9 @@ static RISCVException
+>>>>> write_mstateen0(CPURISCVState *env, int csrno,
+>>>>>                                          target_ulong new_val)
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>>    
+>>>>>        return write_mstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>> @@ -1924,6 +1931,10 @@ static RISCVException
+>>>>> write_mstateen0h(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_mstateenh(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -1973,6 +1984,10 @@ static RISCVException
+>>>>> write_hstateen0(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_hstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -2024,6 +2039,10 @@ static RISCVException
+>>>>> write_hstateen0h(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_hstateenh(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -2083,6 +2102,10 @@ static RISCVException
+>>>>> write_sstateen0(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_sstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> b/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> index a1d3eb52ad..c43c48336b 100644
+>>>>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> @@ -24,9 +24,43 @@
+>>>>>                return false; \
+>>>>>    } while (0)
+>>>>>    
+>>>>> +#ifndef CONFIG_USER_ONLY
+>>>>> +#define SMSTATEEN_CHECK(ctx) do {\
+>>>>> +    CPUState *cpu = ctx->cs; \
+>>>>> +    CPURISCVState *env = cpu->env_ptr; \
+>>>>> +    if (ctx->cfg_ptr->ext_smstateen && \
+>>>>> +        (env->priv < PRV_M)) { \
+>>>>> +        uint64_t stateen = env->mstateen[0]; \
+>>>>> +        uint64_t hstateen = env->hstateen[0]; \
+>>>>> +        uint64_t sstateen = env->sstateen[0]; \
+>>>>> +        if (!(stateen & SMSTATEEN_STATEN)) {\
+>>>>> +            hstateen = 0; \
+>>>>> +            sstateen = 0; \
+>>>>> +        } \
+>>>>> +        if (ctx->virt_enabled) { \
+>>>>> +            stateen &= hstateen; \
+>>>>> +            if (!(hstateen & SMSTATEEN_STATEN)) {\
+>>>>> +                sstateen = 0; \
+>>>>> +            } \
+>>>>> +        } \
+>>>>> +        if (env->priv == PRV_U && has_ext(ctx, RVS))
+>>>>> {\eventually
+>>>>> meaning
+>>>>> +            stateen &= sstateen; \
+>>>>> +        } \
+>>>>> +        if (!(stateen & SMSTATEEN0_FCSR)) { \
+>>>>> +            return false; \
+>>>>> +        } \
+>>>>> +    } \
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
- hw/nvme/ctrl.c | 61 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 39 insertions(+), 22 deletions(-)
+given the size of that I would have thought an "static inline"
+function would be easier to write and maintain for SMSTATEEN_CHECK
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 533ad14e7a..6116c0e660 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -487,6 +487,29 @@ static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqid)
- {
-     return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] != NULL ? 0 : -1;
- }
-+static inline bool nvme_db_offset_is_cq(NvmeCtrl *n, hwaddr offset)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return (offset / stride) & 1;
-+}
-+
-+static inline uint16_t nvme_db_offset_to_qid(NvmeCtrl *n, hwaddr offset)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return offset / (2 * stride);
-+}
-+
-+static inline hwaddr nvme_cqid_to_db_offset(NvmeCtrl *n, uint16_t cqid)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return stride * (cqid * 2 + 1);
-+}
-+
-+static inline hwaddr nvme_sqid_to_db_offset(NvmeCtrl *n, uint16_t sqid)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return stride * sqid * 2;
-+}
- 
- static void nvme_inc_cq_tail(NvmeCQueue *cq)
- {
-@@ -4256,7 +4279,7 @@ static void nvme_cq_notifier(EventNotifier *e)
- static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
- {
-     NvmeCtrl *n = cq->ctrl;
--    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+    uint16_t offset = nvme_cqid_to_db_offset(n, cq->cqid);
-     int ret;
- 
-     ret = event_notifier_init(&cq->notifier, 0);
-@@ -4283,7 +4306,7 @@ static void nvme_sq_notifier(EventNotifier *e)
- static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
- {
-     NvmeCtrl *n = sq->ctrl;
--    uint16_t offset = sq->sqid << 3;
-+    uint16_t offset = nvme_sqid_to_db_offset(n, sq->sqid);
-     int ret;
- 
-     ret = event_notifier_init(&sq->notifier, 0);
-@@ -4300,7 +4323,7 @@ static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
- 
- static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
- {
--    uint16_t offset = sq->sqid << 3;
-+    uint16_t offset = nvme_sqid_to_db_offset(n, sq->sqid);
- 
-     n->sq[sq->sqid] = NULL;
-     timer_free(sq->timer);
-@@ -4379,8 +4402,8 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
-     sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
- 
-     if (n->dbbuf_enabled) {
--        sq->db_addr = n->dbbuf_dbs + (sqid << 3);
--        sq->ei_addr = n->dbbuf_eis + (sqid << 3);
-+        sq->db_addr = n->dbbuf_dbs + nvme_sqid_to_db_offset(n, sqid);
-+        sq->ei_addr = n->dbbuf_eis + nvme_sqid_to_db_offset(n, sqid);
- 
-         if (n->params.ioeventfd && sq->sqid != 0) {
-             if (!nvme_init_sq_ioeventfd(sq)) {
-@@ -4690,8 +4713,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
- static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
- {
--    uint16_t offset = (cq->cqid << 3) + (1 << 2);
--
-+    uint16_t offset = nvme_cqid_to_db_offset(n, cq->cqid);
-+    
-     n->cq[cq->cqid] = NULL;
-     timer_free(cq->timer);
-     if (cq->ioeventfd_enabled) {
-@@ -4755,8 +4778,8 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
-     QTAILQ_INIT(&cq->req_list);
-     QTAILQ_INIT(&cq->sq_list);
-     if (n->dbbuf_enabled) {
--        cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
--        cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
-+        cq->db_addr = n->dbbuf_dbs + nvme_cqid_to_db_offset(n, cqid);
-+        cq->ei_addr = n->dbbuf_eis + nvme_cqid_to_db_offset(n, cqid);
- 
-         if (n->params.ioeventfd && cqid != 0) {
-             if (!nvme_init_cq_ioeventfd(cq)) {
-@@ -6128,13 +6151,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-         NvmeCQueue *cq = n->cq[i];
- 
-         if (sq) {
--            /*
--             * CAP.DSTRD is 0, so offset of ith sq db_addr is (i<<3)
--             * nvme_process_db() uses this hard-coded way to calculate
--             * doorbell offsets. Be consistent with that here.
--             */
--            sq->db_addr = dbs_addr + (i << 3);
--            sq->ei_addr = eis_addr + (i << 3);
-+            sq->db_addr = dbs_addr + nvme_sqid_to_db_offset(n, i);
-+            sq->ei_addr = eis_addr + nvme_sqid_to_db_offset(n, i);
-             pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
-                     sizeof(sq->tail));
- 
-@@ -6146,9 +6164,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-         }
- 
-         if (cq) {
--            /* CAP.DSTRD is 0, so offset of ith cq db_addr is (i<<3)+(1<<2) */
--            cq->db_addr = dbs_addr + (i << 3) + (1 << 2);
--            cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
-+            cq->db_addr = dbs_addr + nvme_cqid_to_db_offset(n, i);
-+            cq->ei_addr = eis_addr + nvme_cqid_to_db_offset(n, i);
-             pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
-                     sizeof(cq->head));
- 
-@@ -6843,14 +6860,14 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         return;
-     }
- 
--    if (((addr - 0x1000) >> 2) & 1) {
-+    if (nvme_db_offset_is_cq(n, addr - 0x1000)) {
-         /* Completion queue doorbell write */
- 
-         uint16_t new_head = val & 0xffff;
-         int start_sqs;
-         NvmeCQueue *cq;
- 
--        qid = (addr - (0x1000 + (1 << 2))) >> 3;
-+        qid = nvme_db_offset_to_qid(n, addr - 0x1000);
-         if (unlikely(nvme_check_cqid(n, qid))) {
-             NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_cq,
-                            "completion queue doorbell write"
-@@ -6925,7 +6942,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         uint16_t new_tail = val & 0xffff;
-         NvmeSQueue *sq;
- 
--        qid = (addr - 0x1000) >> 3;
-+        qid = nvme_db_offset_to_qid(n, addr - 0x1000);
-         if (unlikely(nvme_check_sqid(n, qid))) {
-             NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_sq,
-                            "submission queue doorbell write"
+
 -- 
-2.25.1
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
 
+https://www.codethink.co.uk/privacy.html
 
