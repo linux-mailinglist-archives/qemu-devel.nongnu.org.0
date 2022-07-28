@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6E635839C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:47:06 +0200 (CEST)
-Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D375839F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 10:02:12 +0200 (CEST)
+Received: from localhost ([::1]:53174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGyEb-0006fJ-6w
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:47:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
+	id 1oGyTA-0003sS-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 04:02:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oGy6V-00039F-Jz; Thu, 28 Jul 2022 03:38:43 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:34222 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oGy6S-0006Mu-0J; Thu, 28 Jul 2022 03:38:43 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-05 (Coremail) with SMTP id zQCowAA3WX7xPOJixsydEw--.58857S2;
- Thu, 28 Jul 2022 15:38:26 +0800 (CST)
-Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-References: <20220721153136.377578-1-mchitale@ventanamicro.com>
- <20220721153136.377578-4-mchitale@ventanamicro.com>
- <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
- <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
- <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
- <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <edf4e648-4eb8-2b7a-5b52-c820b0941823@iscas.ac.cn>
-Date: Thu, 28 Jul 2022 15:38:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGyBc-0005M3-Lg
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:44:00 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:47876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGyBa-0007Gi-Ka
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:44:00 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 028CC1FB6E;
+ Thu, 28 Jul 2022 07:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1658994237; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=75z4hzo9ZIp10COCMXJz7lfXlMeFI6x2GLPwOZjgqR8=;
+ b=hVVwKOgmcC7GTTm5r67G+l53qqZCDTQFB5TSdS2roPVIUoMQlFr7uSofDY+oavb9glnLho
+ 6QBbEVMcMMCCMRpfHS65cpuZ7ULap6B1g02QppX3/uHSp/oHU6Fgxpjl1q8vqZofQqZAzs
+ ULtd24go9bkmwA/K6ybs3GFfLeYKmXw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1658994237;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=75z4hzo9ZIp10COCMXJz7lfXlMeFI6x2GLPwOZjgqR8=;
+ b=q3OQBX7Qbz6TNlHYuLjnSsj9IhXg6XrYHio8O6T/Pbv2ACrznKVGKN8zLwZ7HVvujnRXnk
+ Kn9ZXCuWAEQVRMBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id BCB6613A7E;
+ Thu, 28 Jul 2022 07:43:56 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id kGvPKzw+4mI+GwAAMHmgww
+ (envelope-from <cfontana@suse.de>); Thu, 28 Jul 2022 07:43:56 +0000
+Message-ID: <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
+Date: Thu, 28 Jul 2022 09:43:56 +0200
 MIME-Version: 1.0
-In-Reply-To: <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
 Content-Language: en-US
-X-CM-TRANSID: zQCowAA3WX7xPOJixsydEw--.58857S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ww43Ary7Ary8Jw45ur4DJwb_yoW3tryfpr
- 18Ga13C3yDJry2yw1aqas8Jrnxtws7GrWkuwnrtw1ktayDtr43tF4ktry7ury8Ja4UXr13
- ZF4jyFZxCr4fAFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
- 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
- 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
- W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
- IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
- v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
- 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
- AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
- MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
- VFxhVjvjDU0xZFpf9x0JUeRRiUUUUU=
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>
+References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
+ <20220727112737-mutt-send-email-mst@kernel.org>
+ <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,263 +91,176 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-在 2022/7/28 下午2:15, Mayuresh Chitale 写道:
-> On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
->> 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
->>> On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
->>>> 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
->>>>> If smstateen is implemented and sstateen0.fcsr is clear then
->>>>> the
->>>>> floating point operations must return illegal instruction
->>>>> exception.
->>>>>
->>>>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
->>>>> ---
->>>>>    target/riscv/csr.c                        | 23 ++++++++++++++
->>>>>    target/riscv/insn_trans/trans_rvf.c.inc   | 38
->>>>> +++++++++++++++++++++--
->>>>>    target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
->>>>>    3 files changed, 63 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->>>>> index ab06b117f9..a597b6cbc7 100644
->>>>> --- a/target/riscv/csr.c
->>>>> +++ b/target/riscv/csr.c
->>>>> @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState *env,
->>>>> int
->>>>> csrno)
->>>>>            !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
->>>>>            return RISCV_EXCP_ILLEGAL_INST;
->>>>>        }
->>>>> +
->>>>> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->>>>> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
->>>>> +    }
->>>>>    #endif
->>>>>        return RISCV_EXCP_NONE;
->>>>>    }
->>>>> @@ -1876,6 +1880,9 @@ static RISCVException
->>>>> write_mstateen0(CPURISCVState *env, int csrno,
->>>>>                                          target_ulong new_val)
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>>    
->>>>>        return write_mstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>> @@ -1924,6 +1931,10 @@ static RISCVException
->>>>> write_mstateen0h(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_mstateenh(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -1973,6 +1984,10 @@ static RISCVException
->>>>> write_hstateen0(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_hstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -2024,6 +2039,10 @@ static RISCVException
->>>>> write_hstateen0h(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_hstateenh(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> @@ -2083,6 +2102,10 @@ static RISCVException
->>>>> write_sstateen0(CPURISCVState *env, int csrno,
->>>>>    {
->>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
->>>>> SMSTATEEN0_HSENVCFG;
->>>>>    
->>>>> +    if (!riscv_has_ext(env, RVF)) {
->>>>> +        wr_mask |= SMSTATEEN0_FCSR;
->>>>> +    }
->>>>> +
->>>>>        return write_sstateen(env, csrno, wr_mask, new_val);
->>>>>    }
->>>>>    
->>>>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> b/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> index a1d3eb52ad..c43c48336b 100644
->>>>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
->>>>> @@ -24,9 +24,43 @@
->>>>>                return false; \
->>>>>    } while (0)
->>>>>    
->>>>> +#ifndef CONFIG_USER_ONLY
->>>>> +#define SMSTATEEN_CHECK(ctx) do {\
->>>>> +    CPUState *cpu = ctx->cs; \
->>>>> +    CPURISCVState *env = cpu->env_ptr; \
->>>>> +    if (ctx->cfg_ptr->ext_smstateen && \
->>>>> +        (env->priv < PRV_M)) { \
->>>>> +        uint64_t stateen = env->mstateen[0]; \
->>>>> +        uint64_t hstateen = env->hstateen[0]; \
->>>>> +        uint64_t sstateen = env->sstateen[0]; \
->>>>> +        if (!(stateen & SMSTATEEN_STATEN)) {\
->>>>> +            hstateen = 0; \
->>>>> +            sstateen = 0; \
->>>>> +        } \
->>>>> +        if (ctx->virt_enabled) { \
->>>>> +            stateen &= hstateen; \
->>>>> +            if (!(hstateen & SMSTATEEN_STATEN)) {\
->>>>> +                sstateen = 0; \
->>>>> +            } \
->>>>> +        } \
->>>>> +        if (env->priv == PRV_U && has_ext(ctx, RVS))
->>>>> {\eventually
->>>>> meaning
->>>>> +            stateen &= sstateen; \
->>>>> +        } \
->>>>> +        if (!(stateen & SMSTATEEN0_FCSR)) { \
->>>>> +            return false; \
->>>>> +        } \
->>>>> +    } \
->>>>> +} while (0)
->>>> It's better to add a space before '\'.
->>> ok. will modify in the next version.
->>>>> +#else
->>>>> +#define SMSTATEEN_CHECK(ctx)
->>>>> +#endif
->>>>> +
->>>>>    #define REQUIRE_ZFINX_OR_F(ctx) do {\
->>>>> -    if (!ctx->cfg_ptr->ext_zfinx) { \
->>>>> -        REQUIRE_EXT(ctx, RVF); \
->>>>> +    if (!has_ext(ctx, RVF)) { \
->>>>> +        SMSTATEEN_CHECK(ctx); \
->>>>> +        if (!ctx->cfg_ptr->ext_zfinx) { \
->>>>> +            return false; \
->>>>> +        } \
->>>>>        } \
->>>>>    } while (0)
->>>> SMSTATEEN_CHECK is for CSR. and REQUIRE_ZFINX_OR_F is for
->>>> Extension.
->>>> I think It's better to separate them. By the way, if we want the
->>>> smallest modification
->>>> for current code, adding it to REQUIRE_FPU seems better.
->>> Actually REQUIRE_FPU is checking for mstatus.fs but as per
->>> smstateen
->>> spec we need to check for misa.f which is done in
->>> REQUIRE_ZFINX_OR_F.
->> OK. It's acceptable to me  even though I prefer separating them.
+On 7/28/22 03:27, Jason Wang wrote:
+> On Wed, Jul 27, 2022 at 11:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >>
->> However, I find another question in SMSTATEEN_CHECK: when access is
->> disallowed by Xstateen.FCSR,
+>> On Wed, Jul 27, 2022 at 12:51:31PM +0200, Claudio Fontana wrote:
+>>> Hi Michael and all,
+>>>
+>>> I have started researching a qemu / ovs / dpdk bug:
+>>>
+>>> https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
+>>>
+>>> that seems to be affecting multiple parties in the telco space,
+>>>
+>>> and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
+>>> in virtio_set_status, when receiving a status value of 0.
+>>>
+>>> It seems it has always been this way, so I am clearly missing / forgetting something basic,
+>>>
+>>> I checked the virtio spec at https://docs.oasis-open.org/
+>>>
+>>> and from:
+>>>
+>>> "
+>>> 4.1.4.3 Common configuration structure layout
+>>>
+>>> device_status
+>>> The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
+>>>
+>>> "
+>>>
+>>> and
+>>>
+>>> "
+>>> 2.4.1 Device Requirements: Device Reset
+>>> A device MUST reinitialize device status to 0 after receiving a reset.
+>>> "
+>>>
+>>> I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
+>>>
+>>> Instead, we have just the check:
+>>>
+>>>     if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
+>>>         (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
+>>>         virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
+>>>     }
+>>>
+>>> which just sets the started field,
+>>>
+>>> and then we have the call to the virtio device class set_status (virtio_net...),
+>>> but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
+>>>
+>>> "
+>>>     vdev->start_on_kick = false;
+>>>     vdev->started = false;
+>>>     vdev->broken = false;
+>>>     vdev->guest_features = 0;
+>>>     vdev->queue_sel = 0;
+>>>     vdev->status = 0;
+>>>     vdev->disabled = false;
+>>>     qatomic_set(&vdev->isr, 0);
+>>>     vdev->config_vector = VIRTIO_NO_VECTOR;
+>>>     virtio_notify_vector(vdev, vdev->config_vector);
+>>>
+>>>     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>>>         ... initialize vdev->vq[i] ...
+>>>     }
+>>> "
+>>>
+>>> Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
+>>> but what am I missing here?
+>>>
+>>> Thanks,
+>>>
+>>> Claudio
+>>>
+>>> --
+>>> Claudio Fontana
+>>> Engineering Manager Virtualization, SUSE Labs Core
+>>>
+>>> SUSE Software Solutions Italy Srl
 >>
->> it's always return false  which will trigger illegal instruction
->> exception finally.
 >>
->> However, this exception is triggered by accessing fcsr CSR which may
->> trigger illegal instruction trap and virtual
->> instruction trap in different situation.
+>> So for example for pci:
 >>
->> "For convenience, when the stateen CSRs are implemented and misa.F =
->> 0, then if bit 1 of a
->> controlling stateen0 CSR is zero, all floating-point instructions
->> cause an illegal instruction trap (or virtual
->> instruction trap, if relevant), as though they all access fcsr,
->> regardless of whether they really do."
+>>     case VIRTIO_PCI_STATUS:
 >>
->> And  stateen.fcsr is only work when zfinx is enabled, so  it's better
->> to SMSTATEEN_CHECK(ctx) after check for
 >>
->> "!ctx->cfg_ptr->ext_zfinx"
-> Actually the spec refers only to misa.F and not zfinx and regarding the
-> fcsr its :
-> "as though they all access fcsr, regardless of whether they really do"
+>>         ....
+>>
+>>         if (vdev->status == 0) {
+>>             virtio_pci_reset(DEVICE(proxy));
+>>         }
+>>
+>> which I suspect is a bug because:
+>>
+>> static void virtio_pci_reset(DeviceState *qdev)
+>> {
+>>     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
+>>     VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
+>>     PCIDevice *dev = PCI_DEVICE(qdev);
+>>     int i;
+>>
+>>     virtio_bus_reset(bus);
+> 
+> Note that we do virtio_reset() here.
 
-Yeah, they are triggered by accessing fcsr. So they should take the same 
-check as accessing fcsr here.
 
-In above predicate fs for fcsr, if misa.F is zero and zfinx is not 
-supported,illegal instruction fault is triggered.
+Yes, thank you, I completely overlooked it, I noticed this in Michael's response as well.
 
-Otherwise, stateen related check is done when misa.F is zero and may 
-trigger illegal/virtual instruction fault.
+However we end up with multiple calls to k->set_status, one from the virtio_set_status call,
+and one from the virtio_bus_reset(), which is probably something we don't want.
 
-both of this two cases are different in above check.
+All in all it is not clear what the meaning of virtio_set_status is supposed to be I think,
+and I wonder what the assumptions are among all the callers.
+If it is supposed to be an implementation of the virtio standard field as described, I think we should do the reset right then and there,
+but maybe the true meaning of the function is another one I couldn't understand, since _some_ of the cases are processes there.
 
-I also sent related questions in 
-https://github.com/riscv/riscv-state-enable/issues/9.
+And there is a question about ordering:
 
-Any comments are welcome.
+in virtio_pci we end up calling virtio_set_status(0), which gets us k->set_status(vdev, 0), which lands in virtio_net_set_status(0) and virtio_net_vhost_status,
+which causes a vhost_net_stop().
 
-Regards,
+Should we instead land in virtio_net_reset() first, by doing a virtio reset earlier when detecting a 0 value from the driver?
 
-Weiwei Li
+in the scenario I am looking at (with vhost-user, ovs/dpdk, and a guest testpmd application),
+the guest application goes away without any chance to signal (kill -9), then gets immediately restarted and does a write of 0 to status, while qemu and ovs still hold the state for the device.
 
->
->> Regards,
->> Weiwei Li
->>>> Regards,
->>>> Weiwei Li
->>>>
->>>>>    
->>>>> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
->>>>> b/target/riscv/insn_trans/trans_rvzfh.c.inc
->>>>> index 5d07150cd0..b165ea9d58 100644
->>>>> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
->>>>> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
->>>>> @@ -17,24 +17,28 @@
->>>>>     */
->>>>>    
->>>>>    #define REQUIRE_ZFH(ctx) do { \
->>>>> +    SMSTATEEN_CHECK(ctx); \
->>>>>        if (!ctx->cfg_ptr->ext_zfh) {      \
->>>>>            return false;         \
->>>>>        }                         \
->>>>>    } while (0)
->>>>>    
->>>>>    #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
->>>>> +    SMSTATEEN_CHECK(ctx); \
->>>>>        if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) {
->>>>> \
->>>>>            return false;                  \
->>>>>        }                                  \
->>>>>    } while (0)
->>>>>    
->>>>>    #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
->>>>> +    SMSTATEEN_CHECK(ctx); \
->>>>>        if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin))
->>>>> { \
->>>>>            return false;                         \
->>>>>        }                                         \
->>>>>    } while (0)
->>>>>    
->>>>>    #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do {
->>>>> \
->>>>> +    SMSTATEEN_CHECK(ctx); \
->>>>>        if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin
->>>>> ||          \
->>>>>              ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr-
->>>>>> ext_zhinxmin))
->>>>> {     \
->>>>>            return
->>>>> false;                                        \
+As QEMU lands in vhost_net_stop(), it seems to cause a chain of events that crash ovs which is trying to read an rx burst from the queue,
+while QEMU is left hanging waiting forever for a response to VHOST_USER_GET_VRING_BASE issued as a result of vhost_net_stop.
+
+Just saying, I am having more success with the second ordering, but I am still studying, don't have the full picture yet.
+
+Thanks,
+
+Claudio
+
+> 
+>>     msix_unuse_all_vectors(&proxy->pci_dev);
+>>
+>>     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+>>         proxy->vqs[i].enabled = 0;
+>>         proxy->vqs[i].num = 0;
+>>         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
+>>         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
+>>         proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
+>>     }
+>>
+>>
+>> so far so good
+>>
+>>     if (pci_is_express(dev)) {
+>>         pcie_cap_deverr_reset(dev);
+>>         pcie_cap_lnkctl_reset(dev);
+>>
+>>         pci_set_word(dev->config + dev->exp.pm_cap + PCI_PM_CTRL, 0);
+>>     }
+>>
+>> this part is wrong I think, it got here by mistake since the same
+>> function is used for bus level reset.
+>>
+>> Jason, Marcel, any input?
+> 
+> Yes, I think we don't need PCI stuff here. We do virtio reset not pci.
+> 
+> Thanks
+> 
+>>
+>> --
+>> MST
+>>
+> 
+> 
 
 
