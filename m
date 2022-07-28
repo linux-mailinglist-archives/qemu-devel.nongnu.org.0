@@ -2,89 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D915840D1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:15:44 +0200 (CEST)
-Received: from localhost ([::1]:50690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA8B584084
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:04:46 +0200 (CEST)
+Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4Ih-00060Z-DE
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:15:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1oH485-0004Oz-94
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oH3k8-0006Du-OT
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:40:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38375)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oH3ki-0006al-Si
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:40:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oH3jw-0004Fw-HY
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:39:57 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oH3kd-0004bb-Ne
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 09:40:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659015587;
+ s=mimecast20190719; t=1659015631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O8fRSDdh56itwpv6bymC9EnUiHzkNvwsW1Jt2WyNFOY=;
- b=NKdgi4maRsbmIovc8apqNPMrmEgls/5D0VjQzDl+MRc7OyN+eGQMhZj2+IiRQoUsmVZuHA
- cErv1nXs+ojWuPzgRbMMwDh+QY1mrr/4UDX7odrlRa4REiUlp5K3CLaIFT4YN56ffI3o/V
- BkKaS8k1gZ64W5htQSERyN79y4c8+xg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=kxj4JLTufXMOW7MF/TTSGWnGvlpT5sG8ft83+erZ6f0=;
+ b=BT8xOi8OpCur4xpjCiqr+Vxbqzog2lb+q0eR/HcJAgiAs8trUlp6MvDP2siSSsscMBZfVA
+ gRQq5elKZISr+wOceUbW8EGXRJzLU9SKEsQJ2FhYrrgWZwTOCLbF/l/tqDjzfBePxRp91h
+ s11vhoweaZbApT4oNeHd5+2fRz+Zfvc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-478-adPMRNwGMLKTu52Xy3p9Ww-1; Thu, 28 Jul 2022 09:39:46 -0400
-X-MC-Unique: adPMRNwGMLKTu52Xy3p9Ww-1
-Received: by mail-ej1-f70.google.com with SMTP id
- nb10-20020a1709071c8a00b006e8f89863ceso630620ejc.18
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 06:39:46 -0700 (PDT)
+ us-mta-467-VZnSKLlIPbq_VwvIhQLpeQ-1; Thu, 28 Jul 2022 09:40:28 -0400
+X-MC-Unique: VZnSKLlIPbq_VwvIhQLpeQ-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ hb41-20020a170907162900b0072f044ca263so639180ejc.15
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 06:40:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=O8fRSDdh56itwpv6bymC9EnUiHzkNvwsW1Jt2WyNFOY=;
- b=qqF0+OXVP6c38/JRuxCoeGzHMnewk7QiMTwx7CUxzbNgraurLx3Toj7tlnFpbOJteU
- aFlUwDpz7NCXcEPzdKZzD3x53shRa05NNUZ0ZFAp8nmoAXQW3YYvgKXGzY4WqQvDqKq4
- BXB5prYwJIZJy/CK9u4J8TZCt3AlY1SPmj7UPmhz1jAZoCsqRnuzLv5eL5+2JHsiUnoh
- Ge/zdv21QGLbTz0JXkviXXk1kZ/vn0wK5dj88eeK4RXhvE7zDYw1+GXa222ge52PAoI0
- OZ0ZShpv1KOkOmaxuiiUH9E5JY9ifACpNfXvC2pPI9PrEMRN+HpjbRbEw8ust/AxNwq3
- nxhg==
-X-Gm-Message-State: AJIora+UMD8GSDiAP15IYhFsuzMZv75jkHRlWRE1h2vZtwBGFEJ9gtfO
- WGQATW0ccoaXUiB314Lvk/qBPCihq4G9uN2UgUJko2XzEblenFON9YFizrI1DGgodqg4ThMe5GX
- mzFNvV5eSCFPzyCE=
-X-Received: by 2002:a17:907:6d8f:b0:72b:6b87:81f1 with SMTP id
- sb15-20020a1709076d8f00b0072b6b8781f1mr21379105ejc.674.1659015585010; 
- Thu, 28 Jul 2022 06:39:45 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s/TumDK537FG5djXz1bSBwhxQWMaJnruPXWMy1d+imi7PVhvQ1+iIqsVRgus5ssL0ivi3i0g==
-X-Received: by 2002:a17:907:6d8f:b0:72b:6b87:81f1 with SMTP id
- sb15-20020a1709076d8f00b0072b6b8781f1mr21379079ejc.674.1659015584437; 
- Thu, 28 Jul 2022 06:39:44 -0700 (PDT)
+ bh=kxj4JLTufXMOW7MF/TTSGWnGvlpT5sG8ft83+erZ6f0=;
+ b=pUAQu1yazUdFPbrMlA+DCtQqDS5gL35LVfOmtYKZ0CI+0AEdTR6SY9QEg9N8Gvs/gR
+ 2J6TvCPrRAM/HHfGSr9AiZkZ72lFeGYXDr0y8NxSmVOdOv+srKYKyIuwwi7hEZ9/Z5EK
+ lMpcAm0okimcqWg0qJteq1fsWdfoySWUepluK+Kq6GvhXRrFCF51UKt4N1l3r7+ZrlBD
+ lIL2qBS/ktu8cbwEART2LF8IBmb6oza517ncM4ISFm3UObf44AQcNK5HFTeAO8/Jmjjz
+ yual21yI8sW8is8Ixfl59+60z6Lu2D4qVhBar7wodXDC2jYOj90g5oEDvq/iDghGgUve
+ e0bw==
+X-Gm-Message-State: AJIora927Xg6wzbaSF6gqYOXdMSffRN6lgRCP0UMVr9eA+cDb3pG3qC6
+ Q2coJ/b5o1zwJ0O6JsJwfkLcXO2u5amOwt1hKFwF7maCODALe1gP1nqe8ouCBe9w91mTFq7RmEV
+ Q0qalirgg3toVIPo=
+X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id
+ ew10-20020a056402538a00b0043a298ebc2bmr27290344edb.125.1659015627015; 
+ Thu, 28 Jul 2022 06:40:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1uqahCf3tywrCvvDxwVjsM5Y/HWf+mi1HpxjCkVmFF+qcq1z6pwTW2mnnVMp54ifZT3Y5r5lw==
+X-Received: by 2002:a05:6402:538a:b0:43a:298e:bc2b with SMTP id
+ ew10-20020a056402538a00b0043a298ebc2bmr27290309edb.125.1659015626468; 
+ Thu, 28 Jul 2022 06:40:26 -0700 (PDT)
 Received: from redhat.com ([2.54.183.236]) by smtp.gmail.com with ESMTPSA id
- i8-20020aa7dd08000000b0043bea0a48d0sm711603edv.22.2022.07.28.06.39.42
+ fl19-20020a1709072a9300b007052b183d51sm425045ejc.132.2022.07.28.06.40.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jul 2022 06:39:43 -0700 (PDT)
-Date: Thu, 28 Jul 2022 09:39:40 -0400
+ Thu, 28 Jul 2022 06:40:25 -0700 (PDT)
+Date: Thu, 28 Jul 2022 09:40:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Marcel Apfelbaum <marcel@redhat.com>
-Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
-Message-ID: <20220728093501-mutt-send-email-mst@kernel.org>
-References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
- <20220727112737-mutt-send-email-mst@kernel.org>
- <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
- <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
- <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
+To: Cornelia Huck <cohuck@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Yanan Wang <wangyanan55@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Greg Kurz <groug@kaod.org>, Thomas Huth <thuth@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Eric Farman <farman@linux.ibm.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org
+Subject: Re: [PATCH for-7.2] hw: Add compat machines for 7.2
+Message-ID: <20220728094004-mutt-send-email-mst@kernel.org>
+References: <20220727121755.395894-1-cohuck@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20220727121755.395894-1-cohuck@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,216 +108,259 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 11:09:15AM +0200, Claudio Fontana wrote:
-> On 7/28/22 09:43, Claudio Fontana wrote:
-> > On 7/28/22 03:27, Jason Wang wrote:
-> >> On Wed, Jul 27, 2022 at 11:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >>>
-> >>> On Wed, Jul 27, 2022 at 12:51:31PM +0200, Claudio Fontana wrote:
-> >>>> Hi Michael and all,
-> >>>>
-> >>>> I have started researching a qemu / ovs / dpdk bug:
-> >>>>
-> >>>> https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
-> >>>>
-> >>>> that seems to be affecting multiple parties in the telco space,
-> >>>>
-> >>>> and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
-> >>>> in virtio_set_status, when receiving a status value of 0.
-> >>>>
-> >>>> It seems it has always been this way, so I am clearly missing / forgetting something basic,
-> >>>>
-> >>>> I checked the virtio spec at https://docs.oasis-open.org/
-> >>>>
-> >>>> and from:
-> >>>>
-> >>>> "
-> >>>> 4.1.4.3 Common configuration structure layout
-> >>>>
-> >>>> device_status
-> >>>> The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
-> >>>>
-> >>>> "
-> >>>>
-> >>>> and
-> >>>>
-> >>>> "
-> >>>> 2.4.1 Device Requirements: Device Reset
-> >>>> A device MUST reinitialize device status to 0 after receiving a reset.
-> >>>> "
-> >>>>
-> >>>> I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
-> >>>>
-> >>>> Instead, we have just the check:
-> >>>>
-> >>>>     if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
-> >>>>         (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> >>>>         virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
-> >>>>     }
-> >>>>
-> >>>> which just sets the started field,
-> >>>>
-> >>>> and then we have the call to the virtio device class set_status (virtio_net...),
-> >>>> but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
-> >>>>
-> >>>> "
-> >>>>     vdev->start_on_kick = false;
-> >>>>     vdev->started = false;
-> >>>>     vdev->broken = false;
-> >>>>     vdev->guest_features = 0;
-> >>>>     vdev->queue_sel = 0;
-> >>>>     vdev->status = 0;
-> >>>>     vdev->disabled = false;
-> >>>>     qatomic_set(&vdev->isr, 0);
-> >>>>     vdev->config_vector = VIRTIO_NO_VECTOR;
-> >>>>     virtio_notify_vector(vdev, vdev->config_vector);
-> >>>>
-> >>>>     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> >>>>         ... initialize vdev->vq[i] ...
-> >>>>     }
-> >>>> "
-> >>>>
-> >>>> Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
-> >>>> but what am I missing here?
-> >>>>
-> >>>> Thanks,
-> >>>>
-> >>>> Claudio
-> >>>>
-> >>>> --
-> >>>> Claudio Fontana
-> >>>> Engineering Manager Virtualization, SUSE Labs Core
-> >>>>
-> >>>> SUSE Software Solutions Italy Srl
-> >>>
-> >>>
-> >>> So for example for pci:
-> >>>
-> >>>     case VIRTIO_PCI_STATUS:
-> >>>
-> >>>
-> >>>         ....
-> >>>
-> >>>         if (vdev->status == 0) {
-> >>>             virtio_pci_reset(DEVICE(proxy));
-> >>>         }
-> >>>
-> >>> which I suspect is a bug because:
-> >>>
-> >>> static void virtio_pci_reset(DeviceState *qdev)
-> >>> {
-> >>>     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
-> >>>     VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
-> >>>     PCIDevice *dev = PCI_DEVICE(qdev);
-> >>>     int i;
-> >>>
-> >>>     virtio_bus_reset(bus);
-> >>
-> >> Note that we do virtio_reset() here.
-> > 
-> > 
-> > Yes, thank you, I completely overlooked it, I noticed this in Michael's response as well.
-> > 
-> > However we end up with multiple calls to k->set_status, one from the virtio_set_status call,
-> > and one from the virtio_bus_reset(), which is probably something we don't want.
-> > 
-> > All in all it is not clear what the meaning of virtio_set_status is supposed to be I think,
-> > and I wonder what the assumptions are among all the callers.
-> > If it is supposed to be an implementation of the virtio standard field as described, I think we should do the reset right then and there,
-> > but maybe the true meaning of the function is another one I couldn't understand, since _some_ of the cases are processes there.
-> > 
-> > And there is a question about ordering:
-> > 
-> > in virtio_pci we end up calling virtio_set_status(0), which gets us k->set_status(vdev, 0), which lands in virtio_net_set_status(0) and virtio_net_vhost_status,
-> > which causes a vhost_net_stop().
-> > 
-> > Should we instead land in virtio_net_reset() first, by doing a virtio reset earlier when detecting a 0 value from the driver?
-> > 
-> > in the scenario I am looking at (with vhost-user, ovs/dpdk, and a guest testpmd application),
-> > the guest application goes away without any chance to signal (kill -9), then gets immediately restarted and does a write of 0 to status, while qemu and ovs still hold the state for the device.
-> > 
-> > As QEMU lands in vhost_net_stop(), it seems to cause a chain of events that crash ovs which is trying to read an rx burst from the queue,
-> > while QEMU is left hanging waiting forever for a response to VHOST_USER_GET_VRING_BASE issued as a result of vhost_net_stop.
-> > 
-> > Just saying, I am having more success with the second ordering, but I am still studying, don't have the full picture yet.
+On Wed, Jul 27, 2022 at 02:17:55PM +0200, Cornelia Huck wrote:
+> Add 7.2 machine types for arm/i440fx/m68k/q35/s390x/spapr.
 > 
-> 
-> Currently I'm doing (on top of Michael's patch) the following which seems to be working
-> (but of course this does not even being to look at the other transports, architectures etc),
-> just an idea to share:
-> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+whoever needs this first, feel free to merge.
+
 > ---
->  hw/virtio/virtio-pci.c | 7 ++++---
->  hw/virtio/virtio.c     | 7 ++++++-
->  2 files changed, 10 insertions(+), 4 deletions(-)
+>  hw/arm/virt.c              |  9 ++++++++-
+>  hw/core/machine.c          |  3 +++
+>  hw/i386/pc.c               |  3 +++
+>  hw/i386/pc_piix.c          | 14 +++++++++++++-
+>  hw/i386/pc_q35.c           | 13 ++++++++++++-
+>  hw/m68k/virt.c             |  9 ++++++++-
+>  hw/ppc/spapr.c             | 15 +++++++++++++--
+>  hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+>  include/hw/boards.h        |  3 +++
+>  include/hw/i386/pc.h       |  3 +++
+>  10 files changed, 79 insertions(+), 7 deletions(-)
 > 
-> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-> index 3189ec014d..3cbfa3ce3a 100644
-> --- a/hw/virtio/virtio-pci.c
-> +++ b/hw/virtio/virtio-pci.c
-> @@ -312,6 +312,7 @@ static void virtio_ioport_write(void *opaque, uint32_t addr, uint32_t val)
->      case VIRTIO_PCI_QUEUE_PFN:
->          pa = (hwaddr)val << VIRTIO_PCI_QUEUE_ADDR_SHIFT;
->          if (pa == 0) {
-> +            virtio_bus_reset(&proxy->bus);
->              virtio_pci_reset(DEVICE(proxy));
->          }
->          else
-> @@ -1941,11 +1942,8 @@ static void virtio_pci_exit(PCIDevice *pci_dev)
->  static void virtio_pci_reset(DeviceState *qdev)
->  {
->      VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
-> -    VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
-> -    PCIDevice *dev = PCI_DEVICE(qdev);
->      int i;
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 9633f822f361..1a6480fd2a76 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -3094,10 +3094,17 @@ static void machvirt_machine_init(void)
+>  }
+>  type_init(machvirt_machine_init);
 >  
-> -    virtio_bus_reset(bus);
->      msix_unuse_all_vectors(&proxy->pci_dev);
->  
->      for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
-> @@ -1960,7 +1958,10 @@ static void virtio_pci_reset(DeviceState *qdev)
->  static void virtio_pci_bus_reset(DeviceState *qdev)
->  {
->      PCIDevice *dev = PCI_DEVICE(qdev);
-> +    VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
-> +    VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
->  
-> +    virtio_bus_reset(bus);
->      virtio_pci_reset(qdev);
->  
->      if (pci_is_express(dev)) {
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 5d607aeaa0..da58ca6f86 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -1977,6 +1977,12 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val)
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->      trace_virtio_set_status(vdev, val);
->  
-> +    if (val == 0) {
-> +        VirtioBusState *bus = VIRTIO_BUS(qdev_get_parent_bus(DEVICE(vdev)));
-> +        virtio_bus_reset(bus);
-> +        return 0;
-> +    }
+> +static void virt_machine_7_2_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE_AS_LATEST(7, 2)
 > +
->      if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
->          if (!(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK) &&
->              val & VIRTIO_CONFIG_S_FEATURES_OK) {
-> @@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->      int i;
+>  static void virt_machine_7_1_options(MachineClass *mc)
+>  {
+> +    virt_machine_7_2_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>  }
+> -DEFINE_VIRT_MACHINE_AS_LATEST(7, 1)
+> +DEFINE_VIRT_MACHINE(7, 1)
 >  
-> -    virtio_set_status(vdev, 0);
->      if (current_cpu) {
->          /* Guest initiated reset */
->          vdev->device_endian = virtio_current_cpu_endian();
+>  static void virt_machine_7_0_options(MachineClass *mc)
+>  {
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index a673302ccec5..aa520e74a8c8 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -40,6 +40,9 @@
+>  #include "hw/virtio/virtio-pci.h"
+>  #include "qom/object_interfaces.h"
+>  
+> +GlobalProperty hw_compat_7_1[] = {};
+> +const size_t hw_compat_7_1_len = G_N_ELEMENTS(hw_compat_7_1);
+> +
+>  GlobalProperty hw_compat_7_0[] = {
+>      { "arm-gicv3-common", "force-8-bit-prio", "on" },
+>      { "nvme-ns", "eui64-default", "on"},
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 774cb2bf0748..31724c42ac90 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -107,6 +107,9 @@
+>      { "qemu64-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },\
+>      { "athlon-" TYPE_X86_CPU, "model-id", "QEMU Virtual CPU version " v, },
+>  
+> +GlobalProperty pc_compat_7_1[] = {};
+> +const size_t pc_compat_7_1_len = G_N_ELEMENTS(pc_compat_7_1);
+> +
+>  GlobalProperty pc_compat_7_0[] = {};
+>  const size_t pc_compat_7_0_len = G_N_ELEMENTS(pc_compat_7_0);
+>  
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index a234989ac363..34fa0021c7be 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -424,7 +424,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
+>      machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
+>  }
+>  
+> -static void pc_i440fx_7_1_machine_options(MachineClass *m)
+> +static void pc_i440fx_7_2_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_i440fx_machine_options(m);
+> @@ -433,6 +433,18 @@ static void pc_i440fx_7_1_machine_options(MachineClass *m)
+>      pcmc->default_cpu_version = 1;
+>  }
+>  
+> +DEFINE_I440FX_MACHINE(v7_2, "pc-i440fx-7.2", NULL,
+> +                      pc_i440fx_7_2_machine_options);
+> +
+> +static void pc_i440fx_7_1_machine_options(MachineClass *m)
+> +{
+> +    pc_i440fx_7_2_machine_options(m);
+> +    m->alias = NULL;
+> +    m->is_default = false;
+> +    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+> +    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+> +}
+> +
+>  DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+>                        pc_i440fx_7_1_machine_options);
+>  
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index f96cbd04e284..38634cd11413 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -362,7 +362,7 @@ static void pc_q35_machine_options(MachineClass *m)
+>      m->max_cpus = 288;
+>  }
+>  
+> -static void pc_q35_7_1_machine_options(MachineClass *m)
+> +static void pc_q35_7_2_machine_options(MachineClass *m)
+>  {
+>      PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_machine_options(m);
+> @@ -370,6 +370,17 @@ static void pc_q35_7_1_machine_options(MachineClass *m)
+>      pcmc->default_cpu_version = 1;
+>  }
+>  
+> +DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+> +                   pc_q35_7_2_machine_options);
+> +
+> +static void pc_q35_7_1_machine_options(MachineClass *m)
+> +{
+> +    pc_q35_7_2_machine_options(m);
+> +    m->alias = NULL;
+> +    compat_props_add(m->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+> +    compat_props_add(m->compat_props, pc_compat_7_1, pc_compat_7_1_len);
+> +}
+> +
+>  DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+>                     pc_q35_7_1_machine_options);
+>  
+> diff --git a/hw/m68k/virt.c b/hw/m68k/virt.c
+> index 0aa383fa6bda..3122c8ef2c38 100644
+> --- a/hw/m68k/virt.c
+> +++ b/hw/m68k/virt.c
+> @@ -322,10 +322,17 @@ type_init(virt_machine_register_types)
+>      } \
+>      type_init(machvirt_machine_##major##_##minor##_init);
+>  
+> +static void virt_machine_7_2_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_VIRT_MACHINE(7, 2, true)
+> +
+>  static void virt_machine_7_1_options(MachineClass *mc)
+>  {
+> +    virt_machine_7_2_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>  }
+> -DEFINE_VIRT_MACHINE(7, 1, true)
+> +DEFINE_VIRT_MACHINE(7, 1, false)
+>  
+>  static void virt_machine_7_0_options(MachineClass *mc)
+>  {
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index bc9ba6e6dcf2..fb790b61e442 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -4730,15 +4730,26 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
+>      }                                                                \
+>      type_init(spapr_machine_register_##suffix)
+>  
+> +/*
+> + * pseries-7.2
+> + */
+> +static void spapr_machine_7_2_class_options(MachineClass *mc)
+> +{
+> +    /* Defaults for the latest behaviour inherited from the base class */
+> +}
+> +
+> +DEFINE_SPAPR_MACHINE(7_2, "7.2", true);
+> +
+>  /*
+>   * pseries-7.1
+>   */
+>  static void spapr_machine_7_1_class_options(MachineClass *mc)
+>  {
+> -    /* Defaults for the latest behaviour inherited from the base class */
+> +    spapr_machine_7_2_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>  }
+>  
+> -DEFINE_SPAPR_MACHINE(7_1, "7.1", true);
+> +DEFINE_SPAPR_MACHINE(7_1, "7.1", false);
+>  
+>  /*
+>   * pseries-7.0
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index cc3097bfee80..bf1b36d824db 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -792,14 +792,26 @@ bool css_migration_enabled(void)
+>      }                                                                         \
+>      type_init(ccw_machine_register_##suffix)
+>  
+> +static void ccw_machine_7_2_instance_options(MachineState *machine)
+> +{
+> +}
+> +
+> +static void ccw_machine_7_2_class_options(MachineClass *mc)
+> +{
+> +}
+> +DEFINE_CCW_MACHINE(7_2, "7.2", true);
+> +
+>  static void ccw_machine_7_1_instance_options(MachineState *machine)
+>  {
+> +    ccw_machine_7_2_instance_options(machine);
+>  }
+>  
+>  static void ccw_machine_7_1_class_options(MachineClass *mc)
+>  {
+> +    ccw_machine_7_2_class_options(mc);
+> +    compat_props_add(mc->compat_props, hw_compat_7_1, hw_compat_7_1_len);
+>  }
+> -DEFINE_CCW_MACHINE(7_1, "7.1", true);
+> +DEFINE_CCW_MACHINE(7_1, "7.1", false);
+>  
+>  static void ccw_machine_7_0_instance_options(MachineState *machine)
+>  {
+> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> index d94edcef2883..487243a39c84 100644
+> --- a/include/hw/boards.h
+> +++ b/include/hw/boards.h
+> @@ -380,6 +380,9 @@ struct MachineState {
+>      } \
+>      type_init(machine_initfn##_register_types)
+>  
+> +extern GlobalProperty hw_compat_7_1[];
+> +extern const size_t hw_compat_7_1_len;
+> +
+>  extern GlobalProperty hw_compat_7_0[];
+>  extern const size_t hw_compat_7_0_len;
+>  
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index b7735dccfc81..4517fa08f2e9 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -195,6 +195,9 @@ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+>  /* sgx.c */
+>  void pc_machine_init_sgx_epc(PCMachineState *pcms);
+>  
+> +extern GlobalProperty pc_compat_7_1[];
+> +extern const size_t pc_compat_7_1_len;
+> +
+>  extern GlobalProperty pc_compat_7_0[];
+>  extern const size_t pc_compat_7_0_len;
+>  
 > -- 
-> 2.26.2
-
-As you say this is incomplete ... bout could you share a bit more
-of what issue does this address?
-
--- 
-MST
+> 2.35.3
 
 
