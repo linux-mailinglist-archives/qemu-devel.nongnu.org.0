@@ -2,112 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2693E5839CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:48:55 +0200 (CEST)
-Received: from localhost ([::1]:46362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E635839C8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:47:06 +0200 (CEST)
+Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGyGM-0007E2-6i
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:48:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
+	id 1oGyEb-0006fJ-6w
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:47:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGy2q-0000tU-9w; Thu, 28 Jul 2022 03:34:57 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:2758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oGy2j-0005gm-1l; Thu, 28 Jul 2022 03:34:55 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26S7MnJc027000;
- Thu, 28 Jul 2022 07:34:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : to : cc : references : from : subject : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Y4/Shh0ZXSH2VP0Pjc1YiZhorYTtmP6x84wdMKwhqbo=;
- b=OwQO+otrXNIcCmWQo8KMJvqkCatEyvQxAZeof1gHJDGackH1Q7eNlvBzF+pCvTOFlRyr
- 26dn3+FiwniZnlBT/x9NsVWG9fZ3JEGbBt92AdCvU7YF4OXM7tRNmkpzvScrPyMEWBvQ
- okfwrsp84FXdYv83x4M9b4lmQT/R1J5iLJuV62ns8aQVy0xgB1rZ4GjHsTeH93Tb0GWT
- egXnChMlGSvzSd6UNjobut503Nt8U+NDgY9KlhsYBUB1dtMCpXdK1HnA9gSXDUTPNzY3
- U6loigNFgPbm+1H6GmjzWDwdPTj0OPy+t3X4ndYA9WVx9jlDR7xLzKG6ToIqJKPBWLEh CQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hkp100acj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Jul 2022 07:34:45 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26S7Nikq028246;
- Thu, 28 Jul 2022 07:34:44 GMT
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hkp100a9p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Jul 2022 07:34:44 +0000
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26S7Vpcb001439;
- Thu, 28 Jul 2022 07:34:38 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06fra.de.ibm.com with ESMTP id 3hg98fj4um-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Jul 2022 07:34:38 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 26S7Yngf27132412
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 28 Jul 2022 07:34:49 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6E1624C04A;
- Thu, 28 Jul 2022 07:34:35 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D87874C044;
- Thu, 28 Jul 2022 07:34:34 +0000 (GMT)
-Received: from [9.145.67.28] (unknown [9.145.67.28])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 28 Jul 2022 07:34:34 +0000 (GMT)
-Message-ID: <67258c43-3321-515f-671c-fe34cb23a232@linux.ibm.com>
-Date: Thu, 28 Jul 2022 09:34:34 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGy6V-00039F-Jz; Thu, 28 Jul 2022 03:38:43 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:34222 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oGy6S-0006Mu-0J; Thu, 28 Jul 2022 03:38:43 -0400
+Received: from [192.168.3.6] (unknown [116.224.155.20])
+ by APP-05 (Coremail) with SMTP id zQCowAA3WX7xPOJixsydEw--.58857S2;
+ Thu, 28 Jul 2022 15:38:26 +0800 (CST)
+Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
+To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com
+References: <20220721153136.377578-1-mchitale@ventanamicro.com>
+ <20220721153136.377578-4-mchitale@ventanamicro.com>
+ <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
+ <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
+ <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
+ <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <edf4e648-4eb8-2b7a-5b52-c820b0941823@iscas.ac.cn>
+Date: Thu, 28 Jul 2022 15:38:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
+In-Reply-To: <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo"
- <pbonzini@redhat.com>, mhartmay@linux.ibm.com,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- imbrenda@linux.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- seiden@linux.ibm.com, scgl@linux.ibm.com
-References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-13-frankja@linux.ibm.com>
- <CAMxuvazpXtOjWH_OoBDAj0VB4gjGAcy4ozv_oouRYtcZ_+MZvQ@mail.gmail.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-Subject: Re: [PATCH v4 12/17] dump/dump: Add arch section support
-In-Reply-To: <CAMxuvazpXtOjWH_OoBDAj0VB4gjGAcy4ozv_oouRYtcZ_+MZvQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Gx925YwfNeG1TjkNATTjBSax7uewb_x4
-X-Proofpoint-GUID: QFRG04ZfTD-1napaS6Jsk0wKcDmdgk2T
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-07-28_01,2022-07-28_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- adultscore=0 priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0
- spamscore=0 clxscore=1015 mlxlogscore=999 suspectscore=0 malwarescore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2207280030
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-CM-TRANSID: zQCowAA3WX7xPOJixsydEw--.58857S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Ww43Ary7Ary8Jw45ur4DJwb_yoW3tryfpr
+ 18Ga13C3yDJry2yw1aqas8Jrnxtws7GrWkuwnrtw1ktayDtr43tF4ktry7ury8Ja4UXr13
+ ZF4jyFZxCr4fAFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+ 0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+ 2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+ W8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07AlzVAY
+ IcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7
+ v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF
+ 1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIx
+ AIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0D
+ MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIda
+ VFxhVjvjDU0xZFpf9x0JUeRRiUUUUU=
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.84; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,81 +82,263 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNy8yNi8yMiAxMzozMCwgTWFyYy1BbmRyw6kgTHVyZWF1IHdyb3RlOg0KPiBIaQ0KPiAN
-Cj4gT24gVHVlLCBKdWwgMjYsIDIwMjIgYXQgMToyMyBQTSBKYW5vc2NoIEZyYW5rIDxmcmFu
-a2phQGxpbnV4LmlibS5jb20+IHdyb3RlOg0KPj4NCj4+IEFkZCBob29rcyB3aGljaCBhcmNo
-aXRlY3R1cmVzIGNhbiB1c2UgdG8gYWRkIGFyYml0cmFyeSBkYXRhIHRvIGN1c3RvbQ0KPj4g
-c2VjdGlvbnMuDQo+Pg0KPj4gU2lnbmVkLW9mZi1ieTogSmFub3NjaCBGcmFuayA8ZnJhbmtq
-YUBsaW51eC5pYm0uY29tPg0KPj4gLS0tDQo+PiAgIGR1bXAvZHVtcC5jICAgICAgICAgICAg
-ICAgIHwgIDUgKysrKysNCj4+ICAgaW5jbHVkZS9zeXNlbXUvZHVtcC1hcmNoLmggfCAyNyAr
-KysrKysrKysrKysrKysrKysrKysrKysrKysNCj4+ICAgMiBmaWxlcyBjaGFuZ2VkLCAzMiBp
-bnNlcnRpb25zKCspDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2R1bXAvZHVtcC5jIGIvZHVtcC9k
-dW1wLmMNCj4+IGluZGV4IDI5OGExZTkyM2YuLjFlYzRjM2I2YzMgMTAwNjQ0DQo+PiAtLS0g
-YS9kdW1wL2R1bXAuYw0KPj4gKysrIGIvZHVtcC9kdW1wLmMNCj4+IEBAIC0zOTgsNiArMzk4
-LDcgQEAgc3RhdGljIHZvaWQgcHJlcGFyZV9lbGZfc2VjdGlvbl9oZHJzKER1bXBTdGF0ZSAq
-cykNCj4+ICAgICAgIC8qDQo+PiAgICAgICAgKiBTZWN0aW9uIG9yZGVyaW5nOg0KPj4gICAg
-ICAgICogLSBIRFIgemVybyAoaWYgbmVlZGVkKQ0KPj4gKyAgICAgKiAtIEFyY2ggc2VjdGlv
-biBoZHJzDQo+PiAgICAgICAgKiAtIFN0cmluZyB0YWJsZSBoZHINCj4+ICAgICAgICAqLw0K
-Pj4gICAgICAgc2l6ZW9mX3NoZHIgPSBkdW1wX2lzXzY0Yml0KHMpID8gc2l6ZW9mKEVsZjY0
-X1NoZHIpIDogc2l6ZW9mKEVsZjMyX1NoZHIpOw0KPj4gQEAgLTQxNSw2ICs0MTYsOCBAQCBz
-dGF0aWMgdm9pZCBwcmVwYXJlX2VsZl9zZWN0aW9uX2hkcnMoRHVtcFN0YXRlICpzKQ0KPj4g
-ICAgICAgICAgIHJldHVybjsNCj4+ICAgICAgIH0NCj4+DQo+PiArICAgIGJ1ZmZfaGRyICs9
-IGR1bXBfYXJjaF9zZWN0aW9uc193cml0ZV9oZHIoJnMtPmR1bXBfaW5mbywgcywgYnVmZl9o
-ZHIpOw0KPj4gKw0KPj4gICAgICAgLyoNCj4+ICAgICAgICAqIFN0cmluZyB0YWJsZSBuZWVk
-cyB0byBiZSBsYXN0IHNlY3Rpb24gc2luY2Ugc3RyaW5ncyBhcmUgYWRkZWQNCj4+ICAgICAg
-ICAqIHZpYSBhcmNoX3NlY3Rpb25zX3dyaXRlX2hkcigpLg0KPj4gQEAgLTc1OCw2ICs3NjEs
-NyBAQCBzdGF0aWMgdm9pZCBkdW1wX2VuZChEdW1wU3RhdGUgKnMsIEVycm9yICoqZXJycCkN
-Cj4+ICAgICAgICAgICByZXR1cm47DQo+PiAgICAgICB9DQo+PiAgICAgICBzLT5lbGZfc2Vj
-dGlvbl9kYXRhID0gZ19tYWxsb2MwKHMtPmVsZl9zZWN0aW9uX2RhdGFfc2l6ZSk7DQo+PiAr
-ICAgIGR1bXBfYXJjaF9zZWN0aW9uc193cml0ZSgmcy0+ZHVtcF9pbmZvLCBzLCBzLT5lbGZf
-c2VjdGlvbl9kYXRhKTsNCj4+DQo+PiAgICAgICAvKiB3cml0ZSBzZWN0aW9ucyB0byB2bWNv
-cmUgKi8NCj4+ICAgICAgIHdyaXRlX2VsZl9zZWN0aW9ucyhzLCBlcnJwKTsNCj4+IEBAIC0x
-OTI5LDYgKzE5MzMsNyBAQCBzdGF0aWMgdm9pZCBkdW1wX2luaXQoRHVtcFN0YXRlICpzLCBp
-bnQgZmQsIGJvb2wgaGFzX2Zvcm1hdCwNCj4+ICAgICAgICAqIElmIHBoZHJfbnVtIG92ZXJm
-bG93ZWQgd2UgaGF2ZSBhdCBsZWFzdCBvbmUgc2VjdGlvbiBoZWFkZXINCj4+ICAgICAgICAq
-IE1vcmUgc2VjdGlvbnMvaGRycyBjYW4gYmUgYWRkZWQgYnkgdGhlIGFyY2hpdGVjdHVyZXMN
-Cj4+ICAgICAgICAqLw0KPj4gKyAgICBkdW1wX2FyY2hfc2VjdGlvbnNfYWRkKCZzLT5kdW1w
-X2luZm8sICh2b2lkICopcyk7DQo+PiAgICAgICBpZiAocy0+c2hkcl9udW0gPiAxKSB7DQo+
-PiAgICAgICAgICAgLyogUmVzZXJ2ZSB0aGUgc3RyaW5nIHRhYmxlICovDQo+PiAgICAgICAg
-ICAgcy0+c2hkcl9udW0gKz0gMTsNCj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL3N5c2VtdS9k
-dW1wLWFyY2guaCBiL2luY2x1ZGUvc3lzZW11L2R1bXAtYXJjaC5oDQo+PiBpbmRleCBlMjVi
-MDJlOTkwLi5kZTc3OTA4NDI0IDEwMDY0NA0KPj4gLS0tIGEvaW5jbHVkZS9zeXNlbXUvZHVt
-cC1hcmNoLmgNCj4+ICsrKyBiL2luY2x1ZGUvc3lzZW11L2R1bXAtYXJjaC5oDQo+PiBAQCAt
-MjEsNiArMjEsOSBAQCB0eXBlZGVmIHN0cnVjdCBBcmNoRHVtcEluZm8gew0KPj4gICAgICAg
-dWludDMyX3QgcGFnZV9zaXplOyAgICAgIC8qIFRoZSB0YXJnZXQncyBwYWdlIHNpemUuIElm
-IGl0J3MgdmFyaWFibGUgYW5kDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICogdW5rbm93biwgdGhlbiB0aGlzIHNob3VsZCBiZSB0aGUgbWF4aW11bS4gKi8NCj4+ICAg
-ICAgIHVpbnQ2NF90IHBoeXNfYmFzZTsgICAgICAvKiBUaGUgdGFyZ2V0J3MgcGh5c21lbSBi
-YXNlLiAqLw0KPj4gKyAgICB2b2lkICgqYXJjaF9zZWN0aW9uc19hZGRfZm4pKHZvaWQgKm9w
-YXF1ZSk7DQo+PiArICAgIHVpbnQ2NF90ICgqYXJjaF9zZWN0aW9uc193cml0ZV9oZHJfZm4p
-KHZvaWQgKm9wYXF1ZSwgdWludDhfdCAqYnVmZik7DQo+PiArICAgIHZvaWQgKCphcmNoX3Nl
-Y3Rpb25zX3dyaXRlX2ZuKSh2b2lkICpvcGFxdWUsIHVpbnQ4X3QgKmJ1ZmYpOw0KPiANCj4g
-V2h5IG5vdCBwYXNzIER1bXBTdGF0ZT8gSWYgdGhlcmUgaXMgYW4gaXNzdWUgd2l0aCBoZWFk
-ZXIgZGVjbGFyYXRpb24NCj4gb3JkZXIsIHlvdSBjYW4gYWx3YXlzIG1vdmUgdGhlIGRlY2xh
-cmF0aW9uIGluIGluY2x1ZGUvcWVtdS90eXBlZGVmcy5oLA0KPiBJIGd1ZXNzLg0KDQpUaGUg
-Q1BVIG5vdGUgZnVuY3Rpb24gcGFzc2VzIHRoZSBvcGFxdWUgcG9pbnRlciBzbyBJIGRpZCBh
-cyB0aGUgc2FtZS4NCklmIHlvdSB3YW50IEkgY2FuIGhhdmUgYSBsb29rIGlmIGl0IG1ha2Vz
-IHNlbnNlIHRvIG1vdmUgb3ZlciB0byBEdW1wU3RhdGUuDQoNCj4gDQo+PiAgIH0gQXJjaER1
-bXBJbmZvOw0KPj4NCj4+ICAgc3RydWN0IEd1ZXN0UGh5c0Jsb2NrTGlzdDsgLyogbWVtb3J5
-X21hcHBpbmcuaCAqLw0KPj4gQEAgLTI4LDQgKzMxLDI4IEBAIGludCBjcHVfZ2V0X2R1bXBf
-aW5mbyhBcmNoRHVtcEluZm8gKmluZm8sDQo+PiAgICAgICAgICAgICAgICAgICAgICAgICBj
-b25zdCBzdHJ1Y3QgR3Vlc3RQaHlzQmxvY2tMaXN0ICpndWVzdF9waHlzX2Jsb2Nrcyk7DQo+
-PiAgIHNzaXplX3QgY3B1X2dldF9ub3RlX3NpemUoaW50IGNsYXNzLCBpbnQgbWFjaGluZSwg
-aW50IG5yX2NwdXMpOw0KPj4NCj4+ICtzdGF0aWMgaW5saW5lIHZvaWQgZHVtcF9hcmNoX3Nl
-Y3Rpb25zX2FkZChBcmNoRHVtcEluZm8gKmluZm8sIHZvaWQgKm9wYXF1ZSkNCj4+ICt7DQo+
-PiArICAgIGlmIChpbmZvLT5hcmNoX3NlY3Rpb25zX2FkZF9mbikgew0KPj4gKyAgICAgICAg
-aW5mby0+YXJjaF9zZWN0aW9uc19hZGRfZm4ob3BhcXVlKTsNCj4+ICsgICAgfQ0KPj4gK30N
-Cj4+ICsNCj4+ICtzdGF0aWMgaW5saW5lIHVpbnQ2NF90IGR1bXBfYXJjaF9zZWN0aW9uc193
-cml0ZV9oZHIoQXJjaER1bXBJbmZvICppbmZvLA0KPj4gKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHZvaWQgKm9wYXF1ZSwgdWludDhfdCAqYnVm
-ZikNCj4+ICt7DQo+PiArICAgIGlmIChpbmZvLT5hcmNoX3NlY3Rpb25zX3dyaXRlX2hkcl9m
-bikgew0KPj4gKyAgICAgICAgcmV0dXJuIGluZm8tPmFyY2hfc2VjdGlvbnNfd3JpdGVfaGRy
-X2ZuKG9wYXF1ZSwgYnVmZik7DQo+PiArICAgIH0NCj4+ICsgICAgcmV0dXJuIDA7DQo+PiAr
-fQ0KPj4gKw0KPj4gK3N0YXRpYyBpbmxpbmUgdm9pZCBkdW1wX2FyY2hfc2VjdGlvbnNfd3Jp
-dGUoQXJjaER1bXBJbmZvICppbmZvLCB2b2lkICpvcGFxdWUsDQo+PiArICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB1aW50OF90ICpidWZmKQ0KPj4gK3sN
-Cj4+ICsgICAgaWYgKGluZm8tPmFyY2hfc2VjdGlvbnNfd3JpdGVfZm4pIHsNCj4+ICsgICAg
-ICAgIGluZm8tPmFyY2hfc2VjdGlvbnNfd3JpdGVfZm4ob3BhcXVlLCBidWZmKTsNCj4+ICsg
-ICAgfQ0KPj4gK30NCj4gDQo+IFdlIHByb2JhYmx5IGRvbid0IG5lZWQgdGhvc2Ugc3RhdGlj
-IGlubGluZSBoZWxwZXJzIGluIHRoZSBoZWFkZXIuDQo+IA0KDQo=
+
+在 2022/7/28 下午2:15, Mayuresh Chitale 写道:
+> On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
+>> 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
+>>> On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
+>>>> 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
+>>>>> If smstateen is implemented and sstateen0.fcsr is clear then
+>>>>> the
+>>>>> floating point operations must return illegal instruction
+>>>>> exception.
+>>>>>
+>>>>> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+>>>>> ---
+>>>>>    target/riscv/csr.c                        | 23 ++++++++++++++
+>>>>>    target/riscv/insn_trans/trans_rvf.c.inc   | 38
+>>>>> +++++++++++++++++++++--
+>>>>>    target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
+>>>>>    3 files changed, 63 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+>>>>> index ab06b117f9..a597b6cbc7 100644
+>>>>> --- a/target/riscv/csr.c
+>>>>> +++ b/target/riscv/csr.c
+>>>>> @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState *env,
+>>>>> int
+>>>>> csrno)
+>>>>>            !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+>>>>>            return RISCV_EXCP_ILLEGAL_INST;
+>>>>>        }
+>>>>> +
+>>>>> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+>>>>> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+>>>>> +    }
+>>>>>    #endif
+>>>>>        return RISCV_EXCP_NONE;
+>>>>>    }
+>>>>> @@ -1876,6 +1880,9 @@ static RISCVException
+>>>>> write_mstateen0(CPURISCVState *env, int csrno,
+>>>>>                                          target_ulong new_val)
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>>    
+>>>>>        return write_mstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>> @@ -1924,6 +1931,10 @@ static RISCVException
+>>>>> write_mstateen0h(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_mstateenh(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -1973,6 +1984,10 @@ static RISCVException
+>>>>> write_hstateen0(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_hstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -2024,6 +2039,10 @@ static RISCVException
+>>>>> write_hstateen0h(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_hstateenh(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> @@ -2083,6 +2102,10 @@ static RISCVException
+>>>>> write_sstateen0(CPURISCVState *env, int csrno,
+>>>>>    {
+>>>>>        uint64_t wr_mask = SMSTATEEN_STATEN |
+>>>>> SMSTATEEN0_HSENVCFG;
+>>>>>    
+>>>>> +    if (!riscv_has_ext(env, RVF)) {
+>>>>> +        wr_mask |= SMSTATEEN0_FCSR;
+>>>>> +    }
+>>>>> +
+>>>>>        return write_sstateen(env, csrno, wr_mask, new_val);
+>>>>>    }
+>>>>>    
+>>>>> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> b/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> index a1d3eb52ad..c43c48336b 100644
+>>>>> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+>>>>> @@ -24,9 +24,43 @@
+>>>>>                return false; \
+>>>>>    } while (0)
+>>>>>    
+>>>>> +#ifndef CONFIG_USER_ONLY
+>>>>> +#define SMSTATEEN_CHECK(ctx) do {\
+>>>>> +    CPUState *cpu = ctx->cs; \
+>>>>> +    CPURISCVState *env = cpu->env_ptr; \
+>>>>> +    if (ctx->cfg_ptr->ext_smstateen && \
+>>>>> +        (env->priv < PRV_M)) { \
+>>>>> +        uint64_t stateen = env->mstateen[0]; \
+>>>>> +        uint64_t hstateen = env->hstateen[0]; \
+>>>>> +        uint64_t sstateen = env->sstateen[0]; \
+>>>>> +        if (!(stateen & SMSTATEEN_STATEN)) {\
+>>>>> +            hstateen = 0; \
+>>>>> +            sstateen = 0; \
+>>>>> +        } \
+>>>>> +        if (ctx->virt_enabled) { \
+>>>>> +            stateen &= hstateen; \
+>>>>> +            if (!(hstateen & SMSTATEEN_STATEN)) {\
+>>>>> +                sstateen = 0; \
+>>>>> +            } \
+>>>>> +        } \
+>>>>> +        if (env->priv == PRV_U && has_ext(ctx, RVS))
+>>>>> {\eventually
+>>>>> meaning
+>>>>> +            stateen &= sstateen; \
+>>>>> +        } \
+>>>>> +        if (!(stateen & SMSTATEEN0_FCSR)) { \
+>>>>> +            return false; \
+>>>>> +        } \
+>>>>> +    } \
+>>>>> +} while (0)
+>>>> It's better to add a space before '\'.
+>>> ok. will modify in the next version.
+>>>>> +#else
+>>>>> +#define SMSTATEEN_CHECK(ctx)
+>>>>> +#endif
+>>>>> +
+>>>>>    #define REQUIRE_ZFINX_OR_F(ctx) do {\
+>>>>> -    if (!ctx->cfg_ptr->ext_zfinx) { \
+>>>>> -        REQUIRE_EXT(ctx, RVF); \
+>>>>> +    if (!has_ext(ctx, RVF)) { \
+>>>>> +        SMSTATEEN_CHECK(ctx); \
+>>>>> +        if (!ctx->cfg_ptr->ext_zfinx) { \
+>>>>> +            return false; \
+>>>>> +        } \
+>>>>>        } \
+>>>>>    } while (0)
+>>>> SMSTATEEN_CHECK is for CSR. and REQUIRE_ZFINX_OR_F is for
+>>>> Extension.
+>>>> I think It's better to separate them. By the way, if we want the
+>>>> smallest modification
+>>>> for current code, adding it to REQUIRE_FPU seems better.
+>>> Actually REQUIRE_FPU is checking for mstatus.fs but as per
+>>> smstateen
+>>> spec we need to check for misa.f which is done in
+>>> REQUIRE_ZFINX_OR_F.
+>> OK. It's acceptable to me  even though I prefer separating them.
+>>
+>> However, I find another question in SMSTATEEN_CHECK: when access is
+>> disallowed by Xstateen.FCSR,
+>>
+>> it's always return false  which will trigger illegal instruction
+>> exception finally.
+>>
+>> However, this exception is triggered by accessing fcsr CSR which may
+>> trigger illegal instruction trap and virtual
+>> instruction trap in different situation.
+>>
+>> "For convenience, when the stateen CSRs are implemented and misa.F =
+>> 0, then if bit 1 of a
+>> controlling stateen0 CSR is zero, all floating-point instructions
+>> cause an illegal instruction trap (or virtual
+>> instruction trap, if relevant), as though they all access fcsr,
+>> regardless of whether they really do."
+>>
+>> And  stateen.fcsr is only work when zfinx is enabled, so  it's better
+>> to SMSTATEEN_CHECK(ctx) after check for
+>>
+>> "!ctx->cfg_ptr->ext_zfinx"
+> Actually the spec refers only to misa.F and not zfinx and regarding the
+> fcsr its :
+> "as though they all access fcsr, regardless of whether they really do"
+
+Yeah, they are triggered by accessing fcsr. So they should take the same 
+check as accessing fcsr here.
+
+In above predicate fs for fcsr, if misa.F is zero and zfinx is not 
+supported,illegal instruction fault is triggered.
+
+Otherwise, stateen related check is done when misa.F is zero and may 
+trigger illegal/virtual instruction fault.
+
+both of this two cases are different in above check.
+
+I also sent related questions in 
+https://github.com/riscv/riscv-state-enable/issues/9.
+
+Any comments are welcome.
+
+Regards,
+
+Weiwei Li
+
+>
+>> Regards,
+>> Weiwei Li
+>>>> Regards,
+>>>> Weiwei Li
+>>>>
+>>>>>    
+>>>>> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc
+>>>>> b/target/riscv/insn_trans/trans_rvzfh.c.inc
+>>>>> index 5d07150cd0..b165ea9d58 100644
+>>>>> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
+>>>>> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+>>>>> @@ -17,24 +17,28 @@
+>>>>>     */
+>>>>>    
+>>>>>    #define REQUIRE_ZFH(ctx) do { \
+>>>>> +    SMSTATEEN_CHECK(ctx); \
+>>>>>        if (!ctx->cfg_ptr->ext_zfh) {      \
+>>>>>            return false;         \
+>>>>>        }                         \
+>>>>>    } while (0)
+>>>>>    
+>>>>>    #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
+>>>>> +    SMSTATEEN_CHECK(ctx); \
+>>>>>        if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) {
+>>>>> \
+>>>>>            return false;                  \
+>>>>>        }                                  \
+>>>>>    } while (0)
+>>>>>    
+>>>>>    #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
+>>>>> +    SMSTATEEN_CHECK(ctx); \
+>>>>>        if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin))
+>>>>> { \
+>>>>>            return false;                         \
+>>>>>        }                                         \
+>>>>>    } while (0)
+>>>>>    
+>>>>>    #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do {
+>>>>> \
+>>>>> +    SMSTATEEN_CHECK(ctx); \
+>>>>>        if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin
+>>>>> ||          \
+>>>>>              ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr-
+>>>>>> ext_zhinxmin))
+>>>>> {     \
+>>>>>            return
+>>>>> false;                                        \
+
 
