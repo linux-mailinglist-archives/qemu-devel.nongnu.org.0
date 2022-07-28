@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447D35841DE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:38:20 +0200 (CEST)
-Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58829584203
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:42:40 +0200 (CEST)
+Received: from localhost ([::1]:57556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4eY-0002WU-M5
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:38:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41328)
+	id 1oH4ij-0006a0-6v
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:42:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH47l-0004OC-Ka
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:04:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35081)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oH4Rn-0007EQ-Ev
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:25:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46095)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oH47j-0005fV-9H
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:04:24 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1oH4Rg-00024c-Mm
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:25:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659017061;
+ s=mimecast20190719; t=1659018298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DBSTWQeFU5TTHOWp8ApyBl4dW0QC6YJ/QcqdTdxiyiI=;
- b=aTe/SWlvLg4dBWRO2s4hjwV3QaG541vfn9G5yX0u8YxNUtATBtddEjg09gCUXzp6d2LTAw
- dBJOIAa0gJmV9Cbbbl1qMGiTSvEG4gMitiWMfZfrtqUCWOrF4c92q30eLEJ+nA+mhS+1LH
- aPjpI9UQPhjgw5bCxcA2La+9Td5X8Vg=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fglnNCosP9QgBJWtrBjvGJmWv4b9V9TVGXzTPP4S5WY=;
+ b=iRrZyL8T/iCE6BNR0g6FHEpOwFKwhV1cMCUEMUcWVrwzhom0f5u+/sLw8oek0ZUtIN0FDc
+ iaZFzcvpWmQ2WLXkEIZ/ZSKD8o/yzTciIIeUySJlOekYwMMm9CNJz5387hWvYhLCSEgYkp
+ kFxtfyj5Vkq5pbNfc49Qjs37YTWhuHo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-612-XGqdWITFOwGUXicXNovveQ-1; Thu, 28 Jul 2022 10:04:19 -0400
-X-MC-Unique: XGqdWITFOwGUXicXNovveQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-248-q5mOU6PBO_aqT1DD5oCukQ-1; Thu, 28 Jul 2022 10:24:57 -0400
+X-MC-Unique: q5mOU6PBO_aqT1DD5oCukQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1DE301019DE2;
- Thu, 28 Jul 2022 14:04:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2536E492C3B;
- Thu, 28 Jul 2022 14:04:18 +0000 (UTC)
-Date: Thu, 28 Jul 2022 16:04:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Hogan Wang <hogan.wang@huawei.com>, berrange@redhat.com,
- qemu-devel@nongnu.org, wangxinxin.wang@huawei.com, armbru@redhat.com
-Subject: Re: [PATCH 3/3] dump: support cancel dump process
-Message-ID: <YuKXYEVLYA8BCqjY@redhat.com>
-References: <20220727140110.2698-1-hogan.wang@huawei.com>
- <20220727140110.2698-3-hogan.wang@huawei.com>
- <CAJ+F1CK_YZBsy8UEem0aJd6FKgeA1QfYK60Tn0tCTUAuT7LZHw@mail.gmail.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7C9941019C8E;
+ Thu, 28 Jul 2022 14:24:56 +0000 (UTC)
+Received: from gondolin.fritz.box (unknown [10.39.193.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C73418EB7;
+ Thu, 28 Jul 2022 14:24:53 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH for-7.1?] kvm: don't use perror() without useful errno
+Date: Thu, 28 Jul 2022 16:24:46 +0200
+Message-Id: <20220728142446.438177-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CK_YZBsy8UEem0aJd6FKgeA1QfYK60Tn0tCTUAuT7LZHw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -81,53 +76,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.07.2022 um 14:37 hat Marc-André Lureau geschrieben:
-> Hi
-> 
-> On Wed, Jul 27, 2022 at 6:02 PM Hogan Wang via <qemu-devel@nongnu.org>
-> wrote:
-> 
-> > Break saving pages or dump iterate when dump job in cancel state,
-> > make sure dump process exits as soon as possible.
-> >
-> > Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
-> >
-> 
-> Overall, the series looks good to me. Please send it with a top cover
-> letter, so it can be processed by patchew too.
-> 
-> I am not familiar with the job infrastructure, it would be nice if Kevin
-> could check the usage or give some advice.
+perror() is designed to append the decoded errno value to a
+string. This, however, only makes sense if we called something that
+actually sets errno prior to that.
 
-There is one big point I see with this series, which is that it could be
-considered an incompatible change to 'dump-guest-memory'. Clients are
-expected to manage the job now. Though in practice with the default
-settings, maybe it actually just results in clients receiving additional
-QMP events. (Technically, it is still incompatible because the command
-will now fail if you have another job called 'memory-guest-dump' - no
-good reason to have that, but it's a scenario that worked and breaks
-after this series.)
+For the callers that check for split irqchip support that is not the
+case, and we end up with confusing error messages that end in
+"success". Use error_report() instead.
 
-Markus, do you have an opinion on whether job creation must be
-explicitly enabled with a new option or if we can just switch existing
-callers?
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
 
-The implementation of a very basic job looks mostly okay to me, though
-of course it doesn't support a few things like pausing the job and
-proper progress monitoring. But these things are optional, so it's not a
-blocker.
+Not sure if that is still 7.1 material; on the one hand, it's a small
+fix; on the other hand, it has been like that forever...
 
-The one thing I would strongly recommend to include is an auto-dismiss
-option like every other job has. It is required so that management tools
-can query the final job status before it goes away. Most of the
-information is in QMP events, too, but events can be lost. auto-finalize
-isn't required for this job because it doesn't actually do anything in
-the finalize phase.
+I've kept the Arm-specific message in place, although it might be redundant.
 
-I'm not sure how safe the whole thing is when it runs in the background
-and you can send additional QMP commands while it's running, but that is
-preexisting with detach=true.
+---
+ accel/kvm/kvm-all.c | 2 +-
+ target/arm/kvm.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Kevin
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 99aede73b7cb..6955c0b23a22 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2265,7 +2265,7 @@ static void kvm_irqchip_create(KVMState *s)
+     ret = kvm_arch_irqchip_create(s);
+     if (ret == 0) {
+         if (s->kernel_irqchip_split == ON_OFF_AUTO_ON) {
+-            perror("Split IRQ chip mode not supported.");
++            error_report("Split IRQ chip mode not supported.");
+             exit(1);
+         } else {
+             ret = kvm_vm_ioctl(s, KVM_CREATE_IRQCHIP);
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index 4339e1cd6e08..e5c1bd50d29b 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -959,7 +959,7 @@ void kvm_arch_init_irq_routing(KVMState *s)
+ int kvm_arch_irqchip_create(KVMState *s)
+ {
+     if (kvm_kernel_irqchip_split()) {
+-        perror("-machine kernel_irqchip=split is not supported on ARM.");
++        error_report("-machine kernel_irqchip=split is not supported on ARM.");
+         exit(1);
+     }
+ 
+-- 
+2.35.3
 
 
