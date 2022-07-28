@@ -2,80 +2,124 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B6D583974
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:25:14 +0200 (CEST)
-Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C557D58398D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 09:34:58 +0200 (CEST)
+Received: from localhost ([::1]:37690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oGxtP-0003SW-9Z
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:25:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36356)
+	id 1oGy2q-0000ff-8G
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 03:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGxlS-0007eq-M1
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:16:58 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:40532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oGxlQ-0005UQ-DZ
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:16:58 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 8AD1D344BE;
- Thu, 28 Jul 2022 07:16:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1658992614; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vsL7M0eb1nzPn/Te/RCx6JcbKT2HyASE/DhDR1Dtvnw=;
- b=PUW/bmSfbWZ1Hzia1xxEQF2pLVzMQdAC3EhlAAPkBp60QR5fjOfOXWLnQVOXQ4quNtMUVT
- Ttu0U2jqagtTsxXC0Qpyo4ajVJLxCjaSWrdUWAqN7FRVHP+cTpg5mfq9xQKDXGJJyaah+O
- 1UigieXhJyvA3aGLu46Qo2/AuTohyGQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1658992614;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vsL7M0eb1nzPn/Te/RCx6JcbKT2HyASE/DhDR1Dtvnw=;
- b=i+owir9dPKHFYQ8Vnl2DdSDhwngVPaJA1B9MzOBxlIhszudmOakE5277/0SF2U7nsLo7mI
- PvnI2FCqk/DiUJCQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 51AB413A7E;
- Thu, 28 Jul 2022 07:16:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id CpjWEeY34mKTDAAAMHmgww
- (envelope-from <cfontana@suse.de>); Thu, 28 Jul 2022 07:16:54 +0000
-Message-ID: <bf9ca190-37e0-c679-fa5a-4fd16f285ad4@suse.de>
-Date: Thu, 28 Jul 2022 09:16:53 +0200
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGxrj-0003Cf-V9
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:23:30 -0400
+Received: from mail-bn7nam10on2062d.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::62d]:20597
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ray.Huang@amd.com>) id 1oGxrf-0000KM-Aq
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 03:23:26 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OH2/21JpN852iGsRsRsJgZHyXPa78n7YWkigWDdoCm5rfb2lT0UL5l4EhlxSwBPws3gZA3PfLRNeihZCN7HAqmXD4xnPUUIm/J1lUuY1pIPhlNmiE5cH5Bk0YETciB6IDud9+OWqktHzpAnDxK5ZXACkMS7RxTJDwHynfPuQHKGqdfp9wXLsPSgQI1HHgSkJ7Ydy3QRwbAdOfKHNBQ9IBU18+5tIIiyqxRJV5zdtecEEJMdBLZ2oOnFFXjvXyMzapV6b3NdfS8SJGJFadls0CD7xFvtLU/xBQ+bSOSKMSWXRwtaBzqhT5A0+RBknJEsR1BAYY2dho9ijGJJWLkZSCA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JVtWydABZS9UVNKHKOuqwYPe3aWGg5rbzuVhbSD4ULI=;
+ b=KwUzJ4jhWtTd0i1G65KFRD0JRQVzNpFE/zGvPzLfxftBEwwUj/FFuGjo+FbHjE+ktY+m6+Zm3GLwBxmM/o8WrcnKKc5h2eVKaXR1hJHCfoZfoCymALEtr5+jc1AMknvfDypWgDPUjzCWEX5HeEppA/IogFCsM9KE2qtMx6jGpAQJTincg0z5qVlQJlpPwIjoKrrAVPhJVSN3gfuAFEMb+KuLdHNx4gNjwjbOq+1ZwAYTmvGhH+NxEhbkGIM7XJ4l34UwVwrTDMNWidVjYWQmANsCMbi/YIJeBemBQgt6uDWtg1HOo+vohrO5vfZywgeOhsWHTe94x6B+iz9jY2y3uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JVtWydABZS9UVNKHKOuqwYPe3aWGg5rbzuVhbSD4ULI=;
+ b=PnOIgGI188mq1nplPxBFjUeTE33ya/Z2/iVTX0FLF3syadDIaMITPfvs3aWR2L6HlZfcJaAsDN+dVymleKsZgqM12H/UkshvXd/8ghx7csawSsoyvIFlBALYBVRcPVSuvcQly2ZLyaHahG6kRRex4msSkq9leFzLKhoyKEkaIX4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) by
+ MN2PR12MB3935.namprd12.prod.outlook.com (2603:10b6:208:168::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.6; Thu, 28 Jul
+ 2022 07:18:12 +0000
+Received: from DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::ec80:e3fd:e3e2:605d]) by DM5PR12MB2504.namprd12.prod.outlook.com
+ ([fe80::ec80:e3fd:e3e2:605d%5]) with mapi id 15.20.5458.025; Thu, 28 Jul 2022
+ 07:18:12 +0000
+Date: Thu, 28 Jul 2022 15:17:49 +0800
+From: Huang Rui <ray.huang@amd.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: "anthony.perard@citrix.com" <anthony.perard@citrix.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ "Huang, Trigger" <Trigger.Huang@amd.com>
+Subject: Re: Question to mem-path support at QEMU for Xen
+Message-ID: <YuI4HXKaRnnS9foV@amd.com>
+References: <Yt+XS81vmsWoJA5y@amd.com>
+ <20220727101930.66ed56e1@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220727101930.66ed56e1@redhat.com>
+X-ClientProxiedBy: SI2PR01CA0050.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::21) To DM5PR12MB2504.namprd12.prod.outlook.com
+ (2603:10b6:4:b5::19)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
-Content-Language: en-US
-To: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Marcel Apfelbaum <marcel@redhat.com>
-References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
- <20220727112737-mutt-send-email-mst@kernel.org>
- <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=cfontana@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 75e122b7-116b-49ec-db96-08da70695505
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3935:EE_
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JxxMHokLlN3zmJXA13qIHOsvsOEYi1KXj1IEya4deqizHbsGO883Fu+10crgMg7B/ECRrQyVYZsME2z6Y4BURkiqhiV+XobV1xiXJkYNGlxfnwh2i2KeTlOUtoLn1aVjItidZBvZIYd1+eW/Hj/aTGwCJVbx3Em9svxRZHpcQI1O5V1K0AMaCYmjPdoHGS2qTKAwcHUbyXOg4mxAJYWfS0dVTN9a7i4gMjM0mgfqL7E9mP1rjJMj3K+iKdKUbqSHlBNG57nfMAsE4TevopFLfLdE0Cf16+YDKYZGm6vZQNsevT0zg744SXLCx4tODNlqFop4E88ZPrIWrPws2ht54WW3fvg3uX4n+RXwCbZQbXoCD/voXGhMLzrun+hr5jAy9sUMJInuv+Z3UpH36TqYHLcpEysN/godpo3wR33eW87Mv3tnKckTIYHzXq4543CUMK1o24NA0NV5EYe92c1PLzBuouUj6ye18iLKSaEmnjBfX/ob/Rj0IxPLmgtMiZ/HHsk8Fa/wP8sOkxVuL0jD6JNdgrrahQSdpcpXT0V7aQYvsGKV3pwZSrha9o2hm5rRKj3EaFBMn8eMEt0x93Hn+KAg2JWHf1YWfq8dA9jQ4cw51gThVqwwbjXk42ke65SHEKYJ1p9WU346uJGuAwXX8+DETLJovOvm2F+LVAfRb9KXKeBXJRF/yaJQEahc1yksz0ycQ3UcwTP/IGlUiPSWwdHPp19U//N7s/oZSxB6zonR5B1ozqwuF4xZs1/K9ijl
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB2504.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(4636009)(346002)(376002)(136003)(39860400002)(366004)(396003)(41300700001)(26005)(36756003)(6512007)(6666004)(6506007)(8676002)(6486002)(478600001)(66946007)(66556008)(66476007)(38100700002)(4326008)(83380400001)(8936002)(5660300002)(2616005)(54906003)(86362001)(316002)(186003)(2906002)(6916009);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?KEqfQ6Vifx4G6sz3S7Q7Lbs5N2ZlBkepJtyHnl6GmiBj5npSNUo8IvuesaLp?=
+ =?us-ascii?Q?J8yj9shP7NdDO/sI8Rj4bl8pIyNFa7Eo/G2qURKswDHWwZex63Mr5GrbS+kV?=
+ =?us-ascii?Q?2PZ/Fri5dmfn8M3pSwaocw8eHXPQdqNk2Gtf56xjnxXW35xKtDmh8JiavHdV?=
+ =?us-ascii?Q?WqMiQ0ioN9NgYU8o9I21+xKbribsyWBRtQhXo62qolCPQCjmj0uiAazEUNsZ?=
+ =?us-ascii?Q?ZSMn3Jf1A0jGGGW2lqYGHd4UzMe1agbLny4HvYU/UvRbTIgyAV0GDNFudaJd?=
+ =?us-ascii?Q?34mquZzvKSJ05xLl1N7rpQAIXn7aiSxMWSUP/E7/l1nWcPZkItzBzvCARmvD?=
+ =?us-ascii?Q?T8oN4YnVYVK2ULc36HsAtcTVGkM/HPoWMF4B+AsKVOczHw+vWFd+EeVgj1s7?=
+ =?us-ascii?Q?wREN/d++dUCILX4yv1L6ft6ixGAnRFagmnwBpQ3cFj+LVi/lBoW2cbWGWbLC?=
+ =?us-ascii?Q?UvKc9feEmoqu9C0m7fEwF2hZDQnsbQ3OiCjeJnI3/5pW5gKJLwXoEFxCn+xg?=
+ =?us-ascii?Q?BpfSufYiZPQIYs57/nlm3oN/xyO58LQEltpHHL0xjJf4XH+Eb4FKKlDrztpz?=
+ =?us-ascii?Q?5yXDt9+kYbQYRM+ppW5FljAenWz5Bu/BZRT44JZRlIlGXRuBz/a26UL4C3No?=
+ =?us-ascii?Q?nqd8Ehvd5BmWN4aV53OsKnAKvvXHhBRtFyvUkdV3taev2Xbsvx06QgkURzA9?=
+ =?us-ascii?Q?Slg0riC2npx73Sv8ztbrwsIs4oYjbsW8v76NXU5bdflAz8px4cpZTWRzAPsQ?=
+ =?us-ascii?Q?W1ilqZgnWvmGRroRReDDgqvxS2kOL7vbHzFIHsCWNQBGhzlo518owAi+XqYj?=
+ =?us-ascii?Q?GTh6wjPUTA4ycM6M7KWBOHbMbnOAwaCL31qfNE1lDiFjEL9VHbiSkY62A87c?=
+ =?us-ascii?Q?+cqfWv9v0UB1tOBezTC3Gdg0TorlIMFimCoeXxbjp499Fs0eNaotj9NPUtdy?=
+ =?us-ascii?Q?10sR2Zf1ubhdq0WTQPNebVfSVw4HYTcdNJatvG3hWxRYxu8n1iOr4kGXFBvv?=
+ =?us-ascii?Q?GhDFVWyV28dw479ICxj/4fdj7G+r5ph5s6dIhSZra1sky0V/H+ksADR6rmEh?=
+ =?us-ascii?Q?JdhjUL5/ymJjUU49gHQbcyV13V0gVNOmo3bE3euI9tiOyrFpZYn0qG0oXHQI?=
+ =?us-ascii?Q?JRZUay/NThRmfBglkPBqUK9qBIl4e/sk8un11emMv9hPgPtDI5/k8NvZg9X5?=
+ =?us-ascii?Q?GIg9oBEMy5duK7XvuBHYiA/afWBNwD2NTzOKCxImJoB4mM+nH9x42qqLUSpP?=
+ =?us-ascii?Q?t18dfdVIAGr2G6YXQmDrd/joGFZgbAuDyPVrILQil8a6DFNFW/TZ9kQE8a59?=
+ =?us-ascii?Q?ejtH8eG+y1JAv7c60VxFTLbZaan42fIrQ4Ht+3xsgDcPBsz75Esp7CN3+bMr?=
+ =?us-ascii?Q?mmAopwKXQU9hmUgQutn8P5U1PKMKwGyPHUbODSYSGBf1NtoMFTVQ7yP+r4KO?=
+ =?us-ascii?Q?eLJWmCRRNssyLxEsUSbLw/nIX31PfpzP80OxxQIjN7dXR5+eWA7QaPUHUxrN?=
+ =?us-ascii?Q?eu+pzXiNNIjERS1d4KFI0EBMZG6CYo/gqQ+6tU9iA6iMdB6+NK9m9D4FbDUU?=
+ =?us-ascii?Q?nMAMupKfPPknKb7P3Mawa2yiW4EF2o15pJRbuuYX?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 75e122b7-116b-49ec-db96-08da70695505
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB2504.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2022 07:18:12.8076 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AUHjGMhFxkTB/QGy2WCt9r2AHbSwJxuWmEL68dCbBB84dTGSP/1X9g/AQp32xQLR58U5Z6kvzT8dlaDIASNA5A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3935
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::62d;
+ envelope-from=Ray.Huang@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,174 +135,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/28/22 03:27, Jason Wang wrote:
-> On Wed, Jul 27, 2022 at 11:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->>
->> On Wed, Jul 27, 2022 at 12:51:31PM +0200, Claudio Fontana wrote:
->>> Hi Michael and all,
->>>
->>> I have started researching a qemu / ovs / dpdk bug:
->>>
->>> https://inbox.dpdk.org/dev/322122fb-619d-96f6-5c3e-9eabdbf3819a@redhat.com/T/
->>>
->>> that seems to be affecting multiple parties in the telco space,
->>>
->>> and during this process I noticed that qemu/hw/virtio/virtio.c does not do a full virtio reset
->>> in virtio_set_status, when receiving a status value of 0.
->>>
->>> It seems it has always been this way, so I am clearly missing / forgetting something basic,
->>>
->>> I checked the virtio spec at https://docs.oasis-open.org/
->>>
->>> and from:
->>>
->>> "
->>> 4.1.4.3 Common configuration structure layout
->>>
->>> device_status
->>> The driver writes the device status here (see 2.1). Writing 0 into this field resets the device.
->>>
->>> "
->>>
->>> and
->>>
->>> "
->>> 2.4.1 Device Requirements: Device Reset
->>> A device MUST reinitialize device status to 0 after receiving a reset.
->>> "
->>>
->>> I would conclude that in virtio.c::virtio_set_status we should unconditionally do a full virtio_reset.
->>>
->>> Instead, we have just the check:
->>>
->>>     if ((vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) !=
->>>         (val & VIRTIO_CONFIG_S_DRIVER_OK)) {
->>>         virtio_set_started(vdev, val & VIRTIO_CONFIG_S_DRIVER_OK);
->>>     }
->>>
->>> which just sets the started field,
->>>
->>> and then we have the call to the virtio device class set_status (virtio_net...),
->>> but the VirtioDevice is not fully reset, as per the virtio_reset() call we are missing:
->>>
->>> "
->>>     vdev->start_on_kick = false;
->>>     vdev->started = false;
->>>     vdev->broken = false;
->>>     vdev->guest_features = 0;
->>>     vdev->queue_sel = 0;
->>>     vdev->status = 0;
->>>     vdev->disabled = false;
->>>     qatomic_set(&vdev->isr, 0);
->>>     vdev->config_vector = VIRTIO_NO_VECTOR;
->>>     virtio_notify_vector(vdev, vdev->config_vector);
->>>
->>>     for(i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->>>         ... initialize vdev->vq[i] ...
->>>     }
->>> "
->>>
->>> Doing a full reset seems to fix the problem for me, so I can send tentative patches if necessary,
->>> but what am I missing here?
->>>
->>> Thanks,
->>>
->>> Claudio
->>>
->>> --
->>> Claudio Fontana
->>> Engineering Manager Virtualization, SUSE Labs Core
->>>
->>> SUSE Software Solutions Italy Srl
->>
->>
->> So for example for pci:
->>
->>     case VIRTIO_PCI_STATUS:
->>
->>
->>         ....
->>
->>         if (vdev->status == 0) {
->>             virtio_pci_reset(DEVICE(proxy));
->>         }
->>
->> which I suspect is a bug because:
->>
->> static void virtio_pci_reset(DeviceState *qdev)
->> {
->>     VirtIOPCIProxy *proxy = VIRTIO_PCI(qdev);
->>     VirtioBusState *bus = VIRTIO_BUS(&proxy->bus);
->>     PCIDevice *dev = PCI_DEVICE(qdev);
->>     int i;
->>
->>     virtio_bus_reset(bus);
+Hi Igor,
+
+Appreciate you for the reply!
+
+On Wed, Jul 27, 2022 at 04:19:30PM +0800, Igor Mammedov wrote:
+> On Tue, 26 Jul 2022 15:27:07 +0800
+> Huang Rui <ray.huang@amd.com> wrote:
 > 
-> Note that we do virtio_reset() here.
+> > Hi Anthony and other Qemu/Xen guys,
+> > 
+> > We are trying to enable venus on Xen virtualization platform. And we would
+> > like to use the backend memory with memory-backend-memfd,id=mem1,size=4G
+> > options on QEMU, however, the QEMU will tell us the "-mem-path" is not
+> > supported with Xen. I verified the same function on KVM.
+> > 
+> > qemu-system-i386: -mem-path not supported with Xen
+> > 
+> > So may I know whether Xen has any limitation that support
+> > memory-backend-memfd in QEMU or just implementation is not done yet?
+> 
+> Currently Xen doesn't use guest RAM allocation the way the rest of
+> accelerators do. (it has hacks in memory_region/ramblock API,
+> that divert RAM allocation calls to Xen specific API)
 
-
-Indeed, thanks I completely overlooked it.
-
-However we end up with multiple calls to k->set_status,
-one from the virtio_set_status call, and one from the virtio_reset() call, from a single 0 write.
-
-Also I wonder about the ordering. Starting from the guest driver writing 0,
-we end up (for virtio-net), calling virtio_net_set_status() first,
-which lands us in virtio_net_vhost_status(),
-which in the case of an already started vhost lands us in vhost_net_stop().
-
-If we do virtio_reset immediately on seeing the guest writing 0,
-we instead land first in virtio_net_reset().
-
-Which one is the right behavior? I am having more success with the second ordering currently.
-I can describe the scenario in more detail if needed in this context.
-
-All in all, I think that the meaning of virtio_set_status as a function is unclear;
-if is it supposed to match the virtio standard meaning of be virtio status field, then I'd expect we should do the virtio reset right there,
-like we process the other bits of the status field, and not do it again from virtio_pci...
-
-I wonder also about all the callers of virtio_set_status, what the assumptions of each caller are...
-
-Thanks!
-
-Claudio
-
+I am new for Xen and QEMU, we are working on GPU. We would like to have a
+piece of backend memroy like video memory for VirtIO GPU to support guest
+VM Mesa Vulkan (Venus). Do you mean we can the memory_region/ramblock APIs
+to work around it?
 
 > 
->>     msix_unuse_all_vectors(&proxy->pci_dev);
->>
->>     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
->>         proxy->vqs[i].enabled = 0;
->>         proxy->vqs[i].num = 0;
->>         proxy->vqs[i].desc[0] = proxy->vqs[i].desc[1] = 0;
->>         proxy->vqs[i].avail[0] = proxy->vqs[i].avail[1] = 0;
->>         proxy->vqs[i].used[0] = proxy->vqs[i].used[1] = 0;
->>     }
->>
->>
->> so far so good
->>
->>     if (pci_is_express(dev)) {
->>         pcie_cap_deverr_reset(dev);
->>         pcie_cap_lnkctl_reset(dev);
->>
->>         pci_set_word(dev->config + dev->exp.pm_cap + PCI_PM_CTRL, 0);
->>     }
->>
->> this part is wrong I think, it got here by mistake since the same
->> function is used for bus level reset.
->>
->> Jason, Marcel, any input?
-> 
-> Yes, I think we don't need PCI stuff here. We do virtio reset not pci.
-> 
-> Thanks
-> 
->>
->> --
->> MST
->>
-> 
+> The sane way would extend Xen to accept RAM regions (whatever they are
+> ram or fd based) QEMU allocates instead of going its own way. This way
+> it could reuse all memory backends that QEMU provides for the rest of
+> the non-Xen world. (not to mention that we could drop non trivial
+> Xen hacks so that guest RAM handling would be consistent with other
+> accelerators)
 > 
 
+May I know what do you mean by "going its own way"? This sounds good, could
+you please elaborate on how can we implement this? We would like to give a
+try to address the problem on Xen. Would you mind to point somewhere that I
+can learn and understand the RAM region. Very happy to see your
+suggestions!
+
+Thanks & Best Regards,
+Ray
 
