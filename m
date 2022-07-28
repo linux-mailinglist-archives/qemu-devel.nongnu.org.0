@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3672658422B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:49:58 +0200 (CEST)
-Received: from localhost ([::1]:39218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C7A584254
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jul 2022 16:54:23 +0200 (CEST)
+Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oH4po-0005mt-NK
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
+	id 1oH4u5-00025v-W2
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 10:54:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oH4l0-0000Z7-9e
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:44:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25258)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4q9-0006MU-6e
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:50:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oH4kx-0002AK-Ha
- for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:44:57 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oH4q5-0005Ll-Gw
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 10:50:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659019495;
+ s=mimecast20190719; t=1659019812;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1CBDFyEbgKJc3IuuLY1e/oGomLfdfrJlxb+ZFLjj5FQ=;
- b=SBORFw/FBpsYb7jqwEey78agZdX5ld91Dia1XpoTydxyUxOkciHsjyMCBlt36R7b4Tm0Xb
- YIQc1jXGqBNU/hTwqWw2SmTfcUR4ij3zxcM7NzvGiAInxvn1giFXjcywwLRETYjyyn9cx5
- MARG7gKo/m7znrgpcjfA2s9JL6cSO88=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=h1THK366nG+yLMgHoIdTGT8kQ1oG9u1RyeAzzR/3KV8=;
+ b=JnaGl0W77Xfn0LP5VK6E2yd87V0IetMsLwLDajjLYEkzFjzod0vchWfiowKJ2pL/67mAJr
+ wcADW9w+uJTr24+Zekb5GVS/yJaLuRAVZuy2+EdWmYuv1JDjqxNQC+yqxCf9rxtKOW34hx
+ 2T43Bzwy0j4s5k7aVaj01rvTZorNTFg=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-324-rrUxxEQsMCyXDVUMLATkHg-1; Thu, 28 Jul 2022 10:44:53 -0400
-X-MC-Unique: rrUxxEQsMCyXDVUMLATkHg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- t25-20020a1c7719000000b003a3564fa721so1023402wmi.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 07:44:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=1CBDFyEbgKJc3IuuLY1e/oGomLfdfrJlxb+ZFLjj5FQ=;
- b=C9SC9GpmiFg8O3iDVmtVjptkuZmFR0lDtyWN5ElPNsqQXHrRFMnb0FBYzxneh8jeLO
- 0Je0qN3cC8BOrfC0EtMrIWVlkBaaRSssBnfTPmVXkkL50/xKf5YtPZN+ogydExqPkQku
- vvvYgvRewuRmsfLbh38ByXMrc7H3nf2wSK3gDdOf/yzhlzuFyaKs7YbE2hiqDcWqMMGi
- FxQV6yuyXqMF6ftZd3pgvnEJ1s8c+9nfl51Hlcrv/pKs2vFvnZe6airEsRvzxyLJdzSj
- H5QPZOt8AVd034x9weHFSzhmFGGyLY2G7MbHzyg0nGluo+W3WfrKz1Xw6Oamrtm+qHiV
- uKDA==
-X-Gm-Message-State: AJIora/alijyhOpgEAcicPv9qCJ9k4IE0mJE2o1rv1gMb7cAWac93dLs
- l4A7L5fmolg/UFZYWkKiWNzsTkSp4W3IrQYW302F4LskZrYXR9QNb0kgAEYowN+Iz3uYaYqK5fC
- mg2qD9t2qvBcvyWo=
-X-Received: by 2002:a05:6000:1c06:b0:21e:6c39:bb0 with SMTP id
- ba6-20020a0560001c0600b0021e6c390bb0mr18091307wrb.636.1659019492708; 
- Thu, 28 Jul 2022 07:44:52 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1vMiERbE9/MuF4e9Je5yGKlVLLCY9YvOJHAGQ87/iea5+C1wBlKLhM2kpj6cHd9Ne6ACWHxOw==
-X-Received: by 2002:a05:6000:1c06:b0:21e:6c39:bb0 with SMTP id
- ba6-20020a0560001c0600b0021e6c390bb0mr18091289wrb.636.1659019492318; 
- Thu, 28 Jul 2022 07:44:52 -0700 (PDT)
-Received: from [192.168.0.5] (ip-109-43-176-134.web.vodafone.de.
- [109.43.176.134]) by smtp.gmail.com with ESMTPSA id
- i5-20020a5d55c5000000b0021eff2ecb31sm1115672wrw.95.2022.07.28.07.44.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jul 2022 07:44:52 -0700 (PDT)
-Message-ID: <10edefb1-3764-d0e5-f4be-0738224fcb04@redhat.com>
-Date: Thu, 28 Jul 2022 16:44:49 +0200
+ us-mta-185-Gy4yZ42fOnivYoaQEuBBTw-1; Thu, 28 Jul 2022 10:50:08 -0400
+X-MC-Unique: Gy4yZ42fOnivYoaQEuBBTw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DA92218A6506;
+ Thu, 28 Jul 2022 14:50:07 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 592B72166B26;
+ Thu, 28 Jul 2022 14:50:07 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id EE2D421E6930; Thu, 28 Jul 2022 16:50:05 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  Hao Wu <wuhaotsh@google.com>,
+ richard.henderson@linaro.org,  qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,  venture@google.com,  Avi.Fishman@nuvoton.com,
+ kfting@nuvoton.com,  hskinnemoen@google.com,  f4bug@amsat.org,
+ bin.meng@windriver.com,  qemu-block@nongnu.org,  thuth@redhat.com,  Hanna
+ Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v5 5/8] blockdev: Add a new IF type IF_OTHER
+References: <20220714182836.89602-1-wuhaotsh@google.com>
+ <20220714182836.89602-6-wuhaotsh@google.com>
+ <87ilnuda33.fsf@pond.sub.org> <YuGMFRDj3tLOIJK7@redhat.com>
+ <CAFEAcA-_TkDW4tPxvmwEt-Rr6VAr_7aWNX2++CE+1G5cBPtiBg@mail.gmail.com>
+ <YuKPVi9UjmZVqw5a@redhat.com>
+Date: Thu, 28 Jul 2022 16:50:05 +0200
+In-Reply-To: <YuKPVi9UjmZVqw5a@redhat.com> (Kevin Wolf's message of "Thu, 28
+ Jul 2022 15:29:58 +0200")
+Message-ID: <878rodxpeq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] migration-test: Allow test to run without uffd
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20220728133516.92061-1-peterx@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220728133516.92061-1-peterx@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,32 +88,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/07/2022 15.35, Peter Xu wrote:
-> v2:
-> - Fix warning in patch 1 [Thomas]
-> - Collected R-b for Daniel
-> 
-> Compare to v1, this added a new patch as reported by Thomas to (hopefully)
-> allow auto-converge test to pass on some MacOS testbeds.
-> 
-> Please review, thanks.
-> 
-> Peter Xu (2):
->    migration-test: Use migrate_ensure_converge() for auto-converge
->    migration-test: Allow test to run without uffd
-> 
->   tests/qtest/migration-test.c | 67 +++++++++++++++---------------------
->   1 file changed, 27 insertions(+), 40 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Seems to work now:
+> Am 28.07.2022 um 11:46 hat Peter Maydell geschrieben:
+>> On Wed, 27 Jul 2022 at 20:03, Kevin Wolf <kwolf@redhat.com> wrote:
+>> >
+>> > Am 18.07.2022 um 11:49 hat Markus Armbruster geschrieben:
+>> > > An OTP device isn't really a parallel flash, and neither are eFuses.
+>> > > More fast-and-lose use of IF_PFLASH may exist in the tree, and maybe of
+>> > > other interface types, too.
+>> > >
+>> > > This patch introduces IF_OTHER.  The patch after next uses it for an
+>> > > EEPROM device.
+>> > >
+>> > > Do we want IF_OTHER?
+>> >
+>> > What would the semantics even be? Any block device that doesn't pick up
+>> > a different category may pick up IF_OTHER backends?
+>> >
+>> > It certainly feels like a strange interface to ask for "other" disk and
+>> > then getting as surprise what this other thing might be. It's
+>> > essentially the same as having an explicit '-device other', and I
+>> > suppose most people would find that strange.
+>> >
+>> > > If no, I guess we get to abuse IF_PFLASH some more.
+>> > >
+>> > > If yes, I guess we should use IF_PFLASH only for actual parallel flash
+>> > > memory going forward.  Cleaning up existing abuse of IF_PFLASH may not
+>> > > be worth the trouble, though.
+>> > >
+>> > > Thoughts?
+>> >
+>> > If the existing types aren't good enough (I don't have an opinion on
+>> > whether IF_PFLASH is a good match), let's add a new one. But a specific
+>> > new one, not just "other".
+>> 
+>> I think the common thread is "this isn't what anybody actually thinks
+>> of as being a 'disk', but we would like to back it with a block device
+>> anyway". That can cover a fair range of possibilities...
+>
+> How confident are we that no board will ever have two devices of this
+> kind?
+>
+> As long as every board has at most one, if=other is a bad user interface
+> in terms of descriptiveness, but still more or less workable as long as
+> you know what it means for the specific board you use.
+>
+> But if you have more than one device, it becomes hard to predict which
+> device gets which backend - it depends on the initialisation order in
+> the code then,
 
-https://api.cirrus-ci.com/v1/task/4760264934424576/logs/build.log
+Really?  Board code should use IF_OTHER devices just like it uses the
+other interface types, namely connecting each frontend device to a
+backend device with a well-known and fixed interface type and index (or
+bus and unit instead, where appropriate).
 
-Citing:
+>                and I'm pretty sure that this isn't something that should
+> have significance in external interfaces and therefore become a stable
+> API.
 
-" 2/59 qemu:qtest+qtest-x86_64 / qtest-x86_64/migration-test         OK 
-         218.87s   33 subtests passed"
-
-Tested-by: Thomas Huth <thuth@redhat.com>
+I agree that "implied by execution order" is a bad idea: commit
+95fd260f0a "blockdev: Drop unused drive_get_next()".
 
 
