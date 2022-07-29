@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2D25585007
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 14:21:02 +0200 (CEST)
-Received: from localhost ([::1]:57988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33B7958501B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 14:34:04 +0200 (CEST)
+Received: from localhost ([::1]:41452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHOzF-0003dL-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 08:21:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56668)
+	id 1oHPBq-0003g8-HV
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 08:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1oHOuq-0001Zq-9l
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 08:16:29 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:51502)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1oHOun-0004NQ-73
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 08:16:28 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 921A441D27
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 12:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1659096978;
- bh=Y2EuRRN5XTQquRZcXV7NiaOkzWKvjx4IzTGGujk2Ogc=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=cBDCigYDSl8O6+pf/WjJGJfNCvBp9G66uUJiGuE7yMZrCYctsqQGNAUczE+38oP69
- 6jJaXrgzv9l6jDowzm+9ENDl7SN7AwxWqveiIDcwv0HXSa1i5cB4YH+rEHfh3ROgux
- L8ArX/VDZS1bxJhrwYjG0pWHo3NbvCx6gJHIM/hQJA4lE8VNPRoCjS9tqHO5Luoflg
- SZPurvAEl5Y58JfnxaGNfGyZqxjNsYuOlQOeDAs0Hg67jFh4kWCDNTcUpdaFonzUpK
- Z+p546HmpLZN8VIo0g5ikaYG9a18sAn5z8z2cuCyug/Y7T6t7O+RaHjmnf4/N48iVt
- wBpT4IroO67Rw==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 84B2C2E82A3
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 12:16:18 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oHP7P-0000bt-FE
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 08:29:27 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:34687)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
+ id 1oHP7N-0008Fe-JS
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 08:29:27 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id 12so3921486pga.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 05:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=zf+nBueQ8bQgNZsac8BZX4tR24p7BA8KVigYpzfTrKo=;
+ b=QlNoPT/Gpty/OT6rJnmv91ienh19WBrALDNTos7dujiUG1gV6fXhYVuPxFLlN8c57g
+ wMYJxuIa11ufwzssFTM+BsnN6uGy8dz+DSVd9KIO0HjZuoRvtEw3CcJgJOX2w72KzoxY
+ YtkWAmHoHJYNfiPVijF6GAHgLf2rFeAr5gkgf5FGFPyb4UHBeaoJS5Vf3i30UZXrT3Km
+ 7RuQ232iyB3RVezs7X+TE6g+5V2NdHYIDtHXNuZ7h330lx3bI1QWQYbUGzwniOj9hDyN
+ JembXGcCfuiKgxROqKvVFUu6YoeTBstEj6qmFK70bACNwu51LMpg+rpsUHgcnQYPL8T2
+ KUjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=zf+nBueQ8bQgNZsac8BZX4tR24p7BA8KVigYpzfTrKo=;
+ b=ve1w1mD9cAwmli5+BVbMxFzZ3Dk/UGbhHqcgaj61noIy/+kj9Jw0srp6G38c/gKBAP
+ vMXsoziHiS8z/0dW3vC6H2t9tgK3gV1uISLsYhbcbFVRPPstVIObcq36rDHZdZUqSRu7
+ 2xRZdsc6tzsvJFs74GfbiDMiOUYRxHljWmc5EuGddiiVjHObilhXmH9fNjzt5MBxYVFT
+ po8lwHxDylXhRyGtVvk4P/g+UKGvaf3IVyxi2/2hh19bjSvn1QJxA9ev7DpUZ+Bax80+
+ oRg5hYI62EcYLcmeoDIebuqknhTVBokWhS++f9Op3o66jnN6MKRPyM7h2IbFsjn2Om4D
+ Cx5g==
+X-Gm-Message-State: AJIora9JdqPJj59uA+M+koKOZ4QaU6f22RMfgcMMeI39F8CoUfPJ8tTn
+ 8ti9q0mhiDkzP+Utec1NRUrWsA==
+X-Google-Smtp-Source: AGRyM1v+W1Mc1ClxX15bXjMizrXrbB5NvX4S49c04iQDyQmRzfeOOsXrpgyvDt41p4pYfMZKXuY4og==
+X-Received: by 2002:a63:e80e:0:b0:419:d02c:fc8b with SMTP id
+ s14-20020a63e80e000000b00419d02cfc8bmr2719068pgh.385.1659097763595; 
+ Fri, 29 Jul 2022 05:29:23 -0700 (PDT)
+Received: from [192.168.1.18] ([171.50.205.214])
+ by smtp.gmail.com with ESMTPSA id
+ g15-20020a1709029f8f00b001637529493esm3448229plq.66.2022.07.29.05.29.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jul 2022 05:29:22 -0700 (PDT)
+Message-ID: <ea27c17be274bc650c458769ec41259acbccb8aa.camel@ventanamicro.com>
+Subject: Re: [PATCH v6 3/5] target/riscv: smstateen check for fcsr
+From: Mayuresh Chitale <mchitale@ventanamicro.com>
+To: Ben Dooks <ben.dooks@codethink.co.uk>, Weiwei Li <liweiwei@iscas.ac.cn>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: alistair.francis@wdc.com
+Date: Fri, 29 Jul 2022 17:59:16 +0530
+In-Reply-To: <a0267001-a369-cfab-40ac-05037649166c@codethink.co.uk>
+References: <20220721153136.377578-1-mchitale@ventanamicro.com>
+ <20220721153136.377578-4-mchitale@ventanamicro.com>
+ <e819eb9c-fdec-5138-5b94-f8ddd2331f7a@iscas.ac.cn>
+ <fb88d0ccf7f6c4204b932d14fa88f952e314e922.camel@ventanamicro.com>
+ <edef6a28-6378-59a6-5fa8-4f3b0be76b71@iscas.ac.cn>
+ <62e5130693cbdbb32355001469f267f63d0311c0.camel@ventanamicro.com>
+ <a0267001-a369-cfab-40ac-05037649166c@codethink.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 Jul 2022 12:06:01 -0000
-From: Paride Legovini <1921664@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: danagoyette janitor paelzer paride th-huth
- tommy-ubuntuone
-X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
-X-Launchpad-Bug-Modifier: Paride Legovini (paride)
-References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
-Message-Id: <165909636167.49817.967757631886350440.malone@dale.canonical.com>
-Subject: [Bug 1921664] Re: Coroutines are racy for risc64 emu on arm64 - crash
- on Assertion
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d8a8b6effe4eae83e8bb5babdb93ddb4ac4f09e0"; Instance="production"
-X-Launchpad-Hash: 099dc03a670ca17e6f8e420d5bfd9b2bbbaa5194
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=mchitale@ventanamicro.com; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,191 +94,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am consistently hitting this when trying to install the Ubuntu arm64
-ISO image in a VM. A minimal command line that reproduces the problem is
-(host system is jammy arm64):
-
-qemu-system-aarch64 -enable-kvm -m 2048 -M virt -cpu host -nographic
--drive file=3Dflash0.img,if=3Dpflash,format=3Draw -drive
-file=3Dflash1.img,if=3Dpflash,format=3Draw -drive file=3Dimage2.qcow2,if=3D=
-virtio
--cdrom jammy-live-server-arm64.iso
-
-The installation never gets to an end, always crashing.
-
-** Changed in: qemu
-       Status: Expired =3D> Incomplete
-
-** Changed in: qemu (Ubuntu)
-       Status: Expired =3D> Incomplete
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921664
-
-Title:
-  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
-
-Status in QEMU:
-  Incomplete
-Status in qemu package in Ubuntu:
-  Incomplete
-
-Bug description:
-  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
-fect
-  other architectures as well.
-
-  The following case triggers on a Raspberry Pi4 running with arm64 on
-  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
-  but that is what we have seen it so far.
-
-     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
-.0/UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ ./run_riscvVM.sh
-  (wait ~2 minutes)
-     [ OK ] Reached target Local File Systems (Pre).
-     [ OK ] Reached target Local File Systems.
-              Starting udev Kernel Device Manager...
-  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
-ait_impl: Assertion `qemu_in_coroutine()' failed.
-
-  This is often, but not 100% reproducible and the cases differ slightly we
-  see either of:
-  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
-_wait_impl: Assertion `qemu_in_coroutine()' failed.
-  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
- Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-
-  Rebuilding working cases has shown to make them fail, as well as rebulding
-  (or even reinstalling) bad cases has made them work. Also the same builds=
- on
-  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
-ns
-  influencing good/bad case here are not yet known.
-
-  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
--pi#1-overview
-  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
-alled-desktop-arm64+raspi.img.xz
-
- =20
-  --- --- original report --- ---
-
-  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
-  ago broke it.  Now when I launch it, it hits an assertion:
-
-  OpenSBI v0.6
-  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
-  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
-  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
-  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
-  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
-
-  ...
-  Found /boot/extlinux/extlinux.conf
-  Retrieving file: /boot/extlinux/extlinux.conf
-  618 bytes read in 2 ms (301.8 KiB/s)
-  RISC-V Qemu Boot Options
-  1:      Linux kernel-5.5.0-dirty
-  2:      Linux kernel-5.5.0-dirty (recovery mode)
-  Enter choice: 1:        Linux kernel-5.5.0-dirty
-  Retrieving file: /boot/initrd.img-5.5.0-dirty
-  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
-m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
-e virtio-blk-devi
-  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
-ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
-2,format=3Dqcow2,id=3Dhd0 -devi
-  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
-
-  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
-  (fully updated).
-
-  Think you have everything already, but just in case:
-
-  $ lsb_release -rd
-  Description:    Ubuntu Hirsute Hippo (development branch)
-  Release:        21.04
-
-  $ uname -a
-  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
-021 aarch64 aarch64 aarch64 GNU/Linux
-  (note this is a VM running on macOS/M1)
-
-  $ apt-cache policy qemu
-  qemu:
-  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Version table:
-  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
-om/ubuntu-ports hirsute/universe arm64 Packages
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu 1:5.2+dfsg-9ubuntu1
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic aarch64
-  ApportVersion: 2.20.11-0ubuntu61
-  Architecture: arm64
-  CasperMD5CheckResult: unknown
-  CurrentDmesg:
-  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
-t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
-esktop.PolicyKit1.Error.Failed: No session for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
-  Date: Mon Mar 29 02:33:25 2021
-  Dependencies:
-
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  Lspci-vt:
-  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--01.0  Red Hat, Inc. Virtio network device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--05.0  Red Hat, Inc. Virtio console
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--06.0  Red Hat, Inc. Virtio block device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
--07.0  Red Hat, Inc. Virtio RNG
-  Lsusb: Error: command ['lsusb'] failed with exit code 1:
-  Lsusb-t:
-
-  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
-  ProcEnviron:
-  =C2=A0TERM=3Dscreen
-  =C2=A0PATH=3D(custom, no user)
-  =C2=A0XDG_RUNTIME_DIR=3D<set>
-  =C2=A0LANG=3DC.UTF-8
-  =C2=A0SHELL=3D/bin/bash
-  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
-  acpidump:
-  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
-failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
-it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
-for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
+On Thu, 2022-07-28 at 09:09 +0100, Ben Dooks wrote:
+> On 28/07/2022 07:15, Mayuresh Chitale wrote:
+> > On Mon, 2022-07-25 at 15:23 +0800, Weiwei Li wrote:
+> > > 在 2022/7/24 下午11:49, Mayuresh Chitale 写道:
+> > > > On Fri, 2022-07-22 at 09:42 +0800, Weiwei Li wrote:
+> > > > > 在 2022/7/21 下午11:31, Mayuresh Chitale 写道:
+> > > > > > If smstateen is implemented and sstateen0.fcsr is clear
+> > > > > > then
+> > > > > > the
+> > > > > > floating point operations must return illegal instruction
+> > > > > > exception.
+> > > > > > 
+> > > > > > Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
+> > > > > > ---
+> > > > > >    target/riscv/csr.c                        | 23
+> > > > > > ++++++++++++++
+> > > > > >    target/riscv/insn_trans/trans_rvf.c.inc   | 38
+> > > > > > +++++++++++++++++++++--
+> > > > > >    target/riscv/insn_trans/trans_rvzfh.c.inc |  4 +++
+> > > > > >    3 files changed, 63 insertions(+), 2 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > > > > > index ab06b117f9..a597b6cbc7 100644
+> > > > > > --- a/target/riscv/csr.c
+> > > > > > +++ b/target/riscv/csr.c
+> > > > > > @@ -96,6 +96,10 @@ static RISCVException fs(CPURISCVState
+> > > > > > *env,
+> > > > > > int
+> > > > > > csrno)
+> > > > > >            !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
+> > > > > >            return RISCV_EXCP_ILLEGAL_INST;
+> > > > > >        }
+> > > > > > +
+> > > > > > +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
+> > > > > > +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
+> > > > > > +    }
+> > > > > >    #endif
+> > > > > >        return RISCV_EXCP_NONE;
+> > > > > >    }
+> > > > > > @@ -1876,6 +1880,9 @@ static RISCVException
+> > > > > > write_mstateen0(CPURISCVState *env, int csrno,
+> > > > > >                                          target_ulong
+> > > > > > new_val)
+> > > > > >    {
+> > > > > >        uint64_t wr_mask = SMSTATEEN_STATEN |
+> > > > > > SMSTATEEN0_HSENVCFG;
+> > > > > > +    if (!riscv_has_ext(env, RVF)) {
+> > > > > > +        wr_mask |= SMSTATEEN0_FCSR;
+> > > > > > +    }
+> > > > > >    
+> > > > > >        return write_mstateen(env, csrno, wr_mask, new_val);
+> > > > > >    }
+> > > > > > @@ -1924,6 +1931,10 @@ static RISCVException
+> > > > > > write_mstateen0h(CPURISCVState *env, int csrno,
+> > > > > >    {
+> > > > > >        uint64_t wr_mask = SMSTATEEN_STATEN |
+> > > > > > SMSTATEEN0_HSENVCFG;
+> > > > > >    
+> > > > > > +    if (!riscv_has_ext(env, RVF)) {
+> > > > > > +        wr_mask |= SMSTATEEN0_FCSR;
+> > > > > > +    }
+> > > > > > +
+> > > > > >        return write_mstateenh(env, csrno, wr_mask,
+> > > > > > new_val);
+> > > > > >    }
+> > > > > >    
+> > > > > > @@ -1973,6 +1984,10 @@ static RISCVException
+> > > > > > write_hstateen0(CPURISCVState *env, int csrno,
+> > > > > >    {
+> > > > > >        uint64_t wr_mask = SMSTATEEN_STATEN |
+> > > > > > SMSTATEEN0_HSENVCFG;
+> > > > > >    
+> > > > > > +    if (!riscv_has_ext(env, RVF)) {
+> > > > > > +        wr_mask |= SMSTATEEN0_FCSR;
+> > > > > > +    }
+> > > > > > +
+> > > > > >        return write_hstateen(env, csrno, wr_mask, new_val);
+> > > > > >    }
+> > > > > >    
+> > > > > > @@ -2024,6 +2039,10 @@ static RISCVException
+> > > > > > write_hstateen0h(CPURISCVState *env, int csrno,
+> > > > > >    {
+> > > > > >        uint64_t wr_mask = SMSTATEEN_STATEN |
+> > > > > > SMSTATEEN0_HSENVCFG;
+> > > > > >    
+> > > > > > +    if (!riscv_has_ext(env, RVF)) {
+> > > > > > +        wr_mask |= SMSTATEEN0_FCSR;
+> > > > > > +    }
+> > > > > > +
+> > > > > >        return write_hstateenh(env, csrno, wr_mask,
+> > > > > > new_val);
+> > > > > >    }
+> > > > > >    
+> > > > > > @@ -2083,6 +2102,10 @@ static RISCVException
+> > > > > > write_sstateen0(CPURISCVState *env, int csrno,
+> > > > > >    {
+> > > > > >        uint64_t wr_mask = SMSTATEEN_STATEN |
+> > > > > > SMSTATEEN0_HSENVCFG;
+> > > > > >    
+> > > > > > +    if (!riscv_has_ext(env, RVF)) {
+> > > > > > +        wr_mask |= SMSTATEEN0_FCSR;
+> > > > > > +    }
+> > > > > > +
+> > > > > >        return write_sstateen(env, csrno, wr_mask, new_val);
+> > > > > >    }
+> > > > > >    
+> > > > > > diff --git a/target/riscv/insn_trans/trans_rvf.c.inc
+> > > > > > b/target/riscv/insn_trans/trans_rvf.c.inc
+> > > > > > index a1d3eb52ad..c43c48336b 100644
+> > > > > > --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> > > > > > +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> > > > > > @@ -24,9 +24,43 @@
+> > > > > >                return false; \
+> > > > > >    } while (0)
+> > > > > >    
+> > > > > > +#ifndef CONFIG_USER_ONLY
+> > > > > > +#define SMSTATEEN_CHECK(ctx) do {\
+> > > > > > +    CPUState *cpu = ctx->cs; \
+> > > > > > +    CPURISCVState *env = cpu->env_ptr; \
+> > > > > > +    if (ctx->cfg_ptr->ext_smstateen && \
+> > > > > > +        (env->priv < PRV_M)) { \
+> > > > > > +        uint64_t stateen = env->mstateen[0]; \
+> > > > > > +        uint64_t hstateen = env->hstateen[0]; \
+> > > > > > +        uint64_t sstateen = env->sstateen[0]; \
+> > > > > > +        if (!(stateen & SMSTATEEN_STATEN)) {\
+> > > > > > +            hstateen = 0; \
+> > > > > > +            sstateen = 0; \
+> > > > > > +        } \
+> > > > > > +        if (ctx->virt_enabled) { \
+> > > > > > +            stateen &= hstateen; \
+> > > > > > +            if (!(hstateen & SMSTATEEN_STATEN)) {\
+> > > > > > +                sstateen = 0; \
+> > > > > > +            } \
+> > > > > > +        } \
+> > > > > > +        if (env->priv == PRV_U && has_ext(ctx, RVS))
+> > > > > > {\eventually
+> > > > > > meaning
+> > > > > > +            stateen &= sstateen; \
+> > > > > > +        } \
+> > > > > > +        if (!(stateen & SMSTATEEN0_FCSR)) { \
+> > > > > > +            return false; \
+> > > > > > +        } \
+> > > > > > +    } \
+> 
+> given the size of that I would have thought an "static inline"
+> function would be easier to write and maintain for SMSTATEEN_CHECK
+Ok. I will update in the next version.
+> 
+> 
 
 
