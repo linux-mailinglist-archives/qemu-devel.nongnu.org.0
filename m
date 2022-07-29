@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A2F585223
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:11:32 +0200 (CEST)
-Received: from localhost ([::1]:46318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9936F58521D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:09:29 +0200 (CEST)
+Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHReF-00051U-EB
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39990)
+	id 1oHRcG-0002G0-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:09:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXp-0003dg-Tv
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60705)
+ id 1oHRXr-0003eI-5s
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXo-0005Zw-EP
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:53 -0400
+ id 1oHRXp-0005a7-Nu
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659107092;
+ s=mimecast20190719; t=1659107093;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aequy6Qk0ViZ+gTKObRysKwXIpsvPUj5N7aD5w/r25U=;
- b=TwD8erBeNm/mEctn45WZ3yaRFACgm2yTSO1K0VavupERDDL/X2SpNEofpEttS7oIS2GPHc
- R0Hiq116Lczv7c40FBC8CSUr1jRdVwuIc+ty0nP2WC6cO9KWX0mEHLUnmkh2KqWcVcrn2g
- acWXurAoWBD2F4H9Mn7JU05KmSAYR4k=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
+ b=ByplzipHq0vf5t/Y7FdqKDi2+tNGmIIEhpNhZt+gFP+rjA76ozN8IkO7sWjm4YRl+1RpwA
+ SfZ6v65FL7JxizgTiDkuubFOkv0aE0bUT+oerMy4HW+hLmKrR7uzM4Jy7pJZRSzKvvJ+1z
+ 8/fNFCYwi9wEkHd3YXmJhb7QqUNYWJ4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-n9r83-PvOEypvjm54wmyTQ-1; Fri, 29 Jul 2022 11:04:50 -0400
-X-MC-Unique: n9r83-PvOEypvjm54wmyTQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- z14-20020a05640240ce00b0043c25c21e94so3072177edb.14
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:04:50 -0700 (PDT)
+ us-mta-631-kFRILNheONiKHfqO0cx20w-1; Fri, 29 Jul 2022 11:04:52 -0400
+X-MC-Unique: kFRILNheONiKHfqO0cx20w-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ gn10-20020a1709070d0a00b0072fd8bafeffso1903703ejc.12
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:04:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aequy6Qk0ViZ+gTKObRysKwXIpsvPUj5N7aD5w/r25U=;
- b=1EvlL728jnhyP/PdmK6tLSTDZIXg84E+LL2JWNNEnTmohajeV/lA7IwiwnqK0p+0ML
- Ri89X9Fa/HKS5WMlNNaVmJFaTd7vINClVDrI14yW0YLDPt7sdJGE0Ntqw2sNdU6enh8s
- Cm1FbPkhc5knqOMGScrsKG99x/5WxYXWSS4C9M1newWx/+R9NvzsM5fT2GHX+xOMbq++
- z/1BoYXeXW/hchSsrMrraaJU7GfkLnFYA+85SqjB6vIfZcVj2n5+MYFlYh+kgGgYAkny
- Og04LiEe9ut9qkm1gSqgxuT7pBLFk4M3zH2iLrQRKDu83EbE968YSoowkKmt5NilL33X
- QT7g==
-X-Gm-Message-State: AJIora+Y3a8itjoRcj8kerUXr7f2T7KkHrUBHELkOX20YplGDpQf2BU5
- 8dcQN2uvJOKCVbhZCA1cBuISWOavnHZhFsGqMWXVSSe2iE1GG5mylosgzgUMZHKh1k2rGfOykZK
- 9xWTfaq0iKctXxgaEMrQv9LasiALLOF41AbQuXNQeUBS5W9yJWxbFAUE1ZSTNlF5MxXQ=
-X-Received: by 2002:aa7:cad3:0:b0:43c:e615:13e2 with SMTP id
- l19-20020aa7cad3000000b0043ce61513e2mr3875779edt.289.1659107088995; 
- Fri, 29 Jul 2022 08:04:48 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1tCoWCA1oCP7QsDnGxhccYOKdg2GgCIiJU70L6nJZqSdDAJdBD4wYFbKQC8KeuypyTsi58q/Q==
-X-Received: by 2002:aa7:cad3:0:b0:43c:e615:13e2 with SMTP id
- l19-20020aa7cad3000000b0043ce61513e2mr3875744edt.289.1659107088594; 
- Fri, 29 Jul 2022 08:04:48 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- j20-20020aa7c414000000b0043a85d7d15esm2511505edq.12.2022.07.29.08.04.47
+ bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
+ b=I9rxE2AQYBGw9O3XfW3aX8qUR0XaaBC7Fln2efHWhfLYjDQt2zhyPjqDEMpaWMMLxP
+ 409DjJTiidC5Hj8TuFISIsqqGDHw4ddUH+U8fML25qyEkv5mVsPUn4KvLtbRI7t6JRdX
+ uIE4KFUB3IlJvCq7Ehu1cUNA905BDQ1hrWrJLXWqmuiP3MzBrVx+5V+FSwF7Cp2Ym2Ot
+ DlMbirErclEGQMH8xQA2nVh1NGJX+IGIxGE1eP7rX0G3nVULt24rZPKT/1Xm18ibk7nX
+ VskbFk96j50Q/wUPBlZbj7WZrGw9VnjWlfPX2Xi8EdXx/Sc/lVqYUoBPPRpTM+7IhlV8
+ 4ctA==
+X-Gm-Message-State: AJIora/7vYMsWCPcTj9kwcccvG2KH5Lsl/2ffuuRTXi/YGazQVMdO8cy
+ HZhJdlrbG7Tf0HVd7khPRX6CsI4oQv0UIxyCA3Z5oagv4FcG550nuiBvlB1qxGEB+nZOjLTFYOS
+ kazuNpoMWUKfunTEpaKcffoyJgOMKdnp5KjPc47TRW2KRU7sRy9l5qoJB0ztg8n+Z91Y=
+X-Received: by 2002:a17:907:9613:b0:72b:68df:8ada with SMTP id
+ gb19-20020a170907961300b0072b68df8adamr3254713ejc.31.1659107090657; 
+ Fri, 29 Jul 2022 08:04:50 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1thiBirrTpeE4L0FS/3q0D29v5s8HpgK/uQf//Qj8oSIKFFbD5peHQH98isGaCam5FTR+v6OA==
+X-Received: by 2002:a17:907:9613:b0:72b:68df:8ada with SMTP id
+ gb19-20020a170907961300b0072b68df8adamr3254685ejc.31.1659107090149; 
+ Fri, 29 Jul 2022 08:04:50 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ u2-20020a1709061da200b006fec4ee28d0sm1785642ejh.189.2022.07.29.08.04.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 08:04:47 -0700 (PDT)
+ Fri, 29 Jul 2022 08:04:49 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Cornelia Huck <cohuck@redhat.com>
-Subject: [PULL 5/6] kvm: don't use perror() without useful errno
-Date: Fri, 29 Jul 2022 17:04:37 +0200
-Message-Id: <20220729150438.20293-6-pbonzini@redhat.com>
+Cc: Taylor Simpson <tsimpson@quicinc.com>
+Subject: [PULL 6/6] configure: pass correct cflags to container-based cross
+ compilers
+Date: Fri, 29 Jul 2022 17:04:38 +0200
+Message-Id: <20220729150438.20293-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220729150438.20293-1-pbonzini@redhat.com>
 References: <20220729150438.20293-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,52 +100,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+probe_target_compiler returns nonempty $target_cc for installed toolchains
+and $container_cross_cc for container-based toolchains.  In both cases
+however the flags (coming from $cross_cc_cflags_${target_arch}) must be
+in $target_cflags.
 
-perror() is designed to append the decoded errno value to a
-string. This, however, only makes sense if we called something that
-actually sets errno prior to that.
+Therefore, do not clear them prior to returning from probe_target_compiler.
 
-For the callers that check for split irqchip support that is not the
-case, and we end up with confusing error messages that end in
-"success". Use error_report() instead.
-
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20220728142446.438177-1-cohuck@redhat.com>
+Reported-by: Taylor Simpson <tsimpson@quicinc.com>
+Fixes: 92e288fcfb ("build: try both native and cross compilers", 2022-07-08)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- accel/kvm/kvm-all.c | 2 +-
- target/arm/kvm.c    | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index f165074e99..645f0a249a 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2265,7 +2265,7 @@ static void kvm_irqchip_create(KVMState *s)
-     ret = kvm_arch_irqchip_create(s);
-     if (ret == 0) {
-         if (s->kernel_irqchip_split == ON_OFF_AUTO_ON) {
--            perror("Split IRQ chip mode not supported.");
-+            error_report("Split IRQ chip mode not supported.");
-             exit(1);
-         } else {
-             ret = kvm_vm_ioctl(s, KVM_CREATE_IRQCHIP);
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 4339e1cd6e..e5c1bd50d2 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -959,7 +959,7 @@ void kvm_arch_init_irq_routing(KVMState *s)
- int kvm_arch_irqchip_create(KVMState *s)
- {
-     if (kvm_kernel_irqchip_split()) {
--        perror("-machine kernel_irqchip=split is not supported on ARM.");
-+        error_report("-machine kernel_irqchip=split is not supported on ARM.");
-         exit(1);
-     }
- 
+diff --git a/configure b/configure
+index c4c02b8438..72ab03f11a 100755
+--- a/configure
++++ b/configure
+@@ -2173,7 +2173,6 @@ probe_target_compiler() {
+     build_static=
+     target_cc=
+     target_ccas=
+-    target_cflags=
+     target_ar=
+     target_as=
+     target_ld=
 -- 
 2.36.1
-
 
 
