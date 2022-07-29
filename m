@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5732F58513F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:04:16 +0200 (CEST)
-Received: from localhost ([::1]:43470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9CD585141
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:04:48 +0200 (CEST)
+Received: from localhost ([::1]:44658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHQb9-0002e0-0A
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:04:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52348)
+	id 1oHQbg-0003XZ-3L
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:04:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQVo-0007Jv-NF
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:58:44 -0400
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:40738)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oHQXP-0000MS-Ub
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:00:24 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:56038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQVn-0007nA-5G
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:58:44 -0400
-Received: by mail-yb1-xb36.google.com with SMTP id 123so8309574ybv.7
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 06:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=CkfFqFoaC3gLYhGVAxfeRS2eTM6XhGrVcOqiL5TCTyc=;
- b=IJ0ReGg7cSFlKsyXvocMiLXMVBAhMGZOInap2bVE4v+lMu5oULh3VKK+1yYXZmkqdz
- DqxPEBLemZFF2O/6Cfz2Q45KwrXTuAZ3+2TFpgOK2n0ewUXVdDlu49TF72bYS7Lang//
- dygMk3iGfacVKvBlF1oswUDpBhOAoKdXyQUZvy2FMQBv9xdAEvkBnf7MhAiTDsMS6A6F
- poJlblwgETYELTB52c1uSmYESpmYR8pxlq/tcbaq9N68ualAvehXAH6x7h7Umak/gfuN
- WowUZJAvqoCD/oJg1I+YI7Q/w7FBQQt+N3GaersWWevOkijS8EUppfPZ4x0ciDBnrqES
- k10Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=CkfFqFoaC3gLYhGVAxfeRS2eTM6XhGrVcOqiL5TCTyc=;
- b=YUPwWVlbr9hcldnrbaGOAtpKiYK1jjt0K0cZVF5Aj8Ye+k6GOFuhZjCjWjF7UI9/kj
- NeiLA6Lh/jJCIcEjh8d9GM9xoSMI2yh5PjHAMEpKhJxiAQM6qnmovP405JR7zDMV1qVF
- BAFIqNYiC6qUotGWlQ4O42D3IGt7SEEqEIJaW/CcXTa8Ep9dPl3iFq8zJ0z4oNaONvQB
- wM7heqXHEecaUEcXS6WAID3zWtzRtpVe9bI8/xxw20TuKgjxXnvlBBqEdZSGiQUc4Wy6
- ox+1uAuw5rLkd/l52cXRYK61s2j2TVG00Pk+QlNrM6eicEyEzrj8DrDTi3DegwfxCI7J
- GkKw==
-X-Gm-Message-State: ACgBeo3m5SLCMZae7Nkw7xkRn2VrV3IaOivKAZwi0TgYtQ/7hZtgc/ti
- Q07AymEDjxIZbvkczrvc4eSIsoK8eKP/7FFcIY9iAw==
-X-Google-Smtp-Source: AA6agR79K5Gecakx5y3u5wuFVgcyALRYJ3JzFzFUVJzEls+yrJ4UlaRBp8TXcskQEykeOgovBC0adBdhPePuYETM/AE=
-X-Received: by 2002:a25:928b:0:b0:671:548f:fabd with SMTP id
- y11-20020a25928b000000b00671548ffabdmr2658429ybl.39.1659103121687; Fri, 29
- Jul 2022 06:58:41 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oHQXO-0008AS-4j
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:00:23 -0400
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id C04131FD86;
+ Fri, 29 Jul 2022 14:00:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1659103220; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bfn60i9le5L/FEAl2V5TORoK4nalT1wd/BDLI1KvwJs=;
+ b=ukA+pz7+S5aau6/uD5kjTAxy+5G/XmkRZ1rJtG/JK+XU26y/AFIWzLITnyKQx5WzKUs/sk
+ opGAovZLbdnfBV0aAb+VCR7aD4IMjb+xm0Ly9yIHRgDAybhTtTnOOoQacKCGRemZpIgnzs
+ 4U3qaz++dGFVO4tLLhoJwWAtG2aGZ30=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1659103220;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Bfn60i9le5L/FEAl2V5TORoK4nalT1wd/BDLI1KvwJs=;
+ b=TOOTu5w+aOijtSdL+iTYZC2LrUMfcDEqKKDmOJqcLX3ArJjd+fUNe5BlKnDrZr50YsyICY
+ Pbtt2/D5oWYRvGDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8FDDA13A8E;
+ Fri, 29 Jul 2022 14:00:20 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id vNeMIfTn42LEWgAAMHmgww
+ (envelope-from <cfontana@suse.de>); Fri, 29 Jul 2022 14:00:20 +0000
+Message-ID: <a8b045fe-958c-ee88-28ff-b73aab1664b9@suse.de>
+Date: Fri, 29 Jul 2022 16:00:19 +0200
 MIME-Version: 1.0
-References: <20220720090313.55169-1-jasowang@redhat.com>
- <20220720090313.55169-26-jasowang@redhat.com>
-In-Reply-To: <20220720090313.55169-26-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 14:58:01 +0100
-Message-ID: <CAFEAcA-LPM4LmfcM3kiHk9LWCrYRpB1izfxPijHvBrmLOfFJgQ@mail.gmail.com>
-Subject: Re: [PULL V2 25/25] net/colo.c: fix segmentation fault when packet is
- not parsed correctly
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Zhang Chen <chen.zhang@intel.com>,
- Tao Xu <tao3.xu@intel.com>, Li Zhijian <lizhijian@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>
+References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
+ <20220727112737-mutt-send-email-mst@kernel.org>
+ <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
+ <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
+ <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
+ <20220728093501-mutt-send-email-mst@kernel.org>
+ <be4dc741-4153-1620-223f-852ff5aa34a7@suse.de>
+ <20220729061221-mutt-send-email-mst@kernel.org>
+ <20edd357-716f-c84c-9714-607f7f64db5c@suse.de> <87sfmkf3yc.fsf@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+In-Reply-To: <87sfmkf3yc.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,72 +97,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 10:04, Jason Wang <jasowang@redhat.com> wrote:
->
-> From: Zhang Chen <chen.zhang@intel.com>
->
-> When COLO use only one vnet_hdr_support parameter between
-> filter-redirector and filter-mirror(or colo-compare), COLO will crash
-> with segmentation fault. Back track as follow:
->
-> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-> 0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
->     at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-> 296         uint16_t proto = be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto);
-> (gdb) bt
-> 0  0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
->     at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
-> 1  0x0000555555cb22b4 in parse_packet_early (pkt=0x555556a44840) at
-> net/colo.c:49
-> 2  0x0000555555cb2b91 in is_tcp_packet (pkt=0x555556a44840) at
-> net/filter-rewriter.c:63
->
-> So wrong vnet_hdr_len will cause pkt->data become NULL. Add check to
-> raise error and add trace-events to track vnet_hdr_len.
->
-> Signed-off-by: Tao Xu <tao3.xu@intel.com>
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-> Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+On 7/29/22 15:21, Alex Bennée wrote:
+> 
+> Claudio Fontana <cfontana@suse.de> writes:
+> 
+>> On 7/29/22 12:13, Michael S. Tsirkin wrote:
+>>> On Fri, Jul 29, 2022 at 11:46:05AM +0200, Claudio Fontana wrote:
+>>>>>> @@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
+>>>>>>      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+>>>>>>      int i;
+>>>>>>  
+>>>>>> -    virtio_set_status(vdev, 0);
+>>>>>>      if (current_cpu) {
+>>>>>>          /* Guest initiated reset */
+>>>>>>          vdev->device_endian = virtio_current_cpu_endian();
+>>>>>> -- 
+>>>>>> 2.26.2
+>>>>>
+>>>>> As you say this is incomplete ... bout could you share a bit more
+>>>>> of what issue does this address?
+>>>>>
+>>>>
+>>>> Hi, the problem I am trying to address is a segfault in OVS/dpdk that looks like this:
+>>>
+>>> Sorry I was not clear. What I mean is, you don't yet know why does removing
+>>> virtio_set_status call here prevent the crash in ovs, do you?
+>>>
+>>
+>> I have no idea. Trying to collect logs to figure things out, but as
+>> mentioned the logs easily hide the issue.
+>> Likely there is just more to study here.
+> 
+> Given the OVS is going off on a NULL ptr deref could it just be it's not
+> handling the disabling/reenabling of the virtqueues as you pause and
+> restart properly? I could certainly imagine a backend jumping the gun to
+> read a queue going very wrong if the current queue state is disabled.
+> 
 
-Hi -- Coverity points out that there's a problem with this fix
-(CID 1490786):
+In this case both the ovs buf_addr and buf_iova are NULL, which is a nice case as they are more detectable,
+however I also have segfaults where the addresses are just garbage.
 
-> @@ -46,7 +46,14 @@ int parse_packet_early(Packet *pkt)
->      static const uint8_t vlan[] = {0x81, 0x00};
->      uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+I wonder whether it's possible that given the fact that the guest is going away without notification (SIGKILL),
+as the guest driver resets the device and communicates with QEMU, QEMU adapts the state without notifying ovs,
+so ovs happily tries to dequeue data from memory that isn't there. But I am just guessing.
 
-data here is set to pkt->data + pkt->vnet_hdr_len.
-If pkt->data is NULL then this addition is C undefined behaviour,
-and if pkt->data is not NULL but the integer added is such
-that the pointer ends up not pointing within data, then that
-is also C undefined behaviour...
+I am still studying the qemu vhost user side and ovs/dpdk side to try to understand how this whole thing works.
 
->      uint16_t l3_proto;
-> -    ssize_t l2hdr_len = eth_get_l2_hdr_length(data);
-> +    ssize_t l2hdr_len;
-> +
-> +    if (data == NULL) {
+Thanks,
 
-...so the compiler is allowed to assume that data cannot be NULL
-here, and this entire error checking clause is logically dead code.
+CLaudio
 
-If you're trying to check whether vnet_hdr_len is valid, you
-need to do that as an integer arithmetic check before you start
-using it for pointer arithmetic. And you probably want to be
-checking against some kind of bound, not just for whether the
-result is going to be NULL.
 
-Overall this looks kinda sketchy and could probably use more
-detailed code review. Where does the bogus vnet_hdr_len come from in
-the first place? Is this data from the guest, or from the network
-(ie uncontrolled)?
-
-> +        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
-> +                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-> +        return 1;
-> +    }
-
-thanks
--- PMM
 
