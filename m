@@ -2,89 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6211A5848DF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 02:08:21 +0200 (CEST)
-Received: from localhost ([::1]:53020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A998D584913
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 02:30:16 +0200 (CEST)
+Received: from localhost ([::1]:56008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHDYC-0001I0-2E
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 20:08:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36308)
+	id 1oHDtP-0004Rs-8G
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jul 2022 20:30:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oHDUB-0007kw-QZ; Thu, 28 Jul 2022 20:04:12 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:55157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1oHDU9-0005ZA-8O; Thu, 28 Jul 2022 20:04:11 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.nyi.internal (Postfix) with ESMTP id C0F60580970;
- Thu, 28 Jul 2022 20:04:05 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Thu, 28 Jul 2022 20:04:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1659053045; x=1659056645; bh=xgSP42vbAZ
- SLhepapOuVyt/hlHA3kBHyULg6xLce66w=; b=gEvyKGrXjAR2cSfv/B0WWrhZhB
- sD689jLF57uqtTsRUUJ97H1wolnHno5/JWHhzHlQDiOCVk5SmODpD5RA2zLCwGJh
- cdev8bcN1hgEiOTXEjW00xbmiPKRoV/0KwLWgp95a03oh7qPWVwS97oYdwzKhShU
- BngCrh82/dhAtHYwht2M1QJoopKVbqoWDAsZYU6XOmjO/9WwyEn8yfcw9OFKDDaC
- 04sEoGF/dv27RXF1ipOYRxO0QbSTB11gBNrzWfiUEFJRLasQv1PAq3dQdmQMj6G6
- O2Bb1YnbfE3pV+d2uwJeshlsqtparMYnWt17hr9T59H+nJ/gcdNE1AwFOMyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1659053045; x=1659056645; bh=xgSP42vbAZSLhepapOuVyt/hlHA3
- kBHyULg6xLce66w=; b=JeracpJqhr+zEk3Auf0Ev+RC3RobWSwIwK4kBaH96227
- XaNKrCeR9tfDSS54AFnERAXyeK1UJUJgbYwzG+0L5tL39d171+kG6kgwcMHf+ryh
- MQYuC8tLDNnbR6IMYZms55Ibv6N7wc/XITkBBvE0Ao2HGzXHIljfDTi0IQQ0fgjl
- rI53mBQNte81QgCIykVSwJbAMw9tiq9GLD2UbSE4gRydU2yKkgcJdvMr61dPjD1l
- 0WUaR4Kc1u3pebIAFX1GFlcG44Uy/yJijVxI2RuJc/L2V8+EsICBC54O+u+Hl2ZN
- u9nggqvIZUlXP31SCcD/4og+rHftNlIhhKAAJGlStw==
-X-ME-Sender: <xms:9SPjYrn--ARM8iijKxWAaIon5p1PiP2urrS4q7FEtSBFKRnfrEWJGw>
- <xme:9SPjYu3GYFtzVSOg2XntiT1hA8pNJfsCjIvB4m3GIuniFiqb4Dy76RA7B1Y-17d1G
- q_BpT5Rxa1vPRuSxWc>
-X-ME-Received: <xmr:9SPjYhr5ybpgLZGsm42luPIqsL9shEShmamrGQYMKm8MsCry6ouPGtW9f7S9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgudefgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesth
- dtredttddtvdenucfhrhhomheprfgvthgvrhcuffgvlhgvvhhorhihrghsuceophgvthgv
- rhesphhjugdruggvvheqnecuggftrfgrthhtvghrnhepudetiefhffelueevkeegudfgfe
- efhedtgeeuffffhfelhefgudeujeejkeefueeknecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepphgvthgvrhesphhjugdruggvvh
-X-ME-Proxy: <xmx:9SPjYjnYp3Jod9bxSeqklZXUK3fkdIREbkS-ryd7wygm3aHba8cyBQ>
- <xmx:9SPjYp0KipyVt3jcBKHrboXI36bDF5eCsm95KAywSu9_B5mWjdiCTg>
- <xmx:9SPjYisv8huV2rnLmWeyM77UF8v-S_8aY7N3J0gA6oiZJRB4edqneA>
- <xmx:9SPjYo320JY2EALXdMVv-t1OvIqNW5hsXJTE1T7Pp1kU1SUSIhpMWw>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Jul 2022 20:04:03 -0400 (EDT)
-Date: Thu, 28 Jul 2022 17:04:01 -0700
-From: Peter Delevoryas <peter@pjd.dev>
-To: Iris Chen <irischenlj@fb.com>
-Cc: pdel@fb.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org, clg@kaod.org,
- patrick@stwcx.xyz, alistair@alistair23.me, kwolf@redhat.com,
- hreitz@redhat.com, peter.maydell@linaro.org, andrew@aj.id.au,
- joel@jms.id.au, thuth@redhat.com, lvivier@redhat.com,
- pbonzini@redhat.com, qemu-block@nongnu.org, dz4list@gmail.com
-Subject: Re: [RFC 0/3] Add Generic SPI GPIO model
-Message-ID: <YuMj8bU9BTjUWaT8@pdel-mbp>
-References: <20220728232322.2921703-1-irischenlj@fb.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHDrL-0002nC-MS
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 20:28:09 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:41867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHDrJ-0004Zw-RM
+ for qemu-devel@nongnu.org; Thu, 28 Jul 2022 20:28:07 -0400
+Received: by mail-pf1-x435.google.com with SMTP id w205so3282029pfc.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Jul 2022 17:28:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ZwgS4h4pQDCY6Y9UtPOlhTNRJHn2MJnuVU4d6BUtn1o=;
+ b=mQQkZseHyirjsHQi8y0NFNieGey85xRBf62MXvotuh5QqnpRh8HL27QzHSjzaxsBOR
+ HaZOw8pU2WrChtPgZ0cdVvOLrppvzPomtz89yKCoS61qPPNON2pyDB1Anb/uNLolbWFH
+ Sq3M5BL0nnQuf6R4hFsGEZhUMpK0hTRBW33/3TMiGXG87EJ3xAZbicS84MqgTeTuKFII
+ hGSPQ7rDki31lV1MeW7PUk4DjQoAd7fSr2+CCaWfE2m4FE67MgccSCC/Ha2SI0Q+dQqg
+ LDeyjkUVfacb/Zzniqfv/joqU2roZwHb1gUquTPE/a50nQ6KQxyPUb3rGnBnEBCLh+C1
+ kS/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZwgS4h4pQDCY6Y9UtPOlhTNRJHn2MJnuVU4d6BUtn1o=;
+ b=hJpd0ZDu6ykDh6Ah6NkBI1ZMSfTeFGGOy9GnYCFLnSeyB+P0NRVQRsbfRiBnEDPLHb
+ S1KyfUw2JzoFRTYn0LmqqCirfw7H18lEbfzMWv0//UP1wkZ+utp1SIxPsEl3vCfGXAI+
+ hS7FHLn08Lf/j4uT/e4MTeFlOpqTLmLM5tVCMAoaw70/zlkiTf+ZvQ0iVljxbdAQpMuD
+ NuaH+hC16Ts0iCJkvIlre8z+lSLJU7YOgg+iE0aMbj1OrgmXKRdJapCI+dZdLvX5nT0B
+ ifB87x53yGckp+X7Zb8eOwKj+n2xwi/4V2yz/l/9k2zuFHf5DURby6cXczCMHfec3ke0
+ geaw==
+X-Gm-Message-State: AJIora/1K0Gusw2NrruvCDCYCDgA6vcZPMeKnONuHPwt9G+1pS05FCfr
+ rPUXONsCAyjz6XjYdMRjDvd33A==
+X-Google-Smtp-Source: AGRyM1vtmxv8JUTJVRYP7ZYso95GhpCwK99FdJd84LzQ4PDaoZ6LHa4NuV15aJln9hLOC+C3bBlTsA==
+X-Received: by 2002:a05:6a00:22c7:b0:52b:af2:903f with SMTP id
+ f7-20020a056a0022c700b0052b0af2903fmr981330pfj.3.1659054483635; 
+ Thu, 28 Jul 2022 17:28:03 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:d1a3:8e57:d847:7607?
+ ([2602:ae:1549:801:d1a3:8e57:d847:7607])
+ by smtp.gmail.com with ESMTPSA id
+ n28-20020aa7985c000000b0052bcb042c53sm963029pfq.42.2022.07.28.17.28.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jul 2022 17:28:02 -0700 (PDT)
+Message-ID: <fae4a641-80bb-d0c8-62aa-e988e87b4845@linaro.org>
+Date: Thu, 28 Jul 2022 17:28:00 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220728232322.2921703-1-irischenlj@fb.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=peter@pjd.dev;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/3] ppc queue
+Content-Language: en-US
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, peter.maydell@linaro.org
+References: <20220728165519.2101401-1-danielhb413@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220728165519.2101401-1-danielhb413@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,88 +93,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jul 28, 2022 at 04:23:19PM -0700, Iris Chen wrote:
-> Hey everyone,
+On 7/28/22 09:55, Daniel Henrique Barboza wrote:
+> The following changes since commit 3e4abe2c92964aadd35344a635b0f32cb487fd5c:
 > 
-> I have been working on a project to add support for SPI-based TPMs in QEMU.
-> Currently, most of our vboot platforms using a SPI-based TPM use the Linux 
-> SPI-GPIO driver to "bit-bang" the SPI protocol. This is because the Aspeed 
-> SPI controller (modeled in QEMU under hw/ssi/aspeed_smc.c) has an implementation 
-> deficiency that prevents bi-directional operations. Thus, in order to connect 
-> a TPM to this bus, my patch implements a QEMU SPI-GPIO driver (as the QEMU
-> counterpart of the Linux SPI-GPIO driver).
+>    Merge tag 'pull-block-2022-07-27' of https://gitlab.com/vsementsov/qemu into staging (2022-07-27 20:10:15 -0700)
 > 
-> As we use SPI-based TPMs on many of our BMCs for the secure-boot implementation,  
-> I have already tested this implementation locally with our Yosemite-v3.5 platform 
-> and Facebook-OpenBMC. This model was tested by connecting a generic SPI-NOR (m25p80 
-> for example) to the Yosemite-v3.5 SPI bus containing the TPM.
+> are available in the Git repository at:
 > 
-> This patch is an RFC because I have several questions about design. Although the
-> model is working, I understand there are many areas where the design decision
-> is not deal (ie. abstracting hard coded GPIO values). Below are some details of the 
-> patch and specific areas where I would appreciate feedback on how to make this better:
->  
-> hw/arm/aspeed.c: 
-> I am not sure where the best place is to instantiate the spi_gpio besides the
-> aspeed_machine_init. Could we add the ability to instantiate it on the command line?
+>    https://gitlab.com/danielhb/qemu.git pull-ppc-20220728
+> 
+> for you to fetch changes up to 0c9717ff35d2fe46fa9cb91566fe2afbed9f4f2a:
+> 
+>    target/ppc: Implement new wait variants (2022-07-28 13:30:41 -0300)
+> 
+> ----------------------------------------------------------------
+> ppc patch queue for 2022-07-28:
+> 
+> Short queue with 2 Coverity fixes and one fix of the
+> 'wait' insns that is causing hangs if the guest kernel uses
+> the most up to date wait opcode.
+> 
+> - target/ppc:
+>    - implement new wait variants to fix guest hang when using the new opcode
+> - ppc440_uc: initialize length passed to cpu_physical_memory_map()
+> - spapr_nvdimm: check if spapr_drc_index() returns NULL
 
-Yes, hypothetically I think it would be something like this:
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
--device spi-gpio,miso=aspeed.gpio.gpioX4,mosi=aspeed.gpio.gpioX5,id=foo
--device n25q00,bus=foo,drive=bar
--drive file=bar.mtd,format=raw,if=mtd,id=bar
 
-Something like that? I haven't really looked into the details. I think
-it requires work in several other places though.
+r~
+
 
 > 
-> m25p80_transfer8_ex in hw/block/m25p80.c: 
-> Existing SPI model assumed that the output byte is fully formed, can be passed to 
-> the SPI device, and the input byte can be returned, all in one operation. With 
-> SPI-GPIO we don't have the input byte until all 8 bits of the output have been 
-> shifted out, so we have to prime the MISO with bogus values (0xFF).
+> ----------------------------------------------------------------
+> Daniel Henrique Barboza (1):
+>        hw/ppc: check if spapr_drc_index() returns NULL in spapr_nvdimm.c
+> 
+> Nicholas Piggin (1):
+>        target/ppc: Implement new wait variants
+> 
+> Peter Maydell (1):
+>        hw/ppc/ppc440_uc: Initialize length passed to cpu_physical_memory_map()
+> 
+>   hw/ppc/ppc440_uc.c     |  5 ++-
+>   hw/ppc/spapr_nvdimm.c  | 18 +++++++---
+>   target/ppc/internal.h  |  3 ++
+>   target/ppc/translate.c | 96 +++++++++++++++++++++++++++++++++++++++++++++-----
+>   4 files changed, 109 insertions(+), 13 deletions(-)
 
-Perhaps the Aspeed FMC model needs to support asynchronous transfers?
-(Is the M25P80 model not asynchronous already?) I'm still skeptical that
-the m25p80_transfer8_ex solution is appropriate.
-
-> 
-> MOSI pin in spi_gpio: the mosi pin is not included and we poll the realtime value
-> of the gpio for input bits to prevent bugs with caching the mosi value. It was discovered 
-> during testing that when using the mosi pin as the input pin, the mosi value was not 
-> being updated due to a kernel and aspeed_gpio model optimization. Thus, here we are 
-> reading the value directly from the gpio controller instead of waiting for the push.
-> 
-> I realize there are Aspeed specifics in the spi_gpio model. To make this extensible, 
-> is it preferred to make this into a base class and have our Aspeed SPI GPIO extend 
-> this or we could set up params to pass in the constructor?
-
-Actually, I would hope that there won't be any inheritance here. The
-kernel driver doesn't have some kind of inheritance implementation, for
-example.
-
-> 
-> Thanks for your review and any direction here would be helpful :) 
-> 
-> Iris Chen (3):
->   hw: m25p80: add prereading ability in transfer8
->   hw: spi_gpio: add spi gpio model
->   hw: aspeed: hook up the spi gpio model
-> 
->  hw/arm/Kconfig            |   1 +
->  hw/arm/aspeed.c           |   5 ++
->  hw/block/m25p80.c         |  29 ++++++-
->  hw/ssi/Kconfig            |   4 +
->  hw/ssi/meson.build        |   1 +
->  hw/ssi/spi_gpio.c         | 166 ++++++++++++++++++++++++++++++++++++++
->  hw/ssi/ssi.c              |   4 -
->  include/hw/ssi/spi_gpio.h |  38 +++++++++
->  include/hw/ssi/ssi.h      |   5 ++
->  9 files changed, 248 insertions(+), 5 deletions(-)
->  create mode 100644 hw/ssi/spi_gpio.c
->  create mode 100644 include/hw/ssi/spi_gpio.h
-> 
-> -- 
-> 2.30.2
-> 
 
