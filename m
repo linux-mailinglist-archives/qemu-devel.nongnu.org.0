@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA7A585107
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 15:42:24 +0200 (CEST)
-Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E37D558510A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 15:44:21 +0200 (CEST)
+Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHQFz-0004d5-CA
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 09:42:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
+	id 1oHQHs-0007fe-N6
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 09:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQ5l-0002Np-FL
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:31:54 -0400
-Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130]:43527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQ5j-0007wK-Hs
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:31:48 -0400
-Received: by mail-yw1-x1130.google.com with SMTP id
- 00721157ae682-31f56c42ab5so51018997b3.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 06:31:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=TOvBmp6Ql226h9O/80FuUKhhVSWrA817q9EP9jkKrKM=;
- b=b6D2rbrX41xQkVYMKEiZH/XqorP6aaM3uJzWf2HOCClIjvA9Y2ETLgbWg+14DkhX0V
- H1xR+Z03lSVX7j4J4UZzmqUUd4qHt84NreB/ikXO8zK+Yq+dcfA2qAmoYT1OZDsCrbAy
- sSQ2NOHSUnvT7jRcKi5Bwzdyp40Y+xK2uZzCAmIBv9K11VfAeezxnaue2Y3nmAjTqqlI
- R4FDiciYj8rpe6qxq6L6BAickS70EYUDrLXL6VstIdRmTN4vt3iljhii2wAwGWR5+wN+
- hHvHmhC7X+2GzF+JZmF27TCtEoH8OKZNshhzuk/MewCZMVgI35nQhrpMuWIzNrwBqaNT
- J3lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=TOvBmp6Ql226h9O/80FuUKhhVSWrA817q9EP9jkKrKM=;
- b=l+/kWw2tWq5v59c8D+dzsuHLmVhGlWf7pYNuikcLqpb/O6bL3YWbihC3b3fjluZrt7
- lUaPkeW242BYbGoBcIIaJZNWkGqxyO1IgUVCnJUZ1y8N1/5fbdCLXpOwuLDcVgoeFq1G
- QYUfB5JMZ+KZ+95N55JsIyI12lVcNVdpP2WZB8N+QXhppFXNUnsI3RXyZ7aNd+JtbaNc
- QjLww5ZZOE9gNPbC0zSZuHC1ZRK57e7An4fVcvlvaBt1VCW9aNEWmHm9L7HGybs5cRTB
- HJDtACXPT68YYq4JlmDBrgqpLBdMQPBZx1iI6aiX1PVdtfFN/mG8SOJxVx2eBlHNenyt
- up5A==
-X-Gm-Message-State: ACgBeo3x+SmfIR5zEnlk5XCEqJI4i1AFn9nYzakSzZYhtxbSVxA22QFO
- j6D/hLSwVyC1Mn5vQTgTkI2rDcF7TGNMgN0ijypTDg==
-X-Google-Smtp-Source: AA6agR5f3skzKrvPmGvSEvp1+pBw91UqUg6AlSP4MRu5aax11tDov47xa407ijJYi3CJ+XnI+jeCDdswxcnQmMXtfws=
-X-Received: by 2002:a0d:e004:0:b0:31f:311d:2351 with SMTP id
- j4-20020a0de004000000b0031f311d2351mr2960690ywe.10.1659101505565; Fri, 29 Jul
- 2022 06:31:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHQ7T-0003z7-Tz
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:33:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHQ7P-00085F-E5
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:33:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659101610;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dSq9OoBzQA7mygE2anW8qfGxnTguRKETJgVG0KTrzZY=;
+ b=dvgBRfjzuJgmdt1ewR9aQNXFSAw6KZnP/RnhDrdUvBwAnOLUwvIKXTCWqeZizF+yZL6bIO
+ K7x/BUSbHIBsLYaIrLTSJ7yw/FYEU68zIo8d4SqObYdeco8tk40QGe2482zTF5DAhxQZUB
+ ORFBupoYnTb9+h8el8XRR1BgkyJM9Ng=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-594-cf-LVDdAPf-FboYMkUyjpg-1; Fri, 29 Jul 2022 09:33:26 -0400
+X-MC-Unique: cf-LVDdAPf-FboYMkUyjpg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D030B1C06911;
+ Fri, 29 Jul 2022 13:33:25 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CFBF4492C3B;
+ Fri, 29 Jul 2022 13:33:21 +0000 (UTC)
+Date: Fri, 29 Jul 2022 15:33:20 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: qemu-block@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Wen Congyang <wencongyang2@huawei.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-devel@nongnu.org,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Subject: Re: [PATCH v10 05/21] job.c: add job_lock/unlock while keeping job.h
+ intact
+Message-ID: <YuPhoADDYMgccXBk@redhat.com>
+References: <20220725073855.76049-1-eesposit@redhat.com>
+ <20220725073855.76049-6-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20220720111926.107055-1-dgilbert@redhat.com>
- <20220720111926.107055-7-dgilbert@redhat.com>
-In-Reply-To: <20220720111926.107055-7-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 14:31:05 +0100
-Message-ID: <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
-Subject: Re: [PULL 06/30] softmmu/dirtylimit: Implement virtual CPU throttle
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com, 
- berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com, 
- huangy81@chinatelecom.cn
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725073855.76049-6-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,50 +86,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 12:30, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
->
-> Setup a negative feedback system when vCPU thread
-> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
-> throttle_us_per_full field in struct CPUState. Sleep
-> throttle_us_per_full microseconds to throttle vCPU
-> if dirtylimit is in service.
->
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Message-Id: <977e808e03a1cef5151cae75984658b6821be618.1656177590.git.huan=
-gy81@chinatelecom.cn>
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Am 25.07.2022 um 09:38 hat Emanuele Giuseppe Esposito geschrieben:
+> With "intact" we mean that all job.h functions implicitly
+> take the lock. Therefore API callers are unmodified.
+> 
+> This means that:
+> - many static functions that will be always called with job lock held
+>   become _locked, and call _locked functions
+> - all public functions take the lock internally if needed, and call _locked
+>   functions
+> - all public functions called internally by other functions in job.c will have a
+>   _locked counterpart (sometimes public), to avoid deadlocks (job lock already taken).
+>   These functions are not used for now.
+> - some public functions called only from exernal files (not job.c) do not
+>   have _locked() counterpart and take the lock inside. Others won't need
+>   the lock at all because use fields only set at initialization and
+>   never modified.
+> 
+> job_{lock/unlock} is independent from real_job_{lock/unlock}.
+> 
+> Note: at this stage, job_{lock/unlock} and job lock guard macros
+> are *nop*
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
+Would be nice to fix the access Vladimir found, but I think it's not
+actually a bug because we know that nobody else is going to write to
+job->ret. So with or without that fix:
 
-Hi; Coverity points out a problem with this code (CID 1490787):
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate=
-)
-> +{
-> +    static uint64_t max_dirtyrate;
-> +    uint32_t dirty_ring_size =3D kvm_dirty_ring_size();
-> +    uint64_t dirty_ring_size_meory_MB =3D
-> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-
-Because dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-this multiplication will be done as a 32-bit operation,
-which could overflow. You should cast one of the operands
-to uint64_t to ensure that the operation is done as a 64 bit
-multiplication.
-
-Side note: typo in the variable name: should be 'memory'.
-
-
-> +    if (max_dirtyrate < dirtyrate) {
-> +        max_dirtyrate =3D dirtyrate;
-> +    }
-> +
-> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-> +}
-
-thanks
--- PMM
 
