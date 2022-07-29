@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4405E585764
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 01:41:49 +0200 (CEST)
-Received: from localhost ([::1]:60946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4089158576A
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 01:44:43 +0200 (CEST)
+Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHZc3-0006wf-RN
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 19:41:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54636)
+	id 1oHZep-0001X4-Bw
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 19:44:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHZaG-0005Qm-8J
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 19:39:56 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:37504)
+ id 1oHZcb-0007I6-3V
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 19:42:21 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:34642)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHZaE-00088q-GB
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 19:39:55 -0400
-Received: by mail-pl1-x633.google.com with SMTP id d3so5856237pls.4
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 16:39:53 -0700 (PDT)
+ id 1oHZcZ-00009Z-Ea
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 19:42:20 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id 12so5117376pga.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 16:42:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=eJSS3W0KkWa7/lfldHgscIn4YqzTGynq7Iwcq6a1bY4=;
- b=FzBt2c6zOFYmBR4pipFBip0q9zt3pi0PuXqq1BU3m9uv8qahoHSIsAhfKQ969qMv6d
- oj45YLAa0FNpxgofka1qRwnNYiiwLe3hD8YBXNBAaOuPvDbZbw/Gu+vGWPr+StoIyD74
- P8alsFHss1yC+QtRwPL26Vy9dRpl5rc8fr4azMAVJMu65a36zJUcsUyoVvQWhOp6esvh
- 37AriQez0x8rNPe80OEstSbXAxm0YdHgNg6WO9/qhUBmosBsyWTh5Elxxg7Be+x+gTE+
- TruNUSiyPrmuM1nlSHxVBfu+FQGkCnSVxKjJYpu6Gk2Iohuzt61jesfvWc2l3FCRui7e
- VmDA==
+ bh=xjzot4uwjDESIz5XRcXeTU29yqN0JOKhmJUmpKq7gME=;
+ b=a3Of1csiYDobmHvcnpICJhIAZDy76gYB2w2yTe4jqcoy7BePrmFhYPphLEz0VF9iEx
+ cQ8Z7pFDICUXbwyzx9URJEZ51qjIxRBb9gKUUW8aH2CzOaUmfInI97KOYDN7gUB8oEVC
+ bY4BlJ4OXBQhz3s6TJylN1ECKkGE3X2GYeNNuWaqvc6DaCVxfAzFyd1HUrbzYUicrqA+
+ 0q8VSk1SkD3ojm+hjs3bE63nAwAr81sPDaYohNeT/cg0pbruB64V4wTfpKthFYMy2dj9
+ pRLqfjuwKlcDKuwE9KY4HRFrgn3dfCLksoBAZlHvXsFDAliiV9kbbR5DsyPw6r4P5Olv
+ PfGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=eJSS3W0KkWa7/lfldHgscIn4YqzTGynq7Iwcq6a1bY4=;
- b=cHrCEg2tpxhTF4IVX1XiOt8kvtluQedBVCkAVtG6u/8mLoRuniEY2rZLjb3BCR/RZj
- sTKttyMlMEJmEMiVzQlZlx0qo/EY8W+VE2mi9D0fsNdivUpXAA2ZDOX9D0ilF6eNJCK/
- yWvo9aAMFUt3/kgNMvYbmmEhiaSgLxcm6nhaM3jVsGsn5gEnzcYEGOJLb4tuBwSKYMDH
- PJCJCfmcLlQeDbzLVhlG8kANLEdhWxxWng+SAt6neMr4ZC9UmMbJ1qspAUgKdLvgOWiy
- lfoZ8b7c+9nMH77N1+JZo/Lv1TuhH8P1UXVBfUknSPlEMat0fE3KK67ULSGANuUa3P7c
- HwCw==
-X-Gm-Message-State: ACgBeo1aC6O55SJwsgIpICF/Bp2oK36bH0iZN7RgeRp80Fz7ytjS2WGp
- SrHPNhqnruOeyaUK2+S4oFEvoA==
-X-Google-Smtp-Source: AA6agR5nHalAT+HGu1I0mSvaoNE4cspxztpyF2NWiiDhymhiP8DhbUm4of3nUXJk+K5EyHd/B6kRcw==
-X-Received: by 2002:a17:90a:ead3:b0:1f3:366d:5005 with SMTP id
- ev19-20020a17090aead300b001f3366d5005mr5549752pjb.1.1659137992414; 
- Fri, 29 Jul 2022 16:39:52 -0700 (PDT)
+ bh=xjzot4uwjDESIz5XRcXeTU29yqN0JOKhmJUmpKq7gME=;
+ b=VNWFieS+hdvV16BU02nq3FPnAxcwXPR11Ob5EtGN7J1AshPtqkTzL2Jy0J+hOsLpXD
+ vf/HSCTzfxk5y4H0a92ozwO+P2QSNTLEMVuZYv4tgsVubzdkHHuRjkMUHSKq9I4N2dLB
+ Y/GEXPq7aq/eRRnNisojgdSjukDVLLW75p2X8Y0Pqf8jBvufdCuCDpACmaB8Dh7JTAP/
+ rqwdLbWviuBgF4PnW+Zh5b+/1jPlc6njkBalgo2hSjR0TFUjmmfSPWqNsxXIKQ4eTBkx
+ 00zqm3no+jj8vIqfoE2bwgAK0p1zQglZ084FOD9QAAUoIk8Od3O7pekNnej8RT5Fel/Z
+ D4IA==
+X-Gm-Message-State: AJIora8Rovhdeeaz7Jqd49wUcR47tFY+d3dRyeq3U+u/VHQcQejx+uFX
+ LJ06m94Jaq9cnBooGOV+ypD4/Q==
+X-Google-Smtp-Source: AGRyM1sQYcX7Qb40DOYz7uSq3DYnNL2uRTPzEEo3fYSLtFMNoYs7mtW92tVDux+8b3+e5c+f6g0MjA==
+X-Received: by 2002:a65:6a0e:0:b0:41b:51b1:5be1 with SMTP id
+ m14-20020a656a0e000000b0041b51b15be1mr4768564pgu.574.1659138137819; 
+ Fri, 29 Jul 2022 16:42:17 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:a427:660:88d4:8559?
  ([2602:ae:1549:801:a427:660:88d4:8559])
  by smtp.gmail.com with ESMTPSA id
- 127-20020a620585000000b0052516db7123sm3448759pff.35.2022.07.29.16.39.50
+ f1-20020a170902ce8100b0016191b843e2sm4227639plg.235.2022.07.29.16.42.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jul 2022 16:39:51 -0700 (PDT)
-Message-ID: <edca0c3d-e7d5-6797-03cb-56fc7d955925@linaro.org>
-Date: Fri, 29 Jul 2022 16:39:48 -0700
+ Fri, 29 Jul 2022 16:42:17 -0700 (PDT)
+Message-ID: <d52bd8ac-0a83-d965-9373-038e755342a2@linaro.org>
+Date: Fri, 29 Jul 2022 16:42:15 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3 03/11] goldfish_rtc: Add big-endian property
+Subject: Re: [PATCH v3 06/11] hw/openrisc: Initialize timer time at startup
 Content-Language: en-US
 To: Stafford Horne <shorne@gmail.com>, QEMU Development <qemu-devel@nongnu.org>
-Cc: Openrisc <openrisc@lists.librecores.org>,
- Laurent Vivier <lvivier@redhat.com>, Anup Patel <anup@brainfault.org>,
- Laurent Vivier <laurent@vivier.eu>, Anup Patel <anup.patel@wdc.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:Goldfish RTC" <qemu-riscv@nongnu.org>
+Cc: Openrisc <openrisc@lists.librecores.org>
 References: <20220729230117.3768312-1-shorne@gmail.com>
- <20220729230117.3768312-4-shorne@gmail.com>
+ <20220729230117.3768312-7-shorne@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220729230117.3768312-4-shorne@gmail.com>
+In-Reply-To: <20220729230117.3768312-7-shorne@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,20 +95,24 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/29/22 16:01, Stafford Horne wrote:
-> Add a new property "big-endian" to allow configuring the RTC as either
-> little or big endian, the default is little endian.
+> The last_clk time was initialized at zero, this means when we calculate
+> the first delta we will calculate 0 vs current time which could cause
+> unnecessary hops.
 > 
-> Currently overriding the default to big endian is only used by the m68k
-> virt platform.  New platforms should prefer to use little endian and not
-> set this.
+> This patch moves timer initialization to the cpu reset.  There are two
+> resets registered here:
 > 
-> Cc: Laurent Vivier<lvivier@redhat.com>
-> Reviewed-by: Anup Patel<anup@brainfault.org>
+>   1. Per cpu timer mask (ttmr) reset.
+>   2. Global cpu timer (last_clk and ttcr) reset, attached to the first
+>      cpu only.
+> 
 > Signed-off-by: Stafford Horne<shorne@gmail.com>
 > ---
 > Since v2:
->   - Added Reviewed-by
->   - Changed from enum property to boolean as suggested by Richard
+>   - Moved timer init from init to reset suggested by Richard
+> 
+>   hw/openrisc/cputimer.c | 22 +++++++++++++++++++++-
+>   1 file changed, 21 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
