@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE552584CBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 09:39:19 +0200 (CEST)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C91584CC5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 09:41:15 +0200 (CEST)
+Received: from localhost ([::1]:49760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHKac-0004PT-Sm
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 03:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50880)
+	id 1oHKcU-00060E-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 03:41:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yangxiaojuan@loongson.cn>)
- id 1oHKSG-0008Gq-1r
+ id 1oHKSG-0008Gr-7H
  for qemu-devel@nongnu.org; Fri, 29 Jul 2022 03:30:45 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47418 helo=loongson.cn)
+Received: from mail.loongson.cn ([114.242.206.163]:47412 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <yangxiaojuan@loongson.cn>) id 1oHKSD-0004t3-Fm
+ (envelope-from <yangxiaojuan@loongson.cn>) id 1oHKSD-0004t2-M1
  for qemu-devel@nongnu.org; Fri, 29 Jul 2022 03:30:39 -0400
 Received: from localhost.localdomain (unknown [10.2.5.185])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn9GLjONiJ2lBAA--.46172S2; 
- Fri, 29 Jul 2022 15:30:20 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxn9GLjONiJ2lBAA--.46172S3; 
+ Fri, 29 Jul 2022 15:30:21 +0800 (CST)
 From: Xiaojuan Yang <yangxiaojuan@loongson.cn>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, gaosong@loongson.cn, maobibo@loongson.cn,
  mark.cave-ayland@ilande.co.uk, mst@redhat.com, imammedo@redhat.com,
  ani@anisinha.ca, f4bug@amsat.org, peter.maydell@linaro.org
-Subject: [PATCH v1 0/2] Change 'loongson3.XXX' file name and 'LS7A_XXX' macro
- name
-Date: Fri, 29 Jul 2022 15:30:16 +0800
-Message-Id: <20220729073018.27037-1-yangxiaojuan@loongson.cn>
+Subject: [PATCH v1 1/2] hw/loongarch: Rename file 'loongson3.XXX' to 'virt.XXX'
+Date: Fri, 29 Jul 2022 15:30:17 +0800
+Message-Id: <20220729073018.27037-2-yangxiaojuan@loongson.cn>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20220729073018.27037-1-yangxiaojuan@loongson.cn>
+References: <20220729073018.27037-1-yangxiaojuan@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxn9GLjONiJ2lBAA--.46172S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrtrykKr15tFW5Ww15ury5CFg_yoW3uwb_ZF
- yfXa4rGr4jqa42qay7X3WYyFZrAa18AFn8CF1qqrs7WF13Ar15JF4DKws8uF1Y9F4UJwsa
- yr48Kr1rAr4UGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9Dxn9GLjONiJ2lBAA--.46172S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGryUWrWrJFW8tw1rWFyrtFb_yoW5Gr17pr
+ y3uFn8KrW8Jr9rArWkW34fXF1DJrnrCr12va12y340krsrXw1UZr1rtasrZF12qa4rJFW0
+ vF95G34UXa10qw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: p1dqw5xldry3tdq6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163;
  envelope-from=yangxiaojuan@loongson.cn; helo=loongson.cn
@@ -61,27 +62,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series change 'loongson3.XXX' file name and 'LS7A_XXX' macro name.
-
-Changes for v1:
 1. Rename 'loongson3.c' to 'virt.c' and change the meson.build file.
 2. Rename 'loongson3.rst' to 'virt.rst'.
-3. Change macro name 'LS7A_XXX' to 'VIRT_XXX'.
 
-Xiaojuan Yang (2):
-  hw/loongarch: Rename file 'loongson3.XXX' to 'virt.XXX'
-  hw/loongarch: Change macro name 'LS7A_XXX' to 'VIRT_XXX'
+Signed-off-by: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+---
+ MAINTAINERS                          | 2 +-
+ hw/loongarch/meson.build             | 2 +-
+ hw/loongarch/{loongson3.c => virt.c} | 0
+ target/loongarch/README              | 2 +-
+ 4 files changed, 3 insertions(+), 3 deletions(-)
+ rename hw/loongarch/{loongson3.c => virt.c} (100%)
 
- MAINTAINERS                          |  2 +-
- hw/loongarch/acpi-build.c            | 18 ++++-----
- hw/loongarch/meson.build             |  2 +-
- hw/loongarch/{loongson3.c => virt.c} | 56 ++++++++++++++--------------
- include/hw/loongarch/virt.h          |  8 ++--
- include/hw/pci-host/ls7a.h           | 43 ++++++++++-----------
- target/loongarch/README              |  2 +-
- 7 files changed, 64 insertions(+), 67 deletions(-)
- rename hw/loongarch/{loongson3.c => virt.c} (93%)
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6af9cd985c..5ce4227ff6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1129,7 +1129,7 @@ Virt
+ M: Xiaojuan Yang <yangxiaojuan@loongson.cn>
+ M: Song Gao <gaosong@loongson.cn>
+ S: Maintained
+-F: docs/system/loongarch/loongson3.rst
++F: docs/system/loongarch/virt.rst
+ F: configs/targets/loongarch64-softmmu.mak
+ F: configs/devices/loongarch64-softmmu/default.mak
+ F: hw/loongarch/
+diff --git a/hw/loongarch/meson.build b/hw/loongarch/meson.build
+index 6a2a1b18e5..c0421502ab 100644
+--- a/hw/loongarch/meson.build
++++ b/hw/loongarch/meson.build
+@@ -2,7 +2,7 @@ loongarch_ss = ss.source_set()
+ loongarch_ss.add(files(
+     'fw_cfg.c',
+ ))
+-loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: [files('loongson3.c'), fdt])
++loongarch_ss.add(when: 'CONFIG_LOONGARCH_VIRT', if_true: [files('virt.c'), fdt])
+ loongarch_ss.add(when: 'CONFIG_ACPI', if_true: files('acpi-build.c'))
+ 
+ hw_arch += {'loongarch': loongarch_ss}
+diff --git a/hw/loongarch/loongson3.c b/hw/loongarch/virt.c
+similarity index 100%
+rename from hw/loongarch/loongson3.c
+rename to hw/loongarch/virt.c
+diff --git a/target/loongarch/README b/target/loongarch/README
+index 9f5edd10c8..1823375d04 100644
+--- a/target/loongarch/README
++++ b/target/loongarch/README
+@@ -15,7 +15,7 @@
+   3A5000 support multiple interrupt cascading while here we just emulate the extioi interrupt
+   cascading. LS7A1000 host bridge support multiple devices, such as sata, gmac, uart, rtc
+   and so on. But we just realize the rtc. Others use the qemu common devices. It does not affect
+-  the general use. We also introduced the emulation of devices at docs/system/loongarch/loongson3.rst.
++  the general use. We also introduced the emulation of devices at docs/system/loongarch/virt.rst.
+ 
+   This version only supports running binary files in ELF format, and does not depend on BIOS and kernel file.
+   You can compile the test program with 'make & make check-tcg' and run the test case with the following command:
 -- 
 2.31.1
 
