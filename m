@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E936585269
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:24:19 +0200 (CEST)
-Received: from localhost ([::1]:60326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10D0A58527E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:26:19 +0200 (CEST)
+Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHRqc-0006ci-5I
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:24:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43292)
+	id 1oHRsX-0000l0-LS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:26:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHRlk-0002sh-MT
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:19:21 -0400
-Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:46671)
+ id 1oHRpS-0005Ys-3o
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:23:06 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:39841)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHRli-0000LZ-Vx
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:19:16 -0400
-Received: by mail-yw1-x112d.google.com with SMTP id
- 00721157ae682-31f445bd486so54131867b3.13
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:19:14 -0700 (PDT)
+ id 1oHRpN-0003Nq-8a
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:23:05 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id r3so8726019ybr.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:22:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=u3tNOSsk5xtk48RLXsCaJHh662k3ySizpnWyZ1kxss4=;
- b=Myn9mpsTdL1o/Pnu3xXGlo56AL3y4gb3UsibIAakXfhcJamPbSKoXPTsCH45aB0nkW
- oni9ySSoVmzewsPnFovXVz3mRK7w3A/sTLL5wWlaujWttX7cJopHdIXY7tgLwG1fcLsQ
- iT6mb5G1z73OvwbtI+0Dkmnk+YgcUWSMFm+G9qGK11xIDI4D4YHS0PKoxnd8QDc9TQKs
- EJo8auq/jkjUvjWdN5geiTceC/DC899yUz7n/v4JqWD7OEJRYuT4guUq/qj4jE9bA3I4
- CnpPzDVGyygqVthdmR6IfQvc9fLmgKFaIViDIpc9x29EZ0QmddOB8WEPYReiUnwltM/z
- o2cw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=3XsB1qvUfqzuXK9Y1LqAX9rjEkxgM+ysMswGqfv/b3M=;
+ b=HCELTCcIGgLC+19mk1MfdaZ24yRHPY5t1qMLc7bAexNqpnhfEYvxPbolsPhnw3vuDC
+ DYZNYT+trQmwZXvnn/eZV7uPa9Rn5Ri8/dF5CkGNbLZcLlrIAYC2N8qoV6KDoWqCtpRr
+ DjsIV44WGmuVUwAfuoRT05z0A1/F2oaBcHApiRGdyN6tV3KhG4uZ4U64vyI2OKM9cD7f
+ 3zozpDsN8Sw1+yh1YkGbYKFExSSFMvcM+laQ5gWAG5hbvi5KyU19j0CDDFFL5Ym1r1BE
+ SF2kdm+Zl443ink5xXLlPKzKxNop1g+BOfabTSJU+smOz0jQbSDvAnmO0nu0yYm7pEKU
+ eWTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=u3tNOSsk5xtk48RLXsCaJHh662k3ySizpnWyZ1kxss4=;
- b=3KzhkOqtVqWPoNG3VMtsr2DcBVjGpXFrvfXA/S1R3Acrx400riRneLQ1TGE7LMoxfY
- vzDq8jM6YJfcF7H6KG5kWTUr2PgYnKmyDw/77LSONEHcBZA/dUaweMbk5GlxFvP8eI/Y
- 4YDsA7ILp/2e2FiYc0M2/Egmf6hESMuNn0838rvDIgtFbjMJdpjDb/3XT9XA5tgk9GNJ
- 8KHSvwEJiL4wfpHyKBrxatXACO9uYAUzCxa9fiLxHb5FqpfDb6IJ9JxyFyVopeGHZkFv
- RQjla3bcCV4z3YNMB+UET9DF9+q3oxHMr1InRp55t98MUxBqhZXqBMVoZg7g4MuWOMKI
- tQ6Q==
-X-Gm-Message-State: ACgBeo3RN9CjYSpdpBYYSS5tPdvkgLO9MuotbEjMAtU4VoZt+vDbKfKc
- nfnsPcpOIKq0YY2CTzaUR8WUur66pAcAwzTcskFe+A==
-X-Google-Smtp-Source: AA6agR4lTBuwckPQ0RudBPUGqBbTii1mJc563i84+agiUn+BQM/9PYN4j8qz87bGXPSQLEiotASYn/h1C5/AfBm2oE8=
-X-Received: by 2002:a81:a247:0:b0:31d:72da:e931 with SMTP id
- z7-20020a81a247000000b0031d72dae931mr3521537ywg.469.1659107953840; Fri, 29
- Jul 2022 08:19:13 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=3XsB1qvUfqzuXK9Y1LqAX9rjEkxgM+ysMswGqfv/b3M=;
+ b=lxbLoAHx7EhoRGG+MGuTnLKiYhHpabRuOUL6qiheWBJw0wqSdo20U44q2bQ9ca7qTE
+ tJcDoyRP9GQrk5t7vbFiU1vPV4yQY1Jm9D+Bui9HhGqB78HwiQ0HGP64F++UlfLNKpo9
+ RJ+osJYuRXEWvjXuMb+HnxTgJhY580oOR8eel4A4DLODuEzVI3XUaJiUzKP7H1E4rjAz
+ QsH405E6IXz4FOKrlTzc5eIEzDN+IrWuwWPCYnrqU4J7rRdgSbDmWlxFygUL8sDLydJ/
+ dDTpumRw4rKrxL+nYLYGE3V8vTz41y95nhEBPQJ+Av9HNiafy6qWO0FcsotHAiiOuLTF
+ qcyg==
+X-Gm-Message-State: ACgBeo3CzK2S4+hHvSe+gy03SFndaHOKSIH46687AoFBJ88wOm923sCR
+ WboeA0ZBJMPUWNY83nxKGKewtVcN/XksLcobWIz86w==
+X-Google-Smtp-Source: AA6agR68tcyW7Ql9E70+0LbOfznz0tpbGEWWIvuYeTYFYE6/USM6ux3jsw1qCrjkKybtKCOd2OSJzLtgR2ZVg/ie+GQ=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr2925611ybq.140.1659108178160; Fri, 29
+ Jul 2022 08:22:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <d2b97d5ab8098b215304a4b81a93ad02f6232b41.1659107152.git.huangy81@chinatelecom.cn>
-In-Reply-To: <d2b97d5ab8098b215304a4b81a93ad02f6232b41.1659107152.git.huangy81@chinatelecom.cn>
+References: <20220706095624.328-1-xieyongji@bytedance.com>
+In-Reply-To: <20220706095624.328-1-xieyongji@bytedance.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 16:18:33 +0100
-Message-ID: <CAFEAcA-bwbJatLwZOsTd9JvxZU3J6ifhHizfVaYNKYXOUwDZmw@mail.gmail.com>
-Subject: Re: [PATCH] dirtylimit: Fix overflow when computing MB
-To: huangy81@chinatelecom.cn
-Cc: qemu-devel <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, leobras@redhat.com, 
- quintela@redhat.com, Richard Henderson <richard.henderson@linaro.org>,
- berrange@redhat.com, iii@linux.ibm.com, peterx@redhat.com
+Date: Fri, 29 Jul 2022 16:22:18 +0100
+Message-ID: <CAFEAcA8wKgCFTeDWo5drvwW82HbmQPmiJatBNzb5p6wUq0=FGg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/3] Fix some coverity issues on VDUSE
+To: Xie Yongji <xieyongji@bytedance.com>
+Cc: kwolf@redhat.com, stefanha@redhat.com, armbru@redhat.com, 
+ richard.henderson@linaro.org, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,49 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Jul 2022 at 16:17, <huangy81@chinatelecom.cn> wrote:
+On Wed, 6 Jul 2022 at 11:18, Xie Yongji <xieyongji@bytedance.com> wrote:
 >
-> From: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
+> This series fixes some issues reported by coverity.
 >
-> Coverity points out a overflow problem when computing MB,
-> dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-> multiplication will be done as a 32-bit operation, which
-> could overflow. Simplify the formula.
+> Patch 1 fixes a incorrect function name.
 >
-> Meanwhile, fix spelling mistake of variable name.
+> Patch 2 fixes Coverity CID 1490224.
 >
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Hyman Huang(=E9=BB=84=E5=8B=87) <huangy81@chinatelecom.cn>
-> ---
->  softmmu/dirtylimit.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Patch 3 fixes Coverity CID 1490226, 1490223.
 >
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index 8d98cb7..ab62f29 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -236,14 +236,14 @@ static inline int64_t dirtylimit_dirty_ring_full_ti=
-me(uint64_t dirtyrate)
->  {
->      static uint64_t max_dirtyrate;
->      uint32_t dirty_ring_size =3D kvm_dirty_ring_size();
-> -    uint64_t dirty_ring_size_meory_MB =3D
-> -        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-> +    uint32_t dirty_ring_size_memory_MB =3D
-> +        dirty_ring_size >> (20 - TARGET_PAGE_BITS);
+> V1 to V2:
+> - Drop the patch to fix Coverity CID 1490222, 1490227 [Markus]
+> - Add some commit log to explain why we don't use g_strlcpy() [Markus]
 >
->      if (max_dirtyrate < dirtyrate) {
->          max_dirtyrate =3D dirtyrate;
->      }
+> Xie Yongji (3):
+>   libvduse: Fix the incorrect function name
+>   libvduse: Replace strcpy() with strncpy()
+>   libvduse: Pass positive value to strerror()
 >
-> -    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
-> +    return dirty_ring_size_memory_MB * 1000000 / max_dirtyrate;
+>  subprojects/libvduse/libvduse.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 
-Now you've changed dirty_ring_size_memory_MB to 32 bits,
-this multiplication is going to be done at 32 bit
-precision and can overflow. Adding 'ULL' to the '1000000'
-is one way to fix that.
+Hi -- these patches still don't seem to be in git. What
+is the plan for getting them in ?
 
 thanks
 -- PMM
