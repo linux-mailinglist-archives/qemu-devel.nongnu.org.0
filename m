@@ -2,88 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9936F58521D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:09:29 +0200 (CEST)
-Received: from localhost ([::1]:42192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B9858522F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:16:46 +0200 (CEST)
+Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHRcG-0002G0-Nl
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
+	id 1oHRjJ-0001EV-Af
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:16:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXr-0003eI-5s
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:28277)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXp-0005a7-Nu
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659107093;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
- b=ByplzipHq0vf5t/Y7FdqKDi2+tNGmIIEhpNhZt+gFP+rjA76ozN8IkO7sWjm4YRl+1RpwA
- SfZ6v65FL7JxizgTiDkuubFOkv0aE0bUT+oerMy4HW+hLmKrR7uzM4Jy7pJZRSzKvvJ+1z
- 8/fNFCYwi9wEkHd3YXmJhb7QqUNYWJ4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-631-kFRILNheONiKHfqO0cx20w-1; Fri, 29 Jul 2022 11:04:52 -0400
-X-MC-Unique: kFRILNheONiKHfqO0cx20w-1
-Received: by mail-ej1-f71.google.com with SMTP id
- gn10-20020a1709070d0a00b0072fd8bafeffso1903703ejc.12
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:04:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ORLqmTavrpmFCjM97zE9EOvvemvokaHihzrA+oOsJbE=;
- b=I9rxE2AQYBGw9O3XfW3aX8qUR0XaaBC7Fln2efHWhfLYjDQt2zhyPjqDEMpaWMMLxP
- 409DjJTiidC5Hj8TuFISIsqqGDHw4ddUH+U8fML25qyEkv5mVsPUn4KvLtbRI7t6JRdX
- uIE4KFUB3IlJvCq7Ehu1cUNA905BDQ1hrWrJLXWqmuiP3MzBrVx+5V+FSwF7Cp2Ym2Ot
- DlMbirErclEGQMH8xQA2nVh1NGJX+IGIxGE1eP7rX0G3nVULt24rZPKT/1Xm18ibk7nX
- VskbFk96j50Q/wUPBlZbj7WZrGw9VnjWlfPX2Xi8EdXx/Sc/lVqYUoBPPRpTM+7IhlV8
- 4ctA==
-X-Gm-Message-State: AJIora/7vYMsWCPcTj9kwcccvG2KH5Lsl/2ffuuRTXi/YGazQVMdO8cy
- HZhJdlrbG7Tf0HVd7khPRX6CsI4oQv0UIxyCA3Z5oagv4FcG550nuiBvlB1qxGEB+nZOjLTFYOS
- kazuNpoMWUKfunTEpaKcffoyJgOMKdnp5KjPc47TRW2KRU7sRy9l5qoJB0ztg8n+Z91Y=
-X-Received: by 2002:a17:907:9613:b0:72b:68df:8ada with SMTP id
- gb19-20020a170907961300b0072b68df8adamr3254713ejc.31.1659107090657; 
- Fri, 29 Jul 2022 08:04:50 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1thiBirrTpeE4L0FS/3q0D29v5s8HpgK/uQf//Qj8oSIKFFbD5peHQH98isGaCam5FTR+v6OA==
-X-Received: by 2002:a17:907:9613:b0:72b:68df:8ada with SMTP id
- gb19-20020a170907961300b0072b68df8adamr3254685ejc.31.1659107090149; 
- Fri, 29 Jul 2022 08:04:50 -0700 (PDT)
-Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
- by smtp.gmail.com with ESMTPSA id
- u2-20020a1709061da200b006fec4ee28d0sm1785642ejh.189.2022.07.29.08.04.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 08:04:49 -0700 (PDT)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Taylor Simpson <tsimpson@quicinc.com>
-Subject: [PULL 6/6] configure: pass correct cflags to container-based cross
- compilers
-Date: Fri, 29 Jul 2022 17:04:38 +0200
-Message-Id: <20220729150438.20293-7-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220729150438.20293-1-pbonzini@redhat.com>
-References: <20220729150438.20293-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <huangy81@chinatelecom.cn>)
+ id 1oHRhA-00085x-LP
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:14:33 -0400
+Received: from prt-mail.chinatelecom.cn ([42.123.76.227]:51594
+ helo=chinatelecom.cn) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <huangy81@chinatelecom.cn>) id 1oHRh8-0007zd-5c
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:14:32 -0400
+HMM_SOURCE_IP: 172.18.0.48:38068.1505294054
+HMM_ATTACHE_NUM: 0000
+HMM_SOURCE_TYPE: SMTP
+Received: from clientip-125.69.43.72 (unknown [172.18.0.48])
+ by chinatelecom.cn (HERMES) with SMTP id 99113280098;
+ Fri, 29 Jul 2022 23:14:05 +0800 (CST)
+X-189-SAVE-TO-SEND: huangy81@chinatelecom.cn
+Received: from  ([172.18.0.48])
+ by app0024 with ESMTP id ea1893e137d049c892fc6180aa567616 for
+ richard.henderson@linaro.org; Fri, 29 Jul 2022 23:14:08 CST
+X-Transaction-ID: ea1893e137d049c892fc6180aa567616
+X-Real-From: huangy81@chinatelecom.cn
+X-Receive-IP: 172.18.0.48
+X-MEDUSA-Status: 0
+Message-ID: <b4d36f1b-47e3-f03c-eb00-15eef981fa6d@chinatelecom.cn>
+Date: Fri, 29 Jul 2022 23:14:05 +0800
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 06/30] softmmu/dirtylimit: Implement virtual CPU throttle
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
+ berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com
+References: <20220720111926.107055-1-dgilbert@redhat.com>
+ <20220720111926.107055-7-dgilbert@redhat.com>
+ <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
+ <2de87bc5-a7a5-53a9-1458-35269fd0df9c@linaro.org>
+From: Hyman <huangy81@chinatelecom.cn>
+In-Reply-To: <2de87bc5-a7a5-53a9-1458-35269fd0df9c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=42.123.76.227;
+ envelope-from=huangy81@chinatelecom.cn; helo=chinatelecom.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,33 +74,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-probe_target_compiler returns nonempty $target_cc for installed toolchains
-and $container_cross_cc for container-based toolchains.  In both cases
-however the flags (coming from $cross_cc_cflags_${target_arch}) must be
-in $target_cflags.
 
-Therefore, do not clear them prior to returning from probe_target_compiler.
 
-Reported-by: Taylor Simpson <tsimpson@quicinc.com>
-Fixes: 92e288fcfb ("build: try both native and cross compilers", 2022-07-08)
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/configure b/configure
-index c4c02b8438..72ab03f11a 100755
---- a/configure
-+++ b/configure
-@@ -2173,7 +2173,6 @@ probe_target_compiler() {
-     build_static=
-     target_cc=
-     target_ccas=
--    target_cflags=
-     target_ar=
-     target_as=
-     target_ld=
--- 
-2.36.1
-
+在 2022/7/29 22:14, Richard Henderson 写道:
+> On 7/29/22 06:31, Peter Maydell wrote:
+>> On Wed, 20 Jul 2022 at 12:30, Dr. David Alan Gilbert (git)
+>> <dgilbert@redhat.com> wrote:
+>>>
+>>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>>
+>>> Setup a negative feedback system when vCPU thread
+>>> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
+>>> throttle_us_per_full field in struct CPUState. Sleep
+>>> throttle_us_per_full microseconds to throttle vCPU
+>>> if dirtylimit is in service.
+>>>
+>>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>> Reviewed-by: Peter Xu <peterx@redhat.com>
+>>> Message-Id: 
+>>> <977e808e03a1cef5151cae75984658b6821be618.1656177590.git.huangy81@chinatelecom.cn> 
+>>>
+>>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>
+>>
+>> Hi; Coverity points out a problem with this code (CID 1490787):
+Thanks for pointing out this bug.  I'm making a access request for
+https://scan.coverity.com so that coverity problem can be found once new
+series be posted. Hoping this bug doesn't appear anymore. :)
+>>
+>>> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t 
+>>> dirtyrate)
+>>> +{
+>>> +    static uint64_t max_dirtyrate;
+>>> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
+>>> +    uint64_t dirty_ring_size_meory_MB =
+>>> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
+>>
+>> Because dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
+>> this multiplication will be done as a 32-bit operation,
+>> which could overflow. You should cast one of the operands
+>> to uint64_t to ensure that the operation is done as a 64 bit
+>> multiplication.
+> 
+> To compute MB, you don't need multiplication:
+> 
+>    dirty_ring_size >> (20 - TARGET_PAGE_BITS)
+> 
+> In addition, why the mismatch in type?  dirty_ring_size_memory_MB can 
+> never be larger than dirty_ring_size.
+> 
+> 
+> r~
+> 
+I'll post bugfix patch later as your suggestion, please review, thanks.
+>>
+>> Side note: typo in the variable name: should be 'memory'.
+>>
+>>
+>>> +    if (max_dirtyrate < dirtyrate) {
+>>> +        max_dirtyrate = dirtyrate;
+>>> +    }
+>>> +
+>>> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
+>>> +}
+>>
+>> thanks
+>> -- PMM
+>>
+> 
 
