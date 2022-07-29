@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E45D258532A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 18:06:38 +0200 (CEST)
-Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC14858533B
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 18:15:19 +0200 (CEST)
+Received: from localhost ([::1]:57936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHSVZ-0001mT-H4
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 12:06:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
+	id 1oHSdz-0004D9-2e
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 12:15:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHSOo-0005I1-Rj
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:59:38 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40682)
+ id 1oHSRC-0007rW-1s
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 12:02:06 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:37830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHSOm-0001S6-OT
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:59:38 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so4335669wmb.5
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:59:36 -0700 (PDT)
+ id 1oHSRA-0002Ai-5M
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 12:02:05 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id 141so8873648ybn.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 09:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=XrT6CJtYpDChJQmlrXKLKRnBd08Xi8ZOtp9m/6/Dbzk=;
- b=d2QCH4/9fRdEZML3u2VPmUbEcer1Kt1jzOaWdt2d+96yweR2HwudHG5Q8MsurYjZZD
- wbud8ztkhbZm/P/OfUb9zeweF4iz0bjPfdCFWXYpmk7gous0EXxvBgNtV3Vmzv/5WhJT
- ognmDrloMUzwR47J27zx8EwICAogTuI/F/1yUIJj5JX6D/hCoDl7GQ9rbPSJ51yJ/WFe
- Tzkdpg9mB5IH8AKZjQw3iLRqyc700KrHA/Jj3c4YlxcDJCWJPFAnJZSajTWVbdkVVIHh
- opgwYMSPLwUHcE9TKjwPOlFYLUP935qb5ZAgBuSJgaVsVgUtFvisxZc79hH3v2NbTcz0
- m5Mg==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=9fFYV/r1sN7qmohC6U4plWKm5VUh3yjht8jKAeFtVAQ=;
+ b=CvXsKLNxppxtlFT1EHEF/7WPpsvEgif5K1T77O3MaZSBFiCY8+CROqfIAsl3f3N2FT
+ GvZekNqPmg+BTN+05XfmQEE6Z3LYGdFraDwMzD43uMCl1SWHQTTeH1WLC7uu5V64rgSr
+ Txs45PnjOHbZapLn/PN3tvxtMSPYwk7fHblobPMmZinsN4wlpIJhrpUgVDAF230cN11k
+ 4ZZ0q+GO8IiHc7cPHUiu0dL2/zC5ZobzcSpoPsf8M+bvsjwGA4cuIkky8+ANXZ6rpmuA
+ khU++SYMrR7U5KWdihEpgh7/RUqOAIgZEIHJXpp10QcTRooREoVspn7zr0KNIkw4ocff
+ Xg8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=XrT6CJtYpDChJQmlrXKLKRnBd08Xi8ZOtp9m/6/Dbzk=;
- b=MeYotG636GdFTowo0qX0JVtw2ye0xKUijn4MpCEhn34gFtMs4KyNTuwcBNAvIhB9w9
- cUI9w5M0dHh7E/EYHB7Y2OWyAi3Itn9xM4+Mkn6BAldizyuwD7FhBBhKQ+yjuaUZgMOs
- ytJP8ZVAz9bkQeOAVwK2rjeCfmmUf7+1zAfk0F3mkCkUu+wYwaiMjlgeFpQEZz3NWlMC
- Y+ZRasVXrAx0qxGC7I4feir4zATQlX4kPOjCNbZF103wJ3Smc/TpV0KOgb3MPgEb2k3N
- NMLDiX+IwUFJmXmJoyteHn+a2I120HQZ/h/0PnzQtDcajl6E4p2iz2MPypVUobYVJAaI
- vASw==
-X-Gm-Message-State: AJIora8m0UZ8P9A6FU5reDhOkNj49d4uA4H0AjoK5GHgu1oRBNWPr1h6
- hoCnaS6+vFRKKFuKKjc4xL0Z4F5/32nH7Q==
-X-Google-Smtp-Source: AGRyM1vbDlCuptc/57/XascOh8jxPyLGwXu6ZwcUO6U82TIXCak095q6cY3RjF4GdxGEECVIiS6mbg==
-X-Received: by 2002:a05:600c:2854:b0:3a3:1551:d7d with SMTP id
- r20-20020a05600c285400b003a315510d7dmr2854471wmb.174.1659110374868; 
- Fri, 29 Jul 2022 08:59:34 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- y14-20020a5d620e000000b0021db7b0162esm4143699wru.105.2022.07.29.08.59.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 08:59:34 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Jiri Pirko <jiri@resnulli.us>,
-	Jason Wang <jasowang@redhat.com>
-Subject: [PATCH] hw/net/rocker: Avoid undefined shifts with more than 31 ports
-Date: Fri, 29 Jul 2022 16:59:32 +0100
-Message-Id: <20220729155932.2477385-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=9fFYV/r1sN7qmohC6U4plWKm5VUh3yjht8jKAeFtVAQ=;
+ b=Lqd3Q1+9reVAyn5EwHh/mYtSOsPvDqGlOYwBmhS2K8V0gvZu1OhQNBniV3pWjJHmcY
+ ToYXdp6M4t2ncDa/edzvPLXASdJaSbWvmw3xeveoQjTCGjFLFIPIaHcIeT6vBBy6j8qX
+ o9DfFNLrsL8vuiV/WLt2qjczUyrmEldMtI+zc96CpXbjEZLtXQi23rEK9U4vi4XT2DSR
+ Hio/jPO/h2xQsCSGmY+5VzmTNfi5hPCpM9Vd6Zyli1QPmsbIKrn8j4pCIwy5SAJDWtdX
+ pNcxN7rAS+w4dtG607TxoiaIxdSqpgpWUlxPKOaX1hZmShTxDjCxyLgHOw39mY/ZW+40
+ yaBw==
+X-Gm-Message-State: ACgBeo1RGYm0d+2Rf9iNwJmhZWRVOO61Gx4UxnnDXtQJh5jlMD1plb1y
+ kG2Un14A0UmCouQRfWPiQFZL/nYWWlhUTxof/aKzQQ==
+X-Google-Smtp-Source: AA6agR58hRNn5YT0+aV/he0km1DXgAqhThT1GDmedc+1QZJ1hmMvCZ9jWXPPFeFiU65ihvB7bxXjzsSt4JoWVwOsjpQ=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr3058162ybq.140.1659110523004; Fri, 29
+ Jul 2022 09:02:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+References: <20190919213924.31852-1-minyard@acm.org>
+ <20190919213924.31852-13-minyard@acm.org>
+ <CAFEAcA88GqrqoENf8NHxeNgTjj-jutz8Kspk43L1gp_VJJdh+Q@mail.gmail.com>
+ <20220729155644.GY3834@minyard.net>
+In-Reply-To: <20220729155644.GY3834@minyard.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jul 2022 17:01:23 +0100
+Message-ID: <CAFEAcA-GUjTKcyvPzetyHYMoGO2ijh6o8b9f1bprEup_C9Abag@mail.gmail.com>
+Subject: Re: [PATCH 12/15] ipmi: Add an SMBus IPMI interface
+To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>,
+ "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>, 
+ David Gibson <david@gibson.dropbear.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,45 +90,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In rocker_port_phys_link_status() and rocker_port_phys_enable_read()
-we construct a 64-bit value with one bit per front-panel port.
-However we accidentally do the shift as 32-bit arithmetic, which
-means that if there are more than 31 front-panel ports this is
-undefined behaviour.
+On Fri, 29 Jul 2022 at 16:56, Corey Minyard <minyard@acm.org> wrote:
+>
+> On Tue, Jun 28, 2022 at 05:21:44PM +0100, Peter Maydell wrote:
+> > On Thu, 19 Sept 2019 at 22:39, <minyard@acm.org> wrote:
+> > >
+> > > From: Corey Minyard <cminyard@mvista.com>
+> > >
+> > > Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> > > ---
+> >
+>
+> Thank you for the ping.  Comments inline...
 
-Fix the problem by ensuring we use 64-bit arithmetic for the whole
-calculation. (We won't ever shift off the 64-bit value because
-ROCKER_FP_PORTS_MAX is 62.)
+> > ...calling memcpy() with argument 1 being a pointer that points
+> > one past the end of the array. Even though len will be 0 and
+> > we won't memcpy() anything, this is (depending on how you choose
+> > to intepret things the C standard doesn't come right out and state
+> > explicitly) undefined behaviour, because memcpy() wants to be passed
+> > valid pointers, even if you ask it to do no work with a zero len.
+> >
+> > This isn't going to be a visible bug in practical terms, but it would
+> > make Coverity happy if we either (a) rejected a request with an empty
+> > length or else (b) skipped the memcpy(). I don't know enough about
+> > IPMI to know which is better.
+>
+> Hmm.  In some cases you have to accept a zero-length packet (as
+> described in the comments), but if you said:
+>
+>   if (len > 0)
+>       memcpy(sid->inmsg + sid->inlen, buf, len);
+>
+> would that make Coverity happy?  I was under the impression that if you
+> passed zero into len, you could pass anything into the data on a memcpy.
+> But apparently not; I can make this change.
 
-Resolves: Coverity CID 1487121, 1487160
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/net/rocker/rocker.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Yes, putting an if() around the memcpy() will be enough to avoid
+the undefined behaviour. (NB that you want braces {} on it ;-))
 
-diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
-index 31f2340fb91..d8f3f16fe87 100644
---- a/hw/net/rocker/rocker.c
-+++ b/hw/net/rocker/rocker.c
-@@ -1010,7 +1010,7 @@ static uint64_t rocker_port_phys_link_status(Rocker *r)
-         FpPort *port = r->fp_port[i];
- 
-         if (fp_port_get_link_up(port)) {
--            status |= 1 << (i + 1);
-+            status |= 1ULL << (i + 1);
-         }
-     }
-     return status;
-@@ -1025,7 +1025,7 @@ static uint64_t rocker_port_phys_enable_read(Rocker *r)
-         FpPort *port = r->fp_port[i];
- 
-         if (fp_port_enabled(port)) {
--            ret |= 1 << (i + 1);
-+            ret |= 1ULL << (i + 1);
-         }
-     }
-     return ret;
--- 
-2.25.1
-
+thanks
+-- PMM
 
