@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6B2E584ECE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 12:30:45 +0200 (CEST)
-Received: from localhost ([::1]:59936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22589584F60
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 13:10:53 +0200 (CEST)
+Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHNGW-0002XV-Ox
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 06:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55952)
+	id 1oHNtI-0007GV-Eg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 07:10:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oHN5X-0005E4-Qf
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 06:19:29 -0400
-Received: from smtp-out2.suse.de ([195.135.220.29]:44334)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHNpT-00047U-TM
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 07:06:51 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:42966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1oHN5V-0004QF-0J
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 06:19:22 -0400
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3B9F21F9A5;
- Fri, 29 Jul 2022 10:19:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1659089959; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=97ZZT9UjjKfIwRIPlhdlhBMgHHrP5VhQF6vYb9drdoo=;
- b=DBFOL7+763NlkTxM5N/KW93fW+7mN61FmV/G6SlpSE17DKa4/Z4CFJT4haCNOla5U8CNv4
- 26t8frFHxFqiUHidmNdX7wD+WaufGR8QcAK9uM27w2tR3cf3Y1d7cc6w3MhCc5UDqqQFby
- uiyg859qbB0ocrIq37Y9e2wwmut/R/k=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1659089959;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=97ZZT9UjjKfIwRIPlhdlhBMgHHrP5VhQF6vYb9drdoo=;
- b=tujgVwcuB0ECbvg855acHvZ4ZsUahZ478wa9NVD87AtONeBCCcB+zkGw2Q9Qjl168k/uld
- BUAptVZbpZS3hHCw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 0D75713A8E;
- Fri, 29 Jul 2022 10:19:19 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id Fy64ASe042LzeQAAMHmgww
- (envelope-from <cfontana@suse.de>); Fri, 29 Jul 2022 10:19:19 +0000
-Message-ID: <20edd357-716f-c84c-9714-607f7f64db5c@suse.de>
-Date: Fri, 29 Jul 2022 12:19:18 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHNpR-0000f7-MA
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 07:06:51 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-2ef5380669cso47305617b3.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 04:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=siChzJOrQ2sTUQXmMKfj4nHklSrpeXrtPBHKF1uAxFY=;
+ b=GSFAvdoDTt1SIommI9EfP7wlg9J7LXQ1wyrRyR+K/38jMF+56q7ZKhsLmDa33Hz+ZV
+ m35pP9UF8qQEGMG2rw5tY/VjyuBL0xJLf3NxNsLnqSMi4LuiXZLi5xzf+akggglb9hlT
+ hWVdiWuqxn1Ydpc3VkP1nGDZbqZHCubnzMhYQMTf2XAtllGBikdk3ljc3ZhT7RlwQH9H
+ ZSsuzmbFVrrAaZwtjNNLVdPnVEfjHjtJFmzlffRpMgT/sS1ZP8OFth9qTEvHbg0q+grA
+ wRog3ySIVe3Dx2nlW0s/0B9bXaziLSMKO6TMu225qqSkLeEHehLK363caK5/nbHEM6cQ
+ EDig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=siChzJOrQ2sTUQXmMKfj4nHklSrpeXrtPBHKF1uAxFY=;
+ b=ToPgOMLMnrO4H9bZ1FpbrHhsMq5AyqJwJnLcQwycUZVuv/sPW2ihnSVzj84seddj2h
+ xkpw6EIO6hYRjGcKCRteSgvkUhzjH8zlc+5Bsp2qtsdwmwMAPUyKKMQBA5jetPuOTiU5
+ wIqT1quFydV71vhpXKEo8wWHDlzomDCRDchCzKc0JcbbRxe1SIjZtXqfJ05vOZNVNetB
+ Xxa8sdn7EFjwen7sM5lwOi7njDjmBvET9DMZdEIpLDecik6Z69ZqnCRbDwUjTsw+xs52
+ AecG/n5zA14adGAZOnKd811yGfIYqBD/spR3oL7E8fwCbioj/lcbBk9IivsnLvS1Ri0w
+ ThHg==
+X-Gm-Message-State: ACgBeo1myWBLcha5mk2GmCdtuCZ3tVI3MUxUlIh87Mj4hzlcI0s2P81Z
+ 38IPy/VYf8zpCJj8uF89jJ2RcqR6j3P9M1vC2BxUjQ==
+X-Google-Smtp-Source: AA6agR5/hl0OVbWIOiwYiSL/RtbnVhABy+bG/IMprPI5h5bOpk4Yi2tnBSQkcqHDzMy6Wz7RDyekmcnyOkuBk7AUKlU=
+X-Received: by 2002:a0d:cc0d:0:b0:31f:8a70:38e0 with SMTP id
+ o13-20020a0dcc0d000000b0031f8a7038e0mr2535074ywd.347.1659092805951; Fri, 29
+ Jul 2022 04:06:45 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
-Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Marcel Apfelbaum <marcel@redhat.com>
-References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
- <20220727112737-mutt-send-email-mst@kernel.org>
- <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
- <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
- <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
- <20220728093501-mutt-send-email-mst@kernel.org>
- <be4dc741-4153-1620-223f-852ff5aa34a7@suse.de>
- <20220729061221-mutt-send-email-mst@kernel.org>
-From: Claudio Fontana <cfontana@suse.de>
-In-Reply-To: <20220729061221-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=cfontana@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220725110035.1273441-1-peter.maydell@linaro.org>
+ <Yt561CDN+UjmaDK3@redhat.com>
+ <CAFEAcA8d5J-WBp6Z=ECiUtP8wCfjv_XZo5GfYAr+x+mH3GpQww@mail.gmail.com>
+ <CAL7npF_fpy2NzBqRZzEYyHQpNfEXgd7OedJDZX4pN48eUF76Pw@mail.gmail.com>
+In-Reply-To: <CAL7npF_fpy2NzBqRZzEYyHQpNfEXgd7OedJDZX4pN48eUF76Pw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jul 2022 12:06:06 +0100
+Message-ID: <CAFEAcA9wDDYZrxLxw6PUpC+fys+o+80YwPe1PGProbz3ksOqLQ@mail.gmail.com>
+Subject: Re: [PATCH] linux-user: Don't assume 0 is not a valid host timer_t
+ value
+To: Jon Alduan <jon.alduan@gmail.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,30 +88,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/22 12:13, Michael S. Tsirkin wrote:
-> On Fri, Jul 29, 2022 at 11:46:05AM +0200, Claudio Fontana wrote:
->>>> @@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
->>>>      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
->>>>      int i;
->>>>  
->>>> -    virtio_set_status(vdev, 0);
->>>>      if (current_cpu) {
->>>>          /* Guest initiated reset */
->>>>          vdev->device_endian = virtio_current_cpu_endian();
->>>> -- 
->>>> 2.26.2
->>>
->>> As you say this is incomplete ... bout could you share a bit more
->>> of what issue does this address?
->>>
->>
->> Hi, the problem I am trying to address is a segfault in OVS/dpdk that looks like this:
-> 
-> Sorry I was not clear. What I mean is, you don't yet know why does removing
-> virtio_set_status call here prevent the crash in ovs, do you?
-> 
+On Tue, 26 Jul 2022 at 23:13, Jon Alduan <jon.alduan@gmail.com> wrote:
+>
+> Hello Peter,
+>
+> I can say so far, your patch solved the issue! Great thanks for that!
+>
+> Regarding the libc version:
+> From my WSL2 Ubuntu 21.04 x86_64:
+> $ ls -l /lib32/libc*
+> -rwxr-xr-x 1 root root 2042632 Mar 31  2021 /lib32/libc-2.33.so
+>
+> My gcc version 10 does use the same libc version.
+> As already mentioned, I can also reproduce this on a VM with Ubuntu 20.04 and libc-2.31.
+> In addition, originally, this issue was first reproduced with an own buildroot RootFS and containing libc-2.28.
+>
+> As you see, the libcs are not that old.
 
-I have no idea. Trying to collect logs to figure things out, but as mentioned the logs easily hide the issue.
-Likely there is just more to study here.
+So, new glibc does have a fallback timer_create() which
+can return 0 as a timer_id:
+ https://elixir.bootlin.com/glibc/latest/source/sysdeps/unix/sysv/linux/timer_create.c#L150
 
+...but it should only be using that code if the binary was
+built against an old libc and then dynamically links with the
+new one, which is a bit of an odd setup, and I'm not sure
+why you run into it.
+
+-- PMM
 
