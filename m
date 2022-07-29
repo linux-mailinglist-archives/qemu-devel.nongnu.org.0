@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D01D58543B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 19:12:17 +0200 (CEST)
-Received: from localhost ([::1]:52232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0707F58543A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 19:11:57 +0200 (CEST)
+Received: from localhost ([::1]:51458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHTX5-00076a-Ij
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 13:12:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41074)
+	id 1oHTWm-0006Y7-3G
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 13:11:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHTTC-0003O1-C6
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:08:14 -0400
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45817)
+ id 1oHTTT-0003dI-D6
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:08:32 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHTTA-0000P5-Mv
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:08:13 -0400
-Received: by mail-pj1-x102d.google.com with SMTP id
- o14-20020a17090a4b4e00b001f2f2b61be5so5816114pjl.4
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 10:08:12 -0700 (PDT)
+ id 1oHTTP-0000Rh-TY
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:08:31 -0400
+Received: by mail-pl1-x631.google.com with SMTP id p1so5122343plr.11
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 10:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=y9PjfbTlQ6NBzW51KYV7ZglMn5XEqg483PQc7Zd7TJ8=;
- b=yAoieEpwBNiI+l/euHnpcSt1GInIALegXPPNOxq9Oj+UZ8ZPiUAuLWmP054VxagOcl
- iTDebqkuGo1N17igU5/MEURAcBoHC+/DNV9N/vlCRQEdpX5iEiQe80dzz4ksf0RBgMEc
- hSyhDjHZ8SNMvHQmGCK7vh0Hw59y6F7TUu2Q/qLOmfthGzTQtcPnHeoh9El2RzMmtrKy
- SoHop70Xpfz4MlZPvklQ9OM++eOAWTmYGQFlMJP7OOI7h1pb8tctrEbuGuqfG8mI/WD2
- 9RGLlq80nnC1VFBvIPc9EYI73vXCObT8zkdkeQ9X0T/IohB78R1h8jlqZnuYh36LVcx9
- d/BQ==
+ bh=wOWA1vK0qRFI6ElUzY5FlwL2rc00i37s841z+ThwW7Q=;
+ b=eGXAxpt4BYCvEcYwOd6Qh5fzD3lE15CqNdQNC2Xck0RIO1w3zIwe9TLPxx21m0q8ZF
+ wZhJnWCKEkPjOErJI+t/dGH3WEl7hkK2fPU5+q9Fq3ByCEmdyicCGBnc21SCn/+LcodR
+ S69LzgWb50uzHbIUvzxDAuNRbkCY+RLI7BvFtJZ3DEIcsFjrZeT6TG92WmnJASgEWKBR
+ /04GXoolUZRC6vM/hBPuHR7xdSw15Am/mAEwhH523VYNpD0R2nbSM9W0dlN7R5gEzQ0j
+ oJiHJKbLzhlWNBvpvHyMdZHCWs3SdHIBD2KYe67rlbAvUIYIL8xX6KYFtNTA8oSZesVN
+ DTTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=y9PjfbTlQ6NBzW51KYV7ZglMn5XEqg483PQc7Zd7TJ8=;
- b=8K+Z92lWN6reoOF7B7t2dZgaJmvwzEPYjLBs+IAjhEu3Nr8whJ+e5tx4sC6+FAWrZD
- x3lN7NYMGsyp9a1Dhpa02JfIToe/HlSoy1xDBNxI4BXFFGXqcdNMXZg2czfpqIc04WxQ
- xJhPgPosRCwtaxn6PVsRHDvohGAu/syLOO63P3PfgMYysftHoyhPLNNUDPBGDRoA2Urn
- kcsWp5RdOOPTp6KPv2m+LpV2QAFFpTuOTIzUjNkmZz6SZjOK4/NIQ0idwTWSqdUheIlB
- A448dbJTJ9kx3/m5DpOQtx0EflUld+mNJwLynkXgEz9u4Rz7lNNPMZNNO2lLqflBinsw
- m5hQ==
-X-Gm-Message-State: ACgBeo0BIzBAYW6x+mHaroZwcrtkro28mVXdpLricwFT5Vrtk7/hAkHG
- rEDVBzfMDgk7ec0ITkbC380afA==
-X-Google-Smtp-Source: AA6agR6JkQ4JcAF/fc6+0dZYUQLPdo/24xaYtf0GmCBLRKx+nrX/h+Nf6WjF6gcjFlpaavdpi2mMPw==
-X-Received: by 2002:a17:902:d2d1:b0:16d:37b3:f8b3 with SMTP id
- n17-20020a170902d2d100b0016d37b3f8b3mr4828673plc.98.1659114491213; 
- Fri, 29 Jul 2022 10:08:11 -0700 (PDT)
+ bh=wOWA1vK0qRFI6ElUzY5FlwL2rc00i37s841z+ThwW7Q=;
+ b=wvUQGwhhjUCyYciRpZ+VbJlYrWFUJSKzQqepsT2/rtj21G/yFqiTEM9CRcvTS3WgLH
+ Gonp8JtOZtHf5Zth+gL4qZWAFoM9WLksCsOTlEMKM3XcRrmcobfuGg9RE2r/GnS3Akb6
+ 0LNVZ44C/Bzg1IQY2VaU7e5tmlAeGUvvoCj4wrNAnbZUyR/mM36Ol7f8/sm+wxw1gLVh
+ +fHrLkQrOgBuj9/fx7T1xMfRblg7Co2ZUreDQGjC2Akpg1FEbBR/ly9Ocg0VZ3dvG3MD
+ 4EzB2nYQ2kECr2zdR8QoW+TaIemeO6DmZ8S1mLVpmZnfy5H/PFLU7USB9gmIv3UyvJlP
+ j6Dg==
+X-Gm-Message-State: ACgBeo1/xxeVZTTiiOl+bI0gaZMSH7JfThoXUGU99nq8wpov71TlhaLF
+ 827iOJVHSA/S2fEWnGmK4W9peQ==
+X-Google-Smtp-Source: AA6agR4/sZZw7jWIhRVOmYxKKOI+/OFZn2/QHJ3OGVwC0Tl68Dn1DfUfY3Pq3B6X8YlsA02vTnfzeA==
+X-Received: by 2002:a17:90a:7885:b0:1f2:1825:ae7e with SMTP id
+ x5-20020a17090a788500b001f21825ae7emr5143134pjk.39.1659114506141; 
+ Fri, 29 Jul 2022 10:08:26 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:51c4:5cf0:5954:aeb6?
  ([2602:ae:1549:801:51c4:5cf0:5954:aeb6])
  by smtp.gmail.com with ESMTPSA id
- g12-20020a1709026b4c00b0016d773aae60sm3876947plt.19.2022.07.29.10.08.10
+ p64-20020a634243000000b0041a27e7284bsm2802425pga.48.2022.07.29.10.08.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jul 2022 10:08:10 -0700 (PDT)
-Message-ID: <ff4525a2-f115-27d5-9615-e7a78bd9d346@linaro.org>
-Date: Fri, 29 Jul 2022 10:08:08 -0700
+ Fri, 29 Jul 2022 10:08:25 -0700 (PDT)
+Message-ID: <3d7ae42f-cc75-a231-98ea-dd9884f3be1c@linaro.org>
+Date: Fri, 29 Jul 2022 10:08:23 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 2/3] Hexagon (tests/tcg/hexagon) Fix alignment in
- load_unpack.c
+Subject: Re: [PATCH 3/3] Hexagon (tests/tcg/hexagon) reference file for
+ float_convd
 Content-Language: en-US
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 Cc: f4bug@amsat.org, ale@rev.ng, anjo@rev.ng, bcain@quicinc.com,
  mlambert@quicinc.com
 References: <20220718230320.24444-1-tsimpson@quicinc.com>
- <20220718230320.24444-3-tsimpson@quicinc.com>
+ <20220718230320.24444-4-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220718230320.24444-3-tsimpson@quicinc.com>
+In-Reply-To: <20220718230320.24444-4-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,53 +97,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/18/22 16:03, Taylor Simpson wrote:
-> The increment used in :brev tests was causing unaligned addresses
-> Change the increment and the relevant expected values
+> The test is in tests/tcg/multiarch/float_convd.c
 > 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> Signed-off-by: Taylor Simpson<tsimpson@quicinc.com>
 > ---
->   tests/tcg/hexagon/load_unpack.c | 14 +++++++-------
->   1 file changed, 7 insertions(+), 7 deletions(-)
+>   tests/tcg/hexagon/float_convd.ref | 988 ++++++++++++++++++++++++++++++
+>   1 file changed, 988 insertions(+)
+>   create mode 100644 tests/tcg/hexagon/float_convd.ref
 
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-> 
-> diff --git a/tests/tcg/hexagon/load_unpack.c b/tests/tcg/hexagon/load_unpack.c
-> index 3575a37a28..4aa26fc388 100644
-> --- a/tests/tcg/hexagon/load_unpack.c
-> +++ b/tests/tcg/hexagon/load_unpack.c
-> @@ -245,7 +245,7 @@ TEST_pr(loadbsw4_pr, long long, S, 4, 0x0000ff000000ff00LL,
->    */
->   #define BxW_LOAD_pbr(SZ, RES, PTR) \
->       __asm__( \
-> -        "r4 = #(1 << (16 - 3))\n\t" \
-> +        "r4 = #(1 << (16 - 4))\n\t" \
->           "m0 = r4\n\t" \
->           "%0 = mem" #SZ "(%1++m0:brev)\n\t" \
->           : "=r"(RES), "+r"(PTR) \
-> @@ -273,15 +273,15 @@ void test_##NAME(void) \
->   }
->   
->   TEST_pbr(loadbzw2_pbr, int, Z, 0x00000000,
-> -    0x00020081, 0x00060085, 0x00040083, 0x00080087)
-> +    0x00020081, 0x000a0089, 0x00060085, 0x000e008d)
->   TEST_pbr(loadbsw2_pbr, int, S, 0x0000ff00,
-> -    0x00020081, 0x00060085, 0x00040083, 0x00080087)
-> +    0x00020081, 0x000aff89, 0x0006ff85, 0x000eff8d)
->   TEST_pbr(loadbzw4_pbr, long long, Z, 0x0000000000000000LL,
-> -    0x0004008300020081LL, 0x0008008700060085LL,
-> -    0x0006008500040083LL, 0x000a008900080087LL)
-> +    0x0004008300020081LL, 0x000c008b000a0089LL,
-> +    0x0008008700060085LL, 0x0010008f000e008dLL)
->   TEST_pbr(loadbsw4_pbr, long long, S, 0x0000ff000000ff00LL,
-> -    0x0004008300020081LL, 0x0008008700060085LL,
-> -    0x0006008500040083LL, 0x000a008900080087LL)
-> +    0x0004008300020081LL, 0x000cff8b000aff89LL,
-> +    0x0008ff870006ff85LL, 0x0010ff8f000eff8dLL)
->   
->   /*
->    ****************************************************************************
-
 
