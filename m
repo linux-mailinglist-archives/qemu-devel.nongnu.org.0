@@ -2,139 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F461585025
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 14:40:39 +0200 (CEST)
-Received: from localhost ([::1]:53626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8CD7585067
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 15:08:28 +0200 (CEST)
+Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHPIE-0003iX-33
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 08:40:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60810)
+	id 1oHPj9-00040B-9g
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 09:08:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1oHPEL-0006dd-VF; Fri, 29 Jul 2022 08:36:37 -0400
-Received: from mail-eopbgr80119.outbound.protection.outlook.com
- ([40.107.8.119]:63111 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPc6-0006gT-N1
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:01:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
- id 1oHPEI-0001oI-Qx; Fri, 29 Jul 2022 08:36:37 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GNyyunpPcCBqjLFJL9lqJAnT84qYrvzQDONFPyXEfg+j6MOya+ziy6KPvp6CrO7KX3KX/vKQBodHbG7ZwQJSEzX1Ak75XCoYldT2+QVkFVG/eXPqi+kApT3CgOUdyMT5Yxio7ElYf+In+iyo3hbXc8qHj8wWS4jwbtCB6+Sli62NyFyVx7eqzVpvcuF4NBOtUWjfn92n7rEGPaMHgD3RXDIwybmw4Fu7vdySzll3MfqfAzMOpMGPdrZ2Bhz+wwJ8kv8mr0che7PbqN4ICHcBhtBncuUePHlv57b1fCYXVOO7tODBQEruXyPsFM2FX1d0xg/ZcpwOff/iS0qH+wzgKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=VWe5Cjb3AZzDvbPhTOB7w/eNJgnipxWHpdk1FHEpnBU=;
- b=QbWnDBxyINqAv8rzldo18xFcrm1z3ENJbZNGnTzx9zOQjV5Ffr2YAc4wPaVDyv125Ye3dfTQhlF98/6vvilohjf0qv8qlk1OPrarCz3Td5p/wkHeExidbPjvSiqukKWa/6PessqzzWqk0YU+4bPBLL6k0gAmkD/ORS3npuwkqa7aSy7xyQ+ep41r5xTxMwcnm/z7tAAukZmQwUvrcp9DDPCAMeSLwccqwNTL8Y8gYmiJmwVUTrSiBbDs6dVd6OhMlOJ/LQ0hk8ZVqMkp+BIRP6Mau4O1pIyfyy2xdaTJgMP2ja4W7GgrmqqqYi+dWgIUExSpC6nBCUWuSBzai+DIDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VWe5Cjb3AZzDvbPhTOB7w/eNJgnipxWHpdk1FHEpnBU=;
- b=kCO7nB0mrkktVnzkHhA5hoN9a54oPPQLCuWqpdc+vkDS2WocChgdLOtNLcieINfNPd0CDDrCLIOxDjOO+EOeBa+Dsn3kLPo4t6t8ucMqA7j85CQcZoh4qaQjAsg8GW0DC97PjlhXURX9SBSW0FgeujSqtl9Z2y1Zo97rM2rbvesrubityrpxVBeV9LFw6XYz4H4S9DJOP6gHD9pd1XjTpRS8It23IbTAGv3vcOKZoLi/f69BYQ1h05Ni3jpEgyUqaCt5Dj4j0qrIIgw60tvjSKxJmCJ63vrNawcWumLfKLOkYWs1w/kwIpjHJaajmoifAQZyoZJKvdCfFp7i9/I+Wg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
- by AM0PR08MB3026.eurprd08.prod.outlook.com (2603:10a6:208:65::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5458.24; Fri, 29 Jul
- 2022 12:36:25 +0000
-Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::813d:902d:17e5:499d]) by PAXPR08MB6956.eurprd08.prod.outlook.com
- ([fe80::813d:902d:17e5:499d%3]) with mapi id 15.20.5458.026; Fri, 29 Jul 2022
- 12:36:25 +0000
-Message-ID: <0d0b7c13-9dd5-49a8-86cd-30a748959b7b@virtuozzo.com>
-Date: Fri, 29 Jul 2022 14:36:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/1] block: add missed block_acct_setup with new block
- device init procedure
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Peter Krempa <pkrempa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>, Hanna Reitz <hreitz@redhat.com>
-References: <20220711110725.425261-1-den@openvz.org>
- <1aa3921a-0e67-d580-9bf2-c098d242e380@yandex-team.ru>
- <66373021-7dad-953b-b244-75a4756a0b33@virtuozzo.com>
- <YuOkvmbvhzD2dsGq@redhat.com>
-From: "Denis V. Lunev" <den@virtuozzo.com>
-In-Reply-To: <YuOkvmbvhzD2dsGq@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1PR09CA0051.eurprd09.prod.outlook.com
- (2603:10a6:802:28::19) To PAXPR08MB6956.eurprd08.prod.outlook.com
- (2603:10a6:102:1db::9)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPc2-0008Rv-Nd
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:01:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659099665;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=3utgSvQfMq03l7uQecO5/SPtc3uVxdHvSsFddtaOGHc=;
+ b=B6qqlQmvRS53gUIzOgkithmwFSjSF4raMhvlZa+N0Ep2gkKDxSx2Pn2P6hvmBh4cPRerja
+ ASU8WYUxqxC8efgFBINBDaCW2xpuqqgim3Fti9sBtVUhtsy8RaNJRTm05C6sJ0WLaD7tmU
+ 026WGdaZ531trKk5prWhMhK5mlK7/ss=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-78-BUzEnK9KNgWeHPsWpcehig-1; Fri, 29 Jul 2022 09:01:01 -0400
+X-MC-Unique: BUzEnK9KNgWeHPsWpcehig-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE925811E7A;
+ Fri, 29 Jul 2022 13:01:00 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 974892026D07;
+ Fri, 29 Jul 2022 13:00:49 +0000 (UTC)
+From: Alberto Faria <afaria@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>,
+ Peter Lieven <pl@kamp.de>, kvm@vger.kernel.org,
+ Xie Yongji <xieyongji@bytedance.com>, Eric Auger <eric.auger@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Eric Blake <eblake@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Stefan Weil <sw@weilnetz.de>, Klaus Jensen <its@irrelevant.dk>,
+ Laurent Vivier <lvivier@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ Michael Roth <michael.roth@amd.com>, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-block@nongnu.org,
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Alberto Faria <afaria@redhat.com>
+Subject: [RFC v2 00/10] Introduce an extensible static analyzer
+Date: Fri, 29 Jul 2022 14:00:29 +0100
+Message-Id: <20220729130040.1428779-1-afaria@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 30a99fd2-d587-407b-0521-08da715ef37e
-X-MS-TrafficTypeDiagnostic: AM0PR08MB3026:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 32YxI+nRUnZPsPlWSSxZf9ZCUk4x1lI7rHpv8dUyni+vS572r1GOKTfsd1E/xdNl/bPHhRm5xYvdWdeYlfXI+vIPuw/93vUNUvNBmRsKg4bruae0ed2RNPEQ7L7982vpWeBZbz4LO0+VnTi8kvV7UoYxx2896C65N72kw/LIq5bD5GhZ7Puptpe/vpi5JuxYAS5h6W5ZUBcFlUfZzjpp5yKFOKwPXH3+WyUEwoTlwQBKNwBpfoaUXuHLwBeo2xP3o9IZlqo+ZGY921540YzdZHkdSu0uj8Uu2euCqe8JuTMjezX5Ri7ffzy/PRLOOuhsR2MFhUvSR6dK/ArNrxTvWelTRsvB3LiIw5xaw2i7neqrAj0dENlhgw7/xmVhFsu0t6n1HZ/ALFSMmuBqO5FS6UtqldZ5s0/NckHk/a11IFIBYczIHIvJ4qv716rrInlzmL5UfkHVwVOfskVLEBCSPBtbM9dghFu3S4MQS06UFjJfWnqABPBWBMC+3PhyJ2MLsz0P323TXXz+2EqLhE6A1PDK/4lgcbozkSTPTCfioyYMU5V1uIEQh2XTNrMx67RovwPuwiHLdgk5TwmtytdEtDv2Tio7F/QP6sGrNxNQc8/7dhq9Bvi3R4h2K1YGnwZIMofTk/0oXwBShMGPZipxfHQ4Mj+fDhxwyWlp9iiX02924D8mkH9n7wA7kGmIDjIWIvw4kKp06CodlSBI6vPVNJGeWyDdvkEZQRftGIq01Xok3E5+xS33TQfkSZj2W28REggcDOBMZMSmLg2ryx4Q62VaBUM/yACQBq+4MXmjQegc5LGyABwSHO7cWImGpZKptZ3Lv3hLYYKSQlkLjKU88eRJVSau2TEKJUDCRD6leLa8GH3vwb8rp6uzNL5zDNH7em7PCl8yweyevcuvhEaP2A==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(366004)(136003)(396003)(376002)(346002)(39850400004)(5660300002)(83380400001)(66946007)(38100700002)(66476007)(8676002)(8936002)(2906002)(38350700002)(4326008)(66556008)(41300700001)(54906003)(6916009)(53546011)(31686004)(31696002)(36756003)(6512007)(966005)(26005)(52116002)(316002)(6486002)(186003)(86362001)(6506007)(478600001)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?emhsdlpYUG80QkF0TFVNZ3dOUDhBOFE3d1cxMXFKL2JyR0tNTytYUFoyY2Uy?=
- =?utf-8?B?OGxleURTeUQ3VDBKMEhqUVBhOVpKa25MQjg3bmFKMVFtRVB6Z1RQUXhPRHZ0?=
- =?utf-8?B?Kzd3YTYvcmpLYm9mdURuRUVBdUMzR1lxR2tCdVNzWkJERzZEcjByV1QzRjRa?=
- =?utf-8?B?QmkxOVEvdTdiWWh1M2pBTi9jZFhsM09DMHVvNkJMOEpaN0R2Z0FTeXd1c0Vu?=
- =?utf-8?B?bkVrZ0JSUVVTR0ZQenc3SFZtU1MzOXF2U3FoT1BCSjNwVVIxTTI4UDBEOVBj?=
- =?utf-8?B?azRBMGRwUG9QRkE3MWwrZ0c4YTRHUXYrSkczc2oxbDlkLzM0ckNDdW90ajl1?=
- =?utf-8?B?UDJlUW44cGRtUjlhdXMvcktzN3NPTUJYSTNFVStqYml6UjVOOVl4dzMwVHJB?=
- =?utf-8?B?REZjakVNclI1dWRQa0N4MzlHU0tJYmtoN0Jnci9ySTRlalFJZXBuTzRZLzFt?=
- =?utf-8?B?T2JNL1Fpd253V3RGUENvNmxxdzNTR0FjN1pkRTQ2a0N4VVlnbXMxZGUydVJT?=
- =?utf-8?B?dmdVL3lWZ0szOCt3UDl1WlFiSnlWUDlSZmU0dEdhdDdPM2MwdkRIR0gvVlYz?=
- =?utf-8?B?c2RVK1hJczJNdjlLRkN1TUV2SlJLT3hUclRWTXo2cjVBenNUb1oyUHh5UEN1?=
- =?utf-8?B?KzdOTTlhNUdQcGt1KzBjZ1EvMU1uS0txcUxJOE0veTlWU1Joa0FOT1NUTzVY?=
- =?utf-8?B?bktLS3BNZGZuZ3hWbTI4eDhYN1RlalRaNUJ3T0pQOVJhWndBNGRUMXQrNGcw?=
- =?utf-8?B?MC9vUzJlSHdTQWFKZmg0MTZNWk5WeDlBdElTM1BVaDBPdGZCVXk4Mmw3Y1NY?=
- =?utf-8?B?M256b2d3MnBvNUwzRERCSTY4OXdVTk5FTjM5bFNSMkU4aXF6T0d2MHMrb0lL?=
- =?utf-8?B?QllwRlk5UEJFVGY3Vzc1WEtzYjdHYW83azN5eUlLM21yS2puN3MwV24xazNz?=
- =?utf-8?B?cldrQlJRMjl6ekkxcXVqc29EakdKK3pwVm5pWkV2emxrTEZGQk80TzB1MXVh?=
- =?utf-8?B?aXdsVjloM0syYUpRRDlEN05LYWVBMXRVeFNEbDNqTU05ekFnSTBHQXZSTHRQ?=
- =?utf-8?B?eTFyWXJWYnJadmtUN2Y1MUxmZUxWTTRCVWc4S1BYaVo4eGgxb08ybXUraHZV?=
- =?utf-8?B?VzZiNkd3ajBvbVNsSThsd0ZvTkhCWXFKU0taOUU3NWZTVDN5Z2E3UU5lSjJl?=
- =?utf-8?B?b09yVEtjMmF0SDF2MjJhdjB4dXRYall2MGc1bFlDK0NMSXIvTjdTL2FpbjVT?=
- =?utf-8?B?dThkU1cyZm1HR2tDaFlXUnpvblI0WUhwZWNWQkVRMy9kVkpDZEp3anYzdzFO?=
- =?utf-8?B?MjNBRkw3d29YZklBcW15YitGTmF6dlFEYmVwelg3U0l3RjFQSlhlM2xscU5U?=
- =?utf-8?B?WlZTMnJXbXNoQnBrKzV3MVBINjRJL05Ja1ZlWTQ0NjRnTVYvWThWOGZJazJE?=
- =?utf-8?B?VGhNbm1jN2l5czhLckdoZis1RWZ5V0NEZ0F3VE1LMFM2U3VrZTkveWR0SnBL?=
- =?utf-8?B?S2kyQ1hHMHYrcFduempFM1kyVmxvUjcrNDBzWjdkNlFmSkkwREhocUdNM2NZ?=
- =?utf-8?B?bnIrZDIvMFQ1WkhZcFpiS0xrMmxSSVhZNmxXRmlKcE5yQUNsSjJoZ0Fwa2k3?=
- =?utf-8?B?azZPSXlEVDlLMFBJMVZMVndSSkNOYytvbVdvTTVhdC9PSEFtNFBpM2I5WXV6?=
- =?utf-8?B?alZSK2FaVUNZeWdmdkNsblJEK0xwbmJjTjhoai81dXQyRXludi80UlA5YTNz?=
- =?utf-8?B?ZDlLRXBDdG5PbmcrTXY0SWRwalE4NUdpSHUzL2JFVnZVZXRIS3ZVeUpZYUY4?=
- =?utf-8?B?d2VhZHFBTWRyNFF6VjdzN1dMTlRDS2JSNlI2Rlk1L0hPSG5tL3ExOXo4VTdY?=
- =?utf-8?B?cWhMM21XQkJQT0ZJbHNVZm1VV01HMzI2NTdKUmdWVWpVc3oyTFhwU0hNV1dl?=
- =?utf-8?B?cUJCbTFCbzdCNDd3ZllzKytxQUlhQjJxbUFETjNEMDhjMWk4bURVZ3d4TDZl?=
- =?utf-8?B?c0xPQnRvYmpLWmdCd3hFc0dXU1BHTEpRcWxnaVYwbTNRdkJJUG1tT21nVTZu?=
- =?utf-8?B?N2h1Sm16bDJnU3JJbXJ5cXZ6UnRPTi8rUG0vL05kemFPZXI3UjRuZ1JpalMw?=
- =?utf-8?Q?k7KU96EBC16PvzrDa3tFqNgJX?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 30a99fd2-d587-407b-0521-08da715ef37e
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2022 12:36:25.3426 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hX0j69syVIopvUkiWMoUFTMVnszZ8TRH4t+rDtbcnnP6TignYzC+FyewP20WkHad1jw/Uc1hyjaDeQfq2rsayg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB3026
-Received-SPF: pass client-ip=40.107.8.119; envelope-from=den@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -150,103 +107,266 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.07.2022 11:13, Kevin Wolf wrote:
-> Am 28.07.2022 um 21:27 hat Denis V. Lunev geschrieben:
->> On 28.07.2022 16:42, Vladimir Sementsov-Ogievskiy wrote:
->>> On 7/11/22 14:07, Denis V. Lunev wrote:
->>>> Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
->>>> the first glance, but it has changed things a lot. 'libvirt' uses it to
->>>> detect that it should follow new initialization way and this changes
->>>> things considerably. With this procedure followed, blockdev_init() is
->>>> not called anymore and thus block_acct_setup() helper is not called.
->>> I'm not sure that 5f76a7aac156ca is really the corner stone.. But yes,
->>> libvirt moved to "blockdev era", which means that we don't use old
->>> -drive,
->>> instead block nodes are created by -blockdev / qmp: blockdev-add, and
->>> attached
->>> to block devices by node-name.
->>>
->> git bisected, thus I am sure here
->>
->>
->>> And if I understand correctly blockdev_init() is called only on -drive
->>> path.
->>>
->>> I have some questions:
->>>
->>> 1. After this patch, don't we call block_acct_setup() twice on old path
->>> with -drive? That seems safe as block_acct_setup just assign fields of
->>> BlockAcctStats.. But that's doesn't look good.
->>>
->> hmmm
-> I don't think it's actually correct because then a value that was
-> explicitly set with -drive will by overridden by the default provided by
-> the device.
->
-> A possible solution would be to switch the defaults in the BlockBackend
-> initialisation back to true, and then have a ON_OFF_AUTO property in the
-> devices to allow overriding the default from -drive. With -blockdev, the
-> BlockBackend default will be hard coded to true and the options of the
-> devices will be the only way to change it.
->
->>> 2. Do we really need these options? Could we instead just enable
->>> accounting invalid and failed ops unconditionally? I doubt that someone
->>> will learn that these new options appeared and will use them to disable
->>> the failed/invalid accounting again.
->>>
->> I can move assignment of these fields to true int
->> block_acct_init() and forget about "configurable"
->> items in new path. I do not think that somebody
->> ever has these options set.
-> Well, whether anyone uses the option is a different question. I don't
-> know. But it has existed for many years.
-I have said about very small patch like the following
+This series introduces a static analyzer for QEMU. It consists of a
+single static-analyzer.py script that relies on libclang's Python
+bindings, and provides a common framework on which arbitrary static
+analysis checks can be developed and run against QEMU's code base.
 
-iris ~/src/qemu $ git diff
-diff --git a/block/accounting.c b/block/accounting.c
-index 2030851d79..c20d6ba9a0 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -38,6 +38,8 @@ void block_acct_init(BlockAcctStats *stats)
-      if (qtest_enabled()) {
-          clock_type = QEMU_CLOCK_VIRTUAL;
-      }
-+    stats->account_invalid = true;
-+    stats->account_failed = true;
-  }
+Summary of the series:
 
-  void block_acct_setup(BlockAcctStats *stats, bool account_invalid,
-iris ~/src/qemu $
+  - Patch 1 adds the base static analyzer, along with a simple check
+    that finds static functions whose return value is never used, and
+    patch 2 fixes many occurrences of this.
 
-but your proposal with ON_OFF_AUTO will work for me too.
+  - Patch 3 introduces support for output-comparison check tests, and
+    adds some tests to the abovementioned check.
 
-The real question - do we really need to publish this option
-for the external to configure it?
+  - Patch 4 makes the analyzer skip checks on a translation unit when it
+    hasn't been modified since the last time those checks passed.
 
->> The real question in this patch is that this initialization
->> was a precondition for old good "long IO" report
->> configuration, which should be "enableable".
->>
->> But  we could move this option to "tracked request"
->> layer only and this will solve my puzzle. So, I'll move
->> "long IO report" to tracked request level only and will
->> create an option for it on bdrv_ level and will avoid
->> it on blk_ accounting.
->>
->> What do you think?
-> I'm not sure what you mean by "long IO report". Don't these switches
-> just change which kind of operations are counted into statistics rather
-> than changing the structure of the report?
->
-> Conceptually, I would like accounting on the block node level, but it's
-> not what we have been doing, so it would be a big change.
->
-I have to say sorry again. I have found this place once I have
-reverted to my very old series discussed here + some late
-additions on top of it done by Vladimir.
-https://lists.defectivebydesign.org/archive/html/qemu-devel/2020-07/msg03772.html
+  - Patch 5 adds a check to ensure that non-coroutine_fn functions don't
+    perform direct calls to coroutine_fn functions, and patch 6 fixes
+    some violations of this rule.
 
-I will definitely have to come back to this later.
+  - Patch 7 adds a check to ensure that operations on coroutine_fn
+    pointers make sense, like assignment and indirect calls, and patch 8
+    fixes some problems detected by the check. (Implementing this check
+    properly is complicated, since AFAICT annotation attributes cannot
+    be applied directly to types. This part still needs a lot of work.)
 
-Den
+  - Patch 9 introduces a no_coroutine_fn marker for functions that
+    should not be called from coroutines, makes generated_co_wrapper
+    evaluate to no_coroutine_fn, and adds a check enforcing this rule.
+    Patch 10 fixes some violations that it finds.
+
+The current primary motivation for this work is enforcing rules around
+block layer coroutines, which is why most of the series focuses on that.
+However, the static analyzer is intended to be sufficiently generic to
+satisfy other present and future QEMU static analysis needs.
+
+Performance isn't great, but with some more optimization, the analyzer
+should be fast enough to be used iteratively during development, given
+that it avoids reanalyzing unmodified translation units, and that users
+can restrict the set of translation units under consideration. It should
+also be fast enough to run in CI (?).
+
+Consider a small QEMU configuration and build (all commands were run on
+the same 12-thread laptop):
+
+    $ cd build && time ../configure --target-list=x86_64-softmmu && cd ..
+    [...]
+
+    real    0m17.232s
+    user    0m13.261s
+    sys     0m3.895s
+
+    $ time make -C build -j $(nproc) all
+    [...]
+
+    real    2m39.029s
+    user    14m49.370s
+    sys     1m57.364s
+
+    $ time make -C build -j $(nproc) check
+    [...]
+
+    real    2m46.349s
+    user    6m4.718s
+    sys     4m15.660s
+
+We can run the static analyzer against all translation units enabled in
+this configuration:
+
+    $ time ./static-analyzer.py build
+    util/qemu-coroutine.c:122:23: non-coroutine_fn function calls coroutine_fn qemu_coroutine_self()
+    io/channel.c:152:17: non-coroutine_fn function calls coroutine_fn qio_channel_yield()
+    [...]
+    Analyzed 1649 translation units in 520.3 seconds.
+
+    real    8m42.342s
+    user    95m51.759s
+    sys     0m21.576s
+
+You will need libclang's Python bindings to run this. Try `dnf install
+python3-clang` or `apt install python3-clang`.
+
+It takes around 1 to 2 seconds for the analyzer to load the compilation
+database, determine which translation units to analyze, etc. The
+durations reported by the analyzer itself don't include those steps,
+which is why they differ from what `time` reports.
+
+We can also analyze only some of the translation units:
+
+    $ time ./static-analyzer.py build block
+    block/raw-format.c:420:12: non-coroutine_fn function calls coroutine_fn bdrv_co_ioctl()
+    block/blkverify.c:266:12: non-coroutine_fn function calls coroutine_fn bdrv_co_flush()
+    [...]
+    Analyzed 21 translation units (58 other were up-to-date) in 5.8 seconds.
+
+    real    0m7.031s
+    user    0m40.951s
+    sys     0m1.299s
+
+Since the previous command had already analyzed all translation units,
+only the ones that had problems were reanalyzed.
+
+Now skipping all the actual checks, but still parsing and building the
+AST for each translation unit, and adding --force to reanalyze all
+translation units:
+
+    $ time ./static-analyzer.py build --force --skip-checks
+    Analyzed 1649 translation units in 41.2 seconds.
+
+    real    0m42.296s
+    user    7m14.256s
+    sys     0m15.803s
+
+And now running a single check:
+
+    $ time ./static-analyzer.py build --force --check return-value-never-used
+    Analyzed 1649 translation units in 157.6 seconds.
+
+    real    2m38.759s
+    user    29m28.930s
+    sys     0m17.968s
+
+TODO:
+  - Run in GitLab CI (?).
+  - Finish the "coroutine_fn" check.
+  - Add check tests where missing.
+  - Avoid redundant AST traversals while keeping checks modular.
+  - More optimization.
+
+v2:
+  - Fix parsing of compilation database commands.
+  - Reorganize checks and split them into separate modules.
+  - Make "return-value-never-used" ignore __attribute__((unused)) funcs.
+  - Add a visitor() abstraction wrapping clang_visitChildren() that is
+    faster than using Cursor.get_children() with recursion.
+  - Add support for implementing tests for checks, and add some tests to
+    "return-value-never-used".
+  - Use dependency information provided by Ninja to skip checks on
+    translation units that haven't been modified since they last passed
+    those checks.
+  - Ignore translation units from git submodules.
+  - And more.
+
+Alberto Faria (10):
+  Add an extensible static analyzer
+  Drop unused static function return values
+  static-analyzer: Support adding tests to checks
+  static-analyzer: Avoid reanalyzing unmodified translation units
+  static-analyzer: Enforce coroutine_fn restrictions for direct calls
+  Fix some direct calls from non-coroutine_fn to coroutine_fn
+  static-analyzer: Enforce coroutine_fn restrictions on function
+    pointers
+  Fix some bad coroutine_fn indirect calls and pointer assignments
+  block: Add no_coroutine_fn marker
+  Fix some calls from coroutine_fn to no_coroutine_fn
+
+ accel/kvm/kvm-all.c                        |  12 +-
+ accel/tcg/plugin-gen.c                     |   9 +-
+ accel/tcg/translate-all.c                  |   9 +-
+ audio/audio.c                              |   5 +-
+ block.c                                    |   2 +-
+ block/backup.c                             |   2 +-
+ block/block-copy.c                         |   4 +-
+ block/commit.c                             |   2 +-
+ block/dirty-bitmap.c                       |   6 +-
+ block/file-posix.c                         |   6 +-
+ block/io.c                                 |  52 +-
+ block/mirror.c                             |   4 +-
+ block/monitor/block-hmp-cmds.c             |   2 +-
+ block/nvme.c                               |   3 +-
+ block/parallels.c                          |  28 +-
+ block/qcow.c                               |  10 +-
+ block/qcow2-bitmap.c                       |   6 +-
+ block/qcow2-snapshot.c                     |   6 +-
+ block/qcow2.c                              |  38 +-
+ block/qcow2.h                              |  14 +-
+ block/qed-table.c                          |   2 +-
+ block/qed.c                                |  14 +-
+ block/quorum.c                             |   7 +-
+ block/ssh.c                                |   6 +-
+ block/throttle-groups.c                    |   3 +-
+ block/vdi.c                                |  17 +-
+ block/vhdx.c                               |   8 +-
+ block/vmdk.c                               |  11 +-
+ block/vpc.c                                |   4 +-
+ block/vvfat.c                              |  11 +-
+ blockdev.c                                 |   2 +-
+ chardev/char-ringbuf.c                     |   4 +-
+ contrib/ivshmem-server/main.c              |   4 +-
+ contrib/vhost-user-blk/vhost-user-blk.c    |   5 +-
+ dump/dump.c                                |   4 +-
+ fsdev/virtfs-proxy-helper.c                |   3 +-
+ gdbstub.c                                  |  18 +-
+ hw/audio/intel-hda.c                       |   7 +-
+ hw/audio/pcspk.c                           |   7 +-
+ hw/char/virtio-serial-bus.c                |  14 +-
+ hw/display/cirrus_vga.c                    |   5 +-
+ hw/hyperv/vmbus.c                          |  10 +-
+ hw/i386/intel_iommu.c                      |  28 +-
+ hw/i386/pc_q35.c                           |   5 +-
+ hw/ide/pci.c                               |   4 +-
+ hw/net/rtl8139.c                           |   3 +-
+ hw/net/virtio-net.c                        |   6 +-
+ hw/net/vmxnet3.c                           |   3 +-
+ hw/nvme/ctrl.c                             |  17 +-
+ hw/nvram/fw_cfg.c                          |   3 +-
+ hw/scsi/megasas.c                          |   6 +-
+ hw/scsi/mptconfig.c                        |   7 +-
+ hw/scsi/mptsas.c                           |  14 +-
+ hw/scsi/scsi-bus.c                         |   6 +-
+ hw/usb/dev-audio.c                         |  13 +-
+ hw/usb/hcd-ehci.c                          |   6 +-
+ hw/usb/hcd-ohci.c                          |   4 +-
+ hw/usb/hcd-xhci.c                          |  56 +-
+ hw/vfio/common.c                           |  21 +-
+ hw/virtio/vhost-vdpa.c                     |   3 +-
+ hw/virtio/vhost.c                          |  11 +-
+ hw/virtio/virtio-iommu.c                   |   4 +-
+ hw/virtio/virtio-mem.c                     |   9 +-
+ include/block/block-common.h               |   2 +-
+ include/block/block-hmp-cmds.h             |   2 +-
+ include/block/block-io.h                   |   5 +-
+ include/block/block_int-common.h           |  12 +-
+ include/qemu/coroutine.h                   |  43 +-
+ io/channel-command.c                       |  10 +-
+ migration/migration.c                      |  12 +-
+ net/dump.c                                 |  16 +-
+ net/vhost-vdpa.c                           |   8 +-
+ qemu-img.c                                 |   6 +-
+ qga/commands-posix-ssh.c                   |  10 +-
+ softmmu/physmem.c                          |  18 +-
+ softmmu/qtest.c                            |   5 +-
+ static-analyzer.py                         | 801 +++++++++++++++++++++
+ static_analyzer/__init__.py                | 348 +++++++++
+ static_analyzer/coroutine_fn.py            | 280 +++++++
+ static_analyzer/no_coroutine_fn.py         | 111 +++
+ static_analyzer/return_value_never_used.py | 220 ++++++
+ subprojects/libvduse/libvduse.c            |  12 +-
+ subprojects/libvhost-user/libvhost-user.c  |  24 +-
+ target/i386/host-cpu.c                     |   3 +-
+ target/i386/kvm/kvm.c                      |  19 +-
+ tcg/optimize.c                             |   3 +-
+ tests/qtest/libqos/malloc.c                |   5 +-
+ tests/qtest/libqos/qgraph.c                |   3 +-
+ tests/qtest/test-x86-cpuid-compat.c        |   8 +-
+ tests/qtest/virtio-9p-test.c               |   6 +-
+ tests/unit/test-aio-multithread.c          |   5 +-
+ tests/vhost-user-bridge.c                  |  19 +-
+ ui/vnc.c                                   |  23 +-
+ util/aio-posix.c                           |   7 +-
+ util/uri.c                                 |  18 +-
+ 95 files changed, 2160 insertions(+), 519 deletions(-)
+ create mode 100755 static-analyzer.py
+ create mode 100644 static_analyzer/__init__.py
+ create mode 100644 static_analyzer/coroutine_fn.py
+ create mode 100644 static_analyzer/no_coroutine_fn.py
+ create mode 100644 static_analyzer/return_value_never_used.py
+
+-- 
+2.37.1
+
 
