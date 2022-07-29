@@ -2,73 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8515C58519F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:34:18 +0200 (CEST)
-Received: from localhost ([::1]:38136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A955851B7
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:40:40 +0200 (CEST)
+Received: from localhost ([::1]:44468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHR4D-0003eB-0A
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:34:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33094)
+	id 1oHRAN-0008Cu-G1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:40:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHR2G-0001li-Nl
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:32:16 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHR2F-0007Tx-1y
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:32:16 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id 204so7304714yba.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:32:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=633bSaHOiD38Qf4WRUV2T+a5qoboZG9HXVJGnU4nFdE=;
- b=bJlYPoPX8JnmaOc0s2DCYGmjI+p3xTEVfYguhWKeVQ34iO1yJl5rSjpAoctokhXn8q
- QWFxd0It8NnkvCLOYJlID46xoEpOPA77TdbAQJdM3ErVpXrt++4SsZC1XKYQcsmR1GFT
- jqYDgBaa/GIrONMOYNIPZe3w4Zwa4vRe7W1tt6IIWSw70tN0vL3rLKjV+AoFtA6kH95+
- Wr/VgZh16iibmDSBsktc1bGZWSHcAzLI4xhcJqEsPE4H0KPV6kdU+DKyzeMmOybUXq/N
- Dyti4F/+m7XHjPFummRFaW/juijRNgQO7VGo/cGDc/WIjqNYtimyrjQFm7hoxrv4QhwH
- CYgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=633bSaHOiD38Qf4WRUV2T+a5qoboZG9HXVJGnU4nFdE=;
- b=vKUlHwIltuEKE7csgu2nQTsSm7UID1gFvCkIVHV5nGdPpvJOaOx+YcEWB0hY9S8Yg+
- Zt8qZ5fpjmx503A13sp1gOAxLBY6IV/zVfNgtfl+Ipj3JH9sOAJAnoDXmA3xOLZ4nkxI
- G/XH36Mz3iP8BI0C6r7WP1zih1wGRdkuPfybC+/nr9vUbCCiMuY4/tSOpG5L3j6T2XNa
- nqx88V2WeFDo27L+Ds0krq6n6TkQZ0EO1I8QvLhK/G/qE5ZYmVyK8AfRiAqIy1XELeBl
- Z3WwRt51DWtyoKeHApBvm+zWV0xlGekjx4nLS03cqzcxN5cYcfhoxHbg1uT1LwKaVzv0
- nzfw==
-X-Gm-Message-State: ACgBeo1rTMGKEEzujoz1mSt9cFUasK8/f+yjrL8gD4yAh5+hJO/kAAFu
- WSUzWqQd31U7YQvcEq49hktc6FOWGv2k5p8pi8AyCw==
-X-Google-Smtp-Source: AA6agR73z5uCMNhkaMgCKADT9oztKl66YM2hzaZZpmYqDJw8PNDCI27fA/yl+VKqLjP9LkeEPVmvvqBLxaT+dG7s3AU=
-X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
- n23-20020a25d617000000b0067179bd69bfmr2837121ybg.85.1659105133855; Fri, 29
- Jul 2022 07:32:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1oHR8c-00066a-Ay; Fri, 29 Jul 2022 10:38:50 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:43583)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <patrick@stwcx.xyz>)
+ id 1oHR8a-00005I-7z; Fri, 29 Jul 2022 10:38:50 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id D9EA65C0172;
+ Fri, 29 Jul 2022 10:38:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 29 Jul 2022 10:38:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stwcx.xyz; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1659105523; x=1659191923; bh=dwDWhwWtd1
+ UwGDpT/e/X5sZQv3LmMrrGlT4WK+vl3aw=; b=RnqMF+opd/xbIemMIJRxvitnZY
+ fFkCBlwgU463tXnMuLga5L0gKYgYCDkQWDcUWxLcpXnyRpkwz6gD58qFLRseuTjI
+ Or9likc4rhhjium8BNU6wU7EOznB+/Vep0HZ9Hu/3qPtwJiegDox0AlyDfusPOcB
+ o1H+FnFz9/XsHPnvxr7kYUTXjY/mfQhlNVFzMNtuco5mqCTUX6mAmCsVaydBvq69
+ ByFROlM0LUn98VPdN+DT6jih2xg5+MNqhluKJkmFGngzO5B9Pp8mpLN92bgHiu9U
+ 3pw8GIUdeF2ERB2b7xNDGhF/6T083birb3a4FmmIeArrgfrI3lsOdDLToZCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1659105523; x=1659191923; bh=dwDWhwWtd1UwGDpT/e/X5sZQv3Lm
+ MrrGlT4WK+vl3aw=; b=zvAkoUtOxOEpd06HhaKcLJTpB9+CJBZCLKG9WCDxTa0J
+ vP11N4UvwcqwPnZY9AWRo0ZPTsslgps8rGWjImzrlFS5B8zm1wX5fvoXe/W2zv9u
+ nwIYew5IdtK9kRSu1zkZjYm9ehhQI9LVZ+MT5m+1My7YARf8esIu0wbiLfWcJUwy
+ vkbrXoCntUNiqfbpir1tTB7Gay0zM84w6r6Xu+QPEZz+I5bQOb1KwoiAnKhZBkjZ
+ tBRNgn0HqlZ3PfPbGA6RQaqKcNYPwXSeiMKW7PsI0atYxKDokF2JD2VGxm3TZPhl
+ M1CIX8XhesGufXAVwgoHwo5z7tXRtvpSw9va9pa4gQ==
+X-ME-Sender: <xms:8vDjYqDPNuDwWTJx3EWpSjz5XNQdp-awmFjsuBKEQlKV3CcQRi8GOA>
+ <xme:8vDjYkhDViXVe7pRoiwy7QeCm5OL_8QVMlrA3jWcvXMMzssn45mRZe2p_yydPgtr1
+ vucyQfvNR9aa7pTuCk>
+X-ME-Received: <xmr:8vDjYtmt7dMOT5fHLvsYzMCyVV2Wito4-nQA22-86J_FJk8KycuVNMEUfwda-bcZnj1Bzg4Rhpmr3t5OkXVHRSo8VP12GMlH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddujedgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucgfrhhlucfvnfffucdlfeehmdenucfjughrpeffhf
+ fvvefukfhfgggtuggjsehgtderredttddunecuhfhrohhmpefrrghtrhhitghkucghihhl
+ lhhirghmshcuoehprghtrhhitghksehsthiftgigrdighiiiqeenucggtffrrghtthgvrh
+ hnpedtjeejgfdugefhtedvudfghfejfeejfefhffeffeelgeduveejleelffefvdffleen
+ ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghtrh
+ hitghksehsthiftgigrdighiii
+X-ME-Proxy: <xmx:8vDjYoxnU31aCY9GCiyGsSAuLk4ZUiSec_nlKA7BYPV_RzLUf0nmuw>
+ <xmx:8vDjYvSi3mQTRzTI_3YSggHDYAoBWSHemcVZJR91nzyHt_NTljoiTQ>
+ <xmx:8vDjYjY2CUt_jqUii1ECUH81QmDbSsEb8_Raq3akmsPPaDnOAQxmAw>
+ <xmx:8_DjYggo0k1_K-u2sEo33gIUj1wBR0qczTtU4fSalvN2WrzZ3Nr0vw>
+Feedback-ID: i68a1478a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 29 Jul 2022 10:38:42 -0400 (EDT)
+Date: Fri, 29 Jul 2022 09:38:41 -0500
+From: Patrick Williams <patrick@stwcx.xyz>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Iris Chen <irischenlj@fb.com>, peter@pjd.dev, pdel@fb.com,
+ qemu-devel@nongnu.org, qemu-arm@nongnu.org, alistair@alistair23.me,
+ kwolf@redhat.com, hreitz@redhat.com, peter.maydell@linaro.org,
+ andrew@aj.id.au, joel@jms.id.au, thuth@redhat.com,
+ lvivier@redhat.com, pbonzini@redhat.com, qemu-block@nongnu.org,
+ dz4list@gmail.com
+Subject: Re: [RFC 0/3] Add Generic SPI GPIO model
+Message-ID: <YuPw8aQ2cfJIx+1f@heinlein.stwcx.org.github.beta.tailscale.net>
+References: <20220728232322.2921703-1-irischenlj@fb.com>
+ <435b3e89-f9fd-c257-b03d-a12d4b59ac6b@kaod.org>
 MIME-Version: 1.0
-References: <20220628045403.508716-1-richard.henderson@linaro.org>
- <20220628045403.508716-3-richard.henderson@linaro.org>
-In-Reply-To: <20220628045403.508716-3-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 15:31:33 +0100
-Message-ID: <CAFEAcA8xGYd34RgGqo8z5Y1TvPMxeB=99genoJEtd=+eKEjReg@mail.gmail.com>
-Subject: Re: [PULL 02/60] semihosting: Return failure from softmmu-uaccess.h
- functions
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="beczAmmun8celmZJ"
+Content-Disposition: inline
+In-Reply-To: <435b3e89-f9fd-c257-b03d-a12d4b59ac6b@kaod.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=patrick@stwcx.xyz;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ FROM_SUSPICIOUS_NTLD=0.499, PDS_OTHER_BAD_TLD=1.997, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,25 +106,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 28 Jun 2022 at 05:54, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We were reporting unconditional success for these functions;
-> pass on any failure from cpu_memory_rw_debug.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-So, this commit makes us check the cpu_memory_rw_debug()
-return value in the softmmu_lock_user() function; but Coverity
-points out (CID 1490294) that we still aren't checking the
-return value from when we call it in softmmu_unlock_user()...
+--beczAmmun8celmZJ
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-What, if anything, should we do about that? In particular,
-I think that for semihosting calls that write to guest memory,
-if the guest passes us a pointer to read-only memory we're
-not going to find out about that until unlock time.
+On Fri, Jul 29, 2022 at 03:25:55PM +0200, C=E9dric Le Goater wrote:
+> Hello Iris,
+>=20
+> On 7/29/22 01:23, Iris Chen wrote:
+> > Currently, most of our vboot platforms using a SPI-based TPM use the Li=
+nux
+> > SPI-GPIO driver to "bit-bang" the SPI protocol. This is because the Asp=
+eed
+> > SPI controller (modeled in QEMU under hw/ssi/aspeed_smc.c) has an imple=
+mentation
+> > deficiency that prevents bi-directional operations.=20
+> aspeed_smc models the Aspeed FMC/SPI controllers which have a well defined
+> HW interface. Your model proposal adds support for a new SPI controller
+> using bitbang GPIOs. These are really two differents models. I don't see
+> how you could reuse aspeed_smc for this purpose.
 
-thanks
--- PMM
+(I don't think there was anything here that proposed reusing the QEMU
+ aspeed_smc model, but it might have been poorly worded).
+
+> or you mean that Linux is using the SPI-GPIO driver because the Linux
+> Aspeed SMC driver doesn't match the need ? It is true that the Linux
+> driver is not generic, it deals with flash devices only. But that's
+> another problem.
+
+We actually mean that the _hardware_ has a deficiency, not any of the
+code for it.  The Aspeed SPI controller has a single byte FIFO in its
+implementation, which can only read or write in a single operation.  It
+is *impossible* to perform bi-directional access with it (ie. you cannot
+write the MOSI and read the MISO in the same transaction).  This is
+broken for many SPI protocols, other than flash devices, including the one
+used for TPMs.
+
+In order to connect to SPI-based TPMs on an Aspeed chip, you have to use
+the SPI-GPIO method.
+
+--=20
+Patrick Williams
+
+--beczAmmun8celmZJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEBGD9ii4LE9cNbqJBqwNHzC0AwRkFAmLj8O8ACgkQqwNHzC0A
+wRkdhw/+P0+Z6wkd5RvVJLA8Cr8vE5sEP4ehgOI8hUhTTxFUtAIgCbAbpv5dN8Wf
+PFts22zcJSNo9n84SvYvat4EjfmpWfsjYoUDpPLwCv28LDfLd6Pfr2vMcwLBe7E+
+g6uw24S5VBmYoCSOA5xRt9wf/5iWhjXVedtz4Or8RnGKXnvQVWcyzABMaSTDrEKE
+g8iJ2q838HQtVVoyeRXzrCfGPC8hQw9uUUgalSWEODTg58vQnkbbS1EX9jBH/H0f
++VZd4LzPX/2N9prWudWbFWVrgoXrOzm/45dGMQhStEf4cVYX3k7l841FJfP/jTkG
+W1/uIyfNRmcD9srrFUW6KTh8A1f/EbenM8wqK1xH6FKWDh+AcJmqKqcE0JLqH4bH
+z8wOCRhdq1/RCPqf2UKA4eWSg+6WcTGMQahOksjE6AfY2sA4dgCnrw7qP9loYSua
+vY7kwM6ugy4yOzHS51rr/J90V/FVHBmKJm9skZYrHLenOYDZE8LaGwRMyFBy4pXr
+Qz76sDzfXqywKHemCxOL/8BzZL80rQVsKt0YSg7lSN0pGPxYkcSQQ0DJMKYUPR/u
+Sgd3qXIYUDrrolAGA5O6CE1onKCDsx7jRPxWuxvCFYVtWxbdQOYAcAmDOXTupzH3
+6p1bMnrbNhXvyJMVROrJMdVYR5ttDbWO/+Ws4chxRf7Y6DAe1v8=
+=GqtG
+-----END PGP SIGNATURE-----
+
+--beczAmmun8celmZJ--
 
