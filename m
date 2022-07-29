@@ -2,78 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033AE584E1C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 11:36:13 +0200 (CEST)
-Received: from localhost ([::1]:46530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06A1584E07
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 11:30:16 +0200 (CEST)
+Received: from localhost ([::1]:39100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHMPk-0005aN-3G
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 05:36:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44226)
+	id 1oHMJy-00007h-HP
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 05:30:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oHMA3-0002Vo-6B
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:20:01 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40661)
+ id 1oHMA6-0002WX-Lm
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:20:02 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:53039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oHM9x-0005sZ-Qo
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:19:55 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- ay11-20020a05600c1e0b00b003a3013da120so3808201wmb.5
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 02:19:53 -0700 (PDT)
+ id 1oHMA5-0005tC-09
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:20:02 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id c22so2242023wmr.2
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 02:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b4rzYyOyefgD+FFgRWQ2ANlZ3iuspDOKuCWBXcKDEb8=;
- b=rEzMREBiGFmJmh9mOGgHt+hyaauQH2/xi1890csC02z0C4ry13xZ1ch64qXJ0CTOQ0
- zBpCCf5jQp4juRCF+WhtCmiFtWfr2XhAn+N/VTM1QuETMd8PHEFCXQIv3VQPwMgL1BmY
- TViVxMN5JF9fVa6w7w9rcQ+3Dijs+cwmHJTE/VSGcvyR2gjohRGsNpkRjIsH68xM8SQp
- Cb05AuxxuG6BigyNWSEy4lD227tBnj4LWUn84CmILAgaRMWyyra82MH8SY6oLDBGM++U
- vAb193N3lTCfmhIbFMR40akcAYpEzgdcMiU1+d+iXvRbrkEubtCbe+mUULKMwiSKqaB/
- +EOg==
+ bh=vDDDAtTRJ4elteu1Ws3KBzxZl/nQbgq+eqnl2bGuaM8=;
+ b=qZlyx0j87fPHUf5XTPkXD/AZgcM8XUJMUgJQavwv8p1CVLU94MDq5d4opqxav0JBFJ
+ MFvy2kMnxLz3tzmmbDUgfXf0fQiXTrGYVEWJVhexBPrCoG4xu8oFH8bz4gC3j3+x1glL
+ sRgUsCvnetqAotrOwJEVOCc8f1UdY/n6mYX2DwaXw7eNQzI67KeRqZXlVfzwQyKGleRO
+ ll65ux6Bk/Ez9l4IZR1ayvqas0xs2eNOh7KXnMxRg9ZvFzXTPAgqcDQo9f40MZZTIG1O
+ ghwzRDyf0hxy+q4o0uiLOjDVaFmNi0cLsaVNOsQeET9S5Rp3hN5GmNamOpmotItOdchS
+ EjQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b4rzYyOyefgD+FFgRWQ2ANlZ3iuspDOKuCWBXcKDEb8=;
- b=hKMdzZfrhUaOuoobuKGBHIW7pg+2JaiecWqsGuFcCuFqNMqGvoZ/26ITkLarUfgkKB
- JPQnNEbTG5SgOOhKnQBINejTTNUaJp0gt1ZmiRxkP63u8uSYeUAKM+l6TJPW/JKLjINy
- av2dgxg3Ss3FzXtxkJI8Lp4f/HTgxzqNq849xkLcNH57hRDgpvkTrfVwCptAI2zK2khF
- YYQ5Vi8SEJLcJvn/7C7rJrbbEez4U9hVmN5ucwoHBcFxhLX5YmqW7eg8SB6lSOvOpcq6
- XTpeHJkUCzZR3BOI37j8KnPoIE+MWzetfzI1mLKIWdJtkN4Z4eEqe/M91i7hK9gVLI5p
- px6Q==
-X-Gm-Message-State: AJIora94Ixz1hvNFWGfyJBlm8taNJdLlFhh71/Z1L07QpaKcYHTgCkrZ
- ZU3vXFLIcNogD6GG6hbw3mhl4Q==
-X-Google-Smtp-Source: AGRyM1tEZBoGC00S5vZVpuf9HCT71V7/iuoowtoYlL9DOLeysAEW8Si/nnGcD0LZqLCgqm6HsW4ZdA==
-X-Received: by 2002:a1c:2981:0:b0:3a2:ffe9:945c with SMTP id
- p123-20020a1c2981000000b003a2ffe9945cmr2173934wmp.38.1659086392490; 
- Fri, 29 Jul 2022 02:19:52 -0700 (PDT)
+ bh=vDDDAtTRJ4elteu1Ws3KBzxZl/nQbgq+eqnl2bGuaM8=;
+ b=XcYfTePwZBerL6Q7u+PqdTeca0+FYrHs3aiEYutpbXxxCpYQ92TI0tCl26yTfHNAYH
+ eClLVZjTGpkkmNDO/9lD8ggMBVuGI3NW9LGFcZdBg9o8Tf/ROXK4Fk7jWLDlzeCWT6fW
+ DjtjqI6GKf0hO0eZFV12M+DXEGbNCNgUa9USc6aLrEdBY5Mv/L3SsmH0Z/2C0yjuxCGZ
+ BON2ziFaghQeZO+oKymo/emaxxTiULmQ7BmIpTuk6wsrvapUH1P3gLtebmI4NT25cLwD
+ 6YvGM7eb/ZT3qczlAV/rL2whMehUXoqDPcidxJQdTKFMiHpWyYJFT7eNbzzETr1DaXMw
+ 5CiA==
+X-Gm-Message-State: AJIora8ldBRaChccef9U6WnntieP/+i9oKUopuiv+jxHzBD5Z3iUrhhc
+ zq3lcOTH+/HZP1RFLx+Ip/ftNO6pOjuO4Q==
+X-Google-Smtp-Source: AGRyM1s3WbpX4xMbly/Nw9hFi09s0sgx/E/jFmDGXjxNdApedSI7gwAq5DRNK1RpmOIS2cqQ1ojLNw==
+X-Received: by 2002:a05:600c:4296:b0:3a3:58f6:9520 with SMTP id
+ v22-20020a05600c429600b003a358f69520mr1827859wmc.52.1659086399730; 
+ Fri, 29 Jul 2022 02:19:59 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q5-20020a1ce905000000b003a320e6f011sm3822090wmc.1.2022.07.29.02.19.44
+ t13-20020adfe44d000000b0021e2fccea97sm3146860wrm.64.2022.07.29.02.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 02:19:45 -0700 (PDT)
+ Fri, 29 Jul 2022 02:19:52 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 38FCA1FFBC;
+ by zen.linaroharston (Postfix) with ESMTP id 5056A1FFBD;
  Fri, 29 Jul 2022 10:19:44 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org,
 	richard.henderson@linaro.org
 Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
- Thomas Huth <thuth@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PULL 04/13] .cirrus.yml: Change winsymlinks to 'native'
-Date: Fri, 29 Jul 2022 10:19:34 +0100
-Message-Id: <20220729091943.2152410-5-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [PULL 05/13] .gitlab-ci.d/windows.yml: Enable native Windows symlink
+Date: Fri, 29 Jul 2022 10:19:35 +0100
+Message-Id: <20220729091943.2152410-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220729091943.2152410-1-alex.bennee@linaro.org>
 References: <20220729091943.2152410-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,19 +100,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present winsymlinks is set to 'nativestrict', and its behavior is:
-
-  a) if native symlinks are enabled and <target> exists, creates
-     <destination> as a native Windows symlink;
-  b) else if native symlinks are not enabled or if <target> does
-     not exist, 'ln -s' fails.
-
-This causes the following error message was seen during the configure:
+The following error message was seen during the configure:
 
   "ln: failed to create symbolic link
   'x86_64-softmmu/qemu-system-x86_64.exe': No such file or directory"
 
-Change winsymlinks to 'native' whose behavior is most similar to the
+By default the MSYS environment variable is not defined, so the runtime
+behavior of winsymlinks is: if <target> does not exist, 'ln -s' fails.
+At the configure phase, the qemu-system-x86_64.exe has not been built
+so creation of the symbolic link fails hence the error message.
+
+Set winsymlinks to 'native' whose behavior is most similar to the
 behavior of 'ln -s' on *nix, that is:
 
   a) if native symlinks are enabled, and whether <target> exists
@@ -119,25 +119,30 @@ behavior of 'ln -s' on *nix, that is:
      exists or not, 'ln -s' creates as a Windows shortcut file.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Yonggang Luo <luoyonggang@gmail.com>
-Message-Id: <20220719161230.766063-1-bmeng.cn@gmail.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220725140520.515340-5-alex.bennee@linaro.org>
+Message-Id: <20220725123000.807608-1-bmeng.cn@gmail.com>
+Message-Id: <20220725140520.515340-6-alex.bennee@linaro.org>
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 20843a420c..eac39024f2 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -10,7 +10,7 @@ windows_msys2_task:
-     memory: 8G
-   env:
-     CIRRUS_SHELL: powershell
--    MSYS: winsymlinks:nativestrict
-+    MSYS: winsymlinks:native
-     MSYSTEM: MINGW64
-     MSYS2_URL: https://github.com/msys2/msys2-installer/releases/download/2022-05-03/msys2-base-x86_64-20220503.sfx.exe
-     MSYS2_FINGERPRINT: 0
+diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
+index 1b2ede49e1..0b9572a8a3 100644
+--- a/.gitlab-ci.d/windows.yml
++++ b/.gitlab-ci.d/windows.yml
+@@ -57,6 +57,7 @@ msys2-64bit:
+       mingw-w64-x86_64-zstd "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW64'     # Start a 64 bit Mingw environment
++  - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - .\msys64\usr\bin\bash -lc './configure --target-list=x86_64-softmmu
+       --enable-capstone --without-default-devices'
+   - .\msys64\usr\bin\bash -lc "sed -i '/^ROMS=/d' build/config-host.mak"
+@@ -89,6 +90,7 @@ msys2-32bit:
+       mingw-w64-i686-usbredir "
+   - $env:CHERE_INVOKING = 'yes'  # Preserve the current working directory
+   - $env:MSYSTEM = 'MINGW32'     # Start a 32-bit MinG environment
++  - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
+   - mkdir output
+   - cd output
+   - ..\msys64\usr\bin\bash -lc "../configure --target-list=ppc64-softmmu"
 -- 
 2.30.2
 
