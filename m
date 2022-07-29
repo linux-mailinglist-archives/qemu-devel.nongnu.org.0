@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15CFA585177
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:22:23 +0200 (CEST)
-Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8515C58519F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:34:18 +0200 (CEST)
+Received: from localhost ([::1]:38136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHQsg-0006n6-71
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:22:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
+	id 1oHR4D-0003eB-0A
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQp4-0003h3-2B
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:18:38 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:45678)
+ id 1oHR2G-0001li-Nl
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:32:16 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:34368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQp2-0002lu-Ar
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:18:37 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id e127so7656083yba.12
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:18:35 -0700 (PDT)
+ id 1oHR2F-0007Tx-1y
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:32:16 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id 204so7304714yba.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:32:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=zKfiLfnf97M25tEB3vH908lioT94s15xazhyBc8D+n0=;
- b=cdnKQm9VCmNag3HDJQO9ztvx+wm1F7ZipMLk37jDuPFzTixrmx4DT/alxb83KizMyt
- LqgoxE2v0IgQuWPXxmNZey4/JjUzUgN4lafG0YyBaXBKa8P8CGG4Mbnp01iWnv0POX2/
- Y4Lwph/bYjHEdSw5I0pvcky+0cF08e3G26alP/2p9+r2C88um0JNTHFa1IrQr562bVY6
- JctgmUD9PYVpmKqGkWnrcUWMQWnC/Y1VWwp8MEBwzp9/w9YKs5E2w+F5MienLqI8REj0
- iprV11s3VsjG2n8gdal0Ucu0glgXeDBO2S0akYhX91kop5t1QxDTPk6S0EoXH/xWG4Nx
- dA9g==
+ bh=633bSaHOiD38Qf4WRUV2T+a5qoboZG9HXVJGnU4nFdE=;
+ b=bJlYPoPX8JnmaOc0s2DCYGmjI+p3xTEVfYguhWKeVQ34iO1yJl5rSjpAoctokhXn8q
+ QWFxd0It8NnkvCLOYJlID46xoEpOPA77TdbAQJdM3ErVpXrt++4SsZC1XKYQcsmR1GFT
+ jqYDgBaa/GIrONMOYNIPZe3w4Zwa4vRe7W1tt6IIWSw70tN0vL3rLKjV+AoFtA6kH95+
+ Wr/VgZh16iibmDSBsktc1bGZWSHcAzLI4xhcJqEsPE4H0KPV6kdU+DKyzeMmOybUXq/N
+ Dyti4F/+m7XHjPFummRFaW/juijRNgQO7VGo/cGDc/WIjqNYtimyrjQFm7hoxrv4QhwH
+ CYgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=zKfiLfnf97M25tEB3vH908lioT94s15xazhyBc8D+n0=;
- b=Zl0UNKOJ1+oizTZ1ZPboZAD7iYr48CutbZ1OqElToM5O4qGMJMH4Ezd9v8iPX5+Yis
- 3IsC5ILJbwivx8iHQ6f8V+aEmn64iJOukRnQRCRuHaOA8mpR1TecrS28H+i5/PCvOX0n
- ChXlrj2v5/eoAvMIjf2gd0TJt9b95TJvlyzffHcB2r3gN4na3QCZkPZ5239AWp8Srnb0
- qy5prEaHrOi+xQMOdM1lqKwFugaJhbtH3+OMtjHL1cv4CVBjwzYglJO2exe6QPArav+5
- k2yERCphGDvQcA4HiEyKuU0JacWC335/LKct6IObyaIbYmfibYQaBCipEGGS08RwVIMw
- xbiA==
-X-Gm-Message-State: ACgBeo1UN+5JUKI/Ja0IzAykP+Aokj/tJQkuST5hK98XYJjRW9DFA08A
- GZNU7IyrTBJjk5NzgFPJ6vc2j5xvoDovRhbJbHw/Bg==
-X-Google-Smtp-Source: AA6agR6Y7yobLhoN9H5e5tcATNxvnInJ0md716c1fT2cJLWvTknJdVx9WmZcAxEwONCOYDvVFIFLRyFEhENZlkiLBA0=
-X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
- t6-20020a5b07c6000000b006706ba6d046mr2684938ybq.140.1659104315246; Fri, 29
- Jul 2022 07:18:35 -0700 (PDT)
+ bh=633bSaHOiD38Qf4WRUV2T+a5qoboZG9HXVJGnU4nFdE=;
+ b=vKUlHwIltuEKE7csgu2nQTsSm7UID1gFvCkIVHV5nGdPpvJOaOx+YcEWB0hY9S8Yg+
+ Zt8qZ5fpjmx503A13sp1gOAxLBY6IV/zVfNgtfl+Ipj3JH9sOAJAnoDXmA3xOLZ4nkxI
+ G/XH36Mz3iP8BI0C6r7WP1zih1wGRdkuPfybC+/nr9vUbCCiMuY4/tSOpG5L3j6T2XNa
+ nqx88V2WeFDo27L+Ds0krq6n6TkQZ0EO1I8QvLhK/G/qE5ZYmVyK8AfRiAqIy1XELeBl
+ Z3WwRt51DWtyoKeHApBvm+zWV0xlGekjx4nLS03cqzcxN5cYcfhoxHbg1uT1LwKaVzv0
+ nzfw==
+X-Gm-Message-State: ACgBeo1rTMGKEEzujoz1mSt9cFUasK8/f+yjrL8gD4yAh5+hJO/kAAFu
+ WSUzWqQd31U7YQvcEq49hktc6FOWGv2k5p8pi8AyCw==
+X-Google-Smtp-Source: AA6agR73z5uCMNhkaMgCKADT9oztKl66YM2hzaZZpmYqDJw8PNDCI27fA/yl+VKqLjP9LkeEPVmvvqBLxaT+dG7s3AU=
+X-Received: by 2002:a25:d617:0:b0:671:79bd:69bf with SMTP id
+ n23-20020a25d617000000b0067179bd69bfmr2837121ybg.85.1659105133855; Fri, 29
+ Jul 2022 07:32:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
-In-Reply-To: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
+References: <20220628045403.508716-1-richard.henderson@linaro.org>
+ <20220628045403.508716-3-richard.henderson@linaro.org>
+In-Reply-To: <20220628045403.508716-3-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 15:17:55 +0100
-Message-ID: <CAFEAcA-N-GPKqLeQtOWVMHvB-Di4inKK8Cy9XFjT62PMeiyBRA@mail.gmail.com>
-Subject: Re: [PATCH] disas/nanomips: Convert nanoMIPS disassembler to C
-To: Milica Lazarevic <milica.lazarevic@syrmia.com>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, cfontana@suse.de, 
- berrange@redhat.com, pbonzini@redhat.com, vince.delvecchio@mediatek.com, 
- richard.henderson@linaro.org, djordje.todorovic@syrmia.com, 
- mips32r2@gmail.com, dragan.mladjenovic@syrmia.com
+Date: Fri, 29 Jul 2022 15:31:33 +0100
+Message-ID: <CAFEAcA8xGYd34RgGqo8z5Y1TvPMxeB=99genoJEtd=+eKEjReg@mail.gmail.com>
+Subject: Re: [PULL 02/60] semihosting: Return failure from softmmu-uaccess.h
+ functions
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb31.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,40 +84,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Jul 2022 at 15:13, Milica Lazarevic
-<milica.lazarevic@syrmia.com> wrote:
+On Tue, 28 Jun 2022 at 05:54, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> C++ features like class, exception handling and function overloading
-> have been removed and replaced with equivalent C code.
+> We were reporting unconditional success for these functions;
+> pass on any failure from cpu_memory_rw_debug.
 >
-> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
-> ---
-> Please see the discussion about why converting it here:
-> https://lists.nongnu.org/archive/html/qemu-devel/2022-06/msg01803.html
->
-> The validity of the disassembler after refactoring has been tested with
-> the QEMU emulator version 6.0.1. With the most recent version, there is a
-> problem with the executing nanoMIPS programs in the semihosting mode. The
-> issue is reported here: https://gitlab.com/qemu-project/qemu/-/issues/1126
-> We're currently working on fixing this.
->
->  disas/meson.build                  |    2 +-
->  disas/{nanomips.cpp => nanomips.c} | 8407 ++++++++++++++--------------
->  disas/nanomips.h                   | 1076 ----
->  3 files changed, 4154 insertions(+), 5331 deletions(-)
->  rename disas/{nanomips.cpp => nanomips.c} (73%)
->  delete mode 100644 disas/nanomips.h
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Is it possible to break this down into smaller pieces so it isn't
-one single enormous 5000 line patch ?
+So, this commit makes us check the cpu_memory_rw_debug()
+return value in the softmmu_lock_user() function; but Coverity
+points out (CID 1490294) that we still aren't checking the
+return value from when we call it in softmmu_unlock_user()...
 
-I guess partial conversion is likely to run into compilation
-difficulties mid-series; if so we could do "disable the
-disassembler; convert it; reenable it".
-
-The rationale here is code review -- reviewing a single huge
-patch is essentially impossible, so it needs to be broken
-down into coherent smaller pieces to be reviewable.
+What, if anything, should we do about that? In particular,
+I think that for semihosting calls that write to guest memory,
+if the guest passes us a pointer to read-only memory we're
+not going to find out about that until unlock time.
 
 thanks
 -- PMM
