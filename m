@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA31E58549D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 19:37:02 +0200 (CEST)
-Received: from localhost ([::1]:46456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DDB35854EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 20:12:10 +0200 (CEST)
+Received: from localhost ([::1]:52508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHTv3-0007Mm-SS
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 13:37:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45748)
+	id 1oHUT2-0004zp-P1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 14:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
- id 1oHTt0-00059p-Bu
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:34:54 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:53092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jaykhandkar2002@gmail.com>)
- id 1oHTsx-0006p3-Jt
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 13:34:54 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id ha11so5407216pjb.2
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 10:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=fdkKy2gzLiehD8hKZr/9zfoNyZodMczepKvVYfLORjo=;
- b=jz8OdRC09lr6C5mnsso1hUVMM/ip/7+2aQcmh/FqgEa2ykAQpoUKHJwgOY+L3XcGOW
- 5WCELjxUjfPM7prCKleR/1A0oOCfOaSxAC3kPdYTJMZG435M1sn6XhYMB/MVGqN9HSv0
- nOc5EvU48gWA37ZNWeQaUQkpKd4UgNxofrdjc7YTyG/EXzPUldicKI4ZXg97sgSYyfQV
- gasTD+/4H43P0toz0xejnqp0AaCjsZbFBU7hlPwECD2bOulvj5mOy9lDSln93VYYcIs0
- a3pzUvSeyN0hAutMaEa2UsTp4n35L9LRP8Dffn+ubt5F6Qgt33XLkt9eac95WXZW5jTy
- l7PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fdkKy2gzLiehD8hKZr/9zfoNyZodMczepKvVYfLORjo=;
- b=zLz53/CbnKXPqCWUwpNKAZvSMJTw1mbVwzd/WqFu9YENRN/km7sD39a+85+cS/Q3td
- sNc4IwQVpayEO2d5+Wd/hsIcOKN/epQp/W/FrDePp9vWWVHV695g3AFgMmBTVTE9crz9
- 4/qhJ9oL3+qAfyBWQIw+TYdl3j+Bm6qSbMrQ1ACsdeWE7B9nAEOGzIuUYyfiVH7+2GOy
- pWfjDVL0L5PWUfpd7GKeMjpLhq0hVsYAg2NuMdYCKCno6xFgqRYP4MNj/vxfCSrrmPXX
- iIB2mJG1GPyNKbo0sESkczN3ru1igjzqM3DyBoIMteWntGvQX69CH1kzSR8g0dKOONDo
- 1riw==
-X-Gm-Message-State: ACgBeo0vAIKbv+nd5Uo+K/O+mEiA08ooUMUlKYhumS4PZq0SCE5TWf5J
- zlYrQJH4zuxiiQUkT3Fi67M=
-X-Google-Smtp-Source: AA6agR4JAPIGyZnTO3m5IXy8OQOPs/hXXKnywCE9Jz5rn1C6ejtUoFUPklsi3n5zB5xJ7d1tcOGnQQ==
-X-Received: by 2002:a17:902:db0a:b0:16d:6afd:ef46 with SMTP id
- m10-20020a170902db0a00b0016d6afdef46mr4822357plx.143.1659116089916; 
- Fri, 29 Jul 2022 10:34:49 -0700 (PDT)
-Received: from thinkpad ([59.88.163.253]) by smtp.gmail.com with ESMTPSA id
- k14-20020a170902c40e00b0016a17da4ad4sm4020242plk.39.2022.07.29.10.34.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 10:34:49 -0700 (PDT)
-Date: Fri, 29 Jul 2022 23:04:47 +0530
-From: Jay Khandkar <jaykhandkar2002@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, mst@redhat.com
-Subject: Re: [PATCH] hw/intc: Handle software disabling of APIC correctly
-Message-ID: <YuQaN9GScQJ4ZXC+@thinkpad.localdomain>
-References: <20220712141804.99494-1-jaykhandkar2002@gmail.com>
- <CAFEAcA_sBoNCvUEaTOC26Om5vZKeZvLLJS1edkPM-pbswzQvzA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHUQK-0002r5-U0
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 14:09:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54642)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHUQH-000752-R6
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 14:09:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659118157;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UzbI0o6/KZkCLc1thriZbEGL7tn6lNWesz7QQT2ZBNo=;
+ b=HAoYmzbu1moYEmLLsjASmFX7WQez8juAwmL6GE2verrvs75Be9aeSCsS162v2r3TF/v69a
+ VfWqOghvMT3Ldicf05T2tBYCW7K77jPkPF3SR1SjV8u8NBoNxB/wgso7ftRNrH6PGjj0PM
+ 0jignVdKUMWMg4sxjM2DtV3Kcqnn3Uk=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-460-yffWDslNPZ6p3_k9viqNbA-1; Fri, 29 Jul 2022 14:09:15 -0400
+X-MC-Unique: yffWDslNPZ6p3_k9viqNbA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6B2B2185A7BA;
+ Fri, 29 Jul 2022 18:09:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E551415118;
+ Fri, 29 Jul 2022 18:09:11 +0000 (UTC)
+Date: Fri, 29 Jul 2022 20:09:10 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: "Denis V. Lunev" <den@virtuozzo.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, Peter Krempa <pkrempa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 1/1] block: add missed block_acct_setup with new block
+ device init procedure
+Message-ID: <YuQiRj1dJFRMRh1j@redhat.com>
+References: <20220711110725.425261-1-den@openvz.org>
+ <1aa3921a-0e67-d580-9bf2-c098d242e380@yandex-team.ru>
+ <66373021-7dad-953b-b244-75a4756a0b33@virtuozzo.com>
+ <YuOkvmbvhzD2dsGq@redhat.com>
+ <0d0b7c13-9dd5-49a8-86cd-30a748959b7b@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_sBoNCvUEaTOC26Om5vZKeZvLLJS1edkPM-pbswzQvzA@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=jaykhandkar2002@gmail.com; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0d0b7c13-9dd5-49a8-86cd-30a748959b7b@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,48 +87,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 29, 2022 at 06:09:01PM +0100, Peter Maydell wrote:
-> On Tue, 12 Jul 2022 at 19:38, Jay Khandkar <jaykhandkar2002@gmail.com> wrote:
-> >
-> > When the local APIC is in a software disabled state, all local interrupt
-> > sources must be masked and all attempts to unmask them should be
-> > ignored. Currently, we don't do either. Fix this by handling it
-> > correctly in apic_mem_write().
-> >
-> > Signed-off-by: Jay Khandkar <jaykhandkar2002@gmail.com>
-> > ---
-> >  hw/intc/apic.c | 16 +++++++++++++---
-> >  1 file changed, 13 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/hw/intc/apic.c b/hw/intc/apic.c
-> > index 3df11c34d6..493c70af62 100644
-> > --- a/hw/intc/apic.c
-> > +++ b/hw/intc/apic.c
-> > @@ -792,9 +792,16 @@ static void apic_mem_write(void *opaque, hwaddr addr, uint64_t val,
-> >          s->dest_mode = val >> 28;
-> >          break;
-> >      case 0x0f:
-> > -        s->spurious_vec = val & 0x1ff;
-> > -        apic_update_irq(s);
-> > -        break;
-> > +        {
-> > +            s->spurious_vec = val & 0x1ff;
-> > +            if (!(val & APIC_SPURIO_ENABLED)) {
-> > +                for (int i = 0; i < APIC_LVT_NB; i++) {
-> > +                    s->lvt[i] |= APIC_LVT_MASKED;
-> > +                }
-> > +            }
-> > +            apic_update_irq(s);
-> > +            break;
-> > +        }
+Am 29.07.2022 um 14:36 hat Denis V. Lunev geschrieben:
+> On 29.07.2022 11:13, Kevin Wolf wrote:
+> > Am 28.07.2022 um 21:27 hat Denis V. Lunev geschrieben:
+> > > On 28.07.2022 16:42, Vladimir Sementsov-Ogievskiy wrote:
+> > > > On 7/11/22 14:07, Denis V. Lunev wrote:
+> > > > > Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
+> > > > > the first glance, but it has changed things a lot. 'libvirt' uses it to
+> > > > > detect that it should follow new initialization way and this changes
+> > > > > things considerably. With this procedure followed, blockdev_init() is
+> > > > > not called anymore and thus block_acct_setup() helper is not called.
+> > > > I'm not sure that 5f76a7aac156ca is really the corner stone.. But yes,
+> > > > libvirt moved to "blockdev era", which means that we don't use old
+> > > > -drive,
+> > > > instead block nodes are created by -blockdev / qmp: blockdev-add, and
+> > > > attached
+> > > > to block devices by node-name.
+> > > > 
+> > > git bisected, thus I am sure here
+> > > 
+> > > 
+> > > > And if I understand correctly blockdev_init() is called only on -drive
+> > > > path.
+> > > > 
+> > > > I have some questions:
+> > > > 
+> > > > 1. After this patch, don't we call block_acct_setup() twice on old path
+> > > > with -drive? That seems safe as block_acct_setup just assign fields of
+> > > > BlockAcctStats.. But that's doesn't look good.
+> > > > 
+> > > hmmm
+> > I don't think it's actually correct because then a value that was
+> > explicitly set with -drive will by overridden by the default provided by
+> > the device.
+> > 
+> > A possible solution would be to switch the defaults in the BlockBackend
+> > initialisation back to true, and then have a ON_OFF_AUTO property in the
+> > devices to allow overriding the default from -drive. With -blockdev, the
+> > BlockBackend default will be hard coded to true and the options of the
+> > devices will be the only way to change it.
+> > 
+> > > > 2. Do we really need these options? Could we instead just enable
+> > > > accounting invalid and failed ops unconditionally? I doubt that someone
+> > > > will learn that these new options appeared and will use them to disable
+> > > > the failed/invalid accounting again.
+> > > > 
+> > > I can move assignment of these fields to true int
+> > > block_acct_init() and forget about "configurable"
+> > > items in new path. I do not think that somebody
+> > > ever has these options set.
+> > Well, whether anyone uses the option is a different question. I don't
+> > know. But it has existed for many years.
+> I have said about very small patch like the following
 > 
-> What are the braces for here ? There's no local variable declaration...
-> 
-> thanks
-> -- PMM
-You are right, the braces are unnecessary for that part. I just put them in to
-create a neat visually separate block. Can get rid of them.
+> iris ~/src/qemu $ git diff
+> diff --git a/block/accounting.c b/block/accounting.c
+> index 2030851d79..c20d6ba9a0 100644
+> --- a/block/accounting.c
+> +++ b/block/accounting.c
+> @@ -38,6 +38,8 @@ void block_acct_init(BlockAcctStats *stats)
+>      if (qtest_enabled()) {
+>          clock_type = QEMU_CLOCK_VIRTUAL;
+>      }
+> +    stats->account_invalid = true;
+> +    stats->account_failed = true;
+>  }
 
-Thanks,
-Jay 
+Yes, this looks good to me and we'll need it either way, even if we add
+the ON_OFF_AUTO property to devices (because we need to set the right
+default for 'auto').
+
+>  void block_acct_setup(BlockAcctStats *stats, bool account_invalid,
+> iris ~/src/qemu $
+> 
+> but your proposal with ON_OFF_AUTO will work for me too.
+> 
+> The real question - do we really need to publish this option
+> for the external to configure it?
+
+As I said above, I don't know if anyone uses the option.
+
+It would be needed for full feature parity of -blockdev with -drive,
+but if the option isn't used by anyone, maybe full feature parity isn't
+something we even want.
+
+> > > The real question in this patch is that this initialization
+> > > was a precondition for old good "long IO" report
+> > > configuration, which should be "enableable".
+> > > 
+> > > But  we could move this option to "tracked request"
+> > > layer only and this will solve my puzzle. So, I'll move
+> > > "long IO report" to tracked request level only and will
+> > > create an option for it on bdrv_ level and will avoid
+> > > it on blk_ accounting.
+> > > 
+> > > What do you think?
+> > I'm not sure what you mean by "long IO report". Don't these switches
+> > just change which kind of operations are counted into statistics rather
+> > than changing the structure of the report?
+> > 
+> > Conceptually, I would like accounting on the block node level, but it's
+> > not what we have been doing, so it would be a big change.
+> > 
+> I have to say sorry again. I have found this place once I have
+> reverted to my very old series discussed here + some late
+> additions on top of it done by Vladimir.
+> https://lists.defectivebydesign.org/archive/html/qemu-devel/2020-07/msg03772.html
+
+Oh, we never merged this upstream it seems?
+
+> I will definitely have to come back to this later.
+> 
+> Den
+
+Kevin
+
 
