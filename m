@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5DEE584D36
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 10:13:42 +0200 (CEST)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2530584DFD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 11:21:02 +0200 (CEST)
+Received: from localhost ([::1]:59270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHL7t-000890-5L
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 04:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58196)
+	id 1oHMB3-0002fh-AE
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 05:21:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oHL4I-0004tK-Kz
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 04:09:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44942)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHM40-0007fH-L0
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:13:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43699)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1oHL4F-0005Mq-C6
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 04:09:56 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oHM3x-00050y-KS
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 05:13:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659082193;
+ s=mimecast20190719; t=1659086020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sWuWJ7Iqxl5s0FXtXoHGLLncxjmf643c1S4NHZXNJIk=;
- b=Idc3TpzkmYySWoHiI7OxF5xm8lvZXQF8qJ8+02jV55XRLcJ+fvC0WgFktVGfwBElVuE7O9
- XwW8TfWp9TBJP3Z8fH2rWvcT1O3WJXRFr20J2gWBlAVxRPSwvqhNadrGqLXq6/maBgaUVl
- Z6pKBDRJM5dMs+B9XnITNm6gIAU6oIo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GtbZod99ECF6vnOpdd33wDdVI09FDTfxI8iMqcPBQfE=;
+ b=hnFbSmXsWrT8L821Bhk3L5qsR8+kuT44qeh7fyTGbuVZO8p+y4tJzroXO+YLBNQlhaUxif
+ g8C4bLrxwZ0UXK8Cnc24SoZcbKIaLfCjeJIyGy+vGNiuvhr4fDTBjek+qO9W6WbKbgx1l9
+ ybhj0AKTM1ndo4fi7CIOSagRMDCvr6w=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-422-pbCxm7GrOk6GG_kuwN5u6Q-1; Fri, 29 Jul 2022 04:09:52 -0400
-X-MC-Unique: pbCxm7GrOk6GG_kuwN5u6Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- e6-20020a056402190600b0043bde36ab23so2506016edz.11
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 01:09:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sWuWJ7Iqxl5s0FXtXoHGLLncxjmf643c1S4NHZXNJIk=;
- b=lpustR/fmMHeGNT1xX4X818Lc9tDS+k5kdHxcQI9bpCBdmcpvIL8kSiACu0OXT2L64
- njnnJi0fHZr9A6HvYim3Tn1v1POYGDkd9/jBubc1NShZ9punlkEyaBcfaZwe0FQL8mF7
- AW5+rK3SSJPuKVufhHhUbgpAvUNj2q8ZAis70G/VIWbP7NW7UTR2ExMCias3ad9Javml
- kocEeqkPQnwNUr9ziyNbKwFDr6LhaFw4lKbVsAhs9JqBx8pMAKE/LNZNYADvNKA4RpOG
- W4lBiW6UGWb0S08FJ3SY9lfHoegY4ff8m1vINfPYoth9G5HuDNbaqobgL/PP/F5xE73g
- CXbw==
-X-Gm-Message-State: AJIora+EMiM1yj1wf8D3pZqiwlnoFbLTSbYZloi1B4ZOXLZVDYOgYaSb
- 0mdO2lR7hU0onjOBb2fAgk7mOUYE38TVpz+ALe9tmVxl0gzPqVW5dXybLZyq+aMGelYzo4U22m/
- h3SUr+stXVMM9rbM=
-X-Received: by 2002:a17:907:7f05:b0:72b:5a11:b357 with SMTP id
- qf5-20020a1709077f0500b0072b5a11b357mr2105943ejc.67.1659082191099; 
- Fri, 29 Jul 2022 01:09:51 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uqZyycENIZkThCcbY7Sixzd2GjckAMY632m3UJxnabwykivWHll5AMatlkyctL5ZxBHoRbRg==
-X-Received: by 2002:a17:907:7f05:b0:72b:5a11:b357 with SMTP id
- qf5-20020a1709077f0500b0072b5a11b357mr2105921ejc.67.1659082190697; 
- Fri, 29 Jul 2022 01:09:50 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- t6-20020a1709064f0600b0072a66960843sm1366608eju.51.2022.07.29.01.09.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 01:09:50 -0700 (PDT)
-Date: Fri, 29 Jul 2022 10:09:49 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
- ani@anisinha.ca, mst@redhat.com
-Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features
- of PIIX4_PM
-Message-ID: <20220729100949.34b20fda@redhat.com>
-In-Reply-To: <CAFEAcA-Bzbw6MY2kir5fWezQmet6BWD=B+qS6uetsxRvPbdyCQ@mail.gmail.com>
-References: <20220728115034.1327988-1-imammedo@redhat.com>
- <YuKgxM4IjAXh/goO@work-vm>
- <CAFEAcA-Bzbw6MY2kir5fWezQmet6BWD=B+qS6uetsxRvPbdyCQ@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.34; x86_64-redhat-linux-gnu)
+ us-mta-78-LzrRyygDMOqhKm-B4wrFWg-1; Fri, 29 Jul 2022 05:13:38 -0400
+X-MC-Unique: LzrRyygDMOqhKm-B4wrFWg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 25427101A54E;
+ Fri, 29 Jul 2022 09:13:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EEDAC27D95;
+ Fri, 29 Jul 2022 09:13:35 +0000 (UTC)
+Date: Fri, 29 Jul 2022 11:13:34 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: "Denis V. Lunev" <den@virtuozzo.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, Peter Krempa <pkrempa@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH 1/1] block: add missed block_acct_setup with new block
+ device init procedure
+Message-ID: <YuOkvmbvhzD2dsGq@redhat.com>
+References: <20220711110725.425261-1-den@openvz.org>
+ <1aa3921a-0e67-d580-9bf2-c098d242e380@yandex-team.ru>
+ <66373021-7dad-953b-b244-75a4756a0b33@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <66373021-7dad-953b-b244-75a4756a0b33@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -104,49 +85,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jul 2022 16:04:58 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+Am 28.07.2022 um 21:27 hat Denis V. Lunev geschrieben:
+> On 28.07.2022 16:42, Vladimir Sementsov-Ogievskiy wrote:
+> > On 7/11/22 14:07, Denis V. Lunev wrote:
+> > > Commit 5f76a7aac156ca75680dad5df4a385fd0b58f6b1 is looking harmless from
+> > > the first glance, but it has changed things a lot. 'libvirt' uses it to
+> > > detect that it should follow new initialization way and this changes
+> > > things considerably. With this procedure followed, blockdev_init() is
+> > > not called anymore and thus block_acct_setup() helper is not called.
+> > 
+> > I'm not sure that 5f76a7aac156ca is really the corner stone.. But yes,
+> > libvirt moved to "blockdev era", which means that we don't use old
+> > -drive,
+> > instead block nodes are created by -blockdev / qmp: blockdev-add, and
+> > attached
+> > to block devices by node-name.
+> > 
+> git bisected, thus I am sure here
+> 
+> 
+> > And if I understand correctly blockdev_init() is called only on -drive
+> > path.
+> > 
+> > I have some questions:
+> > 
+> > 1. After this patch, don't we call block_acct_setup() twice on old path
+> > with -drive? That seems safe as block_acct_setup just assign fields of
+> > BlockAcctStats.. But that's doesn't look good.
+> > 
+> hmmm
 
-> On Thu, 28 Jul 2022 at 15:44, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Igor Mammedov (imammedo@redhat.com) wrote:  
-> > > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
-> > >   $ qemu-system-mips -monitor stdio
-> > >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
-> > >   Segmentation fault (core dumped)
-> > >
-> > > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
-> > > which are valid only for x86 and not for MIPS (as it requires ACPI
-> > > tables support which is not existent for ithe later)
-> > >
-> > > Issue was probably exposed by trying to cleanup/compile out unused
-> > > ACPI bits from MIPS target (but forgetting about migration bits).
-> > >
-> > > Disable compiled out features using compat properties as the least
-> > > risky way to deal with issue.  
-> >
-> > Isn't the problem partially due to a 'stub' vmsd which isn't terminated?  
-> 
-> Yes, but setting these properties causes that vmsd
-> (vmstate_acpi_pcihp_pci_status) to not be used:
-> 
->  * it is used only in VMSTATE_PCI_HOTPLUG()
->  * that macro is used only in hw/acpi/ich9.c (not relevant here) and
->    hw/acpi/piix4.c
->  * in piix4.c it is invoked passing it the test functions
->    vmstate_test_use_acpi_hotplug_bridge and
->    vmstate_test_migrate_acpi_index
->  * setting the properties on the device as this patch does
->    causes those test functions to return false, so the
->    vmstate_acpi_pcihp_pci_status is never examined
+I don't think it's actually correct because then a value that was
+explicitly set with -drive will by overridden by the default provided by
+the device.
 
-it's not limited to VMSTATE_PCI_HOTPLUG but also memory hotplug
-and other x86 specific knobs that may cause crash.
-(I ignored cpu hotplug one for now since it doesn't cause crash)
+A possible solution would be to switch the defaults in the BlockBackend
+initialisation back to true, and then have a ON_OFF_AUTO property in the
+devices to allow overriding the default from -drive. With -blockdev, the
+BlockBackend default will be hard coded to true and the options of the
+devices will be the only way to change it.
 
+> > 2. Do we really need these options? Could we instead just enable
+> > accounting invalid and failed ops unconditionally? I doubt that someone
+> > will learn that these new options appeared and will use them to disable
+> > the failed/invalid accounting again.
+> > 
+> I can move assignment of these fields to true int
+> block_acct_init() and forget about "configurable"
+> items in new path. I do not think that somebody
+> ever has these options set.
+
+Well, whether anyone uses the option is a different question. I don't
+know. But it has existed for many years.
+
+> The real question in this patch is that this initialization
+> was a precondition for old good "long IO" report
+> configuration, which should be "enableable".
 > 
-> -- PMM
+> But  we could move this option to "tracked request"
+> layer only and this will solve my puzzle. So, I'll move
+> "long IO report" to tracked request level only and will
+> create an option for it on bdrv_ level and will avoid
+> it on blk_ accounting.
 > 
+> What do you think?
+
+I'm not sure what you mean by "long IO report". Don't these switches
+just change which kind of operations are counted into statistics rather
+than changing the structure of the report?
+
+Conceptually, I would like accounting on the block node level, but it's
+not what we have been doing, so it would be a big change.
+
+Kevin
 
 
