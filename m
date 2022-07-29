@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6835A585151
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:11:47 +0200 (CEST)
-Received: from localhost ([::1]:49356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CE3C58516D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:20:16 +0200 (CEST)
+Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHQiO-0007fs-4C
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:11:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55226)
+	id 1oHQqc-000588-QL
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQg2-0005Dq-0J
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:09:18 -0400
-Received: from mail-yw1-x1136.google.com ([2607:f8b0:4864:20::1136]:36811)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHQlY-0001P9-SN
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:15:00 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34465)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oHQfz-00013W-3Z
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:09:17 -0400
-Received: by mail-yw1-x1136.google.com with SMTP id
- 00721157ae682-31e7ca45091so52500487b3.3
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:09:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHQlX-00024L-5w
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:15:00 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id z19so4741017plb.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=EsSPF4qb9+9nnV5gJrpJhXXezcnCV0Ei9+zolWKfMd8=;
- b=IG1suOXT+aDs5cnJmtUf+fFTi+dAq5y9woitbYcFwOYfjEfeNUsCYA0je6NDH5tBcN
- qAJiCsmESxt34oxb0M4Roy/QqY9LUCMUH97oZ38tVaBsdB4i9xYgAJBW4D3jGTKJJD1q
- jbr/P7pMI2WoXQ9dtEKwrjm+30Srju5hmZx5RZLmeosW0ZpFWDQr9KaVwGCHDTx3myfM
- diroeYsphZf9WVQ9ClumRlAKxyqDKjDBSKpXUSGme8p3LwxApD43jP+4s3EJZiQiNcSW
- UP/CzC9vF569oTCshajD1t3FCD0hNaRBRVkmju9te4o0JGv+Gs4GOpQVHDKMqK+ALCgP
- dUWA==
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=ZHvvXISPR8p1Rz7xlNIKcZnTL05gX0iYI8KEDYr+HxA=;
+ b=lXMxRxpOHx4/0P2eUfByyGtnDaUr+5qKONUXeu/nrL1fiTj7XArlG3cWBHgQVOkxHb
+ 3LSlXatoj2ymyO74n+C0Qv+8XkLaGuFd+1lCnugdI3L/X9zZTAc5ptXZsANLBq7nMqFy
+ Zr7+w9vB4OAqD1B2RMIqJ1Xk/KsvKFecVo0B22YN/QcC41Zu4TFd54qvyUvafP/S2gTB
+ cFR7lupfjj47Kzrtn2+jLf7KkXX9Qc8j3zEM7qjxkYzkrSBjIimaQYyECF2RmHGPdWiA
+ 61UZvG4jMQEgFGkPT3UG2Zj3wPKJIIBgRMR6MO7U0OS+OGYgAjB2FHui/EutgzuBVabl
+ lF6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=EsSPF4qb9+9nnV5gJrpJhXXezcnCV0Ei9+zolWKfMd8=;
- b=JtRuNL4eHUCYvxUrTOKMZcMNAX74hsnSojarTumGz14VoMkKFDFJiTr+LACQbQ8NHY
- Jid/JqgWQ1XYt83A7LJBtSGM9QzPS52LUYZuPNe92P/pljl7YK4KPcIbemu/2w8LxKJY
- 4p5DoEej47nEjvHo2bV06pbj089FMwb/Uxna1mDa6jpOOn8om8DficdgeYbrqUfaQqsf
- qI/KjKt4jWW/Q7hTaEw54FdL16OpzGMv1rZoBx/ocxGu2Kn4gSJxwc0V2NTALItE8YUh
- 2p90YiJLFN5s1Ezmx7do0p7k9TZ57QJUb/fzzQMNABs33QzY7wQE/SMERO/pgwopypdG
- phUQ==
-X-Gm-Message-State: ACgBeo3uQLZ7sY7RK94wwT2ndl7lAZYJp/+bmMwe+/rTadJvciRwqSms
- HVb4tPNI/NICrQkW0VxgSU6M6qNluj5L2BtQOyvfHA==
-X-Google-Smtp-Source: AA6agR5evp9USWPBAMAUpePiSoozAHBzZq+pHvOXRc6kuRS3OWmnJCcLBl7b0FE4PZi/DhI0eQLk9G2WMpYwX7RPzBg=
-X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
- 6-20020a810106000000b002d0e6828a7amr3216700ywb.257.1659103753707; Fri, 29 Jul
- 2022 07:09:13 -0700 (PDT)
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=ZHvvXISPR8p1Rz7xlNIKcZnTL05gX0iYI8KEDYr+HxA=;
+ b=VDO6FwyFME1ROfGxbqtVU93yy7ZXeyT1kxKvUUz0qT1q6cMaryRFjnBGYbwi5JlFRb
+ 8UR57U9/ok4tdvhCTDwbX6iGz0VwwexrhjmT06D2I6mKnj16G8gmtRM9ThtZjzWtPON7
+ uPPIR7cgvlu69s+1WwhcymYXgQxmgPfxQbPIbj3OfUojraTxiHCrhJbccILdLr5+FHYU
+ Chp6W5GPCfk3zRv/9GGlQIHuNN9H4gI45ykAgyMGmZngHmE0xViEpptaKUY6IoiHz9Za
+ zthQX9eHBFHps8T0nRhxv0njeldyWEKpcM4VRaJKLhG3USONCNGhW2D0lUIGw53iVSRe
+ YpWg==
+X-Gm-Message-State: ACgBeo3cns5kRZQ6paozl+beZPJvbRWxCUk+WidNrvUBpFuV9LkTqtYG
+ rre5jf0PvL+nRxbiIbkMVwEypg==
+X-Google-Smtp-Source: AA6agR5AwzEnYfyywQ5bswdRQiZakdu5GTs1zVrijT44mUluf0iW5/iUEh0zR9hAaheyjMhfgpM5fw==
+X-Received: by 2002:a17:90b:33cb:b0:1f3:1219:1df4 with SMTP id
+ lk11-20020a17090b33cb00b001f312191df4mr5012080pjb.61.1659104097534; 
+ Fri, 29 Jul 2022 07:14:57 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:51c4:5cf0:5954:aeb6?
+ ([2602:ae:1549:801:51c4:5cf0:5954:aeb6])
+ by smtp.gmail.com with ESMTPSA id
+ h26-20020aa79f5a000000b0052ab8a92496sm2907334pfr.168.2022.07.29.07.14.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Jul 2022 07:14:56 -0700 (PDT)
+Message-ID: <2de87bc5-a7a5-53a9-1458-35269fd0df9c@linaro.org>
+Date: Fri, 29 Jul 2022 07:14:54 -0700
 MIME-Version: 1.0
-References: <20220720090313.55169-1-jasowang@redhat.com>
- <20220720090313.55169-20-jasowang@redhat.com>
-In-Reply-To: <20220720090313.55169-20-jasowang@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jul 2022 15:08:33 +0100
-Message-ID: <CAFEAcA8UZcOLTpLUutMFeaugZwm2vAKTGZgLkcHAG3B2BHYtUA@mail.gmail.com>
-Subject: Re: [PULL V2 19/25] vdpa: Extract get features part from
- vhost_vdpa_get_max_queue_pairs
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1136;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1136.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 06/30] softmmu/dirtylimit: Implement virtual CPU throttle
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
+ berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
+ huangy81@chinatelecom.cn
+References: <20220720111926.107055-1-dgilbert@redhat.com>
+ <20220720111926.107055-7-dgilbert@redhat.com>
+ <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,75 +98,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jul 2022 at 10:04, Jason Wang <jasowang@redhat.com> wrote:
->
-> From: Eugenio P=C3=A9rez <eperezma@redhat.com>
->
-> To know the device features is needed for CVQ SVQ, so SVQ knows if it
-> can handle all commands or not. Extract from
-> vhost_vdpa_get_max_queue_pairs so we can reuse it.
->
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> Acked-by: Jason Wang <jasowang@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
+On 7/29/22 06:31, Peter Maydell wrote:
+> On Wed, 20 Jul 2022 at 12:30, Dr. David Alan Gilbert (git)
+> <dgilbert@redhat.com> wrote:
+>>
+>> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>>
+>> Setup a negative feedback system when vCPU thread
+>> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
+>> throttle_us_per_full field in struct CPUState. Sleep
+>> throttle_us_per_full microseconds to throttle vCPU
+>> if dirtylimit is in service.
+>>
+>> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
+>> Reviewed-by: Peter Xu <peterx@redhat.com>
+>> Message-Id: <977e808e03a1cef5151cae75984658b6821be618.1656177590.git.huangy81@chinatelecom.cn>
+>> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> 
+> Hi; Coverity points out a problem with this code (CID 1490787):
+> 
+>> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
+>> +{
+>> +    static uint64_t max_dirtyrate;
+>> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
+>> +    uint64_t dirty_ring_size_meory_MB =
+>> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
+> 
+> Because dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
+> this multiplication will be done as a 32-bit operation,
+> which could overflow. You should cast one of the operands
+> to uint64_t to ensure that the operation is done as a 64 bit
+> multiplication.
 
-Hi; this change introduces a resource leak in the new
-error-exit return path in net_init_vhost_vdpa(). Spotted
-by Coverity, CID 1490785.
+To compute MB, you don't need multiplication:
 
-> @@ -517,10 +521,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
- char *name,
->                          NetClientState *peer, Error **errp)
->  {
->      const NetdevVhostVDPAOptions *opts;
-> +    uint64_t features;
->      int vdpa_device_fd;
->      g_autofree NetClientState **ncs =3D NULL;
->      NetClientState *nc;
-> -    int queue_pairs, i, has_cvq =3D 0;
-> +    int queue_pairs, r, i, has_cvq =3D 0;
->
->      assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
->      opts =3D &netdev->u.vhost_vdpa;
-> @@ -534,7 +539,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, const =
-char *name,
->          return -errno;
->      }
->
-> -    queue_pairs =3D vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
-> +    r =3D vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
-> +    if (unlikely(r < 0)) {
-> +        return r;
+   dirty_ring_size >> (20 - TARGET_PAGE_BITS)
 
-At this point in the code we have allocated the file descriptor
-vdpa_device_fd, but this return path fails to close it.
+In addition, why the mismatch in type?  dirty_ring_size_memory_MB can never be larger than 
+dirty_ring_size.
 
-> +    }
-> +
-> +    queue_pairs =3D vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, featu=
-res,
->                                                   &has_cvq, errp);
->      if (queue_pairs < 0) {
->          qemu_close(vdpa_device_fd);
 
-Compare this pre-existing error-exit path, which correctly
-calls qemu_close() on the fd.
+r~
 
-Related question: is this function supposed to return -1 on
-failure, or negative-errno ? At the moment it has a mix
-of both. I think that the sole caller only really wants "<0 on
-error", in which case the error-exit code paths could probably
-be tidied up so that instead of explicitly calling
-qemu_close() and returning r, queue_pairs, or whatever
-they got back from the function they just called, they
-could just 'goto err_svq' which will do the "close the fd
-and return -1" work. Better still, by initializing 'i'
-to 0 at the top of the function (and naming it something
-clearer, ideally), all the code paths after the initial
-qemu_open() succeeds could be made to use 'goto err'
-for the error-exit case.
+> 
+> Side note: typo in the variable name: should be 'memory'.
+> 
+> 
+>> +    if (max_dirtyrate < dirtyrate) {
+>> +        max_dirtyrate = dirtyrate;
+>> +    }
+>> +
+>> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
+>> +}
+> 
+> thanks
+> -- PMM
+> 
 
-thanks
--- PMM
 
