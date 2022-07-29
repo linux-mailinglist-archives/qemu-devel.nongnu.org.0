@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5995C58531F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:55:37 +0200 (CEST)
-Received: from localhost ([::1]:59532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C61585322
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:58:32 +0200 (CEST)
+Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHSKu-0001wA-FQ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:55:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52676)
+	id 1oHSNi-0004fh-Mr
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:58:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHSJR-0000MR-Oi
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:54:05 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34664)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1oHSM6-0002o4-Ue
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:56:50 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:37535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHSJQ-0000Ds-2M
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:54:05 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- c19-20020a17090ae11300b001f2f94ed5c6so7321902pjz.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:54:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=QSuU6VcF7rhN9abmoizMgnOVRF4ayugKMhjfjgRmqSA=;
- b=k3M71yWwYrK5HonJb4ilO3sfCK2PB+ipl5n77ne0xs+0mof+VrtGC3N97Y7T7smv0U
- o+wm8siSY/IdXTqXXEKCZt9Frgj5heo+zNQ0LypR/6CihJxyliDwlLwK8xVb6ujqMIvo
- OuFF67/qjwv0qtf3eacUelWYXdZ1WMpf403VBk69/fkd8SNKFT0FTuE9p4lC0wyAySoB
- ovj0MpeParYbtqiSOJQQengantOM+vhmko9hdOSpU1Ymt8VcPmtYH0t6iAAiFUMZCrRs
- zVnsnauvvYBdNYXW7IHynNoGkL2mWe7l0nidSVCFogW5jwKL8MT4VBnVb5QDwiZL55kd
- 3TdA==
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1oHSM5-0000vF-7N
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:56:50 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id l14so3598937qtv.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:56:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=D+UCyyTE9S7UgorlIlTwR6/AMil96zpXZYGTLEKWcTk=;
+ b=X1W1CqVuie0gGFctqsATqHI8L79X5PXcMfkbYYU/CuFiEosSRga4I7w/6XAuPuwaXT
+ X5gkpZOaLmn6DVFhyprbTYr8B9aN01YdUt30ywtzh2ehgYBjEisbX/dO86p9e/00VEGb
+ dcnfQ+nnarx7oonRm38AP3yNUEvuL/mSETzZVS+ioVmzT5jm3Lv4ajM0iB4UxB9V+Zxg
+ mW0NDVPwAxE6NmrVpg6KQ4hLEIf+XoVbrS8CwV00kFb77qlnbebGCoO+3C3MZGQEBjSe
+ D2RB/fCQFMRmoy9IP2B9LHKDSQ34DZxGN1xv4QaO/HkA3qsC1vNPCKRsaraQqAP7OE17
+ X68Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=QSuU6VcF7rhN9abmoizMgnOVRF4ayugKMhjfjgRmqSA=;
- b=D+MS3o8tmUAVGG3AaIX72xjCeWOPpMKxKuHIvqkSzgKW0G17uc+ml+3DpMUeZsP+a3
- DdckDl9PpeRKtx8SiUDD8GomLwqzV1XvIG2BSo8Xgrz+gR1IrMD8pWNMB/l0/uh1YjU5
- 1vjPeOp75k7iq7QGrxKBNP6ojIKh2FWU4KQZn1PkZchARnorcw4zHgwSV5GKwvuhOvE+
- o7jJQ3SCdqfmcDNMniCVdmZWkEXfZMJxOLMNJyAeJ18Vhp25urnSJpHCinNWC0gcV6oE
- IFqPzGdM8FfPWjJq45z9jF8J/X1ArbClDGNJR/Wn9FKRNqBt+8G6Z9/Xe6nwilmqqx6H
- qp6A==
-X-Gm-Message-State: ACgBeo0u3/+KOK8n6vaJkuGgIo8/uWcRG4rlR9seMBVANeUYwmkK5eWb
- 6G2d/wu6IzkqSkDBeNrQMuA+KQ==
-X-Google-Smtp-Source: AA6agR4rjW7VG3eCw3DpPZnqwgVbA4OqhWxqSEbYYlMcmkAxn72ZMPMgO+YoRYt4fvab3e83gEQqUg==
-X-Received: by 2002:a17:902:ef81:b0:16d:cd36:7955 with SMTP id
- iz1-20020a170902ef8100b0016dcd367955mr4367708plb.24.1659110042440; 
- Fri, 29 Jul 2022 08:54:02 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:51c4:5cf0:5954:aeb6?
- ([2602:ae:1549:801:51c4:5cf0:5954:aeb6])
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=D+UCyyTE9S7UgorlIlTwR6/AMil96zpXZYGTLEKWcTk=;
+ b=ZFGuwq9Q/htybjUQ/ol6QcdTE036WcMInfUiH7NRWCYvw9Dzcs/4/z848WCLAGpW+d
+ FdkXU/csdZ1jS8EE85I++eYck2COqsug5/MFvjDy3P80eVS4YSy4rqEdAJzA91BkWyxW
+ pjBcPiV+Rq/OA8d+WeSj2B6np3uuI28wCT6xr9uE984gRNHkEjqAwm01QLYzSKfFvrhN
+ BtqIph+Q6sZtzxJdjONEn+xIWPhfwVtFcbO/MNOfpsALRv2zpV4RLYXOWgR/KOYvC2rc
+ boV/iQAVk5VJjchr3i7P9nmXaWqZ5/VHehRqofpDZk3EVjNOxEP6wuSiO+bib2t4R9+u
+ gAQw==
+X-Gm-Message-State: AJIora/lFlSUxk90Yag0gf7uXvU8ax2MwbU+9ajB7oZ0w6VY7mWbSjCv
+ fiqNXozqCzytMWgmEj1dTpnf7mPo5g==
+X-Google-Smtp-Source: AGRyM1tb9oBENrs5ycRoiadjjh3Y37tZf3PKqqlFVgpINetIkJx2VIyDqQaC8lvtyFwM56DvdFDcWA==
+X-Received: by 2002:ac8:5f06:0:b0:31e:e2b8:67c3 with SMTP id
+ x6-20020ac85f06000000b0031ee2b867c3mr4012842qta.620.1659110207799; 
+ Fri, 29 Jul 2022 08:56:47 -0700 (PDT)
+Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
  by smtp.gmail.com with ESMTPSA id
- h125-20020a625383000000b005288b568d17sm3029304pfb.167.2022.07.29.08.54.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jul 2022 08:54:01 -0700 (PDT)
-Message-ID: <33b09c17-2056-8c14-9a72-510dee9ec3ef@linaro.org>
-Date: Fri, 29 Jul 2022 08:53:59 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 02/60] semihosting: Return failure from softmmu-uaccess.h
- functions
-Content-Language: en-US
+ bs8-20020a05620a470800b006a34a22bc60sm2737086qkb.9.2022.07.29.08.56.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jul 2022 08:56:47 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:391a:8024:6c96:ac89])
+ by serve.minyard.net (Postfix) with ESMTPSA id AFD6B180052;
+ Fri, 29 Jul 2022 15:56:45 +0000 (UTC)
+Date: Fri, 29 Jul 2022 10:56:44 -0500
+From: Corey Minyard <minyard@acm.org>
 To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20220628045403.508716-1-richard.henderson@linaro.org>
- <20220628045403.508716-3-richard.henderson@linaro.org>
- <CAFEAcA8xGYd34RgGqo8z5Y1TvPMxeB=99genoJEtd=+eKEjReg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA8xGYd34RgGqo8z5Y1TvPMxeB=99genoJEtd=+eKEjReg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 12/15] ipmi: Add an SMBus IPMI interface
+Message-ID: <20220729155644.GY3834@minyard.net>
+References: <20190919213924.31852-1-minyard@acm.org>
+ <20190919213924.31852-13-minyard@acm.org>
+ <CAFEAcA88GqrqoENf8NHxeNgTjj-jutz8Kspk43L1gp_VJJdh+Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA88GqrqoENf8NHxeNgTjj-jutz8Kspk43L1gp_VJJdh+Q@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,39 +98,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/22 07:31, Peter Maydell wrote:
-> On Tue, 28 Jun 2022 at 05:54, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> We were reporting unconditional success for these functions;
->> pass on any failure from cpu_memory_rw_debug.
->>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Jun 28, 2022 at 05:21:44PM +0100, Peter Maydell wrote:
+> On Thu, 19 Sept 2019 at 22:39, <minyard@acm.org> wrote:
+> >
+> > From: Corey Minyard <cminyard@mvista.com>
+> >
+> > Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> > ---
 > 
-> So, this commit makes us check the cpu_memory_rw_debug()
-> return value in the softmmu_lock_user() function; but Coverity
-> points out (CID 1490294) that we still aren't checking the
-> return value from when we call it in softmmu_unlock_user()...
+
+Thank you for the ping.  Comments inline...
+
+> Very old patch, but Coverity has decided it doesn't like something
+> in this function that's still basically the same in the current codebase
+> (CID 1487146):
 > 
-> What, if anything, should we do about that? In particular,
-> I think that for semihosting calls that write to guest memory,
-> if the guest passes us a pointer to read-only memory we're
-> not going to find out about that until unlock time.
+> > +static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
+> > +{
+> > +    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
+> > +    bool send = false;
+> > +    uint8_t cmd;
+> > +    int ret = 0;
+> > +
+> > +    /* length is guaranteed to be >= 1. */
+> > +    cmd = *buf++;
+> > +    len--;
+> > +
+> > +    /* Handle read request, which don't have any data in the write part. */
+> > +    switch (cmd) {
+> > +    case SSIF_IPMI_RESPONSE:
+> > +        sid->currblk = 0;
+> > +        ret = ipmi_load_readbuf(sid);
+> > +        break;
+> > +
+> > +    case SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE:
+> > +        sid->currblk++;
+> > +        ret = ipmi_load_readbuf(sid);
+> > +        break;
+> > +
+> > +    case SSIF_IPMI_MULTI_PART_RETRY:
+> > +        if (len >= 1) {
+> > +            sid->currblk = buf[0];
+> > +            ret = ipmi_load_readbuf(sid);
+> > +        } else {
+> > +            ret = -1;
+> > +        }
+> > +        break;
+> > +
+> > +    default:
+> > +        break;
+> > +    }
+> > +
+> > +    /* This should be a message write, make the length is there and correct. */
+> > +    if (len >= 1) {
+> > +        if (*buf != len - 1 || *buf > MAX_SSIF_IPMI_MSG_CHUNK) {
+> > +            return -1; /* Bogus message */
+> > +        }
+> > +        buf++;
+> > +        len--;
+> > +    }
+> 
+> After all of this preamble, len can be zero...
+> 
+> > +
+> > +    switch (cmd) {
+> > +    case SSIF_IPMI_REQUEST:
+> > +        send = true;
+> > +        /* FALLTHRU */
+> > +    case SSIF_IPMI_MULTI_PART_REQUEST_START:
+> > +        if (len < 2) {
+> > +            return -1; /* Bogus. */
+> > +        }
+> > +        memcpy(sid->inmsg, buf, len);
+> > +        sid->inlen = len;
+> > +        break;
+> > +
+> > +    case SSIF_IPMI_MULTI_PART_REQUEST_END:
+> > +        send = true;
+> > +        /* FALLTHRU */
+> > +    case SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE:
+> > +        if (!sid->inlen) {
+> > +            return -1; /* Bogus. */
+> > +        }
+> > +        if (sid->inlen + len > MAX_SSIF_IPMI_MSG_SIZE) {
+> > +            sid->inlen = 0; /* Discard the message. */
+> > +            return -1; /* Bogus. */
+> > +        }
+> 
+> ...this error checking on the values of the 'middle' request
+> means that after one 'middle' request we can end up with
+> sid->inlen == MAX_SSIF_IPMI_MSG_SIZE (ie we filled the
+> entire sid->inmsg[] array).
+> 
+> But then if we get another 'middle' request with len == 0,
+> that will pass this error checking because (sid->inlen + len == MSG_SIZE)
+> and fall through into...
+> 
+> > +        if (len < 32) {
+> > +            /*
+> > +             * Special hack, a multi-part middle that is less than 32 bytes
+> > +             * marks the end of a message.  The specification is fairly
+> > +             * confusing, so some systems to this, even sending a zero
+> > +             * length end message to mark the end.
+> > +             */
+> > +            send = true;
+> > +        }
+> > +        memcpy(sid->inmsg + sid->inlen, buf, len);
+> 
+> ...calling memcpy() with argument 1 being a pointer that points
+> one past the end of the array. Even though len will be 0 and
+> we won't memcpy() anything, this is (depending on how you choose
+> to intepret things the C standard doesn't come right out and state
+> explicitly) undefined behaviour, because memcpy() wants to be passed
+> valid pointers, even if you ask it to do no work with a zero len.
+> 
+> This isn't going to be a visible bug in practical terms, but it would
+> make Coverity happy if we either (a) rejected a request with an empty
+> length or else (b) skipped the memcpy(). I don't know enough about
+> IPMI to know which is better.
 
-Not even then, because address_space_write_rom will in fact write to rom, nevermind 
-virtual page permissions.  Moreover, there are no failure conditions from 
-address_space_write_rom.  It skips non-{ram,rom} and always returns OK.
+Hmm.  In some cases you have to accept a zero-length packet (as
+described in the comments), but if you said:
 
-It's probable that we should be using cpu_memory_rw_debug at all, but should be using a 
-higher-level interface, something that (1) checks the virtual page permissions and (2) 
-probably rejects semihosting to mmio.
+  if (len > 0)
+      memcpy(sid->inmsg + sid->inlen, buf, len);
 
-But in the short term, I think we can just ignore the warning.
+would that make Coverity happy?  I was under the impression that if you
+passed zero into len, you could pass anything into the data on a memcpy.
+But apparently not; I can make this change.
 
+-corey
 
-r~
+> 
+> > +        sid->inlen += len;
+> > +        break;
+> > +    }
+> > +
+> > +    if (send && sid->inlen) {
+> > +        smbus_ipmi_send_msg(sid);
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> 
+> thanks
+> -- PMM
+> 
 
