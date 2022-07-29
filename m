@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8311B5850C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 15:22:11 +0200 (CEST)
-Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AE45850DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 15:25:42 +0200 (CEST)
+Received: from localhost ([::1]:55184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHPwQ-0006qs-FD
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 09:22:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38846)
+	id 1oHPzp-00040f-6n
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 09:25:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPdD-0007tn-4p
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:02:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33761)
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPdP-0008Ji-Sf
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:02:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPdA-0000Hn-S9
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:02:18 -0400
+ (Exim 4.90_1) (envelope-from <afaria@redhat.com>) id 1oHPdO-0000Ih-7q
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 09:02:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659099736;
+ s=mimecast20190719; t=1659099749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5aq34TDaSxwi9e349XzPmgkZI0FYYnHKISwQlOSnwFY=;
- b=JeFwebZO937IqYdgi25vOtvHFWOYE5pm4j04Xb9lsswisnJeOmd7yQVz0nq2Zf47VCpNCM
- uhxyQSUJPfCEguqlJAXd7CqPWA4567q01YNGfnhOhxtiFylvm0JnZfFCWYA11UuVyuuwfj
- 9RqLoyAYChZfSbBjDzJGzU6s+jLhbD0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Jr0cdIeZwQm9yeviOFlC/QVSAnd2NCODQdmfBRtYP5A=;
+ b=PebxDUw/5Lhbmv22lx3H6i7U+crOyZsdNCh9a6CSLRJQHd4jhvaFO1Ill3Y294JR/ktdz+
+ Ap5Deip9LekRljeymkgWkJJBBFsAYvrD7JOpdt61CRse+ANMg26LWdh6Cgzd0P1WOvECuW
+ JMKwUguJeZsChpyrxEoM7KYzYT60ISU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-388-pTpng5WZMaWrS0heup9pHg-1; Fri, 29 Jul 2022 09:02:14 -0400
-X-MC-Unique: pTpng5WZMaWrS0heup9pHg-1
+ us-mta-317-jK1iQRqtMIuUylAnjF7ulQ-1; Fri, 29 Jul 2022 09:02:26 -0400
+X-MC-Unique: jK1iQRqtMIuUylAnjF7ulQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C62678039A1;
- Fri, 29 Jul 2022 13:02:13 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 251B4380451F;
+ Fri, 29 Jul 2022 13:02:24 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.53])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 20E5D2026D64;
- Fri, 29 Jul 2022 13:02:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 418802026D64;
+ Fri, 29 Jul 2022 13:02:14 +0000 (UTC)
 From: Alberto Faria <afaria@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
@@ -77,23 +77,23 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  "Richard W.M. Jones" <rjones@redhat.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Alberto Faria <afaria@redhat.com>
-Subject: [RFC v2 07/10] static-analyzer: Enforce coroutine_fn restrictions on
- function pointers
-Date: Fri, 29 Jul 2022 14:00:36 +0100
-Message-Id: <20220729130040.1428779-8-afaria@redhat.com>
+Subject: [RFC v2 08/10] Fix some bad coroutine_fn indirect calls and pointer
+ assignments
+Date: Fri, 29 Jul 2022 14:00:37 +0100
+Message-Id: <20220729130040.1428779-9-afaria@redhat.com>
 In-Reply-To: <20220729130040.1428779-1-afaria@redhat.com>
 References: <20220729130040.1428779-1-afaria@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=afaria@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=afaria@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,218 +110,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extend static-analyzer.py's "coroutine_fn" check to enforce coroutine_fn
-restrictions on function pointer operations.
+These problems were found by static-analyzer.py.
 
-Invalid operations include assigning a coroutine_fn value to a
-non-coroutine_fn function pointer, and invoking a coroutine_fn function
-pointer from a non-coroutine_fn function.
+Not all occurrences of these problems were fixed.
 
 Signed-off-by: Alberto Faria <afaria@redhat.com>
 ---
- static_analyzer/__init__.py     |  27 ++++++++
- static_analyzer/coroutine_fn.py | 115 ++++++++++++++++++++++++++++++--
- 2 files changed, 138 insertions(+), 4 deletions(-)
+ block/backup.c                   |  2 +-
+ include/block/block_int-common.h | 12 +++++-------
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/static_analyzer/__init__.py b/static_analyzer/__init__.py
-index 5abdbd21a3..90992d3500 100644
---- a/static_analyzer/__init__.py
-+++ b/static_analyzer/__init__.py
-@@ -24,6 +24,8 @@
-     Cursor,
-     CursorKind,
-     SourceLocation,
-+    SourceRange,
-+    TokenGroup,
-     TranslationUnit,
-     TypeKind,
-     conf,
-@@ -117,6 +119,31 @@ def actual_visitor(node: Cursor, parent: Cursor, client_data: None) -> int:
- # Node predicates
+diff --git a/block/backup.c b/block/backup.c
+index b2b649e305..6a9ad97a53 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -309,7 +309,7 @@ static void coroutine_fn backup_pause(Job *job)
+     }
+ }
  
+-static void coroutine_fn backup_set_speed(BlockJob *job, int64_t speed)
++static void backup_set_speed(BlockJob *job, int64_t speed)
+ {
+     BackupBlockJob *s = container_of(job, BackupBlockJob, common);
  
-+def is_binary_operator(node: Cursor, operator: str) -> bool:
-+    return (
-+        node.kind == CursorKind.BINARY_OPERATOR
-+        and get_binary_operator_spelling(node) == operator
-+    )
-+
-+
-+def get_binary_operator_spelling(node: Cursor) -> Optional[str]:
-+
-+    assert node.kind == CursorKind.BINARY_OPERATOR
-+
-+    [left, right] = node.get_children()
-+
-+    op_range = SourceRange.from_locations(left.extent.end, right.extent.start)
-+
-+    tokens = list(TokenGroup.get_tokens(node.translation_unit, op_range))
-+    if not tokens:
-+        # Can occur when left and right children extents overlap due to
-+        # misparsing.
-+        return None
-+
-+    [op_token, *_] = tokens
-+    return op_token.spelling
-+
-+
- def might_have_attribute(node: Cursor, attr: Union[CursorKind, str]) -> bool:
-     """
-     Check whether any of `node`'s children are an attribute of the given kind,
-diff --git a/static_analyzer/coroutine_fn.py b/static_analyzer/coroutine_fn.py
-index f70a3167eb..a16dcbeb52 100644
---- a/static_analyzer/coroutine_fn.py
-+++ b/static_analyzer/coroutine_fn.py
-@@ -8,6 +8,7 @@
-     check,
-     is_annotated_with,
-     is_annotation,
-+    is_binary_operator,
-     is_comma_wrapper,
-     visit,
- )
-@@ -22,6 +23,7 @@ def check_coroutine_fn(context: CheckContext) -> None:
-     def visitor(node: Cursor) -> VisitorResult:
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 8947abab76..16c45d1262 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -731,13 +731,11 @@ struct BlockDriver {
+     void coroutine_fn (*bdrv_co_drain_end)(BlockDriverState *bs);
  
-         validate_annotations(context, node)
-+        check_function_pointers(context, node)
+     bool (*bdrv_supports_persistent_dirty_bitmap)(BlockDriverState *bs);
+-    bool (*bdrv_co_can_store_new_dirty_bitmap)(BlockDriverState *bs,
+-                                               const char *name,
+-                                               uint32_t granularity,
+-                                               Error **errp);
+-    int (*bdrv_co_remove_persistent_dirty_bitmap)(BlockDriverState *bs,
+-                                                  const char *name,
+-                                                  Error **errp);
++    bool coroutine_fn (*bdrv_co_can_store_new_dirty_bitmap)(
++        BlockDriverState *bs, const char *name, uint32_t granularity,
++        Error **errp);
++    int coroutine_fn (*bdrv_co_remove_persistent_dirty_bitmap)(
++        BlockDriverState *bs, const char *name, Error **errp);
+ };
  
-         if node.kind == CursorKind.FUNCTION_DECL and node.is_definition():
-             check_direct_calls(context, node)
-@@ -91,6 +93,83 @@ def visitor(node: Cursor) -> VisitorResult:
-         visit(caller, visitor)
- 
- 
-+def check_function_pointers(context: CheckContext, node: Cursor) -> None:
-+
-+    # What we would really like is to associate annotation attributes with types
-+    # directly, but that doesn't seem possible. Instead, we have to look at the
-+    # relevant variable/field/parameter declarations, and follow typedefs.
-+
-+    # This doesn't check all possible ways of assigning to a coroutine_fn
-+    # field/variable/parameter. That would probably be too much work.
-+
-+    # TODO: Check struct/union/array initialization.
-+    # TODO: Check assignment to struct/union/array fields.
-+
-+    # check initialization of variables using coroutine_fn values
-+
-+    if node.kind == CursorKind.VAR_DECL:
-+
-+        children = [
-+            c
-+            for c in node.get_children()
-+            if c.kind
-+            not in [
-+                CursorKind.ANNOTATE_ATTR,
-+                CursorKind.INIT_LIST_EXPR,
-+                CursorKind.TYPE_REF,
-+                CursorKind.UNEXPOSED_ATTR,
-+            ]
-+        ]
-+
-+        if (
-+            len(children) == 1
-+            and not is_coroutine_fn(node)
-+            and is_coroutine_fn(children[0])
-+        ):
-+            context.report(node, "assigning coroutine_fn to non-coroutine_fn")
-+
-+    # check initialization of fields using coroutine_fn values
-+
-+    # TODO: This only checks designator initializers.
-+
-+    if node.kind == CursorKind.INIT_LIST_EXPR:
-+
-+        for initializer in filter(
-+            lambda n: n.kind == CursorKind.UNEXPOSED_EXPR,
-+            node.get_children(),
-+        ):
-+
-+            children = list(initializer.get_children())
-+
-+            if (
-+                len(children) == 2
-+                and children[0].kind == CursorKind.MEMBER_REF
-+                and not is_coroutine_fn(children[0].referenced)
-+                and is_coroutine_fn(children[1])
-+            ):
-+                context.report(
-+                    initializer,
-+                    "assigning coroutine_fn to non-coroutine_fn",
-+                )
-+
-+    # check assignments of coroutine_fn values to variables or fields
-+
-+    if is_binary_operator(node, "="):
-+
-+        [left, right] = node.get_children()
-+
-+        if (
-+            left.kind
-+            in [
-+                CursorKind.DECL_REF_EXPR,
-+                CursorKind.MEMBER_REF_EXPR,
-+            ]
-+            and not is_coroutine_fn(left.referenced)
-+            and is_coroutine_fn(right)
-+        ):
-+            context.report(node, "assigning coroutine_fn to non-coroutine_fn")
-+
-+
- # ---------------------------------------------------------------------------- #
- 
- 
-@@ -138,7 +217,13 @@ def is_valid_allow_coroutine_fn_call_usage(node: Cursor) -> bool:
-     `node` appears at a valid point in the AST. This is the case if its right
-     operand is a call to:
- 
--      - A function declared with the `coroutine_fn` annotation.
-+      - A function declared with the `coroutine_fn` annotation, OR
-+      - A field/variable/parameter whose declaration has the `coroutine_fn`
-+        annotation, and of function pointer type, OR
-+      - [TODO] A field/variable/parameter of a typedef function pointer type,
-+        and the typedef has the `coroutine_fn` annotation, OR
-+      - [TODO] A field/variable/parameter of a pointer to typedef function type,
-+        and the typedef has the `coroutine_fn` annotation.
- 
-     TODO: Ensure that `__allow_coroutine_fn_call()` is in the body of a
-     non-`coroutine_fn` function.
-@@ -165,9 +250,31 @@ def is_coroutine_fn(node: Cursor) -> bool:
-         else:
-             break
- 
--    return node.kind == CursorKind.FUNCTION_DECL and is_annotated_with(
--        node, "coroutine_fn"
--    )
-+    if node.kind in [CursorKind.DECL_REF_EXPR, CursorKind.MEMBER_REF_EXPR]:
-+        node = node.referenced
-+
-+    # ---
-+
-+    if node.kind == CursorKind.FUNCTION_DECL:
-+        return is_annotated_with(node, "coroutine_fn")
-+
-+    if node.kind in [
-+        CursorKind.FIELD_DECL,
-+        CursorKind.VAR_DECL,
-+        CursorKind.PARM_DECL,
-+    ]:
-+
-+        if is_annotated_with(node, "coroutine_fn"):
-+            return True
-+
-+        # TODO: If type is typedef or pointer to typedef, follow typedef.
-+
-+        return False
-+
-+    if node.kind == CursorKind.TYPEDEF_DECL:
-+        return is_annotated_with(node, "coroutine_fn")
-+
-+    return False
- 
- 
- # ---------------------------------------------------------------------------- #
+ static inline bool block_driver_can_compress(BlockDriver *drv)
 -- 
 2.37.1
 
