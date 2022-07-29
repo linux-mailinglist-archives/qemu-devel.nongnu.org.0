@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CAC585454
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 19:18:50 +0200 (CEST)
-Received: from localhost ([::1]:56484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F93158546C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 19:24:33 +0200 (CEST)
+Received: from localhost ([::1]:35478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHTdR-0001zU-7E
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 13:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
+	id 1oHTiy-00072k-MU
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 13:24:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oHTbA-0000Qt-4n; Fri, 29 Jul 2022 13:16:28 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2744)
+ id 1oHTgF-0002nE-OS; Fri, 29 Jul 2022 13:21:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <scgl@linux.ibm.com>)
- id 1oHTb6-0001wy-Tx; Fri, 29 Jul 2022 13:16:26 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26TGJWKd001091;
- Fri, 29 Jul 2022 17:16:22 GMT
+ id 1oHTgE-0003n5-5U; Fri, 29 Jul 2022 13:21:43 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 26THBuWx037262;
+ Fri, 29 Jul 2022 17:21:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=vKczkBLitGCasoKJydOz2OcVrpRanODBYwI+51ABNDc=;
- b=aOvKEkzyrF++aQogx9jN0KkANi80+zveLKblkZmNGmILuVvdVOugCJslY7x/OUhIsHt1
- CfT2HEPuCKXEthPXdx/DCdG+aGN458hAPmscA8X311hOhZ7hu4nb12a7KbnpfuR9qj78
- ltLCQF+jjuZok/KRNwkw4sMPeG+jHJM2pmCxTS1d593Ss0MQ//Xah6YvschLRAN7BBiG
- 6akPZ42Nw86hbfcDy/ESJa4IN8D1r6wDy281qTOm8YeJ4yhLUQ61mpPBum0eaoFPL15d
- 4b6WKqTapOEh9bYrGb+WFG2HJ8AQbvrrJN0OwdjYr1TamxPS24IWOpHO55QSN2+WwZA6 Xw== 
+ bh=7V0h3crUSe3b8vWHJCU2i1zltX6oeEODpIvCvYii/8c=;
+ b=HN29/oPCXY/TDEQsoeLDJhhoKt1Md8+6LHAcmTSnTzyd3/gqJxzWcSVO3cH13PyI0kir
+ qm1i8puhkaM7bJBe4ZfgebmQyALnqJnNEfJaRvs7JWUdiOanEDz0QpgWn85wS1MA099n
+ 53dpnuLgzQrb6p2uA8QcJ401VDfV4e4QiRxWCgdvvwXrWu3aRhQ9FLWFHYNnH7BPcWNZ
+ CncIueoicHM936ugL5vya5gvwOEC+slh33Xsc+wB2tqnxvKxxzrHo4GL57bKOj+Z9or3
+ RGGgEF7JkN6NQXe0CNAMqV1gEKmNRQo8OC/YfnBQaKG2jKOCnAQpI1U0c4LzCftQEYXB Ew== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hmjymj1gp-1
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hmkr0g81d-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Jul 2022 17:16:22 +0000
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26TGKRT1006173;
- Fri, 29 Jul 2022 17:16:22 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hmjymj1fv-1
+ Fri, 29 Jul 2022 17:21:40 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 26THCPgD039786;
+ Fri, 29 Jul 2022 17:21:39 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hmkr0g80f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Jul 2022 17:16:22 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26TH5Rir018942;
- Fri, 29 Jul 2022 17:16:19 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 3hg98nfx81-1
+ Fri, 29 Jul 2022 17:21:39 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 26TH62GK029161;
+ Fri, 29 Jul 2022 17:21:37 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3hg96wqvy5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 29 Jul 2022 17:16:19 +0000
+ Fri, 29 Jul 2022 17:21:37 +0000
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
  [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 26THGGGG15794544
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 26THJS7E28639670
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Jul 2022 17:16:16 GMT
+ Fri, 29 Jul 2022 17:19:28 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 474C9A4040;
- Fri, 29 Jul 2022 17:16:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 0CDABA404D;
+ Fri, 29 Jul 2022 17:21:34 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C2BFCA404D;
- Fri, 29 Jul 2022 17:16:15 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 89686A4040;
+ Fri, 29 Jul 2022 17:21:33 +0000 (GMT)
 Received: from [9.171.5.81] (unknown [9.171.5.81])
  by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 29 Jul 2022 17:16:15 +0000 (GMT)
-Message-ID: <50fc36a5-a9f7-777b-4dc5-936cb76c6475@linux.ibm.com>
-Date: Fri, 29 Jul 2022 19:16:15 +0200
+ Fri, 29 Jul 2022 17:21:33 +0000 (GMT)
+Message-ID: <9bd3bbda-f6e2-4a1c-9ccb-637c0ff07500@linux.ibm.com>
+Date: Fri, 29 Jul 2022 19:21:33 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH v4 08/17] dump: Split write of section headers and data
- and add a prepare step
+Subject: Re: [PATCH v4 09/17] dump: Reorder struct DumpState
 Content-Language: en-US
 To: Janosch Frank <frankja@linux.ibm.com>, qemu-devel@nongnu.org
 Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
@@ -79,22 +78,22 @@ Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com,
  cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
  seiden@linux.ibm.com
 References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-9-frankja@linux.ibm.com>
+ <20220726092248.128336-10-frankja@linux.ibm.com>
 From: Janis Schoetterl-Glausch <scgl@linux.ibm.com>
-In-Reply-To: <20220726092248.128336-9-frankja@linux.ibm.com>
+In-Reply-To: <20220726092248.128336-10-frankja@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: D0J_H1eqFJjgYrnUy4v-tBq2FOFgvbOE
-X-Proofpoint-ORIG-GUID: pIU_9HnFQkVn5Y3ek5OQ-ZuvtRAiMzix
+X-Proofpoint-ORIG-GUID: _kDRVbylfW5P_ZQYtZNRcySEflvAP6Av
+X-Proofpoint-GUID: RgzmYa7WLNlyuuCr01zGKIb9g-q57ixM
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
  definitions=2022-07-29_17,2022-07-28_02,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- impostorscore=0 adultscore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 bulkscore=0 phishscore=0 suspectscore=0 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ malwarescore=0 suspectscore=0
+ phishscore=0 priorityscore=1501 spamscore=0 adultscore=0 bulkscore=0
+ impostorscore=0 mlxlogscore=999 clxscore=1015 lowpriorityscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2206140000 definitions=main-2207290074
 Received-SPF: pass client-ip=148.163.156.1; envelope-from=scgl@linux.ibm.com;
  helo=mx0a-001b2d01.pphosted.com
@@ -121,52 +120,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 7/26/22 11:22, Janosch Frank wrote:
-> By splitting the writing of the section headers and (future) section
-> data we prepare for the addition of a string table section and
-> architecture sections.
-> 
-> At the same time we move the writing of the section to the end of the
-> dump process. This allows the upcoming architecture section code to
-> add data after all of the common dump data has been written.
+> Let's move ELF related members into one block and guest memory related
+> ones into another to improve readability.
 > 
 > Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  dump/dump.c           | 112 ++++++++++++++++++++++++++++++++----------
->  include/sysemu/dump.h |   4 ++
->  2 files changed, 90 insertions(+), 26 deletions(-)
+>  include/sysemu/dump.h | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
 > 
-> diff --git a/dump/dump.c b/dump/dump.c
-> index 8a7ce95610..a6bb7bfa21 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -342,30 +342,69 @@ static void write_elf_phdr_note(DumpState *s, Error **errp)
->      }
->  }
+> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+> index 686555f908..3937afe0f9 100644
+> --- a/include/sysemu/dump.h
+> +++ b/include/sysemu/dump.h
+> @@ -154,15 +154,8 @@ typedef struct DumpState {
+>      GuestPhysBlockList guest_phys_blocks;
+>      ArchDumpInfo dump_info;
+>      MemoryMappingList list;
+> -    uint32_t phdr_num;
+> -    uint32_t shdr_num;
+>      bool resume;
+>      bool detached;
+> -    ssize_t note_size;
+> -    hwaddr shdr_offset;
+> -    hwaddr phdr_offset;
+> -    hwaddr section_offset;
+> -    hwaddr note_offset;
+>      hwaddr memory_offset;
+>      int fd;
 >  
+> @@ -171,6 +164,15 @@ typedef struct DumpState {
+>      int64_t begin;             /* Start address of the chunk we want to dump */
+>      int64_t length;            /* Length of the dump we want to dump */
+>  
+> +    /* Elf dump related data */
+> +    uint32_t phdr_num;
+> +    uint32_t shdr_num;
+> +    uint32_t sh_info;
 
-[...]
+Why is this ^ here?
 
+> +    ssize_t note_size;
+> +    hwaddr shdr_offset;
+> +    hwaddr phdr_offset;
+> +    hwaddr note_offset;
 > +
-> +static void prepare_elf_section_hdrs(DumpState *s)
-> +{
-> +    size_t len, sizeof_shdr;
-> +
-> +    /*
-> +     * Section ordering:
-> +     * - HDR zero (if needed)
-> +     */
-> +    sizeof_shdr = dump_is_64bit(s) ? sizeof(Elf64_Shdr) : sizeof(Elf32_Shdr);
-> +    len = sizeof_shdr * s->shdr_num;
-> +    s->elf_section_hdrs = g_malloc0(len);
-> +
-> +    /* Write special section first */
-> +    if (s->phdr_num == PN_XNUM) {
+>      void *elf_header;
+>      void *elf_section_hdrs;
+>      uint64_t elf_section_data_size;
 
-Should be >= right?
-
-> +        prepare_elf_section_hdr_zero(s);
-> +    }
-> +}
-> +
-[...]
 
