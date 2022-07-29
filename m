@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89E3585213
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:07:47 +0200 (CEST)
-Received: from localhost ([::1]:37880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B78585224
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:11:43 +0200 (CEST)
+Received: from localhost ([::1]:46432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHRac-0007n3-PQ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:07:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39952)
+	id 1oHReQ-00056P-Je
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:11:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXo-0003cx-Sg
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38362)
+ id 1oHRXu-0003fu-GU
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1oHRXk-0005WQ-UU
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:51 -0400
+ id 1oHRXt-0005ct-3r
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:04:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659107087;
+ s=mimecast20190719; t=1659107096;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y9jTGz6yycUqlvdaKmP8LetyYM6boIaRuNVp7IEHQfM=;
- b=CsC/xvxexhQbF0mJSYzoiA30eoM66QwCSH6tdQN6SgQw3ksbuXUiKAnVZh76X7NG+f5VXG
- 5fIF1OJ9d3G9qH1H297vaVW1LbLhST7j64qhKnZLfFNi2lLl95UHKBWfK1YxtVCOxLFnK7
- VFLQBjNs7e5P3wxt4Wiiax6uy6SAzSw=
+ bh=oym6wOOKBT4WvthSHQ18RTGVxUH/cH6Hs2+0WEigjfY=;
+ b=SwMnVaLfDlY+widiPheJsDSouwnBiKSbKP4S8gQrUK9YJNl4IaBukuY0jx2I/MenJD0ik6
+ F2+Op9+kyMQMg0YH2qCLOLUuuaHbDxT9GW/J0UExPxLvgp2oqq+t66fD2Nht87EYiMZAE/
+ Rl9SmRg6bxB1Xse3hwRFCIwt9DvUtKc=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-jYTcdJ0nO2-ay0GUGeLHrA-1; Fri, 29 Jul 2022 11:04:46 -0400
-X-MC-Unique: jYTcdJ0nO2-ay0GUGeLHrA-1
+ us-mta-312-b_BV2PvqP-6IEtoM_TEUmA-1; Fri, 29 Jul 2022 11:04:47 -0400
+X-MC-Unique: b_BV2PvqP-6IEtoM_TEUmA-1
 Received: by mail-ed1-f71.google.com with SMTP id
- h15-20020a056402280f00b0043bd8412fe0so3097289ede.16
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:04:46 -0700 (PDT)
+ z1-20020a05640235c100b0043bca7d9b3eso3048725edc.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:04:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Y9jTGz6yycUqlvdaKmP8LetyYM6boIaRuNVp7IEHQfM=;
- b=MInU204ivvDftirRd28lh+y0Wz1HwB6q3zJ16O8l8b9XgNwscgAw/3tqnJfSfMfLrF
- VgCIP3iP6YETh+A9LyvSVQOMsLxHNMlcrEvzDjCJlVkQz2sFDwnUWBlxaqHY0nksAseT
- TMeZmdISsfTGHNnDUYxNOoxGOKTBHxbhT0bFXnq5qISh1qyO6Vhq6QSqyS0CXJp/N56q
- ZTyClvyS8TC8aFr9TIA7Z0hlT0XRi2d+z+jldkoaYvrBo4R5xsicdCYcEWFAIx6v/pIb
- LvuNsTzsmqc1NX2pdVEZtmJbjgvCd1POngQMqjZlxa3zSAeDyOLznVYLARVMwkrdOvxG
- VGeA==
-X-Gm-Message-State: AJIora+O19MUULrhxkO9ioqhhzR6olpoXEKO5+JPt/kGQX8zRm22oGAe
- aeqYhqRdZF3gAu7cS587APpNBIfh1GUlqeNdn+prgyENywulhkcTWte++VQ5ZSYAcZlRqKt3UR7
- V9sXcUPPJ7PHIm5ra5lmSd+V+cmBNR/bZ/mnpSpYFiOQlmVi80ReAi7r9dpR50oAErHU=
-X-Received: by 2002:a05:6402:348f:b0:43c:2919:cfb5 with SMTP id
- v15-20020a056402348f00b0043c2919cfb5mr3919113edc.326.1659107084983; 
- Fri, 29 Jul 2022 08:04:44 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1sMtoLcMgY1uS8qqJ7PSO+4SCI7OdFvpQ+DTvcxZapp249wgSwzU/7/Om+5aCZMI5zT0CCfDA==
-X-Received: by 2002:a05:6402:348f:b0:43c:2919:cfb5 with SMTP id
- v15-20020a056402348f00b0043c2919cfb5mr3919070edc.326.1659107084505; 
- Fri, 29 Jul 2022 08:04:44 -0700 (PDT)
-Received: from goa-sendmail ([93.56.169.184]) by smtp.gmail.com with ESMTPSA id
- c10-20020a17090618aa00b00704fa2748ffsm5261ejf.99.2022.07.29.08.04.43
+ bh=oym6wOOKBT4WvthSHQ18RTGVxUH/cH6Hs2+0WEigjfY=;
+ b=tiE81G8s8G5zc82ZqJ2X8NMl1u0/bB731Vez09AUwg4ftXQZLXhlb69JvVC2y6+b5W
+ 3NVic6AgK8czYCWScmZnRM1z/wC7XxEumHTJXyxrtfb3Gs+qgLQ5KK8LquEZLaEnPqC8
+ QmPDgqx03iZobzFIjPxHcl3vlp7vl+A7AkVbG2QTqlgX1vlRP9QBoYMbiTUlTK9WmRuR
+ BsabPFCApNk/1ORUE2TY+u9djJrM71epVg+eSc3LVTLIkv6Z2Pll9ZmO3o31IdaQvKY6
+ y54CKhb7b3NNiL8tFB0urtgkmJiICJl/ftJ57+7TSxrNFQGRk6zukXMh/1iH8MjLY3cy
+ jBkw==
+X-Gm-Message-State: AJIora9Y4MY4q7Cjrp2jM2cUGmxj2yWliH6rMHpOBzyOe1vNx3R39kZh
+ E/8haW5E2yvWBJEJUcT1LmgFOd/4ls0o+GWN+UaIb6nmOsb08oGzsntUfeoERZk7JJypPmqob8J
+ SFdHwLJfrbpyJeBZ2PUMxWaBZnknOnFS997TjMW6cI+D4Y82YQJPQBTlw8EL2iOFjI1U=
+X-Received: by 2002:a05:6402:34c8:b0:43b:e7b1:353c with SMTP id
+ w8-20020a05640234c800b0043be7b1353cmr4006886edc.171.1659107086325; 
+ Fri, 29 Jul 2022 08:04:46 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1u+JfC0xVPtEFc+CYy2RM1zo6gaHJ0itVBDGqG19hE/7CXFe853QV46hpRGPfpREDL4ZyAv+Q==
+X-Received: by 2002:a05:6402:34c8:b0:43b:e7b1:353c with SMTP id
+ w8-20020a05640234c800b0043be7b1353cmr4006853edc.171.1659107085894; 
+ Fri, 29 Jul 2022 08:04:45 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ s11-20020a056402014b00b0043cc66d7accsm2442955edu.36.2022.07.29.08.04.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 08:04:43 -0700 (PDT)
+ Fri, 29 Jul 2022 08:04:45 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Korneliusz Osmenda <korneliuszo@gmail.com>
-Subject: [PULL 2/6] vga: fix incorrect line height in 640x200x2 mode
-Date: Fri, 29 Jul 2022 17:04:34 +0200
-Message-Id: <20220729150438.20293-3-pbonzini@redhat.com>
+Cc: Claudio Fontana <cfontana@suse.de>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, Thomas Huth <thuth@redhat.com>
+Subject: [PULL 3/6] stubs: update replay-tools to match replay.h types
+Date: Fri, 29 Jul 2022 17:04:35 +0200
+Message-Id: <20220729150438.20293-4-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220729150438.20293-1-pbonzini@redhat.com>
 References: <20220729150438.20293-1-pbonzini@redhat.com>
@@ -98,38 +100,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When in CGA modes, QEMU wants to ignore the maximum scan field (bits 0..4) of
-the maximum scan length register in the CRTC.  It is not clear why this is
-needed---for example, Bochs ignores bit 7 instead.  The issue is that the
-CGA modes are not detected correctly, and in particular mode 6 results in
-multi_scan==3 according to how SeaBIOS programs it.  The right way to check
-for CGA graphics modes is to check whether bit 13 of the address is special
-cased by the CRT controller to achieve line interleaving, i.e. whether bit 0
-of the CRTC mode control register is clear.
+From: Claudio Fontana <cfontana@suse.de>
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1020
-Reported-by: Korneliusz Osmenda <korneliuszo@gmail.com>
+detected with GCC 13 [-Werror=enum-int-mismatch]
+
+Solves Issue #1096.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220704075832.31537-1-cfontana@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/display/vga.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ stubs/replay-tools.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/hw/display/vga.c b/hw/display/vga.c
-index 5dca2d1528..50ecb1ad02 100644
---- a/hw/display/vga.c
-+++ b/hw/display/vga.c
-@@ -1514,9 +1514,10 @@ static void vga_draw_graphic(VGACommonState *s, int full_update)
-         force_shadow = true;
-     }
+diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c
+index 43296b3d4e..f2e72bb225 100644
+--- a/stubs/replay-tools.c
++++ b/stubs/replay-tools.c
+@@ -7,13 +7,14 @@ bool replay_events_enabled(void)
+     return false;
+ }
  
-+    /* bits 5-6: 0 = 16-color mode, 1 = 4-color mode, 2 = 256-color mode.  */
-     shift_control = (s->gr[VGA_GFX_MODE] >> 5) & 3;
-     double_scan = (s->cr[VGA_CRTC_MAX_SCAN] >> 7);
--    if (shift_control != 1) {
-+    if (s->cr[VGA_CRTC_MODE] & 1) {
-         multi_scan = (((s->cr[VGA_CRTC_MAX_SCAN] & 0x1f) + 1) << double_scan)
-             - 1;
-     } else {
+-int64_t replay_save_clock(unsigned int kind, int64_t clock, int64_t raw_icount)
++int64_t replay_save_clock(ReplayClockKind kind,
++                          int64_t clock, int64_t raw_icount)
+ {
+     abort();
+     return 0;
+ }
+ 
+-int64_t replay_read_clock(unsigned int kind, int64_t raw_icount)
++int64_t replay_read_clock(ReplayClockKind kind, int64_t raw_icount)
+ {
+     abort();
+     return 0;
+@@ -48,11 +49,11 @@ void replay_mutex_unlock(void)
+ {
+ }
+ 
+-void replay_register_char_driver(Chardev *chr)
++void replay_register_char_driver(struct Chardev *chr)
+ {
+ }
+ 
+-void replay_chr_be_write(Chardev *s, uint8_t *buf, int len)
++void replay_chr_be_write(struct Chardev *s, uint8_t *buf, int len)
+ {
+     abort();
+ }
 -- 
 2.36.1
 
