@@ -2,112 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45C165855D0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 21:56:53 +0200 (CEST)
-Received: from localhost ([::1]:41248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEA45855F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 22:16:08 +0200 (CEST)
+Received: from localhost ([::1]:49880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHW6N-0007EF-GG
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 15:56:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47308)
+	id 1oHWOr-0005tr-FA
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 16:15:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oHW3s-00055r-RD
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 15:54:18 -0400
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:36498)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHWNI-0004G3-U4
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 16:14:20 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:35518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oHW3r-0005SA-4r
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 15:54:16 -0400
-Received: by mail-pf1-x430.google.com with SMTP id g12so5524053pfb.3
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 12:54:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc;
- bh=1EqMgjnyhc4WRsC/xGOtxHSz8izgvjHhHYaPjqj6I7s=;
- b=HLB5f+s+ntjkI17+2jp2WegSk0Ip1A1bt9XeV1pSaqeITXDi12YjSrxcIgZXHrMp59
- UrkPVO6LhvZWQkYzIfyeY3oLoZKArVvjkRclfgyghVmxV8STbNsdGoFjh3pa12HmBMQl
- ZtFdRossZIy8OZmwKbexSgbozQy0t+BsKx3y85dydYJVmRQ0UfauaYy+YRuqV7R2JVVT
- Pwmk0Ug1XScP+SUhKwaLYZwcdNCu+i+DjGxkiIBDdXbnnPgK/7oaJTnfrjbSGXfZjqAn
- +yrErgsE08MPBUhSKuwXkcKKsySktnGs6hlT7NDtjtcK0DoVRdqMsEYM6+1flcqF3Q78
- 34ag==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oHWNH-00007Q-Bf
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 16:14:20 -0400
+Received: by mail-pf1-x436.google.com with SMTP id c139so5557305pfc.2
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 13:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5FfBgNZsEiZ6EuArh07NVhiDMbZUBp97lGu6eNi5woU=;
+ b=u3TgDmz+xisgJcxD1cR088e1uS/Ui5qd4Evf6tAKmRrYXGy31FxuKQZhq6McRkqF1Q
+ zcbH3odJtahuCGGEyWAFBiBOAy3FpNPMy37MRJ8zXTplQ7Ax2cnJSbtRN4Wi2jMKeczM
+ vfaxvKIFxrKdH12bA64Ek2pyAxUdwVgw1IDGpHxmpLba6m7B+iczwiSPO08u9Rj9lBg1
+ P978GQgdpVb+MSpOkxFMWB55KV5e79V7fEduBExY7Xlr0u+hPrpeiI+1tj0XKPmKrySs
+ 0cmwlF4kFIMFt9kaKnMVhb1ph3MCWLRb9EyAQjYcznLjcY4JhDFOlWwtwSrLlNWZZml1
+ y3+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=1EqMgjnyhc4WRsC/xGOtxHSz8izgvjHhHYaPjqj6I7s=;
- b=7MsOFxBN6+Rs+dar3xjcdGUrwa47U/E+hlcLC/cPZQ+1HOq3F+oi9L6F+OBDndnSpQ
- mjfmG3j41Y95JYiPDq3M50v4UeLkOYczgdbUILZxfrIHGBBl4rPU4vfCbJNUljB6aj3n
- ZxmcYdv4DjO/HfJV/+5AveHMoHXqRuVxXRCGjWvZ4mFjwVRDm7BpJT+kOShFgKm0VsDZ
- eVGNVTotIG3TL4P5MmU6kWaRK2mAAuZv51WCdjJH4BTxNIAVJWyPG/37E5zK2RF3IAXC
- HrY5BHf+QdOf8GgadrksTZ6wxZKQE0kGlGzrlyqPdTVBO6r5rwUbU8ESH1A7alG4uHDl
- GIFQ==
-X-Gm-Message-State: AJIora+4Ypw6K9Pqby87tVdjT6bTWeChaVV2FYjdSkaD8f7si03FTirP
- oYMPCZxV2a6rUzY9GWjQtfMXPbBdA+7/4Q==
-X-Google-Smtp-Source: AGRyM1sksopPXKQjAD2apX+GAbdmTP47VUrtEH0MoOErsIDT2svJe3Hlaz8mC5fBxKu7A6Sbx+StHA==
-X-Received: by 2002:a05:6a00:1d26:b0:52b:f8ab:6265 with SMTP id
- a38-20020a056a001d2600b0052bf8ab6265mr5063293pfx.54.1659124453469; 
- Fri, 29 Jul 2022 12:54:13 -0700 (PDT)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- 129-20020a621787000000b00518e1251197sm3332537pfx.148.2022.07.29.12.54.12
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5FfBgNZsEiZ6EuArh07NVhiDMbZUBp97lGu6eNi5woU=;
+ b=n4lelmCSgnkoNy3OSkcOoP/eAJj029LRLWZmgYlOESjoECU8PSpw2aB6dT9yHp1P4z
+ X3MirtGT0SaR1EIwo5NC2W4L14n3PtO03vDcOcLXvfh7upFLByB5Ub1QYnFR5itk2S4Q
+ CMQ0X2A3J71Ve1gQnUKXgsAFaGSh7pry772k6QmK+TYV0O6iRjI0ownn8OIWUbYgOZfv
+ RzPpXuNf/12fUpJmln8+wEnG7I3XfqB7Q7WdcY3Ad2afjEFOMunCQWLn7woe3F1JbgEr
+ E6HAyZQpOJXtwJJ3D76XCTqMisLAqGwXXJtsOXTtiNqCtclRGsSq8xDzeRr0O1be+IAI
+ U6BA==
+X-Gm-Message-State: AJIora9nl+yk6ZO5RAwxevsUOkRXMCmrc3fMeNZZdvfBckcIF5MpdlKB
+ 0SHL/JgW07OxDxZ9+QrGchYLkdytJsutDA==
+X-Google-Smtp-Source: AGRyM1sKHW5G4zblfjvsy2XynV8L1/EWWDJE3mqQZJ5wtp5VDa+5FpuXQu7xGktyttxK4hgRrzmcAw==
+X-Received: by 2002:a63:1f58:0:b0:41a:27e8:d669 with SMTP id
+ q24-20020a631f58000000b0041a27e8d669mr4280555pgm.74.1659125657326; 
+ Fri, 29 Jul 2022 13:14:17 -0700 (PDT)
+Received: from stoup.. ([2602:ae:1549:801:a427:660:88d4:8559])
+ by smtp.gmail.com with ESMTPSA id
+ d65-20020a621d44000000b00517c84fd24asm3367153pfd.172.2022.07.29.13.14.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 12:54:12 -0700 (PDT)
-Date: Fri, 29 Jul 2022 19:54:09 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Chao Peng <chao.p.peng@linux.intel.com>
-Cc: Wei Wang <wei.w.wang@linux.intel.com>,
- "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
- memory regions
-Message-ID: <YuQ64RgWqdoAAGdY@google.com>
-References: <f02baa37-8d34-5d07-a0ae-300ffefc7fee@amd.com>
- <20220719140843.GA84779@chaop.bj.intel.com>
- <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
- <20220720150706.GB124133@chaop.bj.intel.com>
- <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
- <YtgrkXqP/GIi9ujZ@google.com>
- <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
- <20220721092906.GA153288@chaop.bj.intel.com>
- <YtmT2irvgInX1kPp@google.com>
- <20220725130417.GA304216@chaop.bj.intel.com>
+ Fri, 29 Jul 2022 13:14:15 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu
+Subject: [PATCH] linux-user: Implement faccessat2
+Date: Fri, 29 Jul 2022 13:14:14 -0700
+Message-Id: <20220729201414.29869-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220725130417.GA304216@chaop.bj.intel.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=seanjc@google.com; helo=mail-pf1-x430.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -123,62 +86,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022, Chao Peng wrote:
-> On Thu, Jul 21, 2022 at 05:58:50PM +0000, Sean Christopherson wrote:
-> > On Thu, Jul 21, 2022, Chao Peng wrote:
-> > > On Thu, Jul 21, 2022 at 03:34:59PM +0800, Wei Wang wrote:
-> > > > 
-> > > > 
-> > > > On 7/21/22 00:21, Sean Christopherson wrote:
-> > > > Maybe you could tag it with cgs for all the confidential guest support
-> > > > related stuff: e.g. kvm_vm_ioctl_set_cgs_mem()
-> > > > 
-> > > > bool is_private = ioctl == KVM_MEMORY_ENCRYPT_REG_REGION;
-> > > > ...
-> > > > kvm_vm_ioctl_set_cgs_mem(, is_private)
-> > > 
-> > > If we plan to widely use such abbr. through KVM (e.g. it's well known),
-> > > I'm fine.
-> > 
-> > I'd prefer to stay away from "confidential guest", and away from any VM-scoped
-> > name for that matter.  User-unmappable memmory has use cases beyond hiding guest
-> > state from the host, e.g. userspace could use inaccessible/unmappable memory to
-> > harden itself against unintentional access to guest memory.
-> > 
-> > > I actually use mem_attr in patch: https://lkml.org/lkml/2022/7/20/610
-> > > But I also don't quite like it, it's so generic and sounds say nothing.
-> > > 
-> > > But I do want a name can cover future usages other than just 
-> > > private/shared (pKVM for example may have a third state).
-> > 
-> > I don't think there can be a third top-level state.  Memory is either private to
-> > the guest or it's not.  There can be sub-states, e.g. memory could be selectively
-> > shared or encrypted with a different key, in which case we'd need metadata to
-> > track that state.
-> > 
-> > Though that begs the question of whether or not private_fd is the correct
-> > terminology.  E.g. if guest memory is backed by a memfd that can't be mapped by
-> > userspace (currently F_SEAL_INACCESSIBLE), but something else in the kernel plugs
-> > that memory into a device or another VM, then arguably that memory is shared,
-> > especially the multi-VM scenario.
-> > 
-> > For TDX and SNP "private vs. shared" is likely the correct terminology given the
-> > current specs, but for generic KVM it's probably better to align with whatever
-> > terminology is used for memfd.  "inaccessible_fd" and "user_inaccessible_fd" are
-> > a bit odd since the fd itself is accesible.
-> > 
-> > What about "user_unmappable"?  E.g.
-> > 
-> >   F_SEAL_USER_UNMAPPABLE, MFD_USER_UNMAPPABLE, KVM_HAS_USER_UNMAPPABLE_MEMORY,
-> >   MEMFILE_F_USER_INACCESSIBLE, user_unmappable_fd, etc...
-> 
-> For KVM I also think user_unmappable looks better than 'private', e.g.
-> user_unmappable_fd/KVM_HAS_USER_UNMAPPABLE_MEMORY sounds more
-> appropriate names. For memfd however, I don't feel that strong to change
-> it from current 'inaccessible' to 'user_unmappable', one of the reason
-> is it's not just about unmappable, but actually also inaccessible
-> through direct ioctls like read()/write().
+Split out do_faccessat2 helper, and use it for
+accessat and faccessat as well.
 
-Heh, I _knew_ there had to be a catch.  I agree that INACCESSIBLE is better for
-memfd.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+Will we ever have a system libc for which __NR_faccessat2 is present,
+but faccessat() does not try faccessat2 first?
+
+r~
+---
+ linux-user/syscall.c | 44 +++++++++++++++++++++++++++++++-------------
+ 1 file changed, 31 insertions(+), 13 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index b27a6552aa..acd8452048 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8530,6 +8530,30 @@ static int do_getdents64(abi_long dirfd, abi_long arg2, abi_long count)
+ _syscall2(int, pivot_root, const char *, new_root, const char *, put_old)
+ #endif
+ 
++static int do_faccessat2(int dirfd, abi_ptr pathname, int mode, int flags)
++{
++    char *p = lock_user_string(pathname);
++    bool nosys = true;
++    int ret;
++
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++
++    /* Use the raw host syscall if possible, in case we have an old libc. */
++#ifdef __NR_faccessat2
++    ret = syscall(__NR_faccessat2, dirfd, p, mode, flags);
++    nosys = ret < 0 && errno == ENOSYS;
++#endif
++    /* If we don't have the syscall, defer to libc emulation. */
++    if (nosys) {
++        ret = faccessat(dirfd, p, mode, flags);
++    }
++
++    unlock_user(p, pathname, 0);
++    return get_errno(ret);
++}
++
+ /* This is an internal helper for do_syscall so that it is easier
+  * to have a single return point, so that actions, such as logging
+  * of syscall results, can be performed.
+@@ -9058,21 +9082,15 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ #endif
+ #ifdef TARGET_NR_access
+     case TARGET_NR_access:
+-        if (!(p = lock_user_string(arg1))) {
+-            return -TARGET_EFAULT;
+-        }
+-        ret = get_errno(access(path(p), arg2));
+-        unlock_user(p, arg1, 0);
+-        return ret;
++        return do_faccessat2(AT_FDCWD, arg1, arg2, 0);
+ #endif
+-#if defined(TARGET_NR_faccessat) && defined(__NR_faccessat)
++#ifdef TARGET_NR_faccessat
+     case TARGET_NR_faccessat:
+-        if (!(p = lock_user_string(arg2))) {
+-            return -TARGET_EFAULT;
+-        }
+-        ret = get_errno(faccessat(arg1, p, arg3, 0));
+-        unlock_user(p, arg2, 0);
+-        return ret;
++        return do_faccessat2(arg1, arg2, arg3, 0);
++#endif
++#ifdef TARGET_NR_faccessat2
++    case TARGET_NR_faccessat2:
++        return do_faccessat2(arg1, arg2, arg3, arg4);
+ #endif
+ #ifdef TARGET_NR_nice /* not on alpha */
+     case TARGET_NR_nice:
+-- 
+2.34.1
+
 
