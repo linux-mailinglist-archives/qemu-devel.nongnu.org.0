@@ -2,85 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CE3C58516D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:20:16 +0200 (CEST)
-Received: from localhost ([::1]:56998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15CFA585177
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 16:22:23 +0200 (CEST)
+Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHQqc-000588-QL
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:20:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
+	id 1oHQsg-0006n6-71
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 10:22:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHQlY-0001P9-SN
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:15:00 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34465)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHQp4-0003h3-2B
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:18:38 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:45678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oHQlX-00024L-5w
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:15:00 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id z19so4741017plb.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:14:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHQp2-0002lu-Ar
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 10:18:37 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id e127so7656083yba.12
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 07:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=ZHvvXISPR8p1Rz7xlNIKcZnTL05gX0iYI8KEDYr+HxA=;
- b=lXMxRxpOHx4/0P2eUfByyGtnDaUr+5qKONUXeu/nrL1fiTj7XArlG3cWBHgQVOkxHb
- 3LSlXatoj2ymyO74n+C0Qv+8XkLaGuFd+1lCnugdI3L/X9zZTAc5ptXZsANLBq7nMqFy
- Zr7+w9vB4OAqD1B2RMIqJ1Xk/KsvKFecVo0B22YN/QcC41Zu4TFd54qvyUvafP/S2gTB
- cFR7lupfjj47Kzrtn2+jLf7KkXX9Qc8j3zEM7qjxkYzkrSBjIimaQYyECF2RmHGPdWiA
- 61UZvG4jMQEgFGkPT3UG2Zj3wPKJIIBgRMR6MO7U0OS+OGYgAjB2FHui/EutgzuBVabl
- lF6Q==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=zKfiLfnf97M25tEB3vH908lioT94s15xazhyBc8D+n0=;
+ b=cdnKQm9VCmNag3HDJQO9ztvx+wm1F7ZipMLk37jDuPFzTixrmx4DT/alxb83KizMyt
+ LqgoxE2v0IgQuWPXxmNZey4/JjUzUgN4lafG0YyBaXBKa8P8CGG4Mbnp01iWnv0POX2/
+ Y4Lwph/bYjHEdSw5I0pvcky+0cF08e3G26alP/2p9+r2C88um0JNTHFa1IrQr562bVY6
+ JctgmUD9PYVpmKqGkWnrcUWMQWnC/Y1VWwp8MEBwzp9/w9YKs5E2w+F5MienLqI8REj0
+ iprV11s3VsjG2n8gdal0Ucu0glgXeDBO2S0akYhX91kop5t1QxDTPk6S0EoXH/xWG4Nx
+ dA9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=ZHvvXISPR8p1Rz7xlNIKcZnTL05gX0iYI8KEDYr+HxA=;
- b=VDO6FwyFME1ROfGxbqtVU93yy7ZXeyT1kxKvUUz0qT1q6cMaryRFjnBGYbwi5JlFRb
- 8UR57U9/ok4tdvhCTDwbX6iGz0VwwexrhjmT06D2I6mKnj16G8gmtRM9ThtZjzWtPON7
- uPPIR7cgvlu69s+1WwhcymYXgQxmgPfxQbPIbj3OfUojraTxiHCrhJbccILdLr5+FHYU
- Chp6W5GPCfk3zRv/9GGlQIHuNN9H4gI45ykAgyMGmZngHmE0xViEpptaKUY6IoiHz9Za
- zthQX9eHBFHps8T0nRhxv0njeldyWEKpcM4VRaJKLhG3USONCNGhW2D0lUIGw53iVSRe
- YpWg==
-X-Gm-Message-State: ACgBeo3cns5kRZQ6paozl+beZPJvbRWxCUk+WidNrvUBpFuV9LkTqtYG
- rre5jf0PvL+nRxbiIbkMVwEypg==
-X-Google-Smtp-Source: AA6agR5AwzEnYfyywQ5bswdRQiZakdu5GTs1zVrijT44mUluf0iW5/iUEh0zR9hAaheyjMhfgpM5fw==
-X-Received: by 2002:a17:90b:33cb:b0:1f3:1219:1df4 with SMTP id
- lk11-20020a17090b33cb00b001f312191df4mr5012080pjb.61.1659104097534; 
- Fri, 29 Jul 2022 07:14:57 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:51c4:5cf0:5954:aeb6?
- ([2602:ae:1549:801:51c4:5cf0:5954:aeb6])
- by smtp.gmail.com with ESMTPSA id
- h26-20020aa79f5a000000b0052ab8a92496sm2907334pfr.168.2022.07.29.07.14.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jul 2022 07:14:56 -0700 (PDT)
-Message-ID: <2de87bc5-a7a5-53a9-1458-35269fd0df9c@linaro.org>
-Date: Fri, 29 Jul 2022 07:14:54 -0700
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=zKfiLfnf97M25tEB3vH908lioT94s15xazhyBc8D+n0=;
+ b=Zl0UNKOJ1+oizTZ1ZPboZAD7iYr48CutbZ1OqElToM5O4qGMJMH4Ezd9v8iPX5+Yis
+ 3IsC5ILJbwivx8iHQ6f8V+aEmn64iJOukRnQRCRuHaOA8mpR1TecrS28H+i5/PCvOX0n
+ ChXlrj2v5/eoAvMIjf2gd0TJt9b95TJvlyzffHcB2r3gN4na3QCZkPZ5239AWp8Srnb0
+ qy5prEaHrOi+xQMOdM1lqKwFugaJhbtH3+OMtjHL1cv4CVBjwzYglJO2exe6QPArav+5
+ k2yERCphGDvQcA4HiEyKuU0JacWC335/LKct6IObyaIbYmfibYQaBCipEGGS08RwVIMw
+ xbiA==
+X-Gm-Message-State: ACgBeo1UN+5JUKI/Ja0IzAykP+Aokj/tJQkuST5hK98XYJjRW9DFA08A
+ GZNU7IyrTBJjk5NzgFPJ6vc2j5xvoDovRhbJbHw/Bg==
+X-Google-Smtp-Source: AA6agR6Y7yobLhoN9H5e5tcATNxvnInJ0md716c1fT2cJLWvTknJdVx9WmZcAxEwONCOYDvVFIFLRyFEhENZlkiLBA0=
+X-Received: by 2002:a5b:7c6:0:b0:670:6ba6:d046 with SMTP id
+ t6-20020a5b07c6000000b006706ba6d046mr2684938ybq.140.1659104315246; Fri, 29
+ Jul 2022 07:18:35 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 06/30] softmmu/dirtylimit: Implement virtual CPU throttle
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, leobras@redhat.com, quintela@redhat.com,
- berrange@redhat.com, peterx@redhat.com, iii@linux.ibm.com,
- huangy81@chinatelecom.cn
-References: <20220720111926.107055-1-dgilbert@redhat.com>
- <20220720111926.107055-7-dgilbert@redhat.com>
- <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA_mkeE6cKwmauTLV4c7k_=gCaPSfOM92eX6_3rnd8L+Wg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+References: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
+In-Reply-To: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jul 2022 15:17:55 +0100
+Message-ID: <CAFEAcA-N-GPKqLeQtOWVMHvB-Di4inKK8Cy9XFjT62PMeiyBRA@mail.gmail.com>
+Subject: Re: [PATCH] disas/nanomips: Convert nanoMIPS disassembler to C
+To: Milica Lazarevic <milica.lazarevic@syrmia.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, cfontana@suse.de, 
+ berrange@redhat.com, pbonzini@redhat.com, vince.delvecchio@mediatek.com, 
+ richard.henderson@linaro.org, djordje.todorovic@syrmia.com, 
+ mips32r2@gmail.com, dragan.mladjenovic@syrmia.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,62 +85,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/22 06:31, Peter Maydell wrote:
-> On Wed, 20 Jul 2022 at 12:30, Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
->>
->> From: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->>
->> Setup a negative feedback system when vCPU thread
->> handling KVM_EXIT_DIRTY_RING_FULL exit by introducing
->> throttle_us_per_full field in struct CPUState. Sleep
->> throttle_us_per_full microseconds to throttle vCPU
->> if dirtylimit is in service.
->>
->> Signed-off-by: Hyman Huang(黄勇) <huangy81@chinatelecom.cn>
->> Reviewed-by: Peter Xu <peterx@redhat.com>
->> Message-Id: <977e808e03a1cef5151cae75984658b6821be618.1656177590.git.huangy81@chinatelecom.cn>
->> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> 
-> Hi; Coverity points out a problem with this code (CID 1490787):
-> 
->> +static inline int64_t dirtylimit_dirty_ring_full_time(uint64_t dirtyrate)
->> +{
->> +    static uint64_t max_dirtyrate;
->> +    uint32_t dirty_ring_size = kvm_dirty_ring_size();
->> +    uint64_t dirty_ring_size_meory_MB =
->> +        dirty_ring_size * TARGET_PAGE_SIZE >> 20;
-> 
-> Because dirty_ring_size and TARGET_PAGE_SIZE are both 32 bits,
-> this multiplication will be done as a 32-bit operation,
-> which could overflow. You should cast one of the operands
-> to uint64_t to ensure that the operation is done as a 64 bit
-> multiplication.
+On Fri, 29 Jul 2022 at 15:13, Milica Lazarevic
+<milica.lazarevic@syrmia.com> wrote:
+>
+> C++ features like class, exception handling and function overloading
+> have been removed and replaced with equivalent C code.
+>
+> Signed-off-by: Milica Lazarevic <milica.lazarevic@syrmia.com>
+> ---
+> Please see the discussion about why converting it here:
+> https://lists.nongnu.org/archive/html/qemu-devel/2022-06/msg01803.html
+>
+> The validity of the disassembler after refactoring has been tested with
+> the QEMU emulator version 6.0.1. With the most recent version, there is a
+> problem with the executing nanoMIPS programs in the semihosting mode. The
+> issue is reported here: https://gitlab.com/qemu-project/qemu/-/issues/1126
+> We're currently working on fixing this.
+>
+>  disas/meson.build                  |    2 +-
+>  disas/{nanomips.cpp => nanomips.c} | 8407 ++++++++++++++--------------
+>  disas/nanomips.h                   | 1076 ----
+>  3 files changed, 4154 insertions(+), 5331 deletions(-)
+>  rename disas/{nanomips.cpp => nanomips.c} (73%)
+>  delete mode 100644 disas/nanomips.h
 
-To compute MB, you don't need multiplication:
+Is it possible to break this down into smaller pieces so it isn't
+one single enormous 5000 line patch ?
 
-   dirty_ring_size >> (20 - TARGET_PAGE_BITS)
+I guess partial conversion is likely to run into compilation
+difficulties mid-series; if so we could do "disable the
+disassembler; convert it; reenable it".
 
-In addition, why the mismatch in type?  dirty_ring_size_memory_MB can never be larger than 
-dirty_ring_size.
+The rationale here is code review -- reviewing a single huge
+patch is essentially impossible, so it needs to be broken
+down into coherent smaller pieces to be reviewable.
 
-
-r~
-
-> 
-> Side note: typo in the variable name: should be 'memory'.
-> 
-> 
->> +    if (max_dirtyrate < dirtyrate) {
->> +        max_dirtyrate = dirtyrate;
->> +    }
->> +
->> +    return dirty_ring_size_meory_MB * 1000000 / max_dirtyrate;
->> +}
-> 
-> thanks
-> -- PMM
-> 
-
+thanks
+-- PMM
 
