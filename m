@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C61585322
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 17:58:32 +0200 (CEST)
-Received: from localhost ([::1]:35214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E45D258532A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jul 2022 18:06:38 +0200 (CEST)
+Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHSNi-0004fh-Mr
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 11:58:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
+	id 1oHSVZ-0001mT-H4
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 12:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1oHSM6-0002o4-Ue
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:56:50 -0400
-Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:37535)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHSOo-0005I1-Rj
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:59:38 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1oHSM5-0000vF-7N
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:56:50 -0400
-Received: by mail-qt1-x82c.google.com with SMTP id l14so3598937qtv.4
- for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=D+UCyyTE9S7UgorlIlTwR6/AMil96zpXZYGTLEKWcTk=;
- b=X1W1CqVuie0gGFctqsATqHI8L79X5PXcMfkbYYU/CuFiEosSRga4I7w/6XAuPuwaXT
- X5gkpZOaLmn6DVFhyprbTYr8B9aN01YdUt30ywtzh2ehgYBjEisbX/dO86p9e/00VEGb
- dcnfQ+nnarx7oonRm38AP3yNUEvuL/mSETzZVS+ioVmzT5jm3Lv4ajM0iB4UxB9V+Zxg
- mW0NDVPwAxE6NmrVpg6KQ4hLEIf+XoVbrS8CwV00kFb77qlnbebGCoO+3C3MZGQEBjSe
- D2RB/fCQFMRmoy9IP2B9LHKDSQ34DZxGN1xv4QaO/HkA3qsC1vNPCKRsaraQqAP7OE17
- X68Q==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oHSOm-0001S6-OT
+ for qemu-devel@nongnu.org; Fri, 29 Jul 2022 11:59:38 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ ay11-20020a05600c1e0b00b003a3013da120so4335669wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jul 2022 08:59:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=XrT6CJtYpDChJQmlrXKLKRnBd08Xi8ZOtp9m/6/Dbzk=;
+ b=d2QCH4/9fRdEZML3u2VPmUbEcer1Kt1jzOaWdt2d+96yweR2HwudHG5Q8MsurYjZZD
+ wbud8ztkhbZm/P/OfUb9zeweF4iz0bjPfdCFWXYpmk7gous0EXxvBgNtV3Vmzv/5WhJT
+ ognmDrloMUzwR47J27zx8EwICAogTuI/F/1yUIJj5JX6D/hCoDl7GQ9rbPSJ51yJ/WFe
+ Tzkdpg9mB5IH8AKZjQw3iLRqyc700KrHA/Jj3c4YlxcDJCWJPFAnJZSajTWVbdkVVIHh
+ opgwYMSPLwUHcE9TKjwPOlFYLUP935qb5ZAgBuSJgaVsVgUtFvisxZc79hH3v2NbTcz0
+ m5Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=D+UCyyTE9S7UgorlIlTwR6/AMil96zpXZYGTLEKWcTk=;
- b=ZFGuwq9Q/htybjUQ/ol6QcdTE036WcMInfUiH7NRWCYvw9Dzcs/4/z848WCLAGpW+d
- FdkXU/csdZ1jS8EE85I++eYck2COqsug5/MFvjDy3P80eVS4YSy4rqEdAJzA91BkWyxW
- pjBcPiV+Rq/OA8d+WeSj2B6np3uuI28wCT6xr9uE984gRNHkEjqAwm01QLYzSKfFvrhN
- BtqIph+Q6sZtzxJdjONEn+xIWPhfwVtFcbO/MNOfpsALRv2zpV4RLYXOWgR/KOYvC2rc
- boV/iQAVk5VJjchr3i7P9nmXaWqZ5/VHehRqofpDZk3EVjNOxEP6wuSiO+bib2t4R9+u
- gAQw==
-X-Gm-Message-State: AJIora/lFlSUxk90Yag0gf7uXvU8ax2MwbU+9ajB7oZ0w6VY7mWbSjCv
- fiqNXozqCzytMWgmEj1dTpnf7mPo5g==
-X-Google-Smtp-Source: AGRyM1tb9oBENrs5ycRoiadjjh3Y37tZf3PKqqlFVgpINetIkJx2VIyDqQaC8lvtyFwM56DvdFDcWA==
-X-Received: by 2002:ac8:5f06:0:b0:31e:e2b8:67c3 with SMTP id
- x6-20020ac85f06000000b0031ee2b867c3mr4012842qta.620.1659110207799; 
- Fri, 29 Jul 2022 08:56:47 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=XrT6CJtYpDChJQmlrXKLKRnBd08Xi8ZOtp9m/6/Dbzk=;
+ b=MeYotG636GdFTowo0qX0JVtw2ye0xKUijn4MpCEhn34gFtMs4KyNTuwcBNAvIhB9w9
+ cUI9w5M0dHh7E/EYHB7Y2OWyAi3Itn9xM4+Mkn6BAldizyuwD7FhBBhKQ+yjuaUZgMOs
+ ytJP8ZVAz9bkQeOAVwK2rjeCfmmUf7+1zAfk0F3mkCkUu+wYwaiMjlgeFpQEZz3NWlMC
+ Y+ZRasVXrAx0qxGC7I4feir4zATQlX4kPOjCNbZF103wJ3Smc/TpV0KOgb3MPgEb2k3N
+ NMLDiX+IwUFJmXmJoyteHn+a2I120HQZ/h/0PnzQtDcajl6E4p2iz2MPypVUobYVJAaI
+ vASw==
+X-Gm-Message-State: AJIora8m0UZ8P9A6FU5reDhOkNj49d4uA4H0AjoK5GHgu1oRBNWPr1h6
+ hoCnaS6+vFRKKFuKKjc4xL0Z4F5/32nH7Q==
+X-Google-Smtp-Source: AGRyM1vbDlCuptc/57/XascOh8jxPyLGwXu6ZwcUO6U82TIXCak095q6cY3RjF4GdxGEECVIiS6mbg==
+X-Received: by 2002:a05:600c:2854:b0:3a3:1551:d7d with SMTP id
+ r20-20020a05600c285400b003a315510d7dmr2854471wmb.174.1659110374868; 
+ Fri, 29 Jul 2022 08:59:34 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- bs8-20020a05620a470800b006a34a22bc60sm2737086qkb.9.2022.07.29.08.56.46
+ y14-20020a5d620e000000b0021db7b0162esm4143699wru.105.2022.07.29.08.59.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jul 2022 08:56:47 -0700 (PDT)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:391a:8024:6c96:ac89])
- by serve.minyard.net (Postfix) with ESMTPSA id AFD6B180052;
- Fri, 29 Jul 2022 15:56:45 +0000 (UTC)
-Date: Fri, 29 Jul 2022 10:56:44 -0500
-From: Corey Minyard <minyard@acm.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 12/15] ipmi: Add an SMBus IPMI interface
-Message-ID: <20220729155644.GY3834@minyard.net>
-References: <20190919213924.31852-1-minyard@acm.org>
- <20190919213924.31852-13-minyard@acm.org>
- <CAFEAcA88GqrqoENf8NHxeNgTjj-jutz8Kspk43L1gp_VJJdh+Q@mail.gmail.com>
+ Fri, 29 Jul 2022 08:59:34 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Jiri Pirko <jiri@resnulli.us>,
+	Jason Wang <jasowang@redhat.com>
+Subject: [PATCH] hw/net/rocker: Avoid undefined shifts with more than 31 ports
+Date: Fri, 29 Jul 2022 16:59:32 +0100
+Message-Id: <20220729155932.2477385-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA88GqrqoENf8NHxeNgTjj-jutz8Kspk43L1gp_VJJdh+Q@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
- envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,154 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 28, 2022 at 05:21:44PM +0100, Peter Maydell wrote:
-> On Thu, 19 Sept 2019 at 22:39, <minyard@acm.org> wrote:
-> >
-> > From: Corey Minyard <cminyard@mvista.com>
-> >
-> > Signed-off-by: Corey Minyard <cminyard@mvista.com>
-> > ---
-> 
+In rocker_port_phys_link_status() and rocker_port_phys_enable_read()
+we construct a 64-bit value with one bit per front-panel port.
+However we accidentally do the shift as 32-bit arithmetic, which
+means that if there are more than 31 front-panel ports this is
+undefined behaviour.
 
-Thank you for the ping.  Comments inline...
+Fix the problem by ensuring we use 64-bit arithmetic for the whole
+calculation. (We won't ever shift off the 64-bit value because
+ROCKER_FP_PORTS_MAX is 62.)
 
-> Very old patch, but Coverity has decided it doesn't like something
-> in this function that's still basically the same in the current codebase
-> (CID 1487146):
-> 
-> > +static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
-> > +{
-> > +    SMBusIPMIDevice *sid = SMBUS_IPMI(dev);
-> > +    bool send = false;
-> > +    uint8_t cmd;
-> > +    int ret = 0;
-> > +
-> > +    /* length is guaranteed to be >= 1. */
-> > +    cmd = *buf++;
-> > +    len--;
-> > +
-> > +    /* Handle read request, which don't have any data in the write part. */
-> > +    switch (cmd) {
-> > +    case SSIF_IPMI_RESPONSE:
-> > +        sid->currblk = 0;
-> > +        ret = ipmi_load_readbuf(sid);
-> > +        break;
-> > +
-> > +    case SSIF_IPMI_MULTI_PART_RESPONSE_MIDDLE:
-> > +        sid->currblk++;
-> > +        ret = ipmi_load_readbuf(sid);
-> > +        break;
-> > +
-> > +    case SSIF_IPMI_MULTI_PART_RETRY:
-> > +        if (len >= 1) {
-> > +            sid->currblk = buf[0];
-> > +            ret = ipmi_load_readbuf(sid);
-> > +        } else {
-> > +            ret = -1;
-> > +        }
-> > +        break;
-> > +
-> > +    default:
-> > +        break;
-> > +    }
-> > +
-> > +    /* This should be a message write, make the length is there and correct. */
-> > +    if (len >= 1) {
-> > +        if (*buf != len - 1 || *buf > MAX_SSIF_IPMI_MSG_CHUNK) {
-> > +            return -1; /* Bogus message */
-> > +        }
-> > +        buf++;
-> > +        len--;
-> > +    }
-> 
-> After all of this preamble, len can be zero...
-> 
-> > +
-> > +    switch (cmd) {
-> > +    case SSIF_IPMI_REQUEST:
-> > +        send = true;
-> > +        /* FALLTHRU */
-> > +    case SSIF_IPMI_MULTI_PART_REQUEST_START:
-> > +        if (len < 2) {
-> > +            return -1; /* Bogus. */
-> > +        }
-> > +        memcpy(sid->inmsg, buf, len);
-> > +        sid->inlen = len;
-> > +        break;
-> > +
-> > +    case SSIF_IPMI_MULTI_PART_REQUEST_END:
-> > +        send = true;
-> > +        /* FALLTHRU */
-> > +    case SSIF_IPMI_MULTI_PART_REQUEST_MIDDLE:
-> > +        if (!sid->inlen) {
-> > +            return -1; /* Bogus. */
-> > +        }
-> > +        if (sid->inlen + len > MAX_SSIF_IPMI_MSG_SIZE) {
-> > +            sid->inlen = 0; /* Discard the message. */
-> > +            return -1; /* Bogus. */
-> > +        }
-> 
-> ...this error checking on the values of the 'middle' request
-> means that after one 'middle' request we can end up with
-> sid->inlen == MAX_SSIF_IPMI_MSG_SIZE (ie we filled the
-> entire sid->inmsg[] array).
-> 
-> But then if we get another 'middle' request with len == 0,
-> that will pass this error checking because (sid->inlen + len == MSG_SIZE)
-> and fall through into...
-> 
-> > +        if (len < 32) {
-> > +            /*
-> > +             * Special hack, a multi-part middle that is less than 32 bytes
-> > +             * marks the end of a message.  The specification is fairly
-> > +             * confusing, so some systems to this, even sending a zero
-> > +             * length end message to mark the end.
-> > +             */
-> > +            send = true;
-> > +        }
-> > +        memcpy(sid->inmsg + sid->inlen, buf, len);
-> 
-> ...calling memcpy() with argument 1 being a pointer that points
-> one past the end of the array. Even though len will be 0 and
-> we won't memcpy() anything, this is (depending on how you choose
-> to intepret things the C standard doesn't come right out and state
-> explicitly) undefined behaviour, because memcpy() wants to be passed
-> valid pointers, even if you ask it to do no work with a zero len.
-> 
-> This isn't going to be a visible bug in practical terms, but it would
-> make Coverity happy if we either (a) rejected a request with an empty
-> length or else (b) skipped the memcpy(). I don't know enough about
-> IPMI to know which is better.
+Resolves: Coverity CID 1487121, 1487160
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/net/rocker/rocker.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Hmm.  In some cases you have to accept a zero-length packet (as
-described in the comments), but if you said:
+diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
+index 31f2340fb91..d8f3f16fe87 100644
+--- a/hw/net/rocker/rocker.c
++++ b/hw/net/rocker/rocker.c
+@@ -1010,7 +1010,7 @@ static uint64_t rocker_port_phys_link_status(Rocker *r)
+         FpPort *port = r->fp_port[i];
+ 
+         if (fp_port_get_link_up(port)) {
+-            status |= 1 << (i + 1);
++            status |= 1ULL << (i + 1);
+         }
+     }
+     return status;
+@@ -1025,7 +1025,7 @@ static uint64_t rocker_port_phys_enable_read(Rocker *r)
+         FpPort *port = r->fp_port[i];
+ 
+         if (fp_port_enabled(port)) {
+-            ret |= 1 << (i + 1);
++            ret |= 1ULL << (i + 1);
+         }
+     }
+     return ret;
+-- 
+2.25.1
 
-  if (len > 0)
-      memcpy(sid->inmsg + sid->inlen, buf, len);
-
-would that make Coverity happy?  I was under the impression that if you
-passed zero into len, you could pass anything into the data on a memcpy.
-But apparently not; I can make this change.
-
--corey
-
-> 
-> > +        sid->inlen += len;
-> > +        break;
-> > +    }
-> > +
-> > +    if (send && sid->inlen) {
-> > +        smbus_ipmi_send_msg(sid);
-> > +    }
-> > +
-> > +    return ret;
-> > +}
-> 
-> thanks
-> -- PMM
-> 
 
