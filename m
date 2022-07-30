@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E840585AE0
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 16:54:41 +0200 (CEST)
-Received: from localhost ([::1]:49218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C08E3585AE2
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 16:56:07 +0200 (CEST)
+Received: from localhost ([::1]:51592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHnrU-0001jZ-Fx
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 10:54:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49234)
+	id 1oHnss-0003QT-UV
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 10:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oHnnl-0004al-8b
- for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:49 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:41792)
+ id 1oHnnm-0004bU-Ui
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:51 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:50755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1oHnnj-0007Zc-Fs
- for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:49 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id v18so6897210plo.8
- for <qemu-devel@nongnu.org>; Sat, 30 Jul 2022 07:50:47 -0700 (PDT)
+ id 1oHnnl-0007Zp-IC
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:50 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id f7so7229138pjp.0
+ for <qemu-devel@nongnu.org>; Sat, 30 Jul 2022 07:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UnQVL1Npd4eART+kRniE+KeFyZ5asD3O80TNp+3P8+k=;
- b=poW0SWzKb47IRlxMH+pwikJRcSVlv+Rw9jUVwcL92qUIy4UEDFmhBvbR6ZpPGwjEVW
- mDLV4ayBNVO1F88f0q8UM8M7OR8+Xah9CKX03iHNFN02hzYOdbnPvvtLYZ/glPjRyU4s
- ZYmYyipJ8+WcuAChD+noX9L7EzY8JangKkwasoBuVyzSAz8AeMY2BTQJAJvtsfWPGGRr
- Oj65Os/Zl1kE7ai5fbIgdbEo5s2GAALVlVyuuTkd8Alwb8/gCvfvi7G2U2o9PGTRNzU/
- Uc5AaoiNP3I4t2e7UmrgtAV11q7W6oZXlSo4LIbn2YFLmpWxTjvN+LYWqryxmkPWZHX7
- CpyA==
+ bh=To5bmQm11ZTI2o7stiEcQe4DIuFIjaF9pT8cpAzDEHI=;
+ b=RfBhcWDgOOQAXLCmTeI4MaAZKcTz/X7B05fd9BzVUusTR7qN0onRDM/dJ9MDI2luE2
+ PThnk5DXWOzKkcAq3XxQ1wT8nAumK7UpO0EWqwyePkDBfu0u7eKdjzVCgVEGjgr0YzNw
+ STC/dlNCYgX6r+y2ipvNwKAFL12MHkSwdfe451tNe5Sa15QvwbQE7/vVVBBC4Z0BG/LY
+ WTSlZ0P1RH5J0A+9jLmACfCoeitUxWEJIS1/hmPG8HA00tQlN09lavndn1hTRPL7c7vt
+ bb/OhURuBs4vxnv5dddoF2YotMNZ+TdhO2eqip1o69aAEvN0oCFMVRRF1rBDJvryWDqB
+ t2rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UnQVL1Npd4eART+kRniE+KeFyZ5asD3O80TNp+3P8+k=;
- b=7gZG3p9wyVE/rwWjmRBvpxtuQAxNQ2G7hbLrJIbIkSIUuUhS/NewrfFFJaut0zaXJi
- mFeRKEp5G/6TyDZsntwwv8Xwqli76j1Q19xa50JxN+rh5Ox8XE7emWPCDQh6NbWgB2mT
- XXhP1K9GrNt5CofTUkyf8Mujr3938TD9aCfIhq27zL2e6NOebikmu397cYEhjGjiKZEt
- da7Y/KjF+fQI8KiJV7gOQszCssUmOUDPMtaiixYsW6qomoR3MlIVl5/s4aeLMM0xL7HK
- lsbi+Ff56x9G8daEtMS9K2BAs8Hb9u64yaOWUV19UOSfjJx4+BJTUF73SiKrP2+WkboF
- 9T3w==
-X-Gm-Message-State: ACgBeo2C02brKJ7MlVM8X4Dj4mYdTdZ1C8ANFmetu022lkPO0aW5MYY9
- zbbMkAfuvIw6h8QN83GfJsEOBGSC7WQ=
-X-Google-Smtp-Source: AA6agR7F/+6VJuLT6azsym0RxxlGrToIIrDq4GBZHv4uziQlsC6XarJLMSRvWaVF0fFXpIIfL2KM/g==
-X-Received: by 2002:a17:902:d711:b0:16d:1665:1162 with SMTP id
- w17-20020a170902d71100b0016d16651162mr8681809ply.5.1659192645962; 
- Sat, 30 Jul 2022 07:50:45 -0700 (PDT)
+ bh=To5bmQm11ZTI2o7stiEcQe4DIuFIjaF9pT8cpAzDEHI=;
+ b=oP85VObt4yZlpgSSRXI/zi+Bacu+ofFN/u+deiXMNkPp3duwlDFc0fRneLNVgzy/73
+ wnD8LX+Sn5CKLXdlJFXSH4CbvIAgZHFHPXdDpKZd7HxdHc/gFogzOgitV99XXIBDUqOT
+ /5nrSICGRx84Ut1fNjh+OFhzaKBdLC4FqknCHp2ZAUFAhOQBHcOrwvdJQ0/Ad8sPDx4v
+ a/TrAXcl4/mSJxmeQYDLpnJMS2Qqdk61PvqjtuIxy8L1OqfpOgkO4n2O/tBLajazwfol
+ +zu84yLQ8zqg9cs5do2VEotDCv9dsNywxPynmnHi9eS1M7ILWjwD8LU0jDKqdJVrIQUH
+ NmwQ==
+X-Gm-Message-State: ACgBeo1xzudTmzvRbU3pvzhZKjNv9j6AFVnIeVI0UuQkKdkEr+aU4jm1
+ hz/05vwQONU8wka3BOpBRUbrORD9Uac=
+X-Google-Smtp-Source: AA6agR7M1KHgcrZFMEul7EXQtulNah1MnjeBdy3PMOhJ0vNPuptoXil5Z/00uwycQaqqBvtfHNeo1w==
+X-Received: by 2002:a17:902:ebc1:b0:168:fd13:8adc with SMTP id
+ p1-20020a170902ebc100b00168fd138adcmr8665099plg.161.1659192648041; 
+ Sat, 30 Jul 2022 07:50:48 -0700 (PDT)
 Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
  by smtp.gmail.com with ESMTPSA id
- x11-20020aa78f0b000000b00525343b5047sm4882499pfr.76.2022.07.30.07.50.44
+ x11-20020aa78f0b000000b00525343b5047sm4882499pfr.76.2022.07.30.07.50.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 30 Jul 2022 07:50:45 -0700 (PDT)
+ Sat, 30 Jul 2022 07:50:47 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Bin Meng <bin.meng@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: [PATCH v3 2/4] util/qemu-sockets: Enable unix socket support on
- Windows
-Date: Sat, 30 Jul 2022 22:50:34 +0800
-Message-Id: <20220730145036.865854-3-bmeng.cn@gmail.com>
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v3 3/4] chardev/char-socket: Update AF_UNIX for Windows
+Date: Sat, 30 Jul 2022 22:50:35 +0800
+Message-Id: <20220730145036.865854-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220730145036.865854-1-bmeng.cn@gmail.com>
 References: <20220730145036.865854-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,123 +93,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Support for the unix socket has existed both in BSD and Linux for the
-longest time, but not on Windows. Since Windows 10 build 17063 [1],
-the native support for the unix socket has come to Windows. Starting
-this build, two Win32 processes can use the AF_UNIX address family
-over Winsock API to communicate with each other.
+Now that AF_UNIX has come to Windows, update the existing logic in
+qemu_chr_compute_filename() and qmp_chardev_open_socket() for Windows.
 
-[1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
-
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
 
-Changes in v3:
-- drop the run-time check afunix_available()
+(no changes since v2)
 
 Changes in v2:
-- move #include <afunix.h> to os-win32.h
-- define WIN_BUILD_AF_UNIX only when CONFIG_WIN32
+- drop #include <afunix.h> as it is now already included in osdep.h
 
- meson.build               |  6 ++++++
- include/sysemu/os-win32.h |  4 ++++
- util/qemu-sockets.c       | 14 +++++++-------
- 3 files changed, 17 insertions(+), 7 deletions(-)
+ chardev/char-socket.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 294e9a8f32..3663b925d4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2327,6 +2327,12 @@ have_afalg = get_option('crypto_afalg') \
-   '''), error_message: 'AF_ALG requested but could not be detected').allowed()
- config_host_data.set('CONFIG_AF_ALG', have_afalg)
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+index dc4e218eeb..14a56b7b13 100644
+--- a/chardev/char-socket.c
++++ b/chardev/char-socket.c
+@@ -557,7 +557,7 @@ static char *qemu_chr_compute_filename(SocketChardev *s)
+     const char *left = "", *right = "";
  
-+if targetos != 'windows'
-+  config_host_data.set('CONFIG_AF_UNIX', true)
-+else
-+  config_host_data.set('CONFIG_AF_UNIX', cc.has_header('afunix.h'))
-+endif
-+
- config_host_data.set('CONFIG_AF_VSOCK', cc.has_header_symbol(
-   'linux/vm_sockets.h', 'AF_VSOCK',
-   prefix: '#include <sys/socket.h>',
-diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-index edc3b38a57..cebf260694 100644
---- a/include/sysemu/os-win32.h
-+++ b/include/sysemu/os-win32.h
-@@ -30,6 +30,10 @@
- #include <windows.h>
- #include <ws2tcpip.h>
- 
-+#ifdef CONFIG_AF_UNIX
-+# include <afunix.h>
-+#endif
-+
- #ifdef __cplusplus
- extern "C" {
- #endif
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 0e2298278f..f9892506de 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -880,7 +880,7 @@ static int vsock_parse(VsockSocketAddress *addr, const char *str,
- }
- #endif /* CONFIG_AF_VSOCK */
- 
+     switch (ss->ss_family) {
 -#ifndef _WIN32
 +#ifdef CONFIG_AF_UNIX
- 
- static bool saddr_is_abstract(UnixSocketAddress *saddr)
- {
-@@ -1060,14 +1060,14 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
-                              int num,
-                              Error **errp)
- {
--    error_setg(errp, "unix sockets are not available on windows");
-+    error_setg(errp, "unix sockets are not available on your host");
-     errno = ENOTSUP;
-     return -1;
- }
- 
- static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
- {
--    error_setg(errp, "unix sockets are not available on windows");
-+    error_setg(errp, "unix sockets are not available on your host");
-     errno = ENOTSUP;
-     return -1;
- }
-@@ -1335,7 +1335,7 @@ socket_sockaddr_to_address_inet(struct sockaddr_storage *sa,
- }
- 
- 
--#ifndef WIN32
-+#ifdef CONFIG_AF_UNIX
- static SocketAddress *
- socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
-                                 socklen_t salen,
-@@ -1362,7 +1362,7 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
-     addr->u.q_unix.path = g_strndup(su->sun_path, salen);
-     return addr;
- }
--#endif /* WIN32 */
-+#endif /* CONFIG_AF_UNIX */
- 
- #ifdef CONFIG_AF_VSOCK
- static SocketAddress *
-@@ -1394,10 +1394,10 @@ socket_sockaddr_to_address(struct sockaddr_storage *sa,
-     case AF_INET6:
-         return socket_sockaddr_to_address_inet(sa, salen, errp);
- 
--#ifndef WIN32
-+#ifdef CONFIG_AF_UNIX
      case AF_UNIX:
-         return socket_sockaddr_to_address_unix(sa, salen, errp);
--#endif /* WIN32 */
+         return g_strdup_printf("unix:%s%s",
+                                ((struct sockaddr_un *)(ss))->sun_path,
+@@ -1372,10 +1372,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
+     }
+ 
+     qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_RECONNECTABLE);
++#ifndef _WIN32
+     /* TODO SOCKET_ADDRESS_FD where fd has AF_UNIX */
+     if (addr->type == SOCKET_ADDRESS_TYPE_UNIX) {
+         qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
+     }
 +#endif
  
- #ifdef CONFIG_AF_VSOCK
-     case AF_VSOCK:
+     /*
+      * In the chardev-change special-case, we shouldn't register a new yank
 -- 
 2.34.1
 
