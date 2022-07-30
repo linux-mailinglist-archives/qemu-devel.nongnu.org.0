@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15835585A26
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 12:43:29 +0200 (CEST)
-Received: from localhost ([::1]:58142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F3E585A6E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 14:29:16 +0200 (CEST)
+Received: from localhost ([::1]:44816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHjwO-000349-64
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 06:43:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44934)
+	id 1oHlak-00075o-Nn
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 08:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oHjsj-0008FG-9g; Sat, 30 Jul 2022 06:39:41 -0400
-Received: from mail-vs1-xe30.google.com ([2607:f8b0:4864:20::e30]:43691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oHjsg-0002H0-Iu; Sat, 30 Jul 2022 06:39:41 -0400
-Received: by mail-vs1-xe30.google.com with SMTP id d187so6812304vsd.10;
- Sat, 30 Jul 2022 03:39:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=+i2t8yGKNYX1/+QAMCeXvPop6x5VCEshXH3WAjaeIM0=;
- b=XBzGqYVnJN+WV7BZKzYtlluA2/UvrxHyrGxoxdKnkYIxDLNdfFwtkcigTqBt5hqYbK
- hPfHpm22TR56yyOlxeVv6v0dx7/crqG9R/0A0clO3hPwW3mDyP7W7fnGyAPOI13HSLni
- 6d5VxfToAampqPcbsYWn0zZj0IQ4E//CQjgn11ZfmZL4FWTFV+8Vn4tZrfdiLdPi1kuY
- 9ijnV5HTJ+3E7OyOZca27wkY5XfDl6sy9Omj7MAHDddDwqwFXmUo+eZLsp8B2cCyArdS
- phLIxupuPho8ltkhevF7BcZsFkzbm1ZgSRJIe3+3tYLEfKvYKZqRuQgmPVcQX/NFPip2
- XQ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=+i2t8yGKNYX1/+QAMCeXvPop6x5VCEshXH3WAjaeIM0=;
- b=ugd4MNzqp4jxqSNmWjPEnmDubZ/R/JcKcJ+6Gtf7o3yW0EPSaFK2l0C6UXAkcO0Dyc
- 5rhFGHO3fRXnq3BPCT9P/rs+Wl7FYNcwoa1X4wxdgI4aevaMgPEsz/ye9y88zZX8un82
- uA9nsGzEqxfTN+P+nSfqG/eoCnbKmSIQLj84h7xAtV0u+M/GWonJXmrpfE56wKtnTgQY
- cwCowYlIhbcHROisR+Xgd9H9sOsVYdtqueiMHPrFssDsLvu5sbFkssTSFduclwy+nRpv
- iOZX9Zs09KiH8oYQ1Y2fyE7Bl7vtYTFJzQFlfO5oVjFcUcfgPCfWki4HuUjbRhIUe6Om
- Vzog==
-X-Gm-Message-State: AJIora+cF6Z5MPTQoTo3wEIaIrP+dXtN4ww8vzcfsJClWadDPYEHXBXr
- PjAa725ZxDEhO0BZGFARPdE=
-X-Google-Smtp-Source: AGRyM1vZO5MctEJsvGazFAtF2GDciM2kYWJUMOpghhZAdH7SRMqyIIh4uJVL3sKmtWAI4/zhlRNTxQ==
-X-Received: by 2002:a05:6102:5047:b0:34b:d9ef:bd26 with SMTP id
- by7-20020a056102504700b0034bd9efbd26mr3112214vsb.14.1659177577024; 
- Sat, 30 Jul 2022 03:39:37 -0700 (PDT)
-Received: from [192.168.10.102] ([179.225.208.46])
- by smtp.gmail.com with ESMTPSA id
- o129-20020a1fa587000000b00376f0aff800sm2737792vke.18.2022.07.30.03.39.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Jul 2022 03:39:36 -0700 (PDT)
-Message-ID: <8689fe2a-c32f-6248-8ebe-b645dca165d0@gmail.com>
-Date: Sat, 30 Jul 2022 07:39:34 -0300
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oHlYx-0004N5-3y
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 08:27:23 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35154)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oHlYv-0002Fs-PC
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 08:27:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:To:From:Sender:Reply-To:Cc:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=hHeKAFEIMNvoo/5G4AFSF8NqJCMC2P0AxoosWI5zs54=; b=DOZvawCeoaNqTLw2ETVgiOcr48
+ Njr3EiEcrwnKuaPOqEhUqy9wxBYM3+btwS4Fza16uewoQFo+O524GV2wMRkHW4Wx2Ftgeo86KWopo
+ 3k2egMlDXbva63u6F+WdH5OzhQIJkcB3kf6J1M+nDf1moxvDplJucCLPzkO9yr0Au9SVbzMRh/4an
+ qqoN3r2ApbkGYaVqBJnYNJgIWzz22e8VSq54vUoFYh1sLNh9Dt+nYMCPsh5OZShgyAhN2aHv/1uBZ
+ Wr2Kk5HBp4T6fWlh2oviZxUjm7OHy/rmZSpY2lhA47Yu6va082FrKVkDqvGt9U1jD8czflgMiEwRn
+ v/ZJ3j4das+o1t3a0uSnJOSBUxh3KNLIQ2sA2r+2SGwyftWoJkSYecsi9Aztt8kR2pIth9xJg6/iD
+ a8fXETKld8mmZAJTs9IUDxgXwESq+Z9JUbAc69jpFxH2L7l100z15aDCkQel649ivF1p4SK9dPkMz
+ seYNdYqrs/lc/2wlX5qmDeFlBc6ATL0qWL35XkX7+R5YnaOja3p1X0ZTcF+F21fM0PAYgn6MyN5Sf
+ FK2BBoPAvuUGZPVzeb2EJbwKLV4Qzo9PgZfAndZFpUCNfzJf8IKuFkFjC4OQMLMsGW+8pWj8xVH28
+ Q0hop0Xugqkjb37lPKMrVpzFRbg3LLHA6FnqqKTlw=;
+Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1oHlXG-0006Ru-7y; Sat, 30 Jul 2022 13:25:42 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: pbonzini@redhat.com, fam@euphon.net, alxndr@bu.edu, qemu-devel@nongnu.org
+Date: Sat, 30 Jul 2022 13:26:54 +0100
+Message-Id: <20220730122656.253448-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/2] linux-user: Implment host/ppc/host-signal.h
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, laurent@vivier.eu
-References: <20220729172141.1789105-1-richard.henderson@linaro.org>
- <20220729172141.1789105-3-richard.henderson@linaro.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220729172141.1789105-3-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e30;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe30.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH for-7.1 0/2] scsi-disk: fixes for block size crashes found by
+ fuzzer
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,69 +75,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit title typo: "Implment"
+These two patches fix a couple of issues which were found by the fuzzer as a
+consequence of allowing the guest to change the SCSI block size in commit
+356c4c441e ("scsi-disk: allow MODE SELECT block descriptor to set the block size").
 
-On 7/29/22 14:21, Richard Henderson wrote:
-> This commit re-enables ppc32 as a linux-user host,
-> as existance of the directory is noted by configure.
-
-s/existance/existence
-
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1097
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
->   linux-user/include/host/ppc/host-signal.h | 39 +++++++++++++++++++++++
->   1 file changed, 39 insertions(+)
->   create mode 100644 linux-user/include/host/ppc/host-signal.h
-> 
-> diff --git a/linux-user/include/host/ppc/host-signal.h b/linux-user/include/host/ppc/host-signal.h
-> new file mode 100644
-> index 0000000000..de25c803f5
-> --- /dev/null
-> +++ b/linux-user/include/host/ppc/host-signal.h
-> @@ -0,0 +1,39 @@
-> +/*
-> + * host-signal.h: signal info dependent on the host architecture
-> + *
-> + * Copyright (c) 2022 Linaro Ltd.
-> + *
-> + * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef PPC_HOST_SIGNAL_H
-> +#define PPC_HOST_SIGNAL_H
-> +
-> +#include <asm/ptrace.h>
-> +
-> +/* The third argument to a SA_SIGINFO handler is ucontext_t. */
-> +typedef ucontext_t host_sigcontext;
-> +
-> +static inline uintptr_t host_signal_pc(host_sigcontext *uc)
-> +{
-> +    return uc->uc_mcontext.regs->nip;
-> +}
-> +
-> +static inline void host_signal_set_pc(host_sigcontext *uc, uintptr_t pc)
-> +{
-> +    uc->uc_mcontext.regs->nip = pc;
-> +}
-> +
-> +static inline void *host_signal_mask(host_sigcontext *uc)
-> +{
-> +    return &uc->uc_sigmask;
-> +}
-> +
-> +static inline bool host_signal_write(siginfo_t *info, host_sigcontext *uc)
-> +{
-> +    return uc->uc_mcontext.regs->trap != 0x400
-> +        && (uc->uc_mcontext.regs->dsisr & 0x02000000);
-> +}
-> +
-> +#endif
+Mark Cave-Ayland (2):
+  scsi-disk: fix overflow when block size is not a multiple of
+    BDRV_SECTOR_SIZE
+  scsi-disk: ensure block size is non-zero and changes limited to bits
+    8-15
+
+ hw/scsi/scsi-disk.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
+
+-- 
+2.30.2
+
 
