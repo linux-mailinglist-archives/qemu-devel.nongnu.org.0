@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABE65585A70
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 14:32:32 +0200 (CEST)
-Received: from localhost ([::1]:47172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C641585ADD
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 16:52:41 +0200 (CEST)
+Received: from localhost ([::1]:45038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHldv-0000SN-Pe
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 08:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58190)
+	id 1oHnpY-0007Kf-9g
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 10:52:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oHlYy-0004NQ-I5
- for qemu-devel@nongnu.org; Sat, 30 Jul 2022 08:27:24 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:35160)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oHlYw-0002G8-6r
- for qemu-devel@nongnu.org; Sat, 30 Jul 2022 08:27:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:MIME-Version:
- References:In-Reply-To:Message-Id:Date:To:From:Sender:Reply-To:Cc:
- Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
- Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
- List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=FzqEmNUvZaMnYSzVcR2bU2YESYx3Lp0BIU8dj6YHjbQ=; b=dO25YRV9E+XftlLTgNkA1XC6Nu
- QfA5qr9Mjem1xLFijPgZda06zpbaaZadASkZ2bA6dkQpSSAMe5q6KiF/76It6gnuq1ChM+Pq7REXq
- cYywzrb7GBIbbmgaEB/4NOI0KSZBCRcdNMsGTAxkult022yLAh/2O9hhK5nE8kTqTzcjxOJr9PCzV
- xCcWEoCjQ4ii8MoudX6OiKYOg/dSMPjdTybZSdmwZd5QfPlfE5A3s+RBaJGaXObvuwy5DErUL2RqP
- Iv53NOqO9QJ75ckGim7EYxGsGuCUDmrnQqcvMJygOwwEm00aShNWs3aFiuSY+cYaCNBk64ilsuPZX
- Fs/6OqbAD9VpnGPtPYQ6/53vm2XGMf99wjshA48PlH3XQzm4vlvH2BzCStHuxpVzKba35BkRfH7bF
- 2n0lan6ribaE9mAHK3yMTi/htr7Yf/PSaKfgVnnorR65bKVlj6CBKGvPkUtruMvFY/LtJgoxwiARC
- ceS4IuCiK809HstV5s23njtjHfzHjGIW5zPS57yJR+1hZ+GE6/Rex7FXJgyAviwYMFqF7D5ZEYy9b
- SQD3ru79WurgpoRNMgUnbsbtCgnFPfR6c7XhHPTDX7CZVJTaWTeehN81x+4DcM9Y3vxE1q7QT59/a
- kCjpt0cxoH6uhR6N0HWxQt7Ygq9LZB5BPsY5q6OnA=;
-Received: from [2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0] (helo=kentang.home)
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1oHlXP-0006Ru-5d; Sat, 30 Jul 2022 13:25:51 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: pbonzini@redhat.com, fam@euphon.net, alxndr@bu.edu, qemu-devel@nongnu.org
-Date: Sat, 30 Jul 2022 13:26:56 +0100
-Message-Id: <20220730122656.253448-3-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220730122656.253448-1-mark.cave-ayland@ilande.co.uk>
-References: <20220730122656.253448-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oHnng-0004Y0-Tm
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:44 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1oHnnf-0007ZJ-AI
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 10:50:44 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id o3so6919424ple.5
+ for <qemu-devel@nongnu.org>; Sat, 30 Jul 2022 07:50:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=scpOONBlO/op/jp9R/m/ziVwF3W+LamRdLFwD6uTZOQ=;
+ b=G8xWIXY3/+tfk5D8Q2KgVRXD/DPiRPr6Hvks/y0HQiuI6PBxce7IOf0a3TsOeyx9Z+
+ B75JBUeISoPgaiLGjXtTkXQ78+zmEJ3qWuWDS/uwpydJCCHgqFGYwJS9RotEdP9/vL+j
+ ae+cRdgLhosgr0mecCEn0SjX0JBdzxP48jQvCJwrAWA7GVtwLrnPrufFkVydYQAiuW3s
+ bJnGginReGqBdOvst0tpD4YqQli2jbL80UZYbRoxf9PX1Mz78jpZRUlIbNDK6FWkNMuL
+ qZaw6t+GN6YWeHnUBWRGj6R4R2HA5lRo1HOUv3nfeMPQ+HHPGqFJz6TyF54IWUchKNtq
+ N78w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=scpOONBlO/op/jp9R/m/ziVwF3W+LamRdLFwD6uTZOQ=;
+ b=DD2I6OGvhGCeVJH63PEhJ7MrS4JgTcRcbR8GP6brgUqINYNL6s1iardZgrXtFYl1Ft
+ 3K/tJlbsQiCqcPBFKeIzk+GOzZKhAYUnjo+IKj9lZUHp2zki8pMtXC/nYk6PgzG7vEK5
+ pb/Py3hVdPHGBeT4Uh3gb43RhiLcstS9DBBY+2s8L0qDOXwiTISlq8E8kQZdXKps9PA+
+ cYXJl/8R0gNdAsGZzt5bKu5KO2s/s6IpnRF34Sa0ixBgz2nr3VundBaiSEdi0ixLbwur
+ 2zN8mRoDmBo/raz90VthfjapFVrU8P62hIyFkomOjD/B/T2FDBiuUxe1qvkOS2jIeHi/
+ lehA==
+X-Gm-Message-State: ACgBeo3TLtNBNCcNzCxGpeYXzLlaJ4TSlAacvD3tQwMOrTEneG0Ks0uw
+ wn7cG2M+FajCaTkM8y643Nr0spVdSsY=
+X-Google-Smtp-Source: AA6agR6twWMWh2m5fK/FvLPqiZEjFUIxabLBg92eFSRrkWHlgGL+GKnA86n8FL6if724ND6drYdWvQ==
+X-Received: by 2002:a17:90b:1805:b0:1f4:e294:d328 with SMTP id
+ lw5-20020a17090b180500b001f4e294d328mr1312439pjb.25.1659192641409; 
+ Sat, 30 Jul 2022 07:50:41 -0700 (PDT)
+Received: from ubuntu.. (144.168.56.201.16clouds.com. [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id
+ x11-20020aa78f0b000000b00525343b5047sm4882499pfr.76.2022.07.30.07.50.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 30 Jul 2022 07:50:40 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Subject: [PATCH v3 0/4] Enable unix socket support on Windows
+Date: Sat, 30 Jul 2022 22:50:32 +0800
+Message-Id: <20220730145036.865854-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8ba6:5100:d563:eb67:74b1:7b0
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH for-7.1 2/2] scsi-disk: ensure block size is non-zero and
- changes limited to bits 8-15
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,61 +89,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing code assumes that the block size can be generated from p[1] << 8
-in multiple places which ignores the top and bottom 8 bits. If the block size
-is allowed to be set to an arbitrary value then this causes a mismatch
-between the value written by the guest in the block descriptor and the value
-subsequently read back using READ CAPACITY causing the guest to generate
-requests that can crash QEMU.
+Support for the unix socket has existed both in BSD and Linux for the
+longest time, but not on Windows. Since Windows 10 build 17063 [1],
+the native support for the unix socket has come to Windows. Starting
+this build, two Win32 processes can use the AF_UNIX address family
+over Winsock API to communicate with each other.
 
-For now restrict block size changes to bits 8-15 and also ignore requests to
-set the block size to 0 which causes the SCSI emulation to crash in at least
-one place with a divide by zero error.
+[1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
 
-Fixes: 356c4c441e ("scsi-disk: allow MODE SELECT block descriptor to set the block size")
-Closes: https://gitlab.com/qemu-project/qemu/-/issues/1112
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- hw/scsi/scsi-disk.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Changes in v3:
+- drop patch "util/oslib-win32: Add a helper to get the Windows version"
+- drop patch "qga/commands-win32: Use os_get_win_version()"
+- drop the run-time check afunix_available()
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 3027ac3b1e..efee6739f9 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1591,7 +1591,7 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
-     int cmd = r->req.cmd.buf[0];
-     int len = r->req.cmd.xfer;
-     int hdr_len = (cmd == MODE_SELECT ? 4 : 8);
--    int bd_len;
-+    int bd_len, bs;
-     int pass;
- 
-     if ((r->req.cmd.buf[1] & 0x11) != 0x10) {
-@@ -1617,9 +1617,19 @@ static void scsi_disk_emulate_mode_select(SCSIDiskReq *r, uint8_t *inbuf)
-     }
- 
-     /* Allow changing the block size */
--    if (bd_len && p[6] != (s->qdev.blocksize >> 8)) {
--        s->qdev.blocksize = p[6] << 8;
--        trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
-+    if (bd_len) {
-+        bs = p[5] << 16 | p[6] << 8 | p[7];
-+
-+        /*
-+         * Since the existing code only checks/updates bits 8-15 of the block
-+         * size, restrict ourselves to the same requirement for now to ensure
-+         * that a block size set by a block descriptor and then read back by
-+         * a subsequent SCSI command will be the same
-+         */
-+        if (bs && !(bs & ~0xff00) && bs != s->qdev.blocksize) {
-+            s->qdev.blocksize = bs;
-+            trace_scsi_disk_mode_select_set_blocksize(s->qdev.blocksize);
-+        }
-     }
- 
-     len -= bd_len;
+Changes in v2:
+- move #include <afunix.h> to os-win32.h
+- define WIN_BUILD_AF_UNIX only when CONFIG_WIN32
+- drop #include <afunix.h> as it is now already included in osdep.h
+- new patch: tests/unit: Update test-io-channel-socket.c for Windows
+
+Bin Meng (4):
+  util/qemu-sockets: Replace the call to close a socket with
+    closesocket()
+  util/qemu-sockets: Enable unix socket support on Windows
+  chardev/char-socket: Update AF_UNIX for Windows
+  tests/unit: Update test-io-channel-socket.c for Windows
+
+ meson.build                         |  6 ++++++
+ include/sysemu/os-win32.h           |  4 ++++
+ chardev/char-socket.c               |  4 +++-
+ tests/unit/test-io-channel-socket.c | 16 ++++++++++++++--
+ util/qemu-sockets.c                 | 18 +++++++++---------
+ 5 files changed, 36 insertions(+), 12 deletions(-)
+
 -- 
-2.30.2
+2.34.1
 
 
