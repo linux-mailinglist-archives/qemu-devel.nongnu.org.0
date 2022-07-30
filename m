@@ -2,55 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E343F58583C
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 05:21:50 +0200 (CEST)
-Received: from localhost ([::1]:49470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA11858593D
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jul 2022 10:41:28 +0200 (CEST)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oHd30-0002xd-1Q
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jul 2022 23:21:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37104)
+	id 1oHi2H-0007LI-Hl
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jul 2022 04:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oHd1V-0007jj-QQ
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 23:20:17 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3948)
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1oHi0X-0005vb-8D
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 04:39:37 -0400
+Received: from relay.yourmailgateway.de ([188.68.63.101]:48419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oHd1T-0008M0-DC
- for qemu-devel@nongnu.org; Fri, 29 Jul 2022 23:20:17 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LvqMv4cNczmVDR;
- Sat, 30 Jul 2022 11:18:19 +0800 (CST)
-Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Sat, 30 Jul 2022 11:20:12 +0800
-Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
- (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Sat, 30 Jul
- 2022 11:20:11 +0800
-To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
- <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
-CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
-Subject: [PATCH v3 3/3] dump: use jobs framework for dump guest memory
-Date: Sat, 30 Jul 2022 11:20:08 +0800
-Message-ID: <20220730032008.3185-1-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.33.0
+ (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1oHi0U-0002q2-Mo
+ for qemu-devel@nongnu.org; Sat, 30 Jul 2022 04:39:36 -0400
+Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
+ by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4LvyVV2Vd0z4yb8;
+ Sat, 30 Jul 2022 10:39:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
+ t=1659170370; bh=04pJLgE4YItmhYkrzkEeSE+40SFoKRnKNtJqWjizGJ0=;
+ h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+ b=CP0E51DKtQd4Ucw/VcvNW1kaZtvIMqrtIYW47jwqIyjmLTvDKZdAGb4V9wlDef8Ji
+ zqLXpafG9U6tMG6MB5NaoRTXndoJ+/z+HZ5DmCme4EtVcYrYTXMcZqKlEyhDWAxKKj
+ t8esyejpGDMUjxgI6X434rVfBS2bcOzAjlU0eoARBnodyabhgI0NSdRUPy4F5nBxmp
+ oZq+Jbl8gf75810mBCc5Dt4RhDBBry+u+bOLsak86t8J1tQX1dQgtKxvsUkfS+nCeN
+ v2c7yYxj52oXGvCtIjL1HgZtnTNiMnlDbDRLcTmofHUUBG2W3J+m1fWNzlUJ9hSMmi
+ Hqf3qJxWqWksQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.53])
+ by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4LvyVV21mVz4yMn;
+ Sat, 30 Jul 2022 10:39:30 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
+X-Spam-Score: -2.9
+Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by policy02-mors.netcup.net (Postfix) with ESMTPS id 4LvyVT1ZYTz8sZR;
+ Sat, 30 Jul 2022 10:39:29 +0200 (CEST)
+Received: from [192.168.54.9] (ip-095-223-070-202.um35.pools.vodafone-ip.de
+ [95.223.70.202])
+ by mx2f6e.netcup.net (Postfix) with ESMTPSA id 18E2160499;
+ Sat, 30 Jul 2022 10:39:28 +0200 (CEST)
+Authentication-Results: mx2f6e;
+ spf=pass (sender IP is 95.223.70.202) smtp.mailfrom=hk@zapateado.de
+ smtp.helo=[192.168.54.9]
+Received-SPF: pass (mx2f6e: connection is authenticated)
+Message-ID: <ea20f155-4a43-a55d-6ae9-713c267617a1@zapateado.de>
+Date: Sat, 30 Jul 2022 10:39:27 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.172]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemm600015.china.huawei.com (7.193.23.52)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+From: Helge Konetzka <hk@zapateado.de>
+Subject: Re: [PATCH] WHPX: Add support for device backed memory regions
+To: qemu-devel@nongnu.org
+Cc: Aidan Khoury <aidan@revers.engineering>
+References: <20220727180012.45615-1-aidan@revers.engineering>
+Content-Language: en-US
+In-Reply-To: <20220727180012.45615-1-aidan@revers.engineering>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: <165917036851.30406.4117800654721737232@mx2f6e.netcup.net>
+X-PPP-Vhost: konetzka.de
+X-NC-CID: FZad2kP/CiI2J3alVDkqKrFqY4pFLN8/VLO7sSYxQJvN
+Received-SPF: pass client-ip=188.68.63.101; envelope-from=hk@zapateado.de;
+ helo=relay.yourmailgateway.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,146 +87,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Hogan Wang <hogan.wang@huawei.com>
-From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-There's no way to cancel the current executing dump process, lead to the
-virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
-job after daemon restart.
+Am 27.07.22 um 20:00 schrieb Aidan Khoury:
+> Due to skipping the mapping of read only device memory, Windows
+> Hypervisor Platform would fail to emulate such memory accesses when booting
+> OVMF EDK2 firmware. This patch adds ROM device memory region support
+> for WHPX since the Windows Hypervisor Platform supports mapping read-only
+> device memory, which allows successful booting of OVMF EDK2 firmware.
+> 
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/513
+>            https://gitlab.com/qemu-project/qemu/-/issues/934
+> Buglink: https://bugs.launchpad.net/bugs/1821595
+> 
+> Signed-off-by: Aidan Khoury <aidan@revers.engineering>
+> ---
+>   target/i386/whpx/whpx-all.c | 11 +++++++++--
+>   1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+> index b22a3314b4..7a61df1135 100644
+> --- a/target/i386/whpx/whpx-all.c
+> +++ b/target/i386/whpx/whpx-all.c
+> @@ -2363,11 +2363,18 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
+>       MemoryRegion *mr = section->mr;
+>       hwaddr start_pa = section->offset_within_address_space;
+>       ram_addr_t size = int128_get64(section->size);
+> +    bool is_romd = false;
+>       unsigned int delta;
+>       uint64_t host_va;
+>   
+>       if (!memory_region_is_ram(mr)) {
+> -        return;
+> +        if (memory_region_is_romd(mr)) {
+> +            is_romd = true;
+> +            warn_report("WHPX: ROMD region 0x%016" PRIx64 "->0x%016" PRIx64,
+> +                        start_pa, start_pa + size);
+> +        } else {
+> +            return;
+> +        }
+>       }
+>   
+>       delta = qemu_real_host_page_size() - (start_pa & ~qemu_real_host_page_mask());
+> @@ -2386,7 +2393,7 @@ static void whpx_process_section(MemoryRegionSection *section, int add)
+>               + section->offset_within_region + delta;
+>   
+>       whpx_update_mapping(start_pa, size, (void *)(uintptr_t)host_va, add,
+> -                        memory_region_is_rom(mr), mr->name);
+> +                        memory_region_is_rom(mr) || is_romd, mr->name);
+>   }
+>   
+>   static void whpx_region_add(MemoryListener *listener,
 
-When caller pass the 'job-id' argument, create a job for dump process.
-And then caller can use job-cancel QMP command to cancel the detached
-dump process, use job-dismiss QMP command to release job object.
+Test was successful on Windows 10 Pro, 21H1, build & test environment 
+MSYS2, MINGW64
 
-Examples:
-Start dump job:
-{"execute": "dump-guest-memory", "arguments": { "job-id": "dump-guest-memory",
-                                                "protocol": "file:/tmp/vm.dump",
-                                                "paging": false,
-                                                "format": "elf",
-                                                "detach": true
-                                              }}
+Tested-by: Helge Konetzka <hk@zapateado.de>
 
-Cancel dump job:
-{"execute": "job-cancel", "arguments": { "id": "dump-guest-memory" }}
+Test execution after building and installing patched MSys2/Mingw64 package:
 
-Dismiss dump job:
-{"execute": "job-dismiss", "arguments": { "id": "dump-guest-memory" }}
+$ cp /mingw64/share/qemu/edk2-i386-vars.fd ./
+$ qemu-system-x86_64 \
+  -M q35 \
+  -m 1536 \
+  -accel whpx,kernel-irqchip=off \
+  -drive 
+file=/mingw64/share/qemu/edk2-x86_64-code.fd,if=pflash,format=raw,readonly=on 
+\
+  -drive file=edk2-i386-vars.fd,if=pflash,format=raw,readonly=off \
+  -cdrom openSUSE-Leap-15.3-GNOME-Live-x86_64-Media.iso
 
-Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
----
- dump/dump.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
-
-diff --git a/dump/dump.c b/dump/dump.c
-index cec9be30b4..3f4ed8e7a7 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -98,6 +98,7 @@ static int dump_cleanup(DumpState *s)
- {
-     guest_phys_blocks_free(&s->guest_phys_blocks);
-     memory_mapping_list_free(&s->list);
-+    s->job = NULL;
-     close(s->fd);
-     g_free(s->guest_note);
-     s->guest_note = NULL;
-@@ -1542,6 +1543,14 @@ static void get_max_mapnr(DumpState *s)
- 
- static DumpState dump_state_global = { .status = DUMP_STATUS_NONE };
- 
-+typedef struct DumpJob {
-+    Job common;
-+    DumpState *state;
-+    Coroutine *co;
-+    Error **errp;
-+} DumpJob;
-+
-+
- static void dump_state_prepare(DumpState *s)
- {
-     /* zero the struct, setting status to active */
-@@ -1894,6 +1903,64 @@ DumpQueryResult *qmp_query_dump(Error **errp)
-     return result;
- }
- 
-+static void *dump_job_thread(void *opaque)
-+{
-+    DumpJob *job = (DumpJob *)opaque;
-+    job_progress_set_remaining(&job->common, 1);
-+    dump_process(job->state, job->errp);
-+    job_progress_update(&job->common, 1);
-+    aio_co_wake(job->co);
-+    return NULL;
-+}
-+
-+static void dump_sync_job_bh(void *opaque)
-+{
-+    dump_job_thread(opaque);
-+}
-+
-+static int coroutine_fn dump_guest_memory_job_run(Job *job, Error **errp)
-+{
-+    DumpJob *s = container_of(job, DumpJob, common);
-+    DumpState *state = &dump_state_global;
-+
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+
-+    if (state->detached) {
-+        /* detached dump */
-+        qemu_thread_create(&s->state->dump_thread, "dump_thread",
-+                           dump_job_thread, job, QEMU_THREAD_DETACHED);
-+    } else {
-+        aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                                dump_sync_job_bh, job);
-+    }
-+    qemu_coroutine_yield();
-+    return qatomic_read(&state->status) == DUMP_STATUS_COMPLETED ? 0 : -1;
-+}
-+
-+static const JobDriver dump_guest_memory_job_driver = {
-+    .instance_size = sizeof(DumpJob),
-+    .job_type      = JOB_TYPE_DUMP_GUEST_MEMORY,
-+    .run           = dump_guest_memory_job_run,
-+};
-+
-+static void dump_job_start(DumpState *state, const char *job_id,
-+                           bool detach, Error **errp)
-+{
-+    DumpJob *job;
-+
-+    job = job_create(job_id, &dump_guest_memory_job_driver, NULL,
-+                     qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                     NULL, NULL, errp);
-+    if (!job) {
-+        return;
-+    }
-+    state->detached = detach;
-+    state->job = &job->common;
-+    job->state = state;
-+    job_start(&job->common);
-+}
-+
- void qmp_dump_guest_memory(bool paging, const char *file,
-                            bool has_job_id, const char *job_id,
-                            bool has_detach, bool detach,
-@@ -2010,6 +2077,15 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-         return;
-     }
- 
-+    if (has_job_id) {
-+        dump_job_start(s, job_id, detach_p, errp);
-+        if (*errp) {
-+            qatomic_set(&s->status, DUMP_STATUS_FAILED);
-+            dump_cleanup(s);
-+        }
-+        return;
-+    }
-+
-     if (detach_p) {
-         /* detached dump */
-         s->detached = true;
--- 
-2.33.0
-
+Windows Hypervisor Platform accelerator is operational
+D:\msys64\mingw64\bin\qemu-system-x86_64.exe: warning: WHPX: ROMD region 
+0x00000000ffc84000->0x0000000100000000
+D:\msys64\mingw64\bin\qemu-system-x86_64.exe: warning: WHPX: ROMD region 
+0x00000000ffc00000->0x00000000ffc84000
+qemu: warning: WHPX: ROMD region 0x00000000ffc00000->0x00000000ffc84000
+qemu: warning: WHPX: ROMD region 0x00000000ffc00000->0x00000000ffc84000
 
