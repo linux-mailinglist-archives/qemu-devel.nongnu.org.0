@@ -2,87 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C3C5861F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 01:05:57 +0200 (CEST)
-Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F1655861F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 01:34:56 +0200 (CEST)
+Received: from localhost ([::1]:46316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oII0R-0004Gy-W6
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 19:05:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37412)
+	id 1oIISU-0003cJ-Of
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 19:34:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1oIHyQ-0002rV-7i
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 19:03:50 -0400
-Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:41767)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1oIHyO-0005Fn-KH
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 19:03:49 -0400
-Received: by mail-qt1-x82a.google.com with SMTP id c20so6901868qtw.8
- for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 16:03:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:from:to:cc;
- bh=3pM3AYH+A9pDCT70pxuPgHTGcbtBBKs+4laKLpiKIrw=;
- b=C9fXvl5Nmccp23tfz4Z8t/RAaP6hR4O1LcW27QJVOb24n67kBygW9mvCg+aUZhdk//
- crijMf46oZmICPQIhtypa7Bbv2Cyv1SrbcSpxqBCPGaopAY5Bt/d8ZDWvRk5vIyxXJFY
- 1llDS3jOZ+ksv99Z0q6pwWMyve/Zr1k4GcOmkwFueXEKjAgxvYY1CgKDm/sfIZCyNt4i
- hkDDyrzLilzr1hr/yvT5cHUq0MChAmUW08ZlJXGGLQOQJqjr/9Bew0kWMCEVvHxal6Vu
- mxD9LRMneW3xF8Q0OLOkl8UAA7LstwM+IsScgQ2ZaA8q8Fv+SswJ6i7KX3njOaoZ0EsG
- GqIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:sender:x-gm-message-state:from:to:cc;
- bh=3pM3AYH+A9pDCT70pxuPgHTGcbtBBKs+4laKLpiKIrw=;
- b=iJ6tYmrY6UnznrqTECr60MSg1r74+DqdpMsoxBnYvrQKPl50sjiuPFtl2k4wfsArha
- lgaBjMLb5s/0DITB88Wz5wJt+8fue4rhHz+ssULWL0M2l2bKATLUPVRH/vG8A7DPE9u9
- ja9b+GbzpTfPf6FtZT5lss977IMB8g3t3/kqJhD3dBKplEapZSv13A+og5FkUIvo1h2k
- r6XfQ7DT5fQ4Wax+9FaIX8HSMlGp2+DrByn/kdt9GNTh6ibA9wvmAN+hCkOmXl1osA3y
- mQX3qP3iOOVLzmsy7TJUb6G+G6f7GbzjnWasSHr3JM76Mv/9jOmLcvC0K1b0rCJDVhAk
- Am2w==
-X-Gm-Message-State: AJIora8GTm+P4XPNcy6Emgbu9Bm1zC2EFAdk4NZtDgWzEQ1DtsCr8k7L
- nvPm2yiSN1upXW+b77MaUg==
-X-Google-Smtp-Source: AGRyM1uM1HeI25Ld/XByQX1r2hP6f0i7RHZNgYm0fX9fHz92n/qZz3+ETAVSiQhbsBRaY8w0qB6msA==
-X-Received: by 2002:ac8:5c87:0:b0:31f:188e:b1f with SMTP id
- r7-20020ac85c87000000b0031f188e0b1fmr12139774qta.153.1659308627246; 
- Sun, 31 Jul 2022 16:03:47 -0700 (PDT)
-Received: from serve.minyard.net (serve.minyard.net. [2001:470:b8f6:1b::1])
- by smtp.gmail.com with ESMTPSA id
- c129-20020ae9ed87000000b006b64a0d9ecfsm7102405qkg.55.2022.07.31.16.03.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jul 2022 16:03:46 -0700 (PDT)
-Received: from t560.minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:5014:1ce0:c372:36cb])
- by serve.minyard.net (Postfix) with ESMTPA id 65C0C180052;
- Sun, 31 Jul 2022 23:03:45 +0000 (UTC)
-From: minyard@acm.org
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Corey Minyard <cminyard@mvista.com>
-Subject: [PATCH] ipmi:smbus: Add a check around a memcpy
-Date: Sun, 31 Jul 2022 18:02:46 -0500
-Message-Id: <20220731230245.1216949-1-minyard@acm.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oIIQQ-00080i-7W
+ for qemu-devel@nongnu.org; Sun, 31 Jul 2022 19:32:46 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:54485)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1oIIQK-0000Zn-Px
+ for qemu-devel@nongnu.org; Sun, 31 Jul 2022 19:32:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1659310361; x=1690846361;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=9GuUH6DPOICmLp1x7/Cl6g+pmIVae1KtaEMVWl3v7NU=;
+ b=gMFekgo1sD2LCLLjC5nIZrFCqht1CVkx51uVnswR3smqatXWDSXzWEFv
+ 8Nfkg3tZq20uS46/uFxtBIoK77goOiy8m1sTtvAZFH+tihparUi0qKMQs
+ tcIn6u7IkpAS78oY6tpxtf4mS3qMbjvNXlusg5PdidqigcSStWA7cJcMY A=;
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+ by alexa-out.qualcomm.com with ESMTP; 31 Jul 2022 16:32:34 -0700
+X-QCInternal: smtphost
+Received: from hu-tsimpson-lv.qualcomm.com (HELO
+ hu-devc-lv-u18-c.qualcomm.com) ([10.47.235.220])
+ by ironmsg09-lv.qualcomm.com with ESMTP; 31 Jul 2022 16:32:34 -0700
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id F0D545000B9; Sun, 31 Jul 2022 16:32:33 -0700 (PDT)
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: qemu-devel@nongnu.org
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, f4bug@amsat.org,
+ peter.maydell@linaro.org
+Subject: [PULL 0/3] Hexagon bug fixes and test improvements
+Date: Sun, 31 Jul 2022 16:32:29 -0700
+Message-Id: <20220731233232.2473-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
- envelope-from=tcminyard@gmail.com; helo=mail-qt1-x82a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=129.46.98.28; envelope-from=tsimpson@qualcomm.com;
+ helo=alexa-out.qualcomm.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,43 +71,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Corey Minyard <cminyard@mvista.com>
-
-In one case:
-
-  memcpy(sid->inmsg + sid->inlen, buf, len);
-
-if len == 0 then sid->inmsg + sig->inlen can point to one past the inmsg
-array if the array is full.  We have to allow len == 0 due to some
-vagueness in the spec, but we don't have to call memcpy.
-
-Found by Coverity.  This is not a problem in practice, but the results
-are technically (maybe) undefined.  So make Coverity happy.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Corey Minyard <cminyard@mvista.com>
----
- hw/ipmi/smbus_ipmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-I think this should do it.
-
-diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-index 9ef9112dd5..d0991ab7f9 100644
---- a/hw/ipmi/smbus_ipmi.c
-+++ b/hw/ipmi/smbus_ipmi.c
-@@ -281,7 +281,9 @@ static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
-              */
-             send = true;
-         }
--        memcpy(sid->inmsg + sid->inlen, buf, len);
-+        if (len > 0) {
-+            memcpy(sid->inmsg + sid->inlen, buf, len);
-+        }
-         sid->inlen += len;
-         break;
-     }
--- 
-2.25.1
-
+VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCAzOTE2NjAzZTBjMWQ5MDllMTRlMDlk
+NWViY2JkYWE5YzllMjFhZGYzOgoKICBNZXJnZSB0YWcgJ3B1bGwtbGEtMjAyMjA3MjknIG9mIGh0
+dHBzOi8vZ2l0bGFiLmNvbS9ydGg3NjgwL3FlbXUgaW50byBzdGFnaW5nICgyMDIyLTA3LTI5IDE3
+OjM5OjE3IC0wNzAwKQoKYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkgYXQ6Cgog
+IGh0dHBzOi8vZ2l0aHViLmNvbS9xdWljL3FlbXUgdGFncy9wdWxsLWhleC0yMDIyMDczMQoKZm9y
+IHlvdSB0byBmZXRjaCBjaGFuZ2VzIHVwIHRvIDdlYWJiMDUwZWE3N2U1MjlmNTQ5ZWExZGRhYWEx
+OGU5MWFlMDFlMzQ6CgogIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29uKSByZWZlcmVuY2UgZmls
+ZSBmb3IgZmxvYXRfY29udmQgKDIwMjItMDctMzEgMTY6MjI6MDkgLTA3MDApCgotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkhl
+eGFnb24gYnVnIGZpeGVzIGFuZCB0ZXN0IGltcHJvdmVtZW50cwoKMSkgRml4ZXMgYSBidWcgaW4g
+cWVtdS1oZXhhZ29uCjIpIEZpeGVzIGEgYnVnIGluIGEgdGVzdCBjYXNlCjMpIEFkZHMgcmVmZXJl
+bmNlIGZpbGUgZm9yIGZsb2F0X2NvbnZkIHRlc3QgY2FzZQoKLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpUYXlsb3IgU2ltcHNv
+biAoMyk6CiAgICAgIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBtYWtlIFZ5ViBvcGVyYW5kcyB1
+c2UgYSB1bmlxdWUgdGVtcAogICAgICBIZXhhZ29uICh0ZXN0cy90Y2cvaGV4YWdvbikgRml4IGFs
+aWdubWVudCBpbiBsb2FkX3VucGFjay5jCiAgICAgIEhleGFnb24gKHRlc3RzL3RjZy9oZXhhZ29u
+KSByZWZlcmVuY2UgZmlsZSBmb3IgZmxvYXRfY29udmQKCiB0ZXN0cy90Y2cvaGV4YWdvbi9odnhf
+bWlzYy5jICAgICAgfCAgNDUgKysKIHRlc3RzL3RjZy9oZXhhZ29uL2xvYWRfdW5wYWNrLmMgICB8
+ICAxNCArLQogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5weSAgIHwgICA5ICstCiB0ZXN0
+cy90Y2cvaGV4YWdvbi9mbG9hdF9jb252ZC5yZWYgfCA5ODggKysrKysrKysrKysrKysrKysrKysr
+KysrKysrKysrKysrKysrKysKIDQgZmlsZXMgY2hhbmdlZCwgMTA0NCBpbnNlcnRpb25zKCspLCAx
+MiBkZWxldGlvbnMoLSkKIGNyZWF0ZSBtb2RlIDEwMDY0NCB0ZXN0cy90Y2cvaGV4YWdvbi9mbG9h
+dF9jb252ZC5yZWYK
 
