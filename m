@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2160585F84
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jul 2022 17:40:21 +0200 (CEST)
-Received: from localhost ([::1]:46900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE18585FCF
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jul 2022 18:24:53 +0200 (CEST)
+Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIB3E-0005gE-Gr
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 11:40:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
+	id 1oIBkK-0005SR-ED
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 12:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIB1v-0004KB-6Z
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 11:38:59 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:43753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIB1p-00012j-Sw
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 11:38:58 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id h132so7643719pgc.10
- for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 08:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language
- :from:to:cc:references:in-reply-to:content-transfer-encoding;
- bh=jRHbYs6z/gP+GfMAqGlRwjnUQIHAZ900osT/jPluSZ8=;
- b=TLCbEBmNlR2OSYio0ZEXObkAMhSqiUO6Vliji3GuNwJitoUYfkys3nf65UJsnGSmB3
- KWZ68CremBTPYvEQWZEA8Bfb3uKU+HNNs6WfzOuuE/XVQLhP1yQYcNJKd4VWXtcv95vo
- GSI/yhgMR18akhneYoS8+9/DdM7ngkyisPDiocAUS1GLuGXn5Rt9+qfiIM5vul1MuT4X
- c66QgMqUmdHntcV4q0VcUOkbWrNVfA2bQYGBDV/eFVzPjQ9ah8DPPc4PpL6EL1h7r+rA
- /gbsCFHRSv94AnM4vD9ETF+WNS0qn/eIsjyJLyCnVFHk0gs1FKyw4wxr5vctWTwd7UD+
- 4hig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:from:to:cc:references:in-reply-to
- :content-transfer-encoding;
- bh=jRHbYs6z/gP+GfMAqGlRwjnUQIHAZ900osT/jPluSZ8=;
- b=4U/U21ziOIcXsmmmznPJ/tt63desQRldP7BCrOJigOY5PRuoYT1QXXFaiJyEyeUY4W
- Ww17pUj9/dphl6qrgQv5Ldift0QaF+9PGNa9DcGwra9hSEZ7LBDiCawgRl6iOk3lVutB
- h1XraW/V7ys8uRIkjOXCHM7gkan9LcmDmdKIvGtm9Dwx4Vq01lhnfqOyOs9B7SiaJ/9i
- cjoTRRAM7GWoqbPcz7YZIcXwa4lGStznTNFqIccn1X7FrcpfMujxSlQu7ToiuhhxiIkv
- NQ5VAaxeWZ7f1rMmdYJYPOd1REskpqxY9y1AZEp2Yikl1in5nJBl8GJzq+GPrz1gKJQF
- 1tvA==
-X-Gm-Message-State: ACgBeo0wbD0sF4H0oDzADTpV8jTTWG0S3iJBN+G/5d1JJLCVLM4ou5vc
- 5h6dv/gN0+SeNnjU+U7QpXq/7QaziL4XsA==
-X-Google-Smtp-Source: AA6agR42kUbzJrb2q6g5GCkAXUn6qPPz5mqD2Xor7bDr7MpCiYnWYLwV6G9Ls6bb0195k/FDwbG04A==
-X-Received: by 2002:a05:6a00:2d1:b0:52d:36bb:14d7 with SMTP id
- b17-20020a056a0002d100b0052d36bb14d7mr4764815pft.22.1659281931739; 
- Sun, 31 Jul 2022 08:38:51 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:5139:b549:d926:6e86?
- ([2602:ae:1549:801:5139:b549:d926:6e86])
- by smtp.gmail.com with ESMTPSA id
- m5-20020a170902f64500b0016d7eb68aadsm7546010plg.230.2022.07.31.08.38.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jul 2022 08:38:51 -0700 (PDT)
-Message-ID: <1b223635-3cc6-9ec2-198b-e4397e0adc1a@linaro.org>
-Date: Sun, 31 Jul 2022 08:38:49 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH] linux-user: Implement faccessat2
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBid-0002Oe-0S
+ for qemu-devel@nongnu.org; Sun, 31 Jul 2022 12:23:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26430)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBiZ-0007T5-MZ
+ for qemu-devel@nongnu.org; Sun, 31 Jul 2022 12:23:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659284580;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=d82wi4XTmN84SZEhizJIYdG2JWQIE63kEOZqqj1sOuw=;
+ b=Nb/g6SeZDVOnTHZuV29pzV6h8YBMn1QuVZgwoCUv4gkeiuu6EGQfLnEzVMWkFnPtCjDFnQ
+ dQiwF6yXZLJAhSQXp0bGgoY6V9McyBWwOXnWhCBIyMLTc3D27WAEMszQWeuHqr56j7atAM
+ eLtHd6cajO9BwcCw9UPeaxTr3yRiuS0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-14-Pu8kU-PYNuG4IQCCToMLTA-1; Sun, 31 Jul 2022 12:21:49 -0400
+X-MC-Unique: Pu8kU-PYNuG4IQCCToMLTA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C4484101A54E;
+ Sun, 31 Jul 2022 16:21:48 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.192.85])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DAF52026D64;
+ Sun, 31 Jul 2022 16:21:47 +0000 (UTC)
+From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: laurent@vivier.eu
-References: <20220729201414.29869-1-richard.henderson@linaro.org>
-In-Reply-To: <20220729201414.29869-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
+Subject: [PATCH v2 0/5] hw/smbios: add core_count2 to smbios table type 4
+Date: Sun, 31 Jul 2022 18:21:36 +0200
+Message-Id: <20220731162141.178443-1-jusual@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jusual@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,17 +74,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/29/22 13:14, Richard Henderson wrote:
-> -        ret = get_errno(access(path(p), arg2));
-> -        unlock_user(p, arg1, 0);
-> -        return ret;
-> +        return do_faccessat2(AT_FDCWD, arg1, arg2, 0);
+The SMBIOS 3.0 specification provides the ability to reflect over
+255 cores. The 64-bit entry point has been used for a while, but
+structure type 4 has not been updated before, so the dmidecode output
+looked like this (-smp 280):
 
-Oops, dropped path().
+    Handle 0x0400, DMI type 4, 42 bytes
+    Processor Information
+    ...
+        Core Count: 24
+        Core Enabled: 24
+        Thread Count: 1
+    ...
 
-Should perhaps be incorporated into the helper, because newer targets won't have or use 
-plain access()...
+Big update in the bios-tables-test as it couldn't work with SMBIOS 3.0.
 
+v2:
+    * generate tables type 4 of different sizes based on the
+      selected smbios version
+    * use SmbiosEntryPoint* types instead of creating new constants
+    * refactor smbios_cpu_test [Igor, Ani]
+    * clarify signature check [Igor]
+    * add comments with specifications and clarification of the structure loop [Ani]
 
-r~
+Julia Suvorova (5):
+  hw/smbios: add core_count2 to smbios table type 4
+  bios-tables-test: teach test to use smbios 3.0 tables
+  tests/acpi: allow changes for core_count2 test
+  bios-tables-test: add test for number of cores > 255
+  tests/acpi: update tables for new core count test
+
+ hw/smbios/smbios_build.h             |   9 +-
+ include/hw/firmware/smbios.h         |  11 ++
+ hw/smbios/smbios.c                   |  18 +++-
+ tests/qtest/bios-tables-test.c       | 148 ++++++++++++++++++++-------
+ tests/data/acpi/q35/APIC.core-count2 | Bin 0 -> 2478 bytes
+ tests/data/acpi/q35/DSDT.core-count2 | Bin 0 -> 32414 bytes
+ tests/data/acpi/q35/FACP.core-count2 | Bin 0 -> 244 bytes
+ 7 files changed, 144 insertions(+), 42 deletions(-)
+ create mode 100644 tests/data/acpi/q35/APIC.core-count2
+ create mode 100644 tests/data/acpi/q35/DSDT.core-count2
+ create mode 100644 tests/data/acpi/q35/FACP.core-count2
+
+-- 
+2.35.3
+
 
