@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2042585FCE
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jul 2022 18:24:50 +0200 (CEST)
-Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57AB7585FD2
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jul 2022 18:26:54 +0200 (CEST)
+Received: from localhost ([::1]:45946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIBkH-0005Io-Bi
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 12:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35098)
+	id 1oIBmH-0001F1-EY
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 12:26:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBid-0002Oh-1c
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBid-0002Og-Eh
  for qemu-devel@nongnu.org; Sun, 31 Jul 2022 12:23:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22249)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32920)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBiZ-0007T6-Pi
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 12:23:06 -0400
+ (Exim 4.90_1) (envelope-from <jusual@redhat.com>) id 1oIBiZ-0007T7-Pm
+ for qemu-devel@nongnu.org; Sun, 31 Jul 2022 12:23:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1659284580;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ga/b0+NOzoSCaBBRmFRVnQAfZHwhcJrcPSqwTKXSXKs=;
- b=ZIijiSS6iZzRY/NHJfKomP5QImrX1S9wxJQ0Sy2ljQuvwYgc1UlcQPp0scYM1gqPCwTjep
- ZDNHx9Obgdhy8pKgQTSNUCtIbrpZ2UbtqkNbl/kOmPs0W5/e+Vnceo/m+/8Pwjx4BXvvxc
- gqVJFbOqb7weKSZp0yrIs/5RiFZloRI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Kisf0A4OxU3whIMuLxAmap6kESwwYZovfWK9YbR+hWg=;
+ b=alSC2yKBuTBMW0nlVeT/70GgZW1s3AgxDb7ezzh32C6+GOyJNdJ+2mz/G9+7EMJqJPGdRk
+ 5Z2vz3BXIQ4239Y3eCizkPUV5a5sOISivyCKB47BC99Cy5JDYm4F/vARlzmcy0CshHGVQH
+ r8Chl/n/BUyVfqIg2BBHYqdCJXXNO3Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-382-bIZG4ucVMhCJSDc9E-F5tg-1; Sun, 31 Jul 2022 12:21:51 -0400
-X-MC-Unique: bIZG4ucVMhCJSDc9E-F5tg-1
+ us-mta-532-DhUS2Ze4O4uwOPKS1TiGmQ-1; Sun, 31 Jul 2022 12:21:54 -0400
+X-MC-Unique: DhUS2Ze4O4uwOPKS1TiGmQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BB803C02199;
- Sun, 31 Jul 2022 16:21:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 50C328032FB;
+ Sun, 31 Jul 2022 16:21:54 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.39.192.85])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D44B2026D64;
- Sun, 31 Jul 2022 16:21:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D763F2026D64;
+ Sun, 31 Jul 2022 16:21:52 +0000 (UTC)
 From: Julia Suvorova <jusual@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
  Ani Sinha <ani@anisinha.ca>, Julia Suvorova <jusual@redhat.com>
-Subject: [PATCH v2 1/5] hw/smbios: add core_count2 to smbios table type 4
-Date: Sun, 31 Jul 2022 18:21:37 +0200
-Message-Id: <20220731162141.178443-2-jusual@redhat.com>
+Subject: [PATCH v2 2/5] bios-tables-test: teach test to use smbios 3.0 tables
+Date: Sun, 31 Jul 2022 18:21:38 +0200
+Message-Id: <20220731162141.178443-3-jusual@redhat.com>
 In-Reply-To: <20220731162141.178443-1-jusual@redhat.com>
 References: <20220731162141.178443-1-jusual@redhat.com>
 MIME-Version: 1.0
@@ -77,120 +77,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to use the increased number of cpus, we need to bring smbios
-tables in line with the SMBIOS 3.0 specification. This allows us to
-introduce core_count2 which acts as a duplicate of core_count if we have
-fewer cores than 256, and contains the actual core number per socket if
-we have more.
-
-core_enabled2 and thread_count2 fields work the same way.
+Introduce the 64-bit entry point. Since we no longer have a total
+number of structures, stop checking for the new ones at the EOF
+structure (type 127).
 
 Signed-off-by: Julia Suvorova <jusual@redhat.com>
 ---
- hw/smbios/smbios_build.h     |  9 +++++++--
- include/hw/firmware/smbios.h | 11 +++++++++++
- hw/smbios/smbios.c           | 18 +++++++++++++++---
- 3 files changed, 33 insertions(+), 5 deletions(-)
+ tests/qtest/bios-tables-test.c | 95 +++++++++++++++++++++++++---------
+ 1 file changed, 71 insertions(+), 24 deletions(-)
 
-diff --git a/hw/smbios/smbios_build.h b/hw/smbios/smbios_build.h
-index 56b5a1e3f3..351660024e 100644
---- a/hw/smbios/smbios_build.h
-+++ b/hw/smbios/smbios_build.h
-@@ -27,6 +27,11 @@ extern unsigned smbios_table_max;
- extern unsigned smbios_table_cnt;
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 359916c228..e352d5249f 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -88,8 +88,8 @@ typedef struct {
+     uint64_t rsdp_addr;
+     uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
+     GArray *tables;
+-    uint32_t smbios_ep_addr;
+-    struct smbios_21_entry_point smbios_ep_table;
++    uint64_t smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE__MAX];
++    SmbiosEntryPoint smbios_ep_table;
+     uint16_t smbios_cpu_max_speed;
+     uint16_t smbios_cpu_curr_speed;
+     uint8_t *required_struct_types;
+@@ -533,10 +533,9 @@ static void test_acpi_asl(test_data *data)
+     free_test_data(&exp_data);
+ }
  
- #define SMBIOS_BUILD_TABLE_PRE(tbl_type, tbl_handle, tbl_required)        \
-+        SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle, tbl_required,   \
-+                                    sizeof(struct smbios_type_##tbl_type))\
-+
-+#define SMBIOS_BUILD_TABLE_PRE_SIZE(tbl_type, tbl_handle,                 \
-+                                    tbl_required, tbl_len)                \
-     struct smbios_type_##tbl_type *t;                                     \
-     size_t t_off; /* table offset into smbios_tables */                   \
-     int str_index = 0;                                                    \
-@@ -39,12 +44,12 @@ extern unsigned smbios_table_cnt;
-         /* use offset of table t within smbios_tables */                  \
-         /* (pointer must be updated after each realloc) */                \
-         t_off = smbios_tables_len;                                        \
--        smbios_tables_len += sizeof(*t);                                  \
-+        smbios_tables_len += tbl_len;                                     \
-         smbios_tables = g_realloc(smbios_tables, smbios_tables_len);      \
-         t = (struct smbios_type_##tbl_type *)(smbios_tables + t_off);     \
-                                                                           \
-         t->header.type = tbl_type;                                        \
--        t->header.length = sizeof(*t);                                    \
-+        t->header.length = tbl_len;                                       \
-         t->header.handle = cpu_to_le16(tbl_handle);                       \
-     } while (0)
- 
-diff --git a/include/hw/firmware/smbios.h b/include/hw/firmware/smbios.h
-index 4b7ad77a44..56f7bf0fea 100644
---- a/include/hw/firmware/smbios.h
-+++ b/include/hw/firmware/smbios.h
-@@ -18,6 +18,8 @@
- 
- 
- #define SMBIOS_MAX_TYPE 127
-+#define offsetofend(TYPE, MEMBER) \
-+       (offsetof(TYPE, MEMBER) + sizeof_field(TYPE, MEMBER))
- 
- /* memory area description, used by type 19 table */
- struct smbios_phys_mem_area {
-@@ -187,8 +189,17 @@ struct smbios_type_4 {
-     uint8_t thread_count;
-     uint16_t processor_characteristics;
-     uint16_t processor_family2;
-+    /* SMBIOS spec 3.0.0, Table 21 */
-+    uint16_t core_count2;
-+    uint16_t core_enabled2;
-+    uint16_t thread_count2;
- } QEMU_PACKED;
- 
-+typedef enum smbios_type_4_len_ver {
-+    SMBIOS_TYPE_4_LEN_V28 = offsetofend(struct smbios_type_4, processor_family2),
-+    SMBIOS_TYPE_4_LEN_V30 = offsetofend(struct smbios_type_4, thread_count2),
-+} smbios_type_4_len_ver;
-+
- /* SMBIOS type 11 - OEM strings */
- struct smbios_type_11 {
-     struct smbios_structure_header header;
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 60349ee402..657093e5f6 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -681,8 +681,13 @@ static void smbios_build_type_3_table(void)
- static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
+-static bool smbios_ep_table_ok(test_data *data)
++static bool smbios_ep2_table_ok(test_data *data, uint32_t addr)
  {
-     char sock_str[128];
-+    size_t tbl_len = SMBIOS_TYPE_4_LEN_V28;
+-    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
+-    uint32_t addr = data->smbios_ep_addr;
++    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table.ep21;
  
--    SMBIOS_BUILD_TABLE_PRE(4, T4_BASE + instance, true); /* required */
-+    if (smbios_ep_type == SMBIOS_ENTRY_POINT_TYPE_64) {
-+        tbl_len = SMBIOS_TYPE_4_LEN_V30;
+     qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
+     if (memcmp(ep_table->anchor_string, "_SM_", 4)) {
+@@ -559,13 +558,29 @@ static bool smbios_ep_table_ok(test_data *data)
+     return true;
+ }
+ 
+-static void test_smbios_entry_point(test_data *data)
++static bool smbios_ep3_table_ok(test_data *data, uint64_t addr)
++{
++    struct smbios_30_entry_point *ep_table = &data->smbios_ep_table.ep30;
++
++    qtest_memread(data->qts, addr, ep_table, sizeof(*ep_table));
++    if (memcmp(ep_table->anchor_string, "_SM3_", 5)) {
++        return false;
 +    }
 +
-+    SMBIOS_BUILD_TABLE_PRE_SIZE(4, T4_BASE + instance, true, tbl_len); /* required */
++    if (acpi_calc_checksum((uint8_t *)ep_table, sizeof *ep_table)) {
++        return false;
++    }
++
++    return true;
++}
++
++static SmbiosEntryPointType test_smbios_entry_point(test_data *data)
+ {
+     uint32_t off;
  
-     snprintf(sock_str, sizeof(sock_str), "%s%2x", type4.sock_pfx, instance);
-     SMBIOS_TABLE_SET_STR(4, socket_designation_str, sock_str);
-@@ -709,8 +714,15 @@ static void smbios_build_type_4_table(MachineState *ms, unsigned instance)
-     SMBIOS_TABLE_SET_STR(4, serial_number_str, type4.serial);
-     SMBIOS_TABLE_SET_STR(4, asset_tag_number_str, type4.asset);
-     SMBIOS_TABLE_SET_STR(4, part_number_str, type4.part);
--    t->core_count = t->core_enabled = ms->smp.cores;
--    t->thread_count = ms->smp.threads;
-+
-+    t->core_count = (ms->smp.cores > 255) ? 0xFF : ms->smp.cores;
-+    t->core_enabled = t->core_count;
-+
-+    t->core_count2 = t->core_enabled2 = cpu_to_le16(ms->smp.cores);
-+
-+    t->thread_count = (ms->smp.threads > 255) ? 0xFF : ms->smp.threads;
-+    t->thread_count2 = cpu_to_le16(ms->smp.threads);
-+
-     t->processor_characteristics = cpu_to_le16(0x02); /* Unknown */
-     t->processor_family2 = cpu_to_le16(0x01); /* Other */
+     /* find smbios entry point structure */
+     for (off = 0xf0000; off < 0x100000; off += 0x10) {
+-        uint8_t sig[] = "_SM_";
++        uint8_t sig[] = "_SM_", sig3[] = "_SM3_";
+         int i;
  
+         for (i = 0; i < sizeof sig - 1; ++i) {
+@@ -574,14 +589,30 @@ static void test_smbios_entry_point(test_data *data)
+ 
+         if (!memcmp(sig, "_SM_", sizeof sig)) {
+             /* signature match, but is this a valid entry point? */
+-            data->smbios_ep_addr = off;
+-            if (smbios_ep_table_ok(data)) {
++            if (smbios_ep2_table_ok(data, off)) {
++                data->smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE_32] = off;
++            }
++        }
++
++        for (i = 0; i < sizeof sig3 - 1; ++i) {
++            sig3[i] = qtest_readb(data->qts, off + i);
++        }
++
++        if (!memcmp(sig3, "_SM3_", sizeof sig3)) {
++            if (smbios_ep3_table_ok(data, off)) {
++                data->smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE_64] = off;
++                /* found 64-bit entry point, no need to look for 32-bit one */
+                 break;
+             }
+         }
+     }
+ 
+-    g_assert_cmphex(off, <, 0x100000);
++    /* found at least one entry point */
++    g_assert_true(data->smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE_32] ||
++                  data->smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE_64]);
++
++    return data->smbios_ep_addr[SMBIOS_ENTRY_POINT_TYPE_64] ?
++           SMBIOS_ENTRY_POINT_TYPE_64 : SMBIOS_ENTRY_POINT_TYPE_32;
+ }
+ 
+ static inline bool smbios_single_instance(uint8_t type)
+@@ -625,16 +656,23 @@ static bool smbios_cpu_test(test_data *data, uint32_t addr)
+     return true;
+ }
+ 
+-static void test_smbios_structs(test_data *data)
++static void test_smbios_structs(test_data *data, SmbiosEntryPointType ep_type)
+ {
+     DECLARE_BITMAP(struct_bitmap, SMBIOS_MAX_TYPE+1) = { 0 };
+-    struct smbios_21_entry_point *ep_table = &data->smbios_ep_table;
+-    uint32_t addr = le32_to_cpu(ep_table->structure_table_address);
+-    int i, len, max_len = 0;
++
++    SmbiosEntryPoint *ep_table = &data->smbios_ep_table;
++    int i = 0, len, max_len = 0;
+     uint8_t type, prv, crt;
++    uint64_t addr;
++
++    if (ep_type == SMBIOS_ENTRY_POINT_TYPE_32) {
++        addr = le32_to_cpu(ep_table->ep21.structure_table_address);
++    } else {
++        addr = le64_to_cpu(ep_table->ep30.structure_table_address);
++    }
+ 
+     /* walk the smbios tables */
+-    for (i = 0; i < le16_to_cpu(ep_table->number_of_structures); i++) {
++    do {
+ 
+         /* grab type and formatted area length from struct header */
+         type = qtest_readb(data->qts, addr);
+@@ -660,19 +698,28 @@ static void test_smbios_structs(test_data *data)
+         }
+ 
+         /* keep track of max. struct size */
+-        if (max_len < len) {
++        if (ep_type == SMBIOS_ENTRY_POINT_TYPE_32 && max_len < len) {
+             max_len = len;
+-            g_assert_cmpuint(max_len, <=, ep_table->max_structure_size);
++            g_assert_cmpuint(max_len, <=, ep_table->ep21.max_structure_size);
+         }
+ 
+         /* start of next structure */
+         addr += len;
+-    }
+ 
+-    /* total table length and max struct size must match entry point values */
+-    g_assert_cmpuint(le16_to_cpu(ep_table->structure_table_length), ==,
+-                     addr - le32_to_cpu(ep_table->structure_table_address));
+-    g_assert_cmpuint(le16_to_cpu(ep_table->max_structure_size), ==, max_len);
++    /*
++     * Until all structures have been scanned (ep21)
++     * or an EOF structure is found (ep30)
++     */
++    } while (ep_type == SMBIOS_ENTRY_POINT_TYPE_32 ?
++                ++i < le16_to_cpu(ep_table->ep21.number_of_structures) :
++                type != 127);
++
++    if (ep_type == SMBIOS_ENTRY_POINT_TYPE_32) {
++        /* total table length and max struct size must match entry point values */
++        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.structure_table_length), ==,
++                         addr - le32_to_cpu(ep_table->ep21.structure_table_address));
++        g_assert_cmpuint(le16_to_cpu(ep_table->ep21.max_structure_size), ==, max_len);
++    }
+ 
+     /* required struct types must all be present */
+     for (i = 0; i < data->required_struct_types_len; i++) {
+@@ -756,8 +803,8 @@ static void test_acpi_one(const char *params, test_data *data)
+      * https://bugs.launchpad.net/qemu/+bug/1821884
+      */
+     if (!use_uefi) {
+-        test_smbios_entry_point(data);
+-        test_smbios_structs(data);
++        SmbiosEntryPointType ep_type = test_smbios_entry_point(data);
++        test_smbios_structs(data, ep_type);
+     }
+ 
+     qtest_quit(data->qts);
 -- 
 2.35.3
 
