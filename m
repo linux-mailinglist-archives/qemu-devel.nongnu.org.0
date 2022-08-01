@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A5B586C61
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:57:22 +0200 (CEST)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7B6586C8B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 16:06:17 +0200 (CEST)
+Received: from localhost ([::1]:41758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIVv6-0006DP-Gy
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:57:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34742)
+	id 1oIW3f-0006Om-UY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 10:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oIVdJ-0001FT-1g
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:38:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1oIVdG-0003tY-JL
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:38:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659361133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gGuFtr5V6f43nJT7lTikmn91ygy0tx/z9W7ZDza/kIg=;
- b=T7Hi56jM98XtKARZ8nSZFi8bA83/4nTm+fNEtZ9CO0t8aIY5NPqh3ZYZ0GMyb22MTM+LGd
- AEF5Hv2Rtmc03QI7toQdl28BN8ckPkYyYRy/iJBsZCV7NX+9dTgzS4lQzQ39uejEuWTr1t
- vSpO2OUTB8JabRtmJVuToTgI+aREqrI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-uiUlMj_DPNWAMASYkZNqkQ-1; Mon, 01 Aug 2022 09:38:50 -0400
-X-MC-Unique: uiUlMj_DPNWAMASYkZNqkQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C870F280EE2E;
- Mon,  1 Aug 2022 13:38:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.112])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7786490A00;
- Mon,  1 Aug 2022 13:38:48 +0000 (UTC)
-Date: Mon, 1 Aug 2022 08:38:46 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, damien.lemoal@opensource.wdc.com,
- dmitry.fomichev@wdc.com, hare@suse.de, stefanha@redhat.com,
- mst@redhat.com, armbru@redhat.com, qemu-block@nongnu.org,
- fam@euphon.net, kwolf@redhat.com, hreitz@redhat.com
-Subject: Re: [RFC v5 05/11] block: add block layer APIs resembling Linux
- ZonedBlockDevice ioctls
-Message-ID: <20220801133846.opjunacnhorxftxl@redhat.com>
-References: <20220801013305.10561-1-faithilikerun@gmail.com>
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1oIW0J-0003Nn-IB
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 10:02:43 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:40709)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1oIW0E-0008Tr-77
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 10:02:43 -0400
+Received: by mail-qt1-x833.google.com with SMTP id bz13so8043118qtb.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 07:02:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
+ :from:date:sender:from:to:cc;
+ bh=hlV2JNAOmigrkj3YWDxnHLiv1NhjV6wlTSQ/dRdlK/c=;
+ b=RtvbCR3XCC74aCnqXMfGJbsDdoPu1Ddzx6OqBwtzsduAYwTTvqbn+Hb15C5oTpKFCO
+ S73SwFPOm1rRIkYwgsfpismlQfZB2fYhfEodfX5HXCA4Fzbmir/Pt3JQiQrqozyT1FWw
+ AUUyQhxiFBXXEIxTmPBPao27J/vQpNqmAQBAGn4EwZe51cljeN56oMX5fYGPzQvi4jGe
+ +KX1NI4rXc4BHXlUEWNHq78+UvdoFzlyLkUqKk8X4gIbNJv0KfysIo+h9uUzY3L1hEzr
+ mYO+kAZnHrd20thZldX2FLpbX6K4Bp9s82uRuo+vkDYjUF9sD00VFonWRMsz1t7hgyzu
+ IapA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-disposition:mime-version:reply-to:message-id:subject:cc:to
+ :from:date:sender:x-gm-message-state:from:to:cc;
+ bh=hlV2JNAOmigrkj3YWDxnHLiv1NhjV6wlTSQ/dRdlK/c=;
+ b=dYMHHBmjxZDof9okfsC1PPxe1fRSPZDQ88xjoKKK7LgBm9DkZvhhYeVnFBK2y7sHzI
+ wMHnNIefdMWc1K8CLRTKT+ASCUankSFh5jAhgxrmByspkxGs+wlBxSFOuG8j8Sf2vAZV
+ pLZ+6qXiud/5mnYoNXb36sEuK9ZAI+ErZCTHDQsYZa5brFrVovcD/CfxfY6yeIyvPz/T
+ 7HubN7UDZRRvSEE948JROo9pzGHWrqtSIp/VUNlAIA5qQWnn1Ei1BEPiMzP496s4wP2p
+ QoQnldPSAIKuiIbQod2HhYfOnayEighFvybitLpswrIPBOzpeXRQrkdJxotR8JNBa5sL
+ pHBA==
+X-Gm-Message-State: AJIora+GGkzyey1GupBNYS40uwZV6SYvlm4T3xvnkwLomLq0zkyv3tVI
+ XIlp6g5qYgJzoFvM8FHbVw==
+X-Google-Smtp-Source: AGRyM1ue4NCO2MVXR3Yf+qH0TYaOmATeKsFYTeCyGLxeV4+dRacRP/GelMDlyYXl/98mZgTYuI8eIA==
+X-Received: by 2002:a05:622a:5d2:b0:31e:e353:4f76 with SMTP id
+ d18-20020a05622a05d200b0031ee3534f76mr14421380qtb.99.1659362557094; 
+ Mon, 01 Aug 2022 07:02:37 -0700 (PDT)
+Received: from serve.minyard.net ([47.184.144.75])
+ by smtp.gmail.com with ESMTPSA id
+ c4-20020ac853c4000000b0031ef0081d77sm7184600qtq.79.2022.08.01.07.02.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 07:02:29 -0700 (PDT)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:5014:1ce0:c372:36cb])
+ by serve.minyard.net (Postfix) with ESMTPSA id 4A7591800D9;
+ Mon,  1 Aug 2022 14:02:18 +0000 (UTC)
+Date: Mon, 1 Aug 2022 09:02:17 -0500
+From: Corey Minyard <minyard@acm.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Subject: [PULL] IPMI bug fixes
+Message-ID: <20220801140217.GA3834@minyard.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220801013305.10561-1-faithilikerun@gmail.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=tcminyard@gmail.com; helo=mail-qt1-x833.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,46 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: minyard@acm.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 01, 2022 at 09:33:05AM +0800, Sam Li wrote:
-> By adding zone management operations in BlockDriver, storage controller
-> emulation can use the new block layer APIs including Report Zone and
-> four zone management operations (open, close, finish, reset).
-> 
-> BlockDriver can get zone information from null_blk device by refreshing
-> BLockLimits.
-> 
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  block/block-backend.c            |  47 ++++++
->  block/coroutines.h               |   6 +
->  block/file-posix.c               | 272 ++++++++++++++++++++++++++++++-
->  block/io.c                       |  57 +++++++
->  include/block/block-common.h     |   1 -
->  include/block/block-io.h         |  13 ++
->  include/block/block_int-common.h |  22 ++-
->  include/block/raw-aio.h          |   6 +-
->  meson.build                      |   1 +
->  qapi/block-core.json             |   7 +-
->  10 files changed, 426 insertions(+), 6 deletions(-)
-> 
+Not a huge deal, but probably makes mainainers lives a little easier.
 
-> +++ b/qapi/block-core.json
-> @@ -2955,7 +2955,8 @@
->              'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
->              'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
->              { 'name': 'replication', 'if': 'CONFIG_REPLICATION' },
-> -            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat' ] }
-> +            'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat',
-> +            { 'name': 'zoned_host_device', 'if': 'CONFIG_BLKZONED' } ] }
+Add a change to make Coverity happy.
 
-Missing a documentation line of '# @zoned_host_deivce: Since 7.2'.
+----------------------------------------------------------------
+Corey Minyard (1):
+      ipmi:smbus: Add a check around a memcpy
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+ hw/ipmi/smbus_ipmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+cminyard@t560:/personal/git/qemu/Z$ git request-pull master origin tags/for-qemu-2022-08-01
+The following changes since commit cc42559ab129a15554cc485ea9265e34dde7ab5b:
+
+  Merge tag 'pull-ppc-20220728' of https://gitlab.com/danielhb/qemu into staging (2022-07-28 15:06:42 -0700)
+
+are available in the Git repository at:
+
+  git@github.com:cminyard/qemu.git tags/for-qemu-2022-08-01
+
+for you to fetch changes up to 3fde641e7286f9b968bdb3b4b922c6465f2a9abc:
+
+  ipmi:smbus: Add a check around a memcpy (2022-08-01 06:40:50 -0500)
+
+----------------------------------------------------------------
+Add a change to make Coverity happy.
+
+----------------------------------------------------------------
+Corey Minyard (1):
+      ipmi:smbus: Add a check around a memcpy
+
+ hw/ipmi/smbus_ipmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 
