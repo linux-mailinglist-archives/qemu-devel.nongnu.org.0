@@ -2,91 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E396586604
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:09:45 +0200 (CEST)
-Received: from localhost ([::1]:46376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C8D3586612
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:13:42 +0200 (CEST)
+Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQUh-0006XS-6d
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52808)
+	id 1oIQYX-0001eV-G4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:13:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIQOK-0004Gp-Oj
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:03:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:29152)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oIQSt-0005ho-6i
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:52 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:3949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIQOG-0005S3-NY
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:03:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659340982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tzWrGyrBnCRfJmLYE3x1rC5LOGlmZ8fsg3cSruvLgs0=;
- b=Hg0fnbu7v7xHqM66l62f1VqzQWY+KOsoG3E7K2NUgpwNkp+JHQpYsdhlAuuSs+8thriy69
- ufgzNi02cm8CeDce+WiY+drdozWTiev0UU7JeCmPQCBg4BebcxnOiGWOLh9Ixp7FokJ1Ae
- Q0vh+vMgFNO9/3xcUJHgVYEamR2WJ6c=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-j9WV6sN3OIyu89BeFJimFw-1; Mon, 01 Aug 2022 04:03:01 -0400
-X-MC-Unique: j9WV6sN3OIyu89BeFJimFw-1
-Received: by mail-qk1-f200.google.com with SMTP id
- f20-20020a05620a409400b006b5fc740485so8682612qko.12
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:03:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tzWrGyrBnCRfJmLYE3x1rC5LOGlmZ8fsg3cSruvLgs0=;
- b=rgQGt1nnk/9Im6BeWGB+qoOQ7q6jPu89TZmgZF6LaXdttQusr1JevyWdb0LbW0hbhE
- Oy0jMZSkp9eAYLDlsvMQ82FXIaSTmBuE93xbwi9fur6aaVhiNxV63FvylzhtAcwk++EP
- 3o1cfNv2Bdqw5HRgtk0+fcFtenSIRoWUnzR6rVVso41lHUNofj1GHiXjWXL4mi2+4pbj
- YPA61qEmgNtqH/Nn/GpCbalPC0tAGnxUOYkODit++TCGxw+b/uxP7p4fGXQoUs/Do8er
- BioGfPWldVF5N2XUm0CEY6KN5p8CqXUD++vXNESMbSO/AqYncq8Y9iVkHlJ7Bm0I13P8
- AeIQ==
-X-Gm-Message-State: ACgBeo1bcI4KIEKf1EvroQ1wvEBiYV4W/C1RZlbfCSfX3fT8Oin7XUtC
- 8oVH678f5xJ8IQ82Vo/BgOcXs9MUzH8uAx+mVah4imCQi357DLx7x5CEf44anvepKLI7X6i1wDD
- Qe92Z3jSYWe5G0DW+TLLskIb0TiOEE0c=
-X-Received: by 2002:a0c:be91:0:b0:474:1d6:b1a4 with SMTP id
- n17-20020a0cbe91000000b0047401d6b1a4mr13114666qvi.108.1659340981244; 
- Mon, 01 Aug 2022 01:03:01 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR6/c2KJIMNuL63if8WLcSQPzxizMBnCSL7rBw3fd+fRr+2O0HYU3wE6EGxDdzt/mKdU/OCNSP3ftpT6SPbXqUY=
-X-Received: by 2002:a0c:be91:0:b0:474:1d6:b1a4 with SMTP id
- n17-20020a0cbe91000000b0047401d6b1a4mr13114634qvi.108.1659340981003; Mon, 01
- Aug 2022 01:03:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oIQSp-00061z-7n
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:49 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Lx9fV5vJgzmVfL;
+ Mon,  1 Aug 2022 16:05:38 +0800 (CST)
+Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Mon, 1 Aug 2022 16:07:33 +0800
+Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
+ (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
+ 2022 16:07:32 +0800
+To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
+ <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
+CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
+Subject: [PATCH v4 1/3] dump: support cancel dump process
+Date: Mon, 1 Aug 2022 16:07:20 +0800
+Message-ID: <20220801080722.3318-1-hogan.wang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20220722111245.3403062-1-eperezma@redhat.com>
- <20220722111245.3403062-5-eperezma@redhat.com>
- <9cbd4657-2c60-be8c-efce-7c2af47398a0@redhat.com>
-In-Reply-To: <9cbd4657-2c60-be8c-efce-7c2af47398a0@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 1 Aug 2022 10:02:25 +0200
-Message-ID: <CAJaqyWeLVRUP9t6RRJtSm9HxEfoQbA2Xf7B0kZ6PuPRTVCmgLA@mail.gmail.com>
-Subject: Re: [PATCH v4 4/7] vdpa: add NetClientState->start() callback
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>, Parav Pandit <parav@mellanox.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
- Eli Cohen <eli@mellanox.com>, 
- Eric Blake <eblake@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- Cornelia Huck <cohuck@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.149.172]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600015.china.huawei.com (7.193.23.52)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,81 +66,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hogan Wang <hogan.wang@huawei.com>
+From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-On Tue, Jul 26, 2022 at 4:53 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/22 19:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > It allows per-net client operations right after device's successful
-> > start.
-> >
-> > Vhost-vdpa net will use it to add the CVQ buffers to restore the device
-> > status.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   include/net/net.h  | 2 ++
-> >   hw/net/vhost_net.c | 7 +++++++
-> >   2 files changed, 9 insertions(+)
-> >
-> > diff --git a/include/net/net.h b/include/net/net.h
-> > index 523136c7ac..ad9e80083a 100644
-> > --- a/include/net/net.h
-> > +++ b/include/net/net.h
-> > @@ -44,6 +44,7 @@ typedef struct NICConf {
-> >
-> >   typedef void (NetPoll)(NetClientState *, bool enable);
-> >   typedef bool (NetCanReceive)(NetClientState *);
-> > +typedef int (NetStart)(NetClientState *);
-> >   typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_=
-t);
-> >   typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec =
-*, int);
-> >   typedef void (NetCleanup) (NetClientState *);
-> > @@ -71,6 +72,7 @@ typedef struct NetClientInfo {
-> >       NetReceive *receive_raw;
-> >       NetReceiveIOV *receive_iov;
-> >       NetCanReceive *can_receive;
-> > +    NetStart *start;
->
->
-> I think we probably need a better name here. (start should go with
-> DRIVER_OK or SET_VRING_ENABLE)
->
-> How about load or other (not a native speaker).
->
+Break saving pages or dump iterate when dump job in cancel state,
+make sure dump process exits as soon as possible.
 
-At this moment, the plan is to call SET_VRING_ENABLE in this function
-in the future. But I'm ok to call it load(), maybe it better reflects
-the intention of the function.
+Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+---
+ dump/dump.c           | 23 +++++++++++++++++++++++
+ include/sysemu/dump.h |  2 ++
+ 2 files changed, 25 insertions(+)
 
-Thanks!
-
-> Thanks
->
->
-> >       NetCleanup *cleanup;
-> >       LinkStatusChanged *link_status_changed;
-> >       QueryRxFilter *query_rx_filter;
-> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index ccac5b7a64..ddd9ee0441 100644
-> > --- a/hw/net/vhost_net.c
-> > +++ b/hw/net/vhost_net.c
-> > @@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *n=
-et,
-> >               }
-> >           }
-> >       }
-> > +
-> > +    if (net->nc->info->start) {
-> > +        r =3D net->nc->info->start(net->nc);
-> > +        if (r < 0) {
-> > +            goto fail;
-> > +        }
-> > +    }
-> >       return 0;
-> >   fail:
-> >       file.fd =3D -1;
->
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..a57c580b12 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -54,6 +54,8 @@ static Error *dump_migration_blocker;
+       DIV_ROUND_UP((name_size), 4) +                    \
+       DIV_ROUND_UP((desc_size), 4)) * 4)
+ 
++static bool dump_cancelling(void);
++
+ static inline bool dump_is_64bit(DumpState *s)
+ {
+     return s->dump_info.d_class == ELFCLASS64;
+@@ -118,6 +120,10 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+     DumpState *s = opaque;
+     size_t written_size;
+ 
++    if (dump_cancelling()) {
++        return -ECANCELED;
++    }
++
+     written_size = qemu_write_full(s->fd, buf, size);
+     if (written_size != size) {
+         return -errno;
+@@ -627,6 +633,10 @@ static void dump_iterate(DumpState *s, Error **errp)
+ 
+     do {
+         block = s->next_block;
++        if (dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            return;
++        }
+ 
+         size = block->target_end - block->target_start;
+         if (s->has_filter) {
+@@ -1321,6 +1331,10 @@ static void write_dump_pages(DumpState *s, Error **errp)
+      * first page of page section
+      */
+     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
++        if (dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            goto out;
++        }
+         /* check zero page */
+         if (buffer_is_zero(buf, s->dump_info.page_size)) {
+             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
+@@ -1540,6 +1554,15 @@ bool qemu_system_dump_in_progress(void)
+     return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
+ }
+ 
++static bool dump_cancelling(void)
++{
++    DumpState *state = &dump_state_global;
++    if (state->job && job_is_cancelled(state->job)) {
++        return true;
++    }
++    return false;
++}
++
+ /* calculate total size of memory to be dumped (taking filter into
+  * acoount.) */
+ static int64_t dump_calculate_size(DumpState *s)
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index ffc2ea1072..41bdbe595f 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -15,6 +15,7 @@
+ #define DUMP_H
+ 
+ #include "qapi/qapi-types-dump.h"
++#include "qemu/job.h"
+ 
+ #define MAKEDUMPFILE_SIGNATURE      "makedumpfile"
+ #define MAX_SIZE_MDF_HEADER         (4096) /* max size of makedumpfile_header */
+@@ -154,6 +155,7 @@ typedef struct DumpState {
+     GuestPhysBlockList guest_phys_blocks;
+     ArchDumpInfo dump_info;
+     MemoryMappingList list;
++    Job *job;
+     uint32_t phdr_num;
+     uint32_t shdr_num;
+     bool resume;
+-- 
+2.33.0
 
 
