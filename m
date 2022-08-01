@@ -2,84 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B523B5870CE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 21:03:42 +0200 (CEST)
-Received: from localhost ([::1]:49886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31297587175
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 21:32:01 +0200 (CEST)
+Received: from localhost ([::1]:37138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIahZ-0007q3-BK
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 15:03:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57590)
+	id 1oIb8n-0003ni-PC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 15:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIadm-0005FQ-WD
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 14:59:47 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIadk-0007vg-90
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 14:59:46 -0400
-Received: by mail-pl1-x633.google.com with SMTP id x23so2666358pll.7
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 11:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=GN0fZiqOblR680Y8B0qTIwb+IX3mw/bC0Phf/bc9zEg=;
- b=J/dtdNFUEteclNorJBbUs1+gGoNn1CqKIuLun34MDFurOmHC/oHn7/c1e4iEBj+5u7
- QAe1Z+r85BTNFiNax6jBzE1/Mon6+2nWhuqzd06qwjbL2fQ8yusliomaHh3SvCLEghjU
- H1z7c7XxVskKV4QIaKRZXJT3X7qiyma0lnkeelIH9def+T/FoD1y0vpr+ai5M/BP+TrW
- /alB7qv9A4VhfBUyEyp2WTLER4O6tkKCok96XC7fPNeuTIEmfpsBUcCfF65yuWcJRHbr
- woybkdBxBzI5onaIc5KRYN3M9C8jaFrNn1md2D+/gnT1va9/xANSz+ss6KmflWhAi+9m
- 2Wnw==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oIb5V-0001qW-Sl
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 15:28:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oIb5S-000664-PC
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 15:28:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659382102;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SxAGMSe2K7iIYbVaHzp7Pt8ae+2JVq0rDnSmAR/Z52I=;
+ b=ZhFJH4LhGkRt8QGZwCz5rxBSp4v2ET7q4B/7ZB73xIoPi79gT/afcwf3DUAT5DFsSh4n7B
+ QD3yoQhrBdm6TxvdKZ/qGbN1srHbQcXte+5xcbbrrHUEI5AsRuNQxVcXSVDZeJZgVE7vZ1
+ c1k5s/wPjbVFAv40f/6aOyQ4DZMYW60=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-389-eLLfKXzoMgOlOKhg4VxmGA-1; Mon, 01 Aug 2022 15:28:20 -0400
+X-MC-Unique: eLLfKXzoMgOlOKhg4VxmGA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ i6-20020a05640242c600b0043d5404f2e9so4144915edc.22
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 12:28:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=GN0fZiqOblR680Y8B0qTIwb+IX3mw/bC0Phf/bc9zEg=;
- b=ZnRLR1w3p6sQHGCtU1lp/A8gnf2g8FsxNLwxi17j3wFA0vsgCVT4PF4uK+AzJC/W0i
- 7GOJvaj2H/85zyHcclKPTdjnlZJ4obnkyAHZFTniKBtuG1OQSJsXzrqpmw6neLNhbbKW
- 8j89+hpkMLZG4DiKpy3Q3no+EsmcNhLkRUpIhNxOagaQjgU4LXBStk0ekIzujB3OgmPM
- ICU2kAh5cT8GAH8ujK3mkkEa9O7EG+fih7qMqVFj713QEsYpiqnMj5usGq+fyBrjSnrS
- M94unmYzI5Xc7XatWqIV/9UQqUpMhSWMqebdUSDsdSgvZk/aEMiYglU6oVSTrOATGE/6
- PyWA==
-X-Gm-Message-State: ACgBeo20xCZNOl2d3i9WU0A70E7BPEL96cGrxg0TdySAp0jW1o0UK/fD
- Ji29DGktIV8QrpiEHJho51QJTw==
-X-Google-Smtp-Source: AA6agR4QY+A3FRsa5yaZrvl0xI15NJmxBqJ8L0TXqm9mxlKEtUN8F4vkd/9K3wtUGTNeaWMZo1EaSw==
-X-Received: by 2002:a17:90b:3805:b0:1f4:ebfe:558b with SMTP id
- mq5-20020a17090b380500b001f4ebfe558bmr10389807pjb.48.1659380378713; 
- Mon, 01 Aug 2022 11:59:38 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:e82c:8cfb:9ffa:3c7c?
- ([2602:ae:1549:801:e82c:8cfb:9ffa:3c7c])
- by smtp.gmail.com with ESMTPSA id
- c16-20020a170903235000b0016c28a68ad0sm3884414plh.253.2022.08.01.11.59.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 11:59:38 -0700 (PDT)
-Message-ID: <b2bad252-bb05-69ae-2ba0-73e258eb19f8@linaro.org>
-Date: Mon, 1 Aug 2022 11:59:36 -0700
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/7] Testing and wording fixes
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=SxAGMSe2K7iIYbVaHzp7Pt8ae+2JVq0rDnSmAR/Z52I=;
+ b=39giDipEe+swb6SW/20UawHB6k1Fa9G2hSi0omAy1+Z2Xsd92R0znyrrrWZNP0wYcw
+ pmqgsHk9s8zlAjzLrqeBnMzruuobtVrBatorQpFazvbLsrkAGRrfuNUAaAQRimJyHjMQ
+ NwNIOC4BKj9adu/YtrDSfaTWiTVn+rRnAjYqtpRBBqnXRc2Xwq7ODqZpE16+UI6ulwWa
+ yRU8Cag/HD708odFSXM5ca9Ox7aK7ihktxFY/t9anx0TkGktGI/vu16BpDLR9gTA8D9P
+ NHgXOUa9kAKqBeNgP9hq997oudNTQrdDMgkDrfWJx/x9q8ODkcaQZ9lfS3x8sYJrBi5R
+ hz1g==
+X-Gm-Message-State: ACgBeo07fSGX/E0PlJUKA/uyIDEccKOdsSfaspn70EHI6yAfRVByeUgf
+ KNDSEIGSVZmtPpG6PomTWH1RKTHaoBpvoFs9fvtZpYpq/hzkqwAaehN52azzjO++bc+Ur1LbG4E
+ mo2/DtvmQaI4z0Zw=
+X-Received: by 2002:a05:6402:2691:b0:43d:ba10:854b with SMTP id
+ w17-20020a056402269100b0043dba10854bmr4454944edd.158.1659382099774; 
+ Mon, 01 Aug 2022 12:28:19 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR5jyx7cWdVahSmOCWrcKNuknfW8jygpu+hEUCqQQL0bkB3d18lo1BJq4FHFyuedFJ2O/FtygQ==
+X-Received: by 2002:a05:6402:2691:b0:43d:ba10:854b with SMTP id
+ w17-20020a056402269100b0043dba10854bmr4454918edd.158.1659382099409; 
+ Mon, 01 Aug 2022 12:28:19 -0700 (PDT)
+Received: from redhat.com ([154.16.192.137]) by smtp.gmail.com with ESMTPSA id
+ 19-20020a170906319300b0072b8fbc9be1sm5497909ejy.187.2022.08.01.12.28.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 12:28:18 -0700 (PDT)
+Date: Mon, 1 Aug 2022 15:28:11 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
- Juan Quintela <quintela@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- berrange@redhat.com
-References: <20220801155506.254316-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220801155506.254316-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Laurent Vivier <lvivier@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>, qemu-trivial@nongnu.org
+Subject: Re: [PATCH] vdpa: Fix file descriptor leak on get features error
+Message-ID: <20220801152749-mutt-send-email-mst@kernel.org>
+References: <20220801144714.181644-1-eperezma@redhat.com>
+ <b649292a-7d80-1d8f-8179-e8d74f5a9310@redhat.com>
+ <CAFEAcA85_e8v+RoWM_29c96_bDV1OAbM6cq-vL_68ZX+AY07ew@mail.gmail.com>
+ <CAJaqyWeCGRCKqULG9HOiOJmX+3v3P9h1B8x09k3aZbx7rJw5Jw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CAJaqyWeCGRCKqULG9HOiOJmX+3v3P9h1B8x09k3aZbx7rJw5Jw@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,86 +102,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/1/22 08:54, Thomas Huth wrote:
->   Hi!
+On Mon, Aug 01, 2022 at 08:48:41PM +0200, Eugenio Perez Martin wrote:
+> On Mon, Aug 1, 2022 at 8:34 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > On Mon, 1 Aug 2022 at 19:31, Laurent Vivier <lvivier@redhat.com> wrote:
+> > >
+> > > On 01/08/2022 16:47, Eugenio Pérez wrote:
+> > > > File descriptor vdpa_device_fd is not free in the case of returning
+> > > > error from vhost_vdpa_get_features. Fixing it by making all errors go to
+> > > > the same error path.
+> > > >
+> > > > Resolves: Coverity CID 1490785
+> > > > Fixes: 8170ab3f43 ("vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs")
+> > > >
+> > > > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+> > > > ---
+> > > >   net/vhost-vdpa.c | 4 ++--
+> > > >   1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > > > index 6abad276a6..303447a68e 100644
+> > > > --- a/net/vhost-vdpa.c
+> > > > +++ b/net/vhost-vdpa.c
+> > > > @@ -566,7 +566,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+> > > >       g_autofree NetClientState **ncs = NULL;
+> > > >       g_autoptr(VhostIOVATree) iova_tree = NULL;
+> > > >       NetClientState *nc;
+> > > > -    int queue_pairs, r, i, has_cvq = 0;
+> > > > +    int queue_pairs, r, i = 0, has_cvq = 0;
+> > > >
+> > > >       assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+> > > >       opts = &netdev->u.vhost_vdpa;
+> > > > @@ -582,7 +582,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+> > > >
+> > > >       r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
+> > > >       if (unlikely(r < 0)) {
+> > > > -        return r;
+> > > > +        goto err;
+> > >
+> > > Why don't you use "goto err_svq"?
+> >
+> > This patch is kind of half of the idea discussed in the thread where
+> > this problem was reported, which is that by setting i = 0 you can
+> > then consistently have all the error handling be 'goto err' and that
+> > frees everything that needs to be freed regardless of whether it's
+> > called after or before the initialization of the ncs[] entries. But it
+> > doesn't do the other half of the job, which is making all the other
+> > error handling code in the function also use 'goto err', so it looks
+> > a bit odd as it stands.
+> >
 > 
-> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
+> That's right, I thought just fixing the issue about the leaked file
+> descriptor was the right thing to do in the hard feature freeze, and
+> that other part should be left for the next dev phase. Is the unified
+> error handling code acceptable for this period? I can send a patch
+> either on top of this one or squashed if so for sure.
 > 
->    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://gitlab.com/thuth/qemu.git tags/pull-request-2022-08-01
-> 
-> for you to fetch changes up to 1bca64a3f0490861c03ceb849821ebf42c926f82:
-> 
->    tests/qtest/migration-test: Run the dirty ring tests only with the x86 target (2022-08-01 16:30:18 +0200)
-> 
-> ----------------------------------------------------------------
-> - Some fixes for various tests
-> - Improve wordings in some files
+> Thanks!
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Yea I'd prefer a minimal patch, unless others object strongly.
 
 
-r~
-
-
-> 
-> ----------------------------------------------------------------
-> Daniel P. BerrangÃ© (1):
->    misc: fix commonly doubled up words
-> 
-> Ilya Leoshkevich (1):
->    tests/tcg/linux-test: Fix random hangs in test_socket
-> 
-> Peter Xu (2):
->    migration-test: Use migrate_ensure_converge() for auto-converge
->    migration-test: Allow test to run without uffd
-> 
-> Thomas Huth (3):
->    tests/unit/test-qga: Replace the word 'blacklist' in the guest agent
->      unit test
->    trivial: Fix duplicated words
->    tests/qtest/migration-test: Run the dirty ring tests only with the x86
->      target
-> 
->   docs/devel/qom.rst                            |  4 +-
->   docs/interop/live-block-operations.rst        |  4 +-
->   docs/system/arm/cpu-features.rst              |  2 +-
->   docs/system/devices/cxl.rst                   |  2 +-
->   docs/system/s390x/bootdevices.rst             |  2 +-
->   docs/system/tls.rst                           |  2 +-
->   docs/tools/qemu-pr-helper.rst                 |  4 +-
->   hw/usb/u2f.h                                  |  2 +-
->   include/hw/qdev-core.h                        |  2 +-
->   include/user/safe-syscall.h                   |  2 +-
->   block/linux-aio.c                             |  2 +-
->   block/qcow2-bitmap.c                          |  8 +-
->   contrib/plugins/cache.c                       |  2 +-
->   hw/arm/omap2.c                                |  2 +-
->   hw/core/clock.c                               |  2 +-
->   hw/intc/arm_gicv3_redist.c                    |  2 +-
->   hw/misc/iotkit-secctl.c                       |  2 +-
->   hw/misc/iotkit-sysctl.c                       |  4 +-
->   hw/misc/mac_via.c                             |  2 +-
->   hw/s390x/s390-ccw.c                           |  2 +-
->   linux-user/i386/cpu_loop.c                    |  2 +-
->   pc-bios/s390-ccw/virtio-scsi.c                |  2 +-
->   target/arm/helper.c                           |  2 +-
->   target/arm/translate.c                        |  2 +-
->   target/i386/cpu.c                             |  2 +-
->   tests/qtest/microbit-test.c                   |  6 +-
->   tests/qtest/migration-test.c                  | 74 ++++++++-----------
->   tests/tcg/multiarch/linux/linux-test.c        |  2 +-
->   tests/unit/test-qga.c                         |  6 +-
->   tools/virtiofsd/fuse_virtio.c                 |  2 +-
->   ui/vdagent.c                                  |  2 +-
->   tcg/i386/tcg-target.c.inc                     |  2 +-
->   python/Makefile                               |  2 +-
->   python/qemu/utils/__init__.py                 |  2 +-
->   tests/docker/dockerfiles/debian-native.docker |  2 +-
->   35 files changed, 76 insertions(+), 88 deletions(-)
-> 
+-- 
+MST
 
 
