@@ -2,94 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A50B5866CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:20:54 +0200 (CEST)
-Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4895866D4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:28:00 +0200 (CEST)
+Received: from localhost ([::1]:43722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIRbW-0000PL-3c
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1oIRiQ-0003tA-Qv
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:27:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIRY2-0007La-Hc
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:17:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37293)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oIRgo-0002Sj-AO; Mon, 01 Aug 2022 05:26:18 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27158
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIRXy-0000ql-Kf
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:17:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659345428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dKqeGN4YuDFGb7B2Ds6dGWUWz3qAHa018mdUKFPqVXg=;
- b=WSrszbxIt0JIt858IK4nyLnPyJnlMiXgjbtjR3eYAktCjn4z4Lpi/tz0I8IkDuGPz1Wopj
- Zmgv/V2cIJsQM5hMCTO7RP2Rip95bhk51Km36SiSQEPvPSXDyTC8HbYA7VjUZq/FhMi5Be
- uNUfpyAytdJzGToQp/6yG3+nacodPro=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-64-7GqsJ7dwM4WS60nA5r8KRA-1; Mon, 01 Aug 2022 05:17:07 -0400
-X-MC-Unique: 7GqsJ7dwM4WS60nA5r8KRA-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v5-20020adfa1c5000000b002205c89c80aso848241wrv.6
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 02:17:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=dKqeGN4YuDFGb7B2Ds6dGWUWz3qAHa018mdUKFPqVXg=;
- b=TvCN03x6K9iCn38giXyzy7NImSE7GU4y12uWMPu+MxUxTfG1IRaxvx8vbHcZgUc5hL
- fub3KNKfB+A0kzUyokSBdomuM897BqtZfVzkXJW5iqvIS+v7mDMjRa/htrH0VkGqZq2I
- OcfqKuAMKQfFkotrkZHB7XmTwxGU5f7TsXG7DLsuTAmu1wCvmA0F3ukX+WoezMvxnwgF
- kQsFTesdcH7u3EUzV6frx5S54EP4DPi69CzLcnFvriqkiVaNxFXY03/ME5KLw2tJenYO
- /VA71PIp4kVjUvfSqvJRb2LO1BngsMw38ihDiExMF/PyN8DmV94Udx3OiRrNwZTX/lLi
- RdRQ==
-X-Gm-Message-State: ACgBeo07aUGrnS1MSFgZhynG6G/dOYuDcJnAqsfIdWl5Zj6E9kdMQyVQ
- HeQJv6yQR6dIaSu1OVlfIIwyUtU5CDtzfGC8LaCQaTX+nw9Xkp0v1ace+uQhvwgAqo2lTt7D/sQ
- nfyUyAjIr7PJYtaI=
-X-Received: by 2002:adf:fd0d:0:b0:21e:f27b:10dd with SMTP id
- e13-20020adffd0d000000b0021ef27b10ddmr9833248wrr.295.1659345426406; 
- Mon, 01 Aug 2022 02:17:06 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7klMeTwKH+2Rssolsl07pZyRbw8tJA5EHBk+GC7O8pHdYdHpSVGgHknSznA5RyFHhQWFaNAQ==
-X-Received: by 2002:adf:fd0d:0:b0:21e:f27b:10dd with SMTP id
- e13-20020adffd0d000000b0021ef27b10ddmr9833224wrr.295.1659345426133; 
- Mon, 01 Aug 2022 02:17:06 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- p18-20020a5d4592000000b0021f73c66198sm7058285wrq.1.2022.08.01.02.17.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 02:17:05 -0700 (PDT)
-Date: Mon, 1 Aug 2022 10:17:03 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
- f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
- ani@anisinha.ca, mst@redhat.com
-Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
- PIIX4_PM
-Message-ID: <YueaDxgaMNGLezQd@work-vm>
-References: <20220728115034.1327988-1-imammedo@redhat.com>
- <YuKgxM4IjAXh/goO@work-vm> <20220728165411.5701befb@redhat.com>
- <YuKmuvgqMQtTXVjX@work-vm>
- <CAFEAcA-H=P44_e9qbKiGiCXjs9JPCmhEK5qp23TLX229G=Y6rg@mail.gmail.com>
- <20220729115753.60d99772@redhat.com>
- <CAFEAcA_Xa68t7N1MgCy6=xYvE9Cr6SM2xZp-iDdx_e8+tFwpCw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oIRgm-0002ST-AJ; Mon, 01 Aug 2022 05:26:18 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2718NuSo022768;
+ Mon, 1 Aug 2022 09:26:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=TVwXfYYrIobYi75BDn9BP8aPODQfC48DAdE9/CL6z04=;
+ b=pM1xDXvD59xBLQx2gDosJys9fNF1QZ2xDyTelHEtPLwG3sYOszX8QvTAHsMeZcHdAgkb
+ /4DbuFsRyiramJY6O/IMps83h8ImQFojG1sgwMjwtS2JFD0Xr8647lszIAFAzOSx+tGP
+ OertxvMsgFf5CAe3b0Q2+CpcaPouSmywXPdJShpQiibt8O3Wgms4irJ+PqlZYEw5cQic
+ NqF1Za/YTs2V9SQNQWpyzRe/I8Du0akS0UjlIN3eshmpMOAJFUDw/Uk/a62d9iNxdCSb
+ BJlWH1u0c57Kf1NXEwUYgoC8N3cXT5ty5tPT7sdyjbLpO4nFl51K6Xjd5GNf2hoFxMnG 0g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9g3w6qg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 09:26:14 +0000
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2718PJno000356;
+ Mon, 1 Aug 2022 09:26:14 GMT
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9g3w6q0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 09:26:14 +0000
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2719KWtV004438;
+ Mon, 1 Aug 2022 09:26:12 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma03fra.de.ibm.com with ESMTP id 3hmv98sfwg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 09:26:12 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2719Q9EN19136958
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Aug 2022 09:26:09 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1FE2A42056;
+ Mon,  1 Aug 2022 09:26:09 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9043D42052;
+ Mon,  1 Aug 2022 09:26:08 +0000 (GMT)
+Received: from [9.145.41.76] (unknown [9.145.41.76])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Aug 2022 09:26:08 +0000 (GMT)
+Message-ID: <d8dbb35b-c460-4248-1435-eb37a705826f@linux.ibm.com>
+Date: Mon, 1 Aug 2022 11:26:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_Xa68t7N1MgCy6=xYvE9Cr6SM2xZp-iDdx_e8+tFwpCw@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v4 11/17] dump/dump: Add section string table support
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo"
+ <pbonzini@redhat.com>, mhartmay@linux.ibm.com,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ imbrenda@linux.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
+ seiden@linux.ibm.com, scgl@linux.ibm.com
+References: <20220726092248.128336-1-frankja@linux.ibm.com>
+ <20220726092248.128336-12-frankja@linux.ibm.com>
+ <CAMxuvawu-q-Fe4ZXU2Bc1gwLfpQCCw3HxWhbBK6+8exkM1b+nw@mail.gmail.com>
+ <e24cff5c-3171-69dc-3e17-d4f773be6f2b@linux.ibm.com>
+ <CAJ+F1CL8qm4qiHbKyE2YCAZ1ZVMKF-UAR6f39zMgw2Xdq7zCgQ@mail.gmail.com>
+ <7fe6312d-d523-2f3d-56de-ed73e267a851@linux.ibm.com>
+ <CAJ+F1C+CqaeKzxPsCFfvbAo+gvG_PF+B7Ex0WJgBymJQWU8eNQ@mail.gmail.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <CAJ+F1C+CqaeKzxPsCFfvbAo+gvG_PF+B7Ex0WJgBymJQWU8eNQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 9YRugFW22wkCOCuty4Rsjn0xqpFva1a3
+X-Proofpoint-ORIG-GUID: mxj802mb5qYT3h4ItsHnxl96mIjyb5iG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-01_05,2022-07-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 bulkscore=0 spamscore=0
+ adultscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208010043
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,87 +128,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> On Fri, 29 Jul 2022 at 10:57, Igor Mammedov <imammedo@redhat.com> wrote:
-> >
-> > On Thu, 28 Jul 2022 16:12:34 +0100
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > > On Thu, 28 Jul 2022 at 16:09, Dr. David Alan Gilbert
-> > > <dgilbert@redhat.com> wrote:
-> > > >
-> > > > * Igor Mammedov (imammedo@redhat.com) wrote:
-> > > > > On Thu, 28 Jul 2022 15:44:20 +0100
-> > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > > >
-> > > > > > * Igor Mammedov (imammedo@redhat.com) wrote:
-> > > > > > > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
-> > > > > > >   $ qemu-system-mips -monitor stdio
-> > > > > > >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
-> > > > > > >   Segmentation fault (core dumped)
-> > > > > > >
-> > > > > > > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
-> > > > > > > which are valid only for x86 and not for MIPS (as it requires ACPI
-> > > > > > > tables support which is not existent for ithe later)
-> > > > > > >
-> > > > > > > Issue was probably exposed by trying to cleanup/compile out unused
-> > > > > > > ACPI bits from MIPS target (but forgetting about migration bits).
-> > > > > > >
-> > > > > > > Disable compiled out features using compat properties as the least
-> > > > > > > risky way to deal with issue.
-> > > > > >
-> > > > > > Isn't the problem partially due to a 'stub' vmsd which isn't terminated?
-> > > > >
-> > > > > Not sure what "'stub' vmsd" is, can you explain?
-> > > >
-> > > > In hw/acpi/acpi-pci-hotplug-stub.c there is :
-> > > > const VMStateDescription vmstate_acpi_pcihp_pci_status;
-> > I think that one is there only for linking purposes and not meant
-> > to be actually used.
-> 
-> Yes, exactly. The problem is that without this patch which
-> sets various properties it *does* get used...
-> 
-> > > > this seg happens when the migration code walks into that - this should
-> > > > always get populated with some of the minimal fields, in particular the
-> > > > .name and .fields array terminated with VMSTATE_END_OF_LIST().
-> > >
-> > > Either:
-> > >  (1) we should be sure the vmstate struct does not get used if the
-> > >      compile-time config has ended up with the stub
-> > > or
-> >
-> > >  (2) it needs to actually match the real vmstate struct, otherwise
-> > >      migration between a QEMU built with a config that just got the
-> > >      stub version and a QEMU built with a config that got the full
-> > >      version will break
-> > >
-> > > This patch does the former. Segfaulting if we got something wrong
-> > > and tried to use the vmstate when we weren't expecting to is
-> > > arguably better than producing an incompatible migration stream.
-> >
-> > > (Better still would be if we caught this on machine startup rather
-> > > than only when savevm was invoked.)
-> > Theoretically possible with a bunch of mips and x86 stubs, but ...
-> > we typically don't do this kind of checks for migration sake
-> > as that complicates things a lot in general.
-> > i.e. it's common to let migration fail in case of incompatible
-> > migration stream. It's not exactly friendly to user but it's
-> > graceful failure (assuming code is correct and not crashes QEMU)
-> 
-> The point here is that if we ever try to do a migrate with the
-> stub vmstate struct then that's a bug in QEMU. We should prefer
-> to catch those early and clearly.
-
-I'd rather have something that was explicitly poisoned rather than just
-walking off the end of an uninitialised array and having to break out
-gdb.
-
-Dave
-
-> -- PMM
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+T24gNy8yOC8yMiAxNTo0MSwgTWFyYy1BbmRyw6kgTHVyZWF1IHdyb3RlOg0KPiBIaQ0KPiAN
+Cj4gT24gVHVlLCBKdWwgMjYsIDIwMjIgYXQgNjoyNiBQTSBKYW5vc2NoIEZyYW5rIDxmcmFu
+a2phQGxpbnV4LmlibS5jb20+IHdyb3RlOg0KPiANCj4+IE9uIDcvMjYvMjIgMTU6MTIsIE1h
+cmMtQW5kcsOpIEx1cmVhdSB3cm90ZToNCj4+PiBPbiBUdWUsIEp1bCAyNiwgMjAyMiBhdCA0
+OjU1IFBNIEphbm9zY2ggRnJhbmsgPGZyYW5ramFAbGludXguaWJtLmNvbT4NCj4+IHdyb3Rl
+Og0KPj4+DQo+Pj4+IE9uIDcvMjYvMjIgMTM6MjUsIE1hcmMtQW5kcsOpIEx1cmVhdSB3cm90
+ZToNCj4+Pj4+IEhpDQo+Pj4+Pg0KPj4+Pj4gT24gVHVlLCBKdWwgMjYsIDIwMjIgYXQgMToy
+MyBQTSBKYW5vc2NoIEZyYW5rIDxmcmFua2phQGxpbnV4LmlibS5jb20+DQo+Pj4+IHdyb3Rl
+Og0KPj4+Pj4+DQo+Pj4+Pj4gQXMgc2VjdGlvbnMgZG9uJ3QgaGF2ZSBhIHR5cGUgbGlrZSB0
+aGUgbm90ZXMgZG8gd2UgbmVlZCBhbm90aGVyIHdheSB0bw0KPj4+Pj4+IGRldGVybWluZSB0
+aGVpciBjb250ZW50cy4gVGhlIHN0cmluZyB0YWJsZSBhbGxvd3MgdXMgdG8gYXNzaWduIGVh
+Y2gNCj4+Pj4+PiBzZWN0aW9uIGFuIGlkZW50aWZpY2F0aW9uIHN0cmluZyB3aGljaCBhcmNo
+aXRlY3R1cmVzIGNhbiB0aGVuIHVzZSB0bw0KPj4+Pj4+IHRhZyB0aGVpciBzZWN0aW9ucyB3
+aXRoLg0KPj4+Pj4+DQo+Pj4+Pj4gVGhlcmUgd2lsbCBiZSBubyBzdHJpbmcgdGFibGUgaWYg
+dGhlIGFyY2hpdGVjdHVyZSBkb2Vzbid0IGFkZCBjdXN0b20NCj4+Pj4+PiBzZWN0aW9ucyB3
+aGljaCBhcmUgaW50cm9kdWNlZCBpbiBhIGZvbGxvd2luZyBwYXRjaC4NCj4+Pj4+Pg0KPj4+
+Pj4+IFNpZ25lZC1vZmYtYnk6IEphbm9zY2ggRnJhbmsgPGZyYW5ramFAbGludXguaWJtLmNv
+bT4NCj4+IFsuLi5dDQo+Pj4+IFsuLl0NCj4+Pj4+PiAgICAgICAgIHMtPmxlbmd0aCA9IGxl
+bmd0aDsNCj4+Pj4+PiArICAgIC8qIEZpcnN0IGluZGV4IGlzIDAsIGl0J3MgdGhlIHNwZWNp
+YWwgbnVsbCBuYW1lICovDQo+Pj4+Pj4gKyAgICBzLT5zdHJpbmdfdGFibGVfYnVmID0gZ19h
+cnJheV9uZXcoRkFMU0UsIFRSVUUsIDEpOw0KPj4+Pj4+ICsgICAgLyoNCj4+Pj4+PiArICAg
+ICAqIEFsbG9jYXRlIHRoZSBudWxsIG5hbWUsIGR1ZSB0byB0aGUgY2xlYXJpbmcgb3B0aW9u
+IHNldCB0byB0cnVlDQo+Pj4+Pj4gKyAgICAgKiBpdCB3aWxsIGJlIDAuDQo+Pj4+Pj4gKyAg
+ICAgKi8NCj4+Pj4+PiArICAgIGdfYXJyYXlfc2V0X3NpemUocy0+c3RyaW5nX3RhYmxlX2J1
+ZiwgMSk7DQo+Pj4+Pg0KPj4+Pj4gSSB3b25kZXIgaWYgR0J5dGVBcnJheSB3b3VsZG4ndCBi
+ZSBtb3JlIGFwcHJvcHJpYXRlLCBldmVuIGlmIGl0DQo+Pj4+PiBkb2Vzbid0IGhhdmUgdGhl
+IGNsZWFyaW5nIG9wdGlvbi4gSWYgaXQncyBqdXN0IGZvciBvbmUgYnl0ZSwgLi4uDQo+Pj4+
+DQo+Pj4+IEkgZG9uJ3QgcmVhbGx5IGNhcmUgYnV0IEkgbmVlZCBhIGRlY2lzaW9uIG9uIGl0
+IHRvIGNoYW5nZSBpdCA6KQ0KPj4+Pg0KPj4+DQo+Pj4gSSBoYXZlbid0IHRyaWVkLCBidXQg
+SSB0aGluayBpdCB3b3VsZCBiZSBhIGJldHRlciBmaXQuDQo+Pg0KPj4gTG9va2luZyBhdCB0
+aGlzIGEgc2Vjb25kIHRpbWUgdGhlcmUncyBhbiBpc3N1ZSB5b3Ugc2hvdWxkIGNvbnNpZGVy
+Og0KPj4NCj4+IEdCeXRlQXJyYXkgdXNlcyBndWludDggd2hpbGUgdGhlIEdBcnJheSB1c2Vz
+IGdjaGFycyB3aGljaCBhcmUgYXBwYXJlbnRseQ0KPj4gY29tcGF0aWJsZSB3aXRoIG5vcm1h
+bCBDIGNoYXJzLg0KPj4NCj4+IEkuZS4gSSBuZWVkIHRvIGNhc3QgYWxsIHN0cmluZ3MgdG8g
+KGNvbnN0IGd1aW50OCAqKSB3aGVuIGFwcGVuZGluZyB0aGVtDQo+PiB0byB0aGUgR0J5dGVB
+cnJheS4NCj4+DQo+IA0KPiBBZ2gsIGJvcmluZy4uIHdlbGwsIHdlIGFsc28gaGF2ZSBpbmNs
+dWRlL3FlbXUvYnVmZmVyLmggdGhhdCBjb3VsZCBiZQ0KPiBjb25zaWRlcmVkIHBlcmhhcHMN
+Cj4gDQoNCldoeSBzaG91bGQgSSBjaGFuZ2UgaXQgdG8gc29tZXRoaW5nIHRoYXQncyBoYXJk
+bHkgYmVpbmcgdXNlZCwgaS5lLiANCndoYXQncyB0aGUgcHJvYmxlbSBoZXJlPw0K
 
