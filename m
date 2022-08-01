@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1EEB586F92
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 19:29:21 +0200 (CEST)
-Received: from localhost ([::1]:34520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A5ED586FA7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 19:39:18 +0200 (CEST)
+Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIZEG-0004eD-4l
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 13:29:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
+	id 1oIZNt-0002bq-Cq
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 13:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oIZ4w-0004mA-Px
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:19:42 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:33765)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIZ6v-0005uY-F2
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:21:47 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mchitale@ventanamicro.com>)
- id 1oIZ4v-0006ix-3n
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:19:42 -0400
-Received: by mail-pf1-x436.google.com with SMTP id 17so11269601pfy.0
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 10:19:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=/6PKI0QUD/9+yYYe7TmpMU06G0Kr05B5w6N+00Yhr4M=;
- b=RVGJ2/kM00TeqMEmVNnFRcIukJtRXnL6cA9730wmPoTQ8Z0lD90rvkCaxcH+9VhyDr
- mQ3535GXnLyzaYgpU+cBILkqQPwX8BXbXHwhFJEXWaY3chn+f3R74qu2g43YZvWZFMEn
- MqjBruNpINofjZxEfppzSUG2W5FRAndqY+6u6u9/Viwtxs0STH+chJ38ENpvs8C8O6fI
- n5ffk49E3Hd1/pY0wG+0SnW/IW87bKmHmlNQk3G2J8ESWabEUdsCPPG9kKOvacP/FRsE
- PKzN29eZirkC0fZv3YIdjDZgd5JXQ8/UCxaCuJ+z082P2KiLnVOIQqWdCp0g9RJhwgMf
- oywQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIZ6s-0007Hx-PV
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:21:44 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ t2-20020a17090a4e4200b001f21572f3a4so12796548pjl.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 10:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=/Hrt7wtqifoEUyk/E/P6a3RqcuJpAx90pya4+pQJtjo=;
+ b=E9L4AQCpBgyLQSu/FKPliaWMAUsdDmAsVwl6qXp8j+DmK8MZcy2WmbkFe/enk7CxCx
+ U1taUr0l4IUa5+qKtvTIxdK0cQG4DNjw6Cg3WSYM7Q6Vd+ymwDb6nyERPhUnTdYfCbwG
+ +9BFv5k0wSwYRQbKULXYXuk3AqFvz/UDMI4DqGcwj4GjL3Z7tw2xb8hP8Oe7SBr55jQk
+ 2GXMpyB4b9rkxXRVOA98QDvXj2G2V/MsFxa5SZ/MO9sRxqTtWVc63Dtg9qN+zrxwYb01
+ 4TI7kX5oyA6tGimaTy2ZCFYfLEC0stuFYdf8hjWkpBjFpMjHBbqJbYLhMiQGaZhG5J87
+ L8lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=/6PKI0QUD/9+yYYe7TmpMU06G0Kr05B5w6N+00Yhr4M=;
- b=ySgBVkJSFMJSPuSOriGDtTJu9hfjGqeJSdskf9n/RrDWN8BbjpqtIMfOj50Hb+9tER
- 9jAevHd/bfKW9dnyz5v2+DrS3crINWJaNb5bovqA1tp+HHCu3l+WfZBeasiZJW2Ys9ZO
- Khw0Wbq5GrizABWiRGfH+hz1vuE2AEnofs02e/jQoiCy2ysEAcvcObB4pAde3VUzFaLA
- HlIcG+giZkZ4iQowXBfdpg5NxziBXOYRMfYUB5hEjivUWHOdVT8NtZhmTqYXP08PDUZZ
- R76P8K8Q9gP5M0IUT+u96pbz/RZdYXBsRsPxL7ZPKV+nL7EsTTfkb1DvkrfyQprRFlph
- 5ZYg==
-X-Gm-Message-State: AJIora/oOk4oinnXWkmkB4H3ptdKxRrPlcfiaFFSdIGyEL6BzsfHk6rw
- q4KVTFnzilNX8aTrk+qlILOxh00FyfAJpA==
-X-Google-Smtp-Source: AGRyM1visrZzZQnNzzLOHJg8/NYTmj343I4XyaGGbZmawtJ3QDPHtKWBptvTuGvG162f+tbnFsYIxQ==
-X-Received: by 2002:a63:1a56:0:b0:41b:3ef0:4eb1 with SMTP id
- a22-20020a631a56000000b0041b3ef04eb1mr13784458pgm.207.1659374379450; 
- Mon, 01 Aug 2022 10:19:39 -0700 (PDT)
-Received: from ThinkPad-T490.dc1.ventanamicro.com ([122.176.236.198])
- by smtp.googlemail.com with ESMTPSA id
- i10-20020a056a00004a00b0052ab602a7d0sm1709942pfk.100.2022.08.01.10.19.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 10:19:38 -0700 (PDT)
-From: Mayuresh Chitale <mchitale@ventanamicro.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: Mayuresh Chitale <mchitale@ventanamicro.com>,
-	alistair.francis@wdc.com
-Subject: [PATCH v7 4/4] target/riscv: smstateen knobs
-Date: Mon,  1 Aug 2022 22:48:43 +0530
-Message-Id: <20220801171843.72986-5-mchitale@ventanamicro.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220801171843.72986-1-mchitale@ventanamicro.com>
-References: <20220801171843.72986-1-mchitale@ventanamicro.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=/Hrt7wtqifoEUyk/E/P6a3RqcuJpAx90pya4+pQJtjo=;
+ b=5W/yFMP804FH6C4LzJAmEi3QEO54NeAT4DDTWXSaE0KEdvFnj0iZEx02stgXLeIO7q
+ 7ymK72vUh2KypS+QIkZdSw8oEmDUalO2YxZz9Z3eBOKtLlnXEZAi53mgCV86n3fyLwrT
+ iGKP8lr3o6hvd3+wZq/wM1p+Hb1hXAvNdgOWV3CZfnKTD0BxJrTurgOkPblwBIY5hBi7
+ cpfHl7rBMd2XcZykRxy3klU0E3l9TJ5aJjOgClFF0ybKuSsH9viq969al1PkmuVRp917
+ bStmbqo53QgdWEeyYMzh2ChXvQI0YDkNYgaTktPT1TEYS10ErJrWRUDgAgc+yEC+PQ1e
+ Ucow==
+X-Gm-Message-State: ACgBeo0jwHTf/tMjZEnGk+k8xlqDm/gaDcqa3+TRwMX6Tlu5Looyg7q9
+ fWYZWLYDnA5rODKXM6fB9y7gbFQL3y0E3A==
+X-Google-Smtp-Source: AA6agR65veUpzFFWkbe+ZwiO7Tu82Ijkum4mZ2fFGPiGp23YrIaI67jbLgUx/djT11zgWPqd70U4qg==
+X-Received: by 2002:a17:90b:1110:b0:1f4:fc9a:be2d with SMTP id
+ gi16-20020a17090b111000b001f4fc9abe2dmr7112329pjb.41.1659374501139; 
+ Mon, 01 Aug 2022 10:21:41 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:e82c:8cfb:9ffa:3c7c?
+ ([2602:ae:1549:801:e82c:8cfb:9ffa:3c7c])
+ by smtp.gmail.com with ESMTPSA id
+ l15-20020a654c4f000000b003db7de758besm7889593pgr.5.2022.08.01.10.21.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Aug 2022 10:21:40 -0700 (PDT)
+Message-ID: <f055ef82-3fb9-41c3-3142-f98636bf0187@linaro.org>
+Date: Mon, 1 Aug 2022 10:21:39 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=mchitale@ventanamicro.com; helo=mail-pf1-x436.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL] IPMI bug fixes
+Content-Language: en-US
+To: minyard@acm.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20220801140217.GA3834@minyard.net>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220801140217.GA3834@minyard.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,35 +94,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add knobs to allow users to enable smstateen and also export it via the
-ISA extension string.
+On 8/1/22 07:02, Corey Minyard wrote:
+> Not a huge deal, but probably makes mainainers lives a little easier.
+> 
+> Add a change to make Coverity happy.
+> 
+> ----------------------------------------------------------------
+> Corey Minyard (1):
+>        ipmi:smbus: Add a check around a memcpy
+> 
+>   hw/ipmi/smbus_ipmi.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> cminyard@t560:/personal/git/qemu/Z$ git request-pull master origin tags/for-qemu-2022-08-01
+> The following changes since commit cc42559ab129a15554cc485ea9265e34dde7ab5b:
+> 
+>    Merge tag 'pull-ppc-20220728' of https://gitlab.com/danielhb/qemu into staging (2022-07-28 15:06:42 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@github.com:cminyard/qemu.git tags/for-qemu-2022-08-01
+> 
+> for you to fetch changes up to 3fde641e7286f9b968bdb3b4b922c6465f2a9abc:
+> 
+>    ipmi:smbus: Add a check around a memcpy (2022-08-01 06:40:50 -0500)
+> 
+> ----------------------------------------------------------------
+> Add a change to make Coverity happy.
 
-Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
----
- target/riscv/cpu.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index d4635c7df4..d8a0f4e700 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -99,6 +99,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-+    ISA_EXT_DATA_ENTRY(smstateen, true, PRIV_VERSION_1_12_0, ext_smstateen),
-     ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
-     ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
-     ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-@@ -1001,6 +1002,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
- 
-+    DEFINE_PROP_BOOL("smstateen", RISCVCPU, cfg.ext_smstateen, false),
-     DEFINE_PROP_BOOL("svinval", RISCVCPU, cfg.ext_svinval, false),
-     DEFINE_PROP_BOOL("svnapot", RISCVCPU, cfg.ext_svnapot, false),
-     DEFINE_PROP_BOOL("svpbmt", RISCVCPU, cfg.ext_svpbmt, false),
--- 
-2.25.1
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Corey Minyard (1):
+>        ipmi:smbus: Add a check around a memcpy
+> 
+>   hw/ipmi/smbus_ipmi.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> 
 
 
