@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE6FD586E54
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:12:05 +0200 (CEST)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BA4586E43
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:07:11 +0200 (CEST)
+Received: from localhost ([::1]:50762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIY1J-0004P1-Ip
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:11:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40006)
+	id 1oIXwk-0001CP-7T
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:07:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlX-0003Ar-1c
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56765)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlP-00039u-44
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlN-0001NZ-EX
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:33 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlK-0001NE-UY
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659369323;
+ s=mimecast20190719; t=1659369322;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m5TSlU9MKSKAi4SuSRQshrq9zO1FC+f5kFqrYJJnsCE=;
- b=ExTNcMiGPTYPNWrimPKCn1xivhlN755uEUJcDt/GbR0OiLIT679fmSL7erS/GNerzW0J0N
- jRtNeGHmkXiZamJuKTU5ddQrJd5Q7G4VzhRPj2PJYyjHPitXDEN088seJLqj+QHwwF711W
- becx6jDKeTSsFtrNr1J3P/SxfQCzF3g=
+ bh=Pd4DSXWZ2BpSI3AA/IPBOY8l4LinBjl/Hl+fz+v0MG0=;
+ b=KJ2Zcj/ALBAN+XfB/70aVMBY6AZtbPWQH8Hu+BEhr6+I2Ng3vEtmPykAYQL8WIGU2TnU9f
+ CMRvWj7WvOXSij94lv9Li8H82Nxwd4bmzvMTjiKEpI1anbOuDWHqU0YjR+IiT8ehfwXA8/
+ 2sjXhyMkjeBWZt+JEZWOKviX7tDRzjw=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-0r4TEvHjNBCPy-Q8qqygWg-1; Mon, 01 Aug 2022 11:55:15 -0400
-X-MC-Unique: 0r4TEvHjNBCPy-Q8qqygWg-1
+ us-mta-52-3bSqZCiFPfasTmi_oEHfEQ-1; Mon, 01 Aug 2022 11:55:18 -0400
+X-MC-Unique: 3bSqZCiFPfasTmi_oEHfEQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C25C3C1023F;
- Mon,  1 Aug 2022 15:55:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9FCD7294EDCE;
+ Mon,  1 Aug 2022 15:55:17 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 119DB18EA8;
- Mon,  1 Aug 2022 15:55:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31BFC18EA8;
+ Mon,  1 Aug 2022 15:55:14 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -48,22 +48,23 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
  Juan Quintela <quintela@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  berrange@redhat.com
-Subject: [PULL 1/7] tests/tcg/linux-test: Fix random hangs in test_socket
-Date: Mon,  1 Aug 2022 17:55:00 +0200
-Message-Id: <20220801155506.254316-2-thuth@redhat.com>
+Subject: [PULL 2/7] migration-test: Use migrate_ensure_converge() for
+ auto-converge
+Date: Mon,  1 Aug 2022 17:55:01 +0200
+Message-Id: <20220801155506.254316-3-thuth@redhat.com>
 In-Reply-To: <20220801155506.254316-1-thuth@redhat.com>
 References: <20220801155506.254316-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,35 +81,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
+From: Peter Xu <peterx@redhat.com>
 
-test_socket hangs randomly in connect(), especially when run without
-qemu. Apparently the reason is that linux started treating backlog
-value of 0 literally instead of rounding it up since v4.4 (commit
-ef547f2ac16b).
+Thomas reported that auto-converge test will timeout on MacOS CI gatings.
+Use the migrate_ensure_converge() helper too in the auto-converge as when
+Daniel reworked the other test cases.
 
-So set it to 1 instead.
+Since both max_bandwidth / downtime_limit will not be used for converge
+calculations, make it simple by removing the remaining check, then we can
+completely remove both variables altogether, since migrate_ensure_converge
+is used the remaining check won't make much sense anyway.
 
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20220725144251.192720-1-iii@linux.ibm.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20220728133516.92061-2-peterx@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/tcg/multiarch/linux/linux-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/migration-test.c | 19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/tests/tcg/multiarch/linux/linux-test.c b/tests/tcg/multiarch/linux/linux-test.c
-index 019d8175ca..5a2a4f2258 100644
---- a/tests/tcg/multiarch/linux/linux-test.c
-+++ b/tests/tcg/multiarch/linux/linux-test.c
-@@ -263,7 +263,7 @@ static int server_socket(void)
-     sockaddr.sin_port = htons(0); /* choose random ephemeral port) */
-     sockaddr.sin_addr.s_addr = 0;
-     chk_error(bind(fd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)));
--    chk_error(listen(fd, 0));
-+    chk_error(listen(fd, 1));
-     return fd;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index 71595a74fd..c1e002087d 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -1768,7 +1768,7 @@ static void test_migrate_auto_converge(void)
+     g_autofree char *uri = g_strdup_printf("unix:%s/migsocket", tmpfs);
+     MigrateStart args = {};
+     QTestState *from, *to;
+-    int64_t remaining, percentage;
++    int64_t percentage;
  
+     /*
+      * We want the test to be stable and as fast as possible.
+@@ -1776,14 +1776,6 @@ static void test_migrate_auto_converge(void)
+      * so we need to decrease a bandwidth.
+      */
+     const int64_t init_pct = 5, inc_pct = 50, max_pct = 95;
+-    const int64_t max_bandwidth = 400000000; /* ~400Mb/s */
+-    const int64_t downtime_limit = 250; /* 250ms */
+-    /*
+-     * We migrate through unix-socket (> 500Mb/s).
+-     * Thus, expected migration speed ~= bandwidth limit (< 500Mb/s).
+-     * So, we can predict expected_threshold
+-     */
+-    const int64_t expected_threshold = max_bandwidth * downtime_limit / 1000;
+ 
+     if (test_migrate_start(&from, &to, uri, &args)) {
+         return;
+@@ -1818,8 +1810,7 @@ static void test_migrate_auto_converge(void)
+     /* The first percentage of throttling should be equal to init_pct */
+     g_assert_cmpint(percentage, ==, init_pct);
+     /* Now, when we tested that throttling works, let it converge */
+-    migrate_set_parameter_int(from, "downtime-limit", downtime_limit);
+-    migrate_set_parameter_int(from, "max-bandwidth", max_bandwidth);
++    migrate_ensure_converge(from);
+ 
+     /*
+      * Wait for pre-switchover status to check last throttle percentage
+@@ -1830,11 +1821,6 @@ static void test_migrate_auto_converge(void)
+     /* The final percentage of throttling shouldn't be greater than max_pct */
+     percentage = read_migrate_property_int(from, "cpu-throttle-percentage");
+     g_assert_cmpint(percentage, <=, max_pct);
+-
+-    remaining = read_ram_property_int(from, "remaining");
+-    g_assert_cmpint(remaining, <,
+-                    (expected_threshold + expected_threshold / 100));
+-
+     migrate_continue(from, "pre-switchover");
+ 
+     qtest_qmp_eventwait(to, "RESUME");
+@@ -1842,7 +1828,6 @@ static void test_migrate_auto_converge(void)
+     wait_for_serial("dest_serial");
+     wait_for_migration_complete(from);
+ 
+-
+     test_migrate_end(from, to, true);
  }
+ 
 -- 
 2.31.1
 
