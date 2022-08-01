@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1725C5863FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:20:56 +0200 (CEST)
-Received: from localhost ([::1]:48850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7944586419
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:34:07 +0200 (CEST)
+Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIOnO-00060F-KG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:20:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36642)
+	id 1oIP0A-0000EG-IC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:34:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oIOiL-0004Hg-Id
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:15:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36456)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oIOiF-0006Wt-Tn
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:15:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659334532;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oe7IiUdPVPFqyUYfXIC+ommKA/7qLve8MUKe1h+9Ii4=;
- b=RwsSO+xD8Jri2sPjspyCAgmJJ1KciZdEeCrqHjh6ib6/CAOJgmVW0EMoiLvfLkAXWe/M8u
- jLcU5FATV4Oq32EFMeHmtE72ah4DiGy/YbcJgcoYotSKIM8A84B9bxeaFTRR66//tXRtAB
- fzu7gzWfMhvQBLSm/+pet47bjlwg6tQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-a7Yv-F0NPqyRPulDJNwyBA-1; Mon, 01 Aug 2022 02:15:31 -0400
-X-MC-Unique: a7Yv-F0NPqyRPulDJNwyBA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- p2-20020a05600c1d8200b003a3262d9c51so7658463wms.6
- for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 23:15:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oIOvc-0006mD-Hj
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:29:24 -0400
+Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:44993)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1oIOva-0000FU-Lw
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:29:24 -0400
+Received: by mail-vs1-xe2a.google.com with SMTP id s129so1840673vsb.11
+ for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 23:29:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=NVHKy2okYpJDqY4BPMJIocF3tHykLBwYjec4nEP40Ts=;
+ b=PATm8gdJ57csiDOrF89N0XCGRZFYsz6mGgRFmF89PiToHZdXGecr1q7tNORz+zYGlE
+ 0MvA7lwlwmAB0LCG6FXK6Ff/naGJXXaCsnQfBUe8/EC4/bqlupYYjO4GC5lOLw0h97wQ
+ nptRLPqNbzRLSFBZUh8yyKAyKNeFrVatp7t5OlmshVqjwNtwGIoGf7g/gBF2gw03Nuvz
+ ZOu6vWV9uMuUt98hHySbVhU26/Fc+ar1i005hskVoEnUV531yqBkatkOaqsT1XlCOI2b
+ 9bNCQk09pwRR62xGmMiXkGyTmgouJS+/zY+wcAQyqur2alFWbBMumfw6vQ0IZKNk4xdP
+ /tDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
- bh=oe7IiUdPVPFqyUYfXIC+ommKA/7qLve8MUKe1h+9Ii4=;
- b=mNAemSxzpHCFS+6VILWwxQoF1HcTCkUuIFpcJU12L5Jl4KyDs1EPko2vyBy6sx6WhP
- kwcDSRd3TvJNuOrd5b4d1+UwGE7f7xSL5XnVi2Ps1RoAjCGAQ6QeS+LiIrXFLcJ8Ns/X
- I2g+gjYjN3XSmszJGYfpDyH02hUuXr2aK8TGizOXfKezlPD1DtRrzyEQLJMhYP/zWh4u
- Rv6xW+3g2yuALLJlWse5+vPAjPjS9/VIaqXrCcqfGiNnncD6gBWUlsdQ9khbBSXiBR+H
- V1nErNtHE2URhDUMmEghrwfSOQWAUYYCq3DLshboupe088+wuLdS+96O1c2OrWTlMQw5
- PAWQ==
-X-Gm-Message-State: ACgBeo2HV+M/foTeIgCBTMwCXqKGCCBvC5YI2DO09mTwTa5zpOc/GHmf
- vhe2WsKJg27afeShf3ia4YT6Ksk8A9H5WFJJ20z0ofnTdhfGiHfoMDywV+THWfCPU9NxoP6yDhM
- qVMprbcsCqb9D/nM=
-X-Received: by 2002:a5d:4b8d:0:b0:21f:cf60:c9e6 with SMTP id
- b13-20020a5d4b8d000000b0021fcf60c9e6mr5541506wrt.707.1659334530051; 
- Sun, 31 Jul 2022 23:15:30 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4sejenYfqjPqGuD0z7Y2277KeNeAbp4lgkBbZarx6nX9VvNjnbGOiSbmL/I41Jk8qw/TZpcg==
-X-Received: by 2002:a5d:4b8d:0:b0:21f:cf60:c9e6 with SMTP id
- b13-20020a5d4b8d000000b0021fcf60c9e6mr5541491wrt.707.1659334529849; 
- Sun, 31 Jul 2022 23:15:29 -0700 (PDT)
-Received: from redhat.com ([2.52.130.0]) by smtp.gmail.com with ESMTPSA id
- q186-20020a1c43c3000000b003a302fb9df7sm18092985wma.21.2022.07.31.23.15.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jul 2022 23:15:29 -0700 (PDT)
-Date: Mon, 1 Aug 2022 02:15:24 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: minyard@acm.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Igor Mammedov <imammedo@redhat.com>,
- "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Corey Minyard <cminyard@mvista.com>
-Subject: Re: [PATCH] ipmi:smbus: Add a check around a memcpy
-Message-ID: <20220801021500-mutt-send-email-mst@kernel.org>
-References: <20220731230245.1216949-1-minyard@acm.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=NVHKy2okYpJDqY4BPMJIocF3tHykLBwYjec4nEP40Ts=;
+ b=UCd0W8S5axjHki0SuJodgtZoU48ZOB6CNHPiv/6Lyes0uEoCIiTvpT378ZuQVJ03AA
+ FNLxFI0hzvfxJrRIAWeQQcbVahn5DlIBpVidnzkSwecDqDEczulz2RZJQwF7y+RxavHC
+ bJohvk6qUGQcc+q6Gm1nnkdLo7VJE4qg7Ina9o4CXbhhjUs6mkVMDYl+Lxih5EKJfC0e
+ fOekK5ThskxY8DBART56buMau/jvbN+x0kZAtL98YEdRgvy2MDn/brmh5mb5vAjephtD
+ VGftVV2wjg6Z/+WOssFJDkKWezCFuIGn94d7XGnh3N+raitgbaFdKoh15KYIVKLvW7Jb
+ 4K4g==
+X-Gm-Message-State: ACgBeo0SlH73FV6NbNNvdlQ5Db0SCOVyRmO7BAj8Vzq1m08vXjsRwgrh
+ fyItp2AOMw9Nl6N7lq4kVXPOeQx1bbK/LYyQZPLldfbTCYg=
+X-Google-Smtp-Source: AA6agR4xxf4cAyz+mzpDZ4dz/PgM1deVgNeNsm40uwGo3WTsQYH2MHXVC4zYscCLemp8zljkrvCAbzL2qpQTBQ4mqoo=
+X-Received: by 2002:a05:6102:30a1:b0:386:4657:d6e1 with SMTP id
+ y1-20020a05610230a100b003864657d6e1mr617764vsd.17.1659335359594; Sun, 31 Jul
+ 2022 23:29:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220731230245.1216949-1-minyard@acm.org>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20130516173422.20571.91890.malonedeb@gac.canonical.com>
+ <165930116695.48062.10370149944063594891.malone@dale.canonical.com>
+In-Reply-To: <165930116695.48062.10370149944063594891.malone@dale.canonical.com>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Mon, 1 Aug 2022 14:29:06 +0800
+Message-ID: <CAE2XoE8NUw+6fEHA4EvpkSBoqSv_iTrHotMxD7SkQFFrF5+J3w@mail.gmail.com>
+Subject: Re: [Bug 1180923] Re: unused memory filled with 0x00 instead of 0xFF
+To: Bug 1180923 <1180923@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000ac044705e5281e94"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
+ envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,50 +80,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: luoyonggang@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jul 31, 2022 at 06:02:46PM -0500, minyard@acm.org wrote:
-> From: Corey Minyard <cminyard@mvista.com>
-> 
-> In one case:
-> 
->   memcpy(sid->inmsg + sid->inlen, buf, len);
-> 
-> if len == 0 then sid->inmsg + sig->inlen can point to one past the inmsg
-> array if the array is full.  We have to allow len == 0 due to some
-> vagueness in the spec, but we don't have to call memcpy.
-> 
-> Found by Coverity.  This is not a problem in practice, but the results
-> are technically (maybe) undefined.  So make Coverity happy.
-> 
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+--000000000000ac044705e5281e94
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+I create a issue at https://gitlab.com/qemu-project/qemu/-/issues/1133 to
+tracking this
 
-> ---
->  hw/ipmi/smbus_ipmi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> I think this should do it.
-> 
-> diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-> index 9ef9112dd5..d0991ab7f9 100644
-> --- a/hw/ipmi/smbus_ipmi.c
-> +++ b/hw/ipmi/smbus_ipmi.c
-> @@ -281,7 +281,9 @@ static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
->               */
->              send = true;
->          }
-> -        memcpy(sid->inmsg + sid->inlen, buf, len);
-> +        if (len > 0) {
-> +            memcpy(sid->inmsg + sid->inlen, buf, len);
-> +        }
->          sid->inlen += len;
->          break;
->      }
-> -- 
-> 2.25.1
+On Mon, Aug 1, 2022 at 5:06 AM David Glover <1180923@bugs.launchpad.net>
+wrote:
 
+> I know this is expired but it's still a problem in qemu 7.0.0. For
+> example, when running MS-DOS 6.22, "mem" reports 0K of upper memory, and
+> memmaker fails to run, complaining that it could not allocate any. I'd
+> love to know if there's a workaround.
+>
+> --
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1180923
+>
+> Title:
+>   unused memory filled with 0x00 instead of 0xFF
+>
+> Status in QEMU:
+>   Expired
+>
+> Bug description:
+>   Qemu, ever since it was made (so, since 2003), has this problem in DOS
+>   (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the
+>   memory available when the memory is filled with 0x00 but when it is
+>   filled with 0xFF it gets recognized properly, where should I patch
+>   qemu to solve this memory problem?
+>
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions
+>
+>
+>
+
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000ac044705e5281e94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I create a issue at=C2=A0<a href=3D"https://gitlab.com/qem=
+u-project/qemu/-/issues/1133">https://gitlab.com/qemu-project/qemu/-/issues=
+/1133</a> to tracking this</div><br><div class=3D"gmail_quote"><div dir=3D"=
+ltr" class=3D"gmail_attr">On Mon, Aug 1, 2022 at 5:06 AM David Glover &lt;<=
+a href=3D"mailto:1180923@bugs.launchpad.net">1180923@bugs.launchpad.net</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
+0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I kn=
+ow this is expired but it&#39;s still a problem in qemu 7.0.0. For<br>
+example, when running MS-DOS 6.22, &quot;mem&quot; reports 0K of upper memo=
+ry, and<br>
+memmaker fails to run, complaining that it could not allocate any. I&#39;d<=
+br>
+love to know if there&#39;s a workaround.<br>
+<br>
+-- <br>
+You received this bug notification because you are a member of qemu-<br>
+devel-ml, which is subscribed to QEMU.<br>
+<a href=3D"https://bugs.launchpad.net/bugs/1180923" rel=3D"noreferrer" targ=
+et=3D"_blank">https://bugs.launchpad.net/bugs/1180923</a><br>
+<br>
+Title:<br>
+=C2=A0 unused memory filled with 0x00 instead of 0xFF<br>
+<br>
+Status in QEMU:<br>
+=C2=A0 Expired<br>
+<br>
+Bug description:<br>
+=C2=A0 Qemu, ever since it was made (so, since 2003), has this problem in D=
+OS<br>
+=C2=A0 (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the<=
+br>
+=C2=A0 memory available when the memory is filled with 0x00 but when it is<=
+br>
+=C2=A0 filled with 0xFF it gets recognized properly, where should I patch<b=
+r>
+=C2=A0 qemu to solve this memory problem?<br>
+<br>
+To manage notifications about this bug go to:<br>
+<a href=3D"https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions" rel=
+=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/1180=
+923/+subscriptions</a><br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div>
+
+--000000000000ac044705e5281e94--
 
