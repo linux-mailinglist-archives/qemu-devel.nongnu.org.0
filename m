@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ABDC586E4E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:09:59 +0200 (CEST)
-Received: from localhost ([::1]:52582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825E2586E78
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:18:56 +0200 (CEST)
+Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIXzR-0002iw-M7
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:09:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39052)
+	id 1oIY87-000142-An
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oIXh8-0007FG-Pf; Mon, 01 Aug 2022 11:51:03 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:43521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oIXh7-0000dh-Bl; Mon, 01 Aug 2022 11:51:02 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id o15so19470123yba.10;
- Mon, 01 Aug 2022 08:51:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=4W+W3dv6STj1b1jLjilKIK+oSCDybViu/CWBD1tRzhY=;
- b=a+rytzSc69AnYs6fuh3Wzm38KpdE2KWiJbHVoFUnjbaOrjDf906Vlz+Q8qYPLB7Uw3
- fXhGRUfavLHGBO6Q6Q9wK9H3sLPrACbQ7v3fkoH9WdX/Lb26RcP5fFsLCr1WpZTOVgXW
- uWXqkBZxRJwBc+JCrHGhQexutry7n+5S8ei4v8LT0LmN++QUIjQBSxhMBiTQUiITvsIB
- 4gesPkRHApWYotc/2tVdK+5nf9f2WNNR2bJA9JLKTlYyC9ncC4jOXcT1OXxp7j5JSMQQ
- JVqw9+3SODi8mTj1PGbOi5WZbo0VmORToDc4AMKdsP/s/3kk5l/0EZHc8mSKZc9GKHgj
- GVHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=4W+W3dv6STj1b1jLjilKIK+oSCDybViu/CWBD1tRzhY=;
- b=A0vgI1vTJwIr5mh78YLgyXozxvWzKcJ8NRj6eAM/LUoBYSfDs6envCk7Kugl1BwOY2
- yNXMZJ840IAlE+XTPffjR5/yV8T3actiAdrjH6LksnDthsg/wAk/uIKSeUPnv39Udyvo
- KzwQnXeE/K/CCbEGfd49PG5vxlAfOHNfXZE7Vt6+zA7wtTncxLUE7N08w1SNt5IoH1dJ
- aVSTEV7V86Ie0J/fDmWyZyZi3484nCJHMyb+9jwyBlEpTJz2+LDzhUVMBX6aTJI3sdB2
- fs62J7zCC6iVRAwax4ONfdXMgF9UEQ+tgCmOVQgWOdxio9BKhHP2/HfDqRtN70Ymz8eA
- YgdA==
-X-Gm-Message-State: ACgBeo0mGCtAy8PApsK/sjXkVXCnMVrLEtRm3cMhwMrNOoDX1Pivx3i2
- MVbCnc5t//0KblXP614nSVY86tb1iX8r3+mHye4=
-X-Google-Smtp-Source: AA6agR6PL0JVubXYvJLSDaXcNlC0bARdGNv/akcTQr+CNC4Yd63PapXq+wgp1eliIW37cfMHvxYXAT4RHamrkwRd9dE=
-X-Received: by 2002:a25:73d6:0:b0:676:d8a2:8d9 with SMTP id
- o205-20020a2573d6000000b00676d8a208d9mr7782128ybc.537.1659369060265; Mon, 01
- Aug 2022 08:51:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlI-000339-VF
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:30303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlE-0001Mk-73
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659369315;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MBCySXJLaRV1InxuwH8wuEsUYx2jurHaPDn/zdo8JY0=;
+ b=UjfqsjqHvNpQPKk9KLdvZ4rbtfHy0sAlqeHU/LqZ4vOtxlflMgff5o6qFRIBiNlKYTYOGu
+ qDpSZ3qyKfdBFklyUsL+6mhle6djxVQ42MxjPl2YhEknnqzwPf6crx4nCzrtvzwrxOlbHr
+ Y3F7+iKBWBnyjwJH/3gC7BWkC6ytpjo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-443-WLUtkUGnOv-IEeRMrI47GQ-1; Mon, 01 Aug 2022 11:55:12 -0400
+X-MC-Unique: WLUtkUGnOv-IEeRMrI47GQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A74AC811E84;
+ Mon,  1 Aug 2022 15:55:11 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2598518EA8;
+ Mon,  1 Aug 2022 15:55:08 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ Juan Quintela <quintela@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
+ berrange@redhat.com
+Subject: [PULL 0/7] Testing and wording fixes
+Date: Mon,  1 Aug 2022 17:54:59 +0200
+Message-Id: <20220801155506.254316-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20220801013416.10786-1-faithilikerun@gmail.com>
-In-Reply-To: <20220801013416.10786-1-faithilikerun@gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 1 Aug 2022 11:50:48 -0400
-Message-ID: <CAJSP0QX7OD1e-0rYZ6hAV90wK0c7PWr1nGts+zWjpOwZ011x2w@mail.gmail.com>
-Subject: Re: [RFC v5 10/11] qemu-iotests: test new zone operations
-To: Sam Li <faithilikerun@gmail.com>
-Cc: qemu-devel@nongnu.org, damien.lemoal@opensource.wdc.com, 
- dmitry.fomichev@wdc.com, hare@suse.de, stefanha@redhat.com, mst@redhat.com, 
- armbru@redhat.com, qemu-block@nongnu.org, fam@euphon.net, kwolf@redhat.com, 
- hreitz@redhat.com, eblake@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,19 +78,80 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 31 Jul 2022 at 21:39, Sam Li <faithilikerun@gmail.com> wrote:
->
-> We have added new block layer APIs of zoned block devices. Test it with:
-> Create a null_blk device, run each zone operation on it and see
-> whether reporting right zone information.
->
-> Signed-off-by: Sam Li <faithilikerun@gmail.com>
-> ---
->  tests/qemu-iotests/tests/zoned.out | 53 ++++++++++++++++++
->  tests/qemu-iotests/tests/zoned.sh  | 86 ++++++++++++++++++++++++++++++
->  2 files changed, 139 insertions(+)
->  create mode 100644 tests/qemu-iotests/tests/zoned.out
->  create mode 100755 tests/qemu-iotests/tests/zoned.sh
+ Hi!
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
+
+  Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2022-08-01
+
+for you to fetch changes up to 1bca64a3f0490861c03ceb849821ebf42c926f82:
+
+  tests/qtest/migration-test: Run the dirty ring tests only with the x86 target (2022-08-01 16:30:18 +0200)
+
+----------------------------------------------------------------
+- Some fixes for various tests
+- Improve wordings in some files
+
+----------------------------------------------------------------
+Daniel P. Berrangé (1):
+  misc: fix commonly doubled up words
+
+Ilya Leoshkevich (1):
+  tests/tcg/linux-test: Fix random hangs in test_socket
+
+Peter Xu (2):
+  migration-test: Use migrate_ensure_converge() for auto-converge
+  migration-test: Allow test to run without uffd
+
+Thomas Huth (3):
+  tests/unit/test-qga: Replace the word 'blacklist' in the guest agent
+    unit test
+  trivial: Fix duplicated words
+  tests/qtest/migration-test: Run the dirty ring tests only with the x86
+    target
+
+ docs/devel/qom.rst                            |  4 +-
+ docs/interop/live-block-operations.rst        |  4 +-
+ docs/system/arm/cpu-features.rst              |  2 +-
+ docs/system/devices/cxl.rst                   |  2 +-
+ docs/system/s390x/bootdevices.rst             |  2 +-
+ docs/system/tls.rst                           |  2 +-
+ docs/tools/qemu-pr-helper.rst                 |  4 +-
+ hw/usb/u2f.h                                  |  2 +-
+ include/hw/qdev-core.h                        |  2 +-
+ include/user/safe-syscall.h                   |  2 +-
+ block/linux-aio.c                             |  2 +-
+ block/qcow2-bitmap.c                          |  8 +-
+ contrib/plugins/cache.c                       |  2 +-
+ hw/arm/omap2.c                                |  2 +-
+ hw/core/clock.c                               |  2 +-
+ hw/intc/arm_gicv3_redist.c                    |  2 +-
+ hw/misc/iotkit-secctl.c                       |  2 +-
+ hw/misc/iotkit-sysctl.c                       |  4 +-
+ hw/misc/mac_via.c                             |  2 +-
+ hw/s390x/s390-ccw.c                           |  2 +-
+ linux-user/i386/cpu_loop.c                    |  2 +-
+ pc-bios/s390-ccw/virtio-scsi.c                |  2 +-
+ target/arm/helper.c                           |  2 +-
+ target/arm/translate.c                        |  2 +-
+ target/i386/cpu.c                             |  2 +-
+ tests/qtest/microbit-test.c                   |  6 +-
+ tests/qtest/migration-test.c                  | 74 ++++++++-----------
+ tests/tcg/multiarch/linux/linux-test.c        |  2 +-
+ tests/unit/test-qga.c                         |  6 +-
+ tools/virtiofsd/fuse_virtio.c                 |  2 +-
+ ui/vdagent.c                                  |  2 +-
+ tcg/i386/tcg-target.c.inc                     |  2 +-
+ python/Makefile                               |  2 +-
+ python/qemu/utils/__init__.py                 |  2 +-
+ tests/docker/dockerfiles/debian-native.docker |  2 +-
+ 35 files changed, 76 insertions(+), 88 deletions(-)
+
+-- 
+2.31.1
+
 
