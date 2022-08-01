@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F55E586681
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:43:15 +0200 (CEST)
-Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A67A586694
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:50:50 +0200 (CEST)
+Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIR17-000104-MN
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58968)
+	id 1oIR8T-0003iL-BX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIQxo-0006b1-8g
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:48 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41496)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oIR4z-0002Gr-19
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:47:13 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIQxm-00030I-14
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:47 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id y127so17838197yby.8
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:39:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1oIR4x-0004DQ-33
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:47:12 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q30so8799516wra.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=FHdpkBuUOJNob58ME1K1WMZgWglb4BWx5RsCqArPqlk=;
- b=b1h8g+tj/x1W+zfqX4kNwk3xvP/8wCYBU+ElCHkPPN4lwI65V0ae/3cbCYJw803H6r
- PmTUEbdXQCKyC4aRu6snawXwSRrItSBAtFF/SOCpIT9LcVcG06EwPt6vLc9qTX1pL7nr
- quGOWxOQx1fYuYkZ1wYgwDXJhmhyLL5HdFB4q+0yVpwSLZTfhj1XtrSXfZOqsxF5FCTR
- YEgrojYsdUcd6ggRXIBdDL2bQp7nUpQ6mRkE3dXebHgcPNZxcDgC085/n2zYkh6QLJWg
- 2Ys7y+H5ooui741P8xRXA9aaIskxcSw5B+b8K3TimLwx57JtDdX0oLfkHVLM2G5f+PiX
- K//Q==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc;
+ bh=N0iz0nciGJX3anEhvSJdhN/SgpaU1OOdRZlVErf1NFk=;
+ b=ERdCEE7FuXMgbtqp9YjD1XYk/cOak/SzBBC6Iih7f9FpZSX/TahJOnsRVWm4wyuwdn
+ clzuSFf7UTGHmIyPThDPNhoAvHecXSHYHrGQ5ZCNQYKog4VaD25GFv0JLxiQcAeFf6Yi
+ qTA84RPswJVFQ9NgGE4dwBHLjJvOfufNF1i36pySAkrDpE0bFz3ohhnixxGEntQIVH9f
+ Vd+lX2z2NrYmZfnoy2PkRo1uizv7TuNVCk9w/r+PY7DRJn2Z/c9vAgGVlGsPoz1W1bmC
+ jwBQYWwiIb9Xc8vVtYZfHOLMMEbPmq3j75hC4wQDAT/0uuxsTwsoHmEY24ev97Gspvrn
+ K5Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=FHdpkBuUOJNob58ME1K1WMZgWglb4BWx5RsCqArPqlk=;
- b=mM26FPvL5XtUMcZ/Igq6YAzwIkY72D2c8UuPN08cIaBZymvjV4jDO/872eYkXsysLC
- KHezk2xIgVNmGvw007ZMz1RbL7uatEd8JdIcsuc+RuI82ague1Pm8o/RAPVgJPlElxO2
- p9xqfWFpttHemqjGaOyB8sVSkYYVlE/ufDiSt7w8T3o95IIdAtGrZHo2y0h7ARejR/bP
- RvDMCAI3DTbKLjqPHion83Cd+JTLPm9a96zTyp2vm/nWllcqedBW8xQe+5MTry8fKtcl
- YZnkDs1sesXdNLW88uauf/L0A8tDzl7w/VjHixGEjhab0KMXhDZJ74M0Es+lgu4+JcYX
- 26dQ==
-X-Gm-Message-State: ACgBeo3egWtAdZQ5I0XyaGfRl0kn7nkispL+FCc6j1vMfP6YvajZSj7g
- kP3JKPHnVCOMLdK/SM4FX8JkXNVrPivuoU/xyo51Ow==
-X-Google-Smtp-Source: AA6agR52iohe+wHuBzZpuBmYjJl8k2ddYuqgDhBC7hn5g8QtZ5kZZwDH+HgljpGearYZCSI5moeGcGBk1+KKc8wURYk=
-X-Received: by 2002:a25:820b:0:b0:677:3a88:48ff with SMTP id
- q11-20020a25820b000000b006773a8848ffmr2087482ybk.39.1659343185136; Mon, 01
- Aug 2022 01:39:45 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc; bh=N0iz0nciGJX3anEhvSJdhN/SgpaU1OOdRZlVErf1NFk=;
+ b=wSF6L5hr9yPpViHGXQt+8Gnm+BbiRfMuz3WQeya/kpgMGptvzMuvNE+0fxTi0lk+NC
+ MHw1VdQ9AZHzIkfOI5K7wJEdji+tcJCvLn69X3LTZl34/3Co+femliriaeOdJQc8nsKf
+ heWhbk046AvuaeU6T65pXZDklJGT52DVvJIwSsWD6gXRpya+E0D28m00A4/zDEQmjYDc
+ 3OteQ8i2reN2taIY3ZP3cqvIn9J9FpNiCpO9sbugX/ajtak6eEwZRqFsn/BRvSnCHDTK
+ mgFNzypCK///elYWl5CS9JAGqMJRID+2mJINgSYb80569+E1Ow8mBuZXNJIQv53H1Rgx
+ a2cw==
+X-Gm-Message-State: ACgBeo3pdN+5uuqfsfy5tfJp0cfMlOJxNv1tyqHmGvmpgfu798HT1gZT
+ 9pVtO8gtZRNx72DdD1AbC6dH2tC3hmqbzg==
+X-Google-Smtp-Source: AA6agR4Gq1yZi3tpW3WkruIcVW2VIBckBded6jjhz/GiNlexsb55GOEfUnM5OGxndoNOdVZ4wk846Q==
+X-Received: by 2002:a5d:6501:0:b0:21e:cc1c:ae5b with SMTP id
+ x1-20020a5d6501000000b0021ecc1cae5bmr9515635wru.341.1659343628229; 
+ Mon, 01 Aug 2022 01:47:08 -0700 (PDT)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ n2-20020a5d51c2000000b0021badf3cb26sm13181712wrv.63.2022.08.01.01.47.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 01:47:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 27DEF1FFB7;
+ Mon,  1 Aug 2022 09:47:06 +0100 (BST)
+References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
+ <20220727112737-mutt-send-email-mst@kernel.org>
+ <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
+ <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
+ <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
+ <20220728093501-mutt-send-email-mst@kernel.org>
+ <be4dc741-4153-1620-223f-852ff5aa34a7@suse.de>
+ <20220729061221-mutt-send-email-mst@kernel.org>
+ <20edd357-716f-c84c-9714-607f7f64db5c@suse.de> <87sfmkf3yc.fsf@linaro.org>
+ <a8b045fe-958c-ee88-28ff-b73aab1664b9@suse.de>
+ <8b008e30-15df-91cd-c891-b7707324abe1@suse.de>
+User-agent: mu4e 1.7.27; emacs 28.1.91
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>
+Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
+Date: Mon, 01 Aug 2022 09:44:55 +0100
+In-reply-to: <8b008e30-15df-91cd-c891-b7707324abe1@suse.de>
+Message-ID: <87fsigpcza.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20220731230245.1216949-1-minyard@acm.org>
-In-Reply-To: <20220731230245.1216949-1-minyard@acm.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Aug 2022 09:39:04 +0100
-Message-ID: <CAFEAcA9aTcc_wNJvf=vyRnBL5vqr9DjeUtxPY-11Ejoyry4iFQ@mail.gmail.com>
-Subject: Re: [PATCH] ipmi:smbus: Add a check around a memcpy
-To: minyard@acm.org
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, 
- Igor Mammedov <imammedo@redhat.com>,
- "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>, 
- David Gibson <david@gibson.dropbear.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Corey Minyard <cminyard@mvista.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,48 +103,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Aug 2022 at 00:03, <minyard@acm.org> wrote:
->
-> From: Corey Minyard <cminyard@mvista.com>
->
-> In one case:
->
->   memcpy(sid->inmsg + sid->inlen, buf, len);
->
-> if len == 0 then sid->inmsg + sig->inlen can point to one past the inmsg
-> array if the array is full.  We have to allow len == 0 due to some
-> vagueness in the spec, but we don't have to call memcpy.
->
-> Found by Coverity.  This is not a problem in practice, but the results
-> are technically (maybe) undefined.  So make Coverity happy.
->
-> Reported-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Corey Minyard <cminyard@mvista.com>
-> ---
->  hw/ipmi/smbus_ipmi.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> I think this should do it.
->
-> diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
-> index 9ef9112dd5..d0991ab7f9 100644
-> --- a/hw/ipmi/smbus_ipmi.c
-> +++ b/hw/ipmi/smbus_ipmi.c
-> @@ -281,7 +281,9 @@ static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
->               */
->              send = true;
->          }
-> -        memcpy(sid->inmsg + sid->inlen, buf, len);
-> +        if (len > 0) {
-> +            memcpy(sid->inmsg + sid->inlen, buf, len);
-> +        }
->          sid->inlen += len;
->          break;
->      }
-> --
-> 2.25.1
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+Claudio Fontana <cfontana@suse.de> writes:
+
+> On 7/29/22 16:00, Claudio Fontana wrote:
+>> On 7/29/22 15:21, Alex Benn=C3=A9e wrote:
+>>>
+>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>
+>>>> On 7/29/22 12:13, Michael S. Tsirkin wrote:
+>>>>> On Fri, Jul 29, 2022 at 11:46:05AM +0200, Claudio Fontana wrote:
+>>>>>>>> @@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
+>>>>>>>>      VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
+>>>>>>>>      int i;
+>>>>>>>>=20=20
+>>>>>>>> -    virtio_set_status(vdev, 0);
+>>>>>>>>      if (current_cpu) {
+>>>>>>>>          /* Guest initiated reset */
+>>>>>>>>          vdev->device_endian =3D virtio_current_cpu_endian();
+>>>>>>>> --=20
+>>>>>>>> 2.26.2
+>>>>>>>
+>>>>>>> As you say this is incomplete ... bout could you share a bit more
+>>>>>>> of what issue does this address?
+>>>>>>>
+>>>>>>
+>>>>>> Hi, the problem I am trying to address is a segfault in OVS/dpdk tha=
+t looks like this:
+>>>>>
+>>>>> Sorry I was not clear. What I mean is, you don't yet know why does re=
+moving
+>>>>> virtio_set_status call here prevent the crash in ovs, do you?
+>>>>>
+>>>>
+>>>> I have no idea. Trying to collect logs to figure things out, but as
+>>>> mentioned the logs easily hide the issue.
+>>>> Likely there is just more to study here.
+>>>
+>>> Given the OVS is going off on a NULL ptr deref could it just be it's not
+>>> handling the disabling/reenabling of the virtqueues as you pause and
+>>> restart properly? I could certainly imagine a backend jumping the gun to
+>>> read a queue going very wrong if the current queue state is disabled.
+>>>
+>>=20
+>> In this case both the ovs buf_addr and buf_iova are NULL, which is a
+>> nice case as they are more detectable,
+>> however I also have segfaults where the addresses are just garbage.
+>>=20
+>> I wonder whether it's possible that given the fact that the guest is
+>> going away without notification (SIGKILL),
+>> as the guest driver resets the device and communicates with QEMU,
+>> QEMU adapts the state without notifying ovs,
+>> so ovs happily tries to dequeue data from memory that isn't there. But I=
+ am just guessing.
+>>=20
+>> I am still studying the qemu vhost user side and ovs/dpdk side to
+>> try to understand how this whole thing works.
+>>=20
+>> Thanks,
+>>=20
+>> CLaudio
+>>=20
+>
+> I am pursuing this as a DPDK library issue.
+>
+> It would be cool to have ovs, dpdk and vhost-user with the default
+> test-pmd application somehow hooked up in a basic test
+> in one of these projects..
+
+I agree although it's hard to marshal multiple projects into a known
+working state that isn't too brittle for CI purposes. The existing
+qos-test testing doesn't really exercise any more than the initial setup
+and register reading of the VirtIO device.
+
+For example we have a number of non network standalone vhost-user
+backends in rust-vmm which would be nice to plumb in somehow.
+
+>
+> Thanks,
+>
+> Claudio
+
+
+--=20
+Alex Benn=C3=A9e
 
