@@ -2,72 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB3B587438
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 01:03:31 +0200 (CEST)
-Received: from localhost ([::1]:50276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3AC587439
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 01:04:39 +0200 (CEST)
+Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIeRW-0005q6-Rm
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 19:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46506)
+	id 1oIeSZ-0006mu-UY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 19:04:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oIePw-0003xo-DT
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 19:01:44 -0400
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:50913)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oIePu-0006A6-TS
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 19:01:44 -0400
-Received: by mail-pj1-x1030.google.com with SMTP id f7so12309288pjp.0
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 16:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=9uQrpkHatBOf/1T9Sq3sW6L/FSBkGl5woPAXbZZ2GQ4=;
- b=bXOl39UIIJA51JaU4Rjkxo7iMvMvif3mGLSy9zBe7aag5thJXYaMJ5gL9t4/STtBYH
- 9jL7VfXcEWg0rsojORhnTxJezVla9iTQo+FG5TZNBHZuPwAxVWtrD4f8ImqLSwEmN9f7
- V4bHWedt42VGgqod+ozfyXMSgiaE3qPN0pAn2JbHslT28L8Cea+j95Qit1cGufJXruz7
- AQAbGgYgcaIN5fL5Sd2e1uNAHZzsHhe0kqzMykNnIQvO5YTxj2CSGSEyreJIsQoXBgpN
- qO6myii1cm2J3Zj1fzTjmi9WPH88D0oRtJji4w5D+FcM0aZwA3Fz7ZHTwpGm0CGW1x1o
- QCXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=9uQrpkHatBOf/1T9Sq3sW6L/FSBkGl5woPAXbZZ2GQ4=;
- b=JeG7WuoWf4q1GIvUT9Kt7VEWDcU4QkE4NJ9DbmnL2jlWi3lfWeB5G8W6cG8sMK8VeT
- QrvIeu3GRN+qGhLI0lFVSuboNss0hcB44ZgfUegvLftZRYnhG21sbOtOiytzDNPdEZGf
- +1FZVd77wkUXxBRRojPrfZMYnlpA4QADoTAEESu0qhxY/vdEKPw2AVvTvYWGVjGeuDV7
- aFJbFX/4nAxN+vkTJTySghvYUXjifu7Bvii6BeM1Nvrh1fFBzkUz4MzG9iV1dEyKlHZG
- 7n+scb+UAgxSuJYbN+pg5e2Nwz2DvZFkvtV7vWiUOYS0Nc2Y7ob45EkdH1qR7uaCwDiu
- 28Mg==
-X-Gm-Message-State: ACgBeo30KS0PaiEQQ77brqINvIwOGuooFhaRTfGKh9+4pjJHPpK9YB7l
- P/SuCJTcgS4XSI0hAaR1XGoLbVS8x0Xch0h/dzI=
-X-Google-Smtp-Source: AA6agR5Fws/FDzlt8881YeDXJxL0JmunnJiEXKOYB/jPlEWaag7sTHHnpHFD8z6sbg8laytc+XXulagpywrpwHo3Buc=
-X-Received: by 2002:a17:90a:b391:b0:1f3:6c3:392c with SMTP id
- e17-20020a17090ab39100b001f306c3392cmr21506463pjr.166.1659394900123; Mon, 01
- Aug 2022 16:01:40 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <prvs=2052cf057=alistair.francis@opensource.wdc.com>)
+ id 1oIeQo-0004pG-St
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 19:02:38 -0400
+Received: from esa3.hgst.iphmx.com ([216.71.153.141]:37370)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=2052cf057=alistair.francis@opensource.wdc.com>)
+ id 1oIeQk-0006Fd-6T
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 19:02:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1659394953; x=1690930953;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CDDNTcfwE0ovvu6wjiTKRx/kOHI9TNM8g5Q9IC3GdYY=;
+ b=eM45A85hmy64EUmnMD+IZlUiURB3ejXJwQ8Wd1j9WGpLGhGW8a4RVwI5
+ lzKGtzh2tscxqafHAcW/HgUjW0BUoZDAlhbKokmukKAWPo/7es3rdWkSK
+ /w5BEI8nn3bqO8H+wNSOhzw7IVZuW8KoPQijl50QUTZQezgfbvRs0DoP6
+ cvLxJSYk+AFjIRatE/BQ8NyUaMrM1pe1A1cpDK4lxNeUns4xUXIrN722T
+ mLQrHjFgLmjG527qydmajzvZ87jOaLkD2Aos53NkLcp+89q0fVhnww1vf
+ A7glddpg4AoDEea8dkeGOvC2s2HGSTmw474fCI/6hrgqyfQvQ2sQk7cEy w==;
+X-IronPort-AV: E=Sophos;i="5.93,209,1654531200"; d="scan'208";a="212475783"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Aug 2022 07:02:27 +0800
+IronPort-SDR: O2RtKM2+P8CJfH+gyVPpIzEEnXZ5w9lNAYWN6YOGzT10ZNP9DD+FqbmJtUOgCkbBJA/Jrj9CQx
+ E0B6qXX352SfrM+TPYrngPvdwn1kEcQyGaTkklcwAOuCQ1LfjhYooTCALIJcaNGBFaA4stc43H
+ KW69xiwXzY6tscc4ZdRCVeY88HsRZbl3CEkqKdJ6ZpM8a22hQ3fyjBKjaVUMiSHAVXuQ9rv2o6
+ aSvAd2P5PtPXddvU9UMdz1mDT9Bsw9h8wWFETaI4fPDq29sGTHFa7UeDDt3cjowkBVdnZJ9FCP
+ 3yCRjAR+vPZvUR58PehFnPC7
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 01 Aug 2022 15:23:33 -0700
+IronPort-SDR: 4y/0qoNSwA8R7ScXEzI/BcA1B5t1yAYnq0lWv+HCbeKiDIMgONRAaS2bOwwgvZHtJmQ8cg6Ilx
+ uyE3ovCHpLc5UxwjZIL1TMuO7MQAowwNCKFPa81m7oT86x3pTlszdabSMeAjk1UfVT+wcT24mH
+ U+O7bIJLdQ7FXGuIXyWcJ3W0Qg2S8ULvIWBjenxcWvWTcLSm9uV6u1e+c5YtZ43qWTl+q2qlWT
+ MoARh2x6QLZVxC1CvONjl4nDOPWpaE5DYhN2uDvQPEK22ljBP14fYnBv7cAVZOsF6sCSz9LNj9
+ piI=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 01 Aug 2022 16:02:28 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4LxYYH0YMTz1Rwnx
+ for <qemu-devel@nongnu.org>; Mon,  1 Aug 2022 16:02:27 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1659394941;
+ x=1661986942; bh=CDDNTcfwE0ovvu6wjiTKRx/kOHI9TNM8g5Q9IC3GdYY=; b=
+ GQdKkugYyVJ3/EDwNxs6G4IuLFBZYyjtqkGAAaj9YuxjP5tuj/WF0neJBf2C52AW
+ qW5Rhb7MhrEoB3o2mco6PgZwwUJhFd4sWVdTxSr6T7dAsiUPbi3kFUc+bH9GcHRz
+ ZgAMR9HGnPZcbtyy+bzLcmooDUUghkPMxJPu1+MmRqRbIB+Vj264/MgsOlXF299Q
+ TQh0S/DjrH0d5AsCZauXZKwAEZgMN6A7dr2+eSr2+Yvme/qplz02L8Qy7v3fFt5Y
+ nF+prtRjH1pRiVNN5d8davdnuC2Y3pJsKcJ5cU2kwr8yedP+/aRI6RRPEXqL2hJZ
+ E7C5Dkdyp/+XwW2e6gMOFA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id vawTk_Pui0nv for <qemu-devel@nongnu.org>;
+ Mon,  1 Aug 2022 16:02:21 -0700 (PDT)
+Received: from toolbox.wdc.com (unknown [10.225.165.18])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4LxYY76M7zz1RtVk;
+ Mon,  1 Aug 2022 16:02:19 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 0/1] riscv-to-apply queue
+Date: Tue,  2 Aug 2022 09:02:11 +1000
+Message-Id: <20220801230212.3406689-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-References: <20220729201942.30738-1-richard.henderson@linaro.org>
-In-Reply-To: <20220729201942.30738-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 2 Aug 2022 09:01:13 +1000
-Message-ID: <CAKmqyKPgL5AaG9T92yfKFTzRhKuiezSThYoo-pwNB3MLrx53Bw@mail.gmail.com>
-Subject: Re: [PATCH for-7.1?] linux-user/riscv: Align signal frame to 16 bytes
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=alistair23@gmail.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.141;
+ envelope-from=prvs=2052cf057=alistair.francis@opensource.wdc.com;
+ helo=esa3.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,41 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 30, 2022 at 6:19 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Follow the kernel's alignment, as we already noted.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1093
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-Thanks!
+The following changes since commit 0e0c2cf6de0bc6538840837c63b25817cd4173=
+47:
 
-Applied to riscv-to-apply.next
+  Merge tag 'pull-target-arm-20220801' of https://git.linaro.org/people/p=
+maydell/qemu-arm into staging (2022-08-01 12:00:08 -0700)
 
-Alistair
+are available in the Git repository at:
 
-> ---
->  linux-user/riscv/signal.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
-> index 296e39fbf0..eaa168199a 100644
-> --- a/linux-user/riscv/signal.c
-> +++ b/linux-user/riscv/signal.c
-> @@ -64,9 +64,7 @@ static abi_ulong get_sigframe(struct target_sigaction *ka,
->
->      /* This is the X/Open sanctioned signal stack switching.  */
->      sp = target_sigsp(sp, ka) - framesize;
-> -
-> -    /* XXX: kernel aligns with 0xf ? */
-> -    sp &= ~3UL; /* align sp on 4-byte boundary */
-> +    sp &= ~0xf;
->
->      return sp;
->  }
-> --
-> 2.34.1
->
->
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220802
+
+for you to fetch changes up to 1eaa63429a9944265c92efdb94c02fabb231f564:
+
+  linux-user/riscv: Align signal frame to 16 bytes (2022-08-02 08:56:49 +=
+1000)
+
+----------------------------------------------------------------
+Seventh RISC-V PR for QEMU 7.1
+
+This is a second PR to go in for RC1. It fixes a bug we have had
+for awhile, but it's a simple fix so let's pull it in for RC1.
+
+* linux-user/riscv: Align signal frame to 16 bytes
+
+----------------------------------------------------------------
+Richard Henderson (1):
+      linux-user/riscv: Align signal frame to 16 bytes
+
+ linux-user/riscv/signal.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
