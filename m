@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3085E586685
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:44:21 +0200 (CEST)
-Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F55E586681
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:43:15 +0200 (CEST)
+Received: from localhost ([::1]:44698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIR2C-0001wg-1e
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:44:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
+	id 1oIR17-000104-MN
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIQx0-0005Ku-Mt
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:02 -0400
-Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:45050)
+ id 1oIQxo-0006b1-8g
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:48 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:41496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIQwy-0002to-SC
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:38:58 -0400
-Received: by mail-yw1-x112f.google.com with SMTP id
- 00721157ae682-31f661b3f89so101632137b3.11
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:38:54 -0700 (PDT)
+ id 1oIQxm-00030I-14
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:47 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id y127so17838197yby.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:39:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=csFAyM9lQpj9+Kd/tlS5/UVMlPxlAQnp4AlOQvXnlCk=;
- b=sQrlhg+xa38aPWt1AUv++aovecndlZa09aGN0v3wc4odgkghy2K0uG9w4RyCbzvREX
- KAJgCjKQbSKuGnsm47nks1BEP7lp0RFwrumpY1DpdxUSCddK+uP7n+xyC/LqEpGiZYsz
- hhfWUUr710CUlRHhbwgLFmDnklZ/BKqFVM/NKW9PG8Ar5NZEunwA91UkQ48F6UlCah2w
- ypsu1mZPJqpVBIzDpie6v8kTAm4fIKawBySlyrIgS+j0fQ0jePcSgPN/ZMXc0vLNZJtK
- 5/Zs2Jvjv3C6K/dwmf1MdGQAlDFAt+dITpgUiAKV9bAN08qmnAVa45WnBp5iBTFIaM80
- 4f1A==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=FHdpkBuUOJNob58ME1K1WMZgWglb4BWx5RsCqArPqlk=;
+ b=b1h8g+tj/x1W+zfqX4kNwk3xvP/8wCYBU+ElCHkPPN4lwI65V0ae/3cbCYJw803H6r
+ PmTUEbdXQCKyC4aRu6snawXwSRrItSBAtFF/SOCpIT9LcVcG06EwPt6vLc9qTX1pL7nr
+ quGOWxOQx1fYuYkZ1wYgwDXJhmhyLL5HdFB4q+0yVpwSLZTfhj1XtrSXfZOqsxF5FCTR
+ YEgrojYsdUcd6ggRXIBdDL2bQp7nUpQ6mRkE3dXebHgcPNZxcDgC085/n2zYkh6QLJWg
+ 2Ys7y+H5ooui741P8xRXA9aaIskxcSw5B+b8K3TimLwx57JtDdX0oLfkHVLM2G5f+PiX
+ K//Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=csFAyM9lQpj9+Kd/tlS5/UVMlPxlAQnp4AlOQvXnlCk=;
- b=tFky5uRG6b0tZ5WQ7Fo12oEdxRvTdhdtYbp60xRbZVQ/zvqNEmWGgTadQ1ks+joizI
- VRnVJ9MqAEewFrZ89s/xrtEYKdPfjmStqUHErgiXc0BJZ6tlMUCkm/uF6fhlwOUNNTis
- A6agYN2Q0T0SC0o44UbOg1X6GgV6sbFzo6yirzJHcc035gxheWvShx/iV2MYA2OmMfRO
- OgAF5TQI6Fcp4ORgJas7qHpIchgCLTdPmq0YdnLWsGbyTG2iMY+7tW5KJo3Zdp+Iie2Q
- xr1/VJ9iNS6CSY+nDkS4RK5rmrGjHVFVB1FuPQuJN/ghLtzyXl9KUwJGuCqXYePCup8v
- p3uA==
-X-Gm-Message-State: ACgBeo1GKciB9KgrRyIFN0ZzccYOt43sjt6rHK6Bf/0dI/cXbIpQ9U/A
- TCGBh+MWpXoH1YcFAu+lAiDKQ30Wt2n0nZe0npmQwQ==
-X-Google-Smtp-Source: AA6agR4QuaEdwLzudg/Oo6SOKKnlM/TVUFPuTevHNoWBrOUD0SnIWfzjwIEjubjxC+wx99pJhGohRBs0JA9TGqBI92Q=
-X-Received: by 2002:a81:63c6:0:b0:324:928:c672 with SMTP id
- x189-20020a8163c6000000b003240928c672mr11264585ywb.329.1659343134047; Mon, 01
- Aug 2022 01:38:54 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=FHdpkBuUOJNob58ME1K1WMZgWglb4BWx5RsCqArPqlk=;
+ b=mM26FPvL5XtUMcZ/Igq6YAzwIkY72D2c8UuPN08cIaBZymvjV4jDO/872eYkXsysLC
+ KHezk2xIgVNmGvw007ZMz1RbL7uatEd8JdIcsuc+RuI82ague1Pm8o/RAPVgJPlElxO2
+ p9xqfWFpttHemqjGaOyB8sVSkYYVlE/ufDiSt7w8T3o95IIdAtGrZHo2y0h7ARejR/bP
+ RvDMCAI3DTbKLjqPHion83Cd+JTLPm9a96zTyp2vm/nWllcqedBW8xQe+5MTry8fKtcl
+ YZnkDs1sesXdNLW88uauf/L0A8tDzl7w/VjHixGEjhab0KMXhDZJ74M0Es+lgu4+JcYX
+ 26dQ==
+X-Gm-Message-State: ACgBeo3egWtAdZQ5I0XyaGfRl0kn7nkispL+FCc6j1vMfP6YvajZSj7g
+ kP3JKPHnVCOMLdK/SM4FX8JkXNVrPivuoU/xyo51Ow==
+X-Google-Smtp-Source: AA6agR52iohe+wHuBzZpuBmYjJl8k2ddYuqgDhBC7hn5g8QtZ5kZZwDH+HgljpGearYZCSI5moeGcGBk1+KKc8wURYk=
+X-Received: by 2002:a25:820b:0:b0:677:3a88:48ff with SMTP id
+ q11-20020a25820b000000b006773a8848ffmr2087482ybk.39.1659343185136; Mon, 01
+ Aug 2022 01:39:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
- <CAFEAcA-N-GPKqLeQtOWVMHvB-Di4inKK8Cy9XFjT62PMeiyBRA@mail.gmail.com>
- <TY0PR03MB6797A66CB742211212CD1B2BE29A9@TY0PR03MB6797.apcprd03.prod.outlook.com>
-In-Reply-To: <TY0PR03MB6797A66CB742211212CD1B2BE29A9@TY0PR03MB6797.apcprd03.prod.outlook.com>
+References: <20220731230245.1216949-1-minyard@acm.org>
+In-Reply-To: <20220731230245.1216949-1-minyard@acm.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Aug 2022 09:38:13 +0100
-Message-ID: <CAFEAcA-DGq89==Mh9p5rPzjK8evp8vPnnEgdpdiyWj3VwxJsMg@mail.gmail.com>
-Subject: Re: [PATCH] disas/nanomips: Convert nanoMIPS disassembler to C
-To: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
-Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
- "thuth@redhat.com" <thuth@redhat.com>, 
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "cfontana@suse.de" <cfontana@suse.de>, 
- "berrange@redhat.com" <berrange@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>, 
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>, 
- "djordje.todorovic@syrmia.com" <djordje.todorovic@syrmia.com>,
- "mips32r2@gmail.com" <mips32r2@gmail.com>, 
- "dragan.mladjenovic@syrmia.com" <dragan.mladjenovic@syrmia.com>
+Date: Mon, 1 Aug 2022 09:39:04 +0100
+Message-ID: <CAFEAcA9aTcc_wNJvf=vyRnBL5vqr9DjeUtxPY-11Ejoyry4iFQ@mail.gmail.com>
+Subject: Re: [PATCH] ipmi:smbus: Add a check around a memcpy
+To: minyard@acm.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>, 
+ Igor Mammedov <imammedo@redhat.com>,
+ "M : Marcel Apfelbaum" <marcel.apfelbaum@gmail.com>, 
+ David Gibson <david@gibson.dropbear.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Corey Minyard <cminyard@mvista.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,41 +88,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Aug 2022 at 04:18, Vince Del Vecchio
-<Vince.DelVecchio@mediatek.com> wrote:
+On Mon, 1 Aug 2022 at 00:03, <minyard@acm.org> wrote:
 >
-> On Fri, 29 Jul 2022 at 10:18, Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
-> > ...
-> > Is it possible to break this down into smaller pieces so it isn't one s=
-ingle enormous 5000 line patch ?
-> >
-> > I guess partial conversion is likely to run into compilation difficulti=
-es mid-series; if so we could do "disable the disassembler; convert it; ree=
-nable it".
-> >
-> > The rationale here is code review -- reviewing a single huge patch is e=
-ssentially impossible, so it needs to be broken down into coherent smaller =
-pieces to be reviewable.
+> From: Corey Minyard <cminyard@mvista.com>
+>
+> In one case:
+>
+>   memcpy(sid->inmsg + sid->inlen, buf, len);
+>
+> if len == 0 then sid->inmsg + sig->inlen can point to one past the inmsg
+> array if the array is full.  We have to allow len == 0 due to some
+> vagueness in the spec, but we don't have to call memcpy.
+>
+> Found by Coverity.  This is not a problem in practice, but the results
+> are technically (maybe) undefined.  So make Coverity happy.
+>
+> Reported-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> ---
+>  hw/ipmi/smbus_ipmi.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> I think this should do it.
+>
+> diff --git a/hw/ipmi/smbus_ipmi.c b/hw/ipmi/smbus_ipmi.c
+> index 9ef9112dd5..d0991ab7f9 100644
+> --- a/hw/ipmi/smbus_ipmi.c
+> +++ b/hw/ipmi/smbus_ipmi.c
+> @@ -281,7 +281,9 @@ static int ipmi_write_data(SMBusDevice *dev, uint8_t *buf, uint8_t len)
+>               */
+>              send = true;
+>          }
+> -        memcpy(sid->inmsg + sid->inlen, buf, len);
+> +        if (len > 0) {
+> +            memcpy(sid->inmsg + sid->inlen, buf, len);
+> +        }
+>          sid->inlen += len;
+>          break;
+>      }
+> --
+> 2.25.1
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> Something like 90% of the patch is purely mechanical transformations of w=
-hich I've excerpted two examples below.  (There are 3-4 chunks of mechanica=
-l transformations, of which I've shown the most complicated type that accou=
-nts for ~60% of the changed lines.)  Did you intend to review this by havin=
-g a human inspect all of these?
-
-If they're mechanical transformations then:
- * the commit message should say what the mechanical transformation is
-   (ie quote the sed script or other mechanism used to create the commit)
- * where sensible, different transformations should be in different
-   commits
- * the hand-implemented parts should be separate
-
-And yes, review means human inspection. You need to make that
-human inspection easy by separating out the stuff that is
-"just change std::string to const char *" so that the human can
-do a 30-second skim over that patch, and spend the time on
-the patch containing the stuff that's more complicated.
-
+thanks
 -- PMM
 
