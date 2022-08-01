@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25AB586C3B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:48:52 +0200 (CEST)
-Received: from localhost ([::1]:47864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1817B586C39
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:47:43 +0200 (CEST)
+Received: from localhost ([::1]:45398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIVmt-0006NE-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:48:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60346)
+	id 1oIVll-0004g7-B6
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:47:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIVTk-0007EW-44
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:29:04 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:44691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIVTe-0001h8-Uu
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:29:03 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id
- e8-20020a17090a280800b001f2fef7886eso11996864pjd.3
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 06:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=FNgzdx8HHLJ3eTxILQhs93Eos9HeLEZHI8S+aRN3TE0=;
- b=aoy8LinULlCGiXcTrf5XxEQclDRXqS9eeXBWASQkkGVtzbPdRcYsbWEPD5HipqzwDL
- fCW+y9AHAyJrrCoV4q7ZozEkm/SwCIOgKGiejr4WDyiXmnmySy6VCO4RBb0Pa/hslns7
- aiyiHdgAJNFcuN2/TLCEqlpHvV2JRPCTFsj3t7lcxUMwi6EiYJctaLnGn1gdTAiPqF9G
- cXv3XjmFa9PVkcal2varCnYx+7jC0FE2UcS9jG1EKJD5Iki//PEUVFS8l0kbVbMkS+Sk
- eZHZO//gQe8DB95jYuV/KcfFs/yHRX/LrlTiy4RMHxkiqAUMjzb550oITqvgH055OLb0
- YY4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=FNgzdx8HHLJ3eTxILQhs93Eos9HeLEZHI8S+aRN3TE0=;
- b=vVb7xlxohuH/o51YabmF/z9efF9FVqqFuyW2bFrrGq8W6oV7+3FPC9Dh5D3ne7yuxZ
- y+Zq4Fd3nYab/ZRASQoEkP1zFaREXLJCHkl98PUpNKTFD+wJpNqo/hcQMm4nS7tRfhWU
- RHt4UaT6FowtdA06MtN/pgCc2IhOyuhPJhyC+BNnLbXZiC4cLEIyyyOlO5XXoNNOTecB
- 2S25d8IdkRsYqpVxGVSaWnH5+taDT/6B95kLtBQPE4Ub8QOtdK8OUaBlQEbHcWD4LQDD
- RV7TIzhvQURNRoc4lhSAxqSZ9c1LdkpdJBT5XYzhIIhfw1xRlrWNeUQY1DH4/XUWjJI7
- QaKw==
-X-Gm-Message-State: ACgBeo3aZtV9KEcBOuqcRpzfj9p7XDd6z4e6HCo4umEMk0YSo8UB5lVg
- pTOdrgtME1umqESTnlVVS+lylw==
-X-Google-Smtp-Source: AA6agR4GYyyRlRbkVHnEHR4Pib4Tym3at3UOOuigsPGyUh9EGhnO0q4NQ1ikV8mnw+L5PfVJ+SdoXA==
-X-Received: by 2002:a17:90b:1bc7:b0:1f3:366d:5006 with SMTP id
- oa7-20020a17090b1bc700b001f3366d5006mr18023186pjb.116.1659360537323; 
- Mon, 01 Aug 2022 06:28:57 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:e82c:8cfb:9ffa:3c7c?
- ([2602:ae:1549:801:e82c:8cfb:9ffa:3c7c])
- by smtp.gmail.com with ESMTPSA id
- f34-20020a17090a702500b001f254ec83aesm11397828pjk.38.2022.08.01.06.28.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 06:28:56 -0700 (PDT)
-Message-ID: <5617e764-7e27-ff78-a712-3fd002409c82@linaro.org>
-Date: Mon, 1 Aug 2022 06:28:55 -0700
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIVYJ-0004vJ-IE
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:33:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIVYF-0002p8-6G
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:33:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659360822;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=F2eqYwL3ZWrMBehEPflCVp1/MA5FBoPg10z2gDOAqzI=;
+ b=Y8MqOsgV2YOamUqh5vlT19HwdYV3dozU77VswKmuA5ktOtl5DlHJv3VcsbF8/2iSBC4OR6
+ EIg8Ze4K5f2CrG6ZxOz+aJc+tsvOU8o761TGcwi1P0TRgG6czYjbgySbUPT/0ivRdzN/kI
+ JqNwniGSpYUctxn7g30Q98zY2RbCFFk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-280-fFkcb2KzOTGJ1cckUnlOPw-1; Mon, 01 Aug 2022 09:33:38 -0400
+X-MC-Unique: fFkcb2KzOTGJ1cckUnlOPw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C9A953821C05;
+ Mon,  1 Aug 2022 13:33:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C88B18EA8;
+ Mon,  1 Aug 2022 13:33:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7429821E6930; Mon,  1 Aug 2022 15:33:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: dgilbert@redhat.com,  qemu-devel@nongnu.org,  armbru@redhat.com,  Darren
+ Kenny <darren.kenny@oracle.com>
+Subject: Re: [PATCH v2 1/1] monitor: Support specified vCPU registers
+References: <20220727005123.1093478-1-pizhenwei@bytedance.com>
+ <20220727005123.1093478-2-pizhenwei@bytedance.com>
+Date: Mon, 01 Aug 2022 15:33:36 +0200
+In-Reply-To: <20220727005123.1093478-2-pizhenwei@bytedance.com> (zhenwei pi's
+ message of "Wed, 27 Jul 2022 08:51:23 +0800")
+Message-ID: <877d3sdr67.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/3] Hexagon bug fixes and test improvements
-Content-Language: en-US
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-Cc: f4bug@amsat.org, peter.maydell@linaro.org
-References: <20220731233232.2473-1-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220731233232.2473-1-tsimpson@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,44 +81,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 7/31/22 16:32, Taylor Simpson wrote:
-> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
-> 
->    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/quic/qemu tags/pull-hex-20220731
-> 
-> for you to fetch changes up to 7eabb050ea77e529f549ea1ddaaa18e91ae01e34:
-> 
->    Hexagon (tests/tcg/hexagon) reference file for float_convd (2022-07-31 16:22:09 -0700)
-> 
-> ----------------------------------------------------------------
-> Hexagon bug fixes and test improvements
-> 
-> 1) Fixes a bug in qemu-hexagon
-> 2) Fixes a bug in a test case
-> 3) Adds reference file for float_convd test case
+zhenwei pi <pizhenwei@bytedance.com> writes:
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+> Originally we have to get all the vCPU registers and parse the
+> specified one. To improve the performance of this usage, allow user
+> specified vCPU id to query registers.
+>
+> Run a VM with 16 vCPU, use bcc tool to track the latency of
+> 'hmp_info_registers':
+> 'info registers -a' uses about 3ms;
+> 'info registers 12' uses about 150us.
+>
+> Cc: Darren Kenny <darren.kenny@oracle.com>
+> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+> ---
+>  hmp-commands-info.hx |  7 ++++---
+>  monitor/misc.c       | 18 ++++++++++++++++++
+>  2 files changed, 22 insertions(+), 3 deletions(-)
+>
+> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> index 3ffa24bd67..7a00b4ded3 100644
+> --- a/hmp-commands-info.hx
+> +++ b/hmp-commands-info.hx
+> @@ -100,9 +100,10 @@ ERST
+>  
+>      {
+>          .name       = "registers",
+> -        .args_type  = "cpustate_all:-a",
+> -        .params     = "[-a]",
+> -        .help       = "show the cpu registers (-a: all - show register info for all cpus)",
+> +        .args_type  = "cpustate_all:-a,vcpu:i?",
+> +        .params     = "[-a|vcpu]",
+> +        .help       = "show the cpu registers (-a: all - show register info for all cpus;"
+> +                      " vcpu: specific vCPU to query)",
 
+Recommend to document explicitly that it shows the current CPU's
+registers when no argument is specified.
 
-r~
+>          .cmd        = hmp_info_registers,
+>      },
+>  
+> diff --git a/monitor/misc.c b/monitor/misc.c
+> index 3d2312ba8d..8e1d4840f2 100644
+> --- a/monitor/misc.c
+> +++ b/monitor/misc.c
+> @@ -307,6 +307,7 @@ int monitor_get_cpu_index(Monitor *mon)
+>  static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+>  {
+>      bool all_cpus = qdict_get_try_bool(qdict, "cpustate_all", false);
+> +    int vcpu = qdict_get_try_int(qdict, "vcpu", -1);
+>      CPUState *cs;
+>  
+>      if (all_cpus) {
+> @@ -314,6 +315,23 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
+>              monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+>              cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+>          }
+> +    } else if (vcpu >= 0) {
+> +        CPUState *target_cs = NULL;
+> +
+> +        CPU_FOREACH(cs) {
+> +            if (cs->cpu_index == vcpu) {
+> +                target_cs = cs;
+> +                break;
+> +            }
+> +        }
 
+Please use qemu_get_cpu().
 
-> 
-> ----------------------------------------------------------------
-> Taylor Simpson (3):
->        Hexagon (target/hexagon) make VyV operands use a unique temp
->        Hexagon (tests/tcg/hexagon) Fix alignment in load_unpack.c
->        Hexagon (tests/tcg/hexagon) reference file for float_convd
-> 
->   tests/tcg/hexagon/hvx_misc.c      |  45 ++
->   tests/tcg/hexagon/load_unpack.c   |  14 +-
->   target/hexagon/gen_tcg_funcs.py   |   9 +-
->   tests/tcg/hexagon/float_convd.ref | 988 ++++++++++++++++++++++++++++++++++++++
->   4 files changed, 1044 insertions(+), 12 deletions(-)
->   create mode 100644 tests/tcg/hexagon/float_convd.ref
+> +
+> +        if (!target_cs) {
+> +            monitor_printf(mon, "CPU#%d not available\n", vcpu);
+> +            return;
+> +        }
+> +
+> +        monitor_printf(mon, "\nCPU#%d\n", target_cs->cpu_index);
+> +        cpu_dump_state(target_cs, NULL, CPU_DUMP_FPU);
+
+We show the CPU number when the user asked for this number, but ...
+
+>      } else {
+>          cs = mon_get_cpu(mon);
+
+           if (!cs) {
+               monitor_printf(mon, "No CPU available\n");
+               return;
+           }
+
+           cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+
+... we don't show it when the user asked for the current CPU.  It's
+arguably more relevant then.
+
+       }
+   }
+
+Suggest something like
+
+       } else {
+           cs = vcpu >= 0 ? qemu_get_cpu(vcpu) : mon_get_cpu(mon);
+
+           if (!cs) {
+               monitor_printf(mon, "CPU#%d not available\n", vcpu);
+               return;
+           }
+
+           monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
+           cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+       }
 
 
