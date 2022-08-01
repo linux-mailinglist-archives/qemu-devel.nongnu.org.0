@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7679586700
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:43:30 +0200 (CEST)
-Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F3858670B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:46:33 +0200 (CEST)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIRxR-0008Kg-8v
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
+	id 1oIS0O-0002Ey-V4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oIRuF-0006Ze-MC
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:40:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46375)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oIRuA-0004Xm-Qk
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:40:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659346803;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D5GbjO/2P9upN1eYpz/qPgckZY3AVhXJcJ30hS2c/Ps=;
- b=eCk8X9Q5/wqerf7nPE7uPh/8fkE1z3v+dZ1o5b7k9ufcRflSoT5nd8Kh0zQmyGfzA6tLLz
- hHaBj/21VEYk6wFFDq48jie1UZviKOPwFPyXzmbMsRQKbxZAf6Z14Ssc83X63PNQ3XkwY/
- dyozy0u2Jb1tGOZwa5N+EtC9DQELPMw=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-219-2jOmKfB2MHWEPNlDxn_bOA-1; Mon, 01 Aug 2022 05:40:00 -0400
-X-MC-Unique: 2jOmKfB2MHWEPNlDxn_bOA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CB10294EDCC;
- Mon,  1 Aug 2022 09:40:00 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F131AC27DB3;
- Mon,  1 Aug 2022 09:39:58 +0000 (UTC)
-Date: Mon, 1 Aug 2022 10:39:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
- Bin Meng <bin.meng@windriver.com>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v3 2/4] util/qemu-sockets: Enable unix socket support on
- Windows
-Message-ID: <YuefbIRSenOsMuVi@redhat.com>
-References: <20220730145036.865854-1-bmeng.cn@gmail.com>
- <20220730145036.865854-3-bmeng.cn@gmail.com>
- <CAJ+F1CK7CPiWY8GLO+0VJNLkVj=RERf4gcFw_j6RZgjW7q6XQQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIRxM-0008Hq-Qm
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:43:24 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:41615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIRxL-00059p-7M
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:43:24 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id y127so18053390yby.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 02:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=qR6tRBTaaRAKnyMjBddWtNhlPnIys1iteLawwgtWFIg=;
+ b=eFY3JG+G6MA2kSBd1m4BBdr9QHDcN9VUQ5+y0fRt1xnJMgrC5WXv0a5VpYBkNHPA7s
+ t4XpXVDaeQU2/+eGIe4BgAUb7Xv1/p/jVmEfCmgxrWEENQL+IIXyC232o5BJjF+qZo9Y
+ 35fo+P1oMV+hSOqPsvGOsKmX0Jrm/cWTWDw+IN6D0gcEs2NpsmexYnOG91OPUalBgltk
+ vuhnJDMSkF4Up/v96S+lXFYplpBLDw4YMGR4V7WASgBlscco31r8vEkxd+V0CeK0dQQT
+ 26HBPs/8vtE/PNPq04v5xxk5owpaZ4/2qbxVJxYNKiElZAxnc6LWpOkkxeIm/DZkiq7u
+ Sz+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=qR6tRBTaaRAKnyMjBddWtNhlPnIys1iteLawwgtWFIg=;
+ b=zEiI+Z449a8tmeknk6RYYwkgDVo8tulVdKcIL85Xk8sJFXdIOJhwOBH5h9cqjx6oT2
+ HNf959pS7bhsHN4W7m4p8yt4V6QtkY0KQocluJmGPOjnwt/a8jPwjxbU7UdIieqMRMre
+ VYueNflujr9r9OG7oNwdtUjT9dAsJdO9hIzqsnaWPy7bt7LYfjXCuNwAgMtchTIJvPw0
+ Cyqz+HJ0X5HJOsAykX2vwBFxh1rxuYOsHYz8s2zcBlWAeb1pG4zm0hxMK7DO+cu2rz/H
+ fjxNi2EOWsL9D9sjefa4lhQepqEYDB18IeE1uR8u+ukNITNd8VYWqy6mG2cnDUJNk5cd
+ xBLA==
+X-Gm-Message-State: ACgBeo2woZtuZBRCJ3QyMXpjQd1KTkdUKTCIW8kiFVtmpzwLzA8Df6N8
+ WUd17lPBtcXtUxUR5cBKf1oMwvGYVzWljlITlU4NdA==
+X-Google-Smtp-Source: AA6agR74r9CyZXWl4dUqqI7/lASzKfRqgxNIUTjdDtTc/J3gD8/eA/a68APIf2Xo+pKTYMdGov0aE61lDGqW5fmCmCU=
+X-Received: by 2002:a25:820b:0:b0:677:3a88:48ff with SMTP id
+ q11-20020a25820b000000b006773a8848ffmr2223727ybk.39.1659347002112; Mon, 01
+ Aug 2022 02:43:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJ+F1CK7CPiWY8GLO+0VJNLkVj=RERf4gcFw_j6RZgjW7q6XQQ@mail.gmail.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+ <YuKgxM4IjAXh/goO@work-vm>
+ <20220728165411.5701befb@redhat.com> <YuKmuvgqMQtTXVjX@work-vm>
+ <CAFEAcA-H=P44_e9qbKiGiCXjs9JPCmhEK5qp23TLX229G=Y6rg@mail.gmail.com>
+ <20220729115753.60d99772@redhat.com>
+ <CAFEAcA_Xa68t7N1MgCy6=xYvE9Cr6SM2xZp-iDdx_e8+tFwpCw@mail.gmail.com>
+ <YueaDxgaMNGLezQd@work-vm>
+In-Reply-To: <YueaDxgaMNGLezQd@work-vm>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Aug 2022 10:43:10 +0100
+Message-ID: <CAFEAcA9sbQQMW3LKdGSCcbX1UoAgS6FcP3gc4nGPwcbvuGHv5w@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
+ aurelien@aurel32.net, jiaxun.yang@flygoat.com, ani@anisinha.ca, 
+ mst@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,93 +88,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 01, 2022 at 11:09:24AM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Sat, Jul 30, 2022 at 6:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> 
-> > From: Bin Meng <bin.meng@windriver.com>
+On Mon, 1 Aug 2022 at 10:17, Dr. David Alan Gilbert <dgilbert@redhat.com> wrote:
+>
+> * Peter Maydell (peter.maydell@linaro.org) wrote:
+> > On Fri, 29 Jul 2022 at 10:57, Igor Mammedov <imammedo@redhat.com> wrote:
+> > >
+> > > On Thu, 28 Jul 2022 16:12:34 +0100
+> > > Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > > Either:
+> > > >  (1) we should be sure the vmstate struct does not get used if the
+> > > >      compile-time config has ended up with the stub
+> > > > or
+> > >
+> > > >  (2) it needs to actually match the real vmstate struct, otherwise
+> > > >      migration between a QEMU built with a config that just got the
+> > > >      stub version and a QEMU built with a config that got the full
+> > > >      version will break
+> > > >
+> > > > This patch does the former. Segfaulting if we got something wrong
+> > > > and tried to use the vmstate when we weren't expecting to is
+> > > > arguably better than producing an incompatible migration stream.
+> > >
+> > > > (Better still would be if we caught this on machine startup rather
+> > > > than only when savevm was invoked.)
+> > > Theoretically possible with a bunch of mips and x86 stubs, but ...
+> > > we typically don't do this kind of checks for migration sake
+> > > as that complicates things a lot in general.
+> > > i.e. it's common to let migration fail in case of incompatible
+> > > migration stream. It's not exactly friendly to user but it's
+> > > graceful failure (assuming code is correct and not crashes QEMU)
 > >
-> > Support for the unix socket has existed both in BSD and Linux for the
-> > longest time, but not on Windows. Since Windows 10 build 17063 [1],
-> > the native support for the unix socket has come to Windows. Starting
-> > this build, two Win32 processes can use the AF_UNIX address family
-> > over Winsock API to communicate with each other.
-> >
-> > [1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
-> >
-> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > ---
-> >
-> > Changes in v3:
-> > - drop the run-time check afunix_available()
-> >
-> > Changes in v2:
-> > - move #include <afunix.h> to os-win32.h
-> > - define WIN_BUILD_AF_UNIX only when CONFIG_WIN32
-> >
-> >  meson.build               |  6 ++++++
-> >  include/sysemu/os-win32.h |  4 ++++
-> >  util/qemu-sockets.c       | 14 +++++++-------
-> >  3 files changed, 17 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/meson.build b/meson.build
-> > index 294e9a8f32..3663b925d4 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -2327,6 +2327,12 @@ have_afalg = get_option('crypto_afalg') \
-> >    '''), error_message: 'AF_ALG requested but could not be
-> > detected').allowed()
-> >  config_host_data.set('CONFIG_AF_ALG', have_afalg)
-> >
-> > +if targetos != 'windows'
-> > +  config_host_data.set('CONFIG_AF_UNIX', true)
-> >
-> 
-> Imho, we should simply define CONFIG_AFUNIX_H, regardless of the OS.
-> 
-> 
-> > +else
-> > +  config_host_data.set('CONFIG_AF_UNIX', cc.has_header('afunix.h'))
-> > +endif
-> >
-> +
-> >  config_host_data.set('CONFIG_AF_VSOCK', cc.has_header_symbol(
-> >    'linux/vm_sockets.h', 'AF_VSOCK',
-> >    prefix: '#include <sys/socket.h>',
-> > diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
-> > index edc3b38a57..cebf260694 100644
-> > --- a/include/sysemu/os-win32.h
-> > +++ b/include/sysemu/os-win32.h
-> > @@ -30,6 +30,10 @@
-> >  #include <windows.h>
-> >  #include <ws2tcpip.h>
-> >
-> > +#ifdef CONFIG_AF_UNIX
-> > +# include <afunix.h>
-> > +#endif
-> >
-> 
-> we could also provide a fallback, the same I did for glib:
-> https://gitlab.gnome.org/GNOME/glib/-/commit/4339192b5391a37ecd55816c713537fb1990cd07
-> 
-> So all Windows build will have afunix code compiled.
+> > The point here is that if we ever try to do a migrate with the
+> > stub vmstate struct then that's a bug in QEMU. We should prefer
+> > to catch those early and clearly.
+>
+> I'd rather have something that was explicitly poisoned rather than just
+> walking off the end of an uninitialised array and having to break out
+> gdb.
 
-That's much nicer. It lets us get rid of the conditionals around all
-the UNIX socket handling code across the codebase, except for the
-FD passing checks which have to remain.
+It doesn't walk off the end of the array -- it segfaults because
+it wants to dereference vmsd->name, which is NULL.
 
+If we want to have a more obvious and concrete way to mark "this
+vmsd is bad and should never be actively used" that's fine, but it
+seems like a separate patch from this one, which is just fixing
+the problem that we use a vmsd that we should not be using.
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
