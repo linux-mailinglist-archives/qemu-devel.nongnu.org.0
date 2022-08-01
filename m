@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64E83586BDE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:23:30 +0200 (CEST)
-Received: from localhost ([::1]:55386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15087586C01
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:30:11 +0200 (CEST)
+Received: from localhost ([::1]:44246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIVOK-0005vG-W1
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:23:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56442)
+	id 1oIVUo-0000lM-4U
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:30:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIVCq-0004ZD-0e; Mon, 01 Aug 2022 09:11:36 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:37599)
+ id 1oIVCu-0004nn-Jz; Mon, 01 Aug 2022 09:11:40 -0400
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:47899
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIVCn-0007K8-S6; Mon, 01 Aug 2022 09:11:35 -0400
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LxJRR2zPqz4xGK;
- Mon,  1 Aug 2022 23:11:31 +1000 (AEST)
+ id 1oIVCr-0007L7-EN; Mon, 01 Aug 2022 09:11:40 -0400
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LxJRW00qwz4xGN;
+ Mon,  1 Aug 2022 23:11:35 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LxJRN2N4qz4x1L;
- Mon,  1 Aug 2022 23:11:27 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LxJRS1cjsz4x1L;
+ Mon,  1 Aug 2022 23:11:31 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 10/19] ppc/ppc405: QOM'ify GPIO
-Date: Mon,  1 Aug 2022 15:10:30 +0200
-Message-Id: <20220801131039.1693913-11-clg@kaod.org>
+Subject: [PATCH 11/19] ppc/ppc405: QOM'ify DMA
+Date: Mon,  1 Aug 2022 15:10:31 +0200
+Message-Id: <20220801131039.1693913-12-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220801131039.1693913-1-clg@kaod.org>
 References: <20220801131039.1693913-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=LBbo=YF=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,144 +68,194 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405.h    | 21 +++++++++++++++++++
- hw/ppc/ppc405_uc.c | 50 +++++++++++++++++++++-------------------------
- 2 files changed, 44 insertions(+), 27 deletions(-)
+ hw/ppc/ppc405.h    | 23 +++++++++++++
+ hw/ppc/ppc405_uc.c | 80 +++++++++++++++++++++++++++++-----------------
+ 2 files changed, 73 insertions(+), 30 deletions(-)
 
 diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-index e56363366cad..46366c3b8a19 100644
+index 46366c3b8a19..bd662b2444ff 100644
 --- a/hw/ppc/ppc405.h
 +++ b/hw/ppc/ppc405.h
-@@ -65,6 +65,26 @@ struct ppc4xx_bd_info_t {
+@@ -65,6 +65,28 @@ struct ppc4xx_bd_info_t {
  
  typedef struct Ppc405SoCState Ppc405SoCState;
  
-+/* GPIO */
-+#define TYPE_PPC405_GPIO "ppc405-gpio"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GpioState, PPC405_GPIO);
-+struct Ppc405GpioState {
++
++
++/* DMA controller */
++#define TYPE_PPC405_DMA "ppc405-dma"
++OBJECT_DECLARE_SIMPLE_TYPE(Ppc405DmaState, PPC405_DMA);
++struct Ppc405DmaState {
 +    SysBusDevice parent_obj;
 +
-+    MemoryRegion io;
-+    uint32_t or;
-+    uint32_t tcr;
-+    uint32_t osrh;
-+    uint32_t osrl;
-+    uint32_t tsrh;
-+    uint32_t tsrl;
-+    uint32_t odr;
-+    uint32_t ir;
-+    uint32_t rr1;
-+    uint32_t isr1h;
-+    uint32_t isr1l;
++    PowerPCCPU *cpu;
++
++    qemu_irq irqs[4];
++    uint32_t cr[4];
++    uint32_t ct[4];
++    uint32_t da[4];
++    uint32_t sa[4];
++    uint32_t sg[4];
++    uint32_t sr;
++    uint32_t sgc;
++    uint32_t slp;
++    uint32_t pol;
 +};
 +
- /* On Chip Memory */
- #define TYPE_PPC405_OCM "ppc405-ocm"
- OBJECT_DECLARE_SIMPLE_TYPE(Ppc405OcmState, PPC405_OCM);
-@@ -159,6 +179,7 @@ struct Ppc405SoCState {
-     Ppc405CpcState cpc;
+ /* GPIO */
+ #define TYPE_PPC405_GPIO "ppc405-gpio"
+ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GpioState, PPC405_GPIO);
+@@ -180,6 +202,7 @@ struct Ppc405SoCState {
      Ppc405GptState gpt;
      Ppc405OcmState ocm;
-+    Ppc405GpioState gpio;
+     Ppc405GpioState gpio;
++    Ppc405DmaState dma;
  };
  
  /* PowerPC 405 core */
 diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index 59cade4c0680..a6c4e6934ffc 100644
+index a6c4e6934ffc..2978a2665a4f 100644
 --- a/hw/ppc/ppc405_uc.c
 +++ b/hw/ppc/ppc405_uc.c
-@@ -713,23 +713,6 @@ static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
- }
- 
- /*****************************************************************************/
--/* GPIO */
--typedef struct ppc405_gpio_t ppc405_gpio_t;
--struct ppc405_gpio_t {
--    MemoryRegion io;
--    uint32_t or;
--    uint32_t tcr;
--    uint32_t osrh;
--    uint32_t osrl;
--    uint32_t tsrh;
--    uint32_t tsrl;
--    uint32_t odr;
--    uint32_t ir;
--    uint32_t rr1;
--    uint32_t isr1h;
--    uint32_t isr1l;
--};
--
- static uint64_t ppc405_gpio_read(void *opaque, hwaddr addr, unsigned size)
- {
-     trace_ppc405_gpio_read(addr, size);
-@@ -748,20 +731,22 @@ static const MemoryRegionOps ppc405_gpio_ops = {
-     .endianness = DEVICE_NATIVE_ENDIAN,
+@@ -613,35 +613,20 @@ enum {
+     DMA0_POL = 0x126,
  };
  
--static void ppc405_gpio_reset (void *opaque)
-+static void ppc405_gpio_realize(DeviceState *dev, Error **errp)
- {
-+    Ppc405GpioState *s = PPC405_GPIO(dev);
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+
-+    memory_region_init_io(&s->io, OBJECT(s), &ppc405_gpio_ops, s, "gpio",
-+                          0x038);
-+    sysbus_init_mmio(sbd, &s->io);
- }
- 
--static void ppc405_gpio_init(hwaddr base)
-+static void ppc405_gpio_class_init(ObjectClass *oc, void *data)
- {
--    ppc405_gpio_t *gpio;
+-typedef struct ppc405_dma_t ppc405_dma_t;
+-struct ppc405_dma_t {
+-    qemu_irq irqs[4];
+-    uint32_t cr[4];
+-    uint32_t ct[4];
+-    uint32_t da[4];
+-    uint32_t sa[4];
+-    uint32_t sg[4];
+-    uint32_t sr;
+-    uint32_t sgc;
+-    uint32_t slp;
+-    uint32_t pol;
+-};
 -
--    trace_ppc405_gpio_init(base);
-+    DeviceClass *dc = DEVICE_CLASS(oc);
- 
--    gpio = g_new0(ppc405_gpio_t, 1);
--    memory_region_init_io(&gpio->io, NULL, &ppc405_gpio_ops, gpio, "pgio", 0x038);
--    memory_region_add_subregion(get_system_memory(), base, &gpio->io);
--    qemu_register_reset(&ppc405_gpio_reset, gpio);
-+    dc->realize = ppc405_gpio_realize;
-+    dc->user_creatable = false;
+-static uint32_t dcr_read_dma (void *opaque, int dcrn)
++static uint32_t dcr_read_dma(void *opaque, int dcrn)
+ {
+     return 0;
  }
  
- /*****************************************************************************/
-@@ -1421,6 +1406,8 @@ static void ppc405_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "gpt", &s->gpt, TYPE_PPC405_GPT);
+-static void dcr_write_dma (void *opaque, int dcrn, uint32_t val)
++static void dcr_write_dma(void *opaque, int dcrn, uint32_t val)
+ {
+ }
  
-     object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
+-static void ppc405_dma_reset (void *opaque)
++static void ppc405_dma_reset(DeviceState *dev)
+ {
+-    ppc405_dma_t *dma;
++    Ppc405DmaState *dma = PPC405_DMA(dev);
+     int i;
+ 
+-    dma = opaque;
+     for (i = 0; i < 4; i++) {
+         dma->cr[i] = 0x00000000;
+         dma->ct[i] = 0x00000000;
+@@ -655,13 +640,20 @@ static void ppc405_dma_reset (void *opaque)
+     dma->pol = 0x00000000;
+ }
+ 
+-static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
++static void ppc405_dma_realize(DeviceState *dev, Error **errp)
+ {
+-    ppc405_dma_t *dma;
++    Ppc405DmaState *dma = PPC405_DMA(dev);
++    CPUPPCState *env;
++    int i;
 +
-+    object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
++    assert(dma->cpu);
++
++    env = &dma->cpu->env;
++
++    for (i = 0; i < ARRAY_SIZE(dma->irqs); i++) {
++        sysbus_init_irq(SYS_BUS_DEVICE(dma), &dma->irqs[i]);
++    }
+ 
+-    dma = g_new0(ppc405_dma_t, 1);
+-    memcpy(dma->irqs, irqs, 4 * sizeof(qemu_irq));
+-    qemu_register_reset(&ppc405_dma_reset, dma);
+     ppc_dcr_register(env, DMA0_CR0,
+                      dma, &dcr_read_dma, &dcr_write_dma);
+     ppc_dcr_register(env, DMA0_CT0,
+@@ -712,6 +704,22 @@ static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
+                      dma, &dcr_read_dma, &dcr_write_dma);
+ }
+ 
++static Property ppc405_dma_properties[] = {
++    DEFINE_PROP_LINK("cpu", Ppc405DmaState, cpu, TYPE_POWERPC_CPU,
++                     PowerPCCPU *),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void ppc405_dma_class_init(ObjectClass *oc, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(oc);
++
++    dc->realize = ppc405_dma_realize;
++    dc->user_creatable = false;
++    dc->reset = ppc405_dma_reset;
++    device_class_set_props(dc, ppc405_dma_properties);
++}
++
+ /*****************************************************************************/
+ static uint64_t ppc405_gpio_read(void *opaque, hwaddr addr, unsigned size)
+ {
+@@ -1408,12 +1416,14 @@ static void ppc405_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
+ 
+     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
++
++    object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
  }
  
  static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-@@ -1507,8 +1494,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-     /* I2C controller */
-     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-                          qdev_get_gpio_in(s->uic, 2));
-+
-     /* GPIO */
--    ppc405_gpio_init(0xef600700);
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+ {
+     Ppc405SoCState *s = PPC405_SOC(dev);
+-    qemu_irq dma_irqs[4], mal_irqs[4];
++    qemu_irq mal_irqs[4];
+     CPUPPCState *env;
+     Error *err = NULL;
+     int i;
+@@ -1485,11 +1495,16 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     ppc405_ebc_init(env);
+ 
+     /* DMA controller */
+-    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
+-    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
+-    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
+-    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
+-    ppc405_dma_init(env, dma_irqs);
++    object_property_set_link(OBJECT(&s->dma), "cpu", OBJECT(&s->cpu),
++                             &error_abort);
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->dma), errp)) {
 +        return;
 +    }
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, 0xef600700);
++
++    for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
++                           qdev_get_gpio_in(s->uic, 5 + i));
++    }
  
-     /* Serial ports */
-     if (serial_hd(0) != NULL) {
-@@ -1572,6 +1563,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+     /* I2C controller */
+     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+@@ -1563,6 +1578,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
  
  static const TypeInfo ppc405_types[] = {
      {
-+        .name           = TYPE_PPC405_GPIO,
++        .name           = TYPE_PPC405_DMA,
 +        .parent         = TYPE_SYS_BUS_DEVICE,
-+        .instance_size  = sizeof(Ppc405GpioState),
-+        .class_init     = ppc405_gpio_class_init,
++        .instance_size  = sizeof(Ppc405DmaState),
++        .class_init     = ppc405_dma_class_init,
 +    }, {
-         .name           = TYPE_PPC405_OCM,
+         .name           = TYPE_PPC405_GPIO,
          .parent         = TYPE_SYS_BUS_DEVICE,
-         .instance_size  = sizeof(Ppc405OcmState),
+         .instance_size  = sizeof(Ppc405GpioState),
 -- 
 2.37.1
 
