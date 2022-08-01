@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B695B586239
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 03:37:52 +0200 (CEST)
-Received: from localhost ([::1]:51530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD39358623A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 03:38:07 +0200 (CEST)
+Received: from localhost ([::1]:52330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIKNT-0007kg-Cw
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 21:37:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
+	id 1oIKNi-0008HO-JG
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 21:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oIKHs-0002ei-CG; Sun, 31 Jul 2022 21:32:04 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:34768)
+ id 1oIKI6-0002mT-1a; Sun, 31 Jul 2022 21:32:18 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1oIKHn-0000Tb-OD; Sun, 31 Jul 2022 21:32:04 -0400
-Received: by mail-pl1-x631.google.com with SMTP id z19so9165257plb.1;
- Sun, 31 Jul 2022 18:31:58 -0700 (PDT)
+ id 1oIKI4-0000U9-7l; Sun, 31 Jul 2022 21:32:17 -0400
+Received: by mail-pg1-x536.google.com with SMTP id 206so4940437pgb.0;
+ Sun, 31 Jul 2022 18:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc;
- bh=ml9KuDp/EbRk0534Hyeav3hLJwJ/69H1x0qXo/Nx1gc=;
- b=HwebBxuJCurzOF7+HpUXIvaz3W3by0luKJZM84+r9tvkEr2H3g2oAXh8ZojE9NnJE8
- /DShHf6pZE6+MEsEcQcEAp2cFXurXgjIy9QgkZQpaxObH3QhvyPS0+dgz0Az0F0VplbL
- 6yhjb3bOw1FCVGm9oBkVpL8/RYMUVdxO/Rt6ICCO6P57PofTDwsz5c7thIa1aBi6ricG
- ExX/WWA/jO9dCmt2ATRWTrWW++1z0ZbCMdw402ltSX4388RBhKqsRAwJnTsILtCGxvHy
- FSm7BaRp1jIhYxYiRj0Z98xmWEF1/fBL4UaZKs+UrpzOMrTEJQ0tKX46p6DdpCL9GWs6
- NI8g==
+ bh=7r9o2/Lajx4dUVD8qjBdmsKEFctZywj1Bn7/2TsaI8A=;
+ b=l2eYnqtHy5Da7EV8ndjULRoQoWSBUyBm1zqOmyPOw9MZdrXVnVjuPaMmurlZsTQIK2
+ sVdP2HGrV5agvaRmvIoAz28T2pd8+9pDQeCFPiOU5jII84zqt5Ua8QAZ5iMsJKDBns7p
+ tsF2OSFFoXi5LRtxyPSAiiTMPqjGcX+V1NL1MGVlwBxrto5hN8GgrjFc791kLKfF6Mhg
+ 9YF4U/RJAGh1/70YLg9xXkpiHx0cUvX/Y/BY8uQm+2+s80Mcb3cyqDhrK/jhTFAiKDbk
+ ZMhnge3rm4C8Qw6cf5wiychHwYbYH35NRnO2+Ll0Qii0HAhLrYY4swG1YzYWWjYNseuN
+ IL3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc;
- bh=ml9KuDp/EbRk0534Hyeav3hLJwJ/69H1x0qXo/Nx1gc=;
- b=hivdTk3Wxq6ks9k4ZRcHuwSOOEZopd8+2D8RF9rooJEZ+M9dib0chzHuPJxmwKmlkY
- kwx3zRGVGnCUMPntidu303JhNCXUU0ogRDR8z6uwPEC+UOCctFuBb2XDsmn6p5bOUPVF
- CItZeWxmS3Qa1i7DWTleEi+BqaaCUFUE0MrkPragHV6LDmPv90PtHoF+oYyBbjaMImOz
- 1zAZZwD+NuT2zVqMaJSnjgwa1MRHxNpUgspHIhHKFkJ3vAbbLncRDv3cyYNPA/VjgtUt
- hZewU889YNSKn8tZZaWhUyLlyNOt/SyVXcDWnPKz5BsEBmFsRqCCBQXOdwVc9L7Vbors
- XtwQ==
-X-Gm-Message-State: ACgBeo1iGqio/DvJJt1g7/yxmaM0LEU2oMaynSZ+JV5ZMPD6a61fP+1C
- HYo4kPWcQ3+A2oxLB+ovwACdrIi7QO613VJV
-X-Google-Smtp-Source: AA6agR4nEjNOXW7VfKEJPguagTjIyzhNmDRL0eY3jWYwYLXniEVNlHfgE5E2jVUhyE3jRG1rvp88UQ==
-X-Received: by 2002:a17:902:da92:b0:16e:f2ee:b98a with SMTP id
- j18-20020a170902da9200b0016ef2eeb98amr1247390plx.154.1659317517709; 
- Sun, 31 Jul 2022 18:31:57 -0700 (PDT)
+ bh=7r9o2/Lajx4dUVD8qjBdmsKEFctZywj1Bn7/2TsaI8A=;
+ b=Xm2qjvrnWVo+ogHRXeqIxzSZ9+qxxJ4uWbiN2mTeq9lbXB9PVGYv5rAhcPBUnIAvZH
+ uyx/tfgC9oQBicWiUVysG9kjYHfcNuwoYI0GjUERD6jCh7e+fKnSSELtfIX/YqJUtvZ4
+ 131QhEwcoqfaalePeDIiEML3utdHARht5LvzB6k34qkt950MyR8+i8hLTfytEYL3tIUP
+ R/QTcAZvxjUMDBOHg48neriwkf/ZqIm3j+DD5z3245gj4tDwQW64CKd5zjcDw3TjFBOr
+ sbfvzXT5NifTkYqPZROsMRHL1aITRmp3lmVkoB9WpcqNjkyAG8z728DNAA5EcnbRMH6U
+ P+HA==
+X-Gm-Message-State: AJIora8+6VAdNE9e6kfJaT7FRfoCaEkwAX8noHZchz4Psv7SknTkokq4
+ 5WX/81Ri5e9DK3jbw271/IL2fvwTbA61G1v2
+X-Google-Smtp-Source: AGRyM1sz+IwJEqBMFRhvGsUUr7TVVbP6TRolcYcX71ld7g6lNM6NXTYNHosOPfpN3U8pWicejhR/jg==
+X-Received: by 2002:a63:5325:0:b0:41b:59f1:79d2 with SMTP id
+ h37-20020a635325000000b0041b59f179d2mr11933827pgb.52.1659317534372; 
+ Sun, 31 Jul 2022 18:32:14 -0700 (PDT)
 Received: from roots.. ([106.84.131.7]) by smtp.gmail.com with ESMTPSA id
- z14-20020a170902d54e00b0016edff78844sm2106716plf.277.2022.07.31.18.31.54
+ v10-20020a1709028d8a00b0016bfbd99f64sm8069813plo.118.2022.07.31.18.32.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jul 2022 18:31:57 -0700 (PDT)
+ Sun, 31 Jul 2022 18:32:14 -0700 (PDT)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: damien.lemoal@opensource.wdc.com, dmitry.fomichev@wdc.com, hare@suse.de,
  stefanha@redhat.com, mst@redhat.com, armbru@redhat.com,
  qemu-block@nongnu.org, fam@euphon.net, kwolf@redhat.com, hreitz@redhat.com,
  eblake@redhat.com, Sam Li <faithilikerun@gmail.com>
-Subject: [RFC v5 01/11] include: add zoned device structs
-Date: Mon,  1 Aug 2022 09:31:48 +0800
-Message-Id: <20220801013148.10334-1-faithilikerun@gmail.com>
+Subject: [RFC v5 02/11] include: import virtio_blk headers from linux with
+ zoned storage support
+Date: Mon,  1 Aug 2022 09:32:05 +0800
+Message-Id: <20220801013205.10371-1-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=faithilikerun@gmail.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=faithilikerun@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,65 +87,170 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add file from Dmitry's "virtio-blk:add support for zoned block devices"
+linux patch using scripts/update-linux-headers.sh. There is a link for
+more information: https://github.com/dmitry-fomichev/virtblk-zbd
+
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
 ---
- include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ include/standard-headers/linux/virtio_blk.h | 118 ++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index fdb7306e78..c9d28b1c51 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
- typedef struct BdrvChildClass BdrvChildClass;
+diff --git a/include/standard-headers/linux/virtio_blk.h b/include/standard-headers/linux/virtio_blk.h
+index 2dcc90826a..5c6856aec3 100644
+--- a/include/standard-headers/linux/virtio_blk.h
++++ b/include/standard-headers/linux/virtio_blk.h
+@@ -40,6 +40,7 @@
+ #define VIRTIO_BLK_F_MQ		12	/* support more than one vq */
+ #define VIRTIO_BLK_F_DISCARD	13	/* DISCARD is supported */
+ #define VIRTIO_BLK_F_WRITE_ZEROES	14	/* WRITE ZEROES is supported */
++#define VIRTIO_BLK_F_ZONED		17	/* Zoned block device */
  
-+typedef enum BlockZoneOp {
-+    BLK_ZO_OPEN,
-+    BLK_ZO_CLOSE,
-+    BLK_ZO_FINISH,
-+    BLK_ZO_RESET,
-+} BlockZoneOp;
+ /* Legacy feature bits */
+ #ifndef VIRTIO_BLK_NO_LEGACY
+@@ -119,6 +120,20 @@ struct virtio_blk_config {
+ 	uint8_t write_zeroes_may_unmap;
+ 
+ 	uint8_t unused1[3];
 +
-+typedef enum BlockZoneModel {
-+    BLK_Z_NONE = 0x0, /* Regular block device */
-+    BLK_Z_HM = 0x1, /* Host-aware zoned block device */
-+    BLK_Z_HA = 0x2, /* Host-managed zoned block device */
-+} BlockZoneModel;
++	/* Secure erase fields that are defined in the virtio spec */
++	uint8_t sec_erase[12];
 +
-+typedef enum BlockZoneCondition {
-+    BLK_ZS_NOT_WP = 0x0,
-+    BLK_ZS_EMPTY = 0x1,
-+    BLK_ZS_IOPEN = 0x2,
-+    BLK_ZS_EOPEN = 0x3,
-+    BLK_ZS_CLOSED = 0x4,
-+    BLK_ZS_RDONLY = 0xD,
-+    BLK_ZS_FULL = 0xE,
-+    BLK_ZS_OFFLINE = 0xF,
-+} BlockZoneCondition;
++	/* Zoned block device characteristics (if VIRTIO_BLK_F_ZONED) */
++	struct virtio_blk_zoned_characteristics {
++		__virtio32 zone_sectors;
++		__virtio32 max_open_zones;
++		__virtio32 max_active_zones;
++		__virtio32 max_append_sectors;
++		__virtio32 write_granularity;
++		uint8_t model;
++		uint8_t unused2[3];
++	} zoned;
+ } QEMU_PACKED;
+ 
+ /*
+@@ -153,6 +168,24 @@ struct virtio_blk_config {
+ /* Write zeroes command */
+ #define VIRTIO_BLK_T_WRITE_ZEROES	13
+ 
++/* Zone append command */
++#define VIRTIO_BLK_T_ZONE_APPEND    15
 +
-+typedef enum BlockZoneType {
-+    BLK_ZT_CONV = 0x1,
-+    BLK_ZT_SWR = 0x2,
-+    BLK_ZT_SWP = 0x3,
-+} BlockZoneType;
++/* Report zones command */
++#define VIRTIO_BLK_T_ZONE_REPORT    16
++
++/* Open zone command */
++#define VIRTIO_BLK_T_ZONE_OPEN      18
++
++/* Close zone command */
++#define VIRTIO_BLK_T_ZONE_CLOSE     20
++
++/* Finish zone command */
++#define VIRTIO_BLK_T_ZONE_FINISH    22
++
++/* Reset zone command */
++#define VIRTIO_BLK_T_ZONE_RESET     24
++
+ #ifndef VIRTIO_BLK_NO_LEGACY
+ /* Barrier before this op. */
+ #define VIRTIO_BLK_T_BARRIER	0x80000000
+@@ -172,6 +205,84 @@ struct virtio_blk_outhdr {
+ 	__virtio64 sector;
+ };
+ 
++/*
++ * Supported zoned device models.
++ */
++
++/* Regular block device */
++#define VIRTIO_BLK_Z_NONE      0
++/* Host-managed zoned device */
++#define VIRTIO_BLK_Z_HM        1
++/* Host-aware zoned device */
++#define VIRTIO_BLK_Z_HA        2
++
++/* ZBD Management Out ALL flag */
++#define VIRTIO_BLK_ZONED_FLAG_ALL	(1 << 0)
 +
 +/*
-+ * Zone descriptor data structure.
-+ * Provide information on a zone with all position and size values in bytes.
++ * Header for VIRTIO_BLK_T_ZONE_OPEN, VIRTIO_BLK_T_ZONE_CLOSE,
++ * VIRTIO_BLK_T_ZONE_RESET, VIRTIO_BLK_T_ZONE_FINISH requests.
 + */
-+typedef struct BlockZoneDescriptor {
-+    uint64_t start;
-+    uint64_t length;
-+    uint64_t cap;
-+    uint64_t wp;
-+    BlockZoneType type;
-+    BlockZoneCondition cond;
-+} BlockZoneDescriptor;
++struct virtio_blk_zone_mgmt_outhdr {
++	/* Zoned request flags */
++	__virtio32 flags;
++};
 +
- typedef struct BlockDriverInfo {
-     /* in bytes, 0 if irrelevant */
-     int cluster_size;
++/*
++ * Zone descriptor. A part of VIRTIO_BLK_T_ZONE_REPORT command reply.
++ */
++struct virtio_blk_zone_descriptor {
++	/* Zone capacity */
++	__virtio64 z_cap;
++	/* The starting sector of the zone */
++	__virtio64 z_start;
++	/* Zone write pointer position in sectors */
++	__virtio64 z_wp;
++	/* Zone type */
++	uint8_t z_type;
++	/* Zone state */
++	uint8_t z_state;
++	uint8_t reserved[38];
++};
++
++struct virtio_blk_zone_report {
++	__virtio64 nr_zones;
++	uint8_t reserved[56];
++	struct virtio_blk_zone_descriptor zones[];
++};
++
++/*
++ * Supported zone types.
++ */
++
++/* Conventional zone */
++#define VIRTIO_BLK_ZT_CONV         1
++/* Sequential Write Required zone */
++#define VIRTIO_BLK_ZT_SWR          2
++/* Sequential Write Preferred zone */
++#define VIRTIO_BLK_ZT_SWP          3
++
++/*
++ * Zone states that are available for zones of all types.
++ */
++
++/* Not a write pointer (conventional zones only) */
++#define VIRTIO_BLK_ZS_NOT_WP       0
++/* Empty */
++#define VIRTIO_BLK_ZS_EMPTY        1
++/* Implicitly Open */
++#define VIRTIO_BLK_ZS_IOPEN        2
++/* Explicitly Open */
++#define VIRTIO_BLK_ZS_EOPEN        3
++/* Closed */
++#define VIRTIO_BLK_ZS_CLOSED       4
++/* Read-Only */
++#define VIRTIO_BLK_ZS_RDONLY       13
++/* Full */
++#define VIRTIO_BLK_ZS_FULL         14
++/* Offline */
++#define VIRTIO_BLK_ZS_OFFLINE      15
++
+ /* Unmap this range (only valid for write zeroes command) */
+ #define VIRTIO_BLK_WRITE_ZEROES_FLAG_UNMAP	0x00000001
+ 
+@@ -198,4 +309,11 @@ struct virtio_scsi_inhdr {
+ #define VIRTIO_BLK_S_OK		0
+ #define VIRTIO_BLK_S_IOERR	1
+ #define VIRTIO_BLK_S_UNSUPP	2
++
++/* Error codes that are specific to zoned block devices */
++#define VIRTIO_BLK_S_ZONE_INVALID_CMD     3
++#define VIRTIO_BLK_S_ZONE_UNALIGNED_WP    4
++#define VIRTIO_BLK_S_ZONE_OPEN_RESOURCE   5
++#define VIRTIO_BLK_S_ZONE_ACTIVE_RESOURCE 6
++
+ #endif /* _LINUX_VIRTIO_BLK_H */
 -- 
 2.37.1
 
