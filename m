@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 527F0586C22
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:41:00 +0200 (CEST)
-Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA24E586C27
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:41:38 +0200 (CEST)
+Received: from localhost ([::1]:32846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIVfG-0003Ym-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:40:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57572)
+	id 1oIVft-0004SZ-TD
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIVI6-00068h-4C
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:17:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46261)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oIVIP-0006vg-IQ; Mon, 01 Aug 2022 09:17:21 -0400
+Received: from 3.mo552.mail-out.ovh.net ([178.33.254.192]:49807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIVI2-000865-Uk
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 09:17:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659359817;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=91T6yfHiA3e83wbO35GlbfBGpKz9nWlFtAjd6yYR7j8=;
- b=SEr9Cmz8bJBV9OmVLUrnUijUZN14bSxYvaLWGsamUm072S+fpUVOzpMYW8zABA9xfgrtSB
- 104tK9FQbmeEMTxo14KLLEkiWj9eS+iInPoVsTbAaaAlfAI9effK+knqlmUVwonP/Gh+88
- jIWqL+PZcBSaJnlM77EQTu3Ki5y+BTQ=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-172-86cdDgNEOr62OLOh5oN-Rg-1; Mon, 01 Aug 2022 09:16:56 -0400
-X-MC-Unique: 86cdDgNEOr62OLOh5oN-Rg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- ok7-20020a0562143c8700b00472f0b33853so6380151qvb.12
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 06:16:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=91T6yfHiA3e83wbO35GlbfBGpKz9nWlFtAjd6yYR7j8=;
- b=zSql95ZAWB4H1LGvBFm3+bthNH22bzLlpczz+dqCplrS5PKnMTV+CoLFHxHQOLNQQj
- gxm/y5SxEZiuZChhsgY3K1HJ2x4+SitvpmE6ksHnxY6p0bjkIHhkh1Ta1t3sfuh9dtgh
- bmBePTQaANA6Aj8iIJ1hDFdZc9VcC76ddp37jtpXG6v6FxTbPjQH83y/eEm7szg/v5hc
- YSbKVCDmheVXDAzavSqoDsqCqbmGwaFeKeNJgi4pIVt/WvDNgsa1XXxOP+JI8VqV6K2w
- KpQmXo0dqUk0pCoF4ntC0hhHe9ZUSlWyK40hOu6qFjYF82hoU3JvarRdjbKd9TuyImcx
- 9Eyg==
-X-Gm-Message-State: ACgBeo3ml22CmkMCgTv1Yqx2WdRGkHQETH+RuPodYH1niicvzkC9kmPK
- YrCSd9q/J9TeHdN4LnGHY2quhz07HQ1vTCVsWQ0Px9A4urISGvmJnz4ilEE63zx/K+L+IcP9Ixh
- i/HXgKkLgcH0y2B9MEqjGJ0S5ElaXtIQ=
-X-Received: by 2002:a05:620a:46a2:b0:6b8:bef3:8f82 with SMTP id
- bq34-20020a05620a46a200b006b8bef38f82mr744617qkb.234.1659359816047; 
- Mon, 01 Aug 2022 06:16:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR4D74j6YGgzmUS6t1wZsopB/BkxyKZbByls3LwOZ27+My0pOHRts6cEbmB0U2/q38taN8+DQnX18anp5YvuuLo=
-X-Received: by 2002:a05:620a:46a2:b0:6b8:bef3:8f82 with SMTP id
- bq34-20020a05620a46a200b006b8bef38f82mr744599qkb.234.1659359815786; Mon, 01
- Aug 2022 06:16:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1oIVIN-0008Cm-87; Mon, 01 Aug 2022 09:17:21 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.217])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 7861A22DF5;
+ Mon,  1 Aug 2022 13:17:13 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Mon, 1 Aug 2022
+ 15:17:12 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004be149701-54ee-44b1-9775-99117ff54d63,
+ 66502E4E103EEE15469CB707343CF715E22A318D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.55.30.80
+Message-ID: <864c728d-0359-d00e-3009-ca73944a05ab@kaod.org>
+Date: Mon, 1 Aug 2022 15:17:06 +0200
 MIME-Version: 1.0
-References: <20220720090313.55169-1-jasowang@redhat.com>
- <20220720090313.55169-20-jasowang@redhat.com>
- <CAFEAcA8UZcOLTpLUutMFeaugZwm2vAKTGZgLkcHAG3B2BHYtUA@mail.gmail.com>
- <55e82876-fb77-fa6e-2a28-f53efce47efd@redhat.com>
-In-Reply-To: <55e82876-fb77-fa6e-2a28-f53efce47efd@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 1 Aug 2022 15:16:19 +0200
-Message-ID: <CAJaqyWc=FZQ7vY44Rgkb+Mw+3ENGfSMDnkZHBBk42MN5r0JCqg@mail.gmail.com>
-Subject: Re: [PULL V2 19/25] vdpa: Extract get features part from
- vhost_vdpa_get_max_queue_pairs
-To: Jason Wang <jasowang@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-level <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 18/19] ppc/ppc405: QOM'ify UIC
+Content-Language: en-US
+To: <qemu-ppc@nongnu.org>
+CC: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-devel@nongnu.org>, 
+ BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220801131039.1693913-1-clg@kaod.org>
+ <20220801131039.1693913-19-clg@kaod.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220801131039.1693913-19-clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 6ca5be1b-ee1d-4ec2-9731-2b82e549eddb
+X-Ovh-Tracer-Id: 15157146020967910368
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopegsrghlrghtohhnsegvihhkrdgsmhgvrdhhuhdpoffvtefjohhsthepmhhoheehvd
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=clg@kaod.org;
+ helo=3.mo552.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,117 +75,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 1, 2022 at 5:29 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/29 22:08, Peter Maydell =E5=86=99=E9=81=93:
-> > On Wed, 20 Jul 2022 at 10:04, Jason Wang <jasowang@redhat.com> wrote:
-> >> From: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>
-> >> To know the device features is needed for CVQ SVQ, so SVQ knows if it
-> >> can handle all commands or not. Extract from
-> >> vhost_vdpa_get_max_queue_pairs so we can reuse it.
-> >>
-> >> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >> Acked-by: Jason Wang <jasowang@redhat.com>
-> >> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> >> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> > Hi; this change introduces a resource leak in the new
-> > error-exit return path in net_init_vhost_vdpa(). Spotted
-> > by Coverity, CID 1490785.
-> >
-> >> @@ -517,10 +521,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, co=
-nst char *name,
-> >>                           NetClientState *peer, Error **errp)
-> >>   {
-> >>       const NetdevVhostVDPAOptions *opts;
-> >> +    uint64_t features;
-> >>       int vdpa_device_fd;
-> >>       g_autofree NetClientState **ncs =3D NULL;
-> >>       NetClientState *nc;
-> >> -    int queue_pairs, i, has_cvq =3D 0;
-> >> +    int queue_pairs, r, i, has_cvq =3D 0;
-> >>
-> >>       assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >>       opts =3D &netdev->u.vhost_vdpa;
-> >> @@ -534,7 +539,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
-st char *name,
-> >>           return -errno;
-> >>       }
-> >>
-> >> -    queue_pairs =3D vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
-> >> +    r =3D vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
-> >> +    if (unlikely(r < 0)) {
-> >> +        return r;
-> > At this point in the code we have allocated the file descriptor
-> > vdpa_device_fd, but this return path fails to close it.
->
->
-> Exactly.
->
+Daniel,
 
-Right, I'll fix.
+On 8/1/22 15:10, Cédric Le Goater wrote:
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/ppc/ppc405.h    |  3 ++-
+>   hw/ppc/ppc405_uc.c | 27 ++++++++++++++-------------
+>   2 files changed, 16 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 0cbfd977aecf..c2cfccb9d106 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -27,6 +27,7 @@
+>   
+>   #include "qom/object.h"
+>   #include "hw/ppc/ppc4xx.h"
+> +#include "hw/intc/ppc-uic.h"
+>   
+>   #define PPC405EP_SDRAM_BASE 0x00000000
+>   #define PPC405EP_NVRAM_BASE 0xF0000000
+> @@ -249,7 +250,7 @@ struct Ppc405SoCState {
+>       hwaddr ram_size;
+>   
+>       PowerPCCPU cpu;
+> -    DeviceState *uic;
+> +    PPCUIC uic;
+>       Ppc405CpcState cpc;
+>       Ppc405GptState gpt;
+>       Ppc405OcmState ocm;
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index de2c3c0c747c..0336d1e08689 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -1448,6 +1448,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>       object_initialize_child(obj, "cpu", &s->cpu,
+>                               POWERPC_CPU_TYPE_NAME("405ep"));
+>   
+> +    object_initialize_child(obj, "uic", &s->uic, TYPE_PPC_UIC);
+> +
+>       object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
+>       object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
+>   
+> @@ -1533,22 +1535,21 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>       sysbus_mmio_map(SYS_BUS_DEVICE(&s->opba), 0, 0xef600600);
+>   
+>       /* Universal interrupt controller */
+> -    s->uic = qdev_new(TYPE_PPC_UIC);
+> -
+> -    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
+> +    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+>                                &error_fatal);
+> -    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->uic), errp)) {
+>           return;
+>       }
+>   
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_INT,
+>                          qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_CINT,
+>                          qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
+>   
+>       /* SDRAM controller */
+>       /* XXX 405EP has no ECC interrupt */
+> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 2, s->ram_memories,
+> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 2,
+> +                      s->ram_memories,
+>                         s->ram_bases, s->ram_sizes, s->do_dram_init);
+>   
+>       /* External bus controller */
+> @@ -1567,12 +1568,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>   
+>       for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
+>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
+> -                           qdev_get_gpio_in(s->uic, 5 + i));
+> +                           qdev_get_gpio_in(DEVICE(&s->uic), 5 + i));
+>       }
+>   
+>       /* I2C controller */
+>       sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+> -                         qdev_get_gpio_in(s->uic, 2));
+> +                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
+>   
+>       /* GPIO */
+>       if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+> @@ -1583,13 +1584,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>       /* Serial ports */
+>       if (serial_hd(0) != NULL) {
+>           serial_mm_init(get_system_memory(), 0xef600300, 0,
+> -                       qdev_get_gpio_in(s->uic, 0),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 0),
+>                          PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+>                          DEVICE_BIG_ENDIAN);
+>       }
+>       if (serial_hd(1) != NULL) {
+>           serial_mm_init(get_system_memory(), 0xef600400, 0,
+> -                       qdev_get_gpio_in(s->uic, 1),
+> +                       qdev_get_gpio_in(DEVICE(&s->uic), 1),
+>                          PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+>                          DEVICE_BIG_ENDIAN);
+>       }
+> @@ -1609,7 +1610,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>   
+>       for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
+>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
+> -                           qdev_get_gpio_in(s->uic, 19 + i));
+> +                           qdev_get_gpio_in(&s->uic, 19 + i));
+>       }
+>   
+>       /* MAL */
+> @@ -1623,7 +1624,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>   
+>       for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+>           sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+> -                           qdev_get_gpio_in(s->uic, 11 + i));
+> +                           qdev_get_gpio_in(&s->uic, 11 + i));
+>       }
+>   
+>       /* Ethernet */
 
->
-> >
-> >> +    }
-> >> +
-> >> +    queue_pairs =3D vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, fe=
-atures,
-> >>                                                    &has_cvq, errp);
-> >>       if (queue_pairs < 0) {
-> >>           qemu_close(vdpa_device_fd);
-> > Compare this pre-existing error-exit path, which correctly
-> > calls qemu_close() on the fd.
-> >
-> > Related question: is this function supposed to return -1 on
-> > failure, or negative-errno ?
->
->
-> Kind of either:
->
->    if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp)
-> < 0) {
->          /* FIXME drop when all init functions store an Error */
->          if (errp && !*errp) {
->              error_setg(errp, "Device '%s' could not be initialized",
->                         NetClientDriver_str(netdev->type));
->          }
->          return -1;
->      }
->
->
+There is a compile bug in this patch. If you consider applying the patchset,
+please fold in the following changes. Sorry about that.
 
-We can write errno to errp then, and consistently use the goto for
-error handling as you propose. I'll post a fix in a moment.
+Thanks,
 
-Thanks!
+C.
 
-> >   At the moment it has a mix
-> > of both. I think that the sole caller only really wants "<0 on
-> > error", in which case the error-exit code paths could probably
-> > be tidied up so that instead of explicitly calling
-> > qemu_close() and returning r, queue_pairs, or whatever
-> > they got back from the function they just called, they
-> > could just 'goto err_svq' which will do the "close the fd
-> > and return -1" work. Better still, by initializing 'i'
-> > to 0 at the top of the function (and naming it something
-> > clearer, ideally), all the code paths after the initial
-> > qemu_open() succeeds could be made to use 'goto err'
-> > for the error-exit case.
->
->
-> Yes, having a consistent goto based error handling seems much better.
->
-> Eugenio, please post patch to fix this.
->
-> Thanks
->
->
-> >
-> > thanks
-> > -- PMM
-> >
->
+
+@@ -1616,7 +1616,7 @@ static void ppc405_soc_realize(DeviceSta
+  
+      for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
+          sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
+-                           qdev_get_gpio_in(&s->uic, 19 + i));
++                           qdev_get_gpio_in(DEVICE(&s->uic), 19 + i));
+      }
+  
+      /* MAL */
+@@ -1630,7 +1630,7 @@ static void ppc405_soc_realize(DeviceSta
+  
+      for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+          sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+-                           qdev_get_gpio_in(&s->uic, 11 + i));
++                           qdev_get_gpio_in(DEVICE(&s->uic), 11 + i));
+      }
+  
+      /* Ethernet */
+
+
+
 
 
