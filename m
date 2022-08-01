@@ -2,57 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876AA58660B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:11:54 +0200 (CEST)
-Received: from localhost ([::1]:50022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D18F586624
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:18:56 +0200 (CEST)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQWn-0000gA-Fx
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:11:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53648)
+	id 1oIQdb-00064A-8W
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIQSu-0005i5-UU
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:56 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3819)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oIQWc-0000NQ-6N
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:11:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIQSr-00062F-Hf
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:52 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lx9dj5TR3zlWCs;
- Mon,  1 Aug 2022 16:04:57 +0800 (CST)
-Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 1 Aug 2022 16:07:37 +0800
-Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
- (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
- 2022 16:07:37 +0800
-To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
- <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
-CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
-Subject: [PATCH v4 3/3] dump: use jobs framework for dump guest memory
-Date: Mon, 1 Aug 2022 16:07:22 +0800
-Message-ID: <20220801080722.3318-3-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220801080722.3318-1-hogan.wang@huawei.com>
-References: <20220801080722.3318-1-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1oIQWZ-0006ef-Iy
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:11:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659341497;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=ihoeuupSRme20zwvYGeJx1gUFNCqzJrZJg5gKgqWu9ZcDqTDewouo5vebdgA30B5ySLG7f
+ vzevIzDusFpb88ZS2YFpka4rT0TbjTDZX2fmcn3DnEuIC9qrcJAi98ZlMHIPLwfzFAF0Ho
+ VTphMz2pjIFYy4o9u9a4OI86Oq3Otb4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-MNFOB7tOMn2u7Dgu0c_RhA-1; Mon, 01 Aug 2022 04:11:28 -0400
+X-MC-Unique: MNFOB7tOMn2u7Dgu0c_RhA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ h15-20020a056402280f00b0043bd8412fe0so6739367ede.16
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+ bh=cyh9GNwkSeiWX8VVWJet6cmrStrv1Y1BhHYKMAKCy08=;
+ b=hczrcoY2h6f+NrO3fvuDtafYQWlWGbpT7+/sEjnI9Xiwp9VHIWf66sb98R2dcl+wtF
+ dxoyZW5KVN9O40iyfA3U1W8Hnfd85HV35HMO7V0cypFxw6FeyZ2SFpIiAUzKg+ubCiUx
+ 103i8sO5JF5aDURYknpph2W64AV3ygTPkrQDJgUE/nZAPM24G5u0I/+TBvE/16zzuWmg
+ zJiMLaEVc1biMOULn8/ySXr+XPyhtZu9nR5lUNnQ0VWJ6Il8JnnPtN2hHVJkAYX2FBOg
+ O69n76ZFpaK++aWgioR9gtWAO/qkwVltAN2dImVWbqUpWeabUD/yjuH7Z33cMQA98s3T
+ mz4Q==
+X-Gm-Message-State: AJIora8MxpeIZLDekIf1GyLvtp+LoYWMHU812kqMnOJglp3/j/dr5zcr
+ oTqoXWLdj7ZNzlHGYM3dga5Ed7nVWPcLQN0HB8d23ehuCD0puB3yItVa3giXLRCimO4otFGTybN
+ 9zSfoW/rRs4QDD60=
+X-Received: by 2002:a05:6402:84a:b0:423:fe99:8c53 with SMTP id
+ b10-20020a056402084a00b00423fe998c53mr15009204edz.195.1659341487699; 
+ Mon, 01 Aug 2022 01:11:27 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vekjqA3bl/Muy67ADWy0MZnILq5aw5hS5lg8ltxdkJhio1Jeavu5x7QfXFw5LLSyAAcT8trw==
+X-Received: by 2002:a05:6402:84a:b0:423:fe99:8c53 with SMTP id
+ b10-20020a056402084a00b00423fe998c53mr15009185edz.195.1659341487532; 
+ Mon, 01 Aug 2022 01:11:27 -0700 (PDT)
+Received: from goa-sendmail ([2001:b07:6468:f312:9af8:e5f5:7516:fa89])
+ by smtp.gmail.com with ESMTPSA id
+ u10-20020a17090626ca00b007262b7afa05sm4869240ejc.213.2022.08.01.01.11.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Aug 2022 01:11:26 -0700 (PDT)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: pbonzini@redhat.com, fam@euphon.net, alxndr@bu.edu, qemu-devel@nongnu.org
+Subject: Re: [PATCH for-7.1 0/2] scsi-disk: fixes for block size crashes found
+ by fuzzer
+Date: Mon,  1 Aug 2022 10:11:26 +0200
+Message-Id: <20220801081126.15503-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220730122656.253448-1-mark.cave-ayland@ilande.co.uk>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.172]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- kwepemm600015.china.huawei.com (7.193.23.52)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=hogan.wang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,146 +98,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Hogan Wang <hogan.wang@huawei.com>
-From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-There's no way to cancel the current executing dump process, lead to the
-virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
-job after daemon restart.
+Queued, thanks.
 
-When caller pass the 'job-id' argument, create a job for dump process.
-And then caller can use job-cancel QMP command to cancel the detached
-dump process, use job-dismiss QMP command to release job object.
+Paolo
 
-Examples:
-Start dump job:
-{"execute": "dump-guest-memory", "arguments": { "job-id": "dump-guest-memory",
-                                                "protocol": "file:/tmp/vm.dump",
-                                                "paging": false,
-                                                "format": "elf",
-                                                "detach": true
-                                              }}
-
-Cancel dump job:
-{"execute": "job-cancel", "arguments": { "id": "dump-guest-memory" }}
-
-Dismiss dump job:
-{"execute": "job-dismiss", "arguments": { "id": "dump-guest-memory" }}
-
-Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
----
- dump/dump.c | 76 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 76 insertions(+)
-
-diff --git a/dump/dump.c b/dump/dump.c
-index cec9be30b4..3f4ed8e7a7 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -98,6 +98,7 @@ static int dump_cleanup(DumpState *s)
- {
-     guest_phys_blocks_free(&s->guest_phys_blocks);
-     memory_mapping_list_free(&s->list);
-+    s->job = NULL;
-     close(s->fd);
-     g_free(s->guest_note);
-     s->guest_note = NULL;
-@@ -1542,6 +1543,14 @@ static void get_max_mapnr(DumpState *s)
- 
- static DumpState dump_state_global = { .status = DUMP_STATUS_NONE };
- 
-+typedef struct DumpJob {
-+    Job common;
-+    DumpState *state;
-+    Coroutine *co;
-+    Error **errp;
-+} DumpJob;
-+
-+
- static void dump_state_prepare(DumpState *s)
- {
-     /* zero the struct, setting status to active */
-@@ -1894,6 +1903,64 @@ DumpQueryResult *qmp_query_dump(Error **errp)
-     return result;
- }
- 
-+static void *dump_job_thread(void *opaque)
-+{
-+    DumpJob *job = (DumpJob *)opaque;
-+    job_progress_set_remaining(&job->common, 1);
-+    dump_process(job->state, job->errp);
-+    job_progress_update(&job->common, 1);
-+    aio_co_wake(job->co);
-+    return NULL;
-+}
-+
-+static void dump_sync_job_bh(void *opaque)
-+{
-+    dump_job_thread(opaque);
-+}
-+
-+static int coroutine_fn dump_guest_memory_job_run(Job *job, Error **errp)
-+{
-+    DumpJob *s = container_of(job, DumpJob, common);
-+    DumpState *state = &dump_state_global;
-+
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+
-+    if (state->detached) {
-+        /* detached dump */
-+        qemu_thread_create(&s->state->dump_thread, "dump_thread",
-+                           dump_job_thread, job, QEMU_THREAD_DETACHED);
-+    } else {
-+        aio_bh_schedule_oneshot(qemu_get_aio_context(),
-+                                dump_sync_job_bh, job);
-+    }
-+    qemu_coroutine_yield();
-+    return qatomic_read(&state->status) == DUMP_STATUS_COMPLETED ? 0 : -1;
-+}
-+
-+static const JobDriver dump_guest_memory_job_driver = {
-+    .instance_size = sizeof(DumpJob),
-+    .job_type      = JOB_TYPE_DUMP_GUEST_MEMORY,
-+    .run           = dump_guest_memory_job_run,
-+};
-+
-+static void dump_job_start(DumpState *state, const char *job_id,
-+                           bool detach, Error **errp)
-+{
-+    DumpJob *job;
-+
-+    job = job_create(job_id, &dump_guest_memory_job_driver, NULL,
-+                     qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                     NULL, NULL, errp);
-+    if (!job) {
-+        return;
-+    }
-+    state->detached = detach;
-+    state->job = &job->common;
-+    job->state = state;
-+    job_start(&job->common);
-+}
-+
- void qmp_dump_guest_memory(bool paging, const char *file,
-                            bool has_job_id, const char *job_id,
-                            bool has_detach, bool detach,
-@@ -2010,6 +2077,15 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-         return;
-     }
- 
-+    if (has_job_id) {
-+        dump_job_start(s, job_id, detach_p, errp);
-+        if (*errp) {
-+            qatomic_set(&s->status, DUMP_STATUS_FAILED);
-+            dump_cleanup(s);
-+        }
-+        return;
-+    }
-+
-     if (detach_p) {
-         /* detached dump */
-         s->detached = true;
--- 
-2.33.0
 
 
