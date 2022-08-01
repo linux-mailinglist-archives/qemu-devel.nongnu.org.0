@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E267586594
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:18:48 +0200 (CEST)
-Received: from localhost ([::1]:41274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B37B58659C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:25:57 +0200 (CEST)
+Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIPhL-0006Mx-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:18:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45012)
+	id 1oIPoJ-0001ti-LH
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIPbh-0003GE-Ps
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:12:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIPbd-0006NX-Km
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:12:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659337968;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MaJwcPw6rqMoxKbpURhjt5MI2gMh6mCZlx+/+qZ4dYI=;
- b=SRX6PDdWu3VyIhb4LZwLMQMngI3glz9CXClgdLdjJsciF+vs+CkQUBE1cmE6pQsUp1ysfU
- EU9UR1lWt3nM9PEUNifddWHHezxpOxebVYHxTWJ0ykKxAZPLQwh9OEHa5sPPtgZ8xyEJ1X
- iiIsxJBXFg5giF2ZG/5gs0f05y20JNA=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-53-o_Sm1RJ8PY6PoxaroPJpkQ-1; Mon, 01 Aug 2022 03:12:47 -0400
-X-MC-Unique: o_Sm1RJ8PY6PoxaroPJpkQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- eq6-20020ad45966000000b0047405c4e6ffso5945537qvb.17
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:12:47 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oIPhv-0006UT-SG
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:19:20 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:33444)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oIPhu-000756-92
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:19:19 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id e15so5887762lfs.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pydFCMdJNFvTGhKm7qB7/+GrJc/+WT2/HQEZ+m7Z1rs=;
+ b=gklLlzHL7+mJsrX3DIMxIgWfD7s7xbUCakkWNLRNC6waHl2XXOVxqbnuIVnjUXESXL
+ APbq4l1w9ATruDeIQP4yBFznM4r7kuGUfkj5ncTLkX7iWIm/F75xIbKM7/n0w2LZ+dZ5
+ lnWEX4SlRRoZ73aFQqbrfsPdie7ZluIFXd7GBjIee6Sr+Kd2RbC27g5HGbCALehhz/ch
+ exOwwOfqckcVUL+nvOn2uOtJLLeIxC9VXRYgqkJ2r3CqXO4xVt3vz6PkR8YAM4CLoetI
+ Ormhj3iZfRB9jRSI8IpTUeGXyuVtLeRCsjry9vqyOdjXK1+h3mwBS0tJSvGxEocXW6iH
+ g0jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=MaJwcPw6rqMoxKbpURhjt5MI2gMh6mCZlx+/+qZ4dYI=;
- b=71yDb+OX0g/EkYm87/PI5dO8XtMuEQRLOP23u5n+eQ2ao8QDFumQgSDt5QogXtTmyI
- eJ6qqlaeOt1mIBP/6YFkRUUHE+6cMVfV/Ha0otp76k2ZM8ZyCLlAwwlas9UFWrDb6/Bp
- zIrS+HYQdp40PiR3ANAazwLG++0OFna4YHL07W6YoQJe2S8Vi0gjSyd15ZM2BXwr4LwQ
- 893bIGZ7yo+voadgvGzjviMPkPqyiwn0G9IZwfPLgjHbv2MYSavnR9geXOqwIpR/NL1j
- rkTKjGHx5ibPnMmi/URPfAkTEEjbIJHqU5HvM5cgoQ+UxX3X81XEDPMkmwSRReRbCF5Y
- iBSw==
-X-Gm-Message-State: AJIora89HfCcsRJ+49VKHFLEK83otJ8bI6/4MzRrdekrP2415O6dy4ET
- lndSxGUnBCsYT+3F2R01q6EWbQupKrXXgVX1IzHujhmTWVnO8LPOGZaduEsOp/Tytyy3TXHXhxW
- 2GGoDx5WHp/nf5L4sx6006EVGfFhZ3X4=
-X-Received: by 2002:a05:622a:451:b0:31f:4257:4eb2 with SMTP id
- o17-20020a05622a045100b0031f42574eb2mr12904748qtx.370.1659337967082; 
- Mon, 01 Aug 2022 00:12:47 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uy0ZyKis0LvodlojZgZ/Lwc5lXOzt2JS41lLsfg3F+rNCQbg7u1pOKRVQs4wGQcINWsoPevJvX4LSQpQnpx3U=
-X-Received: by 2002:a05:622a:451:b0:31f:4257:4eb2 with SMTP id
- o17-20020a05622a045100b0031f42574eb2mr12904730qtx.370.1659337966813; Mon, 01
- Aug 2022 00:12:46 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=pydFCMdJNFvTGhKm7qB7/+GrJc/+WT2/HQEZ+m7Z1rs=;
+ b=xfoTliZQKFyabRxjzVsgxbrjIj3/cX5zt6R1eP2f7sdcTlYGHMdOke2/Yznghjtw4L
+ YRqZRgXR///kZMIvrppF0oiqZ3yzdzrjMiLVrIur3q+igaXOwVurowkhZgJ0cp4/+FXr
+ gpjkGLyYSD9/2/Q4bcis/0+JJI08wJOc3xOa6Mi1fVp3YWXIMkFXitWnjzkt+kyxXKiJ
+ PVoiORccDA3Jk/oON37apm43k08yu1ZV9TCmmd8b/BG6tsATw/HE1a/OFWf9LxvTciV8
+ KZGa1bPbSdffGiETgFZEJLZxdQ4modjeeChNkzQwjxwlA4869SbF2IxlB+jLd0BWNPFQ
+ cxIw==
+X-Gm-Message-State: AJIora93NJYG6b40TTI10++j4g82SwHD/dp8zK8iAtrJmVDCLIoDOnIz
+ ISBvQawamdKRnL0s9FSypCWg+7v5pqVgCLuylKo=
+X-Google-Smtp-Source: AGRyM1srarmZUfCPvo5vdJBJOCW/YZiKu6XnFvmESITicO10fTIyHWk2RYKyZQdLcvRrqSazkniX0tTr6pu+9WaLENI=
+X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id
+ y25-20020a0565123f1900b0048a874f0534mr5058902lfa.446.1659338355991; Mon, 01
+ Aug 2022 00:19:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220722134318.3430667-1-eperezma@redhat.com>
- <20220722134318.3430667-5-eperezma@redhat.com>
- <22b35cff-bcd5-78b8-cab4-43d2e65dccbe@redhat.com>
-In-Reply-To: <22b35cff-bcd5-78b8-cab4-43d2e65dccbe@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 1 Aug 2022 09:12:11 +0200
-Message-ID: <CAJaqyWe1rpz4LtX++zht7eSq3qGYi1s-Ti6iFV96HjrAYE1JSA@mail.gmail.com>
-Subject: Re: [PATCH v2 4/7] vdpa: Add asid parameter to
- vhost_vdpa_dma_map/unmap
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
- Cornelia Huck <cohuck@redhat.com>, kvm list <kvm@vger.kernel.org>, 
- Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+References: <20220730145036.865854-1-bmeng.cn@gmail.com>
+ <20220730145036.865854-4-bmeng.cn@gmail.com>
+In-Reply-To: <20220730145036.865854-4-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 1 Aug 2022 11:19:04 +0400
+Message-ID: <CAJ+F1CK7_tme4Fqjropmiw3pARTR8g-HTPOWTgPtCqaRPN2Pcw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/4] chardev/char-socket: Update AF_UNIX for Windows
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000004568fc05e528d1f9"
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,248 +83,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 25, 2022 at 11:36 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/22 21:43, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > So the caller can choose which ASID is destined.
-> >
-> > No need to update the batch functions as they will always be called fro=
-m
-> > memory listener updates at the moment. Memory listener updates will
-> > always update ASID 0, as it's the passthrough ASID.
-> >
-> > All vhost devices's ASID are 0 at this moment.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   include/hw/virtio/vhost-vdpa.h |  8 +++++---
-> >   hw/virtio/vhost-vdpa.c         | 26 ++++++++++++++++----------
-> >   net/vhost-vdpa.c               |  6 +++---
-> >   hw/virtio/trace-events         |  4 ++--
-> >   4 files changed, 26 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/include/hw/virtio/vhost-vdpa.h b/include/hw/virtio/vhost-v=
-dpa.h
-> > index 1111d85643..6560bb9d78 100644
-> > --- a/include/hw/virtio/vhost-vdpa.h
-> > +++ b/include/hw/virtio/vhost-vdpa.h
-> > @@ -29,6 +29,7 @@ typedef struct vhost_vdpa {
-> >       int index;
-> >       uint32_t msg_type;
-> >       bool iotlb_batch_begin_sent;
-> > +    uint32_t address_space_id;
-> >       MemoryListener listener;
-> >       struct vhost_vdpa_iova_range iova_range;
-> >       uint64_t acked_features;
-> > @@ -42,8 +43,9 @@ typedef struct vhost_vdpa {
-> >       VhostVDPAHostNotifier notifier[VIRTIO_QUEUE_MAX];
-> >   } VhostVDPA;
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly);
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e);
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly);
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size);
-> >
-> >   #endif
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index e1ed56b26d..79623badf2 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -72,22 +72,24 @@ static bool vhost_vdpa_listener_skipped_section(Mem=
-oryRegionSection *section,
-> >       return false;
-> >   }
-> >
-> > -int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwaddr iova, hwaddr size,
-> > -                       void *vaddr, bool readonly)
-> > +int vhost_vdpa_dma_map(struct vhost_vdpa *v, uint32_t asid, hwaddr iov=
-a,
-> > +                       hwaddr size, void *vaddr, bool readonly)
-> >   {
-> >       struct vhost_msg_v2 msg =3D {};
-> >       int fd =3D v->device_fd;
-> >       int ret =3D 0;
-> >
-> >       msg.type =3D v->msg_type;
-> > +    msg.asid =3D asid;
-> >       msg.iotlb.iova =3D iova;
-> >       msg.iotlb.size =3D size;
-> >       msg.iotlb.uaddr =3D (uint64_t)(uintptr_t)vaddr;
-> >       msg.iotlb.perm =3D readonly ? VHOST_ACCESS_RO : VHOST_ACCESS_RW;
-> >       msg.iotlb.type =3D VHOST_IOTLB_UPDATE;
-> >
-> > -   trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.iotlb.iova, msg.iotlb=
-.size,
-> > -                            msg.iotlb.uaddr, msg.iotlb.perm, msg.iotlb=
-.type);
-> > +    trace_vhost_vdpa_dma_map(v, fd, msg.type, msg.asid, msg.iotlb.iova=
-,
-> > +                             msg.iotlb.size, msg.iotlb.uaddr, msg.iotl=
-b.perm,
-> > +                             msg.iotlb.type);
-> >
-> >       if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> >           error_report("failed to write, fd=3D%d, errno=3D%d (%s)",
-> > @@ -98,18 +100,20 @@ int vhost_vdpa_dma_map(struct vhost_vdpa *v, hwadd=
-r iova, hwaddr size,
-> >       return ret;
-> >   }
-> >
-> > -int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, hwaddr iova, hwaddr siz=
-e)
-> > +int vhost_vdpa_dma_unmap(struct vhost_vdpa *v, uint32_t asid, hwaddr i=
-ova,
-> > +                         hwaddr size)
-> >   {
-> >       struct vhost_msg_v2 msg =3D {};
-> >       int fd =3D v->device_fd;
-> >       int ret =3D 0;
-> >
-> >       msg.type =3D v->msg_type;
-> > +    msg.asid =3D asid;
-> >       msg.iotlb.iova =3D iova;
-> >       msg.iotlb.size =3D size;
-> >       msg.iotlb.type =3D VHOST_IOTLB_INVALIDATE;
-> >
-> > -    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.iotlb.iova,
-> > +    trace_vhost_vdpa_dma_unmap(v, fd, msg.type, msg.asid, msg.iotlb.io=
-va,
-> >                                  msg.iotlb.size, msg.iotlb.type);
-> >
-> >       if (write(fd, &msg, sizeof(msg)) !=3D sizeof(msg)) {
-> > @@ -228,7 +232,7 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
-stener *listener,
-> >       }
-> >
-> >       vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_map(v, iova, int128_get64(llsize),
-> > +    ret =3D vhost_vdpa_dma_map(v, 0, iova, int128_get64(llsize),
-> >                                vaddr, section->readonly);
-> >       if (ret) {
-> >           error_report("vhost vdpa map fail!");
-> > @@ -293,7 +297,7 @@ static void vhost_vdpa_listener_region_del(MemoryLi=
-stener *listener,
-> >           vhost_iova_tree_remove(v->iova_tree, result);
-> >       }
-> >       vhost_vdpa_iotlb_batch_begin_once(v);
-> > -    ret =3D vhost_vdpa_dma_unmap(v, iova, int128_get64(llsize));
-> > +    ret =3D vhost_vdpa_dma_unmap(v, 0, iova, int128_get64(llsize));
-> >       if (ret) {
-> >           error_report("vhost_vdpa dma unmap error!");
-> >       }
-> > @@ -884,7 +888,7 @@ static bool vhost_vdpa_svq_unmap_ring(struct vhost_=
-vdpa *v,
-> >       }
-> >
-> >       size =3D ROUND_UP(result->size, qemu_real_host_page_size());
-> > -    r =3D vhost_vdpa_dma_unmap(v, result->iova, size);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, result->iova, s=
-ize);
-> >       return r =3D=3D 0;
-> >   }
-> >
-> > @@ -926,7 +930,8 @@ static bool vhost_vdpa_svq_map_ring(struct vhost_vd=
-pa *v, DMAMap *needle,
-> >           return false;
-> >       }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, needle->iova, needle->size + 1,
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, needle->iova,
-> > +                           needle->size + 1,
-> >                              (void *)(uintptr_t)needle->translated_addr=
-,
-> >                              needle->perm =3D=3D IOMMU_RO);
-> >       if (unlikely(r !=3D 0)) {
-> > @@ -1092,6 +1097,7 @@ static int vhost_vdpa_dev_start(struct vhost_dev =
-*dev, bool started)
-> >
-> >       if (started) {
-> >           vhost_vdpa_host_notifiers_init(dev);
-> > +
->
->
-> Unnecessary changes.
->
-> Other looks good.
->
+--0000000000004568fc05e528d1f9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'll resend without it.
+Hi
 
-Thanks!
+On Sat, Jul 30, 2022 at 6:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-> Thanks
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Now that AF_UNIX has come to Windows, update the existing logic in
+> qemu_chr_compute_filename() and qmp_chardev_open_socket() for Windows.
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - drop #include <afunix.h> as it is now already included in osdep.h
+>
+>  chardev/char-socket.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> index dc4e218eeb..14a56b7b13 100644
+> --- a/chardev/char-socket.c
+> +++ b/chardev/char-socket.c
+> @@ -557,7 +557,7 @@ static char *qemu_chr_compute_filename(SocketChardev
+> *s)
+>      const char *left =3D "", *right =3D "";
+>
+>      switch (ss->ss_family) {
+> -#ifndef _WIN32
+> +#ifdef CONFIG_AF_UNIX
+>      case AF_UNIX:
+>          return g_strdup_printf("unix:%s%s",
+>                                 ((struct sockaddr_un *)(ss))->sun_path,
+> @@ -1372,10 +1372,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
+>      }
+>
+>      qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_RECONNECTABLE);
+> +#ifndef _WIN32
+>      /* TODO SOCKET_ADDRESS_FD where fd has AF_UNIX */
+>      if (addr->type =3D=3D SOCKET_ADDRESS_TYPE_UNIX) {
+>          qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
+>      }
+> +#endif
 >
 >
-> >           ok =3D vhost_vdpa_svqs_start(dev);
-> >           if (unlikely(!ok)) {
-> >               return -1;
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 75143ded8b..8203200c2a 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -229,7 +229,7 @@ static void vhost_vdpa_cvq_unmap_buf(struct vhost_v=
-dpa *v, void *addr)
-> >           return;
-> >       }
-> >
-> > -    r =3D vhost_vdpa_dma_unmap(v, map->iova, map->size + 1);
-> > +    r =3D vhost_vdpa_dma_unmap(v, v->address_space_id, map->iova, map-=
->size + 1);
-> >       if (unlikely(r !=3D 0)) {
-> >           error_report("Device cannot unmap: %s(%d)", g_strerror(r), r)=
-;
-> >       }
-> > @@ -278,8 +278,8 @@ static bool vhost_vdpa_cvq_map_buf(struct vhost_vdp=
-a *v,
-> >           return false;
-> >       }
-> >
-> > -    r =3D vhost_vdpa_dma_map(v, map.iova, vhost_vdpa_net_cvq_cmd_page_=
-len(), buf,
-> > -                           !write);
-> > +    r =3D vhost_vdpa_dma_map(v, v->address_space_id, map.iova,
-> > +                           vhost_vdpa_net_cvq_cmd_page_len(), buf, !wr=
-ite);
-> >       if (unlikely(r < 0)) {
-> >           goto dma_map_err;
-> >       }
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index 20af2e7ebd..36e5ae75f6 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -26,8 +26,8 @@ vhost_user_write(uint32_t req, uint32_t flags) "req:%=
-d flags:0x%"PRIx32""
-> >   vhost_user_create_notifier(int idx, void *n) "idx:%d n:%p"
-> >
-> >   # vhost-vdpa.c
-> > -vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint64_t iov=
-a, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type) "vdpa:%p fd: =
-%d msg_type: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" uaddr: 0x%"PRIx6=
-4" perm: 0x%"PRIx8" type: %"PRIu8
-> > -vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint64_t i=
-ova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: %"PRIu32" iova:=
- 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> > +vhost_vdpa_dma_map(void *vdpa, int fd, uint32_t msg_type, uint32_t asi=
-d, uint64_t iova, uint64_t size, uint64_t uaddr, uint8_t perm, uint8_t type=
-) "vdpa:%p fd: %d msg_type: %"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" siz=
-e: 0x%"PRIx64" uaddr: 0x%"PRIx64" perm: 0x%"PRIx8" type: %"PRIu8
-> > +vhost_vdpa_dma_unmap(void *vdpa, int fd, uint32_t msg_type, uint32_t a=
-sid, uint64_t iova, uint64_t size, uint8_t type) "vdpa:%p fd: %d msg_type: =
-%"PRIu32" asid: %"PRIu32" iova: 0x%"PRIx64" size: 0x%"PRIx64" type: %"PRIu8
-> >   vhost_vdpa_listener_begin_batch(void *v, int fd, uint32_t msg_type, u=
-int8_t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >   vhost_vdpa_listener_commit(void *v, int fd, uint32_t msg_type, uint8_=
-t type)  "vdpa:%p fd: %d msg_type: %"PRIu32" type: %"PRIu8
-> >   vhost_vdpa_listener_region_add(void *vdpa, uint64_t iova, uint64_t ll=
-end, void *vaddr, bool readonly) "vdpa: %p iova 0x%"PRIx64" llend 0x%"PRIx6=
-4" vaddr: %p read-only: %d"
->
+With the fallback for afunix.h header on windows, we can enable various
+code paths with AF_UNIX, without condition.
 
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--0000000000004568fc05e528d1f9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jul 30, 2022 at 6:54 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
+ Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
+eng@windriver.com</a>&gt;<br>
+<br>
+Now that AF_UNIX has come to Windows, update the existing logic in<br>
+qemu_chr_compute_filename() and qmp_chardev_open_socket() for Windows.<br>
+<br>
+Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
+t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+---<br>
+<br>
+(no changes since v2)<br>
+<br>
+Changes in v2:<br>
+- drop #include &lt;afunix.h&gt; as it is now already included in osdep.h<b=
+r>
+<br>
+=C2=A0chardev/char-socket.c | 4 +++-<br>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br>
+index dc4e218eeb..14a56b7b13 100644<br>
+--- a/chardev/char-socket.c<br>
++++ b/chardev/char-socket.c<br>
+@@ -557,7 +557,7 @@ static char *qemu_chr_compute_filename(SocketChardev *s=
+)<br>
+=C2=A0 =C2=A0 =C2=A0const char *left =3D &quot;&quot;, *right =3D &quot;&qu=
+ot;;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0switch (ss-&gt;ss_family) {<br>
+-#ifndef _WIN32<br>
++#ifdef CONFIG_AF_UNIX<br>
+=C2=A0 =C2=A0 =C2=A0case AF_UNIX:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_strdup_printf(&quot;unix:%s%s&qu=
+ot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((struct sockaddr_un *)(ss))-&gt;sun=
+_path,<br>
+@@ -1372,10 +1372,12 @@ static void qmp_chardev_open_socket(Chardev *chr,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_RECONNECTAB=
+LE);<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0/* TODO SOCKET_ADDRESS_FD where fd has AF_UNIX */<br>
+=C2=A0 =C2=A0 =C2=A0if (addr-&gt;type =3D=3D SOCKET_ADDRESS_TYPE_UNIX) {<br=
+>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_set_feature(chr, QEMU_CHAR_FEATU=
+RE_FD_PASS);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++#endif<br>
+<br></blockquote><div><br></div><div>With the fallback for afunix.h header =
+on windows, we can enable various code paths with AF_UNIX, without conditio=
+n.</div><br></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gm=
+ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--0000000000004568fc05e528d1f9--
 
