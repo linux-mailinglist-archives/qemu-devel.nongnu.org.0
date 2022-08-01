@@ -2,90 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A67A586694
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:50:50 +0200 (CEST)
-Received: from localhost ([::1]:48328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A50B5866CA
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:20:54 +0200 (CEST)
+Received: from localhost ([::1]:39144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIR8T-0003iL-BX
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:50:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60442)
+	id 1oIRbW-0000PL-3c
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:20:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIR4z-0002Gr-19
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:47:13 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45011)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIR4x-0004DQ-33
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:47:12 -0400
-Received: by mail-wr1-x429.google.com with SMTP id q30so8799516wra.11
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc;
- bh=N0iz0nciGJX3anEhvSJdhN/SgpaU1OOdRZlVErf1NFk=;
- b=ERdCEE7FuXMgbtqp9YjD1XYk/cOak/SzBBC6Iih7f9FpZSX/TahJOnsRVWm4wyuwdn
- clzuSFf7UTGHmIyPThDPNhoAvHecXSHYHrGQ5ZCNQYKog4VaD25GFv0JLxiQcAeFf6Yi
- qTA84RPswJVFQ9NgGE4dwBHLjJvOfufNF1i36pySAkrDpE0bFz3ohhnixxGEntQIVH9f
- Vd+lX2z2NrYmZfnoy2PkRo1uizv7TuNVCk9w/r+PY7DRJn2Z/c9vAgGVlGsPoz1W1bmC
- jwBQYWwiIb9Xc8vVtYZfHOLMMEbPmq3j75hC4wQDAT/0uuxsTwsoHmEY24ev97Gspvrn
- K5Sg==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oIRY2-0007La-Hc
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:17:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37293)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oIRXy-0000ql-Kf
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:17:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659345428;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dKqeGN4YuDFGb7B2Ds6dGWUWz3qAHa018mdUKFPqVXg=;
+ b=WSrszbxIt0JIt858IK4nyLnPyJnlMiXgjbtjR3eYAktCjn4z4Lpi/tz0I8IkDuGPz1Wopj
+ Zmgv/V2cIJsQM5hMCTO7RP2Rip95bhk51Km36SiSQEPvPSXDyTC8HbYA7VjUZq/FhMi5Be
+ uNUfpyAytdJzGToQp/6yG3+nacodPro=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-64-7GqsJ7dwM4WS60nA5r8KRA-1; Mon, 01 Aug 2022 05:17:07 -0400
+X-MC-Unique: 7GqsJ7dwM4WS60nA5r8KRA-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ v5-20020adfa1c5000000b002205c89c80aso848241wrv.6
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 02:17:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc; bh=N0iz0nciGJX3anEhvSJdhN/SgpaU1OOdRZlVErf1NFk=;
- b=wSF6L5hr9yPpViHGXQt+8Gnm+BbiRfMuz3WQeya/kpgMGptvzMuvNE+0fxTi0lk+NC
- MHw1VdQ9AZHzIkfOI5K7wJEdji+tcJCvLn69X3LTZl34/3Co+femliriaeOdJQc8nsKf
- heWhbk046AvuaeU6T65pXZDklJGT52DVvJIwSsWD6gXRpya+E0D28m00A4/zDEQmjYDc
- 3OteQ8i2reN2taIY3ZP3cqvIn9J9FpNiCpO9sbugX/ajtak6eEwZRqFsn/BRvSnCHDTK
- mgFNzypCK///elYWl5CS9JAGqMJRID+2mJINgSYb80569+E1Ow8mBuZXNJIQv53H1Rgx
- a2cw==
-X-Gm-Message-State: ACgBeo3pdN+5uuqfsfy5tfJp0cfMlOJxNv1tyqHmGvmpgfu798HT1gZT
- 9pVtO8gtZRNx72DdD1AbC6dH2tC3hmqbzg==
-X-Google-Smtp-Source: AA6agR4Gq1yZi3tpW3WkruIcVW2VIBckBded6jjhz/GiNlexsb55GOEfUnM5OGxndoNOdVZ4wk846Q==
-X-Received: by 2002:a5d:6501:0:b0:21e:cc1c:ae5b with SMTP id
- x1-20020a5d6501000000b0021ecc1cae5bmr9515635wru.341.1659343628229; 
- Mon, 01 Aug 2022 01:47:08 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- n2-20020a5d51c2000000b0021badf3cb26sm13181712wrv.63.2022.08.01.01.47.06
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=dKqeGN4YuDFGb7B2Ds6dGWUWz3qAHa018mdUKFPqVXg=;
+ b=TvCN03x6K9iCn38giXyzy7NImSE7GU4y12uWMPu+MxUxTfG1IRaxvx8vbHcZgUc5hL
+ fub3KNKfB+A0kzUyokSBdomuM897BqtZfVzkXJW5iqvIS+v7mDMjRa/htrH0VkGqZq2I
+ OcfqKuAMKQfFkotrkZHB7XmTwxGU5f7TsXG7DLsuTAmu1wCvmA0F3ukX+WoezMvxnwgF
+ kQsFTesdcH7u3EUzV6frx5S54EP4DPi69CzLcnFvriqkiVaNxFXY03/ME5KLw2tJenYO
+ /VA71PIp4kVjUvfSqvJRb2LO1BngsMw38ihDiExMF/PyN8DmV94Udx3OiRrNwZTX/lLi
+ RdRQ==
+X-Gm-Message-State: ACgBeo07aUGrnS1MSFgZhynG6G/dOYuDcJnAqsfIdWl5Zj6E9kdMQyVQ
+ HeQJv6yQR6dIaSu1OVlfIIwyUtU5CDtzfGC8LaCQaTX+nw9Xkp0v1ace+uQhvwgAqo2lTt7D/sQ
+ nfyUyAjIr7PJYtaI=
+X-Received: by 2002:adf:fd0d:0:b0:21e:f27b:10dd with SMTP id
+ e13-20020adffd0d000000b0021ef27b10ddmr9833248wrr.295.1659345426406; 
+ Mon, 01 Aug 2022 02:17:06 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7klMeTwKH+2Rssolsl07pZyRbw8tJA5EHBk+GC7O8pHdYdHpSVGgHknSznA5RyFHhQWFaNAQ==
+X-Received: by 2002:adf:fd0d:0:b0:21e:f27b:10dd with SMTP id
+ e13-20020adffd0d000000b0021ef27b10ddmr9833224wrr.295.1659345426133; 
+ Mon, 01 Aug 2022 02:17:06 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ p18-20020a5d4592000000b0021f73c66198sm7058285wrq.1.2022.08.01.02.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 01:47:06 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 27DEF1FFB7;
- Mon,  1 Aug 2022 09:47:06 +0100 (BST)
-References: <8350fff5-f8d7-11a4-9f3a-aac8b7f5a964@suse.de>
- <20220727112737-mutt-send-email-mst@kernel.org>
- <CACGkMEt768mxHkcfEBK3EgA3sk979gckuQ-tWz1edX2HzVo73g@mail.gmail.com>
- <cde2074c-67bc-373f-c218-d9deaf84e5f0@suse.de>
- <8a8475c7-c720-1aef-02bb-ca4cb3c1ff68@suse.de>
- <20220728093501-mutt-send-email-mst@kernel.org>
- <be4dc741-4153-1620-223f-852ff5aa34a7@suse.de>
- <20220729061221-mutt-send-email-mst@kernel.org>
- <20edd357-716f-c84c-9714-607f7f64db5c@suse.de> <87sfmkf3yc.fsf@linaro.org>
- <a8b045fe-958c-ee88-28ff-b73aab1664b9@suse.de>
- <8b008e30-15df-91cd-c891-b7707324abe1@suse.de>
-User-agent: mu4e 1.7.27; emacs 28.1.91
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Marcel Apfelbaum <marcel@redhat.com>
-Subject: Re: virtio: why no full reset on virtio_set_status 0 ?
-Date: Mon, 01 Aug 2022 09:44:55 +0100
-In-reply-to: <8b008e30-15df-91cd-c891-b7707324abe1@suse.de>
-Message-ID: <87fsigpcza.fsf@linaro.org>
+ Mon, 01 Aug 2022 02:17:05 -0700 (PDT)
+Date: Mon, 1 Aug 2022 10:17:03 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org,
+ f4bug@amsat.org, aurelien@aurel32.net, jiaxun.yang@flygoat.com,
+ ani@anisinha.ca, mst@redhat.com
+Subject: Re: [PATCH for-7.1] hw/mips/malta: turn off x86 specific features of
+ PIIX4_PM
+Message-ID: <YueaDxgaMNGLezQd@work-vm>
+References: <20220728115034.1327988-1-imammedo@redhat.com>
+ <YuKgxM4IjAXh/goO@work-vm> <20220728165411.5701befb@redhat.com>
+ <YuKmuvgqMQtTXVjX@work-vm>
+ <CAFEAcA-H=P44_e9qbKiGiCXjs9JPCmhEK5qp23TLX229G=Y6rg@mail.gmail.com>
+ <20220729115753.60d99772@redhat.com>
+ <CAFEAcA_Xa68t7N1MgCy6=xYvE9Cr6SM2xZp-iDdx_e8+tFwpCw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_Xa68t7N1MgCy6=xYvE9Cr6SM2xZp-iDdx_e8+tFwpCw@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,88 +106,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Fri, 29 Jul 2022 at 10:57, Igor Mammedov <imammedo@redhat.com> wrote:
+> >
+> > On Thu, 28 Jul 2022 16:12:34 +0100
+> > Peter Maydell <peter.maydell@linaro.org> wrote:
+> >
+> > > On Thu, 28 Jul 2022 at 16:09, Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > * Igor Mammedov (imammedo@redhat.com) wrote:
+> > > > > On Thu, 28 Jul 2022 15:44:20 +0100
+> > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > > >
+> > > > > > * Igor Mammedov (imammedo@redhat.com) wrote:
+> > > > > > > QEMU crashes trying to save VMSTATE when only MIPS target are compiled in
+> > > > > > >   $ qemu-system-mips -monitor stdio
+> > > > > > >   (qemu) migrate "exec:gzip -c > STATEFILE.gz"
+> > > > > > >   Segmentation fault (core dumped)
+> > > > > > >
+> > > > > > > It happens due to PIIX4_PM trying to parse hotplug vmstate structures
+> > > > > > > which are valid only for x86 and not for MIPS (as it requires ACPI
+> > > > > > > tables support which is not existent for ithe later)
+> > > > > > >
+> > > > > > > Issue was probably exposed by trying to cleanup/compile out unused
+> > > > > > > ACPI bits from MIPS target (but forgetting about migration bits).
+> > > > > > >
+> > > > > > > Disable compiled out features using compat properties as the least
+> > > > > > > risky way to deal with issue.
+> > > > > >
+> > > > > > Isn't the problem partially due to a 'stub' vmsd which isn't terminated?
+> > > > >
+> > > > > Not sure what "'stub' vmsd" is, can you explain?
+> > > >
+> > > > In hw/acpi/acpi-pci-hotplug-stub.c there is :
+> > > > const VMStateDescription vmstate_acpi_pcihp_pci_status;
+> > I think that one is there only for linking purposes and not meant
+> > to be actually used.
+> 
+> Yes, exactly. The problem is that without this patch which
+> sets various properties it *does* get used...
+> 
+> > > > this seg happens when the migration code walks into that - this should
+> > > > always get populated with some of the minimal fields, in particular the
+> > > > .name and .fields array terminated with VMSTATE_END_OF_LIST().
+> > >
+> > > Either:
+> > >  (1) we should be sure the vmstate struct does not get used if the
+> > >      compile-time config has ended up with the stub
+> > > or
+> >
+> > >  (2) it needs to actually match the real vmstate struct, otherwise
+> > >      migration between a QEMU built with a config that just got the
+> > >      stub version and a QEMU built with a config that got the full
+> > >      version will break
+> > >
+> > > This patch does the former. Segfaulting if we got something wrong
+> > > and tried to use the vmstate when we weren't expecting to is
+> > > arguably better than producing an incompatible migration stream.
+> >
+> > > (Better still would be if we caught this on machine startup rather
+> > > than only when savevm was invoked.)
+> > Theoretically possible with a bunch of mips and x86 stubs, but ...
+> > we typically don't do this kind of checks for migration sake
+> > as that complicates things a lot in general.
+> > i.e. it's common to let migration fail in case of incompatible
+> > migration stream. It's not exactly friendly to user but it's
+> > graceful failure (assuming code is correct and not crashes QEMU)
+> 
+> The point here is that if we ever try to do a migrate with the
+> stub vmstate struct then that's a bug in QEMU. We should prefer
+> to catch those early and clearly.
 
-Claudio Fontana <cfontana@suse.de> writes:
+I'd rather have something that was explicitly poisoned rather than just
+walking off the end of an uninitialised array and having to break out
+gdb.
 
-> On 7/29/22 16:00, Claudio Fontana wrote:
->> On 7/29/22 15:21, Alex Benn=C3=A9e wrote:
->>>
->>> Claudio Fontana <cfontana@suse.de> writes:
->>>
->>>> On 7/29/22 12:13, Michael S. Tsirkin wrote:
->>>>> On Fri, Jul 29, 2022 at 11:46:05AM +0200, Claudio Fontana wrote:
->>>>>>>> @@ -2025,7 +2031,6 @@ void virtio_reset(void *opaque)
->>>>>>>>      VirtioDeviceClass *k =3D VIRTIO_DEVICE_GET_CLASS(vdev);
->>>>>>>>      int i;
->>>>>>>>=20=20
->>>>>>>> -    virtio_set_status(vdev, 0);
->>>>>>>>      if (current_cpu) {
->>>>>>>>          /* Guest initiated reset */
->>>>>>>>          vdev->device_endian =3D virtio_current_cpu_endian();
->>>>>>>> --=20
->>>>>>>> 2.26.2
->>>>>>>
->>>>>>> As you say this is incomplete ... bout could you share a bit more
->>>>>>> of what issue does this address?
->>>>>>>
->>>>>>
->>>>>> Hi, the problem I am trying to address is a segfault in OVS/dpdk tha=
-t looks like this:
->>>>>
->>>>> Sorry I was not clear. What I mean is, you don't yet know why does re=
-moving
->>>>> virtio_set_status call here prevent the crash in ovs, do you?
->>>>>
->>>>
->>>> I have no idea. Trying to collect logs to figure things out, but as
->>>> mentioned the logs easily hide the issue.
->>>> Likely there is just more to study here.
->>>
->>> Given the OVS is going off on a NULL ptr deref could it just be it's not
->>> handling the disabling/reenabling of the virtqueues as you pause and
->>> restart properly? I could certainly imagine a backend jumping the gun to
->>> read a queue going very wrong if the current queue state is disabled.
->>>
->>=20
->> In this case both the ovs buf_addr and buf_iova are NULL, which is a
->> nice case as they are more detectable,
->> however I also have segfaults where the addresses are just garbage.
->>=20
->> I wonder whether it's possible that given the fact that the guest is
->> going away without notification (SIGKILL),
->> as the guest driver resets the device and communicates with QEMU,
->> QEMU adapts the state without notifying ovs,
->> so ovs happily tries to dequeue data from memory that isn't there. But I=
- am just guessing.
->>=20
->> I am still studying the qemu vhost user side and ovs/dpdk side to
->> try to understand how this whole thing works.
->>=20
->> Thanks,
->>=20
->> CLaudio
->>=20
->
-> I am pursuing this as a DPDK library issue.
->
-> It would be cool to have ovs, dpdk and vhost-user with the default
-> test-pmd application somehow hooked up in a basic test
-> in one of these projects..
+Dave
 
-I agree although it's hard to marshal multiple projects into a known
-working state that isn't too brittle for CI purposes. The existing
-qos-test testing doesn't really exercise any more than the initial setup
-and register reading of the VirtIO device.
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-For example we have a number of non network standalone vhost-user
-backends in rust-vmm which would be nice to plumb in somehow.
-
->
-> Thanks,
->
-> Claudio
-
-
---=20
-Alex Benn=C3=A9e
 
