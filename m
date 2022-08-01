@@ -2,92 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18F05865E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:54:40 +0200 (CEST)
-Received: from localhost ([::1]:38250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B59515865ED
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:58:03 +0200 (CEST)
+Received: from localhost ([::1]:41664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQG7-0008RJ-8R
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:54:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50402)
+	id 1oIQJO-0002Vr-Dz
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:58:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIQCa-000675-55
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:51:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34762)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oIQF8-0007uj-J1; Mon, 01 Aug 2022 03:53:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIQCV-0003cu-Q5
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:50:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659340255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/+UyS8DzqXh878QkjFjhBHrIJgfcT45MTc/yc/0BW48=;
- b=AR/jRChUJC3nKAC5e+p67aNuPnxLbUvbZeT2FtzGZtl/XcEpurMYTkM9udOiyZZqBESMqN
- AQqgE7FKZc+Lb1JTvpK2hL5H81rX5WOaQuY6jlJXfgkyRgoPeSovYqY6u9bKewmp22Jbi7
- g2MxfphcnSeMGgOOACXhiPaaJWaVVEA=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-nWkrC5CFPmWxLP1Fx92rEQ-1; Mon, 01 Aug 2022 03:50:54 -0400
-X-MC-Unique: nWkrC5CFPmWxLP1Fx92rEQ-1
-Received: by mail-qv1-f71.google.com with SMTP id
- dn2-20020a056214094200b0047491ead6a2so3654963qvb.2
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:50:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/+UyS8DzqXh878QkjFjhBHrIJgfcT45MTc/yc/0BW48=;
- b=k2NZ8RwbWTUb7lEf27aluHZGzOZmNR13nvquY6uKC6Debmu+r8Zr8PVP83QZ5wuVx0
- LhbeREX4nhoxDkUE0cbcF61i1+m1YEivzOZPyxOBSYzPQjLGuV9ZSjORWAA+3bHPCWRN
- eiJ67yYb968BTvv5MKrMj96X4hUEV/Wah9iIYhUlu9rLzVdqLtA4wRw7Q1nSrshW3xkz
- yFVk91nvqGHtClQVn4kvAMGZhK4oK1Q6JRlWcr8flzWnerIBJ/2PWLxIIQZ94lm1C4iq
- l1RACatt+Pp8BDnxEfjIknb9e5AOLsE9CrBrfjOBCMZCjCp+UPNflSkt/t3Hs+RSRWXo
- BDAQ==
-X-Gm-Message-State: AJIora9LySsJ3WMzWw0BxG1ZDkIyx/dROEPAUqjSQ+vaVhRs7+buN6xS
- E4idEuJDJgO2AHJVUrJTmwbtBrTESU3bwW63R2ywqeNq4aOwO/h6K2ubRn1VWZdAWSFxyKC2as7
- yyHyTttbOIrlfNAxQwn7AaUYFpFo0A0Q=
-X-Received: by 2002:a05:620a:29d5:b0:6b5:dc06:5762 with SMTP id
- s21-20020a05620a29d500b006b5dc065762mr10847762qkp.522.1659340253463; 
- Mon, 01 Aug 2022 00:50:53 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1uEC9zxz+Cbnlys5mCZOduhSUlkB8q/ckaxlv+q83GrNX/6hN+UsOcJO8IJBJLH1fTgSYLBBdt5Zmnkz1RfBSk=
-X-Received: by 2002:a05:620a:29d5:b0:6b5:dc06:5762 with SMTP id
- s21-20020a05620a29d500b006b5dc065762mr10847742qkp.522.1659340253177; Mon, 01
- Aug 2022 00:50:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
+ id 1oIQF6-0003wG-6z; Mon, 01 Aug 2022 03:53:38 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2716rHQU013751;
+ Mon, 1 Aug 2022 07:53:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=c5PQU91NNRqYm/Gl8OpKUVo7J/RMz5mMZrPGV56DNHw=;
+ b=V9xgk/IkL03CQI1wtW+8FBv3nm7QlU/Y3Rr0cIzuS7KYAPIyuIdZjOgo45KPI4tYIeEK
+ 8WeojkS2W6m7Bso2v+XRYdIK0dk0BmNlvLZbS7pZLiI/goAnaHppT6fmKZM0F6W1B0PA
+ FsvK4lrsJIYxpMLxagM40sTTPRAPXLzFFp/pXKTH5wPjvAWn7zFAegV7KemLetUgOx7U
+ ly36J9sgQaq+FbUvz7pwgojpJCL4Jo3Dr04EbaWRq9+2QNf7xqmdCS4tMZj8Vu2/ZEQC
+ x08BTtmFjZS3PaWx+zpv7UgKIyETCe3grHFCdEfk3FASPLO5/neOCDRe/FABbzFI0nR/ Dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9y2ss1x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 07:53:32 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2716vAMq026777;
+ Mon, 1 Aug 2022 07:53:32 GMT
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9y2ss1a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 07:53:32 +0000
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2717pQLq031931;
+ Mon, 1 Aug 2022 07:53:29 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03ams.nl.ibm.com with ESMTP id 3hmv98svha-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 01 Aug 2022 07:53:29 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 2717rQhQ27984324
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 1 Aug 2022 07:53:26 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AB46F4203F;
+ Mon,  1 Aug 2022 07:53:26 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DC4C542042;
+ Mon,  1 Aug 2022 07:53:25 +0000 (GMT)
+Received: from [9.145.41.76] (unknown [9.145.41.76])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon,  1 Aug 2022 07:53:25 +0000 (GMT)
+Message-ID: <a0e9e216-e451-6d76-4511-46ae5f3590ce@linux.ibm.com>
+Date: Mon, 1 Aug 2022 09:53:25 +0200
 MIME-Version: 1.0
-References: <20220722134318.3430667-1-eperezma@redhat.com>
- <20220722134318.3430667-8-eperezma@redhat.com>
- <74d24a62-7017-e937-3bcb-af8f6b605fee@redhat.com>
-In-Reply-To: <74d24a62-7017-e937-3bcb-af8f6b605fee@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 1 Aug 2022 09:50:17 +0200
-Message-ID: <CAJaqyWf3Ua5LFxO9E-nJ+2DD0_nEX_-aK=Gw+R20TBcYnwr2Ng@mail.gmail.com>
-Subject: Re: [PATCH v2 7/7] vdpa: Always start CVQ in SVQ mode
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-level <qemu-devel@nongnu.org>,
- Harpreet Singh Anand <hanand@xilinx.com>, Cindy Lu <lulu@redhat.com>, 
- Cornelia Huck <cohuck@redhat.com>, kvm list <kvm@vger.kernel.org>, 
- Parav Pandit <parav@mellanox.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
- Gautam Dawar <gdawar@xilinx.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Eli Cohen <eli@mellanox.com>, 
- Laurent Vivier <lvivier@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v4 08/17] dump: Split write of section headers and data
+ and add a prepare step
+Content-Language: en-US
+To: Janis Schoetterl-Glausch <scgl@linux.ibm.com>, qemu-devel@nongnu.org
+Cc: marcandre.lureau@redhat.com, pbonzini@redhat.com, mhartmay@linux.ibm.com, 
+ borntraeger@linux.ibm.com, imbrenda@linux.ibm.com, pasic@linux.ibm.com,
+ cohuck@redhat.com, thuth@redhat.com, qemu-s390x@nongnu.org,
+ seiden@linux.ibm.com
+References: <20220726092248.128336-1-frankja@linux.ibm.com>
+ <20220726092248.128336-9-frankja@linux.ibm.com>
+ <50fc36a5-a9f7-777b-4dc5-936cb76c6475@linux.ibm.com>
+From: Janosch Frank <frankja@linux.ibm.com>
+In-Reply-To: <50fc36a5-a9f7-777b-4dc5-936cb76c6475@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 4lPIcOnFyPFVX3TbHANnsjfp2pilAHcd
+X-Proofpoint-GUID: Z5dOdPCUt9dBodzZRAjL6adjmvR6qFEl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-01_03,2022-07-28_02,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 priorityscore=1501
+ malwarescore=0 adultscore=0 spamscore=0 impostorscore=0 mlxlogscore=728
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208010035
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=frankja@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,344 +121,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jul 26, 2022 at 5:04 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2022/7/22 21:43, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
-> > Isolate control virtqueue in its own group, allowing to intercept contr=
-ol
-> > commands but letting dataplane run totally passthrough to the guest.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   hw/virtio/vhost-vdpa.c |   3 +-
-> >   net/vhost-vdpa.c       | 158 +++++++++++++++++++++++++++++++++++++++-=
--
-> >   2 files changed, 156 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> > index 79623badf2..fe1c85b086 100644
-> > --- a/hw/virtio/vhost-vdpa.c
-> > +++ b/hw/virtio/vhost-vdpa.c
-> > @@ -668,7 +668,8 @@ static int vhost_vdpa_set_backend_cap(struct vhost_=
-dev *dev)
-> >   {
-> >       uint64_t features;
-> >       uint64_t f =3D 0x1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2 |
-> > -        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH;
-> > +        0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH |
-> > +        0x1ULL << VHOST_BACKEND_F_IOTLB_ASID;
-> >       int r;
-> >
-> >       if (vhost_vdpa_call(dev, VHOST_GET_BACKEND_FEATURES, &features)) =
-{
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 6c1c64f9b1..f5075ef487 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -37,6 +37,9 @@ typedef struct VhostVDPAState {
-> >       /* Control commands shadow buffers */
-> >       void *cvq_cmd_out_buffer, *cvq_cmd_in_buffer;
-> >
-> > +    /* Number of address spaces supported by the device */
-> > +    unsigned address_space_num;
-> > +
-> >       /* The device always have SVQ enabled */
-> >       bool always_svq;
-> >       bool started;
-> > @@ -100,6 +103,8 @@ static const uint64_t vdpa_svq_device_features =3D
-> >       BIT_ULL(VIRTIO_NET_F_RSC_EXT) |
-> >       BIT_ULL(VIRTIO_NET_F_STANDBY);
-> >
-> > +#define VHOST_VDPA_NET_CVQ_ASID 1
-> > +
-> >   VHostNetState *vhost_vdpa_get_vhost_net(NetClientState *nc)
-> >   {
-> >       VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > @@ -214,6 +219,109 @@ static ssize_t vhost_vdpa_receive(NetClientState =
-*nc, const uint8_t *buf,
-> >       return 0;
-> >   }
-> >
-> > +static int vhost_vdpa_get_vring_group(int device_fd,
-> > +                                      struct vhost_vring_state *state)
-> > +{
-> > +    int r =3D ioctl(device_fd, VHOST_VDPA_GET_VRING_GROUP, state);
-> > +    return r < 0 ? -errno : 0;
-> > +}
->
->
-> It would be more convenient for the caller if we can simply return 0 here=
-.
->
+On 7/29/22 19:16, Janis Schoetterl-Glausch wrote:
+> On 7/26/22 11:22, Janosch Frank wrote:
+>> By splitting the writing of the section headers and (future) section
+>> data we prepare for the addition of a string table section and
+>> architecture sections.
+>>
+>> At the same time we move the writing of the section to the end of the
+>> dump process. This allows the upcoming architecture section code to
+>> add data after all of the common dump data has been written.
+>>
+>> Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
+>> ---
+>>   dump/dump.c           | 112 ++++++++++++++++++++++++++++++++----------
+>>   include/sysemu/dump.h |   4 ++
+>>   2 files changed, 90 insertions(+), 26 deletions(-)
+>>
+[...]
+>> +    /* Write special section first */
+>> +    if (s->phdr_num == PN_XNUM) {
+> 
+> Should be >= right?
 
-I don't follow this, how do we know if the call failed then?
+Yes, just fixed it.
 
->
-> > +
-> > +/**
-> > + * Check if all the virtqueues of the virtio device are in a different=
- vq than
-> > + * the last vq. VQ group of last group passed in cvq_group.
-> > + */
-> > +static bool vhost_vdpa_cvq_group_is_independent(struct vhost_vdpa *v,
-> > +                                            struct vhost_vring_state c=
-vq_group)
-> > +{
-> > +    struct vhost_dev *dev =3D v->dev;
-> > +    int ret;
-> > +
-> > +    for (int i =3D 0; i < (dev->vq_index_end - 1); ++i) {
-> > +        struct vhost_vring_state vq_group =3D {
-> > +            .index =3D i,
-> > +        };
-> > +
-> > +        ret =3D vhost_vdpa_get_vring_group(v->device_fd, &vq_group);
-> > +        if (unlikely(ret)) {
-> > +            goto call_err;
-> > +        }
-> > +        if (unlikely(vq_group.num =3D=3D cvq_group.num)) {
-> > +            error_report("CVQ %u group is the same as VQ %u one (%u)",
-> > +                         cvq_group.index, vq_group.index, cvq_group.nu=
-m);
->
->
-> Any reason we need error_report() here?
->
-
-We can move it to a migration blocker.
-
-> Btw, I'd suggest to introduce new field in vhost_vdpa, then we can get
-> and store the group_id there during init.
->
-> This could be useful for the future e.g PASID virtualization.
->
-
-Answering below.
-
->
-> > +            return false;
-> > +        }
-> > +    }
-> > +
-> > +    return true;
-> > +
-> > +call_err:
-> > +    error_report("Can't read vq group, errno=3D%d (%s)", -ret, g_strer=
-ror(-ret));
-> > +    return false;
-> > +}
-> > +
-> > +static int vhost_vdpa_set_address_space_id(struct vhost_vdpa *v,
-> > +                                           unsigned vq_group,
-> > +                                           unsigned asid_num)
-> > +{
-> > +    struct vhost_vring_state asid =3D {
-> > +        .index =3D vq_group,
-> > +        .num =3D asid_num,
-> > +    };
-> > +    int ret;
-> > +
-> > +    ret =3D ioctl(v->device_fd, VHOST_VDPA_SET_GROUP_ASID, &asid);
-> > +    if (unlikely(ret < 0)) {
-> > +        error_report("Can't set vq group %u asid %u, errno=3D%d (%s)",
-> > +            asid.index, asid.num, errno, g_strerror(errno));
-> > +    }
-> > +    return ret;
-> > +}
-> > +
-> > +static void vhost_vdpa_net_prepare(NetClientState *nc)
-> > +{
-> > +    VhostVDPAState *s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> > +    struct vhost_dev *dev =3D v->dev;
-> > +    struct vhost_vring_state cvq_group =3D {
-> > +        .index =3D v->dev->vq_index_end - 1,
-> > +    };
-> > +    int r;
-> > +
-> > +    assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> > +
-> > +    if (dev->nvqs !=3D 1 || dev->vq_index + dev->nvqs !=3D dev->vq_ind=
-ex_end) {
-> > +        /* Only interested in CVQ */
-> > +        return;
-> > +    }
-> > +
-> > +    if (s->always_svq) {
-> > +        /* SVQ is already enabled */
-> > +        return;
-> > +    }
-> > +
-> > +    if (s->address_space_num < 2) {
-> > +        v->shadow_vqs_enabled =3D false;
-> > +        return;
-> > +    }
-> > +
-> > +    r =3D vhost_vdpa_get_vring_group(v->device_fd, &cvq_group);
-> > +    if (unlikely(r)) {
-> > +        error_report("Can't read cvq group, errno=3D%d (%s)", r, g_str=
-error(-r));
-> > +        v->shadow_vqs_enabled =3D false;
-> > +        return;
-> > +    }
-> > +
-> > +    if (!vhost_vdpa_cvq_group_is_independent(v, cvq_group)) {
-> > +        v->shadow_vqs_enabled =3D false;
-> > +        return;
-> > +    }
-> > +
-> > +    r =3D vhost_vdpa_set_address_space_id(v, cvq_group.num,
-> > +                                        VHOST_VDPA_NET_CVQ_ASID);
-> > +    v->shadow_vqs_enabled =3D r =3D=3D 0;
-> > +    s->vhost_vdpa.address_space_id =3D r =3D=3D 0 ? 1 : 0;
->
->
-> I'd expect this to be done net_init_vhost_vdpa(). Or any advantage of
-> initializing thing here?
->
-
-We don't know the CVQ index at initialization time, since the guest is
-not even running so it has not acked the features. So we cannot know
-its VQ group, which is needed to call set_address_space_id.
-
-In my opinion, we shouldn't even cache "cvq has group id N", since the
-device could return a different group id between resets (for example,
-because the negotiation of different features).
-
->
-> > +}
-> > +
-> >   static void vhost_vdpa_cvq_unmap_buf(struct vhost_vdpa *v, void *addr=
-)
-> >   {
-> >       VhostIOVATree *tree =3D v->iova_tree;
-> > @@ -432,6 +540,7 @@ static NetClientInfo net_vhost_vdpa_info =3D {
-> >           .type =3D NET_CLIENT_DRIVER_VHOST_VDPA,
-> >           .size =3D sizeof(VhostVDPAState),
-> >           .receive =3D vhost_vdpa_receive,
-> > +        .prepare =3D vhost_vdpa_net_prepare,
-> >           .start =3D vhost_vdpa_net_start,
-> >           .cleanup =3D vhost_vdpa_cleanup,
-> >           .has_vnet_hdr =3D vhost_vdpa_has_vnet_hdr,
-> > @@ -542,12 +651,40 @@ static const VhostShadowVirtqueueOps vhost_vdpa_n=
-et_svq_ops =3D {
-> >       .avail_handler =3D vhost_vdpa_net_handle_ctrl_avail,
-> >   };
-> >
-> > +static bool vhost_vdpa_get_as_num(int vdpa_device_fd, unsigned *num_as=
-,
-> > +                                  Error **errp)
->
->
-> Let's simply return int as the #as here.
->
-
-If as is uint32_t, should we return int64_t and both leave negative
-values for errors and check that #as <=3D UINT32_MAX then?
-
-Thanks!
-
-> Thanks
->
->
-> > +{
-> > +    uint64_t features;
-> > +    int r;
-> > +
-> > +    r =3D ioctl(vdpa_device_fd, VHOST_GET_BACKEND_FEATURES, &features)=
-;
-> > +    if (unlikely(r < 0)) {
-> > +        error_setg_errno(errp, errno, "Cannot get backend features");
-> > +        return r;
-> > +    }
-> > +
-> > +    if (!(features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID))) {
-> > +        *num_as =3D 1;
-> > +        return 0;
-> > +    }
-> > +
-> > +    r =3D ioctl(vdpa_device_fd, VHOST_VDPA_GET_AS_NUM, num_as);
-> > +    if (unlikely(r < 0)) {
-> > +        error_setg_errno(errp, errno,
-> > +                         "Cannot retrieve number of supported ASs");
-> > +        return r;
-> > +    }
-> > +
-> > +    return 0;
-> > +}
-> > +
-> >   static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
-> >                                              const char *device,
-> >                                              const char *name,
-> >                                              int vdpa_device_fd,
-> >                                              int queue_pair_index,
-> >                                              int nvqs,
-> > +                                           unsigned nas,
-> >                                              bool is_datapath,
-> >                                              bool svq,
-> >                                              VhostIOVATree *iova_tree)
-> > @@ -566,6 +703,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
-tState *peer,
-> >       snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
-> >       s =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> >
-> > +    s->address_space_num =3D nas;
-> >       s->vhost_vdpa.device_fd =3D vdpa_device_fd;
-> >       s->vhost_vdpa.index =3D queue_pair_index;
-> >       s->always_svq =3D svq;
-> > @@ -651,6 +789,8 @@ int net_init_vhost_vdpa(const Netdev *netdev, const=
- char *name,
-> >       g_autoptr(VhostIOVATree) iova_tree =3D NULL;
-> >       NetClientState *nc;
-> >       int queue_pairs, r, i, has_cvq =3D 0;
-> > +    unsigned num_as =3D 1;
-> > +    bool svq_cvq;
-> >
-> >       assert(netdev->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >       opts =3D &netdev->u.vhost_vdpa;
-> > @@ -676,7 +816,17 @@ int net_init_vhost_vdpa(const Netdev *netdev, cons=
-t char *name,
-> >           return queue_pairs;
-> >       }
-> >
-> > -    if (opts->x_svq) {
-> > +    svq_cvq =3D opts->x_svq;
-> > +    if (has_cvq && !opts->x_svq) {
-> > +        r =3D vhost_vdpa_get_as_num(vdpa_device_fd, &num_as, errp);
-> > +        if (unlikely(r < 0)) {
-> > +            return r;
-> > +        }
-> > +
-> > +        svq_cvq =3D num_as > 1;
-> > +    }
-> > +
-> > +    if (opts->x_svq || svq_cvq) {
-> >           struct vhost_vdpa_iova_range iova_range;
-> >
-> >           uint64_t invalid_dev_features =3D
-> > @@ -699,15 +849,15 @@ int net_init_vhost_vdpa(const Netdev *netdev, con=
-st char *name,
-> >
-> >       for (i =3D 0; i < queue_pairs; i++) {
-> >           ncs[i] =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > -                                     vdpa_device_fd, i, 2, true, opts-=
->x_svq,
-> > -                                     iova_tree);
-> > +                                     vdpa_device_fd, i, 2, num_as, tru=
-e,
-> > +                                     opts->x_svq, iova_tree);
-> >           if (!ncs[i])
-> >               goto err;
-> >       }
-> >
-> >       if (has_cvq) {
-> >           nc =3D net_vhost_vdpa_init(peer, TYPE_VHOST_VDPA, name,
-> > -                                 vdpa_device_fd, i, 1, false,
-> > +                                 vdpa_device_fd, i, 1, num_as, false,
-> >                                    opts->x_svq, iova_tree);
-> >           if (!nc)
-> >               goto err;
->
+> 
+>> +        prepare_elf_section_hdr_zero(s);
+>> +    }
+>> +}
+>> +
+> [...]
 
 
