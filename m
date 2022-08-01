@@ -2,76 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7944586419
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:34:07 +0200 (CEST)
-Received: from localhost ([::1]:51352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E9295864D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:41:30 +0200 (CEST)
+Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIP0A-0000EG-IC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:34:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38494)
+	id 1oIP7J-0002DZ-3g
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oIOvc-0006mD-Hj
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:29:24 -0400
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:44993)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1oIOva-0000FU-Lw
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:29:24 -0400
-Received: by mail-vs1-xe2a.google.com with SMTP id s129so1840673vsb.11
- for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 23:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=NVHKy2okYpJDqY4BPMJIocF3tHykLBwYjec4nEP40Ts=;
- b=PATm8gdJ57csiDOrF89N0XCGRZFYsz6mGgRFmF89PiToHZdXGecr1q7tNORz+zYGlE
- 0MvA7lwlwmAB0LCG6FXK6Ff/naGJXXaCsnQfBUe8/EC4/bqlupYYjO4GC5lOLw0h97wQ
- nptRLPqNbzRLSFBZUh8yyKAyKNeFrVatp7t5OlmshVqjwNtwGIoGf7g/gBF2gw03Nuvz
- ZOu6vWV9uMuUt98hHySbVhU26/Fc+ar1i005hskVoEnUV531yqBkatkOaqsT1XlCOI2b
- 9bNCQk09pwRR62xGmMiXkGyTmgouJS+/zY+wcAQyqur2alFWbBMumfw6vQ0IZKNk4xdP
- /tDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=NVHKy2okYpJDqY4BPMJIocF3tHykLBwYjec4nEP40Ts=;
- b=UCd0W8S5axjHki0SuJodgtZoU48ZOB6CNHPiv/6Lyes0uEoCIiTvpT378ZuQVJ03AA
- FNLxFI0hzvfxJrRIAWeQQcbVahn5DlIBpVidnzkSwecDqDEczulz2RZJQwF7y+RxavHC
- bJohvk6qUGQcc+q6Gm1nnkdLo7VJE4qg7Ina9o4CXbhhjUs6mkVMDYl+Lxih5EKJfC0e
- fOekK5ThskxY8DBART56buMau/jvbN+x0kZAtL98YEdRgvy2MDn/brmh5mb5vAjephtD
- VGftVV2wjg6Z/+WOssFJDkKWezCFuIGn94d7XGnh3N+raitgbaFdKoh15KYIVKLvW7Jb
- 4K4g==
-X-Gm-Message-State: ACgBeo0SlH73FV6NbNNvdlQ5Db0SCOVyRmO7BAj8Vzq1m08vXjsRwgrh
- fyItp2AOMw9Nl6N7lq4kVXPOeQx1bbK/LYyQZPLldfbTCYg=
-X-Google-Smtp-Source: AA6agR4xxf4cAyz+mzpDZ4dz/PgM1deVgNeNsm40uwGo3WTsQYH2MHXVC4zYscCLemp8zljkrvCAbzL2qpQTBQ4mqoo=
-X-Received: by 2002:a05:6102:30a1:b0:386:4657:d6e1 with SMTP id
- y1-20020a05610230a100b003864657d6e1mr617764vsd.17.1659335359594; Sun, 31 Jul
- 2022 23:29:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1oIP22-0000V9-6F
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:36:02 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:48534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1oIP1z-0001BF-IU
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:36:01 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 8DFE33F54A
+ for <qemu-devel@nongnu.org>; Mon,  1 Aug 2022 06:35:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1659335753;
+ bh=FSMG8cl9sMz+fDTB/YsD4Eagp4Pz1KREbyFWb+l61x0=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=Wa27GDCTMQ6K0pzPhkEb2FT3CG1sFD7Z/Pk78aCGLpEsmLTH62+i8vj3ZNdXY8EJt
+ oA7n0XaJyl5iXGI7xFJuBHrtdwK+s9qoW3I8Ks5EHht5Yta9gKW6RQBDrbGOlhz4j0
+ 9zcPo7zbwTIJTLZ7y2fSZ9IFzFEWgTt6g3DJeQAJeLceEeVsL8NuiGS10egdMqR60/
+ yXf3PB54z7bk/2BkMylP/toD648M5d3Lu3ge6pwxqhcB0a/cRDpf4IhFSwa0PCkcYY
+ c8UpSbEpTretWcFLR8k6x0VA0tje+xjspkvAcvAByiMXfWLbC9onwhCQ9Wnk17tZA0
+ SxkogIHelJ61Q==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 631C42E82B2
+ for <qemu-devel@nongnu.org>; Mon,  1 Aug 2022 06:35:41 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Aug 2022 06:29:06 -0000
+From: Yonggang Luo <1180923@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anthony-codemonkey janitor luoyonggang
+ me-davidglover oubattler panie pmaydell stefanha th-huth
+X-Launchpad-Bug-Reporter: TC1988 (panie)
+X-Launchpad-Bug-Modifier: Yonggang Luo (luoyonggang)
 References: <20130516173422.20571.91890.malonedeb@gac.canonical.com>
  <165930116695.48062.10370149944063594891.malone@dale.canonical.com>
-In-Reply-To: <165930116695.48062.10370149944063594891.malone@dale.canonical.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Mon, 1 Aug 2022 14:29:06 +0800
-Message-ID: <CAE2XoE8NUw+6fEHA4EvpkSBoqSv_iTrHotMxD7SkQFFrF5+J3w@mail.gmail.com>
+Message-Id: <CAE2XoE8NUw+6fEHA4EvpkSBoqSv_iTrHotMxD7SkQFFrF5+J3w@mail.gmail.com>
 Subject: Re: [Bug 1180923] Re: unused memory filled with 0x00 instead of 0xFF
-To: Bug 1180923 <1180923@bugs.launchpad.net>
-Cc: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000ac044705e5281e94"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
- envelope-from=luoyonggang@gmail.com; helo=mail-vs1-xe2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="d8a8b6effe4eae83e8bb5babdb93ddb4ac4f09e0"; Instance="production"
+X-Launchpad-Hash: 3c7478fa4ed2c9578e29cfc199c0b3a78af51687
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,13 +85,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
+Reply-To: Bug 1180923 <1180923@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-
---000000000000ac044705e5281e94
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
 I create a issue at https://gitlab.com/qemu-project/qemu/-/issues/1133 to
 tracking this
@@ -131,57 +132,25 @@ Yours
     sincerely,
 Yonggang Luo
 
---000000000000ac044705e5281e94
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1180923
 
-<div dir=3D"ltr">I create a issue at=C2=A0<a href=3D"https://gitlab.com/qem=
-u-project/qemu/-/issues/1133">https://gitlab.com/qemu-project/qemu/-/issues=
-/1133</a> to tracking this</div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Mon, Aug 1, 2022 at 5:06 AM David Glover &lt;<=
-a href=3D"mailto:1180923@bugs.launchpad.net">1180923@bugs.launchpad.net</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">I kn=
-ow this is expired but it&#39;s still a problem in qemu 7.0.0. For<br>
-example, when running MS-DOS 6.22, &quot;mem&quot; reports 0K of upper memo=
-ry, and<br>
-memmaker fails to run, complaining that it could not allocate any. I&#39;d<=
-br>
-love to know if there&#39;s a workaround.<br>
-<br>
--- <br>
-You received this bug notification because you are a member of qemu-<br>
-devel-ml, which is subscribed to QEMU.<br>
-<a href=3D"https://bugs.launchpad.net/bugs/1180923" rel=3D"noreferrer" targ=
-et=3D"_blank">https://bugs.launchpad.net/bugs/1180923</a><br>
-<br>
-Title:<br>
-=C2=A0 unused memory filled with 0x00 instead of 0xFF<br>
-<br>
-Status in QEMU:<br>
-=C2=A0 Expired<br>
-<br>
-Bug description:<br>
-=C2=A0 Qemu, ever since it was made (so, since 2003), has this problem in D=
-OS<br>
-=C2=A0 (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the<=
-br>
-=C2=A0 memory available when the memory is filled with 0x00 but when it is<=
-br>
-=C2=A0 filled with 0xFF it gets recognized properly, where should I patch<b=
-r>
-=C2=A0 qemu to solve this memory problem?<br>
-<br>
-To manage notifications about this bug go to:<br>
-<a href=3D"https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions" rel=
-=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/1180=
-923/+subscriptions</a><br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
-=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
-=A0 sincerely,<br>Yonggang Luo<br></div>
+Title:
+  unused memory filled with 0x00 instead of 0xFF
 
---000000000000ac044705e5281e94--
+Status in QEMU:
+  Expired
+
+Bug description:
+  Qemu, ever since it was made (so, since 2003), has this problem in DOS
+  (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the
+  memory available when the memory is filled with 0x00 but when it is
+  filled with 0xFF it gets recognized properly, where should I patch
+  qemu to solve this memory problem?
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions
+
 
