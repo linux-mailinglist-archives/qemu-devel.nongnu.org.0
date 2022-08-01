@@ -2,80 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5B258655E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:48:50 +0200 (CEST)
-Received: from localhost ([::1]:57326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9995058656B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 08:53:45 +0200 (CEST)
+Received: from localhost ([::1]:59704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIPEP-00053d-Ch
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39776)
+	id 1oIPJA-0006sf-Mm
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 02:53:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1oIP7N-0002Hv-10
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:41:35 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:49838)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oIP8l-0002yK-CE
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:42:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1oIP7L-0001jb-Cc
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:41:32 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 837373F57A
- for <qemu-devel@nongnu.org>; Mon,  1 Aug 2022 06:41:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1659336081;
- bh=uXQFwFr+SoK9qS7YTLjF4KN8cXusX8mTuiUmuT4KY4k=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=lyQTlLNoOkSzlRAZf2J3Tv3Nw4qrqlRRTmcjDVdXgxmtGVXDCA5IYzZq95vKrdWUC
- UFa4HmK3gCyI0mxOqouItG28U0oeVTvZSVwGuKgxDAJOYw601LB65gnWHY+bDOiJAV
- W4wQcXAApEivntsw10Rj2Ucv6QzznKnq9C4IA6BPHPBIn1hN8sl9O5HDNTZOkWzilv
- 6XI4Nu69XVllSpVq//awTbYyh5VUYKTh0tnDEde+xI6FcGtZ+ERECQ4fHux7u82bQm
- HG5rF3sANy2kOwbIT3s7BKJT949PIEDeQYgqZuOKLAaXeDeyCYbmnDmb/xPEyK7hD/
- rmUZnBx1N4N5g==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D982C2E8309
- for <qemu-devel@nongnu.org>; Mon,  1 Aug 2022 06:41:07 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1oIP8h-0001xU-JU
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 02:42:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659336173;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=o/dsJc9e4UVbw/Ht/jZrEmxfNLPNq23N8K9IOnpoCFc=;
+ b=Du913PwnjSmVB/MWWPCmWKKGfPBCVrH2VA4Ff+kyVHiMhjjeuIFx8tmnJAqQsAjAiWDolV
+ oLFBP/sk8lQavsSqfFReIi089T+7dIxew3y5NKSUlsB2SMkDXadkBYES1hxcJFHpvmpLq7
+ +Vs73t/lxw4M7zAyvOOzdmrsQeyKFR4=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-591-08nrWi1sP9-iC8Kd7NCXwQ-1; Mon, 01 Aug 2022 02:42:52 -0400
+X-MC-Unique: 08nrWi1sP9-iC8Kd7NCXwQ-1
+Received: by mail-qk1-f197.google.com with SMTP id
+ ay35-20020a05620a17a300b006b5d9646d31so8530978qkb.6
+ for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 23:42:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o/dsJc9e4UVbw/Ht/jZrEmxfNLPNq23N8K9IOnpoCFc=;
+ b=33+J85JiJjG+fBN0SlmqleuPEiU5gJ20F7x8yTW5mJyPEybuhBfPgt6jGbUXpOX/Pd
+ Xn0TLtgeW84Mo05JwDkxfXXMc1eKo7UGqMnQFgZGVVTLSFuWj5aQIyVXj5Ke+KBS8Tel
+ 1L8YK6s+ORG9DEtsvb0yvro7Sk2iS54AR8jT3c24TNuO+jTrga06MxvyslwWjPBaWEO3
+ wwBWFUuWxNuLZXoncDvhq5IG3P36gQCzSPzvvSEl/m7DLHnhJnCk+hTLM/qzB3WCNEIS
+ CwTU09b0Dn+mSokQA5FYj6L2u7ntW+u3ssSW0tHDP4bFE0dec/H3kwF7Q8H2X+fdsk5A
+ PPbQ==
+X-Gm-Message-State: ACgBeo117l/+cNist+Q1KP1Vlnu1iCV6xGPNmZQNySAsjDHiLU+IAR7Q
+ JSEJYaKcfGnjPuhEPDWTe80XZcTO08UwwsL20T6oSu7atgAeT9f2BAt++YUXnF5E9Ga1K/2kSSL
+ 9n+/sBPnwaxLFNSZtylgfREZq2rWnYiQ=
+X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
+ kk5-20020a056214508500b00472e878866amr12947198qvb.2.1659336171666; 
+ Sun, 31 Jul 2022 23:42:51 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR4KtiwRM14qIbJC2DTaOBjheszrNrUpw+Mh3usm2tyvsP+h7cGBaWdROTuyVyVGzJG5iEMY5A++X3FuAGfIC/w=
+X-Received: by 2002:a05:6214:5085:b0:472:e878:866a with SMTP id
+ kk5-20020a056214508500b00472e878866amr12947183qvb.2.1659336171491; Sun, 31
+ Jul 2022 23:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20220722111245.3403062-1-eperezma@redhat.com>
+ <20220722111245.3403062-4-eperezma@redhat.com>
+ <8e0e690d-d6af-db2f-5150-480a5d5d6793@redhat.com>
+In-Reply-To: <8e0e690d-d6af-db2f-5150-480a5d5d6793@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 1 Aug 2022 08:42:15 +0200
+Message-ID: <CAJaqyWdG4HwfYu8U7oUSmGHVXWaLYES-fTvVRv_+dsYLMLtUiA@mail.gmail.com>
+Subject: Re: [PATCH v4 3/7] vdpa: Make vhost_vdpa_net_cvq_map_elem accept any
+ out sg
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-level <qemu-devel@nongnu.org>, Parav Pandit <parav@mellanox.com>, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Harpreet Singh Anand <hanand@xilinx.com>, Gautam Dawar <gdawar@xilinx.com>,
+ Eli Cohen <eli@mellanox.com>, 
+ Eric Blake <eblake@redhat.com>, "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ Cornelia Huck <cohuck@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Aug 2022 06:30:37 -0000
-From: Yonggang Luo <1180923@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anthony-codemonkey janitor luoyonggang
- me-davidglover oubattler panie pmaydell stefanha th-huth
-X-Launchpad-Bug-Reporter: TC1988 (panie)
-X-Launchpad-Bug-Modifier: Yonggang Luo (luoyonggang)
-References: <20130516173422.20571.91890.malonedeb@gac.canonical.com>
-Message-Id: <165933543748.9334.13063457647486080218.launchpad@loganberry.canonical.com>
-Subject: [Bug 1180923] Re: unused memory filled with 0x00 instead of 0xFF
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="d8a8b6effe4eae83e8bb5babdb93ddb4ac4f09e0"; Instance="production"
-X-Launchpad-Hash: faf4fdfe541ebb7f7c5e48768d8b1ab6b6232f35
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,32 +101,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1180923 <1180923@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #1133
-   https://gitlab.com/qemu-project/qemu/-/issues/1133
+On Mon, Jul 25, 2022 at 10:48 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2022/7/22 19:12, Eugenio P=C3=A9rez =E5=86=99=E9=81=93:
+> > So its generic enough to accept any out sg buffer and we can inject
+> > NIC state messages.
+> >
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   net/vhost-vdpa.c | 29 +++++++++++++++--------------
+> >   1 file changed, 15 insertions(+), 14 deletions(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 1b82ac2e07..bbe1830824 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -302,35 +302,36 @@ dma_map_err:
+> >   }
+> >
+> >   /**
+> > - * Copy the guest element into a dedicated buffer suitable to be sent =
+to NIC
+> > + * Maps out sg and in buffer into dedicated buffers suitable to be sen=
+t to NIC
+> >    *
+> > - * @iov: [0] is the out buffer, [1] is the in one
+> > + * @dev_iov: [0] is the out buffer, [1] is the in one
+>
+>
+> This still has assumption on the layout. I wonder if it's better to
+> simply use in_sg and out_sg.
+>
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1180923
+Sure, I can resend that way.
 
-Title:
-  unused memory filled with 0x00 instead of 0xFF
+It complicates the code a little bit because of error paths. We
+currently send one out sg and one in sg always. But we can make it
+more generic for sure.
 
-Status in QEMU:
-  Expired
+Thanks!
 
-Bug description:
-  Qemu, ever since it was made (so, since 2003), has this problem in DOS
-  (either PC-DOS or MS-DOS and partly Windows 9x) not recognizing the
-  memory available when the memory is filled with 0x00 but when it is
-  filled with 0xFF it gets recognized properly, where should I patch
-  qemu to solve this memory problem?
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1180923/+subscriptions
+> Thanks
+>
+>
+> >    */
+> > -static bool vhost_vdpa_net_cvq_map_elem(VhostVDPAState *s,
+> > -                                        VirtQueueElement *elem,
+> > -                                        struct iovec *iov)
+> > +static bool vhost_vdpa_net_cvq_map_sg(VhostVDPAState *s,
+> > +                                      const struct iovec *out, size_t =
+out_num,
+> > +                                      struct iovec *dev_iov)
+> >   {
+> >       size_t in_copied;
+> >       bool ok;
+> >
+> > -    iov[0].iov_base =3D s->cvq_cmd_out_buffer;
+> > -    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, elem->out_sg, elem->=
+out_num,
+> > -                                vhost_vdpa_net_cvq_cmd_len(), iov[0].i=
+ov_base,
+> > -                                &iov[0].iov_len, false);
+> > +    dev_iov[0].iov_base =3D s->cvq_cmd_out_buffer;
+> > +    ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, out, out_num,
+> > +                                vhost_vdpa_net_cvq_cmd_len(),
+> > +                                dev_iov[0].iov_base, &dev_iov[0].iov_l=
+en,
+> > +                                false);
+> >       if (unlikely(!ok)) {
+> >           return false;
+> >       }
+> >
+> > -    iov[1].iov_base =3D s->cvq_cmd_in_buffer;
+> > +    dev_iov[1].iov_base =3D s->cvq_cmd_in_buffer;
+> >       ok =3D vhost_vdpa_cvq_map_buf(&s->vhost_vdpa, NULL, 0,
+> > -                                sizeof(virtio_net_ctrl_ack), iov[1].io=
+v_base,
+> > -                                &in_copied, true);
+> > +                                sizeof(virtio_net_ctrl_ack),
+> > +                                dev_iov[1].iov_base, &in_copied, true)=
+;
+> >       if (unlikely(!ok)) {
+> >           vhost_vdpa_cvq_unmap_buf(&s->vhost_vdpa, s->cvq_cmd_out_buffe=
+r);
+> >           return false;
+> >       }
+> >
+> > -    iov[1].iov_len =3D sizeof(virtio_net_ctrl_ack);
+> > +    dev_iov[1].iov_len =3D sizeof(virtio_net_ctrl_ack);
+> >       return true;
+> >   }
+> >
+> > @@ -434,7 +435,7 @@ static int vhost_vdpa_net_handle_ctrl_avail(VhostSh=
+adowVirtqueue *svq,
+> >       };
+> >       bool ok;
+> >
+> > -    ok =3D vhost_vdpa_net_cvq_map_elem(s, elem, dev_buffers);
+> > +    ok =3D vhost_vdpa_net_cvq_map_sg(s, elem->out_sg, elem->out_num, d=
+ev_buffers);
+> >       if (unlikely(!ok)) {
+> >           goto out;
+> >       }
+>
 
 
