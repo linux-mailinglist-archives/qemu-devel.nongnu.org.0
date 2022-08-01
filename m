@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AB69586317
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 05:30:58 +0200 (CEST)
-Received: from localhost ([::1]:41824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6749586349
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 06:20:52 +0200 (CEST)
+Received: from localhost ([::1]:60392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIM8u-0004Kp-O1
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jul 2022 23:30:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
+	id 1oIMvC-0002vq-8Z
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 00:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oIM76-0002OJ-Gc
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 23:29:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:40073)
+ id 1oIMsa-0000d9-3S
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 00:18:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1oIM72-0007oi-Pt
- for qemu-devel@nongnu.org; Sun, 31 Jul 2022 23:29:02 -0400
+ id 1oIMsV-0006uM-M9
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 00:18:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659324539;
+ s=mimecast20190719; t=1659327482;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=stUZJZt+04i0BNsId39KwgbL/T+mzkb3f/zlf/9c1DM=;
- b=ha8vGbHBUZlvdasW6HvsMoHEe/fz1ZTaxTQSNJpxirQ8kCgCfW7+P7/+0H67zQFMArLIwL
- ZU5jpE5hVqB8VPk86BUVFYqWWeOzO6cdNOr5WI7LEng78t+DBkTTeEm0+gGE279L3wlB1Q
- aLxL1UlvO6r9EGS+l/zY7F0WYlu73Fk=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=vjMy2mOvARO0F1kY8C2t2VH2Sk62mnMoUaeyZ4QHgOI=;
+ b=JPzvAMdyzbKtMbxkiPIoaHJE7zz8g9BoITa8Yloh6/Jl3r0hvQ021slR1FEGOe3pe4IEco
+ sWI4fYEbs9c+24fe2G5wcArpmBZUxbbiWzjCTpcdqDoLwDV6LJDkpyqMVB8dy+vmLycPTA
+ Egh9p+UwCBmO9/EC86meXGAtR3Ta7CU=
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
+ [209.85.216.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-365-c9MAa02UOxq6RrgKUBWUmA-1; Sun, 31 Jul 2022 23:28:57 -0400
-X-MC-Unique: c9MAa02UOxq6RrgKUBWUmA-1
-Received: by mail-pj1-f72.google.com with SMTP id
- ng1-20020a17090b1a8100b001f4f9f69d48so1295621pjb.4
- for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 20:28:57 -0700 (PDT)
+ us-mta-86-ssUAK8LnNFO0hKSaYbIXEg-1; Mon, 01 Aug 2022 00:18:00 -0400
+X-MC-Unique: ssUAK8LnNFO0hKSaYbIXEg-1
+Received: by mail-pj1-f69.google.com with SMTP id
+ i16-20020a17090adc1000b001f4e121847eso1399332pjv.3
+ for <qemu-devel@nongnu.org>; Sun, 31 Jul 2022 21:18:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=stUZJZt+04i0BNsId39KwgbL/T+mzkb3f/zlf/9c1DM=;
- b=LjWZujbIhfbV8gC8C9+7I2p2Ejd4qQftCqqbVIyEzdpa4l0ajViwznyBlQy6M6i6wf
- xvQdI0Y/GdRA/I/AdnUrkfyRP+cKJsw4XwbJs+TsqyDn477SfTfl6Z+EWtnm+S6ytwzr
- 7xF0PRHGKNSW5tFU5iU5UbqFo5HMHXHSHf6/tSALFvbVmApsirFiEZUY4thrCRHjnM+s
- qaexJ05qoq9PZtavjqkJDAjMxLsGA/Z9HHG1AG6bNgM3Bwd5EZCTkrxcIpnymGd2HEiz
- WA6o9BXvaLCc+YzS3CgKEeLbftKLdlyp6N6J90bkU9J4F0ZSRw5U2YNFBCh2LVBOlIa5
- IxBQ==
-X-Gm-Message-State: ACgBeo2FGLy35DsK1gcUsl6TR/DveSP796V+1ExLP5+UeDZ/8XerFKqa
- eFnc1V7boPRaiMhWYF3Tey8LH4Q3sX6xBSZZdv0+DtVdAI/vIKtY0Ge7nANVXAkKGglVENFCLpp
- 7cIBGZJvEDpvdhYQ=
-X-Received: by 2002:a17:903:2452:b0:16e:d0b6:6507 with SMTP id
- l18-20020a170903245200b0016ed0b66507mr8280360pls.68.1659324536637; 
- Sun, 31 Jul 2022 20:28:56 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7Uw/v5X2DQugz8Z0RgDqqg8lLRp4IX2At8zZqLRVbDtcrOSKTxv3ToNpgR8lZEJ3NS3pMDvw==
-X-Received: by 2002:a17:903:2452:b0:16e:d0b6:6507 with SMTP id
- l18-20020a170903245200b0016ed0b66507mr8280346pls.68.1659324536256; 
- Sun, 31 Jul 2022 20:28:56 -0700 (PDT)
+ bh=vjMy2mOvARO0F1kY8C2t2VH2Sk62mnMoUaeyZ4QHgOI=;
+ b=6iKWRPulJl9bhzTovp/7Ek1B6AmYYb0V5y/kAEAdJ6yasyxzRr4w6PDT+9CQXWrgKi
+ B+qvNjxWGQw5ZhS5RyC5kjl3ryMUiO4t22Tb5zyZL6vNT545+gbtZHiOq6gX/kCgpEh4
+ qy+uGeXRmQJ+cFrJMkUzhKHrQbfzDSpx9X1XK7rG2Ay/pdFBFXptXQ8femMubtlFEoAi
+ SnLRYCiLvh1SccmZqLmthpq1TUK/qTZ40bTD6m8lQSl2PQcEgaCFu3G/IX++yFRdsgMd
+ z5FLlSVaswODnwYrsqdSwbcObP/haDe/mIbBlRD+MmzgKruWbsUFCQ2Da3FaZD1Au/0J
+ XA8g==
+X-Gm-Message-State: ACgBeo09O1ITIsj+wHIAcw6oVHXLpheBaToTNmZUq39NK7wbUtAyqyJp
+ 8XD8cO+i9icqrVYd88V4p5x9E2KAT5D8u8cm6ILn86rHR6fW7UBcaptcZyNd7Ez7e3Ezl/dcfqQ
+ K5a3uDtQ7Q8HwYzI=
+X-Received: by 2002:a17:902:70c4:b0:16c:5306:9172 with SMTP id
+ l4-20020a17090270c400b0016c53069172mr14812704plt.171.1659327479610; 
+ Sun, 31 Jul 2022 21:17:59 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7igzqaPQysjJLbtO3C0Dn+qowtsCFh91HkYkNVCDtQ9fdlaZnSbjl0udt3DTa0fhBdbS85hg==
+X-Received: by 2002:a17:902:70c4:b0:16c:5306:9172 with SMTP id
+ l4-20020a17090270c400b0016c53069172mr14812690plt.171.1659327479312; 
+ Sun, 31 Jul 2022 21:17:59 -0700 (PDT)
 Received: from [10.72.13.139] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- d188-20020a6236c5000000b0052c7ff2ac74sm7429920pfa.17.2022.07.31.20.28.49
+ 130-20020a621488000000b0052d0aa54a88sm4107020pfu.181.2022.07.31.21.17.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jul 2022 20:28:54 -0700 (PDT)
-Message-ID: <55e82876-fb77-fa6e-2a28-f53efce47efd@redhat.com>
-Date: Mon, 1 Aug 2022 11:28:46 +0800
+ Sun, 31 Jul 2022 21:17:54 -0700 (PDT)
+Message-ID: <eaf256c7-5a3c-d850-be08-b2b18fc3f1c3@redhat.com>
+Date: Mon, 1 Aug 2022 12:17:48 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
  Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PULL V2 19/25] vdpa: Extract get features part from
- vhost_vdpa_get_max_queue_pairs
+Subject: Re: [PULL V2 25/25] net/colo.c: fix segmentation fault when packet is
+ not parsed correctly
 Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Eugenio_P=c3=a9rez?=
- <eperezma@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+To: Zhang Chen <chen.zhang@intel.com>, Tao Xu <tao3.xu@intel.com>
+Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@fujitsu.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20220720090313.55169-1-jasowang@redhat.com>
- <20220720090313.55169-20-jasowang@redhat.com>
- <CAFEAcA8UZcOLTpLUutMFeaugZwm2vAKTGZgLkcHAG3B2BHYtUA@mail.gmail.com>
+ <20220720090313.55169-26-jasowang@redhat.com>
+ <CAFEAcA-LPM4LmfcM3kiHk9LWCrYRpB1izfxPijHvBrmLOfFJgQ@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAFEAcA8UZcOLTpLUutMFeaugZwm2vAKTGZgLkcHAG3B2BHYtUA@mail.gmail.com>
+In-Reply-To: <CAFEAcA-LPM4LmfcM3kiHk9LWCrYRpB1izfxPijHvBrmLOfFJgQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,99 +107,89 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-在 2022/7/29 22:08, Peter Maydell 写道:
+在 2022/7/29 21:58, Peter Maydell 写道:
 > On Wed, 20 Jul 2022 at 10:04, Jason Wang <jasowang@redhat.com> wrote:
->> From: Eugenio Pérez <eperezma@redhat.com>
+>> From: Zhang Chen <chen.zhang@intel.com>
 >>
->> To know the device features is needed for CVQ SVQ, so SVQ knows if it
->> can handle all commands or not. Extract from
->> vhost_vdpa_get_max_queue_pairs so we can reuse it.
+>> When COLO use only one vnet_hdr_support parameter between
+>> filter-redirector and filter-mirror(or colo-compare), COLO will crash
+>> with segmentation fault. Back track as follow:
 >>
->> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->> Acked-by: Jason Wang <jasowang@redhat.com>
->> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>> Thread 1 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
+>> 0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
+>>      at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
+>> 296         uint16_t proto = be16_to_cpu(PKT_GET_ETH_HDR(p)->h_proto);
+>> (gdb) bt
+>> 0  0x0000555555cb200b in eth_get_l2_hdr_length (p=0x0)
+>>      at /home/tao/project/COLO/colo-qemu/include/net/eth.h:296
+>> 1  0x0000555555cb22b4 in parse_packet_early (pkt=0x555556a44840) at
+>> net/colo.c:49
+>> 2  0x0000555555cb2b91 in is_tcp_packet (pkt=0x555556a44840) at
+>> net/filter-rewriter.c:63
+>>
+>> So wrong vnet_hdr_len will cause pkt->data become NULL. Add check to
+>> raise error and add trace-events to track vnet_hdr_len.
+>>
+>> Signed-off-by: Tao Xu <tao3.xu@intel.com>
+>> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+>> Reviewed-by: Li Zhijian <lizhijian@fujitsu.com>
 >> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> Hi; this change introduces a resource leak in the new
-> error-exit return path in net_init_vhost_vdpa(). Spotted
-> by Coverity, CID 1490785.
+> Hi -- Coverity points out that there's a problem with this fix
+> (CID 1490786):
 >
->> @@ -517,10 +521,11 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>                           NetClientState *peer, Error **errp)
->>   {
->>       const NetdevVhostVDPAOptions *opts;
->> +    uint64_t features;
->>       int vdpa_device_fd;
->>       g_autofree NetClientState **ncs = NULL;
->>       NetClientState *nc;
->> -    int queue_pairs, i, has_cvq = 0;
->> +    int queue_pairs, r, i, has_cvq = 0;
->>
->>       assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
->>       opts = &netdev->u.vhost_vdpa;
->> @@ -534,7 +539,12 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
->>           return -errno;
->>       }
->>
->> -    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd,
->> +    r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
->> +    if (unlikely(r < 0)) {
->> +        return r;
-> At this point in the code we have allocated the file descriptor
-> vdpa_device_fd, but this return path fails to close it.
+>> @@ -46,7 +46,14 @@ int parse_packet_early(Packet *pkt)
+>>       static const uint8_t vlan[] = {0x81, 0x00};
+>>       uint8_t *data = pkt->data + pkt->vnet_hdr_len;
+> data here is set to pkt->data + pkt->vnet_hdr_len.
+> If pkt->data is NULL then this addition is C undefined behaviour,
+> and if pkt->data is not NULL but the integer added is such
+> that the pointer ends up not pointing within data, then that
+> is also C undefined behaviour...
 
 
-Exactly.
+Right. And I don't see how pkt->data can be NULL, maybe a hint of bug 
+elsewhere.
 
 
 >
->> +    }
+>>       uint16_t l3_proto;
+>> -    ssize_t l2hdr_len = eth_get_l2_hdr_length(data);
+>> +    ssize_t l2hdr_len;
 >> +
->> +    queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
->>                                                    &has_cvq, errp);
->>       if (queue_pairs < 0) {
->>           qemu_close(vdpa_device_fd);
-> Compare this pre-existing error-exit path, which correctly
-> calls qemu_close() on the fd.
+>> +    if (data == NULL) {
+> ...so the compiler is allowed to assume that data cannot be NULL
+> here, and this entire error checking clause is logically dead code.
 >
-> Related question: is this function supposed to return -1 on
-> failure, or negative-errno ?
+> If you're trying to check whether vnet_hdr_len is valid, you
+> need to do that as an integer arithmetic check before you start
+> using it for pointer arithmetic. And you probably want to be
+> checking against some kind of bound, not just for whether the
+> result is going to be NULL.
 
 
-Kind of either:
-
-   if (net_client_init_fun[netdev->type](netdev, netdev->id, peer, errp) 
-< 0) {
-         /* FIXME drop when all init functions store an Error */
-         if (errp && !*errp) {
-             error_setg(errp, "Device '%s' could not be initialized",
-                        NetClientDriver_str(netdev->type));
-         }
-         return -1;
-     }
+Or we can let the caller to validate the Pkt before calling this function.
 
 
->   At the moment it has a mix
-> of both. I think that the sole caller only really wants "<0 on
-> error", in which case the error-exit code paths could probably
-> be tidied up so that instead of explicitly calling
-> qemu_close() and returning r, queue_pairs, or whatever
-> they got back from the function they just called, they
-> could just 'goto err_svq' which will do the "close the fd
-> and return -1" work. Better still, by initializing 'i'
-> to 0 at the top of the function (and naming it something
-> clearer, ideally), all the code paths after the initial
-> qemu_open() succeeds could be made to use 'goto err'
-> for the error-exit case.
+>
+> Overall this looks kinda sketchy and could probably use more
+> detailed code review. Where does the bogus vnet_hdr_len come from in
+> the first place? Is this data from the guest, or from the network
+> (ie uncontrolled)?
 
 
-Yes, having a consistent goto based error handling seems much better.
+If I understand correctly the vnet_hdr_len is set during handshake 
+(net_fill_rstate()) which is sent from a network backend.
 
-Eugenio, please post patch to fix this.
+Chen or Xu, please post a fix and explain what happens in the changelog.
 
 Thanks
 
 
 >
+>> +        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
+>> +                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+>> +        return 1;
+>> +    }
 > thanks
 > -- PMM
 >
