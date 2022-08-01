@@ -2,55 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A52586F12
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:57:10 +0200 (CEST)
-Received: from localhost ([::1]:55308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F946586F20
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 19:00:34 +0200 (CEST)
+Received: from localhost ([::1]:59944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIYj7-0001pL-Cs
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:57:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47340)
+	id 1oIYmP-00054Q-38
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 13:00:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIYJ7-0004ft-Fk; Mon, 01 Aug 2022 12:30:17 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:53877)
+ (Exim 4.90_1) (envelope-from <Gregg.Allison@lasp.colorado.edu>)
+ id 1oIYUr-0005Pz-Uw; Mon, 01 Aug 2022 12:42:28 -0400
+Received: from mail-dm6nam11on2051.outbound.protection.outlook.com
+ ([40.107.223.51]:55360 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIYJ5-0006tr-Jj; Mon, 01 Aug 2022 12:30:17 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LxNrh0B1fz4xG4;
- Tue,  2 Aug 2022 02:30:12 +1000 (AEST)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LxNrc3zlWz4x1N;
- Tue,  2 Aug 2022 02:30:08 +1000 (AEST)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Peter Delevoryas <peter@pjd.dev>
-Subject: [PULL 2/2] aspeed/fby35: Fix owner of the BMC RAM memory region
-Date: Mon,  1 Aug 2022 18:29:48 +0200
-Message-Id: <20220801162948.1920497-3-clg@kaod.org>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220801162948.1920497-1-clg@kaod.org>
-References: <20220801162948.1920497-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <Gregg.Allison@lasp.colorado.edu>)
+ id 1oIYUo-0008WV-UN; Mon, 01 Aug 2022 12:42:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NNwKeFqcPhk+eFz5Y7Tk/9gCJzX3fn/d9PasXi5p6oDQQ1pl+7VMPGzG/Qj53ShlkkouK/Icwr+XyZKCDTatmcVdITd5Fto/avB8T6Hv4ZdCNMnFP34p2QFkSnFzLmbPqn3KB79Uf5ShvRK+cbw8JIVblXVH5hvMfqs9Tpmwr1QLU1gY/sX/WEAMET8Ruy3Ff8PVCUtvf4U4IdJZY9FtQU6LR1sS8y3jMn0I/cjw3ghmUL3n5FvSK5BP31tnFROmKN7v2sJTN24Vu56V1tv68KpkA4n0QpeFQ4eLq9UadwziitBao8nyLrSQre+IMBoK7oCokLaS4/8BkwTsWC13nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WRBLdbbMytpttPVf94v2yFhFYj4y3y3wCzIdOuXMEGM=;
+ b=O+tzLwEayww0jtMK+qHQ3rba0IkTV3LlneDBeS9PelCxlWcR5vbDAO7Gmpds1UX0dE5Q6MjcujRJ2DB0EFV9SO4vdl1jOTmnbQIXjvhPx0Nzyv4GmAxmxdk6k8nsTVfd6wi2TXJFJ8l2sB55DCa06eQYtoOIG6VtIIR5rwu3NaID8d39f8uD/6+E9iYDzeYhFT6HRYjqf1S0s3lRkyng1tUr/7G09B+moO78OVUS6D0IQVs4MUmtADWCz+eIbrXu+febsHvICwK8aFXS862NscefoVlRyDsEpXy62iDQbdoC8ZfY6V561FymouIb+w3K1G9Y1OvfoceB2J6vCIHCbA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lasp.colorado.edu; dmarc=pass action=none
+ header.from=lasp.colorado.edu; dkim=pass header.d=lasp.colorado.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=laspcolorado.onmicrosoft.com; s=selector1-laspcolorado-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WRBLdbbMytpttPVf94v2yFhFYj4y3y3wCzIdOuXMEGM=;
+ b=nF0AkoawlSxDpjEZXX1sm9P1DWH6zbfBrAup8y9uRbQ9nW105WskHwWtoDVD+DT1pZpnUtW714+Jj+O3FrokZHO+VCePTGgyZ/WvRMpv/WTg6XrLEoMOI6yiyZqQYHA6h3vIotGa7OjvWETmdgUcHYe2AAN+gXVNLyyH1VoAIio=
+Received: from CY1PR03MB2137.namprd03.prod.outlook.com
+ (2a01:111:e400:c616::18) by SJ0PR03MB6780.namprd03.prod.outlook.com
+ (2603:10b6:a03:40f::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Mon, 1 Aug
+ 2022 16:42:14 +0000
+Received: from CY1PR03MB2137.namprd03.prod.outlook.com
+ ([fe80::58ba:792f:ef8f:84a0]) by CY1PR03MB2137.namprd03.prod.outlook.com
+ ([fe80::58ba:792f:ef8f:84a0%4]) with mapi id 15.20.5482.016; Mon, 1 Aug 2022
+ 16:42:14 +0000
+From: Gregg Allison <Gregg.Allison@lasp.colorado.edu>
+To: Fabien Chouteau <chouteau@adacore.com>, Frederic Konrad
+ <konrad.frederic@yahoo.fr>
+CC: Peter Maydell <peter.maydell@linaro.org>, "qemu-discuss@nongnu.org"
+ <qemu-discuss@nongnu.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Gregg Allison <Gregg.Allison@lasp.colorado.edu>
+Subject: RE: Support for Gaisler multicore LEONx SoCs
+Thread-Topic: Support for Gaisler multicore LEONx SoCs
+Thread-Index: AdiSLN9FTMiS5FQaTAG/rFjEoaVVLgAE2WwAAByHqAACZLGfAAJgC0vA
+Date: Mon, 1 Aug 2022 16:42:14 +0000
+Message-ID: <CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9@CY1PR03MB2137.namprd03.prod.outlook.com>
+References: <CY1PR03MB213764AFCA6F51DC5558C1AEB3839@CY1PR03MB2137.namprd03.prod.outlook.com>
+ <CAFEAcA8s1MTvtSuX-xjqoxbz_c7_f-V97Ra6Qzy1QdMpfXTLAA@mail.gmail.com>
+ <1000569943.5927253.1657274788950@mail.yahoo.com>
+ <CALQG_Whc5dNp1yVM5H+8grKawsPfbdzU33ExnjddSEa6n=XpYQ@mail.gmail.com>
+In-Reply-To: <CALQG_Whc5dNp1yVM5H+8grKawsPfbdzU33ExnjddSEa6n=XpYQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=lasp.colorado.edu;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 73420b1c-4a5e-47d3-33b5-08da73dcca0d
+x-ms-traffictypediagnostic: SJ0PR03MB6780:EE_
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: f99zy9XdPeoPwr/L0PWu18H3LOarceXUC0ir1TpSGOvzDzEC5zehyOiIqiIvxV0AM4czDe5CKpyUQr6WmtCW88NjeU76o1hLoFP0X+rJwiEki2bSjpuiG0ezoRd30PyoSbzYfT5nPdNLtvgbMnpI6lN4vU/qqD5WzTtIww7aJTOOBhBz5KPTZuqr0RK7EWJONsmg4mnL1+7bucxQFofNde3oW8tpzWPf6jZX3xqzsLJsmI2fE1aGxZUYmaySJsm8f28IIO0n+PGcyLRlPqqb2d7GQ8SN94da7uNJfpQq0ig90lju2o0JNhrSlSMn1nrIqHMbPKUqLfqIDOzBGwe52+dqe4bP4d2I0XvzEJYu7HxUAhw61pFp55NxU4+tiGXH+64SweuTT+KJNUOFFOThgFXNwBJ3Mt3NoInHKhbUxKDwyBC1bNVfl9BLYhCERoL2Ov79/s36VmRvhTE2E3Dcs7D8rZEcqIvLOeQ90YlbikjRiRyPMnu1FSUABbzz81lv6phpZ9gHJFzmTs8TqmqZsznhm5xTeyFGRXY+NGMZzOMZs274aLmO/4q8Hu5K0Mi4tAMj81brwUWLdg4FIXM5V0t7zBi/LYzUoxQgTY+5/NrxEBVL6YiLm3Ig3VX52tWwxlS8zGxDkcSASabK73uULvv3IErl7lUtH0/iS0cx8YTR8DK+bYSjJnLey/mETUtInx/JHurjmbmLyNbAG5PM+VPool6WEjc0gc3bG371Irpb+m+nGeTHt4MlfAKodtT3T3eEN5L+JSa6qBj7bwRvBuekgYF8kd8yhpsYGfW04OUmapEmcDt+hes2dObg5tB9
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CY1PR03MB2137.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230016)(6029001)(4636009)(376002)(366004)(346002)(396003)(136003)(39850400004)(4326008)(4744005)(8676002)(64756008)(66446008)(66476007)(41320700001)(76116006)(38100700002)(66556008)(52536014)(8936002)(5660300002)(186003)(38070700005)(107886003)(71200400001)(478600001)(75432002)(55016003)(86362001)(7696005)(33656002)(110136005)(41300700001)(122000001)(66946007)(54906003)(6506007)(53546011)(316002)(9686003)(2906002)(786003)(26005);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?cUJ2ci8vNWYzUDNpckpjRStKRUtqTlhOL3NvRmlyOFQ0VUVKZ3BkeDFVRW1C?=
+ =?utf-8?B?THQ1ZFR6WmQ0bXFlOGVySlE1Q054OHdSMExUVm1nWXE3TzhjUEx1Vm95R2lH?=
+ =?utf-8?B?S1NkeC9reTJxdllrVjAzam9IcmIxdUgrcGlaa1drUHk3ZzBqUDlUNSsxc2FH?=
+ =?utf-8?B?Y1NSZ3FYMkZQSGRLcmZqNEtsdmhNNjA3RHZPZmZlL3Rhenc3VDNCTmJYN2NI?=
+ =?utf-8?B?ajRPaHpPYmZBekZ4QlVmVTJRb1pQSENXM2RPTHFMMlZ3LzloVzVlOHRXMTNO?=
+ =?utf-8?B?MU8wTWpRZzYxaVQyalZhWEJYc2xKRmtjY1BtN0MwLzBZRmQ5UkRrM3VUTkx5?=
+ =?utf-8?B?RWI1NXBqdjNwQno3K2h4Q09DZ0xLZG80UDBKazJsa1g1OFpXSmh3Y1BlcmUr?=
+ =?utf-8?B?U29IR3M4S3U5bWlEbjNMZExUeHZBa1paM29wUG4rUzIrYnA2bEFzTmtETE1v?=
+ =?utf-8?B?YUcvdWpzSkJuckJYV0pvTEdSYlZOaGt0OTEvRVBkUVQ0dWRjQVhUdXgveWF2?=
+ =?utf-8?B?RGlOMS9iRjZXT1dCNWwzMXN6VS9uTmIwMlVTcUx4MkUxY1pkWThoVnFhaHh5?=
+ =?utf-8?B?REdaWWFXQTJjQUVrTGVNUDFsMDRkTkxVTUNWQmY4ald3V0RVQkZHUjAweEd5?=
+ =?utf-8?B?NnBXc1d5M1ZmSjNLMGtpOWFJbnB3akg2Q2hXaUxucUFhemhZL1hQWnZJZzc4?=
+ =?utf-8?B?WWlDeUdkNWtkaXdadDg3MWlsYys1MEZzYmRlWDlDaHhJM1UrcnFHT2pRVTBE?=
+ =?utf-8?B?ZG5yTU96QU1udWFPdXVXWFFvbmxyVVdIMjl4SmV2RjQ1Mmlsbi8rMTdBcWVq?=
+ =?utf-8?B?azYrU0xTWk93WU5MMWxhUUpUbTZjbW5LWHNuWjFIaXVnUHdNTWhjdFEwQjBa?=
+ =?utf-8?B?Sk5yc2hxelVJTmxTQ0laamJvSGpqbWJJUUs3Qm1kWnJEU0ZkN25BRlp5MUJw?=
+ =?utf-8?B?ZG1vN0RCSzF2NVh6Wm5qZU10QWUyMURNanN1cDUveWtGbVdJMEtYVEVNdE42?=
+ =?utf-8?B?ZWpyQkZSQ2JOcWdwak1QcGFNcWVJcTNtRkJSRDRGZmwzVHVJc2N5WW1MTzRq?=
+ =?utf-8?B?VVB2NkNxUmVpMzdDTGE0cCtZOElJcnJYN05VWjVGU2JCVzlVNzFZRXlxU1dC?=
+ =?utf-8?B?R3dYc0hSSWFWS1lCc0cyckMrU2dnZmxuNGJodWxxYnVRblNVeUZhaHhnSXV6?=
+ =?utf-8?B?QWQrTDkvT0JSR0d0K3RKb3JQSWREZHFzdkk4Y1pPM1RDN2NFbVRTMkhGeTgy?=
+ =?utf-8?B?WnFRcGx4dkREbngvNStlWXhxL2NzSG14YjExNjY4djhVUjY4NzZ5RnZlN1g1?=
+ =?utf-8?B?Sm9xdTNBWVZLMnZFTGJ1TmZ1OFFBTzdsYTNQWmdTUEN1aUhMVjFRbTV5WkNS?=
+ =?utf-8?B?bFNteWdXMnV5KzgvRHc4TDhmcWVCQnNna2FOa2w2bGpTOC9KaWdwbFA5S2hV?=
+ =?utf-8?B?aXpla0E1b0wvZWxpQmhKd3F1Sld5cWo4NXl2SDNtNStPeWZhcEJ5VlF4aHhQ?=
+ =?utf-8?B?SUNNR0RJbmp2dWdYUHNKNXJwK3VZZ0F4YTVkR253dkhOT09JcHlKL0VJUEFx?=
+ =?utf-8?B?TXlVZFJtYVV4bzExbXR5bFRSVEdsRU94ZDAyZ3AvZGFRanlTRjhkZHVyak1n?=
+ =?utf-8?B?TVdZZ2xjRGRob3QwTXdIbkdyL1NXNVlWMlJKWWdLeVZYU2s2b2MxTmdrTE9i?=
+ =?utf-8?B?QmppQjJabWR4Zlp0b1JGNGplbFFpQ09hWWdJTWtYOUdBaWtsMXNUcVM2blVB?=
+ =?utf-8?B?Nk9saGtvWS9VNm1QQWNGYmx1U0NDUTBrK1orZXlFOVEyQzlqSzdzc3AzakxD?=
+ =?utf-8?B?SmtVcHFJcldNcHBTNVJWeG9PSjJaanJOZm40MzBkVGJ6TU11WVVQUGdIZ01X?=
+ =?utf-8?B?M1N3Yms2ZDFpZExDOFVEUlkva09zRTBicldyTm5pbWFQdVZCZTQ2SWZpVHk5?=
+ =?utf-8?B?d3ZqM2tKaXRBRnpTT1UwclFiK1BMOHFpRWhQMEFrQm9ZUk5aVExvMlJNQnFm?=
+ =?utf-8?B?dFJWWktGYU9sM3IremtsQUVsUHZrUmV2Nk5TaldJSnBvNUV0eW1ncEoya2ho?=
+ =?utf-8?B?c1J3NUZqSE1DdnpWSVdhNVRLbmp0cHZZanZVeXR1SStOWHFmQkFSU2RPMHhG?=
+ =?utf-8?B?K3dHRTFnb2dZWXhoZHpiRVdTMklpbjBVaERtVDd6eGVFWlNVc2t1QXFtNTBn?=
+ =?utf-8?B?Wnc9PQ==?=
+Content-Type: multipart/alternative;
+ boundary="_000_CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9CY1PR03MB2137namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
- envelope-from=SRS0=LBbo=YF=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+X-OriginatorOrg: lasp.colorado.edu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY1PR03MB2137.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73420b1c-4a5e-47d3-33b5-08da73dcca0d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Aug 2022 16:42:14.5739 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b1ddd783-1dbc-446b-878f-a7b03478ea9e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ukdjt0ftYUaGEplI3Olju7mKjf2ZwmW7w8Ro7W6gyg2QLsODJ1c35LaRjIAqBn3n5htztMioKKEgkAc4vnNwmF7L3jwKh5DSNNXhgHTdXOk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR03MB6780
+Received-SPF: pass client-ip=40.107.223.51;
+ envelope-from=Gregg.Allison@lasp.colorado.edu;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,65 +151,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A MachineState object is used as a owner of the RAM region and this
-asserts in memory_region_init_ram() when QEMU is built with
-CONFIG_QOM_CAST_DEBUG :
+--_000_CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9CY1PR03MB2137namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-    /* This will assert if owner is neither NULL nor a DeviceState.
-     * We only want the owner here for the purposes of defining a
-     * unique name for migration. TODO: Ideally we should implement
-     * a naming scheme for Objects which are not DeviceStates, in
-     * which case we can relax this restriction.
-     */
-    owner_dev = DEVICE(owner);
+RmFiaWVuLCBGcmVkLCBhbmQgUGV0ZXIsDQoNClRoYW5rIHlvdSBhbGwgZm9yIHRoZSBoZWxwZnVs
+IGluZm9ybWF0aW9uLg0KDQpNaWdodCBBZGFDb3Jl4oCZcyBTTVAgTGVvbjMvTGVvbjQgZm9yayBi
+ZSBtZXJnZWQgd2l0aCB0aGUgbWFpbiBicmFuY2ggb2YgUUVNVSBpbiB0aGUgc29tZXdoYXQgbmVh
+ciB0ZXJtPw0KDQpGYWJpZW4sIGNhbiBJIG9idGFpbiB0aGUgU01QIExlb24zL0xlb240IGZvcmsg
+ZnJvbSBBZGFDb3JlIGRpcmVjdGx5Pw0KDQpHcmVnZyBBbGxpc29uDQoNCkZyb206IEZhYmllbiBD
+aG91dGVhdSA8Y2hvdXRlYXVAYWRhY29yZS5jb20+DQpTZW50OiBXZWRuZXNkYXksIEp1bHkgMjAs
+IDIwMjIgODozMCBBTQ0KVG86IEZyZWRlcmljIEtvbnJhZCA8a29ucmFkLmZyZWRlcmljQHlhaG9v
+LmZyPg0KQ2M6IEdyZWdnIEFsbGlzb24gPGdyZWdnLmFsbGlzb25AbGFzcC5jb2xvcmFkby5lZHU+
+OyBQZXRlciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+OyBxZW11LWRpc2N1c3NA
+bm9uZ251Lm9yZzsgcWVtdS1kZXZlbEBub25nbnUub3JnDQpTdWJqZWN0OiBSZTogU3VwcG9ydCBm
+b3IgR2Fpc2xlciBtdWx0aWNvcmUgTEVPTnggU29Dcw0KDQpIZWxsbyBldmVyeW9uZSwNCg0KT24g
+RnJpLCBKdWwgOCwgMjAyMiBhdCAxMjoxNiBQTSBGcmVkZXJpYyBLb25yYWQgPGtvbnJhZC5mcmVk
+ZXJpY0B5YWhvby5mcjxtYWlsdG86a29ucmFkLmZyZWRlcmljQHlhaG9vLmZyPj4gd3JvdGU6DQpB
+Ym91dCB0aGUgU01QIHN1cHBvcnQgQWRhQ29yZSBoYWQgYSBmZXcgcGF0Y2hlcyBmb3IgaXQsIEkn
+bGwgbGV0IEZhYmllbiBhbnN3ZXIuDQoNClRoZSBwYXRjaGVzIGZvciBTTVAgc3VwcG9ydCBhY3R1
+YWxseSBjb21lIGZyb20gR2Fpc2xlciBvcmlnaW5hbGx5IChpZiBJIHJlbWVtYmVyIGNvcnJlY3Rs
+eSkuDQoNCkZvciBzdXJlIHdlIGF0IEFkYUNvcmUgc3VwcG9ydCBTTVAgTGVvbjMvTGVvbjQgaW4g
+b3VyIGZvcmsgb2YgUUVNVSwgYW5kIEkgdGhpbmsgYWxsIHRoZSByZXF1aXJlZCBwYXRjaGVzIGFy
+ZSBjb250cmlidXRlZCB1cHN0cmVhbS4NCg0KLS0NCkZhYmllbiBDaG91dGVhdQ0K
 
-Use the BMC and BIC objects as the owners of their memory regions.
+--_000_CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9CY1PR03MB2137namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Cc: Peter Delevoryas <peter@pjd.dev>
-Fixes: 778e14cc5cd5 ("aspeed: Add AST2600 (BMC) to fby35")
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-Message-Id: <20220727102714.803041-3-clg@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/fby35.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+SGVsdmV0aWNhOw0KCXBhbm9zZS0xOjIgMTEgNiA0IDIgMiAyIDIgMiA0O30NCkBmb250LWZhY2UN
+Cgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAz
+IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAx
+NSA1IDIgMiAyIDQgMyAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFs
+LCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90
+dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3
+IFJvbWFuIixzZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1w
+cmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0K
+YTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0
+eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1z
+b25vcm1hbDAsIGxpLm1zb25vcm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1l
+Om1zb25vcm1hbDsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGlu
+Ow0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBpbjsNCglmb250
+LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCnNw
+YW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsOw0KCWZvbnQtZmFtaWx5
+OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5FbWFpbFN0eWxl
+MTkNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtY29tcG9zZTsNCglmb250LWZhbWlseToiQ2Fs
+aWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCi5Nc29DaHBEZWZhdWx0DQoJ
+e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJn
+aW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldv
+cmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hh
+cGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlm
+XS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQi
+Pg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94
+bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIg
+dmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkZhYmllbiwgRnJlZCwgYW5k
+IFBldGVyLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhhbmsg
+eW91IGFsbCBmb3IgdGhlIGhlbHBmdWwgaW5mb3JtYXRpb24uPG86cD48L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZjtjb2xvcjojMUY0OTdEIj5NaWdodCBBZGFDb3Jl4oCZcyBTTVAgTGVvbjMvTGVvbjQg
+Zm9yayBiZSBtZXJnZWQgd2l0aCB0aGUgbWFpbiBicmFuY2ggb2YgUUVNVSBpbiB0aGUgc29tZXdo
+YXQgbmVhciB0ZXJtPzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
+cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtm
+b250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+
+RmFiaWVuLCBjYW4gSSBvYnRhaW4gdGhlIFNNUCBMZW9uMy9MZW9uNCBmb3JrIGZyb20gQWRhQ29y
+ZSBkaXJlY3RseT88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9u
+dC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkdy
+ZWdnIEFsbGlzb248bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48
+L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmIj4gRmFiaWVuIENob3V0ZWF1ICZsdDtjaG91dGVhdUBhZGFjb3Jl
+LmNvbSZndDsNCjxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNkYXksIEp1bHkgMjAsIDIwMjIgODoz
+MCBBTTxicj4NCjxiPlRvOjwvYj4gRnJlZGVyaWMgS29ucmFkICZsdDtrb25yYWQuZnJlZGVyaWNA
+eWFob28uZnImZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBHcmVnZyBBbGxpc29uICZsdDtncmVnZy5hbGxp
+c29uQGxhc3AuY29sb3JhZG8uZWR1Jmd0OzsgUGV0ZXIgTWF5ZGVsbCAmbHQ7cGV0ZXIubWF5ZGVs
+bEBsaW5hcm8ub3JnJmd0OzsgcWVtdS1kaXNjdXNzQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxAbm9u
+Z251Lm9yZzxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogU3VwcG9ydCBmb3IgR2Fpc2xlciBtdWx0
+aWNvcmUgTEVPTnggU29DczxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj5IZWxsbyBldmVyeW9uZSw8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPk9uIEZyaSwgSnVsIDgsIDIwMjIgYXQgMTI6MTYgUE0gRnJlZGVyaWMgS29ucmFk
+ICZsdDs8YSBocmVmPSJtYWlsdG86a29ucmFkLmZyZWRlcmljQHlhaG9vLmZyIj5rb25yYWQuZnJl
+ZGVyaWNAeWFob28uZnI8L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJs
+b2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4w
+cHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmln
+aHQ6MGluIj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdiBpZD0iZ21haWwtbV8yODE1ODk5NzQ0ODk0OTg2
+MDU3eWRwNmU5YzcyMTh5YWhvb19xdW90ZWRfNzI3NzM0MzI5MSI+DQo8ZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0hlbHZldGljYSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMyNjI4MkEiPkFib3V0
+IHRoZSBTTVAgc3VwcG9ydCBBZGFDb3JlIGhhZCBhIGZldyBwYXRjaGVzIGZvciBpdCwgSSdsbCBs
+ZXQgRmFiaWVuIGFuc3dlci48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0K
+PC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+VGhlIHBhdGNoZXMgZm9yIFNNUCBzdXBwb3J0IGFjdHVhbGx5IGNvbWUgZnJv
+bSBHYWlzbGVyIG9yaWdpbmFsbHkgKGlmIEkgcmVtZW1iZXIgY29ycmVjdGx5KS48bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
+OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Rm9yIHN1cmUgd2Ug
+YXQgQWRhQ29yZSBzdXBwb3J0IFNNUCBMZW9uMy9MZW9uNCBpbiBvdXIgZm9yayBvZiBRRU1VLCBh
+bmQgSSB0aGluayBhbGwgdGhlIHJlcXVpcmVkIHBhdGNoZXMgYXJlIGNvbnRyaWJ1dGVkIHVwc3Ry
+ZWFtLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+Pjxicj4NCi0tIDxvOnA+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj5GYWJpZW4gQ2hvdXRlYXU8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-diff --git a/hw/arm/fby35.c b/hw/arm/fby35.c
-index 79605f306462..90c04bbc3389 100644
---- a/hw/arm/fby35.c
-+++ b/hw/arm/fby35.c
-@@ -72,11 +72,13 @@ static void fby35_bmc_init(Fby35State *s)
- {
-     DriveInfo *drive0 = drive_get(IF_MTD, 0, 0);
- 
--    memory_region_init(&s->bmc_memory, OBJECT(s), "bmc-memory", UINT64_MAX);
--    memory_region_init_ram(&s->bmc_dram, OBJECT(s), "bmc-dram",
-+    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
-+
-+    memory_region_init(&s->bmc_memory, OBJECT(&s->bmc), "bmc-memory",
-+                       UINT64_MAX);
-+    memory_region_init_ram(&s->bmc_dram, OBJECT(&s->bmc), "bmc-dram",
-                            FBY35_BMC_RAM_SIZE, &error_abort);
- 
--    object_initialize_child(OBJECT(s), "bmc", &s->bmc, "ast2600-a3");
-     object_property_set_int(OBJECT(&s->bmc), "ram-size", FBY35_BMC_RAM_SIZE,
-                             &error_abort);
-     object_property_set_link(OBJECT(&s->bmc), "memory", OBJECT(&s->bmc_memory),
-@@ -120,9 +122,11 @@ static void fby35_bic_init(Fby35State *s)
-     s->bic_sysclk = clock_new(OBJECT(s), "SYSCLK");
-     clock_set_hz(s->bic_sysclk, 200000000ULL);
- 
--    memory_region_init(&s->bic_memory, OBJECT(s), "bic-memory", UINT64_MAX);
--
-     object_initialize_child(OBJECT(s), "bic", &s->bic, "ast1030-a1");
-+
-+    memory_region_init(&s->bic_memory, OBJECT(&s->bic), "bic-memory",
-+                       UINT64_MAX);
-+
-     qdev_connect_clock_in(DEVICE(&s->bic), "sysclk", s->bic_sysclk);
-     object_property_set_link(OBJECT(&s->bic), "memory", OBJECT(&s->bic_memory),
-                              &error_abort);
--- 
-2.37.1
-
+--_000_CY1PR03MB2137D5D2C2C9A0F7D83BD86FB39A9CY1PR03MB2137namp_--
 
