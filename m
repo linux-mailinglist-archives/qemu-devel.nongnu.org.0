@@ -2,93 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F4C586656
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:27:49 +0200 (CEST)
-Received: from localhost ([::1]:36432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3085E586685
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:44:21 +0200 (CEST)
+Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQm4-0002ik-HX
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56530)
+	id 1oIR2C-0001wg-1e
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIQjb-0001Ji-Dm
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIQjX-0000cf-EQ
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:25:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659342302;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G+jBZ0arHAh/SAXCKFBk5jHtgchVu45WDaDiLUlaUoY=;
- b=dKqj8+Qr5Ghv4U2KzEyrVdmF2wJDJkiQIbaJwR6rTaQWKCRfmWLwQw2cf4/fXHCTAmrr41
- DghfL5ZSIDOoqxvmEAqInM8FiIAFKuIHwTPwLPdioTzoHVhzjFd/68FYDKuQ3MD8L+5CN+
- dR0v/cVq5EInUVr5+9hJdw57lrKAYSM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-282-hrDbm-dDPlmOAsjBBCsptQ-1; Mon, 01 Aug 2022 04:24:13 -0400
-X-MC-Unique: hrDbm-dDPlmOAsjBBCsptQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- v11-20020a1cf70b000000b003a318238826so1397772wmh.2
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:24:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIQx0-0005Ku-Mt
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:39:02 -0400
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f]:45050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIQwy-0002to-SC
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:38:58 -0400
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-31f661b3f89so101632137b3.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc;
+ bh=csFAyM9lQpj9+Kd/tlS5/UVMlPxlAQnp4AlOQvXnlCk=;
+ b=sQrlhg+xa38aPWt1AUv++aovecndlZa09aGN0v3wc4odgkghy2K0uG9w4RyCbzvREX
+ KAJgCjKQbSKuGnsm47nks1BEP7lp0RFwrumpY1DpdxUSCddK+uP7n+xyC/LqEpGiZYsz
+ hhfWUUr710CUlRHhbwgLFmDnklZ/BKqFVM/NKW9PG8Ar5NZEunwA91UkQ48F6UlCah2w
+ ypsu1mZPJqpVBIzDpie6v8kTAm4fIKawBySlyrIgS+j0fQ0jePcSgPN/ZMXc0vLNZJtK
+ 5/Zs2Jvjv3C6K/dwmf1MdGQAlDFAt+dITpgUiAKV9bAN08qmnAVa45WnBp5iBTFIaM80
+ 4f1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=G+jBZ0arHAh/SAXCKFBk5jHtgchVu45WDaDiLUlaUoY=;
- b=gL1Jl3JnlG+YL9BWttC+JxMEz5PrNEyEUJWayXodCeYfgJJPB7d96qEIVSusM1zzp/
- gmdFJpbFjIoo2NO+IE9OqqGVM+DWfv5SAA8m97YOGajSIwrwn+/RV1+1gf1HT/TgDNKZ
- Ed6zhQd5pY69TlOHe5DCxp9MIir0hgucuFeE4wSctz8UYR3ghAjDYwVVKGZbrQHNyq+S
- vgzzGsGyG0ZPfqU94cq0GssvgwO7UA4Uy+Gu9/3Y+9NzJI/7DOYn3zHDz1j+waGmLgpP
- w45lKUClyalmuYDX0+hpVjE0Q9+6uxm+0js7slVY2p/Mzm+mIEj5xD770fnb8FQs/aDf
- P2SQ==
-X-Gm-Message-State: AJIora+ObsNqJ5DpGVwVzV8GLjk7k50ndntjquEJ4fNlPB8v2oE8KD83
- oIYy7N2xrTrEXEOSnrhjoqfm4YUFcwkhF3Vo1kLZ+MIqwKN1aI/6ns7wfbCJgNNtlUm5Dj2h9HL
- X+voSubHh+VIyg7c=
-X-Received: by 2002:a05:600c:4113:b0:3a3:4b67:d086 with SMTP id
- j19-20020a05600c411300b003a34b67d086mr10309892wmi.20.1659342252829; 
- Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1s9fP8apxbq9Sl/LIluSY2kIw7uIGvWzz6noSookj88XcO3lCguzen+1leR9jdU6VLtGQrQEA==
-X-Received: by 2002:a05:600c:4113:b0:3a3:4b67:d086 with SMTP id
- j19-20020a05600c411300b003a34b67d086mr10309873wmi.20.1659342252566; 
- Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
-Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
- [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
- o26-20020adf8b9a000000b0021f87e8945asm6869145wra.12.2022.08.01.01.24.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
-Message-ID: <be188f5b-6e05-79b2-34fc-b220c0dea779@redhat.com>
-Date: Mon, 1 Aug 2022 10:24:10 +0200
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=csFAyM9lQpj9+Kd/tlS5/UVMlPxlAQnp4AlOQvXnlCk=;
+ b=tFky5uRG6b0tZ5WQ7Fo12oEdxRvTdhdtYbp60xRbZVQ/zvqNEmWGgTadQ1ks+joizI
+ VRnVJ9MqAEewFrZ89s/xrtEYKdPfjmStqUHErgiXc0BJZ6tlMUCkm/uF6fhlwOUNNTis
+ A6agYN2Q0T0SC0o44UbOg1X6GgV6sbFzo6yirzJHcc035gxheWvShx/iV2MYA2OmMfRO
+ OgAF5TQI6Fcp4ORgJas7qHpIchgCLTdPmq0YdnLWsGbyTG2iMY+7tW5KJo3Zdp+Iie2Q
+ xr1/VJ9iNS6CSY+nDkS4RK5rmrGjHVFVB1FuPQuJN/ghLtzyXl9KUwJGuCqXYePCup8v
+ p3uA==
+X-Gm-Message-State: ACgBeo1GKciB9KgrRyIFN0ZzccYOt43sjt6rHK6Bf/0dI/cXbIpQ9U/A
+ TCGBh+MWpXoH1YcFAu+lAiDKQ30Wt2n0nZe0npmQwQ==
+X-Google-Smtp-Source: AA6agR4QuaEdwLzudg/Oo6SOKKnlM/TVUFPuTevHNoWBrOUD0SnIWfzjwIEjubjxC+wx99pJhGohRBs0JA9TGqBI92Q=
+X-Received: by 2002:a81:63c6:0:b0:324:928:c672 with SMTP id
+ x189-20020a8163c6000000b003240928c672mr11264585ywb.329.1659343134047; Mon, 01
+ Aug 2022 01:38:54 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v3 0/2] migration-test: Allow test to run without uffd
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20220728133516.92061-1-peterx@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20220728133516.92061-1-peterx@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+References: <20220729140252.66572-1-milica.lazarevic@syrmia.com>
+ <CAFEAcA-N-GPKqLeQtOWVMHvB-Di4inKK8Cy9XFjT62PMeiyBRA@mail.gmail.com>
+ <TY0PR03MB6797A66CB742211212CD1B2BE29A9@TY0PR03MB6797.apcprd03.prod.outlook.com>
+In-Reply-To: <TY0PR03MB6797A66CB742211212CD1B2BE29A9@TY0PR03MB6797.apcprd03.prod.outlook.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Aug 2022 09:38:13 +0100
+Message-ID: <CAFEAcA-DGq89==Mh9p5rPzjK8evp8vPnnEgdpdiyWj3VwxJsMg@mail.gmail.com>
+Subject: Re: [PATCH] disas/nanomips: Convert nanoMIPS disassembler to C
+To: Vince Del Vecchio <Vince.DelVecchio@mediatek.com>
+Cc: Milica Lazarevic <milica.lazarevic@syrmia.com>,
+ "thuth@redhat.com" <thuth@redhat.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "cfontana@suse.de" <cfontana@suse.de>, 
+ "berrange@redhat.com" <berrange@redhat.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, 
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>, 
+ "djordje.todorovic@syrmia.com" <djordje.todorovic@syrmia.com>,
+ "mips32r2@gmail.com" <mips32r2@gmail.com>, 
+ "dragan.mladjenovic@syrmia.com" <dragan.mladjenovic@syrmia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,28 +95,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/07/2022 15.35, Peter Xu wrote:
-> v2:
-> - Fix warning in patch 1 [Thomas]
-> - Collected R-b for Daniel
-> 
-> Compare to v1, this added a new patch as reported by Thomas to (hopefully)
-> allow auto-converge test to pass on some MacOS testbeds.
-> 
-> Please review, thanks.
-> 
-> Peter Xu (2):
->    migration-test: Use migrate_ensure_converge() for auto-converge
->    migration-test: Allow test to run without uffd
-> 
->   tests/qtest/migration-test.c | 67 +++++++++++++++---------------------
->   1 file changed, 27 insertions(+), 40 deletions(-)
+On Mon, 1 Aug 2022 at 04:18, Vince Del Vecchio
+<Vince.DelVecchio@mediatek.com> wrote:
+>
+> On Fri, 29 Jul 2022 at 10:18, Peter Maydell <peter.maydell@linaro.org> wr=
+ote:
+> > ...
+> > Is it possible to break this down into smaller pieces so it isn't one s=
+ingle enormous 5000 line patch ?
+> >
+> > I guess partial conversion is likely to run into compilation difficulti=
+es mid-series; if so we could do "disable the disassembler; convert it; ree=
+nable it".
+> >
+> > The rationale here is code review -- reviewing a single huge patch is e=
+ssentially impossible, so it needs to be broken down into coherent smaller =
+pieces to be reviewable.
 
-Thanks, I've queued this to my testing-next branch now:
+> Something like 90% of the patch is purely mechanical transformations of w=
+hich I've excerpted two examples below.  (There are 3-4 chunks of mechanica=
+l transformations, of which I've shown the most complicated type that accou=
+nts for ~60% of the changed lines.)  Did you intend to review this by havin=
+g a human inspect all of these?
 
-  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+If they're mechanical transformations then:
+ * the commit message should say what the mechanical transformation is
+   (ie quote the sed script or other mechanism used to create the commit)
+ * where sensible, different transformations should be in different
+   commits
+ * the hand-implemented parts should be separate
 
-  Thomas
+And yes, review means human inspection. You need to make that
+human inspection easy by separating out the stuff that is
+"just change std::string to const char *" so that the human can
+do a 30-second skim over that patch, and spend the time on
+the patch containing the stuff that's more complicated.
 
-
+-- PMM
 
