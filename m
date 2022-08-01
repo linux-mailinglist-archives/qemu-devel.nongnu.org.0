@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8D3586612
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:13:42 +0200 (CEST)
-Received: from localhost ([::1]:51424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BD8586623
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:18:55 +0200 (CEST)
+Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQYX-0001eV-G4
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:13:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
+	id 1oIQda-00063F-Ka
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:18:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIQSt-0005ho-6i
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:52 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:3949)
+ id 1oIQSv-0005iF-5d
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:56 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:6085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIQSp-00061z-7n
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:49 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Lx9fV5vJgzmVfL;
- Mon,  1 Aug 2022 16:05:38 +0800 (CST)
+ id 1oIQSs-000627-UA
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:07:52 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Lx9c96byHzWfbC;
+ Mon,  1 Aug 2022 16:03:37 +0800 (CST)
 Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 1 Aug 2022 16:07:33 +0800
+ 15.1.2375.24; Mon, 1 Aug 2022 16:07:36 +0800
 Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
  (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 1 Aug
- 2022 16:07:32 +0800
+ 2022 16:07:35 +0800
 To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
  <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
 CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
-Subject: [PATCH v4 1/3] dump: support cancel dump process
-Date: Mon, 1 Aug 2022 16:07:20 +0800
-Message-ID: <20220801080722.3318-1-hogan.wang@huawei.com>
+Subject: [PATCH v4 2/3] job: introduce dump guest memory job
+Date: Mon, 1 Aug 2022 16:07:21 +0800
+Message-ID: <20220801080722.3318-2-hogan.wang@huawei.com>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20220801080722.3318-1-hogan.wang@huawei.com>
+References: <20220801080722.3318-1-hogan.wang@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.149.172]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  kwepemm600015.china.huawei.com (7.193.23.52)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=hogan.wang@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -69,97 +71,112 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Hogan Wang <hogan.wang@huawei.com>
 From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-Break saving pages or dump iterate when dump job in cancel state,
-make sure dump process exits as soon as possible.
+There's no way to cancel the current executing dump process, lead to the
+virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
+job after daemon restart.
+
+Introduce dump guest memory job type, and add an optional 'job-id'
+argument for dump-guest-memory QMP to make use of jobs framework.
 
 Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
 ---
- dump/dump.c           | 23 +++++++++++++++++++++++
- include/sysemu/dump.h |  2 ++
- 2 files changed, 25 insertions(+)
+ dump/dump-hmp-cmds.c | 12 ++++++++++--
+ dump/dump.c          |  1 +
+ qapi/dump.json       |  6 +++++-
+ qapi/job.json        |  5 ++++-
+ 4 files changed, 20 insertions(+), 4 deletions(-)
 
+diff --git a/dump/dump-hmp-cmds.c b/dump/dump-hmp-cmds.c
+index e5053b04cd..ba28a5e631 100644
+--- a/dump/dump-hmp-cmds.c
++++ b/dump/dump-hmp-cmds.c
+@@ -24,9 +24,11 @@ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
+     bool has_begin = qdict_haskey(qdict, "begin");
+     bool has_length = qdict_haskey(qdict, "length");
+     bool has_detach = qdict_haskey(qdict, "detach");
++    bool has_job_id = qdict_haskey(qdict, "job-id");
+     int64_t begin = 0;
+     int64_t length = 0;
+     bool detach = false;
++    const char *job_id = NULL;
+     enum DumpGuestMemoryFormat dump_format = DUMP_GUEST_MEMORY_FORMAT_ELF;
+     char *prot;
+ 
+@@ -62,10 +64,16 @@ void hmp_dump_guest_memory(Monitor *mon, const QDict *qdict)
+         detach = qdict_get_bool(qdict, "detach");
+     }
+ 
++    if (has_job_id) {
++        job_id = qdict_get_str(qdict, "job-id");
++    }
++
+     prot = g_strconcat("file:", file, NULL);
+ 
+-    qmp_dump_guest_memory(paging, prot, true, detach, has_begin, begin,
+-                          has_length, length, true, dump_format, &err);
++    qmp_dump_guest_memory(paging, prot, has_job_id, job_id,
++                          true, detach, has_begin, begin,
++                          has_length, length, true, dump_format,
++                          &err);
+     hmp_handle_error(mon, err);
+     g_free(prot);
+ }
 diff --git a/dump/dump.c b/dump/dump.c
-index 4d9658ffa2..a57c580b12 100644
+index a57c580b12..cec9be30b4 100644
 --- a/dump/dump.c
 +++ b/dump/dump.c
-@@ -54,6 +54,8 @@ static Error *dump_migration_blocker;
-       DIV_ROUND_UP((name_size), 4) +                    \
-       DIV_ROUND_UP((desc_size), 4)) * 4)
- 
-+static bool dump_cancelling(void);
-+
- static inline bool dump_is_64bit(DumpState *s)
- {
-     return s->dump_info.d_class == ELFCLASS64;
-@@ -118,6 +120,10 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
-     DumpState *s = opaque;
-     size_t written_size;
- 
-+    if (dump_cancelling()) {
-+        return -ECANCELED;
-+    }
-+
-     written_size = qemu_write_full(s->fd, buf, size);
-     if (written_size != size) {
-         return -errno;
-@@ -627,6 +633,10 @@ static void dump_iterate(DumpState *s, Error **errp)
- 
-     do {
-         block = s->next_block;
-+        if (dump_cancelling()) {
-+            error_setg(errp, "dump: job cancelled");
-+            return;
-+        }
- 
-         size = block->target_end - block->target_start;
-         if (s->has_filter) {
-@@ -1321,6 +1331,10 @@ static void write_dump_pages(DumpState *s, Error **errp)
-      * first page of page section
-      */
-     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
-+        if (dump_cancelling()) {
-+            error_setg(errp, "dump: job cancelled");
-+            goto out;
-+        }
-         /* check zero page */
-         if (buffer_is_zero(buf, s->dump_info.page_size)) {
-             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
-@@ -1540,6 +1554,15 @@ bool qemu_system_dump_in_progress(void)
-     return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
+@@ -1895,6 +1895,7 @@ DumpQueryResult *qmp_query_dump(Error **errp)
  }
  
-+static bool dump_cancelling(void)
-+{
-+    DumpState *state = &dump_state_global;
-+    if (state->job && job_is_cancelled(state->job)) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- /* calculate total size of memory to be dumped (taking filter into
-  * acoount.) */
- static int64_t dump_calculate_size(DumpState *s)
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-index ffc2ea1072..41bdbe595f 100644
---- a/include/sysemu/dump.h
-+++ b/include/sysemu/dump.h
-@@ -15,6 +15,7 @@
- #define DUMP_H
+ void qmp_dump_guest_memory(bool paging, const char *file,
++                           bool has_job_id, const char *job_id,
+                            bool has_detach, bool detach,
+                            bool has_begin, int64_t begin, bool has_length,
+                            int64_t length, bool has_format,
+diff --git a/qapi/dump.json b/qapi/dump.json
+index 90859c5483..d162a9f028 100644
+--- a/qapi/dump.json
++++ b/qapi/dump.json
+@@ -59,6 +59,9 @@
+ #            2. fd: the protocol starts with "fd:", and the following string
+ #               is the fd's name.
+ #
++# @job-id: identifier for the newly-created memory dump job. To be compatible
++#          with legacy dump process, @job-id should omitted. (Since 7.2)
++#
+ # @detach: if true, QMP will return immediately rather than
+ #          waiting for the dump to finish. The user can track progress
+ #          using "query-dump". (since 2.6).
+@@ -88,7 +91,8 @@
+ #
+ ##
+ { 'command': 'dump-guest-memory',
+-  'data': { 'paging': 'bool', 'protocol': 'str', '*detach': 'bool',
++  'data': { 'paging': 'bool', 'protocol': 'str',
++            '*job-id': 'str', '*detach': 'bool',
+             '*begin': 'int', '*length': 'int',
+             '*format': 'DumpGuestMemoryFormat'} }
  
- #include "qapi/qapi-types-dump.h"
-+#include "qemu/job.h"
+diff --git a/qapi/job.json b/qapi/job.json
+index d5f84e9615..e14d2290a5 100644
+--- a/qapi/job.json
++++ b/qapi/job.json
+@@ -28,11 +28,14 @@
+ #
+ # @snapshot-delete: snapshot delete job type, see "snapshot-delete" (since 6.0)
+ #
++# @dump-guest-memory: dump guest memory job type, see "dump-guest-memory" (since 7.2)
++#
+ # Since: 1.7
+ ##
+ { 'enum': 'JobType',
+   'data': ['commit', 'stream', 'mirror', 'backup', 'create', 'amend',
+-           'snapshot-load', 'snapshot-save', 'snapshot-delete'] }
++           'snapshot-load', 'snapshot-save', 'snapshot-delete',
++           'dump-guest-memory'] }
  
- #define MAKEDUMPFILE_SIGNATURE      "makedumpfile"
- #define MAX_SIZE_MDF_HEADER         (4096) /* max size of makedumpfile_header */
-@@ -154,6 +155,7 @@ typedef struct DumpState {
-     GuestPhysBlockList guest_phys_blocks;
-     ArchDumpInfo dump_info;
-     MemoryMappingList list;
-+    Job *job;
-     uint32_t phdr_num;
-     uint32_t shdr_num;
-     bool resume;
+ ##
+ # @JobStatus:
 -- 
 2.33.0
 
