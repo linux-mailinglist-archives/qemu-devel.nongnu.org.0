@@ -2,116 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E4895866D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:28:00 +0200 (CEST)
-Received: from localhost ([::1]:43722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7679586700
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 11:43:30 +0200 (CEST)
+Received: from localhost ([::1]:48964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIRiQ-0003tA-Qv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40712)
+	id 1oIRxR-0008Kg-8v
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 05:43:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oIRgo-0002Sj-AO; Mon, 01 Aug 2022 05:26:18 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:27158
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oIRuF-0006Ze-MC
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:40:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frankja@linux.ibm.com>)
- id 1oIRgm-0002ST-AJ; Mon, 01 Aug 2022 05:26:18 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2718NuSo022768;
- Mon, 1 Aug 2022 09:26:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=TVwXfYYrIobYi75BDn9BP8aPODQfC48DAdE9/CL6z04=;
- b=pM1xDXvD59xBLQx2gDosJys9fNF1QZ2xDyTelHEtPLwG3sYOszX8QvTAHsMeZcHdAgkb
- /4DbuFsRyiramJY6O/IMps83h8ImQFojG1sgwMjwtS2JFD0Xr8647lszIAFAzOSx+tGP
- OertxvMsgFf5CAe3b0Q2+CpcaPouSmywXPdJShpQiibt8O3Wgms4irJ+PqlZYEw5cQic
- NqF1Za/YTs2V9SQNQWpyzRe/I8Du0akS0UjlIN3eshmpMOAJFUDw/Uk/a62d9iNxdCSb
- BJlWH1u0c57Kf1NXEwUYgoC8N3cXT5ty5tPT7sdyjbLpO4nFl51K6Xjd5GNf2hoFxMnG 0g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9g3w6qg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Aug 2022 09:26:14 +0000
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 2718PJno000356;
- Mon, 1 Aug 2022 09:26:14 GMT
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3hp9g3w6q0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Aug 2022 09:26:14 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 2719KWtV004438;
- Mon, 1 Aug 2022 09:26:12 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma03fra.de.ibm.com with ESMTP id 3hmv98sfwg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 01 Aug 2022 09:26:12 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 2719Q9EN19136958
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 1 Aug 2022 09:26:09 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1FE2A42056;
- Mon,  1 Aug 2022 09:26:09 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9043D42052;
- Mon,  1 Aug 2022 09:26:08 +0000 (GMT)
-Received: from [9.145.41.76] (unknown [9.145.41.76])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon,  1 Aug 2022 09:26:08 +0000 (GMT)
-Message-ID: <d8dbb35b-c460-4248-1435-eb37a705826f@linux.ibm.com>
-Date: Mon, 1 Aug 2022 11:26:08 +0200
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oIRuA-0004Xm-Qk
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 05:40:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659346803;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D5GbjO/2P9upN1eYpz/qPgckZY3AVhXJcJ30hS2c/Ps=;
+ b=eCk8X9Q5/wqerf7nPE7uPh/8fkE1z3v+dZ1o5b7k9ufcRflSoT5nd8Kh0zQmyGfzA6tLLz
+ hHaBj/21VEYk6wFFDq48jie1UZviKOPwFPyXzmbMsRQKbxZAf6Z14Ssc83X63PNQ3XkwY/
+ dyozy0u2Jb1tGOZwa5N+EtC9DQELPMw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-219-2jOmKfB2MHWEPNlDxn_bOA-1; Mon, 01 Aug 2022 05:40:00 -0400
+X-MC-Unique: 2jOmKfB2MHWEPNlDxn_bOA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3CB10294EDCC;
+ Mon,  1 Aug 2022 09:40:00 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F131AC27DB3;
+ Mon,  1 Aug 2022 09:39:58 +0000 (UTC)
+Date: Mon, 1 Aug 2022 10:39:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-devel@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>,
+ Xuzhou Cheng <xuzhou.cheng@windriver.com>, Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH v3 2/4] util/qemu-sockets: Enable unix socket support on
+ Windows
+Message-ID: <YuefbIRSenOsMuVi@redhat.com>
+References: <20220730145036.865854-1-bmeng.cn@gmail.com>
+ <20220730145036.865854-3-bmeng.cn@gmail.com>
+ <CAJ+F1CK7CPiWY8GLO+0VJNLkVj=RERf4gcFw_j6RZgjW7q6XQQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v4 11/17] dump/dump: Add section string table support
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: qemu-devel <qemu-devel@nongnu.org>, "Bonzini, Paolo"
- <pbonzini@redhat.com>, mhartmay@linux.ibm.com,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- imbrenda@linux.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "open list:S390 SCLP-backed..." <qemu-s390x@nongnu.org>,
- seiden@linux.ibm.com, scgl@linux.ibm.com
-References: <20220726092248.128336-1-frankja@linux.ibm.com>
- <20220726092248.128336-12-frankja@linux.ibm.com>
- <CAMxuvawu-q-Fe4ZXU2Bc1gwLfpQCCw3HxWhbBK6+8exkM1b+nw@mail.gmail.com>
- <e24cff5c-3171-69dc-3e17-d4f773be6f2b@linux.ibm.com>
- <CAJ+F1CL8qm4qiHbKyE2YCAZ1ZVMKF-UAR6f39zMgw2Xdq7zCgQ@mail.gmail.com>
- <7fe6312d-d523-2f3d-56de-ed73e267a851@linux.ibm.com>
- <CAJ+F1C+CqaeKzxPsCFfvbAo+gvG_PF+B7Ex0WJgBymJQWU8eNQ@mail.gmail.com>
-From: Janosch Frank <frankja@linux.ibm.com>
-In-Reply-To: <CAJ+F1C+CqaeKzxPsCFfvbAo+gvG_PF+B7Ex0WJgBymJQWU8eNQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 9YRugFW22wkCOCuty4Rsjn0xqpFva1a3
-X-Proofpoint-ORIG-GUID: mxj802mb5qYT3h4ItsHnxl96mIjyb5iG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-01_05,2022-07-28_02,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0
- priorityscore=1501 clxscore=1015 phishscore=0 bulkscore=0 spamscore=0
- adultscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2206140000 definitions=main-2208010043
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=frankja@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJ+F1CK7CPiWY8GLO+0VJNLkVj=RERf4gcFw_j6RZgjW7q6XQQ@mail.gmail.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,46 +84,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-T24gNy8yOC8yMiAxNTo0MSwgTWFyYy1BbmRyw6kgTHVyZWF1IHdyb3RlOg0KPiBIaQ0KPiAN
-Cj4gT24gVHVlLCBKdWwgMjYsIDIwMjIgYXQgNjoyNiBQTSBKYW5vc2NoIEZyYW5rIDxmcmFu
-a2phQGxpbnV4LmlibS5jb20+IHdyb3RlOg0KPiANCj4+IE9uIDcvMjYvMjIgMTU6MTIsIE1h
-cmMtQW5kcsOpIEx1cmVhdSB3cm90ZToNCj4+PiBPbiBUdWUsIEp1bCAyNiwgMjAyMiBhdCA0
-OjU1IFBNIEphbm9zY2ggRnJhbmsgPGZyYW5ramFAbGludXguaWJtLmNvbT4NCj4+IHdyb3Rl
-Og0KPj4+DQo+Pj4+IE9uIDcvMjYvMjIgMTM6MjUsIE1hcmMtQW5kcsOpIEx1cmVhdSB3cm90
-ZToNCj4+Pj4+IEhpDQo+Pj4+Pg0KPj4+Pj4gT24gVHVlLCBKdWwgMjYsIDIwMjIgYXQgMToy
-MyBQTSBKYW5vc2NoIEZyYW5rIDxmcmFua2phQGxpbnV4LmlibS5jb20+DQo+Pj4+IHdyb3Rl
-Og0KPj4+Pj4+DQo+Pj4+Pj4gQXMgc2VjdGlvbnMgZG9uJ3QgaGF2ZSBhIHR5cGUgbGlrZSB0
-aGUgbm90ZXMgZG8gd2UgbmVlZCBhbm90aGVyIHdheSB0bw0KPj4+Pj4+IGRldGVybWluZSB0
-aGVpciBjb250ZW50cy4gVGhlIHN0cmluZyB0YWJsZSBhbGxvd3MgdXMgdG8gYXNzaWduIGVh
-Y2gNCj4+Pj4+PiBzZWN0aW9uIGFuIGlkZW50aWZpY2F0aW9uIHN0cmluZyB3aGljaCBhcmNo
-aXRlY3R1cmVzIGNhbiB0aGVuIHVzZSB0bw0KPj4+Pj4+IHRhZyB0aGVpciBzZWN0aW9ucyB3
-aXRoLg0KPj4+Pj4+DQo+Pj4+Pj4gVGhlcmUgd2lsbCBiZSBubyBzdHJpbmcgdGFibGUgaWYg
-dGhlIGFyY2hpdGVjdHVyZSBkb2Vzbid0IGFkZCBjdXN0b20NCj4+Pj4+PiBzZWN0aW9ucyB3
-aGljaCBhcmUgaW50cm9kdWNlZCBpbiBhIGZvbGxvd2luZyBwYXRjaC4NCj4+Pj4+Pg0KPj4+
-Pj4+IFNpZ25lZC1vZmYtYnk6IEphbm9zY2ggRnJhbmsgPGZyYW5ramFAbGludXguaWJtLmNv
-bT4NCj4+IFsuLi5dDQo+Pj4+IFsuLl0NCj4+Pj4+PiAgICAgICAgIHMtPmxlbmd0aCA9IGxl
-bmd0aDsNCj4+Pj4+PiArICAgIC8qIEZpcnN0IGluZGV4IGlzIDAsIGl0J3MgdGhlIHNwZWNp
-YWwgbnVsbCBuYW1lICovDQo+Pj4+Pj4gKyAgICBzLT5zdHJpbmdfdGFibGVfYnVmID0gZ19h
-cnJheV9uZXcoRkFMU0UsIFRSVUUsIDEpOw0KPj4+Pj4+ICsgICAgLyoNCj4+Pj4+PiArICAg
-ICAqIEFsbG9jYXRlIHRoZSBudWxsIG5hbWUsIGR1ZSB0byB0aGUgY2xlYXJpbmcgb3B0aW9u
-IHNldCB0byB0cnVlDQo+Pj4+Pj4gKyAgICAgKiBpdCB3aWxsIGJlIDAuDQo+Pj4+Pj4gKyAg
-ICAgKi8NCj4+Pj4+PiArICAgIGdfYXJyYXlfc2V0X3NpemUocy0+c3RyaW5nX3RhYmxlX2J1
-ZiwgMSk7DQo+Pj4+Pg0KPj4+Pj4gSSB3b25kZXIgaWYgR0J5dGVBcnJheSB3b3VsZG4ndCBi
-ZSBtb3JlIGFwcHJvcHJpYXRlLCBldmVuIGlmIGl0DQo+Pj4+PiBkb2Vzbid0IGhhdmUgdGhl
-IGNsZWFyaW5nIG9wdGlvbi4gSWYgaXQncyBqdXN0IGZvciBvbmUgYnl0ZSwgLi4uDQo+Pj4+
-DQo+Pj4+IEkgZG9uJ3QgcmVhbGx5IGNhcmUgYnV0IEkgbmVlZCBhIGRlY2lzaW9uIG9uIGl0
-IHRvIGNoYW5nZSBpdCA6KQ0KPj4+Pg0KPj4+DQo+Pj4gSSBoYXZlbid0IHRyaWVkLCBidXQg
-SSB0aGluayBpdCB3b3VsZCBiZSBhIGJldHRlciBmaXQuDQo+Pg0KPj4gTG9va2luZyBhdCB0
-aGlzIGEgc2Vjb25kIHRpbWUgdGhlcmUncyBhbiBpc3N1ZSB5b3Ugc2hvdWxkIGNvbnNpZGVy
-Og0KPj4NCj4+IEdCeXRlQXJyYXkgdXNlcyBndWludDggd2hpbGUgdGhlIEdBcnJheSB1c2Vz
-IGdjaGFycyB3aGljaCBhcmUgYXBwYXJlbnRseQ0KPj4gY29tcGF0aWJsZSB3aXRoIG5vcm1h
-bCBDIGNoYXJzLg0KPj4NCj4+IEkuZS4gSSBuZWVkIHRvIGNhc3QgYWxsIHN0cmluZ3MgdG8g
-KGNvbnN0IGd1aW50OCAqKSB3aGVuIGFwcGVuZGluZyB0aGVtDQo+PiB0byB0aGUgR0J5dGVB
-cnJheS4NCj4+DQo+IA0KPiBBZ2gsIGJvcmluZy4uIHdlbGwsIHdlIGFsc28gaGF2ZSBpbmNs
-dWRlL3FlbXUvYnVmZmVyLmggdGhhdCBjb3VsZCBiZQ0KPiBjb25zaWRlcmVkIHBlcmhhcHMN
-Cj4gDQoNCldoeSBzaG91bGQgSSBjaGFuZ2UgaXQgdG8gc29tZXRoaW5nIHRoYXQncyBoYXJk
-bHkgYmVpbmcgdXNlZCwgaS5lLiANCndoYXQncyB0aGUgcHJvYmxlbSBoZXJlPw0K
+On Mon, Aug 01, 2022 at 11:09:24AM +0400, Marc-André Lureau wrote:
+> Hi
+> 
+> On Sat, Jul 30, 2022 at 6:52 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> 
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Support for the unix socket has existed both in BSD and Linux for the
+> > longest time, but not on Windows. Since Windows 10 build 17063 [1],
+> > the native support for the unix socket has come to Windows. Starting
+> > this build, two Win32 processes can use the AF_UNIX address family
+> > over Winsock API to communicate with each other.
+> >
+> > [1] https://devblogs.microsoft.com/commandline/af_unix-comes-to-windows/
+> >
+> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > ---
+> >
+> > Changes in v3:
+> > - drop the run-time check afunix_available()
+> >
+> > Changes in v2:
+> > - move #include <afunix.h> to os-win32.h
+> > - define WIN_BUILD_AF_UNIX only when CONFIG_WIN32
+> >
+> >  meson.build               |  6 ++++++
+> >  include/sysemu/os-win32.h |  4 ++++
+> >  util/qemu-sockets.c       | 14 +++++++-------
+> >  3 files changed, 17 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/meson.build b/meson.build
+> > index 294e9a8f32..3663b925d4 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -2327,6 +2327,12 @@ have_afalg = get_option('crypto_afalg') \
+> >    '''), error_message: 'AF_ALG requested but could not be
+> > detected').allowed()
+> >  config_host_data.set('CONFIG_AF_ALG', have_afalg)
+> >
+> > +if targetos != 'windows'
+> > +  config_host_data.set('CONFIG_AF_UNIX', true)
+> >
+> 
+> Imho, we should simply define CONFIG_AFUNIX_H, regardless of the OS.
+> 
+> 
+> > +else
+> > +  config_host_data.set('CONFIG_AF_UNIX', cc.has_header('afunix.h'))
+> > +endif
+> >
+> +
+> >  config_host_data.set('CONFIG_AF_VSOCK', cc.has_header_symbol(
+> >    'linux/vm_sockets.h', 'AF_VSOCK',
+> >    prefix: '#include <sys/socket.h>',
+> > diff --git a/include/sysemu/os-win32.h b/include/sysemu/os-win32.h
+> > index edc3b38a57..cebf260694 100644
+> > --- a/include/sysemu/os-win32.h
+> > +++ b/include/sysemu/os-win32.h
+> > @@ -30,6 +30,10 @@
+> >  #include <windows.h>
+> >  #include <ws2tcpip.h>
+> >
+> > +#ifdef CONFIG_AF_UNIX
+> > +# include <afunix.h>
+> > +#endif
+> >
+> 
+> we could also provide a fallback, the same I did for glib:
+> https://gitlab.gnome.org/GNOME/glib/-/commit/4339192b5391a37ecd55816c713537fb1990cd07
+> 
+> So all Windows build will have afunix code compiled.
+
+That's much nicer. It lets us get rid of the conditionals around all
+the UNIX socket handling code across the codebase, except for the
+FD passing checks which have to remain.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
