@@ -2,55 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56172586C09
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:32:44 +0200 (CEST)
-Received: from localhost ([::1]:47922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C63E586C08
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 15:32:28 +0200 (CEST)
+Received: from localhost ([::1]:46916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIVXH-0003Tb-BR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:32:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56704)
+	id 1oIVX0-0002fC-Cl
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 09:32:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIVDS-0005wP-HB; Mon, 01 Aug 2022 09:12:14 -0400
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]:36449
- helo=gandalf.ozlabs.org)
+ id 1oIVDS-0005vx-DW; Mon, 01 Aug 2022 09:12:14 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:37337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=LBbo=YF=kaod.org=clg@ozlabs.org>)
- id 1oIVDN-0007Ny-5T; Mon, 01 Aug 2022 09:12:14 -0400
-Received: from gandalf.ozlabs.org (mail.ozlabs.org
- [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LxJRy52KHz4xGL;
- Mon,  1 Aug 2022 23:11:58 +1000 (AEST)
+ id 1oIVDM-0007OC-Vd; Mon, 01 Aug 2022 09:12:14 -0400
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LxJS238psz4xGX;
+ Mon,  1 Aug 2022 23:12:02 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LxJRt0H8Mz4xGX;
- Mon,  1 Aug 2022 23:11:53 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LxJRz4pQlz4xGQ;
+ Mon,  1 Aug 2022 23:11:59 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 17/19] ppc/ppc405: QOM'ify FPGA
-Date: Mon,  1 Aug 2022 15:10:37 +0200
-Message-Id: <20220801131039.1693913-18-clg@kaod.org>
+Subject: [PATCH 18/19] ppc/ppc405: QOM'ify UIC
+Date: Mon,  1 Aug 2022 15:10:38 +0200
+Message-Id: <20220801131039.1693913-19-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20220801131039.1693913-1-clg@kaod.org>
 References: <20220801131039.1693913-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=LBbo=YF=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,123 +65,122 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/ppc/ppc405_boards.c | 55 +++++++++++++++++++++++++++++-------------
- 1 file changed, 38 insertions(+), 17 deletions(-)
+ hw/ppc/ppc405.h    |  3 ++-
+ hw/ppc/ppc405_uc.c | 27 ++++++++++++++-------------
+ 2 files changed, 16 insertions(+), 14 deletions(-)
 
-diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-index 82b51cc457fa..2900c267b7ac 100644
---- a/hw/ppc/ppc405_boards.c
-+++ b/hw/ppc/ppc405_boards.c
-@@ -71,18 +71,23 @@ OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
-  * - NVRAM (0xF0000000)
-  * - FPGA  (0xF0300000)
-  */
--typedef struct ref405ep_fpga_t ref405ep_fpga_t;
--struct ref405ep_fpga_t {
+diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+index 0cbfd977aecf..c2cfccb9d106 100644
+--- a/hw/ppc/ppc405.h
++++ b/hw/ppc/ppc405.h
+@@ -27,6 +27,7 @@
+ 
+ #include "qom/object.h"
+ #include "hw/ppc/ppc4xx.h"
++#include "hw/intc/ppc-uic.h"
+ 
+ #define PPC405EP_SDRAM_BASE 0x00000000
+ #define PPC405EP_NVRAM_BASE 0xF0000000
+@@ -249,7 +250,7 @@ struct Ppc405SoCState {
+     hwaddr ram_size;
+ 
+     PowerPCCPU cpu;
+-    DeviceState *uic;
++    PPCUIC uic;
+     Ppc405CpcState cpc;
+     Ppc405GptState gpt;
+     Ppc405OcmState ocm;
+diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+index de2c3c0c747c..0336d1e08689 100644
+--- a/hw/ppc/ppc405_uc.c
++++ b/hw/ppc/ppc405_uc.c
+@@ -1448,6 +1448,8 @@ static void ppc405_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "cpu", &s->cpu,
+                             POWERPC_CPU_TYPE_NAME("405ep"));
+ 
++    object_initialize_child(obj, "uic", &s->uic, TYPE_PPC_UIC);
 +
-+#define TYPE_PPC405_FPGA "ppc405-fpga"
-+OBJECT_DECLARE_SIMPLE_TYPE(Ppc405FpgaState, PPC405_FPGA);
-+struct Ppc405FpgaState {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion iomem;
-+
-     uint8_t reg0;
-     uint8_t reg1;
- };
+     object_initialize_child(obj, "cpc", &s->cpc, TYPE_PPC405_CPC);
+     object_property_add_alias(obj, "sys-clk", OBJECT(&s->cpc), "sys-clk");
  
- static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
- {
--    ref405ep_fpga_t *fpga;
-+    Ppc405FpgaState *fpga = PPC405_FPGA(opaque);
-     uint32_t ret;
+@@ -1533,22 +1535,21 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->opba), 0, 0xef600600);
  
--    fpga = opaque;
-     switch (addr) {
-     case 0x0:
-         ret = fpga->reg0;
-@@ -101,9 +106,8 @@ static uint64_t ref405ep_fpga_readb(void *opaque, hwaddr addr, unsigned size)
- static void ref405ep_fpga_writeb(void *opaque, hwaddr addr, uint64_t value,
-                                  unsigned size)
- {
--    ref405ep_fpga_t *fpga;
-+    Ppc405FpgaState *fpga = PPC405_FPGA(opaque);
+     /* Universal interrupt controller */
+-    s->uic = qdev_new(TYPE_PPC_UIC);
+-
+-    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(&s->cpu),
++    object_property_set_link(OBJECT(&s->uic), "cpu", OBJECT(&s->cpu),
+                              &error_fatal);
+-    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->uic), errp)) {
+         return;
+     }
  
--    fpga = opaque;
-     switch (addr) {
-     case 0x0:
-         /* Read only */
-@@ -126,27 +130,39 @@ static const MemoryRegionOps ref405ep_fpga_ops = {
-     .endianness = DEVICE_BIG_ENDIAN,
- };
+-    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_INT,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_INT));
+-    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->uic), PPCUIC_OUTPUT_CINT,
+                        qdev_get_gpio_in(DEVICE(&s->cpu), PPC40x_INPUT_CINT));
  
--static void ref405ep_fpga_reset (void *opaque)
-+static void ref405ep_fpga_reset(DeviceState *dev)
- {
--    ref405ep_fpga_t *fpga;
-+    Ppc405FpgaState *fpga = PPC405_FPGA(dev);
+     /* SDRAM controller */
+     /* XXX 405EP has no ECC interrupt */
+-    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17), 2, s->ram_memories,
++    ppc4xx_sdram_init(env, qdev_get_gpio_in(DEVICE(&s->uic), 17), 2,
++                      s->ram_memories,
+                       s->ram_bases, s->ram_sizes, s->do_dram_init);
  
--    fpga = opaque;
-     fpga->reg0 = 0x00;
-     fpga->reg1 = 0x0F;
- }
+     /* External bus controller */
+@@ -1567,12 +1568,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
  
--static void ref405ep_fpga_init(MemoryRegion *sysmem, uint32_t base)
-+static void ref405ep_fpga_realize(DeviceState *dev, Error **errp)
- {
--    ref405ep_fpga_t *fpga;
--    MemoryRegion *fpga_memory = g_new(MemoryRegion, 1);
-+    Ppc405FpgaState *s = PPC405_FPGA(dev);
+     for (i = 0; i < ARRAY_SIZE(s->dma.irqs); i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->dma), i,
+-                           qdev_get_gpio_in(s->uic, 5 + i));
++                           qdev_get_gpio_in(DEVICE(&s->uic), 5 + i));
+     }
  
--    fpga = g_new0(ref405ep_fpga_t, 1);
--    memory_region_init_io(fpga_memory, NULL, &ref405ep_fpga_ops, fpga,
-+    memory_region_init_io(&s->iomem, OBJECT(s), &ref405ep_fpga_ops, s,
-                           "fpga", 0x00000100);
--    memory_region_add_subregion(sysmem, base, fpga_memory);
--    qemu_register_reset(&ref405ep_fpga_reset, fpga);
-+    sysbus_init_mmio(SYS_BUS_DEVICE(s), &s->iomem);
-+}
-+
-+static void ref405ep_fpga_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    dc->realize = ref405ep_fpga_realize;
-+    dc->user_creatable = false;
-+    dc->reset = ref405ep_fpga_reset;
- }
+     /* I2C controller */
+     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+-                         qdev_get_gpio_in(s->uic, 2));
++                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
  
-+static const TypeInfo ref405ep_fpga_type = {
-+    .name = TYPE_PPC405_FPGA,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(Ppc405FpgaState),
-+    .class_init = ref405ep_fpga_class_init,
-+};
-+
- /*
-  * CPU reset handler when booting directly from a loaded kernel
-  */
-@@ -325,7 +341,11 @@ static void ref405ep_init(MachineState *machine)
-     ppc405_init(machine);
+     /* GPIO */
+     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+@@ -1583,13 +1584,13 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+     /* Serial ports */
+     if (serial_hd(0) != NULL) {
+         serial_mm_init(get_system_memory(), 0xef600300, 0,
+-                       qdev_get_gpio_in(s->uic, 0),
++                       qdev_get_gpio_in(DEVICE(&s->uic), 0),
+                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
+                        DEVICE_BIG_ENDIAN);
+     }
+     if (serial_hd(1) != NULL) {
+         serial_mm_init(get_system_memory(), 0xef600400, 0,
+-                       qdev_get_gpio_in(s->uic, 1),
++                       qdev_get_gpio_in(DEVICE(&s->uic), 1),
+                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
+                        DEVICE_BIG_ENDIAN);
+     }
+@@ -1609,7 +1610,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
  
-     /* Register FPGA */
--    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
-+    dev = qdev_new(TYPE_PPC405_FPGA);
-+    object_property_add_child(OBJECT(machine), "fpga", OBJECT(dev));
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, PPC405EP_FPGA_BASE);
-+
-     /* Register NVRAM */
-     dev = qdev_new("sysbus-m48t08");
-     qdev_prop_set_int32(dev, "base-year", 1968);
-@@ -370,6 +390,7 @@ static void ppc405_machine_init(void)
- {
-     type_register_static(&ppc405_machine_type);
-     type_register_static(&ref405ep_type);
-+    type_register_static(&ref405ep_fpga_type);
- }
+     for (i = 0; i < ARRAY_SIZE(s->gpt.irqs); i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpt), i,
+-                           qdev_get_gpio_in(s->uic, 19 + i));
++                           qdev_get_gpio_in(&s->uic, 19 + i));
+     }
  
- type_init(ppc405_machine_init)
+     /* MAL */
+@@ -1623,7 +1624,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+ 
+     for (i = 0; i < ARRAY_SIZE(s->mal.irqs); i++) {
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->mal), i,
+-                           qdev_get_gpio_in(s->uic, 11 + i));
++                           qdev_get_gpio_in(&s->uic, 11 + i));
+     }
+ 
+     /* Ethernet */
 -- 
 2.37.1
 
