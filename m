@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B37B58659C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:25:57 +0200 (CEST)
-Received: from localhost ([::1]:46668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2675865AC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:34:08 +0200 (CEST)
+Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIPoJ-0001ti-LH
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45742)
+	id 1oIPwF-00063Z-4D
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:34:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oIPhv-0006UT-SG
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:19:20 -0400
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:33444)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oIPrs-0003ec-O0
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:29:36 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1oIPhu-000756-92
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:19:19 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id e15so5887762lfs.0
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:19:17 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1oIPrr-0000FH-69
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:29:36 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id z19so9714626plb.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:29:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pydFCMdJNFvTGhKm7qB7/+GrJc/+WT2/HQEZ+m7Z1rs=;
- b=gklLlzHL7+mJsrX3DIMxIgWfD7s7xbUCakkWNLRNC6waHl2XXOVxqbnuIVnjUXESXL
- APbq4l1w9ATruDeIQP4yBFznM4r7kuGUfkj5ncTLkX7iWIm/F75xIbKM7/n0w2LZ+dZ5
- lnWEX4SlRRoZ73aFQqbrfsPdie7ZluIFXd7GBjIee6Sr+Kd2RbC27g5HGbCALehhz/ch
- exOwwOfqckcVUL+nvOn2uOtJLLeIxC9VXRYgqkJ2r3CqXO4xVt3vz6PkR8YAM4CLoetI
- Ormhj3iZfRB9jRSI8IpTUeGXyuVtLeRCsjry9vqyOdjXK1+h3mwBS0tJSvGxEocXW6iH
- g0jA==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=Ql3bDPfLQL6Wd89SpOq61uNcftF88Xzjx3Q77h2Wbp8=;
+ b=j2rBUCDyA6loiVDG3hv2Glqq/PXbYrMdyfc4EkaQV8shbyJ9qZJK6cR/51mMN0cieR
+ jUQukCwxKd2rlcMNYnDXtBblayTS9XkJWaEIq3zb6AwbCtAPF4XEd/kXM310aAi6VIj0
+ 8HccOtkVNidqohY7FzlthywaGbl3PGrZtRKFjIfm+/7CKEWflgDdY6kg8wyQog3NyZ7F
+ Qmj7GDMYsmuijYgq6Zk1wiKsJ3yEoHKRLjsIsVVNP3MdrK13kgvvRsVPXEtQ9TOQ0UaS
+ B6F7UqJeuA0fJV+ddCRCFDzOo7agW90NcQt6aKkYXP7s1DGdwzeh1mZzy9/jrUW4sFwk
+ Apwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pydFCMdJNFvTGhKm7qB7/+GrJc/+WT2/HQEZ+m7Z1rs=;
- b=xfoTliZQKFyabRxjzVsgxbrjIj3/cX5zt6R1eP2f7sdcTlYGHMdOke2/Yznghjtw4L
- YRqZRgXR///kZMIvrppF0oiqZ3yzdzrjMiLVrIur3q+igaXOwVurowkhZgJ0cp4/+FXr
- gpjkGLyYSD9/2/Q4bcis/0+JJI08wJOc3xOa6Mi1fVp3YWXIMkFXitWnjzkt+kyxXKiJ
- PVoiORccDA3Jk/oON37apm43k08yu1ZV9TCmmd8b/BG6tsATw/HE1a/OFWf9LxvTciV8
- KZGa1bPbSdffGiETgFZEJLZxdQ4modjeeChNkzQwjxwlA4869SbF2IxlB+jLd0BWNPFQ
- cxIw==
-X-Gm-Message-State: AJIora93NJYG6b40TTI10++j4g82SwHD/dp8zK8iAtrJmVDCLIoDOnIz
- ISBvQawamdKRnL0s9FSypCWg+7v5pqVgCLuylKo=
-X-Google-Smtp-Source: AGRyM1srarmZUfCPvo5vdJBJOCW/YZiKu6XnFvmESITicO10fTIyHWk2RYKyZQdLcvRrqSazkniX0tTr6pu+9WaLENI=
-X-Received: by 2002:a05:6512:3f19:b0:48a:874f:534 with SMTP id
- y25-20020a0565123f1900b0048a874f0534mr5058902lfa.446.1659338355991; Mon, 01
- Aug 2022 00:19:15 -0700 (PDT)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=Ql3bDPfLQL6Wd89SpOq61uNcftF88Xzjx3Q77h2Wbp8=;
+ b=la/RTSP4jVeteqO78pSRFYOZUV9/cUZoUFFjZFPIsl9vIVDoTkH4u/oyE4iCDRDnt1
+ reo4zKGyb2gB6qnm4bXqxBaQ4zesLTCm9vbQPzZJzXjhEQk2YLVe/Kd39j2v0Bl/M8Bd
+ 4sFxlMJcdJrxvafCjsfyZ8MtZ0AIetR8BKc/MxFE9uIX1u5VgL19Mjm9Xh0FQOLj/AnQ
+ py+W41wGoGcwcj87nk30mtq/4GGfp0sy0bkTb/L4h33QUoNYvvqUDS3vPYoHLAgMoPZ1
+ k8DiAcEDKqr7ykgx0aWfE6UQtXCDSOIs9pU+oXM4RlU48sh3QDWnRquvzuQ4Q6ymw0eb
+ I96w==
+X-Gm-Message-State: ACgBeo07QYR+z+U6VM5BTiN2ooPSfp97j9LS5vepdusrT+O38U3GKR2X
+ X7uLlfSk7XzY7sM/nyO6NJxPsbsLDF8+qPJP+0o=
+X-Google-Smtp-Source: AA6agR7fqIEHTSmGhYbl627Ui0VF9jYm5J1ob0BQ//Ts/ZjmyqCPs/lYRgtQbz4uTEfDAoWNWRkyAT07BghwvIbWCXo=
+X-Received: by 2002:a17:903:2291:b0:16e:cf55:5c72 with SMTP id
+ b17-20020a170903229100b0016ecf555c72mr9154487plh.121.1659338973250; Mon, 01
+ Aug 2022 00:29:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220730145036.865854-1-bmeng.cn@gmail.com>
- <20220730145036.865854-4-bmeng.cn@gmail.com>
-In-Reply-To: <20220730145036.865854-4-bmeng.cn@gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 1 Aug 2022 11:19:04 +0400
-Message-ID: <CAJ+F1CK7_tme4Fqjropmiw3pARTR8g-HTPOWTgPtCqaRPN2Pcw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/4] chardev/char-socket: Update AF_UNIX for Windows
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
- Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000004568fc05e528d1f9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x12e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220729201942.30738-1-richard.henderson@linaro.org>
+In-Reply-To: <20220729201942.30738-1-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Aug 2022 17:29:07 +1000
+Message-ID: <CAKmqyKOjnmwEPPEeAi4U0zsKMG8MMd+WFEp4AEHTj=S5juHKog@mail.gmail.com>
+Subject: Re: [PATCH for-7.1?] linux-user/riscv: Align signal frame to 16 bytes
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,131 +84,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000004568fc05e528d1f9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Sat, Jul 30, 2022 at 6:54 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-
-> From: Bin Meng <bin.meng@windriver.com>
+On Sat, Jul 30, 2022 at 6:19 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Now that AF_UNIX has come to Windows, update the existing logic in
-> qemu_chr_compute_filename() and qmp_chardev_open_socket() for Windows.
+> Follow the kernel's alignment, as we already noted.
 >
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1093
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
+>  linux-user/riscv/signal.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> (no changes since v2)
+> diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
+> index 296e39fbf0..eaa168199a 100644
+> --- a/linux-user/riscv/signal.c
+> +++ b/linux-user/riscv/signal.c
+> @@ -64,9 +64,7 @@ static abi_ulong get_sigframe(struct target_sigaction *ka,
 >
-> Changes in v2:
-> - drop #include <afunix.h> as it is now already included in osdep.h
+>      /* This is the X/Open sanctioned signal stack switching.  */
+>      sp = target_sigsp(sp, ka) - framesize;
+> -
+> -    /* XXX: kernel aligns with 0xf ? */
+> -    sp &= ~3UL; /* align sp on 4-byte boundary */
+> +    sp &= ~0xf;
 >
->  chardev/char-socket.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-> index dc4e218eeb..14a56b7b13 100644
-> --- a/chardev/char-socket.c
-> +++ b/chardev/char-socket.c
-> @@ -557,7 +557,7 @@ static char *qemu_chr_compute_filename(SocketChardev
-> *s)
->      const char *left =3D "", *right =3D "";
->
->      switch (ss->ss_family) {
-> -#ifndef _WIN32
-> +#ifdef CONFIG_AF_UNIX
->      case AF_UNIX:
->          return g_strdup_printf("unix:%s%s",
->                                 ((struct sockaddr_un *)(ss))->sun_path,
-> @@ -1372,10 +1372,12 @@ static void qmp_chardev_open_socket(Chardev *chr,
->      }
->
->      qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_RECONNECTABLE);
-> +#ifndef _WIN32
->      /* TODO SOCKET_ADDRESS_FD where fd has AF_UNIX */
->      if (addr->type =3D=3D SOCKET_ADDRESS_TYPE_UNIX) {
->          qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_FD_PASS);
->      }
-> +#endif
+>      return sp;
+>  }
+> --
+> 2.34.1
 >
 >
-With the fallback for afunix.h header on windows, we can enable various
-code paths with AF_UNIX, without condition.
-
-
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---0000000000004568fc05e528d1f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jul 30, 2022 at 6:54 PM Bin=
- Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com">bmeng.cn@gmail.com</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Bin=
- Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" target=3D"_blank">bin.m=
-eng@windriver.com</a>&gt;<br>
-<br>
-Now that AF_UNIX has come to Windows, update the existing logic in<br>
-qemu_chr_compute_filename() and qmp_chardev_open_socket() for Windows.<br>
-<br>
-Signed-off-by: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" targe=
-t=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
-Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-<br>
-(no changes since v2)<br>
-<br>
-Changes in v2:<br>
-- drop #include &lt;afunix.h&gt; as it is now already included in osdep.h<b=
-r>
-<br>
-=C2=A0chardev/char-socket.c | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c<br>
-index dc4e218eeb..14a56b7b13 100644<br>
---- a/chardev/char-socket.c<br>
-+++ b/chardev/char-socket.c<br>
-@@ -557,7 +557,7 @@ static char *qemu_chr_compute_filename(SocketChardev *s=
-)<br>
-=C2=A0 =C2=A0 =C2=A0const char *left =3D &quot;&quot;, *right =3D &quot;&qu=
-ot;;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0switch (ss-&gt;ss_family) {<br>
--#ifndef _WIN32<br>
-+#ifdef CONFIG_AF_UNIX<br>
-=C2=A0 =C2=A0 =C2=A0case AF_UNIX:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return g_strdup_printf(&quot;unix:%s%s&qu=
-ot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ((struct sockaddr_un *)(ss))-&gt;sun=
-_path,<br>
-@@ -1372,10 +1372,12 @@ static void qmp_chardev_open_socket(Chardev *chr,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0qemu_chr_set_feature(chr, QEMU_CHAR_FEATURE_RECONNECTAB=
-LE);<br>
-+#ifndef _WIN32<br>
-=C2=A0 =C2=A0 =C2=A0/* TODO SOCKET_ADDRESS_FD where fd has AF_UNIX */<br>
-=C2=A0 =C2=A0 =C2=A0if (addr-&gt;type =3D=3D SOCKET_ADDRESS_TYPE_UNIX) {<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_chr_set_feature(chr, QEMU_CHAR_FEATU=
-RE_FD_PASS);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+#endif<br>
-<br></blockquote><div><br></div><div>With the fallback for afunix.h header =
-on windows, we can enable various code paths with AF_UNIX, without conditio=
-n.</div><br></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gm=
-ail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---0000000000004568fc05e528d1f9--
 
