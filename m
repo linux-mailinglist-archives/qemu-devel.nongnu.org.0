@@ -2,91 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14E27586641
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:20:53 +0200 (CEST)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96F4C586656
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 10:27:49 +0200 (CEST)
+Received: from localhost ([::1]:36432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIQfT-0007Kz-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:20:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54266)
+	id 1oIQm4-0002ik-HX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 04:27:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1oIQY9-0001PN-Oq
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:13:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58829)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIQjb-0001Ji-Dm
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:25:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27966)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <abologna@redhat.com>)
- id 1oIQY0-0006j0-3i
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:13:11 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIQjX-0000cf-EQ
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 04:25:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659341587;
+ s=mimecast20190719; t=1659342302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sqjdrzLZMYqeHxSrKXneKZK9szUruPWpHjIBlxJdB7w=;
- b=EkanV0CG2lYJD/rOw1xe5SPe6f3a5i8ioQgWd3beNjlo6zBUCQhhVUEbpNcy6EG07Tpoqt
- zmHg8BMl3cJhiH/KYqXumTnMMlrNDOvpHGSHWq4YSfKf7ptnIlgWEQ/7PyQ9Gqhnb+Fqgl
- ZsaqeaTl5CaxLKKIxJmm/PlQ4SXYkX8=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=G+jBZ0arHAh/SAXCKFBk5jHtgchVu45WDaDiLUlaUoY=;
+ b=dKqj8+Qr5Ghv4U2KzEyrVdmF2wJDJkiQIbaJwR6rTaQWKCRfmWLwQw2cf4/fXHCTAmrr41
+ DghfL5ZSIDOoqxvmEAqInM8FiIAFKuIHwTPwLPdioTzoHVhzjFd/68FYDKuQ3MD8L+5CN+
+ dR0v/cVq5EInUVr5+9hJdw57lrKAYSM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-56-zsUTdZLoOnG_pi9Og9iwww-1; Mon, 01 Aug 2022 04:13:04 -0400
-X-MC-Unique: zsUTdZLoOnG_pi9Og9iwww-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-324f98aed9eso13496797b3.16
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:13:04 -0700 (PDT)
+ us-mta-282-hrDbm-dDPlmOAsjBBCsptQ-1; Mon, 01 Aug 2022 04:24:13 -0400
+X-MC-Unique: hrDbm-dDPlmOAsjBBCsptQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ v11-20020a1cf70b000000b003a318238826so1397772wmh.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 01:24:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:in-reply-to
- :mime-version:references:from:x-gm-message-state:from:to:cc;
- bh=sqjdrzLZMYqeHxSrKXneKZK9szUruPWpHjIBlxJdB7w=;
- b=4itbdm0153LuK0r4nAVBne75P1h0L0eQewJygSG0eKiQtT8z6AdAcapnafL0QVlxS0
- mxcSlat3QImOqcncXNsCwndOs3dTA5fSqfO3YebvteDsEZ4ydakHflru52qCT2HySjAv
- LKFEbDvAx+Lva304FHbwTsU+PpngwlKs8AFAdZ+4npGzXsMTFDSi2T1u+Mt9ZOsWxit3
- 7FJom6LGxLGWRea38ziFniQjuFI8ZQuIAQfshMJBtMaNvzqn/pfXsprcWBpj9oNUBHJF
- Bl0niEcHO1+04pzMbxarJzUsX0fh1BECzWr2b5+aCAjpZN7sYOstqCenXfYo+kQ6neme
- /low==
-X-Gm-Message-State: ACgBeo05z6wek5i4bm0MZJgsjzcyfZGECaVQB+NoO255SKkWBH+L5IOH
- Cop5ThvF+bhFilRJrjqhFx+QFQXmK8zgAXQjplsYDqxqu8HmBsenIHCHfG5bsjJ2rgb4kBnagjR
- hwtfzLyK6aZo3FID8fvqQqDL6OsoAWvc=
-X-Received: by 2002:a81:5a41:0:b0:31e:575c:a521 with SMTP id
- o62-20020a815a41000000b0031e575ca521mr12224775ywb.72.1659341583934; 
- Mon, 01 Aug 2022 01:13:03 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR5TAwMi6XxYRGRScf/kw6diqGlewM70G7fCBptuPvpgse5nzHmQEjgPIrNLdhzhF8wHxylG4INFuwwQj/JYI1E=
-X-Received: by 2002:a81:5a41:0:b0:31e:575c:a521 with SMTP id
- o62-20020a815a41000000b0031e575ca521mr12224769ywb.72.1659341583682; Mon, 01
- Aug 2022 01:13:03 -0700 (PDT)
-Received: from 744723338238 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 1 Aug 2022 04:13:03 -0400
-From: Andrea Bolognani <abologna@redhat.com>
-References: <20220420160311.248079-1-abologna@redhat.com>
- <20220420160311.248079-3-abologna@redhat.com>
- <YmAxjNgNWT2FNh8r@redhat.com>
- <CABJz62PnnGYV=6qiFYL2Y0+dg61P+nv0VvRUnP1cJkU6THcMEg@mail.gmail.com>
- <CABJz62NTwytWbStj172jOxe_1_f9=K4iv82Zh78twgQ5jNoAfw@mail.gmail.com>
- <YnI4AEYrkUvjuA4g@redhat.com>
- <CABJz62MaG0Bg+gf5_cGwAVQ3XLa_ZZ7B2tV2_J=1KpJmokedfA@mail.gmail.com>
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=G+jBZ0arHAh/SAXCKFBk5jHtgchVu45WDaDiLUlaUoY=;
+ b=gL1Jl3JnlG+YL9BWttC+JxMEz5PrNEyEUJWayXodCeYfgJJPB7d96qEIVSusM1zzp/
+ gmdFJpbFjIoo2NO+IE9OqqGVM+DWfv5SAA8m97YOGajSIwrwn+/RV1+1gf1HT/TgDNKZ
+ Ed6zhQd5pY69TlOHe5DCxp9MIir0hgucuFeE4wSctz8UYR3ghAjDYwVVKGZbrQHNyq+S
+ vgzzGsGyG0ZPfqU94cq0GssvgwO7UA4Uy+Gu9/3Y+9NzJI/7DOYn3zHDz1j+waGmLgpP
+ w45lKUClyalmuYDX0+hpVjE0Q9+6uxm+0js7slVY2p/Mzm+mIEj5xD770fnb8FQs/aDf
+ P2SQ==
+X-Gm-Message-State: AJIora+ObsNqJ5DpGVwVzV8GLjk7k50ndntjquEJ4fNlPB8v2oE8KD83
+ oIYy7N2xrTrEXEOSnrhjoqfm4YUFcwkhF3Vo1kLZ+MIqwKN1aI/6ns7wfbCJgNNtlUm5Dj2h9HL
+ X+voSubHh+VIyg7c=
+X-Received: by 2002:a05:600c:4113:b0:3a3:4b67:d086 with SMTP id
+ j19-20020a05600c411300b003a34b67d086mr10309892wmi.20.1659342252829; 
+ Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1s9fP8apxbq9Sl/LIluSY2kIw7uIGvWzz6noSookj88XcO3lCguzen+1leR9jdU6VLtGQrQEA==
+X-Received: by 2002:a05:600c:4113:b0:3a3:4b67:d086 with SMTP id
+ j19-20020a05600c411300b003a34b67d086mr10309873wmi.20.1659342252566; 
+ Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
+Received: from [192.168.8.104] (tmo-096-80.customers.d1-online.com.
+ [80.187.96.80]) by smtp.gmail.com with ESMTPSA id
+ o26-20020adf8b9a000000b0021f87e8945asm6869145wra.12.2022.08.01.01.24.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Aug 2022 01:24:12 -0700 (PDT)
+Message-ID: <be188f5b-6e05-79b2-34fc-b220c0dea779@redhat.com>
+Date: Mon, 1 Aug 2022 10:24:10 +0200
 MIME-Version: 1.0
-In-Reply-To: <CABJz62MaG0Bg+gf5_cGwAVQ3XLa_ZZ7B2tV2_J=1KpJmokedfA@mail.gmail.com>
-Date: Mon, 1 Aug 2022 04:13:03 -0400
-Message-ID: <CABJz62Puz-=KtTRn9vNxbSXkVZjSAko50SF4kNgJstnti9=zTw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] docs: build-platforms: Clarify stance on minor
- releases and backports
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=abologna@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v3 0/2] migration-test: Allow test to run without uffd
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Cc: "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
+References: <20220728133516.92061-1-peterx@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20220728133516.92061-1-peterx@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,49 +104,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jun 14, 2022 at 06:42:58AM -0700, Andrea Bolognani wrote:
-> On Wed, May 04, 2022 at 09:23:28AM +0100, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, May 04, 2022 at 01:01:03AM -0700, Andrea Bolognani wrote:
-> > > On Wed, Apr 20, 2022 at 09:18:47AM -0700, Andrea Bolognani wrote:
-> > > > On Wed, Apr 20, 2022 at 05:15:08PM +0100, Daniel P. Berrang=C3=A9 w=
-rote:
-> > > > > On Wed, Apr 20, 2022 at 06:03:11PM +0200, Andrea Bolognani wrote:
-> > > > > > These changes match those made in the following libvirt commits=
-:
-> > > > > >
-> > > > > >   2ac78307af docs: Clarify our stance on backported packages
-> > > > > >   78cffd450a docs: Spell out our policy concerning minor releas=
-es
-> > > > > >
-> > > > > > Since QEMU's platform support policy is based on libvirt's, it
-> > > > > > makes sense to mirror these recent changes made to the latter.
-> > > > > >
-> > > > > > The policy is not altered significantly - we're simply spelling
-> > > > > > out some rules that were likely already being implicitly
-> > > > > > enforced.
-> > > > >
-> > > > > Indeed, I think that's basically defacto the case already.
-> > > > >
-> > > > > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-> > > >
-> > > > Thanks! Are you going to bring these in through one of your trees, =
-or
-> > > > do I need to bug someone else so that they will pick them up? :)
-> > >
-> > > I see these haven't gone in yet. Anything I can/should do to make
-> > > that happen?
-> >
-> > The tragedy of QEMU not having a central docs maintainer. I'll queue
-> > this one for my next pull request.
->
-> Still doesn't seem to have been merged. Not pressuring you or
-> anything, just making sure it doesn't slip through the cracks :)
+On 28/07/2022 15.35, Peter Xu wrote:
+> v2:
+> - Fix warning in patch 1 [Thomas]
+> - Collected R-b for Daniel
+> 
+> Compare to v1, this added a new patch as reported by Thomas to (hopefully)
+> allow auto-converge test to pass on some MacOS testbeds.
+> 
+> Please review, thanks.
+> 
+> Peter Xu (2):
+>    migration-test: Use migrate_ensure_converge() for auto-converge
+>    migration-test: Allow test to run without uffd
+> 
+>   tests/qtest/migration-test.c | 67 +++++++++++++++---------------------
+>   1 file changed, 27 insertions(+), 40 deletions(-)
 
-I'm still not seeing this in the tree. I figure with 7.1 coming up
-you might be preparing a pull request at some point in the near
-future so I though I'd ping again :)
+Thanks, I've queued this to my testing-next branch now:
 
---=20
-Andrea Bolognani / Red Hat / Virtualization
+  https://gitlab.com/thuth/qemu/-/commits/testing-next/
+
+  Thomas
+
 
 
