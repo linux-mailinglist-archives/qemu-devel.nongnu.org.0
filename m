@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA275586740
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:14:39 +0200 (CEST)
-Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D12205867C7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:44:53 +0200 (CEST)
+Received: from localhost ([::1]:58260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oISRb-00008v-18
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
+	id 1oISuq-0003BJ-Co
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:44:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJR-0001GK-9t; Mon, 01 Aug 2022 06:06:13 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:56693)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJP-0000XT-MY; Mon, 01 Aug 2022 06:06:12 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id 8FD31320094F;
- Mon,  1 Aug 2022 06:06:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 01 Aug 2022 06:06:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:date:date:from:from
- :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659348369; x=
- 1659434769; bh=gDF/qKIKZPKhM3ujgAUdpGUVAx+pT7cb6Y+fUGAVVBg=; b=S
- 1RYhkI2CUdj4F6KbroJRbqnfEUyahWIsT2oUIYloTAXO1SFUIsGyqR7XGbQSQWxV
- Kp3yhZ09rxtlhv2l2qBvM9rThdW7/5TJ8cUdoLD6Snsv6IaB/e3v0oMM65qJELEJ
- +Q30tMI/r4mvw0Wf35+rJpcaIUVjDp38AILRWt1LDpX0Kfe9cwg4uQQ7Tmsgp+Z1
- iMC1cjsj97qrKeNKVYdUPwd5sifuBUrnHcxyYR02sMAW/+aF7oqf06QWssxEAQq/
- ZvQV96wKzkZ5kZcZXcD2VuHxCTvUAJvx9SxfPI25A08KAkL3qG1e7Afr8WgIFhzD
- f22rnfuv8z0nC+UG7+8HQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1659348369; x=1659434769; bh=gDF/qKIKZPKhM
- 3ujgAUdpGUVAx+pT7cb6Y+fUGAVVBg=; b=QfuH30ek+nKo+bILIpwIhEG614EJO
- 9xJCzyW2oL7ymdb/CcX1KX0dlOV8wmi+puaI2pwsfnXRvXr/h6veg5yq9qOT2Utn
- fnM8KchlyVebZVdpLW2WYoNh648OfItECr42kJjBRlw8kB/+rFEuOQgbpQvvBP6T
- cOaBgd2CxFk0wf8nF5UoQWGPRWXQ9EwR3dYiBJrg1mkU508ITyTL3Iaz1T0TLiki
- XhAmeOipwX2MTU2+yLe5dauh5DRAoy36vuzyi/JSp0Us0NMHWfUukyylKGoFvd52
- 4onHcrxjE391CixPnfs1SHLXY6VhtZJ2cXo9d/lm3xsaLH2nyLzuV7H5w==
-X-ME-Sender: <xms:kKXnYivIShbMa1LMCsCDBi4otOS_e8f3e_8bcP7PIY49gFo6l9eXRw>
- <xme:kKXnYnf4R8fqRo2YC8-4hfpeeFyoZRQfKP7ez9-OLgeZQ3cdnf9ort5RquZXhINtz
- piuad7CRlWC4FChraY>
-X-ME-Received: <xmr:kKXnYtwM9Lm8IbOpKbQ-3AwKov6J9HMKmrAid8LKXmF8JtK7P2TX7z5x-K-XnATp8dF3vViTsc5mpCXPt6kn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgvdegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
- udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:kKXnYtONKlh9H9uN3Sll55vRdORdzjOiSDTAi2srXlfLVyT9TC6U8Q>
- <xmx:kKXnYi-5Ubo0XA5WcFh1yPLWSL-MGwLvvJ2DKuWC1vJwJqbIHEQyGA>
- <xmx:kKXnYlWvZrvGbsy9nFXXe4mh1tyCViyGO6xM8eHUf5F9MsUafqUdWA>
- <xmx:kaXnYpkGIJvnBGglLEYyHeo0QNGQp7O6eRUYtrjndf827_8Au52PAA>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 Aug 2022 06:06:07 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
- Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PULL for-7.1 3/3] hw/nvme: do not enable ioeventfd by default
-Date: Mon,  1 Aug 2022 12:05:56 +0200
-Message-Id: <20220801100556.2217492-4-its@irrelevant.dk>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220801100556.2217492-1-its@irrelevant.dk>
-References: <20220801100556.2217492-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oISpI-0006UB-7u
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 06:39:08 -0400
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d]:42920)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oISpF-0005N5-BW
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 06:39:07 -0400
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-2ef5380669cso104371707b3.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 03:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=qbK51McfNCm6CTtzTj39jaQft04LxzuQtXE7zsAIz+g=;
+ b=p+VteKfq+MAW40DhJ9jY26O1A7NlZQ4jTwawR670cVs8e1yzjRIuuw5CnvWTzedlBI
+ h4QQ6xR4sfTo1Ji3ljlOqO3CjkDk9MyK24Q/BwF1FAl0u+nKFcFITWlrTA0rNfrC0hMm
+ m/b5T0TkmjQDd7AWDHIGXhEnNKesZ/2K5C8us+xjxQ+1Dnfx7r2dr6aM9P7slUNE+Ygi
+ GNH7fghwbLJwN3BcmB8rn4a+qiazyIqyt2JgblPOfwEQ9R8HKZPpWfHXvUkZ/SnQF1ms
+ 2WzBZVIZ6GKYNL6bpReSPWivTwkuPE/CAf/NtCLifHs2LfAkj8escg0de3rf1sDqhQx/
+ 9dhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=qbK51McfNCm6CTtzTj39jaQft04LxzuQtXE7zsAIz+g=;
+ b=w2OSripmZff1JROxczY0W7hKZxflwtMPoCSU3SPJsKrPDQ1MonLgS4NMSIBhJtHnLs
+ GmPVEpIz+JBA4QJNeqMXICdoHB6jg61hkIiRvihBa1gKtO6rYtFe0XdSR7JbnimOUMAS
+ Hq1OBR3BvHM2NX5KvBrrmtGvic1Ju0EdeHE12dkv+j276H7xhfoT/Wqa+Usfj1JH6IPo
+ ddcz1F6DN7O0/RbZvAPsluOct3RQn3w/j4aFi9ilnjSnRk+oPgwnPI6ApWfFSVpGi4Xn
+ bVzfmx5hSwcd1tPJKeL4e0CL5m5Dh3dhQSH671iCDoMN2n71ZUU55OVW4crK8mCkO/Py
+ GyzQ==
+X-Gm-Message-State: ACgBeo2+Y+9x2Mp1fzzwoS6+lr0BpQITCW0UQ13wfUlhMZoP3Oh8fb91
+ k4FH63w4o1UVaOBPotoOPVO1EiWiXS6BFvjnAFLr8wzx6Jw=
+X-Google-Smtp-Source: AA6agR6FxbkGugIDeS7qw2+E2vb/OWM90FSjIvxcALB/zaLuQuhXsvnyLUyHpUVQ/Dz5nu2l7FJs5+QUCF9TkBIRrbA=
+X-Received: by 2002:a81:106:0:b0:2d0:e682:8a7a with SMTP id
+ 6-20020a810106000000b002d0e6828a7amr12525962ywb.257.1659350344055; Mon, 01
+ Aug 2022 03:39:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
- helo=wout2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20220721115207.729615-1-peter.maydell@linaro.org>
+In-Reply-To: <20220721115207.729615-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Aug 2022 11:38:53 +0100
+Message-ID: <CAFEAcA9EjyoZAx5DfjdnwCvW4z=TxFS3940H9nBErH0_cYUanA@mail.gmail.com>
+Subject: Re: [PATCH 0/2] migration: fix coverity nits
+To: qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>, 
+ Stefan Hajnoczi <stefanha@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,33 +85,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Thu, 21 Jul 2022 at 12:52, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patchset fixes four Coverity nits in the migration code.
+> The first patch is just adding an assert() to clue coverity in
+> that an array index must be in-bounds. The second adds an ULL
+> suffix to force a multiplication to be done at 64 bits.
+>
+> thanks
+> -- PMM
+>
+> Peter Maydell (2):
+>   migration: Assert that migrate_multifd_compression() returns an
+>     in-range value
+>   migration: Define BLK_MIG_BLOCK_SIZE as unsigned long long
 
-Do not enable ioeventfd by default. Let the feature mature a bit before
-we consider enabling it by default.
+Ping? This series got reviewed but doesn't seem to have
+made it into a migration pullreq yet.
 
-Fixes: 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell updates")
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/nvme/ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 70b454eedbd8..87aeba056499 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -7670,7 +7670,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("vsl", NvmeCtrl, params.vsl, 7),
-     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
--    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
-+    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
-     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
-                      params.auto_transition_zones, true),
--- 
-2.36.1
-
+thanks
+-- PMM
 
