@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A393586E5C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:13:20 +0200 (CEST)
-Received: from localhost ([::1]:56814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C955586E67
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 18:17:04 +0200 (CEST)
+Received: from localhost ([::1]:59716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIY2h-0005ju-7K
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:13:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39996)
+	id 1oIY6J-0007u5-5X
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 12:17:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlV-0003Ap-47
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35826)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXla-0003BP-PF
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlO-0001Nh-0V
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIXlW-0001Q8-Pz
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 11:55:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659369324;
+ s=mimecast20190719; t=1659369334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ugZhdVI29kdk+nGGsHnjguOGlo5mLGU3fuPU5Yu+Ewk=;
- b=dpDAk7samKUa07vKp4ZeWWcf+z/9KYX1vIefdO+Pyd1XRmvuHoGEl+GvPOyP7XPCDNVezO
- 3BtpfRTnBSjpcy9ZXYjlPvrTPk5gsd2cie8Wh1ctRMT6QjuGTMl1As9fKS9lzuidnDFvW9
- xW9Pvjn2jHZNX0O2C9UUuboa75vw66s=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YqtL5idx9O8wtaCStTAgJzeXvr9HS1bLyblEOL4w+AI=;
+ b=aL1xyw2KvJ6j0HFeOTLCjuPkt1MOXN6vIJ/GKeO6pxBJc9Q+Vz+JBYcBfP9O2rzUHtIfWM
+ HqEQlR2MeG/JR2jJz760C3fQh+OrbxFqyEFMZF/DsOnC5gP9q2gAPl1ojzS8jAnFmeXFcQ
+ 1rRP0KBL9W/l8Vu5arOYRRJ0Febdu+Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-5ekPSOGqNoONThwoQnV0kg-1; Mon, 01 Aug 2022 11:55:20 -0400
-X-MC-Unique: 5ekPSOGqNoONThwoQnV0kg-1
+ us-mta-619-X_zyQDpePrG6X5qitZrPAQ-1; Mon, 01 Aug 2022 11:55:31 -0400
+X-MC-Unique: X_zyQDpePrG6X5qitZrPAQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 282D48032F6;
- Mon,  1 Aug 2022 15:55:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E71A53C10230;
+ Mon,  1 Aug 2022 15:55:22 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F65218EA8;
- Mon,  1 Aug 2022 15:55:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8C7B018EA8;
+ Mon,  1 Aug 2022 15:55:20 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -48,12 +48,14 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
  Juan Quintela <quintela@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
  berrange@redhat.com
-Subject: [PULL 3/7] migration-test: Allow test to run without uffd
-Date: Mon,  1 Aug 2022 17:55:02 +0200
-Message-Id: <20220801155506.254316-4-thuth@redhat.com>
+Subject: [PULL 4/7] tests/unit/test-qga: Replace the word 'blacklist' in the
+ guest agent unit test
+Date: Mon,  1 Aug 2022 17:55:03 +0200
+Message-Id: <20220801155506.254316-5-thuth@redhat.com>
 In-Reply-To: <20220801155506.254316-1-thuth@redhat.com>
 References: <20220801155506.254316-1-thuth@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -63,8 +65,8 @@ X-Spam_score: -2.9
 X-Spam_bar: --
 X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,99 +82,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+Let's use better, more inclusive wording here.
 
-We used to stop running all tests if uffd is not detected.  However
-logically that's only needed for postcopy not the rest of tests.
-
-Keep running the rest when still possible.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220728133516.92061-3-peterx@redhat.com>
-Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+Message-Id: <20220727092135.302915-4-thuth@redhat.com>
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-test.c | 48 +++++++++++++++++++-----------------
- 1 file changed, 25 insertions(+), 23 deletions(-)
+ tests/unit/test-qga.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index c1e002087d..10ab7a708c 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -2424,14 +2424,11 @@ int main(int argc, char **argv)
+diff --git a/tests/unit/test-qga.c b/tests/unit/test-qga.c
+index 530317044b..b27c77a695 100644
+--- a/tests/unit/test-qga.c
++++ b/tests/unit/test-qga.c
+@@ -629,7 +629,7 @@ static void test_qga_get_time(gconstpointer fix)
+     g_assert_cmpint(time, >, 0);
+ }
+ 
+-static void test_qga_blacklist(gconstpointer data)
++static void test_qga_blockedrpcs(gconstpointer data)
  {
-     char template[] = "/tmp/migration-test-XXXXXX";
-     const bool has_kvm = qtest_has_accel("kvm");
-+    const bool has_uffd = ufd_version_check();
-     int ret;
+     TestFixture fix;
+     QDict *ret, *error;
+@@ -637,7 +637,7 @@ static void test_qga_blacklist(gconstpointer data)
  
-     g_test_init(&argc, &argv, NULL);
+     fixture_setup(&fix, "-b guest-ping,guest-get-time", NULL);
  
--    if (!ufd_version_check()) {
--        return g_test_run();
--    }
--
-     /*
-      * On ppc64, the test only works with kvm-hv, but not with kvm-pr and TCG
-      * is touchy due to race conditions on dirty bits (especially on PPC for
-@@ -2460,13 +2457,15 @@ int main(int argc, char **argv)
+-    /* check blacklist */
++    /* check blocked RPCs */
+     ret = qmp_fd(fix.fd, "{'execute': 'guest-ping'}");
+     g_assert_nonnull(ret);
+     error = qdict_get_qdict(ret, "error");
+@@ -968,7 +968,7 @@ int main(int argc, char **argv)
+     g_test_add_data_func("/qga/fsfreeze-status", &fix,
+                          test_qga_fsfreeze_status);
  
-     module_call_init(MODULE_INIT_QOM);
- 
--    qtest_add_func("/migration/postcopy/unix", test_postcopy);
--    qtest_add_func("/migration/postcopy/plain", test_postcopy);
--    qtest_add_func("/migration/postcopy/recovery/plain",
--                   test_postcopy_recovery);
--    qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
--    qtest_add_func("/migration/postcopy/preempt/recovery/plain",
--                    test_postcopy_preempt_recovery);
-+    if (has_uffd) {
-+        qtest_add_func("/migration/postcopy/unix", test_postcopy);
-+        qtest_add_func("/migration/postcopy/plain", test_postcopy);
-+        qtest_add_func("/migration/postcopy/recovery/plain",
-+                       test_postcopy_recovery);
-+        qtest_add_func("/migration/postcopy/preempt/plain", test_postcopy_preempt);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/plain",
-+                       test_postcopy_preempt_recovery);
-+    }
- 
-     qtest_add_func("/migration/bad_dest", test_baddest);
-     qtest_add_func("/migration/precopy/unix/plain", test_precopy_unix_plain);
-@@ -2474,18 +2473,21 @@ int main(int argc, char **argv)
- #ifdef CONFIG_GNUTLS
-     qtest_add_func("/migration/precopy/unix/tls/psk",
-                    test_precopy_unix_tls_psk);
--    /*
--     * NOTE: psk test is enough for postcopy, as other types of TLS
--     * channels are tested under precopy.  Here what we want to test is the
--     * general postcopy path that has TLS channel enabled.
--     */
--    qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
--    qtest_add_func("/migration/postcopy/recovery/tls/psk",
--                   test_postcopy_recovery_tls_psk);
--    qtest_add_func("/migration/postcopy/preempt/tls/psk",
--                   test_postcopy_preempt_tls_psk);
--    qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
--                   test_postcopy_preempt_all);
-+
-+    if (has_uffd) {
-+        /*
-+         * NOTE: psk test is enough for postcopy, as other types of TLS
-+         * channels are tested under precopy.  Here what we want to test is the
-+         * general postcopy path that has TLS channel enabled.
-+         */
-+        qtest_add_func("/migration/postcopy/tls/psk", test_postcopy_tls_psk);
-+        qtest_add_func("/migration/postcopy/recovery/tls/psk",
-+                       test_postcopy_recovery_tls_psk);
-+        qtest_add_func("/migration/postcopy/preempt/tls/psk",
-+                       test_postcopy_preempt_tls_psk);
-+        qtest_add_func("/migration/postcopy/preempt/recovery/tls/psk",
-+                       test_postcopy_preempt_all);
-+    }
- #ifdef CONFIG_TASN1
-     qtest_add_func("/migration/precopy/unix/tls/x509/default-host",
-                    test_precopy_unix_tls_x509_default_host);
+-    g_test_add_data_func("/qga/blacklist", NULL, test_qga_blacklist);
++    g_test_add_data_func("/qga/blockedrpcs", NULL, test_qga_blockedrpcs);
+     g_test_add_data_func("/qga/config", NULL, test_qga_config);
+     g_test_add_data_func("/qga/guest-exec", &fix, test_qga_guest_exec);
+     g_test_add_data_func("/qga/guest-exec-invalid", &fix,
 -- 
 2.31.1
 
