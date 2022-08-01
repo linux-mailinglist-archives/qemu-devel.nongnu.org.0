@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60D0B586D62
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 17:07:00 +0200 (CEST)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760B6586D64
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 17:08:08 +0200 (CEST)
+Received: from localhost ([::1]:35330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIX0V-0001f7-7z
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 11:06:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52972)
+	id 1oIX1b-0002Os-9K
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 11:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oIWtH-00061b-Gp; Mon, 01 Aug 2022 10:59:31 -0400
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:34623)
+ id 1oIWvQ-0007J4-69; Mon, 01 Aug 2022 11:01:46 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:35736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1oIWtF-00007V-SJ; Mon, 01 Aug 2022 10:59:31 -0400
-Received: by mail-yb1-xb2b.google.com with SMTP id 204so18150605yba.1;
- Mon, 01 Aug 2022 07:59:29 -0700 (PDT)
+ id 1oIWvO-0000dG-BH; Mon, 01 Aug 2022 11:01:43 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-32269d60830so111909797b3.2; 
+ Mon, 01 Aug 2022 08:01:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc;
- bh=Lzj/yiNDFh4JW84RkK4BcDNLtWpH3d5QATkJFn3L+HM=;
- b=WaA/WjeB0ozkx9iEeAMusysElA27Cwa6FOAPAKOTFnL4iXbhi3xbr8+Y90iQLbruIl
- 5YYXCQ2KYtvfEykFiJQqZr/9GTEm8xqWGgndJE3Ebu/tASjKn/0haI82lNhTmy8pipr0
- NWwtMYiwRuCeSMHeU9j6dNDbXEUsxB3L8Sxw8W1fLVWOqhIi6OUKesXCY93iSxalKnBi
- bbVlvCkQq1r95fM1pC5k7neqgtv516ssnpbRZTy099i1ME2e1cTqW1fPsHNEzGj+a4cn
- oxOTMENNYC5T795bfP1GGdfrCucY40xbZGrw1BWZWnaQWorBVzjAZebaDIOq60MSCYBQ
- yjiw==
+ bh=vmSB0cfqwbxWnG8qJ3vr848uMHvq8DO9p2tIsRDaW+Q=;
+ b=F94oTnTyeAgunVApFSDsewDKMaDIdNHqLFhqH9icY6+JzHWaSVmsn/f6K4QY1Xp9aT
+ 10JnXHGGgbZjgIX2MoXqweluHhfeWOELzepSr/OdSxvZGANFo/6Y6Y+odn03TWLtgzKC
+ d1Djub9RednfZddjObbplpZtHi9LbHmz8SOwsWkJPTenf20UQO1mMtJjA3LhyqdpPL+J
+ RPA4TJU+NcGt9yn6rhJI2DlQsh1rtlxaiM0naiIhVZMbNfVVXuEicWj7V+oSRqt6t211
+ TdN1y7ilAmv1/umddpc8vgxfjg8Us5Ec26clgMUuH2fWGLzagcZvT1B62xowObuBfC1c
+ hgHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc;
- bh=Lzj/yiNDFh4JW84RkK4BcDNLtWpH3d5QATkJFn3L+HM=;
- b=2COoKFNMk88YA3rGWgjdAJY5U2QfyOECHBvuzxPjaLXxA/3kfjcqx6j5+M8STZkIRS
- 8UNMdP2Ze2r9gxttMYOXKo08Y3YHYxj6hmSSVmH0i6vRz3NeFLaa+PR+SjiTRRHYSHub
- Rebms+cy7f0IU+TiKXe+gc3+KlZ3/oBYNjQHTU08HgSYENxsQsDQSm5DXe2zMw5Gqzlx
- zJMoYNQh4V+ROxyz7T6XajpO/uqOY2Rn/EQk3dWUgrf5PYNgNgHRRENXxdims2sySzGd
- vmipOb8SM2CGGxFTo6bx2757L2osE/5vmr1iSP5I9AgF0qB7T0xlUy6O8orBJ2JHBAM8
- R2VQ==
-X-Gm-Message-State: ACgBeo0STRImS63Xleprx5HJEAsqJpuUZHySgbGCM37m0GYS0S3lPY9Y
- hkLigphNZLk2J6RL/m7SnxbIX4FsOYjyoS7xQ34=
-X-Google-Smtp-Source: AA6agR7rlfYey2tawcV5p2JR3FZXc+A/At8hhAKDXaUzH9PhKZe4Ci7k2yChL3WNZc1q8G7xo5B7IUEQxkiOv5raMJk=
-X-Received: by 2002:a25:428c:0:b0:676:a2fa:4d9f with SMTP id
- p134-20020a25428c000000b00676a2fa4d9fmr10681531yba.366.1659365968539; Mon, 01
- Aug 2022 07:59:28 -0700 (PDT)
+ bh=vmSB0cfqwbxWnG8qJ3vr848uMHvq8DO9p2tIsRDaW+Q=;
+ b=oZ9QPeoAfDmc/2QTPMDGqEwT+qBoUTxzZ4BBS9yTBTsyWyPZ22LpgAEzYvvpAaBtRr
+ dUiffZiZMGW2LLbaVUm3B1siNG91d9L4NWOnZ1dLOztFzhEK7UxbZNiz+U6Wzp7MNWHE
+ iAdy9ZLZ1HGPG3jxaq/8AGMHjFm1BZiuj2vWTU7LyaXl3KeubcnVyUS+E18F88cKQfaY
+ kGajXXwj3DusvROq/rJ5qgCAY7+GEm5hQcUQGNkmzjw+GAXHNM+L3UcLdxpBjD0BQhbM
+ e5My+A+VAnKLFCmdpf9+t3wraSfyoY/YSi/ODovtF31gy+2tXaz9LUxxn05PF6sRjMBz
+ 8aUQ==
+X-Gm-Message-State: ACgBeo3MPFBJHj7ilJUxc0mF85OUPjT6H58hYQv6W6mSm8nWuIj6nWLc
+ a9HjJUz8R7P7vXIXwWTYsborkgz4y/0jXMMA4T4=
+X-Google-Smtp-Source: AA6agR5QwoiH1CW0G31HWGEAJugeCVn3D/BkBhg+AHcH5/w+KKkYB7WNMk54lsC2QNhoy62amNULi3I/0ggKiagogoA=
+X-Received: by 2002:a81:8801:0:b0:324:68a0:ea7c with SMTP id
+ y1-20020a818801000000b0032468a0ea7cmr10729143ywf.156.1659366100655; Mon, 01
+ Aug 2022 08:01:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220801013318.10607-1-faithilikerun@gmail.com>
-In-Reply-To: <20220801013318.10607-1-faithilikerun@gmail.com>
+References: <20220801013333.10644-1-faithilikerun@gmail.com>
+In-Reply-To: <20220801013333.10644-1-faithilikerun@gmail.com>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 1 Aug 2022 10:59:16 -0400
-Message-ID: <CAJSP0QXDHVjaFH5M8Dij+yDipu-p0C27kfm3SQ7JFT6qtvWpnw@mail.gmail.com>
-Subject: Re: [RFC v5 06/11] raw-format: add zone operations to pass through
- requests
+Date: Mon, 1 Aug 2022 11:01:29 -0400
+Message-ID: <CAJSP0QXZoVqmMasEGv2q86uh8sJNBOweSxh2XG5H8=N=CMGwuA@mail.gmail.com>
+Subject: Re: [RFC v5 07/11] config: add check to block layer
 To: Sam Li <faithilikerun@gmail.com>
 Cc: qemu-devel@nongnu.org, damien.lemoal@opensource.wdc.com, 
  dmitry.fomichev@wdc.com, hare@suse.de, stefanha@redhat.com, mst@redhat.com, 
  armbru@redhat.com, qemu-block@nongnu.org, fam@euphon.net, kwolf@redhat.com, 
  hreitz@redhat.com, eblake@redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,5 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+On Sun, 31 Jul 2022 at 21:39, Sam Li <faithilikerun@gmail.com> wrote:
+>
+> Putting zoned/non-zoned BlockDrivers on top of each other is not
+> allowed.
+>
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> ---
+>  block.c                          | 13 +++++++++++++
+>  block/file-posix.c               |  2 ++
+>  block/raw-format.c               |  1 +
+>  include/block/block_int-common.h | 10 ++++++++++
+>  4 files changed, 26 insertions(+)
+>
+> diff --git a/block.c b/block.c
+> index bc85f46eed..8a259b158c 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -7947,6 +7947,19 @@ void bdrv_add_child(BlockDriverState *parent_bs, BlockDriverState *child_bs,
+>          return;
+>      }
+>
+> +    /*
+> +     * Non-zoned block drivers do not follow zoned storage constraints
+> +     * (i.e. sequential writes to zones). Refuse mixing zoned and non-zoned
+> +     * drivers in a graph.
+> +     */
+> +    if (!parent_bs->drv->supports_zoned_children && child_bs->drv->is_zoned) {
+> +        error_setg(errp, "Cannot add a %s child to a %s parent",
+> +                   child_bs->drv->is_zoned ? "zoned" : "non-zoned",
+> +                   parent_bs->drv->supports_zoned_children ?
+> +                   "support zoned children" : "not support zoned children");
+> +        return;
+> +    }
+> +
+>      if (!QLIST_EMPTY(&child_bs->parents)) {
+>          error_setg(errp, "The node %s already has a parent",
+>                     child_bs->node_name);
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index 6c045eb6e8..8eb0b7bc9b 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -4023,6 +4023,8 @@ static BlockDriver bdrv_zoned_host_device = {
+>          .format_name = "zoned_host_device",
+>          .protocol_name = "zoned_host_device",
+>          .instance_size = sizeof(BDRVRawState),
+> +        .is_zoned = true,
+> +        .supports_zoned_children = true,
+
+zoned_host_device never has children, so supports_zoned_children
+should not be set.
+
+>          .bdrv_needs_filename = true,
+>          .bdrv_probe_device  = hdev_probe_device,
+>          .bdrv_parse_filename = zoned_host_device_parse_filename,
+> diff --git a/block/raw-format.c b/block/raw-format.c
+> index 6b20bd22ef..9441536819 100644
+> --- a/block/raw-format.c
+> +++ b/block/raw-format.c
+> @@ -614,6 +614,7 @@ static void raw_child_perm(BlockDriverState *bs, BdrvChild *c,
+>  BlockDriver bdrv_raw = {
+>      .format_name          = "raw",
+>      .instance_size        = sizeof(BDRVRawState),
+> +    .supports_zoned_children = true,
+>      .bdrv_probe           = &raw_probe,
+>      .bdrv_reopen_prepare  = &raw_reopen_prepare,
+>      .bdrv_reopen_commit   = &raw_reopen_commit,
+> diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+> index de44c7b6f4..0476cd0491 100644
+> --- a/include/block/block_int-common.h
+> +++ b/include/block/block_int-common.h
+> @@ -126,6 +126,16 @@ struct BlockDriver {
+>       */
+>      bool is_format;
+>
+> +    /*
+> +     * Set to true if the BlockDriver is a zoned block driver.
+> +     */
+> +    bool is_zoned;
+> +
+> +    /*
+> +     * Set to true if the BlockDriver supports zoned children.
+> +     */
+> +    bool supports_zoned_children;
+> +
+>      /*
+>       * Drivers not implementing bdrv_parse_filename nor bdrv_open should have
+>       * this field set to true, except ones that are defined only by their
+> --
+> 2.37.1
+>
+>
 
