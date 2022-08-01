@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5ED586FA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 19:39:18 +0200 (CEST)
-Received: from localhost ([::1]:43038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D502587047
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 20:15:00 +0200 (CEST)
+Received: from localhost ([::1]:42286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIZNt-0002bq-Cq
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 13:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59998)
+	id 1oIZwR-0006kN-9w
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 14:14:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIZ6v-0005uY-F2
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:21:47 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:41559)
+ id 1oIZuC-00043Y-0H
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 14:12:40 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:54924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIZ6s-0007Hx-PV
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 13:21:44 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- t2-20020a17090a4e4200b001f21572f3a4so12796548pjl.0
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 10:21:42 -0700 (PDT)
+ id 1oIZu9-000878-7z
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 14:12:39 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id b4so1211887pji.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 11:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=message-id:date:mime-version:user-agent:subject:content-language:to
  :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=/Hrt7wtqifoEUyk/E/P6a3RqcuJpAx90pya4+pQJtjo=;
- b=E9L4AQCpBgyLQSu/FKPliaWMAUsdDmAsVwl6qXp8j+DmK8MZcy2WmbkFe/enk7CxCx
- U1taUr0l4IUa5+qKtvTIxdK0cQG4DNjw6Cg3WSYM7Q6Vd+ymwDb6nyERPhUnTdYfCbwG
- +9BFv5k0wSwYRQbKULXYXuk3AqFvz/UDMI4DqGcwj4GjL3Z7tw2xb8hP8Oe7SBr55jQk
- 2GXMpyB4b9rkxXRVOA98QDvXj2G2V/MsFxa5SZ/MO9sRxqTtWVc63Dtg9qN+zrxwYb01
- 4TI7kX5oyA6tGimaTy2ZCFYfLEC0stuFYdf8hjWkpBjFpMjHBbqJbYLhMiQGaZhG5J87
- L8lQ==
+ bh=Fji7W22gEBb7ehXONqqnmj1ph2Cu18wirR1M2Cl3O4U=;
+ b=duz7GNFu7IQ/vFWdEnjmVTCrHSMQXdXg0cPPlW4LGTP0hsXSIPcue4FrpyKZAM+qvX
+ 5GcOsxqYcv9dNRJP2P4dU7p8QAZrQBiS4UTWpiKjWk4jqkhZqfKPwKqgrDrkSkmM7RuZ
+ Te7bLeiD9M2LzXp8jymGSg6eQgkGgu/kr9MdoM/XhHzm/zkqezYfjTtlIRjXyfBr6J4s
+ UpwxBWxGaaZskqku6yAYQ0H2i8Qw/heV2+/Vh1QAurVrHeYRvX9leKbsBs42/gJkfv92
+ bHWSB4Vy2GOEF+FgT9OpPumPfpET7h7bi7JFTa9SJOYh/p8oFI4qCOFsm+jfaE/pJ0dM
+ tHuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
  :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=/Hrt7wtqifoEUyk/E/P6a3RqcuJpAx90pya4+pQJtjo=;
- b=5W/yFMP804FH6C4LzJAmEi3QEO54NeAT4DDTWXSaE0KEdvFnj0iZEx02stgXLeIO7q
- 7ymK72vUh2KypS+QIkZdSw8oEmDUalO2YxZz9Z3eBOKtLlnXEZAi53mgCV86n3fyLwrT
- iGKP8lr3o6hvd3+wZq/wM1p+Hb1hXAvNdgOWV3CZfnKTD0BxJrTurgOkPblwBIY5hBi7
- cpfHl7rBMd2XcZykRxy3klU0E3l9TJ5aJjOgClFF0ybKuSsH9viq969al1PkmuVRp917
- bStmbqo53QgdWEeyYMzh2ChXvQI0YDkNYgaTktPT1TEYS10ErJrWRUDgAgc+yEC+PQ1e
- Ucow==
-X-Gm-Message-State: ACgBeo0jwHTf/tMjZEnGk+k8xlqDm/gaDcqa3+TRwMX6Tlu5Looyg7q9
- fWYZWLYDnA5rODKXM6fB9y7gbFQL3y0E3A==
-X-Google-Smtp-Source: AA6agR65veUpzFFWkbe+ZwiO7Tu82Ijkum4mZ2fFGPiGp23YrIaI67jbLgUx/djT11zgWPqd70U4qg==
-X-Received: by 2002:a17:90b:1110:b0:1f4:fc9a:be2d with SMTP id
- gi16-20020a17090b111000b001f4fc9abe2dmr7112329pjb.41.1659374501139; 
- Mon, 01 Aug 2022 10:21:41 -0700 (PDT)
+ bh=Fji7W22gEBb7ehXONqqnmj1ph2Cu18wirR1M2Cl3O4U=;
+ b=jIQZHfPZPfNMn3NM9JgwBxcWQcMADl0WS0WH0cI7YaTacSG/L0FYrbrwPGyQNFKcRs
+ MEGYvXPtQu7I9gqjkYyffugpikaAh189pXzz5IriZBuynxz3S5sVcUnHXLD0Rkhmp9Vt
+ EKLOfTrxOLP6y2btCHJsfHVowZ7ogi3BkENwbzs9S5fXoDX9Cd23gijo9OXW+FvnZJhN
+ A32HdlbIeDEqZIadyzOYqVkISXNmOemtyR4QCb+0Zj5HF6JOApJbGZqCNR2QJUmPmJKG
+ 9CbXWXR+0KembTmSe6VZL6y7IAk35MzltKXz/M0ffXkegW+ZX3YqHVNwxQqoQ45TdpQP
+ QRQg==
+X-Gm-Message-State: ACgBeo0AbFmqy757ntDzPQ1pQ0Jq75bkDWW/WKH8Ljn4YoO57+Bcv+08
+ iAYzhsfJk17WKMhSB66Os3ax9w==
+X-Google-Smtp-Source: AA6agR5Ie6Tavy+PdPHBR35pSTVwrx95a7s0IqP9iP3Z5KkQhSIiVLp3C/wH9vc0s0hFGOMx+ZTUSA==
+X-Received: by 2002:a17:90b:4b8f:b0:1f0:7c99:10fd with SMTP id
+ lr15-20020a17090b4b8f00b001f07c9910fdmr20690178pjb.86.1659377555726; 
+ Mon, 01 Aug 2022 11:12:35 -0700 (PDT)
 Received: from ?IPV6:2602:ae:1549:801:e82c:8cfb:9ffa:3c7c?
  ([2602:ae:1549:801:e82c:8cfb:9ffa:3c7c])
  by smtp.gmail.com with ESMTPSA id
- l15-20020a654c4f000000b003db7de758besm7889593pgr.5.2022.08.01.10.21.40
+ q6-20020a656846000000b0041c04286010sm2848524pgt.83.2022.08.01.11.12.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 10:21:40 -0700 (PDT)
-Message-ID: <f055ef82-3fb9-41c3-3142-f98636bf0187@linaro.org>
-Date: Mon, 1 Aug 2022 10:21:39 -0700
+ Mon, 01 Aug 2022 11:12:35 -0700 (PDT)
+Message-ID: <4b014439-7390-6993-cbda-5d73ce22dd1b@linaro.org>
+Date: Mon, 1 Aug 2022 11:12:32 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PULL] IPMI bug fixes
+Subject: Re: [PATCH for-7.1] icount: Take iothread lock when running QEMU
+ timers
 Content-Language: en-US
-To: minyard@acm.org, Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20220801140217.GA3834@minyard.net>
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <20220801164527.3134765-1-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220801140217.GA3834@minyard.net>
+In-Reply-To: <20220801164527.3134765-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,47 +95,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/1/22 07:02, Corey Minyard wrote:
-> Not a huge deal, but probably makes mainainers lives a little easier.
+On 8/1/22 09:45, Peter Maydell wrote:
+> The function icount_prepare_for_run() is called with the iothread
+> unlocked, but it can call icount_notify_aio_contexts() which will
+> run qemu timer handlers. Those are supposed to be run only with
+> the iothread lock held, so take the lock while we do that.
 > 
-> Add a change to make Coverity happy.
+> Since icount mode runs everything on a single thread anyway,
+> not holding the lock is likely mostly not going to introduce
+> races, but it can cause us to trip over assertions that we
+> do hold the lock, such as the one reported in issue 1130.
 > 
-> ----------------------------------------------------------------
-> Corey Minyard (1):
->        ipmi:smbus: Add a check around a memcpy
-> 
->   hw/ipmi/smbus_ipmi.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> cminyard@t560:/personal/git/qemu/Z$ git request-pull master origin tags/for-qemu-2022-08-01
-> The following changes since commit cc42559ab129a15554cc485ea9265e34dde7ab5b:
-> 
->    Merge tag 'pull-ppc-20220728' of https://gitlab.com/danielhb/qemu into staging (2022-07-28 15:06:42 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git@github.com:cminyard/qemu.git tags/for-qemu-2022-08-01
-> 
-> for you to fetch changes up to 3fde641e7286f9b968bdb3b4b922c6465f2a9abc:
-> 
->    ipmi:smbus: Add a check around a memcpy (2022-08-01 06:40:50 -0500)
-> 
-> ----------------------------------------------------------------
-> Add a change to make Coverity happy.
+> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1130
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   accel/tcg/tcg-accel-ops-icount.c | 6 ++++++
+>   1 file changed, 6 insertions(+)
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
-
-> 
-> ----------------------------------------------------------------
-> Corey Minyard (1):
->        ipmi:smbus: Add a check around a memcpy
-> 
->   hw/ipmi/smbus_ipmi.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> 
-
 
