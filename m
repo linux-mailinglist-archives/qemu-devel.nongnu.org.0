@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743C5586742
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:15:32 +0200 (CEST)
-Received: from localhost ([::1]:44492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA275586740
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:14:39 +0200 (CEST)
+Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oISSR-0000hl-Fr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:15:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48044)
+	id 1oISRb-00008v-18
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:14:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJO-0001Ch-FE; Mon, 01 Aug 2022 06:06:10 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:57999)
+ id 1oISJR-0001GK-9t; Mon, 01 Aug 2022 06:06:13 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:56693)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJM-0000Wv-Pu; Mon, 01 Aug 2022 06:06:10 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id B511C320091B;
- Mon,  1 Aug 2022 06:06:06 -0400 (EDT)
+ id 1oISJP-0000XT-MY; Mon, 01 Aug 2022 06:06:12 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 8FD31320094F;
+ Mon,  1 Aug 2022 06:06:09 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 01 Aug 2022 06:06:07 -0400
+ by compute5.internal (MEProxy); Mon, 01 Aug 2022 06:06:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=cc:cc:content-transfer-encoding:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm2; t=1659348366; x=
- 1659434766; bh=LgPzmVkdIvrOCWDn7ND8OkxWypGN7bdT3A7dXh2bPwQ=; b=t
- 5EcFJnJnyGRmBhSoaNbZdbL7ZsztCjDt95wT/JMQ/D6jNwdygRfBuU7IKyq6z6Ry
- 7KLL+HJvRJewQDhXQm/KTiqQWyB8za47QhEwuKLbw2UFtQaIHJv6xkV5CJ9zljVe
- eVBTYsTK81cAAPPgaYBQILo2e/Hjl7g0TMAxCWHUahHu8/+k0fu+4Z4hYkbLxHR/
- yBQ4N/H4mGBniaO1dj8iLd0uMfIBQ0QjQJGvnlHUYjpSaFzJGSKtEXdj3KZitD5H
- y9SuECaP1+Lmvs5ZBJTlX5ufP78vM41sIUc3wU/ZwSgBCyqJi3rxB3MC2qYOGiUA
- SbmrCJrG0H2j3LVxS2o7A==
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659348369; x=
+ 1659434769; bh=gDF/qKIKZPKhM3ujgAUdpGUVAx+pT7cb6Y+fUGAVVBg=; b=S
+ 1RYhkI2CUdj4F6KbroJRbqnfEUyahWIsT2oUIYloTAXO1SFUIsGyqR7XGbQSQWxV
+ Kp3yhZ09rxtlhv2l2qBvM9rThdW7/5TJ8cUdoLD6Snsv6IaB/e3v0oMM65qJELEJ
+ +Q30tMI/r4mvw0Wf35+rJpcaIUVjDp38AILRWt1LDpX0Kfe9cwg4uQQ7Tmsgp+Z1
+ iMC1cjsj97qrKeNKVYdUPwd5sifuBUrnHcxyYR02sMAW/+aF7oqf06QWssxEAQq/
+ ZvQV96wKzkZ5kZcZXcD2VuHxCTvUAJvx9SxfPI25A08KAkL3qG1e7Afr8WgIFhzD
+ f22rnfuv8z0nC+UG7+8HQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
  :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
  :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1659348366; x=1659434766; bh=LgPzmVkdIvrOC
- WDn7ND8OkxWypGN7bdT3A7dXh2bPwQ=; b=G1q7UJpKy/1OtfY5mZmySqfO7p/Rr
- W0PGAsADCQlDjQ3ENw5z3a2asLOfMuOvalqtQYEJclPcwhePITAv7FikbE3WUJtB
- 6v9kBX8szoqwRJJYJmNWu6rrzrwTM5oRTk8BXbAQbMsrNgJSimizED/hQ4TPS20w
- 7sRc4JFWA2t6avBIXmjPUsX2Vx+98BnSc73QfCs9TRVGJ/heu4Ao8A6ae1Q8nS8x
- VLA2wu/d7fCmWpJI3+NbfwU3uFENjI25B6QbHNrS/khB31rj3pjMo9Isr7WnrHW9
- PiDGOeszbQby1D65NdhdJbcBFFJXv45/bxp2EITH6ogVAweRPSH4S9XFg==
-X-ME-Sender: <xms:jqXnYq7sX-dhwKyszjiJJonQ6h-pdABBYR8yjCZgNNfPgLA4LH0hUA>
- <xme:jqXnYj422g7kFTUjwkk6TGdYITJBlovYzlZEik6kDITgjUMOYb2mr5cB0dnfi40z7
- M-CehHjSdwwEUH0gPc>
-X-ME-Received: <xmr:jqXnYpckLRyq5Wh1cpF122v_bZCI8qt6K85-oFbOOUowN4_2SF11ge9eOXez9ArgDvdBz9g6Ei00tymLOFix>
+ :x-sasl-enc; s=fm3; t=1659348369; x=1659434769; bh=gDF/qKIKZPKhM
+ 3ujgAUdpGUVAx+pT7cb6Y+fUGAVVBg=; b=QfuH30ek+nKo+bILIpwIhEG614EJO
+ 9xJCzyW2oL7ymdb/CcX1KX0dlOV8wmi+puaI2pwsfnXRvXr/h6veg5yq9qOT2Utn
+ fnM8KchlyVebZVdpLW2WYoNh648OfItECr42kJjBRlw8kB/+rFEuOQgbpQvvBP6T
+ cOaBgd2CxFk0wf8nF5UoQWGPRWXQ9EwR3dYiBJrg1mkU508ITyTL3Iaz1T0TLiki
+ XhAmeOipwX2MTU2+yLe5dauh5DRAoy36vuzyi/JSp0Us0NMHWfUukyylKGoFvd52
+ 4onHcrxjE391CixPnfs1SHLXY6VhtZJ2cXo9d/lm3xsaLH2nyLzuV7H5w==
+X-ME-Sender: <xms:kKXnYivIShbMa1LMCsCDBi4otOS_e8f3e_8bcP7PIY49gFo6l9eXRw>
+ <xme:kKXnYnf4R8fqRo2YC8-4hfpeeFyoZRQfKP7ez9-OLgeZQ3cdnf9ort5RquZXhINtz
+ piuad7CRlWC4FChraY>
+X-ME-Received: <xmr:kKXnYtwM9Lm8IbOpKbQ-3AwKov6J9HMKmrAid8LKXmF8JtK7P2TX7z5x-K-XnATp8dF3vViTsc5mpCXPt6kn>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -57,23 +57,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgvdegucetufdoteggod
  htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
  udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:jqXnYnKqL4CNE7dIF12wzTr90-PwcPs9DfYehJe3k19QQAtwVatdGQ>
- <xmx:jqXnYuLCyaB_MoCCAjz4xX205NCx2QDVvvZqALMHrCWDRe1cI0ys5g>
- <xmx:jqXnYoyiPeAE2eZnBWWRBd3uCbqSR7TP01fZT3eRBlFpOpmW9CK1Lg>
- <xmx:jqXnYgixI3Z1N9Jn4EchsGu8IPVq1yAeolQpZ_fzZh8_5nuHKZ6f7Q>
+X-ME-Proxy: <xmx:kKXnYtONKlh9H9uN3Sll55vRdORdzjOiSDTAi2srXlfLVyT9TC6U8Q>
+ <xmx:kKXnYi-5Ubo0XA5WcFh1yPLWSL-MGwLvvJ2DKuWC1vJwJqbIHEQyGA>
+ <xmx:kKXnYlWvZrvGbsy9nFXXe4mh1tyCViyGO6xM8eHUf5F9MsUafqUdWA>
+ <xmx:kaXnYpkGIJvnBGglLEYyHeo0QNGQp7O6eRUYtrjndf827_8Au52PAA>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 Aug 2022 06:06:04 -0400 (EDT)
+ 1 Aug 2022 06:06:07 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
 Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
  Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
  Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Subject: [PULL for-7.1 2/3] hw/nvme: unregister the event notifier handler on
- the main loop
-Date: Mon,  1 Aug 2022 12:05:55 +0200
-Message-Id: <20220801100556.2217492-3-its@irrelevant.dk>
+Subject: [PULL for-7.1 3/3] hw/nvme: do not enable ioeventfd by default
+Date: Mon,  1 Aug 2022 12:05:56 +0200
+Message-Id: <20220801100556.2217492-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220801100556.2217492-1-its@irrelevant.dk>
 References: <20220801100556.2217492-1-its@irrelevant.dk>
@@ -105,37 +104,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Make sure the notifier handler is unregistered in the main loop prior to
-cleaning it up.
+Do not enable ioeventfd by default. Let the feature mature a bit before
+we consider enabling it by default.
 
 Fixes: 2e53b0b45024 ("hw/nvme: Use ioeventfd to handle doorbell updates")
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 Reviewed-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/nvme/ctrl.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/nvme/ctrl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 8aa73b048d51..70b454eedbd8 100644
+index 70b454eedbd8..87aeba056499 100644
 --- a/hw/nvme/ctrl.c
 +++ b/hw/nvme/ctrl.c
-@@ -4311,6 +4311,7 @@ static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
-     if (sq->ioeventfd_enabled) {
-         memory_region_del_eventfd(&n->iomem,
-                                   0x1000 + offset, 4, false, 0, &sq->notifier);
-+        event_notifier_set_handler(&sq->notifier, NULL);
-         event_notifier_cleanup(&sq->notifier);
-     }
-     g_free(sq->io_req);
-@@ -4701,6 +4702,7 @@ static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
-     if (cq->ioeventfd_enabled) {
-         memory_region_del_eventfd(&n->iomem,
-                                   0x1000 + offset, 4, false, 0, &cq->notifier);
-+        event_notifier_set_handler(&cq->notifier, NULL);
-         event_notifier_cleanup(&cq->notifier);
-     }
-     if (msix_enabled(&n->parent_obj)) {
+@@ -7670,7 +7670,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT8("vsl", NvmeCtrl, params.vsl, 7),
+     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+-    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, true),
++    DEFINE_PROP_BOOL("ioeventfd", NvmeCtrl, params.ioeventfd, false),
+     DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
+     DEFINE_PROP_BOOL("zoned.auto_transition", NvmeCtrl,
+                      params.auto_transition_zones, true),
 -- 
 2.36.1
 
