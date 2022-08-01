@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2675865AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:34:08 +0200 (CEST)
-Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429C35865C1
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 09:38:51 +0200 (CEST)
+Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIPwF-00063Z-4D
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:34:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47070)
+	id 1oIQ0o-0000VA-2o
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 03:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oIPrs-0003ec-O0
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:29:36 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:34640)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oIPv2-0005GH-7P
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:32:53 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:38681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1oIPrr-0000FH-69
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:29:36 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id z19so9714626plb.1
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:29:34 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1oIPv0-0000pP-27
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 03:32:51 -0400
+Received: by mail-lf1-x134.google.com with SMTP id bq11so10858833lfb.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 00:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=Ql3bDPfLQL6Wd89SpOq61uNcftF88Xzjx3Q77h2Wbp8=;
- b=j2rBUCDyA6loiVDG3hv2Glqq/PXbYrMdyfc4EkaQV8shbyJ9qZJK6cR/51mMN0cieR
- jUQukCwxKd2rlcMNYnDXtBblayTS9XkJWaEIq3zb6AwbCtAPF4XEd/kXM310aAi6VIj0
- 8HccOtkVNidqohY7FzlthywaGbl3PGrZtRKFjIfm+/7CKEWflgDdY6kg8wyQog3NyZ7F
- Qmj7GDMYsmuijYgq6Zk1wiKsJ3yEoHKRLjsIsVVNP3MdrK13kgvvRsVPXEtQ9TOQ0UaS
- B6F7UqJeuA0fJV+ddCRCFDzOo7agW90NcQt6aKkYXP7s1DGdwzeh1mZzy9/jrUW4sFwk
- Apwg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PKntVxlGZ5/QPGaV+GyfLC7itf4gtsgGVX2spkbCVls=;
+ b=N+d6vfyQWEZxpd21M6ctNv5kjc3Pl+PeX5dMpv2eOC/ITrn7qYq6pgo0vujruepO8H
+ 6h+qgM5WrYvvcMpvdv5GTsX15TUMfzK56zfTuUQQwFqPPld7JA4kvEx2mxIapqOoVH3b
+ 1tIWYaDXP9yyVWEeoHXyF01uk3E6AcTUCGDSNLrB7yi+d6FV17wJb/5e7ufY7v1jTZ00
+ n8NEXVlv6RUKzkexx4JsoNFyIdoHF8Rxvzsiq8yvBHo7/CjCQ+qUgV1sA0uOAugkCX4Z
+ BtpGnQxqtzcrmtnc8f2LunXvBQjK5jXz6JyHIidaHPfwFCc5XaoWZE53o+/h8IaNVTNS
+ /pjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=Ql3bDPfLQL6Wd89SpOq61uNcftF88Xzjx3Q77h2Wbp8=;
- b=la/RTSP4jVeteqO78pSRFYOZUV9/cUZoUFFjZFPIsl9vIVDoTkH4u/oyE4iCDRDnt1
- reo4zKGyb2gB6qnm4bXqxBaQ4zesLTCm9vbQPzZJzXjhEQk2YLVe/Kd39j2v0Bl/M8Bd
- 4sFxlMJcdJrxvafCjsfyZ8MtZ0AIetR8BKc/MxFE9uIX1u5VgL19Mjm9Xh0FQOLj/AnQ
- py+W41wGoGcwcj87nk30mtq/4GGfp0sy0bkTb/L4h33QUoNYvvqUDS3vPYoHLAgMoPZ1
- k8DiAcEDKqr7ykgx0aWfE6UQtXCDSOIs9pU+oXM4RlU48sh3QDWnRquvzuQ4Q6ymw0eb
- I96w==
-X-Gm-Message-State: ACgBeo07QYR+z+U6VM5BTiN2ooPSfp97j9LS5vepdusrT+O38U3GKR2X
- X7uLlfSk7XzY7sM/nyO6NJxPsbsLDF8+qPJP+0o=
-X-Google-Smtp-Source: AA6agR7fqIEHTSmGhYbl627Ui0VF9jYm5J1ob0BQ//Ts/ZjmyqCPs/lYRgtQbz4uTEfDAoWNWRkyAT07BghwvIbWCXo=
-X-Received: by 2002:a17:903:2291:b0:16e:cf55:5c72 with SMTP id
- b17-20020a170903229100b0016ecf555c72mr9154487plh.121.1659338973250; Mon, 01
- Aug 2022 00:29:33 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PKntVxlGZ5/QPGaV+GyfLC7itf4gtsgGVX2spkbCVls=;
+ b=VJFfk6tcQfQxIycewrRoP744g2C4HhyA0ap5LIfivBYv/J4jtrDqfGR/Tj9B2q/bL5
+ LiK+pwjh/ZArE+kgB/ePXt/Pgsv40TpFLVyjFpIekZiBD38B9+kjlZXo3vYWGICDAaQu
+ 7D6DJnrxt6Q5T+ET6xCSacl7qzhCBQ+6oCOCE+2ksQqXOd7MoRFzcsSh+suKBf776Yuw
+ w/kS9oJZ/P587bmysBaWj2yitsrrxPILCS7VecfHd0Tcn+BmUr7ci4MKnj65+IyN9NnM
+ ocv264bWAFg2VTRIrbCXTvAJVXtyyXLj+yDPjBcepBW8vpZIAoVWxJSFbbJywxLPM2QL
+ mSuA==
+X-Gm-Message-State: AJIora8zQlV0IbPtbk0/83+askgqu7pQXkz7X4ZKrVR/h4j7lJPNbj2t
+ u6K2MtqcKJafObDTec3BhFhr/8WpE+PT0CfinAw=
+X-Google-Smtp-Source: AGRyM1uhLIQkrpdQ+OZsEITrU639oqUDXIxXfbO1fqYS4EMLM9suCXdJ6laC1I1ivcfXlWBQe6iNTA7V++rLDV00hYo=
+X-Received: by 2002:a05:6512:158e:b0:48a:848a:27f6 with SMTP id
+ bp14-20020a056512158e00b0048a848a27f6mr5087797lfb.520.1659339168198; Mon, 01
+ Aug 2022 00:32:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220729201942.30738-1-richard.henderson@linaro.org>
-In-Reply-To: <20220729201942.30738-1-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Aug 2022 17:29:07 +1000
-Message-ID: <CAKmqyKOjnmwEPPEeAi4U0zsKMG8MMd+WFEp4AEHTj=S5juHKog@mail.gmail.com>
-Subject: Re: [PATCH for-7.1?] linux-user/riscv: Align signal frame to 16 bytes
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=alistair23@gmail.com; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+References: <20220730145036.865854-1-bmeng.cn@gmail.com>
+ <20220730145036.865854-5-bmeng.cn@gmail.com>
+In-Reply-To: <20220730145036.865854-5-bmeng.cn@gmail.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 1 Aug 2022 11:32:36 +0400
+Message-ID: <CAJ+F1CJZ7q8FAS2ootk2sawDqPm4Vq2dARLtZw36s13-yhW3Mg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] tests/unit: Update test-io-channel-socket.c for
+ Windows
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>, 
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000aeb8ec05e5290185"
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,39 +84,319 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jul 30, 2022 at 6:19 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Follow the kernel's alignment, as we already noted.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1093
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+--000000000000aeb8ec05e5290185
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Hi
 
-Alistair
+On Sat, Jul 30, 2022 at 6:53 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 
-> ---
->  linux-user/riscv/signal.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> diff --git a/linux-user/riscv/signal.c b/linux-user/riscv/signal.c
-> index 296e39fbf0..eaa168199a 100644
-> --- a/linux-user/riscv/signal.c
-> +++ b/linux-user/riscv/signal.c
-> @@ -64,9 +64,7 @@ static abi_ulong get_sigframe(struct target_sigaction *ka,
+> Enable the following 3 test cases for Windows when AF_UNIX is available:
 >
->      /* This is the X/Open sanctioned signal stack switching.  */
->      sp = target_sigsp(sp, ka) - framesize;
-> -
-> -    /* XXX: kernel aligns with 0xf ? */
-> -    sp &= ~3UL; /* align sp on 4-byte boundary */
-> +    sp &= ~0xf;
+>   * test_io_channel_unix_sync
+>   * test_io_channel_unix_async
+>   * test_io_channel_unix_listen_cleanup
 >
->      return sp;
+
+The test should runtime-check the availability of AF_UNIX socket, and skip
+those appropriately (not failing the test).
+(for ex, in glib I wrote
+https://gitlab.gnome.org/GNOME/glib/-/blob/main/gio/tests/gdbus-peer.c#L305=
+)
+
+
+> diff --git a/tests/unit/test-io-channel-socket.c
+> b/tests/unit/test-io-channel-socket.c
+> index 6713886d02..ec5df32489 100644
+> --- a/tests/unit/test-io-channel-socket.c
+> +++ b/tests/unit/test-io-channel-socket.c
+> @@ -179,10 +179,12 @@ static void test_io_channel(bool async,
+>          test_io_channel_setup_async(listen_addr, connect_addr,
+>                                      &srv, &src, &dst);
+>
+> +#ifndef _WIN32
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+> +#endif
+>          g_assert(qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>          g_assert(qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>
+> @@ -206,10 +208,12 @@ static void test_io_channel(bool async,
+>          test_io_channel_setup_async(listen_addr, connect_addr,
+>                                      &srv, &src, &dst);
+>
+> +#ifndef _WIN32
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+> +#endif
+>          g_assert(qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>          g_assert(qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>
+> @@ -236,10 +240,12 @@ static void test_io_channel(bool async,
+>          test_io_channel_setup_sync(listen_addr, connect_addr,
+>                                     &srv, &src, &dst);
+>
+> +#ifndef _WIN32
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+> +#endif
+>          g_assert(qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>          g_assert(qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>
+> @@ -263,10 +269,12 @@ static void test_io_channel(bool async,
+>          test_io_channel_setup_sync(listen_addr, connect_addr,
+>                                     &srv, &src, &dst);
+>
+> +#ifndef _WIN32
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+>          g_assert(!passFD ||
+>                   qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_FD_PASS));
+> +#endif
+>          g_assert(qio_channel_has_feature(src,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>          g_assert(qio_channel_has_feature(dst,
+> QIO_CHANNEL_FEATURE_SHUTDOWN));
+>
+> @@ -367,7 +375,7 @@ static void test_io_channel_ipv6_async(void)
 >  }
-> --
-> 2.34.1
 >
 >
+> -#ifndef _WIN32
+> +#ifdef CONFIG_AF_UNIX
+>  static void test_io_channel_unix(bool async)
+>  {
+>      SocketAddress *listen_addr =3D g_new0(SocketAddress, 1);
+> @@ -398,6 +406,7 @@ static void test_io_channel_unix_async(void)
+>      return test_io_channel_unix(true);
+>  }
+>
+> +#ifndef _WIN32
+>  static void test_io_channel_unix_fd_pass(void)
+>  {
+>      SocketAddress *listen_addr =3D g_new0(SocketAddress, 1);
+> @@ -491,6 +500,7 @@ static void test_io_channel_unix_fd_pass(void)
+>      }
+>      g_free(fdrecv);
+>  }
+> +#endif /* _WIN32 */
+>
+>  static void test_io_channel_unix_listen_cleanup(void)
+>  {
+> @@ -588,13 +598,15 @@ int main(int argc, char **argv)
+>                          test_io_channel_ipv6_async);
+>      }
+>
+> -#ifndef _WIN32
+> +#ifdef CONFIG_AF_UNIX
+>      g_test_add_func("/io/channel/socket/unix-sync",
+>                      test_io_channel_unix_sync);
+>      g_test_add_func("/io/channel/socket/unix-async",
+>                      test_io_channel_unix_async);
+> +#ifndef _WIN32
+>      g_test_add_func("/io/channel/socket/unix-fd-pass",
+>                      test_io_channel_unix_fd_pass);
+> +#endif
+>      g_test_add_func("/io/channel/socket/unix-listen-cleanup",
+>                      test_io_channel_unix_listen_cleanup);
+>  #endif /* _WIN32 */
+>
+
+The comments needs to be updated
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000aeb8ec05e5290185
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jul 30, 2022 at 6:53 PM Bin=
+ Meng &lt;<a href=3D"mailto:bmeng.cn@gmail.com" target=3D"_blank">bmeng.cn@=
+gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">From: Bin Meng &lt;<a href=3D"mailto:bin.meng@windriver.com" tar=
+get=3D"_blank">bin.meng@windriver.com</a>&gt;<br>
+<br>
+Enable the following 3 test cases for Windows when AF_UNIX is available:<br=
+>
+<br>
+=C2=A0 * test_io_channel_unix_sync<br>
+=C2=A0 * test_io_channel_unix_async<br>
+=C2=A0 * test_io_channel_unix_listen_cleanup<br></blockquote><div><br></div=
+><div>The test should runtime-check the availability of AF_UNIX socket, and=
+ skip those appropriately (not failing the test).</div></div><div class=3D"=
+gmail_quote">(for ex, in glib I wrote <a href=3D"https://gitlab.gnome.org/G=
+NOME/glib/-/blob/main/gio/tests/gdbus-peer.c#L305">https://gitlab.gnome.org=
+/GNOME/glib/-/blob/main/gio/tests/gdbus-peer.c#L305</a>)</div><div class=3D=
+"gmail_quote"><br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+diff --git a/tests/unit/test-io-channel-socket.c b/tests/unit/test-io-chann=
+el-socket.c<br>
+index 6713886d02..ec5df32489 100644<br>
+--- a/tests/unit/test-io-channel-socket.c<br>
++++ b/tests/unit/test-io-channel-socket.c<br>
+@@ -179,10 +179,12 @@ static void test_io_channel(bool async,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_io_channel_setup_async(listen_addr, =
+connect_addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;srv, &amp;s=
+rc, &amp;dst);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(src, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(dst, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+<br>
+@@ -206,10 +208,12 @@ static void test_io_channel(bool async,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_io_channel_setup_async(listen_addr, =
+connect_addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;srv, &amp;s=
+rc, &amp;dst);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(src, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(dst, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+<br>
+@@ -236,10 +240,12 @@ static void test_io_channel(bool async,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_io_channel_setup_sync(listen_addr, c=
+onnect_addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;srv, &amp;src, &a=
+mp;dst);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(src, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(dst, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+<br>
+@@ -263,10 +269,12 @@ static void test_io_channel(bool async,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0test_io_channel_setup_sync(listen_addr, c=
+onnect_addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;srv, &amp;src, &a=
+mp;dst);<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(src, QIO_CHANNEL_FEATURE_FD_PASS));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(!passFD ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qio_channel_=
+has_feature(dst, QIO_CHANNEL_FEATURE_FD_PASS));<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(src, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_assert(qio_channel_has_feature(dst, QIO=
+_CHANNEL_FEATURE_SHUTDOWN));<br>
+<br>
+@@ -367,7 +375,7 @@ static void test_io_channel_ipv6_async(void)<br>
+=C2=A0}<br>
+<br>
+<br>
+-#ifndef _WIN32<br>
++#ifdef CONFIG_AF_UNIX<br>
+=C2=A0static void test_io_channel_unix(bool async)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0SocketAddress *listen_addr =3D g_new0(SocketAddress, 1)=
+;<br>
+@@ -398,6 +406,7 @@ static void test_io_channel_unix_async(void)<br>
+=C2=A0 =C2=A0 =C2=A0return test_io_channel_unix(true);<br>
+=C2=A0}<br>
+<br>
++#ifndef _WIN32<br>
+=C2=A0static void test_io_channel_unix_fd_pass(void)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0SocketAddress *listen_addr =3D g_new0(SocketAddress, 1)=
+;<br>
+@@ -491,6 +500,7 @@ static void test_io_channel_unix_fd_pass(void)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0g_free(fdrecv);<br>
+=C2=A0}<br>
++#endif /* _WIN32 */<br>
+<br>
+=C2=A0static void test_io_channel_unix_listen_cleanup(void)<br>
+=C2=A0{<br>
+@@ -588,13 +598,15 @@ int main(int argc, char **argv)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0test_io_channel_ipv6_async);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+-#ifndef _WIN32<br>
++#ifdef CONFIG_AF_UNIX<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_func(&quot;/io/channel/socket/unix-sync&quot=
+;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0test_io_channel_unix_sync);<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_func(&quot;/io/channel/socket/unix-async&quo=
+t;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0test_io_channel_unix_async);<br>
++#ifndef _WIN32<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_func(&quot;/io/channel/socket/unix-fd-pass&q=
+uot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0test_io_channel_unix_fd_pass);<br>
++#endif<br>
+=C2=A0 =C2=A0 =C2=A0g_test_add_func(&quot;/io/channel/socket/unix-listen-cl=
+eanup&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0test_io_channel_unix_listen_cleanup);<br>
+=C2=A0#endif /* _WIN32 */<br></blockquote><div><br></div><div>The comments =
+needs to be updated</div><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr=
+">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000aeb8ec05e5290185--
 
