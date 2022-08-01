@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E988358673D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:11:50 +0200 (CEST)
-Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC65258673C
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 12:11:19 +0200 (CEST)
+Received: from localhost ([::1]:39136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oISOs-0005yW-2J
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48034)
+	id 1oISOM-0005OR-Jy
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 06:11:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJN-0001Bk-6V; Mon, 01 Aug 2022 06:06:09 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:60593)
+ id 1oISJN-0001Bc-1h; Mon, 01 Aug 2022 06:06:09 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:59409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oISJJ-0000WW-8N; Mon, 01 Aug 2022 06:06:08 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id DE75332007E8;
- Mon,  1 Aug 2022 06:05:59 -0400 (EDT)
+ id 1oISJJ-0000Wh-VX; Mon, 01 Aug 2022 06:06:08 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id DCEBC3200258;
+ Mon,  1 Aug 2022 06:06:03 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 01 Aug 2022 06:06:00 -0400
+ by compute3.internal (MEProxy); Mon, 01 Aug 2022 06:06:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-transfer-encoding:content-type:date:date:from
- :from:in-reply-to:message-id:mime-version:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1659348359; x=1659434759; bh=J6
- mfKMtJ5nT1YWcWqFcVDXyU7jAYEhZTIVI+6jz4Gd4=; b=CkFokfieFaD/N3PCjK
- 2eU80V80ul/7tjFWlmH8+l4MO0uKnqOYrTIba8IQI8wct94j23sJiO1Ed5Gh1LE2
- W7fZbD88GECku8Jly4tGnwfyNWq3s7Rxk0Bor8swB9LadmG+YkAiu+UWKsP8HZb3
- sO4iui1R6eluulnJVV5UcKIkSUOt/H1hu0Ck6gJySZ+xvZVWvgzWi9NtA5JPuKwB
- JeNM1BTq2fKanaQhnhHk4jp8O+Kbgjy8+BjuiVJKGogmNJKp/yNQXxvl9FFEBGHj
- MjDAlMYk6Ejrmf3MsNShrv68POuewubjDNBqpOggaN2rs+vabQNR0b8tx+4rD3+1
- BY7A==
+ h=cc:cc:content-transfer-encoding:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm2; t=1659348363; x=
+ 1659434763; bh=8GsZ2n0clzxDVX154HAXrQ6e/Ug5JtURfvpd8uglFHU=; b=p
+ i2Vq4NpaIjjroPSLwQOmZ1QvaSmfffE6+Y/EpCQiaSAurI/R6nvRSKK0qRlegDCy
+ /vATIJcn9eQuHvJzkT+3YSCh1zTWrPQpQg/umiYWIf5prI6B2wGLT9s0ZYmG6xbV
+ UVi9gJYH7/w/Yau5vBxt4i48ZmjZfGi+q/Jawb+8aUqOM0Je1Pink4nCcCcYk/6g
+ F3KCnaoPGrSjS46xHM0paWEh8MwiA9W0D8KnxwWX4yfvyEIVwqwdjeHsBLx3xmqW
+ GrB3fgfXQNhEm2Cq6dRfAkkGXq5CXNSoDCiw8Uw49QHGxkvZzmNvcOKK0GnjpNH3
+ 7idM/qpTeQRYWALVuFSHA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-transfer-encoding
- :content-type:date:date:feedback-id:feedback-id:from:from
- :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
  :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; t=1659348359; x=1659434759; bh=J6mfKMtJ5nT1Y
- WcWqFcVDXyU7jAYEhZTIVI+6jz4Gd4=; b=v1nBRYmP2L+xH+NmKWp8wdLPZfRE6
- us1YrML3QfRSg/dTorntcua1WuEdZzueKuzIedd9LNtldEQuOO0yiGqQj/jM9fA7
- SMDz+IKQzf0qWLqNdpatkLbivjsUQ6wd0Dz+mybsxqxwp5ws5Zf+X/CUsa3i261W
- s7X8M8YwoGeaoR8Eaj0YvkA9MFpD53MtFcPA+ms5UhxJjZA6NvC2nd3/1/X1l6th
- gL5eR285SMP63inWunrhGQUpeBWJEk1lQMXkE7Jfzi4mfSc7Y71cX/YECmxeVWB0
- jfTtyZdhqW7MPtbQqLN1M8nM5gRNkYxUysPxrZ7qsAR8Lf7YtEvc8GiLQ==
-X-ME-Sender: <xms:hqXnYnpKYO4eioTuIiHhbY0F7rM4_7LxWRQtXYukgC-nv1n2BEyCiA>
- <xme:hqXnYhpuV75hhdpWacLriZmU64iouL4dhreEn0VclcPAqiVlWG-Lnd0Ypp2ihnn2y
- fWUh_hd1H9v-kkRUFY>
-X-ME-Received: <xmr:hqXnYkOVfZtYgxuq5mkfNCNlvK0vIgrZiXPhnanQv-qY3QGC40WKcDuX3Q_LCcB7wjYVhap0I03IaKu_9A0n>
+ :x-sasl-enc; s=fm3; t=1659348363; x=1659434763; bh=8GsZ2n0clzxDV
+ X154HAXrQ6e/Ug5JtURfvpd8uglFHU=; b=t22oXb3PAHprNJeyXVUWkH0Ui7w2K
+ SIxP8Hfs+rExHnaE3SRyOCk6Eg4gML3yk/GTVhKxDZiC+yys1DmYZ5yrLTrqzAM4
+ bOTNtbjKHchPusKALNRN+M6GTqU5bOo5QHuWOe7yLIrz9mVe+AeozpWLdOQa7xbY
+ xEEHY3JI0oc7WcLkkiS2ADGTop+z/MgP5tU+pZIJXTSBE4ajNEm7mEqi/G6JV9dL
+ 1OuvEotE/vLdfIETPn9o+4kodOvwNzarzS0SHenGFzAU7so4PMBIf8k1PFyOp10l
+ 8gSIA37BaGV4zwBtLyXZFezj9jPAmuWDrv9YPBpmdc2YzEX/menwOt4qw==
+X-ME-Sender: <xms:iaXnYtwTLCAcqQv6enkdMyPLVwXy4VVkzCnYGPGNTNTGm3tusjGDxQ>
+ <xme:iaXnYtQ4Yqu8Og4OpIaJ44HpRC0-JJecdCJk_7FtN8LCF8RNHMbmnmUKTjxuAccAS
+ DNjC_rkVBRt8bxNeCA>
+X-ME-Received: <xmr:iaXnYnUCsWqN7lGNYRTij786O7zFa8stf2fXq9aOAZ3iLzhxy_yNaiKbI7nLDAMV9Ps2_A79qyguQnB3t4YA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvfedgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvvefufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpedvffdvveelveeghfethfeftefgieefhfekgeetffehhfevhfetfeehuddtfffg
- tdenucffohhmrghinhepghhithhlrggsrdgtohhmpdhinhhfrhgruggvrggurdhorhhgne
- cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihhtshes
- ihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:hqXnYq4rOgFYPRQ0ytvr7m_HCfzoUvbiRMgy4IDBQmcrw0ub59pUzA>
- <xmx:hqXnYm6xri1vajBwYcGJ3_Gi-AZO1KkH214OUwG_5d2_GeV2M6A6tA>
- <xmx:hqXnYij8GN1oBgmlf7fxhENjuzh6owIOG06kp1EDVsld4ECJI_l-bw>
- <xmx:h6XnYh1x-vL_3RJokfVMjv0pRkbxdw3jDVJ6LwOfJbQ24rYTKvOOAA>
+ cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjefgieelgfeiveehkeeuveehheekfeevgeeigfehfefgjeejhefffeegudej
+ udegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
+ htshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:iqXnYviVUnSFtSq2BgRMwEjGY-KVL2hA6XOI4zOMA-VuM_31FS_Y_g>
+ <xmx:iqXnYvBuykZxUqpbrjHrplXyxpLqSYPh8uyvMyz_ORtCMsfADimddg>
+ <xmx:iqXnYoJ4A-riW-AxlKZR1ojGeGEzc8l8z4rAB7Hhdqm4cuIAk6zVnA>
+ <xmx:i6XnYq6lf2WpHpAq3GIzKxt_P-gfYRlrgjAmiEsjHnnaB1By-G07dg>
 Feedback-ID: idc91472f:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 1 Aug 2022 06:05:57 -0400 (EDT)
+ 1 Aug 2022 06:06:00 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
 Cc: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>
-Subject: [PULL for-7.1 0/3] hw/nvme fixes
-Date: Mon,  1 Aug 2022 12:05:53 +0200
-Message-Id: <20220801100556.2217492-1-its@irrelevant.dk>
+ Klaus Jensen <its@irrelevant.dk>, Klaus Jensen <k.jensen@samsung.com>,
+ Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Subject: [PULL for-7.1 1/3] hw/nvme: skip queue processing if notifier is
+ cleared
+Date: Mon,  1 Aug 2022 12:05:54 +0200
+Message-Id: <20220801100556.2217492-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.36.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20220801100556.2217492-1-its@irrelevant.dk>
+References: <20220801100556.2217492-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
  helo=wout2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -101,40 +103,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Hi,=0D
-=0D
-The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3=
-:=0D
-=0D
-  Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into stag=
-ing (2022-07-29 17:39:17 -0700)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request=0D
-=0D
-for you to fetch changes up to e2e137f64282a2ee2f359b6df4cd93c83a308e7b:=0D
-=0D
-  hw/nvme: do not enable ioeventfd by default (2022-08-01 12:01:21 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-hw/nvme fixes=0D
-=0D
-Some fixes for hw/nvme ioeventfd support.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Klaus Jensen (3):=0D
-  hw/nvme: skip queue processing if notifier is cleared=0D
-  hw/nvme: unregister the event notifier handler on the main loop=0D
-  hw/nvme: do not enable ioeventfd by default=0D
-=0D
- hw/nvme/ctrl.c | 12 +++++++++---=0D
- 1 file changed, 9 insertions(+), 3 deletions(-)=0D
-=0D
--- =0D
-2.36.1=0D
-=0D
+While it is safe to process the queues when they are empty, skip it if
+the event notifier callback was invoked spuriously.
+
+Reviewed-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/nvme/ctrl.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 533ad14e7a61..8aa73b048d51 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4238,7 +4238,9 @@ static void nvme_cq_notifier(EventNotifier *e)
+     NvmeCQueue *cq = container_of(e, NvmeCQueue, notifier);
+     NvmeCtrl *n = cq->ctrl;
+ 
+-    event_notifier_test_and_clear(&cq->notifier);
++    if (!event_notifier_test_and_clear(e)) {
++        return;
++    }
+ 
+     nvme_update_cq_head(cq);
+ 
+@@ -4275,7 +4277,9 @@ static void nvme_sq_notifier(EventNotifier *e)
+ {
+     NvmeSQueue *sq = container_of(e, NvmeSQueue, notifier);
+ 
+-    event_notifier_test_and_clear(&sq->notifier);
++    if (!event_notifier_test_and_clear(e)) {
++        return;
++    }
+ 
+     nvme_process_sq(sq);
+ }
+-- 
+2.36.1
+
 
