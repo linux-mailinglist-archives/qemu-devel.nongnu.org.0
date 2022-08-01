@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF6A586CB9
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 16:21:27 +0200 (CEST)
-Received: from localhost ([::1]:49516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABA1E586CBA
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Aug 2022 16:21:29 +0200 (CEST)
+Received: from localhost ([::1]:49566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIWIO-00058P-44
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 10:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43484)
+	id 1oIWIS-0005Bw-OE
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 10:21:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIWCK-0001GF-7Z
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 10:15:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42381)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIWCF-0001gi-DO
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 10:15:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659363301;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZYpLESn+Ri8kJUmlHrQ0iWbHUTf4E+w1fFeKc534TLk=;
- b=KeQ9+yuEOz1YnTaSmcga6SYy9Fee3/aMxjU+YAPKd62NQEdFSbWMLpt2SpMTSOWLNt0qZ7
- UE+e5ZYH850Rk7Ia7EMK5SKAvTRy8aTkpn27RWnUwJ2qjmBd4fE1Zduc8X47SX8qwFwb+q
- u7MCMmqBfPEwmUtSb+PBnCESMkddRjE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-198-vwvOR7CLN2ibsFHmVogG5Q-1; Mon, 01 Aug 2022 10:14:58 -0400
-X-MC-Unique: vwvOR7CLN2ibsFHmVogG5Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2072A185A794;
- Mon,  1 Aug 2022 14:14:58 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAD5A2026D07;
- Mon,  1 Aug 2022 14:14:57 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A635221E6930; Mon,  1 Aug 2022 16:14:56 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,  David Hildenbrand
- <david@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  qemu-s390x@nongnu.org,  qemu-devel@nongnu.org,
- Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: Re: [PATCH v3 1/2] qapi: Add exit-failure PanicAction
-References: <20220725223746.227063-1-iii@linux.ibm.com>
- <20220725223746.227063-2-iii@linux.ibm.com>
-Date: Mon, 01 Aug 2022 16:14:56 +0200
-In-Reply-To: <20220725223746.227063-2-iii@linux.ibm.com> (Ilya Leoshkevich's
- message of "Tue, 26 Jul 2022 00:37:45 +0200")
-Message-ID: <87y1w8caov.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oIWDC-0001sT-Jx; Mon, 01 Aug 2022 10:16:02 -0400
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132]:43526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1oIWDB-00023h-22; Mon, 01 Aug 2022 10:16:02 -0400
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-31f56c42ab5so110158897b3.10; 
+ Mon, 01 Aug 2022 07:16:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=T0pa0PbXy5LmRaGTYaNgv/4TXJdUpUTR80xCnwD6kf0=;
+ b=WLuFogG9r1ceXhgj0Xe55GJp2sSW4Mf9Jw5RNL4yLvBXKx0e6/ivIj5+pcNc9AU+v3
+ 68XmMOxT2VwVjDXtczIqHVC8Q3jV+mnFiZT46WNFtnsNjqayOTPOJ9dPw9g9Ehg+zgEb
+ bKpUJculn6ySl5UnKtmj8fCPktagh54ZCqxlCck3/eMjX7OvixyVtULcr/OPmlfORPIg
+ jaa7W4ZiGR0rVpSFGLuOdDBBny7aYsmvIdvI7fvTZjVq2tJTTdFi9nn4isHIoRIiwu4A
+ mEquPHzCVPUIfb20YSwR1Jxd5ZbwdXtYYNlEItJgjWRkx4Pqg/WsGr90TM4XdnjQqpZ5
+ UXHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=T0pa0PbXy5LmRaGTYaNgv/4TXJdUpUTR80xCnwD6kf0=;
+ b=3fJAJCoM2qW1e0hfXjhRQQbZJG0fAalW6g5bGdyyKYttCn8XG5w9BFnv/uPP5aZKMv
+ UVBExBeBWoqlom9Sy203LdJCsxyecdzUQpyqeY1SJwyB2fdkyfuCWsikm+XhDLK1JZxd
+ s4YWSXgppPbxsERpSkYlZzMSxkbQU2hti+eDbXL1UIOTnMJYlLpONk8ux3nFIJPORpmX
+ UQc2OsZoA9luna/U6XOUqKBeXZWPw2cTzEpBFrygKaaubr4UJ1AQP5lcXHU5G9xxxAs1
+ grVzgzgvIwhve3fvER4T45477b8KhLgTQvI8+JyS827gwNGDYukEjoukHTxB56Eg8ibz
+ u/BQ==
+X-Gm-Message-State: ACgBeo0kh4ODEpTuQ8VdtN6dX1PfvuIpSv0uxzf011NnAoDuV5wjaxar
+ 30G+H1doQzOCcsQd4+rXlBAHIjevUppyVd1j5nA=
+X-Google-Smtp-Source: AA6agR4WjwxpDcNDgZMR2toKfk6SBtsyhA8/idq1q5UtB7sZXgc13h/YGfE0KM0WKBk/W4z5RdRJSGESXBrQk4U4WiM=
+X-Received: by 2002:a81:8746:0:b0:31d:c5a6:ad8f with SMTP id
+ x67-20020a818746000000b0031dc5a6ad8fmr13276607ywf.206.1659363358102; Mon, 01
+ Aug 2022 07:15:58 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20220801013148.10334-1-faithilikerun@gmail.com>
+In-Reply-To: <20220801013148.10334-1-faithilikerun@gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 1 Aug 2022 10:15:46 -0400
+Message-ID: <CAJSP0QW7xgWkaa7AECxJ=O+T7mCwh1bMXqsXv7rqUm0VBOh=CA@mail.gmail.com>
+Subject: Re: [RFC v5 01/11] include: add zoned device structs
+To: Sam Li <faithilikerun@gmail.com>
+Cc: qemu-devel@nongnu.org, damien.lemoal@opensource.wdc.com, 
+ dmitry.fomichev@wdc.com, hare@suse.de, stefanha@redhat.com, mst@redhat.com, 
+ armbru@redhat.com, qemu-block@nongnu.org, fam@euphon.net, kwolf@redhat.com, 
+ hreitz@redhat.com, eblake@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,110 +84,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
-
-> Currently QEMU exits with code 0 on both panic an shutdown. For tests
-> it is useful to return 1 on panic, so that it counts as a test
-> failure.
+On Sun, 31 Jul 2022 at 21:32, Sam Li <faithilikerun@gmail.com> wrote:
 >
-> Introduce a new exit-failure PanicAction that makes main() return
-> EXIT_FAILURE. Tests can use -action panic=exit-failure option to
-> activate this behavior.
+> Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> ---
+>  include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 43 insertions(+)
 >
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
+> diff --git a/include/block/block-common.h b/include/block/block-common.h
+> index fdb7306e78..c9d28b1c51 100644
+> --- a/include/block/block-common.h
+> +++ b/include/block/block-common.h
+> @@ -49,6 +49,49 @@ typedef struct BlockDriver BlockDriver;
+>  typedef struct BdrvChild BdrvChild;
+>  typedef struct BdrvChildClass BdrvChildClass;
+>
+> +typedef enum BlockZoneOp {
+> +    BLK_ZO_OPEN,
+> +    BLK_ZO_CLOSE,
+> +    BLK_ZO_FINISH,
+> +    BLK_ZO_RESET,
+> +} BlockZoneOp;
+> +
+> +typedef enum BlockZoneModel {
+> +    BLK_Z_NONE = 0x0, /* Regular block device */
+> +    BLK_Z_HM = 0x1, /* Host-aware zoned block device */
+> +    BLK_Z_HA = 0x2, /* Host-managed zoned block device */
 
-[...]
+The HM and HA comments are swapped.
 
-> diff --git a/qapi/run-state.json b/qapi/run-state.json
-> index 6e2162d7b3..9273ea6516 100644
-> --- a/qapi/run-state.json
-> +++ b/qapi/run-state.json
-> @@ -364,10 +364,13 @@
-   ##
-   # @PanicAction:
+> +} BlockZoneModel;
+> +
+> +typedef enum BlockZoneCondition {
+> +    BLK_ZS_NOT_WP = 0x0,
+> +    BLK_ZS_EMPTY = 0x1,
+> +    BLK_ZS_IOPEN = 0x2,
+> +    BLK_ZS_EOPEN = 0x3,
+> +    BLK_ZS_CLOSED = 0x4,
+> +    BLK_ZS_RDONLY = 0xD,
+> +    BLK_ZS_FULL = 0xE,
+> +    BLK_ZS_OFFLINE = 0xF,
+> +} BlockZoneCondition;
+> +
+> +typedef enum BlockZoneType {
+> +    BLK_ZT_CONV = 0x1,
 
-This is the type of set-action argument @panic, which is documented as
-"action taken on guest panic."
+/* Conventional random writes supported */
 
-   #
-   # @none: Continue VM execution
+> +    BLK_ZT_SWR = 0x2,
 
-I guess this is effectively "do nothing / ignore".
+/* Sequential writes required */
 
-   #
-   # @pause: Pause the VM
+> +    BLK_ZT_SWP = 0x3,
 
-Clear enough.
+/* Sequential writes preferred */
 
->  #
->  # @shutdown: Shutdown the VM and exit, according to the shutdown action
+> +} BlockZoneType;
+> +
+> +/*
+> + * Zone descriptor data structure.
+> + * Provide information on a zone with all position and size values in bytes.
 
-I guess this is the value of set-action argument @shutdown, which is
-can be
+s/Provide/Provides/
 
-* @poweroff, documented as "Shutdown the VM and exit"
+Once these items have been addressed feel free to add:
 
-  Do we exit successfully, i.e. with zero status?
-
-* @pause, documented as "pause the VM"
-
-  PanicAction's documentation claims "shutdown the VM and exit", but we
-  don't, we pause instead.  Not this patch's problem.
-
->  #
-> +# @exit-failure: Shutdown the VM and exit with nonzero status
-
-non-zero
-
-> +#                (since 7.1)
-> +#
->  # Since: 6.0
->  ##
->  { 'enum': 'PanicAction',
-> -  'data': [ 'pause', 'shutdown', 'none' ] }
-> +  'data': [ 'pause', 'shutdown', 'exit-failure', 'none' ] }
->  
->  ##
->  # @watchdog-set-action:
-
-Not this patch's problem, but here goes anyway:
-
-   ##
-   # @set-action:
-   #
-   # Set the actions that will be taken by the emulator in response to guest
-   # events.
-   #
-   # @reboot: @RebootAction action taken on guest reboot.
-   #
-   # @shutdown: @ShutdownAction action taken on guest shutdown.
-   #
-   # @panic: @PanicAction action taken on guest panic.
-   #
-   # @watchdog: @WatchdogAction action taken when watchdog timer expires .
-   #
-   # Returns: Nothing on success.
-   #
-   # Since: 6.0
-   #
-   # Example:
-   #
-   # -> { "execute": "set-action",
-   #      "arguments": { "reboot": "shutdown",
-   #                     "shutdown" : "pause",
-   #                     "panic": "pause",
-   #                     "watchdog": "inject-nmi" } }
-   # <- { "return": {} }
-   ##
-
-The arguments are all optional, but the documentation neglects to spell
-out what "absent" means.  I guess it means "no change".
-
-The documentation also neglects to spell out the initial settings,
-i.e. behavior when you don't configure an action with set-action.
-
-[...]
-
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
