@@ -2,158 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CE55884A9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 01:07:30 +0200 (CEST)
-Received: from localhost ([::1]:37442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F15D5884C5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 01:37:08 +0200 (CEST)
+Received: from localhost ([::1]:49968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJ0z3-0006PN-Ii
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 19:07:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35922)
+	id 1oJ1Ri-0000L3-5H
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 19:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=9213ef72d3=irischenlj@fb.com>)
- id 1oJ0wg-0004Uh-JD; Tue, 02 Aug 2022 19:05:02 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:36956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=9213ef72d3=irischenlj@fb.com>)
- id 1oJ0we-00071a-Gc; Tue, 02 Aug 2022 19:05:02 -0400
-Received: from pps.filterd (m0148461.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 272I2Qp7028893;
- Tue, 2 Aug 2022 16:04:47 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=ZgeacT8P7E8OePXnkmTcfYh+HaBb9j7hhp20BhRiaQ0=;
- b=Lemrwhxo+Mk3yqP8+dk11MT6t1b3HK3wHTxVu0wVPWMh+6zy6BwlAu8hXDB3JPpTX46R
- QhFrRqDwt1S6yYLOx0yLRjJ6UD1D4WxHAgipp60SzqcZytRj8+v+OoNznRQ9uTbOYqgH
- DpMAWD+J9QIqHCpaNiW0C/XEckWA/TZ3aDg= 
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
- by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 3hpy32e1xg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 02 Aug 2022 16:04:46 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VqIWzNtB85Kbe0y7guVCuMNFeetHeOsxnoYK2ooLKAiyO3PczzRoZKE9Fu6bw1orxK/wiKSDlkdSMkw0ZRktI0Js/Z314byXQzVVFY0UydsWuacRJe3JBt1ys83xIbLfRO7qxzkfZoM+0D5qIz6o9hLOSakbcghNDBxr+FeC8ovwS9vpA9PPqAeVP6iB/xQVp6K+FjGwdAfiD2zcuw1NrSX6VQCkYw6OINztboVd8b2/z8Sw1Huv0rOm28jo5J44dB7czeHjkPqDr0nzii5VTbvRzFbTycLqqLNWFWnqEh/PlfEj1gXdbSjZnXDYJNLL3KNYjTedIaT7SC4gfvCGvQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZgeacT8P7E8OePXnkmTcfYh+HaBb9j7hhp20BhRiaQ0=;
- b=PQjoXnm/Z1tG6daVJqZC6SaMsXw2Hj02lKCI/zbTGgk8dVOD/C/oBjV7rkKL2R1ZL4H3fQDqSeWPm/uiz6+wIVyfM7MWV0yHG5b+Bm0Um/HAShf4VrxeR0DHEryBNUARP1ffAKt5nEVBOIOT1ThQLNnb2clrcxAYzzaLfORUq7DWqhzxvF0Qw+QSlOBtrLQRE9FQw53udx1ETU5OA8sCwSVOwkQ/62mF74mXmRzrRFU6a8VtHL5151Buqij7SFIdNBPa9NHryUYvwdsHybbG3XdDLaNYHOhtAfjbHic5F557NSv4fGAE2ytyXU57Njy5tOD8ud1TEag/lrWUWwIduw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
- header.d=fb.com; arc=none
-Received: from DM6PR15MB3547.namprd15.prod.outlook.com (2603:10b6:5:1ff::32)
- by BN7PR15MB2290.namprd15.prod.outlook.com (2603:10b6:406:82::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.16; Tue, 2 Aug
- 2022 23:04:45 +0000
-Received: from DM6PR15MB3547.namprd15.prod.outlook.com
- ([fe80::d819:c439:c4e0:9f7b]) by DM6PR15MB3547.namprd15.prod.outlook.com
- ([fe80::d819:c439:c4e0:9f7b%5]) with mapi id 15.20.5482.016; Tue, 2 Aug 2022
- 23:04:44 +0000
-From: Iris Chen <irischenlj@fb.com>
-To: =?iso-8859-1?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, Peter Delevoryas
- <peter@pjd.dev>
-CC: Peter Delevoryas <pdel@fb.com>, "qemu-devel@nongnu.org"
- <qemu-devel@nongnu.org>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "patrick@stwcx.xyz" <patrick@stwcx.xyz>, "alistair@alistair23.me"
- <alistair@alistair23.me>, "kwolf@redhat.com" <kwolf@redhat.com>,
- "hreitz@redhat.com" <hreitz@redhat.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>,
- "andrew@aj.id.au" <andrew@aj.id.au>, "joel@jms.id.au" <joel@jms.id.au>,
- "thuth@redhat.com" <thuth@redhat.com>,
- "lvivier@redhat.com" <lvivier@redhat.com>, "pbonzini@redhat.com"
- <pbonzini@redhat.com>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "dz4list@gmail.com" <dz4list@gmail.com>
-Subject: Re: [RFC 0/3] Add Generic SPI GPIO model
-Thread-Topic: [RFC 0/3] Add Generic SPI GPIO model
-Thread-Index: AQHYotkNGdgEJUtF6k2sE4dbYssc9q2VV8SAgAIWdd+AAA1aAIAENgeAgACQ5dY=
-Date: Tue, 2 Aug 2022 23:04:44 +0000
-Message-ID: <DM6PR15MB3547511E94901A7B53F46A02B69D9@DM6PR15MB3547.namprd15.prod.outlook.com>
-References: <20220728232322.2921703-1-irischenlj@fb.com>
- <435b3e89-f9fd-c257-b03d-a12d4b59ac6b@kaod.org>
- <YuQZP4xkkU2R9VmO@pdel-mbp.dhcp.thefacebook.com>
- <6d4a3912-a386-a784-8db4-7743bb1f1063@kaod.org>
- <YuWrbJglNYdGOmUh@pdel-mbp.dhcp.thefacebook.com>
- <2f7f05aa-6aa2-970e-b4ab-bfbed80b381b@kaod.org>
-In-Reply-To: <2f7f05aa-6aa2-970e-b4ab-bfbed80b381b@kaod.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: eef657b0-e395-4d3b-6163-08da74db63dc
-x-ms-traffictypediagnostic: BN7PR15MB2290:EE_
-x-fb-source: Internal
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LyxEoHI3j73zuB1sZlJ3PT82M/DT2IhjotGKMdsTVsEA1yobgInK3cbSLslkNUZaaOmC5Dp24MmuUeKnTRCoNegn9RK/QRUOXGveE9e//zscSNlgXkZjh2JLAsanSBw0uro5k4ImwlBOKyL/gcqFofWhtR24yzigdHH+bTV9ACP+9W7ZM4xxQsl2ADe64oXmS7JZPM1RDShhXCWlNktwzIErPsvsFaYM+bO+GF9+HT5glKv7FC0BZVTn9JGtzzsmXDsFkCa7vlLlgxB5UbsD5YPj/UsjSwvez5eI1nrYb7rCbC7N9GbU1bvHFyrWtMSm/CyUgM1UlXWm5F7O/kfi/HhpSzg6Cao9NJDPuW6W2bqFNeXQpEJX+3rI9LEaNLTX6PtRTPBHgYEPJYoV7fUuS9qSzOQBiLO7Ax4I41JHhwD+C2/vPRn82RHNOzqia8c5kJseqLNFsEnlbeAFgmXYYjVRmgPcu50hL5a/VzbFpwXz/RmlOWpxg2EBQbkAlNhJIY+UQ1j0IefaLWRWxtiM22J1rdJ9AXJyU8bmeyuzJs1QegV8qatAr5d7lnsJBX8lsfk9c9FA/vUeqiLqbjZMnfopSzSj7tJfWdO5UVNCuRGNsXFzsTnVLxVOm0+UmRBvuFBgSwSs4vH4YbighRCBymTEtvJKhZfUX/HXMO3ugHOfLILLJl7zED2lEhV17CkntXicd1ag44KW6jD90SY4WblzwjJyUK9kl3Clcx4rPAFTdjmObsXThIokiXP7wwirS125LPdSJeIAl2VXcInaXgEp3AVQvyhuxL6K4f0QWsbm/kvQ272+gAiAbHmqYeSE+YicVYGXhOxeykSRmC3SJw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR15MB3547.namprd15.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(4636009)(346002)(376002)(396003)(136003)(366004)(39860400002)(6506007)(7696005)(41300700001)(9686003)(558084003)(316002)(55016003)(478600001)(54906003)(110136005)(86362001)(71200400001)(122000001)(38070700005)(38100700002)(186003)(91956017)(2906002)(8936002)(7416002)(66446008)(66556008)(76116006)(66476007)(64756008)(33656002)(66946007)(52536014)(8676002)(5660300002)(4326008)(41533002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?Ofr3Zt+P02sh97lup8Ikviei+nn6XUgJr02SboiA60HCAKARkSCGQNJhFQ?=
- =?iso-8859-1?Q?2K55JmS/wSap5EQbfJ5Zqw9KV6M+r2FhJbwQSNiNeA6oTp5lolXdL4TGaC?=
- =?iso-8859-1?Q?rIfA/0+Qy+4RQSgp7jbbehCWirgOKN4GyTFizFyztaJXUDpFtFiRwwMrdB?=
- =?iso-8859-1?Q?8GSiBKnnLM1vB+QoW9ykYI1ij23D94TXKCYT0YcvlsZ/Xuj9iuepd9oPlA?=
- =?iso-8859-1?Q?3Bij94SILTt47mYYNFylQs2CTgA0Z0+ul5dogVIIpJzjvpFe8lypDnGRHy?=
- =?iso-8859-1?Q?ZhBKp71SzqOAuev5gBmsGpA5vW2m3fJCnCGTY0Ye/XmyJ4yBqPTQKMirBy?=
- =?iso-8859-1?Q?ai2rpLvtv2wFbYE0H1h3r5LBqN5BFXyZyXVH6AOe6DnXCX3N9AiJdYZobq?=
- =?iso-8859-1?Q?rDk5vXivRxwQHwIfxa7ljw38I8d0jD0izcXFhpxf56Xbqy+cn5VxZ8Nbzq?=
- =?iso-8859-1?Q?P6TOQ9WS/5li+lFR3vKuNfTeYEKns+2+PZDcw6Bz6796FVK7gOmLFnuk6V?=
- =?iso-8859-1?Q?VSZvjTkJC+/cUZ5adazalqriFvCP/cxoZITKVeVhgTbnI/FI1WOKSGwq5O?=
- =?iso-8859-1?Q?AbAhBVc0nq1H7nniMgo3lUrAgGEByw+RroP4oI2SyPOBZtM+ox9Yy2u+1c?=
- =?iso-8859-1?Q?eUpbQXlOUTPIcn3kiAiaF/p1PwSmT1ZEsnwRiGvEmDfqTZEWpZ+fhrm1J6?=
- =?iso-8859-1?Q?s8Hd7NFLrgDK3dxdGZ+QqiQb2oijnk6zovzifEX1u2LPFqPmLm2NYgP0LC?=
- =?iso-8859-1?Q?nz6uwsnk98GovC+fDtvCFu/6/NZ0EXvV1yhukx/dN/meCILTdMBLRgcPwe?=
- =?iso-8859-1?Q?cShn3XYXqI8H0kl4gv2HobHHOrcR4rvZVbA39u4jEAkortAdky7xDbb6mS?=
- =?iso-8859-1?Q?Rd7TD+bExYcHkvTny/FWJy6tTPxpAL2ENsArSgCHjRyM6TIQ9RxnWXK2Dl?=
- =?iso-8859-1?Q?YagpPrnLxrmxBB8VGBsfywGzkNpJlI/JcZOb722dlNVFWEGQ3yQSO4SwO7?=
- =?iso-8859-1?Q?/AD0M4wfpF9vuok6LdEJP+ctGZQaeOyL57TJaVTggb815wr42URPKobmXH?=
- =?iso-8859-1?Q?ru4V3DA5JfO5tIywbZPZ2UWIBXKzCMdP/TPquOJXt9VpM278q1b2pt1KtM?=
- =?iso-8859-1?Q?Fc/OWgSRHIVbmcn5MHEtp1hvkDKleKlZ7PP/kIY57rJ7oA81lwoh0+2mTS?=
- =?iso-8859-1?Q?mWPik/F/krMo7nk4Fboz2jp1yWCrZnmo/NZe1eENNmxzC43PbveiSLo+QD?=
- =?iso-8859-1?Q?8wl744QiUS8DRyv5u/vV/BvTbGo/OzJ2j4oYyJj0m0rHRH2z1ihsBdD7MT?=
- =?iso-8859-1?Q?3l7TenE4cbwBBsLUFHD8gwWnmNsA9h71d63+6tU0KypxpVHAeIpO9U2eLM?=
- =?iso-8859-1?Q?vXQ5vJ+FZUEFpK3dlFYKgMz7MeBfAV7PDsDQJ9xewX4fmtCuqx+nZdJRPN?=
- =?iso-8859-1?Q?VEZ9nNPDv/4NciFDir0/fW/h6+XKc+tolGiBzzazVy0E5phiSMrttLZbxA?=
- =?iso-8859-1?Q?TnATfutSGAdUkj+5WRAemqQ/N5SMmFLib5ua4TRj4iPgDzKPk0S0uXE78I?=
- =?iso-8859-1?Q?zmk5uJLr1tDvMIAVh96wKIC1VBEVgDawZdzpmObNZ5tck0u3hzzy1zAPUA?=
- =?iso-8859-1?Q?gLXdgkrIXSoVOyeicjVaRUFAMHctAzxbOS3AHy5UfxupvUnQw0pJoC0Q?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJ1O2-0003BO-Fc
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:33:18 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:34521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJ1O0-0007lG-93
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:33:18 -0400
+Received: by mail-pf1-x433.google.com with SMTP id f28so6722263pfk.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 16:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=pfKdcqGeXOhXadJ0c2KQSQmlF1lo1iHEfkyF+29WK3o=;
+ b=HXnamVBNfrLPsTAkdJtkpCD8QdvFGCXwNdn0zag67HtVEJkZOSiC5JrzIpPB5pT6Em
+ Nm0pKSz9TLdJX9ADsnxRZtECrB8wJ+pvSH82f6az1W76ZH0r2BPJVODVDKImydUOoklh
+ IPhUm7s+uOALjHM4jrKqd3WumAB//EXAHHePWbOGx09H9F59mrF+W12svEIQ1BEAASJd
+ o+OUSjPxIhb2rCtCO+/72hxkZFm+h+sY2GInQes824jOk+seHt1d5B1IN7Tj27lVOjNR
+ BNTHNIOTZ1kMW9/L4yYlWx2oFhL7p+HedziRiSGE0igLL5mz11yRqCIFrmS8DqQiAxKm
+ Ue4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=pfKdcqGeXOhXadJ0c2KQSQmlF1lo1iHEfkyF+29WK3o=;
+ b=b6mJGlpE+/5zTP7SY1aUyuQJIevN9yyhXS/i8wgbUsBPHahcxZsDNoKnVfFl0GnTIl
+ E3wgsnxYR+j6NcbDe55VLABR1wVeC4IiH1J24+hOZQSZ99OFJC6jfxL/Ard0oUmMV6w2
+ f1VmPD6Th0NTfkBi5O/GkTLZ9ouyV/tDphDjGL8fS7weW8vnAdu4jmaMNo84Xnm39152
+ qjYevjgQbSvPP/WXXVBtdZP0mxUXB8LzFFPbdOjFJ7ZVCNt7M3uYHHWYhdSJznkVSoTA
+ tXSoEc2dKSUWqtdw0f3R06+DULA0ZK5yYT7bhxHz8Z4PWMK2PoPhelmAwBldbUKAxtfK
+ k9bg==
+X-Gm-Message-State: ACgBeo3xojRku0rHxK2D5djtvYEf+LSTUxLZFqSuJy7qW4ySlZats8rV
+ Gq/ATCVVeVofJBQd8+6VZguM+E3hsmK7Kw==
+X-Google-Smtp-Source: AA6agR6HSc6HwVGyZEP7NtBeKYvCgTqmqcjx+nPGCMIB5LDBCpbRYF3qumwTRGfvyvLKnZ24unZlcQ==
+X-Received: by 2002:aa7:9a05:0:b0:52d:5257:129 with SMTP id
+ w5-20020aa79a05000000b0052d52570129mr13441980pfj.4.1659483194486; 
+ Tue, 02 Aug 2022 16:33:14 -0700 (PDT)
+Received: from atishp.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ s10-20020a170902a50a00b001636d95fe59sm250543plq.172.2022.08.02.16.33.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Aug 2022 16:33:14 -0700 (PDT)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v12 0/6] Improve PMU support
+Date: Tue,  2 Aug 2022 16:33:01 -0700
+Message-Id: <20220802233307.2106839-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: fb.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR15MB3547.namprd15.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eef657b0-e395-4d3b-6163-08da74db63dc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Aug 2022 23:04:44.8081 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 12XCxQ0Z9+fB7P9O4qn+PV1yraPr6NdwtmFZm6hBR4Cwe64RCLWgEr6dAk+xZ7PMXaZVylrj2FN1xasaOVEXWQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR15MB2290
-X-Proofpoint-ORIG-GUID: AwToj4TiIblxk_IxZ3c-KM39X3fcf099
-X-Proofpoint-GUID: AwToj4TiIblxk_IxZ3c-KM39X3fcf099
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-02_14,2022-08-02_01,2022-06-22_01
-Received-SPF: pass client-ip=67.231.145.42;
- envelope-from=prvs=9213ef72d3=irischenlj@fb.com;
- helo=mx0a-00082601.pphosted.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=atishp@rivosinc.com; helo=mail-pf1-x433.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -169,12 +90,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks everyone for the insightful feedback! This is really helpful for me.=
- =0A=
-=0A=
-I am taking a look at all the comments now and will investigate into it. =
-=0A=
-=0A=
-Best, =0A=
-Iris =
+The latest version of the SBI specification includes a Performance Monitoring
+Unit(PMU) extension[1] which allows the supervisor to start/stop/configure
+various PMU events. The Sscofpmf ('Ss' for Privileged arch and Supervisor-level
+extensions, and 'cofpmf' for Count OverFlow and Privilege Mode Filtering)
+extension[2] allows the perf like tool to handle overflow interrupts and
+filtering support.
+
+This series implements remaining PMU infrastructure to support
+PMU in virt machine. The first seven patches from the original series
+have been merged already.
+
+This will allow us to add any PMU events in future.
+Currently, this series enables the following omu events.
+1. cycle count
+2. instruction count
+3. DTLB load/store miss
+4. ITLB prefetch miss
+
+The first two are computed using host ticks while last three are counted during
+cpu_tlb_fill. We can do both sampling and count from guest userspace.
+This series has been tested on both RV64 and RV32. Both Linux[3] and Opensbi[4]
+patches are required to get the perf working.
+
+Here is an output of perf stat/report while running hackbench with latest
+OpenSBI & Linux kernel.
+
+Perf stat:
+==========
+[root@fedora-riscv ~]# perf stat -e cycles -e instructions -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 0.265 [sec]
+
+ Performance counter stats for 'perf bench sched messaging -g 1 -l 10':
+
+     4,167,825,362      cycles                                                      
+     4,166,609,256      instructions              #    1.00  insn per cycle         
+         3,092,026      dTLB-load-misses                                            
+           258,280      dTLB-store-misses                                           
+         2,068,966      iTLB-load-misses                                            
+
+       0.585791767 seconds time elapsed
+
+       0.373802000 seconds user
+       1.042359000 seconds sys
+
+Perf record:
+============
+[root@fedora-riscv ~]# perf record -e cycles -e instructions \
+> -e dTLB-load-misses -e dTLB-store-misses -e iTLB-load-misses -c 10000 \
+> perf bench sched messaging -g 1 -l 10
+# Running 'sched/messaging' benchmark:
+# 20 sender and receiver processes per group
+# 1 groups == 40 processes run
+
+     Total time: 1.397 [sec]
+[ perf record: Woken up 10 times to write data ]
+Check IO/CPU overload!
+[ perf record: Captured and wrote 8.211 MB perf.data (214486 samples) ]
+
+[root@fedora-riscv riscv]# perf report
+Available samples                                                               
+107K cycles                                                                    ◆
+107K instructions                                                              ▒
+250 dTLB-load-misses                                                           ▒
+13 dTLB-store-misses                                                           ▒
+172 iTLB-load-misses      
+..
+
+Changes from v11->v12:
+1. Rebased on top of the apply-next.
+2. Aligned the write function & .min_priv to the previous line.
+3. Fixed the FDT generations for multi-socket scenario.
+4. Dropped interrupt property from the DT.
+5. Generate illegal instruction fault instead of virtual instruction fault
+   for VS/VU access while mcounteren is not set.
+
+Changes from v10->v11:
+1. Rebased on top of the master where first 7 patches were already merged.
+2. Removed unnecessary additional check in ctr predicate function.
+3. Removed unnecessary priv version checks in mcountinhibit read/write. 
+4. Added Heiko's reviewed-by/tested-by tags.
+
+Changes from v8->v9:
+1. Added the write_done flags to the vmstate.
+2. Fixed the hpmcounter read access from M-mode.
+
+Changes from v7->v8:
+1. Removeding ordering constraints for mhpmcounter & mhpmevent.
+
+Changes from v6->v7:
+1. Fixed all the compilation errors for the usermode.
+
+Changes from v5->v6:
+1. Fixed compilation issue with PATCH 1.
+2. Addressed other comments.
+
+Changes from v4->v5:
+1. Rebased on top of the -next with following patches.
+   - isa extension
+   - priv 1.12 spec
+2. Addressed all the comments on v4
+3. Removed additional isa-ext DT node in favor of riscv,isa string update
+
+Changes from v3->v4:
+1. Removed the dummy events from pmu DT node.
+2. Fixed pmu_avail_counters mask generation.
+3. Added a patch to simplify the predicate function for counters. 
+
+Changes from v2->v3:
+1. Addressed all the comments on PATCH1-4.
+2. Split patch1 into two separate patches.
+3. Added explicit comments to explain the event types in DT node.
+4. Rebased on latest Qemu.
+
+Changes from v1->v2:
+1. Dropped the ACks from v1 as signficant changes happened after v1.
+2. sscofpmf support.
+3. A generic counter management framework.
+
+[1] https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc
+[2] https://drive.google.com/file/d/171j4jFjIkKdj5LWcExphq4xG_2sihbfd/edit
+[3] https://github.com/atishp04/qemu/tree/riscv_pmu_v12
+
+Atish Patra (6):
+target/riscv: Add sscofpmf extension support
+target/riscv: Simplify counter predicate function
+target/riscv: Add few cache related PMU events
+hw/riscv: virt: Add PMU DT node to the device tree
+target/riscv: Update the privilege field for sscofpmf CSRs
+target/riscv: Remove additional priv version check for mcountinhibit
+
+hw/riscv/virt.c           |  16 ++
+target/riscv/cpu.c        |  12 ++
+target/riscv/cpu.h        |  25 +++
+target/riscv/cpu_bits.h   |  55 +++++
+target/riscv/cpu_helper.c |  25 +++
+target/riscv/csr.c        | 312 +++++++++++++++++-----------
+target/riscv/machine.c    |   1 +
+target/riscv/pmu.c        | 414 +++++++++++++++++++++++++++++++++++++-
+target/riscv/pmu.h        |   8 +
+9 files changed, 749 insertions(+), 119 deletions(-)
+
+--
+2.25.1
+
 
