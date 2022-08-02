@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 819FC587566
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 04:06:58 +0200 (CEST)
-Received: from localhost ([::1]:57096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7172587568
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 04:07:44 +0200 (CEST)
+Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIhJB-0006kQ-6T
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 22:06:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
+	id 1oIhJw-0007EC-2B
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 22:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oIhFt-0003Zx-B9
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:03:33 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35797)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIhH9-0004IN-PD
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:04:51 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46025)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shorne@gmail.com>) id 1oIhFr-0005B0-QS
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:03:33 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- x2-20020a17090ab00200b001f4da5cdc9cso6968991pjq.0
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 19:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=S6QeTRZehyEeuAg/fZYmmGDgW/s70yIYqa35AH9HThM=;
- b=LZ/GPEiAxTFF3lZ4yiMhFNn3dWOaAQVRpHLwi8H+4mBoTm0Fq9phnVdfPxw9hdatH8
- 0QHrhXusc9QBV7XfuQOtLwxQsh1AlMAE9JB592MU/sFih2GMKBiQKgyc4TNerCkR293u
- HN7wpkkYNBQMNLSQylWy4GcH5134Rlyc5ZPF6fSUImUFZ+ATJI2psN8UVDSKbNWAtdn/
- fk22EOmUYID11oi6YzG8XkZ8bMSykkLY0BmJKo0q1xixLo1SXnJ7koOSkfCA8UQHhkqR
- x9zkwSlO4RRCnEwsVeqHZbcCBTuXmHfr2CUnlXZL2yAu/0MrkiqJzHWbcO2ufDyFTEBs
- 6TgQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIhH7-0005I1-0k
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:04:50 -0400
+Received: by mail-pl1-x631.google.com with SMTP id w7so12089854ply.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 19:04:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=wQ0nu79kXZuZtfNWKFiQAUN093a9q9fkJa0SFWz6DUM=;
+ b=IGAoKQmEDK1jmCBDlcrwGWWTJ+ppvkGPWnjZDrSdlm1jsnYInJw0aOCmQdZJB+WNVC
+ p6R0s8oJFHEdYfxjvG0MVHuD273qpIUeeOSj/U3cI1TcEHaUyYvDkIQXlYeqriw2wgvW
+ D1v2t1uPfgqMQvzzxowki62C+sGelcc2O2dHLVrNpOly04dZ9hrmh4EFB+D5jG6PDMU7
+ wpCjgG+TJ25JT+X8wTRRSIH/T2YIBJer5UsLrap+HoBxFTYhAQUE2pd9OdS0wj5u++qf
+ 4y+phHV/S3b93K+1WA0dC6etliTATck4hsaHfn0kn3eBrSE9ZLDyFCO1sOeTY88lh0jX
+ vwpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=S6QeTRZehyEeuAg/fZYmmGDgW/s70yIYqa35AH9HThM=;
- b=V4KMhXiT84vTEkVc0UFu3GkqQj6ang+n52UE0k7HlbC3qLKX5C4yzeoBLD99yPTAvM
- X7J1DpPNHmsMtilHQtd+MY04Wf1E0CSqVafHOpINzkIrF6lqale62ZbDdnP0EinaQm2D
- rHTNIboZ5hmW5qQBbMa23sCfIg2JIJFhVW+aFqXIdHwBZw94Kq/y32WfeZMdqYdJYxO9
- OENqpVaSLzpkrczMHNvmwl6eJCaz7kEFPffpJHfhxz1PE5Q7j2BkxpQ3izhVrOFeUStM
- cPq0cPmmVrIcP5KFpu2JUEvKT9ZGIT7BYwwJbQHPSS99/Z/l6xTsJzQi9m92BK2QIctu
- phBA==
-X-Gm-Message-State: ACgBeo1tjS07wHAo27g8lvVTzC7Vyl1c8OcjIB/7Kh9XHMOePsrcLdx6
- P55D7iP3vyuTT+fw7idvGJI=
-X-Google-Smtp-Source: AA6agR4hKXmC9zPng5blHURtDKm6nbt8DtLJgHqx23XODiB/Bcou5E7jPaXn99X48HMQ+5623oiEMg==
-X-Received: by 2002:a17:90a:8a8d:b0:1f3:155:3324 with SMTP id
- x13-20020a17090a8a8d00b001f301553324mr21376254pjn.89.1659405809883; 
- Mon, 01 Aug 2022 19:03:29 -0700 (PDT)
-Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=wQ0nu79kXZuZtfNWKFiQAUN093a9q9fkJa0SFWz6DUM=;
+ b=BEmhKCs30OddmRUXHOofLa62OaGP0Y6gI7kM/YLy0tkGngQCyP+sZfuolvfBcjUaDZ
+ X0ljc9BKl/B47ItWmtye4yHtJ0xbbgKgHFUbXImqDK7lblaqvIsnfXQ0PuL0GoJudSBK
+ QdjkGtYQJwIOTyid3hYlgBC5OGZX1CXIG0pbSxeSXoOAP5N6ciNXMdPO0ICcFYvQJjFL
+ 84TupQD9hwctfsdlq7RoUJ9en1qQjAjvvqKvtLQ4UcIZxWPlIIePc/+s5B1joQ35aKW0
+ myWUoOOkDLER4KQkbY75Bpp8T4tESBPCWAam/gacJJ9MqLlFr/ULCIHyPqZ93mxeL46n
+ Ttpg==
+X-Gm-Message-State: ACgBeo0A9rRIIN6p6Sq7yXj3daTbMXhLlnmUJvqGDIcJgUSRttXY/EG4
+ dbPEUFuVmUKdguM/DOirEqjVsg==
+X-Google-Smtp-Source: AA6agR7yov1ytTHWROYLJDt2Igvg1E50fD//KDUDEKfaZmhqr0hyy27cIC3Ls0ycjaUAlrWtuST3yw==
+X-Received: by 2002:a17:90a:5207:b0:1ee:dfa1:afa9 with SMTP id
+ v7-20020a17090a520700b001eedfa1afa9mr21474652pjh.246.1659405887341; 
+ Mon, 01 Aug 2022 19:04:47 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:7e91:a3d1:2af1:8c18?
+ ([2602:ae:1549:801:7e91:a3d1:2af1:8c18])
  by smtp.gmail.com with ESMTPSA id
- u2-20020a170902e5c200b0016dbb5bbeebsm1931089plf.228.2022.08.01.19.03.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Aug 2022 19:03:29 -0700 (PDT)
-Date: Tue, 2 Aug 2022 11:03:27 +0900
-From: Stafford Horne <shorne@gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: QEMU Development <qemu-devel@nongnu.org>,
- Openrisc <openrisc@lists.librecores.org>
-Subject: Re: [PATCH v3 08/11] target/openrisc: Enable MTTCG
-Message-ID: <YuiF7wkIB+pREEy7@antec>
-References: <20220729230117.3768312-1-shorne@gmail.com>
- <20220729230117.3768312-9-shorne@gmail.com>
- <a12ba704-b29c-a521-c664-7838c058ebf5@linaro.org>
+ w16-20020a1709029a9000b0016dd562430fsm8164159plp.120.2022.08.01.19.04.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Aug 2022 19:04:46 -0700 (PDT)
+Message-ID: <e90020f3-b41b-2025-f56d-b440ef1cb56a@linaro.org>
+Date: Mon, 1 Aug 2022 19:04:43 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a12ba704-b29c-a521-c664-7838c058ebf5@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=shorne@gmail.com; helo=mail-pj1-x1029.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/2] aspeed queue
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+References: <20220801162948.1920497-1-clg@kaod.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220801162948.1920497-1-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,30 +94,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 29, 2022 at 04:42:54PM -0700, Richard Henderson wrote:
-> On 7/29/22 16:01, Stafford Horne wrote:
-> > This patch enables multithread TCG for OpenRISC.  Since the or1k shared
-> > syncrhonized timer can be updated from each vCPU via helpers we use a
-> > mutex to synchronize updates.
-> > 
-> > Signed-off-by: Stafford Horne<shorne@gmail.com>
-> > ---
-> > Since v2:
-> >   - Removed cpu_openrisc_timer_has_advanced lock optimization, measuring revealed
-> >     it did not help much.
-> > 
-> >   configs/targets/or1k-softmmu.mak | 1 +
-> >   target/openrisc/cpu.h            | 2 ++
-> >   target/openrisc/sys_helper.c     | 7 ++++++-
-> >   3 files changed, 9 insertions(+), 1 deletion(-)
+On 8/1/22 09:29, Cédric Le Goater wrote:
+> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://github.com/legoater/qemu/ tags/pull-aspeed-20220801
+> 
+> for you to fetch changes up to 398c01da9c8c8af5db0b2b4b4888c2bd27218230:
+> 
+>    aspeed/fby35: Fix owner of the BMC RAM memory region (2022-08-01 15:24:15 +0200)
+> 
+> ----------------------------------------------------------------
+> aspeed queue:
+> 
+> * Fix ownership of RAM regions on the fby35 machine
 
-Thank you,
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-I guess this whole series is a bit late for 7.1.0 now.
 
-I will post the PR after 7.1.0 is released and target it for 7.2.0.
+r~
 
--Stafford
+> 
+> ----------------------------------------------------------------
+> Cédric Le Goater (2):
+>        aspeed: Remove unused fields from AspeedMachineState
+>        aspeed/fby35: Fix owner of the BMC RAM memory region
+> 
+>   hw/arm/aspeed.c |  2 --
+>   hw/arm/fby35.c  | 14 +++++++++-----
+>   2 files changed, 9 insertions(+), 7 deletions(-)
+
 
