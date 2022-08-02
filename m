@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40D858823E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:05:19 +0200 (CEST)
-Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA42588245
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:09:28 +0200 (CEST)
+Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIxCg-0008Qd-Kp
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:05:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43646)
+	id 1oIxGh-0006jo-QD
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIx9t-0004Bq-Gb
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 15:02:25 -0400
-Received: from mail-yw1-x112a.google.com ([2607:f8b0:4864:20::112a]:34497)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oIxET-0003qn-Ia; Tue, 02 Aug 2022 15:07:09 -0400
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:33420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIx9r-00018P-Ck
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 15:02:25 -0400
-Received: by mail-yw1-x112a.google.com with SMTP id
- 00721157ae682-31f443e276fso150604897b3.1
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 12:02:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc;
- bh=fA2ZfQZZ9aIzMe85WXO345qehcQDrXuhX69OifwKdR8=;
- b=TzIT9P5tlWZEPin9DW83ZwhL5yr8F/00O5Yz1KK4rK9rQTnbCU0uRObAmT8iN22DEQ
- KTK/GSvbsLzRvy21CDvfhE76+RiAa15yZq6BWecYy/ZLbP6WBS0C87mPYj0BxGv9ikwj
- oyrbh+VxgswZCZ9lVwiU+qkySzRhYJqyFwSfXD2FwdZATUxtncUCWjxDsMB1OfTLyb0W
- qg3rarWUejnVzDKK7ffQoG1bot+E2EoMCSSZtWqaDgVrFKzzgvTZy6NS3570/e6SkR1j
- ZxKtogwisGG3My06d3mQGtgWpX4oin1ZxWYzF8hYQPfVI8ETSsWYaoUykHvd0+QbjdiM
- /yWw==
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oIxER-0001na-R6; Tue, 02 Aug 2022 15:07:09 -0400
+Received: by mail-oo1-xc32.google.com with SMTP id
+ e2-20020a4ab982000000b004354ba9a591so2677660oop.0; 
+ Tue, 02 Aug 2022 12:07:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc; bh=on+9djOJkrQCi3KBefeuUJciiDdZjgIUmuv54oRcST0=;
+ b=f3q1HLMntF6DHvwFZASzSsAzC0UkNDJa4Y21MdC3yZby58CSYnQEzK7NHyBFKKKjcZ
+ l8pkZElBtTNfrKE4bJHi6MAfwCavHNRp4VLJ6p/WPrO3whsaKhNrEDjyCGkPFgHkH7Pa
+ 6dqnAAqwwMCA4xUVDpczPy5vxFCXpaqFfrm2dQOa8zPaAbiomXje2ggBmJ/3U0sEj7wl
+ 3pP/ZJVd9eQw6jTlGD5PwDrPqvozQ63R6pnUIyeHgtCUJxniWMb1+3lJVgboU8TUDCgz
+ VsNPrz2fA6mz62IwDci5mZ92eO46BIQC0PPuiTijoEKsKu1/7ClsNPbt+03LNp67j9WF
+ XANQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
- bh=fA2ZfQZZ9aIzMe85WXO345qehcQDrXuhX69OifwKdR8=;
- b=n3GO9JvrfqQmZ9dWFuy3GJGh+cNcZXx+KWyC80eSlcn758RuvRu28yEbzr8t+f1+wU
- zSJRf5EXk0+Ozdd+2ukezL8rRU3hSzwINfPhx0snDfZPRlP7ESUIZ2YQQpz4JH/9uBCT
- vsBMzOJjLIOfOU7T7Kid7ZlcxdkCE9IuOKp2n2gY1hlXnMnTjWFSLYHbmr8W41yNP50O
- rAh4CBLWaIgjUclsnzVa1RkMeI4ahpu28rycLg6Zy5B3HMJa8feI6VKQKtiRFasIribD
- u+jnXc4dGjOaLYHYp6clSBA6mnS3GgjYssmM66L4kCCw5qPUNwCNjDOPcA4/lmnPYm4s
- YwtQ==
-X-Gm-Message-State: ACgBeo0zZOVhwoBIv0kptR86KcrapNyNHiOje7QIe3YFb+6lC0baqLk3
- la7rf90qhj/aFZlJUwdre+mthVzNcKbYAkoAnMmaUw==
-X-Google-Smtp-Source: AA6agR70zdBgd9dWzGIjKg/wnsxa7UXvkSdrL/yPbTUruMP9pWFQdx3WVgHb6sDSKurAW1T6ZS18N7nnz+ESvTHeoCY=
-X-Received: by 2002:a81:63c6:0:b0:324:928:c672 with SMTP id
- x189-20020a8163c6000000b003240928c672mr18456776ywb.329.1659466942239; Tue, 02
- Aug 2022 12:02:22 -0700 (PDT)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc;
+ bh=on+9djOJkrQCi3KBefeuUJciiDdZjgIUmuv54oRcST0=;
+ b=ucKWs9ywJB0QzzkLcLc64FWbIwK1K9VmMfQv9SBaVwh/miCT3JgQKLKl1hs6bHyQBs
+ E22MCQnUjb+Vi58lU8h+1L1cYWh6n5LWwmY0R85Ighx+3Rzg8f5I/XZSxBONKvHiLBkp
+ c4IHlnZOV0kNBeYNgjBT4Jxlbc6hUnwOgUqllbhOWYsj3HoiMvSkTBj3Uqj59u40fKjP
+ M9nz41S8dfz7kQPHNk1gYSW17TCLOVuzWgJHQ2SwLaPYavothPnhXzuN4JxvIzTiWzMu
+ jcsVhhidow557z6k/ozCm+fDTcqxlgZ3I9+fG9rGoNL506bsWnT2DU23wCD1hwTf9VIM
+ 4R0Q==
+X-Gm-Message-State: AJIora/e2B5UrceLYl1CzgMitvjaHCRGVlOpoaggbIkrA9t1DtGXuuQs
+ 0Q/rDlOzV7uSg1+tz5ivpuM=
+X-Google-Smtp-Source: AGRyM1vFoK53hOf9+ttsM1NahgXvKiUssLr2pCGOeICxll5x1H9I+239BoS4xp1NQ30OC+uiwWPQrA==
+X-Received: by 2002:a4a:c113:0:b0:435:4ce0:9794 with SMTP id
+ s19-20020a4ac113000000b004354ce09794mr7180982oop.87.1659467226231; 
+ Tue, 02 Aug 2022 12:07:06 -0700 (PDT)
+Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
+ ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
+ by smtp.gmail.com with ESMTPSA id
+ y4-20020a056808130400b0033a2f6e4736sm3160256oiv.20.2022.08.02.12.07.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Aug 2022 12:07:05 -0700 (PDT)
+Message-ID: <f7842a60-3aaf-6a8d-4abb-ede45fd2c381@gmail.com>
+Date: Tue, 2 Aug 2022 16:07:02 -0300
 MIME-Version: 1.0
-References: <20220802164134.1851910-1-berrange@redhat.com>
-In-Reply-To: <20220802164134.1851910-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Aug 2022 20:01:41 +0100
-Message-ID: <CAFEAcA94S0_UddzNUcrf+3GvphmcHJ+4VhHj9P2vA8w5cEsWow@mail.gmail.com>
-Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
- sys/mount.h
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112a;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x112a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 02/19] ppc/ppc405: Introduce a PPC405 generic machine
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
+References: <20220801131039.1693913-1-clg@kaod.org>
+ <20220801131039.1693913-3-clg@kaod.org>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+In-Reply-To: <20220801131039.1693913-3-clg@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc32.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,61 +94,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 2 Aug 2022 at 17:43, Daniel P. Berrang=C3=A9 <berrange@redhat.com> =
-wrote:
->
-> The latest glibc 2.36 has extended sys/mount.h so that it
-> defines the FSCONFIG_* enum constants. These are historically
-> defined in linux/mount.h, and thus if you include both headers
-> the compiler complains:
->
-> In file included from /usr/include/linux/fs.h:19,
->                  from ../linux-user/syscall.c:98:
-> /usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_c=
-ommand'
->    95 | enum fsconfig_command {
->       |      ^~~~~~~~~~~~~~~~
-> In file included from ../linux-user/syscall.c:31:
-> /usr/include/sys/mount.h:189:6: note: originally defined here
->   189 | enum fsconfig_command
->       |      ^~~~~~~~~~~~~~~~
-> /usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCO=
-NFIG_SET_FLAG'
->    96 |         FSCONFIG_SET_FLAG       =3D 0,    /* Set parameter, suppl=
-ying no value */
->       |         ^~~~~~~~~~~~~~~~~
-> /usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SE=
-T_FLAG' with type 'enum fsconfig_command'
->   191 |   FSCONFIG_SET_FLAG       =3D 0,    /* Set parameter, supplying n=
-o value */
->       |   ^~~~~~~~~~~~~~~~~
-> ...snip...
->
-> QEMU doesn't include linux/mount.h, but it does use
-> linux/fs.h and thus gets linux/mount.h indirectly.
->
-> glibc acknowledges this problem but does not appear to
-> be intending to fix it in the forseeable future, simply
-> documenting it as a known incompatibility with no
-> workaround:
->
->   https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmoun=
-t.h.3E_and_.3Csys.2Fmount.h.3E
->   https://sourceware.org/glibc/wiki/Synchronizing_Headers
->
-> To address this requires either removing use of sys/mount.h
-> or linux/fs.h, despite QEMU needing declarations from
-> both.
->
-> This patch removes linux/fs.h, meaning we have to define
-> various FS_IOC constants that are now unavailable.
 
-I don't suppose anybody has useful contacts with the glibc
-developers so we can ask them if they can try to maybe
-not break applications like this, or at least if they do
-to provide workarounds ? Having to hand-define
-a bunch of ioctl constants is particularly messy.
 
-thanks
--- PMM
+On 8/1/22 10:10, Cédric Le Goater wrote:
+> We will use this machine as a base to define the ref405ep and possibly
+> the PPC405 hotfoot board as found in the Linux kernel.
+> 
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+>   hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
+>   1 file changed, 28 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+> index 1a4e7588c584..4c269b6526a5 100644
+> --- a/hw/ppc/ppc405_boards.c
+> +++ b/hw/ppc/ppc405_boards.c
+> @@ -50,6 +50,15 @@
+>   
+>   #define USE_FLASH_BIOS
+>   
+> +struct Ppc405MachineState {
+> +    /* Private */
+> +    MachineState parent_obj;
+> +    /* Public */
+> +};
+> +
+> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
+> +
+>   /*****************************************************************************/
+>   /* PPC405EP reference board (IBM) */
+>   /* Standalone board with:
+> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
+>   
+>       mc->desc = "ref405ep";
+>       mc->init = ref405ep_init;
+> -    mc->default_ram_size = 0x08000000;
+> -    mc->default_ram_id = "ef405ep.ram";
+>   }
+>   
+>   static const TypeInfo ref405ep_type = {
+>       .name = MACHINE_TYPE_NAME("ref405ep"),
+> -    .parent = TYPE_MACHINE,
+> +    .parent = TYPE_PPC405_MACHINE,
+>       .class_init = ref405ep_class_init,
+>   };
+>   
+> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "PPC405 generic machine";
+> +    mc->default_ram_size = 0x08000000;
+> +    mc->default_ram_id = "ppc405.ram";
+
+
+I don't mind changing the default_ram_id from "ef405ep.ram" to "ppc405.ram",
+but since we're renaming it, might as well rename the remaining instances
+of ef405ep.ram:
+
+$ git grep 'ef405ep.ram'
+hw/ppc/ppc405_uc.c:                             "ef405ep.ram.alias", s->dram_mr, 0, s->ram_size);
+hw/ppc/ppc405_uc.c:    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 0);
+
+
+I believe these can be renamed to "ppc405.ram.alias" and "ppc405.ram1" in
+patch 05.
+
+
+Thanks,
+
+
+Daniel
+
+
+> +}
+> +
+> +static const TypeInfo ppc405_machine_type = {
+> +    .name = TYPE_PPC405_MACHINE,
+> +    .parent = TYPE_MACHINE,
+> +    .instance_size = sizeof(Ppc405MachineState),
+> +    .class_init = ppc405_machine_class_init,
+> +    .abstract = true,
+> +};
+> +
+>   static void ppc405_machine_init(void)
+>   {
+> +    type_register_static(&ppc405_machine_type);
+>       type_register_static(&ref405ep_type);
+>   }
+>   
 
