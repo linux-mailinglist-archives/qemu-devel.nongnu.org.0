@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A21D587A28
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:57:17 +0200 (CEST)
-Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F37587A2B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:57:32 +0200 (CEST)
+Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIoeJ-0007gE-Us
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:57:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33394)
+	id 1oIoeZ-0008SG-R4
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:57:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXd-0001HR-1X
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:22 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40453)
+ id 1oIoXl-0001L3-1m
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:29 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXb-0002NJ-DO
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:20 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id l22so17178873wrz.7
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:18 -0700 (PDT)
+ id 1oIoXj-0002Mu-7q
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:28 -0400
+Received: by mail-wr1-x432.google.com with SMTP id z17so12467710wrq.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=H/ZcxJebFvV+fJPCaMkPj2jiRtkMtcjbXvy3+aTz3aU=;
- b=pu55oEKeOTa2bxqKN+YN9NvrIJAbjZKCozOkzx2szI8V2uRhKtxINCZtpOOzndgbeS
- /Rb6B92+0vk/oSt0wUeDHUqh66O0ZXHzgJUVQaH+nDNnkK6aTAwMxsCyq0TuXxKus4vx
- ZrJo0BTnNHxs+94jo6K0V4EZfeNhIW7eZdlSXe7PBSz25AnjS5TQfW01g4tN2pLVcvcZ
- Lq3leBAoe3qHFAhne3VbaBo4UN7caDeX0VevsCOwAw3yZISZQRejnZ9tH4iIgvijjY8C
- iaD/Q9uwIpEXhvP7jfD7eS8mHPWne9+DsuiPIdfgROgvevT1cUu2XpAGHS1Y2I0yRwd7
- 6xRg==
+ bh=x448FCGsB6jl4t/PEZTiuqAxlBX+i+OighRCNvx3IrY=;
+ b=a2o70i6ozgrkoN+0syJ6dPIbzVBJa9qJmDlahBv+BChgsvfUIast9YimY1+nJjhzEc
+ Rp4qxINM/eb26p2DShObyo0xHy8Z6Xjbf16z+cMYY0Jwzn+Jx3tgAXZR3wBxQ46mwmlu
+ dkJW5rcJmxcRC218sQeh0E8GOlL/p740hcxz4qFWgUB22oCwxARhtBpcXRM17NZ+7bOA
+ gcRP2QgKO4lbjWf9Vt5ohl/Nhbg2bg8VrU5/KiGdeK/9WX+EnRaUlVNZzx0ym1FM9FPB
+ 9MIdIqitVw3Hnxjih5SB5O0z4Io9GkYyAmpHXRLoJlLmioTXu4XmGwfRPohyVHqSZYWt
+ E7pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=H/ZcxJebFvV+fJPCaMkPj2jiRtkMtcjbXvy3+aTz3aU=;
- b=A6gKm5tdvEZ5bKkGsXSnSN1NohniShFeTWEIehynYbnYLMUVNxVvieC7LxUZuepPxP
- u1kW/XGLO4wy2zTj466J0RqzclFT7VjTKtea0GjzRdOQDRbrww4mB9bm0cPfoK4I/NRE
- v4sxGtGYrXRHGI15Cpsx5Dwoqw+UIcz4CF61btWvUY6YqmLYBYgBrtNfpcrZTdMrLfyh
- o4jxtSWWW6QcLnozihEhlAD51VKlBno72jd7VdHtm0a0rbRierTEHDQsdJPd7gJWC35s
- OAyYW0LyDYiSfvTl3hA1o2LfS+GgriuXMspDtnFXRmHIAr9IZOE7xIo6LqjrGtKt6Mjy
- eddg==
-X-Gm-Message-State: ACgBeo0O8HxXT/JtBEG2tQQhMN/m6b1j8dMjTwbJA4klb6w8y3mr/Nrt
- XUy1bAPsuApcjky62vZUTfWtCQ==
-X-Google-Smtp-Source: AA6agR7DLPTMtZxpElEkMT8GuJx0RHB3820tAZV4LOh18vPu52jbVAFEaokWe4cQwXSrwlFT6KqDFQ==
-X-Received: by 2002:a5d:47a5:0:b0:220:5985:6710 with SMTP id
- 5-20020a5d47a5000000b0022059856710mr9084814wrb.633.1659433818106; 
- Tue, 02 Aug 2022 02:50:18 -0700 (PDT)
+ bh=x448FCGsB6jl4t/PEZTiuqAxlBX+i+OighRCNvx3IrY=;
+ b=oNBjFJufNuIVCjqUwPV9bVVSGlVGxgUJI0OtgJyNEpJ/njb7pRCsTksqqJuA/S272u
+ A2wQ4t6jlBdbEL/4yqS9M7bOhRoZdh1bE1r3J+3lGzPxSDkNXq+Fr31OCVgjL9iFZhmT
+ u7oGNDWR0Hf0xJYj5Idf+bxh0p94MZnLnTXHxa8wqldMhXDeNDuhXMJbl2WMcUUlvQs2
+ TzpEJgELG8ecAHzJYfLIsuvGr4td+fC79Ni+Kd3yXvFQarqDfaj0R16lXSTOJlEGDFhH
+ CZbu1GpA+VjUD6be+ngpoTuFAyfBdLKaBWvLa9IfAlfIPt+WY5e06OXcqRek8sx1yfom
+ /RFw==
+X-Gm-Message-State: ACgBeo3cF1lcWnr7Zl0VrSnCXsj5aJCPddJUWok7BcZ6AyUU4sHVnMq/
+ B3kGaT6ThBjx1aHR6+kQ/Nnnqw==
+X-Google-Smtp-Source: AA6agR5meWse+7HgSqjXMLgsqNKtCEqU4qvT3Btoa1U4hS/hLUVtFnxKbTW55JvlcxGDPBkv8TA0Aw==
+X-Received: by 2002:a5d:6c63:0:b0:220:5e4d:c6e9 with SMTP id
+ r3-20020a5d6c63000000b002205e4dc6e9mr7856582wrz.250.1659433826495; 
+ Tue, 02 Aug 2022 02:50:26 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t16-20020a5d6a50000000b0022069ccb6a1sm4085507wrw.94.2022.08.02.02.50.15
+ x12-20020a05600c21cc00b0039747cf8354sm17660436wmj.39.2022.08.02.02.50.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 02 Aug 2022 02:50:18 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 683021FFC1;
+ by zen.linaroharston (Postfix) with ESMTP id 7FAFB1FFC2;
  Tue,  2 Aug 2022 10:50:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH  v4 09/22] hw/virtio: add some vhost-user trace events
-Date: Tue,  2 Aug 2022 10:49:57 +0100
-Message-Id: <20220802095010.3330793-10-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ virtio-fs@redhat.com (open list:virtiofs)
+Subject: [PATCH v4 10/22] hw/virtio: move vm_running check to
+ virtio_device_started
+Date: Tue,  2 Aug 2022 10:49:58 +0100
+Message-Id: <20220802095010.3330793-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,60 +97,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These are useful for tracing the lifetime of vhost-user connections.
+All the boilerplate virtio code does the same thing (or should at
+least) of checking to see if the VM is running before attempting to
+start VirtIO. Push the logic up to the common function to avoid
+getting a copy and paste wrong.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- hw/virtio/vhost.c      | 6 ++++++
- hw/virtio/trace-events | 4 ++++
- 2 files changed, 10 insertions(+)
+ include/hw/virtio/virtio.h   | 5 +++++
+ hw/virtio/vhost-user-fs.c    | 6 +-----
+ hw/virtio/vhost-user-i2c.c   | 6 +-----
+ hw/virtio/vhost-user-rng.c   | 6 +-----
+ hw/virtio/vhost-user-vsock.c | 6 +-----
+ hw/virtio/vhost-vsock.c      | 6 +-----
+ 6 files changed, 10 insertions(+), 25 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index f758f177bb..5185c15295 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1477,6 +1477,8 @@ void vhost_dev_cleanup(struct vhost_dev *hdev)
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 9bb2485415..74e7ad5a92 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -100,6 +100,7 @@ struct VirtIODevice
+     VirtQueue *vq;
+     MemoryListener listener;
+     uint16_t device_id;
++    /* @vm_running: current VM running state via virtio_vmstate_change() */
+     bool vm_running;
+     bool broken; /* device in invalid state, needs reset */
+     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
+@@ -376,6 +377,10 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
+         return vdev->started;
+     }
+ 
++    if (!vdev->vm_running) {
++        return false;
++    }
++
+     return status & VIRTIO_CONFIG_S_DRIVER_OK;
+ }
+ 
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index e513e4fdda..d2bebba785 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -122,11 +122,7 @@ static void vuf_stop(VirtIODevice *vdev)
+ static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
  {
-     int i;
+     VHostUserFS *fs = VHOST_USER_FS(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
+-
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
++    bool should_start = virtio_device_started(vdev, status);
  
-+    trace_vhost_dev_cleanup(hdev);
-+
-     for (i = 0; i < hdev->nvqs; ++i) {
-         vhost_virtqueue_cleanup(hdev->vqs + i);
+     if (fs->vhost_dev.started == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index 6020eee093..b930cf6d5e 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -93,11 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
+ static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
+-
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
++    bool should_start = virtio_device_started(vdev, status);
+ 
+     if (i2c->vhost_dev.started == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index 3a7bf8e32d..a9c1c4bc79 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -90,11 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
+ static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
+-
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
++    bool should_start = virtio_device_started(vdev, status);
+ 
+     if (rng->vhost_dev.started == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+index 0f8ff99f85..22c1616ebd 100644
+--- a/hw/virtio/vhost-user-vsock.c
++++ b/hw/virtio/vhost-user-vsock.c
+@@ -55,11 +55,7 @@ const VhostDevConfigOps vsock_ops = {
+ static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
+-
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
++    bool should_start = virtio_device_started(vdev, status);
+ 
+     if (vvc->vhost_dev.started == should_start) {
+         return;
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index 0338de892f..8031c164a5 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -70,13 +70,9 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
+ static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
++    bool should_start = virtio_device_started(vdev, status);
+     int ret;
+ 
+-    if (!vdev->vm_running) {
+-        should_start = false;
+-    }
+-
+     if (vvc->vhost_dev.started == should_start) {
+         return;
      }
-@@ -1783,6 +1785,8 @@ int vhost_dev_start(struct vhost_dev *hdev, VirtIODevice *vdev)
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
-+    trace_vhost_dev_start(hdev, vdev->name);
-+
-     vdev->vhost_started = true;
-     hdev->started = true;
-     hdev->vdev = vdev;
-@@ -1869,6 +1873,8 @@ void vhost_dev_stop(struct vhost_dev *hdev, VirtIODevice *vdev)
-     /* should only be called after backend is connected */
-     assert(hdev->vhost_ops);
- 
-+    trace_vhost_dev_stop(hdev, vdev->name);
-+
-     if (hdev->vhost_ops->vhost_dev_start) {
-         hdev->vhost_ops->vhost_dev_start(hdev, false);
-     }
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 20af2e7ebd..887ca7afa8 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -8,6 +8,10 @@ vhost_region_add_section_aligned(const char *name, uint64_t gpa, uint64_t size,
- vhost_section(const char *name) "%s"
- vhost_reject_section(const char *name, int d) "%s:%d"
- vhost_iotlb_miss(void *dev, int step) "%p step %d"
-+vhost_dev_cleanup(void *dev) "%p"
-+vhost_dev_start(void *dev, const char *name) "%p:%s"
-+vhost_dev_stop(void *dev, const char *name) "%p:%s"
-+
- 
- # vhost-user.c
- vhost_user_postcopy_end_entry(void) ""
 -- 
 2.30.2
 
