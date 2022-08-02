@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F39587F96
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:59:11 +0200 (CEST)
-Received: from localhost ([::1]:42462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7162A587F8C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:57:46 +0200 (CEST)
+Received: from localhost ([::1]:40056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIuIY-0001UI-C7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:59:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54636)
+	id 1oIuHB-0008Jk-BN
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIuEV-00046d-Ty
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:54:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23542)
+ id 1oIuEW-00046v-4v
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:55:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIuET-000240-0S
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:54:58 -0400
+ id 1oIuET-000248-Sh
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:54:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659455696;
+ s=mimecast20190719; t=1659455697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QcMsBDLIY06iYQJ5LPagbf0qdnKRRsXCWhMQWT1UEQA=;
- b=dJ9mBZHtacJCGfIglcfXze4x0chDdBF/4AAwsqubvgtsR+OKXszrsJkVSVr1+OunCs2QTu
- G0isNJd3rTKMq5E5GXddStmZbLA+GlPIpS7XRuHAbuPReyVir5tV0k4VBQ3cBtRManOVto
- 7q8WOc0VzgNPU7gR6dcS9GI7olGY/bE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=R8+8OKJaUStV4lbXmW6h95Ar2+YaaztHhOQrOajZXYY=;
+ b=FYheX8oaJwqaiI1uGEmX+jgJOUFM3Qh9m+JkEoKsSHARcuLJ2KO9GWD+XMf7je88R/8Oc2
+ BEVuxkQdBuFcgqZC+tQeDrGYz3JLp4z0U348QfHyG7qh0276o3ZKaXHbeg3pYR7JGvUdhH
+ aFO9QbNzjujMlgRhhD/Vg9VaDZ1v39Q=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-agwwrK7ZMPiXaV-WlhNweA-1; Tue, 02 Aug 2022 11:54:55 -0400
-X-MC-Unique: agwwrK7ZMPiXaV-WlhNweA-1
+ us-mta-656-WrMA4-sBONqrnmVO0N6l0w-1; Tue, 02 Aug 2022 11:54:56 -0400
+X-MC-Unique: WrMA4-sBONqrnmVO0N6l0w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E1CAF3C1014B;
- Tue,  2 Aug 2022 15:54:54 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1431C8039AC;
+ Tue,  2 Aug 2022 15:54:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EE173141DC28;
- Tue,  2 Aug 2022 15:54:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E0C0141510F;
+ Tue,  2 Aug 2022 15:54:55 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, thuth@redhat.com,
  peter.maydell@linaro.org, vgoyal@redhat.com
 Cc: peterx@redhat.com,
 	quintela@redhat.com
-Subject: [PULL 1/5] migration: add remaining params->has_* = true in
- migration_instance_init()
-Date: Tue,  2 Aug 2022 16:54:43 +0100
-Message-Id: <20220802155447.216018-2-dgilbert@redhat.com>
+Subject: [PULL 2/5] Revert "migration: Simplify unqueue_page()"
+Date: Tue,  2 Aug 2022 16:54:44 +0100
+Message-Id: <20220802155447.216018-3-dgilbert@redhat.com>
 In-Reply-To: <20220802155447.216018-1-dgilbert@redhat.com>
 References: <20220802155447.216018-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,13 +59,13 @@ Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,48 +81,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Leonardo Bras <leobras@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Some of params->has_* = true are missing in migration_instance_init, this
-causes migrate_params_check() to skip some tests, allowing some
-unsupported scenarios.
+This reverts commit cfd66f30fb0f735df06ff4220e5000290a43dad3.
 
-Fix this by adding all missing params->has_* = true in
-migration_instance_init().
+The simplification of unqueue_page() introduced a bug that sometimes
+breaks migration on s390x hosts.
 
-Fixes: 69ef1f36b0 ("migration: define 'tls-creds' and 'tls-hostname' migration parameters")
-Fixes: 1d58872a91 ("migration: do not wait for free thread")
-Fixes: d2f1d29b95 ("migration: add support for a "tls-authz" migration parameter")
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
-Message-Id: <20220726010235.342927-1-leobras@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+The problem is not fully understood yet, but since we are already in
+the freeze for QEMU 7.1 and we need something working there, let's
+revert this patch for the upcoming release. The optimization can be
+redone later again in a proper way if necessary.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2099934
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20220802061949.331576-1-thuth@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ migration/ram.c        | 37 ++++++++++++++++++++++++++-----------
+ migration/trace-events |  3 ++-
+ 2 files changed, 28 insertions(+), 12 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index e03f698a3c..82fbe0cf55 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -4451,6 +4451,7 @@ static void migration_instance_init(Object *obj)
-     /* Set has_* up only for parameter checks */
-     params->has_compress_level = true;
-     params->has_compress_threads = true;
-+    params->has_compress_wait_thread = true;
-     params->has_decompress_threads = true;
-     params->has_throttle_trigger_threshold = true;
-     params->has_cpu_throttle_initial = true;
-@@ -4471,6 +4472,9 @@ static void migration_instance_init(Object *obj)
-     params->has_announce_max = true;
-     params->has_announce_rounds = true;
-     params->has_announce_step = true;
-+    params->has_tls_creds = true;
-+    params->has_tls_hostname = true;
-+    params->has_tls_authz = true;
+diff --git a/migration/ram.c b/migration/ram.c
+index b94669ba5d..dc1de9ddbc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1612,7 +1612,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+ {
+     struct RAMSrcPageRequest *entry;
+     RAMBlock *block = NULL;
+-    size_t page_size;
  
-     qemu_sem_init(&ms->postcopy_pause_sem, 0);
-     qemu_sem_init(&ms->postcopy_pause_rp_sem, 0);
+     if (!postcopy_has_request(rs)) {
+         return NULL;
+@@ -1629,13 +1628,10 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+     entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
+     block = entry->rb;
+     *offset = entry->offset;
+-    page_size = qemu_ram_pagesize(block);
+-    /* Each page request should only be multiple page size of the ramblock */
+-    assert((entry->len % page_size) == 0);
+ 
+-    if (entry->len > page_size) {
+-        entry->len -= page_size;
+-        entry->offset += page_size;
++    if (entry->len > TARGET_PAGE_SIZE) {
++        entry->len -= TARGET_PAGE_SIZE;
++        entry->offset += TARGET_PAGE_SIZE;
+     } else {
+         memory_region_unref(block->mr);
+         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
+@@ -1643,9 +1639,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+         migration_consume_urgent_request();
+     }
+ 
+-    trace_unqueue_page(block->idstr, *offset,
+-                       test_bit((*offset >> TARGET_PAGE_BITS), block->bmap));
+-
+     return block;
+ }
+ 
+@@ -2069,8 +2062,30 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock  *block;
+     ram_addr_t offset;
++    bool dirty;
++
++    do {
++        block = unqueue_page(rs, &offset);
++        /*
++         * We're sending this page, and since it's postcopy nothing else
++         * will dirty it, and we must make sure it doesn't get sent again
++         * even if this queue request was received after the background
++         * search already sent it.
++         */
++        if (block) {
++            unsigned long page;
++
++            page = offset >> TARGET_PAGE_BITS;
++            dirty = test_bit(page, block->bmap);
++            if (!dirty) {
++                trace_get_queued_page_not_dirty(block->idstr, (uint64_t)offset,
++                                                page);
++            } else {
++                trace_get_queued_page(block->idstr, (uint64_t)offset, page);
++            }
++        }
+ 
+-    block = unqueue_page(rs, &offset);
++    } while (block && !dirty);
+ 
+     if (block) {
+         /* See comment above postcopy_preempted_contains() */
+diff --git a/migration/trace-events b/migration/trace-events
+index a34afe7b85..57003edcbd 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -85,6 +85,8 @@ put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
+ qemu_file_fclose(void) ""
+ 
+ # ram.c
++get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
++get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+ migration_bitmap_sync_start(void) ""
+ migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
+ migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+@@ -110,7 +112,6 @@ ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRI
+ ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
+ ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+ ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+-unqueue_page(char *block, uint64_t offset, bool dirty) "ramblock '%s' offset 0x%"PRIx64" dirty %d"
+ postcopy_preempt_triggered(char *str, unsigned long page) "during sending ramblock %s offset 0x%lx"
+ postcopy_preempt_restored(char *str, unsigned long page) "ramblock %s offset 0x%lx"
+ postcopy_preempt_hit(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
 -- 
 2.37.1
 
