@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33F45881A3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 20:04:52 +0200 (CEST)
-Received: from localhost ([::1]:47002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B045881AA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 20:08:36 +0200 (CEST)
+Received: from localhost ([::1]:52982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIwGB-0003aB-GH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 14:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58172)
+	id 1oIwJn-0007tM-W7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 14:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIw9Z-0001Uf-4q
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 13:58:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47718)
+ id 1oIw9d-0001hM-Rc
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 13:58:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54498)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIw9X-0003is-ME
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 13:58:00 -0400
+ id 1oIw9c-0003l3-B0
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 13:58:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659463079;
+ s=mimecast20190719; t=1659463083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TWR/iUsjkL9oIXTi+ICA5zH5FX+8+oEnrInycmxf6Yo=;
- b=QXDaDHA07keGfHPyyKysGfxLM8wSZTcP85fw/KehY5SuLKhHZVjZX0KgOIPwjpL2ryLEd4
- r5nOYAmsVkX2h5adI2gUviUsrhN/1lWVpbeLF5BfE0A/0ZlDAUhhhiUXJ9nwK7lpiUNuip
- DehFiQ3Ptc9biRvucXza9JBMGIJ2cGI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dSMWHykyf4bOT2pCEu45Nck9YtoD0hxVk+4hBaCTS90=;
+ b=ZFNo7IzA5Zt9tO48TDfrlIzc1gNxOw85m/Pe0MYIzB+rtnl9i5p9lJYfYXqRISczfaB5sx
+ oCHejlr+k4Bs4RaxWRDqR4iBXVvqpQlxQGNrEZjUY8/dm+Fe+/m5Wp94Jp1kYo/iO0KZnr
+ qktAG20uauZYBpNFKGWdtgQTWO7bGR0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-90-GSO0P-J-MoKAiuQ-Lrx2UA-1; Tue, 02 Aug 2022 13:57:57 -0400
-X-MC-Unique: GSO0P-J-MoKAiuQ-Lrx2UA-1
+ us-mta-626-xdMg7vbUOyqiTZbUQlOqKQ-1; Tue, 02 Aug 2022 13:58:00 -0400
+X-MC-Unique: xdMg7vbUOyqiTZbUQlOqKQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 31A2A8041BE;
- Tue,  2 Aug 2022 17:57:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3B4793826248;
+ Tue,  2 Aug 2022 17:58:00 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.192.36])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5EC17492C3B;
- Tue,  2 Aug 2022 17:57:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71B57492C3B;
+ Tue,  2 Aug 2022 17:57:57 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
@@ -55,9 +55,9 @@ Cc: Eli Cohen <eli@mellanox.com>, Stefano Garzarella <sgarzare@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>, Cindy Lu <lulu@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Liuxiangdong <liuxiangdong5@huawei.com>,
  Zhu Lingshan <lingshan.zhu@intel.com>
-Subject: [PATCH v5 07/10] vdpa: add NetClientState->load() callback
-Date: Tue,  2 Aug 2022 19:57:28 +0200
-Message-Id: <20220802175731.312115-8-eperezma@redhat.com>
+Subject: [PATCH v5 08/10] vdpa: add net_vhost_vdpa_cvq_info NetClientInfo
+Date: Tue,  2 Aug 2022 19:57:29 +0200
+Message-Id: <20220802175731.312115-9-eperezma@redhat.com>
 In-Reply-To: <20220802175731.312115-1-eperezma@redhat.com>
 References: <20220802175731.312115-1-eperezma@redhat.com>
 MIME-Version: 1.0
@@ -88,58 +88,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It allows per-net client operations right after device's successful
-start. In particular, to load the device status.
-
-Vhost-vdpa net will use it to add the CVQ buffers to restore the device
-status.
+Next patches will add a new info callback to restore NIC status through
+CVQ. Since only the CVQ vhost device is needed, create it with a new
+NetClientInfo.
 
 Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 ---
-v5: Rename start / load, naming it more specifically.
+v5: Create a new NetClientInfo instead of reusing the dataplane one.
 ---
- include/net/net.h  | 2 ++
- hw/net/vhost_net.c | 7 +++++++
- 2 files changed, 9 insertions(+)
+ net/vhost-vdpa.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 523136c7ac..a8d47309cd 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -44,6 +44,7 @@ typedef struct NICConf {
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 2421bca347..8d400f2dff 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -375,6 +375,16 @@ static virtio_net_ctrl_ack vhost_vdpa_net_cvq_add(VhostVDPAState *s,
+     return VIRTIO_NET_OK;
+ }
  
- typedef void (NetPoll)(NetClientState *, bool enable);
- typedef bool (NetCanReceive)(NetClientState *);
-+typedef int (NetLoad)(NetClientState *);
- typedef ssize_t (NetReceive)(NetClientState *, const uint8_t *, size_t);
- typedef ssize_t (NetReceiveIOV)(NetClientState *, const struct iovec *, int);
- typedef void (NetCleanup) (NetClientState *);
-@@ -71,6 +72,7 @@ typedef struct NetClientInfo {
-     NetReceive *receive_raw;
-     NetReceiveIOV *receive_iov;
-     NetCanReceive *can_receive;
-+    NetLoad *load;
-     NetCleanup *cleanup;
-     LinkStatusChanged *link_status_changed;
-     QueryRxFilter *query_rx_filter;
-diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-index ccac5b7a64..a9bf72dcda 100644
---- a/hw/net/vhost_net.c
-+++ b/hw/net/vhost_net.c
-@@ -274,6 +274,13 @@ static int vhost_net_start_one(struct vhost_net *net,
-             }
-         }
-     }
++static NetClientInfo net_vhost_vdpa_cvq_info = {
++    .type = NET_CLIENT_DRIVER_VHOST_VDPA,
++    .size = sizeof(VhostVDPAState),
++    .receive = vhost_vdpa_receive,
++    .cleanup = vhost_vdpa_cleanup,
++    .has_vnet_hdr = vhost_vdpa_has_vnet_hdr,
++    .has_ufo = vhost_vdpa_has_ufo,
++    .check_peer_type = vhost_vdpa_check_peer_type,
++};
 +
-+    if (net->nc->info->load) {
-+        r = net->nc->info->load(net->nc);
-+        if (r < 0) {
-+            goto fail;
-+        }
-+    }
-     return 0;
- fail:
-     file.fd = -1;
+ /**
+  * Do not forward commands not supported by SVQ. Otherwise, the device could
+  * accept it and qemu would not know how to update the device model.
+@@ -496,7 +506,7 @@ static NetClientState *net_vhost_vdpa_init(NetClientState *peer,
+         nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device,
+                                  name);
+     } else {
+-        nc = qemu_new_net_control_client(&net_vhost_vdpa_info, peer,
++        nc = qemu_new_net_control_client(&net_vhost_vdpa_cvq_info, peer,
+                                          device, name);
+     }
+     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
 -- 
 2.31.1
 
