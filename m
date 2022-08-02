@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E395881F6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 20:37:34 +0200 (CEST)
-Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F79158823D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:04:23 +0200 (CEST)
+Received: from localhost ([::1]:54154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIwlp-0004TX-3w
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 14:37:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38374)
+	id 1oIxBl-00076i-W7
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwid-0002OR-IB
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:34:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27697)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
+ id 1oIx7S-0001yX-3g; Tue, 02 Aug 2022 14:59:54 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:51834)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwia-0000C5-8M
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:34:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659465251;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
+ id 1oIx7O-0000Yn-Eb; Tue, 02 Aug 2022 14:59:53 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 6746FB8205E;
+ Tue,  2 Aug 2022 18:59:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F7CBC433D6;
+ Tue,  2 Aug 2022 18:59:45 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="blZV3fVJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659466783;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=kg9+sogtEP1OHLaSLiyMU/mRdy51o9s1BRglDA2sLnI=;
- b=TEMzpQK9OGrt1Ap0oL6f0oGQKvW0O2MZ3q19vjRN8iWC9XVpRt4OrtGvMcfvvn2NhBsd4x
- ChE8XgRFiZ3CwNl6lyxcRsg8P84P1fjgHDMqHDFfqSoOUGKv3hLEjSem8mvFvaNvR3w6Ev
- st7v4cqHrHH9vgn8noq0+ifo9q5JuDM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589--2eY7nuePSKp3ZyillFuHg-1; Tue, 02 Aug 2022 14:34:10 -0400
-X-MC-Unique: -2eY7nuePSKp3ZyillFuHg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16E9D101A589;
- Tue,  2 Aug 2022 18:34:10 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD623C04482;
- Tue,  2 Aug 2022 18:34:09 +0000 (UTC)
-Date: Tue, 2 Aug 2022 19:34:09 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
- sys/mount.h
-Message-ID: <20220802183409.GB2040@redhat.com>
-References: <20220802164134.1851910-1-berrange@redhat.com>
- <20220802182929.GA2040@redhat.com>
+ bh=97yA0ONbVtAK4nTosslSJ7gO6YG0dCcE3aw1v37GTQ4=;
+ b=blZV3fVJ+6N8oTaQdCFr7c4oegIeKimnJO0rPZLYa5B0fsPnSopdH2HVkmIC76tGVMgbhI
+ +bi+/aSg3/8CTPulBLaCDnMOytMwGFvW3wDntY7RI1rF5267c6uYrSIGCVRjE24KAQZ1/L
+ dQI1iumDkuyX9v95Nrslrr0UqFre6rY=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5e59275f
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 2 Aug 2022 18:59:43 +0000 (UTC)
+Date: Tue, 2 Aug 2022 20:59:39 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+Subject: Re: [PATCH v3] target/s390x: support PRNO_TRNG instruction
+Message-ID: <Yul0G2YCKLXiypvv@zx2c4.com>
+References: <Ytft08S2eGaYVwC3@zx2c4.com>
+ <20220720120859.339788-1-Jason@zx2c4.com>
+ <ef161533-0123-28f0-db1f-5257e82f6340@linux.ibm.com>
+ <1afd34c3-0aa6-541c-07e9-b0eef7e0f0d7@redhat.com>
+ <71d173c2-21eb-5966-8458-91de9bc48620@linux.ibm.com>
+ <71b1b0f6-95b9-0249-e996-b8348470693f@redhat.com>
+ <834c1a76-d972-a1b2-2c28-d0482335d3ba@linux.ibm.com>
+ <5835cfa9-841f-ab6c-6684-2ae3bddeacf3@redhat.com>
+ <CAHmME9pT+ifm4SbKMCxdXLDOtmEn99ssf54Bz8SWsiRLWfOvGA@mail.gmail.com>
+ <b35530a5-cf84-eead-38a6-5aa80363702d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220802182929.GA2040@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <b35530a5-cf84-eead-38a6-5aa80363702d@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,23 +92,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 02, 2022 at 07:29:29PM +0100, Richard W.M. Jones wrote:
-> Dan, which Fedora glibc package shows this problem?  I have
-> glibc-2.35.9000-31.fc37.x86_64 and qemu compiled fine.  (Also nbdkit
-> which includes linux/fs.h)
+On Tue, Aug 02, 2022 at 05:32:26PM +0200, David Hildenbrand wrote:
+> On 02.08.22 17:28, Jason A. Donenfeld wrote:
+> > Hi David, Christian,
+> > 
+> > While this thread has your attention, I thought I'd reiterate my offer in:
+> > https://lore.kernel.org/qemu-devel/YuEoUwzDzBqFFpxe@zx2c4.com/
+> > 
+> > Do either of you want to "take ownership" of this patch to bring it
+> > past the finish line, and I can provide whatever additional crypto
+> > code you need for that?
+> 
+> For me the patch is good enough. But sure, having a SHA512
+> implementation would be nice ...
+> 
+> Long story short, I'll wire up whatever crypto stuff you can come up with ;)
 
-It would help if I enabled a *-linux-user target ...
-Yes, I can reproduce this now and the patch fixes it, so:
+Long story short, I started to take you up on that offer, but because I
+am an insane person, before I knew it, the whole thing was done... Patch
+series incoming.
 
-Tested-by: Richard W.M. Jones <rjones@redhat.com>
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
-
+Jason
 
