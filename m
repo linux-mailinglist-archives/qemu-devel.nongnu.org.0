@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37310587A20
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:54:43 +0200 (CEST)
-Received: from localhost ([::1]:56804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A0A587A2A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:57:28 +0200 (CEST)
+Received: from localhost ([::1]:35492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIobq-0003U9-A8
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:54:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33378)
+	id 1oIoeV-0008FL-GC
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:57:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXc-0001HL-Ct
+ id 1oIoXb-0001HK-Tv
  for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:22 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:43918)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:34489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXa-0002ND-QD
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:20 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id bk11so7303294wrb.10
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:18 -0700 (PDT)
+ id 1oIoXZ-0002N3-Kf
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:19 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ r1-20020a05600c35c100b003a326685e7cso384338wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=qn9sIffAzV9IF+yjjzIzifr78tit+1ZOBIt0UyqO2Rk=;
- b=efF1G23JZGBcKIp6YkFQGGk2fqRXWagTopKygNR1po59PbUd4t45kjdbsNpQhdOIp9
- rN4irGKpt3YfkzxMTiDaMJ1gRkwHo5wHg4a+OVZVXS3SN8lu3nr5N0pl7t3szYTXZwOM
- /rQAm8SdInJ9UZ+MW0XKnCUhAybH98awbs0Q8X99VLNlAyPMZL3UIOdA9RHfmmKWfw8I
- HWV/UOlnuNz21LKpw/rHYto1QW+w/hm4IVU02VKdWQ99bCT6EdzCDERwei6OuUmIeSvQ
- PsFwuzZ+xjrcOXyyiaJtJ/ZaU9qmhkaaKDf1PfQcrEnxIEXz7W3C49pzS+k4GC68xNiS
- XbZQ==
+ bh=5cs2obCibuFrGV6ezAp7TXix+CRt2n51MrtUoaGrvvI=;
+ b=cECP5XUY2z/lkBJFqiKOWxATL/VRg51L8ABqJ08XaYSpvPMczxbN21DUMxWEXFW+GO
+ xeJybOb94+Wg8LrGqQJaPmhmuJnv7/oGm1gPoBg8TWvfvS23efR0aaTBBGcz33/L1wcO
+ CSWs4jWzxyth82L0oRTK6Nkl7tPK3tBhrpfn82B1j8bYy+Q0sI9q6k3nMAh5Bm/SdHpy
+ 1ML8J7w97qCyZE3XpeOOZkqV2lC2lHPJFfqlSySkz7b46YRAKbbFbt40Oo/ylDGXkVzo
+ +NHw8OBr4mCCq8PyeZfthE71WpFQhR35MF7hevP7CfIHiqIuL61hLNGzaY+2ytpHLXt/
+ aj1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=qn9sIffAzV9IF+yjjzIzifr78tit+1ZOBIt0UyqO2Rk=;
- b=MqciDGsmCi3P6IDoIwBr/03QBlHpEm0ihyczULxavqclrkp8iF/6z6AeZGP0GXehFI
- lZui+GZZzpwthTStKoXlbH2ctG1EkrTLortkHq48G3j7GvYboRrp0dDFEMR9qWJ4mKr8
- HiaPky4Beirv6gqadIXBdAjqF/HjFBjOOK2J7ojItcwOy2dER5gPZXbA0oiLHosPP3cz
- gBksLLRIzE+sTtXC4XtAqkJ1iCzl8Gj5/M09lEVgvb9gLnPGHLAzHxuahx2/TWG2PfKw
- ADG19A6OesABejUf1Dz01BtfCPi8u1LBYEXhMY7BMgvHROxh2auD+AL3LWEJRxLY59o0
- PtfA==
-X-Gm-Message-State: ACgBeo0yA5c0cZvB1fUZHKOEfY7Cw6UoXfmF6cbAhDmw67eiypoexg3B
- W0/VHkiH8U2vQWR/ASlR+fGsyA==
-X-Google-Smtp-Source: AA6agR6o/9O+Wa8d6ULbcE7q6RefoClwbZ7tggUNqcMfWXiwmDQ8Gs/xJGnef+Zsua7zuz90y/OZmw==
-X-Received: by 2002:a5d:6e89:0:b0:21e:ad87:ab24 with SMTP id
- k9-20020a5d6e89000000b0021ead87ab24mr12832977wrz.259.1659433817294; 
- Tue, 02 Aug 2022 02:50:17 -0700 (PDT)
+ bh=5cs2obCibuFrGV6ezAp7TXix+CRt2n51MrtUoaGrvvI=;
+ b=VXDWxpeaBxK5U/u1oYKU73kqy5H7MNSp5WwWP5GyryEWpoObPd930bdQsDitHnLegx
+ EEUY4i5dT+JIySVcuwrikFQYi9dJYPNof1GYoRfY0YRzH//mpUNlB1e+9XYozxR54URC
+ cD4tL3o2lhfNhcAbftA3bfTYSUhfPl171BcDdlJA4NXEIG8z3tfO1kN7CD+NpP6kjdl6
+ ZJOktUPlHpPeNk+iegTsaLH8N06MQd3yyHkplxJ+Ww7f7y3+87Ga5sEamLSxtqVcagoj
+ +ftk6tU+k0Mdl3VPYjytwN7Zeb1vrS859kbWHtMaDWweTkPOyv2fx6BipQxtLLcuAmBW
+ C+hw==
+X-Gm-Message-State: AJIora8UUvoy+Su6PVmkrL5slQCH8lXCxeZkluYd5Jv+WbCJzLHdcLfI
+ Aar2bSTgwM6gFjSgApcnQ1rkrQ==
+X-Google-Smtp-Source: AGRyM1vJO1h+8fFqfkhwSJZ/uwd86VBNJ1BKwiS84jSWbMjb0YG5hjz/I7DV5yA22Qpkj6Jo0eVWag==
+X-Received: by 2002:a05:600c:154a:b0:3a3:2fae:9bae with SMTP id
+ f10-20020a05600c154a00b003a32fae9baemr13955383wmg.23.1659433816391; 
+ Tue, 02 Aug 2022 02:50:16 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- d10-20020a5d6dca000000b0021b956da1dcsm14528615wrz.113.2022.08.02.02.50.11
+ z5-20020a5d6405000000b0021f138e07acsm12063874wru.35.2022.08.02.02.50.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 02:50:11 -0700 (PDT)
+ Tue, 02 Aug 2022 02:50:16 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id ECB611FFBB;
- Tue,  2 Aug 2022 10:50:10 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 045161FFBC;
+ Tue,  2 Aug 2022 10:50:11 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v4 03/22] hw/virtio: handle un-configured shutdown in
- virtio-pci
-Date: Tue,  2 Aug 2022 10:49:51 +0100
-Message-Id: <20220802095010.3330793-4-alex.bennee@linaro.org>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PATCH  v4 04/22] hw/virtio: fix vhost_user_read tracepoint
+Date: Tue,  2 Aug 2022 10:49:52 +0100
+Message-Id: <20220802095010.3330793-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,38 +96,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The assert() protecting against leakage is a little aggressive and
-causes needless crashes if a device is shutdown without having been
-configured. In this case no descriptors are lost because none have
-been assigned.
+As reads happen in the callback we were never seeing them. We only
+really care about the header so move the tracepoint to when the header
+is complete.
 
+Fixes: 6ca6d8ee9d (hw/virtio: add vhost_user_[read|write] trace points)
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20220726192150.2435175-9-alex.bennee@linaro.org>
+Acked-by: Jason Wang <jasowang@redhat.com>
+Message-Id: <20220726192150.2435175-10-alex.bennee@linaro.org>
 ---
- hw/virtio/virtio-pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-user.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 45327f0b31..5ce61f9b45 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -996,9 +996,14 @@ static int virtio_pci_set_guest_notifiers(DeviceState *d, int nvqs, bool assign)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 1936a44e82..c0b50deaf2 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -295,6 +295,8 @@ static int vhost_user_read_header(struct vhost_dev *dev, VhostUserMsg *msg)
+         return -EPROTO;
+     }
  
-     nvqs = MIN(nvqs, VIRTIO_QUEUE_MAX);
++    trace_vhost_user_read(msg->hdr.request, msg->hdr.flags);
++
+     return 0;
+ }
  
--    /* When deassigning, pass a consistent nvqs value
--     * to avoid leaking notifiers.
-+    /*
-+     * When deassigning, pass a consistent nvqs value to avoid leaking
-+     * notifiers. But first check we've actually been configured, exit
-+     * early if we haven't.
-      */
-+    if (!assign && !proxy->nvqs_with_notifiers) {
-+        return 0;
-+    }
-     assert(assign || nvqs == proxy->nvqs_with_notifiers);
+@@ -544,8 +546,6 @@ static int vhost_user_set_log_base(struct vhost_dev *dev, uint64_t base,
+         }
+     }
  
-     proxy->nvqs_with_notifiers = nvqs;
+-    trace_vhost_user_read(msg.hdr.request, msg.hdr.flags);
+-
+     return 0;
+ }
+ 
 -- 
 2.30.2
 
