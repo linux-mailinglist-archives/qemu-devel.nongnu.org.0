@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FED7587A5E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:11:20 +0200 (CEST)
-Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D40587AC3
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:32:04 +0200 (CEST)
+Received: from localhost ([::1]:33980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIorv-0006qK-7S
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:11:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33480)
+	id 1oIpBy-0002vU-Lh
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXj-0001KP-Ne
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:28 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39737)
+ id 1oIohM-00052h-1u
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:24 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXi-0002Mq-4X
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:27 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id m13so13216605wrq.6
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:25 -0700 (PDT)
+ id 1oIohH-0006OB-SU
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:23 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id m13so13247403wrq.6
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 03:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=Go4zP69KIEX2yBSg0W79f2jSqF47viC9E/7rhCMdQ80=;
- b=Zu/eBhMqxZmJv23bC+/x/W6pmKMp+bSN2ox3VR+NVXDAX62dfO8/JqWPJeEbtP7UfG
- nlIwMkpYzWJ4wsyyXoE/WbO7fzFDAQdxuGYKx0xDMqBdUML5vZv5o3tPiE7DQJWLe1TI
- mBW77EsggRNHDn4s2lXwgtwb10/FJ+h7M9gIEJT6QejyM6xO7JTfv1CKR9sSaoKRB9aQ
- 1hJLn/YO7pHr3MtegncqpxV0vE6nYu0FwZ5qQ1lcO2Ip5YIDpE62PuB1BYKP7MpwA+co
- +YlbFmBoZtkOkWh0YQWBL/VUuhEZH1rDo2ojUZ5NAvY5GuuZ8q5OWhi0hxOnfWAU8MXS
- YaRw==
+ bh=PYaGkXjsZkoph9fA5YpZi9kVlMvB2mVtLyywEwpEssY=;
+ b=pTb7MGDE78geiqxMCcCLvrZUJjBLV36BfFpG/6xA/WeXQ1W2hajMye79v9eEaM5CH1
+ ZOx0K0lVcLrPZUIFx7EW2HZaYmwilk/fID+lKhPJDxBtyIASVCVmvOs39k3/hcNoUKln
+ nknd3k5+17SCURssRhrVBK/HQZkI9DENz3RPsz+f9fK3ZoljhomtoSkMxyrwQFukqfrj
+ VEqU8y8BQp+3+ouX+lbhy6Mlrqy1BJphNRsikJc6D8yuU/NKIFOPrUO4RjFzT+g3XP8r
+ 8WoSAM1i/FvnJGp8a6RN5mS4XBkskFUCLEl+FGSwOy4nyPImgSEqxenK+IQc45YefGKH
+ ZS+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=Go4zP69KIEX2yBSg0W79f2jSqF47viC9E/7rhCMdQ80=;
- b=vTvaafHnHEZ4cypw+9Q506DJmoT8e0USYllzUaypz/J8tKWy726T9xRBpT+9U5Fwh0
- HdKttgT6qY8j4joBN2yF0qUu9cZ27yXIvjIErAMhp3frJVhBhQuAowT63cnaupO9JBUV
- CuLH7e6ImXkYRwi009zBx+PRaI2MLeRckSK7d+oIoEq3s1eQBVeujNQFaAWsejhKIKwE
- GDJiJfrspN2IIay0bRQPXPiNPHlASg8lcwWTbRCAcAtpTVvZWEB/Z+Btvit8WfYxRrxa
- HHZhpABbv+MHW1vkdCqejetqYvhO3296pqh+jDSkApGAg0PsthVbWzjoWmmbAWBJE5gn
- clFw==
-X-Gm-Message-State: ACgBeo0DaDITEhS7t1ubgj+IcMOlUaOpEPcTtv8JPAnzBlusTnTArkfB
- bfVKA05kErks0NrUlTq5z9otzA==
-X-Google-Smtp-Source: AA6agR4odGMXGLJuRRI1qdqr7W1pdhJJYJi/TTGgiRCx8K3DE1vl9jV4jcVzNmFIs7Fy8SBz0mBvWg==
-X-Received: by 2002:a05:6000:a09:b0:220:638f:3b4a with SMTP id
- co9-20020a0560000a0900b00220638f3b4amr5113877wrb.626.1659433825485; 
- Tue, 02 Aug 2022 02:50:25 -0700 (PDT)
+ bh=PYaGkXjsZkoph9fA5YpZi9kVlMvB2mVtLyywEwpEssY=;
+ b=dIBorwa55AvuouDXh5htUPbXZ1PJZPklNUhuyGEh2D4wOx6pbQl0UutMXYpjWbAQLm
+ IaOWRWjGHrByGipST7MP4076KHXXpw2X6rZxnBp29zv0o61iAwfecbfdKRGG3T8qizRq
+ eezETt3Gr2dRa0TGZOxHfNhiSrvgM/00j2lBJ5fqVQwjbBpyFk2urEVVSONgU2YQZbuw
+ /Wlmztwl/h47udhb4/dCzmb9yLDZPpcvm9aA+aALjiAzQOg0N1vOTmD833tlsOgNEn6I
+ pXSDgALyQcPAeu4Y5+h5r0Hh+P8y7TnfkTSaV77ZJcGRWXA5dcHLdWC+zivln13ymYce
+ 5Olg==
+X-Gm-Message-State: ACgBeo2RVmiFQNamAOLyJexe6FxBHoyJkO2bXcDOYAqt/Mzwrc2hZYRR
+ khTaW3yh0DFTAMcGYHXcYaCvag==
+X-Google-Smtp-Source: AA6agR7K1x0lUNHzTO2Mgnuj5Hve5ZdEdE86SkQ0MPsbIuk83T9ayUeNgI4rHewCRW9o4mBEHJyrqg==
+X-Received: by 2002:a5d:64ce:0:b0:220:6e13:c95 with SMTP id
+ f14-20020a5d64ce000000b002206e130c95mr2027448wri.322.1659434418477; 
+ Tue, 02 Aug 2022 03:00:18 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- i18-20020a1c5412000000b003a4c6e67f01sm9533635wmb.6.2022.08.02.02.50.17
+ i5-20020adff305000000b002206203ed3dsm6834910wro.29.2022.08.02.03.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 02:50:22 -0700 (PDT)
+ Tue, 02 Aug 2022 03:00:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 387561FFC9;
+ by zen.linaroharston (Postfix) with ESMTP id 59C041FFCB;
  Tue,  2 Aug 2022 10:50:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -63,17 +63,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH  v4 17/22] tests/qtest: catch unhandled vhost-user messages
-Date: Tue,  2 Aug 2022 10:50:05 +0100
-Message-Id: <20220802095010.3330793-18-alex.bennee@linaro.org>
+Subject: [PATCH  v4 19/22] tests/qtest: add assert to catch bad features
+Date: Tue,  2 Aug 2022 10:50:07 +0100
+Message-Id: <20220802095010.3330793-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,88 +96,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't need to action every message but lets document the ones we
-are expecting to consume so future tests don't get confused about
-unhandled bits.
+No device driver (which is what the qvirtio_ access functions
+represent) should be setting UNUSED(30) in the feature space. Although
+existing libqos users mask it out lets ensure nothing sneaks through.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v1
-  - drop g_test_fail() when we get unexpected result, that just hangs
-v4
-  - include ring addresses in set_vring_addr output
----
- tests/qtest/vhost-user-test.c | 43 +++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ tests/qtest/libqos/virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
-index 968113d591..f2c19839e0 100644
---- a/tests/qtest/vhost-user-test.c
-+++ b/tests/qtest/vhost-user-test.c
-@@ -358,12 +358,44 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         }
-         break;
+diff --git a/tests/qtest/libqos/virtio.c b/tests/qtest/libqos/virtio.c
+index 09ec09b655..03056e5187 100644
+--- a/tests/qtest/libqos/virtio.c
++++ b/tests/qtest/libqos/virtio.c
+@@ -101,6 +101,8 @@ uint64_t qvirtio_get_features(QVirtioDevice *d)
  
-+    case VHOST_USER_SET_OWNER:
-+        /*
-+         * We don't need to do anything here, the remote is just
-+         * letting us know it is in charge. Just log it.
-+         */
-+        qos_printf("set_owner: start of session\n");
-+        break;
+ void qvirtio_set_features(QVirtioDevice *d, uint64_t features)
+ {
++    g_assert(!(features & QVIRTIO_F_BAD_FEATURE));
 +
-     case VHOST_USER_GET_PROTOCOL_FEATURES:
-         if (s->vu_ops->get_protocol_features) {
-             s->vu_ops->get_protocol_features(s, chr, &msg);
-         }
-         break;
- 
-+    case VHOST_USER_SET_PROTOCOL_FEATURES:
-+        /*
-+         * We did set VHOST_USER_F_PROTOCOL_FEATURES so its valid for
-+         * the remote end to send this. There is no handshake reply so
-+         * just log the details for debugging.
-+         */
-+        qos_printf("set_protocol_features: 0x%"PRIx64 "\n", msg.payload.u64);
-+        break;
-+
-+        /*
-+         * A real vhost-user backend would actually set the size and
-+         * address of the vrings but we can simply report them.
-+         */
-+    case VHOST_USER_SET_VRING_NUM:
-+        qos_printf("set_vring_num: %d/%d\n",
-+                   msg.payload.state.index, msg.payload.state.num);
-+        break;
-+    case VHOST_USER_SET_VRING_ADDR:
-+        qos_printf("set_vring_addr: 0x%"PRIx64"/0x%"PRIx64"/0x%"PRIx64"\n",
-+                   msg.payload.addr.avail_user_addr,
-+                   msg.payload.addr.desc_user_addr,
-+                   msg.payload.addr.used_user_addr);
-+        break;
-+
-     case VHOST_USER_GET_VRING_BASE:
-         /* send back vring base to qemu */
-         msg.flags |= VHOST_USER_REPLY_MASK;
-@@ -428,7 +460,18 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
-         qemu_chr_fe_write_all(chr, p, VHOST_USER_HDR_SIZE + msg.size);
-         break;
- 
-+    case VHOST_USER_SET_VRING_ENABLE:
-+        /*
-+         * Another case we ignore as we don't need to respond. With a
-+         * fully functioning vhost-user we would enable/disable the
-+         * vring monitoring.
-+         */
-+        qos_printf("set_vring(%d)=%s\n", msg.payload.state.index,
-+                   msg.payload.state.num ? "enabled" : "disabled");
-+        break;
-+
-     default:
-+        qos_printf("vhost-user: un-handled message: %d\n", msg.request);
-         break;
-     }
+     d->features = features;
+     d->bus->set_features(d, features);
  
 -- 
 2.30.2
