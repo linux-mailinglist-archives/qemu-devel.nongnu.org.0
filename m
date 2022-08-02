@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826EF587F8D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:57:46 +0200 (CEST)
-Received: from localhost ([::1]:40104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25DE9587FA8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 18:04:24 +0200 (CEST)
+Received: from localhost ([::1]:47544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIuHB-0008LV-Jv
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54674)
+	id 1oIuNa-00050k-O1
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 12:04:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIuEY-000475-7b
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:55:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21583)
+ id 1oIuEa-0004Dm-Hw
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:55:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIuEV-00024P-3j
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:55:00 -0400
+ id 1oIuEY-00027X-TS
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:55:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659455698;
+ s=mimecast20190719; t=1659455702;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=edEQsUhR6hr1/ASmTNeS6vScYe5Y3o/L9fpqOz8wMgA=;
- b=Q6dcrJvk0YKCIPyqGl73z1VF//kc0k+Ag7Jzv+Nj33kieZ1rCDIIOafT1JwtCaM7mGM26C
- fX8nTygQpadJVF4zQrHwBjdiThXRoEuiZjItHRkg2Bd3zUHpt1yaumc8H1hajWsXJdPxaz
- v9DHF1FTdhuf1CHUri/LsaWpLA5+wA4=
+ bh=+OFgNyePoapxAy3B2bAo2y5raQmmWKvx7VYqBx4+H48=;
+ b=F0BMz+U2jCbzkYvPUuPpfnSTe4Rx8yfRo6wOVP2cjft0RNCgahOOGva59aBRpc06DGMuIV
+ BrngfpkqOfkTgTH4ntws18iZvPNSgdMWH9xZLMbJFf2dLmnvFRns5uFWO+YiUaw5rfUbmE
+ xwJKs+amRIDTOfSd/IcflZRbXm615Oc=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-670-IYGkIK35ORyVNeZGqDzELA-1; Tue, 02 Aug 2022 11:54:57 -0400
-X-MC-Unique: IYGkIK35ORyVNeZGqDzELA-1
+ us-mta-164-beB0bqqfNKKcTZicU2ocwQ-1; Tue, 02 Aug 2022 11:54:59 -0400
+X-MC-Unique: beB0bqqfNKKcTZicU2ocwQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
  [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 37CD92800482;
- Tue,  2 Aug 2022 15:54:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8CBF2800486;
+ Tue,  2 Aug 2022 15:54:58 +0000 (UTC)
 Received: from dgilbert-t580.localhost (unknown [10.33.36.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4460C141510F;
- Tue,  2 Aug 2022 15:54:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69161141510F;
+ Tue,  2 Aug 2022 15:54:57 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, leobras@redhat.com, thuth@redhat.com,
  peter.maydell@linaro.org, vgoyal@redhat.com
 Cc: peterx@redhat.com,
 	quintela@redhat.com
-Subject: [PULL 3/5] migration: Assert that migrate_multifd_compression()
- returns an in-range value
-Date: Tue,  2 Aug 2022 16:54:45 +0100
-Message-Id: <20220802155447.216018-4-dgilbert@redhat.com>
+Subject: [PULL 4/5] migration: Define BLK_MIG_BLOCK_SIZE as unsigned long long
+Date: Tue,  2 Aug 2022 16:54:46 +0100
+Message-Id: <20220802155447.216018-5-dgilbert@redhat.com>
 In-Reply-To: <20220802155447.216018-1-dgilbert@redhat.com>
 References: <20220802155447.216018-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -84,44 +83,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-Coverity complains that when we use the return value from
-migrate_multifd_compression() as an array index:
-  multifd_recv_state->ops = multifd_ops[migrate_multifd_compression()];
+When we use BLK_MIG_BLOCK_SIZE in expressions like
+block_mig_state.submitted * BLK_MIG_BLOCK_SIZE, this multiplication
+is done as 32 bits, because both operands are 32 bits.  Coverity
+complains about possible overflows because we then accumulate that
+into a 64 bit variable.
 
-that this might overrun the array (which is declared to have size
-MULTIFD_COMPRESSION__MAX).  This is because the function return type
-is MultiFDCompression, which is an autogenerated enum.  The code
-generator includes the "one greater than the maximum possible value"
-MULTIFD_COMPRESSION__MAX in the enum, even though this is not
-actually a valid value for the enum, and this makes Coverity think
-that migrate_multifd_compression() could return that __MAX value and
-index off the end of the array.
+Define BLK_MIG_BLOCK_SIZE as unsigned long long using the ULL suffix.
+The only two current uses of it with this problem are both in
+block_save_pending(), so we could just cast to uint64_t there, but
+using the ULL suffix is simpler and ensures that we don't
+accidentally introduce new variants of the same issue in future.
 
-Suppress the Coverity error by asserting that the value we're going
-to return is within range.
-
-Resolves: Coverity CID 1487239, 1487254
+Resolves: Coverity CID 1487136, 1487175
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20220721115207.729615-2-peter.maydell@linaro.org>
+Message-Id: <20220721115207.729615-3-peter.maydell@linaro.org>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 1 +
- 1 file changed, 1 insertion(+)
+ migration/block.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 82fbe0cf55..bb8bbddfe4 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2617,6 +2617,7 @@ MultiFDCompression migrate_multifd_compression(void)
+diff --git a/migration/block.c b/migration/block.c
+index 9e5aae5898..3577c815a9 100644
+--- a/migration/block.c
++++ b/migration/block.c
+@@ -28,7 +28,7 @@
+ #include "sysemu/block-backend.h"
+ #include "trace.h"
  
-     s = migrate_get_current();
+-#define BLK_MIG_BLOCK_SIZE           (1 << 20)
++#define BLK_MIG_BLOCK_SIZE           (1ULL << 20)
+ #define BDRV_SECTORS_PER_DIRTY_CHUNK (BLK_MIG_BLOCK_SIZE >> BDRV_SECTOR_BITS)
  
-+    assert(s->parameters.multifd_compression < MULTIFD_COMPRESSION__MAX);
-     return s->parameters.multifd_compression;
- }
- 
+ #define BLK_MIG_FLAG_DEVICE_BLOCK       0x01
 -- 
 2.37.1
 
