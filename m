@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEA4A5884C9
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 01:37:36 +0200 (CEST)
-Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D085884DD
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 01:45:51 +0200 (CEST)
+Received: from localhost ([::1]:33682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJ1SB-0001TG-TC
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 19:37:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45302)
+	id 1oJ1aA-0000lc-1e
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 19:45:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oJ1O7-0003H6-0k
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:33:23 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46919)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oJ1WX-0005cl-2k
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:42:05 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:41733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oJ1O5-0007mi-E4
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:33:22 -0400
-Received: by mail-pf1-x433.google.com with SMTP id 130so7135607pfv.13
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 16:33:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <atishp@atishpatra.org>)
+ id 1oJ1WU-0001Xy-1i
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 19:42:04 -0400
+Received: by mail-lf1-x136.google.com with SMTP id t1so24077073lft.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 16:42:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=IugXNRq9zAwf3g2+57C9ciPWpdIXzCHebpc0gHhtpPs=;
- b=XPLtLL3F5oy+UVJLmNlyqz2ry76iM3TFvgoqrEbIEZR0S+JAAz/P57olgRixQXLzEg
- ZmEtsHFg4H4usx1GLuSXwQTlN/jPlcTn6mB3FBZqAVBFm09vpJkkt6WftAZ7z5TeCTQD
- vvebt/7u+YImKLpsFMI8OiBYSJpQbYZ8SoqbAX1Z+pV8z1Al49khvH4rHZlBGCwRRXF2
- B8+4FSGnB/fgABBuAw4YamoaXfr7T/IU4TtxDYiq1ggtVLHjdxQnTrTccBzT1+lUhBS1
- D0vKIjHQcZW4tJS7V4D+d2MKBgZfqVZKu7n60PBkRlhboEPdHcg5JJAVrDIvlrMpgess
- TLKw==
+ d=atishpatra.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=uB6pPWtljZ8gvMCs4EDlavzZjgplepQ9hI377nt/3W8=;
+ b=ZR9rTmF3YXkeJEY6yD3tffqVNzds4JXw3eK1qcgSs9MwgDTiTNKmxKFu6Gg/sjfGLr
+ E8a0H7KC285BSLbaw9Nlc38BdsuU3FMw5zw8Skv+nPMykHeuX+ysjXqO/KsStH58E5F4
+ fwYOmQW1mGHS+2uSlbimUdZmEzTMHzSw7uQsc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=IugXNRq9zAwf3g2+57C9ciPWpdIXzCHebpc0gHhtpPs=;
- b=qVsYUEmrXQlK7hdqjQpGywvoqMg3ZdQxsCW4yXkZE7cniQjSfcHTzOQSjPS4iVR6w1
- rYC29VatwV53U3soo3e3VJw1p0QMfPJQl48Dd5lqDbSK7EieWilZAHz+a6OMCvBT9vpL
- SOBOM2sjZ4ZTpZ2En/9E9Xjw9gVLvmOa+b+V1DytMO+/1pnrivpnPyISRKr9FzPZsDh2
- aqa1uq/W0Az4+W1jAdsSVbZZM2ZyVQ2N0/PYeFclI9MYTE+6MqjsA2BBEL04zjrbo9Bc
- 2joiRGiXAyUl4+RsSUVIPjYFDVSCqvEYydh5RzFC5y+jGUninonpGiIYU4QVpqNShJFH
- wMBw==
-X-Gm-Message-State: AJIora8dfcVhAlw/TH81RS806AmyrOmAcEAB8fdo+3zzh/whQtoseEZL
- 8fbv3cQ0o0ZC3ISPabYXvuvah9aN22vUGw==
-X-Google-Smtp-Source: AGRyM1sC56QhUAk9qCFrdxZTG5MSQ5crsAznIQjoayhgdLUL23J7QnuM1P/ybDA1LOqb0yM6xlcXvA==
-X-Received: by 2002:a63:1324:0:b0:419:afb2:af7b with SMTP id
- i36-20020a631324000000b00419afb2af7bmr18652638pgl.367.1659483199984; 
- Tue, 02 Aug 2022 16:33:19 -0700 (PDT)
-Received: from atishp.ba.rivosinc.com ([66.220.2.162])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a170902a50a00b001636d95fe59sm250543plq.172.2022.08.02.16.33.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 16:33:19 -0700 (PDT)
-From: Atish Patra <atishp@rivosinc.com>
-To: qemu-devel@nongnu.org
-Cc: Heiko Stuebner <heiko@sntech.de>, Atish Patra <atishp@rivosinc.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Subject: [PATCH v12 6/6] target/riscv: Remove additional priv version check
- for mcountinhibit
-Date: Tue,  2 Aug 2022 16:33:07 -0700
-Message-Id: <20220802233307.2106839-7-atishp@rivosinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220802233307.2106839-1-atishp@rivosinc.com>
-References: <20220802233307.2106839-1-atishp@rivosinc.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=uB6pPWtljZ8gvMCs4EDlavzZjgplepQ9hI377nt/3W8=;
+ b=w8A7oM4Eg0z9KMJY1yxDyVXL/sbHCjVXdUC4YN66HPfaLBjd/vq0BGT9TZk2rTUFpy
+ AI7zBJ+YDIcEt5ANUssH0u1+ybxBEE/9lw8WpONZL7pcw6FRkJSM3Pxz+9OsoL02Fvq9
+ mBUc0JyYw2J/99jtsmYr/LxtFmEJPrtXXl3H5AATHr9JP+lZsvsEq/QbyQUaffLwBJib
+ +y8UveOiZdUqslSzry0Muz9QJecH8pbYSHOWEIoVU3vKdPvfiRZ0MzIGfxNE/RNDFki9
+ WRYP1BVQQJM8iLIQE+F9EIMCXrFOgF2VDu17taIiU5gxcAPMBTkyhqLvD3VgldM9GY00
+ w9TQ==
+X-Gm-Message-State: ACgBeo36sTQiV6bnWprH/m1W8GJl7NMz+vousEsYfJqc+lIQn9TAK/4b
+ v+iZj6QEXtSw+H1BCfHDJu3jLK3GTizLPe1mh1qX
+X-Google-Smtp-Source: AGRyM1trPg+i66eM6M01Nku1TsNIWjv3BbYl8eWRnvMuzaazDsIMoJdCul/hlLoTRVjAeditYEUU+2sTXA4Sva3WV9E=
+X-Received: by 2002:a05:6512:b0d:b0:481:5cb4:cf1e with SMTP id
+ w13-20020a0565120b0d00b004815cb4cf1emr7749956lfu.442.1659483719770; Tue, 02
+ Aug 2022 16:41:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=atishp@rivosinc.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+References: <20220725034728.2620750-1-daolu@rivosinc.com>
+ <CAKmqyKNOtYLubJ0hMaMHY9YO3w21d-S5z3ABKV5KS2UvjA+dRw@mail.gmail.com>
+In-Reply-To: <CAKmqyKNOtYLubJ0hMaMHY9YO3w21d-S5z3ABKV5KS2UvjA+dRw@mail.gmail.com>
+From: Atish Patra <atishp@atishpatra.org>
+Date: Tue, 2 Aug 2022 16:41:48 -0700
+Message-ID: <CAOnJCUKANDcUMr0bpivzBmM=DtFn7Hf5LuOYRg+5wxjDcP4_nA@mail.gmail.com>
+Subject: Re: [PATCH v5 0/1] target/riscv: Add Zihintpause support
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Dao Lu <daolu@rivosinc.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::136;
+ envelope-from=atishp@atishpatra.org; helo=mail-lf1-x136.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,43 +85,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With .min_priv_version, additiona priv version check is uncessary
-for mcountinhibit read/write functions.
+On Sun, Jul 24, 2022 at 9:39 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Mon, Jul 25, 2022 at 1:48 PM Dao Lu <daolu@rivosinc.com> wrote:
+> >
+> > This patch adds RISC-V Zihintpause support. The extension is set to be enabled
+> > by default and opcode has been added to insn32.decode.
+> >
+> > Added trans_pause to exit the TB and return to main loop.
+> >
+> > The change can also be found in:
+> > https://github.com/dlu42/qemu/tree/zihintpause_support_v1
+> >
+> > Tested along with pause support added to cpu_relax function for linux, the
+> > changes I made to linux to test can be found here:
+> > https://github.com/dlu42/linux/tree/pause_support_v1
+> >
+> > --------
+> > Changelog:
+> >
+> > v1 -> v2
+> > 1. Pause now also exit the TB and return to main loop
+> > 2. Move the REQUIRE_ZIHINTPAUSE macro inside the trans_pause function
+> >
+> > v2 -> v3
+> > No changes, v2 was lost from the list
+> >
+> > v3 -> v4
+> > No longer break the reservation in trans_pause
+> >
+> > v4 -> v5
+> > Rabase on top of https://github.com/alistair23/qemu/tree/riscv-to-apply.next
+> >
+> > Dao Lu (1):
+> >   Add Zihintpause support
+>
+> Thanks!
+>
+> Applied to riscv-to-apply.next
+>
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-Signed-off-by: Atish Patra <atishp@rivosinc.com>
----
- target/riscv/csr.c | 8 --------
- 1 file changed, 8 deletions(-)
+Did you overwrite your tree by mistake ? I pulled riscv-to-apply.next
+a few days back where this patch along with Anup's priv version
+fixes are there. But I can't find it anymore. I am looking at this.
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 8753280e95b2..67367e678f38 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -1489,10 +1489,6 @@ static RISCVException write_mtvec(CPURISCVState *env, int csrno,
- static RISCVException read_mcountinhibit(CPURISCVState *env, int csrno,
-                                          target_ulong *val)
- {
--    if (env->priv_ver < PRIV_VERSION_1_11_0) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
-     *val = env->mcountinhibit;
-     return RISCV_EXCP_NONE;
- }
-@@ -1503,10 +1499,6 @@ static RISCVException write_mcountinhibit(CPURISCVState *env, int csrno,
-     int cidx;
-     PMUCTRState *counter;
- 
--    if (env->priv_ver < PRIV_VERSION_1_11_0) {
--        return RISCV_EXCP_ILLEGAL_INST;
--    }
--
-     env->mcountinhibit = val;
- 
-     /* Check if any other counter is also monitoring cycles/instructions */
+https://github.com/alistair23/qemu/commits/riscv-to-apply.next
+
+I wanted to rebase my sstc series on top of the riscv-to-apply.next.
+Let me know if I am missing something.
+
+> Alistair
+>
+> >
+> >  target/riscv/cpu.c                      |  2 ++
+> >  target/riscv/cpu.h                      |  1 +
+> >  target/riscv/insn32.decode              |  7 ++++++-
+> >  target/riscv/insn_trans/trans_rvi.c.inc | 16 ++++++++++++++++
+> >  4 files changed, 25 insertions(+), 1 deletion(-)
+> >
+> > --
+> > 2.25.1
+> >
+> >
+>
+
+
 -- 
-2.25.1
-
+Regards,
+Atish
 
