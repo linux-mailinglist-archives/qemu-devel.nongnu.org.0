@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08D9A587785
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 09:07:34 +0200 (CEST)
-Received: from localhost ([::1]:37528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8F3E58774C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:54:51 +0200 (CEST)
+Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIm05-0001NU-43
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 03:07:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43160)
+	id 1oIlnm-0008BD-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oIlYx-0003fo-Vr
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:56783)
+ id 1oIlYu-0003cI-HZ
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oIlYw-0006AU-6M
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:31 -0400
+ id 1oIlYs-0006A4-AF
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659422369;
+ s=mimecast20190719; t=1659422365;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M7DBta0IwtMjK7saNyDc3MuKfaq6iikA8gKwPoBejV0=;
- b=BuZKvMr2jEv1OT/0PsQb0WLCrUyfE7USccC4/vg4hu0f7AARcFEj48s5XItt4gjNAQsNlp
- ZnvROoMFiSK27MdxiYNwTsCuvgiVcw08LesdVLDBao/Y9hZjLzcz5fBZSZ4uIwfQfI6JwI
- iDtOpVglONIrh+b/34Naj1XMhVK98AY=
+ bh=NiIKDNZlhx1U8gPHZmVZKg7N8xckxwlRQ/PsR1YBQck=;
+ b=SpF6z91+Wz8FEIiBXU1p+/0qErv22Lzk+z8uOymAu9mQTVibCouf/MVy81ltktRF+0K6Ao
+ pHmgf9rnfWgRo43C8TaOfoyIQdLKo76eaZIDJiXJtFm0SFVXt/VX3Lp/zUlZQLQ5zbg+tb
+ QhTBNaDs4B2sBsVum85Yj3AlavufXeI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-4UacYAukP_q_buWKeIsdzw-1; Tue, 02 Aug 2022 02:39:19 -0400
-X-MC-Unique: 4UacYAukP_q_buWKeIsdzw-1
+ us-mta-203-MiSY0jvaOYeyRJTGsTPJNg-1; Tue, 02 Aug 2022 02:39:21 -0400
+X-MC-Unique: MiSY0jvaOYeyRJTGsTPJNg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E18BB101A586;
- Tue,  2 Aug 2022 06:39:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3EB7101A58D;
+ Tue,  2 Aug 2022 06:39:20 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B14A492C3B;
- Tue,  2 Aug 2022 06:39:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31277492CA2;
+ Tue,  2 Aug 2022 06:39:19 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Yanan Wang <wangyanan55@huawei.com>, Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v7 04/12] multifd: Count the number of bytes sent correctly
-Date: Tue,  2 Aug 2022 08:38:59 +0200
-Message-Id: <20220802063907.18882-5-quintela@redhat.com>
+Subject: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
+Date: Tue,  2 Aug 2022 08:39:00 +0200
+Message-Id: <20220802063907.18882-6-quintela@redhat.com>
 In-Reply-To: <20220802063907.18882-1-quintela@redhat.com>
 References: <20220802063907.18882-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -85,89 +85,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Current code asumes that all pages are whole.  That is not true for
-example for compression already.  Fix it for creating a new field
-->sent_bytes that includes it.
-
-All ram_counters are used only from the migration thread, so we have
-two options:
-- put a mutex and fill everything when we sent it (not only
-ram_counters, also qemu_file->xfer_bytes).
-- Create a local variable that implements how much has been sent
-through each channel.  And when we push another packet, we "add" the
-previous stats.
-
-I choose two due to less changes overall.  On the previous code we
-increase transferred and then we sent.  Current code goes the other
-way around.  It sents the data, and after the fact, it updates the
-counters.  Notice that each channel can have a maximum of half a
-megabyte of data without counting, so it is not very important.
+We are going to create a new function for multifd latest in the series.
 
 Signed-off-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/multifd.h |  2 ++
- migration/multifd.c | 14 ++++++--------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ migration/ram.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/migration/multifd.h b/migration/multifd.h
-index e2802a9ce2..36f899c56f 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -102,6 +102,8 @@ typedef struct {
-     uint32_t flags;
-     /* global number of generated multifd packets */
-     uint64_t packet_num;
-+    /* How many bytes have we sent on the last packet */
-+    uint64_t sent_bytes;
-     /* thread has work to do */
-     int pending_job;
-     /* array of pages to sent.
-diff --git a/migration/multifd.c b/migration/multifd.c
-index aa3808a6f4..e25b529235 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -394,7 +394,6 @@ static int multifd_send_pages(QEMUFile *f)
-     static int next_channel;
-     MultiFDSendParams *p = NULL; /* make happy gcc */
-     MultiFDPages_t *pages = multifd_send_state->pages;
--    uint64_t transferred;
+diff --git a/migration/ram.c b/migration/ram.c
+index 85d89d61ac..499d9b2a90 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -310,6 +310,9 @@ typedef struct {
+     bool preempted;
+ } PostcopyPreemptState;
  
-     if (qatomic_read(&multifd_send_state->exiting)) {
-         return -1;
-@@ -429,10 +428,10 @@ static int multifd_send_pages(QEMUFile *f)
-     p->packet_num = multifd_send_state->packet_num++;
-     multifd_send_state->pages = p->pages;
-     p->pages = pages;
--    transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
--    qemu_file_acct_rate_limit(f, transferred);
--    ram_counters.multifd_bytes += transferred;
--    ram_counters.transferred += transferred;
-+    ram_transferred_add(p->sent_bytes);
-+    ram_counters.multifd_bytes += p->sent_bytes;
-+    qemu_file_acct_rate_limit(f, p->sent_bytes);
-+    p->sent_bytes = 0;
-     qemu_mutex_unlock(&p->mutex);
-     qemu_sem_post(&p->sem);
++typedef struct RAMState RAMState;
++typedef struct PageSearchStatus PageSearchStatus;
++
+ /* State of RAM for migration */
+ struct RAMState {
+     /* QEMUFile used for this migration */
+@@ -372,8 +375,9 @@ struct RAMState {
+      * is enabled.
+      */
+     unsigned int postcopy_channel;
++
++    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
+ };
+-typedef struct RAMState RAMState;
  
-@@ -605,9 +604,6 @@ int multifd_send_sync_main(QEMUFile *f)
-         p->packet_num = multifd_send_state->packet_num++;
-         p->flags |= MULTIFD_FLAG_SYNC;
-         p->pending_job++;
--        qemu_file_acct_rate_limit(f, p->packet_len);
--        ram_counters.multifd_bytes += p->packet_len;
--        ram_counters.transferred += p->packet_len;
-         qemu_mutex_unlock(&p->mutex);
-         qemu_sem_post(&p->sem);
+ static RAMState *ram_state;
  
-@@ -714,6 +710,8 @@ static void *multifd_send_thread(void *opaque)
+@@ -2255,14 +2259,14 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
+ }
+ 
+ /**
+- * ram_save_target_page: save one target page
++ * ram_save_target_page_legacy: save one target page
+  *
+  * Returns the number of pages written
+  *
+  * @rs: current RAM state
+  * @pss: data about the page we want to send
+  */
+-static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
++static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock *block = pss->block;
+     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
+@@ -2469,7 +2473,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+ 
+         /* Check the pages is dirty and if it is send it */
+         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
+-            tmppages = ram_save_target_page(rs, pss);
++            tmppages = rs->ram_save_target_page(rs, pss);
+             if (tmppages < 0) {
+                 return tmppages;
              }
+@@ -3223,6 +3227,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
+     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
+     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
  
-             qemu_mutex_lock(&p->mutex);
-+            p->sent_bytes += p->packet_len;;
-+            p->sent_bytes += p->next_packet_size;
-             p->pending_job--;
-             qemu_mutex_unlock(&p->mutex);
- 
++    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
+     ret =  multifd_send_sync_main(f);
+     if (ret < 0) {
+         return ret;
 -- 
 2.37.1
 
