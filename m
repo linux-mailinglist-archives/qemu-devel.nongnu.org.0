@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0523C587965
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:54:18 +0200 (CEST)
-Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35CBB5878F2
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:24:05 +0200 (CEST)
+Received: from localhost ([::1]:49024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oInfM-0001kG-Rk
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:54:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
+	id 1oInC8-0008VW-3L
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:24:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImfC-0005JY-Sy
+ id 1oImfI-0005Jn-ET
  for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:11 -0400
-Received: from mga04.intel.com ([192.55.52.120]:60014)
+Received: from mga04.intel.com ([192.55.52.120]:60017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImf7-0006j4-NN
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:49:59 -0400
+ id 1oImfC-0006mb-NH
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659426597; x=1690962597;
+ t=1659426602; x=1690962602;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=up0NC9t6i/8Y6UeydX8wwRAt4pZuRoc1u2sqV3Hai3Y=;
- b=BRl5YsjQuLEGsPVBMn/8VpPGqdpmB82QWLmQf4gx8q2Ii3O12Xpt/jAw
- 1ppBrzQQteVSPMrkmZ2vdl0zQZ9y7SwSlQBlSDUHbe//sdW+6w5cssX4u
- sQgzZy1q+AgA/L1Yj/HpCs9VJIgtVL6g+VhKZn2B5nRIlV8dBVtu+UKiv
- wqelja3gkh30p282WW3D93Z4fzGrVGxRR6xQ22gFTHVwUS3SE5CFs996C
- TSblHmvKXZ803E95G28tCp5XHU3RdphrQfyZCRbbC0/NdrkvxbMZjD/ms
- xvOl0vGvd1+qqjsmTwpJNJwfBFMrSfXVBO06f01LUWrl83wWVmsFpDOnh g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105729"
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105729"
+ bh=xq2DWPjLy2Y9eGD+PkvghS7cMwBE0EZvQqHMGb0g0VY=;
+ b=ntsVpxqz0AShnqIg1Dd651k+5+/kl913xRmUkg4XSOk48HE6JSWLbj0o
+ dxOpROYzZJUk1m7O4iMUaHEQLlm/NDUqB+5YfAPz4HoS3TQYKR9lH7JX+
+ MpllEhm4YNTTLt00o3SD2fGl2w6O27/NLX5fhNYXlG4+V4H/RHHJ1xzYS
+ fTxx0ehEFdkt6lY1xp9zdTHDvnu+sOkAVk5jbN5UShLmL18u0s0Iu9NoP
+ ka0IGB7gGsicnOEA2ffDFxhBPP8p2pliZBG55pHC42IQsRYfmSmYfW+t2
+ 7UiR5mGHyuys8WMivtOc3nzQmhwnse237HwvjlhWgD0BYMXiN6f4R5kKp g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105735"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105735"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 00:49:56 -0700
+ 02 Aug 2022 00:50:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604275"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604292"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:49:52 -0700
+ by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:49:56 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>,
@@ -54,9 +54,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [PATCH v1 28/40] i386/tdx: Add TDVF memory via KVM_TDX_INIT_MEM_REGION
-Date: Tue,  2 Aug 2022 15:47:38 +0800
-Message-Id: <20220802074750.2581308-29-xiaoyao.li@intel.com>
+Subject: [PATCH v1 29/40] i386/tdx: Call KVM_TDX_INIT_VCPU to initialize TDX
+ vcpu
+Date: Tue,  2 Aug 2022 15:47:39 +0800
+Message-Id: <20220802074750.2581308-30-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220802074750.2581308-1-xiaoyao.li@intel.com>
 References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
@@ -87,64 +88,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Isaku Yamahata <isaku.yamahata@intel.com>
+TDX vcpu needs to be initialized by SEAMCALL(TDH.VP.INIT) and KVM
+provides vcpu level IOCTL KVM_TDX_INIT_VCPU for it.
 
-TDVF firmware (CODE and VARS) needs to be added/copied to TD's private
-memory via KVM_TDX_INIT_MEM_REGION, as well as TD HOB and TEMP memory.
+KVM_TDX_INIT_VCPU needs the address of the HOB as input. Invoke it for
+each vcpu after HOB list is created.
 
-Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
-
 ---
-Changes from RFC v4:
-  - rename variable @metadata to @flags
----
- target/i386/kvm/tdx.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ target/i386/kvm/tdx.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 944f2f5b6921..d0bbe06f5504 100644
+index d0bbe06f5504..2dbe26f2e950 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -575,6 +575,7 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
- {
-     TdxFirmware *tdvf = &tdx_guest->tdvf;
-     TdxFirmwareEntry *entry;
-+    int r;
- 
-     tdx_init_ram_entries();
- 
-@@ -600,6 +601,29 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
-           sizeof(TdxRamEntry), &tdx_ram_entry_compare);
- 
-     tdvf_hob_create(tdx_guest, tdx_get_hob_entry(tdx_guest));
-+
-+    for_each_tdx_fw_entry(tdvf, entry) {
-+        struct kvm_tdx_init_mem_region mem_region = {
-+            .source_addr = (__u64)entry->mem_ptr,
-+            .gpa = entry->address,
-+            .nr_pages = entry->size / 4096,
-+        };
-+
-+        __u32 flags = entry->attributes & TDVF_SECTION_ATTRIBUTES_MR_EXTEND ?
-+                      KVM_TDX_MEASURE_MEMORY_REGION : 0;
-+
-+        r = tdx_vm_ioctl(KVM_TDX_INIT_MEM_REGION, flags, &mem_region);
-+        if (r < 0) {
-+             error_report("KVM_TDX_INIT_MEM_REGION failed %s", strerror(-r));
-+             exit(1);
-+        }
-+
-+        if (entry->type == TDVF_SECTION_TYPE_TD_HOB ||
-+            entry->type == TDVF_SECTION_TYPE_TEMP_MEM) {
-+            qemu_ram_munmap(-1, entry->mem_ptr, entry->size);
-+            entry->mem_ptr = NULL;
-+        }
-+    }
+@@ -571,6 +571,22 @@ static void tdx_init_ram_entries(void)
+     tdx_guest->nr_ram_entries = j;
  }
  
- static Notifier tdx_machine_done_notify = {
++static void tdx_post_init_vcpus(void)
++{
++    TdxFirmwareEntry *hob;
++    CPUState *cpu;
++    int r;
++
++    hob = tdx_get_hob_entry(tdx_guest);
++    CPU_FOREACH(cpu) {
++        r = tdx_vcpu_ioctl(cpu, KVM_TDX_INIT_VCPU, 0, (void *)hob->address);
++        if (r < 0) {
++            error_report("KVM_TDX_INIT_VCPU failed %s", strerror(-r));
++            exit(1);
++        }
++    }
++}
++
+ static void tdx_finalize_vm(Notifier *notifier, void *unused)
+ {
+     TdxFirmware *tdvf = &tdx_guest->tdvf;
+@@ -602,6 +618,8 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
+ 
+     tdvf_hob_create(tdx_guest, tdx_get_hob_entry(tdx_guest));
+ 
++    tdx_post_init_vcpus();
++
+     for_each_tdx_fw_entry(tdvf, entry) {
+         struct kvm_tdx_init_mem_region mem_region = {
+             .source_addr = (__u64)entry->mem_ptr,
 -- 
 2.27.0
 
