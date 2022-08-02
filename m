@@ -2,82 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7172587568
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 04:07:44 +0200 (CEST)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F635875A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 04:55:58 +0200 (CEST)
+Received: from localhost ([::1]:39874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIhJw-0007EC-2B
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 22:07:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56932)
+	id 1oIi4b-0008Db-UJ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 22:55:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIhH9-0004IN-PD
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:04:51 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oIhH7-0005I1-0k
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:04:50 -0400
-Received: by mail-pl1-x631.google.com with SMTP id w7so12089854ply.12
- for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 19:04:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=wQ0nu79kXZuZtfNWKFiQAUN093a9q9fkJa0SFWz6DUM=;
- b=IGAoKQmEDK1jmCBDlcrwGWWTJ+ppvkGPWnjZDrSdlm1jsnYInJw0aOCmQdZJB+WNVC
- p6R0s8oJFHEdYfxjvG0MVHuD273qpIUeeOSj/U3cI1TcEHaUyYvDkIQXlYeqriw2wgvW
- D1v2t1uPfgqMQvzzxowki62C+sGelcc2O2dHLVrNpOly04dZ9hrmh4EFB+D5jG6PDMU7
- wpCjgG+TJ25JT+X8wTRRSIH/T2YIBJer5UsLrap+HoBxFTYhAQUE2pd9OdS0wj5u++qf
- 4y+phHV/S3b93K+1WA0dC6etliTATck4hsaHfn0kn3eBrSE9ZLDyFCO1sOeTY88lh0jX
- vwpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=wQ0nu79kXZuZtfNWKFiQAUN093a9q9fkJa0SFWz6DUM=;
- b=BEmhKCs30OddmRUXHOofLa62OaGP0Y6gI7kM/YLy0tkGngQCyP+sZfuolvfBcjUaDZ
- X0ljc9BKl/B47ItWmtye4yHtJ0xbbgKgHFUbXImqDK7lblaqvIsnfXQ0PuL0GoJudSBK
- QdjkGtYQJwIOTyid3hYlgBC5OGZX1CXIG0pbSxeSXoOAP5N6ciNXMdPO0ICcFYvQJjFL
- 84TupQD9hwctfsdlq7RoUJ9en1qQjAjvvqKvtLQ4UcIZxWPlIIePc/+s5B1joQ35aKW0
- myWUoOOkDLER4KQkbY75Bpp8T4tESBPCWAam/gacJJ9MqLlFr/ULCIHyPqZ93mxeL46n
- Ttpg==
-X-Gm-Message-State: ACgBeo0A9rRIIN6p6Sq7yXj3daTbMXhLlnmUJvqGDIcJgUSRttXY/EG4
- dbPEUFuVmUKdguM/DOirEqjVsg==
-X-Google-Smtp-Source: AA6agR7yov1ytTHWROYLJDt2Igvg1E50fD//KDUDEKfaZmhqr0hyy27cIC3Ls0ycjaUAlrWtuST3yw==
-X-Received: by 2002:a17:90a:5207:b0:1ee:dfa1:afa9 with SMTP id
- v7-20020a17090a520700b001eedfa1afa9mr21474652pjh.246.1659405887341; 
- Mon, 01 Aug 2022 19:04:47 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:7e91:a3d1:2af1:8c18?
- ([2602:ae:1549:801:7e91:a3d1:2af1:8c18])
- by smtp.gmail.com with ESMTPSA id
- w16-20020a1709029a9000b0016dd562430fsm8164159plp.120.2022.08.01.19.04.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 19:04:46 -0700 (PDT)
-Message-ID: <e90020f3-b41b-2025-f56d-b440ef1cb56a@linaro.org>
-Date: Mon, 1 Aug 2022 19:04:43 -0700
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oIi23-0004Ez-Md
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:53:19 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
+ id 1oIi20-00071K-Ta
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:53:19 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Lxfc05hmRzjX1c;
+ Tue,  2 Aug 2022 10:50:08 +0800 (CST)
+Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Tue, 2 Aug 2022 10:53:09 +0800
+Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
+ (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 2 Aug
+ 2022 10:53:09 +0800
+To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
+ <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
+CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
+Subject: [PATCH v5 1/3] dump: support cancel dump process
+Date: Tue, 2 Aug 2022 10:53:03 +0800
+Message-ID: <20220802025305.3452-1-hogan.wang@huawei.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/2] aspeed queue
-Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>
-References: <20220801162948.1920497-1-clg@kaod.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220801162948.1920497-1-clg@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.149.172]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ kwepemm600015.china.huawei.com (7.193.23.52)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=hogan.wang@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,38 +66,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hogan Wang <hogan.wang@huawei.com>
+From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-On 8/1/22 09:29, Cédric Le Goater wrote:
-> The following changes since commit 3916603e0c1d909e14e09d5ebcbdaa9c9e21adf3:
-> 
->    Merge tag 'pull-la-20220729' of https://gitlab.com/rth7680/qemu into staging (2022-07-29 17:39:17 -0700)
-> 
-> are available in the Git repository at:
-> 
->    https://github.com/legoater/qemu/ tags/pull-aspeed-20220801
-> 
-> for you to fetch changes up to 398c01da9c8c8af5db0b2b4b4888c2bd27218230:
-> 
->    aspeed/fby35: Fix owner of the BMC RAM memory region (2022-08-01 15:24:15 +0200)
-> 
-> ----------------------------------------------------------------
-> aspeed queue:
-> 
-> * Fix ownership of RAM regions on the fby35 machine
+Break saving pages or dump iterate when dump job in cancel state,
+make sure dump process exits as soon as possible.
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
+---
+ dump/dump.c           | 23 +++++++++++++++++++++++
+ include/sysemu/dump.h |  2 ++
+ 2 files changed, 25 insertions(+)
 
-
-r~
-
-> 
-> ----------------------------------------------------------------
-> Cédric Le Goater (2):
->        aspeed: Remove unused fields from AspeedMachineState
->        aspeed/fby35: Fix owner of the BMC RAM memory region
-> 
->   hw/arm/aspeed.c |  2 --
->   hw/arm/fby35.c  | 14 +++++++++-----
->   2 files changed, 9 insertions(+), 7 deletions(-)
+diff --git a/dump/dump.c b/dump/dump.c
+index 4d9658ffa2..a57c580b12 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -54,6 +54,8 @@ static Error *dump_migration_blocker;
+       DIV_ROUND_UP((name_size), 4) +                    \
+       DIV_ROUND_UP((desc_size), 4)) * 4)
+ 
++static bool dump_cancelling(void);
++
+ static inline bool dump_is_64bit(DumpState *s)
+ {
+     return s->dump_info.d_class == ELFCLASS64;
+@@ -118,6 +120,10 @@ static int fd_write_vmcore(const void *buf, size_t size, void *opaque)
+     DumpState *s = opaque;
+     size_t written_size;
+ 
++    if (dump_cancelling()) {
++        return -ECANCELED;
++    }
++
+     written_size = qemu_write_full(s->fd, buf, size);
+     if (written_size != size) {
+         return -errno;
+@@ -627,6 +633,10 @@ static void dump_iterate(DumpState *s, Error **errp)
+ 
+     do {
+         block = s->next_block;
++        if (dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            return;
++        }
+ 
+         size = block->target_end - block->target_start;
+         if (s->has_filter) {
+@@ -1321,6 +1331,10 @@ static void write_dump_pages(DumpState *s, Error **errp)
+      * first page of page section
+      */
+     while (get_next_page(&block_iter, &pfn_iter, &buf, s)) {
++        if (dump_cancelling()) {
++            error_setg(errp, "dump: job cancelled");
++            goto out;
++        }
+         /* check zero page */
+         if (buffer_is_zero(buf, s->dump_info.page_size)) {
+             ret = write_cache(&page_desc, &pd_zero, sizeof(PageDescriptor),
+@@ -1540,6 +1554,15 @@ bool qemu_system_dump_in_progress(void)
+     return (qatomic_read(&state->status) == DUMP_STATUS_ACTIVE);
+ }
+ 
++static bool dump_cancelling(void)
++{
++    DumpState *state = &dump_state_global;
++    if (state->job && job_is_cancelled(state->job)) {
++        return true;
++    }
++    return false;
++}
++
+ /* calculate total size of memory to be dumped (taking filter into
+  * acoount.) */
+ static int64_t dump_calculate_size(DumpState *s)
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index ffc2ea1072..41bdbe595f 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -15,6 +15,7 @@
+ #define DUMP_H
+ 
+ #include "qapi/qapi-types-dump.h"
++#include "qemu/job.h"
+ 
+ #define MAKEDUMPFILE_SIGNATURE      "makedumpfile"
+ #define MAX_SIZE_MDF_HEADER         (4096) /* max size of makedumpfile_header */
+@@ -154,6 +155,7 @@ typedef struct DumpState {
+     GuestPhysBlockList guest_phys_blocks;
+     ArchDumpInfo dump_info;
+     MemoryMappingList list;
++    Job *job;
+     uint32_t phdr_num;
+     uint32_t shdr_num;
+     bool resume;
+-- 
+2.33.0
 
 
