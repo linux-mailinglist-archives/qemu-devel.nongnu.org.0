@@ -2,79 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC77658834B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 23:05:07 +0200 (CEST)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F03D58837B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 23:26:34 +0200 (CEST)
+Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIz4c-0007QQ-9j
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 17:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37336)
+	id 1oIzPN-00050I-11
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 17:26:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oIz1t-0005dE-PJ
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 17:02:17 -0400
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56222)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oIz1p-0000vH-O8
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 17:02:17 -0400
-Received: by mail-pj1-x1031.google.com with SMTP id a8so1266212pjg.5
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 14:02:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=vAYFJTPm1oRqFsV5ohkHDQqBtUPvHe3Eya4TeG7r43Q=;
- b=WmQWFx/gDymyCDSJXm1EEYaIZXBl06uEy/fwpJ2FrYHmDYdYHWLm2zz/TzVPmBQnR0
- TWddm3izJgjgqHm2ULbATse570JxWOkCu3csZbAWvXR+WC9VhZs+PInvtWONQz2wWNNz
- UX78Fq4heI4CB3XEdYi2ItcQPocFgXrgpjiRTchd2lEpIehhQReyNk+ElH2G/TqDHoSq
- wdBXf1ykN4mqlqHQiHWEnJwl5wI0WGZuBxL9yPaDodsjbFkSTHJRWH2AeaPKSN7O4J1d
- m55UMAtnYFA5APBm0ebkL6f2CDhWaCnD/NBxcVEgJQf7zskVCs7b2ea33ml5Q1GPsjBP
- 7VGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=vAYFJTPm1oRqFsV5ohkHDQqBtUPvHe3Eya4TeG7r43Q=;
- b=sN3l4YT2GWqNhb78R16cQR5UmcxorGjx9hu3XYVUG0IRyr/QTlkT9LFbyl5KuWk77G
- ttkLvFeRZuCFGkJoR0rIuRH8XTKbcof4xU/XuOtUOJu6fU/VN2JYElY45VECDvl8VSvM
- Mgfp383e7Nm+ieshv7tF/gOjNIuFikd+S3JB8Qi83p9ZyH/6fA4sqMLfE30/ogea0HaO
- t9XSyIEiDvqziTXIA8YYNaIlS2hfKzO4SMGq/BjmrvH6r1+wVI2aw61wBsmK/8Wd17R8
- sj0qKK8Yarwu5nLkAvouSpp37b9ync0tOEngSnZ1DdhqxPsUD/tbsRmqWOuBwXjywPAH
- Bwdg==
-X-Gm-Message-State: ACgBeo1YKue//ArI7b33OYokPFO1pGL5B0Ue8phDyoaaTki7ANRLzeiE
- hQd+5XXSOAfB/KURq+f6D7nJ12pHtEdrbUeOL4JFKA==
-X-Google-Smtp-Source: AA6agR6XD0G8L4R9M77YBMNz0U3OQNnyhn5gDjMbMme1mOK5Tiy9WxXbosZajPDuWn0iYVv7oyD/wdekD9aaeOfaXi0=
-X-Received: by 2002:a17:902:b58e:b0:16c:489e:7a0b with SMTP id
- a14-20020a170902b58e00b0016c489e7a0bmr22834108pls.145.1659474131567; Tue, 02
- Aug 2022 14:02:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oIzNl-00033f-0L; Tue, 02 Aug 2022 17:24:53 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:39926)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oIzNi-0003Cf-2L; Tue, 02 Aug 2022 17:24:52 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DB9D4746396;
+ Tue,  2 Aug 2022 23:24:42 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 91258746397; Tue,  2 Aug 2022 23:24:42 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8F574746381;
+ Tue,  2 Aug 2022 23:24:42 +0200 (CEST)
+Date: Tue, 2 Aug 2022 23:24:42 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+cc: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
+In-Reply-To: <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
+Message-ID: <7abaf022-b2ef-ed5a-be3a-a04c915eb736@eik.bme.hu>
+References: <20220801131039.1693913-1-clg@kaod.org>
+ <20220801131039.1693913-6-clg@kaod.org>
+ <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
 MIME-Version: 1.0
-References: <20220727064913.1041427-1-atishp@rivosinc.com>
- <20220727064913.1041427-3-atishp@rivosinc.com>
- <4fe4fca9-71ea-de77-1db1-b02302599881@iscas.ac.cn>
- <CAHBxVyG3rqFRrTk0FavPm7M6bdOjkeoyb6OkN4JOVNVg25t6yQ@mail.gmail.com>
- <aaada990-4c26-3352-2eae-6168d45bb87d@iscas.ac.cn>
-In-Reply-To: <aaada990-4c26-3352-2eae-6168d45bb87d@iscas.ac.cn>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Tue, 2 Aug 2022 14:02:00 -0700
-Message-ID: <CAHBxVyG9TcsAWhLc6+pQK3xzdq5OVy_LMRWLhvXaGkQSZATsig@mail.gmail.com>
-Subject: Re: [PATCH v11 2/6] target/riscv: Simplify counter predicate function
-To: Weiwei Li <liweiwei@iscas.ac.cn>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>
-Content-Type: multipart/alternative; boundary="00000000000020651505e5486ec7"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=atishp@rivosinc.com; helo=mail-pj1-x1031.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-414620594-1659475482=:52653"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,625 +62,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000020651505e5486ec7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Wed, Jul 27, 2022 at 5:56 PM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
+--3866299591-414620594-1659475482=:52653
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
+On Tue, 2 Aug 2022, Daniel Henrique Barboza wrote:
+> On 8/1/22 10:10, Cédric Le Goater wrote:
+>> This moves all the code previously done in the ppc405ep_init() routine
+>> under ppc405_soc_realize().
+>> 
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   hw/ppc/ppc405.h        |  12 ++--
+>>   hw/ppc/ppc405_boards.c |  12 ++--
+>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
+>>   3 files changed, 84 insertions(+), 91 deletions(-)
+>> 
+>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+>> index c8cddb71733a..5e4e96d86ceb 100644
+>> --- a/hw/ppc/ppc405.h
+>> +++ b/hw/ppc/ppc405.h
+>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
+>>       MemoryRegion sram;
+>>       MemoryRegion ram_memories[2];
+>>       hwaddr ram_bases[2], ram_sizes[2];
+>> +    bool do_dram_init;
+>>         MemoryRegion *dram_mr;
+>>       hwaddr ram_size;
+>> +
+>> +    uint32_t sysclk;
+>> +    PowerPCCPU *cpu;
+>> +    DeviceState *uic;
+>>   };
+>>     /* PowerPC 405 core */
+>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, 
+>> ram_addr_t ram_size);
+>>   void ppc4xx_plb_init(CPUPPCState *env);
+>>   void ppc405_ebc_init(CPUPPCState *env);
+>>   -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>> -                        MemoryRegion ram_memories[2],
+>> -                        hwaddr ram_bases[2],
+>> -                        hwaddr ram_sizes[2],
+>> -                        uint32_t sysclk, DeviceState **uicdev,
+>> -                        int do_init);
+>> -
+>>   #endif /* PPC405_H */
+>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+>> index 96db52c5a309..363cb0770506 100644
+>> --- a/hw/ppc/ppc405_boards.c
+>> +++ b/hw/ppc/ppc405_boards.c
+>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
+>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
+>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+>>       const char *kernel_filename = machine->kernel_filename;
+>> -    PowerPCCPU *cpu;
+>>       MemoryRegion *sysmem = get_system_memory();
+>> -    DeviceState *uicdev;
+>>         if (machine->ram_size != mc->default_ram_size) {
+>>           char *sz = size_to_str(mc->default_ram_size);
+>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
+>>                                machine->ram_size, &error_fatal);
+>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
+>>                                OBJECT(machine->ram), &error_abort);
+>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
+>> +                             !(kernel_filename == NULL), &error_abort);
+>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
+>> +                             &error_abort);
+>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
+>>   -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, 
+>> ppc405->soc.ram_bases,
+>> -                        ppc405->soc.ram_sizes,
+>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 
+>> 1);
+>> -
+>>       /* allocate and load BIOS */
+>>       if (machine->firmware) {
+>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
+>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
+>>         /* Load ELF kernel and rootfs.cpio */
+>>       } else if (kernel_filename && !machine->firmware) {
+>> -        boot_from_kernel(machine, cpu);
+>> +        boot_from_kernel(machine, ppc405->soc.cpu);
+>>       }
+>>   }
+>>   diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+>> index 156e839b8283..59612504bf3f 100644
+>> --- a/hw/ppc/ppc405_uc.c
+>> +++ b/hw/ppc/ppc405_uc.c
+>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, 
+>> clk_setup_t clk_setup[8],
+>>   #endif
+>>   }
+>>   -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
+>> -                        MemoryRegion ram_memories[2],
+>> -                        hwaddr ram_bases[2],
+>> -                        hwaddr ram_sizes[2],
+>> -                        uint32_t sysclk, DeviceState **uicdevp,
+>> -                        int do_init)
+>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>>   {
+>> +    Ppc405SoCState *s = PPC405_SOC(dev);
+>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
+>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
+>> -    PowerPCCPU *cpu;
+>>       CPUPPCState *env;
+>> -    DeviceState *uicdev;
+>> -    SysBusDevice *uicsbd;
+>> +    Error *err = NULL;
+>> +
+>> +    /* XXX: fix this ? */
 >
-> =E5=9C=A8 2022/7/28 =E4=B8=8A=E5=8D=885:40, Atish Kumar Patra =E5=86=99=
-=E9=81=93:
+> So, this comment, originally from ppc405_boards.c, was added by commit
+> 1a6c088620368 and it seemed to make reference to something with the refering
+> to the ram_* values:
 >
 >
+>    /* XXX: fix this */
+>    ram_bases[0] = 0x00000000;
+>    ram_sizes[0] = 0x08000000;
+>    ram_bases[1] = 0x00000000;
+>    ram_sizes[1] = 0x00000000;
+> (...)
 >
-> On Wed, Jul 27, 2022 at 1:35 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 >
->>
->> =E5=9C=A8 2022/7/27 =E4=B8=8B=E5=8D=882:49, Atish Patra =E5=86=99=E9=81=
-=93:
->> > All the hpmcounters and the fixed counters (CY, IR, TM) can be
->> represented
->> > as a unified counter. Thus, the predicate function doesn't need handle
->> each
->> > case separately.
->> >
->> > Simplify the predicate function so that we just handle things
->> differently
->> > between RV32/RV64 and S/HS mode.
->> >
->> > Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
->> > Acked-by: Alistair Francis <alistair.francis@wdc.com>
->> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
->> > ---
->> >   target/riscv/csr.c | 112 +++++--------------------------------------=
---
->> >   1 file changed, 11 insertions(+), 101 deletions(-)
->> >
->> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
->> > index 1233bfa0a726..57dbbf9b09a0 100644
->> > --- a/target/riscv/csr.c
->> > +++ b/target/riscv/csr.c
->> > @@ -74,6 +74,7 @@ static RISCVException ctr(CPURISCVState *env, int
->> csrno)
->> >       CPUState *cs =3D env_cpu(env);
->> >       RISCVCPU *cpu =3D RISCV_CPU(cs);
->> >       int ctr_index;
->> > +    target_ulong ctr_mask;
->> >       int base_csrno =3D CSR_CYCLE;
->> >       bool rv32 =3D riscv_cpu_mxl(env) =3D=3D MXL_RV32 ? true : false;
->> >
->> > @@ -82,122 +83,31 @@ static RISCVException ctr(CPURISCVState *env, int
->> csrno)
->> >           base_csrno +=3D 0x80;
->> >       }
->> >       ctr_index =3D csrno - base_csrno;
->> > +    ctr_mask =3D BIT(ctr_index);
->> >
->> >       if ((csrno >=3D CSR_CYCLE && csrno <=3D CSR_INSTRET) ||
->> >           (csrno >=3D CSR_CYCLEH && csrno <=3D CSR_INSTRETH)) {
->> >           goto skip_ext_pmu_check;
->> >       }
->> >
->> > -    if ((!cpu->cfg.pmu_num || !(cpu->pmu_avail_ctrs &
->> BIT(ctr_index)))) {
->> > +    if (!(cpu->pmu_avail_ctrs & ctr_mask)) {
->> >           /* No counter is enabled in PMU or the counter is out of
->> range */
->> >           return RISCV_EXCP_ILLEGAL_INST;
->> >       }
->> >
->> >   skip_ext_pmu_check:
->> >
->> > -    if (env->priv =3D=3D PRV_S) {
->> > -        switch (csrno) {
->> > -        case CSR_CYCLE:
->> > -            if (!get_field(env->mcounteren, COUNTEREN_CY)) {
->> > -                return RISCV_EXCP_ILLEGAL_INST;
->> > -            }
->> > -            break;
->> > -        case CSR_TIME:
->> > -            if (!get_field(env->mcounteren, COUNTEREN_TM)) {
->> > -                return RISCV_EXCP_ILLEGAL_INST;
->> > -            }
->> > -            break;
->> > -        case CSR_INSTRET:
->> > -            if (!get_field(env->mcounteren, COUNTEREN_IR)) {
->> > -                return RISCV_EXCP_ILLEGAL_INST;
->> > -            }
->> > -            break;
->> > -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
->> > -            if (!get_field(env->mcounteren, 1 << ctr_index)) {
->> > -                return RISCV_EXCP_ILLEGAL_INST;
->> > -            }
->> > -            break;
->> > -        }
->> > -        if (rv32) {
->> > -            switch (csrno) {
->> > -            case CSR_CYCLEH:
->> > -                if (!get_field(env->mcounteren, COUNTEREN_CY)) {
->> > -                    return RISCV_EXCP_ILLEGAL_INST;
->> > -                }
->> > -                break;
->> > -            case CSR_TIMEH:
->> > -                if (!get_field(env->mcounteren, COUNTEREN_TM)) {
->> > -                    return RISCV_EXCP_ILLEGAL_INST;
->> > -                }
->> > -                break;
->> > -            case CSR_INSTRETH:
->> > -                if (!get_field(env->mcounteren, COUNTEREN_IR)) {
->> > -                    return RISCV_EXCP_ILLEGAL_INST;
->> > -                }
->> > -                break;
->> > -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
->> > -                if (!get_field(env->mcounteren, 1 << ctr_index)) {
->> > -                    return RISCV_EXCP_ILLEGAL_INST;
->> > -                }
->> > -                break;
->> > -            }
->> > -        }
->> > +    if (((env->priv =3D=3D PRV_S) && (!get_field(env->mcounteren,
->> ctr_mask))) ||
->> > +       ((env->priv =3D=3D PRV_U) && (!get_field(env->scounteren,
->> ctr_mask)))) {
->> > +        return RISCV_EXCP_ILLEGAL_INST;
->> >       }
->> >
->> >       if (riscv_cpu_virt_enabled(env)) {
->> > -        switch (csrno) {
->> > -        case CSR_CYCLE:
->> > -            if (!get_field(env->hcounteren, COUNTEREN_CY) &&
->> > -                get_field(env->mcounteren, COUNTEREN_CY)) {
->> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -            }
->> > -            break;
->> > -        case CSR_TIME:
->> > -            if (!get_field(env->hcounteren, COUNTEREN_TM) &&
->> > -                get_field(env->mcounteren, COUNTEREN_TM)) {
->> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -            }
->> > -            break;
->> > -        case CSR_INSTRET:
->> > -            if (!get_field(env->hcounteren, COUNTEREN_IR) &&
->> > -                get_field(env->mcounteren, COUNTEREN_IR)) {
->> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -            }
->> > -            break;
->> > -        case CSR_HPMCOUNTER3...CSR_HPMCOUNTER31:
->> > -            if (!get_field(env->hcounteren, 1 << ctr_index) &&
->> > -                 get_field(env->mcounteren, 1 << ctr_index)) {
->> > -                return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -            }
->> > -            break;
->> > -        }
->> > -        if (rv32) {
->> > -            switch (csrno) {
->> > -            case CSR_CYCLEH:
->> > -                if (!get_field(env->hcounteren, COUNTEREN_CY) &&
->> > -                    get_field(env->mcounteren, COUNTEREN_CY)) {
->> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -                }
->> > -                break;
->> > -            case CSR_TIMEH:
->> > -                if (!get_field(env->hcounteren, COUNTEREN_TM) &&
->> > -                    get_field(env->mcounteren, COUNTEREN_TM)) {
->> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -                }
->> > -                break;
->> > -            case CSR_INSTRETH:
->> > -                if (!get_field(env->hcounteren, COUNTEREN_IR) &&
->> > -                    get_field(env->mcounteren, COUNTEREN_IR)) {
->> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -                }
->> > -                break;
->> > -            case CSR_HPMCOUNTER3H...CSR_HPMCOUNTER31H:
->> > -                if (!get_field(env->hcounteren, 1 << ctr_index) &&
->> > -                     get_field(env->mcounteren, 1 << ctr_index)) {
->> > -                    return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > -                }
->> > -                break;
->> > -            }
->> > +        if (!get_field(env->mcounteren, ctr_mask)) {
->> > +            /* The bit must be set in mcountern for HS mode access */
->> > +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> > +        } else if (!get_field(env->hcounteren, ctr_mask)) {
->> > +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
->> >           }
->>
->> The logic is changed here. In original logic,
->> RISCV_EXCP_VIRT_INSTRUCTION_FAULT is triggered when
->>
->> !get_field(env->hcounteren, 1 << ctr_index) && get_field(env->mcounteren=
-,
->> 1 << ctr_index)
->>
->> The new logic is RISCV_EXCP_VIRT_INSTRUCTION_FAULT is triggered when
->> !get_field(env->mcounteren, ctr_mask)
->>
->> or !get_field(env->hcounteren, 1 << ctr_index) &&
->> get_field(env->mcounteren, 1 << ctr_index)
->>
->>
-> Yes. It's just an optimization where we can break early just by checking
-> mcountern. Do you see any issue with it ?
+> No more context is provided aside from a git-svn-id from savannah.nongnu.org.
 >
-> The section 8.6.1 of  riscv- privileged spec lists the cases (including
-> the Xcounten ralated cases) which will raise a
->
-> virtual instruction exception. However all the the Xcounten ralated cases
-> have a common condition
->
->         "the same bit in mcounteren is 1".
->
+> If no one can provide more context about what is to be fixed here, I'll
+> remove the comment.
 
-Ahh yes. Got it. I will revert it to the original logic in the next version=
-.
+I'm not sure about it because I don't know 405 and only vaguely remember 
+how this was on 440/460EX but I think it might be that the memory 
+controller can be programmed to map RAM to different places but we don't 
+fully emulate that nor the different chunks/DIMM sockets that could be 
+possible and just map all system RAM to address 0 which is what most guest 
+firmware or OS does anyway. Maybe I'm wrong and don't remember this 
+correctly, the SDRAM controller model in ppc4xx_devs.c seems to do some 
+mapping but I think this is what the comment might refer to or something 
+similar. If so, I don't think it's worth emulating this more precisely 
+unless we know about a guest which needs this.
 
-
-> So  this  optimization seems not correct.
->
-> Regards,
->
-> Weiwei Li
->
->
->
->> Regards,
->>
->> Weiwei Li
->>
->> >       }
->> >   #endif
->>
->>
-
---00000000000020651505e5486ec7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 5:56 PM Weiwe=
-i Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn">liweiwei@iscas.ac.cn</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
- =20
-   =20
- =20
-  <div>
-    <p><br>
-    </p>
-    <div>=E5=9C=A8 2022/7/28 =E4=B8=8A=E5=8D=885:40, Atish Kumar Patra
-      =E5=86=99=E9=81=93:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div dir=3D"ltr"><br>
-        </div>
-        <br>
-        <div class=3D"gmail_quote">
-          <div dir=3D"ltr" class=3D"gmail_attr">On Wed, Jul 27, 2022 at 1:3=
-5
-            AM Weiwei Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn" target=
-=3D"_blank">liweiwei@iscas.ac.cn</a>&gt; wrote:<br>
-          </div>
-          <blockquote class=3D"gmail_quote"><br>
-            =E5=9C=A8 2022/7/27 =E4=B8=8B=E5=8D=882:49, Atish Patra =E5=86=
-=99=E9=81=93:<br>
-            &gt; All the hpmcounters and the fixed counters (CY, IR, TM)
-            can be represented<br>
-            &gt; as a unified counter. Thus, the predicate function
-            doesn&#39;t need handle each<br>
-            &gt; case separately.<br>
-            &gt;<br>
-            &gt; Simplify the predicate function so that we just handle
-            things differently<br>
-            &gt; between RV32/RV64 and S/HS mode.<br>
-            &gt;<br>
-            &gt; Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng.cn@gmail=
-.com" target=3D"_blank">bmeng.cn@gmail.com</a>&gt;<br>
-            &gt; Acked-by: Alistair Francis &lt;<a href=3D"mailto:alistair.=
-francis@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-            &gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@ri=
-vosinc.com" target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-            &gt; ---<br>
-            &gt;=C2=A0 =C2=A0target/riscv/csr.c | 112
-            +++++----------------------------------------<br>
-            &gt;=C2=A0 =C2=A01 file changed, 11 insertions(+), 101 deletion=
-s(-)<br>
-            &gt;<br>
-            &gt; diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-            &gt; index 1233bfa0a726..57dbbf9b09a0 100644<br>
-            &gt; --- a/target/riscv/csr.c<br>
-            &gt; +++ b/target/riscv/csr.c<br>
-            &gt; @@ -74,6 +74,7 @@ static RISCVException
-            ctr(CPURISCVState *env, int csrno)<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CPUState *cs =3D env_cpu(env);<b=
-r>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0RISCVCPU *cpu =3D RISCV_CPU(cs);=
-<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int ctr_index;<br>
-            &gt; +=C2=A0 =C2=A0 target_ulong ctr_mask;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0int base_csrno =3D CSR_CYCLE;<br=
->
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool rv32 =3D riscv_cpu_mxl(env)=
- =3D=3D MXL_RV32 ? true
-            : false;<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt; @@ -82,122 +83,31 @@ static RISCVException
-            ctr(CPURISCVState *env, int csrno)<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0base_csrno +=3D 0x=
-80;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ctr_index =3D csrno - base_csrno=
-;<br>
-            &gt; +=C2=A0 =C2=A0 ctr_mask =3D BIT(ctr_index);<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if ((csrno &gt;=3D CSR_CYCLE &am=
-p;&amp; csrno &lt;=3D
-            CSR_INSTRET) ||<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(csrno &gt;=3D CSR=
-_CYCLEH &amp;&amp; csrno
-            &lt;=3D CSR_INSTRETH)) {<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto skip_ext_pmu_=
-check;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt; -=C2=A0 =C2=A0 if ((!cpu-&gt;cfg.pmu_num ||
-            !(cpu-&gt;pmu_avail_ctrs &amp; BIT(ctr_index)))) {<br>
-            &gt; +=C2=A0 =C2=A0 if (!(cpu-&gt;pmu_avail_ctrs &amp; ctr_mask=
-)) {<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* No counter is e=
-nabled in PMU or the
-            counter is out of range */<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_=
-ILLEGAL_INST;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt;=C2=A0 =C2=A0skip_ext_pmu_check:<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt; -=C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_S) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLE:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;mcounteren,
-            COUNTEREN_CY)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIME:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;mcounteren,
-            COUNTEREN_TM)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRET:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;mcounteren,
-            COUNTEREN_IR)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3...CSR_HP=
-MCOUNTER31:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;mcounteren, 1
-            &lt;&lt; ctr_index)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rv32) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) =
-{<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLEH=
-:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;mcounteren,
-            COUNTEREN_CY)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIMEH:=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;mcounteren,
-            COUNTEREN_TM)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRE=
-TH:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;mcounteren,
-            COUNTEREN_IR)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOU=
-NTER3H...CSR_HPMCOUNTER31H:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;mcounteren, 1
-            &lt;&lt; ctr_index)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; +=C2=A0 =C2=A0 if (((env-&gt;priv =3D=3D PRV_S) &amp;&amp;
-            (!get_field(env-&gt;mcounteren, ctr_mask))) ||<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0((env-&gt;priv =3D=3D PRV_U) &=
-amp;&amp;
-            (!get_field(env-&gt;scounteren, ctr_mask)))) {<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INS=
-T;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            &gt;=C2=A0 =C2=A0<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (riscv_cpu_virt_enabled(env))=
- {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLE:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;hcounteren,
-            COUNTEREN_CY) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g=
-et_field(env-&gt;mcounteren,
-            COUNTEREN_CY)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIME:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;hcounteren,
-            COUNTEREN_TM) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g=
-et_field(env-&gt;mcounteren,
-            COUNTEREN_TM)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRET:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;hcounteren,
-            COUNTEREN_IR) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g=
-et_field(env-&gt;mcounteren,
-            COUNTEREN_IR)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOUNTER3...CSR_HP=
-MCOUNTER31:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(=
-env-&gt;hcounteren, 1
-            &lt;&lt; ctr_index) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0get_field(env-&gt;mcounteren, 1
-            &lt;&lt; ctr_index)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
-eturn
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (rv32) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch (csrno) =
-{<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_CYCLEH=
-:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;hcounteren,
-            COUNTEREN_CY) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 get_field(env-&gt;mcounteren,
-            COUNTEREN_CY)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_TIMEH:=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;hcounteren,
-            COUNTEREN_TM) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 get_field(env-&gt;mcounteren,
-            COUNTEREN_TM)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_INSTRE=
-TH:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;hcounteren,
-            COUNTEREN_IR) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 get_field(env-&gt;mcounteren,
-            COUNTEREN_IR)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case CSR_HPMCOU=
-NTER3H...CSR_HPMCOUNTER31H:<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 i=
-f (!get_field(env-&gt;hcounteren, 1
-            &lt;&lt; ctr_index) &amp;&amp;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0get_field(env-&gt;mcounteren, 1
-            &lt;&lt; ctr_index)) {<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 return
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }=
-<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b=
-reak;<br>
-            &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!get_field(env-&gt;mcount=
-eren, ctr_mask))
-            {<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* The bit must=
- be set in mcountern for HS
-            mode access */<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EX=
-CP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!get_field(env-&gt=
-;hcounteren,
-            ctr_mask)) {<br>
-            &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EX=
-CP_VIRT_INSTRUCTION_FAULT;<br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            <br>
-            The logic is changed here. In original logic, <br>
-            RISCV_EXCP_VIRT_INSTRUCTION_FAULT is triggered when<br>
-            <br>
-            !get_field(env-&gt;hcounteren, 1 &lt;&lt; ctr_index)
-            &amp;&amp; get_field(env-&gt;mcounteren, 1 &lt;&lt;
-            ctr_index)<br>
-            <br>
-            The new logic is RISCV_EXCP_VIRT_INSTRUCTION_FAULT is
-            triggered when !get_field(env-&gt;mcounteren, ctr_mask)<br>
-            <br>
-            or !get_field(env-&gt;hcounteren, 1 &lt;&lt; ctr_index)
-            &amp;&amp; get_field(env-&gt;mcounteren, 1 &lt;&lt;
-            ctr_index)<br>
-            <br>
-          </blockquote>
-          <div><br>
-            Yes. It&#39;s just an optimization where we can break early jus=
-t
-            by checking mcountern. Do you see any issue with it ?</div>
-        </div>
-      </div>
-    </blockquote>
-    <p>The section 8.6.1 of=C2=A0 riscv- privileged spec lists the cases
-      (including the Xcounten ralated cases) which will raise a<br>
-    </p>
-    <p>virtual instruction exception. However all the the Xcounten
-      ralated cases have a common condition <br>
-    </p>
-    <p>=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &quot;the same bit in mco=
-unteren is 1&quot;.</p></div></blockquote><div><br></div><div>Ahh yes. Got =
-it. I will revert it to the original logic in the next version.</div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
-    <p> So=C2=A0 this=C2=A0 optimization seems not correct.<br>
-    </p>
-    <p>Regards,</p>
-    <p>Weiwei Li<br>
-    </p>
-    <blockquote type=3D"cite">
-      <div dir=3D"ltr">
-        <div class=3D"gmail_quote">
-          <div>=C2=A0</div>
-          <blockquote class=3D"gmail_quote">
-            Regards,<br>
-            <br>
-            Weiwei Li<br>
-            <br>
-            &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-            &gt;=C2=A0 =C2=A0#endif<br>
-            <br>
-          </blockquote>
-        </div>
-      </div>
-    </blockquote>
-  </div>
-
-</blockquote></div></div>
-
---00000000000020651505e5486ec7--
+Regards,
+BALATON Zoltan
+--3866299591-414620594-1659475482=:52653--
 
