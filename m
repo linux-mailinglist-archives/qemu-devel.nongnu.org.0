@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F3E58774C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:54:51 +0200 (CEST)
-Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A14587747
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:52:32 +0200 (CEST)
+Received: from localhost ([::1]:48934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIlnm-0008BD-UZ
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43122)
+	id 1oIllX-0005yl-AZ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:52:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oIlYu-0003cI-HZ
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48237)
+ id 1oIlZ0-0003kU-Tw
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:47360)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1oIlYs-0006A4-AF
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:27 -0400
+ id 1oIlYy-0006Az-5n
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:39:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659422365;
+ s=mimecast20190719; t=1659422371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=NiIKDNZlhx1U8gPHZmVZKg7N8xckxwlRQ/PsR1YBQck=;
- b=SpF6z91+Wz8FEIiBXU1p+/0qErv22Lzk+z8uOymAu9mQTVibCouf/MVy81ltktRF+0K6Ao
- pHmgf9rnfWgRo43C8TaOfoyIQdLKo76eaZIDJiXJtFm0SFVXt/VX3Lp/zUlZQLQ5zbg+tb
- QhTBNaDs4B2sBsVum85Yj3AlavufXeI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=76gzbDxtqg+F5mUECg5pLuW2iaQHOsZmZusZF+Jsh8c=;
+ b=R+YQB8a0pcrwwX8uIYuSdMZtIRLwgQV8gqsMEs2Bg7yEvVyg7GTkBMmRP1/Vvtmivd+AcH
+ +6ypMJYL52sLr2AHEs5roN5nmX+b9Eqztej8uLa+DDnJKhlMu04aBjSQAohf+c3wV6aoyu
+ EZDOIjAJ5jOtXAO4uXcfhfJHgp6D1G8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-203-MiSY0jvaOYeyRJTGsTPJNg-1; Tue, 02 Aug 2022 02:39:21 -0400
-X-MC-Unique: MiSY0jvaOYeyRJTGsTPJNg-1
+ us-mta-661-6PGz-ByRNW2CcFQlYRkqbw-1; Tue, 02 Aug 2022 02:39:23 -0400
+X-MC-Unique: 6PGz-ByRNW2CcFQlYRkqbw-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E3EB7101A58D;
- Tue,  2 Aug 2022 06:39:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1F67E3C01E09;
+ Tue,  2 Aug 2022 06:39:23 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31277492CA2;
- Tue,  2 Aug 2022 06:39:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 388F4492CA2;
+ Tue,  2 Aug 2022 06:39:21 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -53,9 +53,9 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Yanan Wang <wangyanan55@huawei.com>, Juan Quintela <quintela@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PATCH v7 05/12] migration: Make ram_save_target_page() a pointer
-Date: Tue,  2 Aug 2022 08:39:00 +0200
-Message-Id: <20220802063907.18882-6-quintela@redhat.com>
+Subject: [PATCH v7 06/12] multifd: Make flags field thread local
+Date: Tue,  2 Aug 2022 08:39:01 +0200
+Message-Id: <20220802063907.18882-7-quintela@redhat.com>
 In-Reply-To: <20220802063907.18882-1-quintela@redhat.com>
 References: <20220802063907.18882-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -85,74 +85,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are going to create a new function for multifd latest in the series.
+Use of flags with respect to locking was incensistant.  For the
+sending side:
+- it was set to 0 with mutex held on the multifd channel.
+- MULTIFD_FLAG_SYNC was set with mutex held on the migration thread.
+- Everything else was done without the mutex held on the multifd channel.
 
-Signed-off-by: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+On the reception side, it is not used on the migration thread, only on
+the multifd channels threads.
+
+So we move it to the multifd channels thread only variables, and we
+introduce a new bool sync_needed on the send side to pass that information.
+
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ migration/multifd.h | 10 ++++++----
+ migration/multifd.c | 23 +++++++++++++----------
+ 2 files changed, 19 insertions(+), 14 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 85d89d61ac..499d9b2a90 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -310,6 +310,9 @@ typedef struct {
-     bool preempted;
- } PostcopyPreemptState;
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 36f899c56f..a67cefc0a2 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -98,12 +98,12 @@ typedef struct {
+     bool running;
+     /* should this thread finish */
+     bool quit;
+-    /* multifd flags for each packet */
+-    uint32_t flags;
+     /* global number of generated multifd packets */
+     uint64_t packet_num;
+     /* How many bytes have we sent on the last packet */
+     uint64_t sent_bytes;
++    /* Do we need to do an iteration sync */
++    bool sync_needed;
+     /* thread has work to do */
+     int pending_job;
+     /* array of pages to sent.
+@@ -117,6 +117,8 @@ typedef struct {
  
-+typedef struct RAMState RAMState;
-+typedef struct PageSearchStatus PageSearchStatus;
-+
- /* State of RAM for migration */
- struct RAMState {
-     /* QEMUFile used for this migration */
-@@ -372,8 +375,9 @@ struct RAMState {
-      * is enabled.
-      */
-     unsigned int postcopy_channel;
-+
-+    int (*ram_save_target_page)(RAMState *rs, PageSearchStatus *pss);
- };
--typedef struct RAMState RAMState;
+     /* pointer to the packet */
+     MultiFDPacket_t *packet;
++    /* multifd flags for each packet */
++    uint32_t flags;
+     /* size of the next packet that contains pages */
+     uint32_t next_packet_size;
+     /* packets sent through this channel */
+@@ -163,8 +165,6 @@ typedef struct {
+     bool running;
+     /* should this thread finish */
+     bool quit;
+-    /* multifd flags for each packet */
+-    uint32_t flags;
+     /* global number of generated multifd packets */
+     uint64_t packet_num;
  
- static RAMState *ram_state;
+@@ -172,6 +172,8 @@ typedef struct {
  
-@@ -2255,14 +2259,14 @@ static bool save_compress_page(RAMState *rs, RAMBlock *block, ram_addr_t offset)
- }
+     /* pointer to the packet */
+     MultiFDPacket_t *packet;
++    /* multifd flags for each packet */
++    uint32_t flags;
+     /* size of the next packet that contains pages */
+     uint32_t next_packet_size;
+     /* packets sent through this channel */
+diff --git a/migration/multifd.c b/migration/multifd.c
+index e25b529235..09a40a9135 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -602,7 +602,7 @@ int multifd_send_sync_main(QEMUFile *f)
+         }
  
- /**
-- * ram_save_target_page: save one target page
-+ * ram_save_target_page_legacy: save one target page
-  *
-  * Returns the number of pages written
-  *
-  * @rs: current RAM state
-  * @pss: data about the page we want to send
-  */
--static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
-+static int ram_save_target_page_legacy(RAMState *rs, PageSearchStatus *pss)
- {
-     RAMBlock *block = pss->block;
-     ram_addr_t offset = ((ram_addr_t)pss->page) << TARGET_PAGE_BITS;
-@@ -2469,7 +2473,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
+         p->packet_num = multifd_send_state->packet_num++;
+-        p->flags |= MULTIFD_FLAG_SYNC;
++        p->sync_needed = true;
+         p->pending_job++;
+         qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
+@@ -658,7 +658,11 @@ static void *multifd_send_thread(void *opaque)
  
-         /* Check the pages is dirty and if it is send it */
-         if (migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
--            tmppages = ram_save_target_page(rs, pss);
-+            tmppages = rs->ram_save_target_page(rs, pss);
-             if (tmppages < 0) {
-                 return tmppages;
+         if (p->pending_job) {
+             uint64_t packet_num = p->packet_num;
+-            uint32_t flags = p->flags;
++            p->flags = 0;
++            if (p->sync_needed) {
++                p->flags |= MULTIFD_FLAG_SYNC;
++                p->sync_needed = false;
++            }
+             p->normal_num = 0;
+ 
+             if (use_zero_copy_send) {
+@@ -680,14 +684,13 @@ static void *multifd_send_thread(void *opaque)
+                 }
              }
-@@ -3223,6 +3227,7 @@ static int ram_save_setup(QEMUFile *f, void *opaque)
-     ram_control_before_iterate(f, RAM_CONTROL_SETUP);
-     ram_control_after_iterate(f, RAM_CONTROL_SETUP);
+             multifd_send_fill_packet(p);
+-            p->flags = 0;
+             p->num_packets++;
+             p->total_normal_pages += p->normal_num;
+             p->pages->num = 0;
+             p->pages->block = NULL;
+             qemu_mutex_unlock(&p->mutex);
  
-+    (*rsp)->ram_save_target_page = ram_save_target_page_legacy;
-     ret =  multifd_send_sync_main(f);
-     if (ret < 0) {
-         return ret;
+-            trace_multifd_send(p->id, packet_num, p->normal_num, flags,
++            trace_multifd_send(p->id, packet_num, p->normal_num, p->flags,
+                                p->next_packet_size);
+ 
+             if (use_zero_copy_send) {
+@@ -715,7 +718,7 @@ static void *multifd_send_thread(void *opaque)
+             p->pending_job--;
+             qemu_mutex_unlock(&p->mutex);
+ 
+-            if (flags & MULTIFD_FLAG_SYNC) {
++            if (p->flags & MULTIFD_FLAG_SYNC) {
+                 qemu_sem_post(&p->sem_sync);
+             }
+             qemu_sem_post(&multifd_send_state->channels_ready);
+@@ -1090,7 +1093,7 @@ static void *multifd_recv_thread(void *opaque)
+     rcu_register_thread();
+ 
+     while (true) {
+-        uint32_t flags;
++        bool sync_needed = false;
+ 
+         if (p->quit) {
+             break;
+@@ -1112,11 +1115,11 @@ static void *multifd_recv_thread(void *opaque)
+             break;
+         }
+ 
+-        flags = p->flags;
++        trace_multifd_recv(p->id, p->packet_num, p->normal_num, p->flags,
++                           p->next_packet_size);
++        sync_needed = p->flags & MULTIFD_FLAG_SYNC;
+         /* recv methods don't know how to handle the SYNC flag */
+         p->flags &= ~MULTIFD_FLAG_SYNC;
+-        trace_multifd_recv(p->id, p->packet_num, p->normal_num, flags,
+-                           p->next_packet_size);
+         p->num_packets++;
+         p->total_normal_pages += p->normal_num;
+         qemu_mutex_unlock(&p->mutex);
+@@ -1128,7 +1131,7 @@ static void *multifd_recv_thread(void *opaque)
+             }
+         }
+ 
+-        if (flags & MULTIFD_FLAG_SYNC) {
++        if (sync_needed) {
+             qemu_sem_post(&multifd_recv_state->sem_sync);
+             qemu_sem_wait(&p->sem_sync);
+         }
 -- 
 2.37.1
 
