@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E8705879A6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:10:54 +0200 (CEST)
-Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DD7587944
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:45:23 +0200 (CEST)
+Received: from localhost ([::1]:59406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oInvR-0007go-6b
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:10:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58398)
+	id 1oInWk-0001z3-KL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImfT-0005Pa-Ns
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:19 -0400
-Received: from mga04.intel.com ([192.55.52.120]:60017)
+ id 1oImfZ-0005fH-5J
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:25 -0400
+Received: from mga04.intel.com ([192.55.52.120]:60043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImfS-0006mb-2s
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:19 -0400
+ id 1oImfX-0007L7-Gs
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659426618; x=1690962618;
+ t=1659426623; x=1690962623;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=9//zBxLGogMK/1vL6yE+5YjsKBXb0DaTP7cMqUI8fyU=;
- b=WC1PYrbnMVbcPfz0G9+e618CkG8SJXhdh5b3aW65FNn3QUv6teal0FI/
- YuY+JD0pwLDKfaReYD0HRqFQ+eu93DcuMpKswu0+e9J1n6Ga7wlUVpnfA
- m3JVZU+XnlRv70RQkiTJ49tvaRAS1KA+vs13IkL3n5Amg7j6uDVYdybAE
- a9dwz8Z5x39PnHOkUdBqj9g2oZqaplvymgqX26RzNb8llr3arRJaU6JHd
- vp5ebMsa+aHUj6ImtQV6siCV2aNkyODnHbclR10NWmTsxDMKYjO0/A0bD
- XwPqS1XuTMiSg76p27Go8KJGMZGGP+cQIwKDl72sUglV7m74ycWUmZTgp Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105789"
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105789"
+ bh=Nif8XEu6oh3Y03xfeEYZor1S8juxaW3ds9s4VuVJAbg=;
+ b=UT9gj8mCd2R8l7ck0O2GZTYVRoPi/q04CGyEX3PfQadQcVc/UdsYVRXc
+ 6SwS3db13WBbQQ0OE71u87UBvpP1QtotSbIM4fvFCGAEyRTTIlMZZUUQ5
+ C36gBlXBIIcfgyBnvVFE9RvqNkwD3rv/mIzIOUIl643RAlLbITqVLhgbc
+ s68TuI/2WcDigNuOzf7nwI6cU/NGS0STJAbesTM8rbiwtHYSuY4G5+pMM
+ dQLDUU7vKlWMwe02RFq0jKURYzQon97w6qtvlNRBOKvGAeDa7XRnYWx2B
+ W/K1NhnxtbSSSRCoWCP/+qWVZ4sjmZtNu/NP2uegJFFx1zbAEItHQEDaA Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105802"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105802"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 00:50:17 -0700
+ 02 Aug 2022 00:50:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604387"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604413"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:50:13 -0700
+ by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:50:17 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>,
@@ -54,9 +54,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [PATCH v1 33/40] i386/tdx: Don't allow system reset for TDX VMs
-Date: Tue,  2 Aug 2022 15:47:43 +0800
-Message-Id: <20220802074750.2581308-34-xiaoyao.li@intel.com>
+Subject: [PATCH v1 34/40] hw/i386: add eoi_intercept_unsupported member to
+ X86MachineState
+Date: Tue,  2 Aug 2022 15:47:44 +0800
+Message-Id: <20220802074750.2581308-35-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220802074750.2581308-1-xiaoyao.li@intel.com>
 References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
@@ -87,27 +88,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TDX CPU state is protected and thus vcpu state cann't be reset by VMM.
+Add a new bool member, eoi_intercept_unsupported, to X86MachineState
+with default value false. Set true for TDX VM.
+
+Inability to intercept eoi causes impossibility to emulate level
+triggered interrupt to be re-injected when level is still kept active.
+which affects interrupt controller emulation.
 
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- target/i386/kvm/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/x86.c         | 1 +
+ include/hw/i386/x86.h | 1 +
+ target/i386/kvm/tdx.c | 2 ++
+ 3 files changed, 4 insertions(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 1545b6f870f5..8c282122ed67 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5455,7 +5455,7 @@ bool kvm_has_waitpkg(void)
- 
- bool kvm_arch_cpu_check_are_resettable(void)
- {
--    return !sev_es_enabled();
-+    return !sev_es_enabled() && !is_tdx_vm();
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index a389ee26265a..6ab023713bf1 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -1401,6 +1401,7 @@ static void x86_machine_initfn(Object *obj)
+     x86ms->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+     x86ms->bus_lock_ratelimit = 0;
+     x86ms->above_4g_mem_start = 4 * GiB;
++    x86ms->eoi_intercept_unsupported = false;
  }
  
- #define ARCH_REQ_XCOMP_GUEST_PERM       0x1025
+ static void x86_machine_class_init(ObjectClass *oc, void *data)
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f849..0a294f9c3176 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -61,6 +61,7 @@ struct X86MachineState {
+ 
+     /* CPU and apic information: */
+     bool apic_xrupt_override;
++    bool eoi_intercept_unsupported;
+     unsigned pci_irq_mask;
+     unsigned apic_id_limit;
+     uint16_t boot_cpus;
+diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
+index 2f317a6bb55b..c734772200d0 100644
+--- a/target/i386/kvm/tdx.c
++++ b/target/i386/kvm/tdx.c
+@@ -675,6 +675,8 @@ int tdx_kvm_init(MachineState *ms, Error **errp)
+         return -EINVAL;
+     }
+ 
++    x86ms->eoi_intercept_unsupported = true;
++
+     if (!tdx_caps) {
+         get_tdx_capabilities();
+     }
 -- 
 2.27.0
 
