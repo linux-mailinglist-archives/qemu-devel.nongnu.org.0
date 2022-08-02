@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BE7587901
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:29:53 +0200 (CEST)
-Received: from localhost ([::1]:59806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0523C587965
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:54:18 +0200 (CEST)
+Received: from localhost ([::1]:42410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oInHk-0007lX-5u
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
+	id 1oInfM-0001kG-Rk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:54:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImf6-0005Ip-5n
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:49:56 -0400
-Received: from mga04.intel.com ([192.55.52.120]:60003)
+ id 1oImfC-0005JY-Sy
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:50:11 -0400
+Received: from mga04.intel.com ([192.55.52.120]:60014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
- id 1oImf3-0006ST-9t
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:49:55 -0400
+ id 1oImf7-0006j4-NN
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:49:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659426593; x=1690962593;
+ t=1659426597; x=1690962597;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=NTrc2v5Eqp8DfcJfnKWddbAQ27gBG9RwLVFSBkFSZAQ=;
- b=IpBXQ4aawqbyqA/HfTf8uptaMtob6dlCuty8KGX93YdIJ+xprtbPSTAC
- 56db9g3/VhC7FFvwbRKf8s0jVTpg9aiETDLkXW0d5SmwzMfEyYsTbeifH
- kSZOLUdb10p7P+1KyoFiZW3Ci2jWTWGsrQXUnJoSsXW+UoocWHKhbBHQv
- 8h5K/HFJYKhgTjSLewD+5NIEV3F6ZXfxMhPry5bcsHq7mowcFLVhb4Ik5
- 4qV4i4LhTTuMWmNl70K4m0Et2EjVAZINgj0FEv6EJMb+8S+lGiigZHUwx
- +EqtVJspH80bwjplu7teYKLbato4w3LUNYUWOwuPlO5CrncTOx8yE2uT4 A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105717"
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105717"
+ bh=up0NC9t6i/8Y6UeydX8wwRAt4pZuRoc1u2sqV3Hai3Y=;
+ b=BRl5YsjQuLEGsPVBMn/8VpPGqdpmB82QWLmQf4gx8q2Ii3O12Xpt/jAw
+ 1ppBrzQQteVSPMrkmZ2vdl0zQZ9y7SwSlQBlSDUHbe//sdW+6w5cssX4u
+ sQgzZy1q+AgA/L1Yj/HpCs9VJIgtVL6g+VhKZn2B5nRIlV8dBVtu+UKiv
+ wqelja3gkh30p282WW3D93Z4fzGrVGxRR6xQ22gFTHVwUS3SE5CFs996C
+ TSblHmvKXZ803E95G28tCp5XHU3RdphrQfyZCRbbC0/NdrkvxbMZjD/ms
+ xvOl0vGvd1+qqjsmTwpJNJwfBFMrSfXVBO06f01LUWrl83wWVmsFpDOnh g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="288105729"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="288105729"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 00:49:52 -0700
+ 02 Aug 2022 00:49:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604258"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="630604275"
 Received: from lxy-dell.sh.intel.com ([10.239.48.38])
- by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:49:48 -0700
+ by orsmga008.jf.intel.com with ESMTP; 02 Aug 2022 00:49:52 -0700
 From: Xiaoyao Li <xiaoyao.li@intel.com>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Isaku Yamahata <isaku.yamahata@gmail.com>,
@@ -54,9 +54,9 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
 Cc: Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
  kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com,
  xiaoyao.li@intel.com
-Subject: [PATCH v1 27/40] i386/tdx: Setup the TD HOB list
-Date: Tue,  2 Aug 2022 15:47:37 +0800
-Message-Id: <20220802074750.2581308-28-xiaoyao.li@intel.com>
+Subject: [PATCH v1 28/40] i386/tdx: Add TDVF memory via KVM_TDX_INIT_MEM_REGION
+Date: Tue,  2 Aug 2022 15:47:38 +0800
+Message-Id: <20220802074750.2581308-29-xiaoyao.li@intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20220802074750.2581308-1-xiaoyao.li@intel.com>
 References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
@@ -87,264 +87,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The TD HOB list is used to pass the information from VMM to TDVF. The TD
-HOB must include PHIT HOB and Resource Descriptor HOB. More details can
-be found in TDVF specification and PI specification.
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Build the TD HOB in TDX's machine_init_done callback.
+TDVF firmware (CODE and VARS) needs to be added/copied to TD's private
+memory via KVM_TDX_INIT_MEM_REGION, as well as TD HOB and TEMP memory.
 
-Co-developed-by: Isaku Yamahata <isaku.yamahata@intel.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 
 ---
 Changes from RFC v4:
-  - drop the code of adding mmio resources since OVMF prepares all the
-    MMIO hob itself.
+  - rename variable @metadata to @flags
 ---
- hw/i386/meson.build   |   2 +-
- hw/i386/tdvf-hob.c    | 146 ++++++++++++++++++++++++++++++++++++++++++
- hw/i386/tdvf-hob.h    |  24 +++++++
- target/i386/kvm/tdx.c |  16 +++++
- 4 files changed, 187 insertions(+), 1 deletion(-)
- create mode 100644 hw/i386/tdvf-hob.c
- create mode 100644 hw/i386/tdvf-hob.h
+ target/i386/kvm/tdx.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/hw/i386/meson.build b/hw/i386/meson.build
-index 97f3b50503b0..b59e0d35bba3 100644
---- a/hw/i386/meson.build
-+++ b/hw/i386/meson.build
-@@ -28,7 +28,7 @@ i386_ss.add(when: 'CONFIG_PC', if_true: files(
-   'port92.c'))
- i386_ss.add(when: 'CONFIG_X86_FW_OVMF', if_true: files('pc_sysfw_ovmf.c'),
-                                         if_false: files('pc_sysfw_ovmf-stubs.c'))
--i386_ss.add(when: 'CONFIG_TDX', if_true: files('tdvf.c'))
-+i386_ss.add(when: 'CONFIG_TDX', if_true: files('tdvf.c', 'tdvf-hob.c'))
- 
- subdir('kvm')
- subdir('xen')
-diff --git a/hw/i386/tdvf-hob.c b/hw/i386/tdvf-hob.c
-new file mode 100644
-index 000000000000..bdf3b4823340
---- /dev/null
-+++ b/hw/i386/tdvf-hob.c
-@@ -0,0 +1,146 @@
-+/*
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+
-+ * Copyright (c) 2020 Intel Corporation
-+ * Author: Isaku Yamahata <isaku.yamahata at gmail.com>
-+ *                        <isaku.yamahata at intel.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+
-+ * You should have received a copy of the GNU General Public License along
-+ * with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "e820_memory_layout.h"
-+#include "hw/i386/pc.h"
-+#include "hw/i386/x86.h"
-+#include "hw/pci/pcie_host.h"
-+#include "sysemu/kvm.h"
-+#include "standard-headers/uefi/uefi.h"
-+#include "tdvf-hob.h"
-+
-+typedef struct TdvfHob {
-+    hwaddr hob_addr;
-+    void *ptr;
-+    int size;
-+
-+    /* working area */
-+    void *current;
-+    void *end;
-+} TdvfHob;
-+
-+static uint64_t tdvf_current_guest_addr(const TdvfHob *hob)
-+{
-+    return hob->hob_addr + (hob->current - hob->ptr);
-+}
-+
-+static void tdvf_align(TdvfHob *hob, size_t align)
-+{
-+    hob->current = QEMU_ALIGN_PTR_UP(hob->current, align);
-+}
-+
-+static void *tdvf_get_area(TdvfHob *hob, uint64_t size)
-+{
-+    void *ret;
-+
-+    if (hob->current + size > hob->end) {
-+        error_report("TD_HOB overrun, size = 0x%" PRIx64, size);
-+        exit(1);
-+    }
-+
-+    ret = hob->current;
-+    hob->current += size;
-+    tdvf_align(hob, 8);
-+    return ret;
-+}
-+
-+static void tdvf_hob_add_memory_resources(TdxGuest *tdx, TdvfHob *hob)
-+{
-+    EFI_HOB_RESOURCE_DESCRIPTOR *region;
-+    EFI_RESOURCE_ATTRIBUTE_TYPE attr;
-+    EFI_RESOURCE_TYPE resource_type;
-+
-+    TdxRamEntry *e;
-+    int i;
-+
-+    for (i = 0; i < tdx->nr_ram_entries; i++) {
-+        e = &tdx->ram_entries[i];
-+
-+        if (e->type == TDX_RAM_UNACCEPTED) {
-+            resource_type = EFI_RESOURCE_MEMORY_UNACCEPTED;
-+            attr = EFI_RESOURCE_ATTRIBUTE_TDVF_UNACCEPTED;
-+        } else if (e->type == TDX_RAM_ADDED){
-+            resource_type = EFI_RESOURCE_SYSTEM_MEMORY;
-+            attr = EFI_RESOURCE_ATTRIBUTE_TDVF_PRIVATE;
-+        } else {
-+            error_report("unknown TDX_RAM_ENTRY type %d", e->type);
-+            exit(1);
-+        }
-+
-+        region = tdvf_get_area(hob, sizeof(*region));
-+        *region = (EFI_HOB_RESOURCE_DESCRIPTOR) {
-+            .Header = {
-+                .HobType = EFI_HOB_TYPE_RESOURCE_DESCRIPTOR,
-+                .HobLength = cpu_to_le16(sizeof(*region)),
-+                .Reserved = cpu_to_le32(0),
-+            },
-+            .Owner = EFI_HOB_OWNER_ZERO,
-+            .ResourceType = cpu_to_le32(resource_type),
-+            .ResourceAttribute = cpu_to_le32(attr),
-+            .PhysicalStart = cpu_to_le64(e->address),
-+            .ResourceLength = cpu_to_le64(e->length),
-+        };
-+    }
-+}
-+
-+void tdvf_hob_create(TdxGuest *tdx, TdxFirmwareEntry *td_hob)
-+{
-+    TdvfHob hob = {
-+        .hob_addr = td_hob->address,
-+        .size = td_hob->size,
-+        .ptr = td_hob->mem_ptr,
-+
-+        .current = td_hob->mem_ptr,
-+        .end = td_hob->mem_ptr + td_hob->size,
-+    };
-+
-+    EFI_HOB_GENERIC_HEADER *last_hob;
-+    EFI_HOB_HANDOFF_INFO_TABLE *hit;
-+
-+    /* Note, Efi{Free}Memory{Bottom,Top} are ignored, leave 'em zeroed. */
-+    hit = tdvf_get_area(&hob, sizeof(*hit));
-+    *hit = (EFI_HOB_HANDOFF_INFO_TABLE) {
-+        .Header = {
-+            .HobType = EFI_HOB_TYPE_HANDOFF,
-+            .HobLength = cpu_to_le16(sizeof(*hit)),
-+            .Reserved = cpu_to_le32(0),
-+        },
-+        .Version = cpu_to_le32(EFI_HOB_HANDOFF_TABLE_VERSION),
-+        .BootMode = cpu_to_le32(0),
-+        .EfiMemoryTop = cpu_to_le64(0),
-+        .EfiMemoryBottom = cpu_to_le64(0),
-+        .EfiFreeMemoryTop = cpu_to_le64(0),
-+        .EfiFreeMemoryBottom = cpu_to_le64(0),
-+        .EfiEndOfHobList = cpu_to_le64(0), /* initialized later */
-+    };
-+
-+    tdvf_hob_add_memory_resources(tdx, &hob);
-+
-+    last_hob = tdvf_get_area(&hob, sizeof(*last_hob));
-+    *last_hob =  (EFI_HOB_GENERIC_HEADER) {
-+        .HobType = EFI_HOB_TYPE_END_OF_HOB_LIST,
-+        .HobLength = cpu_to_le16(sizeof(*last_hob)),
-+        .Reserved = cpu_to_le32(0),
-+    };
-+    hit->EfiEndOfHobList = tdvf_current_guest_addr(&hob);
-+}
-diff --git a/hw/i386/tdvf-hob.h b/hw/i386/tdvf-hob.h
-new file mode 100644
-index 000000000000..1b737e946a8d
---- /dev/null
-+++ b/hw/i386/tdvf-hob.h
-@@ -0,0 +1,24 @@
-+#ifndef HW_I386_TD_HOB_H
-+#define HW_I386_TD_HOB_H
-+
-+#include "hw/i386/tdvf.h"
-+#include "target/i386/kvm/tdx.h"
-+
-+void tdvf_hob_create(TdxGuest *tdx, TdxFirmwareEntry *td_hob);
-+
-+#define EFI_RESOURCE_ATTRIBUTE_TDVF_PRIVATE     \
-+    (EFI_RESOURCE_ATTRIBUTE_PRESENT |           \
-+     EFI_RESOURCE_ATTRIBUTE_INITIALIZED |       \
-+     EFI_RESOURCE_ATTRIBUTE_TESTED)
-+
-+#define EFI_RESOURCE_ATTRIBUTE_TDVF_UNACCEPTED  \
-+    (EFI_RESOURCE_ATTRIBUTE_PRESENT |           \
-+     EFI_RESOURCE_ATTRIBUTE_INITIALIZED |       \
-+     EFI_RESOURCE_ATTRIBUTE_TESTED)
-+
-+#define EFI_RESOURCE_ATTRIBUTE_TDVF_MMIO        \
-+    (EFI_RESOURCE_ATTRIBUTE_PRESENT     |       \
-+     EFI_RESOURCE_ATTRIBUTE_INITIALIZED |       \
-+     EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE)
-+
-+#endif
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 59cff141b4f3..944f2f5b6921 100644
+index 944f2f5b6921..d0bbe06f5504 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -22,6 +22,7 @@
- #include "hw/i386/e820_memory_layout.h"
- #include "hw/i386/x86.h"
- #include "hw/i386/tdvf.h"
-+#include "hw/i386/tdvf-hob.h"
- #include "kvm_i386.h"
- #include "tdx.h"
- #include "../cpu-internal.h"
-@@ -454,6 +455,19 @@ static void update_tdx_cpuid_lookup_by_tdx_caps(void)
-             (tdx_caps->xfam_fixed1 & CPUID_XSTATE_XSS_MASK) >> 32;
- }
+@@ -575,6 +575,7 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
+ {
+     TdxFirmware *tdvf = &tdx_guest->tdvf;
+     TdxFirmwareEntry *entry;
++    int r;
  
-+static TdxFirmwareEntry *tdx_get_hob_entry(TdxGuest *tdx)
-+{
-+    TdxFirmwareEntry *entry;
+     tdx_init_ram_entries();
+ 
+@@ -600,6 +601,29 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
+           sizeof(TdxRamEntry), &tdx_ram_entry_compare);
+ 
+     tdvf_hob_create(tdx_guest, tdx_get_hob_entry(tdx_guest));
 +
-+    for_each_tdx_fw_entry(&tdx->tdvf, entry) {
-+        if (entry->type == TDVF_SECTION_TYPE_TD_HOB) {
-+            return entry;
++    for_each_tdx_fw_entry(tdvf, entry) {
++        struct kvm_tdx_init_mem_region mem_region = {
++            .source_addr = (__u64)entry->mem_ptr,
++            .gpa = entry->address,
++            .nr_pages = entry->size / 4096,
++        };
++
++        __u32 flags = entry->attributes & TDVF_SECTION_ATTRIBUTES_MR_EXTEND ?
++                      KVM_TDX_MEASURE_MEMORY_REGION : 0;
++
++        r = tdx_vm_ioctl(KVM_TDX_INIT_MEM_REGION, flags, &mem_region);
++        if (r < 0) {
++             error_report("KVM_TDX_INIT_MEM_REGION failed %s", strerror(-r));
++             exit(1);
++        }
++
++        if (entry->type == TDVF_SECTION_TYPE_TD_HOB ||
++            entry->type == TDVF_SECTION_TYPE_TEMP_MEM) {
++            qemu_ram_munmap(-1, entry->mem_ptr, entry->size);
++            entry->mem_ptr = NULL;
 +        }
 +    }
-+    error_report("TDVF metadata doesn't specify TD_HOB location.");
-+    exit(1);
-+}
-+
- static void tdx_add_ram_entry(uint64_t address, uint64_t length, uint32_t type)
- {
-     uint32_t nr_entries = tdx_guest->nr_ram_entries;
-@@ -584,6 +598,8 @@ static void tdx_finalize_vm(Notifier *notifier, void *unused)
- 
-     qsort(tdx_guest->ram_entries, tdx_guest->nr_ram_entries,
-           sizeof(TdxRamEntry), &tdx_ram_entry_compare);
-+
-+    tdvf_hob_create(tdx_guest, tdx_get_hob_entry(tdx_guest));
  }
  
  static Notifier tdx_machine_done_notify = {
