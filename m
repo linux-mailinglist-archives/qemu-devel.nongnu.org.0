@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7665876F7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:07:45 +0200 (CEST)
-Received: from localhost ([::1]:48526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F20BE5876FF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:11:23 +0200 (CEST)
+Received: from localhost ([::1]:52370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIl4B-0001LE-FX
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:07:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36758)
+	id 1oIl7j-000412-3B
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:11:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oIkzZ-0006xK-50; Tue, 02 Aug 2022 02:02:57 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:35939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1oIkzW-0002Rm-Bc; Tue, 02 Aug 2022 02:02:56 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id A0F92320093A;
- Tue,  2 Aug 2022 02:02:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 02 Aug 2022 02:02:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1659420170; x=1659506570; bh=iL
- z3GJYCd6otPgWo5rfYKuV/bxdWsgiNu9BdwUE2XhI=; b=0gfEYM0QE3IBvrjYnN
- BC0BhkLvGaw71orRHcyA97m0DeDYZEJp5HsH2WIwmogBovRKZH/y/2W31YzwAVOw
- UXk3qPmELrjhTi7K1V0R62maciuwmaGEI6VGt4bDQrlbZyf9eGA1g1eW0YyfNG03
- sTM0/YkvClQ44bvTnQVDD29t/EZjOIDOOCjO5bu6MhMY8mfMT68NE2OzyEJXqely
- pq1InoIBuch7NWU2U8ljL5bMytowHOGHhWrN9kcs0umr5dz5Jw13yzndSSrWkASh
- rrfoOmCEYdGDrbTwL1fJK74xw6uHv9M3v0CxVE/LzWROjpd8NkISh2NxBvXuL3Pm
- qOlA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1659420170; x=1659506570; bh=iLz3GJYCd6otPgWo5rfYKuV/bxdW
- sgiNu9BdwUE2XhI=; b=BvbGwa6r6xcGhL4DctBETTEuseTsxL0j2T8Eee/XA7H0
- 7yupJig3GAFCC25l5lINEoGsN+brUDutdoWZjhww+jBzYqH58Tax37AXQW2QkTZg
- VneWqJD/pR1Srq6udUYaQzfQuqqIyPH5uzGGlufyZnZQmXfOG0woDd0JeyWV5Bl6
- dGJ9PBd++aOHpHPOJH9Yq1/t+57TLE4pUmYxKKSp1/QzVgj+m5G6aYpyv1mo4nwI
- SYJHcsxk5bvzGTA2HfJRI+RQoI7yX+5pZWQWeZ//FxnzpY5WcrhfePtvfOcdVYyA
- j5++XU0jSVcgCwUcrlQTYCCwYCzumZW27yHSyfMfoQ==
-X-ME-Sender: <xms:Cb7oYhu_1uyrd-5umpD0q0uAcWkF-6pvpiTHNAcqyr63RA2i5RDpMQ>
- <xme:Cb7oYqe8-6UegaVevf4gEBA7qJqbWfxVUZ-VDOCdCohHH2CNwS5gBXi-Oi9B1G60y
- AjGY5gyGg6Gf1ihhb0>
-X-ME-Received: <xmr:Cb7oYky1AYvwbsDvhUoYVgPHeot8UN6m9lruxgCBy0P_jV_h-NIykJAooWrNN_rRXMequBlXiiVJv7APJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvgedguddtfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesgh
- dtreertddtjeenucfhrhhomhepmfhlrghushculfgvnhhsvghnuceoihhtshesihhrrhgv
- lhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhepjefgjeefffdvuefhieefhffggf
- euleehudekveejvedtuddugeeigeetffffjeevnecuvehluhhsthgvrhfuihiivgeptden
- ucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Cb7oYoPljwdqwUvG3B86oONuT_maOjoUxiruOXMRxjBjIwZJK6v_IA>
- <xmx:Cb7oYh8vgOtheRvy5ykizysM7okXkAXFJGx6miuyOz46fa4zMvUe3Q>
- <xmx:Cb7oYoWGZENfo959KY-q4XXUDvnB8kuVDLSZi-ZZYGuhjFFHCrhrhg>
- <xmx:Cr7oYsZXYxFmpEx2-y9SHtUtarvfIZCio6E1cJqhA40Q6XdPvnnncQ>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Aug 2022 02:02:48 -0400 (EDT)
-Date: Tue, 2 Aug 2022 08:02:47 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-Cc: qemu-devel@nongnu.org, kbusch@kernel.org,
- "open list:nvme" <qemu-block@nongnu.org>
-Subject: Re: [PATCH] hw/nvme: Add helper functions for qid-db conversion
-Message-ID: <Yui+B7yEikNGACgq@apples>
-References: <20220728080710.372027-1-fanjinhao21s@ict.ac.cn>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oIl3s-0001Lq-7C
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:07:27 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:35353)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oIl3o-00038Z-L3
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:07:23 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id t2so12530371ply.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Aug 2022 23:07:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:from:to:cc;
+ bh=xUdfo57afokyhzW7L9nt+AZVjtWo7syTfBHlkWRVqx8=;
+ b=Wq3AzKf8ziPovyIhYpfpeUAM+Hrrl29+h7NlBO+yCZsU+NOz347+i+SjRfCMCbjeNj
+ 0PQjXlfsKNMPVG5aQK8WLxCC4lwCTO52UahC5gkfkJfYiRPt/kElPp62L3GEaicDoRuJ
+ ZEObrtkEc/HADNtMZOTkimywg4bszSdHBFP720svLOhk9YvQs5gIFPjgk0DKi+yTnieC
+ Xa70m4glnEH0p5ou+VR/S2VX6YK47o10CMRhBFsuWqKCkcgKQYCjY+md+h8fB9U059w/
+ cl9ToPcHsxgtOOEM3NclYECkaxT09gQDISmIPfwY4QdNOOqUVsgge44xMd8amhzySX8x
+ a8gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :sender:x-gm-message-state:from:to:cc;
+ bh=xUdfo57afokyhzW7L9nt+AZVjtWo7syTfBHlkWRVqx8=;
+ b=hKc/0QguC8w/KhMrvb9CBFl0/NE+NoUBN5nSMN4SdE3LrAgasJq8CmG3Tea+9PmrBa
+ Zkrlkxrgr8pnEB7VaBD/xPvwuqfBllzFeCfEQabMFTgQ2dePcqRR5RMGIDWoLio3NcZQ
+ KEX5fF2sw7gzKxmV8elK6ptj5NH26lPCb1e651RtZqRsgNKZ+z+qaXrBzv54eODOaJtX
+ 6yfHJECBipdunAIufeHsiwaT/LWEIli/4YOcDZwbX8RCgyvgS3dVH6dTJIhhGnQq6lfx
+ ZqVNOhFdnntw44jYORB7e8lICJyBTJXTOVeGAFIxMfkptYcKGv15MKbwXpYYSDCl3zbB
+ 0fVg==
+X-Gm-Message-State: ACgBeo0d64gyH1RtgMqNiDiTtoVTjGxKh2dF9tAph7B2jdb04csCXSxm
+ bdxrjZgaLtpStkb4+OWO3eo=
+X-Google-Smtp-Source: AA6agR5I8BlJTi6cObUT0jKaPCfF8l2vGlN6IMLkIETamyB03sNxwpV0Lx2wMzi/Kr/+7EM52CYNHg==
+X-Received: by 2002:a17:90a:1b8e:b0:1f3:7c7:9c3 with SMTP id
+ w14-20020a17090a1b8e00b001f307c709c3mr23149549pjc.8.1659420438807; 
+ Mon, 01 Aug 2022 23:07:18 -0700 (PDT)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ n14-20020a170902f60e00b0016c4331e61csm10674181plg.137.2022.08.01.23.07.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Aug 2022 23:07:18 -0700 (PDT)
+Message-ID: <b2a281e8-8597-daab-2bfc-b8ffedf3c49c@amsat.org>
+Date: Tue, 2 Aug 2022 08:07:13 +0200
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AEsRw0Rq3h3A/EwN"
-Content-Disposition: inline
-In-Reply-To: <20220728080710.372027-1-fanjinhao21s@ict.ac.cn>
-Received-SPF: pass client-ip=64.147.123.19; envelope-from=its@irrelevant.dk;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
+ Gecko/20100101 Thunderbird/91.11.0
+Subject: Re: [PATCH 1/2] linux-user: Introduce stubs for ELF AT_BASE_PLATFORM
+Content-Language: en-US
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, laurent@vivier.eu
+Cc: qemu-devel@nongnu.org
+References: <20220801200928.73741-1-jiaxun.yang@flygoat.com>
+ <20220801200928.73741-2-jiaxun.yang@flygoat.com>
+In-Reply-To: <20220801200928.73741-2-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,210 +93,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
+On 1/8/22 22:09, Jiaxun Yang wrote:
+> AT_BASE_PLATFORM is a elf auxiliary vector pointing to a string
+> to pass some architecture information.
 
---AEsRw0Rq3h3A/EwN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can be more specific.
 
-On Jul 28 16:07, Jinhao Fan wrote:
-> With the introduction of shadow doorbell and ioeventfd, we need to do
-> frequent conversion between qid and its doorbell offset. The original
-> hard-coded calculation is confusing and error-prone. Add several helper
-> functions to do this task.
->=20
-> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+"See getauxval(3) man-page."
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 > ---
->  hw/nvme/ctrl.c | 61 ++++++++++++++++++++++++++++++++------------------
->  1 file changed, 39 insertions(+), 22 deletions(-)
->=20
-> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-> index 533ad14e7a..6116c0e660 100644
-> --- a/hw/nvme/ctrl.c
-> +++ b/hw/nvme/ctrl.c
-> @@ -487,6 +487,29 @@ static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqi=
-d)
->  {
->      return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] !=3D NULL ? 0 : -1;
->  }
-> +static inline bool nvme_db_offset_is_cq(NvmeCtrl *n, hwaddr offset)
-> +{
-> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-> +    return (offset / stride) & 1;
-> +}
-
-This can be changed morphed into `(offset >> (2 + dstrd)) & 1` if I am not
-mistaken.
-
-
+>   linux-user/elfload.c | 29 +++++++++++++++++++++++++++--
+>   1 file changed, 27 insertions(+), 2 deletions(-)
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index ce902dbd56..e7666c5c60 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -1718,6 +1718,10 @@ static inline void init_thread(struct target_pt_regs *regs,
+>   
+>   #endif /* TARGET_HEXAGON */
+>   
+> +#ifndef ELF_BASE_PLATFORM
+> +#define ELF_BASE_PLATFORM (NULL)
+> +#endif
 > +
-> +static inline uint16_t nvme_db_offset_to_qid(NvmeCtrl *n, hwaddr offset)
-> +{
-> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-> +    return offset / (2 * stride);
-> +}
-
-Same, should be able to do `offset >> (2 * dstrd + 1)`, no?
-
+>   #ifndef ELF_PLATFORM
+>   #define ELF_PLATFORM (NULL)
+>   #endif
+> @@ -2148,8 +2152,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>       int i;
+>       abi_ulong u_rand_bytes;
+>       uint8_t k_rand_bytes[16];
+> -    abi_ulong u_platform;
+> -    const char *k_platform;
+> +    abi_ulong u_platform, u_base_platform;
+> +    const char *k_platform, *k_base_platform;
+>       const int n = sizeof(elf_addr_t);
+>   
+>       sp = p;
+> @@ -2171,6 +2175,22 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>           }
+>       }
+>   
+> +    u_base_platform = 0;
+> +    k_base_platform = ELF_BASE_PLATFORM;
+> +    if (k_base_platform) {
+> +        size_t len = strlen(k_base_platform) + 1;
+> +        if (STACK_GROWS_DOWN) {
+> +            sp -= (len + n - 1) & ~(n - 1);
+> +            u_base_platform = sp;
+> +            /* FIXME - check return value of memcpy_to_target() for failure */
+> +            memcpy_to_target(sp, k_base_platform, len);
+> +        } else {
+> +            memcpy_to_target(sp, k_base_platform, len);
+> +            u_base_platform = sp;
+> +            sp += len + 1;
+> +        }
+> +    }
 > +
-> +static inline hwaddr nvme_cqid_to_db_offset(NvmeCtrl *n, uint16_t cqid)
-> +{
-> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-> +    return stride * (cqid * 2 + 1);
-> +}
-> +
-> +static inline hwaddr nvme_sqid_to_db_offset(NvmeCtrl *n, uint16_t sqid)
-> +{
-> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-> +    return stride * sqid * 2;
-> +}
-> =20
->  static void nvme_inc_cq_tail(NvmeCQueue *cq)
->  {
-> @@ -4256,7 +4279,7 @@ static void nvme_cq_notifier(EventNotifier *e)
->  static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
->  {
->      NvmeCtrl *n =3D cq->ctrl;
-> -    uint16_t offset =3D (cq->cqid << 3) + (1 << 2);
-> +    uint16_t offset =3D nvme_cqid_to_db_offset(n, cq->cqid);
->      int ret;
-> =20
->      ret =3D event_notifier_init(&cq->notifier, 0);
-> @@ -4283,7 +4306,7 @@ static void nvme_sq_notifier(EventNotifier *e)
->  static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
->  {
->      NvmeCtrl *n =3D sq->ctrl;
-> -    uint16_t offset =3D sq->sqid << 3;
-> +    uint16_t offset =3D nvme_sqid_to_db_offset(n, sq->sqid);
->      int ret;
-> =20
->      ret =3D event_notifier_init(&sq->notifier, 0);
-> @@ -4300,7 +4323,7 @@ static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
-> =20
->  static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
->  {
-> -    uint16_t offset =3D sq->sqid << 3;
-> +    uint16_t offset =3D nvme_sqid_to_db_offset(n, sq->sqid);
-> =20
->      n->sq[sq->sqid] =3D NULL;
->      timer_free(sq->timer);
-> @@ -4379,8 +4402,8 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *=
-n, uint64_t dma_addr,
->      sq->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
-> =20
->      if (n->dbbuf_enabled) {
-> -        sq->db_addr =3D n->dbbuf_dbs + (sqid << 3);
-> -        sq->ei_addr =3D n->dbbuf_eis + (sqid << 3);
-> +        sq->db_addr =3D n->dbbuf_dbs + nvme_sqid_to_db_offset(n, sqid);
-> +        sq->ei_addr =3D n->dbbuf_eis + nvme_sqid_to_db_offset(n, sqid);
-> =20
->          if (n->params.ioeventfd && sq->sqid !=3D 0) {
->              if (!nvme_init_sq_ioeventfd(sq)) {
-> @@ -4690,8 +4713,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeReque=
-st *req)
-> =20
->  static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
->  {
-> -    uint16_t offset =3D (cq->cqid << 3) + (1 << 2);
-> -
-> +    uint16_t offset =3D nvme_cqid_to_db_offset(n, cq->cqid);
-> +   =20
->      n->cq[cq->cqid] =3D NULL;
->      timer_free(cq->timer);
->      if (cq->ioeventfd_enabled) {
-> @@ -4755,8 +4778,8 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *=
-n, uint64_t dma_addr,
->      QTAILQ_INIT(&cq->req_list);
->      QTAILQ_INIT(&cq->sq_list);
->      if (n->dbbuf_enabled) {
-> -        cq->db_addr =3D n->dbbuf_dbs + (cqid << 3) + (1 << 2);
-> -        cq->ei_addr =3D n->dbbuf_eis + (cqid << 3) + (1 << 2);
-> +        cq->db_addr =3D n->dbbuf_dbs + nvme_cqid_to_db_offset(n, cqid);
-> +        cq->ei_addr =3D n->dbbuf_eis + nvme_cqid_to_db_offset(n, cqid);
-> =20
->          if (n->params.ioeventfd && cqid !=3D 0) {
->              if (!nvme_init_cq_ioeventfd(cq)) {
-> @@ -6128,13 +6151,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, con=
-st NvmeRequest *req)
->          NvmeCQueue *cq =3D n->cq[i];
-> =20
->          if (sq) {
-> -            /*
-> -             * CAP.DSTRD is 0, so offset of ith sq db_addr is (i<<3)
-> -             * nvme_process_db() uses this hard-coded way to calculate
-> -             * doorbell offsets. Be consistent with that here.
-> -             */
-> -            sq->db_addr =3D dbs_addr + (i << 3);
-> -            sq->ei_addr =3D eis_addr + (i << 3);
-> +            sq->db_addr =3D dbs_addr + nvme_sqid_to_db_offset(n, i);
-> +            sq->ei_addr =3D eis_addr + nvme_sqid_to_db_offset(n, i);
->              pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
->                      sizeof(sq->tail));
-> =20
-> @@ -6146,9 +6164,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, cons=
-t NvmeRequest *req)
->          }
-> =20
->          if (cq) {
-> -            /* CAP.DSTRD is 0, so offset of ith cq db_addr is (i<<3)+(1<=
-<2) */
-> -            cq->db_addr =3D dbs_addr + (i << 3) + (1 << 2);
-> -            cq->ei_addr =3D eis_addr + (i << 3) + (1 << 2);
-> +            cq->db_addr =3D dbs_addr + nvme_cqid_to_db_offset(n, i);
-> +            cq->ei_addr =3D eis_addr + nvme_cqid_to_db_offset(n, i);
->              pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
->                      sizeof(cq->head));
-> =20
-> @@ -6843,14 +6860,14 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr a=
-ddr, int val)
->          return;
->      }
-> =20
-> -    if (((addr - 0x1000) >> 2) & 1) {
-> +    if (nvme_db_offset_is_cq(n, addr - 0x1000)) {
->          /* Completion queue doorbell write */
-> =20
->          uint16_t new_head =3D val & 0xffff;
->          int start_sqs;
->          NvmeCQueue *cq;
-> =20
-> -        qid =3D (addr - (0x1000 + (1 << 2))) >> 3;
-> +        qid =3D nvme_db_offset_to_qid(n, addr - 0x1000);
->          if (unlikely(nvme_check_cqid(n, qid))) {
->              NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_cq,
->                             "completion queue doorbell write"
-> @@ -6925,7 +6942,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr add=
-r, int val)
->          uint16_t new_tail =3D val & 0xffff;
->          NvmeSQueue *sq;
-> =20
-> -        qid =3D (addr - 0x1000) >> 3;
-> +        qid =3D nvme_db_offset_to_qid(n, addr - 0x1000);
->          if (unlikely(nvme_check_sqid(n, qid))) {
->              NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_sq,
->                             "submission queue doorbell write"
-> --=20
-> 2.25.1
->=20
+>       u_platform = 0;
+>       k_platform = ELF_PLATFORM;
+>       if (k_platform) {
+> @@ -2212,6 +2232,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>       }
+>   
+>       size = (DLINFO_ITEMS + 1) * 2;
+> +    if (k_base_platform)
+> +        size += 2;
+>       if (k_platform)
+>           size += 2;
+>   #ifdef DLINFO_ARCH_ITEMS
+> @@ -2289,6 +2311,9 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
+>       NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
+>   #endif
+>   
+> +    if (u_base_platform) {
+> +        NEW_AUX_ENT(AT_BASE_PLATFORM, u_base_platform);
+> +    }
+>       if (u_platform) {
+>           NEW_AUX_ENT(AT_PLATFORM, u_platform);
+>       }
 
---=20
-One of us - No more doubt, silence or taboo about mental illness.
-
---AEsRw0Rq3h3A/EwN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmLovgUACgkQTeGvMW1P
-Dem1TggAoViS5Rt+koIN/P4qqrBkFi0vcTqGCeCtiSE5f5EUyQJ91oiGW44H3oCt
-LX6PiPfov/SPGlMoMvdpTuusTvwIm7keYVAtbOd49e13TP0nhqa+6ZRNIPGUn1Om
-FbfPKx8A5DJ9MVStoPhMhc8iuHz/Fo+A0aZT3abvxHxxDCZRcRHOu4leApnTY7C/
-gcqN4suMgl43gWAmb0+Ro+iXbWSX0IAbWSqJCOpi+Z3eVTJdd9Y/DE69L/HCxLq7
-mcCoKzg4LWpchZA7V17Mhon330Fzfh2JH4YIvoBkFVRP0QqVweX8zwZ0Inbslc6Y
-8LD76GxdjDAxplWt9lAfvcDysR/0Cg==
-=y+Po
------END PGP SIGNATURE-----
-
---AEsRw0Rq3h3A/EwN--
 
