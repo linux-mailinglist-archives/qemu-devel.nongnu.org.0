@@ -2,80 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8508C587711
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:22:17 +0200 (CEST)
-Received: from localhost ([::1]:57008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDEF587712
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 08:23:41 +0200 (CEST)
+Received: from localhost ([::1]:59074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIlIG-0007lb-DC
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:22:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39204)
+	id 1oIlJb-0000mI-Ro
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 02:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oIlCm-00059G-CE; Tue, 02 Aug 2022 02:16:36 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:52085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1oIlCk-0004k5-Ud; Tue, 02 Aug 2022 02:16:36 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id t22so4803855pjy.1;
- Mon, 01 Aug 2022 23:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:from:to:cc;
- bh=6pMd3RUqR5cpGrFHD0jpcjJLPrtPMiqC1Jaz4Dif2uM=;
- b=gjU4xHlnPy5hgAo9IXAf6GFXsGTCLFJyMCgSjVJIO7JEEPkStoeW+2WEFOpQFntyWp
- iX1ZX+GzzhtNN9BCLJFazrHBBgDEliMO6lPjjSWzF1y1WE7+n5x56sHUf0o4W+GTns1w
- U5rkyDDHtSaD9GR9K2x7iOHicipGpo+T7UC0UpRtq55IlpbuOUZ/OhoprLSiATxFM6Ol
- ssN/ECNJQFrOsqC8tT/SE+9i/Id97PoYq0+iRVfK+EXzzXfDPEn7AvAkE0gCK3/eZQdu
- eRjGESe6IdJL8Gmb08Cme7wz9Xvoz7eLW7vGHqRskTS5uhPcg/chjq2v0PnRwrU27ACi
- D2NQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :sender:x-gm-message-state:from:to:cc;
- bh=6pMd3RUqR5cpGrFHD0jpcjJLPrtPMiqC1Jaz4Dif2uM=;
- b=K6XEKlXJFJGkk875ZQUVL+iYKDJrnnt72YJ+u1iuE76H5saUhqVBGBc3oe2GBzUcmy
- DSGxrnDTQS43zMGjTZbzi7FEeB4SzYEd0nLH6CkTcYoqdz8+hYOGRcHOLUFwPcnXPAPX
- /KTWJ7ym0KRj0g99Am1C2CQaVPFTObG3Uk0R3vXYBQat2lNH07NH6ZJ7Lrbymt4STeRb
- 08TCP2LPrD7OBVX3FC9yfYTCEWHFfVwnv55Vm9/8fYRL47kun+XfUjaRoi2CSs+WMQGs
- Y3z6YeL+hI/z5l4LCjX5JgxVSGcgkcoZYyyPeVv68tANvIjJ4RNWBZSbFlrMp59AUwdr
- JqTQ==
-X-Gm-Message-State: ACgBeo016SmPUQGEUlVobsZ4VTNHAfS+wsWnD+YgO4IMrhUdSmYrMUGJ
- aP4fYD08ZYHp3b/C8NlHoYg=
-X-Google-Smtp-Source: AA6agR6Ka0BuWZF+kw8loysq4REglK81yIZ9wS03Wpxs9F0kPrRg3Nu475mzhmWlZ2O47HwqqVxVPw==
-X-Received: by 2002:a17:90a:d711:b0:1f4:cac7:b353 with SMTP id
- y17-20020a17090ad71100b001f4cac7b353mr18549721pju.8.1659420993285; 
- Mon, 01 Aug 2022 23:16:33 -0700 (PDT)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- c6-20020a621c06000000b0052d327f67b9sm5423888pfc.152.2022.08.01.23.16.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Aug 2022 23:16:32 -0700 (PDT)
-Message-ID: <9442bc40-829d-75b9-6740-992c636d3f65@amsat.org>
-Date: Tue, 2 Aug 2022 08:16:29 +0200
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIlG4-00074K-VT
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:20:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:37625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIlFz-0005ax-JA
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 02:19:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659421194;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=WkzXCabTuKxVAI3S7XBy6Bgpt95BXXwTSi5dgLfHCaU=;
+ b=aEDXl2kqjNO6chzGx4ojcuBd2k3ZAlJOE2di9qXluvIImZxbcS1Wu0t7DOw62w4wE1GhDN
+ pr0WLV540uDaeI6TlyEfrFMNs8l+IQA4E5nDtOBbL7ndD53OyFj6s9K5YvENBR1Y21vC/O
+ 6X7k5sGAXZ5YNqMzlyQk4nDd5Lg4nTY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-307-w0ZFlQotNlSHWUephyn_iA-1; Tue, 02 Aug 2022 02:19:53 -0400
+X-MC-Unique: w0ZFlQotNlSHWUephyn_iA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2052C811E76
+ for <qemu-devel@nongnu.org>; Tue,  2 Aug 2022 06:19:53 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F116790A04;
+ Tue,  2 Aug 2022 06:19:51 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, peterx@redhat.com,
+ qemu-devel@nongnu.org
+Subject: [PATCH for-7.1] Revert "migration: Simplify unqueue_page()"
+Date: Tue,  2 Aug 2022 08:19:49 +0200
+Message-Id: <20220802061949.331576-1-thuth@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.11.0
-Subject: Re: [PATCH 0/2] linux-user: AT_BASE_PLATFORM for MIPS
-Content-Language: en-US
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, laurent@vivier.eu
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220801200928.73741-1-jiaxun.yang@flygoat.com>
-In-Reply-To: <20220801200928.73741-1-jiaxun.yang@flygoat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,27 +73,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-From:  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= via <qemu-devel@nongnu.org>
 
-On 1/8/22 22:09, Jiaxun Yang wrote:
-> Hi all,
-> 
-> This series properly filled AT_BASE_PLATFORM of MIPS.
-> There is a checkpatch error about braces after if statement,
-> I intentionally left it for style consistency.
-> 
-> Thanks.
-> - Jiaxun
-> 
-> Jiaxun Yang (2):
->    linux-user: Introduce stubs for ELF AT_BASE_PLATFORM
->    linux-user: Set ELF_BASE_PLATFORM for MIPS
-> 
->   linux-user/elfload.c | 60 ++++++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 58 insertions(+), 2 deletions(-)
-> 
+This reverts commit cfd66f30fb0f735df06ff4220e5000290a43dad3.
 
-Cc'ing qemu-ppc for completeness using cpu_specs[].platform from
-Linux kernel arch/powerpc/kernel/cputable.c.
+The simplification of unqueue_page() introduced a bug that sometimes
+breaks migration on s390x hosts. Seems like there are still pages here
+that do not have their dirty bit set.
+The problem is not fully understood yet, but since we are already in
+the freeze for QEMU 7.1 and we need something working there, let's
+revert this patch for the upcoming release. The optimization can be
+redone later again in a proper way if necessary.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2099934
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ migration/ram.c        | 37 ++++++++++++++++++++++++++-----------
+ migration/trace-events |  3 ++-
+ 2 files changed, 28 insertions(+), 12 deletions(-)
+
+diff --git a/migration/ram.c b/migration/ram.c
+index b94669ba5d..dc1de9ddbc 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1612,7 +1612,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+ {
+     struct RAMSrcPageRequest *entry;
+     RAMBlock *block = NULL;
+-    size_t page_size;
+ 
+     if (!postcopy_has_request(rs)) {
+         return NULL;
+@@ -1629,13 +1628,10 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+     entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
+     block = entry->rb;
+     *offset = entry->offset;
+-    page_size = qemu_ram_pagesize(block);
+-    /* Each page request should only be multiple page size of the ramblock */
+-    assert((entry->len % page_size) == 0);
+ 
+-    if (entry->len > page_size) {
+-        entry->len -= page_size;
+-        entry->offset += page_size;
++    if (entry->len > TARGET_PAGE_SIZE) {
++        entry->len -= TARGET_PAGE_SIZE;
++        entry->offset += TARGET_PAGE_SIZE;
+     } else {
+         memory_region_unref(block->mr);
+         QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
+@@ -1643,9 +1639,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+         migration_consume_urgent_request();
+     }
+ 
+-    trace_unqueue_page(block->idstr, *offset,
+-                       test_bit((*offset >> TARGET_PAGE_BITS), block->bmap));
+-
+     return block;
+ }
+ 
+@@ -2069,8 +2062,30 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+ {
+     RAMBlock  *block;
+     ram_addr_t offset;
++    bool dirty;
++
++    do {
++        block = unqueue_page(rs, &offset);
++        /*
++         * We're sending this page, and since it's postcopy nothing else
++         * will dirty it, and we must make sure it doesn't get sent again
++         * even if this queue request was received after the background
++         * search already sent it.
++         */
++        if (block) {
++            unsigned long page;
++
++            page = offset >> TARGET_PAGE_BITS;
++            dirty = test_bit(page, block->bmap);
++            if (!dirty) {
++                trace_get_queued_page_not_dirty(block->idstr, (uint64_t)offset,
++                                                page);
++            } else {
++                trace_get_queued_page(block->idstr, (uint64_t)offset, page);
++            }
++        }
+ 
+-    block = unqueue_page(rs, &offset);
++    } while (block && !dirty);
+ 
+     if (block) {
+         /* See comment above postcopy_preempted_contains() */
+diff --git a/migration/trace-events b/migration/trace-events
+index a34afe7b85..57003edcbd 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -85,6 +85,8 @@ put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
+ qemu_file_fclose(void) ""
+ 
+ # ram.c
++get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
++get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+ migration_bitmap_sync_start(void) ""
+ migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
+ migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+@@ -110,7 +112,6 @@ ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRI
+ ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
+ ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+ ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+-unqueue_page(char *block, uint64_t offset, bool dirty) "ramblock '%s' offset 0x%"PRIx64" dirty %d"
+ postcopy_preempt_triggered(char *str, unsigned long page) "during sending ramblock %s offset 0x%lx"
+ postcopy_preempt_restored(char *str, unsigned long page) "ramblock %s offset 0x%lx"
+ postcopy_preempt_hit(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
+-- 
+2.31.1
+
 
