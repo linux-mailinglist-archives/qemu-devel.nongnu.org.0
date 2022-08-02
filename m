@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10F658823F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:05:21 +0200 (CEST)
-Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAE94588241
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:06:27 +0200 (CEST)
+Received: from localhost ([::1]:58182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIxCi-00009m-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:05:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43204)
+	id 1oIxDn-0002Xd-2H
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
- id 1oIx85-0002mD-UB; Tue, 02 Aug 2022 15:00:33 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:49116)
+ id 1oIx88-0002tF-Ox; Tue, 02 Aug 2022 15:00:37 -0400
+Received: from dfw.source.kernel.org ([139.178.84.217]:60618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
- id 1oIx84-0000np-9j; Tue, 02 Aug 2022 15:00:33 -0400
+ id 1oIx86-0000qj-Uo; Tue, 02 Aug 2022 15:00:36 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 2EBA361335;
- Tue,  2 Aug 2022 19:00:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E767C433C1;
- Tue,  2 Aug 2022 19:00:24 +0000 (UTC)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 8C50E613B3;
+ Tue,  2 Aug 2022 19:00:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC48EC433D6;
+ Tue,  2 Aug 2022 19:00:31 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="UG/rhbNy"
+ header.b="o8H8h0tV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659466822;
+ t=1659466830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZjM1e9IXBF3GNzehoiJscGOnuG/6hgpK8o6jfd4cQPI=;
- b=UG/rhbNyfq2n74Oe4qQeyf7oULhTH3348lZQCC0iwiWvLgMv1/8Iokr8DtPUha6wQFmToO
- 2K7bgnCIMZ5gDYitlcYzst2Jo2mPH8NLWnM5Ca6XQuyC1aNcK0xqMHJHAM/yDEMs9pnR2k
- ye3D3XI7G9vBgNf1sb4MGEmc6afpTqI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 5ac501fd
+ bh=vZznvok3RDs5c7Obu522e6DeJf/4cXLxg3JgTi7rgFM=;
+ b=o8H8h0tVDMKx4iEUZYOxCExcht0TFQdsrcAmt4KW+OBqfLJNWX3OPpHGNzx4SQo0hFFyYT
+ HZlki64+jRApvrHp+F3tIKBR1rHIQwTNuVxGBISjfskaw1qtoBt8gHK0ay6mdR/M456L5M
+ asS8oKRNrjEM8DvynCrZOeykxRMUeuk=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b93439f2
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Tue, 2 Aug 2022 19:00:21 +0000 (UTC)
+ Tue, 2 Aug 2022 19:00:30 +0000 (UTC)
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
 To: qemu-s390x@nongnu.org,
 	qemu-devel@nongnu.org
@@ -52,14 +52,15 @@ Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Thomas Huth <thuth@redhat.com>,
  Cornelia Huck <cohuck@redhat.com>,
  Harald Freudenberger <freude@linux.ibm.com>,
  Holger Dengler <dengler@linux.ibm.com>
-Subject: [PATCH v4 0/2] MSA EXT 5 for s390x
-Date: Tue,  2 Aug 2022 21:00:09 +0200
-Message-Id: <20220802190011.458871-1-Jason@zx2c4.com>
-In-Reply-To: <Yul0G2YCKLXiypvv@zx2c4.com>
+Subject: [PATCH v4 1/2] target/s390x: support PRNO_TRNG instruction
+Date: Tue,  2 Aug 2022 21:00:10 +0200
+Message-Id: <20220802190011.458871-2-Jason@zx2c4.com>
+In-Reply-To: <20220802190011.458871-1-Jason@zx2c4.com>
 References: <Yul0G2YCKLXiypvv@zx2c4.com>
+ <20220802190011.458871-1-Jason@zx2c4.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+Received-SPF: pass client-ip=139.178.84.217;
  envelope-from=SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org;
  helo=dfw.source.kernel.org
 X-Spam_score_int: -67
@@ -84,17 +85,10 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In addition to the prior TRNG patch from v3, this v4 adds SHA-512
-support.
-
-I know, I know, I know -- I fussed around asking if somebody would help
-me implement this because it was "oh so hard", and offered to do the
-crypto part if someone would do the rest. But then once I had the crypto
-part, I wanted some way to test it and then... and then the
-implementation worked and passed the test vectors.
-
-So now these two patches together implement MSA EXT 5, and appear to be
-working with Linux's drivers for it.
+In order for hosts running inside of TCG to initialize the kernel's
+random number generator, we should support the PRNO_TRNG instruction,
+backed in the usual way with the qemu_guest_getrandom helper. This is
+confirmed working on Linux 5.19.
 
 Cc: Thomas Huth <thuth@redhat.com>
 Cc: David Hildenbrand <david@redhat.com>
@@ -103,15 +97,79 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Cc: Cornelia Huck <cohuck@redhat.com>
 Cc: Harald Freudenberger <freude@linux.ibm.com>
 Cc: Holger Dengler <dengler@linux.ibm.com>
+Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+---
+ target/s390x/gen-features.c      |  2 ++
+ target/s390x/tcg/crypto_helper.c | 30 ++++++++++++++++++++++++++++++
+ 2 files changed, 32 insertions(+)
 
-Jason A. Donenfeld (2):
-  target/s390x: support PRNO_TRNG instruction
-  target/s390x: support SHA-512 extensions
-
- target/s390x/gen-features.c      |   4 +
- target/s390x/tcg/crypto_helper.c | 146 +++++++++++++++++++++++++++++++
- 2 files changed, 150 insertions(+)
-
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index ad140184b9..3d333e2789 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -749,6 +749,8 @@ static uint16_t qemu_V7_0[] = {
+  */
+ static uint16_t qemu_MAX[] = {
+     S390_FEAT_VECTOR_ENH2,
++    S390_FEAT_MSA_EXT_5,
++    S390_FEAT_PRNO_TRNG,
+ };
+ 
+ /****** END FEATURE DEFS ******/
+diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
+index 138d9e7ad9..8ad4ef1ace 100644
+--- a/target/s390x/tcg/crypto_helper.c
++++ b/target/s390x/tcg/crypto_helper.c
+@@ -12,12 +12,38 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/main-loop.h"
++#include "qemu/guest-random.h"
+ #include "s390x-internal.h"
+ #include "tcg_s390x.h"
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+ #include "exec/cpu_ldst.h"
+ 
++static void fill_buf_random(CPUS390XState *env, uintptr_t ra,
++                            uint64_t *buf_reg, uint64_t *len_reg)
++{
++    uint8_t tmp[256];
++    uint64_t len = *len_reg;
++    int reg_len = 64;
++
++    if (!(env->psw.mask & PSW_MASK_64)) {
++        len = (uint32_t)len;
++        reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
++    }
++
++    while (len) {
++        size_t block = MIN(len, sizeof(tmp));
++
++        qemu_guest_getrandom_nofail(tmp, block);
++        for (size_t i = 0; i < block; ++i) {
++            cpu_stb_data_ra(env, wrap_address(env, *buf_reg), tmp[i], ra);
++            *buf_reg = deposit64(*buf_reg, 0, reg_len, *buf_reg + 1);
++            --*len_reg;
++        }
++        len -= block;
++    }
++}
++
+ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+                      uint32_t type)
+ {
+@@ -52,6 +78,10 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
+             cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
+         }
+         break;
++    case 114: /* CPACF_PRNO_TRNG */
++        fill_buf_random(env, ra, &env->regs[r1], &env->regs[r1 + 1]);
++        fill_buf_random(env, ra, &env->regs[r2], &env->regs[r2 + 1]);
++        break;
+     default:
+         /* we don't implement any other subfunction yet */
+         g_assert_not_reached();
 -- 
 2.35.1
 
