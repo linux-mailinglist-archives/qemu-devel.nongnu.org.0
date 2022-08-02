@@ -2,159 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A89A587B32
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:01:35 +0200 (CEST)
-Received: from localhost ([::1]:58224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C234587B59
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:08:26 +0200 (CEST)
+Received: from localhost ([::1]:60844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIpeY-0002yS-GH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:01:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
+	id 1oIplA-0005N0-Ji
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:08:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1oIpZJ-0005dw-Ih
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:56:10 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:47306)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIpcH-00019L-Dk
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:59:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:23052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1oIpZE-0003my-8g
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:56:09 -0400
-Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 2728ts9e012761;
- Tue, 2 Aug 2022 10:55:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : content-type :
- mime-version; s=corp-2022-7-12;
- bh=APewtpohbp7CXBi5/hwKgGRl6q14eB2lNPIffxHxIMk=;
- b=H6cJ1Qo+0uitWNFh47PKgrAOLk2yDFJFXwDjtY5DnghBgARy9w/J09EzVvVM0Mjbs3W0
- VBWGjlBIleyfygZk0noRbRwa053l+Nfa5+CRn4Or10x5ZrbXbMHRxcM9foGkJgENhT2U
- QaVk4vokbhWR7JO7ap7Mwi+0pMWAXzkFItZ8xUk5wQRTL4sAlU6AMH/tvcANl3KiiE6j
- gU6iCG31c9LXZk6eHo4I82StExYhxDPqx9RTQh0XK3a7NVGhQAn5scWzcX2J2thE3DQT
- gtys52QWFS9qrKtJKO9J3DWcWB/DctLqVgeqajRdxpn6NE3SMj4ToCTpD4KUHR3nIQAX zg== 
-Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3hmu2c6cft-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 02 Aug 2022 10:55:59 +0000
-Received: from pps.filterd
- (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 272Aa8TU014328; Tue, 2 Aug 2022 10:55:58 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com
- (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
- by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3hmu32755j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 02 Aug 2022 10:55:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HizfOtaQLcaBz9Zyy4hpTfk3rrAvMskLjJnI3L0oG+IqZfj7WktUPP6BYlFJxLP4MXz880WB5quyaHDsc6uxAPRJ5UYim8+AtFErV0HVva9Qto363NFDl6llJC8CtWUu7yiKfA+ilPHLEN1XdcsHajrpcZzcaJ9ayMs1fRgbpF8a0ZXuS5+k+4aWTMXiQ/lFX0nHg+RF+pUGBrXkOxZ8rKloi0AHRrNbxMaJGVDsipkTDdGaw0pN1FyuqUrnrPygybPzlJkGnq5GHz78aJDMZEwsT7wqnwUhmR8/UiD8/8v/IhtAEt/MAsOr0v+n37RMqJoJjevvT4Ihay8tMxbCfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=APewtpohbp7CXBi5/hwKgGRl6q14eB2lNPIffxHxIMk=;
- b=VaDSlE/0iqIdbxgNCGzuxDHF/ZyYncLRq0GbHIIgY1ZmwmcBIQ3crQJIfJ6bWrH2Gt4iQrN8wdOmmnGfW2TorDekMZxK/uqc3GQDTZOmhRPVL8hXpg3UPZu3khMzBzlo/ps2v02z+gdGBN9pOJjL1yEgS16wC9loIQbY02FYDiBISBS+ECAHpN/Xd2NsinPI2y+PgK6m+8MNb99OkuB+YdKXf1TDVtrWPkvp3hAUc3dBAevH5+05Rvu1jVILyTq3H38g5wjpr5sx9cMAPr+2NA6p4fFPvdXZsNe0nfLkk5WLoE5bKe79B8UisqgRByUgilrat4/NYIQuDd/lZKjU/A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=APewtpohbp7CXBi5/hwKgGRl6q14eB2lNPIffxHxIMk=;
- b=QQT6JI8XIpoX2YZZ4pXz5cfLWKAfSjwUWuKfi1Twj9F8+33d8TBMcIREaMGXSNsvanv4csz5bg36LE7qWERAGnxJS0IbRI6yiwZKQcMVDrrZk8hFCO3Mq+b8UFvXOlQhYHGMvH7XrsgBFaZ8oyxHnAjAalmjRh27o2ksS5v4Qw8=
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
- by DM6PR10MB2715.namprd10.prod.outlook.com (2603:10b6:5:ba::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5482.11; Tue, 2 Aug
- 2022 10:55:57 +0000
-Received: from BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0]) by BLAPR10MB5138.namprd10.prod.outlook.com
- ([fe80::89fe:338:779d:6bb0%8]) with mapi id 15.20.5482.016; Tue, 2 Aug 2022
- 10:55:57 +0000
-From: Darren Kenny <darren.kenny@oracle.com>
-To: zhenwei pi <pizhenwei@bytedance.com>, dgilbert@redhat.com,
- armbru@redhat.com
-Cc: qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
-Subject: Re: [PATCH v4 1/1] monitor: Support specified vCPU registers
-In-Reply-To: <20220802073720.1236988-2-pizhenwei@bytedance.com>
-References: <20220802073720.1236988-1-pizhenwei@bytedance.com>
- <20220802073720.1236988-2-pizhenwei@bytedance.com>
-Date: Tue, 02 Aug 2022 11:55:53 +0100
-Message-ID: <m2y1w6nccm.fsf@oracle.com>
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0258.eurprd04.prod.outlook.com
- (2603:10a6:10:28e::23) To BLAPR10MB5138.namprd10.prod.outlook.com
- (2603:10b6:208:322::8)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oIpcA-0005Bc-4k
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:59:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659437945;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=akkUDWwwoS3CNIEfChHWtBfTreA2qoJbev7defFi6C4=;
+ b=cHU9gaq7OrmN/1Xq9It02fk8tTHSGKilRe+6YKCbCsTBIl/052JxiTbmsYpiIoBifMwgGb
+ xsoPCAeq3PgjW2y48OBBdTDLjZDxKxG7v4IyPABU3v9EnMpwTWIkuCYY9K3egsTm8rovet
+ kBzSzBxiPjnWtPg36wcbi6ifTU+JvGI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-91-1e6ODu-8NyaaXIPN3CV_FA-1; Tue, 02 Aug 2022 06:59:02 -0400
+X-MC-Unique: 1e6ODu-8NyaaXIPN3CV_FA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5614F101A592;
+ Tue,  2 Aug 2022 10:59:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 060FE492C3B;
+ Tue,  2 Aug 2022 10:59:00 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D577C21E6930; Tue,  2 Aug 2022 12:58:58 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: marcandre.lureau@redhat.com
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Cleber Rosa
+ <crosa@redhat.com>,  qemu-block@nongnu.org,  Paolo Bonzini
+ <pbonzini@redhat.com>,  Xie Yongji <xieyongji@bytedance.com>,  Kyle Evans
+ <kevans@freebsd.org>,  Peter Maydell <peter.maydell@linaro.org>,  John
+ Snow <jsnow@redhat.com>,  Michael Roth <michael.roth@amd.com>,  Warner
+ Losh <imp@bsdimp.com>,  Kevin Wolf <kwolf@redhat.com>,  "Dr. David Alan
+ Gilbert" <dgilbert@redhat.com>,  Vladimir Sementsov-Ogievskiy
+ <vsementsov@yandex-team.ru>,  Laurent Vivier <laurent@vivier.eu>,  Fam
+ Zheng <fam@euphon.net>,  Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [PATCH v2 06/15] qapi: move QEMU-specific dispatch code in monitor
+References: <20220712093528.4144184-1-marcandre.lureau@redhat.com>
+ <20220712093528.4144184-7-marcandre.lureau@redhat.com>
+Date: Tue, 02 Aug 2022 12:58:58 +0200
+In-Reply-To: <20220712093528.4144184-7-marcandre.lureau@redhat.com> (marcandre
+ lureau's message of "Tue, 12 Jul 2022 13:35:19 +0400")
+Message-ID: <87les6ud1p.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80f038e9-9112-4c29-7ff8-08da747593e8
-X-MS-TrafficTypeDiagnostic: DM6PR10MB2715:EE_
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FrdfAK4VmHA/EeiPMcshoP0K3ZuKiRiE+9QC0BEbR6leTMpw+6mrFcQUIkkI99EHSWkKWeWmXq7Lzo8Yjay/iBjPY2vr7Z7VPfcHumKP//1MOg7Uuqu8N+SzfAqBr8LVk8LnJpQaEcEz88d+pm/qjvH5nywhP80EgVRSYLWopzis4zVmXFD+Nptnz9vFWW3KZZRrRkFhoQrU426S6wrWf+fbtmOsOWHC+Zl4O7eE6lTuC8HeU/HPSoBuzDWZ7TvVh7C5vIOjUPgqfhazXfXJAsEjCo6M+oyjQGmQ8uNtsPICkZCocFTplD4N3Y1n7W2s1Wr0e6uvTZ0Pw0Ghbq6N5wZailQHUYYV5v9M7MkOpkjPOYcw8+VSqVSUXeon0rDJgAYLHRbkDVYMYliOLS7Zh0m7ViOEwEyzF9ToiPPx+ppXmDu/CbwLVyCsqjHTHyRawdbCxY60iGKJnn4VLvbjE1DsXbwEOOS8lX0NoaLTycnr8AaPnUXb+CG5JV5VMvaTFTqoe8GOa0aKRSYTgYTIRCoXXZrkcjbYYKF7hCryIYDTzR4+qMxyYVuCRwI+tVDK19NHt+03lrudVBt+gLBN1NC8x1twoxhWpHwdcGY/YAfonZ0dfqdj4puo2We5p8p4edyoWgTGJcyJV0Gro5WYgSs5aZe5DJSKa8t19HaMYkAFW3J2ZGDQwWvKzBTeXu8Q3nT6HvHVOX+SK87pLYCJKK9zVAuWWwmEQoLwCuyAs/bOXrcBQyixnqn94egcPxVq
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230016)(396003)(136003)(366004)(376002)(346002)(39860400002)(5660300002)(6506007)(41300700001)(6666004)(8936002)(8676002)(66946007)(316002)(38100700002)(86362001)(66556008)(66476007)(2616005)(478600001)(6486002)(2906002)(186003)(83380400001)(4326008)(36756003)(44832011)(6512007)(26005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ONT1xRuTPVJOCk9mPSX8/y5TdZ2cDiocYIUL4gdRbju2HVWDFLaxyTS5zy50?=
- =?us-ascii?Q?ockGs9dNo/G7N5mXOH/++k6nEinUEvSs3A5kELMXpxv9lMVMGg0HLI2Q0avI?=
- =?us-ascii?Q?3mldoZpg4rBIN0BpqkYAGkKMRdaLebqwf2sel0t2zb4IJaPLka6YLjURbYHE?=
- =?us-ascii?Q?UVhFaRWwbHImlWTIMzoscJ/6+pWDwqOlAGhH8HqCTi09jedSmlK8kgYjt5t9?=
- =?us-ascii?Q?fWVBMidj+Q/FBLYcKVEgOTnKEF9fGjtyEOdhk1+MpKF8zLmEHbt/FlL2yDmI?=
- =?us-ascii?Q?uJLGZCsAKL26dRYinxWp6+eAYVfopAAG0nxcp6O1yKEueuaVm61gityxB9Wa?=
- =?us-ascii?Q?7rn9wmwOimDh2Z/LK/DQv0rdiBNErPOcOlNh4WxZS1TDo/LL9o4YdEMLODKm?=
- =?us-ascii?Q?dU/TaqGXpjBp72kMCYY3VvtOE9cqQWRdYJW86RWAHn2c9p5O1l3zIF+Vukqj?=
- =?us-ascii?Q?P79IrtX6MrW1bvo7O0emQZGBIQUd8NDvUuJa8qhxTAbz649Q9v7wc2muHGke?=
- =?us-ascii?Q?9O6RG28+qRHWGB4rskion5mclw34RZVRMFD7OZSQJ9cGNjcxUtK3wPpNdmDI?=
- =?us-ascii?Q?Tl93MbsVZjgZ96+tCQm0AGYT7eex1bkDNMI/G4ODfk45ec/nMy7/ZrHD6+qy?=
- =?us-ascii?Q?gRqo9p66PGLNl6/D7FXzwVGTHBROygAQ8IolXG4u39iWx8N5f+K77qUBSAOf?=
- =?us-ascii?Q?1Nih611bbUQL9ezCK6sHSQiuRhDEzHsdItv4aWKGmixij+WW3g+sDpgBocFk?=
- =?us-ascii?Q?xG6GgAB/AOwAlKQaMAxTaqkJ09dI7Xli19q8Vthz73CNrCuGZwa9tuJPOdwv?=
- =?us-ascii?Q?oBTLGsW+gaY8036UsLh18GynXK/PMxzYrXKd0s52zUH4WODsBiNJqYqxwtgc?=
- =?us-ascii?Q?lR3P7VPN0FC2V0Us1JqgJiwF8wfXxkiNOWOThtO3IwTpm2ERKmLZDbwSWEl+?=
- =?us-ascii?Q?cSY72yqVUa+wVcAnKeG8jRTbo/pkVbBsuxiS2uoEEGfgxC3jQbqvHJmQ8sJc?=
- =?us-ascii?Q?8SLM01kn0AtHl3HFbG9wK4BX6IDXO61CqElGXDxI3bzIjlarD9p9P5PRlGdJ?=
- =?us-ascii?Q?Weq4gRX4B1l8dWw6t0sQP+bwEej9DCcba/EefcICaZn+bvCDDeuVeRJUVhWX?=
- =?us-ascii?Q?jlPKtwPrWDgcA/pTC/prdf8czx/Tn3d1FamQxyeHS2heFxLrwW0LQrvy4BfK?=
- =?us-ascii?Q?uQQsPL2bqR/rk6ohcYg2HfgKg/2U6cLSzKDjEFVv3PY08zG0lidc4wVfDGb3?=
- =?us-ascii?Q?F0jUTzISyaZCPoWP5qV7wAy4T11LLnAxwMg+ndVrsogMJ+t2+ktaJ4Hp3M2G?=
- =?us-ascii?Q?eHZLhZRRkf/Qldi8C5YkUQoZuSvDNF95/5eOQQ1lrEaN6KHoTSrpn/Y4VcTR?=
- =?us-ascii?Q?6kCmN+TRpNN5w03ALuPXmCv4AOgsQwVDE0cLcUpOhxXeH1QctLh49pozrMbc?=
- =?us-ascii?Q?vAHXKG9BLARJInEUY/HX0QIZZdBxEjfvetWj9fAXa4i9Slko+S5yaeUAnw0U?=
- =?us-ascii?Q?YhFvAF6nfzpi0yMf1otJUpFh/IAyC4sOQz68ZwtWA6HM2aWUU9UP/mc1dtcA?=
- =?us-ascii?Q?YlMTQ23sz0qAQMgVmPo8ihgIUc7r0xpEAHHBxkot4g7CeLsJTQIfpyUbOf0O?=
- =?us-ascii?Q?vg=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80f038e9-9112-4c29-7ff8-08da747593e8
-X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Aug 2022 10:55:56.9548 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iwK4A0XwfBGE3Jl1vwAj3qA2Ee1DNKyStzI3m2+S4yosSxXSey+oM9cADLdIF1vOmLV7Adpq/eD0/GNfXZStSQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB2715
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
- definitions=2022-08-02_06,2022-08-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999 phishscore=0
- malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2206140000
- definitions=main-2208020051
-X-Proofpoint-GUID: LiW6bZd9vlVH7kVNoT4f1acv79pOAvqQ
-X-Proofpoint-ORIG-GUID: LiW6bZd9vlVH7kVNoT4f1acv79pOAvqQ
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -170,85 +90,272 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This looks good to me...
+marcandre.lureau@redhat.com writes:
 
-On Tuesday, 2022-08-02 at 15:37:20 +08, zhenwei pi wrote:
-> Originally we have to get all the vCPU registers and parse the
-> specified one. To improve the performance of this usage, allow user
-> specified vCPU id to query registers.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> Run a VM with 16 vCPU, use bcc tool to track the latency of
-> 'hmp_info_registers':
-> 'info registers -a' uses about 3ms;
-> 'info registers 12' uses about 150us.
+> Make QMP-dispatch code free from QEMU-specific OOB dispatch/async
+> coroutine handling. This will allow to move the base code to
+> qemu-common, and clear other users from potential mis-ususe (QGA doesn't
+> have OOB or coroutine).
+
+I trust the utilty of such a move will become clear later in this
+series.
+
 >
-> Cc: Darren Kenny <darren.kenny@oracle.com>
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
-
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-
-Thanks,
-
-Darren.
-
+> To do that, introduce an optional callback QmpDispatchRun called when a
+> QMP command should be run, to allow QEMU to override the default
+> behaviour.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 > ---
->  hmp-commands-info.hx |  8 +++++---
->  monitor/misc.c       | 10 ++++++++--
->  2 files changed, 13 insertions(+), 5 deletions(-)
+>  include/qapi/qmp/dispatch.h |  7 ++--
+>  monitor/qmp.c               | 68 ++++++++++++++++++++++++++++++++++++-
+>  qapi/qmp-dispatch.c         | 64 +++-------------------------------
+>  qga/main.c                  |  2 +-
+>  tests/unit/test-qmp-cmds.c  |  6 ++--
+>  5 files changed, 81 insertions(+), 66 deletions(-)
 >
-> diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> index 188d9ece3b..e012035541 100644
-> --- a/hmp-commands-info.hx
-> +++ b/hmp-commands-info.hx
-> @@ -100,9 +100,11 @@ ERST
->  
->      {
->          .name       = "registers",
-> -        .args_type  = "cpustate_all:-a",
-> -        .params     = "[-a]",
-> -        .help       = "show the cpu registers (-a: all - show register info for all cpus)",
-> +        .args_type  = "cpustate_all:-a,vcpu:i?",
-> +        .params     = "[-a|vcpu]",
-> +        .help       = "show the cpu registers (-a: show register info for all cpus;"
-> +                      " vcpu: specific vCPU to query; show the current CPU's registers if"
-> +                      " no argument is specified)",
->          .cmd        = hmp_info_registers,
->      },
->  
-> diff --git a/monitor/misc.c b/monitor/misc.c
-> index 3d2312ba8d..6436a8786b 100644
-> --- a/monitor/misc.c
-> +++ b/monitor/misc.c
-> @@ -307,6 +307,7 @@ int monitor_get_cpu_index(Monitor *mon)
->  static void hmp_info_registers(Monitor *mon, const QDict *qdict)
->  {
->      bool all_cpus = qdict_get_try_bool(qdict, "cpustate_all", false);
-> +    int vcpu = qdict_get_try_int(qdict, "vcpu", -1);
->      CPUState *cs;
->  
->      if (all_cpus) {
-> @@ -315,13 +316,18 @@ static void hmp_info_registers(Monitor *mon, const QDict *qdict)
->              cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
->          }
->      } else {
-> -        cs = mon_get_cpu(mon);
-> +        cs = vcpu >= 0 ? qemu_get_cpu(vcpu) : mon_get_cpu(mon);
->  
->          if (!cs) {
-> -            monitor_printf(mon, "No CPU available\n");
-> +            if (vcpu >= 0) {
-> +                monitor_printf(mon, "CPU#%d not available\n", vcpu);
-> +            } else {
-> +                monitor_printf(mon, "No CPU available\n");
-> +            }
->              return;
->          }
->  
-> +        monitor_printf(mon, "\nCPU#%d\n", cs->cpu_index);
->          cpu_dump_state(cs, NULL, CPU_DUMP_FPU);
+> diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+> index 1e4240fd0dbc..b659da613f2e 100644
+> --- a/include/qapi/qmp/dispatch.h
+> +++ b/include/qapi/qmp/dispatch.h
+> @@ -14,7 +14,6 @@
+>  #ifndef QAPI_QMP_DISPATCH_H
+>  #define QAPI_QMP_DISPATCH_H
+>=20=20
+> -#include "monitor/monitor.h"
+>  #include "qemu/queue.h"
+>=20=20
+>  typedef void (QmpCommandFunc)(QDict *, QObject **, Error **);
+> @@ -41,6 +40,10 @@ typedef struct QmpCommand
+>=20=20
+>  typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
+>=20=20
+> +typedef void (QmpDispatchRun)(bool oob, const QmpCommand *cmd,
+> +                              QDict *args, QObject **ret, Error **errp,
+> +                              void *run_data);
+> +
+>  void qmp_register_command(QmpCommandList *cmds, const char *name,
+>                            QmpCommandFunc *fn, QmpCommandOptions options,
+>                            unsigned special_features);
+> @@ -56,7 +59,7 @@ const char *qmp_command_name(const QmpCommand *cmd);
+>  bool qmp_has_success_response(const QmpCommand *cmd);
+>  QDict *qmp_error_response(Error *err);
+>  QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> -                    bool allow_oob, Monitor *cur_mon);
+> +                    bool allow_oob, QmpDispatchRun run_cb, void *run_dat=
+a);
+>  bool qmp_is_oob(const QDict *dict);
+>=20=20
+>  typedef void (*qmp_cmd_callback_fn)(const QmpCommand *cmd, void *opaque);
+> diff --git a/monitor/qmp.c b/monitor/qmp.c
+> index 092c527b6fc9..f8dec97c96bb 100644
+> --- a/monitor/qmp.c
+> +++ b/monitor/qmp.c
+> @@ -132,6 +132,72 @@ static void monitor_qmp_respond(MonitorQMP *mon, QDi=
+ct *rsp)
 >      }
 >  }
-> -- 
-> 2.20.1
+>=20=20
+> +typedef struct QmpDispatchBH {
+> +    const QmpCommand *cmd;
+> +    Monitor *cur_mon;
+> +    QDict *args;
+> +    QObject **ret;
+> +    Error **errp;
+> +    Coroutine *co;
+> +} QmpDispatchBH;
+> +
+> +static void do_qmp_dispatch_bh(void *opaque)
+> +{
+> +    QmpDispatchBH *data =3D opaque;
+> +
+> +    assert(monitor_cur() =3D=3D NULL);
+> +    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
+> +    data->cmd->fn(data->args, data->ret, data->errp);
+> +    monitor_set_cur(qemu_coroutine_self(), NULL);
+> +    aio_co_wake(data->co);
+> +}
+> +
+> +/*
+> + * Runs outside of coroutine context for OOB commands, but in coroutine
+> + * context for everything else.
+> + */
+> +static void qmp_dispatch_run(bool oob, const QmpCommand *cmd,
+> +                             QDict *args, QObject **ret, Error **errp,
+> +                             void *run_data)
+> +{
+> +    Monitor *cur_mon =3D run_data;
+> +
+> +    assert(!(oob && qemu_in_coroutine()));
+> +    assert(monitor_cur() =3D=3D NULL);
+> +
+> +    if (!!(cmd->options & QCO_COROUTINE) =3D=3D qemu_in_coroutine()) {
+> +        monitor_set_cur(qemu_coroutine_self(), cur_mon);
+> +        cmd->fn(args, ret, errp);
+> +        monitor_set_cur(qemu_coroutine_self(), NULL);
+> +    } else {
+> +       /*
+> +        * Actual context doesn't match the one the command needs.
+> +        *
+> +        * Case 1: we are in coroutine context, but command does not
+> +        * have QCO_COROUTINE.  We need to drop out of coroutine
+> +        * context for executing it.
+> +        *
+> +        * Case 2: we are outside coroutine context, but command has
+> +        * QCO_COROUTINE.  Can't actually happen, because we get here
+> +        * outside coroutine context only when executing a command
+> +        * out of band, and OOB commands never have QCO_COROUTINE.
+> +        */
+> +        assert(!oob && qemu_in_coroutine() && !(cmd->options & QCO_COROU=
+TINE));
+> +
+> +        QmpDispatchBH data =3D {
+> +            .cur_mon    =3D cur_mon,
+> +            .cmd        =3D cmd,
+> +            .args       =3D args,
+> +            .ret        =3D ret,
+> +            .errp       =3D errp,
+> +            .co         =3D qemu_coroutine_self(),
+> +        };
+> +        aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_=
+bh,
+> +                                &data);
+> +        qemu_coroutine_yield();
+> +    }
+> +}
+> +
+>  /*
+>   * Runs outside of coroutine context for OOB commands, but in
+>   * coroutine context for everything else.
+> @@ -142,7 +208,7 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QOb=
+ject *req)
+>      QDict *error;
+>=20=20
+>      rsp =3D qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon),
+> -                       &mon->common);
+> +                       qmp_dispatch_run, &mon->common);
+>=20=20
+>      if (mon->commands =3D=3D &qmp_cap_negotiation_commands) {
+>          error =3D qdict_get_qdict(rsp, "error");
+> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> index 0990873ec8ec..342b13d7ebbd 100644
+> --- a/qapi/qmp-dispatch.c
+> +++ b/qapi/qmp-dispatch.c
+> @@ -13,7 +13,6 @@
+>=20=20
+>  #include "qemu/osdep.h"
+>=20=20
+> -#include "block/aio.h"
+>  #include "qapi/compat-policy.h"
+>  #include "qapi/error.h"
+>  #include "qapi/qmp/dispatch.h"
+> @@ -22,8 +21,6 @@
+>  #include "qapi/qobject-input-visitor.h"
+>  #include "qapi/qobject-output-visitor.h"
+>  #include "qapi/qmp/qbool.h"
+> -#include "qemu/coroutine.h"
+> -#include "qemu/main-loop.h"
+>=20=20
+>  Visitor *qobject_input_visitor_new_qmp(QObject *obj)
+>  {
+> @@ -110,32 +107,8 @@ bool qmp_is_oob(const QDict *dict)
+>          && !qdict_haskey(dict, "execute");
+>  }
+>=20=20
+> -typedef struct QmpDispatchBH {
+> -    const QmpCommand *cmd;
+> -    Monitor *cur_mon;
+> -    QDict *args;
+> -    QObject **ret;
+> -    Error **errp;
+> -    Coroutine *co;
+> -} QmpDispatchBH;
+> -
+> -static void do_qmp_dispatch_bh(void *opaque)
+> -{
+> -    QmpDispatchBH *data =3D opaque;
+> -
+> -    assert(monitor_cur() =3D=3D NULL);
+> -    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
+> -    data->cmd->fn(data->args, data->ret, data->errp);
+> -    monitor_set_cur(qemu_coroutine_self(), NULL);
+> -    aio_co_wake(data->co);
+> -}
+> -
+> -/*
+> - * Runs outside of coroutine context for OOB commands, but in coroutine
+> - * context for everything else.
+> - */
+>  QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+> -                    bool allow_oob, Monitor *cur_mon)
+> +                    bool allow_oob, QmpDispatchRun run_cb, void *run_dat=
+a)
+>  {
+>      Error *err =3D NULL;
+>      bool oob;
+> @@ -203,39 +176,12 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QOb=
+ject *request,
+>          qobject_ref(args);
+>      }
+>=20=20
+> -    assert(!(oob && qemu_in_coroutine()));
+> -    assert(monitor_cur() =3D=3D NULL);
+> -    if (!!(cmd->options & QCO_COROUTINE) =3D=3D qemu_in_coroutine()) {
+> -        monitor_set_cur(qemu_coroutine_self(), cur_mon);
+> -        cmd->fn(args, &ret, &err);
+> -        monitor_set_cur(qemu_coroutine_self(), NULL);
+> +    if (run_cb) {
+> +        run_cb(oob, cmd, args, &ret, &err, run_data);
+>      } else {
+> -       /*
+> -        * Actual context doesn't match the one the command needs.
+> -        *
+> -        * Case 1: we are in coroutine context, but command does not
+> -        * have QCO_COROUTINE.  We need to drop out of coroutine
+> -        * context for executing it.
+> -        *
+> -        * Case 2: we are outside coroutine context, but command has
+> -        * QCO_COROUTINE.  Can't actually happen, because we get here
+> -        * outside coroutine context only when executing a command
+> -        * out of band, and OOB commands never have QCO_COROUTINE.
+> -        */
+> -        assert(!oob && qemu_in_coroutine() && !(cmd->options & QCO_COROU=
+TINE));
+> -
+> -        QmpDispatchBH data =3D {
+> -            .cur_mon    =3D cur_mon,
+> -            .cmd        =3D cmd,
+> -            .args       =3D args,
+> -            .ret        =3D &ret,
+> -            .errp       =3D &err,
+> -            .co         =3D qemu_coroutine_self(),
+> -        };
+> -        aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_=
+bh,
+> -                                &data);
+> -        qemu_coroutine_yield();
+> +        cmd->fn(args, &ret, &err);
+>      }
+> +
+>      qobject_unref(args);
+>      if (err) {
+>          /* or assert(!ret) after reviewing all handlers: */
+
+A callback works, but note that each program's function is fixed (the
+simple and common function is inlined, but that's just for convenience).
+
+We could use the linker instead.  We already do for
+qmp_command_available(), and the patch doesn't change that.
+
+Perhaps a layering argument could be made for callbacks.  Before the
+series, monitor/qmp.c's monitor_qmp_dispatch() calls
+qapi/qmp-dispatch.c's qmp_dispatch(), which calls a few functions from
+monitor/.  However, consistency seems desirable.
+
+What do you think?
+
+[...]
+
 
