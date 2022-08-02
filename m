@@ -2,107 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77640587F05
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:36:34 +0200 (CEST)
-Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32DD587F0F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:39:19 +0200 (CEST)
+Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oItwf-0004Wt-3x
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:36:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47640)
+	id 1oItzK-0007n1-L8
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:39:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oItso-0000hc-7S
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:32:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:57092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1oItsl-0001cR-8O
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:32:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659454350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p4mHG0bA9jLcdudep0OxFOc/jYwfxBzvYCD/Jt/AvMg=;
- b=a6ll0LVJZATC60dnUqP/2kPxevYAb6dD91myHkvV5Mt1qId2aSru6UYHUhpiY0yWbJiVxB
- +z16fcwzPosv6yypbpaeE+Sur8gO8xCApHUjsDzO+Ez9YAL4BjDED9v9wiAyGWibcbWQFG
- On4CnTIGFZn4kzCp8GZbzrGGYnaIkm4=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-67-pTDvuZz9OoWWwP5KkE_Uwg-1; Tue, 02 Aug 2022 11:32:28 -0400
-X-MC-Unique: pTDvuZz9OoWWwP5KkE_Uwg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- h189-20020a1c21c6000000b003a2fdf9bd2aso6255613wmh.8
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 08:32:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oItua-0002Lq-3H
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:34:24 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oItuY-0003jp-9A
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:34:23 -0400
+Received: by mail-pl1-x634.google.com with SMTP id x10so13086982plb.3
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 08:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=5s97GOOs9GUCeUmaVZkJ3GnYyexDFHEDNSGI89u7uHo=;
+ b=RbNzyOS62jHpc4t9pI4+aNsn6Q73IdmBUQXMXlLzbvuM213mI/44JgYWR+TPdQfg0Q
+ 9roKmcG7QOZ2Zp+jTX1h58NppN24gD/rwFJM2dotCDxJWTAzqsD5XWjnizPRwDuDsv11
+ lbk7E0ESITVwuwYp/r2V0qFRnGqJpIFh8NKGwFQkjXmZJo8Nwkb9Or+/3kcQxzWzaBLL
+ gm7k96eeOWJiSx9svqnmPQTtvIi2+SkVYxmYSxVRL7ROH7BIpEXoD6rKXq9Oge8tsWN4
+ TwXBATtpD1Cb9WY9JM1MR9MZ6QkpdY8qHpKBAcfLLPHGaXRbvFtruQQX/svVlZU9xEYX
+ 2HSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
+ :content-language:to:cc:references:from:in-reply-to
  :content-transfer-encoding;
- bh=p4mHG0bA9jLcdudep0OxFOc/jYwfxBzvYCD/Jt/AvMg=;
- b=sLe6oafgL7CF0MOHdOB4QvqhO4IQgsoydcbjDH06O/nAALRBzDF5+RfGOMj7clxmFJ
- wz372zOLINYfXqO5B2uBqyrkArzh6wxETUJfotCaXy50Ah1oI3JdWx6p6+5s3nJFub7C
- Qtsx68lukZVn5cZ4Rrhcrg3u2UdV8ecCVIHik+EahWs/UfNKvO3e99txNZXKk5X/Qg5Z
- tdhXr0X1H8jYSTJXkQEB2kGg+lsh4RopQxTkN4TRFJFboOztqT+tP5bfS09gYyWpjVpt
- HAUEgdKFEwlC0p7YAs3lSb+uJhxuKcFJrtYbYNOy2og1ovbfgdM3rR9y975gulOH5MG+
- cCvg==
-X-Gm-Message-State: ACgBeo2FNhJatmhkwL7jzwqtU5CbjJ1Q29iOAYxB9yKL97dwtFF9sW/8
- lEJJKv1G/Q2yHiT6vCVLcq3SY/koNaTSpvBxoauq2/1wElIu1KyzGqR4mfP4R0gd2v3cvZ2Jtx1
- r1ZhnXkr7bl2L/JQ=
-X-Received: by 2002:a7b:ce8f:0:b0:3a3:150c:d8ff with SMTP id
- q15-20020a7bce8f000000b003a3150cd8ffmr30258wmj.152.1659454347717; 
- Tue, 02 Aug 2022 08:32:27 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR521nD/JSRNUJ/H6JyLhLd04jByVgakPCr5/rD3phzURgWVrn5facUqTbl2UzBLV8kDyHvuYw==
-X-Received: by 2002:a7b:ce8f:0:b0:3a3:150c:d8ff with SMTP id
- q15-20020a7bce8f000000b003a3150cd8ffmr30236wmj.152.1659454347398; 
- Tue, 02 Aug 2022 08:32:27 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c707:3800:8435:659e:f80:9b3d?
- (p200300cbc70738008435659e0f809b3d.dip0.t-ipconnect.de.
- [2003:cb:c707:3800:8435:659e:f80:9b3d])
+ bh=5s97GOOs9GUCeUmaVZkJ3GnYyexDFHEDNSGI89u7uHo=;
+ b=jOstVX2LYriLI06h4EHT6nbqQJLN/o5iUpxj1jQMW5mlgGlvxQDfhOKVmddC38XATT
+ XjRHbhYedZ9ozAoK2n3xxgNj6UKVECKs9vwDpXSSwJ1E1SHaLD7ibyo5X7hr0ePey9Mk
+ 3iWvot55opEzpinjXDnX+IsWs3RjAo4GIy2EPVfcb3U494v/qV6HTUkBllMvgV3WHJUH
+ tAdfc+mSvbxxApYKLoOdzlfVNhlbjLlrfG+uGIQq3JWiyp8NmZ7t0ltvMuCUUrVApDGX
+ WYV6Assos/Djo68/2+TlIr+v3sEaWP7AfU/gGcYZ+2lZDJstzSefuRjQVF0JXgL9Ytn1
+ pE1w==
+X-Gm-Message-State: ACgBeo3ZQEXHlCT1CpW1MMtu+L3AEkjhy7Y63STNo8ifkPV1GN5jO+4y
+ Dee0WJBNhsLyYzWddr/x7TY30w==
+X-Google-Smtp-Source: AA6agR6iv7MJNkkTLjAab9VuEIcmHo1+1bDPBP6wmCRkR3eH2p8C5loy9R1cEGyLLjyunQtxQJPpVA==
+X-Received: by 2002:a17:902:a502:b0:16b:fbd9:7fc5 with SMTP id
+ s2-20020a170902a50200b0016bfbd97fc5mr22482388plq.112.1659454460729; 
+ Tue, 02 Aug 2022 08:34:20 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:9b48:8d61:390d:9808?
+ ([2602:ae:1549:801:9b48:8d61:390d:9808])
  by smtp.gmail.com with ESMTPSA id
- j7-20020adfe507000000b0021d65675583sm15733120wrm.52.2022.08.02.08.32.26
+ a15-20020a170902710f00b0016d2540c098sm11863469pll.231.2022.08.02.08.34.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 08:32:27 -0700 (PDT)
-Message-ID: <b35530a5-cf84-eead-38a6-5aa80363702d@redhat.com>
-Date: Tue, 2 Aug 2022 17:32:26 +0200
+ Tue, 02 Aug 2022 08:34:19 -0700 (PDT)
+Message-ID: <16cd72ea-06cb-b30b-e308-f399edb4b061@linaro.org>
+Date: Tue, 2 Aug 2022 08:34:18 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH v3] target/s390x: support PRNO_TRNG instruction
+Subject: Re: [PULL 0/7] Block layer patches
 Content-Language: en-US
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-References: <Ytft08S2eGaYVwC3@zx2c4.com>
- <20220720120859.339788-1-Jason@zx2c4.com>
- <ef161533-0123-28f0-db1f-5257e82f6340@linux.ibm.com>
- <1afd34c3-0aa6-541c-07e9-b0eef7e0f0d7@redhat.com>
- <71d173c2-21eb-5966-8458-91de9bc48620@linux.ibm.com>
- <71b1b0f6-95b9-0249-e996-b8348470693f@redhat.com>
- <834c1a76-d972-a1b2-2c28-d0482335d3ba@linux.ibm.com>
- <5835cfa9-841f-ab6c-6684-2ae3bddeacf3@redhat.com>
- <CAHmME9pT+ifm4SbKMCxdXLDOtmEn99ssf54Bz8SWsiRLWfOvGA@mail.gmail.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAHmME9pT+ifm4SbKMCxdXLDOtmEn99ssf54Bz8SWsiRLWfOvGA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org
+References: <20220802133757.138016-1-kwolf@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220802133757.138016-1-kwolf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,24 +93,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.08.22 17:28, Jason A. Donenfeld wrote:
-> Hi David, Christian,
+On 8/2/22 06:37, Kevin Wolf wrote:
+> The following changes since commit 60205b71421cbc529ca60b12c79e0eeace007319:
 > 
-> While this thread has your attention, I thought I'd reiterate my offer in:
-> https://lore.kernel.org/qemu-devel/YuEoUwzDzBqFFpxe@zx2c4.com/
+>    Merge tag 'pull-aspeed-20220801' of https://github.com/legoater/qemu into staging (2022-08-01 13:55:11 -0700)
 > 
-> Do either of you want to "take ownership" of this patch to bring it
-> past the finish line, and I can provide whatever additional crypto
-> code you need for that?
+> are available in the Git repository at:
+> 
+>    git://repo.or.cz/qemu/kevin.git tags/for-upstream
+> 
+> for you to fetch changes up to 21b1d974595b3986c68fe80a1f7e9b87886d4bae:
+> 
+>    main loop: add missing documentation links to GS/IO macros (2022-08-02 12:02:17 +0200)
+> 
+> ----------------------------------------------------------------
+> Block layer patches
+> 
+> - libvduse: Coverity fixes
+> - hd-geometry: Fix ignored bios-chs-trans setting
+> - io_uring: Fix compiler warning (missing #include)
+> - main loop: add missing documentation links to GS/IO macros
+> - qemu-iotests: Discard stderr when probing devices
 
-For me the patch is good enough. But sure, having a SHA512
-implementation would be nice ...
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Long story short, I'll wire up whatever crypto stuff you can come up with ;)
 
--- 
-Thanks,
+r~
 
-David / dhildenb
+
+> 
+> ----------------------------------------------------------------
+> Cole Robinson (1):
+>        qemu-iotests: Discard stderr when probing devices
+> 
+> Emanuele Giuseppe Esposito (1):
+>        main loop: add missing documentation links to GS/IO macros
+> 
+> Jinhao Fan (1):
+>        block/io_uring: add missing include file
+> 
+> Lev Kujawski (1):
+>        hw/block/hd-geometry: Do not override specified bios-chs-trans
+> 
+> Xie Yongji (3):
+>        libvduse: Fix the incorrect function name
+>        libvduse: Replace strcpy() with strncpy()
+>        libvduse: Pass positive value to strerror()
+> 
+>   include/qemu/main-loop.h        | 18 +++++++++++++++---
+>   block/io_uring.c                |  1 +
+>   hw/block/hd-geometry.c          |  7 ++++++-
+>   subprojects/libvduse/libvduse.c | 13 +++++++------
+>   tests/qemu-iotests/common.rc    |  4 ++--
+>   5 files changed, 31 insertions(+), 12 deletions(-)
+> 
+> 
 
 
