@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA42588245
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:09:28 +0200 (CEST)
-Received: from localhost ([::1]:35870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF844588247
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:10:14 +0200 (CEST)
+Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIxGh-0006jo-QD
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:09:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44432)
+	id 1oIxHS-0007ob-4C
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oIxET-0003qn-Ia; Tue, 02 Aug 2022 15:07:09 -0400
-Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:33420)
+ id 1oIxFk-0005RJ-OP; Tue, 02 Aug 2022 15:08:28 -0400
+Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:41674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oIxER-0001na-R6; Tue, 02 Aug 2022 15:07:09 -0400
-Received: by mail-oo1-xc32.google.com with SMTP id
- e2-20020a4ab982000000b004354ba9a591so2677660oop.0; 
- Tue, 02 Aug 2022 12:07:07 -0700 (PDT)
+ id 1oIxFj-0001yj-9W; Tue, 02 Aug 2022 15:08:28 -0400
+Received: by mail-oa1-x33.google.com with SMTP id
+ 586e51a60fabf-10ea30a098bso13394844fac.8; 
+ Tue, 02 Aug 2022 12:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=on+9djOJkrQCi3KBefeuUJciiDdZjgIUmuv54oRcST0=;
- b=f3q1HLMntF6DHvwFZASzSsAzC0UkNDJa4Y21MdC3yZby58CSYnQEzK7NHyBFKKKjcZ
- l8pkZElBtTNfrKE4bJHi6MAfwCavHNRp4VLJ6p/WPrO3whsaKhNrEDjyCGkPFgHkH7Pa
- 6dqnAAqwwMCA4xUVDpczPy5vxFCXpaqFfrm2dQOa8zPaAbiomXje2ggBmJ/3U0sEj7wl
- 3pP/ZJVd9eQw6jTlGD5PwDrPqvozQ63R6pnUIyeHgtCUJxniWMb1+3lJVgboU8TUDCgz
- VsNPrz2fA6mz62IwDci5mZ92eO46BIQC0PPuiTijoEKsKu1/7ClsNPbt+03LNp67j9WF
- XANQ==
+ :from:to:cc; bh=kVDWKV0Koi4aQlqW+MZhskLpfIwh+0ANLp8QB/ww7DY=;
+ b=NUHwPjvEJH/2uYJqMxnooc0D//XOeXMd7vkU2QTJZbCqWWHPDce7IO5SdAtqm4JpW4
+ QmGE3hb2GgpjcyyRsygMUQMqWHpMmunV4qrEnEBMEUv94aZRxNt3mfEseyfMO0upboJr
+ mdYjDNbLbkJGrpHuLajRfJ2vRWhwjOmjBOAOddI3PJQ0wnISNOd1lh7POlB/oaup1sxe
+ pCwfdh7EKbDImtTGpuBtLHmCoWjucQqrlxfK8Cmdq2mI1ZxYMAbg4Fv6gev0iEjfLqQ8
+ 2lRRa/Yv5hTYfNbC3+5Vr+9xKA33zVizUFHFyM1ENWKxI9dfK4w/10eXn1hH/pjhcSzK
+ HphA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=on+9djOJkrQCi3KBefeuUJciiDdZjgIUmuv54oRcST0=;
- b=ucKWs9ywJB0QzzkLcLc64FWbIwK1K9VmMfQv9SBaVwh/miCT3JgQKLKl1hs6bHyQBs
- E22MCQnUjb+Vi58lU8h+1L1cYWh6n5LWwmY0R85Ighx+3Rzg8f5I/XZSxBONKvHiLBkp
- c4IHlnZOV0kNBeYNgjBT4Jxlbc6hUnwOgUqllbhOWYsj3HoiMvSkTBj3Uqj59u40fKjP
- M9nz41S8dfz7kQPHNk1gYSW17TCLOVuzWgJHQ2SwLaPYavothPnhXzuN4JxvIzTiWzMu
- jcsVhhidow557z6k/ozCm+fDTcqxlgZ3I9+fG9rGoNL506bsWnT2DU23wCD1hwTf9VIM
- 4R0Q==
-X-Gm-Message-State: AJIora/e2B5UrceLYl1CzgMitvjaHCRGVlOpoaggbIkrA9t1DtGXuuQs
- 0Q/rDlOzV7uSg1+tz5ivpuM=
-X-Google-Smtp-Source: AGRyM1vFoK53hOf9+ttsM1NahgXvKiUssLr2pCGOeICxll5x1H9I+239BoS4xp1NQ30OC+uiwWPQrA==
-X-Received: by 2002:a4a:c113:0:b0:435:4ce0:9794 with SMTP id
- s19-20020a4ac113000000b004354ce09794mr7180982oop.87.1659467226231; 
- Tue, 02 Aug 2022 12:07:06 -0700 (PDT)
+ bh=kVDWKV0Koi4aQlqW+MZhskLpfIwh+0ANLp8QB/ww7DY=;
+ b=mzYY0QHq9sevdDYtihRJcx1B2uXWWyUqpR+Q++bbKqa2aO6tDTXXl09uA1XOR8IfSi
+ 05QFiASSPpgEf98LKRPgTwP93f8k0Z94g5SAVreAQ0Cpshbb8AP+pBFcnhMV7n3xFZL2
+ qGGGIxSWO2W5uquVU80GE3oXtHljkjbYOzuB5R44GR+gmKWR8kip8D9nUIzPZhZHObqv
+ c/+fhYdgPv9b7sxSD3apmGwqeJOdQxAtGeesO5flHsP40ot/REXyy1oG+snvWiFg03+X
+ 8aIr/dBM8ZR0Y3gNOSJt26lxJLyOiP1UPs2CIx7IKPfe4kDPQ00fX/ewDwEe1rP8kAAb
+ cyyw==
+X-Gm-Message-State: ACgBeo0wEqXLv4p3aZi7JYB4RP4FHNddpuu88yimwMl7w5uz3qHXRlLQ
+ oRia39eSX5Vlqi6KWF2cSTQ=
+X-Google-Smtp-Source: AA6agR5rmltKK1Sz+YdnXQIQEwWWHTMmRTANIM5f1acU6pze5t9XVgx42SWDsavhjQJj/3UaVoTt4A==
+X-Received: by 2002:a05:6870:a909:b0:10c:4c49:9c15 with SMTP id
+ eq9-20020a056870a90900b0010c4c499c15mr386463oab.186.1659467304835; 
+ Tue, 02 Aug 2022 12:08:24 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
  ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
  by smtp.gmail.com with ESMTPSA id
- y4-20020a056808130400b0033a2f6e4736sm3160256oiv.20.2022.08.02.12.07.04
+ ep2-20020a056870a98200b0010dc461410bsm3966399oab.38.2022.08.02.12.08.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 12:07:05 -0700 (PDT)
-Message-ID: <f7842a60-3aaf-6a8d-4abb-ede45fd2c381@gmail.com>
-Date: Tue, 2 Aug 2022 16:07:02 -0300
+ Tue, 02 Aug 2022 12:08:24 -0700 (PDT)
+Message-ID: <4256cd60-c629-540a-f7c0-d15aee516854@gmail.com>
+Date: Tue, 2 Aug 2022 16:08:22 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 02/19] ppc/ppc405: Introduce a PPC405 generic machine
+Subject: Re: [PATCH 03/19] ppc/ppc405: Move devices under the ref405ep machine
 Content-Language: en-US
 To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
 Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
 References: <20220801131039.1693913-1-clg@kaod.org>
- <20220801131039.1693913-3-clg@kaod.org>
+ <20220801131039.1693913-4-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220801131039.1693913-3-clg@kaod.org>
+In-Reply-To: <20220801131039.1693913-4-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::c32;
- envelope-from=danielhb413@gmail.com; helo=mail-oo1-xc32.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::33;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,91 +97,79 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 On 8/1/22 10:10, Cédric Le Goater wrote:
-> We will use this machine as a base to define the ref405ep and possibly
-> the PPC405 hotfoot board as found in the Linux kernel.
-> 
 > Signed-off-by: Cédric Le Goater <clg@kaod.org>
 > ---
->   hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
->   1 file changed, 28 insertions(+), 3 deletions(-)
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
+>   1 file changed, 19 insertions(+), 12 deletions(-)
 > 
 > diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1a4e7588c584..4c269b6526a5 100644
+> index 4c269b6526a5..24ec948d22a4 100644
 > --- a/hw/ppc/ppc405_boards.c
 > +++ b/hw/ppc/ppc405_boards.c
-> @@ -50,6 +50,15 @@
->   
->   #define USE_FLASH_BIOS
->   
-> +struct Ppc405MachineState {
-> +    /* Private */
-> +    MachineState parent_obj;
-> +    /* Public */
-> +};
-> +
-> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
-> +
->   /*****************************************************************************/
->   /* PPC405EP reference board (IBM) */
->   /* Standalone board with:
-> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->   
->       mc->desc = "ref405ep";
->       mc->init = ref405ep_init;
-> -    mc->default_ram_size = 0x08000000;
-> -    mc->default_ram_id = "ef405ep.ram";
+> @@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
+>       env->load_info = &boot_info;
 >   }
 >   
->   static const TypeInfo ref405ep_type = {
->       .name = MACHINE_TYPE_NAME("ref405ep"),
-> -    .parent = TYPE_MACHINE,
-> +    .parent = TYPE_PPC405_MACHINE,
->       .class_init = ref405ep_class_init,
->   };
+> -static void ref405ep_init(MachineState *machine)
+> +static void ppc405_init(MachineState *machine)
+>   {
+>       MachineClass *mc = MACHINE_GET_CLASS(machine);
+>       const char *kernel_filename = machine->kernel_filename;
+>       PowerPCCPU *cpu;
+> -    DeviceState *dev;
+> -    SysBusDevice *s;
+>       MemoryRegion *sram = g_new(MemoryRegion, 1);
+>       MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+>       hwaddr ram_bases[2], ram_sizes[2];
+> @@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
+>           memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
+>       }
 >   
-> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+> -    /* Register FPGA */
+> -    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
+> -    /* Register NVRAM */
+> -    dev = qdev_new("sysbus-m48t08");
+> -    qdev_prop_set_int32(dev, "base-year", 1968);
+> -    s = SYS_BUS_DEVICE(dev);
+> -    sysbus_realize_and_unref(s, &error_fatal);
+> -    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
+> -
+>       /* Load kernel and initrd using U-Boot images */
+>       if (kernel_filename && machine->firmware) {
+>           target_ulong kernel_base, initrd_base;
+> @@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
+>       }
+>   }
+>   
+> +static void ref405ep_init(MachineState *machine)
 > +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    DeviceState *dev;
+> +    SysBusDevice *s;
 > +
-> +    mc->desc = "PPC405 generic machine";
-> +    mc->default_ram_size = 0x08000000;
-> +    mc->default_ram_id = "ppc405.ram";
-
-
-I don't mind changing the default_ram_id from "ef405ep.ram" to "ppc405.ram",
-but since we're renaming it, might as well rename the remaining instances
-of ef405ep.ram:
-
-$ git grep 'ef405ep.ram'
-hw/ppc/ppc405_uc.c:                             "ef405ep.ram.alias", s->dram_mr, 0, s->ram_size);
-hw/ppc/ppc405_uc.c:    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 0);
-
-
-I believe these can be renamed to "ppc405.ram.alias" and "ppc405.ram1" in
-patch 05.
-
-
-Thanks,
-
-
-Daniel
-
-
+> +    ppc405_init(machine);
+> +
+> +    /* Register FPGA */
+> +    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
+> +    /* Register NVRAM */
+> +    dev = qdev_new("sysbus-m48t08");
+> +    qdev_prop_set_int32(dev, "base-year", 1968);
+> +    s = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
 > +}
 > +
-> +static const TypeInfo ppc405_machine_type = {
-> +    .name = TYPE_PPC405_MACHINE,
-> +    .parent = TYPE_MACHINE,
-> +    .instance_size = sizeof(Ppc405MachineState),
-> +    .class_init = ppc405_machine_class_init,
-> +    .abstract = true,
-> +};
-> +
->   static void ppc405_machine_init(void)
+>   static void ref405ep_class_init(ObjectClass *oc, void *data)
 >   {
-> +    type_register_static(&ppc405_machine_type);
->       type_register_static(&ref405ep_type);
->   }
+>       MachineClass *mc = MACHINE_CLASS(oc);
+> @@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
+>       MachineClass *mc = MACHINE_CLASS(oc);
 >   
+>       mc->desc = "PPC405 generic machine";
+> +    mc->init = ppc405_init;
+>       mc->default_ram_size = 0x08000000;
+>       mc->default_ram_id = "ppc405.ram";
+>   }
 
