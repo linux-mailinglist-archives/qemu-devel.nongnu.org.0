@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3A4587D2A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:34:02 +0200 (CEST)
-Received: from localhost ([::1]:40196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17735587D44
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:39:22 +0200 (CEST)
+Received: from localhost ([::1]:45674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIs24-0001PL-KO
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34284)
+	id 1oIs7D-0005WN-2x
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:39:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oIrxG-0004yK-6x
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:34400)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oIrxE-0000XI-Gy
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:29:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659446939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=fmAuQVeTJipfLwNrimjnWs4amQCSR1ELmwPJMslh6jA=;
- b=Ciwth7fwXZiaKfPRoJVYO7Oi163roNmgT8vn1vMkaivQ7c5/RjrLXu3eenxRU0nIfKuBsE
- ozaAJUBYxdwVe1ctcHYUhp/b0+IURimgFlakxXUJPnwaa5YlCVtTgUR/P3CoNvtImQKzlI
- 1r6gqCVj+n9niTT3mn5OitM+vIgwlLY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-127-8CfuCANwNYqDmGSla6lLow-1; Tue, 02 Aug 2022 09:28:56 -0400
-X-MC-Unique: 8CfuCANwNYqDmGSla6lLow-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 54D018037AC;
- Tue,  2 Aug 2022 13:28:56 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.242])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF759492CA2;
- Tue,  2 Aug 2022 13:28:55 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Amit Shah <amit@kernel.org>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH] virtio: remove unnecessary host_features in ->get_features()
-Date: Tue,  2 Aug 2022 09:28:53 -0400
-Message-Id: <20220802132853.755650-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIs4x-0002PY-8H
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:36:59 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:40802)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIs4v-0002Jv-KN
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:36:58 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ s5-20020a17090a13c500b001f4da9ffe5fso8390064pjf.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 06:36:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=T+SgRLR64nrrzWs4cccgOigl9vI/WlfWCx/WIOeGqc4=;
+ b=VPpB9TlfcjAE5sQC3Kds2d0sZd3Da6iB640tiPfZaCZhqMWZGk6zBF5dh85FBSHUJl
+ +bGbdzbyJ4EozD0Wq8cJIQK2zn7AHnpprfcyYdvqwZk/uSvimzAm+fgszuyKFxBml4qZ
+ c9HlsriSLtoYpYiORvBP6HBdtuh7LDVmKs5lfVlUv8ISqmMl66OUIQwrLVMxQdEEAMMo
+ 1EE/wJgG6ni20L8Rego9ogDZJncRJVlDjlx/xd5gALU7QmVwJlMnTLNK6Z2Az7qzin8Y
+ /6KB97hSCiDcTrznvwgRhCwvZXh2/g1PdQq4Nyfx7PBVb7rkyAQDgtIi11p95gE5J7S3
+ gi6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=T+SgRLR64nrrzWs4cccgOigl9vI/WlfWCx/WIOeGqc4=;
+ b=og0jObAhLeV6L8EWdlIYynk9YewEQBoUNN0ZT6IyxD/M/8L1KsM0Rnbqf92ePREl1I
+ AHAoVuuZx3ofwPWiUkiyLdFWnJfIxYEt1QVOR5LY3yu4H5qUgUbKpiPpCHEzBmiapjQO
+ lAtVMpBqSqyxEACl+yUlQMJ/E6uDDOI6dRptPOpez309n7Ob8URTbCp4JTeK8ouSnYYQ
+ 5yXN/hmKU50DHhlqjmnb5m9s2npEv0Dr+25vqgd2GvRCYNr5kb+V3uS3b3bnNcaGIb1G
+ Z4CZa63LtXZcwe2akZtZBflnzPtKKU5+RYEzE9RfdHFges+s7O+QL7SckzEe8bZDsIqE
+ iIDQ==
+X-Gm-Message-State: ACgBeo0WHnXxs+ciDK3Kzcs0qZ4DxWWi3cX7O/B4/Fkc03Hz8OvylJrr
+ QYpWJ+YQwWcx2+grlE7v+xybAw==
+X-Google-Smtp-Source: AA6agR4id6uygxFMsEv6e+Bj/fo/3ApsgfKvLQ4/mAmw4qKSmJfUBQWi2VrLEeJQKB+tlsSZmlF1uw==
+X-Received: by 2002:a17:90b:4653:b0:1f3:1ce3:2cb with SMTP id
+ jw19-20020a17090b465300b001f31ce302cbmr24739247pjb.176.1659447415930; 
+ Tue, 02 Aug 2022 06:36:55 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:9b48:8d61:390d:9808?
+ ([2602:ae:1549:801:9b48:8d61:390d:9808])
+ by smtp.gmail.com with ESMTPSA id
+ g1-20020a17090a708100b001f4e8dbed8csm5924901pjk.7.2022.08.02.06.36.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 02 Aug 2022 06:36:53 -0700 (PDT)
+Message-ID: <7f02cecb-1b94-04a9-ef86-66d183377f95@linaro.org>
+Date: Tue, 2 Aug 2022 06:36:51 -0700
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/1] riscv-to-apply queue
+Content-Language: en-US
+To: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+References: <20220801230212.3406689-1-alistair.francis@opensource.wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220801230212.3406689-1-alistair.francis@opensource.wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,108 +95,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since at least commit 6b8f1020540c27246277377aa2c3331ad2bfb160 ("virtio:
-move host_features") the ->get_features() function has been called with
-host_features as an argument.
+On 8/1/22 16:02, Alistair Francis wrote:
+> From: Alistair Francis <alistair.francis@wdc.com>
+> 
+> The following changes since commit 0e0c2cf6de0bc6538840837c63b25817cd417347:
+> 
+>    Merge tag 'pull-target-arm-20220801' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2022-08-01 12:00:08 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20220802
+> 
+> for you to fetch changes up to 1eaa63429a9944265c92efdb94c02fabb231f564:
+> 
+>    linux-user/riscv: Align signal frame to 16 bytes (2022-08-02 08:56:49 +1000)
+> 
+> ----------------------------------------------------------------
+> Seventh RISC-V PR for QEMU 7.1
+> 
+> This is a second PR to go in for RC1. It fixes a bug we have had
+> for awhile, but it's a simple fix so let's pull it in for RC1.
+> 
+> * linux-user/riscv: Align signal frame to 16 bytes
 
-Some devices manually add host_features in ->get_features() although the
-features argument already contains host_features. Make all devices
-consistent by dropping the unnecessary code.
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
 
-Cc: Cornelia Huck <cohuck@redhat.com>
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- hw/block/virtio-blk.c       | 3 ---
- hw/char/virtio-serial-bus.c | 1 -
- hw/net/virtio-net.c         | 3 ---
- hw/scsi/vhost-scsi-common.c | 3 ---
- hw/scsi/virtio-scsi.c       | 4 ----
- hw/virtio/virtio-balloon.c  | 2 --
- 6 files changed, 16 deletions(-)
 
-diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
-index e9ba752f6b..429aedcf2b 100644
---- a/hw/block/virtio-blk.c
-+++ b/hw/block/virtio-blk.c
-@@ -996,9 +996,6 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
- {
-     VirtIOBlock *s = VIRTIO_BLK(vdev);
- 
--    /* Firstly sync all virtio-blk possible supported features */
--    features |= s->host_features;
--
-     virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
-     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
-     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
-diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
-index 7d4601cb5d..1414fb85ae 100644
---- a/hw/char/virtio-serial-bus.c
-+++ b/hw/char/virtio-serial-bus.c
-@@ -557,7 +557,6 @@ static uint64_t get_features(VirtIODevice *vdev, uint64_t features,
- 
-     vser = VIRTIO_SERIAL(vdev);
- 
--    features |= vser->host_features;
-     if (vser->bus.max_nr_ports > 1) {
-         virtio_add_feature(&features, VIRTIO_CONSOLE_F_MULTIPORT);
-     }
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index dd0d056fde..8ecdc1cd83 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -715,9 +715,6 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-     VirtIONet *n = VIRTIO_NET(vdev);
-     NetClientState *nc = qemu_get_queue(n->nic);
- 
--    /* Firstly sync all virtio-net possible supported features */
--    features |= n->host_features;
--
-     virtio_add_feature(&features, VIRTIO_NET_F_MAC);
- 
-     if (!peer_has_vnet_hdr(n)) {
-diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
-index 767f827e55..8b26f90aa1 100644
---- a/hw/scsi/vhost-scsi-common.c
-+++ b/hw/scsi/vhost-scsi-common.c
-@@ -124,9 +124,6 @@ uint64_t vhost_scsi_common_get_features(VirtIODevice *vdev, uint64_t features,
- {
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(vdev);
- 
--    /* Turn on predefined features supported by this device */
--    features |= vsc->host_features;
--
-     return vhost_get_features(&vsc->dev, vsc->feature_bits, features);
- }
- 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 4141dddd51..f754611dfe 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -816,10 +816,6 @@ static uint64_t virtio_scsi_get_features(VirtIODevice *vdev,
-                                          uint64_t requested_features,
-                                          Error **errp)
- {
--    VirtIOSCSI *s = VIRTIO_SCSI(vdev);
--
--    /* Firstly sync all virtio-scsi possible supported features */
--    requested_features |= s->host_features;
-     return requested_features;
- }
- 
-diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
-index 73ac5eb675..0e9ca71b15 100644
---- a/hw/virtio/virtio-balloon.c
-+++ b/hw/virtio/virtio-balloon.c
-@@ -796,8 +796,6 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
- static uint64_t virtio_balloon_get_features(VirtIODevice *vdev, uint64_t f,
-                                             Error **errp)
- {
--    VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
--    f |= dev->host_features;
-     virtio_add_feature(&f, VIRTIO_BALLOON_F_STATS_VQ);
- 
-     return f;
--- 
-2.37.1
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Richard Henderson (1):
+>        linux-user/riscv: Align signal frame to 16 bytes
+> 
+>   linux-user/riscv/signal.c | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+> 
 
 
