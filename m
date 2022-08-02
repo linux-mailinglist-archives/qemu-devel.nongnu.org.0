@@ -2,81 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32DD587F0F
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:39:19 +0200 (CEST)
-Received: from localhost ([::1]:56738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0456587F8B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:57:41 +0200 (CEST)
+Received: from localhost ([::1]:39860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oItzK-0007n1-L8
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:39:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48354)
+	id 1oIuH6-0008Bh-74
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:57:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oItua-0002Lq-3H
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:34:24 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:36651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1oItuY-0003jp-9A
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:34:23 -0400
-Received: by mail-pl1-x634.google.com with SMTP id x10so13086982plb.3
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 08:34:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=5s97GOOs9GUCeUmaVZkJ3GnYyexDFHEDNSGI89u7uHo=;
- b=RbNzyOS62jHpc4t9pI4+aNsn6Q73IdmBUQXMXlLzbvuM213mI/44JgYWR+TPdQfg0Q
- 9roKmcG7QOZ2Zp+jTX1h58NppN24gD/rwFJM2dotCDxJWTAzqsD5XWjnizPRwDuDsv11
- lbk7E0ESITVwuwYp/r2V0qFRnGqJpIFh8NKGwFQkjXmZJo8Nwkb9Or+/3kcQxzWzaBLL
- gm7k96eeOWJiSx9svqnmPQTtvIi2+SkVYxmYSxVRL7ROH7BIpEXoD6rKXq9Oge8tsWN4
- TwXBATtpD1Cb9WY9JM1MR9MZ6QkpdY8qHpKBAcfLLPHGaXRbvFtruQQX/svVlZU9xEYX
- 2HSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
- :content-transfer-encoding;
- bh=5s97GOOs9GUCeUmaVZkJ3GnYyexDFHEDNSGI89u7uHo=;
- b=jOstVX2LYriLI06h4EHT6nbqQJLN/o5iUpxj1jQMW5mlgGlvxQDfhOKVmddC38XATT
- XjRHbhYedZ9ozAoK2n3xxgNj6UKVECKs9vwDpXSSwJ1E1SHaLD7ibyo5X7hr0ePey9Mk
- 3iWvot55opEzpinjXDnX+IsWs3RjAo4GIy2EPVfcb3U494v/qV6HTUkBllMvgV3WHJUH
- tAdfc+mSvbxxApYKLoOdzlfVNhlbjLlrfG+uGIQq3JWiyp8NmZ7t0ltvMuCUUrVApDGX
- WYV6Assos/Djo68/2+TlIr+v3sEaWP7AfU/gGcYZ+2lZDJstzSefuRjQVF0JXgL9Ytn1
- pE1w==
-X-Gm-Message-State: ACgBeo3ZQEXHlCT1CpW1MMtu+L3AEkjhy7Y63STNo8ifkPV1GN5jO+4y
- Dee0WJBNhsLyYzWddr/x7TY30w==
-X-Google-Smtp-Source: AA6agR6iv7MJNkkTLjAab9VuEIcmHo1+1bDPBP6wmCRkR3eH2p8C5loy9R1cEGyLLjyunQtxQJPpVA==
-X-Received: by 2002:a17:902:a502:b0:16b:fbd9:7fc5 with SMTP id
- s2-20020a170902a50200b0016bfbd97fc5mr22482388plq.112.1659454460729; 
- Tue, 02 Aug 2022 08:34:20 -0700 (PDT)
-Received: from ?IPV6:2602:ae:1549:801:9b48:8d61:390d:9808?
- ([2602:ae:1549:801:9b48:8d61:390d:9808])
- by smtp.gmail.com with ESMTPSA id
- a15-20020a170902710f00b0016d2540c098sm11863469pll.231.2022.08.02.08.34.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 08:34:19 -0700 (PDT)
-Message-ID: <16cd72ea-06cb-b30b-e308-f399edb4b061@linaro.org>
-Date: Tue, 2 Aug 2022 08:34:18 -0700
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oIuEV-00046c-RT
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:54:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:59930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oIuES-00023p-9G
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:54:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659455695;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+X5HMmbtvaT9N95oKORPbYSK2p4NMROAGBGUuax4X58=;
+ b=KWmZlSX+OLewhgRzgvPwtEWD/HXYiHLsIcdjzoft7F4fb8ahO0cHt2Q1BXZ2oaJ6diYvzn
+ Z3LPmaBzRFXc2jnGqu/VIf2IEnB2EoHYAg7SwvU8Iqeyufdn5Z5XbIdV9NRVaIzSxoQXy6
+ th5eYJ9IS6SnCogejPvBbTh56KTCgEU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-657-8b4809mDNXuSkKOn2QiXWw-1; Tue, 02 Aug 2022 11:54:54 -0400
+X-MC-Unique: 8b4809mDNXuSkKOn2QiXWw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDDEF2800480;
+ Tue,  2 Aug 2022 15:54:53 +0000 (UTC)
+Received: from dgilbert-t580.localhost (unknown [10.33.36.167])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4A8814152E1;
+ Tue,  2 Aug 2022 15:54:52 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, leobras@redhat.com, thuth@redhat.com,
+ peter.maydell@linaro.org, vgoyal@redhat.com
+Cc: peterx@redhat.com,
+	quintela@redhat.com
+Subject: [PULL 0/5] migration queue
+Date: Tue,  2 Aug 2022 16:54:42 +0100
+Message-Id: <20220802155447.216018-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PULL 0/7] Block layer patches
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org
-References: <20220802133757.138016-1-kwolf@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20220802133757.138016-1-kwolf@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,60 +78,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/2/22 06:37, Kevin Wolf wrote:
-> The following changes since commit 60205b71421cbc529ca60b12c79e0eeace007319:
-> 
->    Merge tag 'pull-aspeed-20220801' of https://github.com/legoater/qemu into staging (2022-08-01 13:55:11 -0700)
-> 
-> are available in the Git repository at:
-> 
->    git://repo.or.cz/qemu/kevin.git tags/for-upstream
-> 
-> for you to fetch changes up to 21b1d974595b3986c68fe80a1f7e9b87886d4bae:
-> 
->    main loop: add missing documentation links to GS/IO macros (2022-08-02 12:02:17 +0200)
-> 
-> ----------------------------------------------------------------
-> Block layer patches
-> 
-> - libvduse: Coverity fixes
-> - hd-geometry: Fix ignored bios-chs-trans setting
-> - io_uring: Fix compiler warning (missing #include)
-> - main loop: add missing documentation links to GS/IO macros
-> - qemu-iotests: Discard stderr when probing devices
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+The following changes since commit 0399521e53336bd2cdc15482bca0ffd3493fdff6:
 
+  Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-08-02 06:52:05 -0700)
 
-r~
+are available in the Git repository at:
 
+  https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220802c
 
-> 
-> ----------------------------------------------------------------
-> Cole Robinson (1):
->        qemu-iotests: Discard stderr when probing devices
-> 
-> Emanuele Giuseppe Esposito (1):
->        main loop: add missing documentation links to GS/IO macros
-> 
-> Jinhao Fan (1):
->        block/io_uring: add missing include file
-> 
-> Lev Kujawski (1):
->        hw/block/hd-geometry: Do not override specified bios-chs-trans
-> 
-> Xie Yongji (3):
->        libvduse: Fix the incorrect function name
->        libvduse: Replace strcpy() with strncpy()
->        libvduse: Pass positive value to strerror()
-> 
->   include/qemu/main-loop.h        | 18 +++++++++++++++---
->   block/io_uring.c                |  1 +
->   hw/block/hd-geometry.c          |  7 ++++++-
->   subprojects/libvduse/libvduse.c | 13 +++++++------
->   tests/qemu-iotests/common.rc    |  4 ++--
->   5 files changed, 31 insertions(+), 12 deletions(-)
-> 
-> 
+for you to fetch changes up to a21ba54dd5ca38cd05da9035fc65374d7af54f13:
+
+  virtiofsd: Disable killpriv_v2 by default (2022-08-02 16:46:52 +0100)
+
+----------------------------------------------------------------
+Migration fixes pull 2022-08-02
+
+Small migration (and virtiofsd) fixes.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Leonardo Bras (1):
+      migration: add remaining params->has_* = true in migration_instance_init()
+
+Peter Maydell (2):
+      migration: Assert that migrate_multifd_compression() returns an in-range value
+      migration: Define BLK_MIG_BLOCK_SIZE as unsigned long long
+
+Thomas Huth (1):
+      Revert "migration: Simplify unqueue_page()"
+
+Vivek Goyal (1):
+      virtiofsd: Disable killpriv_v2 by default
+
+ migration/block.c                |  2 +-
+ migration/migration.c            |  5 +++++
+ migration/ram.c                  | 37 ++++++++++++++++++++++++++-----------
+ migration/trace-events           |  3 ++-
+ tools/virtiofsd/passthrough_ll.c | 13 ++-----------
+ 5 files changed, 36 insertions(+), 24 deletions(-)
 
 
