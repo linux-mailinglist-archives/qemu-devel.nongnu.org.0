@@ -2,57 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B405875A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 04:55:58 +0200 (CEST)
-Received: from localhost ([::1]:39946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 778595875F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 05:30:21 +0200 (CEST)
+Received: from localhost ([::1]:43466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIi4a-0008Gj-TE
-	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 22:55:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35036)
+	id 1oIibr-00047B-Sy
+	for lists+qemu-devel@lfdr.de; Mon, 01 Aug 2022 23:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIi23-0004F1-RB
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:53:19 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3820)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oIiaY-0002i1-0L
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 23:28:58 -0400
+Received: from mga11.intel.com ([192.55.52.93]:56139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hogan.wang@huawei.com>)
- id 1oIi20-00076D-Uy
- for qemu-devel@nongnu.org; Mon, 01 Aug 2022 22:53:19 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LxfcQ6c8bzlW7B;
- Tue,  2 Aug 2022 10:50:30 +0800 (CST)
-Received: from kwepemm600015.china.huawei.com (7.193.23.52) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Tue, 2 Aug 2022 10:53:12 +0800
-Received: from localhost (10.174.149.172) by kwepemm600015.china.huawei.com
- (7.193.23.52) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Tue, 2 Aug
- 2022 10:53:11 +0800
-To: <kwolf@redhat.com>, <berrange@redhat.com>, <armbru@redhat.com>,
- <marcandre.lureau@redhat.com>, <qemu-devel@nongnu.org>
-CC: <wangxinxin.wang@huawei.com>, <hogan.wang@huawei.com>
-Subject: [PATCH v5 3/3] dump: use jobs framework for dump guest memory
-Date: Tue, 2 Aug 2022 10:53:05 +0800
-Message-ID: <20220802025305.3452-3-hogan.wang@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20220802025305.3452-1-hogan.wang@huawei.com>
-References: <20220802025305.3452-1-hogan.wang@huawei.com>
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oIiaV-00049T-Af
+ for qemu-devel@nongnu.org; Mon, 01 Aug 2022 23:28:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659410935; x=1690946935;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=42Hile80qEC+ackNR+5ojEWkTie3LsqWbiPV2ZHGjFY=;
+ b=lDqY6YZ7jal4dBB+GNjs72Jd1A91IojjsUnU7I/grNIbl3tx0tez2b2h
+ SEdRE1x10mjpCPsnPWAFNWzAi6MSCelkXH79NwWLSsgGWhla7NaqaiRZY
+ DXl74Xczb2A1Qp73qRhPB913TPpD1icYaeFtjRY3GjN+bLourZJnYUpv8
+ /io4ePr6BZpcH3MRIko1ZfwcU7vZsDAxakLAxXM4N4aShIdFGIkg10W3j
+ +AoRuqCIXoUdX04oIoNxreE8djwP+GUdQgR9Q+Hvux9qPpqmARkJOB3H1
+ bHts25RTFy8aT8gYYJsbk3p4LmHWCuMgu4AXb9Zhx0fqNs4GQgwkeIUUB g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="286870149"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="286870149"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 20:28:48 -0700
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="578044017"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.175.192])
+ ([10.249.175.192])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Aug 2022 20:28:18 -0700
+Message-ID: <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+Date: Tue, 2 Aug 2022 11:28:15 +0800
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=83=c2=a9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <20220721163621.761513-10-pbonzini@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.149.172]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- kwepemm600015.china.huawei.com (7.193.23.52)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=hogan.wang@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,135 +86,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Hogan Wang <hogan.wang@huawei.com>
-From:  Hogan Wang via <qemu-devel@nongnu.org>
 
-There's no way to cancel the current executing dump process, lead to the
-virtual machine manager daemon((e.g. libvirtd) cannot restore the dump
-job after daemon restart.
+On 7/22/2022 12:36 AM, Paolo Bonzini wrote:
+> From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+> 
+> Tiny machines optimized for fast boot time generally don't use EFI,
+> which means a random seed has to be supplied some other way. For this
+> purpose, Linux (â‰¥5.20) supports passing a seed in the setup_data table
+> with SETUP_RNG_SEED, specially intended for hypervisors, kexec, and
+> specialized bootloaders. The linked commit shows the upstream kernel
+> implementation.
+> 
+> At Paolo's request, we don't pass these to versioned machine types â‰¤7.0.
+> 
+> Link: https://git.kernel.org/tip/tip/c/68b8e9713c8
+> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Eduardo Habkost <eduardo@habkost.net>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Philippe Mathieu-DaudÃ© <f4bug@amsat.org>
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+> Message-Id: <20220721125636.446842-1-Jason@zx2c4.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>   hw/i386/microvm.c                            |  2 +-
+>   hw/i386/pc.c                                 |  4 +--
+>   hw/i386/pc_piix.c                            |  2 ++
+>   hw/i386/pc_q35.c                             |  2 ++
+>   hw/i386/x86.c                                | 26 +++++++++++++++++---
+>   include/hw/i386/pc.h                         |  3 +++
+>   include/hw/i386/x86.h                        |  3 ++-
+>   include/standard-headers/asm-x86/bootparam.h |  1 +
+>   8 files changed, 35 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
+> index dc929727dc..7fe8cce03e 100644
+> --- a/hw/i386/microvm.c
+> +++ b/hw/i386/microvm.c
+> @@ -332,7 +332,7 @@ static void microvm_memory_init(MicrovmMachineState *mms)
+>       rom_set_fw(fw_cfg);
+>   
+>       if (machine->kernel_filename != NULL) {
+> -        x86_load_linux(x86ms, fw_cfg, 0, true);
+> +        x86_load_linux(x86ms, fw_cfg, 0, true, false);
+>       }
+>   
+>       if (mms->option_roms) {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 774cb2bf07..d2b5823ffb 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -796,7 +796,7 @@ void xen_load_linux(PCMachineState *pcms)
+>       rom_set_fw(fw_cfg);
+>   
+>       x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+> -                   pcmc->pvh_enabled);
+> +                   pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
+>       for (i = 0; i < nb_option_roms; i++) {
+>           assert(!strcmp(option_rom[i].name, "linuxboot.bin") ||
+>                  !strcmp(option_rom[i].name, "linuxboot_dma.bin") ||
+> @@ -992,7 +992,7 @@ void pc_memory_init(PCMachineState *pcms,
+>   
+>       if (linux_boot) {
+>           x86_load_linux(x86ms, fw_cfg, pcmc->acpi_data_size,
+> -                       pcmc->pvh_enabled);
+> +                       pcmc->pvh_enabled, pcmc->legacy_no_rng_seed);
+>       }
+>   
+>       for (i = 0; i < nb_option_roms; i++) {
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index a234989ac3..fbf9465318 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -438,9 +438,11 @@ DEFINE_I440FX_MACHINE(v7_1, "pc-i440fx-7.1", NULL,
+>   
+>   static void pc_i440fx_7_0_machine_options(MachineClass *m)
+>   {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>       pc_i440fx_7_1_machine_options(m);
+>       m->alias = NULL;
+>       m->is_default = false;
+> +    pcmc->legacy_no_rng_seed = true;
+>       compat_props_add(m->compat_props, hw_compat_7_0, hw_compat_7_0_len);
+>       compat_props_add(m->compat_props, pc_compat_7_0, pc_compat_7_0_len);
+>   }
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index f96cbd04e2..12cc76aaf8 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -375,8 +375,10 @@ DEFINE_Q35_MACHINE(v7_1, "pc-q35-7.1", NULL,
+>   
+>   static void pc_q35_7_0_machine_options(MachineClass *m)
+>   {
+> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>       pc_q35_7_1_machine_options(m);
+>       m->alias = NULL;
+> +    pcmc->legacy_no_rng_seed = true;
 
-When caller pass the 'job-id' argument, create a job for dump process.
-And then caller can use job-cancel QMP command to cancel the detached
-dump process, use job-dismiss QMP command to release job object.
+Is making .legacy_no_rng_seed default false and opt-in it for old 
+machines correct?
 
-Examples:
-Start dump job:
-{"execute": "dump-guest-memory", "arguments": { "job-id": "dump-guest-memory",
-                                                "protocol": "file:/tmp/vm.dump",
-                                                "paging": false,
-                                                "format": "elf",
-                                                "detach": true
-                                              }}
-
-Cancel dump job:
-{"execute": "job-cancel", "arguments": { "id": "dump-guest-memory" }}
-
-Dismiss dump job:
-{"execute": "job-dismiss", "arguments": { "id": "dump-guest-memory" }}
-
-Signed-off-by: Hogan Wang <hogan.wang@huawei.com>
----
- dump/dump.c | 65 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
-
-diff --git a/dump/dump.c b/dump/dump.c
-index cec9be30b4..f2f3b6726f 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -98,6 +98,7 @@ static int dump_cleanup(DumpState *s)
- {
-     guest_phys_blocks_free(&s->guest_phys_blocks);
-     memory_mapping_list_free(&s->list);
-+    s->job = NULL;
-     close(s->fd);
-     g_free(s->guest_note);
-     s->guest_note = NULL;
-@@ -1542,6 +1543,14 @@ static void get_max_mapnr(DumpState *s)
- 
- static DumpState dump_state_global = { .status = DUMP_STATUS_NONE };
- 
-+typedef struct DumpJob {
-+    Job common;
-+    DumpState *state;
-+    Coroutine *co;
-+    Error **errp;
-+} DumpJob;
-+
-+
- static void dump_state_prepare(DumpState *s)
- {
-     /* zero the struct, setting status to active */
-@@ -1894,6 +1903,53 @@ DumpQueryResult *qmp_query_dump(Error **errp)
-     return result;
- }
- 
-+static void *dump_job_thread(void *opaque)
-+{
-+    DumpJob *job = (DumpJob *)opaque;
-+    job_progress_set_remaining(&job->common, 1);
-+    dump_process(job->state, job->errp);
-+    job_progress_update(&job->common, 1);
-+    aio_co_wake(job->co);
-+    return NULL;
-+}
-+
-+static int coroutine_fn dump_guest_memory_job_run(Job *job, Error **errp)
-+{
-+    DumpJob *s = container_of(job, DumpJob, common);
-+    DumpState *state = &dump_state_global;
-+
-+    s->errp = errp;
-+    s->co = qemu_coroutine_self();
-+
-+    /* detached dump */
-+    qemu_thread_create(&s->state->dump_thread, "dump_thread",
-+                       dump_job_thread, job, QEMU_THREAD_DETACHED);
-+    qemu_coroutine_yield();
-+    return qatomic_read(&state->status) == DUMP_STATUS_COMPLETED ? 0 : -1;
-+}
-+
-+static const JobDriver dump_guest_memory_job_driver = {
-+    .instance_size = sizeof(DumpJob),
-+    .job_type      = JOB_TYPE_DUMP_GUEST_MEMORY,
-+    .run           = dump_guest_memory_job_run,
-+};
-+
-+static void dump_job_start(DumpState *state, const char *job_id, Error **errp)
-+{
-+    DumpJob *job;
-+
-+    job = job_create(job_id, &dump_guest_memory_job_driver, NULL,
-+                     qemu_get_aio_context(), JOB_MANUAL_DISMISS,
-+                     NULL, NULL, errp);
-+    if (!job) {
-+        return;
-+    }
-+    state->detached = true;
-+    state->job = &job->common;
-+    job->state = state;
-+    job_start(&job->common);
-+}
-+
- void qmp_dump_guest_memory(bool paging, const char *file,
-                            bool has_job_id, const char *job_id,
-                            bool has_detach, bool detach,
-@@ -2010,6 +2066,15 @@ void qmp_dump_guest_memory(bool paging, const char *file,
-         return;
-     }
- 
-+    if (has_job_id) {
-+        dump_job_start(s, job_id, errp);
-+        if (*errp) {
-+            qatomic_set(&s->status, DUMP_STATUS_FAILED);
-+            dump_cleanup(s);
-+        }
-+        return;
-+    }
-+
-     if (detach_p) {
-         /* detached dump */
-         s->detached = true;
--- 
-2.33.0
+AFAICT, QEMU with machine-7.1 fails to boot with OVMF on my environment.
 
 
