@@ -2,85 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A5D587ED9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:15:12 +0200 (CEST)
-Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3F9587EE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 17:20:28 +0200 (CEST)
+Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oItc0-0007Yy-01
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
+	id 1oIth4-0003iV-Vs
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 11:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
- id 1oItak-0006AB-Ih
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:13:54 -0400
-Received: from ams.source.kernel.org ([145.40.68.75]:59720)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oItcR-0007mh-Jh; Tue, 02 Aug 2022 11:15:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
- id 1oItai-0005E9-NV
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 11:13:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id BF89CB81F28
- for <qemu-devel@nongnu.org>; Tue,  2 Aug 2022 15:13:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411D8C433B5
- for <qemu-devel@nongnu.org>; Tue,  2 Aug 2022 15:13:49 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="bWabEEDv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659453225;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v4afMucyPQg8WbqmjueGMD977RBNmZAhm3Z1GzWLoAQ=;
- b=bWabEEDv0LVfZseZDeB5kcrhV9ebQFPff7x/K3aIOaNn7wWKwNaBM6MDtwbdTU1QOO6lYf
- odvZHLdt6VWIq/FWyX1SXAO4ZLr/Vdy9ztg7uyBHCVfi9TOFto/oOjSlIJZTnCEn1Pp9EU
- C1VV5yFLxAtxCggRrPVqacYJcTXqh+8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id bc40f37b
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Tue, 2 Aug 2022 15:13:45 +0000 (UTC)
-Received: by mail-yb1-f180.google.com with SMTP id 204so22885227yba.1
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 08:13:43 -0700 (PDT)
-X-Gm-Message-State: ACgBeo0T/SUx49xSswY46bDmGEHc2jNkWmaf7iLdOrbzLYVrnp6fYzZO
- IPZ9hRdjiL5i7seMVuTcU+KSATXgy45vHfPPrEs=
-X-Google-Smtp-Source: AA6agR6KHdUULK/s3X2FzAxitTk60zHQXvSp3Qelkc9nJOwrcQMtC5WgZQY/W+nJ943Cur/qEdgaFPq42/KNXneHAHg=
-X-Received: by 2002:a05:6902:72f:b0:67a:35e6:60d8 with SMTP id
- l15-20020a056902072f00b0067a35e660d8mr1544647ybt.515.1659453223068; Tue, 02
- Aug 2022 08:13:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oItcL-0005eo-Vt; Tue, 02 Aug 2022 11:15:37 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 272F8oEc022829;
+ Tue, 2 Aug 2022 15:15:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XdvHmlUj7973KyzyeMcH/tdvaBPGpDJ4yyKzojb0Yk0=;
+ b=eGlPotAtgGbFnYI6LNyHRCZDOqX6QHe+u0ydy003YLSPQfaIRb621emppGpQq4JgUl4s
+ 2o9+fKpJCjDL6WL3LAvw2WAa0xFh7LHRlRUzDoBF7/R+85K12kh/mUZ5dwxe7sWVcLYq
+ 8+zCdAtfdCS1IZvvisrdSrtbgaQtkF6ZOMWumLvHry6dZazzaHHq+VHmgVWUDT2zK8uN
+ Dl2GDppQdWBSqorRbOLVIftE8OpXhpcrRCDm7nUh6PSHqjANei3Do11GiVvhA7zvlTKf
+ 0T8gn27Oak5OrvrqybDZeOH/Uo+iRqq+BGEOPthBks/hlpBB28NHWZWb/6ImC1vPzhC+ aQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hq5ga2fg4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 15:15:28 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 272FB72F019465;
+ Tue, 2 Aug 2022 15:15:28 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hq5ga2ff4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 15:15:28 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 272F5rsF011840;
+ Tue, 2 Aug 2022 15:15:26 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma06ams.nl.ibm.com with ESMTP id 3hmuwhuvqg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 15:15:26 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 272FFcGY33292746
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 Aug 2022 15:15:38 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 25ACD5204F;
+ Tue,  2 Aug 2022 15:15:23 +0000 (GMT)
+Received: from [9.171.91.57] (unknown [9.171.91.57])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id B0D4F5204E;
+ Tue,  2 Aug 2022 15:15:22 +0000 (GMT)
+Message-ID: <834c1a76-d972-a1b2-2c28-d0482335d3ba@linux.ibm.com>
+Date: Tue, 2 Aug 2022 17:15:22 +0200
 MIME-Version: 1.0
-References: <20220721163621.761513-1-pbonzini@redhat.com>
- <20220721163621.761513-10-pbonzini@redhat.com>
- <dae86884-6cfa-a428-374c-60c42900aade@intel.com> <Yukk0YOFgkPwcTzG@zx2c4.com>
- <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com> <Yuk9a0v+CNnzAX37@zx2c4.com>
-In-Reply-To: <Yuk9a0v+CNnzAX37@zx2c4.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Tue, 2 Aug 2022 17:13:26 +0200
-X-Gmail-Original-Message-ID: <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
-Message-ID: <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
-Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
-To: Xiaoyao Li <xiaoyao.li@intel.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3] target/s390x: support PRNO_TRNG instruction
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, 
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=83=C2=A9?= <f4bug@amsat.org>, 
- Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=145.40.68.75;
- envelope-from=SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <Ytft08S2eGaYVwC3@zx2c4.com>
+ <20220720120859.339788-1-Jason@zx2c4.com>
+ <ef161533-0123-28f0-db1f-5257e82f6340@linux.ibm.com>
+ <1afd34c3-0aa6-541c-07e9-b0eef7e0f0d7@redhat.com>
+ <71d173c2-21eb-5966-8458-91de9bc48620@linux.ibm.com>
+ <71b1b0f6-95b9-0249-e996-b8348470693f@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <71b1b0f6-95b9-0249-e996-b8348470693f@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: EH4byIRtdnFyzcKWu5Av9yFyITDIB0tB
+X-Proofpoint-ORIG-GUID: EQwIkFhf5Y-D7G1ohCN-T7PE4i6rCn3k
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-02_08,2022-08-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ adultscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0 mlxscore=0
+ bulkscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ mlxlogscore=925 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208020067
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,49 +122,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Xiaoyao,
 
-On Tue, Aug 2, 2022 at 5:06 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
->
-> Hi Xiaoyao,
->
-> On Tue, Aug 02, 2022 at 10:53:07PM +0800, Xiaoyao Li wrote:
-> > yes, with >= 7.1, pcmc->legacy_no_rng_seed = false by default, and RNG
-> > seed is used.
->
-> This is intended behavior. Being on by default is basically the whole
-> point of it. Otherwise it's useless.
->
-> >
-> > > Either way, this shouldn't cause boot failures.
-> >
-> > It does fail booting OVMF with #PF. Below diff can fix the #PF for me.
->
-> Huh, interesting. Sounds like maybe there's a bug I need to fix. Can you
-> send me some repro instructions, and I'll look into it right away.
 
-I just tried booting Fedora using OVMF and didn't have any problems. I
-used this command line:
+Am 02.08.22 um 16:53 schrieb David Hildenbrand:
+> On 02.08.22 16:01, Christian Borntraeger wrote:
+>>
+>>
+>> Am 02.08.22 um 15:54 schrieb David Hildenbrand:
+>>> On 02.08.22 15:26, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> Am 20.07.22 um 14:08 schrieb Jason A. Donenfeld:
+>>>>> In order for hosts running inside of TCG to initialize the kernel's
+>>>>> random number generator, we should support the PRNO_TRNG instruction,
+>>>>> backed in the usual way with the qemu_guest_getrandom helper. This is
+>>>>> confirmed working on Linux 5.19-rc6.
+>>>>>
+>>>>> Cc: Thomas Huth <thuth@redhat.com>
+>>>>> Cc: David Hildenbrand <david@redhat.com>
+>>>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>>>>> Cc: Cornelia Huck <cohuck@redhat.com>
+>>>>> Cc: Harald Freudenberger <freude@linux.ibm.com>
+>>>>> Cc: Holger Dengler <dengler@linux.ibm.com>
+>>>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>>>> [...]
+>>>>> +    case 114:
+>>>>> +        if (r1 & 1 || !r1 || r2 & 1 || !r2)
+>>>>> +                tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>>>> +        fill_buf_random(env, ra, &env->regs[r1], &env->regs[r1 + 1]);
+>>>>> +        fill_buf_random(env, ra, &env->regs[r2], &env->regs[r2 + 1]);
+>>>>> +        break;
+>>>>
+>>>> I think I agree with Harald that some aspects are missing.
+>>>> Linux does not seem to check, but we should also modify the query function to
+>>>> indicate the availability of 114.
+>>>>
+>>>> As the msa helper deals with many instructions
+>>>> ...
+>>>> target/s390x/tcg/insn-data.def:    D(0xb91e, KMAC,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMAC)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb928, PCKMO,   RRE,   MSA3, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PCKMO)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92a, KMF,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMF)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92b, KMO,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMO)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92c, PCC,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PCC)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92d, KMCTR,   RRF_b, MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMCTR)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92e, KM,      RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KM)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb92f, KMC,     RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMC)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb929, KMA,     RRF_b, MSA8, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMA)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb93c, PPNO,    RRE,   MSA5, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PPNO)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb93e, KIMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KIMD)
+>>>> target/s390x/tcg/insn-data.def:    D(0xb93f, KLMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KLMD)
+>>>> ...
+>>>> and in theory other instructions might also have 114 we should at least check that this is ppno/prno.
+>>>> Or we split out a prno helper from the msa helper.
+>>>>
+>>>
+>>> Doesn't
+>>>
+>>> s390_get_feat_block(type, subfunc);
+>>> if (!test_be_bit(fc, subfunc)) {
+>>> 	tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>> }
+>>>
+>>> check that? As long as we don't implement 114 for any other instruction.
+>>> that should properly fence off the other instructions.
+>>
+>> Right that would help. We should still take care of the query function.
+>>
+> s390_get_feat_block() should already take care of that as well, no?
 
-qemu-system-x86_64 -machine q35 -enable-kvm -cpu host,-rdrand,-rdseed
--smp cores=8 -drive file=disk.qcow2,if=virtio -net nic,model=virtio
--net user,hostfwd=tcp::19230-:22 -m 8G -vga qxl -device
-virtio-serial-pci -device
-virtserialport,chardev=spicechannel0,name=com.redhat.spice.
-0 -chardev spicevmc,id=spicechannel0,name=vdagent -spice
-unix,addr=/tmp/vm_spice_fedora.socket,disable-ticketing,playback-compression=off,agen
-t-mouse=on,seamless-migration,gl=on -device
-virtserialport,chardev=spicechannel1,name=org.spice-space.webdav.0
--chardev spiceport,id=spicechan
-nel1,name=org.spice-space.webdav.0 -global
-driver=cfi.pflash01,property=secure,value=on -drive
-if=pflash,format=raw,unit=0,file=OVMF_CODE.secb
-oot.fd,readonly=on -drive if=pflash,format=raw,file=OVMF_VARS.secboot.fd
-
-Can you tell me what you're using and give me some links with various
-images and such? Doing the straight forward thing doesn't reproduce it
-for me.
-
-Thanks,
-Jason
+Ah right, yes it fills subfunc. So yes, that should do the trick. Sorry for the noise.
 
