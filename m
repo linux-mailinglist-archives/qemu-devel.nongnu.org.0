@@ -2,87 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D5587DC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:59:40 +0200 (CEST)
-Received: from localhost ([::1]:57920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7207F587E3A
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 16:39:12 +0200 (CEST)
+Received: from localhost ([::1]:34866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIsQt-0000VT-66
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:59:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40586)
+	id 1oIt39-0001E6-Jk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 10:39:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIsOV-0004xT-Ai
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:57:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52086)
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oIszi-0005lx-BF; Tue, 02 Aug 2022 10:35:39 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43416)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1oIsOR-0000TY-G3
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:57:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659448626;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zp/cMLIYn1GU7C+7zGOanJXDF/x4Vkrka1oDogQUnig=;
- b=gMLl4VpLwzklKD3TULRzBVP+mZoHhjdnW5soz0DCHlC9xzjwY2SZ1PNtrkolGQdUd9PI6g
- XiYx0SmA0vhuVNIDs8NBt3mxaQZvCH14jwgxi2vnLfyfzCsoSEhb4IDBuiFQOJ/IXCDkux
- RragTBgWJWHxKBn3y09K/vP9cfADuyw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-is2kkJGlOPeOxQuRS3gYSA-1; Tue, 02 Aug 2022 09:57:05 -0400
-X-MC-Unique: is2kkJGlOPeOxQuRS3gYSA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- m4-20020a7bce04000000b003a386063752so2011477wmc.1
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 06:57:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=zp/cMLIYn1GU7C+7zGOanJXDF/x4Vkrka1oDogQUnig=;
- b=1jaH13VROOxi/yjLJCgTkOQsgXXgpYC1bCFnPTOAtN9cOgpoBt2ZndRoChX+lsrKV8
- hwulajCCToj7h9JbabfKOPsv7CF8v+ZntIA0/M+PRXcQPrMNJaGLSbPs5t37ZxSPMbtK
- r6SOSELTEIvcqZ4YaqaCHIN7yqCV2EaaIZ3l+qq38Kz+Be2gnCOu68hEZIj+7rITbY/1
- +XYNf9+a/gvD55UtcbevbciwkR5l8mvMe/lI5zFXHfANanDzpa+X3wbRU0x58nnQ7DKn
- OGuW1VXcmpobyR2pLNWHC9d7gNpkQZLQqDzXaBMhm4lFBNz2J1DJoDfIb1/PG+os7sTa
- FScQ==
-X-Gm-Message-State: AJIora8uyRmREB2hHNB4PeyqZ55ri3V4Stg7vn4vWR5BmtP67T/7vaKO
- EjdHAUQtDSweiykOpWHCQmdq6/DPeSRNB2VpyCH8hytCUtSmcZMiffBIvBfG/mgnNfVLIoLgsB7
- yqT7GmsVfNcfKrlM=
-X-Received: by 2002:a7b:c391:0:b0:3a3:2f22:7bf6 with SMTP id
- s17-20020a7bc391000000b003a32f227bf6mr14461917wmj.96.1659448624282; 
- Tue, 02 Aug 2022 06:57:04 -0700 (PDT)
-X-Google-Smtp-Source: AGRyM1v3b3kkSB5fj4JZOZXpIZ90x79WayXccrlo4Wyc2BWSuOfGRarqlYXEBniKkcrF0NEnWvPgaA==
-X-Received: by 2002:a7b:c391:0:b0:3a3:2f22:7bf6 with SMTP id
- s17-20020a7bc391000000b003a32f227bf6mr14461903wmj.96.1659448624090; 
- Tue, 02 Aug 2022 06:57:04 -0700 (PDT)
-Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
- [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
- m12-20020a056000008c00b0021eaf4138aesm17837377wrx.108.2022.08.02.06.57.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 06:57:03 -0700 (PDT)
-Date: Tue, 2 Aug 2022 14:57:01 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Disable killpriv_v2 by default
-Message-ID: <YuktLWPTVHjwOrNj@work-vm>
-References: <YuPd0itNIAz4tQRt@redhat.com>
+ (Exim 4.90_1) (envelope-from <borntraeger@linux.ibm.com>)
+ id 1oIszc-0007Gm-KT; Tue, 02 Aug 2022 10:35:36 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 272EOfMm031043;
+ Tue, 2 Aug 2022 14:35:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=KhLmKeN7i5Dv1j1qqnjUddnUrpy6WsKiYWtUKyfzcBI=;
+ b=eUZZq6/ah6uXyBMUS1luTcfBm8Ce2VdsL3pJ5UE+ZYF8ZMOG6+KOiLZ6HiGGv+qPV+t6
+ v8fLHNAT87ZnY13S0+QjgAVR2HczMC+0oY1k6jeRp4Fxbvx2gV1dDT7eQvtwm2Hk6c6q
+ I+BZED+aCuEXFtKzaBCsh0dLz/al4KKziJzOSAeKfgk1wMIpgCjKXCeGREM5UGzK7+G+
+ vompCpkj68M5T7rIwdB69ryBxfPewXprAAsp3ch6yOHD2HldlUgH1fBNkuXjjWp2mrhr
+ TM9Bxw9aIz9g80I2sZkXH7EOsqskegHDA/3twt6pzl631yVmjPff6nhiL8B0kj2UdtMV 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hq5ns8c32-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 14:35:22 +0000
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 272EPg0o003230;
+ Tue, 2 Aug 2022 14:35:21 GMT
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3hq5ns8bsn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 14:35:21 +0000
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 272DphIY002265;
+ Tue, 2 Aug 2022 14:01:48 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma02fra.de.ibm.com with ESMTP id 3hmv98um4v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 02 Aug 2022 14:01:48 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 272E1jDL27787524
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 2 Aug 2022 14:01:45 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 085B25204F;
+ Tue,  2 Aug 2022 14:01:45 +0000 (GMT)
+Received: from [9.171.91.57] (unknown [9.171.91.57])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 9332A52051;
+ Tue,  2 Aug 2022 14:01:44 +0000 (GMT)
+Message-ID: <71d173c2-21eb-5966-8458-91de9bc48620@linux.ibm.com>
+Date: Tue, 2 Aug 2022 16:01:44 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuPd0itNIAz4tQRt@redhat.com>
-User-Agent: Mutt/2.2.6 (2022-06-05)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v3] target/s390x: support PRNO_TRNG instruction
+Content-Language: en-US
+To: David Hildenbrand <david@redhat.com>, "Jason A. Donenfeld"
+ <Jason@zx2c4.com>, qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+References: <Ytft08S2eGaYVwC3@zx2c4.com>
+ <20220720120859.339788-1-Jason@zx2c4.com>
+ <ef161533-0123-28f0-db1f-5257e82f6340@linux.ibm.com>
+ <1afd34c3-0aa6-541c-07e9-b0eef7e0f0d7@redhat.com>
+From: Christian Borntraeger <borntraeger@linux.ibm.com>
+In-Reply-To: <1afd34c3-0aa6-541c-07e9-b0eef7e0f0d7@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: NR1m__QwauVjDDXRGW6uBF9Jg8P_tFzP
+X-Proofpoint-GUID: t4o07lP8HV__1KxpOvJd5KXsiXk0_YGB
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.205,Aquarius:18.0.883,Hydra:6.0.517,FMLib:17.11.122.1
+ definitions=2022-08-02_08,2022-08-02_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 mlxscore=0 mlxlogscore=954
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2206140000 definitions=main-2208020067
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,66 +120,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Vivek Goyal (vgoyal@redhat.com) wrote:
-> We are having bunch of issues with killpriv_v2 enabled by default. First
-> of all it relies on clearing suid/sgid bits as needed by dropping
-> capability CAP_FSETID. This does not work for remote filesystems like
-> NFS (and possibly others). 
-> 
-> Secondly, we are noticing other issues related to clearing of SGID
-> which leads to failures for xfstests generic/355 and generic/193.
-> 
-> Thirdly, there are other issues w.r.t caching of metadata (suid/sgid)
-> bits in fuse client with killpriv_v2 enabled. Guest can cache that
-> data for sometime even if cleared on server.
-> 
-> Second and Third issue are fixable. Just that it might take a little
-> while to get it fixed in kernel. First one will probably not see
-> any movement for a long time.
-> 
-> Given these issues, killpriv_v2 does not seem to be a good candidate
-> for enabling by default. We have already disabled it by default in
-> rust version of virtiofsd.
-> 
-> Hence this patch disabled killpriv_v2 by default. User can choose to
-> enable it by passing option "-o killpriv_v2".
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-Queued
 
-> ---
->  tools/virtiofsd/passthrough_ll.c |   13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
+Am 02.08.22 um 15:54 schrieb David Hildenbrand:
+> On 02.08.22 15:26, Christian Borntraeger wrote:
+>>
+>>
+>> Am 20.07.22 um 14:08 schrieb Jason A. Donenfeld:
+>>> In order for hosts running inside of TCG to initialize the kernel's
+>>> random number generator, we should support the PRNO_TRNG instruction,
+>>> backed in the usual way with the qemu_guest_getrandom helper. This is
+>>> confirmed working on Linux 5.19-rc6.
+>>>
+>>> Cc: Thomas Huth <thuth@redhat.com>
+>>> Cc: David Hildenbrand <david@redhat.com>
+>>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>>> Cc: Cornelia Huck <cohuck@redhat.com>
+>>> Cc: Harald Freudenberger <freude@linux.ibm.com>
+>>> Cc: Holger Dengler <dengler@linux.ibm.com>
+>>> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
+>> [...]
+>>> +    case 114:
+>>> +        if (r1 & 1 || !r1 || r2 & 1 || !r2)
+>>> +                tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+>>> +        fill_buf_random(env, ra, &env->regs[r1], &env->regs[r1 + 1]);
+>>> +        fill_buf_random(env, ra, &env->regs[r2], &env->regs[r2 + 1]);
+>>> +        break;
+>>
+>> I think I agree with Harald that some aspects are missing.
+>> Linux does not seem to check, but we should also modify the query function to
+>> indicate the availability of 114.
+>>
+>> As the msa helper deals with many instructions
+>> ...
+>> target/s390x/tcg/insn-data.def:    D(0xb91e, KMAC,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMAC)
+>> target/s390x/tcg/insn-data.def:    D(0xb928, PCKMO,   RRE,   MSA3, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PCKMO)
+>> target/s390x/tcg/insn-data.def:    D(0xb92a, KMF,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMF)
+>> target/s390x/tcg/insn-data.def:    D(0xb92b, KMO,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMO)
+>> target/s390x/tcg/insn-data.def:    D(0xb92c, PCC,     RRE,   MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PCC)
+>> target/s390x/tcg/insn-data.def:    D(0xb92d, KMCTR,   RRF_b, MSA4, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMCTR)
+>> target/s390x/tcg/insn-data.def:    D(0xb92e, KM,      RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KM)
+>> target/s390x/tcg/insn-data.def:    D(0xb92f, KMC,     RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMC)
+>> target/s390x/tcg/insn-data.def:    D(0xb929, KMA,     RRF_b, MSA8, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KMA)
+>> target/s390x/tcg/insn-data.def:    D(0xb93c, PPNO,    RRE,   MSA5, 0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_PPNO)
+>> target/s390x/tcg/insn-data.def:    D(0xb93e, KIMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KIMD)
+>> target/s390x/tcg/insn-data.def:    D(0xb93f, KLMD,    RRE,   MSA,  0, 0, 0, 0, msa, 0, S390_FEAT_TYPE_KLMD)
+>> ...
+>> and in theory other instructions might also have 114 we should at least check that this is ppno/prno.
+>> Or we split out a prno helper from the msa helper.
+>>
 > 
-> Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-> ===================================================================
-> --- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2022-07-29 08:19:05.925119947 -0400
-> +++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2022-07-29 08:27:08.048049096 -0400
-> @@ -767,19 +767,10 @@ static void lo_init(void *userdata, stru
->          fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling killpriv_v2\n");
->          conn->want |= FUSE_CAP_HANDLE_KILLPRIV_V2;
->          lo->killpriv_v2 = 1;
-> -    } else if (lo->user_killpriv_v2 == -1 &&
-> -               conn->capable & FUSE_CAP_HANDLE_KILLPRIV_V2) {
-> -        /*
-> -         * User did not specify a value for killpriv_v2. By default enable it
-> -         * if connection offers this capability
-> -         */
-> -        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling killpriv_v2\n");
-> -        conn->want |= FUSE_CAP_HANDLE_KILLPRIV_V2;
-> -        lo->killpriv_v2 = 1;
->      } else {
->          /*
-> -         * Either user specified to disable killpriv_v2, or connection does
-> -         * not offer this capability. Disable killpriv_v2 in both the cases
-> +         * Either user specified to disable killpriv_v2, or did not
-> +         * specify anything. Disable killpriv_v2 in both the cases.
->           */
->          fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling killpriv_v2\n");
->          conn->want &= ~FUSE_CAP_HANDLE_KILLPRIV_V2;
+> Doesn't
 > 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> s390_get_feat_block(type, subfunc);
+> if (!test_be_bit(fc, subfunc)) {
+> 	tcg_s390_program_interrupt(env, PGM_SPECIFICATION, ra);
+> }
+> 
+> check that? As long as we don't implement 114 for any other instruction.
+> that should properly fence off the other instructions.
 
+Right that would help. We should still take care of the query function.
 
