@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4921A5879B9
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:13:52 +0200 (CEST)
-Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B72858796E
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:57:24 +0200 (CEST)
+Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oInyJ-0002u0-DX
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:13:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
+	id 1oIniN-0006HT-DB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:57:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oInJd-0002KI-Sv; Tue, 02 Aug 2022 04:31:54 -0400
-Received: from smtp84.cstnet.cn ([159.226.251.84]:50054 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oInJb-0007bN-4w; Tue, 02 Aug 2022 04:31:49 -0400
-Received: from smtpclient.apple (unknown [106.8.166.203])
- by APP-05 (Coremail) with SMTP id zQCowADn3+3Z4OhiGBayFQ--.42472S2;
- Tue, 02 Aug 2022 16:31:23 +0800 (CST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
-Subject: Re: [PATCH] hw/nvme: Add helper functions for qid-db conversion
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-In-Reply-To: <Yui+B7yEikNGACgq@apples>
-Date: Tue, 2 Aug 2022 16:31:19 +0800
-Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
- "open list:nvme" <qemu-block@nongnu.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <46762954-5440-4C96-B39B-BCAA6C86589C@ict.ac.cn>
-References: <20220728080710.372027-1-fanjinhao21s@ict.ac.cn>
- <Yui+B7yEikNGACgq@apples>
-To: Klaus Jensen <its@irrelevant.dk>
-X-Mailer: Apple Mail (2.3654.120.0.1.13)
-X-CM-TRANSID: zQCowADn3+3Z4OhiGBayFQ--.42472S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw18WF15Cw48XrWktw45Awb_yoW8XF1fpF
- n3GFW3tw1xta43ta9xtr47Xrn5Zws3Wr18Cr9rK34xAr90yr18Za42kw1Fka4xuFWIkryU
- Zr45KF17WFZFvrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
- 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
- A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
- jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
- C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
- Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
- W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l
- 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
- AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
- cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
- 8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
- wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07joGQDUUUUU=
-X-Originating-IP: [106.8.166.203]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.84;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oInQ2-00010v-Px
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:38:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oInP6-00011Y-E9
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:38:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659429446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zdtVqFbMCACeS09fM6E0mpw7wvxfWXyalTKEfKdvopo=;
+ b=bQqH7UWKLkg3nCbFR0I35w4PHagYcnDDcRFElH8YaFqxcvAWdWSOG7wGK2EFM5mc7cTuxY
+ jPXVBWt1KYVyV2h6JqTJ5OeoOQSXMc6kdQWWtk9CRvAVj20cipIVgKIjASJ7+7GYlGT4XQ
+ avCVqAo/43vrjMyzLFGWpRzD7y839+A=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-104-mjBsib2wN8GAHldJbdxtZQ-1; Tue, 02 Aug 2022 04:37:25 -0400
+X-MC-Unique: mjBsib2wN8GAHldJbdxtZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A59E3C02B84
+ for <qemu-devel@nongnu.org>; Tue,  2 Aug 2022 08:37:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C687B2026D64;
+ Tue,  2 Aug 2022 08:37:24 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 891A621E6930; Tue,  2 Aug 2022 10:37:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Thomas Huth
+ <thuth@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
+ Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Stefano Brivio
+ <sbrivio@redhat.com>
+Subject: Re: [PATCH v7 05/14] qapi: net: add stream and dgram netdevs
+References: <20220722190442.301310-1-lvivier@redhat.com>
+ <20220722190442.301310-6-lvivier@redhat.com>
+Date: Tue, 02 Aug 2022 10:37:23 +0200
+In-Reply-To: <20220722190442.301310-6-lvivier@redhat.com> (Laurent Vivier's
+ message of "Fri, 22 Jul 2022 21:04:33 +0200")
+Message-ID: <874jyvujlo.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,55 +84,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-at 2:02 PM, Klaus Jensen <its@irrelevant.dk> wrote:
+Laurent Vivier <lvivier@redhat.com> writes:
 
-> On Jul 28 16:07, Jinhao Fan wrote:
->> With the introduction of shadow doorbell and ioeventfd, we need to do
->> frequent conversion between qid and its doorbell offset. The original
->> hard-coded calculation is confusing and error-prone. Add several =
-helper
->> functions to do this task.
->>=20
->> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
->> ---
->> hw/nvme/ctrl.c | 61 =
-++++++++++++++++++++++++++++++++------------------
->> 1 file changed, 39 insertions(+), 22 deletions(-)
->>=20
->> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
->> index 533ad14e7a..6116c0e660 100644
->> --- a/hw/nvme/ctrl.c
->> +++ b/hw/nvme/ctrl.c
->> @@ -487,6 +487,29 @@ static int nvme_check_cqid(NvmeCtrl *n, uint16_t =
-cqid)
->> {
->>     return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] !=3D NULL ? 0 : =
--1;
->> }
->> +static inline bool nvme_db_offset_is_cq(NvmeCtrl *n, hwaddr offset)
->> +{
->> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
->> +    return (offset / stride) & 1;
->> +}
->=20
-> This can be changed morphed into `(offset >> (2 + dstrd)) & 1` if I am =
-not
-> mistaken.
->=20
+> Copied from socket netdev file and modified to use SocketAddress
+> to be able to introduce new features like unix socket.
+>
+> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
+> according to the IP address type.
+> "listen" and "connect" modes are managed by stream netdev. An optional
+> parameter "server" defines the mode (server by default)
+>
+> The two new types need to be parsed the modern way with -netdev, because
+> with the traditional way, the "type" field of netdev structure collides with
+> the "type" field of SocketAddress and prevents the correct evaluation of the
+> command line option. Moreover the traditional way doesn't allow to use
+> the same type (SocketAddress) several times with the -netdev option
+> (needed to specify "local" and "remote" addresses).
+>
+> The previous commit paved the way for parsing the modern way, but
+> omitted one detail: how to pick modern vs. traditional, in
+> netdev_is_modern().
+>
+> We want to pick based on the value of parameter "type".  But how to
+> extract it from the option argument?
+>
+> Parsing the option argument, either the modern or the traditional way,
+> extracts it for us, but only if parsing succeeds.
+>
+> If parsing fails, there is no good option.  No matter which parser we
+> pick, it'll be the wrong one for some arguments, and the error
+> reporting will be confusing.
+>
+> Fortunately, the traditional parser accepts *anything* when called in
+> a certain way.  This maximizes our chance to extract the value of
+> "type", and in turn minimizes the risk of confusing error reporting.
+>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
 
-Yes. But my current code looks more readable to me. Is it necessary to
-change to `(offset >> (2 + dstrd)) & 1`.
+[...]
 
->> +
->> +static inline uint16_t nvme_db_offset_to_qid(NvmeCtrl *n, hwaddr =
-offset)
->> +{
->> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
->> +    return offset / (2 * stride);
->> +}
->=20
-> Same, should be able to do `offset >> (2 * dstrd + 1)`, no?
+> diff --git a/qapi/net.json b/qapi/net.json
+> index 75ba2cb98901..a7506a40ff12 100644
+> --- a/qapi/net.json
+> +++ b/qapi/net.json
+> @@ -7,6 +7,7 @@
+>  ##
+>  
+>  { 'include': 'common.json' }
+> +{ 'include': 'sockets.json' }
+>  
+>  ##
+>  # @set_link:
+> @@ -573,6 +574,61 @@
+>      '*isolated':  'bool' },
+>    'if': 'CONFIG_VMNET' }
+>  
+> +##
+> +# @NetdevStreamOptions:
+> +#
+> +# Configuration info for stream socket netdev
+> +#
+> +# @addr: socket address to listen on (server=true)
+> +#        or connect to (server=false)
+> +# @server: create server socket (default: true)
+> +#
+> +# Only SocketAddress types 'inet' and 'fd' are supported.
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'NetdevStreamOptions',
+> +  'data': {
+> +    'addr':   'SocketAddress',
+> +    '*server': 'bool' } }
+> +
+> +##
+> +# @NetdevDgramOptions:
+> +#
+> +# Configuration info for datagram socket netdev.
+> +#
+> +# @remote: remote address
+> +# @local: local address
+> +#
+> +# Only SocketAddress types 'inet' and 'fd' are supported.
+> +#
+> +# The code checks there is at least one of these options and reports an error
+> +# if not. If remote address is present and it's a multicast address, local
+> +# address is optional. Otherwise local address is required and remote address
+> +# is optional.
+> +#
+> +# .. table:: Valid parameters combination table
+> +#    :widths: auto
+> +#
+> +#    =============  ========  =====
+> +#    remote         local     okay?
+> +#    =============  ========  =====
+> +#    absent         absent    no
+> +#    absent         not fd    no
+> +#    absent         fd        yes
+> +#    multicast      absent    yes
+> +#    multicast      present   yes
+> +#    not multicast  absent    no
+> +#    not multicast  present   yes
+> +#    =============  ========  =====
 
-Same as above.
+Looks good now.
+
+> +#
+> +# Since: 7.1
+> +##
+> +{ 'struct': 'NetdevDgramOptions',
+> +  'data': {
+> +    '*local':  'SocketAddress',
+> +    '*remote': 'SocketAddress' } }
+> +
+>  ##
+>  # @NetClientDriver:
+>  #
+> @@ -586,8 +642,9 @@
+>  #        @vmnet-bridged since 7.1
+>  ##
+>  { 'enum': 'NetClientDriver',
+> -  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> +  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream',
+> +            'dgram', 'vde', 'bridge', 'hubport', 'netmap', 'vhost-user',
+> +            'vhost-vdpa',
+>              { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
+>              { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
+>              { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
+> @@ -617,6 +674,8 @@
+>      'tap':      'NetdevTapOptions',
+>      'l2tpv3':   'NetdevL2TPv3Options',
+>      'socket':   'NetdevSocketOptions',
+> +    'stream':   'NetdevStreamOptions',
+> +    'dgram':    'NetdevDgramOptions',
+>      'vde':      'NetdevVdeOptions',
+>      'bridge':   'NetdevBridgeOptions',
+>      'hubport':  'NetdevHubPortOptions',
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 79e00916a11f..170117e1adf0 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2726,6 +2726,18 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+>      "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
+>      "                configure a network backend to connect to another network\n"
+>      "                using an UDP tunnel\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
+> +    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=h\n"
+> +    "                configure a network backend to connect to another network\n"
+> +    "                using a socket connection in stream mode.\n"
+> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
+> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=fd,local.str=h]\n"
+> +    "                configure a network backend to connect to a multicast maddr and port\n"
+> +    "                use ``local.host=addr`` to specify the host address to send packets from\n"
+> +    "-netdev dgram,id=str,local.type=inet,local.host=addr,local.port=port[,remote.type=inet,remote.host=addr,remote.port=port]\n"
+> +    "-netdev dgram,id=str,local.type=fd,local.str=h\n"
+> +    "                configure a network backend to connect to another network\n"
+> +    "                using an UDP tunnel\n"
+>  #ifdef CONFIG_VDE
+>      "-netdev vde,id=str[,sock=socketpath][,port=n][,group=groupname][,mode=octalmode]\n"
+>      "                configure a network backend to connect to port 'n' of a vde switch\n"
+
+I had a few questions on this part in review of v6.  Care to reply
+there?
 
 
