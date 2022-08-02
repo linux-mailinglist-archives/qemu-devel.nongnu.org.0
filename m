@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4701C5879D3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:27:14 +0200 (CEST)
-Received: from localhost ([::1]:39222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502165879A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:10:59 +0200 (CEST)
+Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIoBE-0005TX-Kj
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:27:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59496)
+	id 1oInvW-0007tk-BG
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:10:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oImlN-0002K4-I8
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:56:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48119)
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1oInCd-0001Go-PQ
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:24:37 -0400
+Received: from mga12.intel.com ([192.55.52.136]:63428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oImlF-0004jW-9r
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 03:56:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659426976;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=4vvQenHdFl6q7kIDghbIlLxkacw5dJOKPd2kUy20piE=;
- b=TAZShVqj1iC7Qd52P33WCZYOhRh6CykvDGddRgwOhjlvskK9b2odoI0r/74a4AVPMW3Sk9
- v2grQgP56fJiV0QdUOVjZC/auNwuwsNjCxjZuU6whn91HOKQMCPSkxQ0i81hM3eP9fMedm
- 5G7O4clya3gbrec5XESHktWQIUkIfA4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-395-AV07xSLFMJWuEUNrrCciUA-1; Tue, 02 Aug 2022 03:56:15 -0400
-X-MC-Unique: AV07xSLFMJWuEUNrrCciUA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B54463C10142;
- Tue,  2 Aug 2022 07:56:14 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 524111121314;
- Tue,  2 Aug 2022 07:56:13 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, kraxel@redhat.com,
- qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org,
-	Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: [PATCH] docs/about/removed-features: Move the -soundhw into the right
- section
-Date: Tue,  2 Aug 2022 09:56:11 +0200
-Message-Id: <20220802075611.346835-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
+ id 1oInCb-0003oX-GZ
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:24:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659428673; x=1690964673;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=PR/iLiG5E9mmVeR1yonIRLQ4DUo8P/RdY6SC8WiegCY=;
+ b=ZE7g95tXsV8QeLxqW8dTwP+FVK1BNfZ6NAB5AgZkDtTAOa28V688lfQR
+ uHxTbk38m3LGEw/x6fvdMvQcJh0j4onB4Pr8A5QrTrACS3A7AlAi0Skye
+ ei+PmxRVxkQ0PklHprQP476ZW2e8j9hGbjTU8HfnWNP2ETlkPB7Q/ALVw
+ PuBgoGiGXqy4NJWJxwdEUTKdRyvmFQuKAembb0GwAcMJ3oh3EEY4L/f2l
+ jwTDosV7Sk6NhW2qaEKYUEknaEhRuPkykoGOPNPXsqT6Ho318FZK2whC2
+ zz0CPQjGVAoiarmpg7mUhm5gZyd6VszVX0nKCNwblRLT4Cdtf4UPhmNie w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="269122783"
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="269122783"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 01:24:26 -0700
+X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="661527252"
+Received: from tkid-nvme.sh.intel.com ([10.239.161.133])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 01:24:24 -0700
+From: Zhang Chen <chen.zhang@intel.com>
+To: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
+Cc: Zhang Chen <chen.zhang@intel.com>
+Subject: [PATCH] net/colo.c: Fix the pointer issuse reported by Coverity.
+Date: Tue,  2 Aug 2022 16:09:48 +0800
+Message-Id: <20220802080948.37426-1-chen.zhang@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,50 +74,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The note about the removal of '-soundhw' has been accidentally added
-to the section of removed "linux-user mode CPUs" ... it should reside
-in the section about removed "System emulator command line arguments"
-instead.
+When enable the virtio-net-pci, guest network packet will
+load the vnet_hdr. In COLO status, the primary VM's network
+packet maybe redirect to another VM, it need filter-redirect
+enable the vnet_hdr flag at the same time, COLO-proxy will
+correctly parse the original network packet. If have any
+misconfiguration here, the vnet_hdr_len is wrong for parse
+the packet, the data+offset will point to wrong place.
 
-Fixes: 039a68373c ("introduce -audio as a replacement for -soundhw")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Zhang Chen <chen.zhang@intel.com>
 ---
- docs/about/removed-features.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ net/colo.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index c7b9dadd5d..925e22016f 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -396,6 +396,13 @@ Use ``-display sdl`` instead.
+diff --git a/net/colo.c b/net/colo.c
+index 6b0ff562ad..dfb15b4c14 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -44,21 +44,25 @@ int parse_packet_early(Packet *pkt)
+ {
+     int network_length;
+     static const uint8_t vlan[] = {0x81, 0x00};
+-    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
++    uint8_t *data = pkt->data;
+     uint16_t l3_proto;
+     ssize_t l2hdr_len;
  
- Use ``-display curses`` instead.
+     if (data == NULL) {
+-        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
+-                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
++        trace_colo_proxy_main("COLO-proxy got NULL data packet ");
+         return 1;
+     }
+-    l2hdr_len = eth_get_l2_hdr_length(data);
  
-+Creating sound card devices using ``-soundhw`` (removed in 7.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
+-        trace_colo_proxy_main("pkt->size < ETH_HLEN");
++    /* Check the received vnet_hdr_len then add the offset */
++    if (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
++        + pkt->vnet_hdr_len) {
++        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
++                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
+         return 1;
+     }
++    data += pkt->vnet_hdr_len;
 +
-+Sound card devices should be created using ``-device`` or ``-audio``.
-+The exception is ``pcspk`` which can be activated using ``-machine
-+pcspk-audiodev=<name>``.
-+
++    l2hdr_len = eth_get_l2_hdr_length(data);
  
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-@@ -681,13 +688,6 @@ tripped up the CI testing and was suspected to be quite broken. For that
- reason the maintainers strongly suspected no one actually used it.
- 
- 
--Creating sound card devices using ``-soundhw`` (removed in 7.1)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Sound card devices should be created using ``-device`` or ``-audio``.
--The exception is ``pcspk`` which can be activated using ``-machine
--pcspk-audiodev=<name>``.
--
- TCG introspection features
- --------------------------
- 
+     /*
+      * TODO: support vlan.
 -- 
-2.31.1
+2.25.1
 
 
