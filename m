@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F37587A2B
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:57:32 +0200 (CEST)
-Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403ED587A3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:00:32 +0200 (CEST)
+Received: from localhost ([::1]:43100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIoeZ-0008SG-R4
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33492)
+	id 1oIohT-00052E-BY
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXl-0001L3-1m
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:29 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37554)
+ id 1oIoXn-0001NQ-5z
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:31 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXj-0002Mu-7q
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:28 -0400
-Received: by mail-wr1-x432.google.com with SMTP id z17so12467710wrq.4
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:26 -0700 (PDT)
+ id 1oIoXl-0002Vi-PX
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:30 -0400
+Received: by mail-wr1-x430.google.com with SMTP id l4so17171923wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=x448FCGsB6jl4t/PEZTiuqAxlBX+i+OighRCNvx3IrY=;
- b=a2o70i6ozgrkoN+0syJ6dPIbzVBJa9qJmDlahBv+BChgsvfUIast9YimY1+nJjhzEc
- Rp4qxINM/eb26p2DShObyo0xHy8Z6Xjbf16z+cMYY0Jwzn+Jx3tgAXZR3wBxQ46mwmlu
- dkJW5rcJmxcRC218sQeh0E8GOlL/p740hcxz4qFWgUB22oCwxARhtBpcXRM17NZ+7bOA
- gcRP2QgKO4lbjWf9Vt5ohl/Nhbg2bg8VrU5/KiGdeK/9WX+EnRaUlVNZzx0ym1FM9FPB
- 9MIdIqitVw3Hnxjih5SB5O0z4Io9GkYyAmpHXRLoJlLmioTXu4XmGwfRPohyVHqSZYWt
- E7pA==
+ bh=/benznZbSAEh098FVIlTeLDV1NXC1VfOpbQMrJp8HAc=;
+ b=Yt+1chp0XIOPAk+JtsMy9tLIa5hu8uoCQ1FQebLybHpzlm44j5Rw0kFJAisQQK32pd
+ WaROW8As560ogPJDGe4HjkW/ZvejiKaBlbzbBRgoqcqsYaliPgRfgvXoWvUU/G07i3Bi
+ 15uGtu+pa7twv/q7mfd4lcwq6WHPjryAH9ot8DJLVv5Hrep2XoHqPOX3cW4kogDwZPok
+ i4/Az73tZLKwbPmhjXbQuSDI6Gv6f4KR92kGt5SIKZZfHHrB6EARG4aEAPtvxwmOMHqK
+ moJhOPBqZsN6bdwE3DkTpGr7g36kL0jfBtgAy/cHoDU5xq+FMnPdkHJ51VUplSYmfbGI
+ fM6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=x448FCGsB6jl4t/PEZTiuqAxlBX+i+OighRCNvx3IrY=;
- b=oNBjFJufNuIVCjqUwPV9bVVSGlVGxgUJI0OtgJyNEpJ/njb7pRCsTksqqJuA/S272u
- A2wQ4t6jlBdbEL/4yqS9M7bOhRoZdh1bE1r3J+3lGzPxSDkNXq+Fr31OCVgjL9iFZhmT
- u7oGNDWR0Hf0xJYj5Idf+bxh0p94MZnLnTXHxa8wqldMhXDeNDuhXMJbl2WMcUUlvQs2
- TzpEJgELG8ecAHzJYfLIsuvGr4td+fC79Ni+Kd3yXvFQarqDfaj0R16lXSTOJlEGDFhH
- CZbu1GpA+VjUD6be+ngpoTuFAyfBdLKaBWvLa9IfAlfIPt+WY5e06OXcqRek8sx1yfom
- /RFw==
-X-Gm-Message-State: ACgBeo3cF1lcWnr7Zl0VrSnCXsj5aJCPddJUWok7BcZ6AyUU4sHVnMq/
- B3kGaT6ThBjx1aHR6+kQ/Nnnqw==
-X-Google-Smtp-Source: AA6agR5meWse+7HgSqjXMLgsqNKtCEqU4qvT3Btoa1U4hS/hLUVtFnxKbTW55JvlcxGDPBkv8TA0Aw==
-X-Received: by 2002:a5d:6c63:0:b0:220:5e4d:c6e9 with SMTP id
- r3-20020a5d6c63000000b002205e4dc6e9mr7856582wrz.250.1659433826495; 
- Tue, 02 Aug 2022 02:50:26 -0700 (PDT)
+ bh=/benznZbSAEh098FVIlTeLDV1NXC1VfOpbQMrJp8HAc=;
+ b=iYrkRaaPPcSXGEu5SmCP3dqDpmyYj30UKbDWCd7DzmQQ541bzB6B2UCX838/jXAVJ5
+ Ovj6w5WiF7gWq1NncKHLEspY5mdOWd5I3cPwe3R2HR4duZThhoVBhh7TuXI8HgaPKVDo
+ K6wZYZHAjrF2CHf/zfAdhYEhQAUv+6pW7RW+P1fYjJySJwmodEgS+72VB//C2mkUivp7
+ UDEMW+exR88APWZALVI04UU3jmQwx9NfpoyltDhq7JAeOo70Wt366Yw4Wf87Cwzgs7Fi
+ VwE1CBrFn1EPCO9AjYwHlzspvkcyrcToWZKA/8s8EGvveiSCHj8dy5OzUcPQC+mCu7YJ
+ Pveg==
+X-Gm-Message-State: ACgBeo0BEd3T7jMuKcs3dhqDCQtQ6E5lFsLPQwZyTK1MxPMVJMKPXMvA
+ EzbiFrhsQFu9lZ24YJdGOmaBog==
+X-Google-Smtp-Source: AA6agR6XofuJQmEesDvEVyJcxIDJpZbTb5iK7gK25auhOqaE35FNTYALOiTOMyJNiJ/KFW2ZR7uuig==
+X-Received: by 2002:a05:6000:1acb:b0:21d:ad71:3585 with SMTP id
+ i11-20020a0560001acb00b0021dad713585mr11930484wry.156.1659433828497; 
+ Tue, 02 Aug 2022 02:50:28 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- x12-20020a05600c21cc00b0039747cf8354sm17660436wmj.39.2022.08.02.02.50.15
+ ay28-20020a05600c1e1c00b003a3200bc788sm22879367wmb.33.2022.08.02.02.50.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 02:50:18 -0700 (PDT)
+ Tue, 02 Aug 2022 02:50:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7FAFB1FFC2;
- Tue,  2 Aug 2022 10:50:11 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 441641FFCA;
+ Tue,  2 Aug 2022 10:50:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com (open list:virtiofs)
-Subject: [PATCH v4 10/22] hw/virtio: move vm_running check to
- virtio_device_started
-Date: Tue,  2 Aug 2022 10:49:58 +0100
-Message-Id: <20220802095010.3330793-11-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH v4 18/22] tests/qtest: plain g_assert for
+ VHOST_USER_F_PROTOCOL_FEATURES
+Date: Tue,  2 Aug 2022 10:50:06 +0100
+Message-Id: <20220802095010.3330793-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,131 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All the boilerplate virtio code does the same thing (or should at
-least) of checking to see if the VM is running before attempting to
-start VirtIO. Push the logic up to the common function to avoid
-getting a copy and paste wrong.
+checkpatch.pl warns that non-plain asserts should be avoided so
+convert the check to a plain g_assert.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/virtio/virtio.h   | 5 +++++
- hw/virtio/vhost-user-fs.c    | 6 +-----
- hw/virtio/vhost-user-i2c.c   | 6 +-----
- hw/virtio/vhost-user-rng.c   | 6 +-----
- hw/virtio/vhost-user-vsock.c | 6 +-----
- hw/virtio/vhost-vsock.c      | 6 +-----
- 6 files changed, 10 insertions(+), 25 deletions(-)
+ tests/qtest/vhost-user-test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 9bb2485415..74e7ad5a92 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -100,6 +100,7 @@ struct VirtIODevice
-     VirtQueue *vq;
-     MemoryListener listener;
-     uint16_t device_id;
-+    /* @vm_running: current VM running state via virtio_vmstate_change() */
-     bool vm_running;
-     bool broken; /* device in invalid state, needs reset */
-     bool use_disabled_flag; /* allow use of 'disable' flag when needed */
-@@ -376,6 +377,10 @@ static inline bool virtio_device_started(VirtIODevice *vdev, uint8_t status)
-         return vdev->started;
-     }
- 
-+    if (!vdev->vm_running) {
-+        return false;
-+    }
-+
-     return status & VIRTIO_CONFIG_S_DRIVER_OK;
- }
- 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index e513e4fdda..d2bebba785 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -122,11 +122,7 @@ static void vuf_stop(VirtIODevice *vdev)
- static void vuf_set_status(VirtIODevice *vdev, uint8_t status)
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index f2c19839e0..4af031c971 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -983,8 +983,7 @@ static void test_multiqueue(void *obj, void *arg, QGuestAllocator *alloc)
+ static void vu_net_set_features(TestServer *s, CharBackend *chr,
+         VhostUserMsg *msg)
  {
-     VHostUserFS *fs = VHOST_USER_FS(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
--
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
-+    bool should_start = virtio_device_started(vdev, status);
- 
-     if (fs->vhost_dev.started == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
-index 6020eee093..b930cf6d5e 100644
---- a/hw/virtio/vhost-user-i2c.c
-+++ b/hw/virtio/vhost-user-i2c.c
-@@ -93,11 +93,7 @@ static void vu_i2c_stop(VirtIODevice *vdev)
- static void vu_i2c_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserI2C *i2c = VHOST_USER_I2C(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
--
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
-+    bool should_start = virtio_device_started(vdev, status);
- 
-     if (i2c->vhost_dev.started == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
-index 3a7bf8e32d..a9c1c4bc79 100644
---- a/hw/virtio/vhost-user-rng.c
-+++ b/hw/virtio/vhost-user-rng.c
-@@ -90,11 +90,7 @@ static void vu_rng_stop(VirtIODevice *vdev)
- static void vu_rng_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostUserRNG *rng = VHOST_USER_RNG(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
--
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
-+    bool should_start = virtio_device_started(vdev, status);
- 
-     if (rng->vhost_dev.started == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
-index 0f8ff99f85..22c1616ebd 100644
---- a/hw/virtio/vhost-user-vsock.c
-+++ b/hw/virtio/vhost-user-vsock.c
-@@ -55,11 +55,7 @@ const VhostDevConfigOps vsock_ops = {
- static void vuv_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
--
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
-+    bool should_start = virtio_device_started(vdev, status);
- 
-     if (vvc->vhost_dev.started == should_start) {
-         return;
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index 0338de892f..8031c164a5 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -70,13 +70,9 @@ static int vhost_vsock_set_running(VirtIODevice *vdev, int start)
- static void vhost_vsock_set_status(VirtIODevice *vdev, uint8_t status)
- {
-     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    bool should_start = virtio_device_started(vdev, status);
-     int ret;
- 
--    if (!vdev->vm_running) {
--        should_start = false;
--    }
--
-     if (vvc->vhost_dev.started == should_start) {
-         return;
-     }
+-    g_assert_cmpint(msg->payload.u64 &
+-            (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES), !=, 0ULL);
++    g_assert(msg->payload.u64 & (0x1ULL << VHOST_USER_F_PROTOCOL_FEATURES));
+     if (s->test_flags == TEST_FLAGS_DISCONNECT) {
+         qemu_chr_fe_disconnect(chr);
+         s->test_flags = TEST_FLAGS_BAD;
 -- 
 2.30.2
 
