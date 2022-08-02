@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF844588247
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:10:14 +0200 (CEST)
-Received: from localhost ([::1]:37378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429F358825D
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 21:16:30 +0200 (CEST)
+Received: from localhost ([::1]:41464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIxHS-0007ob-4C
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:10:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44602)
+	id 1oIxNU-0002h4-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 15:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oIxFk-0005RJ-OP; Tue, 02 Aug 2022 15:08:28 -0400
-Received: from mail-oa1-x33.google.com ([2001:4860:4864:20::33]:41674)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIxKF-0000Ao-FI
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 15:13:08 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:35401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oIxFj-0001yj-9W; Tue, 02 Aug 2022 15:08:28 -0400
-Received: by mail-oa1-x33.google.com with SMTP id
- 586e51a60fabf-10ea30a098bso13394844fac.8; 
- Tue, 02 Aug 2022 12:08:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=kVDWKV0Koi4aQlqW+MZhskLpfIwh+0ANLp8QB/ww7DY=;
- b=NUHwPjvEJH/2uYJqMxnooc0D//XOeXMd7vkU2QTJZbCqWWHPDce7IO5SdAtqm4JpW4
- QmGE3hb2GgpjcyyRsygMUQMqWHpMmunV4qrEnEBMEUv94aZRxNt3mfEseyfMO0upboJr
- mdYjDNbLbkJGrpHuLajRfJ2vRWhwjOmjBOAOddI3PJQ0wnISNOd1lh7POlB/oaup1sxe
- pCwfdh7EKbDImtTGpuBtLHmCoWjucQqrlxfK8Cmdq2mI1ZxYMAbg4Fv6gev0iEjfLqQ8
- 2lRRa/Yv5hTYfNbC3+5Vr+9xKA33zVizUFHFyM1ENWKxI9dfK4w/10eXn1hH/pjhcSzK
- HphA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1oIxKD-0002kI-Fe
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 15:13:07 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ x2-20020a17090ab00200b001f4da5cdc9cso9312895pjq.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 12:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=message-id:date:mime-version:user-agent:subject:content-language:to
+ :cc:references:from:in-reply-to:content-transfer-encoding;
+ bh=e+RU//5WKIzkMZhiseBDzwmgMndV5CwR/Znz76OecUc=;
+ b=KZkf5HUVcBUUkhNrU6OZO634HgEC74m2xN+g6LXe1AgKHkXRecptFhf4fM2gQ7N5xQ
+ nG+5dHMbo7JjuWmSdeCQsVE/8ze1GZ4D3maEw+jWG1P0gUaoB0jKqislEte1h+6Jk3u4
+ gsIuu8I5ZOv7GAivuR2+Qyvw854JraADKRhWT2S9aYPWPoNZ7B1VGPl+YicaD+R9Yd2O
+ mt0CkxlvpF0P3HgAdKZ040zZ8ta93SAHTfWBLW94qcyxFkjoaPAH0mmsvhjW98/sNoE9
+ BJEYKnriE7RUghMirul4CCb9V8EUPocv8JC38oafWMA2MuJ6YeGcq7Jvr/uWSt4N1NkZ
+ Oq7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc;
- bh=kVDWKV0Koi4aQlqW+MZhskLpfIwh+0ANLp8QB/ww7DY=;
- b=mzYY0QHq9sevdDYtihRJcx1B2uXWWyUqpR+Q++bbKqa2aO6tDTXXl09uA1XOR8IfSi
- 05QFiASSPpgEf98LKRPgTwP93f8k0Z94g5SAVreAQ0Cpshbb8AP+pBFcnhMV7n3xFZL2
- qGGGIxSWO2W5uquVU80GE3oXtHljkjbYOzuB5R44GR+gmKWR8kip8D9nUIzPZhZHObqv
- c/+fhYdgPv9b7sxSD3apmGwqeJOdQxAtGeesO5flHsP40ot/REXyy1oG+snvWiFg03+X
- 8aIr/dBM8ZR0Y3gNOSJt26lxJLyOiP1UPs2CIx7IKPfe4kDPQ00fX/ewDwEe1rP8kAAb
- cyyw==
-X-Gm-Message-State: ACgBeo0wEqXLv4p3aZi7JYB4RP4FHNddpuu88yimwMl7w5uz3qHXRlLQ
- oRia39eSX5Vlqi6KWF2cSTQ=
-X-Google-Smtp-Source: AA6agR5rmltKK1Sz+YdnXQIQEwWWHTMmRTANIM5f1acU6pze5t9XVgx42SWDsavhjQJj/3UaVoTt4A==
-X-Received: by 2002:a05:6870:a909:b0:10c:4c49:9c15 with SMTP id
- eq9-20020a056870a90900b0010c4c499c15mr386463oab.186.1659467304835; 
- Tue, 02 Aug 2022 12:08:24 -0700 (PDT)
-Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
- ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:in-reply-to
+ :content-transfer-encoding;
+ bh=e+RU//5WKIzkMZhiseBDzwmgMndV5CwR/Znz76OecUc=;
+ b=QBtqLNXJp2g2FNLy1pI+UTsqkFOUUF7LJ0hbHHGLy31KUjtcNbesIw9i8/5/FBOR55
+ t3iuXHCYOJ1xEyr+wba06nD8AckEMPSxSuXc8zV8zI/VQgrkD5R85Nem9TXtF9EXeNNr
+ XorodetS8GQSxDwJqSaTZu/D6zpeu6gbuFdK+VwQ1B1f0Za9E3kx9kRGCU68pSMqQeu7
+ tuTJB2b1eksKyItn185bWkrTKPOe7mCo9XuZ1c0DzxXI8VKuu+4a4yU8LmZZoEFTTCB1
+ eGlL/dDG4dsvGDiMHKDzpVDUp3Vw1YRa6m3bMKhs8R0+hZhBj2sdiI2T7YvtW4rUP8ap
+ /lHw==
+X-Gm-Message-State: ACgBeo0fgBDCapqr2v2LiVfA8FF2Q7LOSWxyavWLuwXyMO8k2ac9+EVd
+ B67rTv1IPWdZP6lerFWfSEy9fQ==
+X-Google-Smtp-Source: AA6agR6N9/tnSYwLi7rkNG7XmCp3mbs3pqZz77L/q0lcBn+0tCSxIQUlDVQtMyUm8ifLfkwFojCFKQ==
+X-Received: by 2002:a17:90a:e7c7:b0:1f2:bea3:37df with SMTP id
+ kb7-20020a17090ae7c700b001f2bea337dfmr944164pjb.133.1659467580549; 
+ Tue, 02 Aug 2022 12:13:00 -0700 (PDT)
+Received: from ?IPV6:2602:ae:1549:801:9b48:8d61:390d:9808?
+ ([2602:ae:1549:801:9b48:8d61:390d:9808])
  by smtp.gmail.com with ESMTPSA id
- ep2-20020a056870a98200b0010dc461410bsm3966399oab.38.2022.08.02.12.08.23
+ w127-20020a623085000000b0052df34124b4sm1489282pfw.84.2022.08.02.12.12.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 12:08:24 -0700 (PDT)
-Message-ID: <4256cd60-c629-540a-f7c0-d15aee516854@gmail.com>
-Date: Tue, 2 Aug 2022 16:08:22 -0300
+ Tue, 02 Aug 2022 12:12:58 -0700 (PDT)
+Message-ID: <9ce64cd3-22c6-13a6-b36a-cac40e3a7a98@linaro.org>
+Date: Tue, 2 Aug 2022 12:12:56 -0700
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 03/19] ppc/ppc405: Move devices under the ref405ep machine
+ Thunderbird/91.11.0
+Subject: Re: [PULL 0/5] migration queue
 Content-Language: en-US
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
-Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
-References: <20220801131039.1693913-1-clg@kaod.org>
- <20220801131039.1693913-4-clg@kaod.org>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20220801131039.1693913-4-clg@kaod.org>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, leobras@redhat.com, thuth@redhat.com,
+ peter.maydell@linaro.org, vgoyal@redhat.com
+Cc: peterx@redhat.com, quintela@redhat.com
+References: <20220802155447.216018-1-dgilbert@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20220802155447.216018-1-dgilbert@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:4860:4864:20::33;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x33.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,82 +96,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 8/1/22 10:10, Cédric Le Goater wrote:
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
->   hw/ppc/ppc405_boards.c | 31 +++++++++++++++++++------------
->   1 file changed, 19 insertions(+), 12 deletions(-)
+On 8/2/22 08:54, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 > 
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 4c269b6526a5..24ec948d22a4 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -230,13 +230,11 @@ static void boot_from_kernel(MachineState *machine, PowerPCCPU *cpu)
->       env->load_info = &boot_info;
->   }
->   
-> -static void ref405ep_init(MachineState *machine)
-> +static void ppc405_init(MachineState *machine)
->   {
->       MachineClass *mc = MACHINE_GET_CLASS(machine);
->       const char *kernel_filename = machine->kernel_filename;
->       PowerPCCPU *cpu;
-> -    DeviceState *dev;
-> -    SysBusDevice *s;
->       MemoryRegion *sram = g_new(MemoryRegion, 1);
->       MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
->       hwaddr ram_bases[2], ram_sizes[2];
-> @@ -294,15 +292,6 @@ static void ref405ep_init(MachineState *machine)
->           memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
->       }
->   
-> -    /* Register FPGA */
-> -    ref405ep_fpga_init(sysmem, PPC405EP_FPGA_BASE);
-> -    /* Register NVRAM */
-> -    dev = qdev_new("sysbus-m48t08");
-> -    qdev_prop_set_int32(dev, "base-year", 1968);
-> -    s = SYS_BUS_DEVICE(dev);
-> -    sysbus_realize_and_unref(s, &error_fatal);
-> -    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
-> -
->       /* Load kernel and initrd using U-Boot images */
->       if (kernel_filename && machine->firmware) {
->           target_ulong kernel_base, initrd_base;
-> @@ -335,6 +324,23 @@ static void ref405ep_init(MachineState *machine)
->       }
->   }
->   
-> +static void ref405ep_init(MachineState *machine)
-> +{
-> +    DeviceState *dev;
-> +    SysBusDevice *s;
-> +
-> +    ppc405_init(machine);
-> +
-> +    /* Register FPGA */
-> +    ref405ep_fpga_init(get_system_memory(), PPC405EP_FPGA_BASE);
-> +    /* Register NVRAM */
-> +    dev = qdev_new("sysbus-m48t08");
-> +    qdev_prop_set_int32(dev, "base-year", 1968);
-> +    s = SYS_BUS_DEVICE(dev);
-> +    sysbus_realize_and_unref(s, &error_fatal);
-> +    sysbus_mmio_map(s, 0, PPC405EP_NVRAM_BASE);
-> +}
-> +
->   static void ref405ep_class_init(ObjectClass *oc, void *data)
->   {
->       MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -354,6 +360,7 @@ static void ppc405_machine_class_init(ObjectClass *oc, void *data)
->       MachineClass *mc = MACHINE_CLASS(oc);
->   
->       mc->desc = "PPC405 generic machine";
-> +    mc->init = ppc405_init;
->       mc->default_ram_size = 0x08000000;
->       mc->default_ram_id = "ppc405.ram";
->   }
+> The following changes since commit 0399521e53336bd2cdc15482bca0ffd3493fdff6:
+> 
+>    Merge tag 'for-upstream' of git://repo.or.cz/qemu/kevin into staging (2022-08-02 06:52:05 -0700)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.com/dagrh/qemu.git tags/pull-migration-20220802c
+> 
+> for you to fetch changes up to a21ba54dd5ca38cd05da9035fc65374d7af54f13:
+> 
+>    virtiofsd: Disable killpriv_v2 by default (2022-08-02 16:46:52 +0100)
+> 
+> ----------------------------------------------------------------
+> Migration fixes pull 2022-08-02
+> 
+> Small migration (and virtiofsd) fixes.
+
+Applied, thanks.  Please update https://wiki.qemu.org/ChangeLog/7.1 as appropriate.
+
+
+r~
+
+
+> 
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+> ----------------------------------------------------------------
+> Leonardo Bras (1):
+>        migration: add remaining params->has_* = true in migration_instance_init()
+> 
+> Peter Maydell (2):
+>        migration: Assert that migrate_multifd_compression() returns an in-range value
+>        migration: Define BLK_MIG_BLOCK_SIZE as unsigned long long
+> 
+> Thomas Huth (1):
+>        Revert "migration: Simplify unqueue_page()"
+> 
+> Vivek Goyal (1):
+>        virtiofsd: Disable killpriv_v2 by default
+> 
+>   migration/block.c                |  2 +-
+>   migration/migration.c            |  5 +++++
+>   migration/ram.c                  | 37 ++++++++++++++++++++++++++-----------
+>   migration/trace-events           |  3 ++-
+>   tools/virtiofsd/passthrough_ll.c | 13 ++-----------
+>   5 files changed, 36 insertions(+), 24 deletions(-)
+> 
+> 
+
 
