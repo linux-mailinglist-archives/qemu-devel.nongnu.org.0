@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF33587AC7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:33:19 +0200 (CEST)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3877E587A98
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:23:00 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIpDB-0003jS-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:33:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
+	id 1oIp3D-0001Z0-13
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:22:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIohN-00055Y-D4
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:25 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38773)
+ id 1oIoXt-0001dk-7H
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:37 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:41942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIohI-0006Oa-Iw
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:25 -0400
-Received: by mail-wr1-x434.google.com with SMTP id bv3so3283905wrb.5
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 03:00:20 -0700 (PDT)
+ id 1oIoXr-0002WT-HC
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:36 -0400
+Received: by mail-wr1-x429.google.com with SMTP id p10so12959300wru.8
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=c6gCqIJw8yCV7CUCpwJSaqkLGHMke2sDpgsD4kivFT0=;
- b=z6InKbnXMEFjzUDcE1l2HPIZfCAminWu0mPvyhTzaP+hTtpI4yJiBGyXfyRIGcEZcC
- 9IVlu3nXdNK9OlLdqpcPSqup7dxDAHtiXd5T9giGZA49a2Nqs6cxodsv/fP5/gly2BW5
- +Q+5aUbvpyA21aHHyDPBSW9+HCSToixsRbNxNmUtmchz/mkEjCN4maTyQvDb4L4ZJB1/
- cyU8VyrImvciokmcdWwq85HMDPy+WwQtwkTxqSXMQrdJ606SxcSpcTfDMy0GOLB2QGRS
- G3s20jd7gYjLwaAR8AYL8khzLzuLavEDY+kAjsxWd32stOc7GTvigwd3bX67JWpDHbdK
- 8Umw==
+ bh=OHhq73fm8+f50i3SsK6KIm2w+P/uTjdSWyXaYAVfPmw=;
+ b=d2PFGlNHyilP1qGhXUsSePE+kWq8KxNU9JRna/aRj95f5cBn7o/vWAxD9pWkIhl+gt
+ b/mBbx4oVfTS0I5g0Xhv2VGBd9Af3/EBB0kPwSKnFhqsYof+x8GADDNQwtkvfRO+lRJx
+ lVNNBiZbTwuqyNCuVmf/bsJI1WmzOaiW0bmYUjoFXU6k51JJboQbzb94SvSir05y9ce9
+ fdjwoK8I1uj2XQSWpYriY49Le3/LZ4DpXL56e71YusR+K9sGB7LOS4sG8zyn+tLnn8QL
+ 2kjfjEbILCag/1yFxLZZEJskaxD/RhsSvYGL3Ab6jTHtNF7wCAU70NI+vCJyrugSRPNd
+ ITWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=c6gCqIJw8yCV7CUCpwJSaqkLGHMke2sDpgsD4kivFT0=;
- b=n0DgQ7HZaJMJQks2t+64k/z8tCUZiDH4opUmQdVb0J3WbILzx1C0Gh/Fe18FYBBaeU
- mpJTjjl8qLgf8L45wpMrx0Ut/N5PgJVqIiDnTXMlm8oG+UdXfLbVpFR78ZK52uzTXnWc
- 0LFl+jI0m2rnxkM2r9tcntuc1EMd+aM5HDKvJh7ZL0AxHL2X9w1gMmnUWLukN6qW2fXy
- Qnw4m+tCoLX/YwQGUXeUud/FpU+WateacUo642fm/6jfKFzHJ+mGcPfxu1hv07rcuNcr
- 0f0mN4pDiP5s0GOau8hh/hO9uuZJobjU0UxdjpefqNb2S82+KmuUw/ivkHUe9n/nUdrn
- dXWQ==
-X-Gm-Message-State: ACgBeo0b8U5NYpIwQia5q0eJ/dvs5F9Xjp0AfXONTi9f6SePMRjPuB7R
- gBJ+MBOUYkBmBtfZBZGFWVrqug==
-X-Google-Smtp-Source: AA6agR4MnUMGJlqpj5YowPI4nBvMfeu56k66slxoAjGVVJATj1uhl4k68tqfv1riBZpMVP0BA4S4AA==
-X-Received: by 2002:a05:6000:178d:b0:21d:a453:b7c6 with SMTP id
- e13-20020a056000178d00b0021da453b7c6mr13635813wrg.275.1659434419258; 
- Tue, 02 Aug 2022 03:00:19 -0700 (PDT)
+ bh=OHhq73fm8+f50i3SsK6KIm2w+P/uTjdSWyXaYAVfPmw=;
+ b=SdfzbcBH4UWK0NcMemKnkEN2g+MIcTaucQ/Vfbwrb1Si6vBCuTLuI0Lt4S+qkbQNt0
+ I9AAe959Q69VDih3znGOzXImhr9f0zAKJ0xeC03HIGKRU6h3nwcAH1xXPIgAg6pl+YFQ
+ DXA92OQjiJw61GKvu8KIzbJr5ZfxVSsZWZvTHpqJHb2gAWjM4egGO7vFZwY/ZsCvAiAW
+ H+kVKBOGfSmZGiUKgOfbdPPr+AsM9XKf0UVXcakY+pRynjGKL6aWDgyJsMnECwYv3Ig4
+ QuDXhVTrTyUHrOsfcsCQHL0NKs/EDHWPUHNA8OBMf3u1wljlRPMUX2WMdKMVmql2ll0i
+ P4hQ==
+X-Gm-Message-State: ACgBeo1pF/omufxgrCjJWmDni6NVCAyulGCFcJM0i7j/GlU4D7iY46ly
+ 7F2/vHkwNkzaR27I/cnKrHEzMw==
+X-Google-Smtp-Source: AA6agR7zYn7z2qUh4757aPAoIbaVe8OpTnO49J/BLd8uP/ylrTLql2lRr9tv819CudKgHDCjjJTS0g==
+X-Received: by 2002:a5d:64a3:0:b0:21d:ad9e:afd7 with SMTP id
+ m3-20020a5d64a3000000b0021dad9eafd7mr12280767wrp.524.1659433834170; 
+ Tue, 02 Aug 2022 02:50:34 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k18-20020a5d6292000000b0021ec32d130asm14765519wru.74.2022.08.02.03.00.14
+ q17-20020a05600c2e5100b003a3186fa559sm17081020wmf.29.2022.08.02.02.50.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 03:00:14 -0700 (PDT)
+ Tue, 02 Aug 2022 02:50:22 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 143F91FFC7;
+ by zen.linaroharston (Postfix) with ESMTP id 225CB1FFC8;
  Tue,  2 Aug 2022 10:50:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -63,18 +63,17 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v4 15/22] tests/qtest: add a timeout for
- subprocess_run_one_test
-Date: Tue,  2 Aug 2022 10:50:03 +0100
-Message-Id: <20220802095010.3330793-16-alex.bennee@linaro.org>
+Subject: [PATCH v4 16/22] tests/qtest: use qos_printf instead of g_test_message
+Date: Tue,  2 Aug 2022 10:50:04 +0100
+Message-Id: <20220802095010.3330793-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,34 +96,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hangs have been observed in the tests and currently we don't timeout
-if a subprocess hangs. Rectify that.
+The vhost-user tests respawn qos-test as a standalone process. As a
+result the gtester framework squashes all messages coming out of it
+which make it hard to debug. As the test does not care about asserting
+certain messages just convert the tests to use the direct qos_printf.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-
 ---
-v3
-  - expand timeout to 180 at Thomas' suggestion
-v4
-  - fix merge conflict with earlier patch
----
- tests/qtest/qos-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/qos-test.c        |  5 +++++
+ tests/qtest/vhost-user-test.c | 13 +++++++------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index 01a9393399..d958ef4be3 100644
+index d958ef4be3..b30bbb30f7 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
- static void subprocess_run_one_test(const void *arg)
+@@ -321,6 +321,11 @@ static void walk_path(QOSGraphNode *orig_path, int len)
+ int main(int argc, char **argv, char** envp)
  {
-     const gchar *path = arg;
--    g_test_trap_subprocess(path, 0,
-+    g_test_trap_subprocess(path, 180 * G_USEC_PER_SEC,
-                            G_TEST_SUBPROCESS_INHERIT_STDOUT |
-                            G_TEST_SUBPROCESS_INHERIT_STDERR);
-     g_test_trap_assert_passed();
+     g_test_init(&argc, &argv, NULL);
++
++    if (g_test_subprocess()) {
++        qos_printf("qos_test running single test in subprocess\n");
++    }
++
+     if (g_test_verbose()) {
+         qos_printf("ENVIRONMENT VARIABLES: {\n");
+         for (char **env = envp; *env != 0; env++) {
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 8bf390be20..968113d591 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -26,6 +26,7 @@
+ #include "libqos/virtio-pci.h"
+ 
+ #include "libqos/malloc-pc.h"
++#include "libqos/qgraph_internal.h"
+ #include "hw/virtio/virtio-net.h"
+ 
+ #include "standard-headers/linux/vhost_types.h"
+@@ -316,7 +317,7 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+     }
+ 
+     if (size != VHOST_USER_HDR_SIZE) {
+-        g_test_message("Wrong message size received %d", size);
++        qos_printf("%s: Wrong message size received %d\n", __func__, size);
+         return;
+     }
+ 
+@@ -327,8 +328,8 @@ static void chr_read(void *opaque, const uint8_t *buf, int size)
+         p += VHOST_USER_HDR_SIZE;
+         size = qemu_chr_fe_read_all(chr, p, msg.size);
+         if (size != msg.size) {
+-            g_test_message("Wrong message size received %d != %d",
+-                           size, msg.size);
++            qos_printf("%s: Wrong message size received %d != %d\n",
++                       __func__, size, msg.size);
+             return;
+         }
+     }
+@@ -450,7 +451,7 @@ static const char *init_hugepagefs(void)
+     }
+ 
+     if (access(path, R_OK | W_OK | X_OK)) {
+-        g_test_message("access on path (%s): %s", path, strerror(errno));
++        qos_printf("access on path (%s): %s", path, strerror(errno));
+         g_test_fail();
+         return NULL;
+     }
+@@ -460,13 +461,13 @@ static const char *init_hugepagefs(void)
+     } while (ret != 0 && errno == EINTR);
+ 
+     if (ret != 0) {
+-        g_test_message("statfs on path (%s): %s", path, strerror(errno));
++        qos_printf("statfs on path (%s): %s", path, strerror(errno));
+         g_test_fail();
+         return NULL;
+     }
+ 
+     if (fs.f_type != HUGETLBFS_MAGIC) {
+-        g_test_message("Warning: path not on HugeTLBFS: %s", path);
++        qos_printf("Warning: path not on HugeTLBFS: %s", path);
+         g_test_fail();
+         return NULL;
+     }
 -- 
 2.30.2
 
