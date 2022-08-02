@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6208B587C81
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 14:36:26 +0200 (CEST)
-Received: from localhost ([::1]:60056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2BCC587C86
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 14:38:51 +0200 (CEST)
+Received: from localhost ([::1]:34972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIr8K-0001zk-El
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 08:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44026)
+	id 1oIrAf-0004Ll-SC
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 08:38:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIr3J-0007d7-Rs
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 08:31:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26778)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oIr7R-0001QP-J5
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 08:35:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:46374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1oIr3H-0001QX-6a
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 08:31:12 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1oIr7P-0002Co-5A
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 08:35:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659443469;
+ s=mimecast20190719; t=1659443726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=S9R5tqSmmefhA7X/g/nRIFNf4WnpueH8M5Wxro29Bk8=;
- b=Wr66pS8ntn3uSZ4OFokqI09NxIVPGj6wCSTRtzH+5VT/Tjzg7SxUmsHh4uA93NllrcrJW1
- +n/xW7dfyJByoScRW6XH0TbjzuYKS0jrIyt3ZhDzULp2l/2O4vlkGcb2gejEURo4O7DGrv
- EYwSjBu0n5vydyr7MiDTQz99PZZKNkQ=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zcUKoThq2w0UtA4mR07y3AcWpRMdBqBtA8x9f9v1Rvs=;
+ b=YMlCGTELjG6fWcU1oNKY5R/EuCGbQAi9gWotdBZPNOjFLxylxj7zHlsG1LMb+7ipQPzqHH
+ kHcEyqeX6/o8xsa97PPH/ei9wDzH6NdbzFDNeEYi5Dw1btMB/7a+bxLbZMY1SUsvcfwidz
+ QO7SdDG3x3mRVVq53khlt6ASNGbua9o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-558-3Tp6TriwNiKsW1mlji4Irw-1; Tue, 02 Aug 2022 08:31:06 -0400
-X-MC-Unique: 3Tp6TriwNiKsW1mlji4Irw-1
+ us-mta-665-qX9pbHL-P_2D4RZyhtgkBg-1; Tue, 02 Aug 2022 08:35:21 -0400
+X-MC-Unique: qX9pbHL-P_2D4RZyhtgkBg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A2B6985A585;
- Tue,  2 Aug 2022 12:31:05 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.100])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B46418ECC;
- Tue,  2 Aug 2022 12:31:03 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: [PATCH] tests/qemu-iotests/264: Allow up to 5s for the
- BLOCK_JOB_CANCEL event to arrive
-Date: Tue,  2 Aug 2022 14:31:01 +0200
-Message-Id: <20220802123101.430757-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4D1F7280EE22;
+ Tue,  2 Aug 2022 12:35:21 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A1B4218ECC;
+ Tue,  2 Aug 2022 12:35:20 +0000 (UTC)
+Date: Tue, 2 Aug 2022 14:35:19 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Liang Yan <ly@xryan.net>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: Deadlock between bdrv_drain_all_begin and prepare_mmio_access
+Message-ID: <YukaB8WarCdMFMmU@redhat.com>
+References: <50e25c56-5624-fe2d-1327-665fc7b9bf05@xryan.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <50e25c56-5624-fe2d-1327-665fc7b9bf05@xryan.net>
 X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,30 +76,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is possible to hit the assertTrue(delta_t < 2.0) on very loaded
-systems. Increase the value to 5.0 to ease the situation a little bit.
+Am 24.07.2022 um 23:41 hat Liang Yan geschrieben:
+> Hello All,
+> 
+> I am facing a lock situation between main-loop thread 1 and vcpu thread 4
+> when doing a qmp snapshot. QEMU is running on 6.0.x, checked the upstream
+> code and did not see any big change since between. Guest is a Windows 10 VM.
+> Unfortunately, I could not get into the windows vm or reproduce the issue by
+> myself. No iothread is used here, native aio only.
+> 
+> From the code,
+> 
+> -> AIO_WAIT_WHILE(NULL, bdrv_drain_all_poll());
+> 
+> --> aio_poll(qemu_get_aio_context(), true);
+> 
+> Mainloop mutex is locked when start snapshot in thread 1, vcpu released
+> thread lock when address_space_rw and try to get thread lock again in
+> prepare_mmio_access.
+> 
+> It seems main loop thread is stuck at aio_poll with blocking, but I can not
+> figure out what the addr=4275044592 belongs to from mmio read.
+> 
+> I do not quite understand what really happens here, either block jobs never
+> drained out or maybe a block io read from vcpu and cause a deadlock? I hope
+> domain experts here could help figure out the root cause, thanks in advance
+> and let me know if need any further information.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- See also https://lists.gnu.org/archive/html/qemu-devel/2022-07/msg03936.html
+This does not look like a deadlock to me: Thread 4 is indeed waiting for
+thread 1 to release the lock, but I don't think thread 1 is waiting in
+any way for thread 4.
 
- tests/qemu-iotests/264 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In thread 1, bdrv_drain_all_begin() waits for all in-flight I/O requests
+to complete. So it looks a bit like some I/O request got stuck. If you
+want to debug this a bit further, try to check what it is that makes
+bdrv_drain_poll() still return true.
 
-diff --git a/tests/qemu-iotests/264 b/tests/qemu-iotests/264
-index bc431d1a19..289381e315 100755
---- a/tests/qemu-iotests/264
-+++ b/tests/qemu-iotests/264
-@@ -101,7 +101,7 @@ class TestNbdReconnect(iotests.QMPTestCase):
-         start_t = time.time()
-         self.vm.event_wait('BLOCK_JOB_CANCELLED')
-         delta_t = time.time() - start_t
--        self.assertTrue(delta_t < 2.0)
-+        self.assertTrue(delta_t < 5.0)
- 
-     def test_mirror_cancel(self):
-         # Mirror speed limit doesn't work well enough, it seems that mirror
--- 
-2.31.1
+Please also add the QEMU command line you're using, especially the
+configuration of the block device backends (for example, does this use
+Linux AIO, the thread pool or io_uring?).
+
+Kevin
 
 
