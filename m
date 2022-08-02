@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47F8587D00
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:23:10 +0200 (CEST)
-Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03506587D03
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:24:30 +0200 (CEST)
+Received: from localhost ([::1]:53634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIrrZ-0003lg-KK
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:23:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
+	id 1oIrsr-00073O-32
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIro6-0007ba-RY
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:19:34 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34343)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIro3-0001hT-Sz
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:19:33 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id j1so9499996wrw.1
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 06:19:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=lxX1gI1WFAX3Ygvx2KQ40udJiTZybS/QbUXcPONoIso=;
- b=oL50P6k8eYmrgmIDn3g9bDWnmClsnMeZjEEnBT6BKWQgZZWOTTwXAean2uqeAtdfX+
- UTU5fECnuLgl+bGFdmUzbLr+Bbkr1EGDhHboZxd4nlvfsnUCZ3yfJWI/JUeHCZrLVvrQ
- BZWMKdGyyu26ay5uD6/ukzncj0NBwPUC+2wUXXGjLc+dyNO7/qoHS9w+yrGE605TQup8
- vHKwNrnutZua7MOB2XQ+jwvyA5wtHg8Iyv0VXZcQpTFX2fxHCzPg/XV5pR7Bxf2bJ+nO
- dnR0hCWQvMnUZ3n5qdy7NCoDJZp88YtHAwuWf+NIsuEKsyrFblzzCh8iH/MTdUDC8CEn
- g57Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=lxX1gI1WFAX3Ygvx2KQ40udJiTZybS/QbUXcPONoIso=;
- b=yCEpM4/I9tBvLVOavyzDYvRKOFyzD7woVYnufgiUwaF/UVuj0nqdg9vuyQoJsyDHyn
- jkBzq5zRURNxbaWwZevn0TjRpRhHvAPk7AlqeUyGy5zDhIm3jkk0nbXsilCSy/WRoU1x
- 3h5bLK3wv6JDfa5xxh9CSG8sQOGVTaT9PIf3ARLomIxMOCwDYVkBbgf7AUqvBCQVtD6X
- aloZjcBZmvwG6e68TH3fhr4On75ZclMxEXF1GvP55++a+IUI5I/R4urrbWqZ4N7PiiSt
- nZXvaVxqUDBhkySzt2gWy428KW/peABF8YCF+PCnhdTx6aMCPvsT5XsWdHnrB4zA2wEx
- 7kzA==
-X-Gm-Message-State: ACgBeo2SPn8osDvx920w4tgeNRO9lGyD2xn1S0aQ4glJ8XmeAyQCja26
- H7XDOJrTok7reRR5eRH6Ki6n5+BoktNdQw==
-X-Google-Smtp-Source: AA6agR5IEEleEFjirdKZswfGjQEdBCqBBgUVc7tm70XhRjKgIYS9M7J4de+JbTHW1KVb9nnZjL0NPQ==
-X-Received: by 2002:a5d:6512:0:b0:21e:cdab:1598 with SMTP id
- x18-20020a5d6512000000b0021ecdab1598mr12916484wru.687.1659446367944; 
- Tue, 02 Aug 2022 06:19:27 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
- by smtp.gmail.com with ESMTPSA id
- z7-20020a05600c220700b003a3188bef63sm17748271wml.11.2022.08.02.06.19.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 06:19:27 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Fabien Chouteau <chouteau@adacore.com>,
- Frederic Konrad <konrad.frederic@yahoo.fr>
-Subject: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit
- accesses
-Date: Tue,  2 Aug 2022 14:19:25 +0100
-Message-Id: <20220802131925.3380923-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
+ id 1oIrq7-0001Mj-BU
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:21:39 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:51678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org>)
+ id 1oIrq3-0002Sb-W9
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:21:38 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id AD9C7612CF;
+ Tue,  2 Aug 2022 13:21:27 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1320AC433D6;
+ Tue,  2 Aug 2022 13:21:25 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="eenL04mU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659446484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HxkotAnMkEQhf3NKS76b/qLtLsGCDypP2CzYWcRmsEE=;
+ b=eenL04mUpPIAqzkG3TAbx3Mel9C8idxxv3PJmzj7u9eXbqVMhZ7d76nsdj/MOn684Qfysh
+ 04JhO15cCm2kY92TZHb+pvlitNwJZpPHS2jLAjDd1pdyoxxy9DaSBtS0J1M8o9gB9Qrtsr
+ ABXwjLH7eDRgySKFwfsbyo4rsJtBG18=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id b4c8347f
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Tue, 2 Aug 2022 13:21:24 +0000 (UTC)
+Date: Tue, 2 Aug 2022 15:21:21 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <Yukk0YOFgkPwcTzG@zx2c4.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+ <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=YGwI=YG=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,83 +89,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In real hardware, the APB and AHB PNP data tables can be accessed
-with byte and halfword reads as well as word reads.  Our
-implementation currently only handles word reads.  Add support for
-the 8 and 16 bit accesses.  Note that we only need to handle aligned
-accesses -- unaligned accesses should continue to trap, as happens on
-hardware.
+Hi,
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1132
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-It would be nice if we could just set the .valid.min_access_size in
-the MemoryRegionOps to 1 and have the memory system core synthesize
-the 1 and 2 byte accesses from a 4 byte read, but currently that
-doesn't work (see various past mailing list threads).
----
- hw/misc/grlib_ahb_apb_pnp.c | 10 ++++++----
- hw/misc/trace-events        |  4 ++--
- 2 files changed, 8 insertions(+), 6 deletions(-)
+On Tue, Aug 02, 2022 at 11:28:15AM +0800, Xiaoyao Li wrote:
+> >   static void pc_q35_7_0_machine_options(MachineClass *m)
+> >   {
+> > +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+> >       pc_q35_7_1_machine_options(m);
+> >       m->alias = NULL;
+> > +    pcmc->legacy_no_rng_seed = true;
+> 
+> Is making .legacy_no_rng_seed default false and opt-in it for old 
+> machines correct?
 
-diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
-index 43e001c3c7b..5b05f158592 100644
---- a/hw/misc/grlib_ahb_apb_pnp.c
-+++ b/hw/misc/grlib_ahb_apb_pnp.c
-@@ -136,7 +136,8 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
-     uint32_t val;
- 
-     val = ahb_pnp->regs[offset >> 2];
--    trace_grlib_ahb_pnp_read(offset, val);
-+    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
-+    trace_grlib_ahb_pnp_read(offset, size, val);
- 
-     return val;
- }
-@@ -152,7 +153,7 @@ static const MemoryRegionOps grlib_ahb_pnp_ops = {
-     .write      = grlib_ahb_pnp_write,
-     .endianness = DEVICE_BIG_ENDIAN,
-     .impl = {
--        .min_access_size = 4,
-+        .min_access_size = 1,
-         .max_access_size = 4,
-     },
- };
-@@ -247,7 +248,8 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
-     uint32_t val;
- 
-     val = apb_pnp->regs[offset >> 2];
--    trace_grlib_apb_pnp_read(offset, val);
-+    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
-+    trace_grlib_apb_pnp_read(offset, size, val);
- 
-     return val;
- }
-@@ -263,7 +265,7 @@ static const MemoryRegionOps grlib_apb_pnp_ops = {
-     .write      = grlib_apb_pnp_write,
-     .endianness = DEVICE_BIG_ENDIAN,
-     .impl = {
--        .min_access_size = 4,
-+        .min_access_size = 1,
-         .max_access_size = 4,
-     },
- };
-diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-index 4d51a80de1d..c18bc0605e8 100644
---- a/hw/misc/trace-events
-+++ b/hw/misc/trace-events
-@@ -247,8 +247,8 @@ via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size
- via1_auxmode(int mode) "setting auxmode to %d"
- 
- # grlib_ahb_apb_pnp.c
--grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
--grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
-+grlib_ahb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
-+grlib_apb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "APB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
- 
- # led.c
- led_set_intensity(const char *color, const char *desc, uint8_t intensity_percent) "LED desc:'%s' color:%s intensity: %u%%"
--- 
-2.25.1
+Not sure I follow what you're saying. ≤7.0 won't pass the RNG seed. It's
+only on ≥7.1 that the RNG seed is used.
 
+Either way, this shouldn't cause boot failures.
+
+Jason
 
