@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2716E587E65
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 16:51:24 +0200 (CEST)
-Received: from localhost ([::1]:42570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC0E587E72
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 16:55:53 +0200 (CEST)
+Received: from localhost ([::1]:48332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oItEw-0008Ci-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 10:51:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56656)
+	id 1oItJH-0004I8-DF
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 10:55:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oItCs-0006XY-S7
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 10:49:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33699)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oItGo-0001kn-42
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 10:53:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:40997)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oItCp-00026k-VW
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 10:49:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659451750;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l0TsEOKCDj8uUeJDEbxvh33x9P68/sG4jREd3Xw/MEI=;
- b=dgLi8D/y9Q8XXtrln8LDE3cNh+E66qRxiNSqBSAmbBqbn+AuQh+CFk1FL3SKJs4fznmLUI
- /lUAJsWCNFgTLPND2NL/KitSIQqlTXj+KYasuovrsHiBybfqUy2fJHo8ZGCu4vPgB5b7j7
- I7czmeUH1zpgnjZlHRp8AJotGLO0IR0=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-528-MoscJq2bNiiz2joAHP5NHg-1; Tue, 02 Aug 2022 10:49:09 -0400
-X-MC-Unique: MoscJq2bNiiz2joAHP5NHg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bm34-20020a05620a19a200b006b5f1d95ceeso11610379qkb.5
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 07:49:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=l0TsEOKCDj8uUeJDEbxvh33x9P68/sG4jREd3Xw/MEI=;
- b=yz/vb3GRK41A/mvccKBmSzRPTDBm6it26WEJS5Gw8JzN1BsLnNyZWEisJxZLb8O2gf
- 7JHf7cgldV441q3tmOIL4fZANTDvVaMkVWUfAhr68gomiAiEvbc2xEauL74ueo+KRoxE
- 5UN0A6I0VzMReRz5I8GFX8ZizKa6G26aRzpirzs7d38mEuI9DtcRc2yYZVJAc/qUrlLn
- DN45ZzzzhLne3R+laf4Pe7oy1LK+L6CJwqHiy7bqbpbXS0Dy1gCSkR6qfI+2qv9+SjOe
- HB/XXBzcDrggX0pBXml+1rb2s44XZnU0TNdn6MQmNd7fJdqBGecjsoXS3zwwn2iRizNV
- ZLcw==
-X-Gm-Message-State: ACgBeo17cEcFhbs0xj7k/YfBYz60RXlw/4sQ+P6NmZPPcsR1MlMgdAW2
- GGFAlyREJHPSz5MxAsf4JHKK0LIWMT2Gk+U8S0qSettz19MHEJaDJgM8A22kkgcXCIYJ6ckw5iP
- r0+iXJyywVVnvgLlrK4D3M4EW30IH+Lc=
-X-Received: by 2002:a05:620a:46a2:b0:6b8:bef3:8f82 with SMTP id
- bq34-20020a05620a46a200b006b8bef38f82mr4714880qkb.234.1659451748912; 
- Tue, 02 Aug 2022 07:49:08 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7ngDmMZuL11WPh+SvMWkEhXt5dp+1xN0ZquC53uT9esmsIGGUeaOCZ8uWlKM80D8O3ixv1MohnlZmHyV+WR0c=
-X-Received: by 2002:a05:620a:46a2:b0:6b8:bef3:8f82 with SMTP id
- bq34-20020a05620a46a200b006b8bef38f82mr4714865qkb.234.1659451748687; Tue, 02
- Aug 2022 07:49:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1oItGl-0003jm-DL
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 10:53:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1659451995; x=1690987995;
+ h=message-id:date:mime-version:subject:to:cc:references:
+ from:in-reply-to:content-transfer-encoding;
+ bh=Trw880o5f/2nvZ60cfT3+5c9qPlVaDFDy31Wri+s4WA=;
+ b=ZCk55UT7Db72wChSSFc89qZ2XIJNIXsHZLgpM66CWfcWAOjy9pvN3D0l
+ TNO80Qe48ocHvxlCKYRqEnMJOFLzBW3OZm5ffuM3rGu1WOzltT+vGMTzV
+ 9eK+LOMKJMX647cQmerBe7CY2xPML74FT6jdhnFxPu4rtY8d+QcMIv0Hy
+ QuX3/HujQnShcQHgEAB2q0PUwgcb3oRFk9uWLjzk1H9wLeQ6MfNa665hV
+ cP+Ol3wsL0is+D88WpMX1Y031d1yabU1d19T/yuTtkjvfRy97qccC4o+i
+ UgXWBd3ZLavdoKizNAQj9qzm6OAwdvlrJsIEhlhhjCalV3njjk2kUDjkg w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="286985894"
+X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="286985894"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 07:53:12 -0700
+X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; d="scan'208";a="578243588"
+Received: from xiaoyaol-hp-g830.ccr.corp.intel.com (HELO [10.249.175.192])
+ ([10.249.175.192])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Aug 2022 07:53:09 -0700
+Message-ID: <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com>
+Date: Tue, 2 Aug 2022 22:53:07 +0800
 MIME-Version: 1.0
-References: <20220802143908.274364-1-eperezma@redhat.com>
-In-Reply-To: <20220802143908.274364-1-eperezma@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 2 Aug 2022 16:48:32 +0200
-Message-ID: <CAJaqyWd47xR-mxERSuGpDUThZozJnBgp9kMoTet=PNNX4tuQMg@mail.gmail.com>
-Subject: Re: [PATCH] vdpa: do not save failed dma maps in SVQ iova tree
-To: qemu-level <qemu-devel@nongnu.org>
-Cc: Jason Wang <jasowang@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Firefox/91.0 Thunderbird/91.11.0
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Content-Language: en-US
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=83=c2=a9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+ <dae86884-6cfa-a428-374c-60c42900aade@intel.com> <Yukk0YOFgkPwcTzG@zx2c4.com>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+In-Reply-To: <Yukk0YOFgkPwcTzG@zx2c4.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=192.55.52.93; envelope-from=xiaoyao.li@intel.com;
+ helo=mga11.intel.com
+X-Spam_score_int: -51
+X-Spam_score: -5.2
+X-Spam_bar: -----
+X-Spam_report: (-5.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ HK_RANDOM_ENVFROM=0.998, HK_RANDOM_FROM=0.998, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,80 +88,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 2, 2022 at 4:41 PM Eugenio P=C3=A9rez <eperezma@redhat.com> wro=
-te:
->
-> If a map fails for whatever reason, it must not be saved in the tree.
-> Otherwise, qemu will try to unmap it in cleanup, leaving to more errors.
->
+On 8/2/2022 9:21 PM, Jason A. Donenfeld wrote:
+> Hi,
+> 
+> On Tue, Aug 02, 2022 at 11:28:15AM +0800, Xiaoyao Li wrote:
+>>>    static void pc_q35_7_0_machine_options(MachineClass *m)
+>>>    {
+>>> +    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>>>        pc_q35_7_1_machine_options(m);
+>>>        m->alias = NULL;
+>>> +    pcmc->legacy_no_rng_seed = true;
+>>
+>> Is making .legacy_no_rng_seed default false and opt-in it for old
+>> machines correct?
+> 
+> Not sure I follow what you're saying. ≤7.0 won't pass the RNG seed. It's
+> only on ≥7.1 that the RNG seed is used.
 
-I forgot to add:
+yes, with >= 7.1, pcmc->legacy_no_rng_seed = false by default, and RNG 
+seed is used.
 
-Reported-by: Lei Yang <leiyang@redhat.com>
+> Either way, this shouldn't cause boot failures.
 
-> Fixes: 34e3c94eda ("vdpa: Add custom IOTLB translations to SVQ")
-> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> ---
->  hw/virtio/vhost-vdpa.c | 20 +++++++++++++-------
->  1 file changed, 13 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 3ff9ce3501..e44c23dce5 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -176,6 +176,7 @@ static void vhost_vdpa_listener_commit(MemoryListener=
- *listener)
->  static void vhost_vdpa_listener_region_add(MemoryListener *listener,
->                                             MemoryRegionSection *section)
->  {
-> +    DMAMap mem_region =3D {};
->      struct vhost_vdpa *v =3D container_of(listener, struct vhost_vdpa, l=
-istener);
->      hwaddr iova;
->      Int128 llend, llsize;
-> @@ -212,13 +213,13 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
-stener *listener,
->
->      llsize =3D int128_sub(llend, int128_make64(iova));
->      if (v->shadow_vqs_enabled) {
-> -        DMAMap mem_region =3D {
-> -            .translated_addr =3D (hwaddr)(uintptr_t)vaddr,
-> -            .size =3D int128_get64(llsize) - 1,
-> -            .perm =3D IOMMU_ACCESS_FLAG(true, section->readonly),
-> -        };
-> +        int r;
->
-> -        int r =3D vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
-> +        mem_region.translated_addr =3D (hwaddr)(uintptr_t)vaddr,
-> +        mem_region.size =3D int128_get64(llsize) - 1,
-> +        mem_region.perm =3D IOMMU_ACCESS_FLAG(true, section->readonly),
-> +
-> +        r =3D vhost_iova_tree_map_alloc(v->iova_tree, &mem_region);
->          if (unlikely(r !=3D IOVA_OK)) {
->              error_report("Can't allocate a mapping (%d)", r);
->              goto fail;
-> @@ -232,11 +233,16 @@ static void vhost_vdpa_listener_region_add(MemoryLi=
-stener *listener,
->                               vaddr, section->readonly);
->      if (ret) {
->          error_report("vhost vdpa map fail!");
-> -        goto fail;
-> +        goto fail_map;
->      }
->
->      return;
->
-> +fail_map:
-> +    if (v->shadow_vqs_enabled) {
-> +        vhost_iova_tree_remove(v->iova_tree, &mem_region);
-> +    }
-> +
->  fail:
->      /*
->       * On the initfn path, store the first error in the container so we
-> --
-> 2.31.1
->
->
+It does fail booting OVMF with #PF. Below diff can fix the #PF for me.
+
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 7280c02ce3d5..1f62971759bf 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1903,6 +1903,7 @@ static void pc_machine_class_init(ObjectClass *oc, 
+void *data)
+      pcmc->has_reserved_memory = true;
+      pcmc->kvmclock_enabled = true;
+      pcmc->enforce_aligned_dimm = true;
++    pcmc->legacy_no_rng_seed = true;
+      pcmc->enforce_amd_1tb_hole = true;
+      /* BIOS ACPI tables: 128K. Other BIOS datastructures: less than 4K 
+reported
+       * to be used at the moment, 32K should be enough for a while.  */
+
+> Jason
 
 
