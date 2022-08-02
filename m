@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 502165879A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:10:59 +0200 (CEST)
-Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4921A5879B9
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:13:52 +0200 (CEST)
+Received: from localhost ([::1]:52070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oInvW-0007tk-BG
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:10:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1oInyJ-0002u0-DX
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:13:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oInCd-0001Go-PQ
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:24:37 -0400
-Received: from mga12.intel.com ([192.55.52.136]:63428)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chen.zhang@intel.com>)
- id 1oInCb-0003oX-GZ
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:24:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659428673; x=1690964673;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=PR/iLiG5E9mmVeR1yonIRLQ4DUo8P/RdY6SC8WiegCY=;
- b=ZE7g95tXsV8QeLxqW8dTwP+FVK1BNfZ6NAB5AgZkDtTAOa28V688lfQR
- uHxTbk38m3LGEw/x6fvdMvQcJh0j4onB4Pr8A5QrTrACS3A7AlAi0Skye
- ei+PmxRVxkQ0PklHprQP476ZW2e8j9hGbjTU8HfnWNP2ETlkPB7Q/ALVw
- PuBgoGiGXqy4NJWJxwdEUTKdRyvmFQuKAembb0GwAcMJ3oh3EEY4L/f2l
- jwTDosV7Sk6NhW2qaEKYUEknaEhRuPkykoGOPNPXsqT6Ho318FZK2whC2
- zz0CPQjGVAoiarmpg7mUhm5gZyd6VszVX0nKCNwblRLT4Cdtf4UPhmNie w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10426"; a="269122783"
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="269122783"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 01:24:26 -0700
-X-IronPort-AV: E=Sophos;i="5.93,210,1654585200"; d="scan'208";a="661527252"
-Received: from tkid-nvme.sh.intel.com ([10.239.161.133])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Aug 2022 01:24:24 -0700
-From: Zhang Chen <chen.zhang@intel.com>
-To: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@fujitsu.com>, qemu-dev <qemu-devel@nongnu.org>
-Cc: Zhang Chen <chen.zhang@intel.com>
-Subject: [PATCH] net/colo.c: Fix the pointer issuse reported by Coverity.
-Date: Tue,  2 Aug 2022 16:09:48 +0800
-Message-Id: <20220802080948.37426-1-chen.zhang@intel.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=192.55.52.136; envelope-from=chen.zhang@intel.com;
- helo=mga12.intel.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oInJd-0002KI-Sv; Tue, 02 Aug 2022 04:31:54 -0400
+Received: from smtp84.cstnet.cn ([159.226.251.84]:50054 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanjinhao21s@ict.ac.cn>)
+ id 1oInJb-0007bN-4w; Tue, 02 Aug 2022 04:31:49 -0400
+Received: from smtpclient.apple (unknown [106.8.166.203])
+ by APP-05 (Coremail) with SMTP id zQCowADn3+3Z4OhiGBayFQ--.42472S2;
+ Tue, 02 Aug 2022 16:31:23 +0800 (CST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.120.0.1.13\))
+Subject: Re: [PATCH] hw/nvme: Add helper functions for qid-db conversion
+From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+In-Reply-To: <Yui+B7yEikNGACgq@apples>
+Date: Tue, 2 Aug 2022 16:31:19 +0800
+Cc: qemu-devel <qemu-devel@nongnu.org>, Keith Busch <kbusch@kernel.org>,
+ "open list:nvme" <qemu-block@nongnu.org>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <46762954-5440-4C96-B39B-BCAA6C86589C@ict.ac.cn>
+References: <20220728080710.372027-1-fanjinhao21s@ict.ac.cn>
+ <Yui+B7yEikNGACgq@apples>
+To: Klaus Jensen <its@irrelevant.dk>
+X-Mailer: Apple Mail (2.3654.120.0.1.13)
+X-CM-TRANSID: zQCowADn3+3Z4OhiGBayFQ--.42472S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw18WF15Cw48XrWktw45Awb_yoW8XF1fpF
+ n3GFW3tw1xta43ta9xtr47Xrn5Zws3Wr18Cr9rK34xAr90yr18Za42kw1Fka4xuFWIkryU
+ Zr45KF17WFZFvrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I2
+ 0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+ A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+ jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
+ C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVAC
+ Y4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJV
+ W8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l
+ 4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67
+ AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+ cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI
+ 8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+ wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07joGQDUUUUU=
+X-Originating-IP: [106.8.166.203]
+X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
+Received-SPF: pass client-ip=159.226.251.84;
+ envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,56 +75,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When enable the virtio-net-pci, guest network packet will
-load the vnet_hdr. In COLO status, the primary VM's network
-packet maybe redirect to another VM, it need filter-redirect
-enable the vnet_hdr flag at the same time, COLO-proxy will
-correctly parse the original network packet. If have any
-misconfiguration here, the vnet_hdr_len is wrong for parse
-the packet, the data+offset will point to wrong place.
+at 2:02 PM, Klaus Jensen <its@irrelevant.dk> wrote:
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
----
- net/colo.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+> On Jul 28 16:07, Jinhao Fan wrote:
+>> With the introduction of shadow doorbell and ioeventfd, we need to do
+>> frequent conversion between qid and its doorbell offset. The original
+>> hard-coded calculation is confusing and error-prone. Add several =
+helper
+>> functions to do this task.
+>>=20
+>> Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
+>> ---
+>> hw/nvme/ctrl.c | 61 =
+++++++++++++++++++++++++++++++++------------------
+>> 1 file changed, 39 insertions(+), 22 deletions(-)
+>>=20
+>> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+>> index 533ad14e7a..6116c0e660 100644
+>> --- a/hw/nvme/ctrl.c
+>> +++ b/hw/nvme/ctrl.c
+>> @@ -487,6 +487,29 @@ static int nvme_check_cqid(NvmeCtrl *n, uint16_t =
+cqid)
+>> {
+>>     return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] !=3D NULL ? 0 : =
+-1;
+>> }
+>> +static inline bool nvme_db_offset_is_cq(NvmeCtrl *n, hwaddr offset)
+>> +{
+>> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
+>> +    return (offset / stride) & 1;
+>> +}
+>=20
+> This can be changed morphed into `(offset >> (2 + dstrd)) & 1` if I am =
+not
+> mistaken.
+>=20
 
-diff --git a/net/colo.c b/net/colo.c
-index 6b0ff562ad..dfb15b4c14 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -44,21 +44,25 @@ int parse_packet_early(Packet *pkt)
- {
-     int network_length;
-     static const uint8_t vlan[] = {0x81, 0x00};
--    uint8_t *data = pkt->data + pkt->vnet_hdr_len;
-+    uint8_t *data = pkt->data;
-     uint16_t l3_proto;
-     ssize_t l2hdr_len;
- 
-     if (data == NULL) {
--        trace_colo_proxy_main_vnet_info("This packet is not parsed correctly, "
--                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-+        trace_colo_proxy_main("COLO-proxy got NULL data packet ");
-         return 1;
-     }
--    l2hdr_len = eth_get_l2_hdr_length(data);
- 
--    if (pkt->size < ETH_HLEN + pkt->vnet_hdr_len) {
--        trace_colo_proxy_main("pkt->size < ETH_HLEN");
-+    /* Check the received vnet_hdr_len then add the offset */
-+    if (pkt->size < sizeof(struct eth_header) + sizeof(struct vlan_header)
-+        + pkt->vnet_hdr_len) {
-+        trace_colo_proxy_main_vnet_info("This packet may be load wrong "
-+                                        "pkt->vnet_hdr_len", pkt->vnet_hdr_len);
-         return 1;
-     }
-+    data += pkt->vnet_hdr_len;
-+
-+    l2hdr_len = eth_get_l2_hdr_length(data);
- 
-     /*
-      * TODO: support vlan.
--- 
-2.25.1
+Yes. But my current code looks more readable to me. Is it necessary to
+change to `(offset >> (2 + dstrd)) & 1`.
+
+>> +
+>> +static inline uint16_t nvme_db_offset_to_qid(NvmeCtrl *n, hwaddr =
+offset)
+>> +{
+>> +    hwaddr stride =3D 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
+>> +    return offset / (2 * stride);
+>> +}
+>=20
+> Same, should be able to do `offset >> (2 * dstrd + 1)`, no?
+
+Same as above.
 
 
