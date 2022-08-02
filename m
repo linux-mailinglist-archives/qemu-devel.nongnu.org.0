@@ -2,70 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70622587B8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:27:52 +0200 (CEST)
-Received: from localhost ([::1]:60398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A53587BAC
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:36:49 +0200 (CEST)
+Received: from localhost ([::1]:38954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIq3z-0000xZ-0K
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:27:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56764)
+	id 1oIqCe-0006J1-8m
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:36:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIq1L-0004Kc-Cb
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58600)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oIqAh-0004qZ-Se; Tue, 02 Aug 2022 07:34:47 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:50005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIq1H-0007Bk-GI
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659439498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HBmdb2nVaXkPu/i1BQa972mRLyq1hHMLWo9xO7GswXE=;
- b=L0F29umTbukV+5R32DNjlNXmEAW4B0Qa19bqpxfNDWYJmhFqGN1Cexm9QaNBDH1aRPwF7U
- yOTAcrFgC1JPICux33Tk/u1jSHZjtx/kYjrGhbAe4ycFPl9R1WS7DIw7cHzTp2P3fc5chi
- uGRPW7ssf0hKhSswVRju9l2x+HYX0xc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-611-s2GnBqb4O0WiF-X48kkgRw-1; Tue, 02 Aug 2022 07:24:54 -0400
-X-MC-Unique: s2GnBqb4O0WiF-X48kkgRw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8BBE8811E75;
- Tue,  2 Aug 2022 11:24:54 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.193.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64D672026D4C;
- Tue,  2 Aug 2022 11:24:53 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH 2/2] vdpa: Merge all net_init_vhost_vdpa error goto
-Date: Tue,  2 Aug 2022 13:24:47 +0200
-Message-Id: <20220802112447.249436-3-eperezma@redhat.com>
-In-Reply-To: <20220802112447.249436-1-eperezma@redhat.com>
-References: <20220802112447.249436-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1oIqAg-0004JO-3R; Tue, 02 Aug 2022 07:34:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=2jutLbbDTOLcA0VBGC/s3qrdQohT1L0p+rr5yokHnOI=; b=u9U7m8+2SMd9lHxIItXlrp57nZ
+ vGyLKJVOWqPBTUE12aKMXcVjPWLMBCG+RM+liqkJfOhq/KRFL97imVpKxT3C1nM1QjLfwpnanjKOf
+ ya/djAwrS5YY6SoEORYO7jnXsTkmQyG177gWcoQC//cYZ6sAar9eNu0RPGIkqdZA4e2aWd4b5ULiU
+ r5LOzFVXaKOpESsAG+A31May8gavphFa5zxqssxsBDqXA4cvnWROA9y12vKF4zyWMUF5E4z/uHQMW
+ oERLRYNoUqsKxMosDLtIQZj1qbluOvKtxvfMIra0XTYi3uVFVspSGdJ6McTu524HSjACnF5EUBBN4
+ PfxoBttVgKWkRx4Rv0i4ebQO6NgNuoKxeNB4NJlbRi9adM0PjkRhQgfbz72HvxDBI3aLMKd6RgKTf
+ qFwxEHWtAmyVcOAdqHhwpgoJogXul/qkL04NKPhM9ZoJvhSUCpYd1AUEVPX4fzYSuPAQnWaJZS9JV
+ +3IpCejM/GIA5hNHVLBGXL6oMPhRl5HTzVkeErVbucFSew4N80ZG21XavRkHbxUzJrDN0SiCZL+46
+ WxLo5pUDWCwXHhBBBbM6v3NFRpZywVrV3OoFC54tUc5FtV3IWhpkCyPVjC+79gZeNGKJY3/iFmcbi
+ X6lERlJcNb/xu++SH4YseuE+PZ2fuma/DWBMjsZOo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, kraxel@redhat.com,
+ qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] docs/about/removed-features: Move the -soundhw into the
+ right section
+Date: Tue, 02 Aug 2022 13:34:38 +0200
+Message-ID: <1719315.SO3xn117Sn@silver>
+In-Reply-To: <20220802075611.346835-1-thuth@redhat.com>
+References: <20220802075611.346835-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,46 +67,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Few steps allocate new resources, and all of the allocated can be
-checked to avoid trying to free an invalid one.
+On Dienstag, 2. August 2022 09:56:11 CEST Thomas Huth wrote:
+> The note about the removal of '-soundhw' has been accidentally added
+> to the section of removed "linux-user mode CPUs" ... it should reside
+> in the section about removed "System emulator command line arguments"
+> instead.
+> 
+> Fixes: 039a68373c ("introduce -audio as a replacement for -soundhw")
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
 
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- net/vhost-vdpa.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 303447a68e..ac1810723c 100644
---- a/net/vhost-vdpa.c
-+++ b/net/vhost-vdpa.c
-@@ -588,8 +588,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-     queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
-                                                  &has_cvq, errp);
-     if (queue_pairs < 0) {
--        qemu_close(vdpa_device_fd);
--        return queue_pairs;
-+        goto err;
-     }
- 
-     if (opts->x_svq) {
-@@ -604,7 +603,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
-         if (invalid_dev_features) {
-             error_setg(errp, "vdpa svq does not work with features 0x%" PRIx64,
-                        invalid_dev_features);
--            goto err_svq;
-+            goto err;
-         }
- 
-         vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range);
-@@ -640,7 +639,6 @@ err:
-         }
-     }
- 
--err_svq:
-     qemu_close(vdpa_device_fd);
- 
-     return -1;
--- 
-2.31.1
+That can easily happen unfortunately, as the hierarchy syntax here, like in 
+MAINTAINERS BTW, is not exactly perfect for the human eye.
+
+>  docs/about/removed-features.rst | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/docs/about/removed-features.rst
+> b/docs/about/removed-features.rst index c7b9dadd5d..925e22016f 100644
+> --- a/docs/about/removed-features.rst
+> +++ b/docs/about/removed-features.rst
+> @@ -396,6 +396,13 @@ Use ``-display sdl`` instead.
+> 
+>  Use ``-display curses`` instead.
+> 
+> +Creating sound card devices using ``-soundhw`` (removed in 7.1)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Sound card devices should be created using ``-device`` or ``-audio``.
+> +The exception is ``pcspk`` which can be activated using ``-machine
+> +pcspk-audiodev=<name>``.
+> +
+> 
+>  QEMU Machine Protocol (QMP) commands
+>  ------------------------------------
+> @@ -681,13 +688,6 @@ tripped up the CI testing and was suspected to be quite
+> broken. For that reason the maintainers strongly suspected no one actually
+> used it.
+> 
+> 
+> -Creating sound card devices using ``-soundhw`` (removed in 7.1)
+> -'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Sound card devices should be created using ``-device`` or ``-audio``.
+> -The exception is ``pcspk`` which can be activated using ``-machine
+> -pcspk-audiodev=<name>``.
+> -
+>  TCG introspection features
+>  --------------------------
+
 
 
