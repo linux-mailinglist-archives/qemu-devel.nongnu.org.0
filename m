@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73ED4587A16
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:52:20 +0200 (CEST)
-Received: from localhost ([::1]:47570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A2D9587A1F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 11:54:32 +0200 (CEST)
+Received: from localhost ([::1]:55916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIoZU-0005aS-EG
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:52:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
+	id 1oIobf-0002to-As
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 05:54:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oIoWj-0008Ph-6i
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:49:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31940)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oIoXC-0000b7-FH
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:49:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oIoWg-0001RS-Pl
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:49:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1oIoXA-00028U-LX
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:49:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659433762;
+ s=mimecast20190719; t=1659433792;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aN5KDkFEL9Ls6j8Ihx/s3zySoeUAyBsUudqUEVvzbB4=;
- b=WXKmcJXPlcVG2p305GkOOVGcNs6yNHTxpyuR7VjKacUDyyIGQ77Cd9c5ga4Cq/Nc4d+o7E
- um6zdgTBT/+fUDnITgT+Pt6+2g1rm4+O7xUp+bNlBBIwnMLsM1nP6I6FGBxPbmJw5tJIN3
- OqhrMvxv94gfdpbYD691wucVD7/LLB8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=qILDvFq0JE1nYEx2OKXCR/KNctto2Ey2a6Aj4h5FseE=;
+ b=ZHd0LgNAQhSPN7jbf3ELjwZdH+2KUG4fuwdKwTSd6kPnDtBmTNheR4p52l9TcG9WN1avk9
+ TiA3y9ZJ0FUQbLelUemctEqUPMHftu4e1H297/NPSEO+kq7dQqyWiuz4GDmUzY/olQVC4O
+ fOK7E6jCkxQoLBS99PFVOclhvqjo1wE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-490-8XKSRaEwMpiclN7nlNCFoQ-1; Tue, 02 Aug 2022 05:49:21 -0400
-X-MC-Unique: 8XKSRaEwMpiclN7nlNCFoQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- c17-20020a7bc011000000b003a2bfaf8d3dso6019359wmb.0
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:49:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=aN5KDkFEL9Ls6j8Ihx/s3zySoeUAyBsUudqUEVvzbB4=;
- b=ta5o6xJak6Dkn6VIGi8bKpdAYkrC0l7jMLhjccIEUEJ2fVr/dPzoh3Jqh9unNVva28
- 4w8b0Ulv2p33avx/bC31u3Xyg3wPFWb86Z1/XpbUW+G1i3BxN5nSZfaJuN5AUKbCnXNj
- R24M4Twwl+V9MJv5+hNGSrNn6hfSgGHOT7N7OfdcbuDAM7E0iDVKhGABsq2UDeDTY7zR
- 82YpyGXJOhfK3a0cGS23jzBogE+ntoGSeZ1qh1oCby/dKi8B9r7vivbcUA/1qua4vkxw
- 6VhqTjgyqEk67Zk5ZtYUAM2w0Jt1XmiPNA6f6JL5S32ZTAhZoYfR3dI8QiIoNy4bMfkt
- G7Ww==
-X-Gm-Message-State: ACgBeo2qo+Wv+vDBeMzfZ2O7TYv+AOefrC4/HMESzzvx1B4xkfPrASIS
- V0Xoxf3gy5qosFeYOgvv40EOOtfzteujzr888lef/9vCBn7/+nZjV4Fc435ztQmlPmLfmgEgRjx
- 9gSKAYM2GjLcKUU8=
-X-Received: by 2002:adf:f30e:0:b0:21f:afbb:db23 with SMTP id
- i14-20020adff30e000000b0021fafbbdb23mr9285065wro.490.1659433759961; 
- Tue, 02 Aug 2022 02:49:19 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR68l/aSx/bvc8ybw3w01waBq+lmsu4zAK0UtzSYTaWwlnsN07KEmBIu2Jb97SfzHGXBrB9ftw==
-X-Received: by 2002:adf:f30e:0:b0:21f:afbb:db23 with SMTP id
- i14-20020adff30e000000b0021fafbbdb23mr9285046wro.490.1659433759734; 
- Tue, 02 Aug 2022 02:49:19 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- p13-20020a5d48cd000000b0021e91d5bb1esm14613296wrs.8.2022.08.02.02.49.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 02 Aug 2022 02:49:19 -0700 (PDT)
-Message-ID: <d1011a19-0a3d-62f7-20aa-714fd56a6647@redhat.com>
-Date: Tue, 2 Aug 2022 11:49:17 +0200
+ us-mta-673-R-6ShOiFM_qnD7YkuQfObw-1; Tue, 02 Aug 2022 05:49:51 -0400
+X-MC-Unique: R-6ShOiFM_qnD7YkuQfObw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4A728381078D;
+ Tue,  2 Aug 2022 09:49:50 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.227])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC53E2166B26;
+ Tue,  2 Aug 2022 09:49:47 +0000 (UTC)
+Date: Tue, 2 Aug 2022 10:49:45 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Isaku Yamahata <isaku.yamahata@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Cornelia Huck <cohuck@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, erdemaktas@google.com,
+ kvm@vger.kernel.org, qemu-devel@nongnu.org, seanjc@google.com
+Subject: Re: [PATCH v1 00/40] TDX QEMU support
+Message-ID: <YujzOUjMbBZRi/e6@redhat.com>
+References: <20220802074750.2581308-1-xiaoyao.li@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 2/2] hw/arm/virt: Warn when high memory region is disabled
-Content-Language: en-US
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- richard.henderson@linaro.org, cohuck@redhat.com, zhenyzha@redhat.com,
- shan.gavin@gmail.com, Marc Zyngier <maz@kernel.org>
-References: <20220802064529.547361-1-gshan@redhat.com>
- <20220802064529.547361-3-gshan@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <20220802064529.547361-3-gshan@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220802074750.2581308-1-xiaoyao.li@intel.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+X-Scanned-By: MIMEDefang 2.78 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,70 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gavin,
+On Tue, Aug 02, 2022 at 03:47:10PM +0800, Xiaoyao Li wrote:
+> This is the first version that removes RFC tag since last RFC gots
+> several acked-by. Hope more people and reviewers can help review it.
+> 
+> 
+> This patch series aims to enable TDX support to allow creating and booting a
+> TD (TDX VM) with QEMU. It needs to work with corresponding KVM patch [1].
+> TDX related documents can be found in [2].
+> 
+> this series is also available in github:
+> 
+> https://github.com/intel/qemu-tdx/tree/tdx-qemu-upstream-v1
+> 
+> To boot a TDX VM, it requires several changes/additional steps in the flow:
+> 
+>  1. specify the vm type KVM_X86_TDX_VM when creating VM with
+>     IOCTL(KVM_CREATE_VM);
+>  2. initialize VM scope configuration before creating any VCPU;
+>  3. initialize VCPU scope configuration;
+>  4. initialize virtual firmware (TDVF) in guest private memory before
+>     vcpu running;
+> 
+> Besides, TDX VM needs to boot with TDVF (TDX virtual firmware) and currently
+> upstream OVMF can serve as TDVF. This series adds the support of parsing TDVF,
+> loading TDVF into guest's private memory and preparing TD HOB info for TDVF.
+> 
+> [1] KVM TDX basic feature support v7
+> https://lore.kernel.org/all/cover.1656366337.git.isaku.yamahata@intel.com/
+> 
+> [2] https://www.intel.com/content/www/us/en/developer/articles/technical/intel-trust-domain-extensions.html
+> 
+> == Limitation and future work ==
 
-On 8/2/22 08:45, Gavin Shan wrote:
-> When one specific high memory region is disabled due to the PA
-> limit, it'd better to warn user about that. The warning messages
-> help to identify the cause in some cases. For example, PCIe device
-> that has large MMIO bar, to be covered by PCIE_MMIO high memory
-> region, won't work properly if PCIE_MMIO high memory region is
-> disabled due to the PA limit.
->
-> Signed-off-by: Gavin Shan <gshan@redhat.com>
-> ---
->  hw/arm/virt.c | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index bc0cd218f9..c91756e33d 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -1691,6 +1691,7 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->  static void virt_memmap_fits(VirtMachineState *vms, int index,
->                               bool *enabled, hwaddr *base, int pa_bits)
->  {
-> +    const char *region_name;
->      hwaddr size = extended_memmap[index].size;
->  
->      /* The region will be disabled if its size isn't given */
-> @@ -1713,6 +1714,23 @@ static void virt_memmap_fits(VirtMachineState *vms, int index,
->          vms->highest_gpa = *base + size - 1;
->  
->  	*base = *base + size;
-> +    } else {
-> +        switch (index) {
-> +        case VIRT_HIGH_GIC_REDIST2:
-> +            region_name = "GIC_REDIST2";
-> +            break;
-> +        case VIRT_HIGH_PCIE_ECAM:
-> +            region_name = "PCIE_ECAM";
-> +            break;
-> +        case VIRT_HIGH_PCIE_MMIO:
-> +            region_name = "PCIE_MMIO";
-> +            break;
-> +        default:
-> +            region_name = "unknown";
-> +        }
-when highmem is turned off I don't think we want those warnings because
-it is obvious that highmem regions are not meant to be used.
 
-On the other hand I am afraid some users may complain about warnings
-that do not affect them. If you miss high MMIO don't you get a warning
-on guest side?
+> - CPU model
+> 
+>   We cannot create a TD with arbitrary CPU model like what for non-TDX VMs,
+>   because only a subset of features can be configured for TD.
+>   
+>   - It's recommended to use '-cpu host' to create TD;
+>   - '+feature/-feature' might not work as expected;
+> 
+>   future work: To introduce specific CPU model for TDs and enhance +/-features
+>                for TDs.
 
-Thanks
+Which features are incompatible with TDX ?
 
-Eric
-> +
-> +        warn_report("Disabled %s high memory region due to PA limit",
-> +                    region_name);
->      }
->  }
->  
+Presumably you have such a list, so that KVM can block them when
+using '-cpu host' ? If so, we should be able to sanity check the
+use of these features in QEMU for the named CPU models / feature
+selection too.
+
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
