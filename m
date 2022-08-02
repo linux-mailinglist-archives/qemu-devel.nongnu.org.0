@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8FEC587A51
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:08:03 +0200 (CEST)
-Received: from localhost ([::1]:51026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF33587AC7
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 12:33:19 +0200 (CEST)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIook-0002GJ-QW
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33586)
+	id 1oIpDB-0003jS-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 06:33:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXs-0001ZX-2A
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:36 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34753)
+ id 1oIohN-00055Y-D4
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:25 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oIoXq-0002WK-Hd
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 05:50:35 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id j1so8785220wrw.1
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 02:50:34 -0700 (PDT)
+ id 1oIohI-0006Oa-Iw
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 06:00:25 -0400
+Received: by mail-wr1-x434.google.com with SMTP id bv3so3283905wrb.5
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 03:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc;
- bh=z6HPjsVGZtO92xLq+sdxQwAMWt569NUcAMZ4ONfdk+E=;
- b=ORaO7+qhdJM/C9XoyX3QrS23RSo91AzkIybJbXO+6wnkzVdIDCtIuHNRaeeRlUKuC1
- 5baYida1gS4I3LM7EEI6l5zhub6RiinR4gGS0sHTkKsSgt2snVK1hnj59tXqygy4smGW
- YGDyZuqitXFG5W0TtnUixUAeGMtY6/uCyeu9zAafnLVgaD4pDlH3WrqDk9kgqJI/1QLU
- 2TCdK58kIXPvSyRV39vkfe3yPUQw2X76JvI62C2AVGXvri/j6ZGngyPXSno/ugLYcuSG
- 4txBXZfBZPp0LMlBqKTR5qaOXZh5nf9ymyIh6hTjJ0XG6HBVTbwea4C9vueSJH2U4rG2
- Yy3w==
+ bh=c6gCqIJw8yCV7CUCpwJSaqkLGHMke2sDpgsD4kivFT0=;
+ b=z6InKbnXMEFjzUDcE1l2HPIZfCAminWu0mPvyhTzaP+hTtpI4yJiBGyXfyRIGcEZcC
+ 9IVlu3nXdNK9OlLdqpcPSqup7dxDAHtiXd5T9giGZA49a2Nqs6cxodsv/fP5/gly2BW5
+ +Q+5aUbvpyA21aHHyDPBSW9+HCSToixsRbNxNmUtmchz/mkEjCN4maTyQvDb4L4ZJB1/
+ cyU8VyrImvciokmcdWwq85HMDPy+WwQtwkTxqSXMQrdJ606SxcSpcTfDMy0GOLB2QGRS
+ G3s20jd7gYjLwaAR8AYL8khzLzuLavEDY+kAjsxWd32stOc7GTvigwd3bX67JWpDHbdK
+ 8Umw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=z6HPjsVGZtO92xLq+sdxQwAMWt569NUcAMZ4ONfdk+E=;
- b=cs+TIXbbXdar+mEHTVMNWBRO15Jx+HvV58T9qLyRuTjWoLZJp0Ooxp5hUUO/e/a5jU
- 8oOoCfkfOzE7IbgjiHH7zs7Y1eFPqeepe6LRauXSH9NJN5cYPZsRFB//kRBUogN256H1
- K74O6dplkaSLPR8ZD5EMI0od2WQLipcQQ7AsmIWlZ+VnANivus4xRcJL1uDBNadGGC2i
- 6q2PunCf1xow8N4GQZunV6/qAb4Unnl9gAfIX6QPz0tAx1WPO38TTXGWuYrDMIY/nCjS
- J30URRCL4uiiEDrirC/IF4QXte8xAzBpTmdGb6dVJxQ0I1un8rQjqD2tkuwd2YXJ3D0M
- gRSQ==
-X-Gm-Message-State: ACgBeo2b1UuoOteObJqS4pz+ddsTKO1BtWVCxv03gLN9iO704YAXwtDH
- 1CpRus+7CyXqBXIL3QkV0gN0xQ==
-X-Google-Smtp-Source: AA6agR59TSY+YT8CR+tmLQmdrj/BJ+r5qqaACsJ61ly/CS57LspK4/Lr2cX3DtNN0FCLBLOxujTkJA==
-X-Received: by 2002:a5d:684e:0:b0:220:63df:3760 with SMTP id
- o14-20020a5d684e000000b0022063df3760mr4593291wrw.508.1659433833224; 
- Tue, 02 Aug 2022 02:50:33 -0700 (PDT)
+ bh=c6gCqIJw8yCV7CUCpwJSaqkLGHMke2sDpgsD4kivFT0=;
+ b=n0DgQ7HZaJMJQks2t+64k/z8tCUZiDH4opUmQdVb0J3WbILzx1C0Gh/Fe18FYBBaeU
+ mpJTjjl8qLgf8L45wpMrx0Ut/N5PgJVqIiDnTXMlm8oG+UdXfLbVpFR78ZK52uzTXnWc
+ 0LFl+jI0m2rnxkM2r9tcntuc1EMd+aM5HDKvJh7ZL0AxHL2X9w1gMmnUWLukN6qW2fXy
+ Qnw4m+tCoLX/YwQGUXeUud/FpU+WateacUo642fm/6jfKFzHJ+mGcPfxu1hv07rcuNcr
+ 0f0mN4pDiP5s0GOau8hh/hO9uuZJobjU0UxdjpefqNb2S82+KmuUw/ivkHUe9n/nUdrn
+ dXWQ==
+X-Gm-Message-State: ACgBeo0b8U5NYpIwQia5q0eJ/dvs5F9Xjp0AfXONTi9f6SePMRjPuB7R
+ gBJ+MBOUYkBmBtfZBZGFWVrqug==
+X-Google-Smtp-Source: AA6agR4MnUMGJlqpj5YowPI4nBvMfeu56k66slxoAjGVVJATj1uhl4k68tqfv1riBZpMVP0BA4S4AA==
+X-Received: by 2002:a05:6000:178d:b0:21d:a453:b7c6 with SMTP id
+ e13-20020a056000178d00b0021da453b7c6mr13635813wrg.275.1659434419258; 
+ Tue, 02 Aug 2022 03:00:19 -0700 (PDT)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- i5-20020adff305000000b002206203ed3dsm6805777wro.29.2022.08.02.02.50.17
+ k18-20020a5d6292000000b0021ec32d130asm14765519wru.74.2022.08.02.03.00.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Aug 2022 02:50:22 -0700 (PDT)
+ Tue, 02 Aug 2022 03:00:14 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F2B681FFC6;
- Tue,  2 Aug 2022 10:50:11 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 143F91FFC7;
+ Tue,  2 Aug 2022 10:50:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
@@ -63,17 +63,18 @@ Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH  v4 14/22] tests/qtest: pass stdout/stderr down to subtests
-Date: Tue,  2 Aug 2022 10:50:02 +0100
-Message-Id: <20220802095010.3330793-15-alex.bennee@linaro.org>
+Subject: [PATCH v4 15/22] tests/qtest: add a timeout for
+ subprocess_run_one_test
+Date: Tue,  2 Aug 2022 10:50:03 +0100
+Message-Id: <20220802095010.3330793-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220802095010.3330793-1-alex.bennee@linaro.org>
 References: <20220802095010.3330793-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,40 +97,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When trying to work out what the virtio-net-tests where doing it was
-hard because the g_test_trap_subprocess redirects all output to
-/dev/null. Lift this restriction by using the appropriate flags so you
-can see something similar to what the vhost-user-blk tests show when
-running.
+Hangs have been observed in the tests and currently we don't timeout
+if a subprocess hangs. Rectify that.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20220407150042.2338562-1-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 ---
-v2
-  - keep dumping of CLI behind the g_test_verbose flag
+v3
+  - expand timeout to 180 at Thomas' suggestion
 v4
-  - fix overly long line
+  - fix merge conflict with earlier patch
 ---
- tests/qtest/qos-test.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/qtest/qos-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index f97d0a08fd..01a9393399 100644
+index 01a9393399..d958ef4be3 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -185,7 +185,9 @@ static void run_one_test(const void *arg)
+@@ -185,7 +185,7 @@ static void run_one_test(const void *arg)
  static void subprocess_run_one_test(const void *arg)
  {
      const gchar *path = arg;
--    g_test_trap_subprocess(path, 0, 0);
-+    g_test_trap_subprocess(path, 0,
-+                           G_TEST_SUBPROCESS_INHERIT_STDOUT |
-+                           G_TEST_SUBPROCESS_INHERIT_STDERR);
+-    g_test_trap_subprocess(path, 0,
++    g_test_trap_subprocess(path, 180 * G_USEC_PER_SEC,
+                            G_TEST_SUBPROCESS_INHERIT_STDOUT |
+                            G_TEST_SUBPROCESS_INHERIT_STDERR);
      g_test_trap_assert_passed();
- }
- 
 -- 
 2.30.2
 
