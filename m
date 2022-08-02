@@ -2,75 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784CA58802C
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 18:23:01 +0200 (CEST)
-Received: from localhost ([::1]:46116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C41C58806C
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 18:40:58 +0200 (CEST)
+Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIufa-0006DE-BB
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 12:22:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34502)
+	id 1oIuwy-0004BN-VL
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 12:40:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIuaU-0001hE-31
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 12:17:45 -0400
-Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:46795)
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oIuv9-00025v-DH
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 12:39:03 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1oIuaS-0002mc-9n
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 12:17:41 -0400
-Received: by mail-yw1-x1129.google.com with SMTP id
- 00721157ae682-31f445bd486so145618037b3.13
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 09:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=CU+0nsIiE7/GRUmSvUU1zcUzoaVed5ed7riP4vnKcRM=;
- b=X+8ZfLkjs5bKiCDDHlTZ2fvJIolmMngxhDi/uAYJ4n9f4yo2LUs/MNq5/cWhjaV0hb
- LTi/iXKctG/INu8W9DdaR6Xbyzz6RqsfpVppSt+rT5WO0vmUS1aSs7Q0aLqBeXWIIVuF
- DihaJcXf1cJRnrKZNkLg8NnyW0pReoe2sMCUTKDOGHof5Wz6+awOlmMY8FrKfRGO5CzA
- UscxnD941S2PgfP49UvhBzHNOoVbGWQX/bnYylqTXjvmUQBI2lNqc/cUPU6sznYeQuLA
- SUq/Mc1lHV7PJOhgvjX1nMRCrVbaWVPZFzdXrBYCQQLbWjfzw9ADhCycsSWYmLE+xyHP
- rtkw==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1oIuv7-0000F4-Rg
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 12:39:03 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ h21-20020a17090aa89500b001f31a61b91dso16159763pjq.4
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 09:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc;
+ bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
+ b=DEczoNtVTMwIsaw8yg11wYkQuI9LeTuQwFeOQ0oJ03m1tMW/YgHdOnTv17v8+A6WTV
+ U7hpMystc0MLLmDXYDMaROWkoGrECN3+IY7Ia+Z09cQyp/+2thONhPGLIYnqECJRrXhr
+ dDHRlXhlBA0o0w24sHNoK99DkncCME85F/XcNTjXnZbY1/vtUg34rxTUMG/OWYQ4HMcI
+ iIFe/Qw/lNcBgMnxPgPuAhy90CFyCy84wOdE8NkRPB91ulC5zTuJcdVgjk8H0EgOjoUm
+ FnlRd5MiMQxVvv/M1kuZRL91q7QvdBIT05QOREIPMw2HWyehKvsTbH9WC464J4D8ov37
+ YsWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=CU+0nsIiE7/GRUmSvUU1zcUzoaVed5ed7riP4vnKcRM=;
- b=PqzP3eqaRAuWZMa86acf4DM7rwdE4UVE8Enc2P7oIezKXKPa6o8LWeEcPw7FZwLM4z
- LBtwU+S42N7xLmNxCtOOzut5jEVjJzk9iBqCoTXgUe/gV9V9Ok4SOsSc7lHGjHbvxBOB
- 4gJ487VwMPqcKMzwIYySW04okwvvmKECQ2nO9e/0GZRqD3ugWWT7/LcCOlHFaM6OFeZ8
- AMwwd7OUyWlET1qIY0FRdYpsFGZ0CaBk0XqJ9faO3pK/mVH8+BKKpURUrfdme144/e9L
- 7QL5pfkC/DLWlgQ1f1SmDQSpweExvWi7I9DgBXC1VDhazh5O+ZnLr9ogRXRDgQvpj9j8
- qbXw==
-X-Gm-Message-State: ACgBeo3DK/VPt9ulZSqBwOWDzA3i5jGe72z255yxPZZJNCLJSw1iO8su
- 5+T4wbebf2m6lpLAY08glJV0WwcFHQpVstC57iCn/g==
-X-Google-Smtp-Source: AA6agR7ZpIqfhaD9bCmWi3Zn6qxmpxquZWhnIni6s1lxb+OBVT/T6BuVUg4VCCz/sVsfWXSQItRIYecXY1KRsHxBSGY=
-X-Received: by 2002:a0d:d2c3:0:b0:31e:62ea:3303 with SMTP id
- u186-20020a0dd2c3000000b0031e62ea3303mr19334195ywd.64.1659457058898; Tue, 02
- Aug 2022 09:17:38 -0700 (PDT)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=YLolmPC/4W6Ekt5KXSGhTlaQ+SvTrN9uL1784FHTktA=;
+ b=yrCz9oddFcrPZijHXGDVKho2CK1HU1iNi0sp8Waw4x9rcRixfJUyGOC3Fks1DEXzHI
+ rN28KgQ2O6+O4l8sKOoIVdH8j3aoRzfuIvzXN3p4zIpJnFTHDLnz4DguZLRZLhTbgA6S
+ Ynfjm/PFeFYv34GAMdVLmdMf60dgaT4qH0ES70qMg7c4jVrIyzyS6G8y+iUajxUgVZL+
+ a+d3nYApF44EOugV7pewlfOCpq7uZ3slNUAc0UQBBL0Zwka9y+roJ3FdlemHqPLhOITG
+ BRGepyjB2WTQ/0sLRQBxpwauNzZj/daRPCs87Bq0Dm87tbFT698oDM2EgSEarVSbhTsX
+ Gd8g==
+X-Gm-Message-State: ACgBeo2Cgfx6aaDK2mYjKXcwVfWOCB0YAH4+MvOMsEIOuahdTdTIcuEP
+ ohZ3AVUchWD2GimHW0tHs79+bA==
+X-Google-Smtp-Source: AA6agR5iAjFP2q7X1PbZvwrW6P6B4ILkh92ieVBGwE4LPz6Qma2k0ZREMBEhxOJKazpAhnjrSGkWTg==
+X-Received: by 2002:a17:902:dac6:b0:16d:bdf5:7084 with SMTP id
+ q6-20020a170902dac600b0016dbdf57084mr22165713plx.55.1659458340177; 
+ Tue, 02 Aug 2022 09:39:00 -0700 (PDT)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a17090aec0f00b001f216407204sm11136513pjy.36.2022.08.02.09.38.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Aug 2022 09:38:59 -0700 (PDT)
+Date: Tue, 2 Aug 2022 16:38:55 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: Chao Peng <chao.p.peng@linux.intel.com>
+Cc: Wei Wang <wei.w.wang@linux.intel.com>,
+ "Gupta, Pankaj" <pankaj.gupta@amd.com>, kvm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
+ linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+ Wanpeng Li <wanpengli@tencent.com>,
+ Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
+ Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
+ "J . Bruce Fields" <bfields@fieldses.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Steven Price <steven.price@arm.com>,
+ "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
+ Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
+ Yu Zhang <yu.c.zhang@linux.intel.com>,
+ "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+ luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
+ ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
+ ddutile@redhat.com, dhildenb@redhat.com,
+ Quentin Perret <qperret@google.com>,
+ Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
+ Muchun Song <songmuchun@bytedance.com>
+Subject: Re: [PATCH v7 11/14] KVM: Register/unregister the guest private
+ memory regions
+Message-ID: <YulTH7bL4MwT5v5K@google.com>
+References: <36e671d2-6b95-8e4f-c2ac-fee4b2670c6e@amd.com>
+ <20220720150706.GB124133@chaop.bj.intel.com>
+ <d0fd229d-afa6-c66d-3e55-09ac5877453e@amd.com>
+ <YtgrkXqP/GIi9ujZ@google.com>
+ <45ae9f57-d595-f202-abb5-26a03a2ca131@linux.intel.com>
+ <20220721092906.GA153288@chaop.bj.intel.com>
+ <YtmT2irvgInX1kPp@google.com>
+ <20220725130417.GA304216@chaop.bj.intel.com>
+ <YuQ64RgWqdoAAGdY@google.com> <Yuh0ikhoh+tCK6VW@google.com>
 MIME-Version: 1.0
-References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
- <1566284395-30287-16-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1566284395-30287-16-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 2 Aug 2022 17:17:27 +0100
-Message-ID: <CAFEAcA-hV9BERt=4wP0hdb7HemrzpFC1v8UrmypKFYV4DPw-Bw@mail.gmail.com>
-Subject: Re: [Qemu-devel] [PULL 15/36] memory: fix race between TCG and
- accesses to dirty bitmap
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
- envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yuh0ikhoh+tCK6VW@google.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,97 +123,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 20 Aug 2019 at 08:12, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> There is a race between TCG and accesses to the dirty log:
->
->       vCPU thread                  reader thread
->       -----------------------      -----------------------
->       TLB check -> slow path
->         notdirty_mem_write
->           write to RAM
->           set dirty flag
->                                    clear dirty flag
->       TLB check -> fast path
->                                    read memory
->         write to RAM
->
-> Fortunately, in order to fix it, no change is required to the
-> vCPU thread.  However, the reader thread must delay the read after
-> the vCPU thread has finished the write.  This can be approximated
-> conservatively by run_on_cpu, which waits for the end of the current
-> translation block.
->
-> A similar technique is used by KVM, which has to do a synchronous TLB
-> flush after doing a test-and-clear of the dirty-page flags.
->
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+On Tue, Aug 02, 2022, Sean Christopherson wrote:
+> I think we should avoid UNMAPPABLE even on the KVM side of things for the core
+> memslots functionality and instead be very literal, e.g.
+> 
+> 	KVM_HAS_FD_BASED_MEMSLOTS
+> 	KVM_MEM_FD_VALID
+> 
+> We'll still need KVM_HAS_USER_UNMAPPABLE_MEMORY, but it won't be tied directly to
+> the memslot.  Decoupling the two thingis will require a bit of extra work, but the
+> code impact should be quite small, e.g. explicitly query and propagate
+> MEMFILE_F_USER_INACCESSIBLE to kvm_memory_slot to track if a memslot can be private.
+> And unless I'm missing something, it won't require an additional memslot flag.
+> The biggest oddity (if we don't also add KVM_MEM_PRIVATE) is that KVM would
+> effectively ignore the hva for fd-based memslots for VM types that don't support
+> private memory, i.e. userspace can't opt out of using the fd-based backing, but that
+> doesn't seem like a deal breaker.
 
+Hrm, but basing private memory on top of a generic FD_VALID would effectively require
+shared memory to use hva-based memslots for confidential VMs.  That'd yield a very
+weird API, e.g. non-confidential VMs could be backed entirely by fd-based memslots,
+but confidential VMs would be forced to use hva-based memslots.
 
-> +static void tcg_log_global_after_sync(MemoryListener *listener)
-> +{
-> +    CPUAddressSpace *cpuas;
-> +
-> +    /* Wait for the CPU to end the current TB.  This avoids the following
-> +     * incorrect race:
-> +     *
-> +     *      vCPU                         migration
-> +     *      ----------------------       -------------------------
-> +     *      TLB check -> slow path
-> +     *        notdirty_mem_write
-> +     *          write to RAM
-> +     *          mark dirty
-> +     *                                   clear dirty flag
-> +     *      TLB check -> fast path
-> +     *                                   read memory
-> +     *        write to RAM
-> +     *
-> +     * by pushing the migration thread's memory read after the vCPU thread has
-> +     * written the memory.
-> +     */
-> +    cpuas = container_of(listener, CPUAddressSpace, tcg_as_listener);
-> +    run_on_cpu(cpuas->cpu, do_nothing, RUN_ON_CPU_NULL);
-> +}
-
-So I think this implementation has two problems that we've only just
-noticed:
-
-(1) if memory_global_after_dirty_log_sync() is called in a context
-where the caller holds the BQL, then the implementation here will
-temporarily drop the BQL inside run_on_cpu(). That breaks
-assumptions in pretty much all the graphics device models which
-call memory_region_snapshot_and_clear_dirty() and assume that
-things they'd determined before the call stay valid (pointers
-into DisplaySurfaces, information about size and location of
-the framebuffer in guest memory, etc).
-
-(2) if memory_global_after_dirty_log_sync() is called in a context
-where the caller does *not* hold the BQL, this is undefined
-behaviour, because run_on_cpu() calls qemu_cond_wait() passing
-it the BKL, and at least for the posix implementation that
-ends up being posix_cond_wait() and calling that without the
-mutex held is undefined behaviour. This happens for the migration
-code for everything except the final iteration.
-
-Does anybody have any bright ideas for fixing these? (2) I guess
-we could handle just by having the migration code (or this
-code right here) grab the BQL if it doesn't already have it.
-(1) is much harder: you kind of conceptually want to do a "go back
-and restart the update-display operation", but there's no clear
-way to tell if you need to do that. You can postpone some things
-(like "get the current UI display surface") until after the
-call to memory_region_snapshot_and_clear_dirty(), and you could
-have a "check a flag to see if the guest re-entered the display
-device while we were inside memory_region_snapshot_and_clear_dirty()"
-test, but some things the guest might do could potentially invalidate
-things in a non-obvious action-at-a-distance way that doesn't
-require an access to the display device. (e.g. a display device that
-lets the guest program the FB to be anywhere in the address map,
-plus the ability for the guest to cause remapping of RAM banks
-or similar -- the display device can't tell if the RAM banks
-got remapped or not, that's handled by a different device.)
-
-thanks
--- PMM
+Ignore this idea for now.  If there's an actual use case for generic fd-based memory
+then we'll want a separate flag, fd, and offset, i.e. that support could be added
+independent of KVM_MEM_PRIVATE.
 
