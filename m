@@ -2,73 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B72858796E
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:57:24 +0200 (CEST)
-Received: from localhost ([::1]:48714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C96C587969
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 10:56:09 +0200 (CEST)
+Received: from localhost ([::1]:44530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIniN-0006HT-DB
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:57:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
+	id 1oInh9-0003Pa-KB
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 04:56:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oInQ2-00010v-Px
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:38:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33996)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oInZD-0003h8-3x
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:47:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44883)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1oInP6-00011Y-E9
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:38:24 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1oInZ9-0003Cc-5V
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 04:47:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659429446;
+ s=mimecast20190719; t=1659430070;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zdtVqFbMCACeS09fM6E0mpw7wvxfWXyalTKEfKdvopo=;
- b=bQqH7UWKLkg3nCbFR0I35w4PHagYcnDDcRFElH8YaFqxcvAWdWSOG7wGK2EFM5mc7cTuxY
- jPXVBWt1KYVyV2h6JqTJ5OeoOQSXMc6kdQWWtk9CRvAVj20cipIVgKIjASJ7+7GYlGT4XQ
- avCVqAo/43vrjMyzLFGWpRzD7y839+A=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Cej2XdN4K8UmGEfk6gFQhUcYzXJUN8KyddTHBcy5Tbw=;
+ b=X4c8huO6Q4TQXq2oaDocoLbTtdOn6SuWmxrKgBm9HCVkQlYlBNg4FxThVqdDBHxahpQ2IZ
+ Q+7/LrWQNuLsVJBUQDAx7za8kYHKWEvGbH43PqGZ9Q9a7VfKHv3JmRKU/wH9Pr4b5XSoQy
+ drueEICAHXq1zKj8GLXKjYB1pqJMynY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-104-mjBsib2wN8GAHldJbdxtZQ-1; Tue, 02 Aug 2022 04:37:25 -0400
-X-MC-Unique: mjBsib2wN8GAHldJbdxtZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1A59E3C02B84
- for <qemu-devel@nongnu.org>; Tue,  2 Aug 2022 08:37:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.194.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C687B2026D64;
- Tue,  2 Aug 2022 08:37:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 891A621E6930; Tue,  2 Aug 2022 10:37:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  Thomas Huth
- <thuth@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Jason Wang <jasowang@redhat.com>,  Paolo Bonzini <pbonzini@redhat.com>,
- Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Stefano Brivio
- <sbrivio@redhat.com>
-Subject: Re: [PATCH v7 05/14] qapi: net: add stream and dgram netdevs
-References: <20220722190442.301310-1-lvivier@redhat.com>
- <20220722190442.301310-6-lvivier@redhat.com>
-Date: Tue, 02 Aug 2022 10:37:23 +0200
-In-Reply-To: <20220722190442.301310-6-lvivier@redhat.com> (Laurent Vivier's
- message of "Fri, 22 Jul 2022 21:04:33 +0200")
-Message-ID: <874jyvujlo.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ us-mta-248-ir15jneTNSCcJo7HYJftVg-1; Tue, 02 Aug 2022 04:47:49 -0400
+X-MC-Unique: ir15jneTNSCcJo7HYJftVg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ m7-20020adfa3c7000000b0021ef71807e3so3260287wrb.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 01:47:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=Cej2XdN4K8UmGEfk6gFQhUcYzXJUN8KyddTHBcy5Tbw=;
+ b=zemmNxQI9asUiItM4AQXo2yjrVd7pi9wBr5wGsm013+fSxYwJ1VDgpBfNf0budmikh
+ azlo5lohg/5ZNR6rNs1wxYCD5/AMjpTCVk8TBny2fUIm8mc0RLemUKmpa3lGiCZo7vUm
+ LD2TosZBmdZ5mMguKKW6jEgpCglRBWsSi7WaA5qxFnxHRsmtt63X+atk77xgxjzbbEBB
+ IiNXccTm0lUr2ACxeNBw7UXBtga5xif3o+yhlRnTK+a1olYkq1EsSIe7yi2NPVSTBO2x
+ FNOQAyrrYeEuJ6lJLzLVviRLFrqJMVTkjWBx6ouAXFhk02xN6X603sZOCsiXsk/13XF5
+ FxAg==
+X-Gm-Message-State: AJIora8nN9BRMThV8DeJ9gtnmAsO/v3l9lGZcAqH27iMoKoK2vVG03Q6
+ FPJSysiDxSyu9TI6Y6lIhk+5YO1OHgYOYY/3Hm8/Mu1tPrqPuwTzaDzTK8F/N3NYA82VQxoL9B+
+ FrRGtTTeEgMaHUmM=
+X-Received: by 2002:a1c:7401:0:b0:3a3:182f:7be9 with SMTP id
+ p1-20020a1c7401000000b003a3182f7be9mr13313611wmc.189.1659430067227; 
+ Tue, 02 Aug 2022 01:47:47 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vvgJIJBWDl80ILJZfTI3w2dhek6MDzu1JcSiNF1ObVdt5flmt0dfJ/XPKI18lfA4s/agq0iw==
+X-Received: by 2002:a1c:7401:0:b0:3a3:182f:7be9 with SMTP id
+ p1-20020a1c7401000000b003a3182f7be9mr13313600wmc.189.1659430066970; 
+ Tue, 02 Aug 2022 01:47:46 -0700 (PDT)
+Received: from work-vm (cpc109025-salf6-2-0-cust480.10-2.cable.virginm.net.
+ [82.30.61.225]) by smtp.gmail.com with ESMTPSA id
+ w10-20020adfd4ca000000b002205cbc1c74sm8516137wrk.101.2022.08.02.01.47.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Aug 2022 01:47:46 -0700 (PDT)
+Date: Tue, 2 Aug 2022 09:47:44 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, peterx@redhat.com,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH for-7.1] Revert "migration: Simplify unqueue_page()"
+Message-ID: <YujksCJ/JjRAJc9N@work-vm>
+References: <20220802061949.331576-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220802061949.331576-1-thuth@redhat.com>
+User-Agent: Mutt/2.2.6 (2022-06-05)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01, URG_BIZ=0.573 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,169 +99,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> writes:
+* Thomas Huth (thuth@redhat.com) wrote:
+> This reverts commit cfd66f30fb0f735df06ff4220e5000290a43dad3.
+> 
+> The simplification of unqueue_page() introduced a bug that sometimes
+> breaks migration on s390x hosts. Seems like there are still pages here
+> that do not have their dirty bit set.
 
-> Copied from socket netdev file and modified to use SocketAddress
-> to be able to introduce new features like unix socket.
->
-> "udp" and "mcast" are squashed into dgram netdev, multicast is detected
-> according to the IP address type.
-> "listen" and "connect" modes are managed by stream netdev. An optional
-> parameter "server" defines the mode (server by default)
->
-> The two new types need to be parsed the modern way with -netdev, because
-> with the traditional way, the "type" field of netdev structure collides with
-> the "type" field of SocketAddress and prevents the correct evaluation of the
-> command line option. Moreover the traditional way doesn't allow to use
-> the same type (SocketAddress) several times with the -netdev option
-> (needed to specify "local" and "remote" addresses).
->
-> The previous commit paved the way for parsing the modern way, but
-> omitted one detail: how to pick modern vs. traditional, in
-> netdev_is_modern().
->
-> We want to pick based on the value of parameter "type".  But how to
-> extract it from the option argument?
->
-> Parsing the option argument, either the modern or the traditional way,
-> extracts it for us, but only if parsing succeeds.
->
-> If parsing fails, there is no good option.  No matter which parser we
-> pick, it'll be the wrong one for some arguments, and the error
-> reporting will be confusing.
->
-> Fortunately, the traditional parser accepts *anything* when called in
-> a certain way.  This maximizes our chance to extract the value of
-> "type", and in turn minimizes the risk of confusing error reporting.
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Reviewed-by: Stefano Brivio <sbrivio@redhat.com>
+I don't think it's about 'not having their dirty bit set' - it's
+perfectly fine to have the bits clear (which indicates the page has
+already been sent to the destination, sometime inbetween the page request
+being sent from the destination and it being unqueued).
+My suspicion is that either:
+  * you're hitting a case where the removal of the loop
+    causes it to stop when it hits a !dirty page, even though there are some
+    diries left behind it.
+  * We're retransmitting a page that is already marked !dirty
+    which would cause overwriting of a now modified page on the
+    destination.
 
-[...]
+I have no idea why either of these would be s390 specific.
 
-> diff --git a/qapi/net.json b/qapi/net.json
-> index 75ba2cb98901..a7506a40ff12 100644
-> --- a/qapi/net.json
-> +++ b/qapi/net.json
-> @@ -7,6 +7,7 @@
->  ##
+
+> The problem is not fully understood yet, but since we are already in
+> the freeze for QEMU 7.1 and we need something working there, let's
+> revert this patch for the upcoming release. The optimization can be
+> redone later again in a proper way if necessary.
+
+Yeh OK
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2099934
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  migration/ram.c        | 37 ++++++++++++++++++++++++++-----------
+>  migration/trace-events |  3 ++-
+>  2 files changed, 28 insertions(+), 12 deletions(-)
+> 
+> diff --git a/migration/ram.c b/migration/ram.c
+> index b94669ba5d..dc1de9ddbc 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1612,7 +1612,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+>  {
+>      struct RAMSrcPageRequest *entry;
+>      RAMBlock *block = NULL;
+> -    size_t page_size;
 >  
->  { 'include': 'common.json' }
-> +{ 'include': 'sockets.json' }
+>      if (!postcopy_has_request(rs)) {
+>          return NULL;
+> @@ -1629,13 +1628,10 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+>      entry = QSIMPLEQ_FIRST(&rs->src_page_requests);
+>      block = entry->rb;
+>      *offset = entry->offset;
+> -    page_size = qemu_ram_pagesize(block);
+> -    /* Each page request should only be multiple page size of the ramblock */
+> -    assert((entry->len % page_size) == 0);
 >  
->  ##
->  # @set_link:
-> @@ -573,6 +574,61 @@
->      '*isolated':  'bool' },
->    'if': 'CONFIG_VMNET' }
+> -    if (entry->len > page_size) {
+> -        entry->len -= page_size;
+> -        entry->offset += page_size;
+> +    if (entry->len > TARGET_PAGE_SIZE) {
+> +        entry->len -= TARGET_PAGE_SIZE;
+> +        entry->offset += TARGET_PAGE_SIZE;
+>      } else {
+>          memory_region_unref(block->mr);
+>          QSIMPLEQ_REMOVE_HEAD(&rs->src_page_requests, next_req);
+> @@ -1643,9 +1639,6 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
+>          migration_consume_urgent_request();
+>      }
 >  
-> +##
-> +# @NetdevStreamOptions:
-> +#
-> +# Configuration info for stream socket netdev
-> +#
-> +# @addr: socket address to listen on (server=true)
-> +#        or connect to (server=false)
-> +# @server: create server socket (default: true)
-> +#
-> +# Only SocketAddress types 'inet' and 'fd' are supported.
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'NetdevStreamOptions',
-> +  'data': {
-> +    'addr':   'SocketAddress',
-> +    '*server': 'bool' } }
+> -    trace_unqueue_page(block->idstr, *offset,
+> -                       test_bit((*offset >> TARGET_PAGE_BITS), block->bmap));
+> -
+>      return block;
+>  }
+>  
+> @@ -2069,8 +2062,30 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
+>  {
+>      RAMBlock  *block;
+>      ram_addr_t offset;
+> +    bool dirty;
 > +
-> +##
-> +# @NetdevDgramOptions:
-> +#
-> +# Configuration info for datagram socket netdev.
-> +#
-> +# @remote: remote address
-> +# @local: local address
-> +#
-> +# Only SocketAddress types 'inet' and 'fd' are supported.
-> +#
-> +# The code checks there is at least one of these options and reports an error
-> +# if not. If remote address is present and it's a multicast address, local
-> +# address is optional. Otherwise local address is required and remote address
-> +# is optional.
-> +#
-> +# .. table:: Valid parameters combination table
-> +#    :widths: auto
-> +#
-> +#    =============  ========  =====
-> +#    remote         local     okay?
-> +#    =============  ========  =====
-> +#    absent         absent    no
-> +#    absent         not fd    no
-> +#    absent         fd        yes
-> +#    multicast      absent    yes
-> +#    multicast      present   yes
-> +#    not multicast  absent    no
-> +#    not multicast  present   yes
-> +#    =============  ========  =====
-
-Looks good now.
-
-> +#
-> +# Since: 7.1
-> +##
-> +{ 'struct': 'NetdevDgramOptions',
-> +  'data': {
-> +    '*local':  'SocketAddress',
-> +    '*remote': 'SocketAddress' } }
+> +    do {
+> +        block = unqueue_page(rs, &offset);
+> +        /*
+> +         * We're sending this page, and since it's postcopy nothing else
+> +         * will dirty it, and we must make sure it doesn't get sent again
+> +         * even if this queue request was received after the background
+> +         * search already sent it.
+> +         */
+> +        if (block) {
+> +            unsigned long page;
 > +
->  ##
->  # @NetClientDriver:
->  #
-> @@ -586,8 +642,9 @@
->  #        @vmnet-bridged since 7.1
->  ##
->  { 'enum': 'NetClientDriver',
-> -  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
-> -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
-> +  'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'stream',
-> +            'dgram', 'vde', 'bridge', 'hubport', 'netmap', 'vhost-user',
-> +            'vhost-vdpa',
->              { 'name': 'vmnet-host', 'if': 'CONFIG_VMNET' },
->              { 'name': 'vmnet-shared', 'if': 'CONFIG_VMNET' },
->              { 'name': 'vmnet-bridged', 'if': 'CONFIG_VMNET' }] }
-> @@ -617,6 +674,8 @@
->      'tap':      'NetdevTapOptions',
->      'l2tpv3':   'NetdevL2TPv3Options',
->      'socket':   'NetdevSocketOptions',
-> +    'stream':   'NetdevStreamOptions',
-> +    'dgram':    'NetdevDgramOptions',
->      'vde':      'NetdevVdeOptions',
->      'bridge':   'NetdevBridgeOptions',
->      'hubport':  'NetdevHubPortOptions',
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 79e00916a11f..170117e1adf0 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2726,6 +2726,18 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
->      "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
->      "                configure a network backend to connect to another network\n"
->      "                using an UDP tunnel\n"
-> +    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port\n"
-> +    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=h\n"
-> +    "                configure a network backend to connect to another network\n"
-> +    "                using a socket connection in stream mode.\n"
-> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
-> +    "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=fd,local.str=h]\n"
-> +    "                configure a network backend to connect to a multicast maddr and port\n"
-> +    "                use ``local.host=addr`` to specify the host address to send packets from\n"
-> +    "-netdev dgram,id=str,local.type=inet,local.host=addr,local.port=port[,remote.type=inet,remote.host=addr,remote.port=port]\n"
-> +    "-netdev dgram,id=str,local.type=fd,local.str=h\n"
-> +    "                configure a network backend to connect to another network\n"
-> +    "                using an UDP tunnel\n"
->  #ifdef CONFIG_VDE
->      "-netdev vde,id=str[,sock=socketpath][,port=n][,group=groupname][,mode=octalmode]\n"
->      "                configure a network backend to connect to port 'n' of a vde switch\n"
-
-I had a few questions on this part in review of v6.  Care to reply
-there?
+> +            page = offset >> TARGET_PAGE_BITS;
+> +            dirty = test_bit(page, block->bmap);
+> +            if (!dirty) {
+> +                trace_get_queued_page_not_dirty(block->idstr, (uint64_t)offset,
+> +                                                page);
+> +            } else {
+> +                trace_get_queued_page(block->idstr, (uint64_t)offset, page);
+> +            }
+> +        }
+>  
+> -    block = unqueue_page(rs, &offset);
+> +    } while (block && !dirty);
+>  
+>      if (block) {
+>          /* See comment above postcopy_preempted_contains() */
+> diff --git a/migration/trace-events b/migration/trace-events
+> index a34afe7b85..57003edcbd 100644
+> --- a/migration/trace-events
+> +++ b/migration/trace-events
+> @@ -85,6 +85,8 @@ put_qlist_end(const char *field_name, const char *vmsd_name) "%s(%s)"
+>  qemu_file_fclose(void) ""
+>  
+>  # ram.c
+> +get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+> +get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs) "%s/0x%" PRIx64 " page_abs=0x%lx"
+>  migration_bitmap_sync_start(void) ""
+>  migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
+>  migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
+> @@ -110,7 +112,6 @@ ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRI
+>  ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
+>  ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+>  ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
+> -unqueue_page(char *block, uint64_t offset, bool dirty) "ramblock '%s' offset 0x%"PRIx64" dirty %d"
+>  postcopy_preempt_triggered(char *str, unsigned long page) "during sending ramblock %s offset 0x%lx"
+>  postcopy_preempt_restored(char *str, unsigned long page) "ramblock %s offset 0x%lx"
+>  postcopy_preempt_hit(char *str, uint64_t offset) "ramblock %s offset 0x%"PRIx64
+> -- 
+> 2.31.1
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
