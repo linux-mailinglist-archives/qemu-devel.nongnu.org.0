@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFAA5881E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 20:34:12 +0200 (CEST)
-Received: from localhost ([::1]:38556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E395881F6
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 20:37:34 +0200 (CEST)
+Received: from localhost ([::1]:41536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIwiY-0002HN-WA
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 14:34:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37520)
+	id 1oIwlp-0004TX-3w
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 14:37:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwfe-0000mi-1x
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:31:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26741)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwid-0002OR-IB
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:34:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwfW-0004vn-UL
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:31:06 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1oIwia-0000C5-8M
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 14:34:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659465061;
+ s=mimecast20190719; t=1659465251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OGBtdQKgr/HxyLqnFL7bcAbPg2hg+XcWXpLAUA8QINM=;
- b=ifeBrZ4ml8t8GRNC2wIOEqRs/M77ndwcZG2dA+9ByLx7AyOibUSQOn/Doeti8+hW21E2PN
- KYk/SfLDHSsNeFOXS/cKUO9onKFc86vRuhnj1uUEmIc7uX+xzPnuT8lfGiPaKuMp1a2kAG
- RlqrU0UCDiMl93VX+3QBTVr28VipQ60=
+ bh=kg9+sogtEP1OHLaSLiyMU/mRdy51o9s1BRglDA2sLnI=;
+ b=TEMzpQK9OGrt1Ap0oL6f0oGQKvW0O2MZ3q19vjRN8iWC9XVpRt4OrtGvMcfvvn2NhBsd4x
+ ChE8XgRFiZ3CwNl6lyxcRsg8P84P1fjgHDMqHDFfqSoOUGKv3hLEjSem8mvFvaNvR3w6Ev
+ st7v4cqHrHH9vgn8noq0+ifo9q5JuDM=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-onFWN0uvMwGPqp6h8vYLjA-1; Tue, 02 Aug 2022 14:29:31 -0400
-X-MC-Unique: onFWN0uvMwGPqp6h8vYLjA-1
+ us-mta-589--2eY7nuePSKp3ZyillFuHg-1; Tue, 02 Aug 2022 14:34:10 -0400
+X-MC-Unique: -2eY7nuePSKp3ZyillFuHg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B6A4D85A586;
- Tue,  2 Aug 2022 18:29:30 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16E9D101A589;
+ Tue,  2 Aug 2022 18:34:10 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.98])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6ADE6C04482;
- Tue,  2 Aug 2022 18:29:30 +0000 (UTC)
-Date: Tue, 2 Aug 2022 19:29:29 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CD623C04482;
+ Tue,  2 Aug 2022 18:34:09 +0000 (UTC)
+Date: Tue, 2 Aug 2022 19:34:09 +0100
 From: "Richard W.M. Jones" <rjones@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>
 Subject: Re: [PATCH for 7.1] linux-user: fix compat with glibc >= 2.36
  sys/mount.h
-Message-ID: <20220802182929.GA2040@redhat.com>
+Message-ID: <20220802183409.GB2040@redhat.com>
 References: <20220802164134.1851910-1-berrange@redhat.com>
+ <20220802182929.GA2040@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220802164134.1851910-1-berrange@redhat.com>
+In-Reply-To: <20220802182929.GA2040@redhat.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,112 +79,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 02, 2022 at 12:41:34PM -0400, Daniel P. Berrangé wrote:
-> The latest glibc 2.36 has extended sys/mount.h so that it
-> defines the FSCONFIG_* enum constants. These are historically
-> defined in linux/mount.h, and thus if you include both headers
-> the compiler complains:
-> 
-> In file included from /usr/include/linux/fs.h:19,
->                  from ../linux-user/syscall.c:98:
-> /usr/include/linux/mount.h:95:6: error: redeclaration of 'enum fsconfig_command'
->    95 | enum fsconfig_command {
->       |      ^~~~~~~~~~~~~~~~
-> In file included from ../linux-user/syscall.c:31:
-> /usr/include/sys/mount.h:189:6: note: originally defined here
->   189 | enum fsconfig_command
->       |      ^~~~~~~~~~~~~~~~
-> /usr/include/linux/mount.h:96:9: error: redeclaration of enumerator 'FSCONFIG_SET_FLAG'
->    96 |         FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->       |         ^~~~~~~~~~~~~~~~~
-> /usr/include/sys/mount.h:191:3: note: previous definition of 'FSCONFIG_SET_FLAG' with type 'enum fsconfig_command'
->   191 |   FSCONFIG_SET_FLAG       = 0,    /* Set parameter, supplying no value */
->       |   ^~~~~~~~~~~~~~~~~
-> ...snip...
-> 
-> QEMU doesn't include linux/mount.h, but it does use
-> linux/fs.h and thus gets linux/mount.h indirectly.
-> 
-> glibc acknowledges this problem but does not appear to
-> be intending to fix it in the forseeable future, simply
-> documenting it as a known incompatibility with no
-> workaround:
-> 
->   https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
->   https://sourceware.org/glibc/wiki/Synchronizing_Headers
-> 
-> To address this requires either removing use of sys/mount.h
-> or linux/fs.h, despite QEMU needing declarations from
-> both.
-> 
-> This patch removes linux/fs.h, meaning we have to define
-> various FS_IOC constants that are now unavailable.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  linux-user/syscall.c | 18 ++++++++++++++++++
->  meson.build          |  2 ++
->  2 files changed, 20 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index b27a6552aa..52d178afe7 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -95,7 +95,25 @@
->  #include <linux/soundcard.h>
->  #include <linux/kd.h>
->  #include <linux/mtio.h>
-> +
-> +#ifdef HAVE_SYS_MOUNT_FSCONFIG
-> +/*
-> + * glibc >= 2.36 linux/mount.h conflicts with sys/mount.h,
-> + * which in turn prevents use of linux/fs.h. So we have to
-> + * define the constants ourselves for now.
-> + */
-> +#define FS_IOC_GETFLAGS                _IOR('f', 1, long)
-> +#define FS_IOC_SETFLAGS                _IOW('f', 2, long)
-> +#define FS_IOC_GETVERSION              _IOR('v', 1, long)
-> +#define FS_IOC_SETVERSION              _IOW('v', 2, long)
-> +#define FS_IOC_FIEMAP                  _IOWR('f', 11, struct fiemap)
-> +#define FS_IOC32_GETFLAGS              _IOR('f', 1, int)
-> +#define FS_IOC32_SETFLAGS              _IOW('f', 2, int)
-> +#define FS_IOC32_GETVERSION            _IOR('v', 1, int)
-> +#define FS_IOC32_SETVERSION            _IOW('v', 2, int)
-> +#else
->  #include <linux/fs.h>
-> +#endif
->  #include <linux/fd.h>
->  #if defined(CONFIG_FIEMAP)
->  #include <linux/fiemap.h>
-> diff --git a/meson.build b/meson.build
-> index 294e9a8f32..30a380752c 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1963,6 +1963,8 @@ config_host_data.set('HAVE_OPTRESET',
->                       cc.has_header_symbol('getopt.h', 'optreset'))
->  config_host_data.set('HAVE_IPPROTO_MPTCP',
->                       cc.has_header_symbol('netinet/in.h', 'IPPROTO_MPTCP'))
-> +config_host_data.set('HAVE_SYS_MOUNT_FSCONFIG',
-> +                     cc.has_header_symbol('sys/mount.h', 'FSCONFIG_SET_FLAG'))
->  
->  # has_member
->  config_host_data.set('HAVE_SIGEV_NOTIFY_THREAD_ID',
+On Tue, Aug 02, 2022 at 07:29:29PM +0100, Richard W.M. Jones wrote:
+> Dan, which Fedora glibc package shows this problem?  I have
+> glibc-2.35.9000-31.fc37.x86_64 and qemu compiled fine.  (Also nbdkit
+> which includes linux/fs.h)
 
-Dan, which Fedora glibc package shows this problem?  I have
-glibc-2.35.9000-31.fc37.x86_64 and qemu compiled fine.  (Also nbdkit
-which includes linux/fs.h)
+It would help if I enabled a *-linux-user target ...
+Yes, I can reproduce this now and the patch fixes it, so:
 
-I see various other build failures in Koji, but not this one as far as
-I can tell:
-
-https://koji.fedoraproject.org/koji/packageinfo?packageID=3685
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
 
 Rich.
 
 -- 
 Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
 Read my programming and virtualization blog: http://rwmj.wordpress.com
-nbdkit - Flexible, fast NBD server with plugins
-https://gitlab.com/nbdkit/nbdkit
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
