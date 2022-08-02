@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601E3587CFA
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:22:40 +0200 (CEST)
-Received: from localhost ([::1]:46758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47F8587D00
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 15:23:10 +0200 (CEST)
+Received: from localhost ([::1]:48912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIrr5-0002IB-0t
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:22:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59974)
+	id 1oIrrZ-0003lg-KK
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 09:23:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIrlw-0006Si-HI
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:17:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57284)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIrlu-0001Mn-Bl
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:17:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659446237;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hiZwybefKDNN0TR7hVOeBaQUNaHdwuAKx3xBVfhz1lw=;
- b=dsa8bpx70A757G0zHzmnAETRtTPCDu37VwoGdSAORHGdqybw0squDbzT4jp2/A51HkjEeh
- 6uzt6aAg+KzIpZ28lgKkMex33Kg8ohNjHaeQ2jNO/C/YSBc/dSLnw/fhWWv4qNuYrd0kh5
- 2b8MpXVgzUFQPYzjT60cTXM4KPRWpSI=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-636-M9w-SJX7NUuluY3qVfFRlA-1; Tue, 02 Aug 2022 09:17:14 -0400
-X-MC-Unique: M9w-SJX7NUuluY3qVfFRlA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- u12-20020a05622a010c00b0031ef5b46dc0so8972009qtw.16
- for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 06:17:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIro6-0007ba-RY
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:19:34 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34343)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oIro3-0001hT-Sz
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 09:19:33 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id j1so9499996wrw.1
+ for <qemu-devel@nongnu.org>; Tue, 02 Aug 2022 06:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=lxX1gI1WFAX3Ygvx2KQ40udJiTZybS/QbUXcPONoIso=;
+ b=oL50P6k8eYmrgmIDn3g9bDWnmClsnMeZjEEnBT6BKWQgZZWOTTwXAean2uqeAtdfX+
+ UTU5fECnuLgl+bGFdmUzbLr+Bbkr1EGDhHboZxd4nlvfsnUCZ3yfJWI/JUeHCZrLVvrQ
+ BZWMKdGyyu26ay5uD6/ukzncj0NBwPUC+2wUXXGjLc+dyNO7/qoHS9w+yrGE605TQup8
+ vHKwNrnutZua7MOB2XQ+jwvyA5wtHg8Iyv0VXZcQpTFX2fxHCzPg/XV5pR7Bxf2bJ+nO
+ dnR0hCWQvMnUZ3n5qdy7NCoDJZp88YtHAwuWf+NIsuEKsyrFblzzCh8iH/MTdUDC8CEn
+ g57Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hiZwybefKDNN0TR7hVOeBaQUNaHdwuAKx3xBVfhz1lw=;
- b=pgbjgMxq7ygPOdjrvzcUxdtYoTehImDhf2MF+eqnCO4rtezYou+YXXM3hgm42dAcYA
- L54ryNdOFR5LL6RyqTDvjWAqyBvRfYNJ0SHblNB//NqSIxv0QMcmP8Zygbc+a5XwFUH+
- Aqn+05E6DCA1Bk3Ce3BVKOAAuoYYxKQc1ki47CgNyZlCNMhhgpjH+b5T1xRLsQSddE1K
- lcxM2L9QkTWTrlt/v7H3X/raDGqv6zDeoeyFkQi0X5g0TS1HrjZNs8Hc6HewKLvbm0SU
- etTSSSijEEcvuVcTUrAkbPtrTlhvoNuan3MYOxmF4EqdTKe/DETFbaOUss3HJayQX7AT
- ZFVw==
-X-Gm-Message-State: ACgBeo0NmxY1nnM9UVgFQJt9XD8bIvrqLG61sGkMxDqVkbpM7UGBxz1M
- GlVGvf1Mr6+0/gJkwbRqhjrBmWs7oj10jLDkaRR8/9oIcSBdfkqSxkpRQAKaBE3nWyLcQeGd86m
- Y1SZrb3S1owcsxA+ZB3i+9a1zDw7KesU=
-X-Received: by 2002:a0c:be91:0:b0:474:1d6:b1a4 with SMTP id
- n17-20020a0cbe91000000b0047401d6b1a4mr18379897qvi.108.1659446233689; 
- Tue, 02 Aug 2022 06:17:13 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR48mrnT3TwAxwefVrUkKBLsVx+MwDJ653wHhL9LHoG/k7Do6Oy5YI/IeUBuh2qEtDHkr9Sefrb6BZeeuUgIeK8=
-X-Received: by 2002:a0c:be91:0:b0:474:1d6:b1a4 with SMTP id
- n17-20020a0cbe91000000b0047401d6b1a4mr18379881qvi.108.1659446233467; Tue, 02
- Aug 2022 06:17:13 -0700 (PDT)
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=lxX1gI1WFAX3Ygvx2KQ40udJiTZybS/QbUXcPONoIso=;
+ b=yCEpM4/I9tBvLVOavyzDYvRKOFyzD7woVYnufgiUwaF/UVuj0nqdg9vuyQoJsyDHyn
+ jkBzq5zRURNxbaWwZevn0TjRpRhHvAPk7AlqeUyGy5zDhIm3jkk0nbXsilCSy/WRoU1x
+ 3h5bLK3wv6JDfa5xxh9CSG8sQOGVTaT9PIf3ARLomIxMOCwDYVkBbgf7AUqvBCQVtD6X
+ aloZjcBZmvwG6e68TH3fhr4On75ZclMxEXF1GvP55++a+IUI5I/R4urrbWqZ4N7PiiSt
+ nZXvaVxqUDBhkySzt2gWy428KW/peABF8YCF+PCnhdTx6aMCPvsT5XsWdHnrB4zA2wEx
+ 7kzA==
+X-Gm-Message-State: ACgBeo2SPn8osDvx920w4tgeNRO9lGyD2xn1S0aQ4glJ8XmeAyQCja26
+ H7XDOJrTok7reRR5eRH6Ki6n5+BoktNdQw==
+X-Google-Smtp-Source: AA6agR5IEEleEFjirdKZswfGjQEdBCqBBgUVc7tm70XhRjKgIYS9M7J4de+JbTHW1KVb9nnZjL0NPQ==
+X-Received: by 2002:a5d:6512:0:b0:21e:cdab:1598 with SMTP id
+ x18-20020a5d6512000000b0021ecdab1598mr12916484wru.687.1659446367944; 
+ Tue, 02 Aug 2022 06:19:27 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
+ by smtp.gmail.com with ESMTPSA id
+ z7-20020a05600c220700b003a3188bef63sm17748271wml.11.2022.08.02.06.19.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 02 Aug 2022 06:19:27 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Fabien Chouteau <chouteau@adacore.com>,
+ Frederic Konrad <konrad.frederic@yahoo.fr>
+Subject: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit
+ accesses
+Date: Tue,  2 Aug 2022 14:19:25 +0100
+Message-Id: <20220802131925.3380923-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20220802112447.249436-1-eperezma@redhat.com>
- <20220802112447.249436-3-eperezma@redhat.com>
- <72375be5-36d8-155c-9df8-da76c1d820c0@redhat.com>
- <20220802085655-mutt-send-email-mst@kernel.org>
- <ef5bcff0-a297-2173-40ce-6b8070ea9b3c@redhat.com>
- <20220802090938-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20220802090938-mutt-send-email-mst@kernel.org>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 2 Aug 2022 15:16:37 +0200
-Message-ID: <CAJaqyWd9_ffdsiGP_NNpmZZQ_soJfMdD7UwhmFCAuyyVpAWiFQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] vdpa: Merge all net_init_vhost_vdpa error goto
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-level <qemu-devel@nongnu.org>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org, 
- Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,80 +88,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 2, 2022 at 3:10 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, Aug 02, 2022 at 02:58:36PM +0200, Laurent Vivier wrote:
-> > On 02/08/2022 14:57, Michael S. Tsirkin wrote:
-> > > On Tue, Aug 02, 2022 at 02:10:43PM +0200, Laurent Vivier wrote:
-> > > > On 02/08/2022 13:24, Eugenio P=C3=A9rez wrote:
-> > > > > Few steps allocate new resources, and all of the allocated can be
-> > > > > checked to avoid trying to free an invalid one.
-> > > > >
-> > > > > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > >
-> > >
-> > > qemu-trivial too I guess then?
-> >
-> > For 7.1 or later?
-> >
-> > Thanks,
-> > Laurent
->
-> I don't really care. Since you are merging this you get to decide.
->
+In real hardware, the APB and AHB PNP data tables can be accessed
+with byte and halfword reads as well as word reads.  Our
+implementation currently only handles word reads.  Add support for
+the 8 and 16 bit accesses.  Note that we only need to handle aligned
+accesses -- unaligned accesses should continue to trap, as happens on
+hardware.
 
-In my opinion it's better to leave that for a later revision.
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1132
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+It would be nice if we could just set the .valid.min_access_size in
+the MemoryRegionOps to 1 and have the memory system core synthesize
+the 1 and 2 byte accesses from a 4 byte read, but currently that
+doesn't work (see various past mailing list threads).
+---
+ hw/misc/grlib_ahb_apb_pnp.c | 10 ++++++----
+ hw/misc/trace-events        |  4 ++--
+ 2 files changed, 8 insertions(+), 6 deletions(-)
 
-I sent it to trivial because it only touches a few lines of code and
-it's easy to review even without knowledge of net or vdpa subsystem,
-but if it's not appropriate I can send future patches like this out of
-trivial.
-
-Thanks!
-
-> > >
-> > > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > >
-> > > > > ---
-> > > > >    net/vhost-vdpa.c | 6 ++----
-> > > > >    1 file changed, 2 insertions(+), 4 deletions(-)
-> > > > >
-> > > > > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > > > > index 303447a68e..ac1810723c 100644
-> > > > > --- a/net/vhost-vdpa.c
-> > > > > +++ b/net/vhost-vdpa.c
-> > > > > @@ -588,8 +588,7 @@ int net_init_vhost_vdpa(const Netdev *netdev,=
- const char *name,
-> > > > >        queue_pairs =3D vhost_vdpa_get_max_queue_pairs(vdpa_device=
-_fd, features,
-> > > > >                                                     &has_cvq, err=
-p);
-> > > > >        if (queue_pairs < 0) {
-> > > > > -        qemu_close(vdpa_device_fd);
-> > > > > -        return queue_pairs;
-> > > > > +        goto err;
-> > > > >        }
-> > > > >        if (opts->x_svq) {
-> > > > > @@ -604,7 +603,7 @@ int net_init_vhost_vdpa(const Netdev *netdev,=
- const char *name,
-> > > > >            if (invalid_dev_features) {
-> > > > >                error_setg(errp, "vdpa svq does not work with feat=
-ures 0x%" PRIx64,
-> > > > >                           invalid_dev_features);
-> > > > > -            goto err_svq;
-> > > > > +            goto err;
-> > > > >            }
-> > > > >            vhost_vdpa_get_iova_range(vdpa_device_fd, &iova_range)=
-;
-> > > > > @@ -640,7 +639,6 @@ err:
-> > > > >            }
-> > > > >        }
-> > > > > -err_svq:
-> > > > >        qemu_close(vdpa_device_fd);
-> > > > >        return -1;
-> > > >
-> > > > Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-> > >
->
+diff --git a/hw/misc/grlib_ahb_apb_pnp.c b/hw/misc/grlib_ahb_apb_pnp.c
+index 43e001c3c7b..5b05f158592 100644
+--- a/hw/misc/grlib_ahb_apb_pnp.c
++++ b/hw/misc/grlib_ahb_apb_pnp.c
+@@ -136,7 +136,8 @@ static uint64_t grlib_ahb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     uint32_t val;
+ 
+     val = ahb_pnp->regs[offset >> 2];
+-    trace_grlib_ahb_pnp_read(offset, val);
++    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
++    trace_grlib_ahb_pnp_read(offset, size, val);
+ 
+     return val;
+ }
+@@ -152,7 +153,7 @@ static const MemoryRegionOps grlib_ahb_pnp_ops = {
+     .write      = grlib_ahb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+     .impl = {
+-        .min_access_size = 4,
++        .min_access_size = 1,
+         .max_access_size = 4,
+     },
+ };
+@@ -247,7 +248,8 @@ static uint64_t grlib_apb_pnp_read(void *opaque, hwaddr offset, unsigned size)
+     uint32_t val;
+ 
+     val = apb_pnp->regs[offset >> 2];
+-    trace_grlib_apb_pnp_read(offset, val);
++    val = extract32(val, (4 - (offset & 3) - size) * 8, size * 8);
++    trace_grlib_apb_pnp_read(offset, size, val);
+ 
+     return val;
+ }
+@@ -263,7 +265,7 @@ static const MemoryRegionOps grlib_apb_pnp_ops = {
+     .write      = grlib_apb_pnp_write,
+     .endianness = DEVICE_BIG_ENDIAN,
+     .impl = {
+-        .min_access_size = 4,
++        .min_access_size = 1,
+         .max_access_size = 4,
+     },
+ };
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 4d51a80de1d..c18bc0605e8 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -247,8 +247,8 @@ via1_adb_poll(uint8_t data, const char *vadbint, int status, int index, int size
+ via1_auxmode(int mode) "setting auxmode to %d"
+ 
+ # grlib_ahb_apb_pnp.c
+-grlib_ahb_pnp_read(uint64_t addr, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" data:0x%08x"
+-grlib_apb_pnp_read(uint64_t addr, uint32_t value) "APB PnP read addr:0x%03"PRIx64" data:0x%08x"
++grlib_ahb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "AHB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
++grlib_apb_pnp_read(uint64_t addr, unsigned size, uint32_t value) "APB PnP read addr:0x%03"PRIx64" size:%u data:0x%08x"
+ 
+ # led.c
+ led_set_intensity(const char *color, const char *desc, uint8_t intensity_percent) "LED desc:'%s' color:%s intensity: %u%%"
+-- 
+2.25.1
 
 
