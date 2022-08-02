@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E06A587B9A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:28:31 +0200 (CEST)
-Received: from localhost ([::1]:33034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDD4587B9B
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Aug 2022 13:28:38 +0200 (CEST)
+Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oIq4c-0001ZH-8j
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:28:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56722)
+	id 1oIq4j-0001eG-Jp
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 07:28:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIq1K-0004Jy-Oh
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:41272)
+ id 1oIq1L-0004Kb-Cd
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:31904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1oIq1F-0007BS-VK
- for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:05 -0400
+ id 1oIq1I-0007Ba-ON
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 07:25:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659439495;
+ s=mimecast20190719; t=1659439496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=L3zD4A7tmJtCK/i64q2Vph9qXAUw9fW33Z/y7Frkur4=;
- b=dR1cHwlDcrEkLRiY/3D+VHFzH3MEBfIxmr2o86la635DCcfTUYxoUH3iBOLwNRt2R8MiF4
- TWt+AxGiiy07MyvhwrQaiMn26Xoqu1dUZwW2yVd/2DkfRVenha6duhAM0UfHsfX4nV6LhW
- pFJ5xWwed74npBY9bHv2supFw8icATo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TZ83/2iKBYgUumgQVCnyKZLgWLPFYMPqVj7+h/Iq+ts=;
+ b=SWkNqukzMNJcbEOmzWNVaVH66auxwHf7yu53jQB93UgRK9wrbVFEs78+TNcFl0LCR3KhDX
+ hViTDu7uOyTth0BCwwGvMvMY8IWngF9prrsTRtQSgvy+Z2UZDZH02SFIuMAbf9Iax1J0uT
+ MxFSYIfp/ckbBjGPLM0kWAEGwjlNPW4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-423-QFzzQGcQOdOBtZ7oZsDGSQ-1; Tue, 02 Aug 2022 07:24:51 -0400
-X-MC-Unique: QFzzQGcQOdOBtZ7oZsDGSQ-1
+ us-mta-643-6goJY07LPsqLpb6R5PmlpA-1; Tue, 02 Aug 2022 07:24:53 -0400
+X-MC-Unique: 6goJY07LPsqLpb6R5PmlpA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
  [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 85FD5801231;
- Tue,  2 Aug 2022 11:24:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1C13A18A0161;
+ Tue,  2 Aug 2022 11:24:53 +0000 (UTC)
 Received: from eperezma.remote.csb (unknown [10.39.193.7])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C6992026D4C;
- Tue,  2 Aug 2022 11:24:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB2F42026D07;
+ Tue,  2 Aug 2022 11:24:51 +0000 (UTC)
 From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
  Jason Wang <jasowang@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
-Subject: [PATCH 0/2] vdpa: Merge all net_init_vhost_vdpa error goto
-Date: Tue,  2 Aug 2022 13:24:45 +0200
-Message-Id: <20220802112447.249436-1-eperezma@redhat.com>
+Subject: [PATCH 1/2] vdpa: Fix file descriptor leak on get features error
+Date: Tue,  2 Aug 2022 13:24:46 +0200
+Message-Id: <20220802112447.249436-2-eperezma@redhat.com>
+In-Reply-To: <20220802112447.249436-1-eperezma@redhat.com>
+References: <20220802112447.249436-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -78,25 +81,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Few steps allocate new resources, and all of the allocated can be=0D
-checked to avoid trying to free an invalid one.=0D
-=0D
-This series includes an already posted patch [1], because it must be applie=
-d=0D
-on top of that.=0D
-=0D
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2022-08/msg00089.html=
-=0D
-=0D
-Eugenio P=C3=A9rez (2):=0D
-  vdpa: Fix file descriptor leak on get features error=0D
-  vdpa: Merge all net_init_vhost_vdpa error goto=0D
-=0D
- net/vhost-vdpa.c | 10 ++++------=0D
- 1 file changed, 4 insertions(+), 6 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+File descriptor vdpa_device_fd is not free in the case of returning
+error from vhost_vdpa_get_features. Fixing it by making all errors go to
+the same error path.
+
+Resolves: Coverity CID 1490785
+Fixes: 8170ab3f43 ("vdpa: Extract get features part from vhost_vdpa_get_max_queue_pairs")
+
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ net/vhost-vdpa.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 6abad276a6..303447a68e 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -566,7 +566,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+     g_autofree NetClientState **ncs = NULL;
+     g_autoptr(VhostIOVATree) iova_tree = NULL;
+     NetClientState *nc;
+-    int queue_pairs, r, i, has_cvq = 0;
++    int queue_pairs, r, i = 0, has_cvq = 0;
+ 
+     assert(netdev->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+     opts = &netdev->u.vhost_vdpa;
+@@ -582,7 +582,7 @@ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+ 
+     r = vhost_vdpa_get_features(vdpa_device_fd, &features, errp);
+     if (unlikely(r < 0)) {
+-        return r;
++        goto err;
+     }
+ 
+     queue_pairs = vhost_vdpa_get_max_queue_pairs(vdpa_device_fd, features,
+-- 
+2.31.1
 
 
