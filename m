@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7F55893EF
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 23:14:03 +0200 (CEST)
-Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2612C589406
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 23:26:18 +0200 (CEST)
+Received: from localhost ([::1]:40572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJLgo-0004DQ-Vc
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 17:14:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50286)
+	id 1oJLse-0001Gq-VL
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 17:26:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oJLeY-0001xy-4o
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:11:42 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:45005)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oJLqo-0008G5-4c
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:24:22 -0400
+Received: from mail-ua1-f45.google.com ([209.85.222.45]:43618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
- id 1oJLeT-0003Qk-Ub
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:11:40 -0400
-Received: by mail-pf1-x433.google.com with SMTP id h28so11219505pfq.11
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 14:11:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc;
- bh=3GlXPH1lg5pd8Hg7NqkvfxO4LUduXMYAGkSrZlZkKmU=;
- b=jdHG+ww0A8Tr9qvP01mRWaFaYAYEpbGbY9DPfGuLWlcfOlROZVTjGKrdDXO631qHrS
- X4D2IGsjG+WUe87jChpENe8EmzqkLZ3/2qwhVzbe+WvsGXMrAjEUls0s3jvh8fdEUeV4
- 9B3Tr6yN7ChprWXyiLDWLNPywjv1TmAb6Uxj6NgICdIR3Cu2HvValdRzZ33FJdi2pnWL
- LWbq47kpHRR0wO/dogcmo7P1OdEu020mbyWn9ugPt1VJU7wc/ZHGvVICaKr3r/BrsVef
- hALOchwQxDemYuUoxYgIAsTifj1k7Oe+9+q0OyqxfczukO1HtzbutlAfm8Bsyvt84CtM
- OTHQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1oJLqm-0006L9-Cc
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:24:21 -0400
+Received: by mail-ua1-f45.google.com with SMTP id s18so4923186uac.10
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 14:24:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc;
- bh=3GlXPH1lg5pd8Hg7NqkvfxO4LUduXMYAGkSrZlZkKmU=;
- b=oj4G50kg8Vm9hKKa08BPkcQyw8gSb9J0QzPBViamfYtNfHt+UgR+8Q/hBJ+m7TNcAX
- lwFqKYvdAr5KD8HBH7R+5ChN6zFeQbW0C+E4eveJKl3ZowuTDNXZ+gQPIfkZZZuY+jz9
- CPBl0VXEzyYQ010qEmL2N3gixBPjF3I1BpAlkKS08JO0Rfcqas7oQxzJ7oJ+niAPP/c6
- eFsi3Wo3wKrRHXHQm9dkbEHVBR+dsUevw4lUfUmTAE8qEdrYhAR+Rbut+rs7OiT+zKje
- 8junObkhpuRgUwLmhA1qMaHW6gFAWiVrEw23Au9Xx0SGD6dDyRIgFh2jTwn+P4JmqidS
- VHPA==
-X-Gm-Message-State: ACgBeo16diQrd7xxu5Mif+GDVKJGtrbDDhtrfmM23Gqy/nvlFmmVMGK2
- O0UCSoVs0Qm5mWfd5FLGrw808cer3RJX6hV4Ki3PUA==
-X-Google-Smtp-Source: AA6agR4CVoCYcLjmFx/Sih2rpgv3q9Ehb8W1cAVcGkOsH+A8q3iQpYgI9BIiN0pRWo6KxYKX2zHmanW2aIGArDXXSxw=
-X-Received: by 2002:a65:578f:0:b0:41c:62a0:6b61 with SMTP id
- b15-20020a65578f000000b0041c62a06b61mr8216993pgr.88.1659561094932; Wed, 03
- Aug 2022 14:11:34 -0700 (PDT)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+ bh=abAlXqg+HA480Gg3Yl47Y5v3J2s+81P8VNbfTzj+nE4=;
+ b=EX8odqRWCdnTElHwRQHP6FfjuFy/XT9UOyBze4K2lZ93lZY0rdWIXVP5G3h4dbcbui
+ AwPK44oOlD1+0UDZvyg3sWIrEjxZ/vxJwQMSQYPlfrQsB0/RnYHe5SG4euGQSoFf+8d2
+ Rpe2/JICUFdhNE6eR36FgJdqJdvUi0zPk8g2Az846mBjFcLgsuUxRxqXLMcpT7Clbe5y
+ YElCMexKrZfZrGj11/IQTrBhLKYXYSUXbW2V9WNRWkljBFkF6/83N4tAkzDPe3jIR+HK
+ 4pOjvtFyFPRsaITE/TClYMuD8tabQJjQnSm3dIVjMtAL73gXFgiwwxeXMwTSNuKm0wRu
+ pxrA==
+X-Gm-Message-State: ACgBeo2Y0X74eQA6lLUW7Ehg3QEGFeLe+9Lx4tZ7r/efu6dhP4L9TzxJ
+ k0g9DdsZwTkmZaVU5Ss2kgZvlO0Jq8NGdAGBPt8=
+X-Google-Smtp-Source: AA6agR6MdfxZiAaLXewcima3y5oGNxb8QPXgpwJYsGqx0J8mGR/1x3+nWbO6S6FrMx9ekf/AcMbb56QA1x73GuZjAds=
+X-Received: by 2002:ab0:7c50:0:b0:384:e315:a358 with SMTP id
+ d16-20020ab07c50000000b00384e315a358mr10878886uaw.118.1659561859009; Wed, 03
+ Aug 2022 14:24:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220803082516.2271344-1-atishp@rivosinc.com>
- <20220803082516.2271344-3-atishp@rivosinc.com>
- <57873d3b-dd78-2bcc-7e28-a7aec0bbf24e@codethink.co.uk>
-In-Reply-To: <57873d3b-dd78-2bcc-7e28-a7aec0bbf24e@codethink.co.uk>
-From: Atish Kumar Patra <atishp@rivosinc.com>
-Date: Wed, 3 Aug 2022 14:11:24 -0700
-Message-ID: <CAHBxVyG1Ltbs-QW11T6+Z6Va=aqUGMjS_bn3zQnyOJ3eaJvMOg@mail.gmail.com>
-Subject: Re: [PATCH v7 2/3] target/riscv: Add stimecmp support
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000008bfe1305e55cada8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=atishp@rivosinc.com; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20220802131925.3380923-1-peter.maydell@linaro.org>
+ <BN7PR12MB280161C3A847924FA5C3AF1BE69D9@BN7PR12MB2801.namprd12.prod.outlook.com>
+ <CAFEAcA-fMUrwnpu90Qf1LWGsQ36M-PmX2uC1+kenT__otLxjTg@mail.gmail.com>
+In-Reply-To: <CAFEAcA-fMUrwnpu90Qf1LWGsQ36M-PmX2uC1+kenT__otLxjTg@mail.gmail.com>
+Date: Wed, 3 Aug 2022 23:24:07 +0200
+Message-ID: <CAAdtpL5Gr1Kn+9pKRgSMi5kkV+OUg-7=HfS9Re04iNPkN3nnJA@mail.gmail.com>
+Subject: Re: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 bit
+ accesses
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: "Konrad, Frederic" <Frederic.Konrad@amd.com>, 
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Fabien Chouteau <chouteau@adacore.com>, 
+ Frederic Konrad <konrad.frederic@yahoo.fr>, Andrew Jeffery <andrew@aj.id.au>, 
+ Joel Stanley <joel@jms.id.au>, =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.222.45;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ua1-f45.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,390 +79,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+From:  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= via <qemu-devel@nongnu.org>
 
---0000000000008bfe1305e55cada8
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, Aug 3, 2022 at 3:26 AM Ben Dooks <ben.dooks@codethink.co.uk> wrote:
-
-> On 03/08/2022 09:25, Atish Patra wrote:
-> > stimecmp allows the supervisor mode to update stimecmp CSR directly
-> > to program the next timer interrupt. This CSR is part of the Sstc
-> > extension which was ratified recently.
-> >
-> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> > ---
-> >   target/riscv/cpu.c         | 12 +++++
-> >   target/riscv/cpu.h         |  5 ++
-> >   target/riscv/cpu_bits.h    |  4 ++
-> >   target/riscv/csr.c         | 81 +++++++++++++++++++++++++++++++
-> >   target/riscv/machine.c     |  1 +
-> >   target/riscv/meson.build   |  3 +-
-> >   target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
-> >   target/riscv/time_helper.h | 30 ++++++++++++
-> >   8 files changed, 233 insertions(+), 1 deletion(-)
-> >   create mode 100644 target/riscv/time_helper.c
-> >   create mode 100644 target/riscv/time_helper.h
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index d4635c7df46b..e0c3e786849f 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -23,6 +23,7 @@
-> >   #include "qemu/log.h"
-> >   #include "cpu.h"
-> >   #include "internals.h"
-> > +#include "time_helper.h"
-> >   #include "exec/exec-all.h"
-> >   #include "qapi/error.h"
-> >   #include "qemu/error-report.h"
-> > @@ -99,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-> >       ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
-> >       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
-> >       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0,
-> ext_zhinxmin),
-> > +    ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
-> >       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0,
-> ext_svinval),
-> >       ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0,
-> ext_svnapot),
-> >       ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-> > @@ -675,6 +677,13 @@ static void riscv_cpu_realize(DeviceState *dev,
-> Error **errp)
-> >
-> >       set_resetvec(env, cpu->cfg.resetvec);
-> >
-> > +#ifndef CONFIG_USER_ONLY
-> > +    if (cpu->cfg.ext_sstc) {
-> > +        riscv_timer_init(cpu);
-> > +    }
-> > +#endif /* CONFIG_USER_ONLY */
-> > +
-> > +
-> >       /* Validate that MISA_MXL is set properly. */
-> >       switch (env->misa_mxl_max) {
-> >   #ifdef TARGET_RISCV64
-> > @@ -968,7 +977,9 @@ static void riscv_cpu_init(Object *obj)
-> >   #ifndef CONFIG_USER_ONLY
-> >       qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
-> >                         IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
-> > +
-> >   #endif /* CONFIG_USER_ONLY */
-> > +
-> >   }
-> >
-> >   static Property riscv_cpu_extensions[] = {
-> > @@ -995,6 +1006,7 @@ static Property riscv_cpu_extensions[] = {
-> >       DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
-> >       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
-> >       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> > +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
-> >
-> >       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
-> >       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index 0fae1569945c..4cda2905661e 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -309,6 +309,9 @@ struct CPUArchState {
-> >       uint64_t mfromhost;
-> >       uint64_t mtohost;
-> >
-> > +    /* Sstc CSRs */
-> > +    uint64_t stimecmp;
-> > +
-> >       /* physical memory protection */
-> >       pmp_table_t pmp_state;
-> >       target_ulong mseccfg;
-> > @@ -362,6 +365,7 @@ struct CPUArchState {
-> >       float_status fp_status;
-> >
-> >       /* Fields from here on are preserved across CPU reset. */
-> > +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-> >
-> >       hwaddr kernel_addr;
-> >       hwaddr fdt_addr;
-> > @@ -425,6 +429,7 @@ struct RISCVCPUConfig {
-> >       bool ext_ifencei;
-> >       bool ext_icsr;
-> >       bool ext_zihintpause;
-> > +    bool ext_sstc;
-> >       bool ext_svinval;
-> >       bool ext_svnapot;
-> >       bool ext_svpbmt;
-> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> > index 6be5a9e9f046..ac17cf1515c0 100644
-> > --- a/target/riscv/cpu_bits.h
-> > +++ b/target/riscv/cpu_bits.h
-> > @@ -206,6 +206,10 @@
-> >   #define CSR_STVAL           0x143
-> >   #define CSR_SIP             0x144
-> >
-> > +/* Sstc supervisor CSRs */
-> > +#define CSR_STIMECMP        0x14D
-> > +#define CSR_STIMECMPH       0x15D
-> > +
-> >   /* Supervisor Protection and Translation */
-> >   #define CSR_SPTBR           0x180
-> >   #define CSR_SATP            0x180
-> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> > index 0fb042b2fd0f..b71e2509b64f 100644
-> > --- a/target/riscv/csr.c
-> > +++ b/target/riscv/csr.c
-> > @@ -22,6 +22,7 @@
-> >   #include "qemu/timer.h"
-> >   #include "cpu.h"
-> >   #include "pmu.h"
-> > +#include "time_helper.h"
-> >   #include "qemu/main-loop.h"
-> >   #include "exec/exec-all.h"
-> >   #include "sysemu/cpu-timers.h"
-> > @@ -803,6 +804,76 @@ static RISCVException read_timeh(CPURISCVState
-> *env, int csrno,
-> >       return RISCV_EXCP_NONE;
-> >   }
-> >
-> > +static RISCVException sstc(CPURISCVState *env, int csrno)
-> > +{
-> > +    CPUState *cs = env_cpu(env);
-> > +    RISCVCPU *cpu = RISCV_CPU(cs);
-> > +
-> > +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
-> > +
-> > +    if (env->priv == PRV_M) {
-> > +        return RISCV_EXCP_NONE;
-> > +    }
-> > +
-> > +    if (env->priv != PRV_S) {
-> > +        return RISCV_EXCP_ILLEGAL_INST;
-> > +    }
+On Tue, Aug 2, 2022 at 4:33 PM Peter Maydell <peter.maydell@linaro.org> wro=
+te:
 >
-> These seem to be checking env->priv twice, wouldnt
-> one check for nv->priv != PRV_S be sufficient?
->
->
-nope as we need to allow the access from M-mode unconditionally.
-But we can remove the non-Smode check as suggested by Weiwei.
+> On Tue, 2 Aug 2022 at 15:20, Konrad, Frederic <Frederic.Konrad@amd.com> w=
+rote:
+> >
+> > Hi Peter,
+> >
+> > CC'ing Philippe.
+> >
+> > > -----Original Message-----
+> > > From: Qemu-devel <qemu-devel-
+> > > bounces+fkonrad=3Damd.com@nongnu.org> On Behalf Of Peter Maydell
+> > > Sent: 02 August 2022 14:19
+> > > To: qemu-devel@nongnu.org
+> > > Cc: Fabien Chouteau <chouteau@adacore.com>; Frederic Konrad
+> > > <konrad.frederic@yahoo.fr>
+> > > Subject: [PATCH for-7.1] hw/misc/grlib_ahb_apb_pnp: Support 8 and 16 =
+bit
+> > > accesses
+> > >
+> > > In real hardware, the APB and AHB PNP data tables can be accessed
+> > > with byte and halfword reads as well as word reads.  Our
+> > > implementation currently only handles word reads.  Add support for
+> > > the 8 and 16 bit accesses.  Note that we only need to handle aligned
+> > > accesses -- unaligned accesses should continue to trap, as happens on
+> > > hardware.
+> > >
+> > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1132
+> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > ---
+> > > It would be nice if we could just set the .valid.min_access_size in
+> > > the MemoryRegionOps to 1 and have the memory system core synthesize
+> > > the 1 and 2 byte accesses from a 4 byte read, but currently that
+> > > doesn't work (see various past mailing list threads).
 
+Hmm sorry I missed the past threads, the one I remember is about
+unaligned accesses
+(https://lore.kernel.org/qemu-devel/20170630030058.28943-1-andrew@aj.id.au/=
+).
 
+> > That looks good to me but I thought this was fixed by 1a5a5570 and 0fbe=
+394a
+> > because RTEMS do bytes accesses?
+> >
+> > Did that break at some point?
 >
-> --
-> Ben Dooks                               http://www.codethink.co.uk/
-> Senior Engineer                         Codethink - Providing Genius
+> I definitely tried letting the .impl vs .valid settings handle this,
+> but the access_with_adjusted_size() code doesn't do the right thing.
+> (In particular, the test case ELF in the bug report works with
+> this patch, and doesn't work without it...)
 >
-> https://www.codethink.co.uk/privacy.html
->
+> I'm pretty sure the problem with access_with_adjusted_size() is a
+> long-standing bug -- I found a couple of mailing list threads about
+> it. We really ought to fix that properly, but that's definitely not
+> for-7.1 material.
 
---0000000000008bfe1305e55cada8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I agree this is sufficient for 7.1, so:
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 3, 2022 at 3:26 AM Ben Do=
-oks &lt;<a href=3D"mailto:ben.dooks@codethink.co.uk">ben.dooks@codethink.co=
-.uk</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On 03/08/2022 09:25, Atish Patra wrote:<br>
-&gt; stimecmp allows the supervisor mode to update stimecmp CSR directly<br=
->
-&gt; to program the next timer interrupt. This CSR is part of the Sstc<br>
-&gt; extension which was ratified recently.<br>
-&gt; <br>
-&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
-target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 =C2=A0target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 +=
-++++<br>
-&gt;=C2=A0 =C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 5 ++<br>
-&gt;=C2=A0 =C2=A0target/riscv/cpu_bits.h=C2=A0 =C2=A0 |=C2=A0 4 ++<br>
-&gt;=C2=A0 =C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 81 +=
-++++++++++++++++++++++++++++++<br>
-&gt;=C2=A0 =C2=A0target/riscv/machine.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 =C2=A0target/riscv/meson.build=C2=A0 =C2=A0|=C2=A0 3 +-<br>
-&gt;=C2=A0 =C2=A0target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++=
-++++++++++++<br>
-&gt;=C2=A0 =C2=A0target/riscv/time_helper.h | 30 ++++++++++++<br>
-&gt;=C2=A0 =C2=A08 files changed, 233 insertions(+), 1 deletion(-)<br>
-&gt;=C2=A0 =C2=A0create mode 100644 target/riscv/time_helper.c<br>
-&gt;=C2=A0 =C2=A0create mode 100644 target/riscv/time_helper.h<br>
-&gt; <br>
-&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; index d4635c7df46b..e0c3e786849f 100644<br>
-&gt; --- a/target/riscv/cpu.c<br>
-&gt; +++ b/target/riscv/cpu.c<br>
-&gt; @@ -23,6 +23,7 @@<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu/log.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;cpu.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;internals.h&quot;<br>
-&gt; +#include &quot;time_helper.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;exec/exec-all.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;qapi/error.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu/error-report.h&quot;<br>
-&gt; @@ -99,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] =
-=3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSIO=
-N_1_12_0, ext_zve64f),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION=
-_1_12_0, ext_zhinx),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERS=
-ION_1_12_0, ext_zhinxmin),<br>
-&gt; +=C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext=
-_sstc),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSI=
-ON_1_12_0, ext_svinval),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSI=
-ON_1_12_0, ext_svnapot),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSIO=
-N_1_12_0, ext_svpbmt),<br>
-&gt; @@ -675,6 +677,13 @@ static void riscv_cpu_realize(DeviceState *dev, E=
-rror **errp)<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0set_resetvec(env, cpu-&gt;cfg.resetvec);<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +#ifndef CONFIG_USER_ONLY<br>
-&gt; +=C2=A0 =C2=A0 if (cpu-&gt;cfg.ext_sstc) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 riscv_timer_init(cpu);<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +#endif /* CONFIG_USER_ONLY */<br>
-&gt; +<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Validate that MISA_MXL is set properly. *=
-/<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0switch (env-&gt;misa_mxl_max) {<br>
-&gt;=C2=A0 =C2=A0#ifdef TARGET_RISCV64<br>
-&gt; @@ -968,7 +977,9 @@ static void riscv_cpu_init(Object *obj)<br>
-&gt;=C2=A0 =C2=A0#ifndef CONFIG_USER_ONLY<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set=
-_irq,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0#endif /* CONFIG_USER_ONLY */<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0static Property riscv_cpu_extensions[] =3D {<br>
-&gt; @@ -995,6 +1006,7 @@ static Property riscv_cpu_extensions[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;Zve64f&quot;, RISCVCP=
-U, cfg.ext_zve64f, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;mmu&quot;, RISCVCPU, =
-cfg.mmu, true),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BOOL(&quot;pmp&quot;, RISCVCPU, =
-cfg.pmp, true),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;sstc&quot;, RISCVCPU, cfg.ext_ss=
-tc, true),<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_STRING(&quot;priv_spec&quot;, RI=
-SCVCPU, cfg.priv_spec),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_STRING(&quot;vext_spec&quot;, RI=
-SCVCPU, cfg.vext_spec),<br>
-&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-&gt; index 0fae1569945c..4cda2905661e 100644<br>
-&gt; --- a/target/riscv/cpu.h<br>
-&gt; +++ b/target/riscv/cpu.h<br>
-&gt; @@ -309,6 +309,9 @@ struct CPUArchState {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t mfromhost;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t mtohost;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +=C2=A0 =C2=A0 /* Sstc CSRs */<br>
-&gt; +=C2=A0 =C2=A0 uint64_t stimecmp;<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* physical memory protection */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmp_table_t pmp_state;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0target_ulong mseccfg;<br>
-&gt; @@ -362,6 +365,7 @@ struct CPUArchState {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0float_status fp_status;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Fields from here on are preserved across =
-CPU reset. */<br>
-&gt; +=C2=A0 =C2=A0 QEMUTimer *stimer; /* Internal timer for S-mode interru=
-pt */<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr kernel_addr;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr fdt_addr;<br>
-&gt; @@ -425,6 +429,7 @@ struct RISCVCPUConfig {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_ifencei;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_icsr;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_zihintpause;<br>
-&gt; +=C2=A0 =C2=A0 bool ext_sstc;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_svinval;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_svnapot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool ext_svpbmt;<br>
-&gt; diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
-&gt; index 6be5a9e9f046..ac17cf1515c0 100644<br>
-&gt; --- a/target/riscv/cpu_bits.h<br>
-&gt; +++ b/target/riscv/cpu_bits.h<br>
-&gt; @@ -206,6 +206,10 @@<br>
-&gt;=C2=A0 =C2=A0#define CSR_STVAL=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-0x143<br>
-&gt;=C2=A0 =C2=A0#define CSR_SIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A00x144<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +/* Sstc supervisor CSRs */<br>
-&gt; +#define CSR_STIMECMP=C2=A0 =C2=A0 =C2=A0 =C2=A0 0x14D<br>
-&gt; +#define CSR_STIMECMPH=C2=A0 =C2=A0 =C2=A0 =C2=A00x15D<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0/* Supervisor Protection and Translation */<br>
-&gt;=C2=A0 =C2=A0#define CSR_SPTBR=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-0x180<br>
-&gt;=C2=A0 =C2=A0#define CSR_SATP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-0x180<br>
-&gt; diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-&gt; index 0fb042b2fd0f..b71e2509b64f 100644<br>
-&gt; --- a/target/riscv/csr.c<br>
-&gt; +++ b/target/riscv/csr.c<br>
-&gt; @@ -22,6 +22,7 @@<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu/timer.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;cpu.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;pmu.h&quot;<br>
-&gt; +#include &quot;time_helper.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;qemu/main-loop.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;exec/exec-all.h&quot;<br>
-&gt;=C2=A0 =C2=A0#include &quot;sysemu/cpu-timers.h&quot;<br>
-&gt; @@ -803,6 +804,76 @@ static RISCVException read_timeh(CPURISCVState *e=
-nv, int csrno,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
-&gt;=C2=A0 =C2=A0}<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; +static RISCVException sstc(CPURISCVState *env, int csrno)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
-&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(cs);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (!cpu-&gt;cfg.ext_sstc || !env-&gt;rdtime_fn) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_M) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 if (env-&gt;priv !=3D PRV_S) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-<br>
-These seem to be checking env-&gt;priv twice, wouldnt<br>
-one check for nv-&gt;priv !=3D PRV_S be sufficient?<br>
-<br></blockquote><div><br></div><div>nope as we need to allow the access fr=
-om M-mode unconditionally.=C2=A0</div><div>But we can remove the non-Smode =
-check as suggested by Weiwei.</div><div>=C2=A0</div><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex">
-<br>
--- <br>
-Ben Dooks=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://www.codethin=
-k.co.uk/" rel=3D"noreferrer" target=3D"_blank">http://www.codethink.co.uk/<=
-/a><br>
-Senior Engineer=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Codethink - Providing Genius<br>
-<br>
-<a href=3D"https://www.codethink.co.uk/privacy.html" rel=3D"noreferrer" tar=
-get=3D"_blank">https://www.codethink.co.uk/privacy.html</a><br>
-</blockquote></div></div>
+But I'd rather keep simple implementations (.impl) and use .valid fields,
+adjusting with access_with_adjusted_size().
 
---0000000000008bfe1305e55cada8--
+(At least we now have an ELF reproducer.)
+
+One problem I remember is when PCI is involved.
+Here I could only get MMIO working, but not PCI:
+https://lore.kernel.org/qemu-devel/20200817161853.593247-1-f4bug@amsat.org/
+
+Commit 98f52cdbb5 ("memory: Fix access_with_adjusted_size(small size)
+on big-endian memory regions") might be incomplete...
+
+Regards,
+
+Phil.
 
