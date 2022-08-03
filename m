@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F7B758944A
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 00:10:23 +0200 (CEST)
-Received: from localhost ([::1]:56018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D0CC58944B
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 00:10:42 +0200 (CEST)
+Received: from localhost ([::1]:56754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJMZJ-0006VI-Mp
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 18:10:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
+	id 1oJMZd-00070j-HO
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 18:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJMWz-0003eV-58; Wed, 03 Aug 2022 18:07:57 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:36683)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJMXL-0003pM-PZ
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:08:21 -0400
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:51690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJMWw-0006mX-8A; Wed, 03 Aug 2022 18:07:56 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5FADF746E06;
- Thu,  4 Aug 2022 00:07:49 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D12227461AE; Thu,  4 Aug 2022 00:07:48 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id CF2E8745702;
- Thu,  4 Aug 2022 00:07:48 +0200 (CEST)
-Date: Thu, 4 Aug 2022 00:07:48 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 02/20] ppc/ppc405: Introduce a PPC405 generic
- machine
-In-Reply-To: <20220803132844.2370514-3-clg@kaod.org>
-Message-ID: <d694b960-6db5-933-3d63-23ad6efc4856@eik.bme.hu>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-3-clg@kaod.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJMXJ-0006sT-L6
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:08:19 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 1D204B823B7;
+ Wed,  3 Aug 2022 22:08:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4540C433D6;
+ Wed,  3 Aug 2022 22:08:12 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="lnJOos9B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659564490;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dfl0PfVGfULnD2y0stwSh4NZHHnI+KP8Pcdvv0c+pxs=;
+ b=lnJOos9BU77KvpZS6HZlzcoBne4TM2Ye/tTtcn9ThuDotGJA1NSPxKLhCkNmib4qs18ECO
+ 8StWYVeTESTkd1EDlZOZyoLIgdkMsDBbnEZVU16A3HsQHaNR1sASwxTYy3Dr8OcVekQDV8
+ TWzdYUuZlXZJCfDfifEYricNwhlKJwM=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 543413a2
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Aug 2022 22:08:10 +0000 (UTC)
+Date: Thu, 4 Aug 2022 00:08:07 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <Yurxx0OZ+mfWdZ5M@zx2c4.com>
+References: <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+ <Yukk0YOFgkPwcTzG@zx2c4.com>
+ <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com>
+ <Yuk9a0v+CNnzAX37@zx2c4.com>
+ <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
+ <YupTaZlkyy1/9FUC@redhat.com> <Yup0FIOLLo0thP8u@zx2c4.com>
+ <Yup5TG2kZs+TifEJ@zx2c4.com> <YuqraGAFyCibc1h6@zx2c4.com>
+ <20220803180115-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1057103935-1659564468=:13819"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220803180115-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,94 +94,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi Michael,
 
---3866299591-1057103935-1659564468=:13819
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Wed, Aug 03, 2022 at 06:03:20PM -0400, Michael S. Tsirkin wrote:
+> On Wed, Aug 03, 2022 at 07:07:52PM +0200, Jason A. Donenfeld wrote:
+> > On Wed, Aug 03, 2022 at 03:34:04PM +0200, Jason A. Donenfeld wrote:
+> > > On Wed, Aug 03, 2022 at 03:11:48PM +0200, Jason A. Donenfeld wrote:
+> > > > Thanks for the info. Very helpful. Looking into it now.
+> > > 
+> > > So interestingly, this is not a new issue. If you pass any type of setup
+> > > data, OVMF appears to be doing something unusual and passing 0xffffffff
+> > > for all the entries, rather than the actual data. The reason this isn't
+> > > new is: try passing `-dtb any/dtb/at/all/from/anywhere` and you get the
+> > > same page fault, on all QEMU versions. The thing that passes the DTB is
+> > > the thing that passes the RNG seed. Same mechanism, same bug.
+> > > 
+> > > I'm looking into it...
+> > 
+> > Fixed with: https://lore.kernel.org/all/20220803170235.1312978-1-Jason@zx2c4.com/
+> > 
+> > Feel free to join into the discussion there. I CC'd you.
+> > 
+> > Jason
+> 
+> Hmm I don't think this patch will make it in 7.1 given the
+> timeframe. I suspect we should revert the patch for now.
+> 
+> Which is where you maybe begin to see why we generally
+> prefer doing it with features - one can then work around
+> bugs by turning the feature on and off.
 
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> We will use this machine as a base to define the ref405ep and possibly
-> the PPC405 hotfoot board as found in the Linux kernel.
->
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405_boards.c | 31 ++++++++++++++++++++++++++++---
-> 1 file changed, 28 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 1a4e7588c584..4c269b6526a5 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -50,6 +50,15 @@
->
-> #define USE_FLASH_BIOS
->
-> +struct Ppc405MachineState {
-> +    /* Private */
-> +    MachineState parent_obj;
-> +    /* Public */
-> +};
-> +
-> +#define TYPE_PPC405_MACHINE MACHINE_TYPE_NAME("ppc405")
-> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405MachineState, PPC405_MACHINE);
-> +
-> /*****************************************************************************/
-> /* PPC405EP reference board (IBM) */
-> /* Standalone board with:
-> @@ -332,18 +341,34 @@ static void ref405ep_class_init(ObjectClass *oc, void *data)
->
->     mc->desc = "ref405ep";
->     mc->init = ref405ep_init;
-> -    mc->default_ram_size = 0x08000000;
-> -    mc->default_ram_id = "ef405ep.ram";
-> }
->
-> static const TypeInfo ref405ep_type = {
->     .name = MACHINE_TYPE_NAME("ref405ep"),
-> -    .parent = TYPE_MACHINE,
-> +    .parent = TYPE_PPC405_MACHINE,
->     .class_init = ref405ep_class_init,
-> };
->
-> +static void ppc405_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +
-> +    mc->desc = "PPC405 generic machine";
-> +    mc->default_ram_size = 0x08000000;
-> +    mc->default_ram_id = "ppc405.ram";
+The bug actually precedes this patch. Just boot with -dtb on any qemu
+version and you'll trigger it. We're still at rc0; there should be time
+enough for a bug fix. Please do chime in on that thread and maybe we can
+come up with something reasonable fast enough.
 
-Is the default RAM size a property of specific boards or the PPC405? I 
-think it could be different for different boards so don't see why it's 
-moved to the generic machine but maybe it has something to do with how 
-other parts of QEMU handles this or I'm not getting what the generic 
-PPC405 machine is for.
-
-Would it be clearer to just write 128 * MiB instead of a long hex number 
-with extra zeros that's hard to read? It would be a good opportunity to 
-change it here.
-
-Regards,
-BALATON Zoltan
-
-> +}
-> +
-> +static const TypeInfo ppc405_machine_type = {
-> +    .name = TYPE_PPC405_MACHINE,
-> +    .parent = TYPE_MACHINE,
-> +    .instance_size = sizeof(Ppc405MachineState),
-> +    .class_init = ppc405_machine_class_init,
-> +    .abstract = true,
-> +};
-> +
-> static void ppc405_machine_init(void)
-> {
-> +    type_register_static(&ppc405_machine_type);
->     type_register_static(&ref405ep_type);
-> }
->
->
---3866299591-1057103935-1659564468=:13819--
+Jason
 
