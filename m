@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D25588BB6
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:02:53 +0200 (CEST)
-Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F83588BE2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:20:56 +0200 (CEST)
+Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJD5P-00064U-3u
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:02:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56098)
+	id 1oJDMk-0006Ah-3s
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:20:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJD2i-000406-TY; Wed, 03 Aug 2022 08:00:04 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:25870)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJDHM-0001lf-Kv; Wed, 03 Aug 2022 08:15:12 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:56912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJD2f-0001Vg-EL; Wed, 03 Aug 2022 08:00:04 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4B87E74635D;
- Wed,  3 Aug 2022 13:59:57 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id EF1B67461AE; Wed,  3 Aug 2022 13:59:56 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id ED9C9745702;
- Wed,  3 Aug 2022 13:59:56 +0200 (CEST)
-Date: Wed, 3 Aug 2022 13:59:56 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
-In-Reply-To: <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
-Message-ID: <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
-References: <20220801131039.1693913-1-clg@kaod.org>
- <20220801131039.1693913-6-clg@kaod.org>
- <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
- <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJDHK-00051x-FU; Wed, 03 Aug 2022 08:15:12 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 3E1BC612E4;
+ Wed,  3 Aug 2022 12:15:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F32AC433C1;
+ Wed,  3 Aug 2022 12:15:04 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="cgoGj6cx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659528902;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q6D/UZttKAoaKjcIJuAoHDBuw7et4T4nUDR7yXLknPQ=;
+ b=cgoGj6cxpzQHdoauIwKtLqhHsNKKkXzCR0iB1i8Qq/y8PRKhS4L7c6teYWk0HU4j0a57CE
+ h5C68tslhI0fblQf4pdbeSbZEHh7h0FZmCI0SifRrOjceuxijYpzCV0nAAazawRkqzOAWo
+ CRz163RBno7WpdgxVpQ+SxCxeVfxwAU=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 9b39d708
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Aug 2022 12:15:02 +0000 (UTC)
+Date: Wed, 3 Aug 2022 14:14:58 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ Thomas Huth <thuth@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Holger Dengler <dengler@linux.ibm.com>
+Subject: Re: [PATCH v4 2/2] target/s390x: support SHA-512 extensions
+Message-ID: <YupmwgYFShLfP8Xd@zx2c4.com>
+References: <Yul0G2YCKLXiypvv@zx2c4.com>
+ <20220802190011.458871-1-Jason@zx2c4.com>
+ <20220802190011.458871-3-Jason@zx2c4.com>
+ <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-815139917-1659527996=:51013"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5758f0a3-ee4e-97d4-3e32-469b56029208@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,190 +86,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hi David,
 
---3866299591-815139917-1659527996=:51013
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+On Wed, Aug 03, 2022 at 01:55:21PM +0200, David Hildenbrand wrote:
+> On 02.08.22 21:00, Jason A. Donenfeld wrote:
+> > In order to fully support MSA_EXT_5, we have to also support the SHA-512
+> > special instructions. So implement those.
+> > 
+> > The implementation began as something TweetNacl-like, and then was
+> > adjusted to be useful here. It's not very beautiful, but it is quite
+> > short and compact, which is what we're going for.
+> > 
+> 
+> Do we have to worry about copyright/authorship of the original code or
+> did you write that from scratch?
 
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> On 8/2/22 21:18, Daniel Henrique Barboza wrote:
->> On 8/1/22 10:10, Cédric Le Goater wrote:
->>> This moves all the code previously done in the ppc405ep_init() routine
->>> under ppc405_soc_realize().
->>> 
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>   hw/ppc/ppc405.h        |  12 ++--
->>>   hw/ppc/ppc405_boards.c |  12 ++--
->>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
->>>   3 files changed, 84 insertions(+), 91 deletions(-)
->>> 
->>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>> index c8cddb71733a..5e4e96d86ceb 100644
->>> --- a/hw/ppc/ppc405.h
->>> +++ b/hw/ppc/ppc405.h
->>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
->>>       MemoryRegion sram;
->>>       MemoryRegion ram_memories[2];
->>>       hwaddr ram_bases[2], ram_sizes[2];
->>> +    bool do_dram_init;
->>>       MemoryRegion *dram_mr;
->>>       hwaddr ram_size;
->>> +
->>> +    uint32_t sysclk;
->>> +    PowerPCCPU *cpu;
->>> +    DeviceState *uic;
->>>   };
->>>   /* PowerPC 405 core */
->>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, 
->>> ram_addr_t ram_size);
->>>   void ppc4xx_plb_init(CPUPPCState *env);
->>>   void ppc405_ebc_init(CPUPPCState *env);
->>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>> -                        MemoryRegion ram_memories[2],
->>> -                        hwaddr ram_bases[2],
->>> -                        hwaddr ram_sizes[2],
->>> -                        uint32_t sysclk, DeviceState **uicdev,
->>> -                        int do_init);
->>> -
->>>   #endif /* PPC405_H */
->>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>> index 96db52c5a309..363cb0770506 100644
->>> --- a/hw/ppc/ppc405_boards.c
->>> +++ b/hw/ppc/ppc405_boards.c
->>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
->>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>       const char *kernel_filename = machine->kernel_filename;
->>> -    PowerPCCPU *cpu;
->>>       MemoryRegion *sysmem = get_system_memory();
->>> -    DeviceState *uicdev;
->>>       if (machine->ram_size != mc->default_ram_size) {
->>>           char *sz = size_to_str(mc->default_ram_size);
->>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
->>>                                machine->ram_size, &error_fatal);
->>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
->>>                                OBJECT(machine->ram), &error_abort);
->>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
->>> +                             !(kernel_filename == NULL), &error_abort);
->>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
->>> +                             &error_abort);
->>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
->>> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, 
->>> ppc405->soc.ram_bases,
->>> -                        ppc405->soc.ram_sizes,
->>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 
->>> 1);
->>> -
->>>       /* allocate and load BIOS */
->>>       if (machine->firmware) {
->>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
->>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->>>       /* Load ELF kernel and rootfs.cpio */
->>>       } else if (kernel_filename && !machine->firmware) {
->>> -        boot_from_kernel(machine, cpu);
->>> +        boot_from_kernel(machine, ppc405->soc.cpu);
->>>       }
->>>   }
->>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>> index 156e839b8283..59612504bf3f 100644
->>> --- a/hw/ppc/ppc405_uc.c
->>> +++ b/hw/ppc/ppc405_uc.c
->>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, 
->>> clk_setup_t clk_setup[8],
->>>   #endif
->>>   }
->>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>> -                        MemoryRegion ram_memories[2],
->>> -                        hwaddr ram_bases[2],
->>> -                        hwaddr ram_sizes[2],
->>> -                        uint32_t sysclk, DeviceState **uicdevp,
->>> -                        int do_init)
->>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->>>   {
->>> +    Ppc405SoCState *s = PPC405_SOC(dev);
->>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
->>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->>> -    PowerPCCPU *cpu;
->>>       CPUPPCState *env;
->>> -    DeviceState *uicdev;
->>> -    SysBusDevice *uicsbd;
->>> +    Error *err = NULL;
->>> +
->>> +    /* XXX: fix this ? */
->> 
->> So, this comment, originally from ppc405_boards.c, was added by commit
->> 1a6c088620368 and it seemed to make reference to something with the 
->> refering
->> to the ram_* values:
->> 
->>
->>      /* XXX: fix this */
->>      ram_bases[0] = 0x00000000;
->>      ram_sizes[0] = 0x08000000;
->>      ram_bases[1] = 0x00000000;
->>      ram_sizes[1] = 0x00000000;
->> (...)
->> 
->> 
->> No more context is provided aside from a git-svn-id from 
->> savannah.nongnu.org.
->> 
->> If no one can provide more context about what is to be fixed here, I'll
->> remove the comment.
->> 
->> 
->> 
->>> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
->>> +                             "ef405ep.ram.alias", s->dram_mr, 0, 
->>> s->ram_size);
->> 
->> As I mentioned in patch 2, ef405ep.ram.alias can be renamed to 
->> ppc405.ram.alias ...
->
-> sure.
->
->> 
->>> +    s->ram_bases[0] = 0;
->>> +    s->ram_sizes[0] = s->ram_size;
->>> +    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 
->>> 0);
->> 
->> And this can be renamed to ef405ep.ram1. If you agree with the rename I
->> can amend it in the tree.
->
->
-> I think we can do better and simply remove the second bank. it is unused ...
->
-> I have patches QOMifying ppc4xx_sdram_init() but the current modelling
-> makes things a bit complex, specially ppc4xx_sdram_banks() which is only
-> used on the bamboo and sam460ex machines.
+I actually don't really remember how much of that is leftover from
+tweetnacl and how much I've rewritten - I've had some variant of this
+code or another kicking around in various projects and repos for a long
+time. But the tweetnacl stuff is public domain to begin with, so all
+good.
 
-We need to model the SDRAM controller for the sam460ex firmware at least 
-partially so it gets past the memory test and init. If you change it 
-please test that sam460ex still boots with firmware. I'm not sure 405 and 
-440 use the same sdram controller though or if the 460EX has a different 
-one as these may have been updated in later SoCs to support newer RAM 
-standards (I think the 460EX has DDR2) and the QEMU model is a bit messy 
-sharing components between 405 and 440. When I've changed some of these 
-for 460EX I've tried to name them so that 4xx means shared by all, 44x or 
-440 means 440 specific and 40x or similar for older SoCs only but this is 
-probably not always correct. I could not find a clean way to separate 
-these. QOMifying would make sense when cleaning this up otherwise it's 
-just adding more boilerplate without any clear advantage IMO.
+> Are we properly handling the length register (r2 + 1) in the
+> 24-bit/31-bit addressing mode?
+> Similarly, are we properly handling updates to the message register (r2)
+> depending on the addressing mode?
 
-If you want change these maybe you should get the docs for the emulated 
-chips and consult those for differences. Unfortunately the 460ex does not 
-seem to have docs available but it's similar to earlier IBM parts like 
-440GP which generally have docs. That's what I've used but still couldn't 
-find all parts like the PCIe conroller that I had to implement based on 
-what the firmware and drivers do (and only did that partially so it boots 
-as I did not fully understand how it works and how these are modelled in 
-QEMU).
+Ugh, probably not... I didn't do any of the deposit_64 stuff. I guess
+I'll look into that.
 
-Regards,
-BALATON Zoltan
---3866299591-815139917-1659527996=:51013--
+> It's worth noting that we might want to implement (also for PRNO-TRNG):
+> 
+> "The operation is ended when all
+> source bytes in the second operand have been pro-
+> cessed (called normal completion), or when a CPU-
+> determined number of blocks that is less than the
+> length of the second operand have been processed
+> (called partial completion). The CPU-determined
+> number of blocks depends on the model, and may be
+> a different number each time the instruction is exe-
+> cuted. The CPU-determined number of blocks is usu-
+> ally nonzero. In certain unusual situations, this
+> number may be zero, and condition code 3 may be
+> set with no progress."
+> 
+> Otherwise, a large length can make us loop quite a while in QEMU,
+> without the chance to deliver any other interrupts.
+
+Hmm, okay. Looking at the Linux code, I see:
+
+        s.even = (unsigned long)src;
+        s.odd  = (unsigned long)src_len;
+        asm volatile(
+                "       lgr     0,%[fc]\n"
+                "       lgr     1,%[pba]\n"
+                "0:     .insn   rre,%[opc] << 16,0,%[src]\n"
+                "       brc     1,0b\n" /* handle partial completion */
+                : [src] "+&d" (s.pair)
+                : [fc] "d" (func), [pba] "d" ((unsigned long)(param)),
+                  [opc] "i" (CPACF_KIMD)
+                : "cc", "memory", "0", "1");
+
+So I guess that means it'll just loop until it's done? Or do I need to
+return "1" from HELPER(msa)?
+
+Jason
+
 
