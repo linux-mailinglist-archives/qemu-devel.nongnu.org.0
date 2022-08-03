@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D3B5888B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:28:57 +0200 (CEST)
-Received: from localhost ([::1]:39768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51C0B5888B7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:31:13 +0200 (CEST)
+Received: from localhost ([::1]:42408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJ9kO-0006eD-Dg
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:28:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41158)
+	id 1oJ9mZ-0008Sv-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:31:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJ9gQ-0002Gj-4Q; Wed, 03 Aug 2022 04:24:50 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:47880 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJ9gM-0005kY-II; Wed, 03 Aug 2022 04:24:48 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-01 (Coremail) with SMTP id qwCowACX3JzEMOpifQ3YBQ--.28374S2;
- Wed, 03 Aug 2022 16:24:36 +0800 (CST)
-Subject: Re: [PATCH v7 2/4] target/riscv: smstateen check for h/senvcfg
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJ9h4-0002XG-23
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:25:31 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:38643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJ9h0-00063s-RC
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:25:29 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ w17-20020a17090a8a1100b001f326c73df6so1252514pjn.3
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 01:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=b38lbf26Xj3NEUnNprf3GDaaxAPB/P16DK4vovVjcpw=;
+ b=U9CX2CIM8zI/hTm6YGKTvdK49bQpRMw9O9riOt0GP8fro28Tkx9+WlzQMACLkhl/EU
+ vTNxTEsH+tZ65Yc4xW9B8b+yAfgBnAa8HsMgfmWg/KwnQl8F8COiU2NsK0f4dQZjVgAP
+ popme0emU9BmBlIPIYRqJXBdePxfLErX0tb95tLHwGEHfLpeWT/kcnqrpy/n3hkLvfoY
+ hrzzzVm8g6Mj0VT8SdSRvHVPVdkySCxECGYN/M3LZX8J7DcLgi/VOt5A/ViGeWwM2WJ9
+ JJUFa4Pe9mLNf0VY7+Y8wg+W4ZTRfswUSmpi1/5sLhkaPLHkQ4qDSxCQ3KG866tSQoBS
+ rx7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=b38lbf26Xj3NEUnNprf3GDaaxAPB/P16DK4vovVjcpw=;
+ b=B5R6mxWDyG0/8g6L3uGPSAl/iyY12N1r2AcaVGrJbMlv+YRZouUQ4OuDxZu35VSyao
+ VosrGG2bH+zUGcPSBVpwp8pMfXQSD00JMhRaRcaOURiY6fhHIDNDDOHoXXNyB2IgR2ZD
+ FpLosh/TmsC/gS5CsbUzaP6WdtVSXgUGcw8uVULKmpZV3pNcBfinrlt9SV+/FKbjiO2e
+ GNM3SK+vKkHnsYFZCIPv4uk2/wAwCBrFvHHvcWDcqTwSeHHEhxXBIidT1Dsvl7Xwrt2a
+ nB8revZBDKZF5FNUjhRpEAgYUoedAQ+rY7k+xNffYU+70luPOoQ2EfuUqaW3jiPaisJZ
+ h1wg==
+X-Gm-Message-State: ACgBeo3Sap/9XQJ40iuzdXqEEvNvlIeY7rnw7rcC/OAQFfa3r1IQzMa4
+ EEBzZzXt/Yom9sheVHuNd4SP/eBncUt6bQ==
+X-Google-Smtp-Source: AA6agR6LlZmXNNWlLeanQFiJWN1146YNssetTJIMYYYCKq7ROsa5BNHHXB2CSkd2jjyZxkm9xuqO+A==
+X-Received: by 2002:a17:903:228f:b0:16f:1b48:230c with SMTP id
+ b15-20020a170903228f00b0016f1b48230cmr343283plh.78.1659515124962; 
+ Wed, 03 Aug 2022 01:25:24 -0700 (PDT)
+Received: from atishp.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ r63-20020a17090a43c500b001f260b1954bsm961997pjg.13.2022.08.03.01.25.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 01:25:24 -0700 (PDT)
+From: Atish Patra <atishp@rivosinc.com>
+To: qemu-devel@nongnu.org
+Cc: Atish Patra <atishp@rivosinc.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
  qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-References: <20220801171843.72986-1-mchitale@ventanamicro.com>
- <20220801171843.72986-3-mchitale@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <3e1bc732-caef-7a46-eaa8-933e4d92f07d@iscas.ac.cn>
-Date: Wed, 3 Aug 2022 16:24:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Subject: [PATCH v7  0/3] Implement Sstc extension 
+Date: Wed,  3 Aug 2022 01:25:13 -0700
+Message-Id: <20220803082516.2271344-1-atishp@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20220801171843.72986-3-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID: qwCowACX3JzEMOpifQ3YBQ--.28374S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxuw4xtF1DCF43Ww13WFWDXFb_yoWxXw47pF
- 4UXrsxG34vqF92van3GF1DWF13C3ykG3y3Zws7Wa1vyF17tryrGF1qqasxZr4kW3yDJr4I
- vay0kF1DCr42vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9I14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_
- WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
- IYCTnIWIevJa73UjIFyTuYvjfU8TmhUUUUU
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=atishp@rivosinc.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,208 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series implements Sstc extension[1] which was ratified recently.
 
-ÔÚ 2022/8/2 ÉÏÎç1:18, Mayuresh Chitale Ð´µÀ:
-> Accesses to henvcfg, henvcfgh and senvcfg are allowed only if
-> corresponding bit in mstateen0/hstateen0 is enabled. Otherwise an
-> illegal instruction trap is generated.
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->   roms/opensbi       |  2 +-
->   target/riscv/csr.c | 83 ++++++++++++++++++++++++++++++++++++++++++----
->   2 files changed, 77 insertions(+), 8 deletions(-)
->
-> diff --git a/roms/opensbi b/roms/opensbi
-> index 4489876e93..48f91ee9c9 160000
-> --- a/roms/opensbi
-> +++ b/roms/opensbi
-> @@ -1 +1 @@
-> -Subproject commit 4489876e933d8ba0d8bc6c64bae71e295d45faac
-> +Subproject commit 48f91ee9c960f048c4a7d1da4447d31e04931e38
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index ad1642fb9b..011d6c5976 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -40,6 +40,38 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
->   }
->   
->   /* Predicates */
-> +#if !defined(CONFIG_USER_ONLY)
-> +static RISCVException smstateen_acc_ok(CPURISCVState *env, int index,
-> +                                       uint64_t bit)
-> +{
-> +    bool virt = riscv_cpu_virt_enabled(env);
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (env->priv == PRV_M || !cpu->cfg.ext_smstateen) {
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    if (!(env->mstateen[index] & bit)) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (virt) {
-> +        if (!(env->hstateen[index] & bit)) {
-> +            return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +        }
-> +    }
-> +
-> +    if (env->priv == PRV_U && riscv_has_ext(env, RVS)) {
-> +        if (!(env->sstateen[index] & bit)) {
-> +            return RISCV_EXCP_ILLEGAL_INST;
-> +        }
+The first patch is a prepartory patches while PATCH 2 adds stimecmp
+support while PATCH 3 adds vstimecmp support. This series is based on
+on top of upstream commit (faee5441a038).
 
-VU mode seems not be taken into consideration. For VU mode, the 
-exception will be
+The series can also be found at
+https://github.com/atishp04/qemu/tree/sstc_v7
 
-RISCV_EXCP_VIRT_INSTRUCTION_FAULT instead if "!(env->sstateen[index] & bit)" here.
+It is tested on RV32 & RV64 with latest OpenSBI & Linux kernel[2]
+patches.
 
-Regards,
+Changes from v6->v7:
+1. Replaced g_malloc0 with g_new0.
+2. Removed the over allocation for the timers.
 
-Weiwei Li
+Changes from v5->v6:
+1. Rebased on top of the latest HEAD commit.
 
-> +    }
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +#endif
-> +
->   static RISCVException fs(CPURISCVState *env, int csrno)
->   {
->   #if !defined(CONFIG_USER_ONLY)
-> @@ -1715,6 +1747,13 @@ static RISCVException write_menvcfgh(CPURISCVState *env, int csrno,
->   static RISCVException read_senvcfg(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
->   {
-> +    RISCVException ret;
-> +
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
-> +
->       *val = env->senvcfg;
->       return RISCV_EXCP_NONE;
->   }
-> @@ -1723,15 +1762,27 @@ static RISCVException write_senvcfg(CPURISCVState *env, int csrno,
->                                     target_ulong val)
->   {
->       uint64_t mask = SENVCFG_FIOM | SENVCFG_CBIE | SENVCFG_CBCFE | SENVCFG_CBZE;
-> +    RISCVException ret;
->   
-> -    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
->   
-> +    env->senvcfg = (env->senvcfg & ~mask) | (val & mask);
->       return RISCV_EXCP_NONE;
->   }
->   
->   static RISCVException read_henvcfg(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
->   {
-> +    RISCVException ret;
-> +
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
-> +
->       *val = env->henvcfg;
->       return RISCV_EXCP_NONE;
->   }
-> @@ -1740,6 +1791,12 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
->                                     target_ulong val)
->   {
->       uint64_t mask = HENVCFG_FIOM | HENVCFG_CBIE | HENVCFG_CBCFE | HENVCFG_CBZE;
-> +    RISCVException ret;
-> +
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
->   
->       if (riscv_cpu_mxl(env) == MXL_RV64) {
->           mask |= HENVCFG_PBMTE | HENVCFG_STCE;
-> @@ -1753,6 +1810,13 @@ static RISCVException write_henvcfg(CPURISCVState *env, int csrno,
->   static RISCVException read_henvcfgh(CPURISCVState *env, int csrno,
->                                    target_ulong *val)
->   {
-> +    RISCVException ret;
-> +
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
-> +
->       *val = env->henvcfg >> 32;
->       return RISCV_EXCP_NONE;
->   }
-> @@ -1762,9 +1826,14 @@ static RISCVException write_henvcfgh(CPURISCVState *env, int csrno,
->   {
->       uint64_t mask = HENVCFG_PBMTE | HENVCFG_STCE;
->       uint64_t valh = (uint64_t)val << 32;
-> +    RISCVException ret;
->   
-> -    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
-> +    ret = smstateen_acc_ok(env, 0, SMSTATEEN0_HSENVCFG);
-> +    if (ret != RISCV_EXCP_NONE) {
-> +        return ret;
-> +    }
->   
-> +    env->henvcfg = (env->henvcfg & ~mask) | (valh & mask);
->       return RISCV_EXCP_NONE;
->   }
->   
-> @@ -1796,7 +1865,7 @@ static RISCVException write_mstateen(CPURISCVState *env, int csrno,
->   static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
-> -    uint64_t wr_mask = SMSTATEEN_STATEEN;
-> +    uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
->       return write_mstateen(env, csrno, wr_mask, new_val);
->   }
-> @@ -1843,7 +1912,7 @@ static RISCVException write_mstateenh(CPURISCVState *env, int csrno,
->   static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
-> -    uint64_t wr_mask = SMSTATEEN_STATEEN;
-> +    uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
->       return write_mstateenh(env, csrno, wr_mask, new_val);
->   }
-> @@ -1892,7 +1961,7 @@ static RISCVException write_hstateen(CPURISCVState *env, int csrno,
->   static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
-> -    uint64_t wr_mask = SMSTATEEN_STATEEN;
-> +    uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
->       return write_hstateen(env, csrno, wr_mask, new_val);
->   }
-> @@ -1943,7 +2012,7 @@ static RISCVException write_hstateenh(CPURISCVState *env, int csrno,
->   static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
->                                          target_ulong new_val)
->   {
-> -    uint64_t wr_mask = SMSTATEEN_STATEEN;
-> +    uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
->       return write_hstateenh(env, csrno, wr_mask, new_val);
->   }
-> @@ -2002,7 +2071,7 @@ static RISCVException write_sstateen(CPURISCVState *env, int csrno,
->   static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
-> -    uint64_t wr_mask = SMSTATEEN_STATEEN;
-> +    uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
->       return write_sstateen(env, csrno, wr_mask, new_val);
->   }
+Changes from v4->v5:
+1. Removed any ordering related flags and emulate the hardware more
+   closely. 
+
+Changes from v3->v4:
+1. Added [v]stimecmp_wr_done to the corresponding vmstate strucuture.
+
+Changes from v2->v3:
+1. Dropped generic migration code improvement patches.
+2. Removed the order constraints while updating stimecmp/vstimecmp.
+
+Changes from v1->v2:
+1. Rebased on the latest upstream commit.
+2. Replaced PATCH 1 with another patch where mtimer/timecmp is
+   moved from CPU to ACLINT.
+3. Added ACLINT migration support.
+
+[1] https://drive.google.com/file/d/1m84Re2yK8m_vbW7TspvevCDR82MOBaSX/view
+[2] https://github.com/atishp04/linux/tree/sstc_v7
+
+Atish Patra (3):
+hw/intc: Move mtimer/mtimecmp to aclint
+target/riscv: Add stimecmp support
+target/riscv: Add vstimecmp support
+
+hw/intc/riscv_aclint.c         |  41 +++++---
+hw/timer/ibex_timer.c          |  18 ++--
+include/hw/intc/riscv_aclint.h |   2 +
+include/hw/timer/ibex_timer.h  |   2 +
+target/riscv/cpu.c             |  12 +++
+target/riscv/cpu.h             |  11 +-
+target/riscv/cpu_bits.h        |   8 ++
+target/riscv/cpu_helper.c      |  11 +-
+target/riscv/csr.c             | 177 +++++++++++++++++++++++++++++++++
+target/riscv/machine.c         |   7 +-
+target/riscv/meson.build       |   3 +-
+target/riscv/time_helper.c     | 114 +++++++++++++++++++++
+target/riscv/time_helper.h     |  30 ++++++
+13 files changed, 404 insertions(+), 32 deletions(-)
+create mode 100644 target/riscv/time_helper.c
+create mode 100644 target/riscv/time_helper.h
+
+--
+2.25.1
 
 
