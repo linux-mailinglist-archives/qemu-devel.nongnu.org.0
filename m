@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D9EA588F0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 17:02:00 +0200 (CEST)
-Received: from localhost ([::1]:38240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E59AA588F88
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 17:39:25 +0200 (CEST)
+Received: from localhost ([::1]:58664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJFsl-0003NX-Ic
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 11:01:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
+	id 1oJGSy-0003Zd-88
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 11:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oJFnK-0001n0-RR
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:56:22 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:37489)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGQQ-0000fy-Qa
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:36:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:27906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1oJFnI-0005r9-Lx
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:56:22 -0400
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue109
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MFK8N-1oCyPB33gP-00Flqs; Wed, 03
- Aug 2022 16:56:16 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Rainer=20M=C3=BCller?= <raimue@codingfarm.de>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 3/3] linux-user: Use memfd for open syscall emulation
-Date: Wed,  3 Aug 2022 16:56:13 +0200
-Message-Id: <20220803145613.428167-4-laurent@vivier.eu>
-X-Mailer: git-send-email 2.37.1
-In-Reply-To: <20220803145613.428167-1-laurent@vivier.eu>
-References: <20220803145613.428167-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJGQM-00077O-Ig
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 11:36:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659541000;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9ALFBzGV6gFudscF3wT3XLoiPGXN2+SeY3m5qnnOwDg=;
+ b=gpUdlTkCYvSNTzSnmeqVG+XzDyTlqDZR0BfWpL3hm1YlHmonFAPFv91CMqbF0UXgg8zmWO
+ 5IHJSs/Uvb0TSOVHbmROAKdGsNyuoru0DzVK/nwLa9cMs3gCqp8X93BrkQ7CfxLuAA2pID
+ FCOos7Ocs0MIPsiZA/+Mw40eTyZCfkY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-361-IxV3fZpYN6aO2tlxnhHYCQ-1; Wed, 03 Aug 2022 11:36:39 -0400
+X-MC-Unique: IxV3fZpYN6aO2tlxnhHYCQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z6-20020a05640240c600b0043e1d52fd98so2301613edb.22
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 08:36:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+ bh=9ALFBzGV6gFudscF3wT3XLoiPGXN2+SeY3m5qnnOwDg=;
+ b=Tx9AVonPl11XE96D4ZfGUet3Ma/4Y8QX3F9997/92WAipUXA8UHHm1uyQdQ71CIsIk
+ 4+EOZPVV4MTvquBBaclkeDyPhKwOMmYuG5Nz3+RvDxTvxVli+vUWrAuP/zsP3lzzQU1B
+ EXaJWt3x9yAzMVjeBm5RgjQowhL2iLLUmE3q+dWNF/HjbCzidJi/zld0DWPE+BF3PXWc
+ fBUaEPUjS1ApTH3HbvozyHfA1ueZ/OgbrieqVZ37Xo/Na9TCHwPIttPlHcGrf7YsV+q/
+ vKjrRyyDTM07x6s2X/dKvK5aG5k3RBJnqjzu/nbXRyeRpMe+tiNuAfUckfLsIl9KjHbN
+ GSsQ==
+X-Gm-Message-State: ACgBeo3MD0KJSnnRJuzkh9GsuERS+/DeZ6ZArOZaaJe7yOtIx0HLaNCu
+ LXXCebwnr0O5N6kcN+y+1+hFJm8WlHveFvGF8dOBMsdBFlWlXabIkNfNKl8edCuBzkkZYkpQqmI
+ FG5yDEK0F6UjkybI=
+X-Received: by 2002:a05:6402:268a:b0:43e:84d:c5cc with SMTP id
+ w10-20020a056402268a00b0043e084dc5ccmr7739402edd.372.1659540996914; 
+ Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
+X-Google-Smtp-Source: AA6agR7i655e3N16grAwrBONSbvbRsJ72NW2FO9mOx0bcrOb60zHA+MXJI2IDSwt7aWETxxbsPTu2Q==
+X-Received: by 2002:a05:6402:268a:b0:43e:84d:c5cc with SMTP id
+ w10-20020a056402268a00b0043e084dc5ccmr7739384edd.372.1659540996683; 
+ Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
+Received: from redhat.com ([2.54.191.86]) by smtp.gmail.com with ESMTPSA id
+ g26-20020a170906539a00b0073080c22898sm3661498ejo.15.2022.08.03.08.36.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 08:36:36 -0700 (PDT)
+Date: Wed, 3 Aug 2022 11:36:32 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: bchalios@amazon.es
+Cc: qemu-devel@nongnu.org, ani@anisinha.ca, imammedo@redhat.com,
+ dwmw@amazon.co.uk, graf@amazon.de, xmarcalx@amazon.co.uk
+Subject: Re: [PATCH 0/2] vmgenid: add generation counter
+Message-ID: <20220803113537-mutt-send-email-mst@kernel.org>
+References: <20220803134147.31073-1-bchalios@amazon.es>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:1XaqOx/Ra5846rlYKRVPZ3XCIYSDhdEzCZUlj4e1zxsgn3Tc5uQ
- B399tGi/RUEVTU5t9h7Yt4PFEPNX1QtsKWzx+oGd1cQQeNu8BDFTagY3MiwKY605Vi8L5/X
- 2ram1+WipYLnSWgRKAuF/IdCMRzeOJfd++IYp66v1vor8dlGjwppV14UOL+5/2b6P1RlPAa
- XMj/OCeIMJ/SNjYpAXV1w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HLa3KNtnIH0=:9cra+kyuaql8GsyCRPogDK
- hc15j/Lj2S/6md8gahAe7ohNIAk7sJ605eBruiQZYbDZup1PyvillPa4F/gGROXCLOiAmJdoU
- GFeE4ot+FYgQaWR82pjnapfLq0SmqmM6MeB1DP70CtchcRXPJiNOkEGMxq8jnUBzYVjrO0WRP
- s//zF3c4Qp8nr7ytNKdvpiON7837TYbKnbF26Qn4s/3Qu8Fz9xInCmKK76mDuWEfInq5A4Z2s
- 8DRcCGXb6qN4WwJR/mhNEwI/pB04e6kOpRAF9x0H2z7h8SlZy6+BV0FtvdaaSfesSLi99nhFC
- /7JAqzbiZ8gyVhKfWSWbjY4HDqr1LVeP+PhyI4LTYYbp3bc+KDH3kfGWOZAdQIFEl/AfYRmJ0
- Yi6JneCZ4yDiKqWRG8kw/0Tsl2ZOOQAadzcN0NsjS7iJTa13FowBLqETjx5VQrVy3RSqbuZFy
- p9ISOUmQry/TJY0UFikDfPIeAyYbX0Dnc2fEHx3LbiiqTPuPKbEF3PxoKbqT32Lt7w0c5Lslg
- 7CyNv4q9nbP1PJgUGlVMN8Io4bPVdCCFMx/nzFvq0zFxiqfgkF6nC/Bdeun3RBl12DbxfEtzU
- 1gb+1i35FkUE1a09HXEATYxOD5EPZf3NKXKBiek7T3eQBTDnN8sWsC29NsjZL4lZbZHn1IURD
- 4Gvg3S/FMrFnrkFQ4b7AF/Ti5MOSz+XhLBMlSFA2XTGoB0VIUnzogm6duZTsdDvzmP/TQjMB+
- 2Q2qTRYo6JrccPBPPmON2O3MKLkUeXcV/ky56w==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220803134147.31073-1-bchalios@amazon.es>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,64 +95,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rainer Müller <raimue@codingfarm.de>
+On Wed, Aug 03, 2022 at 03:41:45PM +0200, bchalios@amazon.es wrote:
+> From: Babis Chalios <bchalios@amazon.es>
+> 
+> VM generation ID exposes a GUID inside the VM which changes every time a
+> VM restore is happening. Typically, this GUID is used by the guest
+> kernel to re-seed its internal PRNG. As a result, this value cannot be
+> exposed in guest user-space as a notification mechanism for VM restore
+> events.
+> 
+> This patch set extends vmgenid to introduce a 32 bits generation counter
+> whose purpose is to be used as a VM restore notification mechanism for
+> the guest user-space.
+> 
+> It is true that such a counter could be implemented entirely by the
+> guest kernel, but this would rely on the vmgenid ACPI notification to
+> trigger the counter update, which is inherently racy. Exposing this
+> through the monitor allows the updated value to be in-place before
+> resuming the vcpus, so interested user-space code can (atomically)
+> observe the update without relying on the ACPI notification.
 
-For certain paths in /proc, the open syscall is intercepted and the
-returned file descriptor points to a temporary file with emulated
-contents.
+Producing another 4 bytes is not really the issue, the issue
+is how does guest consume this.
+So I would like this discussion to happen on the linux kernel mailing
+list not just here.  Can you post the linux patch please?
 
-If TMPDIR is not accessible or writable for the current user (for
-example in a read-only mounted chroot or container) tools such as ps
-from procps may fail unexpectedly. Trying to read one of these paths
-such as /proc/self/stat would return an error such as ENOENT or EROFS.
 
-To relax the requirement on a writable TMPDIR, use memfd_create()
-instead to create an anonymous file and return its file descriptor.
 
-Signed-off-by: Rainer Müller <raimue@codingfarm.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20220729154951.76268-1-raimue@codingfarm.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/syscall.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b27a6552aa34..ef53feb5ab45 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8260,16 +8260,22 @@ static int do_openat(CPUArchState *cpu_env, int dirfd, const char *pathname, int
-         char filename[PATH_MAX];
-         int fd, r;
- 
--        /* create temporary file to map stat to */
--        tmpdir = getenv("TMPDIR");
--        if (!tmpdir)
--            tmpdir = "/tmp";
--        snprintf(filename, sizeof(filename), "%s/qemu-open.XXXXXX", tmpdir);
--        fd = mkstemp(filename);
-+        fd = memfd_create("qemu-open", 0);
-         if (fd < 0) {
--            return fd;
-+            if (errno != ENOSYS) {
-+                return fd;
-+            }
-+            /* create temporary file to map stat to */
-+            tmpdir = getenv("TMPDIR");
-+            if (!tmpdir)
-+                tmpdir = "/tmp";
-+            snprintf(filename, sizeof(filename), "%s/qemu-open.XXXXXX", tmpdir);
-+            fd = mkstemp(filename);
-+            if (fd < 0) {
-+                return fd;
-+            }
-+            unlink(filename);
-         }
--        unlink(filename);
- 
-         if ((r = fake_open->fill(cpu_env, fd))) {
-             int e = errno;
--- 
-2.37.1
+> Babis Chalios (2):
+>   vmgenid: make device data size configurable
+>   vmgenid: add generation counter
+> 
+>  docs/specs/vmgenid.txt    | 101 ++++++++++++++++++--------
+>  hw/acpi/vmgenid.c         | 145 +++++++++++++++++++++++++++++++-------
+>  include/hw/acpi/vmgenid.h |  23 ++++--
+>  3 files changed, 204 insertions(+), 65 deletions(-)
+> 
+> -- 
+> 2.37.1
+> 
+> Amazon Spain Services sociedad limitada unipersonal, Calle Ramirez de Prado 5, 28045 Madrid. Registro Mercantil de Madrid . Tomo 22458 . Folio 102 . Hoja M-401234 . CIF B84570936
 
 
