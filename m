@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81DE35888EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:57:00 +0200 (CEST)
-Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A415888F6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:59:02 +0200 (CEST)
+Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJABX-0001kw-2f
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:56:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
+	id 1oJADV-0003G5-PK
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:59:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJA4Y-0005yZ-92; Wed, 03 Aug 2022 04:49:46 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:53118 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJA4U-0001OM-RM; Wed, 03 Aug 2022 04:49:45 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-01 (Coremail) with SMTP id qwCowAB3V1idNupiasrZBQ--.28665S2;
- Wed, 03 Aug 2022 16:49:34 +0800 (CST)
-Subject: Re: [PATCH v7 3/3] target/riscv: Add vstimecmp support
-To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-References: <20220803082516.2271344-1-atishp@rivosinc.com>
- <20220803082516.2271344-4-atishp@rivosinc.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <60a8a67a-04d9-e6b7-e606-1001fda76f41@iscas.ac.cn>
-Date: Wed, 3 Aug 2022 16:49:33 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJA7R-0006zL-Vu
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:52:46 -0400
+Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:58173)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJA7H-0002Xd-11
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:52:45 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 05F3721A7B;
+ Wed,  3 Aug 2022 08:52:31 +0000 (UTC)
+Received: from kaod.org (37.59.142.107) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 3 Aug 2022
+ 10:52:29 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-107S0012c017a39-ac20-4c76-8aac-49e1909a297e,
+ CC7AE06ED68251E997EA4638F74AFDA4D8EEB002) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <36a20515-461d-0f27-3be8-a4edd099165a@kaod.org>
+Date: Wed, 3 Aug 2022 10:52:23 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220803082516.2271344-4-atishp@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC 1/1] hw: tpmtisspi: add SPI support to QEMU TPM
+ implementation
 Content-Language: en-US
-X-CM-TRANSID: qwCowAB3V1idNupiasrZBQ--.28665S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3JryUJFW8CFyxXr13Gr1DGFg_yoWDGr1UpF
- WkC39xKay5tFZrZ3Z3Jrn8G3ZYyw4UKan8Wws7uF45AF45GrW5CF1DKF9rAFs5WFWDGr4F
- vF1Fkr1Ykr40vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
- 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
- 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
- 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
- 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
- kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
- 67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
- CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWr
- Zr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
- BIdaVFxhVjvjDU0xZFpf9x0JUTOJ5UUUUU=
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+To: Iris Chen <irischenlj@gmail.com>
+CC: <irischenlj@fb.com>, <peter@pjd.dev>, <pdel@fb.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <patrick@stwcx.xyz>,
+ <alistair@alistair23.me>, <kwolf@redhat.com>, <hreitz@redhat.com>,
+ <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
+ <qemu-block@nongnu.org>, <dz4list@gmail.com>, Stefan Berger
+ <stefanb@linux.ibm.com>
+References: <20220803023241.63739-1-irischenlj@gmail.com>
+ <20220803023241.63739-2-irischenlj@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220803023241.63739-2-irischenlj@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.107]
+X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 5df9b9fc-b37b-4a34-9ce7-dc25bbd549f0
+X-Ovh-Tracer-Id: 3985122720548489997
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelleeiiefgkeefiedtvdeigeetueetkeffkeelheeugfetteegvdekgfehgffgkeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
+ helo=9.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,315 +82,432 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/3/22 04:32, Iris Chen wrote:
+> From: Iris Chen <irischenlj@fb.com>
 
-在 2022/8/3 下午4:25, Atish Patra 写道:
-> vstimecmp CSR allows the guest OS or to program the next guest timer
-> interrupt directly. Thus, hypervisor no longer need to inject the
-> timer interrupt to the guest if vstimecmp is used. This was ratified
-> as a part of the Sstc extension.
->
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+A commit log telling us about this new device would be good to have.
+
+
+> Signed-off-by: Iris Chen <irischenlj@fb.com>
 > ---
->   target/riscv/cpu.h         |   4 ++
->   target/riscv/cpu_bits.h    |   4 ++
->   target/riscv/cpu_helper.c  |  11 ++--
->   target/riscv/csr.c         | 100 ++++++++++++++++++++++++++++++++++++-
->   target/riscv/machine.c     |   1 +
->   target/riscv/time_helper.c |  16 ++++++
->   6 files changed, 131 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 4cda2905661e..1fd382b2717f 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -312,6 +312,8 @@ struct CPUArchState {
->       /* Sstc CSRs */
->       uint64_t stimecmp;
->   
-> +    uint64_t vstimecmp;
-> +
->       /* physical memory protection */
->       pmp_table_t pmp_state;
->       target_ulong mseccfg;
-> @@ -366,6 +368,8 @@ struct CPUArchState {
->   
->       /* Fields from here on are preserved across CPU reset. */
->       QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
-> +    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
-> +    bool vstime_irq;
->   
->       hwaddr kernel_addr;
->       hwaddr fdt_addr;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index ac17cf1515c0..095dab19f512 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -257,6 +257,10 @@
->   #define CSR_VSIP            0x244
->   #define CSR_VSATP           0x280
->   
-> +/* Sstc virtual CSRs */
-> +#define CSR_VSTIMECMP       0x24D
-> +#define CSR_VSTIMECMPH      0x25D
-> +
->   #define CSR_MTINST          0x34a
->   #define CSR_MTVAL2          0x34b
->   
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 650574accf0a..1e4faa84e839 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -345,8 +345,9 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
->   {
->       uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
->       uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
-> +    uint64_t vstip = (env->vstime_irq) ? MIP_VSTIP : 0;
->   
-> -    return (env->mip | vsgein) & env->mie;
-> +    return (env->mip | vsgein | vstip) & env->mie;
->   }
->   
->   int riscv_cpu_mirq_pending(CPURISCVState *env)
-> @@ -605,7 +606,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->   {
->       CPURISCVState *env = &cpu->env;
->       CPUState *cs = CPU(cpu);
-> -    uint64_t gein, vsgein = 0, old = env->mip;
-> +    uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
->       bool locked = false;
->   
->       if (riscv_cpu_virt_enabled(env)) {
-> @@ -613,6 +614,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->           vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
->       }
->   
-> +    /* No need to update mip for VSTIP */
-> +    mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
-> +    vstip = env->vstime_irq ? MIP_VSTIP : 0;
-> +
->       if (!qemu_mutex_iothread_locked()) {
->           locked = true;
->           qemu_mutex_lock_iothread();
-> @@ -620,7 +625,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
->   
->       env->mip = (env->mip & ~mask) | (value & mask);
->   
-> -    if (env->mip | vsgein) {
-> +    if (env->mip | vsgein | vstip) {
->           cpu_interrupt(cs, CPU_INTERRUPT_HARD);
->       } else {
->           cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index b71e2509b64f..d4265dd3cca2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -833,17 +833,98 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
->       return RISCV_EXCP_NONE;
->   }
->   
-> +static RISCVException sstc_hmode(CPURISCVState *env, int csrno)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (env->priv == PRV_M) {
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &
-> +          get_field(env->menvcfg, MENVCFG_STCE))) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (!(get_field(env->hcounteren, COUNTEREN_TM) &
-> +          get_field(env->henvcfg, HENVCFG_STCE))) {
-> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
-> +    }
-> +
-I think hcounteren only works for VS mode here. So we should add check 
-for virt  mode is enabled here.
-> +    return RISCV_EXCP_NONE;
-> +}
+>   configs/devices/arm-softmmu/default.mak |   1 +
+>   hw/arm/Kconfig                          |   5 +
+>   hw/tpm/Kconfig                          |   5 +
+>   hw/tpm/meson.build                      |   1 +
+>   hw/tpm/tpm_tis_spi.c                    | 311 ++++++++++++++++++++++++
+>   include/sysemu/tpm.h                    |   3 +
+>   6 files changed, 326 insertions(+)
+>   create mode 100644 hw/tpm/tpm_tis_spi.c
+> 
+> diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+> index 6985a25377..80d2841568 100644
+> --- a/configs/devices/arm-softmmu/default.mak
+> +++ b/configs/devices/arm-softmmu/default.mak
+> @@ -42,3 +42,4 @@ CONFIG_FSL_IMX6UL=y
+>   CONFIG_SEMIHOSTING=y
+>   CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+>   CONFIG_ALLWINNER_H3=y
+> +CONFIG_FBOBMC_AST=y
 
-It's better to return hmode(env, csrno) instead of RISCV_EXCP_NONE here.
+I don't think this extra config is useful for now
 
-Regards,
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 15fa79afd3..193decaec1 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -458,6 +458,11 @@ config ASPEED_SOC
+>       select PMBUS
+>       select MAX31785
+>   
+> +config FBOBMC_AST
+> +    bool
+> +    select ASPEED_SOC
+> +    select TPM_TIS_SPI
+> +
+>   config MPS2
+>       bool
+>       imply I2C_DEVICES
+> diff --git a/hw/tpm/Kconfig b/hw/tpm/Kconfig
+> index 29e82f3c92..370a43f045 100644
+> --- a/hw/tpm/Kconfig
+> +++ b/hw/tpm/Kconfig
+> @@ -8,6 +8,11 @@ config TPM_TIS_SYSBUS
+>       depends on TPM
+>       select TPM_TIS
+>   
+> +config TPM_TIS_SPI
+> +    bool
+> +    depends on TPM
+> +    select TPM_TIS
+> +
+>   config TPM_TIS
+>       bool
+>       depends on TPM
+> diff --git a/hw/tpm/meson.build b/hw/tpm/meson.build
+> index 1c68d81d6a..1a057f4e36 100644
+> --- a/hw/tpm/meson.build
+> +++ b/hw/tpm/meson.build
+> @@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_TPM_TIS', if_true: files('tpm_tis_common.c'))
+>   softmmu_ss.add(when: 'CONFIG_TPM_TIS_ISA', if_true: files('tpm_tis_isa.c'))
+>   softmmu_ss.add(when: 'CONFIG_TPM_TIS_SYSBUS', if_true: files('tpm_tis_sysbus.c'))
+>   softmmu_ss.add(when: 'CONFIG_TPM_CRB', if_true: files('tpm_crb.c'))
+> +softmmu_ss.add(when: 'CONFIG_TPM_TIS_SPI', if_true: files('tpm_tis_spi.c'))
+>   
+>   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_TIS'], if_true: files('tpm_ppi.c'))
+>   specific_ss.add(when: ['CONFIG_SOFTMMU', 'CONFIG_TPM_CRB'], if_true: files('tpm_ppi.c'))
+> diff --git a/hw/tpm/tpm_tis_spi.c b/hw/tpm/tpm_tis_spi.c
+> new file mode 100644
+> index 0000000000..c98ddcfddb
+> --- /dev/null
+> +++ b/hw/tpm/tpm_tis_spi.c
+> @@ -0,0 +1,311 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/qdev-properties.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/acpi/tpm.h"
+> +#include "tpm_prop.h"
+> +#include "tpm_tis.h"
+> +#include "qom/object.h"
+> +#include "hw/ssi/ssi.h"
+> +#include "hw/ssi/spi_gpio.h"
+> +
+> +#define TPM_TIS_SPI_ADDR_BYTES 3
+> +#define SPI_WRITE 0
+> +
+> +typedef enum {
+> +    TIS_SPI_PKT_STATE_DEACTIVATED = 0,
+> +    TIS_SPI_PKT_STATE_START,
+> +    TIS_SPI_PKT_STATE_ADDRESS,
+> +    TIS_SPI_PKT_STATE_DATA_WR,
+> +    TIS_SPI_PKT_STATE_DATA_RD,
+> +    TIS_SPI_PKT_STATE_DONE,
+> +} TpmTisSpiPktState;
+> +
+> +union TpmTisRWSizeByte {
+> +    uint8_t byte;
+> +    struct {
+> +        uint8_t data_expected_size:6;
+> +        uint8_t resv:1;
+> +        uint8_t rwflag:1;
+> +    };
+> +};
+> +
+> +union TpmTisSpiHwAddr {
+> +    hwaddr addr;
+> +    uint8_t bytes[sizeof(hwaddr)];
+> +};
+> +
+> +union TpmTisSpiData {
+> +    uint32_t data;
+> +    uint8_t bytes[64];
+> +};
+> +
+> +struct TpmTisSpiState {
+> +    /*< private >*/
+> +    SSIPeripheral parent_obj;
+> +
+> +    /*< public >*/
+> +    TPMState tpm_state; /* not a QOM object */
+> +    TpmTisSpiPktState tpm_tis_spi_state;
+> +
+> +    union TpmTisRWSizeByte first_byte;
+> +    union TpmTisSpiHwAddr addr;
+> +    union TpmTisSpiData data;
 
-Weiwei Li
+Are these device registers ? I am not sure the unions are very useful.
 
+> +    uint32_t data_size;
+> +    uint8_t data_idx;
+> +    uint8_t addr_idx;
+> +};
 > +
-> +static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
-> +                                    target_ulong *val)
+> +struct TpmTisSpiClass {
+> +    SSIPeripheralClass parent_class;
+> +};
+> +
+> +OBJECT_DECLARE_TYPE(TpmTisSpiState, TpmTisSpiClass, TPM_TIS_SPI)
+> +
+> +static void tpm_tis_spi_mmio_read(TpmTisSpiState *tts)
 > +{
-> +    *val = env->vstimecmp;
+> +    uint16_t offset = tts->addr.addr & 0xffc;
 > +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
-> +                                    target_ulong *val)
-> +{
-> +    *val = env->vstimecmp >> 32;
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
-> +                                    target_ulong val)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +
-> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
-> +        env->vstimecmp = deposit64(env->vstimecmp, 0, 32, (uint64_t)val);
-> +    } else {
-> +        env->vstimecmp = val;
-> +    }
-> +
-> +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-> +                              env->htimedelta, MIP_VSTIP);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
-> +static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
-> +                                    target_ulong val)
-> +{
-> +    RISCVCPU *cpu = env_archcpu(env);
-> +
-> +    env->vstimecmp = deposit64(env->vstimecmp, 32, 32, (uint64_t)val);
-> +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
-> +                              env->htimedelta, MIP_VSTIP);
-> +
-> +    return RISCV_EXCP_NONE;
-> +}
-> +
->   static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
->                                       target_ulong *val)
->   {
-> -    *val = env->stimecmp;
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        *val = env->vstimecmp;
-> +    } else {
-> +        *val = env->stimecmp;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
->   static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
->                                       target_ulong *val)
->   {
-> -    *val = env->stimecmp >> 32;
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        *val = env->vstimecmp >> 32;
-> +    } else {
-> +        *val = env->stimecmp >> 32;
-> +    }
-> +
->       return RISCV_EXCP_NONE;
->   }
->   
-> @@ -852,6 +933,10 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
->   {
->       RISCVCPU *cpu = env_archcpu(env);
->   
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        return write_vstimecmp(env, csrno, val);
-> +    }
-> +
->       if (riscv_cpu_mxl(env) == MXL_RV32) {
->           env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
->       } else {
-> @@ -868,6 +953,10 @@ static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
->   {
->       RISCVCPU *cpu = env_archcpu(env);
->   
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        return write_vstimecmph(env, csrno, val);
-> +    }
-> +
->       env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
->       riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
->   
-> @@ -1805,6 +1894,7 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
->       if (csrno != CSR_HVIP) {
->           gin = get_field(env->hstatus, HSTATUS_VGEIN);
->           old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
-> +        old_mip |= env->vstime_irq ? MIP_VSTIP : 0;
->       }
->   
->       if (ret_val) {
-> @@ -3665,6 +3755,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->                                             .min_priv_ver = PRIV_VERSION_1_12_0 },
->       [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
->                                             .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_VSTIMECMP] = { "vstimecmp", sstc_hmode, read_vstimecmp,
-> +                                          write_vstimecmp,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
-> +    [CSR_VSTIMECMPH] = { "vstimecmph", sstc_hmode, read_vstimecmph,
-> +                                          write_vstimecmph,
-> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
->   
->       /* Supervisor Protection and Translation */
->       [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
-> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-> index 622fface484e..4ba55705d147 100644
-> --- a/target/riscv/machine.c
-> +++ b/target/riscv/machine.c
-> @@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
->           VMSTATE_UINTTL(env.hgeie, RISCVCPU),
->           VMSTATE_UINTTL(env.hgeip, RISCVCPU),
->           VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-> +        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
->   
->           VMSTATE_UINTTL(env.hvictl, RISCVCPU),
->           VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
-> diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-> index f3fb5eac7b7b..8cce667dfd47 100644
-> --- a/target/riscv/time_helper.c
-> +++ b/target/riscv/time_helper.c
-> @@ -22,6 +22,14 @@
->   #include "time_helper.h"
->   #include "hw/intc/riscv_aclint.h"
->   
-> +static void riscv_vstimer_cb(void *opaque)
-> +{
-> +    RISCVCPU *cpu = opaque;
-> +    CPURISCVState *env = &cpu->env;
-> +    env->vstime_irq = 1;
-> +    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
-> +}
-> +
->   static void riscv_stimer_cb(void *opaque)
->   {
->       RISCVCPU *cpu = opaque;
-> @@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
->            * If we're setting an stimecmp value in the "past",
->            * immediately raise the timer interrupt
->            */
-> +        if (timer_irq == MIP_VSTIP) {
-> +            env->vstime_irq = 1;
+> +    switch (offset) {
+> +    case TPM_TIS_REG_DATA_FIFO:
+> +        for (uint8_t i = 0; i < tts->data_size; i++) {
+> +            tts->data.bytes[i] = (uint8_t)tpm_tis_memory_ops.read(
+
+
+you should add an address space for these memory transactions. Look for
+address_space_read/write calls, in the Aspeed I2C model for example.
+
+> +                                          &tts->tpm_state,
+> +                                          tts->addr.addr,
+> +                                          1);
 > +        }
->           riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
->           return;
->       }
->   
-> +    if (timer_irq == MIP_VSTIP) {
-> +        env->vstime_irq = 0;
+> +        break;
+> +    default:
+> +        tts->data.data = (uint32_t)tpm_tis_memory_ops.read(
+> +                                   &tts->tpm_state,
+> +                                   tts->addr.addr,
+> +                                   tts->data_size);
 > +    }
->       /* Clear the [V]STIP bit in mip */
->       riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
+> +}
+> +
+> +static void tpm_tis_spi_mmio_write(TpmTisSpiState *tts)
+> +{
+> +    uint16_t offset = tts->addr.addr & 0xffc;
+> +
+> +    switch (offset) {
+> +    case TPM_TIS_REG_DATA_FIFO:
+> +        for (uint8_t i = 0; i < tts->data_size; i++) {
+> +            tpm_tis_memory_ops.write(&tts->tpm_state,
+> +                                     tts->addr.addr,
+> +                                     tts->data.bytes[i],
+> +                                     1);
+> +        }
+> +        break;
+> +    default:
+> +        tpm_tis_memory_ops.write(&tts->tpm_state,
+> +                                 tts->addr.addr,
+> +                                 tts->data.data,
+> +                                 tts->data_size);
+> +        }
+> +}
+> +
+> +static uint32_t tpm_tis_spi_transfer8(SSIPeripheral *ss, uint32_t tx)
+> +{
+> +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> +    uint32_t r = 1;
+> +
+> +    switch (tts->tpm_tis_spi_state) {
+> +    case TIS_SPI_PKT_STATE_START:
+> +        tts->first_byte.byte = (uint8_t)tx;
+> +        tts->data_size = tts->first_byte.data_expected_size + 1;
+> +        tts->data_idx = 0;
+> +        tts->addr_idx = TPM_TIS_SPI_ADDR_BYTES;
+> +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_ADDRESS;
+> +        break;
+> +    case TIS_SPI_PKT_STATE_ADDRESS:
+> +        assert(tts->addr_idx > 0);
+> +        tts->addr.bytes[--tts->addr_idx] = (uint8_t)tx;
+> +
+> +        if (tts->addr_idx == 0) {
+> +            if (tts->first_byte.rwflag == SPI_WRITE) {
+> +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_WR;
+> +            } else { /* read and get the data ready */
+> +                tpm_tis_spi_mmio_read(tts);
+> +                tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DATA_RD;
+> +            }
+> +        }
+> +        break;
+> +    case TIS_SPI_PKT_STATE_DATA_WR:
+> +        tts->data.bytes[tts->data_idx++] = (uint8_t)tx;
+> +        if (tts->data_idx == tts->data_size) {
+> +            tpm_tis_spi_mmio_write(tts);
+> +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
+> +        }
+> +        break;
+> +    case TIS_SPI_PKT_STATE_DATA_RD:
+> +        r = tts->data.bytes[tts->data_idx++];
+> +        if (tts->data_idx == tts->data_size) {
+> +            tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DONE;
+> +        }
+> +        break;
+> +    default:
+> +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
+> +        r = (uint32_t) -1;
+> +    }
+> +
+> +    return r;
+> +}
+> +
+> +/*
+> + * Pre-reading logic for transfer:
+> + * This is to fix the transaction between reading and writing.
+> + * The first byte is arbitrarily inserted so we need to
+> + * shift the all the output bytes (timeline) one byte right.
+> + */
+> +static uint32_t tpm_tis_spi_transfer8_ex(SSIPeripheral *ss, uint32_t tx)
+> +{
+> +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> +    SSIBus *ssibus = (SSIBus *)qdev_get_parent_bus(DEVICE(tts));
+> +
+> +    TpmTisSpiPktState prev_state = tts->tpm_tis_spi_state;
+> +    uint32_t r = tpm_tis_spi_transfer8(ss, tx);
+> +    TpmTisSpiPktState curr_state = tts->tpm_tis_spi_state;
+> +
+> +    if (ssibus->preread &&
+> +       /* cmd state has changed into DATA reading state */
+> +       prev_state != TIS_SPI_PKT_STATE_DATA_RD &&
+> +       curr_state == TIS_SPI_PKT_STATE_DATA_RD) {
+> +        r = tpm_tis_spi_transfer8(ss, 0xFF);
+> +    }
+> +
+> +    return r;
+> +}
+> +
+> +static int tpm_tis_spi_cs(SSIPeripheral *ss, bool select)
+> +{
+> +    TpmTisSpiState *tts = TPM_TIS_SPI(ss);
+> +
+> +    if (select) { /* cs de-assert */
+> +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_DEACTIVATED;
+> +    } else {
+> +        tts->tpm_tis_spi_state = TIS_SPI_PKT_STATE_START;
+> +        tts->first_byte.byte = 0;
+> +        tts->addr.addr = 0;
+> +        tts->data.data = 0;
+> +    }
+> +
+> +    return 0;
+> +}
+> +
+> +static int tpm_tis_pre_save_spi(void *opaque)
+> +{
+> +    TpmTisSpiState *sbdev = opaque;
+> +
+> +    return tpm_tis_pre_save(&sbdev->tpm_state);
+> +}
+> +
+> +static const VMStateDescription vmstate_tpm_tis_spi = {
+> +    .name = "tpm-tis-spi",
+> +    .version_id = 0,
+> +    .pre_save  = tpm_tis_pre_save_spi,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_BUFFER(tpm_state.buffer, TpmTisSpiState),
+> +        VMSTATE_UINT16(tpm_state.rw_offset, TpmTisSpiState),
+> +        VMSTATE_UINT8(tpm_state.active_locty, TpmTisSpiState),
+> +        VMSTATE_UINT8(tpm_state.aborting_locty, TpmTisSpiState),
+> +        VMSTATE_UINT8(tpm_state.next_locty, TpmTisSpiState),
+> +
+> +        VMSTATE_STRUCT_ARRAY(tpm_state.loc, TpmTisSpiState, TPM_TIS_NUM_LOCALITIES,
+> +                             0, vmstate_locty, TPMLocality),
+> +
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void tpm_tis_spi_request_completed(TPMIf *ti, int ret)
+> +{
+> +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
+> +    TPMState *s = &sbdev->tpm_state;
+> +
+> +    tpm_tis_request_completed(s, ret);
+> +}
+> +
+> +static enum TPMVersion tpm_tis_spi_get_tpm_version(TPMIf *ti)
+> +{
+> +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ti);
+> +    TPMState *s = &sbdev->tpm_state;
+> +
+> +    return tpm_tis_get_tpm_version(s);
+> +}
+> +
+> +static void tpm_tis_spi_reset(DeviceState *dev)
+> +{
+> +    TpmTisSpiState *sbdev = TPM_TIS_SPI(dev);
+> +    TPMState *s = &sbdev->tpm_state;
+> +
+> +    return tpm_tis_reset(s);
+> +}
+> +
+> +static Property tpm_tis_spi_properties[] = {
+> +    DEFINE_PROP_UINT32("irq", TpmTisSpiState, tpm_state.irq_num, TPM_TIS_IRQ),
+> +    DEFINE_PROP_TPMBE("tpmdev", TpmTisSpiState, tpm_state.be_driver),
+> +    DEFINE_PROP_BOOL("ppi", TpmTisSpiState, tpm_state.ppi_enabled, false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void tpm_tis_spi_realizefn(SSIPeripheral *ss, Error **errp)
+> +{
+> +    TpmTisSpiState *sbdev = TPM_TIS_SPI(ss);
+> +
+> +    if (!tpm_find()) {
+> +        error_setg(errp, "at most one TPM device is permitted");
+> +        return;
+> +    }
+> +
+> +    if (!sbdev->tpm_state.be_driver) {
+> +        error_setg(errp, "'tpmdev' property is required");
+> +        return;
+> +    }
+> +
+> +    DeviceState *spi_gpio = qdev_find_recursive(sysbus_get_default(),
+> +                                                TYPE_SPI_GPIO);
+> +    qdev_connect_gpio_out_named(spi_gpio,
+> +                                "SPI_CS_out", 0,
+> +                                qdev_get_gpio_in_named(DEVICE(ss),
+> +                                SSI_GPIO_CS, 0));
+Typically, this part is done at the machine/board level because it
+has knowledge of all devices but it is possible with the TPM devices?
+
+How do you invoke QEMU ?
+
+Thanks,
+
+C.
+
+> +}
+> +
+> +static void tpm_tis_spi_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(klass);
+> +    SSIPeripheralClass *k = SSI_PERIPHERAL_CLASS(klass);
+> +    TPMIfClass *tc = TPM_IF_CLASS(klass);
+> +
+> +    device_class_set_props(dc, tpm_tis_spi_properties);
+> +    k->realize = tpm_tis_spi_realizefn;
+> +    k->transfer = tpm_tis_spi_transfer8_ex;
+> +    k->set_cs = tpm_tis_spi_cs;
+> +    k->cs_polarity = SSI_CS_LOW;
+> +
+> +    dc->vmsd  = &vmstate_tpm_tis_spi;
+> +    tc->model = TPM_MODEL_TPM_TIS;
+> +    dc->user_creatable = true;
+> +    dc->reset = tpm_tis_spi_reset;
+> +    tc->request_completed = tpm_tis_spi_request_completed;
+> +    tc->get_version = tpm_tis_spi_get_tpm_version;
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +}
+> +
+> +static const TypeInfo tpm_tis_spi_info = {
+> +    .name = TYPE_TPM_TIS_SPI,
+> +    .parent = TYPE_SSI_PERIPHERAL,
+> +    .instance_size = sizeof(TpmTisSpiState),
+> +    .class_size = sizeof(TpmTisSpiClass),
+> +    .class_init  = tpm_tis_spi_class_init,
+> +    .interfaces = (InterfaceInfo[]) {
+> +        { TYPE_TPM_IF },
+> +        { }
+> +    }
+> +};
+> +
+> +static void tpm_tis_spi_register(void)
+> +{
+> +    type_register_static(&tpm_tis_spi_info);
+> +}
+> +
+> +type_init(tpm_tis_spi_register)
+> diff --git a/include/sysemu/tpm.h b/include/sysemu/tpm.h
+> index fb40e30ff6..6a6b311e47 100644
+> --- a/include/sysemu/tpm.h
+> +++ b/include/sysemu/tpm.h
+> @@ -46,6 +46,7 @@ struct TPMIfClass {
 >   
-> @@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
->       env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
->       env->stimecmp = 0;
+>   #define TYPE_TPM_TIS_ISA            "tpm-tis"
+>   #define TYPE_TPM_TIS_SYSBUS         "tpm-tis-device"
+> +#define TYPE_TPM_TIS_SPI            "tpm-tis-spi-device"
+>   #define TYPE_TPM_CRB                "tpm-crb"
+>   #define TYPE_TPM_SPAPR              "tpm-spapr"
 >   
-> +    env->vstimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_cb, cpu);
-> +    env->vstimecmp = 0;
->   }
+> @@ -53,6 +54,8 @@ struct TPMIfClass {
+>       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_ISA)
+>   #define TPM_IS_TIS_SYSBUS(chr)                      \
+>       object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SYSBUS)
+> +#define TPM_IS_TIS_SPI(chr)                      \
+> +    object_dynamic_cast(OBJECT(chr), TYPE_TPM_TIS_SPI)
+>   #define TPM_IS_CRB(chr)                             \
+>       object_dynamic_cast(OBJECT(chr), TYPE_TPM_CRB)
+>   #define TPM_IS_SPAPR(chr)                           \
 
 
