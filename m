@@ -2,74 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82EFF589491
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 00:52:08 +0200 (CEST)
-Received: from localhost ([::1]:50966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31435894A0
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:07:01 +0200 (CEST)
+Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJNDj-0000eC-4n
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 18:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43072)
+	id 1oJNS8-0004hX-B4
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
- id 1oJNCf-0007hZ-QK
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:51:01 -0400
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:56856)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJNPX-0001yw-5j; Wed, 03 Aug 2022 19:04:19 -0400
+Received: from zero.eik.bme.hu ([152.66.115.2]:65393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
- id 1oJNCd-0006D1-Kh
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:51:01 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 76E4E61589;
- Wed,  3 Aug 2022 22:50:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8B22C433D6;
- Wed,  3 Aug 2022 22:50:54 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Ef9YMf0K"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659567052;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LTyfEeO9m1KFrXGl4270txc6Nr3v53BZLdMSL0IIQRk=;
- b=Ef9YMf0KczdRHsV0iUdGZveBHMm1OvFzMqT5Xeagyx44fwS5q2AAnk2Fz7zGQDSSBidCUf
- pUByTcevdvzDqIHIHjyDCTR1CThK1ElyAcD/jHxpon5R41GKi/0jSvLKGtX4DeFfNyha4c
- Xk+OOR08ADwUsEF2OYJvwPo31dysTIQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c703dd86
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 3 Aug 2022 22:50:52 +0000 (UTC)
-Date: Thu, 4 Aug 2022 00:50:50 +0200
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
- linux-efi@vger.kernel.org
-Subject: Re: [PATCH RFC v1] hw/i386: place setup_data at fixed place in memory
-Message-ID: <Yur7ypNrSv8eO9/Q@zx2c4.com>
-References: <20220803170235.1312978-1-Jason@zx2c4.com>
- <20220803182340-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1oJNPT-0000Gd-GM; Wed, 03 Aug 2022 19:04:17 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 50629747E0F;
+ Thu,  4 Aug 2022 01:04:10 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id F21A87461AE; Thu,  4 Aug 2022 01:04:09 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id F0533745702;
+ Thu,  4 Aug 2022 01:04:09 +0200 (CEST)
+Date: Thu, 4 Aug 2022 01:04:09 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
+cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v2 12/20] ppc/ppc405: QOM'ify EBC
+In-Reply-To: <20220803132844.2370514-13-clg@kaod.org>
+Message-ID: <91bae6f7-1e68-6bf3-e2f-b31a5a78f2d@eik.bme.hu>
+References: <20220803132844.2370514-1-clg@kaod.org>
+ <20220803132844.2370514-13-clg@kaod.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220803182340-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-261452012-1659567849=:13819"
+X-Spam-Probability: 11%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,28 +62,227 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Wed, Aug 03, 2022 at 06:25:39PM -0400, Michael S. Tsirkin wrote:
-> > -    /* Offset 0x250 is a pointer to the first setup_data link. */
-> > -    stq_p(header + 0x250, first_setup_data);
-> > +    if (first_setup_data) {
-> > +            /* Offset 0x250 is a pointer to the first setup_data link. */
-> > +            stq_p(header + 0x250, first_setup_data);
-> > +            rom_add_blob("setup_data", setup_datas, setup_data_total_len, setup_data_total_len,
-> > +                         SETUP_DATA_PHYS_BASE, NULL, NULL, NULL, NULL, false);
-> > +    }
-> > +
-> >
-> 
-> Allocating memory on x86 is tricky business.  Can we maybe use bios-linker-loader
-> with COMMAND_WRITE_POINTER to get an address from firmware?
+--3866299591-261452012-1659567849=:13819
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-Hmm. Is BIOSLinker even available to us at this stage in preparation?
+On Wed, 3 Aug 2022, Cédric Le Goater wrote:
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+> hw/ppc/ppc405.h    | 16 +++++++++++
+> hw/ppc/ppc405_uc.c | 71 +++++++++++++++++++++++++++++++---------------
+> 2 files changed, 64 insertions(+), 23 deletions(-)
+>
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index 1da34a7f10f3..1c7fe07b8084 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -65,7 +65,22 @@ struct ppc4xx_bd_info_t {
+>
+> typedef struct Ppc405SoCState Ppc405SoCState;
+>
+> +/* Peripheral controller */
+> +#define TYPE_PPC405_EBC "ppc405-ebc"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405EbcState, PPC405_EBC);
+> +struct Ppc405EbcState {
+> +    DeviceState parent_obj;
+> +
+> +    PowerPCCPU *cpu;
+>
+> +    uint32_t addr;
+> +    uint32_t bcr[8];
+> +    uint32_t bap[8];
+> +    uint32_t bear;
+> +    uint32_t besr0;
+> +    uint32_t besr1;
+> +    uint32_t cfg;
+> +};
+>
+> /* DMA controller */
+> #define TYPE_PPC405_DMA "ppc405-dma"
+> @@ -203,6 +218,7 @@ struct Ppc405SoCState {
+>     Ppc405OcmState ocm;
+>     Ppc405GpioState gpio;
+>     Ppc405DmaState dma;
+> +    Ppc405EbcState ebc;
+> };
+>
+> /* PowerPC 405 core */
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 6bd93c1cb90c..0166f3fc36da 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -393,17 +393,6 @@ static void ppc4xx_opba_init(hwaddr base)
+>
+> /*****************************************************************************/
+> /* Peripheral controller */
+> -typedef struct ppc4xx_ebc_t ppc4xx_ebc_t;
+> -struct ppc4xx_ebc_t {
+> -    uint32_t addr;
+> -    uint32_t bcr[8];
+> -    uint32_t bap[8];
+> -    uint32_t bear;
+> -    uint32_t besr0;
+> -    uint32_t besr1;
+> -    uint32_t cfg;
+> -};
+> -
+> enum {
+>     EBC0_CFGADDR = 0x012,
+>     EBC0_CFGDATA = 0x013,
+> @@ -411,10 +400,9 @@ enum {
+>
+> static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+> {
+> -    ppc4xx_ebc_t *ebc;
+> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>     uint32_t ret;
+>
+> -    ebc = opaque;
 
-One thing to note is that this memory doesn't really need to be
-persistent. It's only used extreeeemely early in boot. So it could be
-somewhere that gets used/remapped later on.
+I think QOM casts are kind of expensive (maybe because we have quo-debug 
+enabled by default even without --enable-debug and it does additional 
+checks; I've tried to change this default once but it was thought to be 
+better to have it enabled). So it's advised to use QOM casts sparingly, 
+e.g. store the result in a local variable if you need it more than once 
+and so. Therefore I tend to consider these read/write callbacks that the 
+object itself registers with itself as the opaque pointer to be internal 
+to the object and guaranteed to be passed the object pointer so no QOM 
+cast is necessary and the direct assignment can be kept. This avoids 
+potential overhead on every register access. Not sure if it's measurable 
+but I think if an overhead can be avoided it probably should be.
 
-Jason
+>     switch (dcrn) {
+>     case EBC0_CFGADDR:
+>         ret = ebc->addr;
+> @@ -496,9 +484,8 @@ static uint32_t dcr_read_ebc (void *opaque, int dcrn)
+>
+> static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+> {
+> -    ppc4xx_ebc_t *ebc;
+> +    Ppc405EbcState *ebc = PPC405_EBC(opaque);
+>
+> -    ebc = opaque;
+>     switch (dcrn) {
+>     case EBC0_CFGADDR:
+>         ebc->addr = val;
+> @@ -554,12 +541,11 @@ static void dcr_write_ebc (void *opaque, int dcrn, uint32_t val)
+>     }
+> }
+>
+> -static void ebc_reset (void *opaque)
+> +static void ppc405_ebc_reset(DeviceState *dev)
+> {
+> -    ppc4xx_ebc_t *ebc;
+> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+
+In this case the cast is OK as it's casting a different object so it's 
+needed and also it's infrequently called so should not matter.
+
+>     int i;
+>
+> -    ebc = opaque;
+>     ebc->addr = 0x00000000;
+>     ebc->bap[0] = 0x7F8FFE80;
+>     ebc->bcr[0] = 0xFFE28000;
+> @@ -572,18 +558,46 @@ static void ebc_reset (void *opaque)
+>     ebc->cfg = 0x80400000;
+> }
+>
+> -void ppc405_ebc_init(CPUPPCState *env)
+> +static void ppc405_ebc_realize(DeviceState *dev, Error **errp)
+> {
+> -    ppc4xx_ebc_t *ebc;
+> +    Ppc405EbcState *ebc = PPC405_EBC(dev);
+> +    CPUPPCState *env;
+> +
+> +    assert(ebc->cpu);
+> +
+> +    env = &ebc->cpu->env;
+>
+> -    ebc = g_new0(ppc4xx_ebc_t, 1);
+> -    qemu_register_reset(&ebc_reset, ebc);
+>     ppc_dcr_register(env, EBC0_CFGADDR,
+>                      ebc, &dcr_read_ebc, &dcr_write_ebc);
+>     ppc_dcr_register(env, EBC0_CFGDATA,
+>                      ebc, &dcr_read_ebc, &dcr_write_ebc);
+> }
+>
+> +static Property ppc405_ebc_properties[] = {
+> +    DEFINE_PROP_LINK("cpu", Ppc405EbcState, cpu, TYPE_POWERPC_CPU,
+> +                     PowerPCCPU *),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void ppc405_ebc_class_init(ObjectClass *oc, void *data)
+> +{
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+> +
+> +    dc->realize = ppc405_ebc_realize;
+> +    dc->user_creatable = false;
+> +    dc->reset = ppc405_ebc_reset;
+> +    device_class_set_props(dc, ppc405_ebc_properties);
+> +}
+> +
+> +void ppc405_ebc_init(CPUPPCState *env)
+> +{
+> +    PowerPCCPU *cpu = env_archcpu(env);
+> +    DeviceState *dev = qdev_new(TYPE_PPC405_EBC);
+> +
+> +    object_property_set_link(OBJECT(cpu), "cpu", OBJECT(dev), &error_abort);
+> +    qdev_realize_and_unref(dev, NULL, &error_fatal);
+> +}
+> +
+> /*****************************************************************************/
+> /* DMA controller */
+> enum {
+> @@ -1418,6 +1432,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>     object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+>
+>     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
+> +
+> +    object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
+> }
+>
+> static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> @@ -1490,7 +1506,11 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>                       s->ram_bases, s->ram_sizes, s->do_dram_init);
+>
+>     /* External bus controller */
+> -    ppc405_ebc_init(env);
+> +    object_property_set_link(OBJECT(&s->ebc), "cpu", OBJECT(&s->cpu),
+> +                             &error_abort);
+
+I wonder if this link to cpu could be avoided somehow? Maybe assuming that 
+this device and the cpu is part of the same SoC it could get it's parent 
+and access the cpu field of the parent or if that's not possible adding a 
+method to the SoC to get it could avoid this link?
+
+Regards,
+BALATON Zoltan
+
+> +    if (!qdev_realize(DEVICE(&s->ebc), NULL, errp)) {
+> +        return;
+> +    }
+>
+>     /* DMA controller */
+>     object_property_set_link(OBJECT(&s->dma), "cpu", OBJECT(&s->cpu),
+> @@ -1576,6 +1596,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+>
+> static const TypeInfo ppc405_types[] = {
+>     {
+> +        .name           = TYPE_PPC405_EBC,
+> +        .parent         = TYPE_DEVICE,
+> +        .instance_size  = sizeof(Ppc405EbcState),
+> +        .class_init     = ppc405_ebc_class_init,
+> +    }, {
+>         .name           = TYPE_PPC405_DMA,
+>         .parent         = TYPE_SYS_BUS_DEVICE,
+>         .instance_size  = sizeof(Ppc405DmaState),
+>
+--3866299591-261452012-1659567849=:13819--
 
