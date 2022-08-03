@@ -2,49 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706B3588A97
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:32:04 +0200 (CEST)
-Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E1D8588ABA
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:44:31 +0200 (CEST)
+Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJBfW-0002SP-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:32:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
+	id 1oJBrZ-0001uN-Te
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1oJBaD-0007aP-0h; Wed, 03 Aug 2022 06:26:33 -0400
-Received: from imap4.hz.codethink.co.uk ([188.40.203.114]:57254)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oJBdv-00015b-Rb
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:25 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:49473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
- id 1oJBa9-00033j-Kp; Wed, 03 Aug 2022 06:26:31 -0400
-Received: from [167.98.27.226] (helo=[10.35.5.6])
- by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
- id 1oJBZy-008r0c-FJ; Wed, 03 Aug 2022 11:26:18 +0100
-Message-ID: <57873d3b-dd78-2bcc-7e28-a7aec0bbf24e@codethink.co.uk>
-Date: Wed, 3 Aug 2022 11:26:17 +0100
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1oJBdu-0003mo-6p
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:23 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id 63C7F5C0181;
+ Wed,  3 Aug 2022 06:30:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 03 Aug 2022 06:30:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+ :message-id:mime-version:reply-to:sender:subject:subject:to:to;
+ s=fm1; t=1659522618; x=1659609018; bh=z1ajvREF0nx6a97szJkSoShta
+ bCykHY4eJf409fzACc=; b=JheQWr+v6kYyemfpPIZA8uFligu61n+CMgvM9Vl2t
+ UbrtjejdyswgTsxrRgnkaXguGTI2sOL2SK6wQOREefs4JOKp+u3AxAla6OfSGQlA
+ 9rp3G9pEpwPbSMNVwmXRLA+V0wVfRjy2oYoz9r1YSIhd0GllKhj2p73BkjKGgUxH
+ igO2O5oYXEYAwQ5IWK8uxi2s2lplEYPzI8RoaOk+I3jqYl5m2tFkByX+qky+1zE1
+ KygRlXMYLhSrwBT17yXFT2Q9Ihve3Fl4xF92JlHqG6KXxAVrpfaXveijJ59sXxut
+ xRX6ZZfRr8QV3RI6SevZOfwBbQeObHCyYzvC3F9TcqXDQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+ :feedback-id:feedback-id:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+ 1659522618; x=1659609018; bh=z1ajvREF0nx6a97szJkSoShtabCykHY4eJf
+ 409fzACc=; b=FQmrUmd2BzAoT93hU9XU09gEsnqlC9keumxaSq1h2Ew/SF04dy/
+ d6eXooIyLKlOqGZocJ22OPqzUPOV1zuUt6pNaks6hpwLwBP1LTurAjAYSNXO9Wzl
+ fVzHI95DGWTgztWfe9uFqXqcq+Wr4dnTv7AAYzNDBjvipBPOyna9ETCn53RVKMqU
+ 7VnWGXRTOt13d5w38/hXo0MGuD0MhKDoeUvrlzxJYLpv0qxm5K+1aKZnjmuJfiJF
+ Fr+RDwxw7VOS0O3T2NxMWYhdiJh8DY8hVRDqNANyZtzehs7Ln1r+zirBvED2zqeM
+ tMrdQQvhTnAY9KPvOOv8H9WMA3CG91tFRQQ==
+X-ME-Sender: <xms:Ok7qYnijWIeBMUXsl_8xoV7nFrxVO7yW2B4in1g8vQZ4bXYqysR8IQ>
+ <xme:Ok7qYkCGMU7BLmC2s2SoiT-WZKnsX-b1nrFBjwPSfFKJcYwxiF47jYHeJ8NDbjwhk
+ 0T8jTdxPIbXsamAvj4>
+X-ME-Received: <xmr:Ok7qYnEBFATkdUZWddnH4yIGSgGiMWHBlZjbWsxSqXbRYot0-1OBsBppeV5yktlbnOSpUcTNipDHn52kDW4fpr4uhGN8u55Tvy81TKrWHFKlquqiScv6qhHy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgvdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
+ ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
+ fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
+ ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
+ tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
+ grthdrtghomh
+X-ME-Proxy: <xmx:Ok7qYkSP30wso527klSACz7ApHShFgp2xczUDZVoWstDzUH1ohWB4w>
+ <xmx:Ok7qYkzc2tx7eacDU63IPI6YQc_oJc3gtMfyRSKa99Rkg2lFH_6WxA>
+ <xmx:Ok7qYq6wEiqx4j3zSnBZiiRous9YxGhE3tfZ6Rwn1LNSfgFnPWcoZg>
+ <xmx:Ok7qYv-m0C5WUI_aDPtd0FmZf7mk_F8HkgCRs3UVboem7jFG0IK7Kw>
+Feedback-ID: ifd894703:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Aug 2022 06:30:17 -0400 (EDT)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: laurent@vivier.eu
+Cc: f4bug@amsat.org, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 0/2] linux-user: AT_BASE_PLATFORM for MIPS
+Date: Wed,  3 Aug 2022 11:30:07 +0100
+Message-Id: <20220803103009.95972-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v7 2/3] target/riscv: Add stimecmp support
-Content-Language: en-GB
-To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- qemu-riscv@nongnu.org
-References: <20220803082516.2271344-1-atishp@rivosinc.com>
- <20220803082516.2271344-3-atishp@rivosinc.com>
-From: Ben Dooks <ben.dooks@codethink.co.uk>
-Organization: Codethink Limited.
-In-Reply-To: <20220803082516.2271344-3-atishp@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=188.40.203.114;
- envelope-from=ben.dooks@codethink.co.uk; helo=imap4.hz.codethink.co.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,162 +99,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/2022 09:25, Atish Patra wrote:
-> stimecmp allows the supervisor mode to update stimecmp CSR directly
-> to program the next timer interrupt. This CSR is part of the Sstc
-> extension which was ratified recently.
-> 
-> Signed-off-by: Atish Patra <atishp@rivosinc.com>
-> ---
->   target/riscv/cpu.c         | 12 +++++
->   target/riscv/cpu.h         |  5 ++
->   target/riscv/cpu_bits.h    |  4 ++
->   target/riscv/csr.c         | 81 +++++++++++++++++++++++++++++++
->   target/riscv/machine.c     |  1 +
->   target/riscv/meson.build   |  3 +-
->   target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
->   target/riscv/time_helper.h | 30 ++++++++++++
->   8 files changed, 233 insertions(+), 1 deletion(-)
->   create mode 100644 target/riscv/time_helper.c
->   create mode 100644 target/riscv/time_helper.h
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index d4635c7df46b..e0c3e786849f 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -23,6 +23,7 @@
->   #include "qemu/log.h"
->   #include "cpu.h"
->   #include "internals.h"
-> +#include "time_helper.h"
->   #include "exec/exec-all.h"
->   #include "qapi/error.h"
->   #include "qemu/error-report.h"
-> @@ -99,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
->       ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
->       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
->       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
-> +    ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
->       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
->       ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
->       ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
-> @@ -675,6 +677,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->   
->       set_resetvec(env, cpu->cfg.resetvec);
->   
-> +#ifndef CONFIG_USER_ONLY
-> +    if (cpu->cfg.ext_sstc) {
-> +        riscv_timer_init(cpu);
-> +    }
-> +#endif /* CONFIG_USER_ONLY */
-> +
-> +
->       /* Validate that MISA_MXL is set properly. */
->       switch (env->misa_mxl_max) {
->   #ifdef TARGET_RISCV64
-> @@ -968,7 +977,9 @@ static void riscv_cpu_init(Object *obj)
->   #ifndef CONFIG_USER_ONLY
->       qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
->                         IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
-> +
->   #endif /* CONFIG_USER_ONLY */
-> +
->   }
->   
->   static Property riscv_cpu_extensions[] = {
-> @@ -995,6 +1006,7 @@ static Property riscv_cpu_extensions[] = {
->       DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
->       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
->       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
-> +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
->   
->       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
->       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 0fae1569945c..4cda2905661e 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -309,6 +309,9 @@ struct CPUArchState {
->       uint64_t mfromhost;
->       uint64_t mtohost;
->   
-> +    /* Sstc CSRs */
-> +    uint64_t stimecmp;
-> +
->       /* physical memory protection */
->       pmp_table_t pmp_state;
->       target_ulong mseccfg;
-> @@ -362,6 +365,7 @@ struct CPUArchState {
->       float_status fp_status;
->   
->       /* Fields from here on are preserved across CPU reset. */
-> +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
->   
->       hwaddr kernel_addr;
->       hwaddr fdt_addr;
-> @@ -425,6 +429,7 @@ struct RISCVCPUConfig {
->       bool ext_ifencei;
->       bool ext_icsr;
->       bool ext_zihintpause;
-> +    bool ext_sstc;
->       bool ext_svinval;
->       bool ext_svnapot;
->       bool ext_svpbmt;
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 6be5a9e9f046..ac17cf1515c0 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -206,6 +206,10 @@
->   #define CSR_STVAL           0x143
->   #define CSR_SIP             0x144
->   
-> +/* Sstc supervisor CSRs */
-> +#define CSR_STIMECMP        0x14D
-> +#define CSR_STIMECMPH       0x15D
-> +
->   /* Supervisor Protection and Translation */
->   #define CSR_SPTBR           0x180
->   #define CSR_SATP            0x180
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 0fb042b2fd0f..b71e2509b64f 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -22,6 +22,7 @@
->   #include "qemu/timer.h"
->   #include "cpu.h"
->   #include "pmu.h"
-> +#include "time_helper.h"
->   #include "qemu/main-loop.h"
->   #include "exec/exec-all.h"
->   #include "sysemu/cpu-timers.h"
-> @@ -803,6 +804,76 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
->       return RISCV_EXCP_NONE;
->   }
->   
-> +static RISCVException sstc(CPURISCVState *env, int csrno)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    RISCVCPU *cpu = RISCV_CPU(cs);
-> +
-> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
-> +
-> +    if (env->priv == PRV_M) {
-> +        return RISCV_EXCP_NONE;
-> +    }
-> +
-> +    if (env->priv != PRV_S) {
-> +        return RISCV_EXCP_ILLEGAL_INST;
-> +    }
+Hi all,
 
-These seem to be checking env->priv twice, wouldnt
-one check for nv->priv != PRV_S be sufficient?
+This series properly filled AT_BASE_PLATFORM of MIPS.
+There is a checkpatch error about braces after if statement,
+I intentionally left it for style consistency.
 
+v2: Commit meesage rewording (philmd)
+
+Thanks.
+- Jiaxun
+
+Jiaxun Yang (2):
+  linux-user: Introduce stubs for ELF AT_BASE_PLATFORM
+  linux-user: Set ELF_BASE_PLATFORM for MIPS
+
+ linux-user/elfload.c | 60 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 58 insertions(+), 2 deletions(-)
 
 -- 
-Ben Dooks				http://www.codethink.co.uk/
-Senior Engineer				Codethink - Providing Genius
+2.32.1 (Apple Git-133)
 
-https://www.codethink.co.uk/privacy.html
 
