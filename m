@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72F1588E15
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:58:43 +0200 (CEST)
-Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C966B588E31
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 16:04:19 +0200 (CEST)
+Received: from localhost ([::1]:47338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJEtU-00076V-Qk
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:58:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56062)
+	id 1oJEyw-0006Ym-O5
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 10:04:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJEgi-0003Di-Gz; Wed, 03 Aug 2022 09:45:28 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:33477)
+ (Exim 4.90_1) (envelope-from <sheindy33@gmail.com>)
+ id 1oJ94j-0003Uj-IR
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 03:45:54 -0400
+Received: from mail-yw1-x1129.google.com ([2607:f8b0:4864:20::1129]:38630)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJEgh-0004ug-07; Wed, 03 Aug 2022 09:45:28 -0400
-Received: by mail-ua1-x929.google.com with SMTP id z5so3030121uav.0;
- Wed, 03 Aug 2022 06:45:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <sheindy33@gmail.com>)
+ id 1oJ94h-0002ii-W7
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 03:45:53 -0400
+Received: by mail-yw1-x1129.google.com with SMTP id
+ 00721157ae682-31f41584236so163196837b3.5
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 00:45:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc;
- bh=tl9Z8luQcwSh6QRgPGjf321Es9TY+GefKufsOtFTomE=;
- b=R9PkPcKWwk7MgyCTfIhGWm9O4aUS9m6vMxpqUVElvWjP9SRzUVuUdjYZDFUJueFVYc
- +aWfaYJD6NwvKVY+4PLXWr42R9vb3O74tpXNUanvhJBCpP8vpj2MlAn+K+n0Y4gRXJJF
- BNaoFBJY+MfWsoA9fMUbpCAHNcw/p0k9mwdo7i9sJZ8CDC6IQGrbK5kgxuk7qnQowjRY
- xAQZOWgwk0ez+1cwHSGAOtDYGeJ/Z19Ad+QgsNxlNNaLV4clavb1PtgLOhQuYBGQwyjZ
- CnAtsKMqk8GXOlS49/fNBqoTivG5CL1xtvrF2YOJMJLLjF8une3LmXgSvsSHWBEkQAyb
- u7ow==
+ h=to:subject:message-id:date:from:mime-version:from:to:cc;
+ bh=Rkm9nhg6OX6fNTau+4UKQ41fzc5b8P/fOqWikqVEAPA=;
+ b=W2uKclCnva2ppVqEWk00pVKz76WuDAbqIET8dQa8umqpyOUcZZtMksOp34CdSZM2tF
+ Kddm2MWEbDhzc9dqZh2LGfkRDyVU/4Uy1hhvR2idpWA14QrQwfjBSKbaeOv/oXu8fJm3
+ HvnKO7Q4ULYgUcvuXKOJg0YGYG0BqBs7jqyzuOr90wi+dbavbLYs38bq7ErGCHoy72Qw
+ Hk/isNZY12AEayEDB1msiqF07WsOLDdFl4V4mfCpwLZGzrxqV/n6upL1x15Q29uikdiA
+ E8H2VByFp2QlsuZONeGTShf6jbfneAqeAIjXlDpql4syeMy01r0gS7AIkpWCEj6bFuP1
+ yRjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
- bh=tl9Z8luQcwSh6QRgPGjf321Es9TY+GefKufsOtFTomE=;
- b=ZTWNsvhGRite4G2GUBBNFrIDbHClGQD7i0pVNcZ4zpdn5xzWmytvSB4EzW61krIaNy
- EyVJkdScpe7mvpVXTsyIudOxyalsHfIe2znvBEx4w2bKejKwJHy5FPyjxGTSoZS79qjJ
- qEqpP0e+QmjmT+VDMhl3XDEm0tAuy/Fn7WEcMo3s9K318NhsrBXCFuCU6uUnUq3OLpaX
- aIwQUvKIP27Z0sbvZwHs0+SKznEA8XdFEdxFuVyYsGX2cH1+ajzya4gg5yqKADT3vfCQ
- ICOUqsFkMXPP4ELd708slNwnIosmNX2tPSiPYPCvwDhjoUXm69AJ782l4oDppqlz8GkM
- Fc+A==
-X-Gm-Message-State: ACgBeo10+XOOTc7rzNYr5JugzGaET3P/21fde8PpyIQS1Jvx9+Oy48FM
- 7mRjfggPoo/phbyQzteIO5p8OOSVR6I=
-X-Google-Smtp-Source: AA6agR6ZT+RoVFfJ8S+9b8kJBfxCwKo8XPU4CRhThsdgznqH63qh6oJPfmlWV23h0ytpWVUtW84TSw==
-X-Received: by 2002:ab0:38d5:0:b0:387:5dfa:95e4 with SMTP id
- l21-20020ab038d5000000b003875dfa95e4mr6114870uaw.50.1659534325292; 
- Wed, 03 Aug 2022 06:45:25 -0700 (PDT)
-Received: from balboa.ibmmodules.com ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
- by smtp.gmail.com with ESMTPSA id
- q201-20020a1f2ad2000000b00377fba67271sm932420vkq.34.2022.08.03.06.45.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 06:45:24 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-ppc@nongnu.org, clg@kaod.org, Frederic Barrat <fbarrat@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PATCH for-7.2 10/10] ppc/pnv: user creatable pnv-phb for powernv10
-Date: Wed,  3 Aug 2022 10:44:59 -0300
-Message-Id: <20220803134459.2633902-11-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220803134459.2633902-1-danielhb413@gmail.com>
-References: <20220803134459.2633902-1-danielhb413@gmail.com>
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc;
+ bh=Rkm9nhg6OX6fNTau+4UKQ41fzc5b8P/fOqWikqVEAPA=;
+ b=qu4gZrg9TL7PP/fTDidwQHmVIzWJpX+wW25zIJRN8TrQe6eyfNebmTopiB4jR4Tju3
+ 2G+X1YFtjiP6z+A5X/D4Dnlji94kFAc+rdgEr4XAi1nJC4sHKAsx7g+QDpq0IZb4Cpbq
+ gXt+mA6Q2f/lVIKE+3rLpg0mAA1sVykRzCZjtOoLqoRH1710kDJxQ33VpaShoUvWO75s
+ 9/ksrjqEud4/bpqch/hKVAGTlKNlTm1UcBhIbdji4bI5GuVcrh37FgBAcj/p7KSGulKd
+ vpfaelqiAAe+dw70jTZmJ6+CrmCgu30rdE9Mps5eTe5CF7BTD2S5pZPGdEbuqYP4FxmM
+ 2w3A==
+X-Gm-Message-State: ACgBeo33SLJ1hRLp1vf+89v1U3CR7d+rKsBlTDuO7aoL44MREyJ8PFuW
+ 3AQgCmJr7ndi0VfFH2i9zAqqxoU3IfsJ+ic2XWaU2o5v0ybF6g==
+X-Google-Smtp-Source: AA6agR5jVgCzyQhhSB4L6ooGYSx91/zyfllBzBW2jwLftQOPGeC/Tca8FT+ETEJnvNTlUDhCQhjrnWzYdlPGCsB/rnc=
+X-Received: by 2002:a81:178c:0:b0:322:9f88:7da1 with SMTP id
+ 134-20020a81178c000000b003229f887da1mr21556813ywx.362.1659512750642; Wed, 03
+ Aug 2022 00:45:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=danielhb413@gmail.com; helo=mail-ua1-x929.google.com
+From: Sheindy Frenkel <sheindy33@gmail.com>
+Date: Wed, 3 Aug 2022 10:45:34 +0300
+Message-ID: <CADg8gwx_=ChtumRmyLnBGsHKEar--RaEtriT0CzXAANZ0UqnZQ@mail.gmail.com>
+Subject: qtest/libqos: Finding the free PCI slots in a qtest instance
+To: qemu-devel@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000000097e805e5516c9b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1129;
+ envelope-from=sheindy33@gmail.com; helo=mail-yw1-x1129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 03 Aug 2022 09:41:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,29 +81,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Given that powernv9 and powernv10 uses the same pnv-phb backend, the
-logic to allow user created pnv-phbs for powernv10 is already in place.
-Let's flip the switch.
+--0000000000000097e805e5516c9b
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- hw/ppc/pnv.c | 2 ++
- 1 file changed, 2 insertions(+)
+Hi,
+I'm trying to find out how I can get the free PCI slots in a qtest code.
+I want to assign a PCI device to a qtest-mode VM. If I assign this device
+to an unavailable address in the qemu process, I get this assertion: *PCI: slot
+x function y not available for z.*
+However, I couldn't find a function in the qtest API that maintains the
+free slots list, it seems this error is coming from the qemu process, and
+qtest can't control it.
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index b6314dc961..02f287feab 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -2159,6 +2159,8 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
-     pmc->dt_power_mgt = pnv_dt_power_mgt;
- 
-     xfc->match_nvt = pnv10_xive_match_nvt;
-+
-+    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_PNV_PHB);
- }
- 
- static bool pnv_machine_get_hb(Object *obj, Error **errp)
--- 
-2.36.1
+Could qtest API expose a function to access the free PCI slots in the
+guest? is there any existing function that can help maintain this list?
 
+Thanks,
+Sheindy
+
+--0000000000000097e805e5516c9b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"rtl"><div class=3D"gmail_default" style=3D"font-family:arial,sa=
+ns-serif" dir=3D"ltr"><table width=3D"100%" style=3D"color:rgb(0,0,0);font-=
+family:&quot;Times New Roman&quot;;font-size:medium"><tbody><tr><td><div cl=
+ass=3D"elementToProof" style=3D"font-family:Calibri,Arial,Helvetica,sans-se=
+rif;font-size:11pt">Hi,</div><div class=3D"elementToProof" style=3D"font-fa=
+mily:Calibri,Arial,Helvetica,sans-serif;font-size:11pt">I&#39;m trying to f=
+ind out how I can get the free PCI slots in a qtest code.<br></div><div cla=
+ss=3D"elementToProof" style=3D"font-family:Calibri,Arial,Helvetica,sans-ser=
+if;font-size:11pt"><span style=3D"font-size:14.6667px">I want to assign a P=
+CI device to a qtest-mode VM.=C2=A0</span><span style=3D"font-size:11pt">If=
+ I assign this device to an unavailable address in the qemu process, I get =
+this assertion:=C2=A0</span><i style=3D"font-size:11pt;font-variant-ligatur=
+es:inherit;font-variant-caps:inherit;font-weight:inherit">PCI:=C2=A0slot x =
+function y not available for z.</i><br></div><div class=3D"elementToProof" =
+style=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt">How=
+ever, I couldn&#39;t find a function in the qtest API that=C2=A0maintains t=
+he free slots list,=C2=A0it seems this error is coming from the qemu proces=
+s, and qtest can&#39;t control it.</div><div class=3D"elementToProof" style=
+=3D"font-family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt"><br></di=
+v><div class=3D"elementToProof" style=3D"font-family:Calibri,Arial,Helvetic=
+a,sans-serif;font-size:11pt">Could qtest API expose a=C2=A0function to acce=
+ss the free PCI slots in the guest? is there any existing function that can=
+ help maintain this list?</div><div class=3D"elementToProof" style=3D"font-=
+family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt"><br></div><div cl=
+ass=3D"elementToProof" style=3D"font-family:Calibri,Arial,Helvetica,sans-se=
+rif;font-size:11pt">Thanks,</div><div class=3D"elementToProof" style=3D"fon=
+t-family:Calibri,Arial,Helvetica,sans-serif;font-size:11pt">Sheindy</div></=
+td></tr></tbody></table></div></div>
+
+--0000000000000097e805e5516c9b--
 
