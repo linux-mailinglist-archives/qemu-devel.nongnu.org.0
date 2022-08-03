@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E823588CBE
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:13:13 +0200 (CEST)
-Received: from localhost ([::1]:44156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00091588CC9
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:14:09 +0200 (CEST)
+Received: from localhost ([::1]:47438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJEBT-0002gm-OV
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:13:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
+	id 1oJECN-0004vC-Cv
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oJE4L-0002j4-Pt
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 09:05:50 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:46002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1oJE4J-0003KO-9F
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 09:05:49 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- u14-20020a05600c00ce00b003a323062569so846558wmm.4
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 06:05:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc;
- bh=vSv3Q3J2ovOGmUs7rN9jQ+/fiC+eBHfeJiLpvH4nmoM=;
- b=p9yzy0D6xEcgAWOPiPtn/2uJ4VDvigj1jz1Gbn3JeHm+PhXKnbkS1t6gsVdEmMlY5q
- oOewIKqzxIP1BiCNClXBlol0lTSLwBxEZM1uqSuVSKFzCxNoMkLpG0LQMJKwzciZDfdU
- wlXtuFH6wGozJoTvhDfFAlnGaIDhUJw5EgTRKFnFVpRq2wd7Lplh/WADgMiSWK8SLAK5
- 96gqxx2N8EP3ORWADw00tx1UecdYo7mkB1jP28EnZfEe7wBN/TmkWedtM8c0IXB/icJ9
- NeAtC1b4VCwyg/Bl37J4VhRs/MBiTqm3NtqP+sq25Zws37N5HpYawDQ20z1B3ScLOFh/
- oG3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc;
- bh=vSv3Q3J2ovOGmUs7rN9jQ+/fiC+eBHfeJiLpvH4nmoM=;
- b=ZKzJw8gjQwGGahj1WBo4RhYnKs3OT20HW7FnpZfVVvO2yGhecwaYF8PeLZr+rA4wl2
- /TwSQSkLfyd7krRr3+YjD9+OPsuAkYN++o76tpAQ6ghMkKeKrilY/XdNqgha6b2YmHKe
- R6mGDyrvjDM1HaRMyZEWmmO6NOxMn/Z+ZY9ehScPbq2CX49QjqzHUNXK76eQPde0rVs9
- nzT0Pga0hBmNo7ebHQLqxsu2zoDWY537aKWxQvpImBUgbm9Gqr/lumZ9zStaNFNc8Lwz
- UH81AVxhIpwGd6qBhoBXLJLianDHTTaZpsOmPmrgWzJ+fcTQTd1wpo8dbB3761zclbqR
- iIdQ==
-X-Gm-Message-State: ACgBeo11KY5KxnMAZEMjQjsmBgcYbaO5zbE2HutQ0j37dY0xDq2t6fm0
- 7BuoSAcwcOedH5ezyR7cBq+a7Q==
-X-Google-Smtp-Source: AA6agR7jeoAkxV4wqwuNfEvc3G6nTzlrJ7AdFEIJ9tEbmfuiI59URYLP3BWHBjUBmhCo3S7AIT6r3A==
-X-Received: by 2002:a7b:c391:0:b0:3a3:2f22:7bf6 with SMTP id
- s17-20020a7bc391000000b003a32f227bf6mr2820092wmj.96.1659531945270; 
- Wed, 03 Aug 2022 06:05:45 -0700 (PDT)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- g2-20020a5d64e2000000b0021b970a68f9sm1565558wri.26.2022.08.03.06.05.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 03 Aug 2022 06:05:44 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 843161FFB7;
- Wed,  3 Aug 2022 14:05:43 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH v2] linux-user: un-parent OBJECT(cpu) when closing thread
-Date: Wed,  3 Aug 2022 14:05:37 +0100
-Message-Id: <20220803130537.763666-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJEAL-00019r-9O
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 09:12:01 -0400
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1]:54702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
+ id 1oJEAJ-0004ek-0A
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 09:12:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 376A061489;
+ Wed,  3 Aug 2022 13:11:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42D6C433C1;
+ Wed,  3 Aug 2022 13:11:52 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="DSFtK+0E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1659532311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Pcd92lWiGmDYyq+59g00VfQuOLvFgz6SoDTkfdSHRX0=;
+ b=DSFtK+0Eg0CULHhSGQqyTnOwPW1frdAT7PW1nT/mdpV+4jOJ9FkvuwWonHUk4NA6u1SRpC
+ 4iS2H2RObbFJBZNzaFK7TYedwlj1l7bOtG//2rGZIrieLZ3BQ6riOaqT8ZDUp0daxzXrcQ
+ iDR1Ub3TB2wEHsGLhtLqMfAzf6XtRjg=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id c311b337
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
+ Wed, 3 Aug 2022 13:11:51 +0000 (UTC)
+Date: Wed, 3 Aug 2022 15:11:48 +0200
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Xiaoyao Li <xiaoyao.li@intel.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=83=C2=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, "Michael S . Tsirkin" <mst@redhat.com>
+Subject: Re: [PULL 9/9] hw/i386: pass RNG seed via setup_data entry
+Message-ID: <Yup0FIOLLo0thP8u@zx2c4.com>
+References: <20220721163621.761513-1-pbonzini@redhat.com>
+ <20220721163621.761513-10-pbonzini@redhat.com>
+ <dae86884-6cfa-a428-374c-60c42900aade@intel.com>
+ <Yukk0YOFgkPwcTzG@zx2c4.com>
+ <a3ddd211-a569-4348-c3bb-2ff509fd6ccf@intel.com>
+ <Yuk9a0v+CNnzAX37@zx2c4.com>
+ <CAHmME9qDNmX7TYio3TxgP_xFL1LGUoKrT6w=OG_1c688ZSdvKg@mail.gmail.com>
+ <YupTaZlkyy1/9FUC@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+In-Reply-To: <YupTaZlkyy1/9FUC@redhat.com>
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,60 +95,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While forcing the CPU to unrealize by hand does trigger the clean-up
-code we never fully free resources because refcount never reaches
-zero. This is because QOM automatically added objects without an
-explicit parent to /unattached/, incrementing the refcount.
+Hi Daniel,
 
-Instead of manually triggering unrealization just unparent the object
-and let the device machinery deal with that for us.
+On Wed, Aug 03, 2022 at 11:52:25AM +0100, Daniel P. Berrangé wrote:
+> On Tue, Aug 02, 2022 at 05:13:26PM +0200, Jason A. Donenfeld wrote:
+> > Hi Xiaoyao,
+> > 
+> > On Tue, Aug 2, 2022 at 5:06 PM Jason A. Donenfeld <Jason@zx2c4.com> wrote:
+> > >
+> > > Hi Xiaoyao,
+> > >
+> > > On Tue, Aug 02, 2022 at 10:53:07PM +0800, Xiaoyao Li wrote:
+> > > > yes, with >= 7.1, pcmc->legacy_no_rng_seed = false by default, and RNG
+> > > > seed is used.
+> > >
+> > > This is intended behavior. Being on by default is basically the whole
+> > > point of it. Otherwise it's useless.
+> > >
+> > > >
+> > > > > Either way, this shouldn't cause boot failures.
+> > > >
+> > > > It does fail booting OVMF with #PF. Below diff can fix the #PF for me.
+> > >
+> > > Huh, interesting. Sounds like maybe there's a bug I need to fix. Can you
+> > > send me some repro instructions, and I'll look into it right away.
+> > 
+> > I just tried booting Fedora using OVMF and didn't have any problems. I
+> > used this command line:
+> 
+> I managed to reproduce on a Fedora 36 host, using QEMU git master from
+> today.
+> 
+>  $ git clone https://gitlab.com/berrange/tiny-vm-tools
+>  $ cd tiny-vm-tools
+>  $ ./make-tiny-image.py --run date date
+>  tiny-initrd.img
+>  Copy lib /lib/ld-musl-x86_64.so.1 -> /tmp/make-tiny-imagebcuv8i_b/lib/ld-musl-x86_64.so.1
+>  Copy bin /usr/bin/date -> /tmp/make-tiny-imagebcuv8i_b/bin/date
+>  Copy lib /lib64/libc.so.6 -> /tmp/make-tiny-imagebcuv8i_b/lib64/libc.so.6
+>  Copy lib /lib64/ld-linux-x86-64.so.2 -> /tmp/make-tiny-imagebcuv8i_b/lib64/ld-linux-x86-64.so.2
+> 
+>  $ cp /usr/share/edk2/ovmf/OVMF_VARS.fd vars.fd
+> 
+>  $ ~/src/virt/qemu.git/build/qemu-system-x86_64 \
+>    -blockdev node-name=file_ovmf_code,driver=file,filename=/usr/share/edk2/ovmf/OVMF_CODE.fd,auto-read-only=on,discard=unmap \
+>    -blockdev node-name=drive_ovmf_code,driver=raw,read-only=on,file=file_ovmf_code \
+>    -blockdev node-name=file_ovmf_vars,driver=file,filename=vars.fd,auto-read-only=on,discard=unmap \
+>    -blockdev node-name=drive_ovmf_vars,driver=raw,read-only=off,file=file_ovmf_vars  \
+>    -machine pc-q35-7.1,pflash0=drive_ovmf_code,pflash1=drive_ovmf_vars \
+>    -kernel /boot/vmlinuz-5.18.5-200.fc36.x86_64 \
+>    -initrd tiny-initrd.img \
+>    -m 8000 \
+>    -display none \
+>    -nodefaults \
+>    -serial stdio \
+>    -append 'console=ttyS0 quiet'
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/866
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20220610143855.1211000-1-alex.bennee@linaro.org>
+Thanks for the info. Very helpful. Looking into it now.
 
----
-v2
-  - move clearing of child_tidptr to before we finalise the CPU
-    object. While ts itself can be cleared g2h needs the current CPU
-    to resolve the address.
----
- linux-user/syscall.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index b27a6552aa..85b9ff2fa6 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -8570,7 +8570,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
-         if (CPU_NEXT(first_cpu)) {
-             TaskState *ts = cpu->opaque;
- 
--            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
-+            if (ts->child_tidptr) {
-+                put_user_u32(0, ts->child_tidptr);
-+                do_sys_futex(g2h(cpu, ts->child_tidptr),
-+                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
-+            }
-+
-+            object_unparent(OBJECT(cpu));
-             object_unref(OBJECT(cpu));
-             /*
-              * At this point the CPU should be unrealized and removed
-@@ -8580,11 +8586,6 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
- 
-             pthread_mutex_unlock(&clone_lock);
- 
--            if (ts->child_tidptr) {
--                put_user_u32(0, ts->child_tidptr);
--                do_sys_futex(g2h(cpu, ts->child_tidptr),
--                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
--            }
-             thread_cpu = NULL;
-             g_free(ts);
-             rcu_unregister_thread();
--- 
-2.30.2
-
+Jason
 
