@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A45FA589262
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 20:48:02 +0200 (CEST)
-Received: from localhost ([::1]:48288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 296DD5893E5
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 23:08:10 +0200 (CEST)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJJPU-00068z-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 14:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43862)
+	id 1oJLb6-00086f-Tj
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 17:08:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oJJKG-0003X8-78; Wed, 03 Aug 2022 14:42:37 -0400
-Received: from [200.168.210.66] (port=48717 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lucas.araujo@eldorado.org.br>)
- id 1oJJKC-0005hA-JY; Wed, 03 Aug 2022 14:42:34 -0400
-Received: from p9ibm ([10.10.71.235]) by outlook.eldorado.org.br over TLS
- secured channel with Microsoft SMTPSVC(8.5.9600.16384); 
- Wed, 3 Aug 2022 15:42:28 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by p9ibm (Postfix) with ESMTPS id AC3E38001D1;
- Wed,  3 Aug 2022 15:42:27 -0300 (-03)
-Content-Type: multipart/alternative;
- boundary="------------2NKEAH542shBJedS9fF9ixOC"
-Message-ID: <59494d8e-1ef5-0c0c-0cf4-38a4e55c3366@eldorado.org.br>
-Date: Wed, 3 Aug 2022 15:42:27 -0300
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJLYh-0006Ny-Un
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:05:39 -0400
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:41975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <atishp@rivosinc.com>)
+ id 1oJLYd-0002RK-39
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 17:05:39 -0400
+Received: by mail-pf1-x435.google.com with SMTP id q19so8201859pfg.8
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 14:05:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=N+c5QClZl0t4s9fgWrfUBet6YdvZeQKotltmzQFMnAA=;
+ b=4URT1S91rCI59hAlKpmFfgATqVOT+cW0NSMosIB5+qgnb2kfmGprpXv3QvxtlRi3/i
+ dato2MdnlQCU94WDzBsNY4F6bl99meWenJR4oBRB8Z8aGhRLwHUZ+qdHWn9quW6SuSbn
+ rLDd9ijgvyVG6IFD3msOXCojkPTWUcsSveAMNukV5rOE1xJuCqZIZ5u7vn450deFFYEM
+ 44rTfm0eUxBXOKIza+5L73023Iuvdb7h1ATemhWB72HLxooQW0oMxAM+C4lC0dl6swj9
+ pzubRioDUHckxHHhABQ01QOH3SkX+N7B1CSEvPc+f2n1ou0cxDHQvjAJBl5fRKqEMkb7
+ HFMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=N+c5QClZl0t4s9fgWrfUBet6YdvZeQKotltmzQFMnAA=;
+ b=detjdwSw+bl+qv3+I20DR6ofXH5i3OBGnfH1oRlhVabOAFdOoQFcHQ1+ITeZ386oI6
+ iwx0IafRkgY3Rflrg7qyaVK86gehYz9EOnjBPaUbrggXQy0adHNySH9J576DhHc14JHi
+ LZBttsHwSSrORd0n6MlKBsGMW/aEJMkCFMeoHSKIbkgGW0SE4KLhxPmjFDJueq1W/MCb
+ IQtFA+z3gOBeY2uOgjdF2njA7lQDDuLMowx1aJSpTgnx+tewmB7n1hI0StqBvKwGmeNE
+ yp3YqW9GUuv/5bUAYT8MKj/x0ultSGJrVN5w1cHNd+andDVV130Yaqqz1DgmizUP8ANN
+ OdBw==
+X-Gm-Message-State: ACgBeo1egPn9+NLF1a0dyHnwjfE+QPQtXfOqORVbH3P7vvVLdJ+HXlwK
+ CbvMsLeqNIEuEph1O8c0i5xTBIMjPHsokji5VOGVng==
+X-Google-Smtp-Source: AA6agR5lShqas5mS8rDwIrp74xJE8/KNAd/w0tuyfeL2dioq2b76eBfqEphMXg55j8va6NOVhfd0cMcEaIchSU1qDJw=
+X-Received: by 2002:a65:578f:0:b0:41c:62a0:6b61 with SMTP id
+ b15-20020a65578f000000b0041c62a06b61mr8198664pgr.88.1659560732280; Wed, 03
+ Aug 2022 14:05:32 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [RFC PATCH 1/3] target/ppc: Bugfix fadd/fsub result with OE/UE set
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org
-Cc: danielhb413@gmail.com, Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <20220803122217.20847-1-lucas.araujo@eldorado.org.br>
- <20220803122217.20847-2-lucas.araujo@eldorado.org.br>
- <855034e1-2dd3-4b68-3c60-9fd2345b3b55@linaro.org>
- <077f61c4-8853-0b32-b9b2-9721bcf107cb@eldorado.org.br>
- <8857690e-2e0c-a67b-f654-972ac5b24e48@linaro.org>
-From: Lucas Mateus Martins Araujo e Castro <lucas.araujo@eldorado.org.br>
-In-Reply-To: <8857690e-2e0c-a67b-f654-972ac5b24e48@linaro.org>
-X-OriginalArrivalTime: 03 Aug 2022 18:42:28.0002 (UTC)
- FILETIME=[C7EC5020:01D8A768]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 200.168.210.66 (failed)
-Received-SPF: pass client-ip=200.168.210.66;
- envelope-from=lucas.araujo@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -4
-X-Spam_score: -0.5
-X-Spam_bar: /
-X-Spam_report: (-0.5 / 5.0 requ) BAYES_00=-1.9, HTML_MESSAGE=0.001,
- NICE_REPLY_A=-0.001, PDS_HP_HELO_NORDNS=0.659, RDNS_NONE=0.793,
+References: <20220803082516.2271344-1-atishp@rivosinc.com>
+ <20220803082516.2271344-4-atishp@rivosinc.com>
+ <60a8a67a-04d9-e6b7-e606-1001fda76f41@iscas.ac.cn>
+In-Reply-To: <60a8a67a-04d9-e6b7-e606-1001fda76f41@iscas.ac.cn>
+From: Atish Kumar Patra <atishp@rivosinc.com>
+Date: Wed, 3 Aug 2022 14:05:21 -0700
+Message-ID: <CAHBxVyGh5o+B_jWWh3F06zP_R8=MWhB1wsBL=AKfbXG-bhMdag@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] target/riscv: Add vstimecmp support
+To: Weiwei Li <liweiwei@iscas.ac.cn>
+Cc: qemu-devel@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+Content-Type: multipart/alternative; boundary="000000000000ee626105e55c9787"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=atishp@rivosinc.com; helo=mail-pf1-x435.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=no autolearn_force=no
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,481 +87,804 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
---------------2NKEAH542shBJedS9fF9ixOC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
-
-DQpPbiAwMy8wOC8yMDIyIDE1OjE2LCBSaWNoYXJkIEhlbmRlcnNvbiB3cm90ZToNCj4NCj4g
-T24gOC8zLzIyIDEwOjQ1LCBMdWNhcyBNYXRldXMgTWFydGlucyBBcmF1am8gZSBDYXN0cm8g
-d3JvdGU6DQo+Pg0KPj4gT24gMDMvMDgvMjAyMiAxMzoxOCwgUmljaGFyZCBIZW5kZXJzb24g
-d3JvdGU6DQo+Pj4NCj4+PiBPbiA4LzMvMjIgMDU6MjIsIEx1Y2FzIE1hdGV1cyBDYXN0cm8o
-YWxxb3RlbCkgd3JvdGU6DQo+Pj4+IEZyb206ICJMdWNhcyBNYXRldXMgQ2FzdHJvIChhbHFv
-dGVsKSIgPGx1Y2FzLmFyYXVqb0BlbGRvcmFkby5vcmcuYnI+DQo+Pj4+DQo+Pj4+IEFzIG1l
-bnRpb25lZCBpbiB0aGUgZnVuY3Rpb25zIGZsb2F0X292ZXJmbG93X2V4Y3AgYW5kDQo+Pj4+
-IGZsb2F0X3VuZGVyZmxvd19leGNwLCB0aGUgcmVzdWx0IHNob3VsZCBiZSBhZGp1c3RlZCBh
-cyBtZW50aW9uZWQgaW4gDQo+Pj4+IHRoZQ0KPj4+PiBJU0EgKHN1YnRyYWN0ZWQgMTkyLzE1
-MzYgZnJvbSB0aGUgZXhwb25lbnQgb2YgdGhlIGludGVybWVkaWF0ZSANCj4+Pj4gcmVzdWx0
-IGlmDQo+Pj4+IGFuIG92ZXJmbG93IG9jY3VycyB3aXRoIE9FIHNldCBhbmQgYWRkZWQgMTky
-LzE1MzYgdG8gdGhlIGV4cG9uZW50IA0KPj4+PiBvZiB0aGUNCj4+Pj4gaW50ZXJtZWRpYXRl
-IHJlc3VsdCBpZiBhbiB1bmRlcmZsb3cgb2NjdXJzIHdpdGggVUUgc2V0KSwgYnV0IGF0IHRo
-b3NlDQo+Pj4+IGZ1bmN0aW9ucyB0aGUgcmVzdWx0IGhhcyBhbHJlYWR5IGJlZW4gcm91bmRl
-ZCBzbyBpdCBpcyBub3QgcG9zc2libGUgdG8NCj4+Pj4gYWRkL3N1YnRyYWN0IGZyb20gdGhl
-IGludGVybWVkaWF0ZSByZXN1bHQgYW55bW9yZS4NCj4+Pj4NCj4+Pj4gVGhpcyBwYXRjaCBj
-cmVhdGVzIGEgbmV3IGZ1bmN0aW9uIHRoYXQgcmVjZWl2ZXMgdGhlIHZhbHVlIHRoYXQgDQo+
-Pj4+IHNob3VsZCBiZQ0KPj4+PiBzdWJ0cmFjdGVkL2FkZGVkIGZyb20gdGhlIGV4cG9uZW50
-IGlmIGFuIG92ZXJmbG93L3VuZGVyZmxvdyANCj4+Pj4gaGFwcGVucywgdG8NCj4+Pj4gbm90
-IGxlYXZlIHNvbWUgYXJiaXRyYXJ5IG51bWJlcnMgZnJvbSB0aGUgUG93ZXJJU0EgaW4gdGhl
-IG1pZGRsZSBvZiANCj4+Pj4gdGhlDQo+Pj4+IEZQVSBjb2RlLiBJZiB0aGVzZSBudW1iZXJz
-IGFyZSAwIHRoZSBuZXcgZnVuY3Rpb25zIGp1c3QgY2FsbCB0aGUgb2xkDQo+Pj4+IG9uZXMu
-DQo+Pj4+DQo+Pj4+IEkgdXNlZCAyIHZhbHVlcyBoZXJlIGZvciBvdmVyZmxvdyBhbmQgdW5k
-ZXJmbG93LCBtYXliZSBpdCdkIGJlIA0KPj4+PiBiZXR0ZXIgdG8NCj4+Pj4ganVzdCB1c2Ug
-dGhlIHNhbWUgb25lcywgYW55IHRob3VnaHRzPw0KPj4+Pg0KPj4+PiBTaWduZWQtb2ZmLWJ5
-OiBMdWNhcyBNYXRldXMgQ2FzdHJvIChhbHFvdGVsKSANCj4+Pj4gPGx1Y2FzLmFyYXVqb0Bl
-bGRvcmFkby5vcmcuYnI+DQo+Pj4+IC0tLQ0KPj4+PiBBbiBhbHRlcm5hdGl2ZSBJJ3ZlIHRo
-b3VnaHQgd2FzIHRvIGFsd2F5cyByZXR1cm4gdGhlIHZhbHVlIGFkanVzdGVkIA0KPj4+PiBp
-ZiBhDQo+Pj4+IG92ZXJmbG93IG9yIHVuZGVyZmxvdyBvY2N1cnMgYW5kIGluIGZsb2F0X3Vu
-ZGVyZmxvd19leGNwIGFuZA0KPj4+PiBmbG9hdF9vdmVyZmxvd19leGNwIGFkanVzdCBpdCB0
-byBpbmYvZGVuLzAgaWYgT0UvVUUgaXMgMCwgYnV0IEkgZGlkbid0DQo+Pj4+IHNhdyBtYW55
-IGFkdmFudGFnZXMgdG8gdGhhdCBhcHByb2FjaC4NCj4+Pj4gLS0tDQo+Pj4+IMKgIGZwdS9z
-b2Z0ZmxvYXQuY8KgwqDCoMKgwqDCoMKgwqAgfCA3NSANCj4+Pj4gKysrKysrKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysNCj4+Pj4gwqAgaW5jbHVkZS9mcHUvc29mdGZs
-b2F0LmggfMKgIDIgKysNCj4+Pj4gwqAgdGFyZ2V0L3BwYy9mcHVfaGVscGVyLmMgfCAxMCAr
-KysrLS0NCj4+Pj4gwqAgMyBmaWxlcyBjaGFuZ2VkLCA4NSBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQ0KPj4+Pg0KPj4+PiBkaWZmIC0tZ2l0IGEvZnB1L3NvZnRmbG9hdC5jIGIv
-ZnB1L3NvZnRmbG9hdC5jDQo+Pj4+IGluZGV4IDRhODcxZWYyYTEuLmE0MDcxMjlkY2IgMTAw
-NjQ0DQo+Pj4+IC0tLSBhL2ZwdS9zb2Z0ZmxvYXQuYw0KPj4+PiArKysgYi9mcHUvc29mdGZs
-b2F0LmMNCj4+Pj4gQEAgLTI2OCw2ICsyNjgsOCBAQCB0eXBlZGVmIGJvb2wgKCpmNjRfY2hl
-Y2tfZm4pKHVuaW9uX2Zsb2F0NjQgYSwgDQo+Pj4+IHVuaW9uX2Zsb2F0NjQgYik7DQo+Pj4+
-DQo+Pj4+IMKgIHR5cGVkZWYgZmxvYXQzMiAoKnNvZnRfZjMyX29wMl9mbikoZmxvYXQzMiBh
-LCBmbG9hdDMyIGIsIA0KPj4+PiBmbG9hdF9zdGF0dXMgKnMpOw0KPj4+PiDCoCB0eXBlZGVm
-IGZsb2F0NjQgKCpzb2Z0X2Y2NF9vcDJfZm4pKGZsb2F0NjQgYSwgZmxvYXQ2NCBiLCANCj4+
-Pj4gZmxvYXRfc3RhdHVzICpzKTsNCj4+Pj4gK3R5cGVkZWYgZmxvYXQ2NCAoKnNvZnRfZjY0
-X29wMl9pbnQyX2ZuKShmbG9hdDY0IGEsIGZsb2F0NjQgYiwgaW50IA0KPj4+PiBjLCBpbnQg
-ZCwNCj4+Pj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmbG9hdF9zdGF0dXMgKnMpOw0K
-Pj4+PiDCoCB0eXBlZGVmIGZsb2F0wqDCoCAoKmhhcmRfZjMyX29wMl9mbikoZmxvYXQgYSwg
-ZmxvYXQgYik7DQo+Pj4+IMKgIHR5cGVkZWYgZG91YmxlwqAgKCpoYXJkX2Y2NF9vcDJfZm4p
-KGRvdWJsZSBhLCBkb3VibGUgYik7DQo+Pj4+DQo+Pj4+IEBAIC00MDEsNiArNDAzLDE5IEBA
-IGZsb2F0NjRfZ2VuMihmbG9hdDY0IHhhLCBmbG9hdDY0IHhiLCANCj4+Pj4gZmxvYXRfc3Rh
-dHVzICpzLA0KPj4+PiDCoMKgwqDCoMKgIHJldHVybiBzb2Z0KHVhLnMsIHViLnMsIHMpOw0K
-Pj4+PiDCoCB9DQo+Pj4+DQo+Pj4+ICtzdGF0aWMgaW5saW5lIGZsb2F0NjQNCj4+Pj4gK2Zs
-b2F0NjRfZ2VuMl9leGNwKGZsb2F0NjQgeGEsIGZsb2F0NjQgeGIsIGludCB4YywgaW50IHhk
-LCANCj4+Pj4gZmxvYXRfc3RhdHVzICpzLA0KPj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoCBoYXJkX2Y2NF9vcDJfZm4gaGFyZCwgc29mdF9mNjRfb3AyX2ZuIHNv
-ZnQsDQo+Pj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNvZnRfZjY0
-X29wMl9pbnQyX2ZuIHNvZnRfZXhjcCwgZjY0X2NoZWNrX2ZuIHByZSwNCj4+Pj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZjY0X2NoZWNrX2ZuIHBvc3QpDQo+Pj4+
-ICt7DQo+Pj4+ICvCoMKgwqAgaWYgKHhjIHx8IHhkKSB7DQo+Pj4+ICvCoMKgwqDCoMKgwqDC
-oCByZXR1cm4gc29mdF9leGNwKHhhLCB4YiwgeGMsIHhkLCBzKTsNCj4+Pj4gK8KgwqDCoCB9
-IGVsc2Ugew0KPj4+PiArwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGZsb2F0NjRfZ2VuMih4YSwg
-eGIsIHMsIGhhcmQsIHNvZnQsIHByZSwgcG9zdCk7DQo+Pj4+ICvCoMKgwqAgfQ0KPj4+PiAr
-fQ0KPj4+PiArDQo+Pj4+IMKgIC8qDQo+Pj4+IMKgwqAgKiBDbGFzc2lmeSBhIGZsb2F0aW5n
-IHBvaW50IG51bWJlci4gRXZlcnl0aGluZyBhYm92ZSANCj4+Pj4gZmxvYXRfY2xhc3NfcW5h
-bg0KPj4+PiDCoMKgICogaXMgYSBOYU4gc28gY2xzID49IGZsb2F0X2NsYXNzX3FuYW4gaXMg
-YW55IE5hTi4NCj4+Pj4gQEAgLTE5MjksNiArMTk0NCwzOSBAQCBzdGF0aWMgZG91YmxlIGhh
-cmRfZjY0X3N1Yihkb3VibGUgYSwgZG91YmxlIGIpDQo+Pj4+IMKgwqDCoMKgwqAgcmV0dXJu
-IGEgLSBiOw0KPj4+PiDCoCB9DQo+Pj4+DQo+Pj4+ICtzdGF0aWMgZmxvYXQ2NCBRRU1VX1NP
-RlRGTE9BVF9BVFRSDQo+Pj4+ICtzb2Z0X2Y2NF9hZGRzdWJfZXhjcF9lbihmbG9hdDY0IGEs
-IGZsb2F0NjQgYiwgaW50IG9lX3N1YiwgaW50IHVlX3N1bSwNCj4+Pj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZmxvYXRfc3RhdHVzICpzdGF0
-dXMsIGJvb2wgc3VidHJhY3QpDQo+Pj4+ICt7DQo+Pj4+ICvCoMKgwqAgRmxvYXRQYXJ0czY0
-IHBhLCBwYiwgKnByOw0KPj4+PiArDQo+Pj4+ICvCoMKgwqAgZmxvYXQ2NF91bnBhY2tfY2Fu
-b25pY2FsKCZwYSwgYSwgc3RhdHVzKTsNCj4+Pj4gK8KgwqDCoCBmbG9hdDY0X3VucGFja19j
-YW5vbmljYWwoJnBiLCBiLCBzdGF0dXMpOw0KPj4+PiArwqDCoMKgIHByID0gcGFydHNfYWRk
-c3ViKCZwYSwgJnBiLCBzdGF0dXMsIHN1YnRyYWN0KTsNCj4+Pj4gKw0KPj4+PiArwqDCoMKg
-IGlmICh1bmxpa2VseShvZV9zdWIgJiYgKHByLT5leHAgPiAxMDIzKSkpIHsNCj4+Pj4gK8Kg
-wqDCoMKgwqDCoMKgIHByLT5leHAgLT0gb2Vfc3ViOw0KPj4+PiArwqDCoMKgwqDCoMKgwqAg
-ZmxvYXRfcmFpc2UoZmxvYXRfZmxhZ19vdmVyZmxvdywgc3RhdHVzKTsNCj4+Pj4gK8KgwqDC
-oCB9IGVsc2UgaWYgKHVubGlrZWx5KHVlX3N1bSAmJiAocHItPmV4cCA8IC0xMDIyKSkpIHsN
-Cj4+Pj4gK8KgwqDCoMKgwqDCoMKgIHByLT5leHAgKz0gdWVfc3VtOw0KPj4+PiArwqDCoMKg
-wqDCoMKgwqAgZmxvYXRfcmFpc2UoZmxvYXRfZmxhZ191bmRlcmZsb3csIHN0YXR1cyk7DQo+
-Pj4+ICvCoMKgwqAgfQ0KPj4+PiArDQo+Pj4+ICvCoMKgwqAgcmV0dXJuIGZsb2F0NjRfcm91
-bmRfcGFja19jYW5vbmljYWwocHIsIHN0YXR1cyk7DQo+Pj4NCj4+PiBUaGlzIGlzIGluY29y
-cmVjdCwgYmVjYXVzZSB0aGUgZXhwb25lbnQgaXMgbm90IGZpeGVkIHVudGlsIHRoZSANCj4+
-PiBtaWRkbGUgb2YNCj4+PiByb3VuZF9wYWNrX2Nhbm9uaWNhbC4NCj4+Pg0KPj4+IEkgdGhp
-bmsgeW91IHNob3VsZCBub3QgYWRkIG5ldyBmdW5jdGlvbnMgbGlrZSB0aGlzLCB3aXRoIG5l
-dyANCj4+PiBwYXJhbWV0ZXJzLCBidXQgaW5zdGVhZCBhZGQNCj4+PiBmaWVsZHMgdG8gZmxv
-YXRfc3RhdHVzLCB3aGljaCB3b3VsZCB0aGVuIGJlIGNoZWNrZWQgYXQgdGhlIHBsYWNlcyAN
-Cj4+PiBjdXJyZW50bHkgc2V0dGluZw0KPj4+IHVuZGVyZmxvdyBhbmQgb3ZlcmZsb3cuDQo+
-Pg0KPj4gU28gYWRkIG92ZXJmbG93X2NvcnJlY3Rpb24gYW5kIHVuZGVyZmxvd19jb3JyZWN0
-aW9uIGluIA0KPj4gJ3BhcnRzTih1bmNhbm9uX25vcm1hbCknIHNvIHRoYXQ6DQo+Pg0KPj4g
-aWYgKGV4cCA+PSBleHBfbWF4KSB7DQo+PiDCoMKgwqDCoCBpZiAob3ZlcmZsb3dfY29ycmVj
-dGlvbiAhPSAwKSB7DQo+PiDCoMKgwqDCoMKgwqDCoMKgIGV4cCAtPSBvdmVyZmxvd19jb3Jy
-ZWN0aW9uOw0KPj4gwqDCoMKgwqAgfQ0KPj4gfQ0KPj4NCj4+IEFuZCB0aGUgZXF1aXZhbGVu
-dCBmb3IgdW5kZXJmbG93LCBvciBhIGJvb2wgcHBjX292ZXJmbG93X2VuYWJsZSB0aGF0IA0K
-Pj4gdXNlcyBhIGZpeGVkIHZhbHVlIGxpa2U6DQo+Pg0KPj4gaWYgKGV4cCA+PSBleHBfbWF4
-KSB7DQo+PiDCoMKgwqDCoCBpZiAocHBjX292ZXJmbG93X2VuYWJsZSkgew0KPj4gwqDCoMKg
-wqDCoMKgwqDCoCBleHAgLT0gKChmbXQtPmV4cF9iaWFzICsgMSkgKyAoZm10LT5leHBfYmlh
-cyArIDEpLzIpOw0KPj4gwqDCoMKgwqAgfQ0KPj4gfQ0KPj4NCj4+IChhbmQgdGhlIGVxdWl2
-YWxlbnQgZm9yIHVuZGVyZmxvdykgPw0KPg0KPiBTb21ldGhpbmcgbGlrZSB0aGF0Lg0KPg0K
-PiBJIHdvdWxkIHN1Z2dlc3QgcHJlLWNvbXB1dGluZyB0aGF0IGFkanVzdG1lbnQgaW50byBm
-bXQsIHZpYSBGTE9BVF9QQVJBTVMuDQo+IE5hbWluZyBpcyBhbHdheXMgaGFyZCwgYnV0IGhv
-dyBhYm91dCBleHBfcmVfYmlhcz8NCj4NCj4gVGhlIGZsYWcocykgc2hvdWxkIG5vdCBjb250
-YWluICJwcGMiIGluIHRoZSBuYW1lLsKgIEJ1dCBwZXJoYXBzDQo+DQo+IMKgIHMtPnJlYmlh
-c19vdmVyZmxvdw0KPiDCoCBzLT5yZWJpYXNfdW5kZXJmbG93DQoNCnJlYmlhc18qIHNvdW5k
-cyBnb29kIHRvIG1lLg0KDQpBbHNvIEkgaW1hZ2luZSB0aGF0IHRoZXNlIGJvb2xzIHdvdWxk
-IGJlIHNldCBieSBtdGZzZiwgbXRmc2ZpLCBtdGZzYjAgDQphbmQgbXRmc2IxLCBpbiB3aGlj
-aCBjYXNlIGl0J2QgbWFrZSB0aGVzZSBwYXRjaGVzIHNpZ25pZmljYW50bHkgc2hvcnRlci4g
-DQpJJ2xsIHNlbmQgYSB2MiB3aXRoIHRoZXNlIGNoYW5nZXMNCg0KPg0KPg0KPg0KPiByfg0K
-LS0gDQpMdWNhcyBNYXRldXMgTS4gQXJhdWpvIGUgQ2FzdHJvDQpJbnN0aXR1dG8gZGUgUGVz
-cXVpc2FzIEVMRE9SQURPIA0KPGh0dHBzOi8vd3d3LmVsZG9yYWRvLm9yZy5ici8/dXRtX2Nh
-bXBhaWduPWFzc2luYXR1cmFfZGVfZS1tYWlsJnV0bV9tZWRpdW09ZW1haWwmdXRtX3NvdXJj
-ZT1SRCtTdGF0aW9uPg0KRGVwYXJ0YW1lbnRvIENvbXB1dGHDp8OjbyBFbWJhcmNhZGENCkFu
-YWxpc3RhIGRlIFNvZnR3YXJlIFRyYWluZWUNCkF2aXNvIExlZ2FsIC0gRGlzY2xhaW1lciA8
-aHR0cHM6Ly93d3cuZWxkb3JhZG8ub3JnLmJyL2Rpc2NsYWltZXIuaHRtbD4NCg==
---------------2NKEAH542shBJedS9fF9ixOC
-Content-Type: text/html; charset=UTF-8
+--000000000000ee626105e55c9787
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 03/08/2022 15:16, Richard Henderson=
+On Wed, Aug 3, 2022 at 1:49 AM Weiwei Li <liweiwei@iscas.ac.cn> wrote:
 
-      wrote:<br>
-    </div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:8857690e-2e0c-a67b-f654-972ac5b24e48@linaro.org"><br>
-      On 8/3/22 10:45, Lucas Mateus Martins Araujo e Castro wrote:
-      <br>
-      <blockquote type=3D"cite">
-        <br>
-        On 03/08/2022 13:18, Richard Henderson wrote:
-        <br>
-        <blockquote type=3D"cite">
-          <br>
-          On 8/3/22 05:22, Lucas Mateus Castro(alqotel) wrote:
-          <br>
-          <blockquote type=3D"cite">From: "Lucas Mateus Castro (alqotel)"=
+>
+> =E5=9C=A8 2022/8/3 =E4=B8=8B=E5=8D=884:25, Atish Patra =E5=86=99=E9=81=93=
+:
+> > vstimecmp CSR allows the guest OS or to program the next guest timer
+> > interrupt directly. Thus, hypervisor no longer need to inject the
+> > timer interrupt to the guest if vstimecmp is used. This was ratified
+> > as a part of the Sstc extension.
+> >
+> > Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> > ---
+> >   target/riscv/cpu.h         |   4 ++
+> >   target/riscv/cpu_bits.h    |   4 ++
+> >   target/riscv/cpu_helper.c  |  11 ++--
+> >   target/riscv/csr.c         | 100 ++++++++++++++++++++++++++++++++++++=
+-
+> >   target/riscv/machine.c     |   1 +
+> >   target/riscv/time_helper.c |  16 ++++++
+> >   6 files changed, 131 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index 4cda2905661e..1fd382b2717f 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -312,6 +312,8 @@ struct CPUArchState {
+> >       /* Sstc CSRs */
+> >       uint64_t stimecmp;
+> >
+> > +    uint64_t vstimecmp;
+> > +
+> >       /* physical memory protection */
+> >       pmp_table_t pmp_state;
+> >       target_ulong mseccfg;
+> > @@ -366,6 +368,8 @@ struct CPUArchState {
+> >
+> >       /* Fields from here on are preserved across CPU reset. */
+> >       QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
+> > +    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
+> > +    bool vstime_irq;
+> >
+> >       hwaddr kernel_addr;
+> >       hwaddr fdt_addr;
+> > diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> > index ac17cf1515c0..095dab19f512 100644
+> > --- a/target/riscv/cpu_bits.h
+> > +++ b/target/riscv/cpu_bits.h
+> > @@ -257,6 +257,10 @@
+> >   #define CSR_VSIP            0x244
+> >   #define CSR_VSATP           0x280
+> >
+> > +/* Sstc virtual CSRs */
+> > +#define CSR_VSTIMECMP       0x24D
+> > +#define CSR_VSTIMECMPH      0x25D
+> > +
+> >   #define CSR_MTINST          0x34a
+> >   #define CSR_MTVAL2          0x34b
+> >
+> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> > index 650574accf0a..1e4faa84e839 100644
+> > --- a/target/riscv/cpu_helper.c
+> > +++ b/target/riscv/cpu_helper.c
+> > @@ -345,8 +345,9 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
+> >   {
+> >       uint32_t gein =3D get_field(env->hstatus, HSTATUS_VGEIN);
+> >       uint64_t vsgein =3D (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0=
+;
+> > +    uint64_t vstip =3D (env->vstime_irq) ? MIP_VSTIP : 0;
+> >
+> > -    return (env->mip | vsgein) & env->mie;
+> > +    return (env->mip | vsgein | vstip) & env->mie;
+> >   }
+> >
+> >   int riscv_cpu_mirq_pending(CPURISCVState *env)
+> > @@ -605,7 +606,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu,
+> uint64_t mask, uint64_t value)
+> >   {
+> >       CPURISCVState *env =3D &cpu->env;
+> >       CPUState *cs =3D CPU(cpu);
+> > -    uint64_t gein, vsgein =3D 0, old =3D env->mip;
+> > +    uint64_t gein, vsgein =3D 0, vstip =3D 0, old =3D env->mip;
+> >       bool locked =3D false;
+> >
+> >       if (riscv_cpu_virt_enabled(env)) {
+> > @@ -613,6 +614,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu,
+> uint64_t mask, uint64_t value)
+> >           vsgein =3D (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
+> >       }
+> >
+> > +    /* No need to update mip for VSTIP */
+> > +    mask =3D ((mask =3D=3D MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
+> > +    vstip =3D env->vstime_irq ? MIP_VSTIP : 0;
+> > +
+> >       if (!qemu_mutex_iothread_locked()) {
+> >           locked =3D true;
+> >           qemu_mutex_lock_iothread();
+> > @@ -620,7 +625,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu,
+> uint64_t mask, uint64_t value)
+> >
+> >       env->mip =3D (env->mip & ~mask) | (value & mask);
+> >
+> > -    if (env->mip | vsgein) {
+> > +    if (env->mip | vsgein | vstip) {
+> >           cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+> >       } else {
+> >           cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> > diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> > index b71e2509b64f..d4265dd3cca2 100644
+> > --- a/target/riscv/csr.c
+> > +++ b/target/riscv/csr.c
+> > @@ -833,17 +833,98 @@ static RISCVException sstc(CPURISCVState *env, in=
+t
+> csrno)
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> > +static RISCVException sstc_hmode(CPURISCVState *env, int csrno)
+> > +{
+> > +    CPUState *cs =3D env_cpu(env);
+> > +    RISCVCPU *cpu =3D RISCV_CPU(cs);
+> > +
+> > +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    if (env->priv =3D=3D PRV_M) {
+> > +        return RISCV_EXCP_NONE;
+> > +    }
+> > +
+> > +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &
+> > +          get_field(env->menvcfg, MENVCFG_STCE))) {
+> > +        return RISCV_EXCP_ILLEGAL_INST;
+> > +    }
+> > +
+> > +    if (!(get_field(env->hcounteren, COUNTEREN_TM) &
+> > +          get_field(env->henvcfg, HENVCFG_STCE))) {
+> > +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> > +    }
+> > +
+> I think hcounteren only works for VS mode here. So we should add check
+> for virt  mode is enabled here.
+>
 
-            <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:lucas.arauj=
-o@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-            <br>
-            <br>
-            As mentioned in the functions float_overflow_excp and
-            <br>
-            float_underflow_excp, the result should be adjusted as
-            mentioned in the
-            <br>
-            ISA (subtracted 192/1536 from the exponent of the
-            intermediate result if
-            <br>
-            an overflow occurs with OE set and added 192/1536 to the
-            exponent of the
-            <br>
-            intermediate result if an underflow occurs with UE set), but
-            at those
-            <br>
-            functions the result has already been rounded so it is not
-            possible to
-            <br>
-            add/subtract from the intermediate result anymore.
-            <br>
-            <br>
-            This patch creates a new function that receives the value
-            that should be
-            <br>
-            subtracted/added from the exponent if an overflow/underflow
-            happens, to
-            <br>
-            not leave some arbitrary numbers from the PowerISA in the
-            middle of the
-            <br>
-            FPU code. If these numbers are 0 the new functions just call
-            the old
-            <br>
-            ones.
-            <br>
-            <br>
-            I used 2 values here for overflow and underflow, maybe it'd
-            be better to
-            <br>
-            just use the same ones, any thoughts?
-            <br>
-            <br>
-            Signed-off-by: Lucas Mateus Castro (alqotel)
-            <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:lucas.arauj=
-o@eldorado.org.br">&lt;lucas.araujo@eldorado.org.br&gt;</a>
-            <br>
-            ---
-            <br>
-            An alternative I've thought was to always return the value
-            adjusted if a
-            <br>
-            overflow or underflow occurs and in float_underflow_excp and
-            <br>
-            float_overflow_excp adjust it to inf/den/0 if OE/UE is 0,
-            but I didn't
-            <br>
-            saw many advantages to that approach.
-            <br>
-            ---
-            <br>
-            =C2=A0 fpu/softfloat.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 75
-            +++++++++++++++++++++++++++++++++++++++++
-            <br>
-            =C2=A0 include/fpu/softfloat.h |=C2=A0 2 ++
-            <br>
-            =C2=A0 target/ppc/fpu_helper.c | 10 ++++--
-            <br>
-            =C2=A0 3 files changed, 85 insertions(+), 2 deletions(-)
-            <br>
-            <br>
-            diff --git a/fpu/softfloat.c b/fpu/softfloat.c
-            <br>
-            index 4a871ef2a1..a407129dcb 100644
-            <br>
-            --- a/fpu/softfloat.c
-            <br>
-            +++ b/fpu/softfloat.c
-            <br>
-            @@ -268,6 +268,8 @@ typedef bool
-            (*f64_check_fn)(union_float64 a, union_float64 b);
-            <br>
-            <br>
-            =C2=A0 typedef float32 (*soft_f32_op2_fn)(float32 a, float32 =
-b,
-            float_status *s);
-            <br>
-            =C2=A0 typedef float64 (*soft_f64_op2_fn)(float64 a, float64 =
-b,
-            float_status *s);
-            <br>
-            +typedef float64 (*soft_f64_op2_int2_fn)(float64 a, float64
-            b, int c, int d,
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 float_status *s);
-            <br>
-            =C2=A0 typedef float=C2=A0=C2=A0 (*hard_f32_op2_fn)(float a, =
-float b);
-            <br>
-            =C2=A0 typedef double=C2=A0 (*hard_f64_op2_fn)(double a, doub=
-le b);
-            <br>
-            <br>
-            @@ -401,6 +403,19 @@ float64_gen2(float64 xa, float64 xb,
-            float_status *s,
-            <br>
-            =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return soft(ua.s, ub.s, s);
-            <br>
-            =C2=A0 }
-            <br>
-            <br>
-            +static inline float64
-            <br>
-            +float64_gen2_excp(float64 xa, float64 xb, int xc, int xd,
-            float_status *s,
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_f64_op2_fn hard, soft_f64=
-_op2_fn
-            soft,
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 soft_f64_op2_int2_fn soft_excp=
+vstimecmp can be accessed from HS mode as well. In fact if STCE bit is
+disabled in henvcfg,
+hypervisor can emulate sstc behavior as well.
+
+
+> > +    return RISCV_EXCP_NONE;
+> > +}
+>
+> It's better to return hmode(env, csrno) instead of RISCV_EXCP_NONE here.
+>
+>
+Sure. Will change it.
+
+
+> Regards,
+>
+> Weiwei Li
+>
+> > +
+> > +static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
+> > +                                    target_ulong *val)
+> > +{
+> > +    *val =3D env->vstimecmp;
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
+> > +                                    target_ulong *val)
+> > +{
+> > +    *val =3D env->vstimecmp >> 32;
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
+> > +                                    target_ulong val)
+> > +{
+> > +    RISCVCPU *cpu =3D env_archcpu(env);
+> > +
+> > +    if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
+> > +        env->vstimecmp =3D deposit64(env->vstimecmp, 0, 32,
+> (uint64_t)val);
+> > +    } else {
+> > +        env->vstimecmp =3D val;
+> > +    }
+> > +
+> > +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
+> > +                              env->htimedelta, MIP_VSTIP);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> > +static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
+> > +                                    target_ulong val)
+> > +{
+> > +    RISCVCPU *cpu =3D env_archcpu(env);
+> > +
+> > +    env->vstimecmp =3D deposit64(env->vstimecmp, 32, 32, (uint64_t)val=
+);
+> > +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
+> > +                              env->htimedelta, MIP_VSTIP);
+> > +
+> > +    return RISCV_EXCP_NONE;
+> > +}
+> > +
+> >   static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
+> >                                       target_ulong *val)
+> >   {
+> > -    *val =3D env->stimecmp;
+> > +    if (riscv_cpu_virt_enabled(env)) {
+> > +        *val =3D env->vstimecmp;
+> > +    } else {
+> > +        *val =3D env->stimecmp;
+> > +    }
+> > +
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> >   static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+> >                                       target_ulong *val)
+> >   {
+> > -    *val =3D env->stimecmp >> 32;
+> > +    if (riscv_cpu_virt_enabled(env)) {
+> > +        *val =3D env->vstimecmp >> 32;
+> > +    } else {
+> > +        *val =3D env->stimecmp >> 32;
+> > +    }
+> > +
+> >       return RISCV_EXCP_NONE;
+> >   }
+> >
+> > @@ -852,6 +933,10 @@ static RISCVException write_stimecmp(CPURISCVState
+> *env, int csrno,
+> >   {
+> >       RISCVCPU *cpu =3D env_archcpu(env);
+> >
+> > +    if (riscv_cpu_virt_enabled(env)) {
+> > +        return write_vstimecmp(env, csrno, val);
+> > +    }
+> > +
+> >       if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {
+> >           env->stimecmp =3D deposit64(env->stimecmp, 0, 32, (uint64_t)v=
+al);
+> >       } else {
+> > @@ -868,6 +953,10 @@ static RISCVException write_stimecmph(CPURISCVStat=
+e
+> *env, int csrno,
+> >   {
+> >       RISCVCPU *cpu =3D env_archcpu(env);
+> >
+> > +    if (riscv_cpu_virt_enabled(env)) {
+> > +        return write_vstimecmph(env, csrno, val);
+> > +    }
+> > +
+> >       env->stimecmp =3D deposit64(env->stimecmp, 32, 32, (uint64_t)val)=
+;
+> >       riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0,
+> MIP_STIP);
+> >
+> > @@ -1805,6 +1894,7 @@ static RISCVException rmw_mip64(CPURISCVState
+> *env, int csrno,
+> >       if (csrno !=3D CSR_HVIP) {
+> >           gin =3D get_field(env->hstatus, HSTATUS_VGEIN);
+> >           old_mip |=3D (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VS=
+EIP
+> : 0;
+> > +        old_mip |=3D env->vstime_irq ? MIP_VSTIP : 0;
+> >       }
+> >
+> >       if (ret_val) {
+> > @@ -3665,6 +3755,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =3D=
+ {
+> >                                             .min_priv_ver =3D
+> PRIV_VERSION_1_12_0 },
+> >       [CSR_STIMECMPH] =3D { "stimecmph", sstc, read_stimecmph,
+> write_stimecmph,
+> >                                             .min_priv_ver =3D
+> PRIV_VERSION_1_12_0 },
+> > +    [CSR_VSTIMECMP] =3D { "vstimecmp", sstc_hmode, read_vstimecmp,
+> > +                                          write_vstimecmp,
+> > +                                          .min_priv_ver =3D
+> PRIV_VERSION_1_12_0 },
+> > +    [CSR_VSTIMECMPH] =3D { "vstimecmph", sstc_hmode, read_vstimecmph,
+> > +                                          write_vstimecmph,
+> > +                                          .min_priv_ver =3D
+> PRIV_VERSION_1_12_0 },
+> >
+> >       /* Supervisor Protection and Translation */
+> >       [CSR_SATP]     =3D { "satp",     smode, read_satp,     write_satp
+>  },
+> > diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> > index 622fface484e..4ba55705d147 100644
+> > --- a/target/riscv/machine.c
+> > +++ b/target/riscv/machine.c
+> > @@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper =3D {
+> >           VMSTATE_UINTTL(env.hgeie, RISCVCPU),
+> >           VMSTATE_UINTTL(env.hgeip, RISCVCPU),
+> >           VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+> > +        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
+> >
+> >           VMSTATE_UINTTL(env.hvictl, RISCVCPU),
+> >           VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
+> > diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
+> > index f3fb5eac7b7b..8cce667dfd47 100644
+> > --- a/target/riscv/time_helper.c
+> > +++ b/target/riscv/time_helper.c
+> > @@ -22,6 +22,14 @@
+> >   #include "time_helper.h"
+> >   #include "hw/intc/riscv_aclint.h"
+> >
+> > +static void riscv_vstimer_cb(void *opaque)
+> > +{
+> > +    RISCVCPU *cpu =3D opaque;
+> > +    CPURISCVState *env =3D &cpu->env;
+> > +    env->vstime_irq =3D 1;
+> > +    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
+> > +}
+> > +
+> >   static void riscv_stimer_cb(void *opaque)
+> >   {
+> >       RISCVCPU *cpu =3D opaque;
+> > @@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu,
+> QEMUTimer *timer,
+> >            * If we're setting an stimecmp value in the "past",
+> >            * immediately raise the timer interrupt
+> >            */
+> > +        if (timer_irq =3D=3D MIP_VSTIP) {
+> > +            env->vstime_irq =3D 1;
+> > +        }
+> >           riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
+> >           return;
+> >       }
+> >
+> > +    if (timer_irq =3D=3D MIP_VSTIP) {
+> > +        env->vstime_irq =3D 0;
+> > +    }
+> >       /* Clear the [V]STIP bit in mip */
+> >       riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
+> >
+> > @@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
+> >       env->stimer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb=
 ,
-            f64_check_fn pre,
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 f64_check_fn post)
-            <br>
-            +{
-            <br>
-            +=C2=A0=C2=A0=C2=A0 if (xc || xd) {
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return soft_excp(=
-xa, xb, xc, xd, s);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 } else {
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return float64_ge=
-n2(xa, xb, s, hard, soft, pre,
-            post);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 }
-            <br>
-            +}
-            <br>
-            +
-            <br>
-            =C2=A0 /*
-            <br>
-            =C2=A0=C2=A0 * Classify a floating point number. Everything a=
-bove
-            float_class_qnan
-            <br>
-            =C2=A0=C2=A0 * is a NaN so cls &gt;=3D float_class_qnan is an=
-y NaN.
-            <br>
-            @@ -1929,6 +1944,39 @@ static double hard_f64_sub(double a,
-            double b)
-            <br>
-            =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return a - b;
-            <br>
-            =C2=A0 }
-            <br>
-            <br>
-            +static float64 QEMU_SOFTFLOAT_ATTR
-            <br>
-            +soft_f64_addsub_excp_en(float64 a, float64 b, int oe_sub,
-            int ue_sum,
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 float_status *status, bool
-            subtract)
-            <br>
-            +{
-            <br>
-            +=C2=A0=C2=A0=C2=A0 FloatParts64 pa, pb, *pr;
-            <br>
-            +
-            <br>
-            +=C2=A0=C2=A0=C2=A0 float64_unpack_canonical(&amp;pa, a, stat=
-us);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 float64_unpack_canonical(&amp;pb, b, stat=
-us);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 pr =3D parts_addsub(&amp;pa, &amp;pb, sta=
-tus, subtract);
-            <br>
-            +
-            <br>
-            +=C2=A0=C2=A0=C2=A0 if (unlikely(oe_sub &amp;&amp; (pr-&gt;ex=
-p &gt; 1023)))
-            {
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr-&gt;exp -=3D o=
-e_sub;
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 float_raise(float=
-_flag_overflow, status);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 } else if (unlikely(ue_sum &amp;&amp; (pr=
--&gt;exp &lt;
-            -1022))) {
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr-&gt;exp +=3D u=
-e_sum;
-            <br>
-            +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 float_raise(float=
-_flag_underflow, status);
-            <br>
-            +=C2=A0=C2=A0=C2=A0 }
-            <br>
-            +
-            <br>
-            +=C2=A0=C2=A0=C2=A0 return float64_round_pack_canonical(pr, s=
-tatus);
-            <br>
-          </blockquote>
-          <br>
-          This is incorrect, because the exponent is not fixed until the
-          middle of
-          <br>
-          round_pack_canonical.
-          <br>
-          <br>
-          I think you should not add new functions like this, with new
-          parameters, but instead add
-          <br>
-          fields to float_status, which would then be checked at the
-          places currently setting
-          <br>
-          underflow and overflow.
-          <br>
-        </blockquote>
-        <br>
-        So add overflow_correction and underflow_correction in
-        'partsN(uncanon_normal)' so that:
-        <br>
-        <br>
-        if (exp &gt;=3D exp_max) {
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0 if (overflow_correction !=3D 0) {
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exp -=3D overflo=
-w_correction;
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0 }
-        <br>
-        }
-        <br>
-        <br>
-        And the equivalent for underflow, or a bool ppc_overflow_enable
-        that uses a fixed value like:
-        <br>
-        <br>
-        if (exp &gt;=3D exp_max) {
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0 if (ppc_overflow_enable) {
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 exp -=3D ((fmt-&=
-gt;exp_bias + 1) + (fmt-&gt;exp_bias +
-        1)/2);
-        <br>
-        =C2=A0=C2=A0=C2=A0=C2=A0 }
-        <br>
-        }
-        <br>
-        <br>
-        (and the equivalent for underflow) ?
-        <br>
-      </blockquote>
-      <br>
-      Something like that.
-      <br>
-      <br>
-      I would suggest pre-computing that adjustment into fmt, via
-      FLOAT_PARAMS.
-      <br>
-      Naming is always hard, but how about exp_re_bias?
-      <br>
-      <br>
-      The flag(s) should not contain "ppc" in the name.=C2=A0 But perhaps=
+> cpu);
+> >       env->stimecmp =3D 0;
+> >
+> > +    env->vstimer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_c=
+b,
+> cpu);
+> > +    env->vstimecmp =3D 0;
+> >   }
+>
+>
 
-      <br>
-      <br>
-      =C2=A0 s-&gt;rebias_overflow
-      <br>
-      =C2=A0 s-&gt;rebias_underflow</blockquote>
-    <p>rebias_* sounds good to me.</p>
-    <p>Also I imagine that these bools would be set by mtfsf, mtfsfi,
-      mtfsb0 and mtfsb1, in which case it'd make these patches
-      significantly shorter. I'll send a v2 with these changes<br>
-    </p>
-    <blockquote type=3D"cite"
-      cite=3D"mid:8857690e-2e0c-a67b-f654-972ac5b24e48@linaro.org">
-      <br>
-      <br>
-      <br>
-      r~
-      <br>
-    </blockquote>
-    <div class=3D"moz-signature">-- <br>
-      Lucas Mateus M. Araujo e Castro<br>
-      <a
-href=3D"https://www.eldorado.org.br/?utm_campaign=3Dassinatura_de_e-mail&=
-amp;utm_medium=3Demail&amp;utm_source=3DRD+Station">Instituto
-        de Pesquisas ELDORADO</a><br>
-      Departamento Computa=C3=A7=C3=A3o Embarcada<br>
-      Analista de Software Trainee<br>
-      <a href=3D"https://www.eldorado.org.br/disclaimer.html">Aviso Legal=
+--000000000000ee626105e55c9787
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-        - Disclaimer</a></div>
-  </body>
-</html>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 3, 2022 at 1:49 AM Weiwei=
+ Li &lt;<a href=3D"mailto:liweiwei@iscas.ac.cn">liweiwei@iscas.ac.cn</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+=E5=9C=A8 2022/8/3 =E4=B8=8B=E5=8D=884:25, Atish Patra =E5=86=99=E9=81=93:<=
+br>
+&gt; vstimecmp CSR allows the guest OS or to program the next guest timer<b=
+r>
+&gt; interrupt directly. Thus, hypervisor no longer need to inject the<br>
+&gt; timer interrupt to the guest if vstimecmp is used. This was ratified<b=
+r>
+&gt; as a part of the Sstc extension.<br>
+&gt;<br>
+&gt; Signed-off-by: Atish Patra &lt;<a href=3D"mailto:atishp@rivosinc.com" =
+target=3D"_blank">atishp@rivosinc.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A04 ++<br>
+&gt;=C2=A0 =C2=A0target/riscv/cpu_bits.h=C2=A0 =C2=A0 |=C2=A0 =C2=A04 ++<br=
+>
+&gt;=C2=A0 =C2=A0target/riscv/cpu_helper.c=C2=A0 |=C2=A0 11 ++--<br>
+&gt;=C2=A0 =C2=A0target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 100 =
+++++++++++++++++++++++++++++++++++++-<br>
+&gt;=C2=A0 =C2=A0target/riscv/machine.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 =
++<br>
+&gt;=C2=A0 =C2=A0target/riscv/time_helper.c |=C2=A0 16 ++++++<br>
+&gt;=C2=A0 =C2=A06 files changed, 131 insertions(+), 5 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
+&gt; index 4cda2905661e..1fd382b2717f 100644<br>
+&gt; --- a/target/riscv/cpu.h<br>
+&gt; +++ b/target/riscv/cpu.h<br>
+&gt; @@ -312,6 +312,8 @@ struct CPUArchState {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Sstc CSRs */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t stimecmp;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 uint64_t vstimecmp;<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* physical memory protection */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0pmp_table_t pmp_state;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0target_ulong mseccfg;<br>
+&gt; @@ -366,6 +368,8 @@ struct CPUArchState {<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Fields from here on are preserved across =
+CPU reset. */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QEMUTimer *stimer; /* Internal timer for S-m=
+ode interrupt */<br>
+&gt; +=C2=A0 =C2=A0 QEMUTimer *vstimer; /* Internal timer for VS-mode inter=
+rupt */<br>
+&gt; +=C2=A0 =C2=A0 bool vstime_irq;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr kernel_addr;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0hwaddr fdt_addr;<br>
+&gt; diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h<br>
+&gt; index ac17cf1515c0..095dab19f512 100644<br>
+&gt; --- a/target/riscv/cpu_bits.h<br>
+&gt; +++ b/target/riscv/cpu_bits.h<br>
+&gt; @@ -257,6 +257,10 @@<br>
+&gt;=C2=A0 =C2=A0#define CSR_VSIP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+0x244<br>
+&gt;=C2=A0 =C2=A0#define CSR_VSATP=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+0x280<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +/* Sstc virtual CSRs */<br>
+&gt; +#define CSR_VSTIMECMP=C2=A0 =C2=A0 =C2=A0 =C2=A00x24D<br>
+&gt; +#define CSR_VSTIMECMPH=C2=A0 =C2=A0 =C2=A0 0x25D<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0#define CSR_MTINST=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x34a=
+<br>
+&gt;=C2=A0 =C2=A0#define CSR_MTVAL2=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 0x34b=
+<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c<br>
+&gt; index 650574accf0a..1e4faa84e839 100644<br>
+&gt; --- a/target/riscv/cpu_helper.c<br>
+&gt; +++ b/target/riscv/cpu_helper.c<br>
+&gt; @@ -345,8 +345,9 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)=
+<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t gein =3D get_field(env-&gt;hstatus,=
+ HSTATUS_VGEIN);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint64_t vsgein =3D (env-&gt;hgeip &amp; (1U=
+LL &lt;&lt; gein)) ? MIP_VSEIP : 0;<br>
+&gt; +=C2=A0 =C2=A0 uint64_t vstip =3D (env-&gt;vstime_irq) ? MIP_VSTIP : 0=
+;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 return (env-&gt;mip | vsgein) &amp; env-&gt;mie;<br>
+&gt; +=C2=A0 =C2=A0 return (env-&gt;mip | vsgein | vstip) &amp; env-&gt;mie=
+;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0int riscv_cpu_mirq_pending(CPURISCVState *env)<br>
+&gt; @@ -605,7 +606,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint6=
+4_t mask, uint64_t value)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;cpu-&gt;env;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0CPUState *cs =3D CPU(cpu);<br>
+&gt; -=C2=A0 =C2=A0 uint64_t gein, vsgein =3D 0, old =3D env-&gt;mip;<br>
+&gt; +=C2=A0 =C2=A0 uint64_t gein, vsgein =3D 0, vstip =3D 0, old =3D env-&=
+gt;mip;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool locked =3D false;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; @@ -613,6 +614,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint=
+64_t mask, uint64_t value)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vsgein =3D (env-&gt;hgeip &amp=
+; (1ULL &lt;&lt; gein)) ? MIP_VSEIP : 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 /* No need to update mip for VSTIP */<br>
+&gt; +=C2=A0 =C2=A0 mask =3D ((mask =3D=3D MIP_VSTIP) &amp;&amp; env-&gt;vs=
+time_irq) ? 0 : mask;<br>
+&gt; +=C2=A0 =C2=A0 vstip =3D env-&gt;vstime_irq ? MIP_VSTIP : 0;<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (!qemu_mutex_iothread_locked()) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0locked =3D true;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_mutex_lock_iothread();<br=
+>
+&gt; @@ -620,7 +625,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint6=
+4_t mask, uint64_t value)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;mip =3D (env-&gt;mip &amp; ~mask) | =
+(value &amp; mask);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 if (env-&gt;mip | vsgein) {<br>
+&gt; +=C2=A0 =C2=A0 if (env-&gt;mip | vsgein | vstip) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_interrupt(cs, CPU_INTERRUP=
+T_HARD);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_reset_interrupt(cs, CPU_IN=
+TERRUPT_HARD);<br>
+&gt; diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+&gt; index b71e2509b64f..d4265dd3cca2 100644<br>
+&gt; --- a/target/riscv/csr.c<br>
+&gt; +++ b/target/riscv/csr.c<br>
+&gt; @@ -833,17 +833,98 @@ static RISCVException sstc(CPURISCVState *env, i=
+nt csrno)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +static RISCVException sstc_hmode(CPURISCVState *env, int csrno)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 CPUState *cs =3D env_cpu(env);<br>
+&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(cs);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!cpu-&gt;cfg.ext_sstc || !env-&gt;rdtime_fn) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (env-&gt;priv =3D=3D PRV_M) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!(get_field(env-&gt;mcounteren, COUNTEREN_TM) &amp;=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_field(env-&gt;menvcfg, MENVCFG=
+_STCE))) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_ILLEGAL_INST;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!(get_field(env-&gt;hcounteren, COUNTEREN_TM) &amp;=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 get_field(env-&gt;henvcfg, HENVCFG=
+_STCE))) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;=
+<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+I think hcounteren only works for VS mode here. So we should add check <br>
+for virt=C2=A0 mode is enabled here.<br></blockquote><div><br></div><div>vs=
+timecmp can be accessed from HS mode as well. In fact if STCE bit is disabl=
+ed in henvcfg,</div><div>hypervisor can emulate sstc behavior as well.</div=
+><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +}<br>
+<br>
+It&#39;s better to return hmode(env, csrno) instead of RISCV_EXCP_NONE here=
+.<br>
+<br></blockquote><div><br></div><div>Sure. Will change it.</div><div>=C2=A0=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+Regards,<br>
+<br>
+Weiwei Li<br>
+<br>
+&gt; +<br>
+&gt; +static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong *val)=
+<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 *val =3D env-&gt;vstimecmp;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong *val)=
+<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 *val =3D env-&gt;vstimecmp &gt;&gt; 32;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong val)<=
+br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D env_archcpu(env);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vstimecmp =3D deposit64(env-&gt;v=
+stimecmp, 0, 32, (uint64_t)val);<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vstimecmp =3D val;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 riscv_timer_write_timecmp(cpu, env-&gt;vstimer, env-&gt=
+;vstimecmp,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;htimedelta, MIP_VSTIP);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong val)<=
+br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D env_archcpu(env);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 env-&gt;vstimecmp =3D deposit64(env-&gt;vstimecmp, 32, =
+32, (uint64_t)val);<br>
+&gt; +=C2=A0 =C2=A0 riscv_timer_write_timecmp(cpu, env-&gt;vstimer, env-&gt=
+;vstimecmp,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;htimedelta, MIP_VSTIP);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return RISCV_EXCP_NONE;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0static RISCVException read_stimecmp(CPURISCVState *env, in=
+t csrno,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target=
+_ulong *val)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt; -=C2=A0 =C2=A0 *val =3D env-&gt;stimecmp;<br>
+&gt; +=C2=A0 =C2=A0 if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *val =3D env-&gt;vstimecmp;<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *val =3D env-&gt;stimecmp;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static RISCVException read_stimecmph(CPURISCVState *env, i=
+nt csrno,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0target=
+_ulong *val)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt; -=C2=A0 =C2=A0 *val =3D env-&gt;stimecmp &gt;&gt; 32;<br>
+&gt; +=C2=A0 =C2=A0 if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *val =3D env-&gt;vstimecmp &gt;&gt; 32;<b=
+r>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 *val =3D env-&gt;stimecmp &gt;&gt; 32;<br=
+>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -852,6 +933,10 @@ static RISCVException write_stimecmp(CPURISCVStat=
+e *env, int csrno,<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0RISCVCPU *cpu =3D env_archcpu(env);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return write_vstimecmp(env, csrno, val);<=
+br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;stimecmp =3D deposit64=
+(env-&gt;stimecmp, 0, 32, (uint64_t)val);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
+&gt; @@ -868,6 +953,10 @@ static RISCVException write_stimecmph(CPURISCVSta=
+te *env, int csrno,<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0RISCVCPU *cpu =3D env_archcpu(env);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 if (riscv_cpu_virt_enabled(env)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return write_vstimecmph(env, csrno, val);=
+<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;stimecmp =3D deposit64(env-&gt;stime=
+cmp, 32, 32, (uint64_t)val);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_timer_write_timecmp(cpu, env-&gt;stime=
+r, env-&gt;stimecmp, 0, MIP_STIP);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -1805,6 +1894,7 @@ static RISCVException rmw_mip64(CPURISCVState *e=
+nv, int csrno,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (csrno !=3D CSR_HVIP) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gin =3D get_field(env-&gt;hsta=
+tus, HSTATUS_VGEIN);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0old_mip |=3D (env-&gt;hgeip &a=
+mp; ((target_ulong)1 &lt;&lt; gin)) ? MIP_VSEIP : 0;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 old_mip |=3D env-&gt;vstime_irq ? MIP_VST=
+IP : 0;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (ret_val) {<br>
+&gt; @@ -3665,6 +3755,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] =
+=3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.min_priv_ver =3D PRIV_VERSION_1_12_0 },<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[CSR_STIMECMPH] =3D { &quot;stimecmph&quot;,=
+ sstc, read_stimecmph, write_stimecmph,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0.min_priv_ver =3D PRIV_VERSION_1_12_0 },<br>
+&gt; +=C2=A0 =C2=A0 [CSR_VSTIMECMP] =3D { &quot;vstimecmp&quot;, sstc_hmode=
+, read_vstimecmp,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 write_vstimecmp,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 .min_priv_ver =3D PRIV_VERSION_1_12_0 },<br>
+&gt; +=C2=A0 =C2=A0 [CSR_VSTIMECMPH] =3D { &quot;vstimecmph&quot;, sstc_hmo=
+de, read_vstimecmph,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 write_vstimecmph,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 .min_priv_ver =3D PRIV_VERSION_1_12_0 },<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Supervisor Protection and Translation */<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0[CSR_SATP]=C2=A0 =C2=A0 =C2=A0=3D { &quot;sa=
+tp&quot;,=C2=A0 =C2=A0 =C2=A0smode, read_satp,=C2=A0 =C2=A0 =C2=A0write_sat=
+p=C2=A0 =C2=A0 =C2=A0},<br>
+&gt; diff --git a/target/riscv/machine.c b/target/riscv/machine.c<br>
+&gt; index 622fface484e..4ba55705d147 100644<br>
+&gt; --- a/target/riscv/machine.c<br>
+&gt; +++ b/target/riscv/machine.c<br>
+&gt; @@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper =3D {<=
+br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.hgeie, RISC=
+VCPU),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.hgeip, RISC=
+VCPU),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT64(env.htimedelta,=
+ RISCVCPU),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 VMSTATE_UINT64(env.vstimecmp, RISCVCPU),<=
+br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINTTL(env.hvictl, RIS=
+CVCPU),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0VMSTATE_UINT8_ARRAY(env.hvipri=
+o, RISCVCPU, 64),<br>
+&gt; diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c<b=
+r>
+&gt; index f3fb5eac7b7b..8cce667dfd47 100644<br>
+&gt; --- a/target/riscv/time_helper.c<br>
+&gt; +++ b/target/riscv/time_helper.c<br>
+&gt; @@ -22,6 +22,14 @@<br>
+&gt;=C2=A0 =C2=A0#include &quot;time_helper.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;hw/intc/riscv_aclint.h&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +static void riscv_vstimer_cb(void *opaque)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 RISCVCPU *cpu =3D opaque;<br>
+&gt; +=C2=A0 =C2=A0 CPURISCVState *env =3D &amp;cpu-&gt;env;<br>
+&gt; +=C2=A0 =C2=A0 env-&gt;vstime_irq =3D 1;<br>
+&gt; +=C2=A0 =C2=A0 riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));<=
+br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0static void riscv_stimer_cb(void *opaque)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0RISCVCPU *cpu =3D opaque;<br>
+&gt; @@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMU=
+Timer *timer,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * If we&#39;re setting an sti=
+mecmp value in the &quot;past&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * immediately raise the timer=
+ interrupt<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (timer_irq =3D=3D MIP_VSTIP) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vstime_irq =3D 1;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_cpu_update_mip(cpu, time=
+r_irq, BOOL_TO_MASK(1));<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 if (timer_irq =3D=3D MIP_VSTIP) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;vstime_irq =3D 0;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* Clear the [V]STIP bit in mip */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO=
+_MASK(0));<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;stimer =3D timer_new_ns(QEMU_CLOCK_V=
+IRTUAL, &amp;riscv_stimer_cb, cpu);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0env-&gt;stimecmp =3D 0;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +=C2=A0 =C2=A0 env-&gt;vstimer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &a=
+mp;riscv_vstimer_cb, cpu);<br>
+&gt; +=C2=A0 =C2=A0 env-&gt;vstimecmp =3D 0;<br>
+&gt;=C2=A0 =C2=A0}<br>
+<br>
+</blockquote></div></div>
 
---------------2NKEAH542shBJedS9fF9ixOC--
+--000000000000ee626105e55c9787--
 
