@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90518589025
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 18:27:56 +0200 (CEST)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E6E589071
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 18:30:34 +0200 (CEST)
+Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJHDv-0003Qo-Nr
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 12:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42638)
+	id 1oJHGU-0005AA-2H
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 12:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJHCI-0000uk-Nd
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 12:26:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:48349)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oJHEW-0003YA-9P
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 12:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:45967)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1oJHCF-00029p-Cu
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 12:26:13 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1oJHEU-0002h7-4K
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 12:28:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659543970;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0vQN8cbVPCsgc1NvDJCxc4E57PkI84zwu7DedprJ63A=;
- b=fH/wM3k8gfc8fNiq/j4r0e/bLNrYlOrSuVifEUOHhL69quoUjPR5LiOGzM8QO8FwWgjcJi
- IrEUW+U3VhKfMKyZ3pl0h/Yrwt0IPF205wCp2yUL7qg28dKRtMIi+padWtqcrqd2YSUB7N
- zTBHzgWXrNBb7K0IXiF0l29rzCv5mpU=
+ s=mimecast20190719; t=1659544108;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=xMduuNP20sQn4CBJUiKl5egYQj2uuTKiAFvPELEQ0m8=;
+ b=V2SgzwVMu7vBBxItfM/GwZ3R52YIzGr4auoxNkdcPG6ujiQux2SqCnwhBkgb2nQaQQI2pi
+ eQKY7j0iQFU1kuX2GjWoLEUMm8G/26rY1kDA7rwlmit4vgdfRmcGBxlFt8BaxUOHRa565B
+ eysGSN1XkDFwjAKW08nvvkhw+LX9JB8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-175-rIf10G3MPwq8WNRxUfT_Vg-1; Wed, 03 Aug 2022 12:26:07 -0400
-X-MC-Unique: rIf10G3MPwq8WNRxUfT_Vg-1
+ us-mta-147-a-2wdCfzPIGiHfgrbevHSA-1; Wed, 03 Aug 2022 12:28:27 -0400
+X-MC-Unique: a-2wdCfzPIGiHfgrbevHSA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BC20C96B66C;
- Wed,  3 Aug 2022 16:26:06 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E01BC1D3AD;
- Wed,  3 Aug 2022 16:26:05 +0000 (UTC)
-Date: Wed, 3 Aug 2022 17:26:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: bchalios@amazon.es
-Cc: qemu-devel@nongnu.org, ani@anisinha.ca, mst@redhat.com,
- imammedo@redhat.com, dwmw@amazon.co.uk, graf@amazon.de,
- xmarcalx@amazon.co.uk
-Subject: Re: [PATCH 0/2] vmgenid: add generation counter
-Message-ID: <Yuqhm5LCdg+zf/rH@redhat.com>
-References: <20220803134147.31073-1-bchalios@amazon.es>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2E41A101A54E;
+ Wed,  3 Aug 2022 16:28:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EC4FC28125;
+ Wed,  3 Aug 2022 16:28:26 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: sgarzare@redhat.com, kwolf@redhat.com,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Qing Wang <qinwang@redhat.com>
+Subject: [PATCH] virtio-scsi: fix race in virtio_scsi_dataplane_start()
+Date: Wed,  3 Aug 2022 12:28:24 -0400
+Message-Id: <20220803162824.948023-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220803134147.31073-1-bchalios@amazon.es>
-User-Agent: Mutt/2.2.6 (2022-06-05)
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -28
 X-Spam_score: -2.9
@@ -78,52 +76,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 03, 2022 at 03:41:45PM +0200, bchalios@amazon.es wrote:
-> From: Babis Chalios <bchalios@amazon.es>
-> 
-> VM generation ID exposes a GUID inside the VM which changes every time a
-> VM restore is happening. Typically, this GUID is used by the guest
-> kernel to re-seed its internal PRNG. As a result, this value cannot be
-> exposed in guest user-space as a notification mechanism for VM restore
-> events.
-> 
-> This patch set extends vmgenid to introduce a 32 bits generation counter
-> whose purpose is to be used as a VM restore notification mechanism for
-> the guest user-space.
-> 
-> It is true that such a counter could be implemented entirely by the
-> guest kernel, but this would rely on the vmgenid ACPI notification to
-> trigger the counter update, which is inherently racy. Exposing this
-> through the monitor allows the updated value to be in-place before
-> resuming the vcpus, so interested user-space code can (atomically)
-> observe the update without relying on the ACPI notification.
+As soon as virtio_scsi_data_plane_start() attaches host notifiers the
+IOThread may start virtqueue processing. There is a race between
+IOThread virtqueue processing and virtio_scsi_data_plane_start() because
+it only assigns s->dataplane_started after attaching host notifiers.
 
-The VM generation ID feature in QEMU is implementing a spec defined
-by Microsoft. It is implemented in HyperV, VMWare, QEMU and possibly
-more. This series is proposing a QEMU specific variant, which means
-Linux running on all these other hypervisor platforms won't benefit
-from the change. If the counter were provided entirely in the guest
-kernel, then it works across all hypervisors.
+When a virtqueue handler function in the IOThread calls
+virtio_scsi_defer_to_dataplane() it may see !s->dataplane_started and
+attempt to start dataplane even though we're already in the IOThread:
 
-It feels like the kernel ought to provide an implementation itself
-as a starting point, with this QEMU change merely being an optional
-enhancement to close the race window.
+  #0  0x00007f67b360857c __pthread_kill_implementation (libc.so.6 + 0xa257c)
+  #1  0x00007f67b35bbd56 raise (libc.so.6 + 0x55d56)
+  #2  0x00007f67b358e833 abort (libc.so.6 + 0x28833)
+  #3  0x00007f67b358e75b __assert_fail_base.cold (libc.so.6 + 0x2875b)
+  #4  0x00007f67b35b4cd6 __assert_fail (libc.so.6 + 0x4ecd6)
+  #5  0x000055ca87fd411b memory_region_transaction_commit (qemu-kvm + 0x67511b)
+  #6  0x000055ca87e17811 virtio_pci_ioeventfd_assign (qemu-kvm + 0x4b8811)
+  #7  0x000055ca87e14836 virtio_bus_set_host_notifier (qemu-kvm + 0x4b5836)
+  #8  0x000055ca87f8e14e virtio_scsi_set_host_notifier (qemu-kvm + 0x62f14e)
+  #9  0x000055ca87f8dd62 virtio_scsi_dataplane_start (qemu-kvm + 0x62ed62)
+  #10 0x000055ca87e14610 virtio_bus_start_ioeventfd (qemu-kvm + 0x4b5610)
+  #11 0x000055ca87f8c29a virtio_scsi_handle_ctrl (qemu-kvm + 0x62d29a)
+  #12 0x000055ca87fa5902 virtio_queue_host_notifier_read (qemu-kvm + 0x646902)
+  #13 0x000055ca882c099e aio_dispatch_handler (qemu-kvm + 0x96199e)
+  #14 0x000055ca882c1761 aio_poll (qemu-kvm + 0x962761)
+  #15 0x000055ca880e1052 iothread_run (qemu-kvm + 0x782052)
+  #16 0x000055ca882c562a qemu_thread_start (qemu-kvm + 0x96662a)
 
-Ideally there would be someone at Microsoft we could connect with to
-propose they include this feature in a VM Gen ID spec update, but I
-don't personally know who to contact about that kind of thing. A
-spec update would increase chances that this change gets provieded
-across all hypervisors.
+This patch assigns s->dataplane_started before attaching host notifiers
+so that virtqueue handler functions that run in the IOThread before
+virtio_scsi_data_plane_start() returns correctly identify that dataplane
+does not need to be started.
 
-With regards,
-Daniel
+Note that s->dataplane_started does not need the AioContext lock because
+it is set before attaching host notifiers and cleared after detaching
+host notifiers. In other words, the IOThread always sees the value true
+and the main loop thread does not modify it while the IOThread is
+active.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=2099541
+Reported-by: Qing Wang <qinwang@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+ hw/scsi/virtio-scsi-dataplane.c | 33 +++++++++++++++++++++++++--------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index 8bb6e6acfc..a575c3f0cd 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -66,6 +66,21 @@ static int virtio_scsi_set_host_notifier(VirtIOSCSI *s, VirtQueue *vq, int n)
+     return 0;
+ }
+ 
++/* Context: BH in IOThread */
++static void virtio_scsi_dataplane_start_bh(void *opaque)
++{
++    VirtIOSCSI *s = opaque;
++    VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(s);
++    int i;
++
++    virtio_queue_aio_attach_host_notifier(vs->ctrl_vq, s->ctx);
++    virtio_queue_aio_attach_host_notifier_no_poll(vs->event_vq, s->ctx);
++
++    for (i = 0; i < vs->conf.num_queues; i++) {
++        virtio_queue_aio_attach_host_notifier(vs->cmd_vqs[i], s->ctx);
++    }
++}
++
+ /* Context: BH in IOThread */
+ static void virtio_scsi_dataplane_stop_bh(void *opaque)
+ {
+@@ -136,16 +151,18 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ 
+     memory_region_transaction_commit();
+ 
+-    aio_context_acquire(s->ctx);
+-    virtio_queue_aio_attach_host_notifier(vs->ctrl_vq, s->ctx);
+-    virtio_queue_aio_attach_host_notifier_no_poll(vs->event_vq, s->ctx);
+-
+-    for (i = 0; i < vs->conf.num_queues; i++) {
+-        virtio_queue_aio_attach_host_notifier(vs->cmd_vqs[i], s->ctx);
+-    }
+-
+     s->dataplane_starting = false;
+     s->dataplane_started = true;
++
++    /*
++     * Attach notifiers from within the IOThread. It's possible to attach
++     * notifiers from our thread directly but this approach has the advantages
++     * that virtio_scsi_dataplane_start_bh() is symmetric with
++     * virtio_scsi_dataplane_stop_bh() and the s->dataplane_started assignment
++     * above doesn't require explicit synchronization.
++     */
++    aio_context_acquire(s->ctx);
++    aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_start_bh, s);
+     aio_context_release(s->ctx);
+     return 0;
+ 
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.37.1
 
 
