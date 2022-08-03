@@ -2,99 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7BBF5888D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:48:12 +0200 (CEST)
-Received: from localhost ([::1]:33798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DE35888EC
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:57:00 +0200 (CEST)
+Received: from localhost ([::1]:39678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJA31-0005pv-4m
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:48:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45012)
+	id 1oJABX-0001kw-2f
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:56:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oJ9zv-0003yj-CL
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:45:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45369)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1oJ9zr-0000fx-Kn
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:44:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659516294;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0UdVWeIFGGS7zSoqVlveA45svPiOW3ZaMZDtR3sYifs=;
- b=B1An3fyhNbANgS+BQ7gQoGWDEcHOrb7GqYa3BIDo8AkoJMqk86MHqgh8fT92BLJm7fDHIy
- CuairLE+dg9H891LMD6PVZRRtG780bI3pPoJF04AKA4Gyk/3C/NvihSg95Sh5fyl7JeEOQ
- MZdv+35pRtdyu7x7RI7BH6pNruUkmKA=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-582-V-iu35u5MUGWIOHjCeZdaA-1; Wed, 03 Aug 2022 04:44:51 -0400
-X-MC-Unique: V-iu35u5MUGWIOHjCeZdaA-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bj26-20020a05620a191a00b006b5c4e2dc77so13163839qkb.16
- for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 01:44:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc;
- bh=0UdVWeIFGGS7zSoqVlveA45svPiOW3ZaMZDtR3sYifs=;
- b=x44kG33r8YU38kjZDU2u29OdCyQUW/SwNeCZ1yJ0xKVEbw4FqeZ9IxVmsfvqwNjo79
- VZUpdIrm+YLb34gJLG+k3Lz4cvzCFQYUd/V+D4DvVCm2ESeT0iG/8cpF6R+2fdH+BPC3
- ikvTd+USO1xIVRed66JNujYYnV6+y0fFiMQJTZYYxiAZt9uMevXcG6geqmVKAPBl3kdP
- AzE8x4T+1kyN5PjHr/vd3WFMNI2A7al16huOsIbC42oRCtbTp+jCTI/xXHpA4g2mqaVf
- m27zQwYrmqIvC48ZwODJnadj87O705/aLorrr/IO7orCFVY7UWfPAnFPzfvPflKM3nYC
- lCJw==
-X-Gm-Message-State: ACgBeo11/bCBV7xbPkj2lGBm8Aolmy+XKMSH4BN0s+kPUh0IbISt9zyg
- xQpP6PPDT/OpesXwhsUfdrfw2cd++ykv8XUzmrngJc1R7Tx4VCHrMVZY8hjZ7L4P9qdRki8R/qQ
- N/li3d8Kcodrr6wM=
-X-Received: by 2002:a0c:9022:0:b0:473:5be3:321 with SMTP id
- o31-20020a0c9022000000b004735be30321mr21161175qvo.79.1659516291170; 
- Wed, 03 Aug 2022 01:44:51 -0700 (PDT)
-X-Google-Smtp-Source: AA6agR7ktyiSSwHcG2fpEVL5SDIBB1ftWvDAjzrjNyMeRE6TymMLeydDCY03548wneKDUK4OYfDFDw==
-X-Received: by 2002:a0c:9022:0:b0:473:5be3:321 with SMTP id
- o31-20020a0c9022000000b004735be30321mr21161158qvo.79.1659516290889; 
- Wed, 03 Aug 2022 01:44:50 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- p22-20020ac84616000000b0031ea864d3b2sm10496340qtn.30.2022.08.03.01.44.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Aug 2022 01:44:50 -0700 (PDT)
-Message-ID: <3db8b274-dfe6-7b68-0ef3-d72c3597dd10@redhat.com>
-Date: Wed, 3 Aug 2022 10:44:46 +0200
+ (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oJA4Y-0005yZ-92; Wed, 03 Aug 2022 04:49:46 -0400
+Received: from smtp21.cstnet.cn ([159.226.251.21]:53118 helo=cstnet.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <liweiwei@iscas.ac.cn>)
+ id 1oJA4U-0001OM-RM; Wed, 03 Aug 2022 04:49:45 -0400
+Received: from [192.168.3.6] (unknown [116.224.155.20])
+ by APP-01 (Coremail) with SMTP id qwCowAB3V1idNupiasrZBQ--.28665S2;
+ Wed, 03 Aug 2022 16:49:34 +0800 (CST)
+Subject: Re: [PATCH v7 3/3] target/riscv: Add vstimecmp support
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+References: <20220803082516.2271344-1-atishp@rivosinc.com>
+ <20220803082516.2271344-4-atishp@rivosinc.com>
+From: Weiwei Li <liweiwei@iscas.ac.cn>
+Message-ID: <60a8a67a-04d9-e6b7-e606-1001fda76f41@iscas.ac.cn>
+Date: Wed, 3 Aug 2022 16:49:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
- IO regions
-Content-Language: en-US
-To: Gavin Shan <gshan@redhat.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- richard.henderson@linaro.org, cohuck@redhat.com, zhenyzha@redhat.com,
- shan.gavin@gmail.com, Marc Zyngier <maz@kernel.org>
-References: <20220802064529.547361-1-gshan@redhat.com>
- <20220802064529.547361-2-gshan@redhat.com>
- <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
- <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20220803082516.2271344-4-atishp@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Language: en-US
+X-CM-TRANSID: qwCowAB3V1idNupiasrZBQ--.28665S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3JryUJFW8CFyxXr13Gr1DGFg_yoWDGr1UpF
+ WkC39xKay5tFZrZ3Z3Jrn8G3ZYyw4UKan8Wws7uF45AF45GrW5CF1DKF9rAFs5WFWDGr4F
+ vF1Fkr1Ykr40vFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnRJUUU9214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+ rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+ 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+ 6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+ 1j6F4UJwAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv
+ 7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
+ 1j6r4UM4x0Y48IcVAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCYjI0SjxkI62AI1cAE
+ 67vIY487MxkF7I0Ew4C26cxK6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+ kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+ 67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+ CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWr
+ Zr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYx
+ BIdaVFxhVjvjDU0xZFpf9x0JUTOJ5UUUUU=
+X-Originating-IP: [116.224.155.20]
+X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
+Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
+ helo=cstnet.cn
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,204 +76,318 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gavin,
 
-On 8/3/22 05:01, Gavin Shan wrote:
-> Hi Eric,
+在 2022/8/3 下午4:25, Atish Patra 写道:
+> vstimecmp CSR allows the guest OS or to program the next guest timer
+> interrupt directly. Thus, hypervisor no longer need to inject the
+> timer interrupt to the guest if vstimecmp is used. This was ratified
+> as a part of the Sstc extension.
 >
-> On 8/2/22 7:41 PM, Eric Auger wrote:
->> On 8/2/22 08:45, Gavin Shan wrote:
->>> There are 3 highmem IO regions as below. They can be disabled in
->>> two situations: (a) The specific region is disabled by user. (b)
->>> The specific region doesn't fit in the PA space. However, the base
->>> address and highest_gpa are still updated no matter if the region
->>> is enabled or disabled. It's incorrectly incurring waste in the PA
->>> space.
->> If I am not wrong highmem_redists and highmem_mmio are not user
->> selectable
->>
->> Only highmem ecam depends on machine type & ACPI setup. But I would say
->> that in server use case it is always set. So is that optimization really
->> needed?
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   target/riscv/cpu.h         |   4 ++
+>   target/riscv/cpu_bits.h    |   4 ++
+>   target/riscv/cpu_helper.c  |  11 ++--
+>   target/riscv/csr.c         | 100 ++++++++++++++++++++++++++++++++++++-
+>   target/riscv/machine.c     |   1 +
+>   target/riscv/time_helper.c |  16 ++++++
+>   6 files changed, 131 insertions(+), 5 deletions(-)
 >
-> There are two other cases you missed.
->
-> - highmem_ecam is enabled after virt-2.12, meaning it stays disabled
->   before that.
-Yes that's what I meant above by 'depends on machine type'
->
-> - The high memory region can be disabled if user is asking large
->   (normal) memory space through 'maxmem=' option. When the requested
->   memory by 'maxmem=' is large enough, the high memory regions are
->   disabled. It means the normal memory has higher priority than those
->   high memory regions. This is the case I provided in (b) of the
->   commit log.
-yes but in such a case you don't "waste" IPA as you mention in the
-commit log because you only ask for a VM dimensionned for the highest_gpa.
-The only case where you would "waste" IPA is for high ecam which can
-disabled by option combination but it is marginal.
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 4cda2905661e..1fd382b2717f 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -312,6 +312,8 @@ struct CPUArchState {
+>       /* Sstc CSRs */
+>       uint64_t stimecmp;
+>   
+> +    uint64_t vstimecmp;
+> +
+>       /* physical memory protection */
+>       pmp_table_t pmp_state;
+>       target_ulong mseccfg;
+> @@ -366,6 +368,8 @@ struct CPUArchState {
+>   
+>       /* Fields from here on are preserved across CPU reset. */
+>       QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
+> +    QEMUTimer *vstimer; /* Internal timer for VS-mode interrupt */
+> +    bool vstime_irq;
+>   
+>       hwaddr kernel_addr;
+>       hwaddr fdt_addr;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index ac17cf1515c0..095dab19f512 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -257,6 +257,10 @@
+>   #define CSR_VSIP            0x244
+>   #define CSR_VSATP           0x280
+>   
+> +/* Sstc virtual CSRs */
+> +#define CSR_VSTIMECMP       0x24D
+> +#define CSR_VSTIMECMPH      0x25D
+> +
+>   #define CSR_MTINST          0x34a
+>   #define CSR_MTVAL2          0x34b
+>   
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 650574accf0a..1e4faa84e839 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -345,8 +345,9 @@ uint64_t riscv_cpu_all_pending(CPURISCVState *env)
+>   {
+>       uint32_t gein = get_field(env->hstatus, HSTATUS_VGEIN);
+>       uint64_t vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
+> +    uint64_t vstip = (env->vstime_irq) ? MIP_VSTIP : 0;
+>   
+> -    return (env->mip | vsgein) & env->mie;
+> +    return (env->mip | vsgein | vstip) & env->mie;
+>   }
+>   
+>   int riscv_cpu_mirq_pending(CPURISCVState *env)
+> @@ -605,7 +606,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
+>   {
+>       CPURISCVState *env = &cpu->env;
+>       CPUState *cs = CPU(cpu);
+> -    uint64_t gein, vsgein = 0, old = env->mip;
+> +    uint64_t gein, vsgein = 0, vstip = 0, old = env->mip;
+>       bool locked = false;
+>   
+>       if (riscv_cpu_virt_enabled(env)) {
+> @@ -613,6 +614,10 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
+>           vsgein = (env->hgeip & (1ULL << gein)) ? MIP_VSEIP : 0;
+>       }
+>   
+> +    /* No need to update mip for VSTIP */
+> +    mask = ((mask == MIP_VSTIP) && env->vstime_irq) ? 0 : mask;
+> +    vstip = env->vstime_irq ? MIP_VSTIP : 0;
+> +
+>       if (!qemu_mutex_iothread_locked()) {
+>           locked = true;
+>           qemu_mutex_lock_iothread();
+> @@ -620,7 +625,7 @@ uint64_t riscv_cpu_update_mip(RISCVCPU *cpu, uint64_t mask, uint64_t value)
+>   
+>       env->mip = (env->mip & ~mask) | (value & mask);
+>   
+> -    if (env->mip | vsgein) {
+> +    if (env->mip | vsgein | vstip) {
+>           cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+>       } else {
+>           cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index b71e2509b64f..d4265dd3cca2 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -833,17 +833,98 @@ static RISCVException sstc(CPURISCVState *env, int csrno)
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> +static RISCVException sstc_hmode(CPURISCVState *env, int csrno)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (env->priv == PRV_M) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    if (!(get_field(env->mcounteren, COUNTEREN_TM) &
+> +          get_field(env->menvcfg, MENVCFG_STCE))) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (!(get_field(env->hcounteren, COUNTEREN_TM) &
+> +          get_field(env->henvcfg, HENVCFG_STCE))) {
+> +        return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> +    }
+> +
+I think hcounteren only works for VS mode here. So we should add check 
+for virt  mode is enabled here.
+> +    return RISCV_EXCP_NONE;
+> +}
 
->
-> In the commit log, I was supposed to say something like below for
-> (a):
->
-> - The specific high memory region can be disabled through changing
->   the code by user or developer. For example, 'vms->highmem_mmio'
->   is changed from true to false in virt_instance_init().
->
->>>
->>> Improve address assignment for highmem IO regions to avoid the waste
->>> in the PA space by putting the logic into virt_memmap_fits().
->>>
->>> Signed-off-by: Gavin Shan <gshan@redhat.com>
->>> ---
->>>   hw/arm/virt.c | 54
->>> +++++++++++++++++++++++++++++----------------------
->>>   1 file changed, 31 insertions(+), 23 deletions(-)
->>>
->>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->>> index 9633f822f3..bc0cd218f9 100644
->>> --- a/hw/arm/virt.c
->>> +++ b/hw/arm/virt.c
->>> @@ -1688,6 +1688,34 @@ static uint64_t
->>> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
->>>       return arm_cpu_mp_affinity(idx, clustersz);
->>>   }
->>>   +static void virt_memmap_fits(VirtMachineState *vms, int index,
->>> +                             bool *enabled, hwaddr *base, int pa_bits)
->>> +{
->>> +    hwaddr size = extended_memmap[index].size;
->>> +
->>> +    /* The region will be disabled if its size isn't given */
->>> +    if (!*enabled || !size) {
->> In which case do you have !size?
->
-> Yeah, we don't have !size and the condition should be removed.
->
->>> +        *enabled = false;
->>> +        vms->memmap[index].base = 0;
->>> +        vms->memmap[index].size = 0;
->> It looks dangerous to me to reset the region's base and size like that.
->> for instance fdt_add_gic_node() will add dummy data in the dt.
->
-> I would guess you missed that the high memory regions won't be exported
-> through device-tree if they have been disabled. We have a check there,
-> which is "if (nb_redist_regions == 1)"
-OK I missed a check was added in virt_gicv3_redist_region_count.
-Nevertheless, your comment "The region will be disabled if its size
-isn't given */ is not obvious to me. To me the region is disabled if the
-corresponding flag is not set. From your comment I have the impression
-the size is checked to see if the region is exposed, it does not look
-obvious.
->
->>> +        return;
->>> +    }
->>> +
->>> +    /*
->>> +     * Check if the memory region fits in the PA space. The memory map
->>> +     * and highest_gpa are updated if it fits. Otherwise, it's
->>> disabled.
->>> +     */
->>> +    *enabled = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
->> using a 'fits' local variable would make the code more obvious I think
->
-> Lets confirm if you're suggesting something like below?
->
->         bool fits;
->
->         fits = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
->
->         if (fits) {
->            /* update *base, memory mapping, highest_gpa */
->         } else {
->            *enabled = false;
->         }
-yes that's what I suggested.
->
-> I guess we can simply do
->
->         if (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits)) {
->            /* update *base, memory mapping, highest_gpa */
->         } else {
->            *enabled = false;
->         }
->
-> Please let me know which one looks best to you.
->
->>> +    if (*enabled) {
->>> +        *base = ROUND_UP(*base, size);
->>> +        vms->memmap[index].base = *base;
->>> +        vms->memmap[index].size = size;
->>> +        vms->highest_gpa = *base + size - 1;
->>> +
->>> +    *base = *base + size;
->>> +    }
->>> +}
->>> +
->>>   static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
->>>   {
->>>       MachineState *ms = MACHINE(vms);
->>> @@ -1744,37 +1772,17 @@ static void virt_set_memmap(VirtMachineState
->>> *vms, int pa_bits)
->>>       vms->highest_gpa = memtop - 1;
->>>         for (i = VIRT_LOWMEMMAP_LAST; i <
->>> ARRAY_SIZE(extended_memmap); i++) {
->>> -        hwaddr size = extended_memmap[i].size;
->>> -        bool fits;
->>> -
->>> -        base = ROUND_UP(base, size);
->>> -        vms->memmap[i].base = base;
->>> -        vms->memmap[i].size = size;
->>> -
->>> -        /*
->>> -         * Check each device to see if they fit in the PA space,
->>> -         * moving highest_gpa as we go.
->>> -         *
->>> -         * For each device that doesn't fit, disable it.
->>> -         */
->>> -        fits = (base + size) <= BIT_ULL(pa_bits);
->>> -        if (fits) {
->>> -            vms->highest_gpa = base + size - 1;
->>> -        }
->>> -
->>
->> we could avoid running the code below in case highmem is not set. We
->> would need to reset that flags though.
->>
->
-> Yeah, I think it's not a big deal. My though is to update the flag in
-> virt_memmap_fits().
+It's better to return hmode(env, csrno) instead of RISCV_EXCP_NONE here.
 
-Eric
->
->>>           switch (i) {
->>>           case VIRT_HIGH_GIC_REDIST2:
->>> -            vms->highmem_redists &= fits;
->>> +            virt_memmap_fits(vms, i, &vms->highmem_redists, &base,
->>> pa_bits);
->>>               break;
->>>           case VIRT_HIGH_PCIE_ECAM:
->>> -            vms->highmem_ecam &= fits;
->>> +            virt_memmap_fits(vms, i, &vms->highmem_ecam, &base,
->>> pa_bits);
->>>               break;
->>>           case VIRT_HIGH_PCIE_MMIO:
->>> -            vms->highmem_mmio &= fits;
->>> +            virt_memmap_fits(vms, i, &vms->highmem_mmio, &base,
->>> pa_bits);
->>>               break;
->>>           }
->>> -
->>> -        base += size;
->>>       }
->>>         if (device_memory_size > 0) {
->
-> Thanks,
-> Gavin
->
+Regards,
+
+Weiwei Li
+
+> +
+> +static RISCVException read_vstimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->vstimecmp;
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException read_vstimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong *val)
+> +{
+> +    *val = env->vstimecmp >> 32;
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_vstimecmp(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    if (riscv_cpu_mxl(env) == MXL_RV32) {
+> +        env->vstimecmp = deposit64(env->vstimecmp, 0, 32, (uint64_t)val);
+> +    } else {
+> +        env->vstimecmp = val;
+> +    }
+> +
+> +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
+> +                              env->htimedelta, MIP_VSTIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+> +static RISCVException write_vstimecmph(CPURISCVState *env, int csrno,
+> +                                    target_ulong val)
+> +{
+> +    RISCVCPU *cpu = env_archcpu(env);
+> +
+> +    env->vstimecmp = deposit64(env->vstimecmp, 32, 32, (uint64_t)val);
+> +    riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
+> +                              env->htimedelta, MIP_VSTIP);
+> +
+> +    return RISCV_EXCP_NONE;
+> +}
+> +
+>   static RISCVException read_stimecmp(CPURISCVState *env, int csrno,
+>                                       target_ulong *val)
+>   {
+> -    *val = env->stimecmp;
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        *val = env->vstimecmp;
+> +    } else {
+> +        *val = env->stimecmp;
+> +    }
+> +
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+>   static RISCVException read_stimecmph(CPURISCVState *env, int csrno,
+>                                       target_ulong *val)
+>   {
+> -    *val = env->stimecmp >> 32;
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        *val = env->vstimecmp >> 32;
+> +    } else {
+> +        *val = env->stimecmp >> 32;
+> +    }
+> +
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> @@ -852,6 +933,10 @@ static RISCVException write_stimecmp(CPURISCVState *env, int csrno,
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        return write_vstimecmp(env, csrno, val);
+> +    }
+> +
+>       if (riscv_cpu_mxl(env) == MXL_RV32) {
+>           env->stimecmp = deposit64(env->stimecmp, 0, 32, (uint64_t)val);
+>       } else {
+> @@ -868,6 +953,10 @@ static RISCVException write_stimecmph(CPURISCVState *env, int csrno,
+>   {
+>       RISCVCPU *cpu = env_archcpu(env);
+>   
+> +    if (riscv_cpu_virt_enabled(env)) {
+> +        return write_vstimecmph(env, csrno, val);
+> +    }
+> +
+>       env->stimecmp = deposit64(env->stimecmp, 32, 32, (uint64_t)val);
+>       riscv_timer_write_timecmp(cpu, env->stimer, env->stimecmp, 0, MIP_STIP);
+>   
+> @@ -1805,6 +1894,7 @@ static RISCVException rmw_mip64(CPURISCVState *env, int csrno,
+>       if (csrno != CSR_HVIP) {
+>           gin = get_field(env->hstatus, HSTATUS_VGEIN);
+>           old_mip |= (env->hgeip & ((target_ulong)1 << gin)) ? MIP_VSEIP : 0;
+> +        old_mip |= env->vstime_irq ? MIP_VSTIP : 0;
+>       }
+>   
+>       if (ret_val) {
+> @@ -3665,6 +3755,12 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>                                             .min_priv_ver = PRIV_VERSION_1_12_0 },
+>       [CSR_STIMECMPH] = { "stimecmph", sstc, read_stimecmph, write_stimecmph,
+>                                             .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_VSTIMECMP] = { "vstimecmp", sstc_hmode, read_vstimecmp,
+> +                                          write_vstimecmp,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+> +    [CSR_VSTIMECMPH] = { "vstimecmph", sstc_hmode, read_vstimecmph,
+> +                                          write_vstimecmph,
+> +                                          .min_priv_ver = PRIV_VERSION_1_12_0 },
+>   
+>       /* Supervisor Protection and Translation */
+>       [CSR_SATP]     = { "satp",     smode, read_satp,     write_satp     },
+> diff --git a/target/riscv/machine.c b/target/riscv/machine.c
+> index 622fface484e..4ba55705d147 100644
+> --- a/target/riscv/machine.c
+> +++ b/target/riscv/machine.c
+> @@ -92,6 +92,7 @@ static const VMStateDescription vmstate_hyper = {
+>           VMSTATE_UINTTL(env.hgeie, RISCVCPU),
+>           VMSTATE_UINTTL(env.hgeip, RISCVCPU),
+>           VMSTATE_UINT64(env.htimedelta, RISCVCPU),
+> +        VMSTATE_UINT64(env.vstimecmp, RISCVCPU),
+>   
+>           VMSTATE_UINTTL(env.hvictl, RISCVCPU),
+>           VMSTATE_UINT8_ARRAY(env.hviprio, RISCVCPU, 64),
+> diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
+> index f3fb5eac7b7b..8cce667dfd47 100644
+> --- a/target/riscv/time_helper.c
+> +++ b/target/riscv/time_helper.c
+> @@ -22,6 +22,14 @@
+>   #include "time_helper.h"
+>   #include "hw/intc/riscv_aclint.h"
+>   
+> +static void riscv_vstimer_cb(void *opaque)
+> +{
+> +    RISCVCPU *cpu = opaque;
+> +    CPURISCVState *env = &cpu->env;
+> +    env->vstime_irq = 1;
+> +    riscv_cpu_update_mip(cpu, MIP_VSTIP, BOOL_TO_MASK(1));
+> +}
+> +
+>   static void riscv_stimer_cb(void *opaque)
+>   {
+>       RISCVCPU *cpu = opaque;
+> @@ -47,10 +55,16 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
+>            * If we're setting an stimecmp value in the "past",
+>            * immediately raise the timer interrupt
+>            */
+> +        if (timer_irq == MIP_VSTIP) {
+> +            env->vstime_irq = 1;
+> +        }
+>           riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(1));
+>           return;
+>       }
+>   
+> +    if (timer_irq == MIP_VSTIP) {
+> +        env->vstime_irq = 0;
+> +    }
+>       /* Clear the [V]STIP bit in mip */
+>       riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
+>   
+> @@ -95,4 +109,6 @@ void riscv_timer_init(RISCVCPU *cpu)
+>       env->stimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_stimer_cb, cpu);
+>       env->stimecmp = 0;
+>   
+> +    env->vstimer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &riscv_vstimer_cb, cpu);
+> +    env->vstimecmp = 0;
+>   }
 
 
