@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6B025891A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:42:08 +0200 (CEST)
-Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896195891A6
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 19:44:31 +0200 (CEST)
+Received: from localhost ([::1]:41240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJINj-0008Ab-PJ
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:42:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58294)
+	id 1oJIQ2-0002zP-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 13:44:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oJII8-0001tX-R8
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:36:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:26439)
+ id 1oJII7-0001nS-Bu
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:36:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39863)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1oJII4-0000Fd-4q
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:36:20 -0400
+ id 1oJII5-0000Fp-GD
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 13:36:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659548175;
+ s=mimecast20190719; t=1659548176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bq04tONNl/ykWgpL1Uyrw51luSKdbIbA68o5zFH45Gg=;
- b=SQTJ/8qVYxH2wFQvmRtnAjWtMS4WIsKXbTYvEIjaMCS6774i/phS2aUQAWaJE/1gQizHrj
- WJGhc/9HSRjKHJgXyvs+FsqiXKpoxhgcScyTdHYhZC1P90p1w88DiuZ49zKk+Cku5QSDvl
- Lag/5vu9WB/CYbKFwTusy9CaVpBXPrw=
+ bh=fmAuQVeTJipfLwNrimjnWs4amQCSR1ELmwPJMslh6jA=;
+ b=irMKQheXzXJJED21yajkV8zNNJwUkeffCjJZoUjWrRNYpKg7ybe/VOQturcgGkOcfEHL9Y
+ KaaeBngBtRzfEAxEISOmTE0tuGiNypjgX1H/jlnhuo5EX/Zwlyb/8Kg/xGUNAKzad194bJ
+ pkXtlWuSw1pNnVws9xm1/alcrB74Uqo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-511-TW_oDHkTP4KittC_JcuiIg-1; Wed, 03 Aug 2022 13:36:11 -0400
-X-MC-Unique: TW_oDHkTP4KittC_JcuiIg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-626-uHLE4unRMpGLL5-AhexbZQ-1; Wed, 03 Aug 2022 13:36:13 -0400
+X-MC-Unique: uHLE4unRMpGLL5-AhexbZQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D25C811766;
- Wed,  3 Aug 2022 17:36:11 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 964DC100BADC;
+ Wed,  3 Aug 2022 17:36:13 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66D08403164;
- Wed,  3 Aug 2022 17:36:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0BB6290A11;
+ Wed,  3 Aug 2022 17:36:12 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
@@ -53,23 +53,24 @@ Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v2 1/2] virtio: document vdc->get_features() callback
-Date: Wed,  3 Aug 2022 13:36:05 -0400
-Message-Id: <20220803173606.965926-2-stefanha@redhat.com>
+Subject: [PATCH v2 2/2] virtio: remove unnecessary host_features in
+ ->get_features()
+Date: Wed,  3 Aug 2022 13:36:06 -0400
+Message-Id: <20220803173606.965926-3-stefanha@redhat.com>
 In-Reply-To: <20220803173606.965926-1-stefanha@redhat.com>
 References: <20220803173606.965926-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.85 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 2.79 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, T_SCC_BODY_TEXT_LINE=-0.01,
- T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,46 +86,107 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
+Since at least commit 6b8f1020540c27246277377aa2c3331ad2bfb160 ("virtio:
+move host_features") the ->get_features() function has been called with
+host_features as an argument.
+
+Some devices manually add host_features in ->get_features() although the
+features argument already contains host_features. Make all devices
+consistent by dropping the unnecessary code.
+
+Cc: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/virtio/virtio.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ hw/block/virtio-blk.c       | 3 ---
+ hw/char/virtio-serial-bus.c | 1 -
+ hw/net/virtio-net.c         | 3 ---
+ hw/scsi/vhost-scsi-common.c | 3 ---
+ hw/scsi/virtio-scsi.c       | 4 ----
+ hw/virtio/virtio-balloon.c  | 2 --
+ 6 files changed, 16 deletions(-)
 
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index db1c0ddf6b..8d27fe1824 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -120,9 +120,29 @@ struct VirtioDeviceClass {
-     /* This is what a VirtioDevice must implement */
-     DeviceRealize realize;
-     DeviceUnrealize unrealize;
-+
-+    /**
-+     * get_features:
-+     * @vdev: the VirtIODevice
-+     * @requested_features: existing device feature bits from
-+     *                      vdev->host_features
-+     * @errp: pointer to error object
-+     *
-+     * Get the device feature bits.
-+     *
-+     * The ->get_features() function typically sets always-on device feature
-+     * bits as well as conditional feature bits that require some logic to
-+     * compute.
-+     *
-+     * Device feature bits can also be set in vdev->host_features before this
-+     * function is called using DEFINE_PROP_BIT64() qdev properties.
-+     *
-+     * Returns: the final device feature bits to store in vdev->host_features.
-+     */
-     uint64_t (*get_features)(VirtIODevice *vdev,
-                              uint64_t requested_features,
-                              Error **errp);
-+
-     uint64_t (*bad_features)(VirtIODevice *vdev);
-     void (*set_features)(VirtIODevice *vdev, uint64_t val);
-     int (*validate_features)(VirtIODevice *vdev);
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index e9ba752f6b..429aedcf2b 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -996,9 +996,6 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
+ {
+     VirtIOBlock *s = VIRTIO_BLK(vdev);
+ 
+-    /* Firstly sync all virtio-blk possible supported features */
+-    features |= s->host_features;
+-
+     virtio_add_feature(&features, VIRTIO_BLK_F_SEG_MAX);
+     virtio_add_feature(&features, VIRTIO_BLK_F_GEOMETRY);
+     virtio_add_feature(&features, VIRTIO_BLK_F_TOPOLOGY);
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index 7d4601cb5d..1414fb85ae 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -557,7 +557,6 @@ static uint64_t get_features(VirtIODevice *vdev, uint64_t features,
+ 
+     vser = VIRTIO_SERIAL(vdev);
+ 
+-    features |= vser->host_features;
+     if (vser->bus.max_nr_ports > 1) {
+         virtio_add_feature(&features, VIRTIO_CONSOLE_F_MULTIPORT);
+     }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index dd0d056fde..8ecdc1cd83 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -715,9 +715,6 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+     VirtIONet *n = VIRTIO_NET(vdev);
+     NetClientState *nc = qemu_get_queue(n->nic);
+ 
+-    /* Firstly sync all virtio-net possible supported features */
+-    features |= n->host_features;
+-
+     virtio_add_feature(&features, VIRTIO_NET_F_MAC);
+ 
+     if (!peer_has_vnet_hdr(n)) {
+diff --git a/hw/scsi/vhost-scsi-common.c b/hw/scsi/vhost-scsi-common.c
+index 767f827e55..8b26f90aa1 100644
+--- a/hw/scsi/vhost-scsi-common.c
++++ b/hw/scsi/vhost-scsi-common.c
+@@ -124,9 +124,6 @@ uint64_t vhost_scsi_common_get_features(VirtIODevice *vdev, uint64_t features,
+ {
+     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(vdev);
+ 
+-    /* Turn on predefined features supported by this device */
+-    features |= vsc->host_features;
+-
+     return vhost_get_features(&vsc->dev, vsc->feature_bits, features);
+ }
+ 
+diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
+index 4141dddd51..f754611dfe 100644
+--- a/hw/scsi/virtio-scsi.c
++++ b/hw/scsi/virtio-scsi.c
+@@ -816,10 +816,6 @@ static uint64_t virtio_scsi_get_features(VirtIODevice *vdev,
+                                          uint64_t requested_features,
+                                          Error **errp)
+ {
+-    VirtIOSCSI *s = VIRTIO_SCSI(vdev);
+-
+-    /* Firstly sync all virtio-scsi possible supported features */
+-    requested_features |= s->host_features;
+     return requested_features;
+ }
+ 
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 73ac5eb675..0e9ca71b15 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -796,8 +796,6 @@ static void virtio_balloon_set_config(VirtIODevice *vdev,
+ static uint64_t virtio_balloon_get_features(VirtIODevice *vdev, uint64_t f,
+                                             Error **errp)
+ {
+-    VirtIOBalloon *dev = VIRTIO_BALLOON(vdev);
+-    f |= dev->host_features;
+     virtio_add_feature(&f, VIRTIO_BALLOON_F_STATS_VQ);
+ 
+     return f;
 -- 
 2.37.1
 
