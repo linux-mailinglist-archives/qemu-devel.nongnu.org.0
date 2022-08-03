@@ -2,61 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A9258859B
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 04:01:46 +0200 (CEST)
-Received: from localhost ([::1]:40166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0663588546
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 03:05:55 +0200 (CEST)
+Received: from localhost ([::1]:53914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJ3hh-0001Cc-G7
-	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 22:01:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42044)
+	id 1oJ2pe-0003iL-TF
+	for lists+qemu-devel@lfdr.de; Tue, 02 Aug 2022 21:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oJ3fI-0007zU-DK; Tue, 02 Aug 2022 21:59:16 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:53072 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanjinhao21s@ict.ac.cn>)
- id 1oJ3fF-0006E5-Ok; Tue, 02 Aug 2022 21:59:16 -0400
-Received: from localhost.localdomain (unknown [159.226.43.62])
- by APP-01 (Coremail) with SMTP id qwCowAD311hT1uliQhXABQ--.47541S2;
- Wed, 03 Aug 2022 09:58:49 +0800 (CST)
-From: Jinhao Fan <fanjinhao21s@ict.ac.cn>
-To: qemu-devel@nongnu.org
-Cc: its@irrelevant.dk, kbusch@kernel.org, Jinhao Fan <fanjinhao21s@ict.ac.cn>,
- qemu-block@nongnu.org (open list:nvme)
-Subject: [PATCH v2] hw/nvme: Add helper functions for qid-db conversion
-Date: Wed,  3 Aug 2022 09:58:36 +0800
-Message-Id: <20220803015836.3590335-1-fanjinhao21s@ict.ac.cn>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oJ2kW-00080S-QB
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 21:00:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <gshan@redhat.com>) id 1oJ2kS-0000Rr-V5
+ for qemu-devel@nongnu.org; Tue, 02 Aug 2022 21:00:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659488431;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=siJ+LpUUJpIwKagpm691Cglg3JiFYHwfBgLziBl8+sc=;
+ b=hwrwWKdiRhacslUB4GjMExVKPSJLlyGILL4+kJc4CgB/UJmiPjK0lAMyTK32+vbfe67W6k
+ ry6QotOzfsv3+0kyGScYaz/65v3BH36o01rj3SyVOjL/EiM1jn/CHRbWF0/rDDdhphpRPQ
+ vad+foOo5egW8bE6G/F6xd1sy2J2rA0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-636-M7i9KbLfO065vTtRWgJYLw-1; Tue, 02 Aug 2022 21:00:27 -0400
+X-MC-Unique: M7i9KbLfO065vTtRWgJYLw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2AE69185A7B2;
+ Wed,  3 Aug 2022 01:00:27 +0000 (UTC)
+Received: from [10.64.54.20] (vpn2-54-20.bne.redhat.com [10.64.54.20])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE3FDC3598B;
+ Wed,  3 Aug 2022 01:00:23 +0000 (UTC)
+Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
+ IO regions
+To: eric.auger@redhat.com, qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, cohuck@redhat.com, zhenyzha@redhat.com,
+ shan.gavin@gmail.com, Marc Zyngier <maz@kernel.org>
+References: <20220802064529.547361-1-gshan@redhat.com>
+ <20220802064529.547361-2-gshan@redhat.com>
+ <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
+From: Gavin Shan <gshan@redhat.com>
+Message-ID: <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
+Date: Wed, 3 Aug 2022 13:01:04 +1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: qwCowAD311hT1uliQhXABQ--.47541S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr1UKFy8XF1fJFyUKF43GFg_yoW7uF4rpF
- s5XFZIyr4fAF1qqa95JrnrJw15Z397XryUCrnxK3Wakr93Zry8Aay8CFWfKF1fZrykZrWY
- vr48JF13WF47JrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUv014x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
- 6F4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr
- 0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
- 6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
- 0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0Ew4C26cxK
- 6c8Ij28IcwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F4
- 0E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1l
- IxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxV
- AFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v2
- 6r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUU
- 6RRtUUUUU==
-X-Originating-IP: [159.226.43.62]
-X-CM-SenderInfo: xidqyxpqkd0j0rv6xunwoduhdfq/
-Received-SPF: pass client-ip=159.226.251.21;
- envelope-from=fanjinhao21s@ict.ac.cn; helo=cstnet.cn
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+In-Reply-To: <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.85 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=gshan@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,171 +84,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Gavin Shan <gshan@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the introduction of shadow doorbell and ioeventfd, we need to do
-frequent conversion between qid and its doorbell offset. The original
-hard-coded calculation is confusing and error-prone. Add several helper
-functions to do this task.
+Hi Eric,
 
-Signed-off-by: Jinhao Fan <fanjinhao21s@ict.ac.cn>
----
-Changes since v1:
- - Use left shifts instead of divisions
+On 8/2/22 7:41 PM, Eric Auger wrote:
+> On 8/2/22 08:45, Gavin Shan wrote:
+>> There are 3 highmem IO regions as below. They can be disabled in
+>> two situations: (a) The specific region is disabled by user. (b)
+>> The specific region doesn't fit in the PA space. However, the base
+>> address and highest_gpa are still updated no matter if the region
+>> is enabled or disabled. It's incorrectly incurring waste in the PA
+>> space.
+> If I am not wrong highmem_redists and highmem_mmio are not user selectable
+> 
+> Only highmem ecam depends on machine type & ACPI setup. But I would say
+> that in server use case it is always set. So is that optimization really
+> needed?
 
- hw/nvme/ctrl.c | 61 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 39 insertions(+), 22 deletions(-)
+There are two other cases you missed.
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 533ad14e7a..4312e880e1 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -487,6 +487,29 @@ static int nvme_check_cqid(NvmeCtrl *n, uint16_t cqid)
- {
-     return cqid < n->conf_ioqpairs + 1 && n->cq[cqid] != NULL ? 0 : -1;
- }
-+static inline bool nvme_db_offset_is_cq(NvmeCtrl *n, hwaddr offset)
-+{
-+    hwaddr dstride = NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return (offset >> (dstride + 2)) & 1;
-+}
-+
-+static inline uint16_t nvme_db_offset_to_qid(NvmeCtrl *n, hwaddr offset)
-+{
-+    hwaddr dstride = NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return offset >> (dstride + 3);
-+}
-+
-+static inline hwaddr nvme_cqid_to_db_offset(NvmeCtrl *n, uint16_t cqid)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return stride * (cqid * 2 + 1);
-+}
-+
-+static inline hwaddr nvme_sqid_to_db_offset(NvmeCtrl *n, uint16_t sqid)
-+{
-+    hwaddr stride = 4 << NVME_CAP_DSTRD(ldq_le_p(&n->bar.cap));
-+    return stride * sqid * 2;
-+}
- 
- static void nvme_inc_cq_tail(NvmeCQueue *cq)
- {
-@@ -4256,7 +4279,7 @@ static void nvme_cq_notifier(EventNotifier *e)
- static int nvme_init_cq_ioeventfd(NvmeCQueue *cq)
- {
-     NvmeCtrl *n = cq->ctrl;
--    uint16_t offset = (cq->cqid << 3) + (1 << 2);
-+    uint16_t offset = nvme_cqid_to_db_offset(n, cq->cqid);
-     int ret;
- 
-     ret = event_notifier_init(&cq->notifier, 0);
-@@ -4283,7 +4306,7 @@ static void nvme_sq_notifier(EventNotifier *e)
- static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
- {
-     NvmeCtrl *n = sq->ctrl;
--    uint16_t offset = sq->sqid << 3;
-+    uint16_t offset = nvme_sqid_to_db_offset(n, sq->sqid);
-     int ret;
- 
-     ret = event_notifier_init(&sq->notifier, 0);
-@@ -4300,7 +4323,7 @@ static int nvme_init_sq_ioeventfd(NvmeSQueue *sq)
- 
- static void nvme_free_sq(NvmeSQueue *sq, NvmeCtrl *n)
- {
--    uint16_t offset = sq->sqid << 3;
-+    uint16_t offset = nvme_sqid_to_db_offset(n, sq->sqid);
- 
-     n->sq[sq->sqid] = NULL;
-     timer_free(sq->timer);
-@@ -4379,8 +4402,8 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
-     sq->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, nvme_process_sq, sq);
- 
-     if (n->dbbuf_enabled) {
--        sq->db_addr = n->dbbuf_dbs + (sqid << 3);
--        sq->ei_addr = n->dbbuf_eis + (sqid << 3);
-+        sq->db_addr = n->dbbuf_dbs + nvme_sqid_to_db_offset(n, sqid);
-+        sq->ei_addr = n->dbbuf_eis + nvme_sqid_to_db_offset(n, sqid);
- 
-         if (n->params.ioeventfd && sq->sqid != 0) {
-             if (!nvme_init_sq_ioeventfd(sq)) {
-@@ -4690,8 +4713,8 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
- static void nvme_free_cq(NvmeCQueue *cq, NvmeCtrl *n)
- {
--    uint16_t offset = (cq->cqid << 3) + (1 << 2);
--
-+    uint16_t offset = nvme_cqid_to_db_offset(n, cq->cqid);
-+    
-     n->cq[cq->cqid] = NULL;
-     timer_free(cq->timer);
-     if (cq->ioeventfd_enabled) {
-@@ -4755,8 +4778,8 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
-     QTAILQ_INIT(&cq->req_list);
-     QTAILQ_INIT(&cq->sq_list);
-     if (n->dbbuf_enabled) {
--        cq->db_addr = n->dbbuf_dbs + (cqid << 3) + (1 << 2);
--        cq->ei_addr = n->dbbuf_eis + (cqid << 3) + (1 << 2);
-+        cq->db_addr = n->dbbuf_dbs + nvme_cqid_to_db_offset(n, cqid);
-+        cq->ei_addr = n->dbbuf_eis + nvme_cqid_to_db_offset(n, cqid);
- 
-         if (n->params.ioeventfd && cqid != 0) {
-             if (!nvme_init_cq_ioeventfd(cq)) {
-@@ -6128,13 +6151,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
-         NvmeCQueue *cq = n->cq[i];
- 
-         if (sq) {
--            /*
--             * CAP.DSTRD is 0, so offset of ith sq db_addr is (i<<3)
--             * nvme_process_db() uses this hard-coded way to calculate
--             * doorbell offsets. Be consistent with that here.
--             */
--            sq->db_addr = dbs_addr + (i << 3);
--            sq->ei_addr = eis_addr + (i << 3);
-+            sq->db_addr = dbs_addr + nvme_sqid_to_db_offset(n, i);
-+            sq->ei_addr = eis_addr + nvme_sqid_to_db_offset(n, i);
-             pci_dma_write(&n->parent_obj, sq->db_addr, &sq->tail,
-                     sizeof(sq->tail));
- 
-@@ -6146,9 +6164,8 @@ static uint16_t nvme_dbbuf_config(NvmeCtrl *n, const NvmeRequest *req)
+- highmem_ecam is enabled after virt-2.12, meaning it stays disabled
+   before that.
+
+- The high memory region can be disabled if user is asking large
+   (normal) memory space through 'maxmem=' option. When the requested
+   memory by 'maxmem=' is large enough, the high memory regions are
+   disabled. It means the normal memory has higher priority than those
+   high memory regions. This is the case I provided in (b) of the
+   commit log.
+
+In the commit log, I was supposed to say something like below for
+(a):
+
+- The specific high memory region can be disabled through changing
+   the code by user or developer. For example, 'vms->highmem_mmio'
+   is changed from true to false in virt_instance_init().
+
+>>
+>> Improve address assignment for highmem IO regions to avoid the waste
+>> in the PA space by putting the logic into virt_memmap_fits().
+>>
+>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>> ---
+>>   hw/arm/virt.c | 54 +++++++++++++++++++++++++++++----------------------
+>>   1 file changed, 31 insertions(+), 23 deletions(-)
+>>
+>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>> index 9633f822f3..bc0cd218f9 100644
+>> --- a/hw/arm/virt.c
+>> +++ b/hw/arm/virt.c
+>> @@ -1688,6 +1688,34 @@ static uint64_t virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>>       return arm_cpu_mp_affinity(idx, clustersz);
+>>   }
+>>   
+>> +static void virt_memmap_fits(VirtMachineState *vms, int index,
+>> +                             bool *enabled, hwaddr *base, int pa_bits)
+>> +{
+>> +    hwaddr size = extended_memmap[index].size;
+>> +
+>> +    /* The region will be disabled if its size isn't given */
+>> +    if (!*enabled || !size) {
+> In which case do you have !size?
+
+Yeah, we don't have !size and the condition should be removed.
+
+>> +        *enabled = false;
+>> +        vms->memmap[index].base = 0;
+>> +        vms->memmap[index].size = 0;
+> It looks dangerous to me to reset the region's base and size like that.
+> for instance fdt_add_gic_node() will add dummy data in the dt.
+
+I would guess you missed that the high memory regions won't be exported
+through device-tree if they have been disabled. We have a check there,
+which is "if (nb_redist_regions == 1)"
+
+>> +        return;
+>> +    }
+>> +
+>> +    /*
+>> +     * Check if the memory region fits in the PA space. The memory map
+>> +     * and highest_gpa are updated if it fits. Otherwise, it's disabled.
+>> +     */
+>> +    *enabled = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
+> using a 'fits' local variable would make the code more obvious I think
+
+Lets confirm if you're suggesting something like below?
+
+         bool fits;
+
+         fits = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
+
+         if (fits) {
+            /* update *base, memory mapping, highest_gpa */
+         } else {
+            *enabled = false;
          }
- 
-         if (cq) {
--            /* CAP.DSTRD is 0, so offset of ith cq db_addr is (i<<3)+(1<<2) */
--            cq->db_addr = dbs_addr + (i << 3) + (1 << 2);
--            cq->ei_addr = eis_addr + (i << 3) + (1 << 2);
-+            cq->db_addr = dbs_addr + nvme_cqid_to_db_offset(n, i);
-+            cq->ei_addr = eis_addr + nvme_cqid_to_db_offset(n, i);
-             pci_dma_write(&n->parent_obj, cq->db_addr, &cq->head,
-                     sizeof(cq->head));
- 
-@@ -6843,14 +6860,14 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         return;
-     }
- 
--    if (((addr - 0x1000) >> 2) & 1) {
-+    if (nvme_db_offset_is_cq(n, addr - 0x1000)) {
-         /* Completion queue doorbell write */
- 
-         uint16_t new_head = val & 0xffff;
-         int start_sqs;
-         NvmeCQueue *cq;
- 
--        qid = (addr - (0x1000 + (1 << 2))) >> 3;
-+        qid = nvme_db_offset_to_qid(n, addr - 0x1000);
-         if (unlikely(nvme_check_cqid(n, qid))) {
-             NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_cq,
-                            "completion queue doorbell write"
-@@ -6925,7 +6942,7 @@ static void nvme_process_db(NvmeCtrl *n, hwaddr addr, int val)
-         uint16_t new_tail = val & 0xffff;
-         NvmeSQueue *sq;
- 
--        qid = (addr - 0x1000) >> 3;
-+        qid = nvme_db_offset_to_qid(n, addr - 0x1000);
-         if (unlikely(nvme_check_sqid(n, qid))) {
-             NVME_GUEST_ERR(pci_nvme_ub_db_wr_invalid_sq,
-                            "submission queue doorbell write"
--- 
-2.25.1
+
+I guess we can simply do
+
+         if (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits)) {
+            /* update *base, memory mapping, highest_gpa */
+         } else {
+            *enabled = false;
+         }
+
+Please let me know which one looks best to you.
+
+>> +    if (*enabled) {
+>> +        *base = ROUND_UP(*base, size);
+>> +        vms->memmap[index].base = *base;
+>> +        vms->memmap[index].size = size;
+>> +        vms->highest_gpa = *base + size - 1;
+>> +
+>> +	*base = *base + size;
+>> +    }
+>> +}
+>> +
+>>   static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>>   {
+>>       MachineState *ms = MACHINE(vms);
+>> @@ -1744,37 +1772,17 @@ static void virt_set_memmap(VirtMachineState *vms, int pa_bits)
+>>       vms->highest_gpa = memtop - 1;
+>>   
+>>       for (i = VIRT_LOWMEMMAP_LAST; i < ARRAY_SIZE(extended_memmap); i++) {
+>> -        hwaddr size = extended_memmap[i].size;
+>> -        bool fits;
+>> -
+>> -        base = ROUND_UP(base, size);
+>> -        vms->memmap[i].base = base;
+>> -        vms->memmap[i].size = size;
+>> -
+>> -        /*
+>> -         * Check each device to see if they fit in the PA space,
+>> -         * moving highest_gpa as we go.
+>> -         *
+>> -         * For each device that doesn't fit, disable it.
+>> -         */
+>> -        fits = (base + size) <= BIT_ULL(pa_bits);
+>> -        if (fits) {
+>> -            vms->highest_gpa = base + size - 1;
+>> -        }
+>> -
+> 
+> we could avoid running the code below in case highmem is not set. We would need to reset that flags though.
+> 
+
+Yeah, I think it's not a big deal. My though is to update the flag in virt_memmap_fits().
+
+>>           switch (i) {
+>>           case VIRT_HIGH_GIC_REDIST2:
+>> -            vms->highmem_redists &= fits;
+>> +            virt_memmap_fits(vms, i, &vms->highmem_redists, &base, pa_bits);
+>>               break;
+>>           case VIRT_HIGH_PCIE_ECAM:
+>> -            vms->highmem_ecam &= fits;
+>> +            virt_memmap_fits(vms, i, &vms->highmem_ecam, &base, pa_bits);
+>>               break;
+>>           case VIRT_HIGH_PCIE_MMIO:
+>> -            vms->highmem_mmio &= fits;
+>> +            virt_memmap_fits(vms, i, &vms->highmem_mmio, &base, pa_bits);
+>>               break;
+>>           }
+>> -
+>> -        base += size;
+>>       }
+>>   
+>>       if (device_memory_size > 0) {
+
+Thanks,
+Gavin
 
 
