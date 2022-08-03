@@ -2,66 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3765588C5D
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:47:36 +0200 (CEST)
-Received: from localhost ([::1]:36922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42227588C6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:51:54 +0200 (CEST)
+Received: from localhost ([::1]:41938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJDmh-0002DF-EU
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:47:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35276)
+	id 1oJDqq-0005zb-OZ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:51:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJDUD-0004TC-4z
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:28:30 -0400
-Received: from smtpout4.mo529.mail-out.ovh.net ([217.182.185.173]:50449)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJDUA-00088O-Gd
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:28:28 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.177])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id ABAB711C6D1E9;
- Wed,  3 Aug 2022 14:28:22 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 3 Aug 2022
- 14:28:21 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G00486977f83-2593-47ff-9a72-b2242fdc07b2,
- CC7AE06ED68251E997EA4638F74AFDA4D8EEB002) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <7fbbabb7-2a13-9719-1aca-084c032d9302@kaod.org>
-Date: Wed, 3 Aug 2022 14:28:16 +0200
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oJDWb-00088j-Gk
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:31:01 -0400
+Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131]:39892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1oJDWY-0001sP-LI
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:30:56 -0400
+Received: by mail-yw1-x1131.google.com with SMTP id
+ 00721157ae682-322b5199358so167282087b3.6
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 05:30:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc;
+ bh=EnEMZUisXgxKUeKdBWNakeH0nco9cqyUMj7sIOSeHts=;
+ b=wBjZ4EWoT3IXM2rvQgo/t7iMO7Z6AqfGm1GIQmNIFjGGTHlyeJG7j1I2OSrRNvcZI4
+ 24k2WM2IKnHBV+ZCeUtBpy9JaD4ym2P6O+Sx6iXEqf2s+MM7dXPgBrJhpqxTlshnWOMT
+ /XRRnl44vtKcEGy1+RuPHeeVZJb9bUtlui8lVbF4jDWRWBfRpg9A9wh22QqGgYpyZro9
+ 6mPOg56X+aQwz5+G9KEi4Ju7IBHwv2yJCyMFsdag7FlqLd4YMjaQmfBhB889xA+9o19G
+ YBs3fUN7HMTCdp4gc1AwBypOKpTd50FqXhhWGSbE7h8UTKaX2R5dZPh3u2SRGxGR64Xy
+ 7m6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc;
+ bh=EnEMZUisXgxKUeKdBWNakeH0nco9cqyUMj7sIOSeHts=;
+ b=1lStZzxfcLiP6FCauOCqgEQ5svVDA/FEWhFTTZCUkTe5YoBHK9z8cEEb5pn4DHlIuc
+ Bn/pU3lMsF3cjbU8O30Ax3L3goa1lBew4twGhVRNASF05CD2uayqIRbgDWUqT8gy19iR
+ /AzXp0o1mOsY8/eUzs9YMJE4/OdmsC3isUspsxM5dfjdepTgtfvnI0qpA3HQCfu9hYi6
+ 1LLh0/AUoUZFQvK/f95zxHEFBu8bwNHMjsOgtuNkeiKu7g+IXDsmco2dJUPt/Buo6U6+
+ mN0xi5AzOG2eezlbAMbZMQr9gse2GYDelxjnK7tUF0mOJzUY/OZ9HJCLkFXPnRkc9xzQ
+ 55TQ==
+X-Gm-Message-State: ACgBeo12VpetNOMwDFnAjYZYaAtZzyU5ETLFolkwdjTuBwm4y/mV9mH+
+ q3xQwZLc0F2vMgT4dN0MJL1Ozqmifdk5vp5DtHgclQ==
+X-Google-Smtp-Source: AA6agR6Acf24aJyXoKtZHIzM4mHsOgSx8fBe4RDwSTNj0C85t8ZJsrkChHB/cJrEukq03vD9OsUKczAH0kPtBUTlaZM=
+X-Received: by 2002:a0d:d2c3:0:b0:31e:62ea:3303 with SMTP id
+ u186-20020a0dd2c3000000b0031e62ea3303mr23699810ywd.64.1659529853465; Wed, 03
+ Aug 2022 05:30:53 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-CC: Daniel Henrique Barboza <danielhb413@gmail.com>, <qemu-ppc@nongnu.org>,
- <qemu-devel@nongnu.org>
-References: <20220801131039.1693913-1-clg@kaod.org>
- <20220801131039.1693913-6-clg@kaod.org>
- <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
- <be98071c-ac88-d716-6e0a-e07699b5435c@kaod.org>
- <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <f9fa36ee-f57c-d377-64db-d7e66f334269@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: fd90b5c7-25e4-4bc6-9293-9de7c507a8eb
-X-Ovh-Tracer-Id: 7630786618915720160
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudelkeffgfeuhfduvdfgvdetvdfgleekledtgedvgfeluedvueekkeffjeekgfenucffohhmrghinhepnhhonhhgnhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhnsggprhgtphhtthhopedupdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvle
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout4.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+References: <20220729130040.1428779-1-afaria@redhat.com>
+ <20220729130040.1428779-3-afaria@redhat.com>
+In-Reply-To: <20220729130040.1428779-3-afaria@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 3 Aug 2022 13:30:13 +0100
+Message-ID: <CAFEAcA83Eaw59H7ha0hScvX1yF8LrJatWqD-hnX0eVy+Ne4EUQ@mail.gmail.com>
+Subject: Re: [RFC v2 02/10] Drop unused static function return values
+To: Alberto Faria <afaria@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Hannes Reinecke <hare@suse.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>, 
+ "Maciej S. Szmigiero" <maciej.szmigiero@oracle.com>, Peter Lieven <pl@kamp.de>,
+ kvm@vger.kernel.org, 
+ Xie Yongji <xieyongji@bytedance.com>, Eric Auger <eric.auger@redhat.com>, 
+ Hanna Reitz <hreitz@redhat.com>, Jeff Cody <codyprime@gmail.com>,
+ Eric Blake <eblake@redhat.com>, "Denis V. Lunev" <den@openvz.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Stefan Weil <sw@weilnetz.de>, 
+ Klaus Jensen <its@irrelevant.dk>, Laurent Vivier <lvivier@redhat.com>, 
+ Alberto Garcia <berto@igalia.com>, Michael Roth <michael.roth@amd.com>, 
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-block@nongnu.org, 
+ Konstantin Kostiuk <kkostiuk@redhat.com>, Kevin Wolf <kwolf@redhat.com>, 
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+ Marcelo Tosatti <mtosatti@redhat.com>, Greg Kurz <groug@kaod.org>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Amit Shah <amit@kernel.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+ Jason Wang <jasowang@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ "Richard W.M. Jones" <rjones@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
+ envelope-from=peter.maydell@linaro.org; helo=mail-yw1-x1131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,171 +118,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/3/22 13:59, BALATON Zoltan wrote:
-> On Wed, 3 Aug 2022, Cédric Le Goater wrote:
->> On 8/2/22 21:18, Daniel Henrique Barboza wrote:
->>> On 8/1/22 10:10, Cédric Le Goater wrote:
->>>> This moves all the code previously done in the ppc405ep_init() routine
->>>> under ppc405_soc_realize().
->>>>
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>>   hw/ppc/ppc405.h        |  12 ++--
->>>>   hw/ppc/ppc405_boards.c |  12 ++--
->>>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
->>>>   3 files changed, 84 insertions(+), 91 deletions(-)
->>>>
->>>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>>> index c8cddb71733a..5e4e96d86ceb 100644
->>>> --- a/hw/ppc/ppc405.h
->>>> +++ b/hw/ppc/ppc405.h
->>>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
->>>>       MemoryRegion sram;
->>>>       MemoryRegion ram_memories[2];
->>>>       hwaddr ram_bases[2], ram_sizes[2];
->>>> +    bool do_dram_init;
->>>>       MemoryRegion *dram_mr;
->>>>       hwaddr ram_size;
->>>> +
->>>> +    uint32_t sysclk;
->>>> +    PowerPCCPU *cpu;
->>>> +    DeviceState *uic;
->>>>   };
->>>>   /* PowerPC 405 core */
->>>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
->>>>   void ppc4xx_plb_init(CPUPPCState *env);
->>>>   void ppc405_ebc_init(CPUPPCState *env);
->>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>>> -                        MemoryRegion ram_memories[2],
->>>> -                        hwaddr ram_bases[2],
->>>> -                        hwaddr ram_sizes[2],
->>>> -                        uint32_t sysclk, DeviceState **uicdev,
->>>> -                        int do_init);
->>>> -
->>>>   #endif /* PPC405_H */
->>>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>>> index 96db52c5a309..363cb0770506 100644
->>>> --- a/hw/ppc/ppc405_boards.c
->>>> +++ b/hw/ppc/ppc405_boards.c
->>>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
->>>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->>>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>>       const char *kernel_filename = machine->kernel_filename;
->>>> -    PowerPCCPU *cpu;
->>>>       MemoryRegion *sysmem = get_system_memory();
->>>> -    DeviceState *uicdev;
->>>>       if (machine->ram_size != mc->default_ram_size) {
->>>>           char *sz = size_to_str(mc->default_ram_size);
->>>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
->>>>                                machine->ram_size, &error_fatal);
->>>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
->>>>                                OBJECT(machine->ram), &error_abort);
->>>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
->>>> +                             !(kernel_filename == NULL), &error_abort);
->>>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
->>>> +                             &error_abort);
->>>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
->>>> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
->>>> -                        ppc405->soc.ram_sizes,
->>>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
->>>> -
->>>>       /* allocate and load BIOS */
->>>>       if (machine->firmware) {
->>>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
->>>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->>>>       /* Load ELF kernel and rootfs.cpio */
->>>>       } else if (kernel_filename && !machine->firmware) {
->>>> -        boot_from_kernel(machine, cpu);
->>>> +        boot_from_kernel(machine, ppc405->soc.cpu);
->>>>       }
->>>>   }
->>>> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>>> index 156e839b8283..59612504bf3f 100644
->>>> --- a/hw/ppc/ppc405_uc.c
->>>> +++ b/hw/ppc/ppc405_uc.c
->>>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
->>>>   #endif
->>>>   }
->>>> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>>> -                        MemoryRegion ram_memories[2],
->>>> -                        hwaddr ram_bases[2],
->>>> -                        hwaddr ram_sizes[2],
->>>> -                        uint32_t sysclk, DeviceState **uicdevp,
->>>> -                        int do_init)
->>>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->>>>   {
->>>> +    Ppc405SoCState *s = PPC405_SOC(dev);
->>>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
->>>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->>>> -    PowerPCCPU *cpu;
->>>>       CPUPPCState *env;
->>>> -    DeviceState *uicdev;
->>>> -    SysBusDevice *uicsbd;
->>>> +    Error *err = NULL;
->>>> +
->>>> +    /* XXX: fix this ? */
->>>
->>> So, this comment, originally from ppc405_boards.c, was added by commit
->>> 1a6c088620368 and it seemed to make reference to something with the refering
->>> to the ram_* values:
->>>
->>>
->>>      /* XXX: fix this */
->>>      ram_bases[0] = 0x00000000;
->>>      ram_sizes[0] = 0x08000000;
->>>      ram_bases[1] = 0x00000000;
->>>      ram_sizes[1] = 0x00000000;
->>> (...)
->>>
->>>
->>> No more context is provided aside from a git-svn-id from savannah.nongnu.org.
->>>
->>> If no one can provide more context about what is to be fixed here, I'll
->>> remove the comment.
->>>
->>>
->>>
->>>> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
->>>> +                             "ef405ep.ram.alias", s->dram_mr, 0, s->ram_size);
->>>
->>> As I mentioned in patch 2, ef405ep.ram.alias can be renamed to ppc405.ram.alias ...
->>
->> sure.
->>
->>>
->>>> +    s->ram_bases[0] = 0;
->>>> +    s->ram_sizes[0] = s->ram_size;
->>>> +    memory_region_init(&s->ram_memories[1], OBJECT(s), "ef405ep.ram1", 0);
->>>
->>> And this can be renamed to ef405ep.ram1. If you agree with the rename I
->>> can amend it in the tree.
->>
->>
->> I think we can do better and simply remove the second bank. it is unused ...
->>
->> I have patches QOMifying ppc4xx_sdram_init() but the current modelling
->> makes things a bit complex, specially ppc4xx_sdram_banks() which is only
->> used on the bamboo and sam460ex machines.
-> 
-> We need to model the SDRAM controller for the sam460ex firmware at least partially so it gets past the memory test and init. If you change it please test that sam460ex still boots with firmware. 
+On Fri, 29 Jul 2022 at 14:09, Alberto Faria <afaria@redhat.com> wrote:
+>
+> Make non-void static functions whose return values are ignored by
+> all callers return void instead.
+>
+> These functions were found by static-analyzer.py.
+>
+> Not all occurrences of this problem were fixed.
+>
+> Signed-off-by: Alberto Faria <afaria@redhat.com>
 
-Sure.
+>  65 files changed, 248 insertions(+), 403 deletions(-)
 
-QOM'ifying models reveals the implementation shortcuts. The ppc405 board was
-quite messy and it's getting better with the removal of ppc405ep_init().
-ppc4xx_sdram_init() is the next step but it is quite localized in the SoC.
-No hurries.
+The problem with a patch like this is that it rolls up into a
+single patch changes to the API of many functions in multiple
+subsystems across the whole codebase. Some of those changes
+might be right; some might be wrong. No single person is going
+to be in a position to review the whole lot, and a +248-403
+patch email makes it very unwieldy to try to discuss.
 
-Thanks,
+If you want to propose some of these I think you need to:
+ * split it out so that you're only suggesting changes in
+   one subsystem at a time
+ * look at the places you are suggesting changes, to see if
+   the correct answer is actually "add the missing error
+   check in the caller(s)"
+ * not change places that are following standard API patterns
+   like "return bool and have an Error** argument"
 
-C.
-
-
-> I'm not sure 405 and 440 use the same sdram controller though or if the 460EX has a different one as these may have been updated in later SoCs to support newer RAM standards (I think the 460EX has DDR2) and the QEMU model is a bit messy sharing components between 405 and 440. When I've changed some of these for 460EX I've tried to name them so that 4xx means shared by all, 44x or 440 means 440 specific and 40x or similar for older SoCs only but this is probably not always correct. I could not find a clean way to separate these. QOMifying would make sense when cleaning this up otherwise it's just adding more boilerplate without any clear advantage IMO.
-> 
-> If you want change these maybe you should get the docs for the emulated chips and consult those for differences. Unfortunately the 460ex does not seem to have docs available but it's similar to earlier IBM parts like 440GP which generally have docs. That's what I've used but still couldn't find all parts like the PCIe conroller that I had to implement based on what the firmware and drivers do (and only did that partially so it boots as I did not fully understand how it works and how these are modelled in QEMU).
-> 
-> Regards,
-> BALATON Zoltan
-
+thanks
+-- PMM
 
