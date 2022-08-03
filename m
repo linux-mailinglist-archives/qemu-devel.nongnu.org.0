@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07661588AB0
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:41:08 +0200 (CEST)
-Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFA3588AA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:35:47 +0200 (CEST)
+Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJBoI-0008VA-LX
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:41:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39088)
+	id 1oJBj7-00053N-Um
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:35:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oJBdv-00015c-Ti
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:25 -0400
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:42325)
+ id 1oJBdx-00015k-7b
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:26 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:55009)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1oJBdu-0003mq-30
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:23 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id B86B95C018B;
- Wed,  3 Aug 2022 06:30:19 -0400 (EDT)
+ id 1oJBdv-0003mv-2k
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:30:24 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 967B85C0132;
+ Wed,  3 Aug 2022 06:30:20 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 03 Aug 2022 06:30:19 -0400
+ by compute2.internal (MEProxy); Wed, 03 Aug 2022 06:30:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:content-type:date:date:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
- :reply-to:sender:subject:subject:to:to; s=fm1; t=1659522619; x=
- 1659609019; bh=km60XCfeDaX92zG6kQnllL/PZWX/QXobHnRBmi7f78w=; b=N
- jU7xpKImPMtLOwMV0AWvlbGkmSa+TB5NGPiypfCKztrp854lOI2/foa4kHqY/rpm
- PdqYYW2jXVRV6yOp8q8jDHhBOXjXDWeeA9bZNh/y+3Y7Xe0bn9ya3/nbz7qgWYv1
- ewpnpIl69emTBa6jb9UoSOhf45A9qCRfXIUyHBMyDxCbhEjUEowogwiWdc096ryJ
- /yRRBN2tJFTO6uDnWtW4vBtgSAUvgYuu8m40zl2+NlAmZi5Z5clL/QdhmK9Bb4uV
- RChA0BxnTUGI/vHCa3u4JfzLx4pIUXVQ1Iadp+OmYK69L+5lDCi+jHy6buGwKFpF
- StOXS8cShS5r4Uo7VbAaw==
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1659522620; x=
+ 1659609020; bh=2K2RMhw9HLZkI8QTb/8BjZzlwMTyPkvKbC2iSS9RVLM=; b=E
+ P4HWGWHDjzXtUylUz8SrbJypBbrOpFYi73OPzdsExFd7KTHNP03moiAKjBON138d
+ YGdHCTLKXX9tMr/Xx1AVPfCIWxbyYTLm12Cdc6/2BYMLynDGhel/YWJkIE1aPT/5
+ IrQQayW9qAUgl2lllvZdYkG6mGDeNjJ7O2Yi34LHol6eOY5rEK+XJ6m2NUbUFBwP
+ gMo8Qn8MJptq5VU0L7dXXq6ACVDniG0QTxQl7o1xZQ6aPGcAR0CtD6SKccDC2qg6
+ RXkCdgrsgcwiZxq3x0hJ2nynIyeBFIXViyLjElk5hVVyKZhnRix21+tBcF0+PHOi
+ PBuiz0KaJBTSN7r1nKp7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding
  :content-type:date:date:feedback-id:feedback-id:from:from
  :in-reply-to:in-reply-to:message-id:mime-version:references
  :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659522619; x=
- 1659609019; bh=km60XCfeDaX92zG6kQnllL/PZWX/QXobHnRBmi7f78w=; b=X
- XRp4xhu2wEH02nplTMPVAFWmyMyfceDZN01LjeCTvsNSxGG64dsUDKUN1LswUthP
- Ai6HKDUOxnszJ5XFXtTB8rdnm1Cfp/7eYtGY/YuQGaawfBJJk+pQV3DzUkH7bksU
- ppLgB9qTPe8CfnUWVuvwGZUXQABN9ROuhKGAOi8wbnbpzBgWBnjwWqju9dri0HvY
- 9SwXEuPNxVwYUGRo4+ZQKBi9WeHFbZCqF1cNUEMQZbETLQ9YzKcqAtYdCsXVgql1
- ojMhaSKANi0dyHD3LeIIIPc449ks02syFfN6S/xqgbBxwNibJ5ocJ2C9koyIK1t5
- qD26UOl1jJCLMpBnbZsWQ==
-X-ME-Sender: <xms:O07qYrcBECqJMqfAwfQs74hFg4mWJr87nuu628oMrYPSQ0BgA-RLiQ>
- <xme:O07qYhNBBdn6wYIXUrRuN_NixzvlngqpEv-6DUBJ3Zr8LFNBDS4yQ9VHhZBKnwI-Z
- iMoE9PzFeC4tsgDAQw>
-X-ME-Received: <xmr:O07qYkgfmI4gxkxTZiAEIT1Jerm2jJmpkf4rKjWtSPJPwWDrCRbzlaPfrTpXpp5oIPWluCbBRiGKhTn0dYQmpy9dOj6PtSYlldgjSw-lM60VZ5Iz4oH7GJ6K>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgvdekucetufdoteggodetrfdotf
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1659522620; x=
+ 1659609020; bh=2K2RMhw9HLZkI8QTb/8BjZzlwMTyPkvKbC2iSS9RVLM=; b=Z
+ 4pXCtl34VKgFY8oCLqPzOwE6LJg+VmMwcsdrx118bB5l7wM3ly4GPmgwu45ZwrJT
+ W/44KSfSXlhKZd9Q3lwrPYqQX67S5ciSS1fPSXPcNXvviUGxbPjgmi5ZnZjjG3X7
+ 8NqeNz+9PrxuU8b7MixDZi7EEgwgFx5TYbRZgGq88mCc1EYy2TZo5ZfVY9IGENmm
+ Vn/ayCs2hXm5/0u5UkmimB+FHsCkI7p3N6JMO4DArjPJc2dpnKe21ygk2ZA+lFwa
+ Iv0mb5CgK3Lnf0A661njqDuAgvNOH/sl2Uq4MWk8kh/TmIrOjDEyIf558yX6i3Bx
+ mrCsyvH6bSwPAC6/N0piQ==
+X-ME-Sender: <xms:PE7qYmzndghalm-stUkaHRsbMv89oSpTSWWFt03yPbs7oiH0MN2C3A>
+ <xme:PE7qYiStEbbai3JYDDxU0um68tOguw82zivjd9GU3GI2gqQcOeWRU2BcCek_8bCYY
+ EYwojwxNkchMK7kRuQ>
+X-ME-Received: <xmr:PE7qYoVopTN_1-mdqOzNCrME1WSrfhWqyp5LBwMbbEODVYUo-Y8qsmfkA4OoPaAB8PCkTUElJa92chXEMIGnBohZ2ZvlIEp722RG0z3CfAv6725dQZVJQ9dQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgvdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
  ekredtredtjeenucfhrhhomheplfhirgiguhhnucgjrghnghcuoehjihgrgihunhdrhigr
@@ -60,20 +60,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgvdekucetufdoteggod
  ejtdduvddujeefvdejleeutdeufefffedtueevvdduveejffenucevlhhushhtvghrufhi
  iigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflh
  ihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:O07qYs9tI-7gHdRcjEYVn55duAjTu-dcLwRo14kVxEx5mTwOjy14RQ>
- <xmx:O07qYnt_1TLk67CMM5v3lU30GYewrk5X9i8e4mHXAd9SSydEGKE3Hg>
- <xmx:O07qYrFluiX2lnb0ODvLpMtojdUPHpdVWqHy5iL7j6e5Qxmpij8tVQ>
- <xmx:O07qYg7hRLZNzhO_6_xMYniUNDZo27O4i4xGIpoCIrB6fyZ0ZgKSoQ>
+X-ME-Proxy: <xmx:PE7qYshq1I5cluYi5YhZT07ExlYh5L0pa4X8TbtYRyCcWhtxZvkYnQ>
+ <xmx:PE7qYoDrBMWxhFpNLYa8tYhDJtql5P28frWJldmrCn0vtMzKR0naoA>
+ <xmx:PE7qYtLhk-nmT-YlCIOMk8rOidypqkJIUE6c74GvOOaWKMMHlOwf_Q>
+ <xmx:PE7qYrPoMbr08VADWT3MhIRbeogh8rg_t7vFWgYMEilBI53kcHPpZA>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 3 Aug 2022 06:30:18 -0400 (EDT)
+ 3 Aug 2022 06:30:19 -0400 (EDT)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: laurent@vivier.eu
 Cc: f4bug@amsat.org, qemu-devel@nongnu.org,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH v2 1/2] linux-user: Introduce stubs for ELF AT_BASE_PLATFORM
-Date: Wed,  3 Aug 2022 11:30:08 +0100
-Message-Id: <20220803103009.95972-2-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 2/2] linux-user: Set ELF_BASE_PLATFORM for MIPS
+Date: Wed,  3 Aug 2022 11:30:09 +0100
+Message-Id: <20220803103009.95972-3-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.32.1 (Apple Git-133)
 In-Reply-To: <20220803103009.95972-1-jiaxun.yang@flygoat.com>
 References: <20220803103009.95972-1-jiaxun.yang@flygoat.com>
@@ -104,84 +104,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-AT_BASE_PLATFORM is a elf auxiliary vector pointing to a string
-to pass some architecture information.
-See getauxval(3) man-page.
+Match most appropriate base platform string based on insn_flags.
+Logic is aligned with aligned with set_isa() from 
+arch/mips/kernel/cpu-probe.c in Linux kernel.
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- linux-user/elfload.c | 29 +++++++++++++++++++++++++++--
- 1 file changed, 27 insertions(+), 2 deletions(-)
+ linux-user/elfload.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index ce902dbd56..e7666c5c60 100644
+index e7666c5c60..8a4ac9787f 100644
 --- a/linux-user/elfload.c
 +++ b/linux-user/elfload.c
-@@ -1718,6 +1718,10 @@ static inline void init_thread(struct target_pt_regs *regs,
- 
- #endif /* TARGET_HEXAGON */
- 
-+#ifndef ELF_BASE_PLATFORM
-+#define ELF_BASE_PLATFORM (NULL)
-+#endif
-+
- #ifndef ELF_PLATFORM
- #define ELF_PLATFORM (NULL)
- #endif
-@@ -2148,8 +2152,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     int i;
-     abi_ulong u_rand_bytes;
-     uint8_t k_rand_bytes[16];
--    abi_ulong u_platform;
--    const char *k_platform;
-+    abi_ulong u_platform, u_base_platform;
-+    const char *k_platform, *k_base_platform;
-     const int n = sizeof(elf_addr_t);
- 
-     sp = p;
-@@ -2171,6 +2175,22 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-         }
-     }
- 
-+    u_base_platform = 0;
-+    k_base_platform = ELF_BASE_PLATFORM;
-+    if (k_base_platform) {
-+        size_t len = strlen(k_base_platform) + 1;
-+        if (STACK_GROWS_DOWN) {
-+            sp -= (len + n - 1) & ~(n - 1);
-+            u_base_platform = sp;
-+            /* FIXME - check return value of memcpy_to_target() for failure */
-+            memcpy_to_target(sp, k_base_platform, len);
-+        } else {
-+            memcpy_to_target(sp, k_base_platform, len);
-+            u_base_platform = sp;
-+            sp += len + 1;
-+        }
-+    }
-+
-     u_platform = 0;
-     k_platform = ELF_PLATFORM;
-     if (k_platform) {
-@@ -2212,6 +2232,8 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     }
- 
-     size = (DLINFO_ITEMS + 1) * 2;
-+    if (k_base_platform)
-+        size += 2;
-     if (k_platform)
-         size += 2;
- #ifdef DLINFO_ARCH_ITEMS
-@@ -2289,6 +2311,9 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-     NEW_AUX_ENT(AT_HWCAP2, (abi_ulong) ELF_HWCAP2);
+@@ -1050,6 +1050,37 @@ static uint32_t get_elf_hwcap(void)
+ #define elf_check_abi(x) (!((x) & EF_MIPS_ABI2))
  #endif
  
-+    if (u_base_platform) {
-+        NEW_AUX_ENT(AT_BASE_PLATFORM, u_base_platform);
-+    }
-     if (u_platform) {
-         NEW_AUX_ENT(AT_PLATFORM, u_platform);
-     }
++#define ELF_BASE_PLATFORM get_elf_base_platform()
++
++#define MATCH_PLATFORM_INSN(_flags, _base_platform)      \
++    do { if ((cpu->env.insn_flags & (_flags)) == _flags) \
++    { return _base_platform; } } while (0)
++
++static const char *get_elf_base_platform(void)
++{
++    MIPSCPU *cpu = MIPS_CPU(thread_cpu);
++
++    /* 64 bit ISAs goes first */
++    MATCH_PLATFORM_INSN(CPU_MIPS64R6, "mips64r6");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R5, "mips64r5");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R2, "mips64r2");
++    MATCH_PLATFORM_INSN(CPU_MIPS64R1, "mips64");
++    MATCH_PLATFORM_INSN(CPU_MIPS5, "mips5");
++    MATCH_PLATFORM_INSN(CPU_MIPS4, "mips4");
++    MATCH_PLATFORM_INSN(CPU_MIPS3, "mips3");
++
++    /* 32 bit ISAs */
++    MATCH_PLATFORM_INSN(CPU_MIPS32R6, "mips32r6");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R5, "mips32r5");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R2, "mips32r2");
++    MATCH_PLATFORM_INSN(CPU_MIPS32R1, "mips32");
++    MATCH_PLATFORM_INSN(CPU_MIPS2, "mips2");
++
++    /* Fallback */
++    return "mips";
++}
++#undef MATCH_PLATFORM_INSN
++
+ static inline void init_thread(struct target_pt_regs *regs,
+                                struct image_info *infop)
+ {
 -- 
 2.32.1 (Apple Git-133)
 
