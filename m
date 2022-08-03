@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C0D588CFC
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:33:10 +0200 (CEST)
-Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 887E0588D0C
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:38:08 +0200 (CEST)
+Received: from localhost ([::1]:43368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJEUn-0008DG-4U
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51956)
+	id 1oJEZb-0006GR-MG
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:38:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=fO70=YH=kaod.org=clg@ozlabs.org>)
- id 1oJEQu-0002F4-DV; Wed, 03 Aug 2022 09:29:08 -0400
-Received: from gandalf.ozlabs.org ([150.107.74.76]:40743)
+ id 1oJEQv-0002H4-4O; Wed, 03 Aug 2022 09:29:09 -0400
+Received: from gandalf.ozlabs.org ([150.107.74.76]:46293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=fO70=YH=kaod.org=clg@ozlabs.org>)
- id 1oJEQr-0000UD-V8; Wed, 03 Aug 2022 09:29:08 -0400
+ id 1oJEQs-0000UR-0v; Wed, 03 Aug 2022 09:29:08 -0400
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4LyXkZ4b0kz4wgv;
- Wed,  3 Aug 2022 23:28:54 +1000 (AEST)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4LyXkd60Skz4x1T;
+ Wed,  3 Aug 2022 23:28:57 +1000 (AEST)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4LyXkX271sz4x1K;
- Wed,  3 Aug 2022 23:28:51 +1000 (AEST)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4LyXkc0Qchz4x1K;
+ Wed,  3 Aug 2022 23:28:55 +1000 (AEST)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-ppc@nongnu.org
 Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH v2 00/20] ppc: QOM'ify 405 board
-Date: Wed,  3 Aug 2022 15:28:24 +0200
-Message-Id: <20220803132844.2370514-1-clg@kaod.org>
+Subject: [PATCH v2 01/20] ppc/ppc405: Remove taihu machine
+Date: Wed,  3 Aug 2022 15:28:25 +0200
+Message-Id: <20220803132844.2370514-2-clg@kaod.org>
 X-Mailer: git-send-email 2.37.1
+In-Reply-To: <20220803132844.2370514-1-clg@kaod.org>
+References: <20220803132844.2370514-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -61,71 +63,323 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+It has been deprecated since 7.0.
 
-Here is large series QOM'ifying the PPC405 board. It introduces a new
-generic machine and SoC models, converts the current device models to
-QOM and populates the SoC. The process is quite mechanical without too
-much issues to handle. The noisy part is the initial patch introducing
-the SoC realize routine.
-
-What's left ?
-
-* The DCR read/writre handlers are attached in table to the CPU
-  instance. We could probably rework the whole with a specific address
-  space and memory regions handling the implemented registers. I don't
-  think this is necessary.
-
-* the SDRAM mappings are very baroque and certainly could be simplified.
-  I think we should QOMify the ppc440 machines before addressing this
-  part.
-
-Thanks,
-
-C.
-
-Changes in v2 :
-
- - docs/about/removed-features.rst update
- - Fix compile breakage (uic)
- - Fix CPU reset, which breaking u-boot boot
- - Changed prefix of memory regions to "ppc405"
- - Reduced the number of RAM banks to 1. Second was a dummy one to
-   please ppc405ep_init()
-
-Cédric Le Goater (20):
-  ppc/ppc405: Remove taihu machine
-  ppc/ppc405: Introduce a PPC405 generic machine
-  ppc/ppc405: Move devices under the ref405ep machine
-  ppc/ppc405: Introduce a PPC405 SoC
-  ppc/ppc405: Start QOMification of the SoC
-  ppc/ppc405: QOM'ify CPU
-  ppc/ppc405: QOM'ify CPC
-  ppc/ppc405: QOM'ify GPT
-  ppc/ppc405: QOM'ify OCM
-  ppc/ppc405: QOM'ify GPIO
-  ppc/ppc405: QOM'ify DMA
-  ppc/ppc405: QOM'ify EBC
-  ppc/ppc405: QOM'ify OPBA
-  ppc/ppc405: QOM'ify POB
-  ppc/ppc405: QOM'ify PLB
-  ppc/ppc405: QOM'ify MAL
-  ppc/ppc405: QOM'ify FPGA
-  ppc/ppc405: QOM'ify UIC
-  ppc/ppc405: QOM'ify I2C
-  ppc/ppc4xx: Fix sdram trace events
-
- docs/about/deprecated.rst       |   9 -
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+---
+ docs/about/deprecated.rst       |   9 --
  docs/about/removed-features.rst |   6 +
  docs/system/ppc/embedded.rst    |   1 -
- hw/ppc/ppc405.h                 | 210 ++++++++-
- include/hw/ppc/ppc4xx.h         |  29 ++
- hw/ppc/ppc405_boards.c          | 366 ++++-----------
- hw/ppc/ppc405_uc.c              | 799 +++++++++++++++++++-------------
- hw/ppc/ppc4xx_devs.c            | 124 +++--
+ hw/ppc/ppc405_boards.c          | 232 --------------------------------
  MAINTAINERS                     |   2 +-
- 9 files changed, 894 insertions(+), 652 deletions(-)
+ 5 files changed, 7 insertions(+), 243 deletions(-)
 
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 7ee26626d5cf..2f9b41aaea48 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -233,15 +233,6 @@ deprecated; use the new name ``dtb-randomness`` instead. The new name
+ better reflects the way this property affects all random data within
+ the device tree blob, not just the ``kaslr-seed`` node.
+ 
+-PPC 405 ``taihu`` machine (since 7.0)
+-'''''''''''''''''''''''''''''''''''''
+-
+-The PPC 405 CPU is a system-on-a-chip, so all 405 machines are very similar,
+-except for some external periphery. However, the periphery of the ``taihu``
+-machine is hardly emulated at all (e.g. neither the LCD nor the USB part had
+-been implemented), so there is not much value added by this board. Use the
+-``ref405ep`` machine instead.
+-
+ ``pc-i440fx-1.4`` up to ``pc-i440fx-1.7`` (since 7.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index c7b9dadd5d63..8fad2f4d5e9b 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -661,6 +661,12 @@ Aspeed ``swift-bmc`` machine (removed in 7.0)
+ This machine was removed because it was unused. Alternative AST2500 based
+ OpenPOWER machines are ``witherspoon-bmc`` and ``romulus-bmc``.
+ 
++ppc ``taihu`` machine (removed in 7.2)
++'''''''''''''''''''''''''''''''''''''''''''''
++
++This machine was removed because it was partially emulated and 405
++machines are very similar. Use the ``ref405ep`` machine instead.
++
+ linux-user mode CPUs
+ --------------------
+ 
+diff --git a/docs/system/ppc/embedded.rst b/docs/system/ppc/embedded.rst
+index cfffbda24da9..af3b3d9fa460 100644
+--- a/docs/system/ppc/embedded.rst
++++ b/docs/system/ppc/embedded.rst
+@@ -6,5 +6,4 @@ Embedded family boards
+ - ``ppce500``              generic paravirt e500 platform
+ - ``ref405ep``             ref405ep
+ - ``sam460ex``             aCube Sam460ex
+-- ``taihu``                taihu
+ - ``virtex-ml507``         Xilinx Virtex ML507 reference design
+diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
+index a66ad05e3ac3..1a4e7588c584 100644
+--- a/hw/ppc/ppc405_boards.c
++++ b/hw/ppc/ppc405_boards.c
+@@ -342,241 +342,9 @@ static const TypeInfo ref405ep_type = {
+     .class_init = ref405ep_class_init,
+ };
+ 
+-/*****************************************************************************/
+-/* AMCC Taihu evaluation board */
+-/* - PowerPC 405EP processor
+- * - SDRAM               128 MB at 0x00000000
+- * - Boot flash          2 MB   at 0xFFE00000
+- * - Application flash   32 MB  at 0xFC000000
+- * - 2 serial ports
+- * - 2 ethernet PHY
+- * - 1 USB 1.1 device    0x50000000
+- * - 1 LCD display       0x50100000
+- * - 1 CPLD              0x50100000
+- * - 1 I2C EEPROM
+- * - 1 I2C thermal sensor
+- * - a set of LEDs
+- * - bit-bang SPI port using GPIOs
+- * - 1 EBC interface connector 0 0x50200000
+- * - 1 cardbus controller + expansion slot.
+- * - 1 PCI expansion slot.
+- */
+-typedef struct taihu_cpld_t taihu_cpld_t;
+-struct taihu_cpld_t {
+-    uint8_t reg0;
+-    uint8_t reg1;
+-};
+-
+-static uint64_t taihu_cpld_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    taihu_cpld_t *cpld;
+-    uint32_t ret;
+-
+-    cpld = opaque;
+-    switch (addr) {
+-    case 0x0:
+-        ret = cpld->reg0;
+-        break;
+-    case 0x1:
+-        ret = cpld->reg1;
+-        break;
+-    default:
+-        ret = 0;
+-        break;
+-    }
+-
+-    return ret;
+-}
+-
+-static void taihu_cpld_write(void *opaque, hwaddr addr,
+-                             uint64_t value, unsigned size)
+-{
+-    taihu_cpld_t *cpld;
+-
+-    cpld = opaque;
+-    switch (addr) {
+-    case 0x0:
+-        /* Read only */
+-        break;
+-    case 0x1:
+-        cpld->reg1 = value;
+-        break;
+-    default:
+-        break;
+-    }
+-}
+-
+-static const MemoryRegionOps taihu_cpld_ops = {
+-    .read = taihu_cpld_read,
+-    .write = taihu_cpld_write,
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-static void taihu_cpld_reset (void *opaque)
+-{
+-    taihu_cpld_t *cpld;
+-
+-    cpld = opaque;
+-    cpld->reg0 = 0x01;
+-    cpld->reg1 = 0x80;
+-}
+-
+-static void taihu_cpld_init(MemoryRegion *sysmem, uint32_t base)
+-{
+-    taihu_cpld_t *cpld;
+-    MemoryRegion *cpld_memory = g_new(MemoryRegion, 1);
+-
+-    cpld = g_new0(taihu_cpld_t, 1);
+-    memory_region_init_io(cpld_memory, NULL, &taihu_cpld_ops, cpld, "cpld", 0x100);
+-    memory_region_add_subregion(sysmem, base, cpld_memory);
+-    qemu_register_reset(&taihu_cpld_reset, cpld);
+-}
+-
+-static void taihu_405ep_init(MachineState *machine)
+-{
+-    MachineClass *mc = MACHINE_GET_CLASS(machine);
+-    const char *bios_name = machine->firmware ?: BIOS_FILENAME;
+-    const char *kernel_filename = machine->kernel_filename;
+-    const char *initrd_filename = machine->initrd_filename;
+-    char *filename;
+-    MemoryRegion *sysmem = get_system_memory();
+-    MemoryRegion *bios;
+-    MemoryRegion *ram_memories = g_new(MemoryRegion, 2);
+-    hwaddr ram_bases[2], ram_sizes[2];
+-    long bios_size;
+-    target_ulong kernel_base, initrd_base;
+-    long kernel_size, initrd_size;
+-    int linux_boot;
+-    int fl_idx;
+-    DriveInfo *dinfo;
+-    DeviceState *uicdev;
+-
+-    if (machine->ram_size != mc->default_ram_size) {
+-        char *sz = size_to_str(mc->default_ram_size);
+-        error_report("Invalid RAM size, should be %s", sz);
+-        g_free(sz);
+-        exit(EXIT_FAILURE);
+-    }
+-
+-    ram_bases[0] = 0;
+-    ram_sizes[0] = 0x04000000;
+-    memory_region_init_alias(&ram_memories[0], NULL,
+-                             "taihu_405ep.ram-0", machine->ram, ram_bases[0],
+-                             ram_sizes[0]);
+-    ram_bases[1] = 0x04000000;
+-    ram_sizes[1] = 0x04000000;
+-    memory_region_init_alias(&ram_memories[1], NULL,
+-                             "taihu_405ep.ram-1", machine->ram, ram_bases[1],
+-                             ram_sizes[1]);
+-    ppc405ep_init(sysmem, ram_memories, ram_bases, ram_sizes,
+-                  33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
+-    /* allocate and load BIOS */
+-    fl_idx = 0;
+-#if defined(USE_FLASH_BIOS)
+-    dinfo = drive_get(IF_PFLASH, 0, fl_idx);
+-    if (dinfo) {
+-        bios_size = 2 * MiB;
+-        pflash_cfi02_register(0xFFE00000,
+-                              "taihu_405ep.bios", bios_size,
+-                              blk_by_legacy_dinfo(dinfo),
+-                              64 * KiB, 1,
+-                              4, 0x0001, 0x22DA, 0x0000, 0x0000, 0x555, 0x2AA,
+-                              1);
+-        fl_idx++;
+-    } else
+-#endif
+-    {
+-        bios = g_new(MemoryRegion, 1);
+-        memory_region_init_rom(bios, NULL, "taihu_405ep.bios", BIOS_SIZE,
+-                               &error_fatal);
+-        filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-        if (filename) {
+-            bios_size = load_image_size(filename,
+-                                        memory_region_get_ram_ptr(bios),
+-                                        BIOS_SIZE);
+-            g_free(filename);
+-            if (bios_size < 0) {
+-                error_report("Could not load PowerPC BIOS '%s'", bios_name);
+-                exit(1);
+-            }
+-            bios_size = (bios_size + 0xfff) & ~0xfff;
+-            memory_region_add_subregion(sysmem, (uint32_t)(-bios_size), bios);
+-        } else if (!qtest_enabled()) {
+-            error_report("Could not load PowerPC BIOS '%s'", bios_name);
+-            exit(1);
+-        }
+-    }
+-    /* Register Linux flash */
+-    dinfo = drive_get(IF_PFLASH, 0, fl_idx);
+-    if (dinfo) {
+-        bios_size = 32 * MiB;
+-        pflash_cfi02_register(0xfc000000, "taihu_405ep.flash", bios_size,
+-                              blk_by_legacy_dinfo(dinfo),
+-                              64 * KiB, 1,
+-                              4, 0x0001, 0x22DA, 0x0000, 0x0000, 0x555, 0x2AA,
+-                              1);
+-        fl_idx++;
+-    }
+-    /* Register CLPD & LCD display */
+-    taihu_cpld_init(sysmem, 0x50100000);
+-    /* Load kernel */
+-    linux_boot = (kernel_filename != NULL);
+-    if (linux_boot) {
+-        kernel_base = KERNEL_LOAD_ADDR;
+-        /* now we can load the kernel */
+-        kernel_size = load_image_targphys(kernel_filename, kernel_base,
+-                                          machine->ram_size - kernel_base);
+-        if (kernel_size < 0) {
+-            error_report("could not load kernel '%s'", kernel_filename);
+-            exit(1);
+-        }
+-        /* load initrd */
+-        if (initrd_filename) {
+-            initrd_base = INITRD_LOAD_ADDR;
+-            initrd_size = load_image_targphys(initrd_filename, initrd_base,
+-                                              machine->ram_size - initrd_base);
+-            if (initrd_size < 0) {
+-                error_report("could not load initial ram disk '%s'",
+-                             initrd_filename);
+-                exit(1);
+-            }
+-        } else {
+-            initrd_base = 0;
+-            initrd_size = 0;
+-        }
+-    } else {
+-        kernel_base = 0;
+-        kernel_size = 0;
+-        initrd_base = 0;
+-        initrd_size = 0;
+-    }
+-}
+-
+-static void taihu_class_init(ObjectClass *oc, void *data)
+-{
+-    MachineClass *mc = MACHINE_CLASS(oc);
+-
+-    mc->desc = "taihu";
+-    mc->init = taihu_405ep_init;
+-    mc->default_ram_size = 0x08000000;
+-    mc->default_ram_id = "taihu_405ep.ram";
+-    mc->deprecation_reason = "incomplete, use 'ref405ep' instead";
+-}
+-
+-static const TypeInfo taihu_type = {
+-    .name = MACHINE_TYPE_NAME("taihu"),
+-    .parent = TYPE_MACHINE,
+-    .class_init = taihu_class_init,
+-};
+-
+ static void ppc405_machine_init(void)
+ {
+     type_register_static(&ref405ep_type);
+-    type_register_static(&taihu_type);
+ }
+ 
+ type_init(ppc405_machine_init)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5ce4227ff650..1729c0901cea 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1282,7 +1282,7 @@ F: hw/openrisc/openrisc_sim.c
+ 
+ PowerPC Machines
+ ----------------
+-405 (ref405ep and taihu)
++405 (ref405ep)
+ L: qemu-ppc@nongnu.org
+ S: Orphan
+ F: hw/ppc/ppc405_boards.c
 -- 
 2.37.1
 
