@@ -2,50 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2067E58945E
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 00:26:18 +0200 (CEST)
-Received: from localhost ([::1]:38598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA457589460
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 00:29:21 +0200 (CEST)
+Received: from localhost ([::1]:44188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJMoj-0006QP-7I
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 18:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
+	id 1oJMrg-0001tQ-AK
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 18:29:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJMmQ-0002sm-8y; Wed, 03 Aug 2022 18:23:54 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:33984)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJMoG-0005ic-Ui
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:25:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:52045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJMmN-0001NF-4k; Wed, 03 Aug 2022 18:23:53 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 4CB607462D3;
- Thu,  4 Aug 2022 00:23:47 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id E4A787461AE; Thu,  4 Aug 2022 00:23:46 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id E2694745702;
- Thu,  4 Aug 2022 00:23:46 +0200 (CEST)
-Date: Thu, 4 Aug 2022 00:23:46 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 05/20] ppc/ppc405: Start QOMification of the SoC
-In-Reply-To: <20220803132844.2370514-6-clg@kaod.org>
-Message-ID: <70f82feb-bea8-943c-87c6-90fab144db51@eik.bme.hu>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-6-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1oJMoE-00027L-FN
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 18:25:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659565545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HX7H9yHA5WLbJq2xz49M9De6B7/eSaJklg3r87Lbtkw=;
+ b=KE35ptQRbFV/j6tiALaQ5LRSjwH7bxPEx/wsUecdcl8KkzhSQQZjM2f8jTEykA7ZLKxGBw
+ VmDaMGPPnZnam0LqPS/ViEs0DwvURWTZLdd3OIudkJ+8/q1H1+C/Mt5mbgae3/W7HJWTg8
+ qaUI04mWSc18Y+3dvROB2v2wx08HbIs=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-561-So04hwUCMCaPV7_xG-VGWQ-1; Wed, 03 Aug 2022 18:25:44 -0400
+X-MC-Unique: So04hwUCMCaPV7_xG-VGWQ-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ z20-20020a05640235d400b0043e1e74a495so2728099edc.11
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 15:25:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc;
+ bh=HX7H9yHA5WLbJq2xz49M9De6B7/eSaJklg3r87Lbtkw=;
+ b=A/s4If9hCyQSIgtioGestbeiWSKizRbULir2OLnYW7jb3C+eTPuchfkL7RHNMCaEQN
+ 2S0U7T62JbK8TwqIkFdhQQl+YQuEny3uz33IgXBhRUY51UB22JvmB8jnR41DsfYyH+1f
+ ogH9TbiWfSyRK148mb/MAlbqUAFLJgApRtzX6Spd+8PU/+llgUkFtahBPL7gRPMYkUqo
+ irq6+plxN0VtNIcAFJ32aSa5X5KovqQm+Awr1v4VHCuB99zUp6eX5oxKIajeaTJhwPia
+ cg6u4n48d5XfZqB6FPR7dZHsR+4Pi5EWq9S2/TGnhTjx82PPJFyXFFqTsutTHZmJ3sj9
+ xX3A==
+X-Gm-Message-State: AJIora8BmSLk4oc89CY4/4wwLI1U6isC5O4RlyLpBowpxI17QXHUALtp
+ UIau1wv5Gg7lxk1aAekJQCgb43lE8t8YvKHSec85M+UASAW+Xzm9hz//SoxhwWynVgBFkuMgako
+ 3qLzVHEyiyQdgfYA=
+X-Received: by 2002:a17:906:4fd3:b0:72f:2306:32a6 with SMTP id
+ i19-20020a1709064fd300b0072f230632a6mr21629071ejw.83.1659565543357; 
+ Wed, 03 Aug 2022 15:25:43 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1vXHHL4LaIAO2gySICmI1DszxeYSj7mJP4Ty3qPjIlEJYYjruKFu0DJ3Lq79CIrTj3X4KP66Q==
+X-Received: by 2002:a17:906:4fd3:b0:72f:2306:32a6 with SMTP id
+ i19-20020a1709064fd300b0072f230632a6mr21629046ejw.83.1659565542992; 
+ Wed, 03 Aug 2022 15:25:42 -0700 (PDT)
+Received: from redhat.com ([2.54.191.86]) by smtp.gmail.com with ESMTPSA id
+ m22-20020a170906721600b0072ed9efc9dfsm7738029ejk.48.2022.08.03.15.25.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 15:25:42 -0700 (PDT)
+Date: Wed, 3 Aug 2022 18:25:39 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: qemu-devel@nongnu.org, Xiaoyao Li <xiaoyao.li@intel.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Ard Biesheuvel <ardb@kernel.org>,
+ linux-efi@vger.kernel.org
+Subject: Re: [PATCH RFC v1] hw/i386: place setup_data at fixed place in memory
+Message-ID: <20220803182340-mutt-send-email-mst@kernel.org>
+References: <20220803170235.1312978-1-Jason@zx2c4.com>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-410041635-1659565426=:13819"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220803170235.1312978-1-Jason@zx2c4.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,320 +103,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-410041635-1659565426=:13819
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> This moves all the code previously done in the ppc405ep_init() routine
-> under ppc405_soc_realize(). We can also adjust the number of banks now
-> that we have control on ppc4xx_sdram_init().
->
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+On Wed, Aug 03, 2022 at 07:02:35PM +0200, Jason A. Donenfeld wrote:
+> The boot parameter header refers to setup_data at an absolute address,
+> and each setup_data refers to the next setup_data at an absolute address
+> too. Currently QEMU simply puts the setup_datas right after the kernel
+> image, and since the kernel_image is loaded at prot_addr -- a fixed
+> address knowable to QEMU apriori -- the setup_data absolute address
+> winds up being just `prot_addr + a_fixed_offset_into_kernel_image`.
+> 
+> This mostly works fine, so long as the kernel image really is loaded at
+> prot_addr. However, OVMF doesn't load the kernel at prot_addr, and
+> generally EFI doesn't give a good way of predicting where it's going to
+> load the kernel. So when it loads it at some address != prot_addr, the
+> absolute addresses in setup_data now point somewhere bogus, causing
+> crashes when EFI stub tries to follow the next link.
+> 
+> Fix this by placing setup_data at some fixed place in memory, not as
+> part of the kernel image, and then pointing the setup_data absolute
+> address to that fixed place in memory. This way, even if OVMF or other
+> chains relocate the kernel image, the boot parameter still points to the
+> correct absolute address.
+> 
+> === NOTE NOTE NOTE NOTE NOTE ===
+> This commit is currently garbage! It fixes the boot test case, but it
+> just picks the address 0x10000000. That's probably not a good idea. If
+> somebody with some x86 architectural knowledge could let me know a
+> better reserved place to put this, that'd be very appreciated.
+> 
+> Fixes: 3cbeb52467 ("hw/i386: add device tree support")
+> Reported-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Cc: Michael S. Tsirkin <mst@redhat.com>
+> Cc: Daniel P. Berrang� <berrange@redhat.com>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: linux-efi@vger.kernel.org
+> Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
 > ---
-> hw/ppc/ppc405.h        |  16 ++---
-> hw/ppc/ppc405_boards.c |  12 ++--
-> hw/ppc/ppc405_uc.c     | 144 ++++++++++++++++++++---------------------
-> 3 files changed, 83 insertions(+), 89 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index c8cddb71733a..2c912b328eaf 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -72,11 +72,16 @@ struct Ppc405SoCState {
->
->     /* Public */
->     MemoryRegion sram;
-> -    MemoryRegion ram_memories[2];
-> -    hwaddr ram_bases[2], ram_sizes[2];
-> +    MemoryRegion ram_memories[1];
-> +    hwaddr ram_bases[1], ram_sizes[1];
-> +    bool do_dram_init;
-
-I'm not sure about this. First of all what's the point having a 1 element 
-array instead of just a normal field if you don't need more than one of 
-these? (But then the names in plural become a misnomer too.) On the other 
-hand the SoC likely has two banks, it's just that the board only has one 
-socket and thus only uses one of it but other boards could have two 
-sockets and use both. If the SoC model already has this I'd keep it for 
-that cases or to emulate the SoC more precisely. But I may be wrong, I 
-haven't checked the chip docs and only dimly remember how this was on 
-460EX.
-
-Regards,
-BALATON Zoltan
-
->
->     MemoryRegion *dram_mr;
->     hwaddr ram_size;
+>  hw/i386/x86.c | 38 +++++++++++++++++++++-----------------
+>  1 file changed, 21 insertions(+), 17 deletions(-)
+> 
+> diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+> index 050eedc0c8..0b0083b345 100644
+> --- a/hw/i386/x86.c
+> +++ b/hw/i386/x86.c
+> @@ -773,9 +773,9 @@ void x86_load_linux(X86MachineState *x86ms,
+>      bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
+>      uint16_t protocol;
+>      int setup_size, kernel_size, cmdline_size;
+> -    int dtb_size, setup_data_offset;
+> +    int dtb_size, setup_data_item_len, setup_data_total_len = 0;
+>      uint32_t initrd_max;
+> -    uint8_t header[8192], *setup, *kernel;
+> +    uint8_t header[8192], *setup, *kernel, *setup_datas = NULL;
+>      hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
+>      FILE *f;
+>      char *vmode;
+> @@ -1048,6 +1048,8 @@ void x86_load_linux(X86MachineState *x86ms,
+>      }
+>      fclose(f);
+>  
+> +#define SETUP_DATA_PHYS_BASE 0x10000000
 > +
-> +    uint32_t sysclk;
-> +    PowerPCCPU *cpu;
-> +    DeviceState *uic;
-> };
->
-> /* PowerPC 405 core */
-> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
-> void ppc4xx_plb_init(CPUPPCState *env);
-> void ppc405_ebc_init(CPUPPCState *env);
->
-> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
-> -                        MemoryRegion ram_memories[2],
-> -                        hwaddr ram_bases[2],
-> -                        hwaddr ram_sizes[2],
-> -                        uint32_t sysclk, DeviceState **uicdev,
-> -                        int do_init);
+>      /* append dtb to kernel */
+>      if (dtb_filename) {
+>          if (protocol < 0x209) {
+> @@ -1062,34 +1064,36 @@ void x86_load_linux(X86MachineState *x86ms,
+>              exit(1);
+>          }
+>  
+> -        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> -        kernel_size = setup_data_offset + sizeof(struct setup_data) + dtb_size;
+> -        kernel = g_realloc(kernel, kernel_size);
 > -
-> #endif /* PPC405_H */
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 96db52c5a309..363cb0770506 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
->     Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->     MachineClass *mc = MACHINE_GET_CLASS(machine);
->     const char *kernel_filename = machine->kernel_filename;
-> -    PowerPCCPU *cpu;
->     MemoryRegion *sysmem = get_system_memory();
-> -    DeviceState *uicdev;
->
->     if (machine->ram_size != mc->default_ram_size) {
->         char *sz = size_to_str(mc->default_ram_size);
-> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
->                              machine->ram_size, &error_fatal);
->     object_property_set_link(OBJECT(&ppc405->soc), "dram",
->                              OBJECT(machine->ram), &error_abort);
-> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
-> +                             !(kernel_filename == NULL), &error_abort);
-> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
-> +                             &error_abort);
->     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
->
-> -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
-> -                        ppc405->soc.ram_sizes,
-> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
 > -
->     /* allocate and load BIOS */
->     if (machine->firmware) {
->         MemoryRegion *bios = g_new(MemoryRegion, 1);
-> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->
->     /* Load ELF kernel and rootfs.cpio */
->     } else if (kernel_filename && !machine->firmware) {
-> -        boot_from_kernel(machine, cpu);
-> +        boot_from_kernel(machine, ppc405->soc.cpu);
->     }
-> }
->
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 7033bac6bf3f..ed1099e08bbd 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1432,130 +1432,128 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
-> #endif
-> }
->
-> -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
-> -                        MemoryRegion ram_memories[2],
-> -                        hwaddr ram_bases[2],
-> -                        hwaddr ram_sizes[2],
-> -                        uint32_t sysclk, DeviceState **uicdevp,
-> -                        int do_init)
-> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> {
-> +    Ppc405SoCState *s = PPC405_SOC(dev);
->     clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
->     qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
-> -    PowerPCCPU *cpu;
->     CPUPPCState *env;
-> -    DeviceState *uicdev;
-> -    SysBusDevice *uicsbd;
-> +    Error *err = NULL;
-> +
-> +    /* allocate SRAM */
-> +    memory_region_init_ram(&s->sram, OBJECT(s), "ppc405.sram",
-> +                           PPC405EP_SRAM_SIZE,  &err);
-> +    if (err) {
-> +        error_propagate(errp, err);
-> +        return;
+> -        setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> +        setup_data_item_len = sizeof(struct setup_data) + dtb_size;
+> +        setup_datas = g_realloc(setup_datas, setup_data_total_len + setup_data_item_len);
+> +        setup_data = (struct setup_data *)(setup_datas + setup_data_total_len);
+>          setup_data->next = cpu_to_le64(first_setup_data);
+> -        first_setup_data = prot_addr + setup_data_offset;
+> +        first_setup_data = SETUP_DATA_PHYS_BASE + setup_data_total_len;
+> +        setup_data_total_len += setup_data_item_len;
+>          setup_data->type = cpu_to_le32(SETUP_DTB);
+>          setup_data->len = cpu_to_le32(dtb_size);
+> -
+>          load_image_size(dtb_filename, setup_data->data, dtb_size);
+>      }
+>  
+>      if (!legacy_no_rng_seed) {
+> -        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
+> -        kernel_size = setup_data_offset + sizeof(struct setup_data) + RNG_SEED_LENGTH;
+> -        kernel = g_realloc(kernel, kernel_size);
+> -        setup_data = (struct setup_data *)(kernel + setup_data_offset);
+> +        setup_data_item_len = sizeof(struct setup_data) + SETUP_RNG_SEED;
+> +        setup_datas = g_realloc(setup_datas, setup_data_total_len + setup_data_item_len);
+> +        setup_data = (struct setup_data *)(setup_datas + setup_data_total_len);
+>          setup_data->next = cpu_to_le64(first_setup_data);
+> -        first_setup_data = prot_addr + setup_data_offset;
+> +        first_setup_data = SETUP_DATA_PHYS_BASE + setup_data_total_len;
+> +        setup_data_total_len += setup_data_item_len;
+>          setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
+>          setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
+>          qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+>      }
+>  
+> -    /* Offset 0x250 is a pointer to the first setup_data link. */
+> -    stq_p(header + 0x250, first_setup_data);
+> +    if (first_setup_data) {
+> +            /* Offset 0x250 is a pointer to the first setup_data link. */
+> +            stq_p(header + 0x250, first_setup_data);
+> +            rom_add_blob("setup_data", setup_datas, setup_data_total_len, setup_data_total_len,
+> +                         SETUP_DATA_PHYS_BASE, NULL, NULL, NULL, NULL, false);
 > +    }
-> +    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
-> +                                &s->sram);
+> +
 >
->     memset(clk_setup, 0, sizeof(clk_setup));
-> +
->     /* init CPUs */
-> -    cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
-> +    s->cpu = ppc4xx_init(POWERPC_CPU_TYPE_NAME("405ep"),
->                       &clk_setup[PPC405EP_CPU_CLK],
-> -                      &tlb_clk_setup, sysclk);
-> -    env = &cpu->env;
-> +                      &tlb_clk_setup, s->sysclk);
-> +    env = &s->cpu->env;
->     clk_setup[PPC405EP_CPU_CLK].cb = tlb_clk_setup.cb;
->     clk_setup[PPC405EP_CPU_CLK].opaque = tlb_clk_setup.opaque;
-> -    /* Internal devices init */
-> -    /* Memory mapped devices registers */
-> +
-> +    /* CPU control */
-> +    ppc405ep_cpc_init(env, clk_setup, s->sysclk);
-> +
->     /* PLB arbitrer */
->     ppc4xx_plb_init(env);
-> +
->     /* PLB to OPB bridge */
->     ppc4xx_pob_init(env);
-> +
->     /* OBP arbitrer */
->     ppc4xx_opba_init(0xef600600);
-> +
->     /* Universal interrupt controller */
-> -    uicdev = qdev_new(TYPE_PPC_UIC);
-> -    uicsbd = SYS_BUS_DEVICE(uicdev);
-> +    s->uic = qdev_new(TYPE_PPC_UIC);
->
-> -    object_property_set_link(OBJECT(uicdev), "cpu", OBJECT(cpu),
-> +    object_property_set_link(OBJECT(s->uic), "cpu", OBJECT(s->cpu),
->                              &error_fatal);
-> -    sysbus_realize_and_unref(uicsbd, &error_fatal);
-> -
-> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_INT,
-> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_INT));
-> -    sysbus_connect_irq(uicsbd, PPCUIC_OUTPUT_CINT,
-> -                       qdev_get_gpio_in(DEVICE(cpu), PPC40x_INPUT_CINT));
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(s->uic), errp)) {
-> +        return;
-> +    }
->
-> -    *uicdevp = uicdev;
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_INT,
-> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_INT));
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(s->uic), PPCUIC_OUTPUT_CINT,
-> +                       qdev_get_gpio_in(DEVICE(s->cpu), PPC40x_INPUT_CINT));
->
->     /* SDRAM controller */
-> -        /* XXX 405EP has no ECC interrupt */
-> -    ppc4xx_sdram_init(env, qdev_get_gpio_in(uicdev, 17), 2, ram_memories,
-> -                      ram_bases, ram_sizes, do_init);
-> +    /* XXX 405EP has no ECC interrupt */
-> +    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
-> +                             "ppc405.ram.alias", s->dram_mr, 0, s->ram_size);
-> +    s->ram_bases[0] = 0;
-> +    s->ram_sizes[0] = s->ram_size;
-> +
-> +    ppc4xx_sdram_init(env, qdev_get_gpio_in(s->uic, 17),
-> +                      ARRAY_SIZE(s->ram_memories), s->ram_memories,
-> +                      s->ram_bases, s->ram_sizes, s->do_dram_init);
-> +
->     /* External bus controller */
->     ppc405_ebc_init(env);
-> +
->     /* DMA controller */
-> -    dma_irqs[0] = qdev_get_gpio_in(uicdev, 5);
-> -    dma_irqs[1] = qdev_get_gpio_in(uicdev, 6);
-> -    dma_irqs[2] = qdev_get_gpio_in(uicdev, 7);
-> -    dma_irqs[3] = qdev_get_gpio_in(uicdev, 8);
-> +    dma_irqs[0] = qdev_get_gpio_in(s->uic, 5);
-> +    dma_irqs[1] = qdev_get_gpio_in(s->uic, 6);
-> +    dma_irqs[2] = qdev_get_gpio_in(s->uic, 7);
-> +    dma_irqs[3] = qdev_get_gpio_in(s->uic, 8);
->     ppc405_dma_init(env, dma_irqs);
-> -    /* IIC controller */
-> +
-> +    /* I2C controller */
->     sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-> -                         qdev_get_gpio_in(uicdev, 2));
-> +                         qdev_get_gpio_in(s->uic, 2));
->     /* GPIO */
->     ppc405_gpio_init(0xef600700);
-> +
->     /* Serial ports */
->     if (serial_hd(0) != NULL) {
-> -        serial_mm_init(address_space_mem, 0xef600300, 0,
-> -                       qdev_get_gpio_in(uicdev, 0),
-> +        serial_mm_init(get_system_memory(), 0xef600300, 0,
-> +                       qdev_get_gpio_in(s->uic, 0),
->                        PPC_SERIAL_MM_BAUDBASE, serial_hd(0),
->                        DEVICE_BIG_ENDIAN);
->     }
->     if (serial_hd(1) != NULL) {
-> -        serial_mm_init(address_space_mem, 0xef600400, 0,
-> -                       qdev_get_gpio_in(uicdev, 1),
-> +        serial_mm_init(get_system_memory(), 0xef600400, 0,
-> +                       qdev_get_gpio_in(s->uic, 1),
->                        PPC_SERIAL_MM_BAUDBASE, serial_hd(1),
->                        DEVICE_BIG_ENDIAN);
->     }
-> +
->     /* OCM */
->     ppc405_ocm_init(env);
-> +
->     /* GPT */
-> -    gpt_irqs[0] = qdev_get_gpio_in(uicdev, 19);
-> -    gpt_irqs[1] = qdev_get_gpio_in(uicdev, 20);
-> -    gpt_irqs[2] = qdev_get_gpio_in(uicdev, 21);
-> -    gpt_irqs[3] = qdev_get_gpio_in(uicdev, 22);
-> -    gpt_irqs[4] = qdev_get_gpio_in(uicdev, 23);
-> +    gpt_irqs[0] = qdev_get_gpio_in(s->uic, 19);
-> +    gpt_irqs[1] = qdev_get_gpio_in(s->uic, 20);
-> +    gpt_irqs[2] = qdev_get_gpio_in(s->uic, 21);
-> +    gpt_irqs[3] = qdev_get_gpio_in(s->uic, 22);
-> +    gpt_irqs[4] = qdev_get_gpio_in(s->uic, 23);
->     ppc4xx_gpt_init(0xef600000, gpt_irqs);
-> -    /* PCI */
-> -    /* Uses UIC IRQs 3, 16, 18 */
-> +
->     /* MAL */
-> -    mal_irqs[0] = qdev_get_gpio_in(uicdev, 11);
-> -    mal_irqs[1] = qdev_get_gpio_in(uicdev, 12);
-> -    mal_irqs[2] = qdev_get_gpio_in(uicdev, 13);
-> -    mal_irqs[3] = qdev_get_gpio_in(uicdev, 14);
-> +    mal_irqs[0] = qdev_get_gpio_in(s->uic, 11);
-> +    mal_irqs[1] = qdev_get_gpio_in(s->uic, 12);
-> +    mal_irqs[2] = qdev_get_gpio_in(s->uic, 13);
-> +    mal_irqs[3] = qdev_get_gpio_in(s->uic, 14);
->     ppc4xx_mal_init(env, 4, 2, mal_irqs);
-> +
->     /* Ethernet */
->     /* Uses UIC IRQs 9, 15, 17 */
-> -    /* CPU control */
-> -    ppc405ep_cpc_init(env, clk_setup, sysclk);
-> -
-> -    return cpu;
-> -}
-> -
-> -static void ppc405_soc_realize(DeviceState *dev, Error **errp)
-> -{
-> -    Ppc405SoCState *s = PPC405_SOC(dev);
-> -    Error *err = NULL;
-> -
-> -    memory_region_init_alias(&s->ram_memories[0], OBJECT(s),
-> -                             "ppc405.ram.alias", s->dram_mr, 0, s->ram_size);
-> -    s->ram_bases[0] = 0;
-> -    s->ram_sizes[0] = s->ram_size;
-> -
-> -    /* allocate SRAM */
-> -    memory_region_init_ram(&s->sram, OBJECT(s), "ppc405.sram",
-> -                           PPC405EP_SRAM_SIZE,  &err);
-> -    if (err) {
-> -        error_propagate(errp, err);
-> -        return;
-> -    }
-> -    memory_region_add_subregion(get_system_memory(), PPC405EP_SRAM_BASE,
-> -                                &s->sram);
-> }
->
-> static Property ppc405_soc_properties[] = {
->     DEFINE_PROP_LINK("dram", Ppc405SoCState, dram_mr, TYPE_MEMORY_REGION,
->                      MemoryRegion *),
-> +    DEFINE_PROP_UINT32("sys-clk", Ppc405SoCState, sysclk, 0),
-> +    DEFINE_PROP_BOOL("dram-init", Ppc405SoCState, do_dram_init, 0),
->     DEFINE_PROP_UINT64("ram-size", Ppc405SoCState, ram_size, 0),
->     DEFINE_PROP_END_OF_LIST(),
-> };
->
---3866299591-410041635-1659565426=:13819--
+
+Allocating memory on x86 is tricky business.  Can we maybe use bios-linker-loader
+with COMMAND_WRITE_POINTER to get an address from firmware?
+
+  
+>      /*
+>       * If we're starting an encrypted VM, it will be OVMF based, which uses the
+> -- 
+> 2.35.1
+
 
