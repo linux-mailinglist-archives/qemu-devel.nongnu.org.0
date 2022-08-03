@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8CC5894DC
-	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:34:19 +0200 (CEST)
-Received: from localhost ([::1]:36482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3895894E1
+	for <lists+qemu-devel@lfdr.de>; Thu,  4 Aug 2022 01:36:00 +0200 (CEST)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJNsY-0004pu-Bw
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:34:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52996)
+	id 1oJNuB-0006ux-8t
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 19:35:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJNpx-0002V3-3C; Wed, 03 Aug 2022 19:31:41 -0400
-Received: from zero.eik.bme.hu ([152.66.115.2]:44869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1oJNps-0006Ab-Rr; Wed, 03 Aug 2022 19:31:36 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 11B767462D3;
- Thu,  4 Aug 2022 01:31:30 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2F3587461AE; Thu,  4 Aug 2022 01:31:25 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2D805745702;
- Thu,  4 Aug 2022 01:31:25 +0200 (CEST)
-Date: Thu, 4 Aug 2022 01:31:25 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-ppc@nongnu.org, Daniel Henrique Barboza <danielhb413@gmail.com>, 
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 19/20] ppc/ppc405: QOM'ify I2C
-In-Reply-To: <20220803132844.2370514-20-clg@kaod.org>
-Message-ID: <1ab31d3-c5ec-47bd-cdd9-1d1a5e5f7696@eik.bme.hu>
-References: <20220803132844.2370514-1-clg@kaod.org>
- <20220803132844.2370514-20-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJNqr-0002vO-MJ; Wed, 03 Aug 2022 19:32:43 -0400
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:42562)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1oJNqm-0006PY-Mr; Wed, 03 Aug 2022 19:32:32 -0400
+Received: by mail-vs1-xe36.google.com with SMTP id b124so7793312vsc.9;
+ Wed, 03 Aug 2022 16:32:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc;
+ bh=kmScqutY1YfFscB33sfOGjazwSAsGFJdWP/qNQopDsA=;
+ b=XASkMASkmqx7tUpeX2j08iygHNw+zoi5/Q6g48XbU4e4ItyXo56tVc91yP8y4/qeJd
+ a5vFBF30ZaX7fMgYJJu7U3G7bz87/8BWWdBXdhG12lZLVh4xFCyVumH3CeSAVLcm5xPL
+ rODAMhGfinsbTsT/ezQCZw8HxcSZf0KbGm6eMW6lZx1swGWUxG/ykKNLS0N/4dd8OX4x
+ LPa5rBV89LnnqDU19SmoBhk04Srk20MPPnpMUnQ0Keg9TNxV+WLxtBC9w+qWNifSGORt
+ TJJwA1vA6K8GC6qpoGguz7X4xKmGcdnm7q/kqjYzqCdAXQEt3hvlHNLGegtrOyhoYu8z
+ f0Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc;
+ bh=kmScqutY1YfFscB33sfOGjazwSAsGFJdWP/qNQopDsA=;
+ b=vKqrFfwrr3ZxWzljb9MYmDiaM9d65f5ymaf+NARVTUts9VCpFQZN1nEOI6m5SdQSh5
+ R29AKXcnGDyNkGcAYuW1xFHGGUZBVB8Vsc1lXSzR9nztTy6soLaADIDQ7UnMIOvv0p+F
+ 4jtdkfBNkQMGuBiRolCPIshsRPNELUk8yyp9Uq6hvUBTcXhr9R3itq7mFrbnmfuKjPir
+ dDGqhQNzuRmwW2ryPGllC55qeACLsmUrlroJ8Fzr3FlEW75L3uJ7mSa+fwXSB9CW2KM1
+ nsAvLcZ8QNFcocLS4LoFUaot/jt+XL1+d38uXR924HwmFSQ4WXxZbmyfJl7H4873krVz
+ 1u2g==
+X-Gm-Message-State: ACgBeo1hp2CtwIGysj09JVlFFheRz5/HJTJLP+jezBHzGjZWnsytXc/t
+ lUz6UDdeQRwUQV4mtAapo4cuCCAhtl0=
+X-Google-Smtp-Source: AA6agR7ftX1pfqG5Q3w3noBa6zCjTvq8Ejecnn67l381MSDal/uDyOKeqkVtUPXLYicg1KAtuBfi3Q==
+X-Received: by 2002:a67:f4c3:0:b0:388:5198:3275 with SMTP id
+ s3-20020a67f4c3000000b0038851983275mr2124580vsn.3.1659569537929; 
+ Wed, 03 Aug 2022 16:32:17 -0700 (PDT)
+Received: from balboa.ibmuc.com ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
+ by smtp.gmail.com with ESMTPSA id
+ f46-20020ab049f1000000b00384dd6e53b8sm11144501uad.34.2022.08.03.16.32.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 03 Aug 2022 16:32:17 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, clg@kaod.org,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH] hw/ppc: sam460ex.c: store all GPIO lines in mal_irqs[]
+Date: Wed,  3 Aug 2022 20:32:04 -0300
+Message-Id: <20220803233204.2724202-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1617038096-1659569485=:13819"
-X-Spam-Probability: 11%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe36.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,80 +89,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+We're not storing all GPIO lines we're retrieving with
+qdev_get_gpio_in() in mal_irqs[]. We're storing just the last one in the
+first index:
 
---3866299591-1617038096-1659569485=:13819
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+    for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
+    }
+    ppc4xx_mal_init(env, 4, 16, mal_irqs);
 
-On Wed, 3 Aug 2022, Cédric Le Goater wrote:
-> Having an explicit I2C model object will help if one day we want to
-> add I2C devices on the bus.
+mal_irqs is used in ppc4xx_mal_init() to assign the IRQs to MAL:
 
-Same here as with the UIC in previous patch, it's not QOMifying here 
-either. As for why we may need I2C, on sam460ex the firmware detects RAM 
-accessing the SPD data over I2C so that could be the reason but it may not 
-be used here on 405.
+    for (i = 0; i < 4; i++) {
+        mal->irqs[i] = irqs[i];
+    }
 
-Regards,
-BALATON Zoltan
+Since only irqs[0] has been initialized, mal->irqs[1,2,3] are being
+zeroed.
 
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> ---
-> hw/ppc/ppc405.h    |  2 ++
-> hw/ppc/ppc405_uc.c | 10 ++++++++--
-> 2 files changed, 10 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
-> index d29f738cd2d0..d13624ae309c 100644
-> --- a/hw/ppc/ppc405.h
-> +++ b/hw/ppc/ppc405.h
-> @@ -28,6 +28,7 @@
-> #include "qom/object.h"
-> #include "hw/ppc/ppc4xx.h"
-> #include "hw/intc/ppc-uic.h"
-> +#include "hw/i2c/ppc4xx_i2c.h"
->
-> #define PPC405EP_SDRAM_BASE 0x00000000
-> #define PPC405EP_NVRAM_BASE 0xF0000000
-> @@ -256,6 +257,7 @@ struct Ppc405SoCState {
->     Ppc405OcmState ocm;
->     Ppc405GpioState gpio;
->     Ppc405DmaState dma;
-> +    PPC4xxI2CState i2c;
->     Ppc405EbcState ebc;
->     Ppc405OpbaState opba;
->     Ppc405PobState pob;
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index 5cd32e22b7ea..8f0caa45f5f7 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1461,6 +1461,8 @@ static void ppc405_soc_instance_init(Object *obj)
->
->     object_initialize_child(obj, "dma", &s->dma, TYPE_PPC405_DMA);
->
-> +    object_initialize_child(obj, "i2c", &s->i2c, TYPE_PPC4xx_I2C);
-> +
->     object_initialize_child(obj, "ebc", &s->ebc, TYPE_PPC405_EBC);
->
->     object_initialize_child(obj, "opba", &s->opba, TYPE_PPC405_OPBA);
-> @@ -1569,8 +1571,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     }
->
->     /* I2C controller */
-> -    sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
-> -                         qdev_get_gpio_in(DEVICE(&s->uic), 2));
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->i2c), errp)) {
-> +        return;
-> +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->i2c), 0, 0xef600500);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->i2c), 0,
-> +                       qdev_get_gpio_in(DEVICE(&s->uic), 2));
->
->     /* GPIO */
->     if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
->
---3866299591-1617038096-1659569485=:13819--
+This doesn´t seem to trigger any apparent issues at this moment, but
+Cedric's QOMification of the MAL device [1] is executing a
+sysbus_connect_irq() that will fail if we do not store all GPIO lines
+properly.
+
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00497.html
+
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: BALATON Zoltan <balaton@eik.bme.hu>
+Fixes: 706e944206d7 ("hw/ppc/sam460ex: Drop use of ppcuic_init()")
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/sam460ex.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 7e8da657c2..0357ee077f 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -384,7 +384,7 @@ static void sam460ex_init(MachineState *machine)
+ 
+     /* MAL */
+     for (i = 0; i < ARRAY_SIZE(mal_irqs); i++) {
+-        mal_irqs[0] = qdev_get_gpio_in(uic[2], 3 + i);
++        mal_irqs[i] = qdev_get_gpio_in(uic[2], 3 + i);
+     }
+     ppc4xx_mal_init(env, 4, 16, mal_irqs);
+ 
+-- 
+2.36.1
+
 
