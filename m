@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 524B0588969
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 11:28:50 +0200 (CEST)
-Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3322258897B
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 11:32:13 +0200 (CEST)
+Received: from localhost ([::1]:43414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJAgL-0004A5-DO
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 05:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54162)
+	id 1oJAjb-0007w9-SY
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 05:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJAbR-0007C7-42; Wed, 03 Aug 2022 05:23:47 -0400
-Received: from mail-vs1-xe2b.google.com ([2607:f8b0:4864:20::e2b]:33703)
+ id 1oJAby-0007Ov-MD; Wed, 03 Aug 2022 05:24:18 -0400
+Received: from mail-ua1-x934.google.com ([2607:f8b0:4864:20::934]:40947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1oJAbO-0001Zp-SK; Wed, 03 Aug 2022 05:23:44 -0400
-Received: by mail-vs1-xe2b.google.com with SMTP id q15so1327226vsr.0;
- Wed, 03 Aug 2022 02:23:42 -0700 (PDT)
+ id 1oJAbw-0001ow-R9; Wed, 03 Aug 2022 05:24:18 -0400
+Received: by mail-ua1-x934.google.com with SMTP id r12so6756223uaf.7;
+ Wed, 03 Aug 2022 02:24:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc; bh=7oEWcIVoejYc07UamP34Oa32PqbqZkY4JKOQiZfgB6Y=;
- b=Pber1jJNDk9iV0h+xAErGZ1TvA5s6WLl0mO6DkkwmEfSdYrsJIFCkpgnMGKJEMPocn
- TLgl0+tPhVpFZ0h+ig1SXQ3kIeG/MkssFVSmWOsMCWoSEP0r0rZ+vbDFUKWLh27naXs3
- WwNQAVsRblKEmUTXb9CSOgi4GygK51K9scDh26p3TfOS6NReZcohXlDboPlyJctDzqpi
- 4DfwRRxQFq4z8AsEHVICb7EoCixf7B2wa8z0KJpWYBy0hnXbV0CQ6QFMdD1FoIOjHfpy
- jdFu9tJzwCRRPWvKeDOqLmMAi3avdkB5cIJ1y2IMiy1Ox7geZCCutrrIlhAjds1GyMpv
- uDkQ==
+ :from:to:cc; bh=iXo17VTJUlGjvYpMus82KQczU8dNUuTYjSrXjTzeAus=;
+ b=exFrsaucH+lAhRsXPg4SQLD0zQIIjacTQLI/IgQfumqRzIsE5hSrrmkYR23fb+4LqJ
+ uXRY9nrScWXvkEFYK2A1HgD6h4mjov98+7nlwD/LjIddt1HPSYbkD8qihHxE4OuQgPiY
+ LSn/RYt8/qclgLcTvEcvO8k4+FPTcR6egvoMXogosojxUMa29kd+Z/rq0IxGJQWOdqnE
+ W2RsnWNGputHZrzIFcTy922bjZBJw02AkAR21hvkZ+rn55WXxuD3G525M8uXiOAQlN2q
+ hTDla0N8McQVUL/ZIKGX0LlV0Ts0bRFI7cdQHRy0ZsllVa5jJL06lu82WWWm4ATO/Cpi
+ /TvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc;
- bh=7oEWcIVoejYc07UamP34Oa32PqbqZkY4JKOQiZfgB6Y=;
- b=2erlzUuCEJk6Y0GHjVJisNZ5kY+9VBJ1mSv9ZiuVMn7gGW/q76Z6syE2QT8Fccfw+t
- yVMoQA+Bvu+K14aos9E7mz9mxB9KA2LKUlpFz4/MIYGZQH1dqjp/G1Y2ebq56auW5C/n
- 4OguUPf3Lw0/c0j7hZlppRFF4OIRUCI7Zdl+xekSdG347DTH37nBwRlhAggBlz3MO6K4
- wcMXgukz9qXPkGrneUlKYTvw1JxIIUzUKQ1YlTVC+tkYA2mAivOGeiF+PJjVmfBpN7Nl
- 4K8iznJOcl+KglZjTb4Muz9xKYn3pPpRjKmkVQJcHxF3ZOg3Ak5HT1Z49HEDPNDcYGrC
- 1PaQ==
-X-Gm-Message-State: ACgBeo16y+gRbPJwX9EtWQds0BulVdQeq6JQ0Wa3NhG5z9ofKYF7yolg
- Aae0CWTZpN5/1BX6EVyhhTM=
-X-Google-Smtp-Source: AA6agR7MLMiM1V6XtaBEPApIwWaAJSiRRXsbM/iEHfM7p2E1uN3P5SZ9w2T4Ly4c3AUgAf61dphcQg==
-X-Received: by 2002:a05:6102:1489:b0:35a:1317:7600 with SMTP id
- d9-20020a056102148900b0035a13177600mr4704625vsv.79.1659518621292; 
- Wed, 03 Aug 2022 02:23:41 -0700 (PDT)
+ bh=iXo17VTJUlGjvYpMus82KQczU8dNUuTYjSrXjTzeAus=;
+ b=onIXqLCY/Tj+XZswhJRD6C4WpMaU1JwGpoFJ5V6IzcMZiEI/RZpKDKWJJXS8lDq8g6
+ GkOw+NPBJaSdABL7Ruzutyds5MBXpBJ3lDzkuDhhMOKOnwK/thC1ll7XF9YDQlqgLa1b
+ a3M+3HsOKcKa9gm9rJI2V99Kjop+Ok/usGA4AwazOqJ15c+wH2ovPAX+yEvaj4HoSqkD
+ x6JSCOLvwI/LfQSD7+gy7DL9AGUsGQDMkfywWMN47Xgb/OqIltjoEUoRQFGDjYN119lm
+ YtRlEAICklIiodZV2vOsdBOoq4xfYoSDm4+dqBuirsyYwEbbmMra47395xxBAqWD+T4F
+ cXZw==
+X-Gm-Message-State: ACgBeo0XRPJVgDRSt5Ddf4U/WvT7BdgbHLThjwxJjmVm6Z+myZvmpNvg
+ KNeVIK7zimdJzzmDhjtN0Vc=
+X-Google-Smtp-Source: AA6agR5YMXFmCc1Snpib2p6/76ibtKZqUxD40wUNzh8SWPvuBDKU0uBKO/1xyaJ94FHtPIAtsHfU6Q==
+X-Received: by 2002:a9f:3625:0:b0:384:73e9:deba with SMTP id
+ r34-20020a9f3625000000b0038473e9debamr9863534uad.14.1659518655443; 
+ Wed, 03 Aug 2022 02:24:15 -0700 (PDT)
 Received: from ?IPV6:2804:431:c7c7:52e2:fb25:323c:5709:7237?
  ([2804:431:c7c7:52e2:fb25:323c:5709:7237])
  by smtp.gmail.com with ESMTPSA id
- t129-20020a1fc387000000b003763269206dsm9740457vkf.54.2022.08.03.02.23.39
+ b42-20020ab0142d000000b00384ddb82896sm10059178uae.19.2022.08.03.02.24.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 03 Aug 2022 02:23:41 -0700 (PDT)
-Message-ID: <15b601d1-e18a-d16b-a9dc-a226b479a192@gmail.com>
-Date: Wed, 3 Aug 2022 06:23:39 -0300
+ Wed, 03 Aug 2022 02:24:15 -0700 (PDT)
+Message-ID: <e42eb5d5-83b7-a062-2d50-b5085ecc59b9@gmail.com>
+Date: Wed, 3 Aug 2022 06:24:13 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.10.0
-Subject: Re: [PATCH 05/19] ppc/ppc405: Start QOMification of the SoC
+Subject: Re: [PATCH 10/19] ppc/ppc405: QOM'ify GPIO
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org
+Cc: qemu-devel@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
 References: <20220801131039.1693913-1-clg@kaod.org>
- <20220801131039.1693913-6-clg@kaod.org>
- <e437d81d-37e6-2a31-21e9-0cf7a8be73fd@gmail.com>
- <7abaf022-b2ef-ed5a-be3a-a04c915eb736@eik.bme.hu>
+ <20220801131039.1693913-11-clg@kaod.org>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <7abaf022-b2ef-ed5a-be3a-a04c915eb736@eik.bme.hu>
+In-Reply-To: <20220801131039.1693913-11-clg@kaod.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2b;
- envelope-from=danielhb413@gmail.com; helo=mail-vs1-xe2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::934;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x934.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -98,151 +95,148 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 8/2/22 18:24, BALATON Zoltan wrote:
-> On Tue, 2 Aug 2022, Daniel Henrique Barboza wrote:
->> On 8/1/22 10:10, Cédric Le Goater wrote:
->>> This moves all the code previously done in the ppc405ep_init() routine
->>> under ppc405_soc_realize().
->>>
->>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>> ---
->>>   hw/ppc/ppc405.h        |  12 ++--
->>>   hw/ppc/ppc405_boards.c |  12 ++--
->>>   hw/ppc/ppc405_uc.c     | 151 ++++++++++++++++++++---------------------
->>>   3 files changed, 84 insertions(+), 91 deletions(-)
->>>
->>> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
->>> index c8cddb71733a..5e4e96d86ceb 100644
->>> --- a/hw/ppc/ppc405.h
->>> +++ b/hw/ppc/ppc405.h
->>> @@ -74,9 +74,14 @@ struct Ppc405SoCState {
->>>       MemoryRegion sram;
->>>       MemoryRegion ram_memories[2];
->>>       hwaddr ram_bases[2], ram_sizes[2];
->>> +    bool do_dram_init;
->>>         MemoryRegion *dram_mr;
->>>       hwaddr ram_size;
->>> +
->>> +    uint32_t sysclk;
->>> +    PowerPCCPU *cpu;
->>> +    DeviceState *uic;
->>>   };
->>>     /* PowerPC 405 core */
->>> @@ -85,11 +90,4 @@ ram_addr_t ppc405_set_bootinfo(CPUPPCState *env, ram_addr_t ram_size);
->>>   void ppc4xx_plb_init(CPUPPCState *env);
->>>   void ppc405_ebc_init(CPUPPCState *env);
->>>   -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>> -                        MemoryRegion ram_memories[2],
->>> -                        hwaddr ram_bases[2],
->>> -                        hwaddr ram_sizes[2],
->>> -                        uint32_t sysclk, DeviceState **uicdev,
->>> -                        int do_init);
->>> -
->>>   #endif /* PPC405_H */
->>> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
->>> index 96db52c5a309..363cb0770506 100644
->>> --- a/hw/ppc/ppc405_boards.c
->>> +++ b/hw/ppc/ppc405_boards.c
->>> @@ -237,9 +237,7 @@ static void ppc405_init(MachineState *machine)
->>>       Ppc405MachineState *ppc405 = PPC405_MACHINE(machine);
->>>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->>>       const char *kernel_filename = machine->kernel_filename;
->>> -    PowerPCCPU *cpu;
->>>       MemoryRegion *sysmem = get_system_memory();
->>> -    DeviceState *uicdev;
->>>         if (machine->ram_size != mc->default_ram_size) {
->>>           char *sz = size_to_str(mc->default_ram_size);
->>> @@ -254,12 +252,12 @@ static void ppc405_init(MachineState *machine)
->>>                                machine->ram_size, &error_fatal);
->>>       object_property_set_link(OBJECT(&ppc405->soc), "dram",
->>>                                OBJECT(machine->ram), &error_abort);
->>> +    object_property_set_bool(OBJECT(&ppc405->soc), "dram-init",
->>> +                             !(kernel_filename == NULL), &error_abort);
->>> +    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
->>> +                             &error_abort);
->>>       qdev_realize(DEVICE(&ppc405->soc), NULL, &error_abort);
->>>   -    cpu = ppc405ep_init(sysmem, ppc405->soc.ram_memories, ppc405->soc.ram_bases,
->>> -                        ppc405->soc.ram_sizes,
->>> -                        33333333, &uicdev, kernel_filename == NULL ? 0 : 1);
->>> -
->>>       /* allocate and load BIOS */
->>>       if (machine->firmware) {
->>>           MemoryRegion *bios = g_new(MemoryRegion, 1);
->>> @@ -315,7 +313,7 @@ static void ppc405_init(MachineState *machine)
->>>         /* Load ELF kernel and rootfs.cpio */
->>>       } else if (kernel_filename && !machine->firmware) {
->>> -        boot_from_kernel(machine, cpu);
->>> +        boot_from_kernel(machine, ppc405->soc.cpu);
->>>       }
->>>   }
->>>   diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
->>> index 156e839b8283..59612504bf3f 100644
->>> --- a/hw/ppc/ppc405_uc.c
->>> +++ b/hw/ppc/ppc405_uc.c
->>> @@ -1432,134 +1432,131 @@ static void ppc405ep_cpc_init (CPUPPCState *env, clk_setup_t clk_setup[8],
->>>   #endif
->>>   }
->>>   -PowerPCCPU *ppc405ep_init(MemoryRegion *address_space_mem,
->>> -                        MemoryRegion ram_memories[2],
->>> -                        hwaddr ram_bases[2],
->>> -                        hwaddr ram_sizes[2],
->>> -                        uint32_t sysclk, DeviceState **uicdevp,
->>> -                        int do_init)
->>> +static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->>>   {
->>> +    Ppc405SoCState *s = PPC405_SOC(dev);
->>>       clk_setup_t clk_setup[PPC405EP_CLK_NB], tlb_clk_setup;
->>>       qemu_irq dma_irqs[4], gpt_irqs[5], mal_irqs[4];
->>> -    PowerPCCPU *cpu;
->>>       CPUPPCState *env;
->>> -    DeviceState *uicdev;
->>> -    SysBusDevice *uicsbd;
->>> +    Error *err = NULL;
->>> +
->>> +    /* XXX: fix this ? */
->>
->> So, this comment, originally from ppc405_boards.c, was added by commit
->> 1a6c088620368 and it seemed to make reference to something with the refering
->> to the ram_* values:
->>
->>
->>    /* XXX: fix this */
->>    ram_bases[0] = 0x00000000;
->>    ram_sizes[0] = 0x08000000;
->>    ram_bases[1] = 0x00000000;
->>    ram_sizes[1] = 0x00000000;
->> (...)
->>
->>
->> No more context is provided aside from a git-svn-id from savannah.nongnu.org.
->>
->> If no one can provide more context about what is to be fixed here, I'll
->> remove the comment.
+On 8/1/22 10:10, Cédric Le Goater wrote:
+> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+> ---
+
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+>   hw/ppc/ppc405.h    | 21 +++++++++++++++++++
+>   hw/ppc/ppc405_uc.c | 50 +++++++++++++++++++++-------------------------
+>   2 files changed, 44 insertions(+), 27 deletions(-)
 > 
-> I'm not sure about it because I don't know 405 and only vaguely remember how this was on 440/460EX but I think it might be that the memory controller can be programmed to map RAM to different places but we don't fully emulate that nor the different chunks/DIMM sockets that could be possible and just map all system RAM to address 0 which is what most guest firmware or OS does anyway. Maybe I'm wrong and don't remember this correctly, the SDRAM controller model in ppc4xx_devs.c seems to do some mapping but I think this is what the comment might refer to or something similar. If so, I don't think it's worth emulating this more precisely unless we know about a guest which needs this.
-
-
-Thanks for the explanation!
-
-I'm not sure if this is something worth documenting in this comment or not. I
-guess it wouldn't hurt to mention "the memory controller can map RAM in different
-sockets but we don't implement that" or something similar. Or just remove the
-comment entirely.
-
-Both works for me as long as we get rid of the 'fix this' comment. It implies
-that we're doing something wrong on purpose, which doesn't seem to be the
-case.
-
-
-Thanks,
-
-
-Daniel
-
-
-
-
-> 
-> Regards,
-> BALATON Zoltan
+> diff --git a/hw/ppc/ppc405.h b/hw/ppc/ppc405.h
+> index e56363366cad..46366c3b8a19 100644
+> --- a/hw/ppc/ppc405.h
+> +++ b/hw/ppc/ppc405.h
+> @@ -65,6 +65,26 @@ struct ppc4xx_bd_info_t {
+>   
+>   typedef struct Ppc405SoCState Ppc405SoCState;
+>   
+> +/* GPIO */
+> +#define TYPE_PPC405_GPIO "ppc405-gpio"
+> +OBJECT_DECLARE_SIMPLE_TYPE(Ppc405GpioState, PPC405_GPIO);
+> +struct Ppc405GpioState {
+> +    SysBusDevice parent_obj;
+> +
+> +    MemoryRegion io;
+> +    uint32_t or;
+> +    uint32_t tcr;
+> +    uint32_t osrh;
+> +    uint32_t osrl;
+> +    uint32_t tsrh;
+> +    uint32_t tsrl;
+> +    uint32_t odr;
+> +    uint32_t ir;
+> +    uint32_t rr1;
+> +    uint32_t isr1h;
+> +    uint32_t isr1l;
+> +};
+> +
+>   /* On Chip Memory */
+>   #define TYPE_PPC405_OCM "ppc405-ocm"
+>   OBJECT_DECLARE_SIMPLE_TYPE(Ppc405OcmState, PPC405_OCM);
+> @@ -159,6 +179,7 @@ struct Ppc405SoCState {
+>       Ppc405CpcState cpc;
+>       Ppc405GptState gpt;
+>       Ppc405OcmState ocm;
+> +    Ppc405GpioState gpio;
+>   };
+>   
+>   /* PowerPC 405 core */
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index 59cade4c0680..a6c4e6934ffc 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -713,23 +713,6 @@ static void ppc405_dma_init(CPUPPCState *env, qemu_irq irqs[4])
+>   }
+>   
+>   /*****************************************************************************/
+> -/* GPIO */
+> -typedef struct ppc405_gpio_t ppc405_gpio_t;
+> -struct ppc405_gpio_t {
+> -    MemoryRegion io;
+> -    uint32_t or;
+> -    uint32_t tcr;
+> -    uint32_t osrh;
+> -    uint32_t osrl;
+> -    uint32_t tsrh;
+> -    uint32_t tsrl;
+> -    uint32_t odr;
+> -    uint32_t ir;
+> -    uint32_t rr1;
+> -    uint32_t isr1h;
+> -    uint32_t isr1l;
+> -};
+> -
+>   static uint64_t ppc405_gpio_read(void *opaque, hwaddr addr, unsigned size)
+>   {
+>       trace_ppc405_gpio_read(addr, size);
+> @@ -748,20 +731,22 @@ static const MemoryRegionOps ppc405_gpio_ops = {
+>       .endianness = DEVICE_NATIVE_ENDIAN,
+>   };
+>   
+> -static void ppc405_gpio_reset (void *opaque)
+> +static void ppc405_gpio_realize(DeviceState *dev, Error **errp)
+>   {
+> +    Ppc405GpioState *s = PPC405_GPIO(dev);
+> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+> +
+> +    memory_region_init_io(&s->io, OBJECT(s), &ppc405_gpio_ops, s, "gpio",
+> +                          0x038);
+> +    sysbus_init_mmio(sbd, &s->io);
+>   }
+>   
+> -static void ppc405_gpio_init(hwaddr base)
+> +static void ppc405_gpio_class_init(ObjectClass *oc, void *data)
+>   {
+> -    ppc405_gpio_t *gpio;
+> -
+> -    trace_ppc405_gpio_init(base);
+> +    DeviceClass *dc = DEVICE_CLASS(oc);
+>   
+> -    gpio = g_new0(ppc405_gpio_t, 1);
+> -    memory_region_init_io(&gpio->io, NULL, &ppc405_gpio_ops, gpio, "pgio", 0x038);
+> -    memory_region_add_subregion(get_system_memory(), base, &gpio->io);
+> -    qemu_register_reset(&ppc405_gpio_reset, gpio);
+> +    dc->realize = ppc405_gpio_realize;
+> +    dc->user_creatable = false;
+>   }
+>   
+>   /*****************************************************************************/
+> @@ -1421,6 +1406,8 @@ static void ppc405_soc_instance_init(Object *obj)
+>       object_initialize_child(obj, "gpt", &s->gpt, TYPE_PPC405_GPT);
+>   
+>       object_initialize_child(obj, "ocm", &s->ocm, TYPE_PPC405_OCM);
+> +
+> +    object_initialize_child(obj, "gpio", &s->gpio, TYPE_PPC405_GPIO);
+>   }
+>   
+>   static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+> @@ -1507,8 +1494,12 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
+>       /* I2C controller */
+>       sysbus_create_simple(TYPE_PPC4xx_I2C, 0xef600500,
+>                            qdev_get_gpio_in(s->uic, 2));
+> +
+>       /* GPIO */
+> -    ppc405_gpio_init(0xef600700);
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gpio), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->gpio), 0, 0xef600700);
+>   
+>       /* Serial ports */
+>       if (serial_hd(0) != NULL) {
+> @@ -1572,6 +1563,11 @@ static void ppc405_soc_class_init(ObjectClass *oc, void *data)
+>   
+>   static const TypeInfo ppc405_types[] = {
+>       {
+> +        .name           = TYPE_PPC405_GPIO,
+> +        .parent         = TYPE_SYS_BUS_DEVICE,
+> +        .instance_size  = sizeof(Ppc405GpioState),
+> +        .class_init     = ppc405_gpio_class_init,
+> +    }, {
+>           .name           = TYPE_PPC405_OCM,
+>           .parent         = TYPE_SYS_BUS_DEVICE,
+>           .instance_size  = sizeof(Ppc405OcmState),
 
