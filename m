@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71D0C5888C1
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:39:38 +0200 (CEST)
-Received: from localhost ([::1]:50594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664715888C2
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 10:39:45 +0200 (CEST)
+Received: from localhost ([::1]:50782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJ9ui-0006CA-MK
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:39:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42624)
+	id 1oJ9uq-0006KB-9c
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 04:39:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJ9nq-0001ew-Pf; Wed, 03 Aug 2022 04:32:33 -0400
-Received: from smtp21.cstnet.cn ([159.226.251.21]:49684 helo=cstnet.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <liweiwei@iscas.ac.cn>)
- id 1oJ9no-0007HC-CC; Wed, 03 Aug 2022 04:32:30 -0400
-Received: from [192.168.3.6] (unknown [116.224.155.20])
- by APP-01 (Coremail) with SMTP id qwCowACX3JySMupiPpHYBQ--.28427S2;
- Wed, 03 Aug 2022 16:32:18 +0800 (CST)
-Subject: Re: [PATCH v7 3/4] target/riscv: smstateen check for fcsr
-To: Mayuresh Chitale <mchitale@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Cc: alistair.francis@wdc.com
-References: <20220801171843.72986-1-mchitale@ventanamicro.com>
- <20220801171843.72986-4-mchitale@ventanamicro.com>
-From: Weiwei Li <liweiwei@iscas.ac.cn>
-Message-ID: <c5d8304d-315c-bf5b-f63c-2d38348fdf4c@iscas.ac.cn>
-Date: Wed, 3 Aug 2022 16:32:18 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJ9oR-00027l-0l
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:33:07 -0400
+Received: from 1.mo548.mail-out.ovh.net ([178.32.121.110]:38103)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1oJ9oO-0007JZ-88
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 04:33:06 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.243])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 0DA6E2180D;
+ Wed,  3 Aug 2022 08:32:59 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.9; Wed, 3 Aug 2022
+ 10:32:57 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0033f56bb9d-40df-40cf-a253-e7c77752e58b,
+ CC7AE06ED68251E997EA4638F74AFDA4D8EEB002) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <ff945e61-b647-c982-9af6-1c4a86650aac@kaod.org>
+Date: Wed, 3 Aug 2022 10:32:51 +0200
 MIME-Version: 1.0
-In-Reply-To: <20220801171843.72986-4-mchitale@ventanamicro.com>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [RFC 0/1] SPI support in QEMU TPM
 Content-Language: en-US
-X-CM-TRANSID: qwCowACX3JySMupiPpHYBQ--.28427S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtF1DJF1rKr1kGFyxKry3Arb_yoW7Aryfp3
- y8GF43C3s5JryIva1fJFn8JF9xtws7G3yIk3Zrtw1kXanrKrWFgF4kK347Kr17XFy8Wr1S
- vayj9FnxCr47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUU9I14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
- 6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
- 4UJVWxJr1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2Wl
- Yx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbV
- WUJVW8JwACjcxG0xvEwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7I2V7IY0VAS07Al
- zVAYIcxG8wCY1x0264kExVAvwVAq07x20xyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x
- 0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2
- zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF
- 4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_
- WFyUJwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJb
- IYCTnIWIevJa73UjIFyTuYvjfU8TmhUUUUU
-X-Originating-IP: [116.224.155.20]
-X-CM-SenderInfo: 5olzvxxzhlqxpvfd2hldfou0/
-Received-SPF: pass client-ip=159.226.251.21; envelope-from=liweiwei@iscas.ac.cn;
- helo=cstnet.cn
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+To: Iris Chen <irischenlj@gmail.com>
+CC: <irischenlj@fb.com>, <peter@pjd.dev>, <pdel@fb.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <patrick@stwcx.xyz>,
+ <alistair@alistair23.me>, <kwolf@redhat.com>, <hreitz@redhat.com>,
+ <peter.maydell@linaro.org>, <andrew@aj.id.au>, <joel@jms.id.au>,
+ <thuth@redhat.com>, <lvivier@redhat.com>, <pbonzini@redhat.com>,
+ <qemu-block@nongnu.org>, <dz4list@gmail.com>, Stefan Berger
+ <stefanb@linux.ibm.com>
+References: <20220803023241.63739-1-irischenlj@gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20220803023241.63739-1-irischenlj@gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 60177f34-f9af-45dc-a1c0-3d64977270a9
+X-Ovh-Tracer-Id: 3655234048092572429
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvjedgtdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekteejtdelkeejvdevffduhfetteelieefgeefffeugffhfeekheffueefledujeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdpnhgspghrtghpthhtohepuddprhgtphhtthhopehsthgvfhgrnhgssehlihhnuhigrdhisghmrdgtohhmpdfovfetjfhoshhtpehmohehgeek
+Received-SPF: pass client-ip=178.32.121.110; envelope-from=clg@kaod.org;
+ helo=1.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,195 +79,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[ Adding Stefan, TPM maintainer ]
 
-ÔÚ 2022/8/2 ÉÏÎç1:18, Mayuresh Chitale Ð´µÀ:
-> If smstateen is implemented and sstateen0.fcsr is clear then the
-> floating point operations must return illegal instruction exception.
-
-I think this is not correct. The exception for float point operations 
-must be illegal instruction exception
-
-if FCSR is not existed(that is misa.F is zero and Zfinx is not 
-supported). However, when FCSR is exsited,
-
-the final exception should be decided by current privilege level and the 
-stateen related csr values just
-
-like the access control of FCSR.
-
-Regards,
-
-Weiwei Li
-
->
-> Signed-off-by: Mayuresh Chitale <mchitale@ventanamicro.com>
-> ---
->   target/riscv/csr.c                        | 23 +++++++++++++
->   target/riscv/insn_trans/trans_rvf.c.inc   | 40 +++++++++++++++++++++--
->   target/riscv/insn_trans/trans_rvzfh.c.inc | 12 +++++++
->   3 files changed, 72 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 011d6c5976..0512391220 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -79,6 +79,10 @@ static RISCVException fs(CPURISCVState *env, int csrno)
->           !RISCV_CPU(env_cpu(env))->cfg.ext_zfinx) {
->           return RISCV_EXCP_ILLEGAL_INST;
->       }
-> +
-> +    if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
-> +        return smstateen_acc_ok(env, 0, SMSTATEEN0_FCSR);
-> +    }
->   #endif
->       return RISCV_EXCP_NONE;
->   }
-> @@ -1866,6 +1870,9 @@ static RISCVException write_mstateen0(CPURISCVState *env, int csrno,
->                                         target_ulong new_val)
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
->   
->       return write_mstateen(env, csrno, wr_mask, new_val);
->   }
-> @@ -1914,6 +1921,10 @@ static RISCVException write_mstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_mstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -1963,6 +1974,10 @@ static RISCVException write_hstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateen(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2014,6 +2029,10 @@ static RISCVException write_hstateen0h(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_hstateenh(env, csrno, wr_mask, new_val);
->   }
->   
-> @@ -2073,6 +2092,10 @@ static RISCVException write_sstateen0(CPURISCVState *env, int csrno,
->   {
->       uint64_t wr_mask = SMSTATEEN_STATEEN | SMSTATEEN0_HSENVCFG;
->   
-> +    if (!riscv_has_ext(env, RVF)) {
-> +        wr_mask |= SMSTATEEN0_FCSR;
-> +    }
-> +
->       return write_sstateen(env, csrno, wr_mask, new_val);
->   }
->   
-> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
-> index a1d3eb52ad..ce8a0cc34b 100644
-> --- a/target/riscv/insn_trans/trans_rvf.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
-> @@ -24,9 +24,43 @@
->               return false; \
->   } while (0)
->   
-> -#define REQUIRE_ZFINX_OR_F(ctx) do {\
-> -    if (!ctx->cfg_ptr->ext_zfinx) { \
-> -        REQUIRE_EXT(ctx, RVF); \
-> +#ifndef CONFIG_USER_ONLY
-> +static inline bool smstateen_check(DisasContext *ctx, int index)
-> +{
-> +    CPUState *cpu = ctx->cs;
-> +    CPURISCVState *env = cpu->env_ptr;
-> +    uint64_t stateen = env->mstateen[index];
-> +
-> +    if (!ctx->cfg_ptr->ext_smstateen || env->priv == PRV_M) {
-> +        return true;
-> +    }
-> +
-> +    if (ctx->virt_enabled) {
-> +        stateen &= env->hstateen[index];
-> +    }
-> +
-> +    if (env->priv == PRV_U && has_ext(ctx, RVS)) {
-> +        stateen &= env->sstateen[index];
-> +    }
-> +
-> +    if (!(stateen & SMSTATEEN0_FCSR)) {
-> +        return false;
-> +    }
-> +
-> +    return true;
-> +}
-> +#else
-> +#define smstateen_check(ctx, index) (true)
-> +#endif
-> +
-> +#define REQUIRE_ZFINX_OR_F(ctx) do { \
-> +    if (!has_ext(ctx, RVF)) { \
-> +        if (!ctx->cfg_ptr->ext_zfinx) { \
-> +            return false; \
-> +        } \
-> +        if (!smstateen_check(ctx, 0)) { \
-> +            return false; \
-> +        } \
->       } \
->   } while (0)
->   
-> diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> index 5d07150cd0..44d962c920 100644
-> --- a/target/riscv/insn_trans/trans_rvzfh.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
-> @@ -20,18 +20,27 @@
->       if (!ctx->cfg_ptr->ext_zfh) {      \
->           return false;         \
->       }                         \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZHINX_OR_ZFH(ctx) do { \
->       if (!ctx->cfg_ptr->ext_zhinx && !ctx->cfg_ptr->ext_zfh) { \
->           return false;                  \
->       }                                  \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZFH_OR_ZFHMIN(ctx) do {       \
->       if (!(ctx->cfg_ptr->ext_zfh || ctx->cfg_ptr->ext_zfhmin)) { \
->           return false;                         \
->       }                                         \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   #define REQUIRE_ZFH_OR_ZFHMIN_OR_ZHINX_OR_ZHINXMIN(ctx) do { \
-> @@ -39,6 +48,9 @@
->             ctx->cfg_ptr->ext_zhinx || ctx->cfg_ptr->ext_zhinxmin)) {     \
->           return false;                                        \
->       }                                                        \
-> +    if (!smstateen_check(ctx, 0)) { \
-> +        return false; \
-> +    } \
->   } while (0)
->   
->   static bool trans_flh(DisasContext *ctx, arg_flh *a)
+On 8/3/22 04:32, Iris Chen wrote:
+> From: Iris Chen <irischenlj@fb.com>
+> 
+> Hey everyone,
+> 
+> Thanks for all your comments on the SPI GPIO model. I am working through them.
+> 
+> As for adding support for SPI-based TPMs in QEMU, this RFC patch adds SPI
+> support in the QEMU TPM implementation via tpm_tis_spi.c.
+> 
+> The QEMU tree already has support for two connection methods to the TPM:
+> mmio (isa for x86, sysbus for arm) and â€œspaprâ€. This patch adds a new SPI
+> bus implementation for the TPM. Specifically, this SPI bus implementation
+> connects to the Yosemite-v3.5 model using the SPI-GPIO model sent earlier
+> last week. I have already tested these implementations locally together
+> and can verify that the Linux kernel can successfully probe the TPM device
+> on Yosemite-v3.5 and we can run the TPM command line tools to interact with it.
+> 
+> Please let me know what you think about this!
+> 
+> Thanks,
+> Iris
+> 
+> Iris Chen (1):
+>    hw: tpmtisspi: add SPI support to QEMU TPM implementation
+> 
+>   configs/devices/arm-softmmu/default.mak |   1 +
+>   hw/arm/Kconfig                          |   5 +
+>   hw/tpm/Kconfig                          |   5 +
+>   hw/tpm/meson.build                      |   1 +
+>   hw/tpm/tpm_tis_spi.c                    | 311 ++++++++++++++++++++++++
+>   include/sysemu/tpm.h                    |   3 +
+>   6 files changed, 326 insertions(+)
+>   create mode 100644 hw/tpm/tpm_tis_spi.c
+> 
+> --
+> 2.30.2
 
 
