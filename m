@@ -2,89 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894CB588A4C
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:24:53 +0200 (CEST)
-Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706B3588A97
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 12:32:04 +0200 (CEST)
+Received: from localhost ([::1]:33854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJBYa-0006kF-6g
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
+	id 1oJBfW-0002SP-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 06:32:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oJBS2-0002Cv-N7
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:18:06 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24330)
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1oJBaD-0007aP-0h; Wed, 03 Aug 2022 06:26:33 -0400
+Received: from imap4.hz.codethink.co.uk ([188.40.203.114]:57254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1oJBS0-0007Iq-Lo
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 06:18:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1659521884; x=1691057884;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=wFam+LDcRbKILr0ubXYReeOGRVLmWUy4n8feDpXT4KY=;
- b=cxaeXmovr+oUSgj1TIIUIEJQzPwrv/Fng0HpeVZKGQ9+qDxHi9YSv2yZ
- 0F9bdNH2OZ2rzq1oiwXGcs/Ps+f6WX39+B7iIYx/sazU8UT5tKOiOi3H4
- 58W7NjHlAXLjelofnXeYj+PeCprHMRZakeFiBpZdwpqfrJqQ1n+HjEsVx
- 26U4Cs3zR5SJ9zmntf7dTAa3FDe7MpUqez35fVfn48SF+tfvBfQJE7nQB
- XSPNYQTrx3SqYyEiDgmHEkakv+cojQ6zfYYeDJyP25qD93xgnq+8okx7Z
- B14eybxJzv+3pbFQdWteJAQ65gBJpKuKyTHjBV9Nj2jqogYtzVheJZ9ge A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="270016846"
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; d="scan'208";a="270016846"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Aug 2022 03:18:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,213,1654585200"; d="scan'208";a="631095811"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.193.75])
- by orsmga008.jf.intel.com with ESMTP; 03 Aug 2022 03:17:51 -0700
-Date: Wed, 3 Aug 2022 18:13:04 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-api@vger.kernel.org,
- linux-doc@vger.kernel.org, qemu-devel@nongnu.org,
- linux-kselftest@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- x86@kernel.org, "H . Peter Anvin" <hpa@zytor.com>,
- Hugh Dickins <hughd@google.com>, Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com,
- Muchun Song <songmuchun@bytedance.com>
-Subject: Re: [PATCH v7 08/14] KVM: Rename mmu_notifier_*
-Message-ID: <20220803101304.GE607465@chaop.bj.intel.com>
-References: <20220706082016.2603916-1-chao.p.peng@linux.intel.com>
- <20220706082016.2603916-9-chao.p.peng@linux.intel.com>
- <YuQutJAhKWcsrrYl@google.com>
+ (Exim 4.90_1) (envelope-from <ben.dooks@codethink.co.uk>)
+ id 1oJBa9-00033j-Kp; Wed, 03 Aug 2022 06:26:31 -0400
+Received: from [167.98.27.226] (helo=[10.35.5.6])
+ by imap4.hz.codethink.co.uk with esmtpsa  (Exim 4.94.2 #2 (Debian))
+ id 1oJBZy-008r0c-FJ; Wed, 03 Aug 2022 11:26:18 +0100
+Message-ID: <57873d3b-dd78-2bcc-7e28-a7aec0bbf24e@codethink.co.uk>
+Date: Wed, 3 Aug 2022 11:26:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YuQutJAhKWcsrrYl@google.com>
-Received-SPF: none client-ip=192.55.52.151;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v7 2/3] target/riscv: Add stimecmp support
+Content-Language: en-GB
+To: Atish Patra <atishp@rivosinc.com>, qemu-devel@nongnu.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ qemu-riscv@nongnu.org
+References: <20220803082516.2271344-1-atishp@rivosinc.com>
+ <20220803082516.2271344-3-atishp@rivosinc.com>
+From: Ben Dooks <ben.dooks@codethink.co.uk>
+Organization: Codethink Limited.
+In-Reply-To: <20220803082516.2271344-3-atishp@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=188.40.203.114;
+ envelope-from=ben.dooks@codethink.co.uk; helo=imap4.hz.codethink.co.uk
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
  T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,33 +58,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jul 29, 2022 at 07:02:12PM +0000, Sean Christopherson wrote:
-> On Wed, Jul 06, 2022, Chao Peng wrote:
-> > The sync mechanism between mmu_notifier and page fault handler employs
-> > fields mmu_notifier_seq/count and mmu_notifier_range_start/end. For the
-> > to be added private memory, there is the same mechanism needed but not
-> > rely on mmu_notifier (It uses new introduced memfile_notifier). This
-> > patch renames the existing fields and related helper functions to a
-> > neutral name mmu_updating_* so private memory can reuse.
+On 03/08/2022 09:25, Atish Patra wrote:
+> stimecmp allows the supervisor mode to update stimecmp CSR directly
+> to program the next timer interrupt. This CSR is part of the Sstc
+> extension which was ratified recently.
 > 
-> mmu_updating_* is too broad of a term, e.g. page faults and many other operations
-> also update the mmu.  Although the name most definitely came from the mmu_notifier,
-> it's not completely inaccurate for other sources, e.g. KVM's MMU is still being
-> notified of something, even if the source is not the actual mmu_notifier.
+> Signed-off-by: Atish Patra <atishp@rivosinc.com>
+> ---
+>   target/riscv/cpu.c         | 12 +++++
+>   target/riscv/cpu.h         |  5 ++
+>   target/riscv/cpu_bits.h    |  4 ++
+>   target/riscv/csr.c         | 81 +++++++++++++++++++++++++++++++
+>   target/riscv/machine.c     |  1 +
+>   target/riscv/meson.build   |  3 +-
+>   target/riscv/time_helper.c | 98 ++++++++++++++++++++++++++++++++++++++
+>   target/riscv/time_helper.h | 30 ++++++++++++
+>   8 files changed, 233 insertions(+), 1 deletion(-)
+>   create mode 100644 target/riscv/time_helper.c
+>   create mode 100644 target/riscv/time_helper.h
 > 
-> If we really want a different name, I'd vote for nomenclature that captures the
-> invalidation aspect, which is really what the variables are all trackng, e.g.
-> 
->   mmu_invalidate_seq
->   mmu_invalidate_in_progress
->   mmu_invalidate_range_start
->   mmu_invalidate_range_end
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index d4635c7df46b..e0c3e786849f 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -23,6 +23,7 @@
+>   #include "qemu/log.h"
+>   #include "cpu.h"
+>   #include "internals.h"
+> +#include "time_helper.h"
+>   #include "exec/exec-all.h"
+>   #include "qapi/error.h"
+>   #include "qemu/error-report.h"
+> @@ -99,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+>       ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
+>       ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+>       ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+> +    ISA_EXT_DATA_ENTRY(sstc, true, PRIV_VERSION_1_12_0, ext_sstc),
+>       ISA_EXT_DATA_ENTRY(svinval, true, PRIV_VERSION_1_12_0, ext_svinval),
+>       ISA_EXT_DATA_ENTRY(svnapot, true, PRIV_VERSION_1_12_0, ext_svnapot),
+>       ISA_EXT_DATA_ENTRY(svpbmt, true, PRIV_VERSION_1_12_0, ext_svpbmt),
+> @@ -675,6 +677,13 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+>   
+>       set_resetvec(env, cpu->cfg.resetvec);
+>   
+> +#ifndef CONFIG_USER_ONLY
+> +    if (cpu->cfg.ext_sstc) {
+> +        riscv_timer_init(cpu);
+> +    }
+> +#endif /* CONFIG_USER_ONLY */
+> +
+> +
+>       /* Validate that MISA_MXL is set properly. */
+>       switch (env->misa_mxl_max) {
+>   #ifdef TARGET_RISCV64
+> @@ -968,7 +977,9 @@ static void riscv_cpu_init(Object *obj)
+>   #ifndef CONFIG_USER_ONLY
+>       qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq,
+>                         IRQ_LOCAL_MAX + IRQ_LOCAL_GUEST_MAX);
+> +
+>   #endif /* CONFIG_USER_ONLY */
+> +
+>   }
+>   
+>   static Property riscv_cpu_extensions[] = {
+> @@ -995,6 +1006,7 @@ static Property riscv_cpu_extensions[] = {
+>       DEFINE_PROP_BOOL("Zve64f", RISCVCPU, cfg.ext_zve64f, false),
+>       DEFINE_PROP_BOOL("mmu", RISCVCPU, cfg.mmu, true),
+>       DEFINE_PROP_BOOL("pmp", RISCVCPU, cfg.pmp, true),
+> +    DEFINE_PROP_BOOL("sstc", RISCVCPU, cfg.ext_sstc, true),
+>   
+>       DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+>       DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 0fae1569945c..4cda2905661e 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -309,6 +309,9 @@ struct CPUArchState {
+>       uint64_t mfromhost;
+>       uint64_t mtohost;
+>   
+> +    /* Sstc CSRs */
+> +    uint64_t stimecmp;
+> +
+>       /* physical memory protection */
+>       pmp_table_t pmp_state;
+>       target_ulong mseccfg;
+> @@ -362,6 +365,7 @@ struct CPUArchState {
+>       float_status fp_status;
+>   
+>       /* Fields from here on are preserved across CPU reset. */
+> +    QEMUTimer *stimer; /* Internal timer for S-mode interrupt */
+>   
+>       hwaddr kernel_addr;
+>       hwaddr fdt_addr;
+> @@ -425,6 +429,7 @@ struct RISCVCPUConfig {
+>       bool ext_ifencei;
+>       bool ext_icsr;
+>       bool ext_zihintpause;
+> +    bool ext_sstc;
+>       bool ext_svinval;
+>       bool ext_svnapot;
+>       bool ext_svpbmt;
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 6be5a9e9f046..ac17cf1515c0 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -206,6 +206,10 @@
+>   #define CSR_STVAL           0x143
+>   #define CSR_SIP             0x144
+>   
+> +/* Sstc supervisor CSRs */
+> +#define CSR_STIMECMP        0x14D
+> +#define CSR_STIMECMPH       0x15D
+> +
+>   /* Supervisor Protection and Translation */
+>   #define CSR_SPTBR           0x180
+>   #define CSR_SATP            0x180
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0fb042b2fd0f..b71e2509b64f 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -22,6 +22,7 @@
+>   #include "qemu/timer.h"
+>   #include "cpu.h"
+>   #include "pmu.h"
+> +#include "time_helper.h"
+>   #include "qemu/main-loop.h"
+>   #include "exec/exec-all.h"
+>   #include "sysemu/cpu-timers.h"
+> @@ -803,6 +804,76 @@ static RISCVException read_timeh(CPURISCVState *env, int csrno,
+>       return RISCV_EXCP_NONE;
+>   }
+>   
+> +static RISCVException sstc(CPURISCVState *env, int csrno)
+> +{
+> +    CPUState *cs = env_cpu(env);
+> +    RISCVCPU *cpu = RISCV_CPU(cs);
+> +
+> +    if (!cpu->cfg.ext_sstc || !env->rdtime_fn) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
+> +
+> +    if (env->priv == PRV_M) {
+> +        return RISCV_EXCP_NONE;
+> +    }
+> +
+> +    if (env->priv != PRV_S) {
+> +        return RISCV_EXCP_ILLEGAL_INST;
+> +    }
 
-Looks good to me. Thanks.
+These seem to be checking env->priv twice, wouldnt
+one check for nv->priv != PRV_S be sufficient?
 
-Chao
+
+-- 
+Ben Dooks				http://www.codethink.co.uk/
+Senior Engineer				Codethink - Providing Genius
+
+https://www.codethink.co.uk/privacy.html
 
