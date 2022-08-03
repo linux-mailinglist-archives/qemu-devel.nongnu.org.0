@@ -2,74 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D173588C89
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 14:58:19 +0200 (CEST)
-Received: from localhost ([::1]:52476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2030E588C97
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 15:01:58 +0200 (CEST)
+Received: from localhost ([::1]:57390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJDx4-00050H-96
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 08:58:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41728)
+	id 1oJE0Z-0000Ga-Kp
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 09:01:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
- id 1oJDqw-0006J9-5q; Wed, 03 Aug 2022 08:51:58 -0400
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1]:39876)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oJDry-0006zG-39
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:53:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:60880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=hVua=YH=zx2c4.com=Jason@kernel.org>)
- id 1oJDqr-0000o6-S6; Wed, 03 Aug 2022 08:51:57 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id DAC3CB82250;
- Wed,  3 Aug 2022 12:51:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CEE4C433D6;
- Wed,  3 Aug 2022 12:51:49 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="HpW1vziK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1659531107;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1oJDru-0000vr-Np
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 08:53:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1659531177;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ACfWUkAWWufjaemeymnEx7a7ofw8zh/b698jZ6p0Rn8=;
- b=HpW1vziKb+5XgA1cbIo3ImmfPnqsZO31Uz7A7s1RjlulqoHtqTnlsGX7NyzlWCMK6/d74d
- YOb2sOHWRbWYWK9lyL3R9qkBlvWu8HuW+lwcE5kbcZkSFaq6DOEkJKskeCccygXPOOmLX6
- fVHQiaQdwjDIux+j+St4+sAdKKHaJzI=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 1bc7eb67
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO); 
- Wed, 3 Aug 2022 12:51:47 +0000 (UTC)
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-To: qemu-s390x@nongnu.org,
-	qemu-devel@nongnu.org
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Thomas Huth <thuth@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Holger Dengler <dengler@linux.ibm.com>
-Subject: [PATCH v5 2/2] target/s390x: support SHA-512 extensions
-Date: Wed,  3 Aug 2022 14:51:08 +0200
-Message-Id: <20220803125108.626995-2-Jason@zx2c4.com>
-In-Reply-To: <20220803125108.626995-1-Jason@zx2c4.com>
-References: <YupubD62cV7ad2tJ@zx2c4.com>
- <20220803125108.626995-1-Jason@zx2c4.com>
+ bh=cwz/Kwp/c3MUOCPADqDx7o1pkQXFF6nbEkdudFWl/+M=;
+ b=B3BFoxVeax0waQ7NeoRYsuGnR6NiDn+nB2+8IY9ZzS+d2TzHv7fIk8+p6LkbVEaqFIaWm/
+ 9fNdpUfv/jIx6MhRWM4kwnXr7e4i9EWwTWNO2XaW+hcmVxKcWuW5ffy7Ub9Q9VOxLQh33Y
+ ChUcpxe2qrsVMiJOEfO9k8i54Zya+tU=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-NrB5_NxgOeWdkj_OHQEjUw-1; Wed, 03 Aug 2022 08:52:56 -0400
+X-MC-Unique: NrB5_NxgOeWdkj_OHQEjUw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ ok7-20020a0562143c8700b00472f0b33853so9916946qvb.12
+ for <qemu-devel@nongnu.org>; Wed, 03 Aug 2022 05:52:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc;
+ bh=cwz/Kwp/c3MUOCPADqDx7o1pkQXFF6nbEkdudFWl/+M=;
+ b=Hp/ACyJ96e8RRF23cNnz+Xb1/qMezEY+rgjb2d5KM49Kwf8DHCARumpM/G2WLT5un9
+ 2f7npBm6jnY47tmqk6lik+AgQqQuK+s7elpPnjy1Cj/17OGPRm8UhZg0MVmT/QqENOO3
+ 7K9mpw9pwytzeZecoQ+a8W6FKC0hWKrSkA7OEl+WnGDymRT2WDVpJCLMC2ZPU/VkQa2K
+ i+zPjRTz48nByOBcLwfFUcM2ACaZNCR6RLAMdxOYnXCGHErwdmtcCU8YBfT+Cb12Nr9c
+ uiTp5a3nlnoaGhowISdZ1dku3+BLiWcD/rbvPHRqlD4x4NrZumRJZgYIFQ5Eq9drXBzA
+ qicQ==
+X-Gm-Message-State: AJIora+msavZQsGzIWkWP+/DGdpt/NAySvc4FYpLK57VLfKPdWlXyt95
+ Q4n8Dlc5TIPGR5jVMtpU/KVVvMcmdrYaH4FtYM5mPOKSDL49A8jC0dmD8Eew93lQRsQ52LB+bxH
+ tKgCkndNcmP/D7BA=
+X-Received: by 2002:a05:620a:1a81:b0:6b6:4ae:5917 with SMTP id
+ bl1-20020a05620a1a8100b006b604ae5917mr17488475qkb.349.1659531175651; 
+ Wed, 03 Aug 2022 05:52:55 -0700 (PDT)
+X-Google-Smtp-Source: AGRyM1sfRy4yJ/9mtpDjqoWEE/LdhCZx5vqWbsk+M4pnhd3AR5Q4CHq+b38XUI1xsyxKzwIrrIn5YQ==
+X-Received: by 2002:a05:620a:1a81:b0:6b6:4ae:5917 with SMTP id
+ bl1-20020a05620a1a8100b006b604ae5917mr17488454qkb.349.1659531175328; 
+ Wed, 03 Aug 2022 05:52:55 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id
+ d21-20020a05620a241500b006b249cc505fsm13385523qkn.82.2022.08.03.05.52.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 03 Aug 2022 05:52:54 -0700 (PDT)
+Message-ID: <bf8fd91c-2bac-35b4-1d17-78ba582760f0@redhat.com>
+Date: Wed, 3 Aug 2022 14:52:51 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 1/2] hw/arm/virt: Improve address assignment for highmem
+ IO regions
+Content-Language: en-US
+To: Gavin Shan <gshan@redhat.com>, Marc Zyngier <maz@kernel.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, peter.maydell@linaro.org,
+ richard.henderson@linaro.org, cohuck@redhat.com, zhenyzha@redhat.com,
+ shan.gavin@gmail.com
+References: <20220802064529.547361-1-gshan@redhat.com>
+ <20220802064529.547361-2-gshan@redhat.com>
+ <dcca0792-4f62-2cf0-9080-309d2e78e690@redhat.com>
+ <9c8365c6-d27b-df76-371d-bd32ca2a26f7@redhat.com>
+ <87tu6tbyk9.wl-maz@kernel.org>
+ <0ed2ebc7-8d6e-7555-3af4-31eb071a584b@redhat.com>
+From: Eric Auger <eric.auger@redhat.com>
+In-Reply-To: <0ed2ebc7-8d6e-7555-3af4-31eb071a584b@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=hVua=YH=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,226 +109,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In order to fully support MSA_EXT_5, we have to also support the SHA-512
-special instructions. So implement those.
+Hi,
+On 8/3/22 15:02, Gavin Shan wrote:
+> Hi Marc,
+>
+> On 8/3/22 5:01 PM, Marc Zyngier wrote:
+>> On Wed, 03 Aug 2022 04:01:04 +0100,
+>> Gavin Shan <gshan@redhat.com> wrote:
+>>> On 8/2/22 7:41 PM, Eric Auger wrote:
+>>>> On 8/2/22 08:45, Gavin Shan wrote:
+>>>>> There are 3 highmem IO regions as below. They can be disabled in
+>>>>> two situations: (a) The specific region is disabled by user. (b)
+>>>>> The specific region doesn't fit in the PA space. However, the base
+>>>>> address and highest_gpa are still updated no matter if the region
+>>>>> is enabled or disabled. It's incorrectly incurring waste in the PA
+>>>>> space.
+>>>> If I am not wrong highmem_redists and highmem_mmio are not user
+>>>> selectable
+>>>>
+>>>> Only highmem ecam depends on machine type & ACPI setup. But I would
+>>>> say
+>>>> that in server use case it is always set. So is that optimization
+>>>> really
+>>>> needed?
+>>>
+>>> There are two other cases you missed.
+>>>
+>>> - highmem_ecam is enabled after virt-2.12, meaning it stays disabled
+>>>    before that.
+>>
+>> I don't get this. The current behaviour is to disable highmem_ecam if
+>> it doesn't fit in the PA space. I can't see anything that enables it
+>> if it was disabled the first place.
+>>
+>
+> There are several places or conditions where vms->highmem_ecam can be
+> disabled:
+>
+> - virt_instance_init() where vms->highmem_ecam is inherited from
+>   !vmc->no_highmem_ecam. The option is set to true after virt-2.12
+>   in virt_machine_2_12_options().
+>
+> - machvirt_init() where vms->highmem_ecam can be disable if we have
+>   32-bits vCPUs and failure on loading firmware.
+>
+> - Another place is where we're talking about. It's address assignment
+>   to fit the PA space.
+>
+>>>
+>>> - The high memory region can be disabled if user is asking large
+>>>    (normal) memory space through 'maxmem=' option. When the requested
+>>>    memory by 'maxmem=' is large enough, the high memory regions are
+>>>    disabled. It means the normal memory has higher priority than those
+>>>    high memory regions. This is the case I provided in (b) of the
+>>>    commit log.
+>>
+>> Why is that a problem? It matches the expected behaviour, as the
+>> highmem IO region is floating and is pushed up by the memory region.
+>>
+>
+> Eric thought that VIRT_HIGH_GIC_REDIST2 and VIRT_HIGH_PCIE_MMIO regions
+> aren't user selectable. I tended to explain why it's not true. 'maxmem='
+> can affect the outcome. When 'maxmem=' value is big enough, there will be
+> no free area in the PA space to hold those two regions.
+>
+>>>
+>>> In the commit log, I was supposed to say something like below for
+>>> (a):
+>>>
+>>> - The specific high memory region can be disabled through changing
+>>>    the code by user or developer. For example, 'vms->highmem_mmio'
+>>>    is changed from true to false in virt_instance_init().
+>>
+>> Huh. By this principle, the user can change anything. Why is it
+>> important?
+>>
+>
+> Still like above. I was explaining the possible cases where those
+> 3 switches can be turned on/off by users or developers. Our code
+> needs to be consistent and comprehensive.
+>
+>   vms->highmem_redists
+>   vms->highmem_ecam
+>   vms->mmio
+>
+>>>
+>>>>>
+>>>>> Improve address assignment for highmem IO regions to avoid the waste
+>>>>> in the PA space by putting the logic into virt_memmap_fits().
+>>
+>> I guess that this is what I understand the least. What do you mean by
+>> "wasted PA space"? Either the regions fit in the PA space, and
+>> computing their addresses in relevant, or they fall outside of it and
+>> what we stick in memap[index].base is completely irrelevant.
+>>
+>
+> It's possible that we run into the following combination. we should
+> have enough PA space to enable VIRT_HIGH_PCIE_MMIO region. However,
+> the region is disabled in the original implementation because
+> VIRT_HIGH_{GIC_REDIST2, PCIE_ECAM} regions consumed 1GB, which is
+> unecessary and waste in the PA space.
+each region's base is aligned on its size.
+>
+>     static MemMapEntry extended_memmap[] = {
+>         [VIRT_HIGH_GIC_REDIST2] =   { 0x0, 64 * MiB },
+>         [VIRT_HIGH_PCIE_ECAM] =     { 0x0, 256 * MiB },
+>         [VIRT_HIGH_PCIE_MMIO] =     { 0x0, 512 * GiB },
+so anyway MMIO is at least at 512GB. Having a 1TB IPA space does not
+imply any amount of RAM. This depends on the address space.
+I    };
+>
+>     IPA_LIMIT           = (1UL << 40)
+>     '-maxmem'           = 511GB              /* Memory starts from 1GB */
+>     '-slots'            = 0
+>     vms->highmem_rdist2 = false
+How can this happen? the only reason for highmem_redists to be reset is
+if it does not fit into map_ipa. So if mmio fits, highmem_redists does
+too. What do I miss?
+>     vms->highmem_ecam   = false
+    vms->highmem_mmio   = true
+I am still skeptic about the relevance of such optim. Isn't it sensible
+to expect the host to support large IPA if you want to use such amount
+of memory.
+I think we should rather better document the memory map from a user
+point of view.
+Besides if you change the memory map, you need to introduce yet another
+option to avoid breaking migration, no?
 
-The implementation began as something TweetNacl-like, and then was
-adjusted to be useful here. It's not very beautiful, but it is quite
-short and compact, which is what we're going for.
-
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Harald Freudenberger <freude@linux.ibm.com>
-Cc: Holger Dengler <dengler@linux.ibm.com>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
----
- target/s390x/gen-features.c      |   2 +
- target/s390x/tcg/crypto_helper.c | 154 +++++++++++++++++++++++++++++++
- 2 files changed, 156 insertions(+)
-
-diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
-index 3d333e2789..b6d804fa6d 100644
---- a/target/s390x/gen-features.c
-+++ b/target/s390x/gen-features.c
-@@ -751,6 +751,8 @@ static uint16_t qemu_MAX[] = {
-     S390_FEAT_VECTOR_ENH2,
-     S390_FEAT_MSA_EXT_5,
-     S390_FEAT_PRNO_TRNG,
-+    S390_FEAT_KIMD_SHA_512,
-+    S390_FEAT_KLMD_SHA_512,
- };
- 
- /****** END FEATURE DEFS ******/
-diff --git a/target/s390x/tcg/crypto_helper.c b/target/s390x/tcg/crypto_helper.c
-index 8ad4ef1ace..b5e46342d6 100644
---- a/target/s390x/tcg/crypto_helper.c
-+++ b/target/s390x/tcg/crypto_helper.c
-@@ -1,10 +1,12 @@
- /*
-  *  s390x crypto helpers
-  *
-+ *  Copyright (C) 2022 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
-  *  Copyright (c) 2017 Red Hat Inc
-  *
-  *  Authors:
-  *   David Hildenbrand <david@redhat.com>
-+ *   Jason A. Donenfeld <Jason@zx2c4.com>
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -19,6 +21,150 @@
- #include "exec/exec-all.h"
- #include "exec/cpu_ldst.h"
- 
-+static uint64_t R(uint64_t x, int c) { return (x >> c) | (x << (64 - c)); }
-+static uint64_t Ch(uint64_t x, uint64_t y, uint64_t z) { return (x & y) ^ (~x & z); }
-+static uint64_t Maj(uint64_t x, uint64_t y, uint64_t z) { return (x & y) ^ (x & z) ^ (y & z); }
-+static uint64_t Sigma0(uint64_t x) { return R(x, 28) ^ R(x, 34) ^ R(x, 39); }
-+static uint64_t Sigma1(uint64_t x) { return R(x, 14) ^ R(x, 18) ^ R(x, 41); }
-+static uint64_t sigma0(uint64_t x) { return R(x, 1) ^ R(x, 8) ^ (x >> 7); }
-+static uint64_t sigma1(uint64_t x) { return R(x, 19) ^ R(x, 61) ^ (x >> 6); }
-+
-+static const uint64_t K[80] = {
-+    0x428a2f98d728ae22ULL, 0x7137449123ef65cdULL, 0xb5c0fbcfec4d3b2fULL,
-+    0xe9b5dba58189dbbcULL, 0x3956c25bf348b538ULL, 0x59f111f1b605d019ULL,
-+    0x923f82a4af194f9bULL, 0xab1c5ed5da6d8118ULL, 0xd807aa98a3030242ULL,
-+    0x12835b0145706fbeULL, 0x243185be4ee4b28cULL, 0x550c7dc3d5ffb4e2ULL,
-+    0x72be5d74f27b896fULL, 0x80deb1fe3b1696b1ULL, 0x9bdc06a725c71235ULL,
-+    0xc19bf174cf692694ULL, 0xe49b69c19ef14ad2ULL, 0xefbe4786384f25e3ULL,
-+    0x0fc19dc68b8cd5b5ULL, 0x240ca1cc77ac9c65ULL, 0x2de92c6f592b0275ULL,
-+    0x4a7484aa6ea6e483ULL, 0x5cb0a9dcbd41fbd4ULL, 0x76f988da831153b5ULL,
-+    0x983e5152ee66dfabULL, 0xa831c66d2db43210ULL, 0xb00327c898fb213fULL,
-+    0xbf597fc7beef0ee4ULL, 0xc6e00bf33da88fc2ULL, 0xd5a79147930aa725ULL,
-+    0x06ca6351e003826fULL, 0x142929670a0e6e70ULL, 0x27b70a8546d22ffcULL,
-+    0x2e1b21385c26c926ULL, 0x4d2c6dfc5ac42aedULL, 0x53380d139d95b3dfULL,
-+    0x650a73548baf63deULL, 0x766a0abb3c77b2a8ULL, 0x81c2c92e47edaee6ULL,
-+    0x92722c851482353bULL, 0xa2bfe8a14cf10364ULL, 0xa81a664bbc423001ULL,
-+    0xc24b8b70d0f89791ULL, 0xc76c51a30654be30ULL, 0xd192e819d6ef5218ULL,
-+    0xd69906245565a910ULL, 0xf40e35855771202aULL, 0x106aa07032bbd1b8ULL,
-+    0x19a4c116b8d2d0c8ULL, 0x1e376c085141ab53ULL, 0x2748774cdf8eeb99ULL,
-+    0x34b0bcb5e19b48a8ULL, 0x391c0cb3c5c95a63ULL, 0x4ed8aa4ae3418acbULL,
-+    0x5b9cca4f7763e373ULL, 0x682e6ff3d6b2b8a3ULL, 0x748f82ee5defb2fcULL,
-+    0x78a5636f43172f60ULL, 0x84c87814a1f0ab72ULL, 0x8cc702081a6439ecULL,
-+    0x90befffa23631e28ULL, 0xa4506cebde82bde9ULL, 0xbef9a3f7b2c67915ULL,
-+    0xc67178f2e372532bULL, 0xca273eceea26619cULL, 0xd186b8c721c0c207ULL,
-+    0xeada7dd6cde0eb1eULL, 0xf57d4f7fee6ed178ULL, 0x06f067aa72176fbaULL,
-+    0x0a637dc5a2c898a6ULL, 0x113f9804bef90daeULL, 0x1b710b35131c471bULL,
-+    0x28db77f523047d84ULL, 0x32caab7b40c72493ULL, 0x3c9ebe0a15c9bebcULL,
-+    0x431d67c49c100d4cULL, 0x4cc5d4becb3e42b6ULL, 0x597f299cfc657e2aULL,
-+    0x5fcb6fab3ad6faecULL, 0x6c44198c4a475817ULL
-+};
-+
-+static int kimd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
-+                       uint64_t *message_reg, uint64_t *len_reg, uint8_t *stack_buffer)
-+{
-+    enum { MAX_BLOCKS_PER_RUN = 64 }; /* This is arbitrary, just to keep interactivity. */
-+    uint64_t z[8], b[8], a[8], w[16], t;
-+    uint64_t message = message_reg ? *message_reg : 0, len = *len_reg, processed = 0;
-+    int i, j, reg_len = 64, blocks = 0, cc = 0;
-+
-+    if (!(env->psw.mask & PSW_MASK_64)) {
-+        len = (uint32_t)len;
-+        reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
-+    }
-+
-+    for (i = 0; i < 8; ++i) {
-+        z[i] = a[i] = cpu_ldq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), ra);
-+    }
-+
-+    while (len >= 128) {
-+        for (i = 0; i < 16; ++i) {
-+            if (message) {
-+                w[i] = cpu_ldq_be_data_ra(env, wrap_address(env, message + 8 * i), ra);
-+            } else {
-+                w[i] = be64_to_cpu(((uint64_t *)stack_buffer)[i]);
-+            }
-+        }
-+
-+        for (i = 0; i < 80; ++i) {
-+            for (j = 0; j < 8; ++j) {
-+                b[j] = a[j];
-+            }
-+            t = a[7] + Sigma1(a[4]) + Ch(a[4], a[5], a[6]) + K[i] + w[i % 16];
-+            b[7] = t + Sigma0(a[0]) + Maj(a[0], a[1], a[2]);
-+            b[3] += t;
-+            for (j = 0; j < 8; ++j) {
-+                a[(j + 1) % 8] = b[j];
-+            }
-+            if (i % 16 == 15) {
-+                for (j = 0; j < 16; ++j) {
-+                    w[j] += w[(j + 9) % 16] + sigma0(w[(j + 1) % 16]) + sigma1(w[(j + 14) % 16]);
-+                }
-+            }
-+        }
-+
-+        for (i = 0; i < 8; ++i) {
-+            a[i] += z[i];
-+            z[i] = a[i];
-+        }
-+
-+        if (message)
-+            message += 128;
-+        else
-+            stack_buffer += 128;
-+        len -= 128;
-+        processed += 128;
-+
-+        if (++blocks > MAX_BLOCKS_PER_RUN) {
-+            cc = 3;
-+            break;
-+        }
-+    }
-+
-+    for (i = 0; i < 8; ++i) {
-+        cpu_stq_be_data_ra(env, wrap_address(env, parameter_block + 8 * i), z[i], ra);
-+    }
-+
-+    if (message_reg) {
-+        *message_reg = deposit64(*message_reg, 0, reg_len, message);
-+    }
-+    *len_reg -= processed;
-+    return cc;
-+}
-+
-+static int klmd_sha512(CPUS390XState *env, uintptr_t ra, uint64_t parameter_block,
-+                        uint64_t *message_reg, uint64_t *len_reg)
-+{
-+    uint8_t x[256];
-+    uint64_t i, message, len;
-+    int j, reg_len = 64, cc;
-+
-+    cc = kimd_sha512(env, ra, parameter_block, message_reg, len_reg, NULL);
-+    if (cc)
-+        return cc;
-+
-+    message = *message_reg;
-+    len = *len_reg;
-+    if (!(env->psw.mask & PSW_MASK_64)) {
-+        len = (uint32_t)len;
-+        reg_len = (env->psw.mask & PSW_MASK_32) ? 32 : 24;
-+    }
-+
-+    for (i = 0; i < len; ++i) {
-+        x[i] = cpu_ldub_data_ra(env, wrap_address(env, message + i), ra);
-+    }
-+    memset(x + i, 0, sizeof(x) - i);
-+    x[i] = 128;
-+    i = i < 112 ? 128 : 256;
-+    for (j = 0; j < 16; ++j) {
-+        x[i - 16 + j] = cpu_ldub_data_ra(env, wrap_address(env, parameter_block + 64 + j), ra);
-+    }
-+    if (kimd_sha512(env, ra, parameter_block, NULL, &i, x))
-+        g_assert_not_reached(); /* It must handle at least 2 blocks. */
-+    *message_reg = deposit64(*message_reg, 0, reg_len, message + len);
-+    *len_reg -= len;
-+    return 0;
-+}
-+
- static void fill_buf_random(CPUS390XState *env, uintptr_t ra,
-                             uint64_t *buf_reg, uint64_t *len_reg)
- {
-@@ -78,6 +224,14 @@ uint32_t HELPER(msa)(CPUS390XState *env, uint32_t r1, uint32_t r2, uint32_t r3,
-             cpu_stb_data_ra(env, param_addr, subfunc[i], ra);
-         }
-         break;
-+    case 3: /* CPACF_*_SHA_512 */
-+        switch (type) {
-+        case S390_FEAT_TYPE_KIMD:
-+            return kimd_sha512(env, ra, env->regs[1], &env->regs[r2], &env->regs[r2 + 1], NULL);
-+        case S390_FEAT_TYPE_KLMD:
-+            return klmd_sha512(env, ra, env->regs[1], &env->regs[r2], &env->regs[r2 + 1]);
-+        }
-+        break;
-     case 114: /* CPACF_PRNO_TRNG */
-         fill_buf_random(env, ra, &env->regs[r1], &env->regs[r1 + 1]);
-         fill_buf_random(env, ra, &env->regs[r2], &env->regs[r2 + 1]);
--- 
-2.35.1
+Eric
+>
+>>>>>
+>>>>> Signed-off-by: Gavin Shan <gshan@redhat.com>
+>>>>> ---
+>>>>>    hw/arm/virt.c | 54
+>>>>> +++++++++++++++++++++++++++++----------------------
+>>>>>    1 file changed, 31 insertions(+), 23 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>>>> index 9633f822f3..bc0cd218f9 100644
+>>>>> --- a/hw/arm/virt.c
+>>>>> +++ b/hw/arm/virt.c
+>>>>> @@ -1688,6 +1688,34 @@ static uint64_t
+>>>>> virt_cpu_mp_affinity(VirtMachineState *vms, int idx)
+>>>>>        return arm_cpu_mp_affinity(idx, clustersz);
+>>>>>    }
+>>>>>    +static void virt_memmap_fits(VirtMachineState *vms, int index,
+>>>>> +                             bool *enabled, hwaddr *base, int
+>>>>> pa_bits)
+>>>>> +{
+>>>>> +    hwaddr size = extended_memmap[index].size;
+>>>>> +
+>>>>> +    /* The region will be disabled if its size isn't given */
+>>>>> +    if (!*enabled || !size) {
+>>>> In which case do you have !size?
+>>>
+>>> Yeah, we don't have !size and the condition should be removed.
+>>>
+>>>>> +        *enabled = false;
+>>>>> +        vms->memmap[index].base = 0;
+>>>>> +        vms->memmap[index].size = 0;
+>>>> It looks dangerous to me to reset the region's base and size like
+>>>> that.
+>>>> for instance fdt_add_gic_node() will add dummy data in the dt.
+>>>
+>>> I would guess you missed that the high memory regions won't be exported
+>>> through device-tree if they have been disabled. We have a check there,
+>>> which is "if (nb_redist_regions == 1)"
+>>>
+>>>>> +        return;
+>>>>> +    }
+>>>>> +
+>>>>> +    /*
+>>>>> +     * Check if the memory region fits in the PA space. The
+>>>>> memory map
+>>>>> +     * and highest_gpa are updated if it fits. Otherwise, it's
+>>>>> disabled.
+>>>>> +     */
+>>>>> +    *enabled = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
+>>>> using a 'fits' local variable would make the code more obvious I think
+>>>
+>>> Lets confirm if you're suggesting something like below?
+>>>
+>>>          bool fits;
+>>>
+>>>          fits = (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits));
+>>>
+>>>          if (fits) {
+>>>             /* update *base, memory mapping, highest_gpa */
+>>>          } else {
+>>>             *enabled = false;
+>>>          }
+>>>
+>>> I guess we can simply do
+>>>
+>>>          if (ROUND_UP(*base, size) + size <= BIT_ULL(pa_bits)) {
+>>>             /* update *base, memory mapping, highest_gpa */
+>>>          } else {
+>>>             *enabled = false;
+>>>          }
+>>>
+>>> Please let me know which one looks best to you.
+>>
+>> Why should the 'enabled' flag be updated by this function, instead of
+>> returning the value and keeping it as an assignment in the caller
+>> function? It is purely stylistic though.
+>>
+>
+> The idea to put the logic, address assignment for those 3 high memory
+> regions or updating the flags (vms->high_redist2/ecam/mmio), to the
+> newly introduced function, to make virt_set_memmap() a bit simplified.
+> Eric tends to agree the changes with minor adjustments. So I'm going
+> to keep it as of being, which doesn't mean the stylistic thought is
+> a bad one :)
+>
+> Lastly, I need to rewrite the comit log completely because it seems
+> causing confusions to Eric and you.
+>
+> Thanks,
+> Gavin
+>
 
 
