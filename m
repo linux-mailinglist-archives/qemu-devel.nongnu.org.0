@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF491588EE3
-	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 16:49:20 +0200 (CEST)
-Received: from localhost ([::1]:40802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D618588EF1
+	for <lists+qemu-devel@lfdr.de>; Wed,  3 Aug 2022 16:51:25 +0200 (CEST)
+Received: from localhost ([::1]:45134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1oJFgW-0002gw-0J
-	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 10:49:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
+	id 1oJFiW-0005cy-6m
+	for lists+qemu-devel@lfdr.de; Wed, 03 Aug 2022 10:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcE-0006Qs-RM
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34967)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcG-0006Sm-LP
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:58135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcB-0002eQ-E1
- for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:53 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1oJFcF-0002fq-5t
+ for qemu-devel@nongnu.org; Wed, 03 Aug 2022 10:44:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1659537890;
+ s=mimecast20190719; t=1659537894;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Eny/8qwO5TWNRA3nuSkwUS7Ux5CDlm/1H03qJd+sMsE=;
- b=DMCDLmEMdOx8qFFkyJLFW7wBERGYwhw9GhiUCAppkckMZHsTe+QfSY/nkvs1XwNU53v/9p
- VtRz/NkYdvkondnnUbOwOqs993LlCMs2S04PqEhXJukQTPhI6zk0pIGuH1a3bPx2Hbhggo
- xcqcf5WPIh9UoT2iIk1EU5Ft5iRPcGc=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=K5HfCWfjPKKmO8BGrMcvph/of4e4KrAMKFDU4lZgHjM=;
+ b=MTkOeHjP70tYzg4bzxr2D2/QBAsKJdLVuF6mVJuQN7sEQDkl/zsCSMM9undH3wPcJ0Pmnz
+ T4KwF67J4c6xJ7y10td0A/08X8ZcUwe5EKeX6fDpIic1LlJJTrfhNC4OTk9Ds3LNpisDmw
+ M4782p6K0KgTfwUcKH2Sz5KVYiLf9/Y=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-sAopS1HxNbSqeh6fqBeQVg-1; Wed, 03 Aug 2022 10:44:49 -0400
-X-MC-Unique: sAopS1HxNbSqeh6fqBeQVg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-497-tHV5xX7zPEmNrvHCbAiFXA-1; Wed, 03 Aug 2022 10:44:51 -0400
+X-MC-Unique: tHV5xX7zPEmNrvHCbAiFXA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 51C8B3815D21;
- Wed,  3 Aug 2022 14:44:49 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ECF77801585;
+ Wed,  3 Aug 2022 14:44:50 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A6FD2026D4C;
- Wed,  3 Aug 2022 14:44:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B48340CFD0A;
+ Wed,  3 Aug 2022 14:44:50 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Hanna Reitz <hreitz@redhat.com>,
  Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 1/3] block/qcow2: Keep auto_backing_file if possible
-Date: Wed,  3 Aug 2022 16:44:44 +0200
-Message-Id: <20220803144446.20723-2-hreitz@redhat.com>
+Subject: [PATCH 2/3] block/qed: Keep auto_backing_file if possible
+Date: Wed,  3 Aug 2022 16:44:45 +0200
+Message-Id: <20220803144446.20723-3-hreitz@redhat.com>
 In-Reply-To: <20220803144446.20723-1-hreitz@redhat.com>
 References: <20220803144446.20723-1-hreitz@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.78 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+X-Scanned-By: MIMEDefang 2.84 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.082,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_SCC_BODY_TEXT_LINE=-0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_SCC_BODY_TEXT_LINE=-0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,86 +78,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qcow2_do_open() is used by qcow2_co_invalidate_cache(), i.e. may be run
-on an image that has been opened before.  When reading the backing file
-string from the image header, compare it against the existing
-bs->backing_file, and update bs->auto_backing_file only if they differ.
+Just like qcow2, qed invokes its open function in its
+.bdrv_co_invalidate_cache() implementation.  Therefore, just like done
+for qcow2 in HEAD^, update auto_backing_file only if the backing file
+string in the image header differs from the one we have read before.
 
-auto_backing_file should ideally contain the filename the backing BDS
-will actually have after opening, i.e. a post-bdrv_refresh_filename()
-version of what is in the image header.  So for example, if the image
-header reports the following backing file string:
-
-    json:{"driver": "qcow2", "file": {
-        "driver": "file", "filename": "/tmp/backing.qcow2"
-    }}
-
-Then auto_backing_file should contain simply "/tmp/backing.qcow2".
-
-Because bdrv_refresh_filename() only works on existing BDSs, though, the
-way how we get this auto_backing_file value is to have the format driver
-set it to whatever is in the image header, and when the backing BDS is
-opened based on that, we update it with the filename the backing BDS
-actually got.
-
-However, qcow2's qcow2_co_invalidate_cache() implementation breaks this
-because it just resets auto_backing_file to whatever is in the image
-file without opening a BDS based on it, so we never get
-auto_backing_file back to the "refreshed" version, and in the example
-above, it would stay "json:{...}".
-
-Then, bs->backing->bs->filename will differ from bs->auto_backing_file,
-making bdrv_backing_overridden(bs) return true, which will lead
-bdrv_refresh_filename(bs) to generate a json:{} filename for bs, even
-though that may not have been necessary.  This is reported in the issue
-linked below.
-
-Therefore, skip updating auto_backing_file if nothing has changed in the
-image header since we last read it.
-
-Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1117
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/qcow2.c | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
+ block/qed.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index c6c6692fb7..a43fee2067 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -1696,16 +1696,27 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-             ret = -EINVAL;
-             goto fail;
-         }
-+
-+        s->image_backing_file = g_malloc(len + 1);
-         ret = bdrv_pread(bs->file, header.backing_file_offset, len,
--                         bs->auto_backing_file, 0);
-+                         s->image_backing_file, 0);
-         if (ret < 0) {
-             error_setg_errno(errp, -ret, "Could not read backing file name");
-             goto fail;
-         }
--        bs->auto_backing_file[len] = '\0';
--        pstrcpy(bs->backing_file, sizeof(bs->backing_file),
--                bs->auto_backing_file);
--        s->image_backing_file = g_strdup(bs->auto_backing_file);
-+        s->image_backing_file[len] = '\0';
-+
-+        /*
-+         * Update only when something has changed.  This function is called by
-+         * qcow2_co_invalidate_cache(), and we do not want to reset
-+         * auto_backing_file unless necessary.
-+         */
-+        if (!g_str_equal(s->image_backing_file, bs->backing_file)) {
-+            pstrcpy(bs->backing_file, sizeof(bs->backing_file),
-+                    s->image_backing_file);
-+            pstrcpy(bs->auto_backing_file, sizeof(bs->auto_backing_file),
-+                    s->image_backing_file);
-+        }
+diff --git a/block/qed.c b/block/qed.c
+index 40943e679b..324ca0e95a 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -445,6 +445,8 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
      }
  
-     /*
+     if ((s->header.features & QED_F_BACKING_FILE)) {
++        g_autofree char *backing_file_str = NULL;
++
+         if ((uint64_t)s->header.backing_filename_offset +
+             s->header.backing_filename_size >
+             s->header.cluster_size * s->header.header_size) {
+@@ -452,16 +454,21 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
+             return -EINVAL;
+         }
+ 
++        backing_file_str = g_malloc(sizeof(bs->backing_file));
+         ret = qed_read_string(bs->file, s->header.backing_filename_offset,
+                               s->header.backing_filename_size,
+-                              bs->auto_backing_file,
+-                              sizeof(bs->auto_backing_file));
++                              backing_file_str, sizeof(bs->backing_file));
+         if (ret < 0) {
+             error_setg(errp, "Failed to read backing filename");
+             return ret;
+         }
+-        pstrcpy(bs->backing_file, sizeof(bs->backing_file),
+-                bs->auto_backing_file);
++
++        if (!g_str_equal(backing_file_str, bs->backing_file)) {
++            pstrcpy(bs->backing_file, sizeof(bs->backing_file),
++                    backing_file_str);
++            pstrcpy(bs->auto_backing_file, sizeof(bs->auto_backing_file),
++                    backing_file_str);
++        }
+ 
+         if (s->header.features & QED_F_BACKING_FORMAT_NO_PROBE) {
+             pstrcpy(bs->backing_format, sizeof(bs->backing_format), "raw");
 -- 
 2.36.1
 
